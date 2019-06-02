@@ -65,6 +65,7 @@ Adapted from https://github.com/purescript-contrib/purescript-these
 - [getLeftOnly (constant)](#getleftonly-constant)
 - [getRight (constant)](#getright-constant)
 - [getRightOnly (constant)](#getrightonly-constant)
+- [~~getSetoid~~ (constant)](#getsetoid-constant)
 - [isLeft (constant)](#isleft-constant)
 - [isRight (constant)](#isright-constant)
 - [left (constant)](#left-constant)
@@ -78,9 +79,9 @@ Adapted from https://github.com/purescript-contrib/purescript-these
 - [fromEither (function)](#fromeither-function)
 - [fromOptions (function)](#fromoptions-function)
 - [~~fromThese~~ (function)](#fromthese-function)
+- [getEq (function)](#geteq-function)
 - [getMonad (function)](#getmonad-function)
 - [getSemigroup (function)](#getsemigroup-function)
-- [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
 - [isBoth (function)](#isboth-function)
 - [~~isThat~~ (function)](#isthat-function)
@@ -471,6 +472,18 @@ assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
 
 Added in v1.19.0
 
+# ~~getSetoid~~ (constant)
+
+Use `getEq`
+
+**Signature**
+
+```ts
+export const getSetoid: <L, A>(EL: Eq<L>, EA: Eq<A>) => Eq<These<L, A>> = ...
+```
+
+Added in v1.0.0
+
 # isLeft (constant)
 
 Returns `true` if the these is an instance of `Left`, `false` otherwise
@@ -665,6 +678,16 @@ export const fromThese = <L, A>(defaultThis: L, defaultThat: A) => (fa: These<L,
 
 Added in v1.0.0
 
+# getEq (function)
+
+**Signature**
+
+```ts
+export function getEq<L, A>(EL: Eq<L>, EA: Eq<A>): Eq<These<L, A>> { ... }
+```
+
+Added in v1.19.0
+
 # getMonad (function)
 
 **Signature**
@@ -681,16 +704,6 @@ Added in v1.0.0
 
 ```ts
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<These<L, A>> => ...
-```
-
-Added in v1.0.0
-
-# getSetoid (function)
-
-**Signature**
-
-```ts
-export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>> => ...
 ```
 
 Added in v1.0.0

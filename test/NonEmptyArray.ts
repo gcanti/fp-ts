@@ -8,7 +8,7 @@ import {
   group,
   groupSort,
   groupBy,
-  getSetoid
+  getEq
 } from '../src/NonEmptyArray'
 import { none, option, some, isSome } from '../src/Option'
 import { ordNumber } from '../src/Ord'
@@ -17,7 +17,7 @@ import { identity } from '../src/function'
 import * as T from '../src/Traversable'
 import * as I from '../src/Identity'
 import * as C from '../src/Const'
-import { setoidNumber } from '../src/Setoid'
+import { eqNumber } from '../src/Eq'
 
 describe('NonEmptyArray', () => {
   it('concat', () => {
@@ -148,8 +148,8 @@ describe('NonEmptyArray', () => {
     )
   })
 
-  it('getSetoid', () => {
-    const S = getSetoid(setoidNumber)
+  it('getEq', () => {
+    const S = getEq(eqNumber)
     assert.strictEqual(S.equals(new NonEmptyArray(1, []), new NonEmptyArray(1, [])), true)
     assert.strictEqual(S.equals(new NonEmptyArray(1, []), new NonEmptyArray(1, [2])), false)
   })
@@ -370,7 +370,7 @@ describe('NonEmptyArray', () => {
     const f = (i: number, s: string): string => s + i
     assert.deepStrictEqual(
       nonEmptyArray.foldMapWithIndex(M)(ta, f),
-      nonEmptyArray.traverseWithIndex(C.getApplicative(M))(ta, (i, a) => new C.Const<string, unknown>(f(i, a))).value
+      nonEmptyArray.traverseWithIndex(C.getApplicative(M))(ta, (i, a) => C.make(f(i, a))).value
     )
 
     // FunctorWithIndex compatibility

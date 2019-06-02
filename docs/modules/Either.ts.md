@@ -85,6 +85,7 @@ left(23).map(double) // left(23)
   - [refineOrElseL (method)](#refineorelsel-method)
 - [URI (constant)](#uri-constant)
 - [either (constant)](#either-constant)
+- [~~getSetoid~~ (constant)](#getsetoid-constant)
 - [elem (function)](#elem-function)
 - [filterOrElse (function)](#filterorelse-function)
 - [fold (function)](#fold-function)
@@ -97,10 +98,10 @@ left(23).map(double) // left(23)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [~~getCompactable~~ (function)](#getcompactable-function)
+- [getEq (function)](#geteq-function)
 - [~~getFilterable~~ (function)](#getfilterable-function)
 - [getOrElse (function)](#getorelse-function)
 - [getSemigroup (function)](#getsemigroup-function)
-- [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
 - [getWitherable (function)](#getwitherable-function)
 - [isLeft (function)](#isleft-function)
@@ -602,12 +603,24 @@ export const either: Monad2<URI> &
 
 Added in v1.0.0
 
+# ~~getSetoid~~ (constant)
+
+Use `getEq`
+
+**Signature**
+
+```ts
+export const getSetoid: <L, A>(EL: Eq<L>, EA: Eq<A>) => Eq<Either<L, A>> = ...
+```
+
+Added in v1.0.0
+
 # elem (function)
 
 **Signature**
 
 ```ts
-export function elem<A>(S: Setoid<A>): (a: A) => <E>(ma: Either<E, A>) => boolean { ... }
+export function elem<A>(E: Eq<A>): (a: A) => <E>(ma: Either<E, A>) => boolean { ... }
 ```
 
 Added in v1.19.0
@@ -759,6 +772,16 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> { ... }
 
 Added in v1.7.0
 
+# getEq (function)
+
+**Signature**
+
+```ts
+export function getEq<L, A>(EL: Eq<L>, EA: Eq<A>): Eq<Either<L, A>> { ... }
+```
+
+Added in v1.19.0
+
 # ~~getFilterable~~ (function)
 
 Use `getWitherable`
@@ -806,16 +829,6 @@ assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
 ```
 
 Added in v1.7.0
-
-# getSetoid (function)
-
-**Signature**
-
-```ts
-export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> => ...
-```
-
-Added in v1.0.0
 
 # getShow (function)
 

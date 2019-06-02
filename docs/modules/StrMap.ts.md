@@ -36,12 +36,13 @@ Adapted from https://github.com/purescript/purescript-maps
   - [every (method)](#every-method)
   - [some (method)](#some-method)
 - [URI (constant)](#uri-constant)
+- [~~getSetoid~~ (constant)](#getsetoid-constant)
 - [strmap (constant)](#strmap-constant)
 - [collect (function)](#collect-function)
 - [elem (function)](#elem-function)
 - [fromFoldable (function)](#fromfoldable-function)
+- [getEq (function)](#geteq-function)
 - [getMonoid (function)](#getmonoid-function)
-- [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
 - [insert (function)](#insert-function)
 - [isEmpty (function)](#isempty-function)
@@ -299,6 +300,18 @@ Added in v1.14.0
 export const URI = ...
 ```
 
+# ~~getSetoid~~ (constant)
+
+Use `getEq`
+
+**Signature**
+
+```ts
+export const getSetoid: <A>(E: Eq<A>) => Eq<StrMap<A>> = ...
+```
+
+Added in v1.0.0
+
 # strmap (constant)
 
 **Signature**
@@ -330,7 +343,7 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export function elem<A>(S: Setoid<A>): (a: A, fa: StrMap<A>) => boolean { ... }
+export function elem<A>(E: Eq<A>): (a: A, fa: StrMap<A>) => boolean { ... }
 ```
 
 Added in v1.14.0
@@ -360,22 +373,22 @@ export function fromFoldable<F>(
 
 Added in v1.0.0
 
+# getEq (function)
+
+**Signature**
+
+```ts
+export function getEq<A>(E: Eq<A>): Eq<StrMap<A>> { ... }
+```
+
+Added in v1.19.0
+
 # getMonoid (function)
 
 **Signature**
 
 ```ts
 export const getMonoid = <A = never>(S: Semigroup<A> = getLastSemigroup()): Monoid<StrMap<A>> => ...
-```
-
-Added in v1.0.0
-
-# getSetoid (function)
-
-**Signature**
-
-```ts
-export const getSetoid = <A>(S: Setoid<A>): Setoid<StrMap<A>> => ...
 ```
 
 Added in v1.0.0
@@ -421,7 +434,7 @@ Test whether one dictionary contains all of the keys and values contained in ano
 **Signature**
 
 ```ts
-export const isSubdictionary = <A>(S: Setoid<A>): ((d1: StrMap<A>, d2: StrMap<A>) => boolean) => ...
+export const isSubdictionary = <A>(E: Eq<A>): ((d1: StrMap<A>, d2: StrMap<A>) => boolean) => ...
 ```
 
 Added in v1.0.0

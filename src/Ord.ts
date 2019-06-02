@@ -11,13 +11,13 @@
  */
 import { Ordering, semigroupOrdering } from './Ordering'
 import { Semigroup } from './Semigroup'
-import { Setoid, setoidBoolean, setoidNumber, setoidString } from './Setoid'
+import { Eq, eqBoolean, eqNumber, eqString } from './Eq'
 import { on } from './function'
 
 /**
  * @since 1.0.0
  */
-export interface Ord<A> extends Setoid<A> {
+export interface Ord<A> extends Eq<A> {
   readonly compare: (x: A, y: A) => Ordering
 }
 
@@ -32,7 +32,7 @@ export const unsafeCompare = (x: any, y: any): Ordering => {
  * @since 1.0.0
  */
 export const ordString: Ord<string> = {
-  ...setoidString,
+  ...eqString,
   compare: unsafeCompare
 }
 
@@ -40,7 +40,7 @@ export const ordString: Ord<string> = {
  * @since 1.0.0
  */
 export const ordNumber: Ord<number> = {
-  ...setoidNumber,
+  ...eqNumber,
   compare: unsafeCompare
 }
 
@@ -48,7 +48,7 @@ export const ordNumber: Ord<number> = {
  * @since 1.0.0
  */
 export const ordBoolean: Ord<boolean> = {
-  ...setoidBoolean,
+  ...eqBoolean,
   compare: unsafeCompare
 }
 

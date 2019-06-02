@@ -15,7 +15,7 @@ import { Monoid } from './Monoid'
 import { Option } from './Option'
 import * as R from './Record'
 import { getLastSemigroup, Semigroup } from './Semigroup'
-import { Setoid, fromEquals } from './Setoid'
+import { Eq, fromEquals } from './Eq'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
@@ -280,8 +280,8 @@ function sequence<F>(F: Applicative<F>): <A>(ta: StrMap<HKT<F, A>>) => HKT<F, St
  *
  * @since 1.0.0
  */
-export const isSubdictionary = <A>(S: Setoid<A>): ((d1: StrMap<A>, d2: StrMap<A>) => boolean) => {
-  const isSubrecordS = R.isSubrecord(S)
+export const isSubdictionary = <A>(E: Eq<A>): ((d1: StrMap<A>, d2: StrMap<A>) => boolean) => {
+  const isSubrecordS = R.isSubrecord(E)
   return (d1, d2) => isSubrecordS(d1.value, d2.value)
 }
 
@@ -304,11 +304,18 @@ export const isEmpty = <A>(d: StrMap<A>): boolean => {
 }
 
 /**
+ * Use `getEq`
  *
  * @since 1.0.0
+ * @deprecated
  */
-export const getSetoid = <A>(S: Setoid<A>): Setoid<StrMap<A>> => {
-  const isSubrecordS = R.isSubrecord(S)
+export const getSetoid: <A>(E: Eq<A>) => Eq<StrMap<A>> = getEq
+
+/**
+ * @since 1.19.0
+ */
+export function getEq<A>(E: Eq<A>): Eq<StrMap<A>> {
+  const isSubrecordS = R.isSubrecord(E)
   return fromEquals((x, y) => isSubrecordS(x.value, y.value) && isSubrecordS(y.value, x.value))
 }
 
@@ -417,8 +424,8 @@ export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
 /**
  * @since 1.14.0
  */
-export function elem<A>(S: Setoid<A>): (a: A, fa: StrMap<A>) => boolean {
-  return (a, fa) => fa.some(x => S.equals(x, a))
+export function elem<A>(E: Eq<A>): (a: A, fa: StrMap<A>) => boolean {
+  return (a, fa) => fa.some(x => E.equals(x, a))
 }
 
 const filterMap = <A, B>(fa: StrMap<A>, f: (a: A) => Option<B>): StrMap<B> => {

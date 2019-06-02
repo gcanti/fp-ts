@@ -17,7 +17,8 @@ import { Monoid } from './Monoid'
 import { none, Option, some } from './Option'
 import { getSemigroup, Ord, ordNumber, fromCompare } from './Ord'
 import { Plus1 } from './Plus'
-import { getArraySetoid, Setoid } from './Setoid'
+import { Eq } from './Eq'
+import { getArraySetoid } from './Setoid'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
@@ -70,23 +71,31 @@ export const getMonoid = <A = never>(): Monoid<Array<A>> => {
 }
 
 /**
- * Derives a Setoid over the Array of a given element type from the Setoid of that type. The derived setoid defines two
- * arrays as equal if all elements of both arrays are compared equal pairwise with the given setoid `S`. In case of
- * arrays of different lengths, the result is non equality.
- *
- *
- * @example
- * import { ordString } from 'fp-ts/lib/Ord'
- * import { getSetoid } from 'fp-ts/lib/Array'
- *
- * const O = getSetoid(ordString)
- * assert.strictEqual(O.equals(['a', 'b'], ['a', 'b']), true)
- * assert.strictEqual(O.equals(['a'], []), false)
+ * Use `getEq`
  *
  * @since 1.0.0
+ * @deprecated
  */
-export const getSetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => {
-  return getArraySetoid(S)
+export const getSetoid: <A>(E: Eq<A>) => Eq<Array<A>> = getEq
+
+/**
+ * Derives a `Eq` over the `Array` of a given element type from the `Eq` of that type. The derived eq defines two
+ * arrays as equal if all elements of both arrays are compared equal pairwise with the given eq `S`. In case of
+ * arrays of different lengths, the result is non equality.
+ *
+ * @example
+ * import { eqString } from 'fp-ts/lib/Eq'
+ * import { getEq } from 'fp-ts/lib/Array'
+ *
+ * const E = getEq(eqString)
+ * assert.strictEqual(E.equals(['a', 'b'], ['a', 'b']), true)
+ * assert.strictEqual(E.equals(['a'], []), false)
+ *
+ * @since 1.19.0
+ */
+export function getEq<A>(E: Eq<A>): Eq<Array<A>> {
+  // tslint:disable-next-line: deprecation
+  return getArraySetoid(E)
 }
 
 /**
@@ -441,6 +450,8 @@ export const isEmpty = <A>(as: Array<A>): boolean => {
 
 /**
  * Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
+ *
+ * @since 1.19.0
  */
 export const isNonEmpty = <A>(as: Array<A>): as is NonEmptyArray<A> => as.length > 0
 
@@ -1156,21 +1167,21 @@ export const rotate = <A>(n: number, xs: Array<A>): Array<A> => {
 }
 
 /**
- * Test if a value is a member of an array. Takes a `Setoid<A>` as a single
+ * Test if a value is a member of an array. Takes a `Eq<A>` as a single
  * argument which returns the function to use to search for a value of type `A` in
  * an array of type `Array<A>`.
  *
  * @example
  * import { elem } from 'fp-ts/lib/Array'
- * import { setoidNumber } from 'fp-ts/lib/Setoid'
+ * import { eqNumber } from 'fp-ts/lib/Eq'
  *
- * assert.strictEqual(elem(setoidNumber)(1, [1, 2, 3]), true)
- * assert.strictEqual(elem(setoidNumber)(4, [1, 2, 3]), false)
+ * assert.strictEqual(elem(eqNumber)(1, [1, 2, 3]), true)
+ * assert.strictEqual(elem(eqNumber)(4, [1, 2, 3]), false)
  *
  * @since 1.14.0
  */
-export const elem = <A>(S: Setoid<A>) => (a: A, as: Array<A>): boolean => {
-  const predicate = (e: A) => S.equals(e, a)
+export const elem = <A>(E: Eq<A>) => (a: A, as: Array<A>): boolean => {
+  const predicate = (e: A) => E.equals(e, a)
   let i = 0
   const len = as.length
   for (; i < len; i++) {
@@ -1186,8 +1197,8 @@ export const elem = <A>(S: Setoid<A>) => (a: A, as: Array<A>): boolean => {
  * @since 1.3.0
  * @deprecated
  */
-export const member = <A>(S: Setoid<A>): ((as: Array<A>, a: A) => boolean) => {
-  const has = elem(S)
+export const member = <A>(E: Eq<A>): ((as: Array<A>, a: A) => boolean) => {
+  const has = elem(E)
   return (as, a) => has(a, as)
 }
 
@@ -1196,22 +1207,22 @@ export const member = <A>(S: Setoid<A>): ((as: Array<A>, a: A) => boolean) => {
  *
  * @example
  * import { uniq } from 'fp-ts/lib/Array'
- * import { setoidNumber } from 'fp-ts/lib/Setoid'
+ * import { eqNumber } from 'fp-ts/lib/Eq'
  *
- * assert.deepStrictEqual(uniq(setoidNumber)([1, 2, 1]), [1, 2])
+ * assert.deepStrictEqual(uniq(eqNumber)([1, 2, 1]), [1, 2])
  *
  *
  * @since 1.3.0
  */
-export const uniq = <A>(S: Setoid<A>): ((as: Array<A>) => Array<A>) => {
-  const elemS = elem(S)
+export const uniq = <A>(E: Eq<A>): ((as: Array<A>) => Array<A>) => {
+  const elemE = elem(E)
   return as => {
     const r: Array<A> = []
     const len = as.length
     let i = 0
     for (; i < len; i++) {
       const a = as[i]
-      if (!elemS(a, r)) {
+      if (!elemE(a, r)) {
         r.push(a)
       }
     }
@@ -1392,16 +1403,16 @@ const wilt = <F>(
  * value and the rest of the array.
  *
  * @example
- * import { Setoid, setoidNumber } from 'fp-ts/lib/Setoid'
+ * import { Eq, eqNumber } from 'fp-ts/lib/Eq'
  * import { chop, span } from 'fp-ts/lib/Array'
  *
- * const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<Array<A>> => {
+ * const group = <A>(E: Eq<A>) => (as: Array<A>): Array<Array<A>> => {
  *   return chop(as, as => {
- *     const { init, rest } = span(as, a => S.equals(a, as[0]))
+ *     const { init, rest } = span(as, a => E.equals(a, as[0]))
  *     return [init, rest]
  *   })
  * }
- * assert.deepStrictEqual(group(setoidNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
+ * assert.deepStrictEqual(group(eqNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
  *
  *
  * @since 1.10.0
@@ -1509,56 +1520,56 @@ export function comprehension<R>(
 }
 
 /**
- * Creates an array of unique values, in order, from all given arrays using a `Setoid` for equality comparisons
+ * Creates an array of unique values, in order, from all given arrays using a `Eq` for equality comparisons
  *
  * @example
  * import { union } from 'fp-ts/lib/Array'
- * import { setoidNumber } from 'fp-ts/lib/Setoid'
+ * import { eqNumber } from 'fp-ts/lib/Eq'
  *
- * assert.deepStrictEqual(union(setoidNumber)([1, 2], [2, 3]), [1, 2, 3])
+ * assert.deepStrictEqual(union(eqNumber)([1, 2], [2, 3]), [1, 2, 3])
  *
  *
  * @since 1.12.0
  */
-export const union = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => {
-  const elemS = elem(S)
-  return (xs, ys) => concat(xs, ys.filter(a => !elemS(a, xs)))
+export const union = <A>(E: Eq<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => {
+  const elemE = elem(E)
+  return (xs, ys) => concat(xs, ys.filter(a => !elemE(a, xs)))
 }
 
 /**
- * Creates an array of unique values that are included in all given arrays using a `Setoid` for equality
+ * Creates an array of unique values that are included in all given arrays using a `Eq` for equality
  * comparisons. The order and references of result values are determined by the first array.
  *
  * @example
  * import { intersection } from 'fp-ts/lib/Array'
- * import { setoidNumber } from 'fp-ts/lib/Setoid'
+ * import { eqNumber } from 'fp-ts/lib/Eq'
  *
- * assert.deepStrictEqual(intersection(setoidNumber)([1, 2], [2, 3]), [2])
+ * assert.deepStrictEqual(intersection(eqNumber)([1, 2], [2, 3]), [2])
  *
  *
  * @since 1.12.0
  */
-export const intersection = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => {
-  const elemS = elem(S)
-  return (xs, ys) => xs.filter(a => elemS(a, ys))
+export const intersection = <A>(E: Eq<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => {
+  const elemE = elem(E)
+  return (xs, ys) => xs.filter(a => elemE(a, ys))
 }
 
 /**
- * Creates an array of array values not included in the other given array using a `Setoid` for equality
+ * Creates an array of array values not included in the other given array using a `Eq` for equality
  * comparisons. The order and references of result values are determined by the first array.
  *
  * @example
  * import { difference } from 'fp-ts/lib/Array'
- * import { setoidNumber } from 'fp-ts/lib/Setoid'
+ * import { eqNumber } from 'fp-ts/lib/Eq'
  *
- * assert.deepStrictEqual(difference(setoidNumber)([1, 2], [2, 3]), [1])
+ * assert.deepStrictEqual(difference(eqNumber)([1, 2], [2, 3]), [1])
  *
  *
  * @since 1.12.0
  */
-export const difference = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => {
-  const elemS = elem(S)
-  return (xs, ys) => xs.filter(a => !elemS(a, ys))
+export const difference = <A>(E: Eq<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => {
+  const elemE = elem(E)
+  return (xs, ys) => xs.filter(a => !elemE(a, ys))
 }
 
 const traverseWithIndex = <F>(F: Applicative<F>) => <A, B>(

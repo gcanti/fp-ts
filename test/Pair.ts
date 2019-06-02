@@ -4,9 +4,9 @@ import { identity } from '../src/function'
 import { monoidString } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { ordNumber } from '../src/Ord'
-import { getMonoid, getOrd, getSemigroup, getSetoid, Pair, pair, getShow } from '../src/Pair'
+import { getMonoid, getOrd, getSemigroup, getEq, Pair, pair, getShow } from '../src/Pair'
 import { semigroupString } from '../src/Semigroup'
-import { setoidNumber } from '../src/Setoid'
+import { eqNumber } from '../src/Eq'
 import * as T from '../src/Traversable'
 import { showString } from '../src/Show'
 
@@ -90,8 +90,8 @@ describe('Pair', () => {
     assert.deepStrictEqual(sequence(x2), old(x2))
   })
 
-  it('getSetoid', () => {
-    const S = getSetoid(setoidNumber)
+  it('getEq', () => {
+    const S = getEq(eqNumber)
     assert.strictEqual(S.equals(new Pair(1, 2), new Pair(1, 2)), true)
     assert.strictEqual(S.equals(new Pair(1, 2), new Pair(1, 3)), false)
     assert.strictEqual(S.equals(new Pair(1, 2), new Pair(2, 2)), false)

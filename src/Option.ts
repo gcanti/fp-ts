@@ -95,7 +95,7 @@ import { getDualMonoid, Monoid } from './Monoid'
 import { Ord, fromCompare } from './Ord'
 import { Plus1 } from './Plus'
 import { Semigroup } from './Semigroup'
-import { Setoid, fromEquals } from './Setoid'
+import { Eq, fromEquals } from './Eq'
 import { Traversable2v1 } from './Traversable2v'
 import { Witherable1 } from './Witherable'
 import { Show } from './Show'
@@ -286,7 +286,7 @@ export class None<A> {
     return 'none'
   }
   /** Returns `true` if the option has an element that is equal (as determined by `S`) to `a`, `false` otherwise */
-  contains(S: Setoid<A>, a: A): boolean {
+  contains(E: Eq<A>, a: A): boolean {
     return false
   }
   /** Returns `true` if the option is `None`, `false` otherwise */
@@ -386,8 +386,8 @@ export class Some<A> {
   toString(): string {
     return `some(${toString(this.value)})`
   }
-  contains(S: Setoid<A>, a: A): boolean {
-    return S.equals(this.value, a)
+  contains(E: Eq<A>, a: A): boolean {
+    return E.equals(this.value, a)
   }
   isNone(): this is None<A> {
     return false
@@ -418,22 +418,31 @@ export const getShow = <A>(S: Show<A>): Show<Option<A>> => {
 }
 
 /**
- * @example
- * import { none, some, getSetoid } from 'fp-ts/lib/Option'
- * import { setoidNumber } from 'fp-ts/lib/Setoid'
+ * Use `getEq`
  *
- * const S = getSetoid(setoidNumber)
+ * @since 1.0.0
+ * @deprecated
+ */
+export const getSetoid: <A>(E: Eq<A>) => Eq<Option<A>> = getEq
+
+/**
+ * @example
+ * import { none, some, getEq } from 'fp-ts/lib/Option'
+ * import { eqNumber } from 'fp-ts/lib/Eq'
+ *
+ * const S = getEq(eqNumber)
  * assert.strictEqual(S.equals(none, none), true)
  * assert.strictEqual(S.equals(none, some(1)), false)
  * assert.strictEqual(S.equals(some(1), none), false)
  * assert.strictEqual(S.equals(some(1), some(2)), false)
  * assert.strictEqual(S.equals(some(1), some(1)), true)
  *
- * @since 1.0.0
+ * @since 1.19.0
  */
-export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
-  return fromEquals((x, y) => (x.isNone() ? y.isNone() : y.isNone() ? false : S.equals(x.value, y.value)))
+export function getEq<A>(E: Eq<A>): Eq<Option<A>> {
+  return fromEquals((x, y) => (x.isNone() ? y.isNone() : y.isNone() ? false : E.equals(x.value, y.value)))
 }
+
 /**
  * The `Ord` instance allows `Option` values to be compared with
  * `compare`, whenever there is an `Ord` instance for
@@ -837,8 +846,8 @@ export function getOrElse<A>(f: () => A): (ma: Option<A>) => A {
 /**
  * @since 1.19.0
  */
-export function elem<A>(S: Setoid<A>): (a: A) => (ma: Option<A>) => boolean {
-  return a => ma => ma.contains(S, a)
+export function elem<A>(E: Eq<A>): (a: A) => (ma: Option<A>) => boolean {
+  return a => ma => ma.contains(E, a)
 }
 
 /**

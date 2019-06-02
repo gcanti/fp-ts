@@ -10,7 +10,7 @@ import { Monoid } from './Monoid'
 import { Ord, fromCompare } from './Ord'
 import { semigroupOrdering } from './Ordering'
 import { Semigroup } from './Semigroup'
-import { Setoid, fromEquals } from './Setoid'
+import { Eq, fromEquals } from './Eq'
 import { Traversable2v1 } from './Traversable2v'
 import { Show } from './Show'
 
@@ -110,9 +110,17 @@ const extend = <A, B>(fa: Pair<A>, f: (fb: Pair<A>) => B): Pair<B> => {
 }
 
 /**
+ * Use `getEq`
+ *
  * @since 1.0.0
+ * @deprecated
  */
-export const getSetoid = <A>(S: Setoid<A>): Setoid<Pair<A>> => {
+export const getSetoid: <A>(S: Eq<A>) => Eq<Pair<A>> = getEq
+
+/**
+ * @since 1.19.0
+ */
+export function getEq<A>(S: Eq<A>): Eq<Pair<A>> {
   return fromEquals((x, y) => S.equals(x.fst, y.fst) && S.equals(x.snd, y.snd))
 }
 

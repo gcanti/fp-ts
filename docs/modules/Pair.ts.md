@@ -24,11 +24,12 @@ Adapted from https://github.com/parsonsmatt/purescript-pair
   - [extract (method)](#extract-method)
   - [extend (method)](#extend-method)
 - [URI (constant)](#uri-constant)
+- [~~getSetoid~~ (constant)](#getsetoid-constant)
 - [pair (constant)](#pair-constant)
+- [getEq (function)](#geteq-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getOrd (function)](#getord-function)
 - [getSemigroup (function)](#getsemigroup-function)
-- [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
 
 ---
@@ -142,6 +143,18 @@ extend<B>(f: (fb: Pair<A>) => B): Pair<B> { ... }
 export const URI = ...
 ```
 
+# ~~getSetoid~~ (constant)
+
+Use `getEq`
+
+**Signature**
+
+```ts
+export const getSetoid: <A>(S: Eq<A>) => Eq<Pair<A>> = ...
+```
+
+Added in v1.0.0
+
 # pair (constant)
 
 **Signature**
@@ -151,6 +164,16 @@ export const pair: Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & 
 ```
 
 Added in v1.0.0
+
+# getEq (function)
+
+**Signature**
+
+```ts
+export function getEq<A>(S: Eq<A>): Eq<Pair<A>> { ... }
+```
+
+Added in v1.19.0
 
 # getMonoid (function)
 
@@ -178,16 +201,6 @@ Added in v1.0.0
 
 ```ts
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Pair<A>> => ...
-```
-
-Added in v1.0.0
-
-# getSetoid (function)
-
-**Signature**
-
-```ts
-export const getSetoid = <A>(S: Setoid<A>): Setoid<Pair<A>> => ...
 ```
 
 Added in v1.0.0

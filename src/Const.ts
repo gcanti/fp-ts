@@ -4,7 +4,7 @@ import { Contravariant2 } from './Contravariant'
 import { Functor2 } from './Functor'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { Setoid, fromEquals } from './Setoid'
+import { Eq, fromEquals } from './Eq'
 import { phantom, toString } from './function'
 import { Show } from './Show'
 import { pipeable } from './pipeable'
@@ -61,9 +61,17 @@ export const getShow = <L, A>(S: Show<L>): Show<Const<L, A>> => {
 }
 
 /**
+ * Use `getEq`
+ *
  * @since 1.0.0
+ * @deprecated
  */
-export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => {
+export const getSetoid: <L, A>(S: Eq<L>) => Eq<Const<L, A>> = getEq
+
+/**
+ * @since 1.19.0
+ */
+export function getEq<L, A>(S: Eq<L>): Eq<Const<L, A>> {
   return fromEquals((x, y) => S.equals(x.value, y.value))
 }
 

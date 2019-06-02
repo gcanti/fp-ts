@@ -25,17 +25,18 @@ Adapted from https://github.com/purescript/purescript-tuples
   - [toString (method)](#tostring-method)
   - [toTuple (method)](#totuple-method)
 - [URI (constant)](#uri-constant)
+- [~~getSetoid~~ (constant)](#getsetoid-constant)
 - [tuple (constant)](#tuple-constant)
 - [fst (function)](#fst-function)
 - [getApplicative (function)](#getapplicative-function)
 - [getApply (function)](#getapply-function)
 - [getChain (function)](#getchain-function)
 - [getChainRec (function)](#getchainrec-function)
+- [getEq (function)](#geteq-function)
 - [getMonad (function)](#getmonad-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getOrd (function)](#getord-function)
 - [getSemigroup (function)](#getsemigroup-function)
-- [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
 - [snd (function)](#snd-function)
 - [swap (function)](#swap-function)
@@ -153,6 +154,18 @@ toTuple(): [L, A] { ... }
 export const URI = ...
 ```
 
+# ~~getSetoid~~ (constant)
+
+Use `getEq`
+
+**Signature**
+
+```ts
+export const getSetoid: <L, A>(EL: Eq<L>, EA: Eq<A>) => Eq<Tuple<L, A>> = ...
+```
+
+Added in v1.0.0
+
 # tuple (constant)
 
 **Signature**
@@ -213,6 +226,16 @@ export const getChainRec = <L>(M: Monoid<L>): ChainRec2C<URI, L> => ...
 
 Added in v1.0.0
 
+# getEq (function)
+
+**Signature**
+
+```ts
+export function getEq<L, A>(EL: Eq<L>, EA: Eq<A>): Eq<Tuple<L, A>> { ... }
+```
+
+Added in v1.19.0
+
 # getMonad (function)
 
 **Signature**
@@ -252,16 +275,6 @@ Added in v1.0.0
 
 ```ts
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Tuple<L, A>> => ...
-```
-
-Added in v1.0.0
-
-# getSetoid (function)
-
-**Signature**
-
-```ts
-export const getSetoid = <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A>> => ...
 ```
 
 Added in v1.0.0

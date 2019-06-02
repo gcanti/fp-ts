@@ -16,7 +16,8 @@ import {
   last,
   lookup,
   sort,
-  updateAt as arrayUpdateAt
+  updateAt as arrayUpdateAt,
+  getEq as getArrayEq
 } from './Array'
 import { Comonad1 } from './Comonad'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
@@ -28,7 +29,7 @@ import { Monoid } from './Monoid'
 import { none, Option, some } from './Option'
 import { Ord } from './Ord'
 import { fold, getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
-import { fromEquals, getArraySetoid, Setoid } from './Setoid'
+import { fromEquals, Eq } from './Eq'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 
 declare module './HKT' {
@@ -527,19 +528,27 @@ export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => {
 }
 
 /**
- * @example
- * import { NonEmptyArray, getSetoid } from 'fp-ts/lib/NonEmptyArray'
- * import { setoidNumber } from 'fp-ts/lib/Setoid'
- *
- * const S = getSetoid(setoidNumber)
- * assert.strictEqual(S.equals(new NonEmptyArray(1, []), new NonEmptyArray(1, [])), true)
- * assert.strictEqual(S.equals(new NonEmptyArray(1, []), new NonEmptyArray(1, [2])), false)
+ * Use `getEq`
  *
  * @since 1.14.0
+ * @deprecated
  */
-export const getSetoid = <A>(S: Setoid<A>): Setoid<NonEmptyArray<A>> => {
-  const setoidTail = getArraySetoid(S)
-  return fromEquals((x, y) => S.equals(x.head, y.head) && setoidTail.equals(x.tail, y.tail))
+export const getSetoid: <A>(S: Eq<A>) => Eq<NonEmptyArray<A>> = getEq
+
+/**
+ * @example
+ * import { NonEmptyArray, getEq } from 'fp-ts/lib/NonEmptyArray'
+ * import { eqNumber } from 'fp-ts/lib/Eq'
+ *
+ * const E = getEq(eqNumber)
+ * assert.strictEqual(E.equals(new NonEmptyArray(1, []), new NonEmptyArray(1, [])), true)
+ * assert.strictEqual(E.equals(new NonEmptyArray(1, []), new NonEmptyArray(1, [2])), false)
+ *
+ * @since 1.19.0
+ */
+export function getEq<A>(S: Eq<A>): Eq<NonEmptyArray<A>> {
+  const eqTail = getArrayEq(S)
+  return fromEquals((x, y) => S.equals(x.head, y.head) && eqTail.equals(x.tail, y.tail))
 }
 
 /**
@@ -557,7 +566,7 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<NonEmptyArray<A>> => {
  *
  * @since 1.7.0
  */
-export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>> => {
+export const group = <A>(S: Eq<A>) => (as: Array<A>): Array<NonEmptyArray<A>> => {
   const r: Array<NonEmptyArray<A>> = []
   const len = as.length
   if (len === 0) {

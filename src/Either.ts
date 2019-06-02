@@ -39,7 +39,7 @@ import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
-import { Setoid, fromEquals } from './Setoid'
+import { Eq, fromEquals } from './Eq'
 import { Traversable2v2 } from './Traversable2v'
 import { Validation } from './Validation'
 import { Witherable2C } from './Witherable'
@@ -286,11 +286,19 @@ export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Either<L, A>> => {
 }
 
 /**
+ * Use `getEq`
+ *
  * @since 1.0.0
+ * @deprecated
  */
-export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> => {
+export const getSetoid: <L, A>(EL: Eq<L>, EA: Eq<A>) => Eq<Either<L, A>> = getEq
+
+/**
+ * @since 1.19.0
+ */
+export function getEq<L, A>(EL: Eq<L>, EA: Eq<A>): Eq<Either<L, A>> {
   return fromEquals((x, y) =>
-    x.isLeft() ? y.isLeft() && SL.equals(x.value, y.value) : y.isRight() && SA.equals(x.value, y.value)
+    x.isLeft() ? y.isLeft() && EL.equals(x.value, y.value) : y.isRight() && EA.equals(x.value, y.value)
   )
 }
 
@@ -756,8 +764,8 @@ export function getOrElse<E, A>(f: (e: E) => A): (ma: Either<E, A>) => A {
 /**
  * @since 1.19.0
  */
-export function elem<A>(S: Setoid<A>): (a: A) => <E>(ma: Either<E, A>) => boolean {
-  return a => ma => (isLeft(ma) ? false : S.equals(a, ma.value))
+export function elem<A>(E: Eq<A>): (a: A) => <E>(ma: Either<E, A>) => boolean {
+  return a => ma => (isLeft(ma) ? false : E.equals(a, ma.value))
 }
 
 /**

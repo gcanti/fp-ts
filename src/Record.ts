@@ -8,7 +8,7 @@ import { Magma } from './Magma'
 import { getDictionaryMonoid, Monoid } from './Monoid'
 import { none, Option, some as optionSome } from './Option'
 import { Semigroup } from './Semigroup'
-import { fromEquals, Setoid } from './Setoid'
+import { fromEquals, Eq } from './Eq'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Show, showString } from './Show'
 
@@ -147,9 +147,9 @@ export const pop = <A>(k: string, d: Record<string, A>): Option<[A, Record<strin
  *
  * @since 1.14.0
  */
-export const isSubrecord = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean => {
+export const isSubrecord = <A>(E: Eq<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean => {
   for (let k in d1) {
-    if (!hasOwnProperty(k, d2) || !S.equals(d1[k], d2[k])) {
+    if (!hasOwnProperty(k, d2) || !E.equals(d1[k], d2[k])) {
       return false
     }
   }
@@ -161,18 +161,24 @@ export const isSubrecord = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Reco
  * @since 1.10.0
  * @deprecated
  */
-export const isSubdictionary: <A>(
-  S: Setoid<A>
-) => (d1: Record<string, A>, d2: Record<string, A>) => boolean = isSubrecord
+export const isSubdictionary: <A>(E: Eq<A>) => (d1: Record<string, A>, d2: Record<string, A>) => boolean = isSubrecord
 
 /**
+ * Use `getEq`
+ *
  * @since 1.10.0
+ * @deprecated
  */
-export function getSetoid<K extends string, A>(S: Setoid<A>): Setoid<Record<K, A>>
-export function getSetoid<A>(S: Setoid<A>): Setoid<Record<string, A>>
-export function getSetoid<A>(S: Setoid<A>): Setoid<Record<string, A>> {
-  const isSubrecordS = isSubrecord(S)
-  return fromEquals((x, y) => isSubrecordS(x, y) && isSubrecordS(y, x))
+export const getSetoid: typeof getEq = getEq
+
+/**
+ * @since 1.19.0
+ */
+export function getEq<K extends string, A>(E: Eq<A>): Eq<Record<K, A>>
+export function getEq<A>(E: Eq<A>): Eq<Record<string, A>>
+export function getEq<A>(E: Eq<A>): Eq<Record<string, A>> {
+  const isSubrecordE = isSubrecord(E)
+  return fromEquals((x, y) => isSubrecordE(x, y) && isSubrecordE(y, x))
 }
 
 /**
@@ -789,8 +795,8 @@ export function some<A>(fa: { [key: string]: A }, predicate: (a: A) => boolean):
 /**
  * @since 1.14.0
  */
-export function elem<A>(S: Setoid<A>): (a: A, fa: { [key: string]: A }) => boolean {
-  return (a, fa) => some(fa, x => S.equals(x, a))
+export function elem<A>(E: Eq<A>): (a: A, fa: { [key: string]: A }) => boolean {
+  return (a, fa) => some(fa, x => E.equals(x, a))
 }
 
 /**

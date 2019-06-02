@@ -5,7 +5,7 @@ import { identity } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
-import { setoidNumber } from '../src/Setoid'
+import { eqNumber } from '../src/Eq'
 import * as T from '../src/Traversable'
 import { showString } from '../src/Show'
 
@@ -95,8 +95,8 @@ describe('Identity', () => {
     assert.strictEqual(x.inspect(), 'new Identity(1)')
   })
 
-  it('getSetoid', () => {
-    const S = I.getSetoid(setoidNumber)
+  it('getEq', () => {
+    const S = I.getEq(eqNumber)
     assert.strictEqual(S.equals(I.identity.of(1), I.identity.of(1)), true)
     assert.strictEqual(S.equals(I.identity.of(1), I.identity.of(2)), false)
     assert.strictEqual(S.equals(I.identity.of(2), I.identity.of(1)), false)

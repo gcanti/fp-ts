@@ -19,7 +19,7 @@ import * as Tr from '../../lib/Traversable'
 import * as U from '../../lib/Unfoldable'
 import * as V from '../../lib/Validation'
 import * as Mon from '../../lib/Monoid'
-import * as Se from '../../lib/Setoid'
+import * as Eq from '../../lib/Eq'
 import * as SM from '../../lib/StrMap'
 import * as Fo from '../../lib/Foldable'
 import * as Or from '../../lib/Ord'
@@ -338,8 +338,8 @@ type Keys = 'key1' | 'key2'
 const Mon1 = R.getMonoid(S.semigroupSum) // $ExpectType Monoid<Record<string, number>>
 const Mon2 = R.getMonoid<Keys, number>(S.semigroupSum) // $ExpectType Monoid<Record<Keys, number>>
 
-const Set1 = R.getSetoid<Keys, number>(Se.setoidNumber) // $ExpectType Setoid<Record<Keys, number>>
-const Set2 = R.getSetoid(Se.setoidNumber) // $ExpectType Setoid<Record<string, number>>
+const Set1 = R.getSetoid<Keys, number>(Eq.eqNumber) // $ExpectType Eq<Record<Keys, number>>
+const Set2 = R.getSetoid(Eq.eqNumber) // $ExpectType Eq<Record<string, number>>
 
 const toUnfoldable1 = R.toUnfoldable(A.array)({ a: 1 }) // $ExpectType ["a", number][]
 const toUnfoldable2 = R.toUnfoldable(A.array)({ a: 1, b: 2 }) // $ExpectType ["a" | "b", number][]
@@ -349,46 +349,44 @@ declare const fromFoldableInput1: H.HKT<'Test', ['a' | 'b', number]>
 const fromFoldable1 = R.fromFoldable(fromFoldableF1)(fromFoldableInput1, a => a) // $ExpectType Record<"a" | "b", number>
 
 //
-// Setoid
+// Eq
 //
 
-const Setoid1 = Se.getTupleSetoid(Se.setoidString, Se.setoidNumber, Se.setoidBoolean) // $ExpectType Setoid<[string, number, boolean]>
+Eq.getTupleEq(Eq.eqString, Eq.eqNumber, Eq.eqBoolean) // $ExpectType Eq<[string, number, boolean]>
 
 //
 // Ord
 //
 
-const Ord1 = Or.getTupleOrd(Or.ordString, Or.ordNumber, Or.ordBoolean) // $ExpectType Ord<[string, number, boolean]>
+Or.getTupleOrd(Or.ordString, Or.ordNumber, Or.ordBoolean) // $ExpectType Ord<[string, number, boolean]>
 
 //
 // Semigroup
 //
 
-const Sem1 = S.getDictionarySemigroup(S.semigroupSum) // $ExpectType Semigroup<Record<string, number>>
-const Sem2 = S.getDictionarySemigroup<Keys, number>(S.semigroupSum) // $ExpectType Semigroup<Record<Keys, number>>
-
-const Sem3 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum, S.semigroupAll) // $ExpectType Semigroup<[string, number, boolean]>
+S.getDictionarySemigroup(S.semigroupSum) // $ExpectType Semigroup<Record<string, number>>
+S.getDictionarySemigroup<Keys, number>(S.semigroupSum) // $ExpectType Semigroup<Record<Keys, number>>
+S.getTupleSemigroup(S.semigroupString, S.semigroupSum, S.semigroupAll) // $ExpectType Semigroup<[string, number, boolean]>
 
 //
 // Monoid
 //
 
-const Mon3 = Mon.getDictionaryMonoid(S.semigroupSum) // $ExpectType Monoid<Record<string, number>>
-const Mon4 = Mon.getDictionaryMonoid<Keys, number>(S.semigroupSum) // $ExpectType Monoid<Record<Keys, number>>
-
-const Mon5 = Mon.getTupleMonoid(Mon.monoidString, Mon.monoidSum, Mon.monoidAll) // $ExpectType Monoid<[string, number, boolean]>
+Mon.getDictionaryMonoid(S.semigroupSum) // $ExpectType Monoid<Record<string, number>>
+Mon.getDictionaryMonoid<Keys, number>(S.semigroupSum) // $ExpectType Monoid<Record<Keys, number>>
+Mon.getTupleMonoid(Mon.monoidString, Mon.monoidSum, Mon.monoidAll) // $ExpectType Monoid<[string, number, boolean]>
 
 //
 // Ring
 //
 
-const Ring1 = Ring.getTupleRing(Field.fieldNumber, Field.fieldNumber, Field.fieldNumber) // $ExpectType Ring<[number, number, number]>
+Ring.getTupleRing(Field.fieldNumber, Field.fieldNumber, Field.fieldNumber) // $ExpectType Ring<[number, number, number]>
 
 //
 // StrMap
 //
 
-const toUnfoldable3 = SM.toUnfoldable(A.array)(new SM.StrMap({ a: 1 })) // $ExpectType [string, number][]
+SM.toUnfoldable(A.array)(new SM.StrMap({ a: 1 })) // $ExpectType [string, number][]
 
 //
 // NonEmptyArray2v
@@ -398,19 +396,19 @@ declare const nea2v1: NEA2v.NonEmptyArray<string>
 declare const nea2v2: NEA2v.NonEmptyArray<string>
 declare const array1: Array<string>
 
-const nea2v1make1 = NEA2v.make<number>(1, []) // $ExpectType NonEmptyArray<number>
+NEA2v.make<number>(1, []) // $ExpectType NonEmptyArray<number>
 
-const nea2vValid = NEA2v.fromNonEmptyArray([1]) // $ExpectType NonEmptyArray<number>
+NEA2v.fromNonEmptyArray([1]) // $ExpectType NonEmptyArray<number>
 // $ExpectError
-const nea2vInvalid = NEA2v.fromNonEmptyArray([])
+NEA2v.fromNonEmptyArray([])
 
-const nea2v1map1 = nea2v1.map(len) // $ExpectType NonEmptyArray<number>
+nea2v1.map(len) // $ExpectType NonEmptyArray<number>
 
-const nea2v1concat1 = nea2v1.concat(nea2v2) // $ExpectType NonEmptyArray<string>
-const nea2v1concat2 = nea2v1.concat(array1) // $ExpectType NonEmptyArray<string>
-const nea2v1concat3 = array1.concat(nea2v1) // $ExpectType string[]
+nea2v1.concat(nea2v2) // $ExpectType NonEmptyArray<string>
+nea2v1.concat(array1) // $ExpectType NonEmptyArray<string>
+array1.concat(nea2v1) // $ExpectType string[]
 
-const nea2v1sort1 = nea2v1.sort(Or.ordString.compare) // $ExpectType NonEmptyArray<string>
+nea2v1.sort(Or.ordString.compare) // $ExpectType NonEmptyArray<string>
 
 if (A.isNonEmpty(array1)) {
   array1 // $ExpectType NonEmptyArray<string>

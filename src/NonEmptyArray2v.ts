@@ -10,7 +10,7 @@ import { Monad1 } from './Monad'
 import { none, Option, some } from './Option'
 import { Ord } from './Ord'
 import { getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
-import { Setoid } from './Setoid'
+import { Eq } from './Eq'
 import { Show } from './Show'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { pipeable } from './pipeable'
@@ -119,18 +119,26 @@ export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => {
 }
 
 /**
- * @example
- * import { fromNonEmptyArray, getSetoid, make } from 'fp-ts/lib/NonEmptyArray2v'
- * import { setoidNumber } from 'fp-ts/lib/Setoid'
+ * Use `getEq`
  *
- * const S = getSetoid(setoidNumber)
+ * @since 1.15.0
+ * @deprecated
+ */
+export const getSetoid: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = getEq
+
+/**
+ * @example
+ * import { fromNonEmptyArray, getEq, make } from 'fp-ts/lib/NonEmptyArray2v'
+ * import { eqNumber } from 'fp-ts/lib/Eq'
+ *
+ * const S = getEq(eqNumber)
  * assert.strictEqual(S.equals(make(1, [2]), fromNonEmptyArray([1, 2])), true)
  * assert.strictEqual(S.equals(make(1, [2]), fromNonEmptyArray([1, 3])), false)
  *
- * @since 1.15.0
+ * @since 1.19.0
  */
-export function getSetoid<A>(S: Setoid<A>): Setoid<NonEmptyArray<A>> {
-  return A.getSetoid(S)
+export function getEq<A>(E: Eq<A>): Eq<NonEmptyArray<A>> {
+  return A.getEq(E)
 }
 
 /**
@@ -148,7 +156,7 @@ export function getSetoid<A>(S: Setoid<A>): Setoid<NonEmptyArray<A>> {
  *
  * @since 1.15.0
  */
-export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>> => {
+export const group = <A>(E: Eq<A>) => (as: Array<A>): Array<NonEmptyArray<A>> => {
   const len = as.length
   if (len === 0) {
     return A.empty
@@ -158,7 +166,7 @@ export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>
   let nea = fromNonEmptyArray([head])
   for (let i = 1; i < len; i++) {
     const x = as[i]
-    if (S.equals(x, head)) {
+    if (E.equals(x, head)) {
       nea.push(x)
     } else {
       r.push(nea)

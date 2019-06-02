@@ -6,7 +6,7 @@ import { Option, none, some } from './Option'
 import { Ord, max as maxOrd, min as minOrd } from './Ord'
 import { Plus, Plus1, Plus2, Plus2C, Plus3, Plus3C } from './Plus'
 import { Semiring } from './Semiring'
-import { Setoid } from './Setoid'
+import { Eq } from './Eq'
 import { Predicate, identity } from './function'
 import {
   Foldable,
@@ -420,29 +420,26 @@ export function product<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>)
  *
  * @example
  * import { elem } from 'fp-ts/lib/Foldable2v'
- * import { setoidNumber } from 'fp-ts/lib/Setoid'
+ * import { eqNumber } from 'fp-ts/lib/Eq'
  * import { Tree, tree } from 'fp-ts/lib/Tree'
  *
  * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
- * assert.strictEqual(elem(setoidNumber, tree)(2, t), true)
- * assert.strictEqual(elem(setoidNumber, tree)(5, t), false)
+ * assert.strictEqual(elem(eqNumber, tree)(2, t), true)
+ * assert.strictEqual(elem(eqNumber, tree)(5, t), false)
  *
  * @since 1.14.0
  */
-export function elem<F extends URIS3, A>(
-  S: Setoid<A>,
-  F: Foldable2v3<F>
-): <U, L>(a: A, fa: Type3<F, U, L, A>) => boolean
+export function elem<F extends URIS3, A>(E: Eq<A>, F: Foldable2v3<F>): <U, L>(a: A, fa: Type3<F, U, L, A>) => boolean
 export function elem<F extends URIS3, A, U, L>(
-  S: Setoid<A>,
+  E: Eq<A>,
   F: Foldable2v3C<F, U, L>
 ): (a: A, fa: Type3<F, U, L, A>) => boolean
-export function elem<F extends URIS2, A>(S: Setoid<A>, F: Foldable2v2<F>): <L>(a: A, fa: Type2<F, L, A>) => boolean
-export function elem<F extends URIS2, A, L>(S: Setoid<A>, F: Foldable2v2C<F, L>): (a: A, fa: Type2<F, L, A>) => boolean
-export function elem<F extends URIS, A>(S: Setoid<A>, F: Foldable2v1<F>): (a: A, fa: Type<F, A>) => boolean
-export function elem<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean
-export function elem<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean {
-  return (a, fa) => F.reduce<A, boolean>(fa, false, (b, x) => b || S.equals(x, a))
+export function elem<F extends URIS2, A>(E: Eq<A>, F: Foldable2v2<F>): <L>(a: A, fa: Type2<F, L, A>) => boolean
+export function elem<F extends URIS2, A, L>(E: Eq<A>, F: Foldable2v2C<F, L>): (a: A, fa: Type2<F, L, A>) => boolean
+export function elem<F extends URIS, A>(E: Eq<A>, F: Foldable2v1<F>): (a: A, fa: Type<F, A>) => boolean
+export function elem<F, A>(E: Eq<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean
+export function elem<F, A>(E: Eq<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean {
+  return (a, fa) => F.reduce<A, boolean>(fa, false, (b, x) => b || E.equals(x, a))
 }
 
 /**
@@ -610,26 +607,20 @@ export function traverse_<M, F>(
  * @since 1.10.0
  * @deprecated
  */
-export function member<F extends URIS3, A>(
-  S: Setoid<A>,
-  F: Foldable2v3<F>
-): <U, L>(a: A, fa: Type3<F, U, L, A>) => boolean
+export function member<F extends URIS3, A>(E: Eq<A>, F: Foldable2v3<F>): <U, L>(a: A, fa: Type3<F, U, L, A>) => boolean
 /** @deprecated */
 export function member<F extends URIS3, A, U, L>(
-  S: Setoid<A>,
+  E: Eq<A>,
   F: Foldable2v3C<F, U, L>
 ): (a: A, fa: Type3<F, U, L, A>) => boolean
 /** @deprecated */
-export function member<F extends URIS2, A>(S: Setoid<A>, F: Foldable2v2<F>): <L>(a: A, fa: Type2<F, L, A>) => boolean
+export function member<F extends URIS2, A>(E: Eq<A>, F: Foldable2v2<F>): <L>(a: A, fa: Type2<F, L, A>) => boolean
 /** @deprecated */
-export function member<F extends URIS2, A, L>(
-  S: Setoid<A>,
-  F: Foldable2v2C<F, L>
-): (a: A, fa: Type2<F, L, A>) => boolean
+export function member<F extends URIS2, A, L>(E: Eq<A>, F: Foldable2v2C<F, L>): (a: A, fa: Type2<F, L, A>) => boolean
 /** @deprecated */
-export function member<F extends URIS, A>(S: Setoid<A>, F: Foldable2v1<F>): (a: A, fa: Type<F, A>) => boolean
+export function member<F extends URIS, A>(E: Eq<A>, F: Foldable2v1<F>): (a: A, fa: Type<F, A>) => boolean
 /** @deprecated */
-export function member<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean
-export function member<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean {
-  return elem(S, F)
+export function member<F, A>(E: Eq<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean
+export function member<F, A>(E: Eq<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean {
+  return elem(E, F)
 }

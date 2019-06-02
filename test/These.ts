@@ -4,12 +4,12 @@ import { identity, pipeOp } from '../src/function'
 import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { semigroupString } from '../src/Semigroup'
-import { setoidNumber } from '../src/Setoid'
+import { eqNumber } from '../src/Eq'
 import {
   both,
   getMonad,
   getSemigroup,
-  getSetoid,
+  getEq,
   isBoth,
   right,
   these,
@@ -33,8 +33,8 @@ import * as E from '../src/Either'
 import { showString } from '../src/Show'
 
 describe('These', () => {
-  it('getSetoid', () => {
-    const { equals } = getSetoid(setoidNumber, setoidNumber)
+  it('getEq', () => {
+    const { equals } = getEq(eqNumber, eqNumber)
     assert.strictEqual(equals(left(2), left(2)), true)
     assert.strictEqual(equals(left(2), left(3)), false)
     assert.strictEqual(equals(left(3), left(2)), false)
@@ -101,7 +101,7 @@ describe('These', () => {
   })
 
   it('bimap', () => {
-    const { equals } = getSetoid(setoidNumber, setoidNumber)
+    const { equals } = getEq(eqNumber, eqNumber)
     const double = (n: number) => n * 2
     const len = (s: string) => s.length
     assert.strictEqual(equals(left('a').bimap(len, double), left(1)), true)

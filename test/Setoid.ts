@@ -13,6 +13,7 @@ import {
 
 describe('Setoid', () => {
   it('getTupleSetoid', () => {
+    // tslint:disable-next-line: deprecation
     const S = getTupleSetoid(setoidString, setoidNumber, setoidBoolean)
     assert.strictEqual(S.equals(['a', 1, true], ['a', 1, true]), true)
     assert.strictEqual(S.equals(['a', 1, true], ['b', 1, true]), false)
@@ -29,6 +30,7 @@ describe('Setoid', () => {
       x: number
     }
     let nbCall = 0
+    // tslint:disable-next-line: deprecation
     const S1 = fromEquals<A>((a, b) => {
       nbCall += 1
       return a.x === b.x
@@ -44,7 +46,9 @@ describe('Setoid', () => {
   it('getRecordSetoid', () => {
     // tslint:disable-next-line: deprecation
     const S = getRecordSetoid<Person>({
+      // tslint:disable-next-line: deprecation
       name: setoidString,
+      // tslint:disable-next-line: deprecation
       age: setoidNumber
     })
     assert.strictEqual(S.equals({ name: 'a', age: 1 }, { name: 'a', age: 1 }), true)
@@ -61,6 +65,7 @@ describe('Setoid', () => {
   })
 
   it('contramap', () => {
+    // tslint:disable-next-line: deprecation
     const S = contramap((p: Person) => p.name, setoidString)
     assert.strictEqual(S.equals({ name: 'a', age: 1 }, { name: 'a', age: 2 }), true)
     assert.strictEqual(S.equals({ name: 'a', age: 1 }, { name: 'a', age: 1 }), true)
@@ -69,8 +74,11 @@ describe('Setoid', () => {
   })
 
   it('setoidDate', () => {
+    // tslint:disable-next-line: deprecation
     assert.strictEqual(setoidDate.equals(new Date(0), new Date(0)), true)
+    // tslint:disable-next-line: deprecation
     assert.strictEqual(setoidDate.equals(new Date(0), new Date(1)), false)
+    // tslint:disable-next-line: deprecation
     assert.strictEqual(setoidDate.equals(new Date(1), new Date(0)), false)
   })
 })

@@ -142,6 +142,7 @@ sumLifted(some(1), none) // none
   - [filter (method)](#filter-method-1)
   - [refine (method)](#refine-method)
 - [URI (constant)](#uri-constant)
+- [~~getSetoid~~ (constant)](#getsetoid-constant)
 - [none (constant)](#none-constant)
 - [option (constant)](#option-constant)
 - [elem (function)](#elem-function)
@@ -153,6 +154,7 @@ sumLifted(some(1), none) // none
 - [~~fromRefinement~~ (function)](#fromrefinement-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
+- [getEq (function)](#geteq-function)
 - [getFirstMonoid (function)](#getfirstmonoid-function)
 - [getLastMonoid (function)](#getlastmonoid-function)
 - [getLeft (function)](#getleft-function)
@@ -161,7 +163,6 @@ sumLifted(some(1), none) // none
 - [getOrd (function)](#getord-function)
 - [getRefinement (function)](#getrefinement-function)
 - [getRight (function)](#getright-function)
-- [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
 - [isNone (function)](#isnone-function)
 - [isSome (function)](#issome-function)
@@ -472,7 +473,7 @@ Returns `true` if the option has an element that is equal (as determined by `S`)
 **Signature**
 
 ```ts
-contains(S: Setoid<A>, a: A): boolean { ... }
+contains(E: Eq<A>, a: A): boolean { ... }
 ```
 
 ## isNone (method)
@@ -683,7 +684,7 @@ toString(): string { ... }
 **Signature**
 
 ```ts
-contains(S: Setoid<A>, a: A): boolean { ... }
+contains(E: Eq<A>, a: A): boolean { ... }
 ```
 
 ## isNone (method)
@@ -735,6 +736,18 @@ refine<B extends A>(refinement: Refinement<A, B>): Option<B> { ... }
 export const URI = ...
 ```
 
+# ~~getSetoid~~ (constant)
+
+Use `getEq`
+
+**Signature**
+
+```ts
+export const getSetoid: <A>(E: Eq<A>) => Eq<Option<A>> = ...
+```
+
+Added in v1.0.0
+
 # none (constant)
 
 **Signature**
@@ -768,7 +781,7 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export function elem<A>(S: Setoid<A>): (a: A) => (ma: Option<A>) => boolean { ... }
+export function elem<A>(E: Eq<A>): (a: A) => (ma: Option<A>) => boolean { ... }
 ```
 
 Added in v1.19.0
@@ -915,6 +928,30 @@ assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
 ```
 
 Added in v1.7.0
+
+# getEq (function)
+
+**Signature**
+
+```ts
+export function getEq<A>(E: Eq<A>): Eq<Option<A>> { ... }
+```
+
+**Example**
+
+```ts
+import { none, some, getEq } from 'fp-ts/lib/Option'
+import { eqNumber } from 'fp-ts/lib/Eq'
+
+const S = getEq(eqNumber)
+assert.strictEqual(S.equals(none, none), true)
+assert.strictEqual(S.equals(none, some(1)), false)
+assert.strictEqual(S.equals(some(1), none), false)
+assert.strictEqual(S.equals(some(1), some(2)), false)
+assert.strictEqual(S.equals(some(1), some(1)), true)
+```
+
+Added in v1.19.0
 
 # getFirstMonoid (function)
 
@@ -1098,30 +1135,6 @@ export function getRight<L, A>(ma: Either<L, A>): Option<A> { ... }
 ```
 
 Added in v1.19.0
-
-# getSetoid (function)
-
-**Signature**
-
-```ts
-export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => ...
-```
-
-**Example**
-
-```ts
-import { none, some, getSetoid } from 'fp-ts/lib/Option'
-import { setoidNumber } from 'fp-ts/lib/Setoid'
-
-const S = getSetoid(setoidNumber)
-assert.strictEqual(S.equals(none, none), true)
-assert.strictEqual(S.equals(none, some(1)), false)
-assert.strictEqual(S.equals(some(1), none), false)
-assert.strictEqual(S.equals(some(1), some(2)), false)
-assert.strictEqual(S.equals(some(1), some(1)), true)
-```
-
-Added in v1.0.0
 
 # getShow (function)
 

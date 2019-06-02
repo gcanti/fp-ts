@@ -7,11 +7,11 @@ import * as I from '../src/Identity'
 import { monoidString } from '../src/Monoid'
 import { none, Option, option, some } from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
-import { setoidNumber } from '../src/Setoid'
+import { eqNumber } from '../src/Eq'
 import {
   fromFoldable,
   getMonoid,
-  getSetoid,
+  getEq,
   insert,
   isEmpty,
   lookup,
@@ -101,10 +101,10 @@ describe('StrMap', () => {
     assert.deepStrictEqual(sequence(x2), old(x2))
   })
 
-  it('getSetoid', () => {
-    assert.strictEqual(getSetoid(setoidNumber).equals(new StrMap({ a: 1 }), new StrMap({ a: 1 })), true)
-    assert.strictEqual(getSetoid(setoidNumber).equals(new StrMap({ a: 1 }), new StrMap({ a: 2 })), false)
-    assert.strictEqual(getSetoid(setoidNumber).equals(new StrMap({ a: 1 }), new StrMap({ b: 1 })), false)
+  it('getEq', () => {
+    assert.strictEqual(getEq(eqNumber).equals(new StrMap({ a: 1 }), new StrMap({ a: 1 })), true)
+    assert.strictEqual(getEq(eqNumber).equals(new StrMap({ a: 1 }), new StrMap({ a: 2 })), false)
+    assert.strictEqual(getEq(eqNumber).equals(new StrMap({ a: 1 }), new StrMap({ b: 1 })), false)
   })
 
   it('lookup', () => {
@@ -305,7 +305,7 @@ describe('StrMap', () => {
   })
 
   it('isSubdictionary', () => {
-    assert.strictEqual(isSubdictionary(setoidNumber)(new StrMap({ a: 1 }), new StrMap({ a: 1, b: 2 })), true)
+    assert.strictEqual(isSubdictionary(eqNumber)(new StrMap({ a: 1 }), new StrMap({ a: 1, b: 2 })), true)
   })
 
   it('collect', () => {
@@ -343,8 +343,8 @@ describe('StrMap', () => {
 
   it('elem', () => {
     const x = new StrMap({ a: 1, b: 2 })
-    assert.strictEqual(elem(setoidNumber)(1, x), true)
-    assert.strictEqual(elem(setoidNumber)(3, x), false)
+    assert.strictEqual(elem(eqNumber)(1, x), true)
+    assert.strictEqual(elem(eqNumber)(3, x), false)
   })
 
   it('getShow', () => {

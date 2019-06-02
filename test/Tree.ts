@@ -3,9 +3,9 @@ import * as F from '../src/Foldable'
 import { identity } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString } from '../src/Monoid'
-import { setoidNumber, Setoid, contramap } from '../src/Setoid'
+import { eqNumber, Eq, contramap } from '../src/Eq'
 import * as T from '../src/Traversable'
-import { drawTree, getSetoid, Tree, tree, unfoldTree, unfoldTreeM, elem, getShow, make } from '../src/Tree'
+import { drawTree, getEq, Tree, tree, unfoldTree, unfoldTreeM, elem, getShow, make } from '../src/Tree'
 import { showString } from '../src/Show'
 
 describe('Tree', () => {
@@ -148,8 +148,8 @@ describe('Tree', () => {
     assert.strictEqual(fa.inspect(), expected)
   })
 
-  it('getSetoid', () => {
-    const S = getSetoid(setoidNumber)
+  it('getEq', () => {
+    const S = getEq(eqNumber)
     const x = new Tree(1, [new Tree(2, [])])
     const y = new Tree(2, [new Tree(2, [])])
     const z = new Tree(1, [new Tree(1, [])])
@@ -174,14 +174,14 @@ describe('Tree', () => {
     interface User {
       id: number
     }
-    const S: Setoid<User> = contramap((user: User) => user.id, setoidNumber)
+    const E: Eq<User> = contramap(eqNumber, (user: User) => user.id)
     const users = new Tree({ id: 1 }, [
       new Tree({ id: 1 }, [new Tree({ id: 3 }, []), new Tree({ id: 4 }, [])]),
       new Tree({ id: 2 }, [])
     ])
-    assert.strictEqual(elem(S)({ id: 1 }, users), true)
-    assert.strictEqual(elem(S)({ id: 4 }, users), true)
-    assert.strictEqual(elem(S)({ id: 5 }, users), false)
+    assert.strictEqual(elem(E)({ id: 1 }, users), true)
+    assert.strictEqual(elem(E)({ id: 4 }, users), true)
+    assert.strictEqual(elem(E)({ id: 5 }, users), false)
   })
 
   it('getShow', () => {
