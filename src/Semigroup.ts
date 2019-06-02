@@ -147,7 +147,8 @@ export const semigroupAny: Semigroup<boolean> = {
 }
 
 /**
- * Use `Monoid`'s `getArrayMonoid` instead
+ * Use `Array`'s `getMonoid`
+ *
  * @since 1.0.0
  * @deprecated
  */

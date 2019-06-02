@@ -130,7 +130,7 @@ Added in v1.0.0
 
 # ~~getArraySemigroup~~ (function)
 
-Use `Monoid`'s `getArrayMonoid` instead
+Use `Array`'s `getMonoid`
 
 **Signature**
 

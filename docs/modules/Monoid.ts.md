@@ -17,7 +17,7 @@ parent: Modules
 - [monoidVoid (constant)](#monoidvoid-constant)
 - [unsafeMonoidArray (constant)](#unsafemonoidarray-constant)
 - [fold (function)](#fold-function)
-- [getArrayMonoid (function)](#getarraymonoid-function)
+- [~~getArrayMonoid~~ (function)](#getarraymonoid-function)
 - [~~getDictionaryMonoid~~ (function)](#getdictionarymonoid-function)
 - [getDualMonoid (function)](#getdualmonoid-function)
 - [getEndomorphismMonoid (function)](#getendomorphismmonoid-function)
@@ -131,9 +131,9 @@ export const fold = <A>(M: Monoid<A>): ((as: Array<A>) => A) => ...
 
 Added in v1.0.0
 
-# getArrayMonoid (function)
+# ~~getArrayMonoid~~ (function)
 
-`Monoid` under array concatenation
+Use `Array`'s `getMonoid`
 
 **Signature**
 

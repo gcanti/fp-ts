@@ -48,6 +48,7 @@ describe('Monoid', () => {
   })
 
   it('getArrayMonoid', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(getArrayMonoid<number>().concat([1], [2]), [1, 2])
   })
 

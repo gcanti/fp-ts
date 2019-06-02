@@ -3,7 +3,8 @@ import { left, right } from '../src/Either'
 import * as F from '../src/Foldable'
 import { identity } from '../src/function'
 import * as I from '../src/Identity'
-import { monoidString, monoidSum, getArrayMonoid } from '../src/Monoid'
+import * as A from '../src/Array'
+import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, Option, some } from '../src/Option'
 import { semigroupString } from '../src/Semigroup'
 import { eqNumber, eqString } from '../src/Eq'
@@ -110,7 +111,7 @@ describe('Validation', () => {
   })
 
   it('getAlt', () => {
-    const alt = getAlt(getArrayMonoid<number>())
+    const alt = getAlt(A.getMonoid<number>())
     assert.deepStrictEqual(alt.alt(failure([1]), success('a')), success('a'))
     assert.deepStrictEqual(alt.alt(success('a'), failure([1])), success('a'))
     assert.deepStrictEqual(alt.alt(failure([1]), failure([2])), failure([1, 2]))
