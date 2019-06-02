@@ -1,7 +1,8 @@
 import { Comonad2 } from './Comonad'
-import { Functor, Functor2, Functor3 } from './Functor'
-import { HKT, HKT2, HKT3, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Endomorphism, toString } from './function'
+import { Functor, Functor1, Functor2, Functor2C, Functor3 } from './Functor'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -34,24 +35,14 @@ export class Store<S, A> {
   extend<B>(f: (sa: Store<S, A>) => B): Store<S, B> {
     return new Store(s => f(this.seek(s)), this.pos)
   }
+  /* istanbul ignore next */
   inspect(): string {
     return this.toString()
   }
+  /* istanbul ignore next */
   toString(): string {
     return `new Store(${toString(this.peek)}, ${toString(this.pos)})`
   }
-}
-
-const map = <S, A, B>(sa: Store<S, A>, f: (a: A) => B): Store<S, B> => {
-  return sa.map(f)
-}
-
-const extract = <S, A>(sa: Store<S, A>): A => {
-  return sa.extract()
-}
-
-const extend = <S, A, B>(sa: Store<S, A>, f: (sa: Store<S, A>) => B): Store<S, B> => {
-  return sa.extend(f)
 }
 
 /**
@@ -59,8 +50,8 @@ const extend = <S, A, B>(sa: Store<S, A>, f: (sa: Store<S, A>) => B): Store<S, B
  *
  * @since 1.0.0
  */
-export const peeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (s: S): A => {
-  return sa.peek(f(sa.pos))
+export function peeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => A {
+  return wa => wa.peek(f(wa.pos))
 }
 
 /**
@@ -79,16 +70,19 @@ export const seeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>): Store<S, A
  */
 export function experiment<F extends URIS3>(
   F: Functor3<F>
-): <U, L, S>(f: (s: S) => HKT3<F, U, L, S>) => <A>(sa: Store<S, A>) => Type3<F, U, L, A>
+): <U, L, S>(f: (s: S) => Type3<F, U, L, S>) => <A>(wa: Store<S, A>) => Type3<F, U, L, A>
 export function experiment<F extends URIS2>(
   F: Functor2<F>
-): <L, S>(f: (s: S) => HKT2<F, L, S>) => <A>(sa: Store<S, A>) => Type2<F, L, A>
+): <L, S>(f: (s: S) => Type2<F, L, S>) => <A>(wa: Store<S, A>) => Type2<F, L, A>
+export function experiment<F extends URIS2, L>(
+  F: Functor2C<F, L>
+): <S>(f: (s: S) => Type2<F, L, S>) => <A>(wa: Store<S, A>) => Type2<F, L, A>
 export function experiment<F extends URIS>(
-  F: Functor<F>
-): <S>(f: (s: S) => HKT<F, S>) => <A>(sa: Store<S, A>) => Type<F, A>
-export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(sa: Store<S, A>) => HKT<F, A>
-export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(sa: Store<S, A>) => HKT<F, A> {
-  return f => sa => F.map(f(sa.pos), s => sa.peek(s))
+  F: Functor1<F>
+): <S>(f: (s: S) => Type<F, S>) => <A>(wa: Store<S, A>) => Type<F, A>
+export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A>
+export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A> {
+  return f => wa => F.map(f(wa.pos), s => wa.peek(s))
 }
 
 /**
@@ -96,7 +90,24 @@ export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>
  */
 export const store: Comonad2<URI> = {
   URI,
-  map,
-  extract,
-  extend
+  map: (fa, f) => fa.map(f),
+  extract: wa => wa.extract(),
+  extend: (wa, f) => wa.extend(f)
 }
+
+//
+// backporting
+//
+
+/**
+ * Reposition the focus at the specified position
+ *
+ * @since 1.19.0
+ */
+export function seek<S>(s: S): <A>(wa: Store<S, A>) => Store<S, A> {
+  return wa => new Store(wa.peek, s)
+}
+
+const { duplicate, extend, map } = pipeable(store)
+
+export { duplicate, extend, map }
