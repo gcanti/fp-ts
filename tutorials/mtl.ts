@@ -3,9 +3,9 @@ import { flatten } from '../src/Chain'
 import { HKT, Type, Type3, URIS, URIS3 } from '../src/HKT'
 import { IO, io, URI as IOURI } from '../src/IO'
 import { Monad, Monad1, Monad3C } from '../src/Monad'
-import { readerTaskEither, right, URI as ReaderTaskEitherURI, ReaderTaskEither } from '../src/ReaderTaskEither'
-import { delay, task, URI as TaskURI } from '../src/Task'
-import { right as taskEitherRight, fromLeft } from '../src/TaskEither'
+import * as RTE from '../src/ReaderTaskEither'
+import { delay2v, task, URI as TaskURI } from '../src/Task'
+import * as TE from '../src/TaskEither'
 
 // Adapted from https://tech.iheart.com/why-fp-its-the-composition-f585d17b01d3
 
@@ -86,13 +86,13 @@ console.log('IO', likePost(monadAppIO)('session123')('https://me.com/1').run())
 // Task
 
 const monadUserTask: MonadUser1<TaskURI> = {
-  validateUser: token => delay(1000, `string(${token})`),
-  facebookToken: uid => delay(500, `FBToken(${uid})`)
+  validateUser: token => delay2v(1000, task.of(`string(${token})`)),
+  facebookToken: uid => delay2v(500, task.of(`FBToken(${uid})`))
 }
 
 const monadFBTask: MonadFB1<TaskURI> = {
-  findPost: url => delay(2000, `FBPost(${url})`),
-  sendLike: token => (post: string) => delay(1000, true)
+  findPost: url => delay2v(2000, task.of(`FBPost(${url})`)),
+  sendLike: token => (post: string) => delay2v(1000, task.of(true))
 }
 
 const monadAppTask: MonadApp1<TaskURI> = {
@@ -124,21 +124,21 @@ interface MonadApp3C<M extends URIS3, U, L> extends MonadUser3C<M, U, L>, MonadF
 
 type Env = { error: boolean }
 
-const monadUserReaderTaskEither: MonadUser3C<ReaderTaskEitherURI, Env, Error> = {
+const monadUserReaderTaskEither: MonadUser3C<RTE.URI, Env, Error> = {
   validateUser: token =>
-    new ReaderTaskEither(
-      e => (e.error ? fromLeft(new Error('validateUser error')) : taskEitherRight(monadUserTask.validateUser(token)))
+    new RTE.ReaderTaskEither(e =>
+      e.error ? TE.left2v(new Error('validateUser error')) : TE.rightTask(monadUserTask.validateUser(token))
     ),
-  facebookToken: uid => right(monadUserTask.facebookToken(uid))
+  facebookToken: uid => RTE.rightTask(monadUserTask.facebookToken(uid))
 }
 
-const monadFBReaderTaskEither: MonadFB3C<ReaderTaskEitherURI, Env, Error> = {
-  findPost: url => right(monadFBTask.findPost(url)),
-  sendLike: token => (post: string) => right(monadFBTask.sendLike(token)(post))
+const monadFBReaderTaskEither: MonadFB3C<RTE.URI, Env, Error> = {
+  findPost: url => RTE.rightTask(monadFBTask.findPost(url)),
+  sendLike: token => (post: string) => RTE.rightTask(monadFBTask.sendLike(token)(post))
 }
 
-const monadAppReaderTaskEither: MonadApp3C<ReaderTaskEitherURI, Env, Error> = {
-  ...((readerTaskEither as any) as Monad3C<ReaderTaskEitherURI, Env, Error>),
+const monadAppReaderTaskEither: MonadApp3C<RTE.URI, Env, Error> = {
+  ...((RTE.readerTaskEither as any) as Monad3C<RTE.URI, Env, Error>),
   ...monadUserReaderTaskEither,
   ...monadFBReaderTaskEither
 }
