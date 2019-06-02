@@ -26,6 +26,7 @@ Adapted from https://github.com/purescript/purescript-tuples
   - [toTuple (method)](#totuple-method)
 - [URI (constant)](#uri-constant)
 - [tuple (constant)](#tuple-constant)
+- [fst (function)](#fst-function)
 - [getApplicative (function)](#getapplicative-function)
 - [getApply (function)](#getapply-function)
 - [getChain (function)](#getchain-function)
@@ -36,6 +37,8 @@ Adapted from https://github.com/purescript/purescript-tuples
 - [getSemigroup (function)](#getsemigroup-function)
 - [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
+- [snd (function)](#snd-function)
+- [swap (function)](#swap-function)
 
 ---
 
@@ -160,6 +163,16 @@ export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Folda
 
 Added in v1.0.0
 
+# fst (function)
+
+**Signature**
+
+```ts
+export function fst<L, A>(fa: Tuple<L, A>): L { ... }
+```
+
+Added in v1.19.0
+
 # getApplicative (function)
 
 **Signature**
@@ -262,3 +275,23 @@ export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Tuple<L, A>> => ..
 ```
 
 Added in v1.17.0
+
+# snd (function)
+
+**Signature**
+
+```ts
+export function snd<L, A>(fa: Tuple<L, A>): A { ... }
+```
+
+Added in v1.19.0
+
+# swap (function)
+
+**Signature**
+
+```ts
+export function swap<L, A>(sa: Tuple<L, A>): Tuple<A, L> { ... }
+```
+
+Added in v1.19.0

@@ -35,6 +35,7 @@ type Forest<A> = Array<Tree<A>>
 - [elem (function)](#elem-function)
 - [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
+- [make (function)](#make-function)
 - [unfoldForest (function)](#unfoldforest-function)
 - [unfoldForestM (function)](#unfoldforestm-function)
 - [unfoldTree (function)](#unfoldtree-function)
@@ -232,10 +233,20 @@ Added in v1.6.0
 **Signature**
 
 ```ts
-export const getShow = <A>(S: Show<A>): Show<Tree<A>> => ...
+export function getShow<A>(S: Show<A>): Show<Tree<A>> { ... }
 ```
 
 Added in v1.17.0
+
+# make (function)
+
+**Signature**
+
+```ts
+export function make<A>(a: A, forest: Forest<A> = empty): Tree<A> { ... }
+```
+
+Added in v1.19.0
 
 # unfoldForest (function)
 
