@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 43
+nav_order: 44
 parent: Modules
 ---
 
@@ -33,6 +33,7 @@ parent: Modules
 - [distributiveLattice (export)](#distributivelattice-export)
 - [either (export)](#either-export)
 - [eitherT (export)](#eithert-export)
+- [eq (export)](#eq-export)
 - [exception (export)](#exception-export)
 - [extend (export)](#extend-export)
 - [field (export)](#field-export)
@@ -310,6 +311,14 @@ export { either }
 
 ```ts
 export { eitherT }
+```
+
+# eq (export)
+
+**Signature**
+
+```ts
+export { eq }
 ```
 
 # exception (export)

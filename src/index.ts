@@ -46,6 +46,8 @@ import * as either from './Either'
 export { either }
 import * as eitherT from './EitherT'
 export { eitherT }
+import * as eq from './Eq'
+export { eq }
 import * as exception from './Exception'
 export { exception }
 import * as extend from './Extend'
