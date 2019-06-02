@@ -10,7 +10,6 @@ has_toc: false
 If you are coming from JavaScript:
 
 - read [Mostly adequate guide to FP](https://github.com/MostlyAdequate/mostly-adequate-guide) by [@DrBoolean](https://github.com/DrBoolean)
-- read this [blog series](http://www.tomharding.me/2017/03/03/fantas-eel-and-specification) on functional programming in JavaScript by Tom Harding, and then check out [the code](//github.com/gcanti/fp-ts/tree/master/fantas-eel-and-specification) translated to TypeScript (there's a file for each blog post)
 
 If you are using Ramda:
 
