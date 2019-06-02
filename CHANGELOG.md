@@ -14,6 +14,90 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.19.0
+
+The goal of this release is to make the migration to v2 easier.
+
+Since in v2 data types are no more implemented with classes, chainable APIs are deprecated.
+
+As an alternative, a `pipeOp` function is provided, along with suitable data-last top level functions (one for each deprecated method).
+
+**Example**
+
+Before
+
+```ts
+import * as O from 'fp-ts/lib/Option'
+
+O.some(1)
+  .map(n => n * 2)
+  .chain(n === 0 ? O.none : O.some(1 / n))
+  .filter(n => n > 1)
+  .foldL(() => 'ko', () => 'ok')
+```
+
+After
+
+```ts
+import * as O from 'fp-ts/lib/Option'
+import { pipeOp } from 'fp-ts/lib/function'
+
+pipeOp(
+  O.some(1),
+  O.map(n => n * 2),
+  O.chain(n === 0 ? O.none : O.some(1 / n)),
+  O.filter(n => n > 1),
+  O.fold(() => 'ko', () => 'ok')
+)
+```
+
+- **New Feature**
+  - add `Eq` module (gcanti)
+  - backport top level data-last functions from v2 (@gcanti)
+  - backport `pipeable` module form v2 (@gcanti)
+  - backport `pipeOp` function form v2 (@gcanti)
+- **Deprecations**
+  - deprecate `Setoid` in favour of `Eq` (@gcanti)
+  - `Const`
+    - deprecate `Const` constructor in favour of `make` (@gcanti)
+  - `Either`
+    - deprecate `getCompactable`, `getFilterable` in favour of `getWitherable` (@gcanti)
+  - `IOEither`
+    - deprecate `right` in favour of `rightIO` (@gcanti)
+    - deprecate `left` in favour of `leftIO` (@gcanti)
+    - deprecate `fromLeft` in favour of `left2v` (@gcanti)
+    - add `right2v` (@gcanti)
+  - `ReaderTaskEither`
+    - deprecate `right` in favour of `rightTask` (@gcanti)
+    - deprecate `left` in favour of `leftTask` (@gcanti)
+    - deprecate `fromReader` in favour of `rightReader` (@gcanti)
+    - deprecate `fromIO` in favour of `rightIO` (@gcanti)
+    - deprecate `fromLeft` in favour of `left2v` (@gcanti)
+    - add `right2v` (@gcanti)
+  - `Task`
+    - deprecate `delay` in favour of `delay2v` (@gcanti)
+  - `TaskEither`
+    - deprecate `right` in favour of `rightTask` (@gcanti)
+    - deprecate `left` in favour of `leftTask` (@gcanti)
+    - deprecate `fromIO` in favour of `rightIO` (@gcanti)
+    - deprecate `fromLeft` in favour of `left2v` (@gcanti)
+    - add `right2v` (@gcanti)
+  - `These`
+    - deprecate `this_` in favour of `left` (@gcanti)
+    - deprecate `that` in favour of `right` (@gcanti)
+    - deprecate `fromThese` in favour of `toTuple` (@gcanti)
+    - deprecate `theseLeft` in favour of `getLeft` (@gcanti)
+    - deprecate `theseRight` in favour of `getRight` (@gcanti)
+    - deprecate `isThis` in favour of `isLeft` (@gcanti)
+    - deprecate `isThat` in favour of `isRight` (@gcanti)
+    - deprecate `thisOrBoth` in favour of `leftOrBoth` (@gcanti)
+    - deprecate `thatOrBoth` in favour of `rightOrBoth` (@gcanti)
+    - deprecate `theseThis` in favour of `getLeftOnly` (@gcanti)
+    - deprecate `theseThat` in favour of `getRightOnly` (@gcanti)
+  - `Writer`
+    - deprecate `listens` in favour of `listens2v` (@gcanti)
+    - deprecate `censor` in favour of `censor2v` (@gcanti)
+
 # 1.18.2
 
 - **Polish**
