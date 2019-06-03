@@ -342,6 +342,7 @@ export class NonEmptyArray<A> {
   findFirst<B extends A>(refinement: Refinement<A, B>): Option<B>
   findFirst(predicate: Predicate<A>): Option<A>
   findFirst(predicate: Predicate<A>): Option<A> {
+    // tslint:disable-next-line: deprecation
     return predicate(this.head) ? some(this.head) : arrayFindFirst(this.tail, predicate)
   }
   /**
@@ -358,6 +359,7 @@ export class NonEmptyArray<A> {
   findLast<B extends A>(predicate: Refinement<A, B>): Option<B>
   findLast(predicate: Predicate<A>): Option<A>
   findLast(predicate: Predicate<A>): Option<A> {
+    // tslint:disable-next-line: deprecation
     const a = arrayFindLast(this.tail, predicate)
     return a.isSome() ? a : predicate(this.head) ? some(this.head) : none
   }
@@ -378,6 +380,7 @@ export class NonEmptyArray<A> {
     if (predicate(this.head)) {
       return some(0)
     } else {
+      // tslint:disable-next-line: deprecation
       const i = arrayFindIndex(this.tail, predicate)
       return i.isSome() ? some(i.value + 1) : none
     }
@@ -401,6 +404,7 @@ export class NonEmptyArray<A> {
    * @since 1.11.0
    */
   findLastIndex(predicate: Predicate<A>): Option<number> {
+    // tslint:disable-next-line: deprecation
     const i = arrayFindLastIndex(this.tail, predicate)
     return i.isSome() ? some(i.value + 1) : predicate(this.head) ? some(0) : none
   }
@@ -420,6 +424,7 @@ export class NonEmptyArray<A> {
     if (i === 0) {
       return some(new NonEmptyArray(a, this.toArray()))
     } else {
+      // tslint:disable-next-line: deprecation
       const t = arrayInsertAt(i - 1, a, this.tail)
       return t.isSome() ? some(new NonEmptyArray(this.head, t.value)) : none
     }
@@ -442,6 +447,7 @@ export class NonEmptyArray<A> {
     if (i === 0) {
       return this.head === a ? some(this) : some(new NonEmptyArray(a, this.tail))
     } else {
+      // tslint:disable-next-line: deprecation
       const t = arrayUpdateAt(i - 1, a, this.tail)
       return t.isSome() ? (t.value === this.tail ? some(this) : some(new NonEmptyArray(this.head, t.value))) : none
     }

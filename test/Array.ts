@@ -3,31 +3,46 @@ import * as fc from 'fast-check'
 import {
   array,
   catOptions,
+  chop,
+  chunksOf,
+  comprehension,
   cons,
   copy,
   deleteAt,
-  drop,
-  dropWhile,
+  difference,
+  filter,
   findFirst,
+  findFirstMap,
   findIndex,
   findLast,
+  findLastIndex,
+  findLastMap,
   flatten,
   fold,
-  foldL,
+  foldLeft,
+  foldr,
+  foldRight,
+  getEq,
   getMonoid,
   getOrd,
+  getShow,
   head,
   index,
   init,
   insertAt,
+  intersection,
   isEmpty,
   last,
   lefts,
+  makeBy,
   mapOption,
   member,
   modifyAt,
+  partition,
   partitionMap,
+  range,
   refine,
+  replicate,
   reverse,
   rights,
   rotate,
@@ -37,46 +52,34 @@ import {
   sort,
   sortBy,
   sortBy1,
-  span,
   tail,
-  take,
-  takeWhile,
+  takeLeft,
+  takeRight,
+  traverse,
+  union,
   uniq,
+  unsafeUpdateAt,
+  unzip,
   updateAt,
   zip,
-  unzip,
-  foldrL,
-  foldr,
-  chop,
-  chunksOf,
-  split,
-  takeEnd,
-  dropEnd,
-  range,
-  makeBy,
-  replicate,
-  findLastIndex,
   zipWith,
-  comprehension,
-  union,
-  intersection,
-  difference,
-  unsafeUpdateAt,
-  findFirstMap,
-  findLastMap,
-  getShow,
-  isNonEmpty,
-  getEq
+  takeLeftWhile,
+  spanLeft,
+  dropLeft,
+  dropRight,
+  dropLeftWhile,
+  splitAt,
+  isNonEmpty
 } from '../src/Array'
-import { left, right } from '../src/Either'
-import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
-import { option, Option, none, some, isSome, getEq as getOptionEq, fromPredicate } from '../src/Option'
-import { contramap as contramapOrd, ordNumber, ordString } from '../src/Ord'
-import { contramap, eqBoolean, eqNumber, eqString, Eq } from '../src/Eq'
-import { identity, tuple, constTrue, Predicate } from '../src/function'
-import * as I from '../src/Identity'
-import * as F from '../src/Foldable'
 import * as C from '../src/Const'
+import { Either, left, right } from '../src/Either'
+import { contramap, Eq, eqBoolean, eqNumber, eqString } from '../src/Eq'
+import * as F from '../src/Foldable'
+import { constTrue, identity, Predicate, tuple } from '../src/function'
+import * as I from '../src/Identity'
+import { fold as foldMonoid, monoidString, monoidSum } from '../src/Monoid'
+import { fromPredicate, getEq as getOptionEq, none, option, Option, some } from '../src/Option'
+import { contramap as contramapOrd, ordNumber, ordString } from '../src/Ord'
 import { showString } from '../src/Show'
 
 const p = (n: number) => n > 2
@@ -135,10 +138,12 @@ describe('Array', () => {
   it('traverse', () => {
     const tfanone = [1, 2]
     const f = (n: number): Option<number> => (n % 2 === 0 ? none : some(n))
-    const fasnone = array.traverse(option)(tfanone, f)
+    // tslint:disable-next-line: deprecation
+    const fasnone = traverse(option)(tfanone, f)
     assert.ok(fasnone.isNone())
     const tfa = [1, 3]
-    const fas = array.traverse(option)(tfa, f)
+    // tslint:disable-next-line: deprecation
+    const fas = traverse(option)(tfa, f)
     assert.deepStrictEqual(fas, some([1, 3]))
   })
 
@@ -194,55 +199,55 @@ describe('Array', () => {
     assert.deepStrictEqual(tail([]), none)
   })
 
-  it('take', () => {
-    assert.deepStrictEqual(take(2, []), [])
-    assert.deepStrictEqual(take(2, [1, 2, 3]), [1, 2])
-    assert.deepStrictEqual(take(0, [1, 2, 3]), [])
+  it('takeLeft', () => {
+    assert.deepStrictEqual(takeLeft(2)([]), [])
+    assert.deepStrictEqual(takeLeft(2)([1, 2, 3]), [1, 2])
+    assert.deepStrictEqual(takeLeft(0)([1, 2, 3]), [])
   })
 
-  it('takeEnd', () => {
-    assert.deepStrictEqual(takeEnd(2, [1, 2, 3, 4, 5]), [4, 5])
-    assert.deepStrictEqual(takeEnd(0, [1, 2, 3, 4, 5]), [])
-    assert.deepStrictEqual(takeEnd(2, []), [])
-    assert.deepStrictEqual(takeEnd(5, [1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
-    assert.deepStrictEqual(takeEnd(10, [1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+  it('takeRight', () => {
+    assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
+    assert.deepStrictEqual(takeRight(0)([1, 2, 3, 4, 5]), [])
+    assert.deepStrictEqual(takeRight(2)([]), [])
+    assert.deepStrictEqual(takeRight(5)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    assert.deepStrictEqual(takeRight(10)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
   })
 
-  it('span', () => {
-    assert.deepStrictEqual(span([1, 3, 2, 4, 5], n => n % 2 === 1), { init: [1, 3], rest: [2, 4, 5] })
+  it('spanLeft', () => {
+    assert.deepStrictEqual(spanLeft((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
 
     // refinements
     const xs: Array<string | number> = [1, 'a', 3]
     const isNumber = (u: string | number): u is number => typeof u === 'number'
-    const actual = span(xs, isNumber)
+    const actual = spanLeft(isNumber)(xs)
     assert.deepStrictEqual(actual, { init: [1], rest: ['a', 3] })
   })
 
-  it('takeWhile', () => {
-    assert.deepStrictEqual(takeWhile([2, 4, 3, 6], n => n % 2 === 0), [2, 4])
-    assert.deepStrictEqual(takeWhile([], n => n % 2 === 0), [])
-    assert.deepStrictEqual(takeWhile([1, 2, 4], n => n % 2 === 0), [])
-    assert.deepStrictEqual(takeWhile([2, 4], n => n % 2 === 0), [2, 4])
+  it('takeLeftWhile', () => {
+    assert.deepStrictEqual(takeLeftWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), [2, 4])
+    assert.deepStrictEqual(takeLeftWhile((n: number) => n % 2 === 0)([]), [])
+    assert.deepStrictEqual(takeLeftWhile((n: number) => n % 2 === 0)([1, 2, 4]), [])
+    assert.deepStrictEqual(takeLeftWhile((n: number) => n % 2 === 0)([2, 4]), [2, 4])
   })
 
-  it('drop', () => {
-    assert.deepStrictEqual(drop(2, [1, 2, 3]), [3])
-    assert.deepStrictEqual(drop(10, [1, 2, 3]), [])
-    assert.deepStrictEqual(drop(0, [1, 2, 3]), [1, 2, 3])
+  it('dropLeft', () => {
+    assert.deepStrictEqual(dropLeft(2)([1, 2, 3]), [3])
+    assert.deepStrictEqual(dropLeft(10)([1, 2, 3]), [])
+    assert.deepStrictEqual(dropLeft(0)([1, 2, 3]), [1, 2, 3])
   })
 
-  it('dropEnd', () => {
-    assert.deepStrictEqual(dropEnd(2, [1, 2, 3, 4, 5]), [1, 2, 3])
-    assert.deepStrictEqual(dropEnd(10, [1, 2, 3, 4, 5]), [])
-    assert.deepStrictEqual(dropEnd(0, [1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+  it('dropRight', () => {
+    assert.deepStrictEqual(dropRight(2)([1, 2, 3, 4, 5]), [1, 2, 3])
+    assert.deepStrictEqual(dropRight(10)([1, 2, 3, 4, 5]), [])
+    assert.deepStrictEqual(dropRight(0)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
   })
 
-  it('dropWhile', () => {
-    assert.deepStrictEqual(dropWhile([1, 3, 2, 4, 5], n => n % 2 === 0), [1, 3, 2, 4, 5])
-    assert.deepStrictEqual(dropWhile([1, 3, 2, 4, 5], n => n % 2 === 1), [2, 4, 5])
-    assert.deepStrictEqual(dropWhile([], n => n % 2 === 0), [])
-    assert.deepStrictEqual(dropWhile([2, 4, 1], n => n % 2 === 0), [1])
-    assert.deepStrictEqual(dropWhile([2, 4], n => n % 2 === 0), [])
+  it('dropLeftWhile', () => {
+    assert.deepStrictEqual(dropLeftWhile((n: number) => n % 2 === 0)([1, 3, 2, 4, 5]), [1, 3, 2, 4, 5])
+    assert.deepStrictEqual(dropLeftWhile((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), [2, 4, 5])
+    assert.deepStrictEqual(dropLeftWhile((n: number) => n % 2 === 0)([]), [])
+    assert.deepStrictEqual(dropLeftWhile((n: number) => n % 2 === 0)([2, 4, 1]), [1])
+    assert.deepStrictEqual(dropLeftWhile((n: number) => n % 2 === 0)([2, 4]), [])
   })
 
   it('init', () => {
@@ -251,29 +256,26 @@ describe('Array', () => {
   })
 
   it('findIndex', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(findIndex([1, 2, 3], x => x === 2), some(1))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(findIndex([], x => x === 2), none)
+
+    assert.deepStrictEqual(findIndex(x => x === 2)([1, 2, 3]), some(1))
+    assert.deepStrictEqual(findIndex(x => x === 2)([]), none)
   })
 
   it('findFirst', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(findFirst([], x => x === 2), none)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(findFirst([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 1 }))
-    interface A {
-      type: 'A'
-      a: number
-    }
 
-    interface B {
-      type: 'B'
-    }
-
-    type AOrB = A | B
-    const isA = (x: AOrB): x is A => x.type === 'A'
-    const xs1: Array<AOrB> = [{ type: 'B' }, { type: 'A', a: 1 }, { type: 'A', a: 2 }]
-    assert.deepStrictEqual(findFirst(xs1, isA), some({ type: 'A', a: 1 }))
-    const xs2: Array<AOrB> = [{ type: 'B' }]
-    assert.deepStrictEqual(findFirst(xs2, isA), none)
-    assert.deepStrictEqual(findFirst([null, 'a'], x => x === null), some(null))
+    assert.deepStrictEqual(findFirst(x => x === 2)([]), none)
+    assert.deepStrictEqual(
+      findFirst((x: { a: number; b: number }) => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]),
+      some({ a: 1, b: 1 })
+    )
   })
 
   const optionStringEq = getOptionEq(eqString)
@@ -283,22 +285,49 @@ describe('Array', () => {
   it('`findFirstMap(arr, fun)` is equivalent to map and `head(mapOption(arr, fun)`', () => {
     fc.assert(
       fc.property(fc.array(fc.integer()), arr =>
-        optionStringEq.equals(findFirstMap(arr, multipleOf3AsString), head(mapOption(arr, multipleOf3AsString)))
+        // tslint:disable-next-line: deprecation
+        optionStringEq.equals(findFirstMap(arr, multipleOf3AsString), head(array.filterMap(arr, multipleOf3AsString)))
+      )
+    )
+    fc.assert(
+      fc.property(fc.array(fc.integer()), arr =>
+        optionStringEq.equals(findFirstMap(multipleOf3AsString)(arr), head(array.filterMap(arr, multipleOf3AsString)))
       )
     )
   })
 
   it('findLast', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(findLast([], x => x === 2), none)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(findLast([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 2 }))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(findLast([{ a: 1, b: 2 }, { a: 2, b: 1 }], x => x.a === 1), some({ a: 1, b: 2 }))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(findLast(['a', null], x => x === null), some(null))
+
+    assert.deepStrictEqual(findLast(x => x === 2)([]), none)
+    assert.deepStrictEqual(
+      findLast((x: { a: number; b: number }) => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]),
+      some({ a: 1, b: 2 })
+    )
+    assert.deepStrictEqual(
+      findLast((x: { a: number; b: number }) => x.a === 1)([{ a: 1, b: 2 }, { a: 2, b: 1 }]),
+      some({ a: 1, b: 2 })
+    )
+    assert.deepStrictEqual(findLast((x: string | null) => x === null)(['a', null]), some(null))
   })
 
   it('`findLastMap(arr, fun)` is equivalent to `last(mapOption(arr, fun))`', () => {
     fc.assert(
       fc.property(fc.array(fc.integer()), arr =>
+        // tslint:disable-next-line: deprecation
         optionStringEq.equals(findLastMap(arr, multipleOf3AsString), last(mapOption(arr, multipleOf3AsString)))
+      )
+    )
+    fc.assert(
+      fc.property(fc.array(fc.integer()), arr =>
+        optionStringEq.equals(findLastMap(multipleOf3AsString)(arr), last(array.filterMap(arr, multipleOf3AsString)))
       )
     )
   })
@@ -309,15 +338,29 @@ describe('Array', () => {
       b: number
     }
     const xs: Array<X> = [{ a: 1, b: 0 }, { a: 1, b: 1 }]
-    assert.deepStrictEqual(findLastIndex(xs, x => x.a === 1), some(1))
-    assert.deepStrictEqual(findLastIndex(xs, x => x.a === 4), none)
+    // tslint:disable-next-line: deprecation
+    assert.deepStrictEqual(findLastIndex(xs, (x: X) => x.a === 1), some(1))
+    // tslint:disable-next-line: deprecation
+    assert.deepStrictEqual(findLastIndex(xs, (x: X) => x.a === 4), none)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(findLastIndex([], (x: X) => x.a === 1), none)
+
+    assert.deepStrictEqual(findLastIndex((x: X) => x.a === 1)(xs), some(1))
+    assert.deepStrictEqual(findLastIndex((x: X) => x.a === 4)(xs), none)
+    assert.deepStrictEqual(findLastIndex((x: X) => x.a === 1)([]), none)
   })
 
   it('insertAt', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(insertAt(1, 1, []), none)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(insertAt(0, 1, []), some([1]))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(insertAt(2, 5, [1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
+
+    assert.deepStrictEqual(insertAt(1, 1)([]), none)
+    assert.deepStrictEqual(insertAt(0, 1)([]), some([1]))
+    assert.deepStrictEqual(insertAt(2, 5)([1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
   })
 
   it('unsafeUpdateAt', () => {
@@ -329,19 +372,34 @@ describe('Array', () => {
   })
 
   it('updateAt', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(updateAt(1, 1, as), some([1, 1, 3]))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(updateAt(1, 1, []), none)
+
+    assert.deepStrictEqual(updateAt(1, 1)(as), some([1, 1, 3]))
+    assert.deepStrictEqual(updateAt(1, 1)([]), none)
   })
 
   it('deleteAt', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(deleteAt(0, as), some([2, 3]))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(deleteAt(1, []), none)
+
+    assert.deepStrictEqual(deleteAt(0)(as), some([2, 3]))
+    assert.deepStrictEqual(deleteAt(1)([]), none)
   })
 
   it('modifyAt', () => {
     const double = (x: number): number => x * 2
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(modifyAt(as, 1, double), some([1, 4, 3]))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(modifyAt([], 1, double), none)
+
+    assert.deepStrictEqual(modifyAt(1, double)(as), some([1, 4, 3]))
+    assert.deepStrictEqual(modifyAt(1, double)([]), none)
   })
 
   it('sort', () => {
@@ -390,15 +448,34 @@ describe('Array', () => {
   })
 
   it('rotate', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(rotate(1, []), [])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(rotate(1, [1]), [1])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(rotate(1, [1, 2]), [2, 1])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(rotate(2, [1, 2]), [1, 2])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(rotate(0, [1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(rotate(1, [1, 2, 3, 4, 5]), [5, 1, 2, 3, 4])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(rotate(2, [1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(rotate(-1, [1, 2, 3, 4, 5]), [2, 3, 4, 5, 1])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(rotate(-2, [1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+
+    assert.deepStrictEqual(rotate(1)([]), [])
+    assert.deepStrictEqual(rotate(1)([1]), [1])
+    assert.deepStrictEqual(rotate(1)([1, 2]), [2, 1])
+    assert.deepStrictEqual(rotate(2)([1, 2]), [1, 2])
+    assert.deepStrictEqual(rotate(0)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    assert.deepStrictEqual(rotate(1)([1, 2, 3, 4, 5]), [5, 1, 2, 3, 4])
+    assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+    assert.deepStrictEqual(rotate(-1)([1, 2, 3, 4, 5]), [2, 3, 4, 5, 1])
+    assert.deepStrictEqual(rotate(-2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
   })
 
   it('map', () => {
@@ -458,22 +535,24 @@ describe('Array', () => {
   })
 
   it('fold', () => {
+    // tslint:disable-next-line: deprecation
     const len = <A>(as: Array<A>): number => fold(as, 0, (_, tail) => 1 + len(tail))
     assert.strictEqual(len([1, 2, 3]), 3)
   })
 
-  it('foldL', () => {
-    const len = <A>(as: Array<A>): number => foldL(as, () => 0, (_, tail) => 1 + len(tail))
+  it('foldLeft', () => {
+    const len: <A>(as: Array<A>) => number = foldLeft(() => 0, (_, tail) => 1 + len(tail))
     assert.strictEqual(len([1, 2, 3]), 3)
   })
 
   it('foldr', () => {
+    // tslint:disable-next-line: deprecation
     const len = <A>(as: Array<A>): number => foldr(as, 0, (init, _) => 1 + len(init))
     assert.strictEqual(len([1, 2, 3]), 3)
   })
 
-  it('foldrL', () => {
-    const len = <A>(as: Array<A>): number => foldrL(as, () => 0, (init, _) => 1 + len(init))
+  it('foldRight', () => {
+    const len: <A>(as: Array<A>) => number = foldRight(() => 0, (init, _) => 1 + len(init))
     assert.strictEqual(len([1, 2, 3]), 3)
   })
 
@@ -581,8 +660,11 @@ describe('Array', () => {
     assert.deepStrictEqual(array.compact([]), [])
     assert.deepStrictEqual(array.compact([some(1), some(2), some(3)]), [1, 2, 3])
     assert.deepStrictEqual(array.compact([some(1), none, some(3)]), [1, 3])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(catOptions([]), [])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(catOptions([some(1), some(2), some(3)]), [1, 2, 3])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(catOptions([some(1), none, some(3)]), [1, 3])
   })
 
@@ -592,17 +674,9 @@ describe('Array', () => {
   })
 
   it('filter', () => {
-    const filter = array.filter
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(filter([1, 2, 3], n => n % 2 === 1), [1, 3])
-    assert.deepStrictEqual(array.filter([1, 2, 3], n => n % 2 === 1), [1, 3])
-    const x = filter([some(3), some(2), some(1)], isSome)
-    assert.deepStrictEqual(x, [some(3), some(2), some(1)])
-    const y = filter([some(3), none, some(1)], isSome)
-    assert.deepStrictEqual(y, [some(3), some(1)])
-    // refinements
-    const xs: Array<string | number> = [1, 'a', 3]
-    const isString = (u: string | number): u is string => typeof u === 'string'
-    assert.deepStrictEqual(filter(xs, isString), ['a'])
+    assert.deepStrictEqual(filter((n: number) => n % 2 === 1)([1, 2, 3]), [1, 3])
   })
 
   it('filterWithIndex', () => {
@@ -611,31 +685,37 @@ describe('Array', () => {
 
   it('filterMap/mapOption', () => {
     const f = (n: number) => (n % 2 === 0 ? none : some(n))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(mapOption(as, f), [1, 3])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(mapOption([], f), [])
     assert.deepStrictEqual(array.filterMap([], f), [])
     assert.deepStrictEqual(array.filterMap(as, f), [1, 3])
   })
 
   it('partitionMap', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(partitionMap([], identity), { left: [], right: [] })
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(partitionMap([right(1), left('foo'), right(2)], identity), { left: ['foo'], right: [1, 2] })
     assert.deepStrictEqual(array.partitionMap([], identity), { left: [], right: [] })
     assert.deepStrictEqual(array.partitionMap([right(1), left('foo'), right(2)], identity), {
       left: ['foo'],
       right: [1, 2]
     })
+
+    const id = <L, A>(e: Either<L, A>): Either<L, A> => e
+    assert.deepStrictEqual(partitionMap(id)([]), { left: [], right: [] })
+    assert.deepStrictEqual(partitionMap(id)([right(1), left('foo'), right(2)]), { left: ['foo'], right: [1, 2] })
   })
 
   it('partition', () => {
-    const partition = array.partition
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(partition([], p), { left: [], right: [] })
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(partition([1, 3], p), { left: [1], right: [3] })
-    // refinements
-    const xs: Array<string | number> = ['a', 'b', 1]
-    const isNumber = (x: string | number): x is number => typeof x === 'number'
-    const actual = partition(xs, isNumber)
-    assert.deepStrictEqual(actual, { left: ['a', 'b'], right: [1] })
+    assert.deepStrictEqual(partition(p)([]), { left: [], right: [] })
+    assert.deepStrictEqual(partition(p)([1, 3]), { left: [1], right: [3] })
   })
 
   it('wither', () => {
@@ -653,37 +733,68 @@ describe('Array', () => {
   })
 
   it('chop', () => {
-    const group = <A>(E: Eq<A>) => (as: Array<A>): Array<Array<A>> => {
+    const group1 = <A>(E: Eq<A>) => (as: Array<A>): Array<Array<A>> => {
+      // tslint:disable-next-line: deprecation
       return chop(as, as => {
-        const { init, rest } = span(as, a => E.equals(a, as[0]))
+        const { init, rest } = spanLeft((a: A) => E.equals(a, as[0]))(as)
         return [init, rest]
       })
     }
-    assert.deepStrictEqual(group(eqNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
+    assert.deepStrictEqual(group1(eqNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
+    const group2 = <A>(E: Eq<A>): ((as: Array<A>) => Array<Array<A>>) => {
+      return chop(as => {
+        const { init, rest } = spanLeft((a: A) => E.equals(a, as[0]))(as)
+        return [init, rest]
+      })
+    }
+    assert.deepStrictEqual(group2(eqNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
   })
 
-  it('split', () => {
-    assert.deepStrictEqual(split(2, [1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
-    assert.deepStrictEqual(split(2, []), [[], []])
-    assert.deepStrictEqual(split(2, [1]), [[1], []])
-    assert.deepStrictEqual(split(2, [1, 2]), [[1, 2], []])
-    assert.deepStrictEqual(split(-1, [1, 2]), [[1], [2]])
-    assert.deepStrictEqual(split(0, [1, 2]), [[], [1, 2]])
-    assert.deepStrictEqual(split(3, [1, 2]), [[1, 2], []])
+  it('splitAt', () => {
+    assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
+    assert.deepStrictEqual(splitAt(2)([]), [[], []])
+    assert.deepStrictEqual(splitAt(2)([1]), [[1], []])
+    assert.deepStrictEqual(splitAt(2)([1, 2]), [[1, 2], []])
+    assert.deepStrictEqual(splitAt(-1)([1, 2]), [[1], [2]])
+    assert.deepStrictEqual(splitAt(0)([1, 2]), [[], [1, 2]])
+    assert.deepStrictEqual(splitAt(3)([1, 2]), [[1, 2], []])
   })
 
   it('chunksOf', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(chunksOf([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4], [5]])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(chunksOf([1, 2, 3, 4, 5, 6], 2), [[1, 2], [3, 4], [5, 6]])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(chunksOf([1, 2, 3, 4, 5], 5), [[1, 2, 3, 4, 5]])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(chunksOf([1, 2, 3, 4, 5], 6), [[1, 2, 3, 4, 5]])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(chunksOf([1, 2, 3, 4, 5], 1), [[1], [2], [3], [4], [5]])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(chunksOf([], 1), [[]])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(chunksOf([], 2), [[]])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(chunksOf([], 0), [[]])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(chunksOf([1, 2], 0), [[1, 2]])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(chunksOf([1, 2], 10), [[1, 2]])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(chunksOf([1, 2], -1), [[1, 2]])
+
+    assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
+    assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5, 6]), [[1, 2], [3, 4], [5, 6]])
+    assert.deepStrictEqual(chunksOf(5)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
+    assert.deepStrictEqual(chunksOf(6)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
+    assert.deepStrictEqual(chunksOf(1)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
+    assert.deepStrictEqual(chunksOf(1)([]), [[]])
+    assert.deepStrictEqual(chunksOf(2)([]), [[]])
+    assert.deepStrictEqual(chunksOf(0)([]), [[]])
+    assert.deepStrictEqual(chunksOf(0)([1, 2]), [[1, 2]])
+    assert.deepStrictEqual(chunksOf(10)([1, 2]), [[1, 2]])
+    assert.deepStrictEqual(chunksOf(-1)([1, 2]), [[1, 2]])
   })
 
   it('makeBy', () => {
