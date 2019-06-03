@@ -243,6 +243,7 @@ export function sort<A>(O: Ord<A>): (nea: NonEmptyArray<A>) => NonEmptyArray<A> 
 export function findFirst<A, B extends A>(nea: NonEmptyArray<A>, refinement: Refinement<A, B>): Option<B>
 export function findFirst<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<A>
 export function findFirst<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<A> {
+  // tslint:disable-next-line: deprecation
   return A.findFirst(nea, predicate)
 }
 
@@ -252,6 +253,7 @@ export function findFirst<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Op
 export function findLast<A, B extends A>(nea: NonEmptyArray<A>, refinement: Refinement<A, B>): Option<B>
 export function findLast<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<A>
 export function findLast<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<A> {
+  // tslint:disable-next-line: deprecation
   return A.findLast(nea, predicate)
 }
 
@@ -259,6 +261,7 @@ export function findLast<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Opt
  * @since 1.15.0
  */
 export function findIndex<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<number> {
+  // tslint:disable-next-line: deprecation
   return A.findIndex(nea, predicate)
 }
 
@@ -266,6 +269,7 @@ export function findIndex<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Op
  * @since 1.15.0
  */
 export function findLastIndex<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<number> {
+  // tslint:disable-next-line: deprecation
   return A.findLastIndex(nea, predicate)
 }
 
@@ -273,6 +277,7 @@ export function findLastIndex<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>)
  * @since 1.15.0
  */
 export function insertAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonEmptyArray<A>> {
+  // tslint:disable-next-line: deprecation
   return A.insertAt(i, a, nea) as any
 }
 
@@ -280,6 +285,7 @@ export function insertAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonE
  * @since 1.15.0
  */
 export function updateAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonEmptyArray<A>> {
+  // tslint:disable-next-line: deprecation
   return A.updateAt(i, a, nea) as any
 }
 
@@ -287,6 +293,7 @@ export function updateAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonE
  * @since 1.17.0
  */
 export function modifyAt<A>(nea: NonEmptyArray<A>, i: number, f: (a: A) => A): Option<NonEmptyArray<A>> {
+  // tslint:disable-next-line: deprecation
   return A.modifyAt(nea, i, f) as any
 }
 

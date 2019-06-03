@@ -17,7 +17,7 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [array (constant)](#array-constant)
 - [empty (constant)](#empty-constant)
 - [~~getSetoid~~ (constant)](#getsetoid-constant)
-- [catOptions (function)](#catoptions-function)
+- [~~catOptions~~ (function)](#catoptions-function)
 - [chop (function)](#chop-function)
 - [chunksOf (function)](#chunksof-function)
 - [comprehension (function)](#comprehension-function)
@@ -25,11 +25,14 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [copy (function)](#copy-function)
 - [deleteAt (function)](#deleteat-function)
 - [difference (function)](#difference-function)
-- [drop (function)](#drop-function)
-- [dropEnd (function)](#dropend-function)
-- [dropWhile (function)](#dropwhile-function)
+- [~~drop~~ (function)](#drop-function)
+- [~~dropEnd~~ (function)](#dropend-function)
+- [dropLeft (function)](#dropleft-function)
+- [dropLeftWhile (function)](#dropleftwhile-function)
+- [dropRight (function)](#dropright-function)
+- [~~dropWhile~~ (function)](#dropwhile-function)
 - [elem (function)](#elem-function)
-- [~~filter~~ (function)](#filter-function)
+- [filter (function)](#filter-function)
 - [findFirst (function)](#findfirst-function)
 - [findFirstMap (function)](#findfirstmap-function)
 - [findIndex (function)](#findindex-function)
@@ -37,10 +40,12 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [findLastIndex (function)](#findlastindex-function)
 - [findLastMap (function)](#findlastmap-function)
 - [flatten (function)](#flatten-function)
-- [fold (function)](#fold-function)
-- [foldL (function)](#foldl-function)
-- [foldr (function)](#foldr-function)
-- [foldrL (function)](#foldrl-function)
+- [~~fold~~ (function)](#fold-function)
+- [~~foldL~~ (function)](#foldl-function)
+- [foldLeft (function)](#foldleft-function)
+- [foldRight (function)](#foldright-function)
+- [~~foldr~~ (function)](#foldr-function)
+- [~~foldrL~~ (function)](#foldrl-function)
 - [getEq (function)](#geteq-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getOrd (function)](#getord-function)
@@ -57,10 +62,11 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [lefts (function)](#lefts-function)
 - [lookup (function)](#lookup-function)
 - [makeBy (function)](#makeby-function)
-- [mapOption (function)](#mapoption-function)
+- [~~mapOption~~ (function)](#mapoption-function)
 - [~~member~~ (function)](#member-function)
 - [modifyAt (function)](#modifyat-function)
-- [~~partition~~ (function)](#partition-function)
+- [of (function)](#of-function)
+- [partition (function)](#partition-function)
 - [partitionMap (function)](#partitionmap-function)
 - [range (function)](#range-function)
 - [~~refine~~ (function)](#refine-function)
@@ -74,12 +80,17 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [sort (function)](#sort-function)
 - [sortBy (function)](#sortby-function)
 - [sortBy1 (function)](#sortby1-function)
-- [span (function)](#span-function)
-- [split (function)](#split-function)
+- [~~span~~ (function)](#span-function)
+- [spanLeft (function)](#spanleft-function)
+- [~~split~~ (function)](#split-function)
+- [splitAt (function)](#splitat-function)
 - [tail (function)](#tail-function)
-- [take (function)](#take-function)
-- [takeEnd (function)](#takeend-function)
-- [takeWhile (function)](#takewhile-function)
+- [~~take~~ (function)](#take-function)
+- [~~takeEnd~~ (function)](#takeend-function)
+- [takeLeft (function)](#takeleft-function)
+- [takeLeftWhile (function)](#takeleftwhile-function)
+- [takeRight (function)](#takeright-function)
+- [~~takeWhile~~ (function)](#takewhile-function)
 - [~~traverse~~ (function)](#traverse-function)
 - [union (function)](#union-function)
 - [uniq (function)](#uniq-function)
@@ -154,11 +165,11 @@ export const getSetoid: <A>(E: Eq<A>) => Eq<Array<A>> = ...
 
 Added in v1.0.0
 
-# catOptions (function)
+# ~~catOptions~~ (function)
+
+Use `array.compact`
 
 Filter an array of optional values, keeping only the elements which contain a value, creating a new array.
-
-Alias of `Compactable`'s `compact`
 
 **Signature**
 
@@ -180,24 +191,25 @@ Added in v1.0.0
 # chop (function)
 
 A useful recursion pattern for processing an array to produce a new array, often used for "chopping" up the input
-array. Typically chop is called with some function that will consume an initial prefix of the array and produce a
+array. Typically `chop` is called with some function that will consume an initial prefix of the array and produce a
 value and the rest of the array.
 
 **Signature**
 
 ```ts
-export const chop = <A, B>(as: Array<A>, f: (as: NonEmptyArray<A>) => [B, Array<A>]): Array<B> => ...
+export function chop<A, B>(f: (as: NonEmptyArray<A>) => [B, Array<A>]): (as: Array<A>) => Array<B>
+export function chop<A, B>(as: Array<A>, f: (as: NonEmptyArray<A>) => [B, Array<A>]): Array<B> { ... }
 ```
 
 **Example**
 
 ```ts
 import { Eq, eqNumber } from 'fp-ts/lib/Eq'
-import { chop, span } from 'fp-ts/lib/Array'
+import { chop, spanLeft } from 'fp-ts/lib/Array'
 
-const group = <A>(E: Eq<A>) => (as: Array<A>): Array<Array<A>> => {
-  return chop(as, as => {
-    const { init, rest } = span(as, a => E.equals(a, as[0]))
+const group = <A>(S: Eq<A>): ((as: Array<A>) => Array<Array<A>>) => {
+  return chop(as => {
+    const { init, rest } = spanLeft((a: A) => S.equals(a, as[0]))(as)
     return [init, rest]
   })
 }
@@ -209,11 +221,11 @@ Added in v1.10.0
 # chunksOf (function)
 
 Splits an array into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
-the array. Note that `chunksOf([], n)` is `[]`, not `[[]]`. This is intentional, and is consistent with a recursive
+the array. Note that `chunksOf(n)([])` is `[]`, not `[[]]`. This is intentional, and is consistent with a recursive
 definition of `chunksOf`; it satisfies the property that
 
 ```ts
-chunksOf(xs, n).concat(chunksOf(ys, n)) == chunksOf(xs.concat(ys)), n)
+chunksOf(n)(xs).concat(chunksOf(n)(ys)) == chunksOf(n)(xs.concat(ys)))
 ```
 
 whenever `n` evenly divides the length of `xs`.
@@ -221,7 +233,8 @@ whenever `n` evenly divides the length of `xs`.
 **Signature**
 
 ```ts
-export const chunksOf = <A>(as: Array<A>, n: number): Array<Array<A>> => ...
+export function chunksOf<A>(n: number): (as: Array<A>) => Array<Array<A>>
+export function chunksOf<A>(as: Array<A>, n: number): Array<Array<A>> { ... }
 ```
 
 **Example**
@@ -229,7 +242,7 @@ export const chunksOf = <A>(as: Array<A>, n: number): Array<Array<A>> => ...
 ```ts
 import { chunksOf } from 'fp-ts/lib/Array'
 
-assert.deepStrictEqual(chunksOf([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4], [5]])
+assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
 ```
 
 Added in v1.10.0
@@ -317,7 +330,8 @@ Delete the element at the specified index, creating a new array, or returning `N
 **Signature**
 
 ```ts
-export const deleteAt = <A>(i: number, as: Array<A>): Option<Array<A>> => ...
+export function deleteAt<A>(i: number): (as: Array<A>) => Option<Array<A>>
+export function deleteAt<A>(i: number, as: Array<A>): Option<Array<A>> { ... }
 ```
 
 **Example**
@@ -326,8 +340,8 @@ export const deleteAt = <A>(i: number, as: Array<A>): Option<Array<A>> => ...
 import { deleteAt } from 'fp-ts/lib/Array'
 import { some, none } from 'fp-ts/lib/Option'
 
-assert.deepStrictEqual(deleteAt(0, [1, 2, 3]), some([2, 3]))
-assert.deepStrictEqual(deleteAt(1, []), none)
+assert.deepStrictEqual(deleteAt(0)([1, 2, 3]), some([2, 3]))
+assert.deepStrictEqual(deleteAt(1)([]), none)
 ```
 
 Added in v1.0.0
@@ -354,9 +368,9 @@ assert.deepStrictEqual(difference(eqNumber)([1, 2], [2, 3]), [1])
 
 Added in v1.12.0
 
-# drop (function)
+# ~~drop~~ (function)
 
-Drop a number of elements from the start of an array, creating a new array
+Use `dropLeft`
 
 **Signature**
 
@@ -364,19 +378,11 @@ Drop a number of elements from the start of an array, creating a new array
 export const drop = <A>(n: number, as: Array<A>): Array<A> => ...
 ```
 
-**Example**
-
-```ts
-import { drop } from 'fp-ts/lib/Array'
-
-assert.deepStrictEqual(drop(2, [1, 2, 3]), [3])
-```
-
 Added in v1.0.0
 
-# dropEnd (function)
+# ~~dropEnd~~ (function)
 
-Drop a number of elements from the end of an array, creating a new array
+Use `dropRight`
 
 **Signature**
 
@@ -384,32 +390,76 @@ Drop a number of elements from the end of an array, creating a new array
 export const dropEnd = <A>(n: number, as: Array<A>): Array<A> => ...
 ```
 
+Added in v1.10.0
+
+# dropLeft (function)
+
+Drop a number of elements from the start of an array, creating a new array
+
+**Signature**
+
+```ts
+export function dropLeft(n: number): <A>(as: Array<A>) => Array<A> { ... }
+```
+
 **Example**
 
 ```ts
-import { dropEnd } from 'fp-ts/lib/Array'
+import { dropLeft } from 'fp-ts/lib/Array'
 
-assert.deepStrictEqual(dropEnd(2, [1, 2, 3, 4, 5]), [1, 2, 3])
+assert.deepStrictEqual(dropLeft(2)([1, 2, 3]), [3])
 ```
 
-Added in v1.10.0
+Added in v1.19.0
 
-# dropWhile (function)
+# dropLeftWhile (function)
 
 Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new array
 
 **Signature**
 
 ```ts
-export const dropWhile = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => ...
+export function dropLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A> { ... }
 ```
 
 **Example**
 
 ```ts
-import { dropWhile } from 'fp-ts/lib/Array'
+import { dropLeftWhile } from 'fp-ts/lib/Array'
 
-assert.deepStrictEqual(dropWhile([1, 3, 2, 4, 5], n => n % 2 === 1), [2, 4, 5])
+assert.deepStrictEqual(dropLeftWhile((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), [2, 4, 5])
+```
+
+Added in v1.19.0
+
+# dropRight (function)
+
+Drop a number of elements from the end of an array, creating a new array
+
+**Signature**
+
+```ts
+export function dropRight(n: number): <A>(as: Array<A>) => Array<A> { ... }
+```
+
+**Example**
+
+```ts
+import { dropRight } from 'fp-ts/lib/Array'
+
+assert.deepStrictEqual(dropRight(2)([1, 2, 3, 4, 5]), [1, 2, 3])
+```
+
+Added in v1.19.0
+
+# ~~dropWhile~~ (function)
+
+Use `dropLeftWhile`
+
+**Signature**
+
+```ts
+export const dropWhile = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => ...
 ```
 
 Added in v1.0.0
@@ -438,14 +488,14 @@ assert.strictEqual(elem(eqNumber)(4, [1, 2, 3]), false)
 
 Added in v1.14.0
 
-# ~~filter~~ (function)
-
-Use `array.filter` instead
+# filter (function)
 
 **Signature**
 
 ```ts
-export function filter<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): Array<B>
+export function filter<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
+export function filter<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A>
+export function filter<A, B extends A>(as: Array<A>, refinement: Refinement<A, B>): Array<B>
 export function filter<A>(as: Array<A>, predicate: Predicate<A>): Array<A> { ... }
 ```
 
@@ -458,8 +508,10 @@ Find the first element which satisfies a predicate (or a refinement) function
 **Signature**
 
 ```ts
+export function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
+export function findFirst<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A>
 export function findFirst<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): Option<B>
-export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A> { ... }
+export function findFirst<A>(as: Array<A>, refinement: Predicate<A>): Option<A> { ... }
 ```
 
 **Example**
@@ -468,7 +520,10 @@ export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A> {
 import { findFirst } from 'fp-ts/lib/Array'
 import { some } from 'fp-ts/lib/Option'
 
-assert.deepStrictEqual(findFirst([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 1 }))
+assert.deepStrictEqual(
+  findFirst((x: { a: number; b: number }) => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]),
+  some({ a: 1, b: 1 })
+)
 ```
 
 Added in v1.0.0
@@ -480,7 +535,8 @@ Find the first element returned by an option based selector function
 **Signature**
 
 ```ts
-export const findFirstMap = <A, B>(arr: Array<A>, f: (a: A) => Option<B>): Option<B> => ...
+export function findFirstMap<A, B>(f: (a: A) => Option<B>): (arr: Array<A>) => Option<B>
+export function findFirstMap<A, B>(arr: Array<A>, f: (a: A) => Option<B>): Option<B> { ... }
 ```
 
 **Example**
@@ -497,7 +553,7 @@ interface Person {
 const persons: Array<Person> = [{ name: 'John' }, { name: 'Mary', age: 45 }, { name: 'Joey', age: 28 }]
 
 // returns the name of the first person that has an age
-assert.deepStrictEqual(findFirstMap(persons, p => (p.age === undefined ? none : some(p.name))), some('Mary'))
+assert.deepStrictEqual(findFirstMap((p: Person) => (p.age === undefined ? none : some(p.name)))(persons), some('Mary'))
 ```
 
 Added in v1.16.0
@@ -509,7 +565,8 @@ Find the first index for which a predicate holds
 **Signature**
 
 ```ts
-export const findIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<number> => ...
+export function findIndex<A>(predicate: Predicate<A>): (as: Array<A>) => Option<number>
+export function findIndex<A>(as: Array<A>, predicate: Predicate<A>): Option<number> { ... }
 ```
 
 **Example**
@@ -518,8 +575,8 @@ export const findIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<numb
 import { findIndex } from 'fp-ts/lib/Array'
 import { some, none } from 'fp-ts/lib/Option'
 
-assert.deepStrictEqual(findIndex([1, 2, 3], x => x === 2), some(1))
-assert.deepStrictEqual(findIndex([], x => x === 2), none)
+assert.deepStrictEqual(findIndex((n: number) => n === 2)([1, 2, 3]), some(1))
+assert.deepStrictEqual(findIndex((n: number) => n === 2)([]), none)
 ```
 
 Added in v1.0.0
@@ -531,7 +588,9 @@ Find the last element which satisfies a predicate function
 **Signature**
 
 ```ts
-export function findLast<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): Option<B>
+export function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
+export function findLast<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A>
+export function findLast<A, B extends A>(as: Array<A>, refinement: Refinement<A, B>): Option<B>
 export function findLast<A>(as: Array<A>, predicate: Predicate<A>): Option<A> { ... }
 ```
 
@@ -541,7 +600,10 @@ export function findLast<A>(as: Array<A>, predicate: Predicate<A>): Option<A> { 
 import { findLast } from 'fp-ts/lib/Array'
 import { some } from 'fp-ts/lib/Option'
 
-assert.deepStrictEqual(findLast([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 2 }))
+assert.deepStrictEqual(
+  findLast((x: { a: number; b: number }) => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]),
+  some({ a: 1, b: 2 })
+)
 ```
 
 Added in v1.0.0
@@ -553,7 +615,8 @@ Returns the index of the last element of the list which matches the predicate
 **Signature**
 
 ```ts
-export const findLastIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<number> => ...
+export function findLastIndex<A>(predicate: Predicate<A>): (as: Array<A>) => Option<number>
+export function findLastIndex<A>(as: Array<A>, predicate: Predicate<A>): Option<number> { ... }
 ```
 
 **Example**
@@ -567,8 +630,8 @@ interface X {
   b: number
 }
 const xs: Array<X> = [{ a: 1, b: 0 }, { a: 1, b: 1 }]
-assert.deepStrictEqual(findLastIndex(xs, x => x.a === 1), some(1))
-assert.deepStrictEqual(findLastIndex(xs, x => x.a === 4), none)
+assert.deepStrictEqual(findLastIndex((x: { a: number }) => x.a === 1)(xs), some(1))
+assert.deepStrictEqual(findLastIndex((x: { a: number }) => x.a === 4)(xs), none)
 ```
 
 Added in v1.10.0
@@ -580,7 +643,8 @@ Find the last element returned by an option based selector function
 **Signature**
 
 ```ts
-export const findLastMap = <A, B>(arr: Array<A>, f: (a: A) => Option<B>): Option<B> => ...
+export function findLastMap<A, B>(f: (a: A) => Option<B>): (arr: Array<A>) => Option<B>
+export function findLastMap<A, B>(arr: Array<A>, f: (a: A) => Option<B>): Option<B> { ... }
 ```
 
 **Example**
@@ -597,7 +661,7 @@ interface Person {
 const persons: Array<Person> = [{ name: 'John' }, { name: 'Mary', age: 45 }, { name: 'Joey', age: 28 }]
 
 // returns the name of the last person that has an age
-assert.deepStrictEqual(findLastMap(persons, p => (p.age === undefined ? none : some(p.name))), some('Joey'))
+assert.deepStrictEqual(findLastMap((p: Person) => (p.age === undefined ? none : some(p.name)))(persons), some('Joey'))
 ```
 
 Added in v1.16.0
@@ -622,59 +686,83 @@ assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
 
 Added in v1.0.0
 
-# fold (function)
+# ~~fold~~ (function)
+
+Use `foldLeft`
+
+**Signature**
+
+```ts
+export const fold = <A, B>(as: Array<A>, onNil: B, onCons: (head: A, tail: Array<A>) => B): B => ...
+```
+
+Added in v1.0.0
+
+# ~~foldL~~ (function)
+
+Use `foldLeft`
+
+**Signature**
+
+```ts
+export const foldL = <A, B>(as: Array<A>, onNil: () => B, onCons: (head: A, tail: Array<A>) => B): B => ...
+```
+
+Added in v1.0.0
+
+# foldLeft (function)
 
 Break an array into its first element and remaining elements
 
 **Signature**
 
 ```ts
-export const fold = <A, B>(as: Array<A>, b: B, cons: (head: A, tail: Array<A>) => B): B => ...
+export function foldLeft<A, B>(onNil: () => B, onCons: (head: A, tail: Array<A>) => B): (as: Array<A>) => B { ... }
 ```
 
 **Example**
 
 ```ts
-import { fold } from 'fp-ts/lib/Array'
+import { foldLeft } from 'fp-ts/lib/Array'
 
-const len = <A>(as: Array<A>): number => fold(as, 0, (_, tail) => 1 + len(tail))
+const len: <A>(as: Array<A>) => number = foldLeft(() => 0, (_, tail) => 1 + len(tail))
 assert.strictEqual(len([1, 2, 3]), 3)
 ```
 
-Added in v1.0.0
+Added in v1.19.0
 
-# foldL (function)
-
-Lazy version of `fold`
-
-**Signature**
-
-```ts
-export const foldL = <A, B>(as: Array<A>, nil: () => B, cons: (head: A, tail: Array<A>) => B): B => ...
-```
-
-Added in v1.0.0
-
-# foldr (function)
+# foldRight (function)
 
 Break an array into its initial elements and the last element
 
 **Signature**
 
 ```ts
-export const foldr = <A, B>(as: Array<A>, b: B, cons: (init: Array<A>, last: A) => B): B => ...
+export function foldRight<A, B>(onNil: () => B, onCons: (init: Array<A>, last: A) => B): (as: Array<A>) => B { ... }
 ```
 
-Added in v1.7.0
+Added in v1.19.0
 
-# foldrL (function)
+# ~~foldr~~ (function)
 
-Lazy version of `foldr`
+Use `foldRight`
 
 **Signature**
 
 ```ts
-export const foldrL = <A, B>(as: Array<A>, nil: () => B, cons: (init: Array<A>, last: A) => B): B => ...
+export const foldr = <A, B>(as: Array<A>, onNil: B, onCons: (init: Array<A>, last: A) => B): B => ...
+```
+
+Added in v1.7.0
+
+# ~~foldrL~~ (function)
+
+Use `foldRight`
+
+**Signature**
+
+```ts
+export const foldrL = <A, B>(as: Array<A>, onNil: () => B, onCons: (init: Array<A>, last: A) => B): B => ...
 ```
 
 Added in v1.7.0
@@ -823,7 +911,8 @@ Insert an element at the specified index, creating a new array, or returning `No
 **Signature**
 
 ```ts
-export const insertAt = <A>(i: number, a: A, as: Array<A>): Option<Array<A>> => ...
+export function insertAt<A>(i: number, a: A): (as: Array<A>) => Option<Array<A>>
+export function insertAt<A>(i: number, a: A, as: Array<A>): Option<Array<A>> { ... }
 ```
 
 **Example**
@@ -832,7 +921,7 @@ export const insertAt = <A>(i: number, a: A, as: Array<A>): Option<Array<A>> => 
 import { insertAt } from 'fp-ts/lib/Array'
 import { some } from 'fp-ts/lib/Option'
 
-assert.deepStrictEqual(insertAt(2, 5, [1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
+assert.deepStrictEqual(insertAt(2, 5)([1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
 ```
 
 Added in v1.0.0
@@ -886,7 +975,7 @@ Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
 **Signature**
 
 ```ts
-export const isNonEmpty = <A>(as: Array<A>): as is NonEmptyArray<A> => ...
+export function isNonEmpty<A>(as: Array<A>): as is NonEmptyArray<A> { ... }
 ```
 
 Added in v1.19.0
@@ -989,11 +1078,11 @@ assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
 
 Added in v1.10.0
 
-# mapOption (function)
+# ~~mapOption~~ (function)
+
+Use `array.filterMap`
 
 Apply a function to each element in an array, keeping only the results which contain a value, creating a new array.
-
-Alias of `Filterable`'s `filterMap`
 
 **Signature**
 
@@ -1033,7 +1122,8 @@ of bounds
 **Signature**
 
 ```ts
-export const modifyAt = <A>(as: Array<A>, i: number, f: Endomorphism<A>): Option<Array<A>> => ...
+export function modifyAt<A>(i: number, f: Endomorphism<A>): (as: Array<A>) => Option<Array<A>>
+export function modifyAt<A>(as: Array<A>, i: number, f: Endomorphism<A>): Option<Array<A>> { ... }
 ```
 
 **Example**
@@ -1043,21 +1133,33 @@ import { modifyAt } from 'fp-ts/lib/Array'
 import { some, none } from 'fp-ts/lib/Option'
 
 const double = (x: number): number => x * 2
-assert.deepStrictEqual(modifyAt([1, 2, 3], 1, double), some([1, 4, 3]))
-assert.deepStrictEqual(modifyAt([], 1, double), none)
+assert.deepStrictEqual(modifyAt(1, double)([1, 2, 3]), some([1, 4, 3]))
+assert.deepStrictEqual(modifyAt(1, double)([]), none)
 ```
 
 Added in v1.0.0
 
-# ~~partition~~ (function)
+# of (function)
+
+**Signature**
+
+```ts
+export function of<A>(a: A): Array<A> { ... }
+```
+
+Added in v1.19.0
+
+# partition (function)
 
 Use `array.partition` instead
 
 **Signature**
 
 ```ts
-export function partition<A, B extends A>(fa: Array<A>, p: Refinement<A, B>): Separated<Array<A>, Array<B>>
-export function partition<A>(fa: Array<A>, p: Predicate<A>): Separated<Array<A>, Array<A>> { ... }
+export function partition<A, B extends A>(refinement: Refinement<A, B>): (fa: Array<A>) => Separated<Array<A>, Array<B>>
+export function partition<A>(predicate: Predicate<A>): (fa: Array<A>) => Separated<Array<A>, Array<A>>
+export function partition<A, B extends A>(fa: Array<A>, refinement: Refinement<A, B>): Separated<Array<A>, Array<B>>
+export function partition<A>(fa: Array<A>, predicate: Predicate<A>): Separated<Array<A>, Array<A>> { ... }
 ```
 
 Added in v1.12.0
@@ -1067,7 +1169,8 @@ Added in v1.12.0
 **Signature**
 
 ```ts
-export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): Separated<Array<L>, Array<R>> => ...
+export function partitionMap<A, L, R>(f: (a: A) => Either<L, R>): (fa: Array<A>) => Separated<Array<L>, Array<R>>
+export function partitionMap<A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): Separated<Array<L>, Array<R>> { ... }
 ```
 
 **Example**
@@ -1185,7 +1288,8 @@ Rotate an array to the right by `n` steps
 **Signature**
 
 ```ts
-export const rotate = <A>(n: number, xs: Array<A>): Array<A> => ...
+export function rotate<A>(n: number): (xs: Array<A>) => Array<A>
+export function rotate<A>(n: number, xs: Array<A>): Array<A> { ... }
 ```
 
 **Example**
@@ -1193,7 +1297,7 @@ export const rotate = <A>(n: number, xs: Array<A>): Array<A> => ...
 ```ts
 import { rotate } from 'fp-ts/lib/Array'
 
-assert.deepStrictEqual(rotate(2, [1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
 ```
 
 Added in v1.0.0
@@ -1352,7 +1456,20 @@ assert.deepStrictEqual(sortByNameByAge(persons), [
 
 Added in v1.3.0
 
-# span (function)
+# ~~span~~ (function)
+
+Use `spanLeft`
+
+**Signature**
+
+```ts
+export function span<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): { init: Array<B>; rest: Array<A> }
+export function span<A>(as: Array<A>, predicate: Predicate<A>): { init: Array<A>; rest: Array<A> } { ... }
+```
+
+Added in v1.0.0
+
+# spanLeft (function)
 
 Split an array into two parts:
 
@@ -1362,23 +1479,25 @@ Split an array into two parts:
 **Signature**
 
 ```ts
-export function span<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): { init: Array<B>; rest: Array<A> }
-export function span<A>(as: Array<A>, predicate: Predicate<A>): { init: Array<A>; rest: Array<A> } { ... }
+export function spanLeft<A, B extends A>(
+  refinement: Refinement<A, B>
+): (as: Array<A>) => { init: Array<B>; rest: Array<A> }
+export function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => { init: Array<A>; rest: Array<A> } { ... }
 ```
 
 **Example**
 
 ```ts
-import { span } from 'fp-ts/lib/Array'
+import { spanLeft } from 'fp-ts/lib/Array'
 
-assert.deepStrictEqual(span([1, 3, 2, 4, 5], n => n % 2 === 1), { init: [1, 3], rest: [2, 4, 5] })
+assert.deepStrictEqual(spanLeft((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
 ```
 
-Added in v1.0.0
+Added in v1.19.0
 
-# split (function)
+# ~~split~~ (function)
 
-Splits an array into two pieces, the first piece has `n` elements.
+Use `splitAt`
 
 **Signature**
 
@@ -1386,15 +1505,27 @@ Splits an array into two pieces, the first piece has `n` elements.
 export const split = <A>(n: number, as: Array<A>): [Array<A>, Array<A>] => ...
 ```
 
+Added in v1.10.0
+
+# splitAt (function)
+
+Splits an array into two pieces, the first piece has `n` elements.
+
+**Signature**
+
+```ts
+export function splitAt(n: number): <A>(as: Array<A>) => [Array<A>, Array<A>] { ... }
+```
+
 **Example**
 
 ```ts
-import { split } from 'fp-ts/lib/Array'
+import { splitAt } from 'fp-ts/lib/Array'
 
-assert.deepStrictEqual(split(2, [1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
+assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
 ```
 
-Added in v1.10.0
+Added in v1.19.0
 
 # tail (function)
 
@@ -1418,31 +1549,21 @@ assert.deepStrictEqual(tail([]), none)
 
 Added in v1.0.0
 
-# take (function)
+# ~~take~~ (function)
 
-Keep only a number of elements from the start of an array, creating a new array.
-`n` must be a natural number
+Use `takeLeft`
 
 **Signature**
 
 ```ts
-export const take = <A>(n: number, as: Array<A>): Array<A> => ...
-```
-
-**Example**
-
-```ts
-import { take } from 'fp-ts/lib/Array'
-
-assert.deepStrictEqual(take(2, [1, 2, 3]), [1, 2])
+export function take<A>(n: number, as: Array<A>): Array<A> { ... }
 ```
 
 Added in v1.0.0
 
-# takeEnd (function)
+# ~~takeEnd~~ (function)
 
-Keep only a number of elements from the end of an array, creating a new array.
-`n` must be a natural number
+Use `takeRight`
 
 **Signature**
 
@@ -1450,33 +1571,80 @@ Keep only a number of elements from the end of an array, creating a new array.
 export const takeEnd = <A>(n: number, as: Array<A>): Array<A> => ...
 ```
 
+Added in v1.10.0
+
+# takeLeft (function)
+
+Keep only a number of elements from the start of an array, creating a new array.
+`n` must be a natural number
+
+**Signature**
+
+```ts
+export function takeLeft(n: number): <A>(as: Array<A>) => Array<A> { ... }
+```
+
 **Example**
 
 ```ts
-import { takeEnd } from 'fp-ts/lib/Array'
+import { takeLeft } from 'fp-ts/lib/Array'
 
-assert.deepStrictEqual(takeEnd(2, [1, 2, 3, 4, 5]), [4, 5])
+assert.deepStrictEqual(takeLeft(2)([1, 2, 3]), [1, 2])
 ```
 
-Added in v1.10.0
+Added in v1.19.0
 
-# takeWhile (function)
+# takeLeftWhile (function)
 
 Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
 
 **Signature**
 
 ```ts
-export function takeWhile<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): Array<B>
-export function takeWhile<A>(as: Array<A>, predicate: Predicate<A>): Array<A> { ... }
+export function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
+export function takeLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A> { ... }
 ```
 
 **Example**
 
 ```ts
-import { takeWhile } from 'fp-ts/lib/Array'
+import { takeLeftWhile } from 'fp-ts/lib/Array'
 
-assert.deepStrictEqual(takeWhile([2, 4, 3, 6], n => n % 2 === 0), [2, 4])
+assert.deepStrictEqual(takeLeftWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), [2, 4])
+```
+
+Added in v1.19.0
+
+# takeRight (function)
+
+Keep only a number of elements from the end of an array, creating a new array.
+`n` must be a natural number
+
+**Signature**
+
+```ts
+export function takeRight(n: number): <A>(as: Array<A>) => Array<A> { ... }
+```
+
+**Example**
+
+```ts
+import { takeRight } from 'fp-ts/lib/Array'
+
+assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
+```
+
+Added in v1.19.0
+
+# ~~takeWhile~~ (function)
+
+Use `takeLeftWhile`
+
+**Signature**
+
+```ts
+export function takeWhile<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): Array<B>
+export function takeWhile<A>(as: Array<A>, predicate: Predicate<A>): Array<A> { ... }
 ```
 
 Added in v1.0.0
@@ -1607,7 +1775,8 @@ Change the element at the specified index, creating a new array, or returning `N
 **Signature**
 
 ```ts
-export const updateAt = <A>(i: number, a: A, as: Array<A>): Option<Array<A>> => ...
+export function updateAt<A>(i: number, a: A): (as: Array<A>) => Option<Array<A>>
+export function updateAt<A>(i: number, a: A, as: Array<A>): Option<Array<A>> { ... }
 ```
 
 **Example**
@@ -1616,8 +1785,8 @@ export const updateAt = <A>(i: number, a: A, as: Array<A>): Option<Array<A>> => 
 import { updateAt } from 'fp-ts/lib/Array'
 import { some, none } from 'fp-ts/lib/Option'
 
-assert.deepStrictEqual(updateAt(1, 1, [1, 2, 3]), some([1, 1, 3]))
-assert.deepStrictEqual(updateAt(1, 1, []), none)
+assert.deepStrictEqual(updateAt(1, 1)([1, 2, 3]), some([1, 1, 3]))
+assert.deepStrictEqual(updateAt(1, 1)([]), none)
 ```
 
 Added in v1.0.0

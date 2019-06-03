@@ -6,7 +6,7 @@
  * ```
  */
 import { Applicative } from './Applicative'
-import { empty, getEq as getArrayEq, traverse as arrayTraverse } from './Array'
+import { empty, getEq as getArrayEq, array } from './Array'
 import { Comonad1 } from './Comonad'
 import { Foldable2v1 } from './Foldable2v'
 import { concat, identity, toString } from './function'
@@ -101,7 +101,7 @@ const foldr = <A, B>(fa: Tree<A>, b: B, f: (a: A, b: B) => B): B => {
 }
 
 function traverse<F>(F: Applicative<F>): <A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>) => HKT<F, Tree<B>> {
-  const traverseF = arrayTraverse(F)
+  const traverseF = array.traverse(F)
   const r = <A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>): HKT<F, Tree<B>> =>
     F.ap(
       F.map(f(ta.value), (value: B) => (forest: Forest<B>) => new Tree(value, forest)),
@@ -270,7 +270,7 @@ export function unfoldForestM<M>(
 export function unfoldForestM<M>(
   M: Monad<M>
 ): <A, B>(bs: Array<B>, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Forest<A>> {
-  const traverseM = arrayTraverse(M)
+  const traverseM = array.traverse(M)
   let unfoldTree: <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>>
   return (bs, f) => {
     // tslint:disable-next-line

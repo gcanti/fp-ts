@@ -102,6 +102,7 @@ export class Zipper<A> {
     if (isEmpty(this.lefts)) {
       return this
     } else {
+      // tslint:disable-next-line: deprecation
       return new Zipper(empty, this.lefts[0], snoc(drop(1, this.lefts), this.focus).concat(this.rights))
     }
   }
@@ -114,6 +115,7 @@ export class Zipper<A> {
     if (len === 0) {
       return this
     } else {
+      // tslint:disable-next-line: deprecation
       return new Zipper(snoc(this.lefts, this.focus).concat(take(len - 1, this.rights)), this.rights[len - 1], empty)
     }
   }
@@ -194,6 +196,7 @@ export const fromArray = <A>(as: Array<A>, focusIndex: number = 0): Option<Zippe
   if (isEmpty(as) || isOutOfBound(focusIndex, as)) {
     return none
   } else {
+    // tslint:disable-next-line: deprecation
     return some(new Zipper(take(focusIndex, as), as[focusIndex], drop(focusIndex + 1, as)))
   }
 }
@@ -270,9 +273,11 @@ const extract = <A>(fa: Zipper<A>): A => {
 
 const extend = <A, B>(fa: Zipper<A>, f: (fa: Zipper<A>) => B): Zipper<B> => {
   const lefts = fa.lefts.map((a, i) =>
+    // tslint:disable-next-line: deprecation
     f(new Zipper(take(i, fa.lefts), a, snoc(drop(i + 1, fa.lefts), fa.focus).concat(fa.rights)))
   )
   const rights = fa.rights.map((a, i) =>
+    // tslint:disable-next-line: deprecation
     f(new Zipper(snoc(fa.lefts, fa.focus).concat(take(i, fa.rights)), a, drop(i + 1, fa.rights)))
   )
   return new Zipper(lefts, f(fa), rights)
