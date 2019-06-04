@@ -50,20 +50,26 @@ export interface Apply4<F extends URIS4> extends Functor4<F> {
  * Combine two effectful actions, keeping only the result of the first
  *
  * @since 1.0.0
+ * @deprecated
  */
 export function applyFirst<F extends URIS3>(
   F: Apply3<F>
 ): <U, L, A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, A>
+/** @deprecated */
 export function applyFirst<F extends URIS3, U, L>(
   F: Apply3C<F, U, L>
 ): <A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, A>
+/** @deprecated */
 export function applyFirst<F extends URIS2>(
   F: Apply2<F>
 ): <L, A, B>(fa: Type2<F, L, A>, fb: Type2<F, L, B>) => Type2<F, L, A>
+/** @deprecated */
 export function applyFirst<F extends URIS2, L>(
   F: Apply2C<F, L>
 ): <A, B>(fa: Type2<F, L, A>, fb: Type2<F, L, B>) => Type2<F, L, A>
+/** @deprecated */
 export function applyFirst<F extends URIS>(F: Apply1<F>): <A, B>(fa: Type<F, A>, fb: Type<F, B>) => Type<F, A>
+/** @deprecated */
 export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A>
 export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A> {
   return (fa, fb) => F.ap(F.map(fa, constant), fb)
@@ -73,20 +79,26 @@ export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>)
  * Combine two effectful actions, keeping only the result of the second
  *
  * @since 1.0.0
+ * @deprecated
  */
 export function applySecond<F extends URIS3>(
   F: Apply3<F>
 ): <U, L, A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, B>
+/** @deprecated */
 export function applySecond<F extends URIS3, U, L>(
   F: Apply3C<F, U, L>
 ): <A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, B>
+/** @deprecated */
 export function applySecond<F extends URIS2>(
   F: Apply2<F>
 ): <L, A, B>(fa: Type2<F, L, A>, fb: Type2<F, L, B>) => Type2<F, L, B>
+/** @deprecated */
 export function applySecond<F extends URIS2, L>(
   F: Apply2C<F, L>
 ): <A, B>(fa: Type2<F, L, A>, fb: Type2<F, L, B>) => Type2<F, L, B>
+/** @deprecated */
 export function applySecond<F extends URIS>(F: Apply1<F>): <A, B>(fa: Type<F, A>, fb: Type<F, B>) => Type<F, B>
+/** @deprecated */
 export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B>
 export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B> {
   return <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => F.ap(F.map(fa, () => (b: B) => b), fb)
@@ -102,21 +114,32 @@ export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>
  */
 export function liftA2<F extends URIS3>(
   F: Apply3<F>
-): <A, B, C>(f: Curried2<A, B, C>) => <U, L>(fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => Type3<F, U, L, C>
+): // tslint:disable-next-line: deprecation
+<A, B, C>(f: Curried2<A, B, C>) => <U, L>(fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => Type3<F, U, L, C>
+/** @deprecated */
 export function liftA2<F extends URIS3, U, L>(
   F: Apply3C<F, U, L>
-): <A, B, C>(f: Curried2<A, B, C>) => (fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => Type3<F, U, L, C>
+): // tslint:disable-next-line: deprecation
+<A, B, C>(f: Curried2<A, B, C>) => (fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => Type3<F, U, L, C>
+/** @deprecated */
 export function liftA2<F extends URIS2>(
   F: Apply2<F>
-): <A, B, C>(f: Curried2<A, B, C>) => <L>(fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => Type2<F, L, C>
+): // tslint:disable-next-line: deprecation
+<A, B, C>(f: Curried2<A, B, C>) => <L>(fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => Type2<F, L, C>
+/** @deprecated */
 export function liftA2<F extends URIS2, L>(
   F: Apply2C<F, L>
-): <A, B, C>(f: Curried2<A, B, C>) => (fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => Type2<F, L, C>
+): // tslint:disable-next-line: deprecation
+<A, B, C>(f: Curried2<A, B, C>) => (fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => Type2<F, L, C>
+/** @deprecated */
 export function liftA2<F extends URIS>(
   F: Apply1<F>
-): <A, B, C>(f: Curried2<A, B, C>) => Curried2<Type<F, A>, Type<F, B>, Type<F, C>>
+): // tslint:disable-next-line: deprecation
+<A, B, C>(f: Curried2<A, B, C>) => Curried2<Type<F, A>, Type<F, B>, Type<F, C>>
 /** @deprecated */
+// tslint:disable-next-line: deprecation
 export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKT<F, A>, HKT<F, B>, HKT<F, C>>
+// tslint:disable-next-line: deprecation
 export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKT<F, A>, HKT<F, B>, HKT<F, C>> {
   return f => fa => fb => F.ap(F.map(fa, f), fb)
 }
@@ -133,32 +156,43 @@ export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curri
 export function liftA3<F extends URIS3>(
   F: Apply3<F>
 ): <A, B, C, D>(
+  // tslint:disable-next-line: deprecation
   f: Curried3<A, B, C, D>
 ) => <U, L>(fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => (fc: Type3<F, U, L, C>) => Type3<F, U, L, D>
+/** @deprecated */
 export function liftA3<F extends URIS3, U, L>(
   F: Apply3C<F, U, L>
 ): <A, B, C, D>(
+  // tslint:disable-next-line: deprecation
   f: Curried3<A, B, C, D>
 ) => (fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => (fc: Type3<F, U, L, C>) => Type3<F, U, L, D>
+/** @deprecated */
 export function liftA3<F extends URIS2>(
   F: Apply2<F>
 ): <A, B, C, D>(
+  // tslint:disable-next-line: deprecation
   f: Curried3<A, B, C, D>
 ) => <L>(fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => (fc: Type2<F, L, C>) => Type2<F, L, D>
+/** @deprecated */
 export function liftA3<F extends URIS2, L>(
   F: Apply2C<F, L>
 ): <A, B, C, D>(
+  // tslint:disable-next-line: deprecation
   f: Curried3<A, B, C, D>
 ) => (fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => (fc: Type2<F, L, C>) => Type2<F, L, D>
+/** @deprecated */
 export function liftA3<F extends URIS>(
   F: Apply1<F>
-): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<Type<F, A>, Type<F, B>, Type<F, C>, Type<F, D>>
+): // tslint:disable-next-line: deprecation
+<A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<Type<F, A>, Type<F, B>, Type<F, C>, Type<F, D>>
 /** @deprecated */
 export function liftA3<F>(
   F: Apply<F>
-): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>>
+): // tslint:disable-next-line: deprecation
+<A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>>
 export function liftA3<F>(
   F: Apply<F>
+  // tslint:disable-next-line: deprecation
 ): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>> {
   return f => fa => fb => fc => F.ap(F.ap(F.map(fa, f), fb), fc)
 }
@@ -175,36 +209,47 @@ export function liftA3<F>(
 export function liftA4<F extends URIS3>(
   F: Apply3<F>
 ): <A, B, C, D, E>(
+  // tslint:disable-next-line: deprecation
   f: Curried4<A, B, C, D, E>
 ) => <U, L>(
   fa: Type3<F, U, L, A>
 ) => (fb: Type3<F, U, L, B>) => (fc: Type3<F, U, L, C>) => (fd: Type3<F, U, L, D>) => Type3<F, U, L, E>
+/** @deprecated */
 export function liftA4<F extends URIS3, U, L>(
   F: Apply3C<F, U, L>
 ): <A, B, C, D, E>(
+  // tslint:disable-next-line: deprecation
   f: Curried4<A, B, C, D, E>
 ) => (
   fa: Type3<F, U, L, A>
 ) => (fb: Type3<F, U, L, B>) => (fc: Type3<F, U, L, C>) => (fd: Type3<F, U, L, D>) => Type3<F, U, L, E>
+/** @deprecated */
 export function liftA4<F extends URIS2>(
   F: Apply2<F>
 ): <A, B, C, D, E>(
+  // tslint:disable-next-line: deprecation
   f: Curried4<A, B, C, D, E>
 ) => <L>(fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => (fc: Type2<F, L, C>) => (fd: Type2<F, L, D>) => Type2<F, L, E>
+/** @deprecated */
 export function liftA4<F extends URIS2, L>(
   F: Apply2C<F, L>
 ): <A, B, C, D, E>(
+  // tslint:disable-next-line: deprecation
   f: Curried4<A, B, C, D, E>
 ) => (fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => (fc: Type2<F, L, C>) => (fd: Type2<F, L, D>) => Type2<F, L, E>
+/** @deprecated */
 export function liftA4<F extends URIS>(
   F: Apply1<F>
-): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<Type<F, A>, Type<F, B>, Type<F, C>, Type<F, D>, Type<F, E>>
+): // tslint:disable-next-line: deprecation
+<A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<Type<F, A>, Type<F, B>, Type<F, C>, Type<F, D>, Type<F, E>>
 /** @deprecated */
 export function liftA4<F>(
   F: Apply<F>
-): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>>
+): // tslint:disable-next-line: deprecation
+<A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>>
 export function liftA4<F>(
   F: Apply<F>
+  // tslint:disable-next-line: deprecation
 ): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>> {
   return f => fa => fb => fc => fd => F.ap(F.ap(F.ap(F.map(fa, f), fb), fc), fd)
 }
@@ -224,21 +269,27 @@ export function liftA4<F>(
  * assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
  *
  * @since 1.4.0
+ * @deprecated
  */
 export function getSemigroup<F extends URIS3, A>(
   F: Apply3<F>,
   S: Semigroup<A>
 ): <U = never, L = never>() => Semigroup<Type3<F, U, L, A>>
+/** @deprecated */
 export function getSemigroup<F extends URIS3, U, L, A>(
   F: Apply3C<F, U, L>,
   S: Semigroup<A>
 ): () => Semigroup<Type3<F, U, L, A>>
+/** @deprecated */
 export function getSemigroup<F extends URIS2, A>(
   F: Apply2<F>,
   S: Semigroup<A>
 ): <L = never>() => Semigroup<Type2<F, L, A>>
+/** @deprecated */
 export function getSemigroup<F extends URIS2, L, A>(F: Apply2C<F, L>, S: Semigroup<A>): () => Semigroup<Type2<F, L, A>>
+/** @deprecated */
 export function getSemigroup<F extends URIS, A>(F: Apply1<F>, S: Semigroup<A>): () => Semigroup<Type<F, A>>
+/** @deprecated */
 export function getSemigroup<F, A>(F: Apply<F>, S: Semigroup<A>): () => Semigroup<HKT<F, A>>
 export function getSemigroup<F, A>(F: Apply<F>, S: Semigroup<A>): () => Semigroup<HKT<F, A>> {
   const f = (a: A) => (b: A) => S.concat(a, b)
@@ -290,6 +341,7 @@ export interface SequenceT<F> {
   >
 }
 
+// tslint:disable-next-line: deprecation
 const tupleConstructors: { [key: string]: Function1<any, any> } = {}
 
 /**
@@ -317,6 +369,7 @@ export function sequenceT<F>(F: Apply<F>): (...args: Array<any>) => HKT<F, any> 
     const len = args.length
     let f = tupleConstructors[len]
     if (!Boolean(f)) {
+      // tslint:disable-next-line: deprecation
       f = tupleConstructors[len] = curried((...args: Array<any>): Array<any> => args, len - 1, [])
     }
     let r = F.map(args[0], f)

@@ -53,6 +53,7 @@ export class Task<A> {
    * @since 1.5.0
    */
   applySecond<B>(fb: Task<B>): Task<B> {
+    // tslint:disable-next-line: deprecation
     return fb.ap(this.map(constIdentity as () => (b: B) => B))
   }
   chain<B>(f: (a: A) => Task<B>): Task<B> {
@@ -62,6 +63,7 @@ export class Task<A> {
     return this.toString()
   }
   toString(): string {
+    // tslint:disable-next-line: deprecation
     return `new Task(${toString(this.run)})`
   }
 }

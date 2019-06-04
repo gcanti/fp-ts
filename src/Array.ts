@@ -1470,6 +1470,7 @@ export function comprehension<R>(
  */
 export const union = <A>(E: Eq<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => {
   const elemE = elem(E)
+  // tslint:disable-next-line: deprecation
   return (xs, ys) => concat(xs, ys.filter(a => !elemE(a, xs)))
 }
 
@@ -1604,6 +1605,7 @@ export const array: Monad1<URI> &
     return array.reduce(ta, F.of(array.zero()), (fas, fa) => F.ap(F.map(fas, as => (a: A) => snoc(as, a)), fa))
   },
   zero: () => empty,
+  // tslint:disable-next-line: deprecation
   alt: (fx, fy) => concat(fx, fy),
   extend: (fa, f) => fa.map((_, i, as) => f(as.slice(i))),
   wither: <F>(F: Applicative<F>): (<A, B>(ta: Array<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Array<B>>) => {

@@ -26,7 +26,7 @@ Note. `Apply`'s `ap` can be derived: `(fab, fa) => F.chain(fab, f => F.map(f, fa
 - [Chain3 (interface)](#chain3-interface)
 - [Chain3C (interface)](#chain3c-interface)
 - [Chain4 (interface)](#chain4-interface)
-- [flatten (function)](#flatten-function)
+- [~~flatten~~ (function)](#flatten-function)
 
 ---
 
@@ -102,7 +102,7 @@ export interface Chain4<F extends URIS4> extends Apply4<F> {
 }
 ```
 
-# flatten (function)
+# ~~flatten~~ (function)
 
 **Signature**
 

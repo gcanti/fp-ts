@@ -384,6 +384,7 @@ export class Some<A> {
     return this.toString()
   }
   toString(): string {
+    // tslint:disable-next-line: deprecation
     return `some(${toString(this.value)})`
   }
   contains(E: Eq<A>, a: A): boolean {

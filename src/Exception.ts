@@ -9,6 +9,7 @@ import { Option, none, some } from './Option'
  * Create a JavaScript error, specifying a message
  *
  * @since 1.0.0
+ * @deprecated
  */
 export const error = (message: string): Error => {
   return new Error(message)
@@ -18,6 +19,7 @@ export const error = (message: string): Error => {
  * Get the error message from a JavaScript error
  *
  * @since 1.0.0
+ * @deprecated
  */
 export const message = (e: Error): string => {
   return e.message
@@ -27,6 +29,7 @@ export const message = (e: Error): string => {
  * Get the stack trace from a JavaScript error
  *
  * @since 1.0.0
+ * @deprecated
  */
 export const stack = (e: Error): Option<string> => {
   return typeof e.stack === 'string' ? some(e.stack) : none
@@ -36,6 +39,7 @@ export const stack = (e: Error): Option<string> => {
  * Throw an exception
  *
  * @since 1.0.0
+ * @deprecated
  */
 export const throwError = <A>(e: Error): IO<A> => {
   return new IO(() => {
@@ -47,6 +51,7 @@ export const throwError = <A>(e: Error): IO<A> => {
  * Catch an exception by providing an exception handler
  *
  * @since 1.0.0
+ * @deprecated
  */
 export const catchError = <A>(ma: IO<A>, handler: (e: Error) => IO<A>): IO<A> => {
   return new IO(() => {
@@ -67,7 +72,9 @@ export const catchError = <A>(ma: IO<A>, handler: (e: Error) => IO<A>): IO<A> =>
  * a `Right`.
  *
  * @since 1.0.0
+ * @deprecated
  */
 export const tryCatch = <A>(ma: IO<A>): IO<Either<Error, A>> => {
+  // tslint:disable-next-line: deprecation
   return catchError(ma.map<Either<Error, A>>(right), e => io.of(left<Error, A>(e)))
 }

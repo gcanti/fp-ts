@@ -218,6 +218,7 @@ export class NonEmptyArray<A> {
    * Return stringified representation of this `NonEmptyArray`
    */
   toString(): string {
+    // tslint:disable-next-line: deprecation
     return `new NonEmptyArray(${toString(this.head)}, ${toString(this.tail)})`
   }
 
@@ -606,6 +607,7 @@ export const group = <A>(S: Eq<A>) => (as: Array<A>): Array<NonEmptyArray<A>> =>
  * @since 1.7.0
  */
 export const groupSort = <A>(O: Ord<A>): ((as: Array<A>) => Array<NonEmptyArray<A>>) => {
+  // tslint:disable-next-line: deprecation
   return compose(
     group(O),
     sort(O)

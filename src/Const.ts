@@ -20,8 +20,6 @@ export const URI = 'Const'
 export type URI = typeof URI
 
 /**
- * @data
- * @constructor Const
  * @since 1.0.0
  */
 export class Const<L, A> {
@@ -47,6 +45,7 @@ export class Const<L, A> {
     return this.toString()
   }
   toString(): string {
+    // tslint:disable-next-line: deprecation
     return `make(${toString(this.value)})`
   }
 }

@@ -13,8 +13,8 @@ parent: Modules
 - [Profunctor2C (interface)](#profunctor2c-interface)
 - [Profunctor3 (interface)](#profunctor3-interface)
 - [Profunctor4 (interface)](#profunctor4-interface)
-- [lmap (function)](#lmap-function)
-- [rmap (function)](#rmap-function)
+- [~~lmap~~ (function)](#lmap-function)
+- [~~rmap~~ (function)](#rmap-function)
 
 ---
 
@@ -72,7 +72,7 @@ export interface Profunctor4<F extends URIS4> extends Functor4<F> {
 }
 ```
 
-# lmap (function)
+# ~~lmap~~ (function)
 
 **Signature**
 
@@ -88,7 +88,7 @@ export function lmap<F>(profunctor: Profunctor<F>): <A, B, C>(fbc: HKT2<F, B, C>
 
 Added in v1.0.0
 
-# rmap (function)
+# ~~rmap~~ (function)
 
 **Signature**
 

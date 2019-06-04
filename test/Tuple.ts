@@ -1,9 +1,9 @@
 import * as assert from 'assert'
-import { sort } from '../src/Array'
 import { left, right } from '../src/Either'
 import * as F from '../src/Foldable'
 import { identity, pipeOp } from '../src/function'
-import { getArrayMonoid, monoidString, monoidSum } from '../src/Monoid'
+import { monoidString, monoidSum } from '../src/Monoid'
+import * as A from '../src/Array'
 import { none, option, some } from '../src/Option'
 import { ordNumber, ordString } from '../src/Ord'
 import { eqBoolean, eqNumber } from '../src/Eq'
@@ -156,7 +156,7 @@ describe('Tuple', () => {
   })
 
   it('chainRec', () => {
-    const { chainRec } = getChainRec(getArrayMonoid<number>())
+    const { chainRec } = getChainRec(A.getMonoid<number>())
     function seqReq(upper: number): Tuple<Array<number>, number> {
       return chainRec(
         1,
@@ -177,7 +177,7 @@ describe('Tuple', () => {
       new Tuple(1, 'c')
     ]
     const O = getOrd(ordNumber, ordString)
-    assert.deepStrictEqual(sort(O)(tuples), [
+    assert.deepStrictEqual(A.sort(O)(tuples), [
       new Tuple(1, 'b'),
       new Tuple(1, 'c'),
       new Tuple(2, 'a'),

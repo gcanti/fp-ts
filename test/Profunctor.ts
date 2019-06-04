@@ -35,6 +35,7 @@ const profunctorFun: Profunctor2<URI> = {
 describe('Profunctor', () => {
   it('lmap', () => {
     const fbc = new Fun((s: string): number => s.length)
+    // tslint:disable-next-line: deprecation
     const f = lmap(profunctorFun)
     const fac = f(fbc, (s: string) => s + '!')
     assert.strictEqual(fac.run('foo'), 4)
@@ -42,6 +43,7 @@ describe('Profunctor', () => {
 
   it('rmap', () => {
     const fbc = new Fun((s: string): number => s.length)
+    // tslint:disable-next-line: deprecation
     const f = rmap(profunctorFun)
     const fac = f(fbc, n => n >= 0)
     assert.strictEqual(fac.run('foo'), true)

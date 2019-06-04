@@ -111,6 +111,7 @@ export class Failure<L, A> {
     return this.toString()
   }
   toString(): string {
+    // tslint:disable-next-line: deprecation
     return `failure(${toString(this.value)})`
   }
   /** Returns `true` if the validation is an instance of `Failure`, `false` otherwise */
@@ -157,6 +158,7 @@ export class Success<L, A> {
     return this.toString()
   }
   toString(): string {
+    // tslint:disable-next-line: deprecation
     return `success(${toString(this.value)})`
   }
   isFailure(): this is Failure<L, A> {

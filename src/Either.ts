@@ -134,6 +134,7 @@ export class Left<L, A> {
     return this.toString()
   }
   toString(): string {
+    // tslint:disable-next-line: deprecation
     return `left(${toString(this.value)})`
   }
   /** Returns `true` if the either is an instance of `Left`, `false` otherwise */
@@ -247,6 +248,7 @@ export class Right<L, A> {
     return this.toString()
   }
   toString(): string {
+    // tslint:disable-next-line: deprecation
     return `right(${toString(this.value)})`
   }
   isLeft(): this is Left<L, A> {

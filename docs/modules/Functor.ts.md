@@ -37,11 +37,11 @@ Instances must satisfy the following laws:
 - [FunctorComposition22C (interface)](#functorcomposition22c-interface)
 - [FunctorComposition2C1 (interface)](#functorcomposition2c1-interface)
 - [FunctorComposition3C1 (interface)](#functorcomposition3c1-interface)
-- [flap (function)](#flap-function)
+- [~~flap~~ (function)](#flap-function)
 - [getFunctorComposition (function)](#getfunctorcomposition-function)
-- [lift (function)](#lift-function)
-- [voidLeft (function)](#voidleft-function)
-- [voidRight (function)](#voidright-function)
+- [~~lift~~ (function)](#lift-function)
+- [~~voidLeft~~ (function)](#voidleft-function)
+- [~~voidRight~~ (function)](#voidright-function)
 
 ---
 
@@ -228,7 +228,7 @@ export interface FunctorComposition3C1<F extends URIS3, G extends URIS, UF, LF> 
 }
 ```
 
-# flap (function)
+# ~~flap~~ (function)
 
 Apply a value in a computational context to a value in no context. Generalizes `flip`
 
@@ -295,7 +295,7 @@ export function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): Funct
 
 Added in v1.0.0
 
-# lift (function)
+# ~~lift~~ (function)
 
 Lift a function of one argument to a function which accepts and returns values wrapped with the type constructor `F`
 
@@ -320,7 +320,7 @@ export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>
 
 Added in v1.0.0
 
-# voidLeft (function)
+# ~~voidLeft~~ (function)
 
 A version of `voidRight` with its arguments flipped (`$>`)
 
@@ -341,7 +341,7 @@ export function voidLeft<F>(F: Functor<F>): <A, B>(fa: HKT<F, A>, b: B) => HKT<F
 
 Added in v1.0.0
 
-# voidRight (function)
+# ~~voidRight~~ (function)
 
 Ignore the return value of a computation, using the specified return value instead (`<$`)
 

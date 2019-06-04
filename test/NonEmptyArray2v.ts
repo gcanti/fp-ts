@@ -211,9 +211,19 @@ describe.only('NonEmptyArray2v', () => {
   })
 
   it('groupBy', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(groupBy([], _ => ''), {})
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(groupBy([1], String), { '1': fromNonEmptyArray([1]) })
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(groupBy(['foo', 'bar', 'foobar'], a => String(a.length)), {
+      '3': fromNonEmptyArray(['foo', 'bar']),
+      '6': fromNonEmptyArray(['foobar'])
+    })
+
+    assert.deepStrictEqual(groupBy(_ => '')([]), {})
+    assert.deepStrictEqual(groupBy(String)([1]), { '1': fromNonEmptyArray([1]) })
+    assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['foo', 'bar', 'foobar']), {
       '3': fromNonEmptyArray(['foo', 'bar']),
       '6': fromNonEmptyArray(['foobar'])
     })
@@ -247,8 +257,11 @@ describe.only('NonEmptyArray2v', () => {
     const a2 = make2(1)
     const a3 = make2(2)
     const arr = fromNonEmptyArray([a1, a2, a3])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(findIndex(arr, ({ x }) => x === 1), some(0))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(findIndex(arr, ({ x }) => x === 2), some(2))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(findIndex(arr, ({ x }) => x === 10), none)
   })
 
@@ -258,8 +271,11 @@ describe.only('NonEmptyArray2v', () => {
     const a2 = make2(1)
     const a3 = make2(2)
     const arr = fromNonEmptyArray([a1, a2, a3])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(findLastIndex(arr, ({ x }) => x === 1), some(1))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(findLastIndex(arr, ({ x }) => x === 2), some(2))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(findLastIndex(arr, ({ x }) => x === 10), none)
   })
 
@@ -270,11 +286,22 @@ describe.only('NonEmptyArray2v', () => {
     const a3 = make2(2)
     const a4 = make2(3)
     const arr = fromNonEmptyArray([a1, a2, a3])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(insertAt(0, a4, arr), some(fromNonEmptyArray([a4, a1, a2, a3])))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(insertAt(-1, a4, arr), none)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(insertAt(3, a4, arr), some(fromNonEmptyArray([a1, a2, a3, a4])))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(insertAt(1, a4, arr), some(fromNonEmptyArray([a1, a4, a2, a3])))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(insertAt(4, a4, arr), none)
+
+    assert.deepStrictEqual(insertAt(0, a4)(arr), some(fromNonEmptyArray([a4, a1, a2, a3])))
+    assert.deepStrictEqual(insertAt(-1, a4)(arr), none)
+    assert.deepStrictEqual(insertAt(3, a4)(arr), some(fromNonEmptyArray([a1, a2, a3, a4])))
+    assert.deepStrictEqual(insertAt(1, a4)(arr), some(fromNonEmptyArray([a1, a4, a2, a3])))
+    assert.deepStrictEqual(insertAt(4, a4)(arr), none)
   })
 
   it('updateAt', () => {
@@ -284,20 +311,44 @@ describe.only('NonEmptyArray2v', () => {
     const a3 = make2(2)
     const a4 = make2(3)
     const arr = fromNonEmptyArray([a1, a2, a3])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(updateAt(0, a4, arr), some(fromNonEmptyArray([a4, a2, a3])))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(updateAt(-1, a4, arr), none)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(updateAt(3, a4, arr), none)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(updateAt(1, a4, arr), some(fromNonEmptyArray([a1, a4, a3])))
     // should return the same reference if nothing changed
+    // tslint:disable-next-line: deprecation
     const r1 = updateAt(0, a1, arr)
     if (r1.isSome()) {
       assert.strictEqual(r1.value, arr)
     } else {
       assert.fail('is not a Some')
     }
+    // tslint:disable-next-line: deprecation
     const r2 = updateAt(2, a3, arr)
     if (r2.isSome()) {
       assert.strictEqual(r2.value, arr)
+    } else {
+      assert.fail('is not a Some')
+    }
+
+    assert.deepStrictEqual(updateAt(0, a4)(arr), some(fromNonEmptyArray([a4, a2, a3])))
+    assert.deepStrictEqual(updateAt(-1, a4)(arr), none)
+    assert.deepStrictEqual(updateAt(3, a4)(arr), none)
+    assert.deepStrictEqual(updateAt(1, a4)(arr), some(fromNonEmptyArray([a1, a4, a3])))
+    // should return the same reference if nothing changed
+    const r3 = updateAt(0, a1)(arr)
+    if (r3.isSome()) {
+      assert.strictEqual(r3.value, arr)
+    } else {
+      assert.fail('is not a Some')
+    }
+    const r4 = updateAt(2, a3)(arr)
+    if (r4.isSome()) {
+      assert.strictEqual(r4.value, arr)
     } else {
       assert.fail('is not a Some')
     }
@@ -305,8 +356,13 @@ describe.only('NonEmptyArray2v', () => {
 
   it('modifyAt', () => {
     const double = (n: number): number => n * 2
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(modifyAt(cons(1, []), 1, double), none)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(modifyAt(cons(1, [2]), 1, double), some(cons(1, [4])))
+
+    assert.deepStrictEqual(modifyAt(1, double)(cons(1, [])), none)
+    assert.deepStrictEqual(modifyAt(1, double)(cons(1, [2])), some(cons(1, [4])))
   })
 
   it('copy', () => {
@@ -322,29 +378,67 @@ describe.only('NonEmptyArray2v', () => {
     const a2 = make2(1)
     const a3 = make2(2)
     const arr = fromNonEmptyArray([a1, a2, a3])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(filter(arr, ({ x }) => x !== 1), some(fromNonEmptyArray([a3])))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(filter(arr, ({ x }) => x !== 2), some(fromNonEmptyArray([a1, a2])))
     assert.deepStrictEqual(
+      // tslint:disable-next-line: deprecation
       filter(arr, ({ x }) => {
         return !(x === 1 || x === 2)
       }),
       none
     )
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(filter(arr, ({ x }) => x !== 10), some(fromNonEmptyArray([a1, a2, a3])))
 
     // refinements
-    const actual1 = filter(fromNonEmptyArray([some(3), some(2), some(1)]), isSome)
-    assert.deepStrictEqual(actual1, some(fromNonEmptyArray([some(3), some(2), some(1)])))
-    const actual2 = filter(fromNonEmptyArray([some(3), none, some(1)]), isSome)
-    assert.deepStrictEqual(actual2, some(fromNonEmptyArray([some(3), some(1)])))
+    assert.deepStrictEqual(
+      // tslint:disable-next-line: deprecation
+      filter(fromNonEmptyArray([some(3), some(2), some(1)]), isSome),
+      some(fromNonEmptyArray([some(3), some(2), some(1)]))
+    )
+    assert.deepStrictEqual(
+      // tslint:disable-next-line: deprecation
+      filter(fromNonEmptyArray([some(3), none, some(1)]), isSome),
+      some(fromNonEmptyArray([some(3), some(1)]))
+    )
+
+    assert.deepStrictEqual(filter(({ x }) => x !== 1)(arr), some(fromNonEmptyArray([a3])))
+    assert.deepStrictEqual(filter(({ x }) => x !== 2)(arr), some(fromNonEmptyArray([a1, a2])))
+    assert.deepStrictEqual(
+      filter(({ x }) => {
+        return !(x === 1 || x === 2)
+      })(arr),
+      none
+    )
+    assert.deepStrictEqual(filter(({ x }) => x !== 10)(arr), some(fromNonEmptyArray([a1, a2, a3])))
+
+    // refinements
+    assert.deepStrictEqual(
+      filter(isSome)(fromNonEmptyArray([some(3), some(2), some(1)])),
+      some(fromNonEmptyArray([some(3), some(2), some(1)]))
+    )
+    assert.deepStrictEqual(
+      filter(isSome)(fromNonEmptyArray([some(3), none, some(1)])),
+      some(fromNonEmptyArray([some(3), some(1)]))
+    )
   })
 
   it('filterWithIndex', () => {
     assert.deepStrictEqual(
+      // tslint:disable-next-line: deprecation
       filterWithIndex(fromNonEmptyArray([1, 2, 3]), i => i % 2 === 0),
       some(fromNonEmptyArray([1, 3]))
     )
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(filterWithIndex(fromNonEmptyArray([1, 2, 3]), (i, a) => i % 2 === 1 && a > 2), none)
+
+    assert.deepStrictEqual(
+      filterWithIndex(i => i % 2 === 0)(fromNonEmptyArray([1, 2, 3])),
+      some(fromNonEmptyArray([1, 3]))
+    )
+    assert.deepStrictEqual(filterWithIndex((i, a: number) => i % 2 === 1 && a > 2)(fromNonEmptyArray([1, 2, 3])), none)
   })
 
   it('reduceWithIndex', () => {

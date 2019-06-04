@@ -12,16 +12,16 @@ Adapted from https://github.com/purescript/purescript-exceptions
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [catchError (function)](#catcherror-function)
-- [error (function)](#error-function)
-- [message (function)](#message-function)
-- [stack (function)](#stack-function)
-- [throwError (function)](#throwerror-function)
-- [tryCatch (function)](#trycatch-function)
+- [~~catchError~~ (function)](#catcherror-function)
+- [~~error~~ (function)](#error-function)
+- [~~message~~ (function)](#message-function)
+- [~~stack~~ (function)](#stack-function)
+- [~~throwError~~ (function)](#throwerror-function)
+- [~~tryCatch~~ (function)](#trycatch-function)
 
 ---
 
-# catchError (function)
+# ~~catchError~~ (function)
 
 Catch an exception by providing an exception handler
 
@@ -33,7 +33,7 @@ export const catchError = <A>(ma: IO<A>, handler: (e: Error) => IO<A>): IO<A> =>
 
 Added in v1.0.0
 
-# error (function)
+# ~~error~~ (function)
 
 Create a JavaScript error, specifying a message
 
@@ -45,7 +45,7 @@ export const error = (message: string): Error => ...
 
 Added in v1.0.0
 
-# message (function)
+# ~~message~~ (function)
 
 Get the error message from a JavaScript error
 
@@ -57,7 +57,7 @@ export const message = (e: Error): string => ...
 
 Added in v1.0.0
 
-# stack (function)
+# ~~stack~~ (function)
 
 Get the stack trace from a JavaScript error
 
@@ -69,7 +69,7 @@ export const stack = (e: Error): Option<string> => ...
 
 Added in v1.0.0
 
-# throwError (function)
+# ~~throwError~~ (function)
 
 Throw an exception
 
@@ -81,7 +81,7 @@ export const throwError = <A>(e: Error): IO<A> => ...
 
 Added in v1.0.0
 
-# tryCatch (function)
+# ~~tryCatch~~ (function)
 
 Runs an IO and returns eventual Exceptions as a `Left` value. If the computation succeeds the result gets wrapped in
 a `Right`.

@@ -190,27 +190,14 @@ export const group = <A>(E: Eq<A>) => (as: Array<A>): Array<NonEmptyArray<A>> =>
  * @since 1.15.0
  */
 export const groupSort = <A>(O: Ord<A>): ((as: Array<A>) => Array<NonEmptyArray<A>>) => {
+  // tslint:disable-next-line: deprecation
   return compose(
     group(O),
     A.sort(O)
   )
 }
 
-/**
- * Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning
- * function on each element, and grouping the results according to values returned
- *
- * @example
- * import { make, groupBy } from 'fp-ts/lib/NonEmptyArray2v'
- *
- * assert.deepStrictEqual(groupBy(['foo', 'bar', 'foobar'], a => String(a.length)), {
- *   '3': make('foo', ['bar']),
- *   '6': make('foobar', [])
- * })
- *
- * @since 1.15.0
- */
-export const groupBy = <A>(as: Array<A>, f: (a: A) => string): { [key: string]: NonEmptyArray<A> } => {
+function _groupBy<A>(as: Array<A>, f: (a: A) => string): { [key: string]: NonEmptyArray<A> } {
   const r: { [key: string]: NonEmptyArray<A> } = {}
   for (const a of as) {
     const k = f(a)
@@ -221,6 +208,27 @@ export const groupBy = <A>(as: Array<A>, f: (a: A) => string): { [key: string]: 
     }
   }
   return r
+}
+
+/**
+ * Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning
+ * function on each element, and grouping the results according to values returned
+ *
+ * @example
+ * import { cons, groupBy } from 'fp-ts/lib/NonEmptyArray2v'
+ *
+ * assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['foo', 'bar', 'foobar']), {
+ *   '3': cons('foo', ['bar']),
+ *   '6': cons('foobar', [])
+ * })
+ *
+ * @since 1.15.0
+ */
+export function groupBy<A>(f: (a: A) => string): (as: Array<A>) => { [key: string]: NonEmptyArray<A> }
+/** @deprecated */
+export function groupBy<A>(as: Array<A>, f: (a: A) => string): { [key: string]: NonEmptyArray<A> }
+export function groupBy(...args: Array<any>): any {
+  return args.length === 1 ? <A>(as: Array<A>) => _groupBy(as, args[0]) : _groupBy(args[0], args[1])
 }
 
 /**
@@ -238,7 +246,10 @@ export function sort<A>(O: Ord<A>): (nea: NonEmptyArray<A>) => NonEmptyArray<A> 
 }
 
 /**
+ * Use `Array`'s `findFirst`
+ *
  * @since 1.15.0
+ * @deprecated
  */
 export function findFirst<A, B extends A>(nea: NonEmptyArray<A>, refinement: Refinement<A, B>): Option<B>
 export function findFirst<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<A>
@@ -248,7 +259,10 @@ export function findFirst<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Op
 }
 
 /**
+ * Use `Array`'s `findLast`
+ *
  * @since 1.15.0
+ * @deprecated
  */
 export function findLast<A, B extends A>(nea: NonEmptyArray<A>, refinement: Refinement<A, B>): Option<B>
 export function findLast<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<A>
@@ -258,7 +272,10 @@ export function findLast<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Opt
 }
 
 /**
+ * Use `Array`'s `findIndex`
+ *
  * @since 1.15.0
+ * @deprecated
  */
 export function findIndex<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<number> {
   // tslint:disable-next-line: deprecation
@@ -266,17 +283,17 @@ export function findIndex<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Op
 }
 
 /**
+ * Use `Array`'s `findLastIndex`
+ *
  * @since 1.15.0
+ * @deprecated
  */
 export function findLastIndex<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<number> {
   // tslint:disable-next-line: deprecation
   return A.findLastIndex(nea, predicate)
 }
 
-/**
- * @since 1.15.0
- */
-export function insertAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonEmptyArray<A>> {
+function _insertAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonEmptyArray<A>> {
   // tslint:disable-next-line: deprecation
   return A.insertAt(i, a, nea) as any
 }
@@ -284,17 +301,47 @@ export function insertAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonE
 /**
  * @since 1.15.0
  */
-export function updateAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonEmptyArray<A>> {
+export function insertAt<A>(i: number, a: A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+/** @deprecated */
+export function insertAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonEmptyArray<A>>
+export function insertAt(...args: Array<any>): any {
+  return args.length === 2
+    ? <A>(nea: NonEmptyArray<A>) => _insertAt(args[0], args[1], nea)
+    : _insertAt(args[0], args[1], args[2])
+}
+
+function _updateAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonEmptyArray<A>> {
   // tslint:disable-next-line: deprecation
   return A.updateAt(i, a, nea) as any
 }
 
 /**
- * @since 1.17.0
+ * @since 1.15.0
  */
-export function modifyAt<A>(nea: NonEmptyArray<A>, i: number, f: (a: A) => A): Option<NonEmptyArray<A>> {
+export function updateAt<A>(i: number, a: A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+/** @deprecated */
+export function updateAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonEmptyArray<A>>
+export function updateAt(...args: Array<any>): any {
+  return args.length === 2
+    ? <A>(nea: NonEmptyArray<A>) => _updateAt(args[0], args[1], nea)
+    : _updateAt(args[0], args[1], args[2])
+}
+
+function _modifyAt<A>(nea: NonEmptyArray<A>, i: number, f: (a: A) => A): Option<NonEmptyArray<A>> {
   // tslint:disable-next-line: deprecation
   return A.modifyAt(nea, i, f) as any
+}
+
+/**
+ * @since 1.17.0
+ */
+export function modifyAt<A>(i: number, f: (a: A) => A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+/** @deprecated */
+export function modifyAt<A>(nea: NonEmptyArray<A>, i: number, f: (a: A) => A): Option<NonEmptyArray<A>>
+export function modifyAt(...args: Array<any>): any {
+  return args.length === 2
+    ? <A>(nea: NonEmptyArray<A>) => _modifyAt(nea, args[0], args[1])
+    : _modifyAt(args[0], args[1], args[2])
 }
 
 /**
@@ -304,23 +351,45 @@ export const copy = <A>(nea: NonEmptyArray<A>): NonEmptyArray<A> => {
   return A.copy(nea) as any
 }
 
-/**
- * @since 1.15.0
- */
-export function filter<A, B extends A>(nea: NonEmptyArray<A>, refinement: Refinement<A, B>): Option<NonEmptyArray<A>>
-export function filter<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<NonEmptyArray<A>>
-export function filter<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<NonEmptyArray<A>> {
+function _filter<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<NonEmptyArray<A>> {
+  // tslint:disable-next-line: deprecation
   return filterWithIndex(nea, (_, a) => predicate(a))
 }
 
 /**
  * @since 1.15.0
  */
+export function filter<A, B extends A>(
+  refinement: Refinement<A, B>
+): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+export function filter<A>(predicate: Predicate<A>): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+/** @deprecated */
+export function filter<A, B extends A>(nea: NonEmptyArray<A>, refinement: Refinement<A, B>): Option<NonEmptyArray<A>>
+/** @deprecated */
+export function filter<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<NonEmptyArray<A>>
+export function filter(...args: Array<any>): any {
+  return args.length === 1 ? <A>(nea: NonEmptyArray<A>) => _filter(nea, args[0]) : _filter(args[0], args[1])
+}
+
+function _filterWithIndex<A>(nea: NonEmptyArray<A>, predicate: (i: number, a: A) => boolean): Option<NonEmptyArray<A>> {
+  return fromArray(nea.filter((a, i) => predicate(i, a)))
+}
+
+/**
+ * @since 1.15.0
+ */
+export function filterWithIndex<A>(
+  predicate: (i: number, a: A) => boolean
+): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+/** @deprecated */
 export function filterWithIndex<A>(
   nea: NonEmptyArray<A>,
   predicate: (i: number, a: A) => boolean
-): Option<NonEmptyArray<A>> {
-  return fromArray(nea.filter((a, i) => predicate(i, a)))
+): Option<NonEmptyArray<A>>
+export function filterWithIndex(...args: Array<any>): any {
+  return args.length === 1
+    ? <A>(nea: NonEmptyArray<A>) => _filterWithIndex(nea, args[0])
+    : _filterWithIndex(args[0], args[1])
 }
 
 /**

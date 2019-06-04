@@ -24,20 +24,20 @@ parent: Modules
 - [Foldable2vComposition22C (interface)](#foldable2vcomposition22c-interface)
 - [Foldable2vComposition2C1 (interface)](#foldable2vcomposition2c1-interface)
 - [Foldable2vComposition3C1 (interface)](#foldable2vcomposition3c1-interface)
-- [elem (function)](#elem-function)
-- [findFirst (function)](#findfirst-function)
-- [fold (function)](#fold-function)
+- [~~elem~~ (function)](#elem-function)
+- [~~findFirst~~ (function)](#findfirst-function)
+- [~~fold~~ (function)](#fold-function)
 - [foldM (function)](#foldm-function)
 - [getFoldableComposition (function)](#getfoldablecomposition-function)
 - [intercalate (function)](#intercalate-function)
-- [max (function)](#max-function)
+- [~~max~~ (function)](#max-function)
 - [~~member~~ (function)](#member-function)
-- [min (function)](#min-function)
-- [oneOf (function)](#oneof-function)
-- [product (function)](#product-function)
-- [sequence\_ (function)](#sequence_-function)
-- [sum (function)](#sum-function)
-- [toArray (function)](#toarray-function)
+- [~~min~~ (function)](#min-function)
+- [~~oneOf~~ (function)](#oneof-function)
+- [~~product~~ (function)](#product-function)
+- [~~sequence\_~~ (function)](#sequence_-function)
+- [~~sum~~ (function)](#sum-function)
+- [~~toArray~~ (function)](#toarray-function)
 - [traverse\_ (function)](#traverse_-function)
 
 ---
@@ -226,7 +226,7 @@ export interface Foldable2vComposition3C1<F extends URIS3, G extends URIS, UF, L
 }
 ```
 
-# elem (function)
+# ~~elem~~ (function)
 
 Test whether a value is an element of a data structure
 
@@ -258,7 +258,7 @@ assert.strictEqual(elem(eqNumber, tree)(5, t), false)
 
 Added in v1.14.0
 
-# findFirst (function)
+# ~~findFirst~~ (function)
 
 Find the first element which satisfies a predicate function
 
@@ -292,7 +292,7 @@ assert.deepStrictEqual(findFirst(tree)(t, a => a > 2), some(3))
 
 Added in v1.10.0
 
-# fold (function)
+# ~~fold~~ (function)
 
 A generalization of monoidal `fold`
 
@@ -462,7 +462,7 @@ assert.strictEqual(intercalate(monoidString, tree)('|', t), 'a|b|c|d')
 
 Added in v1.10.0
 
-# max (function)
+# ~~max~~ (function)
 
 Find the largest element of a structure, according to its `Ord` instance
 
@@ -493,8 +493,6 @@ Added in v1.10.0
 
 # ~~member~~ (function)
 
-Use `elem` instead
-
 **Signature**
 
 ```ts
@@ -511,7 +509,7 @@ export function member<F, A>(E: Eq<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) 
 
 Added in v1.10.0
 
-# min (function)
+# ~~min~~ (function)
 
 Find the smallest element of a structure, according to its `Ord` instance
 
@@ -540,7 +538,7 @@ assert.deepStrictEqual(min(ordNumber, tree)(t), some(1))
 
 Added in v1.10.0
 
-# oneOf (function)
+# ~~oneOf~~ (function)
 
 Combines a collection of elements using the `Alt` operation
 
@@ -582,7 +580,7 @@ assert.deepStrictEqual(oneOf(option, array)([some(2), some(1)]), some(2))
 
 Added in v1.10.0
 
-# product (function)
+# ~~product~~ (function)
 
 Find the product of the numeric values in a data structure
 
@@ -613,7 +611,7 @@ assert.strictEqual(product(fieldNumber, tree)(t), 24)
 
 Added in v1.10.0
 
-# sequence\_ (function)
+# ~~sequence\_~~ (function)
 
 Perform all of the effects in some data structure in the order given by the `Foldable2v` instance, ignoring the final result.
 
@@ -658,7 +656,7 @@ assert.strictEqual(log, 'abc')
 
 Added in v1.10.0
 
-# sum (function)
+# ~~sum~~ (function)
 
 Find the sum of the numeric values in a data structure
 
@@ -686,7 +684,7 @@ assert.strictEqual(sum(fieldNumber, tree)(t), 10)
 
 Added in v1.10.0
 
-# toArray (function)
+# ~~toArray~~ (function)
 
 Transforms a foldable into an array
 

@@ -53,6 +53,7 @@ export class State<S, A> {
    * @since 1.7.0
    */
   applySecond<B>(fb: State<S, B>): State<S, B> {
+    // tslint:disable-next-line: deprecation
     return fb.ap(this.map(constIdentity as () => (b: B) => B))
   }
   chain<B>(f: (a: A) => State<S, B>): State<S, B> {

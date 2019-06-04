@@ -29,6 +29,7 @@ export type ArrayOptionURI = typeof ArrayOptionURI
 
 describe('Foldable2v', () => {
   it('toArray', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(toArray(array)([1, 2, 3]), [1, 2, 3])
   })
 
@@ -65,25 +66,32 @@ describe('Foldable2v', () => {
   it('sequence_', () => {
     let log = ''
     const append = (s: String) => new IO(() => (log += s))
+    // tslint:disable-next-line: deprecation
     sequence_(io, array)([append('a'), append('b'), append('c')]).run()
     assert.strictEqual(log, 'abc')
   })
 
   it('min', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(min(ordNumber, array)([]), option.none)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(min(ordNumber, array)([1, 2, 3, 4, 5]), option.some(1))
   })
 
   it('max', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(max(ordNumber, array)([]), option.none)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(max(ordNumber, array)([1, 2, 3, 4, 5]), option.some(5))
   })
 
   it('sum', () => {
+    // tslint:disable-next-line: deprecation
     assert.strictEqual(sum(fieldNumber, array)([1, 2, 3, 4, 5]), 15)
   })
 
   it('product', () => {
+    // tslint:disable-next-line: deprecation
     assert.strictEqual(product(fieldNumber, array)([1, 2, 3, 4, 5]), 120)
   })
 
@@ -94,9 +102,13 @@ describe('Foldable2v', () => {
   })
 
   it('oneOf', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(oneOf(option.option, array)([]), option.none)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(oneOf(option.option, array)([option.none]), option.none)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(oneOf(option.option, array)([option.none, option.some(1)]), option.some(1))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(oneOf(option.option, array)([option.some(2), option.some(1)]), option.some(2))
   })
 
@@ -108,11 +120,14 @@ describe('Foldable2v', () => {
   })
 
   it('findFirst', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(findFirst(array)([1, 2, 3], a => a > 4), option.none)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(findFirst(array)([1, 2, 3, 5], a => a > 4), option.some(5))
   })
 
   it('fold', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(fold(monoidString, array)(['a', 'b', 'c']), 'abc')
   })
 })

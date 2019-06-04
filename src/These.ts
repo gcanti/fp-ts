@@ -70,6 +70,7 @@ export class This<L, A> {
     return this.toString()
   }
   toString(): string {
+    // tslint:disable-next-line: deprecation
     return `left(${toString(this.value)})`
   }
   /** Returns `true` if the these is `This`, `false` otherwise */
@@ -108,6 +109,7 @@ export class That<L, A> {
     return this.toString()
   }
   toString(): string {
+    // tslint:disable-next-line: deprecation
     return `right(${toString(this.value)})`
   }
   isThis(): this is This<L, A> {
@@ -143,6 +145,7 @@ export class Both<L, A> {
     return this.toString()
   }
   toString(): string {
+    // tslint:disable-next-line: deprecation
     return `both(${toString(this.l)}, ${toString(this.a)})`
   }
   isThis(): this is This<L, A> {

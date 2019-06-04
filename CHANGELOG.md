@@ -52,19 +52,25 @@ pipeOp(
 ```
 
 - **New Feature**
-  - add `Eq` module (gcanti)
+  - add `Eq` module (@gcanti)
   - backport top level data-last functions from v2 (@gcanti)
   - backport `pipeable` module form v2 (@gcanti)
   - backport `pipeOp` function form v2 (@gcanti)
   - Add `foldIO` and `foldIOEither` to `IOEither` (@bwlt)
 - **Deprecations**
   - deprecate `Setoid` in favour of `Eq` (@gcanti)
+  - `Applicative`
+    - deprecate `when` (@gcanti)
+    - deprecate `getMonoid` (@gcanti)
+  - `Apply`
+    - deprecate `applyFirst`, use `pipeable`'s `apFirst` (@gcanti)
+    - deprecate `applySecond`, use `pipeable`'s `apSecond` (@gcanti)
   - `Array`
     - deprecate `catOptions` in favour of `array.compact` (@gcanti)
     - deprecate `mapOptions` in favour of `array.filterMap` (@gcanti)
-    - deprecate uncurried `filter` in favour of curried `filter` (@gcanti)
-    - deprecate uncurried `partition` in favour of curried `partition` (@gcanti)
-    - deprecate uncurried `partitionMap` in favour of curried `partitionMap` (@gcanti)
+    - deprecate uncurried `filter` in favour of curried, data-last `filter` (@gcanti)
+    - deprecate uncurried `partition` in favour of curried, data-last `partition` (@gcanti)
+    - deprecate uncurried `partitionMap` in favour of curried, data-last `partitionMap` (@gcanti)
     - deprecate `fold` / `foldL` in favour of `foldLeft` (@gcanti)
     - deprecate `foldr` in favour of `foldRight` (@gcanti)
     - deprecate `take` in favour of `takeLeft` (@gcanti)
@@ -74,29 +80,66 @@ pipeOp(
     - deprecate `drop` in favour of `dropLeft` (@gcanti)
     - deprecate `dropEnd` in favour of `dropRight` (@gcanti)
     - deprecate `dropWhile` in favour of `dropLeftWhile` (@gcanti)
-    - deprecate uncurried `findIndex` in favour of curried `findIndex` (@gcanti)
-    - deprecate uncurried `findFirst` in favour of curried `findFirst` (@gcanti)
-    - deprecate uncurried `findFirstMap` in favour of curried `findFirstMap` (@gcanti)
-    - deprecate uncurried `findLast` in favour of curried `findLast` (@gcanti)
-    - deprecate uncurried `findLastMap` in favour of curried `findLastMap` (@gcanti)
-    - deprecate uncurried `findLastIndex` in favour of curried `findLastIndex` (@gcanti)
-    - deprecate uncurried `insertAt` in favour of curried `insertAt` (@gcanti)
-    - deprecate uncurried `updateAt` in favour of curried `updateAt` (@gcanti)
-    - deprecate uncurried `deleteAt` in favour of curried `deleteAt` (@gcanti)
-    - deprecate uncurried `modifyAt` in favour of curried `modifyAt` (@gcanti)
-    - deprecate uncurried `rotate` in favour of curried `rotate` (@gcanti)
-    - deprecate uncurried `chop` in favour of curried `chop` (@gcanti)
+    - deprecate uncurried `findIndex` in favour of curried, data-last `findIndex` (@gcanti)
+    - deprecate uncurried `findFirst` in favour of curried, data-last `findFirst` (@gcanti)
+    - deprecate uncurried `findFirstMap` in favour of curried, data-last `findFirstMap` (@gcanti)
+    - deprecate uncurried `findLast` in favour of curried, data-last `findLast` (@gcanti)
+    - deprecate uncurried `findLastMap` in favour of curried, data-last `findLastMap` (@gcanti)
+    - deprecate uncurried `findLastIndex` in favour of curried, data-last `findLastIndex` (@gcanti)
+    - deprecate uncurried `insertAt` in favour of curried, data-last `insertAt` (@gcanti)
+    - deprecate uncurried `updateAt` in favour of curried, data-last `updateAt` (@gcanti)
+    - deprecate uncurried `deleteAt` in favour of curried, data-last `deleteAt` (@gcanti)
+    - deprecate uncurried `modifyAt` in favour of curried, data-last `modifyAt` (@gcanti)
+    - deprecate uncurried `rotate` in favour of curried, data-last `rotate` (@gcanti)
+    - deprecate uncurried `chop` in favour of curried, data-last `chop` (@gcanti)
     - deprecate `split` in favour of `splitAt` (@gcanti)
-    - deprecate uncurried `chunksOf` in favour of curried `chunksOf` (@gcanti)
+    - deprecate uncurried `chunksOf` in favour of curried, data-last `chunksOf` (@gcanti)
+  - `Chain`
+    - deprecate `flatten`, use `pipeable`'s `flatten` (@gcanti)
+  - `Const`
+    - deprecate `Const` constructor in favour of `make` (@gcanti)
+  - `Contravariant`
+    - deprecate `lift`, use `pipeable`'s `contramap` (@gcanti)
+  - `Exception` module is deprecated (@gcanti)
+  - `Extend`
+    - deprecate `duplicate`, use `pipeable`'s `duplicate` (@gcanti)
+  - `Foldable2v`
+    - deprecate `fold` (@gcanti)
+    - deprecate `sequence_`, use `traverse_` (@gcanti)
+    - deprecate `oneOf` (@gcanti)
+    - deprecate `sum` (@gcanti)
+    - deprecate `product` (@gcanti)
+    - deprecate `elem` (@gcanti)
+    - deprecate `findFirst` (@gcanti)
+    - deprecate `min` (@gcanti)
+    - deprecate `max` (@gcanti)
+    - deprecate `toArray` (@gcanti)
+  - `Free` module is deprecated (@gcanti)
+  - `FreeGroup` module is deprecated (@gcanti)
+  - `function`
+    - deprecate `Function*` types, use `FunctionN` (@gcanti)
+    - deprecate `Kleisli` type (@gcanti)
+    - deprecate `Cokleisli` type (@gcanti)
+    - deprecate `concat` function, use `Array`'s `getSemigroup` (@gcanti)
+    - deprecate `compose` function (@gcanti)
+    - deprecate `curried` function (@gcanti)
+    - deprecate `curry` function (@gcanti)
+    - deprecate `toString` function, use `Show` type class (@gcanti)
+    - deprecate `apply` function (@gcanti)
+    - deprecate `applyFlipped` function (@gcanti)
+    - deprecate `constIdentity` function (@gcanti)
+  - `Functor`
+    - deprecate `lift`, use `pipeable`'s `map` (@gcanti)
+    - deprecate `voidRight` (@gcanti)
+    - deprecate `voidLeft` (@gcanti)
+    - deprecate `flap` (@gcanti)
   - `Monoid`
     - deprecate `getArrayMonoid` in favour of `Array`'s `getMonoid` (@gcanti)
   - `Validation`
-    - deprecate `Validation` module in favour of `Either`'s (@gcanti)
-      - `getValidation`
-      - `getValidationSemigroup`
-      - `getValidationMonoid`
-  - `Const`
-    - deprecate `Const` constructor in favour of `make` (@gcanti)
+    - deprecate `Validation` module in favour of `Either`'s:
+      - `getValidation` (@gcanti)
+      - `getValidationSemigroup` (@gcanti)
+      - `getValidationMonoid` (@gcanti)
   - `Either`
     - deprecate `getCompactable`, `getFilterable` in favour of `getWitherable` (@gcanti)
   - `IOEither`
@@ -104,6 +147,25 @@ pipeOp(
     - deprecate `left` in favour of `leftIO` (@gcanti)
     - deprecate `fromLeft` in favour of `left2v` (@gcanti)
     - add `right2v` (@gcanti)
+  - `IxIO` module is deprecated (@gcanti)
+  - `IxMonad` module is deprecated (@gcanti)
+  - `MonadThrow` module is deprecated (@gcanti)
+  - `Monoidal` module is deprecated (@gcanti)
+  - `NonEmptyArray`
+    - deprecate uncurried `groupBy` in favour of curried, data-last `groupBy` (@gcanti)
+    - deprecate `findFirst` in favour of `Array`'s `findFirst` (@gcanti)
+    - deprecate `findLast` in favour of `Array`'s `findLast` (@gcanti)
+    - deprecate `findIndex` in favour of `Array`'s `findIndex` (@gcanti)
+    - deprecate `findLastIndex` in favour of `Array`'s `findLastIndex` (@gcanti)
+    - deprecate uncurried `insertAt` in favour of curried, data-last `insertAt` (@gcanti)
+    - deprecate uncurried `updateAt` in favour of curried, data-last `updateAt` (@gcanti)
+    - deprecate uncurried `modifyAt` in favour of curried, data-last `modifyAt` (@gcanti)
+    - deprecate uncurried `filter` in favour of curried, data-last `filter` (@gcanti)
+    - deprecate uncurried `filterWithIndex` in favour of curried, data-last `filterWithIndex` (@gcanti)
+  - `Pair` module is deprecated (@gcanti)
+  - `Profunctor`
+    - deprecate `lmap` function (@gcanti)
+    - deprecate `rmap` function (@gcanti)
   - `ReaderTaskEither`
     - deprecate `right` in favour of `rightTask` (@gcanti)
     - deprecate `left` in favour of `leftTask` (@gcanti)
@@ -111,6 +173,7 @@ pipeOp(
     - deprecate `fromIO` in favour of `rightIO` (@gcanti)
     - deprecate `fromLeft` in favour of `left2v` (@gcanti)
     - add `right2v` (@gcanti)
+  - `StrMap` module is deprecated (@gcanti)
   - `Task`
     - deprecate `delay` in favour of `delay2v` (@gcanti)
   - `TaskEither`
@@ -131,9 +194,12 @@ pipeOp(
     - deprecate `thatOrBoth` in favour of `rightOrBoth` (@gcanti)
     - deprecate `theseThis` in favour of `getLeftOnly` (@gcanti)
     - deprecate `theseThat` in favour of `getRightOnly` (@gcanti)
+  - `Trace` module is deprecated (@gcanti)
+  - `Validation` module is deprecated, use `Either`'s `getValidation` (@gcanti)
   - `Writer`
     - deprecate `listens` in favour of `listens2v` (@gcanti)
     - deprecate `censor` in favour of `censor2v` (@gcanti)
+  - `Zipper` module is deprecated (@gcanti)
 
 # 1.18.2
 

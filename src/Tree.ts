@@ -51,6 +51,7 @@ export class Tree<A> {
   }
   chain<B>(f: (a: A) => Tree<B>): Tree<B> {
     const { value, forest } = f(this.value)
+    // tslint:disable-next-line: deprecation
     return new Tree(value, concat(forest, this.forest.map(t => t.chain(f))))
   }
   extract(): A {
@@ -72,8 +73,10 @@ export class Tree<A> {
   }
   toString(): string {
     return this.forest === empty || this.forest.length === 0
-      ? `make(${toString(this.value)})`
-      : `make(${toString(this.value)}, ${toString(this.forest)})`
+      ? // tslint:disable-next-line: deprecation
+        `make(${toString(this.value)})`
+      : // tslint:disable-next-line: deprecation
+        `make(${toString(this.value)}, ${toString(this.forest)})`
   }
 }
 
