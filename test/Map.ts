@@ -15,7 +15,7 @@ interface User {
   id: string
 }
 
-const ordUser = contramap((u: User) => u.id, ordString)
+const ordUser = contramap(ordString, (u: User) => u.id)
 
 const eqUser: Eq<User> = { equals: ordUser.equals }
 

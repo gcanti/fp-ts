@@ -21,6 +21,10 @@ See [Getting started with fp-ts: Ord](https://dev.to/gcanti/getting-started-with
 <h2 class="text-delta">Table of contents</h2>
 
 - [Ord (interface)](#ord-interface)
+- [~~greaterThan~~ (constant)](#greaterthan-constant)
+- [~~greaterThanOrEq~~ (constant)](#greaterthanoreq-constant)
+- [~~lessThan~~ (constant)](#lessthan-constant)
+- [~~lessThanOrEq~~ (constant)](#lessthanoreq-constant)
 - [ordBoolean (constant)](#ordboolean-constant)
 - [ordDate (constant)](#orddate-constant)
 - [ordNumber (constant)](#ordnumber-constant)
@@ -29,17 +33,17 @@ See [Getting started with fp-ts: Ord](https://dev.to/gcanti/getting-started-with
 - [clamp (function)](#clamp-function)
 - [contramap (function)](#contramap-function)
 - [fromCompare (function)](#fromcompare-function)
+- [geq (function)](#geq-function)
 - [getDualOrd (function)](#getdualord-function)
 - [~~getProductOrd~~ (function)](#getproductord-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [getTupleOrd (function)](#gettupleord-function)
-- [greaterThan (function)](#greaterthan-function)
-- [greaterThanOrEq (function)](#greaterthanoreq-function)
-- [lessThan (function)](#lessthan-function)
-- [lessThanOrEq (function)](#lessthanoreq-function)
+- [gt (function)](#gt-function)
+- [leq (function)](#leq-function)
+- [lt (function)](#lt-function)
 - [max (function)](#max-function)
 - [min (function)](#min-function)
-- [unsafeCompare (function)](#unsafecompare-function)
+- [~~unsafeCompare~~ (function)](#unsafecompare-function)
 
 ---
 
@@ -51,6 +55,54 @@ See [Getting started with fp-ts: Ord](https://dev.to/gcanti/getting-started-with
 export interface Ord<A> extends Eq<A> {
   readonly compare: (x: A, y: A) => Ordering
 }
+```
+
+Added in v1.0.0
+
+# ~~greaterThan~~ (constant)
+
+Use `gt`
+
+**Signature**
+
+```ts
+export const greaterThan: <A>(O: Ord<A>) => (x: A, y: A) => boolean = ...
+```
+
+Added in v1.0.0
+
+# ~~greaterThanOrEq~~ (constant)
+
+Use `geq`
+
+**Signature**
+
+```ts
+export const greaterThanOrEq: <A>(O: Ord<A>) => (x: A, y: A) => boolean = ...
+```
+
+Added in v1.0.0
+
+# ~~lessThan~~ (constant)
+
+Use `lt`
+
+**Signature**
+
+```ts
+export const lessThan: <A>(O: Ord<A>) => (x: A, y: A) => boolean = ...
+```
+
+Added in v1.0.0
+
+# ~~lessThanOrEq~~ (constant)
+
+Use `leq`
+
+**Signature**
+
+```ts
+export const lessThanOrEq: <A>(O: Ord<A>) => (x: A, y: A) => boolean = ...
 ```
 
 Added in v1.0.0
@@ -124,7 +176,8 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export const contramap = <A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B> => ...
+export function contramap<A, B>(O: Ord<A>, f: (b: B) => A): Ord<B>
+export function contramap<A, B>(f: (b: B) => A, O: Ord<A>): Ord<B> { ... }
 ```
 
 Added in v1.0.0
@@ -138,6 +191,18 @@ export const fromCompare = <A>(compare: (x: A, y: A) => Ordering): Ord<A> => ...
 ```
 
 Added in v1.0.0
+
+# geq (function)
+
+Test whether one value is _non-strictly greater than_ another
+
+**Signature**
+
+```ts
+export const geq = <A>(O: Ord<A>) => (x: A, y: A): boolean => ...
+```
+
+Added in v1.19.0
 
 # getDualOrd (function)
 
@@ -196,53 +261,41 @@ assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
 
 Added in v1.14.3
 
-# greaterThan (function)
+# gt (function)
 
 Test whether one value is _strictly greater than_ another
 
 **Signature**
 
 ```ts
-export const greaterThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => ...
+export const gt = <A>(O: Ord<A>) => (x: A, y: A): boolean => ...
 ```
 
-Added in v1.0.0
+Added in v1.19.0
 
-# greaterThanOrEq (function)
-
-Test whether one value is _non-strictly greater than_ another
-
-**Signature**
-
-```ts
-export const greaterThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => ...
-```
-
-Added in v1.0.0
-
-# lessThan (function)
-
-Test whether one value is _strictly less than_ another
-
-**Signature**
-
-```ts
-export const lessThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => ...
-```
-
-Added in v1.0.0
-
-# lessThanOrEq (function)
+# leq (function)
 
 Test whether one value is _non-strictly less than_ another
 
 **Signature**
 
 ```ts
-export const lessThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => ...
+export const leq = <A>(O: Ord<A>) => (x: A, y: A): boolean => ...
 ```
 
-Added in v1.0.0
+Added in v1.19.0
+
+# lt (function)
+
+Test whether one value is _strictly less than_ another
+
+**Signature**
+
+```ts
+export const lt = <A>(O: Ord<A>) => (x: A, y: A): boolean => ...
+```
+
+Added in v1.19.0
 
 # max (function)
 
@@ -268,7 +321,7 @@ export const min = <A>(O: Ord<A>) => (x: A, y: A): A => ...
 
 Added in v1.0.0
 
-# unsafeCompare (function)
+# ~~unsafeCompare~~ (function)
 
 **Signature**
 

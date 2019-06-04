@@ -3,18 +3,18 @@ import { sort } from '../src/Array'
 import {
   between,
   clamp,
-  contramap,
   getDualOrd,
   getProductOrd,
   getSemigroup,
   ordDate,
   ordNumber,
   ordString,
-  lessThanOrEq,
-  greaterThanOrEq,
   fromCompare,
   getTupleOrd,
-  ordBoolean
+  ordBoolean,
+  leq,
+  geq,
+  contramap
 } from '../src/Ord'
 
 describe('Ord', () => {
@@ -29,8 +29,9 @@ describe('Ord', () => {
     type T = [number, string]
     const tuples: Array<T> = [[2, 'c'], [1, 'b'], [2, 'a'], [1, 'c']]
     const S = getSemigroup<T>()
+    // tslint:disable-next-line: deprecation
     const sortByFst = contramap((x: T) => x[0], ordNumber)
-    const sortBySnd = contramap((x: T) => x[1], ordString)
+    const sortBySnd = contramap(ordString, (x: T) => x[1])
     const O1 = S.concat(sortByFst, sortBySnd)
     assert.deepStrictEqual(sort(O1)(tuples), [[1, 'b'], [1, 'c'], [2, 'a'], [2, 'c']])
     const O2 = S.concat(sortBySnd, sortByFst)
@@ -82,18 +83,16 @@ describe('Ord', () => {
     assert.strictEqual(ordDate.compare(new Date(1), new Date(0)), 1)
   })
 
-  it('lessThanOrEq', () => {
-    const leq = lessThanOrEq(ordNumber)
-    assert.strictEqual(leq(0, 1), true)
-    assert.strictEqual(leq(1, 1), true)
-    assert.strictEqual(leq(2, 1), false)
+  it('leq', () => {
+    assert.strictEqual(leq(ordNumber)(0, 1), true)
+    assert.strictEqual(leq(ordNumber)(1, 1), true)
+    assert.strictEqual(leq(ordNumber)(2, 1), false)
   })
 
-  it('greaterThanOrEq', () => {
-    const geq = greaterThanOrEq(ordNumber)
-    assert.strictEqual(geq(0, 1), false)
-    assert.strictEqual(geq(1, 1), true)
-    assert.strictEqual(geq(2, 1), true)
+  it('geq', () => {
+    assert.strictEqual(geq(ordNumber)(0, 1), false)
+    assert.strictEqual(geq(ordNumber)(1, 1), true)
+    assert.strictEqual(geq(ordNumber)(2, 1), true)
   })
 
   it('fromCompare', () => {

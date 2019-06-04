@@ -23,6 +23,7 @@ export interface Ord<A> extends Eq<A> {
 
 /**
  * @since 1.0.0
+ * @deprecated
  */
 export const unsafeCompare = (x: any, y: any): Ordering => {
   return x < y ? -1 : x > y ? 1 : 0
@@ -33,6 +34,7 @@ export const unsafeCompare = (x: any, y: any): Ordering => {
  */
 export const ordString: Ord<string> = {
   ...eqString,
+  // tslint:disable-next-line: deprecation
   compare: unsafeCompare
 }
 
@@ -41,6 +43,7 @@ export const ordString: Ord<string> = {
  */
 export const ordNumber: Ord<number> = {
   ...eqNumber,
+  // tslint:disable-next-line: deprecation
   compare: unsafeCompare
 }
 
@@ -49,44 +52,77 @@ export const ordNumber: Ord<number> = {
  */
 export const ordBoolean: Ord<boolean> = {
   ...eqBoolean,
+  // tslint:disable-next-line: deprecation
   compare: unsafeCompare
 }
 
 /**
  * Test whether one value is _strictly less than_ another
  *
- * @since 1.0.0
+ * @since 1.19.0
  */
-export const lessThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
+export const lt = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
   return O.compare(x, y) === -1
 }
 
 /**
- * Test whether one value is _strictly greater than_ another
+ * Use `lt`
  *
  * @since 1.0.0
+ * @deprecated
  */
-export const greaterThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
+export const lessThan: <A>(O: Ord<A>) => (x: A, y: A) => boolean = lt
+
+/**
+ * Test whether one value is _strictly greater than_ another
+ *
+ * @since 1.19.0
+ */
+export const gt = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
   return O.compare(x, y) === 1
 }
 
 /**
- * Test whether one value is _non-strictly less than_ another
+ * Use `gt`
  *
  * @since 1.0.0
+ * @deprecated
  */
-export const lessThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
+export const greaterThan: <A>(O: Ord<A>) => (x: A, y: A) => boolean = gt
+
+/**
+ * Test whether one value is _non-strictly less than_ another
+ *
+ * @since 1.19.0
+ */
+export const leq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
   return O.compare(x, y) !== 1
 }
 
 /**
- * Test whether one value is _non-strictly greater than_ another
+ * Use `leq`
  *
  * @since 1.0.0
+ * @deprecated
  */
-export const greaterThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
+export const lessThanOrEq: <A>(O: Ord<A>) => (x: A, y: A) => boolean = leq
+
+/**
+ * Test whether one value is _non-strictly greater than_ another
+ *
+ * @since 1.19.0
+ */
+export const geq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
   return O.compare(x, y) !== -1
 }
+
+/**
+ * Use `geq`
+ *
+ * @since 1.0.0
+ * @deprecated
+ */
+export const greaterThanOrEq: <A>(O: Ord<A>) => (x: A, y: A) => boolean = geq
 
 /**
  * Take the minimum of two values. If they are considered equal, the first argument is chosen
@@ -123,8 +159,8 @@ export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A) => {
  * @since 1.0.0
  */
 export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean) => {
-  const lessThanO = lessThan(O)
-  const greaterThanO = greaterThan(O)
+  const lessThanO = lt(O)
+  const greaterThanO = gt(O)
   return (low, hi) => x => (lessThanO(x, low) || greaterThanO(x, hi) ? false : true)
 }
 
@@ -139,11 +175,18 @@ export const fromCompare = <A>(compare: (x: A, y: A) => Ordering): Ord<A> => {
   }
 }
 
+function _contramap<A, B>(f: (b: B) => A, O: Ord<A>): Ord<B> {
+  return fromCompare(on(O.compare)(f))
+}
+
 /**
  * @since 1.0.0
  */
-export const contramap = <A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B> => {
-  return fromCompare(on(fa.compare)(f))
+export function contramap<A, B>(O: Ord<A>, f: (b: B) => A): Ord<B>
+/** @deprecated */
+export function contramap<A, B>(f: (b: B) => A, O: Ord<A>): Ord<B>
+export function contramap(...args: Array<any>): any {
+  return typeof args[0] === 'function' ? _contramap(args[0], args[1]) : _contramap(args[1], args[0])
 }
 
 /**
@@ -203,4 +246,4 @@ export const getDualOrd = <A>(O: Ord<A>): Ord<A> => {
 /**
  * @since 1.4.0
  */
-export const ordDate: Ord<Date> = contramap(date => date.valueOf(), ordNumber)
+export const ordDate: Ord<Date> = contramap(ordNumber, date => date.valueOf())

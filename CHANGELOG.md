@@ -162,6 +162,12 @@ pipeOp(
     - deprecate uncurried `modifyAt` in favour of curried, data-last `modifyAt` (@gcanti)
     - deprecate uncurried `filter` in favour of curried, data-last `filter` (@gcanti)
     - deprecate uncurried `filterWithIndex` in favour of curried, data-last `filterWithIndex` (@gcanti)
+  - `Ord`
+    - deprecate `lessThan` in favour of `lt` (@gcanti)
+    - deprecate `greaterThan` in favour of `gt` (@gcanti)
+    - deprecate `lessThanOrEq` in favour of `leq` (@gcanti)
+    - deprecate `greaterThanOrEq` in favour of `geq` (@gcanti)
+    - swap `contramap` arguments (@gcanti)
   - `Pair` module is deprecated (@gcanti)
   - `Profunctor`
     - deprecate `lmap` function (@gcanti)
