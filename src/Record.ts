@@ -16,6 +16,7 @@ import { Show, showString } from './Show'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -760,3 +761,7 @@ export const record: FunctorWithIndex1<URI, string> &
     return changed ? out : fa
   }
 }
+
+const { filter, filterMap, foldMap, partition, partitionMap, reduce, reduceRight } = pipeable(record)
+
+export { filter, filterMap, foldMap, partition, partitionMap, reduce, reduceRight }
