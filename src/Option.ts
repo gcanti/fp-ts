@@ -882,7 +882,9 @@ const {
   partition,
   partitionMap,
   reduce,
-  reduceRight
+  reduceRight,
+  compact,
+  separate
 } = pipeable(option)
 
 export {
@@ -902,5 +904,7 @@ export {
   partition,
   partitionMap,
   reduce,
-  reduceRight
+  reduceRight,
+  compact,
+  separate
 }
