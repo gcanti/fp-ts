@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import * as F from '../src/Foldable'
-import { identity, pipeOp } from '../src/function'
+import { identity } from '../src/function'
 import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { semigroupString } from '../src/Semigroup'
@@ -31,6 +31,7 @@ import {
 import * as T from '../src/Traversable'
 import * as E from '../src/Either'
 import { showString } from '../src/Show'
+import { pipe } from '../src/pipeable'
 
 describe('These', () => {
   it('getEq', () => {
@@ -81,9 +82,27 @@ describe('These', () => {
     const double = (n: number) => n * 2
     const len = (s: string) => s.length
     const f = (s: string, n: number) => len(s) + double(n)
-    assert.strictEqual(pipeOp(left('foo'), fold(len, double, f)), 3)
-    assert.strictEqual(pipeOp(right(1), fold(len, double, f)), 2)
-    assert.strictEqual(pipeOp(both('foo', 1), fold(len, double, f)), 5)
+    assert.strictEqual(
+      pipe(
+        left('foo'),
+        fold(len, double, f)
+      ),
+      3
+    )
+    assert.strictEqual(
+      pipe(
+        right(1),
+        fold(len, double, f)
+      ),
+      2
+    )
+    assert.strictEqual(
+      pipe(
+        both('foo', 1),
+        fold(len, double, f)
+      ),
+      5
+    )
   })
 
   it('bimap', () => {

@@ -3,7 +3,7 @@ import { left as eitherLeft, right as eitherRight } from '../src/Either'
 import { IO, io } from '../src/IO'
 import { IOEither, ioEither, tryCatch, left2v, leftIO, rightIO, right2v, fold, orElse } from '../src/IOEither'
 import { none, some } from '../src/Option'
-import { pipeOp } from '../src/function'
+import { pipe } from '../src/pipeable'
 
 describe('IOEither', () => {
   it('map', () => {
@@ -65,8 +65,20 @@ describe('IOEither', () => {
   it('fold (top level function)', () => {
     const onLeft = (s: string) => io.of(s.length > 2)
     const onRight = (n: number) => io.of(n > 2)
-    assert.strictEqual(pipeOp(right2v(1), fold(onLeft, onRight)).run(), false)
-    assert.strictEqual(pipeOp(left2v('foo'), fold(onLeft, onRight)).run(), true)
+    assert.strictEqual(
+      pipe(
+        right2v(1),
+        fold(onLeft, onRight)
+      ).run(),
+      false
+    )
+    assert.strictEqual(
+      pipe(
+        left2v('foo'),
+        fold(onLeft, onRight)
+      ).run(),
+      true
+    )
   })
 
   it('foldIO', () => {
@@ -134,8 +146,20 @@ describe('IOEither', () => {
   })
 
   it('orElse', () => {
-    assert.deepStrictEqual(pipeOp(left2v('foo'), orElse(l => right2v(l.length))).run(), eitherRight(3))
-    assert.deepStrictEqual(pipeOp(right2v(1), orElse(() => right2v(2))).run(), eitherRight(1))
+    assert.deepStrictEqual(
+      pipe(
+        left2v('foo'),
+        orElse(l => right2v(l.length))
+      ).run(),
+      eitherRight(3)
+    )
+    assert.deepStrictEqual(
+      pipe(
+        right2v(1),
+        orElse(() => right2v(2))
+      ).run(),
+      eitherRight(1)
+    )
   })
 
   it('leftIO', () => {

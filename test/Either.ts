@@ -35,7 +35,7 @@ import {
   getValidationMonoid
 } from '../src/Either'
 import * as F from '../src/Foldable'
-import { identity, pipeOp } from '../src/function'
+import { identity } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, Option, some } from '../src/Option'
@@ -44,6 +44,7 @@ import { eqNumber, eqString } from '../src/Eq'
 import * as T from '../src/Traversable'
 import { failure, success } from '../src/Validation'
 import { showString } from '../src/Show'
+import { pipe } from '../src/pipeable'
 
 describe('Either', () => {
   it('fold', () => {
@@ -250,7 +251,13 @@ describe('Either', () => {
   })
 
   it('filterOrElseL', () => {
-    assert.deepStrictEqual(pipeOp(right<number, number>(12), filterOrElse(n => n > 10, () => -1)), right(12))
+    assert.deepStrictEqual(
+      pipe(
+        right<number, number>(12),
+        filterOrElse(n => n > 10, () => -1)
+      ),
+      right(12)
+    )
     assert.deepStrictEqual(right(7).filterOrElseL(n => n > 10, () => -1), left(-1))
     assert.deepStrictEqual(left<number, number>(12).filterOrElseL(n => n > 10, () => -1), left(12))
     assert.deepStrictEqual(right(7).filterOrElseL(n => n > 10, n => `invalid ${n}`), left('invalid 7'))
@@ -286,7 +293,10 @@ describe('Either', () => {
 
   it('orElse', () => {
     assert.deepStrictEqual(
-      pipeOp(right<string, number>(1), orElse(() => right<string, number>(2))),
+      pipe(
+        right<string, number>(1),
+        orElse(() => right<string, number>(2))
+      ),
       right<string, number>(1)
     )
     assert.deepStrictEqual(right<string, number>(1).orElse(() => left<string, number>('foo')), right<string, number>(1))

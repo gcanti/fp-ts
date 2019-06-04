@@ -34,7 +34,7 @@ import { semigroupSum } from '../src/Semigroup'
 import { sequence } from '../src/Traversable'
 import { array } from '../src/Array'
 import { none, some } from '../src/Option'
-import { pipeOp } from '../src/function'
+import { pipe } from '../src/pipeable'
 
 describe('TaskEither', () => {
   it('attempt', () => {
@@ -200,8 +200,14 @@ describe('TaskEither', () => {
   })
 
   it('orElse', () => {
-    const tl = pipeOp(left2v('foo'), orElse(l => right2v(l.length)))
-    const tr = pipeOp(right2v(1), orElse(() => right2v(2)))
+    const tl = pipe(
+      left2v('foo'),
+      orElse(l => right2v(l.length))
+    )
+    const tr = pipe(
+      right2v(1),
+      orElse(() => right2v(2))
+    )
     return Promise.all([tl.run(), tr.run()]).then(([el, er]) => {
       assert.deepStrictEqual(el, eitherRight(3))
       assert.deepStrictEqual(er, eitherRight(1))
@@ -297,7 +303,10 @@ describe('TaskEither', () => {
     const r2 = right2v(2)
     const x1 = l1.alt(l2)
     const x2 = l1.alt(r1)
-    const x3 = pipeOp(r1, alt(() => l1))
+    const x3 = pipe(
+      r1,
+      alt(() => l1)
+    )
     const x4 = r1.alt(r2)
     const x5 = taskEither.alt(r1, r2)
     return Promise.all([x1.run(), x2.run(), x3.run(), x4.run(), x5.run()]).then(([e1, e2, e3, e4, e5]) => {
@@ -463,8 +472,14 @@ describe('TaskEither', () => {
     const whenRight = () => task.of('right')
 
     const tasks = [
-      pipeOp(left2v('a'), fold(whenLeft, whenRight)).run(),
-      pipeOp(right2v(1), fold(whenLeft, whenRight)).run()
+      pipe(
+        left2v('a'),
+        fold(whenLeft, whenRight)
+      ).run(),
+      pipe(
+        right2v(1),
+        fold(whenLeft, whenRight)
+      ).run()
     ]
     return Promise.all(tasks).then(([r1, r2]) => {
       assert.deepStrictEqual(r1, 'left')
@@ -491,12 +506,27 @@ describe('TaskEither', () => {
 
   it('filterOrElse', () => {
     const isNumber = (u: string | number): u is number => typeof u === 'number'
-    const actual = pipeOp(right2v(12), filterOrElse(isNumber, () => 'not a number'))
+    const actual = pipe(
+      right2v(12),
+      filterOrElse(isNumber, () => 'not a number')
+    )
     const tasks = [
-      pipeOp(right2v(12), filterOrElse(n => n > 10, () => 'bar')),
-      pipeOp(right2v(7), filterOrElse(n => n > 10, () => 'bar')),
-      pipeOp(left2v('foo'), filterOrElse(n => n > 10, () => 'bar')),
-      pipeOp(right2v(7), filterOrElse(n => n > 10, n => `invalid ${n}`)),
+      pipe(
+        right2v(12),
+        filterOrElse(n => n > 10, () => 'bar')
+      ),
+      pipe(
+        right2v(7),
+        filterOrElse(n => n > 10, () => 'bar')
+      ),
+      pipe(
+        left2v('foo'),
+        filterOrElse(n => n > 10, () => 'bar')
+      ),
+      pipe(
+        right2v(7),
+        filterOrElse(n => n > 10, n => `invalid ${n}`)
+      ),
       actual
     ]
     return Promise.all(tasks.map(te => te.run())).then(([r1, r2, r3, r4, r5]) => {
@@ -553,9 +583,15 @@ describe('TaskEither', () => {
   })
 
   it('getOrElse (top level function)', async () => {
-    const e1 = await pipeOp(right2v(1), getOrElse(() => task.of(2))).run()
+    const e1 = await pipe(
+      right2v(1),
+      getOrElse(() => task.of(2))
+    ).run()
     assert.deepStrictEqual(e1, 1)
-    const e2 = await pipeOp(left2v('e'), getOrElse(() => task.of(2))).run()
+    const e2 = await pipe(
+      left2v('e'),
+      getOrElse(() => task.of(2))
+    ).run()
     assert.deepStrictEqual(e2, 2)
   })
 })
