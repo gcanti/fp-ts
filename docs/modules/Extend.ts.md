@@ -15,7 +15,7 @@ parent: Modules
 - [Extend3 (interface)](#extend3-interface)
 - [Extend3C (interface)](#extend3c-interface)
 - [Extend4 (interface)](#extend4-interface)
-- [duplicate (function)](#duplicate-function)
+- [~~duplicate~~ (function)](#duplicate-function)
 
 ---
 
@@ -91,7 +91,7 @@ export interface Extend4<W extends URIS4> extends Functor4<W> {
 }
 ```
 
-# duplicate (function)
+# ~~duplicate~~ (function)
 
 **Signature**
 

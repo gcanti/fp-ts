@@ -64,6 +64,7 @@ export class Tuple<L, A> {
     return this.toString()
   }
   toString(): string {
+    // tslint:disable-next-line: deprecation
     return `new Tuple(${toString(this.fst)}, ${toString(this.snd)})`
   }
   toTuple(): [L, A] {

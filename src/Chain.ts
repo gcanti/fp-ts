@@ -44,18 +44,24 @@ export interface Chain4<F extends URIS4> extends Apply4<F> {
 
 /**
  * @since 1.0.0
+ * @deprecated
  */
 export function flatten<F extends URIS3>(
   chain: Chain3<F>
 ): <U, L, A>(mma: Type3<F, U, L, Type3<F, U, L, A>>) => Type3<F, U, L, A>
+/** @deprecated */
 export function flatten<F extends URIS3, U, L>(
   chain: Chain3C<F, U, L>
 ): <A>(mma: Type3<F, U, L, Type3<F, U, L, A>>) => Type3<F, U, L, A>
+/** @deprecated */
 export function flatten<F extends URIS2>(chain: Chain2<F>): <L, A>(mma: Type2<F, L, Type2<F, L, A>>) => Type2<F, L, A>
+/** @deprecated */
 export function flatten<F extends URIS2, L>(
   chain: Chain2C<F, L>
 ): <A>(mma: Type2<F, L, Type2<F, L, A>>) => Type2<F, L, A>
+/** @deprecated */
 export function flatten<F extends URIS>(chain: Chain1<F>): <A>(mma: Type<F, Type<F, A>>) => Type<F, A>
+/** @deprecated */
 export function flatten<F>(chain: Chain<F>): <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A>
 export function flatten<F>(chain: Chain<F>): <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A> {
   return mma => chain.chain(mma, ma => ma)

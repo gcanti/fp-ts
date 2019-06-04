@@ -138,6 +138,7 @@ export class IO<A> {
    * @since 1.5.0
    */
   applySecond<B>(fb: IO<B>): IO<B> {
+    // tslint:disable-next-line: deprecation
     return fb.ap(this.map(constIdentity as () => (b: B) => B))
   }
   chain<B>(f: (a: A) => IO<B>): IO<B> {
@@ -147,6 +148,7 @@ export class IO<A> {
     return this.toString()
   }
   toString(): string {
+    // tslint:disable-next-line: deprecation
     return `new IO(${toString(this.run)})`
   }
 }

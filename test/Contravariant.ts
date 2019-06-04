@@ -29,6 +29,7 @@ const predicate: Contravariant1<URI> = {
 describe('Contravariant', () => {
   it('lift', () => {
     const length = (s: string) => s.length
+    // tslint:disable-next-line: deprecation
     const liftPredicate = lift(predicate)
     const f = liftPredicate(length)
     assert.deepStrictEqual(f(new Predicate(n => n > 2)).run('fo'), false)

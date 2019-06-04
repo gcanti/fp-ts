@@ -39,6 +39,7 @@ describe('function', () => {
 
   it('compose', () => {
     assert.strictEqual(
+      // tslint:disable-next-line: deprecation
       compose(
         f,
         g
@@ -46,6 +47,7 @@ describe('function', () => {
       5
     )
     assert.strictEqual(
+      // tslint:disable-next-line: deprecation
       compose(
         f,
         g,
@@ -54,6 +56,7 @@ describe('function', () => {
       7
     )
     assert.strictEqual(
+      // tslint:disable-next-line: deprecation
       compose(
         f,
         g,
@@ -63,6 +66,7 @@ describe('function', () => {
       11
     )
     assert.strictEqual(
+      // tslint:disable-next-line: deprecation
       compose(
         f,
         g,
@@ -73,6 +77,7 @@ describe('function', () => {
       15
     )
     assert.strictEqual(
+      // tslint:disable-next-line: deprecation
       compose(
         f,
         g,
@@ -84,6 +89,7 @@ describe('function', () => {
       23
     )
     assert.strictEqual(
+      // tslint:disable-next-line: deprecation
       compose(
         f,
         g,
@@ -96,6 +102,7 @@ describe('function', () => {
       31
     )
     assert.strictEqual(
+      // tslint:disable-next-line: deprecation
       compose(
         f,
         g,
@@ -109,6 +116,7 @@ describe('function', () => {
       47
     )
     assert.strictEqual(
+      // tslint:disable-next-line: deprecation
       compose(
         f,
         g,
@@ -212,13 +220,17 @@ describe('function', () => {
   })
 
   it('curry', () => {
+    // tslint:disable-next-line: deprecation
     const h2 = curry((a: number, b: number): number => a + b)
     assert.strictEqual(h2(1)(2), 3)
+    // tslint:disable-next-line: deprecation
     const h3 = curry((a: number, b: number, c: number): number => a + b + c)
     assert.strictEqual(h3(1)(2)(3), 6)
+    // tslint:disable-next-line: deprecation
     const h5 = curry((a: number, b: number, c: number, d: number, e: number): number => a + b + c + d + e)
     assert.strictEqual(h5(1)(2)(3)(4)(5), 15)
     const snoc = (as: Array<number>, a: number) => as.concat(a)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(curry(snoc)([1, 2, 3])(4), [1, 2, 3, 4])
   })
 
@@ -272,10 +284,12 @@ describe('function', () => {
 
   it('apply', () => {
     const double = (n: number) => n * 2
+    // tslint:disable-next-line: deprecation
     assert.strictEqual(apply(double)(2), 4)
   })
 
   it('applyFlipped', () => {
+    // tslint:disable-next-line: deprecation
     assert.strictEqual(applyFlipped(2)(n => n * 2), 4)
   })
 
@@ -304,12 +318,17 @@ describe('function', () => {
   })
 
   it('toString', () => {
+    // tslint:disable-next-line: deprecation
     assert.strictEqual(toString('a'), '"a"')
     const date = new Date()
+    // tslint:disable-next-line: deprecation
     assert.strictEqual(toString(date), `new Date('${date.toISOString()}')`)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(toString(['a', 'b']), '["a", "b"]')
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(toString(() => 1), '<function0>')
     assert.deepStrictEqual(
+      // tslint:disable-next-line: deprecation
       toString(function f() {
         return 1
       }),
@@ -317,9 +336,13 @@ describe('function', () => {
     )
     const nonStringifyable: { a?: any } = {}
     nonStringifyable.a = nonStringifyable
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(toString(nonStringifyable), '[object Object]')
+    // tslint:disable-next-line: deprecation
     assert.strictEqual(toString(undefined), 'undefined')
+    // tslint:disable-next-line: deprecation
     assert.strictEqual(toString(null), 'null')
+    // tslint:disable-next-line: deprecation
     assert.strictEqual(toString(Object.create(null)), '{}')
   })
 

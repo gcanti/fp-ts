@@ -78,6 +78,7 @@ export class Identity<A> {
     return this.toString()
   }
   toString(): string {
+    // tslint:disable-next-line: deprecation
     return `new Identity(${toString(this.value)})`
   }
 }

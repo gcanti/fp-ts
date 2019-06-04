@@ -41,6 +41,7 @@ export class Store<S, A> {
   }
   /* istanbul ignore next */
   toString(): string {
+    // tslint:disable-next-line: deprecation
     return `new Store(${toString(this.peek)}, ${toString(this.pos)})`
   }
 }

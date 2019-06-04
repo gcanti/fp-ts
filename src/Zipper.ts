@@ -175,6 +175,7 @@ export class Zipper<A> {
     return this.toString()
   }
   toString(): string {
+    // tslint:disable-next-line: deprecation
     return `new Zipper(${toString(this.lefts)}, ${toString(this.focus)}, ${toString(this.rights)})`
   }
 }

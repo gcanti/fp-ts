@@ -34,9 +34,9 @@ Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
 - [SequenceT2C (interface)](#sequencet2c-interface)
 - [SequenceT3 (interface)](#sequencet3-interface)
 - [SequenceT3C (interface)](#sequencet3c-interface)
-- [applyFirst (function)](#applyfirst-function)
-- [applySecond (function)](#applysecond-function)
-- [getSemigroup (function)](#getsemigroup-function)
+- [~~applyFirst~~ (function)](#applyfirst-function)
+- [~~applySecond~~ (function)](#applysecond-function)
+- [~~getSemigroup~~ (function)](#getsemigroup-function)
 - [~~liftA2~~ (function)](#lifta2-function)
 - [~~liftA3~~ (function)](#lifta3-function)
 - [~~liftA4~~ (function)](#lifta4-function)
@@ -201,7 +201,7 @@ export interface SequenceT3C<F extends URIS3, U, L> {
 }
 ```
 
-# applyFirst (function)
+# ~~applyFirst~~ (function)
 
 Combine two effectful actions, keeping only the result of the first
 
@@ -226,7 +226,7 @@ export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>)
 
 Added in v1.0.0
 
-# applySecond (function)
+# ~~applySecond~~ (function)
 
 Combine two effectful actions, keeping only the result of the second
 
@@ -251,7 +251,7 @@ export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>
 
 Added in v1.0.0
 
-# getSemigroup (function)
+# ~~getSemigroup~~ (function)
 
 If `F` is a `Apply` and `S` is a `Semigroup` over `A` then `HKT<F, A>` is a `Semigroup` over `A` as well
 
@@ -302,19 +302,24 @@ Use `sequenceT` / `sequenceS` instead.
 ```ts
 export function liftA2<F extends URIS3>(
   F: Apply3<F>
-): <A, B, C>(f: Curried2<A, B, C>) => <U, L>(fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => Type3<F, U, L, C>
+): // tslint:disable-next-line: deprecation
+<A, B, C>(f: Curried2<A, B, C>) => <U, L>(fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => Type3<F, U, L, C>
 export function liftA2<F extends URIS3, U, L>(
   F: Apply3C<F, U, L>
-): <A, B, C>(f: Curried2<A, B, C>) => (fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => Type3<F, U, L, C>
+): // tslint:disable-next-line: deprecation
+<A, B, C>(f: Curried2<A, B, C>) => (fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => Type3<F, U, L, C>
 export function liftA2<F extends URIS2>(
   F: Apply2<F>
-): <A, B, C>(f: Curried2<A, B, C>) => <L>(fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => Type2<F, L, C>
+): // tslint:disable-next-line: deprecation
+<A, B, C>(f: Curried2<A, B, C>) => <L>(fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => Type2<F, L, C>
 export function liftA2<F extends URIS2, L>(
   F: Apply2C<F, L>
-): <A, B, C>(f: Curried2<A, B, C>) => (fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => Type2<F, L, C>
+): // tslint:disable-next-line: deprecation
+<A, B, C>(f: Curried2<A, B, C>) => (fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => Type2<F, L, C>
 export function liftA2<F extends URIS>(
   F: Apply1<F>
-): <A, B, C>(f: Curried2<A, B, C>) => Curried2<Type<F, A>, Type<F, B>, Type<F, C>>
+): // tslint:disable-next-line: deprecation
+<A, B, C>(f: Curried2<A, B, C>) => Curried2<Type<F, A>, Type<F, B>, Type<F, C>>
 export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKT<F, A>, HKT<F, B>, HKT<F, C>> { ... }
 ```
 
@@ -333,29 +338,35 @@ Use `sequenceT` / `sequenceS` instead.
 export function liftA3<F extends URIS3>(
   F: Apply3<F>
 ): <A, B, C, D>(
+  // tslint:disable-next-line: deprecation
   f: Curried3<A, B, C, D>
 ) => <U, L>(fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => (fc: Type3<F, U, L, C>) => Type3<F, U, L, D>
 export function liftA3<F extends URIS3, U, L>(
   F: Apply3C<F, U, L>
 ): <A, B, C, D>(
+  // tslint:disable-next-line: deprecation
   f: Curried3<A, B, C, D>
 ) => (fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => (fc: Type3<F, U, L, C>) => Type3<F, U, L, D>
 export function liftA3<F extends URIS2>(
   F: Apply2<F>
 ): <A, B, C, D>(
+  // tslint:disable-next-line: deprecation
   f: Curried3<A, B, C, D>
 ) => <L>(fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => (fc: Type2<F, L, C>) => Type2<F, L, D>
 export function liftA3<F extends URIS2, L>(
   F: Apply2C<F, L>
 ): <A, B, C, D>(
+  // tslint:disable-next-line: deprecation
   f: Curried3<A, B, C, D>
 ) => (fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => (fc: Type2<F, L, C>) => Type2<F, L, D>
 export function liftA3<F extends URIS>(
   F: Apply1<F>
-): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<Type<F, A>, Type<F, B>, Type<F, C>, Type<F, D>>
+): // tslint:disable-next-line: deprecation
+<A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<Type<F, A>, Type<F, B>, Type<F, C>, Type<F, D>>
 export function liftA3<F>(
   F: Apply<F>
-): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>> { ... }
+): // tslint:disable-next-line: deprecation
+<A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>> { ... }
 ```
 
 Added in v1.0.0
@@ -373,6 +384,7 @@ Use `sequenceT` / `sequenceS` instead.
 export function liftA4<F extends URIS3>(
   F: Apply3<F>
 ): <A, B, C, D, E>(
+  // tslint:disable-next-line: deprecation
   f: Curried4<A, B, C, D, E>
 ) => <U, L>(
   fa: Type3<F, U, L, A>
@@ -380,6 +392,7 @@ export function liftA4<F extends URIS3>(
 export function liftA4<F extends URIS3, U, L>(
   F: Apply3C<F, U, L>
 ): <A, B, C, D, E>(
+  // tslint:disable-next-line: deprecation
   f: Curried4<A, B, C, D, E>
 ) => (
   fa: Type3<F, U, L, A>
@@ -387,19 +400,23 @@ export function liftA4<F extends URIS3, U, L>(
 export function liftA4<F extends URIS2>(
   F: Apply2<F>
 ): <A, B, C, D, E>(
+  // tslint:disable-next-line: deprecation
   f: Curried4<A, B, C, D, E>
 ) => <L>(fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => (fc: Type2<F, L, C>) => (fd: Type2<F, L, D>) => Type2<F, L, E>
 export function liftA4<F extends URIS2, L>(
   F: Apply2C<F, L>
 ): <A, B, C, D, E>(
+  // tslint:disable-next-line: deprecation
   f: Curried4<A, B, C, D, E>
 ) => (fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => (fc: Type2<F, L, C>) => (fd: Type2<F, L, D>) => Type2<F, L, E>
 export function liftA4<F extends URIS>(
   F: Apply1<F>
-): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<Type<F, A>, Type<F, B>, Type<F, C>, Type<F, D>, Type<F, E>>
+): // tslint:disable-next-line: deprecation
+<A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<Type<F, A>, Type<F, B>, Type<F, C>, Type<F, D>, Type<F, E>>
 export function liftA4<F>(
   F: Apply<F>
-): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>> { ... }
+): // tslint:disable-next-line: deprecation
+<A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>> { ... }
 ```
 
 Added in v1.0.0

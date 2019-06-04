@@ -62,6 +62,7 @@ export class ReaderTaskEither<E, L, A> {
    * Combine two effectful actions, keeping only the result of the second
    */
   applySecond<B>(fb: ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, B> {
+    // tslint:disable-next-line: deprecation
     return fb.ap(this.map(constIdentity as () => (b: B) => B))
   }
   chain<B>(f: (a: A) => ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, B> {

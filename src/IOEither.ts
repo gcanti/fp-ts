@@ -61,6 +61,7 @@ export class IOEither<L, A> {
    * Combine two effectful actions, keeping only the result of the second
    */
   applySecond<B>(fb: IOEither<L, B>): IOEither<L, B> {
+    // tslint:disable-next-line: deprecation
     return fb.ap(this.map(constIdentity as () => (b: B) => B))
   }
   chain<B>(f: (a: A) => IOEither<L, B>): IOEither<L, B> {

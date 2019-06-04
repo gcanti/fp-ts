@@ -15,43 +15,63 @@ describe('Apply', () => {
   const bar = left<string, number>('bar')
 
   it('applyFirst', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(applyFirst(option)(some(5), some(6)), some(5))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(applyFirst(option)(some(5), none), none)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(applyFirst(option)(none, some(6)), none)
 
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(applyFirst(either)(r1, r2), r1)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(applyFirst(either)(foo, r1), foo)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(applyFirst(either)(r1, foo), foo)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(applyFirst(either)(foo, bar), foo)
   })
 
   it('applySecond', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(applySecond(option)(some(5), some(6)), some(6))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(applySecond(option)(some(5), none), none)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(applySecond(option)(none, some(6)), none)
 
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(applySecond(either)(r1, r2), r2)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(applySecond(either)(foo, r1), foo)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(applySecond(either)(r1, foo), foo)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(applySecond(either)(foo, bar), foo)
   })
 
   it('liftA2', () => {
     const f = (a: number) => (b: number) => a + b
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(liftA2(option)(f)(some(2))(some(3)), some(5))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(liftA2(either)(f)(r2)(right(3)), right(5))
   })
 
   it('liftA3', () => {
     const f = (a: number) => (b: number) => (c: number) => a + b + c
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(liftA3(option)(f)(some(2))(some(3))(some(4)), some(9))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(liftA3(either)(f)(r2)(right(3))(right(4)), right(9))
   })
 
   it('liftA4', () => {
     const f = (a: number) => (b: number) => (c: number) => (d: number) => a + b + c + d
+    // tslint:disable-next-line: deprecation
     const optionf = liftA4(option)(f)
     assert.deepStrictEqual(optionf(some(2))(some(3))(some(4))(some(5)), some(14))
+    // tslint:disable-next-line: deprecation
     const eitherf = liftA4(either)(f)
     assert.deepStrictEqual(eitherf(r2)(right(3))(right(4))(right(5)), right(14))
   })
@@ -82,6 +102,7 @@ describe('Apply', () => {
       fc.property(input, options => {
         const x = sequenceTOption(...(options as any))
         return (
+          // tslint:disable-next-line: deprecation
           (options.every(isSome) && x.isSome() && E.equals(x.value as any, catOptions(options))) ||
           (options.some(isNone) && x.isNone())
         )

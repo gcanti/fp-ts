@@ -266,6 +266,7 @@ export function traverse_<M, F>(
   F: Foldable<F>
 ): <A, B>(f: (a: A) => HKT<M, B>, fa: HKT<F, A>) => HKT<M, void> {
   const toArrayF = toArray(F)
+  // tslint:disable-next-line: deprecation
   const applyFirstM = applyFirst(M)
   const initialValue = M.of(undefined)
   return (f, fa) => toArrayF(fa).reduce((mu, a) => applyFirstM(mu, f(a)), initialValue)

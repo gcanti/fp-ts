@@ -15,7 +15,7 @@ parent: Modules
 - [Contravariant3 (interface)](#contravariant3-interface)
 - [Contravariant3C (interface)](#contravariant3c-interface)
 - [Contravariant4 (interface)](#contravariant4-interface)
-- [lift (function)](#lift-function)
+- [~~lift~~ (function)](#lift-function)
 
 ---
 
@@ -101,7 +101,7 @@ export interface Contravariant4<F extends URIS4> {
 }
 ```
 
-# lift (function)
+# ~~lift~~ (function)
 
 **Signature**
 

@@ -32,7 +32,7 @@ import {
 } from '../src/Set'
 import { Eq, eqNumber, eqString, contramap, getStructEq } from '../src/Eq'
 import { none, some as optionSome } from '../src/Option'
-import { getArrayMonoid } from '../src/Monoid'
+import * as A from '../src/Array'
 import { showString } from '../src/Show'
 
 const gte2 = (n: number) => n >= 2
@@ -188,8 +188,8 @@ describe('Set', () => {
   })
 
   it('foldMap', () => {
-    assert.deepStrictEqual(foldMap(ordNumber, getArrayMonoid<number>())(new Set([1, 2, 3]), a => [a]), [1, 2, 3])
-    assert.deepStrictEqual(foldMap(ordNumber, getArrayMonoid<number>())(new Set([3, 2, 1]), a => [a]), [1, 2, 3])
+    assert.deepStrictEqual(foldMap(ordNumber, A.getMonoid<number>())(new Set([1, 2, 3]), a => [a]), [1, 2, 3])
+    assert.deepStrictEqual(foldMap(ordNumber, A.getMonoid<number>())(new Set([3, 2, 1]), a => [a]), [1, 2, 3])
   })
 
   it('singleton', () => {

@@ -35,16 +35,22 @@ export interface Extend4<W extends URIS4> extends Functor4<W> {
 
 /**
  * @since 1.0.0
+ * @deprecated
  */
 export function duplicate<F extends URIS3>(
   E: Extend3<F>
 ): <U, L, A>(ma: Type3<F, U, L, A>) => Type3<F, U, L, Type3<F, U, L, A>>
+/** @deprecated */
 export function duplicate<F extends URIS3, U, L>(
   E: Extend3C<F, U, L>
 ): <A>(ma: Type3<F, U, L, A>) => Type3<F, U, L, Type3<F, U, L, A>>
+/** @deprecated */
 export function duplicate<F extends URIS2>(E: Extend2<F>): <L, A>(ma: Type2<F, L, A>) => Type2<F, L, Type2<F, L, A>>
+/** @deprecated */
 export function duplicate<F extends URIS2, L>(E: Extend2C<F, L>): <A>(ma: Type2<F, L, A>) => Type2<F, L, Type2<F, L, A>>
+/** @deprecated */
 export function duplicate<F extends URIS>(E: Extend1<F>): <A>(ma: Type<F, A>) => Type<F, Type<F, A>>
+/** @deprecated */
 export function duplicate<F>(E: Extend<F>): <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>>
 export function duplicate<F>(E: Extend<F>): <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>> {
   return ma => E.extend(ma, identity)

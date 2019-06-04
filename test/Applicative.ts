@@ -27,19 +27,23 @@ describe('Applicative', () => {
     const action = new IO(() => {
       log.push('action called')
     })
+    // tslint:disable-next-line: deprecation
     when(io)(false, action).run()
     assert.deepStrictEqual(log, [])
+    // tslint:disable-next-line: deprecation
     when(io)(true, action).run()
     assert.deepStrictEqual(log, ['action called'])
   })
 
   it('getMonoid', () => {
+    // tslint:disable-next-line: deprecation
     const MOption = getMonoid(option, monoidSum)()
     assert.deepStrictEqual(MOption.concat(none, none), none)
     assert.deepStrictEqual(MOption.concat(some(1), none), none)
     assert.deepStrictEqual(MOption.concat(none, some(2)), none)
     assert.deepStrictEqual(MOption.concat(some(1), some(2)), some(3))
 
+    // tslint:disable-next-line: deprecation
     const MEither = getMonoid(either, monoidSum)<string>()
     assert.deepStrictEqual(MEither.concat(left('a'), left('b')), left('a'))
     assert.deepStrictEqual(MEither.concat(right(1), left('b')), left('b'))
@@ -47,6 +51,7 @@ describe('Applicative', () => {
     assert.deepStrictEqual(MEither.concat(right(1), right(2)), right(3))
 
     const validation = getApplicative(semigroupString)
+    // tslint:disable-next-line: deprecation
     const MValidation = getMonoid(validation, monoidSum)()
     assert.deepStrictEqual(MValidation.concat(failure('a'), failure('b')), failure('ab'))
     assert.deepStrictEqual(MValidation.concat(success(1), failure('b')), failure('b'))

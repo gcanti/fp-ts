@@ -9,27 +9,27 @@ parent: Modules
 <h2 class="text-delta">Table of contents</h2>
 
 - [BinaryOperation (type alias)](#binaryoperation-type-alias)
-- [Cokleisli (type alias)](#cokleisli-type-alias)
-- [Curried2 (type alias)](#curried2-type-alias)
-- [Curried3 (type alias)](#curried3-type-alias)
-- [Curried4 (type alias)](#curried4-type-alias)
-- [Curried5 (type alias)](#curried5-type-alias)
-- [Curried6 (type alias)](#curried6-type-alias)
-- [Curried7 (type alias)](#curried7-type-alias)
-- [Curried8 (type alias)](#curried8-type-alias)
-- [Curried9 (type alias)](#curried9-type-alias)
+- [~~Cokleisli~~ (type alias)](#cokleisli-type-alias)
+- [~~Curried2~~ (type alias)](#curried2-type-alias)
+- [~~Curried3~~ (type alias)](#curried3-type-alias)
+- [~~Curried4~~ (type alias)](#curried4-type-alias)
+- [~~Curried5~~ (type alias)](#curried5-type-alias)
+- [~~Curried6~~ (type alias)](#curried6-type-alias)
+- [~~Curried7~~ (type alias)](#curried7-type-alias)
+- [~~Curried8~~ (type alias)](#curried8-type-alias)
+- [~~Curried9~~ (type alias)](#curried9-type-alias)
 - [Endomorphism (type alias)](#endomorphism-type-alias)
-- [Function1 (type alias)](#function1-type-alias)
-- [Function2 (type alias)](#function2-type-alias)
-- [Function3 (type alias)](#function3-type-alias)
-- [Function4 (type alias)](#function4-type-alias)
-- [Function5 (type alias)](#function5-type-alias)
-- [Function6 (type alias)](#function6-type-alias)
-- [Function7 (type alias)](#function7-type-alias)
-- [Function8 (type alias)](#function8-type-alias)
-- [Function9 (type alias)](#function9-type-alias)
+- [~~Function1~~ (type alias)](#function1-type-alias)
+- [~~Function2~~ (type alias)](#function2-type-alias)
+- [~~Function3~~ (type alias)](#function3-type-alias)
+- [~~Function4~~ (type alias)](#function4-type-alias)
+- [~~Function5~~ (type alias)](#function5-type-alias)
+- [~~Function6~~ (type alias)](#function6-type-alias)
+- [~~Function7~~ (type alias)](#function7-type-alias)
+- [~~Function8~~ (type alias)](#function8-type-alias)
+- [~~Function9~~ (type alias)](#function9-type-alias)
 - [FunctionN (type alias)](#functionn-type-alias)
-- [Kleisli (type alias)](#kleisli-type-alias)
+- [~~Kleisli~~ (type alias)](#kleisli-type-alias)
 - [Lazy (type alias)](#lazy-type-alias)
 - [Predicate (type alias)](#predicate-type-alias)
 - [Refinement (type alias)](#refinement-type-alias)
@@ -37,19 +37,19 @@ parent: Modules
 - [unsafeCoerce (constant)](#unsafecoerce-constant)
 - [absurd (function)](#absurd-function)
 - [and (function)](#and-function)
-- [apply (function)](#apply-function)
-- [applyFlipped (function)](#applyflipped-function)
-- [compose (function)](#compose-function)
-- [concat (function)](#concat-function)
+- [~~apply~~ (function)](#apply-function)
+- [~~applyFlipped~~ (function)](#applyflipped-function)
+- [~~compose~~ (function)](#compose-function)
+- [~~concat~~ (function)](#concat-function)
 - [constFalse (function)](#constfalse-function)
-- [constIdentity (function)](#constidentity-function)
+- [~~constIdentity~~ (function)](#constidentity-function)
 - [constNull (function)](#constnull-function)
 - [constTrue (function)](#consttrue-function)
 - [constUndefined (function)](#constundefined-function)
 - [constVoid (function)](#constvoid-function)
 - [constant (function)](#constant-function)
-- [curried (function)](#curried-function)
-- [curry (function)](#curry-function)
+- [~~curried~~ (function)](#curried-function)
+- [~~curry~~ (function)](#curry-function)
 - [decrement (function)](#decrement-function)
 - [flip (function)](#flip-function)
 - [identity (function)](#identity-function)
@@ -59,7 +59,7 @@ parent: Modules
 - [or (function)](#or-function)
 - [pipe (function)](#pipe-function)
 - [pipeOp (function)](#pipeop-function)
-- [toString (function)](#tostring-function)
+- [~~toString~~ (function)](#tostring-function)
 - [tuple (function)](#tuple-function)
 - [~~tupleCurried~~ (function)](#tuplecurried-function)
 
@@ -73,7 +73,7 @@ parent: Modules
 export type BinaryOperation<A, B> = (a1: A, a2: A) => B
 ```
 
-# Cokleisli (type alias)
+# ~~Cokleisli~~ (type alias)
 
 **Signature**
 
@@ -81,7 +81,7 @@ export type BinaryOperation<A, B> = (a1: A, a2: A) => B
 export type Cokleisli<F, A, B> = (fa: HKT<F, A>) => B
 ```
 
-# Curried2 (type alias)
+# ~~Curried2~~ (type alias)
 
 **Signature**
 
@@ -89,7 +89,7 @@ export type Cokleisli<F, A, B> = (fa: HKT<F, A>) => B
 export type Curried2<A, B, C> = (a: A) => (b: B) => C
 ```
 
-# Curried3 (type alias)
+# ~~Curried3~~ (type alias)
 
 **Signature**
 
@@ -97,7 +97,7 @@ export type Curried2<A, B, C> = (a: A) => (b: B) => C
 export type Curried3<A, B, C, D> = (a: A) => (b: B) => (c: C) => D
 ```
 
-# Curried4 (type alias)
+# ~~Curried4~~ (type alias)
 
 **Signature**
 
@@ -105,7 +105,7 @@ export type Curried3<A, B, C, D> = (a: A) => (b: B) => (c: C) => D
 export type Curried4<A, B, C, D, E> = (a: A) => (b: B) => (c: C) => (d: D) => E
 ```
 
-# Curried5 (type alias)
+# ~~Curried5~~ (type alias)
 
 **Signature**
 
@@ -113,7 +113,7 @@ export type Curried4<A, B, C, D, E> = (a: A) => (b: B) => (c: C) => (d: D) => E
 export type Curried5<A, B, C, D, E, F> = (a: A) => (b: B) => (c: C) => (d: D) => (e: E) => F
 ```
 
-# Curried6 (type alias)
+# ~~Curried6~~ (type alias)
 
 **Signature**
 
@@ -121,7 +121,7 @@ export type Curried5<A, B, C, D, E, F> = (a: A) => (b: B) => (c: C) => (d: D) =>
 export type Curried6<A, B, C, D, E, F, G> = (a: A) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => G
 ```
 
-# Curried7 (type alias)
+# ~~Curried7~~ (type alias)
 
 **Signature**
 
@@ -129,7 +129,7 @@ export type Curried6<A, B, C, D, E, F, G> = (a: A) => (b: B) => (c: C) => (d: D)
 export type Curried7<A, B, C, D, E, F, G, H> = (a: A) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => (g: G) => H
 ```
 
-# Curried8 (type alias)
+# ~~Curried8~~ (type alias)
 
 **Signature**
 
@@ -139,7 +139,7 @@ export type Curried8<A, B, C, D, E, F, G, H, I> = (
 ) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => (g: G) => (h: H) => I
 ```
 
-# Curried9 (type alias)
+# ~~Curried9~~ (type alias)
 
 **Signature**
 
@@ -157,7 +157,7 @@ export type Curried9<A, B, C, D, E, F, G, H, I, J> = (
 export type Endomorphism<A> = (a: A) => A
 ```
 
-# Function1 (type alias)
+# ~~Function1~~ (type alias)
 
 **Signature**
 
@@ -165,7 +165,7 @@ export type Endomorphism<A> = (a: A) => A
 export type Function1<A, B> = (a: A) => B
 ```
 
-# Function2 (type alias)
+# ~~Function2~~ (type alias)
 
 **Signature**
 
@@ -173,7 +173,7 @@ export type Function1<A, B> = (a: A) => B
 export type Function2<A, B, C> = (a: A, b: B) => C
 ```
 
-# Function3 (type alias)
+# ~~Function3~~ (type alias)
 
 **Signature**
 
@@ -181,7 +181,7 @@ export type Function2<A, B, C> = (a: A, b: B) => C
 export type Function3<A, B, C, D> = (a: A, b: B, c: C) => D
 ```
 
-# Function4 (type alias)
+# ~~Function4~~ (type alias)
 
 **Signature**
 
@@ -189,7 +189,7 @@ export type Function3<A, B, C, D> = (a: A, b: B, c: C) => D
 export type Function4<A, B, C, D, E> = (a: A, b: B, c: C, d: D) => E
 ```
 
-# Function5 (type alias)
+# ~~Function5~~ (type alias)
 
 **Signature**
 
@@ -197,7 +197,7 @@ export type Function4<A, B, C, D, E> = (a: A, b: B, c: C, d: D) => E
 export type Function5<A, B, C, D, E, F> = (a: A, b: B, c: C, d: D, e: E) => F
 ```
 
-# Function6 (type alias)
+# ~~Function6~~ (type alias)
 
 **Signature**
 
@@ -205,7 +205,7 @@ export type Function5<A, B, C, D, E, F> = (a: A, b: B, c: C, d: D, e: E) => F
 export type Function6<A, B, C, D, E, F, G> = (a: A, b: B, c: C, d: D, e: E, f: F) => G
 ```
 
-# Function7 (type alias)
+# ~~Function7~~ (type alias)
 
 **Signature**
 
@@ -213,7 +213,7 @@ export type Function6<A, B, C, D, E, F, G> = (a: A, b: B, c: C, d: D, e: E, f: F
 export type Function7<A, B, C, D, E, F, G, H> = (a: A, b: B, c: C, d: D, e: E, f: F, g: G) => H
 ```
 
-# Function8 (type alias)
+# ~~Function8~~ (type alias)
 
 **Signature**
 
@@ -221,7 +221,7 @@ export type Function7<A, B, C, D, E, F, G, H> = (a: A, b: B, c: C, d: D, e: E, f
 export type Function8<A, B, C, D, E, F, G, H, I> = (a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H) => I
 ```
 
-# Function9 (type alias)
+# ~~Function9~~ (type alias)
 
 **Signature**
 
@@ -247,7 +247,7 @@ export const sum: FunctionN<[number, number], number> = (a, b) => a + b
 
 Added in v1.16.0
 
-# Kleisli (type alias)
+# ~~Kleisli~~ (type alias)
 
 **Signature**
 
@@ -323,7 +323,7 @@ export const and = <A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> => ...
 
 Added in v1.0.0
 
-# apply (function)
+# ~~apply~~ (function)
 
 Applies a function to an argument (\$)
 
@@ -335,7 +335,7 @@ export const apply = <A, B>(f: (a: A) => B) => (a: A): B => ...
 
 Added in v1.0.0
 
-# applyFlipped (function)
+# ~~applyFlipped~~ (function)
 
 Applies an argument to a function (#)
 
@@ -347,7 +347,7 @@ export const applyFlipped = <A>(a: A) => <B>(f: (a: A) => B): B => ...
 
 Added in v1.0.0
 
-# compose (function)
+# ~~compose~~ (function)
 
 **Signature**
 
@@ -404,7 +404,7 @@ export function compose<A, B, C, D, E, F, G, H, I, J>(
 
 Added in v1.0.0
 
-# concat (function)
+# ~~concat~~ (function)
 
 **Signature**
 
@@ -426,7 +426,7 @@ export const constFalse = (): boolean => ...
 
 Added in v1.0.0
 
-# constIdentity (function)
+# ~~constIdentity~~ (function)
 
 A thunk that returns always the `identity` function.
 For use with `applySecond` methods.
@@ -497,7 +497,7 @@ export const constant = <A>(a: A): Lazy<A> => ...
 
 Added in v1.0.0
 
-# curried (function)
+# ~~curried~~ (function)
 
 **Signature**
 
@@ -507,7 +507,7 @@ export function curried(f: Function, n: number, acc: Array<any>) { ... }
 
 Added in v1.0.0
 
-# curry (function)
+# ~~curry~~ (function)
 
 **Signature**
 
@@ -519,11 +519,15 @@ export function curry<A, B, C, D, E, F>(f: Function5<A, B, C, D, E, F>): Curried
 export function curry<A, B, C, D, E, F, G>(f: Function6<A, B, C, D, E, F, G>): Curried6<A, B, C, D, E, F, G>
 export function curry<A, B, C, D, E, F, G, H>(f: Function7<A, B, C, D, E, F, G, H>): Curried7<A, B, C, D, E, F, G, H>
 export function curry<A, B, C, D, E, F, G, H, I>(
+  // tslint:disable-next-line: deprecation
   f: Function8<A, B, C, D, E, F, G, H, I>
-): Curried8<A, B, C, D, E, F, G, H, I>
+): // tslint:disable-next-line: deprecation
+Curried8<A, B, C, D, E, F, G, H, I>
 export function curry<A, B, C, D, E, F, G, H, I, J>(
+  // tslint:disable-next-line: deprecation
   f: Function9<A, B, C, D, E, F, G, H, I, J>
-): Curried9<A, B, C, D, E, F, G, H, I, J> { ... }
+): // tslint:disable-next-line: deprecation
+Curried9<A, B, C, D, E, F, G, H, I, J> { ... }
 ```
 
 Added in v1.0.0
@@ -724,7 +728,7 @@ export function pipeOp<A, B, C, D, E, F, G, H, I, J>(
 
 Added in v1.19.0
 
-# toString (function)
+# ~~toString~~ (function)
 
 **Signature**
 

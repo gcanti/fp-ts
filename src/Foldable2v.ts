@@ -190,12 +190,18 @@ export function getFoldableComposition<F, G>(F: Foldable2v<F>, G: Foldable2v<G>)
  * assert.strictEqual(fold(monoidSum, tree)(t), 10)
  *
  * @since 1.10.0
+ * @deprecated
  */
 export function fold<M, F extends URIS3>(M: Monoid<M>, F: Foldable2v3<F>): <U, L>(fa: Type3<F, U, L, M>) => M
+/** @deprecated */
 export function fold<M, F extends URIS3, U, L>(M: Monoid<M>, F: Foldable2v3C<F, U, L>): (fa: Type3<F, U, L, M>) => M
+/** @deprecated */
 export function fold<M, F extends URIS2>(M: Monoid<M>, F: Foldable2v2<F>): <L>(fa: Type2<F, L, M>) => M
+/** @deprecated */
 export function fold<M, F extends URIS2, L>(M: Monoid<M>, F: Foldable2v2C<F, L>): (fa: Type2<F, L, M>) => M
+/** @deprecated */
 export function fold<M, F extends URIS>(M: Monoid<M>, F: Foldable2v1<F>): (fa: Type<F, M>) => M
+/** @deprecated */
 export function fold<M, F>(M: Monoid<M>, F: Foldable2v<F>): (fa: HKT<F, M>) => M
 export function fold<M, F>(M: Monoid<M>, F: Foldable2v<F>): (fa: HKT<F, M>) => M {
   return fa => F.reduce(fa, M.empty, M.concat)
@@ -261,27 +267,33 @@ export function foldM<M, F>(
  * assert.strictEqual(log, 'abc')
  *
  * @since 1.10.0
+ * @deprecated
  */
 export function sequence_<M extends URIS3, F extends URIS>(
   M: Applicative3<M>,
   F: Foldable2v1<F>
 ): <U, L, A>(fa: Type<F, Type3<M, U, L, A>>) => Type3<M, U, L, void>
+/** @deprecated */
 export function sequence_<M extends URIS3, F extends URIS, U, L>(
   M: Applicative3C<M, U, L>,
   F: Foldable2v1<F>
 ): <A>(fa: Type<F, Type3<M, U, L, A>>) => Type3<M, U, L, void>
+/** @deprecated */
 export function sequence_<M extends URIS2, F extends URIS>(
   M: Applicative2<M>,
   F: Foldable2v1<F>
 ): <L, A>(fa: Type<F, Type2<M, L, A>>) => Type2<M, L, void>
+/** @deprecated */
 export function sequence_<M extends URIS2, F extends URIS, L>(
   M: Applicative2C<M, L>,
   F: Foldable2v1<F>
 ): <A>(fa: Type<F, Type2<M, L, A>>) => Type2<M, L, void>
+/** @deprecated */
 export function sequence_<M extends URIS, F extends URIS>(
   M: Applicative1<M>,
   F: Foldable2v1<F>
 ): <A>(fa: Type<F, Type<M, A>>) => Type<M, void>
+/** @deprecated */
 export function sequence_<M, F>(M: Applicative<M>, F: Foldable2v<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void>
 export function sequence_<M, F>(M: Applicative<M>, F: Foldable2v<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void> {
   const traverseMF = traverse_(M, F)
@@ -299,27 +311,33 @@ export function sequence_<M, F>(M: Applicative<M>, F: Foldable2v<F>): <A>(fa: HK
  * assert.deepStrictEqual(oneOf(option, array)([some(2), some(1)]), some(2))
  *
  * @since 1.10.0
+ * @deprecated
  */
 export function oneOf<P extends URIS3, F extends URIS>(
   P: Plus3<P>,
   F: Foldable2v1<F>
 ): <U, L, A>(fga: Type<F, Type3<P, U, L, A>>) => Type3<P, U, L, A>
+/** @deprecated */
 export function oneOf<P extends URIS3, U, L, F extends URIS>(
   P: Plus3C<P, U, L>,
   F: Foldable2v1<F>
 ): <A>(fga: Type<F, Type3<P, U, L, A>>) => Type3<P, U, L, A>
+/** @deprecated */
 export function oneOf<P extends URIS2, F extends URIS>(
   P: Plus2<P>,
   F: Foldable2v1<F>
 ): <L, A>(fga: Type<F, Type2<P, L, A>>) => Type2<P, L, A>
+/** @deprecated */
 export function oneOf<P extends URIS2, F extends URIS, L>(
   P: Plus2C<P, L>,
   F: Foldable2v1<F>
 ): <A>(fga: Type<F, Type2<P, L, A>>) => Type2<P, L, A>
+/** @deprecated */
 export function oneOf<P extends URIS, F extends URIS>(
   P: Plus1<P>,
   F: Foldable2v1<F>
 ): <A>(fga: Type<F, Type<P, A>>) => Type<P, A>
+/** @deprecated */
 export function oneOf<P, F>(P: Plus<P>, F: Foldable2v<F>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A>
 export function oneOf<P, F>(P: Plus<P>, F: Foldable2v<F>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A> {
   return fga => F.reduce(fga, P.zero(), P.alt)
@@ -378,12 +396,18 @@ export function intercalate<M, F>(M: Monoid<M>, F: Foldable2v<F>): (sep: M, fm: 
  * assert.strictEqual(sum(fieldNumber, tree)(t), 10)
  *
  * @since 1.10.0
+ * @deprecated
  */
 export function sum<F extends URIS3, A>(S: Semiring<A>, F: Foldable2v3<F>): <U, L>(fa: Type3<F, U, L, A>) => A
+/** @deprecated */
 export function sum<F extends URIS3, A, U, L>(S: Semiring<A>, F: Foldable2v3C<F, U, L>): (fa: Type3<F, U, L, A>) => A
+/** @deprecated */
 export function sum<F extends URIS2, A>(S: Semiring<A>, F: Foldable2v2<F>): <L>(fa: Type2<F, L, A>) => A
+/** @deprecated */
 export function sum<F extends URIS2, A, L>(S: Semiring<A>, F: Foldable2v2C<F, L>): (fa: Type2<F, L, A>) => A
+/** @deprecated */
 export function sum<F extends URIS, A>(S: Semiring<A>, F: Foldable2v1<F>): (fa: Type<F, A>) => A
+/** @deprecated */
 export function sum<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => A
 export function sum<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => A {
   return fa => F.reduce(fa, S.zero, S.add)
@@ -401,15 +425,21 @@ export function sum<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => 
  * assert.strictEqual(product(fieldNumber, tree)(t), 24)
  *
  * @since 1.10.0
+ * @deprecated
  */
 export function product<F extends URIS3, A>(S: Semiring<A>, F: Foldable2v3<F>): <U, L>(fa: Type3<F, U, L, A>) => A
+/** @deprecated */
 export function product<F extends URIS3, A, U, L>(
   S: Semiring<A>,
   F: Foldable2v3C<F, U, L>
 ): (fa: Type3<F, U, L, A>) => A
+/** @deprecated */
 export function product<F extends URIS2, A>(S: Semiring<A>, F: Foldable2v2<F>): <L>(fa: Type2<F, L, A>) => A
+/** @deprecated */
 export function product<F extends URIS2, A, L>(S: Semiring<A>, F: Foldable2v2C<F, L>): (fa: Type2<F, L, A>) => A
+/** @deprecated */
 export function product<F extends URIS, A>(S: Semiring<A>, F: Foldable2v1<F>): (fa: Type<F, A>) => A
+/** @deprecated */
 export function product<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => A
 export function product<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => A {
   return fa => F.reduce(fa, S.one, S.mul)
@@ -428,15 +458,21 @@ export function product<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>)
  * assert.strictEqual(elem(eqNumber, tree)(5, t), false)
  *
  * @since 1.14.0
+ * @deprecated
  */
 export function elem<F extends URIS3, A>(E: Eq<A>, F: Foldable2v3<F>): <U, L>(a: A, fa: Type3<F, U, L, A>) => boolean
+/** @deprecated */
 export function elem<F extends URIS3, A, U, L>(
   E: Eq<A>,
   F: Foldable2v3C<F, U, L>
 ): (a: A, fa: Type3<F, U, L, A>) => boolean
+/** @deprecated */
 export function elem<F extends URIS2, A>(E: Eq<A>, F: Foldable2v2<F>): <L>(a: A, fa: Type2<F, L, A>) => boolean
+/** @deprecated */
 export function elem<F extends URIS2, A, L>(E: Eq<A>, F: Foldable2v2C<F, L>): (a: A, fa: Type2<F, L, A>) => boolean
+/** @deprecated */
 export function elem<F extends URIS, A>(E: Eq<A>, F: Foldable2v1<F>): (a: A, fa: Type<F, A>) => boolean
+/** @deprecated */
 export function elem<F, A>(E: Eq<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean
 export function elem<F, A>(E: Eq<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean {
   return (a, fa) => F.reduce<A, boolean>(fa, false, (b, x) => b || E.equals(x, a))
@@ -455,18 +491,24 @@ export function elem<F, A>(E: Eq<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) =>
  * assert.deepStrictEqual(findFirst(tree)(t, a => a > 2), some(3))
  *
  * @since 1.10.0
+ * @deprecated
  */
 export function findFirst<F extends URIS3>(
   F: Foldable2v3<F>
 ): <U, L, A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Option<A>
+/** @deprecated */
 export function findFirst<F extends URIS3, U, L>(
   F: Foldable2v3C<F, U, L>
 ): <A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Option<A>
+/** @deprecated */
 export function findFirst<F extends URIS2>(F: Foldable2v2<F>): <L, A>(fa: Type2<F, L, A>, p: Predicate<A>) => Option<A>
+/** @deprecated */
 export function findFirst<F extends URIS2, L>(
   F: Foldable2v2C<F, L>
 ): <A>(fa: Type2<F, L, A>, p: Predicate<A>) => Option<A>
+/** @deprecated */
 export function findFirst<F extends URIS>(F: Foldable2v1<F>): <A>(fa: Type<F, A>, p: Predicate<A>) => Option<A>
+/** @deprecated */
 export function findFirst<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A>
 export function findFirst<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A> {
   return <A>(fa: HKT<F, A>, p: Predicate<A>) =>
@@ -492,12 +534,18 @@ export function findFirst<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>, p: Predicate<
  * assert.deepStrictEqual(min(ordNumber, tree)(t), some(1))
  *
  * @since 1.10.0
+ * @deprecated
  */
 export function min<F extends URIS3, A>(O: Ord<A>, F: Foldable2v3<F>): <U, L>(fa: Type3<F, U, L, A>) => Option<A>
+/** @deprecated */
 export function min<F extends URIS3, A, U, L>(O: Ord<A>, F: Foldable2v3C<F, U, L>): (fa: Type3<F, U, L, A>) => Option<A>
+/** @deprecated */
 export function min<F extends URIS2, A>(O: Ord<A>, F: Foldable2v2<F>): <L>(fa: Type2<F, L, A>) => Option<A>
+/** @deprecated */
 export function min<F extends URIS2, A, L>(O: Ord<A>, F: Foldable2v2C<F, L>): (fa: Type2<F, L, A>) => Option<A>
+/** @deprecated */
 export function min<F extends URIS, A>(O: Ord<A>, F: Foldable2v1<F>): (fa: Type<F, A>) => Option<A>
+/** @deprecated */
 export function min<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A>
 export function min<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A> {
   const minO = minOrd(O)
@@ -517,12 +565,18 @@ export function min<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Optio
  * assert.deepStrictEqual(max(ordNumber, tree)(t), some(4))
  *
  * @since 1.10.0
+ * @deprecated
  */
 export function max<F extends URIS3, A>(O: Ord<A>, F: Foldable2v3<F>): <U, L>(fa: Type3<F, U, L, A>) => Option<A>
+/** @deprecated */
 export function max<F extends URIS3, A, U, L>(O: Ord<A>, F: Foldable2v3C<F, U, L>): (fa: Type3<F, U, L, A>) => Option<A>
+/** @deprecated */
 export function max<F extends URIS2, A>(O: Ord<A>, F: Foldable2v2<F>): <L>(fa: Type2<F, L, A>) => Option<A>
+/** @deprecated */
 export function max<F extends URIS2, A, L>(O: Ord<A>, F: Foldable2v2C<F, L>): (fa: Type2<F, L, A>) => Option<A>
+/** @deprecated */
 export function max<F extends URIS, A>(O: Ord<A>, F: Foldable2v1<F>): (fa: Type<F, A>) => Option<A>
+/** @deprecated */
 export function max<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A>
 export function max<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A> {
   const maxO = maxOrd(O)
@@ -540,12 +594,18 @@ export function max<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Optio
  * assert.deepStrictEqual(toArray(tree)(t), [1, 2, 3, 4])
  *
  * @since 1.10.0
+ * @deprecated
  */
 export function toArray<F extends URIS3>(F: Foldable2v3<F>): <U, L, A>(fa: Type3<F, U, L, A>) => Array<A>
+/** @deprecated */
 export function toArray<F extends URIS3, U, L>(F: Foldable2v3C<F, U, L>): <A>(fa: Type3<F, U, L, A>) => Array<A>
+/** @deprecated */
 export function toArray<F extends URIS2>(F: Foldable2v2<F>): <L, A>(fa: Type2<F, L, A>) => Array<A>
+/** @deprecated */
 export function toArray<F extends URIS2, L>(F: Foldable2v2C<F, L>): <A>(fa: Type2<F, L, A>) => Array<A>
+/** @deprecated */
 export function toArray<F extends URIS>(F: Foldable2v1<F>): <A>(fa: Type<F, A>) => Array<A>
+/** @deprecated */
 export function toArray<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>) => Array<A>
 export function toArray<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>) => Array<A> {
   const foldMapF = foldMap(F, unsafeMonoidArray)
@@ -596,14 +656,15 @@ export function traverse_<M, F>(
   M: Applicative<M>,
   F: Foldable2v<F>
 ): <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<M, B>) => HKT<M, void> {
+  // tslint:disable-next-line: deprecation
   const toArrayF = toArray(F)
+  // tslint:disable-next-line: deprecation
   const applyFirstM = applyFirst(M)
   const initialValue = M.of(undefined)
   return (fa, f) => toArrayF(fa).reduce((mu, a) => applyFirstM(mu, f(a)), initialValue)
 }
 
 /**
- * Use `elem` instead
  * @since 1.10.0
  * @deprecated
  */
@@ -622,5 +683,6 @@ export function member<F extends URIS, A>(E: Eq<A>, F: Foldable2v1<F>): (a: A, f
 /** @deprecated */
 export function member<F, A>(E: Eq<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean
 export function member<F, A>(E: Eq<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean {
+  // tslint:disable-next-line: deprecation
   return elem(E, F)
 }

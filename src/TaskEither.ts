@@ -74,6 +74,7 @@ export class TaskEither<L, A> {
    * @since 1.5.0
    */
   applySecond<B>(fb: TaskEither<L, B>): TaskEither<L, B> {
+    // tslint:disable-next-line: deprecation
     return fb.ap(this.map<(b: B) => B>(constIdentity))
   }
   /**
@@ -450,14 +451,16 @@ export function leftIO<E>(me: IO<E>): TaskEither<E, never> {
  * @since 1.19.0
  */
 export function rightTask<A>(ma: Task<A>): TaskEither<never, A> {
-  return new TaskEither(ma.map(a => eitherRight(a)))
+  // tslint:disable-next-line: deprecation
+  return right(ma)
 }
 
 /**
  * @since 1.19.0
  */
 export function leftTask<E>(me: Task<E>): TaskEither<E, never> {
-  return new TaskEither(me.map(e => eitherLeft(e)))
+  // tslint:disable-next-line: deprecation
+  return left(me)
 }
 
 /**

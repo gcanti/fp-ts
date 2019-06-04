@@ -20,7 +20,7 @@ describe('pipeable', () => {
 
   it('Contravariant', () => {
     const { contramap } = pipeable(C.const_)
-    assert.deepStrictEqual(contramap((s: string) => s.length * 2)(new C.Const(1)).value, 1)
+    assert.deepStrictEqual(contramap((s: string) => s.length * 2)(C.make(1)).value, 1)
   })
 
   it('FunctorWithIndex', () => {

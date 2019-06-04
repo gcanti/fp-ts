@@ -24,10 +24,10 @@ Data structure which represents non-empty arrays
 - [copy (function)](#copy-function)
 - [filter (function)](#filter-function)
 - [filterWithIndex (function)](#filterwithindex-function)
-- [findFirst (function)](#findfirst-function)
-- [findIndex (function)](#findindex-function)
-- [findLast (function)](#findlast-function)
-- [findLastIndex (function)](#findlastindex-function)
+- [~~findFirst~~ (function)](#findfirst-function)
+- [~~findIndex~~ (function)](#findindex-function)
+- [~~findLast~~ (function)](#findlast-function)
+- [~~findLastIndex~~ (function)](#findlastindex-function)
 - [fromArray (function)](#fromarray-function)
 - [fromNonEmptyArray (function)](#fromnonemptyarray-function)
 - [getEq (function)](#geteq-function)
@@ -180,6 +180,10 @@ Added in v1.17.0
 **Signature**
 
 ```ts
+export function filter<A, B extends A>(
+  refinement: Refinement<A, B>
+): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+export function filter<A>(predicate: Predicate<A>): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
 export function filter<A, B extends A>(nea: NonEmptyArray<A>, refinement: Refinement<A, B>): Option<NonEmptyArray<A>>
 export function filter<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<NonEmptyArray<A>> { ... }
 ```
@@ -192,6 +196,9 @@ Added in v1.15.0
 
 ```ts
 export function filterWithIndex<A>(
+  predicate: (i: number, a: A) => boolean
+): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+export function filterWithIndex<A>(
   nea: NonEmptyArray<A>,
   predicate: (i: number, a: A) => boolean
 ): Option<NonEmptyArray<A>> { ... }
@@ -199,7 +206,9 @@ export function filterWithIndex<A>(
 
 Added in v1.15.0
 
-# findFirst (function)
+# ~~findFirst~~ (function)
+
+Use `Array`'s `findFirst`
 
 **Signature**
 
@@ -210,7 +219,9 @@ export function findFirst<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Op
 
 Added in v1.15.0
 
-# findIndex (function)
+# ~~findIndex~~ (function)
+
+Use `Array`'s `findIndex`
 
 **Signature**
 
@@ -220,7 +231,9 @@ export function findIndex<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Op
 
 Added in v1.15.0
 
-# findLast (function)
+# ~~findLast~~ (function)
+
+Use `Array`'s `findLast`
 
 **Signature**
 
@@ -231,7 +244,9 @@ export function findLast<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Opt
 
 Added in v1.15.0
 
-# findLastIndex (function)
+# ~~findLastIndex~~ (function)
+
+Use `Array`'s `findLastIndex`
 
 **Signature**
 
@@ -337,17 +352,18 @@ function on each element, and grouping the results according to values returned
 **Signature**
 
 ```ts
-export const groupBy = <A>(as: Array<A>, f: (a: A) => string): { [key: string]: NonEmptyArray<A> } => ...
+export function groupBy<A>(f: (a: A) => string): (as: Array<A>) => { [key: string]: NonEmptyArray<A> }
+export function groupBy<A>(as: Array<A>, f: (a: A) => string): { [key: string]: NonEmptyArray<A> } { ... }
 ```
 
 **Example**
 
 ```ts
-import { make, groupBy } from 'fp-ts/lib/NonEmptyArray2v'
+import { cons, groupBy } from 'fp-ts/lib/NonEmptyArray2v'
 
-assert.deepStrictEqual(groupBy(['foo', 'bar', 'foobar'], a => String(a.length)), {
-  '3': make('foo', ['bar']),
-  '6': make('foobar', [])
+assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['foo', 'bar', 'foobar']), {
+  '3': cons('foo', ['bar']),
+  '6': cons('foobar', [])
 })
 ```
 
@@ -389,6 +405,7 @@ Added in v1.15.0
 **Signature**
 
 ```ts
+export function insertAt<A>(i: number, a: A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
 export function insertAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonEmptyArray<A>> { ... }
 ```
 
@@ -441,6 +458,7 @@ Added in v1.15.0
 **Signature**
 
 ```ts
+export function modifyAt<A>(i: number, f: (a: A) => A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
 export function modifyAt<A>(nea: NonEmptyArray<A>, i: number, f: (a: A) => A): Option<NonEmptyArray<A>> { ... }
 ```
 
@@ -471,6 +489,7 @@ Added in v1.15.0
 **Signature**
 
 ```ts
+export function updateAt<A>(i: number, a: A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
 export function updateAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonEmptyArray<A>> { ... }
 ```
 

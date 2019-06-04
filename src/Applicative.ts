@@ -145,20 +145,26 @@ export interface ApplicativeComposition3C1<F extends URIS3, G extends URIS, UF, 
  * assert.deepStrictEqual(log, ['action called'])
  *
  * @since 1.0.0
+ * @deprecated
  */
 export function when<F extends URIS3>(
   F: Applicative3<F>
 ): <U, L>(condition: boolean, fu: Type3<F, U, L, void>) => Type3<F, U, L, void>
+/** @deprecated */
 export function when<F extends URIS3, U, L>(
   F: Applicative3C<F, U, L>
 ): (condition: boolean, fu: Type3<F, U, L, void>) => Type3<F, U, L, void>
+/** @deprecated */
 export function when<F extends URIS2>(
   F: Applicative2<F>
 ): <L>(condition: boolean, fu: Type2<F, L, void>) => Type2<F, L, void>
+/** @deprecated */
 export function when<F extends URIS2, L>(
   F: Applicative2C<F, L>
 ): (condition: boolean, fu: Type2<F, L, void>) => Type2<F, L, void>
+/** @deprecated */
 export function when<F extends URIS>(F: Applicative1<F>): (condition: boolean, fu: Type<F, void>) => Type<F, void>
+/** @deprecated */
 export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void>
 export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void> {
   return (condition, fu) => (condition ? fu : F.of(undefined))
@@ -250,20 +256,27 @@ export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicativ
  * assert.deepStrictEqual(M.concat(some(1), some(2)), some(3))
  *
  * @since 1.4.0
+ * @deprecated
  */
 export function getMonoid<F extends URIS3, A>(
   F: Applicative3<F>,
   M: Monoid<A>
 ): <U = never, L = never>() => Monoid<Type3<F, U, L, A>>
+/** @deprecated */
 export function getMonoid<F extends URIS3, U, L, A>(
   F: Applicative3C<F, U, L>,
   M: Monoid<A>
 ): () => Monoid<Type3<F, U, L, A>>
+/** @deprecated */
 export function getMonoid<F extends URIS2, A>(F: Applicative2<F>, M: Monoid<A>): <L = never>() => Monoid<Type2<F, L, A>>
+/** @deprecated */
 export function getMonoid<F extends URIS2, L, A>(F: Applicative2C<F, L>, M: Monoid<A>): () => Monoid<Type2<F, L, A>>
+/** @deprecated */
 export function getMonoid<F extends URIS, A>(F: Applicative1<F>, M: Monoid<A>): () => Monoid<Type<F, A>>
+/** @deprecated */
 export function getMonoid<F, A>(F: Applicative<F>, M: Monoid<A>): () => Monoid<HKT<F, A>>
 export function getMonoid<F, A>(F: Applicative<F>, M: Monoid<A>): () => Monoid<HKT<F, A>> {
+  // tslint:disable-next-line: deprecation
   const S = getSemigroup(F, M)()
   return () => ({
     ...S,

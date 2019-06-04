@@ -27,25 +27,42 @@ export type Lazy<A> = () => A
  */
 export type FunctionN<A extends Array<unknown>, B> = (...args: A) => B
 
+/** @deprecated */
 export type Function1<A, B> = (a: A) => B
+/** @deprecated */
 export type Function2<A, B, C> = (a: A, b: B) => C
+/** @deprecated */
 export type Function3<A, B, C, D> = (a: A, b: B, c: C) => D
+/** @deprecated */
 export type Function4<A, B, C, D, E> = (a: A, b: B, c: C, d: D) => E
+/** @deprecated */
 export type Function5<A, B, C, D, E, F> = (a: A, b: B, c: C, d: D, e: E) => F
+/** @deprecated */
 export type Function6<A, B, C, D, E, F, G> = (a: A, b: B, c: C, d: D, e: E, f: F) => G
+/** @deprecated */
 export type Function7<A, B, C, D, E, F, G, H> = (a: A, b: B, c: C, d: D, e: E, f: F, g: G) => H
+/** @deprecated */
 export type Function8<A, B, C, D, E, F, G, H, I> = (a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H) => I
+/** @deprecated */
 export type Function9<A, B, C, D, E, F, G, H, I, J> = (a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H, i: I) => J
 
+/** @deprecated */
 export type Curried2<A, B, C> = (a: A) => (b: B) => C
+/** @deprecated */
 export type Curried3<A, B, C, D> = (a: A) => (b: B) => (c: C) => D
+/** @deprecated */
 export type Curried4<A, B, C, D, E> = (a: A) => (b: B) => (c: C) => (d: D) => E
+/** @deprecated */
 export type Curried5<A, B, C, D, E, F> = (a: A) => (b: B) => (c: C) => (d: D) => (e: E) => F
+/** @deprecated */
 export type Curried6<A, B, C, D, E, F, G> = (a: A) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => G
+/** @deprecated */
 export type Curried7<A, B, C, D, E, F, G, H> = (a: A) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => (g: G) => H
+/** @deprecated */
 export type Curried8<A, B, C, D, E, F, G, H, I> = (
   a: A
 ) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => (g: G) => (h: H) => I
+/** @deprecated */
 export type Curried9<A, B, C, D, E, F, G, H, I, J> = (
   a: A
 ) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => (g: G) => (h: H) => (i: I) => J
@@ -81,7 +98,9 @@ export type Endomorphism<A> = (a: A) => A
 
 export type BinaryOperation<A, B> = (a1: A, a2: A) => B
 
+/** @deprecated */
 export type Kleisli<F, A, B> = (a: A) => HKT<F, B>
+/** @deprecated */
 export type Cokleisli<F, A, B> = (fa: HKT<F, A>) => B
 
 /**
@@ -141,6 +160,7 @@ export const constVoid = (): void => {
  *
  * @since 1.0.0
  */
+// tslint:disable-next-line: deprecation
 export const flip = <A, B, C>(f: Curried2<A, B, C>): Curried2<B, A, C> => {
   return b => a => f(a)(b)
 }
@@ -156,10 +176,14 @@ export const on = <B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): Bina
 
 /**
  * @since 1.0.0
+ * @deprecated
  */
 export function compose<A, B, C>(bc: (b: B) => C, ab: (a: A) => B): (a: A) => C
+/** @deprecated */
 export function compose<A, B, C, D>(cd: (c: C) => D, bc: (b: B) => C, ab: (a: A) => B): (a: A) => D
+/** @deprecated */
 export function compose<A, B, C, D, E>(de: (d: D) => E, cd: (c: C) => D, bc: (b: B) => C, ab: (a: A) => B): (a: A) => E
+/** @deprecated */
 export function compose<A, B, C, D, E, F>(
   ef: (e: E) => F,
   de: (d: D) => E,
@@ -167,6 +191,7 @@ export function compose<A, B, C, D, E, F>(
   bc: (b: B) => C,
   ab: (a: A) => B
 ): (a: A) => F
+/** @deprecated */
 export function compose<A, B, C, D, E, F, G>(
   fg: (f: F) => G,
   ef: (e: E) => F,
@@ -175,6 +200,7 @@ export function compose<A, B, C, D, E, F, G>(
   bc: (b: B) => C,
   ab: (a: A) => B
 ): (a: A) => G
+/** @deprecated */
 export function compose<A, B, C, D, E, F, G, H>(
   gh: (g: G) => H,
   fg: (f: F) => G,
@@ -184,6 +210,7 @@ export function compose<A, B, C, D, E, F, G, H>(
   bc: (b: B) => C,
   ab: (a: A) => B
 ): (a: A) => H
+/** @deprecated */
 export function compose<A, B, C, D, E, F, G, H, I>(
   hi: (h: H) => I,
   gh: (g: G) => H,
@@ -194,6 +221,7 @@ export function compose<A, B, C, D, E, F, G, H, I>(
   bc: (b: B) => C,
   ab: (a: A) => B
 ): (a: A) => I
+/** @deprecated */
 export function compose<A, B, C, D, E, F, G, H, I, J>(
   ij: (i: I) => J,
   hi: (h: H) => I,
@@ -280,6 +308,7 @@ export function pipe(...fns: Array<Function>): Function {
 
 /**
  * @since 1.0.0
+ * @deprecated
  */
 export const concat = <A>(x: Array<A>, y: Array<A>): Array<A> => {
   const lenx = x.length
@@ -302,30 +331,52 @@ export const concat = <A>(x: Array<A>, y: Array<A>): Array<A> => {
 
 /**
  * @since 1.0.0
+ * @deprecated
  */
 export function curried(f: Function, n: number, acc: Array<any>) {
   return function(this: any, x: any) {
+    // tslint:disable-next-line: deprecation
     const combined = concat(acc, [x])
+    // tslint:disable-next-line: deprecation
     return n === 0 ? f.apply(this, combined) : curried(f, n - 1, combined)
   }
 }
 
 /**
  * @since 1.0.0
+ * @deprecated
  */
+// tslint:disable-next-line: deprecation
 export function curry<A, B, C>(f: Function2<A, B, C>): Curried2<A, B, C>
+/** @deprecated */
+// tslint:disable-next-line: deprecation
 export function curry<A, B, C, D>(f: Function3<A, B, C, D>): Curried3<A, B, C, D>
+/** @deprecated */
+// tslint:disable-next-line: deprecation
 export function curry<A, B, C, D, E>(f: Function4<A, B, C, D, E>): Curried4<A, B, C, D, E>
+/** @deprecated */
+// tslint:disable-next-line: deprecation
 export function curry<A, B, C, D, E, F>(f: Function5<A, B, C, D, E, F>): Curried5<A, B, C, D, E, F>
+/** @deprecated */
+// tslint:disable-next-line: deprecation
 export function curry<A, B, C, D, E, F, G>(f: Function6<A, B, C, D, E, F, G>): Curried6<A, B, C, D, E, F, G>
+/** @deprecated */
+// tslint:disable-next-line: deprecation
 export function curry<A, B, C, D, E, F, G, H>(f: Function7<A, B, C, D, E, F, G, H>): Curried7<A, B, C, D, E, F, G, H>
+/** @deprecated */
 export function curry<A, B, C, D, E, F, G, H, I>(
+  // tslint:disable-next-line: deprecation
   f: Function8<A, B, C, D, E, F, G, H, I>
-): Curried8<A, B, C, D, E, F, G, H, I>
+): // tslint:disable-next-line: deprecation
+Curried8<A, B, C, D, E, F, G, H, I>
+/** @deprecated */
 export function curry<A, B, C, D, E, F, G, H, I, J>(
+  // tslint:disable-next-line: deprecation
   f: Function9<A, B, C, D, E, F, G, H, I, J>
-): Curried9<A, B, C, D, E, F, G, H, I, J>
+): // tslint:disable-next-line: deprecation
+Curried9<A, B, C, D, E, F, G, H, I, J>
 export function curry(f: Function) {
+  // tslint:disable-next-line: deprecation
   return curried(f, f.length - 1, [])
 }
 
@@ -334,6 +385,7 @@ const getFunctionName = (f: Function): string => (f as any).displayName || f.nam
 
 /**
  * @since 1.0.0
+ * @deprecated
  */
 export const toString = (x: any): string => {
   if (typeof x === 'string') {
@@ -343,6 +395,7 @@ export const toString = (x: any): string => {
     return `new Date('${x.toISOString()}')`
   }
   if (Array.isArray(x)) {
+    // tslint:disable-next-line: deprecation
     return `[${x.map(toString).join(', ')}]`
   }
   if (typeof x === 'function') {
@@ -380,6 +433,7 @@ export const tupleCurried = <A>(a: A) => <B>(b: B): [A, B] => {
  * Applies a function to an argument ($)
  *
  * @since 1.0.0
+ * @deprecated
  */
 export const apply = <A, B>(f: (a: A) => B) => (a: A): B => {
   return f(a)
@@ -389,6 +443,7 @@ export const apply = <A, B>(f: (a: A) => B) => (a: A): B => {
  * Applies an argument to a function (#)
  *
  * @since 1.0.0
+ * @deprecated
  */
 export const applyFlipped = <A>(a: A) => <B>(f: (a: A) => B): B => {
   return f(a)
@@ -406,6 +461,7 @@ export const phantom: any = undefined
  * For use with `applySecond` methods.
  *
  * @since 1.5.0
+ * @deprecated
  */
 export const constIdentity = (): (<A>(a: A) => A) => {
   return identity
