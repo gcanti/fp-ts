@@ -51,6 +51,7 @@ export class StrMap<A> {
   readonly _URI!: URI
   constructor(readonly value: { [key: string]: A }) {}
   mapWithKey<B>(f: (k: string, a: A) => B): StrMap<B> {
+    // tslint:disable-next-line: deprecation
     return new StrMap(R.mapWithKey(this.value, f))
   }
   map<B>(f: (a: A) => B): StrMap<B> {
@@ -63,18 +64,21 @@ export class StrMap<A> {
    * @since 1.12.0
    */
   foldr<B>(b: B, f: (a: A, b: B) => B): B {
+    // tslint:disable-next-line: deprecation
     return R.foldr(this.value, b, f)
   }
   /**
    * @since 1.12.0
    */
   reduceWithKey<B>(b: B, f: (k: string, b: B, a: A) => B): B {
+    // tslint:disable-next-line: deprecation
     return R.reduceWithKey(this.value, b, f)
   }
   /**
    * @since 1.12.0
    */
   foldrWithKey<B>(b: B, f: (k: string, a: A, b: B) => B): B {
+    // tslint:disable-next-line: deprecation
     return R.foldrWithKey(this.value, b, f)
   }
   /**
@@ -121,6 +125,7 @@ export class StrMap<A> {
    * @since 1.14.0
    */
   partitionMapWithKey<RL, RR>(f: (i: string, a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> {
+    // tslint:disable-next-line: deprecation
     return liftSeparated(R.partitionMapWithKey(this.value, f))
   }
   /**
@@ -135,6 +140,7 @@ export class StrMap<A> {
    * @since 1.14.0
    */
   partitionWithKey(p: (i: string, a: A) => boolean): Separated<StrMap<A>, StrMap<A>> {
+    // tslint:disable-next-line: deprecation
     return liftSeparated(R.partitionWithKey(this.value, p))
   }
   /**
@@ -149,6 +155,7 @@ export class StrMap<A> {
    * @since 1.14.0
    */
   filterMapWithKey<B>(f: (i: string, a: A) => Option<B>): StrMap<B> {
+    // tslint:disable-next-line: deprecation
     return new StrMap(R.filterMapWithKey(this.value, f))
   }
   /**
@@ -163,6 +170,7 @@ export class StrMap<A> {
    * @since 1.14.0
    */
   filterWithKey(p: (i: string, a: A) => boolean): StrMap<A> {
+    // tslint:disable-next-line: deprecation
     return new StrMap(R.filterWithKey(this.value, p))
   }
   /**
@@ -221,6 +229,7 @@ const reduce = <A, B>(fa: StrMap<A>, b: B, f: (b: B, a: A) => B): B => {
 
 const foldMap = <M>(M: Monoid<M>): (<A>(fa: StrMap<A>, f: (a: A) => M) => M) => {
   const foldMapM = R.foldMap(M)
+  // tslint:disable-next-line: deprecation
   return (fa, f) => foldMapM(fa.value, f)
 }
 
@@ -233,6 +242,7 @@ const reduceWithIndex = <A, B>(fa: StrMap<A>, b: B, f: (k: string, b: B, a: A) =
 }
 
 const foldMapWithIndex = <M>(M: Monoid<M>): (<A>(fa: StrMap<A>, f: (k: string, a: A) => M) => M) => {
+  // tslint:disable-next-line: deprecation
   const foldMapWithKey = R.foldMapWithKey(M)
   return (fa, f) => foldMapWithKey(fa.value, f)
 }
@@ -261,6 +271,7 @@ export function traverseWithKey<F>(
 export function traverseWithKey<F>(
   F: Applicative<F>
 ): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
+  // tslint:disable-next-line: deprecation
   const traverseWithKeyF = R.traverseWithKey(F)
   return (ta, f) => F.map(traverseWithKeyF(ta.value, f), d => new StrMap(d))
 }
@@ -369,6 +380,7 @@ export function fromFoldable<F>(
  * @since 1.0.0
  */
 export const collect = <A, B>(d: StrMap<A>, f: (k: string, a: A) => B): Array<B> => {
+  // tslint:disable-next-line: deprecation
   return R.collect(d.value, f)
 }
 
@@ -398,6 +410,7 @@ export function toUnfoldable<F>(U: Unfoldable<F>): <A>(d: StrMap<A>) => HKT<F, [
  * @since 1.0.0
  */
 export const insert = <A>(k: string, a: A, d: StrMap<A>): StrMap<A> => {
+  // tslint:disable-next-line: deprecation
   const value = R.insert(k, a, d.value)
   return value === d.value ? d : new StrMap(value)
 }
@@ -408,6 +421,7 @@ export const insert = <A>(k: string, a: A, d: StrMap<A>): StrMap<A> => {
  * @since 1.0.0
  */
 export const remove = <A>(k: string, d: StrMap<A>): StrMap<A> => {
+  // tslint:disable-next-line: deprecation
   const value = R.remove(k, d.value)
   return value === d.value ? d : new StrMap(value)
 }
@@ -418,6 +432,7 @@ export const remove = <A>(k: string, d: StrMap<A>): StrMap<A> => {
  * @since 1.0.0
  */
 export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
+  // tslint:disable-next-line: deprecation
   return R.pop(k, d.value).map(([a, d]) => [a, new StrMap(d)])
 }
 

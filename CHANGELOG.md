@@ -52,11 +52,18 @@ pipeOp(
 ```
 
 - **New Feature**
+  - Add `foldIO` and `foldIOEither` to `IOEither` (@bwlt)
   - add `Eq` module (@gcanti)
   - backport top level data-last functions from v2 (@gcanti)
   - backport `pipeable` module form v2 (@gcanti)
   - backport `pipeOp` function form v2 (@gcanti)
-  - Add `foldIO` and `foldIOEither` to `IOEither` (@bwlt)
+  - `Record`
+    - add `record` instance (@gcanti)
+    - add `mapWithIndex` (@gcanti)
+    - add `reduceWithIndex` (@gcanti)
+    - add `foldMapWithIndex` (@gcanti)
+    - add `reduceRightWithIndex` (@gcanti)
+    - add `hasOwnProperty` (@gcanti)
 - **Deprecations**
   - deprecate `Setoid` in favour of `Eq` (@gcanti)
   - `Applicative`
@@ -179,6 +186,30 @@ pipeOp(
     - deprecate `fromIO` in favour of `rightIO` (@gcanti)
     - deprecate `fromLeft` in favour of `left2v` (@gcanti)
     - add `right2v` (@gcanti)
+  - `Record`
+    - deprecate uncurried `collect` in favour of curried, data-last `collect` (@gcanti)
+    - deprecate `insert` in favour of `insertAt` (@gcanti)
+    - deprecate `remove` in favour of `deleteAt` (@gcanti)
+    - deprecate uncurried `pop` in favour of curried, data-last `pop` (@gcanti)
+    - deprecate `mapWithKey` in favour of `mapWithIndex` (@gcanti)
+    - deprecate `reduceWithKey` in favour of `reduceWithIndex` (@gcanti)
+    - deprecate `foldMapWithKey` in favour of `foldMapWithIndex` (@gcanti)
+    - deprecate `foldrWithKey` in favour of `reduceRightWithIndex` (@gcanti)
+    - deprecate `traverseWithKey` in favour of `traverseWithIndex` (@gcanti)
+    - deprecate `traverse` in favour of `traverse2v` (@gcanti)
+    - deprecate uncurried `filterWithIndex` in favour of curried, data-last `filterWithIndex` (@gcanti)
+    - deprecate uncurried `partitionMap` in favour of curried, data-last `partitionMap` (@gcanti)
+    - deprecate uncurried `partition` in favour of curried, data-last `partition` (@gcanti)
+    - deprecate `wither` in favour of `record.wither` (@gcanti)
+    - deprecate `wilt` in favour of `record.wilt` (@gcanti)
+    - deprecate uncurried `filterMap` in favour of curried, data-last `filterMap` (@gcanti)
+    - deprecate uncurried `partitionMapWithKey` in favour of curried, data-last `partitionMapWithIndex` (@gcanti)
+    - deprecate uncurried `partitionWithKey` in favour of curried, data-last `partitionWithIndex` (@gcanti)
+    - deprecate uncurried `filterMapWithKey` in favour of curried, data-last `filterMapWithIndex` (@gcanti)
+    - deprecate uncurried `filter` in favour of curried, data-last `filter` (@gcanti)
+    - deprecate uncurried `map` in favour of curried, data-last `map` (@gcanti)
+    - deprecate uncurried `foldMap` in favour of curried, data-last `foldMap` (@gcanti)
+    - deprecate `foldr` in favour of `reduceRight` (@gcanti)
   - `StrMap` module is deprecated (@gcanti)
   - `Task`
     - deprecate `delay` in favour of `delay2v` (@gcanti)

@@ -8,44 +8,54 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [URI (type alias)](#uri-type-alias)
+- [URI (constant)](#uri-constant)
 - [empty (constant)](#empty-constant)
 - [~~getSetoid~~ (constant)](#getsetoid-constant)
 - [~~isSubdictionary~~ (constant)](#issubdictionary-constant)
+- [record (constant)](#record-constant)
 - [collect (function)](#collect-function)
 - [compact (function)](#compact-function)
+- [deleteAt (function)](#deleteat-function)
 - [elem (function)](#elem-function)
 - [every (function)](#every-function)
 - [filter (function)](#filter-function)
 - [filterMap (function)](#filtermap-function)
-- [~~filterMapWithIndex~~ (function)](#filtermapwithindex-function)
-- [filterMapWithKey (function)](#filtermapwithkey-function)
-- [~~filterWithIndex~~ (function)](#filterwithindex-function)
-- [filterWithKey (function)](#filterwithkey-function)
+- [filterMapWithIndex (function)](#filtermapwithindex-function)
+- [~~filterMapWithKey~~ (function)](#filtermapwithkey-function)
+- [filterWithIndex (function)](#filterwithindex-function)
+- [~~filterWithKey~~ (function)](#filterwithkey-function)
 - [foldMap (function)](#foldmap-function)
-- [foldMapWithKey (function)](#foldmapwithkey-function)
-- [foldr (function)](#foldr-function)
-- [foldrWithKey (function)](#foldrwithkey-function)
+- [foldMapWithIndex (function)](#foldmapwithindex-function)
+- [~~foldMapWithKey~~ (function)](#foldmapwithkey-function)
+- [~~foldr~~ (function)](#foldr-function)
+- [~~foldrWithKey~~ (function)](#foldrwithkey-function)
 - [fromFoldable (function)](#fromfoldable-function)
 - [fromFoldableMap (function)](#fromfoldablemap-function)
 - [getEq (function)](#geteq-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getShow (function)](#getshow-function)
-- [insert (function)](#insert-function)
+- [hasOwnProperty (function)](#hasownproperty-function)
+- [~~insert~~ (function)](#insert-function)
+- [insertAt (function)](#insertat-function)
 - [isEmpty (function)](#isempty-function)
 - [isSubrecord (function)](#issubrecord-function)
 - [lookup (function)](#lookup-function)
 - [map (function)](#map-function)
-- [mapWithKey (function)](#mapwithkey-function)
+- [mapWithIndex (function)](#mapwithindex-function)
+- [~~mapWithKey~~ (function)](#mapwithkey-function)
 - [partition (function)](#partition-function)
 - [partitionMap (function)](#partitionmap-function)
-- [~~partitionMapWithIndex~~ (function)](#partitionmapwithindex-function)
-- [partitionMapWithKey (function)](#partitionmapwithkey-function)
-- [~~partitionWithIndex~~ (function)](#partitionwithindex-function)
-- [partitionWithKey (function)](#partitionwithkey-function)
+- [partitionMapWithIndex (function)](#partitionmapwithindex-function)
+- [~~partitionMapWithKey~~ (function)](#partitionmapwithkey-function)
+- [partitionWithIndex (function)](#partitionwithindex-function)
+- [~~partitionWithKey~~ (function)](#partitionwithkey-function)
 - [pop (function)](#pop-function)
 - [reduce (function)](#reduce-function)
-- [reduceWithKey (function)](#reducewithkey-function)
-- [remove (function)](#remove-function)
+- [reduceRightWithIndex (function)](#reducerightwithindex-function)
+- [reduceWithIndex (function)](#reducewithindex-function)
+- [~~reduceWithKey~~ (function)](#reducewithkey-function)
+- [~~remove~~ (function)](#remove-function)
 - [separate (function)](#separate-function)
 - [sequence (function)](#sequence-function)
 - [singleton (function)](#singleton-function)
@@ -53,12 +63,35 @@ parent: Modules
 - [some (function)](#some-function)
 - [toArray (function)](#toarray-function)
 - [toUnfoldable (function)](#tounfoldable-function)
-- [traverse (function)](#traverse-function)
-- [traverseWithKey (function)](#traversewithkey-function)
-- [wilt (function)](#wilt-function)
-- [wither (function)](#wither-function)
+- [~~traverse~~ (function)](#traverse-function)
+- [traverse2v (function)](#traverse2v-function)
+- [traverseWithIndex (function)](#traversewithindex-function)
+- [~~traverseWithKey~~ (function)](#traversewithkey-function)
+- [~~wilt~~ (function)](#wilt-function)
+- [~~wither~~ (function)](#wither-function)
+- [reduceRight (export)](#reduceright-export)
 
 ---
+
+# URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v1.19.0
+
+# URI (constant)
+
+**Signature**
+
+```ts
+export const URI = ...
+```
+
+Added in v1.19.0
 
 # empty (constant)
 
@@ -94,6 +127,22 @@ export const isSubdictionary: <A>(E: Eq<A>) => (d1: Record<string, A>, d2: Recor
 
 Added in v1.10.0
 
+# record (constant)
+
+**Signature**
+
+```ts
+export const record: FunctorWithIndex1<URI, string> &
+  Foldable2v1<URI> &
+  TraversableWithIndex1<URI, string> &
+  Compactable1<URI> &
+  FilterableWithIndex1<URI, string> &
+  Witherable1<URI> &
+  FoldableWithIndex1<URI, string> = ...
+```
+
+Added in v1.19.0
+
 # collect (function)
 
 Map a record into an array
@@ -101,6 +150,8 @@ Map a record into an array
 **Signature**
 
 ```ts
+export function collect<K extends string, A, B>(f: (k: K, a: A) => B): (d: Record<K, A>) => Array<B>
+export function collect<A, B>(f: (k: string, a: A) => B): (d: Record<string, A>) => Array<B>
 export function collect<K extends string, A, B>(d: Record<K, A>, f: (k: K, a: A) => B): Array<B>
 export function collect<A, B>(d: Record<string, A>, f: (k: string, a: A) => B): Array<B> { ... }
 ```
@@ -129,6 +180,20 @@ export const compact = <A>(fa: Record<string, Option<A>>): Record<string, A> => 
 
 Added in v1.10.0
 
+# deleteAt (function)
+
+Delete a key and value from a map
+
+**Signature**
+
+```ts
+export function deleteAt<K extends string>(
+  k: K
+): <KS extends string, A>(d: Record<KS, A>) => Record<string extends K ? string : Exclude<KS, K>, A> { ... }
+```
+
+Added in v1.19.0
+
 # elem (function)
 
 **Signature**
@@ -154,8 +219,10 @@ Added in v1.14.0
 **Signature**
 
 ```ts
-export function filter<A, B extends A>(fa: Record<string, A>, p: Refinement<A, B>): Record<string, B>
-export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string, A> { ... }
+export function filter<A, B extends A>(refinement: Refinement<A, B>): (fa: Record<string, A>) => Record<string, B>
+export function filter<A>(predicate: Predicate<A>): (fa: Record<string, A>) => Record<string, A>
+export function filter<A, B extends A>(fa: Record<string, A>, refinement: Refinement<A, B>): Record<string, B>
+export function filter<A>(fa: Record<string, A>, predicate: Predicate<A>): Record<string, A> { ... }
 ```
 
 Added in v1.10.0
@@ -165,18 +232,20 @@ Added in v1.10.0
 **Signature**
 
 ```ts
-export const filterMap = <A, B>(fa: Record<string, A>, f: (a: A) => Option<B>): Record<string, B> => ...
+export function filterMap<A, B>(f: (a: A) => Option<B>): (fa: Record<string, A>) => Record<string, B>
+export function filterMap<A, B>(fa: Record<string, A>, f: (a: A) => Option<B>): Record<string, B> { ... }
 ```
 
 Added in v1.10.0
 
-# ~~filterMapWithIndex~~ (function)
-
-Use `filterMapWithKey` instead
+# filterMapWithIndex (function)
 
 **Signature**
 
 ```ts
+export function filterMapWithIndex<K extends string, A, B>(
+  f: (key: K, a: A) => Option<B>
+): (fa: Record<K, A>) => Record<string, B>
 export function filterMapWithIndex<K extends string, A, B>(
   fa: Record<K, A>,
   f: (key: K, a: A) => Option<B>
@@ -186,7 +255,9 @@ export function filterMapWithIndex<A, B>(fa: Record<string, A>, f: (key: string,
 
 Added in v1.12.0
 
-# filterMapWithKey (function)
+# ~~filterMapWithKey~~ (function)
+
+Use `filterMapWithIndex`
 
 **Signature**
 
@@ -200,26 +271,35 @@ export function filterMapWithKey<A, B>(fa: Record<string, A>, f: (key: string, a
 
 Added in v1.14.0
 
-# ~~filterWithIndex~~ (function)
-
-Use `filterWithKey` instead
+# filterWithIndex (function)
 
 **Signature**
 
 ```ts
+export function filterWithIndex<K extends string, A, B extends A>(
+  refinementWithIndex: RefinementWithIndex<K, A, B>
+): (fa: Record<K, A>) => Record<string, B>
+export function filterWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
+): (fa: Record<K, A>) => Record<string, A>
 export function filterWithIndex<K extends string, A>(fa: Record<K, A>, p: (key: K, a: A) => boolean): Record<string, A>
 export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> { ... }
 ```
 
 Added in v1.12.0
 
-# filterWithKey (function)
+# ~~filterWithKey~~ (function)
+
+Use `filterWithIndex`
 
 **Signature**
 
 ```ts
-export function filterWithKey<K extends string, A>(fa: Record<K, A>, p: (key: K, a: A) => boolean): Record<string, A>
-export function filterWithKey<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> { ... }
+export function filterWithKey<K extends string, A>(
+  fa: Record<K, A>,
+  predicate: (key: K, a: A) => boolean
+): Record<string, A>
+export function filterWithKey<A>(fa: Record<string, A>, predicate: (key: string, a: A) => boolean): Record<string, A> { ... }
 ```
 
 Added in v1.14.0
@@ -229,12 +309,32 @@ Added in v1.14.0
 **Signature**
 
 ```ts
-export const foldMap = <M>(M: Monoid<M>): (<A>(fa: Record<string, A>, f: (a: A) => M) => M) => ...
+export function foldMap<M>(
+  M: Monoid<M>
+): {
+  <A>(f: (a: A) => M): (fa: Record<string, A>) => M
+  /** @deprecated */
+  <A>(fa: Record<string, A>, f: (a: A) => M): M
+} { ... }
 ```
 
 Added in v1.10.0
 
-# foldMapWithKey (function)
+# foldMapWithIndex (function)
+
+**Signature**
+
+```ts
+export function foldMapWithIndex<M>(
+  M: Monoid<M>
+): <K extends string, A>(f: (k: K, a: A) => M) => (fa: Record<K, A>) => M { ... }
+```
+
+Added in v1.19.0
+
+# ~~foldMapWithKey~~ (function)
+
+Use `foldMapWithIndex`
 
 **Signature**
 
@@ -244,17 +344,21 @@ export const foldMapWithKey = <M>(M: Monoid<M>) => <A>(fa: Record<string, A>, f:
 
 Added in v1.12.0
 
-# foldr (function)
+# ~~foldr~~ (function)
+
+Use `reduceRight`
 
 **Signature**
 
 ```ts
-export const foldr = <A, B>(fa: Record<string, A>, b: B, f: (a: A, b: B) => B): B => ...
+export function foldr<A, B>(fa: Record<string, A>, b: B, f: (a: A, b: B) => B): B { ... }
 ```
 
 Added in v1.10.0
 
-# foldrWithKey (function)
+# ~~foldrWithKey~~ (function)
+
+Use `reduceRightWithIndex`
 
 **Signature**
 
@@ -393,9 +497,19 @@ export const getShow = <A>(S: Show<A>): Show<Record<string, A>> => ...
 
 Added in v1.17.0
 
-# insert (function)
+# hasOwnProperty (function)
 
-Insert or replace a key/value pair in a map
+**Signature**
+
+```ts
+export function hasOwnProperty<K extends string, A>(k: K, d: Record<K, A>): boolean { ... }
+```
+
+Added in v1.19.0
+
+# ~~insert~~ (function)
+
+Use `insertAt`
 
 **Signature**
 
@@ -405,6 +519,18 @@ export function insert<A>(k: string, a: A, d: Record<string, A>): Record<string,
 ```
 
 Added in v1.10.0
+
+# insertAt (function)
+
+Insert or replace a key/value pair in a map
+
+**Signature**
+
+```ts
+export function insertAt<K extends string, A>(k: K, a: A): <KS extends string>(r: Record<KS, A>) => Record<KS | K, A> { ... }
+```
+
+Added in v1.19.0
 
 # isEmpty (function)
 
@@ -449,15 +575,28 @@ Map a record passing the values to the iterating function
 **Signature**
 
 ```ts
+export function map<A, B>(f: (a: A) => B): <K extends string>(fa: Record<K, A>) => Record<K, B>
 export function map<K extends string, A, B>(fa: Record<K, A>, f: (a: A) => B): Record<K, B>
 export function map<A, B>(fa: Record<string, A>, f: (a: A) => B): Record<string, B> { ... }
 ```
 
 Added in v1.10.0
 
-# mapWithKey (function)
+# mapWithIndex (function)
 
 Map a record passing the keys to the iterating function
+
+**Signature**
+
+```ts
+export function mapWithIndex<K extends string, A, B>(f: (k: K, a: A) => B): (fa: Record<K, A>) => Record<K, B> { ... }
+```
+
+Added in v1.19.0
+
+# ~~mapWithKey~~ (function)
+
+Use `mapWithIndex`
 
 **Signature**
 
@@ -473,10 +612,13 @@ Added in v1.10.0
 **Signature**
 
 ```ts
-export const partition = <A>(
+export function partition<A>(
+  predicate: Predicate<A>
+): (fa: Record<string, A>) => Separated<Record<string, A>, Record<string, A>>
+export function partition<A>(
   fa: Record<string, A>,
-  p: Predicate<A>
-): Separated<Record<string, A>, Record<string, A>> => ...
+  predicate: Predicate<A>
+): Separated<Record<string, A>, Record<string, A>> { ... }
 ```
 
 Added in v1.10.0
@@ -486,21 +628,25 @@ Added in v1.10.0
 **Signature**
 
 ```ts
-export const partitionMap = <RL, RR, A>(
+export function partitionMap<RL, RR, A>(
+  f: (a: A) => Either<RL, RR>
+): (fa: Record<string, A>) => Separated<Record<string, RL>, Record<string, RR>>
+export function partitionMap<RL, RR, A>(
   fa: Record<string, A>,
   f: (a: A) => Either<RL, RR>
-): Separated<Record<string, RL>, Record<string, RR>> => ...
+): Separated<Record<string, RL>, Record<string, RR>> { ... }
 ```
 
 Added in v1.10.0
 
-# ~~partitionMapWithIndex~~ (function)
-
-Use `partitionMapWithKey` instead
+# partitionMapWithIndex (function)
 
 **Signature**
 
 ```ts
+export function partitionMapWithIndex<K extends string, RL, RR, A>(
+  f: (key: K, a: A) => Either<RL, RR>
+): (fa: Record<K, A>) => Separated<Record<string, RL>, Record<string, RR>>
 export function partitionMapWithIndex<K extends string, RL, RR, A>(
   fa: Record<K, A>,
   f: (key: K, a: A) => Either<RL, RR>
@@ -513,7 +659,9 @@ export function partitionMapWithIndex<RL, RR, A>(
 
 Added in v1.12.0
 
-# partitionMapWithKey (function)
+# ~~partitionMapWithKey~~ (function)
+
+Use `partitionMapWithIndex`
 
 **Signature**
 
@@ -530,13 +678,17 @@ export function partitionMapWithKey<RL, RR, A>(
 
 Added in v1.14.0
 
-# ~~partitionWithIndex~~ (function)
-
-Use `partitionWithKey` instead
+# partitionWithIndex (function)
 
 **Signature**
 
 ```ts
+export function partitionWithIndex<K extends string, A, B extends A>(
+  refinementWithIndex: RefinementWithIndex<K, A, B>
+): (fa: Record<K, A>) => Separated<Record<string, A>, Record<string, B>>
+export function partitionWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
+): (fa: Record<K, A>) => Separated<Record<string, A>, Record<string, A>>
 export function partitionWithIndex<K extends string, A>(
   fa: Record<K, A>,
   p: (key: K, a: A) => boolean
@@ -549,18 +701,20 @@ export function partitionWithIndex<A>(
 
 Added in v1.12.0
 
-# partitionWithKey (function)
+# ~~partitionWithKey~~ (function)
+
+Use `partitionWithIndex`
 
 **Signature**
 
 ```ts
 export function partitionWithKey<K extends string, A>(
   fa: Record<K, A>,
-  p: (key: K, a: A) => boolean
+  predicate: (key: K, a: A) => boolean
 ): Separated<Record<string, A>, Record<string, A>>
 export function partitionWithKey<A>(
   fa: Record<string, A>,
-  p: (key: string, a: A) => boolean
+  predicate: (key: string, a: A) => boolean
 ): Separated<Record<string, A>, Record<string, A>> { ... }
 ```
 
@@ -573,7 +727,8 @@ Delete a key and value from a map, returning the value as well as the subsequent
 **Signature**
 
 ```ts
-export const pop = <A>(k: string, d: Record<string, A>): Option<[A, Record<string, A>]> => ...
+export function pop<A>(k: string): (d: Record<string, A>) => Option<[A, Record<string, A>]>
+export function pop<A>(k: string, d: Record<string, A>): Option<[A, Record<string, A>]> { ... }
 ```
 
 Added in v1.10.0
@@ -585,7 +740,7 @@ Reduce object by iterating over it's values.
 **Signature**
 
 ```ts
-export const reduce = <A, B>(fa: Record<string, A>, b: B, f: (b: B, a: A) => B): B => ...
+export function reduce<A, B>(fa: Record<string, A>, b: B, f: (b: B, a: A) => B): B { ... }
 ```
 
 **Example**
@@ -600,7 +755,29 @@ assert.deepStrictEqual(joinAllVals({ a: 'foo', b: 'bar' }), 'foobar')
 
 Added in v1.10.0
 
-# reduceWithKey (function)
+# reduceRightWithIndex (function)
+
+**Signature**
+
+```ts
+export function reduceRightWithIndex<K extends string, A, B>(b: B, f: (k: K, a: A, b: B) => B): (fa: Record<K, A>) => B { ... }
+```
+
+Added in v1.19.0
+
+# reduceWithIndex (function)
+
+**Signature**
+
+```ts
+export function reduceWithIndex<K extends string, A, B>(b: B, f: (k: K, b: B, a: A) => B): (fa: Record<K, A>) => B { ... }
+```
+
+Added in v1.19.0
+
+# ~~reduceWithKey~~ (function)
+
+Use `reduceWithIndex`
 
 **Signature**
 
@@ -611,9 +788,9 @@ export function reduceWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, 
 
 Added in v1.12.0
 
-# remove (function)
+# ~~remove~~ (function)
 
-Delete a key and value from a map
+Use `deleteAt`
 
 **Signature**
 
@@ -632,9 +809,9 @@ Added in v1.10.0
 **Signature**
 
 ```ts
-export const separate = <RL, RR>(
+export function separate<RL, RR>(
   fa: Record<string, Either<RL, RR>>
-): Separated<Record<string, RL>, Record<string, RR>> => ...
+): Separated<Record<string, RL>, Record<string, RR>> { ... }
 ```
 
 Added in v1.10.0
@@ -724,7 +901,9 @@ export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <K extends string, A
 
 Added in v1.10.0
 
-# traverse (function)
+# ~~traverse~~ (function)
+
+Use `traverse2v`
 
 **Signature**
 
@@ -751,7 +930,59 @@ export function traverse<F>(
 
 Added in v1.10.0
 
-# traverseWithKey (function)
+# traverse2v (function)
+
+**Signature**
+
+```ts
+export function traverse2v<F extends URIS3>(
+  F: Applicative3<F>
+): <U, L, A, B>(f: (a: A) => Type3<F, U, L, B>) => <K extends string>(ta: Record<K, A>) => Type3<F, U, L, Record<K, B>>
+export function traverse2v<F extends URIS2>(
+  F: Applicative2<F>
+): <L, A, B>(f: (a: A) => Type2<F, L, B>) => <K extends string>(ta: Record<K, A>) => Type2<F, L, Record<K, B>>
+export function traverse2v<F extends URIS2, L>(
+  F: Applicative2C<F, L>
+): <A, B>(f: (a: A) => Type2<F, L, B>) => <K extends string>(ta: Record<K, A>) => Type2<F, L, Record<K, B>>
+export function traverse2v<F extends URIS>(
+  F: Applicative1<F>
+): <A, B>(f: (a: A) => Type<F, B>) => <K extends string>(ta: Record<K, A>) => Type<F, Record<K, B>>
+export function traverse2v<F>(
+  F: Applicative<F>
+): <A, B>(f: (a: A) => HKT<F, B>) => <K extends string>(ta: Record<K, A>) => HKT<F, Record<K, B>> { ... }
+```
+
+Added in v1.19.0
+
+# traverseWithIndex (function)
+
+**Signature**
+
+```ts
+export function traverseWithIndex<F extends URIS3>(
+  F: Applicative3<F>
+): <K extends string, U, L, A, B>(
+  f: (k: K, a: A) => Type3<F, U, L, B>
+) => (ta: Record<K, A>) => Type3<F, U, L, Record<K, B>>
+export function traverseWithIndex<F extends URIS2>(
+  F: Applicative2<F>
+): <K extends string, L, A, B>(f: (k: K, a: A) => Type2<F, L, B>) => (ta: Record<K, A>) => Type2<F, L, Record<K, B>>
+export function traverseWithIndex<F extends URIS2, L>(
+  F: Applicative2C<F, L>
+): <K extends string, A, B>(f: (k: K, a: A) => Type2<F, L, B>) => (ta: Record<K, A>) => Type2<F, L, Record<K, B>>
+export function traverseWithIndex<F extends URIS>(
+  F: Applicative1<F>
+): <K extends string, A, B>(f: (k: K, a: A) => Type<F, B>) => (ta: Record<K, A>) => Type<F, Record<K, B>>
+export function traverseWithIndex<F>(
+  F: Applicative<F>
+): <K extends string, A, B>(f: (k: K, a: A) => HKT<F, B>) => (ta: Record<K, A>) => HKT<F, Record<K, B>> { ... }
+```
+
+Added in v1.19.0
+
+# ~~traverseWithKey~~ (function)
+
+Use `traverseWithIndex`
 
 **Signature**
 
@@ -772,7 +1003,9 @@ export function traverseWithKey<F>(
 
 Added in v1.10.0
 
-# wilt (function)
+# ~~wilt~~ (function)
+
+Use `record.wilt`
 
 **Signature**
 
@@ -817,7 +1050,9 @@ export function wilt<F>(
 
 Added in v1.10.0
 
-# wither (function)
+# ~~wither~~ (function)
+
+Use `record.wither`
 
 **Signature**
 
@@ -843,3 +1078,11 @@ export function wither<F>(
 ```
 
 Added in v1.10.0
+
+# reduceRight (export)
+
+**Signature**
+
+```ts
+export { reduceRight }
+```

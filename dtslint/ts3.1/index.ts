@@ -310,9 +310,9 @@ R.traverse(O.option)(d1, O.some) // $ExpectType Option<Record<string, number>>
 // the following test requires https://github.com/Microsoft/TypeScript/issues/29246
 // R.traverse(O.option)(r1, O.some) // $ExpectType Option<Record<"a" | "b", number>>
 
-R.sequence(O.option)(do1) // $ExpectType Option<Record<string, number>>
+const xxxx = R.sequence(O.option)(do1) // $ExpectType Option<Record<string, number>>
 // the following test requires https://github.com/Microsoft/TypeScript/issues/29246
-// R.sequence(O.option)(ro1) // $ExpectType Option<Record<"a" | "b", number>>
+// R.sequence(O.option)(r1) // $ExpectType Option<Record<"a" | "b", number>>
 
 R.compact(do1) // $ExpectType Record<string, number>
 
