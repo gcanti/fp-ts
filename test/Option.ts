@@ -33,11 +33,12 @@ import {
 import { ordString } from '../src/Ord'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
 import { eqNumber } from '../src/Eq'
-import { identity, pipeOp } from '../src/function'
+import { identity } from '../src/function'
 import { Identity, identity as I } from '../src/Identity'
 import { monoidSum, monoidString } from '../src/Monoid'
 import * as F from '../src/Foldable'
 import { showString } from '../src/Show'
+import { pipe } from '../src/pipeable'
 
 const p = (n: number): boolean => n > 2
 
@@ -134,7 +135,13 @@ describe('Option', () => {
       foo2: {}
     }
     const nestedOption = some(nested)
-    assert.deepStrictEqual(pipeOp(nestedOption, mapNullable(value => value.foo)), none)
+    assert.deepStrictEqual(
+      pipe(
+        nestedOption,
+        mapNullable(value => value.foo)
+      ),
+      none
+    )
     assert.deepStrictEqual(nestedOption.mapNullable(value => value.foo2), some(nested.foo2))
     assert.deepStrictEqual(nestedOption.mapNullable(value => value.foo2.bar2), none)
     assert.deepStrictEqual(none.mapNullable(identity), none)

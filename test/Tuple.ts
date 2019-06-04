@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import { left, right } from '../src/Either'
 import * as F from '../src/Foldable'
-import { identity, pipeOp } from '../src/function'
+import { identity } from '../src/function'
 import { monoidString, monoidSum } from '../src/Monoid'
 import * as A from '../src/Array'
 import { none, option, some } from '../src/Option'
@@ -23,6 +23,7 @@ import {
   swap
 } from '../src/Tuple'
 import { showString } from '../src/Show'
+import { pipe } from '../src/pipeable'
 
 describe('Tuple', () => {
   it('compose', () => {
@@ -131,7 +132,13 @@ describe('Tuple', () => {
   })
 
   it('swap', () => {
-    assert.deepStrictEqual(pipeOp(new Tuple('a', 1), swap), new Tuple(1, 'a'))
+    assert.deepStrictEqual(
+      pipe(
+        new Tuple('a', 1),
+        swap
+      ),
+      new Tuple(1, 'a')
+    )
   })
 
   it('toTuple', () => {
