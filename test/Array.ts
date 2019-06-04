@@ -617,8 +617,8 @@ describe('Array', () => {
       name: string
       age: number
     }
-    const byName = contramapOrd((p: Person) => p.name, ordString)
-    const byAge = contramapOrd((p: Person) => p.age, ordNumber)
+    const byName = contramapOrd(ordString, (p: Person) => p.name)
+    const byAge = contramapOrd(ordNumber, (p: Person) => p.age)
     const sortByNameByAge = sortBy([byName, byAge])
     assert.ok(sortByNameByAge.isSome())
     if (sortByNameByAge.isSome()) {
@@ -637,8 +637,8 @@ describe('Array', () => {
       name: string
       age: number
     }
-    const byName = contramapOrd((p: Person) => p.name, ordString)
-    const byAge = contramapOrd((p: Person) => p.age, ordNumber)
+    const byName = contramapOrd(ordString, (p: Person) => p.name)
+    const byAge = contramapOrd(ordNumber, (p: Person) => p.age)
     const sortByNameByAge = sortBy1(byName, [byAge])
     const persons = [{ name: 'a', age: 1 }, { name: 'b', age: 3 }, { name: 'c', age: 2 }, { name: 'b', age: 2 }]
     assert.deepStrictEqual(sortByNameByAge(persons), [
