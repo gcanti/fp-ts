@@ -2,7 +2,15 @@ import { Alt, Alt1, Alt2, Alt2C, Alt3, Alt4 } from './Alt'
 import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply4 } from './Apply'
 import { Bifunctor, Bifunctor2, Bifunctor3, Bifunctor4 } from './Bifunctor'
 import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain4 } from './Chain'
-import { Separated } from './Compactable'
+import {
+  Compactable,
+  Compactable1,
+  Compactable2,
+  Compactable2C,
+  Compactable3,
+  Compactable4,
+  Separated
+} from './Compactable'
 import {
   Contravariant,
   Contravariant1,
@@ -20,9 +28,9 @@ import {
   FilterableWithIndex2,
   FilterableWithIndex2C,
   FilterableWithIndex3,
+  FilterableWithIndex4,
   PredicateWithIndex,
-  RefinementWithIndex,
-  FilterableWithIndex4
+  RefinementWithIndex
 } from './FilterableWithIndex'
 import { Foldable2v, Foldable2v1, Foldable2v2, Foldable2v2C, Foldable2v3, Foldable2v4 } from './Foldable2v'
 import {
@@ -43,7 +51,7 @@ import {
   FunctorWithIndex3,
   FunctorWithIndex4
 } from './FunctorWithIndex'
-import { HKT, HKT2, Type, Type2, Type3, URIS, URIS2, URIS3, URIS4, Type4 } from './HKT'
+import { HKT, HKT2, Type, Type2, Type3, Type4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Profunctor, Profunctor2, Profunctor2C, Profunctor3, Profunctor4 } from './Profunctor'
@@ -416,7 +424,39 @@ export interface PipeableAlt4<F extends URIS4> {
   readonly alt: <X, U, L, A>(that: () => Type4<F, X, U, L, A>) => (fa: Type4<F, X, U, L, A>) => Type4<F, X, U, L, A>
 }
 
-export interface PipeableFilterable<F> {
+export interface PipeableCompactable<F> {
+  readonly compact: <A>(fa: HKT<F, Option<A>>) => HKT<F, A>
+  readonly separate: <A, B>(fa: HKT<F, Either<A, B>>) => Separated<HKT<F, A>, HKT<F, B>>
+}
+
+export interface PipeableCompactable1<F extends URIS> {
+  readonly compact: <A>(fa: Type<F, Option<A>>) => Type<F, A>
+  readonly separate: <A, B>(fa: Type<F, Either<A, B>>) => Separated<Type<F, A>, Type<F, B>>
+}
+
+export interface PipeableCompactable2<F extends URIS2> {
+  readonly compact: <L, A>(fa: Type2<F, L, Option<A>>) => Type2<F, L, A>
+  readonly separate: <L, A, B>(fa: Type2<F, L, Either<A, B>>) => Separated<Type2<F, L, A>, Type2<F, L, B>>
+}
+
+export interface PipeableCompactable2C<F extends URIS2, L> {
+  readonly compact: <A>(fa: Type2<F, L, Option<A>>) => Type2<F, L, A>
+  readonly separate: <A, B>(fa: Type2<F, L, Either<A, B>>) => Separated<Type2<F, L, A>, Type2<F, L, B>>
+}
+
+export interface PipeableCompactable3<F extends URIS3> {
+  readonly compact: <U, L, A>(fa: Type3<F, U, L, Option<A>>) => Type3<F, U, L, A>
+  readonly separate: <U, L, A, B>(fa: Type3<F, U, L, Either<A, B>>) => Separated<Type3<F, U, L, A>, Type3<F, U, L, B>>
+}
+
+export interface PipeableCompactable4<F extends URIS4> {
+  readonly compact: <X, U, L, A>(fa: Type4<F, X, U, L, Option<A>>) => Type4<F, X, U, L, A>
+  readonly separate: <X, U, L, A, B>(
+    fa: Type4<F, X, U, L, Either<A, B>>
+  ) => Separated<Type4<F, X, U, L, A>, Type4<F, X, U, L, B>>
+}
+
+export interface PipeableFilterable<F> extends PipeableCompactable<F> {
   readonly filter: {
     <A, B extends A>(refinement: Refinement<A, B>): (fa: HKT<F, A>) => HKT<F, B>
     <A>(predicate: Predicate<A>): (fa: HKT<F, A>) => HKT<F, A>
@@ -431,7 +471,7 @@ export interface PipeableFilterable<F> {
   ) => (fa: HKT<F, A>) => Separated<HKT<F, RL>, HKT<F, RR>>
 }
 
-export interface PipeableFilterable1<F extends URIS> {
+export interface PipeableFilterable1<F extends URIS> extends PipeableCompactable1<F> {
   readonly filter: {
     <A, B extends A>(refinement: Refinement<A, B>): (fa: Type<F, A>) => Type<F, B>
     <A>(predicate: Predicate<A>): (fa: Type<F, A>) => Type<F, A>
@@ -446,7 +486,7 @@ export interface PipeableFilterable1<F extends URIS> {
   ) => (fa: Type<F, A>) => Separated<Type<F, RL>, Type<F, RR>>
 }
 
-export interface PipeableFilterable2<F extends URIS2> {
+export interface PipeableFilterable2<F extends URIS2> extends PipeableCompactable2<F> {
   readonly filter: {
     <A, B extends A>(refinement: Refinement<A, B>): <L>(fa: Type2<F, L, A>) => Type2<F, L, B>
     <A>(predicate: Predicate<A>): <L>(fa: Type2<F, L, A>) => Type2<F, L, A>
@@ -461,7 +501,7 @@ export interface PipeableFilterable2<F extends URIS2> {
   ) => <L>(fa: Type2<F, L, A>) => Separated<Type2<F, L, RL>, Type2<F, L, RR>>
 }
 
-export interface PipeableFilterable2C<F extends URIS2, L> {
+export interface PipeableFilterable2C<F extends URIS2, L> extends PipeableCompactable2C<F, L> {
   readonly filter: {
     <A, B extends A>(refinement: Refinement<A, B>): (fa: Type2<F, L, A>) => Type2<F, L, B>
     <A>(predicate: Predicate<A>): (fa: Type2<F, L, A>) => Type2<F, L, A>
@@ -476,7 +516,7 @@ export interface PipeableFilterable2C<F extends URIS2, L> {
   ) => (fa: Type2<F, L, A>) => Separated<Type2<F, L, RL>, Type2<F, L, RR>>
 }
 
-export interface PipeableFilterable3<F extends URIS3> {
+export interface PipeableFilterable3<F extends URIS3> extends PipeableCompactable3<F> {
   readonly filter: {
     <A, B extends A>(refinement: Refinement<A, B>): <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
     <A>(predicate: Predicate<A>): <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, A>
@@ -493,7 +533,7 @@ export interface PipeableFilterable3<F extends URIS3> {
   ) => <U, L>(fa: Type3<F, U, L, A>) => Separated<Type3<F, U, L, RL>, Type3<F, U, L, RR>>
 }
 
-export interface PipeableFilterable4<F extends URIS4> {
+export interface PipeableFilterable4<F extends URIS4> extends PipeableCompactable4<F> {
   readonly filter: {
     <A, B extends A>(refinement: Refinement<A, B>): <X, U, L>(fa: Type4<F, X, U, L, A>) => Type4<F, X, U, L, B>
     <A>(predicate: Predicate<A>): <X, U, L>(fa: Type4<F, X, U, L, A>) => Type4<F, X, U, L, A>
@@ -682,6 +722,7 @@ const isExtend = <F>(I: any): I is Extend<F> => typeof I.extend === 'function'
 const isFoldable = <F>(I: any): I is Foldable2v<F> => typeof I.reduce === 'function'
 const isFoldableWithIndex = <F>(I: any): I is FoldableWithIndex<F, unknown> => typeof I.reduceWithIndex === 'function'
 const isAlt = <F>(I: any): I is Alt<F> => typeof I.alt === 'function'
+const isCompactable = <F>(I: any): I is Compactable<F> => typeof I.compact === 'function'
 const isFilterable = <F>(I: any): I is Filterable<F> => typeof I.filter === 'function'
 const isFilterableWithIndex = <F>(I: any): I is FilterableWithIndex<F, unknown> =>
   typeof I.filterWithIndex === 'function'
@@ -714,6 +755,8 @@ export function pipeable<F extends URIS4, I>(
     ? PipeableFilterableWithIndex4<F, Ix>
     : I extends Filterable4<F>
     ? PipeableFilterable4<F>
+    : I extends Compactable4<F>
+    ? PipeableCompactable4<F>
     : {}) &
   (I extends Profunctor4<F> ? PipeableProfunctor4<F> : {}) &
   (I extends Semigroupoid4<F> ? PipeableSemigroupoid4<F> : {})
@@ -740,6 +783,8 @@ export function pipeable<F extends URIS3, I>(
     ? PipeableFilterableWithIndex3<F, Ix>
     : I extends Filterable3<F>
     ? PipeableFilterable3<F>
+    : I extends Compactable3<F>
+    ? PipeableCompactable3<F>
     : {}) &
   (I extends Profunctor3<F> ? PipeableProfunctor3<F> : {}) &
   (I extends Semigroupoid3<F> ? PipeableSemigroupoid3<F> : {})
@@ -765,6 +810,8 @@ export function pipeable<F extends URIS2, I, L>(
     ? PipeableFilterableWithIndex2C<F, Ix, L>
     : I extends Filterable2C<F, L>
     ? PipeableFilterable2C<F, L>
+    : I extends Compactable2C<F, L>
+    ? PipeableCompactable2C<F, L>
     : {}) &
   (I extends Profunctor2C<F, L> ? PipeableProfunctor2C<F, L> : {}) &
   (I extends Semigroupoid2C<F, L> ? PipeableSemigroupoid2C<F, L> : {})
@@ -791,6 +838,8 @@ export function pipeable<F extends URIS2, I>(
     ? PipeableFilterableWithIndex2<F, Ix>
     : I extends Filterable2<F>
     ? PipeableFilterable2<F>
+    : I extends Compactable2<F>
+    ? PipeableCompactable2<F>
     : {}) &
   (I extends Profunctor2<F> ? PipeableProfunctor2<F> : {}) &
   (I extends Semigroupoid2<F> ? PipeableSemigroupoid2<F> : {})
@@ -816,6 +865,8 @@ export function pipeable<F extends URIS, I>(
     ? PipeableFilterableWithIndex1<F, Ix>
     : I extends Filterable1<F>
     ? PipeableFilterable1<F>
+    : I extends Compactable1<F>
+    ? PipeableCompactable1<F>
     : {})
 export function pipeable<F, I>(
   I: { URI: F } & I
@@ -840,6 +891,8 @@ export function pipeable<F, I>(
     ? PipeableFilterableWithIndex<F, Ix>
     : I extends Filterable<F>
     ? PipeableFilterable<F>
+    : I extends Compactable<F>
+    ? PipeableCompactable<F>
     : {}) &
   (I extends Profunctor<F> ? PipeableProfunctor<F> : {}) &
   (I extends Semigroupoid<F> ? PipeableSemigroupoid<F> : {})
@@ -911,6 +964,10 @@ export function pipeable<F, I>(I: { URI: F } & I): any {
   if (isAlt<F>(I)) {
     const alt: PipeableAlt<F>['alt'] = that => fa => I.alt(fa, that())
     r.alt = alt
+  }
+  if (isCompactable<F>(I)) {
+    r.compact = I.compact
+    r.separate = I.separate
   }
   if (isFilterable<F>(I)) {
     const filter: PipeableFilterable<F>['filter'] = <A>(predicate: Predicate<A>) => (fa: HKT<F, A>) =>
