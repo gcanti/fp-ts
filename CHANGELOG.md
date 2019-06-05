@@ -52,12 +52,15 @@ pipe(
 ```
 
 - **New Feature**
-  - Add `foldIO` and `foldIOEither` to `IOEither` (@bwlt)
   - add `Eq` module (@gcanti)
   - backport top level data-last functions from v2 (@gcanti)
   - backport `pipeable` module form v2 (@gcanti)
   - backport `pipe` function form v2 (@gcanti)
   - backport `flow` function form v2 (@gcanti)
+  - `Array`
+    - add `isNonEmpty` (@Stouffi)
+  - `IOEither`
+    - add `foldIO` and `foldIOEither` (@bwlt)
   - `Record`
     - add `record` instance (@gcanti)
     - add `mapWithIndex` (@gcanti)
