@@ -5,13 +5,13 @@ import {
   cons,
   copy,
   deleteAt,
-  drop,
-  dropWhile,
+  dropLeft,
+  dropLeftWhile,
   findFirst,
   findIndex,
   findLast,
   flatten,
-  fold,
+  foldLeft,
   getMonoid,
   getOrd,
   head,
@@ -23,15 +23,15 @@ import {
   modifyAt,
   rights,
   rotate,
-  scan,
+  scanLeft,
   scanRight,
   snoc,
   sort,
   sortBy,
-  span,
+  spanLeft,
   tail,
-  take,
-  takeWhile,
+  takeLeft,
+  takeLeftWhile,
   uniq,
   updateAt,
   zip,
@@ -177,10 +177,10 @@ describe('Array', () => {
     assert.deepStrictEqual(tail([]), O.none)
   })
 
-  it('take', () => {
-    assert.deepStrictEqual(take(2)([]), [])
-    assert.deepStrictEqual(take(2)([1, 2, 3]), [1, 2])
-    assert.deepStrictEqual(take(0)([1, 2, 3]), [])
+  it('takeLeft', () => {
+    assert.deepStrictEqual(takeLeft(2)([]), [])
+    assert.deepStrictEqual(takeLeft(2)([1, 2, 3]), [1, 2])
+    assert.deepStrictEqual(takeLeft(0)([1, 2, 3]), [])
   })
 
   it('takeRight', () => {
@@ -191,28 +191,28 @@ describe('Array', () => {
     assert.deepStrictEqual(takeRight(10)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
   })
 
-  it('span', () => {
-    assert.deepStrictEqual(span((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
+  it('spanLeft', () => {
+    assert.deepStrictEqual(spanLeft((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
 
     // refinements
     const xs: Array<string | number> = [1, 'a', 3]
     const isNumber = (u: string | number): u is number => typeof u === 'number'
-    const actual = span(isNumber)(xs)
+    const actual = spanLeft(isNumber)(xs)
     assert.deepStrictEqual(actual, { init: [1], rest: ['a', 3] })
   })
 
-  it('takeWhile', () => {
+  it('takeLeftWhile', () => {
     const f = (n: number) => n % 2 === 0
-    assert.deepStrictEqual(takeWhile(f)([2, 4, 3, 6]), [2, 4])
-    assert.deepStrictEqual(takeWhile(f)([]), [])
-    assert.deepStrictEqual(takeWhile(f)([1, 2, 4]), [])
-    assert.deepStrictEqual(takeWhile(f)([2, 4]), [2, 4])
+    assert.deepStrictEqual(takeLeftWhile(f)([2, 4, 3, 6]), [2, 4])
+    assert.deepStrictEqual(takeLeftWhile(f)([]), [])
+    assert.deepStrictEqual(takeLeftWhile(f)([1, 2, 4]), [])
+    assert.deepStrictEqual(takeLeftWhile(f)([2, 4]), [2, 4])
   })
 
-  it('drop', () => {
-    assert.deepStrictEqual(drop(2)([1, 2, 3]), [3])
-    assert.deepStrictEqual(drop(10)([1, 2, 3]), [])
-    assert.deepStrictEqual(drop(0)([1, 2, 3]), [1, 2, 3])
+  it('dropLeft', () => {
+    assert.deepStrictEqual(dropLeft(2)([1, 2, 3]), [3])
+    assert.deepStrictEqual(dropLeft(10)([1, 2, 3]), [])
+    assert.deepStrictEqual(dropLeft(0)([1, 2, 3]), [1, 2, 3])
   })
 
   it('dropRight', () => {
@@ -221,14 +221,14 @@ describe('Array', () => {
     assert.deepStrictEqual(dropRight(0)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
   })
 
-  it('dropWhile', () => {
+  it('dropLeftWhile', () => {
     const f = (n: number) => n % 2 === 0
     const g = (n: number) => n % 2 === 1
-    assert.deepStrictEqual(dropWhile(f)([1, 3, 2, 4, 5]), [1, 3, 2, 4, 5])
-    assert.deepStrictEqual(dropWhile(g)([1, 3, 2, 4, 5]), [2, 4, 5])
-    assert.deepStrictEqual(dropWhile(f)([]), [])
-    assert.deepStrictEqual(dropWhile(f)([2, 4, 1]), [1])
-    assert.deepStrictEqual(dropWhile(f)([2, 4]), [])
+    assert.deepStrictEqual(dropLeftWhile(f)([1, 3, 2, 4, 5]), [1, 3, 2, 4, 5])
+    assert.deepStrictEqual(dropLeftWhile(g)([1, 3, 2, 4, 5]), [2, 4, 5])
+    assert.deepStrictEqual(dropLeftWhile(f)([]), [])
+    assert.deepStrictEqual(dropLeftWhile(f)([2, 4, 1]), [1])
+    assert.deepStrictEqual(dropLeftWhile(f)([2, 4]), [])
   })
 
   it('init', () => {
@@ -437,8 +437,8 @@ describe('Array', () => {
     assert.strictEqual(reduceRight(x2, init1, f1), '')
   })
 
-  it('fold', () => {
-    const len: <A>(as: Array<A>) => number = fold(() => 0, (_, tail) => 1 + len(tail))
+  it('foldLeft', () => {
+    const len: <A>(as: Array<A>) => number = foldLeft(() => 0, (_, tail) => 1 + len(tail))
     assert.strictEqual(len([1, 2, 3]), 3)
   })
 
@@ -447,11 +447,11 @@ describe('Array', () => {
     assert.strictEqual(len([1, 2, 3]), 3)
   })
 
-  it('scan', () => {
+  it('scanLeft', () => {
     const f = (b: number, a: number) => b - a
-    assert.deepStrictEqual(scan(10, f)([1, 2, 3]), [10, 9, 7, 4])
-    assert.deepStrictEqual(scan(10, f)([0]), [10, 10])
-    assert.deepStrictEqual(scan(10, f)([]), [10])
+    assert.deepStrictEqual(scanLeft(10, f)([1, 2, 3]), [10, 9, 7, 4])
+    assert.deepStrictEqual(scanLeft(10, f)([0]), [10, 10])
+    assert.deepStrictEqual(scanLeft(10, f)([]), [10])
   })
 
   it('scanRight', () => {
@@ -587,7 +587,7 @@ describe('Array', () => {
   it('chop', () => {
     const group = <A>(S: Eq<A>): ((as: Array<A>) => Array<Array<A>>) => {
       return chop(as => {
-        const { init, rest } = span((a: A) => S.equals(a, as[0]))(as)
+        const { init, rest } = spanLeft((a: A) => S.equals(a, as[0]))(as)
         return [init, rest]
       })
     }

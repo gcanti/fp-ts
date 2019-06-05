@@ -23,9 +23,9 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [copy (function)](#copy-function)
 - [deleteAt (function)](#deleteat-function)
 - [difference (function)](#difference-function)
-- [drop (function)](#drop-function)
+- [dropLeft (function)](#dropleft-function)
+- [dropLeftWhile (function)](#dropleftwhile-function)
 - [dropRight (function)](#dropright-function)
-- [dropWhile (function)](#dropwhile-function)
 - [elem (function)](#elem-function)
 - [findFirst (function)](#findfirst-function)
 - [findFirstMap (function)](#findfirstmap-function)
@@ -34,7 +34,7 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [findLastIndex (function)](#findlastindex-function)
 - [findLastMap (function)](#findlastmap-function)
 - [flatten (function)](#flatten-function)
-- [fold (function)](#fold-function)
+- [foldLeft (function)](#foldleft-function)
 - [foldRight (function)](#foldright-function)
 - [getEq (function)](#geteq-function)
 - [getMonoid (function)](#getmonoid-function)
@@ -57,17 +57,17 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [reverse (function)](#reverse-function)
 - [rights (function)](#rights-function)
 - [rotate (function)](#rotate-function)
-- [scan (function)](#scan-function)
+- [scanLeft (function)](#scanleft-function)
 - [scanRight (function)](#scanright-function)
 - [snoc (function)](#snoc-function)
 - [sort (function)](#sort-function)
 - [sortBy (function)](#sortby-function)
-- [span (function)](#span-function)
+- [spanLeft (function)](#spanleft-function)
 - [splitAt (function)](#splitat-function)
 - [tail (function)](#tail-function)
-- [take (function)](#take-function)
+- [takeLeft (function)](#takeleft-function)
+- [takeLeftWhile (function)](#takeleftwhile-function)
 - [takeRight (function)](#takeright-function)
-- [takeWhile (function)](#takewhile-function)
 - [union (function)](#union-function)
 - [uniq (function)](#uniq-function)
 - [unsafeDeleteAt (function)](#unsafedeleteat-function)
@@ -145,11 +145,11 @@ export function chop<A, B>(f: (as: Array<A>) => [B, Array<A>]): (as: Array<A>) =
 
 ```ts
 import { Eq, eqNumber } from 'fp-ts/lib/Eq'
-import { chop, span } from 'fp-ts/lib/Array'
+import { chop, spanLeft } from 'fp-ts/lib/Array'
 
 const group = <A>(S: Eq<A>): ((as: Array<A>) => Array<Array<A>>) => {
   return chop(as => {
-    const { init, rest } = span((a: A) => S.equals(a, as[0]))(as)
+    const { init, rest } = spanLeft((a: A) => S.equals(a, as[0]))(as)
     return [init, rest]
   })
 }
@@ -161,11 +161,11 @@ Added in v2.0.0
 # chunksOf (function)
 
 Splits an array into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
-the array. Note that `chunksOf([], n)` is `[]`, not `[[]]`. This is intentional, and is consistent with a recursive
+the array. Note that `chunksOf(n)([])` is `[]`, not `[[]]`. This is intentional, and is consistent with a recursive
 definition of `chunksOf`; it satisfies the property that
 
 ```ts
-chunksOf(xs, n).concat(chunksOf(ys, n)) == chunksOf(xs.concat(ys)), n)
+chunksOf(n)(xs).concat(chunksOf(n)(ys)) == chunksOf(n)(xs.concat(ys)))
 ```
 
 whenever `n` evenly divides the length of `xs`.
@@ -306,22 +306,42 @@ assert.deepStrictEqual(difference(eqNumber)([1, 2], [2, 3]), [1])
 
 Added in v2.0.0
 
-# drop (function)
+# dropLeft (function)
 
 Drop a number of elements from the start of an array, creating a new array
 
 **Signature**
 
 ```ts
-export function drop(n: number): <A>(as: Array<A>) => Array<A> { ... }
+export function dropLeft(n: number): <A>(as: Array<A>) => Array<A> { ... }
 ```
 
 **Example**
 
 ```ts
-import { drop } from 'fp-ts/lib/Array'
+import { dropLeft } from 'fp-ts/lib/Array'
 
-assert.deepStrictEqual(drop(2)([1, 2, 3]), [3])
+assert.deepStrictEqual(dropLeft(2)([1, 2, 3]), [3])
+```
+
+Added in v2.0.0
+
+# dropLeftWhile (function)
+
+Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new array
+
+**Signature**
+
+```ts
+export function dropLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A> { ... }
+```
+
+**Example**
+
+```ts
+import { dropLeftWhile } from 'fp-ts/lib/Array'
+
+assert.deepStrictEqual(dropLeftWhile((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), [2, 4, 5])
 ```
 
 Added in v2.0.0
@@ -342,26 +362,6 @@ export function dropRight(n: number): <A>(as: Array<A>) => Array<A> { ... }
 import { dropRight } from 'fp-ts/lib/Array'
 
 assert.deepStrictEqual(dropRight(2)([1, 2, 3, 4, 5]), [1, 2, 3])
-```
-
-Added in v2.0.0
-
-# dropWhile (function)
-
-Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new array
-
-**Signature**
-
-```ts
-export function dropWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A> { ... }
-```
-
-**Example**
-
-```ts
-import { dropWhile } from 'fp-ts/lib/Array'
-
-assert.deepStrictEqual(dropWhile((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), [2, 4, 5])
 ```
 
 Added in v2.0.0
@@ -567,22 +567,22 @@ assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
 
 Added in v2.0.0
 
-# fold (function)
+# foldLeft (function)
 
 Break an array into its first element and remaining elements
 
 **Signature**
 
 ```ts
-export function fold<A, B>(onNil: () => B, onCons: (head: A, tail: Array<A>) => B): (as: Array<A>) => B { ... }
+export function foldLeft<A, B>(onNil: () => B, onCons: (head: A, tail: Array<A>) => B): (as: Array<A>) => B { ... }
 ```
 
 **Example**
 
 ```ts
-import { fold } from 'fp-ts/lib/Array'
+import { foldLeft } from 'fp-ts/lib/Array'
 
-const len: <A>(as: Array<A>) => number = fold(() => 0, (_, tail) => 1 + len(tail))
+const len: <A>(as: Array<A>) => number = foldLeft(() => 0, (_, tail) => 1 + len(tail))
 assert.strictEqual(len([1, 2, 3]), 3)
 ```
 
@@ -1023,20 +1023,20 @@ assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
 
 Added in v2.0.0
 
-# scan (function)
+# scanLeft (function)
 
 Same as `reduce` but it carries over the intermediate steps
 
 ```ts
-import { scan } from 'fp-ts/lib/Array'
+import { scanLeft } from 'fp-ts/lib/Array'
 
-assert.deepStrictEqual(scan(10, (b, a: number) => b - a)([1, 2, 3]), [10, 9, 7, 4])
+assert.deepStrictEqual(scanLeft(10, (b, a: number) => b - a)([1, 2, 3]), [10, 9, 7, 4])
 ```
 
 **Signature**
 
 ```ts
-export function scan<A, B>(b: B, f: (b: B, a: A) => B): (as: Array<A>) => Array<B> { ... }
+export function scanLeft<A, B>(b: B, f: (b: B, a: A) => B): (as: Array<A>) => Array<B> { ... }
 ```
 
 Added in v2.0.0
@@ -1139,7 +1139,7 @@ assert.deepStrictEqual(sortByNameByAge(persons), [
 
 Added in v2.0.0
 
-# span (function)
+# spanLeft (function)
 
 Split an array into two parts:
 
@@ -1149,16 +1149,18 @@ Split an array into two parts:
 **Signature**
 
 ```ts
-export function span<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => { init: Array<B>; rest: Array<A> }
-export function span<A>(predicate: Predicate<A>): (as: Array<A>) => { init: Array<A>; rest: Array<A> } { ... }
+export function spanLeft<A, B extends A>(
+  refinement: Refinement<A, B>
+): (as: Array<A>) => { init: Array<B>; rest: Array<A> }
+export function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => { init: Array<A>; rest: Array<A> } { ... }
 ```
 
 **Example**
 
 ```ts
-import { span } from 'fp-ts/lib/Array'
+import { spanLeft } from 'fp-ts/lib/Array'
 
-assert.deepStrictEqual(span((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
+assert.deepStrictEqual(spanLeft((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
 ```
 
 Added in v2.0.0
@@ -1205,7 +1207,7 @@ assert.deepStrictEqual(tail([]), none)
 
 Added in v2.0.0
 
-# take (function)
+# takeLeft (function)
 
 Keep only a number of elements from the start of an array, creating a new array.
 `n` must be a natural number
@@ -1213,15 +1215,36 @@ Keep only a number of elements from the start of an array, creating a new array.
 **Signature**
 
 ```ts
-export function take(n: number): <A>(as: Array<A>) => Array<A> { ... }
+export function takeLeft(n: number): <A>(as: Array<A>) => Array<A> { ... }
 ```
 
 **Example**
 
 ```ts
-import { take } from 'fp-ts/lib/Array'
+import { takeLeft } from 'fp-ts/lib/Array'
 
-assert.deepStrictEqual(take(2)([1, 2, 3]), [1, 2])
+assert.deepStrictEqual(takeLeft(2)([1, 2, 3]), [1, 2])
+```
+
+Added in v2.0.0
+
+# takeLeftWhile (function)
+
+Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
+
+**Signature**
+
+```ts
+export function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
+export function takeLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A> { ... }
+```
+
+**Example**
+
+```ts
+import { takeLeftWhile } from 'fp-ts/lib/Array'
+
+assert.deepStrictEqual(takeLeftWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), [2, 4])
 ```
 
 Added in v2.0.0
@@ -1243,27 +1266,6 @@ export function takeRight(n: number): <A>(as: Array<A>) => Array<A> { ... }
 import { takeRight } from 'fp-ts/lib/Array'
 
 assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
-```
-
-Added in v2.0.0
-
-# takeWhile (function)
-
-Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
-
-**Signature**
-
-```ts
-export function takeWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
-export function takeWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A> { ... }
-```
-
-**Example**
-
-```ts
-import { takeWhile } from 'fp-ts/lib/Array'
-
-assert.deepStrictEqual(takeWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), [2, 4])
 ```
 
 Added in v2.0.0
