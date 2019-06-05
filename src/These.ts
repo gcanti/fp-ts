@@ -22,7 +22,6 @@ import { Bifunctor2 } from './Bifunctor'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Foldable2 } from './Foldable'
-import { identity, phantom } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
@@ -172,7 +171,7 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> {
 
   return {
     URI,
-    _L: phantom,
+    _L: undefined as any,
     map: these.map,
     of: right,
     ap: (mab, ma) => chain(mab, f => these.map(ma, f)),
@@ -342,6 +341,8 @@ export function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
     ? some(left(fe.value))
     : some(both(fe.value, fa.value))
 }
+
+const identity = <A>(a: A): A => a
 
 /**
  * @since 2.0.0

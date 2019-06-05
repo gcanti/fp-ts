@@ -1,7 +1,7 @@
 import { Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
 import { Contravariant2 } from './Contravariant'
-import { phantom, unsafeCoerce, identity } from './function'
+import { unsafeCoerce, identity } from './function'
 import { Functor2 } from './Functor'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
@@ -55,7 +55,7 @@ export const getEq: <L, A>(E: Eq<L>) => Eq<Const<L, A>> = identity
 export function getApply<L>(S: Semigroup<L>): Apply2C<URI, L> {
   return {
     URI,
-    _L: phantom,
+    _L: undefined as any,
     map: const_.map,
     ap: (fab, fa) => make(S.concat(fab, fa))
   }

@@ -5,7 +5,7 @@ import { Eq, fromEquals } from './Eq'
 import { Filterable2 } from './Filterable'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
-import { phantom, Predicate } from './function'
+import { Predicate } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
@@ -440,7 +440,7 @@ const _filterWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<
 export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, K, K> {
   return {
     ...map_,
-    _L: phantom,
+    _L: undefined as any,
     mapWithIndex: _mapWithIndex,
     partitionMapWithIndex: _partitionMapWithIndex,
     partitionWithIndex: _partitionWithIndex,
@@ -515,7 +515,7 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
 
   return {
     ...map_,
-    _L: phantom,
+    _L: undefined as any,
     reduce: (fa, b, f) => reduceWithIndex(fa, b, (_, b, a) => f(b, a)),
     foldMap: M => {
       const foldMapWithIndexM = foldMapWithIndex(M)

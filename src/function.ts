@@ -1,11 +1,4 @@
 /**
- * For use with phantom fields
- *
- * @since 2.0.0
- */
-export const phantom: any = undefined
-
-/**
  * Thunk type
  */
 export type Lazy<A> = () => A

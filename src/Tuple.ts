@@ -9,7 +9,6 @@ import { ChainRec2C } from './ChainRec'
 import { Comonad2 } from './Comonad'
 import { Either } from './Either'
 import { Foldable2 } from './Foldable'
-import { phantom } from './function'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
@@ -61,7 +60,7 @@ export function swap<A, S>(sa: [A, S]): [S, A] {
 export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
   return {
     URI,
-    _L: phantom,
+    _L: undefined as any,
     map: tuple.map,
     ap: (fab, fa) => [fst(fab)(fst(fa)), S.concat(snd(fab), snd(fa))]
   }

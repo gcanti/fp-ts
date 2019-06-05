@@ -13,7 +13,6 @@ parent: Modules
 - [Lazy (type alias)](#lazy-type-alias)
 - [Predicate (type alias)](#predicate-type-alias)
 - [Refinement (type alias)](#refinement-type-alias)
-- [phantom (constant)](#phantom-constant)
 - [unsafeCoerce (constant)](#unsafecoerce-constant)
 - [absurd (function)](#absurd-function)
 - [constFalse (function)](#constfalse-function)
@@ -84,18 +83,6 @@ export type Predicate<A> = (a: A) => boolean
 ```ts
 export type Refinement<A, B extends A> = (a: A) => a is B
 ```
-
-# phantom (constant)
-
-For use with phantom fields
-
-**Signature**
-
-```ts
-export const phantom: any = ...
-```
-
-Added in v2.0.0
 
 # unsafeCoerce (constant)
 
