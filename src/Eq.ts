@@ -11,14 +11,14 @@
  */
 
 /**
- * @since 2.0.0
+ * @since 1.19.0
  */
 export interface Eq<A> {
   readonly equals: (x: A, y: A) => boolean
 }
 
 /**
- * @since 2.0.0
+ * @since 1.19.0
  */
 export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> {
   return {
@@ -27,7 +27,7 @@ export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> {
 }
 
 /**
- * @since 2.0.0
+ * @since 1.19.0
  */
 export function strictEqual<A>(a: A, b: A): boolean {
   return a === b
@@ -36,22 +36,22 @@ export function strictEqual<A>(a: A, b: A): boolean {
 const eqStrict = { equals: strictEqual }
 
 /**
- * @since 2.0.0
+ * @since 1.19.0
  */
 export const eqString: Eq<string> = eqStrict
 
 /**
- * @since 2.0.0
+ * @since 1.19.0
  */
 export const eqNumber: Eq<number> = eqStrict
 
 /**
- * @since 2.0.0
+ * @since 1.19.0
  */
 export const eqBoolean: Eq<boolean> = eqStrict
 
 /**
- * @since 2.0.0
+ * @since 1.19.0
  */
 export function getStructEq<O extends { [key: string]: any }>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> {
   return fromEquals((x, y) => {
@@ -76,7 +76,7 @@ export function getStructEq<O extends { [key: string]: any }>(eqs: { [K in keyof
  * assert.strictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
  * assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
  *
- * @since 2.0.0
+ * @since 1.19.0
  */
 export function getTupleEq<T extends Array<Eq<any>>>(
   ...eqs: T
@@ -87,13 +87,13 @@ export function getTupleEq<T extends Array<Eq<any>>>(
 /**
  * Returns the `Eq` corresponding to the partitions of `B` induced by `f`
  *
- * @since 2.0.0
+ * @since 1.19.0
  */
 export function contramap<A, B>(E: Eq<A>, f: (b: B) => A): Eq<B> {
   return fromEquals((x, y) => E.equals(f(x), f(y)))
 }
 
 /**
- * @since 2.0.0
+ * @since 1.19.0
  */
 export const eqDate: Eq<Date> = contramap(eqNumber, date => date.valueOf())
