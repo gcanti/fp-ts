@@ -19,7 +19,8 @@ import {
   toString,
   constVoid,
   tupleCurried,
-  absurd
+  absurd,
+  flow
 } from '../src/function'
 
 const f = (n: number) => n + 1
@@ -134,6 +135,7 @@ describe('function', () => {
 
   it('pipe', () => {
     assert.strictEqual(
+      // tslint:disable-next-line: deprecation
       pipe(
         f,
         g
@@ -141,6 +143,7 @@ describe('function', () => {
       6
     )
     assert.strictEqual(
+      // tslint:disable-next-line: deprecation
       pipe(
         f,
         g,
@@ -149,6 +152,7 @@ describe('function', () => {
       7
     )
     assert.strictEqual(
+      // tslint:disable-next-line: deprecation
       pipe(
         f,
         g,
@@ -158,6 +162,7 @@ describe('function', () => {
       14
     )
     assert.strictEqual(
+      // tslint:disable-next-line: deprecation
       pipe(
         f,
         g,
@@ -168,6 +173,7 @@ describe('function', () => {
       15
     )
     assert.strictEqual(
+      // tslint:disable-next-line: deprecation
       pipe(
         f,
         g,
@@ -179,6 +185,7 @@ describe('function', () => {
       30
     )
     assert.strictEqual(
+      // tslint:disable-next-line: deprecation
       pipe(
         f,
         g,
@@ -191,6 +198,7 @@ describe('function', () => {
       31
     )
     assert.strictEqual(
+      // tslint:disable-next-line: deprecation
       pipe(
         f,
         g,
@@ -204,6 +212,7 @@ describe('function', () => {
       62
     )
     assert.strictEqual(
+      // tslint:disable-next-line: deprecation
       pipe(
         f,
         g,
@@ -355,5 +364,100 @@ describe('function', () => {
 
   it('absurd', () => {
     assert.throws(() => absurd<string>((null as any) as never))
+  })
+
+  it('flow', () => {
+    assert.strictEqual(
+      flow(
+        (a: number, b: number): number => a + b,
+        f
+      )(1, 2),
+      4
+    )
+    assert.strictEqual(flow(f)(2), 3)
+    assert.strictEqual(
+      flow(
+        f,
+        g
+      )(2),
+      6
+    )
+    assert.strictEqual(
+      flow(
+        f,
+        g,
+        f
+      )(2),
+      7
+    )
+    assert.strictEqual(
+      flow(
+        f,
+        g,
+        f,
+        g
+      )(2),
+      14
+    )
+    assert.strictEqual(
+      flow(
+        f,
+        g,
+        f,
+        g,
+        f
+      )(2),
+      15
+    )
+    assert.strictEqual(
+      flow(
+        f,
+        g,
+        f,
+        g,
+        f,
+        g
+      )(2),
+      30
+    )
+    assert.strictEqual(
+      flow(
+        f,
+        g,
+        f,
+        g,
+        f,
+        g,
+        f
+      )(2),
+      31
+    )
+    assert.strictEqual(
+      flow(
+        f,
+        g,
+        f,
+        g,
+        f,
+        g,
+        f,
+        g
+      )(2),
+      62
+    )
+    assert.strictEqual(
+      flow(
+        f,
+        g,
+        f,
+        g,
+        f,
+        g,
+        f,
+        g,
+        f
+      )(2),
+      63
+    )
   })
 })
