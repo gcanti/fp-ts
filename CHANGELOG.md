@@ -20,7 +20,7 @@ The goal of this release is to make the migration to v2 easier.
 
 Since in v2 data types are no more implemented with classes, chainable APIs are deprecated.
 
-As an alternative, a `pipeOp` function is provided, along with suitable data-last top level functions (one for each deprecated method).
+As an alternative, a `pipe` function is provided, along with suitable data-last top level functions (one for each deprecated method).
 
 **Example**
 
@@ -40,9 +40,9 @@ After
 
 ```ts
 import * as O from 'fp-ts/lib/Option'
-import { pipeOp } from 'fp-ts/lib/function'
+import { pipe } from 'fp-ts/lib/pipeable'
 
-pipeOp(
+pipe(
   O.some(1),
   O.map(n => n * 2),
   O.chain(n === 0 ? O.none : O.some(1 / n)),
