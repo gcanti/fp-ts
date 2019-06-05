@@ -124,8 +124,8 @@ export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <A>(r: Record<string
  *
  * @since 2.0.0
  */
-export function insert<K extends string, A>(k: K, a: A): <KS extends string>(r: Record<KS, A>) => Record<KS | K, A>
-export function insert<A>(k: string, a: A): (r: Record<string, A>) => Record<string, A> {
+export function insertAt<K extends string, A>(k: K, a: A): <KS extends string>(r: Record<KS, A>) => Record<KS | K, A>
+export function insertAt<A>(k: string, a: A): (r: Record<string, A>) => Record<string, A> {
   return r => {
     if (r[k] === a) {
       return r
@@ -150,10 +150,10 @@ export function hasOwnProperty<K extends string>(k: K, r: Record<K, unknown>): b
  *
  * @since 2.0.0
  */
-export function remove<K extends string>(
+export function deleteAt<K extends string>(
   k: K
 ): <KS extends string, A>(d: Record<KS, A>) => Record<string extends K ? string : Exclude<KS, K>, A>
-export function remove(k: string): <A>(r: Record<string, A>) => Record<string, A> {
+export function deleteAt(k: string): <A>(r: Record<string, A>) => Record<string, A> {
   return r => {
     if (!_hasOwnProperty.call(r, k)) {
       return r
@@ -173,10 +173,10 @@ export function pop<K extends string>(
   k: K
 ): <KS extends string, A>(d: Record<KS, A>) => Option<[A, Record<string extends K ? string : Exclude<KS, K>, A>]>
 export function pop(k: string): <A>(r: Record<string, A>) => Option<[A, Record<string, A>]> {
-  const removek = remove(k)
+  const deleteAtk = deleteAt(k)
   return r => {
-    const a = lookup(k, r)
-    return isNone(a) ? none : optionSome([a.value, removek(r)])
+    const oa = lookup(k, r)
+    return isNone(oa) ? none : optionSome([oa.value, deleteAtk(r)])
   }
 }
 

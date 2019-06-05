@@ -14,6 +14,7 @@ parent: Modules
 - [record (constant)](#record-constant)
 - [toArray (constant)](#toarray-constant)
 - [collect (function)](#collect-function)
+- [deleteAt (function)](#deleteat-function)
 - [elem (function)](#elem-function)
 - [every (function)](#every-function)
 - [filterMapWithIndex (function)](#filtermapwithindex-function)
@@ -25,7 +26,7 @@ parent: Modules
 - [getMonoid (function)](#getmonoid-function)
 - [getShow (function)](#getshow-function)
 - [hasOwnProperty (function)](#hasownproperty-function)
-- [insert (function)](#insert-function)
+- [insertAt (function)](#insertat-function)
 - [isEmpty (function)](#isempty-function)
 - [isSubrecord (function)](#issubrecord-function)
 - [keys (function)](#keys-function)
@@ -37,7 +38,6 @@ parent: Modules
 - [pop (function)](#pop-function)
 - [reduceRightWithIndex (function)](#reducerightwithindex-function)
 - [reduceWithIndex (function)](#reducewithindex-function)
-- [remove (function)](#remove-function)
 - [sequence (function)](#sequence-function)
 - [singleton (function)](#singleton-function)
 - [size (function)](#size-function)
@@ -124,6 +124,20 @@ assert.deepStrictEqual(collect((key, val) => ({ key: key, value: val }))(x), [
   { key: 'a', value: 'foo' },
   { key: 'b', value: false }
 ])
+```
+
+Added in v2.0.0
+
+# deleteAt (function)
+
+Delete a key and value from a map
+
+**Signature**
+
+```ts
+export function deleteAt<K extends string>(
+  k: K
+): <KS extends string, A>(d: Record<KS, A>) => Record<string extends K ? string : Exclude<KS, K>, A> { ... }
 ```
 
 Added in v2.0.0
@@ -322,14 +336,14 @@ export function hasOwnProperty<K extends string>(k: K, r: Record<K, unknown>): b
 
 Added in v2.0.0
 
-# insert (function)
+# insertAt (function)
 
 Insert or replace a key/value pair in a map
 
 **Signature**
 
 ```ts
-export function insert<K extends string, A>(k: K, a: A): <KS extends string>(r: Record<KS, A>) => Record<KS | K, A> { ... }
+export function insertAt<K extends string, A>(k: K, a: A): <KS extends string>(r: Record<KS, A>) => Record<KS | K, A> { ... }
 ```
 
 Added in v2.0.0
@@ -461,20 +475,6 @@ Added in v2.0.0
 
 ```ts
 export function reduceWithIndex<K extends string, A, B>(b: B, f: (k: K, b: B, a: A) => B): (fa: Record<K, A>) => B { ... }
-```
-
-Added in v2.0.0
-
-# remove (function)
-
-Delete a key and value from a map
-
-**Signature**
-
-```ts
-export function remove<K extends string>(
-  k: K
-): <KS extends string, A>(d: Record<KS, A>) => Record<string extends K ? string : Exclude<KS, K>, A> { ... }
 ```
 
 Added in v2.0.0

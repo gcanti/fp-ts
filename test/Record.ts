@@ -126,20 +126,20 @@ describe('Record', () => {
     assert.strictEqual(R.isEmpty({ a: 1 }), false)
   })
 
-  it('insert', () => {
-    assert.deepStrictEqual(R.insert('a', 1)({}), { a: 1 })
-    assert.deepStrictEqual(R.insert('c', 3)({ a: 1, b: 2 }), { a: 1, b: 2, c: 3 })
+  it('insertAt', () => {
+    assert.deepStrictEqual(R.insertAt('a', 1)({}), { a: 1 })
+    assert.deepStrictEqual(R.insertAt('c', 3)({ a: 1, b: 2 }), { a: 1, b: 2, c: 3 })
     // should return the same reference if the value is already there
     const x = { a: 1 }
-    assert.strictEqual(R.insert('a', 1)(x), x)
+    assert.strictEqual(R.insertAt('a', 1)(x), x)
   })
 
-  it('remove', () => {
-    assert.deepStrictEqual(R.remove('a')({ a: 1, b: 2 }), { b: 2 })
+  it('deleteAt', () => {
+    assert.deepStrictEqual(R.deleteAt('a')({ a: 1, b: 2 }), { b: 2 })
     // should return the same reference if the key is missing
     const x = { a: 1 }
-    assert.strictEqual(R.remove('b')(x), x)
-    assert.strictEqual(R.remove('b')(noPrototype), noPrototype)
+    assert.strictEqual(R.deleteAt('b')(x), x)
+    assert.strictEqual(R.deleteAt('b')(noPrototype), noPrototype)
   })
 
   it('pop', () => {
