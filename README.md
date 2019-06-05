@@ -81,7 +81,7 @@ Note that there are caveats such as some tools (e.g. Jest) not supporting ES6 mo
 
 | `fp-ts` version | required `typescript` version |
 | --------------- | ----------------------------- |
-| 2.0.x+          | 3.4+                          |
+| 2.0.x+          | 3.5+                          |
 | 1.15.x+         | 3.1+                          |
 | <= 1.14.4       | 2.8+ (\*)                     |
 
