@@ -198,6 +198,38 @@ export function deleteAt<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Map<K, A> 
 }
 
 /**
+ * @since 2.0.0
+ */
+export function updateAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: Map<K, A>) => Option<Map<K, A>> {
+  const lookupWithKeyE = lookupWithKey(E)
+  return (k, a) => m => {
+    const found = lookupWithKeyE(k, m)
+    if (isNone(found)) {
+      return none
+    }
+    const r = new Map(m)
+    r.set(found.value[0], a)
+    return some(r)
+  }
+}
+
+/**
+ * @since 2.0.0
+ */
+export function modifyAt<K>(E: Eq<K>): <A>(k: K, f: (a: A) => A) => (m: Map<K, A>) => Option<Map<K, A>> {
+  const lookupWithKeyE = lookupWithKey(E)
+  return (k, f) => m => {
+    const found = lookupWithKeyE(k, m)
+    if (isNone(found)) {
+      return none
+    }
+    const r = new Map(m)
+    r.set(found.value[0], f(found.value[1]))
+    return some(r)
+  }
+}
+
+/**
  * Delete a key and value from a map, returning the value as well as the subsequent map
  *
  * @since 2.0.0
