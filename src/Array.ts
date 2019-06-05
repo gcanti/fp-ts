@@ -440,6 +440,11 @@ export const isEmpty = <A>(as: Array<A>): boolean => {
 }
 
 /**
+ * Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
+ */
+export const isNonEmpty = <A>(as: Array<A>): as is NonEmptyArray<A> => as.length > 0
+
+/**
  * Test whether an array contains a particular index
  *
  * @since 1.0.0
@@ -1401,10 +1406,10 @@ const wilt = <F>(
  *
  * @since 1.10.0
  */
-export const chop = <A, B>(as: Array<A>, f: (as: Array<A>) => [B, Array<A>]): Array<B> => {
+export const chop = <A, B>(as: Array<A>, f: (as: NonEmptyArray<A>) => [B, Array<A>]): Array<B> => {
   const result: Array<B> = []
   let cs: Array<A> = as
-  while (cs.length > 0) {
+  while (isNonEmpty(cs)) {
     const [b, c] = f(cs)
     result.push(b)
     cs = c

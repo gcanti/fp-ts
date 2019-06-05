@@ -96,7 +96,7 @@ export function max<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A {
  * @since 1.15.0
  */
 export function fromArray<A>(as: Array<A>): Option<NonEmptyArray<A>> {
-  return as.length > 0 ? some(as as any) : none
+  return A.isNonEmpty(as) ? some(as) : none
 }
 
 /**
