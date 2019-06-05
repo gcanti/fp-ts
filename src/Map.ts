@@ -162,7 +162,7 @@ export function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: Map<K, A
  *
  * @since 2.0.0
  */
-export function insert<K>(E: Eq<K>): <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A> {
+export function insertAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A> {
   const lookupWithKeyE = lookupWithKey(E)
   return (k, a) => m => {
     const found = lookupWithKeyE(k, m)
@@ -184,7 +184,7 @@ export function insert<K>(E: Eq<K>): <A>(k: K, a: A) => (m: Map<K, A>) => Map<K,
  *
  * @since 2.0.0
  */
-export function remove<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Map<K, A> {
+export function deleteAt<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Map<K, A> {
   const lookupWithKeyE = lookupWithKey(E)
   return k => m => {
     const found = lookupWithKeyE(k, m)
@@ -204,10 +204,10 @@ export function remove<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Map<K, A> {
  */
 export function pop<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Option<[A, Map<K, A>]> {
   const lookupE = lookup(E)
-  const removeE = remove(E)
+  const deleteAtE = deleteAt(E)
   return k => {
-    const removeEk = removeE(k)
-    return m => option.map(lookupE(k, m), a => [a, removeEk(m)])
+    const deleteAtEk = deleteAtE(k)
+    return m => option.map(lookupE(k, m), a => [a, deleteAtEk(m)])
   }
 }
 

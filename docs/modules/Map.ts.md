@@ -13,6 +13,7 @@ parent: Modules
 - [empty (constant)](#empty-constant)
 - [map\_ (constant)](#map_-constant)
 - [collect (function)](#collect-function)
+- [deleteAt (function)](#deleteat-function)
 - [elem (function)](#elem-function)
 - [fromFoldable (function)](#fromfoldable-function)
 - [getEq (function)](#geteq-function)
@@ -20,7 +21,7 @@ parent: Modules
 - [getMonoid (function)](#getmonoid-function)
 - [getShow (function)](#getshow-function)
 - [getWitherable (function)](#getwitherable-function)
-- [insert (function)](#insert-function)
+- [insertAt (function)](#insertat-function)
 - [isEmpty (function)](#isempty-function)
 - [isSubmap (function)](#issubmap-function)
 - [keys (function)](#keys-function)
@@ -28,7 +29,6 @@ parent: Modules
 - [lookupWithKey (function)](#lookupwithkey-function)
 - [member (function)](#member-function)
 - [pop (function)](#pop-function)
-- [remove (function)](#remove-function)
 - [singleton (function)](#singleton-function)
 - [size (function)](#size-function)
 - [toArray (function)](#toarray-function)
@@ -83,6 +83,18 @@ Added in v2.0.0
 
 ```ts
 export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: Map<K, A>) => Array<B> { ... }
+```
+
+Added in v2.0.0
+
+# deleteAt (function)
+
+Delete a key and value from a map
+
+**Signature**
+
+```ts
+export function deleteAt<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Map<K, A> { ... }
 ```
 
 Added in v2.0.0
@@ -179,14 +191,14 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
 
 Added in v2.0.0
 
-# insert (function)
+# insertAt (function)
 
 Insert or replace a key/value pair in a map
 
 **Signature**
 
 ```ts
-export function insert<K>(E: Eq<K>): <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A> { ... }
+export function insertAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A> { ... }
 ```
 
 Added in v2.0.0
@@ -272,18 +284,6 @@ Delete a key and value from a map, returning the value as well as the subsequent
 
 ```ts
 export function pop<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Option<[A, Map<K, A>]> { ... }
-```
-
-Added in v2.0.0
-
-# remove (function)
-
-Delete a key and value from a map
-
-**Signature**
-
-```ts
-export function remove<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Map<K, A> { ... }
 ```
 
 Added in v2.0.0

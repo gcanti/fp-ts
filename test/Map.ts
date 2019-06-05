@@ -165,19 +165,19 @@ describe('Map', () => {
     assert.deepStrictEqual(toUnfoldable(new Map([[{ id: 2 }, 2], [{ id: 4 }, 1]])), [[{ id: 4 }, 1], [{ id: 2 }, 2]])
   })
 
-  it('insert', () => {
+  it('insertAt', () => {
     const emptyMap = new Map<User, number>()
     const a1 = new Map<User, number>([[{ id: 'a' }, 1]])
     const a1b2 = new Map<User, number>([[{ id: 'a' }, 1], [{ id: 'b' }, 2]])
     const a2b2 = new Map<User, number>([[{ id: 'a' }, 2], [{ id: 'b' }, 2]])
     const a1b2c3 = new Map<User, number>([[{ id: 'a' }, 1], [{ id: 'b' }, 2], [{ id: 'c' }, 3]])
-    const insertS = M.insert(eqUser)
+    const insertS = M.insertAt(eqUser)
     assert.deepStrictEqual(insertS({ id: 'a' }, 1)(emptyMap), a1)
     assert.deepStrictEqual(insertS({ id: 'a' }, 1)(a1b2), a1b2)
     assert.deepStrictEqual(insertS({ id: 'a' }, 2)(a1b2), a2b2)
     assert.deepStrictEqual(insertS({ id: 'c' }, 3)(a1b2), a1b2c3)
 
-    const insert = M.insert(eqKey)
+    const insert = M.insertAt(eqKey)
     assert.deepStrictEqual(insert({ id: 1 }, { value: 1 })(M.empty), new Map([[{ id: 1 }, { value: 1 }]]))
     const x = insert({ id: 1 }, value1)(repo)
     assert.deepStrictEqual(x, new Map<Key, Value>([[{ id: 1 }, { value: 1 }], [{ id: 2 }, { value: 2 }]]))
@@ -198,16 +198,16 @@ describe('Map', () => {
     assert.deepStrictEqual(repo, new Map([[{ id: 1 }, { value: 1 }], [{ id: 2 }, { value: 2 }]]))
   })
 
-  it('remove', () => {
+  it('deleteAt', () => {
     const a1b2 = new Map<User, number>([[{ id: 'a' }, 1], [{ id: 'b' }, 2]])
     const a1b2_ = new Map<User, number>([[{ id: 'a' }, 1], [{ id: 'b' }, 2]])
     const b2 = new Map<User, number>([[{ id: 'b' }, 2]])
-    const removeS = M.remove(eqUser)
+    const removeS = M.deleteAt(eqUser)
     assert.deepStrictEqual(removeS({ id: 'a' })(a1b2), b2)
     assert.deepStrictEqual(a1b2, a1b2_)
     assert.deepStrictEqual(removeS({ id: 'c' })(a1b2), a1b2)
 
-    const remove = M.remove(eqKey)
+    const remove = M.deleteAt(eqKey)
     assert.deepStrictEqual(remove({ id: 1 })(repo), new Map([[{ id: 2 }, { value: 2 }]]))
     assert.deepStrictEqual(remove({ id: 4 })(repo), new Map([[{ id: 2 }, { value: 2 }]]))
     assert.deepStrictEqual(remove({ id: 3 })(repo), repo)
