@@ -219,7 +219,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromOption<S, E, A>(ma: Option<A>, onNone: () => E): StateReaderTaskEither<S, unknown, E, A> { ... }
+export function fromOption<S, E, A>(onNone: () => E): (ma: Option<A>) => StateReaderTaskEither<S, unknown, E, A> { ... }
 ```
 
 Added in v2.0.0

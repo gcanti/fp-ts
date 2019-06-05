@@ -35,6 +35,7 @@ export interface EitherM<M> extends ApplicativeComposition02<M, URI> {
   readonly rightM: <E, A>(ma: HKT<M, A>) => EitherT<M, E, A>
   readonly leftM: <E, A>(me: HKT<M, E>) => EitherT<M, E, A>
   readonly left: <E, A>(e: E) => EitherT<M, E, A>
+  readonly fromOption: <A, E>(ma: Option<A>, onNone: () => E) => EitherT<M, E, A>
 }
 ```
 
@@ -61,6 +62,7 @@ export interface EitherM1<M extends URIS> extends ApplicativeComposition12<M, UR
   readonly rightM: <E, A>(ma: Type<M, A>) => EitherT1<M, E, A>
   readonly leftM: <E, A>(me: Type<M, E>) => EitherT1<M, E, A>
   readonly left: <E, A>(e: E) => EitherT1<M, E, A>
+  readonly fromOption: <A, E>(ma: Option<A>, onNone: () => E) => EitherT1<M, E, A>
 }
 ```
 
@@ -87,6 +89,7 @@ export interface EitherM2<M extends URIS2> extends ApplicativeComposition22<M, U
   readonly rightM: <L, E, A>(ma: Type2<M, L, A>) => EitherT2<M, L, E, A>
   readonly leftM: <L, E, A>(me: Type2<M, L, E>) => EitherT2<M, L, E, A>
   readonly left: <L, E, A>(e: E) => EitherT2<M, L, E, A>
+  readonly fromOption: <L, A, E>(ma: Option<A>, onNone: () => E) => EitherT2<M, L, E, A>
 }
 ```
 

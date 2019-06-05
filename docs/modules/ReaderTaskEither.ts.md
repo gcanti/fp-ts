@@ -178,7 +178,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromOption<E, A>(ma: Option<A>, onNone: () => E): ReaderTaskEither<unknown, E, A> { ... }
+export function fromOption<E, A>(onNone: () => E): (ma: Option<A>) => ReaderTaskEither<unknown, E, A> { ... }
 ```
 
 Added in v2.0.0

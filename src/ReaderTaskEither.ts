@@ -108,8 +108,8 @@ export function fromEither<E, A>(ma: Either<E, A>): ReaderTaskEither<unknown, E,
 /**
  * @since 2.0.0
  */
-export function fromOption<E, A>(ma: Option<A>, onNone: () => E): ReaderTaskEither<unknown, E, A> {
-  return fromTaskEither(TE.fromOption(ma, onNone))
+export function fromOption<E, A>(onNone: () => E): (ma: Option<A>) => ReaderTaskEither<unknown, E, A> {
+  return ma => (ma._tag === 'None' ? left(onNone()) : right(ma.value))
 }
 
 /**

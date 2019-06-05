@@ -196,7 +196,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromOption<E, A>(ma: Option<A>, onNone: () => E): Either<E, A> { ... }
+export function fromOption<E, A>(onNone: () => E): (ma: Option<A>) => Either<E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -207,7 +207,7 @@ Added in v2.0.0
 
 ```ts
 export function fromPredicate<E, A, B extends A>(
-  predicate: Refinement<A, B>,
+  refinement: Refinement<A, B>,
   onFalse: (a: A) => E
 ): (a: A) => Either<E, B>
 export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A> { ... }

@@ -68,15 +68,15 @@ export const fromEither: <E, A>(ma: Either<E, A>) => IOEither<E, A> = io.of
 /**
  * @since 2.0.0
  */
-export function fromOption<E, A>(ma: Option<A>, onNone: () => E): IOEither<E, A> {
-  return fromEither(E.fromOption(ma, onNone))
+export function fromOption<E, A>(onNone: () => E): (ma: Option<A>) => IOEither<E, A> {
+  return ma => T.fromOption(ma, onNone)
 }
 
 /**
  * @since 2.0.0
  */
 export function fromPredicate<E, A, B extends A>(
-  predicate: Refinement<A, B>,
+  refinement: Refinement<A, B>,
   onFalse: (a: A) => E
 ): (a: A) => IOEither<E, B>
 export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A>

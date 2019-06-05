@@ -85,8 +85,8 @@ export const fromEither: <E, A>(ma: Either<E, A>) => TaskEither<E, A> = task.of
 /**
  * @since 2.0.0
  */
-export function fromOption<E, A>(ma: Option<A>, onNone: () => E): TaskEither<E, A> {
-  return fromEither(E.fromOption(ma, onNone))
+export function fromOption<E, A>(onNone: () => E): (ma: Option<A>) => TaskEither<E, A> {
+  return ma => T.fromOption(ma, onNone)
 }
 
 /**
@@ -98,7 +98,7 @@ export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = task
  * @since 2.0.0
  */
 export function fromPredicate<E, A, B extends A>(
-  predicate: Refinement<A, B>,
+  refinement: Refinement<A, B>,
   onFalse: (a: A) => E
 ): (a: A) => TaskEither<E, B>
 export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskEither<E, A>

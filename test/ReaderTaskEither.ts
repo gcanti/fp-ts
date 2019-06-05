@@ -7,6 +7,7 @@ import * as _ from '../src/ReaderTaskEither'
 import { task } from '../src/Task'
 import { taskEither } from '../src/TaskEither'
 import { pipeOp as pipe } from '../src/function'
+import { none, some } from '../src/Option'
 
 describe('ReaderTaskEither', () => {
   describe('Monad', () => {
@@ -205,5 +206,12 @@ describe('ReaderTaskEither', () => {
       const e = await _.run(_.readerTaskEither.fromIO(() => 1), {})
       assert.deepStrictEqual(e, E.right(1))
     })
+  })
+
+  it('fromOption', async () => {
+    const e1 = await _.run(_.fromOption(() => 'none')(none), {})
+    assert.deepStrictEqual(e1, E.left('none'))
+    const e2 = await _.run(_.fromOption(() => 'none')(some(1)), {})
+    assert.deepStrictEqual(e2, E.right(1))
   })
 })

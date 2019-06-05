@@ -505,4 +505,9 @@ describe('Either', () => {
       assert.deepStrictEqual(M.concat(_.left('foo'), _.left('bar')), _.left('foobar'))
     })
   })
+
+  it('fromOption', () => {
+    assert.deepStrictEqual(_.fromOption(() => 'none')(none), _.left('none'))
+    assert.deepStrictEqual(_.fromOption(() => 'none')(some(1)), _.right(1))
+  })
 })

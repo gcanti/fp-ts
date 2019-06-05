@@ -7,6 +7,7 @@ import { semigroupSum } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskEither'
 import { pipeOp as pipe } from '../src/function'
+import { none, some } from '../src/Option'
 
 const delay = <A>(millis: number, a: A): T.Task<A> => T.delay(millis, T.task.of(a))
 
@@ -297,5 +298,12 @@ describe('TaskEither', () => {
     assert.deepStrictEqual(e1, E.right(1))
     const e2 = await _.tryCatch(() => Promise.reject('ouch!'), onrejected)()
     assert.deepStrictEqual(e2, E.left('Error is: ouch!'))
+  })
+
+  it('fromOption', async () => {
+    const e1 = await _.fromOption(() => 'none')(none)()
+    assert.deepStrictEqual(e1, E.left('none'))
+    const e2 = await _.fromOption(() => 'none')(some(1))()
+    assert.deepStrictEqual(e2, E.right(1))
   })
 })
