@@ -186,7 +186,7 @@ the provided default as a `Left`
 **Signature**
 
 ```ts
-export function fromNullable<E, A>(a: A | null | undefined, e: E): Either<E, A> { ... }
+export function fromNullable<E>(e: E): <A>(a: A | null | undefined) => Either<E, A> { ... }
 ```
 
 Added in v2.0.0

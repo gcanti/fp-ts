@@ -128,8 +128,8 @@ export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => 
  *
  * @since 2.0.0
  */
-export function fromNullable<E, A>(a: A | null | undefined, e: E): Either<E, A> {
-  return a == null ? left(e) : right(a)
+export function fromNullable<E>(e: E): <A>(a: A | null | undefined) => Either<E, A> {
+  return a => (a == null ? left(e) : right(a))
 }
 
 /**
