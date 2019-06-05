@@ -33,6 +33,7 @@ parent: Modules
 - [lookup (function)](#lookup-function)
 - [map (function)](#map-function)
 - [mapWithIndex (function)](#mapwithindex-function)
+- [modifyAt (function)](#modifyat-function)
 - [partitionMapWithIndex (function)](#partitionmapwithindex-function)
 - [partitionWithIndex (function)](#partitionwithindex-function)
 - [pop (function)](#pop-function)
@@ -415,6 +416,16 @@ Map a record passing the keys to the iterating function
 
 ```ts
 export function mapWithIndex<K extends string, A, B>(f: (k: K, a: A) => B): (fa: Record<K, A>) => Record<K, B> { ... }
+```
+
+Added in v2.0.0
+
+# modifyAt (function)
+
+**Signature**
+
+```ts
+export function modifyAt<K extends string, A>(k: K, f: (a: A) => A): (r: Record<K, A>) => Option<Record<K, A>> { ... }
 ```
 
 Added in v2.0.0

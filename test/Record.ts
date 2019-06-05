@@ -322,4 +322,10 @@ describe('Record', () => {
       assert.fail()
     }
   })
+
+  it('modifyAt', () => {
+    const x: Record<string, number> = { a: 1 }
+    assert.deepStrictEqual(R.modifyAt('b', (n: number) => n * 2)(x), none)
+    assert.deepStrictEqual(R.modifyAt('a', (n: number) => n * 2)(x), some({ a: 2 }))
+  })
 })

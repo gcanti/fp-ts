@@ -183,6 +183,21 @@ export function updateAt<A>(k: string, a: A): (r: Record<string, A>) => Option<R
 }
 
 /**
+ * @since 2.0.0
+ */
+export function modifyAt<K extends string, A>(k: K, f: (a: A) => A): (r: Record<K, A>) => Option<Record<K, A>>
+export function modifyAt<A>(k: string, f: (a: A) => A): (r: Record<string, A>) => Option<Record<string, A>> {
+  return r => {
+    if (!hasOwnProperty(k, r)) {
+      return none
+    }
+    const out = Object.assign({}, r)
+    out[k] = f(r[k])
+    return optionSome(out)
+  }
+}
+
+/**
  * Delete a key and value from a map, returning the value as well as the subsequent map
  *
  * @since 2.0.0
