@@ -16,8 +16,6 @@ export type Refinement<A, B extends A> = (a: A) => a is B
 
 export type Endomorphism<A> = (a: A) => A
 
-export type BinaryOperation<A, B> = (a1: A, a2: A) => B
-
 /**
  * @example
  * import { FunctionN } from 'fp-ts/lib/function'
@@ -45,20 +43,6 @@ export const unsafeCoerce: <A, B>(a: A) => B = identity as any
  */
 export function not<A>(predicate: Predicate<A>): Predicate<A> {
   return a => !predicate(a)
-}
-
-/**
- * @since 2.0.0
- */
-export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> {
-  return a => p1(a) || p2(a)
-}
-
-/**
- * @since 2.0.0
- */
-export function and<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> {
-  return a => p1(a) && p2(a)
 }
 
 /**
@@ -120,15 +104,6 @@ export const constVoid = (): void => {
  */
 export function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C {
   return (b, a) => f(a, b)
-}
-
-/**
- * The `on` function is used to change the domain of a binary operator.
- *
- * @since 2.0.0
- */
-export function on<A, B, C>(op: BinaryOperation<B, C>, f: (a: A) => B): BinaryOperation<A, C> {
-  return (a1, a2) => op(f(a1), f(a2))
 }
 
 /**

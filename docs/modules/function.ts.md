@@ -8,7 +8,6 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [BinaryOperation (type alias)](#binaryoperation-type-alias)
 - [Endomorphism (type alias)](#endomorphism-type-alias)
 - [FunctionN (type alias)](#functionn-type-alias)
 - [Lazy (type alias)](#lazy-type-alias)
@@ -17,7 +16,6 @@ parent: Modules
 - [phantom (constant)](#phantom-constant)
 - [unsafeCoerce (constant)](#unsafecoerce-constant)
 - [absurd (function)](#absurd-function)
-- [and (function)](#and-function)
 - [constFalse (function)](#constfalse-function)
 - [constNull (function)](#constnull-function)
 - [constTrue (function)](#consttrue-function)
@@ -29,21 +27,11 @@ parent: Modules
 - [identity (function)](#identity-function)
 - [increment (function)](#increment-function)
 - [not (function)](#not-function)
-- [on (function)](#on-function)
-- [or (function)](#or-function)
 - [pipe (function)](#pipe-function)
 - [pipeOp (function)](#pipeop-function)
 - [tuple (function)](#tuple-function)
 
 ---
-
-# BinaryOperation (type alias)
-
-**Signature**
-
-```ts
-export type BinaryOperation<A, B> = (a1: A, a2: A) => B
-```
 
 # Endomorphism (type alias)
 
@@ -125,16 +113,6 @@ Added in v2.0.0
 
 ```ts
 export function absurd<A>(_: never): A { ... }
-```
-
-Added in v2.0.0
-
-# and (function)
-
-**Signature**
-
-```ts
-export function and<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> { ... }
 ```
 
 Added in v2.0.0
@@ -257,28 +235,6 @@ Added in v2.0.0
 
 ```ts
 export function not<A>(predicate: Predicate<A>): Predicate<A> { ... }
-```
-
-Added in v2.0.0
-
-# on (function)
-
-The `on` function is used to change the domain of a binary operator.
-
-**Signature**
-
-```ts
-export function on<A, B, C>(op: BinaryOperation<B, C>, f: (a: A) => B): BinaryOperation<A, C> { ... }
-```
-
-Added in v2.0.0
-
-# or (function)
-
-**Signature**
-
-```ts
-export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> { ... }
 ```
 
 Added in v2.0.0
