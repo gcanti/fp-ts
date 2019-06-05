@@ -412,6 +412,12 @@ const nea2v1concat3 = array1.concat(nea2v1) // $ExpectType string[]
 
 const nea2v1sort1 = nea2v1.sort(Or.ordString.compare) // $ExpectType NonEmptyArray<string>
 
+if (A.isNonEmpty(array1)) {
+  array1 // $ExpectType NonEmptyArray<string>
+} else {
+  array1 // $ExpectType string[]
+}
+
 //
 // function
 //
