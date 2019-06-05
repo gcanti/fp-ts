@@ -1,7 +1,6 @@
 import { Comonad2C } from './Comonad'
 import { Monoid } from './Monoid'
 import { Functor2 } from './Functor'
-import { phantom, tuple } from './function'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -39,7 +38,7 @@ export const tracks = <P, A>(M: Monoid<P>, f: (a: A) => P) => (wa: Traced<P, A>)
  * @since 1.16.0
  */
 export const listen = <P, A>(wa: Traced<P, A>): Traced<P, [A, P]> => {
-  return new Traced(e => tuple(wa.run(e), e))
+  return new Traced(e => [wa.run(e), e])
 }
 
 /**
@@ -47,7 +46,7 @@ export const listen = <P, A>(wa: Traced<P, A>): Traced<P, [A, P]> => {
  * @since 1.16.0
  */
 export const listens = <P, A, B>(wa: Traced<P, A>, f: (p: P) => B): Traced<P, [A, B]> => {
-  return new Traced(e => tuple(wa.run(e), f(e)))
+  return new Traced(e => [wa.run(e), f(e)])
 }
 
 /**
@@ -72,7 +71,7 @@ export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
 
   return {
     URI,
-    _L: phantom,
+    _L: undefined as any,
     map,
     extend,
     extract

@@ -21,7 +21,7 @@ import { Applicative } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
 import { Either } from './Either'
 import { Foldable2v2 } from './Foldable2v'
-import { phantom, toString } from './function'
+import { toString } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
@@ -247,7 +247,7 @@ export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => {
 
   return {
     URI,
-    _L: phantom,
+    _L: undefined as any,
     map: these.map,
     of: right,
     ap: (fab, fa) => chain(fab, f => these.map(fa, f)),

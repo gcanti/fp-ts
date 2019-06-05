@@ -135,6 +135,11 @@ pipeOp(
     - deprecate `apply` function (@gcanti)
     - deprecate `applyFlipped` function (@gcanti)
     - deprecate `constIdentity` function (@gcanti)
+    - deprecate `phantom` (@gcanti)
+    - deprecate `or` (@gcanti)
+    - deprecate `and` (@gcanti)
+    - deprecate `on (@gcanti)
+    - deprecate `BinaryOperator` (@gcanti)
   - `Functor`
     - deprecate `lift`, use `pipeable`'s `map` (@gcanti)
     - deprecate `voidRight` (@gcanti)

@@ -33,7 +33,7 @@ import { Compactable2C, Separated } from './Compactable'
 import { Extend2 } from './Extend'
 import { Filterable2C } from './Filterable'
 import { Foldable2v2 } from './Foldable2v'
-import { Lazy, phantom, Predicate, Refinement, toString, identity } from './function'
+import { Lazy, Predicate, Refinement, toString, identity } from './function'
 import { HKT } from './HKT'
 import { Monad2, Monad2C } from './Monad'
 import { Monoid } from './Monoid'
@@ -548,7 +548,7 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
 
   return {
     URI,
-    _L: phantom,
+    _L: undefined as any,
     compact,
     separate
   }
@@ -788,7 +788,7 @@ export function filterOrElse<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E
 export function getValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E> {
   return {
     URI,
-    _L: phantom,
+    _L: undefined as any,
     map: either.map,
     of: either.of,
     ap: <A, B>(mab: Either<E, (a: A) => B>, ma: Either<E, A>): Either<E, B> =>

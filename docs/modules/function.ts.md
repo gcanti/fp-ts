@@ -8,7 +8,7 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [BinaryOperation (type alias)](#binaryoperation-type-alias)
+- [~~BinaryOperation~~ (type alias)](#binaryoperation-type-alias)
 - [~~Cokleisli~~ (type alias)](#cokleisli-type-alias)
 - [~~Curried2~~ (type alias)](#curried2-type-alias)
 - [~~Curried3~~ (type alias)](#curried3-type-alias)
@@ -33,10 +33,10 @@ parent: Modules
 - [Lazy (type alias)](#lazy-type-alias)
 - [Predicate (type alias)](#predicate-type-alias)
 - [Refinement (type alias)](#refinement-type-alias)
-- [phantom (constant)](#phantom-constant)
+- [~~phantom~~ (constant)](#phantom-constant)
 - [unsafeCoerce (constant)](#unsafecoerce-constant)
 - [absurd (function)](#absurd-function)
-- [and (function)](#and-function)
+- [~~and~~ (function)](#and-function)
 - [~~apply~~ (function)](#apply-function)
 - [~~applyFlipped~~ (function)](#applyflipped-function)
 - [~~compose~~ (function)](#compose-function)
@@ -55,8 +55,8 @@ parent: Modules
 - [identity (function)](#identity-function)
 - [increment (function)](#increment-function)
 - [not (function)](#not-function)
-- [on (function)](#on-function)
-- [or (function)](#or-function)
+- [~~on~~ (function)](#on-function)
+- [~~or~~ (function)](#or-function)
 - [pipe (function)](#pipe-function)
 - [~~toString~~ (function)](#tostring-function)
 - [tuple (function)](#tuple-function)
@@ -64,7 +64,7 @@ parent: Modules
 
 ---
 
-# BinaryOperation (type alias)
+# ~~BinaryOperation~~ (type alias)
 
 **Signature**
 
@@ -280,7 +280,7 @@ export type Predicate<A> = (a: A) => boolean
 export type Refinement<A, B extends A> = (a: A) => a is B
 ```
 
-# phantom (constant)
+# ~~phantom~~ (constant)
 
 For use with phantom fields
 
@@ -312,7 +312,7 @@ export function absurd<A>(_: never): A { ... }
 
 Added in v1.18.0
 
-# and (function)
+# ~~and~~ (function)
 
 **Signature**
 
@@ -583,7 +583,7 @@ export const not = <A>(predicate: Predicate<A>): Predicate<A> => ...
 
 Added in v1.0.0
 
-# on (function)
+# ~~on~~ (function)
 
 The `on` function is used to change the domain of a binary operator.
 
@@ -595,7 +595,7 @@ export const on = <B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): Bina
 
 Added in v1.0.0
 
-# or (function)
+# ~~or~~ (function)
 
 **Signature**
 

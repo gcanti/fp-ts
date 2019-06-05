@@ -4,7 +4,7 @@ import { Either } from './Either'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
 import { Foldable2v2C, Foldable2v3, Foldable2v2, Foldable2v1, Foldable2v } from './Foldable2v'
 import { FoldableWithIndex2C } from './FoldableWithIndex'
-import { Predicate, phantom } from './function'
+import { Predicate } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
 import { Option, none, some } from './Option'
@@ -660,7 +660,7 @@ const functor: Functor2<URI> = {
  */
 const getFunctorWithIndex = <K>(): FunctorWithIndex2C<URI, K, K> => {
   return {
-    _L: phantom,
+    _L: undefined as any,
     ...functor,
     mapWithIndex: mapWithIndex
   }
@@ -672,7 +672,7 @@ const getFunctorWithIndex = <K>(): FunctorWithIndex2C<URI, K, K> => {
 const getFoldable = <K>(O: Ord<K>): Foldable2v2C<URI, K> => {
   return {
     URI,
-    _L: phantom,
+    _L: undefined as any,
     reduce: reduce(O),
     foldMap: foldMap(O),
     foldr: foldr(O)
@@ -722,7 +722,7 @@ export const getFilterableWithIndex = <K>(): FilterableWithIndex2C<URI, K, K> =>
  */
 const getTraversable = <K>(O: Ord<K>): Traversable2v2C<URI, K> => {
   return {
-    _L: phantom,
+    _L: undefined as any,
     ...getFoldable(O),
     ...functor,
     traverse,
