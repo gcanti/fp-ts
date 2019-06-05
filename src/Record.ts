@@ -109,7 +109,7 @@ export const toArray: <K extends string, A>(r: Record<K, A>) => Array<[K, A]> = 
  */
 export function toUnfoldable<F extends URIS>(
   unfoldable: Unfoldable1<F>
-): <K extends string, A>(d: Record<K, A>) => Type<F, [K, A]>
+): <K extends string, A>(r: Record<K, A>) => Type<F, [K, A]>
 export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <K extends string, A>(r: Record<K, A>) => HKT<F, [K, A]>
 export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <A>(r: Record<string, A>) => HKT<F, [string, A]> {
   return r => {
@@ -152,7 +152,7 @@ export function hasOwnProperty<K extends string>(k: K, r: Record<K, unknown>): b
  */
 export function deleteAt<K extends string>(
   k: K
-): <KS extends string, A>(d: Record<KS, A>) => Record<string extends K ? string : Exclude<KS, K>, A>
+): <KS extends string, A>(r: Record<KS, A>) => Record<string extends K ? string : Exclude<KS, K>, A>
 export function deleteAt(k: string): <A>(r: Record<string, A>) => Record<string, A> {
   return r => {
     if (!_hasOwnProperty.call(r, k)) {
@@ -165,13 +165,31 @@ export function deleteAt(k: string): <A>(r: Record<string, A>) => Record<string,
 }
 
 /**
+ * @since 2.0.0
+ */
+export function updateAt<K extends string, A>(k: K, a: A): (r: Record<K, A>) => Option<Record<K, A>>
+export function updateAt<A>(k: string, a: A): (r: Record<string, A>) => Option<Record<string, A>> {
+  return r => {
+    if (!hasOwnProperty(k, r)) {
+      return none
+    }
+    if (r[k] === a) {
+      return optionSome(r)
+    }
+    const out = Object.assign({}, r)
+    out[k] = a
+    return optionSome(out)
+  }
+}
+
+/**
  * Delete a key and value from a map, returning the value as well as the subsequent map
  *
  * @since 2.0.0
  */
 export function pop<K extends string>(
   k: K
-): <KS extends string, A>(d: Record<KS, A>) => Option<[A, Record<string extends K ? string : Exclude<KS, K>, A>]>
+): <KS extends string, A>(r: Record<KS, A>) => Option<[A, Record<string extends K ? string : Exclude<KS, K>, A>]>
 export function pop(k: string): <A>(r: Record<string, A>) => Option<[A, Record<string, A>]> {
   const deleteAtk = deleteAt(k)
   return r => {

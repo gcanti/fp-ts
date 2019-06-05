@@ -45,6 +45,7 @@ parent: Modules
 - [toUnfoldable (function)](#tounfoldable-function)
 - [traverse (function)](#traverse-function)
 - [traverseWithIndex (function)](#traversewithindex-function)
+- [updateAt (function)](#updateat-function)
 
 ---
 
@@ -137,7 +138,7 @@ Delete a key and value from a map
 ```ts
 export function deleteAt<K extends string>(
   k: K
-): <KS extends string, A>(d: Record<KS, A>) => Record<string extends K ? string : Exclude<KS, K>, A> { ... }
+): <KS extends string, A>(r: Record<KS, A>) => Record<string extends K ? string : Exclude<KS, K>, A> { ... }
 ```
 
 Added in v2.0.0
@@ -454,7 +455,7 @@ Delete a key and value from a map, returning the value as well as the subsequent
 ```ts
 export function pop<K extends string>(
   k: K
-): <KS extends string, A>(d: Record<KS, A>) => Option<[A, Record<string extends K ? string : Exclude<KS, K>, A>]> { ... }
+): <KS extends string, A>(r: Record<KS, A>) => Option<[A, Record<string extends K ? string : Exclude<KS, K>, A>]> { ... }
 ```
 
 Added in v2.0.0
@@ -544,7 +545,7 @@ Unfolds a record into a list of key/value pairs
 ```ts
 export function toUnfoldable<F extends URIS>(
   unfoldable: Unfoldable1<F>
-): <K extends string, A>(d: Record<K, A>) => Type<F, [K, A]>
+): <K extends string, A>(r: Record<K, A>) => Type<F, [K, A]>
 export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <K extends string, A>(r: Record<K, A>) => HKT<F, [K, A]> { ... }
 ```
 
@@ -596,6 +597,16 @@ export function traverseWithIndex<F extends URIS>(
 export function traverseWithIndex<F>(
   F: Applicative<F>
 ): <K extends string, A, B>(f: (k: K, a: A) => HKT<F, B>) => (ta: Record<K, A>) => HKT<F, Record<K, B>> { ... }
+```
+
+Added in v2.0.0
+
+# updateAt (function)
+
+**Signature**
+
+```ts
+export function updateAt<K extends string, A>(k: K, a: A): (r: Record<K, A>) => Option<Record<K, A>> { ... }
 ```
 
 Added in v2.0.0

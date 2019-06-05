@@ -3,7 +3,7 @@ import * as R from '../src/Record'
 import { semigroupSum, getLastSemigroup, getFirstSemigroup } from '../src/Semigroup'
 import { monoidString } from '../src/Monoid'
 import { identity } from '../src/function'
-import { option, some, none, Option, getOrElse } from '../src/Option'
+import { option, some, none, Option, getOrElse, isSome } from '../src/Option'
 import { eqNumber } from '../src/Eq'
 import { array, zip } from '../src/Array'
 import { left, right } from '../src/Either'
@@ -309,5 +309,17 @@ describe('Record', () => {
 
   it('filterWithIndex', () => {
     assert.deepStrictEqual(R.filterWithIndex((_, a: number) => a > 1)({ a: 1, b: 2 }), { b: 2 })
+  })
+
+  it('updateAt', () => {
+    const x: Record<string, number> = { a: 1 }
+    assert.deepStrictEqual(R.updateAt('b', 2)(x), none)
+    assert.deepStrictEqual(R.updateAt('a', 2)(x), some({ a: 2 }))
+    const r = R.updateAt('a', 1)(x)
+    if (isSome(r)) {
+      assert.strictEqual(r.value, x)
+    } else {
+      assert.fail()
+    }
   })
 })
