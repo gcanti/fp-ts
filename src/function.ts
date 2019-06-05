@@ -180,6 +180,8 @@ export const on = <B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): Bina
 }
 
 /**
+ * Use `flow`
+ *
  * @since 1.0.0
  * @deprecated
  */
@@ -250,11 +252,17 @@ export function compose(...fns: Array<Function>): Function {
 }
 
 /**
+ * Use `flow`
+ *
  * @since 1.0.0
+ * @deprecated
  */
 export function pipe<A, B, C>(ab: (a: A) => B, bc: (b: B) => C): (a: A) => C
+/** @deprecated */
 export function pipe<A, B, C, D>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D): (a: A) => D
+/** @deprecated */
 export function pipe<A, B, C, D, E>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E): (a: A) => E
+/** @deprecated */
 export function pipe<A, B, C, D, E, F>(
   ab: (a: A) => B,
   bc: (b: B) => C,
@@ -262,6 +270,7 @@ export function pipe<A, B, C, D, E, F>(
   de: (d: D) => E,
   ef: (e: E) => F
 ): (a: A) => F
+/** @deprecated */
 export function pipe<A, B, C, D, E, F, G>(
   ab: (a: A) => B,
   bc: (b: B) => C,
@@ -270,6 +279,7 @@ export function pipe<A, B, C, D, E, F, G>(
   ef: (e: E) => F,
   fg: (f: F) => G
 ): (a: A) => G
+/** @deprecated */
 export function pipe<A, B, C, D, E, F, G, H>(
   ab: (a: A) => B,
   bc: (b: B) => C,
@@ -279,6 +289,7 @@ export function pipe<A, B, C, D, E, F, G, H>(
   fg: (f: F) => G,
   gh: (g: G) => H
 ): (a: A) => H
+/** @deprecated */
 export function pipe<A, B, C, D, E, F, G, H, I>(
   ab: (a: A) => B,
   bc: (b: B) => C,
@@ -289,6 +300,7 @@ export function pipe<A, B, C, D, E, F, G, H, I>(
   gh: (g: G) => H,
   hi: (h: H) => I
 ): (a: A) => I
+/** @deprecated */
 export function pipe<A, B, C, D, E, F, G, H, I, J>(
   ab: (a: A) => B,
   bc: (b: B) => C,
@@ -492,4 +504,92 @@ export const decrement = (n: number): number => {
  */
 export function absurd<A>(_: never): A {
   throw new Error('Called `absurd` function which should be uncallable')
+}
+
+//
+// backporting
+//
+
+/**
+ * Function composition (from left to right).
+ *
+ * @example
+ * import { flow } from 'fp-ts/lib/function'
+ *
+ * const len = (s: string): number => s.length
+ * const double = (n: number): number => n * 2
+ *
+ * const f = flow(len, double)
+ *
+ * assert.strictEqual(f('aaa'), 6)
+ *
+ * @since 1.19.0
+ */
+export function flow<A extends Array<unknown>, B>(ab: (...a: A) => B): (...a: A) => B
+export function flow<A extends Array<unknown>, B, C>(ab: (...a: A) => B, bc: (b: B) => C): (...a: A) => C
+export function flow<A extends Array<unknown>, B, C, D>(
+  ab: (...a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D
+): (...a: A) => D
+export function flow<A extends Array<unknown>, B, C, D, E>(
+  ab: (...a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E
+): (...a: A) => E
+export function flow<A extends Array<unknown>, B, C, D, E, F>(
+  ab: (...a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E,
+  ef: (e: E) => F
+): (...a: A) => F
+export function flow<A extends Array<unknown>, B, C, D, E, F, G>(
+  ab: (...a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E,
+  ef: (e: E) => F,
+  fg: (f: F) => G
+): (...a: A) => G
+export function flow<A extends Array<unknown>, B, C, D, E, F, G, H>(
+  ab: (...a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E,
+  ef: (e: E) => F,
+  fg: (f: F) => G,
+  gh: (g: G) => H
+): (...a: A) => H
+export function flow<A extends Array<unknown>, B, C, D, E, F, G, H, I>(
+  ab: (...a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E,
+  ef: (e: E) => F,
+  fg: (f: F) => G,
+  gh: (g: G) => H,
+  hi: (h: H) => I
+): (...a: A) => I
+export function flow<A extends Array<unknown>, B, C, D, E, F, G, H, I, J>(
+  ab: (...a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E,
+  ef: (e: E) => F,
+  fg: (f: F) => G,
+  gh: (g: G) => H,
+  hi: (h: H) => I,
+  ij: (i: I) => J
+): (...a: A) => J
+export function flow(...fns: Array<Function>): Function {
+  const len = fns.length - 1
+  return function(this: any, ...x: Array<any>) {
+    let y = fns[0].apply(this, x)
+    for (let i = 1; i <= len; i++) {
+      y = fns[i].call(this, y)
+    }
+    return y
+  }
 }

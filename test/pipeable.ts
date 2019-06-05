@@ -120,7 +120,7 @@ describe('pipeable', () => {
     assert.strictEqual(compose(new Reader((s: string) => s.length))(new Reader(n => n * 2)).run('aa'), 4)
   })
 
-  it('pipeOp', () => {
+  it('pipe', () => {
     const f = (n: number) => n + 1
     const g = (n: number) => n * 2
     assert.strictEqual(
