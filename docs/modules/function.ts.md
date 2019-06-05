@@ -15,6 +15,7 @@ parent: Modules
 - [Refinement (type alias)](#refinement-type-alias)
 - [unsafeCoerce (constant)](#unsafecoerce-constant)
 - [absurd (function)](#absurd-function)
+- [compose (function)](#compose-function)
 - [constFalse (function)](#constfalse-function)
 - [constNull (function)](#constnull-function)
 - [constTrue (function)](#consttrue-function)
@@ -26,7 +27,6 @@ parent: Modules
 - [identity (function)](#identity-function)
 - [increment (function)](#increment-function)
 - [not (function)](#not-function)
-- [pipe (function)](#pipe-function)
 - [tuple (function)](#tuple-function)
 
 ---
@@ -99,6 +99,66 @@ Added in v2.0.0
 
 ```ts
 export function absurd<A>(_: never): A { ... }
+```
+
+Added in v2.0.0
+
+# compose (function)
+
+**Important**: function composition goes from left to right
+
+**Signature**
+
+```ts
+export function compose<A, B>(ab: (a: A) => B): (a: A) => B
+export function compose<A, B, C>(ab: (a: A) => B, bc: (b: B) => C): (a: A) => C
+export function compose<A, B, C, D>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D): (a: A) => D
+export function compose<A, B, C, D, E>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E): (a: A) => E
+export function compose<A, B, C, D, E, F>(
+  ab: (a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E,
+  ef: (e: E) => F
+): (a: A) => F
+export function compose<A, B, C, D, E, F, G>(
+  ab: (a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E,
+  ef: (e: E) => F,
+  fg: (f: F) => G
+): (a: A) => G
+export function compose<A, B, C, D, E, F, G, H>(
+  ab: (a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E,
+  ef: (e: E) => F,
+  fg: (f: F) => G,
+  gh: (g: G) => H
+): (a: A) => H
+export function compose<A, B, C, D, E, F, G, H, I>(
+  ab: (a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E,
+  ef: (e: E) => F,
+  fg: (f: F) => G,
+  gh: (g: G) => H,
+  hi: (h: H) => I
+): (a: A) => I
+export function compose<A, B, C, D, E, F, G, H, I, J>(
+  ab: (a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E,
+  ef: (e: E) => F,
+  fg: (f: F) => G,
+  gh: (g: G) => H,
+  hi: (h: H) => I,
+  ij: (i: I) => J
+): (a: A) => J { ... }
 ```
 
 Added in v2.0.0
@@ -221,64 +281,6 @@ Added in v2.0.0
 
 ```ts
 export function not<A>(predicate: Predicate<A>): Predicate<A> { ... }
-```
-
-Added in v2.0.0
-
-# pipe (function)
-
-**Signature**
-
-```ts
-export function pipe<A, B>(ab: (a: A) => B): (a: A) => B
-export function pipe<A, B, C>(ab: (a: A) => B, bc: (b: B) => C): (a: A) => C
-export function pipe<A, B, C, D>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D): (a: A) => D
-export function pipe<A, B, C, D, E>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E): (a: A) => E
-export function pipe<A, B, C, D, E, F>(
-  ab: (a: A) => B,
-  bc: (b: B) => C,
-  cd: (c: C) => D,
-  de: (d: D) => E,
-  ef: (e: E) => F
-): (a: A) => F
-export function pipe<A, B, C, D, E, F, G>(
-  ab: (a: A) => B,
-  bc: (b: B) => C,
-  cd: (c: C) => D,
-  de: (d: D) => E,
-  ef: (e: E) => F,
-  fg: (f: F) => G
-): (a: A) => G
-export function pipe<A, B, C, D, E, F, G, H>(
-  ab: (a: A) => B,
-  bc: (b: B) => C,
-  cd: (c: C) => D,
-  de: (d: D) => E,
-  ef: (e: E) => F,
-  fg: (f: F) => G,
-  gh: (g: G) => H
-): (a: A) => H
-export function pipe<A, B, C, D, E, F, G, H, I>(
-  ab: (a: A) => B,
-  bc: (b: B) => C,
-  cd: (c: C) => D,
-  de: (d: D) => E,
-  ef: (e: E) => F,
-  fg: (f: F) => G,
-  gh: (g: G) => H,
-  hi: (h: H) => I
-): (a: A) => I
-export function pipe<A, B, C, D, E, F, G, H, I, J>(
-  ab: (a: A) => B,
-  bc: (b: B) => C,
-  cd: (c: C) => D,
-  de: (d: D) => E,
-  ef: (e: E) => F,
-  fg: (f: F) => G,
-  gh: (g: G) => H,
-  hi: (h: H) => I,
-  ij: (i: I) => J
-): (a: A) => J { ... }
 ```
 
 Added in v2.0.0

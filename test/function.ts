@@ -10,7 +10,7 @@ import {
   identity,
   increment,
   not,
-  pipe,
+  compose,
   unsafeCoerce,
   absurd
 } from '../src/function'
@@ -24,17 +24,17 @@ describe('function', () => {
     assert.strictEqual(flip(f)('aaa', 2), -1)
   })
 
-  it('pipe', () => {
-    assert.strictEqual(pipe(f)(2), 3)
+  it('compose', () => {
+    assert.strictEqual(compose(f)(2), 3)
     assert.strictEqual(
-      pipe(
+      compose(
         f,
         g
       )(2),
       6
     )
     assert.strictEqual(
-      pipe(
+      compose(
         f,
         g,
         f
@@ -42,7 +42,7 @@ describe('function', () => {
       7
     )
     assert.strictEqual(
-      pipe(
+      compose(
         f,
         g,
         f,
@@ -51,7 +51,7 @@ describe('function', () => {
       14
     )
     assert.strictEqual(
-      pipe(
+      compose(
         f,
         g,
         f,
@@ -61,7 +61,7 @@ describe('function', () => {
       15
     )
     assert.strictEqual(
-      pipe(
+      compose(
         f,
         g,
         f,
@@ -72,7 +72,7 @@ describe('function', () => {
       30
     )
     assert.strictEqual(
-      pipe(
+      compose(
         f,
         g,
         f,
@@ -84,7 +84,7 @@ describe('function', () => {
       31
     )
     assert.strictEqual(
-      pipe(
+      compose(
         f,
         g,
         f,
@@ -97,7 +97,7 @@ describe('function', () => {
       62
     )
     assert.strictEqual(
-      pipe(
+      compose(
         f,
         g,
         f,
