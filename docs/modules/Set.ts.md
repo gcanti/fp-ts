@@ -96,7 +96,7 @@ Test if a value is a member of a set
 **Signature**
 
 ```ts
-export function elem<A>(E: Eq<A>): (a: A) => (set: Set<A>) => boolean { ... }
+export function elem<A>(E: Eq<A>): (a: A, set: Set<A>) => boolean { ... }
 ```
 
 Added in v2.0.0

@@ -133,7 +133,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function elem<A>(E: Eq<A>): (a: A) => (fa: Record<string, A>) => boolean { ... }
+export function elem<A>(E: Eq<A>): (a: A, fa: Record<string, A>) => boolean { ... }
 ```
 
 Added in v2.0.0
@@ -317,7 +317,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function hasOwnProperty<K extends string>(k: K): (r: Record<K, unknown>) => boolean { ... }
+export function hasOwnProperty<K extends string>(k: K, r: Record<K, unknown>): boolean { ... }
 ```
 
 Added in v2.0.0
@@ -375,7 +375,7 @@ Lookup the value for a key in a record
 **Signature**
 
 ```ts
-export function lookup(k: string): <A>(r: Record<string, A>) => Option<A> { ... }
+export function lookup<A>(k: string, r: Record<string, A>): Option<A> { ... }
 ```
 
 Added in v2.0.0

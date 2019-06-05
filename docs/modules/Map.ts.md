@@ -94,7 +94,7 @@ Test whether or not a value is a member of a map
 **Signature**
 
 ```ts
-export function elem<A>(E: Eq<A>): (a: A) => <K>(m: Map<K, A>) => boolean { ... }
+export function elem<A>(E: Eq<A>): <K>(a: A, m: Map<K, A>) => boolean { ... }
 ```
 
 Added in v2.0.0
@@ -234,7 +234,7 @@ Lookup the value for a key in a `Map`.
 **Signature**
 
 ```ts
-export function lookup<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Option<A> { ... }
+export function lookup<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Option<A> { ... }
 ```
 
 Added in v2.0.0
@@ -247,7 +247,7 @@ If the result is a `Some`, the existing key is also returned.
 **Signature**
 
 ```ts
-export function lookupWithKey<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Option<[K, A]> { ... }
+export function lookupWithKey<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Option<[K, A]> { ... }
 ```
 
 Added in v2.0.0
@@ -259,7 +259,7 @@ Test whether or not a key exists in a map
 **Signature**
 
 ```ts
-export function member<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => boolean { ... }
+export function member<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => boolean { ... }
 ```
 
 Added in v2.0.0

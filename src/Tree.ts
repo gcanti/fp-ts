@@ -208,16 +208,14 @@ export function unfoldForestM<M>(
 /**
  * @since 2.0.0
  */
-export function elem<A>(E: Eq<A>): (a: A) => (fa: Tree<A>) => boolean {
-  return a => {
-    const go = (fa: Tree<A>): boolean => {
-      if (E.equals(a, fa.value)) {
-        return true
-      }
-      return fa.forest.some(tree => go(tree))
+export function elem<A>(E: Eq<A>): (a: A, fa: Tree<A>) => boolean {
+  const go = (a: A, fa: Tree<A>): boolean => {
+    if (E.equals(a, fa.value)) {
+      return true
     }
-    return go
+    return fa.forest.some(tree => go(a, tree))
   }
+  return go
 }
 
 /**

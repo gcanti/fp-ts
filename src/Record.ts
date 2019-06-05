@@ -141,8 +141,8 @@ const _hasOwnProperty = Object.prototype.hasOwnProperty
 /**
  * @since 2.0.0
  */
-export function hasOwnProperty<K extends string>(k: K): (r: Record<K, unknown>) => boolean {
-  return r => _hasOwnProperty.call(r, k)
+export function hasOwnProperty<K extends string>(k: K, r: Record<K, unknown>): boolean {
+  return _hasOwnProperty.call(r, k)
 }
 
 /**
@@ -173,9 +173,10 @@ export function pop<K extends string>(
   k: K
 ): <KS extends string, A>(d: Record<KS, A>) => Option<[A, Record<string extends K ? string : Exclude<KS, K>, A>]>
 export function pop(k: string): <A>(r: Record<string, A>) => Option<[A, Record<string, A>]> {
+  const removek = remove(k)
   return r => {
-    const a = lookup(k)(r)
-    return isNone(a) ? none : optionSome([a.value, remove(k)(r)])
+    const a = lookup(k, r)
+    return isNone(a) ? none : optionSome([a.value, removek(r)])
   }
 }
 
@@ -247,8 +248,8 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>> {
  *
  * @since 2.0.0
  */
-export function lookup(k: string): <A>(r: Record<string, A>) => Option<A> {
-  return r => (_hasOwnProperty.call(r, k) ? optionSome(r[k]) : none)
+export function lookup<A>(k: string, r: Record<string, A>): Option<A> {
+  return _hasOwnProperty.call(r, k) ? optionSome(r[k]) : none
 }
 
 /**
@@ -559,8 +560,15 @@ export function some<A>(predicate: (a: A) => boolean): (r: Record<string, A>) =>
 /**
  * @since 2.0.0
  */
-export function elem<A>(E: Eq<A>): (a: A) => (fa: Record<string, A>) => boolean {
-  return a => some(x => E.equals(x, a))
+export function elem<A>(E: Eq<A>): (a: A, fa: Record<string, A>) => boolean {
+  return (a, fa) => {
+    for (const k in fa) {
+      if (E.equals(fa[k], a)) {
+        return true
+      }
+    }
+    return false
+  }
 }
 
 /**

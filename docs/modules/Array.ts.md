@@ -375,7 +375,7 @@ an array of type `Array<A>`.
 **Signature**
 
 ```ts
-export function elem<A>(E: Eq<A>): (a: A) => (as: Array<A>) => boolean { ... }
+export function elem<A>(E: Eq<A>): (a: A, as: Array<A>) => boolean { ... }
 ```
 
 **Example**
@@ -384,8 +384,8 @@ export function elem<A>(E: Eq<A>): (a: A) => (as: Array<A>) => boolean { ... }
 import { elem } from 'fp-ts/lib/Array'
 import { eqNumber } from 'fp-ts/lib/Eq'
 
-assert.strictEqual(elem(eqNumber)(1)([1, 2, 3]), true)
-assert.strictEqual(elem(eqNumber)(4)([1, 2, 3]), false)
+assert.strictEqual(elem(eqNumber)(1, [1, 2, 3]), true)
+assert.strictEqual(elem(eqNumber)(4, [1, 2, 3]), false)
 ```
 
 Added in v2.0.0
@@ -797,7 +797,7 @@ Test whether an array contains a particular index
 **Signature**
 
 ```ts
-export function isOutOfBound<A>(i: number): (as: Array<A>) => boolean { ... }
+export function isOutOfBound<A>(i: number, as: Array<A>): boolean { ... }
 ```
 
 Added in v2.0.0
@@ -852,7 +852,7 @@ This function provides a safe way to read a value at a particular index from an 
 **Signature**
 
 ```ts
-export function lookup(i: number): <A>(as: Array<A>) => Option<A> { ... }
+export function lookup<A>(i: number, as: Array<A>): Option<A> { ... }
 ```
 
 **Example**
@@ -861,8 +861,8 @@ export function lookup(i: number): <A>(as: Array<A>) => Option<A> { ... }
 import { lookup } from 'fp-ts/lib/Array'
 import { some, none } from 'fp-ts/lib/Option'
 
-assert.deepStrictEqual(lookup(1)([1, 2, 3]), some(2))
-assert.deepStrictEqual(lookup(3)([1, 2, 3]), none)
+assert.deepStrictEqual(lookup(1, [1, 2, 3]), some(2))
+assert.deepStrictEqual(lookup(3, [1, 2, 3]), none)
 ```
 
 Added in v2.0.0

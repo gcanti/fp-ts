@@ -306,8 +306,8 @@ export function isEmpty<A>(as: Array<A>): boolean {
  *
  * @since 2.0.0
  */
-export function isOutOfBound<A>(i: number): (as: Array<A>) => boolean {
-  return as => i < 0 || i >= as.length
+export function isOutOfBound<A>(i: number, as: Array<A>): boolean {
+  return i < 0 || i >= as.length
 }
 
 /**
@@ -317,14 +317,13 @@ export function isOutOfBound<A>(i: number): (as: Array<A>) => boolean {
  * import { lookup } from 'fp-ts/lib/Array'
  * import { some, none } from 'fp-ts/lib/Option'
  *
- * assert.deepStrictEqual(lookup(1)([1, 2, 3]), some(2))
- * assert.deepStrictEqual(lookup(3)([1, 2, 3]), none)
+ * assert.deepStrictEqual(lookup(1, [1, 2, 3]), some(2))
+ * assert.deepStrictEqual(lookup(3, [1, 2, 3]), none)
  *
  * @since 2.0.0
  */
-export function lookup(i: number): <A>(as: Array<A>) => Option<A> {
-  const is = isOutOfBound(i)
-  return as => (is(as) ? none : some(as[i]))
+export function lookup<A>(i: number, as: Array<A>): Option<A> {
+  return isOutOfBound(i, as) ? none : some(as[i])
 }
 
 /**
@@ -396,7 +395,7 @@ export function head<A>(as: Array<A>): Option<A> {
  * @since 2.0.0
  */
 export function last<A>(as: Array<A>): Option<A> {
-  return lookup(as.length - 1)(as)
+  return lookup(as.length - 1, as)
 }
 
 /**
@@ -806,8 +805,7 @@ export function unsafeUpdateAt<A>(i: number, a: A, as: Array<A>): Array<A> {
  * @since 2.0.0
  */
 export function updateAt<A>(i: number, a: A): (as: Array<A>) => Option<Array<A>> {
-  const is = isOutOfBound(i)
-  return as => (is(as) ? none : some(unsafeUpdateAt(i, a, as)))
+  return as => (isOutOfBound(i, as) ? none : some(unsafeUpdateAt(i, a, as)))
 }
 
 /**
@@ -832,8 +830,7 @@ export function unsafeDeleteAt<A>(i: number, as: Array<A>): Array<A> {
  * @since 2.0.0
  */
 export function deleteAt(i: number): <A>(as: Array<A>) => Option<Array<A>> {
-  const is = isOutOfBound(i)
-  return as => (is(as) ? none : some(unsafeDeleteAt(i, as)))
+  return as => (isOutOfBound(i, as) ? none : some(unsafeDeleteAt(i, as)))
 }
 
 /**
@@ -851,8 +848,7 @@ export function deleteAt(i: number): <A>(as: Array<A>) => Option<Array<A>> {
  * @since 2.0.0
  */
 export function modifyAt<A>(i: number, f: (a: A) => A): (as: Array<A>) => Option<Array<A>> {
-  const is = isOutOfBound(i)
-  return as => (is(as) ? none : some(unsafeUpdateAt(i, f(as[i]), as)))
+  return as => (isOutOfBound(i, as) ? none : some(unsafeUpdateAt(i, f(as[i]), as)))
 }
 
 /**
@@ -1019,13 +1015,13 @@ export function rotate(n: number): <A>(as: Array<A>) => Array<A> {
  * import { elem } from 'fp-ts/lib/Array'
  * import { eqNumber } from 'fp-ts/lib/Eq'
  *
- * assert.strictEqual(elem(eqNumber)(1)([1, 2, 3]), true)
- * assert.strictEqual(elem(eqNumber)(4)([1, 2, 3]), false)
+ * assert.strictEqual(elem(eqNumber)(1, [1, 2, 3]), true)
+ * assert.strictEqual(elem(eqNumber)(4, [1, 2, 3]), false)
  *
  * @since 2.0.0
  */
-export function elem<A>(E: Eq<A>): (a: A) => (as: Array<A>) => boolean {
-  return a => as => {
+export function elem<A>(E: Eq<A>): (a: A, as: Array<A>) => boolean {
+  return (a, as) => {
     const predicate = (element: A) => E.equals(element, a)
     let i = 0
     const len = as.length
@@ -1057,7 +1053,7 @@ export function uniq<A>(E: Eq<A>): (as: Array<A>) => Array<A> {
     let i = 0
     for (; i < len; i++) {
       const a = as[i]
-      if (!elemS(a)(r)) {
+      if (!elemS(a, r)) {
         r.push(a)
       }
     }
@@ -1162,8 +1158,7 @@ export function splitAt(n: number): <A>(as: Array<A>) => [Array<A>, Array<A>] {
  * @since 2.0.0
  */
 export function chunksOf(n: number): <A>(as: Array<A>) => Array<Array<A>> {
-  const is = isOutOfBound(n - 1)
-  return as => (is(as) ? [as] : chop(splitAt(n))(as))
+  return as => (isOutOfBound(n - 1, as) ? [as] : chop(splitAt(n))(as))
 }
 
 /**
@@ -1231,7 +1226,7 @@ export function comprehension<R>(
  */
 export function union<A>(E: Eq<A>): (xs: Array<A>, ys: Array<A>) => Array<A> {
   const elemE = elem(E)
-  return (xs, ys) => concat(xs, ys.filter(a => !elemE(a)(xs)))
+  return (xs, ys) => concat(xs, ys.filter(a => !elemE(a, xs)))
 }
 
 /**
@@ -1248,7 +1243,7 @@ export function union<A>(E: Eq<A>): (xs: Array<A>, ys: Array<A>) => Array<A> {
  */
 export function intersection<A>(E: Eq<A>): (xs: Array<A>, ys: Array<A>) => Array<A> {
   const elemE = elem(E)
-  return (xs, ys) => xs.filter(a => elemE(a)(ys))
+  return (xs, ys) => xs.filter(a => elemE(a, ys))
 }
 
 /**
@@ -1265,7 +1260,7 @@ export function intersection<A>(E: Eq<A>): (xs: Array<A>, ys: Array<A>) => Array
  */
 export function difference<A>(E: Eq<A>): (xs: Array<A>, ys: Array<A>) => Array<A> {
   const elemE = elem(E)
-  return (xs, ys) => xs.filter(a => !elemE(a)(ys))
+  return (xs, ys) => xs.filter(a => !elemE(a, ys))
 }
 
 const identity = <A>(a: A): A => a
