@@ -176,6 +176,7 @@ export const fromCompare = <A>(compare: (x: A, y: A) => Ordering): Ord<A> => {
 }
 
 function _contramap<A, B>(f: (b: B) => A, O: Ord<A>): Ord<B> {
+  // tslint:disable-next-line: deprecation
   return fromCompare(on(O.compare)(f))
 }
 

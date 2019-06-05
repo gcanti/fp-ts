@@ -1,4 +1,3 @@
-import { phantom } from './function'
 import { Functor2 } from './Functor'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
@@ -102,7 +101,7 @@ export const censor = <W, A>(fa: Writer<W, A>, f: (w: W) => W): Writer<W, A> => 
 export const getMonad = <W>(M: Monoid<W>): Monad2C<URI, W> => {
   return {
     URI,
-    _L: phantom,
+    _L: undefined as any,
     map: writer.map,
     of: a => new Writer(() => [a, M.empty]),
     ap: (fab, fa) =>

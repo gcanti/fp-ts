@@ -12,7 +12,7 @@ import { Compactable2C, Separated } from './Compactable'
 import { Either } from './Either'
 import { Filterable2C } from './Filterable'
 import { Foldable2v2 } from './Foldable2v'
-import { phantom, Predicate, toString, Refinement, Lazy } from './function'
+import { Predicate, toString, Refinement, Lazy } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
@@ -250,7 +250,7 @@ export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => {
 
   return {
     URI,
-    _L: phantom,
+    _L: undefined as any,
     map,
     of,
     ap
@@ -394,7 +394,7 @@ export const getAlt = <L>(S: Semigroup<L>): Alt2C<URI, L> => {
   }
   return {
     URI,
-    _L: phantom,
+    _L: undefined as any,
     map,
     alt
   }
@@ -454,7 +454,7 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
   }
   return {
     URI,
-    _L: phantom,
+    _L: undefined as any,
     compact,
     separate
   }

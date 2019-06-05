@@ -5,7 +5,7 @@ import { Functor2 } from './Functor'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Eq, fromEquals } from './Eq'
-import { phantom, toString } from './function'
+import { toString } from './function'
 import { Show } from './Show'
 import { pipeable } from './pipeable'
 
@@ -80,7 +80,7 @@ export function getEq<L, A>(S: Eq<L>): Eq<Const<L, A>> {
 export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => {
   return {
     URI,
-    _L: phantom,
+    _L: undefined as any,
     map: const_.map,
     ap: (fab, fa) => make(S.concat(fab.value, fa.value))
   }

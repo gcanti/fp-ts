@@ -80,6 +80,7 @@ export const not = <A>(predicate: Predicate<A>): Predicate<A> => {
 
 /**
  * @since 1.0.0
+ * @deprecated
  */
 export function or<A, B1 extends A, B2 extends A>(p1: Refinement<A, B1>, p2: Refinement<A, B2>): Refinement<A, B1 | B2>
 export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A>
@@ -89,6 +90,7 @@ export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> {
 
 /**
  * @since 1.0.0
+ * @deprecated
  */
 export const and = <A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> => {
   return a => p1(a) && p2(a)
@@ -96,6 +98,7 @@ export const and = <A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> => {
 
 export type Endomorphism<A> = (a: A) => A
 
+/** @deprecated */
 export type BinaryOperation<A, B> = (a1: A, a2: A) => B
 
 /** @deprecated */
@@ -169,7 +172,9 @@ export const flip = <A, B, C>(f: Curried2<A, B, C>): Curried2<B, A, C> => {
  * The `on` function is used to change the domain of a binary operator.
  *
  * @since 1.0.0
+ * @deprecated
  */
+// tslint:disable-next-line: deprecation
 export const on = <B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): BinaryOperation<A, C> => {
   return (x, y) => op(f(x), f(y))
 }
@@ -453,6 +458,7 @@ export const applyFlipped = <A>(a: A) => <B>(f: (a: A) => B): B => {
  * For use with phantom fields
  *
  * @since 1.0.0
+ * @deprecated
  */
 export const phantom: any = undefined
 

@@ -32,6 +32,7 @@ describe('function', () => {
   })
 
   it('on', () => {
+    // tslint:disable-next-line: deprecation
     const stringH = on((a: number, b: number) => a - b)((s: string) => s.length)
     assert.strictEqual(stringH('abcde', 'ab'), 3)
   })
@@ -259,6 +260,7 @@ describe('function', () => {
     }
     const isB = (a: A): a is B => a instanceof B
     const isC = (a: A): a is C => a instanceof C
+    // tslint:disable-next-line: deprecation
     const isBOrC = or(isB, isC)
     function f(a: any): 'B' | 'C' | 'else' {
       if (isBOrC(a)) {
@@ -275,6 +277,7 @@ describe('function', () => {
     // as predicate
     const lt3 = (n: number) => n < 3
     const gt2 = (n: number) => n > 2
+    // tslint:disable-next-line: deprecation
     const between2and3 = and(gt2, lt3)
     assert.strictEqual(between2and3(1), false)
     assert.strictEqual(between2and3(4), false)

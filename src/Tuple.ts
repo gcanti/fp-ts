@@ -8,7 +8,7 @@ import { Chain2C } from './Chain'
 import { ChainRec2C } from './ChainRec'
 import { Comonad2 } from './Comonad'
 import { Foldable2v2 } from './Foldable2v'
-import { phantom, toString } from './function'
+import { toString } from './function'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
@@ -131,7 +131,7 @@ export const getMonoid = <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A
 export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => {
   return {
     URI,
-    _L: phantom,
+    _L: undefined as any,
     map: tuple.map,
     ap: (fab, fa) => new Tuple(S.concat(fab.fst, fa.fst), fab.snd(fa.snd))
   }
