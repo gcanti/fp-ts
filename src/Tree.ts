@@ -61,7 +61,7 @@ export function make<A>(value: A, forest: Forest<A> = empty): Tree<A> {
  */
 export function getShow<A>(S: Show<A>): Show<Tree<A>> {
   const show = (t: Tree<A>): string => {
-    return t.forest === empty
+    return t.forest === empty || t.forest.length === 0
       ? `make(${S.show(t.value)})`
       : `make(${S.show(t.value)}, [${t.forest.map(show).join(', ')}])`
   }
