@@ -154,8 +154,6 @@ import * as taskEither from './TaskEither'
 export { taskEither }
 import * as these from './These'
 export { these }
-import * as trace from './Trace'
-export { trace }
 import * as traced from './Traced'
 export { traced }
 import * as traversable from './Traversable'
