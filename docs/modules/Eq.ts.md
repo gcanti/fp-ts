@@ -43,7 +43,7 @@ export interface Eq<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v1.19.0
 
 # eqBoolean (constant)
 
@@ -53,7 +53,7 @@ Added in v2.0.0
 export const eqBoolean: Eq<boolean> = ...
 ```
 
-Added in v2.0.0
+Added in v1.19.0
 
 # eqDate (constant)
 
@@ -63,7 +63,7 @@ Added in v2.0.0
 export const eqDate: Eq<Date> = ...
 ```
 
-Added in v2.0.0
+Added in v1.19.0
 
 # eqNumber (constant)
 
@@ -73,7 +73,7 @@ Added in v2.0.0
 export const eqNumber: Eq<number> = ...
 ```
 
-Added in v2.0.0
+Added in v1.19.0
 
 # eqString (constant)
 
@@ -83,7 +83,7 @@ Added in v2.0.0
 export const eqString: Eq<string> = ...
 ```
 
-Added in v2.0.0
+Added in v1.19.0
 
 # contramap (function)
 
@@ -95,7 +95,7 @@ Returns the `Eq` corresponding to the partitions of `B` induced by `f`
 export function contramap<A, B>(E: Eq<A>, f: (b: B) => A): Eq<B> { ... }
 ```
 
-Added in v2.0.0
+Added in v1.19.0
 
 # fromEquals (function)
 
@@ -105,7 +105,7 @@ Added in v2.0.0
 export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> { ... }
 ```
 
-Added in v2.0.0
+Added in v1.19.0
 
 # getStructEq (function)
 
@@ -115,7 +115,7 @@ Added in v2.0.0
 export function getStructEq<O extends { [key: string]: any }>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> { ... }
 ```
 
-Added in v2.0.0
+Added in v1.19.0
 
 # getTupleEq (function)
 
@@ -141,7 +141,7 @@ assert.strictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
 assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
 ```
 
-Added in v2.0.0
+Added in v1.19.0
 
 # strictEqual (function)
 
@@ -151,4 +151,4 @@ Added in v2.0.0
 export function strictEqual<A>(a: A, b: A): boolean { ... }
 ```
 
-Added in v2.0.0
+Added in v1.19.0
