@@ -1474,7 +1474,9 @@ const {
   reduce,
   reduceRight,
   reduceRightWithIndex,
-  reduceWithIndex
+  reduceWithIndex,
+  compact,
+  separate
 } = pipeable(array)
 
 export {
@@ -1501,5 +1503,7 @@ export {
   reduce,
   reduceRight,
   reduceRightWithIndex,
-  reduceWithIndex
+  reduceWithIndex,
+  compact,
+  separate
 }

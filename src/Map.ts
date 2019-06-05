@@ -588,6 +588,6 @@ export const map_: Filterable2<URI> = {
   partitionMap: (fa, f) => _partitionMapWithIndex(fa, (_, a) => f(a))
 }
 
-const { filter, filterMap, map, partition, partitionMap } = pipeable(map_)
+const { filter, filterMap, map, partition, partitionMap, compact, separate } = pipeable(map_)
 
-export { filter, filterMap, map, partition, partitionMap }
+export { filter, filterMap, map, partition, partitionMap, compact, separate }

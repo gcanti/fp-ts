@@ -770,6 +770,6 @@ export const record: FunctorWithIndex1<URI, string> &
   }
 }
 
-const { filter, filterMap, foldMap, partition, partitionMap, reduce, reduceRight } = pipeable(record)
+const { filter, filterMap, foldMap, partition, partitionMap, reduce, reduceRight, compact, separate } = pipeable(record)
 
-export { filter, filterMap, foldMap, partition, partitionMap, reduce, reduceRight }
+export { filter, filterMap, foldMap, partition, partitionMap, reduce, reduceRight, compact, separate }
