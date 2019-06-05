@@ -348,6 +348,12 @@ Fu.tuple(1) // $ExpectType [number]
 Fu.tuple(1, 'a') // $ExpectType [number, string]
 Fu.tuple(1, 'a', true) // $ExpectType [number, string, boolean]
 
+// $ExpectType <A>(head: A, tail: A[]) => Option<A>
+Fu.flow(
+  A.cons,
+  A.head
+)
+
 //
 // Filterable overloads
 //

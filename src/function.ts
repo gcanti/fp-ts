@@ -100,50 +100,59 @@ export function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C {
 }
 
 /**
- * **Important**: function composition goes from left to right
+ * Function composition (from left to right).
  *
- * @examples
- * import { compose } from 'fp-ts/lib/function'
+ * @example
+ * import { flow } from 'fp-ts/lib/function'
  *
  * const len = (s: string): number => s.length
  * const double = (n: number): number => n * 2
  *
- * const f = compose(len, double)
+ * const f = flow(len, double)
  *
  * assert.strictEqual(f('aaa'), 6)
  *
  * @since 2.0.0
  */
-export function compose<A, B>(ab: (a: A) => B): (a: A) => B
-export function compose<A, B, C>(ab: (a: A) => B, bc: (b: B) => C): (a: A) => C
-export function compose<A, B, C, D>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D): (a: A) => D
-export function compose<A, B, C, D, E>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E): (a: A) => E
-export function compose<A, B, C, D, E, F>(
-  ab: (a: A) => B,
+export function flow<A extends Array<unknown>, B>(ab: (...a: A) => B): (...a: A) => B
+export function flow<A extends Array<unknown>, B, C>(ab: (...a: A) => B, bc: (b: B) => C): (...a: A) => C
+export function flow<A extends Array<unknown>, B, C, D>(
+  ab: (...a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D
+): (...a: A) => D
+export function flow<A extends Array<unknown>, B, C, D, E>(
+  ab: (...a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E
+): (...a: A) => E
+export function flow<A extends Array<unknown>, B, C, D, E, F>(
+  ab: (...a: A) => B,
   bc: (b: B) => C,
   cd: (c: C) => D,
   de: (d: D) => E,
   ef: (e: E) => F
-): (a: A) => F
-export function compose<A, B, C, D, E, F, G>(
-  ab: (a: A) => B,
+): (...a: A) => F
+export function flow<A extends Array<unknown>, B, C, D, E, F, G>(
+  ab: (...a: A) => B,
   bc: (b: B) => C,
   cd: (c: C) => D,
   de: (d: D) => E,
   ef: (e: E) => F,
   fg: (f: F) => G
-): (a: A) => G
-export function compose<A, B, C, D, E, F, G, H>(
-  ab: (a: A) => B,
+): (...a: A) => G
+export function flow<A extends Array<unknown>, B, C, D, E, F, G, H>(
+  ab: (...a: A) => B,
   bc: (b: B) => C,
   cd: (c: C) => D,
   de: (d: D) => E,
   ef: (e: E) => F,
   fg: (f: F) => G,
   gh: (g: G) => H
-): (a: A) => H
-export function compose<A, B, C, D, E, F, G, H, I>(
-  ab: (a: A) => B,
+): (...a: A) => H
+export function flow<A extends Array<unknown>, B, C, D, E, F, G, H, I>(
+  ab: (...a: A) => B,
   bc: (b: B) => C,
   cd: (c: C) => D,
   de: (d: D) => E,
@@ -151,9 +160,9 @@ export function compose<A, B, C, D, E, F, G, H, I>(
   fg: (f: F) => G,
   gh: (g: G) => H,
   hi: (h: H) => I
-): (a: A) => I
-export function compose<A, B, C, D, E, F, G, H, I, J>(
-  ab: (a: A) => B,
+): (...a: A) => I
+export function flow<A extends Array<unknown>, B, C, D, E, F, G, H, I, J>(
+  ab: (...a: A) => B,
   bc: (b: B) => C,
   cd: (c: C) => D,
   de: (d: D) => E,
@@ -162,12 +171,12 @@ export function compose<A, B, C, D, E, F, G, H, I, J>(
   gh: (g: G) => H,
   hi: (h: H) => I,
   ij: (i: I) => J
-): (a: A) => J
-export function compose(...fns: Array<Function>): Function {
+): (...a: A) => J
+export function flow(...fns: Array<Function>): Function {
   const len = fns.length - 1
-  return function(this: any, x: any) {
-    let y = x
-    for (let i = 0; i <= len; i++) {
+  return function(this: any, ...x: Array<any>) {
+    let y = fns[0].apply(this, x)
+    for (let i = 1; i <= len; i++) {
       y = fns[i].call(this, y)
     }
     return y
