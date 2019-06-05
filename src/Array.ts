@@ -302,6 +302,15 @@ export function isEmpty<A>(as: Array<A>): boolean {
 }
 
 /**
+ * Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
+ *
+ * @since 2.0.0
+ */
+export function isNonEmpty<A>(as: Array<A>): as is NonEmptyArray<A> {
+  return as.length > 0
+}
+
+/**
  * Test whether an array contains a particular index
  *
  * @since 2.0.0
@@ -1113,11 +1122,11 @@ export function sortBy<A>(ords: Array<Ord<A>>): (as: Array<A>) => Array<A> {
  *
  * @since 2.0.0
  */
-export function chop<A, B>(f: (as: Array<A>) => [B, Array<A>]): (as: Array<A>) => Array<B> {
+export function chop<A, B>(f: (as: NonEmptyArray<A>) => [B, Array<A>]): (as: Array<A>) => Array<B> {
   return as => {
     const result: Array<B> = []
     let cs: Array<A> = as
-    while (cs.length > 0) {
+    while (isNonEmpty(cs)) {
       const [b, c] = f(cs)
       result.push(b)
       cs = c

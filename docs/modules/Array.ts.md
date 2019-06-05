@@ -45,6 +45,7 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [insertAt (function)](#insertat-function)
 - [intersection (function)](#intersection-function)
 - [isEmpty (function)](#isempty-function)
+- [isNonEmpty (function)](#isnonempty-function)
 - [isOutOfBound (function)](#isoutofbound-function)
 - [last (function)](#last-function)
 - [lefts (function)](#lefts-function)
@@ -138,7 +139,7 @@ value and the rest of the array.
 **Signature**
 
 ```ts
-export function chop<A, B>(f: (as: Array<A>) => [B, Array<A>]): (as: Array<A>) => Array<B> { ... }
+export function chop<A, B>(f: (as: NonEmptyArray<A>) => [B, Array<A>]): (as: Array<A>) => Array<B> { ... }
 ```
 
 **Example**
@@ -786,6 +787,18 @@ export function isEmpty<A>(as: Array<A>): boolean { ... }
 import { isEmpty } from 'fp-ts/lib/Array'
 
 assert.strictEqual(isEmpty([]), true)
+```
+
+Added in v2.0.0
+
+# isNonEmpty (function)
+
+Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
+
+**Signature**
+
+```ts
+export function isNonEmpty<A>(as: Array<A>): as is NonEmptyArray<A> { ... }
 ```
 
 Added in v2.0.0

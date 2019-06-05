@@ -56,7 +56,8 @@ import {
   findLastMap,
   getShow,
   reverse,
-  getEq
+  getEq,
+  isNonEmpty
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
@@ -150,6 +151,11 @@ describe('Array', () => {
   it('isEmpty', () => {
     assert.strictEqual(isEmpty(as), false)
     assert.strictEqual(isEmpty([]), true)
+  })
+
+  it('isNotEmpty', () => {
+    assert.strictEqual(isNonEmpty(as), true)
+    assert.strictEqual(isNonEmpty([]), false)
   })
 
   it('cons', () => {
