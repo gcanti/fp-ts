@@ -209,21 +209,21 @@ R.toArray(l1) // $ExpectType ["a", number][]
 R.toArray(d1) // $ExpectType [string, number][]
 R.toArray(r1) // $ExpectType ["a" | "b", number][]
 
-R.insert('b', 0)({ a: 1 }) // $ExpectType Record<"a" | "b", number>
-R.insert('b', 0)(l1) // $ExpectType Record<"a" | "b", number>
-R.insert('b', 0)(d1) // $ExpectType Record<string, number>
-R.insert('b', 0)(r1) // $ExpectType Record<"a" | "b", number>
-R.insert(stringKey, 0)(r1) // $ExpectType Record<string, number>
-R.insert('c', 0)(r1) // $ExpectType Record<"a" | "b" | "c", number>
+R.insertAt('b', 0)({ a: 1 }) // $ExpectType Record<"a" | "b", number>
+R.insertAt('b', 0)(l1) // $ExpectType Record<"a" | "b", number>
+R.insertAt('b', 0)(d1) // $ExpectType Record<string, number>
+R.insertAt('b', 0)(r1) // $ExpectType Record<"a" | "b", number>
+R.insertAt(stringKey, 0)(r1) // $ExpectType Record<string, number>
+R.insertAt('c', 0)(r1) // $ExpectType Record<"a" | "b" | "c", number>
 
-R.remove('a')({ a: 1 }) // $ExpectType Record<never, number>
-R.remove('b')({ a: 1 }) // $ExpectType Record<"a", number>
-R.remove('a')(l1) // $ExpectType Record<never, number>
-R.remove('b')(l1) // $ExpectType Record<"a", number>
-R.remove('b')(d1) // $ExpectType Record<string, number>
-R.remove('c')(r1) // $ExpectType Record<"a" | "b", number>
-R.remove('a')(r1) // $ExpectType Record<"b", number>
-R.remove(stringKey)(r1) // $ExpectType Record<string, number>
+R.deleteAt('a')({ a: 1 }) // $ExpectType Record<never, number>
+R.deleteAt('b')({ a: 1 }) // $ExpectType Record<"a", number>
+R.deleteAt('a')(l1) // $ExpectType Record<never, number>
+R.deleteAt('b')(l1) // $ExpectType Record<"a", number>
+R.deleteAt('b')(d1) // $ExpectType Record<string, number>
+R.deleteAt('c')(r1) // $ExpectType Record<"a" | "b", number>
+R.deleteAt('a')(r1) // $ExpectType Record<"b", number>
+R.deleteAt(stringKey)(r1) // $ExpectType Record<string, number>
 
 R.mapWithIndex((_k: 'a', n: number) => n > 2)({ a: 1 }) // $ExpectType Record<"a", boolean>
 R.mapWithIndex((_k: 'a', n: number) => n > 2)(l1) // $ExpectType Record<"a", boolean>
