@@ -65,6 +65,9 @@ pipeOp(
     - add `foldMapWithIndex` (@gcanti)
     - add `reduceRightWithIndex` (@gcanti)
     - add `hasOwnProperty` (@gcanti)
+  - `Map`
+    - backport `updateAt` (@gcanti)
+    - backport `modifyAt` (@gcanti)
 - **Deprecations**
   - deprecate `Setoid` in favour of `Eq` (@gcanti)
   - `Applicative`
@@ -147,8 +150,6 @@ pipeOp(
     - deprecate `voidRight` (@gcanti)
     - deprecate `voidLeft` (@gcanti)
     - deprecate `flap` (@gcanti)
-  - `Monoid`
-    - deprecate `getArrayMonoid` in favour of `Array`'s `getMonoid` (@gcanti)
   - `Validation`
     - deprecate `Validation` module in favour of `Either`'s:
       - `getValidation` (@gcanti)
@@ -163,7 +164,12 @@ pipeOp(
     - add `right2v` (@gcanti)
   - `IxIO` module is deprecated (@gcanti)
   - `IxMonad` module is deprecated (@gcanti)
+  - `Map`
+    - deprecate `insert` in fabour of `insertAt` (@gcanti)
+    - deprecate `remove` in fabour of `deleteAt` (@gcanti)
   - `MonadThrow` module is deprecated (@gcanti)
+  - `Monoid`
+    - deprecate `getArrayMonoid` in favour of `Array`'s `getMonoid` (@gcanti)
   - `Monoidal` module is deprecated (@gcanti)
   - `NonEmptyArray`
     - deprecate uncurried `groupBy` in favour of curried, data-last `groupBy` (@gcanti)
