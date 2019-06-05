@@ -1,24 +1,24 @@
 import { Applicative } from './Applicative'
 import { Compactable2, Separated } from './Compactable'
 import { Either } from './Either'
+import { Eq, fromEquals } from './Eq'
+import { Filterable2 } from './Filterable'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
-import { Foldable2v2C, Foldable2v3, Foldable2v2, Foldable2v1, Foldable2v } from './Foldable2v'
+import { Foldable2v, Foldable2v1, Foldable2v2, Foldable2v2C, Foldable2v3 } from './Foldable2v'
 import { FoldableWithIndex2C } from './FoldableWithIndex'
 import { Predicate } from './function'
+import { Functor2 } from './Functor'
+import { FunctorWithIndex2C } from './FunctorWithIndex'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
-import { Option, none, some } from './Option'
+import { isNone, none, Option, some } from './Option'
 import { Ord } from './Ord'
-import { Eq, fromEquals } from './Eq'
+import { Semigroup } from './Semigroup'
+import { Show } from './Show'
+import { Traversable2v2C } from './Traversable2v'
 import { TraversableWithIndex2C } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
-import { Semigroup } from './Semigroup'
 import { Witherable2C } from './Witherable'
-import { FunctorWithIndex2C } from './FunctorWithIndex'
-import { Functor2 } from './Functor'
-import { Traversable2v2C } from './Traversable2v'
-import { Filterable2 } from './Filterable'
-import { Show } from './Show'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -148,9 +148,10 @@ export function toUnfoldable<K, F>(O: Ord<K>, unfoldable: Unfoldable<F>): <A>(d:
 }
 
 /**
- * Insert or replace a key/value pair in a map
+ * Use `insertAt`
  *
  * @since 1.14.0
+ * @deprecated
  */
 export const insert = <K>(E: Eq<K>): (<A>(k: K, a: A, m: Map<K, A>) => Map<K, A>) => {
   const lookupE = lookupWithKey(E)
@@ -170,9 +171,10 @@ export const insert = <K>(E: Eq<K>): (<A>(k: K, a: A, m: Map<K, A>) => Map<K, A>
 }
 
 /**
- * Delete a key and value from a map
+ * Use `deleteAt`
  *
  * @since 1.14.0
+ * @deprecated
  */
 export const remove = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) => {
   const lookupE = lookupWithKey(E)
@@ -194,6 +196,7 @@ export const remove = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) => {
  */
 export const pop = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => Option<[A, Map<K, A>]>) => {
   const lookupE = lookup(E)
+  // tslint:disable-next-line: deprecation
   const removeE = remove(E)
   return (k, m) => lookupE(k, m).map(a => [a, removeE(k, m)])
 }
@@ -762,4 +765,62 @@ export const map: Filterable2<URI> = {
   ...compactable,
   ...functor,
   ...filterable
+}
+
+//
+// backporting
+//
+
+/**
+ * Insert or replace a key/value pair in a map
+ *
+ * @since 1.19.0
+ */
+export function insertAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A> {
+  // tslint:disable-next-line: deprecation
+  const insertE = insert(E)
+  return (k, a) => m => insertE(k, a, m)
+}
+
+/**
+ * Delete a key and value from a map
+ *
+ * @since 1.19.0
+ */
+export function deleteAt<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Map<K, A> {
+  // tslint:disable-next-line: deprecation
+  const removeE = remove(E)
+  return k => m => removeE(k, m)
+}
+
+/**
+ * @since 1.19.0
+ */
+export function updateAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: Map<K, A>) => Option<Map<K, A>> {
+  const lookupWithKeyE = lookupWithKey(E)
+  return (k, a) => m => {
+    const found = lookupWithKeyE(k, m)
+    if (isNone(found)) {
+      return none
+    }
+    const r = new Map(m)
+    r.set(found.value[0], a)
+    return some(r)
+  }
+}
+
+/**
+ * @since 1.19.0
+ */
+export function modifyAt<K>(E: Eq<K>): <A>(k: K, f: (a: A) => A) => (m: Map<K, A>) => Option<Map<K, A>> {
+  const lookupWithKeyE = lookupWithKey(E)
+  return (k, f) => m => {
+    const found = lookupWithKeyE(k, m)
+    if (isNone(found)) {
+      return none
+    }
+    const r = new Map(m)
+    r.set(found.value[0], f(found.value[1]))
+    return some(r)
+  }
 }

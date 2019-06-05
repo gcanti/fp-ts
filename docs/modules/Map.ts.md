@@ -14,6 +14,7 @@ parent: Modules
 - [~~getSetoid~~ (constant)](#getsetoid-constant)
 - [map (constant)](#map-constant)
 - [collect (function)](#collect-function)
+- [deleteAt (function)](#deleteat-function)
 - [elem (function)](#elem-function)
 - [fromFoldable (function)](#fromfoldable-function)
 - [getEq (function)](#geteq-function)
@@ -22,19 +23,22 @@ parent: Modules
 - [getShow (function)](#getshow-function)
 - [getTraversableWithIndex (function)](#gettraversablewithindex-function)
 - [getWitherable (function)](#getwitherable-function)
-- [insert (function)](#insert-function)
+- [~~insert~~ (function)](#insert-function)
+- [insertAt (function)](#insertat-function)
 - [isEmpty (function)](#isempty-function)
 - [isSubmap (function)](#issubmap-function)
 - [keys (function)](#keys-function)
 - [lookup (function)](#lookup-function)
 - [lookupWithKey (function)](#lookupwithkey-function)
 - [member (function)](#member-function)
+- [modifyAt (function)](#modifyat-function)
 - [pop (function)](#pop-function)
-- [remove (function)](#remove-function)
+- [~~remove~~ (function)](#remove-function)
 - [singleton (function)](#singleton-function)
 - [size (function)](#size-function)
 - [toArray (function)](#toarray-function)
 - [toUnfoldable (function)](#tounfoldable-function)
+- [updateAt (function)](#updateat-function)
 - [values (function)](#values-function)
 
 ---
@@ -96,6 +100,18 @@ export const collect = <K>(O: Ord<K>): (<A, B>(m: Map<K, A>, f: (k: K, a: A) => 
 ```
 
 Added in v1.14.0
+
+# deleteAt (function)
+
+Delete a key and value from a map
+
+**Signature**
+
+```ts
+export function deleteAt<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Map<K, A> { ... }
+```
+
+Added in v1.19.0
 
 # elem (function)
 
@@ -199,9 +215,9 @@ export const getWitherable = <K>(O: Ord<K>): Witherable2C<URI, K> => ...
 
 Added in v1.14.0
 
-# insert (function)
+# ~~insert~~ (function)
 
-Insert or replace a key/value pair in a map
+Use `insertAt`
 
 **Signature**
 
@@ -210,6 +226,18 @@ export const insert = <K>(E: Eq<K>): (<A>(k: K, a: A, m: Map<K, A>) => Map<K, A>
 ```
 
 Added in v1.14.0
+
+# insertAt (function)
+
+Insert or replace a key/value pair in a map
+
+**Signature**
+
+```ts
+export function insertAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A> { ... }
+```
+
+Added in v1.19.0
 
 # isEmpty (function)
 
@@ -284,6 +312,16 @@ export const member = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => boolean) => ...
 
 Added in v1.14.0
 
+# modifyAt (function)
+
+**Signature**
+
+```ts
+export function modifyAt<K>(E: Eq<K>): <A>(k: K, f: (a: A) => A) => (m: Map<K, A>) => Option<Map<K, A>> { ... }
+```
+
+Added in v1.19.0
+
 # pop (function)
 
 Delete a key and value from a map, returning the value as well as the subsequent map
@@ -296,9 +334,9 @@ export const pop = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => Option<[A, Map<K, 
 
 Added in v1.14.0
 
-# remove (function)
+# ~~remove~~ (function)
 
-Delete a key and value from a map
+Use `deleteAt`
 
 **Signature**
 
@@ -359,6 +397,16 @@ export function toUnfoldable<K, F>(O: Ord<K>, unfoldable: Unfoldable<F>): <A>(d:
 ```
 
 Added in v1.14.0
+
+# updateAt (function)
+
+**Signature**
+
+```ts
+export function updateAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: Map<K, A>) => Option<Map<K, A>> { ... }
+```
+
+Added in v1.19.0
 
 # values (function)
 
