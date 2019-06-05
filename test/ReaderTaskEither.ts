@@ -6,8 +6,8 @@ import { reader } from '../src/Reader'
 import * as _ from '../src/ReaderTaskEither'
 import { task } from '../src/Task'
 import { taskEither } from '../src/TaskEither'
-import { pipeOp as pipe } from '../src/function'
 import { none, some } from '../src/Option'
+import { pipe } from '../src/pipeable'
 
 describe('ReaderTaskEither', () => {
   describe('Monad', () => {

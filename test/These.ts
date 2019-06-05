@@ -1,11 +1,12 @@
 import * as assert from 'assert'
-import { identity, pipeOp as pipe } from '../src/function'
+import { identity } from '../src/function'
 import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { semigroupString } from '../src/Semigroup'
 import { eqNumber } from '../src/Eq'
 import { showString } from '../src/Show'
 import * as _ from '../src/These'
+import { pipe } from '../src/pipeable'
 
 describe('These', () => {
   it('getEq', () => {

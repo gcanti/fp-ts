@@ -1,7 +1,7 @@
 import { Alt3 } from './Alt'
 import { Bifunctor3 } from './Bifunctor'
 import { Either } from './Either'
-import { pipeOp, Predicate, Refinement } from './function'
+import { Predicate, Refinement } from './function'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad3 } from './Monad'
@@ -14,7 +14,7 @@ import { Task } from './Task'
 import * as TE from './TaskEither'
 
 import TaskEither = TE.TaskEither
-import { pipeable } from './pipeable'
+import { pipeable, pipe } from './pipeable'
 
 const T = getReaderM(TE.taskEither)
 
@@ -152,7 +152,11 @@ export function fold<R, E, A, B>(
   onLeft: (e: E) => Reader<R, Task<B>>,
   onRight: (a: A) => Reader<R, Task<B>>
 ): (ma: ReaderTaskEither<R, E, A>) => Reader<R, Task<B>> {
-  return ma => r => pipeOp(ma(r), TE.fold(e => onLeft(e)(r), a => onRight(a)(r)))
+  return ma => r =>
+    pipe(
+      ma(r),
+      TE.fold(e => onLeft(e)(r), a => onRight(a)(r))
+    )
 }
 
 /**

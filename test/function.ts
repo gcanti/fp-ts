@@ -12,8 +12,7 @@ import {
   not,
   pipe,
   unsafeCoerce,
-  absurd,
-  pipeOp
+  absurd
 } from '../src/function'
 
 const f = (n: number) => n + 1
@@ -111,18 +110,6 @@ describe('function', () => {
       )(2),
       63
     )
-  })
-
-  it('pipeOp', () => {
-    assert.strictEqual(pipeOp(2, f), 3)
-    assert.strictEqual(pipeOp(2, f, g), 6)
-    assert.strictEqual(pipeOp(2, f, g, f), 7)
-    assert.strictEqual(pipeOp(2, f, g, f, g), 14)
-    assert.strictEqual(pipeOp(2, f, g, f, g, f), 15)
-    assert.strictEqual(pipeOp(2, f, g, f, g, f, g), 30)
-    assert.strictEqual(pipeOp(2, f, g, f, g, f, g, f), 31)
-    assert.strictEqual(pipeOp(2, f, g, f, g, f, g, f, g), 62)
-    assert.strictEqual(pipeOp(2, f, g, f, g, f, g, f, g, f), 63)
   })
 
   it('not', () => {

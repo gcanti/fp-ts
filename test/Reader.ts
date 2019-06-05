@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import * as R from '../src/Reader'
 import { semigroupSum } from '../src/Semigroup'
 import { monoidSum } from '../src/Monoid'
-import { pipeOp as pipe } from '../src/function'
+import { pipe } from '../src/pipeable'
 
 interface Env {
   count: number

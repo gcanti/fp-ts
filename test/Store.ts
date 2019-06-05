@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import { Store, store, seek, seeks, peeks, experiment } from '../src/Store'
 import { array } from '../src/Array'
-import { pipeOp as pipe } from '../src/function'
+import { pipe } from '../src/pipeable'
 
 const len = (s: string): number => s.length
 

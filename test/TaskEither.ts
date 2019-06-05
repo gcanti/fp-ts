@@ -6,8 +6,8 @@ import { monoidString } from '../src/Monoid'
 import { semigroupSum } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskEither'
-import { pipeOp as pipe } from '../src/function'
 import { none, some } from '../src/Option'
+import { pipe } from '../src/pipeable'
 
 const delay = <A>(millis: number, a: A): T.Task<A> => T.delay(millis, T.task.of(a))
 

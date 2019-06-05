@@ -1,12 +1,13 @@
 import * as assert from 'assert'
 import * as _ from '../src/Either'
 import { eqNumber, eqString } from '../src/Eq'
-import { identity, pipeOp as pipe } from '../src/function'
+import { identity } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
+import { pipe } from '../src/pipeable'
 
 describe('Either', () => {
   it('fold', () => {

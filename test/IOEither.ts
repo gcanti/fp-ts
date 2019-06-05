@@ -5,7 +5,7 @@ import * as _ from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
 import { semigroupSum } from '../src/Semigroup'
 import { none, some } from '../src/Option'
-import { pipeOp as pipe } from '../src/function'
+import { pipe } from '../src/pipeable'
 
 describe('IOEither', () => {
   it('fold', () => {

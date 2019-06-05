@@ -1,7 +1,8 @@
 import * as assert from 'assert'
 import * as W from '../src/Writer'
-import { tuple, pipeOp as pipe } from '../src/function'
+import { tuple } from '../src/function'
 import { monoidString } from '../src/Monoid'
+import { pipe } from '../src/pipeable'
 
 describe('Writer', () => {
   it('evalWriter', () => {
