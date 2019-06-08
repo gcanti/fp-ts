@@ -167,7 +167,7 @@ Added in v1.0.0
 
 # ~~catOptions~~ (function)
 
-Use `array.compact`
+Use `compact`
 
 Filter an array of optional values, keeping only the elements which contain a value, creating a new array.
 
@@ -1080,7 +1080,7 @@ Added in v1.10.0
 
 # ~~mapOption~~ (function)
 
-Use `array.filterMap`
+Use `filterMap`
 
 Apply a function to each element in an array, keeping only the results which contain a value, creating a new array.
 

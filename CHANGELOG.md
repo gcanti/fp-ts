@@ -18,7 +18,7 @@ high state of flux, you're at risk of it changing without notice.
 
 The goal of this release is to make the migration to v2 easier.
 
-Since in v2 data types are no more implemented with classes, chainable APIs are deprecated.
+Since in v2 data types are no more implemented with classes, chainable APIs will be deprecated (in v1.20.0).
 
 As an alternative, a `pipe` function is provided, along with suitable data-last top level functions (one for each deprecated method).
 
@@ -80,8 +80,8 @@ pipe(
     - deprecate `applyFirst`, use `pipeable`'s `apFirst` (@gcanti)
     - deprecate `applySecond`, use `pipeable`'s `apSecond` (@gcanti)
   - `Array`
-    - deprecate `catOptions` in favour of `array.compact` (@gcanti)
-    - deprecate `mapOptions` in favour of `array.filterMap` (@gcanti)
+    - deprecate `catOptions` in favour of `compact` (@gcanti)
+    - deprecate `mapOptions` in favour of `filterMap` (@gcanti)
     - deprecate uncurried `filter` in favour of curried, data-last `filter` (@gcanti)
     - deprecate uncurried `partition` in favour of curried, data-last `partition` (@gcanti)
     - deprecate uncurried `partitionMap` in favour of curried, data-last `partitionMap` (@gcanti)
@@ -146,7 +146,7 @@ pipe(
     - deprecate `phantom` (@gcanti)
     - deprecate `or` (@gcanti)
     - deprecate `and` (@gcanti)
-    - deprecate `on (@gcanti)
+    - deprecate `on` (@gcanti)
     - deprecate `BinaryOperator` (@gcanti)
   - `Functor`
     - deprecate `lift`, use `pipeable`'s `map` (@gcanti)
@@ -168,8 +168,8 @@ pipe(
   - `IxIO` module is deprecated (@gcanti)
   - `IxMonad` module is deprecated (@gcanti)
   - `Map`
-    - deprecate `insert` in fabour of `insertAt` (@gcanti)
-    - deprecate `remove` in fabour of `deleteAt` (@gcanti)
+    - deprecate `insert` in favour of `insertAt` (@gcanti)
+    - deprecate `remove` in favour of `deleteAt` (@gcanti)
   - `MonadThrow` module is deprecated (@gcanti)
   - `Monoid`
     - deprecate `getArrayMonoid` in favour of `Array`'s `getMonoid` (@gcanti)
