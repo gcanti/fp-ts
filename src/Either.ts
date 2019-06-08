@@ -409,8 +409,8 @@ export const fromRefinement = <L, A, B extends A>(refinement: Refinement<A, B>, 
  *
  * @since 1.0.0
  */
-export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, A> => {
-  return fa.isNone() ? left(defaultValue) : right(fa.value)
+export const fromOption = <L>(onNone: L) => <A>(fa: Option<A>): Either<L, A> => {
+  return fa.isNone() ? left(onNone) : right(fa.value)
 }
 
 /**
@@ -418,8 +418,8 @@ export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, 
  *
  * @since 1.3.0
  */
-export const fromOptionL = <L>(defaultValue: Lazy<L>) => <A>(fa: Option<A>): Either<L, A> => {
-  return fa.isNone() ? left(defaultValue()) : right(fa.value)
+export const fromOptionL = <L>(onNone: Lazy<L>) => <A>(fa: Option<A>): Either<L, A> => {
+  return fa.isNone() ? left(onNone()) : right(fa.value)
 }
 
 /**

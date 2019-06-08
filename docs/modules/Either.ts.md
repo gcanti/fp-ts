@@ -673,7 +673,7 @@ the provided default as a `Left`
 **Signature**
 
 ```ts
-export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, A> => ...
+export const fromOption = <L>(onNone: L) => <A>(fa: Option<A>): Either<L, A> => ...
 ```
 
 Added in v1.0.0
@@ -685,7 +685,7 @@ Lazy version of `fromOption`
 **Signature**
 
 ```ts
-export const fromOptionL = <L>(defaultValue: Lazy<L>) => <A>(fa: Option<A>): Either<L, A> => ...
+export const fromOptionL = <L>(onNone: Lazy<L>) => <A>(fa: Option<A>): Either<L, A> => ...
 ```
 
 Added in v1.3.0

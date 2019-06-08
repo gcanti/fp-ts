@@ -261,24 +261,24 @@ export const readerTaskEitherSeq: typeof readerTaskEither = {
  * @since 1.19.0
  */
 // tslint:disable-next-line: deprecation
-export const left2v: <E>(e: E) => ReaderTaskEither<unknown, E, never> = fromLeft
+export const left2v: <E, L>(e: L) => ReaderTaskEither<E, L, never> = fromLeft
 
 /**
  * @since 1.19.0
  */
-export const right2v: <A>(a: A) => ReaderTaskEither<unknown, never, A> = readerTaskEither.of
-
-/**
- * @since 1.19.0
- */
-// tslint:disable-next-line: deprecation
-export const rightReader: <R, A>(ma: Reader<R, A>) => ReaderTaskEither<R, never, A> = fromReader
+export const right2v: <E, A>(a: A) => ReaderTaskEither<E, never, A> = readerTaskEither.of
 
 /**
  * @since 1.19.0
  */
 // tslint:disable-next-line: deprecation
-export const rightIO: <A>(ma: IO<A>) => ReaderTaskEither<unknown, never, A> = fromIO
+export const rightReader: <E, A>(ma: Reader<E, A>) => ReaderTaskEither<E, never, A> = fromReader
+
+/**
+ * @since 1.19.0
+ */
+// tslint:disable-next-line: deprecation
+export const rightIO: <E, A>(ma: IO<A>) => ReaderTaskEither<E, never, A> = fromIO
 
 /**
  * @since 1.19.0
