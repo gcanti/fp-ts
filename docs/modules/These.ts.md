@@ -69,9 +69,7 @@ Adapted from https://github.com/purescript-contrib/purescript-these
 - [isLeft (constant)](#isleft-constant)
 - [isRight (constant)](#isright-constant)
 - [left (constant)](#left-constant)
-- [leftOrBoth (constant)](#leftorboth-constant)
 - [right (constant)](#right-constant)
-- [rightOrBoth (constant)](#rightorboth-constant)
 - [these (constant)](#these-constant)
 - [toTuple (constant)](#totuple-constant)
 - [both (function)](#both-function)
@@ -86,6 +84,8 @@ Adapted from https://github.com/purescript-contrib/purescript-these
 - [isBoth (function)](#isboth-function)
 - [~~isThat~~ (function)](#isthat-function)
 - [~~isThis~~ (function)](#isthis-function)
+- [leftOrBoth (function)](#leftorboth-function)
+- [rightOrBoth (function)](#rightorboth-function)
 - [~~that~~ (function)](#that-function)
 - [~~thatOrBoth~~ (function)](#thatorboth-function)
 - [~~theseLeft~~ (function)](#theseleft-function)
@@ -518,52 +518,12 @@ export const left: <E>(left: E) => These<E, never> = ...
 
 Added in v1.19.0
 
-# leftOrBoth (constant)
-
-**Signature**
-
-```ts
-export const leftOrBoth: <E, A>(defaultLeft: E, ma: Option<A>) => These<E, A> = ...
-```
-
-**Example**
-
-```ts
-import { leftOrBoth, left, both } from 'fp-ts/lib/These'
-import { none, some } from 'fp-ts/lib/Option'
-
-assert.deepStrictEqual(leftOrBoth('a', none), left('a'))
-assert.deepStrictEqual(leftOrBoth('a', some(1)), both('a', 1))
-```
-
-Added in v1.19.0
-
 # right (constant)
 
 **Signature**
 
 ```ts
 export const right: <A>(right: A) => These<never, A> = ...
-```
-
-Added in v1.19.0
-
-# rightOrBoth (constant)
-
-**Signature**
-
-```ts
-export const rightOrBoth: <E, A>(defaultRight: A, me: Option<E>) => These<E, A> = ...
-```
-
-**Example**
-
-```ts
-import { rightOrBoth, right, both } from 'fp-ts/lib/These'
-import { none, some } from 'fp-ts/lib/Option'
-
-assert.deepStrictEqual(rightOrBoth(1, none), right(1))
-assert.deepStrictEqual(rightOrBoth(1, some('a')), both('a', 1))
 ```
 
 Added in v1.19.0
@@ -753,6 +713,46 @@ export const isThis = <L, A>(fa: These<L, A>): fa is This<L, A> => ...
 ```
 
 Added in v1.0.0
+
+# leftOrBoth (function)
+
+**Signature**
+
+```ts
+export function leftOrBoth<E>(defaultLeft: E): <A>(ma: Option<A>) => These<E, A> { ... }
+```
+
+**Example**
+
+```ts
+import { leftOrBoth, left, both } from 'fp-ts/lib/These'
+import { none, some } from 'fp-ts/lib/Option'
+
+assert.deepStrictEqual(leftOrBoth('a')(none), left('a'))
+assert.deepStrictEqual(leftOrBoth('a')(some(1)), both('a', 1))
+```
+
+Added in v1.19.0
+
+# rightOrBoth (function)
+
+**Signature**
+
+```ts
+export function rightOrBoth<A>(defaultRight: A): <E>(me: Option<E>) => These<E, A> { ... }
+```
+
+**Example**
+
+```ts
+import { rightOrBoth, right, both } from 'fp-ts/lib/These'
+import { none, some } from 'fp-ts/lib/Option'
+
+assert.deepStrictEqual(rightOrBoth(1)(none), right(1))
+assert.deepStrictEqual(rightOrBoth(1)(some('a')), both('a', 1))
+```
+
+Added in v1.19.0
 
 # ~~that~~ (function)
 
