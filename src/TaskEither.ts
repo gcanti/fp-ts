@@ -50,14 +50,17 @@ export class TaskEither<L, A> {
   run(): Promise<Either<L, A>> {
     return this.value.run()
   }
+  /** @obsolete */
   map<B>(f: (a: A) => B): TaskEither<L, B> {
     return new TaskEither(T.map(this.value, f))
   }
+  /** @obsolete */
   ap<B>(fab: TaskEither<L, (a: A) => B>): TaskEither<L, B> {
     return new TaskEither(T.ap(fab.value, this.value))
   }
   /**
    * Flipped version of `ap`
+   * @obsolete
    */
   ap_<B, C>(this: TaskEither<L, (b: B) => C>, fb: TaskEither<L, B>): TaskEither<L, C> {
     return fb.ap(this)
@@ -65,6 +68,7 @@ export class TaskEither<L, A> {
   /**
    * Combine two (parallel) effectful actions, keeping only the result of the first
    * @since 1.6.0
+   * @obsolete
    */
   applyFirst<B>(fb: TaskEither<L, B>): TaskEither<L, A> {
     return fb.ap(this.map(constant))
@@ -72,6 +76,7 @@ export class TaskEither<L, A> {
   /**
    * Combine two (parallel) effectful actions, keeping only the result of the second
    * @since 1.5.0
+   * @obsolete
    */
   applySecond<B>(fb: TaskEither<L, B>): TaskEither<L, B> {
     // tslint:disable-next-line: deprecation
@@ -80,6 +85,7 @@ export class TaskEither<L, A> {
   /**
    * Combine two (sequential) effectful actions, keeping only the result of the first
    * @since 1.12.0
+   * @obsolete
    */
   chainFirst<B>(fb: TaskEither<L, B>): TaskEither<L, A> {
     return this.chain(a => fb.map(() => a))
@@ -87,19 +93,23 @@ export class TaskEither<L, A> {
   /**
    * Combine two (sequential) effectful actions, keeping only the result of the second
    * @since 1.12.0
+   * @obsolete
    */
   chainSecond<B>(fb: TaskEither<L, B>): TaskEither<L, B> {
     return this.chain(() => fb)
   }
+  /** @obsolete */
   chain<B>(f: (a: A) => TaskEither<L, B>): TaskEither<L, B> {
     return new TaskEither(T.chain(this.value, a => f(a).value))
   }
+  /** @obsolete */
   fold<R>(onLeft: (l: L) => R, onRight: (a: A) => R): Task<R> {
     return foldT(onLeft, onRight, this.value)
   }
   /**
    * Similar to `fold`, but the result is flattened.
    * @since 1.10.0
+   * @obsolete
    */
   foldTask<R>(onLeft: (l: L) => Task<R>, onRight: (a: A) => Task<R>): Task<R> {
     return this.value.chain(e => e.fold(onLeft, onRight))
@@ -107,6 +117,7 @@ export class TaskEither<L, A> {
   /**
    * Similar to `fold`, but the result is flattened.
    * @since 1.10.0
+   * @obsolete
    */
   foldTaskEither<M, B>(onLeft: (l: L) => TaskEither<M, B>, onRight: (a: A) => TaskEither<M, B>): TaskEither<M, B> {
     return new TaskEither(this.value.chain(e => e.fold(onLeft, onRight).value))
@@ -114,33 +125,39 @@ export class TaskEither<L, A> {
   /**
    * Similar to `fold`, return the value from Right or the given argument if Left.
    * @since 1.17.0
+   * @obsolete
    */
   getOrElse(a: A): Task<A> {
     return this.getOrElseL(() => a)
   }
   /**
    * @since 1.17.0
+   * @obsolete
    */
   getOrElseL(f: (l: L) => A): Task<A> {
     return this.fold(f, identity)
   }
+  /** @obsolete */
   mapLeft<M>(f: (l: L) => M): TaskEither<M, A> {
     return new TaskEither(this.value.map(e => e.mapLeft(f)))
   }
   /**
    * Transforms the failure value of the `TaskEither` into a new `TaskEither`
+   * @obsolete
    */
   orElse<M>(f: (l: L) => TaskEither<M, A>): TaskEither<M, A> {
     return new TaskEither(this.value.chain(e => e.fold<Task<Either<M, A>>>(l => f(l).value, T.of)))
   }
   /**
    * @since 1.6.0
+   * @obsolete
    */
   alt(fy: TaskEither<L, A>): TaskEither<L, A> {
     return this.orElse(() => fy)
   }
   /**
    * @since 1.2.0
+   * @obsolete
    */
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): TaskEither<V, B> {
     return new TaskEither(this.value.map(e => e.bimap(f, g)))
@@ -148,12 +165,14 @@ export class TaskEither<L, A> {
   /**
    * Return `Right` if the given action succeeds, `Left` if it throws
    * @since 1.10.0
+   * @obsolete
    */
   attempt<M = L>(): TaskEither<M, Either<L, A>> {
     return new TaskEither(this.value.map<Either<M, Either<L, A>>>(eitherRight))
   }
   /**
    * @since 1.11.0
+   * @obsolete
    */
   filterOrElse<B extends A>(p: Refinement<A, B>, zero: L): TaskEither<L, B>
   filterOrElse(p: Predicate<A>, zero: L): TaskEither<L, A>
@@ -162,6 +181,7 @@ export class TaskEither<L, A> {
   }
   /**
    * @since 1.11.0
+   * @obsolete
    */
   filterOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): TaskEither<L, B>
   filterOrElseL(p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A>

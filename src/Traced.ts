@@ -20,6 +20,7 @@ export class Traced<P, A> {
   readonly _L!: P
   readonly _URI!: URI
   constructor(readonly run: (p: P) => A) {}
+  /** @obsolete */
   map<B>(f: (a: A) => B): Traced<P, B> {
     return new Traced((p: P) => f(this.run(p)))
   }

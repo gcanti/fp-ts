@@ -29,24 +29,30 @@ export class Identity<A> {
   readonly _A!: A
   readonly _URI!: URI
   constructor(readonly value: A) {}
+  /** @obsolete */
   map<B>(f: (a: A) => B): Identity<B> {
     return new Identity(f(this.value))
   }
+  /** @obsolete */
   ap<B>(fab: Identity<(a: A) => B>): Identity<B> {
     return this.map(fab.value)
   }
   /**
    * Flipped version of `ap`
+   * @obsolete
    */
   ap_<B, C>(this: Identity<(b: B) => C>, fb: Identity<B>): Identity<C> {
     return fb.ap(this)
   }
+  /** @obsolete */
   chain<B>(f: (a: A) => Identity<B>): Identity<B> {
     return f(this.value)
   }
+  /** @obsolete */
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
   }
+  /** @obsolete */
   alt(fx: Identity<A>): Identity<A> {
     return this
   }
@@ -61,16 +67,20 @@ export class Identity<A> {
    * assert.deepStrictEqual(a.orElse(() => new Identity(2)), a)
    *
    * @since 1.6.0
+   * @obsolete
    */
   orElse(fx: Lazy<Identity<A>>): Identity<A> {
     return this
   }
+  /** @obsolete */
   extract(): A {
     return this.value
   }
+  /** @obsolete */
   extend<B>(f: (ea: Identity<A>) => B): Identity<B> {
     return identity.of(f(this))
   }
+  /** @obsolete */
   fold<B>(f: (a: A) => B): B {
     return f(this.value)
   }

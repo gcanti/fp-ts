@@ -20,23 +20,28 @@ export class State<S, A> {
   readonly _L!: S
   readonly _URI!: URI
   constructor(readonly run: (s: S) => [A, S]) {}
+  /** @obsolete */
   eval(s: S): A {
     return this.run(s)[0]
   }
+  /** @obsolete */
   exec(s: S): S {
     return this.run(s)[1]
   }
+  /** @obsolete */
   map<B>(f: (a: A) => B): State<S, B> {
     return new State(s => {
       const [a, s1] = this.run(s)
       return [f(a), s1]
     })
   }
+  /** @obsolete */
   ap<B>(fab: State<S, (a: A) => B>): State<S, B> {
     return fab.chain(f => this.map(f)) // <= derived
   }
   /**
    * Flipped version of `ap`
+   * @obsolete
    */
   ap_<B, C>(this: State<S, (b: B) => C>, fb: State<S, B>): State<S, C> {
     return fb.ap(this)
@@ -44,6 +49,7 @@ export class State<S, A> {
   /**
    * Combine two effectful actions, keeping only the result of the first
    * @since 1.7.0
+   * @obsolete
    */
   applyFirst<B>(fb: State<S, B>): State<S, A> {
     return fb.ap(this.map(constant))
@@ -51,11 +57,13 @@ export class State<S, A> {
   /**
    * Combine two effectful actions, keeping only the result of the second
    * @since 1.7.0
+   * @obsolete
    */
   applySecond<B>(fb: State<S, B>): State<S, B> {
     // tslint:disable-next-line: deprecation
     return fb.ap(this.map(constIdentity as () => (b: B) => B))
   }
+  /** @obsolete */
   chain<B>(f: (a: A) => State<S, B>): State<S, B> {
     return new State(s => {
       const [a, s1] = this.run(s)

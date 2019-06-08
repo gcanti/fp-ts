@@ -32,12 +32,15 @@ export class Const<L, A> {
    * @deprecated
    */
   constructor(readonly value: L) {}
+  /** @obsolete */
   map<B>(f: (a: A) => B): Const<L, B> {
     return this as any
   }
+  /** @obsolete */
   contramap<B>(f: (b: B) => A): Const<L, B> {
     return this as any
   }
+  /** @obsolete */
   fold<B>(f: (l: L) => B): B {
     return f(this.value)
   }

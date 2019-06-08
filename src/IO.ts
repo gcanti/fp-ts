@@ -114,14 +114,17 @@ export class IO<A> {
   readonly _A!: A
   readonly _URI!: URI
   constructor(readonly run: Lazy<A>) {}
+  /** @obsolete */
   map<B>(f: (a: A) => B): IO<B> {
     return new IO(() => f(this.run()))
   }
+  /** @obsolete */
   ap<B>(fab: IO<(a: A) => B>): IO<B> {
     return new IO(() => fab.run()(this.run()))
   }
   /**
    * Flipped version of `ap`
+   * @obsolete
    */
   ap_<B, C>(this: IO<(b: B) => C>, fb: IO<B>): IO<C> {
     return fb.ap(this)
@@ -129,6 +132,7 @@ export class IO<A> {
   /**
    * Combine two effectful actions, keeping only the result of the first
    * @since 1.6.0
+   * @obsolete
    */
   applyFirst<B>(fb: IO<B>): IO<A> {
     return fb.ap(this.map(constant))
@@ -136,11 +140,13 @@ export class IO<A> {
   /**
    * Combine two effectful actions, keeping only the result of the second
    * @since 1.5.0
+   * @obsolete
    */
   applySecond<B>(fb: IO<B>): IO<B> {
     // tslint:disable-next-line: deprecation
     return fb.ap(this.map(constIdentity as () => (b: B) => B))
   }
+  /** @obsolete */
   chain<B>(f: (a: A) => IO<B>): IO<B> {
     return new IO(() => f(this.run()).run())
   }

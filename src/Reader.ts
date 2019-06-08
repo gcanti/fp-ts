@@ -27,23 +27,28 @@ export class Reader<E, A> {
   readonly _L!: E
   readonly _URI!: URI
   constructor(readonly run: (e: E) => A) {}
+  /** @obsolete */
   map<B>(f: (a: A) => B): Reader<E, B> {
     return new Reader((e: E) => f(this.run(e)))
   }
+  /** @obsolete */
   ap<B>(fab: Reader<E, (a: A) => B>): Reader<E, B> {
     return new Reader((e: E) => fab.run(e)(this.run(e)))
   }
   /**
    * Flipped version of `ap`
+   * @obsolete
    */
   ap_<B, C>(this: Reader<E, (b: B) => C>, fb: Reader<E, B>): Reader<E, C> {
     return fb.ap(this)
   }
+  /** @obsolete */
   chain<B>(f: (a: A) => Reader<E, B>): Reader<E, B> {
     return new Reader((e: E) => f(this.run(e)).run(e))
   }
   /**
    * @since 1.6.1
+   * @obsolete
    */
   local<E2 = E>(f: (e: E2) => E): Reader<E2, A> {
     return new Reader(e => this.run(f(e)))

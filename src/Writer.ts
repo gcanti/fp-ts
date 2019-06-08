@@ -21,12 +21,15 @@ export class Writer<W, A> {
   readonly _L!: W
   readonly _URI!: URI
   constructor(readonly run: () => [A, W]) {}
+  /** @obsolete */
   eval(): A {
     return this.run()[0]
   }
+  /** @obsolete */
   exec(): W {
     return this.run()[1]
   }
+  /** @obsolete */
   map<B>(f: (a: A) => B): Writer<W, B> {
     return new Writer(() => {
       const [a, w] = this.run()

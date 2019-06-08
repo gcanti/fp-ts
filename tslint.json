@@ -1,5 +1,6 @@
 {
   "extends": "tslint-config-standard",
+  "rulesDirectory": ["./rules"],
   "rules": {
     "space-before-function-paren": false,
     "no-use-before-declare": false,
@@ -11,6 +12,7 @@
     "no-console": true,
     "array-type": [true, "generic"],
     "deprecation": true,
-    "no-inferred-empty-object-type": true
+    "no-inferred-empty-object-type": true,
+    "obsolete": false
   }
 }
