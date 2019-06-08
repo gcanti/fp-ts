@@ -181,13 +181,13 @@ describe('These', () => {
   })
 
   it('leftOrBoth', () => {
-    assert.deepStrictEqual(leftOrBoth('a', none), left('a'))
-    assert.deepStrictEqual(leftOrBoth('a', some(1)), both('a', 1))
+    assert.deepStrictEqual(leftOrBoth('a')(none), left('a'))
+    assert.deepStrictEqual(leftOrBoth('a')(some(1)), both('a', 1))
   })
 
   it('rightOrBoth', () => {
-    assert.deepStrictEqual(rightOrBoth(1, none), right(1))
-    assert.deepStrictEqual(rightOrBoth(1, some('a')), both('a', 1))
+    assert.deepStrictEqual(rightOrBoth(1)(none), right(1))
+    assert.deepStrictEqual(rightOrBoth(1)(some('a')), both('a', 1))
   })
 
   it('getLeftOnly', () => {
