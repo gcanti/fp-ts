@@ -117,8 +117,8 @@ export function pipe<A, B, C, D, E, F, G, H, I, J>(
 ): J
 export function pipe(a: unknown, ...fns: Array<Function>): unknown {
   let r: unknown = a
-  for (let i = 0; i < fns.length; i++) {
-    r = fns[i](r)
+  for (const f of fns) {
+    r = f(r)
   }
   return r
 }

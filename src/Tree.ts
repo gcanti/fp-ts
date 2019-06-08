@@ -194,15 +194,7 @@ export function unfoldForestM<M>(
   M: Monad<M>
 ): <A, B>(bs: Array<B>, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Forest<A>> {
   const traverseM = array.traverse(M)
-  // to avoid Maximum call stack size exceeded
-  let unfoldTree: <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>>
-  return (bs, f) => {
-    // tslint:disable-next-line
-    if (unfoldTree === undefined) {
-      unfoldTree = unfoldTreeM(M)
-    }
-    return traverseM(bs, b => unfoldTree(b, f))
-  }
+  return (bs, f) => traverseM(bs, b => unfoldTreeM(M)(b, f))
 }
 
 /**

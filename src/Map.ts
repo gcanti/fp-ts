@@ -125,7 +125,7 @@ export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: Map<K
   return <A, B>(f: (k: K, a: A) => B) => (m: Map<K, A>): Array<B> => {
     const out: Array<B> = []
     const ks = keysO(m)
-    for (let key of ks) {
+    for (const key of ks) {
       out.push(f(key, m.get(key)!))
     }
     return out

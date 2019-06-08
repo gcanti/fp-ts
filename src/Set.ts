@@ -97,7 +97,7 @@ export function every<A>(predicate: Predicate<A>): (set: Set<A>) => boolean {
 export function chain<B>(E: Eq<B>): <A>(f: (x: A) => Set<B>) => (set: Set<A>) => Set<B> {
   const elemE = elem(E)
   return f => set => {
-    let r = new Set<B>()
+    const r = new Set<B>()
     set.forEach(e => {
       f(e).forEach(e => {
         if (!elemE(e, r)) {
@@ -128,7 +128,7 @@ export function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A> {
   return set => {
     const values = set.values()
     let e: IteratorResult<A>
-    let r = new Set<A>()
+    const r = new Set<A>()
     while (!(e = values.next()).done) {
       const value = e.value
       if (predicate(value)) {
@@ -148,8 +148,8 @@ export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separate
   return set => {
     const values = set.values()
     let e: IteratorResult<A>
-    let right = new Set<A>()
-    let left = new Set<A>()
+    const right = new Set<A>()
+    const left = new Set<A>()
     while (!(e = values.next()).done) {
       const value = e.value
       if (predicate(value)) {
@@ -234,8 +234,8 @@ export function partitionMap<L, R>(
   return <A>(f: (a: A) => Either<L, R>) => (set: Set<A>) => {
     const values = set.values()
     let e: IteratorResult<A>
-    let left = new Set<L>()
-    let right = new Set<R>()
+    const left = new Set<L>()
+    const right = new Set<R>()
     const hasL = elem(SL)
     const hasR = elem(SR)
     while (!(e = values.next()).done) {

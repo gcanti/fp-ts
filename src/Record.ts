@@ -218,7 +218,7 @@ export function pop(k: string): <A>(r: Record<string, A>) => Option<[A, Record<s
  */
 export function isSubrecord<A>(E: Eq<A>): (x: Record<string, A>, y: Record<string, A>) => boolean {
   return (x, y) => {
-    for (let k in x) {
+    for (const k in x) {
       if (!_hasOwnProperty.call(y, k) || !E.equals(x[k], y[k])) {
         return false
       }

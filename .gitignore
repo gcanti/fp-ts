@@ -6,3 +6,4 @@ dev
 .idea
 coverage
 docs-examples
+.wotanrc.yaml
