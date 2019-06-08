@@ -53,16 +53,22 @@ export class This<L, A> {
   readonly _L!: L
   readonly _URI!: URI
   constructor(readonly value: L) {}
+  /** @obsolete */
   map<B>(f: (a: A) => B): These<L, B> {
     return this as any
   }
+  /** @obsolete */
   bimap<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B> {
     return new This(f(this.value))
   }
+  /** @obsolete */
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
   }
-  /** Applies a function to each case in the data structure */
+  /**
+   * Applies a function to each case in the data structure
+   * @obsolete
+   */
   fold<B>(onLeft: (l: L) => B, onRight: (a: A) => B, onBoth: (l: L, a: A) => B): B {
     return onLeft(this.value)
   }
@@ -73,15 +79,24 @@ export class This<L, A> {
     // tslint:disable-next-line: deprecation
     return `left(${toString(this.value)})`
   }
-  /** Returns `true` if the these is `This`, `false` otherwise */
+  /**
+   * Returns `true` if the these is `This`, `false` otherwise
+   * @obsolete
+   */
   isThis(): this is This<L, A> {
     return true
   }
-  /** Returns `true` if the these is `That`, `false` otherwise */
+  /**
+   * Returns `true` if the these is `That`, `false` otherwise
+   * @obsolete
+   */
   isThat(): this is That<L, A> {
     return false
   }
-  /** Returns `true` if the these is `Both`, `false` otherwise */
+  /**
+   * Returns `true` if the these is `Both`, `false` otherwise
+   * @obsolete
+   */
   isBoth(): this is Both<L, A> {
     return false
   }

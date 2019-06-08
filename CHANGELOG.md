@@ -51,6 +51,23 @@ pipe(
 )
 ```
 
+## Custom tslint rule
+
+In order to make easier to spot all the occurrences of chainable APIs without depending on `@deprecated`, which would force you to migrate in one shot, a custom tslint rule is provided (`@obsolete`).
+
+**Configuration**
+
+Add the following lines to your `tslint.json` to turn the `@obsolete` rule on:
+
+```diff
+{
++  "rulesDirectory": ["./node_modules/fp-ts/rules"],
+   "rules": {
++    "obsolete": true
+   }
+}
+```
+
 - **New Feature**
   - add `Eq` module (@gcanti)
   - backport top level data-last functions from v2 (@gcanti)

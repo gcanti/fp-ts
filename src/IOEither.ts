@@ -39,34 +39,41 @@ export class IOEither<L, A> {
   run(): Either<L, A> {
     return this.value.run()
   }
+  /** @obsolete */
   map<B>(f: (a: A) => B): IOEither<L, B> {
     return new IOEither(T.map(this.value, f))
   }
+  /** @obsolete */
   ap<B>(fab: IOEither<L, (a: A) => B>): IOEither<L, B> {
     return new IOEither(T.ap(fab.value, this.value))
   }
   /**
    * Flipped version of `ap`
+   * @obsolete
    */
   ap_<B, C>(this: IOEither<L, (b: B) => C>, fb: IOEither<L, B>): IOEither<L, C> {
     return fb.ap(this)
   }
   /**
    * Combine two effectful actions, keeping only the result of the first
+   * @obsolete
    */
   applyFirst<B>(fb: IOEither<L, B>): IOEither<L, A> {
     return fb.ap(this.map(constant))
   }
   /**
    * Combine two effectful actions, keeping only the result of the second
+   * @obsolete
    */
   applySecond<B>(fb: IOEither<L, B>): IOEither<L, B> {
     // tslint:disable-next-line: deprecation
     return fb.ap(this.map(constIdentity as () => (b: B) => B))
   }
+  /** @obsolete */
   chain<B>(f: (a: A) => IOEither<L, B>): IOEither<L, B> {
     return new IOEither(T.chain(this.value, a => f(a).value))
   }
+  /** @obsolete */
   fold<R>(left: (l: L) => R, right: (a: A) => R): IO<R> {
     return foldT(left, right, this.value)
   }
@@ -74,6 +81,7 @@ export class IOEither<L, A> {
    * Similar to `fold`, but the result is flattened.
    *
    * @since 1.19.0
+   * @obsolete
    */
   foldIO<R>(left: (l: L) => IO<R>, right: (a: A) => IO<R>): IO<R> {
     return this.value.chain(fa => fa.fold(left, right))
@@ -82,19 +90,24 @@ export class IOEither<L, A> {
    * Similar to `fold`, but the result is flattened.
    *
    * @since 1.19.0
+   * @obsolete
    */
   foldIOEither<M, B>(onLeft: (l: L) => IOEither<M, B>, onRight: (a: A) => IOEither<M, B>): IOEither<M, B> {
     return new IOEither(this.value.chain(e => e.fold(onLeft, onRight).value))
   }
+  /** @obsolete */
   mapLeft<M>(f: (l: L) => M): IOEither<M, A> {
     return new IOEither(this.value.map(e => e.mapLeft(f)))
   }
+  /** @obsolete */
   orElse<M>(f: (l: L) => IOEither<M, A>): IOEither<M, A> {
     return new IOEither(this.value.chain(e => e.fold(l => f(l).value, a => T.of(a))))
   }
+  /** @obsolete */
   alt(fy: IOEither<L, A>): IOEither<L, A> {
     return this.orElse(() => fy)
   }
+  /** @obsolete */
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): IOEither<V, B> {
     return new IOEither(this.value.map(e => e.bimap(f, g)))
   }

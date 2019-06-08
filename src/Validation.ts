@@ -81,29 +81,41 @@ export class Failure<L, A> {
   readonly _L!: L
   readonly _URI!: URI
   constructor(readonly value: L) {}
+  /** @obsolete */
   map<B>(f: (a: A) => B): Validation<L, B> {
     return this as any
   }
+  /** @obsolete */
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Validation<V, B> {
     return new Failure(f(this.value))
   }
+  /** @obsolete */
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
   }
+  /** @obsolete */
   fold<B>(failure: (l: L) => B, success: (a: A) => B): B {
     return failure(this.value)
   }
-  /** Returns the value from this `Success` or the given argument if this is a `Failure` */
+  /**
+   * Returns the value from this `Success` or the given argument if this is a `Failure`
+   * @obsolete
+   */
   getOrElse(a: A): A {
     return a
   }
-  /** Returns the value from this `Success` or the result of given argument if this is a `Failure` */
+  /**
+   * Returns the value from this `Success` or the result of given argument if this is a `Failure`
+   * @obsolete
+   */
   getOrElseL(f: (l: L) => A): A {
     return f(this.value)
   }
+  /** @obsolete */
   mapFailure<M>(f: (l: L) => M): Validation<M, A> {
     return new Failure(f(this.value))
   }
+  /** @obsolete */
   swap(): Validation<A, L> {
     return new Success(this.value)
   }
@@ -114,11 +126,17 @@ export class Failure<L, A> {
     // tslint:disable-next-line: deprecation
     return `failure(${toString(this.value)})`
   }
-  /** Returns `true` if the validation is an instance of `Failure`, `false` otherwise */
+  /**
+   * Returns `true` if the validation is an instance of `Failure`, `false` otherwise
+   * @obsolete
+   */
   isFailure(): this is Failure<L, A> {
     return true
   }
-  /** Returns `true` if the validation is an instance of `Success`, `false` otherwise */
+  /**
+   * Returns `true` if the validation is an instance of `Success`, `false` otherwise
+   * @obsolete
+   */
   isSuccess(): this is Success<L, A> {
     return false
   }

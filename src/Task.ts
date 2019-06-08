@@ -29,14 +29,17 @@ export class Task<A> {
   readonly _A!: A
   readonly _URI!: URI
   constructor(readonly run: Lazy<Promise<A>>) {}
+  /** @obsolete */
   map<B>(f: (a: A) => B): Task<B> {
     return new Task(() => this.run().then(f))
   }
+  /** @obsolete */
   ap<B>(fab: Task<(a: A) => B>): Task<B> {
     return new Task(() => Promise.all([fab.run(), this.run()]).then(([f, a]) => f(a)))
   }
   /**
    * Flipped version of `ap`
+   * @obsolete
    */
   ap_<B, C>(this: Task<(b: B) => C>, fb: Task<B>): Task<C> {
     return fb.ap(this)
@@ -44,6 +47,7 @@ export class Task<A> {
   /**
    * Combine two effectful actions, keeping only the result of the first
    * @since 1.6.0
+   * @obsolete
    */
   applyFirst<B>(fb: Task<B>): Task<A> {
     return fb.ap(this.map(constant))
@@ -51,11 +55,13 @@ export class Task<A> {
   /**
    * Combine two effectful actions, keeping only the result of the second
    * @since 1.5.0
+   * @obsolete
    */
   applySecond<B>(fb: Task<B>): Task<B> {
     // tslint:disable-next-line: deprecation
     return fb.ap(this.map(constIdentity as () => (b: B) => B))
   }
+  /** @obsolete */
   chain<B>(f: (a: A) => Task<B>): Task<B> {
     return new Task(() => this.run().then(a => f(a).run()))
   }

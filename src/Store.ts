@@ -22,16 +22,22 @@ export class Store<S, A> {
   readonly _L!: S
   readonly _URI!: URI
   constructor(readonly peek: (s: S) => A, readonly pos: S) {}
-  /** Reposition the focus at the specified position */
+  /**
+   * Reposition the focus at the specified position
+   * @obsolete
+   */
   seek(s: S): Store<S, A> {
     return new Store(this.peek, s)
   }
+  /** @obsolete */
   map<B>(f: (a: A) => B): Store<S, B> {
     return new Store(s => f(this.peek(s)), this.pos)
   }
+  /** @obsolete */
   extract(): A {
     return this.peek(this.pos)
   }
+  /** @obsolete */
   extend<B>(f: (sa: Store<S, A>) => B): Store<S, B> {
     return new Store(s => f(this.seek(s)), this.pos)
   }

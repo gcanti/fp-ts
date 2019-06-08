@@ -38,25 +38,34 @@ export class Tuple<L, A> {
   readonly _L!: L
   readonly _URI!: URI
   constructor(readonly fst: L, readonly snd: A) {}
+  /** @obsolete */
   compose<B>(ab: Tuple<A, B>): Tuple<L, B> {
     return new Tuple(this.fst, ab.snd)
   }
+  /** @obsolete */
   map<B>(f: (a: A) => B): Tuple<L, B> {
     return new Tuple(this.fst, f(this.snd))
   }
+  /** @obsolete */
   bimap<M, B>(f: (l: L) => M, g: (a: A) => B): Tuple<M, B> {
     return new Tuple(f(this.fst), g(this.snd))
   }
+  /** @obsolete */
   extract(): A {
     return this.snd
   }
+  /** @obsolete */
   extend<B>(f: (fa: Tuple<L, A>) => B): Tuple<L, B> {
     return new Tuple(this.fst, f(this))
   }
+  /** @obsolete */
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.snd)
   }
-  /** Exchange the first and second components of a tuple */
+  /**
+   * Exchange the first and second components of a tuple
+   * @obsolete
+   */
   swap(): Tuple<A, L> {
     return new Tuple(this.snd, this.fst)
   }
@@ -67,6 +76,7 @@ export class Tuple<L, A> {
     // tslint:disable-next-line: deprecation
     return `new Tuple(${toString(this.fst)}, ${toString(this.snd)})`
   }
+  /** @obsolete */
   toTuple(): [L, A] {
     return [this.fst, this.snd]
   }

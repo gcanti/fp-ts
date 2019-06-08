@@ -36,30 +36,37 @@ export class Tree<A> {
   readonly _A!: A
   readonly _URI!: URI
   constructor(readonly value: A, readonly forest: Forest<A>) {}
+  /** @obsolete */
   map<B>(f: (a: A) => B): Tree<B> {
     return new Tree(f(this.value), this.forest.map(tree => tree.map(f)))
   }
+  /** @obsolete */
   ap<B>(fab: Tree<(a: A) => B>): Tree<B> {
     return fab.chain(f => this.map(f)) // <- derived
   }
   /**
    * Flipped version of `ap`
    * @since 1.6.0
+   * @obsolete
    */
   ap_<B, C>(this: Tree<(b: B) => C>, fb: Tree<B>): Tree<C> {
     return fb.ap(this)
   }
+  /** @obsolete */
   chain<B>(f: (a: A) => Tree<B>): Tree<B> {
     const { value, forest } = f(this.value)
     // tslint:disable-next-line: deprecation
     return new Tree(value, concat(forest, this.forest.map(t => t.chain(f))))
   }
+  /** @obsolete */
   extract(): A {
     return this.value
   }
+  /** @obsolete */
   extend<B>(f: (fa: Tree<A>) => B): Tree<B> {
     return new Tree(f(this), this.forest.map(t => t.extend(f)))
   }
+  /** @obsolete */
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     let r: B = f(b, this.value)
     const len = this.forest.length
