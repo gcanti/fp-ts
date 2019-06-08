@@ -4,7 +4,8 @@
   "description": "Functional programming in TypeScript",
   "files": [
     "lib",
-    "es6"
+    "es6",
+    "rules"
   ],
   "main": "lib/index.js",
   "module": "es6/index.js",
