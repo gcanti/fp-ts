@@ -93,7 +93,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const fromTaskEither: <E, A>(ma: TaskEither<E, A>) => ReaderTaskEither<unknown, E, A> = ...
+export const fromTaskEither: <R, E, A>(ma: TaskEither<E, A>) => ReaderTaskEither<R, E, A> = ...
 ```
 
 Added in v2.0.0
@@ -125,7 +125,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const right: <A>(a: A) => ReaderTaskEither<unknown, never, A> = ...
+export const right: <R, A>(a: A) => ReaderTaskEither<R, never, A> = ...
 ```
 
 Added in v2.0.0
@@ -158,7 +158,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromEither<E, A>(ma: Either<E, A>): ReaderTaskEither<unknown, E, A> { ... }
+export function fromEither<R, E, A>(ma: Either<E, A>): ReaderTaskEither<R, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -168,7 +168,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromIOEither<E, A>(ma: IOEither<E, A>): ReaderTaskEither<unknown, E, A> { ... }
+export function fromIOEither<R, E, A>(ma: IOEither<E, A>): ReaderTaskEither<R, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -178,7 +178,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromOption<E, A>(onNone: () => E): (ma: Option<A>) => ReaderTaskEither<unknown, E, A> { ... }
+export function fromOption<E>(onNone: () => E): <R, A>(ma: Option<A>) => ReaderTaskEither<R, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -191,11 +191,11 @@ Added in v2.0.0
 export function fromPredicate<E, A, B extends A>(
   refinement: Refinement<A, B>,
   onFalse: (a: A) => E
-): (a: A) => ReaderTaskEither<unknown, E, B>
+): <R>(a: A) => ReaderTaskEither<R, E, B>
 export function fromPredicate<E, A>(
   predicate: Predicate<A>,
   onFalse: (a: A) => E
-): (a: A) => ReaderTaskEither<unknown, E, A> { ... }
+): <R>(a: A) => ReaderTaskEither<R, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -217,7 +217,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function left<E>(e: E): ReaderTaskEither<unknown, E, never> { ... }
+export function left<R, E>(e: E): ReaderTaskEither<R, E, never> { ... }
 ```
 
 Added in v2.0.0
@@ -227,7 +227,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function leftIO<E>(me: IO<E>): ReaderTaskEither<unknown, E, never> { ... }
+export function leftIO<R, E>(me: IO<E>): ReaderTaskEither<R, E, never> { ... }
 ```
 
 Added in v2.0.0
@@ -247,7 +247,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function leftTask<E>(me: Task<E>): ReaderTaskEither<unknown, E, never> { ... }
+export function leftTask<R, E>(me: Task<E>): ReaderTaskEither<R, E, never> { ... }
 ```
 
 Added in v2.0.0
@@ -279,7 +279,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function rightIO<A>(ma: IO<A>): ReaderTaskEither<unknown, never, A> { ... }
+export function rightIO<R, A>(ma: IO<A>): ReaderTaskEither<R, never, A> { ... }
 ```
 
 Added in v2.0.0
@@ -289,7 +289,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function rightTask<A>(ma: Task<A>): ReaderTaskEither<unknown, never, A> { ... }
+export function rightTask<R, A>(ma: Task<A>): ReaderTaskEither<R, never, A> { ... }
 ```
 
 Added in v2.0.0

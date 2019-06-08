@@ -85,7 +85,7 @@ export const fromEither: <E, A>(ma: Either<E, A>) => TaskEither<E, A> = task.of
 /**
  * @since 2.0.0
  */
-export function fromOption<E, A>(onNone: () => E): (ma: Option<A>) => TaskEither<E, A> {
+export function fromOption<E>(onNone: () => E): <A>(ma: Option<A>) => TaskEither<E, A> {
   return ma => T.fromOption(ma, onNone)
 }
 

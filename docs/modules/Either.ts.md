@@ -196,7 +196,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromOption<E, A>(onNone: () => E): (ma: Option<A>) => Either<E, A> { ... }
+export function fromOption<E>(onNone: () => E): <A>(ma: Option<A>) => Either<E, A> { ... }
 ```
 
 Added in v2.0.0

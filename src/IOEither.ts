@@ -68,7 +68,7 @@ export const fromEither: <E, A>(ma: Either<E, A>) => IOEither<E, A> = io.of
 /**
  * @since 2.0.0
  */
-export function fromOption<E, A>(onNone: () => E): (ma: Option<A>) => IOEither<E, A> {
+export function fromOption<E>(onNone: () => E): <A>(ma: Option<A>) => IOEither<E, A> {
   return ma => T.fromOption(ma, onNone)
 }
 

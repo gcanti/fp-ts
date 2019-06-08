@@ -51,33 +51,33 @@ export function run<R, E, A>(ma: ReaderTaskEither<R, E, A>, r: R): Promise<Eithe
 /**
  * @since 2.0.0
  */
-export function left<E>(e: E): ReaderTaskEither<unknown, E, never> {
+export function left<R, E>(e: E): ReaderTaskEither<R, E, never> {
   return fromTaskEither(TE.left(e))
 }
 
 /**
  * @since 2.0.0
  */
-export const right: <A>(a: A) => ReaderTaskEither<unknown, never, A> = T.of
+export const right: <R, A>(a: A) => ReaderTaskEither<R, never, A> = T.of
 
 /**
  * @since 2.0.0
  */
-export function rightTask<A>(ma: Task<A>): ReaderTaskEither<unknown, never, A> {
+export function rightTask<R, A>(ma: Task<A>): ReaderTaskEither<R, never, A> {
   return fromTaskEither(TE.rightTask(ma))
 }
 
 /**
  * @since 2.0.0
  */
-export function leftTask<E>(me: Task<E>): ReaderTaskEither<unknown, E, never> {
+export function leftTask<R, E>(me: Task<E>): ReaderTaskEither<R, E, never> {
   return fromTaskEither(TE.leftTask(me))
 }
 
 /**
  * @since 2.0.0
  */
-export const fromTaskEither: <E, A>(ma: TaskEither<E, A>) => ReaderTaskEither<unknown, E, A> = T.fromM
+export const fromTaskEither: <R, E, A>(ma: TaskEither<E, A>) => ReaderTaskEither<R, E, A> = T.fromM
 
 /**
  * @since 2.0.0
@@ -94,35 +94,35 @@ export function leftReader<R, E>(me: Reader<R, E>): ReaderTaskEither<R, E, never
 /**
  * @since 2.0.0
  */
-export function fromIOEither<E, A>(ma: IOEither<E, A>): ReaderTaskEither<unknown, E, A> {
+export function fromIOEither<R, E, A>(ma: IOEither<E, A>): ReaderTaskEither<R, E, A> {
   return fromTaskEither(TE.fromIOEither(ma))
 }
 
 /**
  * @since 2.0.0
  */
-export function fromEither<E, A>(ma: Either<E, A>): ReaderTaskEither<unknown, E, A> {
+export function fromEither<R, E, A>(ma: Either<E, A>): ReaderTaskEither<R, E, A> {
   return fromTaskEither(TE.fromEither(ma))
 }
 
 /**
  * @since 2.0.0
  */
-export function fromOption<E, A>(onNone: () => E): (ma: Option<A>) => ReaderTaskEither<unknown, E, A> {
+export function fromOption<E>(onNone: () => E): <R, A>(ma: Option<A>) => ReaderTaskEither<R, E, A> {
   return ma => (ma._tag === 'None' ? left(onNone()) : right(ma.value))
 }
 
 /**
  * @since 2.0.0
  */
-export function rightIO<A>(ma: IO<A>): ReaderTaskEither<unknown, never, A> {
+export function rightIO<R, A>(ma: IO<A>): ReaderTaskEither<R, never, A> {
   return fromTaskEither(TE.rightIO(ma))
 }
 
 /**
  * @since 2.0.0
  */
-export function leftIO<E>(me: IO<E>): ReaderTaskEither<unknown, E, never> {
+export function leftIO<R, E>(me: IO<E>): ReaderTaskEither<R, E, never> {
   return fromTaskEither(TE.leftIO(me))
 }
 
@@ -132,15 +132,15 @@ export function leftIO<E>(me: IO<E>): ReaderTaskEither<unknown, E, never> {
 export function fromPredicate<E, A, B extends A>(
   refinement: Refinement<A, B>,
   onFalse: (a: A) => E
-): (a: A) => ReaderTaskEither<unknown, E, B>
+): <R>(a: A) => ReaderTaskEither<R, E, B>
 export function fromPredicate<E, A>(
   predicate: Predicate<A>,
   onFalse: (a: A) => E
-): (a: A) => ReaderTaskEither<unknown, E, A>
+): <R>(a: A) => ReaderTaskEither<R, E, A>
 export function fromPredicate<E, A>(
   predicate: Predicate<A>,
   onFalse: (a: A) => E
-): (a: A) => ReaderTaskEither<unknown, E, A> {
+): <R>(a: A) => ReaderTaskEither<R, E, A> {
   const f = TE.fromPredicate(predicate, onFalse)
   return a => fromTaskEither(f(a))
 }

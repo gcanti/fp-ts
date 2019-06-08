@@ -106,7 +106,7 @@ export function right<A>(a: A): Either<never, A> {
 /**
  * @since 2.0.0
  */
-export function fromOption<E, A>(onNone: () => E): (ma: Option<A>) => Either<E, A> {
+export function fromOption<E>(onNone: () => E): <A>(ma: Option<A>) => Either<E, A> {
   return ma => (ma._tag === 'None' ? left(onNone()) : right(ma.value))
 }
 
