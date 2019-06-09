@@ -115,13 +115,40 @@ export function pipe<A, B, C, D, E, F, G, H, I, J>(
   hi: (h: H) => I,
   ij: (i: I) => J
 ): J
-export function pipe(): unknown {
-  let r = arguments[0]
-  const len = arguments.length
-  for (let i = 1; i < len; i++) {
-    r = arguments[i](r)
+export function pipe(
+  a: unknown,
+  ab?: Function,
+  bc?: Function,
+  cd?: Function,
+  de?: Function,
+  ef?: Function,
+  fg?: Function,
+  gh?: Function,
+  hi?: Function,
+  ij?: Function
+): unknown {
+  switch (arguments.length) {
+    case 1:
+      return a
+    case 2:
+      return ab!(a)
+    case 3:
+      return bc!(ab!(a))
+    case 4:
+      return cd!(bc!(ab!(a)))
+    case 5:
+      return de!(cd!(bc!(ab!(a))))
+    case 6:
+      return ef!(de!(cd!(bc!(ab!(a)))))
+    case 7:
+      return fg!(ef!(de!(cd!(bc!(ab!(a))))))
+    case 8:
+      return gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))
+    case 9:
+      return hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a))))))))
+    case 10:
+      return ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))))
   }
-  return r
 }
 
 export interface PipeableFunctor<F> {

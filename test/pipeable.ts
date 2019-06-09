@@ -123,6 +123,7 @@ describe('pipeable', () => {
   it('pipe', () => {
     const f = (n: number) => n + 1
     const g = (n: number) => n * 2
+    assert.strictEqual(pipe(2), 2)
     assert.strictEqual(
       pipe(
         2,

@@ -5,17 +5,11 @@ import { pipe } from '../src/pipeable'
 const suite = new Benchmark.Suite()
 
 /*
-function composition x 22,180,951 ops/sec ±0.50% (86 runs sampled)
-pipe x 6,236,586 ops/sec ±2.02% (88 runs sampled)
-static dictionary x 55,716,161 ops/sec ±2.25% (85 runs sampled)
+pipe x 21,640,747 ops/sec ±0.48% (85 runs sampled)
+static dictionary x 57,118,380 ops/sec ±0.35% (88 runs sampled)
 */
 
 suite
-  .add('function composition', function() {
-    O.map(
-      (n: number) => n + 1
-    )(O.chain((n: number) => (n > 2 ? O.some(n) : O.none))(O.map((n: number) => n * 2)(O.some(1))))
-  })
   .add('pipe', function() {
     pipe(
       O.some(1),
@@ -25,7 +19,10 @@ suite
     )
   })
   .add('static dictionary', function() {
-    O.option.map(O.option.chain(O.option.map(O.some(1), n => n * 2), n => (n > 2 ? O.some(n) : O.none)), n => n + 1)
+    const x = O.some(1)
+    const y = O.option.map(x, n => n * 2)
+    const z = O.option.chain(y, n => (n > 2 ? O.some(n) : O.none))
+    O.option.map(z, n => n + 1)
   })
   .on('cycle', function(event: any) {
     // tslint:disable-next-line: no-console
