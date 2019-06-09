@@ -115,10 +115,11 @@ export function pipe<A, B, C, D, E, F, G, H, I, J>(
   hi: (h: H) => I,
   ij: (i: I) => J
 ): J
-export function pipe(a: unknown, ...fns: Array<Function>): unknown {
-  let r: unknown = a
-  for (const f of fns) {
-    r = f(r)
+export function pipe(): unknown {
+  let r = arguments[0]
+  const len = arguments.length
+  for (let i = 1; i < len; i++) {
+    r = arguments[i](r)
   }
   return r
 }
