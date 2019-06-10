@@ -146,7 +146,7 @@ export const fromIO = <A>(io: IO<A>): Task<A> => {
  * @deprecated
  */
 export const delay = <A>(millis: number, a: A): Task<A> => {
-  return delay2v(millis, of(a))
+  return delay2v(millis)(of(a))
 }
 
 /**
@@ -191,16 +191,17 @@ export const never = new Task(() => new Promise<never>(_ => undefined))
 /**
  * @since 1.19.0
  */
-export function delay2v<A>(millis: number, ma: Task<A>): Task<A> {
-  return new Task(
-    () =>
-      new Promise(resolve => {
-        setTimeout(() => {
-          // tslint:disable-next-line: no-floating-promises
-          ma.run().then(resolve)
-        }, millis)
-      })
-  )
+export function delay2v(millis: number): <A>(ma: Task<A>) => Task<A> {
+  return ma =>
+    new Task(
+      () =>
+        new Promise(resolve => {
+          setTimeout(() => {
+            // tslint:disable-next-line: no-floating-promises
+            ma.run().then(resolve)
+          }, millis)
+        })
+    )
 }
 
 const { ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(task)
