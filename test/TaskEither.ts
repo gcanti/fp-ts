@@ -9,7 +9,7 @@ import * as _ from '../src/TaskEither'
 import { none, some } from '../src/Option'
 import { pipe } from '../src/pipeable'
 
-const delay = <A>(millis: number, a: A): T.Task<A> => T.delay(millis, T.task.of(a))
+const delay = <A>(millis: number, a: A): T.Task<A> => T.delay(millis)(T.task.of(a))
 
 describe('TaskEither', () => {
   describe('Monad', () => {

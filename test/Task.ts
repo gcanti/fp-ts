@@ -8,7 +8,7 @@ const delayReject = <A>(n: number, a: A): T.Task<A> => () =>
     setTimeout(() => reject(a), n)
   })
 
-const delay = <A>(millis: number, a: A): T.Task<A> => T.delay(millis, T.task.of(a))
+const delay = <A>(millis: number, a: A): T.Task<A> => T.delay(millis)(T.task.of(a))
 
 describe('Task', () => {
   describe('getRaceMonoid', () => {

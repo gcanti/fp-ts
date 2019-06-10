@@ -87,8 +87,8 @@ export function getRaceMonoid<A = never>(): Monoid<Task<A>> {
 /**
  * @since 2.0.0
  */
-export function delay<A>(millis: number, ma: Task<A>): Task<A> {
-  return () =>
+export function delay(millis: number): <A>(ma: Task<A>) => Task<A> {
+  return ma => () =>
     new Promise(resolve => {
       setTimeout(() => {
         // tslint:disable-next-line: no-floating-promises
