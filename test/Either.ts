@@ -24,7 +24,8 @@ import {
   toError,
   parseJSON,
   stringifyJSON,
-  getShow
+  getShow,
+  applyEither
 } from '../src/Either'
 import * as F from '../src/Foldable'
 import { identity } from '../src/function'
@@ -266,6 +267,14 @@ describe('Either', () => {
     assert.strictEqual(left(1).isRight(), false)
     assert.strictEqual(isRight(right(1)), true)
     assert.strictEqual(isRight(left(1)), false)
+  })
+
+  it('applyEither', () => {
+    const f = (n: number) => true
+    const g = (s: string) => false
+    const fun = applyEither<number, string, boolean>(f, g)
+    assert.strictEqual(fun(left(1)), true)
+    assert.strictEqual(fun(right('a')), false)
   })
 
   it('alt', () => {
