@@ -562,11 +562,11 @@ export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => {
 
 /**
  * Returns a function that applies `f` or `g` depending on type of input.
- * 
+ *
  */
 export const applyEither = <L, A, C>(f: (x: L) => C, g: (x: A) => C) => {
-  return (fa : Either<L, A>) => {
-    return fa.fold(f, g);
+  return (fa: Either<L, A>) => {
+    return fa.fold(f, g)
   }
 }
 
