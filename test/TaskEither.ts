@@ -36,6 +36,8 @@ import { array } from '../src/Array'
 import { none, some } from '../src/Option'
 import { pipe } from '../src/pipeable'
 
+const delay10 = delay2v(10)
+
 describe('TaskEither', () => {
   it('attempt', () => {
     return Promise.all([
@@ -225,7 +227,7 @@ describe('TaskEither', () => {
   it('applySecond', () => {
     const log: Array<string> = []
     const append = (message: string, millis: number): TaskEither<string, number> =>
-      rightTask(delay2v(millis, task.of(undefined)).map(() => log.push(message)))
+      rightTask(delay2v(millis)(task.of(undefined)).map(() => log.push(message)))
     return append('a', 10)
       .applySecond(append('b', 0))
       .run()
@@ -238,7 +240,7 @@ describe('TaskEither', () => {
   it('ChainSecond', () => {
     const log: Array<string> = []
     const append = (message: string, millis: number): TaskEither<string, number> =>
-      rightTask(delay2v(millis, task.of(undefined)).map(() => log.push(message)))
+      rightTask(delay2v(millis)(task.of(undefined)).map(() => log.push(message)))
     return append('a', 10)
       .chainSecond(append('b', 0))
       .run()
@@ -330,7 +332,7 @@ describe('TaskEither', () => {
   it('applyFirst', () => {
     const log: Array<string> = []
     const append = (message: string, millis: number): TaskEither<string, number> =>
-      rightTask(delay2v(millis, task.of(undefined)).map(() => log.push(message)))
+      rightTask(delay2v(millis)(task.of(undefined)).map(() => log.push(message)))
     return append('a', 10)
       .applyFirst(append('b', 0))
       .run()
@@ -343,7 +345,7 @@ describe('TaskEither', () => {
   it('chainFirst', () => {
     const log: Array<string> = []
     const append = (message: string, millis: number): TaskEither<string, number> =>
-      rightTask(delay2v(millis, task.of(undefined)).map(() => log.push(message)))
+      rightTask(delay2v(millis)(task.of(undefined)).map(() => log.push(message)))
     return append('a', 10)
       .chainFirst(append('b', 0))
       .run()
@@ -371,16 +373,16 @@ describe('TaskEither', () => {
   it('getSemigroup', () => {
     const S = getSemigroup<string, number>(semigroupSum)
     return Promise.all([
-      S.concat(leftTask(delay2v(10, task.of('a'))), leftTask(delay2v(10, task.of('b'))))
+      S.concat(leftTask(delay10(task.of('a'))), leftTask(delay10(task.of('b'))))
         .run()
         .then(x => assert.deepStrictEqual(x, eitherLeft('a'))),
-      S.concat(leftTask(delay2v(10, task.of('a'))), rightTask(delay2v(10, task.of(2))))
+      S.concat(leftTask(delay10(task.of('a'))), rightTask(delay10(task.of(2))))
         .run()
         .then(x => assert.deepStrictEqual(x, eitherRight(2))),
-      S.concat(rightTask(delay2v(10, task.of(1))), leftTask(delay2v(10, task.of('b'))))
+      S.concat(rightTask(delay10(task.of(1))), leftTask(delay10(task.of('b'))))
         .run()
         .then(x => assert.deepStrictEqual(x, eitherRight(1))),
-      S.concat(rightTask(delay2v(10, task.of(1))), rightTask(delay2v(10, task.of(2))))
+      S.concat(rightTask(delay10(task.of(1))), rightTask(delay10(task.of(2))))
         .run()
         .then(x => assert.deepStrictEqual(x, eitherRight(3)))
     ])
@@ -390,22 +392,22 @@ describe('TaskEither', () => {
     const M = getApplyMonoid(monoidString)
 
     it('concat (right)', () => {
-      return M.concat(rightTask(delay2v(10, task.of('a'))), rightTask(delay2v(10, task.of('b'))))
+      return M.concat(rightTask(delay10(task.of('a'))), rightTask(delay10(task.of('b'))))
         .run()
         .then(x => assert.deepStrictEqual(x, eitherRight('ab')))
     })
     it('concat (left)', () => {
-      return M.concat(rightTask(delay2v(10, task.of('a'))), leftTask(delay2v(10, task.of('b'))))
+      return M.concat(rightTask(delay10(task.of('a'))), leftTask(delay10(task.of('b'))))
         .run()
         .then(x => assert.deepStrictEqual(x, eitherLeft('b')))
     })
     it('empty (right)', () => {
-      return M.concat(rightTask(delay2v(10, task.of('a'))), M.empty)
+      return M.concat(rightTask(delay10(task.of('a'))), M.empty)
         .run()
         .then(x => assert.deepStrictEqual(x, eitherRight('a')))
     })
     it('empty (left)', () => {
-      return M.concat(M.empty, rightTask(delay2v(10, task.of('a'))))
+      return M.concat(M.empty, rightTask(delay10(task.of('a'))))
         .run()
         .then(x => assert.deepStrictEqual(x, eitherRight('a')))
     })

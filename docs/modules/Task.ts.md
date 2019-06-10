@@ -190,7 +190,7 @@ Added in v1.7.0
 **Signature**
 
 ```ts
-export function delay2v<A>(millis: number, ma: Task<A>): Task<A> { ... }
+export function delay2v(millis: number): <A>(ma: Task<A>) => Task<A> { ... }
 ```
 
 Added in v1.19.0
