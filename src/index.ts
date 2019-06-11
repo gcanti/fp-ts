@@ -166,6 +166,8 @@ import * as tuple from './Tuple'
 export { tuple }
 import * as unfoldable from './Unfoldable'
 export { unfoldable }
+import * as validationT from './ValidationT'
+export { validationT }
 import * as writer from './Writer'
 export { writer }
 import * as compactable from './Compactable'

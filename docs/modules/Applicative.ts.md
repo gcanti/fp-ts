@@ -35,6 +35,7 @@ Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
 - [ApplicativeComposition (interface)](#applicativecomposition-interface)
 - [ApplicativeComposition01 (interface)](#applicativecomposition01-interface)
 - [ApplicativeComposition02 (interface)](#applicativecomposition02-interface)
+- [ApplicativeComposition02C (interface)](#applicativecomposition02c-interface)
 - [ApplicativeComposition11 (interface)](#applicativecomposition11-interface)
 - [ApplicativeComposition12 (interface)](#applicativecomposition12-interface)
 - [ApplicativeComposition12C (interface)](#applicativecomposition12c-interface)
@@ -155,6 +156,19 @@ export interface ApplicativeComposition02<F, G extends URIS2> extends FunctorCom
     fgab: HKT<F, Type2<G, LG, (a: A) => B>>,
     fga: HKT<F, Type2<G, LG, A>>
   ) => HKT<F, Type2<G, LG, B>>
+}
+```
+
+Added in v2.0.0
+
+# ApplicativeComposition02C (interface)
+
+**Signature**
+
+```ts
+export interface ApplicativeComposition02C<F, G extends URIS2, LG> extends FunctorComposition02C<F, G, LG> {
+  readonly of: <A>(a: A) => HKT<F, Type2<G, LG, A>>
+  readonly ap: <A, B>(fgab: HKT<F, Type2<G, LG, (a: A) => B>>, fga: HKT<F, Type2<G, LG, A>>) => HKT<F, Type2<G, LG, B>>
 }
 ```
 
@@ -311,6 +325,10 @@ export function getApplicativeComposition<F, G extends URIS2>(
   F: Applicative<F>,
   G: Applicative2<G>
 ): ApplicativeComposition02<F, G>
+export function getApplicativeComposition<F, G extends URIS2, LG>(
+  F: Applicative<F>,
+  G: Applicative2C<G, LG>
+): ApplicativeComposition02C<F, G, LG>
 export function getApplicativeComposition<F, G extends URIS>(
   F: Applicative<F>,
   G: Applicative1<G>

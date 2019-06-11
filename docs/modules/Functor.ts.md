@@ -29,6 +29,7 @@ Instances must satisfy the following laws:
 - [FunctorComposition (interface)](#functorcomposition-interface)
 - [FunctorComposition01 (interface)](#functorcomposition01-interface)
 - [FunctorComposition02 (interface)](#functorcomposition02-interface)
+- [FunctorComposition02C (interface)](#functorcomposition02c-interface)
 - [FunctorComposition11 (interface)](#functorcomposition11-interface)
 - [FunctorComposition12 (interface)](#functorcomposition12-interface)
 - [FunctorComposition12C (interface)](#functorcomposition12c-interface)
@@ -150,6 +151,18 @@ Added in v2.0.0
 ```ts
 export interface FunctorComposition02<F, G extends URIS2> {
   readonly map: <LG, A, B>(fa: HKT<F, Type2<G, LG, A>>, f: (a: A) => B) => HKT<F, Type2<G, LG, B>>
+}
+```
+
+Added in v2.0.0
+
+# FunctorComposition02C (interface)
+
+**Signature**
+
+```ts
+export interface FunctorComposition02C<F, G extends URIS2, LG> {
+  readonly map: <A, B>(fa: HKT<F, Type2<G, LG, A>>, f: (a: A) => B) => HKT<F, Type2<G, LG, B>>
 }
 ```
 

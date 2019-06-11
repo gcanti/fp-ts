@@ -27,7 +27,8 @@ import {
   FunctorComposition22,
   FunctorComposition22C,
   FunctorComposition2C1,
-  getFunctorComposition
+  getFunctorComposition,
+  FunctorComposition02C
 } from './Functor'
 import { HKT, Type, Type2, Type3, Type4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
@@ -98,6 +99,14 @@ export interface ApplicativeComposition02<F, G extends URIS2> extends FunctorCom
     fgab: HKT<F, Type2<G, LG, (a: A) => B>>,
     fga: HKT<F, Type2<G, LG, A>>
   ) => HKT<F, Type2<G, LG, B>>
+}
+
+/**
+ * @since 2.0.0
+ */
+export interface ApplicativeComposition02C<F, G extends URIS2, LG> extends FunctorComposition02C<F, G, LG> {
+  readonly of: <A>(a: A) => HKT<F, Type2<G, LG, A>>
+  readonly ap: <A, B>(fgab: HKT<F, Type2<G, LG, (a: A) => B>>, fga: HKT<F, Type2<G, LG, A>>) => HKT<F, Type2<G, LG, B>>
 }
 
 /**
@@ -230,6 +239,10 @@ export function getApplicativeComposition<F, G extends URIS2>(
   F: Applicative<F>,
   G: Applicative2<G>
 ): ApplicativeComposition02<F, G>
+export function getApplicativeComposition<F, G extends URIS2, LG>(
+  F: Applicative<F>,
+  G: Applicative2C<G, LG>
+): ApplicativeComposition02C<F, G, LG>
 export function getApplicativeComposition<F, G extends URIS>(
   F: Applicative<F>,
   G: Applicative1<G>

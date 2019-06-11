@@ -3,7 +3,7 @@ import { array } from '../src/Array'
 import * as E from '../src/Either'
 import { io } from '../src/IO'
 import { monoidString } from '../src/Monoid'
-import { semigroupSum } from '../src/Semigroup'
+import { semigroupSum, semigroupString } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskEither'
 import { none, some } from '../src/Option'
@@ -305,5 +305,48 @@ describe('TaskEither', () => {
     assert.deepStrictEqual(e1, E.left('none'))
     const e2 = await _.fromOption(() => 'none')(some(1))()
     assert.deepStrictEqual(e2, E.right(1))
+  })
+
+  describe('getTaskValidation', () => {
+    const TV = _.getTaskValidation(semigroupString)
+    it('of', async () => {
+      const e = await TV.of(1)()
+      assert.deepStrictEqual(e, E.right(1))
+    })
+
+    it('map', async () => {
+      const double = (n: number): number => n * 2
+      const e1 = await TV.map(TV.of(1), double)()
+      assert.deepStrictEqual(e1, E.right(2))
+      const e2 = await TV.map(_.left('a'), double)()
+      assert.deepStrictEqual(e2, E.left('a'))
+    })
+
+    it('ap', async () => {
+      const fab = _.left('a')
+      const fa = _.left('b')
+      const e1 = await TV.ap(fab, fa)()
+      assert.deepStrictEqual(e1, E.left('ab'))
+    })
+
+    it('chain', async () => {
+      const e1 = await TV.chain(_.right(3), a => (a > 2 ? _.right(a) : _.left('b')))()
+      assert.deepStrictEqual(e1, E.right(3))
+      const e2 = await TV.chain(_.right(1), a => (a > 2 ? _.right(a) : _.left('b')))()
+      assert.deepStrictEqual(e2, E.left('b'))
+      const e3 = await TV.chain(_.left('a'), a => (a > 2 ? _.right(a) : _.left('b')))()
+      assert.deepStrictEqual(e3, E.left('a'))
+    })
+
+    it('alt', async () => {
+      const e1 = await TV.alt(_.right(1), () => _.right(2))()
+      assert.deepStrictEqual(e1, E.right(1))
+      const e2 = await TV.alt(_.left('a'), () => _.right(2))()
+      assert.deepStrictEqual(e2, E.right(2))
+      const e3 = await TV.alt(_.right(1), () => _.left('b'))()
+      assert.deepStrictEqual(e3, E.right(1))
+      const e4 = await TV.alt(_.left('a'), () => _.left('b'))()
+      assert.deepStrictEqual(e4, E.left('ab'))
+    })
   })
 })

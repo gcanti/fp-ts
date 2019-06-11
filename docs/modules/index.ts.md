@@ -93,6 +93,7 @@ parent: Modules
 - [tree (export)](#tree-export)
 - [tuple (export)](#tuple-export)
 - [unfoldable (export)](#unfoldable-export)
+- [validationT (export)](#validationt-export)
 - [witherable (export)](#witherable-export)
 - [writer (export)](#writer-export)
 
@@ -776,6 +777,14 @@ export { tuple }
 
 ```ts
 export { unfoldable }
+```
+
+# validationT (export)
+
+**Signature**
+
+```ts
+export { validationT }
 ```
 
 # witherable (export)

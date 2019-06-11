@@ -2,23 +2,24 @@
  * @file `TaskEither<E, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
  * error of type `E`. If you want to represent an asynchronous computation that never fails, please see `Task`.
  */
-import { Alt2 } from './Alt'
+import { Alt2, Alt2C } from './Alt'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { getEitherM } from './EitherT'
-import { Predicate, Refinement, Lazy } from './function'
+import { Lazy, Predicate, Refinement } from './function'
+import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { Monad2 } from './Monad'
+import { Monad2, Monad2C } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { MonadTask2 } from './MonadTask'
 import { Monoid } from './Monoid'
+import { Option } from './Option'
+import { pipeable } from './pipeable'
 import { Semigroup } from './Semigroup'
 import { getSemigroup as getTaskSemigroup, Task, task } from './Task'
-import { Option } from './Option'
-import { IO } from './IO'
+import { getValidationM } from './ValidationT'
 
 import Either = E.Either
-import { pipeable } from './pipeable'
 
 const T = getEitherM(task)
 
@@ -256,6 +257,18 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
         const cbResolver = (e: L, r: R) => (e != null ? resolve(E.left(e)) : resolve(E.right(r)))
         f.apply(null, args.concat(cbResolver))
       })
+  }
+}
+
+/**
+ * @since 2.0.0
+ */
+export function getTaskValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E> {
+  const T = getValidationM(S, task)
+  return {
+    URI,
+    _L: undefined as any,
+    ...T
   }
 }
 

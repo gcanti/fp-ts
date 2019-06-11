@@ -3,7 +3,7 @@ import * as E from '../src/Either'
 import { io } from '../src/IO'
 import * as _ from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
-import { semigroupSum } from '../src/Semigroup'
+import { semigroupSum, semigroupString } from '../src/Semigroup'
 import { none, some } from '../src/Option'
 import { pipe } from '../src/pipeable'
 
@@ -211,6 +211,49 @@ describe('IOEither', () => {
     it('should return the release error if release fails', () => {
       const e = _.bracket(acquireSuccess, useSuccess, releaseFailure)()
       assert.deepStrictEqual(e, E.left('release failure'))
+    })
+  })
+
+  describe('getIOValidation', () => {
+    const IV = _.getIOValidation(semigroupString)
+    it('of', () => {
+      const e = IV.of(1)()
+      assert.deepStrictEqual(e, E.right(1))
+    })
+
+    it('map', () => {
+      const double = (n: number): number => n * 2
+      const e1 = IV.map(IV.of(1), double)()
+      assert.deepStrictEqual(e1, E.right(2))
+      const e2 = IV.map(_.left('a'), double)()
+      assert.deepStrictEqual(e2, E.left('a'))
+    })
+
+    it('ap', () => {
+      const fab = _.left('a')
+      const fa = _.left('b')
+      const e1 = IV.ap(fab, fa)()
+      assert.deepStrictEqual(e1, E.left('ab'))
+    })
+
+    it('chain', () => {
+      const e1 = IV.chain(_.right(3), a => (a > 2 ? _.right(a) : _.left('b')))()
+      assert.deepStrictEqual(e1, E.right(3))
+      const e2 = IV.chain(_.right(1), a => (a > 2 ? _.right(a) : _.left('b')))()
+      assert.deepStrictEqual(e2, E.left('b'))
+      const e3 = IV.chain(_.left('a'), a => (a > 2 ? _.right(a) : _.left('b')))()
+      assert.deepStrictEqual(e3, E.left('a'))
+    })
+
+    it('alt', () => {
+      const e1 = IV.alt(_.right(1), () => _.right(2))()
+      assert.deepStrictEqual(e1, E.right(1))
+      const e2 = IV.alt(_.left('a'), () => _.right(2))()
+      assert.deepStrictEqual(e2, E.right(2))
+      const e3 = IV.alt(_.right(1), () => _.left('b'))()
+      assert.deepStrictEqual(e3, E.right(1))
+      const e4 = IV.alt(_.left('a'), () => _.left('b'))()
+      assert.deepStrictEqual(e4, E.left('ab'))
     })
   })
 })

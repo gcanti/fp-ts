@@ -2,18 +2,19 @@
  * @file `IOEither<E, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
  * error of type `E`. If you want to represent a synchronous computation that never fails, please see `IO`.
  */
-import { Alt2 } from './Alt'
+import { Alt2, Alt2C } from './Alt'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { getEitherM } from './EitherT'
 import { Lazy, Predicate, Refinement } from './function'
 import { getSemigroup as getIOSemigroup, IO, io } from './IO'
-import { Monad2 } from './Monad'
+import { Monad2, Monad2C } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { pipeable } from './pipeable'
 import { Semigroup } from './Semigroup'
+import { getValidationM } from './ValidationT'
 
 import Either = E.Either
 
@@ -177,6 +178,18 @@ export function bracket<E, A, B>(
   return T.chain(acquire, a =>
     T.chain(io.map(use(a), E.right), e => T.chain(release(a, e), () => (E.isLeft(e) ? T.left(e.left) : T.of(e.right))))
   )
+}
+
+/**
+ * @since 2.0.0
+ */
+export function getIOValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E> {
+  const T = getValidationM(S, io)
+  return {
+    URI,
+    _L: undefined as any,
+    ...T
+  }
 }
 
 /**

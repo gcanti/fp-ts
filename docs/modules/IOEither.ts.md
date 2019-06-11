@@ -30,6 +30,7 @@ error of type `E`. If you want to represent a synchronous computation that never
 - [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
+- [getIOValidation (function)](#getiovalidation-function)
 - [getOrElse (function)](#getorelse-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [orElse (function)](#orelse-function)
@@ -222,6 +223,16 @@ Added in v2.0.0
 
 ```ts
 export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> { ... }
+```
+
+Added in v2.0.0
+
+# getIOValidation (function)
+
+**Signature**
+
+```ts
+export function getIOValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E> { ... }
 ```
 
 Added in v2.0.0

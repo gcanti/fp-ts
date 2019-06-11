@@ -34,6 +34,7 @@ error of type `E`. If you want to represent an asynchronous computation that nev
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getOrElse (function)](#getorelse-function)
 - [getSemigroup (function)](#getsemigroup-function)
+- [getTaskValidation (function)](#gettaskvalidation-function)
 - [leftIO (function)](#leftio-function)
 - [orElse (function)](#orelse-function)
 - [rightIO (function)](#rightio-function)
@@ -272,6 +273,16 @@ Added in v2.0.0
 
 ```ts
 export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>> { ... }
+```
+
+Added in v2.0.0
+
+# getTaskValidation (function)
+
+**Signature**
+
+```ts
+export function getTaskValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E> { ... }
 ```
 
 Added in v2.0.0
