@@ -118,6 +118,8 @@ import * as random from './Random'
 export { random }
 import * as reader from './Reader'
 export { reader }
+import * as readerEither from './ReaderEither'
+export { readerEither }
 import * as readerT from './ReaderT'
 export { readerT }
 import * as readerTaskEither from './ReaderTaskEither'

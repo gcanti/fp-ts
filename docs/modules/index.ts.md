@@ -70,6 +70,7 @@ parent: Modules
 - [profunctor (export)](#profunctor-export)
 - [random (export)](#random-export)
 - [reader (export)](#reader-export)
+- [readerEither (export)](#readereither-export)
 - [readerT (export)](#readert-export)
 - [readerTaskEither (export)](#readertaskeither-export)
 - [record (export)](#record-export)
@@ -593,6 +594,14 @@ export { random }
 
 ```ts
 export { reader }
+```
+
+# readerEither (export)
+
+**Signature**
+
+```ts
+export { readerEither }
 ```
 
 # readerT (export)

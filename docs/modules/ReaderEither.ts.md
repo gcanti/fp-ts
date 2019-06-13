@@ -1,0 +1,237 @@
+---
+title: ReaderEither.ts
+nav_order: 64
+parent: Modules
+---
+
+---
+
+<h2 class="text-delta">Table of contents</h2>
+
+- [ReaderEither (interface)](#readereither-interface)
+- [URI (type alias)](#uri-type-alias)
+- [URI (constant)](#uri-constant)
+- [fromEither (constant)](#fromeither-constant)
+- [left (constant)](#left-constant)
+- [leftReader (constant)](#leftreader-constant)
+- [readerEither (constant)](#readereither-constant)
+- [right (constant)](#right-constant)
+- [rightReader (constant)](#rightreader-constant)
+- [swap (constant)](#swap-constant)
+- [filterOrElse (function)](#filterorelse-function)
+- [fold (function)](#fold-function)
+- [fromOption (function)](#fromoption-function)
+- [fromPredicate (function)](#frompredicate-function)
+- [getApplyMonoid (function)](#getapplymonoid-function)
+- [getApplySemigroup (function)](#getapplysemigroup-function)
+- [getOrElse (function)](#getorelse-function)
+- [getSemigroup (function)](#getsemigroup-function)
+- [orElse (function)](#orelse-function)
+
+---
+
+# ReaderEither (interface)
+
+**Signature**
+
+```ts
+export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
+```
+
+Added in v2.0.0
+
+# URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
+# URI (constant)
+
+**Signature**
+
+```ts
+export const URI = ...
+```
+
+Added in v2.0.0
+
+# fromEither (constant)
+
+**Signature**
+
+```ts
+export const fromEither: <R, E, A>(ma: Either<E, A>) => ReaderEither<R, E, A> = ...
+```
+
+Added in v2.0.0
+
+# left (constant)
+
+**Signature**
+
+```ts
+export const left: <R, E>(e: E) => ReaderEither<R, E, never> = ...
+```
+
+Added in v2.0.0
+
+# leftReader (constant)
+
+**Signature**
+
+```ts
+export const leftReader: <R, E>(me: Reader<R, E>) => ReaderEither<R, E, never> = ...
+```
+
+Added in v2.0.0
+
+# readerEither (constant)
+
+**Signature**
+
+```ts
+export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> = ...
+```
+
+Added in v2.0.0
+
+# right (constant)
+
+**Signature**
+
+```ts
+export const right: <R, A>(a: A) => ReaderEither<R, never, A> = ...
+```
+
+Added in v2.0.0
+
+# rightReader (constant)
+
+**Signature**
+
+```ts
+export const rightReader: <R, A>(ma: Reader<R, A>) => ReaderEither<R, never, A> = ...
+```
+
+Added in v2.0.0
+
+# swap (constant)
+
+**Signature**
+
+```ts
+export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E> = ...
+```
+
+Added in v2.0.0
+
+# filterOrElse (function)
+
+**Signature**
+
+```ts
+export function filterOrElse<E, A, B extends A>(
+  refinement: Refinement<A, B>,
+  onFalse: (a: A) => E
+): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+export function filterOrElse<E, A>(
+  predicate: Predicate<A>,
+  onFalse: (a: A) => E
+): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> { ... }
+```
+
+Added in v2.0.0
+
+# fold (function)
+
+**Signature**
+
+```ts
+export function fold<R, E, A, B>(
+  onLeft: (e: E) => Reader<R, B>,
+  onRight: (a: A) => Reader<R, B>
+): (ma: ReaderEither<R, E, A>) => Reader<R, B> { ... }
+```
+
+Added in v2.0.0
+
+# fromOption (function)
+
+**Signature**
+
+```ts
+export function fromOption<E>(onNone: () => E): <R, A>(ma: Option<A>) => ReaderEither<R, E, A> { ... }
+```
+
+Added in v2.0.0
+
+# fromPredicate (function)
+
+**Signature**
+
+```ts
+export function fromPredicate<E, A, B extends A>(
+  refinement: Refinement<A, B>,
+  onFalse: (a: A) => E
+): <R>(a: A) => ReaderEither<R, E, B>
+export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A> { ... }
+```
+
+Added in v2.0.0
+
+# getApplyMonoid (function)
+
+**Signature**
+
+```ts
+export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderEither<R, E, A>> { ... }
+```
+
+Added in v2.0.0
+
+# getApplySemigroup (function)
+
+**Signature**
+
+```ts
+export function getApplySemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>> { ... }
+```
+
+Added in v2.0.0
+
+# getOrElse (function)
+
+**Signature**
+
+```ts
+export function getOrElse<R, E, A>(f: (e: E) => Reader<R, A>): (ma: ReaderEither<R, E, A>) => Reader<R, A> { ... }
+```
+
+Added in v2.0.0
+
+# getSemigroup (function)
+
+**Signature**
+
+```ts
+export function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>> { ... }
+```
+
+Added in v2.0.0
+
+# orElse (function)
+
+**Signature**
+
+```ts
+export function orElse<R, E, A, M>(
+  f: (e: E) => ReaderEither<R, M, A>
+): (ma: ReaderEither<R, E, A>) => ReaderEither<R, M, A> { ... }
+```
+
+Added in v2.0.0
