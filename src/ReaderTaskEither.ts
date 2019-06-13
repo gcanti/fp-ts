@@ -7,14 +7,16 @@ import { IOEither } from './IOEither'
 import { Monad3 } from './Monad'
 import { MonadIO3 } from './MonadIO'
 import { MonadTask3 } from './MonadTask'
+import { Monoid } from './Monoid'
 import { Option } from './Option'
-import { Reader } from './Reader'
+import { pipe, pipeable } from './pipeable'
+import { getSemigroup as getReaderSemigroup, Reader, reader } from './Reader'
 import { getReaderM } from './ReaderT'
+import { Semigroup } from './Semigroup'
 import { Task } from './Task'
 import * as TE from './TaskEither'
 
 import TaskEither = TE.TaskEither
-import { pipeable, pipe } from './pipeable'
 
 const T = getReaderM(TE.taskEither)
 
@@ -175,6 +177,55 @@ export function orElse<R, E, A, M>(
   f: (e: E) => ReaderTaskEither<R, M, A>
 ): (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, M, A> {
   return ma => r => TE.orElse<E, A, M>(e => f(e)(r))(ma(r))
+}
+
+/**
+ * @since 2.0.0
+ */
+export function filterOrElse<E, A, B extends A>(
+  refinement: Refinement<A, B>,
+  onFalse: (a: A) => E
+): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+export function filterOrElse<E, A>(
+  predicate: Predicate<A>,
+  onFalse: (a: A) => E
+): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+export function filterOrElse<E, A>(
+  predicate: Predicate<A>,
+  onFalse: (a: A) => E
+): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> {
+  return ma => reader.map(ma, TE.filterOrElse(predicate, onFalse))
+}
+
+/**
+ * @since 2.0.0
+ */
+export function swap<R, E, A>(ma: ReaderTaskEither<R, E, A>): ReaderTaskEither<R, A, E> {
+  return e => TE.swap(ma(e))
+}
+
+/**
+ * @since 2.0.0
+ */
+export function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>> {
+  return getReaderSemigroup(TE.getSemigroup<E, A>(S))
+}
+
+/**
+ * @since 2.0.0
+ */
+export function getApplySemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>> {
+  return getReaderSemigroup(TE.getApplySemigroup<E, A>(S))
+}
+
+/**
+ * @since 2.0.0
+ */
+export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderTaskEither<R, E, A>> {
+  return {
+    concat: getApplySemigroup<R, E, A>(M).concat,
+    empty: right(M.empty)
+  }
 }
 
 /**

@@ -105,7 +105,7 @@ export function fromPredicate<E, A, B extends A>(
 export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskEither<E, A>
 export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskEither<E, A> {
   const f = E.fromPredicate(predicate, onFalse)
-  return a => task.of(f(a))
+  return a => fromEither(f(a))
 }
 
 /**
@@ -128,6 +128,13 @@ export function getOrElse<E, A>(f: (e: E) => Task<A>): (ma: TaskEither<E, A>) =>
 /**
  * @since 2.0.0
  */
+export function orElse<E, A, M>(f: (e: E) => TaskEither<M, A>): (ma: TaskEither<E, A>) => TaskEither<M, A> {
+  return ma => T.orElse(ma, f)
+}
+
+/**
+ * @since 2.0.0
+ */
 export function filterOrElse<E, A, B extends A>(
   refinement: Refinement<A, B>,
   onFalse: (a: A) => E
@@ -141,13 +148,6 @@ export function filterOrElse<E, A>(
   onFalse: (a: A) => E
 ): (ma: TaskEither<E, A>) => TaskEither<E, A> {
   return ma => task.map(ma, E.filterOrElse(predicate, onFalse))
-}
-
-/**
- * @since 2.0.0
- */
-export function orElse<E, A, M>(f: (e: E) => TaskEither<M, A>): (ma: TaskEither<E, A>) => TaskEither<M, A> {
-  return ma => T.orElse(ma, f)
 }
 
 /**

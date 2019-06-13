@@ -3,13 +3,10 @@ import { array } from '../src/Array'
 import * as E from '../src/Either'
 import { io } from '../src/IO'
 import { monoidString } from '../src/Monoid'
-import { semigroupSum, semigroupString } from '../src/Semigroup'
-import * as T from '../src/Task'
-import * as _ from '../src/TaskEither'
 import { none, some } from '../src/Option'
 import { pipe } from '../src/pipeable'
-
-const delay = <A>(millis: number, a: A): T.Task<A> => T.delay(millis)(T.task.of(a))
+import { semigroupString, semigroupSum } from '../src/Semigroup'
+import * as _ from '../src/TaskEither'
 
 describe('TaskEither', () => {
   describe('Monad', () => {
@@ -184,16 +181,16 @@ describe('TaskEither', () => {
   describe('getSemigroup', () => {
     it('concat', async () => {
       const S = _.getSemigroup<string, number>(semigroupSum)
-      const e1 = await S.concat(_.leftTask(delay(10, 'a')), _.leftTask(delay(10, 'b')))()
+      const e1 = await S.concat(_.left('a'), _.left('b'))()
       assert.deepStrictEqual(e1, E.left('a'))
 
-      const e2 = await S.concat(_.leftTask(delay(10, 'a')), _.rightTask(delay(10, 2)))()
+      const e2 = await S.concat(_.left('a'), _.right(2))()
       assert.deepStrictEqual(e2, E.right(2))
 
-      const e3 = await S.concat(_.rightTask(delay(10, 1)), _.leftTask(delay(10, 'b')))()
+      const e3 = await S.concat(_.right(1), _.left('b'))()
       assert.deepStrictEqual(e3, E.right(1))
 
-      const e4 = await S.concat(_.rightTask(delay(10, 1)), _.rightTask(delay(10, 2)))()
+      const e4 = await S.concat(_.right(1), _.right(2))()
       assert.deepStrictEqual(e4, E.right(3))
     })
   })
@@ -202,22 +199,22 @@ describe('TaskEither', () => {
     const M = _.getApplyMonoid(monoidString)
 
     it('concat (right)', async () => {
-      const x = await M.concat(_.rightTask(delay(10, 'a')), _.rightTask(delay(10, 'b')))()
+      const x = await M.concat(_.right('a'), _.right('b'))()
       return assert.deepStrictEqual(x, E.right('ab'))
     })
 
     it('concat (left)', async () => {
-      const x = await M.concat(_.rightTask(delay(10, 'a')), _.leftTask(delay(10, 'b')))()
+      const x = await M.concat(_.right('a'), _.left('b'))()
       return assert.deepStrictEqual(x, E.left('b'))
     })
 
     it('empty (right)', async () => {
-      const x = await M.concat(_.rightTask(delay(10, 'a')), M.empty)()
+      const x = await M.concat(_.right('a'), M.empty)()
       return assert.deepStrictEqual(x, E.right('a'))
     })
 
     it('empty (left)', async () => {
-      const x = await M.concat(M.empty, _.rightTask(delay(10, 'a')))()
+      const x = await M.concat(M.empty, _.right('a'))()
       return assert.deepStrictEqual(x, E.right('a'))
     })
   })
@@ -247,33 +244,16 @@ describe('TaskEither', () => {
   })
 
   it('filterOrElse', async () => {
-    const isNumber = (u: string | number): u is number => typeof u === 'number'
-
     const e1 = await pipe(
       _.right(12),
-      _.filterOrElse(n => n > 10, () => 'bar')
+      _.filterOrElse(n => n > 10, () => 'a')
     )()
     assert.deepStrictEqual(e1, E.right(12))
     const e2 = await pipe(
       _.right(7),
-      _.filterOrElse(n => n > 10, () => 'bar')
+      _.filterOrElse(n => n > 10, () => 'a')
     )()
-    assert.deepStrictEqual(e2, E.left('bar'))
-    const e3 = await pipe(
-      _.left('foo'),
-      _.filterOrElse(n => n > 10, () => 'bar')
-    )()
-    assert.deepStrictEqual(e3, E.left('foo'))
-    const e4 = await pipe(
-      _.right(7),
-      _.filterOrElse(n => n > 10, n => `invalid ${n}`)
-    )()
-    assert.deepStrictEqual(e4, E.left('invalid 7'))
-    const e5 = await pipe(
-      _.right(12),
-      _.filterOrElse(isNumber, () => 'not a number')
-    )()
-    assert.deepStrictEqual(e5, E.right(12))
+    assert.deepStrictEqual(e2, E.left('a'))
   })
 
   describe('MonadIO', () => {

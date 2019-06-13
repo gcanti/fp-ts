@@ -5,7 +5,7 @@ import { identity } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
-import { semigroupString, semigroupSum } from '../src/Semigroup'
+import { semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
 import { pipe } from '../src/pipeable'
 
@@ -490,20 +490,14 @@ describe('Either', () => {
       assert.deepStrictEqual(M.alt(_.left('a'), () => _.left('b')), _.left('ab'))
     })
 
-    it('getValidationSemigroup', () => {
-      const { concat } = _.getValidationSemigroup(semigroupString, semigroupString)
-      assert.deepStrictEqual(concat(_.right('a'), _.right('b')), _.right('ab'))
-      assert.deepStrictEqual(concat(_.right('a'), _.left('b')), _.left('b'))
-      assert.deepStrictEqual(concat(_.left('b'), _.right('a')), _.left('b'))
-      assert.deepStrictEqual(concat(_.left('a'), _.left('b')), _.left('ab'))
-    })
-
     it('getValidationMonoid', () => {
       const M = _.getValidationMonoid(monoidString, monoidSum)
       assert.deepStrictEqual(M.concat(_.right(1), _.right(2)), _.right(3))
       assert.deepStrictEqual(M.concat(_.right(1), _.left('foo')), _.left('foo'))
       assert.deepStrictEqual(M.concat(_.left('foo'), _.right(1)), _.left('foo'))
       assert.deepStrictEqual(M.concat(_.left('foo'), _.left('bar')), _.left('foobar'))
+      assert.deepStrictEqual(M.concat(_.right(1), M.empty), _.right(1))
+      assert.deepStrictEqual(M.concat(M.empty, _.right(1)), _.right(1))
     })
   })
 

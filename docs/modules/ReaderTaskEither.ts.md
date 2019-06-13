@@ -18,12 +18,16 @@ parent: Modules
 - [readerTaskEitherSeq (constant)](#readertaskeitherseq-constant)
 - [right (constant)](#right-constant)
 - [rightReader (constant)](#rightreader-constant)
+- [filterOrElse (function)](#filterorelse-function)
 - [fold (function)](#fold-function)
 - [fromEither (function)](#fromeither-function)
 - [fromIOEither (function)](#fromioeither-function)
 - [fromOption (function)](#fromoption-function)
 - [fromPredicate (function)](#frompredicate-function)
+- [getApplyMonoid (function)](#getapplymonoid-function)
+- [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getOrElse (function)](#getorelse-function)
+- [getSemigroup (function)](#getsemigroup-function)
 - [left (function)](#left-function)
 - [leftIO (function)](#leftio-function)
 - [leftReader (function)](#leftreader-function)
@@ -33,6 +37,7 @@ parent: Modules
 - [rightIO (function)](#rightio-function)
 - [rightTask (function)](#righttask-function)
 - [run (function)](#run-function)
+- [swap (function)](#swap-function)
 
 ---
 
@@ -140,6 +145,23 @@ export const rightReader: <R, A>(ma: Reader<R, A>) => ReaderTaskEither<R, never,
 
 Added in v2.0.0
 
+# filterOrElse (function)
+
+**Signature**
+
+```ts
+export function filterOrElse<E, A, B extends A>(
+  refinement: Refinement<A, B>,
+  onFalse: (a: A) => E
+): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+export function filterOrElse<E, A>(
+  predicate: Predicate<A>,
+  onFalse: (a: A) => E
+): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> { ... }
+```
+
+Added in v2.0.0
+
 # fold (function)
 
 **Signature**
@@ -200,6 +222,26 @@ export function fromPredicate<E, A>(
 
 Added in v2.0.0
 
+# getApplyMonoid (function)
+
+**Signature**
+
+```ts
+export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderTaskEither<R, E, A>> { ... }
+```
+
+Added in v2.0.0
+
+# getApplySemigroup (function)
+
+**Signature**
+
+```ts
+export function getApplySemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>> { ... }
+```
+
+Added in v2.0.0
+
 # getOrElse (function)
 
 **Signature**
@@ -208,6 +250,16 @@ Added in v2.0.0
 export function getOrElse<R, E, A>(
   onLeft: (e: E) => Reader<R, Task<A>>
 ): (ma: ReaderTaskEither<R, E, A>) => Reader<R, Task<A>> { ... }
+```
+
+Added in v2.0.0
+
+# getSemigroup (function)
+
+**Signature**
+
+```ts
+export function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -300,6 +352,16 @@ Added in v2.0.0
 
 ```ts
 export function run<R, E, A>(ma: ReaderTaskEither<R, E, A>, r: R): Promise<Either<E, A>> { ... }
+```
+
+Added in v2.0.0
+
+# swap (function)
+
+**Signature**
+
+```ts
+export function swap<R, E, A>(ma: ReaderTaskEither<R, E, A>): ReaderTaskEither<R, A, E> { ... }
 ```
 
 Added in v2.0.0

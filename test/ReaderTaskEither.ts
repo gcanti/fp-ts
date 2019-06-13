@@ -2,12 +2,14 @@ import * as assert from 'assert'
 import { array } from '../src/Array'
 import * as E from '../src/Either'
 import { io } from '../src/IO'
-import { reader } from '../src/Reader'
-import * as _ from '../src/ReaderTaskEither'
-import { task } from '../src/Task'
-import { taskEither } from '../src/TaskEither'
+import { monoidSum } from '../src/Monoid'
 import { none, some } from '../src/Option'
 import { pipe } from '../src/pipeable'
+import { reader } from '../src/Reader'
+import * as _ from '../src/ReaderTaskEither'
+import { semigroupSum } from '../src/Semigroup'
+import { task } from '../src/Task'
+import { taskEither } from '../src/TaskEither'
 
 describe('ReaderTaskEither', () => {
   describe('Monad', () => {
@@ -213,5 +215,73 @@ describe('ReaderTaskEither', () => {
     assert.deepStrictEqual(e1, E.left('none'))
     const e2 = await _.run(_.fromOption(() => 'none')(some(1)), {})
     assert.deepStrictEqual(e2, E.right(1))
+  })
+
+  it('swap', async () => {
+    const e1 = await _.run(_.swap(_.right(1)), {})
+    assert.deepStrictEqual(e1, E.left(1))
+    const e2 = await _.run(_.swap(_.left('a')), {})
+    assert.deepStrictEqual(e2, E.right('a'))
+  })
+
+  describe('getSemigroup', () => {
+    it('concat', async () => {
+      const S = _.getSemigroup(semigroupSum)
+      const e1 = await _.run(S.concat(_.left('a'), _.left('b')), {})
+      assert.deepStrictEqual(e1, E.left('a'))
+
+      const e2 = await _.run(S.concat(_.left('a'), _.right(2)), {})
+      assert.deepStrictEqual(e2, E.right(2))
+
+      const e3 = await _.run(S.concat(_.right(1), _.left('b')), {})
+      assert.deepStrictEqual(e3, E.right(1))
+
+      const e4 = await _.run(S.concat(_.right(1), _.right(2)), {})
+      assert.deepStrictEqual(e4, E.right(3))
+    })
+  })
+
+  describe('getApplyMonoid', () => {
+    const M = _.getApplyMonoid(monoidSum)
+
+    it('concat (right)', async () => {
+      const x = await _.run(M.concat(_.right(1), _.right(2)), {})
+      return assert.deepStrictEqual(x, E.right(3))
+    })
+
+    it('concat (left)', async () => {
+      const x = await _.run(M.concat(_.right(1), _.left('b')), {})
+      return assert.deepStrictEqual(x, E.left('b'))
+    })
+
+    it('empty (right)', async () => {
+      const x = await _.run(M.concat(_.right(1), M.empty), {})
+      return assert.deepStrictEqual(x, E.right(1))
+    })
+
+    it('empty (left)', async () => {
+      const x = await _.run(M.concat(M.empty, _.right(1)), {})
+      return assert.deepStrictEqual(x, E.right(1))
+    })
+  })
+
+  it('filterOrElse', async () => {
+    const e1 = await _.run(
+      pipe(
+        _.right(12),
+        _.filterOrElse(n => n > 10, () => 'a')
+      ),
+      {}
+    )
+    assert.deepStrictEqual(e1, E.right(12))
+
+    const e2 = await _.run(
+      pipe(
+        _.right(8),
+        _.filterOrElse(n => n > 10, () => 'a')
+      ),
+      {}
+    )
+    assert.deepStrictEqual(e2, E.left('a'))
   })
 })
