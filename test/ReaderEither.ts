@@ -91,4 +91,16 @@ describe('ReaderEither', () => {
       return assert.deepStrictEqual(x, E.right('a'))
     })
   })
+
+  it('ask', () => {
+    assert.deepStrictEqual(_.ask()({}), E.right({}))
+  })
+
+  it('asks', () => {
+    assert.deepStrictEqual(_.asks((r: { a: number }) => r.a)({ a: 1 }), E.right(1))
+  })
+
+  it('local', () => {
+    assert.deepStrictEqual(_.local((n: number) => ({ a: n }))((r: { a: number }) => E.right(r.a))(1), E.right(1))
+  })
 })

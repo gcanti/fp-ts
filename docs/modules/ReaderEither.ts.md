@@ -18,6 +18,8 @@ parent: Modules
 - [right (constant)](#right-constant)
 - [rightReader (constant)](#rightreader-constant)
 - [swap (constant)](#swap-constant)
+- [ask (function)](#ask-function)
+- [asks (function)](#asks-function)
 - [filterOrElse (function)](#filterorelse-function)
 - [fold (function)](#fold-function)
 - [fromOption (function)](#fromoption-function)
@@ -26,6 +28,7 @@ parent: Modules
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getOrElse (function)](#getorelse-function)
 - [getSemigroup (function)](#getsemigroup-function)
+- [local (function)](#local-function)
 - [orElse (function)](#orelse-function)
 
 ---
@@ -130,6 +133,26 @@ export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E>
 
 Added in v2.0.0
 
+# ask (function)
+
+**Signature**
+
+```ts
+export function ask<R>(): ReaderEither<R, never, R> { ... }
+```
+
+Added in v2.0.0
+
+# asks (function)
+
+**Signature**
+
+```ts
+export function asks<R, A>(f: (r: R) => A): ReaderEither<R, never, A> { ... }
+```
+
+Added in v2.0.0
+
 # filterOrElse (function)
 
 **Signature**
@@ -220,6 +243,16 @@ Added in v2.0.0
 
 ```ts
 export function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>> { ... }
+```
+
+Added in v2.0.0
+
+# local (function)
+
+**Signature**
+
+```ts
+export function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<Q, E, A> { ... }
 ```
 
 Added in v2.0.0

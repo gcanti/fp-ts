@@ -156,6 +156,27 @@ export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderEither<R, E,
 /**
  * @since 2.0.0
  */
+export function ask<R>(): ReaderEither<R, never, R> {
+  return E.right
+}
+
+/**
+ * @since 2.0.0
+ */
+export function asks<R, A>(f: (r: R) => A): ReaderEither<R, never, A> {
+  return r => E.right(f(r))
+}
+
+/**
+ * @since 2.0.0
+ */
+export function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<Q, E, A> {
+  return ma => q => ma(f(q))
+}
+
+/**
+ * @since 2.0.0
+ */
 export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> = {
   URI,
   bimap: T.bimap,
