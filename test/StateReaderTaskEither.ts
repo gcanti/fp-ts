@@ -9,6 +9,7 @@ import * as _ from '../src/StateReaderTaskEither'
 import { task } from '../src/Task'
 import { taskEither } from '../src/TaskEither'
 import { io } from '../src/IO'
+import * as RE from '../src/ReaderEither'
 
 describe('StateReaderTaskEither', () => {
   it('run', async () => {
@@ -139,6 +140,13 @@ describe('StateReaderTaskEither', () => {
     const e1 = await _.run(_.fromOption(() => 'none')(O.none), {}, {})
     assert.deepStrictEqual(e1, E.left('none'))
     const e2 = await _.run(_.fromOption(() => 'none')(O.some(1)), {}, {})
+    assert.deepStrictEqual(e2, E.right([1, {}]))
+  })
+
+  it('fromReaderEither', async () => {
+    const e1 = await _.run(_.fromReaderEither(RE.left('a')), {}, {})
+    assert.deepStrictEqual(e1, E.left('a'))
+    const e2 = await _.run(_.fromReaderEither(RE.right(1)), {}, {})
     assert.deepStrictEqual(e2, E.right([1, {}]))
   })
 })

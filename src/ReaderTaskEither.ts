@@ -17,6 +17,7 @@ import { Task } from './Task'
 import * as TE from './TaskEither'
 
 import TaskEither = TE.TaskEither
+import { ReaderEither } from './ReaderEither'
 
 const T = getReaderM(TE.taskEither)
 
@@ -105,6 +106,13 @@ export function fromIOEither<R, E, A>(ma: IOEither<E, A>): ReaderTaskEither<R, E
  */
 export function fromEither<R, E, A>(ma: Either<E, A>): ReaderTaskEither<R, E, A> {
   return fromTaskEither(TE.fromEither(ma))
+}
+
+/**
+ * @since 2.0.0
+ */
+export function fromReaderEither<R, E, A>(ma: ReaderEither<R, E, A>): ReaderTaskEither<R, E, A> {
+  return r => TE.fromEither(ma(r))
 }
 
 /**

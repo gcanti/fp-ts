@@ -25,6 +25,7 @@ parent: Modules
 - [fromEither (function)](#fromeither-function)
 - [fromIOEither (function)](#fromioeither-function)
 - [fromOption (function)](#fromoption-function)
+- [fromReaderEither (function)](#fromreadereither-function)
 - [fromTaskEither (function)](#fromtaskeither-function)
 - [left (function)](#left-function)
 - [leftIO (function)](#leftio-function)
@@ -220,6 +221,16 @@ Added in v2.0.0
 
 ```ts
 export function fromOption<E>(onNone: () => E): <S, R, A>(ma: Option<A>) => StateReaderTaskEither<S, R, E, A> { ... }
+```
+
+Added in v2.0.0
+
+# fromReaderEither (function)
+
+**Signature**
+
+```ts
+export function fromReaderEither<S, R, E, A>(ma: ReaderEither<R, E, A>): StateReaderTaskEither<S, R, E, A> { ... }
 ```
 
 Added in v2.0.0

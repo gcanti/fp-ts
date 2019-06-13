@@ -24,6 +24,7 @@ parent: Modules
 - [fromIOEither (function)](#fromioeither-function)
 - [fromOption (function)](#fromoption-function)
 - [fromPredicate (function)](#frompredicate-function)
+- [fromReaderEither (function)](#fromreadereither-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getOrElse (function)](#getorelse-function)
@@ -218,6 +219,16 @@ export function fromPredicate<E, A>(
   predicate: Predicate<A>,
   onFalse: (a: A) => E
 ): <R>(a: A) => ReaderTaskEither<R, E, A> { ... }
+```
+
+Added in v2.0.0
+
+# fromReaderEither (function)
+
+**Signature**
+
+```ts
+export function fromReaderEither<R, E, A>(ma: ReaderEither<R, E, A>): ReaderTaskEither<R, E, A> { ... }
 ```
 
 Added in v2.0.0

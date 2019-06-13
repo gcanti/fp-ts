@@ -12,6 +12,7 @@ import { IO } from './IO'
 
 import ReaderTaskEither = RTE.ReaderTaskEither
 import { pipeable } from './pipeable'
+import { ReaderEither } from './ReaderEither'
 
 const T = getStateM(RTE.readerTaskEither)
 
@@ -120,6 +121,13 @@ export function fromIOEither<S, R, E, A>(ma: IOEither<E, A>): StateReaderTaskEit
  */
 export function fromEither<S, R, E, A>(ma: Either<E, A>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.fromEither(ma))
+}
+
+/**
+ * @since 2.0.0
+ */
+export function fromReaderEither<S, R, E, A>(ma: ReaderEither<R, E, A>): StateReaderTaskEither<S, R, E, A> {
+  return fromReaderTaskEither(RTE.fromReaderEither(ma))
 }
 
 /**
