@@ -379,13 +379,13 @@ specified function to combine values for duplicate keys.
 ```ts
 export function fromFoldable<F extends URIS3>(
   F: Foldable3<F>
-): <K extends string, U, L, A>(ta: Type3<F, U, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Record<K, A>
+): <K extends string, U, L, A>(ta: Kind3<F, U, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Record<K, A>
 export function fromFoldable<F extends URIS2>(
   F: Foldable2<F>
-): <K extends string, L, A>(ta: Type2<F, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Record<K, A>
+): <K extends string, L, A>(ta: Kind2<F, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Record<K, A>
 export function fromFoldable<F extends URIS>(
   F: Foldable1<F>
-): <K extends string, A>(ta: Type<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Record<K, A>
+): <K extends string, A>(ta: Kind<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Record<K, A>
 export function fromFoldable<F>(
   // tslint:disable-next-line: deprecation
   F: Foldable<F>
@@ -407,15 +407,15 @@ Create a record from a foldable collection using the specified functions to
 export function fromFoldableMap<F extends URIS3, B>(
   M: Magma<B>,
   F: Foldable3<F>
-): <U, L, A, K extends string>(ta: Type3<F, U, L, A>, f: (a: A) => [K, B]) => Record<K, B>
+): <U, L, A, K extends string>(ta: Kind3<F, U, L, A>, f: (a: A) => [K, B]) => Record<K, B>
 export function fromFoldableMap<F extends URIS2, B>(
   M: Magma<B>,
   F: Foldable2<F>
-): <L, A, K extends string>(ta: Type2<F, L, A>, f: (a: A) => [K, B]) => Record<K, B>
+): <L, A, K extends string>(ta: Kind2<F, L, A>, f: (a: A) => [K, B]) => Record<K, B>
 export function fromFoldableMap<F extends URIS, B>(
   M: Magma<B>,
   F: Foldable1<F>
-): <A, K extends string>(ta: Type<F, A>, f: (a: A) => [K, B]) => Record<K, B>
+): <A, K extends string>(ta: Kind<F, A>, f: (a: A) => [K, B]) => Record<K, B>
 export function fromFoldableMap<F, B>(
   M: Magma<B>,
   // tslint:disable-next-line: deprecation
@@ -823,19 +823,19 @@ Added in v1.10.0
 ```ts
 export function sequence<F extends URIS3>(
   F: Applicative3<F>
-): <U, L, A>(ta: Record<string, Type3<F, U, L, A>>) => Type3<F, U, L, Record<string, A>>
+): <U, L, A>(ta: Record<string, Kind3<F, U, L, A>>) => Kind3<F, U, L, Record<string, A>>
 export function sequence<F extends URIS3, U, L>(
   F: Applicative3C<F, U, L>
-): <A>(ta: Record<string, Type3<F, U, L, A>>) => Type3<F, U, L, Record<string, A>>
+): <A>(ta: Record<string, Kind3<F, U, L, A>>) => Kind3<F, U, L, Record<string, A>>
 export function sequence<F extends URIS2>(
   F: Applicative2<F>
-): <L, A>(ta: Record<string, Type2<F, L, A>>) => Type2<F, L, Record<string, A>>
+): <L, A>(ta: Record<string, Kind2<F, L, A>>) => Kind2<F, L, Record<string, A>>
 export function sequence<F extends URIS2, L>(
   F: Applicative2C<F, L>
-): <A>(ta: Record<string, Type2<F, L, A>>) => Type2<F, L, Record<string, A>>
+): <A>(ta: Record<string, Kind2<F, L, A>>) => Kind2<F, L, Record<string, A>>
 export function sequence<F extends URIS>(
   F: Applicative1<F>
-): <A>(ta: Record<string, Type<F, A>>) => Type<F, Record<string, A>>
+): <A>(ta: Record<string, Kind<F, A>>) => Kind<F, Record<string, A>>
 export function sequence<F>(F: Applicative<F>): <A>(ta: Record<string, HKT<F, A>>) => HKT<F, Record<string, A>> { ... }
 ```
 
@@ -895,7 +895,7 @@ Unfolds a record into a list of key/value pairs
 ```ts
 export function toUnfoldable<F extends URIS>(
   unfoldable: Unfoldable1<F>
-): <K extends string, A>(d: Record<K, A>) => Type<F, [K, A]>
+): <K extends string, A>(d: Record<K, A>) => Kind<F, [K, A]>
 export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <K extends string, A>(d: Record<K, A>) => HKT<F, [K, A]> { ... }
 ```
 
@@ -910,19 +910,19 @@ Use `traverse2v`
 ```ts
 export function traverse<F extends URIS3>(
   F: Applicative3<F>
-): <U, L, A, B>(ta: Record<string, A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Record<string, B>>
+): <U, L, A, B>(ta: Record<string, A>, f: (a: A) => Kind3<F, U, L, B>) => Kind3<F, U, L, Record<string, B>>
 export function traverse<F extends URIS3, U, L>(
   F: Applicative3C<F, U, L>
-): <A, B>(ta: Record<string, A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Record<string, B>>
+): <A, B>(ta: Record<string, A>, f: (a: A) => Kind3<F, U, L, B>) => Kind3<F, U, L, Record<string, B>>
 export function traverse<F extends URIS2>(
   F: Applicative2<F>
-): <L, A, B>(ta: Record<string, A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Record<string, B>>
+): <L, A, B>(ta: Record<string, A>, f: (a: A) => Kind2<F, L, B>) => Kind2<F, L, Record<string, B>>
 export function traverse<F extends URIS2, L>(
   F: Applicative2C<F, L>
-): <A, B>(ta: Record<string, A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Record<string, B>>
+): <A, B>(ta: Record<string, A>, f: (a: A) => Kind2<F, L, B>) => Kind2<F, L, Record<string, B>>
 export function traverse<F extends URIS>(
   F: Applicative1<F>
-): <A, B>(ta: Record<string, A>, f: (a: A) => Type<F, B>) => Type<F, Record<string, B>>
+): <A, B>(ta: Record<string, A>, f: (a: A) => Kind<F, B>) => Kind<F, Record<string, B>>
 export function traverse<F>(
   F: Applicative<F>
 ): <A, B>(ta: Record<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, Record<string, B>> { ... }
@@ -937,16 +937,16 @@ Added in v1.10.0
 ```ts
 export function traverse2v<F extends URIS3>(
   F: Applicative3<F>
-): <U, L, A, B>(f: (a: A) => Type3<F, U, L, B>) => <K extends string>(ta: Record<K, A>) => Type3<F, U, L, Record<K, B>>
+): <U, L, A, B>(f: (a: A) => Kind3<F, U, L, B>) => <K extends string>(ta: Record<K, A>) => Kind3<F, U, L, Record<K, B>>
 export function traverse2v<F extends URIS2>(
   F: Applicative2<F>
-): <L, A, B>(f: (a: A) => Type2<F, L, B>) => <K extends string>(ta: Record<K, A>) => Type2<F, L, Record<K, B>>
+): <L, A, B>(f: (a: A) => Kind2<F, L, B>) => <K extends string>(ta: Record<K, A>) => Kind2<F, L, Record<K, B>>
 export function traverse2v<F extends URIS2, L>(
   F: Applicative2C<F, L>
-): <A, B>(f: (a: A) => Type2<F, L, B>) => <K extends string>(ta: Record<K, A>) => Type2<F, L, Record<K, B>>
+): <A, B>(f: (a: A) => Kind2<F, L, B>) => <K extends string>(ta: Record<K, A>) => Kind2<F, L, Record<K, B>>
 export function traverse2v<F extends URIS>(
   F: Applicative1<F>
-): <A, B>(f: (a: A) => Type<F, B>) => <K extends string>(ta: Record<K, A>) => Type<F, Record<K, B>>
+): <A, B>(f: (a: A) => Kind<F, B>) => <K extends string>(ta: Record<K, A>) => Kind<F, Record<K, B>>
 export function traverse2v<F>(
   F: Applicative<F>
 ): <A, B>(f: (a: A) => HKT<F, B>) => <K extends string>(ta: Record<K, A>) => HKT<F, Record<K, B>> { ... }
@@ -962,17 +962,17 @@ Added in v1.19.0
 export function traverseWithIndex<F extends URIS3>(
   F: Applicative3<F>
 ): <K extends string, U, L, A, B>(
-  f: (k: K, a: A) => Type3<F, U, L, B>
-) => (ta: Record<K, A>) => Type3<F, U, L, Record<K, B>>
+  f: (k: K, a: A) => Kind3<F, U, L, B>
+) => (ta: Record<K, A>) => Kind3<F, U, L, Record<K, B>>
 export function traverseWithIndex<F extends URIS2>(
   F: Applicative2<F>
-): <K extends string, L, A, B>(f: (k: K, a: A) => Type2<F, L, B>) => (ta: Record<K, A>) => Type2<F, L, Record<K, B>>
+): <K extends string, L, A, B>(f: (k: K, a: A) => Kind2<F, L, B>) => (ta: Record<K, A>) => Kind2<F, L, Record<K, B>>
 export function traverseWithIndex<F extends URIS2, L>(
   F: Applicative2C<F, L>
-): <K extends string, A, B>(f: (k: K, a: A) => Type2<F, L, B>) => (ta: Record<K, A>) => Type2<F, L, Record<K, B>>
+): <K extends string, A, B>(f: (k: K, a: A) => Kind2<F, L, B>) => (ta: Record<K, A>) => Kind2<F, L, Record<K, B>>
 export function traverseWithIndex<F extends URIS>(
   F: Applicative1<F>
-): <K extends string, A, B>(f: (k: K, a: A) => Type<F, B>) => (ta: Record<K, A>) => Type<F, Record<K, B>>
+): <K extends string, A, B>(f: (k: K, a: A) => Kind<F, B>) => (ta: Record<K, A>) => Kind<F, Record<K, B>>
 export function traverseWithIndex<F>(
   F: Applicative<F>
 ): <K extends string, A, B>(f: (k: K, a: A) => HKT<F, B>) => (ta: Record<K, A>) => HKT<F, Record<K, B>> { ... }
@@ -989,13 +989,13 @@ Use `traverseWithIndex`
 ```ts
 export function traverseWithKey<F extends URIS3>(
   F: Applicative3<F>
-): <U, L, A, B>(ta: Record<string, A>, f: (k: string, a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Record<string, B>>
+): <U, L, A, B>(ta: Record<string, A>, f: (k: string, a: A) => Kind3<F, U, L, B>) => Kind3<F, U, L, Record<string, B>>
 export function traverseWithKey<F extends URIS2>(
   F: Applicative2<F>
-): <L, A, B>(ta: Record<string, A>, f: (k: string, a: A) => Type2<F, L, B>) => Type2<F, L, Record<string, B>>
+): <L, A, B>(ta: Record<string, A>, f: (k: string, a: A) => Kind2<F, L, B>) => Kind2<F, L, Record<string, B>>
 export function traverseWithKey<F extends URIS>(
   F: Applicative1<F>
-): <A, B>(ta: Record<string, A>, f: (k: string, a: A) => Type<F, B>) => Type<F, Record<string, B>>
+): <A, B>(ta: Record<string, A>, f: (k: string, a: A) => Kind<F, B>) => Kind<F, Record<string, B>>
 export function traverseWithKey<F>(
   F: Applicative<F>
 ): <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, Record<string, B>> { ... }
@@ -1014,32 +1014,32 @@ export function wilt<F extends URIS3>(
   F: Applicative3<F>
 ): <U, L, RL, RR, A>(
   wa: Record<string, A>,
-  f: (a: A) => Type3<F, U, L, Either<RL, RR>>
-) => Type3<F, U, L, Separated<Record<string, RL>, Record<string, RR>>>
+  f: (a: A) => Kind3<F, U, L, Either<RL, RR>>
+) => Kind3<F, U, L, Separated<Record<string, RL>, Record<string, RR>>>
 export function wilt<F extends URIS3, U, L>(
   F: Applicative3C<F, U, L>
 ): <RL, RR, A>(
   wa: Record<string, A>,
-  f: (a: A) => Type3<F, U, L, Either<RL, RR>>
-) => Type3<F, U, L, Separated<Record<string, RL>, Record<string, RR>>>
+  f: (a: A) => Kind3<F, U, L, Either<RL, RR>>
+) => Kind3<F, U, L, Separated<Record<string, RL>, Record<string, RR>>>
 export function wilt<F extends URIS2>(
   F: Applicative2<F>
 ): <L, RL, RR, A>(
   wa: Record<string, A>,
-  f: (a: A) => Type2<F, L, Either<RL, RR>>
-) => Type2<F, L, Separated<Record<string, RL>, Record<string, RR>>>
+  f: (a: A) => Kind2<F, L, Either<RL, RR>>
+) => Kind2<F, L, Separated<Record<string, RL>, Record<string, RR>>>
 export function wilt<F extends URIS2, L>(
   F: Applicative2C<F, L>
 ): <RL, RR, A>(
   wa: Record<string, A>,
-  f: (a: A) => Type2<F, L, Either<RL, RR>>
-) => Type2<F, L, Separated<Record<string, RL>, Record<string, RR>>>
+  f: (a: A) => Kind2<F, L, Either<RL, RR>>
+) => Kind2<F, L, Separated<Record<string, RL>, Record<string, RR>>>
 export function wilt<F extends URIS>(
   F: Applicative1<F>
 ): <RL, RR, A>(
   wa: Record<string, A>,
-  f: (a: A) => Type<F, Either<RL, RR>>
-) => Type<F, Separated<Record<string, RL>, Record<string, RR>>>
+  f: (a: A) => Kind<F, Either<RL, RR>>
+) => Kind<F, Separated<Record<string, RL>, Record<string, RR>>>
 export function wilt<F>(
   F: Applicative<F>
 ): <RL, RR, A>(
@@ -1059,19 +1059,19 @@ Use `record.wither`
 ```ts
 export function wither<F extends URIS3>(
   F: Applicative3<F>
-): <U, L, A, B>(wa: Record<string, A>, f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, Record<string, B>>
+): <U, L, A, B>(wa: Record<string, A>, f: (a: A) => Kind3<F, U, L, Option<B>>) => Kind3<F, U, L, Record<string, B>>
 export function wither<F extends URIS3, U, L>(
   F: Applicative3C<F, U, L>
-): <A, B>(wa: Record<string, A>, f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, Record<string, B>>
+): <A, B>(wa: Record<string, A>, f: (a: A) => Kind3<F, U, L, Option<B>>) => Kind3<F, U, L, Record<string, B>>
 export function wither<F extends URIS2>(
   F: Applicative2<F>
-): <L, A, B>(wa: Record<string, A>, f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, Record<string, B>>
+): <L, A, B>(wa: Record<string, A>, f: (a: A) => Kind2<F, L, Option<B>>) => Kind2<F, L, Record<string, B>>
 export function wither<F extends URIS2, L>(
   F: Applicative2C<F, L>
-): <A, B>(wa: Record<string, A>, f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, Record<string, B>>
+): <A, B>(wa: Record<string, A>, f: (a: A) => Kind2<F, L, Option<B>>) => Kind2<F, L, Record<string, B>>
 export function wither<F extends URIS>(
   F: Applicative1<F>
-): <A, B>(wa: Record<string, A>, f: (a: A) => Type<F, Option<B>>) => Type<F, Record<string, B>>
+): <A, B>(wa: Record<string, A>, f: (a: A) => Kind<F, Option<B>>) => Kind<F, Record<string, B>>
 export function wither<F>(
   F: Applicative<F>
 ): <A, B>(wa: Record<string, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Record<string, B>> { ... }

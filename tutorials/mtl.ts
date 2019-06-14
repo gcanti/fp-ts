@@ -1,6 +1,6 @@
 import { liftA2 } from '../src/Apply'
-import { flatten } from '../src/Chain'
-import { HKT, Type, Type3, URIS, URIS3 } from '../src/HKT'
+import { identity } from '../src/function'
+import { HKT, Kind, Kind3, URIS, URIS3 } from '../src/HKT'
 import { IO, io, URI as IOURI } from '../src/IO'
 import { Monad, Monad1, Monad3C } from '../src/Monad'
 import * as RTE from '../src/ReaderTaskEither'
@@ -31,15 +31,15 @@ interface MonadApp<M> extends MonadUser<M>, MonadFB<M>, Monad<M> {}
 
 function likePost<M extends URIS3, U, L>(
   M: MonadApp3C<M, U, L>
-): (token: string) => (url: string) => Type3<M, U, L, boolean>
-function likePost<M extends URIS>(M: MonadApp1<M>): (token: string) => (url: string) => Type<M, boolean>
+): (token: string) => (url: string) => Kind3<M, U, L, boolean>
+function likePost<M extends URIS>(M: MonadApp1<M>): (token: string) => (url: string) => Kind<M, boolean>
 function likePost<M>(M: MonadApp<M>): (token: string) => (url: string) => HKT<M, boolean> {
   return token => url => {
     const mToken = M.chain(M.validateUser(token), uid => M.facebookToken(uid))
     const mPost = M.findPost(url)
     // tslint:disable-next-line: deprecation
     const mmResult = liftA2(M)(M.sendLike)(mToken)(mPost)
-    return flatten(M)(mmResult)
+    return M.chain(mmResult, identity)
   }
 }
 
@@ -48,13 +48,13 @@ function likePost<M>(M: MonadApp<M>): (token: string) => (url: string) => HKT<M,
 //
 
 interface MonadUser1<M extends URIS> {
-  validateUser: (token: string) => Type<M, string>
-  facebookToken: (uid: string) => Type<M, string>
+  validateUser: (token: string) => Kind<M, string>
+  facebookToken: (uid: string) => Kind<M, string>
 }
 
 interface MonadFB1<M extends URIS> {
-  findPost: (url: string) => Type<M, string>
-  sendLike: (fbToken: string) => (post: string) => Type<M, boolean>
+  findPost: (url: string) => Kind<M, string>
+  sendLike: (fbToken: string) => (post: string) => Kind<M, boolean>
 }
 
 interface MonadApp1<M extends URIS> extends MonadUser1<M>, MonadFB1<M>, Monad1<M> {}
@@ -86,13 +86,13 @@ console.log('IO', likePost(monadAppIO)('session123')('https://me.com/1').run())
 // Task
 
 const monadUserTask: MonadUser1<TaskURI> = {
-  validateUser: token => delay2v(1000, task.of(`string(${token})`)),
-  facebookToken: uid => delay2v(500, task.of(`FBToken(${uid})`))
+  validateUser: token => delay2v(1000)(task.of(`string(${token})`)),
+  facebookToken: uid => delay2v(500)(task.of(`FBToken(${uid})`))
 }
 
 const monadFBTask: MonadFB1<TaskURI> = {
-  findPost: url => delay2v(2000, task.of(`FBPost(${url})`)),
-  sendLike: token => (post: string) => delay2v(1000, task.of(true))
+  findPost: url => delay2v(2000)(task.of(`FBPost(${url})`)),
+  sendLike: token => (post: string) => delay2v(1000)(task.of(true))
 }
 
 const monadAppTask: MonadApp1<TaskURI> = {
@@ -111,13 +111,13 @@ likePost(monadAppTask)('session123')('https://me.com/1')
 // ReaderTaskEither
 
 interface MonadUser3C<M extends URIS3, U, L> {
-  validateUser: (token: string) => Type3<M, U, L, string>
-  facebookToken: (uid: string) => Type3<M, U, L, string>
+  validateUser: (token: string) => Kind3<M, U, L, string>
+  facebookToken: (uid: string) => Kind3<M, U, L, string>
 }
 
 interface MonadFB3C<M extends URIS3, U, L> {
-  findPost: (url: string) => Type3<M, U, L, string>
-  sendLike: (fbToken: string) => (post: string) => Type3<M, U, L, boolean>
+  findPost: (url: string) => Kind3<M, U, L, string>
+  sendLike: (fbToken: string) => (post: string) => Kind3<M, U, L, boolean>
 }
 
 interface MonadApp3C<M extends URIS3, U, L> extends MonadUser3C<M, U, L>, MonadFB3C<M, U, L>, Monad3C<M, U, L> {}

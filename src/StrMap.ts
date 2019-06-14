@@ -10,7 +10,7 @@ import { Foldable2v1 } from './Foldable2v'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { Predicate, Refinement } from './function'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import * as R from './Record'
@@ -22,7 +22,7 @@ import { Witherable1 } from './Witherable'
 import { Show } from './Show'
 
 declare module './HKT' {
-  interface URI2HKT<A> {
+  interface URItoKind<A> {
     StrMap: StrMap<A>
   }
 }
@@ -258,13 +258,13 @@ const foldrWithIndex = <A, B>(fa: StrMap<A>, b: B, f: (k: string, a: A, b: B) =>
  */
 export function traverseWithKey<F extends URIS3>(
   F: Applicative3<F>
-): <U, L, A, B>(ta: StrMap<A>, f: (k: string, a: A) => Type3<F, U, L, B>) => Type3<F, U, L, StrMap<B>>
+): <U, L, A, B>(ta: StrMap<A>, f: (k: string, a: A) => Kind3<F, U, L, B>) => Kind3<F, U, L, StrMap<B>>
 export function traverseWithKey<F extends URIS2>(
   F: Applicative2<F>
-): <L, A, B>(ta: StrMap<A>, f: (k: string, a: A) => Type2<F, L, B>) => Type2<F, L, StrMap<B>>
+): <L, A, B>(ta: StrMap<A>, f: (k: string, a: A) => Kind2<F, L, B>) => Kind2<F, L, StrMap<B>>
 export function traverseWithKey<F extends URIS>(
   F: Applicative1<F>
-): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => Type<F, B>) => Type<F, StrMap<B>>
+): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => Kind<F, B>) => Kind<F, StrMap<B>>
 export function traverseWithKey<F>(
   F: Applicative<F>
 ): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
@@ -356,13 +356,13 @@ export const lookup = <A>(k: string, d: StrMap<A>): Option<A> => {
  */
 export function fromFoldable<F extends URIS3>(
   F: Foldable3<F>
-): <U, L, A>(ta: Type3<F, U, L, [string, A]>, onConflict: (existing: A, a: A) => A) => StrMap<A>
+): <U, L, A>(ta: Kind3<F, U, L, [string, A]>, onConflict: (existing: A, a: A) => A) => StrMap<A>
 export function fromFoldable<F extends URIS2>(
   F: Foldable2<F>
-): <L, A>(ta: Type2<F, L, [string, A]>, onConflict: (existing: A, a: A) => A) => StrMap<A>
+): <L, A>(ta: Kind2<F, L, [string, A]>, onConflict: (existing: A, a: A) => A) => StrMap<A>
 export function fromFoldable<F extends URIS>(
   F: Foldable1<F>
-): <A>(ta: Type<F, [string, A]>, onConflict: (existing: A, a: A) => A) => StrMap<A>
+): <A>(ta: Kind<F, [string, A]>, onConflict: (existing: A, a: A) => A) => StrMap<A>
 export function fromFoldable<F>(
   // tslint:disable-next-line: deprecation
   F: Foldable<F>
@@ -397,7 +397,7 @@ export const toArray = <A>(d: StrMap<A>): Array<[string, A]> => {
  *
  * @since 1.0.0
  */
-export function toUnfoldable<F extends URIS>(U: Unfoldable1<F>): <A>(d: StrMap<A>) => Type<F, [string, A]>
+export function toUnfoldable<F extends URIS>(U: Unfoldable1<F>): <A>(d: StrMap<A>) => Kind<F, [string, A]>
 export function toUnfoldable<F>(U: Unfoldable<F>): <A>(d: StrMap<A>) => HKT<F, [string, A]>
 export function toUnfoldable<F>(U: Unfoldable<F>): <A>(d: StrMap<A>) => HKT<F, [string, A]> {
   const toUnfoldableU = R.toUnfoldable(U)

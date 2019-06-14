@@ -69,7 +69,7 @@ TypeScript
 
 ```ts
 declare module 'fp-ts/lib/HKT' {
-  interface URI2HKT<A> {
+  interface URItoKind<A> {
     Option: Option<A>
   }
 }
@@ -142,30 +142,30 @@ export interface Functor<F> {
 
 export interface Functor1<F extends URIS> {
   readonly URI: F
-  readonly map: <A, B>(fa: Type<F, A>, f: (a: A) => B) => Type<F, B>
+  readonly map: <A, B>(fa: Kind<F, A>, f: (a: A) => B) => Kind<F, B>
 }
 
 export interface Functor2<F extends URIS2> {
   readonly URI: F
-  readonly map: <L, A, B>(fa: Type2<F, L, A>, f: (a: A) => B) => Type2<F, L, B>
+  readonly map: <L, A, B>(fa: Kind2<F, L, A>, f: (a: A) => B) => Kind2<F, L, B>
 }
 
 export interface Functor3<F extends URIS3> {
   readonly URI: F
-  readonly map: <U, L, A, B>(fa: Type3<F, U, L, A>, f: (a: A) => B) => Type3<F, U, L, B>
+  readonly map: <U, L, A, B>(fa: Kind3<F, U, L, A>, f: (a: A) => B) => Kind3<F, U, L, B>
 }
 
 export interface Functor2C<F extends URIS2, L> {
   readonly URI: F
   readonly _L: L
-  readonly map: <A, B>(fa: Type2<F, L, A>, f: (a: A) => B) => Type2<F, L, B>
+  readonly map: <A, B>(fa: Kind2<F, L, A>, f: (a: A) => B) => Kind2<F, L, B>
 }
 
 export interface Functor3C<F extends URIS3, U, L> {
   readonly URI: F
   readonly _L: L
   readonly _U: U
-  readonly map: <A, B>(fa: Type3<F, U, L, A>, f: (a: A) => B) => Type3<F, U, L, B>
+  readonly map: <A, B>(fa: Kind3<F, U, L, A>, f: (a: A) => B) => Kind3<F, U, L, B>
 }
 ```
 

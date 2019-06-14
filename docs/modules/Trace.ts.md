@@ -51,11 +51,11 @@ Log a message to the console for debugging purposes and then return the unit val
 **Signature**
 
 ```ts
-export function traceA<F extends URIS3>(F: Applicative3<F>): <U, L>(message: unknown) => Type3<F, U, L, void>
-export function traceA<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): (message: unknown) => Type3<F, U, L, void>
-export function traceA<F extends URIS2>(F: Applicative2<F>): <L>(message: unknown) => Type2<F, L, void>
-export function traceA<F extends URIS2, L>(F: Applicative2C<F, L>): (message: unknown) => Type2<F, L, void>
-export function traceA<F extends URIS>(F: Applicative1<F>): (message: unknown) => Type<F, void> { ... }
+export function traceA<F extends URIS3>(F: Applicative3<F>): <U, L>(message: unknown) => Kind3<F, U, L, void>
+export function traceA<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): (message: unknown) => Kind3<F, U, L, void>
+export function traceA<F extends URIS2>(F: Applicative2<F>): <L>(message: unknown) => Kind2<F, L, void>
+export function traceA<F extends URIS2, L>(F: Applicative2C<F, L>): (message: unknown) => Kind2<F, L, void>
+export function traceA<F extends URIS>(F: Applicative1<F>): (message: unknown) => Kind<F, void> { ... }
 ```
 
 Added in v1.0.0
@@ -67,11 +67,11 @@ Log any value to the console and return it in `Monad` useful when one has monadi
 **Signature**
 
 ```ts
-export function traceM<F extends URIS3>(F: Monad3<F>): <U, L, A>(a: A) => Type3<F, U, L, A>
-export function traceM<F extends URIS3, U, L>(F: Monad3C<F, U, L>): <A>(a: A) => Type3<F, U, L, A>
-export function traceM<F extends URIS2>(F: Monad2<F>): <L, A>(a: A) => Type2<F, L, A>
-export function traceM<F extends URIS2, L>(F: Monad2C<F, L>): <A>(a: A) => Type2<F, L, A>
-export function traceM<F extends URIS>(F: Monad1<F>): <A>(a: A) => Type<F, A> { ... }
+export function traceM<F extends URIS3>(F: Monad3<F>): <U, L, A>(a: A) => Kind3<F, U, L, A>
+export function traceM<F extends URIS3, U, L>(F: Monad3C<F, U, L>): <A>(a: A) => Kind3<F, U, L, A>
+export function traceM<F extends URIS2>(F: Monad2<F>): <L, A>(a: A) => Kind2<F, L, A>
+export function traceM<F extends URIS2, L>(F: Monad2C<F, L>): <A>(a: A) => Kind2<F, L, A>
+export function traceM<F extends URIS>(F: Monad1<F>): <A>(a: A) => Kind<F, A> { ... }
 ```
 
 Added in v1.0.0

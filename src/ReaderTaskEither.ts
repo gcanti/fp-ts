@@ -18,7 +18,7 @@ import { pipeable } from './pipeable'
 const readerTTaskEither = readerT.getReaderT2v(taskEither.taskEither)
 
 declare module './HKT' {
-  interface URI2HKT3<U, L, A> {
+  interface URItoKind3<U, L, A> {
     ReaderTaskEither: ReaderTaskEither<U, L, A>
   }
 }

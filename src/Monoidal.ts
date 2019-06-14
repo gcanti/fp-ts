@@ -6,7 +6,7 @@
  */
 import { Applicative, Applicative1, Applicative2, Applicative3 } from './Applicative'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { constant } from './function'
 
 /**
@@ -18,28 +18,28 @@ export interface Monoidal<F> extends Functor<F> {
 }
 
 export interface Monoidal1<F extends URIS> extends Functor1<F> {
-  readonly unit: () => Type<F, void>
-  readonly mult: <A, B>(fa: Type<F, A>, fb: Type<F, B>) => Type<F, [A, B]>
+  readonly unit: () => Kind<F, void>
+  readonly mult: <A, B>(fa: Kind<F, A>, fb: Kind<F, B>) => Kind<F, [A, B]>
 }
 
 export interface Monoidal2<F extends URIS2> extends Functor2<F> {
-  readonly unit: <L>() => Type2<F, L, void>
-  readonly mult: <L, A, B>(fa: Type2<F, L, A>, fb: Type2<F, L, B>) => Type2<F, L, [A, B]>
+  readonly unit: <L>() => Kind2<F, L, void>
+  readonly mult: <L, A, B>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>) => Kind2<F, L, [A, B]>
 }
 
 export interface Monoidal3<F extends URIS3> extends Functor3<F> {
-  readonly unit: <U, L>() => Type3<F, U, L, void>
-  readonly mult: <U, L, A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, [A, B]>
+  readonly unit: <U, L>() => Kind3<F, U, L, void>
+  readonly mult: <U, L, A, B>(fa: Kind3<F, U, L, A>, fb: Kind3<F, U, L, B>) => Kind3<F, U, L, [A, B]>
 }
 
 export interface Monoidal2C<F extends URIS2, L> extends Functor2C<F, L> {
-  readonly unit: () => Type2<F, L, void>
-  readonly mult: <A, B>(fa: Type2<F, L, A>, fb: Type2<F, L, B>) => Type2<F, L, [A, B]>
+  readonly unit: () => Kind2<F, L, void>
+  readonly mult: <A, B>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>) => Kind2<F, L, [A, B]>
 }
 
 export interface Monoidal3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
-  readonly unit: () => Type3<F, U, L, void>
-  readonly mult: <A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, [A, B]>
+  readonly unit: () => Kind3<F, U, L, void>
+  readonly mult: <A, B>(fa: Kind3<F, U, L, A>, fb: Kind3<F, U, L, B>) => Kind3<F, U, L, [A, B]>
 }
 
 /**

@@ -3,7 +3,7 @@ import { IxMonad3 } from './IxMonad'
 import { Monad3C } from './Monad'
 
 declare module './HKT' {
-  interface URI2HKT3<U, L, A> {
+  interface URItoKind3<U, L, A> {
     IxIO: IxIO<U, L, A>
   }
 }

@@ -12,7 +12,7 @@ import { Eq, fromEquals } from './Eq'
 import { Monad1 } from './Monad'
 
 declare module './HKT' {
-  interface URI2HKT<A> {
+  interface URItoKind<A> {
     FreeGroup: FreeGroup<A>
   }
 }

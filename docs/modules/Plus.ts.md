@@ -48,7 +48,7 @@ Added in v1.0.0
 
 ```ts
 export interface Plus1<F extends URIS> extends Alt1<F> {
-  readonly zero: <A>() => Type<F, A>
+  readonly zero: <A>() => Kind<F, A>
 }
 ```
 
@@ -58,7 +58,7 @@ export interface Plus1<F extends URIS> extends Alt1<F> {
 
 ```ts
 export interface Plus2<F extends URIS2> extends Alt2<F> {
-  readonly zero: <L, A>() => Type2<F, L, A>
+  readonly zero: <L, A>() => Kind2<F, L, A>
 }
 ```
 
@@ -68,7 +68,7 @@ export interface Plus2<F extends URIS2> extends Alt2<F> {
 
 ```ts
 export interface Plus2C<F extends URIS2, L> extends Alt2C<F, L> {
-  readonly zero: <A>() => Type2<F, L, A>
+  readonly zero: <A>() => Kind2<F, L, A>
 }
 ```
 
@@ -78,7 +78,7 @@ export interface Plus2C<F extends URIS2, L> extends Alt2C<F, L> {
 
 ```ts
 export interface Plus3<F extends URIS3> extends Alt3<F> {
-  readonly zero: <U, L, A>() => Type3<F, U, L, A>
+  readonly zero: <U, L, A>() => Kind3<F, U, L, A>
 }
 ```
 
@@ -88,6 +88,6 @@ export interface Plus3<F extends URIS3> extends Alt3<F> {
 
 ```ts
 export interface Plus3C<F extends URIS3, U, L> extends Alt3C<F, U, L> {
-  readonly zero: <A>() => Type3<F, U, L, A>
+  readonly zero: <A>() => Kind3<F, U, L, A>
 }
 ```

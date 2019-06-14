@@ -64,8 +64,8 @@ Added in v1.11.0
 
 ```ts
 export interface Strong2<F extends URIS2> extends Profunctor2<F> {
-  readonly first: <A, B, C>(pab: Type2<F, A, B>) => Type2<F, [A, C], [B, C]>
-  readonly second: <A, B, C>(pab: Type2<F, B, C>) => Type2<F, [A, B], [A, C]>
+  readonly first: <A, B, C>(pab: Kind2<F, A, B>) => Kind2<F, [A, C], [B, C]>
+  readonly second: <A, B, C>(pab: Kind2<F, B, C>) => Kind2<F, [A, B], [A, C]>
 }
 ```
 
@@ -75,8 +75,8 @@ export interface Strong2<F extends URIS2> extends Profunctor2<F> {
 
 ```ts
 export interface Strong3<F extends URIS3> extends Profunctor3<F> {
-  readonly first: <U, A, B, C>(pab: Type3<F, U, A, B>) => Type3<F, U, [A, C], [B, C]>
-  readonly second: <U, A, B, C>(pab: Type3<F, U, B, C>) => Type3<F, U, [A, B], [A, C]>
+  readonly first: <U, A, B, C>(pab: Kind3<F, U, A, B>) => Kind3<F, U, [A, C], [B, C]>
+  readonly second: <U, A, B, C>(pab: Kind3<F, U, B, C>) => Kind3<F, U, [A, B], [A, C]>
 }
 ```
 
@@ -86,8 +86,8 @@ export interface Strong3<F extends URIS3> extends Profunctor3<F> {
 
 ```ts
 export interface Strong4<F extends URIS4> extends Profunctor4<F> {
-  readonly first: <X, U, A, B, C>(pab: Type4<F, X, U, A, B>) => Type4<F, X, U, [A, C], [B, C]>
-  readonly second: <X, U, A, B, C>(pab: Type4<F, X, U, B, C>) => Type4<F, X, U, [A, B], [A, C]>
+  readonly first: <X, U, A, B, C>(pab: Kind4<F, X, U, A, B>) => Kind4<F, X, U, [A, C], [B, C]>
+  readonly second: <X, U, A, B, C>(pab: Kind4<F, X, U, B, C>) => Kind4<F, X, U, [A, B], [A, C]>
 }
 ```
 
@@ -113,13 +113,13 @@ allows us to run two parallel computations on the same input and return both res
 ```ts
 export function fanout<F extends URIS4>(
   F: Category4<F> & Strong4<F>
-): <X, U, A, B, C>(pab: Type4<F, X, U, A, B>, pac: Type4<F, X, U, A, C>) => Type4<F, X, U, A, [B, C]>
+): <X, U, A, B, C>(pab: Kind4<F, X, U, A, B>, pac: Kind4<F, X, U, A, C>) => Kind4<F, X, U, A, [B, C]>
 export function fanout<F extends URIS3>(
   F: Category3<F> & Strong3<F>
-): <U, A, B, C>(pab: Type3<F, U, A, B>, pac: Type3<F, U, A, C>) => Type3<F, U, A, [B, C]>
+): <U, A, B, C>(pab: Kind3<F, U, A, B>, pac: Kind3<F, U, A, C>) => Kind3<F, U, A, [B, C]>
 export function fanout<F extends URIS2>(
   F: Category2<F> & Strong2<F>
-): <A, B, C>(pab: Type2<F, A, B>, pac: Type2<F, A, C>) => Type2<F, A, [B, C]>
+): <A, B, C>(pab: Kind2<F, A, B>, pac: Kind2<F, A, C>) => Kind2<F, A, [B, C]>
 export function fanout<F>(
   F: Category<F> & Strong<F>
 ): <A, B, C>(pab: HKT2<F, A, B>, pac: HKT2<F, A, C>) => HKT2<F, A, [B, C]> { ... }
@@ -145,13 +145,13 @@ over the first element and `g` over the second. Just like `bi-map` would do for 
 ```ts
 export function splitStrong<F extends URIS4>(
   F: Category4<F> & Strong4<F>
-): <X, U, A, B, C, D>(pab: Type4<F, X, U, A, B>, pcd: Type4<F, X, U, C, D>) => Type4<F, X, U, [A, C], [B, D]>
+): <X, U, A, B, C, D>(pab: Kind4<F, X, U, A, B>, pcd: Kind4<F, X, U, C, D>) => Kind4<F, X, U, [A, C], [B, D]>
 export function splitStrong<F extends URIS3>(
   F: Category3<F> & Strong3<F>
-): <U, A, B, C, D>(pab: Type3<F, U, A, B>, pcd: Type3<F, U, C, D>) => Type3<F, U, [A, C], [B, D]>
+): <U, A, B, C, D>(pab: Kind3<F, U, A, B>, pcd: Kind3<F, U, C, D>) => Kind3<F, U, [A, C], [B, D]>
 export function splitStrong<F extends URIS2>(
   F: Category2<F> & Strong2<F>
-): <A, B, C, D>(pab: Type2<F, A, B>, pcd: Type2<F, C, D>) => Type2<F, [A, C], [B, D]>
+): <A, B, C, D>(pab: Kind2<F, A, B>, pcd: Kind2<F, C, D>) => Kind2<F, [A, C], [B, D]>
 export function splitStrong<F>(
   F: Category<F> & Strong<F>
 ): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, [A, C], [B, D]> { ... }

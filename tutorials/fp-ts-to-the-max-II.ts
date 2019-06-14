@@ -1,5 +1,5 @@
 import { log } from '../src/Console'
-import { Type, URIS } from '../src/HKT'
+import { Type, URIS, Kind } from '../src/HKT'
 import { none, Option, some } from '../src/Option'
 import { randomInt } from '../src/Random'
 import { fromIO, Task, task, URI as TaskURI } from '../src/Task'
@@ -40,7 +40,7 @@ interface ProgramSyntax<F extends URIS, A> {
   chain: <B>(f: (a: A) => _<F, B>) => _<F, B>
 }
 
-type _<F extends URIS, A> = Type<F, A> & ProgramSyntax<F, A>
+type _<F extends URIS, A> = Kind<F, A> & ProgramSyntax<F, A>
 
 interface Program<F extends URIS> {
   finish: <A>(a: A) => _<F, A>
@@ -97,12 +97,10 @@ const gameLoop = <F extends URIS>(F: Main<F>) => (name: string): _<F, void> =>
     F.putStrLn(`Dear ${name}, please guess a number from 1 to 5`)
       .chain(() =>
         F.getStrLn.chain(guess =>
-          parse(guess).fold(
-            F.putStrLn('You did not enter an integer!'),
-            x =>
-              x === secret
-                ? F.putStrLn(`You guessed right, ${name}!`)
-                : F.putStrLn(`You guessed wrong, ${name}! The number was: ${secret}`)
+          parse(guess).fold(F.putStrLn('You did not enter an integer!'), x =>
+            x === secret
+              ? F.putStrLn(`You guessed right, ${name}!`)
+              : F.putStrLn(`You guessed wrong, ${name}! The number was: ${secret}`)
           )
         )
       )
@@ -125,7 +123,7 @@ export const mainTask = main({ ...programTask, ...consoleTask, ...randomTask })
 // tests
 //
 
-import { drop, snoc } from '../src/Array'
+import { drop, snoc, dropLeft } from '../src/Array'
 
 class TestData {
   constructor(readonly input: Array<string>, readonly output: Array<string>, readonly nums: Array<number>) {}
@@ -133,10 +131,10 @@ class TestData {
     return [undefined, new TestData(this.input, snoc(this.output, message), this.nums)]
   }
   getStrLn(): [string, TestData] {
-    return [this.input[0], new TestData(drop(1, this.input), this.output, this.nums)]
+    return [this.input[0], new TestData(dropLeft(1)(this.input), this.output, this.nums)]
   }
   nextInt(_upper: number): [number, TestData] {
-    return [this.nums[0], new TestData(this.input, this.output, drop(1, this.nums))]
+    return [this.nums[0], new TestData(this.input, this.output, dropLeft(1)(this.nums))]
   }
 }
 

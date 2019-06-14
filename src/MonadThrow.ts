@@ -1,4 +1,4 @@
-import { HKT2, Type2, Type3, URIS2, URIS3 } from './HKT'
+import { HKT2, Kind2, Kind3, URIS2, URIS3 } from './HKT'
 import { Monad2, Monad3, Monad2C, Monad3C } from './Monad'
 import { Either } from './Either'
 import { Option } from './Option'
@@ -25,25 +25,25 @@ export interface MonadThrow<M> {
 }
 
 export interface MonadThrow2<M extends URIS2> extends Monad2<M> {
-  readonly throwError: <E, A>(e: E) => Type2<M, E, A>
-  readonly fromEither: <E, A>(e: Either<E, A>) => Type2<M, E, A>
-  readonly fromOption: <E, A>(o: Option<A>, e: E) => Type2<M, E, A>
+  readonly throwError: <E, A>(e: E) => Kind2<M, E, A>
+  readonly fromEither: <E, A>(e: Either<E, A>) => Kind2<M, E, A>
+  readonly fromOption: <E, A>(o: Option<A>, e: E) => Kind2<M, E, A>
 }
 
 export interface MonadThrow2C<M extends URIS2, E> extends Monad2C<M, E> {
-  readonly throwError: <A>(e: E) => Type2<M, E, A>
-  readonly fromEither: <A>(e: Either<E, A>) => Type2<M, E, A>
-  readonly fromOption: <A>(o: Option<A>, e: E) => Type2<M, E, A>
+  readonly throwError: <A>(e: E) => Kind2<M, E, A>
+  readonly fromEither: <A>(e: Either<E, A>) => Kind2<M, E, A>
+  readonly fromOption: <A>(o: Option<A>, e: E) => Kind2<M, E, A>
 }
 
 export interface MonadThrow3<M extends URIS3> extends Monad3<M> {
-  readonly throwError: <U, E, A>(e: E) => Type3<M, U, E, A>
-  readonly fromEither: <U, E, A>(e: Either<E, A>) => Type3<M, U, E, A>
-  readonly fromOption: <U, E, A>(o: Option<A>, e: E) => Type3<M, U, E, A>
+  readonly throwError: <U, E, A>(e: E) => Kind3<M, U, E, A>
+  readonly fromEither: <U, E, A>(e: Either<E, A>) => Kind3<M, U, E, A>
+  readonly fromOption: <U, E, A>(o: Option<A>, e: E) => Kind3<M, U, E, A>
 }
 
 export interface MonadThrow3C<M extends URIS3, U, E> extends Monad3C<M, U, E> {
-  readonly throwError: <A>(e: E) => Type3<M, U, E, A>
-  readonly fromEither: <A>(e: Either<E, A>) => Type3<M, U, E, A>
-  readonly fromOption: <A>(o: Option<A>, e: E) => Type3<M, U, E, A>
+  readonly throwError: <A>(e: E) => Kind3<M, U, E, A>
+  readonly fromEither: <A>(e: Either<E, A>) => Kind3<M, U, E, A>
+  readonly fromOption: <A>(o: Option<A>, e: E) => Kind3<M, U, E, A>
 }

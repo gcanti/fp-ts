@@ -136,15 +136,15 @@ specified function to combine values for duplicate keys.
 export function fromFoldable<K, F extends URIS3>(
   E: Eq<K>,
   F: Foldable2v3<F>
-): <U, L, A>(ta: Type3<F, U, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
+): <U, L, A>(ta: Kind3<F, U, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F extends URIS2>(
   E: Eq<K>,
   F: Foldable2v2<F>
-): <L, A>(ta: Type2<F, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
+): <L, A>(ta: Kind2<F, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F extends URIS>(
   E: Eq<K>,
   F: Foldable2v1<F>
-): <A>(ta: Type<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
+): <A>(ta: Kind<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F>(
   E: Eq<K>,
   F: Foldable2v<F>
@@ -392,7 +392,7 @@ Unfolds a map into a list of key/value pairs
 export function toUnfoldable<K, F extends URIS>(
   O: Ord<K>,
   unfoldable: Unfoldable1<F>
-): <A>(d: Map<K, A>) => Type<F, [K, A]>
+): <A>(d: Map<K, A>) => Kind<F, [K, A]>
 export function toUnfoldable<K, F>(O: Ord<K>, unfoldable: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]> { ... }
 ```
 

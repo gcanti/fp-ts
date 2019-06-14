@@ -3,7 +3,7 @@ import { Monad2 } from './Monad'
 import { pipeable } from './pipeable'
 
 declare module './HKT' {
-  interface URI2HKT2<L, A> {
+  interface URItoKind2<L, A> {
     State: State<L, A>
   }
 }

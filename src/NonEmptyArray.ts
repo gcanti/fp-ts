@@ -33,7 +33,7 @@ import { fromEquals, Eq } from './Eq'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 
 declare module './HKT' {
-  interface URI2HKT<A> {
+  interface URItoKind<A> {
     NonEmptyArray: NonEmptyArray<A>
   }
 }

@@ -358,13 +358,13 @@ specified function to combine values for duplicate keys.
 ```ts
 export function fromFoldable<F extends URIS3>(
   F: Foldable3<F>
-): <U, L, A>(ta: Type3<F, U, L, [string, A]>, onConflict: (existing: A, a: A) => A) => StrMap<A>
+): <U, L, A>(ta: Kind3<F, U, L, [string, A]>, onConflict: (existing: A, a: A) => A) => StrMap<A>
 export function fromFoldable<F extends URIS2>(
   F: Foldable2<F>
-): <L, A>(ta: Type2<F, L, [string, A]>, onConflict: (existing: A, a: A) => A) => StrMap<A>
+): <L, A>(ta: Kind2<F, L, [string, A]>, onConflict: (existing: A, a: A) => A) => StrMap<A>
 export function fromFoldable<F extends URIS>(
   F: Foldable1<F>
-): <A>(ta: Type<F, [string, A]>, onConflict: (existing: A, a: A) => A) => StrMap<A>
+): <A>(ta: Kind<F, [string, A]>, onConflict: (existing: A, a: A) => A) => StrMap<A>
 export function fromFoldable<F>(
   // tslint:disable-next-line: deprecation
   F: Foldable<F>
@@ -516,7 +516,7 @@ Unfolds a dictionary into a list of key/value pairs
 **Signature**
 
 ```ts
-export function toUnfoldable<F extends URIS>(U: Unfoldable1<F>): <A>(d: StrMap<A>) => Type<F, [string, A]>
+export function toUnfoldable<F extends URIS>(U: Unfoldable1<F>): <A>(d: StrMap<A>) => Kind<F, [string, A]>
 export function toUnfoldable<F>(U: Unfoldable<F>): <A>(d: StrMap<A>) => HKT<F, [string, A]> { ... }
 ```
 
@@ -531,13 +531,13 @@ Use `strmap.traverseWithIndex` instead
 ```ts
 export function traverseWithKey<F extends URIS3>(
   F: Applicative3<F>
-): <U, L, A, B>(ta: StrMap<A>, f: (k: string, a: A) => Type3<F, U, L, B>) => Type3<F, U, L, StrMap<B>>
+): <U, L, A, B>(ta: StrMap<A>, f: (k: string, a: A) => Kind3<F, U, L, B>) => Kind3<F, U, L, StrMap<B>>
 export function traverseWithKey<F extends URIS2>(
   F: Applicative2<F>
-): <L, A, B>(ta: StrMap<A>, f: (k: string, a: A) => Type2<F, L, B>) => Type2<F, L, StrMap<B>>
+): <L, A, B>(ta: StrMap<A>, f: (k: string, a: A) => Kind2<F, L, B>) => Kind2<F, L, StrMap<B>>
 export function traverseWithKey<F extends URIS>(
   F: Applicative1<F>
-): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => Type<F, B>) => Type<F, StrMap<B>>
+): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => Kind<F, B>) => Kind<F, StrMap<B>>
 export function traverseWithKey<F>(
   F: Applicative<F>
 ): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>> { ... }

@@ -39,7 +39,7 @@ Added in v1.10.0
 
 ```ts
 export interface MonadTask1<M extends URIS> extends Monad1<M> {
-  readonly fromTask: <A>(fa: Task<A>) => Type<M, A>
+  readonly fromTask: <A>(fa: Task<A>) => Kind<M, A>
 }
 ```
 
@@ -49,7 +49,7 @@ export interface MonadTask1<M extends URIS> extends Monad1<M> {
 
 ```ts
 export interface MonadTask2<M extends URIS2> extends Monad2<M> {
-  readonly fromTask: <L, A>(fa: Task<A>) => Type2<M, L, A>
+  readonly fromTask: <L, A>(fa: Task<A>) => Kind2<M, L, A>
 }
 ```
 
@@ -59,7 +59,7 @@ export interface MonadTask2<M extends URIS2> extends Monad2<M> {
 
 ```ts
 export interface MonadTask2C<M extends URIS2, L> extends Monad2C<M, L> {
-  readonly fromTask: <A>(fa: Task<A>) => Type2<M, L, A>
+  readonly fromTask: <A>(fa: Task<A>) => Kind2<M, L, A>
 }
 ```
 
@@ -69,7 +69,7 @@ export interface MonadTask2C<M extends URIS2, L> extends Monad2C<M, L> {
 
 ```ts
 export interface MonadTask3<M extends URIS3> extends Monad3<M> {
-  readonly fromTask: <U, L, A>(fa: Task<A>) => Type3<M, U, L, A>
+  readonly fromTask: <U, L, A>(fa: Task<A>) => Kind3<M, U, L, A>
 }
 ```
 
@@ -79,6 +79,6 @@ export interface MonadTask3<M extends URIS3> extends Monad3<M> {
 
 ```ts
 export interface MonadTask3C<M extends URIS3, U, L> extends Monad3C<M, U, L> {
-  readonly fromTask: <A>(fa: Task<A>) => Type3<M, U, L, A>
+  readonly fromTask: <A>(fa: Task<A>) => Kind3<M, U, L, A>
 }
 ```

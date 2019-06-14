@@ -36,8 +36,8 @@ Added in v1.0.0
 ```ts
 export interface IxMonad3<F extends URIS3> {
   readonly URI: F
-  readonly iof: <I, A>(a: A) => Type3<F, I, I, A>
-  readonly ichain: <I, O, Z, A, B>(fa: Type3<F, I, O, A>, f: (a: A) => Type3<F, O, Z, B>) => Type3<F, I, Z, B>
+  readonly iof: <I, A>(a: A) => Kind3<F, I, I, A>
+  readonly ichain: <I, O, Z, A, B>(fa: Kind3<F, I, O, A>, f: (a: A) => Kind3<F, O, Z, B>) => Kind3<F, I, Z, B>
 }
 ```
 
@@ -48,7 +48,7 @@ export interface IxMonad3<F extends URIS3> {
 ```ts
 export function iapplyFirst<F extends URIS3>(
   ixmonad: IxMonad3<F>
-): <I, O, A, Z, B>(fa: Type3<F, I, O, A>, fb: Type3<F, O, Z, B>) => Type3<F, I, Z, A>
+): <I, O, A, Z, B>(fa: Kind3<F, I, O, A>, fb: Kind3<F, O, Z, B>) => Kind3<F, I, Z, A>
 export function iapplyFirst<F>(
   ixmonad: IxMonad<F>
 ): <I, O, A, Z, B>(fa: HKT3<F, I, O, A>, fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, A> { ... }
@@ -63,7 +63,7 @@ Added in v1.0.0
 ```ts
 export function iapplySecond<F extends URIS3>(
   ixmonad: IxMonad3<F>
-): <I, O, A, Z, B>(fa: Type3<F, I, O, A>, fb: Type3<F, O, Z, B>) => Type3<F, I, Z, B>
+): <I, O, A, Z, B>(fa: Kind3<F, I, O, A>, fb: Kind3<F, O, Z, B>) => Kind3<F, I, Z, B>
 export function iapplySecond<F>(
   ixmonad: IxMonad<F>
 ): <I, O, A, Z, B>(fa: HKT3<F, I, O, A>, fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, B> { ... }
