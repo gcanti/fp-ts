@@ -1,5 +1,5 @@
 import {
-  ApplicativeComposition01,
+  ApplicativeCompositionHKT1,
   ApplicativeComposition11,
   ApplicativeComposition21,
   getApplicativeComposition
@@ -16,7 +16,7 @@ export interface OptionT<M, A> extends HKT<M, Option<A>> {}
 /**
  * @since 2.0.0
  */
-export interface OptionM<M> extends ApplicativeComposition01<M, URI> {
+export interface OptionM<M> extends ApplicativeCompositionHKT1<M, URI> {
   readonly chain: <A, B>(ma: OptionT<M, A>, f: (a: A) => OptionT<M, B>) => OptionT<M, B>
   readonly alt: <A>(fx: OptionT<M, A>, fy: () => OptionT<M, A>) => OptionT<M, A>
   readonly fold: <A, R>(ma: OptionT<M, A>, onNone: () => HKT<M, R>, onSome: (a: A) => HKT<M, R>) => HKT<M, R>

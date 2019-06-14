@@ -1,5 +1,5 @@
 import {
-  ApplicativeComposition02C,
+  ApplicativeCompositionHKT2C,
   ApplicativeComposition12C,
   ApplicativeComposition22C,
   getApplicativeComposition
@@ -17,7 +17,7 @@ export interface ValidationT<M, E, A> extends HKT<M, Either<E, A>> {}
 /**
  * @since 2.0.0
  */
-export interface ValidationM<M, E> extends ApplicativeComposition02C<M, URI, E> {
+export interface ValidationM<M, E> extends ApplicativeCompositionHKT2C<M, URI, E> {
   readonly chain: <A, B>(ma: ValidationT<M, E, A>, f: (a: A) => ValidationT<M, E, B>) => ValidationT<M, E, B>
   readonly alt: <A>(fx: ValidationT<M, E, A>, f: () => ValidationT<M, E, A>) => ValidationT<M, E, A>
 }

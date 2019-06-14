@@ -1,5 +1,5 @@
 import {
-  ApplicativeComposition02,
+  ApplicativeCompositionHKT2,
   ApplicativeComposition12,
   ApplicativeComposition22,
   getApplicativeComposition
@@ -17,7 +17,7 @@ export interface EitherT<M, E, A> extends HKT<M, Either<E, A>> {}
 /**
  * @since 2.0.0
  */
-export interface EitherM<M> extends ApplicativeComposition02<M, URI> {
+export interface EitherM<M> extends ApplicativeCompositionHKT2<M, URI> {
   readonly chain: <E, A, B>(ma: EitherT<M, E, A>, f: (a: A) => EitherT<M, E, B>) => EitherT<M, E, B>
   readonly alt: <E, A>(fx: EitherT<M, E, A>, f: () => EitherT<M, E, A>) => EitherT<M, E, A>
   readonly bimap: <E, A, N, B>(ma: EitherT<M, E, A>, f: (e: E) => N, g: (a: A) => B) => EitherT<M, N, B>

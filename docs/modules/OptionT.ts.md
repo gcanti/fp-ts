@@ -23,7 +23,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface OptionM<M> extends ApplicativeComposition01<M, URI> {
+export interface OptionM<M> extends ApplicativeCompositionHKT1<M, URI> {
   readonly chain: <A, B>(ma: OptionT<M, A>, f: (a: A) => OptionT<M, B>) => OptionT<M, B>
   readonly alt: <A>(fx: OptionT<M, A>, fy: () => OptionT<M, A>) => OptionT<M, A>
   readonly fold: <A, R>(ma: OptionT<M, A>, onNone: () => HKT<M, R>, onSome: (a: A) => HKT<M, R>) => HKT<M, R>

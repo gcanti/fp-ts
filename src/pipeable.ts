@@ -924,7 +924,7 @@ export function pipeable<F, I>(
     : {}) &
   (I extends Profunctor<F> ? PipeableProfunctor<F> : {}) &
   (I extends Semigroupoid<F> ? PipeableSemigroupoid<F> : {})
-export function pipeable<F, I>(I: { URI: F } & I): any {
+export function pipeable<F, I>(I: { URI: F } & I): Record<string, unknown> {
   const r: any = {}
   if (isFunctor<F>(I)) {
     const map: PipeableFunctor<F>['map'] = f => fa => I.map(fa, f)

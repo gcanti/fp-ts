@@ -23,7 +23,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface ValidationM<M, E> extends ApplicativeComposition02C<M, URI, E> {
+export interface ValidationM<M, E> extends ApplicativeCompositionHKT2C<M, URI, E> {
   readonly chain: <A, B>(ma: ValidationT<M, E, A>, f: (a: A) => ValidationT<M, E, B>) => ValidationT<M, E, B>
   readonly alt: <A>(fx: ValidationT<M, E, A>, f: () => ValidationT<M, E, A>) => ValidationT<M, E, A>
 }

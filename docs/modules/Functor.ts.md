@@ -27,9 +27,6 @@ Instances must satisfy the following laws:
 - [Functor3 (interface)](#functor3-interface)
 - [Functor4 (interface)](#functor4-interface)
 - [FunctorComposition (interface)](#functorcomposition-interface)
-- [FunctorComposition01 (interface)](#functorcomposition01-interface)
-- [FunctorComposition02 (interface)](#functorcomposition02-interface)
-- [FunctorComposition02C (interface)](#functorcomposition02c-interface)
 - [FunctorComposition11 (interface)](#functorcomposition11-interface)
 - [FunctorComposition12 (interface)](#functorcomposition12-interface)
 - [FunctorComposition12C (interface)](#functorcomposition12c-interface)
@@ -37,6 +34,9 @@ Instances must satisfy the following laws:
 - [FunctorComposition22 (interface)](#functorcomposition22-interface)
 - [FunctorComposition22C (interface)](#functorcomposition22c-interface)
 - [FunctorComposition2C1 (interface)](#functorcomposition2c1-interface)
+- [FunctorCompositionHKT1 (interface)](#functorcompositionhkt1-interface)
+- [FunctorCompositionHKT2 (interface)](#functorcompositionhkt2-interface)
+- [FunctorCompositionHKT2C (interface)](#functorcompositionhkt2c-interface)
 - [getFunctorComposition (function)](#getfunctorcomposition-function)
 
 ---
@@ -132,42 +132,6 @@ export interface FunctorComposition<F, G> {
 
 Added in v2.0.0
 
-# FunctorComposition01 (interface)
-
-**Signature**
-
-```ts
-export interface FunctorComposition01<F, G extends URIS> {
-  readonly map: <A, B>(fa: HKT<F, Kind<G, A>>, f: (a: A) => B) => HKT<F, Kind<G, B>>
-}
-```
-
-Added in v2.0.0
-
-# FunctorComposition02 (interface)
-
-**Signature**
-
-```ts
-export interface FunctorComposition02<F, G extends URIS2> {
-  readonly map: <LG, A, B>(fa: HKT<F, Kind2<G, LG, A>>, f: (a: A) => B) => HKT<F, Kind2<G, LG, B>>
-}
-```
-
-Added in v2.0.0
-
-# FunctorComposition02C (interface)
-
-**Signature**
-
-```ts
-export interface FunctorComposition02C<F, G extends URIS2, LG> {
-  readonly map: <A, B>(fa: HKT<F, Kind2<G, LG, A>>, f: (a: A) => B) => HKT<F, Kind2<G, LG, B>>
-}
-```
-
-Added in v2.0.0
-
 # FunctorComposition11 (interface)
 
 **Signature**
@@ -247,6 +211,42 @@ Added in v2.0.0
 ```ts
 export interface FunctorComposition2C1<F extends URIS2, G extends URIS, LF> {
   readonly map: <A, B>(fa: Kind2<F, LF, Kind<G, A>>, f: (a: A) => B) => Kind2<F, LF, Kind<G, B>>
+}
+```
+
+Added in v2.0.0
+
+# FunctorCompositionHKT1 (interface)
+
+**Signature**
+
+```ts
+export interface FunctorCompositionHKT1<F, G extends URIS> {
+  readonly map: <A, B>(fa: HKT<F, Kind<G, A>>, f: (a: A) => B) => HKT<F, Kind<G, B>>
+}
+```
+
+Added in v2.0.0
+
+# FunctorCompositionHKT2 (interface)
+
+**Signature**
+
+```ts
+export interface FunctorCompositionHKT2<F, G extends URIS2> {
+  readonly map: <LG, A, B>(fa: HKT<F, Kind2<G, LG, A>>, f: (a: A) => B) => HKT<F, Kind2<G, LG, B>>
+}
+```
+
+Added in v2.0.0
+
+# FunctorCompositionHKT2C (interface)
+
+**Signature**
+
+```ts
+export interface FunctorCompositionHKT2C<F, G extends URIS2, LG> {
+  readonly map: <A, B>(fa: HKT<F, Kind2<G, LG, A>>, f: (a: A) => B) => HKT<F, Kind2<G, LG, B>>
 }
 ```
 
