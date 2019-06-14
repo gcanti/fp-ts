@@ -23,6 +23,7 @@ has_toc: false
 - [fp-ts-local-storage](https://github.com/gcanti/fp-ts-local-storage) - fp-ts bindings for LocalStorage
 - [circuit-breaker-monad](https://github.com/YBogomolov/circuit-breaker-monad) - Circuit Breaker pattern as a monad
 - [waveguide](https://github.com/rzeigler/waveguide) - Bifunctor effect type and concurrent data structures.
+- [kleisli-ts](https://github.com/YBogomolov/kleisli-ts) - Kleisli arrows for bifunctor MonadThrow (IOEither, TaskEither)
 
 ## Bindings
 
