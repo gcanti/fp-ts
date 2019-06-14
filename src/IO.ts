@@ -98,7 +98,7 @@ import { pipeable } from './pipeable'
 import { Semigroup } from './Semigroup'
 
 declare module './HKT' {
-  interface URI2HKT<A> {
+  interface URItoKind<A> {
     IO: IO<A>
   }
 }

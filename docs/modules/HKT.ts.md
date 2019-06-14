@@ -16,14 +16,14 @@ Type defunctionalization (as describe in [Lightweight higher-kinded polymorphism
 - [HKT2 (interface)](#hkt2-interface)
 - [HKT3 (interface)](#hkt3-interface)
 - [HKT4 (interface)](#hkt4-interface)
-- [URI2HKT (interface)](#uri2hkt-interface)
-- [URI2HKT2 (interface)](#uri2hkt2-interface)
-- [URI2HKT3 (interface)](#uri2hkt3-interface)
-- [URI2HKT4 (interface)](#uri2hkt4-interface)
-- [Type (type alias)](#type-type-alias)
-- [Type2 (type alias)](#type2-type-alias)
-- [Type3 (type alias)](#type3-type-alias)
-- [Type4 (type alias)](#type4-type-alias)
+- [URItoKind (interface)](#uritokind-interface)
+- [URItoKind2 (interface)](#uritokind2-interface)
+- [URItoKind3 (interface)](#uritokind3-interface)
+- [URItoKind4 (interface)](#uritokind4-interface)
+- [Kind (type alias)](#kind-type-alias)
+- [Kind2 (type alias)](#kind2-type-alias)
+- [Kind3 (type alias)](#kind3-type-alias)
+- [Kind4 (type alias)](#kind4-type-alias)
 - [URIS (type alias)](#uris-type-alias)
 - [URIS2 (type alias)](#uris2-type-alias)
 - [URIS3 (type alias)](#uris3-type-alias)
@@ -86,98 +86,98 @@ export interface HKT4<URI, X, U, L, A> extends HKT3<URI, U, L, A> {
 
 Added in v2.0.0
 
-# URI2HKT (interface)
+# URItoKind (interface)
 
 `* -> *` constructors
 
 **Signature**
 
 ```ts
-export interface URI2HKT<A> {}
+export interface URItoKind<A> {}
 ```
 
 Added in v2.0.0
 
-# URI2HKT2 (interface)
+# URItoKind2 (interface)
 
 `* -> * -> *` constructors
 
 **Signature**
 
 ```ts
-export interface URI2HKT2<L, A> {}
+export interface URItoKind2<L, A> {}
 ```
 
 Added in v2.0.0
 
-# URI2HKT3 (interface)
+# URItoKind3 (interface)
 
 `* -> * -> * -> *` constructors
 
 **Signature**
 
 ```ts
-export interface URI2HKT3<U, L, A> {}
+export interface URItoKind3<U, L, A> {}
 ```
 
 Added in v2.0.0
 
-# URI2HKT4 (interface)
+# URItoKind4 (interface)
 
 `* -> * -> * -> * -> *` constructors
 
 **Signature**
 
 ```ts
-export interface URI2HKT4<X, U, L, A> {}
+export interface URItoKind4<X, U, L, A> {}
 ```
 
 Added in v2.0.0
 
-# Type (type alias)
+# Kind (type alias)
 
 `* -> *` constructors
 
 **Signature**
 
 ```ts
-export type Type<URI extends URIS, A> = URI extends URIS ? URI2HKT<A>[URI] : any
+export type Kind<URI extends URIS, A> = URI extends URIS ? URItoKind<A>[URI] : any
 ```
 
 Added in v2.0.0
 
-# Type2 (type alias)
+# Kind2 (type alias)
 
 `* -> * -> *` constructors
 
 **Signature**
 
 ```ts
-export type Type2<URI extends URIS2, L, A> = URI extends URIS2 ? URI2HKT2<L, A>[URI] : any
+export type Kind2<URI extends URIS2, L, A> = URI extends URIS2 ? URItoKind2<L, A>[URI] : any
 ```
 
 Added in v2.0.0
 
-# Type3 (type alias)
+# Kind3 (type alias)
 
 `* -> * -> * -> *` constructors
 
 **Signature**
 
 ```ts
-export type Type3<URI extends URIS3, U, L, A> = URI extends URIS3 ? URI2HKT3<U, L, A>[URI] : any
+export type Kind3<URI extends URIS3, U, L, A> = URI extends URIS3 ? URItoKind3<U, L, A>[URI] : any
 ```
 
 Added in v2.0.0
 
-# Type4 (type alias)
+# Kind4 (type alias)
 
 `* -> * -> * -> * -> *` constructors
 
 **Signature**
 
 ```ts
-export type Type4<URI extends URIS4, X, U, L, A> = URI extends URIS4 ? URI2HKT4<X, U, L, A>[URI] : any
+export type Kind4<URI extends URIS4, X, U, L, A> = URI extends URIS4 ? URItoKind4<X, U, L, A>[URI] : any
 ```
 
 Added in v2.0.0
@@ -189,7 +189,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export type URIS = keyof URI2HKT<any>
+export type URIS = keyof URItoKind<any>
 ```
 
 Added in v2.0.0
@@ -201,7 +201,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export type URIS2 = keyof URI2HKT2<any, any>
+export type URIS2 = keyof URItoKind2<any, any>
 ```
 
 Added in v2.0.0
@@ -213,7 +213,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export type URIS3 = keyof URI2HKT3<any, any, any>
+export type URIS3 = keyof URItoKind3<any, any, any>
 ```
 
 Added in v2.0.0
@@ -225,7 +225,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export type URIS4 = keyof URI2HKT4<any, any, any, any>
+export type URIS4 = keyof URItoKind4<any, any, any, any>
 ```
 
 Added in v2.0.0

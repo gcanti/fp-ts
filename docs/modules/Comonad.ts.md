@@ -34,7 +34,7 @@ Added in v2.0.0
 
 ```ts
 export interface Comonad1<W extends URIS> extends Extend1<W> {
-  readonly extract: <A>(wa: Type<W, A>) => A
+  readonly extract: <A>(wa: Kind<W, A>) => A
 }
 ```
 
@@ -46,7 +46,7 @@ Added in v2.0.0
 
 ```ts
 export interface Comonad2<W extends URIS2> extends Extend2<W> {
-  readonly extract: <L, A>(wa: Type2<W, L, A>) => A
+  readonly extract: <L, A>(wa: Kind2<W, L, A>) => A
 }
 ```
 
@@ -58,7 +58,7 @@ Added in v2.0.0
 
 ```ts
 export interface Comonad2C<W extends URIS2, L> extends Extend2C<W, L> {
-  readonly extract: <A>(wa: Type2<W, L, A>) => A
+  readonly extract: <A>(wa: Kind2<W, L, A>) => A
 }
 ```
 
@@ -70,7 +70,7 @@ Added in v2.0.0
 
 ```ts
 export interface Comonad3<W extends URIS3> extends Extend3<W> {
-  readonly extract: <U, L, A>(wa: Type3<W, U, L, A>) => A
+  readonly extract: <U, L, A>(wa: Kind3<W, U, L, A>) => A
 }
 ```
 

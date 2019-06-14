@@ -47,7 +47,7 @@ import { Traversable2 } from './Traversable'
 import { Witherable2C } from './Witherable'
 
 declare module './HKT' {
-  interface URI2HKT2<L, A> {
+  interface URItoKind2<L, A> {
     Either: Either<L, A>
   }
 }

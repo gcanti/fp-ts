@@ -12,7 +12,7 @@ import { Traversable1 } from './Traversable'
 import { pipeable } from './pipeable'
 
 declare module './HKT' {
-  interface URI2HKT<A> {
+  interface URItoKind<A> {
     Identity: Identity<A>
   }
 }

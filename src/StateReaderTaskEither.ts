@@ -17,7 +17,7 @@ import { ReaderEither } from './ReaderEither'
 const T = getStateM(RTE.readerTaskEither)
 
 declare module './HKT' {
-  interface URI2HKT4<X, U, L, A> {
+  interface URItoKind4<X, U, L, A> {
     StateReaderTaskEither: StateReaderTaskEither<X, U, L, A>
   }
 }

@@ -63,8 +63,8 @@ Added in v2.0.0
 
 ```ts
 export interface Filter1<F extends URIS> {
-  <A, B extends A>(fa: Type<F, A>, refinement: Refinement<A, B>): Type<F, B>
-  <A>(fa: Type<F, A>, predicate: Predicate<A>): Type<F, A>
+  <A, B extends A>(fa: Kind<F, A>, refinement: Refinement<A, B>): Kind<F, B>
+  <A>(fa: Kind<F, A>, predicate: Predicate<A>): Kind<F, A>
 }
 ```
 
@@ -76,8 +76,8 @@ Added in v2.0.0
 
 ```ts
 export interface Filter2<F extends URIS2> {
-  <L, A, B extends A>(fa: Type2<F, L, A>, refinement: Refinement<A, B>): Type2<F, L, B>
-  <L, A>(fa: Type2<F, L, A>, predicate: Predicate<A>): Type2<F, L, A>
+  <L, A, B extends A>(fa: Kind2<F, L, A>, refinement: Refinement<A, B>): Kind2<F, L, B>
+  <L, A>(fa: Kind2<F, L, A>, predicate: Predicate<A>): Kind2<F, L, A>
 }
 ```
 
@@ -89,8 +89,8 @@ Added in v2.0.0
 
 ```ts
 export interface Filter2C<F extends URIS2, L> {
-  <A, B extends A>(fa: Type2<F, L, A>, refinement: Refinement<A, B>): Type2<F, L, B>
-  <A>(fa: Type2<F, L, A>, predicate: Predicate<A>): Type2<F, L, A>
+  <A, B extends A>(fa: Kind2<F, L, A>, refinement: Refinement<A, B>): Kind2<F, L, B>
+  <A>(fa: Kind2<F, L, A>, predicate: Predicate<A>): Kind2<F, L, A>
 }
 ```
 
@@ -102,8 +102,8 @@ Added in v2.0.0
 
 ```ts
 export interface Filter3<F extends URIS3> {
-  <U, L, A, B extends A>(fa: Type3<F, U, L, A>, refinement: Refinement<A, B>): Type3<F, U, L, B>
-  <U, L, A>(fa: Type3<F, U, L, A>, predicate: Predicate<A>): Type3<F, U, L, A>
+  <U, L, A, B extends A>(fa: Kind3<F, U, L, A>, refinement: Refinement<A, B>): Kind3<F, U, L, B>
+  <U, L, A>(fa: Kind3<F, U, L, A>, predicate: Predicate<A>): Kind3<F, U, L, A>
 }
 ```
 
@@ -115,8 +115,8 @@ Added in v2.0.0
 
 ```ts
 export interface Filter4<F extends URIS4> {
-  <X, U, L, A, B extends A>(fa: Type4<F, X, U, L, A>, refinement: Refinement<A, B>): Type4<F, X, U, L, B>
-  <X, U, L, A>(fa: Type4<F, X, U, L, A>, predicate: Predicate<A>): Type4<F, X, U, L, A>
+  <X, U, L, A, B extends A>(fa: Kind4<F, X, U, L, A>, refinement: Refinement<A, B>): Kind4<F, X, U, L, B>
+  <X, U, L, A>(fa: Kind4<F, X, U, L, A>, predicate: Predicate<A>): Kind4<F, X, U, L, A>
 }
 ```
 
@@ -155,9 +155,9 @@ Added in v2.0.0
 
 ```ts
 export interface Filterable1<F extends URIS> extends Functor1<F>, Compactable1<F> {
-  readonly partitionMap: <RL, RR, A>(fa: Type<F, A>, f: (a: A) => Either<RL, RR>) => Separated<Type<F, RL>, Type<F, RR>>
+  readonly partitionMap: <RL, RR, A>(fa: Kind<F, A>, f: (a: A) => Either<RL, RR>) => Separated<Kind<F, RL>, Kind<F, RR>>
   readonly partition: Partition1<F>
-  readonly filterMap: <A, B>(fa: Type<F, A>, f: (a: A) => Option<B>) => Type<F, B>
+  readonly filterMap: <A, B>(fa: Kind<F, A>, f: (a: A) => Option<B>) => Kind<F, B>
   readonly filter: Filter1<F>
 }
 ```
@@ -171,11 +171,11 @@ Added in v2.0.0
 ```ts
 export interface Filterable2<F extends URIS2> extends Functor2<F>, Compactable2<F> {
   readonly partitionMap: <RL, RR, L, A>(
-    fa: Type2<F, L, A>,
+    fa: Kind2<F, L, A>,
     f: (a: A) => Either<RL, RR>
-  ) => Separated<Type2<F, L, RL>, Type2<F, L, RR>>
+  ) => Separated<Kind2<F, L, RL>, Kind2<F, L, RR>>
   readonly partition: Partition2<F>
-  readonly filterMap: <L, A, B>(fa: Type2<F, L, A>, f: (a: A) => Option<B>) => Type2<F, L, B>
+  readonly filterMap: <L, A, B>(fa: Kind2<F, L, A>, f: (a: A) => Option<B>) => Kind2<F, L, B>
   readonly filter: Filter2<F>
 }
 ```
@@ -189,11 +189,11 @@ Added in v2.0.0
 ```ts
 export interface Filterable2C<F extends URIS2, L> extends Functor2C<F, L>, Compactable2C<F, L> {
   readonly partitionMap: <RL, RR, A>(
-    fa: Type2<F, L, A>,
+    fa: Kind2<F, L, A>,
     f: (a: A) => Either<RL, RR>
-  ) => Separated<Type2<F, L, RL>, Type2<F, L, RR>>
+  ) => Separated<Kind2<F, L, RL>, Kind2<F, L, RR>>
   readonly partition: Partition2C<F, L>
-  readonly filterMap: <A, B>(fa: Type2<F, L, A>, f: (a: A) => Option<B>) => Type2<F, L, B>
+  readonly filterMap: <A, B>(fa: Kind2<F, L, A>, f: (a: A) => Option<B>) => Kind2<F, L, B>
   readonly filter: Filter2C<F, L>
 }
 ```
@@ -207,11 +207,11 @@ Added in v2.0.0
 ```ts
 export interface Filterable3<F extends URIS3> extends Functor3<F>, Compactable3<F> {
   readonly partitionMap: <RL, RR, U, L, A>(
-    fa: Type3<F, U, L, A>,
+    fa: Kind3<F, U, L, A>,
     f: (a: A) => Either<RL, RR>
-  ) => Separated<Type3<F, U, L, RL>, Type3<F, U, L, RR>>
+  ) => Separated<Kind3<F, U, L, RL>, Kind3<F, U, L, RR>>
   readonly partition: Partition3<F>
-  readonly filterMap: <U, L, A, B>(fa: Type3<F, U, L, A>, f: (a: A) => Option<B>) => Type3<F, U, L, B>
+  readonly filterMap: <U, L, A, B>(fa: Kind3<F, U, L, A>, f: (a: A) => Option<B>) => Kind3<F, U, L, B>
   readonly filter: Filter3<F>
 }
 ```
@@ -225,11 +225,11 @@ Added in v2.0.0
 ```ts
 export interface Filterable4<F extends URIS4> extends Functor4<F>, Compactable4<F> {
   readonly partitionMap: <RL, RR, X, U, L, A>(
-    fa: Type4<F, X, U, L, A>,
+    fa: Kind4<F, X, U, L, A>,
     f: (a: A) => Either<RL, RR>
-  ) => Separated<Type4<F, X, U, L, RL>, Type4<F, X, U, L, RR>>
+  ) => Separated<Kind4<F, X, U, L, RL>, Kind4<F, X, U, L, RR>>
   readonly partition: Partition4<F>
-  readonly filterMap: <X, U, L, A, B>(fa: Type4<F, X, U, L, A>, f: (a: A) => Option<B>) => Type4<F, X, U, L, B>
+  readonly filterMap: <X, U, L, A, B>(fa: Kind4<F, X, U, L, A>, f: (a: A) => Option<B>) => Kind4<F, X, U, L, B>
   readonly filter: Filter4<F>
 }
 ```
@@ -266,15 +266,15 @@ export interface FilterableComposition11<F extends URIS, G extends URIS>
   extends FunctorComposition11<F, G>,
     CompactableComposition11<F, G> {
   readonly partitionMap: <RL, RR, A>(
-    fa: Type<F, Type<G, A>>,
+    fa: Kind<F, Kind<G, A>>,
     f: (a: A) => Either<RL, RR>
-  ) => Separated<Type<F, Type<G, RL>>, Type<F, Type<G, RR>>>
+  ) => Separated<Kind<F, Kind<G, RL>>, Kind<F, Kind<G, RR>>>
   readonly partition: <A>(
-    fa: Type<F, Type<G, A>>,
+    fa: Kind<F, Kind<G, A>>,
     predicate: Predicate<A>
-  ) => Separated<Type<F, Type<G, A>>, Type<F, Type<G, A>>>
-  readonly filterMap: <A, B>(fa: Type<F, Type<G, A>>, f: (a: A) => Option<B>) => Type<F, Type<G, B>>
-  readonly filter: <A>(fa: Type<F, Type<G, A>>, predicate: Predicate<A>) => Type<F, Type<G, A>>
+  ) => Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, A>>>
+  readonly filterMap: <A, B>(fa: Kind<F, Kind<G, A>>, f: (a: A) => Option<B>) => Kind<F, Kind<G, B>>
+  readonly filter: <A>(fa: Kind<F, Kind<G, A>>, predicate: Predicate<A>) => Kind<F, Kind<G, A>>
 }
 ```
 
@@ -289,15 +289,15 @@ export interface FilterableComposition12<F extends URIS, G extends URIS2>
   extends FunctorComposition12<F, G>,
     CompactableComposition12<F, G> {
   readonly partitionMap: <LG, RL, RR, A>(
-    fa: Type<F, Type2<G, LG, A>>,
+    fa: Kind<F, Kind2<G, LG, A>>,
     f: (a: A) => Either<RL, RR>
-  ) => Separated<Type<F, Type2<G, LG, RL>>, Type<F, Type2<G, LG, RR>>>
+  ) => Separated<Kind<F, Kind2<G, LG, RL>>, Kind<F, Kind2<G, LG, RR>>>
   readonly partition: <LG, A>(
-    fa: Type<F, Type2<G, LG, A>>,
+    fa: Kind<F, Kind2<G, LG, A>>,
     predicate: Predicate<A>
-  ) => Separated<Type<F, Type2<G, LG, A>>, Type<F, Type2<G, LG, A>>>
-  readonly filterMap: <LG, A, B>(fa: Type<F, Type2<G, LG, A>>, f: (a: A) => Option<B>) => Type<F, Type2<G, LG, B>>
-  readonly filter: <LG, A>(fa: Type<F, Type2<G, LG, A>>, predicate: Predicate<A>) => Type<F, Type2<G, LG, A>>
+  ) => Separated<Kind<F, Kind2<G, LG, A>>, Kind<F, Kind2<G, LG, A>>>
+  readonly filterMap: <LG, A, B>(fa: Kind<F, Kind2<G, LG, A>>, f: (a: A) => Option<B>) => Kind<F, Kind2<G, LG, B>>
+  readonly filter: <LG, A>(fa: Kind<F, Kind2<G, LG, A>>, predicate: Predicate<A>) => Kind<F, Kind2<G, LG, A>>
 }
 ```
 
@@ -312,15 +312,15 @@ export interface FilterableComposition12C<F extends URIS, G extends URIS2, LG>
   extends FunctorComposition12C<F, G, LG>,
     CompactableComposition12C<F, G, LG> {
   readonly partitionMap: <RL, RR, A>(
-    fa: Type<F, Type2<G, LG, A>>,
+    fa: Kind<F, Kind2<G, LG, A>>,
     f: (a: A) => Either<RL, RR>
-  ) => Separated<Type<F, Type2<G, LG, RL>>, Type<F, Type2<G, LG, RR>>>
+  ) => Separated<Kind<F, Kind2<G, LG, RL>>, Kind<F, Kind2<G, LG, RR>>>
   readonly partition: <A>(
-    fa: Type<F, Type2<G, LG, A>>,
+    fa: Kind<F, Kind2<G, LG, A>>,
     predicate: Predicate<A>
-  ) => Separated<Type<F, Type2<G, LG, A>>, Type<F, Type2<G, LG, A>>>
-  readonly filterMap: <A, B>(fa: Type<F, Type2<G, LG, A>>, f: (a: A) => Option<B>) => Type<F, Type2<G, LG, B>>
-  readonly filter: <A>(fa: Type<F, Type2<G, LG, A>>, predicate: Predicate<A>) => Type<F, Type2<G, LG, A>>
+  ) => Separated<Kind<F, Kind2<G, LG, A>>, Kind<F, Kind2<G, LG, A>>>
+  readonly filterMap: <A, B>(fa: Kind<F, Kind2<G, LG, A>>, f: (a: A) => Option<B>) => Kind<F, Kind2<G, LG, B>>
+  readonly filter: <A>(fa: Kind<F, Kind2<G, LG, A>>, predicate: Predicate<A>) => Kind<F, Kind2<G, LG, A>>
 }
 ```
 
@@ -335,15 +335,15 @@ export interface FilterableComposition21<F extends URIS2, G extends URIS>
   extends FunctorComposition21<F, G>,
     CompactableComposition21<F, G> {
   readonly partitionMap: <LF, RL, RR, A>(
-    fa: Type2<F, LF, Type<G, A>>,
+    fa: Kind2<F, LF, Kind<G, A>>,
     f: (a: A) => Either<RL, RR>
-  ) => Separated<Type2<F, LF, Type<G, RL>>, Type2<F, LF, Type<G, RR>>>
+  ) => Separated<Kind2<F, LF, Kind<G, RL>>, Kind2<F, LF, Kind<G, RR>>>
   readonly partition: <LF, A>(
-    fa: Type2<F, LF, Type<G, A>>,
+    fa: Kind2<F, LF, Kind<G, A>>,
     predicate: Predicate<A>
-  ) => Separated<Type2<F, LF, Type<G, A>>, Type2<F, LF, Type<G, A>>>
-  readonly filterMap: <LF, A, B>(fa: Type2<F, LF, Type<G, A>>, f: (a: A) => Option<B>) => Type2<F, LF, Type<G, B>>
-  readonly filter: <LF, A>(fa: Type2<F, LF, Type<G, A>>, predicate: Predicate<A>) => Type2<F, LF, Type<G, A>>
+  ) => Separated<Kind2<F, LF, Kind<G, A>>, Kind2<F, LF, Kind<G, A>>>
+  readonly filterMap: <LF, A, B>(fa: Kind2<F, LF, Kind<G, A>>, f: (a: A) => Option<B>) => Kind2<F, LF, Kind<G, B>>
+  readonly filter: <LF, A>(fa: Kind2<F, LF, Kind<G, A>>, predicate: Predicate<A>) => Kind2<F, LF, Kind<G, A>>
 }
 ```
 
@@ -358,21 +358,21 @@ export interface FilterableComposition22<F extends URIS2, G extends URIS2>
   extends FunctorComposition22<F, G>,
     CompactableComposition22<F, G> {
   readonly partitionMap: <LF, LG, RL, RR, A>(
-    fa: Type2<F, LF, Type2<G, LG, A>>,
+    fa: Kind2<F, LF, Kind2<G, LG, A>>,
     f: (a: A) => Either<RL, RR>
-  ) => Separated<Type2<F, LF, Type2<G, LG, RL>>, Type2<F, LF, Type2<G, LG, RR>>>
+  ) => Separated<Kind2<F, LF, Kind2<G, LG, RL>>, Kind2<F, LF, Kind2<G, LG, RR>>>
   readonly partition: <LF, LG, A>(
-    fa: Type2<F, LF, Type2<G, LG, A>>,
+    fa: Kind2<F, LF, Kind2<G, LG, A>>,
     predicate: Predicate<A>
-  ) => Separated<Type2<F, LF, Type2<G, LG, A>>, Type2<F, LF, Type2<G, LG, A>>>
+  ) => Separated<Kind2<F, LF, Kind2<G, LG, A>>, Kind2<F, LF, Kind2<G, LG, A>>>
   readonly filterMap: <LF, LG, A, B>(
-    fa: Type2<F, LF, Type2<G, LG, A>>,
+    fa: Kind2<F, LF, Kind2<G, LG, A>>,
     f: (a: A) => Option<B>
-  ) => Type2<F, LF, Type2<G, LG, B>>
+  ) => Kind2<F, LF, Kind2<G, LG, B>>
   readonly filter: <LF, LG, A>(
-    fa: Type2<F, LF, Type2<G, LG, A>>,
+    fa: Kind2<F, LF, Kind2<G, LG, A>>,
     predicate: Predicate<A>
-  ) => Type2<F, LF, Type2<G, LG, A>>
+  ) => Kind2<F, LF, Kind2<G, LG, A>>
 }
 ```
 
@@ -387,18 +387,18 @@ export interface FilterableComposition22C<F extends URIS2, G extends URIS2, LG>
   extends FunctorComposition22<F, G>,
     CompactableComposition22<F, G> {
   readonly partitionMap: <LF, RL, RR, A>(
-    fa: Type2<F, LF, Type2<G, LG, A>>,
+    fa: Kind2<F, LF, Kind2<G, LG, A>>,
     f: (a: A) => Either<RL, RR>
-  ) => Separated<Type2<F, LF, Type2<G, LG, RL>>, Type2<F, LF, Type2<G, LG, RR>>>
+  ) => Separated<Kind2<F, LF, Kind2<G, LG, RL>>, Kind2<F, LF, Kind2<G, LG, RR>>>
   readonly partition: <LF, A>(
-    fa: Type2<F, LF, Type2<G, LG, A>>,
+    fa: Kind2<F, LF, Kind2<G, LG, A>>,
     predicate: Predicate<A>
-  ) => Separated<Type2<F, LF, Type2<G, LG, A>>, Type2<F, LF, Type2<G, LG, A>>>
+  ) => Separated<Kind2<F, LF, Kind2<G, LG, A>>, Kind2<F, LF, Kind2<G, LG, A>>>
   readonly filterMap: <LF, A, B>(
-    fa: Type2<F, LF, Type2<G, LG, A>>,
+    fa: Kind2<F, LF, Kind2<G, LG, A>>,
     f: (a: A) => Option<B>
-  ) => Type2<F, LF, Type2<G, LG, B>>
-  readonly filter: <LF, A>(fa: Type2<F, LF, Type2<G, LG, A>>, predicate: Predicate<A>) => Type2<F, LF, Type2<G, LG, A>>
+  ) => Kind2<F, LF, Kind2<G, LG, B>>
+  readonly filter: <LF, A>(fa: Kind2<F, LF, Kind2<G, LG, A>>, predicate: Predicate<A>) => Kind2<F, LF, Kind2<G, LG, A>>
 }
 ```
 
@@ -413,15 +413,15 @@ export interface FilterableComposition2C1<F extends URIS2, G extends URIS, LF>
   extends FunctorComposition21<F, G>,
     CompactableComposition21<F, G> {
   readonly partitionMap: <RL, RR, A>(
-    fa: Type2<F, LF, Type<G, A>>,
+    fa: Kind2<F, LF, Kind<G, A>>,
     f: (a: A) => Either<RL, RR>
-  ) => Separated<Type2<F, LF, Type<G, RL>>, Type2<F, LF, Type<G, RR>>>
+  ) => Separated<Kind2<F, LF, Kind<G, RL>>, Kind2<F, LF, Kind<G, RR>>>
   readonly partition: <A>(
-    fa: Type2<F, LF, Type<G, A>>,
+    fa: Kind2<F, LF, Kind<G, A>>,
     predicate: Predicate<A>
-  ) => Separated<Type2<F, LF, Type<G, A>>, Type2<F, LF, Type<G, A>>>
-  readonly filterMap: <A, B>(fa: Type2<F, LF, Type<G, A>>, f: (a: A) => Option<B>) => Type2<F, LF, Type<G, B>>
-  readonly filter: <A>(fa: Type2<F, LF, Type<G, A>>, predicate: Predicate<A>) => Type2<F, LF, Type<G, A>>
+  ) => Separated<Kind2<F, LF, Kind<G, A>>, Kind2<F, LF, Kind<G, A>>>
+  readonly filterMap: <A, B>(fa: Kind2<F, LF, Kind<G, A>>, f: (a: A) => Option<B>) => Kind2<F, LF, Kind<G, B>>
+  readonly filter: <A>(fa: Kind2<F, LF, Kind<G, A>>, predicate: Predicate<A>) => Kind2<F, LF, Kind<G, A>>
 }
 ```
 
@@ -446,8 +446,8 @@ Added in v2.0.0
 
 ```ts
 export interface Partition1<F extends URIS> {
-  <A, B extends A>(fa: Type<F, A>, refinement: Refinement<A, B>): Separated<Type<F, A>, Type<F, B>>
-  <A>(fa: Type<F, A>, predicate: Predicate<A>): Separated<Type<F, A>, Type<F, A>>
+  <A, B extends A>(fa: Kind<F, A>, refinement: Refinement<A, B>): Separated<Kind<F, A>, Kind<F, B>>
+  <A>(fa: Kind<F, A>, predicate: Predicate<A>): Separated<Kind<F, A>, Kind<F, A>>
 }
 ```
 
@@ -459,8 +459,8 @@ Added in v2.0.0
 
 ```ts
 export interface Partition2<F extends URIS2> {
-  <L, A, B extends A>(fa: Type2<F, L, A>, refinement: Refinement<A, B>): Separated<Type2<F, L, A>, Type2<F, L, B>>
-  <L, A>(fa: Type2<F, L, A>, predicate: Predicate<A>): Separated<Type2<F, L, A>, Type2<F, L, A>>
+  <L, A, B extends A>(fa: Kind2<F, L, A>, refinement: Refinement<A, B>): Separated<Kind2<F, L, A>, Kind2<F, L, B>>
+  <L, A>(fa: Kind2<F, L, A>, predicate: Predicate<A>): Separated<Kind2<F, L, A>, Kind2<F, L, A>>
 }
 ```
 
@@ -472,8 +472,8 @@ Added in v2.0.0
 
 ```ts
 export interface Partition2C<F extends URIS2, L> {
-  <A, B extends A>(fa: Type2<F, L, A>, refinement: Refinement<A, B>): Separated<Type2<F, L, A>, Type2<F, L, B>>
-  <A>(fa: Type2<F, L, A>, predicate: Predicate<A>): Separated<Type2<F, L, A>, Type2<F, L, A>>
+  <A, B extends A>(fa: Kind2<F, L, A>, refinement: Refinement<A, B>): Separated<Kind2<F, L, A>, Kind2<F, L, B>>
+  <A>(fa: Kind2<F, L, A>, predicate: Predicate<A>): Separated<Kind2<F, L, A>, Kind2<F, L, A>>
 }
 ```
 
@@ -485,11 +485,11 @@ Added in v2.0.0
 
 ```ts
 export interface Partition3<F extends URIS3> {
-  <U, L, A, B extends A>(fa: Type3<F, U, L, A>, refinement: Refinement<A, B>): Separated<
-    Type3<F, U, L, A>,
-    Type3<F, U, L, B>
+  <U, L, A, B extends A>(fa: Kind3<F, U, L, A>, refinement: Refinement<A, B>): Separated<
+    Kind3<F, U, L, A>,
+    Kind3<F, U, L, B>
   >
-  <U, L, A>(fa: Type3<F, U, L, A>, predicate: Predicate<A>): Separated<Type3<F, U, L, A>, Type3<F, U, L, A>>
+  <U, L, A>(fa: Kind3<F, U, L, A>, predicate: Predicate<A>): Separated<Kind3<F, U, L, A>, Kind3<F, U, L, A>>
 }
 ```
 
@@ -501,11 +501,11 @@ Added in v2.0.0
 
 ```ts
 export interface Partition4<F extends URIS4> {
-  <X, U, L, A, B extends A>(fa: Type4<F, X, U, L, A>, refinement: Refinement<A, B>): Separated<
-    Type4<F, X, U, L, A>,
-    Type4<F, X, U, L, B>
+  <X, U, L, A, B extends A>(fa: Kind4<F, X, U, L, A>, refinement: Refinement<A, B>): Separated<
+    Kind4<F, X, U, L, A>,
+    Kind4<F, X, U, L, B>
   >
-  <X, U, L, A>(fa: Type4<F, X, U, L, A>, predicate: Predicate<A>): Separated<Type4<F, X, U, L, A>, Type4<F, X, U, L, A>>
+  <X, U, L, A>(fa: Kind4<F, X, U, L, A>, predicate: Predicate<A>): Separated<Kind4<F, X, U, L, A>, Kind4<F, X, U, L, A>>
 }
 ```
 

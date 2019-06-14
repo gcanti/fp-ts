@@ -15,7 +15,7 @@ import Either = E.Either
 const T = getEitherM(reader)
 
 declare module './HKT' {
-  interface URI2HKT3<U, L, A> {
+  interface URItoKind3<U, L, A> {
     ReaderEither: ReaderEither<U, L, A>
   }
 }

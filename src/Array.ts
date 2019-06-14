@@ -26,7 +26,7 @@ import { Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
 
 declare module './HKT' {
-  interface URI2HKT<A> {
+  interface URItoKind<A> {
     Array: Array<A>
   }
 }

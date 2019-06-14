@@ -1,4 +1,4 @@
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad3 } from './Monad'
 import { Reader } from './Reader'
 
@@ -28,7 +28,7 @@ export interface ReaderM<M> {
  * @since 2.0.0
  */
 export interface ReaderT1<M extends URIS, R, A> {
-  (r: R): Type<M, A>
+  (r: R): Kind<M, A>
 }
 
 /**
@@ -43,14 +43,14 @@ export interface ReaderM1<M extends URIS> {
   readonly asks: <R, A>(f: (r: R) => A) => ReaderT1<M, R, A>
   readonly local: <R, A, Q>(ma: ReaderT1<M, R, A>, f: (d: Q) => R) => ReaderT1<M, Q, A>
   readonly fromReader: <R, A>(ma: Reader<R, A>) => ReaderT1<M, R, A>
-  readonly fromM: <R, A>(ma: Type<M, A>) => ReaderT1<M, R, A>
+  readonly fromM: <R, A>(ma: Kind<M, A>) => ReaderT1<M, R, A>
 }
 
 /**
  * @since 2.0.0
  */
 export interface ReaderT2<M extends URIS2, R, L, A> {
-  (r: R): Type2<M, L, A>
+  (r: R): Kind2<M, L, A>
 }
 
 /**
@@ -65,14 +65,14 @@ export interface ReaderM2<M extends URIS2> {
   readonly asks: <R, L, A>(f: (r: R) => A) => ReaderT2<M, R, L, A>
   readonly local: <R, L, A, Q>(ma: ReaderT2<M, R, L, A>, f: (d: Q) => R) => ReaderT2<M, Q, L, A>
   readonly fromReader: <R, L, A>(ma: Reader<R, A>) => ReaderT2<M, R, L, A>
-  readonly fromM: <R, L, A>(ma: Type2<M, L, A>) => ReaderT2<M, R, L, A>
+  readonly fromM: <R, L, A>(ma: Kind2<M, L, A>) => ReaderT2<M, R, L, A>
 }
 
 /**
  * @since 2.0.0
  */
 export interface ReaderT3<M extends URIS3, R, U, L, A> {
-  (r: R): Type3<M, U, L, A>
+  (r: R): Kind3<M, U, L, A>
 }
 
 /**
@@ -93,7 +93,7 @@ export interface ReaderM3<M extends URIS3> {
   readonly asks: <R, U, L, A>(f: (r: R) => A) => ReaderT3<M, R, U, L, A>
   readonly local: <R, U, L, A, Q>(ma: ReaderT3<M, R, U, L, A>, f: (d: Q) => R) => ReaderT3<M, Q, U, L, A>
   readonly fromReader: <R, U, L, A>(ma: Reader<R, A>) => ReaderT3<M, R, U, L, A>
-  readonly fromM: <R, U, L, A>(ma: Type3<M, U, L, A>) => ReaderT3<M, R, U, L, A>
+  readonly fromM: <R, U, L, A>(ma: Kind3<M, U, L, A>) => ReaderT3<M, R, U, L, A>
 }
 
 /**

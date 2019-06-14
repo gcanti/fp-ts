@@ -4,7 +4,7 @@ import {
   ApplicativeComposition21,
   getApplicativeComposition
 } from './Applicative'
-import { HKT, Type, Type2, URIS, URIS2 } from './HKT'
+import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
 import { fold, none, Option, some, URI, option } from './Option'
 
@@ -29,7 +29,7 @@ export interface OptionM<M> extends ApplicativeComposition01<M, URI> {
 /**
  * @since 2.0.0
  */
-export type OptionT1<M extends URIS, A> = Type<M, Option<A>>
+export type OptionT1<M extends URIS, A> = Kind<M, Option<A>>
 
 /**
  * @since 2.0.0
@@ -37,9 +37,9 @@ export type OptionT1<M extends URIS, A> = Type<M, Option<A>>
 export interface OptionM1<M extends URIS> extends ApplicativeComposition11<M, URI> {
   readonly chain: <A, B>(ma: OptionT1<M, A>, f: (a: A) => OptionT1<M, B>) => OptionT1<M, B>
   readonly alt: <A>(fx: OptionT1<M, A>, fy: () => OptionT1<M, A>) => OptionT1<M, A>
-  readonly fold: <A, R>(ma: OptionT1<M, A>, onNone: () => Type<M, R>, onSome: (a: A) => Type<M, R>) => Type<M, R>
-  readonly getOrElse: <A>(ma: OptionT1<M, A>, onNone: () => Type<M, A>) => Type<M, A>
-  readonly fromM: <A>(ma: Type<M, A>) => OptionT1<M, A>
+  readonly fold: <A, R>(ma: OptionT1<M, A>, onNone: () => Kind<M, R>, onSome: (a: A) => Kind<M, R>) => Kind<M, R>
+  readonly getOrElse: <A>(ma: OptionT1<M, A>, onNone: () => Kind<M, A>) => Kind<M, A>
+  readonly fromM: <A>(ma: Kind<M, A>) => OptionT1<M, A>
   readonly fromOption: <A>(ma: Option<A>) => OptionT1<M, A>
   readonly none: () => OptionT1<M, never>
 }
@@ -47,7 +47,7 @@ export interface OptionM1<M extends URIS> extends ApplicativeComposition11<M, UR
 /**
  * @since 2.0.0
  */
-export type OptionT2<M extends URIS2, L, A> = Type2<M, L, Option<A>>
+export type OptionT2<M extends URIS2, L, A> = Kind2<M, L, Option<A>>
 
 /**
  * @since 2.0.0
@@ -57,11 +57,11 @@ export interface OptionM2<M extends URIS2> extends ApplicativeComposition21<M, U
   readonly alt: <L, A>(fx: OptionT2<M, L, A>, fy: () => OptionT2<M, L, A>) => OptionT2<M, L, A>
   readonly fold: <L, A, R>(
     ma: OptionT2<M, L, A>,
-    onNone: () => Type2<M, L, R>,
-    onSome: (a: A) => Type2<M, L, R>
-  ) => Type2<M, L, R>
-  readonly getOrElse: <L, A>(ma: OptionT2<M, L, A>, onNone: () => Type2<M, L, A>) => Type2<M, L, A>
-  readonly fromM: <L, A>(ma: Type2<M, L, A>) => OptionT2<M, L, A>
+    onNone: () => Kind2<M, L, R>,
+    onSome: (a: A) => Kind2<M, L, R>
+  ) => Kind2<M, L, R>
+  readonly getOrElse: <L, A>(ma: OptionT2<M, L, A>, onNone: () => Kind2<M, L, A>) => Kind2<M, L, A>
+  readonly fromM: <L, A>(ma: Kind2<M, L, A>) => OptionT2<M, L, A>
   readonly fromOption: <L, A>(ma: Option<A>) => OptionT2<M, L, A>
   readonly none: <L>() => OptionT2<M, L, never>
 }

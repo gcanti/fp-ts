@@ -4,7 +4,7 @@ import { Monoid } from './Monoid'
 import { pipeable } from './pipeable'
 
 declare module './HKT' {
-  interface URI2HKT2<L, A> {
+  interface URItoKind2<L, A> {
     Writer: Writer<L, A>
   }
 }

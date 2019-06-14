@@ -46,7 +46,7 @@ Added in v2.0.0
 
 ```ts
 export interface Alt1<F extends URIS> extends Functor1<F> {
-  readonly alt: <A>(fx: Type<F, A>, fy: () => Type<F, A>) => Type<F, A>
+  readonly alt: <A>(fx: Kind<F, A>, fy: () => Kind<F, A>) => Kind<F, A>
 }
 ```
 
@@ -58,7 +58,7 @@ Added in v2.0.0
 
 ```ts
 export interface Alt2<F extends URIS2> extends Functor2<F> {
-  readonly alt: <L, A>(fx: Type2<F, L, A>, fy: () => Type2<F, L, A>) => Type2<F, L, A>
+  readonly alt: <L, A>(fx: Kind2<F, L, A>, fy: () => Kind2<F, L, A>) => Kind2<F, L, A>
 }
 ```
 
@@ -70,7 +70,7 @@ Added in v2.0.0
 
 ```ts
 export interface Alt2C<F extends URIS2, L> extends Functor2C<F, L> {
-  readonly alt: <A>(fx: Type2<F, L, A>, fy: () => Type2<F, L, A>) => Type2<F, L, A>
+  readonly alt: <A>(fx: Kind2<F, L, A>, fy: () => Kind2<F, L, A>) => Kind2<F, L, A>
 }
 ```
 
@@ -82,7 +82,7 @@ Added in v2.0.0
 
 ```ts
 export interface Alt3<F extends URIS3> extends Functor3<F> {
-  readonly alt: <U, L, A>(fx: Type3<F, U, L, A>, fy: () => Type3<F, U, L, A>) => Type3<F, U, L, A>
+  readonly alt: <U, L, A>(fx: Kind3<F, U, L, A>, fy: () => Kind3<F, U, L, A>) => Kind3<F, U, L, A>
 }
 ```
 
@@ -94,7 +94,7 @@ Added in v2.0.0
 
 ```ts
 export interface Alt4<F extends URIS4> extends Functor4<F> {
-  readonly alt: <X, U, L, A>(fx: Type4<F, X, U, L, A>, fy: () => Type4<F, X, U, L, A>) => Type4<F, X, U, L, A>
+  readonly alt: <X, U, L, A>(fx: Kind4<F, X, U, L, A>, fy: () => Kind4<F, X, U, L, A>) => Kind4<F, X, U, L, A>
 }
 ```
 

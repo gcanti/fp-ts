@@ -10,7 +10,7 @@ import { Show } from './Show'
 import { pipeable } from './pipeable'
 
 declare module './HKT' {
-  interface URI2HKT2<L, A> {
+  interface URItoKind2<L, A> {
     Const: Const<L, A>
   }
 }

@@ -45,11 +45,11 @@ The naming convention is:
 | Kind               | Type class           | Type defunctionalization | Note                                                    |
 | ------------------ | -------------------- | ------------------------ | ------------------------------------------------------- |
 | all                | `Functor<F>`         | `HKT<F, A>`              |                                                         |
-| `* -> *`           | `Functor1<F>`        | `Type<F, A>`             |                                                         |
-| `* -> * -> *`      | `Functor2<F>`        | `Type2<F, L, A>`         |                                                         |
-| `* -> * -> *`      | `Functor2C<F, L>`    | `Type2<F, L, A>`         | A variant of `Functor2` where `L` is fixed              |
-| `* -> * -> * -> *` | `Functor3<F>`        | `Type3<F, U, L, A>`      |                                                         |
-| `* -> * -> * -> *` | `Functor3C<F, U, L>` | `Type3<F, U, L, A>`      | A variant of `Functor3` where both `U` and `L` is fixed |
+| `* -> *`           | `Functor1<F>`        | `Kind<F, A>`             |                                                         |
+| `* -> * -> *`      | `Functor2<F>`        | `Kind2<F, L, A>`         |                                                         |
+| `* -> * -> *`      | `Functor2C<F, L>`    | `Kind2<F, L, A>`         | A variant of `Functor2` where `L` is fixed              |
+| `* -> * -> * -> *` | `Functor3<F>`        | `Kind3<F, U, L, A>`      |                                                         |
+| `* -> * -> * -> *` | `Functor3C<F, U, L>` | `Kind3<F, U, L, A>`      | A variant of `Functor3` where both `U` and `L` is fixed |
 
 **Example** `Functor`
 

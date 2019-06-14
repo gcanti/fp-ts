@@ -53,14 +53,14 @@ export interface EitherM1<M extends URIS> extends ApplicativeComposition12<M, UR
   readonly mapLeft: <E, A, N>(ma: EitherT1<M, E, A>, f: (e: E) => N) => EitherT1<M, N, A>
   readonly fold: <E, A, R>(
     ma: EitherT1<M, E, A>,
-    onLeft: (e: E) => Type<M, R>,
-    onRight: (a: A) => Type<M, R>
-  ) => Type<M, R>
-  readonly getOrElse: <E, A>(ma: EitherT1<M, E, A>, f: (e: E) => Type<M, A>) => Type<M, A>
+    onLeft: (e: E) => Kind<M, R>,
+    onRight: (a: A) => Kind<M, R>
+  ) => Kind<M, R>
+  readonly getOrElse: <E, A>(ma: EitherT1<M, E, A>, f: (e: E) => Kind<M, A>) => Kind<M, A>
   readonly orElse: <E, A, N>(ma: EitherT1<M, E, A>, f: (e: E) => EitherT1<M, N, A>) => EitherT1<M, N, A>
   readonly swap: <E, A>(ma: EitherT1<M, E, A>) => EitherT1<M, A, E>
-  readonly rightM: <E, A>(ma: Type<M, A>) => EitherT1<M, E, A>
-  readonly leftM: <E, A>(me: Type<M, E>) => EitherT1<M, E, A>
+  readonly rightM: <E, A>(ma: Kind<M, A>) => EitherT1<M, E, A>
+  readonly leftM: <E, A>(me: Kind<M, E>) => EitherT1<M, E, A>
   readonly left: <E, A>(e: E) => EitherT1<M, E, A>
   readonly fromOption: <A, E>(ma: Option<A>, onNone: () => E) => EitherT1<M, E, A>
 }
@@ -80,14 +80,14 @@ export interface EitherM2<M extends URIS2> extends ApplicativeComposition22<M, U
   readonly mapLeft: <L, E, A, N>(ma: EitherT2<M, L, E, A>, f: (e: E) => N) => EitherT2<M, L, N, A>
   readonly fold: <L, E, A, R>(
     ma: EitherT2<M, L, E, A>,
-    onLeft: (e: E) => Type2<M, L, R>,
-    onRight: (a: A) => Type2<M, L, R>
-  ) => Type2<M, L, R>
-  readonly getOrElse: <L, E, A>(ma: EitherT2<M, L, E, A>, f: (e: E) => Type2<M, L, A>) => Type2<M, L, A>
+    onLeft: (e: E) => Kind2<M, L, R>,
+    onRight: (a: A) => Kind2<M, L, R>
+  ) => Kind2<M, L, R>
+  readonly getOrElse: <L, E, A>(ma: EitherT2<M, L, E, A>, f: (e: E) => Kind2<M, L, A>) => Kind2<M, L, A>
   readonly orElse: <L, E, A, N>(ma: EitherT2<M, L, E, A>, f: (e: E) => EitherT2<M, L, N, A>) => EitherT2<M, L, N, A>
   readonly swap: <L, E, A>(ma: EitherT2<M, L, E, A>) => EitherT2<M, L, A, E>
-  readonly rightM: <L, E, A>(ma: Type2<M, L, A>) => EitherT2<M, L, E, A>
-  readonly leftM: <L, E, A>(me: Type2<M, L, E>) => EitherT2<M, L, E, A>
+  readonly rightM: <L, E, A>(ma: Kind2<M, L, A>) => EitherT2<M, L, E, A>
+  readonly leftM: <L, E, A>(me: Kind2<M, L, E>) => EitherT2<M, L, E, A>
   readonly left: <L, E, A>(e: E) => EitherT2<M, L, E, A>
   readonly fromOption: <L, A, E>(ma: Option<A>, onNone: () => E) => EitherT2<M, L, E, A>
 }
@@ -110,7 +110,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export type EitherT1<M extends URIS, E, A> = Type<M, Either<E, A>>
+export type EitherT1<M extends URIS, E, A> = Kind<M, Either<E, A>>
 ```
 
 Added in v2.0.0
@@ -120,7 +120,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export type EitherT2<M extends URIS2, L, E, A> = Type2<M, L, Either<E, A>>
+export type EitherT2<M extends URIS2, L, E, A> = Kind2<M, L, Either<E, A>>
 ```
 
 Added in v2.0.0

@@ -24,7 +24,7 @@ import Either = E.Either
 const T = getEitherM(task)
 
 declare module './HKT' {
-  interface URI2HKT2<L, A> {
+  interface URItoKind2<L, A> {
     TaskEither: TaskEither<L, A>
   }
 }

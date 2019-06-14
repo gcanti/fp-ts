@@ -61,7 +61,7 @@ Added in v2.0.0
 ```ts
 export interface Functor1<F extends URIS> {
   readonly URI: F
-  readonly map: <A, B>(fa: Type<F, A>, f: (a: A) => B) => Type<F, B>
+  readonly map: <A, B>(fa: Kind<F, A>, f: (a: A) => B) => Kind<F, B>
 }
 ```
 
@@ -74,7 +74,7 @@ Added in v2.0.0
 ```ts
 export interface Functor2<F extends URIS2> {
   readonly URI: F
-  readonly map: <L, A, B>(fa: Type2<F, L, A>, f: (a: A) => B) => Type2<F, L, B>
+  readonly map: <L, A, B>(fa: Kind2<F, L, A>, f: (a: A) => B) => Kind2<F, L, B>
 }
 ```
 
@@ -88,7 +88,7 @@ Added in v2.0.0
 export interface Functor2C<F extends URIS2, L> {
   readonly URI: F
   readonly _L: L
-  readonly map: <A, B>(fa: Type2<F, L, A>, f: (a: A) => B) => Type2<F, L, B>
+  readonly map: <A, B>(fa: Kind2<F, L, A>, f: (a: A) => B) => Kind2<F, L, B>
 }
 ```
 
@@ -101,7 +101,7 @@ Added in v2.0.0
 ```ts
 export interface Functor3<F extends URIS3> {
   readonly URI: F
-  readonly map: <U, L, A, B>(fa: Type3<F, U, L, A>, f: (a: A) => B) => Type3<F, U, L, B>
+  readonly map: <U, L, A, B>(fa: Kind3<F, U, L, A>, f: (a: A) => B) => Kind3<F, U, L, B>
 }
 ```
 
@@ -114,7 +114,7 @@ Added in v2.0.0
 ```ts
 export interface Functor4<F extends URIS4> {
   readonly URI: F
-  readonly map: <X, U, L, A, B>(fa: Type4<F, X, U, L, A>, f: (a: A) => B) => Type4<F, X, U, L, B>
+  readonly map: <X, U, L, A, B>(fa: Kind4<F, X, U, L, A>, f: (a: A) => B) => Kind4<F, X, U, L, B>
 }
 ```
 
@@ -138,7 +138,7 @@ Added in v2.0.0
 
 ```ts
 export interface FunctorComposition01<F, G extends URIS> {
-  readonly map: <A, B>(fa: HKT<F, Type<G, A>>, f: (a: A) => B) => HKT<F, Type<G, B>>
+  readonly map: <A, B>(fa: HKT<F, Kind<G, A>>, f: (a: A) => B) => HKT<F, Kind<G, B>>
 }
 ```
 
@@ -150,7 +150,7 @@ Added in v2.0.0
 
 ```ts
 export interface FunctorComposition02<F, G extends URIS2> {
-  readonly map: <LG, A, B>(fa: HKT<F, Type2<G, LG, A>>, f: (a: A) => B) => HKT<F, Type2<G, LG, B>>
+  readonly map: <LG, A, B>(fa: HKT<F, Kind2<G, LG, A>>, f: (a: A) => B) => HKT<F, Kind2<G, LG, B>>
 }
 ```
 
@@ -162,7 +162,7 @@ Added in v2.0.0
 
 ```ts
 export interface FunctorComposition02C<F, G extends URIS2, LG> {
-  readonly map: <A, B>(fa: HKT<F, Type2<G, LG, A>>, f: (a: A) => B) => HKT<F, Type2<G, LG, B>>
+  readonly map: <A, B>(fa: HKT<F, Kind2<G, LG, A>>, f: (a: A) => B) => HKT<F, Kind2<G, LG, B>>
 }
 ```
 
@@ -174,7 +174,7 @@ Added in v2.0.0
 
 ```ts
 export interface FunctorComposition11<F extends URIS, G extends URIS> {
-  readonly map: <A, B>(fa: Type<F, Type<G, A>>, f: (a: A) => B) => Type<F, Type<G, B>>
+  readonly map: <A, B>(fa: Kind<F, Kind<G, A>>, f: (a: A) => B) => Kind<F, Kind<G, B>>
 }
 ```
 
@@ -186,7 +186,7 @@ Added in v2.0.0
 
 ```ts
 export interface FunctorComposition12<F extends URIS, G extends URIS2> {
-  readonly map: <LG, A, B>(fa: Type<F, Type2<G, LG, A>>, f: (a: A) => B) => Type<F, Type2<G, LG, B>>
+  readonly map: <LG, A, B>(fa: Kind<F, Kind2<G, LG, A>>, f: (a: A) => B) => Kind<F, Kind2<G, LG, B>>
 }
 ```
 
@@ -198,7 +198,7 @@ Added in v2.0.0
 
 ```ts
 export interface FunctorComposition12C<F extends URIS, G extends URIS2, LG> {
-  readonly map: <A, B>(fa: Type<F, Type2<G, LG, A>>, f: (a: A) => B) => Type<F, Type2<G, LG, B>>
+  readonly map: <A, B>(fa: Kind<F, Kind2<G, LG, A>>, f: (a: A) => B) => Kind<F, Kind2<G, LG, B>>
 }
 ```
 
@@ -210,7 +210,7 @@ Added in v2.0.0
 
 ```ts
 export interface FunctorComposition21<F extends URIS2, G extends URIS> {
-  readonly map: <LF, A, B>(fa: Type2<F, LF, Type<G, A>>, f: (a: A) => B) => Type2<F, LF, Type<G, B>>
+  readonly map: <LF, A, B>(fa: Kind2<F, LF, Kind<G, A>>, f: (a: A) => B) => Kind2<F, LF, Kind<G, B>>
 }
 ```
 
@@ -222,7 +222,7 @@ Added in v2.0.0
 
 ```ts
 export interface FunctorComposition22<F extends URIS2, G extends URIS2> {
-  readonly map: <LF, LG, A, B>(fa: Type2<F, LF, Type2<G, LG, A>>, f: (a: A) => B) => Type2<F, LF, Type2<G, LG, B>>
+  readonly map: <LF, LG, A, B>(fa: Kind2<F, LF, Kind2<G, LG, A>>, f: (a: A) => B) => Kind2<F, LF, Kind2<G, LG, B>>
 }
 ```
 
@@ -234,7 +234,7 @@ Added in v2.0.0
 
 ```ts
 export interface FunctorComposition22C<F extends URIS2, G extends URIS2, LG> {
-  readonly map: <LF, A, B>(fa: Type2<F, LF, Type2<G, LG, A>>, f: (a: A) => B) => Type2<F, LF, Type2<G, LG, B>>
+  readonly map: <LF, A, B>(fa: Kind2<F, LF, Kind2<G, LG, A>>, f: (a: A) => B) => Kind2<F, LF, Kind2<G, LG, B>>
 }
 ```
 
@@ -246,7 +246,7 @@ Added in v2.0.0
 
 ```ts
 export interface FunctorComposition2C1<F extends URIS2, G extends URIS, LF> {
-  readonly map: <A, B>(fa: Type2<F, LF, Type<G, A>>, f: (a: A) => B) => Type2<F, LF, Type<G, B>>
+  readonly map: <A, B>(fa: Kind2<F, LF, Kind<G, A>>, f: (a: A) => B) => Kind2<F, LF, Kind<G, B>>
 }
 ```
 

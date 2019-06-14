@@ -125,17 +125,17 @@ export function fromFoldable<F extends URIS3, K, A>(
   E: Eq<K>,
   M: Magma<A>,
   F: Foldable3<F>
-): <U, L>(fka: Type3<F, U, L, [K, A]>) => Map<K, A>
+): <U, L>(fka: Kind3<F, U, L, [K, A]>) => Map<K, A>
 export function fromFoldable<F extends URIS2, K, A>(
   E: Eq<K>,
   M: Magma<A>,
   F: Foldable2<F>
-): <L>(fka: Type2<F, L, [K, A]>) => Map<K, A>
+): <L>(fka: Kind2<F, L, [K, A]>) => Map<K, A>
 export function fromFoldable<F extends URIS, K, A>(
   E: Eq<K>,
   M: Magma<A>,
   F: Foldable1<F>
-): (fka: Type<F, [K, A]>) => Map<K, A>
+): (fka: Kind<F, [K, A]>) => Map<K, A>
 export function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable<F>): (fka: HKT<F, [K, A]>) => Map<K, A> { ... }
 ```
 
@@ -343,7 +343,7 @@ Unfolds a map into a list of key/value pairs
 **Signature**
 
 ```ts
-export function toUnfoldable<K, F extends URIS>(O: Ord<K>, U: Unfoldable1<F>): <A>(d: Map<K, A>) => Type<F, [K, A]>
+export function toUnfoldable<K, F extends URIS>(O: Ord<K>, U: Unfoldable1<F>): <A>(d: Map<K, A>) => Kind<F, [K, A]>
 export function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]> { ... }
 ```
 

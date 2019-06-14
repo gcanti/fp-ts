@@ -1,5 +1,5 @@
 import { log } from '../src/Console'
-import { Type, URIS } from '../src/HKT'
+import { Kind, URIS } from '../src/HKT'
 import { none, Option, some, fold } from '../src/Option'
 import { randomInt } from '../src/Random'
 import * as T from '../src/Task'
@@ -35,16 +35,16 @@ const parse = (s: string): Option<number> => {
 //
 
 interface Program<F extends URIS> extends Monad1<F> {
-  finish: <A>(a: A) => Type<F, A>
+  finish: <A>(a: A) => Kind<F, A>
 }
 
 interface Console<F extends URIS> {
-  putStrLn: (message: string) => Type<F, void>
-  getStrLn: Type<F, string>
+  putStrLn: (message: string) => Kind<F, void>
+  getStrLn: Kind<F, string>
 }
 
 interface Random<F extends URIS> {
-  nextInt: (upper: number) => Type<F, number>
+  nextInt: (upper: number) => Kind<F, number>
 }
 
 interface Main<F extends URIS> extends Program<F>, Console<F>, Random<F> {}
@@ -71,7 +71,7 @@ const randomTask: Random<T.URI> = {
 // game
 //
 
-const checkContinue = <F extends URIS>(F: Program<F> & Console<F>) => (name: string): Type<F, boolean> => {
+const checkContinue = <F extends URIS>(F: Program<F> & Console<F>) => (name: string): Kind<F, boolean> => {
   const put = F.putStrLn(`Do you want to continue, ${name}?`)
   const get = F.chain(put, () => F.getStrLn)
   const answer = F.chain(get, answer => {
@@ -87,7 +87,7 @@ const checkContinue = <F extends URIS>(F: Program<F> & Console<F>) => (name: str
   return answer
 }
 
-const gameLoop = <F extends URIS>(F: Main<F>) => (name: string): Type<F, void> => {
+const gameLoop = <F extends URIS>(F: Main<F>) => (name: string): Kind<F, void> => {
   const parseFailureMessage = F.putStrLn('You did not enter an integer!')
 
   return F.chain(F.nextInt(5), secret => {
@@ -107,7 +107,7 @@ const gameLoop = <F extends URIS>(F: Main<F>) => (name: string): Type<F, void> =
   })
 }
 
-const main = <F extends URIS>(F: Main<F>): Type<F, void> => {
+const main = <F extends URIS>(F: Main<F>): Kind<F, void> => {
   const nameMessage = F.putStrLn('What is your name?')
   const askName = F.chain(nameMessage, () => F.getStrLn)
   return F.chain(askName, name => F.chain(F.putStrLn(`Hello, ${name} welcome to the game!`), () => gameLoop(F)(name)))
@@ -122,7 +122,7 @@ export const mainTask = main({ ...programTask, ...consoleTask, ...randomTask })
 // tests
 //
 
-import { drop, snoc } from '../src/Array'
+import { dropLeft, snoc } from '../src/Array'
 
 class TestData {
   constructor(readonly input: Array<string>, readonly output: Array<string>, readonly nums: Array<number>) {}
@@ -130,10 +130,10 @@ class TestData {
     return [undefined, new TestData(this.input, snoc(this.output, message), this.nums)]
   }
   getStrLn(): [string, TestData] {
-    return [this.input[0], new TestData(drop(1, this.input), this.output, this.nums)]
+    return [this.input[0], new TestData(dropLeft(1)(this.input), this.output, this.nums)]
   }
   nextInt(_upper: number): [number, TestData] {
-    return [this.nums[0], new TestData(this.input, this.output, drop(1, this.nums))]
+    return [this.nums[0], new TestData(this.input, this.output, dropLeft(1)(this.nums))]
   }
 }
 
@@ -142,7 +142,7 @@ const URI = 'Test'
 type URI = typeof URI
 
 declare module '../src/HKT' {
-  interface URI2HKT<A> {
+  interface URItoKind<A> {
     Test: Test<A>
   }
 }

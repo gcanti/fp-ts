@@ -1,4 +1,4 @@
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad3 } from './Monad'
 import { State } from './State'
 
@@ -31,7 +31,7 @@ export interface StateM<M> {
  * @since 2.0.0
  */
 export interface StateT1<M extends URIS, S, A> {
-  (s: S): Type<M, [A, S]>
+  (s: S): Kind<M, [A, S]>
 }
 
 /**
@@ -47,16 +47,16 @@ export interface StateM1<M extends URIS> {
   readonly modify: <S>(f: (s: S) => S) => StateT1<M, S, void>
   readonly gets: <S, A>(f: (s: S) => A) => StateT1<M, S, A>
   readonly fromState: <S, A>(fa: State<S, A>) => StateT1<M, S, A>
-  readonly fromM: <S, A>(ma: Type<M, A>) => StateT1<M, S, A>
-  readonly evalState: <S, A>(ma: StateT1<M, S, A>, s: S) => Type<M, A>
-  readonly execState: <S, A>(ma: StateT1<M, S, A>, s: S) => Type<M, S>
+  readonly fromM: <S, A>(ma: Kind<M, A>) => StateT1<M, S, A>
+  readonly evalState: <S, A>(ma: StateT1<M, S, A>, s: S) => Kind<M, A>
+  readonly execState: <S, A>(ma: StateT1<M, S, A>, s: S) => Kind<M, S>
 }
 
 /**
  * @since 2.0.0
  */
 export interface StateT2<M extends URIS2, S, L, A> {
-  (s: S): Type2<M, L, [A, S]>
+  (s: S): Kind2<M, L, [A, S]>
 }
 
 /**
@@ -72,16 +72,16 @@ export interface StateM2<M extends URIS2> {
   readonly modify: <L, S>(f: (s: S) => S) => StateT2<M, S, L, void>
   readonly gets: <S, L, A>(f: (s: S) => A) => StateT2<M, S, L, A>
   readonly fromState: <S, L, A>(fa: State<S, A>) => StateT2<M, S, L, A>
-  readonly fromM: <S, L, A>(ma: Type2<M, L, A>) => StateT2<M, S, L, A>
-  readonly evalState: <S, L, A>(ma: StateT2<M, S, L, A>, s: S) => Type2<M, L, A>
-  readonly execState: <S, L, A>(ma: StateT2<M, S, L, A>, s: S) => Type2<M, L, S>
+  readonly fromM: <S, L, A>(ma: Kind2<M, L, A>) => StateT2<M, S, L, A>
+  readonly evalState: <S, L, A>(ma: StateT2<M, S, L, A>, s: S) => Kind2<M, L, A>
+  readonly execState: <S, L, A>(ma: StateT2<M, S, L, A>, s: S) => Kind2<M, L, S>
 }
 
 /**
  * @since 2.0.0
  */
 export interface StateT3<M extends URIS3, S, U, L, A> {
-  (s: S): Type3<M, U, L, [A, S]>
+  (s: S): Kind3<M, U, L, [A, S]>
 }
 
 /**
@@ -103,9 +103,9 @@ export interface StateM3<M extends URIS3> {
   readonly modify: <U, L, S>(f: (s: S) => S) => StateT3<M, S, U, L, void>
   readonly gets: <S, U, L, A>(f: (s: S) => A) => StateT3<M, S, U, L, A>
   readonly fromState: <S, U, L, A>(fa: State<S, A>) => StateT3<M, S, U, L, A>
-  readonly fromM: <S, U, L, A>(ma: Type3<M, U, L, A>) => StateT3<M, S, U, L, A>
-  readonly evalState: <S, U, L, A>(ma: StateT3<M, S, U, L, A>, s: S) => Type3<M, U, L, A>
-  readonly execState: <S, U, L, A>(ma: StateT3<M, S, U, L, A>, s: S) => Type3<M, U, L, S>
+  readonly fromM: <S, U, L, A>(ma: Kind3<M, U, L, A>) => StateT3<M, S, U, L, A>
+  readonly evalState: <S, U, L, A>(ma: StateT3<M, S, U, L, A>, s: S) => Kind3<M, U, L, A>
+  readonly execState: <S, U, L, A>(ma: StateT3<M, S, U, L, A>, s: S) => Kind3<M, U, L, S>
 }
 
 /**

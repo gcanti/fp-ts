@@ -30,7 +30,7 @@ export const URI = 'Identity'
 export type URI = typeof URI
 
 declare module 'fp-ts/lib/HKT' {
-  interface URI2HKT<A> {
+  interface URItoKind<A> {
     Identity: Identity<A>
   }
 }
@@ -55,34 +55,34 @@ Here's the definition of `Functor1`
 
 export interface Functor1<F extends URIS> {
   readonly URI: F
-  readonly map: <A, B>(fa: Type<F, A>, f: (a: A) => B) => Type<F, B>
+  readonly map: <A, B>(fa: Kind<F, A>, f: (a: A) => B) => Kind<F, B>
 }
 ```
 
-So what's `URI2HKT`, `URIS` and `Type`?
+So what's `URItoKind`, `URIS` and `Kind`?
 
-`URI2HKT` is type-level map, it maps a `URI` to a concrete data type, and is populated using the [module augmentation](https://www.typescriptlang.org/docs/handbook/declaration-merging.html) feature
+`URItoKind` is type-level map, it maps a `URI` to a concrete data type, and is populated using the [module augmentation](https://www.typescriptlang.org/docs/handbook/declaration-merging.html) feature
 
 ```ts
 // fp-ts/lib/HKT.ts
 
-export interface URI2HKT<A> {}
+export interface URItoKind<A> {}
 ```
 
 ```ts
 // Identity.ts
 
 declare module 'fp-ts/lib/HKT' {
-  interface URI2HKT<A> {
+  interface URItoKind<A> {
     Identity: Identity<A> // maps the key "Identity" to the type `Identity`
   }
 }
 ```
 
-`URIS` is just `keyof URI2HKT<any>` and is used as a constraint in the `Functor1` interface
+`URIS` is just `keyof URItoKind<any>` and is used as a constraint in the `Functor1` interface
 
-`Type<F, A>` is using `URI2HKT` internally so is able to project an abstract data type to a concrete data type.
-So if `URI = 'Identity'`, then `Type<URI, number>` is `Identity<number>`.
+`Kind<F, A>` is using `URItoKind` internally so is able to project an abstract data type to a concrete data type.
+So if `URI = 'Identity'`, then `Kind<URI, number>` is `Identity<number>`.
 
 **Note**. When possible `fp-ts` also defines a `map` method on the data structure in order to provide chainable APIs
 
@@ -107,7 +107,7 @@ export const identity: Functor1<URI> = {
 
 ## What about type constructors of kind `* -> * -> *`?
 
-There's another triple for that: `URI2HKT2`, `URIS2` and `Type2`
+There's another triple for that: `URItoKind2`, `URIS2` and `Kind2`
 
 Example: `Either`
 
@@ -121,7 +121,7 @@ export const URI = 'Either'
 export type URI = typeof URI
 
 declare module 'fp-ts/lib/HKT' {
-  interface URI2HKT2<L, A> {
+  interface URItoKind2<L, A> {
     Either: Either<L, A>
   }
 }
@@ -160,7 +160,7 @@ And here's the definition of `Functor2`
 
 export interface Functor2<F extends URIS2> {
   readonly URI: F
-  readonly map: <L, A, B>(fa: Type2<F, L, A>, f: (a: A) => B) => Type2<F, L, B>
+  readonly map: <L, A, B>(fa: Kind2<F, L, A>, f: (a: A) => B) => Kind2<F, L, B>
 }
 ```
 
@@ -215,8 +215,8 @@ We need to add some overloading, one for each kind we want to support
 ```ts
 export function lift<F extends URIS2>(
   F: Functor2<F>
-): <A, B>(f: (a: A) => B) => <L>(fa: Type2<F, L, A>) => Type2<F, L, B>
-export function lift<F extends URIS>(F: Functor1<F>): <A, B>(f: (a: A) => B) => (fa: Type<F, A>) => Type<F, B>
+): <A, B>(f: (a: A) => B) => <L>(fa: Kind2<F, L, A>) => Kind2<F, L, B>
+export function lift<F extends URIS>(F: Functor1<F>): <A, B>(f: (a: A) => B) => (fa: Kind<F, A>) => Kind<F, B>
 export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
 export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B> {
   return f => fa => F.map(fa, f)

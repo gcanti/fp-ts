@@ -21,7 +21,7 @@ import Either = E.Either
 const T = getEitherM(io)
 
 declare module './HKT' {
-  interface URI2HKT2<L, A> {
+  interface URItoKind2<L, A> {
     IOEither: IOEither<L, A>
   }
 }

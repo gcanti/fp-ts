@@ -6,7 +6,7 @@ import { Filterable2 } from './Filterable'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { Predicate } from './function'
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
 import { isNone, isSome, none, Option, option, some } from './Option'
@@ -19,7 +19,7 @@ import { Witherable2C } from './Witherable'
 import { pipeable } from './pipeable'
 
 declare module './HKT' {
-  interface URI2HKT2<L, A> {
+  interface URItoKind2<L, A> {
     Map: Map<L, A>
   }
 }
@@ -146,7 +146,7 @@ export function toArray<K>(O: Ord<K>): <A>(m: Map<K, A>) => Array<[K, A]> {
  *
  * @since 2.0.0
  */
-export function toUnfoldable<K, F extends URIS>(O: Ord<K>, U: Unfoldable1<F>): <A>(d: Map<K, A>) => Type<F, [K, A]>
+export function toUnfoldable<K, F extends URIS>(O: Ord<K>, U: Unfoldable1<F>): <A>(d: Map<K, A>) => Kind<F, [K, A]>
 export function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]>
 export function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]> {
   const toArrayO = toArray(O)
@@ -359,17 +359,17 @@ export function fromFoldable<F extends URIS3, K, A>(
   E: Eq<K>,
   M: Magma<A>,
   F: Foldable3<F>
-): <U, L>(fka: Type3<F, U, L, [K, A]>) => Map<K, A>
+): <U, L>(fka: Kind3<F, U, L, [K, A]>) => Map<K, A>
 export function fromFoldable<F extends URIS2, K, A>(
   E: Eq<K>,
   M: Magma<A>,
   F: Foldable2<F>
-): <L>(fka: Type2<F, L, [K, A]>) => Map<K, A>
+): <L>(fka: Kind2<F, L, [K, A]>) => Map<K, A>
 export function fromFoldable<F extends URIS, K, A>(
   E: Eq<K>,
   M: Magma<A>,
   F: Foldable1<F>
-): (fka: Type<F, [K, A]>) => Map<K, A>
+): (fka: Kind<F, [K, A]>) => Map<K, A>
 export function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable<F>): (fka: HKT<F, [K, A]>) => Map<K, A>
 export function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable<F>): (fka: HKT<F, [K, A]>) => Map<K, A> {
   return (fka: HKT<F, [K, A]>) => {

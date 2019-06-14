@@ -5,7 +5,7 @@ import {
   getApplicativeComposition
 } from './Applicative'
 import { Either, getValidation, isLeft, isRight, left, URI } from './Either'
-import { HKT, Type, Type2, URIS, URIS2 } from './HKT'
+import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
 import { Semigroup } from './Semigroup'
 
@@ -25,7 +25,7 @@ export interface ValidationM<M, E> extends ApplicativeComposition02C<M, URI, E> 
 /**
  * @since 2.0.0
  */
-export type ValidationT1<M extends URIS, E, A> = Type<M, Either<E, A>>
+export type ValidationT1<M extends URIS, E, A> = Kind<M, Either<E, A>>
 
 /**
  * @since 2.0.0
@@ -38,7 +38,7 @@ export interface ValidationM1<M extends URIS, E> extends ApplicativeComposition1
 /**
  * @since 2.0.0
  */
-export type ValidationT2<M extends URIS2, L, E, A> = Type2<M, L, Either<E, A>>
+export type ValidationT2<M extends URIS2, L, E, A> = Kind2<M, L, Either<E, A>>
 
 /**
  * @since 2.0.0

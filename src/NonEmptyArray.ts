@@ -16,7 +16,7 @@ import { Show } from './Show'
 import { pipeable } from './pipeable'
 
 declare module './HKT' {
-  interface URI2HKT<A> {
+  interface URItoKind<A> {
     NonEmptyArray: NonEmptyArray<A>
   }
 }

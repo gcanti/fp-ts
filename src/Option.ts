@@ -101,7 +101,7 @@ import { Witherable1 } from './Witherable'
 import { pipeable } from './pipeable'
 
 declare module './HKT' {
-  interface URI2HKT<A> {
+  interface URItoKind<A> {
     Option: Option<A>
   }
 }

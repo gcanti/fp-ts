@@ -38,7 +38,7 @@ Added in v2.0.0
 
 ```ts
 export interface MonadIO1<M extends URIS> extends Monad1<M> {
-  readonly fromIO: <A>(fa: IO<A>) => Type<M, A>
+  readonly fromIO: <A>(fa: IO<A>) => Kind<M, A>
 }
 ```
 
@@ -50,7 +50,7 @@ Added in v2.0.0
 
 ```ts
 export interface MonadIO2<M extends URIS2> extends Monad2<M> {
-  readonly fromIO: <L, A>(fa: IO<A>) => Type2<M, L, A>
+  readonly fromIO: <L, A>(fa: IO<A>) => Kind2<M, L, A>
 }
 ```
 
@@ -62,7 +62,7 @@ Added in v2.0.0
 
 ```ts
 export interface MonadIO2C<M extends URIS2, L> extends Monad2C<M, L> {
-  readonly fromIO: <A>(fa: IO<A>) => Type2<M, L, A>
+  readonly fromIO: <A>(fa: IO<A>) => Kind2<M, L, A>
 }
 ```
 
@@ -74,7 +74,7 @@ Added in v2.0.0
 
 ```ts
 export interface MonadIO3<M extends URIS3> extends Monad3<M> {
-  readonly fromIO: <U, L, A>(fa: IO<A>) => Type3<M, U, L, A>
+  readonly fromIO: <U, L, A>(fa: IO<A>) => Kind3<M, U, L, A>
 }
 ```
 

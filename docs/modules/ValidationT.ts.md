@@ -75,7 +75,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export type ValidationT1<M extends URIS, E, A> = Type<M, Either<E, A>>
+export type ValidationT1<M extends URIS, E, A> = Kind<M, Either<E, A>>
 ```
 
 Added in v2.0.0
@@ -85,7 +85,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export type ValidationT2<M extends URIS2, L, E, A> = Type2<M, L, Either<E, A>>
+export type ValidationT2<M extends URIS2, L, E, A> = Kind2<M, L, Either<E, A>>
 ```
 
 Added in v2.0.0
