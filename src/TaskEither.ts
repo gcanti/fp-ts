@@ -26,7 +26,7 @@ import { fromIO as taskFromIO, getSemigroup as taskGetSemigroup, Task, task, try
 import { pipeable } from './pipeable'
 
 declare module './HKT' {
-  interface URI2HKT2<L, A> {
+  interface URItoKind2<L, A> {
     TaskEither: TaskEither<L, A>
   }
 }

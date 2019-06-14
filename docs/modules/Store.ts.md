@@ -123,16 +123,16 @@ Extract a collection of values from positions which depend on the current positi
 ```ts
 export function experiment<F extends URIS3>(
   F: Functor3<F>
-): <U, L, S>(f: (s: S) => Type3<F, U, L, S>) => <A>(wa: Store<S, A>) => Type3<F, U, L, A>
+): <U, L, S>(f: (s: S) => Kind3<F, U, L, S>) => <A>(wa: Store<S, A>) => Kind3<F, U, L, A>
 export function experiment<F extends URIS2>(
   F: Functor2<F>
-): <L, S>(f: (s: S) => Type2<F, L, S>) => <A>(wa: Store<S, A>) => Type2<F, L, A>
+): <L, S>(f: (s: S) => Kind2<F, L, S>) => <A>(wa: Store<S, A>) => Kind2<F, L, A>
 export function experiment<F extends URIS2, L>(
   F: Functor2C<F, L>
-): <S>(f: (s: S) => Type2<F, L, S>) => <A>(wa: Store<S, A>) => Type2<F, L, A>
+): <S>(f: (s: S) => Kind2<F, L, S>) => <A>(wa: Store<S, A>) => Kind2<F, L, A>
 export function experiment<F extends URIS>(
   F: Functor1<F>
-): <S>(f: (s: S) => Type<F, S>) => <A>(wa: Store<S, A>) => Type<F, A>
+): <S>(f: (s: S) => Kind<F, S>) => <A>(wa: Store<S, A>) => Kind<F, A>
 export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A> { ... }
 ```
 

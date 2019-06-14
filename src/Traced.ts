@@ -3,7 +3,7 @@ import { Monoid } from './Monoid'
 import { Functor2 } from './Functor'
 
 declare module './HKT' {
-  interface URI2HKT2<L, A> {
+  interface URItoKind2<L, A> {
     Traced: Traced<L, A>
   }
 }

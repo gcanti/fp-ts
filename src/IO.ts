@@ -98,7 +98,7 @@ import { MonadIO1 } from './MonadIO'
 import { pipeable } from './pipeable'
 
 declare module './HKT' {
-  interface URI2HKT<A> {
+  interface URItoKind<A> {
     IO: IO<A>
   }
 }

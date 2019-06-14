@@ -65,7 +65,7 @@ Added in v1.0.0
 ```ts
 export interface Foldable1<F extends URIS> {
   readonly URI: F
-  readonly reduce: <A, B>(fa: Type<F, A>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => B) => B
 }
 ```
 
@@ -76,7 +76,7 @@ export interface Foldable1<F extends URIS> {
 ```ts
 export interface Foldable2<F extends URIS2> {
   readonly URI: F
-  readonly reduce: <L, A, B>(fa: Type2<F, L, A>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <L, A, B>(fa: Kind2<F, L, A>, b: B, f: (b: B, a: A) => B) => B
 }
 ```
 
@@ -88,7 +88,7 @@ export interface Foldable2<F extends URIS2> {
 export interface Foldable2C<F extends URIS2, L> {
   readonly URI: F
   readonly _L: L
-  readonly reduce: <A, B>(fa: Type2<F, L, A>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <A, B>(fa: Kind2<F, L, A>, b: B, f: (b: B, a: A) => B) => B
 }
 ```
 
@@ -99,7 +99,7 @@ export interface Foldable2C<F extends URIS2, L> {
 ```ts
 export interface Foldable3<F extends URIS3> {
   readonly URI: F
-  readonly reduce: <U, L, A, B>(fa: Type3<F, U, L, A>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <U, L, A, B>(fa: Kind3<F, U, L, A>, b: B, f: (b: B, a: A) => B) => B
 }
 ```
 
@@ -112,7 +112,7 @@ export interface Foldable3C<F extends URIS3, U, L> {
   readonly URI: F
   readonly _L: L
   readonly _U: U
-  readonly reduce: <A, B>(fa: Type3<F, U, L, A>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <A, B>(fa: Kind3<F, U, L, A>, b: B, f: (b: B, a: A) => B) => B
 }
 ```
 
@@ -132,7 +132,7 @@ export interface FoldableComposition<F, G> {
 
 ```ts
 export interface FoldableComposition11<F extends URIS, G extends URIS> {
-  readonly reduce: <A, B>(fga: Type<F, Type<G, A>>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <A, B>(fga: Kind<F, Kind<G, A>>, b: B, f: (b: B, a: A) => B) => B
 }
 ```
 
@@ -142,7 +142,7 @@ export interface FoldableComposition11<F extends URIS, G extends URIS> {
 
 ```ts
 export interface FoldableComposition12<F extends URIS, G extends URIS2> {
-  readonly reduce: <LG, A, B>(fga: Type<F, Type2<G, LG, A>>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <LG, A, B>(fga: Kind<F, Kind2<G, LG, A>>, b: B, f: (b: B, a: A) => B) => B
 }
 ```
 
@@ -152,7 +152,7 @@ export interface FoldableComposition12<F extends URIS, G extends URIS2> {
 
 ```ts
 export interface FoldableComposition12C<F extends URIS, G extends URIS2, LG> {
-  readonly reduce: <A, B>(fga: Type<F, Type2<G, LG, A>>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <A, B>(fga: Kind<F, Kind2<G, LG, A>>, b: B, f: (b: B, a: A) => B) => B
 }
 ```
 
@@ -162,7 +162,7 @@ export interface FoldableComposition12C<F extends URIS, G extends URIS2, LG> {
 
 ```ts
 export interface FoldableComposition21<F extends URIS2, G extends URIS> {
-  readonly reduce: <LF, A, B>(fga: Type2<F, LF, Type<G, A>>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <LF, A, B>(fga: Kind2<F, LF, Kind<G, A>>, b: B, f: (b: B, a: A) => B) => B
 }
 ```
 
@@ -172,7 +172,7 @@ export interface FoldableComposition21<F extends URIS2, G extends URIS> {
 
 ```ts
 export interface FoldableComposition22<F extends URIS2, G extends URIS2> {
-  readonly reduce: <LF, LG, A, B>(fga: Type2<F, LF, Type2<G, LG, A>>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <LF, LG, A, B>(fga: Kind2<F, LF, Kind2<G, LG, A>>, b: B, f: (b: B, a: A) => B) => B
 }
 ```
 
@@ -182,7 +182,7 @@ export interface FoldableComposition22<F extends URIS2, G extends URIS2> {
 
 ```ts
 export interface FoldableComposition22C<F extends URIS2, G extends URIS2, LG> {
-  readonly reduce: <LF, A, B>(fga: Type2<F, LF, Type2<G, LG, A>>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <LF, A, B>(fga: Kind2<F, LF, Kind2<G, LG, A>>, b: B, f: (b: B, a: A) => B) => B
 }
 ```
 
@@ -192,7 +192,7 @@ export interface FoldableComposition22C<F extends URIS2, G extends URIS2, LG> {
 
 ```ts
 export interface FoldableComposition2C1<F extends URIS2, G extends URIS, LF> {
-  readonly reduce: <A, B>(fga: Type2<F, LF, Type<G, A>>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <A, B>(fga: Kind2<F, LF, Kind<G, A>>, b: B, f: (b: B, a: A) => B) => B
 }
 ```
 
@@ -202,7 +202,7 @@ export interface FoldableComposition2C1<F extends URIS2, G extends URIS, LF> {
 
 ```ts
 export interface FoldableComposition3C1<F extends URIS3, G extends URIS, UF, LF> {
-  readonly reduce: <A, B>(fga: Type3<F, UF, LF, Type<G, A>>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <A, B>(fga: Kind3<F, UF, LF, Kind<G, A>>, b: B, f: (b: B, a: A) => B) => B
 }
 ```
 
@@ -213,14 +213,14 @@ Test whether a value is an element of a data structure
 **Signature**
 
 ```ts
-export function elem<F extends URIS3, A>(F: Foldable3<F>, E: Eq<A>): <U, L>(a: A, fa: Type3<F, U, L, A>) => boolean
+export function elem<F extends URIS3, A>(F: Foldable3<F>, E: Eq<A>): <U, L>(a: A, fa: Kind3<F, U, L, A>) => boolean
 export function elem<F extends URIS3, A, U, L>(
   F: Foldable3C<F, U, L>,
   E: Eq<A>
-): (a: A, fa: Type3<F, U, L, A>) => boolean
-export function elem<F extends URIS2, A>(F: Foldable2<F>, E: Eq<A>): <L>(a: A, fa: Type2<F, L, A>) => boolean
-export function elem<F extends URIS2, A, L>(F: Foldable2C<F, L>, E: Eq<A>): (a: A, fa: Type2<F, L, A>) => boolean
-export function elem<F extends URIS, A>(F: Foldable1<F>, E: Eq<A>): (a: A, fa: Type<F, A>) => boolean
+): (a: A, fa: Kind3<F, U, L, A>) => boolean
+export function elem<F extends URIS2, A>(F: Foldable2<F>, E: Eq<A>): <L>(a: A, fa: Kind2<F, L, A>) => boolean
+export function elem<F extends URIS2, A, L>(F: Foldable2C<F, L>, E: Eq<A>): (a: A, fa: Kind2<F, L, A>) => boolean
+export function elem<F extends URIS, A>(F: Foldable1<F>, E: Eq<A>): (a: A, fa: Kind<F, A>) => boolean
 export function elem<F, A>(F: Foldable<F>, E: Eq<A>): (a: A, fa: HKT<F, A>) => boolean { ... }
 ```
 
@@ -233,13 +233,13 @@ Try to find an element in a data structure which satisfies a predicate
 **Signature**
 
 ```ts
-export function find<F extends URIS3>(F: Foldable3<F>): <U, L, A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Option<A>
+export function find<F extends URIS3>(F: Foldable3<F>): <U, L, A>(fa: Kind3<F, U, L, A>, p: Predicate<A>) => Option<A>
 export function find<F extends URIS3, U, L>(
   F: Foldable3C<F, U, L>
-): <A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Option<A>
-export function find<F extends URIS2>(F: Foldable2<F>): <L, A>(fa: Type2<F, L, A>, p: Predicate<A>) => Option<A>
-export function find<F extends URIS2, L>(F: Foldable2C<F, L>): <A>(fa: Type2<F, L, A>, p: Predicate<A>) => Option<A>
-export function find<F extends URIS>(F: Foldable1<F>): <A>(fa: Type<F, A>, p: Predicate<A>) => Option<A>
+): <A>(fa: Kind3<F, U, L, A>, p: Predicate<A>) => Option<A>
+export function find<F extends URIS2>(F: Foldable2<F>): <L, A>(fa: Kind2<F, L, A>, p: Predicate<A>) => Option<A>
+export function find<F extends URIS2, L>(F: Foldable2C<F, L>): <A>(fa: Kind2<F, L, A>, p: Predicate<A>) => Option<A>
+export function find<F extends URIS>(F: Foldable1<F>): <A>(fa: Kind<F, A>, p: Predicate<A>) => Option<A>
 export function find<F>(F: Foldable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A> { ... }
 ```
 
@@ -250,11 +250,11 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export function fold<F extends URIS3, M>(F: Foldable3<F>, M: Monoid<M>): <U, L>(fa: Type3<F, U, L, M>) => M
-export function fold<F extends URIS3, M, U, L>(F: Foldable3C<F, U, L>, M: Monoid<M>): (fa: Type3<F, U, L, M>) => M
-export function fold<F extends URIS2, M>(F: Foldable2<F>, M: Monoid<M>): <L>(fa: Type2<F, L, M>) => M
-export function fold<F extends URIS2, M, L>(F: Foldable2C<F, L>, M: Monoid<M>): (fa: Type2<F, L, M>) => M
-export function fold<F extends URIS, M>(F: Foldable1<F>, M: Monoid<M>): (fa: Type<F, M>) => M
+export function fold<F extends URIS3, M>(F: Foldable3<F>, M: Monoid<M>): <U, L>(fa: Kind3<F, U, L, M>) => M
+export function fold<F extends URIS3, M, U, L>(F: Foldable3C<F, U, L>, M: Monoid<M>): (fa: Kind3<F, U, L, M>) => M
+export function fold<F extends URIS2, M>(F: Foldable2<F>, M: Monoid<M>): <L>(fa: Kind2<F, L, M>) => M
+export function fold<F extends URIS2, M, L>(F: Foldable2C<F, L>, M: Monoid<M>): (fa: Kind2<F, L, M>) => M
+export function fold<F extends URIS, M>(F: Foldable1<F>, M: Monoid<M>): (fa: Kind<F, M>) => M
 export function fold<F, M>(F: Foldable<F>, M: Monoid<M>): (fa: HKT<F, M>) => M { ... }
 ```
 
@@ -272,23 +272,23 @@ Note: this function is not generally stack-safe, e.g., for monads which build up
 export function foldM<F extends URIS, M extends URIS3>(
   F: Foldable1<F>,
   M: Monad3<M>
-): <U, L, A, B>(f: (b: B, a: A) => Type3<M, U, L, B>, b: B, fa: Type<F, A>) => Type3<M, U, L, B>
+): <U, L, A, B>(f: (b: B, a: A) => Kind3<M, U, L, B>, b: B, fa: Kind<F, A>) => Kind3<M, U, L, B>
 export function foldM<F extends URIS, M extends URIS3, U, L>(
   F: Foldable1<F>,
   M: Monad3C<M, U, L>
-): <A, B>(f: (b: B, a: A) => Type3<M, U, L, B>, b: B, fa: Type<F, A>) => Type3<M, U, L, B>
+): <A, B>(f: (b: B, a: A) => Kind3<M, U, L, B>, b: B, fa: Kind<F, A>) => Kind3<M, U, L, B>
 export function foldM<F extends URIS, M extends URIS2>(
   F: Foldable1<F>,
   M: Monad2<M>
-): <L, A, B>(f: (b: B, a: A) => Type2<M, L, B>, b: B, fa: Type<F, A>) => Type2<M, L, B>
+): <L, A, B>(f: (b: B, a: A) => Kind2<M, L, B>, b: B, fa: Kind<F, A>) => Kind2<M, L, B>
 export function foldM<F extends URIS, M extends URIS2, L>(
   F: Foldable1<F>,
   M: Monad2C<M, L>
-): <A, B>(f: (b: B, a: A) => Type2<M, L, B>, b: B, fa: Type<F, A>) => Type2<M, L, B>
+): <A, B>(f: (b: B, a: A) => Kind2<M, L, B>, b: B, fa: Kind<F, A>) => Kind2<M, L, B>
 export function foldM<F extends URIS, M extends URIS>(
   F: Foldable1<F>,
   M: Monad1<M>
-): <A, B>(f: (b: B, a: A) => Type<M, B>, b: B, fa: Type<F, A>) => Type<M, B>
+): <A, B>(f: (b: B, a: A) => Kind<M, B>, b: B, fa: Kind<F, A>) => Kind<M, B>
 export function foldM<F, M>(
   // tslint:disable-next-line: deprecation
   F: Foldable<F>,
@@ -309,20 +309,20 @@ Map each element of the structure to a monoid, and combine the results.
 export function foldMap<F extends URIS3, M>(
   F: Foldable3<F>,
   M: Monoid<M>
-): <U, L, A>(fa: Type3<F, U, L, A>, f: (a: A) => M) => M
+): <U, L, A>(fa: Kind3<F, U, L, A>, f: (a: A) => M) => M
 export function foldMap<F extends URIS3, M, U, L>(
   F: Foldable3C<F, U, L>,
   M: Monoid<M>
-): <A>(fa: Type3<F, U, L, A>, f: (a: A) => M) => M
+): <A>(fa: Kind3<F, U, L, A>, f: (a: A) => M) => M
 export function foldMap<F extends URIS2, M>(
   F: Foldable2<F>,
   M: Monoid<M>
-): <L, A>(fa: Type2<F, L, A>, f: (a: A) => M) => M
+): <L, A>(fa: Kind2<F, L, A>, f: (a: A) => M) => M
 export function foldMap<F extends URIS2, M, L>(
   F: Foldable2C<F, L>,
   M: Monoid<M>
-): <A>(fa: Type2<F, L, A>, f: (a: A) => M) => M
-export function foldMap<F extends URIS, M>(F: Foldable1<F>, M: Monoid<M>): <A>(fa: Type<F, A>, f: (a: A) => M) => M
+): <A>(fa: Kind2<F, L, A>, f: (a: A) => M) => M
+export function foldMap<F extends URIS, M>(F: Foldable1<F>, M: Monoid<M>): <A>(fa: Kind<F, A>, f: (a: A) => M) => M
 export function foldMap<F, M>(F: Foldable<F>, M: Monoid<M>): <A>(fa: HKT<F, A>, f: (a: A) => M) => M { ... }
 ```
 
@@ -337,15 +337,15 @@ A default implementation of `foldr` using `foldMap`
 ```ts
 export function foldr<F extends URIS3>(
   F: Foldable3<F>
-): <U, L, A, B>(fa: Type3<F, U, L, A>, b: B, f: (a: A, b: B) => B) => B
+): <U, L, A, B>(fa: Kind3<F, U, L, A>, b: B, f: (a: A, b: B) => B) => B
 export function foldr<F extends URIS3, U, L>(
   F: Foldable3C<F, U, L>
-): <A, B>(fa: Type3<F, U, L, A>, b: B, f: (a: A, b: B) => B) => B
-export function foldr<F extends URIS2>(F: Foldable2<F>): <L, A, B>(fa: Type2<F, L, A>, b: B, f: (a: A, b: B) => B) => B
+): <A, B>(fa: Kind3<F, U, L, A>, b: B, f: (a: A, b: B) => B) => B
+export function foldr<F extends URIS2>(F: Foldable2<F>): <L, A, B>(fa: Kind2<F, L, A>, b: B, f: (a: A, b: B) => B) => B
 export function foldr<F extends URIS2, L>(
   F: Foldable2C<F, L>
-): <A, B>(fa: Type2<F, L, A>, b: B, f: (a: A, b: B) => B) => B
-export function foldr<F extends URIS>(F: Foldable1<F>): <A, B>(fa: Type<F, A>, b: B, f: (a: A, b: B) => B) => B
+): <A, B>(fa: Kind2<F, L, A>, b: B, f: (a: A, b: B) => B) => B
+export function foldr<F extends URIS>(F: Foldable1<F>): <A, B>(fa: Kind<F, A>, b: B, f: (a: A, b: B) => B) => B
 export function foldr<F>(F: Foldable<F>): <A, B>(fa: HKT<F, A>, b: B, f: (a: A, b: B) => B) => B { ... }
 ```
 
@@ -395,17 +395,17 @@ Fold a data structure, accumulating values in some `Monoid`, combining adjacent 
 export function intercalate<F extends URIS3, M>(
   F: Foldable3<F>,
   M: Monoid<M>
-): (sep: M) => <U, L>(fm: Type3<F, U, L, M>) => M
+): (sep: M) => <U, L>(fm: Kind3<F, U, L, M>) => M
 export function intercalate<F extends URIS3, M, U, L>(
   F: Foldable3C<F, U, L>,
   M: Monoid<M>
-): (sep: M) => (fm: Type3<F, U, L, M>) => M
-export function intercalate<F extends URIS2, M>(F: Foldable2<F>, M: Monoid<M>): (sep: M) => <L>(fm: Type2<F, L, M>) => M
+): (sep: M) => (fm: Kind3<F, U, L, M>) => M
+export function intercalate<F extends URIS2, M>(F: Foldable2<F>, M: Monoid<M>): (sep: M) => <L>(fm: Kind2<F, L, M>) => M
 export function intercalate<F extends URIS2, M, L>(
   F: Foldable2C<F, L>,
   M: Monoid<M>
-): (sep: M) => (fm: Type2<F, L, M>) => M
-export function intercalate<F extends URIS, M>(F: Foldable1<F>, M: Monoid<M>): (sep: M) => (fm: Type<F, M>) => M
+): (sep: M) => (fm: Kind2<F, L, M>) => M
+export function intercalate<F extends URIS, M>(F: Foldable1<F>, M: Monoid<M>): (sep: M) => (fm: Kind<F, M>) => M
 export function intercalate<F, M>(F: Foldable<F>, M: Monoid<M>): (sep: M) => (fm: HKT<F, M>) => M { ... }
 ```
 
@@ -418,14 +418,14 @@ Find the largest element of a structure, according to its `Ord` instance
 **Signature**
 
 ```ts
-export function maximum<F extends URIS3, A>(F: Foldable3<F>, O: Ord<A>): <U, L>(fa: Type3<F, U, L, A>) => Option<A>
+export function maximum<F extends URIS3, A>(F: Foldable3<F>, O: Ord<A>): <U, L>(fa: Kind3<F, U, L, A>) => Option<A>
 export function maximum<F extends URIS3, A, U, L>(
   F: Foldable3C<F, U, L>,
   O: Ord<A>
-): (fa: Type3<F, U, L, A>) => Option<A>
-export function maximum<F extends URIS2, A>(F: Foldable2<F>, O: Ord<A>): <L>(fa: Type2<F, L, A>) => Option<A>
-export function maximum<F extends URIS2, A, L>(F: Foldable2C<F, L>, O: Ord<A>): (fa: Type2<F, L, A>) => Option<A>
-export function maximum<F extends URIS, A>(F: Foldable1<F>, O: Ord<A>): (fa: Type<F, A>) => Option<A>
+): (fa: Kind3<F, U, L, A>) => Option<A>
+export function maximum<F extends URIS2, A>(F: Foldable2<F>, O: Ord<A>): <L>(fa: Kind2<F, L, A>) => Option<A>
+export function maximum<F extends URIS2, A, L>(F: Foldable2C<F, L>, O: Ord<A>): (fa: Kind2<F, L, A>) => Option<A>
+export function maximum<F extends URIS, A>(F: Foldable1<F>, O: Ord<A>): (fa: Kind<F, A>) => Option<A>
 export function maximum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Option<A> { ... }
 ```
 
@@ -438,14 +438,14 @@ Find the smallest element of a structure, according to its `Ord` instance
 **Signature**
 
 ```ts
-export function minimum<F extends URIS3, A>(F: Foldable3<F>, O: Ord<A>): <U, L>(fa: Type3<F, U, L, A>) => Option<A>
+export function minimum<F extends URIS3, A>(F: Foldable3<F>, O: Ord<A>): <U, L>(fa: Kind3<F, U, L, A>) => Option<A>
 export function minimum<F extends URIS3, A, U, L>(
   F: Foldable3C<F, U, L>,
   O: Ord<A>
-): (fa: Type3<F, U, L, A>) => Option<A>
-export function minimum<F extends URIS2, A>(F: Foldable2<F>, O: Ord<A>): <L>(fa: Type2<F, L, A>) => Option<A>
-export function minimum<F extends URIS2, A, L>(F: Foldable2C<F, L>, O: Ord<A>): (fa: Type2<F, L, A>) => Option<A>
-export function minimum<F extends URIS, A>(F: Foldable1<F>, O: Ord<A>): (fa: Type<F, A>) => Option<A>
+): (fa: Kind3<F, U, L, A>) => Option<A>
+export function minimum<F extends URIS2, A>(F: Foldable2<F>, O: Ord<A>): <L>(fa: Kind2<F, L, A>) => Option<A>
+export function minimum<F extends URIS2, A, L>(F: Foldable2C<F, L>, O: Ord<A>): (fa: Kind2<F, L, A>) => Option<A>
+export function minimum<F extends URIS, A>(F: Foldable1<F>, O: Ord<A>): (fa: Kind<F, A>) => Option<A>
 export function minimum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Option<A> { ... }
 ```
 
@@ -461,23 +461,23 @@ Combines a collection of elements using the `Alt` operation
 export function oneOf<F extends URIS, P extends URIS3>(
   F: Foldable1<F>,
   P: Plus3<P>
-): <U, L, A>(fga: Type<F, Type3<P, U, L, A>>) => Type3<P, U, L, A>
+): <U, L, A>(fga: Kind<F, Kind3<P, U, L, A>>) => Kind3<P, U, L, A>
 export function oneOf<F extends URIS, P extends URIS3, U, L>(
   F: Foldable1<F>,
   P: Plus3C<P, U, L>
-): <A>(fga: Type<F, Type3<P, U, L, A>>) => Type3<P, U, L, A>
+): <A>(fga: Kind<F, Kind3<P, U, L, A>>) => Kind3<P, U, L, A>
 export function oneOf<F extends URIS, P extends URIS2>(
   F: Foldable1<F>,
   P: Plus2<P>
-): <L, A>(fga: Type<F, Type2<P, L, A>>) => Type2<P, L, A>
+): <L, A>(fga: Kind<F, Kind2<P, L, A>>) => Kind2<P, L, A>
 export function oneOf<F extends URIS, P extends URIS2, L>(
   F: Foldable1<F>,
   P: Plus2C<P, L>
-): <A>(fga: Type<F, Type2<P, L, A>>) => Type2<P, L, A>
+): <A>(fga: Kind<F, Kind2<P, L, A>>) => Kind2<P, L, A>
 export function oneOf<F extends URIS, P extends URIS>(
   F: Foldable1<F>,
   P: Plus1<P>
-): <A>(fga: Type<F, Type<P, A>>) => Type<P, A>
+): <A>(fga: Kind<F, Kind<P, A>>) => Kind<P, A>
 export function oneOf<F, P>(F: Foldable<F>, P: Plus<P>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A> { ... }
 ```
 
@@ -490,11 +490,11 @@ Find the product of the numeric values in a data structure
 **Signature**
 
 ```ts
-export function product<F extends URIS3, A>(F: Foldable3<F>, S: Semiring<A>): <U, L>(fa: Type3<F, U, L, A>) => A
-export function product<F extends URIS3, A, U, L>(F: Foldable3C<F, U, L>, S: Semiring<A>): (fa: Type3<F, U, L, A>) => A
-export function product<F extends URIS2, A>(F: Foldable2<F>, S: Semiring<A>): <L>(fa: Type2<F, L, A>) => A
-export function product<F extends URIS2, A, L>(F: Foldable2C<F, L>, S: Semiring<A>): (fa: Type2<F, L, A>) => A
-export function product<F extends URIS, A>(F: Foldable1<F>, S: Semiring<A>): (fa: Type<F, A>) => A
+export function product<F extends URIS3, A>(F: Foldable3<F>, S: Semiring<A>): <U, L>(fa: Kind3<F, U, L, A>) => A
+export function product<F extends URIS3, A, U, L>(F: Foldable3C<F, U, L>, S: Semiring<A>): (fa: Kind3<F, U, L, A>) => A
+export function product<F extends URIS2, A>(F: Foldable2<F>, S: Semiring<A>): <L>(fa: Kind2<F, L, A>) => A
+export function product<F extends URIS2, A, L>(F: Foldable2C<F, L>, S: Semiring<A>): (fa: Kind2<F, L, A>) => A
+export function product<F extends URIS, A>(F: Foldable1<F>, S: Semiring<A>): (fa: Kind<F, A>) => A
 export function product<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) => A { ... }
 ```
 
@@ -510,23 +510,23 @@ Perform all of the effects in some data structure in the order given by the `Fol
 export function sequence_<M extends URIS3, F extends URIS>(
   M: Applicative3<M>,
   F: Foldable1<F>
-): <U, L, A>(fa: Type<F, Type3<M, U, L, A>>) => Type3<M, U, L, void>
+): <U, L, A>(fa: Kind<F, Kind3<M, U, L, A>>) => Kind3<M, U, L, void>
 export function sequence_<M extends URIS3, F extends URIS, U, L>(
   M: Applicative3C<M, U, L>,
   F: Foldable1<F>
-): <A>(fa: Type<F, Type3<M, U, L, A>>) => Type3<M, U, L, void>
+): <A>(fa: Kind<F, Kind3<M, U, L, A>>) => Kind3<M, U, L, void>
 export function sequence_<M extends URIS2, F extends URIS>(
   M: Applicative2<M>,
   F: Foldable1<F>
-): <L, A>(fa: Type<F, Type2<M, L, A>>) => Type2<M, L, void>
+): <L, A>(fa: Kind<F, Kind2<M, L, A>>) => Kind2<M, L, void>
 export function sequence_<M extends URIS2, F extends URIS, L>(
   M: Applicative2C<M, L>,
   F: Foldable1<F>
-): <A>(fa: Type<F, Type2<M, L, A>>) => Type2<M, L, void>
+): <A>(fa: Kind<F, Kind2<M, L, A>>) => Kind2<M, L, void>
 export function sequence_<M extends URIS, F extends URIS>(
   M: Applicative1<M>,
   F: Foldable1<F>
-): <A>(fa: Type<F, Type<M, A>>) => Type<M, void>
+): <A>(fa: Kind<F, Kind<M, A>>) => Kind<M, void>
 export function sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void> { ... }
 ```
 
@@ -539,11 +539,11 @@ Find the sum of the numeric values in a data structure
 **Signature**
 
 ```ts
-export function sum<F extends URIS3, A>(F: Foldable3<F>, S: Semiring<A>): <U, L>(fa: Type3<F, U, L, A>) => A
-export function sum<F extends URIS3, A, U, L>(F: Foldable3C<F, U, L>, S: Semiring<A>): (fa: Type3<F, U, L, A>) => A
-export function sum<F extends URIS2, A>(F: Foldable2<F>, S: Semiring<A>): <L>(fa: Type2<F, L, A>) => A
-export function sum<F extends URIS2, A, L>(F: Foldable2C<F, L>, S: Semiring<A>): (fa: Type2<F, L, A>) => A
-export function sum<F extends URIS, A>(F: Foldable1<F>, S: Semiring<A>): (fa: Type<F, A>) => A
+export function sum<F extends URIS3, A>(F: Foldable3<F>, S: Semiring<A>): <U, L>(fa: Kind3<F, U, L, A>) => A
+export function sum<F extends URIS3, A, U, L>(F: Foldable3C<F, U, L>, S: Semiring<A>): (fa: Kind3<F, U, L, A>) => A
+export function sum<F extends URIS2, A>(F: Foldable2<F>, S: Semiring<A>): <L>(fa: Kind2<F, L, A>) => A
+export function sum<F extends URIS2, A, L>(F: Foldable2C<F, L>, S: Semiring<A>): (fa: Kind2<F, L, A>) => A
+export function sum<F extends URIS, A>(F: Foldable1<F>, S: Semiring<A>): (fa: Kind<F, A>) => A
 export function sum<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) => A { ... }
 ```
 
@@ -554,11 +554,11 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export function toArray<F extends URIS3>(F: Foldable3<F>): <U, L, A>(fa: Type3<F, U, L, A>) => Array<A>
-export function toArray<F extends URIS3, U, L>(F: Foldable3C<F, U, L>): <A>(fa: Type3<F, U, L, A>) => Array<A>
-export function toArray<F extends URIS2>(F: Foldable2<F>): <L, A>(fa: Type2<F, L, A>) => Array<A>
-export function toArray<F extends URIS2, L>(F: Foldable2C<F, L>): <A>(fa: Type2<F, L, A>) => Array<A>
-export function toArray<F extends URIS>(F: Foldable1<F>): <A>(fa: Type<F, A>) => Array<A>
+export function toArray<F extends URIS3>(F: Foldable3<F>): <U, L, A>(fa: Kind3<F, U, L, A>) => Array<A>
+export function toArray<F extends URIS3, U, L>(F: Foldable3C<F, U, L>): <A>(fa: Kind3<F, U, L, A>) => Array<A>
+export function toArray<F extends URIS2>(F: Foldable2<F>): <L, A>(fa: Kind2<F, L, A>) => Array<A>
+export function toArray<F extends URIS2, L>(F: Foldable2C<F, L>): <A>(fa: Kind2<F, L, A>) => Array<A>
+export function toArray<F extends URIS>(F: Foldable1<F>): <A>(fa: Kind<F, A>) => Array<A>
 export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A> { ... }
 ```
 
@@ -575,23 +575,23 @@ final result.
 export function traverse<M extends URIS3, F extends URIS>(
   M: Applicative3<M>,
   F: Foldable1<F>
-): <U, L, A, B>(fa: Type<F, A>, f: (a: A) => Type3<M, U, L, B>) => Type3<M, U, L, void>
+): <U, L, A, B>(fa: Kind<F, A>, f: (a: A) => Kind3<M, U, L, B>) => Kind3<M, U, L, void>
 export function traverse<M extends URIS3, F extends URIS, U, L>(
   M: Applicative3C<M, U, L>,
   F: Foldable1<F>
-): <A, B>(fa: Type<F, A>, f: (a: A) => Type3<M, U, L, B>) => Type3<M, U, L, void>
+): <A, B>(fa: Kind<F, A>, f: (a: A) => Kind3<M, U, L, B>) => Kind3<M, U, L, void>
 export function traverse<M extends URIS2, F extends URIS>(
   M: Applicative2<M>,
   F: Foldable1<F>
-): <L, A, B>(fa: Type<F, A>, f: (a: A) => Type2<M, L, B>) => Type2<M, L, void>
+): <L, A, B>(fa: Kind<F, A>, f: (a: A) => Kind2<M, L, B>) => Kind2<M, L, void>
 export function traverse<M extends URIS2, F extends URIS, L>(
   M: Applicative2C<M, L>,
   F: Foldable1<F>
-): <A, B>(fa: Type<F, A>, f: (a: A) => Type2<M, L, B>) => Type2<M, L, void>
+): <A, B>(fa: Kind<F, A>, f: (a: A) => Kind2<M, L, B>) => Kind2<M, L, void>
 export function traverse<M extends URIS, F extends URIS>(
   M: Applicative1<M>,
   F: Foldable1<F>
-): <A, B>(fa: Type<F, A>, f: (a: A) => Type<M, B>) => Type<M, void>
+): <A, B>(fa: Kind<F, A>, f: (a: A) => Kind<M, B>) => Kind<M, void>
 export function traverse<M, F>(
   M: Applicative<M>,
   // tslint:disable-next-line: deprecation
@@ -611,23 +611,23 @@ Use `traverse` instead
 export function traverse_<M extends URIS3, F extends URIS>(
   M: Applicative3<M>,
   F: Foldable1<F>
-): <U, L, A, B>(f: (a: A) => Type3<M, U, L, B>, fa: Type<F, A>) => Type3<M, U, L, void>
+): <U, L, A, B>(f: (a: A) => Kind3<M, U, L, B>, fa: Kind<F, A>) => Kind3<M, U, L, void>
 export function traverse_<M extends URIS3, F extends URIS, U, L>(
   M: Applicative3C<M, U, L>,
   F: Foldable1<F>
-): <A, B>(f: (a: A) => Type3<M, U, L, B>, fa: Type<F, A>) => Type3<M, U, L, void>
+): <A, B>(f: (a: A) => Kind3<M, U, L, B>, fa: Kind<F, A>) => Kind3<M, U, L, void>
 export function traverse_<M extends URIS2, F extends URIS>(
   M: Applicative2<M>,
   F: Foldable1<F>
-): <L, A, B>(f: (a: A) => Type2<M, L, B>, fa: Type<F, A>) => Type2<M, L, void>
+): <L, A, B>(f: (a: A) => Kind2<M, L, B>, fa: Kind<F, A>) => Kind2<M, L, void>
 export function traverse_<M extends URIS2, F extends URIS, L>(
   M: Applicative2C<M, L>,
   F: Foldable1<F>
-): <A, B>(f: (a: A) => Type2<M, L, B>, fa: Type<F, A>) => Type2<M, L, void>
+): <A, B>(f: (a: A) => Kind2<M, L, B>, fa: Kind<F, A>) => Kind2<M, L, void>
 export function traverse_<M extends URIS, F extends URIS>(
   M: Applicative1<M>,
   F: Foldable1<F>
-): <A, B>(f: (a: A) => Type<M, B>, fa: Type<F, A>) => Type<M, void>
+): <A, B>(f: (a: A) => Kind<M, B>, fa: Kind<F, A>) => Kind<M, void>
 export function traverse_<M, F>(
   M: Applicative<M>,
   // tslint:disable-next-line: deprecation

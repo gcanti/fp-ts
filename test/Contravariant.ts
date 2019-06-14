@@ -6,7 +6,7 @@ const URI = 'Predicate'
 type URI = typeof URI
 
 declare module '../src/HKT' {
-  interface URI2HKT<A> {
+  interface URItoKind<A> {
     Predicate: Predicate<A>
   }
 }

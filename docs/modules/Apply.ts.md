@@ -63,7 +63,7 @@ Added in v1.0.0
 
 ```ts
 export interface Apply1<F extends URIS> extends Functor1<F> {
-  readonly ap: <A, B>(fab: Type<F, (a: A) => B>, fa: Type<F, A>) => Type<F, B>
+  readonly ap: <A, B>(fab: Kind<F, (a: A) => B>, fa: Kind<F, A>) => Kind<F, B>
 }
 ```
 
@@ -73,7 +73,7 @@ export interface Apply1<F extends URIS> extends Functor1<F> {
 
 ```ts
 export interface Apply2<F extends URIS2> extends Functor2<F> {
-  readonly ap: <L, A, B>(fab: Type2<F, L, (a: A) => B>, fa: Type2<F, L, A>) => Type2<F, L, B>
+  readonly ap: <L, A, B>(fab: Kind2<F, L, (a: A) => B>, fa: Kind2<F, L, A>) => Kind2<F, L, B>
 }
 ```
 
@@ -83,7 +83,7 @@ export interface Apply2<F extends URIS2> extends Functor2<F> {
 
 ```ts
 export interface Apply2C<F extends URIS2, L> extends Functor2C<F, L> {
-  readonly ap: <A, B>(fab: Type2<F, L, (a: A) => B>, fa: Type2<F, L, A>) => Type2<F, L, B>
+  readonly ap: <A, B>(fab: Kind2<F, L, (a: A) => B>, fa: Kind2<F, L, A>) => Kind2<F, L, B>
 }
 ```
 
@@ -93,7 +93,7 @@ export interface Apply2C<F extends URIS2, L> extends Functor2C<F, L> {
 
 ```ts
 export interface Apply3<F extends URIS3> extends Functor3<F> {
-  readonly ap: <U, L, A, B>(fab: Type3<F, U, L, (a: A) => B>, fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
+  readonly ap: <U, L, A, B>(fab: Kind3<F, U, L, (a: A) => B>, fa: Kind3<F, U, L, A>) => Kind3<F, U, L, B>
 }
 ```
 
@@ -103,7 +103,7 @@ export interface Apply3<F extends URIS3> extends Functor3<F> {
 
 ```ts
 export interface Apply3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
-  readonly ap: <A, B>(fab: Type3<F, U, L, (a: A) => B>, fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
+  readonly ap: <A, B>(fab: Kind3<F, U, L, (a: A) => B>, fa: Kind3<F, U, L, A>) => Kind3<F, U, L, B>
 }
 ```
 
@@ -113,7 +113,7 @@ export interface Apply3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
 
 ```ts
 export interface Apply4<F extends URIS4> extends Functor4<F> {
-  readonly ap: <X, U, L, A, B>(fab: Type4<F, X, U, L, (a: A) => B>, fa: Type4<F, X, U, L, A>) => Type4<F, X, U, L, B>
+  readonly ap: <X, U, L, A, B>(fab: Kind4<F, X, U, L, (a: A) => B>, fa: Kind4<F, X, U, L, A>) => Kind4<F, X, U, L, B>
 }
 ```
 
@@ -136,9 +136,9 @@ export interface SequenceT<F> {
 
 ```ts
 export interface SequenceT1<F extends URIS> {
-  <T extends Array<Type<F, any>>>(...t: T & { 0: Type<F, any> }): Type<
+  <T extends Array<Kind<F, any>>>(...t: T & { 0: Kind<F, any> }): Kind<
     F,
-    { [K in keyof T]: [T[K]] extends [Type<F, infer A>] ? A : never }
+    { [K in keyof T]: [T[K]] extends [Kind<F, infer A>] ? A : never }
   >
 }
 ```
@@ -149,10 +149,10 @@ export interface SequenceT1<F extends URIS> {
 
 ```ts
 export interface SequenceT2<F extends URIS2> {
-  <L, T extends Array<Type2<F, L, any>>>(...t: T & { 0: Type2<F, L, any> }): Type2<
+  <L, T extends Array<Kind2<F, L, any>>>(...t: T & { 0: Kind2<F, L, any> }): Kind2<
     F,
     L,
-    { [K in keyof T]: [T[K]] extends [Type2<F, L, infer A>] ? A : never }
+    { [K in keyof T]: [T[K]] extends [Kind2<F, L, infer A>] ? A : never }
   >
 }
 ```
@@ -163,10 +163,10 @@ export interface SequenceT2<F extends URIS2> {
 
 ```ts
 export interface SequenceT2C<F extends URIS2, L> {
-  <T extends Array<Type2<F, L, any>>>(...t: T & { 0: Type2<F, L, any> }): Type2<
+  <T extends Array<Kind2<F, L, any>>>(...t: T & { 0: Kind2<F, L, any> }): Kind2<
     F,
     L,
-    { [K in keyof T]: [T[K]] extends [Type2<F, L, infer A>] ? A : never }
+    { [K in keyof T]: [T[K]] extends [Kind2<F, L, infer A>] ? A : never }
   >
 }
 ```
@@ -177,11 +177,11 @@ export interface SequenceT2C<F extends URIS2, L> {
 
 ```ts
 export interface SequenceT3<F extends URIS3> {
-  <U, L, T extends Array<Type3<F, U, L, any>>>(...t: T & { 0: Type3<F, U, L, any> }): Type3<
+  <U, L, T extends Array<Kind3<F, U, L, any>>>(...t: T & { 0: Kind3<F, U, L, any> }): Kind3<
     F,
     U,
     L,
-    { [K in keyof T]: [T[K]] extends [Type3<F, U, L, infer A>] ? A : never }
+    { [K in keyof T]: [T[K]] extends [Kind3<F, U, L, infer A>] ? A : never }
   >
 }
 ```
@@ -192,11 +192,11 @@ export interface SequenceT3<F extends URIS3> {
 
 ```ts
 export interface SequenceT3C<F extends URIS3, U, L> {
-  <T extends Array<Type3<F, U, L, any>>>(...t: T & { 0: Type3<F, U, L, any> }): Type3<
+  <T extends Array<Kind3<F, U, L, any>>>(...t: T & { 0: Kind3<F, U, L, any> }): Kind3<
     F,
     U,
     L,
-    { [K in keyof T]: [T[K]] extends [Type3<F, U, L, infer A>] ? A : never }
+    { [K in keyof T]: [T[K]] extends [Kind3<F, U, L, infer A>] ? A : never }
   >
 }
 ```
@@ -210,17 +210,17 @@ Combine two effectful actions, keeping only the result of the first
 ```ts
 export function applyFirst<F extends URIS3>(
   F: Apply3<F>
-): <U, L, A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, A>
+): <U, L, A, B>(fa: Kind3<F, U, L, A>, fb: Kind3<F, U, L, B>) => Kind3<F, U, L, A>
 export function applyFirst<F extends URIS3, U, L>(
   F: Apply3C<F, U, L>
-): <A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, A>
+): <A, B>(fa: Kind3<F, U, L, A>, fb: Kind3<F, U, L, B>) => Kind3<F, U, L, A>
 export function applyFirst<F extends URIS2>(
   F: Apply2<F>
-): <L, A, B>(fa: Type2<F, L, A>, fb: Type2<F, L, B>) => Type2<F, L, A>
+): <L, A, B>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>) => Kind2<F, L, A>
 export function applyFirst<F extends URIS2, L>(
   F: Apply2C<F, L>
-): <A, B>(fa: Type2<F, L, A>, fb: Type2<F, L, B>) => Type2<F, L, A>
-export function applyFirst<F extends URIS>(F: Apply1<F>): <A, B>(fa: Type<F, A>, fb: Type<F, B>) => Type<F, A>
+): <A, B>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>) => Kind2<F, L, A>
+export function applyFirst<F extends URIS>(F: Apply1<F>): <A, B>(fa: Kind<F, A>, fb: Kind<F, B>) => Kind<F, A>
 export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A> { ... }
 ```
 
@@ -235,17 +235,17 @@ Combine two effectful actions, keeping only the result of the second
 ```ts
 export function applySecond<F extends URIS3>(
   F: Apply3<F>
-): <U, L, A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, B>
+): <U, L, A, B>(fa: Kind3<F, U, L, A>, fb: Kind3<F, U, L, B>) => Kind3<F, U, L, B>
 export function applySecond<F extends URIS3, U, L>(
   F: Apply3C<F, U, L>
-): <A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, B>
+): <A, B>(fa: Kind3<F, U, L, A>, fb: Kind3<F, U, L, B>) => Kind3<F, U, L, B>
 export function applySecond<F extends URIS2>(
   F: Apply2<F>
-): <L, A, B>(fa: Type2<F, L, A>, fb: Type2<F, L, B>) => Type2<F, L, B>
+): <L, A, B>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>) => Kind2<F, L, B>
 export function applySecond<F extends URIS2, L>(
   F: Apply2C<F, L>
-): <A, B>(fa: Type2<F, L, A>, fb: Type2<F, L, B>) => Type2<F, L, B>
-export function applySecond<F extends URIS>(F: Apply1<F>): <A, B>(fa: Type<F, A>, fb: Type<F, B>) => Type<F, B>
+): <A, B>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>) => Kind2<F, L, B>
+export function applySecond<F extends URIS>(F: Apply1<F>): <A, B>(fa: Kind<F, A>, fb: Kind<F, B>) => Kind<F, B>
 export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B> { ... }
 ```
 
@@ -261,17 +261,17 @@ If `F` is a `Apply` and `S` is a `Semigroup` over `A` then `HKT<F, A>` is a `Sem
 export function getSemigroup<F extends URIS3, A>(
   F: Apply3<F>,
   S: Semigroup<A>
-): <U = never, L = never>() => Semigroup<Type3<F, U, L, A>>
+): <U = never, L = never>() => Semigroup<Kind3<F, U, L, A>>
 export function getSemigroup<F extends URIS3, U, L, A>(
   F: Apply3C<F, U, L>,
   S: Semigroup<A>
-): () => Semigroup<Type3<F, U, L, A>>
+): () => Semigroup<Kind3<F, U, L, A>>
 export function getSemigroup<F extends URIS2, A>(
   F: Apply2<F>,
   S: Semigroup<A>
-): <L = never>() => Semigroup<Type2<F, L, A>>
-export function getSemigroup<F extends URIS2, L, A>(F: Apply2C<F, L>, S: Semigroup<A>): () => Semigroup<Type2<F, L, A>>
-export function getSemigroup<F extends URIS, A>(F: Apply1<F>, S: Semigroup<A>): () => Semigroup<Type<F, A>>
+): <L = never>() => Semigroup<Kind2<F, L, A>>
+export function getSemigroup<F extends URIS2, L, A>(F: Apply2C<F, L>, S: Semigroup<A>): () => Semigroup<Kind2<F, L, A>>
+export function getSemigroup<F extends URIS, A>(F: Apply1<F>, S: Semigroup<A>): () => Semigroup<Kind<F, A>>
 export function getSemigroup<F, A>(F: Apply<F>, S: Semigroup<A>): () => Semigroup<HKT<F, A>> { ... }
 ```
 
@@ -303,23 +303,23 @@ Use `sequenceT` / `sequenceS` instead.
 export function liftA2<F extends URIS3>(
   F: Apply3<F>
 ): // tslint:disable-next-line: deprecation
-<A, B, C>(f: Curried2<A, B, C>) => <U, L>(fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => Type3<F, U, L, C>
+<A, B, C>(f: Curried2<A, B, C>) => <U, L>(fa: Kind3<F, U, L, A>) => (fb: Kind3<F, U, L, B>) => Kind3<F, U, L, C>
 export function liftA2<F extends URIS3, U, L>(
   F: Apply3C<F, U, L>
 ): // tslint:disable-next-line: deprecation
-<A, B, C>(f: Curried2<A, B, C>) => (fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => Type3<F, U, L, C>
+<A, B, C>(f: Curried2<A, B, C>) => (fa: Kind3<F, U, L, A>) => (fb: Kind3<F, U, L, B>) => Kind3<F, U, L, C>
 export function liftA2<F extends URIS2>(
   F: Apply2<F>
 ): // tslint:disable-next-line: deprecation
-<A, B, C>(f: Curried2<A, B, C>) => <L>(fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => Type2<F, L, C>
+<A, B, C>(f: Curried2<A, B, C>) => <L>(fa: Kind2<F, L, A>) => (fb: Kind2<F, L, B>) => Kind2<F, L, C>
 export function liftA2<F extends URIS2, L>(
   F: Apply2C<F, L>
 ): // tslint:disable-next-line: deprecation
-<A, B, C>(f: Curried2<A, B, C>) => (fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => Type2<F, L, C>
+<A, B, C>(f: Curried2<A, B, C>) => (fa: Kind2<F, L, A>) => (fb: Kind2<F, L, B>) => Kind2<F, L, C>
 export function liftA2<F extends URIS>(
   F: Apply1<F>
 ): // tslint:disable-next-line: deprecation
-<A, B, C>(f: Curried2<A, B, C>) => Curried2<Type<F, A>, Type<F, B>, Type<F, C>>
+<A, B, C>(f: Curried2<A, B, C>) => Curried2<Kind<F, A>, Kind<F, B>, Kind<F, C>>
 export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKT<F, A>, HKT<F, B>, HKT<F, C>> { ... }
 ```
 
@@ -340,29 +340,29 @@ export function liftA3<F extends URIS3>(
 ): <A, B, C, D>(
   // tslint:disable-next-line: deprecation
   f: Curried3<A, B, C, D>
-) => <U, L>(fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => (fc: Type3<F, U, L, C>) => Type3<F, U, L, D>
+) => <U, L>(fa: Kind3<F, U, L, A>) => (fb: Kind3<F, U, L, B>) => (fc: Kind3<F, U, L, C>) => Kind3<F, U, L, D>
 export function liftA3<F extends URIS3, U, L>(
   F: Apply3C<F, U, L>
 ): <A, B, C, D>(
   // tslint:disable-next-line: deprecation
   f: Curried3<A, B, C, D>
-) => (fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => (fc: Type3<F, U, L, C>) => Type3<F, U, L, D>
+) => (fa: Kind3<F, U, L, A>) => (fb: Kind3<F, U, L, B>) => (fc: Kind3<F, U, L, C>) => Kind3<F, U, L, D>
 export function liftA3<F extends URIS2>(
   F: Apply2<F>
 ): <A, B, C, D>(
   // tslint:disable-next-line: deprecation
   f: Curried3<A, B, C, D>
-) => <L>(fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => (fc: Type2<F, L, C>) => Type2<F, L, D>
+) => <L>(fa: Kind2<F, L, A>) => (fb: Kind2<F, L, B>) => (fc: Kind2<F, L, C>) => Kind2<F, L, D>
 export function liftA3<F extends URIS2, L>(
   F: Apply2C<F, L>
 ): <A, B, C, D>(
   // tslint:disable-next-line: deprecation
   f: Curried3<A, B, C, D>
-) => (fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => (fc: Type2<F, L, C>) => Type2<F, L, D>
+) => (fa: Kind2<F, L, A>) => (fb: Kind2<F, L, B>) => (fc: Kind2<F, L, C>) => Kind2<F, L, D>
 export function liftA3<F extends URIS>(
   F: Apply1<F>
 ): // tslint:disable-next-line: deprecation
-<A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<Type<F, A>, Type<F, B>, Type<F, C>, Type<F, D>>
+<A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<Kind<F, A>, Kind<F, B>, Kind<F, C>, Kind<F, D>>
 export function liftA3<F>(
   F: Apply<F>
 ): // tslint:disable-next-line: deprecation
@@ -387,32 +387,32 @@ export function liftA4<F extends URIS3>(
   // tslint:disable-next-line: deprecation
   f: Curried4<A, B, C, D, E>
 ) => <U, L>(
-  fa: Type3<F, U, L, A>
-) => (fb: Type3<F, U, L, B>) => (fc: Type3<F, U, L, C>) => (fd: Type3<F, U, L, D>) => Type3<F, U, L, E>
+  fa: Kind3<F, U, L, A>
+) => (fb: Kind3<F, U, L, B>) => (fc: Kind3<F, U, L, C>) => (fd: Kind3<F, U, L, D>) => Kind3<F, U, L, E>
 export function liftA4<F extends URIS3, U, L>(
   F: Apply3C<F, U, L>
 ): <A, B, C, D, E>(
   // tslint:disable-next-line: deprecation
   f: Curried4<A, B, C, D, E>
 ) => (
-  fa: Type3<F, U, L, A>
-) => (fb: Type3<F, U, L, B>) => (fc: Type3<F, U, L, C>) => (fd: Type3<F, U, L, D>) => Type3<F, U, L, E>
+  fa: Kind3<F, U, L, A>
+) => (fb: Kind3<F, U, L, B>) => (fc: Kind3<F, U, L, C>) => (fd: Kind3<F, U, L, D>) => Kind3<F, U, L, E>
 export function liftA4<F extends URIS2>(
   F: Apply2<F>
 ): <A, B, C, D, E>(
   // tslint:disable-next-line: deprecation
   f: Curried4<A, B, C, D, E>
-) => <L>(fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => (fc: Type2<F, L, C>) => (fd: Type2<F, L, D>) => Type2<F, L, E>
+) => <L>(fa: Kind2<F, L, A>) => (fb: Kind2<F, L, B>) => (fc: Kind2<F, L, C>) => (fd: Kind2<F, L, D>) => Kind2<F, L, E>
 export function liftA4<F extends URIS2, L>(
   F: Apply2C<F, L>
 ): <A, B, C, D, E>(
   // tslint:disable-next-line: deprecation
   f: Curried4<A, B, C, D, E>
-) => (fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => (fc: Type2<F, L, C>) => (fd: Type2<F, L, D>) => Type2<F, L, E>
+) => (fa: Kind2<F, L, A>) => (fb: Kind2<F, L, B>) => (fc: Kind2<F, L, C>) => (fd: Kind2<F, L, D>) => Kind2<F, L, E>
 export function liftA4<F extends URIS>(
   F: Apply1<F>
 ): // tslint:disable-next-line: deprecation
-<A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<Type<F, A>, Type<F, B>, Type<F, C>, Type<F, D>, Type<F, E>>
+<A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<Kind<F, A>, Kind<F, B>, Kind<F, C>, Kind<F, D>, Kind<F, E>>
 export function liftA4<F>(
   F: Apply<F>
 ): // tslint:disable-next-line: deprecation
@@ -430,29 +430,29 @@ Like `Apply.sequenceT` but works with structs instead of tuples.
 ```ts
 export function sequenceS<F extends URIS3>(
   F: Apply3<F>
-): <U, L, R extends Record<string, Type3<F, U, L, any>>>(
-  r: EnforceNonEmptyRecord<R> & Record<string, Type3<F, U, L, any>>
-) => Type3<F, U, L, { [K in keyof R]: [R[K]] extends [Type3<F, any, any, infer A>] ? A : never }>
+): <U, L, R extends Record<string, Kind3<F, U, L, any>>>(
+  r: EnforceNonEmptyRecord<R> & Record<string, Kind3<F, U, L, any>>
+) => Kind3<F, U, L, { [K in keyof R]: [R[K]] extends [Kind3<F, any, any, infer A>] ? A : never }>
 export function sequenceS<F extends URIS3, U, L>(
   F: Apply3C<F, U, L>
-): <R extends Record<string, Type3<F, U, L, any>>>(
+): <R extends Record<string, Kind3<F, U, L, any>>>(
   r: EnforceNonEmptyRecord<R>
-) => Type3<F, U, L, { [K in keyof R]: [R[K]] extends [Type3<F, any, any, infer A>] ? A : never }>
+) => Kind3<F, U, L, { [K in keyof R]: [R[K]] extends [Kind3<F, any, any, infer A>] ? A : never }>
 export function sequenceS<F extends URIS2>(
   F: Apply2<F>
-): <L, R extends Record<string, Type2<F, L, any>>>(
-  r: EnforceNonEmptyRecord<R> & Record<string, Type2<F, L, any>>
-) => Type2<F, L, { [K in keyof R]: [R[K]] extends [Type2<F, any, infer A>] ? A : never }>
+): <L, R extends Record<string, Kind2<F, L, any>>>(
+  r: EnforceNonEmptyRecord<R> & Record<string, Kind2<F, L, any>>
+) => Kind2<F, L, { [K in keyof R]: [R[K]] extends [Kind2<F, any, infer A>] ? A : never }>
 export function sequenceS<F extends URIS2, L>(
   F: Apply2C<F, L>
-): <R extends Record<string, Type2<F, L, any>>>(
+): <R extends Record<string, Kind2<F, L, any>>>(
   r: EnforceNonEmptyRecord<R>
-) => Type2<F, L, { [K in keyof R]: [R[K]] extends [Type2<F, any, infer A>] ? A : never }>
+) => Kind2<F, L, { [K in keyof R]: [R[K]] extends [Kind2<F, any, infer A>] ? A : never }>
 export function sequenceS<F extends URIS>(
   F: Apply1<F>
-): <R extends Record<string, Type<F, any>>>(
+): <R extends Record<string, Kind<F, any>>>(
   r: EnforceNonEmptyRecord<R>
-) => Type<F, { [K in keyof R]: [R[K]] extends [Type<F, infer A>] ? A : never }>
+) => Kind<F, { [K in keyof R]: [R[K]] extends [Kind<F, infer A>] ? A : never }>
 export function sequenceS<F>(
   F: Apply<F>
 ): <R extends Record<string, HKT<F, any>>>(

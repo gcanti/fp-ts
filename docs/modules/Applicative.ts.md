@@ -65,7 +65,7 @@ Added in v1.0.0
 
 ```ts
 export interface Applicative1<F extends URIS> extends Apply1<F> {
-  readonly of: <A>(a: A) => Type<F, A>
+  readonly of: <A>(a: A) => Kind<F, A>
 }
 ```
 
@@ -75,7 +75,7 @@ export interface Applicative1<F extends URIS> extends Apply1<F> {
 
 ```ts
 export interface Applicative2<F extends URIS2> extends Apply2<F> {
-  readonly of: <L, A>(a: A) => Type2<F, L, A>
+  readonly of: <L, A>(a: A) => Kind2<F, L, A>
 }
 ```
 
@@ -85,7 +85,7 @@ export interface Applicative2<F extends URIS2> extends Apply2<F> {
 
 ```ts
 export interface Applicative2C<F extends URIS2, L> extends Apply2C<F, L> {
-  readonly of: <A>(a: A) => Type2<F, L, A>
+  readonly of: <A>(a: A) => Kind2<F, L, A>
 }
 ```
 
@@ -95,7 +95,7 @@ export interface Applicative2C<F extends URIS2, L> extends Apply2C<F, L> {
 
 ```ts
 export interface Applicative3<F extends URIS3> extends Apply3<F> {
-  readonly of: <U, L, A>(a: A) => Type3<F, U, L, A>
+  readonly of: <U, L, A>(a: A) => Kind3<F, U, L, A>
 }
 ```
 
@@ -105,7 +105,7 @@ export interface Applicative3<F extends URIS3> extends Apply3<F> {
 
 ```ts
 export interface Applicative3C<F extends URIS3, U, L> extends Apply3C<F, U, L> {
-  readonly of: <A>(a: A) => Type3<F, U, L, A>
+  readonly of: <A>(a: A) => Kind3<F, U, L, A>
 }
 ```
 
@@ -126,8 +126,8 @@ export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {
 
 ```ts
 export interface ApplicativeComposition11<F extends URIS, G extends URIS> extends FunctorComposition11<F, G> {
-  readonly of: <A>(a: A) => Type<F, Type<G, A>>
-  readonly ap: <A, B>(fgab: Type<F, Type<G, (a: A) => B>>, fga: Type<F, Type<G, A>>) => Type<F, Type<G, B>>
+  readonly of: <A>(a: A) => Kind<F, Kind<G, A>>
+  readonly ap: <A, B>(fgab: Kind<F, Kind<G, (a: A) => B>>, fga: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, B>>
 }
 ```
 
@@ -137,11 +137,11 @@ export interface ApplicativeComposition11<F extends URIS, G extends URIS> extend
 
 ```ts
 export interface ApplicativeComposition12<F extends URIS, G extends URIS2> extends FunctorComposition12<F, G> {
-  readonly of: <LG, A>(a: A) => Type<F, Type2<G, LG, A>>
+  readonly of: <LG, A>(a: A) => Kind<F, Kind2<G, LG, A>>
   readonly ap: <LG, A, B>(
-    fgab: Type<F, Type2<G, LG, (a: A) => B>>,
-    fga: Type<F, Type2<G, LG, A>>
-  ) => Type<F, Type2<G, LG, B>>
+    fgab: Kind<F, Kind2<G, LG, (a: A) => B>>,
+    fga: Kind<F, Kind2<G, LG, A>>
+  ) => Kind<F, Kind2<G, LG, B>>
 }
 ```
 
@@ -152,11 +152,11 @@ export interface ApplicativeComposition12<F extends URIS, G extends URIS2> exten
 ```ts
 export interface ApplicativeComposition12C<F extends URIS, G extends URIS2, LG>
   extends FunctorComposition12C<F, G, LG> {
-  readonly of: <A>(a: A) => Type<F, Type2<G, LG, A>>
+  readonly of: <A>(a: A) => Kind<F, Kind2<G, LG, A>>
   readonly ap: <A, B>(
-    fgab: Type<F, Type2<G, LG, (a: A) => B>>,
-    fga: Type<F, Type2<G, LG, A>>
-  ) => Type<F, Type2<G, LG, B>>
+    fgab: Kind<F, Kind2<G, LG, (a: A) => B>>,
+    fga: Kind<F, Kind2<G, LG, A>>
+  ) => Kind<F, Kind2<G, LG, B>>
 }
 ```
 
@@ -166,11 +166,11 @@ export interface ApplicativeComposition12C<F extends URIS, G extends URIS2, LG>
 
 ```ts
 export interface ApplicativeComposition21<F extends URIS2, G extends URIS> extends FunctorComposition21<F, G> {
-  readonly of: <LF, A>(a: A) => Type2<F, LF, Type<G, A>>
+  readonly of: <LF, A>(a: A) => Kind2<F, LF, Kind<G, A>>
   readonly ap: <LF, A, B>(
-    fgab: Type2<F, LF, Type<G, (a: A) => B>>,
-    fga: Type2<F, LF, Type<G, A>>
-  ) => Type2<F, LF, Type<G, B>>
+    fgab: Kind2<F, LF, Kind<G, (a: A) => B>>,
+    fga: Kind2<F, LF, Kind<G, A>>
+  ) => Kind2<F, LF, Kind<G, B>>
 }
 ```
 
@@ -180,11 +180,11 @@ export interface ApplicativeComposition21<F extends URIS2, G extends URIS> exten
 
 ```ts
 export interface ApplicativeComposition22<F extends URIS2, G extends URIS2> extends FunctorComposition22<F, G> {
-  readonly of: <LF, LG, A>(a: A) => Type2<F, LF, Type2<G, LG, A>>
+  readonly of: <LF, LG, A>(a: A) => Kind2<F, LF, Kind2<G, LG, A>>
   readonly ap: <L, M, A, B>(
-    fgab: Type2<F, L, Type2<G, M, (a: A) => B>>,
-    fga: Type2<F, L, Type2<G, M, A>>
-  ) => Type2<F, L, Type2<G, M, B>>
+    fgab: Kind2<F, L, Kind2<G, M, (a: A) => B>>,
+    fga: Kind2<F, L, Kind2<G, M, A>>
+  ) => Kind2<F, L, Kind2<G, M, B>>
 }
 ```
 
@@ -195,11 +195,11 @@ export interface ApplicativeComposition22<F extends URIS2, G extends URIS2> exte
 ```ts
 export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, LG>
   extends FunctorComposition22C<F, G, LG> {
-  readonly of: <LF, A>(a: A) => Type2<F, LF, Type2<G, LG, A>>
+  readonly of: <LF, A>(a: A) => Kind2<F, LF, Kind2<G, LG, A>>
   readonly ap: <LF, A, B>(
-    fgab: Type2<F, LF, Type2<G, LG, (a: A) => B>>,
-    fga: Type2<F, LF, Type2<G, LG, A>>
-  ) => Type2<F, LF, Type2<G, LG, B>>
+    fgab: Kind2<F, LF, Kind2<G, LG, (a: A) => B>>,
+    fga: Kind2<F, LF, Kind2<G, LG, A>>
+  ) => Kind2<F, LF, Kind2<G, LG, B>>
 }
 ```
 
@@ -210,11 +210,11 @@ export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, LG>
 ```ts
 export interface ApplicativeComposition2C1<F extends URIS2, G extends URIS, LF>
   extends FunctorComposition2C1<F, G, LF> {
-  readonly of: <A>(a: A) => Type2<F, LF, Type<G, A>>
+  readonly of: <A>(a: A) => Kind2<F, LF, Kind<G, A>>
   readonly ap: <A, B>(
-    fgab: Type2<F, LF, Type<G, (a: A) => B>>,
-    fga: Type2<F, LF, Type<G, A>>
-  ) => Type2<F, LF, Type<G, B>>
+    fgab: Kind2<F, LF, Kind<G, (a: A) => B>>,
+    fga: Kind2<F, LF, Kind<G, A>>
+  ) => Kind2<F, LF, Kind<G, B>>
 }
 ```
 
@@ -225,11 +225,11 @@ export interface ApplicativeComposition2C1<F extends URIS2, G extends URIS, LF>
 ```ts
 export interface ApplicativeComposition3C1<F extends URIS3, G extends URIS, UF, LF>
   extends FunctorComposition3C1<F, G, UF, LF> {
-  readonly of: <A>(a: A) => Type3<F, UF, LF, Type<G, A>>
+  readonly of: <A>(a: A) => Kind3<F, UF, LF, Kind<G, A>>
   readonly ap: <A, B>(
-    fgab: Type3<F, UF, LF, Type<G, (a: A) => B>>,
-    fga: Type3<F, UF, LF, Type<G, A>>
-  ) => Type3<F, UF, LF, Type<G, B>>
+    fgab: Kind3<F, UF, LF, Kind<G, (a: A) => B>>,
+    fga: Kind3<F, UF, LF, Kind<G, A>>
+  ) => Kind3<F, UF, LF, Kind<G, B>>
 }
 ```
 
@@ -314,14 +314,14 @@ Adapted from http://hackage.haskell.org/package/monoids-0.2.0.2/docs/Data-Monoid
 export function getMonoid<F extends URIS3, A>(
   F: Applicative3<F>,
   M: Monoid<A>
-): <U = never, L = never>() => Monoid<Type3<F, U, L, A>>
+): <U = never, L = never>() => Monoid<Kind3<F, U, L, A>>
 export function getMonoid<F extends URIS3, U, L, A>(
   F: Applicative3C<F, U, L>,
   M: Monoid<A>
-): () => Monoid<Type3<F, U, L, A>>
-export function getMonoid<F extends URIS2, A>(F: Applicative2<F>, M: Monoid<A>): <L = never>() => Monoid<Type2<F, L, A>>
-export function getMonoid<F extends URIS2, L, A>(F: Applicative2C<F, L>, M: Monoid<A>): () => Monoid<Type2<F, L, A>>
-export function getMonoid<F extends URIS, A>(F: Applicative1<F>, M: Monoid<A>): () => Monoid<Type<F, A>>
+): () => Monoid<Kind3<F, U, L, A>>
+export function getMonoid<F extends URIS2, A>(F: Applicative2<F>, M: Monoid<A>): <L = never>() => Monoid<Kind2<F, L, A>>
+export function getMonoid<F extends URIS2, L, A>(F: Applicative2C<F, L>, M: Monoid<A>): () => Monoid<Kind2<F, L, A>>
+export function getMonoid<F extends URIS, A>(F: Applicative1<F>, M: Monoid<A>): () => Monoid<Kind<F, A>>
 export function getMonoid<F, A>(F: Applicative<F>, M: Monoid<A>): () => Monoid<HKT<F, A>> { ... }
 ```
 
@@ -350,17 +350,17 @@ Perform a applicative action when a condition is true
 ```ts
 export function when<F extends URIS3>(
   F: Applicative3<F>
-): <U, L>(condition: boolean, fu: Type3<F, U, L, void>) => Type3<F, U, L, void>
+): <U, L>(condition: boolean, fu: Kind3<F, U, L, void>) => Kind3<F, U, L, void>
 export function when<F extends URIS3, U, L>(
   F: Applicative3C<F, U, L>
-): (condition: boolean, fu: Type3<F, U, L, void>) => Type3<F, U, L, void>
+): (condition: boolean, fu: Kind3<F, U, L, void>) => Kind3<F, U, L, void>
 export function when<F extends URIS2>(
   F: Applicative2<F>
-): <L>(condition: boolean, fu: Type2<F, L, void>) => Type2<F, L, void>
+): <L>(condition: boolean, fu: Kind2<F, L, void>) => Kind2<F, L, void>
 export function when<F extends URIS2, L>(
   F: Applicative2C<F, L>
-): (condition: boolean, fu: Type2<F, L, void>) => Type2<F, L, void>
-export function when<F extends URIS>(F: Applicative1<F>): (condition: boolean, fu: Type<F, void>) => Type<F, void>
+): (condition: boolean, fu: Kind2<F, L, void>) => Kind2<F, L, void>
+export function when<F extends URIS>(F: Applicative1<F>): (condition: boolean, fu: Kind<F, void>) => Kind<F, void>
 export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void> { ... }
 ```
 

@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import { rmap, lmap, Profunctor2 } from '../src/Profunctor'
 
 declare module '../src/HKT' {
-  interface URI2HKT2<L, A> {
+  interface URItoKind2<L, A> {
     Fun: Fun<L, A>
   }
 }

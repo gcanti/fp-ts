@@ -38,7 +38,7 @@ Added in v1.0.0
 
 ```ts
 export interface Profunctor2<F extends URIS2> extends Functor2<F> {
-  readonly promap: <A, B, C, D>(fbc: Type2<F, B, C>, f: (a: A) => B, g: (c: C) => D) => Type2<F, A, D>
+  readonly promap: <A, B, C, D>(fbc: Kind2<F, B, C>, f: (a: A) => B, g: (c: C) => D) => Kind2<F, A, D>
 }
 ```
 
@@ -48,7 +48,7 @@ export interface Profunctor2<F extends URIS2> extends Functor2<F> {
 
 ```ts
 export interface Profunctor2C<F extends URIS2, L> extends Functor2C<F, L> {
-  readonly promap: <A, C, D>(flc: Type2<F, L, C>, f: (a: A) => L, g: (c: C) => D) => Type2<F, A, D>
+  readonly promap: <A, C, D>(flc: Kind2<F, L, C>, f: (a: A) => L, g: (c: C) => D) => Kind2<F, A, D>
 }
 ```
 
@@ -58,7 +58,7 @@ export interface Profunctor2C<F extends URIS2, L> extends Functor2C<F, L> {
 
 ```ts
 export interface Profunctor3<F extends URIS3> extends Functor3<F> {
-  readonly promap: <U, A, B, C, D>(fbc: Type3<F, U, B, C>, f: (a: A) => B, g: (c: C) => D) => Type3<F, U, A, D>
+  readonly promap: <U, A, B, C, D>(fbc: Kind3<F, U, B, C>, f: (a: A) => B, g: (c: C) => D) => Kind3<F, U, A, D>
 }
 ```
 
@@ -68,7 +68,7 @@ export interface Profunctor3<F extends URIS3> extends Functor3<F> {
 
 ```ts
 export interface Profunctor4<F extends URIS4> extends Functor4<F> {
-  readonly promap: <X, U, A, B, C, D>(fbc: Type4<F, X, U, B, C>, f: (a: A) => B, g: (c: C) => D) => Type4<F, X, U, A, D>
+  readonly promap: <X, U, A, B, C, D>(fbc: Kind4<F, X, U, B, C>, f: (a: A) => B, g: (c: C) => D) => Kind4<F, X, U, A, D>
 }
 ```
 
@@ -79,10 +79,10 @@ export interface Profunctor4<F extends URIS4> extends Functor4<F> {
 ```ts
 export function lmap<F extends URIS3>(
   profunctor: Profunctor3<F>
-): <U, A, B, C>(fbc: Type3<F, U, B, C>, f: (a: A) => B) => Type3<F, U, A, C>
+): <U, A, B, C>(fbc: Kind3<F, U, B, C>, f: (a: A) => B) => Kind3<F, U, A, C>
 export function lmap<F extends URIS2>(
   profunctor: Profunctor2<F>
-): <A, B, C>(fbc: Type2<F, B, C>, f: (a: A) => B) => Type2<F, A, C>
+): <A, B, C>(fbc: Kind2<F, B, C>, f: (a: A) => B) => Kind2<F, A, C>
 export function lmap<F>(profunctor: Profunctor<F>): <A, B, C>(fbc: HKT2<F, B, C>, f: (a: A) => B) => HKT2<F, A, C> { ... }
 ```
 
@@ -95,10 +95,10 @@ Added in v1.0.0
 ```ts
 export function rmap<F extends URIS3>(
   profunctor: Profunctor3<F>
-): <U, B, C, D>(fbc: Type3<F, U, B, C>, g: (c: C) => D) => Type3<F, U, B, D>
+): <U, B, C, D>(fbc: Kind3<F, U, B, C>, g: (c: C) => D) => Kind3<F, U, B, D>
 export function rmap<F extends URIS2>(
   profunctor: Profunctor2<F>
-): <B, C, D>(fbc: Type2<F, B, C>, g: (c: C) => D) => Type2<F, B, D>
+): <B, C, D>(fbc: Kind2<F, B, C>, g: (c: C) => D) => Kind2<F, B, D>
 export function rmap<F>(profunctor: Profunctor<F>): <B, C, D>(fbc: HKT2<F, B, C>, g: (c: C) => D) => HKT2<F, B, D> { ... }
 ```
 

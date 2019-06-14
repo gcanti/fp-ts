@@ -82,16 +82,16 @@ declare function functionForfactoryS(
 
 export function factoryS<F extends H.URIS>(
   F: Apy.Apply1<F>,
-  a1: H.Type<F, string>,
-  a2: H.Type<F, number>,
-  a3: H.Type<F, boolean>,
-  a4: H.Type<F, string>,
-  a5: H.Type<F, number>,
-  a6: H.Type<F, boolean>,
-  a7: H.Type<F, string>,
-  a8: H.Type<F, number>,
-  a9: H.Type<F, boolean>
-): H.Type<F, boolean> {
+  a1: H.Kind<F, string>,
+  a2: H.Kind<F, number>,
+  a3: H.Kind<F, boolean>,
+  a4: H.Kind<F, string>,
+  a5: H.Kind<F, number>,
+  a6: H.Kind<F, boolean>,
+  a7: H.Kind<F, string>,
+  a8: H.Kind<F, number>,
+  a9: H.Kind<F, boolean>
+): H.Kind<F, boolean> {
   return F.map(Apy.sequenceS(F)({ a1, a2, a3, a4, a5, a6, a7, a8, a9 }), ({ a1, a2, a3, a4, a5, a6, a7, a8, a9 }) =>
     functionForfactoryS(a1, a2, a3, a4, a5, a6, a7, a8, a9)
   )
@@ -129,16 +129,16 @@ sequenceSf2({ sequenceS5, sequenceS6, sequenceS7 }) // $ExpectType ReaderTaskEit
 
 export function factoryT<F extends H.URIS>(
   F: Apy.Apply1<F>,
-  f1: H.Type<F, string>,
-  f2: H.Type<F, number>,
-  f3: H.Type<F, boolean>,
-  f4: H.Type<F, string>,
-  f5: H.Type<F, number>,
-  f6: H.Type<F, boolean>,
-  f7: H.Type<F, string>,
-  f8: H.Type<F, number>,
-  f9: H.Type<F, boolean>
-): H.Type<F, boolean> {
+  f1: H.Kind<F, string>,
+  f2: H.Kind<F, number>,
+  f3: H.Kind<F, boolean>,
+  f4: H.Kind<F, string>,
+  f5: H.Kind<F, number>,
+  f6: H.Kind<F, boolean>,
+  f7: H.Kind<F, string>,
+  f8: H.Kind<F, number>,
+  f9: H.Kind<F, boolean>
+): H.Kind<F, boolean> {
   return F.map(Apy.sequenceT(F)(f1, f2, f3, f4, f5, f6, f7, f8, f9), ([a1, a2, a3, a4, a5, a6, a7, a8, a9]) =>
     functionForfactoryS(a1, a2, a3, a4, a5, a6, a7, a8, a9)
   )
@@ -230,18 +230,18 @@ O.getRefinement<C, A>(c => (c.type === 'B' ? O.some(c) : O.none))
 //
 
 // isssue #536
-function testIssue536<F extends H.URIS, G extends H.URIS, A>(x: H.Type<F, A>): H.Type<G, A> {
+function testIssue536<F extends H.URIS, G extends H.URIS, A>(x: H.Kind<F, A>): H.Kind<G, A> {
   // $ExpectError
   return x
 }
 
-const testURI = <F extends H.URIS>(ma: T.Task<number>): H.Type<F, number> => {
+const testURI = <F extends H.URIS>(ma: T.Task<number>): H.Kind<F, number> => {
   // $ExpectError
   return ma
 }
 
 // $ExpectError
-type HKT1 = H.Type<'a', string>
+type HKT1 = H.Kind<'a', string>
 
 //
 // Record
