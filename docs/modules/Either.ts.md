@@ -44,6 +44,7 @@ either.map(left(23), double) // left(23)
 - [URI (constant)](#uri-constant)
 - [either (constant)](#either-constant)
 - [elem (function)](#elem-function)
+- [exists (function)](#exists-function)
 - [filterOrElse (function)](#filterorelse-function)
 - [fold (function)](#fold-function)
 - [fromNullable (function)](#fromnullable-function)
@@ -150,6 +151,30 @@ Added in v2.0.0
 
 ```ts
 export function elem<A>(E: Eq<A>): <E>(a: A, ma: Either<E, A>) => boolean { ... }
+```
+
+Added in v2.0.0
+
+# exists (function)
+
+Returns `false` if `Left` or returns the result of the application of the given predicate to the `Right` value.
+
+**Signature**
+
+```ts
+export function exists<A>(predicate: Predicate<A>): <L>(ma: Either<L, A>) => boolean { ... }
+```
+
+**Example**
+
+```ts
+import { exists, left, right } from 'fp-ts/lib/Either'
+
+const gt2 = exists((n: number) => n > 2)
+
+assert.strictEqual(gt2(left('a')), false)
+assert.strictEqual(gt2(right(1)), false)
+assert.strictEqual(gt2(right(3)), true)
 ```
 
 Added in v2.0.0

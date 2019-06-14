@@ -505,4 +505,11 @@ describe('Either', () => {
     assert.deepStrictEqual(_.fromOption(() => 'none')(none), _.left('none'))
     assert.deepStrictEqual(_.fromOption(() => 'none')(some(1)), _.right(1))
   })
+
+  it('exists', () => {
+    const gt2 = _.exists((n: number) => n > 2)
+    assert.strictEqual(gt2(_.left('a')), false)
+    assert.strictEqual(gt2(_.right(1)), false)
+    assert.strictEqual(gt2(_.right(3)), true)
+  })
 })
