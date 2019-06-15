@@ -6,14 +6,13 @@ import { Alt2 } from './Alt'
 import { Bifunctor2 } from './Bifunctor'
 import {
   Either,
-  fromPredicate as eitherFromPredicate,
   getApplySemigroup as eitherGetApplySemigroup,
   getSemigroup as eitherGetSemigroup,
   left as eitherLeft,
   right as eitherRight
 } from './Either'
 import * as eitherT from './EitherT'
-import { constant, constIdentity, Lazy, Predicate, Refinement, identity } from './function'
+import { constant, constIdentity, identity, Lazy, Predicate, Refinement } from './function'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2 } from './Monad'
@@ -21,9 +20,9 @@ import { MonadIO2 } from './MonadIO'
 import { MonadTask2 } from './MonadTask'
 import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
+import { pipeable } from './pipeable'
 import { Semigroup } from './Semigroup'
 import { fromIO as taskFromIO, getSemigroup as taskGetSemigroup, Task, task, tryCatch as taskTryCatch } from './Task'
-import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URItoKind2<L, A> {
@@ -242,19 +241,6 @@ export const fromLeft = <L, A>(l: L): TaskEither<L, A> => {
  */
 export const fromIOEither = <L, A>(fa: IOEither<L, A>): TaskEither<L, A> => {
   return new TaskEither(taskFromIO(fa.value))
-}
-
-/**
- * @since 1.6.0
- */
-export function fromPredicate<L, A, B extends A>(
-  predicate: Refinement<A, B>,
-  onFalse: (a: A) => L
-): (a: A) => TaskEither<L, B>
-export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => TaskEither<L, A>
-export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => TaskEither<L, A> {
-  const f = eitherFromPredicate(predicate, onFalse)
-  return a => fromEither(f(a))
 }
 
 /**
@@ -503,28 +489,38 @@ export function getOrElse<E, A>(f: (e: E) => Task<A>): (ma: TaskEither<E, A>) =>
 /**
  * @since 1.19.0
  */
-export function filterOrElse<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): (ma: TaskEither<E, A>) => TaskEither<E, B>
-export function filterOrElse<E, A>(
-  predicate: Predicate<A>,
-  onFalse: (a: A) => E
-): (ma: TaskEither<E, A>) => TaskEither<E, A>
-export function filterOrElse<E, A>(
-  predicate: Predicate<A>,
-  onFalse: (a: A) => E
-): (ma: TaskEither<E, A>) => TaskEither<E, A> {
-  return ma => ma.filterOrElseL(predicate, onFalse)
-}
-
-/**
- * @since 1.19.0
- */
 export function orElse<E, A, M>(f: (e: E) => TaskEither<M, A>): (ma: TaskEither<E, A>) => TaskEither<M, A> {
   return ma => ma.orElse(f)
 }
 
-const { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft } = pipeable(taskEither)
+const {
+  alt,
+  ap,
+  apFirst,
+  apSecond,
+  bimap,
+  chain,
+  chainFirst,
+  flatten,
+  map,
+  mapLeft,
+  fromOption,
+  fromPredicate,
+  filterOrElse
+} = pipeable(taskEither)
 
-export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft }
+export {
+  alt,
+  ap,
+  apFirst,
+  apSecond,
+  bimap,
+  chain,
+  chainFirst,
+  flatten,
+  map,
+  mapLeft,
+  fromOption,
+  fromPredicate,
+  filterOrElse
+}

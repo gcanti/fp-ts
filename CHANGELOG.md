@@ -88,7 +88,12 @@ Add the following lines to your `tslint.json` to turn the `@obsolete` rule on:
   - `Map`
     - backport `updateAt` (@gcanti)
     - backport `modifyAt` (@gcanti)
+- **Bug Fix**
+  - fix `MonadThrow` definition (@gcanti)
 - **Deprecations**
+  - `HKT`
+    - deprecate `URI2HKT<n>` in favour of `URItoKind<n>` (@gcanti)
+    - deprecate `Type<n>` in favour of `Kind<n>` (@gcanti)
   - deprecate `Setoid` in favour of `Eq` (@gcanti)
   - `Applicative`
     - deprecate `when` (@gcanti)
@@ -187,7 +192,9 @@ Add the following lines to your `tslint.json` to turn the `@obsolete` rule on:
   - `Map`
     - deprecate `insert` in favour of `insertAt` (@gcanti)
     - deprecate `remove` in favour of `deleteAt` (@gcanti)
-  - `MonadThrow` module is deprecated (@gcanti)
+  - `MonadThrow`
+    - deprecate `fromOption` (@gcanti)
+    - deprecate `fromEither` (@gcanti)
   - `Monoid`
     - deprecate `getArrayMonoid` in favour of `Array`'s `getMonoid` (@gcanti)
   - `Monoidal` module is deprecated (@gcanti)

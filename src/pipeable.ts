@@ -56,6 +56,7 @@ import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Profunctor, Profunctor2, Profunctor2C, Profunctor3, Profunctor4 } from './Profunctor'
 import { Semigroupoid, Semigroupoid2, Semigroupoid2C, Semigroupoid3, Semigroupoid4 } from './Semigroupoid'
+import { MonadThrow, MonadThrow3, MonadThrow2C, MonadThrow2, MonadThrow4, MonadThrow1 } from './MonadThrow'
 
 /**
  * @since 1.19.0
@@ -740,6 +741,88 @@ export interface PipeableSemigroupoid4<F extends URIS4> {
   readonly compose: <X, U, L, A>(la: Kind4<F, X, U, L, A>) => <B>(ab: Kind4<F, X, U, A, B>) => Kind4<F, X, U, L, B>
 }
 
+export interface PipeableMonadThrow<F> {
+  readonly fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => HKT<F, A>
+  readonly fromEither: <E, A>(ma: Either<E, A>) => HKT<F, A>
+  readonly fromPredicate: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => HKT<F, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => HKT<F, A>
+  }
+  readonly filterOrElse: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: HKT<F, A>) => HKT<F, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: HKT<F, A>) => HKT<F, A>
+  }
+}
+
+export interface PipeableMonadThrow1<F extends URIS> {
+  readonly fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => Kind<F, A>
+  readonly fromEither: <E, A>(ma: Either<E, A>) => Kind<F, A>
+  readonly fromPredicate: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind<F, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind<F, A>
+  }
+  readonly filterOrElse: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind<F, A>) => Kind<F, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind<F, A>) => Kind<F, A>
+  }
+}
+
+export interface PipeableMonadThrow2<F extends URIS2> {
+  readonly fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => Kind2<F, E, A>
+  readonly fromEither: <E, A>(ma: Either<E, A>) => Kind2<F, E, A>
+  readonly fromPredicate: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, A>
+  }
+  readonly filterOrElse: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<F, E, A>) => Kind2<F, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<F, E, A>) => Kind2<F, E, A>
+  }
+}
+
+export interface PipeableMonadThrow2C<F extends URIS2, E> {
+  readonly fromOption: (onNone: () => E) => <A>(ma: Option<A>) => Kind2<F, E, A>
+  readonly fromEither: <A>(ma: Either<E, A>) => Kind2<F, E, A>
+  readonly fromPredicate: {
+    <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>
+    <A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, A>
+  }
+  readonly filterOrElse: {
+    <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<F, E, A>) => Kind2<F, E, B>
+    <A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<F, E, A>) => Kind2<F, E, A>
+  }
+}
+
+export interface PipeableMonadThrow3<F extends URIS3> {
+  readonly fromOption: <E>(onNone: () => E) => <U, A>(ma: Option<A>) => Kind3<F, U, E, A>
+  readonly fromEither: <U, E, A>(ma: Either<E, A>) => Kind3<F, U, E, A>
+  readonly fromPredicate: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => Kind3<F, U, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <U>(a: A) => Kind3<F, U, E, A>
+  }
+  readonly filterOrElse: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(
+      ma: Kind3<F, U, E, A>
+    ) => Kind3<F, U, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <U>(ma: Kind3<F, U, E, A>) => Kind3<F, U, E, A>
+  }
+}
+
+export interface PipeableMonadThrow4<F extends URIS4> {
+  readonly fromOption: <E>(onNone: () => E) => <X, U, A>(ma: Option<A>) => Kind4<F, X, U, E, A>
+  readonly fromEither: <X, U, E, A>(ma: Either<E, A>) => Kind4<F, X, U, E, A>
+  readonly fromPredicate: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <X, U>(a: A) => Kind4<F, X, U, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <X, U>(a: A) => Kind4<F, X, U, E, A>
+  }
+  readonly filterOrElse: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <X, U>(
+      ma: Kind4<F, X, U, E, A>
+    ) => Kind4<F, X, U, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <X, U>(ma: Kind4<F, X, U, E, A>) => Kind4<F, X, U, E, A>
+  }
+}
+
 const isFunctor = <F>(I: any): I is Functor<F> => typeof I.map === 'function'
 const isContravariant = <F>(I: any): I is Contravariant<F> => typeof I.contramap === 'function'
 const isFunctorWithIndex = <F>(I: any): I is FunctorWithIndex<F, unknown> => typeof I.mapWithIndex === 'function'
@@ -756,6 +839,7 @@ const isFilterableWithIndex = <F>(I: any): I is FilterableWithIndex<F, unknown> 
   typeof I.filterWithIndex === 'function'
 const isProfunctor = <F>(I: any): I is Profunctor<F> => typeof I.promap === 'function'
 const isSemigroupoid = <F>(I: any): I is Semigroupoid<F> => typeof I.compose === 'function'
+const isMonadThrow = <F>(I: any): I is MonadThrow<F> => typeof I.throwError === 'function'
 
 /**
  * @since 1.19.0
@@ -787,7 +871,8 @@ export function pipeable<F extends URIS4, I>(
     ? PipeableCompactable4<F>
     : {}) &
   (I extends Profunctor4<F> ? PipeableProfunctor4<F> : {}) &
-  (I extends Semigroupoid4<F> ? PipeableSemigroupoid4<F> : {})
+  (I extends Semigroupoid4<F> ? PipeableSemigroupoid4<F> : {}) &
+  (I extends MonadThrow4<F> ? PipeableMonadThrow4<F> : {})
 export function pipeable<F extends URIS3, I>(
   I: { URI: F } & I
 ): (I extends Chain3<F>
@@ -815,7 +900,8 @@ export function pipeable<F extends URIS3, I>(
     ? PipeableCompactable3<F>
     : {}) &
   (I extends Profunctor3<F> ? PipeableProfunctor3<F> : {}) &
-  (I extends Semigroupoid3<F> ? PipeableSemigroupoid3<F> : {})
+  (I extends Semigroupoid3<F> ? PipeableSemigroupoid3<F> : {}) &
+  (I extends MonadThrow3<F> ? PipeableMonadThrow3<F> : {})
 export function pipeable<F extends URIS2, I, L>(
   I: { URI: F; _L: L } & I
 ): (I extends Chain2C<F, L>
@@ -842,7 +928,8 @@ export function pipeable<F extends URIS2, I, L>(
     ? PipeableCompactable2C<F, L>
     : {}) &
   (I extends Profunctor2C<F, L> ? PipeableProfunctor2C<F, L> : {}) &
-  (I extends Semigroupoid2C<F, L> ? PipeableSemigroupoid2C<F, L> : {})
+  (I extends Semigroupoid2C<F, L> ? PipeableSemigroupoid2C<F, L> : {}) &
+  (I extends MonadThrow2C<F, L> ? PipeableMonadThrow2C<F, L> : {})
 export function pipeable<F extends URIS2, I>(
   I: { URI: F } & I
 ): (I extends Chain2<F>
@@ -870,7 +957,8 @@ export function pipeable<F extends URIS2, I>(
     ? PipeableCompactable2<F>
     : {}) &
   (I extends Profunctor2<F> ? PipeableProfunctor2<F> : {}) &
-  (I extends Semigroupoid2<F> ? PipeableSemigroupoid2<F> : {})
+  (I extends Semigroupoid2<F> ? PipeableSemigroupoid2<F> : {}) &
+  (I extends MonadThrow2<F> ? PipeableMonadThrow2<F> : {})
 export function pipeable<F extends URIS, I>(
   I: { URI: F } & I
 ): (I extends Chain1<F>
@@ -895,7 +983,8 @@ export function pipeable<F extends URIS, I>(
     ? PipeableFilterable1<F>
     : I extends Compactable1<F>
     ? PipeableCompactable1<F>
-    : {})
+    : {}) &
+  (I extends MonadThrow1<F> ? PipeableMonadThrow1<F> : {})
 export function pipeable<F, I>(
   I: { URI: F } & I
 ): (I extends Chain<F>
@@ -923,8 +1012,9 @@ export function pipeable<F, I>(
     ? PipeableCompactable<F>
     : {}) &
   (I extends Profunctor<F> ? PipeableProfunctor<F> : {}) &
-  (I extends Semigroupoid<F> ? PipeableSemigroupoid<F> : {})
-export function pipeable<F, I>(I: { URI: F } & I): any {
+  (I extends Semigroupoid<F> ? PipeableSemigroupoid<F> : {}) &
+  (I extends MonadThrow<F> ? PipeableMonadThrow<F> : {})
+export function pipeable<F, I>(I: { URI: F } & I): Record<string, unknown> {
   const r: any = {}
   if (isFunctor<F>(I)) {
     const map: PipeableFunctor<F>['map'] = f => fa => I.map(fa, f)
@@ -1036,6 +1126,24 @@ export function pipeable<F, I>(I: { URI: F } & I): any {
         that
       )
     r.compose = compose
+  }
+  if (isMonadThrow<F>(I)) {
+    const fromOption: PipeableMonadThrow<F>['fromOption'] = onNone => ma =>
+      ma._tag === 'None' ? I.throwError(onNone()) : I.of(ma.value)
+    const fromEither: PipeableMonadThrow<F>['fromEither'] = ma =>
+      ma._tag === 'Left' ? I.throwError(ma.value) : I.of(ma.value)
+    const fromPredicate: PipeableMonadThrow<F>['fromPredicate'] = <E, A>(
+      predicate: Predicate<A>,
+      onFalse: (a: A) => E
+    ) => (a: A) => (predicate(a) ? I.of(a) : I.throwError(onFalse(a)))
+    const filterOrElse: PipeableMonadThrow<F>['filterOrElse'] = <E, A>(
+      predicate: Predicate<A>,
+      onFalse: (a: A) => E
+    ) => (ma: HKT<F, A>) => I.chain(ma, a => (predicate(a) ? I.of(a) : I.throwError(onFalse(a))))
+    r.fromOption = fromOption
+    r.fromEither = fromEither
+    r.fromPredicate = fromPredicate
+    r.filterOrElse = filterOrElse
   }
   return r
 }

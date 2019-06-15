@@ -40,13 +40,11 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 - [taskEither (constant)](#taskeither-constant)
 - [taskEitherSeq (constant)](#taskeitherseq-constant)
 - [bracket (function)](#bracket-function)
-- [filterOrElse (function)](#filterorelse-function)
 - [fold (function)](#fold-function)
 - [fromEither (function)](#fromeither-function)
 - [~~fromIO~~ (function)](#fromio-function)
 - [fromIOEither (function)](#fromioeither-function)
 - [~~fromLeft~~ (function)](#fromleft-function)
-- [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getOrElse (function)](#getorelse-function)
@@ -357,23 +355,6 @@ export const bracket = <L, A, B>(
 
 Added in v1.10.0
 
-# filterOrElse (function)
-
-**Signature**
-
-```ts
-export function filterOrElse<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): (ma: TaskEither<E, A>) => TaskEither<E, B>
-export function filterOrElse<E, A>(
-  predicate: Predicate<A>,
-  onFalse: (a: A) => E
-): (ma: TaskEither<E, A>) => TaskEither<E, A> { ... }
-```
-
-Added in v1.19.0
-
 # fold (function)
 
 **Signature**
@@ -430,20 +411,6 @@ export const fromLeft = <L, A>(l: L): TaskEither<L, A> => ...
 ```
 
 Added in v1.3.0
-
-# fromPredicate (function)
-
-**Signature**
-
-```ts
-export function fromPredicate<L, A, B extends A>(
-  predicate: Refinement<A, B>,
-  onFalse: (a: A) => L
-): (a: A) => TaskEither<L, B>
-export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => TaskEither<L, A> { ... }
-```
-
-Added in v1.6.0
 
 # getApplyMonoid (function)
 

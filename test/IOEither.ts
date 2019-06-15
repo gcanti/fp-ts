@@ -231,7 +231,9 @@ describe('IOEither', () => {
     })
 
     it('fromOption', () => {
+      // tslint:disable-next-line: deprecation
       assert.deepStrictEqual(ioEither.fromOption(none, 'error').run(), eitherLeft('error'))
+      // tslint:disable-next-line: deprecation
       assert.deepStrictEqual(ioEither.fromOption(some(1), 'error').run(), eitherRight(1))
     })
   })

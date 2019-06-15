@@ -228,6 +228,34 @@ export function orElse<E, A, M>(f: (e: E) => IOEither<M, A>): (ma: IOEither<E, A
   return ma => ma.orElse(f)
 }
 
-const { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft } = pipeable(ioEither)
+const {
+  alt,
+  ap,
+  apFirst,
+  apSecond,
+  bimap,
+  chain,
+  chainFirst,
+  flatten,
+  map,
+  mapLeft,
+  fromOption,
+  fromPredicate,
+  filterOrElse
+} = pipeable(ioEither)
 
-export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft }
+export {
+  alt,
+  ap,
+  apFirst,
+  apSecond,
+  bimap,
+  chain,
+  chainFirst,
+  flatten,
+  map,
+  mapLeft,
+  fromOption,
+  fromPredicate,
+  filterOrElse
+}
