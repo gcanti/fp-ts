@@ -489,7 +489,7 @@ describe('TaskEither', () => {
     })
   })
 
-  it('filterOrElse', () => {
+  it('filterOrElse (method)', () => {
     const isNumber = (u: string | number): u is number => typeof u === 'number'
     const actual = taskEither.of<string, string | number>(12).filterOrElse(isNumber, 'not a number')
     const tasks = [
@@ -506,12 +506,8 @@ describe('TaskEither', () => {
     })
   })
 
-  it('filterOrElse', () => {
+  it('filterOrElse (top level function)', () => {
     const isNumber = (u: string | number): u is number => typeof u === 'number'
-    const actual = pipe(
-      right2v(12),
-      filterOrElse(isNumber, () => 'not a number')
-    )
     const tasks = [
       pipe(
         right2v(12),
@@ -529,14 +525,19 @@ describe('TaskEither', () => {
         right2v(7),
         filterOrElse(n => n > 10, n => `invalid ${n}`)
       ),
-      actual
+      pipe(
+        right2v(12),
+        filterOrElse(isNumber, () => 'not a number')
+      ),
+      (right2v(12) as TaskEither<string, number>).filterOrElseL(isNumber, () => 'not a number')
     ]
-    return Promise.all(tasks.map(te => te.run())).then(([r1, r2, r3, r4, r5]) => {
+    return Promise.all(tasks.map(te => te.run())).then(([r1, r2, r3, r4, r5, r6]) => {
       assert.deepStrictEqual(r1, eitherRight(12))
       assert.deepStrictEqual(r2, eitherLeft('bar'))
       assert.deepStrictEqual(r3, eitherLeft('foo'))
       assert.deepStrictEqual(r4, eitherLeft('invalid 7'))
       assert.deepStrictEqual(r5, eitherRight(12))
+      assert.deepStrictEqual(r6, r5)
     })
   })
 
@@ -552,7 +553,9 @@ describe('TaskEither', () => {
 
     it('fromOption', () => {
       return Promise.all([
+        // tslint:disable-next-line: deprecation
         taskEither.fromOption(none, 'error').run(),
+        // tslint:disable-next-line: deprecation
         taskEither.fromOption(some(1), 'error').run()
       ]).then(([e1, e2]) => {
         assert.deepStrictEqual(e1, eitherLeft('error'))

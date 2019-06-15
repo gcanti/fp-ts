@@ -224,4 +224,10 @@ describe('pipeable', () => {
       63
     )
   })
+
+  it('MonadThrow', () => {
+    const { fromEither } = pipeable(option)
+    assert.deepStrictEqual(fromEither(right(1)), some(1))
+    assert.deepStrictEqual(fromEither(left('a')), none)
+  })
 })

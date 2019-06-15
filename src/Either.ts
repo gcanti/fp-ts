@@ -416,18 +416,6 @@ export const right = <L, A>(a: A): Either<L, A> => {
 }
 
 /**
- * @since 1.0.0
- */
-export function fromPredicate<L, A, B extends A>(
-  predicate: Refinement<A, B>,
-  onFalse: (a: A) => L
-): (a: A) => Either<L, B>
-export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => Either<L, A>
-export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => Either<L, A> {
-  return a => (predicate(a) ? right(a) : left(onFalse(a)))
-}
-
-/**
  * Use `fromPredicate` instead
  *
  * @since 1.6.0
@@ -447,15 +435,6 @@ export const fromRefinement = <L, A, B extends A>(refinement: Refinement<A, B>, 
  */
 export const fromOption = <L>(onNone: L) => <A>(fa: Option<A>): Either<L, A> => {
   return fa.isNone() ? left(onNone) : right(fa.value)
-}
-
-/**
- * Lazy version of `fromOption`
- *
- * @since 1.3.0
- */
-export const fromOptionL = <L>(onNone: Lazy<L>) => <A>(fa: Option<A>): Either<L, A> => {
-  return fa.isNone() ? left(onNone()) : right(fa.value)
 }
 
 /**
@@ -809,18 +788,6 @@ export function elem<A>(E: Eq<A>): (a: A) => <E>(ma: Either<E, A>) => boolean {
 /**
  * @since 1.19.0
  */
-export function filterOrElse<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): (ma: Either<E, A>) => Either<E, B>
-export function filterOrElse<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
-export function filterOrElse<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A> {
-  return ma => ma.filterOrElseL(predicate, onFalse)
-}
-
-/**
- * @since 1.19.0
- */
 export function getValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E> {
   return {
     URI,
@@ -886,7 +853,10 @@ const {
   map,
   mapLeft,
   reduce,
-  reduceRight
+  reduceRight,
+  fromPredicate,
+  filterOrElse,
+  fromOption: pipeableFromOption
 } = pipeable(either)
 
 export {
@@ -904,5 +874,14 @@ export {
   map,
   mapLeft,
   reduce,
-  reduceRight
+  reduceRight,
+  fromPredicate,
+  filterOrElse
 }
+
+/**
+ * Lazy version of `fromOption`
+ *
+ * @since 1.3.0
+ */
+export const fromOptionL: <L>(onNone: Lazy<L>) => <A>(fa: Option<A>) => Either<L, A> = pipeableFromOption

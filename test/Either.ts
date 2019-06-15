@@ -523,7 +523,9 @@ describe('Either', () => {
     })
 
     it('fromOption', () => {
+      // tslint:disable-next-line: deprecation
       assert.deepStrictEqual(either.fromOption(none, 'error'), left('error'))
+      // tslint:disable-next-line: deprecation
       assert.deepStrictEqual(either.fromOption(some(1), 'error'), right(1))
     })
   })

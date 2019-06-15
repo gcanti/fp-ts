@@ -324,7 +324,9 @@ describe('ReaderTaskEither', () => {
 
     it('fromOption', () => {
       return Promise.all([
+        // tslint:disable-next-line: deprecation
         readerTaskEither.fromOption(none, 'error').run({}),
+        // tslint:disable-next-line: deprecation
         readerTaskEither.fromOption(some(1), 'error').run({})
       ]).then(([e1, e2]) => {
         assert.deepStrictEqual(e1, eitherLeft('error'))

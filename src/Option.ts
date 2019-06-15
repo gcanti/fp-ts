@@ -100,6 +100,7 @@ import { Traversable2v1 } from './Traversable2v'
 import { Witherable1 } from './Witherable'
 import { Show } from './Show'
 import { pipeable } from './pipeable'
+import { MonadThrow1 } from './MonadThrow'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -770,7 +771,8 @@ export const option: Monad1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
   Filterable1<URI> &
-  Witherable1<URI> = {
+  Witherable1<URI> &
+  MonadThrow1<URI> = {
   URI,
   map: (ma, f) => (isNone(ma) ? none : some(f(ma.value))),
   of: some,
@@ -825,7 +827,10 @@ export const option: Monad1<URI> &
           right: none
         })
       : o.value
-  }
+  },
+  throwError: () => none,
+  fromEither,
+  fromOption: identity
 }
 
 //

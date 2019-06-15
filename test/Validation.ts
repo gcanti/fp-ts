@@ -350,7 +350,9 @@ describe('Validation', () => {
     })
 
     it('fromOption', () => {
+      // tslint:disable-next-line: deprecation
       assert.deepStrictEqual(M.fromOption(none, 'error'), failure('error'))
+      // tslint:disable-next-line: deprecation
       assert.deepStrictEqual(M.fromOption(some(1), 'error'), success(1))
     })
   })

@@ -38,7 +38,6 @@ parent: Modules
 - [~~fromIO~~ (function)](#fromio-function)
 - [fromIOEither (function)](#fromioeither-function)
 - [~~fromLeft~~ (function)](#fromleft-function)
-- [fromPredicate (function)](#frompredicate-function)
 - [~~fromReader~~ (function)](#fromreader-function)
 - [fromTaskEither (function)](#fromtaskeither-function)
 - [~~left~~ (function)](#left-function)
@@ -340,23 +339,6 @@ Use `left2v`
 
 ```ts
 export const fromLeft = <E, L, A>(l: L): ReaderTaskEither<E, L, A> => ...
-```
-
-Added in v1.6.0
-
-# fromPredicate (function)
-
-**Signature**
-
-```ts
-export function fromPredicate<E, L, A, B extends A>(
-  predicate: Refinement<A, B>,
-  onFalse: (a: A) => L
-): (a: A) => ReaderTaskEither<E, L, B>
-export function fromPredicate<E, L, A>(
-  predicate: Predicate<A>,
-  onFalse: (a: A) => L
-): (a: A) => ReaderTaskEither<E, L, A> { ... }
 ```
 
 Added in v1.6.0

@@ -1,19 +1,19 @@
 import { Alt3 } from './Alt'
 import { Bifunctor3 } from './Bifunctor'
 import { Either } from './Either'
-import { constant, constIdentity, Predicate, Refinement } from './function'
+import { constant, constIdentity } from './function'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad3 } from './Monad'
 import { MonadIO3 } from './MonadIO'
+import { MonadTask3 } from './MonadTask'
+import { MonadThrow3 } from './MonadThrow'
+import { pipeable } from './pipeable'
 import { Reader } from './Reader'
 import * as readerT from './ReaderT'
 import { Task } from './Task'
 import * as taskEither from './TaskEither'
 import TaskEither = taskEither.TaskEither
-import { MonadTask3 } from './MonadTask'
-import { MonadThrow3 } from './MonadThrow'
-import { pipeable } from './pipeable'
 
 const readerTTaskEither = readerT.getReaderT2v(taskEither.taskEither)
 
@@ -204,25 +204,6 @@ export const fromIOEither = <E, L, A>(fa: IOEither<L, A>): ReaderTaskEither<E, L
 /**
  * @since 1.6.0
  */
-export function fromPredicate<E, L, A, B extends A>(
-  predicate: Refinement<A, B>,
-  onFalse: (a: A) => L
-): (a: A) => ReaderTaskEither<E, L, B>
-export function fromPredicate<E, L, A>(
-  predicate: Predicate<A>,
-  onFalse: (a: A) => L
-): (a: A) => ReaderTaskEither<E, L, A>
-export function fromPredicate<E, L, A>(
-  predicate: Predicate<A>,
-  onFalse: (a: A) => L
-): (a: A) => ReaderTaskEither<E, L, A> {
-  const f = taskEither.fromPredicate(predicate, onFalse)
-  return a => fromTaskEither(f(a))
-}
-
-/**
- * @since 1.6.0
- */
 export const tryCatch = <E, L, A>(
   f: (e: E) => Promise<A>,
   onrejected: (reason: unknown, e: E) => L
@@ -304,6 +285,34 @@ export const rightTask: <E, L, A>(fa: Task<A>) => ReaderTaskEither<E, L, A> = ri
 // tslint:disable-next-line: deprecation
 export const leftTask: <E, L, A>(fa: Task<L>) => ReaderTaskEither<E, L, A> = left
 
-const { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft } = pipeable(readerTaskEither)
+const {
+  alt,
+  ap,
+  apFirst,
+  apSecond,
+  bimap,
+  chain,
+  chainFirst,
+  flatten,
+  map,
+  mapLeft,
+  fromOption,
+  fromPredicate,
+  filterOrElse
+} = pipeable(readerTaskEither)
 
-export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft }
+export {
+  alt,
+  ap,
+  apFirst,
+  apSecond,
+  bimap,
+  chain,
+  chainFirst,
+  flatten,
+  map,
+  mapLeft,
+  fromOption,
+  fromPredicate,
+  filterOrElse
+}

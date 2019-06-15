@@ -84,6 +84,12 @@ parent: Modules
 - [PipeableFunctorWithIndex2C (interface)](#pipeablefunctorwithindex2c-interface)
 - [PipeableFunctorWithIndex3 (interface)](#pipeablefunctorwithindex3-interface)
 - [PipeableFunctorWithIndex4 (interface)](#pipeablefunctorwithindex4-interface)
+- [PipeableMonadThrow (interface)](#pipeablemonadthrow-interface)
+- [PipeableMonadThrow1 (interface)](#pipeablemonadthrow1-interface)
+- [PipeableMonadThrow2 (interface)](#pipeablemonadthrow2-interface)
+- [PipeableMonadThrow2C (interface)](#pipeablemonadthrow2c-interface)
+- [PipeableMonadThrow3 (interface)](#pipeablemonadthrow3-interface)
+- [PipeableMonadThrow4 (interface)](#pipeablemonadthrow4-interface)
 - [PipeableProfunctor (interface)](#pipeableprofunctor-interface)
 - [PipeableProfunctor2 (interface)](#pipeableprofunctor2-interface)
 - [PipeableProfunctor2C (interface)](#pipeableprofunctor2c-interface)
@@ -1100,6 +1106,124 @@ export interface PipeableFunctorWithIndex4<F extends URIS4, I> extends PipeableF
 }
 ```
 
+# PipeableMonadThrow (interface)
+
+**Signature**
+
+```ts
+export interface PipeableMonadThrow<F> {
+  readonly fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => HKT<F, A>
+  readonly fromEither: <E, A>(ma: Either<E, A>) => HKT<F, A>
+  readonly fromPredicate: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => HKT<F, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => HKT<F, A>
+  }
+  readonly filterOrElse: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: HKT<F, A>) => HKT<F, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: HKT<F, A>) => HKT<F, A>
+  }
+}
+```
+
+# PipeableMonadThrow1 (interface)
+
+**Signature**
+
+```ts
+export interface PipeableMonadThrow1<F extends URIS> {
+  readonly fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => Kind<F, A>
+  readonly fromEither: <E, A>(ma: Either<E, A>) => Kind<F, A>
+  readonly fromPredicate: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind<F, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind<F, A>
+  }
+  readonly filterOrElse: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind<F, A>) => Kind<F, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind<F, A>) => Kind<F, A>
+  }
+}
+```
+
+# PipeableMonadThrow2 (interface)
+
+**Signature**
+
+```ts
+export interface PipeableMonadThrow2<F extends URIS2> {
+  readonly fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => Kind2<F, E, A>
+  readonly fromEither: <E, A>(ma: Either<E, A>) => Kind2<F, E, A>
+  readonly fromPredicate: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, A>
+  }
+  readonly filterOrElse: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<F, E, A>) => Kind2<F, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<F, E, A>) => Kind2<F, E, A>
+  }
+}
+```
+
+# PipeableMonadThrow2C (interface)
+
+**Signature**
+
+```ts
+export interface PipeableMonadThrow2C<F extends URIS2, E> {
+  readonly fromOption: (onNone: () => E) => <A>(ma: Option<A>) => Kind2<F, E, A>
+  readonly fromEither: <A>(ma: Either<E, A>) => Kind2<F, E, A>
+  readonly fromPredicate: {
+    <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>
+    <A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, A>
+  }
+  readonly filterOrElse: {
+    <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<F, E, A>) => Kind2<F, E, B>
+    <A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<F, E, A>) => Kind2<F, E, A>
+  }
+}
+```
+
+# PipeableMonadThrow3 (interface)
+
+**Signature**
+
+```ts
+export interface PipeableMonadThrow3<F extends URIS3> {
+  readonly fromOption: <E>(onNone: () => E) => <U, A>(ma: Option<A>) => Kind3<F, U, E, A>
+  readonly fromEither: <U, E, A>(ma: Either<E, A>) => Kind3<F, U, E, A>
+  readonly fromPredicate: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => Kind3<F, U, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <U>(a: A) => Kind3<F, U, E, A>
+  }
+  readonly filterOrElse: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(
+      ma: Kind3<F, U, E, A>
+    ) => Kind3<F, U, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <U>(ma: Kind3<F, U, E, A>) => Kind3<F, U, E, A>
+  }
+}
+```
+
+# PipeableMonadThrow4 (interface)
+
+**Signature**
+
+```ts
+export interface PipeableMonadThrow4<F extends URIS4> {
+  readonly fromOption: <E>(onNone: () => E) => <X, U, A>(ma: Option<A>) => Kind4<F, X, U, E, A>
+  readonly fromEither: <X, U, E, A>(ma: Either<E, A>) => Kind4<F, X, U, E, A>
+  readonly fromPredicate: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <X, U>(a: A) => Kind4<F, X, U, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <X, U>(a: A) => Kind4<F, X, U, E, A>
+  }
+  readonly filterOrElse: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <X, U>(
+      ma: Kind4<F, X, U, E, A>
+    ) => Kind4<F, X, U, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <X, U>(ma: Kind4<F, X, U, E, A>) => Kind4<F, X, U, E, A>
+  }
+}
+```
+
 # PipeableProfunctor (interface)
 
 **Signature**
@@ -1300,7 +1424,8 @@ export function pipeable<F extends URIS4, I>(
     ? PipeableCompactable4<F>
     : {}) &
   (I extends Profunctor4<F> ? PipeableProfunctor4<F> : {}) &
-  (I extends Semigroupoid4<F> ? PipeableSemigroupoid4<F> : {})
+  (I extends Semigroupoid4<F> ? PipeableSemigroupoid4<F> : {}) &
+  (I extends MonadThrow4<F> ? PipeableMonadThrow4<F> : {})
 export function pipeable<F extends URIS3, I>(
   I: { URI: F } & I
 ): (I extends Chain3<F>
@@ -1328,7 +1453,8 @@ export function pipeable<F extends URIS3, I>(
     ? PipeableCompactable3<F>
     : {}) &
   (I extends Profunctor3<F> ? PipeableProfunctor3<F> : {}) &
-  (I extends Semigroupoid3<F> ? PipeableSemigroupoid3<F> : {})
+  (I extends Semigroupoid3<F> ? PipeableSemigroupoid3<F> : {}) &
+  (I extends MonadThrow3<F> ? PipeableMonadThrow3<F> : {})
 export function pipeable<F extends URIS2, I, L>(
   I: { URI: F; _L: L } & I
 ): (I extends Chain2C<F, L>
@@ -1355,7 +1481,8 @@ export function pipeable<F extends URIS2, I, L>(
     ? PipeableCompactable2C<F, L>
     : {}) &
   (I extends Profunctor2C<F, L> ? PipeableProfunctor2C<F, L> : {}) &
-  (I extends Semigroupoid2C<F, L> ? PipeableSemigroupoid2C<F, L> : {})
+  (I extends Semigroupoid2C<F, L> ? PipeableSemigroupoid2C<F, L> : {}) &
+  (I extends MonadThrow2C<F, L> ? PipeableMonadThrow2C<F, L> : {})
 export function pipeable<F extends URIS2, I>(
   I: { URI: F } & I
 ): (I extends Chain2<F>
@@ -1383,7 +1510,8 @@ export function pipeable<F extends URIS2, I>(
     ? PipeableCompactable2<F>
     : {}) &
   (I extends Profunctor2<F> ? PipeableProfunctor2<F> : {}) &
-  (I extends Semigroupoid2<F> ? PipeableSemigroupoid2<F> : {})
+  (I extends Semigroupoid2<F> ? PipeableSemigroupoid2<F> : {}) &
+  (I extends MonadThrow2<F> ? PipeableMonadThrow2<F> : {})
 export function pipeable<F extends URIS, I>(
   I: { URI: F } & I
 ): (I extends Chain1<F>
@@ -1408,7 +1536,8 @@ export function pipeable<F extends URIS, I>(
     ? PipeableFilterable1<F>
     : I extends Compactable1<F>
     ? PipeableCompactable1<F>
-    : {})
+    : {}) &
+  (I extends MonadThrow1<F> ? PipeableMonadThrow1<F> : {})
 export function pipeable<F, I>(
   I: { URI: F } & I
 ): (I extends Chain<F>
@@ -1436,7 +1565,8 @@ export function pipeable<F, I>(
     ? PipeableCompactable<F>
     : {}) &
   (I extends Profunctor<F> ? PipeableProfunctor<F> : {}) &
-  (I extends Semigroupoid<F> ? PipeableSemigroupoid<F> : {}) { ... }
+  (I extends Semigroupoid<F> ? PipeableSemigroupoid<F> : {}) &
+  (I extends MonadThrow<F> ? PipeableMonadThrow<F> : {}) { ... }
 ```
 
 Added in v1.19.0

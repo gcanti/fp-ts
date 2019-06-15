@@ -85,14 +85,12 @@ left(23).map(double) // left(23)
   - [refineOrElseL (method)](#refineorelsel-method)
 - [URI (constant)](#uri-constant)
 - [either (constant)](#either-constant)
+- [fromOptionL (constant)](#fromoptionl-constant)
 - [~~getSetoid~~ (constant)](#getsetoid-constant)
 - [elem (function)](#elem-function)
-- [filterOrElse (function)](#filterorelse-function)
 - [fold (function)](#fold-function)
 - [fromNullable (function)](#fromnullable-function)
 - [fromOption (function)](#fromoption-function)
-- [fromOptionL (function)](#fromoptionl-function)
-- [fromPredicate (function)](#frompredicate-function)
 - [~~fromRefinement~~ (function)](#fromrefinement-function)
 - [fromValidation (function)](#fromvalidation-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
@@ -606,6 +604,18 @@ export const either: Monad2<URI> &
 
 Added in v1.0.0
 
+# fromOptionL (constant)
+
+Lazy version of `fromOption`
+
+**Signature**
+
+```ts
+export const fromOptionL: <L>(onNone: Lazy<L>) => <A>(fa: Option<A>) => Either<L, A> = ...
+```
+
+Added in v1.3.0
+
 # ~~getSetoid~~ (constant)
 
 Use `getEq`
@@ -624,20 +634,6 @@ Added in v1.0.0
 
 ```ts
 export function elem<A>(E: Eq<A>): (a: A) => <E>(ma: Either<E, A>) => boolean { ... }
-```
-
-Added in v1.19.0
-
-# filterOrElse (function)
-
-**Signature**
-
-```ts
-export function filterOrElse<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): (ma: Either<E, A>) => Either<E, B>
-export function filterOrElse<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A> { ... }
 ```
 
 Added in v1.19.0
@@ -674,32 +670,6 @@ the provided default as a `Left`
 
 ```ts
 export const fromOption = <L>(onNone: L) => <A>(fa: Option<A>): Either<L, A> => ...
-```
-
-Added in v1.0.0
-
-# fromOptionL (function)
-
-Lazy version of `fromOption`
-
-**Signature**
-
-```ts
-export const fromOptionL = <L>(onNone: Lazy<L>) => <A>(fa: Option<A>): Either<L, A> => ...
-```
-
-Added in v1.3.0
-
-# fromPredicate (function)
-
-**Signature**
-
-```ts
-export function fromPredicate<L, A, B extends A>(
-  predicate: Refinement<A, B>,
-  onFalse: (a: A) => L
-): (a: A) => Either<L, B>
-export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => Either<L, A> { ... }
 ```
 
 Added in v1.0.0
