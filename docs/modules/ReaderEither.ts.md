@@ -1,6 +1,6 @@
 ---
 title: ReaderEither.ts
-nav_order: 64
+nav_order: 65
 parent: Modules
 ---
 
@@ -11,7 +11,6 @@ parent: Modules
 - [ReaderEither (interface)](#readereither-interface)
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
-- [fromEither (constant)](#fromeither-constant)
 - [left (constant)](#left-constant)
 - [leftReader (constant)](#leftreader-constant)
 - [readerEither (constant)](#readereither-constant)
@@ -20,10 +19,7 @@ parent: Modules
 - [swap (constant)](#swap-constant)
 - [ask (function)](#ask-function)
 - [asks (function)](#asks-function)
-- [filterOrElse (function)](#filterorelse-function)
 - [fold (function)](#fold-function)
-- [fromOption (function)](#fromoption-function)
-- [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getOrElse (function)](#getorelse-function)
@@ -63,16 +59,6 @@ export const URI = ...
 
 Added in v2.0.0
 
-# fromEither (constant)
-
-**Signature**
-
-```ts
-export const fromEither: <R, E, A>(ma: Either<E, A>) => ReaderEither<R, E, A> = ...
-```
-
-Added in v2.0.0
-
 # left (constant)
 
 **Signature**
@@ -98,7 +84,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> = ...
+export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThrow3<URI> = ...
 ```
 
 Added in v2.0.0
@@ -153,23 +139,6 @@ export function asks<R, A>(f: (r: R) => A): ReaderEither<R, never, A> { ... }
 
 Added in v2.0.0
 
-# filterOrElse (function)
-
-**Signature**
-
-```ts
-export function filterOrElse<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
-export function filterOrElse<E, A>(
-  predicate: Predicate<A>,
-  onFalse: (a: A) => E
-): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> { ... }
-```
-
-Added in v2.0.0
-
 # fold (function)
 
 **Signature**
@@ -179,30 +148,6 @@ export function fold<R, E, A, B>(
   onLeft: (e: E) => Reader<R, B>,
   onRight: (a: A) => Reader<R, B>
 ): (ma: ReaderEither<R, E, A>) => Reader<R, B> { ... }
-```
-
-Added in v2.0.0
-
-# fromOption (function)
-
-**Signature**
-
-```ts
-export function fromOption<E>(onNone: () => E): <R, A>(ma: Option<A>) => ReaderEither<R, E, A> { ... }
-```
-
-Added in v2.0.0
-
-# fromPredicate (function)
-
-**Signature**
-
-```ts
-export function fromPredicate<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): <R>(a: A) => ReaderEither<R, E, B>
-export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A> { ... }
 ```
 
 Added in v2.0.0

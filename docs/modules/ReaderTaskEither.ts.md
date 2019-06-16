@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskEither.ts
-nav_order: 66
+nav_order: 67
 parent: Modules
 ---
 
@@ -18,12 +18,8 @@ parent: Modules
 - [readerTaskEitherSeq (constant)](#readertaskeitherseq-constant)
 - [right (constant)](#right-constant)
 - [rightReader (constant)](#rightreader-constant)
-- [filterOrElse (function)](#filterorelse-function)
 - [fold (function)](#fold-function)
-- [fromEither (function)](#fromeither-function)
 - [fromIOEither (function)](#fromioeither-function)
-- [fromOption (function)](#fromoption-function)
-- [fromPredicate (function)](#frompredicate-function)
 - [fromReaderEither (function)](#fromreadereither-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
@@ -109,7 +105,12 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadIO3<URI> & MonadTask3<URI> = ...
+export const readerTaskEither: Monad3<URI> &
+  Bifunctor3<URI> &
+  Alt3<URI> &
+  MonadIO3<URI> &
+  MonadTask3<URI> &
+  MonadThrow3<URI> = ...
 ```
 
 Added in v2.0.0
@@ -146,23 +147,6 @@ export const rightReader: <R, A>(ma: Reader<R, A>) => ReaderTaskEither<R, never,
 
 Added in v2.0.0
 
-# filterOrElse (function)
-
-**Signature**
-
-```ts
-export function filterOrElse<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
-export function filterOrElse<E, A>(
-  predicate: Predicate<A>,
-  onFalse: (a: A) => E
-): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> { ... }
-```
-
-Added in v2.0.0
-
 # fold (function)
 
 **Signature**
@@ -176,49 +160,12 @@ export function fold<R, E, A, B>(
 
 Added in v2.0.0
 
-# fromEither (function)
-
-**Signature**
-
-```ts
-export function fromEither<R, E, A>(ma: Either<E, A>): ReaderTaskEither<R, E, A> { ... }
-```
-
-Added in v2.0.0
-
 # fromIOEither (function)
 
 **Signature**
 
 ```ts
 export function fromIOEither<R, E, A>(ma: IOEither<E, A>): ReaderTaskEither<R, E, A> { ... }
-```
-
-Added in v2.0.0
-
-# fromOption (function)
-
-**Signature**
-
-```ts
-export function fromOption<E>(onNone: () => E): <R, A>(ma: Option<A>) => ReaderTaskEither<R, E, A> { ... }
-```
-
-Added in v2.0.0
-
-# fromPredicate (function)
-
-**Signature**
-
-```ts
-export function fromPredicate<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): <R>(a: A) => ReaderTaskEither<R, E, B>
-export function fromPredicate<E, A>(
-  predicate: Predicate<A>,
-  onFalse: (a: A) => E
-): <R>(a: A) => ReaderTaskEither<R, E, A> { ... }
 ```
 
 Added in v2.0.0

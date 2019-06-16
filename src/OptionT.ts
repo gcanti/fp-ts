@@ -22,8 +22,7 @@ export interface OptionM<M> extends ApplicativeCompositionHKT1<M, URI> {
   readonly fold: <A, R>(ma: OptionT<M, A>, onNone: () => HKT<M, R>, onSome: (a: A) => HKT<M, R>) => HKT<M, R>
   readonly getOrElse: <A>(ma: OptionT<M, A>, onNone: () => HKT<M, A>) => HKT<M, A>
   readonly fromM: <A>(ma: HKT<M, A>) => OptionT<M, A>
-  readonly fromOption: <A>(ma: Option<A>) => OptionT<M, A>
-  readonly none: () => OptionT<M, never>
+  readonly throwError: () => OptionT<M, never>
 }
 
 /**
@@ -40,8 +39,7 @@ export interface OptionM1<M extends URIS> extends ApplicativeComposition11<M, UR
   readonly fold: <A, R>(ma: OptionT1<M, A>, onNone: () => Kind<M, R>, onSome: (a: A) => Kind<M, R>) => Kind<M, R>
   readonly getOrElse: <A>(ma: OptionT1<M, A>, onNone: () => Kind<M, A>) => Kind<M, A>
   readonly fromM: <A>(ma: Kind<M, A>) => OptionT1<M, A>
-  readonly fromOption: <A>(ma: Option<A>) => OptionT1<M, A>
-  readonly none: () => OptionT1<M, never>
+  readonly throwError: () => OptionT1<M, never>
 }
 
 /**
@@ -62,8 +60,7 @@ export interface OptionM2<M extends URIS2> extends ApplicativeComposition21<M, U
   ) => Kind2<M, L, R>
   readonly getOrElse: <L, A>(ma: OptionT2<M, L, A>, onNone: () => Kind2<M, L, A>) => Kind2<M, L, A>
   readonly fromM: <L, A>(ma: Kind2<M, L, A>) => OptionT2<M, L, A>
-  readonly fromOption: <L, A>(ma: Option<A>) => OptionT2<M, L, A>
-  readonly none: <L>() => OptionT2<M, L, never>
+  readonly throwError: <L>() => OptionT2<M, L, never>
 }
 
 /**
@@ -83,7 +80,6 @@ export function getOptionM<M>(M: Monad<M>): OptionM<M> {
     fold: (ma, onNone, onSome) => M.chain(ma, fold(onNone, onSome)),
     getOrElse: (ma, onNone) => M.chain(ma, fold(onNone, M.of)),
     fromM: ma => M.map(ma, some),
-    fromOption: M.of,
-    none: () => fnone
+    throwError: () => fnone
   }
 }

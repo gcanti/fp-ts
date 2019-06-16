@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 55
+nav_order: 56
 parent: Modules
 ---
 
@@ -100,7 +100,6 @@ option.chain(some(0), inverse) // none
 - [elem (function)](#elem-function)
 - [exists (function)](#exists-function)
 - [fold (function)](#fold-function)
-- [fromEither (function)](#fromeither-function)
 - [fromNullable (function)](#fromnullable-function)
 - [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
@@ -203,7 +202,8 @@ export const option: Monad1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
   Filterable1<URI> &
-  Witherable1<URI> = ...
+  Witherable1<URI> &
+  MonadThrow1<URI> = ...
 ```
 
 Added in v2.0.0
@@ -234,16 +234,6 @@ Added in v2.0.0
 
 ```ts
 export function fold<A, R>(onNone: () => R, onSome: (a: A) => R): (ma: Option<A>) => R { ... }
-```
-
-Added in v2.0.0
-
-# fromEither (function)
-
-**Signature**
-
-```ts
-export function fromEither<L, A>(ma: Either<L, A>): Option<A> { ... }
 ```
 
 Added in v2.0.0

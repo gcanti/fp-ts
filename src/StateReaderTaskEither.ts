@@ -1,18 +1,18 @@
-import * as RTE from './ReaderTaskEither'
-import { getStateM } from './StateT'
-import { Monad4 } from './Monad'
 import { Either } from './Either'
+import { IO } from './IO'
+import { IOEither } from './IOEither'
+import { Monad4 } from './Monad'
+import { pipeable } from './pipeable'
+import { Reader } from './Reader'
+import { ReaderEither } from './ReaderEither'
+import * as RTE from './ReaderTaskEither'
 import { State } from './State'
+import { getStateM } from './StateT'
 import { Task } from './Task'
 import { TaskEither } from './TaskEither'
-import { Reader } from './Reader'
-import { IOEither } from './IOEither'
-import { Option } from './Option'
-import { IO } from './IO'
 
 import ReaderTaskEither = RTE.ReaderTaskEither
-import { pipeable } from './pipeable'
-import { ReaderEither } from './ReaderEither'
+import { MonadThrow4 } from './MonadThrow'
 
 const T = getStateM(RTE.readerTaskEither)
 
@@ -119,22 +119,8 @@ export function fromIOEither<S, R, E, A>(ma: IOEither<E, A>): StateReaderTaskEit
 /**
  * @since 2.0.0
  */
-export function fromEither<S, R, E, A>(ma: Either<E, A>): StateReaderTaskEither<S, R, E, A> {
-  return fromReaderTaskEither(RTE.fromEither(ma))
-}
-
-/**
- * @since 2.0.0
- */
 export function fromReaderEither<S, R, E, A>(ma: ReaderEither<R, E, A>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.fromReaderEither(ma))
-}
-
-/**
- * @since 2.0.0
- */
-export function fromOption<E>(onNone: () => E): <S, R, A>(ma: Option<A>) => StateReaderTaskEither<S, R, E, A> {
-  return ma => (ma._tag === 'None' ? left(onNone()) : right(ma.value))
 }
 
 /**
@@ -200,12 +186,13 @@ export const gets: <S, R, A>(f: (s: S) => A) => StateReaderTaskEither<S, R, neve
 /**
  * @since 2.0.0
  */
-export const stateReaderTaskEither: Monad4<URI> = {
+export const stateReaderTaskEither: Monad4<URI> & MonadThrow4<URI> = {
   URI,
   map: T.map,
   of: right,
   ap: T.ap,
-  chain: T.chain
+  chain: T.chain,
+  throwError: left
 }
 
 /**
@@ -217,6 +204,8 @@ export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
   ap: (mab, ma) => stateReaderTaskEither.chain(mab, f => stateReaderTaskEither.map(ma, f))
 }
 
-const { ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(stateReaderTaskEither)
+const { ap, apFirst, apSecond, chain, chainFirst, flatten, map, fromEither, fromOption } = pipeable(
+  stateReaderTaskEither
+)
 
-export { ap, apFirst, apSecond, chain, chainFirst, flatten, map }
+export { ap, apFirst, apSecond, chain, chainFirst, flatten, map, fromEither, fromOption }

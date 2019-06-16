@@ -1,6 +1,6 @@
 ---
 title: TaskEither.ts
-nav_order: 80
+nav_order: 81
 parent: Modules
 ---
 
@@ -16,7 +16,6 @@ error of type `E`. If you want to represent an asynchronous computation that nev
 - [TaskEither (interface)](#taskeither-interface)
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
-- [fromEither (constant)](#fromeither-constant)
 - [fromIOEither (constant)](#fromioeither-constant)
 - [left (constant)](#left-constant)
 - [leftTask (constant)](#lefttask-constant)
@@ -26,10 +25,7 @@ error of type `E`. If you want to represent an asynchronous computation that nev
 - [taskEither (constant)](#taskeither-constant)
 - [taskEitherSeq (constant)](#taskeitherseq-constant)
 - [bracket (function)](#bracket-function)
-- [filterOrElse (function)](#filterorelse-function)
 - [fold (function)](#fold-function)
-- [fromOption (function)](#fromoption-function)
-- [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getOrElse (function)](#getorelse-function)
@@ -69,16 +65,6 @@ Added in v2.0.0
 
 ```ts
 export const URI = ...
-```
-
-Added in v2.0.0
-
-# fromEither (constant)
-
-**Signature**
-
-```ts
-export const fromEither: <E, A>(ma: Either<E, A>) => TaskEither<E, A> = ...
 ```
 
 Added in v2.0.0
@@ -148,7 +134,12 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadTask2<URI> = ...
+export const taskEither: Monad2<URI> &
+  Bifunctor2<URI> &
+  Alt2<URI> &
+  MonadIO2<URI> &
+  MonadTask2<URI> &
+  MonadThrow2<URI> = ...
 ```
 
 Added in v2.0.0
@@ -183,23 +174,6 @@ export function bracket<E, A, B>(
 
 Added in v2.0.0
 
-# filterOrElse (function)
-
-**Signature**
-
-```ts
-export function filterOrElse<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): (ma: TaskEither<E, A>) => TaskEither<E, B>
-export function filterOrElse<E, A>(
-  predicate: Predicate<A>,
-  onFalse: (a: A) => E
-): (ma: TaskEither<E, A>) => TaskEither<E, A> { ... }
-```
-
-Added in v2.0.0
-
 # fold (function)
 
 **Signature**
@@ -209,30 +183,6 @@ export function fold<E, A, R>(
   onLeft: (e: E) => Task<R>,
   onRight: (a: A) => Task<R>
 ): (ma: TaskEither<E, A>) => Task<R> { ... }
-```
-
-Added in v2.0.0
-
-# fromOption (function)
-
-**Signature**
-
-```ts
-export function fromOption<E>(onNone: () => E): <A>(ma: Option<A>) => TaskEither<E, A> { ... }
-```
-
-Added in v2.0.0
-
-# fromPredicate (function)
-
-**Signature**
-
-```ts
-export function fromPredicate<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): (a: A) => TaskEither<E, B>
-export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskEither<E, A> { ... }
 ```
 
 Added in v2.0.0

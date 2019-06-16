@@ -99,6 +99,7 @@ import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { Witherable1 } from './Witherable'
 import { pipeable } from './pipeable'
+import { MonadThrow1 } from './MonadThrow'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -188,13 +189,6 @@ export function fold<A, R>(onNone: () => R, onSome: (a: A) => R): (ma: Option<A>
  */
 export function fromNullable<A>(a: A | null | undefined): Option<A> {
   return a == null ? none : some(a)
-}
-
-/**
- * @since 2.0.0
- */
-export function fromEither<L, A>(ma: Either<L, A>): Option<A> {
-  return ma._tag === 'Left' ? none : some(ma.right)
 }
 
 /**
@@ -515,7 +509,8 @@ export const option: Monad1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
   Filterable1<URI> &
-  Witherable1<URI> = {
+  Witherable1<URI> &
+  MonadThrow1<URI> = {
   URI,
   map: (ma, f) => (isNone(ma) ? none : some(f(ma.value))),
   of: some,
@@ -570,7 +565,8 @@ export const option: Monad1<URI> &
           right: none
         })
       : o.value
-  }
+  },
+  throwError: () => none
 }
 
 const {
@@ -592,7 +588,8 @@ const {
   reduce,
   reduceRight,
   compact,
-  separate
+  separate,
+  fromEither
 } = pipeable(option)
 
 export {
@@ -614,5 +611,6 @@ export {
   reduce,
   reduceRight,
   compact,
-  separate
+  separate,
+  fromEither
 }

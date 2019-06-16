@@ -1,0 +1,99 @@
+---
+title: MonadThrow.ts
+nav_order: 53
+parent: Modules
+---
+
+# Overview
+
+The `MonadThrow` type class represents those monads which support errors via
+`throwError`, where `throwError(e)` halts, yielding the error `e`.
+
+Laws:
+
+- Left zero: `M.chain(M.throwError(e), f) = M.throwError(e)`
+
+---
+
+<h2 class="text-delta">Table of contents</h2>
+
+- [MonadThrow (interface)](#monadthrow-interface)
+- [MonadThrow1 (interface)](#monadthrow1-interface)
+- [MonadThrow2 (interface)](#monadthrow2-interface)
+- [MonadThrow2C (interface)](#monadthrow2c-interface)
+- [MonadThrow3 (interface)](#monadthrow3-interface)
+- [MonadThrow4 (interface)](#monadthrow4-interface)
+
+---
+
+# MonadThrow (interface)
+
+**Signature**
+
+```ts
+export interface MonadThrow<M> extends Monad<M> {
+  readonly throwError: <E, A>(e: E) => HKT<M, A>
+}
+```
+
+Added in v2.0.0
+
+# MonadThrow1 (interface)
+
+**Signature**
+
+```ts
+export interface MonadThrow1<M extends URIS> extends Monad1<M> {
+  readonly throwError: <E, A>(e: E) => Kind<M, A>
+}
+```
+
+Added in v2.0.0
+
+# MonadThrow2 (interface)
+
+**Signature**
+
+```ts
+export interface MonadThrow2<M extends URIS2> extends Monad2<M> {
+  readonly throwError: <E, A>(e: E) => Kind2<M, E, A>
+}
+```
+
+Added in v2.0.0
+
+# MonadThrow2C (interface)
+
+**Signature**
+
+```ts
+export interface MonadThrow2C<M extends URIS2, E> extends Monad2C<M, E> {
+  readonly throwError: <A>(e: E) => Kind2<M, E, A>
+}
+```
+
+Added in v2.0.0
+
+# MonadThrow3 (interface)
+
+**Signature**
+
+```ts
+export interface MonadThrow3<M extends URIS3> extends Monad3<M> {
+  readonly throwError: <U, E, A>(e: E) => Kind3<M, U, E, A>
+}
+```
+
+Added in v2.0.0
+
+# MonadThrow4 (interface)
+
+**Signature**
+
+```ts
+export interface MonadThrow4<M extends URIS4> extends Monad4<M> {
+  readonly throwError: <X, U, E, A>(e: E) => Kind4<M, X, U, E, A>
+}
+```
+
+Added in v2.0.0

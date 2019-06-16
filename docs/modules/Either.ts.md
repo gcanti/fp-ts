@@ -45,11 +45,8 @@ either.map(left(23), double) // left(23)
 - [either (constant)](#either-constant)
 - [elem (function)](#elem-function)
 - [exists (function)](#exists-function)
-- [filterOrElse (function)](#filterorelse-function)
 - [fold (function)](#fold-function)
 - [fromNullable (function)](#fromnullable-function)
-- [fromOption (function)](#fromoption-function)
-- [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getEq (function)](#geteq-function)
@@ -140,7 +137,8 @@ export const either: Monad2<URI> &
   Bifunctor2<URI> &
   Alt2<URI> &
   Extend2<URI> &
-  ChainRec2<URI> = ...
+  ChainRec2<URI> &
+  MonadThrow2<URI> = ...
 ```
 
 Added in v2.0.0
@@ -179,20 +177,6 @@ assert.strictEqual(gt2(right(3)), true)
 
 Added in v2.0.0
 
-# filterOrElse (function)
-
-**Signature**
-
-```ts
-export function filterOrElse<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): (ma: Either<E, A>) => Either<E, B>
-export function filterOrElse<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A> { ... }
-```
-
-Added in v2.0.0
-
 # fold (function)
 
 **Signature**
@@ -212,30 +196,6 @@ the provided default as a `Left`
 
 ```ts
 export function fromNullable<E>(e: E): <A>(a: A | null | undefined) => Either<E, A> { ... }
-```
-
-Added in v2.0.0
-
-# fromOption (function)
-
-**Signature**
-
-```ts
-export function fromOption<E>(onNone: () => E): <A>(ma: Option<A>) => Either<E, A> { ... }
-```
-
-Added in v2.0.0
-
-# fromPredicate (function)
-
-**Signature**
-
-```ts
-export function fromPredicate<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): (a: A) => Either<E, B>
-export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A> { ... }
 ```
 
 Added in v2.0.0

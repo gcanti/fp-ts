@@ -35,9 +35,10 @@ import { Separated } from './Compactable'
 import { Eq } from './Eq'
 import { Extend2 } from './Extend'
 import { Foldable2 } from './Foldable'
-import { Lazy, Predicate, Refinement } from './function'
+import { Lazy, Predicate } from './function'
 import { HKT } from './HKT'
 import { Monad2, Monad2C } from './Monad'
+import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { pipeable } from './pipeable'
@@ -101,25 +102,6 @@ export function left<E>(e: E): Either<E, never> {
  */
 export function right<A>(a: A): Either<never, A> {
   return { _tag: 'Right', right: a }
-}
-
-/**
- * @since 2.0.0
- */
-export function fromOption<E>(onNone: () => E): <A>(ma: Option<A>) => Either<E, A> {
-  return ma => (ma._tag === 'None' ? left(onNone()) : right(ma.value))
-}
-
-/**
- * @since 2.0.0
- */
-export function fromPredicate<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): (a: A) => Either<E, B>
-export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A>
-export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A> {
-  return a => (predicate(a) ? right(a) : left(onFalse(a)))
 }
 
 /**
@@ -323,18 +305,6 @@ export function exists<A>(predicate: Predicate<A>): <L>(ma: Either<L, A>) => boo
 }
 
 /**
- * @since 2.0.0
- */
-export function filterOrElse<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): (ma: Either<E, A>) => Either<E, B>
-export function filterOrElse<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
-export function filterOrElse<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A> {
-  return ma => (isLeft(ma) ? ma : predicate(ma.right) ? ma : left(onFalse(ma.right)))
-}
-
-/**
  * Converts a JavaScript Object Notation (JSON) string into an object.
  *
  * @example
@@ -518,7 +488,8 @@ export const either: Monad2<URI> &
   Bifunctor2<URI> &
   Alt2<URI> &
   Extend2<URI> &
-  ChainRec2<URI> = {
+  ChainRec2<URI> &
+  MonadThrow2<URI> = {
   URI,
   map: (ma, f) => (isLeft(ma) ? ma : right(f(ma.right))),
   of: right,
@@ -545,7 +516,8 @@ export const either: Monad2<URI> &
         ? left(f(e.right.left))
         : right(right(e.right.right))
     )
-  }
+  },
+  throwError: left
 }
 
 const {
@@ -563,7 +535,10 @@ const {
   map,
   mapLeft,
   reduce,
-  reduceRight
+  reduceRight,
+  fromOption,
+  fromPredicate,
+  filterOrElse
 } = pipeable(either)
 
 export {
@@ -581,5 +556,8 @@ export {
   map,
   mapLeft,
   reduce,
-  reduceRight
+  reduceRight,
+  fromOption,
+  fromPredicate,
+  filterOrElse
 }

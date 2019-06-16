@@ -1,6 +1,6 @@
 ---
 title: StateReaderTaskEither.ts
-nav_order: 75
+nav_order: 76
 parent: Modules
 ---
 
@@ -22,9 +22,7 @@ parent: Modules
 - [rightState (constant)](#rightstate-constant)
 - [stateReaderTaskEither (constant)](#statereadertaskeither-constant)
 - [stateReaderTaskEitherSeq (constant)](#statereadertaskeitherseq-constant)
-- [fromEither (function)](#fromeither-function)
 - [fromIOEither (function)](#fromioeither-function)
-- [fromOption (function)](#fromoption-function)
 - [fromReaderEither (function)](#fromreadereither-function)
 - [fromTaskEither (function)](#fromtaskeither-function)
 - [left (function)](#left-function)
@@ -178,7 +176,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const stateReaderTaskEither: Monad4<URI> = ...
+export const stateReaderTaskEither: Monad4<URI> & MonadThrow4<URI> = ...
 ```
 
 Added in v2.0.0
@@ -195,32 +193,12 @@ export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = ...
 
 Added in v2.0.0
 
-# fromEither (function)
-
-**Signature**
-
-```ts
-export function fromEither<S, R, E, A>(ma: Either<E, A>): StateReaderTaskEither<S, R, E, A> { ... }
-```
-
-Added in v2.0.0
-
 # fromIOEither (function)
 
 **Signature**
 
 ```ts
 export function fromIOEither<S, R, E, A>(ma: IOEither<E, A>): StateReaderTaskEither<S, R, E, A> { ... }
-```
-
-Added in v2.0.0
-
-# fromOption (function)
-
-**Signature**
-
-```ts
-export function fromOption<E>(onNone: () => E): <S, R, A>(ma: Option<A>) => StateReaderTaskEither<S, R, E, A> { ... }
 ```
 
 Added in v2.0.0

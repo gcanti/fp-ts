@@ -2,10 +2,9 @@ import { Alt3 } from './Alt'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import { getEitherM } from './EitherT'
-import { Predicate, Refinement } from './function'
 import { Monad3 } from './Monad'
+import { MonadThrow3 } from './MonadThrow'
 import { Monoid } from './Monoid'
-import { Option } from './Option'
 import { pipeable } from './pipeable'
 import { getSemigroup as getReaderSemigroup, Reader, reader } from './Reader'
 import { Semigroup } from './Semigroup'
@@ -58,31 +57,6 @@ export const leftReader: <R, E>(me: Reader<R, E>) => ReaderEither<R, E, never> =
 /**
  * @since 2.0.0
  */
-export const fromEither: <R, E, A>(ma: Either<E, A>) => ReaderEither<R, E, A> = reader.of
-
-/**
- * @since 2.0.0
- */
-export function fromOption<E>(onNone: () => E): <R, A>(ma: Option<A>) => ReaderEither<R, E, A> {
-  return ma => T.fromOption(ma, onNone)
-}
-
-/**
- * @since 2.0.0
- */
-export function fromPredicate<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): <R>(a: A) => ReaderEither<R, E, B>
-export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>
-export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A> {
-  const f = E.fromPredicate(predicate, onFalse)
-  return a => fromEither(f(a))
-}
-
-/**
- * @since 2.0.0
- */
 export function fold<R, E, A, B>(
   onLeft: (e: E) => Reader<R, B>,
   onRight: (a: A) => Reader<R, B>
@@ -104,24 +78,6 @@ export function orElse<R, E, A, M>(
   f: (e: E) => ReaderEither<R, M, A>
 ): (ma: ReaderEither<R, E, A>) => ReaderEither<R, M, A> {
   return ma => T.orElse(ma, f)
-}
-
-/**
- * @since 2.0.0
- */
-export function filterOrElse<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
-export function filterOrElse<E, A>(
-  predicate: Predicate<A>,
-  onFalse: (a: A) => E
-): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
-export function filterOrElse<E, A>(
-  predicate: Predicate<A>,
-  onFalse: (a: A) => E
-): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> {
-  return ma => reader.map(ma, E.filterOrElse(predicate, onFalse))
 }
 
 /**
@@ -177,7 +133,7 @@ export function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderEither<R, E, A>) =
 /**
  * @since 2.0.0
  */
-export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> = {
+export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThrow3<URI> = {
   URI,
   bimap: T.bimap,
   mapLeft: T.mapLeft,
@@ -185,9 +141,40 @@ export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> = {
   of: right,
   ap: T.ap,
   chain: T.chain,
-  alt: T.alt
+  alt: T.alt,
+  throwError: left
 }
 
-const { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft } = pipeable(readerEither)
+const {
+  alt,
+  ap,
+  apFirst,
+  apSecond,
+  bimap,
+  chain,
+  chainFirst,
+  flatten,
+  map,
+  mapLeft,
+  fromEither,
+  fromOption,
+  fromPredicate,
+  filterOrElse
+} = pipeable(readerEither)
 
-export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft }
+export {
+  alt,
+  ap,
+  apFirst,
+  apSecond,
+  bimap,
+  chain,
+  chainFirst,
+  flatten,
+  map,
+  mapLeft,
+  fromEither,
+  fromOption,
+  fromPredicate,
+  filterOrElse
+}

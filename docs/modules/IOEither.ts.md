@@ -16,7 +16,6 @@ error of type `E`. If you want to represent a synchronous computation that never
 - [IOEither (interface)](#ioeither-interface)
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
-- [fromEither (constant)](#fromeither-constant)
 - [ioEither (constant)](#ioeither-constant)
 - [left (constant)](#left-constant)
 - [leftIO (constant)](#leftio-constant)
@@ -24,10 +23,7 @@ error of type `E`. If you want to represent a synchronous computation that never
 - [rightIO (constant)](#rightio-constant)
 - [swap (constant)](#swap-constant)
 - [bracket (function)](#bracket-function)
-- [filterOrElse (function)](#filterorelse-function)
 - [fold (function)](#fold-function)
-- [fromOption (function)](#fromoption-function)
-- [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getIOValidation (function)](#getiovalidation-function)
@@ -68,22 +64,12 @@ export const URI = ...
 
 Added in v2.0.0
 
-# fromEither (constant)
-
-**Signature**
-
-```ts
-export const fromEither: <E, A>(ma: Either<E, A>) => IOEither<E, A> = ...
-```
-
-Added in v2.0.0
-
 # ioEither (constant)
 
 **Signature**
 
 ```ts
-export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> = ...
+export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadThrow2<URI> = ...
 ```
 
 Added in v2.0.0
@@ -156,53 +142,12 @@ export function bracket<E, A, B>(
 
 Added in v2.0.0
 
-# filterOrElse (function)
-
-**Signature**
-
-```ts
-export function filterOrElse<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): (ma: IOEither<E, A>) => IOEither<E, B>
-export function filterOrElse<E, A>(
-  predicate: Predicate<A>,
-  zeonFalsero: (a: A) => E
-): (ma: IOEither<E, A>) => IOEither<E, A> { ... }
-```
-
-Added in v2.0.0
-
 # fold (function)
 
 **Signature**
 
 ```ts
 export function fold<E, A, R>(onLeft: (e: E) => IO<R>, onRight: (a: A) => IO<R>): (ma: IOEither<E, A>) => IO<R> { ... }
-```
-
-Added in v2.0.0
-
-# fromOption (function)
-
-**Signature**
-
-```ts
-export function fromOption<E>(onNone: () => E): <A>(ma: Option<A>) => IOEither<E, A> { ... }
-```
-
-Added in v2.0.0
-
-# fromPredicate (function)
-
-**Signature**
-
-```ts
-export function fromPredicate<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): (a: A) => IOEither<E, B>
-export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A> { ... }
 ```
 
 Added in v2.0.0

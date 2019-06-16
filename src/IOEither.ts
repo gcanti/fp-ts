@@ -6,12 +6,12 @@ import { Alt2, Alt2C } from './Alt'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { getEitherM } from './EitherT'
-import { Lazy, Predicate, Refinement } from './function'
+import { Lazy } from './function'
 import { getSemigroup as getIOSemigroup, IO, io } from './IO'
 import { Monad2, Monad2C } from './Monad'
 import { MonadIO2 } from './MonadIO'
+import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
-import { Option } from './Option'
 import { pipeable } from './pipeable'
 import { Semigroup } from './Semigroup'
 import { getValidationM } from './ValidationT'
@@ -64,31 +64,6 @@ export const leftIO: <E>(me: IO<E>) => IOEither<E, never> = T.leftM
 /**
  * @since 2.0.0
  */
-export const fromEither: <E, A>(ma: Either<E, A>) => IOEither<E, A> = io.of
-
-/**
- * @since 2.0.0
- */
-export function fromOption<E>(onNone: () => E): <A>(ma: Option<A>) => IOEither<E, A> {
-  return ma => T.fromOption(ma, onNone)
-}
-
-/**
- * @since 2.0.0
- */
-export function fromPredicate<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): (a: A) => IOEither<E, B>
-export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A>
-export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A> {
-  const f = E.fromPredicate(predicate, onFalse)
-  return a => fromEither(f(a))
-}
-
-/**
- * @since 2.0.0
- */
 export function fold<E, A, R>(onLeft: (e: E) => IO<R>, onRight: (a: A) => IO<R>): (ma: IOEither<E, A>) => IO<R> {
   return ma => T.fold(ma, onLeft, onRight)
 }
@@ -98,24 +73,6 @@ export function fold<E, A, R>(onLeft: (e: E) => IO<R>, onRight: (a: A) => IO<R>)
  */
 export function getOrElse<E, A>(f: (e: E) => IO<A>): (ma: IOEither<E, A>) => IO<A> {
   return ma => T.getOrElse(ma, f)
-}
-
-/**
- * @since 2.0.0
- */
-export function filterOrElse<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): (ma: IOEither<E, A>) => IOEither<E, B>
-export function filterOrElse<E, A>(
-  predicate: Predicate<A>,
-  zeonFalsero: (a: A) => E
-): (ma: IOEither<E, A>) => IOEither<E, A>
-export function filterOrElse<E, A>(
-  predicate: Predicate<A>,
-  onFalse: (a: A) => E
-): (ma: IOEither<E, A>) => IOEither<E, A> {
-  return ma => io.map(ma, E.filterOrElse(predicate, onFalse))
 }
 
 /**
@@ -195,7 +152,7 @@ export function getIOValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI
 /**
  * @since 2.0.0
  */
-export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> = {
+export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadThrow2<URI> = {
   URI,
   bimap: T.bimap,
   mapLeft: T.mapLeft,
@@ -204,9 +161,40 @@ export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI>
   ap: T.ap,
   chain: T.chain,
   alt: T.alt,
-  fromIO: rightIO
+  fromIO: rightIO,
+  throwError: left
 }
 
-const { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft } = pipeable(ioEither)
+const {
+  alt,
+  ap,
+  apFirst,
+  apSecond,
+  bimap,
+  chain,
+  chainFirst,
+  flatten,
+  map,
+  mapLeft,
+  fromEither,
+  fromOption,
+  fromPredicate,
+  filterOrElse
+} = pipeable(ioEither)
 
-export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft }
+export {
+  alt,
+  ap,
+  apFirst,
+  apSecond,
+  bimap,
+  chain,
+  chainFirst,
+  flatten,
+  map,
+  mapLeft,
+  fromEither,
+  fromOption,
+  fromPredicate,
+  filterOrElse
+}
