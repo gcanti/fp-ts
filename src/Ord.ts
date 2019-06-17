@@ -9,10 +9,27 @@
  *
  * See [Getting started with fp-ts: Ord](https://dev.to/gcanti/getting-started-with-fp-ts-ord-5f1e)
  */
-import { Ordering, semigroupOrdering } from './Ordering'
-import { Semigroup } from './Semigroup'
+import { Contravariant1 } from './Contravariant'
 import { Eq, eqBoolean, eqNumber, eqString } from './Eq'
 import { on } from './function'
+import { Ordering, semigroupOrdering } from './Ordering'
+import { Semigroup } from './Semigroup'
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    Ord: Ord<A>
+  }
+}
+
+/**
+ * @since 1.19.0
+ */
+export const URI = 'Ord'
+
+/**
+ * @since 1.19.0
+ */
+export type URI = typeof URI
 
 /**
  * @since 1.0.0
@@ -183,11 +200,11 @@ function _contramap<A, B>(f: (b: B) => A, O: Ord<A>): Ord<B> {
 /**
  * @since 1.0.0
  */
-export function contramap<A, B>(O: Ord<A>, f: (b: B) => A): Ord<B>
+export function contramap<A, B>(f: (b: B) => A): (O: Ord<A>) => Ord<B>
 /** @deprecated */
 export function contramap<A, B>(f: (b: B) => A, O: Ord<A>): Ord<B>
 export function contramap(...args: Array<any>): any {
-  return typeof args[0] === 'function' ? _contramap(args[0], args[1]) : _contramap(args[1], args[0])
+  return args.length === 1 ? <A>(O: Ord<A>) => _contramap(args[0], O) : _contramap(args[0], args[1])
 }
 
 /**
@@ -245,6 +262,15 @@ export const getDualOrd = <A>(O: Ord<A>): Ord<A> => {
 }
 
 /**
+ * @since 1.19.0
+ */
+export const ord: Contravariant1<URI> = {
+  URI,
+  // tslint:disable-next-line: deprecation
+  contramap: (fa, f) => contramap(f, fa)
+}
+
+/**
  * @since 1.4.0
  */
-export const ordDate: Ord<Date> = contramap(ordNumber, date => date.valueOf())
+export const ordDate: Ord<Date> = ord.contramap(ordNumber, date => date.valueOf())

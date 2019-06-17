@@ -4,32 +4,23 @@ nav_order: 26
 parent: Modules
 ---
 
-# Overview
-
-The `Eq` type class represents types which support decidable equality.
-
-Instances must satisfy the following laws:
-
-1. Reflexivity: `E.equals(a, a) === true`
-2. Symmetry: `E.equals(a, b) === E.equals(b, a)`
-3. Transitivity: if `E.equals(a, b) === true` and `E.equals(b, c) === true`, then `E.equals(a, c) === true`
-
-See [Getting started with fp-ts: Eq](https://dev.to/gcanti/getting-started-with-fp-ts-eq-39f3)
-
 ---
 
 <h2 class="text-delta">Table of contents</h2>
 
 - [Eq (interface)](#eq-interface)
+- [URI (type alias)](#uri-type-alias)
+- [URI (constant)](#uri-constant)
+- [eq (constant)](#eq-constant)
 - [eqBoolean (constant)](#eqboolean-constant)
 - [eqDate (constant)](#eqdate-constant)
 - [eqNumber (constant)](#eqnumber-constant)
 - [eqString (constant)](#eqstring-constant)
-- [contramap (function)](#contramap-function)
 - [fromEquals (function)](#fromequals-function)
 - [getStructEq (function)](#getstructeq-function)
 - [getTupleEq (function)](#gettupleeq-function)
 - [strictEqual (function)](#strictequal-function)
+- [contramap (export)](#contramap-export)
 
 ---
 
@@ -41,6 +32,36 @@ See [Getting started with fp-ts: Eq](https://dev.to/gcanti/getting-started-with-
 export interface Eq<A> {
   readonly equals: (x: A, y: A) => boolean
 }
+```
+
+Added in v1.19.0
+
+# URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v1.19.0
+
+# URI (constant)
+
+**Signature**
+
+```ts
+export const URI = ...
+```
+
+Added in v1.19.0
+
+# eq (constant)
+
+**Signature**
+
+```ts
+export const eq: Contravariant1<URI> = ...
 ```
 
 Added in v1.19.0
@@ -81,18 +102,6 @@ Added in v1.19.0
 
 ```ts
 export const eqString: Eq<string> = ...
-```
-
-Added in v1.19.0
-
-# contramap (function)
-
-Returns the `Eq` corresponding to the partitions of `B` induced by `f`
-
-**Signature**
-
-```ts
-export function contramap<A, B>(E: Eq<A>, f: (b: B) => A): Eq<B> { ... }
 ```
 
 Added in v1.19.0
@@ -152,3 +161,11 @@ export function strictEqual<A>(a: A, b: A): boolean { ... }
 ```
 
 Added in v1.19.0
+
+# contramap (export)
+
+**Signature**
+
+```ts
+export { contramap }
+```

@@ -21,10 +21,13 @@ See [Getting started with fp-ts: Ord](https://dev.to/gcanti/getting-started-with
 <h2 class="text-delta">Table of contents</h2>
 
 - [Ord (interface)](#ord-interface)
+- [URI (type alias)](#uri-type-alias)
+- [URI (constant)](#uri-constant)
 - [~~greaterThan~~ (constant)](#greaterthan-constant)
 - [~~greaterThanOrEq~~ (constant)](#greaterthanoreq-constant)
 - [~~lessThan~~ (constant)](#lessthan-constant)
 - [~~lessThanOrEq~~ (constant)](#lessthanoreq-constant)
+- [ord (constant)](#ord-constant)
 - [ordBoolean (constant)](#ordboolean-constant)
 - [ordDate (constant)](#orddate-constant)
 - [ordNumber (constant)](#ordnumber-constant)
@@ -58,6 +61,26 @@ export interface Ord<A> extends Eq<A> {
 ```
 
 Added in v1.0.0
+
+# URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v1.19.0
+
+# URI (constant)
+
+**Signature**
+
+```ts
+export const URI = ...
+```
+
+Added in v1.19.0
 
 # ~~greaterThan~~ (constant)
 
@@ -106,6 +129,16 @@ export const lessThanOrEq: <A>(O: Ord<A>) => (x: A, y: A) => boolean = ...
 ```
 
 Added in v1.0.0
+
+# ord (constant)
+
+**Signature**
+
+```ts
+export const ord: Contravariant1<URI> = ...
+```
+
+Added in v1.19.0
 
 # ordBoolean (constant)
 
@@ -176,7 +209,7 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export function contramap<A, B>(O: Ord<A>, f: (b: B) => A): Ord<B>
+export function contramap<A, B>(f: (b: B) => A): (O: Ord<A>) => Ord<B>
 export function contramap<A, B>(f: (b: B) => A, O: Ord<A>): Ord<B> { ... }
 ```
 

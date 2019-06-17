@@ -1,3 +1,22 @@
+import { Contravariant1 } from './Contravariant'
+import { pipeable } from './pipeable'
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    Eq: Eq<A>
+  }
+}
+
+/**
+ * @since 1.19.0
+ */
+export const URI = 'Eq'
+
+/**
+ * @since 1.19.0
+ */
+export type URI = typeof URI
+
 /**
  * @file The `Eq` type class represents types which support decidable equality.
  *
@@ -85,15 +104,18 @@ export function getTupleEq<T extends Array<Eq<any>>>(
 }
 
 /**
- * Returns the `Eq` corresponding to the partitions of `B` induced by `f`
- *
  * @since 1.19.0
  */
-export function contramap<A, B>(E: Eq<A>, f: (b: B) => A): Eq<B> {
-  return fromEquals((x, y) => E.equals(f(x), f(y)))
+export const eq: Contravariant1<URI> = {
+  URI,
+  contramap: (fa, f) => fromEquals((x, y) => fa.equals(f(x), f(y)))
 }
+
+const { contramap } = pipeable(eq)
+
+export { contramap }
 
 /**
  * @since 1.19.0
  */
-export const eqDate: Eq<Date> = contramap(eqNumber, date => date.valueOf())
+export const eqDate: Eq<Date> = eq.contramap(eqNumber, date => date.valueOf())
