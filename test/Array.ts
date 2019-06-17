@@ -73,13 +73,13 @@ import {
 } from '../src/Array'
 import * as C from '../src/Const'
 import { Either, left, right } from '../src/Either'
-import { contramap, Eq, eqBoolean, eqNumber, eqString } from '../src/Eq'
+import { eq, Eq, eqBoolean, eqNumber, eqString } from '../src/Eq'
 import * as F from '../src/Foldable'
 import { constTrue, identity, Predicate, tuple } from '../src/function'
 import * as I from '../src/Identity'
 import { fold as foldMonoid, monoidString, monoidSum } from '../src/Monoid'
 import { fromPredicate, getEq as getOptionEq, none, option, Option, some } from '../src/Option'
-import { contramap as contramapOrd, ordNumber, ordString } from '../src/Ord'
+import { ord, ordNumber, ordString } from '../src/Ord'
 import { showString } from '../src/Show'
 
 const p = (n: number) => n > 2
@@ -585,7 +585,7 @@ describe('Array', () => {
       b: number
     }
 
-    const eqA = contramap(ordNumber, (f: A) => f.b)
+    const eqA = eq.contramap(ordNumber, (f: A) => f.b)
     const arrA: A = { a: 'a', b: 1 }
     const arrB: A = { a: 'b', b: 1 }
     const arrC: A = { a: 'c', b: 2 }
@@ -617,8 +617,8 @@ describe('Array', () => {
       name: string
       age: number
     }
-    const byName = contramapOrd(ordString, (p: Person) => p.name)
-    const byAge = contramapOrd(ordNumber, (p: Person) => p.age)
+    const byName = ord.contramap(ordString, (p: Person) => p.name)
+    const byAge = ord.contramap(ordNumber, (p: Person) => p.age)
     const sortByNameByAge = sortBy([byName, byAge])
     assert.ok(sortByNameByAge.isSome())
     if (sortByNameByAge.isSome()) {
@@ -637,8 +637,8 @@ describe('Array', () => {
       name: string
       age: number
     }
-    const byName = contramapOrd(ordString, (p: Person) => p.name)
-    const byAge = contramapOrd(ordNumber, (p: Person) => p.age)
+    const byName = ord.contramap(ordString, (p: Person) => p.name)
+    const byAge = ord.contramap(ordNumber, (p: Person) => p.age)
     const sortByNameByAge = sortBy1(byName, [byAge])
     const persons = [{ name: 'a', age: 1 }, { name: 'b', age: 3 }, { name: 'c', age: 2 }, { name: 'b', age: 2 }]
     assert.deepStrictEqual(sortByNameByAge(persons), [

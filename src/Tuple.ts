@@ -12,7 +12,7 @@ import { toString } from './function'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
-import { contramap as contramapOrd, getSemigroup as getOrdSemigroup, Ord } from './Ord'
+import { ord, getSemigroup as getOrdSemigroup, Ord } from './Ord'
 import { pipeable } from './pipeable'
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
@@ -113,7 +113,7 @@ export function getEq<L, A>(EL: Eq<L>, EA: Eq<A>): Eq<Tuple<L, A>> {
  * @since 1.0.0
  */
 export const getOrd = <L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>> => {
-  return getOrdSemigroup<Tuple<L, A>>().concat(contramapOrd(OL, fst), contramapOrd(OA, snd))
+  return getOrdSemigroup<Tuple<L, A>>().concat(ord.contramap(OL, fst), ord.contramap(OA, snd))
 }
 
 /**

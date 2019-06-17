@@ -3,7 +3,7 @@ import * as F from '../src/Foldable'
 import { identity } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString } from '../src/Monoid'
-import { eqNumber, Eq, contramap } from '../src/Eq'
+import { eqNumber, Eq, eq } from '../src/Eq'
 import * as T from '../src/Traversable'
 import { drawTree, getEq, Tree, tree, unfoldTree, unfoldTreeM, elem, getShow, make } from '../src/Tree'
 import { showString } from '../src/Show'
@@ -174,7 +174,7 @@ describe('Tree', () => {
     interface User {
       id: number
     }
-    const E: Eq<User> = contramap(eqNumber, (user: User) => user.id)
+    const E: Eq<User> = eq.contramap(eqNumber, (user: User) => user.id)
     const users = new Tree({ id: 1 }, [
       new Tree({ id: 1 }, [new Tree({ id: 3 }, []), new Tree({ id: 4 }, [])]),
       new Tree({ id: 2 }, [])

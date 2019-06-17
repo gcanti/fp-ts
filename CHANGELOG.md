@@ -88,6 +88,8 @@ Add the following lines to your `tslint.json` to turn the `@obsolete` rule on:
   - `Map`
     - backport `updateAt` (@gcanti)
     - backport `modifyAt` (@gcanti)
+  - `Ord`
+    - make `Ord` a contravariant functor (@gcanti)
 - **Bug Fix**
   - fix `MonadThrow` definition (@gcanti)
   - `TraversableWithIndex`
