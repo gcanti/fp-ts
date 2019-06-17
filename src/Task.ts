@@ -4,11 +4,10 @@
  */
 import { IO } from './IO'
 import { Monad1 } from './Monad'
-import { MonadIO1 } from './MonadIO'
 import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
-import { Semigroup } from './Semigroup'
 import { pipeable } from './pipeable'
+import { Semigroup } from './Semigroup'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -116,7 +115,7 @@ export function of<A>(a: A): Task<A> {
 /**
  * @since 2.0.0
  */
-export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> = {
+export const task: Monad1<URI> & MonadTask1<URI> = {
   URI,
   map: (ma, f) => () => ma().then(f),
   of,

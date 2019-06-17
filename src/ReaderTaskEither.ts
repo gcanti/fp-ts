@@ -4,7 +4,6 @@ import { Either } from './Either'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad3 } from './Monad'
-import { MonadIO3 } from './MonadIO'
 import { MonadTask3 } from './MonadTask'
 import { MonadThrow3 } from './MonadThrow'
 import { Monoid } from './Monoid'
@@ -204,12 +203,7 @@ export function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderTaskEither<R, E, A
 /**
  * @since 2.0.0
  */
-export const readerTaskEither: Monad3<URI> &
-  Bifunctor3<URI> &
-  Alt3<URI> &
-  MonadIO3<URI> &
-  MonadTask3<URI> &
-  MonadThrow3<URI> = {
+export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadTask3<URI> & MonadThrow3<URI> = {
   URI,
   map: T.map,
   of: right,

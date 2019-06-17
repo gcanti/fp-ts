@@ -65,7 +65,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> = ...
+export const task: Monad1<URI> & MonadTask1<URI> = ...
 ```
 
 Added in v2.0.0

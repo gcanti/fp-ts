@@ -10,7 +10,6 @@ import { Lazy } from './function'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2, Monad2C } from './Monad'
-import { MonadIO2 } from './MonadIO'
 import { MonadTask2 } from './MonadTask'
 import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
@@ -232,12 +231,7 @@ export function getTaskValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<U
 /**
  * @since 2.0.0
  */
-export const taskEither: Monad2<URI> &
-  Bifunctor2<URI> &
-  Alt2<URI> &
-  MonadIO2<URI> &
-  MonadTask2<URI> &
-  MonadThrow2<URI> = {
+export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<URI> & MonadThrow2<URI> = {
   URI,
   bimap: T.bimap,
   mapLeft: T.mapLeft,
