@@ -233,7 +233,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fold<A, R>(onNone: () => R, onSome: (a: A) => R): (ma: Option<A>) => R { ... }
+export function fold<A, B>(onNone: () => B, onSome: (a: A) => B): (ma: Option<A>) => B { ... }
 ```
 
 Added in v2.0.0
@@ -418,7 +418,7 @@ Returns an `L` value if possible
 **Signature**
 
 ```ts
-export function getLeft<L, A>(ma: Either<L, A>): Option<L> { ... }
+export function getLeft<E, A>(ma: Either<E, A>): Option<E> { ... }
 ```
 
 Added in v2.0.0
@@ -527,7 +527,7 @@ Returns an `A` value if possible
 **Signature**
 
 ```ts
-export function getRight<L, A>(ma: Either<L, A>): Option<A> { ... }
+export function getRight<E, A>(ma: Either<E, A>): Option<A> { ... }
 ```
 
 Added in v2.0.0

@@ -179,10 +179,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fold<E, A, R>(
-  onLeft: (e: E) => Task<R>,
-  onRight: (a: A) => Task<R>
-): (ma: TaskEither<E, A>) => Task<R> { ... }
+export function fold<E, A, B>(
+  onLeft: (e: E) => Task<B>,
+  onRight: (a: A) => Task<B>
+): (ma: TaskEither<E, A>) => Task<B> { ... }
 ```
 
 Added in v2.0.0

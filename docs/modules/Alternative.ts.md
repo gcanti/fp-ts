@@ -61,7 +61,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Alternative2C<F extends URIS2, L> extends Applicative2C<F, L>, Plus2C<F, L> {}
+export interface Alternative2C<F extends URIS2, E> extends Applicative2C<F, E>, Plus2C<F, E> {}
 ```
 
 Added in v2.0.0

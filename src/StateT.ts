@@ -55,57 +55,57 @@ export interface StateM1<M extends URIS> {
 /**
  * @since 2.0.0
  */
-export interface StateT2<M extends URIS2, S, L, A> {
-  (s: S): Kind2<M, L, [A, S]>
+export interface StateT2<M extends URIS2, S, E, A> {
+  (s: S): Kind2<M, E, [A, S]>
 }
 
 /**
  * @since 2.0.0
  */
 export interface StateM2<M extends URIS2> {
-  readonly map: <S, L, A, B>(fa: StateT2<M, S, L, A>, f: (a: A) => B) => StateT2<M, S, L, B>
-  readonly of: <S, L, A>(a: A) => StateT2<M, S, L, A>
-  readonly ap: <S, L, A, B>(fab: StateT2<M, S, L, (a: A) => B>, fa: StateT2<M, S, L, A>) => StateT2<M, S, L, B>
-  readonly chain: <S, L, A, B>(fa: StateT2<M, S, L, A>, f: (a: A) => StateT2<M, S, L, B>) => StateT2<M, S, L, B>
-  readonly get: <L, S>() => StateT2<M, S, L, S>
-  readonly put: <L, S>(s: S) => StateT2<M, S, L, void>
-  readonly modify: <L, S>(f: (s: S) => S) => StateT2<M, S, L, void>
-  readonly gets: <S, L, A>(f: (s: S) => A) => StateT2<M, S, L, A>
-  readonly fromState: <S, L, A>(fa: State<S, A>) => StateT2<M, S, L, A>
-  readonly fromM: <S, L, A>(ma: Kind2<M, L, A>) => StateT2<M, S, L, A>
-  readonly evalState: <S, L, A>(ma: StateT2<M, S, L, A>, s: S) => Kind2<M, L, A>
-  readonly execState: <S, L, A>(ma: StateT2<M, S, L, A>, s: S) => Kind2<M, L, S>
+  readonly map: <S, E, A, B>(fa: StateT2<M, S, E, A>, f: (a: A) => B) => StateT2<M, S, E, B>
+  readonly of: <S, E, A>(a: A) => StateT2<M, S, E, A>
+  readonly ap: <S, E, A, B>(fab: StateT2<M, S, E, (a: A) => B>, fa: StateT2<M, S, E, A>) => StateT2<M, S, E, B>
+  readonly chain: <S, E, A, B>(fa: StateT2<M, S, E, A>, f: (a: A) => StateT2<M, S, E, B>) => StateT2<M, S, E, B>
+  readonly get: <E, S>() => StateT2<M, S, E, S>
+  readonly put: <E, S>(s: S) => StateT2<M, S, E, void>
+  readonly modify: <E, S>(f: (s: S) => S) => StateT2<M, S, E, void>
+  readonly gets: <S, E, A>(f: (s: S) => A) => StateT2<M, S, E, A>
+  readonly fromState: <S, E, A>(fa: State<S, A>) => StateT2<M, S, E, A>
+  readonly fromM: <S, E, A>(ma: Kind2<M, E, A>) => StateT2<M, S, E, A>
+  readonly evalState: <S, E, A>(ma: StateT2<M, S, E, A>, s: S) => Kind2<M, E, A>
+  readonly execState: <S, E, A>(ma: StateT2<M, S, E, A>, s: S) => Kind2<M, E, S>
 }
 
 /**
  * @since 2.0.0
  */
-export interface StateT3<M extends URIS3, S, U, L, A> {
-  (s: S): Kind3<M, U, L, [A, S]>
+export interface StateT3<M extends URIS3, S, R, E, A> {
+  (s: S): Kind3<M, R, E, [A, S]>
 }
 
 /**
  * @since 2.0.0
  */
 export interface StateM3<M extends URIS3> {
-  readonly map: <S, U, L, A, B>(fa: StateT3<M, S, U, L, A>, f: (a: A) => B) => StateT3<M, S, U, L, B>
-  readonly of: <S, U, L, A>(a: A) => StateT3<M, S, U, L, A>
-  readonly ap: <S, U, L, A, B>(
-    fab: StateT3<M, S, U, L, (a: A) => B>,
-    fa: StateT3<M, S, U, L, A>
-  ) => StateT3<M, S, U, L, B>
-  readonly chain: <S, U, L, A, B>(
-    fa: StateT3<M, S, U, L, A>,
-    f: (a: A) => StateT3<M, S, U, L, B>
-  ) => StateT3<M, S, U, L, B>
-  readonly get: <U, L, S>() => StateT3<M, S, U, L, S>
-  readonly put: <U, L, S>(s: S) => StateT3<M, S, U, L, void>
-  readonly modify: <U, L, S>(f: (s: S) => S) => StateT3<M, S, U, L, void>
-  readonly gets: <S, U, L, A>(f: (s: S) => A) => StateT3<M, S, U, L, A>
-  readonly fromState: <S, U, L, A>(fa: State<S, A>) => StateT3<M, S, U, L, A>
-  readonly fromM: <S, U, L, A>(ma: Kind3<M, U, L, A>) => StateT3<M, S, U, L, A>
-  readonly evalState: <S, U, L, A>(ma: StateT3<M, S, U, L, A>, s: S) => Kind3<M, U, L, A>
-  readonly execState: <S, U, L, A>(ma: StateT3<M, S, U, L, A>, s: S) => Kind3<M, U, L, S>
+  readonly map: <S, R, E, A, B>(fa: StateT3<M, S, R, E, A>, f: (a: A) => B) => StateT3<M, S, R, E, B>
+  readonly of: <S, R, E, A>(a: A) => StateT3<M, S, R, E, A>
+  readonly ap: <S, R, E, A, B>(
+    fab: StateT3<M, S, R, E, (a: A) => B>,
+    fa: StateT3<M, S, R, E, A>
+  ) => StateT3<M, S, R, E, B>
+  readonly chain: <S, R, E, A, B>(
+    fa: StateT3<M, S, R, E, A>,
+    f: (a: A) => StateT3<M, S, R, E, B>
+  ) => StateT3<M, S, R, E, B>
+  readonly get: <R, E, S>() => StateT3<M, S, R, E, S>
+  readonly put: <R, E, S>(s: S) => StateT3<M, S, R, E, void>
+  readonly modify: <R, E, S>(f: (s: S) => S) => StateT3<M, S, R, E, void>
+  readonly gets: <S, R, E, A>(f: (s: S) => A) => StateT3<M, S, R, E, A>
+  readonly fromState: <S, R, E, A>(fa: State<S, A>) => StateT3<M, S, R, E, A>
+  readonly fromM: <S, R, E, A>(ma: Kind3<M, R, E, A>) => StateT3<M, S, R, E, A>
+  readonly evalState: <S, R, E, A>(ma: StateT3<M, S, R, E, A>, s: S) => Kind3<M, R, E, A>
+  readonly execState: <S, R, E, A>(ma: StateT3<M, S, R, E, A>, s: S) => Kind3<M, R, E, S>
 }
 
 /**

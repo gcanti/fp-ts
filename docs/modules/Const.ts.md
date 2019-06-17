@@ -25,7 +25,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export type Const<L, A> = L & { readonly _A: A }
+export type Const<E, A> = E & { readonly _A: A }
 ```
 
 Added in v2.0.0
@@ -65,7 +65,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getEq: <L, A>(E: Eq<L>) => Eq<Const<L, A>> = ...
+export const getEq: <E, A>(E: Eq<E>) => Eq<Const<E, A>> = ...
 ```
 
 Added in v2.0.0
@@ -75,7 +75,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const make: <L>(l: L) => Const<L, never> = ...
+export const make: <E>(l: E) => Const<E, never> = ...
 ```
 
 Added in v2.0.0
@@ -85,7 +85,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApplicative<L>(M: Monoid<L>): Applicative2C<URI, L> { ... }
+export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> { ... }
 ```
 
 Added in v2.0.0
@@ -95,7 +95,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApply<L>(S: Semigroup<L>): Apply2C<URI, L> { ... }
+export function getApply<E>(S: Semigroup<E>): Apply2C<URI, E> { ... }
 ```
 
 Added in v2.0.0
@@ -105,7 +105,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getShow<L, A>(S: Show<L>): Show<Const<L, A>> { ... }
+export function getShow<E, A>(S: Show<E>): Show<Const<E, A>> { ... }
 ```
 
 Added in v2.0.0

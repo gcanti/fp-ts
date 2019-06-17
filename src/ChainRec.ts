@@ -20,21 +20,21 @@ export interface ChainRec1<F extends URIS> extends Chain1<F> {
  * @since 2.0.0
  */
 export interface ChainRec2<F extends URIS2> extends Chain2<F> {
-  readonly chainRec: <L, A, B>(a: A, f: (a: A) => Kind2<F, L, Either<A, B>>) => Kind2<F, L, B>
+  readonly chainRec: <E, A, B>(a: A, f: (a: A) => Kind2<F, E, Either<A, B>>) => Kind2<F, E, B>
 }
 
 /**
  * @since 2.0.0
  */
-export interface ChainRec2C<F extends URIS2, L> extends Chain2C<F, L> {
-  readonly chainRec: <A, B>(a: A, f: (a: A) => Kind2<F, L, Either<A, B>>) => Kind2<F, L, B>
+export interface ChainRec2C<F extends URIS2, E> extends Chain2C<F, E> {
+  readonly chainRec: <A, B>(a: A, f: (a: A) => Kind2<F, E, Either<A, B>>) => Kind2<F, E, B>
 }
 
 /**
  * @since 2.0.0
  */
 export interface ChainRec3<F extends URIS3> extends Chain3<F> {
-  readonly chainRec: <U, L, A, B>(a: A, f: (a: A) => Kind3<F, U, L, Either<A, B>>) => Kind3<F, U, L, B>
+  readonly chainRec: <R, E, A, B>(a: A, f: (a: A) => Kind3<F, R, E, Either<A, B>>) => Kind3<F, R, E, B>
 }
 
 /**

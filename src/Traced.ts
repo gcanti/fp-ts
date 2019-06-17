@@ -4,8 +4,8 @@ import { Functor2 } from './Functor'
 import { pipeable } from './pipeable'
 
 declare module './HKT' {
-  interface URItoKind2<L, A> {
-    Traced: Traced<L, A>
+  interface URItoKind2<E, A> {
+    Traced: Traced<E, A>
   }
 }
 
@@ -76,7 +76,7 @@ export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
 
   return {
     URI,
-    _L: undefined as any,
+    _E: undefined as any,
     map: traced.map,
     extend,
     extract

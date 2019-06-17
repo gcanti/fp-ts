@@ -844,7 +844,7 @@ Extracts from an array of `Either` all the `Left` elements. All the `Left` eleme
 **Signature**
 
 ```ts
-export function lefts<L, A>(as: Array<Either<L, A>>): Array<L> { ... }
+export function lefts<E, A>(as: Array<Either<E, A>>): Array<E> { ... }
 ```
 
 **Example**
@@ -1002,7 +1002,7 @@ Extracts from an array of `Either` all the `Right` elements. All the `Right` ele
 **Signature**
 
 ```ts
-export function rights<L, A>(as: Array<Either<L, A>>): Array<A> { ... }
+export function rights<E, A>(as: Array<Either<E, A>>): Array<A> { ... }
 ```
 
 **Example**

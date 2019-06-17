@@ -48,8 +48,8 @@ import { Traversable2 } from './Traversable'
 import { Witherable2C } from './Witherable'
 
 declare module './HKT' {
-  interface URItoKind2<L, A> {
-    Either: Either<L, A>
+  interface URItoKind2<E, A> {
+    Either: Either<E, A>
   }
 }
 
@@ -157,7 +157,7 @@ export function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): Either<E
 /**
  * @since 2.0.0
  */
-export function fold<E, A, R>(onLeft: (e: E) => R, onRight: (a: A) => R): (ma: Either<E, A>) => R {
+export function fold<E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B): (ma: Either<E, A>) => B {
   return ma => (isLeft(ma) ? onLeft(ma.left) : onRight(ma.right))
 }
 
@@ -300,7 +300,7 @@ export function elem<A>(E: Eq<A>): <E>(a: A, ma: Either<E, A>) => boolean {
  *
  * @since 2.0.0
  */
-export function exists<A>(predicate: Predicate<A>): <L>(ma: Either<L, A>) => boolean {
+export function exists<A>(predicate: Predicate<A>): <E>(ma: Either<E, A>) => boolean {
   return ma => (isLeft(ma) ? false : predicate(ma.right))
 }
 
@@ -358,10 +358,10 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
       : { left: empty, right: right(ma.right.right) }
   }
 
-  const partitionMap = <RL, RR, A>(
+  const partitionMap = <A, B, C>(
     ma: Either<E, A>,
-    f: (a: A) => Either<RL, RR>
-  ): Separated<Either<E, RL>, Either<E, RR>> => {
+    f: (a: A) => Either<B, C>
+  ): Separated<Either<E, B>, Either<E, C>> => {
     if (isLeft(ma)) {
       return { left: ma, right: ma }
     }
@@ -397,17 +397,17 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
 
   const wilt = <F>(
     F: Applicative<F>
-  ): (<RL, RR, A>(
+  ): (<A, B, C>(
     ma: Either<E, A>,
-    f: (a: A) => HKT<F, Either<RL, RR>>
-  ) => HKT<F, Separated<Either<E, RL>, Either<E, RR>>>) => {
+    f: (a: A) => HKT<F, Either<B, C>>
+  ) => HKT<F, Separated<Either<E, B>, Either<E, C>>>) => {
     const traverseF = either.traverse(F)
     return (ma, f) => F.map(traverseF(ma, f), separate)
   }
 
   return {
     URI,
-    _L: phantom,
+    _E: phantom,
     map: either.map,
     compact,
     separate,
@@ -431,7 +431,7 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
 export function getValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E> {
   return {
     URI,
-    _L: phantom,
+    _E: phantom,
     map: either.map,
     of: either.of,
     ap: (mab, ma) =>
@@ -504,8 +504,8 @@ export const either: Monad2<URI> &
   sequence: <F>(F: Applicative<F>) => <E, A>(ma: Either<E, HKT<F, A>>): HKT<F, Either<E, A>> => {
     return isLeft(ma) ? F.of(left(ma.left)) : F.map<A, Either<E, A>>(ma.right, right)
   },
-  bimap: (fla, f, g) => (isLeft(fla) ? left(f(fla.left)) : right(g(fla.right))),
-  mapLeft: (fla, f) => (isLeft(fla) ? left(f(fla.left)) : fla),
+  bimap: (fea, f, g) => (isLeft(fea) ? left(f(fea.left)) : right(g(fea.right))),
+  mapLeft: (fea, f) => (isLeft(fea) ? left(f(fea.left)) : fea),
   alt: (fx, fy) => (isLeft(fx) ? fy() : fx),
   extend: (wa, f) => (isLeft(wa) ? wa : right(f(wa))),
   chainRec: <E, A, B>(a: A, f: (a: A) => Either<E, Either<A, B>>): Either<E, B> => {

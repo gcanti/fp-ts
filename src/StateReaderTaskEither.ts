@@ -17,8 +17,8 @@ import { MonadThrow4 } from './MonadThrow'
 const T = getStateM(RTE.readerTaskEither)
 
 declare module './HKT' {
-  interface URItoKind4<X, U, L, A> {
-    StateReaderTaskEither: StateReaderTaskEither<X, U, L, A>
+  interface URItoKind4<S, R, E, A> {
+    StateReaderTaskEither: StateReaderTaskEither<S, R, E, A>
   }
 }
 

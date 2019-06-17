@@ -246,10 +246,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function partitionMap<L, R>(
-  SL: Eq<L>,
-  SR: Eq<R>
-): <A>(f: (a: A) => Either<L, R>) => (set: Set<A>) => Separated<Set<L>, Set<R>> { ... }
+export function partitionMap<B, C>(
+  EB: Eq<B>,
+  EC: Eq<C>
+): <A>(f: (a: A) => Either<B, C>) => (set: Set<A>) => Separated<Set<B>, Set<C>> { ... }
 ```
 
 Added in v2.0.0
@@ -281,7 +281,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function separate<L, R>(EL: Eq<L>, ER: Eq<R>): (fa: Set<Either<L, R>>) => Separated<Set<L>, Set<R>> { ... }
+export function separate<E, A>(EE: Eq<E>, EA: Eq<A>): (fa: Set<Either<E, A>>) => Separated<Set<E>, Set<A>> { ... }
 ```
 
 Added in v2.0.0

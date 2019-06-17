@@ -34,4 +34,4 @@ export interface Alternative3<F extends URIS3> extends Applicative3<F>, Plus3<F>
 /**
  * @since 2.0.0
  */
-export interface Alternative2C<F extends URIS2, L> extends Applicative2C<F, L>, Plus2C<F, L> {}
+export interface Alternative2C<F extends URIS2, E> extends Applicative2C<F, E>, Plus2C<F, E> {}

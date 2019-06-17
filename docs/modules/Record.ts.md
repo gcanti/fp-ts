@@ -214,11 +214,11 @@ specified `Magma` to combine values for duplicate keys.
 export function fromFoldable<F extends URIS3, A>(
   M: Magma<A>,
   F: Foldable3<F>
-): <K extends string, U, L>(fka: Kind3<F, U, L, [K, A]>) => Record<K, A>
+): <K extends string, R, E>(fka: Kind3<F, R, E, [K, A]>) => Record<K, A>
 export function fromFoldable<F extends URIS2, A>(
   M: Magma<A>,
   F: Foldable2<F>
-): <K extends string, L>(fka: Kind2<F, L, [K, A]>) => Record<K, A>
+): <K extends string, E>(fka: Kind2<F, E, [K, A]>) => Record<K, A>
 export function fromFoldable<F extends URIS, A>(
   M: Magma<A>,
   F: Foldable1<F>
@@ -241,11 +241,11 @@ Create a record from a foldable collection using the specified functions to
 export function fromFoldableMap<F extends URIS3, B>(
   M: Magma<B>,
   F: Foldable3<F>
-): <U, L, A, K extends string>(fa: Kind3<F, U, L, A>, f: (a: A) => [K, B]) => Record<K, B>
+): <R, E, A, K extends string>(fa: Kind3<F, R, E, A>, f: (a: A) => [K, B]) => Record<K, B>
 export function fromFoldableMap<F extends URIS2, B>(
   M: Magma<B>,
   F: Foldable2<F>
-): <L, A, K extends string>(fa: Kind2<F, L, A>, f: (a: A) => [K, B]) => Record<K, B>
+): <E, A, K extends string>(fa: Kind2<F, E, A>, f: (a: A) => [K, B]) => Record<K, B>
 export function fromFoldableMap<F extends URIS, B>(
   M: Magma<B>,
   F: Foldable1<F>
@@ -435,9 +435,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function partitionMapWithIndex<K extends string, RL, RR, A>(
-  f: (key: K, a: A) => Either<RL, RR>
-): (fa: Record<K, A>) => Separated<Record<string, RL>, Record<string, RR>> { ... }
+export function partitionMapWithIndex<K extends string, A, B, C>(
+  f: (key: K, a: A) => Either<B, C>
+): (fa: Record<K, A>) => Separated<Record<string, B>, Record<string, C>> { ... }
 ```
 
 Added in v2.0.0
@@ -498,13 +498,13 @@ Added in v2.0.0
 ```ts
 export function sequence<F extends URIS3>(
   F: Applicative3<F>
-): <K extends string, U, L, A>(ta: Record<K, Kind3<F, U, L, A>>) => Kind3<F, U, L, Record<K, A>>
+): <K extends string, R, E, A>(ta: Record<K, Kind3<F, R, E, A>>) => Kind3<F, R, E, Record<K, A>>
 export function sequence<F extends URIS2>(
   F: Applicative2<F>
-): <K extends string, L, A>(ta: Record<K, Kind2<F, L, A>>) => Kind2<F, L, Record<K, A>>
-export function sequence<F extends URIS2, L>(
-  F: Applicative2C<F, L>
-): <K extends string, A>(ta: Record<K, Kind2<F, L, A>>) => Kind2<F, L, Record<K, A>>
+): <K extends string, E, A>(ta: Record<K, Kind2<F, E, A>>) => Kind2<F, E, Record<K, A>>
+export function sequence<F extends URIS2, E>(
+  F: Applicative2C<F, E>
+): <K extends string, A>(ta: Record<K, Kind2<F, E, A>>) => Kind2<F, E, Record<K, A>>
 export function sequence<F extends URIS>(
   F: Applicative1<F>
 ): <K extends string, A>(ta: Record<K, Kind<F, A>>) => Kind<F, Record<K, A>>
@@ -569,13 +569,13 @@ Added in v2.0.0
 ```ts
 export function traverse<F extends URIS3>(
   F: Applicative3<F>
-): <U, L, A, B>(f: (a: A) => Kind3<F, U, L, B>) => <K extends string>(ta: Record<K, A>) => Kind3<F, U, L, Record<K, B>>
+): <R, E, A, B>(f: (a: A) => Kind3<F, R, E, B>) => <K extends string>(ta: Record<K, A>) => Kind3<F, R, E, Record<K, B>>
 export function traverse<F extends URIS2>(
   F: Applicative2<F>
-): <L, A, B>(f: (a: A) => Kind2<F, L, B>) => <K extends string>(ta: Record<K, A>) => Kind2<F, L, Record<K, B>>
-export function traverse<F extends URIS2, L>(
-  F: Applicative2C<F, L>
-): <A, B>(f: (a: A) => Kind2<F, L, B>) => <K extends string>(ta: Record<K, A>) => Kind2<F, L, Record<K, B>>
+): <E, A, B>(f: (a: A) => Kind2<F, E, B>) => <K extends string>(ta: Record<K, A>) => Kind2<F, E, Record<K, B>>
+export function traverse<F extends URIS2, E>(
+  F: Applicative2C<F, E>
+): <A, B>(f: (a: A) => Kind2<F, E, B>) => <K extends string>(ta: Record<K, A>) => Kind2<F, E, Record<K, B>>
 export function traverse<F extends URIS>(
   F: Applicative1<F>
 ): <A, B>(f: (a: A) => Kind<F, B>) => <K extends string>(ta: Record<K, A>) => Kind<F, Record<K, B>>
@@ -593,15 +593,15 @@ Added in v2.0.0
 ```ts
 export function traverseWithIndex<F extends URIS3>(
   F: Applicative3<F>
-): <K extends string, U, L, A, B>(
-  f: (k: K, a: A) => Kind3<F, U, L, B>
-) => (ta: Record<K, A>) => Kind3<F, U, L, Record<K, B>>
+): <K extends string, R, E, A, B>(
+  f: (k: K, a: A) => Kind3<F, R, E, B>
+) => (ta: Record<K, A>) => Kind3<F, R, E, Record<K, B>>
 export function traverseWithIndex<F extends URIS2>(
   F: Applicative2<F>
-): <K extends string, L, A, B>(f: (k: K, a: A) => Kind2<F, L, B>) => (ta: Record<K, A>) => Kind2<F, L, Record<K, B>>
-export function traverseWithIndex<F extends URIS2, L>(
-  F: Applicative2C<F, L>
-): <K extends string, A, B>(f: (k: K, a: A) => Kind2<F, L, B>) => (ta: Record<K, A>) => Kind2<F, L, Record<K, B>>
+): <K extends string, E, A, B>(f: (k: K, a: A) => Kind2<F, E, B>) => (ta: Record<K, A>) => Kind2<F, E, Record<K, B>>
+export function traverseWithIndex<F extends URIS2, E>(
+  F: Applicative2C<F, E>
+): <K extends string, A, B>(f: (k: K, a: A) => Kind2<F, E, B>) => (ta: Record<K, A>) => Kind2<F, E, Record<K, B>>
 export function traverseWithIndex<F extends URIS>(
   F: Applicative1<F>
 ): <K extends string, A, B>(f: (k: K, a: A) => Kind<F, B>) => (ta: Record<K, A>) => Kind<F, Record<K, B>>

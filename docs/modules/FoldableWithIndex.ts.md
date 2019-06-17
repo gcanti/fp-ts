@@ -71,9 +71,9 @@ Added in v2.0.0
 
 ```ts
 export interface FoldableWithIndex2<F extends URIS2, I> extends Foldable2<F> {
-  readonly reduceWithIndex: <L, A, B>(fa: Kind2<F, L, A>, b: B, f: (i: I, b: B, a: A) => B) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <L, A>(fa: Kind2<F, L, A>, f: (i: I, a: A) => M) => M
-  readonly reduceRightWithIndex: <L, A, B>(fa: Kind2<F, L, A>, b: B, f: (i: I, a: A, b: B) => B) => B
+  readonly reduceWithIndex: <E, A, B>(fa: Kind2<F, E, A>, b: B, f: (i: I, b: B, a: A) => B) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <E, A>(fa: Kind2<F, E, A>, f: (i: I, a: A) => M) => M
+  readonly reduceRightWithIndex: <E, A, B>(fa: Kind2<F, E, A>, b: B, f: (i: I, a: A, b: B) => B) => B
 }
 ```
 
@@ -84,10 +84,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FoldableWithIndex2C<F extends URIS2, I, L> extends Foldable2C<F, L> {
-  readonly reduceWithIndex: <A, B>(fa: Kind2<F, L, A>, b: B, f: (i: I, b: B, a: A) => B) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fa: Kind2<F, L, A>, f: (i: I, a: A) => M) => M
-  readonly reduceRightWithIndex: <A, B>(fa: Kind2<F, L, A>, b: B, f: (i: I, a: A, b: B) => B) => B
+export interface FoldableWithIndex2C<F extends URIS2, I, E> extends Foldable2C<F, E> {
+  readonly reduceWithIndex: <A, B>(fa: Kind2<F, E, A>, b: B, f: (i: I, b: B, a: A) => B) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fa: Kind2<F, E, A>, f: (i: I, a: A) => M) => M
+  readonly reduceRightWithIndex: <A, B>(fa: Kind2<F, E, A>, b: B, f: (i: I, a: A, b: B) => B) => B
 }
 ```
 
@@ -99,9 +99,9 @@ Added in v2.0.0
 
 ```ts
 export interface FoldableWithIndex3<F extends URIS3, I> extends Foldable3<F> {
-  readonly reduceWithIndex: <U, L, A, B>(fa: Kind3<F, U, L, A>, b: B, f: (i: I, b: B, a: A) => B) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <U, L, A>(fa: Kind3<F, U, L, A>, f: (i: I, a: A) => M) => M
-  readonly reduceRightWithIndex: <U, L, A, B>(fa: Kind3<F, U, L, A>, b: B, f: (i: I, a: A, b: B) => B) => B
+  readonly reduceWithIndex: <R, E, A, B>(fa: Kind3<F, R, E, A>, b: B, f: (i: I, b: B, a: A) => B) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <R, E, A>(fa: Kind3<F, R, E, A>, f: (i: I, a: A) => M) => M
+  readonly reduceRightWithIndex: <R, E, A, B>(fa: Kind3<F, R, E, A>, b: B, f: (i: I, a: A, b: B) => B) => B
 }
 ```
 
@@ -113,9 +113,9 @@ Added in v2.0.0
 
 ```ts
 export interface FoldableWithIndex4<F extends URIS4, I> extends Foldable4<F> {
-  readonly reduceWithIndex: <X, U, L, A, B>(fa: Kind4<F, X, U, L, A>, b: B, f: (i: I, b: B, a: A) => B) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <X, U, L, A>(fa: Kind4<F, X, U, L, A>, f: (i: I, a: A) => M) => M
-  readonly reduceRightWithIndex: <X, U, L, A, B>(fa: Kind4<F, X, U, L, A>, b: B, f: (i: I, a: A, b: B) => B) => B
+  readonly reduceWithIndex: <S, R, E, A, B>(fa: Kind4<F, S, R, E, A>, b: B, f: (i: I, b: B, a: A) => B) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <S, R, E, A>(fa: Kind4<F, S, R, E, A>, f: (i: I, a: A) => M) => M
+  readonly reduceRightWithIndex: <S, R, E, A, B>(fa: Kind4<F, S, R, E, A>, b: B, f: (i: I, a: A, b: B) => B) => B
 }
 ```
 
@@ -157,11 +157,9 @@ Added in v2.0.0
 ```ts
 export interface FoldableWithIndexComposition12<F extends URIS, FI, G extends URIS2, GI>
   extends FoldableComposition12<F, G> {
-  readonly reduceWithIndex: <LG, A, B>(fga: Kind<F, Kind2<G, LG, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
-  readonly foldMapWithIndex: <M>(
-    M: Monoid<M>
-  ) => <LG, A>(fga: Kind<F, Kind2<G, LG, A>>, f: (i: [FI, GI], a: A) => M) => M
-  readonly reduceRightWithIndex: <LG, A, B>(fga: Kind<F, Kind2<G, LG, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
+  readonly reduceWithIndex: <E, A, B>(fga: Kind<F, Kind2<G, E, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <E, A>(fga: Kind<F, Kind2<G, E, A>>, f: (i: [FI, GI], a: A) => M) => M
+  readonly reduceRightWithIndex: <E, A, B>(fga: Kind<F, Kind2<G, E, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
 }
 ```
 
@@ -172,11 +170,11 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FoldableWithIndexComposition12C<F extends URIS, FI, G extends URIS2, GI, LG>
-  extends FoldableComposition12C<F, G, LG> {
-  readonly reduceWithIndex: <A, B>(fga: Kind<F, Kind2<G, LG, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fga: Kind<F, Kind2<G, LG, A>>, f: (i: [FI, GI], a: A) => M) => M
-  readonly reduceRightWithIndex: <A, B>(fga: Kind<F, Kind2<G, LG, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
+export interface FoldableWithIndexComposition12C<F extends URIS, FI, G extends URIS2, GI, E>
+  extends FoldableComposition12C<F, G, E> {
+  readonly reduceWithIndex: <A, B>(fga: Kind<F, Kind2<G, E, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fga: Kind<F, Kind2<G, E, A>>, f: (i: [FI, GI], a: A) => M) => M
+  readonly reduceRightWithIndex: <A, B>(fga: Kind<F, Kind2<G, E, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
 }
 ```
 
@@ -189,11 +187,11 @@ Added in v2.0.0
 ```ts
 export interface FoldableWithIndexComposition21<F extends URIS2, FI, G extends URIS, GI>
   extends FoldableComposition21<F, G> {
-  readonly reduceWithIndex: <LF, A, B>(fga: Kind2<F, LF, Kind<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
+  readonly reduceWithIndex: <FE, A, B>(fga: Kind2<F, FE, Kind<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
   readonly foldMapWithIndex: <M>(
     M: Monoid<M>
-  ) => <LF, A>(fga: Kind2<F, LF, Kind<G, A>>, f: (i: [FI, GI], a: A) => M) => M
-  readonly reduceRightWithIndex: <LF, A, B>(fga: Kind2<F, LF, Kind<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
+  ) => <FE, A>(fga: Kind2<F, FE, Kind<G, A>>, f: (i: [FI, GI], a: A) => M) => M
+  readonly reduceRightWithIndex: <FE, A, B>(fga: Kind2<F, FE, Kind<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
 }
 ```
 
@@ -206,16 +204,16 @@ Added in v2.0.0
 ```ts
 export interface FoldableWithIndexComposition22<F extends URIS2, FI, G extends URIS2, GI>
   extends FoldableComposition22<F, G> {
-  readonly reduceWithIndex: <LF, LG, A, B>(
-    fga: Kind2<F, LF, Kind2<G, LG, A>>,
+  readonly reduceWithIndex: <FE, GE, A, B>(
+    fga: Kind2<F, FE, Kind2<G, GE, A>>,
     b: B,
     f: (i: [FI, GI], b: B, a: A) => B
   ) => B
   readonly foldMapWithIndex: <M>(
     M: Monoid<M>
-  ) => <LF, LG, A>(fga: Kind2<F, LF, Kind2<G, LG, A>>, f: (i: [FI, GI], a: A) => M) => M
-  readonly reduceRightWithIndex: <LF, LG, A, B>(
-    fga: Kind2<F, LF, Kind2<G, LG, A>>,
+  ) => <FE, GE, A>(fga: Kind2<F, FE, Kind2<G, GE, A>>, f: (i: [FI, GI], a: A) => M) => M
+  readonly reduceRightWithIndex: <FE, GE, A, B>(
+    fga: Kind2<F, FE, Kind2<G, GE, A>>,
     b: B,
     f: (i: [FI, GI], a: A, b: B) => B
   ) => B
@@ -229,14 +227,14 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FoldableWithIndexComposition22C<F extends URIS2, FI, G extends URIS2, GI, LG>
-  extends FoldableComposition22C<F, G, LG> {
-  readonly reduceWithIndex: <LF, A, B>(fga: Kind2<F, LF, Kind2<G, LG, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
+export interface FoldableWithIndexComposition22C<F extends URIS2, FI, G extends URIS2, GI, E>
+  extends FoldableComposition22C<F, G, E> {
+  readonly reduceWithIndex: <FE, A, B>(fga: Kind2<F, FE, Kind2<G, E, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
   readonly foldMapWithIndex: <M>(
     M: Monoid<M>
-  ) => <LF, A>(fga: Kind2<F, LF, Kind2<G, LG, A>>, f: (i: [FI, GI], a: A) => M) => M
-  readonly reduceRightWithIndex: <LF, A, B>(
-    fga: Kind2<F, LF, Kind2<G, LG, A>>,
+  ) => <FE, A>(fga: Kind2<F, FE, Kind2<G, E, A>>, f: (i: [FI, GI], a: A) => M) => M
+  readonly reduceRightWithIndex: <FE, A, B>(
+    fga: Kind2<F, FE, Kind2<G, E, A>>,
     b: B,
     f: (i: [FI, GI], a: A, b: B) => B
   ) => B
@@ -250,11 +248,11 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FoldableWithIndexComposition2C1<F extends URIS2, FI, G extends URIS, GI, LF>
-  extends FoldableComposition2C1<F, G, LF> {
-  readonly reduceWithIndex: <A, B>(fga: Kind2<F, LF, Kind<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fga: Kind2<F, LF, Kind<G, A>>, f: (i: [FI, GI], a: A) => M) => M
-  readonly reduceRightWithIndex: <A, B>(fga: Kind2<F, LF, Kind<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
+export interface FoldableWithIndexComposition2C1<F extends URIS2, FI, G extends URIS, GI, FE>
+  extends FoldableComposition2C1<F, G, FE> {
+  readonly reduceWithIndex: <A, B>(fga: Kind2<F, FE, Kind<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fga: Kind2<F, FE, Kind<G, A>>, f: (i: [FI, GI], a: A) => M) => M
+  readonly reduceRightWithIndex: <A, B>(fga: Kind2<F, FE, Kind<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
 }
 ```
 
@@ -265,18 +263,18 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS2, GI, LG>(
+export function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS2, GI, E>(
   F: FoldableWithIndex2<F, FI>,
-  G: FoldableWithIndex2C<G, GI, LG>
-): FoldableWithIndexComposition22C<F, FI, G, GI, LG>
+  G: FoldableWithIndex2C<G, GI, E>
+): FoldableWithIndexComposition22C<F, FI, G, GI, E>
 export function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS2, GI>(
   F: FoldableWithIndex2<F, FI>,
   G: FoldableWithIndex2<G, GI>
 ): FoldableWithIndexComposition22<F, FI, G, GI>
-export function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS, GI, LF>(
-  F: FoldableWithIndex2C<F, FI, LF>,
+export function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS, GI, E>(
+  F: FoldableWithIndex2C<F, FI, E>,
   G: FoldableWithIndex1<G, GI>
-): FoldableWithIndexComposition2C1<F, FI, G, GI, LF>
+): FoldableWithIndexComposition2C1<F, FI, G, GI, E>
 export function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS, GI>(
   F: FoldableWithIndex2<F, FI>,
   G: FoldableWithIndex1<G, GI>

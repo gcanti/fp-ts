@@ -78,8 +78,8 @@ Added in v2.0.0
 
 ```ts
 export interface Choice3<F extends URIS3> extends Profunctor3<F> {
-  readonly left: <U, A, B, C>(pab: Kind3<F, U, A, B>) => Kind3<F, U, Either<A, C>, Either<B, C>>
-  readonly right: <U, A, B, C>(pbc: Kind3<F, U, B, C>) => Kind3<F, U, Either<A, B>, Either<A, C>>
+  readonly left: <R, A, B, C>(pab: Kind3<F, R, A, B>) => Kind3<F, R, Either<A, C>, Either<B, C>>
+  readonly right: <R, A, B, C>(pbc: Kind3<F, R, B, C>) => Kind3<F, R, Either<A, B>, Either<A, C>>
 }
 ```
 
@@ -91,8 +91,8 @@ Added in v2.0.0
 
 ```ts
 export interface Choice4<F extends URIS4> extends Profunctor4<F> {
-  readonly left: <X, U, A, B, C>(pab: Kind4<F, X, U, A, B>) => Kind4<F, X, U, Either<A, C>, Either<B, C>>
-  readonly right: <X, U, A, B, C>(pbc: Kind4<F, X, U, B, C>) => Kind4<F, X, U, Either<A, B>, Either<A, C>>
+  readonly left: <S, R, A, B, C>(pab: Kind4<F, S, R, A, B>) => Kind4<F, S, R, Either<A, C>, Either<B, C>>
+  readonly right: <S, R, A, B, C>(pbc: Kind4<F, S, R, B, C>) => Kind4<F, S, R, Either<A, B>, Either<A, C>>
 }
 ```
 
@@ -124,7 +124,7 @@ function which will run the approriate computation based on the parameter suppli
 ```ts
 export function fanin<F extends URIS3>(
   F: Category3<F> & Choice3<F>
-): <U, A, B, C>(pac: Kind3<F, U, A, C>, pbc: Kind3<F, U, B, C>) => Kind3<F, U, Either<A, B>, C>
+): <R, A, B, C>(pac: Kind3<F, R, A, C>, pbc: Kind3<F, R, B, C>) => Kind3<F, R, Either<A, B>, C>
 export function fanin<F extends URIS2>(
   F: Category2<F> & Choice2<F>
 ): <A, B, C>(pac: Kind2<F, A, C>, pbc: Kind2<F, B, C>) => Kind2<F, Either<A, B>, C>
@@ -155,7 +155,7 @@ takes an `Either`and maps `f` over the left side and `g` over the right side. Ju
 ```ts
 export function splitChoice<F extends URIS3>(
   F: Category3<F> & Choice3<F>
-): <U, A, B, C, D>(pab: Kind3<F, U, A, B>, pcd: Kind3<F, U, C, D>) => Kind3<F, U, Either<A, C>, Either<B, D>>
+): <R, A, B, C, D>(pab: Kind3<F, R, A, B>, pcd: Kind3<F, R, C, D>) => Kind3<F, R, Either<A, C>, Either<B, D>>
 export function splitChoice<F extends URIS2>(
   F: Category2<F> & Choice2<F>
 ): <A, B, C, D>(pab: Kind2<F, A, B>, pcd: Kind2<F, C, D>) => Kind2<F, Either<A, C>, Either<B, D>>

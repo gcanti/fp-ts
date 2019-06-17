@@ -125,12 +125,12 @@ export function fromFoldable<F extends URIS3, K, A>(
   E: Eq<K>,
   M: Magma<A>,
   F: Foldable3<F>
-): <U, L>(fka: Kind3<F, U, L, [K, A]>) => Map<K, A>
+): <R, E>(fka: Kind3<F, R, E, [K, A]>) => Map<K, A>
 export function fromFoldable<F extends URIS2, K, A>(
   E: Eq<K>,
   M: Magma<A>,
   F: Foldable2<F>
-): <L>(fka: Kind2<F, L, [K, A]>) => Map<K, A>
+): <E>(fka: Kind2<F, E, [K, A]>) => Map<K, A>
 export function fromFoldable<F extends URIS, K, A>(
   E: Eq<K>,
   M: Magma<A>,

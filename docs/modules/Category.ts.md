@@ -45,7 +45,7 @@ Added in v2.0.0
 
 ```ts
 export interface Category3<F extends URIS3> extends Semigroupoid3<F> {
-  readonly id: <U, A>() => Kind3<F, U, A, A>
+  readonly id: <R, A>() => Kind3<F, R, A, A>
 }
 ```
 
@@ -57,7 +57,7 @@ Added in v2.0.0
 
 ```ts
 export interface Category4<F extends URIS4> extends Semigroupoid4<F> {
-  readonly id: <X, U, A>() => Kind4<F, X, U, A, A>
+  readonly id: <S, R, A>() => Kind4<F, S, R, A, A>
 }
 ```
 

@@ -18,8 +18,8 @@ import { Traversable2 } from './Traversable'
 import { pipeable } from './pipeable'
 
 declare module './HKT' {
-  interface URItoKind2<L, A> {
-    Tuple: [A, L]
+  interface URItoKind2<E, A> {
+    Tuple: [A, E]
   }
 }
 
@@ -60,7 +60,7 @@ export function swap<A, S>(sa: [A, S]): [S, A] {
 export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
   return {
     URI,
-    _L: undefined as any,
+    _E: undefined as any,
     map: tuple.map,
     ap: (fab, fa) => [fst(fab)(fst(fa)), S.concat(snd(fab), snd(fa))]
   }
@@ -130,20 +130,20 @@ export function getChainRec<S>(M: Monoid<S>): ChainRec2C<URI, S> {
  */
 export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,
-  compose: (bc, sa) => [fst(bc), snd(sa)],
-  map: (sa, f) => [f(fst(sa)), snd(sa)],
-  bimap: (sa, f, g) => [g(fst(sa)), f(snd(sa))],
-  mapLeft: (fla, f) => [fst(fla), f(snd(fla))],
+  compose: (ba, ae) => [fst(ba), snd(ae)],
+  map: (ae, f) => [f(fst(ae)), snd(ae)],
+  bimap: (fea, f, g) => [g(fst(fea)), f(snd(fea))],
+  mapLeft: (fea, f) => [fst(fea), f(snd(fea))],
   extract: fst,
-  extend: (sa, f) => [f(sa), snd(sa)],
-  reduce: (sa, b, f) => f(b, fst(sa)),
-  foldMap: _ => (sa, f) => f(fst(sa)),
-  reduceRight: (sa, b, f) => f(fst(sa), b),
-  traverse: <F>(F: Applicative<F>) => <A, S, B>(ta: [A, S], f: (a: A) => HKT<F, B>): HKT<F, [B, S]> => {
-    return F.map(f(fst(ta)), b => [b, snd(ta)])
+  extend: (ae, f) => [f(ae), snd(ae)],
+  reduce: (ae, b, f) => f(b, fst(ae)),
+  foldMap: _ => (ae, f) => f(fst(ae)),
+  reduceRight: (ae, b, f) => f(fst(ae), b),
+  traverse: <F>(F: Applicative<F>) => <A, S, B>(as: [A, S], f: (a: A) => HKT<F, B>): HKT<F, [B, S]> => {
+    return F.map(f(fst(as)), b => [b, snd(as)])
   },
-  sequence: <F>(F: Applicative<F>) => <A, S>(ta: [HKT<F, A>, S]): HKT<F, [A, S]> => {
-    return F.map(fst(ta), a => [a, snd(ta)])
+  sequence: <F>(F: Applicative<F>) => <A, S>(fas: [HKT<F, A>, S]): HKT<F, [A, S]> => {
+    return F.map(fst(fas), a => [a, snd(fas)])
   }
 }
 

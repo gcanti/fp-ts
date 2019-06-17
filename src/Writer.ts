@@ -4,8 +4,8 @@ import { Monoid } from './Monoid'
 import { pipeable } from './pipeable'
 
 declare module './HKT' {
-  interface URItoKind2<L, A> {
-    Writer: Writer<L, A>
+  interface URItoKind2<E, A> {
+    Writer: Writer<E, A>
   }
 }
 
@@ -103,7 +103,7 @@ export function censor<W>(f: (w: W) => W): <A>(fa: Writer<W, A>) => Writer<W, A>
 export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
   return {
     URI,
-    _L: undefined as any,
+    _E: undefined as any,
     map: writer.map,
     of: a => () => [a, M.empty],
     ap: (mab, ma) => () => {

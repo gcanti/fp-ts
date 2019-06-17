@@ -24,8 +24,8 @@ import Either = E.Either
 const T = getEitherM(task)
 
 declare module './HKT' {
-  interface URItoKind2<L, A> {
-    TaskEither: TaskEither<L, A>
+  interface URItoKind2<E, A> {
+    TaskEither: TaskEither<E, A>
   }
 }
 
@@ -86,10 +86,10 @@ export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = task
 /**
  * @since 2.0.0
  */
-export function fold<E, A, R>(
-  onLeft: (e: E) => Task<R>,
-  onRight: (a: A) => Task<R>
-): (ma: TaskEither<E, A>) => Task<R> {
+export function fold<E, A, B>(
+  onLeft: (e: E) => Task<B>,
+  onRight: (a: A) => Task<B>
+): (ma: TaskEither<E, A>) => Task<B> {
   return ma => T.fold(ma, onLeft, onRight)
 }
 
@@ -224,7 +224,7 @@ export function getTaskValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<U
   const T = getValidationM(S, task)
   return {
     URI,
-    _L: undefined as any,
+    _E: undefined as any,
     ...T
   }
 }

@@ -887,7 +887,7 @@ export function reverse<A>(as: Array<A>): Array<A> {
  *
  * @since 2.0.0
  */
-export function rights<L, A>(as: Array<Either<L, A>>): Array<A> {
+export function rights<E, A>(as: Array<Either<E, A>>): Array<A> {
   const r: Array<A> = []
   const len = as.length
   for (let i = 0; i < len; i++) {
@@ -910,8 +910,8 @@ export function rights<L, A>(as: Array<Either<L, A>>): Array<A> {
  *
  * @since 2.0.0
  */
-export function lefts<L, A>(as: Array<Either<L, A>>): Array<L> {
-  const r: Array<L> = []
+export function lefts<E, A>(as: Array<Either<E, A>>): Array<E> {
+  const r: Array<E> = []
   const len = as.length
   for (let i = 0; i < len; i++) {
     const a = as[i]
@@ -1300,9 +1300,9 @@ export const array: Monad1<URI> &
   map: (fa, f) => fa.map(a => f(a)),
   mapWithIndex: (fa, f) => fa.map((a, i) => f(i, a)),
   compact: as => array.filterMap(as, identity),
-  separate: <RL, RR>(fa: Array<Either<RL, RR>>): Separated<Array<RL>, Array<RR>> => {
-    const left: Array<RL> = []
-    const right: Array<RR> = []
+  separate: <B, C>(fa: Array<Either<B, C>>): Separated<Array<B>, Array<C>> => {
+    const left: Array<B> = []
+    const right: Array<C> = []
     for (const e of fa) {
       if (e._tag === 'Left') {
         left.push(e.left)
@@ -1384,7 +1384,7 @@ export const array: Monad1<URI> &
   },
   wilt: <F>(
     F: Applicative<F>
-  ): (<RL, RR, A>(wa: Array<A>, f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<Array<RL>, Array<RR>>>) => {
+  ): (<A, B, C>(wa: Array<A>, f: (a: A) => HKT<F, Either<B, C>>) => HKT<F, Separated<Array<B>, Array<C>>>) => {
     const traverseF = array.traverse(F)
     return (wa, f) => F.map(traverseF(wa, f), array.separate)
   },
@@ -1406,12 +1406,12 @@ export const array: Monad1<URI> &
       F.ap(F.map(fbs, bs => (b: B) => snoc(bs, b)), f(i, a))
     )
   },
-  partitionMapWithIndex: <RL, RR, A>(
+  partitionMapWithIndex: <A, B, C>(
     fa: Array<A>,
-    f: (i: number, a: A) => Either<RL, RR>
-  ): Separated<Array<RL>, Array<RR>> => {
-    const left: Array<RL> = []
-    const right: Array<RR> = []
+    f: (i: number, a: A) => Either<B, C>
+  ): Separated<Array<B>, Array<C>> => {
+    const left: Array<B> = []
+    const right: Array<C> = []
     for (let i = 0; i < fa.length; i++) {
       const e = f(i, fa[i])
       if (e._tag === 'Left') {

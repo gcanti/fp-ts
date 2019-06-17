@@ -45,22 +45,22 @@ export interface OptionM1<M extends URIS> extends ApplicativeComposition11<M, UR
 /**
  * @since 2.0.0
  */
-export type OptionT2<M extends URIS2, L, A> = Kind2<M, L, Option<A>>
+export type OptionT2<M extends URIS2, E, A> = Kind2<M, E, Option<A>>
 
 /**
  * @since 2.0.0
  */
 export interface OptionM2<M extends URIS2> extends ApplicativeComposition21<M, URI> {
-  readonly chain: <L, A, B>(ma: OptionT2<M, L, A>, f: (a: A) => OptionT2<M, L, B>) => OptionT2<M, L, B>
-  readonly alt: <L, A>(fx: OptionT2<M, L, A>, fy: () => OptionT2<M, L, A>) => OptionT2<M, L, A>
-  readonly fold: <L, A, R>(
-    ma: OptionT2<M, L, A>,
-    onNone: () => Kind2<M, L, R>,
-    onSome: (a: A) => Kind2<M, L, R>
-  ) => Kind2<M, L, R>
-  readonly getOrElse: <L, A>(ma: OptionT2<M, L, A>, onNone: () => Kind2<M, L, A>) => Kind2<M, L, A>
-  readonly fromM: <L, A>(ma: Kind2<M, L, A>) => OptionT2<M, L, A>
-  readonly throwError: <L>() => OptionT2<M, L, never>
+  readonly chain: <E, A, B>(ma: OptionT2<M, E, A>, f: (a: A) => OptionT2<M, E, B>) => OptionT2<M, E, B>
+  readonly alt: <E, A>(fx: OptionT2<M, E, A>, fy: () => OptionT2<M, E, A>) => OptionT2<M, E, A>
+  readonly fold: <E, A, R>(
+    ma: OptionT2<M, E, A>,
+    onNone: () => Kind2<M, E, R>,
+    onSome: (a: A) => Kind2<M, E, R>
+  ) => Kind2<M, E, R>
+  readonly getOrElse: <E, A>(ma: OptionT2<M, E, A>, onNone: () => Kind2<M, E, A>) => Kind2<M, E, A>
+  readonly fromM: <E, A>(ma: Kind2<M, E, A>) => OptionT2<M, E, A>
+  readonly throwError: <E>() => OptionT2<M, E, never>
 }
 
 /**

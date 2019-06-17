@@ -29,26 +29,26 @@ export interface Chain1<F extends URIS> extends Apply1<F> {
  * @since 2.0.0
  */
 export interface Chain2<F extends URIS2> extends Apply2<F> {
-  readonly chain: <L, A, B>(fa: Kind2<F, L, A>, f: (a: A) => Kind2<F, L, B>) => Kind2<F, L, B>
+  readonly chain: <E, A, B>(fa: Kind2<F, E, A>, f: (a: A) => Kind2<F, E, B>) => Kind2<F, E, B>
 }
 
 /**
  * @since 2.0.0
  */
-export interface Chain2C<F extends URIS2, L> extends Apply2C<F, L> {
-  readonly chain: <A, B>(fa: Kind2<F, L, A>, f: (a: A) => Kind2<F, L, B>) => Kind2<F, L, B>
+export interface Chain2C<F extends URIS2, E> extends Apply2C<F, E> {
+  readonly chain: <A, B>(fa: Kind2<F, E, A>, f: (a: A) => Kind2<F, E, B>) => Kind2<F, E, B>
 }
 
 /**
  * @since 2.0.0
  */
 export interface Chain3<F extends URIS3> extends Apply3<F> {
-  readonly chain: <U, L, A, B>(fa: Kind3<F, U, L, A>, f: (a: A) => Kind3<F, U, L, B>) => Kind3<F, U, L, B>
+  readonly chain: <R, E, A, B>(fa: Kind3<F, R, E, A>, f: (a: A) => Kind3<F, R, E, B>) => Kind3<F, R, E, B>
 }
 
 /**
  * @since 2.0.0
  */
 export interface Chain4<F extends URIS4> extends Apply4<F> {
-  readonly chain: <X, U, L, A, B>(fa: Kind4<F, X, U, L, A>, f: (a: A) => Kind4<F, X, U, L, B>) => Kind4<F, X, U, L, B>
+  readonly chain: <S, R, E, A, B>(fa: Kind4<F, S, R, E, A>, f: (a: A) => Kind4<F, S, R, E, B>) => Kind4<F, S, R, E, B>
 }

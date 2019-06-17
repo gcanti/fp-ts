@@ -49,7 +49,7 @@ Added in v2.0.0
 ```ts
 export interface Invariant2<F extends URIS2> {
   readonly URI: F
-  readonly imap: <L, A, B>(fa: HKT2<F, L, A>, f: (a: A) => B, g: (b: B) => A) => Kind2<F, L, B>
+  readonly imap: <E, A, B>(fa: HKT2<F, E, A>, f: (a: A) => B, g: (b: B) => A) => Kind2<F, E, B>
 }
 ```
 
@@ -60,10 +60,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Invariant2C<F extends URIS2, L> {
+export interface Invariant2C<F extends URIS2, E> {
   readonly URI: F
-  readonly _L: L
-  readonly imap: <A, B>(fa: HKT2<F, L, A>, f: (a: A) => B, g: (b: B) => A) => Kind2<F, L, B>
+  readonly _E: E
+  readonly imap: <A, B>(fa: HKT2<F, E, A>, f: (a: A) => B, g: (b: B) => A) => Kind2<F, E, B>
 }
 ```
 
@@ -76,7 +76,7 @@ Added in v2.0.0
 ```ts
 export interface Invariant3<F extends URIS3> {
   readonly URI: F
-  readonly imap: <U, L, A, B>(fa: HKT3<F, U, L, A>, f: (a: A) => B, g: (b: B) => A) => Kind3<F, U, L, B>
+  readonly imap: <R, E, A, B>(fa: HKT3<F, R, E, A>, f: (a: A) => B, g: (b: B) => A) => Kind3<F, R, E, B>
 }
 ```
 

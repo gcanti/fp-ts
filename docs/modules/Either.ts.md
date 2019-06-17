@@ -160,7 +160,7 @@ Returns `false` if `Left` or returns the result of the application of the given 
 **Signature**
 
 ```ts
-export function exists<A>(predicate: Predicate<A>): <L>(ma: Either<L, A>) => boolean { ... }
+export function exists<A>(predicate: Predicate<A>): <E>(ma: Either<E, A>) => boolean { ... }
 ```
 
 **Example**
@@ -182,7 +182,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fold<E, A, R>(onLeft: (e: E) => R, onRight: (a: A) => R): (ma: Either<E, A>) => R { ... }
+export function fold<E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B): (ma: Either<E, A>) => B { ... }
 ```
 
 Added in v2.0.0

@@ -29,26 +29,26 @@ export interface Alt1<F extends URIS> extends Functor1<F> {
  * @since 2.0.0
  */
 export interface Alt2<F extends URIS2> extends Functor2<F> {
-  readonly alt: <L, A>(fx: Kind2<F, L, A>, fy: () => Kind2<F, L, A>) => Kind2<F, L, A>
+  readonly alt: <E, A>(fx: Kind2<F, E, A>, fy: () => Kind2<F, E, A>) => Kind2<F, E, A>
 }
 
 /**
  * @since 2.0.0
  */
 export interface Alt3<F extends URIS3> extends Functor3<F> {
-  readonly alt: <U, L, A>(fx: Kind3<F, U, L, A>, fy: () => Kind3<F, U, L, A>) => Kind3<F, U, L, A>
+  readonly alt: <R, E, A>(fx: Kind3<F, R, E, A>, fy: () => Kind3<F, R, E, A>) => Kind3<F, R, E, A>
 }
 
 /**
  * @since 2.0.0
  */
-export interface Alt2C<F extends URIS2, L> extends Functor2C<F, L> {
-  readonly alt: <A>(fx: Kind2<F, L, A>, fy: () => Kind2<F, L, A>) => Kind2<F, L, A>
+export interface Alt2C<F extends URIS2, E> extends Functor2C<F, E> {
+  readonly alt: <A>(fx: Kind2<F, E, A>, fy: () => Kind2<F, E, A>) => Kind2<F, E, A>
 }
 
 /**
  * @since 2.0.0
  */
 export interface Alt4<F extends URIS4> extends Functor4<F> {
-  readonly alt: <X, U, L, A>(fx: Kind4<F, X, U, L, A>, fy: () => Kind4<F, X, U, L, A>) => Kind4<F, X, U, L, A>
+  readonly alt: <S, R, E, A>(fx: Kind4<F, S, R, E, A>, fy: () => Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
 }

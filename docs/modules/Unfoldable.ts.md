@@ -53,7 +53,7 @@ Added in v2.0.0
 ```ts
 export interface Unfoldable2<F extends URIS2> {
   readonly URI: F
-  readonly unfold: <L, A, B>(b: B, f: (b: B) => Option<[A, B]>) => Kind2<F, L, A>
+  readonly unfold: <E, A, B>(b: B, f: (b: B) => Option<[A, B]>) => Kind2<F, E, A>
 }
 ```
 
@@ -64,10 +64,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Unfoldable2C<F extends URIS2, L> {
+export interface Unfoldable2C<F extends URIS2, E> {
   readonly URI: F
-  readonly _L: L
-  readonly unfold: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => Kind2<F, L, A>
+  readonly _E: E
+  readonly unfold: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => Kind2<F, E, A>
 }
 ```
 
@@ -80,7 +80,7 @@ Added in v2.0.0
 ```ts
 export interface Unfoldable3<F extends URIS3> {
   readonly URI: F
-  readonly unfold: <U, L, A, B>(b: B, f: (b: B) => Option<[A, B]>) => Kind3<F, U, L, A>
+  readonly unfold: <R, E, A, B>(b: B, f: (b: B) => Option<[A, B]>) => Kind3<F, R, E, A>
 }
 ```
 

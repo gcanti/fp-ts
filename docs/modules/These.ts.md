@@ -124,11 +124,11 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fold<E, A, R>(
-  onLeft: (e: E) => R,
-  onRight: (a: A) => R,
-  onBoth: (e: E, a: A) => R
-): (fa: These<E, A>) => R { ... }
+export function fold<E, A, B>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B,
+  onBoth: (e: E, a: A) => B
+): (fa: These<E, A>) => B { ... }
 ```
 
 Added in v2.0.0

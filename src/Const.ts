@@ -10,8 +10,8 @@ import { Show } from './Show'
 import { pipeable } from './pipeable'
 
 declare module './HKT' {
-  interface URItoKind2<L, A> {
-    Const: Const<L, A>
+  interface URItoKind2<E, A> {
+    Const: Const<E, A>
   }
 }
 
@@ -28,17 +28,17 @@ export type URI = typeof URI
 /**
  * @since 2.0.0
  */
-export type Const<L, A> = L & { readonly _A: A }
+export type Const<E, A> = E & { readonly _A: A }
 
 /**
  * @since 2.0.0
  */
-export const make: <L>(l: L) => Const<L, never> = unsafeCoerce
+export const make: <E>(l: E) => Const<E, never> = unsafeCoerce
 
 /**
  * @since 2.0.0
  */
-export function getShow<L, A>(S: Show<L>): Show<Const<L, A>> {
+export function getShow<E, A>(S: Show<E>): Show<Const<E, A>> {
   return {
     show: c => `make(${S.show(c)})`
   }
@@ -47,15 +47,15 @@ export function getShow<L, A>(S: Show<L>): Show<Const<L, A>> {
 /**
  * @since 2.0.0
  */
-export const getEq: <L, A>(E: Eq<L>) => Eq<Const<L, A>> = identity
+export const getEq: <E, A>(E: Eq<E>) => Eq<Const<E, A>> = identity
 
 /**
  * @since 2.0.0
  */
-export function getApply<L>(S: Semigroup<L>): Apply2C<URI, L> {
+export function getApply<E>(S: Semigroup<E>): Apply2C<URI, E> {
   return {
     URI,
-    _L: undefined as any,
+    _E: undefined as any,
     map: const_.map,
     ap: (fab, fa) => make(S.concat(fab, fa))
   }
@@ -64,7 +64,7 @@ export function getApply<L>(S: Semigroup<L>): Apply2C<URI, L> {
 /**
  * @since 2.0.0
  */
-export function getApplicative<L>(M: Monoid<L>): Applicative2C<URI, L> {
+export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> {
   return {
     ...getApply(M),
     of: () => make(M.empty)

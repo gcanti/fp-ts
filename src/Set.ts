@@ -227,27 +227,27 @@ export function intersection<A>(E: Eq<A>): (set: Set<A>, y: Set<A>) => Set<A> {
 /**
  * @since 2.0.0
  */
-export function partitionMap<L, R>(
-  SL: Eq<L>,
-  SR: Eq<R>
-): <A>(f: (a: A) => Either<L, R>) => (set: Set<A>) => Separated<Set<L>, Set<R>> {
-  return <A>(f: (a: A) => Either<L, R>) => (set: Set<A>) => {
+export function partitionMap<B, C>(
+  EB: Eq<B>,
+  EC: Eq<C>
+): <A>(f: (a: A) => Either<B, C>) => (set: Set<A>) => Separated<Set<B>, Set<C>> {
+  return <A>(f: (a: A) => Either<B, C>) => (set: Set<A>) => {
     const values = set.values()
     let e: IteratorResult<A>
-    const left = new Set<L>()
-    const right = new Set<R>()
-    const hasL = elem(SL)
-    const hasR = elem(SR)
+    const left = new Set<B>()
+    const right = new Set<C>()
+    const hasB = elem(EB)
+    const hasC = elem(EC)
     while (!(e = values.next()).done) {
       const v = f(e.value)
       switch (v._tag) {
         case 'Left':
-          if (!hasL(v.left, left)) {
+          if (!hasB(v.left, left)) {
             left.add(v.left)
           }
           break
         case 'Right':
-          if (!hasR(v.right, right)) {
+          if (!hasC(v.right, right)) {
             right.add(v.right)
           }
           break
@@ -375,21 +375,21 @@ export function compact<A>(E: Eq<A>): (fa: Set<Option<A>>) => Set<A> {
 /**
  * @since 2.0.0
  */
-export function separate<L, R>(EL: Eq<L>, ER: Eq<R>): (fa: Set<Either<L, R>>) => Separated<Set<L>, Set<R>> {
+export function separate<E, A>(EE: Eq<E>, EA: Eq<A>): (fa: Set<Either<E, A>>) => Separated<Set<E>, Set<A>> {
   return fa => {
-    const elemEL = elem(EL)
-    const elemER = elem(ER)
-    const left: Set<L> = new Set()
-    const right: Set<R> = new Set()
+    const elemEE = elem(EE)
+    const elemEA = elem(EA)
+    const left: Set<E> = new Set()
+    const right: Set<A> = new Set()
     fa.forEach(e => {
       switch (e._tag) {
         case 'Left':
-          if (!elemEL(e.left, left)) {
+          if (!elemEE(e.left, left)) {
             left.add(e.left)
           }
           break
         case 'Right':
-          if (!elemER(e.right, right)) {
+          if (!elemEA(e.right, right)) {
             right.add(e.right)
           }
           break

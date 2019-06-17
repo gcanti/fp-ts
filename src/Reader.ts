@@ -14,8 +14,8 @@ import { pipeable } from './pipeable'
 const T = getReaderM(identity)
 
 declare module './HKT' {
-  interface URItoKind2<L, A> {
-    Reader: Reader<L, A>
+  interface URItoKind2<E, A> {
+    Reader: Reader<E, A>
   }
 }
 

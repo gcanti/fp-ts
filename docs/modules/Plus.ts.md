@@ -59,7 +59,7 @@ Added in v2.0.0
 
 ```ts
 export interface Plus2<F extends URIS2> extends Alt2<F> {
-  readonly zero: <L, A>() => Kind2<F, L, A>
+  readonly zero: <E, A>() => Kind2<F, E, A>
 }
 ```
 
@@ -70,8 +70,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Plus2C<F extends URIS2, L> extends Alt2C<F, L> {
-  readonly zero: <A>() => Kind2<F, L, A>
+export interface Plus2C<F extends URIS2, E> extends Alt2C<F, E> {
+  readonly zero: <A>() => Kind2<F, E, A>
 }
 ```
 
@@ -83,7 +83,7 @@ Added in v2.0.0
 
 ```ts
 export interface Plus3<F extends URIS3> extends Alt3<F> {
-  readonly zero: <U, L, A>() => Kind3<F, U, L, A>
+  readonly zero: <R, E, A>() => Kind3<F, R, E, A>
 }
 ```
 

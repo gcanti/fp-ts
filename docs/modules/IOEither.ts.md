@@ -79,7 +79,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const left: <L>(l: L) => IOEither<L, never> = ...
+export const left: <E>(l: E) => IOEither<E, never> = ...
 ```
 
 Added in v2.0.0
@@ -147,7 +147,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fold<E, A, R>(onLeft: (e: E) => IO<R>, onRight: (a: A) => IO<R>): (ma: IOEither<E, A>) => IO<R> { ... }
+export function fold<E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>): (ma: IOEither<E, A>) => IO<B> { ... }
 ```
 
 Added in v2.0.0

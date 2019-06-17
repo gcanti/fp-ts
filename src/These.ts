@@ -32,8 +32,8 @@ import { Traversable2 } from './Traversable'
 import { pipeable } from './pipeable'
 
 declare module './HKT' {
-  interface URItoKind2<L, A> {
-    These: These<L, A>
+  interface URItoKind2<E, A> {
+    These: These<E, A>
   }
 }
 
@@ -85,11 +85,11 @@ export function both<E, A>(left: E, right: A): These<E, A> {
 /**
  * @since 2.0.0
  */
-export function fold<E, A, R>(
-  onLeft: (e: E) => R,
-  onRight: (a: A) => R,
-  onBoth: (e: E, a: A) => R
-): (fa: These<E, A>) => R {
+export function fold<E, A, B>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B,
+  onBoth: (e: E, a: A) => B
+): (fa: These<E, A>) => B {
   return fa => {
     switch (fa._tag) {
       case 'Left':
@@ -171,7 +171,7 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> {
 
   return {
     URI,
-    _L: undefined as any,
+    _E: undefined as any,
     map: these.map,
     of: right,
     ap: (mab, ma) => chain(mab, f => these.map(ma, f)),
@@ -350,9 +350,9 @@ const identity = <A>(a: A): A => a
 export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,
   map: (fa, f) => (isLeft(fa) ? fa : isRight(fa) ? right(f(fa.right)) : both(fa.left, f(fa.right))),
-  bimap: (fla, f, g) =>
-    isLeft(fla) ? left(f(fla.left)) : isRight(fla) ? right(g(fla.right)) : both(f(fla.left), g(fla.right)),
-  mapLeft: (fla, f) => these.bimap(fla, f, identity),
+  bimap: (fea, f, g) =>
+    isLeft(fea) ? left(f(fea.left)) : isRight(fea) ? right(g(fea.right)) : both(f(fea.left), g(fea.right)),
+  mapLeft: (fea, f) => these.bimap(fea, f, identity),
   reduce: (fa, b, f) => (isLeft(fa) ? b : isRight(fa) ? f(b, fa.right) : f(b, fa.right)),
   foldMap: M => (fa, f) => (isLeft(fa) ? M.empty : isRight(fa) ? f(fa.right) : f(fa.right)),
   reduceRight: (fa, b, f) => (isLeft(fa) ? b : isRight(fa) ? f(fa.right, b) : f(fa.right, b)),

@@ -72,21 +72,21 @@ Added in v2.0.0
 
 ```ts
 export interface EitherM2<M extends URIS2> extends ApplicativeComposition22<M, URI> {
-  readonly chain: <L, E, A, B>(ma: EitherT2<M, L, E, A>, f: (a: A) => EitherT2<M, L, E, B>) => EitherT2<M, L, E, B>
-  readonly alt: <L, E, A>(fx: EitherT2<M, L, E, A>, f: () => EitherT2<M, L, E, A>) => EitherT2<M, L, E, A>
-  readonly bimap: <L, E, A, N, B>(ma: EitherT2<M, L, E, A>, f: (e: E) => N, g: (a: A) => B) => EitherT2<M, L, N, B>
-  readonly mapLeft: <L, E, A, N>(ma: EitherT2<M, L, E, A>, f: (e: E) => N) => EitherT2<M, L, N, A>
-  readonly fold: <L, E, A, R>(
-    ma: EitherT2<M, L, E, A>,
-    onLeft: (e: E) => Kind2<M, L, R>,
-    onRight: (a: A) => Kind2<M, L, R>
-  ) => Kind2<M, L, R>
-  readonly getOrElse: <L, E, A>(ma: EitherT2<M, L, E, A>, f: (e: E) => Kind2<M, L, A>) => Kind2<M, L, A>
-  readonly orElse: <L, E, A, N>(ma: EitherT2<M, L, E, A>, f: (e: E) => EitherT2<M, L, N, A>) => EitherT2<M, L, N, A>
-  readonly swap: <L, E, A>(ma: EitherT2<M, L, E, A>) => EitherT2<M, L, A, E>
-  readonly rightM: <L, E, A>(ma: Kind2<M, L, A>) => EitherT2<M, L, E, A>
-  readonly leftM: <L, E, A>(me: Kind2<M, L, E>) => EitherT2<M, L, E, A>
-  readonly left: <L, E, A>(e: E) => EitherT2<M, L, E, A>
+  readonly chain: <R, E, A, B>(ma: EitherT2<M, R, E, A>, f: (a: A) => EitherT2<M, R, E, B>) => EitherT2<M, R, E, B>
+  readonly alt: <R, E, A>(fx: EitherT2<M, R, E, A>, f: () => EitherT2<M, R, E, A>) => EitherT2<M, R, E, A>
+  readonly bimap: <R, E, A, N, B>(ma: EitherT2<M, R, E, A>, f: (e: E) => N, g: (a: A) => B) => EitherT2<M, R, N, B>
+  readonly mapLeft: <R, E, A, N>(ma: EitherT2<M, R, E, A>, f: (e: E) => N) => EitherT2<M, R, N, A>
+  readonly fold: <R, E, A, B>(
+    ma: EitherT2<M, R, E, A>,
+    onLeft: (e: E) => Kind2<M, R, B>,
+    onRight: (a: A) => Kind2<M, R, B>
+  ) => Kind2<M, R, B>
+  readonly getOrElse: <R, E, A>(ma: EitherT2<M, R, E, A>, f: (e: E) => Kind2<M, R, A>) => Kind2<M, R, A>
+  readonly orElse: <R, E, A, F>(ma: EitherT2<M, R, E, A>, f: (e: E) => EitherT2<M, R, F, A>) => EitherT2<M, R, F, A>
+  readonly swap: <R, E, A>(ma: EitherT2<M, R, E, A>) => EitherT2<M, R, A, E>
+  readonly rightM: <R, E, A>(ma: Kind2<M, R, A>) => EitherT2<M, R, E, A>
+  readonly leftM: <R, E, A>(me: Kind2<M, R, E>) => EitherT2<M, R, E, A>
+  readonly left: <R, E, A>(e: E) => EitherT2<M, R, E, A>
 }
 ```
 
@@ -117,7 +117,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export type EitherT2<M extends URIS2, L, E, A> = Kind2<M, L, Either<E, A>>
+export type EitherT2<M extends URIS2, R, E, A> = Kind2<M, R, Either<E, A>>
 ```
 
 Added in v2.0.0

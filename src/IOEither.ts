@@ -21,8 +21,8 @@ import Either = E.Either
 const T = getEitherM(io)
 
 declare module './HKT' {
-  interface URItoKind2<L, A> {
-    IOEither: IOEither<L, A>
+  interface URItoKind2<E, A> {
+    IOEither: IOEither<E, A>
   }
 }
 
@@ -44,7 +44,7 @@ export interface IOEither<E, A> extends IO<Either<E, A>> {}
 /**
  * @since 2.0.0
  */
-export const left: <L>(l: L) => IOEither<L, never> = T.left
+export const left: <E>(l: E) => IOEither<E, never> = T.left
 
 /**
  * @since 2.0.0
@@ -64,7 +64,7 @@ export const leftIO: <E>(me: IO<E>) => IOEither<E, never> = T.leftM
 /**
  * @since 2.0.0
  */
-export function fold<E, A, R>(onLeft: (e: E) => IO<R>, onRight: (a: A) => IO<R>): (ma: IOEither<E, A>) => IO<R> {
+export function fold<E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>): (ma: IOEither<E, A>) => IO<B> {
   return ma => T.fold(ma, onLeft, onRight)
 }
 
@@ -144,7 +144,7 @@ export function getIOValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI
   const T = getValidationM(S, io)
   return {
     URI,
-    _L: undefined as any,
+    _E: undefined as any,
     ...T
   }
 }

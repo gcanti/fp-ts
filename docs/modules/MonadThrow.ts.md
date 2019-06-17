@@ -80,7 +80,7 @@ Added in v2.0.0
 
 ```ts
 export interface MonadThrow3<M extends URIS3> extends Monad3<M> {
-  readonly throwError: <U, E, A>(e: E) => Kind3<M, U, E, A>
+  readonly throwError: <R, E, A>(e: E) => Kind3<M, R, E, A>
 }
 ```
 
@@ -92,7 +92,7 @@ Added in v2.0.0
 
 ```ts
 export interface MonadThrow4<M extends URIS4> extends Monad4<M> {
-  readonly throwError: <X, U, E, A>(e: E) => Kind4<M, X, U, E, A>
+  readonly throwError: <S, R, E, A>(e: E) => Kind4<M, S, R, E, A>
 }
 ```
 

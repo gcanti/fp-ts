@@ -170,7 +170,7 @@ export function isNone<A>(fa: Option<A>): fa is None {
 /**
  * @since 2.0.0
  */
-export function fold<A, R>(onNone: () => R, onSome: (a: A) => R): (ma: Option<A>) => R {
+export function fold<A, B>(onNone: () => B, onSome: (a: A) => B): (ma: Option<A>) => B {
   return ma => (isNone(ma) ? onNone() : onSome(ma.value))
 }
 
@@ -273,7 +273,7 @@ export function tryCatch<A>(f: Lazy<A>): Option<A> {
  *
  * @since 2.0.0
  */
-export function getLeft<L, A>(ma: Either<L, A>): Option<L> {
+export function getLeft<E, A>(ma: Either<E, A>): Option<E> {
   return ma._tag === 'Right' ? none : some(ma.left)
 }
 
@@ -282,7 +282,7 @@ export function getLeft<L, A>(ma: Either<L, A>): Option<L> {
  *
  * @since 2.0.0
  */
-export function getRight<L, A>(ma: Either<L, A>): Option<A> {
+export function getRight<E, A>(ma: Either<E, A>): Option<A> {
   return ma._tag === 'Left' ? none : some(ma.right)
 }
 
@@ -529,7 +529,7 @@ export const option: Monad1<URI> &
   alt: (ma, f) => (isNone(ma) ? f() : ma),
   extend: (wa, f) => (isNone(wa) ? none : some(f(wa))),
   compact: ma => option.chain(ma, identity),
-  separate: <RL, RR>(ma: Option<Either<RL, RR>>): Separated<Option<RL>, Option<RR>> => {
+  separate: <A, B>(ma: Option<Either<A, B>>): Separated<Option<A>, Option<B>> => {
     const o = option.map(ma, e => ({
       left: getLeft(e),
       right: getRight(e)
@@ -549,10 +549,10 @@ export const option: Monad1<URI> &
   partitionMap: (fa, f) => option.separate(option.map(fa, f)),
   wither: <F>(F: Applicative<F>) => <A, B>(fa: Option<A>, f: (a: A) => HKT<F, Option<B>>): HKT<F, Option<B>> =>
     isNone(fa) ? F.of(none) : f(fa.value),
-  wilt: <F>(F: Applicative<F>) => <RL, RR, A>(
+  wilt: <F>(F: Applicative<F>) => <A, B, C>(
     fa: Option<A>,
-    f: (a: A) => HKT<F, Either<RL, RR>>
-  ): HKT<F, Separated<Option<RL>, Option<RR>>> => {
+    f: (a: A) => HKT<F, Either<B, C>>
+  ): HKT<F, Separated<Option<B>, Option<C>>> => {
     const o = option.map(fa, a =>
       F.map(f(a), e => ({
         left: getLeft(e),
