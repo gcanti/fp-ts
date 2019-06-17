@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { contramap, eqDate, eqNumber, eqString, fromEquals, getTupleEq, eqBoolean, getStructEq } from '../src/Eq'
+import { eq, eqDate, eqNumber, eqString, fromEquals, getTupleEq, eqBoolean, getStructEq } from '../src/Eq'
 
 describe('Eq', () => {
   it('getTupleEq', () => {
@@ -32,7 +32,7 @@ describe('Eq', () => {
   })
 
   it('contramap', () => {
-    const S = contramap(eqString, (p: Person) => p.name)
+    const S = eq.contramap(eqString, (p: Person) => p.name)
     assert.strictEqual(S.equals({ name: 'a', age: 1 }, { name: 'a', age: 2 }), true)
     assert.strictEqual(S.equals({ name: 'a', age: 1 }, { name: 'a', age: 1 }), true)
     assert.strictEqual(S.equals({ name: 'a', age: 1 }, { name: 'b', age: 1 }), false)

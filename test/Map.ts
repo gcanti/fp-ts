@@ -8,14 +8,14 @@ import { Eq, eqNumber, fromEquals } from '../src/Eq'
 import { array } from '../src/Array'
 import { Either, left, right } from '../src/Either'
 import * as I from '../src/Identity'
-import { contramap, ordString, fromCompare, ordNumber } from '../src/Ord'
+import { ord, ordString, fromCompare, ordNumber } from '../src/Ord'
 import { showString, getStructShow, Show } from '../src/Show'
 
 interface User {
   id: string
 }
 
-const ordUser = contramap(ordString, (u: User) => u.id)
+const ordUser = ord.contramap(ordString, (u: User) => u.id)
 
 const eqUser: Eq<User> = { equals: ordUser.equals }
 

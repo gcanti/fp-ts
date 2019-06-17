@@ -21,13 +21,15 @@ See [Getting started with fp-ts: Ord](https://dev.to/gcanti/getting-started-with
 <h2 class="text-delta">Table of contents</h2>
 
 - [Ord (interface)](#ord-interface)
+- [URI (type alias)](#uri-type-alias)
+- [URI (constant)](#uri-constant)
+- [ord (constant)](#ord-constant)
 - [ordBoolean (constant)](#ordboolean-constant)
 - [ordDate (constant)](#orddate-constant)
 - [ordNumber (constant)](#ordnumber-constant)
 - [ordString (constant)](#ordstring-constant)
 - [between (function)](#between-function)
 - [clamp (function)](#clamp-function)
-- [contramap (function)](#contramap-function)
 - [fromCompare (function)](#fromcompare-function)
 - [geq (function)](#geq-function)
 - [getDualOrd (function)](#getdualord-function)
@@ -38,6 +40,7 @@ See [Getting started with fp-ts: Ord](https://dev.to/gcanti/getting-started-with
 - [lt (function)](#lt-function)
 - [max (function)](#max-function)
 - [min (function)](#min-function)
+- [contramap (export)](#contramap-export)
 
 ---
 
@@ -49,6 +52,36 @@ See [Getting started with fp-ts: Ord](https://dev.to/gcanti/getting-started-with
 export interface Ord<A> extends Eq<A> {
   readonly compare: (x: A, y: A) => Ordering
 }
+```
+
+Added in v2.0.0
+
+# URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
+# URI (constant)
+
+**Signature**
+
+```ts
+export const URI = ...
+```
+
+Added in v2.0.0
+
+# ord (constant)
+
+**Signature**
+
+```ts
+export const ord: Contravariant1<URI> = ...
 ```
 
 Added in v2.0.0
@@ -113,16 +146,6 @@ Clamp a value between a minimum and a maximum
 
 ```ts
 export function clamp<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => A { ... }
-```
-
-Added in v2.0.0
-
-# contramap (function)
-
-**Signature**
-
-```ts
-export function contramap<A, B>(O: Ord<A>, f: (b: B) => A): Ord<B> { ... }
 ```
 
 Added in v2.0.0
@@ -253,3 +276,11 @@ export function min<A>(O: Ord<A>): (x: A, y: A) => A { ... }
 ```
 
 Added in v2.0.0
+
+# contramap (export)
+
+**Signature**
+
+```ts
+export { contramap }
+```

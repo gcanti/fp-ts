@@ -62,8 +62,8 @@ import {
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
-import { contramap as contramapOrd, ordNumber, ordString } from '../src/Ord'
-import { contramap, eqBoolean, eqNumber, eqString, Eq } from '../src/Eq'
+import { ord, ordNumber, ordString } from '../src/Ord'
+import { eq, eqBoolean, eqNumber, eqString, Eq } from '../src/Eq'
 import { identity, tuple, Predicate } from '../src/function'
 import * as I from '../src/Identity'
 import * as C from '../src/Const'
@@ -473,7 +473,7 @@ describe('Array', () => {
       b: number
     }
 
-    const eqA = contramap(ordNumber, (f: A) => f.b)
+    const eqA = eq.contramap(ordNumber, (f: A) => f.b)
     const arrA: A = { a: 'a', b: 1 }
     const arrB: A = { a: 'b', b: 1 }
     const arrC: A = { a: 'c', b: 2 }
@@ -505,8 +505,8 @@ describe('Array', () => {
       name: string
       age: number
     }
-    const byName = contramapOrd(ordString, (p: Person) => p.name)
-    const byAge = contramapOrd(ordNumber, (p: Person) => p.age)
+    const byName = ord.contramap(ordString, (p: Person) => p.name)
+    const byAge = ord.contramap(ordNumber, (p: Person) => p.age)
     const sortByNameByAge = sortBy([byName, byAge])
     const persons = [{ name: 'a', age: 1 }, { name: 'b', age: 3 }, { name: 'c', age: 2 }, { name: 'b', age: 2 }]
     assert.deepStrictEqual(sortByNameByAge(persons), [

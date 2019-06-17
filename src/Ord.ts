@@ -12,6 +12,24 @@
 import { Ordering, semigroupOrdering } from './Ordering'
 import { Semigroup } from './Semigroup'
 import { Eq } from './Eq'
+import { Contravariant1 } from './Contravariant'
+import { pipeable } from './pipeable'
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    Ord: Ord<A>
+  }
+}
+
+/**
+ * @since 2.0.0
+ */
+export const URI = 'Ord'
+
+/**
+ * @since 2.0.0
+ */
+export type URI = typeof URI
 
 /**
  * @since 2.0.0
@@ -52,11 +70,6 @@ export const ordBoolean: Ord<boolean> = {
   equals: strictEqual,
   compare
 }
-
-/**
- * @since 2.0.0
- */
-export const ordDate: Ord<Date> = contramap(ordNumber, date => date.valueOf())
 
 /**
  * Test whether one value is _strictly less than_ another
@@ -148,13 +161,6 @@ export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> {
 /**
  * @since 2.0.0
  */
-export function contramap<A, B>(O: Ord<A>, f: (b: B) => A): Ord<B> {
-  return fromCompare((x, y) => O.compare(f(x), f(y)))
-}
-
-/**
- * @since 2.0.0
- */
 export function getSemigroup<A = never>(): Semigroup<Ord<A>> {
   return {
     concat: (x, y) => fromCompare((a, b) => semigroupOrdering.concat(x.compare(a, b), y.compare(a, b)))
@@ -196,3 +202,20 @@ export function getTupleOrd<T extends Array<Ord<any>>>(
 export function getDualOrd<A>(O: Ord<A>): Ord<A> {
   return fromCompare((x, y) => O.compare(y, x))
 }
+
+/**
+ * @since 2.0.0
+ */
+export const ord: Contravariant1<URI> = {
+  URI,
+  contramap: (fa, f) => fromCompare((x, y) => fa.compare(f(x), f(y)))
+}
+
+const { contramap } = pipeable(ord)
+
+export { contramap }
+
+/**
+ * @since 2.0.0
+ */
+export const ordDate: Ord<Date> = ord.contramap(ordNumber, date => date.valueOf())

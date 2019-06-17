@@ -29,7 +29,7 @@ import {
   getShow,
   empty
 } from '../src/Set'
-import { Eq, eqNumber, eqString, contramap, getStructEq } from '../src/Eq'
+import { Eq, eqNumber, eqString, eq, getStructEq } from '../src/Eq'
 import { none, some as optionSome } from '../src/Option'
 import { showString } from '../src/Show'
 import { getMonoid } from '../src/Array'
@@ -205,7 +205,7 @@ describe('Set', () => {
   it('compact', () => {
     assert.deepStrictEqual(compact(eqNumber)(new Set([optionSome(1), none, optionSome(2)])), new Set([1, 2]))
     type R = { id: string }
-    const S: Eq<R> = contramap(eqString, x => x.id)
+    const S: Eq<R> = eq.contramap(eqString, x => x.id)
     assert.deepStrictEqual(
       compact(S)(new Set([optionSome({ id: 'a' }), none, optionSome({ id: 'a' })])),
       new Set([{ id: 'a' }])
@@ -219,8 +219,8 @@ describe('Set', () => {
     })
     type L = { error: string }
     type R = { id: string }
-    const SL: Eq<L> = contramap(eqString, x => x.error)
-    const SR: Eq<R> = contramap(eqString, x => x.id)
+    const SL: Eq<L> = eq.contramap(eqString, x => x.error)
+    const SR: Eq<R> = eq.contramap(eqString, x => x.id)
     assert.deepStrictEqual(
       separate(SL, SR)(
         new Set([right({ id: 'a' }), left({ error: 'error' }), right({ id: 'a' }), left({ error: 'error' })])
@@ -238,7 +238,7 @@ describe('Set', () => {
       new Set([2, 3])
     )
     type R = { id: string }
-    const S: Eq<R> = contramap(eqString, x => x.id)
+    const S: Eq<R> = eq.contramap(eqString, x => x.id)
     assert.deepStrictEqual(
       filterMap(S)((x: { id: string }) => optionSome(x))(new Set([{ id: 'a' }, { id: 'a' }])),
       new Set([{ id: 'a' }])

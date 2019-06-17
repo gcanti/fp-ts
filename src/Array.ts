@@ -1078,14 +1078,14 @@ export function uniq<A>(E: Eq<A>): (as: Array<A>) => Array<A> {
  *
  * @example
  * import { sortBy } from 'fp-ts/lib/Array'
- * import { contramap, ordString, ordNumber } from 'fp-ts/lib/Ord'
+ * import { ord, ordString, ordNumber } from 'fp-ts/lib/Ord'
  *
  * interface Person {
  *   name: string
  *   age: number
  * }
- * const byName = contramap(ordString, (p: Person) => p.name)
- * const byAge = contramap(ordNumber, (p: Person) => p.age)
+ * const byName = ord.contramap(ordString, (p: Person) => p.name)
+ * const byAge = ord.contramap(ordNumber, (p: Person) => p.age)
  *
  * const sortByNameByAge = sortBy([byName, byAge])
  *
