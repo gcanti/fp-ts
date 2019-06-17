@@ -90,6 +90,9 @@ Add the following lines to your `tslint.json` to turn the `@obsolete` rule on:
     - backport `modifyAt` (@gcanti)
 - **Bug Fix**
   - fix `MonadThrow` definition (@gcanti)
+  - `TraversableWithIndex`
+    - fix `TraverseWithIndex2` definition (@gcanti)
+    - fix `TraverseWithIndex2C` definition (@gcanti)
 - **Deprecations**
   - `HKT`
     - deprecate `URI2HKT<n>` in favour of `URItoKind<n>` (@gcanti)
