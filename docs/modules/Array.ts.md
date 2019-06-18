@@ -107,7 +107,6 @@ export const array: Monad1<URI> &
   Unfoldable1<URI> &
   TraversableWithIndex1<URI, number> &
   Alternative1<URI> &
-  Plus1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
   FilterableWithIndex1<URI, number> &

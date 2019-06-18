@@ -196,7 +196,6 @@ Added in v2.0.0
 ```ts
 export const option: Monad1<URI> &
   Foldable1<URI> &
-  Plus1<URI> &
   Traversable1<URI> &
   Alternative1<URI> &
   Extend1<URI> &

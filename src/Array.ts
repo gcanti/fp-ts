@@ -19,7 +19,6 @@ import { NonEmptyArray } from './NonEmptyArray'
 import { isSome, none, Option, some } from './Option'
 import { fromCompare, getSemigroup, Ord, ordNumber } from './Ord'
 import { pipeable } from './pipeable'
-import { Plus1 } from './Plus'
 import { Show } from './Show'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
@@ -1289,7 +1288,6 @@ export const array: Monad1<URI> &
   Unfoldable1<URI> &
   TraversableWithIndex1<URI, number> &
   Alternative1<URI> &
-  Plus1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
   FilterableWithIndex1<URI, number> &

@@ -67,7 +67,6 @@ parent: Modules
 - [ord (export)](#ord-export)
 - [ordering (export)](#ordering-export)
 - [pipeable (export)](#pipeable-export)
-- [plus (export)](#plus-export)
 - [profunctor (export)](#profunctor-export)
 - [random (export)](#random-export)
 - [reader (export)](#reader-export)
@@ -571,14 +570,6 @@ export { ordering }
 
 ```ts
 export { pipeable }
-```
-
-# plus (export)
-
-**Signature**
-
-```ts
-export { plus }
 ```
 
 # profunctor (export)

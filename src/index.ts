@@ -112,8 +112,6 @@ import * as ordering from './Ordering'
 export { ordering }
 import * as pipeable from './pipeable'
 export { pipeable }
-import * as plus from './Plus'
-export { plus }
 import * as profunctor from './Profunctor'
 export { profunctor }
 import * as random from './Random'

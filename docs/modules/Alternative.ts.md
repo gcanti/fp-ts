@@ -6,13 +6,18 @@ parent: Modules
 
 # Overview
 
-The `Alternative` type class has no members of its own; it just specifies that the type constructor has both
-`Applicative` and `Plus` instances.
+The `Alternative` type class extends the `Alt` type class with a value that should be the left and right identity for `alt`.
 
-Types which have `Alternative` instances should also satisfy the following laws:
+It is similar to `Monoid`, except that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than
+concrete types like `string` or `number`.
 
-1. Distributivity: `A.ap(A.alt(fab, gab), fa) = A.alt(A.ap(fab, fa), A.ap(gab, fa))`
-2. Annihilation: `A.ap(zero, fa) = zero`
+`Alternative` instances should satisfy the following laws:
+
+1. Left identity: `A.alt(zero, fa) == fa`
+2. Right identity: `A.alt(fa, zero) == fa`
+3. Annihilation: `A.map(zero, f) == zero`
+4. Distributivity: `A.ap(A.alt(fab, gab), fa) = A.alt(A.ap(fab, fa), A.ap(gab, fa))`
+5. Annihilation: `A.ap(zero, fa) = zero`
 
 ---
 
@@ -31,7 +36,9 @@ Types which have `Alternative` instances should also satisfy the following laws:
 **Signature**
 
 ```ts
-export interface Alternative<F> extends Applicative<F>, Plus<F> {}
+export interface Alternative<F> extends Applicative<F>, Alt<F> {
+  readonly zero: <A>() => HKT<F, A>
+}
 ```
 
 Added in v2.0.0
@@ -41,7 +48,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Alternative1<F extends URIS> extends Applicative1<F>, Plus1<F> {}
+export interface Alternative1<F extends URIS> extends Applicative1<F>, Alt1<F> {
+  readonly zero: <A>() => Kind<F, A>
+}
 ```
 
 Added in v2.0.0
@@ -51,7 +60,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Alternative2<F extends URIS2> extends Applicative2<F>, Plus2<F> {}
+export interface Alternative2<F extends URIS2> extends Applicative2<F>, Alt2<F> {
+  readonly zero: <E, A>() => Kind2<F, E, A>
+}
 ```
 
 Added in v2.0.0
@@ -61,7 +72,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Alternative2C<F extends URIS2, E> extends Applicative2C<F, E>, Plus2C<F, E> {}
+export interface Alternative2C<F extends URIS2, E> extends Applicative2C<F, E>, Alt2C<F, E> {
+  readonly zero: <A>() => Kind2<F, E, A>
+}
 ```
 
 Added in v2.0.0
@@ -71,7 +84,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Alternative3<F extends URIS3> extends Applicative3<F>, Plus3<F> {}
+export interface Alternative3<F extends URIS3> extends Applicative3<F>, Alt3<F> {
+  readonly zero: <R, E, A>() => Kind3<F, R, E, A>
+}
 ```
 
 Added in v2.0.0

@@ -125,7 +125,6 @@ Type classes describe what you can do with your data. Implementations are provid
 * [Monoidal](./Monoidal.ts.html)
 * [Ord](./Ord.ts.html)
 * [Ordering](./Ordering.ts.html)
-* [Plus](./Plus.ts.html)
 * [Profunctor](./Profunctor.ts.html)
 * [Ring](./Ring.ts.html)
 * [Semigroup](./Semigroup.ts.html)

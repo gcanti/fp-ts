@@ -93,7 +93,6 @@ import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { Ord } from './Ord'
-import { Plus1 } from './Plus'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
@@ -503,7 +502,6 @@ const identity = <A>(a: A): A => a
  */
 export const option: Monad1<URI> &
   Foldable1<URI> &
-  Plus1<URI> &
   Traversable1<URI> &
   Alternative1<URI> &
   Extend1<URI> &
