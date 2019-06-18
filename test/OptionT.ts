@@ -52,8 +52,8 @@ describe('OptionT', () => {
     })
   })
 
-  it('throwError', () => {
-    return T.throwError()().then(o => {
+  it('none', () => {
+    return T.none()().then(o => {
       assert.deepStrictEqual(o, O.none)
     })
   })
