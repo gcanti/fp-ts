@@ -64,14 +64,14 @@ export type These<E, A> = Either<E, A> | Both<E, A>
 /**
  * @since 2.0.0
  */
-export function left<E>(left: E): These<E, never> {
+export function left<E = never, A = never>(left: E): These<E, A> {
   return { _tag: 'Left', left }
 }
 
 /**
  * @since 2.0.0
  */
-export function right<A>(right: A): These<never, A> {
+export function right<E = never, A = never>(right: A): These<E, A> {
   return { _tag: 'Right', right }
 }
 

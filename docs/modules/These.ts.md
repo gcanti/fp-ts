@@ -330,7 +330,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function left<E>(left: E): These<E, never> { ... }
+export function left<E = never, A = never>(left: E): These<E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -360,7 +360,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function right<A>(right: A): These<never, A> { ... }
+export function right<E = never, A = never>(right: A): These<E, A> { ... }
 ```
 
 Added in v2.0.0

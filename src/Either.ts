@@ -90,7 +90,7 @@ export type Either<E, A> = Left<E> | Right<A>
  *
  * @since 2.0.0
  */
-export function left<E>(e: E): Either<E, never> {
+export function left<E = never, A = never>(e: E): Either<E, A> {
   return { _tag: 'Left', left: e }
 }
 
@@ -100,7 +100,7 @@ export function left<E>(e: E): Either<E, never> {
  *
  * @since 2.0.0
  */
-export function right<A>(a: A): Either<never, A> {
+export function right<E = never, A = never>(a: A): Either<E, A> {
   return { _tag: 'Right', right: a }
 }
 
@@ -510,11 +510,7 @@ export const either: Monad2<URI> &
   extend: (wa, f) => (isLeft(wa) ? wa : right(f(wa))),
   chainRec: <E, A, B>(a: A, f: (a: A) => Either<E, Either<A, B>>): Either<E, B> => {
     return tailRec(f(a), e =>
-      isLeft(e)
-        ? right<Either<E, B>>(left(e.left))
-        : isLeft(e.right)
-        ? left(f(e.right.left))
-        : right(right(e.right.right))
+      isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
     )
   },
   throwError: left

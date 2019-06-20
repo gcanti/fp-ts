@@ -84,7 +84,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const left: <E>(e: E) => TaskEither<E, never> = ...
+export const left: <E = ...
 ```
 
 Added in v2.0.0
@@ -94,7 +94,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const leftTask: <E>(me: Task<E>) => TaskEither<E, never> = ...
+export const leftTask: <E = ...
 ```
 
 Added in v2.0.0
@@ -104,7 +104,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const right: <A>(a: A) => TaskEither<never, A> = ...
+export const right: <E = ...
 ```
 
 Added in v2.0.0
@@ -114,7 +114,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const rightTask: <A>(ma: Task<A>) => TaskEither<never, A> = ...
+export const rightTask: <E = ...
 ```
 
 Added in v2.0.0
@@ -237,7 +237,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function leftIO<E>(me: IO<E>): TaskEither<E, never> { ... }
+export function leftIO<E = never, A = never>(me: IO<E>): TaskEither<E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -257,7 +257,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function rightIO<A>(ma: IO<A>): TaskEither<never, A> { ... }
+export function rightIO<E = never, A = never>(ma: IO<A>): TaskEither<E, A> { ... }
 ```
 
 Added in v2.0.0

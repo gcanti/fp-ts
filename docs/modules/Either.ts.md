@@ -365,7 +365,7 @@ structure
 **Signature**
 
 ```ts
-export function left<E>(e: E): Either<E, never> { ... }
+export function left<E = never, A = never>(e: E): Either<E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -409,7 +409,7 @@ of this structure
 **Signature**
 
 ```ts
-export function right<A>(a: A): Either<never, A> { ... }
+export function right<E = never, A = never>(a: A): Either<E, A> { ... }
 ```
 
 Added in v2.0.0

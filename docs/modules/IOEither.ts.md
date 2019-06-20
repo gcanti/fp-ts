@@ -79,7 +79,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const left: <E>(l: E) => IOEither<E, never> = ...
+export const left: <E = ...
 ```
 
 Added in v2.0.0
@@ -89,7 +89,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const leftIO: <E>(me: IO<E>) => IOEither<E, never> = ...
+export const leftIO: <E = ...
 ```
 
 Added in v2.0.0
@@ -99,7 +99,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const right: <A>(a: A) => IOEither<never, A> = ...
+export const right: <E = ...
 ```
 
 Added in v2.0.0
@@ -109,7 +109,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const rightIO: <A>(ma: IO<A>) => IOEither<never, A> = ...
+export const rightIO: <E = ...
 ```
 
 Added in v2.0.0

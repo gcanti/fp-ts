@@ -52,26 +52,26 @@ export function run<R, E, A>(ma: ReaderTaskEither<R, E, A>, r: R): Promise<Eithe
 /**
  * @since 2.0.0
  */
-export function left<R, E>(e: E): ReaderTaskEither<R, E, never> {
+export function left<R, E = never, A = never>(e: E): ReaderTaskEither<R, E, A> {
   return fromTaskEither(TE.left(e))
 }
 
 /**
  * @since 2.0.0
  */
-export const right: <R, A>(a: A) => ReaderTaskEither<R, never, A> = T.of
+export const right: <R, E = never, A = never>(a: A) => ReaderTaskEither<R, E, A> = T.of
 
 /**
  * @since 2.0.0
  */
-export function rightTask<R, A>(ma: Task<A>): ReaderTaskEither<R, never, A> {
+export function rightTask<R, E = never, A = never>(ma: Task<A>): ReaderTaskEither<R, E, A> {
   return fromTaskEither(TE.rightTask(ma))
 }
 
 /**
  * @since 2.0.0
  */
-export function leftTask<R, E>(me: Task<E>): ReaderTaskEither<R, E, never> {
+export function leftTask<R, E = never, A = never>(me: Task<E>): ReaderTaskEither<R, E, A> {
   return fromTaskEither(TE.leftTask(me))
 }
 
@@ -83,12 +83,12 @@ export const fromTaskEither: <R, E, A>(ma: TaskEither<E, A>) => ReaderTaskEither
 /**
  * @since 2.0.0
  */
-export const rightReader: <R, A>(ma: Reader<R, A>) => ReaderTaskEither<R, never, A> = T.fromReader
+export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderTaskEither<R, E, A> = T.fromReader
 
 /**
  * @since 2.0.0
  */
-export function leftReader<R, E>(me: Reader<R, E>): ReaderTaskEither<R, E, never> {
+export function leftReader<R, E = never, A = never>(me: Reader<R, E>): ReaderTaskEither<R, E, A> {
   return r => TE.left(me(r))
 }
 
@@ -109,14 +109,14 @@ export function fromReaderEither<R, E, A>(ma: ReaderEither<R, E, A>): ReaderTask
 /**
  * @since 2.0.0
  */
-export function rightIO<R, A>(ma: IO<A>): ReaderTaskEither<R, never, A> {
+export function rightIO<R, E = never, A = never>(ma: IO<A>): ReaderTaskEither<R, E, A> {
   return fromTaskEither(TE.rightIO(ma))
 }
 
 /**
  * @since 2.0.0
  */
-export function leftIO<R, E>(me: IO<E>): ReaderTaskEither<R, E, never> {
+export function leftIO<R, E = never, A = never>(me: IO<E>): ReaderTaskEither<R, E, A> {
   return fromTaskEither(TE.leftIO(me))
 }
 
@@ -186,12 +186,12 @@ export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderTaskEither<R
 /**
  * @since 2.0.0
  */
-export const ask: <R>() => ReaderTaskEither<R, never, R> = T.ask
+export const ask: <R, E = never>() => ReaderTaskEither<R, E, R> = T.ask
 
 /**
  * @since 2.0.0
  */
-export const asks: <R, A>(f: (r: R) => A) => ReaderTaskEither<R, never, A> = T.asks
+export const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A> = T.asks
 
 /**
  * @since 2.0.0

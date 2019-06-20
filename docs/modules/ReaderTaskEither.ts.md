@@ -75,7 +75,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const ask: <R>() => ReaderTaskEither<R, never, R> = ...
+export const ask: <R, E = ...
 ```
 
 Added in v2.0.0
@@ -85,7 +85,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const asks: <R, A>(f: (r: R) => A) => ReaderTaskEither<R, never, A> = ...
+export const asks: <R, E = ...
 ```
 
 Added in v2.0.0
@@ -127,7 +127,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const right: <R, A>(a: A) => ReaderTaskEither<R, never, A> = ...
+export const right: <R, E = ...
 ```
 
 Added in v2.0.0
@@ -137,7 +137,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const rightReader: <R, A>(ma: Reader<R, A>) => ReaderTaskEither<R, never, A> = ...
+export const rightReader: <R, E = ...
 ```
 
 Added in v2.0.0
@@ -222,7 +222,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function left<R, E>(e: E): ReaderTaskEither<R, E, never> { ... }
+export function left<R, E = never, A = never>(e: E): ReaderTaskEither<R, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -232,7 +232,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function leftIO<R, E>(me: IO<E>): ReaderTaskEither<R, E, never> { ... }
+export function leftIO<R, E = never, A = never>(me: IO<E>): ReaderTaskEither<R, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -242,7 +242,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function leftReader<R, E>(me: Reader<R, E>): ReaderTaskEither<R, E, never> { ... }
+export function leftReader<R, E = never, A = never>(me: Reader<R, E>): ReaderTaskEither<R, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -252,7 +252,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function leftTask<R, E>(me: Task<E>): ReaderTaskEither<R, E, never> { ... }
+export function leftTask<R, E = never, A = never>(me: Task<E>): ReaderTaskEither<R, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -284,7 +284,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function rightIO<R, A>(ma: IO<A>): ReaderTaskEither<R, never, A> { ... }
+export function rightIO<R, E = never, A = never>(ma: IO<A>): ReaderTaskEither<R, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -294,7 +294,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function rightTask<R, A>(ma: Task<A>): ReaderTaskEither<R, never, A> { ... }
+export function rightTask<R, E = never, A = never>(ma: Task<A>): ReaderTaskEither<R, E, A> { ... }
 ```
 
 Added in v2.0.0

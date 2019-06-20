@@ -65,26 +65,26 @@ export const execState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S
 /**
  * @since 2.0.0
  */
-export function left<S, R, E>(e: E): StateReaderTaskEither<S, R, E, never> {
+export function left<S, R, E = never, A = never>(e: E): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.left(e))
 }
 
 /**
  * @since 2.0.0
  */
-export const right: <S, R, A>(a: A) => StateReaderTaskEither<S, R, never, A> = T.of
+export const right: <S, R, E = never, A = never>(a: A) => StateReaderTaskEither<S, R, E, A> = T.of
 
 /**
  * @since 2.0.0
  */
-export function rightTask<S, R, A>(ma: Task<A>): StateReaderTaskEither<S, R, never, A> {
+export function rightTask<S, R, E = never, A = never>(ma: Task<A>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.rightTask(ma))
 }
 
 /**
  * @since 2.0.0
  */
-export function leftTask<S, R, E>(me: Task<E>): StateReaderTaskEither<S, R, E, never> {
+export function leftTask<S, R, E = never, A = never>(me: Task<E>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.leftTask(me))
 }
 
@@ -98,14 +98,14 @@ export function fromTaskEither<S, R, E, A>(ma: TaskEither<E, A>): StateReaderTas
 /**
  * @since 2.0.0
  */
-export function rightReader<S, R, A>(ma: Reader<R, A>): StateReaderTaskEither<S, R, never, A> {
+export function rightReader<S, R, E = never, A = never>(ma: Reader<R, A>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.rightReader(ma))
 }
 
 /**
  * @since 2.0.0
  */
-export function leftReader<S, R, E>(me: Reader<R, E>): StateReaderTaskEither<S, R, E, never> {
+export function leftReader<S, R, E = never, A = never>(me: Reader<R, E>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.leftReader(me))
 }
 
@@ -126,26 +126,27 @@ export function fromReaderEither<S, R, E, A>(ma: ReaderEither<R, E, A>): StateRe
 /**
  * @since 2.0.0
  */
-export function rightIO<S, R, A>(ma: IO<A>): StateReaderTaskEither<S, R, never, A> {
+export function rightIO<S, R, E = never, A = never>(ma: IO<A>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.rightIO(ma))
 }
 
 /**
  * @since 2.0.0
  */
-export function leftIO<S, R, E>(me: IO<E>): StateReaderTaskEither<S, R, E, never> {
+export function leftIO<S, R, E = never, A = never>(me: IO<E>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.leftIO(me))
 }
 
 /**
  * @since 2.0.0
  */
-export const rightState: <S, R, A>(ma: State<S, A>) => StateReaderTaskEither<S, R, never, A> = T.fromState
+export const rightState: <S, R, E = never, A = never>(ma: State<S, A>) => StateReaderTaskEither<S, R, E, A> =
+  T.fromState
 
 /**
  * @since 2.0.0
  */
-export function leftState<S, R, E>(me: State<S, E>): StateReaderTaskEither<S, R, E, never> {
+export function leftState<S, R, E = never, A = never>(me: State<S, E>): StateReaderTaskEither<S, R, E, A> {
   return s => RTE.left(me(s)[0])
 }
 
@@ -160,28 +161,28 @@ export const fromReaderTaskEither: <S, R, E, A>(ma: ReaderTaskEither<R, E, A>) =
  *
  * @since 2.0.0
  */
-export const get: <S, R>() => StateReaderTaskEither<S, R, never, S> = T.get
+export const get: <S, R, E = never>() => StateReaderTaskEither<S, R, E, S> = T.get
 
 /**
  * Set the state
  *
  * @since 2.0.0
  */
-export const put: <S, R>(s: S) => StateReaderTaskEither<S, R, never, void> = T.put
+export const put: <S, R, E = never>(s: S) => StateReaderTaskEither<S, R, E, void> = T.put
 
 /**
  * Modify the state by applying a function to the current state
  *
  * @since 2.0.0
  */
-export const modify: <S, R>(f: (s: S) => S) => StateReaderTaskEither<S, R, never, void> = T.modify
+export const modify: <S, R, E = never>(f: (s: S) => S) => StateReaderTaskEither<S, R, E, void> = T.modify
 
 /**
  * Get a value which depends on the current state
  *
  * @since 2.0.0
  */
-export const gets: <S, R, A>(f: (s: S) => A) => StateReaderTaskEither<S, R, never, A> = T.gets
+export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTaskEither<S, R, E, A> = T.gets
 
 /**
  * @since 2.0.0

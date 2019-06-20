@@ -46,36 +46,36 @@ export interface TaskEither<E, A> extends Task<Either<E, A>> {}
 /**
  * @since 2.0.0
  */
-export const left: <E>(e: E) => TaskEither<E, never> = T.left
+export const left: <E = never, A = never>(e: E) => TaskEither<E, A> = T.left
 
 /**
  * @since 2.0.0
  */
-export const right: <A>(a: A) => TaskEither<never, A> = T.of
+export const right: <E = never, A = never>(a: A) => TaskEither<E, A> = T.of
 
 /**
  * @since 2.0.0
  */
-export function rightIO<A>(ma: IO<A>): TaskEither<never, A> {
+export function rightIO<E = never, A = never>(ma: IO<A>): TaskEither<E, A> {
   return rightTask(task.fromIO(ma))
 }
 
 /**
  * @since 2.0.0
  */
-export function leftIO<E>(me: IO<E>): TaskEither<E, never> {
+export function leftIO<E = never, A = never>(me: IO<E>): TaskEither<E, A> {
   return leftTask(task.fromIO(me))
 }
 
 /**
  * @since 2.0.0
  */
-export const rightTask: <A>(ma: Task<A>) => TaskEither<never, A> = T.rightM
+export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskEither<E, A> = T.rightM
 
 /**
  * @since 2.0.0
  */
-export const leftTask: <E>(me: Task<E>) => TaskEither<E, never> = T.leftM
+export const leftTask: <E = never, A = never>(me: Task<E>) => TaskEither<E, A> = T.leftM
 
 /**
  * @since 2.0.0

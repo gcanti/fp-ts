@@ -110,7 +110,7 @@ Get the current state
 **Signature**
 
 ```ts
-export const get: <S, R>() => StateReaderTaskEither<S, R, never, S> = ...
+export const get: <S, R, E = ...
 ```
 
 Added in v2.0.0
@@ -122,7 +122,7 @@ Get a value which depends on the current state
 **Signature**
 
 ```ts
-export const gets: <S, R, A>(f: (s: S) => A) => StateReaderTaskEither<S, R, never, A> = ...
+export const gets: <S, R, E = ...
 ```
 
 Added in v2.0.0
@@ -134,7 +134,7 @@ Modify the state by applying a function to the current state
 **Signature**
 
 ```ts
-export const modify: <S, R>(f: (s: S) => S) => StateReaderTaskEither<S, R, never, void> = ...
+export const modify: <S, R, E = ...
 ```
 
 Added in v2.0.0
@@ -146,7 +146,7 @@ Set the state
 **Signature**
 
 ```ts
-export const put: <S, R>(s: S) => StateReaderTaskEither<S, R, never, void> = ...
+export const put: <S, R, E = ...
 ```
 
 Added in v2.0.0
@@ -156,7 +156,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const right: <S, R, A>(a: A) => StateReaderTaskEither<S, R, never, A> = ...
+export const right: <S, R, E = ...
 ```
 
 Added in v2.0.0
@@ -166,7 +166,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const rightState: <S, R, A>(ma: State<S, A>) => StateReaderTaskEither<S, R, never, A> = ...
+export const rightState: <S, R, E = ...
 ```
 
 Added in v2.0.0
@@ -228,7 +228,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function left<S, R, E>(e: E): StateReaderTaskEither<S, R, E, never> { ... }
+export function left<S, R, E = never, A = never>(e: E): StateReaderTaskEither<S, R, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -238,7 +238,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function leftIO<S, R, E>(me: IO<E>): StateReaderTaskEither<S, R, E, never> { ... }
+export function leftIO<S, R, E = never, A = never>(me: IO<E>): StateReaderTaskEither<S, R, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -248,7 +248,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function leftReader<S, R, E>(me: Reader<R, E>): StateReaderTaskEither<S, R, E, never> { ... }
+export function leftReader<S, R, E = never, A = never>(me: Reader<R, E>): StateReaderTaskEither<S, R, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -258,7 +258,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function leftState<S, R, E>(me: State<S, E>): StateReaderTaskEither<S, R, E, never> { ... }
+export function leftState<S, R, E = never, A = never>(me: State<S, E>): StateReaderTaskEither<S, R, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -268,7 +268,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function leftTask<S, R, E>(me: Task<E>): StateReaderTaskEither<S, R, E, never> { ... }
+export function leftTask<S, R, E = never, A = never>(me: Task<E>): StateReaderTaskEither<S, R, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -278,7 +278,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function rightIO<S, R, A>(ma: IO<A>): StateReaderTaskEither<S, R, never, A> { ... }
+export function rightIO<S, R, E = never, A = never>(ma: IO<A>): StateReaderTaskEither<S, R, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -288,7 +288,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function rightReader<S, R, A>(ma: Reader<R, A>): StateReaderTaskEither<S, R, never, A> { ... }
+export function rightReader<S, R, E = never, A = never>(ma: Reader<R, A>): StateReaderTaskEither<S, R, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -298,7 +298,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function rightTask<S, R, A>(ma: Task<A>): StateReaderTaskEither<S, R, never, A> { ... }
+export function rightTask<S, R, E = never, A = never>(ma: Task<A>): StateReaderTaskEither<S, R, E, A> { ... }
 ```
 
 Added in v2.0.0

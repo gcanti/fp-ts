@@ -127,7 +127,7 @@ describe('Either', () => {
     assert.deepStrictEqual(
       pipe(
         _.right(1),
-        _.orElse(() => _.left('foo') as _.Either<string, number>)
+        _.orElse(() => _.left('foo'))
       ),
       _.right(1)
     )
@@ -194,7 +194,10 @@ describe('Either', () => {
       const f = (s: string): number => s.length
       assert.deepStrictEqual(_.either.ap(_.right(f), _.right('abc')), _.right(3))
       assert.deepStrictEqual(_.either.ap(_.right(f), _.left('maError')), _.left('maError'))
-      assert.deepStrictEqual(_.either.ap(_.left('mabError'), _.right('abc')), _.left('mabError'))
+      assert.deepStrictEqual(
+        _.either.ap(_.left<string, (s: string) => number>('mabError'), _.right('abc')),
+        _.left('mabError')
+      )
       assert.deepStrictEqual(_.either.ap(_.left('mabError'), _.left('maError')), _.left('mabError'))
     })
 
@@ -483,7 +486,7 @@ describe('Either', () => {
       const double = (n: number) => n * 2
       assert.deepStrictEqual(M.ap(_.right(double), _.right(1)), _.right(2))
       assert.deepStrictEqual(M.ap(_.right(double), _.left('foo')), _.left('foo'))
-      assert.deepStrictEqual(M.ap(_.left('foo'), _.right(1)), _.left('foo'))
+      assert.deepStrictEqual(M.ap(_.left<string, (n: number) => number>('foo'), _.right(1)), _.left('foo'))
       assert.deepStrictEqual(M.ap(_.left('foo'), _.left('bar')), _.left('foobar'))
       assert.deepStrictEqual(M.alt(_.left('a'), () => _.right(1)), _.right(1))
       assert.deepStrictEqual(M.alt(_.right(1), () => _.left('a')), _.right(1))

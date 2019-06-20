@@ -44,22 +44,22 @@ export interface IOEither<E, A> extends IO<Either<E, A>> {}
 /**
  * @since 2.0.0
  */
-export const left: <E>(l: E) => IOEither<E, never> = T.left
+export const left: <E = never, A = never>(l: E) => IOEither<E, A> = T.left
 
 /**
  * @since 2.0.0
  */
-export const right: <A>(a: A) => IOEither<never, A> = T.of
+export const right: <E = never, A = never>(a: A) => IOEither<E, A> = T.of
 
 /**
  * @since 2.0.0
  */
-export const rightIO: <A>(ma: IO<A>) => IOEither<never, A> = T.rightM
+export const rightIO: <E = never, A = never>(ma: IO<A>) => IOEither<E, A> = T.rightM
 
 /**
  * @since 2.0.0
  */
-export const leftIO: <E>(me: IO<E>) => IOEither<E, never> = T.leftM
+export const leftIO: <E = never, A = never>(me: IO<E>) => IOEither<E, A> = T.leftM
 
 /**
  * @since 2.0.0
