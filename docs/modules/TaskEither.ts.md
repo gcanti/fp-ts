@@ -469,7 +469,7 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export function left2v<L>(l: L): TaskEither<L, never> { ... }
+export function left2v<E = never, A = never>(e: E): TaskEither<E, A> { ... }
 ```
 
 Added in v1.19.0
@@ -479,7 +479,7 @@ Added in v1.19.0
 **Signature**
 
 ```ts
-export function leftIO<E>(me: IO<E>): TaskEither<E, never> { ... }
+export function leftIO<E = never, A = never>(me: IO<E>): TaskEither<E, A> { ... }
 ```
 
 Added in v1.19.0
@@ -489,7 +489,7 @@ Added in v1.19.0
 **Signature**
 
 ```ts
-export function leftTask<E>(me: Task<E>): TaskEither<E, never> { ... }
+export function leftTask<E = never, A = never>(me: Task<E>): TaskEither<E, A> { ... }
 ```
 
 Added in v1.19.0
@@ -521,7 +521,7 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export function right2v<A>(a: A): TaskEither<never, A> { ... }
+export function right2v<E = never, A = never>(a: A): TaskEither<E, A> { ... }
 ```
 
 Added in v1.19.0
@@ -531,7 +531,7 @@ Added in v1.19.0
 **Signature**
 
 ```ts
-export function rightIO<A>(ma: IO<A>): TaskEither<never, A> { ... }
+export function rightIO<E = never, A = never>(ma: IO<A>): TaskEither<E, A> { ... }
 ```
 
 Added in v1.19.0
@@ -541,7 +541,7 @@ Added in v1.19.0
 **Signature**
 
 ```ts
-export function rightTask<A>(ma: Task<A>): TaskEither<never, A> { ... }
+export function rightTask<E = never, A = never>(ma: Task<A>): TaskEither<E, A> { ... }
 ```
 
 Added in v1.19.0

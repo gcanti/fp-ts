@@ -178,7 +178,7 @@ describe('TaskEither', () => {
   it('getOrElse (method)', () => {
     const v: number = 42
     const te1 = right2v(1).getOrElse(v)
-    const te2 = (left2v('foo') as TaskEither<string, number>).getOrElse(v)
+    const te2 = left2v<string, number>('foo').getOrElse(v)
     return Promise.all([te1.run(), te2.run()]).then(([b1, b2]) => {
       assert.strictEqual(b1, 1)
       assert.strictEqual(b2, 42)
@@ -529,7 +529,7 @@ describe('TaskEither', () => {
         right2v(12),
         filterOrElse(isNumber, () => 'not a number')
       ),
-      (right2v(12) as TaskEither<string, number>).filterOrElseL(isNumber, () => 'not a number')
+      right2v<string, number>(12).filterOrElseL(isNumber, () => 'not a number')
     ]
     return Promise.all(tasks.map(te => te.run())).then(([r1, r2, r3, r4, r5, r6]) => {
       assert.deepStrictEqual(r1, eitherRight(12))

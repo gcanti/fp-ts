@@ -193,12 +193,12 @@ export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadThrow2<U
  * @since 1.19.0
  */
 // tslint:disable-next-line: deprecation
-export const left2v: <L>(l: L) => IOEither<L, never> = fromLeft
+export const left2v: <E = never, A = never>(l: E) => IOEither<E, A> = fromLeft
 
 /**
  * @since 1.19.0
  */
-export function right2v<A>(a: A): IOEither<never, A> {
+export function right2v<E = never, A = never>(a: A): IOEither<E, A> {
   return new IOEither(T.of(a))
 }
 
@@ -206,13 +206,13 @@ export function right2v<A>(a: A): IOEither<never, A> {
  * @since 1.19.0
  */
 // tslint:disable-next-line: deprecation
-export const rightIO: <A>(ma: IO<A>) => IOEither<never, A> = right
+export const rightIO: <E = never, A = never>(ma: IO<A>) => IOEither<E, A> = right
 
 /**
  * @since 1.19.0
  */
 // tslint:disable-next-line: deprecation
-export const leftIO: <E>(me: IO<E>) => IOEither<E, never> = left
+export const leftIO: <E = never, A = never>(me: IO<E>) => IOEither<E, A> = left
 
 /**
  * @since 1.19.0

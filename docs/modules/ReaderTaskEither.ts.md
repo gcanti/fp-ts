@@ -197,7 +197,7 @@ export const URI = ...
 **Signature**
 
 ```ts
-export const left2v: <E, L>(e: L) => ReaderTaskEither<E, L, never> = ...
+export const left2v: <R, E = ...
 ```
 
 Added in v1.19.0
@@ -207,7 +207,7 @@ Added in v1.19.0
 **Signature**
 
 ```ts
-export const leftTask: <E, L, A>(fa: Task<L>) => ReaderTaskEither<E, L, A> = ...
+export const leftTask: <R, E = ...
 ```
 
 Added in v1.19.0
@@ -244,7 +244,7 @@ Added in v1.10.0
 **Signature**
 
 ```ts
-export const right2v: <E, A>(a: A) => ReaderTaskEither<E, never, A> = ...
+export const right2v: <R, E = ...
 ```
 
 Added in v1.19.0
@@ -254,7 +254,7 @@ Added in v1.19.0
 **Signature**
 
 ```ts
-export const rightIO: <E, A>(ma: IO<A>) => ReaderTaskEither<E, never, A> = ...
+export const rightIO: <R, E = ...
 ```
 
 Added in v1.19.0
@@ -264,7 +264,7 @@ Added in v1.19.0
 **Signature**
 
 ```ts
-export const rightReader: <E, A>(ma: Reader<E, A>) => ReaderTaskEither<E, never, A> = ...
+export const rightReader: <R, E = ...
 ```
 
 Added in v1.19.0
@@ -274,7 +274,7 @@ Added in v1.19.0
 **Signature**
 
 ```ts
-export const rightTask: <E, L, A>(fa: Task<A>) => ReaderTaskEither<E, L, A> = ...
+export const rightTask: <R, E = ...
 ```
 
 Added in v1.19.0

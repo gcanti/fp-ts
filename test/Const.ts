@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { Const, getApply, getEq, const_, getApplicative, getShow, make } from '../src/Const'
+import { getApply, getEq, const_, getApplicative, getShow, make } from '../src/Const'
 import { semigroupString } from '../src/Semigroup'
 import { eqNumber } from '../src/Eq'
 import { monoidString } from '../src/Monoid'
@@ -14,7 +14,7 @@ describe('Const', () => {
   })
 
   it('contramap', () => {
-    const fa: Const<string, number> = make('foo')
+    const fa = make<string, number>('foo')
     const double = (n: number): number => n * 2
     assert.strictEqual(fa.contramap(double), fa)
     assert.strictEqual(const_.contramap(fa, double), fa)

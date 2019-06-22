@@ -513,7 +513,7 @@ Added in v1.19.0
 **Signature**
 
 ```ts
-export const left: <E>(left: E) => These<E, never> = ...
+export const left: <E = ...
 ```
 
 Added in v1.19.0
@@ -523,7 +523,7 @@ Added in v1.19.0
 **Signature**
 
 ```ts
-export const right: <A>(right: A) => These<never, A> = ...
+export const right: <E = ...
 ```
 
 Added in v1.19.0

@@ -428,35 +428,35 @@ export const taskEitherSeq: typeof taskEither = {
 /**
  * @since 1.19.0
  */
-export function right2v<A>(a: A): TaskEither<never, A> {
+export function right2v<E = never, A = never>(a: A): TaskEither<E, A> {
   return new TaskEither(T.of(a))
 }
 
 /**
  * @since 1.19.0
  */
-export function left2v<L>(l: L): TaskEither<L, never> {
-  return fromEither(eitherLeft(l))
+export function left2v<E = never, A = never>(e: E): TaskEither<E, A> {
+  return fromEither(eitherLeft(e))
 }
 
 /**
  * @since 1.19.0
  */
-export function rightIO<A>(ma: IO<A>): TaskEither<never, A> {
+export function rightIO<E = never, A = never>(ma: IO<A>): TaskEither<E, A> {
   return rightTask(task.fromIO(ma))
 }
 
 /**
  * @since 1.19.0
  */
-export function leftIO<E>(me: IO<E>): TaskEither<E, never> {
+export function leftIO<E = never, A = never>(me: IO<E>): TaskEither<E, A> {
   return leftTask(task.fromIO(me))
 }
 
 /**
  * @since 1.19.0
  */
-export function rightTask<A>(ma: Task<A>): TaskEither<never, A> {
+export function rightTask<E = never, A = never>(ma: Task<A>): TaskEither<E, A> {
   // tslint:disable-next-line: deprecation
   return right(ma)
 }
@@ -464,7 +464,7 @@ export function rightTask<A>(ma: Task<A>): TaskEither<never, A> {
 /**
  * @since 1.19.0
  */
-export function leftTask<E>(me: Task<E>): TaskEither<E, never> {
+export function leftTask<E = never, A = never>(me: Task<E>): TaskEither<E, A> {
   // tslint:disable-next-line: deprecation
   return left(me)
 }
