@@ -254,36 +254,36 @@ export const readerTaskEitherSeq: typeof readerTaskEither = {
  * @since 1.19.0
  */
 // tslint:disable-next-line: deprecation
-export const left2v: <E, L>(e: L) => ReaderTaskEither<E, L, never> = fromLeft
+export const left2v: <R, E = never, A = never>(e: E) => ReaderTaskEither<R, E, A> = fromLeft
 
 /**
  * @since 1.19.0
  */
-export const right2v: <E, A>(a: A) => ReaderTaskEither<E, never, A> = readerTaskEither.of
-
-/**
- * @since 1.19.0
- */
-// tslint:disable-next-line: deprecation
-export const rightReader: <E, A>(ma: Reader<E, A>) => ReaderTaskEither<E, never, A> = fromReader
+export const right2v: <R, E = never, A = never>(a: A) => ReaderTaskEither<R, E, A> = readerTaskEither.of
 
 /**
  * @since 1.19.0
  */
 // tslint:disable-next-line: deprecation
-export const rightIO: <E, A>(ma: IO<A>) => ReaderTaskEither<E, never, A> = fromIO
+export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderTaskEither<R, E, A> = fromReader
 
 /**
  * @since 1.19.0
  */
 // tslint:disable-next-line: deprecation
-export const rightTask: <E, L, A>(fa: Task<A>) => ReaderTaskEither<E, L, A> = right
+export const rightIO: <R, E = never, A = never>(ma: IO<A>) => ReaderTaskEither<R, E, A> = fromIO
 
 /**
  * @since 1.19.0
  */
 // tslint:disable-next-line: deprecation
-export const leftTask: <E, L, A>(fa: Task<L>) => ReaderTaskEither<E, L, A> = left
+export const rightTask: <R, E = never, A = never>(fa: Task<A>) => ReaderTaskEither<R, E, A> = right
+
+/**
+ * @since 1.19.0
+ */
+// tslint:disable-next-line: deprecation
+export const leftTask: <R, E = never, A = never>(fa: Task<E>) => ReaderTaskEither<R, E, A> = left
 
 const {
   alt,

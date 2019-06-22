@@ -14,6 +14,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.19.1
+
+- **Bug Fix**
+  - use default type parameters for constructors / lifting functions (@gcanti)
+
 # 1.19.0
 
 The goal of this release is to make the migration to v2 easier.

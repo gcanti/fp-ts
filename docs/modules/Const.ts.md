@@ -162,7 +162,7 @@ Added in v1.17.0
 **Signature**
 
 ```ts
-export function make<L>(l: L): Const<L, never> { ... }
+export function make<L, A = never>(l: L): Const<L, A> { ... }
 ```
 
 Added in v1.19.0

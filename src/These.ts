@@ -452,13 +452,13 @@ export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Travers
  * @since 1.19.0
  */
 // tslint:disable-next-line: deprecation
-export const left: <E>(left: E) => These<E, never> = this_
+export const left: <E = never, A = never>(left: E) => These<E, A> = this_
 
 /**
  * @since 1.19.0
  */
 // tslint:disable-next-line: deprecation
-export const right: <A>(right: A) => These<never, A> = that
+export const right: <E = never, A = never>(right: A) => These<E, A> = that
 
 /**
  * Returns `true` if the these is an instance of `Left`, `false` otherwise

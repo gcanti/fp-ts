@@ -115,7 +115,7 @@ export const const_: Functor2<URI> & Contravariant2<URI> = {
 /**
  * @since 1.19.0
  */
-export function make<L>(l: L): Const<L, never> {
+export function make<L, A = never>(l: L): Const<L, A> {
   // tslint:disable-next-line: deprecation
   return new Const(l)
 }
