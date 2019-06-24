@@ -81,7 +81,7 @@ export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> {
 /**
  * @since 2.0.0
  */
-export const of: <A>(a: A) => Reader<unknown, A> = T.of
+export const of: <R, A>(a: A) => Reader<R, A> = T.of
 
 /**
  * @since 2.0.0

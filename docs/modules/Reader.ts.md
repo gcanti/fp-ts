@@ -82,7 +82,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const of: <A>(a: A) => Reader<unknown, A> = ...
+export const of: <R, A>(a: A) => Reader<R, A> = ...
 ```
 
 Added in v2.0.0
