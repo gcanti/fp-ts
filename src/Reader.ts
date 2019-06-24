@@ -130,7 +130,7 @@ export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<U
 /**
  * @since 1.19.0
  */
-export const of: <A>(a: A) => Reader<unknown, A> = reader.of
+export const of: <R, A>(a: A) => Reader<R, A> = reader.of
 
 const { ap, apFirst, apSecond, chain, chainFirst, compose, flatten, map, promap } = pipeable(reader)
 
