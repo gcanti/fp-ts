@@ -6,15 +6,7 @@ parent: Modules
 
 # Overview
 
-The `Setoid` type class represents types which support decidable equality.
-
-Instances must satisfy the following laws:
-
-1. Reflexivity: `S.equals(a, a) === true`
-2. Symmetry: `S.equals(a, b) === S.equals(b, a)`
-3. Transitivity: if `S.equals(a, b) === true` and `S.equals(b, c) === true`, then `S.equals(a, c) === true`
-
-See [Getting started with fp-ts: Setoid](https://dev.to/gcanti/getting-started-with-fp-ts-setoid-39f3)
+This type class is deprecated, please use `Eq` instead.
 
 ---
 
@@ -50,6 +42,8 @@ Added in v1.0.0
 
 # ~~setoidBoolean~~ (constant)
 
+Use `Eq.eqBoolean` instead
+
 **Signature**
 
 ```ts
@@ -59,6 +53,8 @@ export const setoidBoolean: Setoid<boolean> = ...
 Added in v1.0.0
 
 # ~~setoidDate~~ (constant)
+
+Use `Eq.eqDate` instead
 
 **Signature**
 
@@ -70,6 +66,8 @@ Added in v1.4.0
 
 # ~~setoidNumber~~ (constant)
 
+Use `Eq.eqNumber` instead
+
 **Signature**
 
 ```ts
@@ -79,6 +77,8 @@ export const setoidNumber: Setoid<number> = ...
 Added in v1.0.0
 
 # ~~setoidString~~ (constant)
+
+Use `Eq.eqString` instead
 
 **Signature**
 
@@ -90,7 +90,7 @@ Added in v1.0.0
 
 # ~~contramap~~ (function)
 
-Returns the `Setoid` corresponding to the partitions of `B` induced by `f`
+Use `Eq.contramap` instead
 
 **Signature**
 
@@ -102,6 +102,8 @@ Added in v1.2.0
 
 # ~~fromEquals~~ (function)
 
+Use `Eq.fromEquals` instead
+
 **Signature**
 
 ```ts
@@ -111,6 +113,8 @@ export const fromEquals = <A>(equals: (x: A, y: A) => boolean): Setoid<A> => ...
 Added in v1.14.0
 
 # ~~getArraySetoid~~ (function)
+
+Use `Array.getMonoid` instead
 
 **Signature**
 
@@ -122,7 +126,7 @@ Added in v1.0.0
 
 # ~~getProductSetoid~~ (function)
 
-Use `getTupleSetoid` instead
+Use `Eq.getTupleEq` instead
 
 **Signature**
 
@@ -134,7 +138,7 @@ Added in v1.0.0
 
 # ~~getRecordSetoid~~ (function)
 
-Use `getStructSetoid` instead
+Use `Eq.getStructEq` instead
 
 **Signature**
 
@@ -150,6 +154,8 @@ Added in v1.0.0
 
 # ~~getStructSetoid~~ (function)
 
+Use `Eq.getStructEq` instead
+
 **Signature**
 
 ```ts
@@ -164,7 +170,7 @@ Added in v1.14.2
 
 # ~~getTupleSetoid~~ (function)
 
-Given a tuple of `Setoid`s returns a `Setoid` for the tuple
+Use `Eq.getTupleEq` instead
 
 **Signature**
 
@@ -175,21 +181,11 @@ export const getTupleSetoid = <T extends Array<Setoid<any>>>(
 Setoid<{ [K in keyof T]: T[K] extends Setoid<infer A> ? A : never }> => ...
 ```
 
-**Example**
-
-```ts
-import { getTupleSetoid, setoidString, setoidNumber, setoidBoolean } from 'fp-ts/lib/Setoid'
-
-const S = getTupleSetoid(setoidString, setoidNumber, setoidBoolean)
-assert.strictEqual(S.equals(['a', 1, true], ['a', 1, true]), true)
-assert.strictEqual(S.equals(['a', 1, true], ['b', 1, true]), false)
-assert.strictEqual(S.equals(['a', 1, true], ['a', 2, true]), false)
-assert.strictEqual(S.equals(['a', 1, true], ['a', 1, false]), false)
-```
-
 Added in v1.14.2
 
 # ~~strictEqual~~ (function)
+
+Use `Eq.strictEqual` instead
 
 **Signature**
 

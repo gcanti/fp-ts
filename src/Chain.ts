@@ -43,25 +43,41 @@ export interface Chain4<F extends URIS4> extends Apply4<F> {
 }
 
 /**
+ * Use `pipeable`'s `flatten`
  * @since 1.0.0
  * @deprecated
  */
 export function flatten<F extends URIS3>(
   chain: Chain3<F>
 ): <U, L, A>(mma: Kind3<F, U, L, Kind3<F, U, L, A>>) => Kind3<F, U, L, A>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `flatten`
+ * @deprecated
+ */
 export function flatten<F extends URIS3, U, L>(
   chain: Chain3C<F, U, L>
 ): <A>(mma: Kind3<F, U, L, Kind3<F, U, L, A>>) => Kind3<F, U, L, A>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `flatten`
+ * @deprecated
+ */
 export function flatten<F extends URIS2>(chain: Chain2<F>): <L, A>(mma: Kind2<F, L, Kind2<F, L, A>>) => Kind2<F, L, A>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `flatten`
+ * @deprecated
+ */
 export function flatten<F extends URIS2, L>(
   chain: Chain2C<F, L>
 ): <A>(mma: Kind2<F, L, Kind2<F, L, A>>) => Kind2<F, L, A>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `flatten`
+ * @deprecated
+ */
 export function flatten<F extends URIS>(chain: Chain1<F>): <A>(mma: Kind<F, Kind<F, A>>) => Kind<F, A>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `flatten`
+ * @deprecated
+ */
 export function flatten<F>(chain: Chain<F>): <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A>
 export function flatten<F>(chain: Chain<F>): <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A> {
   return mma => chain.chain(mma, ma => ma)

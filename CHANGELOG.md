@@ -14,6 +14,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.19.3
+
+- **Polish**
+  - add pointer to `Eq` for those looking at deprecated `Setoid` interface, fix #889 (@gcanti)
+
 # 1.19.2
 
 - **Bug Fix**

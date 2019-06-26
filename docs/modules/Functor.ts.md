@@ -297,7 +297,7 @@ Added in v1.0.0
 
 # ~~lift~~ (function)
 
-Lift a function of one argument to a function which accepts and returns values wrapped with the type constructor `F`
+Use `pipeable`'s `map`
 
 **Signature**
 

@@ -103,6 +103,8 @@ export interface Contravariant4<F extends URIS4> {
 
 # ~~lift~~ (function)
 
+Use `pipeable`'s `contramap`
+
 **Signature**
 
 ```ts

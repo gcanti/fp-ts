@@ -104,6 +104,8 @@ export interface Chain4<F extends URIS4> extends Apply4<F> {
 
 # ~~flatten~~ (function)
 
+Use `pipeable`'s `flatten`
+
 **Signature**
 
 ```ts

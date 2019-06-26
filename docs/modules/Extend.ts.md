@@ -93,6 +93,8 @@ export interface Extend4<W extends URIS4> extends Functor4<W> {
 
 # ~~duplicate~~ (function)
 
+Use `pipeable`'s `duplicate`
+
 **Signature**
 
 ```ts

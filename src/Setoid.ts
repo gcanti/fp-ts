@@ -1,16 +1,9 @@
 /**
- * @file The `Setoid` type class represents types which support decidable equality.
- *
- * Instances must satisfy the following laws:
- *
- * 1. Reflexivity: `S.equals(a, a) === true`
- * 2. Symmetry: `S.equals(a, b) === S.equals(b, a)`
- * 3. Transitivity: if `S.equals(a, b) === true` and `S.equals(b, c) === true`, then `S.equals(a, c) === true`
- *
- * See [Getting started with fp-ts: Setoid](https://dev.to/gcanti/getting-started-with-fp-ts-setoid-39f3)
+ * @file This type class is deprecated, please use `Eq` instead.
  */
 
 /**
+ * Use `Eq` instead
  * @since 1.0.0
  * @deprecated
  */
@@ -19,6 +12,7 @@ export interface Setoid<A> {
 }
 
 /**
+ * Use `Eq.fromEquals` instead
  * @since 1.14.0
  * @deprecated
  */
@@ -30,6 +24,7 @@ export const fromEquals = <A>(equals: (x: A, y: A) => boolean): Setoid<A> => {
 }
 
 /**
+ * Use `Eq.strictEqual` instead
  * @since 1.0.0
  * @deprecated
  */
@@ -41,6 +36,7 @@ export const strictEqual = <A>(a: A, b: A): boolean => {
 const setoidStrict = { equals: strictEqual }
 
 /**
+ * Use `Eq.eqString` instead
  * @since 1.0.0
  * @deprecated
  */
@@ -48,6 +44,7 @@ const setoidStrict = { equals: strictEqual }
 export const setoidString: Setoid<string> = setoidStrict
 
 /**
+ * Use `Eq.eqNumber` instead
  * @since 1.0.0
  * @deprecated
  */
@@ -55,6 +52,7 @@ export const setoidString: Setoid<string> = setoidStrict
 export const setoidNumber: Setoid<number> = setoidStrict
 
 /**
+ * Use `Eq.eqBoolean` instead
  * @since 1.0.0
  * @deprecated
  */
@@ -62,6 +60,7 @@ export const setoidNumber: Setoid<number> = setoidStrict
 export const setoidBoolean: Setoid<boolean> = setoidStrict
 
 /**
+ * Use `Array.getMonoid` instead
  * @since 1.0.0
  * @deprecated
  */
@@ -72,6 +71,7 @@ export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => {
 }
 
 /**
+ * Use `Eq.getStructEq` instead
  * @since 1.14.2
  * @deprecated
  */
@@ -92,7 +92,7 @@ export const getStructSetoid = <O extends { [key: string]: any }>(
 }
 
 /**
- * Use `getStructSetoid` instead
+ * Use `Eq.getStructEq` instead
  * @since 1.0.0
  * @deprecated
  */
@@ -106,17 +106,7 @@ export const getRecordSetoid = <O extends { [key: string]: any }>(
 }
 
 /**
- * Given a tuple of `Setoid`s returns a `Setoid` for the tuple
- *
- * @example
- * import { getTupleSetoid, setoidString, setoidNumber, setoidBoolean } from 'fp-ts/lib/Setoid'
- *
- * const S = getTupleSetoid(setoidString, setoidNumber, setoidBoolean)
- * assert.strictEqual(S.equals(['a', 1, true], ['a', 1, true]), true)
- * assert.strictEqual(S.equals(['a', 1, true], ['b', 1, true]), false)
- * assert.strictEqual(S.equals(['a', 1, true], ['a', 2, true]), false)
- * assert.strictEqual(S.equals(['a', 1, true], ['a', 1, false]), false)
- *
+ * Use `Eq.getTupleEq` instead
  * @since 1.14.2
  * @deprecated
  */
@@ -130,7 +120,7 @@ Setoid<{ [K in keyof T]: T[K] extends Setoid<infer A> ? A : never }> => {
 }
 
 /**
- * Use `getTupleSetoid` instead
+ * Use `Eq.getTupleEq` instead
  * @since 1.0.0
  * @deprecated
  */
@@ -141,8 +131,7 @@ export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A,
 }
 
 /**
- * Returns the `Setoid` corresponding to the partitions of `B` induced by `f`
- *
+ * Use `Eq.contramap` instead
  * @since 1.2.0
  * @deprecated
  */
@@ -153,6 +142,7 @@ export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => {
 }
 
 /**
+ * Use `Eq.eqDate` instead
  * @since 1.4.0
  * @deprecated
  */

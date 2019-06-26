@@ -95,29 +95,43 @@ export interface FunctorComposition3C1<F extends URIS3, G extends URIS, UF, LF> 
 }
 
 /**
- * Lift a function of one argument to a function which accepts and returns values wrapped with the type constructor `F`
- *
+ * Use `pipeable`'s `map`
  * @since 1.0.0
  * @deprecated
  */
 export function lift<F extends URIS3>(
   F: Functor3<F>
 ): <A, B>(f: (a: A) => B) => <U, L>(fa: Kind3<F, U, L, A>) => Kind3<F, U, L, B>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `map`
+ * @deprecated
+ */
 export function lift<F extends URIS3, U, L>(
   F: Functor3C<F, U, L>
 ): <A, B>(f: (a: A) => B) => (fa: Kind3<F, U, L, A>) => Kind3<F, U, L, B>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `map`
+ * @deprecated
+ */
 export function lift<F extends URIS2>(
   F: Functor2<F>
 ): <A, B>(f: (a: A) => B) => <L>(fa: Kind2<F, L, A>) => Kind2<F, L, B>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `map`
+ * @deprecated
+ */
 export function lift<F extends URIS2, L>(
   F: Functor2C<F, L>
 ): <A, B>(f: (a: A) => B) => (fa: Kind2<F, L, A>) => Kind2<F, L, B>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `map`
+ * @deprecated
+ */
 export function lift<F extends URIS>(F: Functor1<F>): <A, B>(f: (a: A) => B) => (fa: Kind<F, A>) => Kind<F, B>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `map`
+ * @deprecated
+ */
 export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
 export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B> {
   return f => fa => F.map(fa, f)

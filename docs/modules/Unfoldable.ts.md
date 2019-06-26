@@ -155,22 +155,27 @@ Perform an Applicative action `n` times, and accumulate all the results
 ```ts
 export function replicateA<F extends URIS3, T extends URIS>(
   A: Applicative3<F>,
+  // tslint:disable-next-line: deprecation
   UT: Unfoldable1<T> & Traversable1<T>
 ): <U, L, A>(n: number, ma: Kind3<F, U, L, A>) => Kind3<F, U, L, Kind<T, A>>
 export function replicateA<F extends URIS3, T extends URIS, U, L>(
   A: Applicative3C<F, U, L>,
+  // tslint:disable-next-line: deprecation
   UT: Unfoldable1<T> & Traversable1<T>
 ): <A>(n: number, ma: Kind3<F, U, L, A>) => Kind3<F, U, L, Kind<T, A>>
 export function replicateA<F extends URIS2, T extends URIS>(
   A: Applicative2<F>,
+  // tslint:disable-next-line: deprecation
   UT: Unfoldable1<T> & Traversable1<T>
 ): <L, A>(n: number, ma: Kind2<F, L, A>) => Kind2<F, L, Kind<T, A>>
 export function replicateA<F extends URIS2, T extends URIS, L>(
   A: Applicative2C<F, L>,
+  // tslint:disable-next-line: deprecation
   UT: Unfoldable1<T> & Traversable1<T>
 ): <A>(n: number, ma: Kind2<F, L, A>) => Kind2<F, L, Kind<T, A>>
 export function replicateA<F extends URIS, T extends URIS>(
   F: Applicative1<F>,
+  // tslint:disable-next-line: deprecation
   UT: Unfoldable1<T> & Traversable1<T>
 ): <A>(n: number, ma: Kind<F, A>) => Kind<F, Kind<T, A>> { ... }
 ```

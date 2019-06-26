@@ -37,26 +37,31 @@ export interface Foldable2v<F> extends Foldable<F> {
   readonly foldr: <A, B>(fa: HKT<F, A>, b: B, f: (a: A, b: B) => B) => B
 }
 
+// tslint:disable-next-line: deprecation
 export interface Foldable2v1<F extends URIS> extends Foldable1<F> {
   readonly foldMap: <M>(M: Monoid<M>) => <A>(fa: Kind<F, A>, f: (a: A) => M) => M
   readonly foldr: <A, B>(fa: Kind<F, A>, b: B, f: (a: A, b: B) => B) => B
 }
 
+// tslint:disable-next-line: deprecation
 export interface Foldable2v2<F extends URIS2> extends Foldable2<F> {
   readonly foldMap: <M>(M: Monoid<M>) => <L, A>(fa: Kind2<F, L, A>, f: (a: A) => M) => M
   readonly foldr: <L, A, B>(fa: Kind2<F, L, A>, b: B, f: (a: A, b: B) => B) => B
 }
 
+// tslint:disable-next-line: deprecation
 export interface Foldable2v3<F extends URIS3> extends Foldable3<F> {
   readonly foldMap: <M>(M: Monoid<M>) => <U, L, A>(fa: Kind3<F, U, L, A>, f: (a: A) => M) => M
   readonly foldr: <U, L, A, B>(fa: Kind3<F, U, L, A>, b: B, f: (a: A, b: B) => B) => B
 }
 
+// tslint:disable-next-line: deprecation
 export interface Foldable2v2C<F extends URIS2, L> extends Foldable2C<F, L> {
   readonly foldMap: <M>(M: Monoid<M>) => <A>(fa: Kind2<F, L, A>, f: (a: A) => M) => M
   readonly foldr: <A, B>(fa: Kind2<F, L, A>, b: B, f: (a: A, b: B) => B) => B
 }
 
+// tslint:disable-next-line: deprecation
 export interface Foldable2v3C<F extends URIS3, U, L> extends Foldable3C<F, U, L> {
   readonly foldMap: <M>(M: Monoid<M>) => <A>(fa: Kind3<F, U, L, A>, f: (a: A) => M) => M
   readonly foldr: <A, B>(fa: Kind3<F, U, L, A>, b: B, f: (a: A, b: B) => B) => B
@@ -69,50 +74,55 @@ export interface Foldable2v4<F extends URIS4> {
   readonly reduceRight: <X, U, L, A, B>(fa: Kind4<F, X, U, L, A>, b: B, f: (a: A, b: B) => B) => B
 }
 
+// tslint:disable-next-line: deprecation
 export interface Foldable2vComposition<F, G> extends FoldableComposition<F, G> {
   readonly foldMap: <M>(M: Monoid<M>) => <A>(fa: HKT<F, HKT<G, A>>, f: (a: A) => M) => M
   readonly foldr: <A, B>(fa: HKT<F, HKT<G, A>>, b: B, f: (a: A, b: B) => B) => B
 }
 
+// tslint:disable-next-line: deprecation
 export interface Foldable2vComposition11<F extends URIS, G extends URIS> extends FoldableComposition11<F, G> {
   readonly foldMap: <M>(M: Monoid<M>) => <A>(fa: Kind<F, Kind<G, A>>, f: (a: A) => M) => M
   readonly foldr: <A, B>(fa: Kind<F, Kind<G, A>>, b: B, f: (a: A, b: B) => B) => B
 }
 
+// tslint:disable-next-line: deprecation
 export interface Foldable2vComposition12<F extends URIS, G extends URIS2> extends FoldableComposition12<F, G> {
   readonly foldMap: <M>(M: Monoid<M>) => <L, A>(fa: Kind<F, Kind2<G, L, A>>, f: (a: A) => M) => M
   readonly foldr: <LG, A, B>(fa: Kind<F, Kind2<G, LG, A>>, b: B, f: (a: A, b: B) => B) => B
 }
 
-export interface Foldable2vComposition12C<F extends URIS, G extends URIS2, LG>
+export interface Foldable2vComposition12C<F extends URIS, G extends URIS2, LG>  // tslint:disable-next-line: deprecation
   extends FoldableComposition12C<F, G, LG> {
   readonly foldMap: <M>(M: Monoid<M>) => <A>(fa: Kind<F, Kind2<G, LG, A>>, f: (a: A) => M) => M
   readonly foldr: <A, B>(fa: Kind<F, Kind2<G, LG, A>>, b: B, f: (a: A, b: B) => B) => B
 }
 
+// tslint:disable-next-line: deprecation
 export interface Foldable2vComposition21<F extends URIS2, G extends URIS> extends FoldableComposition21<F, G> {
   readonly foldMap: <M>(M: Monoid<M>) => <L, A>(fa: Kind2<F, L, Kind<G, A>>, f: (a: A) => M) => M
   readonly foldr: <LF, A, B>(fa: Kind2<F, LF, Kind<G, A>>, b: B, f: (a: A, b: B) => B) => B
 }
 
-export interface Foldable2vComposition2C1<F extends URIS2, G extends URIS, LF>
+export interface Foldable2vComposition2C1<F extends URIS2, G extends URIS, LF>  // tslint:disable-next-line: deprecation
   extends FoldableComposition2C1<F, G, LF> {
   readonly foldMap: <M>(M: Monoid<M>) => <A>(fa: Kind2<F, LF, Kind<G, A>>, f: (a: A) => M) => M
   readonly foldr: <A, B>(fa: Kind2<F, LF, Kind<G, A>>, b: B, f: (a: A, b: B) => B) => B
 }
 
+// tslint:disable-next-line: deprecation
 export interface Foldable2vComposition22<F extends URIS2, G extends URIS2> extends FoldableComposition22<F, G> {
   readonly foldMap: <M>(M: Monoid<M>) => <LF, LG, A>(fa: Kind2<F, LF, Kind2<G, LG, A>>, f: (a: A) => M) => M
   readonly foldr: <LF, LG, A, B>(fa: Kind2<F, LF, Kind2<G, LG, A>>, b: B, f: (a: A, b: B) => B) => B
 }
 
-export interface Foldable2vComposition22C<F extends URIS2, G extends URIS2, LG>
+export interface Foldable2vComposition22C<F extends URIS2, G extends URIS2, LG>  // tslint:disable-next-line: deprecation
   extends FoldableComposition22C<F, G, LG> {
   readonly foldMap: <M>(M: Monoid<M>) => <LF, A>(fa: Kind2<F, LF, Kind2<G, LG, A>>, f: (a: A) => M) => M
   readonly foldr: <LF, A, B>(fa: Kind2<F, LF, Kind2<G, LG, A>>, b: B, f: (a: A, b: B) => B) => B
 }
 
-export interface Foldable2vComposition3C1<F extends URIS3, G extends URIS, UF, LF>
+export interface Foldable2vComposition3C1<F extends URIS3, G extends URIS, UF, LF>  // tslint:disable-next-line: deprecation
   extends FoldableComposition3C1<F, G, UF, LF> {
   readonly foldMap: <M>(M: Monoid<M>) => <A>(fa: Kind3<F, UF, LF, Kind<G, A>>, f: (a: A) => M) => M
   readonly foldr: <LF, A, B>(fa: Kind3<F, UF, LF, Kind<G, A>>, b: B, f: (a: A, b: B) => B) => B
@@ -608,6 +618,7 @@ export function toArray<F extends URIS>(F: Foldable2v1<F>): <A>(fa: Kind<F, A>) 
 /** @deprecated */
 export function toArray<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>) => Array<A>
 export function toArray<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>) => Array<A> {
+  // tslint:disable-next-line: deprecation
   const foldMapF = foldMap(F, unsafeMonoidArray)
   return fa => foldMapF(fa, a => [a])
 }
