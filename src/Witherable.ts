@@ -42,6 +42,7 @@ export interface Witherable<T> extends Traversable<T>, Filterable<T> {
 /**
  * @since 1.7.0
  */
+// tslint:disable-next-line: deprecation
 export interface Witherable1<T extends URIS> extends Traversable1<T>, Filterable1<T> {
   wilt: Wilt1<T>
   wither: Wither1<T>
@@ -50,6 +51,7 @@ export interface Witherable1<T extends URIS> extends Traversable1<T>, Filterable
 /**
  * @since 1.7.0
  */
+// tslint:disable-next-line: deprecation
 export interface Witherable2<T extends URIS2> extends Traversable2<T>, Filterable2<T> {
   wilt: Wilt2<T>
   wither: Wither2<T>
@@ -58,6 +60,7 @@ export interface Witherable2<T extends URIS2> extends Traversable2<T>, Filterabl
 /**
  * @since 1.7.0
  */
+// tslint:disable-next-line: deprecation
 export interface Witherable2C<T extends URIS2, TL> extends Traversable2C<T, TL>, Filterable2C<T, TL> {
   wilt: Wilt2C<T, TL>
   wither: Wither2C<T, TL>
@@ -66,6 +69,7 @@ export interface Witherable2C<T extends URIS2, TL> extends Traversable2C<T, TL>,
 /**
  * @since 1.7.0
  */
+// tslint:disable-next-line: deprecation
 export interface Witherable3<T extends URIS3> extends Traversable3<T>, Filterable3<T> {
   wilt: Wilt3<T>
   wither: Wither3<T>
@@ -74,6 +78,7 @@ export interface Witherable3<T extends URIS3> extends Traversable3<T>, Filterabl
 /**
  * @since 1.7.0
  */
+// tslint:disable-next-line: deprecation
 export interface Witherable3C<T extends URIS3, TU, TL> extends Traversable3C<T, TU, TL>, Filterable3C<T, TU, TL> {
   wilt: Wilt3C<T, TU, TL>
   wither: Wither3C<T, TU, TL>

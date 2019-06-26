@@ -34,23 +34,39 @@ export interface Extend4<W extends URIS4> extends Functor4<W> {
 }
 
 /**
+ * Use `pipeable`'s `duplicate`
  * @since 1.0.0
  * @deprecated
  */
 export function duplicate<F extends URIS3>(
   E: Extend3<F>
 ): <U, L, A>(ma: Kind3<F, U, L, A>) => Kind3<F, U, L, Kind3<F, U, L, A>>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `duplicate`
+ * @deprecated
+ */
 export function duplicate<F extends URIS3, U, L>(
   E: Extend3C<F, U, L>
 ): <A>(ma: Kind3<F, U, L, A>) => Kind3<F, U, L, Kind3<F, U, L, A>>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `duplicate`
+ * @deprecated
+ */
 export function duplicate<F extends URIS2>(E: Extend2<F>): <L, A>(ma: Kind2<F, L, A>) => Kind2<F, L, Kind2<F, L, A>>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `duplicate`
+ * @deprecated
+ */
 export function duplicate<F extends URIS2, L>(E: Extend2C<F, L>): <A>(ma: Kind2<F, L, A>) => Kind2<F, L, Kind2<F, L, A>>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `duplicate`
+ * @deprecated
+ */
 export function duplicate<F extends URIS>(E: Extend1<F>): <A>(ma: Kind<F, A>) => Kind<F, Kind<F, A>>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `duplicate`
+ * @deprecated
+ */
 export function duplicate<F>(E: Extend<F>): <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>>
 export function duplicate<F>(E: Extend<F>): <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>> {
   return ma => E.extend(ma, identity)

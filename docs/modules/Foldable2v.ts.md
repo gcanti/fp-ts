@@ -161,7 +161,7 @@ export interface Foldable2vComposition12<F extends URIS, G extends URIS2> extend
 **Signature**
 
 ```ts
-export interface Foldable2vComposition12C<F extends URIS, G extends URIS2, LG>
+export interface Foldable2vComposition12C<F extends URIS, G extends URIS2, LG>  // tslint:disable-next-line: deprecation
   extends FoldableComposition12C<F, G, LG> {
   readonly foldMap: <M>(M: Monoid<M>) => <A>(fa: Kind<F, Kind2<G, LG, A>>, f: (a: A) => M) => M
   readonly foldr: <A, B>(fa: Kind<F, Kind2<G, LG, A>>, b: B, f: (a: A, b: B) => B) => B
@@ -195,7 +195,7 @@ export interface Foldable2vComposition22<F extends URIS2, G extends URIS2> exten
 **Signature**
 
 ```ts
-export interface Foldable2vComposition22C<F extends URIS2, G extends URIS2, LG>
+export interface Foldable2vComposition22C<F extends URIS2, G extends URIS2, LG>  // tslint:disable-next-line: deprecation
   extends FoldableComposition22C<F, G, LG> {
   readonly foldMap: <M>(M: Monoid<M>) => <LF, A>(fa: Kind2<F, LF, Kind2<G, LG, A>>, f: (a: A) => M) => M
   readonly foldr: <LF, A, B>(fa: Kind2<F, LF, Kind2<G, LG, A>>, b: B, f: (a: A, b: B) => B) => B
@@ -207,7 +207,7 @@ export interface Foldable2vComposition22C<F extends URIS2, G extends URIS2, LG>
 **Signature**
 
 ```ts
-export interface Foldable2vComposition2C1<F extends URIS2, G extends URIS, LF>
+export interface Foldable2vComposition2C1<F extends URIS2, G extends URIS, LF>  // tslint:disable-next-line: deprecation
   extends FoldableComposition2C1<F, G, LF> {
   readonly foldMap: <M>(M: Monoid<M>) => <A>(fa: Kind2<F, LF, Kind<G, A>>, f: (a: A) => M) => M
   readonly foldr: <A, B>(fa: Kind2<F, LF, Kind<G, A>>, b: B, f: (a: A, b: B) => B) => B
@@ -219,7 +219,7 @@ export interface Foldable2vComposition2C1<F extends URIS2, G extends URIS, LF>
 **Signature**
 
 ```ts
-export interface Foldable2vComposition3C1<F extends URIS3, G extends URIS, UF, LF>
+export interface Foldable2vComposition3C1<F extends URIS3, G extends URIS, UF, LF>  // tslint:disable-next-line: deprecation
   extends FoldableComposition3C1<F, G, UF, LF> {
   readonly foldMap: <M>(M: Monoid<M>) => <A>(fa: Kind3<F, UF, LF, Kind<G, A>>, f: (a: A) => M) => M
   readonly foldr: <LF, A, B>(fa: Kind3<F, UF, LF, Kind<G, A>>, b: B, f: (a: A, b: B) => B) => B

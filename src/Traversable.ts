@@ -35,22 +35,47 @@ export interface Traversable<T> extends Functor<T>, Foldable<T> {
   readonly traverse: Traverse<T>
 }
 
+/**
+ * Use `Traversable2v` instead
+ * @deprecated
+ */
+// tslint:disable-next-line: deprecation
 export interface Traversable1<T extends URIS> extends Functor1<T>, Foldable1<T> {
   readonly traverse: Traverse1<T>
 }
 
+/**
+ * Use `Traversable2v` instead
+ * @deprecated
+ */
+// tslint:disable-next-line: deprecation
 export interface Traversable2<T extends URIS2> extends Functor2<T>, Foldable2<T> {
   readonly traverse: Traverse2<T>
 }
 
+/**
+ * Use `Traversable2v` instead
+ * @deprecated
+ */
+// tslint:disable-next-line: deprecation
 export interface Traversable2C<T extends URIS2, TL> extends Functor2C<T, TL>, Foldable2C<T, TL> {
   readonly traverse: Traverse2C<T, TL>
 }
 
+/**
+ * Use `Traversable2v` instead
+ * @deprecated
+ */
+// tslint:disable-next-line: deprecation
 export interface Traversable3<T extends URIS3> extends Functor3<T>, Foldable3<T> {
   readonly traverse: Traverse3<T>
 }
 
+/**
+ * Use `Traversable2v` instead
+ * @deprecated
+ */
+// tslint:disable-next-line: deprecation
 export interface Traversable3C<T extends URIS3, TU, TL> extends Functor3C<T, TU, TL>, Foldable3C<T, TU, TL> {
   readonly traverse: Traverse3C<T, TU, TL>
 }
@@ -208,6 +233,7 @@ export interface Traverse3C<T extends URIS3, TU, TL> {
   <F>(F: Applicative<F>): <A, B>(ta: Kind3<T, TU, TL, A>, f: (a: A) => HKT<F, B>) => HKT<F, Kind3<T, TU, TL, B>>
 }
 
+// tslint:disable-next-line: deprecation
 export interface TraversableComposition<F, G> extends FoldableComposition<F, G>, FunctorComposition<F, G> {
   readonly traverse: <H>(
     H: Applicative<H>
@@ -238,7 +264,7 @@ export interface TraverseComposition11<F extends URIS, G extends URIS> {
   <H>(H: Applicative<H>): <A, B>(fga: Kind<F, Kind<G, A>>, f: (a: A) => HKT<H, B>) => HKT<H, Kind<F, Kind<G, B>>>
 }
 
-export interface TraversableComposition11<F extends URIS, G extends URIS>
+export interface TraversableComposition11<F extends URIS, G extends URIS>  // tslint:disable-next-line: deprecation
   extends FoldableComposition11<F, G>,
     FunctorComposition11<F, G> {
   readonly traverse: TraverseComposition11<F, G>
@@ -260,34 +286,42 @@ export interface TraversableComposition11<F extends URIS, G extends URIS>
  */
 export function traverse<F extends URIS3, T extends URIS2>(
   F: Applicative3<F>,
+  // tslint:disable-next-line: deprecation
   T: Traversable2<T>
 ): <UF, LF, LT, A, B>(ta: Kind2<T, LT, A>, f: (a: A) => Kind3<F, UF, LF, B>) => Kind3<F, UF, LF, Kind2<T, LT, B>>
 export function traverse<F extends URIS2, T extends URIS2>(
   F: Applicative2<F>,
+  // tslint:disable-next-line: deprecation
   T: Traversable2<T>
 ): <LF, LT, A, B>(ta: Kind2<T, LT, A>, f: (a: A) => Kind2<F, LF, B>) => Kind2<F, LF, Kind2<T, LT, B>>
 export function traverse<F extends URIS2, T extends URIS2, LF>(
   F: Applicative2C<F, LF>,
+  // tslint:disable-next-line: deprecation
   T: Traversable2<T>
 ): <LT, A, B>(ta: Kind2<T, LT, A>, f: (a: A) => Kind2<F, LF, B>) => Kind2<F, LF, Kind2<T, LT, B>>
 export function traverse<F extends URIS, T extends URIS2>(
   F: Applicative1<F>,
+  // tslint:disable-next-line: deprecation
   T: Traversable2<T>
 ): <LT, A, B>(ta: Kind2<T, LT, A>, f: (a: A) => Kind<F, B>) => Kind<F, Kind2<T, LT, B>>
 export function traverse<F extends URIS3, T extends URIS>(
   F: Applicative3<F>,
+  // tslint:disable-next-line: deprecation
   T: Traversable1<T>
 ): <U, L, A, B>(ta: Kind<T, A>, f: (a: A) => Kind3<F, U, L, B>) => Kind3<F, U, L, Kind<T, B>>
 export function traverse<F extends URIS2, T extends URIS>(
   F: Applicative2<F>,
+  // tslint:disable-next-line: deprecation
   T: Traversable1<T>
 ): <L, A, B>(ta: Kind<T, A>, f: (a: A) => Kind2<F, L, B>) => Kind2<F, L, Kind<T, B>>
 export function traverse<F extends URIS2, T extends URIS, L>(
   F: Applicative2C<F, L>,
+  // tslint:disable-next-line: deprecation
   T: Traversable1<T>
 ): <A, B>(ta: Kind<T, A>, f: (a: A) => Kind2<F, L, B>) => Kind2<F, L, Kind<T, B>>
 export function traverse<F extends URIS, T extends URIS>(
   F: Applicative1<F>,
+  // tslint:disable-next-line: deprecation
   T: Traversable1<T>
 ): <A, B>(ta: Kind<T, A>, f: (a: A) => Kind<F, B>) => Kind<F, Kind<T, B>>
 export function traverse<F, T>(
@@ -318,38 +352,47 @@ export function traverse<F, T>(
  */
 export function sequence<F extends URIS2, T extends URIS2>(
   F: Applicative2<F>,
+  // tslint:disable-next-line: deprecation
   T: Traversable2<T>
 ): <LF, LT, A>(tfa: Kind2<T, LT, Kind2<F, LF, A>>) => Kind2<F, LF, Kind2<T, LT, A>>
 export function sequence<F extends URIS2, T extends URIS2, LF>(
   F: Applicative2C<F, LF>,
+  // tslint:disable-next-line: deprecation
   T: Traversable2<T>
 ): <LT, A>(tfa: Kind2<T, LT, Kind2<F, LF, A>>) => Kind2<F, LF, Kind2<T, LT, A>>
 export function sequence<F extends URIS, T extends URIS2>(
   F: Applicative1<F>,
+  // tslint:disable-next-line: deprecation
   T: Traversable2<T>
 ): <L, A>(tfa: Kind2<T, L, Kind<F, A>>) => Kind<F, Kind2<T, L, A>>
 export function sequence<F extends URIS3, T extends URIS>(
   F: Applicative3<F>,
+  // tslint:disable-next-line: deprecation
   T: Traversable1<T>
 ): <U, L, A>(tfa: Kind<T, Kind3<F, U, L, A>>) => Kind3<F, U, L, Kind<T, A>>
 export function sequence<F extends URIS3, T extends URIS, U, L>(
   F: Applicative3C<F, U, L>,
+  // tslint:disable-next-line: deprecation
   T: Traversable1<T>
 ): <A>(tfa: Kind<T, Kind3<F, U, L, A>>) => Kind3<F, U, L, Kind<T, A>>
 export function sequence<F extends URIS2, T extends URIS>(
   F: Applicative2<F>,
+  // tslint:disable-next-line: deprecation
   T: Traversable1<T>
 ): <L, A>(tfa: Kind<T, Kind2<F, L, A>>) => Kind2<F, L, Kind<T, A>>
 export function sequence<F extends URIS2, T extends URIS, L>(
   F: Applicative2C<F, L>,
+  // tslint:disable-next-line: deprecation
   T: Traversable1<T>
 ): <A>(tfa: Kind<T, Kind2<F, L, A>>) => Kind2<F, L, Kind<T, A>>
 export function sequence<F extends URIS, T extends URIS>(
   F: Applicative1<F>,
+  // tslint:disable-next-line: deprecation
   T: Traversable1<T>
 ): <A>(tfa: Kind<T, Kind<F, A>>) => Kind<F, Kind<T, A>>
 export function sequence<F, T extends URIS>(
   F: Applicative<F>,
+  // tslint:disable-next-line: deprecation
   T: Traversable1<T>
 ): <A>(tfa: Kind<T, HKT<F, A>>) => HKT<F, Kind<T, A>>
 // tslint:disable-next-line: deprecation
@@ -366,7 +409,9 @@ export function sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: H
  * @deprecated
  */
 export function getTraversableComposition<F extends URIS, G extends URIS>(
+  // tslint:disable-next-line: deprecation
   F: Traversable1<F>,
+  // tslint:disable-next-line: deprecation
   G: Traversable1<G>
 ): TraversableComposition11<F, G>
 // tslint:disable-next-line: deprecation
@@ -375,6 +420,7 @@ export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversabl
 export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G> {
   return {
     ...getFunctorComposition(F, G),
+    // tslint:disable-next-line: deprecation
     ...getFoldableComposition(F, G),
     traverse: H => {
       const traverseF = F.traverse(H)

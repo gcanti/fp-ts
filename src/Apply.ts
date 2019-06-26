@@ -47,58 +47,86 @@ export interface Apply4<F extends URIS4> extends Functor4<F> {
 }
 
 /**
- * Combine two effectful actions, keeping only the result of the first
- *
+ * Use `pipeable`'s `apFirst`
  * @since 1.0.0
  * @deprecated
  */
 export function applyFirst<F extends URIS3>(
   F: Apply3<F>
 ): <U, L, A, B>(fa: Kind3<F, U, L, A>, fb: Kind3<F, U, L, B>) => Kind3<F, U, L, A>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `apFirst`
+ * @deprecated
+ */
 export function applyFirst<F extends URIS3, U, L>(
   F: Apply3C<F, U, L>
 ): <A, B>(fa: Kind3<F, U, L, A>, fb: Kind3<F, U, L, B>) => Kind3<F, U, L, A>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `apFirst`
+ * @deprecated
+ */
 export function applyFirst<F extends URIS2>(
   F: Apply2<F>
 ): <L, A, B>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>) => Kind2<F, L, A>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `apFirst`
+ * @deprecated
+ */
 export function applyFirst<F extends URIS2, L>(
   F: Apply2C<F, L>
 ): <A, B>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>) => Kind2<F, L, A>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `apFirst`
+ * @deprecated
+ */
 export function applyFirst<F extends URIS>(F: Apply1<F>): <A, B>(fa: Kind<F, A>, fb: Kind<F, B>) => Kind<F, A>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `apFirst`
+ * @deprecated
+ */
 export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A>
 export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A> {
   return (fa, fb) => F.ap(F.map(fa, constant), fb)
 }
 
 /**
- * Combine two effectful actions, keeping only the result of the second
- *
+ * Use `pipeable`'s `apSecond`
  * @since 1.0.0
  * @deprecated
  */
 export function applySecond<F extends URIS3>(
   F: Apply3<F>
 ): <U, L, A, B>(fa: Kind3<F, U, L, A>, fb: Kind3<F, U, L, B>) => Kind3<F, U, L, B>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `apSecond`
+ * @deprecated
+ */
 export function applySecond<F extends URIS3, U, L>(
   F: Apply3C<F, U, L>
 ): <A, B>(fa: Kind3<F, U, L, A>, fb: Kind3<F, U, L, B>) => Kind3<F, U, L, B>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `apSecond`
+ * @deprecated
+ */
 export function applySecond<F extends URIS2>(
   F: Apply2<F>
 ): <L, A, B>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>) => Kind2<F, L, B>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `apSecond`
+ * @deprecated
+ */
 export function applySecond<F extends URIS2, L>(
   F: Apply2C<F, L>
 ): <A, B>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>) => Kind2<F, L, B>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `apSecond`
+ * @deprecated
+ */
 export function applySecond<F extends URIS>(F: Apply1<F>): <A, B>(fa: Kind<F, A>, fb: Kind<F, B>) => Kind<F, B>
-/** @deprecated */
+/**
+ * Use `pipeable`'s `apSecond`
+ * @deprecated
+ */
 export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B>
 export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B> {
   return <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => F.ap(F.map(fa, () => (b: B) => b), fb)

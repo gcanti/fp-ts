@@ -355,12 +355,15 @@ export const lookup = <A>(k: string, d: StrMap<A>): Option<A> => {
  * @since 1.0.0
  */
 export function fromFoldable<F extends URIS3>(
+  // tslint:disable-next-line: deprecation
   F: Foldable3<F>
 ): <U, L, A>(ta: Kind3<F, U, L, [string, A]>, onConflict: (existing: A, a: A) => A) => StrMap<A>
 export function fromFoldable<F extends URIS2>(
+  // tslint:disable-next-line: deprecation
   F: Foldable2<F>
 ): <L, A>(ta: Kind2<F, L, [string, A]>, onConflict: (existing: A, a: A) => A) => StrMap<A>
 export function fromFoldable<F extends URIS>(
+  // tslint:disable-next-line: deprecation
   F: Foldable1<F>
 ): <A>(ta: Kind<F, [string, A]>, onConflict: (existing: A, a: A) => A) => StrMap<A>
 export function fromFoldable<F>(

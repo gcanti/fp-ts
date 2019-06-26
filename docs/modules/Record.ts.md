@@ -378,12 +378,15 @@ specified function to combine values for duplicate keys.
 
 ```ts
 export function fromFoldable<F extends URIS3>(
+  // tslint:disable-next-line: deprecation
   F: Foldable3<F>
 ): <K extends string, U, L, A>(ta: Kind3<F, U, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Record<K, A>
 export function fromFoldable<F extends URIS2>(
+  // tslint:disable-next-line: deprecation
   F: Foldable2<F>
 ): <K extends string, L, A>(ta: Kind2<F, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Record<K, A>
 export function fromFoldable<F extends URIS>(
+  // tslint:disable-next-line: deprecation
   F: Foldable1<F>
 ): <K extends string, A>(ta: Kind<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Record<K, A>
 export function fromFoldable<F>(
@@ -406,14 +409,17 @@ Create a record from a foldable collection using the specified functions to
 ```ts
 export function fromFoldableMap<F extends URIS3, B>(
   M: Magma<B>,
+  // tslint:disable-next-line: deprecation
   F: Foldable3<F>
 ): <U, L, A, K extends string>(ta: Kind3<F, U, L, A>, f: (a: A) => [K, B]) => Record<K, B>
 export function fromFoldableMap<F extends URIS2, B>(
   M: Magma<B>,
+  // tslint:disable-next-line: deprecation
   F: Foldable2<F>
 ): <L, A, K extends string>(ta: Kind2<F, L, A>, f: (a: A) => [K, B]) => Record<K, B>
 export function fromFoldableMap<F extends URIS, B>(
   M: Magma<B>,
+  // tslint:disable-next-line: deprecation
   F: Foldable1<F>
 ): <A, K extends string>(ta: Kind<F, A>, f: (a: A) => [K, B]) => Record<K, B>
 export function fromFoldableMap<F, B>(

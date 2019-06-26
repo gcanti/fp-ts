@@ -203,7 +203,7 @@ export interface SequenceT3C<F extends URIS3, U, L> {
 
 # ~~applyFirst~~ (function)
 
-Combine two effectful actions, keeping only the result of the first
+Use `pipeable`'s `apFirst`
 
 **Signature**
 
@@ -228,7 +228,7 @@ Added in v1.0.0
 
 # ~~applySecond~~ (function)
 
-Combine two effectful actions, keeping only the result of the second
+Use `pipeable`'s `apSecond`
 
 **Signature**
 
