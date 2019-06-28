@@ -37,6 +37,8 @@ Since in v2 data types are no more implemented with classes, chainable APIs will
 
 As an alternative, a `pipe` function is provided, along with suitable data-last top level functions (one for each deprecated method).
 
+**Note**. Check out this article by Ben Lesh about `pipe` https://dev.to/benlesh/a-simple-explanation-of-functional-pipe-in-javascript-2hbj
+
 **Example**
 
 Before
