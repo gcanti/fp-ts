@@ -31,26 +31,35 @@ import { HKT2, Kind2, Kind3, URIS2, URIS3, URIS4, Kind4 } from './HKT'
 import { Profunctor, Profunctor2, Profunctor3, Profunctor4 } from './Profunctor'
 
 /**
- * @since 1.11.0
+ * @since 2.0.0
  */
 export interface Strong<F> extends Profunctor<F> {
   readonly first: <A, B, C>(pab: HKT2<F, A, B>) => HKT2<F, [A, C], [B, C]>
   readonly second: <A, B, C>(pab: HKT2<F, B, C>) => HKT2<F, [A, B], [A, C]>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Strong2<F extends URIS2> extends Profunctor2<F> {
   readonly first: <A, B, C>(pab: Kind2<F, A, B>) => Kind2<F, [A, C], [B, C]>
   readonly second: <A, B, C>(pab: Kind2<F, B, C>) => Kind2<F, [A, B], [A, C]>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Strong3<F extends URIS3> extends Profunctor3<F> {
-  readonly first: <U, A, B, C>(pab: Kind3<F, U, A, B>) => Kind3<F, U, [A, C], [B, C]>
-  readonly second: <U, A, B, C>(pab: Kind3<F, U, B, C>) => Kind3<F, U, [A, B], [A, C]>
+  readonly first: <R, A, B, C>(pab: Kind3<F, R, A, B>) => Kind3<F, R, [A, C], [B, C]>
+  readonly second: <R, A, B, C>(pab: Kind3<F, R, B, C>) => Kind3<F, R, [A, B], [A, C]>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Strong4<F extends URIS4> extends Profunctor4<F> {
-  readonly first: <X, U, A, B, C>(pab: Kind4<F, X, U, A, B>) => Kind4<F, X, U, [A, C], [B, C]>
-  readonly second: <X, U, A, B, C>(pab: Kind4<F, X, U, B, C>) => Kind4<F, X, U, [A, B], [A, C]>
+  readonly first: <S, R, A, B, C>(pab: Kind4<F, S, R, A, B>) => Kind4<F, S, R, [A, C], [B, C]>
+  readonly second: <S, R, A, B, C>(pab: Kind4<F, S, R, B, C>) => Kind4<F, S, R, [A, B], [A, C]>
 }
 
 /**
@@ -65,14 +74,14 @@ export interface Strong4<F extends URIS4> extends Profunctor4<F> {
  * We take two functions, `f` and `g`, and we transform them into a single function which takes a tuple and maps `f`
  * over the first element and `g` over the second.  Just like `bi-map` would do for the `bi-functor` instance of tuple.
  *
- * @since 1.11.0
+ * @since 2.0.0
  */
 export function splitStrong<F extends URIS4>(
   F: Category4<F> & Strong4<F>
-): <X, U, A, B, C, D>(pab: Kind4<F, X, U, A, B>, pcd: Kind4<F, X, U, C, D>) => Kind4<F, X, U, [A, C], [B, D]>
+): <S, R, A, B, C, D>(pab: Kind4<F, S, R, A, B>, pcd: Kind4<F, S, R, C, D>) => Kind4<F, S, R, [A, C], [B, D]>
 export function splitStrong<F extends URIS3>(
   F: Category3<F> & Strong3<F>
-): <U, A, B, C, D>(pab: Kind3<F, U, A, B>, pcd: Kind3<F, U, C, D>) => Kind3<F, U, [A, C], [B, D]>
+): <R, A, B, C, D>(pab: Kind3<F, R, A, B>, pcd: Kind3<F, R, C, D>) => Kind3<F, R, [A, C], [B, D]>
 export function splitStrong<F extends URIS2>(
   F: Category2<F> & Strong2<F>
 ): <A, B, C, D>(pab: Kind2<F, A, B>, pcd: Kind2<F, C, D>) => Kind2<F, [A, C], [B, D]>
@@ -105,14 +114,14 @@ export function splitStrong<F>(
  * takes one parameter and returns a tuple of the results of running `f` and `g` on the parameter, respectively.  This
  * allows us to run two parallel computations on the same input and return both results in a tuple.
  *
- * @since 1.11.0
+ * @since 2.0.0
  */
 export function fanout<F extends URIS4>(
   F: Category4<F> & Strong4<F>
-): <X, U, A, B, C>(pab: Kind4<F, X, U, A, B>, pac: Kind4<F, X, U, A, C>) => Kind4<F, X, U, A, [B, C]>
+): <S, R, A, B, C>(pab: Kind4<F, S, R, A, B>, pac: Kind4<F, S, R, A, C>) => Kind4<F, S, R, A, [B, C]>
 export function fanout<F extends URIS3>(
   F: Category3<F> & Strong3<F>
-): <U, A, B, C>(pab: Kind3<F, U, A, B>, pac: Kind3<F, U, A, C>) => Kind3<F, U, A, [B, C]>
+): <R, A, B, C>(pab: Kind3<F, R, A, B>, pac: Kind3<F, R, A, C>) => Kind3<F, R, A, [B, C]>
 export function fanout<F extends URIS2>(
   F: Category2<F> & Strong2<F>
 ): <A, B, C>(pab: Kind2<F, A, B>, pac: Kind2<F, A, C>) => Kind2<F, A, [B, C]>

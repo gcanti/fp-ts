@@ -32,7 +32,7 @@ export interface Bounded<A> extends Ord<A> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # boundedNumber (constant)
 
@@ -42,4 +42,4 @@ Added in v1.0.0
 export const boundedNumber: Bounded<number> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0

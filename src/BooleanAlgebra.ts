@@ -11,12 +11,12 @@
 import { HeytingAlgebra } from './HeytingAlgebra'
 
 /**
- * @since 1.4.0
+ * @since 2.0.0
  */
 export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
 
 /**
- * @since 1.4.0
+ * @since 2.0.0
  */
 export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = {
   meet: (x, y) => x && y,
@@ -28,7 +28,7 @@ export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = {
 }
 
 /**
- * @since 1.4.0
+ * @since 2.0.0
  */
 export const booleanAlgebraVoid: BooleanAlgebra<void> = {
   meet: () => undefined,
@@ -40,25 +40,25 @@ export const booleanAlgebraVoid: BooleanAlgebra<void> = {
 }
 
 /**
- * @since 1.4.0
+ * @since 2.0.0
  */
-export const getFunctionBooleanAlgebra = <B>(B: BooleanAlgebra<B>) => <A = never>(): BooleanAlgebra<(a: A) => B> => {
-  return {
+export function getFunctionBooleanAlgebra<B>(B: BooleanAlgebra<B>): <A = never>() => BooleanAlgebra<(a: A) => B> {
+  return () => ({
     meet: (x, y) => a => B.meet(x(a), y(a)),
     join: (x, y) => a => B.join(x(a), y(a)),
     zero: () => B.zero,
     one: () => B.one,
     implies: (x, y) => a => B.implies(x(a), y(a)),
     not: x => a => B.not(x(a))
-  }
+  })
 }
 
 /**
  * Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
  *
- * @since 1.4.0
+ * @since 2.0.0
  */
-export const getDualBooleanAlgebra = <A>(B: BooleanAlgebra<A>): BooleanAlgebra<A> => {
+export function getDualBooleanAlgebra<A>(B: BooleanAlgebra<A>): BooleanAlgebra<A> {
   return {
     meet: (x, y) => B.join(x, y),
     join: (x, y) => B.meet(x, y),

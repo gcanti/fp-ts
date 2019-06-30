@@ -16,7 +16,7 @@ describe('FoldableWithIndex', () => {
     assert.deepStrictEqual(arrayOfArray.foldMapWithIndex(monoidString)(fa, ([i, j], a) => a + i + j), 'a00b01c10d11')
 
     assert.deepStrictEqual(
-      arrayOfArray.foldrWithIndex(fa, '', ([i, j]: [number, number], a: string, b: string) => b + a + i + j),
+      arrayOfArray.reduceRightWithIndex(fa, '', ([i, j]: [number, number], a: string, b: string) => b + a + i + j),
       'd11c10b01a00'
     )
   })

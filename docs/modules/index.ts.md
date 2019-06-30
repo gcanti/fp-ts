@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 44
+nav_order: 40
 parent: Modules
 ---
 
@@ -34,16 +34,12 @@ parent: Modules
 - [either (export)](#either-export)
 - [eitherT (export)](#eithert-export)
 - [eq (export)](#eq-export)
-- [exception (export)](#exception-export)
 - [extend (export)](#extend-export)
 - [field (export)](#field-export)
 - [filterable (export)](#filterable-export)
 - [filterableWithIndex (export)](#filterablewithindex-export)
 - [foldable (export)](#foldable-export)
-- [foldable2v (export)](#foldable2v-export)
 - [foldableWithIndex (export)](#foldablewithindex-export)
-- [free (export)](#free-export)
-- [freeGroup (export)](#freegroup-export)
 - [function (export)](#function-export)
 - [functor (export)](#functor-export)
 - [functorWithIndex (export)](#functorwithindex-export)
@@ -55,8 +51,6 @@ parent: Modules
 - [io (export)](#io-export)
 - [ioEither (export)](#ioeither-export)
 - [ioRef (export)](#ioref-export)
-- [ixIO (export)](#ixio-export)
-- [ixMonad (export)](#ixmonad-export)
 - [joinSemilattice (export)](#joinsemilattice-export)
 - [lattice (export)](#lattice-export)
 - [magma (export)](#magma-export)
@@ -67,19 +61,16 @@ parent: Modules
 - [monadTask (export)](#monadtask-export)
 - [monadThrow (export)](#monadthrow-export)
 - [monoid (export)](#monoid-export)
-- [monoidal (export)](#monoidal-export)
 - [nonEmptyArray (export)](#nonemptyarray-export)
-- [nonEmptyArray2v (export)](#nonemptyarray2v-export)
 - [option (export)](#option-export)
 - [optionT (export)](#optiont-export)
 - [ord (export)](#ord-export)
 - [ordering (export)](#ordering-export)
-- [pair (export)](#pair-export)
 - [pipeable (export)](#pipeable-export)
-- [plus (export)](#plus-export)
 - [profunctor (export)](#profunctor-export)
 - [random (export)](#random-export)
 - [reader (export)](#reader-export)
+- [readerEither (export)](#readereither-export)
 - [readerT (export)](#readert-export)
 - [readerTaskEither (export)](#readertaskeither-export)
 - [record (export)](#record-export)
@@ -88,28 +79,24 @@ parent: Modules
 - [semigroupoid (export)](#semigroupoid-export)
 - [semiring (export)](#semiring-export)
 - [set (export)](#set-export)
-- [setoid (export)](#setoid-export)
 - [show (export)](#show-export)
 - [state (export)](#state-export)
+- [stateReaderTaskEither (export)](#statereadertaskeither-export)
 - [stateT (export)](#statet-export)
 - [store (export)](#store-export)
-- [strmap (export)](#strmap-export)
 - [strong (export)](#strong-export)
 - [task (export)](#task-export)
 - [taskEither (export)](#taskeither-export)
 - [these (export)](#these-export)
-- [trace (export)](#trace-export)
 - [traced (export)](#traced-export)
 - [traversable (export)](#traversable-export)
-- [traversable2v (export)](#traversable2v-export)
 - [traversableWithIndex (export)](#traversablewithindex-export)
 - [tree (export)](#tree-export)
 - [tuple (export)](#tuple-export)
 - [unfoldable (export)](#unfoldable-export)
-- [validation (export)](#validation-export)
+- [validationT (export)](#validationt-export)
 - [witherable (export)](#witherable-export)
 - [writer (export)](#writer-export)
-- [zipper (export)](#zipper-export)
 
 ---
 
@@ -321,14 +308,6 @@ export { eitherT }
 export { eq }
 ```
 
-# exception (export)
-
-**Signature**
-
-```ts
-export { exception }
-```
-
 # extend (export)
 
 **Signature**
@@ -369,36 +348,12 @@ export { filterableWithIndex }
 export { foldable }
 ```
 
-# foldable2v (export)
-
-**Signature**
-
-```ts
-export { foldable2v }
-```
-
 # foldableWithIndex (export)
 
 **Signature**
 
 ```ts
 export { foldableWithIndex }
-```
-
-# free (export)
-
-**Signature**
-
-```ts
-export { free }
-```
-
-# freeGroup (export)
-
-**Signature**
-
-```ts
-export { freeGroup }
 ```
 
 # function (export)
@@ -489,22 +444,6 @@ export { ioEither }
 export { ioRef }
 ```
 
-# ixIO (export)
-
-**Signature**
-
-```ts
-export { ixIO }
-```
-
-# ixMonad (export)
-
-**Signature**
-
-```ts
-export { ixMonad }
-```
-
 # joinSemilattice (export)
 
 **Signature**
@@ -585,28 +524,12 @@ export { monadThrow }
 export { monoid }
 ```
 
-# monoidal (export)
-
-**Signature**
-
-```ts
-export { monoidal }
-```
-
 # nonEmptyArray (export)
 
 **Signature**
 
 ```ts
 export { nonEmptyArray }
-```
-
-# nonEmptyArray2v (export)
-
-**Signature**
-
-```ts
-export { nonEmptyArray2v }
 ```
 
 # option (export)
@@ -641,28 +564,12 @@ export { ord }
 export { ordering }
 ```
 
-# pair (export)
-
-**Signature**
-
-```ts
-export { pair }
-```
-
 # pipeable (export)
 
 **Signature**
 
 ```ts
 export { pipeable }
-```
-
-# plus (export)
-
-**Signature**
-
-```ts
-export { plus }
 ```
 
 # profunctor (export)
@@ -687,6 +594,14 @@ export { random }
 
 ```ts
 export { reader }
+```
+
+# readerEither (export)
+
+**Signature**
+
+```ts
+export { readerEither }
 ```
 
 # readerT (export)
@@ -753,14 +668,6 @@ export { semiring }
 export { set }
 ```
 
-# setoid (export)
-
-**Signature**
-
-```ts
-export { setoid }
-```
-
 # show (export)
 
 **Signature**
@@ -777,6 +684,14 @@ export { show }
 export { state }
 ```
 
+# stateReaderTaskEither (export)
+
+**Signature**
+
+```ts
+export { stateReaderTaskEither }
+```
+
 # stateT (export)
 
 **Signature**
@@ -791,14 +706,6 @@ export { stateT }
 
 ```ts
 export { store }
-```
-
-# strmap (export)
-
-**Signature**
-
-```ts
-export { strmap }
 ```
 
 # strong (export)
@@ -833,14 +740,6 @@ export { taskEither }
 export { these }
 ```
 
-# trace (export)
-
-**Signature**
-
-```ts
-export { trace }
-```
-
 # traced (export)
 
 **Signature**
@@ -855,14 +754,6 @@ export { traced }
 
 ```ts
 export { traversable }
-```
-
-# traversable2v (export)
-
-**Signature**
-
-```ts
-export { traversable2v }
 ```
 
 # traversableWithIndex (export)
@@ -897,12 +788,12 @@ export { tuple }
 export { unfoldable }
 ```
 
-# validation (export)
+# validationT (export)
 
 **Signature**
 
 ```ts
-export { validation }
+export { validationT }
 ```
 
 # witherable (export)
@@ -919,12 +810,4 @@ export { witherable }
 
 ```ts
 export { writer }
-```
-
-# zipper (export)
-
-**Signature**
-
-```ts
-export { zipper }
 ```

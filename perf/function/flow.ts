@@ -1,11 +1,6 @@
 import * as Benchmark from 'benchmark'
 import { flow } from '../../src/function'
 
-/*
-flow without switch x 5,207,439 ops/sec ±2.98% (87 runs sampled)
-flow x 24,437,409 ops/sec ±1.47% (86 runs sampled)
-*/
-
 const suite = new Benchmark.Suite()
 
 export function flowWithoutSwitch<A extends Array<unknown>, B>(ab: (...a: A) => B): (...a: A) => B

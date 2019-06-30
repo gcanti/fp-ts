@@ -8,23 +8,27 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Const (type alias)](#const-type-alias)
 - [URI (type alias)](#uri-type-alias)
-- [Const (class)](#const-class)
-  - [map (method)](#map-method)
-  - [contramap (method)](#contramap-method)
-  - [fold (method)](#fold-method)
-  - [inspect (method)](#inspect-method)
-  - [toString (method)](#tostring-method)
 - [URI (constant)](#uri-constant)
 - [const\_ (constant)](#const_-constant)
-- [~~getSetoid~~ (constant)](#getsetoid-constant)
+- [getEq (constant)](#geteq-constant)
+- [make (constant)](#make-constant)
 - [getApplicative (function)](#getapplicative-function)
 - [getApply (function)](#getapply-function)
-- [getEq (function)](#geteq-function)
 - [getShow (function)](#getshow-function)
-- [make (function)](#make-function)
 
 ---
+
+# Const (type alias)
+
+**Signature**
+
+```ts
+export type Const<E, A> = E & { readonly _A: A }
+```
+
+Added in v2.0.0
 
 # URI (type alias)
 
@@ -34,58 +38,7 @@ parent: Modules
 export type URI = typeof URI
 ```
 
-# Const (class)
-
-**Signature**
-
-```ts
-export class Const<L, A> {
-  constructor(readonly value: L) { ... }
-  ...
-}
-```
-
-Added in v1.0.0
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): Const<L, B> { ... }
-```
-
-## contramap (method)
-
-**Signature**
-
-```ts
-contramap<B>(f: (b: B) => A): Const<L, B> { ... }
-```
-
-## fold (method)
-
-**Signature**
-
-```ts
-fold<B>(f: (l: L) => B): B { ... }
-```
-
-## inspect (method)
-
-**Signature**
-
-```ts
-inspect(): string { ... }
-```
-
-## toString (method)
-
-**Signature**
-
-```ts
-toString(): string { ... }
-```
+Added in v2.0.0
 
 # URI (constant)
 
@@ -95,6 +48,8 @@ toString(): string { ... }
 export const URI = ...
 ```
 
+Added in v2.0.0
+
 # const\_ (constant)
 
 **Signature**
@@ -103,66 +58,54 @@ export const URI = ...
 export const const_: Functor2<URI> & Contravariant2<URI> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
-# ~~getSetoid~~ (constant)
-
-Use `getEq`
+# getEq (constant)
 
 **Signature**
 
 ```ts
-export const getSetoid: <L, A>(S: Eq<L>) => Eq<Const<L, A>> = ...
+export const getEq: <E, A>(E: Eq<E>) => Eq<Const<E, A>> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
+
+# make (constant)
+
+**Signature**
+
+```ts
+export const make: <E, A = ...
+```
+
+Added in v2.0.0
 
 # getApplicative (function)
 
 **Signature**
 
 ```ts
-export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => ...
+export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getApply (function)
 
 **Signature**
 
 ```ts
-export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => ...
+export function getApply<E>(S: Semigroup<E>): Apply2C<URI, E> { ... }
 ```
 
-Added in v1.0.0
-
-# getEq (function)
-
-**Signature**
-
-```ts
-export function getEq<L, A>(S: Eq<L>): Eq<Const<L, A>> { ... }
-```
-
-Added in v1.19.0
+Added in v2.0.0
 
 # getShow (function)
 
 **Signature**
 
 ```ts
-export const getShow = <L, A>(S: Show<L>): Show<Const<L, A>> => ...
+export function getShow<E, A>(S: Show<E>): Show<Const<E, A>> { ... }
 ```
 
-Added in v1.17.0
-
-# make (function)
-
-**Signature**
-
-```ts
-export function make<L, A = never>(l: L): Const<L, A> { ... }
-```
-
-Added in v1.19.0
+Added in v2.0.0

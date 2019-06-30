@@ -53,7 +53,7 @@ But most of the time, you can achieve the same result in a simpler way with `con
 ```ts
 import { contramap, ordNumber } from 'fp-ts/lib/Ord'
 
-const strlenOrd = contramap((s: string) => s.length, ordNumber)
+const strlenOrd = contramap((s: string) => s.length)(ordNumber)
 strlenOrd.compare('Hi', 'there') // -1
 strlenOrd.compare('Goodbye', 'friend') // 1
 ```
@@ -75,10 +75,10 @@ clamp(ordString)('Bar', 'Boat')('Ball') // Bar
 ## Less than, greater than, or in between?
 
 ```ts
-import { between, greaterThanOrEq, lessThan, ordNumber } from 'fp-ts/lib/Ord'
+import { between, geq, lt, ordNumber } from 'fp-ts/lib/Ord'
 
-lessThan(ordNumber)(4, 7) // true
-greaterThanOrEq(ordNumber)(6, 6) // true
+lt(ordNumber)(4, 7) // true
+geq(ordNumber)(6, 6) // true
 
 between(ordNumber)(6, 9)(7) // true
 between(ordNumber)(6, 9)(6) // true
@@ -120,8 +120,8 @@ const planets: Array<Planet> = [
   { name: 'Venus', diameter: 12104, distance: 0.723 }
 ]
 
-const diameterOrd = contramap((x: Planet) => x.diameter, ordNumber)
-const distanceOrd = contramap((x: Planet) => x.distance, ordNumber)
+const diameterOrd = contramap((x: Planet) => x.diameter)(ordNumber)
+const distanceOrd = contramap((x: Planet) => x.distance)(ordNumber)
 
 console.log(sort(distanceOrd)(planets)) // Mercury, Venus, Earth, Mars, ...
 console.log(sort(diameterOrd)(planets)) // Mercury, Mars, Venus, Earth, ...
@@ -146,11 +146,10 @@ O.compare(some(1), some(1)) // 0
 It works similarly for [Tuple](../modules/Tuple.ts)s and other types where it is possible to determine order:
 
 ```ts
-import { ordNumber, ordString } from 'fp-ts/lib/Ord'
-import { getOrd, Tuple } from 'fp-ts/lib/Tuple'
+import { ordNumber, ordString, getTupleOrd } from 'fp-ts/lib/Ord'
 
-const O = getOrd(ordString, ordNumber)
-O.compare(new Tuple('A', 10), new Tuple('A', 12)) // -1
-O.compare(new Tuple('A', 10), new Tuple('A', 4)) // 1
-O.compare(new Tuple('A', 10), new Tuple('B', 4)) // -1
+const O = getTupleOrd(ordString, ordNumber)
+O.compare(['A', 10], ['A', 12]) // -1
+O.compare(['A', 10], ['A', 4]) // 1
+O.compare(['A', 10], ['B', 4]) // -1
 ```

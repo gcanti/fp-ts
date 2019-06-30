@@ -1,98 +1,70 @@
 import { Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
 import { Contravariant2 } from './Contravariant'
+import { unsafeCoerce, identity } from './function'
 import { Functor2 } from './Functor'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { Eq, fromEquals } from './Eq'
-import { toString } from './function'
+import { Eq } from './Eq'
 import { Show } from './Show'
 import { pipeable } from './pipeable'
 
 declare module './HKT' {
-  interface URItoKind2<L, A> {
-    Const: Const<L, A>
+  interface URItoKind2<E, A> {
+    Const: Const<E, A>
   }
 }
 
+/**
+ * @since 2.0.0
+ */
 export const URI = 'Const'
 
+/**
+ * @since 2.0.0
+ */
 export type URI = typeof URI
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
-export class Const<L, A> {
-  readonly _A!: A
-  readonly _L!: L
-  readonly _URI!: URI
-  /**
-   * Use `make`
-   *
-   * @deprecated
-   */
-  constructor(readonly value: L) {}
-  /** @obsolete */
-  map<B>(f: (a: A) => B): Const<L, B> {
-    return this as any
-  }
-  /** @obsolete */
-  contramap<B>(f: (b: B) => A): Const<L, B> {
-    return this as any
-  }
-  /** @obsolete */
-  fold<B>(f: (l: L) => B): B {
-    return f(this.value)
-  }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    // tslint:disable-next-line: deprecation
-    return `make(${toString(this.value)})`
-  }
-}
+export type Const<E, A> = E & { readonly _A: A }
 
 /**
- * @since 1.17.0
+ * @since 2.0.0
  */
-export const getShow = <L, A>(S: Show<L>): Show<Const<L, A>> => {
+export const make: <E, A = never>(l: E) => Const<E, A> = unsafeCoerce
+
+/**
+ * @since 2.0.0
+ */
+export function getShow<E, A>(S: Show<E>): Show<Const<E, A>> {
   return {
-    show: c => `make(${S.show(c.value)})`
+    show: c => `make(${S.show(c)})`
   }
 }
 
 /**
- * Use `getEq`
- *
- * @since 1.0.0
- * @deprecated
+ * @since 2.0.0
  */
-export const getSetoid: <L, A>(S: Eq<L>) => Eq<Const<L, A>> = getEq
+export const getEq: <E, A>(E: Eq<E>) => Eq<Const<E, A>> = identity
 
 /**
- * @since 1.19.0
+ * @since 2.0.0
  */
-export function getEq<L, A>(S: Eq<L>): Eq<Const<L, A>> {
-  return fromEquals((x, y) => S.equals(x.value, y.value))
-}
-
-/**
- * @since 1.0.0
- */
-export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => {
+export function getApply<E>(S: Semigroup<E>): Apply2C<URI, E> {
   return {
     URI,
-    _L: undefined as any,
+    _E: undefined as any,
     map: const_.map,
-    ap: (fab, fa) => make(S.concat(fab.value, fa.value))
+    ap: (fab, fa) => make(S.concat(fab, fa))
   }
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
-export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
+export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> {
   return {
     ...getApply(M),
     of: () => make(M.empty)
@@ -100,24 +72,12 @@ export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const const_: Functor2<URI> & Contravariant2<URI> = {
   URI,
-  map: (fa, f) => fa.map(f),
-  contramap: (fa, f) => fa.contramap(f)
-}
-
-//
-// backporting
-//
-
-/**
- * @since 1.19.0
- */
-export function make<L, A = never>(l: L): Const<L, A> {
-  // tslint:disable-next-line: deprecation
-  return new Const(l)
+  map: unsafeCoerce,
+  contramap: unsafeCoerce
 }
 
 const { contramap, map } = pipeable(const_)

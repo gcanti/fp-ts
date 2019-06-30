@@ -1,6 +1,6 @@
 ---
 title: Field.ts
-nav_order: 29
+nav_order: 28
 parent: Modules
 ---
 
@@ -31,7 +31,7 @@ export interface Field<A> extends Ring<A> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # fieldNumber (constant)
 
@@ -41,7 +41,7 @@ Added in v1.0.0
 export const fieldNumber: Field<number> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # gcd (function)
 
@@ -50,10 +50,10 @@ The _greatest common divisor_ of two values
 **Signature**
 
 ```ts
-export const gcd = <A>(E: Eq<A>, field: Field<A>): ((x: A, y: A) => A) => ...
+export function gcd<A>(E: Eq<A>, field: Field<A>): (x: A, y: A) => A { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # lcm (function)
 
@@ -62,7 +62,7 @@ The _least common multiple_ of two values
 **Signature**
 
 ```ts
-export const lcm = <A>(E: Eq<A>, F: Field<A>): ((x: A, y: A) => A) => ...
+export function lcm<A>(E: Eq<A>, F: Field<A>): (x: A, y: A) => A { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0

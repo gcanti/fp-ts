@@ -1,312 +1,164 @@
 /**
- * @file `TaskEither<L, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
- * error of type `L`. If you want to represent an asynchronous computation that never fails, please see `Task`.
+ * @file `TaskEither<E, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
+ * error of type `E`. If you want to represent an asynchronous computation that never fails, please see `Task`.
  */
-import { Alt2 } from './Alt'
+import { Alt2, Alt2C } from './Alt'
 import { Bifunctor2 } from './Bifunctor'
-import {
-  Either,
-  getApplySemigroup as eitherGetApplySemigroup,
-  getSemigroup as eitherGetSemigroup,
-  left as eitherLeft,
-  right as eitherRight
-} from './Either'
-import * as eitherT from './EitherT'
-import { constant, constIdentity, identity, Lazy, Predicate, Refinement } from './function'
+import * as E from './Either'
+import { getEitherM } from './EitherT'
+import { Lazy } from './function'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { Monad2 } from './Monad'
-import { MonadIO2 } from './MonadIO'
+import { Monad2, Monad2C } from './Monad'
 import { MonadTask2 } from './MonadTask'
 import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { pipeable } from './pipeable'
 import { Semigroup } from './Semigroup'
-import { fromIO as taskFromIO, getSemigroup as taskGetSemigroup, Task, task, tryCatch as taskTryCatch } from './Task'
+import { getSemigroup as getTaskSemigroup, Task, task } from './Task'
+import { getValidationM } from './ValidationT'
+
+import Either = E.Either
+
+const T = getEitherM(task)
 
 declare module './HKT' {
-  interface URItoKind2<L, A> {
-    TaskEither: TaskEither<L, A>
+  interface URItoKind2<E, A> {
+    TaskEither: TaskEither<E, A>
   }
 }
 
+/**
+ * @since 2.0.0
+ */
 export const URI = 'TaskEither'
 
+/**
+ * @since 2.0.0
+ */
 export type URI = typeof URI
 
-const T = eitherT.getEitherT2v(task)
-const foldT = eitherT.fold(task)
+/**
+ * @since 2.0.0
+ */
+export interface TaskEither<E, A> extends Task<Either<E, A>> {}
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
-export class TaskEither<L, A> {
-  readonly _A!: A
-  readonly _L!: L
-  readonly _URI!: URI
-  constructor(readonly value: Task<Either<L, A>>) {}
-  /** Runs the inner `Task` */
-  run(): Promise<Either<L, A>> {
-    return this.value.run()
-  }
-  /** @obsolete */
-  map<B>(f: (a: A) => B): TaskEither<L, B> {
-    return new TaskEither(T.map(this.value, f))
-  }
-  /** @obsolete */
-  ap<B>(fab: TaskEither<L, (a: A) => B>): TaskEither<L, B> {
-    return new TaskEither(T.ap(fab.value, this.value))
-  }
-  /**
-   * Flipped version of `ap`
-   * @obsolete
-   */
-  ap_<B, C>(this: TaskEither<L, (b: B) => C>, fb: TaskEither<L, B>): TaskEither<L, C> {
-    return fb.ap(this)
-  }
-  /**
-   * Combine two (parallel) effectful actions, keeping only the result of the first
-   * @since 1.6.0
-   * @obsolete
-   */
-  applyFirst<B>(fb: TaskEither<L, B>): TaskEither<L, A> {
-    return fb.ap(this.map(constant))
-  }
-  /**
-   * Combine two (parallel) effectful actions, keeping only the result of the second
-   * @since 1.5.0
-   * @obsolete
-   */
-  applySecond<B>(fb: TaskEither<L, B>): TaskEither<L, B> {
-    // tslint:disable-next-line: deprecation
-    return fb.ap(this.map<(b: B) => B>(constIdentity))
-  }
-  /**
-   * Combine two (sequential) effectful actions, keeping only the result of the first
-   * @since 1.12.0
-   * @obsolete
-   */
-  chainFirst<B>(fb: TaskEither<L, B>): TaskEither<L, A> {
-    return this.chain(a => fb.map(() => a))
-  }
-  /**
-   * Combine two (sequential) effectful actions, keeping only the result of the second
-   * @since 1.12.0
-   * @obsolete
-   */
-  chainSecond<B>(fb: TaskEither<L, B>): TaskEither<L, B> {
-    return this.chain(() => fb)
-  }
-  /** @obsolete */
-  chain<B>(f: (a: A) => TaskEither<L, B>): TaskEither<L, B> {
-    return new TaskEither(T.chain(this.value, a => f(a).value))
-  }
-  /** @obsolete */
-  fold<R>(onLeft: (l: L) => R, onRight: (a: A) => R): Task<R> {
-    return foldT(onLeft, onRight, this.value)
-  }
-  /**
-   * Similar to `fold`, but the result is flattened.
-   * @since 1.10.0
-   * @obsolete
-   */
-  foldTask<R>(onLeft: (l: L) => Task<R>, onRight: (a: A) => Task<R>): Task<R> {
-    return this.value.chain(e => e.fold(onLeft, onRight))
-  }
-  /**
-   * Similar to `fold`, but the result is flattened.
-   * @since 1.10.0
-   * @obsolete
-   */
-  foldTaskEither<M, B>(onLeft: (l: L) => TaskEither<M, B>, onRight: (a: A) => TaskEither<M, B>): TaskEither<M, B> {
-    return new TaskEither(this.value.chain(e => e.fold(onLeft, onRight).value))
-  }
-  /**
-   * Similar to `fold`, return the value from Right or the given argument if Left.
-   * @since 1.17.0
-   * @obsolete
-   */
-  getOrElse(a: A): Task<A> {
-    return this.getOrElseL(() => a)
-  }
-  /**
-   * @since 1.17.0
-   * @obsolete
-   */
-  getOrElseL(f: (l: L) => A): Task<A> {
-    return this.fold(f, identity)
-  }
-  /** @obsolete */
-  mapLeft<M>(f: (l: L) => M): TaskEither<M, A> {
-    return new TaskEither(this.value.map(e => e.mapLeft(f)))
-  }
-  /**
-   * Transforms the failure value of the `TaskEither` into a new `TaskEither`
-   * @obsolete
-   */
-  orElse<M>(f: (l: L) => TaskEither<M, A>): TaskEither<M, A> {
-    return new TaskEither(this.value.chain(e => e.fold<Task<Either<M, A>>>(l => f(l).value, T.of)))
-  }
-  /**
-   * @since 1.6.0
-   * @obsolete
-   */
-  alt(fy: TaskEither<L, A>): TaskEither<L, A> {
-    return this.orElse(() => fy)
-  }
-  /**
-   * @since 1.2.0
-   * @obsolete
-   */
-  bimap<V, B>(f: (l: L) => V, g: (a: A) => B): TaskEither<V, B> {
-    return new TaskEither(this.value.map(e => e.bimap(f, g)))
-  }
-  /**
-   * Return `Right` if the given action succeeds, `Left` if it throws
-   * @since 1.10.0
-   * @obsolete
-   */
-  attempt<M = L>(): TaskEither<M, Either<L, A>> {
-    return new TaskEither(this.value.map<Either<M, Either<L, A>>>(eitherRight))
-  }
-  /**
-   * @since 1.11.0
-   * @obsolete
-   */
-  filterOrElse<B extends A>(p: Refinement<A, B>, zero: L): TaskEither<L, B>
-  filterOrElse(p: Predicate<A>, zero: L): TaskEither<L, A>
-  filterOrElse(p: Predicate<A>, zero: L): TaskEither<L, A> {
-    return new TaskEither(this.value.map(e => e.filterOrElse(p, zero)))
-  }
-  /**
-   * @since 1.11.0
-   * @obsolete
-   */
-  filterOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): TaskEither<L, B>
-  filterOrElseL(p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A>
-  filterOrElseL(p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A> {
-    return new TaskEither(this.value.map(e => e.filterOrElseL(p, zero)))
-  }
+export const left: <E = never, A = never>(e: E) => TaskEither<E, A> = T.left
+
+/**
+ * @since 2.0.0
+ */
+export const right: <E = never, A = never>(a: A) => TaskEither<E, A> = T.of
+
+/**
+ * @since 2.0.0
+ */
+export function rightIO<E = never, A = never>(ma: IO<A>): TaskEither<E, A> {
+  return rightTask(task.fromIO(ma))
 }
 
 /**
- * Use `rightTask`
- *
- * @since 1.0.0
- * @deprecated
+ * @since 2.0.0
  */
-export const right = <L, A>(fa: Task<A>): TaskEither<L, A> => {
-  return new TaskEither(fa.map<Either<L, A>>(eitherRight))
+export function leftIO<E = never, A = never>(me: IO<E>): TaskEither<E, A> {
+  return leftTask(task.fromIO(me))
 }
 
 /**
- * Use `leftTask`
- *
- * @since 1.0.0
- * @deprecated
+ * @since 2.0.0
  */
-export const left = <L, A>(fl: Task<L>): TaskEither<L, A> => {
-  return new TaskEither(fl.map<Either<L, A>>(eitherLeft))
+export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskEither<E, A> = T.rightM
+
+/**
+ * @since 2.0.0
+ */
+export const leftTask: <E = never, A = never>(me: Task<E>) => TaskEither<E, A> = T.leftM
+
+/**
+ * @since 2.0.0
+ */
+export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = task.fromIO
+
+/**
+ * @since 2.0.0
+ */
+export function fold<E, A, B>(
+  onLeft: (e: E) => Task<B>,
+  onRight: (a: A) => Task<B>
+): (ma: TaskEither<E, A>) => Task<B> {
+  return ma => T.fold(ma, onLeft, onRight)
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
-export const fromEither = <L, A>(fa: Either<L, A>): TaskEither<L, A> => {
-  return new TaskEither(task.of(fa))
+export function getOrElse<E, A>(f: (e: E) => Task<A>): (ma: TaskEither<E, A>) => Task<A> {
+  return ma => T.getOrElse(ma, f)
 }
 
 /**
- * Use `rightIO`
- *
- * @since 1.5.0
- * @deprecated
+ * @since 2.0.0
  */
-export const fromIO = <L, A>(fa: IO<A>): TaskEither<L, A> => {
-  return rightIO(fa)
+export function orElse<E, A, M>(f: (e: E) => TaskEither<M, A>): (ma: TaskEither<E, A>) => TaskEither<M, A> {
+  return ma => T.orElse(ma, f)
 }
 
 /**
- * Use `left2v`
- *
- * @since 1.3.0
- * @deprecated
+ * @since 2.0.0
  */
-export const fromLeft = <L, A>(l: L): TaskEither<L, A> => {
-  return fromEither(eitherLeft(l))
+export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> = T.swap
+
+/**
+ * @since 2.0.0
+ */
+export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>> {
+  return getTaskSemigroup(E.getSemigroup<E, A>(S))
 }
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
-export const fromIOEither = <L, A>(fa: IOEither<L, A>): TaskEither<L, A> => {
-  return new TaskEither(taskFromIO(fa.value))
+export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>> {
+  return getTaskSemigroup(E.getApplySemigroup<E, A>(S))
 }
 
 /**
- * @since 1.9.0
+ * @since 2.0.0
  */
-export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> => {
-  const S2 = taskGetSemigroup(eitherGetSemigroup<L, A>(S))
+export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>> {
   return {
-    concat: (x, y) => new TaskEither<L, A>(S2.concat(x.value, y.value))
+    concat: getApplySemigroup<E, A>(M).concat,
+    empty: right(M.empty)
   }
 }
 
 /**
- * @since 1.9.0
+ * @since 2.0.0
  */
-export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> => {
-  const S2 = taskGetSemigroup(eitherGetApplySemigroup<L, A>(S))
-  return {
-    concat: (x, y) => new TaskEither<L, A>(S2.concat(x.value, y.value))
-  }
+export function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> {
+  return () => f().then(a => E.right(a), reason => E.left(onRejected(reason)))
 }
 
 /**
- * @since 1.9.0
+ * Make sure that a resource is cleaned up in the event of an exception. The
+ * release action is called regardless of whether the body action throws or
+ * returns.
+ *
+ * @since 2.0.0
  */
-export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>> => {
-  return {
-    ...getApplySemigroup(M),
-    empty: right2v(M.empty)
-  }
-}
-
-/**
- * Transforms a `Promise` into a `TaskEither`, catching the possible error.
- *
- * @example
- * import { createHash } from 'crypto'
- * import { TaskEither, tryCatch } from 'fp-ts/lib/TaskEither'
- * import { createReadStream } from 'fs'
- * import { left } from 'fp-ts/lib/Either'
- *
- * const md5 = (path: string): TaskEither<string, string> => {
- *   const mkHash = (p: string) =>
- *     new Promise<string>((resolve, reject) => {
- *       const hash = createHash('md5')
- *       const rs = createReadStream(p)
- *       rs.on('error', (error: Error) => reject(error.message))
- *       rs.on('data', (chunk: string) => hash.update(chunk))
- *       rs.on('end', () => {
- *         return resolve(hash.digest('hex'))
- *       })
- *     })
- *   return tryCatch(() => mkHash(path), message => `cannot create md5 hash: ${String(message)}`)
- * }
- *
- * md5('foo')
- *   .run()
- *   .then(x => {
- *     assert.deepStrictEqual(x, left(`cannot create md5 hash: ENOENT: no such file or directory, open 'foo'`))
- *   })
- *
- *
- * @since 1.0.0
- */
-export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): TaskEither<L, A> => {
-  return new TaskEither(taskTryCatch(f, onrejected))
+export function bracket<E, A, B>(
+  acquire: TaskEither<E, A>,
+  use: (a: A) => TaskEither<E, B>,
+  release: (a: A, e: Either<E, B>) => TaskEither<E, void>
+): TaskEither<E, B> {
+  return T.chain(acquire, a =>
+    T.chain(task.map(use(a), E.right), e =>
+      T.chain(release(a, e), () => (E.isLeft(e) ? T.left(e.left) : T.of(e.right)))
+    )
+  )
 }
 
 /**
@@ -335,7 +187,7 @@ export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown
  * assert.strictEqual(stat.length, 0)
  *
  *
- * @since 1.5.0
+ * @since 2.0.0
  */
 export function taskify<L, R>(f: (cb: (e: L | null | undefined, r?: R) => void) => void): () => TaskEither<L, R>
 export function taskify<A, L, R>(
@@ -356,141 +208,51 @@ export function taskify<A, B, C, D, E, L, R>(
 export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
   return function() {
     const args = Array.prototype.slice.call(arguments)
-    return new TaskEither(
-      new Task(
-        () =>
-          new Promise(resolve => {
-            const cbResolver = (e: L, r: R) =>
-              e != null ? resolve(eitherLeft<L, R>(e)) : resolve(eitherRight<L, R>(r))
-            f.apply(null, args.concat(cbResolver))
-          })
-      )
-    )
+    return () =>
+      new Promise(resolve => {
+        const cbResolver = (e: L, r: R) => (e != null ? resolve(E.left(e)) : resolve(E.right(r)))
+        f.apply(null, args.concat(cbResolver))
+      })
   }
 }
 
 /**
- * Make sure that a resource is cleaned up in the event of an exception. The
- * release action is called regardless of whether the body action throws or
- * returns.
- *
- * @since 1.10.0
+ * @since 2.0.0
  */
-export const bracket = <L, A, B>(
-  acquire: TaskEither<L, A>,
-  use: (a: A) => TaskEither<L, B>,
-  release: (a: A, e: Either<L, B>) => TaskEither<L, void>
-): TaskEither<L, B> => {
-  return acquire.chain(a =>
-    use(a)
-      .attempt()
-      .chain(e => release(a, e).chain(() => e.fold<TaskEither<L, B>>(left2v, taskEither.of)))
-  )
+export function getTaskValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E> {
+  const T = getValidationM(S, task)
+  return {
+    URI,
+    _E: undefined as any,
+    ...T
+  }
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
-export const taskEither: Monad2<URI> &
-  Bifunctor2<URI> &
-  Alt2<URI> &
-  MonadIO2<URI> &
-  MonadTask2<URI> &
-  MonadThrow2<URI> = {
+export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<URI> & MonadThrow2<URI> = {
   URI,
-  bimap: (fla, f, g) => fla.bimap(f, g),
-  map: (fa, f) => fa.map(f),
-  of: right2v,
-  ap: (fab, fa) => fa.ap(fab),
-  chain: (fa, f) => fa.chain(f),
-  alt: (fx, fy) => fx.alt(fy),
-  fromIO,
+  bimap: T.bimap,
+  mapLeft: T.mapLeft,
+  map: T.map,
+  of: T.of,
+  ap: T.ap,
+  chain: T.chain,
+  alt: T.alt,
+  fromIO: rightIO,
   fromTask: rightTask,
-  throwError: left2v,
-  fromEither,
-  fromOption: (o, e) => (o.isNone() ? left2v(e) : right2v(o.value))
+  throwError: left
 }
 
 /**
  * Like `TaskEither` but `ap` is sequential
  *
- * @since 1.10.0
+ * @since 2.0.0
  */
 export const taskEitherSeq: typeof taskEither = {
   ...taskEither,
-  ap: (fab, fa) => fab.chain(f => fa.map(f))
-}
-
-//
-// backporting
-//
-
-/**
- * @since 1.19.0
- */
-export function right2v<E = never, A = never>(a: A): TaskEither<E, A> {
-  return new TaskEither(T.of(a))
-}
-
-/**
- * @since 1.19.0
- */
-export function left2v<E = never, A = never>(e: E): TaskEither<E, A> {
-  return fromEither(eitherLeft(e))
-}
-
-/**
- * @since 1.19.0
- */
-export function rightIO<E = never, A = never>(ma: IO<A>): TaskEither<E, A> {
-  return rightTask(task.fromIO(ma))
-}
-
-/**
- * @since 1.19.0
- */
-export function leftIO<E = never, A = never>(me: IO<E>): TaskEither<E, A> {
-  return leftTask(task.fromIO(me))
-}
-
-/**
- * @since 1.19.0
- */
-export function rightTask<E = never, A = never>(ma: Task<A>): TaskEither<E, A> {
-  // tslint:disable-next-line: deprecation
-  return right(ma)
-}
-
-/**
- * @since 1.19.0
- */
-export function leftTask<E = never, A = never>(me: Task<E>): TaskEither<E, A> {
-  // tslint:disable-next-line: deprecation
-  return left(me)
-}
-
-/**
- * @since 1.19.0
- */
-export function fold<E, A, R>(
-  onLeft: (e: E) => Task<R>,
-  onRight: (a: A) => Task<R>
-): (ma: TaskEither<E, A>) => Task<R> {
-  return ma => ma.foldTask(onLeft, onRight)
-}
-
-/**
- * @since 1.19.0
- */
-export function getOrElse<E, A>(f: (e: E) => Task<A>): (ma: TaskEither<E, A>) => Task<A> {
-  return fold(f, task.of)
-}
-
-/**
- * @since 1.19.0
- */
-export function orElse<E, A, M>(f: (e: E) => TaskEither<M, A>): (ma: TaskEither<E, A>) => TaskEither<M, A> {
-  return ma => ma.orElse(f)
+  ap: (mab, ma) => T.chain(mab, f => T.map(ma, f))
 }
 
 const {
@@ -504,6 +266,7 @@ const {
   flatten,
   map,
   mapLeft,
+  fromEither,
   fromOption,
   fromPredicate,
   filterOrElse
@@ -520,6 +283,7 @@ export {
   flatten,
   map,
   mapLeft,
+  fromEither,
   fromOption,
   fromPredicate,
   filterOrElse

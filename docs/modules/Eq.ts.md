@@ -4,18 +4,6 @@ nav_order: 26
 parent: Modules
 ---
 
-# Overview
-
-The `Eq` type class represents types which support decidable equality.
-
-Instances must satisfy the following laws:
-
-1. Reflexivity: `E.equals(a, a) === true`
-2. Symmetry: `E.equals(a, b) === E.equals(b, a)`
-3. Transitivity: if `E.equals(a, b) === true` and `E.equals(b, c) === true`, then `E.equals(a, c) === true`
-
-See [Getting started with fp-ts: Eq](https://dev.to/gcanti/getting-started-with-fp-ts-setoid-39f3)
-
 ---
 
 <h2 class="text-delta">Table of contents</h2>
@@ -46,7 +34,7 @@ export interface Eq<A> {
 }
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # URI (type alias)
 
@@ -56,7 +44,7 @@ Added in v1.19.0
 export type URI = typeof URI
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # URI (constant)
 
@@ -66,7 +54,7 @@ Added in v1.19.0
 export const URI = ...
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # eq (constant)
 
@@ -76,7 +64,7 @@ Added in v1.19.0
 export const eq: Contravariant1<URI> = ...
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # eqBoolean (constant)
 
@@ -86,7 +74,7 @@ Added in v1.19.0
 export const eqBoolean: Eq<boolean> = ...
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # eqDate (constant)
 
@@ -96,7 +84,7 @@ Added in v1.19.0
 export const eqDate: Eq<Date> = ...
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # eqNumber (constant)
 
@@ -106,7 +94,7 @@ Added in v1.19.0
 export const eqNumber: Eq<number> = ...
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # eqString (constant)
 
@@ -116,7 +104,7 @@ Added in v1.19.0
 export const eqString: Eq<string> = ...
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # fromEquals (function)
 
@@ -126,7 +114,7 @@ Added in v1.19.0
 export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> { ... }
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # getStructEq (function)
 
@@ -136,7 +124,7 @@ Added in v1.19.0
 export function getStructEq<O extends { [key: string]: any }>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> { ... }
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # getTupleEq (function)
 
@@ -162,7 +150,7 @@ assert.strictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
 assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # strictEqual (function)
 
@@ -172,7 +160,7 @@ Added in v1.19.0
 export function strictEqual<A>(a: A, b: A): boolean { ... }
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # contramap (export)
 

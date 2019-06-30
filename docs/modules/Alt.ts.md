@@ -24,7 +24,6 @@ that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than
 - [Alt2 (interface)](#alt2-interface)
 - [Alt2C (interface)](#alt2c-interface)
 - [Alt3 (interface)](#alt3-interface)
-- [Alt3C (interface)](#alt3c-interface)
 - [Alt4 (interface)](#alt4-interface)
 
 ---
@@ -35,11 +34,11 @@ that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than
 
 ```ts
 export interface Alt<F> extends Functor<F> {
-  readonly alt: <A>(fx: HKT<F, A>, fy: HKT<F, A>) => HKT<F, A>
+  readonly alt: <A>(fx: HKT<F, A>, fy: () => HKT<F, A>) => HKT<F, A>
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Alt1 (interface)
 
@@ -47,9 +46,11 @@ Added in v1.0.0
 
 ```ts
 export interface Alt1<F extends URIS> extends Functor1<F> {
-  readonly alt: <A>(fx: Kind<F, A>, fy: Kind<F, A>) => Kind<F, A>
+  readonly alt: <A>(fx: Kind<F, A>, fy: () => Kind<F, A>) => Kind<F, A>
 }
 ```
+
+Added in v2.0.0
 
 # Alt2 (interface)
 
@@ -57,19 +58,23 @@ export interface Alt1<F extends URIS> extends Functor1<F> {
 
 ```ts
 export interface Alt2<F extends URIS2> extends Functor2<F> {
-  readonly alt: <L, A>(fx: Kind2<F, L, A>, fy: Kind2<F, L, A>) => Kind2<F, L, A>
+  readonly alt: <E, A>(fx: Kind2<F, E, A>, fy: () => Kind2<F, E, A>) => Kind2<F, E, A>
 }
 ```
+
+Added in v2.0.0
 
 # Alt2C (interface)
 
 **Signature**
 
 ```ts
-export interface Alt2C<F extends URIS2, L> extends Functor2C<F, L> {
-  readonly alt: <A>(fx: Kind2<F, L, A>, fy: Kind2<F, L, A>) => Kind2<F, L, A>
+export interface Alt2C<F extends URIS2, E> extends Functor2C<F, E> {
+  readonly alt: <A>(fx: Kind2<F, E, A>, fy: () => Kind2<F, E, A>) => Kind2<F, E, A>
 }
 ```
+
+Added in v2.0.0
 
 # Alt3 (interface)
 
@@ -77,19 +82,11 @@ export interface Alt2C<F extends URIS2, L> extends Functor2C<F, L> {
 
 ```ts
 export interface Alt3<F extends URIS3> extends Functor3<F> {
-  readonly alt: <U, L, A>(fx: Kind3<F, U, L, A>, fy: Kind3<F, U, L, A>) => Kind3<F, U, L, A>
+  readonly alt: <R, E, A>(fx: Kind3<F, R, E, A>, fy: () => Kind3<F, R, E, A>) => Kind3<F, R, E, A>
 }
 ```
 
-# Alt3C (interface)
-
-**Signature**
-
-```ts
-export interface Alt3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
-  readonly alt: <A>(fx: Kind3<F, U, L, A>, fy: Kind3<F, U, L, A>) => Kind3<F, U, L, A>
-}
-```
+Added in v2.0.0
 
 # Alt4 (interface)
 
@@ -97,6 +94,8 @@ export interface Alt3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
 
 ```ts
 export interface Alt4<F extends URIS4> extends Functor4<F> {
-  readonly alt: <X, U, L, A>(fx: Kind4<F, X, U, L, A>, fy: () => Kind4<F, X, U, L, A>) => Kind4<F, X, U, L, A>
+  readonly alt: <S, R, E, A>(fx: Kind4<F, S, R, E, A>, fy: () => Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
 }
 ```
+
+Added in v2.0.0

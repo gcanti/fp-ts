@@ -1,6 +1,6 @@
 ---
 title: Group.ts
-nav_order: 40
+nav_order: 36
 parent: Modules
 ---
 
@@ -28,4 +28,4 @@ export interface Group<A> extends Monoid<A> {
 }
 ```
 
-Added in v1.13.0
+Added in v2.0.0

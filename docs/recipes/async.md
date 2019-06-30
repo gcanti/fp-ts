@@ -13,9 +13,9 @@ If you're working with asynchronous tasks that are guaranteed to succeed, use [T
 ```ts
 import { Task } from 'fp-ts/lib/Task'
 
-const deepThought = new Task<number>(() => Promise.resolve(42))
+const deepThought: Task<number> = () => Promise.resolve(42)
 
-deepThought.run().then(n => {
+deepThought().then(n => {
   console.log(`The answer is ${n}.`)
 })
 ```
@@ -25,6 +25,8 @@ deepThought.run().then(n => {
 If you're working with asynchronous tasks that may fail, use [TaskEither](../modules/TaskEither.ts). If the JSON in this example is malformed (try it!), an "I'm sorry" message is displayed.
 
 ```ts
+import { fold } from 'fp-ts/lib/Either'
+import { pipe } from 'fp-ts/lib/pipeable'
 import { tryCatch } from 'fp-ts/lib/TaskEither'
 
 const fetchGreeting = tryCatch<Error, { name: string }>(
@@ -32,12 +34,13 @@ const fetchGreeting = tryCatch<Error, { name: string }>(
   reason => new Error(String(reason))
 )
 
-fetchGreeting
-  .run()
-  .then(te => te.fold(
-    err => `I'm sorry, I don't know who you are. (${err.message})`,
-    x => `Hello, ${x.name}!`
-  ))
+fetchGreeting()
+  .then(e =>
+    pipe(
+      e,
+      fold(err => `I'm sorry, I don't know who you are. (${err.message})`, x => `Hello, ${x.name}!`)
+    )
+  )
   .then(console.log)
 ```
 
@@ -57,8 +60,7 @@ import { array } from 'fp-ts/lib/Array'
 
 const tasks = [task.of(1), task.of(2)]
 array
-  .sequence(task)(tasks)
-  .run()
+  .sequence(task)(tasks)()
   .then(console.log) // [ 1, 2 ]
 ```
 
@@ -68,20 +70,30 @@ If you need to run a list of `Task`s in sequence, i.e. you have to wait for one 
 
 ```ts
 import { array } from 'fp-ts/lib/Array'
-import { delay, task, taskSeq } from 'fp-ts/lib/Task'
-const log = <A>(x: A) => { console.log(x); return x }
+import { pipe } from 'fp-ts/lib/pipeable'
+import { delay, map, task, taskSeq } from 'fp-ts/lib/Task'
 
-const tasks = [delay(200, 'first').map(log), delay(100, 'second').map(log)]
+const log = <A>(x: A) => {
+  console.log(x)
+  return x
+}
+
+const tasks = [
+  pipe(
+    delay(200)(task.of('first')),
+    map(log)
+  ),
+  pipe(
+    delay(100)(task.of('second')),
+    map(log)
+  )
+]
 
 // Parallel: logs 'second' then 'first'
-array
-  .sequence(task)(tasks)
-  .run()
+array.sequence(task)(tasks)()
 
 // Sequential: logs 'first' then 'second'
-array
-  .sequence(taskSeq)(tasks)
-  .run()
+array.sequence(taskSeq)(tasks)()
 ```
 
 ## Work with a list of dependent tasks
@@ -89,13 +101,14 @@ array
 If you need the result of on task before you can continue with the next, you can `chain` the tasks like so:
 
 ```ts
-import { task } from 'fp-ts/lib/Task'
+import { pipe } from 'fp-ts/lib/pipeable'
+import { chain, task } from 'fp-ts/lib/Task'
 
-task.of(2)
-  .chain(result => task.of(result * 3))
-  .chain(result => task.of(result + 4))
-  .run()
-  .then(console.log) // 10
+pipe(
+  task.of(2),
+  chain(result => task.of(result * 3)),
+  chain(result => task.of(result + 4))
+)().then(console.log) // 10
 ```
 
 ## Traverse: map and sequence
@@ -103,21 +116,18 @@ task.of(2)
 If you have a list of items that you need to `map` over before running them in `sequence`, you can use `traverse`, which is a shortcut for doing both operations in one step.
 
 ```ts
-import { array } from 'fp-ts/lib/Array'
-import { task, Task } from 'fp-ts/lib/Task'
 import { access, constants } from 'fs'
+import { array } from 'fp-ts/lib/Array'
+import { task } from 'fp-ts/lib/Task'
 
-const checkPathExists = (path: string) =>
-  new Task(() =>
-    new Promise(resolve => {
-      access(path, constants.F_OK, err => resolve({ path, exists: !err }))
-    })
-  )
+const checkPathExists = (path: string) => () =>
+  new Promise(resolve => {
+    access(path, constants.F_OK, err => resolve({ path, exists: !err }))
+  })
 
 const items = ['/bin', '/no/real/path']
 
 array
-  .traverse(task)(items, checkPathExists)
-  .run()
+  .traverse(task)(items, checkPathExists)()
   .then(console.log) // [ { path: '/bin', exists: true }, { path: '/no/real/path', exists: false } ]
 ```

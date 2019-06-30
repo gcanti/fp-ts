@@ -1,240 +1,259 @@
 import * as assert from 'assert'
-import { left as eitherLeft, right as eitherRight } from '../src/Either'
-import { IO, io } from '../src/IO'
-import { IOEither, ioEither, tryCatch, left2v, leftIO, rightIO, right2v, fold, orElse } from '../src/IOEither'
+import * as E from '../src/Either'
+import { io } from '../src/IO'
+import * as _ from '../src/IOEither'
+import { monoidString } from '../src/Monoid'
+import { semigroupSum, semigroupString } from '../src/Semigroup'
 import { none, some } from '../src/Option'
 import { pipe } from '../src/pipeable'
 
 describe('IOEither', () => {
-  it('map', () => {
-    const double = (n: number): number => n * 2
-    assert.deepStrictEqual(ioEither.map(right2v(1), double).run(), eitherRight(2))
+  it('fold', () => {
+    assert.deepStrictEqual(_.fold(() => io.of('left'), () => io.of('right'))(_.ioEither.of(1))(), 'right')
+    assert.deepStrictEqual(_.fold(() => io.of('left'), () => io.of('right'))(_.left(1))(), 'left')
   })
 
-  it('ap', () => {
-    const double = (n: number): number => n * 2
-    const fab = right2v(double)
-    const fa = right2v(1)
-
-    const e1 = fa.ap(fab).run()
-
-    assert.deepStrictEqual(e1, eitherRight(2))
-    assert.deepStrictEqual(e1, fab.ap_(fa).run())
-    assert.deepStrictEqual(e1, ioEither.ap(fab, fa).run())
-  })
-
-  it('chain', () => {
-    const te1 = ioEither.chain(ioEither.of<string, string>('foo'), a =>
-      a.length > 2 ? ioEither.of<string, number>(a.length) : left2v('foo')
-    )
-    const te2 = ioEither.chain(ioEither.of<string, string>('a'), a =>
-      a.length > 2 ? ioEither.of<string, number>(a.length) : left2v('foo')
-    )
-    assert.deepStrictEqual(te1.run(), eitherRight(3))
-    assert.deepStrictEqual(te2.run(), eitherLeft('foo'))
-  })
-
-  it('mapLeft', () => {
-    const double = (n: number): number => n * 2
-    assert.deepStrictEqual(
-      left2v(1)
-        .mapLeft(double)
-        .run(),
-      eitherLeft(2)
-    )
-  })
-
-  it('fold (method)', () => {
-    const onLeft = (s: string): boolean => s.length > 2
-    const onRight = (n: number): boolean => n > 2
-
-    assert.strictEqual(
-      right2v(1)
-        .fold(onLeft, onRight)
-        .run(),
-      false
-    )
-    assert.strictEqual(
-      left2v('foo')
-        .fold(onLeft, onRight)
-        .run(),
-      true
-    )
-  })
-
-  it('fold (top level function)', () => {
-    const onLeft = (s: string) => io.of(s.length > 2)
-    const onRight = (n: number) => io.of(n > 2)
-    assert.strictEqual(
-      pipe(
-        right2v(1),
-        fold(onLeft, onRight)
-      ).run(),
-      false
-    )
-    assert.strictEqual(
-      pipe(
-        left2v('foo'),
-        fold(onLeft, onRight)
-      ).run(),
-      true
-    )
-  })
-
-  it('foldIO', () => {
-    const onLeft = () => io.of('left')
-    const onRight = () => io.of('right')
-
-    assert.deepStrictEqual(
-      left2v('a')
-        .foldIO(onLeft, onRight)
-        .run(),
-      'left'
-    )
-    assert.deepStrictEqual(
-      right2v(1)
-        .foldIO(onLeft, onRight)
-        .run(),
-      'right'
-    )
-  })
-
-  it('foldIOEither', () => {
-    const onLeft = (s: string) => (s.length >= 2 ? ioEither.of<boolean, string>('okleft') : left2v(false))
-    const onRight = (n: number) => (n >= 2 ? ioEither.of<boolean, string>('okright') : left2v(true))
-
-    assert.deepStrictEqual(
-      left2v('a')
-        .foldIOEither(onLeft, onRight)
-        .run(),
-      eitherLeft(false)
-    )
-    assert.deepStrictEqual(
-      left2v('aa')
-        .foldIOEither(onLeft, onRight)
-        .run(),
-      eitherRight('okleft')
-    )
-    assert.deepStrictEqual(
-      right2v(1)
-        .foldIOEither(onLeft, onRight)
-        .run(),
-      eitherLeft(true)
-    )
-    assert.deepStrictEqual(
-      right2v(2)
-        .foldIOEither(onLeft, onRight)
-        .run(),
-      eitherRight('okright')
-    )
-  })
-
-  it('bimap', () => {
-    const f = (s: string): number => s.length
-    const g = (n: number): boolean => n > 2
-    const teRight = ioEither.of<string, number>(1)
-    const e1 = teRight.bimap(f, g).run()
-
-    assert.deepStrictEqual(e1, eitherRight(false))
-    assert.deepStrictEqual(
-      left2v('foo')
-        .bimap(f, g)
-        .run(),
-      eitherLeft(3)
-    )
-    assert.deepStrictEqual(e1, ioEither.bimap(teRight, f, g).run())
+  it('getOrElse', () => {
+    assert.deepStrictEqual(_.getOrElse(() => io.of(2))(_.ioEither.of(1))(), 1)
+    assert.deepStrictEqual(_.getOrElse(() => io.of(2))(_.left(1))(), 2)
   })
 
   it('orElse', () => {
-    assert.deepStrictEqual(
-      pipe(
-        left2v('foo'),
-        orElse(l => right2v(l.length))
-      ).run(),
-      eitherRight(3)
-    )
-    assert.deepStrictEqual(
-      pipe(
-        right2v(1),
-        orElse(() => right2v(2))
-      ).run(),
-      eitherRight(1)
-    )
-  })
-
-  it('leftIO', () => {
-    assert.deepStrictEqual(leftIO(io.of(1)).run(), eitherLeft(1))
-  })
-
-  it('applySecond', () => {
-    const log: Array<string> = []
-    const append = (message: string): IOEither<string, number> => rightIO(new IO(() => log.push(message)))
-    const e = append('a')
-      .applySecond(append('b'))
-      .run()
-
-    assert.deepStrictEqual(e, eitherRight(2))
-    assert.deepStrictEqual(log, ['a', 'b'])
+    assert.deepStrictEqual(_.orElse(() => _.ioEither.of(2))(_.ioEither.of(1))(), E.right(1))
   })
 
   it('tryCatch', () => {
-    // tslint:disable-next-line: deprecation
-    const ok = tryCatch(() => 1)
-    // tslint:disable-next-line: deprecation
-    const ko = tryCatch(
-      () => {
-        throw new Error()
-      },
-      () => new Error('error')
+    assert.deepStrictEqual(_.tryCatch(() => 1, E.toError)(), E.right(1))
+    assert.deepStrictEqual(
+      _.tryCatch(() => {
+        throw new Error('error')
+      }, E.toError)(),
+      E.left(new Error('error'))
     )
-
-    const eok = ok.run()
-    const eko = ko.run()
-
-    assert.deepStrictEqual(eok, eitherRight(1))
-    assert.deepStrictEqual(eko, eitherLeft(new Error('error')))
   })
 
-  it('alt', () => {
-    const l1: IOEither<string, number> = left2v('foo')
-    const l2 = left2v('bar')
-    const r1: IOEither<string, number> = right2v(1)
-    const r2 = right2v(2)
+  it('filterOrElse', () => {
+    const isNumber = (u: string | number): u is number => typeof u === 'number'
 
-    const e4 = r1.alt(r2).run()
-    const e5 = ioEither.alt(r1, r2).run()
-
-    assert.deepStrictEqual(l1.alt(l2).run(), eitherLeft('bar'))
-    assert.deepStrictEqual(l1.alt(r1).run(), eitherRight(1))
-    assert.deepStrictEqual(r1.alt(l1).run(), eitherRight(1))
-    assert.deepStrictEqual(e4, eitherRight(1))
-    assert.deepStrictEqual(e4, e5)
+    assert.deepStrictEqual(
+      pipe(
+        _.right(12),
+        _.filterOrElse(n => n > 10, () => 'bar')
+      )(),
+      E.right(12)
+    )
+    assert.deepStrictEqual(
+      pipe(
+        _.right(7),
+        _.filterOrElse(n => n > 10, () => 'bar')
+      )(),
+      E.left('bar')
+    )
+    assert.deepStrictEqual(
+      pipe(
+        _.left('foo'),
+        _.filterOrElse(n => n > 10, () => 'bar')
+      )(),
+      E.left('foo')
+    )
+    assert.deepStrictEqual(
+      pipe(
+        _.right(7),
+        _.filterOrElse(n => n > 10, n => `invalid ${n}`)
+      )(),
+      E.left('invalid 7')
+    )
+    assert.deepStrictEqual(
+      pipe(
+        _.right(12),
+        _.filterOrElse(isNumber, () => 'not a number')
+      )(),
+      E.right(12)
+    )
   })
 
-  it('applyFirst', () => {
-    const log: Array<string> = []
-    const append = (message: string): IOEither<string, number> => rightIO(new IO(() => log.push(message)))
-    const e = append('a')
-      .applyFirst(append('b'))
-      .run()
-
-    assert.deepStrictEqual(e, eitherRight(1))
-    assert.deepStrictEqual(log, ['a', 'b'])
+  it('fromOption', () => {
+    assert.deepStrictEqual(_.fromOption(() => 'err')(none)(), E.left('err'))
+    assert.deepStrictEqual(_.fromOption(() => 'err')(some(1))(), E.right(1))
   })
 
-  describe('MonadThrow', () => {
-    it('should obey the law', () => {
-      assert.deepStrictEqual(
-        ioEither.chain(ioEither.throwError('error'), a => right2v(a)).run(),
-        ioEither.throwError('error').run()
-      )
+  it('fromPredicate', () => {
+    const gt2 = _.fromPredicate((n: number) => n >= 2, n => `Invalid number ${n}`)
+    assert.deepStrictEqual(gt2(3)(), E.right(3))
+    assert.deepStrictEqual(gt2(1)(), E.left('Invalid number 1'))
+
+    // refinements
+    const isNumber = (u: string | number): u is number => typeof u === 'number'
+    const from = _.fromPredicate(isNumber, () => 'not a number')
+    assert.deepStrictEqual(from(4)(), E.right(4))
+  })
+
+  describe('Monad', () => {
+    it('map', () => {
+      const double = (n: number): number => n * 2
+      assert.deepStrictEqual(_.ioEither.map(_.right(1), double)(), E.right(2))
     })
 
-    it('fromOption', () => {
-      // tslint:disable-next-line: deprecation
-      assert.deepStrictEqual(ioEither.fromOption(none, 'error').run(), eitherLeft('error'))
-      // tslint:disable-next-line: deprecation
-      assert.deepStrictEqual(ioEither.fromOption(some(1), 'error').run(), eitherRight(1))
+    it('ap', () => {
+      const double = (n: number): number => n * 2
+      const mab = _.right(double)
+      const ma = _.right(1)
+      assert.deepStrictEqual(_.ioEither.ap(mab, ma)(), E.right(2))
+    })
+
+    it('chain', () => {
+      const f = (a: string) => (a.length > 2 ? _.right(a.length) : _.left('foo'))
+      const ma1 = _.ioEither.chain(_.right('foo'), f)
+      const ma2 = _.ioEither.chain(_.right('a'), f)
+      assert.deepStrictEqual(ma1(), E.right(3))
+      assert.deepStrictEqual(ma2(), E.left('foo'))
+    })
+  })
+
+  describe('Bifunctor', () => {
+    it('bimap', () => {
+      const f = (s: string): number => s.length
+      const g = (n: number): boolean => n > 2
+
+      assert.deepStrictEqual(_.ioEither.bimap(_.right(1), f, g)(), E.right(false))
+      assert.deepStrictEqual(_.ioEither.bimap(_.left('foo'), f, g)(), E.left(3))
+    })
+
+    it('mapLeft', () => {
+      const double = (n: number): number => n * 2
+      assert.deepStrictEqual(_.ioEither.mapLeft(_.left(1), double)(), E.left(2))
+    })
+  })
+
+  describe('Alt', () => {
+    it('alt', () => {
+      const alt = _.ioEither.alt
+
+      const r1 = _.right(1)
+      const r2 = _.right(2)
+      const l1 = _.left('foo')
+      const l2 = _.left('bar')
+
+      assert.deepStrictEqual(alt(l1, () => l2)(), E.left('bar'))
+      assert.deepStrictEqual(alt(l1, () => r1)(), E.right(1))
+      assert.deepStrictEqual(alt(r1, () => l1)(), E.right(1))
+      assert.deepStrictEqual(alt(r1, () => r2)(), E.right(1))
+    })
+  })
+
+  describe('getSemigroup', () => {
+    it('concat', () => {
+      const S = _.getSemigroup<string, number>(semigroupSum)
+      assert.deepStrictEqual(S.concat(_.leftIO(io.of('a')), _.leftIO(io.of('b')))(), E.left('a'))
+      assert.deepStrictEqual(S.concat(_.leftIO(io.of('a')), _.rightIO(io.of(2)))(), E.right(2))
+      assert.deepStrictEqual(S.concat(_.rightIO(io.of(1)), _.leftIO(io.of('b')))(), E.right(1))
+      assert.deepStrictEqual(S.concat(_.rightIO(io.of(1)), _.rightIO(io.of(2)))(), E.right(3))
+    })
+  })
+
+  describe('getApplyMonoid', () => {
+    it('concat', () => {
+      const M = _.getApplyMonoid(monoidString)
+      assert.deepStrictEqual(M.concat(_.rightIO(io.of('a')), _.rightIO(io.of('b')))(), E.right('ab'))
+      assert.deepStrictEqual(M.concat(_.rightIO(io.of('a')), _.leftIO(io.of('b')))(), E.left('b'))
+      assert.deepStrictEqual(M.concat(_.rightIO(io.of('a')), M.empty)(), E.right('a'))
+      assert.deepStrictEqual(M.concat(M.empty, _.rightIO(io.of('a')))(), E.right('a'))
+    })
+  })
+
+  describe('bracket', () => {
+    let log: Array<string> = []
+
+    const acquireFailure = _.left('acquire failure')
+    const acquireSuccess = _.right({ res: 'acquire success' })
+    const useSuccess = () => _.right('use success')
+    const useFailure = () => _.left('use failure')
+    const releaseSuccess = () =>
+      _.rightIO(() => {
+        log.push('release success')
+      })
+    const releaseFailure = () => _.left('release failure')
+
+    beforeEach(() => {
+      log = []
+    })
+
+    it('should return the acquire error if acquire fails', () => {
+      const e = _.bracket(acquireFailure, useSuccess, releaseSuccess)()
+      assert.deepStrictEqual(e, E.left('acquire failure'))
+    })
+
+    it('body and release must not be called if acquire fails', () => {
+      _.bracket(acquireFailure, useSuccess, releaseSuccess)()
+      assert.deepStrictEqual(log, [])
+    })
+
+    it('should return the use error if use fails and release does not', () => {
+      const e = _.bracket(acquireSuccess, useFailure, releaseSuccess)()
+      assert.deepStrictEqual(e, E.left('use failure'))
+    })
+
+    it('should return the release error if both use and release fail', () => {
+      const e = _.bracket(acquireSuccess, useFailure, releaseFailure)()
+      assert.deepStrictEqual(e, E.left('release failure'))
+    })
+
+    it('release must be called if the body returns', () => {
+      _.bracket(acquireSuccess, useSuccess, releaseSuccess)()
+      assert.deepStrictEqual(log, ['release success'])
+    })
+
+    it('release must be called if the body throws', () => {
+      _.bracket(acquireSuccess, useFailure, releaseSuccess)()
+      assert.deepStrictEqual(log, ['release success'])
+    })
+
+    it('should return the release error if release fails', () => {
+      const e = _.bracket(acquireSuccess, useSuccess, releaseFailure)()
+      assert.deepStrictEqual(e, E.left('release failure'))
+    })
+  })
+
+  describe('getIOValidation', () => {
+    const IV = _.getIOValidation(semigroupString)
+    it('of', () => {
+      const e = IV.of(1)()
+      assert.deepStrictEqual(e, E.right(1))
+    })
+
+    it('map', () => {
+      const double = (n: number): number => n * 2
+      const e1 = IV.map(IV.of(1), double)()
+      assert.deepStrictEqual(e1, E.right(2))
+      const e2 = IV.map(_.left('a'), double)()
+      assert.deepStrictEqual(e2, E.left('a'))
+    })
+
+    it('ap', () => {
+      const fab = _.left('a')
+      const fa = _.left('b')
+      const e1 = IV.ap(fab, fa)()
+      assert.deepStrictEqual(e1, E.left('ab'))
+    })
+
+    it('chain', () => {
+      const e1 = IV.chain(_.right(3), a => (a > 2 ? _.right(a) : _.left('b')))()
+      assert.deepStrictEqual(e1, E.right(3))
+      const e2 = IV.chain(_.right(1), a => (a > 2 ? _.right(a) : _.left('b')))()
+      assert.deepStrictEqual(e2, E.left('b'))
+      const e3 = IV.chain(_.left('a'), a => (a > 2 ? _.right(a) : _.left('b')))()
+      assert.deepStrictEqual(e3, E.left('a'))
+    })
+
+    it('alt', () => {
+      const e1 = IV.alt(_.right(1), () => _.right(2))()
+      assert.deepStrictEqual(e1, E.right(1))
+      const e2 = IV.alt(_.left('a'), () => _.right(2))()
+      assert.deepStrictEqual(e2, E.right(2))
+      const e3 = IV.alt(_.right(1), () => _.left('b'))()
+      assert.deepStrictEqual(e3, E.right(1))
+      const e4 = IV.alt(_.left('a'), () => _.left('b'))()
+      assert.deepStrictEqual(e4, E.left('ab'))
     })
   })
 })

@@ -1,6 +1,6 @@
 ---
 title: JoinSemilattice.ts
-nav_order: 51
+nav_order: 45
 parent: Modules
 ---
 
@@ -33,4 +33,4 @@ export interface JoinSemilattice<A> {
 }
 ```
 
-Added in v1.4.0
+Added in v2.0.0

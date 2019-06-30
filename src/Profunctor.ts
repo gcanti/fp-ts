@@ -1,61 +1,39 @@
 import { Functor2, Functor2C, Functor3, Functor4 } from './Functor'
-import { HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
+import { HKT, HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Profunctor<F> {
   readonly URI: F
-  readonly map: <L, A, B>(fa: HKT2<F, L, A>, f: (a: A) => B) => HKT2<F, L, B>
-  readonly promap: <A, B, C, D>(fbc: HKT2<F, B, C>, f: (a: A) => B, g: (c: C) => D) => HKT2<F, A, D>
+  readonly map: <E, A, B>(fa: HKT2<F, E, A>, f: (a: A) => B) => HKT<F, B>
+  readonly promap: <E, A, D, B>(fbc: HKT2<F, E, A>, f: (d: D) => E, g: (a: A) => B) => HKT2<F, D, B>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Profunctor2<F extends URIS2> extends Functor2<F> {
-  readonly promap: <A, B, C, D>(fbc: Kind2<F, B, C>, f: (a: A) => B, g: (c: C) => D) => Kind2<F, A, D>
+  readonly promap: <E, A, D, B>(fbc: Kind2<F, E, A>, f: (d: D) => E, g: (a: A) => B) => Kind2<F, D, B>
 }
 
-export interface Profunctor2C<F extends URIS2, L> extends Functor2C<F, L> {
-  readonly promap: <A, C, D>(flc: Kind2<F, L, C>, f: (a: A) => L, g: (c: C) => D) => Kind2<F, A, D>
+/**
+ * @since 2.0.0
+ */
+export interface Profunctor2C<F extends URIS2, E> extends Functor2C<F, E> {
+  readonly promap: <A, D, B>(fbc: Kind2<F, E, A>, f: (d: D) => E, g: (a: A) => B) => Kind2<F, D, B>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Profunctor3<F extends URIS3> extends Functor3<F> {
-  readonly promap: <U, A, B, C, D>(fbc: Kind3<F, U, B, C>, f: (a: A) => B, g: (c: C) => D) => Kind3<F, U, A, D>
+  readonly promap: <R, E, A, D, B>(fbc: Kind3<F, R, E, A>, f: (d: D) => E, g: (a: A) => B) => Kind3<F, R, D, B>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Profunctor4<F extends URIS4> extends Functor4<F> {
-  readonly promap: <X, U, A, B, C, D>(fbc: Kind4<F, X, U, B, C>, f: (a: A) => B, g: (c: C) => D) => Kind4<F, X, U, A, D>
-}
-
-/**
- * @since 1.0.0
- * @deprecated
- */
-export function lmap<F extends URIS3>(
-  profunctor: Profunctor3<F>
-): <U, A, B, C>(fbc: Kind3<F, U, B, C>, f: (a: A) => B) => Kind3<F, U, A, C>
-/** @deprecated */
-export function lmap<F extends URIS2>(
-  profunctor: Profunctor2<F>
-): <A, B, C>(fbc: Kind2<F, B, C>, f: (a: A) => B) => Kind2<F, A, C>
-/** @deprecated */
-export function lmap<F>(profunctor: Profunctor<F>): <A, B, C>(fbc: HKT2<F, B, C>, f: (a: A) => B) => HKT2<F, A, C>
-export function lmap<F>(profunctor: Profunctor<F>): <A, B, C>(fbc: HKT2<F, B, C>, f: (a: A) => B) => HKT2<F, A, C> {
-  return (fbc, f) => profunctor.promap(fbc, f, c => c)
-}
-
-/**
- * @since 1.0.0
- * @deprecated
- */
-export function rmap<F extends URIS3>(
-  profunctor: Profunctor3<F>
-): <U, B, C, D>(fbc: Kind3<F, U, B, C>, g: (c: C) => D) => Kind3<F, U, B, D>
-/** @deprecated */
-export function rmap<F extends URIS2>(
-  profunctor: Profunctor2<F>
-): <B, C, D>(fbc: Kind2<F, B, C>, g: (c: C) => D) => Kind2<F, B, D>
-/** @deprecated */
-export function rmap<F>(profunctor: Profunctor<F>): <B, C, D>(fbc: HKT2<F, B, C>, g: (c: C) => D) => HKT2<F, B, D>
-export function rmap<F>(profunctor: Profunctor<F>): <B, C, D>(fbc: HKT2<F, B, C>, g: (c: C) => D) => HKT2<F, B, D> {
-  return (fbc, g) => profunctor.promap(fbc, b => b, g)
+  readonly promap: <S, R, E, A, D, B>(fbc: Kind4<F, S, R, E, A>, f: (d: D) => E, g: (a: A) => B) => Kind4<F, S, R, D, B>
 }

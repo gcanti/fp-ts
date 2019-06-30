@@ -1,6 +1,6 @@
 ---
 title: Magma.ts
-nav_order: 53
+nav_order: 47
 parent: Modules
 ---
 
@@ -24,4 +24,4 @@ export interface Magma<A> {
 }
 ```
 
-Added in v1.16.0
+Added in v2.0.0

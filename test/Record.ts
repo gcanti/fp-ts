@@ -1,9 +1,9 @@
 import * as assert from 'assert'
 import * as R from '../src/Record'
-import { semigroupSum, getLastSemigroup } from '../src/Semigroup'
+import { semigroupSum, getLastSemigroup, getFirstSemigroup } from '../src/Semigroup'
 import { monoidString } from '../src/Monoid'
 import { identity } from '../src/function'
-import { option, some, none, Option } from '../src/Option'
+import { option, some, none, Option, getOrElse, isSome } from '../src/Option'
 import { eqNumber } from '../src/Eq'
 import { array, zip } from '../src/Array'
 import { left, right } from '../src/Either'
@@ -12,65 +12,58 @@ import { showString } from '../src/Show'
 
 const p = (n: number) => n > 2
 
-describe('Record', () => {
-  it('collect', () => {
-    assert.deepStrictEqual(R.collect((_, a) => a)({ a: 1, b: 2 }), [1, 2])
-  })
+const noPrototype = Object.create(null)
 
+describe('Record', () => {
   it('getMonoid', () => {
     const d1 = { k1: 1, k2: 3 }
     const d2 = { k2: 2, k3: 4 }
-    const S2 = R.getMonoid(semigroupSum)
-    assert.deepStrictEqual(S2.concat(d1, d2), { k1: 1, k2: 5, k3: 4 })
+    const M = R.getMonoid(semigroupSum)
+    assert.deepStrictEqual(M.concat(d1, d2), { k1: 1, k2: 5, k3: 4 })
+    assert.strictEqual(M.concat(d1, M.empty), d1)
+    assert.strictEqual(M.concat(M.empty, d2), d2)
+    assert.strictEqual(M.concat(d1, {}), d1)
   })
 
   it('map', () => {
     const d1 = { k1: 1, k2: 2 }
     const double = (n: number): number => n * 2
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(R.map(d1, double), { k1: 2, k2: 4 })
-
     assert.deepStrictEqual(R.map(double)(d1), { k1: 2, k2: 4 })
+  })
+
+  it('record.map', () => {
+    const double = (n: number): number => n * 2
+    assert.deepStrictEqual(R.record.map({ a: 1, b: 2 }, double), { a: 2, b: 4 })
   })
 
   it('reduce', () => {
     const d1 = { k1: 'a', k2: 'b' }
-    assert.strictEqual(R.reduce(d1, '', (b, a) => b + a), 'ab')
+    assert.strictEqual(R.record.reduce(d1, '', (b, a) => b + a), 'ab')
     const d2 = { k2: 'b', k1: 'a' }
-    assert.strictEqual(R.reduce(d2, '', (b, a) => b + a), 'ab')
+    assert.strictEqual(R.record.reduce(d2, '', (b, a) => b + a), 'ab')
   })
 
   it('foldMap', () => {
-    const foldMap = R.foldMap(monoidString)
+    const foldMap = R.record.foldMap(monoidString)
     const x1 = { a: 'a', b: 'b' }
-    const f1 = (s: string): string => s
-    // tslint:disable-next-line: deprecation
+    const f1 = identity
     assert.strictEqual(foldMap(x1, f1), 'ab')
-
-    assert.strictEqual(foldMap(f1)(x1), 'ab')
   })
 
-  it('foldr / reduceRight', () => {
+  it('reduceRight', () => {
+    const reduceRight = R.record.reduceRight
     const x1 = { a: 'a', b: 'b' }
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
-    // tslint:disable-next-line: deprecation
-    assert.strictEqual(R.foldr(x1, init1, f1), 'ba')
-
-    assert.strictEqual(R.reduceRight(init1, f1)(x1), 'ba')
+    assert.strictEqual(reduceRight(x1, init1, f1), 'ba')
   })
 
   it('traverse', () => {
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(R.traverse(option)({ k1: 1, k2: 2 }, n => (n <= 2 ? some(n) : none)), some({ k1: 1, k2: 2 }))
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(R.traverse(option)({ k1: 1, k2: 2 }, n => (n >= 2 ? some(n) : none)), none)
-
     assert.deepStrictEqual(
-      R.traverse2v(option)((n: number) => (n <= 2 ? some(n) : none))({ k1: 1, k2: 2 }),
+      R.traverse(option)((n: number) => (n <= 2 ? some(n) : none))({ k1: 1, k2: 2 }),
       some({ k1: 1, k2: 2 })
     )
-    assert.deepStrictEqual(R.traverse2v(option)((n: number) => (n >= 2 ? some(n) : none))({ k1: 1, k2: 2 }), none)
+    assert.deepStrictEqual(R.traverse(option)((n: number) => (n >= 2 ? some(n) : none))({ k1: 1, k2: 2 }), none)
   })
 
   it('sequence', () => {
@@ -85,19 +78,23 @@ describe('Record', () => {
     assert.strictEqual(R.getEq(eqNumber).equals({ a: 1 }, { a: 1 }), true)
     assert.strictEqual(R.getEq(eqNumber).equals({ a: 1 }, { a: 2 }), false)
     assert.strictEqual(R.getEq(eqNumber).equals({ a: 1 }, { b: 1 }), false)
+    assert.strictEqual(R.getEq(eqNumber).equals(noPrototype, { b: 1 }), false)
   })
 
   it('lookup', () => {
     assert.deepStrictEqual(R.lookup('a', { a: 1 }), some(1))
     assert.deepStrictEqual(R.lookup('b', { a: 1 }), none)
+    assert.deepStrictEqual(R.lookup('b', noPrototype), none)
   })
 
   it('fromFoldable', () => {
-    assert.deepStrictEqual(R.fromFoldable(array)([['a', 1]], (existing, _) => existing), { a: 1 })
-    assert.deepStrictEqual(R.fromFoldable(array)([['a', 1], ['a', 2]], (existing, _) => existing), {
+    const First = getFirstSemigroup<number>()
+    assert.deepStrictEqual(R.fromFoldable(First, array)([['a', 1]]), { a: 1 })
+    assert.deepStrictEqual(R.fromFoldable(First, array)([['a', 1], ['a', 2]]), {
       a: 1
     })
-    assert.deepStrictEqual(R.fromFoldable(array)([['a', 1], ['a', 2]], (_, a) => a), {
+    const Last = getLastSemigroup<number>()
+    assert.deepStrictEqual(R.fromFoldable(Last, array)([['a', 1], ['a', 2]]), {
       a: 2
     })
   })
@@ -111,23 +108,12 @@ describe('Record', () => {
     assert.deepStrictEqual(R.toUnfoldable(array)({ a: 1 }), [['a', 1]])
   })
 
-  it('mapWithKey', () => {
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(R.mapWithKey({ aa: 1 }, (k, a) => a + k.length), { aa: 3 })
-  })
-
-  it('traverseWithKey', () => {
+  it('traverseWithIndex', () => {
     const d1 = { k1: 1, k2: 2 }
-    // tslint:disable-next-line: deprecation
-    const t1 = R.traverseWithKey(option)(d1, (k, n): Option<number> => (k !== 'k1' ? some(n) : none))
+    const t1 = R.traverseWithIndex(option)((k, n: number): Option<number> => (k !== 'k1' ? some(n) : none))(d1)
     assert.deepStrictEqual(t1, none)
-    const d2 = { k1: 2, k2: 3 }
-    // tslint:disable-next-line: deprecation
-    const t2 = R.traverseWithKey(option)(d2, (k, n): Option<number> => (k !== 'k3' ? some(n) : none))
-    assert.deepStrictEqual(t2, some({ k1: 2, k2: 3 }))
-    // tslint:disable-next-line: deprecation
-    const t3 = R.traverseWithKey(option)({}, (k, n): Option<number> => none)
-    assert.strictEqual(t3.getOrElse({}), R.empty)
+    const t2 = R.traverseWithIndex(option)((): Option<number> => none)(R.empty)
+    assert.strictEqual(getOrElse((): Record<string, number> => R.empty)(t2), R.empty)
   })
 
   it('size', () => {
@@ -153,24 +139,20 @@ describe('Record', () => {
     // should return the same reference if the key is missing
     const x = { a: 1 }
     assert.strictEqual(R.deleteAt('b')(x), x)
+    assert.strictEqual(R.deleteAt('b')(noPrototype), noPrototype)
   })
 
   it('pop', () => {
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(R.pop('a', { a: 1, b: 2 }), some([1, { b: 2 }]))
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(R.pop('c', { a: 1, b: 2 }), none)
-
     assert.deepStrictEqual(R.pop('a')({ a: 1, b: 2 }), some([1, { b: 2 }]))
     assert.deepStrictEqual(R.pop('c')({ a: 1, b: 2 }), none)
   })
 
   it('compact', () => {
-    assert.deepStrictEqual(R.compact({ foo: none, bar: some(123) }), { bar: 123 })
+    assert.deepStrictEqual(R.record.compact({ foo: none, bar: some(123) }), { bar: 123 })
   })
 
   it('separate', () => {
-    assert.deepStrictEqual(R.separate({ foo: left(123), bar: right(123) }), {
+    assert.deepStrictEqual(R.record.separate({ foo: left(123), bar: right(123) }), {
       left: { foo: 123 },
       right: { bar: 123 }
     })
@@ -178,33 +160,31 @@ describe('Record', () => {
 
   it('filter', () => {
     const d = { a: 1, b: 3 }
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(R.filter(d, p), { b: 3 })
-    assert.deepStrictEqual(R.filter(p)(d), { b: 3 })
+    assert.deepStrictEqual(R.record.filter(d, p), { b: 3 })
+
+    // refinements
+    const isNumber = (u: string | number): u is number => typeof u === 'number'
+    const y: Record<string, string | number> = { a: 1, b: 'foo' }
+    const actual = R.record.filter(y, isNumber)
+    assert.deepStrictEqual(actual, { a: 1 })
+
+    assert.strictEqual(R.record.filter(y, _ => true), y)
+
+    const x = Object.assign(Object.create({ c: true }), { a: 1, b: 'foo' })
+    assert.deepStrictEqual(R.record.filter(x, isNumber), { a: 1 })
+
+    assert.strictEqual(R.record.filter(noPrototype, isNumber), noPrototype)
   })
 
   it('filterMap', () => {
     const f = (n: number) => (p(n) ? some(n + 1) : none)
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(R.filterMap({}, f), {})
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(R.filterMap({ a: 1, b: 3 }, f), { b: 4 })
-
-    assert.deepStrictEqual(R.filterMap(f)({}), {})
-    assert.deepStrictEqual(R.filterMap(f)({ a: 1, b: 3 }), { b: 4 })
+    assert.deepStrictEqual(R.record.filterMap({}, f), {})
+    assert.deepStrictEqual(R.record.filterMap({ a: 1, b: 3 }, f), { b: 4 })
   })
 
   it('partition', () => {
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(R.partition({}, p), { left: {}, right: {} })
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(R.partition({ a: 1, b: 3 }, p), {
-      left: { a: 1 },
-      right: { b: 3 }
-    })
-
-    assert.deepStrictEqual(R.partition(p)({}), { left: {}, right: {} })
-    assert.deepStrictEqual(R.partition(p)({ a: 1, b: 3 }), {
+    assert.deepStrictEqual(R.record.partition({}, p), { left: {}, right: {} })
+    assert.deepStrictEqual(R.record.partition({ a: 1, b: 3 }, p), {
       left: { a: 1 },
       right: { b: 3 }
     })
@@ -212,130 +192,61 @@ describe('Record', () => {
 
   it('partitionMap', () => {
     const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(R.partitionMap({}, f), { left: {}, right: {} })
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(R.partitionMap({ a: 1, b: 3 }, f), {
-      left: { a: 0 },
-      right: { b: 4 }
-    })
-
-    assert.deepStrictEqual(R.partitionMap(f)({}), { left: {}, right: {} })
-    assert.deepStrictEqual(R.partitionMap(f)({ a: 1, b: 3 }), {
+    assert.deepStrictEqual(R.record.partitionMap({}, f), { left: {}, right: {} })
+    assert.deepStrictEqual(R.record.partitionMap({ a: 1, b: 3 }, f), {
       left: { a: 0 },
       right: { b: 4 }
     })
   })
 
   it('wither', () => {
-    const witherIdentity = R.wither(I.identity)
-    const f = (n: number) => new I.Identity(p(n) ? some(n + 1) : none)
-    assert.deepStrictEqual(witherIdentity({}, f), new I.Identity<Record<string, number>>({}))
-    assert.deepStrictEqual(witherIdentity({ a: 1, b: 3 }, f), new I.Identity({ b: 4 }))
+    const witherIdentity = R.record.wither(I.identity)
+    const f = (n: number) => I.identity.of(p(n) ? some(n + 1) : none)
+    assert.deepStrictEqual(witherIdentity({}, f), I.identity.of<Record<string, number>>({}))
+    assert.deepStrictEqual(witherIdentity({ a: 1, b: 3 }, f), I.identity.of({ b: 4 }))
   })
 
   it('wilt', () => {
-    const wiltIdentity = R.wilt(I.identity)
-    const f = (n: number) => new I.Identity(p(n) ? right(n + 1) : left(n - 1))
-    assert.deepStrictEqual(wiltIdentity({}, f), new I.Identity({ left: {}, right: {} }))
-    assert.deepStrictEqual(wiltIdentity({ a: 1, b: 3 }, f), new I.Identity({ left: { a: 0 }, right: { b: 4 } }))
+    const wiltIdentity = R.record.wilt(I.identity)
+    const f = (n: number) => I.identity.of(p(n) ? right(n + 1) : left(n - 1))
+    assert.deepStrictEqual(wiltIdentity({}, f), I.identity.of({ left: {}, right: {} }))
+    assert.deepStrictEqual(wiltIdentity({ a: 1, b: 3 }, f), I.identity.of({ left: { a: 0 }, right: { b: 4 } }))
   })
 
-  it('reduceWithKey / reduceWithIndex', () => {
-    // tslint:disable-next-line: deprecation
-    assert.strictEqual(R.reduceWithKey({ k1: 'a', k2: 'b' }, '', (k, b, a) => b + k + a), 'k1ak2b')
-    // tslint:disable-next-line: deprecation
-    assert.strictEqual(R.reduceWithKey({ k2: 'b', k1: 'a' }, '', (k, b, a) => b + k + a), 'k1ak2b')
-
-    assert.strictEqual(R.reduceWithIndex('', (k, b, a) => b + k + a)({ k1: 'a', k2: 'b' }), 'k1ak2b')
-    assert.strictEqual(R.reduceWithIndex('', (k, b, a) => b + k + a)({ k2: 'b', k1: 'a' }), 'k1ak2b')
+  it('reduceWithIndex', () => {
+    const d1 = { k1: 'a', k2: 'b' }
+    assert.strictEqual(R.reduceWithIndex('', (k, b, a) => b + k + a)(d1), 'k1ak2b')
+    const d2 = { k2: 'b', k1: 'a' }
+    assert.strictEqual(R.reduceWithIndex('', (k, b, a) => b + k + a)(d2), 'k1ak2b')
   })
 
-  it('foldMapWithKey / foldMapWithIndex', () => {
+  it('foldMapWithIndex', () => {
     const x1 = { k1: 'a', k2: 'b' }
-    // tslint:disable-next-line: deprecation
-    assert.strictEqual(R.foldMapWithKey(monoidString)(x1, (k, a) => k + a), 'k1ak2b')
-
     assert.strictEqual(R.foldMapWithIndex(monoidString)((k, a) => k + a)(x1), 'k1ak2b')
   })
 
-  it('foldrWithKey / reduceRightWithIndex', () => {
+  it('reduceRightWithIndex', () => {
     const x1 = { k1: 'a', k2: 'b' }
-    // tslint:disable-next-line: deprecation
-    assert.strictEqual(R.foldrWithKey(x1, '', (k, a, b) => b + k + a), 'k2bk1a')
-
     assert.strictEqual(R.reduceRightWithIndex('', (k, a, b) => b + k + a)(x1), 'k2bk1a')
   })
 
   it('every', () => {
     const x: Record<string, number> = { a: 1, b: 2 }
     const y: { [key: string]: number } = { a: 1, b: 2 }
-    assert.strictEqual(R.every(x, n => n <= 2), true)
-    assert.strictEqual(R.every(y, n => n <= 1), false)
+    assert.strictEqual(R.every((n: number) => n <= 2)(x), true)
+    assert.strictEqual(R.every((n: number) => n <= 1)(y), false)
   })
 
   it('some', () => {
     const x: Record<string, number> = { a: 1, b: 2 }
     const y: { [key: string]: number } = { a: 1, b: 2 }
-    assert.strictEqual(R.some(x, n => n <= 1), true)
-    assert.strictEqual(R.some(y, n => n <= 0), false)
+    assert.strictEqual(R.some((n: number) => n <= 1)(x), true)
+    assert.strictEqual(R.some((n: number) => n <= 0)(y), false)
   })
 
   it('elem', () => {
     assert.strictEqual(R.elem(eqNumber)(1, { a: 1, b: 2 }), true)
     assert.strictEqual(R.elem(eqNumber)(3, { a: 1, b: 2 }), false)
-  })
-
-  it('partitionMapWithIndex', () => {
-    const x = { a: 'a', b: 'b' }
-    const expected = {
-      left: { b: 'b' },
-      right: { a: 1 }
-    }
-    const f = (k: string, a: string) => (k === 'a' ? right(a.length) : left(a))
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(R.partitionMapWithIndex(x, f), expected)
-
-    assert.deepStrictEqual(R.partitionMapWithIndex(f)(x), expected)
-  })
-
-  it('partitionWithIndex', () => {
-    const x = { a: 'a', b: 'b' }
-    const f = (k: string, _: string) => k === 'a'
-    const expected = {
-      left: { b: 'b' },
-      right: { a: 'a' }
-    }
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(R.partitionWithIndex(x, f), expected)
-
-    assert.deepStrictEqual(R.partitionWithIndex(f)(x), expected)
-  })
-
-  it('filterMapWithIndex', () => {
-    const x = { a: 'a', b: 'b' }
-    const f = (k: string, a: string) => (k === 'a' ? some(a.length) : none)
-    const expected = {
-      a: 1
-    }
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(R.filterMapWithIndex(x, f), expected)
-
-    assert.deepStrictEqual(R.filterMapWithIndex(f)(x), expected)
-  })
-
-  it('filterWithIndex', () => {
-    const x = { a: 'a', b: 'b' }
-    const f = (k: string) => k === 'a'
-    const expected = { a: 'a' }
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(R.filterWithIndex(x, f), expected)
-
-    assert.deepStrictEqual(R.filterWithIndex(f)(x), expected)
-    const x2 = Object.create({ c: 1 })
-    Object.assign(x2, x)
-    assert.deepStrictEqual(R.filterWithIndex(f)(x2), expected)
-    assert.strictEqual(R.filterWithIndex((k: string) => k === 'a' || k === 'b')(x), x)
   })
 
   it('fromFoldableMap', () => {
@@ -368,24 +279,53 @@ describe('Record', () => {
     assert.strictEqual(S.show({ a: 'a', b: 'b' }), `{ "a": "a", "b": "b" }`)
   })
 
-  it('reduceRightWithIndex', () => {
-    const x1 = { k1: 'a', k2: 'b' }
-    assert.strictEqual(R.reduceRightWithIndex('', (k, a, b) => b + k + a)(x1), 'k2bk1a')
+  it('singleton', () => {
+    assert.deepStrictEqual(R.singleton('a', 1), { a: 1 })
   })
 
-  it('reduceWithIndex', () => {
-    const d1 = { k1: 'a', k2: 'b' }
-    assert.strictEqual(R.reduceWithIndex('', (k, b, a) => b + k + a)(d1), 'k1ak2b')
-    const d2 = { k2: 'b', k1: 'a' }
-    assert.strictEqual(R.reduceWithIndex('', (k, b, a) => b + k + a)(d2), 'k1ak2b')
+  it('hasOwnProperty', () => {
+    const x: Record<string, number> = { a: 1 }
+    assert.strictEqual(R.hasOwnProperty('a', x), true)
+    assert.strictEqual(R.hasOwnProperty('b', x), false)
   })
 
-  it('foldMapWithIndex', () => {
-    const x1 = { k1: 'a', k2: 'b' }
-    assert.strictEqual(R.foldMapWithIndex(monoidString)((k, a) => k + a)(x1), 'k1ak2b')
+  it('partitionMapWithIndex', () => {
+    assert.deepStrictEqual(R.partitionMapWithIndex((k, a: number) => (a > 1 ? right(a) : left(k)))({ a: 1, b: 2 }), {
+      left: { a: 'a' },
+      right: { b: 2 }
+    })
   })
 
-  it('mapWithIndex', () => {
-    assert.deepStrictEqual(R.mapWithIndex((k, a: number) => a + k.length)({ aa: 1 }), { aa: 3 })
+  it('partitionWithIndex', () => {
+    assert.deepStrictEqual(R.partitionWithIndex((_, a: number) => a > 1)({ a: 1, b: 2 }), {
+      left: { a: 1 },
+      right: { b: 2 }
+    })
+  })
+
+  it('filterMapWithIndex', () => {
+    assert.deepStrictEqual(R.filterMapWithIndex((_, a: number) => (a > 1 ? some(a) : none))({ a: 1, b: 2 }), { b: 2 })
+  })
+
+  it('filterWithIndex', () => {
+    assert.deepStrictEqual(R.filterWithIndex((_, a: number) => a > 1)({ a: 1, b: 2 }), { b: 2 })
+  })
+
+  it('updateAt', () => {
+    const x: Record<string, number> = { a: 1 }
+    assert.deepStrictEqual(R.updateAt('b', 2)(x), none)
+    assert.deepStrictEqual(R.updateAt('a', 2)(x), some({ a: 2 }))
+    const r = R.updateAt('a', 1)(x)
+    if (isSome(r)) {
+      assert.strictEqual(r.value, x)
+    } else {
+      assert.fail()
+    }
+  })
+
+  it('modifyAt', () => {
+    const x: Record<string, number> = { a: 1 }
+    assert.deepStrictEqual(R.modifyAt('b', (n: number) => n * 2)(x), none)
+    assert.deepStrictEqual(R.modifyAt('a', (n: number) => n * 2)(x), some({ a: 2 }))
   })
 })

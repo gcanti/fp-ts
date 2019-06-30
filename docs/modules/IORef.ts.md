@@ -1,6 +1,6 @@
 ---
 title: IORef.ts
-nav_order: 48
+nav_order: 44
 parent: Modules
 ---
 
@@ -33,17 +33,13 @@ export class IORef<A> {
 **Example**
 
 ```ts
+import { io } from 'fp-ts/lib/IO'
 import { newIORef } from 'fp-ts/lib/IORef'
 
-assert.strictEqual(
-  newIORef(1)
-    .chain(ref => ref.write(2).chain(() => ref.read))
-    .run(),
-  2
-)
+assert.strictEqual(io.chain(newIORef(1), ref => io.chain(ref.write(2), () => ref.read))(), 2)
 ```
 
-Added in v1.8.0
+Added in v2.0.0
 
 ## write (method)
 
@@ -53,7 +49,7 @@ Added in v1.8.0
 write(a: A): IO<void> { ... }
 ```
 
-Added in v1.8.0
+Added in v2.0.0
 
 ## modify (method)
 
@@ -63,14 +59,14 @@ Added in v1.8.0
 modify(f: (a: A) => A): IO<void> { ... }
 ```
 
-Added in v1.8.0
+Added in v2.0.0
 
 # newIORef (function)
 
 **Signature**
 
 ```ts
-export const newIORef = <A>(a: A): IO<IORef<A>> => ...
+export function newIORef<A>(a: A): IO<IORef<A>> { ... }
 ```
 
-Added in v1.8.0
+Added in v2.0.0

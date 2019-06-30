@@ -26,20 +26,7 @@ Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
 - [Apply2 (interface)](#apply2-interface)
 - [Apply2C (interface)](#apply2c-interface)
 - [Apply3 (interface)](#apply3-interface)
-- [Apply3C (interface)](#apply3c-interface)
 - [Apply4 (interface)](#apply4-interface)
-- [SequenceT (interface)](#sequencet-interface)
-- [SequenceT1 (interface)](#sequencet1-interface)
-- [SequenceT2 (interface)](#sequencet2-interface)
-- [SequenceT2C (interface)](#sequencet2c-interface)
-- [SequenceT3 (interface)](#sequencet3-interface)
-- [SequenceT3C (interface)](#sequencet3c-interface)
-- [~~applyFirst~~ (function)](#applyfirst-function)
-- [~~applySecond~~ (function)](#applysecond-function)
-- [~~getSemigroup~~ (function)](#getsemigroup-function)
-- [~~liftA2~~ (function)](#lifta2-function)
-- [~~liftA3~~ (function)](#lifta3-function)
-- [~~liftA4~~ (function)](#lifta4-function)
 - [sequenceS (function)](#sequences-function)
 - [sequenceT (function)](#sequencet-function)
 
@@ -55,7 +42,7 @@ export interface Apply<F> extends Functor<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Apply1 (interface)
 
@@ -67,25 +54,31 @@ export interface Apply1<F extends URIS> extends Functor1<F> {
 }
 ```
 
+Added in v2.0.0
+
 # Apply2 (interface)
 
 **Signature**
 
 ```ts
 export interface Apply2<F extends URIS2> extends Functor2<F> {
-  readonly ap: <L, A, B>(fab: Kind2<F, L, (a: A) => B>, fa: Kind2<F, L, A>) => Kind2<F, L, B>
+  readonly ap: <E, A, B>(fab: Kind2<F, E, (a: A) => B>, fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 ```
+
+Added in v2.0.0
 
 # Apply2C (interface)
 
 **Signature**
 
 ```ts
-export interface Apply2C<F extends URIS2, L> extends Functor2C<F, L> {
-  readonly ap: <A, B>(fab: Kind2<F, L, (a: A) => B>, fa: Kind2<F, L, A>) => Kind2<F, L, B>
+export interface Apply2C<F extends URIS2, E> extends Functor2C<F, E> {
+  readonly ap: <A, B>(fab: Kind2<F, E, (a: A) => B>, fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 ```
+
+Added in v2.0.0
 
 # Apply3 (interface)
 
@@ -93,19 +86,11 @@ export interface Apply2C<F extends URIS2, L> extends Functor2C<F, L> {
 
 ```ts
 export interface Apply3<F extends URIS3> extends Functor3<F> {
-  readonly ap: <U, L, A, B>(fab: Kind3<F, U, L, (a: A) => B>, fa: Kind3<F, U, L, A>) => Kind3<F, U, L, B>
+  readonly ap: <R, E, A, B>(fab: Kind3<F, R, E, (a: A) => B>, fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
 }
 ```
 
-# Apply3C (interface)
-
-**Signature**
-
-```ts
-export interface Apply3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
-  readonly ap: <A, B>(fab: Kind3<F, U, L, (a: A) => B>, fa: Kind3<F, U, L, A>) => Kind3<F, U, L, B>
-}
-```
+Added in v2.0.0
 
 # Apply4 (interface)
 
@@ -113,313 +98,11 @@ export interface Apply3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
 
 ```ts
 export interface Apply4<F extends URIS4> extends Functor4<F> {
-  readonly ap: <X, U, L, A, B>(fab: Kind4<F, X, U, L, (a: A) => B>, fa: Kind4<F, X, U, L, A>) => Kind4<F, X, U, L, B>
+  readonly ap: <S, R, E, A, B>(fab: Kind4<F, S, R, E, (a: A) => B>, fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
 }
 ```
 
-# SequenceT (interface)
-
-**Signature**
-
-```ts
-export interface SequenceT<F> {
-  <T extends Array<HKT<F, any>>>(...t: T & { 0: HKT<F, any> }): HKT<
-    F,
-    { [K in keyof T]: [T[K]] extends [HKT<F, infer A>] ? A : never }
-  >
-}
-```
-
-# SequenceT1 (interface)
-
-**Signature**
-
-```ts
-export interface SequenceT1<F extends URIS> {
-  <T extends Array<Kind<F, any>>>(...t: T & { 0: Kind<F, any> }): Kind<
-    F,
-    { [K in keyof T]: [T[K]] extends [Kind<F, infer A>] ? A : never }
-  >
-}
-```
-
-# SequenceT2 (interface)
-
-**Signature**
-
-```ts
-export interface SequenceT2<F extends URIS2> {
-  <L, T extends Array<Kind2<F, L, any>>>(...t: T & { 0: Kind2<F, L, any> }): Kind2<
-    F,
-    L,
-    { [K in keyof T]: [T[K]] extends [Kind2<F, L, infer A>] ? A : never }
-  >
-}
-```
-
-# SequenceT2C (interface)
-
-**Signature**
-
-```ts
-export interface SequenceT2C<F extends URIS2, L> {
-  <T extends Array<Kind2<F, L, any>>>(...t: T & { 0: Kind2<F, L, any> }): Kind2<
-    F,
-    L,
-    { [K in keyof T]: [T[K]] extends [Kind2<F, L, infer A>] ? A : never }
-  >
-}
-```
-
-# SequenceT3 (interface)
-
-**Signature**
-
-```ts
-export interface SequenceT3<F extends URIS3> {
-  <U, L, T extends Array<Kind3<F, U, L, any>>>(...t: T & { 0: Kind3<F, U, L, any> }): Kind3<
-    F,
-    U,
-    L,
-    { [K in keyof T]: [T[K]] extends [Kind3<F, U, L, infer A>] ? A : never }
-  >
-}
-```
-
-# SequenceT3C (interface)
-
-**Signature**
-
-```ts
-export interface SequenceT3C<F extends URIS3, U, L> {
-  <T extends Array<Kind3<F, U, L, any>>>(...t: T & { 0: Kind3<F, U, L, any> }): Kind3<
-    F,
-    U,
-    L,
-    { [K in keyof T]: [T[K]] extends [Kind3<F, U, L, infer A>] ? A : never }
-  >
-}
-```
-
-# ~~applyFirst~~ (function)
-
-Use `pipeable`'s `apFirst`
-
-**Signature**
-
-```ts
-export function applyFirst<F extends URIS3>(
-  F: Apply3<F>
-): <U, L, A, B>(fa: Kind3<F, U, L, A>, fb: Kind3<F, U, L, B>) => Kind3<F, U, L, A>
-export function applyFirst<F extends URIS3, U, L>(
-  F: Apply3C<F, U, L>
-): <A, B>(fa: Kind3<F, U, L, A>, fb: Kind3<F, U, L, B>) => Kind3<F, U, L, A>
-export function applyFirst<F extends URIS2>(
-  F: Apply2<F>
-): <L, A, B>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>) => Kind2<F, L, A>
-export function applyFirst<F extends URIS2, L>(
-  F: Apply2C<F, L>
-): <A, B>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>) => Kind2<F, L, A>
-export function applyFirst<F extends URIS>(F: Apply1<F>): <A, B>(fa: Kind<F, A>, fb: Kind<F, B>) => Kind<F, A>
-export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A> { ... }
-```
-
-Added in v1.0.0
-
-# ~~applySecond~~ (function)
-
-Use `pipeable`'s `apSecond`
-
-**Signature**
-
-```ts
-export function applySecond<F extends URIS3>(
-  F: Apply3<F>
-): <U, L, A, B>(fa: Kind3<F, U, L, A>, fb: Kind3<F, U, L, B>) => Kind3<F, U, L, B>
-export function applySecond<F extends URIS3, U, L>(
-  F: Apply3C<F, U, L>
-): <A, B>(fa: Kind3<F, U, L, A>, fb: Kind3<F, U, L, B>) => Kind3<F, U, L, B>
-export function applySecond<F extends URIS2>(
-  F: Apply2<F>
-): <L, A, B>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>) => Kind2<F, L, B>
-export function applySecond<F extends URIS2, L>(
-  F: Apply2C<F, L>
-): <A, B>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>) => Kind2<F, L, B>
-export function applySecond<F extends URIS>(F: Apply1<F>): <A, B>(fa: Kind<F, A>, fb: Kind<F, B>) => Kind<F, B>
-export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B> { ... }
-```
-
-Added in v1.0.0
-
-# ~~getSemigroup~~ (function)
-
-If `F` is a `Apply` and `S` is a `Semigroup` over `A` then `HKT<F, A>` is a `Semigroup` over `A` as well
-
-**Signature**
-
-```ts
-export function getSemigroup<F extends URIS3, A>(
-  F: Apply3<F>,
-  S: Semigroup<A>
-): <U = never, L = never>() => Semigroup<Kind3<F, U, L, A>>
-export function getSemigroup<F extends URIS3, U, L, A>(
-  F: Apply3C<F, U, L>,
-  S: Semigroup<A>
-): () => Semigroup<Kind3<F, U, L, A>>
-export function getSemigroup<F extends URIS2, A>(
-  F: Apply2<F>,
-  S: Semigroup<A>
-): <L = never>() => Semigroup<Kind2<F, L, A>>
-export function getSemigroup<F extends URIS2, L, A>(F: Apply2C<F, L>, S: Semigroup<A>): () => Semigroup<Kind2<F, L, A>>
-export function getSemigroup<F extends URIS, A>(F: Apply1<F>, S: Semigroup<A>): () => Semigroup<Kind<F, A>>
-export function getSemigroup<F, A>(F: Apply<F>, S: Semigroup<A>): () => Semigroup<HKT<F, A>> { ... }
-```
-
-**Example**
-
-```ts
-import { getSemigroup } from 'fp-ts/lib/Apply'
-import { option, some, none } from 'fp-ts/lib/Option'
-import { monoidSum } from 'fp-ts/lib/Monoid'
-
-const S = getSemigroup(option, monoidSum)()
-assert.deepStrictEqual(S.concat(none, none), none)
-assert.deepStrictEqual(S.concat(some(1), none), none)
-assert.deepStrictEqual(S.concat(none, some(2)), none)
-assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
-```
-
-Added in v1.4.0
-
-# ~~liftA2~~ (function)
-
-Lift a function of two arguments to a function which accepts and returns values wrapped with the type constructor `F`
-
-Use `sequenceT` / `sequenceS` instead.
-
-**Signature**
-
-```ts
-export function liftA2<F extends URIS3>(
-  F: Apply3<F>
-): // tslint:disable-next-line: deprecation
-<A, B, C>(f: Curried2<A, B, C>) => <U, L>(fa: Kind3<F, U, L, A>) => (fb: Kind3<F, U, L, B>) => Kind3<F, U, L, C>
-export function liftA2<F extends URIS3, U, L>(
-  F: Apply3C<F, U, L>
-): // tslint:disable-next-line: deprecation
-<A, B, C>(f: Curried2<A, B, C>) => (fa: Kind3<F, U, L, A>) => (fb: Kind3<F, U, L, B>) => Kind3<F, U, L, C>
-export function liftA2<F extends URIS2>(
-  F: Apply2<F>
-): // tslint:disable-next-line: deprecation
-<A, B, C>(f: Curried2<A, B, C>) => <L>(fa: Kind2<F, L, A>) => (fb: Kind2<F, L, B>) => Kind2<F, L, C>
-export function liftA2<F extends URIS2, L>(
-  F: Apply2C<F, L>
-): // tslint:disable-next-line: deprecation
-<A, B, C>(f: Curried2<A, B, C>) => (fa: Kind2<F, L, A>) => (fb: Kind2<F, L, B>) => Kind2<F, L, C>
-export function liftA2<F extends URIS>(
-  F: Apply1<F>
-): // tslint:disable-next-line: deprecation
-<A, B, C>(f: Curried2<A, B, C>) => Curried2<Kind<F, A>, Kind<F, B>, Kind<F, C>>
-export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKT<F, A>, HKT<F, B>, HKT<F, C>> { ... }
-```
-
-Added in v1.0.0
-
-# ~~liftA3~~ (function)
-
-Lift a function of three arguments to a function which accepts and returns values wrapped with the type constructor
-`F`
-
-Use `sequenceT` / `sequenceS` instead.
-
-**Signature**
-
-```ts
-export function liftA3<F extends URIS3>(
-  F: Apply3<F>
-): <A, B, C, D>(
-  // tslint:disable-next-line: deprecation
-  f: Curried3<A, B, C, D>
-) => <U, L>(fa: Kind3<F, U, L, A>) => (fb: Kind3<F, U, L, B>) => (fc: Kind3<F, U, L, C>) => Kind3<F, U, L, D>
-export function liftA3<F extends URIS3, U, L>(
-  F: Apply3C<F, U, L>
-): <A, B, C, D>(
-  // tslint:disable-next-line: deprecation
-  f: Curried3<A, B, C, D>
-) => (fa: Kind3<F, U, L, A>) => (fb: Kind3<F, U, L, B>) => (fc: Kind3<F, U, L, C>) => Kind3<F, U, L, D>
-export function liftA3<F extends URIS2>(
-  F: Apply2<F>
-): <A, B, C, D>(
-  // tslint:disable-next-line: deprecation
-  f: Curried3<A, B, C, D>
-) => <L>(fa: Kind2<F, L, A>) => (fb: Kind2<F, L, B>) => (fc: Kind2<F, L, C>) => Kind2<F, L, D>
-export function liftA3<F extends URIS2, L>(
-  F: Apply2C<F, L>
-): <A, B, C, D>(
-  // tslint:disable-next-line: deprecation
-  f: Curried3<A, B, C, D>
-) => (fa: Kind2<F, L, A>) => (fb: Kind2<F, L, B>) => (fc: Kind2<F, L, C>) => Kind2<F, L, D>
-export function liftA3<F extends URIS>(
-  F: Apply1<F>
-): // tslint:disable-next-line: deprecation
-<A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<Kind<F, A>, Kind<F, B>, Kind<F, C>, Kind<F, D>>
-export function liftA3<F>(
-  F: Apply<F>
-): // tslint:disable-next-line: deprecation
-<A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>> { ... }
-```
-
-Added in v1.0.0
-
-# ~~liftA4~~ (function)
-
-Lift a function of four arguments to a function which accepts and returns values wrapped with the type constructor
-`F`
-
-Use `sequenceT` / `sequenceS` instead.
-
-**Signature**
-
-```ts
-export function liftA4<F extends URIS3>(
-  F: Apply3<F>
-): <A, B, C, D, E>(
-  // tslint:disable-next-line: deprecation
-  f: Curried4<A, B, C, D, E>
-) => <U, L>(
-  fa: Kind3<F, U, L, A>
-) => (fb: Kind3<F, U, L, B>) => (fc: Kind3<F, U, L, C>) => (fd: Kind3<F, U, L, D>) => Kind3<F, U, L, E>
-export function liftA4<F extends URIS3, U, L>(
-  F: Apply3C<F, U, L>
-): <A, B, C, D, E>(
-  // tslint:disable-next-line: deprecation
-  f: Curried4<A, B, C, D, E>
-) => (
-  fa: Kind3<F, U, L, A>
-) => (fb: Kind3<F, U, L, B>) => (fc: Kind3<F, U, L, C>) => (fd: Kind3<F, U, L, D>) => Kind3<F, U, L, E>
-export function liftA4<F extends URIS2>(
-  F: Apply2<F>
-): <A, B, C, D, E>(
-  // tslint:disable-next-line: deprecation
-  f: Curried4<A, B, C, D, E>
-) => <L>(fa: Kind2<F, L, A>) => (fb: Kind2<F, L, B>) => (fc: Kind2<F, L, C>) => (fd: Kind2<F, L, D>) => Kind2<F, L, E>
-export function liftA4<F extends URIS2, L>(
-  F: Apply2C<F, L>
-): <A, B, C, D, E>(
-  // tslint:disable-next-line: deprecation
-  f: Curried4<A, B, C, D, E>
-) => (fa: Kind2<F, L, A>) => (fb: Kind2<F, L, B>) => (fc: Kind2<F, L, C>) => (fd: Kind2<F, L, D>) => Kind2<F, L, E>
-export function liftA4<F extends URIS>(
-  F: Apply1<F>
-): // tslint:disable-next-line: deprecation
-<A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<Kind<F, A>, Kind<F, B>, Kind<F, C>, Kind<F, D>, Kind<F, E>>
-export function liftA4<F>(
-  F: Apply<F>
-): // tslint:disable-next-line: deprecation
-<A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>> { ... }
-```
-
-Added in v1.0.0
+Added in v2.0.0
 
 # sequenceS (function)
 
@@ -430,34 +113,29 @@ Like `Apply.sequenceT` but works with structs instead of tuples.
 ```ts
 export function sequenceS<F extends URIS3>(
   F: Apply3<F>
-): <U, L, R extends Record<string, Kind3<F, U, L, any>>>(
-  r: EnforceNonEmptyRecord<R> & Record<string, Kind3<F, U, L, any>>
-) => Kind3<F, U, L, { [K in keyof R]: [R[K]] extends [Kind3<F, any, any, infer A>] ? A : never }>
-export function sequenceS<F extends URIS3, U, L>(
-  F: Apply3C<F, U, L>
-): <R extends Record<string, Kind3<F, U, L, any>>>(
-  r: EnforceNonEmptyRecord<R>
-) => Kind3<F, U, L, { [K in keyof R]: [R[K]] extends [Kind3<F, any, any, infer A>] ? A : never }>
+): <R, E, NER extends Record<string, Kind3<F, R, E, any>>>(
+  r: EnforceNonEmptyRecord<NER> & Record<string, Kind3<F, R, E, any>>
+) => Kind3<F, R, E, { [K in keyof NER]: [NER[K]] extends [Kind3<F, any, any, infer A>] ? A : never }>
 export function sequenceS<F extends URIS2>(
   F: Apply2<F>
-): <L, R extends Record<string, Kind2<F, L, any>>>(
-  r: EnforceNonEmptyRecord<R> & Record<string, Kind2<F, L, any>>
-) => Kind2<F, L, { [K in keyof R]: [R[K]] extends [Kind2<F, any, infer A>] ? A : never }>
-export function sequenceS<F extends URIS2, L>(
-  F: Apply2C<F, L>
-): <R extends Record<string, Kind2<F, L, any>>>(
-  r: EnforceNonEmptyRecord<R>
-) => Kind2<F, L, { [K in keyof R]: [R[K]] extends [Kind2<F, any, infer A>] ? A : never }>
+): <E, NER extends Record<string, Kind2<F, E, any>>>(
+  r: EnforceNonEmptyRecord<NER> & Record<string, Kind2<F, E, any>>
+) => Kind2<F, E, { [K in keyof NER]: [NER[K]] extends [Kind2<F, any, infer A>] ? A : never }>
+export function sequenceS<F extends URIS2, E>(
+  F: Apply2C<F, E>
+): <NER extends Record<string, Kind2<F, E, any>>>(
+  r: EnforceNonEmptyRecord<NER>
+) => Kind2<F, E, { [K in keyof NER]: [NER[K]] extends [Kind2<F, any, infer A>] ? A : never }>
 export function sequenceS<F extends URIS>(
   F: Apply1<F>
-): <R extends Record<string, Kind<F, any>>>(
-  r: EnforceNonEmptyRecord<R>
-) => Kind<F, { [K in keyof R]: [R[K]] extends [Kind<F, infer A>] ? A : never }>
+): <NER extends Record<string, Kind<F, any>>>(
+  r: EnforceNonEmptyRecord<NER>
+) => Kind<F, { [K in keyof NER]: [NER[K]] extends [Kind<F, infer A>] ? A : never }>
 export function sequenceS<F>(
   F: Apply<F>
-): <R extends Record<string, HKT<F, any>>>(
-  r: EnforceNonEmptyRecord<R>
-) => HKT<F, { [K in keyof R]: [R[K]] extends [HKT<F, infer A>] ? A : never }> { ... }
+): <NER extends Record<string, HKT<F, any>>>(
+  r: EnforceNonEmptyRecord<NER>
+) => HKT<F, { [K in keyof NER]: [NER[K]] extends [HKT<F, infer A>] ? A : never }> { ... }
 ```
 
 **Example**
@@ -470,21 +148,21 @@ const ado = sequenceS(either)
 
 assert.deepStrictEqual(
   ado({
-    a: right<string, number>(1),
-    b: right<string, boolean>(true)
+    a: right(1),
+    b: right(true)
   }),
   right({ a: 1, b: true })
 )
 assert.deepStrictEqual(
   ado({
-    a: right<string, number>(1),
-    b: left<string, number>('error')
+    a: right(1),
+    b: left('error')
   }),
   left('error')
 )
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # sequenceT (function)
 
@@ -493,12 +171,31 @@ Tuple sequencing, i.e., take a tuple of monadic actions and does them from left-
 **Signature**
 
 ```ts
-export function sequenceT<F extends URIS3>(F: Apply3<F>): SequenceT3<F>
-export function sequenceT<F extends URIS3, U, L>(F: Apply3C<F, U, L>): SequenceT3C<F, U, L>
-export function sequenceT<F extends URIS2>(F: Apply2<F>): SequenceT2<F>
-export function sequenceT<F extends URIS2, L>(F: Apply2C<F, L>): SequenceT2C<F, L>
-export function sequenceT<F extends URIS>(F: Apply1<F>): SequenceT1<F>
-export function sequenceT<F>(F: Apply<F>): SequenceT<F> { ... }
+export function sequenceT<F extends URIS3>(
+  F: Apply3<F>
+): <R, E, T extends Array<Kind3<F, R, E, any>>>(
+  ...t: T & { 0: Kind3<F, R, E, any> }
+) => Kind3<F, R, E, { [K in keyof T]: [T[K]] extends [Kind3<F, R, E, infer A>] ? A : never }>
+export function sequenceT<F extends URIS2>(
+  F: Apply2<F>
+): <E, T extends Array<Kind2<F, E, any>>>(
+  ...t: T & { 0: Kind2<F, E, any> }
+) => Kind2<F, E, { [K in keyof T]: [T[K]] extends [Kind2<F, E, infer A>] ? A : never }>
+export function sequenceT<F extends URIS2, E>(
+  F: Apply2C<F, E>
+): <T extends Array<Kind2<F, E, any>>>(
+  ...t: T & { 0: Kind2<F, E, any> }
+) => Kind2<F, E, { [K in keyof T]: [T[K]] extends [Kind2<F, E, infer A>] ? A : never }>
+export function sequenceT<F extends URIS>(
+  F: Apply1<F>
+): <T extends Array<Kind<F, any>>>(
+  ...t: T & { 0: Kind<F, any> }
+) => Kind<F, { [K in keyof T]: [T[K]] extends [Kind<F, infer A>] ? A : never }>
+export function sequenceT<F>(
+  F: Apply<F>
+): <T extends Array<HKT<F, any>>>(
+  ...t: T & { 0: HKT<F, any> }
+) => HKT<F, { [K in keyof T]: [T[K]] extends [HKT<F, infer A>] ? A : never }> { ... }
 ```
 
 **Example**
@@ -513,4 +210,4 @@ assert.deepStrictEqual(sequenceTOption(some(1), some('2')), some([1, '2']))
 assert.deepStrictEqual(sequenceTOption(some(1), some('2'), none), none)
 ```
 
-Added in v1.5.0
+Added in v2.0.0

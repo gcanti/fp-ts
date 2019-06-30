@@ -1,6 +1,6 @@
 ---
 title: Show.ts
-nav_order: 82
+nav_order: 73
 parent: Modules
 ---
 
@@ -42,7 +42,7 @@ export interface Show<A> {
 export const showBoolean: Show<boolean> = ...
 ```
 
-Added in v1.17.0
+Added in v2.0.0
 
 # showNumber (constant)
 
@@ -52,7 +52,7 @@ Added in v1.17.0
 export const showNumber: Show<number> = ...
 ```
 
-Added in v1.17.0
+Added in v2.0.0
 
 # showString (constant)
 
@@ -62,26 +62,26 @@ Added in v1.17.0
 export const showString: Show<string> = ...
 ```
 
-Added in v1.17.0
+Added in v2.0.0
 
 # getStructShow (function)
 
 **Signature**
 
 ```ts
-export const getStructShow = <O extends { [key: string]: any }>(shows: { [K in keyof O]: Show<O[K]> }): Show<O> => ...
+export function getStructShow<O extends { [key: string]: any }>(shows: { [K in keyof O]: Show<O[K]> }): Show<O> { ... }
 ```
 
-Added in v1.17.0
+Added in v2.0.0
 
 # getTupleShow (function)
 
 **Signature**
 
 ```ts
-export const getTupleShow = <T extends Array<Show<any>>>(
+export function getTupleShow<T extends Array<Show<any>>>(
   ...shows: T
-): Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }> => ...
+): Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }> { ... }
 ```
 
-Added in v1.17.0
+Added in v2.0.0

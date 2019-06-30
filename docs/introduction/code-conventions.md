@@ -1,7 +1,7 @@
 ---
 title: Code Conventions
 parent: Introduction
-nav_order: 5
+nav_order: 4
 has_toc: false
 ---
 
@@ -13,7 +13,6 @@ has_toc: false
 
 - [Module structure](#module-structure)
 - [FAQ](#faq)
-  - [What a `2v` suffix means, e.g. `tryCatch2v`, `Foldable2v`](#what-a-2v-suffix-means-eg-trycatch2v-foldable2v)
   - [What a `C` suffix means, e.g. `Functor2C` vs `Functor2`](#what-a-c-suffix-means-eg-functor2c-vs-functor2)
   - [What a `T` suffix means, e.g. `sequenceT`](#what-a-t-suffix-means-eg-sequencet)
 
@@ -31,10 +30,6 @@ In general a module containing the definition of a data structure has the follow
 
 ## FAQ
 
-### What a `2v` suffix means, e.g. `tryCatch2v`, `Foldable2v`
-
-`2v` means "second version", all the `2v` methods and types are breaking alternatives for `@deprecated` methods.
-
 ### What a `C` suffix means, e.g. `Functor2C` vs `Functor2`
 
 The naming convention is:
@@ -46,10 +41,10 @@ The naming convention is:
 | ------------------ | -------------------- | ------------------------ | ------------------------------------------------------- |
 | all                | `Functor<F>`         | `HKT<F, A>`              |                                                         |
 | `* -> *`           | `Functor1<F>`        | `Kind<F, A>`             |                                                         |
-| `* -> * -> *`      | `Functor2<F>`        | `Kind2<F, L, A>`         |                                                         |
-| `* -> * -> *`      | `Functor2C<F, L>`    | `Kind2<F, L, A>`         | A variant of `Functor2` where `L` is fixed              |
-| `* -> * -> * -> *` | `Functor3<F>`        | `Kind3<F, U, L, A>`      |                                                         |
-| `* -> * -> * -> *` | `Functor3C<F, U, L>` | `Kind3<F, U, L, A>`      | A variant of `Functor3` where both `U` and `L` is fixed |
+| `* -> * -> *`      | `Functor2<F>`        | `Kind2<F, E, A>`         |                                                         |
+| `* -> * -> *`      | `Functor2C<F, E>`    | `Kind2<F, E, A>`         | A variant of `Functor2` where `E` is fixed              |
+| `* -> * -> * -> *` | `Functor3<F>`        | `Kind3<F, R, E, A>`      |                                                         |
+| `* -> * -> * -> *` | `Functor3C<F, U, L>` | `Kind3<F, R, E, A>`      | A variant of `Functor3` where both `R` and `E` is fixed |
 
 **Example** `Functor`
 
@@ -68,27 +63,27 @@ The defintion for type constructors of kind `* -> * -> *` (e.g. `Either`)
 export interface Functor2<F extends URIS2> {
   readonly URI: F
   //             v-- here L is free
-  readonly map: <L, A, B>(fa: Type2<F, L, A>, f: (a: A) => B) => Type2<F, L, B>
+  readonly map: <E, A, B>(fa: Kind2<F, E, A>, f: (a: A) => B) => Kind2<F, E, B>
 }
 ```
 
 The defintion for type constructors that start with kind `* -> * -> *` but need to be constrained in order to admit an instance (e.g. `Validation`).
 
 ```ts
-//                           this fixes L --v
-export interface Functor2C<F extends URIS2, L> {
+//                           this fixes E --v
+export interface Functor2C<F extends URIS2, E> {
   readonly URI: F
-  readonly _L: L
-  //                                v-- here L is fixed ---------------v
-  readonly map: <A, B>(fa: Type2<F, L, A>, f: (a: A) => B) => Type2<F, L, B>
+  readonly _E: E
+  //                                v-- here E is fixed ---------------v
+  readonly map: <A, B>(fa: Kind2<F, E, A>, f: (a: A) => B) => Kind2<F, E, B>
 }
 ```
 
 For example, `Validation` admits a `Functor` instance only if you provide a `Semigroup` instance for the failure part
 
 ```ts
-//   this fixes L --v                                   v-- here L is fixed
-const getFunctor = <L>(S: Semigroup<L>): Functor2C<"Validation", L> = { ... }
+//   this fixes E --v                                            v-- here E is fixed
+const getFunctor = <E>(S: Semigroup<L>): Functor2C<"Validation", E> = { ... }
 ```
 
 ### What a `T` suffix means, e.g. `sequenceT`

@@ -24,37 +24,37 @@ Adapted from https://github.com/purescript/purescript-console
 **Signature**
 
 ```ts
-export const error = (s: unknown): IO<void> => ...
+export function error(s: unknown): IO<void> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # info (function)
 
 **Signature**
 
 ```ts
-export const info = (s: unknown): IO<void> => ...
+export function info(s: unknown): IO<void> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # log (function)
 
 **Signature**
 
 ```ts
-export const log = (s: unknown): IO<void> => ...
+export function log(s: unknown): IO<void> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # warn (function)
 
 **Signature**
 
 ```ts
-export const warn = (s: unknown): IO<void> => ...
+export function warn(s: unknown): IO<void> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0

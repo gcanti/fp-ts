@@ -1,89 +1,74 @@
 import { Comonad2 } from './Comonad'
-import { Endomorphism, toString } from './function'
+import { Endomorphism } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { pipeable } from './pipeable'
 
 declare module './HKT' {
-  interface URItoKind2<L, A> {
-    Store: Store<L, A>
+  interface URItoKind2<E, A> {
+    Store: Store<E, A>
   }
 }
 
+/**
+ * @since 2.0.0
+ */
 export const URI = 'Store'
 
+/**
+ * @since 2.0.0
+ */
 export type URI = typeof URI
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
-export class Store<S, A> {
-  readonly _A!: A
-  readonly _L!: S
-  readonly _URI!: URI
-  constructor(readonly peek: (s: S) => A, readonly pos: S) {}
-  /**
-   * Reposition the focus at the specified position
-   * @obsolete
-   */
-  seek(s: S): Store<S, A> {
-    return new Store(this.peek, s)
-  }
-  /** @obsolete */
-  map<B>(f: (a: A) => B): Store<S, B> {
-    return new Store(s => f(this.peek(s)), this.pos)
-  }
-  /** @obsolete */
-  extract(): A {
-    return this.peek(this.pos)
-  }
-  /** @obsolete */
-  extend<B>(f: (sa: Store<S, A>) => B): Store<S, B> {
-    return new Store(s => f(this.seek(s)), this.pos)
-  }
-  /* istanbul ignore next */
-  inspect(): string {
-    return this.toString()
-  }
-  /* istanbul ignore next */
-  toString(): string {
-    // tslint:disable-next-line: deprecation
-    return `new Store(${toString(this.peek)}, ${toString(this.pos)})`
-  }
+export interface Store<S, A> {
+  readonly peek: (s: S) => A
+  readonly pos: S
+}
+
+/**
+ * Reposition the focus at the specified position
+ *
+ * @since 2.0.0
+ */
+export function seek<S>(s: S): <A>(wa: Store<S, A>) => Store<S, A> {
+  return wa => ({ peek: wa.peek, pos: s })
+}
+
+/**
+ * Reposition the focus at the specified position, which depends on the current position
+ *
+ * @since 2.0.0
+ */
+export function seeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => Store<S, A> {
+  return wa => ({ peek: wa.peek, pos: f(wa.pos) })
 }
 
 /**
  * Extract a value from a position which depends on the current position
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function peeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => A {
   return wa => wa.peek(f(wa.pos))
 }
 
 /**
- * Reposition the focus at the specified position, which depends on the current position
- *
- * @since 1.0.0
- */
-export const seeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>): Store<S, A> => {
-  return new Store(sa.peek, f(sa.pos))
-}
-
-/**
  * Extract a collection of values from positions which depend on the current position
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function experiment<F extends URIS3>(
   F: Functor3<F>
-): <U, L, S>(f: (s: S) => Kind3<F, U, L, S>) => <A>(wa: Store<S, A>) => Kind3<F, U, L, A>
+): <R, E, S>(f: (s: S) => Kind3<F, R, E, S>) => <A>(wa: Store<S, A>) => Kind3<F, R, E, A>
 export function experiment<F extends URIS2>(
   F: Functor2<F>
-): <L, S>(f: (s: S) => Kind2<F, L, S>) => <A>(wa: Store<S, A>) => Kind2<F, L, A>
-export function experiment<F extends URIS2, L>(
-  F: Functor2C<F, L>
-): <S>(f: (s: S) => Kind2<F, L, S>) => <A>(wa: Store<S, A>) => Kind2<F, L, A>
+): <E, S>(f: (s: S) => Kind2<F, E, S>) => <A>(wa: Store<S, A>) => Kind2<F, E, A>
+export function experiment<F extends URIS2, E>(
+  F: Functor2C<F, E>
+): <S>(f: (s: S) => Kind2<F, E, S>) => <A>(wa: Store<S, A>) => Kind2<F, E, A>
 export function experiment<F extends URIS>(
   F: Functor1<F>
 ): <S>(f: (s: S) => Kind<F, S>) => <A>(wa: Store<S, A>) => Kind<F, A>
@@ -93,26 +78,19 @@ export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const store: Comonad2<URI> = {
   URI,
-  map: (fa, f) => fa.map(f),
-  extract: wa => wa.extract(),
-  extend: (wa, f) => wa.extend(f)
-}
-
-//
-// backporting
-//
-
-/**
- * Reposition the focus at the specified position
- *
- * @since 1.19.0
- */
-export function seek<S>(s: S): <A>(wa: Store<S, A>) => Store<S, A> {
-  return wa => new Store(wa.peek, s)
+  map: (wa, f) => ({
+    peek: s => f(wa.peek(s)),
+    pos: wa.pos
+  }),
+  extract: wa => wa.peek(wa.pos),
+  extend: (wa, f) => ({
+    peek: s => f({ peek: wa.peek, pos: s }),
+    pos: wa.pos
+  })
 }
 
 const { duplicate, extend, map } = pipeable(store)

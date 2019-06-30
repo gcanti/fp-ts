@@ -1,30 +1,29 @@
 import { log } from '../src/Console'
-import { Type, URIS, Kind } from '../src/HKT'
-import { none, Option, some } from '../src/Option'
+import { Kind, URIS } from '../src/HKT'
+import { none, Option, some, fold } from '../src/Option'
 import { randomInt } from '../src/Random'
-import { fromIO, Task, task, URI as TaskURI } from '../src/Task'
+import * as T from '../src/Task'
 import { createInterface } from 'readline'
-import { State } from '../src/State'
+import { State, state } from '../src/State'
+import { Monad1 } from '../src/Monad'
 
 //
 // helpers
 //
 
-const getStrLn: Task<string> = new Task(
-  () =>
-    new Promise(resolve => {
-      const rl = createInterface({
-        input: process.stdin,
-        output: process.stdout
-      })
-      rl.question('> ', answer => {
-        rl.close()
-        resolve(answer)
-      })
+const getStrLn: T.Task<string> = () =>
+  new Promise(resolve => {
+    const rl = createInterface({
+      input: process.stdin,
+      output: process.stdout
     })
-)
+    rl.question('> ', answer => {
+      rl.close()
+      resolve(answer)
+    })
+  })
 
-const putStrLn = (message: string): Task<void> => fromIO(log(message))
+const putStrLn = (message: string): T.Task<void> => T.task.fromIO(log(message))
 
 const parse = (s: string): Option<number> => {
   const i = +s
@@ -35,24 +34,17 @@ const parse = (s: string): Option<number> => {
 // type classes
 //
 
-interface ProgramSyntax<F extends URIS, A> {
-  map: <B>(f: (a: A) => B) => _<F, B>
-  chain: <B>(f: (a: A) => _<F, B>) => _<F, B>
-}
-
-type _<F extends URIS, A> = Kind<F, A> & ProgramSyntax<F, A>
-
-interface Program<F extends URIS> {
-  finish: <A>(a: A) => _<F, A>
+interface Program<F extends URIS> extends Monad1<F> {
+  finish: <A>(a: A) => Kind<F, A>
 }
 
 interface Console<F extends URIS> {
-  putStrLn: (message: string) => _<F, void>
-  getStrLn: _<F, string>
+  putStrLn: (message: string) => Kind<F, void>
+  getStrLn: Kind<F, string>
 }
 
 interface Random<F extends URIS> {
-  nextInt: (upper: number) => _<F, number>
+  nextInt: (upper: number) => Kind<F, number>
 }
 
 interface Main<F extends URIS> extends Program<F>, Console<F>, Random<F> {}
@@ -61,57 +53,64 @@ interface Main<F extends URIS> extends Program<F>, Console<F>, Random<F> {}
 // instances
 //
 
-const programTask: Program<TaskURI> = {
-  finish: task.of
+const programTask: Program<T.URI> = {
+  ...T.task,
+  finish: T.task.of
 }
 
-const consoleTask: Console<TaskURI> = {
+const consoleTask: Console<T.URI> = {
   putStrLn,
   getStrLn
 }
 
-const randomTask: Random<TaskURI> = {
-  nextInt: upper => fromIO(randomInt(1, upper))
+const randomTask: Random<T.URI> = {
+  nextInt: upper => T.task.fromIO(randomInt(1, upper))
 }
 
 //
 // game
 //
 
-const checkContinue = <F extends URIS>(F: Program<F> & Console<F>) => (name: string): _<F, boolean> =>
-  F.putStrLn(`Do you want to continue, ${name}?`)
-    .chain(() => F.getStrLn)
-    .chain(answer => {
-      switch (answer.toLowerCase()) {
-        case 'y':
-          return F.finish(true)
-        case 'n':
-          return F.finish(false)
-        default:
-          return checkContinue(F)(name)
-      }
-    })
+const checkContinue = <F extends URIS>(F: Program<F> & Console<F>) => (name: string): Kind<F, boolean> => {
+  const put = F.putStrLn(`Do you want to continue, ${name}?`)
+  const get = F.chain(put, () => F.getStrLn)
+  const answer = F.chain(get, answer => {
+    switch (answer.toLowerCase()) {
+      case 'y':
+        return F.of(true)
+      case 'n':
+        return F.of(false)
+      default:
+        return checkContinue(F)(name)
+    }
+  })
+  return answer
+}
 
-const gameLoop = <F extends URIS>(F: Main<F>) => (name: string): _<F, void> =>
-  F.nextInt(5).chain(secret =>
-    F.putStrLn(`Dear ${name}, please guess a number from 1 to 5`)
-      .chain(() =>
-        F.getStrLn.chain(guess =>
-          parse(guess).fold(F.putStrLn('You did not enter an integer!'), x =>
+const gameLoop = <F extends URIS>(F: Main<F>) => (name: string): Kind<F, void> => {
+  const parseFailureMessage = F.putStrLn('You did not enter an integer!')
+
+  return F.chain(F.nextInt(5), secret => {
+    const game = F.chain(F.putStrLn(`Dear ${name}, please guess a number from 1 to 5`), () =>
+      F.chain(F.getStrLn, guess =>
+        fold(
+          () => parseFailureMessage,
+          x =>
             x === secret
               ? F.putStrLn(`You guessed right, ${name}!`)
               : F.putStrLn(`You guessed wrong, ${name}! The number was: ${secret}`)
-          )
-        )
+        )(parse(guess))
       )
-      .chain(() => checkContinue(F)(name))
-      .chain(shouldContinue => (shouldContinue ? gameLoop(F)(name) : F.finish(undefined)))
-  )
+    )
+    const doContinue = F.chain(game, () => checkContinue(F)(name))
+    return F.chain(doContinue, shouldContinue => (shouldContinue ? gameLoop(F)(name) : F.of(undefined)))
+  })
+}
 
-const main = <F extends URIS>(F: Main<F>): _<F, void> => {
-  return F.putStrLn('What is your name?')
-    .chain(() => F.getStrLn)
-    .chain(name => F.putStrLn(`Hello, ${name} welcome to the game!`).chain(() => gameLoop(F)(name)))
+const main = <F extends URIS>(F: Main<F>): Kind<F, void> => {
+  const nameMessage = F.putStrLn('What is your name?')
+  const askName = F.chain(nameMessage, () => F.getStrLn)
+  return F.chain(askName, name => F.chain(F.putStrLn(`Hello, ${name} welcome to the game!`), () => gameLoop(F)(name)))
 }
 
 export const mainTask = main({ ...programTask, ...consoleTask, ...randomTask })
@@ -123,7 +122,7 @@ export const mainTask = main({ ...programTask, ...consoleTask, ...randomTask })
 // tests
 //
 
-import { drop, snoc, dropLeft } from '../src/Array'
+import { dropLeft, snoc } from '../src/Array'
 
 class TestData {
   constructor(readonly input: Array<string>, readonly output: Array<string>, readonly nums: Array<number>) {}
@@ -138,39 +137,46 @@ class TestData {
   }
 }
 
-const TestTaskURI = 'TestTask'
+const URI = 'Test'
 
-type TestTaskURI = typeof TestTaskURI
+type URI = typeof URI
 
 declare module '../src/HKT' {
-  interface URI2HKT<A> {
-    TestTask: TestTask<A>
+  interface URItoKind<A> {
+    Test: Test<A>
   }
 }
 
-class TestTask<A> extends State<TestData, A> {}
+interface Test<A> extends State<TestData, A> {}
 
-const of = <A>(a: A): TestTask<A> => new TestTask(data => [a, data])
+const of = <A>(a: A): Test<A> => data => [a, data]
 
-const programTestTask: Program<TestTaskURI> = {
+const programTest: Program<URI> = {
+  URI,
+  map: state.map,
+  of: state.of,
+  ap: state.ap,
+  chain: state.chain,
   finish: of
 }
 
-const consoleTestTask: Console<TestTaskURI> = {
-  putStrLn: (message: string) => new TestTask(data => data.putStrLn(message)),
-  getStrLn: new TestTask(data => data.getStrLn())
+const consoleTest: Console<URI> = {
+  putStrLn: message => data => data.putStrLn(message),
+  getStrLn: data => data.getStrLn()
 }
 
-const randomTestTask: Random<TestTaskURI> = {
-  nextInt: upper => new TestTask(data => data.nextInt(upper))
+const randomTest: Random<URI> = {
+  nextInt: upper => data => {
+    return data.nextInt(upper)
+  }
 }
 
-const mainTestTask = main({ ...programTestTask, ...consoleTestTask, ...randomTestTask })
+const mainTestTask = main({ ...programTest, ...consoleTest, ...randomTest })
 const testExample = new TestData(['Giulio', '1', 'n'], [], [1])
 
 import * as assert from 'assert'
 
-assert.deepStrictEqual(mainTestTask.run(testExample), [
+assert.deepStrictEqual(mainTestTask(testExample), [
   undefined,
   new TestData(
     [],

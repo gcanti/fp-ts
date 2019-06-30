@@ -11,9 +11,7 @@ Let's start from a simple data structure: `Identity`
 ```ts
 // Identity.ts
 
-export class Identity<A> {
-  constructor(readonly value: A) {}
-}
+export type Identity<A> = A
 ```
 
 ## Functor instance
@@ -35,16 +33,12 @@ declare module 'fp-ts/lib/HKT' {
   }
 }
 
-export class Identity<A> {
-  constructor(readonly value: A) {}
-}
-
-const map = <A, B>(fa: Identity<A>, f: (a: A) => B): Identity<B> => new Identity(f(fa.value))
+export type Identity<A> = A
 
 // Functor instance
 export const identity: Functor1<URI> = {
   URI,
-  map
+  map: (ma, f) => f(ma)
 }
 ```
 
@@ -84,27 +78,6 @@ declare module 'fp-ts/lib/HKT' {
 `Kind<F, A>` is using `URItoKind` internally so is able to project an abstract data type to a concrete data type.
 So if `URI = 'Identity'`, then `Kind<URI, number>` is `Identity<number>`.
 
-**Note**. When possible `fp-ts` also defines a `map` method on the data structure in order to provide chainable APIs
-
-```ts
-// Identity.ts
-
-export class Identity<A> {
-  constructor(readonly value: A) {}
-  map<B>(f: (a: A) => B): Identity<B> {
-    return new Identity(f(this.value))
-  }
-}
-
-const map = <A, B>(fa: Identity<A>, f: (a: A) => B): Identity<B> => fa.map(f)
-
-// Functor instance
-export const identity: Functor1<URI> = {
-  URI,
-  map
-}
-```
-
 ## What about type constructors of kind `* -> * -> *`?
 
 There's another triple for that: `URItoKind2`, `URIS2` and `Kind2`
@@ -126,30 +99,22 @@ declare module 'fp-ts/lib/HKT' {
   }
 }
 
-export type Either<L, A> = Left<L, A> | Right<L, A>
-
-export class Left<L, A> {
-  readonly _tag = 'Left'
-  constructor(readonly value: L) {}
-  map<B>(f: (a: A) => B): Either<L, B> {
-    return new Left(this.value)
-  }
+export interface Left<E> {
+  readonly _tag: 'Left'
+  readonly left: E
 }
 
-export class Right<L, A> {
-  readonly _tag = 'Right'
-  constructor(readonly value: A) {}
-  map<B>(f: (a: A) => B): Either<L, B> {
-    return new Right(f(this.value))
-  }
+export interface Right<A> {
+  readonly _tag: 'Right'
+  readonly right: A
 }
 
-const map = <L, A, B>(fa: Either<L, A>, f: (a: A) => B): Either<L, B> => fa.map(f)
+export type Either<E, A> = Left<E> | Right<A>
 
 // Functor instance
 export const either: Functor2<URI> = {
   URI,
-  map
+  map: (ma, f) => (ma._tag === 'Left' ? ma : right(f(ma.right)))
 }
 ```
 
@@ -160,7 +125,7 @@ And here's the definition of `Functor2`
 
 export interface Functor2<F extends URIS2> {
   readonly URI: F
-  readonly map: <L, A, B>(fa: Kind2<F, L, A>, f: (a: A) => B) => Kind2<F, L, B>
+  readonly map: <E, A, B>(fa: Kind2<F, E, A>, f: (a: A) => B) => Kind2<F, E, B>
 }
 ```
 
@@ -215,7 +180,7 @@ We need to add some overloading, one for each kind we want to support
 ```ts
 export function lift<F extends URIS2>(
   F: Functor2<F>
-): <A, B>(f: (a: A) => B) => <L>(fa: Kind2<F, L, A>) => Kind2<F, L, B>
+): <A, B>(f: (a: A) => B) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
 export function lift<F extends URIS>(F: Functor1<F>): <A, B>(f: (a: A) => B) => (fa: Kind<F, A>) => Kind<F, B>
 export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
 export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B> {
@@ -226,7 +191,7 @@ export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>
 Now we can lift `double` to both `Identity` and `Either`
 
 ```ts
-//                        v-- the Functor instance of Identity
+//                          v-- the Functor instance of Identity
 const doubleIdentity = lift(identity)(double)
 
 //                        v-- the Functor instance of Either
@@ -234,4 +199,4 @@ const doubleEither = lift(either)(double)
 ```
 
 - `doubleIdentity` has type `(fa: Identity<number>) => Identity<number>`
-- `doubleEither` has type `<L>(fa: Either<L, number>) => Either<L, number>`
+- `doubleEither` has type `<E>(fa: Either<E, number>) => Either<E, number>`

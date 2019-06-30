@@ -1,6 +1,6 @@
 ---
 title: Invariant.ts
-nav_order: 45
+nav_order: 41
 parent: Modules
 ---
 
@@ -13,7 +13,6 @@ parent: Modules
 - [Invariant2 (interface)](#invariant2-interface)
 - [Invariant2C (interface)](#invariant2c-interface)
 - [Invariant3 (interface)](#invariant3-interface)
-- [Invariant3C (interface)](#invariant3c-interface)
 
 ---
 
@@ -28,7 +27,7 @@ export interface Invariant<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Invariant1 (interface)
 
@@ -41,6 +40,8 @@ export interface Invariant1<F extends URIS> {
 }
 ```
 
+Added in v2.0.0
+
 # Invariant2 (interface)
 
 **Signature**
@@ -48,21 +49,25 @@ export interface Invariant1<F extends URIS> {
 ```ts
 export interface Invariant2<F extends URIS2> {
   readonly URI: F
-  readonly imap: <L, A, B>(fa: HKT2<F, L, A>, f: (a: A) => B, g: (b: B) => A) => Kind2<F, L, B>
+  readonly imap: <E, A, B>(fa: HKT2<F, E, A>, f: (a: A) => B, g: (b: B) => A) => Kind2<F, E, B>
 }
 ```
+
+Added in v2.0.0
 
 # Invariant2C (interface)
 
 **Signature**
 
 ```ts
-export interface Invariant2C<F extends URIS2, L> {
+export interface Invariant2C<F extends URIS2, E> {
   readonly URI: F
-  readonly _L: L
-  readonly imap: <A, B>(fa: HKT2<F, L, A>, f: (a: A) => B, g: (b: B) => A) => Kind2<F, L, B>
+  readonly _E: E
+  readonly imap: <A, B>(fa: HKT2<F, E, A>, f: (a: A) => B, g: (b: B) => A) => Kind2<F, E, B>
 }
 ```
+
+Added in v2.0.0
 
 # Invariant3 (interface)
 
@@ -71,19 +76,8 @@ export interface Invariant2C<F extends URIS2, L> {
 ```ts
 export interface Invariant3<F extends URIS3> {
   readonly URI: F
-  readonly imap: <U, L, A, B>(fa: HKT3<F, U, L, A>, f: (a: A) => B, g: (b: B) => A) => Kind3<F, U, L, B>
+  readonly imap: <R, E, A, B>(fa: HKT3<F, R, E, A>, f: (a: A) => B, g: (b: B) => A) => Kind3<F, R, E, B>
 }
 ```
 
-# Invariant3C (interface)
-
-**Signature**
-
-```ts
-export interface Invariant3C<F extends URIS3, U, L> {
-  readonly URI: F
-  readonly _L: L
-  readonly _U: U
-  readonly imap: <A, B>(fa: HKT3<F, U, L, A>, f: (a: A) => B, g: (b: B) => A) => Kind3<F, U, L, B>
-}
-```
+Added in v2.0.0

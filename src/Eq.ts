@@ -1,14 +1,3 @@
-/**
- * @file The `Eq` type class represents types which support decidable equality.
- *
- * Instances must satisfy the following laws:
- *
- * 1. Reflexivity: `E.equals(a, a) === true`
- * 2. Symmetry: `E.equals(a, b) === E.equals(b, a)`
- * 3. Transitivity: if `E.equals(a, b) === true` and `E.equals(b, c) === true`, then `E.equals(a, c) === true`
- *
- * See [Getting started with fp-ts: Eq](https://dev.to/gcanti/getting-started-with-fp-ts-setoid-39f3)
- */
 import { Contravariant1 } from './Contravariant'
 import { pipeable } from './pipeable'
 
@@ -19,12 +8,12 @@ declare module './HKT' {
 }
 
 /**
- * @since 1.19.0
+ * @since 2.0.0
  */
 export const URI = 'Eq'
 
 /**
- * @since 1.19.0
+ * @since 2.0.0
  */
 export type URI = typeof URI
 
@@ -41,14 +30,14 @@ export type URI = typeof URI
  */
 
 /**
- * @since 1.19.0
+ * @since 2.0.0
  */
 export interface Eq<A> {
   readonly equals: (x: A, y: A) => boolean
 }
 
 /**
- * @since 1.19.0
+ * @since 2.0.0
  */
 export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> {
   return {
@@ -57,7 +46,7 @@ export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> {
 }
 
 /**
- * @since 1.19.0
+ * @since 2.0.0
  */
 export function strictEqual<A>(a: A, b: A): boolean {
   return a === b
@@ -66,22 +55,22 @@ export function strictEqual<A>(a: A, b: A): boolean {
 const eqStrict = { equals: strictEqual }
 
 /**
- * @since 1.19.0
+ * @since 2.0.0
  */
 export const eqString: Eq<string> = eqStrict
 
 /**
- * @since 1.19.0
+ * @since 2.0.0
  */
 export const eqNumber: Eq<number> = eqStrict
 
 /**
- * @since 1.19.0
+ * @since 2.0.0
  */
 export const eqBoolean: Eq<boolean> = eqStrict
 
 /**
- * @since 1.19.0
+ * @since 2.0.0
  */
 export function getStructEq<O extends { [key: string]: any }>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> {
   return fromEquals((x, y) => {
@@ -106,7 +95,7 @@ export function getStructEq<O extends { [key: string]: any }>(eqs: { [K in keyof
  * assert.strictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
  * assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
  *
- * @since 1.19.0
+ * @since 2.0.0
  */
 export function getTupleEq<T extends Array<Eq<any>>>(
   ...eqs: T
@@ -115,7 +104,7 @@ export function getTupleEq<T extends Array<Eq<any>>>(
 }
 
 /**
- * @since 1.19.0
+ * @since 2.0.0
  */
 export const eq: Contravariant1<URI> = {
   URI,
@@ -127,6 +116,6 @@ const { contramap } = pipeable(eq)
 export { contramap }
 
 /**
- * @since 1.19.0
+ * @since 2.0.0
  */
 export const eqDate: Eq<Date> = eq.contramap(eqNumber, date => date.valueOf())

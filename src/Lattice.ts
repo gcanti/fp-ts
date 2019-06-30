@@ -8,6 +8,6 @@ import { JoinSemilattice } from './JoinSemilattice'
 import { MeetSemilattice } from './MeetSemilattice'
 
 /**
- * @since 1.4.0
+ * @since 2.0.0
  */
 export interface Lattice<A> extends JoinSemilattice<A>, MeetSemilattice<A> {}

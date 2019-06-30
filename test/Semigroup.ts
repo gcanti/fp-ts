@@ -1,22 +1,19 @@
 import * as assert from 'assert'
-import { monoidAll, monoidString, monoidSum } from '../src/Monoid'
+import { monoidString } from '../src/Monoid'
 import { ordNumber } from '../src/Ord'
 import {
   fold,
-  getArraySemigroup,
-  getDictionarySemigroup,
   getFirstSemigroup,
   getJoinSemigroup,
   getMeetSemigroup,
   getObjectSemigroup,
-  getProductSemigroup,
-  getRecordSemigroup,
+  getTupleSemigroup,
+  semigroupAll,
   semigroupProduct,
+  semigroupString,
   semigroupSum,
   semigroupVoid,
-  getTupleSemigroup,
-  semigroupString,
-  semigroupAll
+  getDualSemigroup
 } from '../src/Semigroup'
 
 describe('Semigroup', () => {
@@ -28,20 +25,7 @@ describe('Semigroup', () => {
   })
 
   it('fold', () => {
-    assert.strictEqual(fold(monoidString)('')(['a', 'b', 'c']), 'abc')
-  })
-
-  it('getRecordSemigroup', () => {
-    interface T {
-      a: boolean
-      b: string
-    }
-    // tslint:disable-next-line: deprecation
-    const S = getRecordSemigroup<T>({
-      a: monoidAll,
-      b: monoidString
-    })
-    assert.deepStrictEqual(S.concat({ a: true, b: 'foo' }, { a: false, b: 'bar' }), { a: false, b: 'foobar' })
+    assert.strictEqual(fold(monoidString)('', ['a', 'b', 'c']), 'abc')
   })
 
   it('getMeetSemigroup', () => {
@@ -50,37 +34,6 @@ describe('Semigroup', () => {
 
   it('getJoinSemigroup', () => {
     assert.strictEqual(getJoinSemigroup(ordNumber).concat(1, 2), 2)
-  })
-
-  it('getProductSemigroup', () => {
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(getProductSemigroup(monoidString, monoidSum).concat(['a', 2], ['b', 3]), ['ab', 5])
-  })
-
-  it('getArraySemigroup', () => {
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(getArraySemigroup<number>().concat([1], [2]), [1, 2])
-  })
-
-  it('getDictionarySemigroup', () => {
-    type NumberDictionary = { [key: string]: number }
-    const foo: NumberDictionary = {
-      foo: 123,
-      bar: 123
-    }
-    const bar: NumberDictionary = {
-      foo: 456,
-      fff: 456
-    }
-    // tslint:disable-next-line: deprecation
-    const S = getDictionarySemigroup(semigroupSum)
-    const result = S.concat(foo, bar)
-    const expected = {
-      bar: foo.bar,
-      foo: foo.foo + bar.foo,
-      fff: bar.fff
-    }
-    assert.deepStrictEqual(result, expected)
   })
 
   it('getObjectSemigroup', () => {
@@ -112,5 +65,10 @@ describe('Semigroup', () => {
 
   it('semigroupVoid', () => {
     assert.deepStrictEqual(semigroupVoid.concat(undefined, undefined), undefined)
+  })
+
+  it('getDualSemigroup', () => {
+    const S = getDualSemigroup(semigroupString)
+    assert.deepStrictEqual(S.concat('a', 'b'), 'ba')
   })
 })

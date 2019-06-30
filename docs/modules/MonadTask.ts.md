@@ -1,6 +1,6 @@
 ---
 title: MonadTask.ts
-nav_order: 58
+nav_order: 52
 parent: Modules
 ---
 
@@ -17,7 +17,6 @@ Lift a computation from the `Task` monad
 - [MonadTask2 (interface)](#monadtask2-interface)
 - [MonadTask2C (interface)](#monadtask2c-interface)
 - [MonadTask3 (interface)](#monadtask3-interface)
-- [MonadTask3C (interface)](#monadtask3c-interface)
 
 ---
 
@@ -26,59 +25,57 @@ Lift a computation from the `Task` monad
 **Signature**
 
 ```ts
-export interface MonadTask<M> extends Monad<M> {
+export interface MonadTask<M> extends MonadIO<M> {
   readonly fromTask: <A>(fa: Task<A>) => HKT<M, A>
 }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # MonadTask1 (interface)
 
 **Signature**
 
 ```ts
-export interface MonadTask1<M extends URIS> extends Monad1<M> {
+export interface MonadTask1<M extends URIS> extends MonadIO1<M> {
   readonly fromTask: <A>(fa: Task<A>) => Kind<M, A>
 }
 ```
+
+Added in v2.0.0
 
 # MonadTask2 (interface)
 
 **Signature**
 
 ```ts
-export interface MonadTask2<M extends URIS2> extends Monad2<M> {
-  readonly fromTask: <L, A>(fa: Task<A>) => Kind2<M, L, A>
+export interface MonadTask2<M extends URIS2> extends MonadIO2<M> {
+  readonly fromTask: <E, A>(fa: Task<A>) => Kind2<M, E, A>
 }
 ```
+
+Added in v2.0.0
 
 # MonadTask2C (interface)
 
 **Signature**
 
 ```ts
-export interface MonadTask2C<M extends URIS2, L> extends Monad2C<M, L> {
-  readonly fromTask: <A>(fa: Task<A>) => Kind2<M, L, A>
+export interface MonadTask2C<M extends URIS2, E> extends MonadIO2C<M, E> {
+  readonly fromTask: <A>(fa: Task<A>) => Kind2<M, E, A>
 }
 ```
+
+Added in v2.0.0
 
 # MonadTask3 (interface)
 
 **Signature**
 
 ```ts
-export interface MonadTask3<M extends URIS3> extends Monad3<M> {
-  readonly fromTask: <U, L, A>(fa: Task<A>) => Kind3<M, U, L, A>
+export interface MonadTask3<M extends URIS3> extends MonadIO3<M> {
+  readonly fromTask: <R, E, A>(fa: Task<A>) => Kind3<M, R, E, A>
 }
 ```
 
-# MonadTask3C (interface)
-
-**Signature**
-
-```ts
-export interface MonadTask3C<M extends URIS3, U, L> extends Monad3C<M, U, L> {
-  readonly fromTask: <A>(fa: Task<A>) => Kind3<M, U, L, A>
-}
-```
+Added in v2.0.0

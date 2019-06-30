@@ -1,6 +1,6 @@
 ---
 title: Tuple.ts
-nav_order: 97
+nav_order: 86
 parent: Modules
 ---
 
@@ -13,31 +13,14 @@ Adapted from https://github.com/purescript/purescript-tuples
 <h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
-- [Tuple (class)](#tuple-class)
-  - [compose (method)](#compose-method)
-  - [map (method)](#map-method)
-  - [bimap (method)](#bimap-method)
-  - [extract (method)](#extract-method)
-  - [extend (method)](#extend-method)
-  - [reduce (method)](#reduce-method)
-  - [swap (method)](#swap-method)
-  - [inspect (method)](#inspect-method)
-  - [toString (method)](#tostring-method)
-  - [toTuple (method)](#totuple-method)
 - [URI (constant)](#uri-constant)
-- [~~getSetoid~~ (constant)](#getsetoid-constant)
 - [tuple (constant)](#tuple-constant)
 - [fst (function)](#fst-function)
 - [getApplicative (function)](#getapplicative-function)
 - [getApply (function)](#getapply-function)
 - [getChain (function)](#getchain-function)
 - [getChainRec (function)](#getchainrec-function)
-- [getEq (function)](#geteq-function)
 - [getMonad (function)](#getmonad-function)
-- [getMonoid (function)](#getmonoid-function)
-- [getOrd (function)](#getord-function)
-- [getSemigroup (function)](#getsemigroup-function)
-- [getShow (function)](#getshow-function)
 - [snd (function)](#snd-function)
 - [swap (function)](#swap-function)
 
@@ -51,100 +34,7 @@ Adapted from https://github.com/purescript/purescript-tuples
 export type URI = typeof URI
 ```
 
-# Tuple (class)
-
-**Signature**
-
-```ts
-export class Tuple<L, A> {
-  constructor(readonly fst: L, readonly snd: A) { ... }
-  ...
-}
-```
-
-Added in v1.0.0
-
-## compose (method)
-
-**Signature**
-
-```ts
-compose<B>(ab: Tuple<A, B>): Tuple<L, B> { ... }
-```
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): Tuple<L, B> { ... }
-```
-
-## bimap (method)
-
-**Signature**
-
-```ts
-bimap<M, B>(f: (l: L) => M, g: (a: A) => B): Tuple<M, B> { ... }
-```
-
-## extract (method)
-
-**Signature**
-
-```ts
-extract(): A { ... }
-```
-
-## extend (method)
-
-**Signature**
-
-```ts
-extend<B>(f: (fa: Tuple<L, A>) => B): Tuple<L, B> { ... }
-```
-
-## reduce (method)
-
-**Signature**
-
-```ts
-reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
-```
-
-## swap (method)
-
-Exchange the first and second components of a tuple
-
-**Signature**
-
-```ts
-swap(): Tuple<A, L> { ... }
-```
-
-## inspect (method)
-
-**Signature**
-
-```ts
-inspect(): string { ... }
-```
-
-## toString (method)
-
-**Signature**
-
-```ts
-toString(): string { ... }
-```
-
-## toTuple (method)
-
-**Signature**
-
-```ts
-toTuple(): [L, A] { ... }
-```
+Added in v2.0.0
 
 # URI (constant)
 
@@ -154,157 +44,94 @@ toTuple(): [L, A] { ... }
 export const URI = ...
 ```
 
-# ~~getSetoid~~ (constant)
-
-Use `getEq`
-
-**Signature**
-
-```ts
-export const getSetoid: <L, A>(EL: Eq<L>, EA: Eq<A>) => Eq<Tuple<L, A>> = ...
-```
-
-Added in v1.0.0
+Added in v2.0.0
 
 # tuple (constant)
 
 **Signature**
 
 ```ts
-export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2v2<URI> & Traversable2v2<URI> = ...
+export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # fst (function)
 
 **Signature**
 
 ```ts
-export function fst<L, A>(fa: Tuple<L, A>): L { ... }
+export function fst<A, S>(sa: [A, S]): A { ... }
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # getApplicative (function)
 
 **Signature**
 
 ```ts
-export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => ...
+export function getApplicative<S>(M: Monoid<S>): Applicative2C<URI, S> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getApply (function)
 
 **Signature**
 
 ```ts
-export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => ...
+export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getChain (function)
 
 **Signature**
 
 ```ts
-export const getChain = <L>(S: Semigroup<L>): Chain2C<URI, L> => ...
+export function getChain<S>(S: Semigroup<S>): Chain2C<URI, S> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getChainRec (function)
 
 **Signature**
 
 ```ts
-export const getChainRec = <L>(M: Monoid<L>): ChainRec2C<URI, L> => ...
+export function getChainRec<S>(M: Monoid<S>): ChainRec2C<URI, S> { ... }
 ```
 
-Added in v1.0.0
-
-# getEq (function)
-
-**Signature**
-
-```ts
-export function getEq<L, A>(EL: Eq<L>, EA: Eq<A>): Eq<Tuple<L, A>> { ... }
-```
-
-Added in v1.19.0
+Added in v2.0.0
 
 # getMonad (function)
 
 **Signature**
 
 ```ts
-export const getMonad = <L>(M: Monoid<L>): Monad2C<URI, L> => ...
+export function getMonad<S>(M: Monoid<S>): Monad2C<URI, S> { ... }
 ```
 
-Added in v1.0.0
-
-# getMonoid (function)
-
-**Signature**
-
-```ts
-export const getMonoid = <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A>> => ...
-```
-
-Added in v1.0.0
-
-# getOrd (function)
-
-To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the
-`snd`s are `compare`d.
-
-**Signature**
-
-```ts
-export const getOrd = <L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>> => ...
-```
-
-Added in v1.0.0
-
-# getSemigroup (function)
-
-**Signature**
-
-```ts
-export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Tuple<L, A>> => ...
-```
-
-Added in v1.0.0
-
-# getShow (function)
-
-**Signature**
-
-```ts
-export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Tuple<L, A>> => ...
-```
-
-Added in v1.17.0
+Added in v2.0.0
 
 # snd (function)
 
 **Signature**
 
 ```ts
-export function snd<L, A>(fa: Tuple<L, A>): A { ... }
+export function snd<A, S>(sa: [A, S]): S { ... }
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # swap (function)
 
 **Signature**
 
 ```ts
-export function swap<L, A>(sa: Tuple<L, A>): Tuple<A, L> { ... }
+export function swap<A, S>(sa: [A, S]): [S, A] { ... }
 ```
 
-Added in v1.19.0
+Added in v2.0.0

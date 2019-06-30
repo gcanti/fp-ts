@@ -1,87 +1,50 @@
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Contravariant<F> {
   readonly URI: F
   readonly contramap: <A, B>(fa: HKT<F, A>, f: (b: B) => A) => HKT<F, B>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Contravariant1<F extends URIS> {
   readonly URI: F
   readonly contramap: <A, B>(fa: Kind<F, A>, f: (b: B) => A) => Kind<F, B>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Contravariant2<F extends URIS2> {
   readonly URI: F
-  readonly contramap: <L, A, B>(fa: Kind2<F, L, A>, f: (b: B) => A) => Kind2<F, L, B>
+  readonly contramap: <E, A, B>(fa: Kind2<F, E, A>, f: (b: B) => A) => Kind2<F, E, B>
 }
 
+/**
+ * @since 2.0.0
+ */
+export interface Contravariant2C<F extends URIS2, E> {
+  readonly URI: F
+  readonly _E: E
+  readonly contramap: <A, B>(fa: Kind2<F, E, A>, f: (b: B) => A) => Kind2<F, E, B>
+}
+
+/**
+ * @since 2.0.0
+ */
 export interface Contravariant3<F extends URIS3> {
   readonly URI: F
-  readonly contramap: <U, L, A, B>(fa: Kind3<F, U, L, A>, f: (b: B) => A) => Kind3<F, U, L, B>
+  readonly contramap: <R, E, A, B>(fa: Kind3<F, R, E, A>, f: (b: B) => A) => Kind3<F, R, E, B>
 }
 
-export interface Contravariant2C<F extends URIS2, L> {
-  readonly URI: F
-  readonly _L: L
-  readonly contramap: <A, B>(fa: Kind2<F, L, A>, f: (b: B) => A) => Kind2<F, L, B>
-}
-
-export interface Contravariant3C<F extends URIS3, U, L> {
-  readonly URI: F
-  readonly _L: L
-  readonly _U: U
-  readonly contramap: <A, B>(fa: Kind3<F, U, L, A>, f: (b: B) => A) => Kind3<F, U, L, B>
-}
-
+/**
+ * @since 2.0.0
+ */
 export interface Contravariant4<F extends URIS4> {
   readonly URI: F
-  readonly contramap: <X, U, L, A, B>(fa: Kind4<F, X, U, L, A>, f: (b: B) => A) => Kind4<F, X, U, L, B>
-}
-
-/**
- * Use `pipeable`'s `contramap`
- * @since 1.0.0
- * @deprecated
- */
-export function lift<F extends URIS3>(
-  contravariant: Contravariant3<F>
-): <A, B>(f: (b: B) => A) => <U, L>(fa: Kind3<F, U, L, A>) => Kind3<F, U, L, B>
-/**
- * Use `pipeable`'s `contramap`
- * @deprecated
- */
-export function lift<F extends URIS3, U, L>(
-  contravariant: Contravariant3C<F, U, L>
-): <A, B>(f: (b: B) => A) => (fa: Kind3<F, U, L, A>) => Kind3<F, U, L, B>
-/**
- * Use `pipeable`'s `contramap`
- * @deprecated
- */
-export function lift<F extends URIS2>(
-  contravariant: Contravariant2<F>
-): <A, B>(f: (b: B) => A) => <L>(fa: Kind2<F, L, A>) => Kind2<F, L, B>
-/**
- * Use `pipeable`'s `contramap`
- * @deprecated
- */
-export function lift<F extends URIS2, L>(
-  contravariant: Contravariant2C<F, L>
-): <A, B>(f: (b: B) => A) => (fa: Kind2<F, L, A>) => Kind2<F, L, B>
-/**
- * Use `pipeable`'s `contramap`
- * @deprecated
- */
-export function lift<F extends URIS>(
-  contravariant: Contravariant1<F>
-): <A, B>(f: (b: B) => A) => (fa: Kind<F, A>) => Kind<F, B>
-/**
- * Use `pipeable`'s `contramap`
- * @deprecated
- */
-export function lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B>
-export function lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B> {
-  return f => fa => contravariant.contramap(fa, f)
+  readonly contramap: <S, R, E, A, B>(fa: Kind4<F, S, R, E, A>, f: (b: B) => A) => Kind4<F, S, R, E, B>
 }

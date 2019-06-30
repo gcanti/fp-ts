@@ -6,7 +6,7 @@
 import { Monoid } from './Monoid'
 
 /**
- * @since 1.13.0
+ * @since 2.0.0
  */
 export interface Group<A> extends Monoid<A> {
   readonly inverse: (a: A) => A

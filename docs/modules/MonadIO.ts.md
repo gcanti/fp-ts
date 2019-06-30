@@ -1,6 +1,6 @@
 ---
 title: MonadIO.ts
-nav_order: 57
+nav_order: 51
 parent: Modules
 ---
 
@@ -17,7 +17,6 @@ Lift a computation from the `IO` monad
 - [MonadIO2 (interface)](#monadio2-interface)
 - [MonadIO2C (interface)](#monadio2c-interface)
 - [MonadIO3 (interface)](#monadio3-interface)
-- [MonadIO3C (interface)](#monadio3c-interface)
 
 ---
 
@@ -31,7 +30,7 @@ export interface MonadIO<M> extends Monad<M> {
 }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # MonadIO1 (interface)
 
@@ -43,25 +42,31 @@ export interface MonadIO1<M extends URIS> extends Monad1<M> {
 }
 ```
 
+Added in v2.0.0
+
 # MonadIO2 (interface)
 
 **Signature**
 
 ```ts
 export interface MonadIO2<M extends URIS2> extends Monad2<M> {
-  readonly fromIO: <L, A>(fa: IO<A>) => Kind2<M, L, A>
+  readonly fromIO: <E, A>(fa: IO<A>) => Kind2<M, E, A>
 }
 ```
+
+Added in v2.0.0
 
 # MonadIO2C (interface)
 
 **Signature**
 
 ```ts
-export interface MonadIO2C<M extends URIS2, L> extends Monad2C<M, L> {
-  readonly fromIO: <A>(fa: IO<A>) => Kind2<M, L, A>
+export interface MonadIO2C<M extends URIS2, E> extends Monad2C<M, E> {
+  readonly fromIO: <A>(fa: IO<A>) => Kind2<M, E, A>
 }
 ```
+
+Added in v2.0.0
 
 # MonadIO3 (interface)
 
@@ -69,16 +74,8 @@ export interface MonadIO2C<M extends URIS2, L> extends Monad2C<M, L> {
 
 ```ts
 export interface MonadIO3<M extends URIS3> extends Monad3<M> {
-  readonly fromIO: <U, L, A>(fa: IO<A>) => Kind3<M, U, L, A>
+  readonly fromIO: <R, E, A>(fa: IO<A>) => Kind3<M, R, E, A>
 }
 ```
 
-# MonadIO3C (interface)
-
-**Signature**
-
-```ts
-export interface MonadIO3C<M extends URIS3, U, L> extends Monad3C<M, U, L> {
-  readonly fromIO: <A>(fa: IO<A>) => Kind3<M, U, L, A>
-}
-```
+Added in v2.0.0

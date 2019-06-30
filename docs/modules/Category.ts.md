@@ -11,7 +11,6 @@ parent: Modules
 - [Category (interface)](#category-interface)
 - [Category2 (interface)](#category2-interface)
 - [Category3 (interface)](#category3-interface)
-- [Category3C (interface)](#category3c-interface)
 - [Category4 (interface)](#category4-interface)
 
 ---
@@ -26,7 +25,7 @@ export interface Category<F> extends Semigroupoid<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Category2 (interface)
 
@@ -38,25 +37,19 @@ export interface Category2<F extends URIS2> extends Semigroupoid2<F> {
 }
 ```
 
+Added in v2.0.0
+
 # Category3 (interface)
 
 **Signature**
 
 ```ts
 export interface Category3<F extends URIS3> extends Semigroupoid3<F> {
-  readonly id: <U, A>() => Kind3<F, U, A, A>
+  readonly id: <R, A>() => Kind3<F, R, A, A>
 }
 ```
 
-# Category3C (interface)
-
-**Signature**
-
-```ts
-export interface Category3C<F extends URIS3, U> extends Semigroupoid3C<F, U> {
-  readonly id: <A>() => Kind3<F, U, A, A>
-}
-```
+Added in v2.0.0
 
 # Category4 (interface)
 
@@ -64,6 +57,8 @@ export interface Category3C<F extends URIS3, U> extends Semigroupoid3C<F, U> {
 
 ```ts
 export interface Category4<F extends URIS4> extends Semigroupoid4<F> {
-  readonly id: <X, U, A>() => Kind4<F, X, U, A, A>
+  readonly id: <S, R, A>() => Kind4<F, S, R, A, A>
 }
 ```
+
+Added in v2.0.0

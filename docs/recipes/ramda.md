@@ -6,7 +6,7 @@ nav_order: 7
 
 # Migrate from Ramda
 
-This guide shows you how to use fp-ts concepts if you have prior experience with [Ramda](https://ramdajs.com/docs/).
+This guide shows you how to use `fp-ts` concepts if you have prior experience with [Ramda](https://ramdajs.com/docs/).
 {: .fs-6 .fw-300 }
 
 ---

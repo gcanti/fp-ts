@@ -1,39 +1,43 @@
 import { Applicative } from './Applicative'
-import { Compactable2, Separated } from './Compactable'
-import { Either } from './Either'
+import { Separated } from './Compactable'
+import { Either, isLeft } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Filterable2 } from './Filterable'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
-import { Foldable2v, Foldable2v1, Foldable2v2, Foldable2v2C, Foldable2v3 } from './Foldable2v'
-import { FoldableWithIndex2C } from './FoldableWithIndex'
+import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { Predicate } from './function'
-import { Functor2 } from './Functor'
-import { FunctorWithIndex2C } from './FunctorWithIndex'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
+import { Magma } from './Magma'
 import { Monoid } from './Monoid'
-import { isNone, none, Option, some } from './Option'
+import { isNone, isSome, none, Option, option, some } from './Option'
 import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
-import { Traversable2v2C } from './Traversable2v'
 import { TraversableWithIndex2C } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable2C } from './Witherable'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
-  interface URItoKind2<L, A> {
-    Map: Map<L, A>
+  interface URItoKind2<E, A> {
+    Map: Map<E, A>
   }
 }
 
+/**
+ * @since 2.0.0
+ */
 export const URI = 'Map'
 
+/**
+ * @since 2.0.0
+ */
 export type URI = typeof URI
 
 /**
- * @since 1.17.0
+ * @since 2.0.0
  */
-export const getShow = <K, A>(SK: Show<K>, SA: Show<A>): Show<Map<K, A>> => {
+export function getShow<K, A>(SK: Show<K>, SA: Show<A>): Show<Map<K, A>> {
   return {
     show: m => {
       let elements = ''
@@ -51,67 +55,77 @@ export const getShow = <K, A>(SK: Show<K>, SA: Show<A>): Show<Map<K, A>> => {
 /**
  * Calculate the number of key/value pairs in a map
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
-export const size = <K, A>(d: Map<K, A>): number => d.size
+export function size<K, A>(d: Map<K, A>): number {
+  return d.size
+}
 
 /**
  * Test whether or not a map is empty
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
-export const isEmpty = <K, A>(d: Map<K, A>): boolean => d.size === 0
+export function isEmpty<K, A>(d: Map<K, A>): boolean {
+  return d.size === 0
+}
 
 /**
  * Test whether or not a key exists in a map
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
-export const member = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => boolean) => {
+export function member<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => boolean {
   const lookupE = lookup(E)
-  return (k, m) => lookupE(k, m).isSome()
+  return (k, m) => isSome(lookupE(k, m))
 }
 
 /**
  * Test whether or not a value is a member of a map
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
-export const elem = <A>(E: Eq<A>) => <K>(a: A, m: Map<K, A>): boolean => {
-  const values = m.values()
-  let e: IteratorResult<A>
-  while (!(e = values.next()).done) {
-    const v = e.value
-    if (E.equals(a, v)) {
-      return true
+export function elem<A>(E: Eq<A>): <K>(a: A, m: Map<K, A>) => boolean {
+  return (a, m) => {
+    const values = m.values()
+    let e: IteratorResult<A>
+    while (!(e = values.next()).done) {
+      const v = e.value
+      if (E.equals(a, v)) {
+        return true
+      }
     }
+    return false
   }
-  return false
 }
 
 /**
  * Get a sorted array of the keys contained in a map
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
-export const keys = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<K>) => m => Array.from(m.keys()).sort(O.compare)
+export function keys<K>(O: Ord<K>): <A>(m: Map<K, A>) => Array<K> {
+  return m => Array.from(m.keys()).sort(O.compare)
+}
 
 /**
  * Get a sorted array of the values contained in a map
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
-export const values = <A>(O: Ord<A>): (<K>(m: Map<K, A>) => Array<A>) => m => Array.from(m.values()).sort(O.compare)
+export function values<A>(O: Ord<A>): <K>(m: Map<K, A>) => Array<A> {
+  return m => Array.from(m.values()).sort(O.compare)
+}
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
-export const collect = <K>(O: Ord<K>): (<A, B>(m: Map<K, A>, f: (k: K, a: A) => B) => Array<B>) => {
+export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: Map<K, A>) => Array<B> {
   const keysO = keys(O)
-  return <A, B>(m: Map<K, A>, f: (k: K, a: A) => B): Array<B> => {
+  return <A, B>(f: (k: K, a: A) => B) => (m: Map<K, A>): Array<B> => {
     const out: Array<B> = []
     const ks = keysO(m)
-    for (let key of ks) {
+    for (const key of ks) {
       out.push(f(key, m.get(key)!))
     }
     return out
@@ -121,43 +135,38 @@ export const collect = <K>(O: Ord<K>): (<A, B>(m: Map<K, A>, f: (k: K, a: A) => 
 /**
  * Get a sorted of the key/value pairs contained in a map
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
-export const toArray = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<[K, A]>) => {
-  const collectO = collect(O)
-  return m => collectO(m, (k, a) => [k, a])
+export function toArray<K>(O: Ord<K>): <A>(m: Map<K, A>) => Array<[K, A]> {
+  return collect(O)((k, a) => [k, a])
 }
 
 /**
  * Unfolds a map into a list of key/value pairs
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
-export function toUnfoldable<K, F extends URIS>(
-  O: Ord<K>,
-  unfoldable: Unfoldable1<F>
-): <A>(d: Map<K, A>) => Kind<F, [K, A]>
-export function toUnfoldable<K, F>(O: Ord<K>, unfoldable: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]>
-export function toUnfoldable<K, F>(O: Ord<K>, unfoldable: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]> {
+export function toUnfoldable<K, F extends URIS>(O: Ord<K>, U: Unfoldable1<F>): <A>(d: Map<K, A>) => Kind<F, [K, A]>
+export function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]>
+export function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]> {
   const toArrayO = toArray(O)
   return d => {
     const arr = toArrayO(d)
     const len = arr.length
-    return unfoldable.unfoldr(0, b => (b < len ? some([arr[b], b + 1]) : none))
+    return U.unfold(0, b => (b < len ? some([arr[b], b + 1]) : none))
   }
 }
 
 /**
- * Use `insertAt`
+ * Insert or replace a key/value pair in a map
  *
- * @since 1.14.0
- * @deprecated
+ * @since 2.0.0
  */
-export const insert = <K>(E: Eq<K>): (<A>(k: K, a: A, m: Map<K, A>) => Map<K, A>) => {
-  const lookupE = lookupWithKey(E)
-  return (k, a, m) => {
-    const found = lookupE(k, m)
-    if (found.isNone()) {
+export function insertAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A> {
+  const lookupWithKeyE = lookupWithKey(E)
+  return (k, a) => m => {
+    const found = lookupWithKeyE(k, m)
+    if (isNone(found)) {
       const r = new Map(m)
       r.set(k, a)
       return r
@@ -171,16 +180,15 @@ export const insert = <K>(E: Eq<K>): (<A>(k: K, a: A, m: Map<K, A>) => Map<K, A>
 }
 
 /**
- * Use `deleteAt`
+ * Delete a key and value from a map
  *
- * @since 1.14.0
- * @deprecated
+ * @since 2.0.0
  */
-export const remove = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) => {
-  const lookupE = lookupWithKey(E)
-  return (k, m) => {
-    const found = lookupE(k, m)
-    if (found.isSome()) {
+export function deleteAt<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Map<K, A> {
+  const lookupWithKeyE = lookupWithKey(E)
+  return k => m => {
+    const found = lookupWithKeyE(k, m)
+    if (isSome(found)) {
       const r = new Map(m)
       r.delete(found.value[0])
       return r
@@ -190,59 +198,95 @@ export const remove = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) => {
 }
 
 /**
+ * @since 2.0.0
+ */
+export function updateAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: Map<K, A>) => Option<Map<K, A>> {
+  const lookupWithKeyE = lookupWithKey(E)
+  return (k, a) => m => {
+    const found = lookupWithKeyE(k, m)
+    if (isNone(found)) {
+      return none
+    }
+    const r = new Map(m)
+    r.set(found.value[0], a)
+    return some(r)
+  }
+}
+
+/**
+ * @since 2.0.0
+ */
+export function modifyAt<K>(E: Eq<K>): <A>(k: K, f: (a: A) => A) => (m: Map<K, A>) => Option<Map<K, A>> {
+  const lookupWithKeyE = lookupWithKey(E)
+  return (k, f) => m => {
+    const found = lookupWithKeyE(k, m)
+    if (isNone(found)) {
+      return none
+    }
+    const r = new Map(m)
+    r.set(found.value[0], f(found.value[1]))
+    return some(r)
+  }
+}
+
+/**
  * Delete a key and value from a map, returning the value as well as the subsequent map
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
-export const pop = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => Option<[A, Map<K, A>]>) => {
+export function pop<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Option<[A, Map<K, A>]> {
   const lookupE = lookup(E)
-  // tslint:disable-next-line: deprecation
-  const removeE = remove(E)
-  return (k, m) => lookupE(k, m).map(a => [a, removeE(k, m)])
+  const deleteAtE = deleteAt(E)
+  return k => {
+    const deleteAtEk = deleteAtE(k)
+    return m => option.map(lookupE(k, m), a => [a, deleteAtEk(m)])
+  }
 }
 
 /**
  * Lookup the value for a key in a `Map`.
  * If the result is a `Some`, the existing key is also returned.
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
-export const lookupWithKey = <K>(E: Eq<K>) => <A>(k: K, m: Map<K, A>): Option<[K, A]> => {
-  const entries = m.entries()
-  let e: IteratorResult<[K, A]>
-  while (!(e = entries.next()).done) {
-    const [ka, a] = e.value
-    if (E.equals(ka, k)) {
-      return some([ka, a])
+export function lookupWithKey<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Option<[K, A]> {
+  return <A>(k: K, m: Map<K, A>) => {
+    const entries = m.entries()
+    let e: IteratorResult<[K, A]>
+    while (!(e = entries.next()).done) {
+      const [ka, a] = e.value
+      if (E.equals(ka, k)) {
+        return some([ka, a])
+      }
     }
+    return none
   }
-  return none
 }
 
 /**
  * Lookup the value for a key in a `Map`.
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
-export const lookup = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => Option<A>) => {
+export function lookup<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Option<A> {
   const lookupWithKeyE = lookupWithKey(E)
-  return (k, m) => lookupWithKeyE(k, m).map(([_, a]) => a)
+  return (k, m) => option.map(lookupWithKeyE(k, m), ([_, a]) => a)
 }
 
 /**
  * Test whether or not one Map contains all of the keys and values contained in another Map
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
-export const isSubmap = <K, A>(EK: Eq<K>, EA: Eq<A>): ((d1: Map<K, A>, d2: Map<K, A>) => boolean) => {
-  const lookupWithKeyEK = lookupWithKey(EK)
+export function isSubmap<K, A>(SK: Eq<K>, SA: Eq<A>): (d1: Map<K, A>, d2: Map<K, A>) => boolean {
+  const lookupWithKeyS = lookupWithKey(SK)
   return (d1: Map<K, A>, d2: Map<K, A>): boolean => {
     const entries = d1.entries()
     let e: IteratorResult<[K, A]>
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
-      const d2OptA = lookupWithKeyEK(k, d2)
-      if (d2OptA.isNone() || !EK.equals(k, d2OptA.value[0]) || !EA.equals(a, d2OptA.value[1])) {
+      const d2OptA = lookupWithKeyS(k, d2)
+      if (isNone(d2OptA) || !SK.equals(k, d2OptA.value[0]) || !SA.equals(a, d2OptA.value[1])) {
         return false
       }
     }
@@ -251,43 +295,41 @@ export const isSubmap = <K, A>(EK: Eq<K>, EA: Eq<A>): ((d1: Map<K, A>, d2: Map<K
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const empty = new Map<never, never>()
 
 /**
- * Use `getEq`
- *
- * @since 1.14.0
- * @deprecated
+ * @since 2.0.0
  */
-export const getSetoid: <K, A>(EK: Eq<K>, EA: Eq<A>) => Eq<Map<K, A>> = getEq
-
-/**
- * @since 1.19.0
- */
-export function getEq<K, A>(EK: Eq<K>, EA: Eq<A>): Eq<Map<K, A>> {
-  const isSubmap_ = isSubmap(EK, EA)
+export function getEq<K, A>(SK: Eq<K>, SA: Eq<A>): Eq<Map<K, A>> {
+  const isSubmap_ = isSubmap(SK, SA)
   return fromEquals((x, y) => isSubmap_(x, y) && isSubmap_(y, x))
 }
 
 /**
  * Gets `Monoid` instance for Maps given `Semigroup` instance for their values
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
-export const getMonoid = <K, A>(EK: Eq<K>, EA: Semigroup<A>): Monoid<Map<K, A>> => {
-  const lookupWithKeyEK = lookupWithKey(EK)
+export function getMonoid<K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<Map<K, A>> {
+  const lookupWithKeyS = lookupWithKey(SK)
   return {
     concat: (mx, my) => {
+      if (mx === empty) {
+        return my
+      }
+      if (my === empty) {
+        return mx
+      }
       const r = new Map(mx)
       const entries = my.entries()
       let e: IteratorResult<[K, A]>
       while (!(e = entries.next()).done) {
         const [k, a] = e.value
-        const mxOptA = lookupWithKeyEK(k, mx)
-        if (mxOptA.isSome()) {
-          r.set(mxOptA.value[0], EA.concat(mxOptA.value[1], a))
+        const mxOptA = lookupWithKeyS(k, mx)
+        if (isSome(mxOptA)) {
+          r.set(mxOptA.value[0], SA.concat(mxOptA.value[1], a))
         } else {
           r.set(k, a)
         }
@@ -299,14 +341,52 @@ export const getMonoid = <K, A>(EK: Eq<K>, EA: Semigroup<A>): Monoid<Map<K, A>> 
 }
 
 /**
- * @since 1.14.0
+ * Create a map with one key/value pair
+ *
+ * @since 2.0.0
  */
-const filter = <K, A>(fa: Map<K, A>, p: Predicate<A>): Map<K, A> => filterWithIndex(fa, (_, a) => p(a))
+export function singleton<K, A>(k: K, a: A): Map<K, A> {
+  return new Map([[k, a]])
+}
 
 /**
- * @since 1.14.0
+ * Create a map from a foldable collection of key/value pairs, using the
+ * specified `Magma` to combine values for duplicate keys.
+ *
+ * @since 2.0.0
  */
-const mapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => B): Map<K, B> => {
+export function fromFoldable<F extends URIS3, K, A>(
+  E: Eq<K>,
+  M: Magma<A>,
+  F: Foldable3<F>
+): <R, E>(fka: Kind3<F, R, E, [K, A]>) => Map<K, A>
+export function fromFoldable<F extends URIS2, K, A>(
+  E: Eq<K>,
+  M: Magma<A>,
+  F: Foldable2<F>
+): <E>(fka: Kind2<F, E, [K, A]>) => Map<K, A>
+export function fromFoldable<F extends URIS, K, A>(
+  E: Eq<K>,
+  M: Magma<A>,
+  F: Foldable1<F>
+): (fka: Kind<F, [K, A]>) => Map<K, A>
+export function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable<F>): (fka: HKT<F, [K, A]>) => Map<K, A>
+export function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable<F>): (fka: HKT<F, [K, A]>) => Map<K, A> {
+  return (fka: HKT<F, [K, A]>) => {
+    const lookupWithKeyE = lookupWithKey(E)
+    return F.reduce<[K, A], Map<K, A>>(fka, new Map<K, A>(), (b, [k, a]) => {
+      const bOpt = lookupWithKeyE(k, b)
+      if (isSome(bOpt)) {
+        b.set(bOpt.value[0], M.concat(bOpt.value[1], a))
+      } else {
+        b.set(k, a)
+      }
+      return b
+    })
+  }
+}
+
+const _mapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => B): Map<K, B> => {
   const m = new Map<K, B>()
   const entries = fa.entries()
   let e: IteratorResult<[K, A]>
@@ -317,227 +397,21 @@ const mapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => B): Map<K, B> =
   return m
 }
 
-/**
- * @since 1.14.0
- */
-const _map = <K, A, B>(fa: Map<K, A>, f: (a: A) => B): Map<K, B> => mapWithIndex(fa, (_, a) => f(a))
-
-/**
- * @since 1.14.0
- */
-const reduce = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (b: B, a: A) => B) => B) => {
-  const reduceWithIndexO = reduceWithIndex(O)
-  return (fa, b, f) => reduceWithIndexO(fa, b, (_, b, a) => f(b, a))
-}
-
-/**
- * @since 1.14.0
- */
-const foldMap = <K>(O: Ord<K>): (<M>(M: Monoid<M>) => <A>(fa: Map<K, A>, f: (a: A) => M) => M) => M => {
-  const foldMapWithIndexOM = foldMapWithIndex(O)(M)
-  return (fa, f) => foldMapWithIndexOM(fa, (_, a) => f(a))
-}
-
-/**
- * @since 1.14.0
- */
-const foldr = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (a: A, b: B) => B) => B) => {
-  const foldrWithIndexO = foldrWithIndex(O)
-  return (fa, b, f) => foldrWithIndexO(fa, b, (_, a, b) => f(a, b))
-}
-
-/**
- * @since 1.14.0
- */
-const reduceWithIndex = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k: K, b: B, a: A) => B) => B) => {
-  const keysO = keys(O)
-  return <A, B>(fa: Map<K, A>, b: B, f: (k: K, b: B, a: A) => B): B => {
-    let out: B = b
-    const ks = keysO(fa)
-    const len = ks.length
-    for (let i = 0; i < len; i++) {
-      const k = ks[i]
-      out = f(k, out, fa.get(k)!)
-    }
-    return out
-  }
-}
-
-/**
- * @since 1.14.0
- */
-const foldMapWithIndex = <K>(O: Ord<K>): (<M>(M: Monoid<M>) => <A>(fa: Map<K, A>, f: (k: K, a: A) => M) => M) => {
-  const keysO = keys(O)
-  return <M>(M: Monoid<M>) => <A>(fa: Map<K, A>, f: (k: K, a: A) => M): M => {
-    let out: M = M.empty
-    const ks = keysO(fa)
-    const len = ks.length
-    for (let i = 0; i < len; i++) {
-      const k = ks[i]
-      out = M.concat(out, f(k, fa.get(k)!))
-    }
-    return out
-  }
-}
-
-/**
- * @since 1.14.0
- */
-const foldrWithIndex = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k: K, a: A, b: B) => B) => B) => {
-  const keysO = keys(O)
-  return <A, B>(fa: Map<K, A>, b: B, f: (k: K, a: A, b: B) => B): B => {
-    let out: B = b
-    const ks = keysO(fa)
-    const len = ks.length
-    for (let i = len - 1; i >= 0; i--) {
-      const k = ks[i]
-      out = f(k, fa.get(k)!, out)
-    }
-    return out
-  }
-}
-
-/**
- * Create a map with one key/value pair
- *
- * @since 1.14.0
- */
-export const singleton = <K, A>(k: K, a: A): Map<K, A> => {
-  return new Map<K, A>([[k, a]])
-}
-
-/**
- * @since 1.14.0
- */
-const traverseWithIndex = <F>(
-  F: Applicative<F>
-): (<K, A, B>(ta: Map<K, A>, f: (k: K, a: A) => HKT<F, B>) => HKT<F, Map<K, B>>) => {
-  return <K, A, B>(ta: Map<K, A>, f: (k: K, a: A) => HKT<F, B>) => {
-    let fm: HKT<F, Map<K, B>> = F.of(empty)
-    const entries = ta.entries()
-    let e: IteratorResult<[K, A]>
-    while (!(e = entries.next()).done) {
-      const [key, a] = e.value
-      fm = F.ap(F.map(fm, m => (b: B) => new Map(m).set(key, b)), f(key, a))
-    }
-    return fm
-  }
-}
-
-/**
- * @since 1.14.0
- */
-const traverse = <F>(F: Applicative<F>): (<K, A, B>(ta: Map<K, A>, f: (a: A) => HKT<F, B>) => HKT<F, Map<K, B>>) => {
-  const traverseWithIndexF = traverseWithIndex(F)
-  return (ta, f) => traverseWithIndexF(ta, (_, a) => f(a))
-}
-
-/**
- * @since 1.14.0
- */
-const sequence = <F>(F: Applicative<F>): (<K, A>(ta: Map<K, HKT<F, A>>) => HKT<F, Map<K, A>>) => {
-  const traverseWithIndexF = traverseWithIndex(F)
-  return ta => traverseWithIndexF(ta, (_, a) => a)
-}
-
-/**
- * @since 1.14.0
- */
-const compact = <K, A>(fa: Map<K, Option<A>>): Map<K, A> => {
-  const m = new Map<K, A>()
-  const entries = fa.entries()
-  let e: IteratorResult<[K, Option<A>]>
-  while (!(e = entries.next()).done) {
-    const [k, oa] = e.value
-    if (oa.isSome()) {
-      m.set(k, oa.value)
-    }
-  }
-  return m
-}
-
-/**
- * @since 1.14.0
- */
-const partitionMap = <K, RL, RR, A>(fa: Map<K, A>, f: (a: A) => Either<RL, RR>): Separated<Map<K, RL>, Map<K, RR>> =>
-  partitionMapWithIndex(fa, (_, a) => f(a))
-
-/**
- * @since 1.14.0
- */
-const partition = <K, A>(fa: Map<K, A>, p: Predicate<A>): Separated<Map<K, A>, Map<K, A>> =>
-  partitionWithIndex(fa, (_, a) => p(a))
-
-/**
- * @since 1.14.0
- */
-const separate = <K, RL, RR>(fa: Map<K, Either<RL, RR>>): Separated<Map<K, RL>, Map<K, RR>> => {
-  const left = new Map<K, RL>()
-  const right = new Map<K, RR>()
-  const entries = fa.entries()
-  let e: IteratorResult<[K, Either<RL, RR>]>
-  while (!(e = entries.next()).done) {
-    const [k, ei] = e.value
-    if (ei.isLeft()) {
-      left.set(k, ei.value)
-    } else {
-      right.set(k, ei.value)
-    }
-  }
-  return {
-    left,
-    right
-  }
-}
-
-/**
- * @since 1.14.0
- */
-const wither = <F>(
-  F: Applicative<F>
-): (<K, A, B>(wa: Map<K, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Map<K, B>>) => {
-  const traverseF = traverse(F)
-  return (wa, f) => F.map(traverseF(wa, f), compact)
-}
-
-/**
- * @since 1.14.0
- */
-const wilt = <F>(
-  F: Applicative<F>
-): (<K, RL, RR, A>(
-  wa: Map<K, A>,
-  f: (a: A) => HKT<F, Either<RL, RR>>
-) => HKT<F, Separated<Map<K, RL>, Map<K, RR>>>) => {
-  const traverseF = traverse(F)
-  return (wa, f) => F.map(traverseF(wa, f), separate)
-}
-
-/**
- * @since 1.14.0
- */
-const filterMap = <K, A, B>(fa: Map<K, A>, f: (a: A) => Option<B>): Map<K, B> => {
-  return filterMapWithIndex(fa, (_, a) => f(a))
-}
-
-/**
- * @since 1.14.0
- */
-const partitionMapWithIndex = <K, RL, RR, A>(
+const _partitionMapWithIndex = <K, A, B, C>(
   fa: Map<K, A>,
-  f: (k: K, a: A) => Either<RL, RR>
-): Separated<Map<K, RL>, Map<K, RR>> => {
-  const left = new Map<K, RL>()
-  const right = new Map<K, RR>()
+  f: (k: K, a: A) => Either<B, C>
+): Separated<Map<K, B>, Map<K, C>> => {
+  const left = new Map<K, B>()
+  const right = new Map<K, C>()
   const entries = fa.entries()
   let e: IteratorResult<[K, A]>
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
     const ei = f(k, a)
-    if (ei.isLeft()) {
-      left.set(k, ei.value)
+    if (isLeft(ei)) {
+      left.set(k, ei.left)
     } else {
-      right.set(k, ei.value)
+      right.set(k, ei.right)
     }
   }
   return {
@@ -546,10 +420,7 @@ const partitionMapWithIndex = <K, RL, RR, A>(
   }
 }
 
-/**
- * @since 1.14.0
- */
-const partitionWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Separated<Map<K, A>, Map<K, A>> => {
+const _partitionWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Separated<Map<K, A>, Map<K, A>> => {
   const left = new Map<K, A>()
   const right = new Map<K, A>()
   const entries = fa.entries()
@@ -568,27 +439,21 @@ const partitionWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Se
   }
 }
 
-/**
- * @since 1.14.0
- */
-const filterMapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => Option<B>): Map<K, B> => {
+const _filterMapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => Option<B>): Map<K, B> => {
   const m = new Map<K, B>()
   const entries = fa.entries()
   let e: IteratorResult<[K, A]>
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
     const o = f(k, a)
-    if (o.isSome()) {
+    if (isSome(o)) {
       m.set(k, o.value)
     }
   }
   return m
 }
 
-/**
- * @since 1.14.0
- */
-const filterWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<K, A> => {
+const _filterWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<K, A> => {
   const m = new Map<K, A>()
   const entries = fa.entries()
   let e: IteratorResult<[K, A]>
@@ -602,225 +467,156 @@ const filterWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<K
 }
 
 /**
- * Create a map from a foldable collection of key/value pairs, using the
- * specified function to combine values for duplicate keys.
- *
- * @since 1.14.0
+ * @since 2.0.0
  */
-export function fromFoldable<K, F extends URIS3>(
-  E: Eq<K>,
-  F: Foldable2v3<F>
-): <U, L, A>(ta: Kind3<F, U, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<K, F extends URIS2>(
-  E: Eq<K>,
-  F: Foldable2v2<F>
-): <L, A>(ta: Kind2<F, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<K, F extends URIS>(
-  E: Eq<K>,
-  F: Foldable2v1<F>
-): <A>(ta: Kind<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<K, F>(
-  E: Eq<K>,
-  F: Foldable2v<F>
-): <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<K, F>(
-  E: Eq<K>,
-  F: Foldable2v<F>
-): <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A> {
-  return <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => {
-    const lookupWithKeyE = lookupWithKey(E)
-    return F.reduce<[K, A], Map<K, A>>(ta, new Map<K, A>(), (b, [k, a]) => {
-      const bOpt = lookupWithKeyE(k, b)
-      if (bOpt.isSome()) {
-        b.set(bOpt.value[0], onConflict(bOpt.value[1], a))
-      } else {
-        b.set(k, a)
+export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, K, K> {
+  return {
+    ...map_,
+    _E: undefined as any,
+    mapWithIndex: _mapWithIndex,
+    partitionMapWithIndex: _partitionMapWithIndex,
+    partitionWithIndex: _partitionWithIndex,
+    filterMapWithIndex: _filterMapWithIndex,
+    filterWithIndex: _filterWithIndex
+  }
+}
+
+/**
+ * @since 2.0.0
+ */
+export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableWithIndex2C<URI, K, K> {
+  const keysO = keys(O)
+
+  const reduceWithIndex = <A, B>(fa: Map<K, A>, b: B, f: (k: K, b: B, a: A) => B): B => {
+    let out: B = b
+    const ks = keysO(fa)
+    const len = ks.length
+    for (let i = 0; i < len; i++) {
+      const k = ks[i]
+      out = f(k, out, fa.get(k)!)
+    }
+    return out
+  }
+
+  const foldMapWithIndex = <M>(M: Monoid<M>) => <A>(fa: Map<K, A>, f: (k: K, a: A) => M): M => {
+    let out: M = M.empty
+    const ks = keysO(fa)
+    const len = ks.length
+    for (let i = 0; i < len; i++) {
+      const k = ks[i]
+      out = M.concat(out, f(k, fa.get(k)!))
+    }
+    return out
+  }
+
+  const reduceRightWithIndex = <A, B>(fa: Map<K, A>, b: B, f: (k: K, a: A, b: B) => B): B => {
+    let out: B = b
+    const ks = keysO(fa)
+    const len = ks.length
+    for (let i = len - 1; i >= 0; i--) {
+      const k = ks[i]
+      out = f(k, fa.get(k)!, out)
+    }
+    return out
+  }
+
+  const traverseWithIndex = <F>(
+    F: Applicative<F>
+  ): (<K, A, B>(ta: Map<K, A>, f: (k: K, a: A) => HKT<F, B>) => HKT<F, Map<K, B>>) => {
+    return <K, A, B>(ta: Map<K, A>, f: (k: K, a: A) => HKT<F, B>) => {
+      let fm: HKT<F, Map<K, B>> = F.of(empty)
+      const entries = ta.entries()
+      let e: IteratorResult<[K, A]>
+      while (!(e = entries.next()).done) {
+        const [key, a] = e.value
+        fm = F.ap(F.map(fm, m => (b: B) => new Map(m).set(key, b)), f(key, a))
       }
-      return b
-    })
+      return fm
+    }
   }
-}
 
-/**
- * @since 1.14.0
- */
-const compactable: Compactable2<URI> = {
-  URI,
-  compact,
-  separate
-}
-
-/**
- * @since 1.14.0
- */
-const functor: Functor2<URI> = {
-  URI,
-  map: _map
-}
-
-/**
- * @since 1.14.0
- */
-const getFunctorWithIndex = <K>(): FunctorWithIndex2C<URI, K, K> => {
-  return {
-    _L: undefined as any,
-    ...functor,
-    mapWithIndex: mapWithIndex
+  const traverse = <F>(F: Applicative<F>): (<K, A, B>(ta: Map<K, A>, f: (a: A) => HKT<F, B>) => HKT<F, Map<K, B>>) => {
+    const traverseWithIndexF = traverseWithIndex(F)
+    return (ta, f) => traverseWithIndexF(ta, (_, a) => f(a))
   }
-}
 
-/**
- * @since 1.14.0
- */
-const getFoldable = <K>(O: Ord<K>): Foldable2v2C<URI, K> => {
-  return {
-    URI,
-    _L: undefined as any,
-    reduce: reduce(O),
-    foldMap: foldMap(O),
-    foldr: foldr(O)
+  const sequence = <F>(F: Applicative<F>): (<K, A>(ta: Map<K, HKT<F, A>>) => HKT<F, Map<K, A>>) => {
+    const traverseWithIndexF = traverseWithIndex(F)
+    return ta => traverseWithIndexF(ta, (_, a) => a)
   }
-}
 
-/**
- * @since 1.14.0
- */
-const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K> => {
   return {
-    ...getFoldable(O),
-    reduceWithIndex: reduceWithIndex(O),
-    foldMapWithIndex: foldMapWithIndex(O),
-    foldrWithIndex: foldrWithIndex(O)
-  }
-}
-
-/**
- * @since 1.14.0
- */
-const filterable: Filterable2<URI> = {
-  ...compactable,
-  ...functor,
-  filter,
-  filterMap,
-  partition,
-  partitionMap
-}
-
-/**
- * @since 1.14.0
- */
-export const getFilterableWithIndex = <K>(): FilterableWithIndex2C<URI, K, K> => {
-  return {
-    ...filterable,
-    ...getFunctorWithIndex<K>(),
-    partitionMapWithIndex,
-    partitionWithIndex,
-    filterMapWithIndex,
-    filterWithIndex
-  }
-}
-
-/**
- * @since 1.14.0
- */
-const getTraversable = <K>(O: Ord<K>): Traversable2v2C<URI, K> => {
-  return {
-    _L: undefined as any,
-    ...getFoldable(O),
-    ...functor,
+    ...map_,
+    _E: undefined as any,
+    reduce: (fa, b, f) => reduceWithIndex(fa, b, (_, b, a) => f(b, a)),
+    foldMap: M => {
+      const foldMapWithIndexM = foldMapWithIndex(M)
+      return (fa, f) => foldMapWithIndexM(fa, (_, a) => f(a))
+    },
+    reduceRight: (fa, b, f) => reduceRightWithIndex(fa, b, (_, a, b) => f(a, b)),
     traverse,
-    sequence
+    sequence,
+    mapWithIndex: _mapWithIndex,
+    reduceWithIndex,
+    foldMapWithIndex,
+    reduceRightWithIndex,
+    traverseWithIndex,
+    wilt: <F>(
+      F: Applicative<F>
+    ): (<K, A, B, C>(wa: Map<K, A>, f: (a: A) => HKT<F, Either<B, C>>) => HKT<F, Separated<Map<K, B>, Map<K, C>>>) => {
+      const traverseF = traverse(F)
+      return (wa, f) => F.map(traverseF(wa, f), map_.separate)
+    },
+    wither: <F>(F: Applicative<F>): (<K, A, B>(wa: Map<K, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Map<K, B>>) => {
+      const traverseF = traverse(F)
+      return (wa, f) => F.map(traverseF(wa, f), map_.compact)
+    }
   }
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
-export const getWitherable = <K>(O: Ord<K>): Witherable2C<URI, K> => {
-  return {
-    ...filterable,
-    ...getTraversable(O),
-    wilt,
-    wither
-  }
-}
-
-/**
- * @since 1.14.0
- */
-export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<URI, K, K> => {
-  return {
-    ...getFunctorWithIndex<K>(),
-    ...getFoldableWithIndex(O),
-    ...getTraversable(O),
-    traverseWithIndex
-  }
-}
-
-/**
- * @since 1.14.0
- */
-export const map: Filterable2<URI> = {
+export const map_: Filterable2<URI> = {
   URI,
-  ...compactable,
-  ...functor,
-  ...filterable
-}
-
-//
-// backporting
-//
-
-/**
- * Insert or replace a key/value pair in a map
- *
- * @since 1.19.0
- */
-export function insertAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A> {
-  // tslint:disable-next-line: deprecation
-  const insertE = insert(E)
-  return (k, a) => m => insertE(k, a, m)
-}
-
-/**
- * Delete a key and value from a map
- *
- * @since 1.19.0
- */
-export function deleteAt<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Map<K, A> {
-  // tslint:disable-next-line: deprecation
-  const removeE = remove(E)
-  return k => m => removeE(k, m)
-}
-
-/**
- * @since 1.19.0
- */
-export function updateAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: Map<K, A>) => Option<Map<K, A>> {
-  const lookupWithKeyE = lookupWithKey(E)
-  return (k, a) => m => {
-    const found = lookupWithKeyE(k, m)
-    if (isNone(found)) {
-      return none
+  map: (fa, f) => _mapWithIndex(fa, (_, a) => f(a)),
+  compact: <K, A>(fa: Map<K, Option<A>>): Map<K, A> => {
+    const m = new Map<K, A>()
+    const entries = fa.entries()
+    let e: IteratorResult<[K, Option<A>]>
+    while (!(e = entries.next()).done) {
+      const [k, oa] = e.value
+      if (isSome(oa)) {
+        m.set(k, oa.value)
+      }
     }
-    const r = new Map(m)
-    r.set(found.value[0], a)
-    return some(r)
-  }
+    return m
+  },
+  separate: <K, A, B>(fa: Map<K, Either<A, B>>): Separated<Map<K, A>, Map<K, B>> => {
+    const left = new Map<K, A>()
+    const right = new Map<K, B>()
+    const entries = fa.entries()
+    let e: IteratorResult<[K, Either<A, B>]>
+    while (!(e = entries.next()).done) {
+      const [k, ei] = e.value
+      if (isLeft(ei)) {
+        left.set(k, ei.left)
+      } else {
+        right.set(k, ei.right)
+      }
+    }
+    return {
+      left,
+      right
+    }
+  },
+  filter: <K, A>(fa: Map<K, A>, p: Predicate<A>): Map<K, A> => _filterWithIndex(fa, (_, a) => p(a)),
+  filterMap: (fa, f) => _filterMapWithIndex(fa, (_, a) => f(a)),
+  partition: <K, A>(fa: Map<K, A>, predicate: Predicate<A>): Separated<Map<K, A>, Map<K, A>> =>
+    _partitionWithIndex(fa, (_, a) => predicate(a)),
+  partitionMap: (fa, f) => _partitionMapWithIndex(fa, (_, a) => f(a))
 }
 
-/**
- * @since 1.19.0
- */
-export function modifyAt<K>(E: Eq<K>): <A>(k: K, f: (a: A) => A) => (m: Map<K, A>) => Option<Map<K, A>> {
-  const lookupWithKeyE = lookupWithKey(E)
-  return (k, f) => m => {
-    const found = lookupWithKeyE(k, m)
-    if (isNone(found)) {
-      return none
-    }
-    const r = new Map(m)
-    r.set(found.value[0], f(found.value[1]))
-    return some(r)
-  }
-}
+const { filter, filterMap, map, partition, partitionMap, compact, separate } = pipeable(map_)
+
+export { filter, filterMap, map, partition, partitionMap, compact, separate }

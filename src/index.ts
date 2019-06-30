@@ -46,10 +46,6 @@ import * as either from './Either'
 export { either }
 import * as eitherT from './EitherT'
 export { eitherT }
-import * as eq from './Eq'
-export { eq }
-import * as exception from './Exception'
-export { exception }
 import * as extend from './Extend'
 export { extend }
 import * as field from './Field'
@@ -60,14 +56,8 @@ import * as filterableWithIndex from './FilterableWithIndex'
 export { filterableWithIndex }
 import * as foldable from './Foldable'
 export { foldable }
-import * as foldable2v from './Foldable2v'
-export { foldable2v }
 import * as foldableWithIndex from './FoldableWithIndex'
 export { foldableWithIndex }
-import * as free from './Free'
-export { free }
-import * as freeGroup from './FreeGroup'
-export { freeGroup }
 import * as function_ from './function'
 export { function_ as function }
 import * as functor from './Functor'
@@ -90,10 +80,6 @@ import * as ioEither from './IOEither'
 export { ioEither }
 import * as ioRef from './IORef'
 export { ioRef }
-import * as ixIO from './IxIO'
-export { ixIO }
-import * as ixMonad from './IxMonad'
-export { ixMonad }
 import * as joinSemilattice from './JoinSemilattice'
 export { joinSemilattice }
 import * as lattice from './Lattice'
@@ -114,12 +100,8 @@ import * as monadThrow from './MonadThrow'
 export { monadThrow }
 import * as monoid from './Monoid'
 export { monoid }
-import * as monoidal from './Monoidal'
-export { monoidal }
 import * as nonEmptyArray from './NonEmptyArray'
 export { nonEmptyArray }
-import * as nonEmptyArray2v from './NonEmptyArray2v'
-export { nonEmptyArray2v }
 import * as option from './Option'
 export { option }
 import * as optionT from './OptionT'
@@ -128,18 +110,16 @@ import * as ord from './Ord'
 export { ord }
 import * as ordering from './Ordering'
 export { ordering }
-import * as pair from './Pair'
-export { pair }
 import * as pipeable from './pipeable'
 export { pipeable }
-import * as plus from './Plus'
-export { plus }
 import * as profunctor from './Profunctor'
 export { profunctor }
 import * as random from './Random'
 export { random }
 import * as reader from './Reader'
 export { reader }
+import * as readerEither from './ReaderEither'
+export { readerEither }
 import * as readerT from './ReaderT'
 export { readerT }
 import * as readerTaskEither from './ReaderTaskEither'
@@ -156,18 +136,18 @@ import * as semiring from './Semiring'
 export { semiring }
 import * as set from './Set'
 export { set }
-import * as setoid from './Setoid'
-export { setoid }
+import * as eq from './Eq'
+export { eq }
 import * as show from './Show'
 export { show }
 import * as state from './State'
 export { state }
+import * as stateReaderTaskEither from './StateReaderTaskEither'
+export { stateReaderTaskEither }
 import * as stateT from './StateT'
 export { stateT }
 import * as store from './Store'
 export { store }
-import * as strmap from './StrMap'
-export { strmap }
 import * as strong from './Strong'
 export { strong }
 import * as task from './Task'
@@ -176,14 +156,10 @@ import * as taskEither from './TaskEither'
 export { taskEither }
 import * as these from './These'
 export { these }
-import * as trace from './Trace'
-export { trace }
 import * as traced from './Traced'
 export { traced }
 import * as traversable from './Traversable'
 export { traversable }
-import * as traversable2v from './Traversable2v'
-export { traversable2v }
 import * as traversableWithIndex from './TraversableWithIndex'
 export { traversableWithIndex }
 import * as tree from './Tree'
@@ -192,13 +168,11 @@ import * as tuple from './Tuple'
 export { tuple }
 import * as unfoldable from './Unfoldable'
 export { unfoldable }
-import * as validation from './Validation'
-export { validation }
+import * as validationT from './ValidationT'
+export { validationT }
 import * as writer from './Writer'
 export { writer }
 import * as compactable from './Compactable'
 export { compactable }
 import * as witherable from './Witherable'
 export { witherable }
-import * as zipper from './Zipper'
-export { zipper }

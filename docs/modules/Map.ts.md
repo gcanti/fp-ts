@@ -1,6 +1,6 @@
 ---
 title: Map.ts
-nav_order: 54
+nav_order: 48
 parent: Modules
 ---
 
@@ -11,8 +11,7 @@ parent: Modules
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
 - [empty (constant)](#empty-constant)
-- [~~getSetoid~~ (constant)](#getsetoid-constant)
-- [map (constant)](#map-constant)
+- [map\_ (constant)](#map_-constant)
 - [collect (function)](#collect-function)
 - [deleteAt (function)](#deleteat-function)
 - [elem (function)](#elem-function)
@@ -21,9 +20,7 @@ parent: Modules
 - [getFilterableWithIndex (function)](#getfilterablewithindex-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getShow (function)](#getshow-function)
-- [getTraversableWithIndex (function)](#gettraversablewithindex-function)
 - [getWitherable (function)](#getwitherable-function)
-- [~~insert~~ (function)](#insert-function)
 - [insertAt (function)](#insertat-function)
 - [isEmpty (function)](#isempty-function)
 - [isSubmap (function)](#issubmap-function)
@@ -33,7 +30,6 @@ parent: Modules
 - [member (function)](#member-function)
 - [modifyAt (function)](#modifyat-function)
 - [pop (function)](#pop-function)
-- [~~remove~~ (function)](#remove-function)
 - [singleton (function)](#singleton-function)
 - [size (function)](#size-function)
 - [toArray (function)](#toarray-function)
@@ -51,6 +47,8 @@ parent: Modules
 export type URI = typeof URI
 ```
 
+Added in v2.0.0
+
 # URI (constant)
 
 **Signature**
@@ -58,6 +56,8 @@ export type URI = typeof URI
 ```ts
 export const URI = ...
 ```
+
+Added in v2.0.0
 
 # empty (constant)
 
@@ -67,39 +67,27 @@ export const URI = ...
 export const empty = ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
-# ~~getSetoid~~ (constant)
-
-Use `getEq`
+# map\_ (constant)
 
 **Signature**
 
 ```ts
-export const getSetoid: <K, A>(EK: Eq<K>, EA: Eq<A>) => Eq<Map<K, A>> = ...
+export const map_: Filterable2<URI> = ...
 ```
 
-Added in v1.14.0
-
-# map (constant)
-
-**Signature**
-
-```ts
-export const map: Filterable2<URI> = ...
-```
-
-Added in v1.14.0
+Added in v2.0.0
 
 # collect (function)
 
 **Signature**
 
 ```ts
-export const collect = <K>(O: Ord<K>): (<A, B>(m: Map<K, A>, f: (k: K, a: A) => B) => Array<B>) => ...
+export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: Map<K, A>) => Array<B> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # deleteAt (function)
 
@@ -111,7 +99,7 @@ Delete a key and value from a map
 export function deleteAt<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Map<K, A> { ... }
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # elem (function)
 
@@ -120,58 +108,58 @@ Test whether or not a value is a member of a map
 **Signature**
 
 ```ts
-export const elem = <A>(E: Eq<A>) => <K>(a: A, m: Map<K, A>): boolean => ...
+export function elem<A>(E: Eq<A>): <K>(a: A, m: Map<K, A>) => boolean { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # fromFoldable (function)
 
 Create a map from a foldable collection of key/value pairs, using the
-specified function to combine values for duplicate keys.
+specified `Magma` to combine values for duplicate keys.
 
 **Signature**
 
 ```ts
-export function fromFoldable<K, F extends URIS3>(
+export function fromFoldable<F extends URIS3, K, A>(
   E: Eq<K>,
-  F: Foldable2v3<F>
-): <U, L, A>(ta: Kind3<F, U, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<K, F extends URIS2>(
+  M: Magma<A>,
+  F: Foldable3<F>
+): <R, E>(fka: Kind3<F, R, E, [K, A]>) => Map<K, A>
+export function fromFoldable<F extends URIS2, K, A>(
   E: Eq<K>,
-  F: Foldable2v2<F>
-): <L, A>(ta: Kind2<F, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<K, F extends URIS>(
+  M: Magma<A>,
+  F: Foldable2<F>
+): <E>(fka: Kind2<F, E, [K, A]>) => Map<K, A>
+export function fromFoldable<F extends URIS, K, A>(
   E: Eq<K>,
-  F: Foldable2v1<F>
-): <A>(ta: Kind<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<K, F>(
-  E: Eq<K>,
-  F: Foldable2v<F>
-): <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A> { ... }
+  M: Magma<A>,
+  F: Foldable1<F>
+): (fka: Kind<F, [K, A]>) => Map<K, A>
+export function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable<F>): (fka: HKT<F, [K, A]>) => Map<K, A> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # getEq (function)
 
 **Signature**
 
 ```ts
-export function getEq<K, A>(EK: Eq<K>, EA: Eq<A>): Eq<Map<K, A>> { ... }
+export function getEq<K, A>(SK: Eq<K>, SA: Eq<A>): Eq<Map<K, A>> { ... }
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # getFilterableWithIndex (function)
 
 **Signature**
 
 ```ts
-export const getFilterableWithIndex = <K>(): FilterableWithIndex2C<URI, K, K> => ...
+export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, K, K> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # getMonoid (function)
 
@@ -180,52 +168,30 @@ Gets `Monoid` instance for Maps given `Semigroup` instance for their values
 **Signature**
 
 ```ts
-export const getMonoid = <K, A>(EK: Eq<K>, EA: Semigroup<A>): Monoid<Map<K, A>> => ...
+export function getMonoid<K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<Map<K, A>> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # getShow (function)
 
 **Signature**
 
 ```ts
-export const getShow = <K, A>(SK: Show<K>, SA: Show<A>): Show<Map<K, A>> => ...
+export function getShow<K, A>(SK: Show<K>, SA: Show<A>): Show<Map<K, A>> { ... }
 ```
 
-Added in v1.17.0
-
-# getTraversableWithIndex (function)
-
-**Signature**
-
-```ts
-export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<URI, K, K> => ...
-```
-
-Added in v1.14.0
+Added in v2.0.0
 
 # getWitherable (function)
 
 **Signature**
 
 ```ts
-export const getWitherable = <K>(O: Ord<K>): Witherable2C<URI, K> => ...
+export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableWithIndex2C<URI, K, K> { ... }
 ```
 
-Added in v1.14.0
-
-# ~~insert~~ (function)
-
-Use `insertAt`
-
-**Signature**
-
-```ts
-export const insert = <K>(E: Eq<K>): (<A>(k: K, a: A, m: Map<K, A>) => Map<K, A>) => ...
-```
-
-Added in v1.14.0
+Added in v2.0.0
 
 # insertAt (function)
 
@@ -237,7 +203,7 @@ Insert or replace a key/value pair in a map
 export function insertAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A> { ... }
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # isEmpty (function)
 
@@ -246,10 +212,10 @@ Test whether or not a map is empty
 **Signature**
 
 ```ts
-export const isEmpty = <K, A>(d: Map<K, A>): boolean => ...
+export function isEmpty<K, A>(d: Map<K, A>): boolean { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # isSubmap (function)
 
@@ -258,10 +224,10 @@ Test whether or not one Map contains all of the keys and values contained in ano
 **Signature**
 
 ```ts
-export const isSubmap = <K, A>(EK: Eq<K>, EA: Eq<A>): ((d1: Map<K, A>, d2: Map<K, A>) => boolean) => ...
+export function isSubmap<K, A>(SK: Eq<K>, SA: Eq<A>): (d1: Map<K, A>, d2: Map<K, A>) => boolean { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # keys (function)
 
@@ -270,10 +236,10 @@ Get a sorted array of the keys contained in a map
 **Signature**
 
 ```ts
-export const keys = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<K>) => m => ...
+export function keys<K>(O: Ord<K>): <A>(m: Map<K, A>) => Array<K> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # lookup (function)
 
@@ -282,10 +248,10 @@ Lookup the value for a key in a `Map`.
 **Signature**
 
 ```ts
-export const lookup = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => Option<A>) => ...
+export function lookup<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Option<A> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # lookupWithKey (function)
 
@@ -295,10 +261,10 @@ If the result is a `Some`, the existing key is also returned.
 **Signature**
 
 ```ts
-export const lookupWithKey = <K>(E: Eq<K>) => <A>(k: K, m: Map<K, A>): Option<[K, A]> => ...
+export function lookupWithKey<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Option<[K, A]> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # member (function)
 
@@ -307,10 +273,10 @@ Test whether or not a key exists in a map
 **Signature**
 
 ```ts
-export const member = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => boolean) => ...
+export function member<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => boolean { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # modifyAt (function)
 
@@ -320,7 +286,7 @@ Added in v1.14.0
 export function modifyAt<K>(E: Eq<K>): <A>(k: K, f: (a: A) => A) => (m: Map<K, A>) => Option<Map<K, A>> { ... }
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # pop (function)
 
@@ -329,22 +295,10 @@ Delete a key and value from a map, returning the value as well as the subsequent
 **Signature**
 
 ```ts
-export const pop = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => Option<[A, Map<K, A>]>) => ...
+export function pop<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Option<[A, Map<K, A>]> { ... }
 ```
 
-Added in v1.14.0
-
-# ~~remove~~ (function)
-
-Use `deleteAt`
-
-**Signature**
-
-```ts
-export const remove = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) => ...
-```
-
-Added in v1.14.0
+Added in v2.0.0
 
 # singleton (function)
 
@@ -353,10 +307,10 @@ Create a map with one key/value pair
 **Signature**
 
 ```ts
-export const singleton = <K, A>(k: K, a: A): Map<K, A> => ...
+export function singleton<K, A>(k: K, a: A): Map<K, A> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # size (function)
 
@@ -365,10 +319,10 @@ Calculate the number of key/value pairs in a map
 **Signature**
 
 ```ts
-export const size = <K, A>(d: Map<K, A>): number => ...
+export function size<K, A>(d: Map<K, A>): number { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # toArray (function)
 
@@ -377,10 +331,10 @@ Get a sorted of the key/value pairs contained in a map
 **Signature**
 
 ```ts
-export const toArray = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<[K, A]>) => ...
+export function toArray<K>(O: Ord<K>): <A>(m: Map<K, A>) => Array<[K, A]> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # toUnfoldable (function)
 
@@ -389,14 +343,11 @@ Unfolds a map into a list of key/value pairs
 **Signature**
 
 ```ts
-export function toUnfoldable<K, F extends URIS>(
-  O: Ord<K>,
-  unfoldable: Unfoldable1<F>
-): <A>(d: Map<K, A>) => Kind<F, [K, A]>
-export function toUnfoldable<K, F>(O: Ord<K>, unfoldable: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]> { ... }
+export function toUnfoldable<K, F extends URIS>(O: Ord<K>, U: Unfoldable1<F>): <A>(d: Map<K, A>) => Kind<F, [K, A]>
+export function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # updateAt (function)
 
@@ -406,7 +357,7 @@ Added in v1.14.0
 export function updateAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: Map<K, A>) => Option<Map<K, A>> { ... }
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # values (function)
 
@@ -415,7 +366,7 @@ Get a sorted array of the values contained in a map
 **Signature**
 
 ```ts
-export const values = <A>(O: Ord<A>): (<K>(m: Map<K, A>) => Array<A>) => m => ...
+export function values<A>(O: Ord<A>): <K>(m: Map<K, A>) => Array<A> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
