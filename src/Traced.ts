@@ -1,92 +1,96 @@
 import { Comonad2C } from './Comonad'
 import { Monoid } from './Monoid'
 import { Functor2 } from './Functor'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
-  interface URItoKind2<L, A> {
-    Traced: Traced<L, A>
+  interface URItoKind2<E, A> {
+    Traced: Traced<E, A>
   }
 }
 
+/**
+ * @since 2.0.0
+ */
 export const URI = 'Traced'
 
+/**
+ * @since 2.0.0
+ */
 export type URI = typeof URI
 
 /**
- * @since 1.16.0
+ * @since 2.0.0
  */
-export class Traced<P, A> {
-  readonly _A!: A
-  readonly _L!: P
-  readonly _URI!: URI
-  constructor(readonly run: (p: P) => A) {}
-  /** @obsolete */
-  map<B>(f: (a: A) => B): Traced<P, B> {
-    return new Traced((p: P) => f(this.run(p)))
-  }
+export interface Traced<P, A> {
+  (p: P): A
 }
 
 /**
  * Extracts a value at a relative position which depends on the current value.
- * @since 1.16.0
+ *
+ * @since 2.0.0
  */
-export const tracks = <P, A>(M: Monoid<P>, f: (a: A) => P) => (wa: Traced<P, A>): A => {
-  return wa.run(f(wa.run(M.empty)))
+export function tracks<P, A>(M: Monoid<P>, f: (a: A) => P): (wa: Traced<P, A>) => A {
+  return wa => wa(f(wa(M.empty)))
 }
 
 /**
  * Get the current position
- * @since 1.16.0
+ *
+ * @since 2.0.0
  */
-export const listen = <P, A>(wa: Traced<P, A>): Traced<P, [A, P]> => {
-  return new Traced(e => [wa.run(e), e])
+export function listen<P, A>(wa: Traced<P, A>): Traced<P, [A, P]> {
+  return e => [wa(e), e]
 }
 
 /**
  * Get a value which depends on the current position
- * @since 1.16.0
+ *
+ * @since 2.0.0
  */
-export const listens = <P, A, B>(wa: Traced<P, A>, f: (p: P) => B): Traced<P, [A, B]> => {
-  return new Traced(e => [wa.run(e), f(e)])
+export function listens<P, B>(f: (p: P) => B): <A>(wa: Traced<P, A>) => Traced<P, [A, B]> {
+  return wa => e => [wa(e), f(e)]
 }
 
 /**
  * Apply a function to the current position
- * @since 1.16.0
+ *
+ * @since 2.0.0
  */
-export const censor = <P, A>(wa: Traced<P, A>, f: (p: P) => P): Traced<P, A> => {
-  return new Traced(e => wa.run(f(e)))
+export function censor<P>(f: (p: P) => P): <A>(wa: Traced<P, A>) => Traced<P, A> {
+  return wa => e => wa(f(e))
 }
 
 /**
- * @since 1.16.0
+ * @since 2.0.0
  */
 export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
   function extend<A, B>(wa: Traced<P, A>, f: (wa: Traced<P, A>) => B): Traced<P, B> {
-    return new Traced((p1: P) => f(new Traced((p2: P) => wa.run(monoid.concat(p1, p2)))))
+    return p1 => f(p2 => wa(monoid.concat(p1, p2)))
   }
 
   function extract<A>(wa: Traced<P, A>): A {
-    return wa.run(monoid.empty)
+    return wa(monoid.empty)
   }
 
   return {
     URI,
-    _L: undefined as any,
-    map,
+    _E: undefined as any,
+    map: traced.map,
     extend,
     extract
   }
 }
 
-function map<P, A, B>(wa: Traced<P, A>, f: (a: A) => B): Traced<P, B> {
-  return wa.map(f)
-}
-
 /**
- * @since 1.16.0
+ * @since 2.0.0
  */
 export const traced: Functor2<URI> = {
   URI,
-  map
+  map: (wa, f) => p => f(wa(p))
 }
+
+const { map } = pipeable(traced)
+
+export { map }

@@ -5,42 +5,39 @@ import { IO } from './IO'
 
 /**
  * @example
+ * import { io } from 'fp-ts/lib/IO'
  * import { newIORef } from 'fp-ts/lib/IORef'
  *
- * assert.strictEqual(
- *   newIORef(1)
- *     .chain(ref => ref.write(2).chain(() => ref.read))
- *     .run(),
- *   2
- * )
- * @since 1.8.0
+ * assert.strictEqual(io.chain(newIORef(1), ref => io.chain(ref.write(2), () => ref.read))(), 2)
+ *
+ * @since 2.0.0
  */
 export class IORef<A> {
   read: IO<A>
   constructor(private value: A) {
-    this.read = new IO(() => this.value)
+    this.read = () => this.value
   }
   /**
-   * @since 1.8.0
+   * @since 2.0.0
    */
   write(a: A): IO<void> {
-    return new IO(() => {
+    return () => {
       this.value = a
-    })
+    }
   }
   /**
-   * @since 1.8.0
+   * @since 2.0.0
    */
   modify(f: (a: A) => A): IO<void> {
-    return new IO(() => {
+    return () => {
       this.value = f(this.value)
-    })
+    }
   }
 }
 
 /**
- * @since 1.8.0
+ * @since 2.0.0
  */
-export const newIORef = <A>(a: A): IO<IORef<A>> => {
-  return new IO(() => new IORef(a))
+export function newIORef<A>(a: A): IO<IORef<A>> {
+  return () => new IORef(a)
 }

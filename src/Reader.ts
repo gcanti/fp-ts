@@ -1,136 +1,107 @@
 import { Category2 } from './Category'
-import { identity } from './function'
-import { Monad2 } from './Monad'
-import { Profunctor2 } from './Profunctor'
-import { Strong2 } from './Strong'
 import { Choice2 } from './Choice'
-import { Either, left as eitherLeft, right as eitherRight } from './Either'
-import { Semigroup } from './Semigroup'
+import * as E from './Either'
+import { identity as id } from './function'
+import { identity } from './Identity'
+import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
+import { Profunctor2 } from './Profunctor'
+import { getReaderM } from './ReaderT'
+import { Semigroup } from './Semigroup'
+import { Strong2 } from './Strong'
 import { pipeable } from './pipeable'
 
+const T = getReaderM(identity)
+
 declare module './HKT' {
-  interface URItoKind2<L, A> {
-    Reader: Reader<L, A>
+  interface URItoKind2<E, A> {
+    Reader: Reader<E, A>
   }
 }
 
+/**
+ * @since 2.0.0
+ */
 export const URI = 'Reader'
 
+/**
+ * @since 2.0.0
+ */
 export type URI = typeof URI
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
-export class Reader<E, A> {
-  readonly _A!: A
-  readonly _L!: E
-  readonly _URI!: URI
-  constructor(readonly run: (e: E) => A) {}
-  /** @obsolete */
-  map<B>(f: (a: A) => B): Reader<E, B> {
-    return new Reader((e: E) => f(this.run(e)))
-  }
-  /** @obsolete */
-  ap<B>(fab: Reader<E, (a: A) => B>): Reader<E, B> {
-    return new Reader((e: E) => fab.run(e)(this.run(e)))
-  }
-  /**
-   * Flipped version of `ap`
-   * @obsolete
-   */
-  ap_<B, C>(this: Reader<E, (b: B) => C>, fb: Reader<E, B>): Reader<E, C> {
-    return fb.ap(this)
-  }
-  /** @obsolete */
-  chain<B>(f: (a: A) => Reader<E, B>): Reader<E, B> {
-    return new Reader((e: E) => f(this.run(e)).run(e))
-  }
-  /**
-   * @since 1.6.1
-   * @obsolete
-   */
-  local<E2 = E>(f: (e: E2) => E): Reader<E2, A> {
-    return new Reader(e => this.run(f(e)))
-  }
+export interface Reader<R, A> {
+  (r: R): A
 }
 
 /**
- * reads the current context
+ * Reads the current context
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
-export const ask = <E>(): Reader<E, E> => {
-  return new Reader(identity)
-}
+export const ask: <R>() => Reader<R, R> = T.ask
 
 /**
  * Projects a value from the global context in a Reader
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
-export const asks = <E, A>(f: (e: E) => A): Reader<E, A> => {
-  return new Reader(f)
-}
+export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = T.asks
 
 /**
- * changes the value of the local context during the execution of the action `fa`
+ * changes the value of the local context during the execution of the action `ma`
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
-export const local = <E, E2 = E>(f: (e: E2) => E) => <A>(fa: Reader<E, A>): Reader<E2, A> => {
-  return fa.local(f)
+export function local<Q, R>(f: (d: Q) => R): <A>(ma: Reader<R, A>) => Reader<Q, A> {
+  return ma => T.local(ma, f)
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
-export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<Reader<E, A>> => {
+export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R, A>> {
   return {
-    concat: (x, y) => new Reader(e => S.concat(x.run(e), y.run(e)))
+    concat: (x, y) => e => S.concat(x(e), y(e))
   }
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
-export const getMonoid = <E, A>(M: Monoid<A>): Monoid<Reader<E, A>> => {
+export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> {
   return {
-    ...getSemigroup(M),
-    empty: reader.of(M.empty)
+    concat: getSemigroup<R, A>(M).concat,
+    empty: () => M.empty
   }
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
+ */
+export const of: <R, A>(a: A) => Reader<R, A> = T.of
+
+/**
+ * @since 2.0.0
  */
 export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = {
   URI,
-  map: (fa, f) => fa.map(f),
-  of: a => new Reader(() => a),
-  ap: (fab, fa) => fa.ap(fab),
-  chain: (fa, f) => fa.chain(f),
-  promap: (fbc, f, g) => new Reader(a => g(fbc.run(f(a)))),
-  compose: (ab, la) => new Reader(l => ab.run(la.run(l))),
-  id: () => new Reader(identity),
-  first: pab => new Reader(([a, c]) => [pab.run(a), c]),
-  second: pbc => new Reader(([a, b]) => [a, pbc.run(b)]),
-  left: <A, B, C>(pab: Reader<A, B>): Reader<Either<A, C>, Either<B, C>> => {
-    return new Reader(e => e.fold<Either<B, C>>(a => eitherLeft(pab.run(a)), eitherRight))
-  },
-  right: <A, B, C>(pbc: Reader<B, C>): Reader<Either<A, B>, Either<A, C>> => {
-    return new Reader(e => e.fold<Either<A, C>>(eitherLeft, b => eitherRight(pbc.run(b))))
-  }
+  map: (ma, f) => e => f(ma(e)),
+  of,
+  ap: T.ap,
+  chain: T.chain,
+  promap: (mbc, f, g) => a => g(mbc(f(a))),
+  compose: (ab, la) => l => ab(la(l)),
+  id: () => id,
+  first: pab => ([a, c]) => [pab(a), c],
+  second: pbc => ([a, b]) => [a, pbc(b)],
+  left: <A, B, C>(pab: Reader<A, B>): Reader<E.Either<A, C>, E.Either<B, C>> =>
+    E.fold<A, C, E.Either<B, C>>(a => E.left(pab(a)), E.right),
+  right: <A, B, C>(pbc: Reader<B, C>): Reader<E.Either<A, B>, E.Either<A, C>> =>
+    E.fold<A, B, E.Either<A, C>>(E.left, b => E.right(pbc(b)))
 }
-
-//
-// backporting
-//
-
-/**
- * @since 1.19.0
- */
-export const of: <R, A>(a: A) => Reader<R, A> = reader.of
 
 const { ap, apFirst, apSecond, chain, chainFirst, compose, flatten, map, promap } = pipeable(reader)
 

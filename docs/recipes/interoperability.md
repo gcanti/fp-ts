@@ -50,10 +50,10 @@ function find<A>(as: Array<A>, predicate: (a: A) => boolean): Option<A> {
 </dl>
 
 ```ts
-import { Either, tryCatch2v } from 'fp-ts/lib/Either'
+import { Either, tryCatch } from 'fp-ts/lib/Either'
 
 function parse(s: string): Either<Error, unknown> {
-  return tryCatch2v(() => JSON.parse(s), reason => new Error(String(reason)))
+  return tryCatch(() => JSON.parse(s), reason => new Error(String(reason)))
 }
 ```
 
@@ -96,10 +96,10 @@ function getItem(key: string): IO<Option<string>> {
 
 ```ts
 import * as fs from 'fs'
-import { IOEither, tryCatch2v } from 'fp-ts/lib/IOEither'
+import { IOEither, tryCatch } from 'fp-ts/lib/IOEither'
 
 function readFileSync(path: string): IOEither<Error, string> {
-  return tryCatch2v(() => fs.readFileSync(path, 'utf8'), reason => new Error(String(reason)))
+  return tryCatch(() => fs.readFileSync(path, 'utf8'), reason => new Error(String(reason)))
 }
 ```
 

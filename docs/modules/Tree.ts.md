@@ -1,6 +1,6 @@
 ---
 title: Tree.ts
-nav_order: 96
+nav_order: 85
 parent: Modules
 ---
 
@@ -16,20 +16,10 @@ type Forest<A> = Array<Tree<A>>
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Tree (interface)](#tree-interface)
 - [Forest (type alias)](#forest-type-alias)
 - [URI (type alias)](#uri-type-alias)
-- [Tree (class)](#tree-class)
-  - [map (method)](#map-method)
-  - [ap (method)](#ap-method)
-  - [ap\_ (method)](#ap_-method)
-  - [chain (method)](#chain-method)
-  - [extract (method)](#extract-method)
-  - [extend (method)](#extend-method)
-  - [reduce (method)](#reduce-method)
-  - [inspect (method)](#inspect-method)
-  - [toString (method)](#tostring-method)
 - [URI (constant)](#uri-constant)
-- [~~getSetoid~~ (constant)](#getsetoid-constant)
 - [tree (constant)](#tree-constant)
 - [drawForest (function)](#drawforest-function)
 - [drawTree (function)](#drawtree-function)
@@ -44,6 +34,19 @@ type Forest<A> = Array<Tree<A>>
 
 ---
 
+# Tree (interface)
+
+**Signature**
+
+```ts
+export interface Tree<A> {
+  readonly value: A
+  readonly forest: Forest<A>
+}
+```
+
+Added in v2.0.0
+
 # Forest (type alias)
 
 **Signature**
@@ -51,6 +54,8 @@ type Forest<A> = Array<Tree<A>>
 ```ts
 export type Forest<A> = Array<Tree<A>>
 ```
+
+Added in v2.0.0
 
 # URI (type alias)
 
@@ -60,94 +65,7 @@ export type Forest<A> = Array<Tree<A>>
 export type URI = typeof URI
 ```
 
-# Tree (class)
-
-**Signature**
-
-```ts
-export class Tree<A> {
-  constructor(readonly value: A, readonly forest: Forest<A>) { ... }
-  ...
-}
-```
-
-Added in v1.6.0
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): Tree<B> { ... }
-```
-
-## ap (method)
-
-**Signature**
-
-```ts
-ap<B>(fab: Tree<(a: A) => B>): Tree<B> { ... }
-```
-
-## ap\_ (method)
-
-Flipped version of `ap`
-
-**Signature**
-
-```ts
-ap_<B, C>(this: Tree<(b: B) => C>, fb: Tree<B>): Tree<C> { ... }
-```
-
-Added in v1.6.0
-
-## chain (method)
-
-**Signature**
-
-```ts
-chain<B>(f: (a: A) => Tree<B>): Tree<B> { ... }
-```
-
-## extract (method)
-
-**Signature**
-
-```ts
-extract(): A { ... }
-```
-
-## extend (method)
-
-**Signature**
-
-```ts
-extend<B>(f: (fa: Tree<A>) => B): Tree<B> { ... }
-```
-
-## reduce (method)
-
-**Signature**
-
-```ts
-reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
-```
-
-## inspect (method)
-
-**Signature**
-
-```ts
-inspect(): string { ... }
-```
-
-## toString (method)
-
-**Signature**
-
-```ts
-toString(): string { ... }
-```
+Added in v2.0.0
 
 # URI (constant)
 
@@ -157,27 +75,17 @@ toString(): string { ... }
 export const URI = ...
 ```
 
-# ~~getSetoid~~ (constant)
-
-Use `getEq`
-
-**Signature**
-
-```ts
-export const getSetoid: <A>(E: Eq<A>) => Eq<Tree<A>> = ...
-```
-
-Added in v1.6.0
+Added in v2.0.0
 
 # tree (constant)
 
 **Signature**
 
 ```ts
-export const tree: Monad1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = ...
+export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # drawForest (function)
 
@@ -186,10 +94,10 @@ Neat 2-dimensional drawing of a forest
 **Signature**
 
 ```ts
-export const drawForest = (forest: Forest<string>): string => ...
+export function drawForest(forest: Forest<string>): string { ... }
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # drawTree (function)
 
@@ -198,15 +106,15 @@ Neat 2-dimensional drawing of a tree
 **Signature**
 
 ```ts
-export const drawTree = (tree: Tree<string>): string => ...
+export function drawTree(tree: Tree<string>): string { ... }
 ```
 
 **Example**
 
 ```ts
-import { Tree, drawTree, tree } from 'fp-ts/lib/Tree'
+import { make, drawTree, tree } from 'fp-ts/lib/Tree'
 
-const fa = new Tree('a', [tree.of('b'), tree.of('c'), new Tree('d', [tree.of('e'), tree.of('f')])])
+const fa = make('a', [tree.of('b'), tree.of('c'), make('d', [tree.of('e'), tree.of('f')])])
 
 assert.strictEqual(
   drawTree(fa),
@@ -219,7 +127,7 @@ assert.strictEqual(
 )
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # elem (function)
 
@@ -229,7 +137,7 @@ Added in v1.6.0
 export function elem<A>(E: Eq<A>): (a: A, fa: Tree<A>) => boolean { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # getEq (function)
 
@@ -239,7 +147,7 @@ Added in v1.14.0
 export function getEq<A>(E: Eq<A>): Eq<Tree<A>> { ... }
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # getShow (function)
 
@@ -249,17 +157,17 @@ Added in v1.19.0
 export function getShow<A>(S: Show<A>): Show<Tree<A>> { ... }
 ```
 
-Added in v1.17.0
+Added in v2.0.0
 
 # make (function)
 
 **Signature**
 
 ```ts
-export function make<A>(a: A, forest: Forest<A> = empty): Tree<A> { ... }
+export function make<A>(value: A, forest: Forest<A> = empty): Tree<A> { ... }
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # unfoldForest (function)
 
@@ -268,10 +176,10 @@ Build a tree from a seed value
 **Signature**
 
 ```ts
-export const unfoldForest = <A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Forest<A> => ...
+export function unfoldForest<A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Forest<A> { ... }
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # unfoldForestM (function)
 
@@ -282,16 +190,13 @@ Monadic forest builder, in depth-first order
 ```ts
 export function unfoldForestM<M extends URIS3>(
   M: Monad3<M>
-): <U, L, A, B>(bs: Array<B>, f: (b: B) => Kind3<M, U, L, [A, Array<B>]>) => Kind3<M, U, L, Forest<A>>
-export function unfoldForestM<M extends URIS3, U, L>(
-  M: Monad3C<M, U, L>
-): <A, B>(bs: Array<B>, f: (b: B) => Kind3<M, U, L, [A, Array<B>]>) => Kind3<M, U, L, Forest<A>>
+): <R, E, A, B>(bs: Array<B>, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Forest<A>>
 export function unfoldForestM<M extends URIS2>(
   M: Monad2<M>
-): <L, A, B>(bs: Array<B>, f: (b: B) => Kind2<M, L, [A, Array<B>]>) => Kind2<M, L, Forest<A>>
-export function unfoldForestM<M extends URIS2, L>(
-  M: Monad2C<M, L>
-): <A, B>(bs: Array<B>, f: (b: B) => Kind2<M, L, [A, Array<B>]>) => Kind2<M, L, Forest<A>>
+): <R, E, B>(bs: Array<B>, f: (b: B) => Kind2<M, R, [E, Array<B>]>) => Kind2<M, R, Forest<E>>
+export function unfoldForestM<M extends URIS2, E>(
+  M: Monad2C<M, E>
+): <A, B>(bs: Array<B>, f: (b: B) => Kind2<M, E, [A, Array<B>]>) => Kind2<M, E, Forest<A>>
 export function unfoldForestM<M extends URIS>(
   M: Monad1<M>
 ): <A, B>(bs: Array<B>, f: (b: B) => Kind<M, [A, Array<B>]>) => Kind<M, Forest<A>>
@@ -300,7 +205,7 @@ export function unfoldForestM<M>(
 ): <A, B>(bs: Array<B>, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Forest<A>> { ... }
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # unfoldTree (function)
 
@@ -309,10 +214,10 @@ Build a tree from a seed value
 **Signature**
 
 ```ts
-export const unfoldTree = <A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A> => ...
+export function unfoldTree<A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A> { ... }
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # unfoldTreeM (function)
 
@@ -323,20 +228,17 @@ Monadic tree builder, in depth-first order
 ```ts
 export function unfoldTreeM<M extends URIS3>(
   M: Monad3<M>
-): <U, L, A, B>(b: B, f: (b: B) => Kind3<M, U, L, [A, Array<B>]>) => Kind3<M, U, L, Tree<A>>
-export function unfoldTreeM<M extends URIS3, U, L>(
-  M: Monad3C<M, U, L>
-): <A, B>(b: B, f: (b: B) => Kind3<M, U, L, [A, Array<B>]>) => Kind3<M, U, L, Tree<A>>
+): <R, E, A, B>(b: B, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Tree<A>>
 export function unfoldTreeM<M extends URIS2>(
   M: Monad2<M>
-): <L, A, B>(b: B, f: (b: B) => Kind2<M, L, [A, Array<B>]>) => Kind2<M, L, Tree<A>>
-export function unfoldTreeM<M extends URIS2, L>(
-  M: Monad2C<M, L>
-): <A, B>(b: B, f: (b: B) => Kind2<M, L, [A, Array<B>]>) => Kind2<M, L, Tree<A>>
+): <E, A, B>(b: B, f: (b: B) => Kind2<M, E, [A, Array<B>]>) => Kind2<M, E, Tree<A>>
+export function unfoldTreeM<M extends URIS2, E>(
+  M: Monad2C<M, E>
+): <A, B>(b: B, f: (b: B) => Kind2<M, E, [A, Array<B>]>) => Kind2<M, E, Tree<A>>
 export function unfoldTreeM<M extends URIS>(
   M: Monad1<M>
 ): <A, B>(b: B, f: (b: B) => Kind<M, [A, Array<B>]>) => Kind<M, Tree<A>>
 export function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>> { ... }
 ```
 
-Added in v1.6.0
+Added in v2.0.0

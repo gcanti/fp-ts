@@ -61,7 +61,6 @@ digraph G {
   "Compactable" [URL="./modules/Compactable.ts.html"];
   "Extend" [URL="./modules/Extend.ts.html"];
   "Filterable" [URL="./modules/Filterable.ts.html"];
-  "Plus" [URL="./modules/Plus.ts.html"];
   "Profunctor" [URL="./modules/Profunctor.ts.html"];
   "Witherable" [URL="./modules/Witherable.ts.html"];
 
@@ -69,7 +68,7 @@ digraph G {
   "Alt" -> "Functor"
   "Bifunctor" -> "Functor"
   "Alternative" -> "Applicative"
-  "Alternative" -> "Plus" -> "Alt"
+  "Alternative" -> "Alt"
   "Monad" -> "Applicative" -> "Apply" -> "Functor"
   "Monad" -> "Chain" -> "Apply"
   "ChainRec" -> "Chain"

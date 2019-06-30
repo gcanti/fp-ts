@@ -25,17 +25,14 @@ A `BoundedDistributiveLattice` is a lattice that is both bounded and distributiv
 export interface BoundedDistributiveLattice<A> extends BoundedLattice<A>, DistributiveLattice<A> {}
 ```
 
-Added in v1.4.0
+Added in v2.0.0
 
 # getMinMaxBoundedDistributiveLattice (function)
 
 **Signature**
 
 ```ts
-export const getMinMaxBoundedDistributiveLattice = <A>(O: Ord<A>) => (
-  min: A,
-  max: A
-): BoundedDistributiveLattice<A> => ...
+export function getMinMaxBoundedDistributiveLattice<A>(O: Ord<A>): (min: A, max: A) => BoundedDistributiveLattice<A> { ... }
 ```
 
-Added in v1.4.0
+Added in v2.0.0

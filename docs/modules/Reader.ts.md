@@ -1,6 +1,6 @@
 ---
 title: Reader.ts
-nav_order: 72
+nav_order: 63
 parent: Modules
 ---
 
@@ -8,23 +8,30 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Reader (interface)](#reader-interface)
 - [URI (type alias)](#uri-type-alias)
-- [Reader (class)](#reader-class)
-  - [map (method)](#map-method)
-  - [ap (method)](#ap-method)
-  - [ap\_ (method)](#ap_-method)
-  - [chain (method)](#chain-method)
-  - [local (method)](#local-method)
 - [URI (constant)](#uri-constant)
+- [ask (constant)](#ask-constant)
+- [asks (constant)](#asks-constant)
 - [of (constant)](#of-constant)
 - [reader (constant)](#reader-constant)
-- [ask (function)](#ask-function)
-- [asks (function)](#asks-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [local (function)](#local-function)
 
 ---
+
+# Reader (interface)
+
+**Signature**
+
+```ts
+export interface Reader<R, A> {
+  (r: R): A
+}
+```
+
+Added in v2.0.0
 
 # URI (type alias)
 
@@ -34,62 +41,7 @@ parent: Modules
 export type URI = typeof URI
 ```
 
-# Reader (class)
-
-**Signature**
-
-```ts
-export class Reader<E, A> {
-  constructor(readonly run: (e: E) => A) { ... }
-  ...
-}
-```
-
-Added in v1.0.0
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): Reader<E, B> { ... }
-```
-
-## ap (method)
-
-**Signature**
-
-```ts
-ap<B>(fab: Reader<E, (a: A) => B>): Reader<E, B> { ... }
-```
-
-## ap\_ (method)
-
-Flipped version of `ap`
-
-**Signature**
-
-```ts
-ap_<B, C>(this: Reader<E, (b: B) => C>, fb: Reader<E, B>): Reader<E, C> { ... }
-```
-
-## chain (method)
-
-**Signature**
-
-```ts
-chain<B>(f: (a: A) => Reader<E, B>): Reader<E, B> { ... }
-```
-
-## local (method)
-
-**Signature**
-
-```ts
-local<E2 = E>(f: (e: E2) => E): Reader<E2, A> { ... }
-```
-
-Added in v1.6.1
+Added in v2.0.0
 
 # URI (constant)
 
@@ -99,6 +51,32 @@ Added in v1.6.1
 export const URI = ...
 ```
 
+Added in v2.0.0
+
+# ask (constant)
+
+Reads the current context
+
+**Signature**
+
+```ts
+export const ask: <R>() => Reader<R, R> = ...
+```
+
+Added in v2.0.0
+
+# asks (constant)
+
+Projects a value from the global context in a Reader
+
+**Signature**
+
+```ts
+export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = ...
+```
+
+Added in v2.0.0
+
 # of (constant)
 
 **Signature**
@@ -107,7 +85,7 @@ export const URI = ...
 export const of: <R, A>(a: A) => Reader<R, A> = ...
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # reader (constant)
 
@@ -117,60 +95,36 @@ Added in v1.19.0
 export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = ...
 ```
 
-Added in v1.0.0
-
-# ask (function)
-
-reads the current context
-
-**Signature**
-
-```ts
-export const ask = <E>(): Reader<E, E> => ...
-```
-
-Added in v1.0.0
-
-# asks (function)
-
-Projects a value from the global context in a Reader
-
-**Signature**
-
-```ts
-export const asks = <E, A>(f: (e: E) => A): Reader<E, A> => ...
-```
-
-Added in v1.0.0
+Added in v2.0.0
 
 # getMonoid (function)
 
 **Signature**
 
 ```ts
-export const getMonoid = <E, A>(M: Monoid<A>): Monoid<Reader<E, A>> => ...
+export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # getSemigroup (function)
 
 **Signature**
 
 ```ts
-export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<Reader<E, A>> => ...
+export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R, A>> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # local (function)
 
-changes the value of the local context during the execution of the action `fa`
+changes the value of the local context during the execution of the action `ma`
 
 **Signature**
 
 ```ts
-export const local = <E, E2 = E>(f: (e: E2) => E) => <A>(fa: Reader<E, A>): Reader<E2, A> => ...
+export function local<Q, R>(f: (d: Q) => R): <A>(ma: Reader<R, A>) => Reader<Q, A> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0

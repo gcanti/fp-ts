@@ -1,102 +1,60 @@
 import * as assert from 'assert'
-import * as option from '../src/Option'
-import * as optionT from '../src/OptionT'
+import * as O from '../src/Option'
+import { getOptionM } from '../src/OptionT'
 import { task } from '../src/Task'
 
-// tslint:disable-next-line: deprecation
-const taskOption = optionT.getOptionT(task)
-const taskOption2v = optionT.getOptionT2v(task)
-// tslint:disable-next-line: deprecation
-const none = optionT.none(task)()
+const T = getOptionM(task)
 
 describe('OptionT', () => {
   it('map', () => {
-    const greetingT = taskOption.of('welcome')
-    const excitedGreetingT = taskOption.map(greetingT, s => s + '!')
-    return excitedGreetingT.run().then(o => {
-      assert.deepStrictEqual(o, option.some('welcome!'))
+    const greetingT = T.of('welcome')
+    const excitedGreetingT = T.map(greetingT, s => s + '!')
+    return excitedGreetingT().then(o => {
+      assert.deepStrictEqual(o, O.some('welcome!'))
     })
   })
 
   it('chain', () => {
-    const to1 = taskOption.chain(a => taskOption.of(a.length), taskOption.of('foo'))
-    const to2 = taskOption.chain((a: string) => taskOption.of(a.length), none)
-    return Promise.all([to1.run(), to2.run()]).then(([o1, o2]) => {
-      assert.deepStrictEqual(o1, option.some(3))
-      assert.deepStrictEqual(o2, option.none)
+    const to1 = T.chain(T.of('foo'), a => T.of(a.length))
+    const to2 = T.chain(task.of(O.none), (a: string) => T.of(a.length))
+    return Promise.all([to1(), to2()]).then(([o1, o2]) => {
+      assert.deepStrictEqual(o1, O.some(3))
+      assert.deepStrictEqual(o2, O.none)
     })
   })
 
-  it('getOptionT2v', () => {
-    const to1 = taskOption2v.chain(taskOption2v.of('foo'), a => taskOption2v.of(a.length))
-    const to2 = taskOption2v.chain(none, (a: string) => taskOption2v.of(a.length))
-    return Promise.all([to1.run(), to2.run()]).then(([o1, o2]) => {
-      assert.deepStrictEqual(o1, option.some(3))
-      assert.deepStrictEqual(o2, option.none)
+  it('fold', async () => {
+    const f = () => task.of('none')
+    const g = (s: string) => task.of(`some${s.length}`)
+    const s1 = await T.fold(task.of(O.none), f, g)()
+    assert.strictEqual(s1, 'none')
+    const s2 = await T.fold(T.of('s'), f, g)()
+    assert.strictEqual(s2, 'some1')
+  })
+
+  it('alt', async () => {
+    const o1 = await T.alt(task.of(O.some(1)), () => task.of(O.some(2)))()
+    assert.deepStrictEqual(o1, O.some(1))
+    const o2 = await T.alt(task.of(O.none), () => task.of(O.some(2)))()
+    assert.deepStrictEqual(o2, O.some(2))
+  })
+
+  it('getOrElse', async () => {
+    const n1 = await T.getOrElse(task.of(O.some(1)), () => task.of(2))()
+    assert.strictEqual(n1, 1)
+    const n2 = await T.getOrElse(task.of(O.none), () => task.of(2))()
+    assert.strictEqual(n2, 2)
+  })
+
+  it('fromM', () => {
+    return T.fromM(task.of(1))().then(o => {
+      assert.deepStrictEqual(o, O.some(1))
     })
   })
 
-  it('fold', () => {
-    const f = 'none'
-    const g = (s: string) => `some${s.length}`
-    const p1 = optionT
-      .fold(task)(f, g, none)
-      .run()
-      .then(s => {
-        assert.strictEqual(s, 'none')
-      })
-    const p2 = optionT
-      .fold(task)(f, g, taskOption.of('s'))
-      .run()
-      .then(s => {
-        assert.strictEqual(s, 'some1')
-      })
-    return Promise.all([p1, p2])
-  })
-
-  it('getOrElse', () => {
-    const greetingT = taskOption.of('welcome')
-    // tslint:disable-next-line: deprecation
-    const getOrElse = optionT.getOrElse(task)('hello, there!')
-    const p1 = getOrElse(greetingT)
-      .run()
-      .then(s => {
-        assert.strictEqual(s, 'welcome')
-      })
-    const p2 = getOrElse(none)
-      .run()
-      .then(s => {
-        assert.strictEqual(s, 'hello, there!')
-      })
-    return Promise.all([p1, p2])
-  })
-
-  it('some', () => {
-    // tslint:disable-next-line: deprecation
-    const some = optionT.some(task)
-    return some(1)
-      .run()
-      .then(o => {
-        assert.deepStrictEqual(o, option.some(1))
-      })
-  })
-
-  it('fromOption', () => {
-    // tslint:disable-next-line: deprecation
-    const fromOption = optionT.fromOption(task)
-    return Promise.all([fromOption(option.some(1)).run(), fromOption(option.none).run()]).then(([o1, o2]) => {
-      assert.deepStrictEqual(o1, option.some(1))
-      assert.deepStrictEqual(o2, option.none)
+  it('none', () => {
+    return T.none()().then(o => {
+      assert.deepStrictEqual(o, O.none)
     })
-  })
-
-  it('liftF', () => {
-    // tslint:disable-next-line: deprecation
-    const liftF = optionT.liftF(task)
-    return liftF(task.of(1))
-      .run()
-      .then(o => {
-        assert.deepStrictEqual(o, option.some(1))
-      })
   })
 })

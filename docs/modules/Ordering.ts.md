@@ -1,6 +1,6 @@
 ---
 title: Ordering.ts
-nav_order: 66
+nav_order: 59
 parent: Modules
 ---
 
@@ -11,7 +11,6 @@ parent: Modules
 - [Ordering (type alias)](#ordering-type-alias)
 - [eqOrdering (constant)](#eqordering-constant)
 - [semigroupOrdering (constant)](#semigroupordering-constant)
-- [~~setoidOrdering~~ (constant)](#setoidordering-constant)
 - [invert (function)](#invert-function)
 - [sign (function)](#sign-function)
 
@@ -25,6 +24,8 @@ parent: Modules
 export type Ordering = -1 | 0 | 1
 ```
 
+Added in v2.0.0
+
 # eqOrdering (constant)
 
 **Signature**
@@ -33,7 +34,7 @@ export type Ordering = -1 | 0 | 1
 export const eqOrdering: Eq<Ordering> = ...
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # semigroupOrdering (constant)
 
@@ -43,36 +44,24 @@ Added in v1.19.0
 export const semigroupOrdering: Semigroup<Ordering> = ...
 ```
 
-Added in v1.0.0
-
-# ~~setoidOrdering~~ (constant)
-
-Use `eqOrdering`
-
-**Signature**
-
-```ts
-export const setoidOrdering: Eq<Ordering> = ...
-```
-
-Added in v1.0.0
+Added in v2.0.0
 
 # invert (function)
 
 **Signature**
 
 ```ts
-export const invert = (O: Ordering): Ordering => ...
+export function invert(O: Ordering): Ordering { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # sign (function)
 
 **Signature**
 
 ```ts
-export const sign = (n: number): Ordering => ...
+export function sign(n: number): Ordering { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0

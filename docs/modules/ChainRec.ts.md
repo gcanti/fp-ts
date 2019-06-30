@@ -13,7 +13,6 @@ parent: Modules
 - [ChainRec2 (interface)](#chainrec2-interface)
 - [ChainRec2C (interface)](#chainrec2c-interface)
 - [ChainRec3 (interface)](#chainrec3-interface)
-- [ChainRec3C (interface)](#chainrec3c-interface)
 - [tailRec (function)](#tailrec-function)
 
 ---
@@ -28,7 +27,7 @@ export interface ChainRec<F> extends Chain<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # ChainRec1 (interface)
 
@@ -40,25 +39,31 @@ export interface ChainRec1<F extends URIS> extends Chain1<F> {
 }
 ```
 
+Added in v2.0.0
+
 # ChainRec2 (interface)
 
 **Signature**
 
 ```ts
 export interface ChainRec2<F extends URIS2> extends Chain2<F> {
-  readonly chainRec: <L, A, B>(a: A, f: (a: A) => Kind2<F, L, Either<A, B>>) => Kind2<F, L, B>
+  readonly chainRec: <E, A, B>(a: A, f: (a: A) => Kind2<F, E, Either<A, B>>) => Kind2<F, E, B>
 }
 ```
+
+Added in v2.0.0
 
 # ChainRec2C (interface)
 
 **Signature**
 
 ```ts
-export interface ChainRec2C<F extends URIS2, L> extends Chain2C<F, L> {
-  readonly chainRec: <A, B>(a: A, f: (a: A) => Kind2<F, L, Either<A, B>>) => Kind2<F, L, B>
+export interface ChainRec2C<F extends URIS2, E> extends Chain2C<F, E> {
+  readonly chainRec: <A, B>(a: A, f: (a: A) => Kind2<F, E, Either<A, B>>) => Kind2<F, E, B>
 }
 ```
+
+Added in v2.0.0
 
 # ChainRec3 (interface)
 
@@ -66,26 +71,18 @@ export interface ChainRec2C<F extends URIS2, L> extends Chain2C<F, L> {
 
 ```ts
 export interface ChainRec3<F extends URIS3> extends Chain3<F> {
-  readonly chainRec: <U, L, A, B>(a: A, f: (a: A) => Kind3<F, U, L, Either<A, B>>) => Kind3<F, U, L, B>
+  readonly chainRec: <R, E, A, B>(a: A, f: (a: A) => Kind3<F, R, E, Either<A, B>>) => Kind3<F, R, E, B>
 }
 ```
 
-# ChainRec3C (interface)
-
-**Signature**
-
-```ts
-export interface ChainRec3C<F extends URIS3, U, L> extends Chain3C<F, U, L> {
-  readonly chainRec: <A, B>(a: A, f: (a: A) => Kind3<F, U, L, Either<A, B>>) => Kind3<F, U, L, B>
-}
-```
+Added in v2.0.0
 
 # tailRec (function)
 
 **Signature**
 
 ```ts
-export const tailRec = <A, B>(f: (a: A) => Either<A, B>, a: A): B => ...
+export function tailRec<A, B>(a: A, f: (a: A) => Either<A, B>): B { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0

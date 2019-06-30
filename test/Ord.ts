@@ -1,21 +1,19 @@
 import * as assert from 'assert'
 import { sort } from '../src/Array'
 import {
+  ord,
   between,
   clamp,
   getDualOrd,
-  getProductOrd,
   getSemigroup,
   ordDate,
   ordNumber,
   ordString,
-  fromCompare,
-  getTupleOrd,
-  ordBoolean,
   leq,
   geq,
-  contramap,
-  ord
+  fromCompare,
+  getTupleOrd,
+  ordBoolean
 } from '../src/Ord'
 
 describe('Ord', () => {
@@ -30,8 +28,7 @@ describe('Ord', () => {
     type T = [number, string]
     const tuples: Array<T> = [[2, 'c'], [1, 'b'], [2, 'a'], [1, 'c']]
     const S = getSemigroup<T>()
-    // tslint:disable-next-line: deprecation
-    const sortByFst = contramap((x: T) => x[0])(ordNumber)
+    const sortByFst = ord.contramap(ordNumber, (x: T) => x[0])
     const sortBySnd = ord.contramap(ordString, (x: T) => x[1])
     const O1 = S.concat(sortByFst, sortBySnd)
     assert.deepStrictEqual(sort(O1)(tuples), [[1, 'b'], [1, 'c'], [2, 'a'], [2, 'c']])
@@ -39,15 +36,13 @@ describe('Ord', () => {
     assert.deepStrictEqual(sort(O2)(tuples), [[2, 'a'], [1, 'b'], [1, 'c'], [2, 'c']])
   })
 
-  it('getProductOrd', () => {
-    // tslint:disable-next-line: deprecation
-    const O = getProductOrd(ordString, ordNumber)
-    assert.strictEqual(O.compare(['a', 1], ['b', 2]), -1)
-    assert.strictEqual(O.compare(['a', 1], ['a', 2]), -1)
-    assert.strictEqual(O.compare(['a', 1], ['a', 1]), 0)
+  it('ordNumber', () => {
+    assert.strictEqual(ordNumber.compare(1, 2), -1)
+    assert.strictEqual(ordNumber.compare(2, 1), 1)
+    assert.strictEqual(ordNumber.compare(2, 2), 0)
   })
 
-  it('ordNumber', () => {
+  it('ordBoolean', () => {
     assert.strictEqual(ordNumber.compare(1, 2), -1)
     assert.strictEqual(ordNumber.compare(2, 1), 1)
     assert.strictEqual(ordNumber.compare(2, 2), 0)
@@ -90,7 +85,7 @@ describe('Ord', () => {
     assert.strictEqual(leq(ordNumber)(2, 1), false)
   })
 
-  it('geq', () => {
+  it('greaterThanOrEq', () => {
     assert.strictEqual(geq(ordNumber)(0, 1), false)
     assert.strictEqual(geq(ordNumber)(1, 1), true)
     assert.strictEqual(geq(ordNumber)(2, 1), true)

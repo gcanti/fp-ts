@@ -1,6 +1,6 @@
 ---
 title: HeytingAlgebra.ts
-nav_order: 41
+nav_order: 37
 parent: Modules
 ---
 
@@ -45,4 +45,4 @@ export interface HeytingAlgebra<A> extends BoundedDistributiveLattice<A> {
 }
 ```
 
-Added in v1.4.0
+Added in v2.0.0

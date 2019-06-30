@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { getApply, getEq, const_, getApplicative, getShow, make } from '../src/Const'
+import { Const, getApply, getEq, const_, getApplicative, getShow, make } from '../src/Const'
 import { semigroupString } from '../src/Semigroup'
 import { eqNumber } from '../src/Eq'
 import { monoidString } from '../src/Monoid'
@@ -9,20 +9,13 @@ describe('Const', () => {
   it('map', () => {
     const fa = make('foo')
     const double = (n: number): number => n * 2
-    assert.strictEqual(fa.map(double), fa)
     assert.strictEqual(const_.map(fa, double), fa)
   })
 
   it('contramap', () => {
-    const fa = make<string, number>('foo')
+    const fa: Const<string, number> = make('foo')
     const double = (n: number): number => n * 2
-    assert.strictEqual(fa.contramap(double), fa)
     assert.strictEqual(const_.contramap(fa, double), fa)
-  })
-
-  it('fold', () => {
-    const fa = make('foo')
-    assert.strictEqual(fa.fold(s => s.length), 3)
   })
 
   it('getApplicative', () => {
@@ -30,14 +23,8 @@ describe('Const', () => {
     assert.deepStrictEqual(F.of(1), make(''))
   })
 
-  it('toString', () => {
-    const fa = make('foo')
-    assert.strictEqual(fa.toString(), 'make("foo")')
-    assert.strictEqual(fa.inspect(), 'make("foo")')
-  })
-
   it('getEq', () => {
-    const S = getEq<number, string>(eqNumber)
+    const S = getEq(eqNumber)
     assert.strictEqual(S.equals(make(1), make(1)), true)
     assert.strictEqual(S.equals(make(1), make(2)), false)
   })
@@ -50,6 +37,7 @@ describe('Const', () => {
 
   it('getShow', () => {
     const S = getShow(showString)
-    assert.strictEqual(S.show(make('a')), `make("a")`)
+    const x: Const<string, number> = make('a')
+    assert.strictEqual(S.show(x), `make("a")`)
   })
 })

@@ -1,6 +1,6 @@
 ---
 title: Task.ts
-nav_order: 88
+nav_order: 79
 parent: Modules
 ---
 
@@ -13,30 +13,32 @@ If you want to represent an asynchronous computation that may fail, please see `
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Task (interface)](#task-interface)
 - [URI (type alias)](#uri-type-alias)
-- [Task (class)](#task-class)
-  - [map (method)](#map-method)
-  - [ap (method)](#ap-method)
-  - [ap\_ (method)](#ap_-method)
-  - [applyFirst (method)](#applyfirst-method)
-  - [applySecond (method)](#applysecond-method)
-  - [chain (method)](#chain-method)
-  - [inspect (method)](#inspect-method)
-  - [toString (method)](#tostring-method)
 - [URI (constant)](#uri-constant)
-- [never (constant)](#never-constant)
 - [task (constant)](#task-constant)
 - [taskSeq (constant)](#taskseq-constant)
-- [~~delay~~ (function)](#delay-function)
-- [delay2v (function)](#delay2v-function)
+- [delay (function)](#delay-function)
 - [fromIO (function)](#fromio-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getRaceMonoid (function)](#getracemonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
+- [never (function)](#never-function)
 - [of (function)](#of-function)
-- [tryCatch (function)](#trycatch-function)
 
 ---
+
+# Task (interface)
+
+**Signature**
+
+```ts
+export interface Task<A> {
+  (): Promise<A>
+}
+```
+
+Added in v2.0.0
 
 # URI (type alias)
 
@@ -46,92 +48,7 @@ If you want to represent an asynchronous computation that may fail, please see `
 export type URI = typeof URI
 ```
 
-# Task (class)
-
-**Signature**
-
-```ts
-export class Task<A> {
-  constructor(readonly run: Lazy<Promise<A>>) { ... }
-  ...
-}
-```
-
-Added in v1.0.0
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): Task<B> { ... }
-```
-
-## ap (method)
-
-**Signature**
-
-```ts
-ap<B>(fab: Task<(a: A) => B>): Task<B> { ... }
-```
-
-## ap\_ (method)
-
-Flipped version of `ap`
-
-**Signature**
-
-```ts
-ap_<B, C>(this: Task<(b: B) => C>, fb: Task<B>): Task<C> { ... }
-```
-
-## applyFirst (method)
-
-Combine two effectful actions, keeping only the result of the first
-
-**Signature**
-
-```ts
-applyFirst<B>(fb: Task<B>): Task<A> { ... }
-```
-
-Added in v1.6.0
-
-## applySecond (method)
-
-Combine two effectful actions, keeping only the result of the second
-
-**Signature**
-
-```ts
-applySecond<B>(fb: Task<B>): Task<B> { ... }
-```
-
-Added in v1.5.0
-
-## chain (method)
-
-**Signature**
-
-```ts
-chain<B>(f: (a: A) => Task<B>): Task<B> { ... }
-```
-
-## inspect (method)
-
-**Signature**
-
-```ts
-inspect(): string { ... }
-```
-
-## toString (method)
-
-**Signature**
-
-```ts
-toString(): string { ... }
-```
+Added in v2.0.0
 
 # URI (constant)
 
@@ -141,25 +58,17 @@ toString(): string { ... }
 export const URI = ...
 ```
 
-# never (constant)
-
-**Signature**
-
-```ts
-export const never = ...
-```
-
-Added in v1.19.0
+Added in v2.0.0
 
 # task (constant)
 
 **Signature**
 
 ```ts
-export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> = ...
+export const task: Monad1<URI> & MonadTask1<URI> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # taskSeq (constant)
 
@@ -171,71 +80,67 @@ Like `Task` but `ap` is sequential
 export const taskSeq: typeof task = ...
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
-# ~~delay~~ (function)
-
-Use `delay2v`
+# delay (function)
 
 **Signature**
 
 ```ts
-export const delay = <A>(millis: number, a: A): Task<A> => ...
+export function delay(millis: number): <A>(ma: Task<A>) => Task<A> { ... }
 ```
 
-Added in v1.7.0
-
-# delay2v (function)
-
-**Signature**
-
-```ts
-export function delay2v(millis: number): <A>(ma: Task<A>) => Task<A> { ... }
-```
-
-Added in v1.19.0
+Added in v2.0.0
 
 # fromIO (function)
 
-Lifts an IO action into a Task
-
 **Signature**
 
 ```ts
-export const fromIO = <A>(io: IO<A>): Task<A> => ...
+export function fromIO<A>(ma: IO<A>): Task<A> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getMonoid (function)
 
 **Signature**
 
 ```ts
-export const getMonoid = <A>(M: Monoid<A>): Monoid<Task<A>> => ...
+export function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getRaceMonoid (function)
 
 **Signature**
 
 ```ts
-export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => ...
+export function getRaceMonoid<A = never>(): Monoid<Task<A>> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getSemigroup (function)
 
 **Signature**
 
 ```ts
-export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Task<A>> => ...
+export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
+
+# never (function)
+
+**Signature**
+
+```ts
+export const never: Task<never> = () => new Promise(_ => ...
+```
+
+Added in v2.0.0
 
 # of (function)
 
@@ -245,14 +150,4 @@ Added in v1.0.0
 export function of<A>(a: A): Task<A> { ... }
 ```
 
-Added in v1.19.0
-
-# tryCatch (function)
-
-**Signature**
-
-```ts
-export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): Task<Either<L, A>> => ...
-```
-
-Added in v1.0.0
+Added in v2.0.0

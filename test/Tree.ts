@@ -1,101 +1,82 @@
 import * as assert from 'assert'
-import * as F from '../src/Foldable'
 import { identity } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString } from '../src/Monoid'
-import { eqNumber, Eq, eq } from '../src/Eq'
-import * as T from '../src/Traversable'
-import { drawTree, getEq, Tree, tree, unfoldTree, unfoldTreeM, elem, getShow, make } from '../src/Tree'
+import { eq, Eq, eqNumber } from '../src/Eq'
 import { showString } from '../src/Show'
+import { drawTree, elem, getEq, getShow, Tree, tree, unfoldTree, unfoldTreeM, make } from '../src/Tree'
 
 describe('Tree', () => {
   it('map', () => {
     const double = (n: number): number => n * 2
-    const fa = new Tree(1, [new Tree(2, []), new Tree(3, [])])
-    const expected = new Tree(2, [new Tree(4, []), new Tree(6, [])])
-    assert.deepStrictEqual(fa.map(double), expected)
+    const fa = make(1, [make(2), make(3)])
+    const expected = make(2, [make(4), make(6)])
     assert.deepStrictEqual(tree.map(fa, double), expected)
   })
 
   it('ap', () => {
     const double = (n: number): number => n * 2
     const fab = tree.of(double)
-    const fa = new Tree(1, [new Tree(2, []), new Tree(3, [])])
-    const expected = new Tree(2, [new Tree(4, []), new Tree(6, [])])
-    assert.deepStrictEqual(fa.ap(fab), expected)
-    assert.deepStrictEqual(fab.ap_(fa), expected)
+    const fa = make(1, [make(2), make(3)])
+    const expected = make(2, [make(4), make(6)])
     assert.deepStrictEqual(tree.ap(fab, fa), expected)
   })
 
   it('chain', () => {
     const f = (n: number) => tree.of(n * 2)
-    const fa = new Tree(1, [new Tree(2, []), new Tree(3, [])])
-    const expected = new Tree(2, [new Tree(4, []), new Tree(6, [])])
-    assert.deepStrictEqual(fa.chain(f), expected)
+    const fa = make(1, [make(2), make(3)])
+    const expected = make(2, [make(4), make(6)])
     assert.deepStrictEqual(tree.chain(fa, f), expected)
   })
 
   it('extract', () => {
-    const fa = new Tree(1, [new Tree(2, []), new Tree(3, [])])
-    assert.strictEqual(fa.extract(), 1)
+    const fa = make(1, [make(2), make(3)])
     assert.strictEqual(tree.extract(fa), 1)
   })
 
   it('extend', () => {
-    const fa = new Tree('a', [new Tree('foo', []), new Tree('b', [])])
+    const fa = make('a', [make('foo'), make('b')])
     const f = (fa: Tree<string>) => fa.value.length + fa.forest.length
-    const expected = new Tree(3, [new Tree(3, []), new Tree(1, [])])
-    assert.deepStrictEqual(fa.extend(f), expected)
+    const expected = make(3, [make(3), make(1)])
     assert.deepStrictEqual(tree.extend(fa, f), expected)
   })
 
   it('reduce', () => {
-    const fa = new Tree('a', [new Tree('b', []), new Tree('c', [])])
+    const fa = make('a', [make('b'), make('c')])
     assert.strictEqual(tree.reduce(fa, '', (b, a) => b + a), 'abc')
   })
 
   it('foldMap', () => {
-    const old = F.foldMap(tree, monoidString)
     const foldMap = tree.foldMap(monoidString)
-    const x1 = new Tree('a', [new Tree('b', []), new Tree('c', [])])
+    const x1 = make('a', [make('b'), make('c')])
     const f1 = identity
     assert.strictEqual(foldMap(x1, f1), 'abc')
-    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
   })
 
-  it('foldr', () => {
-    const old = F.foldr(tree)
-    const foldr = tree.foldr
-    const x1 = new Tree('a', [new Tree('b', []), new Tree('c', [])])
+  it('reduceRight', () => {
+    const reduceRight = tree.reduceRight
+    const x1 = make('a', [make('b'), make('c')])
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
-    assert.strictEqual(foldr(x1, init1, f1), 'cba')
-    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
+    assert.strictEqual(reduceRight(x1, init1, f1), 'cba')
   })
 
   it('traverse', () => {
-    const fa = new Tree('a', [new Tree('b', []), new Tree('c', [])])
+    const fa = make('a', [make('b'), make('c')])
     assert.deepStrictEqual(tree.traverse(I.identity)(fa, a => I.identity.of(a)), I.identity.of(fa))
   })
 
   it('sequence', () => {
-    const old = T.sequence(I.identity, tree)
     const sequence = tree.sequence(I.identity)
-    const x1 = new Tree(I.identity.of('a'), [new Tree(I.identity.of('b'), []), new Tree(I.identity.of('c'), [])])
-    assert.deepStrictEqual(sequence(x1), I.identity.of(new Tree('a', [new Tree('b', []), new Tree('c', [])])))
-    assert.deepStrictEqual(sequence(x1), old(x1))
+    const x1 = make(I.identity.of<string>('a'), [make(I.identity.of('b')), make(I.identity.of('c'))])
+    assert.deepStrictEqual(sequence(x1), I.identity.of(make('a', [make('b'), make('c')])))
   })
 
   it('drawTree', () => {
-    const tree = new Tree('a', [])
+    const tree = make('a')
     assert.strictEqual(drawTree(tree), 'a')
 
-    const tree1 = new Tree('a', [
-      new Tree('b', []),
-      new Tree('c', []),
-      new Tree('d', [new Tree('e', []), new Tree('f', [])]),
-      new Tree('g', [])
-    ])
+    const tree1 = make('a', [make('b'), make('c'), make('d', [make('e'), make('f')]), make('g')])
     assert.strictEqual(
       drawTree(tree1),
       `a
@@ -107,7 +88,7 @@ describe('Tree', () => {
 └─ g`
     )
 
-    const tree2 = new Tree('a', [new Tree('b', [new Tree('c', [])])])
+    const tree2 = make('a', [make('b', [make('c')])])
     assert.strictEqual(
       drawTree(tree2),
       `a
@@ -115,7 +96,7 @@ describe('Tree', () => {
    └─ c`
     )
 
-    const tree3 = new Tree('a', [new Tree('b', [new Tree('c', [])]), new Tree('d', [new Tree('e', [])])])
+    const tree3 = make('a', [make('b', [make('c')]), make('d', [make('e')])])
     assert.strictEqual(
       drawTree(tree3),
       `a
@@ -125,10 +106,7 @@ describe('Tree', () => {
    └─ e`
     )
 
-    const tree4 = new Tree('a', [
-      new Tree('b', [new Tree('c', [new Tree('d', [])]), new Tree('e', [new Tree('f', [])])]),
-      new Tree('e', [])
-    ])
+    const tree4 = make('a', [make('b', [make('c', [make('d')]), make('e', [make('f')])]), make('e')])
     assert.strictEqual(
       drawTree(tree4),
       `a
@@ -141,18 +119,11 @@ describe('Tree', () => {
     )
   })
 
-  it('toString', () => {
-    const fa = make('a', [make('b')])
-    const expected = 'make("a", [make("b")])'
-    assert.strictEqual(fa.toString(), expected)
-    assert.strictEqual(fa.inspect(), expected)
-  })
-
   it('getEq', () => {
     const S = getEq(eqNumber)
-    const x = new Tree(1, [new Tree(2, [])])
-    const y = new Tree(2, [new Tree(2, [])])
-    const z = new Tree(1, [new Tree(1, [])])
+    const x = make(1, [make(2)])
+    const y = make(2, [make(2)])
+    const z = make(1, [make(1)])
     assert.strictEqual(S.equals(x, x), true)
     assert.strictEqual(S.equals(x, y), false)
     assert.strictEqual(S.equals(x, z), false)
@@ -160,13 +131,13 @@ describe('Tree', () => {
 
   it('unfoldTree', () => {
     const fa = unfoldTree(1, b => [b, b < 3 ? [b + 1, b + 2] : []])
-    const expected = new Tree(1, [new Tree(2, [new Tree(3, []), new Tree(4, [])]), new Tree(3, [])])
+    const expected = make(1, [make(2, [make(3), make(4)]), make(3)])
     assert.deepStrictEqual(fa, expected)
   })
 
   it('unfoldTreeM', () => {
     const fa = unfoldTreeM(I.identity)(1, b => I.identity.of([b, b < 3 ? [b + 1, b + 2] : []]))
-    const expected = I.identity.of(new Tree(1, [new Tree(2, [new Tree(3, []), new Tree(4, [])]), new Tree(3, [])]))
+    const expected = I.identity.of(make(1, [make(2, [make(3), make(4)]), make(3)]))
     assert.deepStrictEqual(fa, expected)
   })
 
@@ -174,14 +145,11 @@ describe('Tree', () => {
     interface User {
       id: number
     }
-    const E: Eq<User> = eq.contramap(eqNumber, (user: User) => user.id)
-    const users = new Tree({ id: 1 }, [
-      new Tree({ id: 1 }, [new Tree({ id: 3 }, []), new Tree({ id: 4 }, [])]),
-      new Tree({ id: 2 }, [])
-    ])
-    assert.strictEqual(elem(E)({ id: 1 }, users), true)
-    assert.strictEqual(elem(E)({ id: 4 }, users), true)
-    assert.strictEqual(elem(E)({ id: 5 }, users), false)
+    const S: Eq<User> = eq.contramap(eqNumber, (user: User) => user.id)
+    const users = make({ id: 1 }, [make({ id: 1 }, [make({ id: 3 }), make({ id: 4 })]), make({ id: 2 })])
+    assert.strictEqual(elem(S)({ id: 1 }, users), true)
+    assert.strictEqual(elem(S)({ id: 4 }, users), true)
+    assert.strictEqual(elem(S)({ id: 5 }, users), false)
   })
 
   it('getShow', () => {

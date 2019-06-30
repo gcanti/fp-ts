@@ -20,8 +20,10 @@
  * operations like `map`, `chain`, ... return the `Left` value unchanged:
  *
  * ```ts
- * right(12).map(double) // right(24)
- * left(23).map(double)  // left(23)
+ * import { either } from 'fp-ts/lib/Either'
+ *
+ * either.map(right(12), double) // right(24)
+ * either.map(left(23), double)  // left(23)
  * ```
  */
 
@@ -29,315 +31,153 @@ import { Alt2, Alt2C } from './Alt'
 import { Applicative } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, tailRec } from './ChainRec'
-import { Compactable2C, Separated } from './Compactable'
+import { Separated } from './Compactable'
+import { Eq } from './Eq'
 import { Extend2 } from './Extend'
-import { Filterable2C } from './Filterable'
-import { Foldable2v2 } from './Foldable2v'
-import { Lazy, Predicate, Refinement, toString, identity } from './function'
+import { Foldable2 } from './Foldable'
+import { Lazy, Predicate } from './function'
 import { HKT } from './HKT'
 import { Monad2, Monad2C } from './Monad'
+import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
-import { Semigroup } from './Semigroup'
-import { Eq, fromEquals } from './Eq'
-import { Traversable2v2 } from './Traversable2v'
-import { Validation } from './Validation'
-import { Witherable2C } from './Witherable'
-import { MonadThrow2 } from './MonadThrow'
-import { Show } from './Show'
 import { pipeable } from './pipeable'
+import { Semigroup } from './Semigroup'
+import { Show } from './Show'
+import { Traversable2 } from './Traversable'
+import { Witherable2C } from './Witherable'
 
 declare module './HKT' {
-  interface URItoKind2<L, A> {
-    Either: Either<L, A>
+  interface URItoKind2<E, A> {
+    Either: Either<E, A>
   }
 }
 
+/**
+ * @since 2.0.0
+ */
 export const URI = 'Either'
 
+/**
+ * @since 2.0.0
+ */
 export type URI = typeof URI
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
-export type Either<L, A> = Left<L, A> | Right<L, A>
-
-/**
- * Left side of `Either`
- */
-export class Left<L, A> {
-  readonly _tag: 'Left' = 'Left'
-  readonly _A!: A
-  readonly _L!: L
-  readonly _URI!: URI
-  constructor(readonly value: L) {}
-  /**
-   * The given function is applied if this is a `Right`
-   * @obsolete
-   */
-  map<B>(f: (a: A) => B): Either<L, B> {
-    return this as any
-  }
-  /** @obsolete */
-  ap<B>(fab: Either<L, (a: A) => B>): Either<L, B> {
-    return (fab.isLeft() ? fab : this) as any
-  }
-  /**
-   * Flipped version of `ap`
-   * @obsolete
-   */
-  ap_<B, C>(this: Either<L, (b: B) => C>, fb: Either<L, B>): Either<L, C> {
-    return fb.ap(this)
-  }
-  /**
-   * Binds the given function across `Right`
-   * @obsolete
-   */
-  chain<B>(f: (a: A) => Either<L, B>): Either<L, B> {
-    return this as any
-  }
-  /** @obsolete */
-  bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Either<V, B> {
-    return new Left(f(this.value))
-  }
-  /** @obsolete */
-  alt(fy: Either<L, A>): Either<L, A> {
-    return fy
-  }
-
-  /**
-   * Lazy version of `alt`
-   *
-   * @example
-   * import { right } from 'fp-ts/lib/Either'
-   *
-   * assert.deepStrictEqual(right(1).orElse(() => right(2)), right(1))
-   *
-   * @since 1.6.0
-   * @obsolete
-   */
-  orElse<M>(fy: (l: L) => Either<M, A>): Either<M, A> {
-    return fy(this.value)
-  }
-  /** @obsolete */
-  extend<B>(f: (ea: Either<L, A>) => B): Either<L, B> {
-    return this as any
-  }
-  /** @obsolete */
-  reduce<B>(b: B, f: (b: B, a: A) => B): B {
-    return b
-  }
-  /**
-   * Applies a function to each case in the data structure
-   * @obsolete
-   */
-  fold<B>(onLeft: (l: L) => B, onRight: (a: A) => B): B {
-    return onLeft(this.value)
-  }
-  /**
-   * Returns the value from this `Right` or the given argument if this is a `Left`
-   * @obsolete
-   */
-  getOrElse(a: A): A {
-    return a
-  }
-  /**
-   * Returns the value from this `Right` or the result of given argument if this is a `Left`
-   * @obsolete
-   */
-  getOrElseL(f: (l: L) => A): A {
-    return f(this.value)
-  }
-  /**
-   * Maps the left side of the disjunction
-   * @obsolete
-   */
-  mapLeft<M>(f: (l: L) => M): Either<M, A> {
-    return new Left(f(this.value))
-  }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    // tslint:disable-next-line: deprecation
-    return `left(${toString(this.value)})`
-  }
-  /**
-   * Returns `true` if the either is an instance of `Left`, `false` otherwise
-   * @obsolete
-   */
-  isLeft(): this is Left<L, A> {
-    return true
-  }
-  /**
-   * Returns `true` if the either is an instance of `Right`, `false` otherwise
-   * @obsolete
-   */
-  isRight(): this is Right<L, A> {
-    return false
-  }
-  /**
-   * Swaps the disjunction values
-   * @obsolete
-   */
-  swap(): Either<A, L> {
-    return new Right(this.value)
-  }
-  /**
-   * Returns `Right` with the existing value of `Right` if this is a `Right` and the given predicate `p` holds for the
-   * right value, returns `Left(zero)` if this is a `Right` and the given predicate `p` does not hold for the right
-   * value, returns `Left` with the existing value of `Left` if this is a `Left`.
-   *
-   * @example
-   * import { right, left } from 'fp-ts/lib/Either'
-   *
-   * assert.deepStrictEqual(right(12).filterOrElse(n => n > 10, -1), right(12))
-   * assert.deepStrictEqual(right(7).filterOrElse(n => n > 10, -1), left(-1))
-   * assert.deepStrictEqual(left<number, number>(12).filterOrElse(n => n > 10, -1), left(12))
-   *
-   * @since 1.3.0
-   * @obsolete
-   */
-  filterOrElse<B extends A>(p: Refinement<A, B>, zero: L): Either<L, B>
-  filterOrElse(p: Predicate<A>, zero: L): Either<L, A>
-  filterOrElse(_: Predicate<A>, zero: L): Either<L, A> {
-    return this
-  }
-  /**
-   * Lazy version of `filterOrElse`
-   * @since 1.3.0
-   * @obsolete
-   */
-  filterOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B>
-  filterOrElseL(p: Predicate<A>, zero: (a: A) => L): Either<L, A>
-  filterOrElseL(_: Predicate<A>, zero: (a: A) => L): Either<L, A> {
-    return this
-  }
-  /**
-   * Use `filterOrElse` instead
-   * @since 1.6.0
-   * @deprecated
-   */
-  refineOrElse<B extends A>(p: Refinement<A, B>, zero: L): Either<L, B> {
-    return this as any
-  }
-  /**
-   * Lazy version of `refineOrElse`
-   * Use `filterOrElseL` instead
-   * @since 1.6.0
-   * @deprecated
-   */
-  refineOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B> {
-    return this as any
-  }
+export interface Left<E> {
+  readonly _tag: 'Left'
+  readonly left: E
 }
 
 /**
- * Right side of `Either`
+ * @since 2.0.0
  */
-export class Right<L, A> {
-  readonly _tag: 'Right' = 'Right'
-  readonly _A!: A
-  readonly _L!: L
-  readonly _URI!: URI
-  constructor(readonly value: A) {}
-  map<B>(f: (a: A) => B): Either<L, B> {
-    return new Right(f(this.value))
-  }
-  ap<B>(fab: Either<L, (a: A) => B>): Either<L, B> {
-    return fab.isRight() ? this.map(fab.value) : left(fab.value)
-  }
-  ap_<B, C>(this: Either<L, (b: B) => C>, fb: Either<L, B>): Either<L, C> {
-    return fb.ap(this)
-  }
-  chain<B>(f: (a: A) => Either<L, B>): Either<L, B> {
-    return f(this.value)
-  }
-  bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Either<V, B> {
-    return new Right<V, B>(g(this.value))
-  }
-  alt(fy: Either<L, A>): Either<L, A> {
-    return this
-  }
-  orElse<M>(fy: (l: L) => Either<M, A>): Either<M, A> {
-    return this as any
-  }
-  extend<B>(f: (ea: Either<L, A>) => B): Either<L, B> {
-    return new Right(f(this))
-  }
-  reduce<B>(b: B, f: (b: B, a: A) => B): B {
-    return f(b, this.value)
-  }
-  fold<B>(onLeft: (l: L) => B, onRight: (a: A) => B): B {
-    return onRight(this.value)
-  }
-  getOrElse(a: A): A {
-    return this.value
-  }
-  getOrElseL(f: (l: L) => A): A {
-    return this.value
-  }
-  mapLeft<M>(f: (l: L) => M): Either<M, A> {
-    return new Right(this.value)
-  }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    // tslint:disable-next-line: deprecation
-    return `right(${toString(this.value)})`
-  }
-  isLeft(): this is Left<L, A> {
-    return false
-  }
-  isRight(): this is Right<L, A> {
-    return true
-  }
-  swap(): Either<A, L> {
-    return new Left(this.value)
-  }
-  filterOrElse<B extends A>(p: Refinement<A, B>, zero: L): Either<L, B>
-  filterOrElse(p: Predicate<A>, zero: L): Either<L, A>
-  filterOrElse(p: Predicate<A>, zero: L): Either<L, A> {
-    return p(this.value) ? this : left(zero)
-  }
-  filterOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B>
-  filterOrElseL(p: Predicate<A>, zero: (a: A) => L): Either<L, A>
-  filterOrElseL(p: Predicate<A>, zero: (a: A) => L): Either<L, A> {
-    return p(this.value) ? this : left(zero(this.value))
-  }
-  refineOrElse<B extends A>(p: Refinement<A, B>, zero: L): Either<L, B> {
-    return p(this.value) ? (this as any) : left(zero)
-  }
-  refineOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B> {
-    return p(this.value) ? (this as any) : left(zero(this.value))
-  }
+export interface Right<A> {
+  readonly _tag: 'Right'
+  readonly right: A
 }
 
 /**
- * @since 1.17.0
+ * @since 2.0.0
  */
-export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Either<L, A>> => {
-  return {
-    show: e => e.fold(l => `left(${SL.show(l)})`, a => `right(${SA.show(a)})`)
-  }
-}
+export type Either<E, A> = Left<E> | Right<A>
 
 /**
- * Use `getEq`
+ * Constructs a new `Either` holding a `Left` value. This usually represents a failure, due to the right-bias of this
+ * structure
  *
- * @since 1.0.0
- * @deprecated
+ * @since 2.0.0
  */
-export const getSetoid: <L, A>(EL: Eq<L>, EA: Eq<A>) => Eq<Either<L, A>> = getEq
+export function left<E = never, A = never>(e: E): Either<E, A> {
+  return { _tag: 'Left', left: e }
+}
 
 /**
- * @since 1.19.0
+ * Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
+ * of this structure
+ *
+ * @since 2.0.0
  */
-export function getEq<L, A>(EL: Eq<L>, EA: Eq<A>): Eq<Either<L, A>> {
-  return fromEquals((x, y) =>
-    x.isLeft() ? y.isLeft() && EL.equals(x.value, y.value) : y.isRight() && EA.equals(x.value, y.value)
-  )
+export function right<E = never, A = never>(a: A): Either<E, A> {
+  return { _tag: 'Right', right: a }
+}
+
+/**
+ * Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
+ * the provided default as a `Left`
+ *
+ * @since 2.0.0
+ */
+export function fromNullable<E>(e: E): <A>(a: A | null | undefined) => Either<E, A> {
+  return a => (a == null ? left(e) : right(a))
+}
+
+/**
+ * Default value for the `onError` argument of `tryCatch`
+ *
+ * @since 2.0.0
+ */
+export function toError(e: unknown): Error {
+  return e instanceof Error ? e : new Error(String(e))
+}
+
+/**
+ * Constructs a new `Either` from a function that might throw
+ *
+ * @example
+ * import { Either, left, right, tryCatch } from 'fp-ts/lib/Either'
+ *
+ * const unsafeHead = <A>(as: Array<A>): A => {
+ *   if (as.length > 0) {
+ *     return as[0]
+ *   } else {
+ *     throw new Error('empty array')
+ *   }
+ * }
+ *
+ * const head = <A>(as: Array<A>): Either<Error, A> => {
+ *   return tryCatch(() => unsafeHead(as), e => (e instanceof Error ? e : new Error('unknown error')))
+ * }
+ *
+ * assert.deepStrictEqual(head([]), left(new Error('empty array')))
+ * assert.deepStrictEqual(head([1, 2, 3]), right(1))
+ *
+ * @since 2.0.0
+ */
+export function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): Either<E, A> {
+  try {
+    return right(f())
+  } catch (e) {
+    return left(onError(e))
+  }
+}
+
+/**
+ * @since 2.0.0
+ */
+export function fold<E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B): (ma: Either<E, A>) => B {
+  return ma => (isLeft(ma) ? onLeft(ma.left) : onRight(ma.right))
+}
+
+/**
+ * @since 2.0.0
+ */
+export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>> {
+  return {
+    show: ma => (isLeft(ma) ? `left(${SE.show(ma.left)})` : `right(${SA.show(ma.right)})`)
+  }
+}
+
+/**
+ * @since 2.0.0
+ */
+export function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> {
+  return {
+    equals: (x, y) =>
+      x === y || (isLeft(x) ? isLeft(y) && EL.equals(x.left, y.left) : isRight(y) && EA.equals(x.right, y.right))
+  }
 }
 
 /**
@@ -355,11 +195,11 @@ export function getEq<L, A>(EL: Eq<L>, EA: Eq<A>): Eq<Either<L, A>> {
  * assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
  *
  *
- * @since 1.7.0
+ * @since 2.0.0
  */
-export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => {
+export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> {
   return {
-    concat: (x, y) => (y.isLeft() ? x : x.isLeft() ? y : right(S.concat(x.value, y.value)))
+    concat: (x, y) => (isLeft(y) ? x : isLeft(x) ? y : right(S.concat(x.right, y.right)))
   }
 }
 
@@ -377,18 +217,18 @@ export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => 
  * assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
  *
  *
- * @since 1.7.0
+ * @since 2.0.0
  */
-export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => {
+export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> {
   return {
-    concat: (x, y) => (x.isLeft() ? x : y.isLeft() ? y : right(S.concat(x.value, y.value)))
+    concat: (x, y) => (isLeft(x) ? x : isLeft(y) ? y : right(S.concat(x.right, y.right)))
   }
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
-export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<Either<L, A>> => {
+export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<Either<E, A>> {
   return {
     ...getApplySemigroup(M),
     empty: right(M.empty)
@@ -396,446 +236,284 @@ export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<Either<L, A>> => {
 }
 
 /**
- * Constructs a new `Either` holding a `Left` value. This usually represents a failure, due to the right-bias of this
- * structure
- *
- * @since 1.0.0
- */
-export const left = <L, A>(l: L): Either<L, A> => {
-  return new Left(l)
-}
-
-/**
- * Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
- * of this structure
- *
- * @since 1.0.0
- */
-export const right = <L, A>(a: A): Either<L, A> => {
-  return new Right<L, A>(a)
-}
-
-/**
- * Use `fromPredicate` instead
- *
- * @since 1.6.0
- * @deprecated
- */
-export const fromRefinement = <L, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => L) => (
-  a: A
-): Either<L, B> => {
-  return refinement(a) ? right(a) : left(onFalse(a))
-}
-
-/**
- * Takes a default and a `Option` value, if the value is a `Some`, turn it into a `Right`, if the value is a `None` use
- * the provided default as a `Left`
- *
- * @since 1.0.0
- */
-export const fromOption = <L>(onNone: L) => <A>(fa: Option<A>): Either<L, A> => {
-  return fa.isNone() ? left(onNone) : right(fa.value)
-}
-
-/**
- * Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
- * the provided default as a `Left`
- *
- * @since 1.0.0
- */
-export const fromNullable = <L>(defaultValue: L) => <A>(a: A | null | undefined): Either<L, A> => {
-  return a == null ? left(defaultValue) : right(a)
-}
-
-/**
- * Default value for the optional `onerror` argument of `tryCatch`
- *
- * @since 1.0.0
- */
-export const toError = (e: unknown): Error => {
-  if (e instanceof Error) {
-    return e
-  } else {
-    return new Error(String(e))
-  }
-}
-
-/**
- * Use `tryCatch2v` instead
- *
- * @since 1.0.0
- * @deprecated
- */
-export const tryCatch = <A>(f: Lazy<A>, onerror: (e: unknown) => Error = toError): Either<Error, A> => {
-  return tryCatch2v(f, onerror)
-}
-
-/**
- * Constructs a new `Either` from a function that might throw
- *
- * @example
- * import { Either, left, right, tryCatch2v } from 'fp-ts/lib/Either'
- *
- * const unsafeHead = <A>(as: Array<A>): A => {
- *   if (as.length > 0) {
- *     return as[0]
- *   } else {
- *     throw new Error('empty array')
- *   }
- * }
- *
- * const head = <A>(as: Array<A>): Either<Error, A> => {
- *   return tryCatch2v(() => unsafeHead(as), e => (e instanceof Error ? e : new Error('unknown error')))
- * }
- *
- * assert.deepStrictEqual(head([]), left(new Error('empty array')))
- * assert.deepStrictEqual(head([1, 2, 3]), right(1))
- *
- * @since 1.11.0
- */
-export const tryCatch2v = <L, A>(f: Lazy<A>, onerror: (e: unknown) => L): Either<L, A> => {
-  try {
-    return right(f())
-  } catch (e) {
-    return left(onerror(e))
-  }
-}
-
-/**
- * @since 1.0.0
- */
-export const fromValidation = <L, A>(fa: Validation<L, A>): Either<L, A> => {
-  return fa.isFailure() ? left(fa.value) : right(fa.value)
-}
-
-/**
  * Returns `true` if the either is an instance of `Left`, `false` otherwise
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
-export const isLeft = <L, A>(fa: Either<L, A>): fa is Left<L, A> => {
-  return fa.isLeft()
+export function isLeft<E, A>(ma: Either<E, A>): ma is Left<E> {
+  switch (ma._tag) {
+    case 'Left':
+      return true
+    case 'Right':
+      return false
+  }
 }
 
 /**
  * Returns `true` if the either is an instance of `Right`, `false` otherwise
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
-export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => {
-  return fa.isRight()
+export function isRight<E, A>(ma: Either<E, A>): ma is Right<A> {
+  return isLeft(ma) ? false : true
 }
 
 /**
- * Use `getWitherable`
- *
- * @since 1.7.0
- * @deprecated
+ * @since 2.0.0
  */
-export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
-  const compact = <A>(fa: Either<L, Option<A>>): Either<L, A> => {
-    if (fa.isLeft()) {
-      return fa as any
-    }
-    if (fa.value.isNone()) {
-      return left(ML.empty)
-    }
-    return right(fa.value.value)
-  }
-  const separate = <A, B>(fa: Either<L, Either<A, B>>): Separated<Either<L, A>, Either<L, B>> => {
-    if (fa.isLeft()) {
-      return {
-        left: fa as any,
-        right: fa as any
-      }
-    }
-    if (fa.value.isLeft()) {
-      return {
-        left: right(fa.value.value),
-        right: left(ML.empty)
-      }
-    }
-    return {
-      left: left(ML.empty),
-      right: right(fa.value.value)
-    }
-  }
-
-  return {
-    URI,
-    _L: undefined as any,
-    compact,
-    separate
-  }
+export function swap<E, A>(ma: Either<E, A>): Either<A, E> {
+  return isLeft(ma) ? right(ma.left) : left(ma.right)
 }
 
 /**
- * Use `getWitherable`
- *
- * @since 1.7.0
- * @deprecated
+ * @since 2.0.0
  */
-export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
-  // tslint:disable-next-line: deprecation
-  const C = getCompactable(ML)
-  const partitionMap = <RL, RR, A>(
-    fa: Either<L, A>,
-    f: (a: A) => Either<RL, RR>
-  ): Separated<Either<L, RL>, Either<L, RR>> => {
-    if (fa.isLeft()) {
-      return {
-        left: fa as any,
-        right: fa as any
-      }
-    }
-    const e = f(fa.value)
-    if (e.isLeft()) {
-      return {
-        left: right(e.value),
-        right: left(ML.empty)
-      }
-    }
-    return {
-      left: left(ML.empty),
-      right: right(e.value)
-    }
-  }
-  const partition = <A>(fa: Either<L, A>, p: Predicate<A>): Separated<Either<L, A>, Either<L, A>> => {
-    if (fa.isLeft()) {
-      return {
-        left: fa,
-        right: fa
-      }
-    }
-    if (p(fa.value)) {
-      return {
-        left: left(ML.empty),
-        right: right(fa.value)
-      }
-    }
-    return {
-      left: right(fa.value),
-      right: left(ML.empty)
-    }
-  }
-  const filterMap = <A, B>(fa: Either<L, A>, f: (a: A) => Option<B>): Either<L, B> => {
-    if (fa.isLeft()) {
-      return fa as any
-    }
-    const optionB = f(fa.value)
-    if (optionB.isSome()) {
-      return right(optionB.value)
-    }
-    return left(ML.empty)
-  }
-  const filter = <A>(fa: Either<L, A>, p: Predicate<A>): Either<L, A> => fa.filterOrElse(p, ML.empty)
-  return {
-    ...C,
-    map: either.map,
-    partitionMap,
-    filterMap,
-    partition,
-    filter
-  }
+export function orElse<E, A, M>(f: (e: E) => Either<M, A>): (ma: Either<E, A>) => Either<M, A> {
+  return ma => (isLeft(ma) ? f(ma.left) : ma)
 }
 
 /**
- * Builds `Witherable` instance for `Either` given `Monoid` for the left side
- *
- * @since 1.7.0
+ * @since 2.0.0
  */
-export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
-  // tslint:disable-next-line: deprecation
-  const filterableEither = getFilterable(ML)
+export function getOrElse<E, A>(f: (e: E) => A): (ma: Either<E, A>) => A {
+  return ma => (isLeft(ma) ? f(ma.left) : ma.right)
+}
 
-  const wither = <F>(
-    F: Applicative<F>
-  ): (<A, B>(wa: Either<L, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Either<L, B>>) => {
-    const traverseF = either.traverse(F)
-    return (wa, f) => F.map(traverseF(wa, f), filterableEither.compact)
-  }
+/**
+ * @since 2.0.0
+ */
+export function elem<A>(E: Eq<A>): <E>(a: A, ma: Either<E, A>) => boolean {
+  return (a, ma) => (isLeft(ma) ? false : E.equals(a, ma.right))
+}
 
-  const wilt = <F>(
-    F: Applicative<F>
-  ): (<RL, RR, A>(
-    wa: Either<L, A>,
-    f: (a: A) => HKT<F, Either<RL, RR>>
-  ) => HKT<F, Separated<Either<L, RL>, Either<L, RR>>>) => {
-    const traverseF = either.traverse(F)
-    return (wa, f) => F.map(traverseF(wa, f), filterableEither.separate)
-  }
-
-  return {
-    ...filterableEither,
-    traverse: either.traverse,
-    reduce: either.reduce,
-    wither,
-    wilt
-  }
+/**
+ * Returns `false` if `Left` or returns the result of the application of the given predicate to the `Right` value.
+ *
+ * @example
+ * import { exists, left, right } from 'fp-ts/lib/Either'
+ *
+ * const gt2 = exists((n: number) => n > 2)
+ *
+ * assert.strictEqual(gt2(left('a')), false)
+ * assert.strictEqual(gt2(right(1)), false)
+ * assert.strictEqual(gt2(right(3)), true)
+ *
+ * @since 2.0.0
+ */
+export function exists<A>(predicate: Predicate<A>): <E>(ma: Either<E, A>) => boolean {
+  return ma => (isLeft(ma) ? false : predicate(ma.right))
 }
 
 /**
  * Converts a JavaScript Object Notation (JSON) string into an object.
  *
  * @example
- * import { parseJSON, toError } from 'fp-ts/lib/Either'
+ * import { parseJSON, toError, right, left } from 'fp-ts/lib/Either'
  *
- * assert.deepStrictEqual(parseJSON('{"a":1}', toError).value, { a: 1 })
- * assert.deepStrictEqual(parseJSON('{"a":}', toError).value, new SyntaxError('Unexpected token } in JSON at position 5'))
+ * assert.deepStrictEqual(parseJSON('{"a":1}', toError), right({ a: 1 }))
+ * assert.deepStrictEqual(parseJSON('{"a":}', toError), left(new SyntaxError('Unexpected token } in JSON at position 5')))
  *
- * @since 1.16.0
+ * @since 2.0.0
  */
-export const parseJSON = <L>(s: string, onError: (reason: unknown) => L): Either<L, unknown> => {
-  return tryCatch2v(() => JSON.parse(s), onError)
+export function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either<E, unknown> {
+  return tryCatch(() => JSON.parse(s), onError)
 }
 
 /**
  * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
  *
  * @example
- * import { stringifyJSON, toError } from 'fp-ts/lib/Either'
+ * import { stringifyJSON, toError, right, left } from 'fp-ts/lib/Either'
  *
- * assert.deepStrictEqual(stringifyJSON({ a: 1 }, toError).value, '{"a":1}')
+ * assert.deepStrictEqual(stringifyJSON({ a: 1 }, toError), right('{"a":1}'))
  * const circular: any = { ref: null }
  * circular.ref = circular
- * assert.deepStrictEqual(stringifyJSON(circular, toError).value, new TypeError('Converting circular structure to JSON'))
+ * assert.deepStrictEqual(stringifyJSON(circular, toError), left(new TypeError('Converting circular structure to JSON')))
  *
- * @since 1.16.0
+ * @since 2.0.0
  */
-export const stringifyJSON = <L>(u: unknown, onError: (reason: unknown) => L): Either<L, string> => {
-  return tryCatch2v(() => JSON.stringify(u), onError)
+export function stringifyJSON<E>(u: unknown, onError: (reason: unknown) => E): Either<E, string> {
+  return tryCatch(() => JSON.stringify(u), onError)
 }
 
-const throwError = left
-
-const fromEither = identity
+const phantom: any = undefined
 
 /**
- * @since 1.0.0
+ * Builds `Witherable` instance for `Either` given `Monoid` for the left side
+ *
+ * @since 2.0.0
  */
-export const either: Monad2<URI> &
-  Foldable2v2<URI> &
-  Traversable2v2<URI> &
-  Bifunctor2<URI> &
-  Alt2<URI> &
-  Extend2<URI> &
-  ChainRec2<URI> &
-  MonadThrow2<URI> = {
-  URI,
-  map: (ma, f) => ma.map(f),
-  of: right,
-  ap: (mab, ma) => ma.ap(mab),
-  chain: (ma, f) => ma.chain(f),
-  reduce: (fa, b, f) => fa.reduce(b, f),
-  foldMap: M => (fa, f) => (fa.isLeft() ? M.empty : f(fa.value)),
-  foldr: (fa, b, f) => (fa.isLeft() ? b : f(fa.value, b)),
-  traverse: <F>(F: Applicative<F>) => <L, A, B>(ta: Either<L, A>, f: (a: A) => HKT<F, B>): HKT<F, Either<L, B>> => {
-    return ta.isLeft() ? F.of(left(ta.value)) : F.map<B, Either<L, B>>(f(ta.value), right)
-  },
-  sequence: <F>(F: Applicative<F>) => <L, A>(ta: Either<L, HKT<F, A>>): HKT<F, Either<L, A>> => {
-    return ta.isLeft() ? F.of(left(ta.value)) : F.map<A, Either<L, A>>(ta.value, right)
-  },
-  bimap: (fla, f, g) => fla.bimap(f, g),
-  alt: (mx, my) => mx.alt(my),
-  extend: (wa, f) => wa.extend(f),
-  chainRec: (a, f) => {
-    return tailRec(e => {
-      if (e.isLeft()) {
-        return right(left(e.value))
-      } else {
-        const r = e.value
-        return r.isLeft() ? left(f(r.value)) : right(right(r.value))
-      }
-    }, f(a))
-  },
-  throwError,
-  fromEither,
-  fromOption: (o, e) => (o.isNone() ? throwError(e) : right(o.value))
+export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
+  const empty = left(M.empty)
+
+  const compact = <A>(ma: Either<E, Option<A>>): Either<E, A> => {
+    return isLeft(ma) ? ma : ma.right._tag === 'None' ? left(M.empty) : right(ma.right.value)
+  }
+
+  const separate = <A, B>(ma: Either<E, Either<A, B>>): Separated<Either<E, A>, Either<E, B>> => {
+    return isLeft(ma)
+      ? { left: ma, right: ma }
+      : isLeft(ma.right)
+      ? { left: right(ma.right.left), right: empty }
+      : { left: empty, right: right(ma.right.right) }
+  }
+
+  const partitionMap = <A, B, C>(
+    ma: Either<E, A>,
+    f: (a: A) => Either<B, C>
+  ): Separated<Either<E, B>, Either<E, C>> => {
+    if (isLeft(ma)) {
+      return { left: ma, right: ma }
+    }
+    const e = f(ma.right)
+    return isLeft(e) ? { left: right(e.left), right: empty } : { left: empty, right: right(e.right) }
+  }
+
+  const partition = <A>(ma: Either<E, A>, p: Predicate<A>): Separated<Either<E, A>, Either<E, A>> => {
+    return isLeft(ma)
+      ? { left: ma, right: ma }
+      : p(ma.right)
+      ? { left: empty, right: right(ma.right) }
+      : { left: right(ma.right), right: empty }
+  }
+
+  const filterMap = <A, B>(ma: Either<E, A>, f: (a: A) => Option<B>): Either<E, B> => {
+    if (isLeft(ma)) {
+      return ma
+    }
+    const ob = f(ma.right)
+    return ob._tag === 'None' ? left(M.empty) : right(ob.value)
+  }
+
+  const filter = <A>(ma: Either<E, A>, predicate: Predicate<A>): Either<E, A> =>
+    isLeft(ma) ? ma : predicate(ma.right) ? ma : left(M.empty)
+
+  const wither = <F>(
+    F: Applicative<F>
+  ): (<A, B>(ma: Either<E, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Either<E, B>>) => {
+    const traverseF = either.traverse(F)
+    return (ma, f) => F.map(traverseF(ma, f), compact)
+  }
+
+  const wilt = <F>(
+    F: Applicative<F>
+  ): (<A, B, C>(
+    ma: Either<E, A>,
+    f: (a: A) => HKT<F, Either<B, C>>
+  ) => HKT<F, Separated<Either<E, B>, Either<E, C>>>) => {
+    const traverseF = either.traverse(F)
+    return (ma, f) => F.map(traverseF(ma, f), separate)
+  }
+
+  return {
+    URI,
+    _E: phantom,
+    map: either.map,
+    compact,
+    separate,
+    filter,
+    filterMap,
+    partition,
+    partitionMap,
+    traverse: either.traverse,
+    sequence: either.sequence,
+    reduce: either.reduce,
+    foldMap: either.foldMap,
+    reduceRight: either.reduceRight,
+    wither,
+    wilt
+  }
 }
 
-//
-// backporting
-//
-
 /**
- * @since 1.19.0
- */
-export function fold<E, A, R>(onLeft: (e: E) => R, onRight: (a: A) => R): (ma: Either<E, A>) => R {
-  return ma => ma.fold(onLeft, onRight)
-}
-
-/**
- * @since 1.19.0
- */
-export function orElse<E, A, M>(f: (e: E) => Either<M, A>): (ma: Either<E, A>) => Either<M, A> {
-  return ma => ma.orElse(f)
-}
-
-/**
- * @since 1.19.0
- */
-export function getOrElse<E, A>(f: (e: E) => A): (ma: Either<E, A>) => A {
-  return ma => ma.getOrElseL(f)
-}
-
-/**
- * @since 1.19.0
- */
-export function elem<A>(E: Eq<A>): (a: A) => <E>(ma: Either<E, A>) => boolean {
-  return a => ma => (isLeft(ma) ? false : E.equals(a, ma.value))
-}
-
-/**
- * @since 1.19.0
+ * @since 2.0.0
  */
 export function getValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E> {
   return {
     URI,
-    _L: undefined as any,
+    _E: phantom,
     map: either.map,
     of: either.of,
-    ap: <A, B>(mab: Either<E, (a: A) => B>, ma: Either<E, A>): Either<E, B> =>
+    ap: (mab, ma) =>
       isLeft(mab)
         ? isLeft(ma)
-          ? left(S.concat(mab.value, ma.value))
-          : (mab as any)
+          ? left(S.concat(mab.left, ma.left))
+          : mab
         : isLeft(ma)
         ? ma
-        : right(mab.value(ma.value)),
+        : right(mab.right(ma.right)),
     chain: either.chain,
-    alt: (fx, fy) => {
+    alt: (fx, f) => {
       if (isRight(fx)) {
         return fx
       }
-      return isLeft(fy) ? left(S.concat(fx.value, fy.value)) : fy
+      const fy = f()
+      return isLeft(fy) ? left(S.concat(fx.left, fy.left)) : fy
     }
   }
 }
 
 /**
- * @since 1.19.0
+ * @since 2.0.0
  */
 export function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<Either<E, A>> {
   return {
     concat: (fx, fy) =>
       isLeft(fx)
         ? isLeft(fy)
-          ? left(SE.concat(fx.value, fy.value))
+          ? left(SE.concat(fx.left, fy.left))
           : fx
         : isLeft(fy)
         ? fy
-        : right(SA.concat(fx.value, fy.value))
+        : right(SA.concat(fx.right, fy.right))
   }
 }
 
 /**
- * @since 1.19.0
+ * @since 2.0.0
  */
 export function getValidationMonoid<E, A>(SE: Semigroup<E>, SA: Monoid<A>): Monoid<Either<E, A>> {
   return {
     concat: getValidationSemigroup(SE, SA).concat,
     empty: right(SA.empty)
   }
+}
+
+/**
+ * @since 2.0.0
+ */
+export const either: Monad2<URI> &
+  Foldable2<URI> &
+  Traversable2<URI> &
+  Bifunctor2<URI> &
+  Alt2<URI> &
+  Extend2<URI> &
+  ChainRec2<URI> &
+  MonadThrow2<URI> = {
+  URI,
+  map: (ma, f) => (isLeft(ma) ? ma : right(f(ma.right))),
+  of: right,
+  ap: (mab, ma) => (isLeft(mab) ? mab : isLeft(ma) ? ma : right(mab.right(ma.right))),
+  chain: (ma, f) => (isLeft(ma) ? ma : f(ma.right)),
+  reduce: (fa, b, f) => (isLeft(fa) ? b : f(b, fa.right)),
+  foldMap: M => (fa, f) => (isLeft(fa) ? M.empty : f(fa.right)),
+  reduceRight: (fa, b, f) => (isLeft(fa) ? b : f(fa.right, b)),
+  traverse: <F>(F: Applicative<F>) => <E, A, B>(ma: Either<E, A>, f: (a: A) => HKT<F, B>): HKT<F, Either<E, B>> => {
+    return isLeft(ma) ? F.of(left(ma.left)) : F.map<B, Either<E, B>>(f(ma.right), right)
+  },
+  sequence: <F>(F: Applicative<F>) => <E, A>(ma: Either<E, HKT<F, A>>): HKT<F, Either<E, A>> => {
+    return isLeft(ma) ? F.of(left(ma.left)) : F.map<A, Either<E, A>>(ma.right, right)
+  },
+  bimap: (fea, f, g) => (isLeft(fea) ? left(f(fea.left)) : right(g(fea.right))),
+  mapLeft: (fea, f) => (isLeft(fea) ? left(f(fea.left)) : fea),
+  alt: (fx, fy) => (isLeft(fx) ? fy() : fx),
+  extend: (wa, f) => (isLeft(wa) ? wa : right(f(wa))),
+  chainRec: <E, A, B>(a: A, f: (a: A) => Either<E, Either<A, B>>): Either<E, B> => {
+    return tailRec(f(a), e =>
+      isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
+    )
+  },
+  throwError: left
 }
 
 const {
@@ -854,9 +532,9 @@ const {
   mapLeft,
   reduce,
   reduceRight,
+  fromOption,
   fromPredicate,
-  filterOrElse,
-  fromOption: pipeableFromOption
+  filterOrElse
 } = pipeable(either)
 
 export {
@@ -875,13 +553,7 @@ export {
   mapLeft,
   reduce,
   reduceRight,
+  fromOption,
   fromPredicate,
   filterOrElse
 }
-
-/**
- * Lazy version of `fromOption`
- *
- * @since 1.3.0
- */
-export const fromOptionL: <L>(onNone: Lazy<L>) => <A>(fa: Option<A>) => Either<L, A> = pipeableFromOption

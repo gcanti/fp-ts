@@ -10,7 +10,7 @@ has_toc: false
 
 # Typed functional programming in TypeScript
 
-fp-ts provides developers with popular patterns and reliable abstractions from typed functional languages in TypeScript.
+`fp-ts` provides developers with popular patterns and reliable abstractions from typed functional languages in TypeScript.
 {: .fs-6 .fw-300 }
 
 [Get started](./introduction/core-concepts){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [Take the tutorial](./basics/){: .btn .fs-5 .mb-4 .mb-md-0 }
@@ -33,6 +33,7 @@ Make sure to always have a single version of `fp-ts` installed in your project. 
 
 | `fp-ts` version | required `typescript` version |
 | --------------- | ----------------------------- |
+| 2.0.x+          | 3.5+                          |
 | 1.15.x+         | 3.1+                          |
 | <= 1.14.4       | 2.8+ (\*)                     |
 

@@ -8,31 +8,31 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [create (constant)](#create-constant)
-- [now (constant)](#now-constant)
+- [create (function)](#create-function)
+- [now (function)](#now-function)
 
 ---
 
-# create (constant)
+# create (function)
 
 Returns the current `Date`
 
 **Signature**
 
 ```ts
-export const create: IO<Date> = ...
+export const create: IO<Date> = () => ...
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
-# now (constant)
+# now (function)
 
 Returns the number of milliseconds elapsed since January 1, 1970, 00:00:00 UTC
 
 **Signature**
 
 ```ts
-export const now: IO<number> = ...
+export const now: IO<number> = () => ...
 ```
 
-Added in v1.10.0
+Added in v2.0.0

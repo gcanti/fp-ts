@@ -1,6 +1,6 @@
 ---
 title: Store.ts
-nav_order: 85
+nav_order: 77
 parent: Modules
 ---
 
@@ -8,14 +8,8 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Store (interface)](#store-interface)
 - [URI (type alias)](#uri-type-alias)
-- [Store (class)](#store-class)
-  - [seek (method)](#seek-method)
-  - [map (method)](#map-method)
-  - [extract (method)](#extract-method)
-  - [extend (method)](#extend-method)
-  - [inspect (method)](#inspect-method)
-  - [toString (method)](#tostring-method)
 - [URI (constant)](#uri-constant)
 - [store (constant)](#store-constant)
 - [experiment (function)](#experiment-function)
@@ -25,6 +19,19 @@ parent: Modules
 
 ---
 
+# Store (interface)
+
+**Signature**
+
+```ts
+export interface Store<S, A> {
+  readonly peek: (s: S) => A
+  readonly pos: S
+}
+```
+
+Added in v2.0.0
+
 # URI (type alias)
 
 **Signature**
@@ -33,68 +40,7 @@ parent: Modules
 export type URI = typeof URI
 ```
 
-# Store (class)
-
-**Signature**
-
-```ts
-export class Store<S, A> {
-  constructor(readonly peek: (s: S) => A, readonly pos: S) { ... }
-  ...
-}
-```
-
-Added in v1.0.0
-
-## seek (method)
-
-Reposition the focus at the specified position
-
-**Signature**
-
-```ts
-seek(s: S): Store<S, A> { ... }
-```
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): Store<S, B> { ... }
-```
-
-## extract (method)
-
-**Signature**
-
-```ts
-extract(): A { ... }
-```
-
-## extend (method)
-
-**Signature**
-
-```ts
-extend<B>(f: (sa: Store<S, A>) => B): Store<S, B> { ... }
-```
-
-## inspect (method)
-
-**Signature**
-
-```ts
-inspect(): string { ... }
-```
-
-## toString (method)
-
-**Signature**
-
-```ts
-toString(): string { ... }
-```
+Added in v2.0.0
 
 # URI (constant)
 
@@ -104,6 +50,8 @@ toString(): string { ... }
 export const URI = ...
 ```
 
+Added in v2.0.0
+
 # store (constant)
 
 **Signature**
@@ -112,7 +60,7 @@ export const URI = ...
 export const store: Comonad2<URI> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # experiment (function)
 
@@ -123,20 +71,20 @@ Extract a collection of values from positions which depend on the current positi
 ```ts
 export function experiment<F extends URIS3>(
   F: Functor3<F>
-): <U, L, S>(f: (s: S) => Kind3<F, U, L, S>) => <A>(wa: Store<S, A>) => Kind3<F, U, L, A>
+): <R, E, S>(f: (s: S) => Kind3<F, R, E, S>) => <A>(wa: Store<S, A>) => Kind3<F, R, E, A>
 export function experiment<F extends URIS2>(
   F: Functor2<F>
-): <L, S>(f: (s: S) => Kind2<F, L, S>) => <A>(wa: Store<S, A>) => Kind2<F, L, A>
-export function experiment<F extends URIS2, L>(
-  F: Functor2C<F, L>
-): <S>(f: (s: S) => Kind2<F, L, S>) => <A>(wa: Store<S, A>) => Kind2<F, L, A>
+): <E, S>(f: (s: S) => Kind2<F, E, S>) => <A>(wa: Store<S, A>) => Kind2<F, E, A>
+export function experiment<F extends URIS2, E>(
+  F: Functor2C<F, E>
+): <S>(f: (s: S) => Kind2<F, E, S>) => <A>(wa: Store<S, A>) => Kind2<F, E, A>
 export function experiment<F extends URIS>(
   F: Functor1<F>
 ): <S>(f: (s: S) => Kind<F, S>) => <A>(wa: Store<S, A>) => Kind<F, A>
 export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # peeks (function)
 
@@ -148,7 +96,7 @@ Extract a value from a position which depends on the current position
 export function peeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => A { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # seek (function)
 
@@ -160,7 +108,7 @@ Reposition the focus at the specified position
 export function seek<S>(s: S): <A>(wa: Store<S, A>) => Store<S, A> { ... }
 ```
 
-Added in v1.19.0
+Added in v2.0.0
 
 # seeks (function)
 
@@ -169,7 +117,7 @@ Reposition the focus at the specified position, which depends on the current pos
 **Signature**
 
 ```ts
-export const seeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>): Store<S, A> => ...
+export function seeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => Store<S, A> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0

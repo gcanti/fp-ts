@@ -8,6 +8,6 @@ import { BoundedJoinSemilattice } from './BoundedJoinSemilattice'
 import { BoundedMeetSemilattice } from './BoundedMeetSemilattice'
 
 /**
- * @since 1.4.0
+ * @since 2.0.0
  */
 export interface BoundedLattice<A> extends BoundedJoinSemilattice<A>, BoundedMeetSemilattice<A> {}

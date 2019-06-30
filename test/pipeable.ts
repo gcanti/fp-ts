@@ -4,7 +4,7 @@ import { pipeable, pipe } from '../src/pipeable'
 import { either, right, left } from '../src/Either'
 import { monoidSum, fold } from '../src/Monoid'
 import { some, none, isSome, Option, option } from '../src/Option'
-import { reader, Reader } from '../src/Reader'
+import { reader } from '../src/Reader'
 import * as C from '../src/Const'
 
 describe('pipeable', () => {
@@ -20,7 +20,7 @@ describe('pipeable', () => {
 
   it('Contravariant', () => {
     const { contramap } = pipeable(C.const_)
-    assert.deepStrictEqual(contramap((s: string) => s.length * 2)(C.make(1)).value, 1)
+    assert.deepStrictEqual(contramap((s: string) => s.length * 2)(C.make(1)), 1)
   })
 
   it('FunctorWithIndex', () => {
@@ -110,14 +110,14 @@ describe('pipeable', () => {
 
   it('Profunctor', () => {
     const { promap } = pipeable(reader)
-    const f = promap((s: string) => s + 'a', (n: number) => n > 2)(new Reader((s: string) => s.length))
-    assert.strictEqual(f.run('a'), false)
-    assert.strictEqual(f.run('aa'), true)
+    const f = promap((s: string) => s + 'a', (n: number) => n > 2)((s: string) => s.length)
+    assert.strictEqual(f('a'), false)
+    assert.strictEqual(f('aa'), true)
   })
 
   it('Semigroupoid', () => {
     const { compose } = pipeable(reader)
-    assert.strictEqual(compose(new Reader((s: string) => s.length))(new Reader(n => n * 2)).run('aa'), 4)
+    assert.strictEqual(compose((s: string) => s.length)(n => n * 2)('aa'), 4)
   })
 
   it('pipe', () => {
@@ -223,11 +223,5 @@ describe('pipeable', () => {
       ),
       63
     )
-  })
-
-  it('MonadThrow', () => {
-    const { fromEither } = pipeable(option)
-    assert.deepStrictEqual(fromEither(right(1)), some(1))
-    assert.deepStrictEqual(fromEither(left('a')), none)
   })
 })

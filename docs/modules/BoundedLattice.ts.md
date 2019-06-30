@@ -27,4 +27,4 @@ A `BoundedLattice` must satisfy the following in addition to `BoundedMeetSemilat
 export interface BoundedLattice<A> extends BoundedJoinSemilattice<A>, BoundedMeetSemilattice<A> {}
 ```
 
-Added in v1.4.0
+Added in v2.0.0

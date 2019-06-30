@@ -5,8 +5,8 @@ import { pipe } from '../src/pipeable'
 const suite = new Benchmark.Suite()
 
 /*
-pipe x 24,400,290 ops/sec ±1.56% (90 runs sampled)
-static dictionary x 87,166,258 ops/sec ±0.75% (91 runs sampled)
+pipe x 21,640,747 ops/sec ±0.48% (85 runs sampled)
+static dictionary x 57,118,380 ops/sec ±0.35% (88 runs sampled)
 */
 
 suite

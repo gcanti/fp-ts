@@ -1,6 +1,6 @@
 ---
 title: MeetSemilattice.ts
-nav_order: 55
+nav_order: 49
 parent: Modules
 ---
 
@@ -33,4 +33,4 @@ export interface MeetSemilattice<A> {
 }
 ```
 
-Added in v1.4.0
+Added in v2.0.0

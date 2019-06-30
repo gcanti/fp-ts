@@ -1,6 +1,6 @@
 ---
 title: Monad.ts
-nav_order: 56
+nav_order: 50
 parent: Modules
 ---
 
@@ -27,7 +27,6 @@ Note. `Functor`'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.o
 - [Monad2 (interface)](#monad2-interface)
 - [Monad2C (interface)](#monad2c-interface)
 - [Monad3 (interface)](#monad3-interface)
-- [Monad3C (interface)](#monad3c-interface)
 - [Monad4 (interface)](#monad4-interface)
 
 ---
@@ -40,7 +39,7 @@ Note. `Functor`'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.o
 export interface Monad<F> extends Applicative<F>, Chain<F> {}
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Monad1 (interface)
 
@@ -50,6 +49,8 @@ Added in v1.0.0
 export interface Monad1<F extends URIS> extends Applicative1<F>, Chain1<F> {}
 ```
 
+Added in v2.0.0
+
 # Monad2 (interface)
 
 **Signature**
@@ -57,6 +58,8 @@ export interface Monad1<F extends URIS> extends Applicative1<F>, Chain1<F> {}
 ```ts
 export interface Monad2<M extends URIS2> extends Applicative2<M>, Chain2<M> {}
 ```
+
+Added in v2.0.0
 
 # Monad2C (interface)
 
@@ -66,6 +69,8 @@ export interface Monad2<M extends URIS2> extends Applicative2<M>, Chain2<M> {}
 export interface Monad2C<M extends URIS2, L> extends Applicative2C<M, L>, Chain2C<M, L> {}
 ```
 
+Added in v2.0.0
+
 # Monad3 (interface)
 
 **Signature**
@@ -74,13 +79,7 @@ export interface Monad2C<M extends URIS2, L> extends Applicative2C<M, L>, Chain2
 export interface Monad3<M extends URIS3> extends Applicative3<M>, Chain3<M> {}
 ```
 
-# Monad3C (interface)
-
-**Signature**
-
-```ts
-export interface Monad3C<M extends URIS3, U, L> extends Applicative3C<M, U, L>, Chain3C<M, U, L> {}
-```
+Added in v2.0.0
 
 # Monad4 (interface)
 
@@ -89,3 +88,5 @@ export interface Monad3C<M extends URIS3, U, L> extends Applicative3C<M, U, L>, 
 ```ts
 export interface Monad4<M extends URIS4> extends Applicative4<M>, Chain4<M> {}
 ```
+
+Added in v2.0.0

@@ -1,6 +1,6 @@
 ---
 title: Functor.ts
-nav_order: 38
+nav_order: 34
 parent: Modules
 ---
 
@@ -25,9 +25,7 @@ Instances must satisfy the following laws:
 - [Functor2 (interface)](#functor2-interface)
 - [Functor2C (interface)](#functor2c-interface)
 - [Functor3 (interface)](#functor3-interface)
-- [Functor3C (interface)](#functor3c-interface)
 - [Functor4 (interface)](#functor4-interface)
-- [Functor4 (interface)](#functor4-interface-1)
 - [FunctorComposition (interface)](#functorcomposition-interface)
 - [FunctorComposition11 (interface)](#functorcomposition11-interface)
 - [FunctorComposition12 (interface)](#functorcomposition12-interface)
@@ -36,12 +34,10 @@ Instances must satisfy the following laws:
 - [FunctorComposition22 (interface)](#functorcomposition22-interface)
 - [FunctorComposition22C (interface)](#functorcomposition22c-interface)
 - [FunctorComposition2C1 (interface)](#functorcomposition2c1-interface)
-- [FunctorComposition3C1 (interface)](#functorcomposition3c1-interface)
-- [~~flap~~ (function)](#flap-function)
+- [FunctorCompositionHKT1 (interface)](#functorcompositionhkt1-interface)
+- [FunctorCompositionHKT2 (interface)](#functorcompositionhkt2-interface)
+- [FunctorCompositionHKT2C (interface)](#functorcompositionhkt2c-interface)
 - [getFunctorComposition (function)](#getfunctorcomposition-function)
-- [~~lift~~ (function)](#lift-function)
-- [~~voidLeft~~ (function)](#voidleft-function)
-- [~~voidRight~~ (function)](#voidright-function)
 
 ---
 
@@ -56,7 +52,7 @@ export interface Functor<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Functor1 (interface)
 
@@ -69,6 +65,8 @@ export interface Functor1<F extends URIS> {
 }
 ```
 
+Added in v2.0.0
+
 # Functor2 (interface)
 
 **Signature**
@@ -76,21 +74,25 @@ export interface Functor1<F extends URIS> {
 ```ts
 export interface Functor2<F extends URIS2> {
   readonly URI: F
-  readonly map: <L, A, B>(fa: Kind2<F, L, A>, f: (a: A) => B) => Kind2<F, L, B>
+  readonly map: <E, A, B>(fa: Kind2<F, E, A>, f: (a: A) => B) => Kind2<F, E, B>
 }
 ```
+
+Added in v2.0.0
 
 # Functor2C (interface)
 
 **Signature**
 
 ```ts
-export interface Functor2C<F extends URIS2, L> {
+export interface Functor2C<F extends URIS2, E> {
   readonly URI: F
-  readonly _L: L
-  readonly map: <A, B>(fa: Kind2<F, L, A>, f: (a: A) => B) => Kind2<F, L, B>
+  readonly _E: E
+  readonly map: <A, B>(fa: Kind2<F, E, A>, f: (a: A) => B) => Kind2<F, E, B>
 }
 ```
+
+Added in v2.0.0
 
 # Functor3 (interface)
 
@@ -99,22 +101,11 @@ export interface Functor2C<F extends URIS2, L> {
 ```ts
 export interface Functor3<F extends URIS3> {
   readonly URI: F
-  readonly map: <U, L, A, B>(fa: Kind3<F, U, L, A>, f: (a: A) => B) => Kind3<F, U, L, B>
+  readonly map: <R, E, A, B>(fa: Kind3<F, R, E, A>, f: (a: A) => B) => Kind3<F, R, E, B>
 }
 ```
 
-# Functor3C (interface)
-
-**Signature**
-
-```ts
-export interface Functor3C<F extends URIS3, U, L> {
-  readonly URI: F
-  readonly _L: L
-  readonly _U: U
-  readonly map: <A, B>(fa: Kind3<F, U, L, A>, f: (a: A) => B) => Kind3<F, U, L, B>
-}
-```
+Added in v2.0.0
 
 # Functor4 (interface)
 
@@ -123,20 +114,11 @@ export interface Functor3C<F extends URIS3, U, L> {
 ```ts
 export interface Functor4<F extends URIS4> {
   readonly URI: F
-  readonly map: <X, U, L, A, B>(fa: Kind4<F, X, U, L, A>, f: (a: A) => B) => Kind4<F, X, U, L, B>
+  readonly map: <S, R, E, A, B>(fa: Kind4<F, S, R, E, A>, f: (a: A) => B) => Kind4<F, S, R, E, B>
 }
 ```
 
-# Functor4 (interface)
-
-**Signature**
-
-```ts
-export interface Functor4<F extends URIS4> {
-  readonly URI: F
-  readonly map: <X, U, L, A, B>(fa: Kind4<F, X, U, L, A>, f: (a: A) => B) => Kind4<F, X, U, L, B>
-}
-```
+Added in v2.0.0
 
 # FunctorComposition (interface)
 
@@ -148,6 +130,8 @@ export interface FunctorComposition<F, G> {
 }
 ```
 
+Added in v2.0.0
+
 # FunctorComposition11 (interface)
 
 **Signature**
@@ -158,25 +142,31 @@ export interface FunctorComposition11<F extends URIS, G extends URIS> {
 }
 ```
 
+Added in v2.0.0
+
 # FunctorComposition12 (interface)
 
 **Signature**
 
 ```ts
 export interface FunctorComposition12<F extends URIS, G extends URIS2> {
-  readonly map: <LG, A, B>(fa: Kind<F, Kind2<G, LG, A>>, f: (a: A) => B) => Kind<F, Kind2<G, LG, B>>
+  readonly map: <E, A, B>(fa: Kind<F, Kind2<G, E, A>>, f: (a: A) => B) => Kind<F, Kind2<G, E, B>>
 }
 ```
+
+Added in v2.0.0
 
 # FunctorComposition12C (interface)
 
 **Signature**
 
 ```ts
-export interface FunctorComposition12C<F extends URIS, G extends URIS2, LG> {
-  readonly map: <A, B>(fa: Kind<F, Kind2<G, LG, A>>, f: (a: A) => B) => Kind<F, Kind2<G, LG, B>>
+export interface FunctorComposition12C<F extends URIS, G extends URIS2, E> {
+  readonly map: <A, B>(fa: Kind<F, Kind2<G, E, A>>, f: (a: A) => B) => Kind<F, Kind2<G, E, B>>
 }
 ```
+
+Added in v2.0.0
 
 # FunctorComposition21 (interface)
 
@@ -184,9 +174,11 @@ export interface FunctorComposition12C<F extends URIS, G extends URIS2, LG> {
 
 ```ts
 export interface FunctorComposition21<F extends URIS2, G extends URIS> {
-  readonly map: <LF, A, B>(fa: Kind2<F, LF, Kind<G, A>>, f: (a: A) => B) => Kind2<F, LF, Kind<G, B>>
+  readonly map: <E, A, B>(fa: Kind2<F, E, Kind<G, A>>, f: (a: A) => B) => Kind2<F, E, Kind<G, B>>
 }
 ```
+
+Added in v2.0.0
 
 # FunctorComposition22 (interface)
 
@@ -194,94 +186,97 @@ export interface FunctorComposition21<F extends URIS2, G extends URIS> {
 
 ```ts
 export interface FunctorComposition22<F extends URIS2, G extends URIS2> {
-  readonly map: <LF, LG, A, B>(fa: Kind2<F, LF, Kind2<G, LG, A>>, f: (a: A) => B) => Kind2<F, LF, Kind2<G, LG, B>>
+  readonly map: <FE, GE, A, B>(fa: Kind2<F, FE, Kind2<G, GE, A>>, f: (a: A) => B) => Kind2<F, FE, Kind2<G, GE, B>>
 }
 ```
+
+Added in v2.0.0
 
 # FunctorComposition22C (interface)
 
 **Signature**
 
 ```ts
-export interface FunctorComposition22C<F extends URIS2, G extends URIS2, LG> {
-  readonly map: <LF, A, B>(fa: Kind2<F, LF, Kind2<G, LG, A>>, f: (a: A) => B) => Kind2<F, LF, Kind2<G, LG, B>>
+export interface FunctorComposition22C<F extends URIS2, G extends URIS2, E> {
+  readonly map: <FE, A, B>(fa: Kind2<F, FE, Kind2<G, E, A>>, f: (a: A) => B) => Kind2<F, FE, Kind2<G, E, B>>
 }
 ```
+
+Added in v2.0.0
 
 # FunctorComposition2C1 (interface)
 
 **Signature**
 
 ```ts
-export interface FunctorComposition2C1<F extends URIS2, G extends URIS, LF> {
-  readonly map: <A, B>(fa: Kind2<F, LF, Kind<G, A>>, f: (a: A) => B) => Kind2<F, LF, Kind<G, B>>
+export interface FunctorComposition2C1<F extends URIS2, G extends URIS, E> {
+  readonly map: <A, B>(fa: Kind2<F, E, Kind<G, A>>, f: (a: A) => B) => Kind2<F, E, Kind<G, B>>
 }
 ```
 
-# FunctorComposition3C1 (interface)
+Added in v2.0.0
+
+# FunctorCompositionHKT1 (interface)
 
 **Signature**
 
 ```ts
-export interface FunctorComposition3C1<F extends URIS3, G extends URIS, UF, LF> {
-  readonly map: <A, B>(fa: Kind3<F, UF, LF, Kind<G, A>>, f: (a: A) => B) => Kind3<F, UF, LF, Kind<G, B>>
+export interface FunctorCompositionHKT1<F, G extends URIS> {
+  readonly map: <A, B>(fa: HKT<F, Kind<G, A>>, f: (a: A) => B) => HKT<F, Kind<G, B>>
 }
 ```
 
-# ~~flap~~ (function)
+Added in v2.0.0
 
-Apply a value in a computational context to a value in no context. Generalizes `flip`
+# FunctorCompositionHKT2 (interface)
 
 **Signature**
 
 ```ts
-export function flap<F extends URIS3>(
-  functor: Functor3<F>
-): <U, L, A, B>(a: A, ff: Kind3<F, U, L, (a: A) => B>) => Kind3<F, U, L, B>
-export function flap<F extends URIS3, U, L>(
-  functor: Functor3C<F, U, L>
-): <A, B>(a: A, ff: Kind3<F, U, L, (a: A) => B>) => Kind3<F, U, L, B>
-export function flap<F extends URIS2>(
-  functor: Functor2<F>
-): <L, A, B>(a: A, ff: Kind2<F, L, (a: A) => B>) => Kind2<F, L, B>
-export function flap<F extends URIS2, L>(
-  functor: Functor2C<F, L>
-): <A, B>(a: A, ff: Kind2<F, L, (a: A) => B>) => Kind2<F, L, B>
-export function flap<F extends URIS>(functor: Functor1<F>): <A, B>(a: A, ff: Kind<F, (a: A) => B>) => Kind<F, B>
-export function flap<F>(functor: Functor<F>): <A, B>(a: A, ff: HKT<F, (a: A) => B>) => HKT<F, B> { ... }
+export interface FunctorCompositionHKT2<F, G extends URIS2> {
+  readonly map: <E, A, B>(fa: HKT<F, Kind2<G, E, A>>, f: (a: A) => B) => HKT<F, Kind2<G, E, B>>
+}
 ```
 
-Added in v1.0.0
+Added in v2.0.0
+
+# FunctorCompositionHKT2C (interface)
+
+**Signature**
+
+```ts
+export interface FunctorCompositionHKT2C<F, G extends URIS2, E> {
+  readonly map: <A, B>(fa: HKT<F, Kind2<G, E, A>>, f: (a: A) => B) => HKT<F, Kind2<G, E, B>>
+}
+```
+
+Added in v2.0.0
 
 # getFunctorComposition (function)
 
 **Signature**
 
 ```ts
-export function getFunctorComposition<F extends URIS3, G extends URIS, UF, LF>(
-  F: Functor3C<F, UF, LF>,
-  G: Functor1<G>
-): FunctorComposition3C1<F, G, UF, LF>
-export function getFunctorComposition<F extends URIS2, G extends URIS2, LG>(
+export function getFunctorComposition<F extends URIS2, G extends URIS2, E>(
   F: Functor2<F>,
-  G: Functor2C<G, LG>
-): FunctorComposition22C<F, G, LG>
+  G: Functor2C<G, E>
+): FunctorComposition22C<F, G, E>
 export function getFunctorComposition<F extends URIS2, G extends URIS2>(
   F: Functor2<F>,
   G: Functor2<G>
 ): FunctorComposition22<F, G>
-export function getFunctorComposition<F extends URIS2, G extends URIS, LF>(
-  F: Functor2C<F, LF>,
+export function getFunctorComposition<F extends URIS2, G extends URIS, E>(
+  F: Functor2C<F, E>,
   G: Functor1<G>
-): FunctorComposition2C1<F, G, LF>
+): FunctorComposition2C1<F, G, E>
 export function getFunctorComposition<F extends URIS2, G extends URIS>(
   F: Functor2<F>,
   G: Functor1<G>
 ): FunctorComposition21<F, G>
-export function getFunctorComposition<F extends URIS, G extends URIS2, LG>(
+export function getFunctorComposition<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
-  G: Functor2C<G, LG>
-): FunctorComposition12C<F, G, LG>
+  G: Functor2C<G, E>
+): FunctorComposition12C<F, G, E>
 export function getFunctorComposition<F extends URIS, G extends URIS2>(
   F: Functor1<F>,
   G: Functor2<G>
@@ -293,71 +288,4 @@ export function getFunctorComposition<F extends URIS, G extends URIS>(
 export function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G> { ... }
 ```
 
-Added in v1.0.0
-
-# ~~lift~~ (function)
-
-Use `pipeable`'s `map`
-
-**Signature**
-
-```ts
-export function lift<F extends URIS3>(
-  F: Functor3<F>
-): <A, B>(f: (a: A) => B) => <U, L>(fa: Kind3<F, U, L, A>) => Kind3<F, U, L, B>
-export function lift<F extends URIS3, U, L>(
-  F: Functor3C<F, U, L>
-): <A, B>(f: (a: A) => B) => (fa: Kind3<F, U, L, A>) => Kind3<F, U, L, B>
-export function lift<F extends URIS2>(
-  F: Functor2<F>
-): <A, B>(f: (a: A) => B) => <L>(fa: Kind2<F, L, A>) => Kind2<F, L, B>
-export function lift<F extends URIS2, L>(
-  F: Functor2C<F, L>
-): <A, B>(f: (a: A) => B) => (fa: Kind2<F, L, A>) => Kind2<F, L, B>
-export function lift<F extends URIS>(F: Functor1<F>): <A, B>(f: (a: A) => B) => (fa: Kind<F, A>) => Kind<F, B>
-export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B> { ... }
-```
-
-Added in v1.0.0
-
-# ~~voidLeft~~ (function)
-
-A version of `voidRight` with its arguments flipped (`$>`)
-
-**Signature**
-
-```ts
-export function voidLeft<F extends URIS3>(
-  F: Functor3<F>
-): <U, L, A, B>(fa: Kind3<F, U, L, A>, b: B) => Kind3<F, U, L, B>
-export function voidLeft<F extends URIS3, U, L>(
-  F: Functor3C<F, U, L>
-): <A, B>(fa: Kind3<F, U, L, A>, b: B) => Kind3<F, U, L, B>
-export function voidLeft<F extends URIS2>(F: Functor2<F>): <L, A, B>(fa: Kind2<F, L, A>, b: B) => Kind2<F, L, B>
-export function voidLeft<F extends URIS2, L>(F: Functor2C<F, L>): <A, B>(fa: Kind2<F, L, A>, b: B) => Kind2<F, L, B>
-export function voidLeft<F extends URIS>(F: Functor1<F>): <A, B>(fa: Kind<F, A>, b: B) => Kind<F, B>
-export function voidLeft<F>(F: Functor<F>): <A, B>(fa: HKT<F, A>, b: B) => HKT<F, B> { ... }
-```
-
-Added in v1.0.0
-
-# ~~voidRight~~ (function)
-
-Ignore the return value of a computation, using the specified return value instead (`<$`)
-
-**Signature**
-
-```ts
-export function voidRight<F extends URIS3>(
-  F: Functor3<F>
-): <U, L, A, B>(a: A, fb: Kind3<F, U, L, B>) => Kind3<F, U, L, A>
-export function voidRight<F extends URIS3, U, L>(
-  F: Functor3C<F, U, L>
-): <A, B>(a: A, fb: Kind3<F, U, L, B>) => Kind3<F, U, L, A>
-export function voidRight<F extends URIS2>(F: Functor2<F>): <L, A, B>(a: A, fb: Kind2<F, L, B>) => Kind2<F, L, A>
-export function voidRight<F extends URIS2, L>(F: Functor2C<F, L>): <A, B>(a: A, fb: Kind2<F, L, B>) => Kind2<F, L, A>
-export function voidRight<F extends URIS>(F: Functor1<F>): <A, B>(a: A, fb: Kind<F, B>) => Kind<F, A>
-export function voidRight<F>(F: Functor<F>): <A, B>(a: A, fb: HKT<F, B>) => HKT<F, A> { ... }
-```
-
-Added in v1.0.0
+Added in v2.0.0

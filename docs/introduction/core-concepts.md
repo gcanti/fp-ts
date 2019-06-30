@@ -7,7 +7,7 @@ has_toc: false
 
 # Core Concepts
 
-The goal of fp-ts is to empower developers to write pure FP apps and libraries built atop higher order abstractions. It includes the most popular data types, type classes, and abstractions from languages like [Haskell](https://haskell-lang.org), [PureScript](http://www.purescript.org), and [Scala](https://www.scala-lang.org/).
+The goal of `fp-ts` is to empower developers to write pure FP apps and libraries built atop higher order abstractions. It includes the most popular data types, type classes, and abstractions from languages like [Haskell](https://haskell-lang.org), [PureScript](http://www.purescript.org), and [Scala](https://www.scala-lang.org/).
 {: .fs-6 .fw-300 }
 
 ---
@@ -18,7 +18,7 @@ We recommend you take the [basic tutorial](../basics/) to get started with using
 
 ## Functions
 
-Functional programming is all about pure functions and how to compose them into bigger structures. `fp-ts` provides a few general [functions](../modules/function.ts) to support you with composition, currying, and more.
+Functional programming is all about pure functions and how to compose them into bigger structures. `fp-ts` provides a few general [functions](../modules/function.ts) to support you with composition, constant functions, and more.
 
 ## Data Types
 
@@ -27,11 +27,12 @@ Data types are the practical part of `fp-ts`: you can instantiate them with your
 Many functions in `fp-ts` use [ad hoc polymorphism](https://en.wikipedia.org/wiki/Ad_hoc_polymorphism), meaning that they have a single implementation that can deal with arguments of different types. To make this work, it is often necessary to provide a data type _instance_ that provides functionality that is specific to the data type. Here is an example:
 
 ```ts
-import { option, apply } from 'fp-ts'
+import { option } from 'fp-ts/lib/Option'
+import { sequenceS } from 'fp-ts/lib/Apply'
 
 // sequenceS is an ad hoc polymorphic function and requires an Option instance.
 // This is what option.option provides.
-const sequenceSOption = apply.sequenceS(option.option)
+const sequenceSOption = sequenceS(option)
 ```
 
 Here's a small list of some commonly used data types, you can find more in the [API reference](../modules/).
@@ -56,7 +57,7 @@ Besides `Functor` the following type classes are a good starting point:
 
 * [Apply](../modules/Apply.ts) - allows applying a function to an argument under a type constructor.
 * [Chain](../modules/Chain.ts) - extends the `Apply` type class with a `chain` operation which composes computations in sequence, using the return value of one computation to determine the next computation.
-* [Setoid](../modules/Setoid.ts) - represents types which support decidable equality with the `equals` operation.
+* [Eq](../modules/Eq.ts) - represents types which support decidable equality with the `equals` operation.
 
 If you're interested in learning more about this topic, have a look at the [learning resources](./learning-resources).
 
