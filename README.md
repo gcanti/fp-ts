@@ -92,7 +92,9 @@ Note that there are caveats such as some tools (e.g. Jest) not supporting ES6 mo
 - [Docs](https://gcanti.github.io/fp-ts)
 - [Tutorial](https://gcanti.github.io/fp-ts/basics/)
 - [Ecosystem](https://gcanti.github.io/fp-ts/introduction/ecosystem)
-- [API Reference](https://gcanti.github.io/fp-ts/modules/)
+- API Reference
+  - [version 2.x (current)](https://gcanti.github.io/fp-ts/modules/)
+  - [version 1.x](https://github.com/gcanti/fp-ts/tree/1.x/docs/modules/)
 
 # Development
 
