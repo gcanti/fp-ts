@@ -36,9 +36,7 @@ This section provides technical reference material for the functions, data types
 * [function](./function.ts.html)
 * [Console](./Console.ts.html)
 * [Date](./Date.ts.html)
-* [Exception](./Exception.ts.html)
 * [Random](./Random.ts.html)
-* [Trace](./Trace.ts.html)
 
 ## Data types
 
