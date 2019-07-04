@@ -30,3 +30,12 @@ about: Suggest an idea for fp-ts
 ### Additional context
 
 <!-- Add any other context or links about the feature request here. -->
+
+### Your environment
+
+<!-- PLEASE FILL THIS OUT -->
+
+| Software   | Version(s) |
+| ---------- | ---------- |
+| fp-ts      |            |
+| TypeScript |            |
