@@ -71,15 +71,15 @@ export function fold<E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>)
 /**
  * @since 2.0.0
  */
-export function getOrElse<E, A>(f: (e: E) => IO<A>): (ma: IOEither<E, A>) => IO<A> {
-  return ma => T.getOrElse(ma, f)
+export function getOrElse<E, A>(onLeft: (e: E) => IO<A>): (ma: IOEither<E, A>) => IO<A> {
+  return ma => T.getOrElse(ma, onLeft)
 }
 
 /**
  * @since 2.0.0
  */
-export function orElse<E, A, M>(f: (e: E) => IOEither<M, A>): (ma: IOEither<E, A>) => IOEither<M, A> {
-  return ma => T.orElse(ma, f)
+export function orElse<E, A, M>(onLeft: (e: E) => IOEither<M, A>): (ma: IOEither<E, A>) => IOEither<M, A> {
+  return ma => T.orElse(ma, onLeft)
 }
 
 /**

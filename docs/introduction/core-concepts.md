@@ -14,7 +14,7 @@ The goal of `fp-ts` is to empower developers to write pure FP apps and libraries
 
 Don't panic. If "higher order abstractions" and "type classes" sound like insanely complicated words to you, the first thing you should know is that you don't have to understand all the intricate details of `fp-ts` in order to make good use of it. There is a learning curve, certainly, but don't fear that you can't learn to use `fp-ts` effectively, even as a beginner in functional programming. The trick is to start using the parts that are easier to understand and then gradually expand your knowledge.
 
-We recommend you take the [basic tutorial](../basics/) to get started with using this library. There's also a list of [recipes](../recipes/) to help you find quick solutions to common problems.
+There's a list of [recipes](../recipes/) to help you find quick solutions to common problems.
 
 ## Functions
 

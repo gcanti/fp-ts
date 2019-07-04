@@ -177,7 +177,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getOrElse<R, E, A>(f: (e: E) => Reader<R, A>): (ma: ReaderEither<R, E, A>) => Reader<R, A> { ... }
+export function getOrElse<R, E, A>(onLeft: (e: E) => Reader<R, A>): (ma: ReaderEither<R, E, A>) => Reader<R, A> { ... }
 ```
 
 Added in v2.0.0
@@ -208,7 +208,7 @@ Added in v2.0.0
 
 ```ts
 export function orElse<R, E, A, M>(
-  f: (e: E) => ReaderEither<R, M, A>
+  onLeft: (e: E) => ReaderEither<R, M, A>
 ): (ma: ReaderEither<R, E, A>) => ReaderEither<R, M, A> { ... }
 ```
 

@@ -460,7 +460,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getOrElse<A>(f: () => A): (ma: Option<A>) => A { ... }
+export function getOrElse<A>(onNone: () => A): (ma: Option<A>) => A { ... }
 ```
 
 Added in v2.0.0

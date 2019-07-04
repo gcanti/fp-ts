@@ -147,9 +147,9 @@ export function getOrElse<R, E, A>(
  * @since 2.0.0
  */
 export function orElse<R, E, A, M>(
-  f: (e: E) => ReaderTaskEither<R, M, A>
+  onLeft: (e: E) => ReaderTaskEither<R, M, A>
 ): (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, M, A> {
-  return ma => r => TE.orElse<E, A, M>(e => f(e)(r))(ma(r))
+  return ma => r => TE.orElse<E, A, M>(e => onLeft(e)(r))(ma(r))
 }
 
 /**

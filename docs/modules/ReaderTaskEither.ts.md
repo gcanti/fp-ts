@@ -273,7 +273,7 @@ Added in v2.0.0
 
 ```ts
 export function orElse<R, E, A, M>(
-  f: (e: E) => ReaderTaskEither<R, M, A>
+  onLeft: (e: E) => ReaderTaskEither<R, M, A>
 ): (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, M, A> { ... }
 ```
 

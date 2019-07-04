@@ -67,17 +67,17 @@ export function fold<R, E, A, B>(
 /**
  * @since 2.0.0
  */
-export function getOrElse<R, E, A>(f: (e: E) => Reader<R, A>): (ma: ReaderEither<R, E, A>) => Reader<R, A> {
-  return ma => T.getOrElse(ma, f)
+export function getOrElse<R, E, A>(onLeft: (e: E) => Reader<R, A>): (ma: ReaderEither<R, E, A>) => Reader<R, A> {
+  return ma => T.getOrElse(ma, onLeft)
 }
 
 /**
  * @since 2.0.0
  */
 export function orElse<R, E, A, M>(
-  f: (e: E) => ReaderEither<R, M, A>
+  onLeft: (e: E) => ReaderEither<R, M, A>
 ): (ma: ReaderEither<R, E, A>) => ReaderEither<R, M, A> {
-  return ma => T.orElse(ma, f)
+  return ma => T.orElse(ma, onLeft)
 }
 
 /**

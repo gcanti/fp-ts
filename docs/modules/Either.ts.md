@@ -250,7 +250,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getOrElse<E, A>(f: (e: E) => A): (ma: Either<E, A>) => A { ... }
+export function getOrElse<E, A>(onLeft: (e: E) => A): (ma: Either<E, A>) => A { ... }
 ```
 
 Added in v2.0.0
@@ -375,7 +375,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function orElse<E, A, M>(f: (e: E) => Either<M, A>): (ma: Either<E, A>) => Either<M, A> { ... }
+export function orElse<E, A, M>(onLeft: (e: E) => Either<M, A>): (ma: Either<E, A>) => Either<M, A> { ... }
 ```
 
 Added in v2.0.0

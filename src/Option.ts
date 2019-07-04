@@ -207,8 +207,8 @@ export function toUndefined<A>(ma: Option<A>): A | undefined {
 /**
  * @since 2.0.0
  */
-export function getOrElse<A>(f: () => A): (ma: Option<A>) => A {
-  return ma => (isNone(ma) ? f() : ma.value)
+export function getOrElse<A>(onNone: () => A): (ma: Option<A>) => A {
+  return ma => (isNone(ma) ? onNone() : ma.value)
 }
 
 /**

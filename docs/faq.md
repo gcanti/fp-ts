@@ -19,7 +19,7 @@ has_toc: false
 
 ### How can I handle errors with Tasks?
 
-Not every async computation necessarily needs error handling, which is why [Task](../modules/Task.ts) is simply defined as `Task<A>`. If you do need to handle errors, you can use [TaskEither](../modules/TaskEither.ts) or variations of `Task` like `Task<Option<A>>` or `Task<Validation<L, A>>`.
+Not every async computation necessarily needs error handling, which is why [Task](../modules/Task.ts) is simply defined as `Task<A>`. If you do need to handle errors, you can use [TaskEither](../modules/TaskEither.ts) or variations of `Task` like `Task<Option<A>>` or `Task<These<L, A>>`.
 
 ## Where do I find …?
 

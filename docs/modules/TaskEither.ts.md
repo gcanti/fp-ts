@@ -207,7 +207,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getOrElse<E, A>(f: (e: E) => Task<A>): (ma: TaskEither<E, A>) => Task<A> { ... }
+export function getOrElse<E, A>(onLeft: (e: E) => Task<A>): (ma: TaskEither<E, A>) => Task<A> { ... }
 ```
 
 Added in v2.0.0
@@ -247,7 +247,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function orElse<E, A, M>(f: (e: E) => TaskEither<M, A>): (ma: TaskEither<E, A>) => TaskEither<M, A> { ... }
+export function orElse<E, A, M>(onLeft: (e: E) => TaskEither<M, A>): (ma: TaskEither<E, A>) => TaskEither<M, A> { ... }
 ```
 
 Added in v2.0.0

@@ -95,15 +95,15 @@ export function fold<E, A, B>(
 /**
  * @since 2.0.0
  */
-export function getOrElse<E, A>(f: (e: E) => Task<A>): (ma: TaskEither<E, A>) => Task<A> {
-  return ma => T.getOrElse(ma, f)
+export function getOrElse<E, A>(onLeft: (e: E) => Task<A>): (ma: TaskEither<E, A>) => Task<A> {
+  return ma => T.getOrElse(ma, onLeft)
 }
 
 /**
  * @since 2.0.0
  */
-export function orElse<E, A, M>(f: (e: E) => TaskEither<M, A>): (ma: TaskEither<E, A>) => TaskEither<M, A> {
-  return ma => T.orElse(ma, f)
+export function orElse<E, A, M>(onLeft: (e: E) => TaskEither<M, A>): (ma: TaskEither<E, A>) => TaskEither<M, A> {
+  return ma => T.orElse(ma, onLeft)
 }
 
 /**

@@ -268,15 +268,15 @@ export function swap<E, A>(ma: Either<E, A>): Either<A, E> {
 /**
  * @since 2.0.0
  */
-export function orElse<E, A, M>(f: (e: E) => Either<M, A>): (ma: Either<E, A>) => Either<M, A> {
-  return ma => (isLeft(ma) ? f(ma.left) : ma)
+export function orElse<E, A, M>(onLeft: (e: E) => Either<M, A>): (ma: Either<E, A>) => Either<M, A> {
+  return ma => (isLeft(ma) ? onLeft(ma.left) : ma)
 }
 
 /**
  * @since 2.0.0
  */
-export function getOrElse<E, A>(f: (e: E) => A): (ma: Either<E, A>) => A {
-  return ma => (isLeft(ma) ? f(ma.left) : ma.right)
+export function getOrElse<E, A>(onLeft: (e: E) => A): (ma: Either<E, A>) => A {
+  return ma => (isLeft(ma) ? onLeft(ma.left) : ma.right)
 }
 
 /**

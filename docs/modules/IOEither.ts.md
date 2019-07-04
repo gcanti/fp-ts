@@ -187,7 +187,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getOrElse<E, A>(f: (e: E) => IO<A>): (ma: IOEither<E, A>) => IO<A> { ... }
+export function getOrElse<E, A>(onLeft: (e: E) => IO<A>): (ma: IOEither<E, A>) => IO<A> { ... }
 ```
 
 Added in v2.0.0
@@ -207,7 +207,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function orElse<E, A, M>(f: (e: E) => IOEither<M, A>): (ma: IOEither<E, A>) => IOEither<M, A> { ... }
+export function orElse<E, A, M>(onLeft: (e: E) => IOEither<M, A>): (ma: IOEither<E, A>) => IOEither<M, A> { ... }
 ```
 
 Added in v2.0.0
