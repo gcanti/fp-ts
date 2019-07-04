@@ -6,3 +6,5 @@
 - Ensure the test suite passes (`npm test`).
 
 **Note**. If you find a typo in the **documentation**, make sure to modify the corresponding source (docs are generated).
+
+**Note**. If you want to send a PR related to `fp-ts@1.x` please create your branch from `1.x`
