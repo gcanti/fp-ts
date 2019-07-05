@@ -68,6 +68,7 @@ import { identity, tuple, Predicate } from '../src/function'
 import * as I from '../src/Identity'
 import * as C from '../src/Const'
 import { showString } from '../src/Show'
+import { isDeepStrictEqual } from 'util'
 
 const p = (n: number) => n > 2
 
@@ -610,18 +611,43 @@ describe('Array', () => {
     assert.deepStrictEqual(splitAt(3)([1, 2]), [[1, 2], []])
   })
 
-  it('chunksOf', () => {
-    assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
-    assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5, 6]), [[1, 2], [3, 4], [5, 6]])
-    assert.deepStrictEqual(chunksOf(5)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
-    assert.deepStrictEqual(chunksOf(6)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
-    assert.deepStrictEqual(chunksOf(1)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
-    assert.deepStrictEqual(chunksOf(1)([]), [[]])
-    assert.deepStrictEqual(chunksOf(2)([]), [[]])
-    assert.deepStrictEqual(chunksOf(0)([]), [[]])
-    assert.deepStrictEqual(chunksOf(0)([1, 2]), [[1, 2]])
-    assert.deepStrictEqual(chunksOf(10)([1, 2]), [[1, 2]])
-    assert.deepStrictEqual(chunksOf(-1)([1, 2]), [[1, 2]])
+  describe('chunksOf', () => {
+    it('should split an array into length-n pieces', () => {
+      assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
+      assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5, 6]), [[1, 2], [3, 4], [5, 6]])
+      assert.deepStrictEqual(chunksOf(5)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
+      assert.deepStrictEqual(chunksOf(6)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
+      assert.deepStrictEqual(chunksOf(1)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
+      assert.deepStrictEqual(chunksOf(0)([1, 2]), [[1, 2]])
+      assert.deepStrictEqual(chunksOf(10)([1, 2]), [[1, 2]])
+      assert.deepStrictEqual(chunksOf(-1)([1, 2]), [[1, 2]])
+    })
+
+    // #897
+    it('returns an empty array if provided an empty array', () => {
+      assert.deepStrictEqual(chunksOf(1)([]), [])
+      assert.deepStrictEqual(chunksOf(2)([]), [])
+      assert.deepStrictEqual(chunksOf(0)([]), [])
+    })
+
+    // #897
+    it('should respect the law: chunksOf(n)(xs).concat(chunksOf(n)(ys)) == chunksOf(n)(xs.concat(ys)))', () => {
+      const xs: Array<number> = []
+      const ys = [1, 2]
+      assert.deepStrictEqual(chunksOf(2)(xs).concat(chunksOf(2)(ys)), chunksOf(2)(xs.concat(ys)))
+      fc.assert(
+        fc.property(
+          fc.array(fc.integer()).filter(xs => xs.length % 2 === 0), // Ensures `xs.length` is even
+          fc.array(fc.integer()),
+          fc.integer(1, 1).map(x => x * 2), // Generates `n` to be even so that it evenly divides `xs`
+          (xs, ys, n) => {
+            const as = chunksOf(n)(xs).concat(chunksOf(n)(ys))
+            const bs = chunksOf(n)(xs.concat(ys))
+            isDeepStrictEqual(as, bs)
+          }
+        )
+      )
+    })
   })
 
   it('makeBy', () => {

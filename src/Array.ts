@@ -1168,7 +1168,7 @@ export function splitAt(n: number): <A>(as: Array<A>) => [Array<A>, Array<A>] {
  * @since 2.0.0
  */
 export function chunksOf(n: number): <A>(as: Array<A>) => Array<Array<A>> {
-  return as => (isOutOfBound(n - 1, as) ? [as] : chop(splitAt(n))(as))
+  return as => (as.length === 0 ? empty : isOutOfBound(n - 1, as) ? [as] : chop(splitAt(n))(as))
 }
 
 /**
