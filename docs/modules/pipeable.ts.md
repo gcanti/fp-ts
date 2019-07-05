@@ -246,7 +246,7 @@ export interface PipeableApply4<F extends URIS4> extends PipeableFunctor4<F> {
 ```ts
 export interface PipeableBifunctor<F> {
   readonly bimap: <L, A, M, B>(f: (l: L) => M, g: (a: A) => B) => (fa: HKT2<F, L, A>) => HKT2<F, M, B>
-  readonly mapLeft: <L, A, M>(f: (l: L) => M) => (fa: HKT2<F, L, A>) => HKT2<F, M, A>
+  readonly mapLeft: <L, M>(f: (l: L) => M) => <A>(fa: HKT2<F, L, A>) => HKT2<F, M, A>
 }
 ```
 
@@ -257,7 +257,7 @@ export interface PipeableBifunctor<F> {
 ```ts
 export interface PipeableBifunctor2<F extends URIS2> {
   readonly bimap: <L, A, M, B>(f: (l: L) => M, g: (a: A) => B) => (fa: Kind2<F, L, A>) => Kind2<F, M, B>
-  readonly mapLeft: <L, A, M>(f: (l: L) => M) => (fa: Kind2<F, L, A>) => Kind2<F, M, A>
+  readonly mapLeft: <L, M>(f: (l: L) => M) => <A>(fa: Kind2<F, L, A>) => Kind2<F, M, A>
 }
 ```
 
@@ -268,7 +268,7 @@ export interface PipeableBifunctor2<F extends URIS2> {
 ```ts
 export interface PipeableBifunctor3<F extends URIS3> {
   readonly bimap: <L, A, M, B>(f: (l: L) => M, g: (a: A) => B) => <U>(fa: Kind3<F, U, L, A>) => Kind3<F, U, M, B>
-  readonly mapLeft: <L, A, M>(f: (l: L) => M) => <U>(fa: Kind3<F, U, L, A>) => Kind3<F, U, M, A>
+  readonly mapLeft: <L, M>(f: (l: L) => M) => <U, A>(fa: Kind3<F, U, L, A>) => Kind3<F, U, M, A>
 }
 ```
 
@@ -282,7 +282,7 @@ export interface PipeableBifunctor4<F extends URIS4> {
     f: (l: L) => M,
     g: (a: A) => B
   ) => <X, U>(fa: Kind4<F, X, U, L, A>) => Kind4<F, X, U, M, B>
-  readonly mapLeft: <L, A, M>(f: (l: L) => M) => <X, U>(fa: Kind4<F, X, U, L, A>) => Kind4<F, X, U, M, A>
+  readonly mapLeft: <L, M>(f: (l: L) => M) => <X, U, A>(fa: Kind4<F, X, U, L, A>) => Kind4<F, X, U, M, A>
 }
 ```
 
