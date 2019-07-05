@@ -40,7 +40,7 @@ import * as C from '../src/Const'
 import { eqNumber } from '../src/Eq'
 import { showString } from '../src/Show'
 
-describe.only('NonEmptyArray2v', () => {
+describe('NonEmptyArray2v', () => {
   it('make', () => {
     // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(make(1, [2]), fromNonEmptyArray([1, 2]))
@@ -137,6 +137,7 @@ describe.only('NonEmptyArray2v', () => {
   })
 
   it('foldMap', () => {
+    // tslint:disable-next-line: deprecation
     const old = F.foldMap(nonEmptyArray, monoidString)
     const foldMap = nonEmptyArray.foldMap(monoidString)
     const x1 = fromNonEmptyArray(['a', 'b', 'c'])
@@ -146,6 +147,7 @@ describe.only('NonEmptyArray2v', () => {
   })
 
   it('foldr', () => {
+    // tslint:disable-next-line: deprecation
     const old = F.foldr(nonEmptyArray)
     const foldr = nonEmptyArray.foldr
     const x1 = fromNonEmptyArray(['a', 'b', 'c'])

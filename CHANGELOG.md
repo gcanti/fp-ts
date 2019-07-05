@@ -18,6 +18,7 @@ high state of flux, you're at risk of it changing without notice.
 
 - **Bug Fix**
   - fix `PipeableBifunctor` definition (@gcanti)
+  - fix `chunksOf` implementation, fix #897 (@gcanti)
 
 # 1.19.3
 

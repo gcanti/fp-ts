@@ -1375,7 +1375,7 @@ export const split = <A>(n: number, as: Array<A>): [Array<A>, Array<A>] => {
 
 function _chunksOf<A>(as: Array<A>, n: number): Array<Array<A>> {
   // tslint:disable-next-line: deprecation
-  return isOutOfBound(n - 1, as) ? [as] : chop(as, as => split(n, as))
+  return as.length === 0 ? empty : isOutOfBound(n - 1, as) ? [as] : chop(as, as => split(n, as))
 }
 
 /**
