@@ -34,7 +34,7 @@ import { isSome, none, option, some } from '../src/Option'
 import { ordNumber } from '../src/Ord'
 import { showString } from '../src/Show'
 
-describe.only('NonEmptyArray', () => {
+describe('NonEmptyArray', () => {
   it('head', () => {
     assert.deepStrictEqual(head([1, 2]), 1)
   })
