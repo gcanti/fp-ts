@@ -20,6 +20,7 @@ import * as Ring from '../../src/Ring'
 import * as S from '../../src/Semigroup'
 import * as T from '../../src/Task'
 import * as TE from '../../src/TaskEither'
+import { pipe } from '../../src/pipeable'
 
 //
 // Apply
@@ -379,3 +380,13 @@ declare function isStringWithKey(i: 'a' | 'b', x: unknown): x is string
 
 filterableWithIndexMap.filterWithIndex(Map.empty as Map<'a' | 'b', string | number>, isStringWithKey) // $ExpectType Map<"a" | "b", string>
 filterableWithIndexMap.partitionWithIndex(Map.empty as Map<'a' | 'b', string | number>, isStringWithKey) // $ExpectType Separated<Map<"a" | "b", string | number>, Map<"a" | "b", string>>
+
+//
+// pipeable
+//
+
+// $ExpectType Either<number, number>
+pipe(
+  E.right<string, number>(1),
+  E.mapLeft<string, number>(e => e.length)
+)
