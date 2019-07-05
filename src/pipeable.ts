@@ -239,13 +239,13 @@ export interface PipeableApply1<F extends URIS> extends PipeableFunctor1<F> {
 export interface PipeableApply2<F extends URIS2> extends PipeableFunctor2<F> {
   readonly ap: <E, A>(fa: Kind2<F, E, A>) => <B>(fab: Kind2<F, E, (a: A) => B>) => Kind2<F, E, B>
   readonly apFirst: <E, B>(fb: Kind2<F, E, B>) => <A>(fa: Kind2<F, E, A>) => Kind2<F, E, A>
-  readonly apSecond: <e, B>(fb: Kind2<F, e, B>) => <A>(fa: Kind2<F, e, A>) => Kind2<F, e, B>
+  readonly apSecond: <E, B>(fb: Kind2<F, E, B>) => <A>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 
-export interface PipeableApply2C<F extends URIS2, e> extends PipeableFunctor2C<F, e> {
-  readonly ap: <A>(fa: Kind2<F, e, A>) => <B>(fab: Kind2<F, e, (a: A) => B>) => Kind2<F, e, B>
-  readonly apFirst: <A>(fb: Kind2<F, e, A>) => <B>(fb: Kind2<F, e, B>) => Kind2<F, e, A>
-  readonly apSecond: <A>(fb: Kind2<F, e, A>) => <B>(fb: Kind2<F, e, B>) => Kind2<F, e, B>
+export interface PipeableApply2C<F extends URIS2, E> extends PipeableFunctor2C<F, E> {
+  readonly ap: <A>(fa: Kind2<F, E, A>) => <B>(fab: Kind2<F, E, (a: A) => B>) => Kind2<F, E, B>
+  readonly apFirst: <A>(fb: Kind2<F, E, A>) => <B>(fb: Kind2<F, E, B>) => Kind2<F, E, A>
+  readonly apSecond: <A>(fb: Kind2<F, E, A>) => <B>(fb: Kind2<F, E, B>) => Kind2<F, E, B>
 }
 
 export interface PipeableApply3<F extends URIS3> extends PipeableFunctor3<F> {
