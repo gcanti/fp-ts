@@ -13,7 +13,7 @@ has_toc: false
 `fp-ts` provides developers with popular patterns and reliable abstractions from typed functional languages in TypeScript.
 {: .fs-6 .fw-300 }
 
-[Get started](./introduction/core-concepts){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [Take the tutorial](./basics/){: .btn .fs-5 .mb-4 .mb-md-0 }
+[Get started](./introduction/core-concepts){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 
 ---
 
