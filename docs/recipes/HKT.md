@@ -94,8 +94,8 @@ export const URI = 'Either'
 export type URI = typeof URI
 
 declare module 'fp-ts/lib/HKT' {
-  interface URItoKind2<L, A> {
-    Either: Either<L, A>
+  interface URItoKind2<E, A> {
+    Either: Either<E, A>
   }
 }
 
