@@ -9,6 +9,38 @@ parent: Modules
 `TaskEither<E, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
 error of type `E`. If you want to represent an asynchronous computation that never fails, please see `Task`.
 
+Typically `TaskEither` provides convenience over working with `Task` and `Either` separately. However, you may need
+to combine or separate them to interface with functions that use one or the other. Below are some recipes to get you
+out of a pickle.
+
+```ts
+import * as t from 'fp-ts/lib/Task'
+import * as e from 'fp-ts/lib/Either'
+import * as te from 'fp-ts/lib/TaskEither'
+
+function te_from_t<R>(input: t.Task<R>): te.TaskEither<never, R> {
+  return te.right(input)
+}
+
+function te_from_e<L, R>(input: e.Either<L, R>): te.TaskEither<L, R> {
+  return te.fromEither(input)
+}
+
+function te_from_e_t<L, R>(input: e.Either<t.Task<L>, t.Task<R>>): te.TaskEither<L, R> {
+  return input.fold(l => te.left(l), r => te.right(r))
+}
+
+function te_from_t_e<L, R>(input: t.Task<e.Either<L, R>>): te.TaskEither<L, R> {
+  return te
+    .right<L, e.Either<L, R>>(input)
+    .chain(lr => lr.fold(l => te.left(t.task.of(l)), r => te.right(t.task.of(r))))
+}
+
+function t_e_from_te<L, R>(input: te.TaskEither<L, R>): t.Task<e.Either<L, R>> {
+  return input.value
+}
+```
+
 ---
 
 <h2 class="text-delta">Table of contents</h2>
