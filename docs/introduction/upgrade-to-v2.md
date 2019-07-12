@@ -53,7 +53,7 @@ Add the following lines to your `tslint.json` to turn the `@obsolete` rule on:
 
 ### Dependencies
 
-Make sure to always have a single version of `fp-ts` installed in your project. Multiple versions are known to cause `tsc` to hang during compilation. You can check the versions currently installed using `npm ls fp-ts`: make sure there's a single version and all the others are marked as `deduped`.
+Don't forget to update your dependencies: libraries that use `fp-ts` like [io-ts](https://github.com/gcanti/io-ts) or [monocle-ts](https://github.com/gcanti/monocle-ts) have to be upgraded to their `fp-ts@2.x` compatible versions.
 
 ## The new API
 
