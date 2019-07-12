@@ -18,6 +18,7 @@ The major changes in `fp-ts@2.x` are:
 - `fp-ts@1.19.x` has been released with backported 2.x features for a gradual upgrade path
 - Data types are no longer implemented as classes, resulting in a new API using `pipe`
 - The `run()` method on `IO`, `Task`, etc. has been replaced with a thunk
+- Functions accepting fallback values are now always lazy (e.g. `getOrElseL` is now just `getOrElse`)
 - Deprecations
   - `HKT`: Replaced `Type<n>` with `Kind<n>`
   - Replaced `Setoid` with `Eq`
@@ -117,6 +118,35 @@ const deepThought: Task<number> = () => Promise.resolve(42)
 deepThought().then(n => {
   console.log(`The answer is ${n}.`)
 })
+```
+
+### Functions accepting fallback values are now always lazy
+
+In many places `fp-ts@1.x` provided two versions of methods:
+
+v1 (deprecated)
+{: .label .label-red .mt-5 }
+
+```ts
+import * as O from 'fp-ts/lib/Option'
+
+O.some(1).getOrElse(0)        // Direct
+O.some(1).getOrElseL(() => 0) // Lazy, i.e. only run if needed
+```
+
+v2 (new)
+{: .label .label-green .mt-5 }
+
+In `fp-ts@2.x` the API has been simplified, only the lazy variants have been kept with the `L` suffix removed.
+
+```ts
+import * as O from 'fp-ts/lib/Option'
+import { pipe } from 'fp-ts/lib/pipeable'
+
+pipe(
+  O.some(1),
+  O.getOrElse(() => 0)
+)
 ```
 
 ### Removed modules
