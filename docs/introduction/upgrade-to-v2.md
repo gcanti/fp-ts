@@ -88,6 +88,15 @@ pipe(
 )
 ```
 
+We recommend to use `pipe` even if you work with just one function, as it allows TypeScript to infer the types automatically. It's also easier to migrate existing code, because the argument order remains the same.
+
+```ts
+import * as O from 'fp-ts/lib/Option'
+import { pipe } from 'fp-ts/lib/pipeable'
+
+pipe(O.some(1), O.fold(() => 'ko', n => `ok: ${n}`))
+```
+
 If you are interested, read about the [benefits of the new API](https://github.com/gcanti/fp-ts/issues/823#issuecomment-486066792) in the technical discussion leading to `fp-ts@2.x`.
 
 ### Replacement of the `run()` method
