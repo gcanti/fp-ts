@@ -114,6 +114,7 @@ export interface FoldableComposition21<F extends URIS2, G extends URIS> {
  * @since 2.0.0
  */
 export interface FoldableComposition2C1<F extends URIS2, G extends URIS, E> {
+  readonly reduce: <A, B>(fga: Kind2<F, E, Kind<G, A>>, b: B, f: (b: B, a: A) => B) => B
   readonly foldMap: <M>(M: Monoid<M>) => <A>(fa: Kind2<F, E, Kind<G, A>>, f: (a: A) => M) => M
   readonly reduceRight: <A, B>(fa: Kind2<F, E, Kind<G, A>>, b: B, f: (a: A, b: B) => B) => B
 }
