@@ -5,6 +5,8 @@
  * While not required, it is recommended that for any expression `x`, the
  * string `show x` be executable TypeScript code which evaluates to the same
  * value as the expression `x`.
+ *
+ * @since 2.0.0
  */
 export interface Show<A> {
   show: (a: A) => string

@@ -18,6 +18,15 @@ parent: Modules
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [local (function)](#local-function)
+- [ap (export)](#ap-export)
+- [apFirst (export)](#apfirst-export)
+- [apSecond (export)](#apsecond-export)
+- [chain (export)](#chain-export)
+- [chainFirst (export)](#chainfirst-export)
+- [compose (export)](#compose-export)
+- [flatten (export)](#flatten-export)
+- [map (export)](#map-export)
+- [promap (export)](#promap-export)
 
 ---
 
@@ -48,7 +57,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "Reader" = ...
 ```
 
 Added in v2.0.0
@@ -125,6 +134,96 @@ changes the value of the local context during the execution of the action `ma`
 
 ```ts
 export function local<Q, R>(f: (d: Q) => R): <A>(ma: Reader<R, A>) => Reader<Q, A> { ... }
+```
+
+Added in v2.0.0
+
+# ap (export)
+
+**Signature**
+
+```ts
+<E, A>(fa: Reader<E, A>) => <B>(fab: Reader<E, (a: A) => B>) => Reader<E, B>
+```
+
+Added in v2.0.0
+
+# apFirst (export)
+
+**Signature**
+
+```ts
+<E, B>(fb: Reader<E, B>) => <A>(fa: Reader<E, A>) => Reader<E, A>
+```
+
+Added in v2.0.0
+
+# apSecond (export)
+
+**Signature**
+
+```ts
+<E, B>(fb: Reader<E, B>) => <A>(fa: Reader<E, A>) => Reader<E, B>
+```
+
+Added in v2.0.0
+
+# chain (export)
+
+**Signature**
+
+```ts
+<E, A, B>(f: (a: A) => Reader<E, B>) => (ma: Reader<E, A>) => Reader<E, B>
+```
+
+Added in v2.0.0
+
+# chainFirst (export)
+
+**Signature**
+
+```ts
+<E, A, B>(f: (a: A) => Reader<E, B>) => (ma: Reader<E, A>) => Reader<E, A>
+```
+
+Added in v2.0.0
+
+# compose (export)
+
+**Signature**
+
+```ts
+<E, A>(la: Reader<E, A>) => <B>(ab: Reader<A, B>) => Reader<E, B>
+```
+
+Added in v2.0.0
+
+# flatten (export)
+
+**Signature**
+
+```ts
+<E, A>(mma: Reader<E, Reader<E, A>>) => Reader<E, A>
+```
+
+Added in v2.0.0
+
+# map (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => <E>(fa: Reader<E, A>) => Reader<E, B>
+```
+
+Added in v2.0.0
+
+# promap (export)
+
+**Signature**
+
+```ts
+<E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reader<E, A>) => Reader<D, B>
 ```
 
 Added in v2.0.0

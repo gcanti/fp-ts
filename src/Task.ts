@@ -137,4 +137,33 @@ export const taskSeq: typeof task = {
 
 const { ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(task)
 
-export { ap, apFirst, apSecond, chain, chainFirst, flatten, map }
+export {
+  /**
+   * @since 2.0.0
+   */
+  ap,
+  /**
+   * @since 2.0.0
+   */
+  apFirst,
+  /**
+   * @since 2.0.0
+   */
+  apSecond,
+  /**
+   * @since 2.0.0
+   */
+  chain,
+  /**
+   * @since 2.0.0
+   */
+  chainFirst,
+  /**
+   * @since 2.0.0
+   */
+  flatten,
+  /**
+   * @since 2.0.0
+   */
+  map
+}

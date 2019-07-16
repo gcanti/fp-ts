@@ -213,7 +213,12 @@ export const ord: Contravariant1<URI> = {
 
 const { contramap } = pipeable(ord)
 
-export { contramap }
+export {
+  /**
+   * @since 2.0.0
+   */
+  contramap
+}
 
 /**
  * @since 2.0.0

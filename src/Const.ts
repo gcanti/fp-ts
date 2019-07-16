@@ -82,4 +82,13 @@ export const const_: Functor2<URI> & Contravariant2<URI> = {
 
 const { contramap, map } = pipeable(const_)
 
-export { contramap, map }
+export {
+  /**
+   * @since 2.0.0
+   */
+  contramap,
+  /**
+   * @since 2.0.0
+   */
+  map
+}

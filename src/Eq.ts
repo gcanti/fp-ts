@@ -113,7 +113,12 @@ export const eq: Contravariant1<URI> = {
 
 const { contramap } = pipeable(eq)
 
-export { contramap }
+export {
+  /**
+   * @since 2.0.0
+   */
+  contramap
+}
 
 /**
  * @since 2.0.0

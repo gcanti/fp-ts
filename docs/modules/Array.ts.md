@@ -78,6 +78,32 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [updateAt (function)](#updateat-function)
 - [zip (function)](#zip-function)
 - [zipWith (function)](#zipwith-function)
+- [alt (export)](#alt-export)
+- [ap (export)](#ap-export)
+- [apFirst (export)](#apfirst-export)
+- [apSecond (export)](#apsecond-export)
+- [chain (export)](#chain-export)
+- [chainFirst (export)](#chainfirst-export)
+- [compact (export)](#compact-export)
+- [duplicate (export)](#duplicate-export)
+- [extend (export)](#extend-export)
+- [filter (export)](#filter-export)
+- [filterMap (export)](#filtermap-export)
+- [filterMapWithIndex (export)](#filtermapwithindex-export)
+- [filterWithIndex (export)](#filterwithindex-export)
+- [foldMap (export)](#foldmap-export)
+- [foldMapWithIndex (export)](#foldmapwithindex-export)
+- [map (export)](#map-export)
+- [mapWithIndex (export)](#mapwithindex-export)
+- [partition (export)](#partition-export)
+- [partitionMap (export)](#partitionmap-export)
+- [partitionMapWithIndex (export)](#partitionmapwithindex-export)
+- [partitionWithIndex (export)](#partitionwithindex-export)
+- [reduce (export)](#reduce-export)
+- [reduceRight (export)](#reduceright-export)
+- [reduceRightWithIndex (export)](#reducerightwithindex-export)
+- [reduceWithIndex (export)](#reducewithindex-export)
+- [separate (export)](#separate-export)
 
 ---
 
@@ -89,13 +115,17 @@ Adapted from https://github.com/purescript/purescript-arrays
 export type URI = typeof URI
 ```
 
+Added in v2.0.0
+
 # URI (constant)
 
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "Array" = ...
 ```
+
+Added in v2.0.0
 
 # array (constant)
 
@@ -1434,6 +1464,266 @@ export function zipWith<A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => 
 import { zipWith } from 'fp-ts/lib/Array'
 
 assert.deepStrictEqual(zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n), ['a1', 'b2', 'c3'])
+```
+
+Added in v2.0.0
+
+# alt (export)
+
+**Signature**
+
+```ts
+<A>(that: () => A[]) => (fa: A[]) => A[]
+```
+
+Added in v2.0.0
+
+# ap (export)
+
+**Signature**
+
+```ts
+<A>(fa: A[]) => <B>(fab: ((a: A) => B)[]) => B[]
+```
+
+Added in v2.0.0
+
+# apFirst (export)
+
+**Signature**
+
+```ts
+<B>(fb: B[]) => <A>(fa: A[]) => A[]
+```
+
+Added in v2.0.0
+
+# apSecond (export)
+
+**Signature**
+
+```ts
+<B>(fb: B[]) => <A>(fa: A[]) => B[]
+```
+
+Added in v2.0.0
+
+# chain (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B[]) => (ma: A[]) => B[]
+```
+
+Added in v2.0.0
+
+# chainFirst (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B[]) => (ma: A[]) => A[]
+```
+
+Added in v2.0.0
+
+# compact (export)
+
+**Signature**
+
+```ts
+<A>(fa: Option<A>[]) => A[]
+```
+
+Added in v2.0.0
+
+# duplicate (export)
+
+**Signature**
+
+```ts
+<A>(ma: A[]) => A[][]
+```
+
+Added in v2.0.0
+
+# extend (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (fa: A[]) => B) => (ma: A[]) => B[]
+```
+
+Added in v2.0.0
+
+# filter (export)
+
+**Signature**
+
+```ts
+{ <A, B>(refinement: Refinement<A, B>): (fa: A[]) => B[]; <A>(predicate: Predicate<A>): (fa: A[]) => A[]; }
+```
+
+Added in v2.0.0
+
+# filterMap (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => Option<B>) => (fa: A[]) => B[]
+```
+
+Added in v2.0.0
+
+# filterMapWithIndex (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (i: number, a: A) => Option<B>) => (fa: A[]) => B[]
+```
+
+Added in v2.0.0
+
+# filterWithIndex (export)
+
+**Signature**
+
+```ts
+{ <A, B>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: A[]) => B[]; <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: A[]) => A[]; }
+```
+
+Added in v2.0.0
+
+# foldMap (export)
+
+**Signature**
+
+```ts
+;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: A[]) => M
+```
+
+Added in v2.0.0
+
+# foldMapWithIndex (export)
+
+**Signature**
+
+```ts
+;<M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: A[]) => M
+```
+
+Added in v2.0.0
+
+# map (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => (fa: A[]) => B[]
+```
+
+Added in v2.0.0
+
+# mapWithIndex (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (i: number, a: A) => B) => (fa: A[]) => B[]
+```
+
+Added in v2.0.0
+
+# partition (export)
+
+**Signature**
+
+```ts
+{ <A, B>(refinement: Refinement<A, B>): (fa: A[]) => Separated<A[], B[]>; <A>(predicate: Predicate<A>): (fa: A[]) => Separated<A[], A[]>; }
+```
+
+Added in v2.0.0
+
+# partitionMap (export)
+
+**Signature**
+
+```ts
+<A, B, C>(f: (a: A) => Either<B, C>) => (fa: A[]) => Separated<B[], C[]>
+```
+
+Added in v2.0.0
+
+# partitionMapWithIndex (export)
+
+**Signature**
+
+```ts
+<A, B, C>(f: (i: number, a: A) => Either<B, C>) => (fa: A[]) => Separated<B[], C[]>
+```
+
+Added in v2.0.0
+
+# partitionWithIndex (export)
+
+**Signature**
+
+```ts
+{ <A, B>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: A[]) => Separated<A[], B[]>; <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: A[]) => Separated<A[], A[]>; }
+```
+
+Added in v2.0.0
+
+# reduce (export)
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: A[]) => B
+```
+
+Added in v2.0.0
+
+# reduceRight (export)
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: A[]) => B
+```
+
+Added in v2.0.0
+
+# reduceRightWithIndex (export)
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: A[]) => B
+```
+
+Added in v2.0.0
+
+# reduceWithIndex (export)
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: A[]) => B
+```
+
+Added in v2.0.0
+
+# separate (export)
+
+**Signature**
+
+```ts
+<A, B>(fa: Either<A, B>[]) => Separated<A[], B[]>
 ```
 
 Added in v2.0.0

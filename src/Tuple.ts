@@ -149,4 +149,41 @@ export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Folda
 
 const { bimap, compose, duplicate, extend, foldMap, map, mapLeft, reduce, reduceRight } = pipeable(tuple)
 
-export { bimap, compose, duplicate, extend, foldMap, map, mapLeft, reduce, reduceRight }
+export {
+  /**
+   * @since 2.0.0
+   */
+  bimap,
+  /**
+   * @since 2.0.0
+   */
+  compose,
+  /**
+   * @since 2.0.0
+   */
+  duplicate,
+  /**
+   * @since 2.0.0
+   */
+  extend,
+  /**
+   * @since 2.0.0
+   */
+  foldMap,
+  /**
+   * @since 2.0.0
+   */
+  map,
+  /**
+   * @since 2.0.0
+   */
+  mapLeft,
+  /**
+   * @since 2.0.0
+   */
+  reduce,
+  /**
+   * @since 2.0.0
+   */
+  reduceRight
+}

@@ -93,4 +93,9 @@ export const traced: Functor2<URI> = {
 
 const { map } = pipeable(traced)
 
-export { map }
+export {
+  /**
+   * @since 2.0.0
+   */
+  map
+}

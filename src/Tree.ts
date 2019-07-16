@@ -287,4 +287,53 @@ const {
   reduceRight
 } = pipeable(tree)
 
-export { ap, apFirst, apSecond, chain, chainFirst, duplicate, extend, flatten, foldMap, map, reduce, reduceRight }
+export {
+  /**
+   * @since 2.0.0
+   */
+  ap,
+  /**
+   * @since 2.0.0
+   */
+  apFirst,
+  /**
+   * @since 2.0.0
+   */
+  apSecond,
+  /**
+   * @since 2.0.0
+   */
+  chain,
+  /**
+   * @since 2.0.0
+   */
+  chainFirst,
+  /**
+   * @since 2.0.0
+   */
+  duplicate,
+  /**
+   * @since 2.0.0
+   */
+  extend,
+  /**
+   * @since 2.0.0
+   */
+  flatten,
+  /**
+   * @since 2.0.0
+   */
+  foldMap,
+  /**
+   * @since 2.0.0
+   */
+  map,
+  /**
+   * @since 2.0.0
+   */
+  reduce,
+  /**
+   * @since 2.0.0
+   */
+  reduceRight
+}

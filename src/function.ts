@@ -1,13 +1,32 @@
 /**
- * Thunk type
+ * A *thunk*
+ *
+ * @since 2.0.0
  */
-export type Lazy<A> = () => A
+export interface Lazy<A> {
+  (): A
+}
 
-export type Predicate<A> = (a: A) => boolean
+/**
+ * @since 2.0.0
+ */
+export interface Predicate<A> {
+  (a: A): boolean
+}
 
-export type Refinement<A, B extends A> = (a: A) => a is B
+/**
+ * @since 2.0.0
+ */
+export interface Refinement<A, B extends A> {
+  (a: A): a is B
+}
 
-export type Endomorphism<A> = (a: A) => A
+/**
+ * @since 2.0.0
+ */
+export interface Endomorphism<A> {
+  (a: A): A
+}
 
 /**
  * @example
@@ -17,7 +36,9 @@ export type Endomorphism<A> = (a: A) => A
  *
  * @since 2.0.0
  */
-export type FunctionN<A extends Array<unknown>, B> = (...args: A) => B
+export interface FunctionN<A extends Array<unknown>, B> {
+  (...args: A): B
+}
 
 /**
  * @since 2.0.0

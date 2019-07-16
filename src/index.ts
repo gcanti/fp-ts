@@ -1,178 +1,447 @@
 import * as alt from './Alt'
-export { alt }
 import * as alternative from './Alternative'
-export { alternative }
 import * as applicative from './Applicative'
-export { applicative }
 import * as apply from './Apply'
-export { apply }
 import * as array from './Array'
-export { array }
 import * as bifunctor from './Bifunctor'
-export { bifunctor }
 import * as booleanAlgebra from './BooleanAlgebra'
-export { booleanAlgebra }
 import * as bounded from './Bounded'
-export { bounded }
 import * as boundedDistributiveLattice from './BoundedDistributiveLattice'
-export { boundedDistributiveLattice }
 import * as boundedJoinSemilattice from './BoundedJoinSemilattice'
-export { boundedJoinSemilattice }
 import * as boundedLattice from './BoundedLattice'
-export { boundedLattice }
 import * as boundedMeetSemilattice from './BoundedMeetSemilattice'
-export { boundedMeetSemilattice }
 import * as category from './Category'
-export { category }
 import * as chain from './Chain'
-export { chain }
 import * as chainRec from './ChainRec'
-export { chainRec }
 import * as choice from './Choice'
-export { choice }
 import * as comonad from './Comonad'
-export { comonad }
-import * as console from './Console'
-export { console }
-import * as const_ from './Const'
-export { const_ as const }
-import * as contravariant from './Contravariant'
-export { contravariant }
-import * as date from './Date'
-export { date }
-import * as distributiveLattice from './DistributiveLattice'
-export { distributiveLattice }
-import * as either from './Either'
-export { either }
-import * as eitherT from './EitherT'
-export { eitherT }
-import * as extend from './Extend'
-export { extend }
-import * as field from './Field'
-export { field }
-import * as filterable from './Filterable'
-export { filterable }
-import * as filterableWithIndex from './FilterableWithIndex'
-export { filterableWithIndex }
-import * as foldable from './Foldable'
-export { foldable }
-import * as foldableWithIndex from './FoldableWithIndex'
-export { foldableWithIndex }
-import * as function_ from './function'
-export { function_ as function }
-import * as functor from './Functor'
-export { functor }
-import * as functorWithIndex from './FunctorWithIndex'
-export { functorWithIndex }
-import * as group from './Group'
-export { group }
-import * as heytingAlgebra from './HeytingAlgebra'
-export { heytingAlgebra }
-import * as hkt from './HKT'
-export { hkt }
-import * as identity from './Identity'
-export { identity }
-import * as invariant from './Invariant'
-export { invariant }
-import * as io from './IO'
-export { io }
-import * as ioEither from './IOEither'
-export { ioEither }
-import * as ioRef from './IORef'
-export { ioRef }
-import * as joinSemilattice from './JoinSemilattice'
-export { joinSemilattice }
-import * as lattice from './Lattice'
-export { lattice }
-import * as magma from './Magma'
-export { magma }
-import * as map from './Map'
-export { map }
-import * as meetSemilattice from './MeetSemilattice'
-export { meetSemilattice }
-import * as monad from './Monad'
-export { monad }
-import * as monadIO from './MonadIO'
-export { monadIO }
-import * as monadTask from './MonadTask'
-export { monadTask }
-import * as monadThrow from './MonadThrow'
-export { monadThrow }
-import * as monoid from './Monoid'
-export { monoid }
-import * as nonEmptyArray from './NonEmptyArray'
-export { nonEmptyArray }
-import * as option from './Option'
-export { option }
-import * as optionT from './OptionT'
-export { optionT }
-import * as ord from './Ord'
-export { ord }
-import * as ordering from './Ordering'
-export { ordering }
-import * as pipeable from './pipeable'
-export { pipeable }
-import * as profunctor from './Profunctor'
-export { profunctor }
-import * as random from './Random'
-export { random }
-import * as reader from './Reader'
-export { reader }
-import * as readerEither from './ReaderEither'
-export { readerEither }
-import * as readerT from './ReaderT'
-export { readerT }
-import * as readerTaskEither from './ReaderTaskEither'
-export { readerTaskEither }
-import * as record from './Record'
-export { record }
-import * as ring from './Ring'
-export { ring }
-import * as semigroup from './Semigroup'
-export { semigroup }
-import * as semigroupoid from './Semigroupoid'
-export { semigroupoid }
-import * as semiring from './Semiring'
-export { semiring }
-import * as set from './Set'
-export { set }
-import * as eq from './Eq'
-export { eq }
-import * as show from './Show'
-export { show }
-import * as state from './State'
-export { state }
-import * as stateReaderTaskEither from './StateReaderTaskEither'
-export { stateReaderTaskEither }
-import * as stateT from './StateT'
-export { stateT }
-import * as store from './Store'
-export { store }
-import * as strong from './Strong'
-export { strong }
-import * as task from './Task'
-export { task }
-import * as taskEither from './TaskEither'
-export { taskEither }
-import * as these from './These'
-export { these }
-import * as traced from './Traced'
-export { traced }
-import * as traversable from './Traversable'
-export { traversable }
-import * as traversableWithIndex from './TraversableWithIndex'
-export { traversableWithIndex }
-import * as tree from './Tree'
-export { tree }
-import * as tuple from './Tuple'
-export { tuple }
-import * as unfoldable from './Unfoldable'
-export { unfoldable }
-import * as validationT from './ValidationT'
-export { validationT }
-import * as writer from './Writer'
-export { writer }
 import * as compactable from './Compactable'
-export { compactable }
+import * as console from './Console'
+import * as const_ from './Const'
+import * as contravariant from './Contravariant'
+import * as date from './Date'
+import * as distributiveLattice from './DistributiveLattice'
+import * as either from './Either'
+import * as eitherT from './EitherT'
+import * as eq from './Eq'
+import * as extend from './Extend'
+import * as field from './Field'
+import * as filterable from './Filterable'
+import * as filterableWithIndex from './FilterableWithIndex'
+import * as foldable from './Foldable'
+import * as foldableWithIndex from './FoldableWithIndex'
+import * as function_ from './function'
+import * as functor from './Functor'
+import * as functorWithIndex from './FunctorWithIndex'
+import * as group from './Group'
+import * as heytingAlgebra from './HeytingAlgebra'
+import * as hkt from './HKT'
+import * as identity from './Identity'
+import * as invariant from './Invariant'
+import * as io from './IO'
+import * as ioEither from './IOEither'
+import * as ioRef from './IORef'
+import * as joinSemilattice from './JoinSemilattice'
+import * as lattice from './Lattice'
+import * as magma from './Magma'
+import * as map from './Map'
+import * as meetSemilattice from './MeetSemilattice'
+import * as monad from './Monad'
+import * as monadIO from './MonadIO'
+import * as monadTask from './MonadTask'
+import * as monadThrow from './MonadThrow'
+import * as monoid from './Monoid'
+import * as nonEmptyArray from './NonEmptyArray'
+import * as option from './Option'
+import * as optionT from './OptionT'
+import * as ord from './Ord'
+import * as ordering from './Ordering'
+import * as pipeable from './pipeable'
+import * as profunctor from './Profunctor'
+import * as random from './Random'
+import * as reader from './Reader'
+import * as readerEither from './ReaderEither'
+import * as readerT from './ReaderT'
+import * as readerTaskEither from './ReaderTaskEither'
+import * as record from './Record'
+import * as ring from './Ring'
+import * as semigroup from './Semigroup'
+import * as semigroupoid from './Semigroupoid'
+import * as semiring from './Semiring'
+import * as set from './Set'
+import * as show from './Show'
+import * as state from './State'
+import * as stateReaderTaskEither from './StateReaderTaskEither'
+import * as stateT from './StateT'
+import * as store from './Store'
+import * as strong from './Strong'
+import * as task from './Task'
+import * as taskEither from './TaskEither'
+import * as these from './These'
+import * as traced from './Traced'
+import * as traversable from './Traversable'
+import * as traversableWithIndex from './TraversableWithIndex'
+import * as tree from './Tree'
+import * as tuple from './Tuple'
+import * as unfoldable from './Unfoldable'
+import * as validationT from './ValidationT'
 import * as witherable from './Witherable'
-export { witherable }
+import * as writer from './Writer'
+export {
+  /**
+   * @since 2.0.0
+   */
+  alt,
+  /**
+   * @since 2.0.0
+   */
+  alternative,
+  /**
+   * @since 2.0.0
+   */
+  applicative,
+  /**
+   * @since 2.0.0
+   */
+  apply,
+  /**
+   * @since 2.0.0
+   */
+  array,
+  /**
+   * @since 2.0.0
+   */
+  bifunctor,
+  /**
+   * @since 2.0.0
+   */
+  booleanAlgebra,
+  /**
+   * @since 2.0.0
+   */
+  bounded,
+  /**
+   * @since 2.0.0
+   */
+  boundedDistributiveLattice,
+  /**
+   * @since 2.0.0
+   */
+  boundedJoinSemilattice,
+  /**
+   * @since 2.0.0
+   */
+  boundedLattice,
+  /**
+   * @since 2.0.0
+   */
+  boundedMeetSemilattice,
+  /**
+   * @since 2.0.0
+   */
+  category,
+  /**
+   * @since 2.0.0
+   */
+  chain,
+  /**
+   * @since 2.0.0
+   */
+  chainRec,
+  /**
+   * @since 2.0.0
+   */
+  choice,
+  /**
+   * @since 2.0.0
+   */
+  comonad,
+  /**
+   * @since 2.0.0
+   */
+  compactable,
+  /**
+   * @since 2.0.0
+   */
+  console,
+  /**
+   * @since 2.0.0
+   */
+  const_ as const,
+  /**
+   * @since 2.0.0
+   */
+  contravariant,
+  /**
+   * @since 2.0.0
+   */
+  date,
+  /**
+   * @since 2.0.0
+   */
+  distributiveLattice,
+  /**
+   * @since 2.0.0
+   */
+  either,
+  /**
+   * @since 2.0.0
+   */
+  eitherT,
+  /**
+   * @since 2.0.0
+   */
+  extend,
+  /**
+   * @since 2.0.0
+   */
+  field,
+  /**
+   * @since 2.0.0
+   */
+  filterable,
+  /**
+   * @since 2.0.0
+   */
+  filterableWithIndex,
+  /**
+   * @since 2.0.0
+   */
+  foldable,
+  /**
+   * @since 2.0.0
+   */
+  foldableWithIndex,
+  /**
+   * @since 2.0.0
+   */
+  function_ as function,
+  /**
+   * @since 2.0.0
+   */
+  functor,
+  /**
+   * @since 2.0.0
+   */
+  functorWithIndex,
+  /**
+   * @since 2.0.0
+   */
+  group,
+  /**
+   * @since 2.0.0
+   */
+  heytingAlgebra,
+  /**
+   * @since 2.0.0
+   */
+  hkt,
+  /**
+   * @since 2.0.0
+   */
+  identity,
+  /**
+   * @since 2.0.0
+   */
+  invariant,
+  /**
+   * @since 2.0.0
+   */
+  io,
+  /**
+   * @since 2.0.0
+   */
+  ioEither,
+  /**
+   * @since 2.0.0
+   */
+  ioRef,
+  /**
+   * @since 2.0.0
+   */
+  joinSemilattice,
+  /**
+   * @since 2.0.0
+   */
+  lattice,
+  /**
+   * @since 2.0.0
+   */
+  magma,
+  /**
+   * @since 2.0.0
+   */
+  map,
+  /**
+   * @since 2.0.0
+   */
+  meetSemilattice,
+  /**
+   * @since 2.0.0
+   */
+  monad,
+  /**
+   * @since 2.0.0
+   */
+  monadIO,
+  /**
+   * @since 2.0.0
+   */
+  monadTask,
+  /**
+   * @since 2.0.0
+   */
+  monadThrow,
+  /**
+   * @since 2.0.0
+   */
+  monoid,
+  /**
+   * @since 2.0.0
+   */
+  nonEmptyArray,
+  /**
+   * @since 2.0.0
+   */
+  option,
+  /**
+   * @since 2.0.0
+   */
+  optionT,
+  /**
+   * @since 2.0.0
+   */
+  ord,
+  /**
+   * @since 2.0.0
+   */
+  ordering,
+  /**
+   * @since 2.0.0
+   */
+  pipeable,
+  /**
+   * @since 2.0.0
+   */
+  profunctor,
+  /**
+   * @since 2.0.0
+   */
+  random,
+  /**
+   * @since 2.0.0
+   */
+  reader,
+  /**
+   * @since 2.0.0
+   */
+  readerEither,
+  /**
+   * @since 2.0.0
+   */
+  readerT,
+  /**
+   * @since 2.0.0
+   */
+  readerTaskEither,
+  /**
+   * @since 2.0.0
+   */
+  record,
+  /**
+   * @since 2.0.0
+   */
+  ring,
+  /**
+   * @since 2.0.0
+   */
+  semigroup,
+  /**
+   * @since 2.0.0
+   */
+  semigroupoid,
+  /**
+   * @since 2.0.0
+   */
+  semiring,
+  /**
+   * @since 2.0.0
+   */
+  set,
+  /**
+   * @since 2.0.0
+   */
+  eq,
+  /**
+   * @since 2.0.0
+   */
+  show,
+  /**
+   * @since 2.0.0
+   */
+  state,
+  /**
+   * @since 2.0.0
+   */
+  stateReaderTaskEither,
+  /**
+   * @since 2.0.0
+   */
+  stateT,
+  /**
+   * @since 2.0.0
+   */
+  store,
+  /**
+   * @since 2.0.0
+   */
+  strong,
+  /**
+   * @since 2.0.0
+   */
+  task,
+  /**
+   * @since 2.0.0
+   */
+  taskEither,
+  /**
+   * @since 2.0.0
+   */
+  these,
+  /**
+   * @since 2.0.0
+   */
+  traced,
+  /**
+   * @since 2.0.0
+   */
+  traversable,
+  /**
+   * @since 2.0.0
+   */
+  traversableWithIndex,
+  /**
+   * @since 2.0.0
+   */
+  tree,
+  /**
+   * @since 2.0.0
+   */
+  tuple,
+  /**
+   * @since 2.0.0
+   */
+  unfoldable,
+  /**
+   * @since 2.0.0
+   */
+  validationT,
+  /**
+   * @since 2.0.0
+   */
+  writer,
+  /**
+   * @since 2.0.0
+   */
+  witherable
+}

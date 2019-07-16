@@ -707,24 +707,84 @@ const {
 } = pipeable(option)
 
 export {
+  /**
+   * @since 2.0.0
+   */
   alt,
+  /**
+   * @since 2.0.0
+   */
   ap,
+  /**
+   * @since 2.0.0
+   */
   apFirst,
+  /**
+   * @since 2.0.0
+   */
   apSecond,
+  /**
+   * @since 2.0.0
+   */
   chain,
+  /**
+   * @since 2.0.0
+   */
   chainFirst,
+  /**
+   * @since 2.0.0
+   */
   duplicate,
+  /**
+   * @since 2.0.0
+   */
   extend,
+  /**
+   * @since 2.0.0
+   */
   filter,
+  /**
+   * @since 2.0.0
+   */
   filterMap,
+  /**
+   * @since 2.0.0
+   */
   flatten,
+  /**
+   * @since 2.0.0
+   */
   foldMap,
+  /**
+   * @since 2.0.0
+   */
   map,
+  /**
+   * @since 2.0.0
+   */
   partition,
+  /**
+   * @since 2.0.0
+   */
   partitionMap,
+  /**
+   * @since 2.0.0
+   */
   reduce,
+  /**
+   * @since 2.0.0
+   */
   reduceRight,
+  /**
+   * @since 2.0.0
+   */
   compact,
+  /**
+   * @since 2.0.0
+   */
   separate,
+  /**
+   * @since 2.0.0
+   */
   fromEither
 }

@@ -39,6 +39,22 @@ Data structure which represents non-empty arrays
 - [sort (function)](#sort-function)
 - [tail (function)](#tail-function)
 - [updateAt (function)](#updateat-function)
+- [ap (export)](#ap-export)
+- [apFirst (export)](#apfirst-export)
+- [apSecond (export)](#apsecond-export)
+- [chain (export)](#chain-export)
+- [chainFirst (export)](#chainfirst-export)
+- [duplicate (export)](#duplicate-export)
+- [extend (export)](#extend-export)
+- [flatten (export)](#flatten-export)
+- [foldMap (export)](#foldmap-export)
+- [foldMapWithIndex (export)](#foldmapwithindex-export)
+- [map (export)](#map-export)
+- [mapWithIndex (export)](#mapwithindex-export)
+- [reduce (export)](#reduce-export)
+- [reduceRight (export)](#reduceright-export)
+- [reduceRightWithIndex (export)](#reducerightwithindex-export)
+- [reduceWithIndex (export)](#reducewithindex-export)
 
 ---
 
@@ -69,7 +85,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "NonEmptyArray" = ...
 ```
 
 Added in v2.0.0
@@ -390,6 +406,166 @@ Added in v2.0.0
 
 ```ts
 export function updateAt<A>(i: number, a: A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> { ... }
+```
+
+Added in v2.0.0
+
+# ap (export)
+
+**Signature**
+
+```ts
+<A>(fa: NonEmptyArray<A>) => <B>(fab: NonEmptyArray<(a: A) => B>) => NonEmptyArray<B>
+```
+
+Added in v2.0.0
+
+# apFirst (export)
+
+**Signature**
+
+```ts
+<B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+Added in v2.0.0
+
+# apSecond (export)
+
+**Signature**
+
+```ts
+<B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<B>
+```
+
+Added in v2.0.0
+
+# chain (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => NonEmptyArray<B>) => (ma: NonEmptyArray<A>) => NonEmptyArray<B>
+```
+
+Added in v2.0.0
+
+# chainFirst (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => NonEmptyArray<B>) => (ma: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+Added in v2.0.0
+
+# duplicate (export)
+
+**Signature**
+
+```ts
+<A>(ma: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>>
+```
+
+Added in v2.0.0
+
+# extend (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (fa: NonEmptyArray<A>) => B) => (ma: NonEmptyArray<A>) => NonEmptyArray<B>
+```
+
+Added in v2.0.0
+
+# flatten (export)
+
+**Signature**
+
+```ts
+<A>(mma: NonEmptyArray<NonEmptyArray<A>>) => NonEmptyArray<A>
+```
+
+Added in v2.0.0
+
+# foldMap (export)
+
+**Signature**
+
+```ts
+;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: NonEmptyArray<A>) => M
+```
+
+Added in v2.0.0
+
+# foldMapWithIndex (export)
+
+**Signature**
+
+```ts
+;<M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: NonEmptyArray<A>) => M
+```
+
+Added in v2.0.0
+
+# map (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => (fa: NonEmptyArray<A>) => NonEmptyArray<B>
+```
+
+Added in v2.0.0
+
+# mapWithIndex (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (i: number, a: A) => B) => (fa: NonEmptyArray<A>) => NonEmptyArray<B>
+```
+
+Added in v2.0.0
+
+# reduce (export)
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: NonEmptyArray<A>) => B
+```
+
+Added in v2.0.0
+
+# reduceRight (export)
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: NonEmptyArray<A>) => B
+```
+
+Added in v2.0.0
+
+# reduceRightWithIndex (export)
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: NonEmptyArray<A>) => B
+```
+
+Added in v2.0.0
+
+# reduceWithIndex (export)
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: NonEmptyArray<A>) => B
 ```
 
 Added in v2.0.0

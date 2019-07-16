@@ -71,7 +71,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "Ord" = ...
 ```
 
 Added in v2.0.0
@@ -282,5 +282,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export { contramap }
+<A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B>
 ```
+
+Added in v2.0.0

@@ -209,4 +209,41 @@ const { ap, apFirst, apSecond, chain, chainFirst, flatten, map, fromEither, from
   stateReaderTaskEither
 )
 
-export { ap, apFirst, apSecond, chain, chainFirst, flatten, map, fromEither, fromOption }
+export {
+  /**
+   * @since 2.0.0
+   */
+  ap,
+  /**
+   * @since 2.0.0
+   */
+  apFirst,
+  /**
+   * @since 2.0.0
+   */
+  apSecond,
+  /**
+   * @since 2.0.0
+   */
+  chain,
+  /**
+   * @since 2.0.0
+   */
+  chainFirst,
+  /**
+   * @since 2.0.0
+   */
+  flatten,
+  /**
+   * @since 2.0.0
+   */
+  map,
+  /**
+   * @since 2.0.0
+   */
+  fromEither,
+  /**
+   * @since 2.0.0
+   */
+  fromOption
+}

@@ -105,709 +105,887 @@ parent: Modules
 **Signature**
 
 ```ts
-export { alt }
+typeof alt
 ```
+
+Added in v2.0.0
 
 # alternative (export)
 
 **Signature**
 
 ```ts
-export { alternative }
+typeof alternative
 ```
+
+Added in v2.0.0
 
 # applicative (export)
 
 **Signature**
 
 ```ts
-export { applicative }
+typeof applicative
 ```
+
+Added in v2.0.0
 
 # apply (export)
 
 **Signature**
 
 ```ts
-export { apply }
+typeof apply
 ```
+
+Added in v2.0.0
 
 # array (export)
 
 **Signature**
 
 ```ts
-export { array }
+typeof array
 ```
+
+Added in v2.0.0
 
 # bifunctor (export)
 
 **Signature**
 
 ```ts
-export { bifunctor }
+typeof bifunctor
 ```
+
+Added in v2.0.0
 
 # booleanAlgebra (export)
 
 **Signature**
 
 ```ts
-export { booleanAlgebra }
+typeof booleanAlgebra
 ```
+
+Added in v2.0.0
 
 # bounded (export)
 
 **Signature**
 
 ```ts
-export { bounded }
+typeof bounded
 ```
+
+Added in v2.0.0
 
 # boundedDistributiveLattice (export)
 
 **Signature**
 
 ```ts
-export { boundedDistributiveLattice }
+typeof boundedDistributiveLattice
 ```
+
+Added in v2.0.0
 
 # boundedJoinSemilattice (export)
 
 **Signature**
 
 ```ts
-export { boundedJoinSemilattice }
+typeof boundedJoinSemilattice
 ```
+
+Added in v2.0.0
 
 # boundedLattice (export)
 
 **Signature**
 
 ```ts
-export { boundedLattice }
+typeof boundedLattice
 ```
+
+Added in v2.0.0
 
 # boundedMeetSemilattice (export)
 
 **Signature**
 
 ```ts
-export { boundedMeetSemilattice }
+typeof boundedMeetSemilattice
 ```
+
+Added in v2.0.0
 
 # category (export)
 
 **Signature**
 
 ```ts
-export { category }
+typeof category
 ```
+
+Added in v2.0.0
 
 # chain (export)
 
 **Signature**
 
 ```ts
-export { chain }
+typeof chain
 ```
+
+Added in v2.0.0
 
 # chainRec (export)
 
 **Signature**
 
 ```ts
-export { chainRec }
+typeof chainRec
 ```
+
+Added in v2.0.0
 
 # choice (export)
 
 **Signature**
 
 ```ts
-export { choice }
+typeof choice
 ```
+
+Added in v2.0.0
 
 # comonad (export)
 
 **Signature**
 
 ```ts
-export { comonad }
+typeof comonad
 ```
+
+Added in v2.0.0
 
 # compactable (export)
 
 **Signature**
 
 ```ts
-export { compactable }
+typeof compactable
 ```
+
+Added in v2.0.0
 
 # console (export)
 
 **Signature**
 
 ```ts
-export { console }
+typeof console
 ```
+
+Added in v2.0.0
 
 # const (export)
 
 **Signature**
 
 ```ts
-export { const_ as const }
+typeof const_
 ```
+
+Added in v2.0.0
 
 # contravariant (export)
 
 **Signature**
 
 ```ts
-export { contravariant }
+typeof contravariant
 ```
+
+Added in v2.0.0
 
 # date (export)
 
 **Signature**
 
 ```ts
-export { date }
+typeof date
 ```
+
+Added in v2.0.0
 
 # distributiveLattice (export)
 
 **Signature**
 
 ```ts
-export { distributiveLattice }
+typeof distributiveLattice
 ```
+
+Added in v2.0.0
 
 # either (export)
 
 **Signature**
 
 ```ts
-export { either }
+typeof either
 ```
+
+Added in v2.0.0
 
 # eitherT (export)
 
 **Signature**
 
 ```ts
-export { eitherT }
+typeof eitherT
 ```
+
+Added in v2.0.0
 
 # eq (export)
 
 **Signature**
 
 ```ts
-export { eq }
+typeof eq
 ```
+
+Added in v2.0.0
 
 # extend (export)
 
 **Signature**
 
 ```ts
-export { extend }
+typeof extend
 ```
+
+Added in v2.0.0
 
 # field (export)
 
 **Signature**
 
 ```ts
-export { field }
+typeof field
 ```
+
+Added in v2.0.0
 
 # filterable (export)
 
 **Signature**
 
 ```ts
-export { filterable }
+typeof filterable
 ```
+
+Added in v2.0.0
 
 # filterableWithIndex (export)
 
 **Signature**
 
 ```ts
-export { filterableWithIndex }
+typeof filterableWithIndex
 ```
+
+Added in v2.0.0
 
 # foldable (export)
 
 **Signature**
 
 ```ts
-export { foldable }
+typeof foldable
 ```
+
+Added in v2.0.0
 
 # foldableWithIndex (export)
 
 **Signature**
 
 ```ts
-export { foldableWithIndex }
+typeof foldableWithIndex
 ```
+
+Added in v2.0.0
 
 # function (export)
 
 **Signature**
 
 ```ts
-export { function_ as function }
+typeof function_
 ```
+
+Added in v2.0.0
 
 # functor (export)
 
 **Signature**
 
 ```ts
-export { functor }
+typeof functor
 ```
+
+Added in v2.0.0
 
 # functorWithIndex (export)
 
 **Signature**
 
 ```ts
-export { functorWithIndex }
+typeof functorWithIndex
 ```
+
+Added in v2.0.0
 
 # group (export)
 
 **Signature**
 
 ```ts
-export { group }
+typeof group
 ```
+
+Added in v2.0.0
 
 # heytingAlgebra (export)
 
 **Signature**
 
 ```ts
-export { heytingAlgebra }
+typeof heytingAlgebra
 ```
+
+Added in v2.0.0
 
 # hkt (export)
 
 **Signature**
 
 ```ts
-export { hkt }
+typeof hkt
 ```
+
+Added in v2.0.0
 
 # identity (export)
 
 **Signature**
 
 ```ts
-export { identity }
+typeof identity
 ```
+
+Added in v2.0.0
 
 # invariant (export)
 
 **Signature**
 
 ```ts
-export { invariant }
+typeof invariant
 ```
+
+Added in v2.0.0
 
 # io (export)
 
 **Signature**
 
 ```ts
-export { io }
+typeof io
 ```
+
+Added in v2.0.0
 
 # ioEither (export)
 
 **Signature**
 
 ```ts
-export { ioEither }
+typeof ioEither
 ```
+
+Added in v2.0.0
 
 # ioRef (export)
 
 **Signature**
 
 ```ts
-export { ioRef }
+typeof ioRef
 ```
+
+Added in v2.0.0
 
 # joinSemilattice (export)
 
 **Signature**
 
 ```ts
-export { joinSemilattice }
+typeof joinSemilattice
 ```
+
+Added in v2.0.0
 
 # lattice (export)
 
 **Signature**
 
 ```ts
-export { lattice }
+typeof lattice
 ```
+
+Added in v2.0.0
 
 # magma (export)
 
 **Signature**
 
 ```ts
-export { magma }
+typeof magma
 ```
+
+Added in v2.0.0
 
 # map (export)
 
 **Signature**
 
 ```ts
-export { map }
+typeof map
 ```
+
+Added in v2.0.0
 
 # meetSemilattice (export)
 
 **Signature**
 
 ```ts
-export { meetSemilattice }
+typeof meetSemilattice
 ```
+
+Added in v2.0.0
 
 # monad (export)
 
 **Signature**
 
 ```ts
-export { monad }
+typeof monad
 ```
+
+Added in v2.0.0
 
 # monadIO (export)
 
 **Signature**
 
 ```ts
-export { monadIO }
+typeof monadIO
 ```
+
+Added in v2.0.0
 
 # monadTask (export)
 
 **Signature**
 
 ```ts
-export { monadTask }
+typeof monadTask
 ```
+
+Added in v2.0.0
 
 # monadThrow (export)
 
 **Signature**
 
 ```ts
-export { monadThrow }
+typeof monadThrow
 ```
+
+Added in v2.0.0
 
 # monoid (export)
 
 **Signature**
 
 ```ts
-export { monoid }
+typeof monoid
 ```
+
+Added in v2.0.0
 
 # nonEmptyArray (export)
 
 **Signature**
 
 ```ts
-export { nonEmptyArray }
+typeof nonEmptyArray
 ```
+
+Added in v2.0.0
 
 # option (export)
 
 **Signature**
 
 ```ts
-export { option }
+typeof option
 ```
+
+Added in v2.0.0
 
 # optionT (export)
 
 **Signature**
 
 ```ts
-export { optionT }
+typeof optionT
 ```
+
+Added in v2.0.0
 
 # ord (export)
 
 **Signature**
 
 ```ts
-export { ord }
+typeof ord
 ```
+
+Added in v2.0.0
 
 # ordering (export)
 
 **Signature**
 
 ```ts
-export { ordering }
+typeof ordering
 ```
+
+Added in v2.0.0
 
 # pipeable (export)
 
 **Signature**
 
 ```ts
-export { pipeable }
+typeof pipeable
 ```
+
+Added in v2.0.0
 
 # profunctor (export)
 
 **Signature**
 
 ```ts
-export { profunctor }
+typeof profunctor
 ```
+
+Added in v2.0.0
 
 # random (export)
 
 **Signature**
 
 ```ts
-export { random }
+typeof random
 ```
+
+Added in v2.0.0
 
 # reader (export)
 
 **Signature**
 
 ```ts
-export { reader }
+typeof reader
 ```
+
+Added in v2.0.0
 
 # readerEither (export)
 
 **Signature**
 
 ```ts
-export { readerEither }
+typeof readerEither
 ```
+
+Added in v2.0.0
 
 # readerT (export)
 
 **Signature**
 
 ```ts
-export { readerT }
+typeof readerT
 ```
+
+Added in v2.0.0
 
 # readerTaskEither (export)
 
 **Signature**
 
 ```ts
-export { readerTaskEither }
+typeof readerTaskEither
 ```
+
+Added in v2.0.0
 
 # record (export)
 
 **Signature**
 
 ```ts
-export { record }
+typeof record
 ```
+
+Added in v2.0.0
 
 # ring (export)
 
 **Signature**
 
 ```ts
-export { ring }
+typeof ring
 ```
+
+Added in v2.0.0
 
 # semigroup (export)
 
 **Signature**
 
 ```ts
-export { semigroup }
+typeof semigroup
 ```
+
+Added in v2.0.0
 
 # semigroupoid (export)
 
 **Signature**
 
 ```ts
-export { semigroupoid }
+typeof semigroupoid
 ```
+
+Added in v2.0.0
 
 # semiring (export)
 
 **Signature**
 
 ```ts
-export { semiring }
+typeof semiring
 ```
+
+Added in v2.0.0
 
 # set (export)
 
 **Signature**
 
 ```ts
-export { set }
+typeof set
 ```
+
+Added in v2.0.0
 
 # show (export)
 
 **Signature**
 
 ```ts
-export { show }
+typeof show
 ```
+
+Added in v2.0.0
 
 # state (export)
 
 **Signature**
 
 ```ts
-export { state }
+typeof state
 ```
+
+Added in v2.0.0
 
 # stateReaderTaskEither (export)
 
 **Signature**
 
 ```ts
-export { stateReaderTaskEither }
+typeof stateReaderTaskEither
 ```
+
+Added in v2.0.0
 
 # stateT (export)
 
 **Signature**
 
 ```ts
-export { stateT }
+typeof stateT
 ```
+
+Added in v2.0.0
 
 # store (export)
 
 **Signature**
 
 ```ts
-export { store }
+typeof store
 ```
+
+Added in v2.0.0
 
 # strong (export)
 
 **Signature**
 
 ```ts
-export { strong }
+typeof strong
 ```
+
+Added in v2.0.0
 
 # task (export)
 
 **Signature**
 
 ```ts
-export { task }
+typeof task
 ```
+
+Added in v2.0.0
 
 # taskEither (export)
 
 **Signature**
 
 ```ts
-export { taskEither }
+typeof taskEither
 ```
+
+Added in v2.0.0
 
 # these (export)
 
 **Signature**
 
 ```ts
-export { these }
+typeof these
 ```
+
+Added in v2.0.0
 
 # traced (export)
 
 **Signature**
 
 ```ts
-export { traced }
+typeof traced
 ```
+
+Added in v2.0.0
 
 # traversable (export)
 
 **Signature**
 
 ```ts
-export { traversable }
+typeof traversable
 ```
+
+Added in v2.0.0
 
 # traversableWithIndex (export)
 
 **Signature**
 
 ```ts
-export { traversableWithIndex }
+typeof traversableWithIndex
 ```
+
+Added in v2.0.0
 
 # tree (export)
 
 **Signature**
 
 ```ts
-export { tree }
+typeof tree
 ```
+
+Added in v2.0.0
 
 # tuple (export)
 
 **Signature**
 
 ```ts
-export { tuple }
+typeof tuple
 ```
+
+Added in v2.0.0
 
 # unfoldable (export)
 
 **Signature**
 
 ```ts
-export { unfoldable }
+typeof unfoldable
 ```
+
+Added in v2.0.0
 
 # validationT (export)
 
 **Signature**
 
 ```ts
-export { validationT }
+typeof validationT
 ```
+
+Added in v2.0.0
 
 # witherable (export)
 
 **Signature**
 
 ```ts
-export { witherable }
+typeof witherable
 ```
+
+Added in v2.0.0
 
 # writer (export)
 
 **Signature**
 
 ```ts
-export { writer }
+typeof writer
 ```
+
+Added in v2.0.0

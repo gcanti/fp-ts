@@ -47,6 +47,15 @@ parent: Modules
 - [traverse (function)](#traverse-function)
 - [traverseWithIndex (function)](#traversewithindex-function)
 - [updateAt (function)](#updateat-function)
+- [compact (export)](#compact-export)
+- [filter (export)](#filter-export)
+- [filterMap (export)](#filtermap-export)
+- [foldMap (export)](#foldmap-export)
+- [partition (export)](#partition-export)
+- [partitionMap (export)](#partitionmap-export)
+- [reduce (export)](#reduce-export)
+- [reduceRight (export)](#reduceright-export)
+- [separate (export)](#separate-export)
 
 ---
 
@@ -65,7 +74,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "Record" = ...
 ```
 
 Added in v2.0.0
@@ -618,6 +627,96 @@ Added in v2.0.0
 
 ```ts
 export function updateAt<K extends string, A>(k: K, a: A): (r: Record<K, A>) => Option<Record<K, A>> { ... }
+```
+
+Added in v2.0.0
+
+# compact (export)
+
+**Signature**
+
+```ts
+<A>(fa: Record<string, Option<A>>) => Record<string, A>
+```
+
+Added in v2.0.0
+
+# filter (export)
+
+**Signature**
+
+```ts
+{ <A, B>(refinement: Refinement<A, B>): (fa: Record<string, A>) => Record<string, B>; <A>(predicate: Predicate<A>): (fa: Record<string, A>) => Record<string, A>; }
+```
+
+Added in v2.0.0
+
+# filterMap (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => Option<B>) => (fa: Record<string, A>) => Record<string, B>
+```
+
+Added in v2.0.0
+
+# foldMap (export)
+
+**Signature**
+
+```ts
+;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Record<string, A>) => M
+```
+
+Added in v2.0.0
+
+# partition (export)
+
+**Signature**
+
+```ts
+{ <A, B>(refinement: Refinement<A, B>): (fa: Record<string, A>) => Separated<Record<string, A>, Record<string, B>>; <A>(predicate: Predicate<A>): (fa: Record<string, A>) => Separated<Record<string, A>, Record<string, A>>; }
+```
+
+Added in v2.0.0
+
+# partitionMap (export)
+
+**Signature**
+
+```ts
+<A, B, C>(f: (a: A) => Either<B, C>) => (fa: Record<string, A>) => Separated<Record<string, B>, Record<string, C>>
+```
+
+Added in v2.0.0
+
+# reduce (export)
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: Record<string, A>) => B
+```
+
+Added in v2.0.0
+
+# reduceRight (export)
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: Record<string, A>) => B
+```
+
+Added in v2.0.0
+
+# separate (export)
+
+**Signature**
+
+```ts
+<A, B>(fa: Record<string, Either<A, B>>) => Separated<Record<string, A>, Record<string, B>>
 ```
 
 Added in v2.0.0

@@ -366,4 +366,29 @@ export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversab
 
 const { bimap, foldMap, map, mapLeft, reduce, reduceRight } = pipeable(these)
 
-export { bimap, foldMap, map, mapLeft, reduce, reduceRight }
+export {
+  /**
+   * @since 2.0.0
+   */
+  bimap,
+  /**
+   * @since 2.0.0
+   */
+  foldMap,
+  /**
+   * @since 2.0.0
+   */
+  map,
+  /**
+   * @since 2.0.0
+   */
+  mapLeft,
+  /**
+   * @since 2.0.0
+   */
+  reduce,
+  /**
+   * @since 2.0.0
+   */
+  reduceRight
+}

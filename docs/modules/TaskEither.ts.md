@@ -36,6 +36,20 @@ error of type `E`. If you want to represent an asynchronous computation that nev
 - [rightIO (function)](#rightio-function)
 - [taskify (function)](#taskify-function)
 - [tryCatch (function)](#trycatch-function)
+- [alt (export)](#alt-export)
+- [ap (export)](#ap-export)
+- [apFirst (export)](#apfirst-export)
+- [apSecond (export)](#apsecond-export)
+- [bimap (export)](#bimap-export)
+- [chain (export)](#chain-export)
+- [chainFirst (export)](#chainfirst-export)
+- [filterOrElse (export)](#filterorelse-export)
+- [flatten (export)](#flatten-export)
+- [fromEither (export)](#fromeither-export)
+- [fromOption (export)](#fromoption-export)
+- [fromPredicate (export)](#frompredicate-export)
+- [map (export)](#map-export)
+- [mapLeft (export)](#mapleft-export)
 
 ---
 
@@ -64,7 +78,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "TaskEither" = ...
 ```
 
 Added in v2.0.0
@@ -320,6 +334,146 @@ Added in v2.0.0
 
 ```ts
 export function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> { ... }
+```
+
+Added in v2.0.0
+
+# alt (export)
+
+**Signature**
+
+```ts
+<E, A>(that: () => TaskEither<E, A>) => (fa: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v2.0.0
+
+# ap (export)
+
+**Signature**
+
+```ts
+<E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B>
+```
+
+Added in v2.0.0
+
+# apFirst (export)
+
+**Signature**
+
+```ts
+<E, B>(fb: TaskEither<E, B>) => <A>(fa: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v2.0.0
+
+# apSecond (export)
+
+**Signature**
+
+```ts
+<E, B>(fb: TaskEither<E, B>) => <A>(fa: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v2.0.0
+
+# bimap (export)
+
+**Signature**
+
+```ts
+<E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskEither<E, A>) => TaskEither<G, B>
+```
+
+Added in v2.0.0
+
+# chain (export)
+
+**Signature**
+
+```ts
+<E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v2.0.0
+
+# chainFirst (export)
+
+**Signature**
+
+```ts
+<E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v2.0.0
+
+# filterOrElse (export)
+
+**Signature**
+
+```ts
+{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, A>; }
+```
+
+Added in v2.0.0
+
+# flatten (export)
+
+**Signature**
+
+```ts
+<E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither<E, A>
+```
+
+Added in v2.0.0
+
+# fromEither (export)
+
+**Signature**
+
+```ts
+<E, A>(ma: E.Either<E, A>) => TaskEither<E, A>
+```
+
+Added in v2.0.0
+
+# fromOption (export)
+
+**Signature**
+
+```ts
+<E>(onNone: () => E) => <A>(ma: Option<A>) => TaskEither<E, A>
+```
+
+Added in v2.0.0
+
+# fromPredicate (export)
+
+**Signature**
+
+```ts
+{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskEither<E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskEither<E, A>; }
+```
+
+Added in v2.0.0
+
+# map (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v2.0.0
+
+# mapLeft (export)
+
+**Signature**
+
+```ts
+<E, G>(f: (e: E) => G) => <A>(fa: TaskEither<E, A>) => TaskEither<G, A>
 ```
 
 Added in v2.0.0

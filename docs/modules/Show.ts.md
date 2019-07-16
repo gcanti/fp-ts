@@ -34,6 +34,8 @@ export interface Show<A> {
 }
 ```
 
+Added in v2.0.0
+
 # showBoolean (constant)
 
 **Signature**

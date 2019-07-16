@@ -803,4 +803,41 @@ export const record: FunctorWithIndex1<URI, string> &
 
 const { filter, filterMap, foldMap, partition, partitionMap, reduce, reduceRight, compact, separate } = pipeable(record)
 
-export { filter, filterMap, foldMap, partition, partitionMap, reduce, reduceRight, compact, separate }
+export {
+  /**
+   * @since 2.0.0
+   */
+  filter,
+  /**
+   * @since 2.0.0
+   */
+  filterMap,
+  /**
+   * @since 2.0.0
+   */
+  foldMap,
+  /**
+   * @since 2.0.0
+   */
+  partition,
+  /**
+   * @since 2.0.0
+   */
+  partitionMap,
+  /**
+   * @since 2.0.0
+   */
+  reduce,
+  /**
+   * @since 2.0.0
+   */
+  reduceRight,
+  /**
+   * @since 2.0.0
+   */
+  compact,
+  /**
+   * @since 2.0.0
+   */
+  separate
+}

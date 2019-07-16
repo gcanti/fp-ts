@@ -25,6 +25,13 @@ If you want to represent an asynchronous computation that may fail, please see `
 - [getSemigroup (function)](#getsemigroup-function)
 - [never (function)](#never-function)
 - [of (function)](#of-function)
+- [ap (export)](#ap-export)
+- [apFirst (export)](#apfirst-export)
+- [apSecond (export)](#apsecond-export)
+- [chain (export)](#chain-export)
+- [chainFirst (export)](#chainfirst-export)
+- [flatten (export)](#flatten-export)
+- [map (export)](#map-export)
 
 ---
 
@@ -55,7 +62,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "Task" = ...
 ```
 
 Added in v2.0.0
@@ -148,6 +155,76 @@ Added in v2.0.0
 
 ```ts
 export function of<A>(a: A): Task<A> { ... }
+```
+
+Added in v2.0.0
+
+# ap (export)
+
+**Signature**
+
+```ts
+<A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B>
+```
+
+Added in v2.0.0
+
+# apFirst (export)
+
+**Signature**
+
+```ts
+<B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<A>
+```
+
+Added in v2.0.0
+
+# apSecond (export)
+
+**Signature**
+
+```ts
+<B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<B>
+```
+
+Added in v2.0.0
+
+# chain (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B>
+```
+
+Added in v2.0.0
+
+# chainFirst (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<A>
+```
+
+Added in v2.0.0
+
+# flatten (export)
+
+**Signature**
+
+```ts
+<A>(mma: Task<Task<A>>) => Task<A>
+```
+
+Added in v2.0.0
+
+# map (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B>
 ```
 
 Added in v2.0.0
