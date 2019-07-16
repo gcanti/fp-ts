@@ -51,7 +51,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "Eq" = ...
 ```
 
 Added in v2.0.0
@@ -167,5 +167,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export { contramap }
+<A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B>
 ```
+
+Added in v2.0.0

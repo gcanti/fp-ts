@@ -19,6 +19,13 @@ parent: Modules
 - [of (constant)](#of-constant)
 - [put (constant)](#put-constant)
 - [state (constant)](#state-constant)
+- [ap (export)](#ap-export)
+- [apFirst (export)](#apfirst-export)
+- [apSecond (export)](#apsecond-export)
+- [chain (export)](#chain-export)
+- [chainFirst (export)](#chainfirst-export)
+- [flatten (export)](#flatten-export)
+- [map (export)](#map-export)
 
 ---
 
@@ -49,7 +56,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "State" = ...
 ```
 
 Added in v2.0.0
@@ -142,6 +149,76 @@ Added in v2.0.0
 
 ```ts
 export const state: Monad2<URI> = ...
+```
+
+Added in v2.0.0
+
+# ap (export)
+
+**Signature**
+
+```ts
+<E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => State<E, B>
+```
+
+Added in v2.0.0
+
+# apFirst (export)
+
+**Signature**
+
+```ts
+<E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, A>
+```
+
+Added in v2.0.0
+
+# apSecond (export)
+
+**Signature**
+
+```ts
+<E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, B>
+```
+
+Added in v2.0.0
+
+# chain (export)
+
+**Signature**
+
+```ts
+<E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, B>
+```
+
+Added in v2.0.0
+
+# chainFirst (export)
+
+**Signature**
+
+```ts
+<E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, A>
+```
+
+Added in v2.0.0
+
+# flatten (export)
+
+**Signature**
+
+```ts
+<E, A>(mma: State<E, State<E, A>>) => State<E, A>
+```
+
+Added in v2.0.0
+
+# map (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => <E>(fa: State<E, A>) => State<E, B>
 ```
 
 Added in v2.0.0

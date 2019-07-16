@@ -23,6 +23,15 @@ Adapted from https://github.com/purescript/purescript-tuples
 - [getMonad (function)](#getmonad-function)
 - [snd (function)](#snd-function)
 - [swap (function)](#swap-function)
+- [bimap (export)](#bimap-export)
+- [compose (export)](#compose-export)
+- [duplicate (export)](#duplicate-export)
+- [extend (export)](#extend-export)
+- [foldMap (export)](#foldmap-export)
+- [map (export)](#map-export)
+- [mapLeft (export)](#mapleft-export)
+- [reduce (export)](#reduce-export)
+- [reduceRight (export)](#reduceright-export)
 
 ---
 
@@ -41,7 +50,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "Tuple" = ...
 ```
 
 Added in v2.0.0
@@ -132,6 +141,96 @@ Added in v2.0.0
 
 ```ts
 export function swap<A, S>(sa: [A, S]): [S, A] { ... }
+```
+
+Added in v2.0.0
+
+# bimap (export)
+
+**Signature**
+
+```ts
+;<E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: [A, E]) => [B, G]
+```
+
+Added in v2.0.0
+
+# compose (export)
+
+**Signature**
+
+```ts
+;<E, A>(la: [A, E]) => <B>(ab: [B, A]) => [B, E]
+```
+
+Added in v2.0.0
+
+# duplicate (export)
+
+**Signature**
+
+```ts
+;<E, A>(ma: [A, E]) => [[A, E], E]
+```
+
+Added in v2.0.0
+
+# extend (export)
+
+**Signature**
+
+```ts
+;<E, A, B>(f: (fa: [A, E]) => B) => (ma: [A, E]) => [B, E]
+```
+
+Added in v2.0.0
+
+# foldMap (export)
+
+**Signature**
+
+```ts
+;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: [A, E]) => M
+```
+
+Added in v2.0.0
+
+# map (export)
+
+**Signature**
+
+```ts
+;<A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E]
+```
+
+Added in v2.0.0
+
+# mapLeft (export)
+
+**Signature**
+
+```ts
+;<E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G]
+```
+
+Added in v2.0.0
+
+# reduce (export)
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: [A, E]) => B
+```
+
+Added in v2.0.0
+
+# reduceRight (export)
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: [A, E]) => B
 ```
 
 Added in v2.0.0

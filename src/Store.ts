@@ -95,4 +95,17 @@ export const store: Comonad2<URI> = {
 
 const { duplicate, extend, map } = pipeable(store)
 
-export { duplicate, extend, map }
+export {
+  /**
+   * @since 2.0.0
+   */
+  duplicate,
+  /**
+   * @since 2.0.0
+   */
+  extend,
+  /**
+   * @since 2.0.0
+   */
+  map
+}

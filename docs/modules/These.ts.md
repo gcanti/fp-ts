@@ -52,6 +52,12 @@ Adapted from https://github.com/purescript-contrib/purescript-these
 - [right (function)](#right-function)
 - [rightOrBoth (function)](#rightorboth-function)
 - [toTuple (function)](#totuple-function)
+- [bimap (export)](#bimap-export)
+- [foldMap (export)](#foldmap-export)
+- [map (export)](#map-export)
+- [mapLeft (export)](#mapleft-export)
+- [reduce (export)](#reduce-export)
+- [reduceRight (export)](#reduceright-export)
 
 ---
 
@@ -94,7 +100,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "These" = ...
 ```
 
 Added in v2.0.0
@@ -401,6 +407,66 @@ import { toTuple, left, right, both } from 'fp-ts/lib/These'
 assert.deepStrictEqual(toTuple('a', 1)(left('b')), ['b', 1])
 assert.deepStrictEqual(toTuple('a', 1)(right(2)), ['a', 2])
 assert.deepStrictEqual(toTuple('a', 1)(both('b', 2)), ['b', 2])
+```
+
+Added in v2.0.0
+
+# bimap (export)
+
+**Signature**
+
+```ts
+<E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: These<E, A>) => These<G, B>
+```
+
+Added in v2.0.0
+
+# foldMap (export)
+
+**Signature**
+
+```ts
+;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<E, A>) => M
+```
+
+Added in v2.0.0
+
+# map (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B>
+```
+
+Added in v2.0.0
+
+# mapLeft (export)
+
+**Signature**
+
+```ts
+<E, G>(f: (e: E) => G) => <A>(fa: These<E, A>) => These<G, A>
+```
+
+Added in v2.0.0
+
+# reduce (export)
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) => B
+```
+
+Added in v2.0.0
+
+# reduceRight (export)
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B
 ```
 
 Added in v2.0.0

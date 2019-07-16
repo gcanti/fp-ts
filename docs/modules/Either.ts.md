@@ -67,6 +67,24 @@ either.map(left(23), double) // left(23)
 - [swap (function)](#swap-function)
 - [toError (function)](#toerror-function)
 - [tryCatch (function)](#trycatch-function)
+- [alt (export)](#alt-export)
+- [ap (export)](#ap-export)
+- [apFirst (export)](#apfirst-export)
+- [apSecond (export)](#apsecond-export)
+- [bimap (export)](#bimap-export)
+- [chain (export)](#chain-export)
+- [chainFirst (export)](#chainfirst-export)
+- [duplicate (export)](#duplicate-export)
+- [extend (export)](#extend-export)
+- [filterOrElse (export)](#filterorelse-export)
+- [flatten (export)](#flatten-export)
+- [foldMap (export)](#foldmap-export)
+- [fromOption (export)](#fromoption-export)
+- [fromPredicate (export)](#frompredicate-export)
+- [map (export)](#map-export)
+- [mapLeft (export)](#mapleft-export)
+- [reduce (export)](#reduce-export)
+- [reduceRight (export)](#reduceright-export)
 
 ---
 
@@ -121,7 +139,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "Either" = ...
 ```
 
 Added in v2.0.0
@@ -488,6 +506,186 @@ const head = <A>(as: Array<A>): Either<Error, A> => {
 
 assert.deepStrictEqual(head([]), left(new Error('empty array')))
 assert.deepStrictEqual(head([1, 2, 3]), right(1))
+```
+
+Added in v2.0.0
+
+# alt (export)
+
+**Signature**
+
+```ts
+<E, A>(that: () => Either<E, A>) => (fa: Either<E, A>) => Either<E, A>
+```
+
+Added in v2.0.0
+
+# ap (export)
+
+**Signature**
+
+```ts
+<E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B>
+```
+
+Added in v2.0.0
+
+# apFirst (export)
+
+**Signature**
+
+```ts
+<E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, A>
+```
+
+Added in v2.0.0
+
+# apSecond (export)
+
+**Signature**
+
+```ts
+<E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, B>
+```
+
+Added in v2.0.0
+
+# bimap (export)
+
+**Signature**
+
+```ts
+<E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<E, A>) => Either<G, B>
+```
+
+Added in v2.0.0
+
+# chain (export)
+
+**Signature**
+
+```ts
+<E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B>
+```
+
+Added in v2.0.0
+
+# chainFirst (export)
+
+**Signature**
+
+```ts
+<E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A>
+```
+
+Added in v2.0.0
+
+# duplicate (export)
+
+**Signature**
+
+```ts
+<E, A>(ma: Either<E, A>) => Either<E, Either<E, A>>
+```
+
+Added in v2.0.0
+
+# extend (export)
+
+**Signature**
+
+```ts
+<E, A, B>(f: (fa: Either<E, A>) => B) => (ma: Either<E, A>) => Either<E, B>
+```
+
+Added in v2.0.0
+
+# filterOrElse (export)
+
+**Signature**
+
+```ts
+{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>; }
+```
+
+Added in v2.0.0
+
+# flatten (export)
+
+**Signature**
+
+```ts
+<E, A>(mma: Either<E, Either<E, A>>) => Either<E, A>
+```
+
+Added in v2.0.0
+
+# foldMap (export)
+
+**Signature**
+
+```ts
+;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M
+```
+
+Added in v2.0.0
+
+# fromOption (export)
+
+**Signature**
+
+```ts
+<E>(onNone: () => E) => <A>(ma: Option<A>) => Either<E, A>
+```
+
+Added in v2.0.0
+
+# fromPredicate (export)
+
+**Signature**
+
+```ts
+{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Either<E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A>; }
+```
+
+Added in v2.0.0
+
+# map (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B>
+```
+
+Added in v2.0.0
+
+# mapLeft (export)
+
+**Signature**
+
+```ts
+<E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A>
+```
+
+Added in v2.0.0
+
+# reduce (export)
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B
+```
+
+Added in v2.0.0
+
+# reduceRight (export)
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B
 ```
 
 Added in v2.0.0

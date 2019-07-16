@@ -8,11 +8,11 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Endomorphism (type alias)](#endomorphism-type-alias)
-- [FunctionN (type alias)](#functionn-type-alias)
-- [Lazy (type alias)](#lazy-type-alias)
-- [Predicate (type alias)](#predicate-type-alias)
-- [Refinement (type alias)](#refinement-type-alias)
+- [Endomorphism (interface)](#endomorphism-interface)
+- [FunctionN (interface)](#functionn-interface)
+- [Lazy (interface)](#lazy-interface)
+- [Predicate (interface)](#predicate-interface)
+- [Refinement (interface)](#refinement-interface)
 - [unsafeCoerce (constant)](#unsafecoerce-constant)
 - [absurd (function)](#absurd-function)
 - [constFalse (function)](#constfalse-function)
@@ -31,20 +31,26 @@ parent: Modules
 
 ---
 
-# Endomorphism (type alias)
+# Endomorphism (interface)
 
 **Signature**
 
 ```ts
-export type Endomorphism<A> = (a: A) => A
+export interface Endomorphism<A> {
+  (a: A): A
+}
 ```
 
-# FunctionN (type alias)
+Added in v2.0.0
+
+# FunctionN (interface)
 
 **Signature**
 
 ```ts
-export type FunctionN<A extends Array<unknown>, B> = (...args: A) => B
+export interface FunctionN<A extends Array<unknown>, B> {
+  (...args: A): B
+}
 ```
 
 **Example**
@@ -57,31 +63,43 @@ export const sum: FunctionN<[number, number], number> = (a, b) => a + b
 
 Added in v2.0.0
 
-# Lazy (type alias)
+# Lazy (interface)
 
-Thunk type
-
-**Signature**
-
-```ts
-export type Lazy<A> = () => A
-```
-
-# Predicate (type alias)
+A _thunk_
 
 **Signature**
 
 ```ts
-export type Predicate<A> = (a: A) => boolean
+export interface Lazy<A> {
+  (): A
+}
 ```
 
-# Refinement (type alias)
+Added in v2.0.0
+
+# Predicate (interface)
 
 **Signature**
 
 ```ts
-export type Refinement<A, B extends A> = (a: A) => a is B
+export interface Predicate<A> {
+  (a: A): boolean
+}
 ```
+
+Added in v2.0.0
+
+# Refinement (interface)
+
+**Signature**
+
+```ts
+export interface Refinement<A, B extends A> {
+  (a: A): a is B
+}
+```
+
+Added in v2.0.0
 
 # unsafeCoerce (constant)
 

@@ -30,8 +30,14 @@ declare module './HKT' {
   }
 }
 
+/**
+ * @since 2.0.0
+ */
 export const URI = 'Array'
 
+/**
+ * @since 2.0.0
+ */
 export type URI = typeof URI
 
 /**
@@ -1487,30 +1493,108 @@ const {
 } = pipeable(array)
 
 export {
+  /**
+   * @since 2.0.0
+   */
   alt,
+  /**
+   * @since 2.0.0
+   */
   ap,
+  /**
+   * @since 2.0.0
+   */
   apFirst,
+  /**
+   * @since 2.0.0
+   */
   apSecond,
+  /**
+   * @since 2.0.0
+   */
   chain,
+  /**
+   * @since 2.0.0
+   */
   chainFirst,
+  /**
+   * @since 2.0.0
+   */
   duplicate,
+  /**
+   * @since 2.0.0
+   */
   extend,
+  /**
+   * @since 2.0.0
+   */
   filter,
+  /**
+   * @since 2.0.0
+   */
   filterMap,
+  /**
+   * @since 2.0.0
+   */
   filterMapWithIndex,
+  /**
+   * @since 2.0.0
+   */
   filterWithIndex,
+  /**
+   * @since 2.0.0
+   */
   foldMap,
+  /**
+   * @since 2.0.0
+   */
   foldMapWithIndex,
+  /**
+   * @since 2.0.0
+   */
   map,
+  /**
+   * @since 2.0.0
+   */
   mapWithIndex,
+  /**
+   * @since 2.0.0
+   */
   partition,
+  /**
+   * @since 2.0.0
+   */
   partitionMap,
+  /**
+   * @since 2.0.0
+   */
   partitionMapWithIndex,
+  /**
+   * @since 2.0.0
+   */
   partitionWithIndex,
+  /**
+   * @since 2.0.0
+   */
   reduce,
+  /**
+   * @since 2.0.0
+   */
   reduceRight,
+  /**
+   * @since 2.0.0
+   */
   reduceRightWithIndex,
+  /**
+   * @since 2.0.0
+   */
   reduceWithIndex,
+  /**
+   * @since 2.0.0
+   */
   compact,
+  /**
+   * @since 2.0.0
+   */
   separate
 }

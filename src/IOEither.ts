@@ -183,18 +183,60 @@ const {
 } = pipeable(ioEither)
 
 export {
+  /**
+   * @since 2.0.0
+   */
   alt,
+  /**
+   * @since 2.0.0
+   */
   ap,
+  /**
+   * @since 2.0.0
+   */
   apFirst,
+  /**
+   * @since 2.0.0
+   */
   apSecond,
+  /**
+   * @since 2.0.0
+   */
   bimap,
+  /**
+   * @since 2.0.0
+   */
   chain,
+  /**
+   * @since 2.0.0
+   */
   chainFirst,
+  /**
+   * @since 2.0.0
+   */
   flatten,
+  /**
+   * @since 2.0.0
+   */
   map,
+  /**
+   * @since 2.0.0
+   */
   mapLeft,
+  /**
+   * @since 2.0.0
+   */
   fromEither,
+  /**
+   * @since 2.0.0
+   */
   fromOption,
+  /**
+   * @since 2.0.0
+   */
   fromPredicate,
+  /**
+   * @since 2.0.0
+   */
   filterOrElse
 }

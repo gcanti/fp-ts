@@ -16,6 +16,9 @@ parent: Modules
 - [peeks (function)](#peeks-function)
 - [seek (function)](#seek-function)
 - [seeks (function)](#seeks-function)
+- [duplicate (export)](#duplicate-export)
+- [extend (export)](#extend-export)
+- [map (export)](#map-export)
 
 ---
 
@@ -47,7 +50,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "Store" = ...
 ```
 
 Added in v2.0.0
@@ -118,6 +121,36 @@ Reposition the focus at the specified position, which depends on the current pos
 
 ```ts
 export function seeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => Store<S, A> { ... }
+```
+
+Added in v2.0.0
+
+# duplicate (export)
+
+**Signature**
+
+```ts
+<E, A>(ma: Store<E, A>) => Store<E, Store<E, A>>
+```
+
+Added in v2.0.0
+
+# extend (export)
+
+**Signature**
+
+```ts
+<E, A, B>(f: (fa: Store<E, A>) => B) => (ma: Store<E, A>) => Store<E, B>
+```
+
+Added in v2.0.0
+
+# map (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B>
 ```
 
 Added in v2.0.0

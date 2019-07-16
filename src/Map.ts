@@ -619,4 +619,33 @@ export const map_: Filterable2<URI> = {
 
 const { filter, filterMap, map, partition, partitionMap, compact, separate } = pipeable(map_)
 
-export { filter, filterMap, map, partition, partitionMap, compact, separate }
+export {
+  /**
+   * @since 2.0.0
+   */
+  filter,
+  /**
+   * @since 2.0.0
+   */
+  filterMap,
+  /**
+   * @since 2.0.0
+   */
+  map,
+  /**
+   * @since 2.0.0
+   */
+  partition,
+  /**
+   * @since 2.0.0
+   */
+  partitionMap,
+  /**
+   * @since 2.0.0
+   */
+  compact,
+  /**
+   * @since 2.0.0
+   */
+  separate
+}

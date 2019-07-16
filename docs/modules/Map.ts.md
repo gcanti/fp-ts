@@ -36,6 +36,13 @@ parent: Modules
 - [toUnfoldable (function)](#tounfoldable-function)
 - [updateAt (function)](#updateat-function)
 - [values (function)](#values-function)
+- [compact (export)](#compact-export)
+- [filter (export)](#filter-export)
+- [filterMap (export)](#filtermap-export)
+- [map (export)](#map-export)
+- [partition (export)](#partition-export)
+- [partitionMap (export)](#partitionmap-export)
+- [separate (export)](#separate-export)
 
 ---
 
@@ -54,7 +61,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "Map" = ...
 ```
 
 Added in v2.0.0
@@ -64,7 +71,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const empty = ...
+export const empty: any = ...
 ```
 
 Added in v2.0.0
@@ -367,6 +374,76 @@ Get a sorted array of the values contained in a map
 
 ```ts
 export function values<A>(O: Ord<A>): <K>(m: Map<K, A>) => Array<A> { ... }
+```
+
+Added in v2.0.0
+
+# compact (export)
+
+**Signature**
+
+```ts
+;<E, A>(fa: any) => any
+```
+
+Added in v2.0.0
+
+# filter (export)
+
+**Signature**
+
+```ts
+{ <A, B>(refinement: Refinement<A, B>): <E>(fa: any) => any; <A>(predicate: Predicate<A>): <E>(fa: any) => any; }
+```
+
+Added in v2.0.0
+
+# filterMap (export)
+
+**Signature**
+
+```ts
+;<A, B>(f: (a: A) => Option<B>) => <E>(fa: any) => any
+```
+
+Added in v2.0.0
+
+# map (export)
+
+**Signature**
+
+```ts
+;<A, B>(f: (a: A) => B) => <E>(fa: any) => any
+```
+
+Added in v2.0.0
+
+# partition (export)
+
+**Signature**
+
+```ts
+{ <A, B>(refinement: Refinement<A, B>): <E>(fa: any) => Separated<any, any>; <A>(predicate: Predicate<A>): <E>(fa: any) => Separated<any, any>; }
+```
+
+Added in v2.0.0
+
+# partitionMap (export)
+
+**Signature**
+
+```ts
+<A, B, C>(f: (a: A) => Either<B, C>) => <E>(fa: any) => Separated<any, any>
+```
+
+Added in v2.0.0
+
+# separate (export)
+
+**Signature**
+
+```ts
+<E, A, B>(fa: any) => Separated<any, any>
 ```
 
 Added in v2.0.0

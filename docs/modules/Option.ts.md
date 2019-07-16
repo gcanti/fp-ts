@@ -61,6 +61,26 @@ Another way to look at option is: it represents the effect of a possibly failing
 - [toNullable (function)](#tonullable-function)
 - [toUndefined (function)](#toundefined-function)
 - [tryCatch (function)](#trycatch-function)
+- [alt (export)](#alt-export)
+- [ap (export)](#ap-export)
+- [apFirst (export)](#apfirst-export)
+- [apSecond (export)](#apsecond-export)
+- [chain (export)](#chain-export)
+- [chainFirst (export)](#chainfirst-export)
+- [compact (export)](#compact-export)
+- [duplicate (export)](#duplicate-export)
+- [extend (export)](#extend-export)
+- [filter (export)](#filter-export)
+- [filterMap (export)](#filtermap-export)
+- [flatten (export)](#flatten-export)
+- [foldMap (export)](#foldmap-export)
+- [fromEither (export)](#fromeither-export)
+- [map (export)](#map-export)
+- [partition (export)](#partition-export)
+- [partitionMap (export)](#partitionmap-export)
+- [reduce (export)](#reduce-export)
+- [reduceRight (export)](#reduceright-export)
+- [separate (export)](#separate-export)
 
 ---
 
@@ -114,7 +134,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "Option" = ...
 ```
 
 Added in v2.0.0
@@ -772,6 +792,206 @@ assert.deepStrictEqual(
   none
 )
 assert.deepStrictEqual(tryCatch(() => 1), some(1))
+```
+
+Added in v2.0.0
+
+# alt (export)
+
+**Signature**
+
+```ts
+<A>(that: () => Option<A>) => (fa: Option<A>) => Option<A>
+```
+
+Added in v2.0.0
+
+# ap (export)
+
+**Signature**
+
+```ts
+<A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B>
+```
+
+Added in v2.0.0
+
+# apFirst (export)
+
+**Signature**
+
+```ts
+<B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<A>
+```
+
+Added in v2.0.0
+
+# apSecond (export)
+
+**Signature**
+
+```ts
+<B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<B>
+```
+
+Added in v2.0.0
+
+# chain (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B>
+```
+
+Added in v2.0.0
+
+# chainFirst (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<A>
+```
+
+Added in v2.0.0
+
+# compact (export)
+
+**Signature**
+
+```ts
+<A>(fa: Option<Option<A>>) => Option<A>
+```
+
+Added in v2.0.0
+
+# duplicate (export)
+
+**Signature**
+
+```ts
+<A>(ma: Option<A>) => Option<Option<A>>
+```
+
+Added in v2.0.0
+
+# extend (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (fa: Option<A>) => B) => (ma: Option<A>) => Option<B>
+```
+
+Added in v2.0.0
+
+# filter (export)
+
+**Signature**
+
+```ts
+{ <A, B>(refinement: Refinement<A, B>): (fa: Option<A>) => Option<B>; <A>(predicate: Predicate<A>): (fa: Option<A>) => Option<A>; }
+```
+
+Added in v2.0.0
+
+# filterMap (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B>
+```
+
+Added in v2.0.0
+
+# flatten (export)
+
+**Signature**
+
+```ts
+<A>(mma: Option<Option<A>>) => Option<A>
+```
+
+Added in v2.0.0
+
+# foldMap (export)
+
+**Signature**
+
+```ts
+;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M
+```
+
+Added in v2.0.0
+
+# fromEither (export)
+
+**Signature**
+
+```ts
+<E, A>(ma: Either<E, A>) => Option<A>
+```
+
+Added in v2.0.0
+
+# map (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B>
+```
+
+Added in v2.0.0
+
+# partition (export)
+
+**Signature**
+
+```ts
+{ <A, B>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>; <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>; }
+```
+
+Added in v2.0.0
+
+# partitionMap (export)
+
+**Signature**
+
+```ts
+<A, B, C>(f: (a: A) => Either<B, C>) => (fa: Option<A>) => Separated<Option<B>, Option<C>>
+```
+
+Added in v2.0.0
+
+# reduce (export)
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B
+```
+
+Added in v2.0.0
+
+# reduceRight (export)
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B
+```
+
+Added in v2.0.0
+
+# separate (export)
+
+**Signature**
+
+```ts
+<A, B>(fa: Option<Either<A, B>>) => Separated<Option<A>, Option<B>>
 ```
 
 Added in v2.0.0

@@ -17,6 +17,8 @@ parent: Modules
 - [getApplicative (function)](#getapplicative-function)
 - [getApply (function)](#getapply-function)
 - [getShow (function)](#getshow-function)
+- [contramap (export)](#contramap-export)
+- [map (export)](#map-export)
 
 ---
 
@@ -45,7 +47,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "Const" = ...
 ```
 
 Added in v2.0.0
@@ -106,6 +108,26 @@ Added in v2.0.0
 
 ```ts
 export function getShow<E, A>(S: Show<E>): Show<Const<E, A>> { ... }
+```
+
+Added in v2.0.0
+
+# contramap (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (b: B) => A) => <E>(fa: Const<E, A>) => Const<E, B>
+```
+
+Added in v2.0.0
+
+# map (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B>
 ```
 
 Added in v2.0.0

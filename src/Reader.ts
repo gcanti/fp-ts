@@ -105,4 +105,41 @@ export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<U
 
 const { ap, apFirst, apSecond, chain, chainFirst, compose, flatten, map, promap } = pipeable(reader)
 
-export { ap, apFirst, apSecond, chain, chainFirst, compose, flatten, map, promap }
+export {
+  /**
+   * @since 2.0.0
+   */
+  ap,
+  /**
+   * @since 2.0.0
+   */
+  apFirst,
+  /**
+   * @since 2.0.0
+   */
+  apSecond,
+  /**
+   * @since 2.0.0
+   */
+  chain,
+  /**
+   * @since 2.0.0
+   */
+  chainFirst,
+  /**
+   * @since 2.0.0
+   */
+  compose,
+  /**
+   * @since 2.0.0
+   */
+  flatten,
+  /**
+   * @since 2.0.0
+   */
+  map,
+  /**
+   * @since 2.0.0
+   */
+  promap
+}

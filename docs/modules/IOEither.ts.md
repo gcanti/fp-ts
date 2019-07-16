@@ -31,6 +31,20 @@ error of type `E`. If you want to represent a synchronous computation that never
 - [getSemigroup (function)](#getsemigroup-function)
 - [orElse (function)](#orelse-function)
 - [tryCatch (function)](#trycatch-function)
+- [alt (export)](#alt-export)
+- [ap (export)](#ap-export)
+- [apFirst (export)](#apfirst-export)
+- [apSecond (export)](#apsecond-export)
+- [bimap (export)](#bimap-export)
+- [chain (export)](#chain-export)
+- [chainFirst (export)](#chainfirst-export)
+- [filterOrElse (export)](#filterorelse-export)
+- [flatten (export)](#flatten-export)
+- [fromEither (export)](#fromeither-export)
+- [fromOption (export)](#fromoption-export)
+- [fromPredicate (export)](#frompredicate-export)
+- [map (export)](#map-export)
+- [mapLeft (export)](#mapleft-export)
 
 ---
 
@@ -59,7 +73,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "IOEither" = ...
 ```
 
 Added in v2.0.0
@@ -220,6 +234,146 @@ Constructs a new `IOEither` from a function that performs a side effect and migh
 
 ```ts
 export function tryCatch<E, A>(f: Lazy<A>, onError: (reason: unknown) => E): IOEither<E, A> { ... }
+```
+
+Added in v2.0.0
+
+# alt (export)
+
+**Signature**
+
+```ts
+<E, A>(that: () => IOEither<E, A>) => (fa: IOEither<E, A>) => IOEither<E, A>
+```
+
+Added in v2.0.0
+
+# ap (export)
+
+**Signature**
+
+```ts
+<E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B>
+```
+
+Added in v2.0.0
+
+# apFirst (export)
+
+**Signature**
+
+```ts
+<E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>) => IOEither<E, A>
+```
+
+Added in v2.0.0
+
+# apSecond (export)
+
+**Signature**
+
+```ts
+<E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>) => IOEither<E, B>
+```
+
+Added in v2.0.0
+
+# bimap (export)
+
+**Signature**
+
+```ts
+<E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: IOEither<E, A>) => IOEither<G, B>
+```
+
+Added in v2.0.0
+
+# chain (export)
+
+**Signature**
+
+```ts
+<E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B>
+```
+
+Added in v2.0.0
+
+# chainFirst (export)
+
+**Signature**
+
+```ts
+<E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, A>
+```
+
+Added in v2.0.0
+
+# filterOrElse (export)
+
+**Signature**
+
+```ts
+{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, A>; }
+```
+
+Added in v2.0.0
+
+# flatten (export)
+
+**Signature**
+
+```ts
+<E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A>
+```
+
+Added in v2.0.0
+
+# fromEither (export)
+
+**Signature**
+
+```ts
+<E, A>(ma: E.Either<E, A>) => IOEither<E, A>
+```
+
+Added in v2.0.0
+
+# fromOption (export)
+
+**Signature**
+
+```ts
+<E>(onNone: () => E) => <A>(ma: Option<A>) => IOEither<E, A>
+```
+
+Added in v2.0.0
+
+# fromPredicate (export)
+
+**Signature**
+
+```ts
+{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => IOEither<E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A>; }
+```
+
+Added in v2.0.0
+
+# map (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<E, B>
+```
+
+Added in v2.0.0
+
+# mapLeft (export)
+
+**Signature**
+
+```ts
+<E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) => IOEither<G, A>
 ```
 
 Added in v2.0.0

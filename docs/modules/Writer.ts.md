@@ -51,7 +51,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "Writer" = ...
 ```
 
 Added in v2.0.0
@@ -161,5 +161,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export { map }
+<A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B>
 ```
+
+Added in v2.0.0

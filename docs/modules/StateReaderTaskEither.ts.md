@@ -34,6 +34,15 @@ parent: Modules
 - [rightReader (function)](#rightreader-function)
 - [rightTask (function)](#righttask-function)
 - [run (function)](#run-function)
+- [ap (export)](#ap-export)
+- [apFirst (export)](#apfirst-export)
+- [apSecond (export)](#apsecond-export)
+- [chain (export)](#chain-export)
+- [chainFirst (export)](#chainfirst-export)
+- [flatten (export)](#flatten-export)
+- [fromEither (export)](#fromeither-export)
+- [fromOption (export)](#fromoption-export)
+- [map (export)](#map-export)
 
 ---
 
@@ -64,7 +73,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "StateReaderTaskEither" = ...
 ```
 
 Added in v2.0.0
@@ -76,7 +85,7 @@ Run a computation in the `StateReaderTaskEither` monad, discarding the final sta
 **Signature**
 
 ```ts
-export const  = ...
+export const : <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S) => RTE.ReaderTaskEither<R, E, A> = ...
 ```
 
 Added in v2.0.0
@@ -88,7 +97,7 @@ Run a computation in the `StateReaderTaskEither` monad discarding the result
 **Signature**
 
 ```ts
-export const  = ...
+export const : <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S) => RTE.ReaderTaskEither<R, E, S> = ...
 ```
 
 Added in v2.0.0
@@ -98,7 +107,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const  = ...
+export const : <S, R, E, A>(ma: RTE.ReaderTaskEither<R, E, A>) => StateReaderTaskEither<S, R, E, A> = ...
 ```
 
 Added in v2.0.0
@@ -309,6 +318,96 @@ Added in v2.0.0
 
 ```ts
 export function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: R): Promise<Either<E, [A, S]>> { ... }
+```
+
+Added in v2.0.0
+
+# ap (export)
+
+**Signature**
+
+```ts
+<S, R, E, A>(fa: StateReaderTaskEither<S, R, E, A>) => <B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v2.0.0
+
+# apFirst (export)
+
+**Signature**
+
+```ts
+<S, R, E, B>(fb: StateReaderTaskEither<S, R, E, B>) => <A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.0.0
+
+# apSecond (export)
+
+**Signature**
+
+```ts
+<S, R, E, B>(fb: StateReaderTaskEither<S, R, E, B>) => <A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v2.0.0
+
+# chain (export)
+
+**Signature**
+
+```ts
+<S, R, E, A, B>(f: (a: A) => StateReaderTaskEither<S, R, E, B>) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v2.0.0
+
+# chainFirst (export)
+
+**Signature**
+
+```ts
+<S, R, E, A, B>(f: (a: A) => StateReaderTaskEither<S, R, E, B>) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.0.0
+
+# flatten (export)
+
+**Signature**
+
+```ts
+<S, R, E, A>(mma: StateReaderTaskEither<S, R, E, StateReaderTaskEither<S, R, E, A>>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.0.0
+
+# fromEither (export)
+
+**Signature**
+
+```ts
+<S, R, E, A>(ma: Either<E, A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.0.0
+
+# fromOption (export)
+
+**Signature**
+
+```ts
+<E>(onNone: () => E) => <S, R, A>(ma: Option<A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.0.0
+
+# map (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => <S, R, E>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.0.0

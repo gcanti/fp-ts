@@ -106,6 +106,13 @@ computation() // returns { name: 'Aristotle', age: 60 }
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [of (function)](#of-function)
+- [ap (export)](#ap-export)
+- [apFirst (export)](#apfirst-export)
+- [apSecond (export)](#apsecond-export)
+- [chain (export)](#chain-export)
+- [chainFirst (export)](#chainfirst-export)
+- [flatten (export)](#flatten-export)
+- [map (export)](#map-export)
 
 ---
 
@@ -136,7 +143,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "IO" = ...
 ```
 
 Added in v2.0.0
@@ -177,6 +184,76 @@ Added in v2.0.0
 
 ```ts
 export const of = <A>(a: A): IO<A> => () => ...
+```
+
+Added in v2.0.0
+
+# ap (export)
+
+**Signature**
+
+```ts
+<A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B>
+```
+
+Added in v2.0.0
+
+# apFirst (export)
+
+**Signature**
+
+```ts
+<B>(fb: IO<B>) => <A>(fa: IO<A>) => IO<A>
+```
+
+Added in v2.0.0
+
+# apSecond (export)
+
+**Signature**
+
+```ts
+<B>(fb: IO<B>) => <A>(fa: IO<A>) => IO<B>
+```
+
+Added in v2.0.0
+
+# chain (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B>
+```
+
+Added in v2.0.0
+
+# chainFirst (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<A>
+```
+
+Added in v2.0.0
+
+# flatten (export)
+
+**Signature**
+
+```ts
+<A>(mma: IO<IO<A>>) => IO<A>
+```
+
+Added in v2.0.0
+
+# map (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B>
 ```
 
 Added in v2.0.0
