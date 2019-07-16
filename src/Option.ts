@@ -18,67 +18,6 @@
  *
  * An option could be looked at as a collection or foldable structure with either one or zero elements.
  * Another way to look at option is: it represents the effect of a possibly failing computation.
- *
- * ```ts
- * import { Option, some, none } from 'fp-ts/lib/Option'
- *
- * const someValue: Option<string> = some('foo')
- * const emptyValue: Option<string> = none
- * ```
- *
- * Let's write a function that may or not give us a string, thus returning `Option<string>`
- *
- *
- * ```ts
- * function head(as: Array<string>): Option<string> {
- *   return as.length > 0 ? some(as[0]) : none
- * }
- * ```
- *
- * Using `getOrElse` we can provide a default value `"No value"` when the optional argument `None` does not exist:
- *
- * ```ts
- * import { getOrElse } from 'fp-ts/lib/Option'
- *
- * const value1 = head(['foo', 'bar']) // some('foo)
- * const value2 = head([]) // none
- * getOrElse(() => 'No value')(value1) // 'foo'
- * getOrElse(() => 'No value')(value2) // 'No value'
- * ```
- *
- * Checking whether option has value:
- *
- * ```ts
- * import { isNone } from 'fp-ts/lib/Option'
- *
- * isNone(value1) // false
- * isNone(value2) // true
- * ```
- *
- * We can pattern match using the `fold` function
- *
- * ```ts
- * import { fold } from 'fp-ts/lib/Option'
- *
- * const x: Option<number> = some(3)
- * const y: Option<number> = none
- * fold(1, n => n * 3)(x) // 9
- * fold(1, n => n * 3)(y) // 1
- * ```
- *
- * You can chain several possibly failing computations using the `chain` function
- *
- * ```ts
- * import { option } from 'fp-ts/lib/Option'
- *
- * function inverse(n: number): Option<number> {
- *   return n === 0 ? none : some(1 / n)
- * }
- *
- * option.chain(x, inverse) // 1/3
- * option.chain(y, inverse) // none
- * option.chain(some(0), inverse) // none
- * ```
  */
 import { Alternative1 } from './Alternative'
 import { Applicative } from './Applicative'
@@ -151,6 +90,12 @@ export function some<A>(a: A): Option<A> {
 /**
  * Returns `true` if the option is an instance of `Some`, `false` otherwise
  *
+ * @example
+ * import { some, none, isSome } from 'fp-ts/lib/Option'
+ *
+ * assert.strictEqual(isSome(some(1)), true)
+ * assert.strictEqual(isSome(none), false)
+ *
  * @since 2.0.0
  */
 export function isSome<A>(fa: Option<A>): fa is Some<A> {
@@ -160,6 +105,12 @@ export function isSome<A>(fa: Option<A>): fa is Some<A> {
 /**
  * Returns `true` if the option is `None`, `false` otherwise
  *
+ * @example
+ * import { some, none, isNone } from 'fp-ts/lib/Option'
+ *
+ * assert.strictEqual(isNone(some(1)), false)
+ * assert.strictEqual(isNone(none), true)
+ *
  * @since 2.0.0
  */
 export function isNone<A>(fa: Option<A>): fa is None {
@@ -167,6 +118,28 @@ export function isNone<A>(fa: Option<A>): fa is None {
 }
 
 /**
+ * We can pattern match using the `fold` function
+ *
+ * @example
+ * import { some, none, fold } from 'fp-ts/lib/Option'
+ * import { pipe } from 'fp-ts/lib/pipeable'
+ *
+ * assert.strictEqual(
+ *   pipe(
+ *     some(1),
+ *     fold(() => 'a none', a => `a some containing ${a}`)
+ *   ),
+ *   'a some containing 1'
+ * )
+ *
+ * assert.strictEqual(
+ *   pipe(
+ *     none,
+ *     fold(() => 'a none', a => `a some containing ${a}`)
+ *   ),
+ *   'a none'
+ * )
+ *
  * @since 2.0.0
  */
 export function fold<A, B>(onNone: () => B, onSome: (a: A) => B): (ma: Option<A>) => B {
@@ -191,6 +164,27 @@ export function fromNullable<A>(a: A | null | undefined): Option<A> {
 }
 
 /**
+ * Extracts the value out of the structure, if it exists. Otherwise returns `null`.
+ *
+ * @example
+ * import { some, none, toNullable } from 'fp-ts/lib/Option'
+ * import { pipe } from 'fp-ts/lib/pipeable'
+ *
+ * assert.strictEqual(
+ *   pipe(
+ *     some(1),
+ *     toNullable
+ *   ),
+ *   1
+ * )
+ * assert.strictEqual(
+ *   pipe(
+ *     none,
+ *     toNullable
+ *   ),
+ *   null
+ * )
+ *
  * @since 2.0.0
  */
 export function toNullable<A>(ma: Option<A>): A | null {
@@ -198,6 +192,27 @@ export function toNullable<A>(ma: Option<A>): A | null {
 }
 
 /**
+ * Extracts the value out of the structure, if it exists. Otherwise returns `undefined`.
+ *
+ * @example
+ * import { some, none, toUndefined } from 'fp-ts/lib/Option'
+ * import { pipe } from 'fp-ts/lib/pipeable'
+ *
+ * assert.strictEqual(
+ *   pipe(
+ *     some(1),
+ *     toUndefined
+ *   ),
+ *   1
+ * )
+ * assert.strictEqual(
+ *   pipe(
+ *     none,
+ *     toUndefined
+ *   ),
+ *   undefined
+ * )
+ *
  * @since 2.0.0
  */
 export function toUndefined<A>(ma: Option<A>): A | undefined {
@@ -205,6 +220,27 @@ export function toUndefined<A>(ma: Option<A>): A | undefined {
 }
 
 /**
+ * Extracts the value out of the structure, if it exists. Otherwise returns the given default value
+ *
+ * @example
+ * import { some, none, getOrElse } from 'fp-ts/lib/Option'
+ * import { pipe } from 'fp-ts/lib/pipeable'
+ *
+ * assert.strictEqual(
+ *   pipe(
+ *     some(1),
+ *     getOrElse(() => 0)
+ *   ),
+ *   1
+ * )
+ * assert.strictEqual(
+ *   pipe(
+ *     none,
+ *     getOrElse(() => 0)
+ *   ),
+ *   0
+ * )
+ *
  * @since 2.0.0
  */
 export function getOrElse<A>(onNone: () => A): (ma: Option<A>) => A {
@@ -212,6 +248,16 @@ export function getOrElse<A>(onNone: () => A): (ma: Option<A>) => A {
 }
 
 /**
+ * Returns `true` if `ma` contains `a`
+ *
+ * @example
+ * import { some, none, elem } from 'fp-ts/lib/Option'
+ * import { eqNumber } from 'fp-ts/lib/Eq'
+ *
+ * assert.strictEqual(elem(eqNumber)(1, some(1)), true)
+ * assert.strictEqual(elem(eqNumber)(2, some(1)), false)
+ * assert.strictEqual(elem(eqNumber)(1, none), false)
+ *
  * @since 2.0.0
  */
 export function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean {
@@ -219,6 +265,34 @@ export function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean {
 }
 
 /**
+ * Returns `true` if the predicate is satisfied by the wrapped value
+ *
+ * @example
+ * import { some, none, exists } from 'fp-ts/lib/Option'
+ * import { pipe } from 'fp-ts/lib/pipeable'
+ *
+ * assert.strictEqual(
+ *   pipe(
+ *     some(1),
+ *     exists(n => n > 0)
+ *   ),
+ *   true
+ * )
+ * assert.strictEqual(
+ *   pipe(
+ *     some(1),
+ *     exists(n => n > 1)
+ *   ),
+ *   false
+ * )
+ * assert.strictEqual(
+ *   pipe(
+ *     none,
+ *     exists(n => n > 0)
+ *   ),
+ *   false
+ * )
+ *
  * @since 2.0.0
  */
 export function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => boolean {
@@ -226,13 +300,15 @@ export function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => boolean {
 }
 
 /**
+ * Returns a smart constructor based on the given predicate
+ *
  * @example
  * import { none, some, fromPredicate } from 'fp-ts/lib/Option'
  *
- * const positive = fromPredicate((n: number) => n >= 0)
+ * const getOption = fromPredicate((n: number) => n >= 0)
  *
- * assert.deepStrictEqual(positive(-1), none)
- * assert.deepStrictEqual(positive(1), some(1))
+ * assert.deepStrictEqual(getOption(-1), none)
+ * assert.deepStrictEqual(getOption(1), some(1))
  *
  * @since 2.0.0
  */
@@ -268,7 +344,7 @@ export function tryCatch<A>(f: Lazy<A>): Option<A> {
 }
 
 /**
- * Returns an `L` value if possible
+ * Returns an `E` value if possible
  *
  * @since 2.0.0
  */
@@ -286,7 +362,7 @@ export function getRight<E, A>(ma: Either<E, A>): Option<A> {
 }
 
 /**
- * Returns a refinement from a prism.
+ * Returns a `Refinement` (i.e. a custom type guard) from a `Option` returning function.
  * This function ensures that a custom type guard definition is type-safe.
  *
  * ```ts
@@ -307,6 +383,46 @@ export function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): R
 }
 
 /**
+ * This is `chain` + `fromNullable`, useful when working with optional values
+ *
+ * @example
+ * import { some, none, fromNullable, mapNullable } from 'fp-ts/lib/Option'
+ * import { pipe } from 'fp-ts/lib/pipeable'
+ *
+ * interface Employee {
+ *   company?: {
+ *     address?: {
+ *       street?: {
+ *         name?: string
+ *       }
+ *     }
+ *   }
+ * }
+ *
+ * const employee1: Employee = { company: { address: { street: { name: 'high street' } } } }
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     fromNullable(employee1.company),
+ *     mapNullable(company => company.address),
+ *     mapNullable(address => address.street),
+ *     mapNullable(street => street.name)
+ *   ),
+ *   some('high street')
+ * )
+ *
+ * const employee2: Employee = { company: { address: { street: {} } } }
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     fromNullable(employee2.company),
+ *     mapNullable(company => company.address),
+ *     mapNullable(address => address.street),
+ *     mapNullable(street => street.name)
+ *   ),
+ *   none
+ * )
+ *
  * @since 2.0.0
  */
 export function mapNullable<A, B>(f: (a: A) => B | null | undefined): (ma: Option<A>) => Option<B> {
