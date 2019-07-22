@@ -14,6 +14,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.19.5
+
+- **Bug Fix**
+  - fix `sequenceT`, `sequenceS` implementations, ref #914 (@gcanti)
+
 # 1.19.4
 
 - **Bug Fix**
