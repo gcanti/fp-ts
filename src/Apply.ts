@@ -12,6 +12,7 @@
  */
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor4 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import { tuple } from './function'
 
 /**
  * @since 2.0.0
@@ -55,6 +56,22 @@ export interface Apply4<F extends URIS4> extends Functor4<F> {
   readonly ap: <S, R, E, A, B>(fab: Kind4<F, S, R, E, (a: A) => B>, fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
 }
 
+function curried(f: Function, n: number, acc: Array<unknown>) {
+  return function(x: unknown) {
+    const combined = acc.concat([x])
+    return n === 0 ? f.apply(null, combined) : curried(f, n - 1, combined)
+  }
+}
+
+const tupleConstructors: Record<number, (a: unknown) => unknown> = {}
+
+function getTupleConstructor(len: number): (a: unknown) => any {
+  if (!tupleConstructors.hasOwnProperty(len)) {
+    tupleConstructors[len] = curried(tuple, len - 1, [])
+  }
+  return tupleConstructors[len]
+}
+
 /**
  * Tuple sequencing, i.e., take a tuple of monadic actions and does them from left-to-right, returning the resulting tuple.
  *
@@ -95,25 +112,34 @@ export function sequenceT<F>(
 ): <T extends Array<HKT<F, any>>>(
   ...t: T & { 0: HKT<F, any> }
 ) => HKT<F, { [K in keyof T]: [T[K]] extends [HKT<F, infer A>] ? A : never }>
-export function sequenceT<F>(F: Apply<F>): (...args: Array<HKT<F, any>>) => HKT<F, any> {
-  return (...args: Array<HKT<F, any>>) => {
-    const fst = args[0]
-    const others = args.slice(1)
-    let fas: HKT<F, Array<any>> = F.map(fst, a => [a])
-    for (const fa of others) {
-      fas = F.ap(
-        F.map(fas, as => (a: any) => {
-          as.push(a)
-          return as
-        }),
-        fa
-      )
+export function sequenceT<F>(F: Apply<F>): any {
+  return <A>(...args: Array<HKT<F, A>>) => {
+    const len = args.length
+    const f = getTupleConstructor(len)
+    let fas = F.map(args[0], f)
+    for (let i = 1; i < len; i++) {
+      fas = F.ap(fas, args[i])
     }
     return fas
   }
 }
 
 type EnforceNonEmptyRecord<R> = keyof R extends never ? never : R
+
+function getRecordConstructor(keys: Array<string>) {
+  const len = keys.length
+  return curried(
+    (...args: Array<unknown>) => {
+      const r: Record<string, unknown> = {}
+      for (let i = 0; i < len; i++) {
+        r[keys[i]] = args[i]
+      }
+      return r
+    },
+    len - 1,
+    []
+  )
+}
 
 /**
  * Like `Apply.sequenceT` but works with structs instead of tuples.
@@ -169,17 +195,11 @@ export function sequenceS<F>(
 export function sequenceS<F>(F: Apply<F>): (r: Record<string, HKT<F, any>>) => HKT<F, Record<string, any>> {
   return r => {
     const keys = Object.keys(r)
-    const fst = keys[0]
-    const others = keys.slice(1)
-    let fr: HKT<F, Record<string, any>> = F.map(r[fst], a => ({ [fst]: a }))
-    for (const key of others) {
-      fr = F.ap(
-        F.map(fr, r => (a: any) => {
-          r[key] = a
-          return r
-        }),
-        r[key]
-      )
+    const len = keys.length
+    const f = getRecordConstructor(keys)
+    let fr = F.map(r[keys[0]], f)
+    for (let i = 1; i < len; i++) {
+      fr = F.ap(fr, r[keys[i]])
     }
     return fr
   }

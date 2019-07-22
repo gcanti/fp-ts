@@ -1,12 +1,9 @@
 import * as assert from 'assert'
-import { sequenceT, sequenceS } from '../src/Apply'
-import { either, left, right, getValidation } from '../src/Either'
-import { none, option, some, isSome, isNone } from '../src/Option'
-import * as fc from 'fast-check'
-import { getSome } from './property-test/Option'
-import { nonEmptyArray } from './property-test/NonEmptyArray'
-import { getEq, array, getMonoid } from '../src/Array'
-import { fromEquals } from '../src/Eq'
+import { sequenceS, sequenceT } from '../src/Apply'
+import { array, getMonoid } from '../src/Array'
+import { either, getValidation, left, right } from '../src/Either'
+import { none, option, some } from '../src/Option'
+import { pipe } from '../src/pipeable'
 
 describe('Apply', () => {
   it('sequenceT', () => {
@@ -15,19 +12,35 @@ describe('Apply', () => {
     assert.deepStrictEqual(sequenceTOption(some(1), some('2')), some([1, '2']))
     assert.deepStrictEqual(sequenceTOption(some(1), some('2'), none), none)
 
-    const S = getEq(fromEquals((x, y) => x === y))
-    const somes = getSome(fc.oneof<string | number>(fc.string(), fc.integer()))
-    const allSomesInput = nonEmptyArray(somes)
-    const maybeNoneInput = nonEmptyArray(fc.oneof(fc.constant(none), somes))
-    const input = fc.oneof(allSomesInput, maybeNoneInput)
-    fc.assert(
-      fc.property(input, options => {
-        const x = sequenceTOption(...(options as any))
-        return (
-          (options.every(isSome) && isSome(x) && S.equals(x.value as any, array.compact(options))) ||
-          (options.some(isNone) && isNone(x))
-        )
-      })
+    // #914
+    const a1 = [1, 2, 3]
+    const a2 = ['a', 'b', 'c']
+    const a3 = [true, false]
+    assert.deepStrictEqual(
+      pipe(
+        sequenceT(array)(a1, a2, a3),
+        arr => arr.map(([x, y, z]) => `(${x}, ${y}, ${z})`)
+      ),
+      [
+        '(1, a, true)',
+        '(1, a, false)',
+        '(1, b, true)',
+        '(1, b, false)',
+        '(1, c, true)',
+        '(1, c, false)',
+        '(2, a, true)',
+        '(2, a, false)',
+        '(2, b, true)',
+        '(2, b, false)',
+        '(2, c, true)',
+        '(2, c, false)',
+        '(3, a, true)',
+        '(3, a, false)',
+        '(3, b, true)',
+        '(3, b, false)',
+        '(3, c, true)',
+        '(3, c, false)'
+      ]
     )
   })
 
@@ -47,5 +60,36 @@ describe('Apply', () => {
     assert.deepStrictEqual(adoValidation({ a: right(1), b: right(2) }), right({ a: 1, b: 2 }))
     assert.deepStrictEqual(adoValidation({ a: right(1), b: left(['error']) }), left(['error']))
     assert.deepStrictEqual(adoValidation({ a: left(['error1']), b: left(['error2']) }), left(['error1', 'error2']))
+
+    // #914
+    const a1 = [1, 2, 3]
+    const a2 = ['a', 'b', 'c']
+    const a3 = [true, false]
+    assert.deepStrictEqual(
+      pipe(
+        sequenceS(array)({ a1, a2, a3 }),
+        arr => arr.map(({ a1, a2, a3 }) => `(${a1}, ${a2}, ${a3})`)
+      ),
+      [
+        '(1, a, true)',
+        '(1, a, false)',
+        '(1, b, true)',
+        '(1, b, false)',
+        '(1, c, true)',
+        '(1, c, false)',
+        '(2, a, true)',
+        '(2, a, false)',
+        '(2, b, true)',
+        '(2, b, false)',
+        '(2, c, true)',
+        '(2, c, false)',
+        '(3, a, true)',
+        '(3, a, false)',
+        '(3, b, true)',
+        '(3, b, false)',
+        '(3, c, true)',
+        '(3, c, false)'
+      ]
+    )
   })
 })
