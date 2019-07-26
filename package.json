@@ -40,7 +40,7 @@
     "@types/doctrine": "0.0.3",
     "@types/glob": "^7.1.1",
     "@types/jest": "22.2.2",
-    "@types/node": "^10.12.21",
+    "@types/node": "^12.6.8",
     "@types/prettier": "1.10.0",
     "benchmark": "2.1.4",
     "chalk": "2.2.0",
@@ -59,7 +59,7 @@
     "ts-simple-ast": "17.1.1",
     "tslint": "5.11.0",
     "tslint-config-standard": "8.0.1",
-    "typescript": "^3.5.2"
+    "typescript": "^3.6.0-beta"
   },
   "tags": [
     "typescript",
