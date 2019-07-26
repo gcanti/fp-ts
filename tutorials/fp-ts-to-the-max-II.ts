@@ -103,7 +103,7 @@ const gameLoop = <F extends URIS>(F: Main<F>) => (name: string): Kind<F, void> =
       )
     )
     const doContinue = F.chain(game, () => checkContinue(F)(name))
-    return F.chain(doContinue, shouldContinue => (shouldContinue ? gameLoop(F)(name) : F.of(undefined)))
+    return F.chain(doContinue, shouldContinue => (shouldContinue ? gameLoop(F)(name) : F.of<void>(undefined)))
   })
 }
 
