@@ -56,8 +56,9 @@ export function getEq<A>(E: Eq<A>): Eq<Set<A>> {
 export function some<A>(predicate: Predicate<A>): (set: Set<A>) => boolean {
   return set => {
     const values = set.values()
-    let e: IteratorResult<A>
+    let e: { done?: boolean; value: A }
     let found = false
+    // tslint:disable-next-line: strict-boolean-expressions
     while (!found && !(e = values.next()).done) {
       found = predicate(e.value)
     }
@@ -127,8 +128,9 @@ export function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A>
 export function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A> {
   return set => {
     const values = set.values()
-    let e: IteratorResult<A>
+    let e: { done?: boolean; value: A }
     const r = new Set<A>()
+    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
       const value = e.value
       if (predicate(value)) {
@@ -147,9 +149,10 @@ export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separate
 export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separated<Set<A>, Set<A>> {
   return set => {
     const values = set.values()
-    let e: IteratorResult<A>
+    let e: { done?: boolean; value: A }
     const right = new Set<A>()
     const left = new Set<A>()
+    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
       const value = e.value
       if (predicate(value)) {
@@ -170,8 +173,9 @@ export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separate
 export function elem<A>(E: Eq<A>): (a: A, set: Set<A>) => boolean {
   return (a, set) => {
     const values = set.values()
-    let e: IteratorResult<A>
+    let e: { done?: boolean; value: A }
     let found = false
+    // tslint:disable-next-line: strict-boolean-expressions
     while (!found && !(e = values.next()).done) {
       found = E.equals(a, e.value)
     }
@@ -233,11 +237,12 @@ export function partitionMap<B, C>(
 ): <A>(f: (a: A) => Either<B, C>) => (set: Set<A>) => Separated<Set<B>, Set<C>> {
   return <A>(f: (a: A) => Either<B, C>) => (set: Set<A>) => {
     const values = set.values()
-    let e: IteratorResult<A>
+    let e: { done?: boolean; value: A }
     const left = new Set<B>()
     const right = new Set<C>()
     const hasB = elem(EB)
     const hasC = elem(EC)
+    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
       const v = f(e.value)
       switch (v._tag) {

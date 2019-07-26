@@ -71,7 +71,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const empty: any = ...
+export const empty: Map<never, never> = ...
 ```
 
 Added in v2.0.0
@@ -383,7 +383,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<E, A>(fa: any) => any
+<E, A>(fa: Map<E, Option<A>>) => Map<E, A>
 ```
 
 Added in v2.0.0
@@ -393,7 +393,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-{ <A, B>(refinement: Refinement<A, B>): <E>(fa: any) => any; <A>(predicate: Predicate<A>): <E>(fa: any) => any; }
+{ <A, B>(refinement: Refinement<A, B>): <E>(fa: Map<E, A>) => Map<E, B>; <A>(predicate: Predicate<A>): <E>(fa: Map<E, A>) => Map<E, A>; }
 ```
 
 Added in v2.0.0
@@ -403,7 +403,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A, B>(f: (a: A) => Option<B>) => <E>(fa: any) => any
+<A, B>(f: (a: A) => Option<B>) => <E>(fa: Map<E, A>) => Map<E, B>
 ```
 
 Added in v2.0.0
@@ -413,7 +413,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A, B>(f: (a: A) => B) => <E>(fa: any) => any
+<A, B>(f: (a: A) => B) => <E>(fa: Map<E, A>) => Map<E, B>
 ```
 
 Added in v2.0.0
@@ -423,7 +423,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-{ <A, B>(refinement: Refinement<A, B>): <E>(fa: any) => Separated<any, any>; <A>(predicate: Predicate<A>): <E>(fa: any) => Separated<any, any>; }
+{ <A, B>(refinement: Refinement<A, B>): <E>(fa: Map<E, A>) => Separated<Map<E, A>, Map<E, B>>; <A>(predicate: Predicate<A>): <E>(fa: Map<E, A>) => Separated<Map<E, A>, Map<E, A>>; }
 ```
 
 Added in v2.0.0
@@ -433,7 +433,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B, C>(f: (a: A) => Either<B, C>) => <E>(fa: any) => Separated<any, any>
+<A, B, C>(f: (a: A) => Either<B, C>) => <E>(fa: Map<E, A>) => Separated<Map<E, B>, Map<E, C>>
 ```
 
 Added in v2.0.0
@@ -443,7 +443,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A, B>(fa: any) => Separated<any, any>
+<E, A, B>(fa: Map<E, Either<A, B>>) => Separated<Map<E, A>, Map<E, B>>
 ```
 
 Added in v2.0.0
