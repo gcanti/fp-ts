@@ -201,6 +201,21 @@ export function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderTaskEither<R, E, A
 }
 
 /**
+ * Make sure that a resource is cleaned up in the event of an exception. The
+ * release action is called regardless of whether the body action throws or
+ * returns.
+ *
+ * @since 2.0.4
+ */
+export function bracket<R, E, A, B>(
+  aquire: ReaderTaskEither<R, E, A>,
+  use: (a: A) => ReaderTaskEither<R, E, B>,
+  release: (a: A, e: Either<E, B>) => ReaderTaskEither<R, E, void>
+): ReaderTaskEither<R, E, B> {
+  return r => TE.bracket(aquire(r), a => use(a)(r), (a, e) => release(a, e)(r))
+}
+
+/**
  * @since 2.0.0
  */
 export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadTask3<URI> & MonadThrow3<URI> = {

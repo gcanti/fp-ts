@@ -18,6 +18,7 @@ parent: Modules
 - [readerTaskEitherSeq (constant)](#readertaskeitherseq-constant)
 - [right (constant)](#right-constant)
 - [rightReader (constant)](#rightreader-constant)
+- [bracket (function)](#bracket-function)
 - [fold (function)](#fold-function)
 - [fromIOEither (function)](#fromioeither-function)
 - [fromReaderEither (function)](#fromreadereither-function)
@@ -155,6 +156,24 @@ export const rightReader: <R, E = ...
 ```
 
 Added in v2.0.0
+
+# bracket (function)
+
+Make sure that a resource is cleaned up in the event of an exception. The
+release action is called regardless of whether the body action throws or
+returns.
+
+**Signature**
+
+```ts
+export function bracket<R, E, A, B>(
+  aquire: ReaderTaskEither<R, E, A>,
+  use: (a: A) => ReaderTaskEither<R, E, B>,
+  release: (a: A, e: Either<E, B>) => ReaderTaskEither<R, E, void>
+): ReaderTaskEither<R, E, B> { ... }
+```
+
+Added in v2.0.4
 
 # fold (function)
 
