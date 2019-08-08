@@ -226,8 +226,8 @@ Added in v2.0.0
 ```ts
 export interface PipeableApply2C<F extends URIS2, E> extends PipeableFunctor2C<F, E> {
   readonly ap: <A>(fa: Kind2<F, E, A>) => <B>(fab: Kind2<F, E, (a: A) => B>) => Kind2<F, E, B>
-  readonly apFirst: <A>(fb: Kind2<F, E, A>) => <B>(fb: Kind2<F, E, B>) => Kind2<F, E, A>
-  readonly apSecond: <A>(fb: Kind2<F, E, A>) => <B>(fb: Kind2<F, E, B>) => Kind2<F, E, B>
+  readonly apFirst: <B>(fb: Kind2<F, E, B>) => <A>(fa: Kind2<F, E, A>) => Kind2<F, E, A>
+  readonly apSecond: <B>(fb: Kind2<F, E, B>) => <A>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 ```
 
