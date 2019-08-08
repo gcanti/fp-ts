@@ -21,7 +21,7 @@
     "build": "npm run clean && tsc && tsc -p tsconfig.es6.json",
     "postbuild": "mkdir lib/lib && shx cp -R lib/*.{ts,js} lib/lib && shx cp {LICENSE,*.md} lib && ./scripts/prepare.js",
     "prepublishOnly": "echo Use 'npm run publish' instead && exit 1",
-    "publish": "npm publish lib",
+    "publish": "npm run prepare && npm publish lib",
     "prepare": "npm run build",
     "doctoc": "doctoc README.md docs/introduction/code-conventions.md --title \"**Table of contents**\"",
     "mocha": "mocha -r ts-node/register test/*.ts",
