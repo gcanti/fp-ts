@@ -22,7 +22,7 @@ has_toc: false
 
 In general a module containing the definition of a data structure has the following structure
 
-- `URI` definition and module agumentation
+- `URI` definition and module augmentation
 - data structure definition
 - companion functions
 - instance functions (private)
@@ -57,7 +57,7 @@ export interface Functor<F> {
 }
 ```
 
-The defintion for type constructors of kind `* -> * -> *` (e.g. `Either`)
+The definition for type constructors of kind `* -> * -> *` (e.g. `Either`)
 
 ```ts
 export interface Functor2<F extends URIS2> {
@@ -67,7 +67,7 @@ export interface Functor2<F extends URIS2> {
 }
 ```
 
-The defintion for type constructors that start with kind `* -> * -> *` but need to be constrained in order to admit an instance (e.g. `Validation`).
+The definition for type constructors that start with kind `* -> * -> *` but need to be constrained in order to admit an instance (e.g. `Validation`).
 
 ```ts
 //                           this fixes E --v

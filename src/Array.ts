@@ -1051,7 +1051,7 @@ export function elem<A>(E: Eq<A>): (a: A, as: Array<A>) => boolean {
 }
 
 /**
- * Remove duplicates from an array, keeping the first occurance of an element.
+ * Remove duplicates from an array, keeping the first occurrence of an element.
  *
  * @example
  * import { uniq } from 'fp-ts/lib/Array'

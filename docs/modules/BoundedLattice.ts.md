@@ -8,8 +8,8 @@ parent: Modules
 
 A `BoundedLattice` must satisfy the following in addition to `BoundedMeetSemilattice` and `BoundedJoinSemilattice` laws:
 
-- Absorbtion law for meet: `a ∧ (a ∨ b) == a`
-- Absorbtion law for join: `a ∨ (a ∧ b) == a`
+- Absorption law for meet: `a ∧ (a ∨ b) == a`
+- Absorption law for join: `a ∨ (a ∧ b) == a`
 
 ---
 

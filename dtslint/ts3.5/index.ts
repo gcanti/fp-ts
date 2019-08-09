@@ -171,7 +171,7 @@ O.getRefinement<C, A>(c => (c.type === 'B' ? O.some(c) : O.none))
 // HKT
 //
 
-// isssue #536
+// issue #536
 function testIssue536<F extends H.URIS, G extends H.URIS, A>(x: H.Kind<F, A>): H.Kind<G, A> {
   // $ExpectError
   return x
