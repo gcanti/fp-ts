@@ -1335,7 +1335,7 @@ Added in v2.0.0
 
 # uniq (function)
 
-Remove duplicates from an array, keeping the first occurance of an element.
+Remove duplicates from an array, keeping the first occurrence of an element.
 
 **Signature**
 

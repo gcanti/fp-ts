@@ -117,7 +117,7 @@ single function which takes an `Either` value with the parameter type of `f` on 
 the parameter type of `g` on the right side. The function then runs either `f` or `g`, depending on
 whether the `Either` value is a `Left` or a `Right`.
 This allows us to bundle two different computations which both have the same result type into one
-function which will run the approriate computation based on the parameter supplied in the `Either` value.
+function which will run the appropriate computation based on the parameter supplied in the `Either` value.
 
 **Signature**
 
