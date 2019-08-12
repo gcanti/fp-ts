@@ -27,6 +27,7 @@ has_toc: false
 
 ## Bindings
 
-- [fp-ts-rxjs](https://github.com/gcanti/fp-ts-rxjs) - fp-ts bindings for RxJS
-- [fp-ts-fluture](https://github.com/gcanti/fp-ts-fluture) - fp-ts bindings for Fluture
-- [fp-ts-most](https://github.com/joshburgess/fp-ts-most) - fp-ts bindings for @most/core
+- [fp-ts-rxjs](https://github.com/gcanti/fp-ts-rxjs) - fp-ts bindings for [RxJS](https://rxjs-dev.firebaseapp.com/)
+- [fp-ts-fluture](https://github.com/gcanti/fp-ts-fluture) - fp-ts bindings for [Fluture](https://github.com/fluture-js/Fluture)
+- [fp-ts-most](https://github.com/joshburgess/fp-ts-most) - fp-ts bindings for [@most/core](https://github.com/cujojs/most)
+- [fp-ts-ixjs](https://github.com/werk85/fp-ts-ixjs) - fp-ts bindings for [IxJS](https://github.com/ReactiveX/IxJS)
