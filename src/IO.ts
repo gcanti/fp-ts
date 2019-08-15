@@ -50,7 +50,7 @@
  *
  * In addition to creating `IO` actions we need a way to combine them to build the application. For
  * example, we might want to combine several `IO<void>` actions into one `IO<void[]>` action for
- * sequential execution with `array.sequence(io)` as follows.
+ * sequential execution. This can be done with `array.sequence(io)` as follows.
  *
  * ```ts
  * import { IO, io } from 'fp-ts/lib/IO'
