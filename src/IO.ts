@@ -48,10 +48,9 @@
  * logger(123)() // returns undefined and outputs "Received 123" to console
  * ```
  *
- * In addition to creating `IO` actions we need a way to combine them to build the application. For example we might
- * have several `IO<void>` actions that only cause side effects without returning a result.  We can combine several
- * `IO<void>` actions into one for sequential execution with `array.sequence(io)` as follows. This is useful when you
- * care about the execution order but do not care about the results.
+ * In addition to creating `IO` actions we need a way to combine them to build the application. For
+ * example, we might want to combine several `IO<void>` actions into one `IO<void[]>` action for
+ * sequential execution with `array.sequence(io)` as follows.
  *
  * ```ts
  * import { IO, io } from 'fp-ts/lib/IO'
@@ -61,7 +60,7 @@
  * const logGiraffe: IO<void> = log('giraffe');
  * const logZebra: IO<void> = log('zebra');
  *
- * const logGiraffeThenZebra: IO<void> = array.sequence(io)([ logGiraffe, logZebra ])
+ * const logGiraffeThenZebra: IO<void[]> = array.sequence(io)([ logGiraffe, logZebra ])
  *
  * logGiraffeThenZebra() // returns undefined and outputs words "giraffe" and "zebra" to console
  * ```
