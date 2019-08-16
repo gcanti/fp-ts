@@ -36,17 +36,17 @@
  * `console.log()`.
  *
  * ```ts
- * import { fromNullable, fold } from 'fp-ts/lib/Option';
- * import { log } from 'fp-ts/lib/Console';
- * import { pipe } from 'fp-ts/lib/pipeable';
+ * import { fromNullable, fold } from 'fp-ts/lib/Option'
+ * import { log } from 'fp-ts/lib/Console'
+ * import { pipe } from 'fp-ts/lib/pipeable'
  *
  * const logger = (input: number | null) =>
  *  pipe(
  *    fromNullable(input),
- *    fold(log('Received null'), value => log(`Received ${value}`))
+ *    fold(log('Received null'), value => log(`Received ${value}`)),
  *  );
  *
- * logger(123)(); // returns undefined and outputs "Received 123" to console
+ * logger(123)() // returns undefined and outputs "Received 123" to console
  * ```
  *
  * In addition to creating `IO` actions we need a way to combine them to build the application. For example we might
