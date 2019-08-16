@@ -36,14 +36,15 @@
  * `console.log()`.
  *
  * ```ts
- * import { IO } from 'fp-ts/lib/IO'
  * import { fromNullable, fold } from 'fp-ts/lib/Option'
  * import { log } from 'fp-ts/lib/Console'
+ * import { pipe } from 'fp-ts/lib/pipeable'
  *
- * const logger = (input: number|null) => fold(fromNullable(input),
- *   log('Received null'),
- *   (value) => log(`Received ${value}`),
- * )
+ * const logger = (input: number | null) =>
+ *  pipe(
+ *    fromNullable(input),
+ *    fold(log('Received null'), value => log(`Received ${value}`)),
+ *  );
  *
  * logger(123)() // returns undefined and outputs "Received 123" to console
  * ```
