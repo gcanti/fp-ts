@@ -79,7 +79,7 @@ export function getOptionM<M>(M: Monad<M>): OptionM<M> {
     alt: (fx, fy) => M.chain(fx, fold(fy, a => M.of(some(a)))),
     fold: (ma, onNone, onSome) => M.chain(ma, fold(onNone, onSome)),
     getOrElse: (ma, onNone) => M.chain(ma, fold(onNone, M.of)),
-    fromM: ma => M.map(ma, some),
+    fromM: M.map(some),
     none: () => fnone
   }
 }

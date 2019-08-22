@@ -12,7 +12,7 @@ describe('Identity', () => {
     const double = (n: number): number => n * 2
     const x = I.identity.of(1)
     const expected = I.identity.of(2)
-    assert.deepStrictEqual(I.identity.map(x, double), expected)
+    assert.deepStrictEqual(I.identity.map(double)(x), expected)
   })
 
   it('ap', () => {
@@ -20,7 +20,7 @@ describe('Identity', () => {
     const fab = I.identity.of(double)
     const fa = I.identity.of(1)
     const expected = I.identity.of(2)
-    assert.deepStrictEqual(I.identity.ap(fab, fa), expected)
+    assert.deepStrictEqual(I.identity.ap(fab)(fa), expected)
   })
 
   it('chain', () => {

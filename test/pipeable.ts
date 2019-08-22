@@ -92,7 +92,7 @@ describe('pipeable', () => {
       some(2)
     ])
     assert.deepStrictEqual(
-      filterMapWithIndex((i, a: Option<number>) => option.map(a, n => n + i))([some(1), none, some(2)]),
+      filterMapWithIndex((i, a: Option<number>) => option.map((n: number) => n + i)(a))([some(1), none, some(2)]),
       [1, 4]
     )
     assert.deepStrictEqual(partitionWithIndex((i, a: Option<number>) => i > 1 && isSome(a))([some(1), none, some(2)]), {

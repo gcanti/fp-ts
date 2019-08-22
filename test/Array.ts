@@ -69,6 +69,7 @@ import * as I from '../src/Identity'
 import * as C from '../src/Const'
 import { showString } from '../src/Show'
 import { isDeepStrictEqual } from 'util'
+import { pipe } from '../src/pipeable'
 
 const p = (n: number) => n > 2
 
@@ -125,7 +126,10 @@ describe('Array', () => {
   })
 
   it('ap', () => {
-    const as = array.ap([x => x * 2, x => x * 3], [1, 2, 3])
+    const as = pipe(
+      [1, 2, 3],
+      array.ap([x => x * 2, x => x * 3])
+    )
     assert.deepStrictEqual(as, [2, 4, 6, 3, 6, 9])
   })
 
@@ -274,7 +278,7 @@ describe('Array', () => {
 
   const optionStringEq = O.getEq(eqString)
   const multipleOf3: Predicate<number> = (x: number) => x % 3 === 0
-  const multipleOf3AsString = (x: number) => O.option.map(O.fromPredicate(multipleOf3)(x), x => `${x}`)
+  const multipleOf3AsString = (x: number) => O.option.map(x => `${x}`)(O.fromPredicate(multipleOf3)(x))
 
   it('`findFirstMap(arr, fun)` is equivalent to map and `head(mapOption(arr, fun)`', () => {
     fc.assert(
@@ -395,7 +399,13 @@ describe('Array', () => {
   })
 
   it('map', () => {
-    assert.deepStrictEqual(array.map([1, 2, 3], n => n * 2), [2, 4, 6])
+    assert.deepStrictEqual(
+      pipe(
+        [1, 2, 3],
+        array.map(n => n * 2)
+      ),
+      [2, 4, 6]
+    )
   })
 
   it('mapWithIndex', () => {
@@ -403,7 +413,7 @@ describe('Array', () => {
   })
 
   it('ap', () => {
-    assert.deepStrictEqual(array.ap([(n: number) => n * 2, (n: number) => n + 1], [1, 2, 3]), [2, 4, 6, 2, 3, 4])
+    assert.deepStrictEqual(array.ap([(n: number) => n * 2, (n: number) => n + 1])([1, 2, 3]), [2, 4, 6, 2, 3, 4])
   })
 
   it('copy', () => {
@@ -745,7 +755,7 @@ describe('Array', () => {
       bar: () => number
     }
     const f = (a: number, x?: Foo) => (x !== undefined ? `${a}${x.bar()}` : `${a}`)
-    const res = array.map([1, 2], f)
+    const res = array.map(f)([1, 2])
     assert.deepStrictEqual(res, ['1', '2'])
   })
 

@@ -16,7 +16,7 @@ import { Show } from './Show'
 import { TraversableWithIndex2C } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable2C } from './Witherable'
-import { pipeable } from './pipeable'
+import { pipe, pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -240,7 +240,11 @@ export function pop<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Option<[A, Map<
   const deleteAtE = deleteAt(E)
   return k => {
     const deleteAtEk = deleteAtE(k)
-    return m => option.map(lookupE(k, m), a => [a, deleteAtEk(m)])
+    return m =>
+      pipe(
+        lookupE(k, m),
+        option.map(a => [a, deleteAtEk(m)])
+      )
   }
 }
 
@@ -272,7 +276,11 @@ export function lookupWithKey<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Option<[K
  */
 export function lookup<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Option<A> {
   const lookupWithKeyE = lookupWithKey(E)
-  return (k, m) => option.map(lookupWithKeyE(k, m), ([_, a]) => a)
+  return (k, m) =>
+    pipe(
+      lookupWithKeyE(k, m),
+      option.map(([_, a]) => a)
+    )
 }
 
 /**
@@ -539,7 +547,12 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
       // tslint:disable-next-line: strict-boolean-expressions
       while (!(e = entries.next()).done) {
         const [key, a] = e.value
-        fm = F.ap(F.map(fm, m => (b: B) => new Map(m).set(key, b)), f(key, a))
+        fm = F.ap(
+          pipe(
+            fm,
+            F.map(m => (b: B) => new Map(m).set(key, b))
+          )
+        )(f(key, a))
       }
       return fm
     }
@@ -575,11 +588,13 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
       F: Applicative<F>
     ): (<K, A, B, C>(wa: Map<K, A>, f: (a: A) => HKT<F, Either<B, C>>) => HKT<F, Separated<Map<K, B>, Map<K, C>>>) => {
       const traverseF = traverse(F)
-      return (wa, f) => F.map(traverseF(wa, f), map_.separate)
+      const separateF = F.map(map_.separate)
+      return (wa, f) => separateF(traverseF(wa, f))
     },
     wither: <F>(F: Applicative<F>): (<K, A, B>(wa: Map<K, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Map<K, B>>) => {
       const traverseF = traverse(F)
-      return (wa, f) => F.map(traverseF(wa, f), map_.compact)
+      const compactF = F.map(map_.compact)
+      return (wa, f) => compactF(traverseF(wa, f))
     }
   }
 }
@@ -589,7 +604,7 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
  */
 export const map_: Filterable2<URI> = {
   URI,
-  map: (fa, f) => _mapWithIndex(fa, (_, a) => f(a)),
+  map: f => fa => _mapWithIndex(fa, (_, a) => f(a)),
   compact: <K, A>(fa: Map<K, Option<A>>): Map<K, A> => {
     const m = new Map<K, A>()
     const entries = fa.entries()

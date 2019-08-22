@@ -50,7 +50,7 @@ const getProjectName = (project: Project): string => project.projectName
 describe('Traced', () => {
   it('map', () => {
     const wa = buildProject('myproject')
-    assert.deepStrictEqual(traced.map(wa, getProjectName)(M.empty), 'myproject')
+    assert.deepStrictEqual(traced.map(getProjectName)(wa)(M.empty), 'myproject')
   })
 
   it('getComonad', () => {

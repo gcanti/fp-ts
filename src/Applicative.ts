@@ -79,7 +79,7 @@ export interface Applicative4<F extends URIS4> extends Apply4<F> {
  */
 export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {
   readonly of: <A>(a: A) => HKT<F, HKT<G, A>>
-  readonly ap: <A, B>(fgab: HKT<F, HKT<G, (a: A) => B>>, fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
+  readonly ap: <A, B>(fgab: HKT<F, HKT<G, (a: A) => B>>) => (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
 }
 
 /**
@@ -87,7 +87,7 @@ export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {
  */
 export interface ApplicativeCompositionHKT1<F, G extends URIS> extends FunctorCompositionHKT1<F, G> {
   readonly of: <A>(a: A) => HKT<F, Kind<G, A>>
-  readonly ap: <A, B>(fgab: HKT<F, Kind<G, (a: A) => B>>, fga: HKT<F, Kind<G, A>>) => HKT<F, Kind<G, B>>
+  readonly ap: <A, B>(fgab: HKT<F, Kind<G, (a: A) => B>>) => (fga: HKT<F, Kind<G, A>>) => HKT<F, Kind<G, B>>
 }
 
 /**
@@ -95,7 +95,9 @@ export interface ApplicativeCompositionHKT1<F, G extends URIS> extends FunctorCo
  */
 export interface ApplicativeCompositionHKT2<F, G extends URIS2> extends FunctorCompositionHKT2<F, G> {
   readonly of: <E, A>(a: A) => HKT<F, Kind2<G, E, A>>
-  readonly ap: <E, A, B>(fgab: HKT<F, Kind2<G, E, (a: A) => B>>, fga: HKT<F, Kind2<G, E, A>>) => HKT<F, Kind2<G, E, B>>
+  readonly ap: <E, A, B>(
+    fgab: HKT<F, Kind2<G, E, (a: A) => B>>
+  ) => (fga: HKT<F, Kind2<G, E, A>>) => HKT<F, Kind2<G, E, B>>
 }
 
 /**
@@ -103,7 +105,7 @@ export interface ApplicativeCompositionHKT2<F, G extends URIS2> extends FunctorC
  */
 export interface ApplicativeCompositionHKT2C<F, G extends URIS2, E> extends FunctorCompositionHKT2C<F, G, E> {
   readonly of: <A>(a: A) => HKT<F, Kind2<G, E, A>>
-  readonly ap: <A, B>(fgab: HKT<F, Kind2<G, E, (a: A) => B>>, fga: HKT<F, Kind2<G, E, A>>) => HKT<F, Kind2<G, E, B>>
+  readonly ap: <A, B>(fgab: HKT<F, Kind2<G, E, (a: A) => B>>) => (fga: HKT<F, Kind2<G, E, A>>) => HKT<F, Kind2<G, E, B>>
 }
 
 /**
@@ -111,7 +113,7 @@ export interface ApplicativeCompositionHKT2C<F, G extends URIS2, E> extends Func
  */
 export interface ApplicativeComposition11<F extends URIS, G extends URIS> extends FunctorComposition11<F, G> {
   readonly of: <A>(a: A) => Kind<F, Kind<G, A>>
-  readonly ap: <A, B>(fgab: Kind<F, Kind<G, (a: A) => B>>, fga: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, B>>
+  readonly ap: <A, B>(fgab: Kind<F, Kind<G, (a: A) => B>>) => (fga: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, B>>
 }
 
 /**
@@ -120,9 +122,8 @@ export interface ApplicativeComposition11<F extends URIS, G extends URIS> extend
 export interface ApplicativeComposition12<F extends URIS, G extends URIS2> extends FunctorComposition12<F, G> {
   readonly of: <E, A>(a: A) => Kind<F, Kind2<G, E, A>>
   readonly ap: <E, A, B>(
-    fgab: Kind<F, Kind2<G, E, (a: A) => B>>,
-    fga: Kind<F, Kind2<G, E, A>>
-  ) => Kind<F, Kind2<G, E, B>>
+    fgab: Kind<F, Kind2<G, E, (a: A) => B>>
+  ) => (fga: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, B>>
 }
 
 /**
@@ -130,7 +131,9 @@ export interface ApplicativeComposition12<F extends URIS, G extends URIS2> exten
  */
 export interface ApplicativeComposition12C<F extends URIS, G extends URIS2, E> extends FunctorComposition12C<F, G, E> {
   readonly of: <A>(a: A) => Kind<F, Kind2<G, E, A>>
-  readonly ap: <A, B>(fgab: Kind<F, Kind2<G, E, (a: A) => B>>, fga: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, B>>
+  readonly ap: <A, B>(
+    fgab: Kind<F, Kind2<G, E, (a: A) => B>>
+  ) => (fga: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, B>>
 }
 
 /**
@@ -139,9 +142,8 @@ export interface ApplicativeComposition12C<F extends URIS, G extends URIS2, E> e
 export interface ApplicativeComposition21<F extends URIS2, G extends URIS> extends FunctorComposition21<F, G> {
   readonly of: <E, A>(a: A) => Kind2<F, E, Kind<G, A>>
   readonly ap: <E, A, B>(
-    fgab: Kind2<F, E, Kind<G, (a: A) => B>>,
-    fga: Kind2<F, E, Kind<G, A>>
-  ) => Kind2<F, E, Kind<G, B>>
+    fgab: Kind2<F, E, Kind<G, (a: A) => B>>
+  ) => (fga: Kind2<F, E, Kind<G, A>>) => Kind2<F, E, Kind<G, B>>
 }
 
 /**
@@ -149,7 +151,9 @@ export interface ApplicativeComposition21<F extends URIS2, G extends URIS> exten
  */
 export interface ApplicativeComposition2C1<F extends URIS2, G extends URIS, E> extends FunctorComposition2C1<F, G, E> {
   readonly of: <A>(a: A) => Kind2<F, E, Kind<G, A>>
-  readonly ap: <A, B>(fgab: Kind2<F, E, Kind<G, (a: A) => B>>, fga: Kind2<F, E, Kind<G, A>>) => Kind2<F, E, Kind<G, B>>
+  readonly ap: <A, B>(
+    fgab: Kind2<F, E, Kind<G, (a: A) => B>>
+  ) => (fga: Kind2<F, E, Kind<G, A>>) => Kind2<F, E, Kind<G, B>>
 }
 
 /**
@@ -158,9 +162,8 @@ export interface ApplicativeComposition2C1<F extends URIS2, G extends URIS, E> e
 export interface ApplicativeComposition22<F extends URIS2, G extends URIS2> extends FunctorComposition22<F, G> {
   readonly of: <FE, GE, A>(a: A) => Kind2<F, FE, Kind2<G, GE, A>>
   readonly ap: <FE, GE, A, B>(
-    fgab: Kind2<F, FE, Kind2<G, GE, (a: A) => B>>,
-    fga: Kind2<F, FE, Kind2<G, GE, A>>
-  ) => Kind2<F, FE, Kind2<G, GE, B>>
+    fgab: Kind2<F, FE, Kind2<G, GE, (a: A) => B>>
+  ) => (fga: Kind2<F, FE, Kind2<G, GE, A>>) => Kind2<F, FE, Kind2<G, GE, B>>
 }
 
 /**
@@ -169,9 +172,8 @@ export interface ApplicativeComposition22<F extends URIS2, G extends URIS2> exte
 export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, E> extends FunctorComposition22C<F, G, E> {
   readonly of: <FE, A>(a: A) => Kind2<F, FE, Kind2<G, E, A>>
   readonly ap: <FE, A, B>(
-    fgab: Kind2<F, FE, Kind2<G, E, (a: A) => B>>,
-    fga: Kind2<F, FE, Kind2<G, E, A>>
-  ) => Kind2<F, FE, Kind2<G, E, B>>
+    fgab: Kind2<F, FE, Kind2<G, E, (a: A) => B>>
+  ) => (fga: Kind2<F, FE, Kind2<G, E, A>>) => Kind2<F, FE, Kind2<G, E, B>>
 }
 
 /**
@@ -190,7 +192,7 @@ export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, E> 
  *
  * const sum = (a: number) => (b: number): number => a + b
  *
- * A.ap(A.map(x, sum), y)()
+ * A.ap(A.map(sum)(x))(y)()
  *   .then(result => assert.deepStrictEqual(result, some(3)))
  *
  * @since 2.0.0
@@ -240,7 +242,6 @@ export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicativ
   return {
     ...getFunctorComposition(F, G),
     of: a => F.of(G.of(a)),
-    ap: <A, B>(fgab: HKT<F, HKT<G, (a: A) => B>>, fga: HKT<F, HKT<G, A>>): HKT<F, HKT<G, B>> =>
-      F.ap(F.map(fgab, h => (ga: HKT<G, A>) => G.ap<A, B>(h, ga)), fga)
+    ap: fgab => F.ap(F.map(G.ap)(fgab))
   }
 }

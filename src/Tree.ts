@@ -15,7 +15,7 @@ import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3 } from './Monad'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
-import { pipeable } from './pipeable'
+import { pipe, pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -215,15 +215,15 @@ export function elem<A>(E: Eq<A>): (a: A, fa: Tree<A>) => boolean {
  */
 export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
   URI,
-  map: (fa, f) => ({
+  map: f => fa => ({
     value: f(fa.value),
-    forest: fa.forest.map(t => tree.map(t, f))
+    forest: fa.forest.map(t => tree.map(f)(t))
   }),
   of: a => ({
     value: a,
     forest: empty
   }),
-  ap: (fab, fa) => tree.chain(fab, f => tree.map(fa, f)), // <- derived
+  ap: fab => fa => tree.chain(fab, f => tree.map(f)(fa)), // <- derived
   chain: <A, B>(fa: Tree<A>, f: (a: A) => Tree<B>): Tree<B> => {
     const { value, forest } = f(fa.value)
     const concat = getMonoid<Tree<B>>().concat
@@ -253,12 +253,14 @@ export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<U
     const traverseF = array.traverse(F)
     const r = <A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>): HKT<F, Tree<B>> =>
       F.ap(
-        F.map(f(ta.value), (value: B) => (forest: Forest<B>) => ({
-          value,
-          forest
-        })),
-        traverseF(ta.forest, t => r(t, f))
-      )
+        pipe(
+          f(ta.value),
+          F.map(value => (forest: Forest<B>) => ({
+            value,
+            forest
+          }))
+        )
+      )(traverseF(ta.forest, t => r(t, f)))
     return r
   },
   sequence: <F>(F: Applicative<F>): (<A>(ta: Tree<HKT<F, A>>) => HKT<F, Tree<A>>) => {

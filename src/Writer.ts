@@ -106,7 +106,7 @@ export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
     _E: undefined as any,
     map: writer.map,
     of: a => () => [a, M.empty],
-    ap: (mab, ma) => () => {
+    ap: mab => ma => () => {
       const [f, w1] = mab()
       const [a, w2] = ma()
       return [f(a), M.concat(w1, w2)]
@@ -124,7 +124,7 @@ export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
  */
 export const writer: Functor2<URI> = {
   URI,
-  map: (fa, f) => () => {
+  map: f => fa => () => {
     const [a, w] = fa()
     return [f(a), w]
   }

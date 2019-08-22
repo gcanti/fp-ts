@@ -9,7 +9,7 @@ describe('Const', () => {
   it('map', () => {
     const fa = make('foo')
     const double = (n: number): number => n * 2
-    assert.strictEqual(const_.map(fa, double), fa)
+    assert.strictEqual(const_.map(double)(fa), fa)
   })
 
   it('contramap', () => {
@@ -32,7 +32,7 @@ describe('Const', () => {
   it('getApplicative', () => {
     const F = getApply(semigroupString)
     const fa = make('foo')
-    assert.deepStrictEqual(F.ap(fa, make('bar')), make('foobar'))
+    assert.deepStrictEqual(F.ap(fa)(make('bar')), make('foobar'))
   })
 
   it('getShow', () => {

@@ -148,9 +148,9 @@ export const of = <A>(a: A): IO<A> => () => a
  */
 export const io: Monad1<URI> & MonadIO1<URI> = {
   URI,
-  map: (ma, f) => () => f(ma()),
+  map: f => ma => () => f(ma()),
   of,
-  ap: (mab, ma) => () => mab()(ma()),
+  ap: mab => ma => () => mab()(ma()),
   chain: (ma, f) => () => f(ma())(),
   fromIO: identity
 }

@@ -11,7 +11,7 @@ describe('Tree', () => {
     const double = (n: number): number => n * 2
     const fa = make(1, [make(2), make(3)])
     const expected = make(2, [make(4), make(6)])
-    assert.deepStrictEqual(tree.map(fa, double), expected)
+    assert.deepStrictEqual(tree.map(double)(fa), expected)
   })
 
   it('ap', () => {
@@ -19,7 +19,7 @@ describe('Tree', () => {
     const fab = tree.of(double)
     const fa = make(1, [make(2), make(3)])
     const expected = make(2, [make(4), make(6)])
-    assert.deepStrictEqual(tree.ap(fab, fa), expected)
+    assert.deepStrictEqual(tree.ap(fab)(fa), expected)
   })
 
   it('chain', () => {

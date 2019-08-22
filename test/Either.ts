@@ -186,19 +186,28 @@ describe('Either', () => {
   describe('Monad', () => {
     it('map', () => {
       const f = (s: string): number => s.length
-      assert.deepStrictEqual(_.either.map(_.right('abc'), f), _.right(3))
-      assert.deepStrictEqual(_.either.map(_.left('s'), f), _.left('s'))
+      assert.deepStrictEqual(_.either.map(f)(_.right('abc')), _.right(3))
+      assert.deepStrictEqual(_.either.map(f)(_.left('s')), _.left('s'))
     })
 
     it('ap', () => {
       const f = (s: string): number => s.length
-      assert.deepStrictEqual(_.either.ap(_.right(f), _.right('abc')), _.right(3))
-      assert.deepStrictEqual(_.either.ap(_.right(f), _.left('maError')), _.left('maError'))
+      assert.deepStrictEqual(_.either.ap(_.right(f))(_.right('abc')), _.right(3))
       assert.deepStrictEqual(
-        _.either.ap(_.left<string, (s: string) => number>('mabError'), _.right('abc')),
+        pipe(
+          _.left('maError'),
+          _.either.ap(_.right(f))
+        ),
+        _.left('maError')
+      )
+      assert.deepStrictEqual(
+        _.either.ap(_.left<string, (s: string) => number>('mabError'))(_.right('abc')),
         _.left('mabError')
       )
-      assert.deepStrictEqual(_.either.ap(_.left('mabError'), _.left('maError')), _.left('mabError'))
+      assert.deepStrictEqual(
+        _.either.ap(_.left<string, (s: string) => number>('mabError'))(_.left('maError')),
+        _.left('mabError')
+      )
     })
 
     it('chain', () => {
@@ -484,10 +493,10 @@ describe('Either', () => {
       assert.deepStrictEqual(M.chain(_.left('a'), () => _.left('b')), _.left('a'))
       assert.deepStrictEqual(M.of(1), _.right(1))
       const double = (n: number) => n * 2
-      assert.deepStrictEqual(M.ap(_.right(double), _.right(1)), _.right(2))
-      assert.deepStrictEqual(M.ap(_.right(double), _.left('foo')), _.left('foo'))
-      assert.deepStrictEqual(M.ap(_.left<string, (n: number) => number>('foo'), _.right(1)), _.left('foo'))
-      assert.deepStrictEqual(M.ap(_.left('foo'), _.left('bar')), _.left('foobar'))
+      assert.deepStrictEqual(M.ap(_.right(double))(_.right(1)), _.right(2))
+      assert.deepStrictEqual(M.ap(_.right(double))(_.left('foo')), _.left('foo'))
+      assert.deepStrictEqual(M.ap(_.left<string, (n: number) => number>('foo'))(_.right(1)), _.left('foo'))
+      assert.deepStrictEqual(M.ap(_.left<string, (n: number) => number>('foo'))(_.left('bar')), _.left('foobar'))
       assert.deepStrictEqual(M.alt(_.left('a'), () => _.right(1)), _.right(1))
       assert.deepStrictEqual(M.alt(_.right(1), () => _.left('a')), _.right(1))
       assert.deepStrictEqual(M.alt(_.left('a'), () => _.left('b')), _.left('ab'))

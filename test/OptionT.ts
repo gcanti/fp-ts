@@ -8,7 +8,7 @@ const T = getOptionM(task)
 describe('OptionT', () => {
   it('map', () => {
     const greetingT = T.of('welcome')
-    const excitedGreetingT = T.map(greetingT, s => s + '!')
+    const excitedGreetingT = T.map(s => s + '!')(greetingT)
     return excitedGreetingT().then(o => {
       assert.deepStrictEqual(o, O.some('welcome!'))
     })

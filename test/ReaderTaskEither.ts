@@ -16,7 +16,7 @@ describe('ReaderTaskEither', () => {
   describe('Monad', () => {
     it('map', async () => {
       const double = (n: number): number => n * 2
-      const x = await _.run(_.readerTaskEither.map(_.right(1), double), {})
+      const x = await _.run(_.readerTaskEither.map(double)(_.right(1)), {})
       assert.deepStrictEqual(x, E.right(2))
     })
 
@@ -24,7 +24,7 @@ describe('ReaderTaskEither', () => {
       const double = (n: number): number => n * 2
       const mab = _.right(double)
       const ma = _.right(1)
-      const x = await _.run(_.readerTaskEither.ap(mab, ma), {})
+      const x = await _.run(_.readerTaskEither.ap(mab)(ma), {})
       assert.deepStrictEqual(x, E.right(2))
     })
 

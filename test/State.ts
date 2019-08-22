@@ -32,14 +32,14 @@ describe('State', () => {
   it('map', () => {
     const double = (n: number) => n * 2
     const x = (s: number) => tuple(s - 1, s + 1)
-    assert.deepStrictEqual(S.state.map(x, double)(0), [-2, 1])
+    assert.deepStrictEqual(S.state.map(double)(x)(0), [-2, 1])
   })
 
   it('ap', () => {
     const double = (n: number) => n * 2
     const fab = S.state.of(double)
     const fa = S.state.of(1)
-    assert.deepStrictEqual(S.state.ap(fab, fa)(0), [2, 0])
+    assert.deepStrictEqual(S.state.ap(fab)(fa)(0), [2, 0])
   })
 
   it('chain', () => {

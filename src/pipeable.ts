@@ -1288,8 +1288,7 @@ export function pipeable<F, I>(
 export function pipeable<F, I>(I: { URI: F } & I): Record<string, unknown> {
   const r: any = {}
   if (isFunctor<F>(I)) {
-    const map: PipeableFunctor<F>['map'] = f => fa => I.map(fa, f)
-    r.map = map
+    r.map = I.map
   }
   if (isContravariant<F>(I)) {
     const contramap: PipeableContravariant<F>['contramap'] = f => fa => I.contramap(fa, f)
@@ -1300,15 +1299,16 @@ export function pipeable<F, I>(I: { URI: F } & I): Record<string, unknown> {
     r.mapWithIndex = mapWithIndex
   }
   if (isApply<F>(I)) {
-    const ap: PipeableApply<F>['ap'] = fa => fab => I.ap(fab, fa)
-    const apFirst: PipeableApply<F>['apFirst'] = fb => fa => I.ap(I.map(fa, a => () => a), fb)
+    const apFirst: PipeableApply<F>['apFirst'] = <B>(fb: HKT<F, B>) => <A>(fa: HKT<F, A>): HKT<F, A> =>
+      I.ap(I.map((a: A) => () => a)(fa))(fb)
+    const ap: PipeableApply<F>['ap'] = fa => fab => I.ap(fab)(fa)
     r.ap = ap
     r.apFirst = apFirst
-    r.apSecond = <B>(fb: HKT<F, B>) => <A>(fa: HKT<F, A>): HKT<F, B> => I.ap(I.map(fa, () => (b: B) => b), fb)
+    r.apSecond = <B>(fb: HKT<F, B>) => <A>(fa: HKT<F, A>): HKT<F, B> => I.ap(I.map(() => (b: B) => b)(fa))(fb)
   }
   if (isChain<F>(I)) {
     const chain: PipeableChain<F>['chain'] = f => ma => I.chain(ma, f)
-    const chainFirst: PipeableChain<F>['chainFirst'] = f => ma => I.chain(ma, a => I.map(f(a), () => a))
+    const chainFirst: PipeableChain<F>['chainFirst'] = f => ma => I.chain(ma, a => I.map(() => a)(f(a)))
     const flatten: PipeableChain<F>['flatten'] = mma => I.chain(mma, identity)
     r.chain = chain
     r.chainFirst = chainFirst

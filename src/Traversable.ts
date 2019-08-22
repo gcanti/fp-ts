@@ -346,8 +346,8 @@ export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversabl
     },
     sequence: H => {
       const sequenceF = F.sequence(H)
-      const sequenceG = G.sequence(H)
-      return fgha => sequenceF(F.map(fgha, sequenceG))
+      const sequenceGF = F.map(G.sequence(H))
+      return fgha => sequenceF(sequenceGF(fgha))
     }
   }
 }

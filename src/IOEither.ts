@@ -133,7 +133,7 @@ export function bracket<E, A, B>(
   release: (a: A, e: Either<E, B>) => IOEither<E, void>
 ): IOEither<E, B> {
   return T.chain(acquire, a =>
-    T.chain(io.map(use(a), E.right), e => T.chain(release(a, e), () => (E.isLeft(e) ? T.left(e.left) : T.of(e.right))))
+    T.chain(io.map(E.right)(use(a)), e => T.chain(release(a, e), () => (E.isLeft(e) ? T.left(e.left) : T.of(e.right))))
   )
 }
 

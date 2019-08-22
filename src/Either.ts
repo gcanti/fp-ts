@@ -392,7 +392,8 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
     F: Applicative<F>
   ): (<A, B>(ma: Either<E, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Either<E, B>>) => {
     const traverseF = either.traverse(F)
-    return (ma, f) => F.map(traverseF(ma, f), compact)
+    const compactF = F.map(compact)
+    return (ma, f) => compactF(traverseF(ma, f))
   }
 
   const wilt = <F>(
@@ -402,7 +403,8 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
     f: (a: A) => HKT<F, Either<B, C>>
   ) => HKT<F, Separated<Either<E, B>, Either<E, C>>>) => {
     const traverseF = either.traverse(F)
-    return (ma, f) => F.map(traverseF(ma, f), separate)
+    const separateF = F.map(separate)
+    return (ma, f) => separateF(traverseF(ma, f))
   }
 
   return {
@@ -434,7 +436,7 @@ export function getValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, 
     _E: phantom,
     map: either.map,
     of: either.of,
-    ap: (mab, ma) =>
+    ap: mab => ma =>
       isLeft(mab)
         ? isLeft(ma)
           ? left(S.concat(mab.left, ma.left))
@@ -491,18 +493,18 @@ export const either: Monad2<URI> &
   ChainRec2<URI> &
   MonadThrow2<URI> = {
   URI,
-  map: (ma, f) => (isLeft(ma) ? ma : right(f(ma.right))),
+  map: f => ma => (isLeft(ma) ? ma : right(f(ma.right))),
   of: right,
-  ap: (mab, ma) => (isLeft(mab) ? mab : isLeft(ma) ? ma : right(mab.right(ma.right))),
+  ap: mab => ma => (isLeft(mab) ? mab : isLeft(ma) ? ma : right(mab.right(ma.right))),
   chain: (ma, f) => (isLeft(ma) ? ma : f(ma.right)),
   reduce: (fa, b, f) => (isLeft(fa) ? b : f(b, fa.right)),
   foldMap: M => (fa, f) => (isLeft(fa) ? M.empty : f(fa.right)),
   reduceRight: (fa, b, f) => (isLeft(fa) ? b : f(fa.right, b)),
-  traverse: <F>(F: Applicative<F>) => <E, A, B>(ma: Either<E, A>, f: (a: A) => HKT<F, B>): HKT<F, Either<E, B>> => {
-    return isLeft(ma) ? F.of(left(ma.left)) : F.map<B, Either<E, B>>(f(ma.right), right)
+  traverse: <F>(F: Applicative<F>) => <E, A, B>(ma: Either<E, A>, f: (a: A) => HKT<F, B>) => {
+    return isLeft(ma) ? F.of(left(ma.left)) : F.map(right)(f(ma.right))
   },
   sequence: <F>(F: Applicative<F>) => <E, A>(ma: Either<E, HKT<F, A>>): HKT<F, Either<E, A>> => {
-    return isLeft(ma) ? F.of(left(ma.left)) : F.map<A, Either<E, A>>(ma.right, right)
+    return isLeft(ma) ? F.of(left(ma.left)) : F.map(right)(ma.right)
   },
   bimap: (fea, f, g) => (isLeft(fea) ? left(f(fea.left)) : right(g(fea.right))),
   mapLeft: (fea, f) => (isLeft(fea) ? left(f(fea.left)) : fea),

@@ -45,7 +45,7 @@ describe('NonEmptyArray', () => {
 
   it('map', () => {
     const double = (n: number) => n * 2
-    assert.deepStrictEqual(nonEmptyArray.map([1, 2], double), [2, 4])
+    assert.deepStrictEqual(nonEmptyArray.map(double)([1, 2]), [2, 4])
   })
 
   it('mapWithIndex', () => {
@@ -59,7 +59,7 @@ describe('NonEmptyArray', () => {
 
   it('ap', () => {
     const double = (n: number) => n * 2
-    assert.deepStrictEqual(nonEmptyArray.ap([double, double], [1, 2]), [2, 4, 2, 4])
+    assert.deepStrictEqual(nonEmptyArray.ap([double, double])([1, 2]), [2, 4, 2, 4])
   })
 
   it('chain', () => {

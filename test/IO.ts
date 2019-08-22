@@ -8,7 +8,7 @@ describe('IO', () => {
     const double = (n: number): number => n * 2
     const fab = io.of(double)
     const fa = io.of(1)
-    assert.strictEqual(io.ap(fab, fa)(), 2)
+    assert.strictEqual(io.ap(fab)(fa)(), 2)
   })
 
   it('chain', () => {

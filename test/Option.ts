@@ -65,8 +65,8 @@ describe('Option', () => {
 
   it('map', () => {
     const f = (n: number) => n * 2
-    assert.deepStrictEqual(O.option.map(O.some(2), f), O.some(4))
-    assert.deepStrictEqual(O.option.map(O.none, f), O.none)
+    assert.deepStrictEqual(O.option.map(f)(O.some(2)), O.some(4))
+    assert.deepStrictEqual(O.option.map(f)(O.none), O.none)
   })
 
   it('getEq', () => {
@@ -132,10 +132,10 @@ describe('Option', () => {
 
   it('ap', () => {
     const f = (n: number) => n * 2
-    assert.deepStrictEqual(O.option.ap(O.some(f), O.some(2)), O.some(4))
-    assert.deepStrictEqual(O.option.ap(O.some(f), O.none), O.none)
-    assert.deepStrictEqual(O.option.ap(O.none, O.some(2)), O.none)
-    assert.deepStrictEqual(O.option.ap(O.none, O.none), O.none)
+    assert.deepStrictEqual(O.option.ap(O.some(f))(O.some(2)), O.some(4))
+    assert.deepStrictEqual(O.option.ap(O.some(f))(O.none), O.none)
+    assert.deepStrictEqual(O.option.ap(O.none)(O.some(2)), O.none)
+    assert.deepStrictEqual(O.option.ap(O.none)(O.none), O.none)
   })
 
   it('chain', () => {

@@ -52,8 +52,9 @@ export function factoryS<F extends H.URIS>(
   a8: H.Kind<F, number>,
   a9: H.Kind<F, boolean>
 ): H.Kind<F, boolean> {
-  return F.map(Apy.sequenceS(F)({ a1, a2, a3, a4, a5, a6, a7, a8, a9 }), ({ a1, a2, a3, a4, a5, a6, a7, a8, a9 }) =>
-    functionForfactoryS(a1, a2, a3, a4, a5, a6, a7, a8, a9)
+  return pipe(
+    Apy.sequenceS(F)({ a1, a2, a3, a4, a5, a6, a7, a8, a9 }),
+    F.map(({ a1, a2, a3, a4, a5, a6, a7, a8, a9 }) => functionForfactoryS(a1, a2, a3, a4, a5, a6, a7, a8, a9))
   )
 }
 
@@ -99,8 +100,9 @@ export function factoryT<F extends H.URIS>(
   f8: H.Kind<F, number>,
   f9: H.Kind<F, boolean>
 ): H.Kind<F, boolean> {
-  return F.map(Apy.sequenceT(F)(f1, f2, f3, f4, f5, f6, f7, f8, f9), ([a1, a2, a3, a4, a5, a6, a7, a8, a9]) =>
-    functionForfactoryS(a1, a2, a3, a4, a5, a6, a7, a8, a9)
+  return pipe(
+    Apy.sequenceT(F)(f1, f2, f3, f4, f5, f6, f7, f8, f9),
+    F.map(([a1, a2, a3, a4, a5, a6, a7, a8, a9]) => functionForfactoryS(a1, a2, a3, a4, a5, a6, a7, a8, a9))
   )
 }
 
@@ -130,7 +132,7 @@ sequenceTf2(sequenceS5, sequenceS6, sequenceS7) // $ExpectType ReaderTaskEither<
 
 const applicativeValidation = E.getValidation(S.semigroupString)
 
-Apv.getApplicativeComposition(Re.reader, applicativeValidation).map // $ExpectType <FE, A, B>(fa: Reader<FE, Either<string, A>>, f: (a: A) => B) => Reader<FE, Either<string, B>>
+Apv.getApplicativeComposition(Re.reader, applicativeValidation).map // $ExpectType <A, B>(f: (a: A) => B) => <FE>(fa: Reader<FE, Either<string, A>>) => Reader<FE, Either<string, B>>
 
 //
 // Const

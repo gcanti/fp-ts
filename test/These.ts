@@ -39,9 +39,9 @@ describe('These', () => {
 
   it('map', () => {
     const double = (n: number) => n * 2
-    assert.deepStrictEqual(_.these.map(_.left(2), double), _.left(2))
-    assert.deepStrictEqual(_.these.map(_.right(2), double), _.right(4))
-    assert.deepStrictEqual(_.these.map(_.both(1, 2), double), _.both(1, 4))
+    assert.deepStrictEqual(_.these.map(double)(_.left(2)), _.left(2))
+    assert.deepStrictEqual(_.these.map(double)(_.right(2)), _.right(4))
+    assert.deepStrictEqual(_.these.map(double)(_.both(1, 2)), _.both(1, 4))
   })
 
   it('getMonad', () => {
@@ -49,7 +49,7 @@ describe('These', () => {
     const F = _.getMonad(semigroupString)
     const fab = F.of(double)
     const fa = F.of(1)
-    assert.deepStrictEqual(F.ap(fab, fa), F.of(2))
+    assert.deepStrictEqual(F.ap(fab)(fa), F.of(2))
   })
 
   it('fold', () => {

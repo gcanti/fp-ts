@@ -88,7 +88,7 @@ export const of: <R, A>(a: A) => Reader<R, A> = T.of
  */
 export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = {
   URI,
-  map: (ma, f) => e => f(ma(e)),
+  map: f => ma => e => f(ma(e)),
   of,
   ap: T.ap,
   chain: T.chain,

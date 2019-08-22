@@ -18,42 +18,44 @@ import { tuple } from './function'
  * @since 2.0.0
  */
 export interface Apply<F> extends Functor<F> {
-  readonly ap: <A, B>(fab: HKT<F, (a: A) => B>, fa: HKT<F, A>) => HKT<F, B>
+  readonly ap: <A, B>(fab: HKT<F, (a: A) => B>) => (fa: HKT<F, A>) => HKT<F, B>
 }
 
 /**
  * @since 2.0.0
  */
 export interface Apply1<F extends URIS> extends Functor1<F> {
-  readonly ap: <A, B>(fab: Kind<F, (a: A) => B>, fa: Kind<F, A>) => Kind<F, B>
+  readonly ap: <A, B>(fab: Kind<F, (a: A) => B>) => (fa: Kind<F, A>) => Kind<F, B>
 }
 
 /**
  * @since 2.0.0
  */
 export interface Apply2<F extends URIS2> extends Functor2<F> {
-  readonly ap: <E, A, B>(fab: Kind2<F, E, (a: A) => B>, fa: Kind2<F, E, A>) => Kind2<F, E, B>
+  readonly ap: <E, A, B>(fab: Kind2<F, E, (a: A) => B>) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 
 /**
  * @since 2.0.0
  */
 export interface Apply3<F extends URIS3> extends Functor3<F> {
-  readonly ap: <R, E, A, B>(fab: Kind3<F, R, E, (a: A) => B>, fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+  readonly ap: <R, E, A, B>(fab: Kind3<F, R, E, (a: A) => B>) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
 }
 
 /**
  * @since 2.0.0
  */
 export interface Apply2C<F extends URIS2, E> extends Functor2C<F, E> {
-  readonly ap: <A, B>(fab: Kind2<F, E, (a: A) => B>, fa: Kind2<F, E, A>) => Kind2<F, E, B>
+  readonly ap: <A, B>(fab: Kind2<F, E, (a: A) => B>) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 
 /**
  * @since 2.0.0
  */
 export interface Apply4<F extends URIS4> extends Functor4<F> {
-  readonly ap: <S, R, E, A, B>(fab: Kind4<F, S, R, E, (a: A) => B>, fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
+  readonly ap: <S, R, E, A, B>(
+    fab: Kind4<F, S, R, E, (a: A) => B>
+  ) => (fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
 }
 
 function curried(f: Function, n: number, acc: Array<unknown>) {
@@ -116,9 +118,9 @@ export function sequenceT<F>(F: Apply<F>): any {
   return <A>(...args: Array<HKT<F, A>>) => {
     const len = args.length
     const f = getTupleConstructor(len)
-    let fas = F.map(args[0], f)
+    let fas = F.map(f)(args[0])
     for (let i = 1; i < len; i++) {
-      fas = F.ap(fas, args[i])
+      fas = F.ap(fas)(args[i])
     }
     return fas
   }
@@ -197,9 +199,9 @@ export function sequenceS<F>(F: Apply<F>): (r: Record<string, HKT<F, any>>) => H
     const keys = Object.keys(r)
     const len = keys.length
     const f = getRecordConstructor(keys)
-    let fr = F.map(r[keys[0]], f)
+    let fr = F.map(f)(r[keys[0]])
     for (let i = 1; i < len; i++) {
-      fr = F.ap(fr, r[keys[i]])
+      fr = F.ap(fr)(r[keys[i]])
     }
     return fr
   }

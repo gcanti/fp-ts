@@ -22,7 +22,7 @@ describe('StateReaderTaskEither', () => {
     it('map', async () => {
       const len = (s: string): number => s.length
       const ma = _.right('aaa')
-      const e = await RTE.run(_.evalState(_.stateReaderTaskEither.map(ma, len), {}), {})
+      const e = await RTE.run(_.evalState(_.stateReaderTaskEither.map(len)(ma), {}), {})
       assert.deepStrictEqual(e, E.right(3))
     })
 
@@ -30,7 +30,7 @@ describe('StateReaderTaskEither', () => {
       const len = (s: string): number => s.length
       const mab = _.right(len)
       const ma = _.right('aaa')
-      const e = await RTE.run(_.evalState(_.stateReaderTaskEither.ap(mab, ma), {}), {})
+      const e = await RTE.run(_.evalState(_.stateReaderTaskEither.ap(mab)(ma), {}), {})
       assert.deepStrictEqual(e, E.right(3))
     })
 
@@ -38,7 +38,7 @@ describe('StateReaderTaskEither', () => {
       const len = (s: string): number => s.length
       const mab = _.right(len)
       const ma = _.right('aaa')
-      const e = await RTE.run(_.evalState(_.stateReaderTaskEitherSeq.ap(mab, ma), {}), {})
+      const e = await RTE.run(_.evalState(_.stateReaderTaskEitherSeq.ap(mab)(ma), {}), {})
       assert.deepStrictEqual(e, E.right(3))
     })
 

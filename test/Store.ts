@@ -8,12 +8,12 @@ const len = (s: string): number => s.length
 describe('Store', () => {
   it('map', () => {
     const wa: Store<string, number> = { peek: len, pos: 'a' }
-    assert.strictEqual(store.extract(store.map(wa, n => n + 1)), 2)
+    assert.strictEqual(store.extract(store.map((n: number) => n + 1)(wa)), 2)
   })
 
   it('extends', () => {
     const wa: Store<string, number> = { peek: len, pos: 'a' }
-    assert.strictEqual(store.extract(store.extend(wa, wa => store.extract(store.map(wa, n => n + 1)))), 2)
+    assert.strictEqual(store.extract(store.extend(wa, wa => store.extract(store.map((n: number) => n + 1)(wa)))), 2)
   })
 
   it('seek', () => {

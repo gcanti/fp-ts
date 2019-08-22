@@ -91,14 +91,14 @@ describe('IOEither', () => {
   describe('Monad', () => {
     it('map', () => {
       const double = (n: number): number => n * 2
-      assert.deepStrictEqual(_.ioEither.map(_.right(1), double)(), E.right(2))
+      assert.deepStrictEqual(_.ioEither.map(double)(_.right(1))(), E.right(2))
     })
 
     it('ap', () => {
       const double = (n: number): number => n * 2
       const mab = _.right(double)
       const ma = _.right(1)
-      assert.deepStrictEqual(_.ioEither.ap(mab, ma)(), E.right(2))
+      assert.deepStrictEqual(_.ioEither.ap(mab)(ma)(), E.right(2))
     })
 
     it('chain', () => {
@@ -223,16 +223,16 @@ describe('IOEither', () => {
 
     it('map', () => {
       const double = (n: number): number => n * 2
-      const e1 = IV.map(IV.of(1), double)()
+      const e1 = IV.map(double)(IV.of(1))()
       assert.deepStrictEqual(e1, E.right(2))
-      const e2 = IV.map(_.left('a'), double)()
+      const e2 = IV.map(double)(_.left('a'))()
       assert.deepStrictEqual(e2, E.left('a'))
     })
 
     it('ap', () => {
       const fab = _.left('a')
       const fa = _.left('b')
-      const e1 = IV.ap(fab, fa)()
+      const e1 = IV.ap(fab)(fa)()
       assert.deepStrictEqual(e1, E.left('ab'))
     })
 

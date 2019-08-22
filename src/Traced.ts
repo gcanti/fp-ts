@@ -88,7 +88,7 @@ export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
  */
 export const traced: Functor2<URI> = {
   URI,
-  map: (wa, f) => p => f(wa(p))
+  map: f => wa => p => f(wa(p))
 }
 
 const { map } = pipeable(traced)

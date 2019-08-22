@@ -154,10 +154,9 @@ export function bracket<E, A, B>(
   use: (a: A) => TaskEither<E, B>,
   release: (a: A, e: Either<E, B>) => TaskEither<E, void>
 ): TaskEither<E, B> {
+  const eRightTask = task.map(E.right)
   return T.chain(acquire, a =>
-    T.chain(task.map(use(a), E.right), e =>
-      T.chain(release(a, e), () => (E.isLeft(e) ? T.left(e.left) : T.of(e.right)))
-    )
+    T.chain(eRightTask(use(a)), e => T.chain(release(a, e), () => (E.isLeft(e) ? T.left(e.left) : T.of(e.right))))
   )
 }
 
@@ -252,7 +251,7 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<
  */
 export const taskEitherSeq: typeof taskEither = {
   ...taskEither,
-  ap: (mab, ma) => T.chain(mab, f => T.map(ma, f))
+  ap: mab => ma => T.chain(mab, f => T.map(f)(ma))
 }
 
 const {

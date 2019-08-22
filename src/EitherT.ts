@@ -7,6 +7,7 @@ import {
 import { Either, either, fold, isLeft, left, right, swap, URI } from './Either'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
+import { pipe } from './pipeable'
 
 /**
  * @since 2.0.0
@@ -98,14 +99,22 @@ export function getEitherM<M>(M: Monad<M>): EitherM<M> {
     ...A,
     chain: (ma, f) => M.chain(ma, e => (isLeft(e) ? M.of(left(e.left)) : f(e.right))),
     alt: (fx, f) => M.chain(fx, e => (isLeft(e) ? f() : A.of(e.right))),
-    bimap: (ma, f, g) => M.map(ma, e => either.bimap(e, f, g)),
-    mapLeft: (ma, f) => M.map(ma, e => either.mapLeft(e, f)),
+    bimap: (ma, f, g) =>
+      pipe(
+        ma,
+        M.map(e => either.bimap(e, f, g))
+      ),
+    mapLeft: (ma, f) =>
+      pipe(
+        ma,
+        M.map(e => either.mapLeft(e, f))
+      ),
     fold: (ma, onLeft, onRight) => M.chain(ma, fold(onLeft, onRight)),
     getOrElse: (ma, onLeft) => M.chain(ma, fold(onLeft, M.of)),
     orElse: (ma, f) => M.chain(ma, fold(f, a => A.of(a))),
-    swap: ma => M.map(ma, swap),
-    rightM: ma => M.map(ma, right),
-    leftM: ml => M.map(ml, left),
+    swap: M.map(swap),
+    rightM: M.map(right),
+    leftM: M.map(left),
     left: e => M.of(left(e))
   }
 }

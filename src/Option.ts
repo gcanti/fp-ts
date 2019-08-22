@@ -36,7 +36,7 @@ import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { Witherable1 } from './Witherable'
-import { pipeable } from './pipeable'
+import { pipe, pipeable } from './pipeable'
 import { MonadThrow1 } from './MonadThrow'
 
 declare module './HKT' {
@@ -626,28 +626,31 @@ export const option: Monad1<URI> &
   Witherable1<URI> &
   MonadThrow1<URI> = {
   URI,
-  map: (ma, f) => (isNone(ma) ? none : some(f(ma.value))),
+  map: f => ma => (isNone(ma) ? none : some(f(ma.value))),
   of: some,
-  ap: (mab, ma) => (isNone(mab) ? none : isNone(ma) ? none : some(mab.value(ma.value))),
+  ap: mab => ma => (isNone(mab) ? none : isNone(ma) ? none : some(mab.value(ma.value))),
   chain: (ma, f) => (isNone(ma) ? none : f(ma.value)),
   reduce: (fa, b, f) => (isNone(fa) ? b : f(b, fa.value)),
   foldMap: M => (fa, f) => (isNone(fa) ? M.empty : f(fa.value)),
   reduceRight: (fa, b, f) => (isNone(fa) ? b : f(fa.value, b)),
   traverse: <F>(F: Applicative<F>) => <A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>): HKT<F, Option<B>> => {
-    return isNone(ta) ? F.of(none) : F.map(f(ta.value), some)
+    return isNone(ta) ? F.of(none) : F.map(some)(f(ta.value))
   },
   sequence: <F>(F: Applicative<F>) => <A>(ta: Option<HKT<F, A>>): HKT<F, Option<A>> => {
-    return isNone(ta) ? F.of(none) : F.map(ta.value, some)
+    return isNone(ta) ? F.of(none) : F.map(some)(ta.value)
   },
   zero: () => none,
   alt: (ma, f) => (isNone(ma) ? f() : ma),
   extend: (wa, f) => (isNone(wa) ? none : some(f(wa))),
   compact: ma => option.chain(ma, identity),
   separate: <A, B>(ma: Option<Either<A, B>>): Separated<Option<A>, Option<B>> => {
-    const o = option.map(ma, e => ({
-      left: getLeft(e),
-      right: getRight(e)
-    }))
+    const o = pipe(
+      ma,
+      option.map(e => ({
+        left: getLeft(e),
+        right: getRight(e)
+      }))
+    )
     return isNone(o) ? defaultSeparate : o.value
   },
   filter: <A>(fa: Option<A>, predicate: Predicate<A>): Option<A> => {
@@ -660,18 +663,24 @@ export const option: Monad1<URI> &
       right: option.filter(fa, predicate)
     }
   },
-  partitionMap: (fa, f) => option.separate(option.map(fa, f)),
+  partitionMap: (fa, f) => option.separate(option.map(f)(fa)),
   wither: <F>(F: Applicative<F>) => <A, B>(fa: Option<A>, f: (a: A) => HKT<F, Option<B>>): HKT<F, Option<B>> =>
     isNone(fa) ? F.of(none) : f(fa.value),
   wilt: <F>(F: Applicative<F>) => <A, B, C>(
     fa: Option<A>,
     f: (a: A) => HKT<F, Either<B, C>>
   ): HKT<F, Separated<Option<B>, Option<C>>> => {
-    const o = option.map(fa, a =>
-      F.map(f(a), e => ({
-        left: getLeft(e),
-        right: getRight(e)
-      }))
+    const o = pipe(
+      fa,
+      option.map(a =>
+        pipe(
+          f(a),
+          F.map(e => ({
+            left: getLeft(e),
+            right: getRight(e)
+          }))
+        )
+      )
     )
     return isNone(o)
       ? F.of({

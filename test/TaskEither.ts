@@ -12,7 +12,7 @@ describe('TaskEither', () => {
   describe('Monad', () => {
     it('map', async () => {
       const double = (n: number): number => n * 2
-      const x = await _.taskEither.map(_.right(1), double)()
+      const x = await _.taskEither.map(double)(_.right(1))()
       assert.deepStrictEqual(x, E.right(2))
     })
 
@@ -20,7 +20,7 @@ describe('TaskEither', () => {
       const double = (n: number): number => n * 2
       const mab = _.right(double)
       const ma = _.right(1)
-      const x = await _.taskEither.ap(mab, ma)()
+      const x = await _.taskEither.ap(mab)(ma)()
       assert.deepStrictEqual(x, E.right(2))
     })
 
@@ -296,16 +296,16 @@ describe('TaskEither', () => {
 
     it('map', async () => {
       const double = (n: number): number => n * 2
-      const e1 = await TV.map(TV.of(1), double)()
+      const e1 = await TV.map(double)(TV.of(1))()
       assert.deepStrictEqual(e1, E.right(2))
-      const e2 = await TV.map(_.left('a'), double)()
+      const e2 = await TV.map(double)(_.left('a'))()
       assert.deepStrictEqual(e2, E.left('a'))
     })
 
     it('ap', async () => {
       const fab = _.left('a')
       const fa = _.left('b')
-      const e1 = await TV.ap(fab, fa)()
+      const e1 = await TV.ap(fab)(fa)()
       assert.deepStrictEqual(e1, E.left('ab'))
     })
 

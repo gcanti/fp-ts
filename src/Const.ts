@@ -57,7 +57,7 @@ export function getApply<E>(S: Semigroup<E>): Apply2C<URI, E> {
     URI,
     _E: undefined as any,
     map: const_.map,
-    ap: (fab, fa) => make(S.concat(fab, fa))
+    ap: fab => fa => make(S.concat(fab, fa))
   }
 }
 
@@ -76,7 +76,7 @@ export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> {
  */
 export const const_: Functor2<URI> & Contravariant2<URI> = {
   URI,
-  map: unsafeCoerce,
+  map: f => fa => unsafeCoerce(fa),
   contramap: unsafeCoerce
 }
 

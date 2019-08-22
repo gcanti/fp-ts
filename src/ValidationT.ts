@@ -8,6 +8,7 @@ import { Either, getValidation, isLeft, isRight, left, URI } from './Either'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
 import { Semigroup } from './Semigroup'
+import { pipe } from './pipeable'
 
 /**
  * @since 2.0.0
@@ -65,7 +66,12 @@ export function getValidationM<E, M>(S: Semigroup<E>, M: Monad<M>): ValidationM<
     chain: (ma, f) => M.chain(ma, e => (isLeft(e) ? M.of(left(e.left)) : f(e.right))),
     alt: (fx, f) =>
       M.chain(fx, e1 =>
-        isRight(e1) ? A.of(e1.right) : M.map(f(), e2 => (isLeft(e2) ? left(S.concat(e1.left, e2.left)) : e2))
+        isRight(e1)
+          ? A.of(e1.right)
+          : pipe(
+              f(),
+              M.map(e2 => (isLeft(e2) ? left(S.concat(e1.left, e2.left)) : e2))
+            )
       )
   }
 }

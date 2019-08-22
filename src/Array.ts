@@ -1301,7 +1301,7 @@ export const array: Monad1<URI> &
   FunctorWithIndex1<URI, number> &
   FoldableWithIndex1<URI, number> = {
   URI,
-  map: (fa, f) => fa.map(a => f(a)),
+  map: f => fa => fa.map(a => f(a)),
   mapWithIndex: (fa, f) => fa.map((a, i) => f(i, a)),
   compact: as => array.filterMap(as, identity),
   separate: <B, C>(fa: Array<Either<B, C>>): Separated<Array<B>, Array<C>> => {
@@ -1328,7 +1328,8 @@ export const array: Monad1<URI> &
   },
   partitionMap: (fa, f) => array.partitionMapWithIndex(fa, (_, a) => f(a)),
   of,
-  ap: (fab, fa) => flatten(array.map(fab, f => array.map(fa, f))),
+  ap: <A, B>(fab: Array<(a: A) => B>) => (fa: Array<A>): Array<B> =>
+    flatten(array.map((f: (a: A) => B) => array.map(f)(fa))(fab)),
   chain: (fa, f) => {
     let resLen = 0
     const l = fa.length
@@ -1377,20 +1378,24 @@ export const array: Monad1<URI> &
     return (ta, f) => traverseWithIndexF(ta, (_, a) => f(a))
   },
   sequence: <F>(F: Applicative<F>) => <A>(ta: Array<HKT<F, A>>): HKT<F, Array<A>> => {
-    return array.reduce(ta, F.of(array.zero()), (fas, fa) => F.ap(F.map(fas, as => (a: A) => snoc(as, a)), fa))
+    return array.reduce(ta, F.of(array.zero()), (fas, fa) =>
+      F.ap(F.map((as: Array<A>) => (a: A) => snoc(as, a))(fas))(fa)
+    )
   },
   zero: () => empty,
   alt: (fx, f) => concat(fx, f()),
   extend: (fa, f) => fa.map((_, i, as) => f(as.slice(i))),
   wither: <F>(F: Applicative<F>): (<A, B>(ta: Array<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Array<B>>) => {
     const traverseF = array.traverse(F)
-    return (wa, f) => F.map(traverseF(wa, f), array.compact)
+    const compactF = F.map(array.compact)
+    return (wa, f) => compactF(traverseF(wa, f))
   },
   wilt: <F>(
     F: Applicative<F>
   ): (<A, B, C>(wa: Array<A>, f: (a: A) => HKT<F, Either<B, C>>) => HKT<F, Separated<Array<B>, Array<C>>>) => {
     const traverseF = array.traverse(F)
-    return (wa, f) => F.map(traverseF(wa, f), array.separate)
+    const separateF = F.map(array.separate)
+    return (wa, f) => separateF(traverseF(wa, f))
   },
   reduceWithIndex: (fa, b, f) => {
     const l = fa.length
@@ -1407,7 +1412,7 @@ export const array: Monad1<URI> &
     f: (i: number, a: A) => HKT<F, B>
   ): HKT<F, Array<B>> => {
     return array.reduceWithIndex(ta, F.of<Array<B>>(array.zero()), (i, fbs, a) =>
-      F.ap(F.map(fbs, bs => (b: B) => snoc(bs, b)), f(i, a))
+      F.ap(F.map((bs: Array<B>) => (b: B) => snoc(bs, b))(fbs))(f(i, a))
     )
   },
   partitionMapWithIndex: <A, B, C>(

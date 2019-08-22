@@ -215,12 +215,14 @@ export function getCompactableComposition<F, G>(
   G: Compactable<G> & Functor<G>
 ): CompactableComposition<F, G> {
   const FC = getFunctorComposition(F, G)
+  const getLeftFC = FC.map(getLeft)
+  const getRightFC = FC.map(getRight)
   const CC: CompactableComposition<F, G> = {
     ...FC,
-    compact: fga => F.map(fga, G.compact),
+    compact: F.map(G.compact),
     separate: fge => {
-      const left = CC.compact(FC.map(fge, getLeft))
-      const right = CC.compact(FC.map(fge, getRight))
+      const left = CC.compact(getLeftFC(fge))
+      const right = CC.compact(getRightFC(fge))
       return { left, right }
     }
   }

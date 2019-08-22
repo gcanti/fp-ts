@@ -47,19 +47,20 @@ export const getEq: <A>(E: Eq<A>) => Eq<Identity<A>> = id
  */
 export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI> = {
   URI,
-  map: (ma, f) => f(ma),
+  map: f => ma => f(ma),
   of: id,
-  ap: (mab, ma) => mab(ma),
+  ap: mab => ma => mab(ma),
   chain: (ma, f) => f(ma),
   reduce: (fa, b, f) => f(b, fa),
   foldMap: _ => (fa, f) => f(fa),
   reduceRight: (fa, b, f) => f(fa, b),
-  traverse: <F>(F: Applicative<F>) => <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>): HKT<F, Identity<B>> => {
-    return F.map(f(ta), id)
+  traverse: <F>(F: Applicative<F>) => {
+    const idF = F.map(id)
+    return <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>): HKT<F, Identity<B>> => {
+      return idF(f(ta))
+    }
   },
-  sequence: <F>(F: Applicative<F>) => <A>(ta: Identity<HKT<F, A>>): HKT<F, Identity<A>> => {
-    return F.map(ta, id)
-  },
+  sequence: <F>(F: Applicative<F>): (<A>(ta: Identity<HKT<F, A>>) => HKT<F, Identity<A>>) => F.map(id),
   alt: id,
   extract: id,
   extend: (wa, f) => f(wa),

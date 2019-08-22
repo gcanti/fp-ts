@@ -15,7 +15,7 @@ import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
 import { Traversable2 } from './Traversable'
-import { pipeable } from './pipeable'
+import { pipe, pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -62,7 +62,7 @@ export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
     URI,
     _E: undefined as any,
     map: tuple.map,
-    ap: (fab, fa) => [fst(fab)(fst(fa)), S.concat(snd(fab), snd(fa))]
+    ap: fab => fa => [fst(fab)(fst(fa)), S.concat(snd(fab), snd(fa))]
   }
 }
 
@@ -131,7 +131,7 @@ export function getChainRec<S>(M: Monoid<S>): ChainRec2C<URI, S> {
 export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,
   compose: (ba, ae) => [fst(ba), snd(ae)],
-  map: (ae, f) => [f(fst(ae)), snd(ae)],
+  map: f => ae => [f(fst(ae)), snd(ae)],
   bimap: (fea, f, g) => [g(fst(fea)), f(snd(fea))],
   mapLeft: (fea, f) => [fst(fea), f(snd(fea))],
   extract: fst,
@@ -139,12 +139,16 @@ export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Folda
   reduce: (ae, b, f) => f(b, fst(ae)),
   foldMap: _ => (ae, f) => f(fst(ae)),
   reduceRight: (ae, b, f) => f(fst(ae), b),
-  traverse: <F>(F: Applicative<F>) => <A, S, B>(as: [A, S], f: (a: A) => HKT<F, B>): HKT<F, [B, S]> => {
-    return F.map(f(fst(as)), b => [b, snd(as)])
-  },
-  sequence: <F>(F: Applicative<F>) => <A, S>(fas: [HKT<F, A>, S]): HKT<F, [A, S]> => {
-    return F.map(fst(fas), a => [a, snd(fas)])
-  }
+  traverse: <F>(F: Applicative<F>) => <A, S, B>(as: [A, S], f: (a: A) => HKT<F, B>): HKT<F, [B, S]> =>
+    pipe(
+      f(fst(as)),
+      F.map(b => [b, snd(as)])
+    ),
+  sequence: <F>(F: Applicative<F>) => <A, S>(fas: [HKT<F, A>, S]): HKT<F, [A, S]> =>
+    pipe(
+      fst(fas),
+      F.map(a => [a, snd(fas)])
+    )
 }
 
 const { bimap, compose, duplicate, extend, foldMap, map, mapLeft, reduce, reduceRight } = pipeable(tuple)

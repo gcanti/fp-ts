@@ -331,7 +331,7 @@ describe('Map', () => {
         const d1 = new Map<string, number>([['k1', 1], ['k2', 2]])
         const expected = new Map<string, number>([['k1', 2], ['k2', 4]])
         const double = (n: number): number => n * 2
-        assert.deepStrictEqual(map(d1, double), expected)
+        assert.deepStrictEqual(map(double)(d1), expected)
       })
     })
 

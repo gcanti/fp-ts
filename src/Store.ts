@@ -2,7 +2,7 @@ import { Comonad2 } from './Comonad'
 import { Endomorphism } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
-import { pipeable } from './pipeable'
+import { pipe, pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -74,7 +74,11 @@ export function experiment<F extends URIS>(
 ): <S>(f: (s: S) => Kind<F, S>) => <A>(wa: Store<S, A>) => Kind<F, A>
 export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A>
 export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A> {
-  return f => wa => F.map(f(wa.pos), s => wa.peek(s))
+  return f => wa =>
+    pipe(
+      f(wa.pos),
+      F.map(s => wa.peek(s))
+    )
 }
 
 /**
@@ -82,7 +86,7 @@ export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>
  */
 export const store: Comonad2<URI> = {
   URI,
-  map: (wa, f) => ({
+  map: f => wa => ({
     peek: s => f(wa.peek(s)),
     pos: wa.pos
   }),

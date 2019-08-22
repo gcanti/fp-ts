@@ -19,7 +19,7 @@ describe('Tuple', () => {
 
   it('map', () => {
     const double = (n: number): number => n * 2
-    assert.deepStrictEqual(T.tuple.map([1, 'a'], double), [2, 'a'])
+    assert.deepStrictEqual(T.tuple.map(double)([1, 'a']), [2, 'a'])
   })
 
   it('extract', () => {
@@ -80,7 +80,7 @@ describe('Tuple', () => {
   it('getApply', () => {
     const apply = T.getApply(monoidString)
     const double = (n: number): number => n * 2
-    assert.deepStrictEqual(apply.ap([double, 'a'], [1, 'b']), [2, 'ab'])
+    assert.deepStrictEqual(apply.ap([double, 'a'])([1, 'b']), [2, 'ab'])
   })
 
   it('getApplicative', () => {

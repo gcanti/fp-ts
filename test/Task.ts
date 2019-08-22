@@ -60,7 +60,7 @@ describe('Task', () => {
   describe('Monad', () => {
     it('map', async () => {
       const double = (n: number): number => n * 2
-      const x = await T.task.map(delay(0, 1), double)()
+      const x = await T.task.map(double)(delay(0, 1))()
       assert.strictEqual(x, 2)
     })
 
@@ -68,7 +68,7 @@ describe('Task', () => {
       const double = (n: number): number => n * 2
       const tab = delay(0, double)
       const ta = delay(0, 1)
-      const x = await T.task.ap(tab, ta)()
+      const x = await T.task.ap(tab)(ta)()
       assert.strictEqual(x, 2)
     })
 

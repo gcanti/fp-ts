@@ -37,6 +37,7 @@ import {
 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'
 import { getLeft, getRight, Option } from './Option'
+import { pipe } from './pipeable'
 
 /**
  * @since 2.0.0
@@ -420,8 +421,16 @@ export function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>):
       const right = FC.filter(fga, p)
       return { left, right }
     },
-    filterMap: (fga, f) => F.map(fga, ga => G.filterMap(ga, f)),
-    filter: (fga, f) => F.map(fga, ga => G.filter(ga, f))
+    filterMap: (fga, f) =>
+      pipe(
+        fga,
+        F.map(ga => G.filterMap(ga, f))
+      ),
+    filter: (fga, f) =>
+      pipe(
+        fga,
+        F.map(ga => G.filter(ga, f))
+      )
   }
   return FC
 }

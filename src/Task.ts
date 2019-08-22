@@ -117,9 +117,9 @@ export function of<A>(a: A): Task<A> {
  */
 export const task: Monad1<URI> & MonadTask1<URI> = {
   URI,
-  map: (ma, f) => () => ma().then(f),
+  map: f => ma => () => ma().then(f),
   of,
-  ap: (mab, ma) => () => Promise.all([mab(), ma()]).then(([f, a]) => f(a)),
+  ap: mab => ma => () => Promise.all([mab(), ma()]).then(([f, a]) => f(a)),
   chain: (ma, f) => () => ma().then(a => f(a)()),
   fromIO,
   fromTask: identity
@@ -132,7 +132,7 @@ export const task: Monad1<URI> & MonadTask1<URI> = {
  */
 export const taskSeq: typeof task = {
   ...task,
-  ap: (mab, ma) => () => mab().then(f => ma().then(a => f(a)))
+  ap: mab => ma => () => mab().then(f => ma().then(a => f(a)))
 }
 
 const { ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(task)

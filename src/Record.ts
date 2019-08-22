@@ -16,7 +16,7 @@ import { Show, showString } from './Show'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
-import { pipeable } from './pipeable'
+import { pipe, pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -613,7 +613,7 @@ export const record: FunctorWithIndex1<URI, string> &
   Witherable1<URI> &
   FoldableWithIndex1<URI, string> = {
   URI,
-  map: (fa, f) => record.mapWithIndex(fa, (_, a) => f(a)),
+  map: f => fa => record.mapWithIndex(fa, (_, a) => f(a)),
   reduce: (fa, b, f) => record.reduceWithIndex(fa, b, (_, b, a) => f(b, a)),
   foldMap: M => {
     const foldMapWithIndexM = record.foldMapWithIndex(M)
@@ -670,7 +670,8 @@ export const record: FunctorWithIndex1<URI, string> &
     F: Applicative<F>
   ): (<A, B>(wa: Record<string, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Record<string, B>>) => {
     const traverseF = record.traverse(F)
-    return (wa, f) => F.map(traverseF(wa, f), record.compact)
+    const compactF = F.map(record.compact)
+    return (wa, f) => compactF(traverseF(wa, f))
   },
   wilt: <F>(
     F: Applicative<F>
@@ -679,7 +680,8 @@ export const record: FunctorWithIndex1<URI, string> &
     f: (a: A) => HKT<F, Either<B, C>>
   ) => HKT<F, Separated<Record<string, B>, Record<string, C>>>) => {
     const traverseF = record.traverse(F)
-    return (wa, f) => F.map(traverseF(wa, f), record.separate)
+    const separateF = F.map(record.separate)
+    return (wa, f) => separateF(traverseF(wa, f))
   },
   mapWithIndex: <A, B>(fa: Record<string, A>, f: (k: string, a: A) => B) => {
     const out: Record<string, B> = {}
@@ -727,12 +729,14 @@ export const record: FunctorWithIndex1<URI, string> &
     let fr: HKT<F, Record<string, B>> = F.of({})
     for (const key of keys) {
       fr = F.ap(
-        F.map(fr, r => (b: B) => {
-          r[key] = b
-          return r
-        }),
-        f(key, ta[key])
-      )
+        pipe(
+          fr,
+          F.map(r => (b: B) => {
+            r[key] = b
+            return r
+          })
+        )
+      )(f(key, ta[key]))
     }
     return fr
   },

@@ -202,7 +202,7 @@ export const stateReaderTaskEither: Monad4<URI> & MonadThrow4<URI> = {
  */
 export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
   ...stateReaderTaskEither,
-  ap: (mab, ma) => stateReaderTaskEither.chain(mab, f => stateReaderTaskEither.map(ma, f))
+  ap: mab => ma => stateReaderTaskEither.chain(mab, f => stateReaderTaskEither.map(f)(ma))
 }
 
 const { ap, apFirst, apSecond, chain, chainFirst, flatten, map, fromEither, fromOption } = pipeable(

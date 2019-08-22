@@ -33,7 +33,7 @@ describe('Record', () => {
 
   it('record.map', () => {
     const double = (n: number): number => n * 2
-    assert.deepStrictEqual(R.record.map({ a: 1, b: 2 }, double), { a: 2, b: 4 })
+    assert.deepStrictEqual(R.record.map(double)({ a: 1, b: 2 }), { a: 2, b: 4 })
   })
 
   it('reduce', () => {

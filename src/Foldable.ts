@@ -308,7 +308,7 @@ export function traverse_<M, F>(
   M: Applicative<M>,
   F: Foldable<F>
 ): <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<M, B>) => HKT<M, void> {
-  const applyFirst = <B>(mu: HKT<M, void>, mb: HKT<M, B>): HKT<M, void> => M.ap(M.map(mu, constant), mb)
+  const applyFirst = <B>(mu: HKT<M, void>, mb: HKT<M, B>): HKT<M, void> => M.ap(M.map(constant)(mu))(mb)
   const mu: HKT<M, void> = M.of(undefined)
   return (fa, f) => F.reduce(fa, mu, (mu, a) => applyFirst(mu, f(a)))
 }
