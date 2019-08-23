@@ -90,7 +90,8 @@ Note that there are caveats such as some tools (e.g. Jest) not supporting ES6 mo
 # Documentation
 
 - [Docs](https://gcanti.github.io/fp-ts)
-- [Tutorial](https://gcanti.github.io/fp-ts/basics/)
+- [Core Concepts](https://gcanti.github.io/fp-ts/introduction/core-concepts)
+- [Learning Resources](https://gcanti.github.io/fp-ts/introduction/learning-resources)
 - [Ecosystem](https://gcanti.github.io/fp-ts/introduction/ecosystem)
 - API Reference
   - [version 2.x (current)](https://gcanti.github.io/fp-ts/modules/)
