@@ -57,18 +57,20 @@ logger(123)() // returns undefined and outputs "Received 123" to console
 ```
 
 In addition to creating `IO` actions we need a way to combine them to build the application. For
-example, we might want to combine several `IO<void>` actions into one `IO<void[]>` action for
-sequential execution. This can be done with `array.sequence(io)` as follows.
+example, we might want to combine several `IO<void>` actions into one `IO<void>` action for
+sequential execution. This can be done with `traverse_(io,array)` as follows.
 
 ```ts
 import { IO, io } from 'fp-ts/lib/IO'
+import { traverse_ } from 'fp-ts/lib/Foldable'
 import { array } from 'fp-ts/lib/Array'
+import { identity } from 'fp-ts/lib/function'
 import { log } from 'fp-ts/lib/Console'
 
 const logGiraffe: IO<void> = log('giraffe')
 const logZebra: IO<void> = log('zebra')
 
-const logGiraffeThenZebra: IO<void[]> = array.sequence(io)([logGiraffe, logZebra])
+const logGiraffeThenZebra: IO<void> = traverse_(io, array)([logGiraffe, logZebra], identity)
 
 logGiraffeThenZebra() // returns undefined and outputs words "giraffe" and "zebra" to console
 ```
