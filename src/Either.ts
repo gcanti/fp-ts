@@ -275,7 +275,7 @@ export function orElse<E, A, M>(onLeft: (e: E) => Either<M, A>): (ma: Either<E, 
 /**
  * @since 2.0.0
  */
-export function getOrElse<E, A>(onLeft: (e: E) => A): (ma: Either<E, A>) => A {
+export function getOrElse<E, A, B = A>(onLeft: (e: E) => B): (ma: Either<E, A>) => A | B {
   return ma => (isLeft(ma) ? onLeft(ma.left) : ma.right)
 }
 

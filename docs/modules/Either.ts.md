@@ -268,7 +268,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getOrElse<E, A>(onLeft: (e: E) => A): (ma: Either<E, A>) => A { ... }
+export function getOrElse<E, A, B = A>(onLeft: (e: E) => B): (ma: Either<E, A>) => A | B { ... }
 ```
 
 Added in v2.0.0

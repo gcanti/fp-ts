@@ -493,7 +493,7 @@ Extracts the value out of the structure, if it exists. Otherwise returns the giv
 **Signature**
 
 ```ts
-export function getOrElse<A>(onNone: () => A): (ma: Option<A>) => A { ... }
+export function getOrElse<A, B = A>(onNone: () => B): (ma: Option<A>) => A | B { ... }
 ```
 
 **Example**
