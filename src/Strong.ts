@@ -28,7 +28,15 @@
 import { Category, Category2, Category3, Category4 } from './Category'
 import { identity } from './function'
 import { HKT2, Kind2, Kind3, URIS2, URIS3, URIS4, Kind4 } from './HKT'
-import { Profunctor, Profunctor2, Profunctor3, Profunctor4 } from './Profunctor'
+import {
+  Profunctor,
+  Profunctor2,
+  Profunctor3,
+  Profunctor4,
+  Profunctor3C,
+  Profunctor4C1,
+  Profunctor4C2
+} from './Profunctor'
 
 /**
  * @since 2.0.0
@@ -55,11 +63,35 @@ export interface Strong3<F extends URIS3> extends Profunctor3<F> {
 }
 
 /**
+ * @since 2.0.6
+ */
+export interface Strong3C<F extends URIS3, R> extends Profunctor3C<F, R> {
+  readonly first: <A, B, C>(pab: Kind3<F, R, A, B>) => Kind3<F, R, [A, C], [B, C]>
+  readonly second: <A, B, C>(pab: Kind3<F, R, B, C>) => Kind3<F, R, [A, B], [A, C]>
+}
+
+/**
  * @since 2.0.0
  */
 export interface Strong4<F extends URIS4> extends Profunctor4<F> {
   readonly first: <S, R, A, B, C>(pab: Kind4<F, S, R, A, B>) => Kind4<F, S, R, [A, C], [B, C]>
   readonly second: <S, R, A, B, C>(pab: Kind4<F, S, R, B, C>) => Kind4<F, S, R, [A, B], [A, C]>
+}
+
+/**
+ * @since 2.0.6
+ */
+export interface Strong4C1<F extends URIS4, S> extends Profunctor4C1<F, S> {
+  readonly first: <R, A, B, C>(pab: Kind4<F, S, R, A, B>) => Kind4<F, S, R, [A, C], [B, C]>
+  readonly second: <R, A, B, C>(pab: Kind4<F, S, R, B, C>) => Kind4<F, S, R, [A, B], [A, C]>
+}
+
+/**
+ * @since 2.0.6
+ */
+export interface Strong4C2<F extends URIS4, S, R> extends Profunctor4C2<F, S, R> {
+  readonly first: <A, B, C>(pab: Kind4<F, S, R, A, B>) => Kind4<F, S, R, [A, C], [B, C]>
+  readonly second: <A, B, C>(pab: Kind4<F, S, R, B, C>) => Kind4<F, S, R, [A, B], [A, C]>
 }
 
 /**
@@ -76,9 +108,18 @@ export interface Strong4<F extends URIS4> extends Profunctor4<F> {
  *
  * @since 2.0.0
  */
+export function splitStrong<F extends URIS4, S, R>(
+  F: Category4<F> & Strong4C2<F, S, R>
+): <A, B, C, D>(pab: Kind4<F, S, R, A, B>, pcd: Kind4<F, S, R, C, D>) => Kind4<F, S, R, [A, C], [B, D]>
+export function splitStrong<F extends URIS4, S>(
+  F: Category4<F> & Strong4C1<F, S>
+): <R, A, B, C, D>(pab: Kind4<F, S, R, A, B>, pcd: Kind4<F, S, R, C, D>) => Kind4<F, S, R, [A, C], [B, D]>
 export function splitStrong<F extends URIS4>(
   F: Category4<F> & Strong4<F>
 ): <S, R, A, B, C, D>(pab: Kind4<F, S, R, A, B>, pcd: Kind4<F, S, R, C, D>) => Kind4<F, S, R, [A, C], [B, D]>
+export function splitStrong<F extends URIS3, R>(
+  F: Category3<F> & Strong3C<F, R>
+): <A, B, C, D>(pab: Kind3<F, R, A, B>, pcd: Kind3<F, R, C, D>) => Kind3<F, R, [A, C], [B, D]>
 export function splitStrong<F extends URIS3>(
   F: Category3<F> & Strong3<F>
 ): <R, A, B, C, D>(pab: Kind3<F, R, A, B>, pcd: Kind3<F, R, C, D>) => Kind3<F, R, [A, C], [B, D]>
@@ -119,9 +160,18 @@ export function splitStrong<F>(
 export function fanout<F extends URIS4>(
   F: Category4<F> & Strong4<F>
 ): <S, R, A, B, C>(pab: Kind4<F, S, R, A, B>, pac: Kind4<F, S, R, A, C>) => Kind4<F, S, R, A, [B, C]>
+export function fanout<F extends URIS4, S>(
+  F: Category4<F> & Strong4C1<F, S>
+): <R, A, B, C>(pab: Kind4<F, S, R, A, B>, pac: Kind4<F, S, R, A, C>) => Kind4<F, S, R, A, [B, C]>
+export function fanout<F extends URIS4, S, R>(
+  F: Category4<F> & Strong4C2<F, S, R>
+): <A, B, C>(pab: Kind4<F, S, R, A, B>, pac: Kind4<F, S, R, A, C>) => Kind4<F, S, R, A, [B, C]>
 export function fanout<F extends URIS3>(
   F: Category3<F> & Strong3<F>
 ): <R, A, B, C>(pab: Kind3<F, R, A, B>, pac: Kind3<F, R, A, C>) => Kind3<F, R, A, [B, C]>
+export function fanout<F extends URIS3, R>(
+  F: Category3<F> & Strong3C<F, R>
+): <A, B, C>(pab: Kind3<F, R, A, B>, pac: Kind3<F, R, A, C>) => Kind3<F, R, A, [B, C]>
 export function fanout<F extends URIS2>(
   F: Category2<F> & Strong2<F>
 ): <A, B, C>(pab: Kind2<F, A, B>, pac: Kind2<F, A, C>) => Kind2<F, A, [B, C]>

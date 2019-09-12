@@ -25,7 +25,12 @@ Instances must satisfy the following laws:
 - [Functor2 (interface)](#functor2-interface)
 - [Functor2C (interface)](#functor2c-interface)
 - [Functor3 (interface)](#functor3-interface)
+- [Functor3C1 (interface)](#functor3c1-interface)
+- [Functor3C2 (interface)](#functor3c2-interface)
 - [Functor4 (interface)](#functor4-interface)
+- [Functor4C1 (interface)](#functor4c1-interface)
+- [Functor4C2 (interface)](#functor4c2-interface)
+- [Functor4C3 (interface)](#functor4c3-interface)
 - [FunctorComposition (interface)](#functorcomposition-interface)
 - [FunctorComposition11 (interface)](#functorcomposition11-interface)
 - [FunctorComposition12 (interface)](#functorcomposition12-interface)
@@ -107,6 +112,32 @@ export interface Functor3<F extends URIS3> {
 
 Added in v2.0.0
 
+# Functor3C1 (interface)
+
+**Signature**
+
+```ts
+export interface Functor3C1<F extends URIS3, R> {
+  readonly URI: F
+  readonly map: <E, A, B>(fa: Kind3<F, R, E, A>, f: (a: A) => B) => Kind3<F, R, E, B>
+}
+```
+
+Added in v2.0.6
+
+# Functor3C2 (interface)
+
+**Signature**
+
+```ts
+export interface Functor3C2<F extends URIS3, R, E> {
+  readonly URI: F
+  readonly map: <A, B>(fa: Kind3<F, R, E, A>, f: (a: A) => B) => Kind3<F, R, E, B>
+}
+```
+
+Added in v2.0.6
+
 # Functor4 (interface)
 
 **Signature**
@@ -119,6 +150,45 @@ export interface Functor4<F extends URIS4> {
 ```
 
 Added in v2.0.0
+
+# Functor4C1 (interface)
+
+**Signature**
+
+```ts
+export interface Functor4C1<F extends URIS4, S> {
+  readonly URI: F
+  readonly map: <R, E, A, B>(fa: Kind4<F, S, R, E, A>, f: (a: A) => B) => Kind4<F, S, R, E, B>
+}
+```
+
+Added in v2.0.6
+
+# Functor4C2 (interface)
+
+**Signature**
+
+```ts
+export interface Functor4C2<F extends URIS4, S, R> {
+  readonly URI: F
+  readonly map: <E, A, B>(fa: Kind4<F, S, R, E, A>, f: (a: A) => B) => Kind4<F, S, R, E, B>
+}
+```
+
+Added in v2.0.6
+
+# Functor4C3 (interface)
+
+**Signature**
+
+```ts
+export interface Functor4C3<F extends URIS4, S, R, E> {
+  readonly URI: F
+  readonly map: <A, B>(fa: Kind4<F, S, R, E, A>, f: (a: A) => B) => Kind4<F, S, R, E, B>
+}
+```
+
+Added in v2.0.6
 
 # FunctorComposition (interface)
 

@@ -40,7 +40,10 @@ Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src
 - [Choice (interface)](#choice-interface)
 - [Choice2 (interface)](#choice2-interface)
 - [Choice3 (interface)](#choice3-interface)
+- [Choice3C (interface)](#choice3c-interface)
 - [Choice4 (interface)](#choice4-interface)
+- [Choice4C1 (interface)](#choice4c1-interface)
+- [Choice4C2 (interface)](#choice4c2-interface)
 - [fanin (function)](#fanin-function)
 - [splitChoice (function)](#splitchoice-function)
 
@@ -85,6 +88,19 @@ export interface Choice3<F extends URIS3> extends Profunctor3<F> {
 
 Added in v2.0.0
 
+# Choice3C (interface)
+
+**Signature**
+
+```ts
+export interface Choice3C<F extends URIS3, R> extends Profunctor3C<F, R> {
+  readonly left: <A, B, C>(pab: Kind3<F, R, A, B>) => Kind3<F, R, Either<A, C>, Either<B, C>>
+  readonly right: <A, B, C>(pbc: Kind3<F, R, B, C>) => Kind3<F, R, Either<A, B>, Either<A, C>>
+}
+```
+
+Added in v2.0.6
+
 # Choice4 (interface)
 
 **Signature**
@@ -97,6 +113,32 @@ export interface Choice4<F extends URIS4> extends Profunctor4<F> {
 ```
 
 Added in v2.0.0
+
+# Choice4C1 (interface)
+
+**Signature**
+
+```ts
+export interface Choice4C1<F extends URIS4, S> extends Profunctor4C1<F, S> {
+  readonly left: <R, A, B, C>(pab: Kind4<F, S, R, A, B>) => Kind4<F, S, R, Either<A, C>, Either<B, C>>
+  readonly right: <R, A, B, C>(pbc: Kind4<F, S, R, B, C>) => Kind4<F, S, R, Either<A, B>, Either<A, C>>
+}
+```
+
+Added in v2.0.6
+
+# Choice4C2 (interface)
+
+**Signature**
+
+```ts
+export interface Choice4C2<F extends URIS4, S, R> extends Profunctor4C2<F, S, R> {
+  readonly left: <A, B, C>(pab: Kind4<F, S, R, A, B>) => Kind4<F, S, R, Either<A, C>, Either<B, C>>
+  readonly right: <A, B, C>(pbc: Kind4<F, S, R, B, C>) => Kind4<F, S, R, Either<A, B>, Either<A, C>>
+}
+```
+
+Added in v2.0.6
 
 # fanin (function)
 
@@ -125,6 +167,9 @@ function which will run the appropriate computation based on the parameter suppl
 export function fanin<F extends URIS3>(
   F: Category3<F> & Choice3<F>
 ): <R, A, B, C>(pac: Kind3<F, R, A, C>, pbc: Kind3<F, R, B, C>) => Kind3<F, R, Either<A, B>, C>
+export function fanin<F extends URIS3, R>(
+  F: Category3<F> & Choice3C<F, R>
+): <A, B, C>(pac: Kind3<F, R, A, C>, pbc: Kind3<F, R, B, C>) => Kind3<F, R, Either<A, B>, C>
 export function fanin<F extends URIS2>(
   F: Category2<F> & Choice2<F>
 ): <A, B, C>(pac: Kind2<F, A, C>, pbc: Kind2<F, B, C>) => Kind2<F, Either<A, B>, C>
@@ -156,6 +201,9 @@ takes an `Either`and maps `f` over the left side and `g` over the right side. Ju
 export function splitChoice<F extends URIS3>(
   F: Category3<F> & Choice3<F>
 ): <R, A, B, C, D>(pab: Kind3<F, R, A, B>, pcd: Kind3<F, R, C, D>) => Kind3<F, R, Either<A, C>, Either<B, D>>
+export function splitChoice<F extends URIS3, R>(
+  F: Category3<F> & Choice3C<F, R>
+): <A, B, C, D>(pab: Kind3<F, R, A, B>, pcd: Kind3<F, R, C, D>) => Kind3<F, R, Either<A, C>, Either<B, D>>
 export function splitChoice<F extends URIS2>(
   F: Category2<F> & Choice2<F>
 ): <A, B, C, D>(pab: Kind2<F, A, B>, pcd: Kind2<F, C, D>) => Kind2<F, Either<A, C>, Either<B, D>>

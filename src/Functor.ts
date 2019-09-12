@@ -53,11 +53,51 @@ export interface Functor3<F extends URIS3> {
 }
 
 /**
+ * @since 2.0.6
+ */
+export interface Functor3C1<F extends URIS3, R> {
+  readonly URI: F
+  readonly map: <E, A, B>(fa: Kind3<F, R, E, A>, f: (a: A) => B) => Kind3<F, R, E, B>
+}
+
+/**
+ * @since 2.0.6
+ */
+export interface Functor3C2<F extends URIS3, R, E> {
+  readonly URI: F
+  readonly map: <A, B>(fa: Kind3<F, R, E, A>, f: (a: A) => B) => Kind3<F, R, E, B>
+}
+
+/**
  * @since 2.0.0
  */
 export interface Functor4<F extends URIS4> {
   readonly URI: F
   readonly map: <S, R, E, A, B>(fa: Kind4<F, S, R, E, A>, f: (a: A) => B) => Kind4<F, S, R, E, B>
+}
+
+/**
+ * @since 2.0.6
+ */
+export interface Functor4C1<F extends URIS4, S> {
+  readonly URI: F
+  readonly map: <R, E, A, B>(fa: Kind4<F, S, R, E, A>, f: (a: A) => B) => Kind4<F, S, R, E, B>
+}
+
+/**
+ * @since 2.0.6
+ */
+export interface Functor4C2<F extends URIS4, S, R> {
+  readonly URI: F
+  readonly map: <E, A, B>(fa: Kind4<F, S, R, E, A>, f: (a: A) => B) => Kind4<F, S, R, E, B>
+}
+
+/**
+ * @since 2.0.6
+ */
+export interface Functor4C3<F extends URIS4, S, R, E> {
+  readonly URI: F
+  readonly map: <A, B>(fa: Kind4<F, S, R, E, A>, f: (a: A) => B) => Kind4<F, S, R, E, B>
 }
 
 /**

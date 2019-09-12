@@ -28,7 +28,15 @@
  */
 import { Either } from './Either'
 import { HKT2, Kind2, Kind3, URIS2, URIS3, URIS4, Kind4 } from './HKT'
-import { Profunctor, Profunctor2, Profunctor3, Profunctor4 } from './Profunctor'
+import {
+  Profunctor,
+  Profunctor2,
+  Profunctor3,
+  Profunctor4,
+  Profunctor3C,
+  Profunctor4C1,
+  Profunctor4C2
+} from './Profunctor'
 import { Category, Category2, Category3 } from './Category'
 import { identity } from './function'
 
@@ -57,11 +65,35 @@ export interface Choice3<F extends URIS3> extends Profunctor3<F> {
 }
 
 /**
+ * @since 2.0.6
+ */
+export interface Choice3C<F extends URIS3, R> extends Profunctor3C<F, R> {
+  readonly left: <A, B, C>(pab: Kind3<F, R, A, B>) => Kind3<F, R, Either<A, C>, Either<B, C>>
+  readonly right: <A, B, C>(pbc: Kind3<F, R, B, C>) => Kind3<F, R, Either<A, B>, Either<A, C>>
+}
+
+/**
  * @since 2.0.0
  */
 export interface Choice4<F extends URIS4> extends Profunctor4<F> {
   readonly left: <S, R, A, B, C>(pab: Kind4<F, S, R, A, B>) => Kind4<F, S, R, Either<A, C>, Either<B, C>>
   readonly right: <S, R, A, B, C>(pbc: Kind4<F, S, R, B, C>) => Kind4<F, S, R, Either<A, B>, Either<A, C>>
+}
+
+/**
+ * @since 2.0.6
+ */
+export interface Choice4C1<F extends URIS4, S> extends Profunctor4C1<F, S> {
+  readonly left: <R, A, B, C>(pab: Kind4<F, S, R, A, B>) => Kind4<F, S, R, Either<A, C>, Either<B, C>>
+  readonly right: <R, A, B, C>(pbc: Kind4<F, S, R, B, C>) => Kind4<F, S, R, Either<A, B>, Either<A, C>>
+}
+
+/**
+ * @since 2.0.6
+ */
+export interface Choice4C2<F extends URIS4, S, R> extends Profunctor4C2<F, S, R> {
+  readonly left: <A, B, C>(pab: Kind4<F, S, R, A, B>) => Kind4<F, S, R, Either<A, C>, Either<B, C>>
+  readonly right: <A, B, C>(pbc: Kind4<F, S, R, B, C>) => Kind4<F, S, R, Either<A, B>, Either<A, C>>
 }
 
 /**
@@ -83,6 +115,9 @@ export interface Choice4<F extends URIS4> extends Profunctor4<F> {
 export function splitChoice<F extends URIS3>(
   F: Category3<F> & Choice3<F>
 ): <R, A, B, C, D>(pab: Kind3<F, R, A, B>, pcd: Kind3<F, R, C, D>) => Kind3<F, R, Either<A, C>, Either<B, D>>
+export function splitChoice<F extends URIS3, R>(
+  F: Category3<F> & Choice3C<F, R>
+): <A, B, C, D>(pab: Kind3<F, R, A, B>, pcd: Kind3<F, R, C, D>) => Kind3<F, R, Either<A, C>, Either<B, D>>
 export function splitChoice<F extends URIS2>(
   F: Category2<F> & Choice2<F>
 ): <A, B, C, D>(pab: Kind2<F, A, B>, pcd: Kind2<F, C, D>) => Kind2<F, Either<A, C>, Either<B, D>>
@@ -124,6 +159,9 @@ export function splitChoice<F>(
 export function fanin<F extends URIS3>(
   F: Category3<F> & Choice3<F>
 ): <R, A, B, C>(pac: Kind3<F, R, A, C>, pbc: Kind3<F, R, B, C>) => Kind3<F, R, Either<A, B>, C>
+export function fanin<F extends URIS3, R>(
+  F: Category3<F> & Choice3C<F, R>
+): <A, B, C>(pac: Kind3<F, R, A, C>, pbc: Kind3<F, R, B, C>) => Kind3<F, R, Either<A, B>, C>
 export function fanin<F extends URIS2>(
   F: Category2<F> & Choice2<F>
 ): <A, B, C>(pac: Kind2<F, A, C>, pbc: Kind2<F, B, C>) => Kind2<F, Either<A, B>, C>

@@ -1,4 +1,4 @@
-import { Functor2, Functor2C, Functor3, Functor4 } from './Functor'
+import { Functor2, Functor2C, Functor3, Functor4, Functor3C1, Functor4C1, Functor4C2 } from './Functor'
 import { HKT, HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
 
 /**
@@ -32,8 +32,29 @@ export interface Profunctor3<F extends URIS3> extends Functor3<F> {
 }
 
 /**
+ * @since 2.0.6
+ */
+export interface Profunctor3C<F extends URIS3, R> extends Functor3C1<F, R> {
+  readonly promap: <E, A, D, B>(fbc: Kind3<F, R, E, A>, f: (d: D) => E, g: (a: A) => B) => Kind3<F, R, D, B>
+}
+
+/**
  * @since 2.0.0
  */
 export interface Profunctor4<F extends URIS4> extends Functor4<F> {
   readonly promap: <S, R, E, A, D, B>(fbc: Kind4<F, S, R, E, A>, f: (d: D) => E, g: (a: A) => B) => Kind4<F, S, R, D, B>
+}
+
+/**
+ * @since 2.0.6
+ */
+export interface Profunctor4C1<F extends URIS4, S> extends Functor4C1<F, S> {
+  readonly promap: <R, E, A, D, B>(fbc: Kind4<F, S, R, E, A>, f: (d: D) => E, g: (a: A) => B) => Kind4<F, S, R, D, B>
+}
+
+/**
+ * @since 2.0.6
+ */
+export interface Profunctor4C2<F extends URIS4, S, R> extends Functor4C2<F, S, R> {
+  readonly promap: <E, A, D, B>(fbc: Kind4<F, S, R, E, A>, f: (d: D) => E, g: (a: A) => B) => Kind4<F, S, R, D, B>
 }

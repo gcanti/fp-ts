@@ -39,7 +39,10 @@ Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src
 - [Strong (interface)](#strong-interface)
 - [Strong2 (interface)](#strong2-interface)
 - [Strong3 (interface)](#strong3-interface)
+- [Strong3C (interface)](#strong3c-interface)
 - [Strong4 (interface)](#strong4-interface)
+- [Strong4C1 (interface)](#strong4c1-interface)
+- [Strong4C2 (interface)](#strong4c2-interface)
 - [fanout (function)](#fanout-function)
 - [splitStrong (function)](#splitstrong-function)
 
@@ -84,6 +87,19 @@ export interface Strong3<F extends URIS3> extends Profunctor3<F> {
 
 Added in v2.0.0
 
+# Strong3C (interface)
+
+**Signature**
+
+```ts
+export interface Strong3C<F extends URIS3, R> extends Profunctor3C<F, R> {
+  readonly first: <A, B, C>(pab: Kind3<F, R, A, B>) => Kind3<F, R, [A, C], [B, C]>
+  readonly second: <A, B, C>(pab: Kind3<F, R, B, C>) => Kind3<F, R, [A, B], [A, C]>
+}
+```
+
+Added in v2.0.6
+
 # Strong4 (interface)
 
 **Signature**
@@ -96,6 +112,32 @@ export interface Strong4<F extends URIS4> extends Profunctor4<F> {
 ```
 
 Added in v2.0.0
+
+# Strong4C1 (interface)
+
+**Signature**
+
+```ts
+export interface Strong4C1<F extends URIS4, S> extends Profunctor4C1<F, S> {
+  readonly first: <R, A, B, C>(pab: Kind4<F, S, R, A, B>) => Kind4<F, S, R, [A, C], [B, C]>
+  readonly second: <R, A, B, C>(pab: Kind4<F, S, R, B, C>) => Kind4<F, S, R, [A, B], [A, C]>
+}
+```
+
+Added in v2.0.6
+
+# Strong4C2 (interface)
+
+**Signature**
+
+```ts
+export interface Strong4C2<F extends URIS4, S, R> extends Profunctor4C2<F, S, R> {
+  readonly first: <A, B, C>(pab: Kind4<F, S, R, A, B>) => Kind4<F, S, R, [A, C], [B, C]>
+  readonly second: <A, B, C>(pab: Kind4<F, S, R, B, C>) => Kind4<F, S, R, [A, B], [A, C]>
+}
+```
+
+Added in v2.0.6
 
 # fanout (function)
 
@@ -120,9 +162,18 @@ allows us to run two parallel computations on the same input and return both res
 export function fanout<F extends URIS4>(
   F: Category4<F> & Strong4<F>
 ): <S, R, A, B, C>(pab: Kind4<F, S, R, A, B>, pac: Kind4<F, S, R, A, C>) => Kind4<F, S, R, A, [B, C]>
+export function fanout<F extends URIS4, S>(
+  F: Category4<F> & Strong4C1<F, S>
+): <R, A, B, C>(pab: Kind4<F, S, R, A, B>, pac: Kind4<F, S, R, A, C>) => Kind4<F, S, R, A, [B, C]>
+export function fanout<F extends URIS4, S, R>(
+  F: Category4<F> & Strong4C2<F, S, R>
+): <A, B, C>(pab: Kind4<F, S, R, A, B>, pac: Kind4<F, S, R, A, C>) => Kind4<F, S, R, A, [B, C]>
 export function fanout<F extends URIS3>(
   F: Category3<F> & Strong3<F>
 ): <R, A, B, C>(pab: Kind3<F, R, A, B>, pac: Kind3<F, R, A, C>) => Kind3<F, R, A, [B, C]>
+export function fanout<F extends URIS3, R>(
+  F: Category3<F> & Strong3C<F, R>
+): <A, B, C>(pab: Kind3<F, R, A, B>, pac: Kind3<F, R, A, C>) => Kind3<F, R, A, [B, C]>
 export function fanout<F extends URIS2>(
   F: Category2<F> & Strong2<F>
 ): <A, B, C>(pab: Kind2<F, A, B>, pac: Kind2<F, A, C>) => Kind2<F, A, [B, C]>
@@ -149,9 +200,18 @@ over the first element and `g` over the second. Just like `bi-map` would do for 
 **Signature**
 
 ```ts
+export function splitStrong<F extends URIS4, S, R>(
+  F: Category4<F> & Strong4C2<F, S, R>
+): <A, B, C, D>(pab: Kind4<F, S, R, A, B>, pcd: Kind4<F, S, R, C, D>) => Kind4<F, S, R, [A, C], [B, D]>
+export function splitStrong<F extends URIS4, S>(
+  F: Category4<F> & Strong4C1<F, S>
+): <R, A, B, C, D>(pab: Kind4<F, S, R, A, B>, pcd: Kind4<F, S, R, C, D>) => Kind4<F, S, R, [A, C], [B, D]>
 export function splitStrong<F extends URIS4>(
   F: Category4<F> & Strong4<F>
 ): <S, R, A, B, C, D>(pab: Kind4<F, S, R, A, B>, pcd: Kind4<F, S, R, C, D>) => Kind4<F, S, R, [A, C], [B, D]>
+export function splitStrong<F extends URIS3, R>(
+  F: Category3<F> & Strong3C<F, R>
+): <A, B, C, D>(pab: Kind3<F, R, A, B>, pcd: Kind3<F, R, C, D>) => Kind3<F, R, [A, C], [B, D]>
 export function splitStrong<F extends URIS3>(
   F: Category3<F> & Strong3<F>
 ): <R, A, B, C, D>(pab: Kind3<F, R, A, B>, pcd: Kind3<F, R, C, D>) => Kind3<F, R, [A, C], [B, D]>

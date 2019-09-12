@@ -12,7 +12,10 @@ parent: Modules
 - [Profunctor2 (interface)](#profunctor2-interface)
 - [Profunctor2C (interface)](#profunctor2c-interface)
 - [Profunctor3 (interface)](#profunctor3-interface)
+- [Profunctor3C (interface)](#profunctor3c-interface)
 - [Profunctor4 (interface)](#profunctor4-interface)
+- [Profunctor4C1 (interface)](#profunctor4c1-interface)
+- [Profunctor4C2 (interface)](#profunctor4c2-interface)
 
 ---
 
@@ -66,6 +69,18 @@ export interface Profunctor3<F extends URIS3> extends Functor3<F> {
 
 Added in v2.0.0
 
+# Profunctor3C (interface)
+
+**Signature**
+
+```ts
+export interface Profunctor3C<F extends URIS3, R> extends Functor3C1<F, R> {
+  readonly promap: <E, A, D, B>(fbc: Kind3<F, R, E, A>, f: (d: D) => E, g: (a: A) => B) => Kind3<F, R, D, B>
+}
+```
+
+Added in v2.0.6
+
 # Profunctor4 (interface)
 
 **Signature**
@@ -77,3 +92,27 @@ export interface Profunctor4<F extends URIS4> extends Functor4<F> {
 ```
 
 Added in v2.0.0
+
+# Profunctor4C1 (interface)
+
+**Signature**
+
+```ts
+export interface Profunctor4C1<F extends URIS4, S> extends Functor4C1<F, S> {
+  readonly promap: <R, E, A, D, B>(fbc: Kind4<F, S, R, E, A>, f: (d: D) => E, g: (a: A) => B) => Kind4<F, S, R, D, B>
+}
+```
+
+Added in v2.0.6
+
+# Profunctor4C2 (interface)
+
+**Signature**
+
+```ts
+export interface Profunctor4C2<F extends URIS4, S, R> extends Functor4C2<F, S, R> {
+  readonly promap: <E, A, D, B>(fbc: Kind4<F, S, R, E, A>, f: (d: D) => E, g: (a: A) => B) => Kind4<F, S, R, D, B>
+}
+```
+
+Added in v2.0.6
