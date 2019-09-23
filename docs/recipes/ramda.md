@@ -127,7 +127,7 @@ This guide shows you how to use `fp-ts` concepts if you have prior experience wi
 | liftN                   | [Apply.liftAN](https://github.com/gcanti/fp-ts/tree/1.x/docs/modules/Apply.ts.md#lifta2-function)                                                          |
 | lt                      | [Ord.lessThan](https://github.com/gcanti/fp-ts/tree/1.x/docs/modules/Ord.ts.md#lessthan-function)                                                          |
 | lte                     | [Ord.lessThanOrEq](https://github.com/gcanti/fp-ts/tree/1.x/docs/modules/Ord.ts.md#lessthanoreq-function)                                                  |
-| map                     | [Functor](https://github.com/gcanti/fp-ts/tree/1.x/docs/modules/Functor.ts)                                                                             |
+| map                     | [Functor](https://github.com/gcanti/fp-ts/tree/1.x/docs/modules/Functor.ts.md)                                                                             |
 | mapAccum                |                                                                                                              |
 | mapAccumRight           |                                                                                                              |
 | mapObjIndexed           |                                                                                                              |
