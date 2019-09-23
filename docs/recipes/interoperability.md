@@ -46,7 +46,7 @@ function find<A>(as: Array<A>, predicate: (a: A) => boolean): Option<A> {
 <dl>
   <dt>Use case</dt><dd>an API that may throw.</dd>
   <dt>Example</dt><dd><code>JSON.parse</code></dd>
-  <dt>Solution</dt><dd><a href="../modules/Either.ts">Either</a>, <a href="../modules/Either.ts#trycatch2v-function">tryCatch2v</a></dd>
+  <dt>Solution</dt><dd><a href="../modules/Either.ts">Either</a>, <a href="../modules/Either.ts#trycatch-function">tryCatch</a></dd>
 </dl>
 
 ```ts
@@ -68,7 +68,7 @@ function parse(s: string): Either<Error, unknown> {
 ```ts
 import { IO } from 'fp-ts/lib/IO'
 
-const random: IO<number> = new IO(() => Math.random())
+const random: IO<number> = () => Math.random()
 ```
 
 ## Synchronous side effects
@@ -84,14 +84,14 @@ import { Option, fromNullable } from 'fp-ts/lib/Option'
 import { IO } from 'fp-ts/lib/IO'
 
 function getItem(key: string): IO<Option<string>> {
-  return new IO(() => fromNullable(localStorage.getItem(key)))
+  return () => fromNullable(localStorage.getItem(key))
 }
 ```
 
 <dl>
   <dt>Use case</dt><dd>an API that reads and/or writes to a global state and may throw.</dd>
   <dt>Example</dt><dd><code>readFileSync</code></dd>
-  <dt>Solution</dt><dd><a href="../modules/IOEither.ts">IOEither</a>, <a href="../modules/IOEither.ts#trycatch2v-function">tryCatch2v</a></dd>
+  <dt>Solution</dt><dd><a href="../modules/IOEither.ts">IOEither</a>, <a href="../modules/IOEither.ts#trycatch-function">tryCatch</a></dd>
 </dl>
 
 ```ts
@@ -112,22 +112,17 @@ function readFileSync(path: string): IOEither<Error, string> {
 </dl>
 
 ```ts
-import { createInterface } from 'readline'
-import { Task } from 'fp-ts/lib/Task'
-
-const read: Task<string> = new Task(
-  () =>
-    new Promise<string>(resolve => {
-      const rl = createInterface({
-        input: process.stdin,
-        output: process.stdout
-      })
-      rl.question('', answer => {
-        rl.close()
-        resolve(answer)
-      })
+const read: Task<string> = () =>
+  new Promise<string>(resolve => {
+    const rl = createInterface({
+      input: process.stdin,
+      output: process.stdout
     })
-)
+    rl.question('', answer => {
+      rl.close()
+      resolve(answer)
+    })
+  })
 ```
 
 <dl>
@@ -143,10 +138,6 @@ function get(url: string): TaskEither<Error, string> {
   return tryCatch(() => fetch(url).then(res => res.text()), reason => new Error(String(reason)))
 }
 ```
-
-## Playground
-
-Check out <a href="https://github.com/tychota/fp-ts-playground">this repo</a> by <a href="https://twitter.com/TychoTa">Tycho Tatitscheff</a> containing the source code and tests.
 
 ---
 
