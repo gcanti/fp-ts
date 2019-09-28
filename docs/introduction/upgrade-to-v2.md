@@ -51,6 +51,8 @@ Add the following lines to your `tslint.json` to turn the `@obsolete` rule on:
 }
 ```
 
+This rule is available in the [1.19.x branch](https://github.com/gcanti/fp-ts/blob/1.19.5/rules/obsoleteRule.js).
+
 ### Dependencies
 
 Don't forget to update your dependencies: libraries that use `fp-ts` like [io-ts](https://github.com/gcanti/io-ts) or [monocle-ts](https://github.com/gcanti/monocle-ts) have to be upgraded to their `fp-ts@2.x` compatible versions.
