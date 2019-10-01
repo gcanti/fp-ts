@@ -28,6 +28,7 @@ error of type `E`. If you want to represent an asynchronous computation that nev
 - [fold (function)](#fold-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
+- [getFilterable (function)](#getfilterable-function)
 - [getOrElse (function)](#getorelse-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [getTaskValidation (function)](#gettaskvalidation-function)
@@ -215,6 +216,16 @@ export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E
 ```
 
 Added in v2.0.0
+
+# getFilterable (function)
+
+**Signature**
+
+```ts
+export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> { ... }
+```
+
+Added in v2.0.6
 
 # getOrElse (function)
 

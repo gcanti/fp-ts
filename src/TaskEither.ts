@@ -17,6 +17,7 @@ import { pipeable } from './pipeable'
 import { Semigroup } from './Semigroup'
 import { getSemigroup as getTaskSemigroup, Task, task } from './Task'
 import { getValidationM } from './ValidationT'
+import { Filterable2C, getFilterableComposition } from './Filterable'
 
 import Either = E.Either
 
@@ -225,6 +226,21 @@ export function getTaskValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<U
     URI,
     _E: undefined as any,
     ...T
+  }
+}
+
+const phantom: any = undefined
+
+/**
+ * @since 2.0.6
+ */
+export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
+  const F = E.getWitherable(M)
+
+  return {
+    URI,
+    _E: phantom,
+    ...getFilterableComposition(task, F)
   }
 }
 

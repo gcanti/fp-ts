@@ -26,6 +26,7 @@ error of type `E`. If you want to represent a synchronous computation that never
 - [fold (function)](#fold-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
+- [getFilterable (function)](#getfilterable-function)
 - [getIOValidation (function)](#getiovalidation-function)
 - [getOrElse (function)](#getorelse-function)
 - [getSemigroup (function)](#getsemigroup-function)
@@ -185,6 +186,16 @@ export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, 
 ```
 
 Added in v2.0.0
+
+# getFilterable (function)
+
+**Signature**
+
+```ts
+export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> { ... }
+```
+
+Added in v2.0.6
 
 # getIOValidation (function)
 
