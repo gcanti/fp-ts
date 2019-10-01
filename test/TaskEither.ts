@@ -335,25 +335,7 @@ describe('TaskEither', () => {
       ..._.taskEither,
       ..._.getFilterable(getMonoid<string>())
     }
-    const { compact, filter } = pipeable(F_)
-
-    it('compact', async () => {
-      const r1 = pipe(
-        _.right(some(1)),
-        compact
-      )
-      assert.deepStrictEqual(await r1(), await _.right(1)())
-      const r2 = pipe(
-        _.right(none),
-        compact
-      )
-      assert.deepStrictEqual(await r2(), await _.left([])())
-      const r3 = pipe(
-        _.left(['a']),
-        compact
-      )
-      assert.deepStrictEqual(await r3(), await _.left(['a'])())
-    })
+    const { filter } = pipeable(F_)
 
     it('filter', async () => {
       const r1 = pipe(
