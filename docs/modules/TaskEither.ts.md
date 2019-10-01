@@ -225,7 +225,7 @@ Added in v2.0.0
 export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> { ... }
 ```
 
-Added in v2.0.6
+Added in v2.1.0
 
 # getOrElse (function)
 

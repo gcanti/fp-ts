@@ -263,25 +263,7 @@ describe('IOEither', () => {
       ..._.ioEither,
       ..._.getFilterable(getMonoid<string>())
     }
-    const { compact, filter } = pipeable(F_)
-
-    it('compact', async () => {
-      const r1 = pipe(
-        _.right(some(1)),
-        compact
-      )
-      assert.deepStrictEqual(r1(), _.right(1)())
-      const r2 = pipe(
-        _.right(none),
-        compact
-      )
-      assert.deepStrictEqual(r2(), _.left([])())
-      const r3 = pipe(
-        _.left(['a']),
-        compact
-      )
-      assert.deepStrictEqual(r3(), _.left(['a'])())
-    })
+    const { filter } = pipeable(F_)
 
     it('filter', async () => {
       const r1 = pipe(
