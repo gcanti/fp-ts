@@ -5,7 +5,8 @@ import * as _ from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
 import { semigroupSum, semigroupString } from '../src/Semigroup'
 import { none, some } from '../src/Option'
-import { pipe } from '../src/pipeable'
+import { pipe, pipeable } from '../src/pipeable'
+import { getMonoid } from '../src/Array'
 
 describe('IOEither', () => {
   it('fold', () => {
@@ -254,6 +255,50 @@ describe('IOEither', () => {
       assert.deepStrictEqual(e3, E.right(1))
       const e4 = IV.alt(_.left('a'), () => _.left('b'))()
       assert.deepStrictEqual(e4, E.left('ab'))
+    })
+  })
+
+  describe('getFilterable', () => {
+    const F_ = {
+      ..._.ioEither,
+      ..._.getFilterable(getMonoid<string>())
+    }
+    const { compact, filter } = pipeable(F_)
+
+    it('compact', async () => {
+      const r1 = pipe(
+        _.right(some(1)),
+        compact
+      )
+      assert.deepStrictEqual(r1(), _.right(1)())
+      const r2 = pipe(
+        _.right(none),
+        compact
+      )
+      assert.deepStrictEqual(r2(), _.left([])())
+      const r3 = pipe(
+        _.left(['a']),
+        compact
+      )
+      assert.deepStrictEqual(r3(), _.left(['a'])())
+    })
+
+    it('filter', async () => {
+      const r1 = pipe(
+        _.right(1),
+        filter(n => n > 0)
+      )
+      assert.deepStrictEqual(r1(), _.right(1)())
+      const r2 = pipe(
+        _.right(-1),
+        filter(n => n > 0)
+      )
+      assert.deepStrictEqual(r2(), _.left([])())
+      const r3 = pipe(
+        _.left(['a']),
+        filter(n => n > 0)
+      )
+      assert.deepStrictEqual(r3(), _.left(['a'])())
     })
   })
 })

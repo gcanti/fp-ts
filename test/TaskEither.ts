@@ -1,10 +1,10 @@
 import * as assert from 'assert'
-import { array } from '../src/Array'
+import { array, getMonoid } from '../src/Array'
 import * as E from '../src/Either'
 import { io } from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
-import { pipe } from '../src/pipeable'
+import { pipe, pipeable } from '../src/pipeable'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
 import * as _ from '../src/TaskEither'
 
@@ -327,6 +327,50 @@ describe('TaskEither', () => {
       assert.deepStrictEqual(e3, E.right(1))
       const e4 = await TV.alt(_.left('a'), () => _.left('b'))()
       assert.deepStrictEqual(e4, E.left('ab'))
+    })
+  })
+
+  describe('getFilterable', () => {
+    const F_ = {
+      ..._.taskEither,
+      ..._.getFilterable(getMonoid<string>())
+    }
+    const { compact, filter } = pipeable(F_)
+
+    it('compact', async () => {
+      const r1 = pipe(
+        _.right(some(1)),
+        compact
+      )
+      assert.deepStrictEqual(await r1(), await _.right(1)())
+      const r2 = pipe(
+        _.right(none),
+        compact
+      )
+      assert.deepStrictEqual(await r2(), await _.left([])())
+      const r3 = pipe(
+        _.left(['a']),
+        compact
+      )
+      assert.deepStrictEqual(await r3(), await _.left(['a'])())
+    })
+
+    it('filter', async () => {
+      const r1 = pipe(
+        _.right(1),
+        filter(n => n > 0)
+      )
+      assert.deepStrictEqual(await r1(), await _.right(1)())
+      const r2 = pipe(
+        _.right(-1),
+        filter(n => n > 0)
+      )
+      assert.deepStrictEqual(await r2(), await _.left([])())
+      const r3 = pipe(
+        _.left(['a']),
+        filter(n => n > 0)
+      )
+      assert.deepStrictEqual(await r3(), await _.left(['a'])())
     })
   })
 })
