@@ -29,12 +29,12 @@ digraph G {
 
   node [style=filled,color=black,fillcolor="#FC81BF"];
   "Ord" [URL="./modules/Ord.ts.html"];
-  "Setoid" [URL="./modules/Setoid.ts.html"];
+  "Eq" [URL="./modules/Eq.ts.html"];
 
   node [style=filled,color=black,fillcolor="#FECFE6"];
   "Bounded" [URL="./modules/Bounded.ts.html"];
 
-  "Bounded" -> "Ord" -> "Setoid"
+  "Bounded" -> "Ord" -> "Eq"
 
   node [style=filled,color=black,fillcolor="#FDF4AA"];
   "Category" [URL="./modules/Category.ts.html"];
