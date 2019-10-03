@@ -14,6 +14,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.1.0
+
+- **New Feature**
+  - add constrained `Filterable` instance to `IOEither`, `TaskEither`, #959 (@giogonzo)
+
 # 2.0.5
 
 - **Bug Fix**
