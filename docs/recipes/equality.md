@@ -88,9 +88,9 @@ const eqPoint: Eq<Point> = getStructEq({
   y: eqNumber
 })
 
-const setoidArrayOfPoints: Eq<Array<Point>> = getEq(eqPoint)
+const eqArrayOfPoints: Eq<Array<Point>> = getEq(eqPoint)
 
-setoidArrayOfPoints.equals(
+eqArrayOfPoints.equals(
   [{ x: 0, y: 0 }, { x: 4, y: 0 }],
   [{ x: 0, y: 0 }, { x: 4, y: 0 }]
 ) // true
@@ -116,13 +116,13 @@ eqUserId.equals({ userId: 1, name: 'Giulio' }, { userId: 2, name: 'Giulio' }) //
 
 ## More `Eq` instances
 
-Many data types provide `Setoid` instances. Here's [Option](../modules/Option.ts):
+Many data types provide `Eq` instances. Here's [Option](../modules/Option.ts):
 
 ```ts
 import { getEq, none, some } from 'fp-ts/lib/Option'
-import { setoidNumber } from 'fp-ts/lib/Setoid'
+import { eqNumber } from 'fp-ts/lib/Eq'
 
-const E = getEq(setoidNumber)
+const E = getEq(eqNumber)
 
 E.equals(some(3), some(3)) // true
 E.equals(none, some(4)) // false

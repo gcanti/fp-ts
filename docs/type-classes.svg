@@ -158,18 +158,18 @@
 </a>
 </g>
 </g>
-<!-- Setoid -->
+<!-- Eq -->
 <g id="node12" class="node">
-<title>Setoid</title>
-<g id="a_node12"><a xlink:href="./modules/Setoid.ts.html" xlink:title="Setoid">
+<title>Eq</title>
+<g id="a_node12"><a xlink:href="./modules/Eq.ts.html" xlink:title="Eq">
 <ellipse fill="#fc81bf" stroke="#000000" cx="1134.0068" cy="-162" rx="38.3165" ry="18"></ellipse>
-<text text-anchor="middle" x="1134.0068" y="-157.8" font-family="arial" font-size="14.00" fill="#000000">Setoid</text>
+<text text-anchor="middle" x="1134.0068" y="-157.8" font-family="arial" font-size="14.00" fill="#000000">Eq</text>
 </a>
 </g>
 </g>
-<!-- Ord&#45;&gt;Setoid -->
+<!-- Ord&#45;&gt;Eq -->
 <g id="edge9" class="edge">
-<title>Ord-&gt;Setoid</title>
+<title>Ord-&gt;Eq</title>
 <path fill="none" stroke="#000000" d="M1134.0068,-108.1686C1134.0068,-115.869 1134.0068,-125.0257 1134.0068,-133.5834"></path>
 <polygon fill="#000000" stroke="#000000" points="1130.5069,-133.5867 1134.0068,-143.5867 1137.5069,-133.5868 1130.5069,-133.5867"></polygon>
 </g>
