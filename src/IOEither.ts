@@ -126,6 +126,10 @@ export function tryCatch<E, A>(f: Lazy<A>, onError: (reason: unknown) => E): IOE
  * release action is called regardless of whether the body action throws or
  * returns.
  *
+ * If the use action throws an error and then the release action throws an
+ * error as well, the reported error will be that of use, whereas the error
+ * thrown by release will just get swallowed.
+ *
  * @since 2.0.0
  */
 export function bracket<E, A, B>(
@@ -134,7 +138,11 @@ export function bracket<E, A, B>(
   release: (a: A, e: Either<E, B>) => IOEither<E, void>
 ): IOEither<E, B> {
   return T.chain(acquire, a =>
-    T.chain(io.map(use(a), E.right), e => T.chain(release(a, e), () => (E.isLeft(e) ? T.left(e.left) : T.of(e.right))))
+    T.chain(io.map(use(a), E.right), ue =>
+      T.chain(io.map(release(a, ue), E.right), re =>
+        E.isLeft(ue) ? T.left(ue.left) : E.isLeft(re) ? T.left(re.left) : T.of(ue.right)
+      )
+    )
   )
 }
 

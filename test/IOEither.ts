@@ -194,9 +194,9 @@ describe('IOEither', () => {
       assert.deepStrictEqual(e, E.left('use failure'))
     })
 
-    it('should return the release error if both use and release fail', () => {
+    it('should return the use error if both use and release fail', () => {
       const e = _.bracket(acquireSuccess, useFailure, releaseFailure)()
-      assert.deepStrictEqual(e, E.left('release failure'))
+      assert.deepStrictEqual(e, E.left('use failure'))
     })
 
     it('release must be called if the body returns', () => {

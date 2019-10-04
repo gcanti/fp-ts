@@ -205,6 +205,10 @@ export function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderTaskEither<R, E, A
  * release action is called regardless of whether the body action throws or
  * returns.
  *
+ * If the use action throws an error and then the release action throws an
+ * error as well, the reported error will be that of use, whereas the error
+ * thrown by release will just get swallowed.
+ *
  * @since 2.0.4
  */
 export function bracket<R, E, A, B>(
