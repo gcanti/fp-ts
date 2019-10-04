@@ -325,9 +325,9 @@ describe('ReaderTaskEither', () => {
       assert.deepStrictEqual(e, E.left('use failure'))
     })
 
-    it('should return the release error if both use and release fail', async () => {
+    it('should return the use error if both use and release fail', async () => {
       const e = await _.bracket(acquireSuccess, useFailure, releaseFailure)(undefined)()
-      assert.deepStrictEqual(e, E.left('release failure'))
+      assert.deepStrictEqual(e, E.left('use failure'))
     })
 
     it('release must be called if the body returns', async () => {

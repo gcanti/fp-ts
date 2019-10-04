@@ -19,6 +19,8 @@ import { getSemigroup as getTaskSemigroup, Task, task } from './Task'
 import { getValidationM } from './ValidationT'
 import { Filterable2C, getFilterableComposition } from './Filterable'
 
+import { error as logError } from './Console'
+
 import Either = E.Either
 
 const T = getEitherM(task)
@@ -148,6 +150,10 @@ export function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown
  * release action is called regardless of whether the body action throws or
  * returns.
  *
+ * If the use action throws an error and then the release action throws an
+ * error as well, the reported error will be that of use, whereas the error
+ * thrown by release will just get logged (via console.err).
+ *
  * @since 2.0.0
  */
 export function bracket<E, A, B>(
@@ -156,8 +162,16 @@ export function bracket<E, A, B>(
   release: (a: A, e: Either<E, B>) => TaskEither<E, void>
 ): TaskEither<E, B> {
   return T.chain(acquire, a =>
-    T.chain(task.map(use(a), E.right), e =>
-      T.chain(release(a, e), () => (E.isLeft(e) ? T.left(e.left) : T.of(e.right)))
+    T.chain(task.map(use(a), E.right), ue =>
+      T.chain(task.map(release(a, ue), E.right), re =>
+        E.isLeft(ue)
+          ? E.isLeft(re)
+            ? task.map(task.fromIO(logError(re.left)), () => ue)
+            : T.left(ue.left)
+          : E.isLeft(re)
+          ? T.left(re.left)
+          : T.of(ue.right)
+      )
     )
   )
 }
