@@ -135,7 +135,6 @@ export function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C {
  *
  * @since 2.0.0
  */
-export function flow<A extends Array<unknown>, B>(ab: (...a: A) => B): (...a: A) => B
 export function flow<A extends Array<unknown>, B, C>(ab: (...a: A) => B, bc: (b: B) => C): (...a: A) => C
 export function flow<A extends Array<unknown>, B, C, D>(
   ab: (...a: A) => B,
