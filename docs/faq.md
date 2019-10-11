@@ -29,7 +29,7 @@ Not every async computation necessarily needs error handling, which is why [Task
 
 ### Where do I find the liftA2, liftA3, … functions?
 
-Use [sequenceT](../modules/Apply.ts.html#sequencet-function) and [sequenceS](../modules/Apply.ts.html#sequences-function) instead.
+Use [sequenceT](./modules/Apply.ts.md#sequencet-function) and [sequenceS](./modules/Apply.ts.md#sequences-function) instead.
 
 ## Techniques
 
