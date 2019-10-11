@@ -1,3 +1,4 @@
+
 /**
  * A *thunk*
  *
@@ -193,51 +194,14 @@ export function flow<A extends Array<unknown>, B, C, D, E, F, G, H, I, J>(
   hi: (h: H) => I,
   ij: (i: I) => J
 ): (...a: A) => J
-export function flow(
-  ab: Function,
-  bc?: Function,
-  cd?: Function,
-  de?: Function,
-  ef?: Function,
-  fg?: Function,
-  gh?: Function,
-  hi?: Function,
-  ij?: Function
-): unknown {
+export function flow<A extends Array<unknown>, B>(ab: (...a: A) => B, ...fns: Array<Endomorphism<B>>): (...a: A) => B
+export function flow(ab: Function, ...fns: Array<Function>): unknown {
   switch (arguments.length) {
     case 1:
       return ab
-    case 2:
+    default:
       return function(this: unknown) {
-        return bc!(ab.apply(this, arguments))
-      }
-    case 3:
-      return function(this: unknown) {
-        return cd!(bc!(ab.apply(this, arguments)))
-      }
-    case 4:
-      return function(this: unknown) {
-        return de!(cd!(bc!(ab.apply(this, arguments))))
-      }
-    case 5:
-      return function(this: unknown) {
-        return ef!(de!(cd!(bc!(ab.apply(this, arguments)))))
-      }
-    case 6:
-      return function(this: unknown) {
-        return fg!(ef!(de!(cd!(bc!(ab.apply(this, arguments))))))
-      }
-    case 7:
-      return function(this: unknown) {
-        return gh!(fg!(ef!(de!(cd!(bc!(ab.apply(this, arguments)))))))
-      }
-    case 8:
-      return function(this: unknown) {
-        return hi!(gh!(fg!(ef!(de!(cd!(bc!(ab.apply(this, arguments))))))))
-      }
-    case 9:
-      return function(this: unknown) {
-        return ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab.apply(this, arguments)))))))))
+        return fns.reduce((acc, fn) => fn(acc), ab.apply(this, arguments))
       }
   }
 }

@@ -152,6 +152,21 @@ describe('function', () => {
         f
       )(2),
       63
+    ),
+    assert.strictEqual(
+      flow(
+        g,
+        f,
+        f,
+        f,
+        f,
+        f,
+        f,
+        f,
+        f,
+        f
+      )(2),
+      13
     )
   })
 })
