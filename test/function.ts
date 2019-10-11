@@ -17,6 +17,7 @@ import {
 
 const f = (n: number) => n + 1
 const g = (n: number) => n * 2
+const h = (n: number) => '' + n
 
 describe('function', () => {
   it('flip', () => {
@@ -152,6 +153,20 @@ describe('function', () => {
         f
       )(2),
       63
+    )
+    assert.strictEqual(
+      flow(
+        g,
+        f,
+        f,
+        f,
+        f,
+        f,
+        f,
+        f,
+        h
+      )(2),
+      '11'
     )
     assert.strictEqual(
       flow(
