@@ -4,7 +4,7 @@ import { monoidString } from '../src/Monoid'
 import { identity } from '../src/function'
 import { pipe } from '../src/pipeable'
 
-const someSingleton: LL.LinkedList<string> = { type: 'Cons', head: 'a', tail: LL.nil, length: 1 }
+const someSingleton: LL.LinkedList<string> = { type: 'Cons', head: 'a', tail: LL.nil }
 
 describe('LinkedList', () => {
   it('URI', () => {
@@ -12,8 +12,13 @@ describe('LinkedList', () => {
   })
 
   it('cons', () => {
-    assert.deepStrictEqual(someSingleton, { type: 'Cons', head: 'a', tail: LL.nil, length: 1 })
-    assert.deepStrictEqual(LL.cons('b', someSingleton), { type: 'Cons', head: 'b', tail: someSingleton, length: 2 })
+    assert.deepStrictEqual(LL.cons('a', LL.nil), { type: 'Cons', head: 'a', tail: LL.nil })
+    assert.deepStrictEqual(LL.cons('b', someSingleton), { type: 'Cons', head: 'b', tail: someSingleton })
+  })
+
+  it('length', () => {
+    assert.strictEqual(LL.length(LL.nil), 0)
+    assert.strictEqual(LL.length(LL.cons('b', someSingleton)), 2)
   })
 
   it('isNil', () => {

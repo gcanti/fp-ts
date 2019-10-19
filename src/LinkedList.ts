@@ -24,14 +24,12 @@ export type URI = typeof URI
 
 interface Nil {
   readonly type: 'Nil'
-  readonly length: number
 }
 
 interface Cons<A> {
   readonly type: 'Cons'
   readonly head: A
   readonly tail: LinkedList<A>
-  readonly length: number
 }
 
 /**
@@ -42,13 +40,21 @@ export type LinkedList<A> = Nil | Cons<A>
 /**
  * @since 2.1.1
  */
-export const nil: Nil = { type: 'Nil', length: 0 }
+export const nil: Nil = { type: 'Nil' }
 
 /**
  * @since 2.1.1
  */
 export function cons<A>(head: A, tail: LinkedList<A>): LinkedList<A> {
-  return { type: 'Cons', head, tail, length: tail.length + 1 }
+  return { type: 'Cons', head, tail }
+}
+
+/**
+ * Gets the length of a list.
+ * @since 2.1.1
+ */
+export function length<A>(fa: LinkedList<A>): number {
+  return linkedList.reduce(fa, 0, b => b + 1)
 }
 
 /**
@@ -91,7 +97,7 @@ export function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: LinkedList<A
  * @since 2.1.1
  */
 export function toArray<A>(list: LinkedList<A>): Array<A> {
-  const len = list.length
+  const len = length(list)
   const r: Array<A> = new Array(len)
   let l: LinkedList<A> = list
   let i = 0

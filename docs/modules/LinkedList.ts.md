@@ -21,6 +21,7 @@ Adapted from https://github.com/purescript/purescript-lists
 - [foldMap (function)](#foldmap-function)
 - [isCons (function)](#iscons-function)
 - [isNil (function)](#isnil-function)
+- [length (function)](#length-function)
 - [reduce (function)](#reduce-function)
 - [reduceRight (function)](#reduceright-function)
 - [toArray (function)](#toarray-function)
@@ -113,6 +114,18 @@ Added in v2.1.1
 
 ```ts
 export function isNil<A>(a: LinkedList<A>): a is Nil { ... }
+```
+
+Added in v2.1.1
+
+# length (function)
+
+Gets the length of a list.
+
+**Signature**
+
+```ts
+export function length<A>(fa: LinkedList<A>): number { ... }
 ```
 
 Added in v2.1.1
