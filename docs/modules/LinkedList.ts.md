@@ -15,10 +15,15 @@ Adapted from https://github.com/purescript/purescript-lists
 - [LinkedList (type alias)](#linkedlist-type-alias)
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
+- [linkedList (constant)](#linkedlist-constant)
 - [nil (constant)](#nil-constant)
 - [cons (function)](#cons-function)
+- [foldMap (function)](#foldmap-function)
 - [isCons (function)](#iscons-function)
 - [isNil (function)](#isnil-function)
+- [reduce (function)](#reduce-function)
+- [reduceRight (function)](#reduceright-function)
+- [toArray (function)](#toarray-function)
 
 ---
 
@@ -52,6 +57,16 @@ export const URI: "LinkedList" = ...
 
 Added in v2.1.1
 
+# linkedList (constant)
+
+**Signature**
+
+```ts
+export const linkedList: Foldable1<URI> = ...
+```
+
+Added in v2.1.1
+
 # nil (constant)
 
 **Signature**
@@ -72,6 +87,16 @@ export function cons<A>(head: A, tail: LinkedList<A>): LinkedList<A> { ... }
 
 Added in v2.1.1
 
+# foldMap (function)
+
+**Signature**
+
+```ts
+export function foldMap<M>(M: Monoid<M>): <A>(f: (a: A) => M) => (fa: LinkedList<A>) => M { ... }
+```
+
+Added in v2.1.1
+
 # isCons (function)
 
 **Signature**
@@ -88,6 +113,38 @@ Added in v2.1.1
 
 ```ts
 export function isNil<A>(a: LinkedList<A>): a is Nil { ... }
+```
+
+Added in v2.1.1
+
+# reduce (function)
+
+**Signature**
+
+```ts
+export function reduce<A, B>(b: B, f: (b: B, a: A) => B): (fa: LinkedList<A>) => B { ... }
+```
+
+Added in v2.1.1
+
+# reduceRight (function)
+
+**Signature**
+
+```ts
+export function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: LinkedList<A>) => B { ... }
+```
+
+Added in v2.1.1
+
+# toArray (function)
+
+Gets an array from a list.
+
+**Signature**
+
+```ts
+export function toArray<A>(list: LinkedList<A>): Array<A> { ... }
 ```
 
 Added in v2.1.1
