@@ -46,3 +46,17 @@ export const nil: Nil = { type: 'Nil', length: 0 }
 export function cons<A>(head: A, tail: LinkedList<A>): LinkedList<A> {
   return { type: 'Cons', head, tail, length: tail.length + 1 }
 }
+
+/**
+ * @since 2.1.1
+ */
+export function isNil<A>(a: LinkedList<A>): a is Nil {
+  return a.type === 'Nil'
+}
+
+/**
+ * @since 2.1.1
+ */
+export function isCons<A>(a: LinkedList<A>): a is Cons<A> {
+  return a.type === 'Cons'
+}

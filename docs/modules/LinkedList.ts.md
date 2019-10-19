@@ -17,6 +17,8 @@ Adapted from https://github.com/purescript/purescript-lists
 - [URI (constant)](#uri-constant)
 - [nil (constant)](#nil-constant)
 - [cons (function)](#cons-function)
+- [isCons (function)](#iscons-function)
+- [isNil (function)](#isnil-function)
 
 ---
 
@@ -66,6 +68,26 @@ Added in v2.1.1
 
 ```ts
 export function cons<A>(head: A, tail: LinkedList<A>): LinkedList<A> { ... }
+```
+
+Added in v2.1.1
+
+# isCons (function)
+
+**Signature**
+
+```ts
+export function isCons<A>(a: LinkedList<A>): a is Cons<A> { ... }
+```
+
+Added in v2.1.1
+
+# isNil (function)
+
+**Signature**
+
+```ts
+export function isNil<A>(a: LinkedList<A>): a is Nil { ... }
 ```
 
 Added in v2.1.1
