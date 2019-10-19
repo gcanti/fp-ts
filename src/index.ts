@@ -44,6 +44,7 @@ import * as ioEither from './IOEither'
 import * as ioRef from './IORef'
 import * as joinSemilattice from './JoinSemilattice'
 import * as lattice from './Lattice'
+import * as linkedList from './LinkedList'
 import * as magma from './Magma'
 import * as map from './Map'
 import * as meetSemilattice from './MeetSemilattice'
@@ -88,6 +89,7 @@ import * as unfoldable from './Unfoldable'
 import * as validationT from './ValidationT'
 import * as witherable from './Witherable'
 import * as writer from './Writer'
+
 export {
   /**
    * @since 2.0.0
@@ -269,6 +271,10 @@ export {
    * @since 2.0.0
    */
   lattice,
+  /**
+   * @since 2.1.1
+   */
+  linkedList,
   /**
    * @since 2.0.0
    */
