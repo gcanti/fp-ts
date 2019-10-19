@@ -22,6 +22,7 @@ Adapted from https://github.com/purescript/purescript-lists
 - [isCons (function)](#iscons-function)
 - [isNil (function)](#isnil-function)
 - [length (function)](#length-function)
+- [map (function)](#map-function)
 - [reduce (function)](#reduce-function)
 - [reduceRight (function)](#reduceright-function)
 - [toArray (function)](#toarray-function)
@@ -63,7 +64,7 @@ Added in v2.1.1
 **Signature**
 
 ```ts
-export const linkedList: Foldable1<URI> = ...
+export const linkedList: Functor1<URI> & Foldable1<URI> = ...
 ```
 
 Added in v2.1.1
@@ -130,6 +131,16 @@ export function length<A>(fa: LinkedList<A>): number { ... }
 
 Added in v2.1.1
 
+# map (function)
+
+**Signature**
+
+```ts
+export function map<A, B>(f: (a: A) => B): (fa: LinkedList<A>) => LinkedList<B> { ... }
+```
+
+Added in v2.1.1
+
 # reduce (function)
 
 **Signature**
@@ -157,7 +168,7 @@ Gets an array from a list.
 **Signature**
 
 ```ts
-export function toArray<A>(list: LinkedList<A>): Array<A> { ... }
+export function toArray<A>(fa: LinkedList<A>): Array<A> { ... }
 ```
 
 Added in v2.1.1

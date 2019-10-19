@@ -3,8 +3,9 @@
  */
 
 import { Foldable1 } from './Foldable'
-import { array } from './Array'
+import { Functor1 } from './Functor'
 import { Monoid } from './Monoid'
+import { array } from './Array'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -74,6 +75,13 @@ export function isCons<A>(a: LinkedList<A>): a is Cons<A> {
 /**
  * @since 2.1.1
  */
+export function map<A, B>(f: (a: A) => B): (fa: LinkedList<A>) => LinkedList<B> {
+  return fa => linkedList.map(fa, f)
+}
+
+/**
+ * @since 2.1.1
+ */
 export function reduce<A, B>(b: B, f: (b: B, a: A) => B): (fa: LinkedList<A>) => B {
   return fa => linkedList.reduce(fa, b, f)
 }
@@ -96,41 +104,40 @@ export function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: LinkedList<A
  * Gets an array from a list.
  * @since 2.1.1
  */
-export function toArray<A>(list: LinkedList<A>): Array<A> {
-  const len = length(list)
-  const r: Array<A> = new Array(len)
-  let l: LinkedList<A> = list
-  let i = 0
+export function toArray<A>(fa: LinkedList<A>): Array<A> {
+  const out: Array<A> = []
+  let l: LinkedList<A> = fa
   while (isCons(l)) {
-    r[i] = l.head
-    i++
+    out.push(l.head)
     l = l.tail
   }
-  return r
+  return out
 }
 
 /**
  * @since 2.1.1
  */
-export const linkedList: Foldable1<URI> = {
+export const linkedList: Functor1<URI> & Foldable1<URI> = {
   URI,
+  map: <A, B>(fa: LinkedList<A>, f: (a: A) => B) =>
+    linkedList.reduceRight<A, LinkedList<B>>(fa, nil, (a, b) => cons(f(a), b)),
   reduce: (fa, b, f) => {
     let out = b
-    let currentTail = fa
-    while (true) {
-      if (isNil(currentTail)) return out
-      out = f(out, currentTail.head)
-      currentTail = currentTail.tail
+    let l = fa
+    while (isCons(l)) {
+      out = f(out, l.head)
+      l = l.tail
     }
+    return out
   },
   foldMap: M => (fa, f) => {
     let out = M.empty
-    let currentTail = fa
-    while (true) {
-      if (isNil(currentTail)) return out
-      out = M.concat(out, f(currentTail.head))
-      currentTail = currentTail.tail
+    let l = fa
+    while (isCons(l)) {
+      out = M.concat(out, f(l.head))
+      l = l.tail
     }
+    return out
   },
   reduceRight: (fa, b, f) => array.reduceRight(toArray(fa), b, f)
 }

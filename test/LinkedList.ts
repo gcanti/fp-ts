@@ -31,6 +31,27 @@ describe('LinkedList', () => {
     assert.strictEqual(LL.isCons(someSingleton), true)
   })
 
+  it('map', () => {
+    assert.deepStrictEqual(
+      pipe(
+        someSingleton,
+        LL.map(identity)
+      ),
+      someSingleton
+    )
+    assert.deepStrictEqual(
+      pipe(
+        LL.cons('aaa', someSingleton),
+        LL.map(s => s.length)
+      ),
+      {
+        type: 'Cons',
+        head: 3,
+        tail: { type: 'Cons', head: 1, tail: LL.nil }
+      }
+    )
+  })
+
   it('reduce', () => {
     assert.strictEqual(
       pipe(
