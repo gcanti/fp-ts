@@ -14,6 +14,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.1.1
+
+- **Bug Fix**
+  - add `sequenceT` and `sequenceS` overload signatures for `Kind4`, fixes #969 (@pfgray)
+
 # 2.1.0
 
 - **New Feature**

@@ -111,6 +111,11 @@ Like `Apply.sequenceT` but works with structs instead of tuples.
 **Signature**
 
 ```ts
+export function sequenceS<F extends URIS4>(
+  F: Apply4<F>
+): <S, R, E, NER extends Record<string, Kind4<F, S, R, E, any>>>(
+  r: EnforceNonEmptyRecord<NER> & Record<string, Kind4<F, S, R, E, any>>
+) => Kind4<F, S, R, E, { [K in keyof NER]: [NER[K]] extends [Kind4<F, any, any, any, infer A>] ? A : never }>
 export function sequenceS<F extends URIS3>(
   F: Apply3<F>
 ): <R, E, NER extends Record<string, Kind3<F, R, E, any>>>(
@@ -171,6 +176,11 @@ Tuple sequencing, i.e., take a tuple of monadic actions and does them from left-
 **Signature**
 
 ```ts
+export function sequenceT<F extends URIS4>(
+  F: Apply4<F>
+): <S, R, E, T extends Array<Kind4<F, S, R, E, any>>>(
+  ...t: T & { 0: Kind4<F, S, R, E, any> }
+) => Kind4<F, S, R, E, { [K in keyof T]: [T[K]] extends [Kind4<F, S, R, E, infer A>] ? A : never }>
 export function sequenceT<F extends URIS3>(
   F: Apply3<F>
 ): <R, E, T extends Array<Kind3<F, R, E, any>>>(
