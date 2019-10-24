@@ -146,7 +146,7 @@ export interface Functor1<F extends URIS> {
 
 export interface Functor2<F extends URIS2> {
   readonly URI: F
-  readonly map: <E, A, B>(fa: Kind2<F, E, A>, f: (a: A) => B) => Kind2<F, L, B>
+  readonly map: <E, A, B>(fa: Kind2<F, E, A>, f: (a: A) => B) => Kind2<F, E, B>
 }
 
 export interface Functor2C<F extends URIS2, E> {
