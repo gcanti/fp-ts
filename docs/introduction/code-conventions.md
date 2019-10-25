@@ -44,7 +44,7 @@ The naming convention is:
 | `* -> * -> *`      | `Functor2<F>`        | `Kind2<F, E, A>`         |                                                         |
 | `* -> * -> *`      | `Functor2C<F, E>`    | `Kind2<F, E, A>`         | A variant of `Functor2` where `E` is fixed              |
 | `* -> * -> * -> *` | `Functor3<F>`        | `Kind3<F, R, E, A>`      |                                                         |
-| `* -> * -> * -> *` | `Functor3C<F, U, L>` | `Kind3<F, R, E, A>`      | A variant of `Functor3` where both `R` and `E` is fixed |
+| `* -> * -> * -> *` | `Functor3C<F, R, E>` | `Kind3<F, R, E, A>`      | A variant of `Functor3` where both `R` and `E` are fixed |
 
 **Example** `Functor`
 
@@ -62,7 +62,7 @@ The definition for type constructors of kind `* -> * -> *` (e.g. `Either`)
 ```ts
 export interface Functor2<F extends URIS2> {
   readonly URI: F
-  //             v-- here L is free
+  //             v-- here E is free
   readonly map: <E, A, B>(fa: Kind2<F, E, A>, f: (a: A) => B) => Kind2<F, E, B>
 }
 ```
@@ -83,7 +83,7 @@ For example, `Validation` admits a `Functor` instance only if you provide a `Sem
 
 ```ts
 //   this fixes E --v                                            v-- here E is fixed
-const getFunctor = <E>(S: Semigroup<L>): Functor2C<"Validation", E> = { ... }
+const getFunctor = <E>(S: Semigroup<E>): Functor2C<"Validation", E> = { ... }
 ```
 
 ### What a `T` suffix means, e.g. `sequenceT`
