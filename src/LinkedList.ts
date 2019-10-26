@@ -6,6 +6,9 @@ import { Foldable1 } from './Foldable'
 import { Functor1 } from './Functor'
 import { Monoid } from './Monoid'
 import { array } from './Array'
+import { Traversable1 } from './Traversable'
+import { Applicative } from './Applicative'
+import { HKT } from './HKT'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -117,7 +120,7 @@ export function toArray<A>(fa: LinkedList<A>): Array<A> {
 /**
  * @since 2.1.1
  */
-export const linkedList: Functor1<URI> & Foldable1<URI> = {
+export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> = {
   URI,
   map: <A, B>(fa: LinkedList<A>, f: (a: A) => B) =>
     linkedList.reduceRight<A, LinkedList<B>>(fa, nil, (a, b) => cons(f(a), b)),
@@ -139,5 +142,16 @@ export const linkedList: Functor1<URI> & Foldable1<URI> = {
     }
     return out
   },
-  reduceRight: (fa, b, f) => array.reduceRight(toArray(fa), b, f)
+  reduceRight: (fa, b, f) => array.reduceRight(toArray(fa), b, f),
+  traverse: <F>(F: Applicative<F>): (<A, B>(ta: LinkedList<A>, f: (a: A) => HKT<F, B>) => HKT<F, LinkedList<B>>) => {
+    return <A, B>(ta: LinkedList<A>, f: (a: A) => HKT<F, B>) =>
+      linkedList.reduceRight(ta, F.of<LinkedList<B>>(nil), (a, fbs) =>
+        F.ap(F.map(fbs, bs => (b: B) => cons(b, bs)), f(a))
+      )
+  },
+  sequence: <F>(F: Applicative<F>) => <A>(ta: LinkedList<HKT<F, A>>): HKT<F, LinkedList<A>> => {
+    return linkedList.reduceRight(ta, F.of<LinkedList<A>>(nil), (a, fas) =>
+      F.ap(F.map(fas, as => (a: A) => cons(a, as)), a)
+    )
+  }
 }

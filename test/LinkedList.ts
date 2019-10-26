@@ -1,4 +1,5 @@
 import * as assert from 'assert'
+import * as O from '../src/Option'
 import * as LL from '../src/LinkedList'
 import { monoidString } from '../src/Monoid'
 import { identity } from '../src/function'
@@ -85,5 +86,23 @@ describe('LinkedList', () => {
       ),
       'ba'
     )
+  })
+
+  it('traverse', () => {
+    const tfanone: LL.LinkedList<number> = LL.cons(2, LL.cons(1, LL.nil))
+    const f = (n: number): O.Option<number> => (n % 2 === 0 ? O.none : O.some(n))
+    const fasnone = LL.linkedList.traverse(O.option)(tfanone, f)
+    assert.ok(O.isNone(fasnone))
+    const tfa: LL.LinkedList<number> = LL.cons(3, LL.cons(1, LL.nil))
+    const fas = LL.linkedList.traverse(O.option)(tfa, f)
+    assert.deepStrictEqual(fas, O.some(tfa))
+  })
+
+  it('sequence', () => {
+    assert.deepStrictEqual(
+      LL.linkedList.sequence(O.option)(LL.cons(O.some(1), LL.cons(O.some(3), LL.nil))),
+      O.some(LL.cons(1, LL.cons(3, LL.nil)))
+    )
+    assert.deepStrictEqual(LL.linkedList.sequence(O.option)(LL.cons(O.some(1), LL.cons(O.none, LL.nil))), O.none)
   })
 })

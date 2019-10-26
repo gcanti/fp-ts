@@ -64,7 +64,7 @@ Added in v2.1.1
 **Signature**
 
 ```ts
-export const linkedList: Functor1<URI> & Foldable1<URI> = ...
+export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> = ...
 ```
 
 Added in v2.1.1
