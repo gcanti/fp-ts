@@ -184,7 +184,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const of = <A>(a: A): IO<A> => () => ...
+export const of = <A>(a: A): IO<A> => ...
 ```
 
 Added in v2.0.0

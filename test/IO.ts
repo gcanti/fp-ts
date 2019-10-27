@@ -2,6 +2,7 @@ import * as assert from 'assert'
 import { IO, getSemigroup, io, getMonoid } from '../src/IO'
 import { semigroupSum } from '../src/Semigroup'
 import { monoidSum } from '../src/Monoid'
+import { array, range } from '../src/Array'
 
 describe('IO', () => {
   it('ap', () => {
@@ -31,5 +32,9 @@ describe('IO', () => {
     assert.strictEqual(M.concat(append('a'), M.empty)(), 1)
     assert.strictEqual(M.concat(M.empty, append('b'))(), 2)
     assert.deepStrictEqual(log, ['a', 'b'])
+  })
+
+  it('stack safe', () => {
+    array.sequence(io)(range(0, 20000).map(io.of))()
   })
 })

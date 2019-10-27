@@ -6,7 +6,7 @@ import { monoidString } from '../src/Monoid'
 import { semigroupSum, semigroupString } from '../src/Semigroup'
 import { none, some } from '../src/Option'
 import { pipe, pipeable } from '../src/pipeable'
-import { getMonoid } from '../src/Array'
+import { getMonoid, array, range } from '../src/Array'
 
 describe('IOEither', () => {
   it('fold', () => {
@@ -282,5 +282,9 @@ describe('IOEither', () => {
       )
       assert.deepStrictEqual(r3(), _.left(['a'])())
     })
+  })
+
+  it('stack safe', () => {
+    array.sequence(_.ioEither)(range(0, 20000).map(_.ioEither.of))()
   })
 })

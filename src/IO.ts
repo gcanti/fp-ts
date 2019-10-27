@@ -141,17 +141,17 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> {
 /**
  * @since 2.0.0
  */
-export const of = <A>(a: A): IO<A> => () => a
+export const of = <A>(a: A): IO<A> => pureE(a)
 
 /**
  * @since 2.0.0
  */
 export const io: Monad1<URI> & MonadIO1<URI> = {
   URI,
-  map: (ma, f) => () => f(ma()),
+  map: mapE,
   of,
-  ap: (mab, ma) => () => mab()(ma()),
-  chain: (ma, f) => () => f(ma())(),
+  ap: applyE,
+  chain: bindE,
   fromIO: identity
 }
 
@@ -186,4 +186,74 @@ export {
    * @since 2.0.0
    */
   map
+}
+
+const PURE = 'PURE'
+const MAP = 'MAP'
+const APPLY = 'APPLY'
+const BIND = 'BIND'
+const APPLY_FUNC = 'APPLY_FUNC'
+
+function pureE(x: any) {
+  return mkEff(PURE, x)
+}
+
+function mapE(effect: any, f: any) {
+  return mkEff(MAP, f, effect)
+}
+
+function applyE(effF: any, effect: any) {
+  return mkEff(APPLY, effect, effF)
+}
+
+function bindE(effect: any, f: any) {
+  return mkEff(BIND, f, effect)
+}
+
+function mkEff(tag: 'PURE' | 'MAP' | 'APPLY' | 'BIND' | 'APPLY_FUNC', _0: any, _1?: any) {
+  const effect = function $effect() {
+    return runEff($effect)
+  } as any
+  effect.tag = tag
+  effect._0 = _0
+  effect._1 = _1
+  return effect
+}
+
+function runEff(inputEff: any) {
+  let operations = []
+  let effect = inputEff
+  let res
+  let op
+  effLoop: for (;;) {
+    if (effect.tag !== undefined) {
+      if (effect.tag === MAP || effect.tag === BIND || effect.tag === APPLY) {
+        operations.push(effect)
+        effect = effect._1
+        continue
+      }
+      // here `tag === PURE`
+      res = effect._0
+    } else {
+      res = effect()
+    }
+
+    // tslint:disable-next-line no-conditional-assignment
+    while ((op = operations.pop())) {
+      if (op.tag === MAP) {
+        res = op._0(res)
+      } else if (op.tag === APPLY_FUNC) {
+        res = op._0(res)
+      } else if (op.tag === APPLY) {
+        effect = op._0
+        operations.push({ tag: APPLY_FUNC, _0: res })
+        continue effLoop
+      } else {
+        // op.tag === BIND
+        effect = op._0(res)
+        continue effLoop
+      }
+    }
+    return res
+  }
 }
