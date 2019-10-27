@@ -17,6 +17,24 @@ describe('LinkedList', () => {
     assert.deepStrictEqual(LL.cons('b', someSingleton), { type: 'Cons', head: 'b', tail: someSingleton })
   })
 
+  it('singleton', () => {
+    assert.deepStrictEqual(LL.singleton('a'), { type: 'Cons', head: 'a', tail: LL.nil })
+  })
+
+  it('range', () => {
+    assert.deepStrictEqual(LL.range(1, 3), {
+      type: 'Cons',
+      head: 1,
+      tail: { type: 'Cons', head: 2, tail: { type: 'Cons', head: 3, tail: LL.nil } }
+    })
+    assert.deepStrictEqual(LL.range(3, 1), {
+      type: 'Cons',
+      head: 3,
+      tail: { type: 'Cons', head: 2, tail: { type: 'Cons', head: 1, tail: LL.nil } }
+    })
+    assert.deepStrictEqual(LL.range(2, 2), { type: 'Cons', head: 2, tail: LL.nil })
+  })
+
   it('length', () => {
     assert.strictEqual(LL.length(LL.nil), 0)
     assert.strictEqual(LL.length(LL.cons('b', someSingleton)), 2)

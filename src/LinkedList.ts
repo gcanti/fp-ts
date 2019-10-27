@@ -54,6 +54,30 @@ export function cons<A>(head: A, tail: LinkedList<A>): LinkedList<A> {
 }
 
 /**
+ * Creates a list with a single element.
+ * @since 2.1.1
+ */
+export function singleton<A>(head: A): LinkedList<A> {
+  return cons(head, nil)
+}
+
+/**
+ * Create a list containing a range of integers, including both endpoints.
+ * @since 2.1.1
+ */
+export function range(start: number, end: number): LinkedList<number> {
+  if (start === end) return singleton(start)
+
+  const step = start < end ? 1 : -1
+  let out: LinkedList<number> = singleton(end)
+  const len = Math.abs(end - start) + 1
+  for (let i = 1; i < len; i++) {
+    out = cons(end - i * step, out)
+  }
+  return out
+}
+
+/**
  * Gets the length of a list.
  * @since 2.1.1
  */

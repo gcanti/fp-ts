@@ -23,8 +23,10 @@ Adapted from https://github.com/purescript/purescript-lists
 - [isNil (function)](#isnil-function)
 - [length (function)](#length-function)
 - [map (function)](#map-function)
+- [range (function)](#range-function)
 - [reduce (function)](#reduce-function)
 - [reduceRight (function)](#reduceright-function)
+- [singleton (function)](#singleton-function)
 - [toArray (function)](#toarray-function)
 
 ---
@@ -141,6 +143,18 @@ export function map<A, B>(f: (a: A) => B): (fa: LinkedList<A>) => LinkedList<B> 
 
 Added in v2.1.1
 
+# range (function)
+
+Create a list containing a range of integers, including both endpoints.
+
+**Signature**
+
+```ts
+export function range(start: number, end: number): LinkedList<number> { ... }
+```
+
+Added in v2.1.1
+
 # reduce (function)
 
 **Signature**
@@ -157,6 +171,18 @@ Added in v2.1.1
 
 ```ts
 export function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: LinkedList<A>) => B { ... }
+```
+
+Added in v2.1.1
+
+# singleton (function)
+
+Creates a list with a single element.
+
+**Signature**
+
+```ts
+export function singleton<A>(head: A): LinkedList<A> { ... }
 ```
 
 Added in v2.1.1
