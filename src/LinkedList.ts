@@ -100,6 +100,14 @@ export function isCons<A>(a: LinkedList<A>): a is Cons<A> {
 }
 
 /**
+ * Appends an element to the end of a list, creating a new list.
+ * @since 2.1.1
+ */
+export function snoc<A>(fa: LinkedList<A>, a: A): LinkedList<A> {
+  return linkedList.reduceRight(fa, singleton(a), cons)
+}
+
+/**
  * @since 2.1.1
  */
 export function map<A, B>(f: (a: A) => B): (fa: LinkedList<A>) => LinkedList<B> {

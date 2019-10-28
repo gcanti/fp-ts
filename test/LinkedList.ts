@@ -50,6 +50,14 @@ describe('LinkedList', () => {
     assert.strictEqual(LL.isCons(someSingleton), true)
   })
 
+  it('snoc', () => {
+    assert.deepStrictEqual(LL.snoc(someSingleton, 'b'), {
+      type: 'Cons',
+      head: 'a',
+      tail: { type: 'Cons', head: 'b', tail: LL.nil }
+    })
+  })
+
   it('map', () => {
     assert.deepStrictEqual(
       pipe(

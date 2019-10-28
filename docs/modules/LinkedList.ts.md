@@ -27,6 +27,7 @@ Adapted from https://github.com/purescript/purescript-lists
 - [reduce (function)](#reduce-function)
 - [reduceRight (function)](#reduceright-function)
 - [singleton (function)](#singleton-function)
+- [snoc (function)](#snoc-function)
 - [toArray (function)](#toarray-function)
 
 ---
@@ -183,6 +184,18 @@ Creates a list with a single element.
 
 ```ts
 export function singleton<A>(head: A): LinkedList<A> { ... }
+```
+
+Added in v2.1.1
+
+# snoc (function)
+
+Appends an element to the end of a list, creating a new list.
+
+**Signature**
+
+```ts
+export function snoc<A>(fa: LinkedList<A>, a: A): LinkedList<A> { ... }
 ```
 
 Added in v2.1.1
