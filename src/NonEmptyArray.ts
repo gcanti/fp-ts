@@ -228,6 +228,21 @@ export function last<A>(nea: NonEmptyArray<A>): A {
 }
 
 /**
+ * Get all but the last element of an array, creating a new array.
+ *
+ * @example
+ * import { init } from 'fp-ts/lib/NonEmptyArray'
+ *
+ * assert.deepStrictEqual(init([1, 2]), [1]))
+ * assert.deepStrictEqual(init([1]), []))
+ *
+ * @since 2.0.0
+ */
+export function init<A>(as: Array<A>): Array<A> {
+  return as.slice(0, -1)
+}
+
+/**
  * @since 2.0.0
  */
 export function sort<A>(O: Ord<A>): (nea: NonEmptyArray<A>) => NonEmptyArray<A> {
