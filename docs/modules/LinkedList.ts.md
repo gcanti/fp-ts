@@ -19,6 +19,7 @@ Adapted from https://github.com/purescript/purescript-lists
 - [nil (constant)](#nil-constant)
 - [cons (function)](#cons-function)
 - [foldMap (function)](#foldmap-function)
+- [fromArray (function)](#fromarray-function)
 - [head (function)](#head-function)
 - [init (function)](#init-function)
 - [isCons (function)](#iscons-function)
@@ -104,6 +105,18 @@ Added in v2.1.1
 
 ```ts
 export function foldMap<M>(M: Monoid<M>): <A>(f: (a: A) => M) => (fa: LinkedList<A>) => M { ... }
+```
+
+Added in v2.1.1
+
+# fromArray (function)
+
+Creates a list from an array
+
+**Signature**
+
+```ts
+export function fromArray<A>(as: Array<A>): LinkedList<A> { ... }
 ```
 
 Added in v2.1.1

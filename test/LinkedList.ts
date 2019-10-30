@@ -139,6 +139,16 @@ describe('LinkedList', () => {
     assert.deepStrictEqual(LL.toArray(LL.cons('b', someSingleton)), ['b', 'a'])
   })
 
+  it('fromArray', () => {
+    assert.deepStrictEqual(LL.fromArray([]), LL.nil)
+    assert.deepStrictEqual(LL.fromArray(['a']), { type: 'Cons', head: 'a', tail: LL.nil })
+    assert.deepStrictEqual(LL.fromArray(['a', 'b']), {
+      type: 'Cons',
+      head: 'a',
+      tail: { type: 'Cons', head: 'b', tail: LL.nil }
+    })
+  })
+
   it('reduceRight', () => {
     assert.strictEqual(
       pipe(

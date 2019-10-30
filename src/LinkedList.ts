@@ -222,6 +222,14 @@ export function toArray<A>(fa: LinkedList<A>): Array<A> {
 }
 
 /**
+ * Creates a list from an array
+ * @since 2.1.1
+ */
+export function fromArray<A>(as: Array<A>): LinkedList<A> {
+  return array.reduceRight<A, LinkedList<A>>(as, nil, cons)
+}
+
+/**
  * @since 2.1.1
  */
 export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> = {
