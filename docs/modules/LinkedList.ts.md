@@ -19,8 +19,11 @@ Adapted from https://github.com/purescript/purescript-lists
 - [nil (constant)](#nil-constant)
 - [cons (function)](#cons-function)
 - [foldMap (function)](#foldmap-function)
+- [head (function)](#head-function)
+- [init (function)](#init-function)
 - [isCons (function)](#iscons-function)
 - [isNil (function)](#isnil-function)
+- [last (function)](#last-function)
 - [length (function)](#length-function)
 - [map (function)](#map-function)
 - [range (function)](#range-function)
@@ -28,7 +31,10 @@ Adapted from https://github.com/purescript/purescript-lists
 - [reduceRight (function)](#reduceright-function)
 - [singleton (function)](#singleton-function)
 - [snoc (function)](#snoc-function)
+- [tail (function)](#tail-function)
 - [toArray (function)](#toarray-function)
+- [uncons (function)](#uncons-function)
+- [unsnoc (function)](#unsnoc-function)
 
 ---
 
@@ -102,6 +108,30 @@ export function foldMap<M>(M: Monoid<M>): <A>(f: (a: A) => M) => (fa: LinkedList
 
 Added in v2.1.1
 
+# head (function)
+
+Gets the first element in a list, or `None` if the list is empty.
+
+**Signature**
+
+```ts
+export function head<A>(fa: LinkedList<A>): O.Option<A> { ... }
+```
+
+Added in v2.1.1
+
+# init (function)
+
+Gets all but the last element of a list, or `None` if the list is empty.
+
+**Signature**
+
+```ts
+export function init<A>(fa: LinkedList<A>): O.Option<LinkedList<A>> { ... }
+```
+
+Added in v2.1.1
+
 # isCons (function)
 
 **Signature**
@@ -118,6 +148,18 @@ Added in v2.1.1
 
 ```ts
 export function isNil<A>(a: LinkedList<A>): a is Nil { ... }
+```
+
+Added in v2.1.1
+
+# last (function)
+
+Gets the last element in a list, or `None` if the list is empty.
+
+**Signature**
+
+```ts
+export function last<A>(fa: LinkedList<A>): O.Option<A> { ... }
 ```
 
 Added in v2.1.1
@@ -200,6 +242,18 @@ export function snoc<A>(fa: LinkedList<A>, a: A): LinkedList<A> { ... }
 
 Added in v2.1.1
 
+# tail (function)
+
+Gets all but the first element of a list, or `None` if the list is empty.
+
+**Signature**
+
+```ts
+export function tail<A>(fa: LinkedList<A>): O.Option<LinkedList<A>> { ... }
+```
+
+Added in v2.1.1
+
 # toArray (function)
 
 Gets an array from a list.
@@ -208,6 +262,32 @@ Gets an array from a list.
 
 ```ts
 export function toArray<A>(fa: LinkedList<A>): Array<A> { ... }
+```
+
+Added in v2.1.1
+
+# uncons (function)
+
+Breaks a list into its first element, and the remaining elements,
+or `None` if the list is empty.
+
+**Signature**
+
+```ts
+export function uncons<A>(fa: LinkedList<A>): O.Option<{ head: A; tail: LinkedList<A> }> { ... }
+```
+
+Added in v2.1.1
+
+# unsnoc (function)
+
+Breaks a list into its last element, and the preceding elements,
+or `None` if the list is empty.
+
+**Signature**
+
+```ts
+export function unsnoc<A>(fa: LinkedList<A>): O.Option<{ init: LinkedList<A>; last: A }> { ... }
 ```
 
 Added in v2.1.1

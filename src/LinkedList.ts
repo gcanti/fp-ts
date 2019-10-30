@@ -9,6 +9,8 @@ import { array } from './Array'
 import { Traversable1 } from './Traversable'
 import { Applicative } from './Applicative'
 import { HKT } from './HKT'
+import * as O from './Option'
+import { pipe } from './pipeable'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -105,6 +107,76 @@ export function isCons<A>(a: LinkedList<A>): a is Cons<A> {
  */
 export function snoc<A>(fa: LinkedList<A>, a: A): LinkedList<A> {
   return linkedList.reduceRight(fa, singleton(a), cons)
+}
+
+/**
+ * Gets the first element in a list, or `None` if the list is empty.
+ * @since 2.1.1
+ */
+export function head<A>(fa: LinkedList<A>): O.Option<A> {
+  return isCons(fa) ? O.some(fa.head) : O.none
+}
+
+/**
+ * Gets the last element in a list, or `None` if the list is empty.
+ * @since 2.1.1
+ */
+export function last<A>(fa: LinkedList<A>): O.Option<A> {
+  if (isNil(fa)) return O.none
+
+  let out = O.some(fa.head)
+  let l = fa.tail
+  while (isCons(l)) {
+    out = O.some(l.head)
+    l = l.tail
+  }
+  return out
+}
+
+/**
+ * Gets all but the first element of a list, or `None` if the list is empty.
+ * @since 2.1.1
+ */
+export function tail<A>(fa: LinkedList<A>): O.Option<LinkedList<A>> {
+  if (isNil(fa)) return O.none
+  return isCons(fa.tail) ? O.some(fa.tail) : O.none
+}
+
+/**
+ * Gets all but the last element of a list, or `None` if the list is empty.
+ * @since 2.1.1
+ */
+export function init<A>(fa: LinkedList<A>): O.Option<LinkedList<A>> {
+  return pipe(
+    unsnoc(fa),
+    O.map(_ => _.init)
+  )
+}
+
+/**
+ * Breaks a list into its first element, and the remaining elements,
+ * or `None` if the list is empty.
+ * @since 2.1.1
+ */
+export function uncons<A>(fa: LinkedList<A>): O.Option<{ head: A; tail: LinkedList<A> }> {
+  return isNil(fa) ? O.none : O.some({ head: fa.head, tail: fa.tail })
+}
+
+/**
+ * Breaks a list into its last element, and the preceding elements,
+ * or `None` if the list is empty.
+ * @since 2.1.1
+ */
+export function unsnoc<A>(fa: LinkedList<A>): O.Option<{ init: LinkedList<A>; last: A }> {
+  if (isNil(fa)) return O.none
+  let init: LinkedList<A> = nil
+  let l = fa
+  while (isCons(l.tail)) {
+    // TODO: `snoc` iterates on the whole list for every operation.
+    init = snoc(init, l.head)
+    l = l.tail
+  }
+  return O.some({ init, last: l.head })
 }
 
 /**

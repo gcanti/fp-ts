@@ -58,6 +58,41 @@ describe('LinkedList', () => {
     })
   })
 
+  it('head', () => {
+    assert.deepStrictEqual(LL.head(LL.nil), O.none)
+    assert.deepStrictEqual(LL.head(LL.cons('x', someSingleton)), O.some('x'))
+  })
+
+  it('last', () => {
+    assert.deepStrictEqual(LL.last(LL.nil), O.none)
+    assert.deepStrictEqual(LL.last(LL.cons('x', someSingleton)), O.some('a'))
+  })
+
+  it('tail', () => {
+    assert.deepStrictEqual(LL.tail(LL.nil), O.none)
+    assert.deepStrictEqual(LL.tail(someSingleton), O.none)
+    assert.deepStrictEqual(LL.tail(LL.cons('x', someSingleton)), O.some(someSingleton))
+  })
+
+  it('init', () => {
+    assert.deepStrictEqual(LL.init(LL.nil), O.none)
+    assert.deepStrictEqual(LL.init(someSingleton), O.some(LL.nil))
+    assert.deepStrictEqual(LL.init(LL.cons('x', someSingleton)), O.some({ type: 'Cons', head: 'x', tail: LL.nil }))
+  })
+
+  it('uncons', () => {
+    assert.deepStrictEqual(LL.uncons(LL.nil), O.none)
+    assert.deepStrictEqual(LL.uncons(someSingleton), O.some({ head: 'a', tail: LL.nil }))
+  })
+
+  it('unsnoc', () => {
+    assert.deepStrictEqual(LL.unsnoc(LL.nil), O.none)
+    assert.deepStrictEqual(
+      LL.unsnoc(LL.cons('b', someSingleton)),
+      O.some({ init: { type: 'Cons', head: 'b', tail: LL.nil }, last: 'a' })
+    )
+  })
+
   it('map', () => {
     assert.deepStrictEqual(
       pipe(
