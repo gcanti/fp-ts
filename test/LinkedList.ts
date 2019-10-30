@@ -93,6 +93,14 @@ describe('LinkedList', () => {
     )
   })
 
+  it('reverse', () => {
+    assert.deepStrictEqual(LL.reverse(LL.cons(1, LL.cons(2, LL.cons(3, LL.nil)))), {
+      type: 'Cons',
+      head: 3,
+      tail: { type: 'Cons', head: 2, tail: { type: 'Cons', head: 1, tail: LL.nil } }
+    })
+  })
+
   it('map', () => {
     assert.deepStrictEqual(
       pipe(

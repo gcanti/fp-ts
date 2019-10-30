@@ -180,6 +180,20 @@ export function unsnoc<A>(fa: LinkedList<A>): O.Option<{ init: LinkedList<A>; la
 }
 
 /**
+ * Reverse a list.
+ * @since 2.1.1
+ */
+export function reverse<A>(fa: LinkedList<A>): LinkedList<A> {
+  let out: LinkedList<A> = nil
+  let l = fa
+  while (isCons(l)) {
+    out = cons(l.head, out)
+    l = l.tail
+  }
+  return out
+}
+
+/**
  * @since 2.1.1
  */
 export function map<A, B>(f: (a: A) => B): (fa: LinkedList<A>) => LinkedList<B> {

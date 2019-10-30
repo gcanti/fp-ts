@@ -30,6 +30,7 @@ Adapted from https://github.com/purescript/purescript-lists
 - [range (function)](#range-function)
 - [reduce (function)](#reduce-function)
 - [reduceRight (function)](#reduceright-function)
+- [reverse (function)](#reverse-function)
 - [singleton (function)](#singleton-function)
 - [snoc (function)](#snoc-function)
 - [tail (function)](#tail-function)
@@ -227,6 +228,18 @@ Added in v2.1.1
 
 ```ts
 export function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: LinkedList<A>) => B { ... }
+```
+
+Added in v2.1.1
+
+# reverse (function)
+
+Reverse a list.
+
+**Signature**
+
+```ts
+export function reverse<A>(fa: LinkedList<A>): LinkedList<A> { ... }
 ```
 
 Added in v2.1.1
