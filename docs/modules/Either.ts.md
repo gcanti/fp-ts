@@ -197,10 +197,43 @@ Added in v2.0.0
 
 # fold (function)
 
+Takes two functions and an `Either` value, if the value is a `Left` the inner value is applied to the first function,
+if the value is a `Right` the inner value is applied to the second function.
+
 **Signature**
 
 ```ts
 export function fold<E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B): (ma: Either<E, A>) => B { ... }
+```
+
+**Example**
+
+```ts
+import { fold, left, right } from 'fp-ts/lib/Either'
+import { pipe } from 'fp-ts/lib/pipeable'
+
+function onLeft(errors: Array<string>): string {
+  return `Errors: ${errors.join(', ')}`
+}
+
+function onRight(value: number): string {
+  return `Ok: ${value}`
+}
+
+assert.strictEqual(
+  pipe(
+    right(1),
+    fold(onLeft, onRight)
+  ),
+  'Ok: 1'
+)
+assert.strictEqual(
+  pipe(
+    left(['error 1', 'error 2']),
+    fold(onLeft, onRight)
+  ),
+  'Errors: error 1, error 2'
+)
 ```
 
 Added in v2.0.0
