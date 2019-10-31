@@ -249,6 +249,17 @@ the provided default as a `Left`
 export function fromNullable<E>(e: E): <A>(a: A | null | undefined) => Either<E, A> { ... }
 ```
 
+**Example**
+
+```ts
+import { fromNullable, left, right } from 'fp-ts/lib/Either'
+
+const parse = fromNullable('nully')
+
+assert.deepStrictEqual(parse(1), right(1))
+assert.deepStrictEqual(parse(null), left('nully'))
+```
+
 Added in v2.0.0
 
 # getApplyMonoid (function)
