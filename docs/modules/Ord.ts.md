@@ -184,10 +184,70 @@ Added in v2.0.0
 
 # getSemigroup (function)
 
+Returns an `Ord` such that its `concat(ord1, ord2)` operation will order first by `ord1`, and then by `ord2`.
+
 **Signature**
 
 ```ts
 export function getSemigroup<A = never>(): Semigroup<Ord<A>> { ... }
+```
+
+**Example**
+
+```ts
+import { sort } from 'fp-ts/lib/Array'
+import { contramap, getDualOrd, getSemigroup, ordBoolean, ordNumber, ordString } from 'fp-ts/lib/Ord'
+import { pipe } from 'fp-ts/lib/pipeable'
+import { fold } from 'fp-ts/lib/Semigroup'
+
+interface User {
+  id: number
+  name: string
+  age: number
+  rememberMe: boolean
+}
+
+const byName = pipe(
+  ordString,
+  contramap((p: User) => p.name)
+)
+
+const byAge = pipe(
+  ordNumber,
+  contramap((p: User) => p.age)
+)
+
+const byRememberMe = pipe(
+  ordBoolean,
+  contramap((p: User) => p.rememberMe)
+)
+
+const S = getSemigroup<User>()
+
+const users: Array<User> = [
+  { id: 1, name: 'Guido', age: 47, rememberMe: false },
+  { id: 2, name: 'Guido', age: 46, rememberMe: true },
+  { id: 3, name: 'Giulio', age: 44, rememberMe: false },
+  { id: 4, name: 'Giulio', age: 44, rememberMe: true }
+]
+
+// sort by name, then by age, then by `rememberMe`
+const O1 = fold(S)(byName, [byAge, byRememberMe])
+assert.deepStrictEqual(sort(O1)(users), [
+  { id: 3, name: 'Giulio', age: 44, rememberMe: false },
+  { id: 4, name: 'Giulio', age: 44, rememberMe: true },
+  { id: 2, name: 'Guido', age: 46, rememberMe: true },
+  { id: 1, name: 'Guido', age: 47, rememberMe: false }
+])
+
+// now `rememberMe = true` first, then by name, then by age
+const O2 = fold(S)(getDualOrd(byRememberMe), [byName, byAge])
+assert.deepStrictEqual(sort(O2)(users), [
+  { id: 4, name: 'Giulio', age: 44, rememberMe: true },
+  { id: 2, name: 'Guido', age: 46, rememberMe: true },
+  { id: 3, name: 'Giulio', age: 44, rememberMe: false },
+  { id: 1, name: 'Guido', age: 47, rememberMe: false }
+])
 ```
 
 Added in v2.0.0
