@@ -118,7 +118,8 @@ export function isNone<A>(fa: Option<A>): fa is None {
 }
 
 /**
- * We can pattern match using the `fold` function
+ * Takes a default value, a function, and an `Option` value, if the `Option` value is `None` the default value is
+ * returned, otherwise the function is applied to the value inside the `Some` and the result is returned.
  *
  * @example
  * import { some, none, fold } from 'fp-ts/lib/Option'
