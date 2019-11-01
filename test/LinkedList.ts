@@ -4,6 +4,7 @@ import * as LL from '../src/LinkedList'
 import { monoidString } from '../src/Monoid'
 import { identity } from '../src/function'
 import { pipe } from '../src/pipeable'
+import * as E from '../src/Either'
 
 const someSingleton: LL.LinkedList<string> = { type: 'Cons', head: 'a', tail: LL.nil }
 
@@ -183,5 +184,71 @@ describe('LinkedList', () => {
       O.some(LL.cons(1, LL.cons(3, LL.nil)))
     )
     assert.deepStrictEqual(LL.linkedList.sequence(O.option)(LL.cons(O.some(1), LL.cons(O.none, LL.nil))), O.none)
+  })
+
+  it('filter', () => {
+    assert.deepStrictEqual(
+      pipe(
+        LL.cons(1, LL.cons(2, LL.cons(3, LL.cons(4, LL.nil)))),
+        LL.filter(n => n % 2 === 0)
+      ),
+      { type: 'Cons', head: 2, tail: { type: 'Cons', head: 4, tail: LL.nil } }
+    )
+  })
+
+  it('filterMap', () => {
+    assert.deepStrictEqual(
+      pipe(
+        LL.cons(1, LL.cons(2, LL.cons(3, LL.cons(4, LL.nil)))),
+        LL.filterMap(n => (n % 2 === 0 ? O.some(n) : O.none))
+      ),
+      { type: 'Cons', head: 2, tail: { type: 'Cons', head: 4, tail: LL.nil } }
+    )
+  })
+
+  it('partition', () => {
+    assert.deepStrictEqual(
+      pipe(
+        LL.cons(1, LL.cons(2, LL.cons(3, LL.cons(4, LL.nil)))),
+        LL.partition(n => n % 2 === 0)
+      ),
+      {
+        left: { type: 'Cons', head: 1, tail: { type: 'Cons', head: 3, tail: LL.nil } },
+        right: { type: 'Cons', head: 2, tail: { type: 'Cons', head: 4, tail: LL.nil } }
+      }
+    )
+  })
+
+  it('partitionMap', () => {
+    assert.deepStrictEqual(
+      pipe(
+        LL.cons('a', LL.cons('bb', LL.cons('ccc', LL.cons('dddd', LL.nil)))),
+        LL.partitionMap(s => (s.length % 2 === 0 ? E.left(s.length) : E.right('foo')))
+      ),
+      {
+        left: { type: 'Cons', head: 2, tail: { type: 'Cons', head: 4, tail: LL.nil } },
+        right: { type: 'Cons', head: 'foo', tail: { type: 'Cons', head: 'foo', tail: LL.nil } }
+      }
+    )
+  })
+
+  it('compact', () => {
+    assert.deepStrictEqual(
+      pipe(
+        LL.cons(O.some(1), LL.cons(O.some(2), LL.nil)),
+        LL.compact
+      ),
+      LL.cons(1, LL.cons(2, LL.nil))
+    )
+  })
+
+  it('separate', () => {
+    assert.deepStrictEqual(
+      pipe(
+        LL.cons(E.left(6), LL.cons(E.right('foo'), LL.nil)),
+        LL.separate
+      ),
+      { left: { type: 'Cons', head: 6, tail: LL.nil }, right: { type: 'Cons', head: 'foo', tail: LL.nil } }
+    )
   })
 })

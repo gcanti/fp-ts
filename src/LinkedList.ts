@@ -10,7 +10,11 @@ import { Traversable1 } from './Traversable'
 import { Applicative } from './Applicative'
 import { HKT } from './HKT'
 import * as O from './Option'
-import { pipe } from './pipeable'
+import { pipe, pipeable } from './pipeable'
+import { Filterable1 } from './Filterable'
+import { Predicate, identity } from './function'
+import { Separated, Compactable1 } from './Compactable'
+import * as E from './Either'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -246,7 +250,7 @@ export function fromArray<A>(as: Array<A>): LinkedList<A> {
 /**
  * @since 2.1.1
  */
-export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> = {
+export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Filterable1<URI> & Compactable1<URI> = {
   URI,
   map: <A, B>(fa: LinkedList<A>, f: (a: A) => B) =>
     linkedList.reduceRight<A, LinkedList<B>>(fa, nil, (a, b) => cons(f(a), b)),
@@ -279,5 +283,94 @@ export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> = {
     return linkedList.reduceRight(ta, F.of<LinkedList<A>>(nil), (a, fas) =>
       F.ap(F.map(fas, as => (a: A) => cons(a, as)), a)
     )
-  }
+  },
+  filter: <A>(fa: LinkedList<A>, predicate: Predicate<A>): LinkedList<A> => {
+    let out: LinkedList<A> = nil
+    let l = fa
+    while (isCons(l)) {
+      if (predicate(l.head)) {
+        // TODO: `snoc` iterates on the whole list for every operation.
+        out = snoc(out, l.head)
+      }
+      l = l.tail
+    }
+    return out
+  },
+  filterMap: <A, B>(fa: LinkedList<A>, f: (a: A) => O.Option<B>): LinkedList<B> => {
+    let out: LinkedList<B> = nil
+    let l = fa
+    while (isCons(l)) {
+      const optionB = f(l.head)
+      if (O.isSome(optionB)) {
+        // TODO: `snoc` iterates on the whole list for every operation.
+        out = snoc(out, optionB.value)
+      }
+      l = l.tail
+    }
+    return out
+  },
+  partition: <A>(fa: LinkedList<A>, predicate: Predicate<A>): Separated<LinkedList<A>, LinkedList<A>> => {
+    let left: LinkedList<A> = nil
+    let right: LinkedList<A> = nil
+    let l = fa
+    while (isCons(l)) {
+      if (predicate(l.head)) {
+        // TODO: `snoc` iterates on the whole list for every operation.
+        right = snoc(right, l.head)
+      } else {
+        // TODO: `snoc` iterates on the whole list for every operation.
+        left = snoc(left, l.head)
+      }
+      l = l.tail
+    }
+    return { left, right }
+  },
+  partitionMap: <A, B, C>(fa: LinkedList<A>, f: (a: A) => E.Either<B, C>): Separated<LinkedList<B>, LinkedList<C>> => {
+    let left: LinkedList<B> = nil
+    let right: LinkedList<C> = nil
+    let l = fa
+    while (isCons(l)) {
+      const e = f(l.head)
+      if (E.isLeft(e)) {
+        // TODO: `snoc` iterates on the whole list for every operation.
+        left = snoc(left, e.left)
+      } else {
+        // TODO: `snoc` iterates on the whole list for every operation.
+        right = snoc(right, e.right)
+      }
+      l = l.tail
+    }
+    return { left, right }
+  },
+  compact: fa => linkedList.filterMap(fa, identity),
+  separate: fa => linkedList.partitionMap(fa, identity)
+}
+
+const { filter, filterMap, partition, partitionMap, compact, separate } = pipeable(linkedList)
+
+export {
+  /**
+   * @since 2.1.1
+   */
+  filter,
+  /**
+   * @since 2.1.1
+   */
+  filterMap,
+  /**
+   * @since 2.1.1
+   */
+  partition,
+  /**
+   * @since 2.1.1
+   */
+  partitionMap,
+  /**
+   * @since 2.1.1
+   */
+  compact,
+  /**
+   * @since 2.1.1
+   */
+  separate
 }

@@ -37,6 +37,12 @@ Adapted from https://github.com/purescript/purescript-lists
 - [toArray (function)](#toarray-function)
 - [uncons (function)](#uncons-function)
 - [unsnoc (function)](#unsnoc-function)
+- [compact (export)](#compact-export)
+- [filter (export)](#filter-export)
+- [filterMap (export)](#filtermap-export)
+- [partition (export)](#partition-export)
+- [partitionMap (export)](#partitionmap-export)
+- [separate (export)](#separate-export)
 
 ---
 
@@ -75,7 +81,7 @@ Added in v2.1.1
 **Signature**
 
 ```ts
-export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> = ...
+export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Filterable1<URI> & Compactable1<URI> = ...
 ```
 
 Added in v2.1.1
@@ -314,6 +320,66 @@ or `None` if the list is empty.
 
 ```ts
 export function unsnoc<A>(fa: LinkedList<A>): O.Option<{ init: LinkedList<A>; last: A }> { ... }
+```
+
+Added in v2.1.1
+
+# compact (export)
+
+**Signature**
+
+```ts
+<A>(fa: LinkedList<O.Option<A>>) => LinkedList<A>
+```
+
+Added in v2.1.1
+
+# filter (export)
+
+**Signature**
+
+```ts
+{ <A, B>(refinement: Refinement<A, B>): (fa: LinkedList<A>) => LinkedList<B>; <A>(predicate: Predicate<A>): (fa: LinkedList<A>) => LinkedList<A>; }
+```
+
+Added in v2.1.1
+
+# filterMap (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => O.Option<B>) => (fa: LinkedList<A>) => LinkedList<B>
+```
+
+Added in v2.1.1
+
+# partition (export)
+
+**Signature**
+
+```ts
+{ <A, B>(refinement: Refinement<A, B>): (fa: LinkedList<A>) => Separated<LinkedList<A>, LinkedList<B>>; <A>(predicate: Predicate<A>): (fa: LinkedList<A>) => Separated<LinkedList<A>, LinkedList<A>>; }
+```
+
+Added in v2.1.1
+
+# partitionMap (export)
+
+**Signature**
+
+```ts
+<A, B, C>(f: (a: A) => E.Either<B, C>) => (fa: LinkedList<A>) => Separated<LinkedList<B>, LinkedList<C>>
+```
+
+Added in v2.1.1
+
+# separate (export)
+
+**Signature**
+
+```ts
+<A, B>(fa: LinkedList<E.Either<A, B>>) => Separated<LinkedList<A>, LinkedList<B>>
 ```
 
 Added in v2.1.1
