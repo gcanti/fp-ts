@@ -18,7 +18,6 @@ Adapted from https://github.com/purescript/purescript-lists
 - [linkedList (constant)](#linkedlist-constant)
 - [nil (constant)](#nil-constant)
 - [cons (function)](#cons-function)
-- [foldMap (function)](#foldmap-function)
 - [fromArray (function)](#fromarray-function)
 - [head (function)](#head-function)
 - [init (function)](#init-function)
@@ -26,10 +25,7 @@ Adapted from https://github.com/purescript/purescript-lists
 - [isNil (function)](#isnil-function)
 - [last (function)](#last-function)
 - [length (function)](#length-function)
-- [map (function)](#map-function)
 - [range (function)](#range-function)
-- [reduce (function)](#reduce-function)
-- [reduceRight (function)](#reduceright-function)
 - [reverse (function)](#reverse-function)
 - [singleton (function)](#singleton-function)
 - [snoc (function)](#snoc-function)
@@ -40,8 +36,12 @@ Adapted from https://github.com/purescript/purescript-lists
 - [compact (export)](#compact-export)
 - [filter (export)](#filter-export)
 - [filterMap (export)](#filtermap-export)
+- [foldMap (export)](#foldmap-export)
+- [map (export)](#map-export)
 - [partition (export)](#partition-export)
 - [partitionMap (export)](#partitionmap-export)
+- [reduce (export)](#reduce-export)
+- [reduceRight (export)](#reduceright-export)
 - [separate (export)](#separate-export)
 
 ---
@@ -102,16 +102,6 @@ Added in v2.1.1
 
 ```ts
 export function cons<A>(head: A, tail: LinkedList<A>): LinkedList<A> { ... }
-```
-
-Added in v2.1.1
-
-# foldMap (function)
-
-**Signature**
-
-```ts
-export function foldMap<M>(M: Monoid<M>): <A>(f: (a: A) => M) => (fa: LinkedList<A>) => M { ... }
 ```
 
 Added in v2.1.1
@@ -196,16 +186,6 @@ export function length<A>(fa: LinkedList<A>): number { ... }
 
 Added in v2.1.1
 
-# map (function)
-
-**Signature**
-
-```ts
-export function map<A, B>(f: (a: A) => B): (fa: LinkedList<A>) => LinkedList<B> { ... }
-```
-
-Added in v2.1.1
-
 # range (function)
 
 Create a list containing a range of integers, including both endpoints.
@@ -214,26 +194,6 @@ Create a list containing a range of integers, including both endpoints.
 
 ```ts
 export function range(start: number, end: number): LinkedList<number> { ... }
-```
-
-Added in v2.1.1
-
-# reduce (function)
-
-**Signature**
-
-```ts
-export function reduce<A, B>(b: B, f: (b: B, a: A) => B): (fa: LinkedList<A>) => B { ... }
-```
-
-Added in v2.1.1
-
-# reduceRight (function)
-
-**Signature**
-
-```ts
-export function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: LinkedList<A>) => B { ... }
 ```
 
 Added in v2.1.1
@@ -354,6 +314,26 @@ Added in v2.1.1
 
 Added in v2.1.1
 
+# foldMap (export)
+
+**Signature**
+
+```ts
+;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: LinkedList<A>) => M
+```
+
+Added in v2.1.1
+
+# map (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => (fa: LinkedList<A>) => LinkedList<B>
+```
+
+Added in v2.1.1
+
 # partition (export)
 
 **Signature**
@@ -370,6 +350,26 @@ Added in v2.1.1
 
 ```ts
 <A, B, C>(f: (a: A) => E.Either<B, C>) => (fa: LinkedList<A>) => Separated<LinkedList<B>, LinkedList<C>>
+```
+
+Added in v2.1.1
+
+# reduce (export)
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: LinkedList<A>) => B
+```
+
+Added in v2.1.1
+
+# reduceRight (export)
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: LinkedList<A>) => B
 ```
 
 Added in v2.1.1

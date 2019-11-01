@@ -4,7 +4,6 @@
 
 import { Foldable1 } from './Foldable'
 import { Functor1 } from './Functor'
-import { Monoid } from './Monoid'
 import { array } from './Array'
 import { Traversable1 } from './Traversable'
 import { Applicative } from './Applicative'
@@ -198,34 +197,6 @@ export function reverse<A>(fa: LinkedList<A>): LinkedList<A> {
 }
 
 /**
- * @since 2.1.1
- */
-export function map<A, B>(f: (a: A) => B): (fa: LinkedList<A>) => LinkedList<B> {
-  return fa => linkedList.map(fa, f)
-}
-
-/**
- * @since 2.1.1
- */
-export function reduce<A, B>(b: B, f: (b: B, a: A) => B): (fa: LinkedList<A>) => B {
-  return fa => linkedList.reduce(fa, b, f)
-}
-
-/**
- * @since 2.1.1
- */
-export function foldMap<M>(M: Monoid<M>): <A>(f: (a: A) => M) => (fa: LinkedList<A>) => M {
-  return f => fa => linkedList.foldMap(M)(fa, f)
-}
-
-/**
- * @since 2.1.1
- */
-export function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: LinkedList<A>) => B {
-  return fa => linkedList.reduceRight(fa, b, f)
-}
-
-/**
  * Gets an array from a list.
  * @since 2.1.1
  */
@@ -346,9 +317,27 @@ export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Fi
   separate: fa => linkedList.partitionMap(fa, identity)
 }
 
-const { filter, filterMap, partition, partitionMap, compact, separate } = pipeable(linkedList)
+const { map, reduce, foldMap, reduceRight, filter, filterMap, partition, partitionMap, compact, separate } = pipeable(
+  linkedList
+)
 
 export {
+  /**
+   * @since 2.1.1
+   */
+  map,
+  /**
+   * @since 2.1.1
+   */
+  reduce,
+  /**
+   * @since 2.1.1
+   */
+  foldMap,
+  /**
+   * @since 2.1.1
+   */
+  reduceRight,
   /**
    * @since 2.1.1
    */
