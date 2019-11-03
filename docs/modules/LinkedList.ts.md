@@ -21,6 +21,8 @@ Adapted from https://github.com/purescript/purescript-lists
 - [fromArray (function)](#fromarray-function)
 - [head (function)](#head-function)
 - [init (function)](#init-function)
+- [insert (function)](#insert-function)
+- [insertBy (function)](#insertby-function)
 - [isCons (function)](#iscons-function)
 - [isNil (function)](#isnil-function)
 - [last (function)](#last-function)
@@ -138,6 +140,31 @@ Gets all but the last element of a list, or `None` if the list is empty.
 
 ```ts
 export function init<A>(fa: LinkedList<A>): O.Option<LinkedList<A>> { ... }
+```
+
+Added in v2.1.1
+
+# insert (function)
+
+Insert an element into a sorted list.
+
+**Signature**
+
+```ts
+export function insert<A>(ord: Ord<A>): (a: A) => (fa: LinkedList<A>) => LinkedList<A> { ... }
+```
+
+Added in v2.1.1
+
+# insertBy (function)
+
+Insert an element into a sorted list, using the specified function
+to determine the ordering of elements.
+
+**Signature**
+
+```ts
+export function insertBy<A>(compare: Ord<A>['compare']): (a: A) => (fa: LinkedList<A>) => LinkedList<A> { ... }
 ```
 
 Added in v2.1.1

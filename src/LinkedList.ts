@@ -14,6 +14,7 @@ import { Filterable1 } from './Filterable'
 import { Predicate, identity } from './function'
 import { Separated, Compactable1 } from './Compactable'
 import * as E from './Either'
+import { Ord } from './Ord'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -110,6 +111,38 @@ export function isCons<A>(a: LinkedList<A>): a is Cons<A> {
  */
 export function snoc<A>(fa: LinkedList<A>, a: A): LinkedList<A> {
   return linkedList.reduceRight(fa, singleton(a), cons)
+}
+
+/**
+ * Insert an element into a sorted list, using the specified function
+ * to determine the ordering of elements.
+ * @since 2.1.1
+ */
+export function insertBy<A>(compare: Ord<A>['compare']): (a: A) => (fa: LinkedList<A>) => LinkedList<A> {
+  return a => fa => {
+    if (isNil(fa)) return singleton(a)
+
+    let out: LinkedList<A> = nil
+    let l: LinkedList<A> = fa
+    let hasBeenInserted = false
+    while (isCons(l)) {
+      out = cons(l.head, out)
+      if (!hasBeenInserted && compare(a, l.head) === 1) {
+        out = cons(a, out)
+        hasBeenInserted = true
+      }
+      l = l.tail
+    }
+    return reverse(out)
+  }
+}
+
+/**
+ * Insert an element into a sorted list.
+ * @since 2.1.1
+ */
+export function insert<A>(ord: Ord<A>): (a: A) => (fa: LinkedList<A>) => LinkedList<A> {
+  return insertBy(ord.compare)
 }
 
 /**

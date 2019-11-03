@@ -5,6 +5,7 @@ import { monoidString } from '../src/Monoid'
 import { identity } from '../src/function'
 import { pipe } from '../src/pipeable'
 import * as E from '../src/Either'
+import { ordNumber } from '../src/Ord'
 
 const someSingleton: LL.LinkedList<string> = { type: 'Cons', head: 'a', tail: LL.nil }
 
@@ -56,6 +57,32 @@ describe('LinkedList', () => {
       type: 'Cons',
       head: 'a',
       tail: { type: 'Cons', head: 'b', tail: LL.nil }
+    })
+  })
+
+  it('insertBy', () => {
+    assert.deepStrictEqual(LL.insertBy(ordNumber.compare)(1)(LL.nil), {
+      type: 'Cons',
+      head: 1,
+      tail: LL.nil
+    })
+    assert.deepStrictEqual(LL.insertBy(ordNumber.compare)(2)(LL.cons(1, LL.cons(3, LL.nil))), {
+      type: 'Cons',
+      head: 1,
+      tail: { type: 'Cons', head: 2, tail: { type: 'Cons', head: 3, tail: LL.nil } }
+    })
+  })
+
+  it('insert', () => {
+    assert.deepStrictEqual(LL.insert(ordNumber)(1)(LL.nil), {
+      type: 'Cons',
+      head: 1,
+      tail: LL.nil
+    })
+    assert.deepStrictEqual(LL.insert(ordNumber)(2)(LL.cons(1, LL.cons(3, LL.nil))), {
+      type: 'Cons',
+      head: 1,
+      tail: { type: 'Cons', head: 2, tail: { type: 'Cons', head: 3, tail: LL.nil } }
     })
   })
 
