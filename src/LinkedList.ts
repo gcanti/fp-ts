@@ -175,11 +175,10 @@ export function unsnoc<A>(fa: LinkedList<A>): O.Option<{ init: LinkedList<A>; la
   let init: LinkedList<A> = nil
   let l = fa
   while (isCons(l.tail)) {
-    // TODO: `snoc` iterates on the whole list for every operation.
-    init = snoc(init, l.head)
+    init = cons(l.head, init)
     l = l.tail
   }
-  return O.some({ init, last: l.head })
+  return O.some({ init: reverse(init), last: l.head })
 }
 
 /**
@@ -260,12 +259,11 @@ export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Fi
     let l = fa
     while (isCons(l)) {
       if (predicate(l.head)) {
-        // TODO: `snoc` iterates on the whole list for every operation.
-        out = snoc(out, l.head)
+        out = cons(l.head, out)
       }
       l = l.tail
     }
-    return out
+    return reverse(out)
   },
   filterMap: <A, B>(fa: LinkedList<A>, f: (a: A) => O.Option<B>): LinkedList<B> => {
     let out: LinkedList<B> = nil
@@ -273,12 +271,11 @@ export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Fi
     while (isCons(l)) {
       const optionB = f(l.head)
       if (O.isSome(optionB)) {
-        // TODO: `snoc` iterates on the whole list for every operation.
-        out = snoc(out, optionB.value)
+        out = cons(optionB.value, out)
       }
       l = l.tail
     }
-    return out
+    return reverse(out)
   },
   partition: <A>(fa: LinkedList<A>, predicate: Predicate<A>): Separated<LinkedList<A>, LinkedList<A>> => {
     let left: LinkedList<A> = nil
@@ -286,15 +283,13 @@ export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Fi
     let l = fa
     while (isCons(l)) {
       if (predicate(l.head)) {
-        // TODO: `snoc` iterates on the whole list for every operation.
-        right = snoc(right, l.head)
+        right = cons(l.head, right)
       } else {
-        // TODO: `snoc` iterates on the whole list for every operation.
-        left = snoc(left, l.head)
+        left = cons(l.head, left)
       }
       l = l.tail
     }
-    return { left, right }
+    return { left: reverse(left), right: reverse(right) }
   },
   partitionMap: <A, B, C>(fa: LinkedList<A>, f: (a: A) => E.Either<B, C>): Separated<LinkedList<B>, LinkedList<C>> => {
     let left: LinkedList<B> = nil
@@ -303,15 +298,13 @@ export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Fi
     while (isCons(l)) {
       const e = f(l.head)
       if (E.isLeft(e)) {
-        // TODO: `snoc` iterates on the whole list for every operation.
-        left = snoc(left, e.left)
+        left = cons(e.left, left)
       } else {
-        // TODO: `snoc` iterates on the whole list for every operation.
-        right = snoc(right, e.right)
+        right = cons(e.right, right)
       }
       l = l.tail
     }
-    return { left, right }
+    return { left: reverse(left), right: reverse(right) }
   },
   compact: fa => linkedList.filterMap(fa, identity),
   separate: fa => linkedList.partitionMap(fa, identity)
