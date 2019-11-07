@@ -140,7 +140,13 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>> {
  * @since 2.0.0
  */
 export function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> {
-  return () => f().then(a => E.right(a), reason => E.left(onRejected(reason)))
+  return () => {
+    try {
+      return f().then(a => E.right(a), reason => E.left(onRejected(reason)))
+    } catch (e) {
+      return Promise.resolve(E.left(onRejected(e)))
+    }
+  }
 }
 
 /**

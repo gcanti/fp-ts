@@ -121,13 +121,6 @@ describe('TaskEither', () => {
     assert.deepStrictEqual(e, E.left(1))
   })
 
-  it('tryCatch', async () => {
-    const e1 = await _.tryCatch(() => Promise.resolve(1), () => 'error')()
-    assert.deepStrictEqual(e1, E.right(1))
-    const e2 = await _.tryCatch(() => Promise.reject(undefined), () => 'error')()
-    assert.deepStrictEqual(e2, E.left('error'))
-  })
-
   it('taskify', async () => {
     const api1 = (_path: string, callback: (err: Error | null | undefined, result?: string) => void): void => {
       callback(null, 'ok')
@@ -278,6 +271,8 @@ describe('TaskEither', () => {
     assert.deepStrictEqual(e1, E.right(1))
     const e2 = await _.tryCatch(() => Promise.reject('ouch!'), onrejected)()
     assert.deepStrictEqual(e2, E.left('Error is: ouch!'))
+    const e3 = await _.tryCatch(() => (null as any).errory, onrejected)()
+    assert.deepStrictEqual(e3, E.left("Error is: TypeError: Cannot read property 'errory' of null"))
   })
 
   it('fromOption', async () => {
