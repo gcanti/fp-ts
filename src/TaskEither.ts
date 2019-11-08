@@ -144,9 +144,10 @@ export function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown
 }
 
 /**
- * Make sure that a resource is cleaned up in the event of an exception. The
- * release action is called regardless of whether the body action throws or
- * returns.
+ * Make sure that a resource is cleaned up in the event of an exception (*). The release action is called regardless of
+ * whether the body action throws (*) or returns.
+ *
+ * (*) i.e. returns a `Left`
  *
  * @since 2.0.0
  */
