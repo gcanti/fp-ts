@@ -342,10 +342,28 @@ Added in v2.0.0
 
 # tryCatch (function)
 
+Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Either` instead.
+
+Note: `f` should never `throw` errors, they are not caught.
+
 **Signature**
 
 ```ts
 export function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> { ... }
+```
+
+**Example**
+
+```ts
+import { left, right } from 'fp-ts/lib/Either'
+import { tryCatch } from 'fp-ts/lib/TaskEither'
+
+tryCatch(() => Promise.resolve(1), String)().then(result => {
+  assert.deepStrictEqual(result, right(1))
+})
+tryCatch(() => Promise.reject('error'), String)().then(result => {
+  assert.deepStrictEqual(result, left('error'))
+})
 ```
 
 Added in v2.0.0

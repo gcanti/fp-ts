@@ -137,6 +137,21 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>> {
 }
 
 /**
+ * Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Either` instead.
+ *
+ * Note: `f` should never `throw` errors, they are not caught.
+ *
+ * @example
+ * import { left, right } from 'fp-ts/lib/Either'
+ * import { tryCatch } from 'fp-ts/lib/TaskEither'
+ *
+ * tryCatch(() => Promise.resolve(1), String)().then(result => {
+ *   assert.deepStrictEqual(result, right(1))
+ * })
+ * tryCatch(() => Promise.reject('error'), String)().then(result => {
+ *   assert.deepStrictEqual(result, left('error'))
+ * })
+ *
  * @since 2.0.0
  */
 export function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> {
@@ -187,7 +202,6 @@ export function bracket<E, A, B>(
  * // const stat: (a: string | Buffer) => TaskEither<NodeJS.ErrnoException, fs.Stats>
  * const stat = taskify(fs.stat)
  * assert.strictEqual(stat.length, 0)
- *
  *
  * @since 2.0.0
  */
