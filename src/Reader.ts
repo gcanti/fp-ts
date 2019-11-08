@@ -51,7 +51,8 @@ export const ask: <R>() => Reader<R, R> = T.ask
 export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = T.asks
 
 /**
- * changes the value of the local context during the execution of the action `ma`
+ * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+ * `contramap`).
  *
  * @since 2.0.0
  */

@@ -128,7 +128,8 @@ Added in v2.0.0
 
 # local (function)
 
-changes the value of the local context during the execution of the action `ma`
+Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+`contramap`).
 
 **Signature**
 
