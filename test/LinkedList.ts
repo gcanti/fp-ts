@@ -121,6 +121,13 @@ describe('LinkedList', () => {
     )
   })
 
+  it('index', () => {
+    assert.deepStrictEqual(LL.index(LL.nil, 0), O.none)
+    assert.deepStrictEqual(LL.index(LL.cons(1, LL.cons(2, LL.nil)), 0), O.some(1))
+    assert.deepStrictEqual(LL.index(LL.cons(1, LL.cons(2, LL.nil)), 1), O.some(2))
+    assert.deepStrictEqual(LL.index(LL.cons(1, LL.cons(2, LL.nil)), 3), O.none)
+  })
+
   it('reverse', () => {
     assert.deepStrictEqual(LL.reverse(LL.cons(1, LL.cons(2, LL.cons(3, LL.nil)))), {
       type: 'Cons',

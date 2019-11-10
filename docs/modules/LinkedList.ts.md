@@ -20,6 +20,7 @@ Adapted from https://github.com/purescript/purescript-lists
 - [cons (function)](#cons-function)
 - [fromArray (function)](#fromarray-function)
 - [head (function)](#head-function)
+- [index (function)](#index-function)
 - [init (function)](#init-function)
 - [insert (function)](#insert-function)
 - [insertBy (function)](#insertby-function)
@@ -128,6 +129,18 @@ Gets the first element in a list, or `None` if the list is empty.
 
 ```ts
 export function head<A>(fa: LinkedList<A>): O.Option<A> { ... }
+```
+
+Added in v2.1.1
+
+# index (function)
+
+Gets the element at the specified index, or `None` if the index is out-of-bounds.
+
+**Signature**
+
+```ts
+export function index<A>(fa: LinkedList<A>, index: number): O.Option<A> { ... }
 ```
 
 Added in v2.1.1

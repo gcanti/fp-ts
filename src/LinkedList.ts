@@ -215,6 +215,22 @@ export function unsnoc<A>(fa: LinkedList<A>): O.Option<{ init: LinkedList<A>; la
 }
 
 /**
+ * Gets the element at the specified index, or `None` if the index is out-of-bounds.
+ * @since 2.1.1
+ */
+export function index<A>(fa: LinkedList<A>, index: number): O.Option<A> {
+  if (isNil(fa)) return O.none
+  let l: LinkedList<A> = fa
+  for (let i = 0; i <= index; i++) {
+    if (isNil(l)) return O.none
+    if (i === index) return O.some(l.head)
+    l = l.tail
+  }
+  /* istanbul ignore next */
+  return O.none
+}
+
+/**
  * Reverse a list.
  * @since 2.1.1
  */
