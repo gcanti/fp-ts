@@ -6,6 +6,7 @@ import { identity } from '../src/function'
 import { pipe } from '../src/pipeable'
 import * as E from '../src/Either'
 import { ordNumber } from '../src/Ord'
+import { eqNumber } from '../src/Eq'
 
 const someSingleton: LL.LinkedList<string> = { type: 'Cons', head: 'a', tail: LL.nil }
 
@@ -128,6 +129,34 @@ describe('LinkedList', () => {
     assert.deepStrictEqual(LL.index(LL.cons(1, LL.cons(2, LL.nil)), 3), O.none)
   })
 
+  it('findIndex', () => {
+    const f = (a: number): boolean => a % 2 === 0
+    assert.deepStrictEqual(LL.findIndex(f, LL.nil), O.none)
+    assert.deepStrictEqual(LL.findIndex(f, LL.cons(1, LL.cons(2, LL.nil))), O.some(1))
+    assert.deepStrictEqual(LL.findIndex(f, LL.cons(1, LL.nil)), O.none)
+  })
+
+  it('findLastIndex', () => {
+    const f = (a: number): boolean => a % 2 === 0
+    assert.deepStrictEqual(LL.findLastIndex(f, LL.nil), O.none)
+    assert.deepStrictEqual(LL.findLastIndex(f, LL.cons(1, LL.cons(2, LL.cons(3, LL.cons(4, LL.nil))))), O.some(3))
+    assert.deepStrictEqual(LL.findLastIndex(f, LL.cons(1, LL.nil)), O.none)
+  })
+
+  it('elemIndex', () => {
+    assert.deepStrictEqual(LL.elemIndex(eqNumber, 6, LL.nil), O.none)
+    assert.deepStrictEqual(LL.elemIndex(eqNumber, 2, LL.cons(1, LL.cons(2, LL.nil))), O.some(1))
+    assert.deepStrictEqual(LL.elemIndex(eqNumber, 6, LL.cons(1, LL.nil)), O.none)
+  })
+
+  it('elemIndex', () => {
+    assert.deepStrictEqual(LL.elemLastIndex(eqNumber, 6, LL.nil), O.none)
+    assert.deepStrictEqual(
+      LL.elemLastIndex(eqNumber, 2, LL.cons(1, LL.cons(2, LL.cons(1, LL.cons(2, LL.nil))))),
+      O.some(3)
+    )
+    assert.deepStrictEqual(LL.elemLastIndex(eqNumber, 6, LL.cons(1, LL.nil)), O.none)
+  })
   it('reverse', () => {
     assert.deepStrictEqual(LL.reverse(LL.cons(1, LL.cons(2, LL.cons(3, LL.nil)))), {
       type: 'Cons',

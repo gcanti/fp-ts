@@ -15,6 +15,7 @@ import { Predicate, identity } from './function'
 import { Separated, Compactable1 } from './Compactable'
 import * as E from './Either'
 import { Ord } from './Ord'
+import { Eq } from './Eq'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -228,6 +229,45 @@ export function index<A>(fa: LinkedList<A>, index: number): O.Option<A> {
   }
   /* istanbul ignore next */
   return O.none
+}
+
+/**
+ * Finds the first index for which a predicate holds.
+ * @since 2.1.1
+ */
+export function findIndex<A>(predicate: Predicate<A>, fa: LinkedList<A>): O.Option<number> {
+  let l: LinkedList<A> = fa
+  let i = 0
+  while (isCons(l)) {
+    if (predicate(l.head)) return O.some(i)
+    l = l.tail
+    i++
+  }
+  return O.none
+}
+
+/**
+ * Finds the last index for which a predicate holds.
+ * @since 2.1.1
+ */
+export function findLastIndex<A>(predicate: Predicate<A>, fa: LinkedList<A>): O.Option<number> {
+  return O.option.map(findIndex(predicate, reverse(fa)), i => length(fa) - i - 1)
+}
+
+/**
+ * Find the index of the first element equal to the specified element.
+ * @since 2.1.1
+ */
+export function elemIndex<A>(eq: Eq<A>, a: A, fa: LinkedList<A>): O.Option<number> {
+  return findIndex(b => eq.equals(a, b), fa)
+}
+
+/**
+ * Find the index of the last element equal to the specified element.
+ * @since 2.1.1
+ */
+export function elemLastIndex<A>(eq: Eq<A>, a: A, fa: LinkedList<A>): O.Option<number> {
+  return findLastIndex(b => eq.equals(a, b), fa)
 }
 
 /**

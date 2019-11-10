@@ -18,6 +18,10 @@ Adapted from https://github.com/purescript/purescript-lists
 - [linkedList (constant)](#linkedlist-constant)
 - [nil (constant)](#nil-constant)
 - [cons (function)](#cons-function)
+- [elemIndex (function)](#elemindex-function)
+- [elemLastIndex (function)](#elemlastindex-function)
+- [findIndex (function)](#findindex-function)
+- [findLastIndex (function)](#findlastindex-function)
 - [fromArray (function)](#fromarray-function)
 - [head (function)](#head-function)
 - [index (function)](#index-function)
@@ -105,6 +109,54 @@ Added in v2.1.1
 
 ```ts
 export function cons<A>(head: A, tail: LinkedList<A>): LinkedList<A> { ... }
+```
+
+Added in v2.1.1
+
+# elemIndex (function)
+
+Find the index of the first element equal to the specified element.
+
+**Signature**
+
+```ts
+export function elemIndex<A>(eq: Eq<A>, a: A, fa: LinkedList<A>): O.Option<number> { ... }
+```
+
+Added in v2.1.1
+
+# elemLastIndex (function)
+
+Find the index of the last element equal to the specified element.
+
+**Signature**
+
+```ts
+export function elemLastIndex<A>(eq: Eq<A>, a: A, fa: LinkedList<A>): O.Option<number> { ... }
+```
+
+Added in v2.1.1
+
+# findIndex (function)
+
+Finds the first index for which a predicate holds.
+
+**Signature**
+
+```ts
+export function findIndex<A>(predicate: Predicate<A>, fa: LinkedList<A>): O.Option<number> { ... }
+```
+
+Added in v2.1.1
+
+# findLastIndex (function)
+
+Finds the last index for which a predicate holds.
+
+**Signature**
+
+```ts
+export function findLastIndex<A>(predicate: Predicate<A>, fa: LinkedList<A>): O.Option<number> { ... }
 ```
 
 Added in v2.1.1
