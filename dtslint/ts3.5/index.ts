@@ -167,6 +167,31 @@ type C = A | B
 // $ExpectError
 O.getRefinement<C, A>(c => (c.type === 'B' ? O.some(c) : O.none))
 
+// fromNullable
+
+declare const fromNullableTest1: number | null | undefined
+O.fromNullable(fromNullableTest1) // $ExpectType Option<number>
+
+interface fromNullableTest2 {
+  foo: number | undefined
+}
+declare const fromNullableTest3: <Key extends keyof fromNullableTest2>(key: Key) => fromNullableTest2[Key]
+// $ExpectType Option<number>
+Fu.flow(
+  fromNullableTest3,
+  O.fromNullable
+)('foo')
+
+//
+// Either
+//
+
+// $ExpectType Either<string, number>
+Fu.flow(
+  fromNullableTest3,
+  E.fromNullable('error')
+)('foo')
+
 //
 // HKT
 //

@@ -160,8 +160,8 @@ export function fold<A, B>(onNone: () => B, onSome: (a: A) => B): (ma: Option<A>
  *
  * @since 2.0.0
  */
-export function fromNullable<A>(a: A | null | undefined): Option<A> {
-  return a == null ? none : some(a)
+export function fromNullable<A>(a: A): Option<NonNullable<A>> {
+  return a == null ? none : some(a as NonNullable<A>)
 }
 
 /**
