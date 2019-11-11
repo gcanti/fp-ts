@@ -118,8 +118,8 @@ export function right<E = never, A = never>(a: A): Either<E, A> {
  *
  * @since 2.0.0
  */
-export function fromNullable<E>(e: E): <A>(a: A | null | undefined) => Either<E, A> {
-  return a => (a == null ? left(e) : right(a))
+export function fromNullable<E>(e: E): <A>(a: A) => Either<E, NonNullable<A>> {
+  return <A>(a: A) => (a == null ? left(e) : right(a as NonNullable<A>))
 }
 
 /**

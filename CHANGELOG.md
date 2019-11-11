@@ -14,6 +14,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.1.2
+
+- **Bug Fix**
+  - `fromNullable` now uses `NonNullable` in its return type, fixes #1004 (@gcanti)
+
 # 2.1.1
 
 - **Bug Fix**

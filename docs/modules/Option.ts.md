@@ -275,7 +275,7 @@ returns the value wrapped in a `Some`
 **Signature**
 
 ```ts
-export function fromNullable<A>(a: A | null | undefined): Option<A> { ... }
+export function fromNullable<A>(a: A): Option<NonNullable<A>> { ... }
 ```
 
 **Example**

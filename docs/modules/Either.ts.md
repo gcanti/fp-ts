@@ -246,7 +246,7 @@ the provided default as a `Left`
 **Signature**
 
 ```ts
-export function fromNullable<E>(e: E): <A>(a: A | null | undefined) => Either<E, A> { ... }
+export function fromNullable<E>(e: E): <A>(a: A) => Either<E, NonNullable<A>> { ... }
 ```
 
 **Example**
