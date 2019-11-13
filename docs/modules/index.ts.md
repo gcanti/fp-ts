@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 40
+nav_order: 41
 parent: Modules
 ---
 
@@ -14,6 +14,7 @@ parent: Modules
 - [apply (export)](#apply-export)
 - [array (export)](#array-export)
 - [bifunctor (export)](#bifunctor-export)
+- [boolean (export)](#boolean-export)
 - [booleanAlgebra (export)](#booleanalgebra-export)
 - [bounded (export)](#bounded-export)
 - [boundedDistributiveLattice (export)](#boundeddistributivelattice-export)
@@ -159,6 +160,16 @@ typeof bifunctor
 ```
 
 Added in v2.0.0
+
+# boolean (export)
+
+**Signature**
+
+```ts
+typeof boolean
+```
+
+Added in v2.2.0
 
 # booleanAlgebra (export)
 
