@@ -4,6 +4,7 @@ import * as applicative from './Applicative'
 import * as apply from './Apply'
 import * as array from './Array'
 import * as bifunctor from './Bifunctor'
+import * as boolean from './boolean'
 import * as booleanAlgebra from './BooleanAlgebra'
 import * as bounded from './Bounded'
 import * as boundedDistributiveLattice from './BoundedDistributiveLattice'
@@ -112,6 +113,10 @@ export {
    * @since 2.0.0
    */
   bifunctor,
+  /**
+   * @since 2.2.0
+   */
+  boolean,
   /**
    * @since 2.0.0
    */
