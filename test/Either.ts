@@ -83,27 +83,9 @@ describe('Either', () => {
     const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
     const errorHandler = (s: string) => `invalid color ${s}`
 
-    assert.deepStrictEqual(
-      pipe(
-        _.right('red'),
-        _.filterOrElse(isColor, errorHandler)
-      ),
-      _.right('red')
-    )
-    assert.deepStrictEqual(
-      pipe(
-        _.right('foo'),
-        _.filterOrElse(isColor, errorHandler)
-      ),
-      _.left('invalid color foo')
-    )
-    assert.deepStrictEqual(
-      pipe(
-        _.left('err'),
-        _.filterOrElse(isColor, errorHandler)
-      ),
-      _.left('err')
-    )
+    assert.deepStrictEqual(pipe(_.right('red'), _.filterOrElse(isColor, errorHandler)), _.right('red'))
+    assert.deepStrictEqual(pipe(_.right('foo'), _.filterOrElse(isColor, errorHandler)), _.left('invalid color foo'))
+    assert.deepStrictEqual(pipe(_.left('err'), _.filterOrElse(isColor, errorHandler)), _.left('err'))
   })
 
   it('isLeft', () => {
@@ -148,10 +130,22 @@ describe('Either', () => {
   })
 
   it('alt', () => {
-    assert.deepStrictEqual(_.either.alt(_.right(1), () => _.right(2)), _.right(1))
-    assert.deepStrictEqual(_.either.alt(_.right(1), () => _.left('a')), _.right(1))
-    assert.deepStrictEqual(_.either.alt(_.left('a'), () => _.right(2)), _.right(2))
-    assert.deepStrictEqual(_.either.alt(_.left('a'), () => _.left('b')), _.left('b'))
+    assert.deepStrictEqual(
+      _.either.alt(_.right(1), () => _.right(2)),
+      _.right(1)
+    )
+    assert.deepStrictEqual(
+      _.either.alt(_.right(1), () => _.left('a')),
+      _.right(1)
+    )
+    assert.deepStrictEqual(
+      _.either.alt(_.left('a'), () => _.right(2)),
+      _.right(2)
+    )
+    assert.deepStrictEqual(
+      _.either.alt(_.left('a'), () => _.left('b')),
+      _.left('b')
+    )
   })
 
   it('swap', () => {
@@ -224,7 +218,10 @@ describe('Either', () => {
 
   describe('lifting functions', () => {
     it('fromPredicate', () => {
-      const gt2 = _.fromPredicate((n: number) => n >= 2, n => `Invalid number ${n}`)
+      const gt2 = _.fromPredicate(
+        (n: number) => n >= 2,
+        n => `Invalid number ${n}`
+      )
       assert.deepStrictEqual(gt2(3), _.right(3))
       assert.deepStrictEqual(gt2(1), _.left('Invalid number 1'))
 
@@ -278,8 +275,14 @@ describe('Either', () => {
         _.either.traverse(option)(_.left('foo'), a => (a >= 2 ? some(a) : none)),
         some(_.left('foo'))
       )
-      assert.deepStrictEqual(_.either.traverse(option)(_.right(1), a => (a >= 2 ? some(a) : none)), none)
-      assert.deepStrictEqual(_.either.traverse(option)(_.right(3), a => (a >= 2 ? some(a) : none)), some(_.right(3)))
+      assert.deepStrictEqual(
+        _.either.traverse(option)(_.right(1), a => (a >= 2 ? some(a) : none)),
+        none
+      )
+      assert.deepStrictEqual(
+        _.either.traverse(option)(_.right(3), a => (a >= 2 ? some(a) : none)),
+        some(_.right(3))
+      )
     })
 
     it('sequence', () => {
@@ -293,8 +296,14 @@ describe('Either', () => {
   describe('ChainRec', () => {
     it('chainRec', () => {
       const chainRec = _.either.chainRec
-      assert.deepStrictEqual(chainRec(1, () => _.left('foo')), _.left('foo'))
-      assert.deepStrictEqual(chainRec(1, () => _.right(_.right(1))), _.right(1))
+      assert.deepStrictEqual(
+        chainRec(1, () => _.left('foo')),
+        _.left('foo')
+      )
+      assert.deepStrictEqual(
+        chainRec(1, () => _.right(_.right(1))),
+        _.right(1)
+      )
       assert.deepStrictEqual(
         chainRec(1, a => {
           if (a < 5) {
@@ -310,15 +319,27 @@ describe('Either', () => {
 
   describe('Extend', () => {
     it('extend', () => {
-      assert.deepStrictEqual(_.either.extend(_.right(1), () => 2), _.right(2))
-      assert.deepStrictEqual(_.either.extend(_.left('err'), () => 2), _.left('err'))
+      assert.deepStrictEqual(
+        _.either.extend(_.right(1), () => 2),
+        _.right(2)
+      )
+      assert.deepStrictEqual(
+        _.either.extend(_.left('err'), () => 2),
+        _.left('err')
+      )
     })
   })
 
   describe('Foldable', () => {
     it('reduce', () => {
-      assert.deepStrictEqual(_.either.reduce(_.right('bar'), 'foo', (b, a) => b + a), 'foobar')
-      assert.deepStrictEqual(_.either.reduce(_.left('bar'), 'foo', (b, a) => b + a), 'foo')
+      assert.deepStrictEqual(
+        _.either.reduce(_.right('bar'), 'foo', (b, a) => b + a),
+        'foobar'
+      )
+      assert.deepStrictEqual(
+        _.either.reduce(_.left('bar'), 'foo', (b, a) => b + a),
+        'foo'
+      )
     })
 
     it('foldMap', () => {
@@ -481,16 +502,28 @@ describe('Either', () => {
       const f = (s: string) => _.right(s.length)
       assert.deepStrictEqual(M.chain(_.right('abc'), f), _.right(3))
       assert.deepStrictEqual(M.chain(_.left('a'), f), _.left('a'))
-      assert.deepStrictEqual(M.chain(_.left('a'), () => _.left('b')), _.left('a'))
+      assert.deepStrictEqual(
+        M.chain(_.left('a'), () => _.left('b')),
+        _.left('a')
+      )
       assert.deepStrictEqual(M.of(1), _.right(1))
       const double = (n: number) => n * 2
       assert.deepStrictEqual(M.ap(_.right(double), _.right(1)), _.right(2))
       assert.deepStrictEqual(M.ap(_.right(double), _.left('foo')), _.left('foo'))
       assert.deepStrictEqual(M.ap(_.left<string, (n: number) => number>('foo'), _.right(1)), _.left('foo'))
       assert.deepStrictEqual(M.ap(_.left('foo'), _.left('bar')), _.left('foobar'))
-      assert.deepStrictEqual(M.alt(_.left('a'), () => _.right(1)), _.right(1))
-      assert.deepStrictEqual(M.alt(_.right(1), () => _.left('a')), _.right(1))
-      assert.deepStrictEqual(M.alt(_.left('a'), () => _.left('b')), _.left('ab'))
+      assert.deepStrictEqual(
+        M.alt(_.left('a'), () => _.right(1)),
+        _.right(1)
+      )
+      assert.deepStrictEqual(
+        M.alt(_.right(1), () => _.left('a')),
+        _.right(1)
+      )
+      assert.deepStrictEqual(
+        M.alt(_.left('a'), () => _.left('b')),
+        _.left('ab')
+      )
     })
 
     it('getValidationMonoid', () => {

@@ -18,15 +18,7 @@ describe('Store', () => {
 
   it('seek', () => {
     const wa: Store<string, number> = { peek: len, pos: 'a' }
-    assert.strictEqual(
-      store.extract(
-        pipe(
-          wa,
-          seek('aa')
-        )
-      ),
-      2
-    )
+    assert.strictEqual(store.extract(pipe(wa, seek('aa'))), 2)
   })
 
   it('seeks', () => {

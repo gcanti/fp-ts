@@ -18,10 +18,22 @@ describe('Foldable', () => {
     assert.strictEqual(F.reduce([option.none, option.none, option.none], '', monoidString.concat), '')
     assert.strictEqual(F.reduce([], '', monoidString.concat), '')
     // foldMap
-    assert.strictEqual(F.foldMap(monoidString)([option.some('a'), option.some('b'), option.some('c')], a => a), 'abc')
-    assert.strictEqual(F.foldMap(monoidString)([option.none, option.some('b'), option.none], a => a), 'b')
-    assert.strictEqual(F.foldMap(monoidString)([option.none, option.none, option.none], a => a), '')
-    assert.strictEqual(F.foldMap(monoidString)([], (a: string) => a), '')
+    assert.strictEqual(
+      F.foldMap(monoidString)([option.some('a'), option.some('b'), option.some('c')], a => a),
+      'abc'
+    )
+    assert.strictEqual(
+      F.foldMap(monoidString)([option.none, option.some('b'), option.none], a => a),
+      'b'
+    )
+    assert.strictEqual(
+      F.foldMap(monoidString)([option.none, option.none, option.none], a => a),
+      ''
+    )
+    assert.strictEqual(
+      F.foldMap(monoidString)([], (a: string) => a),
+      ''
+    )
     // reduceRight
     assert.strictEqual(
       F.reduceRight([option.some('a'), option.some('b'), option.some('c')], '', monoidString.concat),
@@ -44,8 +56,17 @@ describe('Foldable', () => {
   })
 
   it('foldM', () => {
-    assert.deepStrictEqual(foldM(option.option, array)([], 1, () => option.none), option.some(1))
-    assert.deepStrictEqual(foldM(option.option, array)([2], 1, () => option.none), option.none)
-    assert.deepStrictEqual(foldM(option.option, array)([2], 1, (b, a) => option.some(b + a)), option.some(3))
+    assert.deepStrictEqual(
+      foldM(option.option, array)([], 1, () => option.none),
+      option.some(1)
+    )
+    assert.deepStrictEqual(
+      foldM(option.option, array)([2], 1, () => option.none),
+      option.none
+    )
+    assert.deepStrictEqual(
+      foldM(option.option, array)([2], 1, (b, a) => option.some(b + a)),
+      option.some(3)
+    )
   })
 })

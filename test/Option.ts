@@ -157,10 +157,22 @@ describe('Option', () => {
   })
 
   it('alt', () => {
-    assert.deepStrictEqual(O.option.alt(O.some(1), () => O.some(2)), O.some(1))
-    assert.deepStrictEqual(O.option.alt(O.some(2), () => O.none), O.some(2))
-    assert.deepStrictEqual(O.option.alt(O.none, () => O.some(1)), O.some(1))
-    assert.deepStrictEqual(O.option.alt(O.none, () => O.none), O.none)
+    assert.deepStrictEqual(
+      O.option.alt(O.some(1), () => O.some(2)),
+      O.some(1)
+    )
+    assert.deepStrictEqual(
+      O.option.alt(O.some(2), () => O.none),
+      O.some(2)
+    )
+    assert.deepStrictEqual(
+      O.option.alt(O.none, () => O.some(1)),
+      O.some(1)
+    )
+    assert.deepStrictEqual(
+      O.option.alt(O.none, () => O.none),
+      O.none
+    )
   })
 
   it('extend', () => {
@@ -187,9 +199,18 @@ describe('Option', () => {
   })
 
   it('traverse', () => {
-    assert.deepStrictEqual(O.option.traverse(array)(O.some('hello'), () => []), [])
-    assert.deepStrictEqual(O.option.traverse(array)(O.some('hello'), s => [s.length]), [O.some(5)])
-    assert.deepStrictEqual(O.option.traverse(array)(O.none, s => [s]), [O.none])
+    assert.deepStrictEqual(
+      O.option.traverse(array)(O.some('hello'), () => []),
+      []
+    )
+    assert.deepStrictEqual(
+      O.option.traverse(array)(O.some('hello'), s => [s.length]),
+      [O.some(5)]
+    )
+    assert.deepStrictEqual(
+      O.option.traverse(array)(O.none, s => [s]),
+      [O.none]
+    )
   })
 
   it('sequence', () => {
@@ -198,8 +219,14 @@ describe('Option', () => {
   })
 
   it('reduce', () => {
-    assert.strictEqual(O.option.reduce(O.none, 2, (b, a) => b + a), 2)
-    assert.strictEqual(O.option.reduce(O.some(3), 2, (b, a) => b + a), 5)
+    assert.strictEqual(
+      O.option.reduce(O.none, 2, (b, a) => b + a),
+      2
+    )
+    assert.strictEqual(
+      O.option.reduce(O.some(3), 2, (b, a) => b + a),
+      5
+    )
   })
 
   it('foldMap', () => {
@@ -271,32 +298,20 @@ describe('Option', () => {
 
   it('exists', () => {
     const predicate = (a: number) => a === 2
-    assert.deepStrictEqual(
-      pipe(
-        O.none,
-        O.exists(predicate)
-      ),
-      false
-    )
-    assert.deepStrictEqual(
-      pipe(
-        O.some(1),
-        O.exists(predicate)
-      ),
-      false
-    )
-    assert.deepStrictEqual(
-      pipe(
-        O.some(2),
-        O.exists(predicate)
-      ),
-      true
-    )
+    assert.deepStrictEqual(pipe(O.none, O.exists(predicate)), false)
+    assert.deepStrictEqual(pipe(O.some(1), O.exists(predicate)), false)
+    assert.deepStrictEqual(pipe(O.some(2), O.exists(predicate)), true)
   })
 
   it('tryCatch', () => {
-    assert.deepStrictEqual(O.tryCatch(() => JSON.parse('2')), O.some(2))
-    assert.deepStrictEqual(O.tryCatch(() => JSON.parse('(')), O.none)
+    assert.deepStrictEqual(
+      O.tryCatch(() => JSON.parse('2')),
+      O.some(2)
+    )
+    assert.deepStrictEqual(
+      O.tryCatch(() => JSON.parse('(')),
+      O.none
+    )
   })
 
   it('compact', () => {

@@ -38,9 +38,15 @@ describe('Record', () => {
 
   it('reduce', () => {
     const d1 = { k1: 'a', k2: 'b' }
-    assert.strictEqual(R.record.reduce(d1, '', (b, a) => b + a), 'ab')
+    assert.strictEqual(
+      R.record.reduce(d1, '', (b, a) => b + a),
+      'ab'
+    )
     const d2 = { k2: 'b', k1: 'a' }
-    assert.strictEqual(R.record.reduce(d2, '', (b, a) => b + a), 'ab')
+    assert.strictEqual(
+      R.record.reduce(d2, '', (b, a) => b + a),
+      'ab'
+    )
   })
 
   it('foldMap', () => {
@@ -90,18 +96,42 @@ describe('Record', () => {
   it('fromFoldable', () => {
     const First = getFirstSemigroup<number>()
     assert.deepStrictEqual(R.fromFoldable(First, array)([['a', 1]]), { a: 1 })
-    assert.deepStrictEqual(R.fromFoldable(First, array)([['a', 1], ['a', 2]]), {
-      a: 1
-    })
+    assert.deepStrictEqual(
+      R.fromFoldable(
+        First,
+        array
+      )([
+        ['a', 1],
+        ['a', 2]
+      ]),
+      {
+        a: 1
+      }
+    )
     const Last = getLastSemigroup<number>()
-    assert.deepStrictEqual(R.fromFoldable(Last, array)([['a', 1], ['a', 2]]), {
-      a: 2
-    })
+    assert.deepStrictEqual(
+      R.fromFoldable(
+        Last,
+        array
+      )([
+        ['a', 1],
+        ['a', 2]
+      ]),
+      {
+        a: 2
+      }
+    )
   })
 
   it('toArray', () => {
-    assert.deepStrictEqual(R.toArray({ a: 1, b: 2 }), [['a', 1], ['b', 2]])
-    assert.deepStrictEqual(R.toArray({ b: 2, a: 1 }), [['a', 1], ['b', 2]])
+    assert.deepStrictEqual(R.toArray({ a: 1, b: 2 }), [
+      ['a', 1],
+      ['b', 2]
+    ])
+    assert.deepStrictEqual(R.toArray({ b: 2, a: 1 }), [
+      ['a', 1],
+      ['b', 2]
+    ])
   })
 
   it('toUnfoldable', () => {
@@ -168,7 +198,10 @@ describe('Record', () => {
     const actual = R.record.filter(y, isNumber)
     assert.deepStrictEqual(actual, { a: 1 })
 
-    assert.strictEqual(R.record.filter(y, _ => true), y)
+    assert.strictEqual(
+      R.record.filter(y, _ => true),
+      y
+    )
 
     const x = Object.assign(Object.create({ c: true }), { a: 1, b: 'foo' })
     assert.deepStrictEqual(R.record.filter(x, isNumber), { a: 1 })
@@ -266,10 +299,13 @@ describe('Record', () => {
       { id: 'id1', name: 'name3' }
     ]
 
-    assert.deepStrictEqual(R.fromFoldableMap(getLastSemigroup<User>(), array)(users, user => [user.id, user]), {
-      id1: { id: 'id1', name: 'name3' },
-      id2: { id: 'id2', name: 'name2' }
-    })
+    assert.deepStrictEqual(
+      R.fromFoldableMap(getLastSemigroup<User>(), array)(users, user => [user.id, user]),
+      {
+        id1: { id: 'id1', name: 'name3' },
+        id2: { id: 'id2', name: 'name2' }
+      }
+    )
   })
 
   it('getShow', () => {

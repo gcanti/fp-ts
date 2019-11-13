@@ -26,14 +26,29 @@ describe('Ord', () => {
 
   it('getSemigroup', () => {
     type T = [number, string]
-    const tuples: Array<T> = [[2, 'c'], [1, 'b'], [2, 'a'], [1, 'c']]
+    const tuples: Array<T> = [
+      [2, 'c'],
+      [1, 'b'],
+      [2, 'a'],
+      [1, 'c']
+    ]
     const S = getSemigroup<T>()
     const sortByFst = ord.contramap(ordNumber, (x: T) => x[0])
     const sortBySnd = ord.contramap(ordString, (x: T) => x[1])
     const O1 = S.concat(sortByFst, sortBySnd)
-    assert.deepStrictEqual(sort(O1)(tuples), [[1, 'b'], [1, 'c'], [2, 'a'], [2, 'c']])
+    assert.deepStrictEqual(sort(O1)(tuples), [
+      [1, 'b'],
+      [1, 'c'],
+      [2, 'a'],
+      [2, 'c']
+    ])
     const O2 = S.concat(sortBySnd, sortByFst)
-    assert.deepStrictEqual(sort(O2)(tuples), [[2, 'a'], [1, 'b'], [1, 'c'], [2, 'c']])
+    assert.deepStrictEqual(sort(O2)(tuples), [
+      [2, 'a'],
+      [1, 'b'],
+      [1, 'c'],
+      [2, 'c']
+    ])
   })
 
   it('ordNumber', () => {

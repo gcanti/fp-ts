@@ -251,7 +251,10 @@ import { pipe } from 'fp-ts/lib/pipeable'
 assert.strictEqual(
   pipe(
     some(1),
-    fold(() => 'a none', a => `a some containing ${a}`)
+    fold(
+      () => 'a none',
+      a => `a some containing ${a}`
+    )
   ),
   'a some containing 1'
 )
@@ -259,7 +262,10 @@ assert.strictEqual(
 assert.strictEqual(
   pipe(
     none,
-    fold(() => 'a none', a => `a some containing ${a}`)
+    fold(
+      () => 'a none',
+      a => `a some containing ${a}`
+    )
   ),
   'a none'
 )
@@ -718,20 +724,8 @@ export function toNullable<A>(ma: Option<A>): A | null { ... }
 import { some, none, toNullable } from 'fp-ts/lib/Option'
 import { pipe } from 'fp-ts/lib/pipeable'
 
-assert.strictEqual(
-  pipe(
-    some(1),
-    toNullable
-  ),
-  1
-)
-assert.strictEqual(
-  pipe(
-    none,
-    toNullable
-  ),
-  null
-)
+assert.strictEqual(pipe(some(1), toNullable), 1)
+assert.strictEqual(pipe(none, toNullable), null)
 ```
 
 Added in v2.0.0
@@ -752,20 +746,8 @@ export function toUndefined<A>(ma: Option<A>): A | undefined { ... }
 import { some, none, toUndefined } from 'fp-ts/lib/Option'
 import { pipe } from 'fp-ts/lib/pipeable'
 
-assert.strictEqual(
-  pipe(
-    some(1),
-    toUndefined
-  ),
-  1
-)
-assert.strictEqual(
-  pipe(
-    none,
-    toUndefined
-  ),
-  undefined
-)
+assert.strictEqual(pipe(some(1), toUndefined), 1)
+assert.strictEqual(pipe(none, toUndefined), undefined)
 ```
 
 Added in v2.0.0
@@ -792,7 +774,10 @@ assert.deepStrictEqual(
   }),
   none
 )
-assert.deepStrictEqual(tryCatch(() => 1), some(1))
+assert.deepStrictEqual(
+  tryCatch(() => 1),
+  some(1)
+)
 ```
 
 Added in v2.0.0

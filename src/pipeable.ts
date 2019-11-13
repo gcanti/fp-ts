@@ -1301,10 +1301,18 @@ export function pipeable<F, I>(I: { URI: F } & I): Record<string, unknown> {
   }
   if (isApply<F>(I)) {
     const ap: PipeableApply<F>['ap'] = fa => fab => I.ap(fab, fa)
-    const apFirst: PipeableApply<F>['apFirst'] = fb => fa => I.ap(I.map(fa, a => () => a), fb)
+    const apFirst: PipeableApply<F>['apFirst'] = fb => fa =>
+      I.ap(
+        I.map(fa, a => () => a),
+        fb
+      )
     r.ap = ap
     r.apFirst = apFirst
-    r.apSecond = <B>(fb: HKT<F, B>) => <A>(fa: HKT<F, A>): HKT<F, B> => I.ap(I.map(fa, () => (b: B) => b), fb)
+    r.apSecond = <B>(fb: HKT<F, B>) => <A>(fa: HKT<F, A>): HKT<F, B> =>
+      I.ap(
+        I.map(fa, () => (b: B) => b),
+        fb
+      )
   }
   if (isChain<F>(I)) {
     const chain: PipeableChain<F>['chain'] = f => ma => I.chain(ma, f)
@@ -1391,11 +1399,7 @@ export function pipeable<F, I>(I: { URI: F } & I): Record<string, unknown> {
     r.promap = promap
   }
   if (isSemigroupoid<F>(I)) {
-    const compose: PipeableSemigroupoid<F>['compose'] = that => fa =>
-      I.compose(
-        fa,
-        that
-      )
+    const compose: PipeableSemigroupoid<F>['compose'] = that => fa => I.compose(fa, that)
     r.compose = compose
   }
   if (isMonadThrow<F>(I)) {

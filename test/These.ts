@@ -80,38 +80,32 @@ describe('These', () => {
   })
 
   it('toTuple', () => {
-    assert.deepStrictEqual(
-      pipe(
-        _.left('b'),
-        _.toTuple('a', 1)
-      ),
-      ['b', 1]
-    )
-    assert.deepStrictEqual(
-      pipe(
-        _.right(2),
-        _.toTuple('a', 1)
-      ),
-      ['a', 2]
-    )
-    assert.deepStrictEqual(
-      pipe(
-        _.both('b', 2),
-        _.toTuple('a', 1)
-      ),
-      ['b', 2]
-    )
+    assert.deepStrictEqual(pipe(_.left('b'), _.toTuple('a', 1)), ['b', 1])
+    assert.deepStrictEqual(pipe(_.right(2), _.toTuple('a', 1)), ['a', 2])
+    assert.deepStrictEqual(pipe(_.both('b', 2), _.toTuple('a', 1)), ['b', 2])
   })
 
   it('traverse', () => {
-    assert.deepStrictEqual(_.these.traverse(option)(_.left('a'), n => (n >= 2 ? some(n) : none)), some(_.left('a')))
-    assert.deepStrictEqual(_.these.traverse(option)(_.right(2), n => (n >= 2 ? some(n) : none)), some(_.right(2)))
-    assert.deepStrictEqual(_.these.traverse(option)(_.right(1), n => (n >= 2 ? some(n) : none)), none)
+    assert.deepStrictEqual(
+      _.these.traverse(option)(_.left('a'), n => (n >= 2 ? some(n) : none)),
+      some(_.left('a'))
+    )
+    assert.deepStrictEqual(
+      _.these.traverse(option)(_.right(2), n => (n >= 2 ? some(n) : none)),
+      some(_.right(2))
+    )
+    assert.deepStrictEqual(
+      _.these.traverse(option)(_.right(1), n => (n >= 2 ? some(n) : none)),
+      none
+    )
     assert.deepStrictEqual(
       _.these.traverse(option)(_.both('a', 2), n => (n >= 2 ? some(n) : none)),
       some(_.both('a', 2))
     )
-    assert.deepStrictEqual(_.these.traverse(option)(_.both('a', 1), n => (n >= 2 ? some(n) : none)), none)
+    assert.deepStrictEqual(
+      _.these.traverse(option)(_.both('a', 1), n => (n >= 2 ? some(n) : none)),
+      none
+    )
   })
 
   it('sequence', () => {
@@ -200,9 +194,18 @@ describe('These', () => {
   })
 
   it('reduce', () => {
-    assert.strictEqual(_.these.reduce(_.left('b'), 'a', (b, a) => b + a), 'a')
-    assert.strictEqual(_.these.reduce(_.right('b'), 'a', (b, a) => b + a), 'ab')
-    assert.strictEqual(_.these.reduce(_.both(1, 'b'), 'a', (b, a) => b + a), 'ab')
+    assert.strictEqual(
+      _.these.reduce(_.left('b'), 'a', (b, a) => b + a),
+      'a'
+    )
+    assert.strictEqual(
+      _.these.reduce(_.right('b'), 'a', (b, a) => b + a),
+      'ab'
+    )
+    assert.strictEqual(
+      _.these.reduce(_.both(1, 'b'), 'a', (b, a) => b + a),
+      'ab'
+    )
   })
 
   it('foldMap', () => {

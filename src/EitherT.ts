@@ -102,7 +102,11 @@ export function getEitherM<M>(M: Monad<M>): EitherM<M> {
     mapLeft: (ma, f) => M.map(ma, e => either.mapLeft(e, f)),
     fold: (ma, onLeft, onRight) => M.chain(ma, fold(onLeft, onRight)),
     getOrElse: (ma, onLeft) => M.chain(ma, fold(onLeft, M.of)),
-    orElse: (ma, f) => M.chain(ma, fold(f, a => A.of(a))),
+    orElse: (ma, f) =>
+      M.chain(
+        ma,
+        fold(f, a => A.of(a))
+      ),
     swap: ma => M.map(ma, swap),
     rightM: ma => M.map(ma, right),
     leftM: ml => M.map(ml, left),

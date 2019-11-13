@@ -229,7 +229,10 @@ export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<U
     const concat = getMonoid<Tree<B>>().concat
     return {
       value,
-      forest: concat(forest, fa.forest.map(t => tree.chain(t, f)))
+      forest: concat(
+        forest,
+        fa.forest.map(t => tree.chain(t, f))
+      )
     }
   },
   reduce: <A, B>(fa: Tree<A>, b: B, f: (b: B, a: A) => B): B => {

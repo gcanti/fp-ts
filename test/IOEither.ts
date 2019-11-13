@@ -10,8 +10,20 @@ import { getMonoid } from '../src/Array'
 
 describe('IOEither', () => {
   it('fold', () => {
-    assert.deepStrictEqual(_.fold(() => io.of('left'), () => io.of('right'))(_.ioEither.of(1))(), 'right')
-    assert.deepStrictEqual(_.fold(() => io.of('left'), () => io.of('right'))(_.left(1))(), 'left')
+    assert.deepStrictEqual(
+      _.fold(
+        () => io.of('left'),
+        () => io.of('right')
+      )(_.ioEither.of(1))(),
+      'right'
+    )
+    assert.deepStrictEqual(
+      _.fold(
+        () => io.of('left'),
+        () => io.of('right')
+      )(_.left(1))(),
+      'left'
+    )
   })
 
   it('getOrElse', () => {
@@ -39,28 +51,40 @@ describe('IOEither', () => {
     assert.deepStrictEqual(
       pipe(
         _.right(12),
-        _.filterOrElse(n => n > 10, () => 'bar')
+        _.filterOrElse(
+          n => n > 10,
+          () => 'bar'
+        )
       )(),
       E.right(12)
     )
     assert.deepStrictEqual(
       pipe(
         _.right(7),
-        _.filterOrElse(n => n > 10, () => 'bar')
+        _.filterOrElse(
+          n => n > 10,
+          () => 'bar'
+        )
       )(),
       E.left('bar')
     )
     assert.deepStrictEqual(
       pipe(
         _.left('foo'),
-        _.filterOrElse(n => n > 10, () => 'bar')
+        _.filterOrElse(
+          n => n > 10,
+          () => 'bar'
+        )
       )(),
       E.left('foo')
     )
     assert.deepStrictEqual(
       pipe(
         _.right(7),
-        _.filterOrElse(n => n > 10, n => `invalid ${n}`)
+        _.filterOrElse(
+          n => n > 10,
+          n => `invalid ${n}`
+        )
       )(),
       E.left('invalid 7')
     )
@@ -79,7 +103,10 @@ describe('IOEither', () => {
   })
 
   it('fromPredicate', () => {
-    const gt2 = _.fromPredicate((n: number) => n >= 2, n => `Invalid number ${n}`)
+    const gt2 = _.fromPredicate(
+      (n: number) => n >= 2,
+      n => `Invalid number ${n}`
+    )
     assert.deepStrictEqual(gt2(3)(), E.right(3))
     assert.deepStrictEqual(gt2(1)(), E.left('Invalid number 1'))
 

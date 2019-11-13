@@ -16,13 +16,19 @@ describe('ReaderEither', () => {
   })
 
   it('fromPredicate', () => {
-    const gt2 = _.fromPredicate((n: number) => n >= 2, n => `Invalid number ${n}`)
+    const gt2 = _.fromPredicate(
+      (n: number) => n >= 2,
+      n => `Invalid number ${n}`
+    )
     assert.deepStrictEqual(gt2(3)({}), E.right(3))
     assert.deepStrictEqual(gt2(1)({}), E.left('Invalid number 1'))
   })
 
   it('fold', () => {
-    const fold = _.fold((s: string) => reader.of(s.length), (n: number) => reader.of(n * 2))
+    const fold = _.fold(
+      (s: string) => reader.of(s.length),
+      (n: number) => reader.of(n * 2)
+    )
     assert.deepStrictEqual(fold(_.right(1))({}), 2)
     assert.deepStrictEqual(fold(_.left('aaa'))({}), 3)
   })
@@ -41,12 +47,18 @@ describe('ReaderEither', () => {
   it('filterOrElse', () => {
     const e1 = pipe(
       _.right(12),
-      _.filterOrElse(n => n > 10, () => 'a')
+      _.filterOrElse(
+        n => n > 10,
+        () => 'a'
+      )
     )({})
     assert.deepStrictEqual(e1, E.right(12))
     const e2 = pipe(
       _.right(7),
-      _.filterOrElse(n => n > 10, () => 'a')
+      _.filterOrElse(
+        n => n > 10,
+        () => 'a'
+      )
     )({})
     assert.deepStrictEqual(e2, E.left('a'))
   })

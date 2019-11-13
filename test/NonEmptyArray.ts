@@ -77,8 +77,14 @@ describe('NonEmptyArray', () => {
   })
 
   it('traverse', () => {
-    assert.deepStrictEqual(nonEmptyArray.traverse(option)([1, 2, 3], n => (n >= 0 ? some(n) : none)), some([1, 2, 3]))
-    assert.deepStrictEqual(nonEmptyArray.traverse(option)([1, 2, 3], n => (n >= 2 ? some(n) : none)), none)
+    assert.deepStrictEqual(
+      nonEmptyArray.traverse(option)([1, 2, 3], n => (n >= 0 ? some(n) : none)),
+      some([1, 2, 3])
+    )
+    assert.deepStrictEqual(
+      nonEmptyArray.traverse(option)([1, 2, 3], n => (n >= 2 ? some(n) : none)),
+      none
+    )
   })
 
   it('sequence', () => {
@@ -98,7 +104,10 @@ describe('NonEmptyArray', () => {
   })
 
   it('reduce', () => {
-    assert.strictEqual(nonEmptyArray.reduce(['a', 'b'], '', (b, a) => b + a), 'ab')
+    assert.strictEqual(
+      nonEmptyArray.reduce(['a', 'b'], '', (b, a) => b + a),
+      'ab'
+    )
   })
 
   it('foldMap', () => {
@@ -248,15 +257,24 @@ describe('NonEmptyArray', () => {
   })
 
   it('reduceWithIndex', () => {
-    assert.deepStrictEqual(nonEmptyArray.reduceWithIndex(['a', 'b'], '', (i, b, a) => b + i + a), '0a1b')
+    assert.deepStrictEqual(
+      nonEmptyArray.reduceWithIndex(['a', 'b'], '', (i, b, a) => b + i + a),
+      '0a1b'
+    )
   })
 
   it('foldMapWithIndex', () => {
-    assert.deepStrictEqual(nonEmptyArray.foldMapWithIndex(monoidString)(['a', 'b'], (i, a) => i + a), '0a1b')
+    assert.deepStrictEqual(
+      nonEmptyArray.foldMapWithIndex(monoidString)(['a', 'b'], (i, a) => i + a),
+      '0a1b'
+    )
   })
 
   it('reduceRightWithIndex', () => {
-    assert.deepStrictEqual(nonEmptyArray.reduceRightWithIndex(['a', 'b'], '', (i, a, b) => b + i + a), '1b0a')
+    assert.deepStrictEqual(
+      nonEmptyArray.reduceRightWithIndex(['a', 'b'], '', (i, a, b) => b + i + a),
+      '1b0a'
+    )
   })
 
   it('traverseWithIndex', () => {

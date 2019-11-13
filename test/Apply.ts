@@ -17,10 +17,7 @@ describe('Apply', () => {
     const a2 = ['a', 'b', 'c']
     const a3 = [true, false]
     assert.deepStrictEqual(
-      pipe(
-        sequenceT(array)(a1, a2, a3),
-        arr => arr.map(([x, y, z]) => `(${x}, ${y}, ${z})`)
-      ),
+      pipe(sequenceT(array)(a1, a2, a3), arr => arr.map(([x, y, z]) => `(${x}, ${y}, ${z})`)),
       [
         '(1, a, true)',
         '(1, a, false)',
@@ -66,10 +63,7 @@ describe('Apply', () => {
     const a2 = ['a', 'b', 'c']
     const a3 = [true, false]
     assert.deepStrictEqual(
-      pipe(
-        sequenceS(array)({ a1, a2, a3 }),
-        arr => arr.map(({ a1, a2, a3 }) => `(${a1}, ${a2}, ${a3})`)
-      ),
+      pipe(sequenceS(array)({ a1, a2, a3 }), arr => arr.map(({ a1, a2, a3 }) => `(${a1}, ${a2}, ${a3})`)),
       [
         '(1, a, true)',
         '(1, a, false)',

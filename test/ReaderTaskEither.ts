@@ -63,7 +63,10 @@ describe('ReaderTaskEither', () => {
   })
 
   it('asks', async () => {
-    const e = await _.run(_.asks((s: string) => s.length), 'foo')
+    const e = await _.run(
+      _.asks((s: string) => s.length),
+      'foo'
+    )
     return assert.deepStrictEqual(e, E.right(3))
   })
 
@@ -110,14 +113,23 @@ describe('ReaderTaskEither', () => {
   })
 
   it('fromIOEither', async () => {
-    const e1 = await _.run(_.fromIOEither(() => E.right(1)), {})
+    const e1 = await _.run(
+      _.fromIOEither(() => E.right(1)),
+      {}
+    )
     assert.deepStrictEqual(e1, E.right(1))
-    const e2 = await _.run(_.fromIOEither(() => E.left('error')), {})
+    const e2 = await _.run(
+      _.fromIOEither(() => E.left('error')),
+      {}
+    )
     assert.deepStrictEqual(e2, E.left('error'))
   })
 
   it('fold', async () => {
-    const fold = _.fold((l: string) => reader.of(task.of(l.length)), (a: number) => reader.of(task.of(a * 2)))
+    const fold = _.fold(
+      (l: string) => reader.of(task.of(l.length)),
+      (a: number) => reader.of(task.of(a * 2))
+    )
     const e1 = await fold(_.right(1))({})()
     assert.deepStrictEqual(e1, 2)
     const e2 = await fold(_.left('err'))({})()
@@ -157,11 +169,20 @@ describe('ReaderTaskEither', () => {
   })
 
   it('alt', async () => {
-    const e1 = await _.run(_.readerTaskEither.alt(_.right(1), () => _.right(2)), {})
+    const e1 = await _.run(
+      _.readerTaskEither.alt(_.right(1), () => _.right(2)),
+      {}
+    )
     assert.deepStrictEqual(e1, E.right(1))
-    const e2 = await _.run(_.readerTaskEither.alt(_.left('a'), () => _.right(2)), {})
+    const e2 = await _.run(
+      _.readerTaskEither.alt(_.left('a'), () => _.right(2)),
+      {}
+    )
     assert.deepStrictEqual(e2, E.right(2))
-    const e3 = await _.run(_.readerTaskEither.alt(_.left('a'), () => _.left('b')), {})
+    const e3 = await _.run(
+      _.readerTaskEither.alt(_.left('a'), () => _.left('b')),
+      {}
+    )
     assert.deepStrictEqual(e3, E.left('b'))
   })
 
@@ -206,7 +227,10 @@ describe('ReaderTaskEither', () => {
 
   describe('MonadIO', () => {
     it('fromIO', async () => {
-      const e = await _.run(_.readerTaskEither.fromIO(() => 1), {})
+      const e = await _.run(
+        _.readerTaskEither.fromIO(() => 1),
+        {}
+      )
       assert.deepStrictEqual(e, E.right(1))
     })
   })
@@ -270,7 +294,10 @@ describe('ReaderTaskEither', () => {
     const e1 = await _.run(
       pipe(
         _.right(12),
-        _.filterOrElse(n => n > 10, () => 'a')
+        _.filterOrElse(
+          n => n > 10,
+          () => 'a'
+        )
       ),
       {}
     )
@@ -279,7 +306,10 @@ describe('ReaderTaskEither', () => {
     const e2 = await _.run(
       pipe(
         _.right(8),
-        _.filterOrElse(n => n > 10, () => 'a')
+        _.filterOrElse(
+          n => n > 10,
+          () => 'a'
+        )
       ),
       {}
     )

@@ -241,6 +241,9 @@ export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicativ
     ...getFunctorComposition(F, G),
     of: a => F.of(G.of(a)),
     ap: <A, B>(fgab: HKT<F, HKT<G, (a: A) => B>>, fga: HKT<F, HKT<G, A>>): HKT<F, HKT<G, B>> =>
-      F.ap(F.map(fgab, h => (ga: HKT<G, A>) => G.ap<A, B>(h, ga)), fga)
+      F.ap(
+        F.map(fgab, h => (ga: HKT<G, A>) => G.ap<A, B>(h, ga)),
+        fga
+      )
   }
 }
