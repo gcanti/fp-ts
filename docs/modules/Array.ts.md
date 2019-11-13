@@ -252,12 +252,22 @@ export function comprehension<A, R>(input: [Array<A>], f: (a: A) => boolean, g?:
 import { comprehension } from 'fp-ts/lib/Array'
 import { tuple } from 'fp-ts/lib/function'
 
-assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], tuple, (a, b) => (a + b.length) % 2 === 0), [
-  [1, 'a'],
-  [1, 'b'],
-  [3, 'a'],
-  [3, 'b']
-])
+assert.deepStrictEqual(
+  comprehension(
+    [
+      [1, 2, 3],
+      ['a', 'b']
+    ],
+    tuple,
+    (a, b) => (a + b.length) % 2 === 0
+  ),
+  [
+    [1, 'a'],
+    [1, 'b'],
+    [3, 'a'],
+    [3, 'b']
+  ]
+)
 ```
 
 Added in v2.0.0
@@ -438,7 +448,10 @@ import { findFirst } from 'fp-ts/lib/Array'
 import { some } from 'fp-ts/lib/Option'
 
 assert.deepStrictEqual(
-  findFirst((x: { a: number; b: number }) => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]),
+  findFirst((x: { a: number; b: number }) => x.a === 1)([
+    { a: 1, b: 1 },
+    { a: 1, b: 2 }
+  ]),
   some({ a: 1, b: 1 })
 )
 ```
@@ -514,7 +527,10 @@ import { findLast } from 'fp-ts/lib/Array'
 import { some } from 'fp-ts/lib/Option'
 
 assert.deepStrictEqual(
-  findLast((x: { a: number; b: number }) => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]),
+  findLast((x: { a: number; b: number }) => x.a === 1)([
+    { a: 1, b: 1 },
+    { a: 1, b: 2 }
+  ]),
   some({ a: 1, b: 2 })
 )
 ```
@@ -541,7 +557,10 @@ interface X {
   a: number
   b: number
 }
-const xs: Array<X> = [{ a: 1, b: 0 }, { a: 1, b: 1 }]
+const xs: Array<X> = [
+  { a: 1, b: 0 },
+  { a: 1, b: 1 }
+]
 assert.deepStrictEqual(findLastIndex((x: { a: number }) => x.a === 1)(xs), some(1))
 assert.deepStrictEqual(findLastIndex((x: { a: number }) => x.a === 4)(xs), none)
 ```
@@ -612,7 +631,10 @@ export function foldLeft<A, B>(onNil: () => B, onCons: (head: A, tail: Array<A>)
 ```ts
 import { foldLeft } from 'fp-ts/lib/Array'
 
-const len: <A>(as: Array<A>) => number = foldLeft(() => 0, (_, tail) => 1 + len(tail))
+const len: <A>(as: Array<A>) => number = foldLeft(
+  () => 0,
+  (_, tail) => 1 + len(tail)
+)
 assert.strictEqual(len([1, 2, 3]), 3)
 ```
 
@@ -1170,7 +1192,12 @@ const byAge = ord.contramap(ordNumber, (p: Person) => p.age)
 
 const sortByNameByAge = sortBy([byName, byAge])
 
-const persons = [{ name: 'a', age: 1 }, { name: 'b', age: 3 }, { name: 'c', age: 2 }, { name: 'b', age: 2 }]
+const persons = [
+  { name: 'a', age: 1 },
+  { name: 'b', age: 3 },
+  { name: 'c', age: 2 },
+  { name: 'b', age: 2 }
+]
 assert.deepStrictEqual(sortByNameByAge(persons), [
   { name: 'a', age: 1 },
   { name: 'b', age: 2 },
@@ -1222,7 +1249,10 @@ export function splitAt(n: number): <A>(as: Array<A>) => [Array<A>, Array<A>] { 
 ```ts
 import { splitAt } from 'fp-ts/lib/Array'
 
-assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
+assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
+  [1, 2],
+  [3, 4, 5]
+])
 ```
 
 Added in v2.0.0
@@ -1399,7 +1429,17 @@ export function unzip<A, B>(as: Array<[A, B]>): [Array<A>, Array<B>] { ... }
 ```ts
 import { unzip } from 'fp-ts/lib/Array'
 
-assert.deepStrictEqual(unzip([[1, 'a'], [2, 'b'], [3, 'c']]), [[1, 2, 3], ['a', 'b', 'c']])
+assert.deepStrictEqual(
+  unzip([
+    [1, 'a'],
+    [2, 'b'],
+    [3, 'c']
+  ]),
+  [
+    [1, 2, 3],
+    ['a', 'b', 'c']
+  ]
+)
 ```
 
 Added in v2.0.0
@@ -1442,7 +1482,11 @@ export function zip<A, B>(fa: Array<A>, fb: Array<B>): Array<[A, B]> { ... }
 ```ts
 import { zip } from 'fp-ts/lib/Array'
 
-assert.deepStrictEqual(zip([1, 2, 3], ['a', 'b', 'c', 'd']), [[1, 'a'], [2, 'b'], [3, 'c']])
+assert.deepStrictEqual(zip([1, 2, 3], ['a', 'b', 'c', 'd']), [
+  [1, 'a'],
+  [2, 'b'],
+  [3, 'c']
+])
 ```
 
 Added in v2.0.0
@@ -1463,7 +1507,10 @@ export function zipWith<A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => 
 ```ts
 import { zipWith } from 'fp-ts/lib/Array'
 
-assert.deepStrictEqual(zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n), ['a1', 'b2', 'c3'])
+assert.deepStrictEqual(
+  zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n),
+  ['a1', 'b2', 'c3']
+)
 ```
 
 Added in v2.0.0

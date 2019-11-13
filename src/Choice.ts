@@ -92,11 +92,7 @@ export function splitChoice<F>(
 export function splitChoice<F>(
   F: Category<F> & Choice<F>
 ): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, Either<A, C>, Either<B, D>> {
-  return (pab, pcd) =>
-    F.compose(
-      F.left(pab),
-      F.right(pcd)
-    )
+  return (pab, pcd) => F.compose(F.left(pab), F.right(pcd))
 }
 
 /**
@@ -136,9 +132,6 @@ export function fanin<F>(
   const splitChoiceF = splitChoice(F)
   return <A, B, C>(pac: HKT2<F, A, C>, pbc: HKT2<F, B, C>): HKT2<F, Either<A, B>, C> => {
     const join: HKT2<F, Either<C, C>, C> = F.promap(F.id<C>(), e => (e._tag === 'Left' ? e.left : e.right), identity)
-    return F.compose(
-      join,
-      splitChoiceF(pac, pbc)
-    )
+    return F.compose(join, splitChoiceF(pac, pbc))
   }
 }

@@ -44,8 +44,20 @@ describe('pipeable', () => {
 
   it('Bifunctor', () => {
     const { bimap, mapLeft } = pipeable(either)
-    assert.deepStrictEqual(bimap((s: string) => s.length, (n: number) => n * 2)(right(1)), right(2))
-    assert.deepStrictEqual(bimap((s: string) => s.length, (n: number) => n * 2)(left('aa')), left(2))
+    assert.deepStrictEqual(
+      bimap(
+        (s: string) => s.length,
+        (n: number) => n * 2
+      )(right(1)),
+      right(2)
+    )
+    assert.deepStrictEqual(
+      bimap(
+        (s: string) => s.length,
+        (n: number) => n * 2
+      )(left('aa')),
+      left(2)
+    )
     assert.deepStrictEqual(mapLeft((s: string) => s.length)(right(1)), right(1))
     assert.deepStrictEqual(mapLeft((s: string) => s.length)(left('aa')), left(2))
   })
@@ -110,7 +122,10 @@ describe('pipeable', () => {
 
   it('Profunctor', () => {
     const { promap } = pipeable(reader)
-    const f = promap((s: string) => s + 'a', (n: number) => n > 2)((s: string) => s.length)
+    const f = promap(
+      (s: string) => s + 'a',
+      (n: number) => n > 2
+    )((s: string) => s.length)
     assert.strictEqual(f('a'), false)
     assert.strictEqual(f('aa'), true)
   })
@@ -124,104 +139,14 @@ describe('pipeable', () => {
     const f = (n: number) => n + 1
     const g = (n: number) => n * 2
     assert.strictEqual(pipe(2), 2)
-    assert.strictEqual(
-      pipe(
-        2,
-        f
-      ),
-      3
-    )
-    assert.strictEqual(
-      pipe(
-        2,
-        f,
-        g
-      ),
-      6
-    )
-    assert.strictEqual(
-      pipe(
-        2,
-        f,
-        g,
-        f
-      ),
-      7
-    )
-    assert.strictEqual(
-      pipe(
-        2,
-        f,
-        g,
-        f,
-        g
-      ),
-      14
-    )
-    assert.strictEqual(
-      pipe(
-        2,
-        f,
-        g,
-        f,
-        g,
-        f
-      ),
-      15
-    )
-    assert.strictEqual(
-      pipe(
-        2,
-        f,
-        g,
-        f,
-        g,
-        f,
-        g
-      ),
-      30
-    )
-    assert.strictEqual(
-      pipe(
-        2,
-        f,
-        g,
-        f,
-        g,
-        f,
-        g,
-        f
-      ),
-      31
-    )
-    assert.strictEqual(
-      pipe(
-        2,
-        f,
-        g,
-        f,
-        g,
-        f,
-        g,
-        f,
-        g
-      ),
-      62
-    )
-    assert.strictEqual(
-      pipe(
-        2,
-        f,
-        g,
-        f,
-        g,
-        f,
-        g,
-        f,
-        g,
-        f
-      ),
-      63
-    )
+    assert.strictEqual(pipe(2, f), 3)
+    assert.strictEqual(pipe(2, f, g), 6)
+    assert.strictEqual(pipe(2, f, g, f), 7)
+    assert.strictEqual(pipe(2, f, g, f, g), 14)
+    assert.strictEqual(pipe(2, f, g, f, g, f), 15)
+    assert.strictEqual(pipe(2, f, g, f, g, f, g), 30)
+    assert.strictEqual(pipe(2, f, g, f, g, f, g, f), 31)
+    assert.strictEqual(pipe(2, f, g, f, g, f, g, f, g), 62)
+    assert.strictEqual(pipe(2, f, g, f, g, f, g, f, g, f), 63)
   })
 })

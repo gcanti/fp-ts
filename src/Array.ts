@@ -1242,7 +1242,11 @@ export function comprehension<R>(
  */
 export function union<A>(E: Eq<A>): (xs: Array<A>, ys: Array<A>) => Array<A> {
   const elemE = elem(E)
-  return (xs, ys) => concat(xs, ys.filter(a => !elemE(a, xs)))
+  return (xs, ys) =>
+    concat(
+      xs,
+      ys.filter(a => !elemE(a, xs))
+    )
 }
 
 /**
@@ -1377,7 +1381,12 @@ export const array: Monad1<URI> &
     return (ta, f) => traverseWithIndexF(ta, (_, a) => f(a))
   },
   sequence: <F>(F: Applicative<F>) => <A>(ta: Array<HKT<F, A>>): HKT<F, Array<A>> => {
-    return array.reduce(ta, F.of(array.zero()), (fas, fa) => F.ap(F.map(fas, as => (a: A) => snoc(as, a)), fa))
+    return array.reduce(ta, F.of(array.zero()), (fas, fa) =>
+      F.ap(
+        F.map(fas, as => (a: A) => snoc(as, a)),
+        fa
+      )
+    )
   },
   zero: () => empty,
   alt: (fx, f) => concat(fx, f()),
@@ -1407,7 +1416,10 @@ export const array: Monad1<URI> &
     f: (i: number, a: A) => HKT<F, B>
   ): HKT<F, Array<B>> => {
     return array.reduceWithIndex(ta, F.of<Array<B>>(array.zero()), (i, fbs, a) =>
-      F.ap(F.map(fbs, bs => (b: B) => snoc(bs, b)), f(i, a))
+      F.ap(
+        F.map(fbs, bs => (b: B) => snoc(bs, b)),
+        f(i, a)
+      )
     )
   },
   partitionMapWithIndex: <A, B, C>(

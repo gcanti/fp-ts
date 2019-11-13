@@ -8,13 +8,7 @@ import * as T from '../src/Tuple'
 
 describe('Tuple', () => {
   it('compose', () => {
-    assert.deepStrictEqual(
-      T.tuple.compose(
-        [true, 2],
-        [1, 'a']
-      ),
-      [true, 'a']
-    )
+    assert.deepStrictEqual(T.tuple.compose([true, 2], [1, 'a']), [true, 'a'])
   })
 
   it('map', () => {
@@ -62,7 +56,10 @@ describe('Tuple', () => {
   })
 
   it('reduce', () => {
-    assert.strictEqual(T.tuple.reduce(['b', 1], 'a', (acc, a) => acc + a), 'ab')
+    assert.strictEqual(
+      T.tuple.reduce(['b', 1], 'a', (acc, a) => acc + a),
+      'ab'
+    )
   })
 
   it('foldMap', () => {
@@ -70,7 +67,10 @@ describe('Tuple', () => {
   })
 
   it('reduceRight', () => {
-    assert.strictEqual(T.tuple.reduceRight(['b', 1], 'a', (acc, a) => acc + a), 'ba')
+    assert.strictEqual(
+      T.tuple.reduceRight(['b', 1], 'a', (acc, a) => acc + a),
+      'ba'
+    )
   })
 
   it('swap', () => {
@@ -90,7 +90,10 @@ describe('Tuple', () => {
 
   it('getMonad', () => {
     const monad = T.getMonad(monoidString)
-    assert.deepStrictEqual(monad.chain([1, 'a'], a => [a * 2, 'b']), [2, 'ab'])
+    assert.deepStrictEqual(
+      monad.chain([1, 'a'], a => [a * 2, 'b']),
+      [2, 'ab']
+    )
   })
 
   it('chainRec', () => {
@@ -105,8 +108,14 @@ describe('Tuple', () => {
   })
 
   it('traverse', () => {
-    assert.deepStrictEqual(T.tuple.traverse(option)([2, 'a'], n => (n >= 2 ? some(n) : none)), some([2, 'a']))
-    assert.deepStrictEqual(T.tuple.traverse(option)([1, 'a'], n => (n >= 2 ? some(n) : none)), none)
+    assert.deepStrictEqual(
+      T.tuple.traverse(option)([2, 'a'], n => (n >= 2 ? some(n) : none)),
+      some([2, 'a'])
+    )
+    assert.deepStrictEqual(
+      T.tuple.traverse(option)([1, 'a'], n => (n >= 2 ? some(n) : none)),
+      none
+    )
   })
 
   it('sequence', () => {

@@ -43,7 +43,10 @@ describe('Tree', () => {
 
   it('reduce', () => {
     const fa = make('a', [make('b'), make('c')])
-    assert.strictEqual(tree.reduce(fa, '', (b, a) => b + a), 'abc')
+    assert.strictEqual(
+      tree.reduce(fa, '', (b, a) => b + a),
+      'abc'
+    )
   })
 
   it('foldMap', () => {
@@ -63,7 +66,10 @@ describe('Tree', () => {
 
   it('traverse', () => {
     const fa = make('a', [make('b'), make('c')])
-    assert.deepStrictEqual(tree.traverse(I.identity)(fa, a => I.identity.of(a)), I.identity.of(fa))
+    assert.deepStrictEqual(
+      tree.traverse(I.identity)(fa, a => I.identity.of(a)),
+      I.identity.of(fa)
+    )
   })
 
   it('sequence', () => {
