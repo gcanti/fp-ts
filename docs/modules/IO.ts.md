@@ -154,7 +154,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const io: Monad1<URI> & MonadIO1<URI> = ...
+export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = ...
 ```
 
 Added in v2.0.0

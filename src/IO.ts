@@ -95,6 +95,7 @@ import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
 import { pipeable } from './pipeable'
 import { Semigroup } from './Semigroup'
+import { ChainRec1 } from './ChainRec'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -146,13 +147,20 @@ export const of = <A>(a: A): IO<A> => () => a
 /**
  * @since 2.0.0
  */
-export const io: Monad1<URI> & MonadIO1<URI> = {
+export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
   URI,
   map: (ma, f) => () => f(ma()),
   of,
   ap: (mab, ma) => () => mab()(ma()),
   chain: (ma, f) => () => f(ma())(),
-  fromIO: identity
+  fromIO: identity,
+  chainRec: (a, f) => () => {
+    let e = f(a)()
+    while (e._tag === 'Left') {
+      e = f(e.left)()
+    }
+    return e.right
+  }
 }
 
 const { ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(io)
