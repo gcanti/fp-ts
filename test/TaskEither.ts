@@ -287,14 +287,6 @@ describe('TaskEither', () => {
     assert.deepStrictEqual(e2, E.right('a'))
   })
 
-  it('tryCatch', async () => {
-    const onrejected = (e: any) => `Error is: ${String(e)}`
-    const e1 = await _.tryCatch(() => Promise.resolve(1), onrejected)()
-    assert.deepStrictEqual(e1, E.right(1))
-    const e2 = await _.tryCatch(() => Promise.reject('ouch!'), onrejected)()
-    assert.deepStrictEqual(e2, E.left('Error is: ouch!'))
-  })
-
   it('fromOption', async () => {
     const e1 = await _.fromOption(() => 'none')(none)()
     assert.deepStrictEqual(e1, E.left('none'))

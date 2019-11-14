@@ -546,11 +546,10 @@ export const either: Monad2<URI> &
   mapLeft: (fea, f) => (isLeft(fea) ? left(f(fea.left)) : fea),
   alt: (fx, fy) => (isLeft(fx) ? fy() : fx),
   extend: (wa, f) => (isLeft(wa) ? wa : right(f(wa))),
-  chainRec: <E, A, B>(a: A, f: (a: A) => Either<E, Either<A, B>>): Either<E, B> => {
-    return tailRec(f(a), e =>
+  chainRec: (a, f) =>
+    tailRec(f(a), e =>
       isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
-    )
-  },
+    ),
   throwError: left
 }
 

@@ -1,6 +1,6 @@
 import { Alt1 } from './Alt'
 import { Applicative } from './Applicative'
-import { ChainRec1 } from './ChainRec'
+import { ChainRec1, tailRec } from './ChainRec'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Foldable1 } from './Foldable'
@@ -63,13 +63,7 @@ export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<U
   alt: id,
   extract: id,
   extend: (wa, f) => f(wa),
-  chainRec: (a, f) => {
-    let v = f(a)
-    while (v._tag === 'Left') {
-      v = f(v.left)
-    }
-    return v.right
-  }
+  chainRec: tailRec
 }
 
 const {
