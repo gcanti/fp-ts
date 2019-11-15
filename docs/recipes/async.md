@@ -131,3 +131,25 @@ array
   .traverse(task)(items, checkPathExists)()
   .then(console.log) // [ { path: '/bin', exists: true }, { path: '/no/real/path', exists: false } ]
 ```
+
+## Comparison with `Promise` methods
+
+Following is a table comparing `Task`/`TaskEither` with `Promise`. It assumes the following imports:
+
+```ts
+import * as T from 'fp-ts/lib/Task'
+import * as TE from 'fp-ts/lib/TaskEither'
+import { array } from 'fp-ts/lib/Array'
+import { fold } from 'fp-ts/lib/Monoid'
+```
+
+| | Promise | Task | TaskEither |
+| --- | --- | --- | --- |
+| resolve to success | `Promise.resolve(value)` | `T.task.of(value)` | `TE.taskEither.of(value)` or `TE.right(value)` |
+| resolve to failure | `Promise.reject(value)` | N/A | `TE.left(value)` |
+| transform the result of a task with the function `f` | `promise.then(f)` | `T.task.map(task, f)` | `T.taskEither.map(taskEither, f)` |
+| perform a task depending on the result of a previous one | `promise.then(r => getPromise(r))` | `T.task.chain(task, r => getTask(r))` | `T.taskEither.chain(taskEither, r => getTaskEither(r))` |
+| execute an array of tasks in parallel | `Promise.all(promises)` | `array.sequence(T.task)(tasks)` | `array.sequence(TE.taskEither)(taskEithers)` |
+| execute an array of tasks in parallel, collecting all failures and successes | `Promise.allSettled(promises)` | N/A | `array.sequence(T.task)(taskEithers)` |
+| execute an array of tasks and succeed/fail with a single value as soon as one of the tasks succeeds/fails | `Promise.race(promises)` | `fold(T.getRaceMonoid())(tasks)` | `fold(T.getRaceMonoid())(taskEithers)` |
+
