@@ -11,6 +11,7 @@ parent: Modules
 - [ReaderM (interface)](#readerm-interface)
 - [ReaderM1 (interface)](#readerm1-interface)
 - [ReaderM2 (interface)](#readerm2-interface)
+- [ReaderM2C (interface)](#readerm2c-interface)
 - [ReaderM3 (interface)](#readerm3-interface)
 - [ReaderT (interface)](#readert-interface)
 - [ReaderT1 (interface)](#readert1-interface)
@@ -79,6 +80,26 @@ export interface ReaderM2<M extends URIS2> {
 ```
 
 Added in v2.0.0
+
+# ReaderM2C (interface)
+
+**Signature**
+
+```ts
+export interface ReaderM2C<M extends URIS2, E> {
+  readonly map: <R, A, B>(ma: ReaderT2<M, R, E, A>, f: (a: A) => B) => ReaderT2<M, R, E, B>
+  readonly of: <R, A>(a: A) => ReaderT2<M, R, E, A>
+  readonly ap: <R, A, B>(mab: ReaderT2<M, R, E, (a: A) => B>, ma: ReaderT2<M, R, E, A>) => ReaderT2<M, R, E, B>
+  readonly chain: <R, A, B>(ma: ReaderT2<M, R, E, A>, f: (a: A) => ReaderT2<M, R, E, B>) => ReaderT2<M, R, E, B>
+  readonly ask: <R>() => ReaderT2<M, R, E, R>
+  readonly asks: <R, A>(f: (r: R) => A) => ReaderT2<M, R, E, A>
+  readonly local: <R, A, Q>(ma: ReaderT2<M, R, E, A>, f: (d: Q) => R) => ReaderT2<M, Q, E, A>
+  readonly fromReader: <R, A>(ma: Reader<R, A>) => ReaderT2<M, R, E, A>
+  readonly fromM: <R, A>(ma: Kind2<M, E, A>) => ReaderT2<M, R, E, A>
+}
+```
+
+Added in v2.2.0
 
 # ReaderM3 (interface)
 
@@ -161,6 +182,7 @@ Added in v2.0.0
 ```ts
 export function getReaderM<M extends URIS3>(M: Monad3<M>): ReaderM3<M>
 export function getReaderM<M extends URIS2>(M: Monad2<M>): ReaderM2<M>
+export function getReaderM<M extends URIS2, E>(M: Monad2C<M, E>): ReaderM2C<M, E>
 export function getReaderM<M extends URIS>(M: Monad1<M>): ReaderM1<M>
 export function getReaderM<M>(M: Monad<M>): ReaderM<M> { ... }
 ```
