@@ -1,12 +1,13 @@
 import {
-  ApplicativeCompositionHKT1,
   ApplicativeComposition11,
   ApplicativeComposition21,
+  ApplicativeComposition2C1,
+  ApplicativeCompositionHKT1,
   getApplicativeComposition
 } from './Applicative'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
-import { Monad, Monad1, Monad2 } from './Monad'
-import { fold, none, Option, some, URI, option } from './Option'
+import { Monad, Monad1, Monad2, Monad2C } from './Monad'
+import { fold, none, Option, option, some, URI } from './Option'
 
 /**
  * @since 2.0.0
@@ -64,9 +65,26 @@ export interface OptionM2<M extends URIS2> extends ApplicativeComposition21<M, U
 }
 
 /**
+ * @since 2.2.0
+ */
+export interface OptionM2C<M extends URIS2, E> extends ApplicativeComposition2C1<M, URI, E> {
+  readonly chain: <A, B>(ma: OptionT2<M, E, A>, f: (a: A) => OptionT2<M, E, B>) => OptionT2<M, E, B>
+  readonly alt: <A>(fx: OptionT2<M, E, A>, fy: () => OptionT2<M, E, A>) => OptionT2<M, E, A>
+  readonly fold: <A, R>(
+    ma: OptionT2<M, E, A>,
+    onNone: () => Kind2<M, E, R>,
+    onSome: (a: A) => Kind2<M, E, R>
+  ) => Kind2<M, E, R>
+  readonly getOrElse: <A>(ma: OptionT2<M, E, A>, onNone: () => Kind2<M, E, A>) => Kind2<M, E, A>
+  readonly fromM: <A>(ma: Kind2<M, E, A>) => OptionT2<M, E, A>
+  readonly none: <A = never>() => OptionT2<M, E, A>
+}
+
+/**
  * @since 2.0.0
  */
 export function getOptionM<M extends URIS2>(M: Monad2<M>): OptionM2<M>
+export function getOptionM<M extends URIS2, E>(M: Monad2C<M, E>): OptionM2C<M, E>
 export function getOptionM<M extends URIS>(M: Monad1<M>): OptionM1<M>
 export function getOptionM<M>(M: Monad<M>): OptionM<M>
 export function getOptionM<M>(M: Monad<M>): OptionM<M> {
