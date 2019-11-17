@@ -11,6 +11,7 @@ parent: Modules
 - [OptionM (interface)](#optionm-interface)
 - [OptionM1 (interface)](#optionm1-interface)
 - [OptionM2 (interface)](#optionm2-interface)
+- [OptionM2C (interface)](#optionm2c-interface)
 - [OptionT (interface)](#optiont-interface)
 - [OptionT1 (type alias)](#optiont1-type-alias)
 - [OptionT2 (type alias)](#optiont2-type-alias)
@@ -73,6 +74,27 @@ export interface OptionM2<M extends URIS2> extends ApplicativeComposition21<M, U
 
 Added in v2.0.0
 
+# OptionM2C (interface)
+
+**Signature**
+
+```ts
+export interface OptionM2C<M extends URIS2, E> extends ApplicativeComposition2C1<M, URI, E> {
+  readonly chain: <A, B>(ma: OptionT2<M, E, A>, f: (a: A) => OptionT2<M, E, B>) => OptionT2<M, E, B>
+  readonly alt: <A>(fx: OptionT2<M, E, A>, fy: () => OptionT2<M, E, A>) => OptionT2<M, E, A>
+  readonly fold: <A, R>(
+    ma: OptionT2<M, E, A>,
+    onNone: () => Kind2<M, E, R>,
+    onSome: (a: A) => Kind2<M, E, R>
+  ) => Kind2<M, E, R>
+  readonly getOrElse: <A>(ma: OptionT2<M, E, A>, onNone: () => Kind2<M, E, A>) => Kind2<M, E, A>
+  readonly fromM: <A>(ma: Kind2<M, E, A>) => OptionT2<M, E, A>
+  readonly none: <A = never>() => OptionT2<M, E, A>
+}
+```
+
+Added in v2.2.0
+
 # OptionT (interface)
 
 **Signature**
@@ -109,6 +131,7 @@ Added in v2.0.0
 
 ```ts
 export function getOptionM<M extends URIS2>(M: Monad2<M>): OptionM2<M>
+export function getOptionM<M extends URIS2, E>(M: Monad2C<M, E>): OptionM2C<M, E>
 export function getOptionM<M extends URIS>(M: Monad1<M>): OptionM1<M>
 export function getOptionM<M>(M: Monad<M>): OptionM<M> { ... }
 ```
