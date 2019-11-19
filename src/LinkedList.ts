@@ -271,6 +271,132 @@ export function elemLastIndex<A>(eq: Eq<A>, a: A, fa: LinkedList<A>): O.Option<n
 }
 
 /**
+ * Inserts an element into a list at the specified index, returning a new list or `None`
+ * if the index is out-of-bounds.
+ * @since 2.1.1
+ */
+export function insertAt<A>(index: number, a: A, fa: LinkedList<A>): O.Option<LinkedList<A>> {
+  if (isNil(fa) && index === 0) return O.some(singleton(a))
+
+  let l: LinkedList<A> = fa
+  let i = 0
+  let out: LinkedList<A> = nil
+  let hasBeenInserted = false
+  while (isCons(l) && i <= index) {
+    if (i === index) {
+      out = cons(a, out)
+      hasBeenInserted = true
+    }
+    out = cons(l.head, out)
+    l = l.tail
+    i++
+  }
+  return hasBeenInserted ? O.some(reverse(out)) : O.none
+}
+
+/**
+ * Deletes an element from a list at the specified index, returning a new
+ * list or `None` if the index is out-of-bounds.
+ * @since 2.1.1
+ */
+export function deleteAt<A>(index: number, fa: LinkedList<A>): O.Option<LinkedList<A>> {
+  if (isNil(fa)) return O.none
+
+  let l: LinkedList<A> = fa
+  let i = 0
+  let out: LinkedList<A> = nil
+  let hasBeenDeleted = false
+  while (isCons(l)) {
+    if (i === index) {
+      hasBeenDeleted = true
+    } else {
+      out = cons(l.head, out)
+    }
+    l = l.tail
+    i++
+  }
+  return hasBeenDeleted ? O.some(reverse(out)) : O.none
+}
+
+/**
+ * Updates an element from a list at the specified index, returning a new
+ * list or `None` if the index is out-of-bounds.
+ * @since 2.1.1
+ */
+export function updateAt<A>(index: number, a: A, fa: LinkedList<A>): O.Option<LinkedList<A>> {
+  if (isNil(fa)) return O.none
+
+  let l: LinkedList<A> = fa
+  let i = 0
+  let out: LinkedList<A> = nil
+  let hasBeenUpdated = false
+  while (isCons(l)) {
+    if (i === index) {
+      hasBeenUpdated = true
+      out = cons(a, out)
+    } else {
+      out = cons(l.head, out)
+    }
+    l = l.tail
+    i++
+  }
+  return hasBeenUpdated ? O.some(reverse(out)) : O.none
+}
+
+/**
+ * Update the element at the specified index by applying a function
+ * to the current value, returning a new list or `None` if the index is out-of-bounds.
+ * @since 2.1.1
+ */
+export function modifyAt<A>(index: number, f: (a: A) => A, fa: LinkedList<A>): O.Option<LinkedList<A>> {
+  if (isNil(fa)) return O.none
+
+  let l: LinkedList<A> = fa
+  let i = 0
+  let out: LinkedList<A> = nil
+  let hasBeenUpdated = false
+  while (isCons(l)) {
+    if (i === index) {
+      hasBeenUpdated = true
+      out = cons(f(l.head), out)
+    } else {
+      out = cons(l.head, out)
+    }
+    l = l.tail
+    i++
+  }
+  return hasBeenUpdated ? O.some(reverse(out)) : O.none
+}
+
+/**
+ * Updates or deletes the element at the specified index by applying a function
+ * to the current value, returning a new list or `None` if the index is out-of-bounds.
+ * @since 2.1.1
+ */
+export function alterAt<A>(index: number, f: (a: A) => O.Option<A>, fa: LinkedList<A>): O.Option<LinkedList<A>> {
+  if (isNil(fa)) return O.none
+
+  let l: LinkedList<A> = fa
+  let i = 0
+  let out: LinkedList<A> = nil
+  let hasBeenAltered = false
+  while (isCons(l)) {
+    if (i === index) {
+      const oA = f(l.head)
+      if (O.isSome(oA)) {
+        out = cons(oA.value, out)
+      }
+      hasBeenAltered = true
+    } else {
+      out = cons(l.head, out)
+    }
+    l = l.tail
+    i++
+  }
+  return hasBeenAltered ? O.some(reverse(out)) : O.none
+}
+
+/**
  * Reverse a list.
  * @since 2.1.1
  */

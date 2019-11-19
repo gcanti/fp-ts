@@ -17,7 +17,9 @@ Adapted from https://github.com/purescript/purescript-lists
 - [URI (constant)](#uri-constant)
 - [linkedList (constant)](#linkedlist-constant)
 - [nil (constant)](#nil-constant)
+- [alterAt (function)](#alterat-function)
 - [cons (function)](#cons-function)
+- [deleteAt (function)](#deleteat-function)
 - [elemIndex (function)](#elemindex-function)
 - [elemLastIndex (function)](#elemlastindex-function)
 - [findIndex (function)](#findindex-function)
@@ -27,11 +29,13 @@ Adapted from https://github.com/purescript/purescript-lists
 - [index (function)](#index-function)
 - [init (function)](#init-function)
 - [insert (function)](#insert-function)
+- [insertAt (function)](#insertat-function)
 - [insertBy (function)](#insertby-function)
 - [isCons (function)](#iscons-function)
 - [isNil (function)](#isnil-function)
 - [last (function)](#last-function)
 - [length (function)](#length-function)
+- [modifyAt (function)](#modifyat-function)
 - [range (function)](#range-function)
 - [reverse (function)](#reverse-function)
 - [singleton (function)](#singleton-function)
@@ -40,6 +44,7 @@ Adapted from https://github.com/purescript/purescript-lists
 - [toArray (function)](#toarray-function)
 - [uncons (function)](#uncons-function)
 - [unsnoc (function)](#unsnoc-function)
+- [updateAt (function)](#updateat-function)
 - [compact (export)](#compact-export)
 - [filter (export)](#filter-export)
 - [filterMap (export)](#filtermap-export)
@@ -103,12 +108,38 @@ export const nil: Nil = ...
 
 Added in v2.1.1
 
+# alterAt (function)
+
+Updates or deletes the element at the specified index by applying a function
+to the current value, returning a new list or `None` if the index is out-of-bounds.
+
+**Signature**
+
+```ts
+export function alterAt<A>(index: number, f: (a: A) => O.Option<A>, fa: LinkedList<A>): O.Option<LinkedList<A>> { ... }
+```
+
+Added in v2.1.1
+
 # cons (function)
 
 **Signature**
 
 ```ts
 export function cons<A>(head: A, tail: LinkedList<A>): LinkedList<A> { ... }
+```
+
+Added in v2.1.1
+
+# deleteAt (function)
+
+Deletes an element from a list at the specified index, returning a new
+list or `None` if the index is out-of-bounds.
+
+**Signature**
+
+```ts
+export function deleteAt<A>(index: number, fa: LinkedList<A>): O.Option<LinkedList<A>> { ... }
 ```
 
 Added in v2.1.1
@@ -221,6 +252,19 @@ export function insert<A>(ord: Ord<A>): (a: A) => (fa: LinkedList<A>) => LinkedL
 
 Added in v2.1.1
 
+# insertAt (function)
+
+Inserts an element into a list at the specified index, returning a new list or `None`
+if the index is out-of-bounds.
+
+**Signature**
+
+```ts
+export function insertAt<A>(index: number, a: A, fa: LinkedList<A>): O.Option<LinkedList<A>> { ... }
+```
+
+Added in v2.1.1
+
 # insertBy (function)
 
 Insert an element into a sorted list, using the specified function
@@ -274,6 +318,19 @@ Gets the length of a list.
 
 ```ts
 export function length<A>(fa: LinkedList<A>): number { ... }
+```
+
+Added in v2.1.1
+
+# modifyAt (function)
+
+Update the element at the specified index by applying a function
+to the current value, returning a new list or `None` if the index is out-of-bounds.
+
+**Signature**
+
+```ts
+export function modifyAt<A>(index: number, f: (a: A) => A, fa: LinkedList<A>): O.Option<LinkedList<A>> { ... }
 ```
 
 Added in v2.1.1
@@ -372,6 +429,19 @@ or `None` if the list is empty.
 
 ```ts
 export function unsnoc<A>(fa: LinkedList<A>): O.Option<{ init: LinkedList<A>; last: A }> { ... }
+```
+
+Added in v2.1.1
+
+# updateAt (function)
+
+Updates an element from a list at the specified index, returning a new
+list or `None` if the index is out-of-bounds.
+
+**Signature**
+
+```ts
+export function updateAt<A>(index: number, a: A, fa: LinkedList<A>): O.Option<LinkedList<A>> { ... }
 ```
 
 Added in v2.1.1

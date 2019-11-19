@@ -157,6 +157,86 @@ describe('LinkedList', () => {
     )
     assert.deepStrictEqual(LL.elemLastIndex(eqNumber, 6, LL.cons(1, LL.nil)), O.none)
   })
+
+  it('insertAt', () => {
+    assert.deepStrictEqual(LL.insertAt(0, 'a', LL.nil), O.some({ type: 'Cons', head: 'a', tail: LL.nil }))
+    assert.deepStrictEqual(LL.insertAt(1, 'a', LL.nil), O.none)
+    assert.deepStrictEqual(
+      LL.insertAt(1, 'b', LL.cons('a', LL.singleton('c'))),
+      O.some({
+        type: 'Cons',
+        head: 'a',
+        tail: { type: 'Cons', head: 'b', tail: { type: 'Cons', head: 'c', tail: LL.nil } }
+      })
+    )
+  })
+
+  it('deleteAt', () => {
+    assert.deepStrictEqual(LL.deleteAt(0, LL.nil), O.none)
+    assert.deepStrictEqual(LL.deleteAt(2, LL.singleton('a')), O.none)
+    assert.deepStrictEqual(
+      LL.deleteAt(1, LL.cons('a', LL.cons('b', LL.singleton('c')))),
+      O.some({
+        type: 'Cons',
+        head: 'a',
+        tail: { type: 'Cons', head: 'c', tail: LL.nil }
+      })
+    )
+  })
+
+  it('updateAt', () => {
+    assert.deepStrictEqual(LL.updateAt(0, 'a', LL.nil), O.none)
+    assert.deepStrictEqual(LL.updateAt(0, 'x', LL.singleton('a')), O.some({ type: 'Cons', head: 'x', tail: LL.nil }))
+    assert.deepStrictEqual(LL.updateAt(2, 'x', LL.singleton('a')), O.none)
+    assert.deepStrictEqual(
+      LL.updateAt(1, 'x', LL.cons('a', LL.cons('b', LL.singleton('c')))),
+      O.some({
+        type: 'Cons',
+        head: 'a',
+        tail: { type: 'Cons', head: 'x', tail: { type: 'Cons', head: 'c', tail: LL.nil } }
+      })
+    )
+  })
+
+  it('modifyAt', () => {
+    const toUpperCase = (s: string): string => s.toUpperCase()
+
+    assert.deepStrictEqual(LL.modifyAt(0, toUpperCase, LL.nil), O.none)
+    assert.deepStrictEqual(
+      LL.modifyAt(0, toUpperCase, LL.singleton('a')),
+      O.some({ type: 'Cons', head: 'A', tail: LL.nil })
+    )
+    assert.deepStrictEqual(LL.modifyAt(2, toUpperCase, LL.singleton('a')), O.none)
+    assert.deepStrictEqual(
+      LL.modifyAt(1, toUpperCase, LL.cons('a', LL.cons('b', LL.singleton('c')))),
+      O.some({
+        type: 'Cons',
+        head: 'a',
+        tail: { type: 'Cons', head: 'B', tail: { type: 'Cons', head: 'c', tail: LL.nil } }
+      })
+    )
+  })
+
+  it('alterAt', () => {
+    const toUpperCaseIfX = (s: string): O.Option<string> => (s === 'x' ? O.some(s.toUpperCase()) : O.none)
+
+    assert.deepStrictEqual(LL.alterAt(0, toUpperCaseIfX, LL.nil), O.none)
+    assert.deepStrictEqual(LL.alterAt(0, toUpperCaseIfX, LL.singleton('a')), O.some(LL.nil))
+    assert.deepStrictEqual(
+      LL.alterAt(0, toUpperCaseIfX, LL.singleton('x')),
+      O.some({ type: 'Cons', head: 'X', tail: LL.nil })
+    )
+    assert.deepStrictEqual(LL.alterAt(2, toUpperCaseIfX, LL.singleton('a')), O.none)
+    assert.deepStrictEqual(
+      LL.alterAt(1, toUpperCaseIfX, LL.cons('a', LL.cons('x', LL.singleton('c')))),
+      O.some({
+        type: 'Cons',
+        head: 'a',
+        tail: { type: 'Cons', head: 'X', tail: { type: 'Cons', head: 'c', tail: LL.nil } }
+      })
+    )
+  })
+
   it('reverse', () => {
     assert.deepStrictEqual(LL.reverse(LL.cons(1, LL.cons(2, LL.cons(3, LL.nil)))), {
       type: 'Cons',
