@@ -69,7 +69,7 @@ import * as O from 'fp-ts/lib/Option'
 
 O.some(1)
   .map(n => n * 2)
-  .chain(n === 0 ? O.none : O.some(1 / n))
+  .chain(n => (n === 0 ? O.none : O.some(1 / n)))
   .filter(n => n > 1)
   .foldL(() => 'ko', () => 'ok')
 ```
@@ -84,7 +84,7 @@ import { pipe } from 'fp-ts/lib/pipeable'
 pipe(
   O.some(1),
   O.map(n => n * 2),
-  O.chain(n === 0 ? O.none : O.some(1 / n)),
+  O.chain(n => (n === 0 ? O.none : O.some(1 / n))),
   O.filter(n => n > 1),
   O.fold(() => 'ko', () => 'ok')
 )
