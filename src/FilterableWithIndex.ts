@@ -1,13 +1,22 @@
 import { Separated } from './Compactable'
 import { Either } from './Either'
-import { Filterable, Filterable1, Filterable2, Filterable2C, Filterable3, Filterable4 } from './Filterable'
+import {
+  Filterable,
+  Filterable1,
+  Filterable2,
+  Filterable2C,
+  Filterable3,
+  Filterable4,
+  Filterable3C
+} from './Filterable'
 import {
   FunctorWithIndex,
   FunctorWithIndex1,
   FunctorWithIndex2,
   FunctorWithIndex2C,
   FunctorWithIndex3,
-  FunctorWithIndex4
+  FunctorWithIndex4,
+  FunctorWithIndex3C
 } from './FunctorWithIndex'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'
 import { Option } from './Option'
@@ -153,6 +162,27 @@ export interface FilterWithIndex3<F extends URIS3, I> {
 }
 
 /**
+ * @since 2.2.0
+ */
+export interface FilterWithIndex3C<F extends URIS3, I, E> {
+  <R, A, B extends A>(fa: Kind3<F, R, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Kind3<F, R, E, B>
+  <R, A>(fa: Kind3<F, R, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Kind3<F, R, E, A>
+}
+
+/**
+ * @since 2.2.0
+ */
+export interface FilterableWithIndex3C<F extends URIS3, I, E> extends FunctorWithIndex3C<F, I, E>, Filterable3C<F, E> {
+  readonly partitionMapWithIndex: <R, A, B, C>(
+    fa: Kind3<F, R, E, A>,
+    f: (i: I, a: A) => Either<B, C>
+  ) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, C>>
+  readonly partitionWithIndex: PartitionWithIndex3C<F, I, E>
+  readonly filterMapWithIndex: <R, A, B>(fa: Kind3<F, R, E, A>, f: (i: I, a: A) => Option<B>) => Kind3<F, R, E, B>
+  readonly filterWithIndex: FilterWithIndex3C<F, I, E>
+}
+
+/**
  * @since 2.0.0
  */
 export interface PartitionWithIndex3<F extends URIS3, I> {
@@ -161,6 +191,20 @@ export interface PartitionWithIndex3<F extends URIS3, I> {
     Kind3<F, R, E, B>
   >
   <R, E, A>(fa: Kind3<F, R, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Separated<
+    Kind3<F, R, E, A>,
+    Kind3<F, R, E, A>
+  >
+}
+
+/**
+ * @since 2.2.0
+ */
+export interface PartitionWithIndex3C<F extends URIS3, I, E> {
+  <R, A, B extends A>(fa: Kind3<F, R, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Separated<
+    Kind3<F, R, E, A>,
+    Kind3<F, R, E, B>
+  >
+  <R, A>(fa: Kind3<F, R, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Separated<
     Kind3<F, R, E, A>,
     Kind3<F, R, E, A>
   >

@@ -23,7 +23,8 @@ import {
   FoldableComposition2C1,
   FoldableComposition22,
   FoldableComposition22C,
-  Foldable4
+  Foldable4,
+  Foldable3C
 } from './Foldable'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'
 import { Monoid } from './Monoid'
@@ -71,6 +72,15 @@ export interface FoldableWithIndex3<F extends URIS3, I> extends Foldable3<F> {
   readonly reduceWithIndex: <R, E, A, B>(fa: Kind3<F, R, E, A>, b: B, f: (i: I, b: B, a: A) => B) => B
   readonly foldMapWithIndex: <M>(M: Monoid<M>) => <R, E, A>(fa: Kind3<F, R, E, A>, f: (i: I, a: A) => M) => M
   readonly reduceRightWithIndex: <R, E, A, B>(fa: Kind3<F, R, E, A>, b: B, f: (i: I, a: A, b: B) => B) => B
+}
+
+/**
+ * @since 2.2.0
+ */
+export interface FoldableWithIndex3C<F extends URIS3, I, E> extends Foldable3C<F, E> {
+  readonly reduceWithIndex: <R, A, B>(fa: Kind3<F, R, E, A>, b: B, f: (i: I, b: B, a: A) => B) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <R, A>(fa: Kind3<F, R, E, A>, f: (i: I, a: A) => M) => M
+  readonly reduceRightWithIndex: <R, A, B>(fa: Kind3<F, R, E, A>, b: B, f: (i: I, a: A, b: B) => B) => B
 }
 
 /**

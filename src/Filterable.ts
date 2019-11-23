@@ -17,7 +17,9 @@ import {
   CompactableComposition22,
   getCompactableComposition,
   Separated,
-  Compactable4
+  Compactable4,
+  Compactable3C,
+  CompactableComposition23
 } from './Compactable'
 import { Either } from './Either'
 import { Predicate, Refinement } from './function'
@@ -33,7 +35,9 @@ import {
   FunctorComposition12C,
   FunctorComposition21,
   FunctorComposition22,
-  Functor4
+  Functor4,
+  Functor3C,
+  FunctorComposition23
 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'
 import { getLeft, getRight, Option } from './Option'
@@ -190,6 +194,38 @@ export interface Filterable3<F extends URIS3> extends Functor3<F>, Compactable3<
   readonly partition: Partition3<F>
   readonly filterMap: <R, E, A, B>(fa: Kind3<F, R, E, A>, f: (a: A) => Option<B>) => Kind3<F, R, E, B>
   readonly filter: Filter3<F>
+}
+
+/**
+ * @since 2.2.0
+ */
+export interface Filter3C<F extends URIS3, E> {
+  <R, A, B extends A>(fa: Kind3<F, R, E, A>, refinement: Refinement<A, B>): Kind3<F, R, E, B>
+  <R, A>(fa: Kind3<F, R, E, A>, predicate: Predicate<A>): Kind3<F, R, E, A>
+}
+
+/**
+ * @since 2.2.0
+ */
+export interface Partition3C<F extends URIS3, E> {
+  <R, A, B extends A>(fa: Kind3<F, R, E, A>, refinement: Refinement<A, B>): Separated<
+    Kind3<F, R, E, A>,
+    Kind3<F, R, E, B>
+  >
+  <R, A>(fa: Kind3<F, R, E, A>, predicate: Predicate<A>): Separated<Kind3<F, R, E, A>, Kind3<F, R, E, A>>
+}
+
+/**
+ * @since 2.2.0
+ */
+export interface Filterable3C<F extends URIS3, E> extends Functor3C<F, E>, Compactable3C<F, E> {
+  readonly partitionMap: <R, A, B, C>(
+    fa: Kind3<F, R, E, A>,
+    f: (a: A) => Either<B, C>
+  ) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, C>>
+  readonly partition: Partition3C<F, E>
+  readonly filterMap: <R, A, B>(fa: Kind3<F, R, E, A>, f: (a: A) => Option<B>) => Kind3<F, R, E, B>
+  readonly filter: Filter3C<F, E>
 }
 
 /**
@@ -376,8 +412,36 @@ export interface FilterableComposition22C<F extends URIS2, G extends URIS2, E>
 }
 
 /**
+ * @since 2.2.0
+ */
+export interface FilterableComposition23C<F extends URIS2, G extends URIS3, E>
+  extends FunctorComposition23<F, G>,
+    CompactableComposition23<F, G> {
+  readonly partitionMap: <R, FE, A, B, C>(
+    fa: Kind2<F, FE, Kind3<G, R, E, A>>,
+    f: (a: A) => Either<B, C>
+  ) => Separated<Kind2<F, FE, Kind3<G, R, E, B>>, Kind2<F, FE, Kind3<G, R, E, C>>>
+  readonly partition: <R, FE, A>(
+    fa: Kind2<F, FE, Kind3<G, R, E, A>>,
+    predicate: Predicate<A>
+  ) => Separated<Kind2<F, FE, Kind3<G, R, E, A>>, Kind2<F, FE, Kind3<G, R, E, A>>>
+  readonly filterMap: <R, FE, A, B>(
+    fa: Kind2<F, FE, Kind3<G, R, E, A>>,
+    f: (a: A) => Option<B>
+  ) => Kind2<F, FE, Kind3<G, R, E, B>>
+  readonly filter: <R, FE, A>(
+    fa: Kind2<F, FE, Kind3<G, R, E, A>>,
+    predicate: Predicate<A>
+  ) => Kind2<F, FE, Kind3<G, R, E, A>>
+}
+
+/**
  * @since 2.0.0
  */
+export function getFilterableComposition<F extends URIS2, G extends URIS3, E>(
+  F: Functor2<F>,
+  G: Filterable3C<G, E>
+): FilterableComposition23C<F, G, E>
 export function getFilterableComposition<F extends URIS2, G extends URIS2, E>(
   F: Functor2<F>,
   G: Filterable2C<G, E>

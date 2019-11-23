@@ -1,7 +1,7 @@
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3 } from './Applicative'
 import { constant } from './function'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'
-import { Monad, Monad1, Monad2, Monad2C, Monad3 } from './Monad'
+import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid } from './Monoid'
 
 /**
@@ -53,6 +53,17 @@ export interface Foldable3<F extends URIS3> {
   readonly reduce: <R, E, A, B>(fa: Kind3<F, R, E, A>, b: B, f: (b: B, a: A) => B) => B
   readonly foldMap: <M>(M: Monoid<M>) => <R, E, A>(fa: Kind3<F, R, E, A>, f: (a: A) => M) => M
   readonly reduceRight: <R, E, A, B>(fa: Kind3<F, R, E, A>, b: B, f: (a: A, b: B) => B) => B
+}
+
+/**
+ * @since 2.2.0
+ */
+export interface Foldable3C<F extends URIS3, E> {
+  readonly URI: F
+  readonly _E: E
+  readonly reduce: <R, A, B>(fa: Kind3<F, R, E, A>, b: B, f: (b: B, a: A) => B) => B
+  readonly foldMap: <M>(M: Monoid<M>) => <R, A>(fa: Kind3<F, R, E, A>, f: (a: A) => M) => M
+  readonly reduceRight: <R, A, B>(fa: Kind3<F, R, E, A>, b: B, f: (a: A, b: B) => B) => B
 }
 
 /**
@@ -212,6 +223,10 @@ export function foldM<M extends URIS3, F extends URIS>(
   M: Monad3<M>,
   F: Foldable1<F>
 ): <R, E, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, B>
+export function foldM<M extends URIS3, F extends URIS, E>(
+  M: Monad3C<M, E>,
+  F: Foldable1<F>
+): <R, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, B>
 export function foldM<M extends URIS2, F extends URIS>(
   M: Monad2<M>,
   F: Foldable1<F>

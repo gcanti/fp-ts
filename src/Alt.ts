@@ -8,7 +8,7 @@
  * 1. Associativity: `A.alt(A.alt(fa, ga), ha) = A.alt(fa, A.alt(ga, ha))`
  * 2. Distributivity: `A.map(A.alt(fa, ga), ab) = A.alt(A.map(fa, ab), A.map(ga, ab))`
  */
-import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor4 } from './Functor'
+import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor4, Functor3C } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'
 
 /**
@@ -35,15 +35,22 @@ export interface Alt2<F extends URIS2> extends Functor2<F> {
 /**
  * @since 2.0.0
  */
-export interface Alt3<F extends URIS3> extends Functor3<F> {
-  readonly alt: <R, E, A>(fx: Kind3<F, R, E, A>, fy: () => Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+export interface Alt2C<F extends URIS2, E> extends Functor2C<F, E> {
+  readonly alt: <A>(fx: Kind2<F, E, A>, fy: () => Kind2<F, E, A>) => Kind2<F, E, A>
 }
 
 /**
  * @since 2.0.0
  */
-export interface Alt2C<F extends URIS2, E> extends Functor2C<F, E> {
-  readonly alt: <A>(fx: Kind2<F, E, A>, fy: () => Kind2<F, E, A>) => Kind2<F, E, A>
+export interface Alt3<F extends URIS3> extends Functor3<F> {
+  readonly alt: <R, E, A>(fx: Kind3<F, R, E, A>, fy: () => Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+}
+
+/**
+ * @since 2.2.0
+ */
+export interface Alt3C<F extends URIS3, E> extends Functor3C<F, E> {
+  readonly alt: <R, A>(fx: Kind3<F, R, E, A>, fy: () => Kind3<F, R, E, A>) => Kind3<F, R, E, A>
 }
 
 /**

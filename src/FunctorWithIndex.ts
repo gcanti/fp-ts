@@ -25,7 +25,8 @@ import {
   FunctorComposition2C1,
   FunctorComposition22,
   FunctorComposition22C,
-  getFunctorComposition
+  getFunctorComposition,
+  Functor3C
 } from './Functor'
 
 /**
@@ -61,6 +62,13 @@ export interface FunctorWithIndex2C<F extends URIS2, I, E> extends Functor2C<F, 
  */
 export interface FunctorWithIndex3<F extends URIS3, I> extends Functor3<F> {
   readonly mapWithIndex: <R, E, A, B>(fa: Kind3<F, R, E, A>, f: (i: I, a: A) => B) => Kind3<F, R, E, B>
+}
+
+/**
+ * @since 2.2.0
+ */
+export interface FunctorWithIndex3C<F extends URIS3, I, E> extends Functor3C<F, E> {
+  readonly mapWithIndex: <R, A, B>(fa: Kind3<F, R, E, A>, f: (i: I, a: A) => B) => Kind3<F, R, E, B>
 }
 
 /**

@@ -2,7 +2,7 @@
  * @file Lift a computation from the `Task` monad
  */
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
-import { MonadIO, MonadIO1, MonadIO2, MonadIO2C, MonadIO3 } from './MonadIO'
+import { MonadIO, MonadIO1, MonadIO2, MonadIO2C, MonadIO3, MonadIO3C } from './MonadIO'
 import { Task } from './Task'
 
 /**
@@ -38,4 +38,11 @@ export interface MonadTask2C<M extends URIS2, E> extends MonadIO2C<M, E> {
  */
 export interface MonadTask3<M extends URIS3> extends MonadIO3<M> {
   readonly fromTask: <R, E, A>(fa: Task<A>) => Kind3<M, R, E, A>
+}
+
+/**
+ * @since 2.2.0
+ */
+export interface MonadTask3C<M extends URIS3, E> extends MonadIO3C<M, E> {
+  readonly fromTask: <R, A>(fa: Task<A>) => Kind3<M, R, E, A>
 }

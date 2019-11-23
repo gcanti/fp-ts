@@ -42,6 +42,14 @@ export interface Contravariant3<F extends URIS3> {
 }
 
 /**
+ * @since 2.2.0
+ */
+export interface Contravariant3C<F extends URIS3, E> {
+  readonly URI: F
+  readonly contramap: <R, A, B>(fa: Kind3<F, R, E, A>, f: (b: B) => A) => Kind3<F, R, E, B>
+}
+
+/**
  * @since 2.0.0
  */
 export interface Contravariant4<F extends URIS4> {

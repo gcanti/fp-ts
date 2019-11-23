@@ -12,7 +12,7 @@ import { Eq, fromEquals } from './Eq'
 import { Foldable1 } from './Foldable'
 import { identity } from './function'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
-import { Monad, Monad1, Monad2, Monad2C, Monad3 } from './Monad'
+import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { pipeable } from './pipeable'
@@ -155,6 +155,9 @@ export function unfoldForest<A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Fo
 export function unfoldTreeM<M extends URIS3>(
   M: Monad3<M>
 ): <R, E, A, B>(b: B, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Tree<A>>
+export function unfoldTreeM<M extends URIS3, E>(
+  M: Monad3C<M, E>
+): <R, A, B>(b: B, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Tree<A>>
 export function unfoldTreeM<M extends URIS2>(
   M: Monad2<M>
 ): <E, A, B>(b: B, f: (b: B) => Kind2<M, E, [A, Array<B>]>) => Kind2<M, E, Tree<A>>
@@ -178,6 +181,9 @@ export function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A
 export function unfoldForestM<M extends URIS3>(
   M: Monad3<M>
 ): <R, E, A, B>(bs: Array<B>, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Forest<A>>
+export function unfoldForestM<M extends URIS3, E>(
+  M: Monad3C<M, E>
+): <R, A, B>(bs: Array<B>, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Forest<A>>
 export function unfoldForestM<M extends URIS2>(
   M: Monad2<M>
 ): <R, E, B>(bs: Array<B>, f: (b: B) => Kind2<M, R, [E, Array<B>]>) => Kind2<M, R, Forest<E>>

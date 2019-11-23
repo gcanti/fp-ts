@@ -11,8 +11,16 @@
  *
  * Note. `Functor`'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.of(f(a)))`
  */
-import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative4 } from './Applicative'
-import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain4 } from './Chain'
+import {
+  Applicative,
+  Applicative1,
+  Applicative2,
+  Applicative2C,
+  Applicative3,
+  Applicative4,
+  Applicative3C
+} from './Applicative'
+import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain4, Chain3C } from './Chain'
 import { URIS, URIS2, URIS3, URIS4 } from './HKT'
 
 /**
@@ -39,6 +47,11 @@ export interface Monad2C<M extends URIS2, L> extends Applicative2C<M, L>, Chain2
  * @since 2.0.0
  */
 export interface Monad3<M extends URIS3> extends Applicative3<M>, Chain3<M> {}
+
+/**
+ * @since 2.2.0
+ */
+export interface Monad3C<M extends URIS3, E> extends Applicative3C<M, E>, Chain3C<M, E> {}
 
 /**
  * @since 2.0.0

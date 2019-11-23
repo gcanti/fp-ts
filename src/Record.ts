@@ -1,4 +1,4 @@
-import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3 } from './Applicative'
+import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
@@ -352,6 +352,11 @@ export function traverseWithIndex<F extends URIS3>(
 ): <K extends string, R, E, A, B>(
   f: (k: K, a: A) => Kind3<F, R, E, B>
 ) => (ta: Record<K, A>) => Kind3<F, R, E, Record<K, B>>
+export function traverseWithIndex<F extends URIS3, E>(
+  F: Applicative3C<F, E>
+): <K extends string, R, A, B>(
+  f: (k: K, a: A) => Kind3<F, R, E, B>
+) => (ta: Record<K, A>) => Kind3<F, R, E, Record<K, B>>
 export function traverseWithIndex<F extends URIS2>(
   F: Applicative2<F>
 ): <K extends string, E, A, B>(f: (k: K, a: A) => Kind2<F, E, B>) => (ta: Record<K, A>) => Kind2<F, E, Record<K, B>>
@@ -377,6 +382,9 @@ export function traverseWithIndex<F>(
 export function traverse<F extends URIS3>(
   F: Applicative3<F>
 ): <R, E, A, B>(f: (a: A) => Kind3<F, R, E, B>) => <K extends string>(ta: Record<K, A>) => Kind3<F, R, E, Record<K, B>>
+export function traverse<F extends URIS3, E>(
+  F: Applicative3C<F, E>
+): <R, A, B>(f: (a: A) => Kind3<F, R, E, B>) => <K extends string>(ta: Record<K, A>) => Kind3<F, R, E, Record<K, B>>
 export function traverse<F extends URIS2>(
   F: Applicative2<F>
 ): <E, A, B>(f: (a: A) => Kind2<F, E, B>) => <K extends string>(ta: Record<K, A>) => Kind2<F, E, Record<K, B>>
@@ -402,6 +410,9 @@ export function traverse<F>(
 export function sequence<F extends URIS3>(
   F: Applicative3<F>
 ): <K extends string, R, E, A>(ta: Record<K, Kind3<F, R, E, A>>) => Kind3<F, R, E, Record<K, A>>
+export function sequence<F extends URIS3, E>(
+  F: Applicative3C<F, E>
+): <K extends string, R, A>(ta: Record<K, Kind3<F, R, E, A>>) => Kind3<F, R, E, Record<K, A>>
 export function sequence<F extends URIS2>(
   F: Applicative2<F>
 ): <K extends string, E, A>(ta: Record<K, Kind2<F, E, A>>) => Kind2<F, E, Record<K, A>>
