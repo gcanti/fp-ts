@@ -233,8 +233,8 @@ export function last<A>(nea: NonEmptyArray<A>): A {
  * @example
  * import { init } from 'fp-ts/lib/NonEmptyArray'
  *
- * assert.deepStrictEqual(init([1, 2]), [1]))
- * assert.deepStrictEqual(init([1]), []))
+ * assert.deepStrictEqual(init([1, 2, 3]), [1, 2])
+ * assert.deepStrictEqual(init([1]), [])
  *
  * @since 2.0.0
  */
