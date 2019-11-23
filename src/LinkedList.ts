@@ -4,14 +4,14 @@
 
 import { Foldable1 } from './Foldable'
 import { Functor1 } from './Functor'
-import { array } from './Array'
+import * as A from './Array'
 import { Traversable1 } from './Traversable'
 import { Applicative } from './Applicative'
 import { HKT } from './HKT'
 import * as O from './Option'
 import { pipe, pipeable } from './pipeable'
 import { Filterable1 } from './Filterable'
-import { Predicate, identity } from './function'
+import { Predicate, identity, flow } from './function'
 import { Separated, Compactable1 } from './Compactable'
 import * as E from './Either'
 import { Ord } from './Ord'
@@ -411,6 +411,37 @@ export function reverse<A>(fa: LinkedList<A>): LinkedList<A> {
 }
 
 /**
+ * Flattens a list of lists.
+ * @since 2.1.1
+ */
+export function flatten<A>(mma: LinkedList<LinkedList<A>>): LinkedList<A> {
+  let out: LinkedList<A> = nil
+  let outer = mma
+  while (isCons(outer)) {
+    let inner = outer.head
+    while (isCons(inner)) {
+      out = cons(inner.head, out)
+      inner = inner.tail
+    }
+    outer = outer.tail
+  }
+  return reverse(out)
+}
+
+/**
+ * Sort the elements of a list in increasing order, where elements
+ * are compared using the specified ordering.
+ * @since 2.1.1
+ */
+export function sort<A>(O: Ord<A>): (fa: LinkedList<A>) => LinkedList<A> {
+  return flow(
+    toArray,
+    A.sort(O),
+    fromArray
+  )
+}
+
+/**
  * Gets an array from a list.
  * @since 2.1.1
  */
@@ -429,7 +460,7 @@ export function toArray<A>(fa: LinkedList<A>): Array<A> {
  * @since 2.1.1
  */
 export function fromArray<A>(as: Array<A>): LinkedList<A> {
-  return array.reduceRight<A, LinkedList<A>>(as, nil, cons)
+  return A.array.reduceRight<A, LinkedList<A>>(as, nil, cons)
 }
 
 /**
@@ -457,7 +488,7 @@ export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Fi
     }
     return out
   },
-  reduceRight: (fa, b, f) => array.reduceRight(toArray(fa), b, f),
+  reduceRight: (fa, b, f) => A.array.reduceRight(toArray(fa), b, f),
   traverse: <F>(F: Applicative<F>): (<A, B>(ta: LinkedList<A>, f: (a: A) => HKT<F, B>) => HKT<F, LinkedList<B>>) => {
     return <A, B>(ta: LinkedList<A>, f: (a: A) => HKT<F, B>) =>
       linkedList.reduceRight(ta, F.of<LinkedList<B>>(nil), (a, fbs) =>

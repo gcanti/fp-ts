@@ -1,6 +1,6 @@
 ---
 title: LinkedList.ts
-nav_order: 47
+nav_order: 48
 parent: Modules
 ---
 
@@ -24,6 +24,7 @@ Adapted from https://github.com/purescript/purescript-lists
 - [elemLastIndex (function)](#elemlastindex-function)
 - [findIndex (function)](#findindex-function)
 - [findLastIndex (function)](#findlastindex-function)
+- [flatten (function)](#flatten-function)
 - [fromArray (function)](#fromarray-function)
 - [head (function)](#head-function)
 - [index (function)](#index-function)
@@ -40,6 +41,7 @@ Adapted from https://github.com/purescript/purescript-lists
 - [reverse (function)](#reverse-function)
 - [singleton (function)](#singleton-function)
 - [snoc (function)](#snoc-function)
+- [sort (function)](#sort-function)
 - [tail (function)](#tail-function)
 - [toArray (function)](#toarray-function)
 - [uncons (function)](#uncons-function)
@@ -188,6 +190,18 @@ Finds the last index for which a predicate holds.
 
 ```ts
 export function findLastIndex<A>(predicate: Predicate<A>, fa: LinkedList<A>): O.Option<number> { ... }
+```
+
+Added in v2.1.1
+
+# flatten (function)
+
+Flattens a list of lists.
+
+**Signature**
+
+```ts
+export function flatten<A>(mma: LinkedList<LinkedList<A>>): LinkedList<A> { ... }
 ```
 
 Added in v2.1.1
@@ -379,6 +393,19 @@ Appends an element to the end of a list, creating a new list.
 
 ```ts
 export function snoc<A>(fa: LinkedList<A>, a: A): LinkedList<A> { ... }
+```
+
+Added in v2.1.1
+
+# sort (function)
+
+Sort the elements of a list in increasing order, where elements
+are compared using the specified ordering.
+
+**Signature**
+
+```ts
+export function sort<A>(O: Ord<A>): (fa: LinkedList<A>) => LinkedList<A> { ... }
 ```
 
 Added in v2.1.1

@@ -122,15 +122,9 @@ describe('TaskEither', () => {
   })
 
   it('tryCatch', async () => {
-    const e1 = await _.tryCatch(
-      () => Promise.resolve(1),
-      () => 'error'
-    )()
+    const e1 = await _.tryCatch(() => Promise.resolve(1), () => 'error')()
     assert.deepStrictEqual(e1, E.right(1))
-    const e2 = await _.tryCatch(
-      () => Promise.reject(undefined),
-      () => 'error'
-    )()
+    const e2 = await _.tryCatch(() => Promise.reject(undefined), () => 'error')()
     assert.deepStrictEqual(e2, E.left('error'))
   })
 
@@ -172,10 +166,7 @@ describe('TaskEither', () => {
   })
 
   it('fromPredicate', async () => {
-    const gt2 = _.fromPredicate(
-      (n: number) => n >= 2,
-      n => `Invalid number ${n}`
-    )
+    const gt2 = _.fromPredicate((n: number) => n >= 2, n => `Invalid number ${n}`)
     const e1 = await gt2(3)()
     assert.deepStrictEqual(e1, E.right(3))
     const e2 = await gt2(1)()
@@ -255,18 +246,12 @@ describe('TaskEither', () => {
   it('filterOrElse', async () => {
     const e1 = await pipe(
       _.right(12),
-      _.filterOrElse(
-        n => n > 10,
-        () => 'a'
-      )
+      _.filterOrElse(n => n > 10, () => 'a')
     )()
     assert.deepStrictEqual(e1, E.right(12))
     const e2 = await pipe(
       _.right(7),
-      _.filterOrElse(
-        n => n > 10,
-        () => 'a'
-      )
+      _.filterOrElse(n => n > 10, () => 'a')
     )()
     assert.deepStrictEqual(e2, E.left('a'))
   })

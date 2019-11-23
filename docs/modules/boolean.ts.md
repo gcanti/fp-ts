@@ -34,12 +34,7 @@ import { fold } from 'fp-ts/lib/boolean'
 assert.deepStrictEqual(
   pipe(
     some(true),
-    map(
-      fold(
-        () => 'false',
-        () => 'true'
-      )
-    )
+    map(fold(() => 'false', () => 'true'))
   ),
   some('true')
 )

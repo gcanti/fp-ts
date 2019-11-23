@@ -288,7 +288,10 @@ import { flow } from 'fp-ts/lib/function'
 const len = (s: string): number => s.length
 const double = (n: number): number => n * 2
 
-const f = flow(len, double)
+const f = flow(
+  len,
+  double
+)
 
 assert.strictEqual(f('aaa'), 6)
 ```

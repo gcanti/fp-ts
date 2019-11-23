@@ -237,6 +237,25 @@ describe('LinkedList', () => {
     )
   })
 
+  it('flatten', () => {
+    assert.deepStrictEqual(
+      LL.flatten(LL.cons(LL.singleton(1), LL.cons(LL.singleton(2), LL.cons(LL.singleton(3), LL.nil)))),
+      {
+        type: 'Cons',
+        head: 1,
+        tail: { type: 'Cons', head: 2, tail: { type: 'Cons', head: 3, tail: LL.nil } }
+      }
+    )
+  })
+
+  it('sort', () => {
+    assert.deepStrictEqual(LL.sort(ordNumber)(LL.cons(2, LL.cons(3, LL.cons(1, LL.nil)))), {
+      type: 'Cons',
+      head: 1,
+      tail: { type: 'Cons', head: 2, tail: { type: 'Cons', head: 3, tail: LL.nil } }
+    })
+  })
+
   it('reverse', () => {
     assert.deepStrictEqual(LL.reverse(LL.cons(1, LL.cons(2, LL.cons(3, LL.nil)))), {
       type: 'Cons',

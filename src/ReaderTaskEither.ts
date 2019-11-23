@@ -130,10 +130,7 @@ export function fold<R, E, A, B>(
   return ma => r =>
     pipe(
       ma(r),
-      TE.fold(
-        e => onLeft(e)(r),
-        a => onRight(a)(r)
-      )
+      TE.fold(e => onLeft(e)(r), a => onRight(a)(r))
     )
 }
 
@@ -216,12 +213,7 @@ export function bracket<R, E, A, B>(
   use: (a: A) => ReaderTaskEither<R, E, B>,
   release: (a: A, e: Either<E, B>) => ReaderTaskEither<R, E, void>
 ): ReaderTaskEither<R, E, B> {
-  return r =>
-    TE.bracket(
-      aquire(r),
-      a => use(a)(r),
-      (a, e) => release(a, e)(r)
-    )
+  return r => TE.bracket(aquire(r), a => use(a)(r), (a, e) => release(a, e)(r))
 }
 
 /**
