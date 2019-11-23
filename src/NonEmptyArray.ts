@@ -238,8 +238,8 @@ export function last<A>(nea: NonEmptyArray<A>): A {
  *
  * @since 2.0.0
  */
-export function init<A>(as: Array<A>): Array<A> {
-  return as.slice(0, -1)
+export function init<A>(nea: NonEmptyArray<A>): Array<A> {
+  return nea.slice(0, -1)
 }
 
 /**
