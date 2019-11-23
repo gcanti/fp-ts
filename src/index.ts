@@ -63,6 +63,7 @@ import * as random from './Random'
 import * as reader from './Reader'
 import * as readerEither from './ReaderEither'
 import * as readerT from './ReaderT'
+import * as readerTask from './ReaderTask'
 import * as readerTaskEither from './ReaderTaskEither'
 import * as record from './Record'
 import * as ring from './Ring'
@@ -349,6 +350,10 @@ export {
    * @since 2.0.0
    */
   readerTaskEither,
+  /**
+   * @since 2.3.0
+   */
+  readerTask,
   /**
    * @since 2.0.0
    */

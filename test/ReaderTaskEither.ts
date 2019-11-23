@@ -7,7 +7,7 @@ import { none, some } from '../src/Option'
 import { pipe } from '../src/pipeable'
 import { reader } from '../src/Reader'
 import * as _ from '../src/ReaderTaskEither'
-import { semigroupSum } from '../src/Semigroup'
+import { semigroupSum, semigroupString } from '../src/Semigroup'
 import { task } from '../src/Task'
 import { taskEither } from '../src/TaskEither'
 import * as RE from '../src/ReaderEither'
@@ -321,6 +321,85 @@ describe('ReaderTaskEither', () => {
     assert.deepStrictEqual(e1, E.left('a'))
     const e2 = await _.run(_.fromReaderEither(RE.right(1)), {})
     assert.deepStrictEqual(e2, E.right(1))
+  })
+
+  describe('getReaderTaskValidation', () => {
+    const RTV = _.getReaderTaskValidation(semigroupString)
+    it('of', async () => {
+      const e = await RTV.of(1)({})()
+      assert.deepStrictEqual(e, E.right(1))
+    })
+
+    it('throwError', async () => {
+      const e = await RTV.throwError('error')({})()
+      assert.deepStrictEqual(e, E.left('error'))
+    })
+
+    it('map', async () => {
+      const double = (n: number): number => n * 2
+      const e1 = await RTV.map(RTV.of(1), double)({})()
+      assert.deepStrictEqual(e1, E.right(2))
+      const e2 = await RTV.map(_.left('a'), double)({})()
+      assert.deepStrictEqual(e2, E.left('a'))
+    })
+
+    it('ap', async () => {
+      const fab = _.left('a')
+      const fa = _.left('b')
+      const e1 = await RTV.ap(fab, fa)({})()
+      assert.deepStrictEqual(e1, E.left('ab'))
+    })
+
+    it('chain', async () => {
+      const e1 = await RTV.chain(_.right(3), a => (a > 2 ? _.right(a) : _.left('b')))({})()
+      assert.deepStrictEqual(e1, E.right(3))
+      const e2 = await RTV.chain(_.right(1), a => (a > 2 ? _.right(a) : _.left('b')))({})()
+      assert.deepStrictEqual(e2, E.left('b'))
+      const e3 = await RTV.chain(_.left('a'), a => (a > 2 ? _.right(a) : _.left('b')))({})()
+      assert.deepStrictEqual(e3, E.left('a'))
+    })
+
+    it('bimap', async () => {
+      const e1 = await RTV.bimap(
+        _.right(3),
+        e => e,
+        v => v
+      )({})()
+      assert.deepStrictEqual(e1, E.right(3))
+      const e2 = await RTV.bimap(
+        _.left('3'),
+        e => e,
+        v => v
+      )({})()
+      assert.deepStrictEqual(e2, E.left('3'))
+    })
+
+    it('mapLeft', async () => {
+      const e1 = await RTV.mapLeft(_.right(3), a => `x${a}`)({})()
+      assert.deepStrictEqual(e1, E.right(3))
+      const e2 = await RTV.mapLeft(_.left('3'), a => `x${a}`)({})()
+      assert.deepStrictEqual(e2, E.left('x3'))
+    })
+
+    it('alt', async () => {
+      const e1 = await RTV.alt(_.right(1), () => _.right(2))({})()
+      assert.deepStrictEqual(e1, E.right(1))
+      const e2 = await RTV.alt(_.left('a'), () => _.right(2))({})()
+      assert.deepStrictEqual(e2, E.right(2))
+      const e3 = await RTV.alt(_.right(1), () => _.left('b'))({})()
+      assert.deepStrictEqual(e3, E.right(1))
+      const e4 = await RTV.alt(_.left('a'), () => _.left('b'))({})()
+      assert.deepStrictEqual(e4, E.left('ab'))
+    })
+
+    it('traverse', async () => {
+      const e1 = await array.traverse(RTV)([1, 2, 3], RTV.of)({})()
+      assert.deepStrictEqual(e1, E.right([1, 2, 3]))
+      const e2 = await array.traverse(RTV)([1, 2, 3], v => RTV.throwError(`${v}`))({})()
+      assert.deepStrictEqual(e2, E.left('123'))
+      const e3 = await array.traverse(RTV)([1, 2, 3], v => (v % 2 === 1 ? RTV.throwError(`${v}`) : RTV.of(v)))({})()
+      assert.deepStrictEqual(e3, E.left('13'))
+    })
   })
 
   describe('bracket', () => {
