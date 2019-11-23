@@ -14,6 +14,7 @@ import { Eq } from './Eq'
 import { Predicate, Refinement } from './function'
 import { Show } from './Show'
 import { pipeable } from './pipeable'
+import { Alt1 } from './Alt'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -118,7 +119,7 @@ export function max<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A {
  */
 export function getSemigroup<A = never>(): Semigroup<NonEmptyArray<A>> {
   return {
-    concat: (x, y) => x.concat(y) as any
+    concat: concat
   }
 }
 
@@ -228,7 +229,7 @@ export function last<A>(nea: NonEmptyArray<A>): A {
 }
 
 /**
- * Get all but the last element of an array, creating a new array.
+ * Get all but the last element of a non empty array, creating a new array.
  *
  * @example
  * import { init } from 'fp-ts/lib/NonEmptyArray'
@@ -236,7 +237,7 @@ export function last<A>(nea: NonEmptyArray<A>): A {
  * assert.deepStrictEqual(init([1, 2, 3]), [1, 2])
  * assert.deepStrictEqual(init([1]), [])
  *
- * @since 2.0.0
+ * @since 2.2.0
  */
 export function init<A>(nea: NonEmptyArray<A>): Array<A> {
   return nea.slice(0, -1)
@@ -301,13 +302,23 @@ export function filterWithIndex<A>(
 export const of: <A>(a: A) => NonEmptyArray<A> = A.of as any
 
 /**
+ * @since 2.2.0
+ */
+export function concat<A>(fx: Array<A>, fy: NonEmptyArray<A>): NonEmptyArray<A>
+export function concat<A>(fx: NonEmptyArray<A>, fy: Array<A>): NonEmptyArray<A>
+export function concat<A>(fx: Array<A>, fy: Array<A>): Array<A> {
+  return fx.concat(fy)
+}
+
+/**
  * @since 2.0.0
  */
 export const nonEmptyArray: Monad1<URI> &
   Comonad1<URI> &
   TraversableWithIndex1<URI, number> &
   FunctorWithIndex1<URI, number> &
-  FoldableWithIndex1<URI, number> = {
+  FoldableWithIndex1<URI, number> &
+  Alt1<URI> = {
   URI,
   map: A.array.map as any,
   mapWithIndex: A.array.mapWithIndex as any,
@@ -324,7 +335,8 @@ export const nonEmptyArray: Monad1<URI> &
   reduceWithIndex: A.array.reduceWithIndex,
   foldMapWithIndex: A.array.foldMapWithIndex,
   reduceRightWithIndex: A.array.reduceRightWithIndex,
-  traverseWithIndex: A.array.traverseWithIndex as any
+  traverseWithIndex: A.array.traverseWithIndex as any,
+  alt: (fx, fy) => concat(fx, fy())
 }
 
 const {

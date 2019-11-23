@@ -29,7 +29,8 @@ import {
   tail,
   updateAt,
   NonEmptyArray,
-  init
+  init,
+  concat
 } from '../src/NonEmptyArray'
 import { isSome, none, option, some } from '../src/Option'
 import { ordNumber } from '../src/Ord'
@@ -320,5 +321,13 @@ describe('NonEmptyArray', () => {
     const S = getShow(showString)
     assert.strictEqual(S.show(['a']), `["a"]`)
     assert.strictEqual(S.show(['a', 'b', 'c']), `["a", "b", "c"]`)
+  })
+
+  it('alt / concat', () => {
+    assert.deepStrictEqual(concat(['a'], []), ['a'])
+    assert.deepStrictEqual(
+      nonEmptyArray.alt(['a'], () => ['b']),
+      ['a', 'b']
+    )
   })
 })
