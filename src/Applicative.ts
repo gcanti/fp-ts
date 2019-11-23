@@ -15,7 +15,7 @@
  *
  * Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
  */
-import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply4 } from './Apply'
+import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply4, Apply3C } from './Apply'
 import {
   FunctorComposition,
   FunctorCompositionHKT1,
@@ -65,6 +65,13 @@ export interface Applicative2C<F extends URIS2, E> extends Apply2C<F, E> {
  */
 export interface Applicative3<F extends URIS3> extends Apply3<F> {
   readonly of: <R, E, A>(a: A) => Kind3<F, R, E, A>
+}
+
+/**
+ * @since 2.0.0
+ */
+export interface Applicative3C<F extends URIS3, E> extends Apply3C<F, E> {
+  readonly of: <R, A>(a: A) => Kind3<F, R, E, A>
 }
 
 /**

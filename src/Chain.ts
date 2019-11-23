@@ -8,7 +8,7 @@
  *
  * Note. `Apply`'s `ap` can be derived: `(fab, fa) => F.chain(fab, f => F.map(f, fa))`
  */
-import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply4 } from './Apply'
+import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply4, Apply3C } from './Apply'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
 /**
@@ -44,6 +44,13 @@ export interface Chain2C<F extends URIS2, E> extends Apply2C<F, E> {
  */
 export interface Chain3<F extends URIS3> extends Apply3<F> {
   readonly chain: <R, E, A, B>(fa: Kind3<F, R, E, A>, f: (a: A) => Kind3<F, R, E, B>) => Kind3<F, R, E, B>
+}
+
+/**
+ * @since 2.2.0
+ */
+export interface Chain3C<F extends URIS3, E> extends Apply3C<F, E> {
+  readonly chain: <R, A, B>(fa: Kind3<F, R, E, A>, f: (a: A) => Kind3<F, R, E, B>) => Kind3<F, R, E, B>
 }
 
 /**

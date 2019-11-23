@@ -7,7 +7,7 @@
  * - Left zero: `M.chain(M.throwError(e), f) = M.throwError(e)`
  */
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad4 } from './Monad'
+import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad4, Monad3C } from './Monad'
 
 /**
  * @since 2.0.0
@@ -42,6 +42,13 @@ export interface MonadThrow2C<M extends URIS2, E> extends Monad2C<M, E> {
  */
 export interface MonadThrow3<M extends URIS3> extends Monad3<M> {
   readonly throwError: <R, E, A>(e: E) => Kind3<M, R, E, A>
+}
+
+/**
+ * @since 2.2.0
+ */
+export interface MonadThrow3C<M extends URIS3, E> extends Monad3C<M, E> {
+  readonly throwError: <R, A>(e: E) => Kind3<M, R, E, A>
 }
 
 /**

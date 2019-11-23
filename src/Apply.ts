@@ -10,7 +10,7 @@
  *
  * Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
  */
-import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor4 } from './Functor'
+import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor4, Functor3C } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { tuple } from './function'
 
@@ -38,15 +38,22 @@ export interface Apply2<F extends URIS2> extends Functor2<F> {
 /**
  * @since 2.0.0
  */
-export interface Apply3<F extends URIS3> extends Functor3<F> {
-  readonly ap: <R, E, A, B>(fab: Kind3<F, R, E, (a: A) => B>, fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+export interface Apply2C<F extends URIS2, E> extends Functor2C<F, E> {
+  readonly ap: <A, B>(fab: Kind2<F, E, (a: A) => B>, fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 
 /**
  * @since 2.0.0
  */
-export interface Apply2C<F extends URIS2, E> extends Functor2C<F, E> {
-  readonly ap: <A, B>(fab: Kind2<F, E, (a: A) => B>, fa: Kind2<F, E, A>) => Kind2<F, E, B>
+export interface Apply3<F extends URIS3> extends Functor3<F> {
+  readonly ap: <R, E, A, B>(fab: Kind3<F, R, E, (a: A) => B>, fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+}
+
+/**
+ * @since 2.2.0
+ */
+export interface Apply3C<F extends URIS3, E> extends Functor3C<F, E> {
+  readonly ap: <R, A, B>(fab: Kind3<F, R, E, (a: A) => B>, fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
 }
 
 /**
@@ -94,6 +101,11 @@ export function sequenceT<F extends URIS4>(
 export function sequenceT<F extends URIS3>(
   F: Apply3<F>
 ): <R, E, T extends Array<Kind3<F, R, E, any>>>(
+  ...t: T & { 0: Kind3<F, R, E, any> }
+) => Kind3<F, R, E, { [K in keyof T]: [T[K]] extends [Kind3<F, R, E, infer A>] ? A : never }>
+export function sequenceT<F extends URIS3, E>(
+  F: Apply3C<F, E>
+): <R, T extends Array<Kind3<F, R, E, any>>>(
   ...t: T & { 0: Kind3<F, R, E, any> }
 ) => Kind3<F, R, E, { [K in keyof T]: [T[K]] extends [Kind3<F, R, E, infer A>] ? A : never }>
 export function sequenceT<F extends URIS2>(
@@ -180,6 +192,11 @@ export function sequenceS<F extends URIS4>(
 export function sequenceS<F extends URIS3>(
   F: Apply3<F>
 ): <R, E, NER extends Record<string, Kind3<F, R, E, any>>>(
+  r: EnforceNonEmptyRecord<NER> & Record<string, Kind3<F, R, E, any>>
+) => Kind3<F, R, E, { [K in keyof NER]: [NER[K]] extends [Kind3<F, any, any, infer A>] ? A : never }>
+export function sequenceS<F extends URIS3, E>(
+  F: Apply3C<F, E>
+): <R, NER extends Record<string, Kind3<F, R, E, any>>>(
   r: EnforceNonEmptyRecord<NER> & Record<string, Kind3<F, R, E, any>>
 ) => Kind3<F, R, E, { [K in keyof NER]: [NER[K]] extends [Kind3<F, any, any, infer A>] ? A : never }>
 export function sequenceS<F extends URIS2>(

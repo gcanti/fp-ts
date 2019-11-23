@@ -53,6 +53,15 @@ export interface Functor3<F extends URIS3> {
 }
 
 /**
+ * @since 2.2.0
+ */
+export interface Functor3C<F extends URIS3, E> {
+  readonly URI: F
+  readonly _E: E
+  readonly map: <R, A, B>(fa: Kind3<F, R, E, A>, f: (a: A) => B) => Kind3<F, R, E, B>
+}
+
+/**
  * @since 2.0.0
  */
 export interface Functor4<F extends URIS4> {
@@ -138,8 +147,26 @@ export interface FunctorComposition22C<F extends URIS2, G extends URIS2, E> {
 }
 
 /**
+ * @since 2.2.0
+ */
+export interface FunctorComposition23<F extends URIS2, G extends URIS3> {
+  readonly map: <FE, R, E, A, B>(fa: Kind2<F, FE, Kind3<G, R, E, A>>, f: (a: A) => B) => Kind2<F, FE, Kind3<G, R, E, B>>
+}
+
+/**
+ * @since 2.2.0
+ */
+export interface FunctorComposition23C<F extends URIS2, G extends URIS3, E> {
+  readonly map: <FE, R, A, B>(fa: Kind2<F, FE, Kind3<G, R, E, A>>, f: (a: A) => B) => Kind2<F, FE, Kind3<G, R, E, B>>
+}
+
+/**
  * @since 2.0.0
  */
+export function getFunctorComposition<F extends URIS2, G extends URIS3, E>(
+  F: Functor2<F>,
+  G: Functor3C<G, E>
+): FunctorComposition23C<F, G, E>
 export function getFunctorComposition<F extends URIS2, G extends URIS2, E>(
   F: Functor2<F>,
   G: Functor2C<G, E>

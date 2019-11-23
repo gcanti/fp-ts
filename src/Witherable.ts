@@ -18,7 +18,7 @@
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Option } from './Option'
 import { Traversable, Traversable1, Traversable2, Traversable2C, Traversable3 } from './Traversable'
-import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3 } from './Applicative'
+import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import { Filterable, Filterable1, Filterable2, Filterable2C, Filterable3 } from './Filterable'
 import { Either } from './Either'
 import { Separated } from './Compactable'
@@ -78,6 +78,10 @@ export interface Wither<W> {
     ta: HKT<W, A>,
     f: (a: A) => Kind3<F, R, E, Option<B>>
   ) => Kind3<F, R, E, HKT<W, B>>
+  <F extends URIS3, E>(F: Applicative3C<F, E>): <A, R, B>(
+    ta: HKT<W, A>,
+    f: (a: A) => Kind3<F, R, E, Option<B>>
+  ) => Kind3<F, R, E, HKT<W, B>>
   <F extends URIS2>(F: Applicative2<F>): <A, E, B>(
     ta: HKT<W, A>,
     f: (a: A) => Kind2<F, E, Option<B>>
@@ -95,6 +99,10 @@ export interface Wither<W> {
  */
 export interface Wither1<W extends URIS> {
   <F extends URIS3>(F: Applicative3<F>): <A, R, E, B>(
+    ta: Kind<W, A>,
+    f: (a: A) => Kind3<F, R, E, Option<B>>
+  ) => Kind3<F, R, E, Kind<W, B>>
+  <F extends URIS3, E>(F: Applicative3C<F, E>): <A, R, B>(
     ta: Kind<W, A>,
     f: (a: A) => Kind3<F, R, E, Option<B>>
   ) => Kind3<F, R, E, Kind<W, B>>
@@ -190,6 +198,10 @@ export interface Wilt<W> {
     wa: HKT<W, A>,
     f: (a: A) => Kind3<F, R, E, Either<B, C>>
   ) => Kind3<F, R, E, Separated<HKT<W, B>, HKT<W, C>>>
+  <F extends URIS3, E>(F: Applicative3C<F, E>): <A, R, B, C>(
+    wa: HKT<W, A>,
+    f: (a: A) => Kind3<F, R, E, Either<B, C>>
+  ) => Kind3<F, R, E, Separated<HKT<W, B>, HKT<W, C>>>
   <F extends URIS2>(F: Applicative2<F>): <A, E, B, C>(
     wa: HKT<W, A>,
     f: (a: A) => Kind2<F, E, Either<B, C>>
@@ -213,6 +225,10 @@ export interface Wilt<W> {
  */
 export interface Wilt1<W extends URIS> {
   <F extends URIS3>(F: Applicative3<F>): <A, R, E, B, C>(
+    wa: Kind<W, A>,
+    f: (a: A) => Kind3<F, R, E, Either<B, C>>
+  ) => Kind3<F, R, E, Separated<Kind<W, B>, Kind<W, C>>>
+  <F extends URIS3, E>(F: Applicative3C<F, E>): <A, R, B, C>(
     wa: Kind<W, A>,
     f: (a: A) => Kind3<F, R, E, Either<B, C>>
   ) => Kind3<F, R, E, Separated<Kind<W, B>, Kind<W, C>>>

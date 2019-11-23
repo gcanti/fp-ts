@@ -1,6 +1,6 @@
 import { Comonad2 } from './Comonad'
 import { Endomorphism } from './function'
-import { Functor, Functor1, Functor2, Functor2C, Functor3 } from './Functor'
+import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { pipeable } from './pipeable'
 
@@ -63,6 +63,9 @@ export function peeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => A {
 export function experiment<F extends URIS3>(
   F: Functor3<F>
 ): <R, E, S>(f: (s: S) => Kind3<F, R, E, S>) => <A>(wa: Store<S, A>) => Kind3<F, R, E, A>
+export function experiment<F extends URIS3, E>(
+  F: Functor3C<F, E>
+): <R, S>(f: (s: S) => Kind3<F, R, E, S>) => <A>(wa: Store<S, A>) => Kind3<F, R, E, A>
 export function experiment<F extends URIS2>(
   F: Functor2<F>
 ): <E, S>(f: (s: S) => Kind2<F, E, S>) => <A>(wa: Store<S, A>) => Kind2<F, E, A>
