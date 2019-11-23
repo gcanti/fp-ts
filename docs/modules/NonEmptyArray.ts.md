@@ -23,6 +23,7 @@ Data structure which represents non-empty arrays
 - [of (constant)](#of-constant)
 - [reverse (constant)](#reverse-constant)
 - [snoc (constant)](#snoc-constant)
+- [concat (function)](#concat-function)
 - [filter (function)](#filter-function)
 - [filterWithIndex (function)](#filterwithindex-function)
 - [fromArray (function)](#fromarray-function)
@@ -31,6 +32,7 @@ Data structure which represents non-empty arrays
 - [groupBy (function)](#groupby-function)
 - [groupSort (function)](#groupsort-function)
 - [head (function)](#head-function)
+- [init (function)](#init-function)
 - [insertAt (function)](#insertat-function)
 - [last (function)](#last-function)
 - [max (function)](#max-function)
@@ -160,7 +162,8 @@ export const nonEmptyArray: Monad1<URI> &
   Comonad1<URI> &
   TraversableWithIndex1<URI, number> &
   FunctorWithIndex1<URI, number> &
-  FoldableWithIndex1<URI, number> = ...
+  FoldableWithIndex1<URI, number> &
+  Alt1<URI> = ...
 ```
 
 Added in v2.0.0
@@ -204,6 +207,17 @@ assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
 ```
 
 Added in v2.0.0
+
+# concat (function)
+
+**Signature**
+
+```ts
+export function concat<A>(fx: Array<A>, fy: NonEmptyArray<A>): NonEmptyArray<A>
+export function concat<A>(fx: NonEmptyArray<A>, fy: Array<A>): NonEmptyArray<A> { ... }
+```
+
+Added in v2.2.0
 
 # filter (function)
 
@@ -329,6 +343,27 @@ export function head<A>(nea: NonEmptyArray<A>): A { ... }
 ```
 
 Added in v2.0.0
+
+# init (function)
+
+Get all but the last element of a non empty array, creating a new array.
+
+**Signature**
+
+```ts
+export function init<A>(nea: NonEmptyArray<A>): Array<A> { ... }
+```
+
+**Example**
+
+```ts
+import { init } from 'fp-ts/lib/NonEmptyArray'
+
+assert.deepStrictEqual(init([1, 2, 3]), [1, 2])
+assert.deepStrictEqual(init([1]), [])
+```
+
+Added in v2.2.0
 
 # insertAt (function)
 
