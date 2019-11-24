@@ -22,6 +22,9 @@ Adapted from https://github.com/purescript/purescript-lists
 - [alterAt (function)](#alterat-function)
 - [cons (function)](#cons-function)
 - [deleteAt (function)](#deleteat-function)
+- [dropLeft (function)](#dropleft-function)
+- [dropLeftWhile (function)](#dropleftwhile-function)
+- [dropRight (function)](#dropright-function)
 - [elemIndex (function)](#elemindex-function)
 - [elemLastIndex (function)](#elemlastindex-function)
 - [findIndex (function)](#findindex-function)
@@ -45,6 +48,9 @@ Adapted from https://github.com/purescript/purescript-lists
 - [snoc (function)](#snoc-function)
 - [sort (function)](#sort-function)
 - [tail (function)](#tail-function)
+- [takeLeft (function)](#takeleft-function)
+- [takeLeftWhile (function)](#takeleftwhile-function)
+- [takeRight (function)](#takeright-function)
 - [toArray (function)](#toarray-function)
 - [uncons (function)](#uncons-function)
 - [unsnoc (function)](#unsnoc-function)
@@ -170,6 +176,43 @@ list or `None` if the index is out-of-bounds.
 
 ```ts
 export function deleteAt<A>(index: number, fa: List<A>): O.Option<List<A>> { ... }
+```
+
+Added in v2.1.1
+
+# dropLeft (function)
+
+Drops the specified number of elements from the front of a list.
+
+**Signature**
+
+```ts
+export function dropLeft(n: number): <A>(fa: List<A>) => List<A> { ... }
+```
+
+Added in v2.1.1
+
+# dropLeftWhile (function)
+
+Drops those elements from the front of a list which match a predicate.
+
+**Signature**
+
+```ts
+export function dropLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (fa: List<A>) => List<B>
+export function dropLeftWhile<A>(predicate: Predicate<A>): (fa: List<A>) => List<A> { ... }
+```
+
+Added in v2.1.1
+
+# dropRight (function)
+
+Takes the specified number of elements from the end of a list.
+
+**Signature**
+
+```ts
+export function dropRight(n: number): <A>(fa: List<A>) => List<A> { ... }
 ```
 
 Added in v2.1.1
@@ -446,6 +489,43 @@ Gets all but the first element of a list, or `None` if the list is empty.
 
 ```ts
 export function tail<A>(fa: List<A>): O.Option<List<A>> { ... }
+```
+
+Added in v2.1.1
+
+# takeLeft (function)
+
+Takes the specified number of elements from the front of a list.
+
+**Signature**
+
+```ts
+export function takeLeft(n: number): <A>(fa: List<A>) => List<A> { ... }
+```
+
+Added in v2.1.1
+
+# takeLeftWhile (function)
+
+Takes those elements from the front of a list which match a predicate.
+
+**Signature**
+
+```ts
+export function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (fa: List<A>) => List<B>
+export function takeLeftWhile<A>(predicate: Predicate<A>): (fa: List<A>) => List<A> { ... }
+```
+
+Added in v2.1.1
+
+# takeRight (function)
+
+Takes the specified number of elements from the end of a list.
+
+**Signature**
+
+```ts
+export function takeRight(n: number): <A>(fa: List<A>) => List<A> { ... }
 ```
 
 Added in v2.1.1

@@ -199,6 +199,43 @@ describe('List', () => {
     )
   })
 
+  it('takeLeft', () => {
+    assert.deepStrictEqual(L.takeLeft(1)(L.nil), L.nil)
+    assert.deepStrictEqual(L.takeLeft(1)(L.cons(1, L.singleton(2))), L.singleton(1))
+    assert.deepStrictEqual(L.takeLeft(3)(L.cons(1, L.singleton(2))), L.cons(1, L.singleton(2)))
+  })
+
+  it('takeLeftWhile', () => {
+    const isLTThree = (n: number) => n < 3
+    assert.deepStrictEqual(L.takeLeftWhile(isLTThree)(L.nil), L.nil)
+    assert.deepStrictEqual(L.takeLeftWhile(isLTThree)(L.cons(1, L.cons(2, L.singleton(3)))), L.cons(1, L.singleton(2)))
+  })
+
+  it('takeRight', () => {
+    assert.deepStrictEqual(L.takeRight(1)(L.nil), L.nil)
+    assert.deepStrictEqual(L.takeRight(1)(L.cons(1, L.singleton(2))), L.singleton(2))
+    assert.deepStrictEqual(L.takeRight(3)(L.cons(1, L.singleton(2))), L.cons(1, L.singleton(2)))
+  })
+
+  it('dropLeft', () => {
+    assert.deepStrictEqual(L.dropLeft(1)(L.nil), L.nil)
+    assert.deepStrictEqual(L.dropLeft(1)(L.cons(1, L.singleton(2))), L.singleton(2))
+    assert.deepStrictEqual(L.dropLeft(3)(L.cons(1, L.singleton(2))), L.nil)
+  })
+
+  it('dropLeftWhile', () => {
+    const isLTThree = (n: number) => n < 3
+    assert.deepStrictEqual(L.dropLeftWhile(isLTThree)(L.nil), L.nil)
+    assert.deepStrictEqual(L.dropLeftWhile(isLTThree)(L.cons(1, L.cons(2, L.singleton(3)))), L.singleton(3))
+    assert.deepStrictEqual(L.dropLeftWhile(isLTThree)(L.cons(1, L.singleton(2))), L.nil)
+  })
+
+  it('dropRight', () => {
+    assert.deepStrictEqual(L.dropRight(1)(L.nil), L.nil)
+    assert.deepStrictEqual(L.dropRight(1)(L.cons(1, L.singleton(2))), L.singleton(1))
+    assert.deepStrictEqual(L.dropRight(3)(L.cons(1, L.singleton(2))), L.nil)
+  })
+
   it('reverse', () => {
     assert.deepStrictEqual(L.reverse(L.cons(1, L.cons(2, L.singleton(3)))), L.cons(3, L.cons(2, L.singleton(1))))
   })

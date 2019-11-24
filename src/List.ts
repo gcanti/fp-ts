@@ -11,7 +11,7 @@ import { HKT } from './HKT'
 import * as O from './Option'
 import { pipe, pipeable } from './pipeable'
 import { Filterable1 } from './Filterable'
-import { Predicate, identity, flow } from './function'
+import { Predicate, identity, flow, Refinement } from './function'
 import { Separated, Compactable1 } from './Compactable'
 import * as E from './Either'
 import { Ord } from './Ord'
@@ -441,6 +441,98 @@ export function flatten<A>(mma: List<List<A>>): List<A> {
  */
 export function sort<A>(O: Ord<A>): (fa: List<A>) => List<A> {
   return flow(toArray, A.sort(O), fromArray)
+}
+
+/**
+ * Takes the specified number of elements from the front of a list.
+ * @since 2.1.1
+ */
+export function takeLeft(n: number): <A>(fa: List<A>) => List<A> {
+  return <A>(fa: List<A>) => {
+    if (isNil(fa)) return nil
+
+    let out: List<A> = nil
+    let i = 0
+    let l: List<A> = fa
+    while (isCons(l) && i < n) {
+      out = cons(l.head, out)
+      i++
+      l = l.tail
+    }
+    return reverse(out)
+  }
+}
+
+/**
+ * Takes those elements from the front of a list which match a predicate.
+ * @since 2.1.1
+ */
+export function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (fa: List<A>) => List<B>
+export function takeLeftWhile<A>(predicate: Predicate<A>): (fa: List<A>) => List<A>
+export function takeLeftWhile<A>(predicate: Predicate<A>): (fa: List<A>) => List<A> {
+  return fa => {
+    if (isNil(fa)) return nil
+
+    let out: List<A> = nil
+    let l: List<A> = fa
+    while (isCons(l) && predicate(l.head)) {
+      out = cons(l.head, out)
+      l = l.tail
+    }
+    return reverse(out)
+  }
+}
+
+/**
+ * Takes the specified number of elements from the end of a list.
+ * @since 2.1.1
+ */
+export function takeRight(n: number): <A>(fa: List<A>) => List<A> {
+  return fa => dropLeft(length(fa) - n)(fa)
+}
+
+/**
+ * Drops the specified number of elements from the front of a list.
+ * @since 2.1.1
+ */
+export function dropLeft(n: number): <A>(fa: List<A>) => List<A> {
+  return <A>(fa: List<A>) => {
+    if (isNil(fa)) return nil
+
+    let i = 0
+    let l: List<A> = fa
+    while (isCons(l) && i < n) {
+      i++
+      l = l.tail
+    }
+    return l
+  }
+}
+
+/**
+ * Drops those elements from the front of a list which match a predicate.
+ * @since 2.1.1
+ */
+export function dropLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (fa: List<A>) => List<B>
+export function dropLeftWhile<A>(predicate: Predicate<A>): (fa: List<A>) => List<A>
+export function dropLeftWhile<A>(predicate: Predicate<A>): (fa: List<A>) => List<A> {
+  return fa => {
+    if (isNil(fa)) return nil
+
+    let l: List<A> = fa
+    while (isCons(l) && predicate(l.head)) {
+      l = l.tail
+    }
+    return l
+  }
+}
+
+/**
+ * Takes the specified number of elements from the end of a list.
+ * @since 2.1.1
+ */
+export function dropRight(n: number): <A>(fa: List<A>) => List<A> {
+  return fa => takeLeft(length(fa) - n)(fa)
 }
 
 /**
