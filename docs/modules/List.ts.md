@@ -28,6 +28,8 @@ Adapted from https://github.com/purescript/purescript-lists
 - [findIndex (function)](#findindex-function)
 - [findLastIndex (function)](#findlastindex-function)
 - [flatten (function)](#flatten-function)
+- [foldLeft (function)](#foldleft-function)
+- [foldRight (function)](#foldright-function)
 - [fromArray (function)](#fromarray-function)
 - [head (function)](#head-function)
 - [init (function)](#init-function)
@@ -50,8 +52,6 @@ Adapted from https://github.com/purescript/purescript-lists
 - [takeLeftWhile (function)](#takeleftwhile-function)
 - [takeRight (function)](#takeright-function)
 - [toArray (function)](#toarray-function)
-- [uncons (function)](#uncons-function)
-- [unsnoc (function)](#unsnoc-function)
 - [updateAt (function)](#updateat-function)
 - [compact (export)](#compact-export)
 - [filter (export)](#filter-export)
@@ -247,6 +247,30 @@ Flattens a list of lists.
 
 ```ts
 export function flatten<A>(mma: List<List<A>>): List<A> { ... }
+```
+
+Added in v2.1.1
+
+# foldLeft (function)
+
+Breaks a list into its first element and the remaining elements.
+
+**Signature**
+
+```ts
+export function foldLeft<A, B>(onNil: () => B, onCons: (head: A, tail: List<A>) => B): (fa: List<A>) => B { ... }
+```
+
+Added in v2.1.1
+
+# foldRight (function)
+
+Breaks a list into its last element and the preceding elements.
+
+**Signature**
+
+```ts
+export function foldRight<A, B>(onNil: () => B, onCons: (init: List<A>, last: A) => B): (fa: List<A>) => B { ... }
 ```
 
 Added in v2.1.1
@@ -512,32 +536,6 @@ Gets an array from a list.
 
 ```ts
 export function toArray<A>(fa: List<A>): Array<A> { ... }
-```
-
-Added in v2.1.1
-
-# uncons (function)
-
-Breaks a list into its first element, and the remaining elements,
-or `None` if the list is empty.
-
-**Signature**
-
-```ts
-export function uncons<A>(fa: List<A>): O.Option<{ head: A; tail: List<A> }> { ... }
-```
-
-Added in v2.1.1
-
-# unsnoc (function)
-
-Breaks a list into its last element, and the preceding elements,
-or `None` if the list is empty.
-
-**Signature**
-
-```ts
-export function unsnoc<A>(fa: List<A>): O.Option<{ init: List<A>; last: A }> { ... }
 ```
 
 Added in v2.1.1

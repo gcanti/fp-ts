@@ -190,34 +190,35 @@ export function tail<A>(fa: List<A>): O.Option<List<A>> {
  */
 export function init<A>(fa: List<A>): O.Option<List<A>> {
   return pipe(
-    unsnoc(fa),
-    O.map(_ => _.init)
+    fa,
+    foldRight(() => O.none, O.some)
   )
 }
 
 /**
- * Breaks a list into its first element, and the remaining elements,
- * or `None` if the list is empty.
+ * Breaks a list into its first element and the remaining elements.
  * @since 2.1.1
  */
-export function uncons<A>(fa: List<A>): O.Option<{ head: A; tail: List<A> }> {
-  return isNil(fa) ? O.none : O.some({ head: fa.head, tail: fa.tail })
+export function foldLeft<A, B>(onNil: () => B, onCons: (head: A, tail: List<A>) => B): (fa: List<A>) => B {
+  return fa => (isNil(fa) ? onNil() : onCons(fa.head, fa.tail))
 }
 
 /**
- * Breaks a list into its last element, and the preceding elements,
- * or `None` if the list is empty.
+ * Breaks a list into its last element and the preceding elements.
  * @since 2.1.1
  */
-export function unsnoc<A>(fa: List<A>): O.Option<{ init: List<A>; last: A }> {
-  if (isNil(fa)) return O.none
-  let init: List<A> = nil
-  let l = fa
-  while (isCons(l.tail)) {
-    init = cons(l.head, init)
-    l = l.tail
+export function foldRight<A, B>(onNil: () => B, onCons: (init: List<A>, last: A) => B): (fa: List<A>) => B {
+  return fa => {
+    if (isNil(fa)) return onNil()
+
+    let init: List<A> = nil
+    let l = fa
+    while (isCons(l.tail)) {
+      init = cons(l.head, init)
+      l = l.tail
+    }
+    return onCons(reverse(init), l.head)
   }
-  return O.some({ init: reverse(init), last: l.head })
 }
 
 /**

@@ -85,17 +85,20 @@ describe('List', () => {
     assert.deepStrictEqual(L.init(L.cons('x', L.singleton('a'))), O.some(L.singleton('x')))
   })
 
-  it('uncons', () => {
-    assert.deepStrictEqual(L.uncons(L.nil), O.none)
-    assert.deepStrictEqual(L.uncons(L.singleton('a')), O.some({ head: 'a', tail: L.nil }))
+  it('foldLeft', () => {
+    const len: <A>(as: L.List<A>) => number = L.foldLeft(
+      () => 0,
+      (_, tail) => 1 + len(tail)
+    )
+    assert.deepStrictEqual(len(L.cons('a', L.singleton('b'))), 2)
   })
 
-  it('unsnoc', () => {
-    assert.deepStrictEqual(L.unsnoc(L.nil), O.none)
-    assert.deepStrictEqual(
-      L.unsnoc(L.cons('b', L.singleton('a'))),
-      O.some({ init: { type: 'Cons', head: 'b', tail: L.nil }, last: 'a' })
+  it('foldRight', () => {
+    const len: <A>(as: L.List<A>) => number = L.foldRight(
+      () => 0,
+      init => 1 + len(init)
     )
+    assert.deepEqual(len(L.cons('b', L.singleton('a'))), 2)
   })
 
   it('lookup', () => {
