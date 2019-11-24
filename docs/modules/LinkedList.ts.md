@@ -12,6 +12,8 @@ Adapted from https://github.com/purescript/purescript-lists
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Cons (interface)](#cons-interface)
+- [Nil (interface)](#nil-interface)
 - [LinkedList (type alias)](#linkedlist-type-alias)
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
@@ -60,6 +62,32 @@ Adapted from https://github.com/purescript/purescript-lists
 
 ---
 
+# Cons (interface)
+
+**Signature**
+
+```ts
+export interface Cons<A> {
+  readonly type: 'Cons'
+  readonly head: A
+  readonly tail: LinkedList<A>
+}
+```
+
+Added in v2.1.1
+
+# Nil (interface)
+
+**Signature**
+
+```ts
+export interface Nil {
+  readonly type: 'Nil'
+}
+```
+
+Added in v2.1.1
+
 # LinkedList (type alias)
 
 **Signature**
@@ -105,7 +133,7 @@ Added in v2.1.1
 **Signature**
 
 ```ts
-export const nil: Nil = ...
+export const nil: LinkedList<never> = ...
 ```
 
 Added in v2.1.1

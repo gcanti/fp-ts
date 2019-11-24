@@ -33,11 +33,17 @@ export const URI = 'LinkedList'
  */
 export type URI = typeof URI
 
-interface Nil {
+/**
+ * @since 2.1.1
+ */
+export interface Nil {
   readonly type: 'Nil'
 }
 
-interface Cons<A> {
+/**
+ * @since 2.1.1
+ */
+export interface Cons<A> {
   readonly type: 'Cons'
   readonly head: A
   readonly tail: LinkedList<A>
@@ -51,7 +57,7 @@ export type LinkedList<A> = Nil | Cons<A>
 /**
  * @since 2.1.1
  */
-export const nil: Nil = { type: 'Nil' }
+export const nil: LinkedList<never> = { type: 'Nil' }
 
 /**
  * @since 2.1.1
