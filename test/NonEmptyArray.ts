@@ -28,7 +28,8 @@ import {
   sort,
   tail,
   updateAt,
-  NonEmptyArray
+  NonEmptyArray,
+  init
 } from '../src/NonEmptyArray'
 import { isSome, none, option, some } from '../src/Option'
 import { ordNumber } from '../src/Ord'
@@ -156,6 +157,11 @@ describe('NonEmptyArray', () => {
   it('last', () => {
     assert.deepStrictEqual(last([1, 2, 3]), 3)
     assert.deepStrictEqual(last([1]), 1)
+  })
+
+  it('init', () => {
+    assert.deepStrictEqual(init([1, 2, 3]), [1, 2])
+    assert.deepStrictEqual(init([1]), [])
   })
 
   it('sort', () => {
