@@ -1,5 +1,5 @@
 ---
-title: LinkedList.ts
+title: List.ts
 nav_order: 48
 parent: Modules
 ---
@@ -14,10 +14,10 @@ Adapted from https://github.com/purescript/purescript-lists
 
 - [Cons (interface)](#cons-interface)
 - [Nil (interface)](#nil-interface)
-- [LinkedList (type alias)](#linkedlist-type-alias)
+- [List (type alias)](#list-type-alias)
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
-- [linkedList (constant)](#linkedlist-constant)
+- [list (constant)](#list-constant)
 - [nil (constant)](#nil-constant)
 - [alterAt (function)](#alterat-function)
 - [cons (function)](#cons-function)
@@ -70,7 +70,7 @@ Adapted from https://github.com/purescript/purescript-lists
 export interface Cons<A> {
   readonly type: 'Cons'
   readonly head: A
-  readonly tail: LinkedList<A>
+  readonly tail: List<A>
 }
 ```
 
@@ -88,12 +88,12 @@ export interface Nil {
 
 Added in v2.1.1
 
-# LinkedList (type alias)
+# List (type alias)
 
 **Signature**
 
 ```ts
-export type LinkedList<A> = Nil | Cons<A>
+export type List<A> = Nil | Cons<A>
 ```
 
 Added in v2.1.1
@@ -113,17 +113,17 @@ Added in v2.1.1
 **Signature**
 
 ```ts
-export const URI: "LinkedList" = ...
+export const URI: "List" = ...
 ```
 
 Added in v2.1.1
 
-# linkedList (constant)
+# list (constant)
 
 **Signature**
 
 ```ts
-export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Filterable1<URI> & Compactable1<URI> = ...
+export const list: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Filterable1<URI> & Compactable1<URI> = ...
 ```
 
 Added in v2.1.1
@@ -133,7 +133,7 @@ Added in v2.1.1
 **Signature**
 
 ```ts
-export const nil: LinkedList<never> = ...
+export const nil: List<never> = ...
 ```
 
 Added in v2.1.1
@@ -146,7 +146,7 @@ to the current value, returning a new list or `None` if the index is out-of-boun
 **Signature**
 
 ```ts
-export function alterAt<A>(index: number, f: (a: A) => O.Option<A>, fa: LinkedList<A>): O.Option<LinkedList<A>> { ... }
+export function alterAt<A>(index: number, f: (a: A) => O.Option<A>, fa: List<A>): O.Option<List<A>> { ... }
 ```
 
 Added in v2.1.1
@@ -156,7 +156,7 @@ Added in v2.1.1
 **Signature**
 
 ```ts
-export function cons<A>(head: A, tail: LinkedList<A>): LinkedList<A> { ... }
+export function cons<A>(head: A, tail: List<A>): List<A> { ... }
 ```
 
 Added in v2.1.1
@@ -169,7 +169,7 @@ list or `None` if the index is out-of-bounds.
 **Signature**
 
 ```ts
-export function deleteAt<A>(index: number, fa: LinkedList<A>): O.Option<LinkedList<A>> { ... }
+export function deleteAt<A>(index: number, fa: List<A>): O.Option<List<A>> { ... }
 ```
 
 Added in v2.1.1
@@ -181,7 +181,7 @@ Find the index of the first element equal to the specified element.
 **Signature**
 
 ```ts
-export function elemIndex<A>(eq: Eq<A>, a: A, fa: LinkedList<A>): O.Option<number> { ... }
+export function elemIndex<A>(eq: Eq<A>, a: A, fa: List<A>): O.Option<number> { ... }
 ```
 
 Added in v2.1.1
@@ -193,7 +193,7 @@ Find the index of the last element equal to the specified element.
 **Signature**
 
 ```ts
-export function elemLastIndex<A>(eq: Eq<A>, a: A, fa: LinkedList<A>): O.Option<number> { ... }
+export function elemLastIndex<A>(eq: Eq<A>, a: A, fa: List<A>): O.Option<number> { ... }
 ```
 
 Added in v2.1.1
@@ -205,7 +205,7 @@ Finds the first index for which a predicate holds.
 **Signature**
 
 ```ts
-export function findIndex<A>(predicate: Predicate<A>, fa: LinkedList<A>): O.Option<number> { ... }
+export function findIndex<A>(predicate: Predicate<A>, fa: List<A>): O.Option<number> { ... }
 ```
 
 Added in v2.1.1
@@ -217,7 +217,7 @@ Finds the last index for which a predicate holds.
 **Signature**
 
 ```ts
-export function findLastIndex<A>(predicate: Predicate<A>, fa: LinkedList<A>): O.Option<number> { ... }
+export function findLastIndex<A>(predicate: Predicate<A>, fa: List<A>): O.Option<number> { ... }
 ```
 
 Added in v2.1.1
@@ -229,7 +229,7 @@ Flattens a list of lists.
 **Signature**
 
 ```ts
-export function flatten<A>(mma: LinkedList<LinkedList<A>>): LinkedList<A> { ... }
+export function flatten<A>(mma: List<List<A>>): List<A> { ... }
 ```
 
 Added in v2.1.1
@@ -241,7 +241,7 @@ Creates a list from an array
 **Signature**
 
 ```ts
-export function fromArray<A>(as: Array<A>): LinkedList<A> { ... }
+export function fromArray<A>(as: Array<A>): List<A> { ... }
 ```
 
 Added in v2.1.1
@@ -253,7 +253,7 @@ Gets the first element in a list, or `None` if the list is empty.
 **Signature**
 
 ```ts
-export function head<A>(fa: LinkedList<A>): O.Option<A> { ... }
+export function head<A>(fa: List<A>): O.Option<A> { ... }
 ```
 
 Added in v2.1.1
@@ -265,7 +265,7 @@ Gets the element at the specified index, or `None` if the index is out-of-bounds
 **Signature**
 
 ```ts
-export function index<A>(fa: LinkedList<A>, index: number): O.Option<A> { ... }
+export function index<A>(fa: List<A>, index: number): O.Option<A> { ... }
 ```
 
 Added in v2.1.1
@@ -277,7 +277,7 @@ Gets all but the last element of a list, or `None` if the list is empty.
 **Signature**
 
 ```ts
-export function init<A>(fa: LinkedList<A>): O.Option<LinkedList<A>> { ... }
+export function init<A>(fa: List<A>): O.Option<List<A>> { ... }
 ```
 
 Added in v2.1.1
@@ -289,7 +289,7 @@ Insert an element into a sorted list.
 **Signature**
 
 ```ts
-export function insert<A>(ord: Ord<A>): (a: A) => (fa: LinkedList<A>) => LinkedList<A> { ... }
+export function insert<A>(ord: Ord<A>): (a: A) => (fa: List<A>) => List<A> { ... }
 ```
 
 Added in v2.1.1
@@ -302,7 +302,7 @@ if the index is out-of-bounds.
 **Signature**
 
 ```ts
-export function insertAt<A>(index: number, a: A, fa: LinkedList<A>): O.Option<LinkedList<A>> { ... }
+export function insertAt<A>(index: number, a: A, fa: List<A>): O.Option<List<A>> { ... }
 ```
 
 Added in v2.1.1
@@ -315,7 +315,7 @@ to determine the ordering of elements.
 **Signature**
 
 ```ts
-export function insertBy<A>(compare: Ord<A>['compare']): (a: A) => (fa: LinkedList<A>) => LinkedList<A> { ... }
+export function insertBy<A>(compare: Ord<A>['compare']): (a: A) => (fa: List<A>) => List<A> { ... }
 ```
 
 Added in v2.1.1
@@ -325,7 +325,7 @@ Added in v2.1.1
 **Signature**
 
 ```ts
-export function isCons<A>(a: LinkedList<A>): a is Cons<A> { ... }
+export function isCons<A>(a: List<A>): a is Cons<A> { ... }
 ```
 
 Added in v2.1.1
@@ -335,7 +335,7 @@ Added in v2.1.1
 **Signature**
 
 ```ts
-export function isNil<A>(a: LinkedList<A>): a is Nil { ... }
+export function isNil<A>(a: List<A>): a is Nil { ... }
 ```
 
 Added in v2.1.1
@@ -347,7 +347,7 @@ Gets the last element in a list, or `None` if the list is empty.
 **Signature**
 
 ```ts
-export function last<A>(fa: LinkedList<A>): O.Option<A> { ... }
+export function last<A>(fa: List<A>): O.Option<A> { ... }
 ```
 
 Added in v2.1.1
@@ -359,7 +359,7 @@ Gets the length of a list.
 **Signature**
 
 ```ts
-export function length<A>(fa: LinkedList<A>): number { ... }
+export function length<A>(fa: List<A>): number { ... }
 ```
 
 Added in v2.1.1
@@ -372,7 +372,7 @@ to the current value, returning a new list or `None` if the index is out-of-boun
 **Signature**
 
 ```ts
-export function modifyAt<A>(index: number, f: (a: A) => A, fa: LinkedList<A>): O.Option<LinkedList<A>> { ... }
+export function modifyAt<A>(index: number, f: (a: A) => A, fa: List<A>): O.Option<List<A>> { ... }
 ```
 
 Added in v2.1.1
@@ -384,7 +384,7 @@ Create a list containing a range of integers, including both endpoints.
 **Signature**
 
 ```ts
-export function range(start: number, end: number): LinkedList<number> { ... }
+export function range(start: number, end: number): List<number> { ... }
 ```
 
 Added in v2.1.1
@@ -396,7 +396,7 @@ Reverse a list.
 **Signature**
 
 ```ts
-export function reverse<A>(fa: LinkedList<A>): LinkedList<A> { ... }
+export function reverse<A>(fa: List<A>): List<A> { ... }
 ```
 
 Added in v2.1.1
@@ -408,7 +408,7 @@ Creates a list with a single element.
 **Signature**
 
 ```ts
-export function singleton<A>(head: A): LinkedList<A> { ... }
+export function singleton<A>(head: A): List<A> { ... }
 ```
 
 Added in v2.1.1
@@ -420,7 +420,7 @@ Appends an element to the end of a list, creating a new list.
 **Signature**
 
 ```ts
-export function snoc<A>(fa: LinkedList<A>, a: A): LinkedList<A> { ... }
+export function snoc<A>(fa: List<A>, a: A): List<A> { ... }
 ```
 
 Added in v2.1.1
@@ -433,7 +433,7 @@ are compared using the specified ordering.
 **Signature**
 
 ```ts
-export function sort<A>(O: Ord<A>): (fa: LinkedList<A>) => LinkedList<A> { ... }
+export function sort<A>(O: Ord<A>): (fa: List<A>) => List<A> { ... }
 ```
 
 Added in v2.1.1
@@ -445,7 +445,7 @@ Gets all but the first element of a list, or `None` if the list is empty.
 **Signature**
 
 ```ts
-export function tail<A>(fa: LinkedList<A>): O.Option<LinkedList<A>> { ... }
+export function tail<A>(fa: List<A>): O.Option<List<A>> { ... }
 ```
 
 Added in v2.1.1
@@ -457,7 +457,7 @@ Gets an array from a list.
 **Signature**
 
 ```ts
-export function toArray<A>(fa: LinkedList<A>): Array<A> { ... }
+export function toArray<A>(fa: List<A>): Array<A> { ... }
 ```
 
 Added in v2.1.1
@@ -470,7 +470,7 @@ or `None` if the list is empty.
 **Signature**
 
 ```ts
-export function uncons<A>(fa: LinkedList<A>): O.Option<{ head: A; tail: LinkedList<A> }> { ... }
+export function uncons<A>(fa: List<A>): O.Option<{ head: A; tail: List<A> }> { ... }
 ```
 
 Added in v2.1.1
@@ -483,7 +483,7 @@ or `None` if the list is empty.
 **Signature**
 
 ```ts
-export function unsnoc<A>(fa: LinkedList<A>): O.Option<{ init: LinkedList<A>; last: A }> { ... }
+export function unsnoc<A>(fa: List<A>): O.Option<{ init: List<A>; last: A }> { ... }
 ```
 
 Added in v2.1.1
@@ -496,7 +496,7 @@ list or `None` if the index is out-of-bounds.
 **Signature**
 
 ```ts
-export function updateAt<A>(index: number, a: A, fa: LinkedList<A>): O.Option<LinkedList<A>> { ... }
+export function updateAt<A>(index: number, a: A, fa: List<A>): O.Option<List<A>> { ... }
 ```
 
 Added in v2.1.1
@@ -506,7 +506,7 @@ Added in v2.1.1
 **Signature**
 
 ```ts
-<A>(fa: LinkedList<O.Option<A>>) => LinkedList<A>
+<A>(fa: List<O.Option<A>>) => List<A>
 ```
 
 Added in v2.1.1
@@ -516,7 +516,7 @@ Added in v2.1.1
 **Signature**
 
 ```ts
-{ <A, B>(refinement: Refinement<A, B>): (fa: LinkedList<A>) => LinkedList<B>; <A>(predicate: Predicate<A>): (fa: LinkedList<A>) => LinkedList<A>; }
+{ <A, B>(refinement: Refinement<A, B>): (fa: List<A>) => List<B>; <A>(predicate: Predicate<A>): (fa: List<A>) => List<A>; }
 ```
 
 Added in v2.1.1
@@ -526,7 +526,7 @@ Added in v2.1.1
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => O.Option<B>) => (fa: LinkedList<A>) => LinkedList<B>
+<A, B>(f: (a: A) => O.Option<B>) => (fa: List<A>) => List<B>
 ```
 
 Added in v2.1.1
@@ -536,7 +536,7 @@ Added in v2.1.1
 **Signature**
 
 ```ts
-;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: LinkedList<A>) => M
+;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: List<A>) => M
 ```
 
 Added in v2.1.1
@@ -546,7 +546,7 @@ Added in v2.1.1
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => B) => (fa: LinkedList<A>) => LinkedList<B>
+<A, B>(f: (a: A) => B) => (fa: List<A>) => List<B>
 ```
 
 Added in v2.1.1
@@ -556,7 +556,7 @@ Added in v2.1.1
 **Signature**
 
 ```ts
-{ <A, B>(refinement: Refinement<A, B>): (fa: LinkedList<A>) => Separated<LinkedList<A>, LinkedList<B>>; <A>(predicate: Predicate<A>): (fa: LinkedList<A>) => Separated<LinkedList<A>, LinkedList<A>>; }
+{ <A, B>(refinement: Refinement<A, B>): (fa: List<A>) => Separated<List<A>, List<B>>; <A>(predicate: Predicate<A>): (fa: List<A>) => Separated<List<A>, List<A>>; }
 ```
 
 Added in v2.1.1
@@ -566,7 +566,7 @@ Added in v2.1.1
 **Signature**
 
 ```ts
-<A, B, C>(f: (a: A) => E.Either<B, C>) => (fa: LinkedList<A>) => Separated<LinkedList<B>, LinkedList<C>>
+<A, B, C>(f: (a: A) => E.Either<B, C>) => (fa: List<A>) => Separated<List<B>, List<C>>
 ```
 
 Added in v2.1.1
@@ -576,7 +576,7 @@ Added in v2.1.1
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: LinkedList<A>) => B
+;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: List<A>) => B
 ```
 
 Added in v2.1.1
@@ -586,7 +586,7 @@ Added in v2.1.1
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: LinkedList<A>) => B
+;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: List<A>) => B
 ```
 
 Added in v2.1.1
@@ -596,7 +596,7 @@ Added in v2.1.1
 **Signature**
 
 ```ts
-<A, B>(fa: LinkedList<E.Either<A, B>>) => Separated<LinkedList<A>, LinkedList<B>>
+<A, B>(fa: List<E.Either<A, B>>) => Separated<List<A>, List<B>>
 ```
 
 Added in v2.1.1

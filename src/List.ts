@@ -19,14 +19,14 @@ import { Eq } from './Eq'
 
 declare module './HKT' {
   interface URItoKind<A> {
-    LinkedList: LinkedList<A>
+    List: List<A>
   }
 }
 
 /**
  * @since 2.1.1
  */
-export const URI = 'LinkedList'
+export const URI = 'List'
 
 /**
  * @since 2.1.1
@@ -46,23 +46,23 @@ export interface Nil {
 export interface Cons<A> {
   readonly type: 'Cons'
   readonly head: A
-  readonly tail: LinkedList<A>
+  readonly tail: List<A>
 }
 
 /**
  * @since 2.1.1
  */
-export type LinkedList<A> = Nil | Cons<A>
+export type List<A> = Nil | Cons<A>
 
 /**
  * @since 2.1.1
  */
-export const nil: LinkedList<never> = { type: 'Nil' }
+export const nil: List<never> = { type: 'Nil' }
 
 /**
  * @since 2.1.1
  */
-export function cons<A>(head: A, tail: LinkedList<A>): LinkedList<A> {
+export function cons<A>(head: A, tail: List<A>): List<A> {
   return { type: 'Cons', head, tail }
 }
 
@@ -70,7 +70,7 @@ export function cons<A>(head: A, tail: LinkedList<A>): LinkedList<A> {
  * Creates a list with a single element.
  * @since 2.1.1
  */
-export function singleton<A>(head: A): LinkedList<A> {
+export function singleton<A>(head: A): List<A> {
   return cons(head, nil)
 }
 
@@ -78,11 +78,11 @@ export function singleton<A>(head: A): LinkedList<A> {
  * Create a list containing a range of integers, including both endpoints.
  * @since 2.1.1
  */
-export function range(start: number, end: number): LinkedList<number> {
+export function range(start: number, end: number): List<number> {
   if (start === end) return singleton(start)
 
   const step = start < end ? 1 : -1
-  let out: LinkedList<number> = singleton(end)
+  let out: List<number> = singleton(end)
   const len = Math.abs(end - start) + 1
   for (let i = 1; i < len; i++) {
     out = cons(end - i * step, out)
@@ -94,21 +94,21 @@ export function range(start: number, end: number): LinkedList<number> {
  * Gets the length of a list.
  * @since 2.1.1
  */
-export function length<A>(fa: LinkedList<A>): number {
-  return linkedList.reduce(fa, 0, b => b + 1)
+export function length<A>(fa: List<A>): number {
+  return list.reduce(fa, 0, b => b + 1)
 }
 
 /**
  * @since 2.1.1
  */
-export function isNil<A>(a: LinkedList<A>): a is Nil {
+export function isNil<A>(a: List<A>): a is Nil {
   return a.type === 'Nil'
 }
 
 /**
  * @since 2.1.1
  */
-export function isCons<A>(a: LinkedList<A>): a is Cons<A> {
+export function isCons<A>(a: List<A>): a is Cons<A> {
   return a.type === 'Cons'
 }
 
@@ -116,8 +116,8 @@ export function isCons<A>(a: LinkedList<A>): a is Cons<A> {
  * Appends an element to the end of a list, creating a new list.
  * @since 2.1.1
  */
-export function snoc<A>(fa: LinkedList<A>, a: A): LinkedList<A> {
-  return linkedList.reduceRight(fa, singleton(a), cons)
+export function snoc<A>(fa: List<A>, a: A): List<A> {
+  return list.reduceRight(fa, singleton(a), cons)
 }
 
 /**
@@ -125,12 +125,12 @@ export function snoc<A>(fa: LinkedList<A>, a: A): LinkedList<A> {
  * to determine the ordering of elements.
  * @since 2.1.1
  */
-export function insertBy<A>(compare: Ord<A>['compare']): (a: A) => (fa: LinkedList<A>) => LinkedList<A> {
+export function insertBy<A>(compare: Ord<A>['compare']): (a: A) => (fa: List<A>) => List<A> {
   return a => fa => {
     if (isNil(fa)) return singleton(a)
 
-    let out: LinkedList<A> = nil
-    let l: LinkedList<A> = fa
+    let out: List<A> = nil
+    let l: List<A> = fa
     let hasBeenInserted = false
     while (isCons(l)) {
       out = cons(l.head, out)
@@ -148,7 +148,7 @@ export function insertBy<A>(compare: Ord<A>['compare']): (a: A) => (fa: LinkedLi
  * Insert an element into a sorted list.
  * @since 2.1.1
  */
-export function insert<A>(ord: Ord<A>): (a: A) => (fa: LinkedList<A>) => LinkedList<A> {
+export function insert<A>(ord: Ord<A>): (a: A) => (fa: List<A>) => List<A> {
   return insertBy(ord.compare)
 }
 
@@ -156,7 +156,7 @@ export function insert<A>(ord: Ord<A>): (a: A) => (fa: LinkedList<A>) => LinkedL
  * Gets the first element in a list, or `None` if the list is empty.
  * @since 2.1.1
  */
-export function head<A>(fa: LinkedList<A>): O.Option<A> {
+export function head<A>(fa: List<A>): O.Option<A> {
   return isCons(fa) ? O.some(fa.head) : O.none
 }
 
@@ -164,7 +164,7 @@ export function head<A>(fa: LinkedList<A>): O.Option<A> {
  * Gets the last element in a list, or `None` if the list is empty.
  * @since 2.1.1
  */
-export function last<A>(fa: LinkedList<A>): O.Option<A> {
+export function last<A>(fa: List<A>): O.Option<A> {
   if (isNil(fa)) return O.none
 
   let out = O.some(fa.head)
@@ -180,7 +180,7 @@ export function last<A>(fa: LinkedList<A>): O.Option<A> {
  * Gets all but the first element of a list, or `None` if the list is empty.
  * @since 2.1.1
  */
-export function tail<A>(fa: LinkedList<A>): O.Option<LinkedList<A>> {
+export function tail<A>(fa: List<A>): O.Option<List<A>> {
   if (isNil(fa)) return O.none
   return isCons(fa.tail) ? O.some(fa.tail) : O.none
 }
@@ -189,7 +189,7 @@ export function tail<A>(fa: LinkedList<A>): O.Option<LinkedList<A>> {
  * Gets all but the last element of a list, or `None` if the list is empty.
  * @since 2.1.1
  */
-export function init<A>(fa: LinkedList<A>): O.Option<LinkedList<A>> {
+export function init<A>(fa: List<A>): O.Option<List<A>> {
   return pipe(
     unsnoc(fa),
     O.map(_ => _.init)
@@ -201,7 +201,7 @@ export function init<A>(fa: LinkedList<A>): O.Option<LinkedList<A>> {
  * or `None` if the list is empty.
  * @since 2.1.1
  */
-export function uncons<A>(fa: LinkedList<A>): O.Option<{ head: A; tail: LinkedList<A> }> {
+export function uncons<A>(fa: List<A>): O.Option<{ head: A; tail: List<A> }> {
   return isNil(fa) ? O.none : O.some({ head: fa.head, tail: fa.tail })
 }
 
@@ -210,9 +210,9 @@ export function uncons<A>(fa: LinkedList<A>): O.Option<{ head: A; tail: LinkedLi
  * or `None` if the list is empty.
  * @since 2.1.1
  */
-export function unsnoc<A>(fa: LinkedList<A>): O.Option<{ init: LinkedList<A>; last: A }> {
+export function unsnoc<A>(fa: List<A>): O.Option<{ init: List<A>; last: A }> {
   if (isNil(fa)) return O.none
-  let init: LinkedList<A> = nil
+  let init: List<A> = nil
   let l = fa
   while (isCons(l.tail)) {
     init = cons(l.head, init)
@@ -225,9 +225,9 @@ export function unsnoc<A>(fa: LinkedList<A>): O.Option<{ init: LinkedList<A>; la
  * Gets the element at the specified index, or `None` if the index is out-of-bounds.
  * @since 2.1.1
  */
-export function index<A>(fa: LinkedList<A>, index: number): O.Option<A> {
+export function index<A>(fa: List<A>, index: number): O.Option<A> {
   if (isNil(fa)) return O.none
-  let l: LinkedList<A> = fa
+  let l: List<A> = fa
   for (let i = 0; i <= index; i++) {
     if (isNil(l)) return O.none
     if (i === index) return O.some(l.head)
@@ -241,8 +241,8 @@ export function index<A>(fa: LinkedList<A>, index: number): O.Option<A> {
  * Finds the first index for which a predicate holds.
  * @since 2.1.1
  */
-export function findIndex<A>(predicate: Predicate<A>, fa: LinkedList<A>): O.Option<number> {
-  let l: LinkedList<A> = fa
+export function findIndex<A>(predicate: Predicate<A>, fa: List<A>): O.Option<number> {
+  let l: List<A> = fa
   let i = 0
   while (isCons(l)) {
     if (predicate(l.head)) return O.some(i)
@@ -256,7 +256,7 @@ export function findIndex<A>(predicate: Predicate<A>, fa: LinkedList<A>): O.Opti
  * Finds the last index for which a predicate holds.
  * @since 2.1.1
  */
-export function findLastIndex<A>(predicate: Predicate<A>, fa: LinkedList<A>): O.Option<number> {
+export function findLastIndex<A>(predicate: Predicate<A>, fa: List<A>): O.Option<number> {
   return O.option.map(findIndex(predicate, reverse(fa)), i => length(fa) - i - 1)
 }
 
@@ -264,7 +264,7 @@ export function findLastIndex<A>(predicate: Predicate<A>, fa: LinkedList<A>): O.
  * Find the index of the first element equal to the specified element.
  * @since 2.1.1
  */
-export function elemIndex<A>(eq: Eq<A>, a: A, fa: LinkedList<A>): O.Option<number> {
+export function elemIndex<A>(eq: Eq<A>, a: A, fa: List<A>): O.Option<number> {
   return findIndex(b => eq.equals(a, b), fa)
 }
 
@@ -272,7 +272,7 @@ export function elemIndex<A>(eq: Eq<A>, a: A, fa: LinkedList<A>): O.Option<numbe
  * Find the index of the last element equal to the specified element.
  * @since 2.1.1
  */
-export function elemLastIndex<A>(eq: Eq<A>, a: A, fa: LinkedList<A>): O.Option<number> {
+export function elemLastIndex<A>(eq: Eq<A>, a: A, fa: List<A>): O.Option<number> {
   return findLastIndex(b => eq.equals(a, b), fa)
 }
 
@@ -281,12 +281,12 @@ export function elemLastIndex<A>(eq: Eq<A>, a: A, fa: LinkedList<A>): O.Option<n
  * if the index is out-of-bounds.
  * @since 2.1.1
  */
-export function insertAt<A>(index: number, a: A, fa: LinkedList<A>): O.Option<LinkedList<A>> {
+export function insertAt<A>(index: number, a: A, fa: List<A>): O.Option<List<A>> {
   if (isNil(fa) && index === 0) return O.some(singleton(a))
 
-  let l: LinkedList<A> = fa
+  let l: List<A> = fa
   let i = 0
-  let out: LinkedList<A> = nil
+  let out: List<A> = nil
   let hasBeenInserted = false
   while (isCons(l) && i <= index) {
     if (i === index) {
@@ -305,12 +305,12 @@ export function insertAt<A>(index: number, a: A, fa: LinkedList<A>): O.Option<Li
  * list or `None` if the index is out-of-bounds.
  * @since 2.1.1
  */
-export function deleteAt<A>(index: number, fa: LinkedList<A>): O.Option<LinkedList<A>> {
+export function deleteAt<A>(index: number, fa: List<A>): O.Option<List<A>> {
   if (isNil(fa)) return O.none
 
-  let l: LinkedList<A> = fa
+  let l: List<A> = fa
   let i = 0
-  let out: LinkedList<A> = nil
+  let out: List<A> = nil
   let hasBeenDeleted = false
   while (isCons(l)) {
     if (i === index) {
@@ -329,12 +329,12 @@ export function deleteAt<A>(index: number, fa: LinkedList<A>): O.Option<LinkedLi
  * list or `None` if the index is out-of-bounds.
  * @since 2.1.1
  */
-export function updateAt<A>(index: number, a: A, fa: LinkedList<A>): O.Option<LinkedList<A>> {
+export function updateAt<A>(index: number, a: A, fa: List<A>): O.Option<List<A>> {
   if (isNil(fa)) return O.none
 
-  let l: LinkedList<A> = fa
+  let l: List<A> = fa
   let i = 0
-  let out: LinkedList<A> = nil
+  let out: List<A> = nil
   let hasBeenUpdated = false
   while (isCons(l)) {
     if (i === index) {
@@ -354,12 +354,12 @@ export function updateAt<A>(index: number, a: A, fa: LinkedList<A>): O.Option<Li
  * to the current value, returning a new list or `None` if the index is out-of-bounds.
  * @since 2.1.1
  */
-export function modifyAt<A>(index: number, f: (a: A) => A, fa: LinkedList<A>): O.Option<LinkedList<A>> {
+export function modifyAt<A>(index: number, f: (a: A) => A, fa: List<A>): O.Option<List<A>> {
   if (isNil(fa)) return O.none
 
-  let l: LinkedList<A> = fa
+  let l: List<A> = fa
   let i = 0
-  let out: LinkedList<A> = nil
+  let out: List<A> = nil
   let hasBeenUpdated = false
   while (isCons(l)) {
     if (i === index) {
@@ -379,12 +379,12 @@ export function modifyAt<A>(index: number, f: (a: A) => A, fa: LinkedList<A>): O
  * to the current value, returning a new list or `None` if the index is out-of-bounds.
  * @since 2.1.1
  */
-export function alterAt<A>(index: number, f: (a: A) => O.Option<A>, fa: LinkedList<A>): O.Option<LinkedList<A>> {
+export function alterAt<A>(index: number, f: (a: A) => O.Option<A>, fa: List<A>): O.Option<List<A>> {
   if (isNil(fa)) return O.none
 
-  let l: LinkedList<A> = fa
+  let l: List<A> = fa
   let i = 0
-  let out: LinkedList<A> = nil
+  let out: List<A> = nil
   let hasBeenAltered = false
   while (isCons(l)) {
     if (i === index) {
@@ -406,8 +406,8 @@ export function alterAt<A>(index: number, f: (a: A) => O.Option<A>, fa: LinkedLi
  * Reverse a list.
  * @since 2.1.1
  */
-export function reverse<A>(fa: LinkedList<A>): LinkedList<A> {
-  let out: LinkedList<A> = nil
+export function reverse<A>(fa: List<A>): List<A> {
+  let out: List<A> = nil
   let l = fa
   while (isCons(l)) {
     out = cons(l.head, out)
@@ -420,8 +420,8 @@ export function reverse<A>(fa: LinkedList<A>): LinkedList<A> {
  * Flattens a list of lists.
  * @since 2.1.1
  */
-export function flatten<A>(mma: LinkedList<LinkedList<A>>): LinkedList<A> {
-  let out: LinkedList<A> = nil
+export function flatten<A>(mma: List<List<A>>): List<A> {
+  let out: List<A> = nil
   let outer = mma
   while (isCons(outer)) {
     let inner = outer.head
@@ -439,7 +439,7 @@ export function flatten<A>(mma: LinkedList<LinkedList<A>>): LinkedList<A> {
  * are compared using the specified ordering.
  * @since 2.1.1
  */
-export function sort<A>(O: Ord<A>): (fa: LinkedList<A>) => LinkedList<A> {
+export function sort<A>(O: Ord<A>): (fa: List<A>) => List<A> {
   return flow(toArray, A.sort(O), fromArray)
 }
 
@@ -447,9 +447,9 @@ export function sort<A>(O: Ord<A>): (fa: LinkedList<A>) => LinkedList<A> {
  * Gets an array from a list.
  * @since 2.1.1
  */
-export function toArray<A>(fa: LinkedList<A>): Array<A> {
+export function toArray<A>(fa: List<A>): Array<A> {
   const out: Array<A> = []
-  let l: LinkedList<A> = fa
+  let l: List<A> = fa
   while (isCons(l)) {
     out.push(l.head)
     l = l.tail
@@ -461,17 +461,16 @@ export function toArray<A>(fa: LinkedList<A>): Array<A> {
  * Creates a list from an array
  * @since 2.1.1
  */
-export function fromArray<A>(as: Array<A>): LinkedList<A> {
-  return A.array.reduceRight<A, LinkedList<A>>(as, nil, cons)
+export function fromArray<A>(as: Array<A>): List<A> {
+  return A.array.reduceRight<A, List<A>>(as, nil, cons)
 }
 
 /**
  * @since 2.1.1
  */
-export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Filterable1<URI> & Compactable1<URI> = {
+export const list: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Filterable1<URI> & Compactable1<URI> = {
   URI,
-  map: <A, B>(fa: LinkedList<A>, f: (a: A) => B) =>
-    linkedList.reduceRight<A, LinkedList<B>>(fa, nil, (a, b) => cons(f(a), b)),
+  map: <A, B>(fa: List<A>, f: (a: A) => B) => list.reduceRight<A, List<B>>(fa, nil, (a, b) => cons(f(a), b)),
   reduce: (fa, b, f) => {
     let out = b
     let l = fa
@@ -491,25 +490,25 @@ export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Fi
     return out
   },
   reduceRight: (fa, b, f) => A.array.reduceRight(toArray(fa), b, f),
-  traverse: <F>(F: Applicative<F>): (<A, B>(ta: LinkedList<A>, f: (a: A) => HKT<F, B>) => HKT<F, LinkedList<B>>) => {
-    return <A, B>(ta: LinkedList<A>, f: (a: A) => HKT<F, B>) =>
-      linkedList.reduceRight(ta, F.of<LinkedList<B>>(nil), (a, fbs) =>
+  traverse: <F>(F: Applicative<F>): (<A, B>(ta: List<A>, f: (a: A) => HKT<F, B>) => HKT<F, List<B>>) => {
+    return <A, B>(ta: List<A>, f: (a: A) => HKT<F, B>) =>
+      list.reduceRight(ta, F.of<List<B>>(nil), (a, fbs) =>
         F.ap(
           F.map(fbs, bs => (b: B) => cons(b, bs)),
           f(a)
         )
       )
   },
-  sequence: <F>(F: Applicative<F>) => <A>(ta: LinkedList<HKT<F, A>>): HKT<F, LinkedList<A>> => {
-    return linkedList.reduceRight(ta, F.of<LinkedList<A>>(nil), (a, fas) =>
+  sequence: <F>(F: Applicative<F>) => <A>(ta: List<HKT<F, A>>): HKT<F, List<A>> => {
+    return list.reduceRight(ta, F.of<List<A>>(nil), (a, fas) =>
       F.ap(
         F.map(fas, as => (a: A) => cons(a, as)),
         a
       )
     )
   },
-  filter: <A>(fa: LinkedList<A>, predicate: Predicate<A>): LinkedList<A> => {
-    let out: LinkedList<A> = nil
+  filter: <A>(fa: List<A>, predicate: Predicate<A>): List<A> => {
+    let out: List<A> = nil
     let l = fa
     while (isCons(l)) {
       if (predicate(l.head)) {
@@ -519,8 +518,8 @@ export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Fi
     }
     return reverse(out)
   },
-  filterMap: <A, B>(fa: LinkedList<A>, f: (a: A) => O.Option<B>): LinkedList<B> => {
-    let out: LinkedList<B> = nil
+  filterMap: <A, B>(fa: List<A>, f: (a: A) => O.Option<B>): List<B> => {
+    let out: List<B> = nil
     let l = fa
     while (isCons(l)) {
       const optionB = f(l.head)
@@ -531,9 +530,9 @@ export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Fi
     }
     return reverse(out)
   },
-  partition: <A>(fa: LinkedList<A>, predicate: Predicate<A>): Separated<LinkedList<A>, LinkedList<A>> => {
-    let left: LinkedList<A> = nil
-    let right: LinkedList<A> = nil
+  partition: <A>(fa: List<A>, predicate: Predicate<A>): Separated<List<A>, List<A>> => {
+    let left: List<A> = nil
+    let right: List<A> = nil
     let l = fa
     while (isCons(l)) {
       if (predicate(l.head)) {
@@ -545,9 +544,9 @@ export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Fi
     }
     return { left: reverse(left), right: reverse(right) }
   },
-  partitionMap: <A, B, C>(fa: LinkedList<A>, f: (a: A) => E.Either<B, C>): Separated<LinkedList<B>, LinkedList<C>> => {
-    let left: LinkedList<B> = nil
-    let right: LinkedList<C> = nil
+  partitionMap: <A, B, C>(fa: List<A>, f: (a: A) => E.Either<B, C>): Separated<List<B>, List<C>> => {
+    let left: List<B> = nil
+    let right: List<C> = nil
     let l = fa
     while (isCons(l)) {
       const e = f(l.head)
@@ -560,12 +559,12 @@ export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Fi
     }
     return { left: reverse(left), right: reverse(right) }
   },
-  compact: fa => linkedList.filterMap(fa, identity),
-  separate: fa => linkedList.partitionMap(fa, identity)
+  compact: fa => list.filterMap(fa, identity),
+  separate: fa => list.partitionMap(fa, identity)
 }
 
 const { map, reduce, foldMap, reduceRight, filter, filterMap, partition, partitionMap, compact, separate } = pipeable(
-  linkedList
+  list
 )
 
 export {

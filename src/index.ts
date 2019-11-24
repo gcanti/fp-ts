@@ -44,7 +44,7 @@ import * as ioEither from './IOEither'
 import * as ioRef from './IORef'
 import * as joinSemilattice from './JoinSemilattice'
 import * as lattice from './Lattice'
-import * as linkedList from './LinkedList'
+import * as list from './List'
 import * as magma from './Magma'
 import * as map from './Map'
 import * as meetSemilattice from './MeetSemilattice'
@@ -274,7 +274,7 @@ export {
   /**
    * @since 2.1.1
    */
-  linkedList,
+  list,
   /**
    * @since 2.0.0
    */

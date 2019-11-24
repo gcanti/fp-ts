@@ -54,7 +54,7 @@ parent: Modules
 - [ioRef (export)](#ioref-export)
 - [joinSemilattice (export)](#joinsemilattice-export)
 - [lattice (export)](#lattice-export)
-- [linkedList (export)](#linkedlist-export)
+- [list (export)](#list-export)
 - [magma (export)](#magma-export)
 - [map (export)](#map-export)
 - [meetSemilattice (export)](#meetsemilattice-export)
@@ -562,12 +562,12 @@ typeof lattice
 
 Added in v2.0.0
 
-# linkedList (export)
+# list (export)
 
 **Signature**
 
 ```ts
-typeof linkedList
+typeof list
 ```
 
 Added in v2.1.1
