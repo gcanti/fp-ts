@@ -32,7 +32,6 @@ Adapted from https://github.com/purescript/purescript-lists
 - [flatten (function)](#flatten-function)
 - [fromArray (function)](#fromarray-function)
 - [head (function)](#head-function)
-- [index (function)](#index-function)
 - [init (function)](#init-function)
 - [insert (function)](#insert-function)
 - [insertAt (function)](#insertat-function)
@@ -41,6 +40,7 @@ Adapted from https://github.com/purescript/purescript-lists
 - [isNil (function)](#isnil-function)
 - [last (function)](#last-function)
 - [length (function)](#length-function)
+- [lookup (function)](#lookup-function)
 - [modifyAt (function)](#modifyat-function)
 - [range (function)](#range-function)
 - [reverse (function)](#reverse-function)
@@ -301,18 +301,6 @@ export function head<A>(fa: List<A>): O.Option<A> { ... }
 
 Added in v2.1.1
 
-# index (function)
-
-Gets the element at the specified index, or `None` if the index is out-of-bounds.
-
-**Signature**
-
-```ts
-export function index<A>(fa: List<A>, index: number): O.Option<A> { ... }
-```
-
-Added in v2.1.1
-
 # init (function)
 
 Gets all but the last element of a list, or `None` if the list is empty.
@@ -403,6 +391,18 @@ Gets the length of a list.
 
 ```ts
 export function length<A>(fa: List<A>): number { ... }
+```
+
+Added in v2.1.1
+
+# lookup (function)
+
+Gets the element at the specified index, or `None` if the index is out-of-bounds.
+
+**Signature**
+
+```ts
+export function lookup<A>(index: number, fa: List<A>): O.Option<A> { ... }
 ```
 
 Added in v2.1.1

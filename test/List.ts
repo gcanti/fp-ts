@@ -99,11 +99,11 @@ describe('List', () => {
     )
   })
 
-  it('index', () => {
-    assert.deepStrictEqual(L.index(L.nil, 0), O.none)
-    assert.deepStrictEqual(L.index(L.cons(1, L.singleton(2)), 0), O.some(1))
-    assert.deepStrictEqual(L.index(L.cons(1, L.singleton(2)), 1), O.some(2))
-    assert.deepStrictEqual(L.index(L.cons(1, L.singleton(2)), 3), O.none)
+  it('lookup', () => {
+    assert.deepStrictEqual(L.lookup(0, L.nil), O.none)
+    assert.deepStrictEqual(L.lookup(0, L.cons(1, L.singleton(2))), O.some(1))
+    assert.deepStrictEqual(L.lookup(1, L.cons(1, L.singleton(2))), O.some(2))
+    assert.deepStrictEqual(L.lookup(3, L.cons(1, L.singleton(2))), O.none)
   })
 
   it('findIndex', () => {

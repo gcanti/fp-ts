@@ -225,7 +225,7 @@ export function unsnoc<A>(fa: List<A>): O.Option<{ init: List<A>; last: A }> {
  * Gets the element at the specified index, or `None` if the index is out-of-bounds.
  * @since 2.1.1
  */
-export function index<A>(fa: List<A>, index: number): O.Option<A> {
+export function lookup<A>(index: number, fa: List<A>): O.Option<A> {
   if (isNil(fa)) return O.none
   let l: List<A> = fa
   for (let i = 0; i <= index; i++) {
