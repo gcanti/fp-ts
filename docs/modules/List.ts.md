@@ -25,8 +25,6 @@ Adapted from https://github.com/purescript/purescript-lists
 - [dropLeft (function)](#dropleft-function)
 - [dropLeftWhile (function)](#dropleftwhile-function)
 - [dropRight (function)](#dropright-function)
-- [elemIndex (function)](#elemindex-function)
-- [elemLastIndex (function)](#elemlastindex-function)
 - [findIndex (function)](#findindex-function)
 - [findLastIndex (function)](#findlastindex-function)
 - [flatten (function)](#flatten-function)
@@ -213,30 +211,6 @@ Takes the specified number of elements from the end of a list.
 
 ```ts
 export function dropRight(n: number): <A>(fa: List<A>) => List<A> { ... }
-```
-
-Added in v2.1.1
-
-# elemIndex (function)
-
-Find the index of the first element equal to the specified element.
-
-**Signature**
-
-```ts
-export function elemIndex<A>(eq: Eq<A>, a: A, fa: List<A>): O.Option<number> { ... }
-```
-
-Added in v2.1.1
-
-# elemLastIndex (function)
-
-Find the index of the last element equal to the specified element.
-
-**Signature**
-
-```ts
-export function elemLastIndex<A>(eq: Eq<A>, a: A, fa: List<A>): O.Option<number> { ... }
 ```
 
 Added in v2.1.1

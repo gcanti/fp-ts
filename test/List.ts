@@ -6,7 +6,6 @@ import { identity } from '../src/function'
 import { pipe } from '../src/pipeable'
 import * as E from '../src/Either'
 import { ordNumber } from '../src/Ord'
-import { eqNumber } from '../src/Eq'
 
 describe('List', () => {
   it('URI', () => {
@@ -118,18 +117,6 @@ describe('List', () => {
     assert.deepStrictEqual(L.findLastIndex(f, L.nil), O.none)
     assert.deepStrictEqual(L.findLastIndex(f, L.cons(1, L.cons(2, L.cons(3, L.singleton(4))))), O.some(3))
     assert.deepStrictEqual(L.findLastIndex(f, L.cons(1, L.nil)), O.none)
-  })
-
-  it('elemIndex', () => {
-    assert.deepStrictEqual(L.elemIndex(eqNumber, 6, L.nil), O.none)
-    assert.deepStrictEqual(L.elemIndex(eqNumber, 2, L.cons(1, L.singleton(2))), O.some(1))
-    assert.deepStrictEqual(L.elemIndex(eqNumber, 6, L.singleton(1)), O.none)
-  })
-
-  it('elemIndex', () => {
-    assert.deepStrictEqual(L.elemLastIndex(eqNumber, 6, L.nil), O.none)
-    assert.deepStrictEqual(L.elemLastIndex(eqNumber, 2, L.cons(1, L.cons(2, L.cons(1, L.singleton(2))))), O.some(3))
-    assert.deepStrictEqual(L.elemLastIndex(eqNumber, 6, L.singleton(1)), O.none)
   })
 
   it('insertAt', () => {
