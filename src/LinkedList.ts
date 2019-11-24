@@ -434,11 +434,7 @@ export function flatten<A>(mma: LinkedList<LinkedList<A>>): LinkedList<A> {
  * @since 2.1.1
  */
 export function sort<A>(O: Ord<A>): (fa: LinkedList<A>) => LinkedList<A> {
-  return flow(
-    toArray,
-    A.sort(O),
-    fromArray
-  )
+  return flow(toArray, A.sort(O), fromArray)
 }
 
 /**
@@ -492,12 +488,18 @@ export const linkedList: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Fi
   traverse: <F>(F: Applicative<F>): (<A, B>(ta: LinkedList<A>, f: (a: A) => HKT<F, B>) => HKT<F, LinkedList<B>>) => {
     return <A, B>(ta: LinkedList<A>, f: (a: A) => HKT<F, B>) =>
       linkedList.reduceRight(ta, F.of<LinkedList<B>>(nil), (a, fbs) =>
-        F.ap(F.map(fbs, bs => (b: B) => cons(b, bs)), f(a))
+        F.ap(
+          F.map(fbs, bs => (b: B) => cons(b, bs)),
+          f(a)
+        )
       )
   },
   sequence: <F>(F: Applicative<F>) => <A>(ta: LinkedList<HKT<F, A>>): HKT<F, LinkedList<A>> => {
     return linkedList.reduceRight(ta, F.of<LinkedList<A>>(nil), (a, fas) =>
-      F.ap(F.map(fas, as => (a: A) => cons(a, as)), a)
+      F.ap(
+        F.map(fas, as => (a: A) => cons(a, as)),
+        a
+      )
     )
   },
   filter: <A>(fa: LinkedList<A>, predicate: Predicate<A>): LinkedList<A> => {

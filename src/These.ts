@@ -107,7 +107,11 @@ export function fold<E, A, B>(
  */
 export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>> {
   return {
-    show: fold(l => `left(${SE.show(l)})`, a => `right(${SA.show(a)})`, (l, a) => `both(${SE.show(l)}, ${SA.show(a)})`)
+    show: fold(
+      l => `left(${SE.show(l)})`,
+      a => `right(${SA.show(a)})`,
+      (l, a) => `both(${SE.show(l)}, ${SA.show(a)})`
+    )
   }
 }
 

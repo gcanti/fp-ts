@@ -139,9 +139,12 @@ describe('Set', () => {
     const SL = getStructEq({ value: eqNumber })
     const SR = getStructEq({ value: eqString })
     assert.deepStrictEqual(
-      partitionMap(SL, SR)((x: { value: number }) =>
-        x.value % 2 === 0 ? left({ value: 2 }) : right({ value: 'odd' })
-      )(new Set([{ value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }])),
+      partitionMap(
+        SL,
+        SR
+      )((x: { value: number }) => (x.value % 2 === 0 ? left({ value: 2 }) : right({ value: 'odd' })))(
+        new Set([{ value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }])
+      ),
       {
         left: new Set([{ value: 2 }]),
         right: new Set([{ value: 'odd' }])
@@ -222,9 +225,10 @@ describe('Set', () => {
     const SL: Eq<L> = eq.contramap(eqString, x => x.error)
     const SR: Eq<R> = eq.contramap(eqString, x => x.id)
     assert.deepStrictEqual(
-      separate(SL, SR)(
-        new Set([right({ id: 'a' }), left({ error: 'error' }), right({ id: 'a' }), left({ error: 'error' })])
-      ),
+      separate(
+        SL,
+        SR
+      )(new Set([right({ id: 'a' }), left({ error: 'error' }), right({ id: 'a' }), left({ error: 'error' })])),
       {
         left: new Set([{ error: 'error' }]),
         right: new Set([{ id: 'a' }])

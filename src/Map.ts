@@ -539,7 +539,10 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
       // tslint:disable-next-line: strict-boolean-expressions
       while (!(e = entries.next()).done) {
         const [key, a] = e.value
-        fm = F.ap(F.map(fm, m => (b: B) => new Map(m).set(key, b)), f(key, a))
+        fm = F.ap(
+          F.map(fm, m => (b: B) => new Map(m).set(key, b)),
+          f(key, a)
+        )
       }
       return fm
     }

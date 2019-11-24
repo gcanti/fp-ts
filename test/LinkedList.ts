@@ -265,13 +265,7 @@ describe('LinkedList', () => {
   })
 
   it('map', () => {
-    assert.deepStrictEqual(
-      pipe(
-        someSingleton,
-        LL.map(identity)
-      ),
-      someSingleton
-    )
+    assert.deepStrictEqual(pipe(someSingleton, LL.map(identity)), someSingleton)
     assert.deepStrictEqual(
       pipe(
         LL.cons('aaa', someSingleton),
@@ -297,13 +291,7 @@ describe('LinkedList', () => {
 
   it('foldMap', () => {
     const foldMap = LL.foldMap(monoidString)
-    assert.strictEqual(
-      pipe(
-        LL.cons('b', someSingleton),
-        foldMap(identity)
-      ),
-      'ba'
-    )
+    assert.strictEqual(pipe(LL.cons('b', someSingleton), foldMap(identity)), 'ba')
   })
 
   it('toArray', () => {
@@ -396,21 +384,15 @@ describe('LinkedList', () => {
 
   it('compact', () => {
     assert.deepStrictEqual(
-      pipe(
-        LL.cons(O.some(1), LL.cons(O.some(2), LL.nil)),
-        LL.compact
-      ),
+      pipe(LL.cons(O.some(1), LL.cons(O.some(2), LL.nil)), LL.compact),
       LL.cons(1, LL.cons(2, LL.nil))
     )
   })
 
   it('separate', () => {
-    assert.deepStrictEqual(
-      pipe(
-        LL.cons(E.left(6), LL.cons(E.right('foo'), LL.nil)),
-        LL.separate
-      ),
-      { left: { type: 'Cons', head: 6, tail: LL.nil }, right: { type: 'Cons', head: 'foo', tail: LL.nil } }
-    )
+    assert.deepStrictEqual(pipe(LL.cons(E.left(6), LL.cons(E.right('foo'), LL.nil)), LL.separate), {
+      left: { type: 'Cons', head: 6, tail: LL.nil },
+      right: { type: 'Cons', head: 'foo', tail: LL.nil }
+    })
   })
 })

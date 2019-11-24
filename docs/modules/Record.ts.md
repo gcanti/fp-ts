@@ -285,12 +285,19 @@ interface User {
   name: string
 }
 
-const users: Array<User> = [{ id: 'id1', name: 'name1' }, { id: 'id2', name: 'name2' }, { id: 'id1', name: 'name3' }]
+const users: Array<User> = [
+  { id: 'id1', name: 'name1' },
+  { id: 'id2', name: 'name2' },
+  { id: 'id1', name: 'name3' }
+]
 
-assert.deepStrictEqual(fromFoldableMap(getLastSemigroup<User>(), array)(users, user => [user.id, user]), {
-  id1: { id: 'id1', name: 'name3' },
-  id2: { id: 'id2', name: 'name2' }
-})
+assert.deepStrictEqual(
+  fromFoldableMap(getLastSemigroup<User>(), array)(users, user => [user.id, user]),
+  {
+    id1: { id: 'id1', name: 'name3' },
+    id2: { id: 'id2', name: 'name2' }
+  }
+)
 ```
 
 Added in v2.0.0

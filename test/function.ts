@@ -69,89 +69,13 @@ describe('function', () => {
 
   it('flow', () => {
     assert.strictEqual(flow(f)(2), 3)
-    assert.strictEqual(
-      flow(
-        f,
-        g
-      )(2),
-      6
-    )
-    assert.strictEqual(
-      flow(
-        f,
-        g,
-        f
-      )(2),
-      7
-    )
-    assert.strictEqual(
-      flow(
-        f,
-        g,
-        f,
-        g
-      )(2),
-      14
-    )
-    assert.strictEqual(
-      flow(
-        f,
-        g,
-        f,
-        g,
-        f
-      )(2),
-      15
-    )
-    assert.strictEqual(
-      flow(
-        f,
-        g,
-        f,
-        g,
-        f,
-        g
-      )(2),
-      30
-    )
-    assert.strictEqual(
-      flow(
-        f,
-        g,
-        f,
-        g,
-        f,
-        g,
-        f
-      )(2),
-      31
-    )
-    assert.strictEqual(
-      flow(
-        f,
-        g,
-        f,
-        g,
-        f,
-        g,
-        f,
-        g
-      )(2),
-      62
-    )
-    assert.strictEqual(
-      flow(
-        f,
-        g,
-        f,
-        g,
-        f,
-        g,
-        f,
-        g,
-        f
-      )(2),
-      63
-    )
+    assert.strictEqual(flow(f, g)(2), 6)
+    assert.strictEqual(flow(f, g, f)(2), 7)
+    assert.strictEqual(flow(f, g, f, g)(2), 14)
+    assert.strictEqual(flow(f, g, f, g, f)(2), 15)
+    assert.strictEqual(flow(f, g, f, g, f, g)(2), 30)
+    assert.strictEqual(flow(f, g, f, g, f, g, f)(2), 31)
+    assert.strictEqual(flow(f, g, f, g, f, g, f, g)(2), 62)
+    assert.strictEqual(flow(f, g, f, g, f, g, f, g, f)(2), 63)
   })
 })

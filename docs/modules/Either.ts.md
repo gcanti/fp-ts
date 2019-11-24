@@ -220,20 +220,8 @@ function onRight(value: number): string {
   return `Ok: ${value}`
 }
 
-assert.strictEqual(
-  pipe(
-    right(1),
-    fold(onLeft, onRight)
-  ),
-  'Ok: 1'
-)
-assert.strictEqual(
-  pipe(
-    left(['error 1', 'error 2']),
-    fold(onLeft, onRight)
-  ),
-  'Errors: error 1, error 2'
-)
+assert.strictEqual(pipe(right(1), fold(onLeft, onRight)), 'Ok: 1')
+assert.strictEqual(pipe(left(['error 1', 'error 2']), fold(onLeft, onRight)), 'Errors: error 1, error 2')
 ```
 
 Added in v2.0.0
@@ -545,7 +533,10 @@ const unsafeHead = <A>(as: Array<A>): A => {
 }
 
 const head = <A>(as: Array<A>): Either<Error, A> => {
-  return tryCatch(() => unsafeHead(as), e => (e instanceof Error ? e : new Error('unknown error')))
+  return tryCatch(
+    () => unsafeHead(as),
+    e => (e instanceof Error ? e : new Error('unknown error'))
+  )
 }
 
 assert.deepStrictEqual(head([]), left(new Error('empty array')))

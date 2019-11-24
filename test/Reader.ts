@@ -44,7 +44,11 @@ describe('Reader', () => {
 
   it('promap', () => {
     const x = (s: string) => s.length
-    const y = R.reader.promap(x, (a: { name: string }) => a.name, n => n >= 2)
+    const y = R.reader.promap(
+      x,
+      (a: { name: string }) => a.name,
+      n => n >= 2
+    )
     assert.strictEqual(y({ name: 'foo' }), true)
     assert.strictEqual(y({ name: 'a' }), false)
   })
@@ -57,10 +61,7 @@ describe('Reader', () => {
   it('compose', () => {
     const x = (s: string) => s.length
     const y = (n: number) => n >= 2
-    const z = R.reader.compose(
-      y,
-      x
-    )
+    const z = R.reader.compose(y, x)
     assert.strictEqual(z('foo'), true)
     assert.strictEqual(z('a'), false)
   })

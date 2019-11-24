@@ -33,7 +33,10 @@ describe('Identity', () => {
   it('reduce', () => {
     const x = I.identity.of('b')
     const expected = 'ab'
-    assert.deepStrictEqual(I.identity.reduce(x, 'a', (b, a) => b + a), expected)
+    assert.deepStrictEqual(
+      I.identity.reduce(x, 'a', (b, a) => b + a),
+      expected
+    )
   })
 
   it('foldMap', () => {
@@ -54,7 +57,10 @@ describe('Identity', () => {
   it('alt', () => {
     const x = I.identity.of(1)
     const y = I.identity.of(2)
-    assert.strictEqual(I.identity.alt(x, () => y), x)
+    assert.strictEqual(
+      I.identity.alt(x, () => y),
+      x
+    )
   })
 
   it('extract', () => {

@@ -91,11 +91,7 @@ export function splitStrong<F>(
 export function splitStrong<F>(
   F: Category<F> & Strong<F>
 ): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, [A, C], [B, D]> {
-  return (pab, pcd) =>
-    F.compose(
-      F.first(pab),
-      F.second(pcd)
-    )
+  return (pab, pcd) => F.compose(F.first(pab), F.second(pcd))
 }
 
 /**
@@ -134,9 +130,6 @@ export function fanout<F>(
   const splitStrongF = splitStrong(F)
   return <A, B, C>(pab: HKT2<F, A, B>, pac: HKT2<F, A, C>): HKT2<F, A, [B, C]> => {
     const split: HKT2<F, A, [A, A]> = F.promap(F.id<A>(), identity, a => [a, a])
-    return F.compose(
-      splitStrongF(pab, pac),
-      split
-    )
+    return F.compose(splitStrongF(pab, pac), split)
   }
 }

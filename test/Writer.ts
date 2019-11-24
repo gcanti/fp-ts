@@ -6,11 +6,17 @@ import { pipe } from '../src/pipeable'
 
 describe('Writer', () => {
   it('evalWriter', () => {
-    assert.strictEqual(W.evalWriter(() => [1, 'a']), 1)
+    assert.strictEqual(
+      W.evalWriter(() => [1, 'a']),
+      1
+    )
   })
 
   it('execWriter', () => {
-    assert.strictEqual(W.execWriter(() => [1, 'a']), 'a')
+    assert.strictEqual(
+      W.execWriter(() => [1, 'a']),
+      'a'
+    )
   })
 
   it('map', () => {

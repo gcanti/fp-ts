@@ -271,7 +271,10 @@ import { option, some } from 'fp-ts/lib/Option'
 import { make, tree } from 'fp-ts/lib/Tree'
 
 const t = make(1, [make(2, []), make(3, []), make(4, [])])
-assert.deepStrictEqual(foldM(option, tree)(t, 0, (b, a) => (a > 2 ? some(b + a) : some(b))), some(7))
+assert.deepStrictEqual(
+  foldM(option, tree)(t, 0, (b, a) => (a > 2 ? some(b + a) : some(b))),
+  some(7)
+)
 ```
 
 Added in v2.0.0

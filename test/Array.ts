@@ -76,7 +76,10 @@ describe('Array', () => {
   const as = [1, 2, 3]
 
   it('alt', () => {
-    assert.deepStrictEqual(array.alt([1, 2], () => [3, 4]), [1, 2, 3, 4])
+    assert.deepStrictEqual(
+      array.alt([1, 2], () => [3, 4]),
+      [1, 2, 3, 4]
+    )
   })
 
   it('getMonoid', () => {
@@ -251,7 +254,10 @@ describe('Array', () => {
   it('findFirst', () => {
     assert.deepStrictEqual(findFirst(x => x === 2)([]), O.none)
     assert.deepStrictEqual(
-      findFirst((x: { a: number; b: number }) => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]),
+      findFirst((x: { a: number; b: number }) => x.a === 1)([
+        { a: 1, b: 1 },
+        { a: 1, b: 2 }
+      ]),
       O.some({ a: 1, b: 1 })
     )
     interface A {
@@ -287,11 +293,17 @@ describe('Array', () => {
   it('findLast', () => {
     assert.deepStrictEqual(findLast(x => x === 2)([]), O.none)
     assert.deepStrictEqual(
-      findLast((x: { a: number; b: number }) => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]),
+      findLast((x: { a: number; b: number }) => x.a === 1)([
+        { a: 1, b: 1 },
+        { a: 1, b: 2 }
+      ]),
       O.some({ a: 1, b: 2 })
     )
     assert.deepStrictEqual(
-      findLast((x: { a: number; b: number }) => x.a === 1)([{ a: 1, b: 2 }, { a: 2, b: 1 }]),
+      findLast((x: { a: number; b: number }) => x.a === 1)([
+        { a: 1, b: 2 },
+        { a: 2, b: 1 }
+      ]),
       O.some({ a: 1, b: 2 })
     )
     assert.deepStrictEqual(findLast((x: string | null) => x === null)(['a', null]), O.some(null))
@@ -310,7 +322,10 @@ describe('Array', () => {
       a: number
       b: number
     }
-    const xs: Array<X> = [{ a: 1, b: 0 }, { a: 1, b: 1 }]
+    const xs: Array<X> = [
+      { a: 1, b: 0 },
+      { a: 1, b: 1 }
+    ]
     assert.deepStrictEqual(findLastIndex((x: X) => x.a === 1)(xs), O.some(1))
     assert.deepStrictEqual(findLastIndex((x: X) => x.a === 4)(xs), O.none)
     assert.deepStrictEqual(findLastIndex((x: X) => x.a === 1)([]), O.none)
@@ -357,15 +372,32 @@ describe('Array', () => {
   })
 
   it('zipWith', () => {
-    assert.deepStrictEqual(zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n), ['a1', 'b2', 'c3'])
+    assert.deepStrictEqual(
+      zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n),
+      ['a1', 'b2', 'c3']
+    )
   })
 
   it('zip', () => {
-    assert.deepStrictEqual(zip([1, 2, 3], ['a', 'b', 'c', 'd']), [[1, 'a'], [2, 'b'], [3, 'c']])
+    assert.deepStrictEqual(zip([1, 2, 3], ['a', 'b', 'c', 'd']), [
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ])
   })
 
   it('unzip', () => {
-    assert.deepStrictEqual(unzip([[1, 'a'], [2, 'b'], [3, 'c']]), [[1, 2, 3], ['a', 'b', 'c']])
+    assert.deepStrictEqual(
+      unzip([
+        [1, 'a'],
+        [2, 'b'],
+        [3, 'c']
+      ]),
+      [
+        [1, 2, 3],
+        ['a', 'b', 'c']
+      ]
+    )
   })
 
   it('rights', () => {
@@ -395,11 +427,17 @@ describe('Array', () => {
   })
 
   it('map', () => {
-    assert.deepStrictEqual(array.map([1, 2, 3], n => n * 2), [2, 4, 6])
+    assert.deepStrictEqual(
+      array.map([1, 2, 3], n => n * 2),
+      [2, 4, 6]
+    )
   })
 
   it('mapWithIndex', () => {
-    assert.deepStrictEqual(array.mapWithIndex([1, 2, 3], (i, n) => n + i), [1, 3, 5])
+    assert.deepStrictEqual(
+      array.mapWithIndex([1, 2, 3], (i, n) => n + i),
+      [1, 3, 5]
+    )
   })
 
   it('ap', () => {
@@ -414,7 +452,10 @@ describe('Array', () => {
   })
 
   it('chain', () => {
-    assert.deepStrictEqual(array.chain([1, 2, 3], n => [n, n + 1]), [1, 2, 2, 3, 3, 4])
+    assert.deepStrictEqual(
+      array.chain([1, 2, 3], n => [n, n + 1]),
+      [1, 2, 2, 3, 3, 4]
+    )
   })
 
   it('reverse', () => {
@@ -422,7 +463,10 @@ describe('Array', () => {
   })
 
   it('reduce', () => {
-    assert.deepStrictEqual(array.reduce(['a', 'b', 'c'], '', (acc, a) => acc + a), 'abc')
+    assert.deepStrictEqual(
+      array.reduce(['a', 'b', 'c'], '', (acc, a) => acc + a),
+      'abc'
+    )
   })
 
   it('foldMap', () => {
@@ -445,12 +489,18 @@ describe('Array', () => {
   })
 
   it('foldLeft', () => {
-    const len: <A>(as: Array<A>) => number = foldLeft(() => 0, (_, tail) => 1 + len(tail))
+    const len: <A>(as: Array<A>) => number = foldLeft(
+      () => 0,
+      (_, tail) => 1 + len(tail)
+    )
     assert.strictEqual(len([1, 2, 3]), 3)
   })
 
   it('foldRight', () => {
-    const len: <A>(as: Array<A>) => number = foldRight(() => 0, (init, _) => 1 + len(init))
+    const len: <A>(as: Array<A>) => number = foldRight(
+      () => 0,
+      (init, _) => 1 + len(init)
+    )
     assert.strictEqual(len([1, 2, 3]), 3)
   })
 
@@ -509,7 +559,12 @@ describe('Array', () => {
     const byName = ord.contramap(ordString, (p: Person) => p.name)
     const byAge = ord.contramap(ordNumber, (p: Person) => p.age)
     const sortByNameByAge = sortBy([byName, byAge])
-    const persons = [{ name: 'a', age: 1 }, { name: 'b', age: 3 }, { name: 'c', age: 2 }, { name: 'b', age: 2 }]
+    const persons = [
+      { name: 'a', age: 1 },
+      { name: 'b', age: 3 },
+      { name: 'c', age: 2 },
+      { name: 'b', age: 2 }
+    ]
     assert.deepStrictEqual(sortByNameByAge(persons), [
       { name: 'a', age: 1 },
       { name: 'b', age: 2 },
@@ -602,7 +657,10 @@ describe('Array', () => {
   })
 
   it('splitAt', () => {
-    assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
+    assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
+      [1, 2],
+      [3, 4, 5]
+    ])
     assert.deepStrictEqual(splitAt(2)([]), [[], []])
     assert.deepStrictEqual(splitAt(2)([1]), [[1], []])
     assert.deepStrictEqual(splitAt(2)([1, 2]), [[1, 2], []])
@@ -614,7 +672,11 @@ describe('Array', () => {
   describe('chunksOf', () => {
     it('should split an array into length-n pieces', () => {
       assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
-      assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5, 6]), [[1, 2], [3, 4], [5, 6]])
+      assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5, 6]), [
+        [1, 2],
+        [3, 4],
+        [5, 6]
+      ])
       assert.deepStrictEqual(chunksOf(5)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
       assert.deepStrictEqual(chunksOf(6)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
       assert.deepStrictEqual(chunksOf(1)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
@@ -667,33 +729,64 @@ describe('Array', () => {
   })
 
   it('comprehension', () => {
-    assert.deepStrictEqual(comprehension([[1, 2, 3]], a => a * 2), [2, 4, 6])
-    assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], tuple), [
-      [1, 'a'],
-      [1, 'b'],
-      [2, 'a'],
-      [2, 'b'],
-      [3, 'a'],
-      [3, 'b']
-    ])
-    assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], tuple, (a, b) => (a + b.length) % 2 === 0), [
-      [1, 'a'],
-      [1, 'b'],
-      [3, 'a'],
-      [3, 'b']
-    ])
+    assert.deepStrictEqual(
+      comprehension([[1, 2, 3]], a => a * 2),
+      [2, 4, 6]
+    )
+    assert.deepStrictEqual(
+      comprehension(
+        [
+          [1, 2, 3],
+          ['a', 'b']
+        ],
+        tuple
+      ),
+      [
+        [1, 'a'],
+        [1, 'b'],
+        [2, 'a'],
+        [2, 'b'],
+        [3, 'a'],
+        [3, 'b']
+      ]
+    )
+    assert.deepStrictEqual(
+      comprehension(
+        [
+          [1, 2, 3],
+          ['a', 'b']
+        ],
+        tuple,
+        (a, b) => (a + b.length) % 2 === 0
+      ),
+      [
+        [1, 'a'],
+        [1, 'b'],
+        [3, 'a'],
+        [3, 'b']
+      ]
+    )
   })
 
   it('reduceWithIndex', () => {
-    assert.deepStrictEqual(array.reduceWithIndex(['a', 'b'], '', (i, b, a) => b + i + a), '0a1b')
+    assert.deepStrictEqual(
+      array.reduceWithIndex(['a', 'b'], '', (i, b, a) => b + i + a),
+      '0a1b'
+    )
   })
 
   it('foldMapWithIndex', () => {
-    assert.deepStrictEqual(array.foldMapWithIndex(monoidString)(['a', 'b'], (i, a) => i + a), '0a1b')
+    assert.deepStrictEqual(
+      array.foldMapWithIndex(monoidString)(['a', 'b'], (i, a) => i + a),
+      '0a1b'
+    )
   })
 
   it('reduceRightWithIndex', () => {
-    assert.deepStrictEqual(array.reduceRightWithIndex(['a', 'b'], '', (i, a, b) => b + i + a), '1b0a')
+    assert.deepStrictEqual(
+      array.reduceRightWithIndex(['a', 'b'], '', (i, a, b) => b + i + a),
+      '1b0a'
+    )
   })
 
   it('traverseWithIndex', () => {
