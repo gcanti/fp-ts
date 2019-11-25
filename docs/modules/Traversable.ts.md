@@ -55,6 +55,7 @@ parent: Modules
 ```ts
 export interface Sequence<T> {
   <F extends URIS3>(F: Applicative3<F>): <R, E, A>(ta: HKT<T, Kind3<F, R, E, A>>) => Kind3<F, R, E, HKT<T, A>>
+  <F extends URIS3, E>(F: Applicative3C<F, E>): <R, A>(ta: HKT<T, Kind3<F, R, E, A>>) => Kind3<F, R, E, HKT<T, A>>
   <F extends URIS2>(F: Applicative2<F>): <E, A>(ta: HKT<T, Kind2<F, E, A>>) => Kind2<F, E, HKT<T, A>>
   <F extends URIS2, E>(F: Applicative2C<F, E>): <A>(ta: HKT<T, Kind2<F, E, A>>) => Kind2<F, E, HKT<T, A>>
   <F extends URIS>(F: Applicative1<F>): <A>(ta: HKT<T, Kind<F, A>>) => Kind<F, HKT<T, A>>
@@ -71,6 +72,7 @@ Added in v2.0.0
 ```ts
 export interface Sequence1<T extends URIS> {
   <F extends URIS3>(F: Applicative3<F>): <R, E, A>(ta: Kind<T, Kind3<F, R, E, A>>) => Kind3<F, R, E, Kind<T, A>>
+  <F extends URIS3, E>(F: Applicative3C<F, E>): <R, A>(ta: Kind<T, Kind3<F, R, E, A>>) => Kind3<F, R, E, Kind<T, A>>
   <F extends URIS2>(F: Applicative2<F>): <E, A>(ta: Kind<T, Kind2<F, E, A>>) => Kind2<F, E, Kind<T, A>>
   <F extends URIS2, E>(F: Applicative2C<F, E>): <A>(ta: Kind<T, Kind2<F, E, A>>) => Kind2<F, E, Kind<T, A>>
   <F extends URIS>(F: Applicative1<F>): <A>(ta: Kind<T, Kind<F, A>>) => Kind<F, Kind<T, A>>
@@ -270,6 +272,10 @@ export interface Traverse<T> {
     ta: HKT<T, A>,
     f: (a: A) => Kind3<F, R, E, B>
   ) => Kind3<F, R, E, HKT<T, B>>
+  <F extends URIS3, E>(F: Applicative3C<F, E>): <A, R, B>(
+    ta: HKT<T, A>,
+    f: (a: A) => Kind3<F, R, E, B>
+  ) => Kind3<F, R, E, HKT<T, B>>
   <F extends URIS2>(F: Applicative2<F>): <A, E, B>(ta: HKT<T, A>, f: (a: A) => Kind2<F, E, B>) => Kind2<F, E, HKT<T, B>>
   <F extends URIS2, E>(F: Applicative2C<F, E>): <A, B>(
     ta: HKT<T, A>,
@@ -289,6 +295,10 @@ Added in v2.0.0
 ```ts
 export interface Traverse1<T extends URIS> {
   <F extends URIS3>(F: Applicative3<F>): <A, R, E, B>(
+    ta: Kind<T, A>,
+    f: (a: A) => Kind3<F, R, E, B>
+  ) => Kind3<F, R, E, Kind<T, B>>
+  <F extends URIS3, E>(F: Applicative3C<F, E>): <A, R, B>(
     ta: Kind<T, A>,
     f: (a: A) => Kind3<F, R, E, B>
   ) => Kind3<F, R, E, Kind<T, B>>

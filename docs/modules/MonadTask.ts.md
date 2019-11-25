@@ -17,6 +17,7 @@ Lift a computation from the `Task` monad
 - [MonadTask2 (interface)](#monadtask2-interface)
 - [MonadTask2C (interface)](#monadtask2c-interface)
 - [MonadTask3 (interface)](#monadtask3-interface)
+- [MonadTask3C (interface)](#monadtask3c-interface)
 
 ---
 
@@ -79,3 +80,15 @@ export interface MonadTask3<M extends URIS3> extends MonadIO3<M> {
 ```
 
 Added in v2.0.0
+
+# MonadTask3C (interface)
+
+**Signature**
+
+```ts
+export interface MonadTask3C<M extends URIS3, E> extends MonadIO3C<M, E> {
+  readonly fromTask: <R, A>(fa: Task<A>) => Kind3<M, R, E, A>
+}
+```
+
+Added in v2.2.0

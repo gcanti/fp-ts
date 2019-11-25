@@ -12,6 +12,7 @@ parent: Modules
 - [Bifunctor2 (interface)](#bifunctor2-interface)
 - [Bifunctor2C (interface)](#bifunctor2c-interface)
 - [Bifunctor3 (interface)](#bifunctor3-interface)
+- [Bifunctor3C (interface)](#bifunctor3c-interface)
 - [Bifunctor4 (interface)](#bifunctor4-interface)
 
 ---
@@ -72,6 +73,20 @@ export interface Bifunctor3<F extends URIS3> {
 ```
 
 Added in v2.0.0
+
+# Bifunctor3C (interface)
+
+**Signature**
+
+```ts
+export interface Bifunctor3C<F extends URIS3, E> {
+  readonly URI: F
+  readonly bimap: <R, A, G, B>(fea: Kind3<F, R, E, A>, f: (e: E) => G, g: (a: A) => B) => Kind3<F, R, G, B>
+  readonly mapLeft: <R, A, G>(fea: Kind3<F, R, E, A>, f: (e: E) => G) => Kind3<F, R, G, A>
+}
+```
+
+Added in v2.2.0
 
 # Bifunctor4 (interface)
 

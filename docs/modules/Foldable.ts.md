@@ -13,6 +13,7 @@ parent: Modules
 - [Foldable2 (interface)](#foldable2-interface)
 - [Foldable2C (interface)](#foldable2c-interface)
 - [Foldable3 (interface)](#foldable3-interface)
+- [Foldable3C (interface)](#foldable3c-interface)
 - [Foldable4 (interface)](#foldable4-interface)
 - [FoldableComposition (interface)](#foldablecomposition-interface)
 - [FoldableComposition11 (interface)](#foldablecomposition11-interface)
@@ -104,6 +105,22 @@ export interface Foldable3<F extends URIS3> {
 ```
 
 Added in v2.0.0
+
+# Foldable3C (interface)
+
+**Signature**
+
+```ts
+export interface Foldable3C<F extends URIS3, E> {
+  readonly URI: F
+  readonly _E: E
+  readonly reduce: <R, A, B>(fa: Kind3<F, R, E, A>, b: B, f: (b: B, a: A) => B) => B
+  readonly foldMap: <M>(M: Monoid<M>) => <R, A>(fa: Kind3<F, R, E, A>, f: (a: A) => M) => M
+  readonly reduceRight: <R, A, B>(fa: Kind3<F, R, E, A>, b: B, f: (a: A, b: B) => B) => B
+}
+```
+
+Added in v2.2.0
 
 # Foldable4 (interface)
 
@@ -245,6 +262,10 @@ export function foldM<M extends URIS3, F extends URIS>(
   M: Monad3<M>,
   F: Foldable1<F>
 ): <R, E, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, B>
+export function foldM<M extends URIS3, F extends URIS, E>(
+  M: Monad3C<M, E>,
+  F: Foldable1<F>
+): <R, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, B>
 export function foldM<M extends URIS2, F extends URIS>(
   M: Monad2<M>,
   F: Foldable1<F>

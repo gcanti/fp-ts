@@ -75,6 +75,9 @@ Extract a collection of values from positions which depend on the current positi
 export function experiment<F extends URIS3>(
   F: Functor3<F>
 ): <R, E, S>(f: (s: S) => Kind3<F, R, E, S>) => <A>(wa: Store<S, A>) => Kind3<F, R, E, A>
+export function experiment<F extends URIS3, E>(
+  F: Functor3C<F, E>
+): <R, S>(f: (s: S) => Kind3<F, R, E, S>) => <A>(wa: Store<S, A>) => Kind3<F, R, E, A>
 export function experiment<F extends URIS2>(
   F: Functor2<F>
 ): <E, S>(f: (s: S) => Kind2<F, E, S>) => <A>(wa: Store<S, A>) => Kind2<F, E, A>

@@ -107,6 +107,10 @@ export interface TraverseWithIndex<T, I> {
     ta: HKT<T, A>,
     f: (i: I, a: A) => Kind3<F, R, E, B>
   ) => Kind3<F, R, E, HKT<T, B>>
+  <F extends URIS3, E>(F: Applicative3C<F, E>): <A, R, B>(
+    ta: HKT<T, A>,
+    f: (i: I, a: A) => Kind3<F, R, E, B>
+  ) => Kind3<F, R, E, HKT<T, B>>
   <F extends URIS2>(F: Applicative2<F>): <A, E, B>(
     ta: HKT<T, A>,
     f: (i: I, a: A) => Kind2<F, E, B>
@@ -129,6 +133,10 @@ Added in v2.0.0
 ```ts
 export interface TraverseWithIndex1<T extends URIS, I> {
   <F extends URIS3>(F: Applicative3<F>): <A, R, E, B>(
+    ta: Kind<T, A>,
+    f: (i: I, a: A) => Kind3<F, R, E, B>
+  ) => Kind3<F, R, E, Kind<T, B>>
+  <F extends URIS3, E>(F: Applicative3C<F, E>): <A, R, B>(
     ta: Kind<T, A>,
     f: (i: I, a: A) => Kind3<F, R, E, B>
   ) => Kind3<F, R, E, Kind<T, B>>
@@ -185,6 +193,10 @@ export interface TraverseWithIndex2C<T extends URIS2, I, E> {
     ta: Kind2<T, E, A>,
     f: (i: I, a: A) => Kind3<F, R, FE, B>
   ) => Kind3<F, R, FE, Kind2<T, E, B>>
+  <F extends URIS3>(F: Applicative3C<F, E>): <A, R, B>(
+    ta: Kind2<T, E, A>,
+    f: (i: I, a: A) => Kind3<F, R, E, B>
+  ) => Kind3<F, R, E, Kind2<T, E, B>>
   <F extends URIS2>(F: Applicative2<F>): <A, FE, B>(
     ta: Kind2<T, E, A>,
     f: (i: I, a: A) => Kind2<F, FE, B>

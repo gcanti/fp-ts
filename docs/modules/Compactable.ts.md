@@ -23,6 +23,7 @@ Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/s
 - [Compactable2 (interface)](#compactable2-interface)
 - [Compactable2C (interface)](#compactable2c-interface)
 - [Compactable3 (interface)](#compactable3-interface)
+- [Compactable3C (interface)](#compactable3c-interface)
 - [Compactable4 (interface)](#compactable4-interface)
 - [CompactableComposition (interface)](#compactablecomposition-interface)
 - [CompactableComposition11 (interface)](#compactablecomposition11-interface)
@@ -31,6 +32,8 @@ Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/s
 - [CompactableComposition21 (interface)](#compactablecomposition21-interface)
 - [CompactableComposition22 (interface)](#compactablecomposition22-interface)
 - [CompactableComposition22C (interface)](#compactablecomposition22c-interface)
+- [CompactableComposition23 (interface)](#compactablecomposition23-interface)
+- [CompactableComposition23C (interface)](#compactablecomposition23c-interface)
 - [CompactableComposition2C1 (interface)](#compactablecomposition2c1-interface)
 - [Separated (interface)](#separated-interface)
 - [getCompactableComposition (function)](#getcompactablecomposition-function)
@@ -113,6 +116,20 @@ export interface Compactable3<F extends URIS3> {
 ```
 
 Added in v2.0.0
+
+# Compactable3C (interface)
+
+**Signature**
+
+```ts
+export interface Compactable3C<F extends URIS3, E> {
+  readonly URI: F
+  readonly compact: <R, A>(fa: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, A>
+  readonly separate: <R, A, B>(fa: Kind3<F, R, E, Either<A, B>>) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
+}
+```
+
+Added in v2.2.0
 
 # Compactable4 (interface)
 
@@ -231,6 +248,36 @@ export interface CompactableComposition22C<F extends URIS2, G extends URIS2, E> 
 
 Added in v2.0.0
 
+# CompactableComposition23 (interface)
+
+**Signature**
+
+```ts
+export interface CompactableComposition23<F extends URIS2, G extends URIS3> extends FunctorComposition23<F, G> {
+  readonly compact: <R, FE, GE, A>(fga: Kind2<F, FE, Kind3<G, R, GE, Option<A>>>) => Kind2<F, FE, Kind3<G, R, GE, A>>
+  readonly separate: <R, FE, GE, A, B>(
+    fge: Kind2<F, FE, Kind3<G, R, GE, Either<A, B>>>
+  ) => Separated<Kind2<F, FE, Kind3<G, R, GE, A>>, Kind2<F, FE, Kind3<G, R, GE, B>>>
+}
+```
+
+Added in v2.2.0
+
+# CompactableComposition23C (interface)
+
+**Signature**
+
+```ts
+export interface CompactableComposition23C<F extends URIS2, G extends URIS3, E> extends FunctorComposition23C<F, G, E> {
+  readonly compact: <FE, R, A>(fga: Kind2<F, FE, Kind3<G, R, E, Option<A>>>) => Kind2<F, FE, Kind3<G, R, E, A>>
+  readonly separate: <FE, R, A, B>(
+    fge: Kind2<F, FE, Kind3<G, R, E, Either<A, B>>>
+  ) => Separated<Kind2<F, FE, Kind3<G, R, E, A>>, Kind2<F, FE, Kind3<G, R, E, B>>>
+}
+```
+
+Added in v2.2.0
+
 # CompactableComposition2C1 (interface)
 
 **Signature**
@@ -266,6 +313,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
+export function getCompactableComposition<F extends URIS2, G extends URIS3, E>(
+  F: Functor2<F>,
+  G: Compactable3C<G, E> & Functor3C<G, E>
+): CompactableComposition23C<F, G, E>
 export function getCompactableComposition<F extends URIS2, G extends URIS2, E>(
   F: Functor2<F>,
   G: Compactable2C<G, E> & Functor2C<G, E>

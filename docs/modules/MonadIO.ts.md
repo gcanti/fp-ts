@@ -17,6 +17,7 @@ Lift a computation from the `IO` monad
 - [MonadIO2 (interface)](#monadio2-interface)
 - [MonadIO2C (interface)](#monadio2c-interface)
 - [MonadIO3 (interface)](#monadio3-interface)
+- [MonadIO3C (interface)](#monadio3c-interface)
 
 ---
 
@@ -79,3 +80,15 @@ export interface MonadIO3<M extends URIS3> extends Monad3<M> {
 ```
 
 Added in v2.0.0
+
+# MonadIO3C (interface)
+
+**Signature**
+
+```ts
+export interface MonadIO3C<M extends URIS3, E> extends Monad3C<M, E> {
+  readonly fromIO: <R, A>(fa: IO<A>) => Kind3<M, R, E, A>
+}
+```
+
+Added in v2.2.0
