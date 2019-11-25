@@ -68,7 +68,7 @@ export interface Applicative3<F extends URIS3> extends Apply3<F> {
 }
 
 /**
- * @since 2.0.0
+ * @since 2.2.0
  */
 export interface Applicative3C<F extends URIS3, E> extends Apply3C<F, E> {
   readonly of: <R, A>(a: A) => Kind3<F, R, E, A>

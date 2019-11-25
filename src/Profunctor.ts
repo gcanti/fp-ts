@@ -39,13 +39,6 @@ export interface Profunctor3C<F extends URIS3, E> extends Functor3C<F, E> {
 }
 
 /**
- * @since 2.2.0
- */
-export interface Profunctor3C<F extends URIS3, E> extends Functor3C<F, E> {
-  readonly promap: <R, A, D, B>(fbc: Kind3<F, R, E, A>, f: (d: D) => E, g: (a: A) => B) => Kind3<F, R, D, B>
-}
-
-/**
  * @since 2.0.0
  */
 export interface Profunctor4<F extends URIS4> extends Functor4<F> {
