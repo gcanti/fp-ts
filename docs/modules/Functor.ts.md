@@ -25,6 +25,7 @@ Instances must satisfy the following laws:
 - [Functor2 (interface)](#functor2-interface)
 - [Functor2C (interface)](#functor2c-interface)
 - [Functor3 (interface)](#functor3-interface)
+- [Functor3C (interface)](#functor3c-interface)
 - [Functor4 (interface)](#functor4-interface)
 - [FunctorComposition (interface)](#functorcomposition-interface)
 - [FunctorComposition11 (interface)](#functorcomposition11-interface)
@@ -33,6 +34,8 @@ Instances must satisfy the following laws:
 - [FunctorComposition21 (interface)](#functorcomposition21-interface)
 - [FunctorComposition22 (interface)](#functorcomposition22-interface)
 - [FunctorComposition22C (interface)](#functorcomposition22c-interface)
+- [FunctorComposition23 (interface)](#functorcomposition23-interface)
+- [FunctorComposition23C (interface)](#functorcomposition23c-interface)
 - [FunctorComposition2C1 (interface)](#functorcomposition2c1-interface)
 - [FunctorCompositionHKT1 (interface)](#functorcompositionhkt1-interface)
 - [FunctorCompositionHKT2 (interface)](#functorcompositionhkt2-interface)
@@ -106,6 +109,20 @@ export interface Functor3<F extends URIS3> {
 ```
 
 Added in v2.0.0
+
+# Functor3C (interface)
+
+**Signature**
+
+```ts
+export interface Functor3C<F extends URIS3, E> {
+  readonly URI: F
+  readonly _E: E
+  readonly map: <R, A, B>(fa: Kind3<F, R, E, A>, f: (a: A) => B) => Kind3<F, R, E, B>
+}
+```
+
+Added in v2.2.0
 
 # Functor4 (interface)
 
@@ -204,6 +221,30 @@ export interface FunctorComposition22C<F extends URIS2, G extends URIS2, E> {
 
 Added in v2.0.0
 
+# FunctorComposition23 (interface)
+
+**Signature**
+
+```ts
+export interface FunctorComposition23<F extends URIS2, G extends URIS3> {
+  readonly map: <FE, R, E, A, B>(fa: Kind2<F, FE, Kind3<G, R, E, A>>, f: (a: A) => B) => Kind2<F, FE, Kind3<G, R, E, B>>
+}
+```
+
+Added in v2.2.0
+
+# FunctorComposition23C (interface)
+
+**Signature**
+
+```ts
+export interface FunctorComposition23C<F extends URIS2, G extends URIS3, E> {
+  readonly map: <FE, R, A, B>(fa: Kind2<F, FE, Kind3<G, R, E, A>>, f: (a: A) => B) => Kind2<F, FE, Kind3<G, R, E, B>>
+}
+```
+
+Added in v2.2.0
+
 # FunctorComposition2C1 (interface)
 
 **Signature**
@@ -257,6 +298,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
+export function getFunctorComposition<F extends URIS2, G extends URIS3, E>(
+  F: Functor2<F>,
+  G: Functor3C<G, E>
+): FunctorComposition23C<F, G, E>
 export function getFunctorComposition<F extends URIS2, G extends URIS2, E>(
   F: Functor2<F>,
   G: Functor2C<G, E>

@@ -14,6 +14,17 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.2.0
+
+- **New Feature**
+  - add `boolean` module, closes #930 (@giogonzo)
+  - add `ChainRec` instance to `IO` (@gcanti)
+  - `NonEmptyArray`
+    - add `init` (@steida)
+    - add `Alt` instance (@gcanti)
+- **Internal**
+  - add new 3C variants and related overloads (@sledorze)
+
 # 2.1.2
 
 - **Bug Fix**

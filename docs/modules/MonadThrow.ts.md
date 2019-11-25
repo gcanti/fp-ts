@@ -22,6 +22,7 @@ Laws:
 - [MonadThrow2 (interface)](#monadthrow2-interface)
 - [MonadThrow2C (interface)](#monadthrow2c-interface)
 - [MonadThrow3 (interface)](#monadthrow3-interface)
+- [MonadThrow3C (interface)](#monadthrow3c-interface)
 - [MonadThrow4 (interface)](#monadthrow4-interface)
 
 ---
@@ -85,6 +86,18 @@ export interface MonadThrow3<M extends URIS3> extends Monad3<M> {
 ```
 
 Added in v2.0.0
+
+# MonadThrow3C (interface)
+
+**Signature**
+
+```ts
+export interface MonadThrow3C<M extends URIS3, E> extends Monad3C<M, E> {
+  readonly throwError: <R, A>(e: E) => Kind3<M, R, E, A>
+}
+```
+
+Added in v2.2.0
 
 # MonadThrow4 (interface)
 

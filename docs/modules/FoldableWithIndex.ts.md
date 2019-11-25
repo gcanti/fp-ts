@@ -24,6 +24,7 @@ reduceRight(fa, b, f) = reduceRightWithIndex(fa, b, (_, a, b) => f(a, b))
 - [FoldableWithIndex2 (interface)](#foldablewithindex2-interface)
 - [FoldableWithIndex2C (interface)](#foldablewithindex2c-interface)
 - [FoldableWithIndex3 (interface)](#foldablewithindex3-interface)
+- [FoldableWithIndex3C (interface)](#foldablewithindex3c-interface)
 - [FoldableWithIndex4 (interface)](#foldablewithindex4-interface)
 - [FoldableWithIndexComposition (interface)](#foldablewithindexcomposition-interface)
 - [FoldableWithIndexComposition11 (interface)](#foldablewithindexcomposition11-interface)
@@ -106,6 +107,20 @@ export interface FoldableWithIndex3<F extends URIS3, I> extends Foldable3<F> {
 ```
 
 Added in v2.0.0
+
+# FoldableWithIndex3C (interface)
+
+**Signature**
+
+```ts
+export interface FoldableWithIndex3C<F extends URIS3, I, E> extends Foldable3C<F, E> {
+  readonly reduceWithIndex: <R, A, B>(fa: Kind3<F, R, E, A>, b: B, f: (i: I, b: B, a: A) => B) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <R, A>(fa: Kind3<F, R, E, A>, f: (i: I, a: A) => M) => M
+  readonly reduceRightWithIndex: <R, A, B>(fa: Kind3<F, R, E, A>, b: B, f: (i: I, a: A, b: B) => B) => B
+}
+```
+
+Added in v2.2.0
 
 # FoldableWithIndex4 (interface)
 

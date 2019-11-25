@@ -26,6 +26,7 @@ Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
 - [Apply2 (interface)](#apply2-interface)
 - [Apply2C (interface)](#apply2c-interface)
 - [Apply3 (interface)](#apply3-interface)
+- [Apply3C (interface)](#apply3c-interface)
 - [Apply4 (interface)](#apply4-interface)
 - [sequenceS (function)](#sequences-function)
 - [sequenceT (function)](#sequencet-function)
@@ -92,6 +93,18 @@ export interface Apply3<F extends URIS3> extends Functor3<F> {
 
 Added in v2.0.0
 
+# Apply3C (interface)
+
+**Signature**
+
+```ts
+export interface Apply3C<F extends URIS3, E> extends Functor3C<F, E> {
+  readonly ap: <R, A, B>(fab: Kind3<F, R, E, (a: A) => B>, fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+}
+```
+
+Added in v2.2.0
+
 # Apply4 (interface)
 
 **Signature**
@@ -119,6 +132,11 @@ export function sequenceS<F extends URIS4>(
 export function sequenceS<F extends URIS3>(
   F: Apply3<F>
 ): <R, E, NER extends Record<string, Kind3<F, R, E, any>>>(
+  r: EnforceNonEmptyRecord<NER> & Record<string, Kind3<F, R, E, any>>
+) => Kind3<F, R, E, { [K in keyof NER]: [NER[K]] extends [Kind3<F, any, any, infer A>] ? A : never }>
+export function sequenceS<F extends URIS3, E>(
+  F: Apply3C<F, E>
+): <R, NER extends Record<string, Kind3<F, R, E, any>>>(
   r: EnforceNonEmptyRecord<NER> & Record<string, Kind3<F, R, E, any>>
 ) => Kind3<F, R, E, { [K in keyof NER]: [NER[K]] extends [Kind3<F, any, any, infer A>] ? A : never }>
 export function sequenceS<F extends URIS2>(
@@ -184,6 +202,11 @@ export function sequenceT<F extends URIS4>(
 export function sequenceT<F extends URIS3>(
   F: Apply3<F>
 ): <R, E, T extends Array<Kind3<F, R, E, any>>>(
+  ...t: T & { 0: Kind3<F, R, E, any> }
+) => Kind3<F, R, E, { [K in keyof T]: [T[K]] extends [Kind3<F, R, E, infer A>] ? A : never }>
+export function sequenceT<F extends URIS3, E>(
+  F: Apply3C<F, E>
+): <R, T extends Array<Kind3<F, R, E, any>>>(
   ...t: T & { 0: Kind3<F, R, E, any> }
 ) => Kind3<F, R, E, { [K in keyof T]: [T[K]] extends [Kind3<F, R, E, infer A>] ? A : never }>
 export function sequenceT<F extends URIS2>(

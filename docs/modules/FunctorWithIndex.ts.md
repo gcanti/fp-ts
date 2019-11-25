@@ -25,6 +25,7 @@ Instances must satisfy the following laws:
 - [FunctorWithIndex2 (interface)](#functorwithindex2-interface)
 - [FunctorWithIndex2C (interface)](#functorwithindex2c-interface)
 - [FunctorWithIndex3 (interface)](#functorwithindex3-interface)
+- [FunctorWithIndex3C (interface)](#functorwithindex3c-interface)
 - [FunctorWithIndex4 (interface)](#functorwithindex4-interface)
 - [FunctorWithIndexComposition (interface)](#functorwithindexcomposition-interface)
 - [FunctorWithIndexComposition11 (interface)](#functorwithindexcomposition11-interface)
@@ -97,6 +98,18 @@ export interface FunctorWithIndex3<F extends URIS3, I> extends Functor3<F> {
 ```
 
 Added in v2.0.0
+
+# FunctorWithIndex3C (interface)
+
+**Signature**
+
+```ts
+export interface FunctorWithIndex3C<F extends URIS3, I, E> extends Functor3C<F, E> {
+  readonly mapWithIndex: <R, A, B>(fa: Kind3<F, R, E, A>, f: (i: I, a: A) => B) => Kind3<F, R, E, B>
+}
+```
+
+Added in v2.2.0
 
 # FunctorWithIndex4 (interface)
 

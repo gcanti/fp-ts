@@ -19,12 +19,14 @@ Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/s
 - [Filter2 (interface)](#filter2-interface)
 - [Filter2C (interface)](#filter2c-interface)
 - [Filter3 (interface)](#filter3-interface)
+- [Filter3C (interface)](#filter3c-interface)
 - [Filter4 (interface)](#filter4-interface)
 - [Filterable (interface)](#filterable-interface)
 - [Filterable1 (interface)](#filterable1-interface)
 - [Filterable2 (interface)](#filterable2-interface)
 - [Filterable2C (interface)](#filterable2c-interface)
 - [Filterable3 (interface)](#filterable3-interface)
+- [Filterable3C (interface)](#filterable3c-interface)
 - [Filterable4 (interface)](#filterable4-interface)
 - [FilterableComposition (interface)](#filterablecomposition-interface)
 - [FilterableComposition11 (interface)](#filterablecomposition11-interface)
@@ -33,12 +35,14 @@ Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/s
 - [FilterableComposition21 (interface)](#filterablecomposition21-interface)
 - [FilterableComposition22 (interface)](#filterablecomposition22-interface)
 - [FilterableComposition22C (interface)](#filterablecomposition22c-interface)
+- [FilterableComposition23C (interface)](#filterablecomposition23c-interface)
 - [FilterableComposition2C1 (interface)](#filterablecomposition2c1-interface)
 - [Partition (interface)](#partition-interface)
 - [Partition1 (interface)](#partition1-interface)
 - [Partition2 (interface)](#partition2-interface)
 - [Partition2C (interface)](#partition2c-interface)
 - [Partition3 (interface)](#partition3-interface)
+- [Partition3C (interface)](#partition3c-interface)
 - [Partition4 (interface)](#partition4-interface)
 - [getFilterableComposition (function)](#getfilterablecomposition-function)
 
@@ -108,6 +112,19 @@ export interface Filter3<F extends URIS3> {
 ```
 
 Added in v2.0.0
+
+# Filter3C (interface)
+
+**Signature**
+
+```ts
+export interface Filter3C<F extends URIS3, E> {
+  <R, A, B extends A>(fa: Kind3<F, R, E, A>, refinement: Refinement<A, B>): Kind3<F, R, E, B>
+  <R, A>(fa: Kind3<F, R, E, A>, predicate: Predicate<A>): Kind3<F, R, E, A>
+}
+```
+
+Added in v2.2.0
 
 # Filter4 (interface)
 
@@ -217,6 +234,24 @@ export interface Filterable3<F extends URIS3> extends Functor3<F>, Compactable3<
 ```
 
 Added in v2.0.0
+
+# Filterable3C (interface)
+
+**Signature**
+
+```ts
+export interface Filterable3C<F extends URIS3, E> extends Functor3C<F, E>, Compactable3C<F, E> {
+  readonly partitionMap: <R, A, B, C>(
+    fa: Kind3<F, R, E, A>,
+    f: (a: A) => Either<B, C>
+  ) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, C>>
+  readonly partition: Partition3C<F, E>
+  readonly filterMap: <R, A, B>(fa: Kind3<F, R, E, A>, f: (a: A) => Option<B>) => Kind3<F, R, E, B>
+  readonly filter: Filter3C<F, E>
+}
+```
+
+Added in v2.2.0
 
 # Filterable4 (interface)
 
@@ -404,6 +439,35 @@ export interface FilterableComposition22C<F extends URIS2, G extends URIS2, E>
 
 Added in v2.0.0
 
+# FilterableComposition23C (interface)
+
+**Signature**
+
+```ts
+export interface FilterableComposition23C<F extends URIS2, G extends URIS3, E>
+  extends FunctorComposition23<F, G>,
+    CompactableComposition23<F, G> {
+  readonly partitionMap: <R, FE, A, B, C>(
+    fa: Kind2<F, FE, Kind3<G, R, E, A>>,
+    f: (a: A) => Either<B, C>
+  ) => Separated<Kind2<F, FE, Kind3<G, R, E, B>>, Kind2<F, FE, Kind3<G, R, E, C>>>
+  readonly partition: <R, FE, A>(
+    fa: Kind2<F, FE, Kind3<G, R, E, A>>,
+    predicate: Predicate<A>
+  ) => Separated<Kind2<F, FE, Kind3<G, R, E, A>>, Kind2<F, FE, Kind3<G, R, E, A>>>
+  readonly filterMap: <R, FE, A, B>(
+    fa: Kind2<F, FE, Kind3<G, R, E, A>>,
+    f: (a: A) => Option<B>
+  ) => Kind2<F, FE, Kind3<G, R, E, B>>
+  readonly filter: <R, FE, A>(
+    fa: Kind2<F, FE, Kind3<G, R, E, A>>,
+    predicate: Predicate<A>
+  ) => Kind2<F, FE, Kind3<G, R, E, A>>
+}
+```
+
+Added in v2.2.0
+
 # FilterableComposition2C1 (interface)
 
 **Signature**
@@ -495,6 +559,22 @@ export interface Partition3<F extends URIS3> {
 
 Added in v2.0.0
 
+# Partition3C (interface)
+
+**Signature**
+
+```ts
+export interface Partition3C<F extends URIS3, E> {
+  <R, A, B extends A>(fa: Kind3<F, R, E, A>, refinement: Refinement<A, B>): Separated<
+    Kind3<F, R, E, A>,
+    Kind3<F, R, E, B>
+  >
+  <R, A>(fa: Kind3<F, R, E, A>, predicate: Predicate<A>): Separated<Kind3<F, R, E, A>, Kind3<F, R, E, A>>
+}
+```
+
+Added in v2.2.0
+
 # Partition4 (interface)
 
 **Signature**
@@ -516,6 +596,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
+export function getFilterableComposition<F extends URIS2, G extends URIS3, E>(
+  F: Functor2<F>,
+  G: Filterable3C<G, E>
+): FilterableComposition23C<F, G, E>
 export function getFilterableComposition<F extends URIS2, G extends URIS2, E>(
   F: Functor2<F>,
   G: Filterable2C<G, E>
