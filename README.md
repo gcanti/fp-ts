@@ -36,10 +36,10 @@ A distinctive feature of `fp-ts` with respect to other functional libraries is i
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
 **Table of contents**
 
 - [Installation](#installation)
+  - [Consuming fp-ts](#consuming-fp-ts)
   - [TypeScript compatibility](#typescript-compatibility)
 - [Documentation](#documentation)
 - [Development](#development)
