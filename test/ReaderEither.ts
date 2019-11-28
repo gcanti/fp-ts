@@ -5,7 +5,7 @@ import { none, some } from '../src/Option'
 import { pipe } from '../src/pipeable'
 import { reader } from '../src/Reader'
 import * as _ from '../src/ReaderEither'
-import { semigroupSum } from '../src/Semigroup'
+import { semigroupSum, semigroupString } from '../src/Semigroup'
 
 describe('ReaderEither', () => {
   it('fromOption', () => {
@@ -114,5 +114,20 @@ describe('ReaderEither', () => {
 
   it('local', () => {
     assert.deepStrictEqual(_.local((n: number) => ({ a: n }))((r: { a: number }) => E.right(r.a))(1), E.right(1))
+  })
+
+  describe('getReaderValidation', () => {
+    const RV = _.getReaderValidation(semigroupString)
+
+    it('alt', async () => {
+      const e1 = RV.alt(_.right(1), () => _.right(2))(undefined)
+      assert.deepStrictEqual(e1, E.right(1))
+      const e2 = RV.alt(_.left('a'), () => _.right(2))(undefined)
+      assert.deepStrictEqual(e2, E.right(2))
+      const e3 = RV.alt(_.right(1), () => _.left('b'))(undefined)
+      assert.deepStrictEqual(e3, E.right(1))
+      const e4 = RV.alt(_.left('a'), () => _.left('b'))(undefined)
+      assert.deepStrictEqual(e4, E.left('ab'))
+    })
   })
 })

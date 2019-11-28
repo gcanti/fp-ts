@@ -73,6 +73,7 @@ parent: Modules
 - [reader (export)](#reader-export)
 - [readerEither (export)](#readereither-export)
 - [readerT (export)](#readert-export)
+- [readerTask (export)](#readertask-export)
 - [readerTaskEither (export)](#readertaskeither-export)
 - [record (export)](#record-export)
 - [ring (export)](#ring-export)
@@ -750,6 +751,16 @@ typeof readerT
 ```
 
 Added in v2.0.0
+
+# readerTask (export)
+
+**Signature**
+
+```ts
+typeof readerTask
+```
+
+Added in v2.3.0
 
 # readerTaskEither (export)
 

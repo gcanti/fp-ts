@@ -244,8 +244,6 @@ export function getTaskValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<U
   }
 }
 
-const phantom: any = undefined
-
 /**
  * @since 2.1.0
  */
@@ -254,7 +252,7 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
 
   return {
     URI,
-    _E: phantom,
+    _E: undefined as any,
     ...getFilterableComposition(task, F)
   }
 }

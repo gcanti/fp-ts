@@ -1,13 +1,14 @@
-import { Alt3 } from './Alt'
-import { Bifunctor3 } from './Bifunctor'
+import { Alt3, Alt3C } from './Alt'
+import { Bifunctor3, Bifunctor3C } from './Bifunctor'
 import * as E from './Either'
 import { getEitherM } from './EitherT'
-import { Monad3 } from './Monad'
-import { MonadThrow3 } from './MonadThrow'
+import { Monad3, Monad3C } from './Monad'
+import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { pipeable } from './pipeable'
 import { getSemigroup as getReaderSemigroup, Reader, reader } from './Reader'
 import { Semigroup } from './Semigroup'
+import { getValidationM } from './ValidationT'
 
 import Either = E.Either
 
@@ -128,6 +129,23 @@ export function asks<R, E = never, A = never>(f: (r: R) => A): ReaderEither<R, E
  */
 export function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<Q, E, A> {
   return ma => q => ma(f(q))
+}
+
+/**
+ * @since 2.3.0
+ */
+export function getReaderValidation<E>(
+  S: Semigroup<E>
+): Monad3C<URI, E> & Bifunctor3C<URI, E> & Alt3C<URI, E> & MonadThrow3C<URI, E> {
+  const T = getValidationM(S, reader)
+  return {
+    URI,
+    _E: undefined as any,
+    throwError: left,
+    bimap: readerEither.bimap,
+    mapLeft: readerEither.mapLeft,
+    ...T
+  }
 }
 
 /**
