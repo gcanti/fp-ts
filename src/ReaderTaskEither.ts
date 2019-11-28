@@ -236,9 +236,9 @@ export function getReaderTaskValidation<E>(
   return {
     URI,
     _E: undefined as any,
-    fromIO: rightIO,
-    fromTask: rightTask,
-    throwError: left,
+    fromIO: readerTaskEither.fromIO,
+    fromTask: readerTaskEither.fromTask,
+    throwError: readerTaskEither.throwError,
     bimap: (ma, f, g) => e => TE.taskEither.bimap(ma(e), f, g),
     mapLeft: (ma, f) => e => TE.taskEither.mapLeft(ma(e), f),
     ...T

@@ -23,6 +23,7 @@ parent: Modules
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getOrElse (function)](#getorelse-function)
+- [getReaderValidation (function)](#getreadervalidation-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [local (function)](#local-function)
 - [orElse (function)](#orelse-function)
@@ -195,6 +196,18 @@ export function getOrElse<R, E, A>(onLeft: (e: E) => Reader<R, A>): (ma: ReaderE
 ```
 
 Added in v2.0.0
+
+# getReaderValidation (function)
+
+**Signature**
+
+```ts
+export function getReaderValidation<E>(
+  S: Semigroup<E>
+): Monad3C<URI, E> & Bifunctor3C<URI, E> & Alt3C<URI, E> & MonadThrow3C<URI, E> { ... }
+```
+
+Added in v2.3.0
 
 # getSemigroup (function)
 

@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskEither.ts
-nav_order: 67
+nav_order: 68
 parent: Modules
 ---
 
@@ -25,6 +25,7 @@ parent: Modules
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getOrElse (function)](#getorelse-function)
+- [getReaderTaskValidation (function)](#getreadertaskvalidation-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [left (function)](#left-function)
 - [leftIO (function)](#leftio-function)
@@ -240,6 +241,18 @@ export function getOrElse<R, E, A>(
 ```
 
 Added in v2.0.0
+
+# getReaderTaskValidation (function)
+
+**Signature**
+
+```ts
+export function getReaderTaskValidation<E>(
+  S: Semigroup<E>
+): Monad3C<URI, E> & Bifunctor3C<URI, E> & Alt3C<URI, E> & MonadTask3C<URI, E> & MonadThrow3C<URI, E> { ... }
+```
+
+Added in v2.3.0
 
 # getSemigroup (function)
 

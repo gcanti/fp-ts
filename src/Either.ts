@@ -374,8 +374,6 @@ export function stringifyJSON<E>(u: unknown, onError: (reason: unknown) => E): E
   return tryCatch(() => JSON.stringify(u), onError)
 }
 
-const phantom: any = undefined
-
 /**
  * Builds `Witherable` instance for `Either` given `Monoid` for the left side
  *
@@ -445,7 +443,7 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
 
   return {
     URI,
-    _E: phantom,
+    _E: undefined as any,
     map: either.map,
     compact,
     separate,
@@ -469,7 +467,7 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
 export function getValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E> {
   return {
     URI,
-    _E: phantom,
+    _E: undefined as any,
     map: either.map,
     of: either.of,
     ap: (mab, ma) =>
