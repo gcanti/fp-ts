@@ -38,19 +38,12 @@ export interface ReaderTask<R, A> {
 /**
  * @since 2.3.0
  */
-export function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A> {
-  return ma(r)()
-}
-
-/**
- * @since 2.3.0
- */
 export const fromTask: <R, A>(ma: Task<A>) => ReaderTask<R, A> = T.fromM
 
 /**
  * @since 2.3.0
  */
-export const reader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A> = T.fromReader
+export const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A> = T.fromReader
 
 /**
  * @since 2.3.0
@@ -62,16 +55,7 @@ export function fromIO<R, A>(ma: IO<A>): ReaderTask<R, A> {
 /**
  * @since 2.3.0
  */
-export function of<R, A>(a: A): ReaderTask<R, A> {
-  return fromTask(TA.of(a))
-}
-
-/**
- * @since 2.3.0
- */
-export function fromReader<R, A>(ma: Reader<R, A>): ReaderTask<R, A> {
-  return r => TA.of(ma(r))
-}
+export const of: <R, A>(a: A) => ReaderTask<R, A> = T.of
 
 /**
  * @since 2.3.0
