@@ -141,7 +141,7 @@ export function getReaderValidation<E>(
   return {
     URI,
     _E: undefined as any,
-    throwError: left,
+    throwError: readerEither.throwError,
     bimap: readerEither.bimap,
     mapLeft: readerEither.mapLeft,
     ...T
