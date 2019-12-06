@@ -3,21 +3,21 @@
  * error of type `E`. If you want to represent an asynchronous computation that never fails, please see `Task`.
  */
 import { Alt2, Alt2C } from './Alt'
-import { Bifunctor2 } from './Bifunctor'
+import { Bifunctor2, Bifunctor2C } from './Bifunctor'
 import * as E from './Either'
 import { getEitherM } from './EitherT'
+import { Filterable2C, getFilterableComposition } from './Filterable'
 import { Lazy } from './function'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2, Monad2C } from './Monad'
-import { MonadTask2 } from './MonadTask'
-import { MonadThrow2 } from './MonadThrow'
+import { MonadTask2, MonadTask2C } from './MonadTask'
+import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { pipeable } from './pipeable'
 import { Semigroup } from './Semigroup'
 import { getSemigroup as getTaskSemigroup, Task, task } from './Task'
 import { getValidationM } from './ValidationT'
-import { Filterable2C, getFilterableComposition } from './Filterable'
 
 import Either = E.Either
 
@@ -235,11 +235,18 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
 /**
  * @since 2.0.0
  */
-export function getTaskValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E> {
+export function getTaskValidation<E>(
+  S: Semigroup<E>
+): Monad2C<URI, E> & Bifunctor2C<URI, E> & Alt2C<URI, E> & MonadTask2C<URI, E> & MonadThrow2C<URI, E> {
   const T = getValidationM(S, task)
   return {
     URI,
     _E: undefined as any,
+    throwError: taskEither.throwError,
+    bimap: taskEither.bimap,
+    mapLeft: taskEither.mapLeft,
+    fromIO: taskEither.fromIO,
+    fromTask: taskEither.fromTask,
     ...T
   }
 }
