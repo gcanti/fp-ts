@@ -203,7 +203,9 @@ Added in v2.1.0
 **Signature**
 
 ```ts
-export function getIOValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E> { ... }
+export function getIOValidation<E>(
+  S: Semigroup<E>
+): Monad2C<URI, E> & Bifunctor2C<URI, E> & Alt2C<URI, E> & MonadIO2C<URI, E> & MonadThrow2C<URI, E> { ... }
 ```
 
 Added in v2.0.0

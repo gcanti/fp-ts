@@ -3,19 +3,19 @@
  * error of type `E`. If you want to represent a synchronous computation that never fails, please see `IO`.
  */
 import { Alt2, Alt2C } from './Alt'
-import { Bifunctor2 } from './Bifunctor'
+import { Bifunctor2, Bifunctor2C } from './Bifunctor'
 import * as E from './Either'
 import { getEitherM } from './EitherT'
+import { Filterable2C, getFilterableComposition } from './Filterable'
 import { Lazy } from './function'
 import { getSemigroup as getIOSemigroup, IO, io } from './IO'
 import { Monad2, Monad2C } from './Monad'
-import { MonadIO2 } from './MonadIO'
-import { MonadThrow2 } from './MonadThrow'
+import { MonadIO2, MonadIO2C } from './MonadIO'
+import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { pipeable } from './pipeable'
 import { Semigroup } from './Semigroup'
 import { getValidationM } from './ValidationT'
-import { Filterable2C, getFilterableComposition } from './Filterable'
 
 import Either = E.Either
 
@@ -142,11 +142,17 @@ export function bracket<E, A, B>(
 /**
  * @since 2.0.0
  */
-export function getIOValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E> {
+export function getIOValidation<E>(
+  S: Semigroup<E>
+): Monad2C<URI, E> & Bifunctor2C<URI, E> & Alt2C<URI, E> & MonadIO2C<URI, E> & MonadThrow2C<URI, E> {
   const T = getValidationM(S, io)
   return {
     URI,
     _E: undefined as any,
+    throwError: ioEither.throwError,
+    bimap: ioEither.bimap,
+    mapLeft: ioEither.mapLeft,
+    fromIO: ioEither.fromIO,
     ...T
   }
 }
