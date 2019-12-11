@@ -187,9 +187,9 @@ Added in v2.0.4
 
 ```ts
 export function fold<R, E, A, B>(
-  onLeft: (e: E) => Reader<R, Task<B>>,
-  onRight: (a: A) => Reader<R, Task<B>>
-): (ma: ReaderTaskEither<R, E, A>) => Reader<R, Task<B>> { ... }
+  onLeft: (e: E) => ReaderTask<R, B>,
+  onRight: (a: A) => ReaderTask<R, B>
+): (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B> { ... }
 ```
 
 Added in v2.0.0
@@ -240,8 +240,8 @@ Added in v2.0.0
 
 ```ts
 export function getOrElse<R, E, A>(
-  onLeft: (e: E) => Reader<R, Task<A>>
-): (ma: ReaderTaskEither<R, E, A>) => Reader<R, Task<A>> { ... }
+  onLeft: (e: E) => ReaderTask<R, A>
+): (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, A> { ... }
 ```
 
 Added in v2.0.0

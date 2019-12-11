@@ -14,13 +14,13 @@ import { pipe, pipeable } from './pipeable'
 import { getSemigroup as getReaderSemigroup, Reader } from './Reader'
 import { ReaderEither } from './ReaderEither'
 import { getReaderM } from './ReaderT'
+import { readerTask, ReaderTask } from './ReaderTask'
 import { Semigroup } from './Semigroup'
 import { Task } from './Task'
 import * as TE from './TaskEither'
+import { getValidationM } from './ValidationT'
 
 import TaskEither = TE.TaskEither
-import { readerTask } from './ReaderTask'
-import { getValidationM } from './ValidationT'
 
 const T = getReaderM(TE.taskEither)
 
@@ -129,9 +129,9 @@ export function leftIO<R, E = never, A = never>(me: IO<E>): ReaderTaskEither<R, 
  * @since 2.0.0
  */
 export function fold<R, E, A, B>(
-  onLeft: (e: E) => Reader<R, Task<B>>,
-  onRight: (a: A) => Reader<R, Task<B>>
-): (ma: ReaderTaskEither<R, E, A>) => Reader<R, Task<B>> {
+  onLeft: (e: E) => ReaderTask<R, B>,
+  onRight: (a: A) => ReaderTask<R, B>
+): (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B> {
   return ma => r =>
     pipe(
       ma(r),
@@ -146,8 +146,8 @@ export function fold<R, E, A, B>(
  * @since 2.0.0
  */
 export function getOrElse<R, E, A>(
-  onLeft: (e: E) => Reader<R, Task<A>>
-): (ma: ReaderTaskEither<R, E, A>) => Reader<R, Task<A>> {
+  onLeft: (e: E) => ReaderTask<R, A>
+): (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, A> {
   return ma => r => TE.getOrElse<E, A>(e => onLeft(e)(r))(ma(r))
 }
 
