@@ -1,3 +1,6 @@
+/**
+ * @since 2.0.0
+ */
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'
 
 /**

@@ -4,9 +4,11 @@ nav_order: 53
 parent: Modules
 ---
 
-# Overview
+# MonadTask overview
 
 Lift a computation from the `Task` monad
+
+Added in v2.0.0
 
 ---
 

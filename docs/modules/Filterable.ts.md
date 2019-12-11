@@ -4,11 +4,13 @@ nav_order: 30
 parent: Modules
 ---
 
-# Overview
+# Filterable overview
 
 `Filterable` represents data structures which can be _partitioned_/_filtered_.
 
 Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Filterable.purs
+
+Added in v2.0.0
 
 ---
 

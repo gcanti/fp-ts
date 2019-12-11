@@ -4,7 +4,7 @@ nav_order: 25
 parent: Modules
 ---
 
-# Overview
+# Either overview
 
 Represents a value of one of two possible types (a disjoint union).
 
@@ -32,6 +32,8 @@ import { either } from 'fp-ts/lib/Either'
 either.map(right(12), double) // right(24)
 either.map(left(23), double) // left(23)
 ```
+
+Added in v2.0.0
 
 ---
 

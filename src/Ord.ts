@@ -1,5 +1,5 @@
 /**
- * @file The `Ord` type class represents types which support comparisons with a _total order_.
+ * The `Ord` type class represents types which support comparisons with a _total order_.
  *
  * Instances should satisfy the laws of total orderings:
  *
@@ -8,6 +8,8 @@
  * 3. Transitivity: if `S.compare(a, b) <= 0` and `S.compare(b, c) <= 0` then `S.compare(a, c) <= 0`
  *
  * See [Getting started with fp-ts: Ord](https://dev.to/gcanti/getting-started-with-fp-ts-ord-5f1e)
+ *
+ * @since 2.0.0
  */
 import { Ordering, semigroupOrdering } from './Ordering'
 import { Semigroup } from './Semigroup'

@@ -1,9 +1,11 @@
 /**
- * @file Multi-way trees (aka rose trees) and forests, where a forest is
+ * Multi-way trees (aka rose trees) and forests, where a forest is
  *
  * ```ts
  * type Forest<A> = Array<Tree<A>>
  * ```
+ *
+ * @since 2.0.0
  */
 import { Applicative } from './Applicative'
 import { array, empty, getEq as getArrayEq, getMonoid } from './Array'

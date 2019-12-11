@@ -4,7 +4,7 @@ nav_order: 8
 parent: Modules
 ---
 
-# Overview
+# BooleanAlgebra overview
 
 Boolean algebras are Heyting algebras with the additional constraint that the law of the excluded middle is true
 (equivalently, double-negation is true).
@@ -14,6 +14,8 @@ Instances should satisfy the following laws in addition to the `HeytingAlgebra` 
 - Excluded middle: `a ∨ ¬a = 1`
 
 Boolean algebras generalize classical logic: one is equivalent to "true" and zero is equivalent to "false".
+
+Added in v2.0.0
 
 ---
 

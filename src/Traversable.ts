@@ -1,5 +1,5 @@
 /**
- * @file `Traversable` represents data structures which can be _traversed_ accumulating results and effects in some
+ * `Traversable` represents data structures which can be _traversed_ accumulating results and effects in some
  * `Applicative` functor.
  *
  * `traverse` signature:
@@ -13,6 +13,8 @@
  * ```ts
  * <F>(F: Applicative<F>) => <A>(ta: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
  * ```
+ *
+ * @since 2.0.0
  */
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import {

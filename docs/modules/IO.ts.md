@@ -4,7 +4,7 @@ nav_order: 43
 parent: Modules
 ---
 
-# Overview
+# IO overview
 
 `IO<A>` represents a non-deterministic synchronous computation that can cause side effects, yields a value of
 type `A` and **never fails**. If you want to represent a synchronous computation that may fail, please see
@@ -95,6 +95,8 @@ const computation: IO<Result> = sequenceS(io)(computations)
 
 computation() // returns { name: 'Aristotle', age: 60 }
 ```
+
+Added in v2.0.0
 
 ---
 

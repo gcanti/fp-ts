@@ -4,12 +4,14 @@ nav_order: 76
 parent: Modules
 ---
 
-# Overview
+# State overview
 
 The `State` monad is a synonym for the `StateT` monad transformer, applied to the `Identity` monad.
 
 For a good introduction to the state monad, see the following blog post by [@pfgray](https://github.com/pfgray): [The
 State monad](https://paulgray.net/the-state-monad/)
+
+Added in v2.0.0
 
 ---
 

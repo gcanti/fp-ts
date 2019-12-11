@@ -1,5 +1,7 @@
 /**
- * @file Data structure which represents non-empty arrays
+ * Data structure which represents non-empty arrays
+ *
+ * @since 2.0.0
  */
 import { Monad1 } from './Monad'
 import * as A from './Array'

@@ -4,6 +4,10 @@ nav_order: 55
 parent: Modules
 ---
 
+# Monoid overview
+
+Added in v2.0.0
+
 ---
 
 <h2 class="text-delta">Table of contents</h2>

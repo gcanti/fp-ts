@@ -1,5 +1,5 @@
 /**
- * @file A `Foldable` with an additional index.
+ * A `Foldable` with an additional index.
  * A `FoldableWithIndex` instance must be compatible with its `Foldable` instance
  *
  * ```ts
@@ -7,6 +7,8 @@
  * foldMap(M)(fa, f) = foldMapWithIndex(M)(fa, (_, a) => f(a))
  * reduceRight(fa, b, f) = reduceRightWithIndex(fa, b, (_, a, b) => f(a, b))
  * ```
+ *
+ * @since 2.0.0
  */
 import {
   Foldable,

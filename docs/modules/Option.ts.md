@@ -4,7 +4,7 @@ nav_order: 57
 parent: Modules
 ---
 
-# Overview
+# Option overview
 
 If you have worked with JavaScript at all in the past, it is very likely that you have come across a `TypeError` at
 some time (other languages will throw similarly named errors in such a case). Usually this happens because some
@@ -25,6 +25,8 @@ instance of `None`.
 
 An option could be looked at as a collection or foldable structure with either one or zero elements.
 Another way to look at option is: it represents the effect of a possibly failing computation.
+
+Added in v2.0.0
 
 ---
 

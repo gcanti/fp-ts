@@ -4,9 +4,11 @@ nav_order: 89
 parent: Modules
 ---
 
-# Overview
+# Unfoldable overview
 
 This class identifies data structures which can be _unfolded_, generalizing `unfold` on arrays.
+
+Added in v2.0.0
 
 ---
 

@@ -4,9 +4,11 @@ nav_order: 39
 parent: Modules
 ---
 
-# Overview
+# HKT overview
 
 Type defunctionalization (as describe in [Lightweight higher-kinded polymorphism](https://www.cl.cam.ac.uk/~jdy22/papers/lightweight-higher-kinded-polymorphism.pdf))
+
+Added in v2.0.0
 
 ---
 
@@ -32,6 +34,8 @@ Type defunctionalization (as describe in [Lightweight higher-kinded polymorphism
 ---
 
 # HKT (interface)
+
+`* -> *` constructors
 
 **Signature**
 

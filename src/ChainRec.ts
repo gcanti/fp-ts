@@ -1,3 +1,6 @@
+/**
+ * @since 2.0.0
+ */
 import { Chain, Chain1, Chain2, Chain2C, Chain3 } from './Chain'
 import { Either } from './Either'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'

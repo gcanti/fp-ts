@@ -4,7 +4,7 @@ nav_order: 86
 parent: Modules
 ---
 
-# Overview
+# TraversableWithIndex overview
 
 A `Traversable` with an additional index.
 A `TraversableWithIndex` instance must be compatible with its `Traversable` instance
@@ -24,6 +24,8 @@ and with its `FunctorWithIndex` instance
 ```purescript
 mapWithIndex(ta, f) = traverseWithIndex(identity)(ta, (i, a) => new Identity(f(i, a))).value
 ```
+
+Added in v2.0.0
 
 ---
 

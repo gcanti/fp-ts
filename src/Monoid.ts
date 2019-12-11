@@ -1,3 +1,6 @@
+/**
+ * @since 2.0.0
+ */
 import { Bounded } from './Bounded'
 import { Endomorphism, identity } from './function'
 import {

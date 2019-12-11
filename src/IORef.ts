@@ -1,5 +1,7 @@
 /**
- * @file Mutable references in the `IO` monad
+ * Mutable references in the `IO` monad
+ *
+ * @since 2.0.0
  */
 import { IO } from './IO'
 

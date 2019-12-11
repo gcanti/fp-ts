@@ -1,3 +1,6 @@
+/**
+ * @since 2.0.0
+ */
 import { Alt3, Alt3C } from './Alt'
 import { Bifunctor3, Bifunctor3C } from './Bifunctor'
 import * as E from './Either'

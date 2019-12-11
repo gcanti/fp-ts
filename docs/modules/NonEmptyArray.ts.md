@@ -4,9 +4,11 @@ nav_order: 56
 parent: Modules
 ---
 
-# Overview
+# NonEmptyArray overview
 
 Data structure which represents non-empty arrays
+
+Added in v2.0.0
 
 ---
 

@@ -1,5 +1,5 @@
 /**
- * @file The `Monad` type class combines the operations of the `Chain` and
+ * The `Monad` type class combines the operations of the `Chain` and
  * `Applicative` type classes. Therefore, `Monad` instances represent type
  * constructors which support sequential composition, and also lifting of
  * functions of arbitrary arity.
@@ -10,6 +10,8 @@
  * 2. Right identity: `M.chain(fa, M.of) = fa`
  *
  * Note. `Functor`'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.of(f(a)))`
+ *
+ * @since 2.0.0
  */
 import {
   Applicative,

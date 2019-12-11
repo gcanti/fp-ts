@@ -4,11 +4,13 @@ nav_order: 13
 parent: Modules
 ---
 
-# Overview
+# BoundedMeetSemilattice overview
 
 A `BoundedMeetSemilattice` must satisfy the following laws in addition to `MeetSemilattice` laws:
 
 - `a ∧ 1 = a`
+
+Added in v2.0.0
 
 ---
 

@@ -14,6 +14,19 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.3.0
+
+- **New Feature**
+  - add `ReaderTask` module (@sledorze)
+  - `ReaderTaskEither`
+    - add `getReaderTaskValidation` (@sledorze)
+  - `ReaderEither`
+    - add `getReaderValidation` (@gcanti)
+  - `TaskEither`
+    - improve `getTaskValidation` (@gcanti)
+  - `IOEither`
+    - improve `getIOValidation` (@gcanti)
+
 # 2.2.0
 
 - **New Feature**

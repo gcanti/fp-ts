@@ -1,3 +1,6 @@
+/**
+ * @since 2.0.0
+ */
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'

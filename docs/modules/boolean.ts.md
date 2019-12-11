@@ -4,6 +4,10 @@ nav_order: 7
 parent: Modules
 ---
 
+# boolean overview
+
+Added in v2.2.0
+
 ---
 
 <h2 class="text-delta">Table of contents</h2>

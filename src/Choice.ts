@@ -1,5 +1,5 @@
 /**
- * @file The `Choice` class extends `Profunctor` with combinators for working with
+ * The `Choice` class extends `Profunctor` with combinators for working with
  * sum types.
  *
  * `left` and `right` lift values in a `Profunctor` to act on the `Left` and
@@ -25,6 +25,8 @@
  * left side of an `Either`, and `right` maps it over the right side (same as `map` would do).
  *
  * Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src/Data/Profunctor/Choice.purs
+ *
+ * @since 2.0.0
  */
 import { Either } from './Either'
 import { HKT2, Kind2, Kind3, URIS2, URIS3, URIS4, Kind4 } from './HKT'

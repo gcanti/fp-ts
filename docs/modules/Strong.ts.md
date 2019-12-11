@@ -4,7 +4,7 @@ nav_order: 80
 parent: Modules
 ---
 
-# Overview
+# Strong overview
 
 The `Strong` class extends `Profunctor` with combinators for working with product types.
 
@@ -31,6 +31,8 @@ So, when the `profunctor` is `Function` application, `first` essentially applies
 to the first element of a tuple, and `second` applies it to the second element (same as `map` would do).
 
 Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src/Data/Profunctor/Strong.purs
+
+Added in v2.0.0
 
 ---
 

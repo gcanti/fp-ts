@@ -1,5 +1,7 @@
 /**
- * @file Adapted from https://github.com/purescript/purescript-random
+ * Adapted from https://github.com/purescript/purescript-random
+ *
+ * @since 2.0.0
  */
 import { IO, io } from './IO'
 

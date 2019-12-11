@@ -1,5 +1,5 @@
 /**
- * @file The `Applicative` type class extends the `Apply` type class with a `of` function, which can be used to create values
+ * The `Applicative` type class extends the `Apply` type class with a `of` function, which can be used to create values
  * of type `f a` from values of type `a`.
  *
  * Where `Apply` provides the ability to lift functions of two or more arguments to functions whose arguments are
@@ -14,6 +14,8 @@
  * 3. Interchange: `A.ap(fab, A.of(a)) = A.ap(A.of(ab => ab(a)), fab)`
  *
  * Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
+ *
+ * @since 2.0.0
  */
 import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply4, Apply3C } from './Apply'
 import {

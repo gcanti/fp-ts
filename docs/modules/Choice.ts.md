@@ -4,7 +4,7 @@ nav_order: 17
 parent: Modules
 ---
 
-# Overview
+# Choice overview
 
 The `Choice` class extends `Profunctor` with combinators for working with
 sum types.
@@ -32,6 +32,8 @@ When the `profunctor` is `Function` application, `left` allows you to map a func
 left side of an `Either`, and `right` maps it over the right side (same as `map` would do).
 
 Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src/Data/Profunctor/Choice.purs
+
+Added in v2.0.0
 
 ---
 

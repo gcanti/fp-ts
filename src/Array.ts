@@ -1,5 +1,7 @@
 /**
- * @file Adapted from https://github.com/purescript/purescript-arrays
+ * Adapted from https://github.com/purescript/purescript-arrays
+ *
+ * @since 2.0.0
  */
 import { Alternative1 } from './Alternative'
 import { Applicative } from './Applicative'

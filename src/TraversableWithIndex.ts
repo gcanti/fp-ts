@@ -1,5 +1,5 @@
 /**
- * @file A `Traversable` with an additional index.
+ * A `Traversable` with an additional index.
  * A `TraversableWithIndex` instance must be compatible with its `Traversable` instance
  *
  * ```ts
@@ -17,6 +17,8 @@
  * ```purescript
  * mapWithIndex(ta, f) = traverseWithIndex(identity)(ta, (i, a) => new Identity(f(i, a))).value
  * ```
+ *
+ * @since 2.0.0
  */
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import { FoldableWithIndex, FoldableWithIndex1, FoldableWithIndex2, FoldableWithIndex2C } from './FoldableWithIndex'

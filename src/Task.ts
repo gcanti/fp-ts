@@ -1,6 +1,8 @@
 /**
- * @file `Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
+ * `Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
  * If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
+ *
+ * @since 2.0.0
  */
 import { IO } from './IO'
 import { Monad1 } from './Monad'

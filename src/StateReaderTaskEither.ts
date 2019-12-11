@@ -1,3 +1,6 @@
+/**
+ * @since 2.0.0
+ */
 import { Either } from './Either'
 import { IO } from './IO'
 import { IOEither } from './IOEither'

@@ -1,7 +1,9 @@
 /**
- * @file A `BoundedMeetSemilattice` must satisfy the following laws in addition to `MeetSemilattice` laws:
+ * A `BoundedMeetSemilattice` must satisfy the following laws in addition to `MeetSemilattice` laws:
  *
  * - `a ∧ 1 = a`
+ *
+ * @since 2.0.0
  */
 import { MeetSemilattice } from './MeetSemilattice'
 

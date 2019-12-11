@@ -1,3 +1,6 @@
+/**
+ * @since 2.0.0
+ */
 import {
   ApplicativeCompositionHKT2C,
   ApplicativeComposition12C,

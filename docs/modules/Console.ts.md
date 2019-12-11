@@ -4,9 +4,11 @@ nav_order: 20
 parent: Modules
 ---
 
-# Overview
+# Console overview
 
 Adapted from https://github.com/purescript/purescript-console
+
+Added in v2.0.0
 
 ---
 

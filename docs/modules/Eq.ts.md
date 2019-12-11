@@ -4,6 +4,20 @@ nav_order: 27
 parent: Modules
 ---
 
+# Eq overview
+
+The `Eq` type class represents types which support decidable equality.
+
+Instances must satisfy the following laws:
+
+1. Reflexivity: `E.equals(a, a) === true`
+2. Symmetry: `E.equals(a, b) === E.equals(b, a)`
+3. Transitivity: if `E.equals(a, b) === true` and `E.equals(b, c) === true`, then `E.equals(a, c) === true`
+
+See [Getting started with fp-ts: Eq](https://dev.to/gcanti/getting-started-with-fp-ts-eq-39f3)
+
+Added in v2.0.0
+
 ---
 
 <h2 class="text-delta">Table of contents</h2>

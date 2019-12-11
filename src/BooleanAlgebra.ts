@@ -1,5 +1,5 @@
 /**
- * @file Boolean algebras are Heyting algebras with the additional constraint that the law of the excluded middle is true
+ * Boolean algebras are Heyting algebras with the additional constraint that the law of the excluded middle is true
  * (equivalently, double-negation is true).
  *
  * Instances should satisfy the following laws in addition to the `HeytingAlgebra` laws:
@@ -7,6 +7,8 @@
  * - Excluded middle: `a ∨ ¬a = 1`
  *
  * Boolean algebras generalize classical logic: one is equivalent to "true" and zero is equivalent to "false".
+ *
+ * @since 2.0.0
  */
 import { HeytingAlgebra } from './HeytingAlgebra'
 

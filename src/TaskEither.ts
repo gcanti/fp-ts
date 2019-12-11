@@ -1,6 +1,8 @@
 /**
- * @file `TaskEither<E, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
+ * `TaskEither<E, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
  * error of type `E`. If you want to represent an asynchronous computation that never fails, please see `Task`.
+ *
+ * @since 2.0.0
  */
 import { Alt2, Alt2C } from './Alt'
 import { Bifunctor2, Bifunctor2C } from './Bifunctor'

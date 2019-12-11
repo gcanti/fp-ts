@@ -1,3 +1,6 @@
+/**
+ * @since 2.0.0
+ */
 import { Alt, Alt1, Alt2, Alt2C, Alt3, Alt4, Alt3C } from './Alt'
 import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply4, Apply3C } from './Apply'
 import { Bifunctor, Bifunctor2, Bifunctor3, Bifunctor4, Bifunctor3C } from './Bifunctor'

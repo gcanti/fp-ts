@@ -1,5 +1,5 @@
 /**
- * @file The `Strong` class extends `Profunctor` with combinators for working with product types.
+ * The `Strong` class extends `Profunctor` with combinators for working with product types.
  *
  * `first` and `second` lift values in a `Profunctor` to act on the first and second components of a tuple,
  * respectively.
@@ -24,6 +24,8 @@
  * to the first element of a tuple, and `second` applies it to the second element (same as `map` would do).
  *
  * Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src/Data/Profunctor/Strong.purs
+ *
+ * @since 2.0.0
  */
 import { Category, Category2, Category3, Category4 } from './Category'
 import { identity } from './function'

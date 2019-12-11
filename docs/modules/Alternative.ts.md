@@ -4,7 +4,7 @@ nav_order: 2
 parent: Modules
 ---
 
-# Overview
+# Alternative overview
 
 The `Alternative` type class extends the `Alt` type class with a value that should be the left and right identity for `alt`.
 
@@ -18,6 +18,8 @@ concrete types like `string` or `number`.
 3. Annihilation: `A.map(zero, f) == zero`
 4. Distributivity: `A.ap(A.alt(fab, gab), fa) = A.alt(A.ap(fab, fa), A.ap(gab, fa))`
 5. Annihilation: `A.ap(zero, fa) = zero`
+
+Added in v2.0.0
 
 ---
 

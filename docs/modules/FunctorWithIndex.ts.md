@@ -4,7 +4,7 @@ nav_order: 36
 parent: Modules
 ---
 
-# Overview
+# FunctorWithIndex overview
 
 A `FunctorWithIndex` is a type constructor which supports a mapping operation `mapWithIndex`.
 
@@ -15,6 +15,8 @@ Instances must satisfy the following laws:
 
 1. Identity: `F.mapWithIndex(fa, (_i, a) => a) = fa`
 2. Composition: `F.mapWithIndex(fa, (_i, a) => bc(ab(a))) = F.mapWithIndex(F.mapWithIndex(fa, ab), bc)`
+
+Added in v2.0.0
 
 ---
 

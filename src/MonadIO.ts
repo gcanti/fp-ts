@@ -1,5 +1,7 @@
 /**
- * @file Lift a computation from the `IO` monad
+ * Lift a computation from the `IO` monad
+ *
+ * @since 2.0.0
  */
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { IO } from './IO'

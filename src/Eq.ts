@@ -1,3 +1,16 @@
+/**
+ * The `Eq` type class represents types which support decidable equality.
+ *
+ * Instances must satisfy the following laws:
+ *
+ * 1. Reflexivity: `E.equals(a, a) === true`
+ * 2. Symmetry: `E.equals(a, b) === E.equals(b, a)`
+ * 3. Transitivity: if `E.equals(a, b) === true` and `E.equals(b, c) === true`, then `E.equals(a, c) === true`
+ *
+ * See [Getting started with fp-ts: Eq](https://dev.to/gcanti/getting-started-with-fp-ts-eq-39f3)
+ *
+ * @since 2.0.0
+ */
 import { Contravariant1 } from './Contravariant'
 import { pipeable } from './pipeable'
 
@@ -16,18 +29,6 @@ export const URI = 'Eq'
  * @since 2.0.0
  */
 export type URI = typeof URI
-
-/**
- * @file The `Eq` type class represents types which support decidable equality.
- *
- * Instances must satisfy the following laws:
- *
- * 1. Reflexivity: `E.equals(a, a) === true`
- * 2. Symmetry: `E.equals(a, b) === E.equals(b, a)`
- * 3. Transitivity: if `E.equals(a, b) === true` and `E.equals(b, c) === true`, then `E.equals(a, c) === true`
- *
- * See [Getting started with fp-ts: Eq](https://dev.to/gcanti/getting-started-with-fp-ts-eq-39f3)
- */
 
 /**
  * @since 2.0.0

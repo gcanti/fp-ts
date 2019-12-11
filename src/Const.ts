@@ -1,3 +1,6 @@
+/**
+ * @since 2.0.0
+ */
 import { Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
 import { Contravariant2 } from './Contravariant'

@@ -1,3 +1,6 @@
+/**
+ * @since 2.0.0
+ */
 import { Comonad2C } from './Comonad'
 import { Monoid } from './Monoid'
 import { Functor2 } from './Functor'
