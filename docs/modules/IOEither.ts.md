@@ -4,10 +4,12 @@ nav_order: 44
 parent: Modules
 ---
 
-# Overview
+# IOEither overview
 
 `IOEither<E, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
 error of type `E`. If you want to represent a synchronous computation that never fails, please see `IO`.
+
+Added in v2.0.0
 
 ---
 

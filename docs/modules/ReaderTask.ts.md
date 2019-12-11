@@ -4,6 +4,10 @@ nav_order: 67
 parent: Modules
 ---
 
+# ReaderTask overview
+
+Added in v2.3.0
+
 ---
 
 <h2 class="text-delta">Table of contents</h2>

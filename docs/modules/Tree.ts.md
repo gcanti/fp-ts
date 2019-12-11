@@ -4,13 +4,15 @@ nav_order: 87
 parent: Modules
 ---
 
-# Overview
+# Tree overview
 
 Multi-way trees (aka rose trees) and forests, where a forest is
 
 ```ts
 type Forest<A> = Array<Tree<A>>
 ```
+
+Added in v2.0.0
 
 ---
 

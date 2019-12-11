@@ -1,5 +1,7 @@
 /**
- * @file A `BoundedDistributiveLattice` is a lattice that is both bounded and distributive
+ * A `BoundedDistributiveLattice` is a lattice that is both bounded and distributive
+ *
+ * @since 2.0.0
  */
 import { BoundedLattice } from './BoundedLattice'
 import { DistributiveLattice, getMinMaxDistributiveLattice } from './DistributiveLattice'

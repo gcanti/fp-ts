@@ -1,3 +1,6 @@
+/**
+ * @since 2.0.0
+ */
 import { Applicative } from './Applicative'
 import { Separated } from './Compactable'
 import { Either, isLeft } from './Either'

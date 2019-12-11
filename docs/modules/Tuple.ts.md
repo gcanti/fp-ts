@@ -4,9 +4,11 @@ nav_order: 88
 parent: Modules
 ---
 
-# Overview
+# Tuple overview
 
 Adapted from https://github.com/purescript/purescript-tuples
+
+Added in v2.0.0
 
 ---
 

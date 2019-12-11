@@ -4,10 +4,12 @@ nav_order: 82
 parent: Modules
 ---
 
-# Overview
+# TaskEither overview
 
 `TaskEither<E, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
 error of type `E`. If you want to represent an asynchronous computation that never fails, please see `Task`.
+
+Added in v2.0.0
 
 ---
 

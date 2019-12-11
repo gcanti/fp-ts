@@ -1,6 +1,8 @@
 /**
- * @file `IOEither<E, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
+ * `IOEither<E, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
  * error of type `E`. If you want to represent a synchronous computation that never fails, please see `IO`.
+ *
+ * @since 2.0.0
  */
 import { Alt2, Alt2C } from './Alt'
 import { Bifunctor2, Bifunctor2C } from './Bifunctor'

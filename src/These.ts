@@ -1,5 +1,5 @@
 /**
- * @file A data structure providing "inclusive-or" as opposed to `Either`'s "exclusive-or".
+ * A data structure providing "inclusive-or" as opposed to `Either`'s "exclusive-or".
  *
  * If you interpret `Either<E, A>` as suggesting the computation may either fail or succeed (exclusively), then
  * `These<E, A>` may fail, succeed, or do both at the same time.
@@ -16,6 +16,8 @@
  * (description adapted from https://package.elm-lang.org/packages/joneshf/elm-these)
  *
  * Adapted from https://github.com/purescript-contrib/purescript-these
+ *
+ * @since 2.0.0
  */
 import { Applicative } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'

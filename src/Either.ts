@@ -1,5 +1,5 @@
 /**
- * @file Represents a value of one of two possible types (a disjoint union).
+ * Represents a value of one of two possible types (a disjoint union).
  *
  * An instance of `Either` is either an instance of `Left` or `Right`.
  *
@@ -25,6 +25,8 @@
  * either.map(right(12), double) // right(24)
  * either.map(left(23), double)  // left(23)
  * ```
+ *
+ * @since 2.0.0
  */
 
 import { Alt2, Alt2C } from './Alt'

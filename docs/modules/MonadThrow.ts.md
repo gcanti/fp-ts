@@ -4,7 +4,7 @@ nav_order: 54
 parent: Modules
 ---
 
-# Overview
+# MonadThrow overview
 
 The `MonadThrow` type class represents those monads which support errors via
 `throwError`, where `throwError(e)` halts, yielding the error `e`.
@@ -12,6 +12,8 @@ The `MonadThrow` type class represents those monads which support errors via
 Laws:
 
 - Left zero: `M.chain(M.throwError(e), f) = M.throwError(e)`
+
+Added in v2.0.0
 
 ---
 

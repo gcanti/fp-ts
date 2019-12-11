@@ -4,7 +4,7 @@ nav_order: 33
 parent: Modules
 ---
 
-# Overview
+# FoldableWithIndex overview
 
 A `Foldable` with an additional index.
 A `FoldableWithIndex` instance must be compatible with its `Foldable` instance
@@ -14,6 +14,8 @@ reduce(fa, b, f) = reduceWithIndex(fa, b, (_, b, a) => f(b, a))
 foldMap(M)(fa, f) = foldMapWithIndex(M)(fa, (_, a) => f(a))
 reduceRight(fa, b, f) = reduceRightWithIndex(fa, b, (_, a, b) => f(a, b))
 ```
+
+Added in v2.0.0
 
 ---
 

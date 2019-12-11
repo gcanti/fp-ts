@@ -4,6 +4,10 @@ nav_order: 18
 parent: Modules
 ---
 
+# Comonad overview
+
+Added in v2.0.0
+
 ---
 
 <h2 class="text-delta">Table of contents</h2>

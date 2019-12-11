@@ -1,5 +1,5 @@
 /**
- * @file `IO<A>` represents a non-deterministic synchronous computation that can cause side effects, yields a value of
+ * `IO<A>` represents a non-deterministic synchronous computation that can cause side effects, yields a value of
  * type `A` and **never fails**. If you want to represent a synchronous computation that may fail, please see
  * `IOEither`.
  *
@@ -88,6 +88,8 @@
  *
  * computation() // returns { name: 'Aristotle', age: 60 }
  * ```
+ *
+ * @since 2.0.0
  */
 import { identity } from './function'
 import { Monad1 } from './Monad'

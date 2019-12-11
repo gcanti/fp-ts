@@ -1,11 +1,13 @@
 /**
- * @file `Compactable` represents data structures which can be _compacted_/_filtered_. This is a generalization of
+ * `Compactable` represents data structures which can be _compacted_/_filtered_. This is a generalization of
  * `catOptions` as a new function `compact`. `compact` has relations with `Functor`, `Applicative`,
  * `Monad`, `Alternative`, and `Traversable` in that we can use these classes to provide the ability to
  * operate on a data type by eliminating intermediate `None`s. This is useful for representing the filtering out of
  * values, or failure.
  *
  * Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Compactable.purs
+ *
+ * @since 2.0.0
  */
 import { Either } from './Either'
 import {

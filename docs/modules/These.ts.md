@@ -4,7 +4,7 @@ nav_order: 83
 parent: Modules
 ---
 
-# Overview
+# These overview
 
 A data structure providing "inclusive-or" as opposed to `Either`'s "exclusive-or".
 
@@ -23,6 +23,8 @@ both `E` and `A` kind of data at the same time. This is particularly useful when
 (description adapted from https://package.elm-lang.org/packages/joneshf/elm-these)
 
 Adapted from https://github.com/purescript-contrib/purescript-these
+
+Added in v2.0.0
 
 ---
 

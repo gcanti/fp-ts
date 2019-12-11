@@ -1,8 +1,10 @@
 /**
- * @file The `State` monad is a synonym for the `StateT` monad transformer, applied to the `Identity` monad.
+ * The `State` monad is a synonym for the `StateT` monad transformer, applied to the `Identity` monad.
  *
  * For a good introduction to the state monad, see the following blog post by [@pfgray](https://github.com/pfgray): [The
  * State monad](https://paulgray.net/the-state-monad/)
+ *
+ * @since 2.0.0
  */
 import { Monad2 } from './Monad'
 import { getStateM } from './StateT'

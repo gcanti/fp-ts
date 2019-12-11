@@ -4,7 +4,7 @@ nav_order: 19
 parent: Modules
 ---
 
-# Overview
+# Compactable overview
 
 `Compactable` represents data structures which can be _compacted_/_filtered_. This is a generalization of
 `catOptions` as a new function `compact`. `compact` has relations with `Functor`, `Applicative`,
@@ -13,6 +13,8 @@ operate on a data type by eliminating intermediate `None`s. This is useful for r
 values, or failure.
 
 Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Compactable.purs
+
+Added in v2.0.0
 
 ---
 

@@ -4,9 +4,11 @@ nav_order: 52
 parent: Modules
 ---
 
-# Overview
+# MonadIO overview
 
 Lift a computation from the `IO` monad
+
+Added in v2.0.0
 
 ---
 

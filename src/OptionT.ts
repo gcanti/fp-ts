@@ -1,3 +1,6 @@
+/**
+ * @since 2.0.0
+ */
 import {
   ApplicativeComposition11,
   ApplicativeComposition21,

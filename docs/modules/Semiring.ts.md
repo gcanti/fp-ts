@@ -4,7 +4,7 @@ nav_order: 73
 parent: Modules
 ---
 
-# Overview
+# Semiring overview
 
 The `Semiring` class is for types that support an addition and multiplication operation.
 
@@ -25,6 +25,8 @@ Instances must satisfy the following laws:
 **Note:** The `number` type is not fully law abiding members of this class hierarchy due to the potential
 for arithmetic overflows, and the presence of `NaN` and `Infinity` values. The behaviour is
 unspecified in these cases.
+
+Added in v2.0.0
 
 ---
 

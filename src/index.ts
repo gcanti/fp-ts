@@ -1,3 +1,7 @@
+/**
+ * @since 2.0.0
+ */
+
 import * as alt from './Alt'
 import * as alternative from './Alternative'
 import * as applicative from './Applicative'

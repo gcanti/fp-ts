@@ -4,9 +4,11 @@ nav_order: 63
 parent: Modules
 ---
 
-# Overview
+# Random overview
 
 Adapted from https://github.com/purescript/purescript-random
+
+Added in v2.0.0
 
 ---
 

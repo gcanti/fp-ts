@@ -1,3 +1,6 @@
+/**
+ * @since 2.0.0
+ */
 import { Alt1 } from './Alt'
 import { Applicative } from './Applicative'
 import { ChainRec1, tailRec } from './ChainRec'

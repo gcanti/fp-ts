@@ -1,5 +1,5 @@
 /**
- * @file The `Apply` class provides the `ap` which is used to apply a function to an argument under a type constructor.
+ * The `Apply` class provides the `ap` which is used to apply a function to an argument under a type constructor.
  *
  * `Apply` can be used to lift functions of two or more arguments to work on values wrapped with the type constructor
  * `f`.
@@ -9,6 +9,8 @@
  * 1. Associative composition: `F.ap(F.ap(F.map(fbc, bc => ab => a => bc(ab(a))), fab), fa) = F.ap(fbc, F.ap(fab, fa))`
  *
  * Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
+ *
+ * @since 2.0.0
  */
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor4, Functor3C } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'

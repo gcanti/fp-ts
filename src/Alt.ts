@@ -1,5 +1,5 @@
 /**
- * @file The `Alt` type class identifies an associative operation on a type constructor.  It is similar to `Semigroup`, except
+ * The `Alt` type class identifies an associative operation on a type constructor.  It is similar to `Semigroup`, except
  * that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than concrete types like `string` or
  * `number`.
  *
@@ -7,6 +7,8 @@
  *
  * 1. Associativity: `A.alt(A.alt(fa, ga), ha) = A.alt(fa, A.alt(ga, ha))`
  * 2. Distributivity: `A.map(A.alt(fa, ga), ab) = A.alt(A.map(fa, ab), A.map(ga, ab))`
+ *
+ * @since 2.0.0
  */
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor4, Functor3C } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'

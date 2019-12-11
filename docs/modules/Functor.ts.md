@@ -4,7 +4,7 @@ nav_order: 35
 parent: Modules
 ---
 
-# Overview
+# Functor overview
 
 A `Functor` is a type constructor which supports a mapping operation `map`.
 
@@ -15,6 +15,8 @@ Instances must satisfy the following laws:
 
 1. Identity: `F.map(fa, a => a) = fa`
 2. Composition: `F.map(fa, a => bc(ab(a))) = F.map(F.map(fa, ab), bc)`
+
+Added in v2.0.0
 
 ---
 

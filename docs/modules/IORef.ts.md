@@ -4,9 +4,11 @@ nav_order: 45
 parent: Modules
 ---
 
-# Overview
+# IORef overview
 
 Mutable references in the `IO` monad
+
+Added in v2.0.0
 
 ---
 

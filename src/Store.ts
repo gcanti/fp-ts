@@ -1,3 +1,6 @@
+/**
+ * @since 2.0.0
+ */
 import { Comonad2 } from './Comonad'
 import { Endomorphism } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'

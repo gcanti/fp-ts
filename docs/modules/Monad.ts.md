@@ -4,7 +4,7 @@ nav_order: 51
 parent: Modules
 ---
 
-# Overview
+# Monad overview
 
 The `Monad` type class combines the operations of the `Chain` and
 `Applicative` type classes. Therefore, `Monad` instances represent type
@@ -17,6 +17,8 @@ Instances must satisfy the following laws in addition to the `Applicative` and `
 2. Right identity: `M.chain(fa, M.of) = fa`
 
 Note. `Functor`'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.of(f(a)))`
+
+Added in v2.0.0
 
 ---
 

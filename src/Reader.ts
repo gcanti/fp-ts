@@ -1,3 +1,6 @@
+/**
+ * @since 2.0.0
+ */
 import { Category2 } from './Category'
 import { Choice2 } from './Choice'
 import * as E from './Either'

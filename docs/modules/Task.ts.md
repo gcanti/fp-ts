@@ -4,10 +4,12 @@ nav_order: 81
 parent: Modules
 ---
 
-# Overview
+# Task overview
 
 `Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
 If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
+
+Added in v2.0.0
 
 ---
 

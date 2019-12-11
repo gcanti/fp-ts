@@ -4,12 +4,14 @@ nav_order: 47
 parent: Modules
 ---
 
-# Overview
+# Lattice overview
 
 A `Lattice` must satisfy the following in addition to `JoinSemilattice` and `MeetSemilattice` laws:
 
 - Absorbtion law for meet: `a ∧ (a ∨ b) == a`
 - Absorbtion law for join: `a ∨ (a ∧ b) == a`
+
+Added in v2.0.0
 
 ---
 

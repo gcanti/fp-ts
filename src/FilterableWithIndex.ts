@@ -1,3 +1,6 @@
+/**
+ * @since 2.0.0
+ */
 import { Separated } from './Compactable'
 import { Either } from './Either'
 import {

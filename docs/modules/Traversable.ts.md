@@ -4,7 +4,7 @@ nav_order: 85
 parent: Modules
 ---
 
-# Overview
+# Traversable overview
 
 `Traversable` represents data structures which can be _traversed_ accumulating results and effects in some
 `Applicative` functor.
@@ -20,6 +20,8 @@ parent: Modules
 ```ts
 <F>(F: Applicative<F>) => <A>(ta: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
 ```
+
+Added in v2.0.0
 
 ---
 

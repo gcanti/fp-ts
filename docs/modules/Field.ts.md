@@ -4,9 +4,11 @@ nav_order: 29
 parent: Modules
 ---
 
-# Overview
+# Field overview
 
 Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Field.purs
+
+Added in v2.0.0
 
 ---
 

@@ -4,7 +4,7 @@ nav_order: 3
 parent: Modules
 ---
 
-# Overview
+# Applicative overview
 
 The `Applicative` type class extends the `Apply` type class with a `of` function, which can be used to create values
 of type `f a` from values of type `a`.
@@ -21,6 +21,8 @@ Instances must satisfy the following laws in addition to the `Apply` laws:
 3. Interchange: `A.ap(fab, A.of(a)) = A.ap(A.of(ab => ab(a)), fab)`
 
 Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
+
+Added in v2.0.0
 
 ---
 

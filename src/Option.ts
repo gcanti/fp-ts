@@ -1,5 +1,5 @@
 /**
- * @file If you have worked with JavaScript at all in the past, it is very likely that you have come across a `TypeError` at
+ * If you have worked with JavaScript at all in the past, it is very likely that you have come across a `TypeError` at
  * some time (other languages will throw similarly named errors in such a case). Usually this happens because some
  * function returns `null` or `undefined` when you were not expecting it and thus not dealing with that possibility in
  * your client code.
@@ -18,6 +18,8 @@
  *
  * An option could be looked at as a collection or foldable structure with either one or zero elements.
  * Another way to look at option is: it represents the effect of a possibly failing computation.
+ *
+ * @since 2.0.0
  */
 import { Alternative1 } from './Alternative'
 import { Applicative } from './Applicative'

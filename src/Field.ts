@@ -1,5 +1,7 @@
 /**
- * @file Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Field.purs
+ * Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Field.purs
+ *
+ * @since 2.0.0
  */
 import { Ring } from './Ring'
 import { Eq } from './Eq'

@@ -1,3 +1,6 @@
+/**
+ * @since 2.3.0
+ */
 import { IO } from './IO'
 import { Monad2 } from './Monad'
 import { MonadTask2 } from './MonadTask'

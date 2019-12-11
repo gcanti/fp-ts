@@ -4,9 +4,11 @@ nav_order: 10
 parent: Modules
 ---
 
-# Overview
+# BoundedDistributiveLattice overview
 
 A `BoundedDistributiveLattice` is a lattice that is both bounded and distributive
+
+Added in v2.0.0
 
 ---
 
