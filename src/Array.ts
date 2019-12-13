@@ -1105,7 +1105,7 @@ export function uniq<A>(E: Eq<A>): (as: Array<A>) => Array<A> {
  * @since 2.0.0
  */
 export function sortBy<A>(ords: Array<Ord<A>>): (as: Array<A>) => Array<A> {
-  return ords.length ? sort(ords.slice(1).reduce(getSemigroup<A>().concat, ords[0])) : identity
+  return ords.length > 0 ? sort(ords.slice(1).reduce(getSemigroup<A>().concat, ords[0])) : identity
 }
 
 /**
