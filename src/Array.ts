@@ -12,7 +12,7 @@ import { Extend1 } from './Extend'
 import { FilterableWithIndex1 } from './FilterableWithIndex'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { Predicate, Refinement } from './function'
+import { Predicate, Refinement, identity } from './function'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
@@ -1107,7 +1107,7 @@ export function uniq<A>(E: Eq<A>): (as: Array<A>) => Array<A> {
  * @since 2.0.0
  */
 export function sortBy<A>(ords: Array<Ord<A>>): (as: Array<A>) => Array<A> {
-  return sort(ords.slice(1).reduce(getSemigroup<A>().concat, ords[0]))
+  return ords.length > 0 ? sort(ords.slice(1).reduce(getSemigroup<A>().concat, ords[0])) : identity
 }
 
 /**
@@ -1284,8 +1284,6 @@ export function difference<A>(E: Eq<A>): (xs: Array<A>, ys: Array<A>) => Array<A
   const elemE = elem(E)
   return (xs, ys) => xs.filter(a => !elemE(a, ys))
 }
-
-const identity = <A>(a: A): A => a
 
 /**
  * @since 2.0.0

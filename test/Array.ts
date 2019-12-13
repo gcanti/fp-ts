@@ -578,6 +578,8 @@ describe('Array', () => {
       { name: 'c', age: 2 },
       { name: 'b', age: 3 }
     ])
+
+    assert.equal(sortBy([])(persons), persons)
   })
 
   it('compact', () => {
