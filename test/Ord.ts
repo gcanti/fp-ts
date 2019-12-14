@@ -6,6 +6,7 @@ import {
   clamp,
   getDualOrd,
   getSemigroup,
+  getMonoid,
   ordDate,
   ordNumber,
   ordString,
@@ -15,6 +16,7 @@ import {
   getTupleOrd,
   ordBoolean
 } from '../src/Ord'
+import { fold } from '../src/Monoid'
 
 describe('Ord', () => {
   it('getTupleOrd', () => {
@@ -49,6 +51,33 @@ describe('Ord', () => {
       [1, 'c'],
       [2, 'c']
     ])
+  })
+
+  it('getMonoid', () => {
+    interface Person {
+      name: string
+      age: number
+    }
+    const people: Person[] = [
+      { name: 'John', age: 42 },
+      { name: 'Dorothy', age: 37 },
+      { name: 'John', age: 37 }
+    ]
+
+    const sortByName = ord.contramap(ordString, (p: Person) => p.name)
+    const sortByAge = ord.contramap(ordNumber, (p: Person) => p.age)
+
+    const monoid = getMonoid<Person>()
+    const sortByNameByAge = fold(monoid)([sortByName, sortByAge])
+    const dontSort = fold(monoid)([])
+
+    assert.deepStrictEqual(sort(sortByNameByAge)(people), [
+      { name: 'Dorothy', age: 37 },
+      { name: 'John', age: 37 },
+      { name: 'John', age: 42 }
+    ])
+
+    assert.deepStrictEqual(sort(dontSort)(people), people)
   })
 
   it('ordNumber', () => {
