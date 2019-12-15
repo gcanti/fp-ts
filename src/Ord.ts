@@ -227,12 +227,14 @@ export function getSemigroup<A = never>(): Semigroup<Ord<A>> {
   }
 }
 
+const empty = fromCompare(() => 0)
+
 /**
- * @since 2.3.1
+ * @since 2.4.0
  */
-export function getMonoid<A>(): Monoid<Ord<A>> {
+export function getMonoid<A = never>(): Monoid<Ord<A>> {
   return {
-    empty: fromCompare((a1, a2) => 0),
+    empty,
     concat: getSemigroup<A>().concat
   }
 }
