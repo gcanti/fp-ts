@@ -16,6 +16,7 @@ import { Semigroup } from './Semigroup'
 import { Eq } from './Eq'
 import { Contravariant1 } from './Contravariant'
 import { pipeable } from './pipeable'
+import { Monoid } from './Monoid'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -223,6 +224,18 @@ export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> {
 export function getSemigroup<A = never>(): Semigroup<Ord<A>> {
   return {
     concat: (x, y) => fromCompare((a, b) => semigroupOrdering.concat(x.compare(a, b), y.compare(a, b)))
+  }
+}
+
+const empty = fromCompare(() => 0)
+
+/**
+ * @since 2.4.0
+ */
+export function getMonoid<A = never>(): Monoid<Ord<A>> {
+  return {
+    empty,
+    concat: getSemigroup<A>().concat
   }
 }
 
