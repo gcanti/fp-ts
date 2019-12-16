@@ -11,7 +11,7 @@
  *
  * @since 2.0.0
  */
-import { Ordering, semigroupOrdering } from './Ordering'
+import { Ordering, monoidOrdering } from './Ordering'
 import { Semigroup } from './Semigroup'
 import { Eq } from './Eq'
 import { Contravariant1 } from './Contravariant'
@@ -162,7 +162,7 @@ export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> {
 }
 
 const S: Semigroup<Ord<any>> = {
-  concat: (x, y) => fromCompare((a, b) => semigroupOrdering.concat(x.compare(a, b), y.compare(a, b)))
+  concat: (x, y) => fromCompare((a, b) => monoidOrdering.concat(x.compare(a, b), y.compare(a, b)))
 }
 
 /**

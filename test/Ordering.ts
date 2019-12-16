@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { sign, eqOrdering, semigroupOrdering, invert } from '../src/Ordering'
+import { sign, eqOrdering, monoidOrdering, invert } from '../src/Ordering'
 
 describe('Ordering', () => {
   it('sign', () => {
@@ -20,16 +20,25 @@ describe('Ordering', () => {
     assert.strictEqual(eqOrdering.equals(1, 1), true)
   })
 
-  it('semigroupOrdering', () => {
-    assert.strictEqual(semigroupOrdering.concat(-1, -1), -1)
-    assert.strictEqual(semigroupOrdering.concat(-1, 0), -1)
-    assert.strictEqual(semigroupOrdering.concat(-1, 1), -1)
-    assert.strictEqual(semigroupOrdering.concat(0, -1), -1)
-    assert.strictEqual(semigroupOrdering.concat(0, 0), 0)
-    assert.strictEqual(semigroupOrdering.concat(0, 1), 1)
-    assert.strictEqual(semigroupOrdering.concat(1, -1), 1)
-    assert.strictEqual(semigroupOrdering.concat(1, 0), 1)
-    assert.strictEqual(semigroupOrdering.concat(1, 1), 1)
+  it('monoidOrdering', () => {
+    // concat
+    assert.strictEqual(monoidOrdering.concat(-1, -1), -1)
+    assert.strictEqual(monoidOrdering.concat(-1, 0), -1)
+    assert.strictEqual(monoidOrdering.concat(-1, 1), -1)
+    assert.strictEqual(monoidOrdering.concat(0, -1), -1)
+    assert.strictEqual(monoidOrdering.concat(0, 0), 0)
+    assert.strictEqual(monoidOrdering.concat(0, 1), 1)
+    assert.strictEqual(monoidOrdering.concat(1, -1), 1)
+    assert.strictEqual(monoidOrdering.concat(1, 0), 1)
+    assert.strictEqual(monoidOrdering.concat(1, 1), 1)
+
+    // empty
+    assert.strictEqual(monoidOrdering.concat(1, monoidOrdering.empty), 1)
+    assert.strictEqual(monoidOrdering.concat(monoidOrdering.empty, 1), 1)
+    assert.strictEqual(monoidOrdering.concat(-1, monoidOrdering.empty), -1)
+    assert.strictEqual(monoidOrdering.concat(monoidOrdering.empty, -1), -1)
+    assert.strictEqual(monoidOrdering.concat(0, monoidOrdering.empty), 0)
+    assert.strictEqual(monoidOrdering.concat(monoidOrdering.empty, 0), 0)
   })
 
   it('invert', () => {

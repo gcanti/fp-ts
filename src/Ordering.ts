@@ -3,6 +3,7 @@
  */
 import { Semigroup } from './Semigroup'
 import { Eq } from './Eq'
+import { Monoid } from './Monoid'
 
 /**
  * @since 2.0.0
@@ -24,10 +25,21 @@ export const eqOrdering: Eq<Ordering> = {
 }
 
 /**
+ * Use `monoidOrdering` instead
  * @since 2.0.0
+ * @deprecated
  */
 export const semigroupOrdering: Semigroup<Ordering> = {
   concat: (x, y) => (x !== 0 ? x : y)
+}
+
+/**
+ * @since 2.4.0
+ */
+export const monoidOrdering: Monoid<Ordering> = {
+  // tslint:disable-next-line: deprecation
+  concat: semigroupOrdering.concat,
+  empty: 0
 }
 
 /**
