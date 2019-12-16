@@ -35,7 +35,8 @@ Added in v2.0.0
 - [fromCompare (function)](#fromcompare-function)
 - [geq (function)](#geq-function)
 - [getDualOrd (function)](#getdualord-function)
-- [getSemigroup (function)](#getsemigroup-function)
+- [getMonoid (function)](#getmonoid-function)
+- [~~getSemigroup~~ (function)](#getsemigroup-function)
 - [getTupleOrd (function)](#gettupleord-function)
 - [gt (function)](#gt-function)
 - [leq (function)](#leq-function)
@@ -184,23 +185,26 @@ export function getDualOrd<A>(O: Ord<A>): Ord<A> { ... }
 
 Added in v2.0.0
 
-# getSemigroup (function)
+# getMonoid (function)
 
-Returns an `Ord` such that its `concat(ord1, ord2)` operation will order first by `ord1`, and then by `ord2`.
+Returns a `Monoid` such that:
+
+- its `concat(ord1, ord2)` operation will order first by `ord1`, and then by `ord2`
+- its `empty` value is an `Ord` that always considers compared elements equal
 
 **Signature**
 
 ```ts
-export function getSemigroup<A = never>(): Semigroup<Ord<A>> { ... }
+export function getMonoid<A = never>(): Monoid<Ord<A>> { ... }
 ```
 
 **Example**
 
 ```ts
 import { sort } from 'fp-ts/lib/Array'
-import { contramap, getDualOrd, getSemigroup, ordBoolean, ordNumber, ordString } from 'fp-ts/lib/Ord'
+import { contramap, getDualOrd, getMonoid, ordBoolean, ordNumber, ordString } from 'fp-ts/lib/Ord'
 import { pipe } from 'fp-ts/lib/pipeable'
-import { fold } from 'fp-ts/lib/Semigroup'
+import { fold } from 'fp-ts/lib/Monoid'
 
 interface User {
   id: number
@@ -224,7 +228,7 @@ const byRememberMe = pipe(
   contramap((p: User) => p.rememberMe)
 )
 
-const S = getSemigroup<User>()
+const M = getMonoid<User>()
 
 const users: Array<User> = [
   { id: 1, name: 'Guido', age: 47, rememberMe: false },
@@ -234,7 +238,7 @@ const users: Array<User> = [
 ]
 
 // sort by name, then by age, then by `rememberMe`
-const O1 = fold(S)(byName, [byAge, byRememberMe])
+const O1 = fold(M)([byName, byAge, byRememberMe])
 assert.deepStrictEqual(sort(O1)(users), [
   { id: 3, name: 'Giulio', age: 44, rememberMe: false },
   { id: 4, name: 'Giulio', age: 44, rememberMe: true },
@@ -243,13 +247,25 @@ assert.deepStrictEqual(sort(O1)(users), [
 ])
 
 // now `rememberMe = true` first, then by name, then by age
-const O2 = fold(S)(getDualOrd(byRememberMe), [byName, byAge])
+const O2 = fold(M)([getDualOrd(byRememberMe), byName, byAge])
 assert.deepStrictEqual(sort(O2)(users), [
   { id: 4, name: 'Giulio', age: 44, rememberMe: true },
   { id: 2, name: 'Guido', age: 46, rememberMe: true },
   { id: 3, name: 'Giulio', age: 44, rememberMe: false },
   { id: 1, name: 'Guido', age: 47, rememberMe: false }
 ])
+```
+
+Added in v2.4.0
+
+# ~~getSemigroup~~ (function)
+
+Use `getMonoid` instead
+
+**Signature**
+
+```ts
+export function getSemigroup<A = never>(): Semigroup<Ord<A>> { ... }
 ```
 
 Added in v2.0.0

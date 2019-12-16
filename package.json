@@ -1,6 +1,6 @@
 {
   "name": "fp-ts",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "description": "Functional programming in TypeScript",
   "files": [
     "lib",
@@ -11,7 +11,7 @@
   "typings": "lib/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
+    "lint": "tslint -p tsconfig.tslint.json",
     "jest-clear-cache": "jest --clearCache",
     "jest": "jest --ci",
     "prettier": "prettier --list-different \"./{src,test,tutorials}/**/*.ts\"",

@@ -579,7 +579,7 @@ describe('Array', () => {
       { name: 'b', age: 3 }
     ])
 
-    assert.equal(sortBy([])(persons), persons)
+    assert.deepStrictEqual(sortBy([])(persons), persons)
   })
 
   it('compact', () => {

@@ -161,14 +161,37 @@ export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> {
   }
 }
 
+const S: Semigroup<Ord<any>> = {
+  concat: (x, y) => fromCompare((a, b) => semigroupOrdering.concat(x.compare(a, b), y.compare(a, b)))
+}
+
 /**
- * Returns an `Ord` such that its `concat(ord1, ord2)` operation will order first by `ord1`, and then by `ord2`.
+ * Use `getMonoid` instead
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export function getSemigroup<A = never>(): Semigroup<Ord<A>> {
+  return S
+}
+
+const M = {
+  // tslint:disable-next-line: deprecation
+  concat: getSemigroup<any>().concat,
+  empty: fromCompare(() => 0)
+}
+
+/**
+ * Returns a `Monoid` such that:
+ *
+ * - its `concat(ord1, ord2)` operation will order first by `ord1`, and then by `ord2`
+ * - its `empty` value is an `Ord` that always considers compared elements equal
  *
  * @example
  * import { sort } from 'fp-ts/lib/Array'
- * import { contramap, getDualOrd, getSemigroup, ordBoolean, ordNumber, ordString } from 'fp-ts/lib/Ord'
+ * import { contramap, getDualOrd, getMonoid, ordBoolean, ordNumber, ordString } from 'fp-ts/lib/Ord'
  * import { pipe } from 'fp-ts/lib/pipeable'
- * import { fold } from 'fp-ts/lib/Semigroup'
+ * import { fold } from 'fp-ts/lib/Monoid'
  *
  * interface User {
  *   id: number
@@ -192,7 +215,7 @@ export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> {
  *   contramap((p: User) => p.rememberMe)
  * )
  *
- * const S = getSemigroup<User>()
+ * const M = getMonoid<User>()
  *
  * const users: Array<User> = [
  *   { id: 1, name: 'Guido', age: 47, rememberMe: false },
@@ -202,7 +225,7 @@ export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> {
  * ]
  *
  * // sort by name, then by age, then by `rememberMe`
- * const O1 = fold(S)(byName, [byAge, byRememberMe])
+ * const O1 = fold(M)([byName, byAge, byRememberMe])
  * assert.deepStrictEqual(sort(O1)(users), [
  *   { id: 3, name: 'Giulio', age: 44, rememberMe: false },
  *   { id: 4, name: 'Giulio', age: 44, rememberMe: true },
@@ -211,7 +234,7 @@ export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> {
  * ])
  *
  * // now `rememberMe = true` first, then by name, then by age
- * const O2 = fold(S)(getDualOrd(byRememberMe), [byName, byAge])
+ * const O2 = fold(M)([getDualOrd(byRememberMe), byName, byAge])
  * assert.deepStrictEqual(sort(O2)(users), [
  *   { id: 4, name: 'Giulio', age: 44, rememberMe: true },
  *   { id: 2, name: 'Guido', age: 46, rememberMe: true },
@@ -219,24 +242,10 @@ export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> {
  *   { id: 1, name: 'Guido', age: 47, rememberMe: false }
  * ])
  *
- * @since 2.0.0
- */
-export function getSemigroup<A = never>(): Semigroup<Ord<A>> {
-  return {
-    concat: (x, y) => fromCompare((a, b) => semigroupOrdering.concat(x.compare(a, b), y.compare(a, b)))
-  }
-}
-
-const empty = fromCompare(() => 0)
-
-/**
  * @since 2.4.0
  */
 export function getMonoid<A = never>(): Monoid<Ord<A>> {
-  return {
-    empty,
-    concat: getSemigroup<A>().concat
-  }
+  return M
 }
 
 /**
