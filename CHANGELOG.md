@@ -19,9 +19,13 @@ high state of flux, you're at risk of it changing without notice.
 - **New Feature**
   - `Ord`
     - add `getMonoid` (@vicrac)
+  - `Ordering`
+    - add `monoidOrdering` (@gcanti)
 - **Deprecation**
   - `Ord`
     - deprecate `getSemigroup` in favor of `getMonoid` (@gcanti)
+  - `Ordering`
+    - deprecate `semigroupOrdering` in favor of `monoidOrdering` (@gcanti)
 
 # 2.3.1
 
