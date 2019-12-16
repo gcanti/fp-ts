@@ -5,7 +5,6 @@ import {
   between,
   clamp,
   getDualOrd,
-  getSemigroup,
   getMonoid,
   ordDate,
   ordNumber,
@@ -26,7 +25,7 @@ describe('Ord', () => {
     assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
   })
 
-  it('getSemigroup', () => {
+  it('getMonoid', () => {
     type T = [number, string]
     const tuples: Array<T> = [
       [2, 'c'],
@@ -34,50 +33,25 @@ describe('Ord', () => {
       [2, 'a'],
       [1, 'c']
     ]
-    const S = getSemigroup<T>()
+    const M = getMonoid<T>()
     const sortByFst = ord.contramap(ordNumber, (x: T) => x[0])
     const sortBySnd = ord.contramap(ordString, (x: T) => x[1])
-    const O1 = S.concat(sortByFst, sortBySnd)
+    //                  v-- left unit
+    const O1 = fold(M)([M.empty, sortByFst, sortBySnd])
     assert.deepStrictEqual(sort(O1)(tuples), [
       [1, 'b'],
       [1, 'c'],
       [2, 'a'],
       [2, 'c']
     ])
-    const O2 = S.concat(sortBySnd, sortByFst)
+    //                           right unit --v
+    const O2 = fold(M)([sortBySnd, sortByFst, M.empty])
     assert.deepStrictEqual(sort(O2)(tuples), [
       [2, 'a'],
       [1, 'b'],
       [1, 'c'],
       [2, 'c']
     ])
-  })
-
-  it('getMonoid', () => {
-    interface Person {
-      name: string
-      age: number
-    }
-    const people: Person[] = [
-      { name: 'John', age: 42 },
-      { name: 'Dorothy', age: 37 },
-      { name: 'John', age: 37 }
-    ]
-
-    const sortByName = ord.contramap(ordString, (p: Person) => p.name)
-    const sortByAge = ord.contramap(ordNumber, (p: Person) => p.age)
-
-    const monoid = getMonoid<Person>()
-    const sortByNameByAge = fold(monoid)([sortByName, sortByAge])
-    const dontSort = fold(monoid)([])
-
-    assert.deepStrictEqual(sort(sortByNameByAge)(people), [
-      { name: 'Dorothy', age: 37 },
-      { name: 'John', age: 37 },
-      { name: 'John', age: 42 }
-    ])
-
-    assert.deepStrictEqual(sort(dontSort)(people), people)
   })
 
   it('ordNumber', () => {

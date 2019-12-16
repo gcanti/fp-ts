@@ -19,7 +19,7 @@ import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { NonEmptyArray } from './NonEmptyArray'
 import { isSome, none, Option, some } from './Option'
-import { fromCompare, getSemigroup, Ord, ordNumber } from './Ord'
+import { fromCompare, getMonoid as getOrdMonoid, Ord, ordNumber } from './Ord'
 import { pipeable } from './pipeable'
 import { Show } from './Show'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
@@ -1107,7 +1107,8 @@ export function uniq<A>(E: Eq<A>): (as: Array<A>) => Array<A> {
  * @since 2.0.0
  */
 export function sortBy<A>(ords: Array<Ord<A>>): (as: Array<A>) => Array<A> {
-  return ords.length > 0 ? sort(ords.slice(1).reduce(getSemigroup<A>().concat, ords[0])) : identity
+  const M = getOrdMonoid<A>()
+  return sort(ords.reduce(M.concat, M.empty))
 }
 
 /**
