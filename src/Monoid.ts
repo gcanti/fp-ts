@@ -1,4 +1,6 @@
 /**
+ * See [Getting started with fp-ts: Monoid](https://dev.to/gcanti/getting-started-with-fp-ts-monoid-ja0)
+ *
  * @since 2.0.0
  */
 import { Bounded } from './Bounded'
