@@ -1,4 +1,6 @@
 /**
+ * See [Getting started with fp-ts: Reader](https://dev.to/gcanti/getting-started-with-fp-ts-reader-1ie5)
+ *
  * @since 2.0.0
  */
 import { Category2 } from './Category'

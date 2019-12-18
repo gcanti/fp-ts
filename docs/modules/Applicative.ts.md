@@ -22,6 +22,8 @@ Instances must satisfy the following laws in addition to the `Apply` laws:
 
 Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
 
+See [Getting started with fp-ts: Applicative](https://dev.to/gcanti/getting-started-with-fp-ts-applicative-1kb3)
+
 Added in v2.0.0
 
 ---

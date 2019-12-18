@@ -18,6 +18,8 @@ Instances must satisfy the following laws in addition to the `Applicative` and `
 
 Note. `Functor`'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.of(f(a)))`
 
+See [Getting started with fp-ts: Monad](https://dev.to/gcanti/getting-started-with-fp-ts-monad-6k)
+
 Added in v2.0.0
 
 ---

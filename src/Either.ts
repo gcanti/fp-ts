@@ -464,6 +464,8 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
 }
 
 /**
+ * See [Getting started with fp-ts: Either vs Validation](https://dev.to/gcanti/getting-started-with-fp-ts-either-vs-validation-5eja)
+ *
  * @since 2.0.0
  */
 export function getValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E> {

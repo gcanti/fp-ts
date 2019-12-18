@@ -6,6 +6,8 @@ parent: Modules
 
 # Reader overview
 
+See [Getting started with fp-ts: Reader](https://dev.to/gcanti/getting-started-with-fp-ts-reader-1ie5)
+
 Added in v2.0.0
 
 ---
