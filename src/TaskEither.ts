@@ -139,7 +139,7 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>> {
 }
 
 /**
- * Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Either` instead.
+ * Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `TaskEither` instead.
  *
  * Note: `f` should never `throw` errors, they are not caught.
  *
