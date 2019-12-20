@@ -93,6 +93,7 @@ import * as unfoldable from './Unfoldable'
 import * as validationT from './ValidationT'
 import * as witherable from './Witherable'
 import * as writer from './Writer'
+import * as writerT from './WriterT'
 export {
   /**
    * @since 2.0.0
@@ -453,9 +454,13 @@ export {
   /**
    * @since 2.0.0
    */
-  writer,
+  witherable,
   /**
    * @since 2.0.0
    */
-  witherable
+  writer,
+  /**
+   * @since 2.4.0
+   */
+  writerT
 }

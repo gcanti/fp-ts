@@ -15,15 +15,15 @@ Added in v2.0.0
 - [Writer (interface)](#writer-interface)
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
+- [evalWriter (constant)](#evalwriter-constant)
+- [execWriter (constant)](#execwriter-constant)
+- [listen (constant)](#listen-constant)
+- [pass (constant)](#pass-constant)
+- [tell (constant)](#tell-constant)
 - [writer (constant)](#writer-constant)
 - [censor (function)](#censor-function)
-- [evalWriter (function)](#evalwriter-function)
-- [execWriter (function)](#execwriter-function)
 - [getMonad (function)](#getmonad-function)
-- [listen (function)](#listen-function)
 - [listens (function)](#listens-function)
-- [pass (function)](#pass-function)
-- [tell (function)](#tell-function)
 - [map (export)](#map-export)
 
 ---
@@ -60,6 +60,62 @@ export const URI: "Writer" = ...
 
 Added in v2.0.0
 
+# evalWriter (constant)
+
+**Signature**
+
+```ts
+export const evalWriter: <W, A>(fa: Writer<W, A>) => A = ...
+```
+
+Added in v2.0.0
+
+# execWriter (constant)
+
+**Signature**
+
+```ts
+export const execWriter: <W, A>(fa: Writer<W, A>) => W = ...
+```
+
+Added in v2.0.0
+
+# listen (constant)
+
+Modifies the result to include the changes to the accumulator
+
+**Signature**
+
+```ts
+export const listen: <W, A>(fa: Writer<W, A>) => Writer<W, [A, W]> = ...
+```
+
+Added in v2.0.0
+
+# pass (constant)
+
+Applies the returned function to the accumulator
+
+**Signature**
+
+```ts
+export const pass: <W, A>(fa: Writer<W, [A, (w: W) => W]>) => Writer<W, A> = ...
+```
+
+Added in v2.0.0
+
+# tell (constant)
+
+Appends a value to the accumulator
+
+**Signature**
+
+```ts
+export const tell: <W>(w: W) => Writer<W, void> = ...
+```
+
+Added in v2.0.0
+
 # writer (constant)
 
 **Signature**
@@ -82,44 +138,12 @@ export function censor<W>(f: (w: W) => W): <A>(fa: Writer<W, A>) => Writer<W, A>
 
 Added in v2.0.0
 
-# evalWriter (function)
-
-**Signature**
-
-```ts
-export function evalWriter<W, A>(fa: Writer<W, A>): A { ... }
-```
-
-Added in v2.0.0
-
-# execWriter (function)
-
-**Signature**
-
-```ts
-export function execWriter<W, A>(fa: Writer<W, A>): W { ... }
-```
-
-Added in v2.0.0
-
 # getMonad (function)
 
 **Signature**
 
 ```ts
 export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> { ... }
-```
-
-Added in v2.0.0
-
-# listen (function)
-
-Modifies the result to include the changes to the accumulator
-
-**Signature**
-
-```ts
-export function listen<W, A>(fa: Writer<W, A>): Writer<W, [A, W]> { ... }
 ```
 
 Added in v2.0.0
@@ -132,30 +156,6 @@ Projects a value from modifications made to the accumulator during an action
 
 ```ts
 export function listens<W, B>(f: (w: W) => B): <A>(fa: Writer<W, A>) => Writer<W, [A, B]> { ... }
-```
-
-Added in v2.0.0
-
-# pass (function)
-
-Applies the returned function to the accumulator
-
-**Signature**
-
-```ts
-export function pass<W, A>(fa: Writer<W, [A, (w: W) => W]>): Writer<W, A> { ... }
-```
-
-Added in v2.0.0
-
-# tell (function)
-
-Appends a value to the accumulator
-
-**Signature**
-
-```ts
-export function tell<W>(w: W): Writer<W, void> { ... }
 ```
 
 Added in v2.0.0
