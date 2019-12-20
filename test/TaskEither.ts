@@ -7,6 +7,7 @@ import { none, some } from '../src/Option'
 import { pipe, pipeable } from '../src/pipeable'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
 import * as _ from '../src/TaskEither'
+import { ioEither } from '../src/IOEither'
 
 describe('TaskEither', () => {
   describe('Monad', () => {
@@ -361,5 +362,17 @@ describe('TaskEither', () => {
       )
       assert.deepStrictEqual(await r3(), await _.left(['a'])())
     })
+  })
+
+  it('chainEither', async () => {
+    const f = (s: string) => E.right(s.length)
+    const x = await pipe(_.right('a'), _.chainEither(f))()
+    assert.deepStrictEqual(x, E.right(1))
+  })
+
+  it('chainIOEither', async () => {
+    const f = (s: string) => ioEither.of(s.length)
+    const x = await pipe(_.right('a'), _.chainIOEither(f))()
+    assert.deepStrictEqual(x, E.right(1))
   })
 })

@@ -310,4 +310,10 @@ describe('IOEither', () => {
       assert.deepStrictEqual(r3(), _.left(['a'])())
     })
   })
+
+  it('chainEither', () => {
+    const f = (s: string) => E.right(s.length)
+    const x = pipe(_.right('a'), _.chainEither(f))()
+    assert.deepStrictEqual(x, E.right(1))
+  })
 })

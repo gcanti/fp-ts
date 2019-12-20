@@ -23,6 +23,8 @@ Added in v2.0.0
 - [right (constant)](#right-constant)
 - [rightReader (constant)](#rightreader-constant)
 - [bracket (function)](#bracket-function)
+- [chainEither (function)](#chaineither-function)
+- [chainTaskEither (function)](#chaintaskeither-function)
 - [fold (function)](#fold-function)
 - [fromIOEither (function)](#fromioeither-function)
 - [fromReaderEither (function)](#fromreadereither-function)
@@ -180,6 +182,30 @@ export function bracket<R, E, A, B>(
 ```
 
 Added in v2.0.4
+
+# chainEither (function)
+
+**Signature**
+
+```ts
+export function chainEither<E, A, B>(
+  f: (a: A) => Either<E, B>
+): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> { ... }
+```
+
+Added in v2.4.0
+
+# chainTaskEither (function)
+
+**Signature**
+
+```ts
+export function chainTaskEither<E, A, B>(
+  f: (a: A) => TaskEither<E, B>
+): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> { ... }
+```
+
+Added in v2.4.0
 
 # fold (function)
 

@@ -27,6 +27,8 @@ Added in v2.0.0
 - [taskEither (constant)](#taskeither-constant)
 - [taskEitherSeq (constant)](#taskeitherseq-constant)
 - [bracket (function)](#bracket-function)
+- [chainEither (function)](#chaineither-function)
+- [chainIOEither (function)](#chainioeither-function)
 - [fold (function)](#fold-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
@@ -186,6 +188,26 @@ export function bracket<E, A, B>(
 ```
 
 Added in v2.0.0
+
+# chainEither (function)
+
+**Signature**
+
+```ts
+export function chainEither<E, A, B>(f: (a: A) => Either<E, B>): (ma: TaskEither<E, A>) => TaskEither<E, B> { ... }
+```
+
+Added in v2.4.0
+
+# chainIOEither (function)
+
+**Signature**
+
+```ts
+export function chainIOEither<E, A, B>(f: (a: A) => IOEither<E, B>): (ma: TaskEither<E, A>) => TaskEither<E, B> { ... }
+```
+
+Added in v2.4.0
 
 # fold (function)
 

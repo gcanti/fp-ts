@@ -117,4 +117,10 @@ describe('ReaderTask', () => {
       assert.deepStrictEqual(e, 1)
     })
   })
+
+  it('chainTask', async () => {
+    const f = (s: string) => task.of(s.length)
+    const x = await _.run(pipe(_.of('a'), _.chainTask(f)), undefined)
+    assert.deepStrictEqual(x, 1)
+  })
 })
