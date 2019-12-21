@@ -24,6 +24,7 @@ Added in v2.0.0
 - [rightReader (constant)](#rightreader-constant)
 - [bracket (function)](#bracket-function)
 - [chainEither (function)](#chaineither-function)
+- [chainIOEither (function)](#chainioeither-function)
 - [chainTaskEither (function)](#chaintaskeither-function)
 - [fold (function)](#fold-function)
 - [fromIOEither (function)](#fromioeither-function)
@@ -190,6 +191,18 @@ Added in v2.0.4
 ```ts
 export function chainEither<E, A, B>(
   f: (a: A) => Either<E, B>
+): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> { ... }
+```
+
+Added in v2.4.0
+
+# chainIOEither (function)
+
+**Signature**
+
+```ts
+export function chainIOEither<E, A, B>(
+  f: (a: A) => IOEither<E, B>
 ): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> { ... }
 ```
 

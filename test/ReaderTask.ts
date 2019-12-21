@@ -3,7 +3,8 @@ import { array } from '../src/Array'
 import { pipe } from '../src/pipeable'
 import { reader } from '../src/Reader'
 import * as _ from '../src/ReaderTask'
-import { task } from '../src/Task'
+import * as T from '../src/Task'
+import * as I from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import { semigroupString } from '../src/Semigroup'
 
@@ -59,7 +60,7 @@ describe('ReaderTask', () => {
   })
 
   it('fromTask', async () => {
-    const e = await _.fromTask(task.of(1))({})()
+    const e = await _.fromTask(T.of(1))({})()
     assert.deepStrictEqual(e, 1)
   })
 
@@ -118,8 +119,14 @@ describe('ReaderTask', () => {
     })
   })
 
+  it('chainIO', async () => {
+    const f = (s: string) => I.of(s.length)
+    const x = await _.run(pipe(_.of('a'), _.chainIO(f)), undefined)
+    assert.deepStrictEqual(x, 1)
+  })
+
   it('chainTask', async () => {
-    const f = (s: string) => task.of(s.length)
+    const f = (s: string) => T.of(s.length)
     const x = await _.run(pipe(_.of('a'), _.chainTask(f)), undefined)
     assert.deepStrictEqual(x, 1)
   })

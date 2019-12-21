@@ -199,6 +199,15 @@ export function chainEither<E, A, B>(
 /**
  * @since 2.4.0
  */
+export function chainIOEither<E, A, B>(
+  f: (a: A) => IOEither<E, B>
+): <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> {
+  return chain(a => fromIOEither(f(a)))
+}
+
+/**
+ * @since 2.4.0
+ */
 export function chainTaskEither<E, A, B>(
   f: (a: A) => TaskEither<E, B>
 ): <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> {

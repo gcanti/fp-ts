@@ -27,6 +27,7 @@ Added in v2.0.0
 - [stateReaderTaskEither (constant)](#statereadertaskeither-constant)
 - [stateReaderTaskEitherSeq (constant)](#statereadertaskeitherseq-constant)
 - [chainEither (function)](#chaineither-function)
+- [chainIOEither (function)](#chainioeither-function)
 - [chainReaderTaskEither (function)](#chainreadertaskeither-function)
 - [chainTaskEither (function)](#chaintaskeither-function)
 - [fromIOEither (function)](#fromioeither-function)
@@ -216,6 +217,18 @@ Added in v2.0.0
 ```ts
 export function chainEither<E, A, B>(
   f: (a: A) => Either<E, B>
+): <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> { ... }
+```
+
+Added in v2.4.0
+
+# chainIOEither (function)
+
+**Signature**
+
+```ts
+export function chainIOEither<E, A, B>(
+  f: (a: A) => IOEither<E, B>
 ): <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> { ... }
 ```
 

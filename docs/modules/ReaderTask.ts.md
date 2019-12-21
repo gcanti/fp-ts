@@ -22,6 +22,7 @@ Added in v2.3.0
 - [of (constant)](#of-constant)
 - [readerTask (constant)](#readertask-constant)
 - [readerTaskSeq (constant)](#readertaskseq-constant)
+- [chainIO (function)](#chainio-function)
 - [chainTask (function)](#chaintask-function)
 - [fromIO (function)](#fromio-function)
 - [getMonoid (function)](#getmonoid-function)
@@ -141,6 +142,16 @@ export const readerTaskSeq: typeof readerTask = ...
 ```
 
 Added in v2.3.0
+
+# chainIO (function)
+
+**Signature**
+
+```ts
+export function chainIO<A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> { ... }
+```
+
+Added in v2.4.0
 
 # chainTask (function)
 

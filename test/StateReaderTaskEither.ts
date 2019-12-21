@@ -157,6 +157,12 @@ describe('StateReaderTaskEither', () => {
     assert.deepStrictEqual(x, E.right([1, undefined]))
   })
 
+  it('chainIOEither', async () => {
+    const f = (s: string) => IE.right(s.length)
+    const x = await _.run(pipe(_.right('a'), _.chainIOEither(f)), undefined, undefined)
+    assert.deepStrictEqual(x, E.right([1, undefined]))
+  })
+
   it('chainTaskEither', async () => {
     const f = (s: string) => TE.right(s.length)
     const x = await _.run(pipe(_.right('a'), _.chainTaskEither(f)), undefined, undefined)

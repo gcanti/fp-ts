@@ -2,6 +2,7 @@ import * as assert from 'assert'
 import { array } from '../src/Array'
 import * as E from '../src/Either'
 import { io } from '../src/IO'
+import * as IE from '../src/IOEither'
 import { monoidSum } from '../src/Monoid'
 import { none, some } from '../src/Option'
 import { pipe } from '../src/pipeable'
@@ -458,6 +459,12 @@ describe('ReaderTaskEither', () => {
   it('chainEither', async () => {
     const f = (s: string) => E.right(s.length)
     const x = await _.run(pipe(_.right('a'), _.chainEither(f)), undefined)
+    assert.deepStrictEqual(x, E.right(1))
+  })
+
+  it('chainIOEither', async () => {
+    const f = (s: string) => IE.right(s.length)
+    const x = await _.run(pipe(_.right('a'), _.chainIOEither(f)), undefined)
     assert.deepStrictEqual(x, E.right(1))
   })
 
