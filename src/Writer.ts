@@ -2,9 +2,13 @@
  * @since 2.0.0
  */
 import { Functor2 } from './Functor'
+import { identity } from './Identity'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
 import { pipeable } from './pipeable'
+import { getWriterM } from './WriterT'
+
+const T = getWriterM(identity)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -32,49 +36,33 @@ export interface Writer<W, A> {
 /**
  * @since 2.0.0
  */
-export function evalWriter<W, A>(fa: Writer<W, A>): A {
-  return fa()[0]
-}
+export const evalWriter: <W, A>(fa: Writer<W, A>) => A = T.evalWriter
 
 /**
  * @since 2.0.0
  */
-export function execWriter<W, A>(fa: Writer<W, A>): W {
-  return fa()[1]
-}
+export const execWriter: <W, A>(fa: Writer<W, A>) => W = T.execWriter
 
 /**
  * Appends a value to the accumulator
  *
  * @since 2.0.0
  */
-export function tell<W>(w: W): Writer<W, void> {
-  return () => [undefined, w]
-}
+export const tell: <W>(w: W) => Writer<W, void> = T.tell
 
 /**
  * Modifies the result to include the changes to the accumulator
  *
  * @since 2.0.0
  */
-export function listen<W, A>(fa: Writer<W, A>): Writer<W, [A, W]> {
-  return () => {
-    const [a, w] = fa()
-    return [[a, w], w]
-  }
-}
+export const listen: <W, A>(fa: Writer<W, A>) => Writer<W, [A, W]> = T.listen
 
 /**
  * Applies the returned function to the accumulator
  *
  * @since 2.0.0
  */
-export function pass<W, A>(fa: Writer<W, [A, (w: W) => W]>): Writer<W, A> {
-  return () => {
-    const [[a, f], w] = fa()
-    return [a, f(w)]
-  }
-}
+export const pass: <W, A>(fa: Writer<W, [A, (w: W) => W]>) => Writer<W, A> = T.pass
 
 /**
  * Projects a value from modifications made to the accumulator during an action
@@ -82,10 +70,7 @@ export function pass<W, A>(fa: Writer<W, [A, (w: W) => W]>): Writer<W, A> {
  * @since 2.0.0
  */
 export function listens<W, B>(f: (w: W) => B): <A>(fa: Writer<W, A>) => Writer<W, [A, B]> {
-  return fa => () => {
-    const [a, w] = fa()
-    return [[a, f(w)], w]
-  }
+  return fa => T.listens(fa, f)
 }
 
 /**
@@ -94,10 +79,7 @@ export function listens<W, B>(f: (w: W) => B): <A>(fa: Writer<W, A>) => Writer<W
  * @since 2.0.0
  */
 export function censor<W>(f: (w: W) => W): <A>(fa: Writer<W, A>) => Writer<W, A> {
-  return fa => () => {
-    const [a, w] = fa()
-    return [a, f(w)]
-  }
+  return fa => T.censor(fa, f)
 }
 
 /**
@@ -106,19 +88,7 @@ export function censor<W>(f: (w: W) => W): <A>(fa: Writer<W, A>) => Writer<W, A>
 export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
   return {
     URI,
-    _E: undefined as any,
-    map: writer.map,
-    of: a => () => [a, M.empty],
-    ap: (mab, ma) => () => {
-      const [f, w1] = mab()
-      const [a, w2] = ma()
-      return [f(a), M.concat(w1, w2)]
-    },
-    chain: (ma, f) => () => {
-      const [a, w1] = ma()
-      const [b, w2] = f(a)()
-      return [b, M.concat(w1, w2)]
-    }
+    ...T.getMonad(M)
   }
 }
 
@@ -127,10 +97,7 @@ export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
  */
 export const writer: Functor2<URI> = {
   URI,
-  map: (fa, f) => () => {
-    const [a, w] = fa()
-    return [f(a), w]
-  }
+  map: T.map
 }
 
 const { map } = pipeable(writer)

@@ -103,6 +103,7 @@ Added in v2.0.0
 - [validationT (export)](#validationt-export)
 - [witherable (export)](#witherable-export)
 - [writer (export)](#writer-export)
+- [writerT (export)](#writert-export)
 
 ---
 
@@ -1015,3 +1016,13 @@ typeof writer
 ```
 
 Added in v2.0.0
+
+# writerT (export)
+
+**Signature**
+
+```ts
+typeof writerT
+```
+
+Added in v2.4.0

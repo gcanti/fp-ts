@@ -17,6 +17,7 @@ high state of flux, you're at risk of it changing without notice.
 # 2.4.0
 
 - **New Feature**
+  - add `WriterT` module, closes #1050 (@gcanti)
   - `Ord`
     - add `getMonoid` (@vicrac)
   - `Ordering`
