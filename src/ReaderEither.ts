@@ -152,6 +152,15 @@ export function getReaderValidation<E>(
 }
 
 /**
+ * @since 2.4.0
+ */
+export function chainEither<E, A, B>(
+  f: (a: A) => Either<E, B>
+): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> {
+  return chain(a => fromEither(f(a)))
+}
+
+/**
  * @since 2.0.0
  */
 export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThrow3<URI> = {

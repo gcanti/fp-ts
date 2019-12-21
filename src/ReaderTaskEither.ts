@@ -249,6 +249,33 @@ export function getReaderTaskValidation<E>(
 }
 
 /**
+ * @since 2.4.0
+ */
+export function chainEither<E, A, B>(
+  f: (a: A) => Either<E, B>
+): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> {
+  return chain(a => fromEither(f(a)))
+}
+
+/**
+ * @since 2.4.0
+ */
+export function chainIOEither<E, A, B>(
+  f: (a: A) => IOEither<E, B>
+): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> {
+  return chain(a => fromIOEither(f(a)))
+}
+
+/**
+ * @since 2.4.0
+ */
+export function chainTaskEither<E, A, B>(
+  f: (a: A) => TaskEither<E, B>
+): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> {
+  return chain(a => fromTaskEither(f(a)))
+}
+
+/**
  * @since 2.0.0
  */
 export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadTask3<URI> & MonadThrow3<URI> = {

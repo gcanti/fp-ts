@@ -2,15 +2,16 @@ import * as assert from 'assert'
 import { array } from '../src/Array'
 import * as E from '../src/Either'
 import { io } from '../src/IO'
+import * as IE from '../src/IOEither'
 import { monoidSum } from '../src/Monoid'
 import { none, some } from '../src/Option'
 import { pipe } from '../src/pipeable'
 import { reader } from '../src/Reader'
-import * as _ from '../src/ReaderTaskEither'
-import { semigroupSum, semigroupString } from '../src/Semigroup'
-import { task } from '../src/Task'
-import { taskEither } from '../src/TaskEither'
 import * as RE from '../src/ReaderEither'
+import * as _ from '../src/ReaderTaskEither'
+import { semigroupString, semigroupSum } from '../src/Semigroup'
+import { task } from '../src/Task'
+import * as TE from '../src/TaskEither'
 
 describe('ReaderTaskEither', () => {
   describe('Monad', () => {
@@ -103,7 +104,7 @@ describe('ReaderTaskEither', () => {
   })
 
   it('fromTaskEither', async () => {
-    const e = await _.run(_.fromTaskEither(taskEither.of(1)), {})
+    const e = await _.run(_.fromTaskEither(TE.taskEither.of(1)), {})
     assert.deepStrictEqual(e, E.right(1))
   })
 
@@ -453,5 +454,23 @@ describe('ReaderTaskEither', () => {
       const e = await _.bracket(acquireSuccess, useSuccess, releaseFailure)(undefined)()
       assert.deepStrictEqual(e, E.left('release failure'))
     })
+  })
+
+  it('chainEither', async () => {
+    const f = (s: string) => E.right(s.length)
+    const x = await _.run(pipe(_.right('a'), _.chainEither(f)), undefined)
+    assert.deepStrictEqual(x, E.right(1))
+  })
+
+  it('chainIOEither', async () => {
+    const f = (s: string) => IE.right(s.length)
+    const x = await _.run(pipe(_.right('a'), _.chainIOEither(f)), undefined)
+    assert.deepStrictEqual(x, E.right(1))
+  })
+
+  it('chainTaskEither', async () => {
+    const f = (s: string) => TE.right(s.length)
+    const x = await _.run(pipe(_.right('a'), _.chainTaskEither(f)), undefined)
+    assert.deepStrictEqual(x, E.right(1))
   })
 })

@@ -130,4 +130,10 @@ describe('ReaderEither', () => {
       assert.deepStrictEqual(e4, E.left('ab'))
     })
   })
+
+  it('chainEither', () => {
+    const f = (s: string) => E.right(s.length)
+    const x = pipe(_.right('a'), _.chainEither(f))(undefined)
+    assert.deepStrictEqual(x, E.right(1))
+  })
 })

@@ -22,10 +22,13 @@ Added in v2.3.0
 - [of (constant)](#of-constant)
 - [readerTask (constant)](#readertask-constant)
 - [readerTaskSeq (constant)](#readertaskseq-constant)
+- [chainIO (function)](#chainio-function)
+- [chainTask (function)](#chaintask-function)
 - [fromIO (function)](#fromio-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [local (function)](#local-function)
+- [run (function)](#run-function)
 - [ap (export)](#ap-export)
 - [apFirst (export)](#apfirst-export)
 - [apSecond (export)](#apsecond-export)
@@ -140,6 +143,26 @@ export const readerTaskSeq: typeof readerTask = ...
 
 Added in v2.3.0
 
+# chainIO (function)
+
+**Signature**
+
+```ts
+export function chainIO<A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> { ... }
+```
+
+Added in v2.4.0
+
+# chainTask (function)
+
+**Signature**
+
+```ts
+export function chainTask<A, B>(f: (a: A) => Task<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> { ... }
+```
+
+Added in v2.4.0
+
 # fromIO (function)
 
 **Signature**
@@ -179,6 +202,16 @@ export function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderTask<R, A>) => Rea
 ```
 
 Added in v2.3.0
+
+# run (function)
+
+**Signature**
+
+```ts
+export function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A> { ... }
+```
+
+Added in v2.4.0
 
 # ap (export)
 

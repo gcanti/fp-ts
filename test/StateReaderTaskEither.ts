@@ -1,15 +1,16 @@
 import * as assert from 'assert'
 import * as E from '../src/Either'
+import { io } from '../src/IO'
 import * as IE from '../src/IOEither'
 import * as O from '../src/Option'
+import { pipe } from '../src/pipeable'
 import { reader } from '../src/Reader'
+import * as RE from '../src/ReaderEither'
 import * as RTE from '../src/ReaderTaskEither'
 import { State } from '../src/State'
 import * as _ from '../src/StateReaderTaskEither'
 import { task } from '../src/Task'
-import { taskEither } from '../src/TaskEither'
-import { io } from '../src/IO'
-import * as RE from '../src/ReaderEither'
+import * as TE from '../src/TaskEither'
 
 describe('StateReaderTaskEither', () => {
   it('run', async () => {
@@ -91,7 +92,7 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('fromTaskEither', async () => {
-    const e = await _.run(_.fromTaskEither(taskEither.of(1)), {}, {})
+    const e = await _.run(_.fromTaskEither(TE.taskEither.of(1)), {}, {})
     assert.deepStrictEqual(e, E.right([1, {}]))
   })
 
@@ -148,5 +149,29 @@ describe('StateReaderTaskEither', () => {
     assert.deepStrictEqual(e1, E.left('a'))
     const e2 = await _.run(_.fromReaderEither(RE.right(1)), {}, {})
     assert.deepStrictEqual(e2, E.right([1, {}]))
+  })
+
+  it('chainEither', async () => {
+    const f = (s: string) => E.right(s.length)
+    const x = await _.run(pipe(_.right('a'), _.chainEither(f)), undefined, undefined)
+    assert.deepStrictEqual(x, E.right([1, undefined]))
+  })
+
+  it('chainIOEither', async () => {
+    const f = (s: string) => IE.right(s.length)
+    const x = await _.run(pipe(_.right('a'), _.chainIOEither(f)), undefined, undefined)
+    assert.deepStrictEqual(x, E.right([1, undefined]))
+  })
+
+  it('chainTaskEither', async () => {
+    const f = (s: string) => TE.right(s.length)
+    const x = await _.run(pipe(_.right('a'), _.chainTaskEither(f)), undefined, undefined)
+    assert.deepStrictEqual(x, E.right([1, undefined]))
+  })
+
+  it('chainReaderTaskEither', async () => {
+    const f = (s: string) => RTE.right(s.length)
+    const x = await _.run(pipe(_.right('a'), _.chainReaderTaskEither(f)), undefined, undefined)
+    assert.deepStrictEqual(x, E.right([1, undefined]))
   })
 })

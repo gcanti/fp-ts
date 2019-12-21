@@ -25,6 +25,7 @@ Added in v2.0.0
 - [rightIO (constant)](#rightio-constant)
 - [swap (constant)](#swap-constant)
 - [bracket (function)](#bracket-function)
+- [chainEither (function)](#chaineither-function)
 - [fold (function)](#fold-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
@@ -159,6 +160,16 @@ export function bracket<E, A, B>(
 ```
 
 Added in v2.0.0
+
+# chainEither (function)
+
+**Signature**
+
+```ts
+export function chainEither<E, A, B>(f: (a: A) => Either<E, B>): (ma: IOEither<E, A>) => IOEither<E, B> { ... }
+```
+
+Added in v2.4.0
 
 # fold (function)
 

@@ -115,6 +115,13 @@ export function of<A>(a: A): Task<A> {
 }
 
 /**
+ * @since 2.4.0
+ */
+export function chainIO<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> {
+  return chain(a => fromIO(f(a)))
+}
+
+/**
  * @since 2.0.0
  */
 export const task: Monad1<URI> & MonadTask1<URI> = {

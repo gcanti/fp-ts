@@ -39,6 +39,13 @@ export interface ReaderTask<R, A> {
 }
 
 /**
+ * @since 2.4.0
+ */
+export function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A> {
+  return ma(r)()
+}
+
+/**
  * @since 2.3.0
  */
 export const fromTask: <R, A>(ma: Task<A>) => ReaderTask<R, A> = T.fromM
@@ -92,6 +99,20 @@ export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> = T.asks
  */
 export function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderTask<R, A>) => ReaderTask<Q, A> {
   return ma => T.local(ma, f)
+}
+
+/**
+ * @since 2.4.0
+ */
+export function chainIO<A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> {
+  return chain(a => fromIO(f(a)))
+}
+
+/**
+ * @since 2.4.0
+ */
+export function chainTask<A, B>(f: (a: A) => Task<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> {
+  return chain(a => fromTask(f(a)))
 }
 
 /**

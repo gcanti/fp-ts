@@ -188,6 +188,42 @@ export const modify: <S, R, E = never>(f: (s: S) => S) => StateReaderTaskEither<
 export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTaskEither<S, R, E, A> = T.gets
 
 /**
+ * @since 2.4.0
+ */
+export function chainEither<E, A, B>(
+  f: (a: A) => Either<E, B>
+): <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> {
+  return chain(a => fromEither(f(a)))
+}
+
+/**
+ * @since 2.4.0
+ */
+export function chainIOEither<E, A, B>(
+  f: (a: A) => IOEither<E, B>
+): <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> {
+  return chain(a => fromIOEither(f(a)))
+}
+
+/**
+ * @since 2.4.0
+ */
+export function chainTaskEither<E, A, B>(
+  f: (a: A) => TaskEither<E, B>
+): <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> {
+  return chain(a => fromTaskEither(f(a)))
+}
+
+/**
+ * @since 2.4.0
+ */
+export function chainReaderTaskEither<R, E, A, B>(
+  f: (a: A) => ReaderTaskEither<R, E, B>
+): <S>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> {
+  return chain(a => fromReaderTaskEither(f(a)))
+}
+
+/**
  * @since 2.0.0
  */
 export const stateReaderTaskEither: Monad4<URI> & MonadThrow4<URI> = {

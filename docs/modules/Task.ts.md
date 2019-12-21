@@ -20,6 +20,7 @@ Added in v2.0.0
 - [URI (constant)](#uri-constant)
 - [task (constant)](#task-constant)
 - [taskSeq (constant)](#taskseq-constant)
+- [chainIO (function)](#chainio-function)
 - [delay (function)](#delay-function)
 - [fromIO (function)](#fromio-function)
 - [getMonoid (function)](#getmonoid-function)
@@ -90,6 +91,16 @@ export const taskSeq: typeof task = ...
 ```
 
 Added in v2.0.0
+
+# chainIO (function)
+
+**Signature**
+
+```ts
+export function chainIO<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> { ... }
+```
+
+Added in v2.4.0
 
 # delay (function)
 

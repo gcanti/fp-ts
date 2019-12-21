@@ -1,18 +1,20 @@
 import * as assert from 'assert'
 import { array } from '../src/Array'
+import * as I from '../src/IO'
 import { monoidString } from '../src/Monoid'
-import * as T from '../src/Task'
+import { pipe } from '../src/pipeable'
+import * as _ from '../src/Task'
 
-const delayReject = <A>(n: number, a: A): T.Task<A> => () =>
+const delayReject = <A>(n: number, a: A): _.Task<A> => () =>
   new Promise<A>((_, reject) => {
     setTimeout(() => reject(a), n)
   })
 
-const delay = <A>(millis: number, a: A): T.Task<A> => T.delay(millis)(T.task.of(a))
+const delay = <A>(millis: number, a: A): _.Task<A> => _.delay(millis)(_.task.of(a))
 
 describe('Task', () => {
   describe('getRaceMonoid', () => {
-    const M = T.getRaceMonoid<number>()
+    const M = _.getRaceMonoid<number>()
 
     it('concat', async () => {
       const x = await M.concat(delay(10, 1), delay(10, 2))()
@@ -39,7 +41,7 @@ describe('Task', () => {
   })
 
   describe('getMonoid', () => {
-    const M = T.getMonoid(monoidString)
+    const M = _.getMonoid(monoidString)
 
     it('concat', async () => {
       const x = await M.concat(delay(10, 'a'), delay(10, 'b'))()
@@ -60,7 +62,7 @@ describe('Task', () => {
   describe('Monad', () => {
     it('map', async () => {
       const double = (n: number): number => n * 2
-      const x = await T.task.map(delay(0, 1), double)()
+      const x = await _.task.map(delay(0, 1), double)()
       assert.strictEqual(x, 2)
     })
 
@@ -68,13 +70,13 @@ describe('Task', () => {
       const double = (n: number): number => n * 2
       const tab = delay(0, double)
       const ta = delay(0, 1)
-      const x = await T.task.ap(tab, ta)()
+      const x = await _.task.ap(tab, ta)()
       assert.strictEqual(x, 2)
     })
 
     it('chain', async () => {
-      const f = (n: number): T.Task<number> => () => Promise.resolve(n * 2)
-      const x = await T.task.chain(delay(0, 1), f)()
+      const f = (n: number): _.Task<number> => () => Promise.resolve(n * 2)
+      const x = await _.task.chain(delay(0, 1), f)()
       return assert.strictEqual(x, 2)
     })
   })
@@ -82,10 +84,10 @@ describe('Task', () => {
   describe('Traversable', () => {
     it('sequence parallel', async () => {
       const log: Array<string> = []
-      const append = (message: string): T.Task<number> => () => Promise.resolve(log.push(message))
-      const t1 = T.task.chain(append('start 1'), () => append('end 1'))
-      const t2 = T.task.chain(append('start 2'), () => append('end 2'))
-      const sequenceParallel = array.sequence(T.task)
+      const append = (message: string): _.Task<number> => () => Promise.resolve(log.push(message))
+      const t1 = _.task.chain(append('start 1'), () => append('end 1'))
+      const t2 = _.task.chain(append('start 2'), () => append('end 2'))
+      const sequenceParallel = array.sequence(_.task)
       const x = await sequenceParallel([t1, t2])()
       assert.deepStrictEqual(x, [3, 4])
       assert.deepStrictEqual(log, ['start 1', 'start 2', 'end 1', 'end 2'])
@@ -93,10 +95,10 @@ describe('Task', () => {
 
     it('sequence series', async () => {
       const log: Array<string> = []
-      const append = (message: string): T.Task<number> => () => Promise.resolve(log.push(message))
-      const t1 = T.task.chain(append('start 1'), () => append('end 1'))
-      const t2 = T.task.chain(append('start 2'), () => append('end 2'))
-      const sequenceSeries = array.sequence(T.taskSeq)
+      const append = (message: string): _.Task<number> => () => Promise.resolve(log.push(message))
+      const t1 = _.task.chain(append('start 1'), () => append('end 1'))
+      const t2 = _.task.chain(append('start 2'), () => append('end 2'))
+      const sequenceSeries = array.sequence(_.taskSeq)
       const x = await sequenceSeries([t1, t2])()
       assert.deepStrictEqual(x, [2, 4])
       assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
@@ -106,7 +108,7 @@ describe('Task', () => {
   describe('MonadIO', () => {
     it('fromIO', async () => {
       const io = () => 1
-      const task = T.task.fromIO(io)
+      const task = _.task.fromIO(io)
       const x = await task()
       assert.strictEqual(x, 1)
     })
@@ -115,8 +117,14 @@ describe('Task', () => {
   describe('MonadTask', () => {
     it('fromTask', async () => {
       const io = () => 1
-      const t = T.task.fromIO(io)
-      assert.strictEqual(T.task.fromTask(t), t)
+      const t = _.task.fromIO(io)
+      assert.strictEqual(_.task.fromTask(t), t)
     })
+  })
+
+  it('chainIO', async () => {
+    const f = (s: string) => I.of(s.length)
+    const x = await pipe(_.of('a'), _.chainIO(f))()
+    assert.strictEqual(x, 1)
   })
 })

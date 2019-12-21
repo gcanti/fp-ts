@@ -22,6 +22,21 @@ high state of flux, you're at risk of it changing without notice.
     - add `getMonoid` (@vicrac)
   - `Ordering`
     - add `monoidOrdering` (@gcanti)
+  - `Task`
+    - add `chainIO` (@gcanti)
+  - `TaskEither`
+    - add `chainEither`, `chainIOEither` (@gcanti)
+  - `IOEither`
+    - add `chainEither` (@gcanti)
+  - `ReaderEither`
+    - add `chainEither` (@gcanti)
+  - `ReaderTask`
+    - add `run` (@gcanti)
+    - add `chainIO`, `chainTask` (@gcanti)
+  - `ReaderTaskEither`
+    - add `chainEither`, `chainIOEither`, `chainTaskEither` (@gcanti)
+  - `StateReaderTaskEither`
+    - add `chainEither`, `chainIOEither`, `chainTaskEither`, `chainReaderTaskEither` (@gcanti)
 - **Deprecation**
   - `Ord`
     - deprecate `getSemigroup` in favor of `getMonoid` (@gcanti)
