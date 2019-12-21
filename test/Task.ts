@@ -125,6 +125,6 @@ describe('Task', () => {
   it('chainIO', async () => {
     const f = (s: string) => I.of(s.length)
     const x = await pipe(_.of('a'), _.chainIO(f))()
-    assert.deepStrictEqual(x, 1)
+    assert.strictEqual(x, 1)
   })
 })
