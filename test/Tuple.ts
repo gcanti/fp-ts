@@ -56,18 +56,18 @@ describe('Tuple', () => {
   })
 
   it('reduce', () => {
-    assert.strictEqual(
+    assert.deepStrictEqual(
       T.tuple.reduce(['b', 1], 'a', (acc, a) => acc + a),
       'ab'
     )
   })
 
   it('foldMap', () => {
-    assert.strictEqual(T.tuple.foldMap(monoidString)(['a', 1], identity), 'a')
+    assert.deepStrictEqual(T.tuple.foldMap(monoidString)(['a', 1], identity), 'a')
   })
 
   it('reduceRight', () => {
-    assert.strictEqual(
+    assert.deepStrictEqual(
       T.tuple.reduceRight(['b', 1], 'a', (acc, a) => acc + a),
       'ba'
     )
@@ -102,9 +102,9 @@ describe('Tuple', () => {
       return chainRec(1, init => [init >= upper ? right(init) : left(init + 1), [init]])
     }
     const xs = T.snd(seqReq(10000))
-    assert.strictEqual(xs.length, 10000)
-    assert.strictEqual(xs[0], 1)
-    assert.strictEqual(xs[xs.length - 1], 10000)
+    assert.deepStrictEqual(xs.length, 10000)
+    assert.deepStrictEqual(xs[0], 1)
+    assert.deepStrictEqual(xs[xs.length - 1], 10000)
   })
 
   it('traverse', () => {

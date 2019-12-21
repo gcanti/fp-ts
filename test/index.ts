@@ -32,7 +32,7 @@ describe('index', () => {
     moduleNames.forEach(name => {
       if (name !== 'index') {
         const exportName = getExportName(name)
-        assert.strictEqual(
+        assert.deepStrictEqual(
           fp[exportName] !== undefined,
           true,
           `The "${name}" module is not exported in src/index.ts as ${exportName}`

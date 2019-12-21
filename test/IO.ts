@@ -9,19 +9,19 @@ describe('IO', () => {
     const double = (n: number): number => n * 2
     const fab = io.of(double)
     const fa = io.of(1)
-    assert.strictEqual(io.ap(fab, fa)(), 2)
+    assert.deepStrictEqual(io.ap(fab, fa)(), 2)
   })
 
   it('chain', () => {
     const f = (n: number) => io.of(n * 2)
-    assert.strictEqual(io.chain(io.of(1), f)(), 2)
+    assert.deepStrictEqual(io.chain(io.of(1), f)(), 2)
   })
 
   it('getSemigroup', () => {
     const S = getSemigroup(semigroupSum)
     const log: Array<string> = []
     const append = (message: string): IO<number> => () => log.push(message)
-    assert.strictEqual(S.concat(append('a'), append('b'))(), 3)
+    assert.deepStrictEqual(S.concat(append('a'), append('b'))(), 3)
     assert.deepStrictEqual(log, ['a', 'b'])
   })
 
@@ -29,13 +29,13 @@ describe('IO', () => {
     const M = getMonoid(monoidSum)
     const log: Array<string> = []
     const append = (message: string): IO<number> => () => log.push(message)
-    assert.strictEqual(M.concat(append('a'), M.empty)(), 1)
-    assert.strictEqual(M.concat(M.empty, append('b'))(), 2)
+    assert.deepStrictEqual(M.concat(append('a'), M.empty)(), 1)
+    assert.deepStrictEqual(M.concat(M.empty, append('b'))(), 2)
     assert.deepStrictEqual(log, ['a', 'b'])
   })
 
   it('chainRec', () => {
     const f = (n: number) => (n < 15000 ? io.of(E.left(n + 1)) : io.of(E.right('ok ' + n)))
-    assert.strictEqual(io.chainRec(0, f)(), 'ok 15000')
+    assert.deepStrictEqual(io.chainRec(0, f)(), 'ok 15000')
   })
 })

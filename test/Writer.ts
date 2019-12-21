@@ -6,14 +6,14 @@ import { pipe } from '../src/pipeable'
 
 describe('Writer', () => {
   it('evalWriter', () => {
-    assert.strictEqual(
+    assert.deepStrictEqual(
       W.evalWriter(() => [1, 'a']),
       1
     )
   })
 
   it('execWriter', () => {
-    assert.strictEqual(
+    assert.deepStrictEqual(
       W.execWriter(() => [1, 'a']),
       'a'
     )

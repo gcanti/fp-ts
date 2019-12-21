@@ -3,14 +3,14 @@ import * as B from '../src/boolean'
 
 describe('boolean', () => {
   it('fold', () => {
-    assert.strictEqual(
+    assert.deepStrictEqual(
       B.fold(
         () => 'false',
         () => 'true'
       )(true),
       'true'
     )
-    assert.strictEqual(
+    assert.deepStrictEqual(
       B.fold(
         () => 'false',
         () => 'true'

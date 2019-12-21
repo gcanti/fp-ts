@@ -15,36 +15,36 @@ const p = (n: number): boolean => n > 2
 
 describe('Option', () => {
   it('zero', () => {
-    assert.strictEqual(O.option.zero(), O.none)
+    assert.deepStrictEqual(O.option.zero(), O.none)
   })
 
   it('fold', () => {
     const f = () => 'none'
     const g = (s: string) => `some${s.length}`
     const fold = O.fold(f, g)
-    assert.strictEqual(fold(O.none), 'none')
-    assert.strictEqual(fold(O.some('abc')), 'some3')
+    assert.deepStrictEqual(fold(O.none), 'none')
+    assert.deepStrictEqual(fold(O.some('abc')), 'some3')
   })
 
   it('toNullable', () => {
-    assert.strictEqual(O.toNullable(O.none), null)
-    assert.strictEqual(O.toNullable(O.some(1)), 1)
+    assert.deepStrictEqual(O.toNullable(O.none), null)
+    assert.deepStrictEqual(O.toNullable(O.some(1)), 1)
   })
 
   it('toUndefined', () => {
-    assert.strictEqual(O.toUndefined(O.none), undefined)
-    assert.strictEqual(O.toUndefined(O.some(1)), 1)
+    assert.deepStrictEqual(O.toUndefined(O.none), undefined)
+    assert.deepStrictEqual(O.toUndefined(O.some(1)), 1)
   })
 
   it('getOrElse', () => {
-    assert.strictEqual(
+    assert.deepStrictEqual(
       pipe(
         O.some(1),
         O.getOrElse(() => 0)
       ),
       1
     )
-    assert.strictEqual(
+    assert.deepStrictEqual(
       pipe(
         O.none,
         O.getOrElse(() => 0)
@@ -55,12 +55,12 @@ describe('Option', () => {
 
   it('equals', () => {
     const { equals } = O.getEq(eqNumber)
-    assert.strictEqual(equals(O.none, O.none), true)
-    assert.strictEqual(equals(O.none, O.some(1)), false)
-    assert.strictEqual(equals(O.some(1), O.none), false)
-    assert.strictEqual(equals(O.some(2), O.some(1)), false)
-    assert.strictEqual(equals(O.some(1), O.some(2)), false)
-    assert.strictEqual(equals(O.some(2), O.some(2)), true)
+    assert.deepStrictEqual(equals(O.none, O.none), true)
+    assert.deepStrictEqual(equals(O.none, O.some(1)), false)
+    assert.deepStrictEqual(equals(O.some(1), O.none), false)
+    assert.deepStrictEqual(equals(O.some(2), O.some(1)), false)
+    assert.deepStrictEqual(equals(O.some(1), O.some(2)), false)
+    assert.deepStrictEqual(equals(O.some(2), O.some(2)), true)
   })
 
   it('map', () => {
@@ -219,11 +219,11 @@ describe('Option', () => {
   })
 
   it('reduce', () => {
-    assert.strictEqual(
+    assert.deepStrictEqual(
       O.option.reduce(O.none, 2, (b, a) => b + a),
       2
     )
-    assert.strictEqual(
+    assert.deepStrictEqual(
       O.option.reduce(O.some(3), 2, (b, a) => b + a),
       5
     )
@@ -233,9 +233,9 @@ describe('Option', () => {
     const foldMap = O.option.foldMap(monoidString)
     const x1 = O.some('a')
     const f1 = identity
-    assert.strictEqual(foldMap(x1, f1), 'a')
+    assert.deepStrictEqual(foldMap(x1, f1), 'a')
     const x2: O.Option<string> = O.none
-    assert.strictEqual(foldMap(x2, f1), '')
+    assert.deepStrictEqual(foldMap(x2, f1), '')
   })
 
   it('reduceRight', () => {
@@ -243,9 +243,9 @@ describe('Option', () => {
     const x1 = O.some('a')
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
-    assert.strictEqual(reduceRight(x1, init1, f1), 'a')
+    assert.deepStrictEqual(reduceRight(x1, init1, f1), 'a')
     const x2: O.Option<string> = O.none
-    assert.strictEqual(reduceRight(x2, init1, f1), '')
+    assert.deepStrictEqual(reduceRight(x2, init1, f1), '')
   })
 
   it('getApplySemigroup', () => {
@@ -372,20 +372,20 @@ describe('Option', () => {
   it('getRefinement', () => {
     const f = (s: string | number): O.Option<string> => (typeof s === 'string' ? O.some(s) : O.none)
     const isString = O.getRefinement(f)
-    assert.strictEqual(isString('s'), true)
-    assert.strictEqual(isString(1), false)
+    assert.deepStrictEqual(isString('s'), true)
+    assert.deepStrictEqual(isString(1), false)
     type A = { type: 'A' }
     type B = { type: 'B' }
     type C = A | B
     const isA = O.getRefinement<C, A>(c => (c.type === 'A' ? O.some(c) : O.none))
-    assert.strictEqual(isA({ type: 'A' }), true)
-    assert.strictEqual(isA({ type: 'B' }), false)
+    assert.deepStrictEqual(isA({ type: 'A' }), true)
+    assert.deepStrictEqual(isA({ type: 'B' }), false)
   })
 
   it('getShow', () => {
     const S = O.getShow(showString)
-    assert.strictEqual(S.show(O.some('a')), `some("a")`)
-    assert.strictEqual(S.show(O.none), `none`)
+    assert.deepStrictEqual(S.show(O.some('a')), `some("a")`)
+    assert.deepStrictEqual(S.show(O.none), `none`)
   })
 
   it('getLeft', () => {
@@ -399,7 +399,7 @@ describe('Option', () => {
   })
 
   it('fromEither', () => {
-    assert.strictEqual(O.fromEither(left('a')), O.none)
+    assert.deepStrictEqual(O.fromEither(left('a')), O.none)
     assert.deepStrictEqual(O.fromEither(right(1)), O.some(1))
   })
 })

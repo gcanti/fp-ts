@@ -13,14 +13,14 @@ describe('Ring', () => {
   })
 
   it('negate', () => {
-    assert.strictEqual(negate(fieldNumber)(1), -1)
+    assert.deepStrictEqual(negate(fieldNumber)(1), -1)
   })
 
   it('getFunctionRing', () => {
     const R = getFunctionRing<string, number>(fieldNumber)
     const f1 = (s: string): number => s.length
     const f2 = (s: string): number => s.indexOf('a')
-    assert.strictEqual(R.sub(f1, f2)('foo'), 4)
-    assert.strictEqual(R.sub(f1, f2)('fooa'), 1)
+    assert.deepStrictEqual(R.sub(f1, f2)('foo'), 4)
+    assert.deepStrictEqual(R.sub(f1, f2)('fooa'), 1)
   })
 })

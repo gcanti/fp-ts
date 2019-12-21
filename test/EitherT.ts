@@ -9,13 +9,13 @@ describe('EitherT', () => {
   it('fold', () => {
     const onLeft = (s: string) => io.of(`left(${s})`)
     const onRight = (n: number) => io.of(`right(${n})`)
-    assert.strictEqual(T.fold(io.of(E.right(1)), onLeft, onRight)(), 'right(1)')
-    assert.strictEqual(T.fold(io.of(E.left('bb')), onLeft, onRight)(), 'left(bb)')
+    assert.deepStrictEqual(T.fold(io.of(E.right(1)), onLeft, onRight)(), 'right(1)')
+    assert.deepStrictEqual(T.fold(io.of(E.left('bb')), onLeft, onRight)(), 'left(bb)')
   })
 
   it('getOrElse', () => {
     const onLeft = (s: string) => io.of(`left(${s})`)
-    assert.strictEqual(T.getOrElse(io.of(E.right('a')), onLeft)(), 'a')
-    assert.strictEqual(T.getOrElse(io.of(E.left('bb')), onLeft)(), 'left(bb)')
+    assert.deepStrictEqual(T.getOrElse(io.of(E.right('a')), onLeft)(), 'a')
+    assert.deepStrictEqual(T.getOrElse(io.of(E.left('bb')), onLeft)(), 'left(bb)')
   })
 })

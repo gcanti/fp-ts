@@ -75,7 +75,7 @@ describe('NonEmptyArray', () => {
   })
 
   it('extract', () => {
-    assert.strictEqual(nonEmptyArray.extract([1, 2, 3]), 1)
+    assert.deepStrictEqual(nonEmptyArray.extract([1, 2, 3]), 1)
   })
 
   it('traverse', () => {
@@ -106,7 +106,7 @@ describe('NonEmptyArray', () => {
   })
 
   it('reduce', () => {
-    assert.strictEqual(
+    assert.deepStrictEqual(
       nonEmptyArray.reduce(['a', 'b'], '', (b, a) => b + a),
       'ab'
     )
@@ -114,14 +114,14 @@ describe('NonEmptyArray', () => {
 
   it('foldMap', () => {
     const foldMap = nonEmptyArray.foldMap(monoidString)
-    assert.strictEqual(foldMap(['a', 'b', 'c'], identity), 'abc')
+    assert.deepStrictEqual(foldMap(['a', 'b', 'c'], identity), 'abc')
   })
 
   it('reduceRight', () => {
     const reduceRight = nonEmptyArray.reduceRight
     const init1 = ''
     const f = (a: string, acc: string) => acc + a
-    assert.strictEqual(reduceRight(['a', 'b', 'c'], init1, f), 'cba')
+    assert.deepStrictEqual(reduceRight(['a', 'b', 'c'], init1, f), 'cba')
   })
 
   it('fromArray', () => {
@@ -138,8 +138,8 @@ describe('NonEmptyArray', () => {
 
   it('getEq', () => {
     const S = getEq(eqNumber)
-    assert.strictEqual(S.equals([1], [1]), true)
-    assert.strictEqual(S.equals([1], [1, 2]), false)
+    assert.deepStrictEqual(S.equals([1], [1]), true)
+    assert.deepStrictEqual(S.equals([1], [1, 2]), false)
   })
 
   it('group', () => {
@@ -211,13 +211,13 @@ describe('NonEmptyArray', () => {
     // should return the same reference if nothing changed
     const r1 = updateAt(0, a1)(arr)
     if (isSome(r1)) {
-      assert.strictEqual(r1.value, arr)
+      assert.deepStrictEqual(r1.value, arr)
     } else {
       assert.fail('is not a Some')
     }
     const r2 = updateAt(2, a3)(arr)
     if (isSome(r2)) {
-      assert.strictEqual(r2.value, arr)
+      assert.deepStrictEqual(r2.value, arr)
     } else {
       assert.fail('is not a Some')
     }
@@ -233,7 +233,7 @@ describe('NonEmptyArray', () => {
     const nea1 = cons(1, [])
     const nea2 = copy(nea1)
     assert.deepStrictEqual(nea2, nea1)
-    assert.strictEqual(nea2 === nea1, false)
+    assert.deepStrictEqual(nea2 === nea1, false)
   })
 
   it('filter', () => {
@@ -319,8 +319,8 @@ describe('NonEmptyArray', () => {
 
   it('getShow', () => {
     const S = getShow(showString)
-    assert.strictEqual(S.show(['a']), `["a"]`)
-    assert.strictEqual(S.show(['a', 'b', 'c']), `["a", "b", "c"]`)
+    assert.deepStrictEqual(S.show(['a']), `["a"]`)
+    assert.deepStrictEqual(S.show(['a', 'b', 'c']), `["a", "b", "c"]`)
   })
 
   it('alt / concat', () => {

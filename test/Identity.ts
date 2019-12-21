@@ -43,7 +43,7 @@ describe('Identity', () => {
     const foldMap = I.identity.foldMap(monoidString)
     const x1 = I.identity.of('a')
     const f1 = identity
-    assert.strictEqual(foldMap(x1, f1), 'a')
+    assert.deepStrictEqual(foldMap(x1, f1), 'a')
   })
 
   it('reduceRight', () => {
@@ -51,13 +51,13 @@ describe('Identity', () => {
     const x1 = I.identity.of('a')
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
-    assert.strictEqual(reduceRight(x1, init1, f1), 'a')
+    assert.deepStrictEqual(reduceRight(x1, init1, f1), 'a')
   })
 
   it('alt', () => {
     const x = I.identity.of(1)
     const y = I.identity.of(2)
-    assert.strictEqual(
+    assert.deepStrictEqual(
       I.identity.alt(x, () => y),
       x
     )
@@ -65,7 +65,7 @@ describe('Identity', () => {
 
   it('extract', () => {
     const x = I.identity.of(1)
-    assert.strictEqual(I.identity.extract(x), 1)
+    assert.deepStrictEqual(I.identity.extract(x), 1)
   })
 
   it('extend', () => {
@@ -77,9 +77,9 @@ describe('Identity', () => {
 
   it('getEq', () => {
     const S = I.getEq(eqNumber)
-    assert.strictEqual(S.equals(I.identity.of(1), I.identity.of(1)), true)
-    assert.strictEqual(S.equals(I.identity.of(1), I.identity.of(2)), false)
-    assert.strictEqual(S.equals(I.identity.of(2), I.identity.of(1)), false)
+    assert.deepStrictEqual(S.equals(I.identity.of(1), I.identity.of(1)), true)
+    assert.deepStrictEqual(S.equals(I.identity.of(1), I.identity.of(2)), false)
+    assert.deepStrictEqual(S.equals(I.identity.of(2), I.identity.of(1)), false)
   })
 
   it('ChainRec', () => {
@@ -103,6 +103,6 @@ describe('Identity', () => {
 
   it('getShow', () => {
     const S = I.getShow(showString)
-    assert.strictEqual(S.show(I.identity.of('a')), `"a"`)
+    assert.deepStrictEqual(S.show(I.identity.of('a')), `"a"`)
   })
 })

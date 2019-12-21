@@ -13,46 +13,46 @@ describe('Foldable', () => {
   it('getFoldableComposition', () => {
     const F = getFoldableComposition(array, option.option)
     // reduce
-    assert.strictEqual(F.reduce([option.some('a'), option.some('b'), option.some('c')], '', monoidString.concat), 'abc')
-    assert.strictEqual(F.reduce([option.none, option.some('b'), option.none], '', monoidString.concat), 'b')
-    assert.strictEqual(F.reduce([option.none, option.none, option.none], '', monoidString.concat), '')
-    assert.strictEqual(F.reduce([], '', monoidString.concat), '')
+    assert.deepStrictEqual(F.reduce([option.some('a'), option.some('b'), option.some('c')], '', monoidString.concat), 'abc')
+    assert.deepStrictEqual(F.reduce([option.none, option.some('b'), option.none], '', monoidString.concat), 'b')
+    assert.deepStrictEqual(F.reduce([option.none, option.none, option.none], '', monoidString.concat), '')
+    assert.deepStrictEqual(F.reduce([], '', monoidString.concat), '')
     // foldMap
-    assert.strictEqual(
+    assert.deepStrictEqual(
       F.foldMap(monoidString)([option.some('a'), option.some('b'), option.some('c')], a => a),
       'abc'
     )
-    assert.strictEqual(
+    assert.deepStrictEqual(
       F.foldMap(monoidString)([option.none, option.some('b'), option.none], a => a),
       'b'
     )
-    assert.strictEqual(
+    assert.deepStrictEqual(
       F.foldMap(monoidString)([option.none, option.none, option.none], a => a),
       ''
     )
-    assert.strictEqual(
+    assert.deepStrictEqual(
       F.foldMap(monoidString)([], (a: string) => a),
       ''
     )
     // reduceRight
-    assert.strictEqual(
+    assert.deepStrictEqual(
       F.reduceRight([option.some('a'), option.some('b'), option.some('c')], '', monoidString.concat),
       'abc'
     )
-    assert.strictEqual(F.reduceRight([option.none, option.some('b'), option.none], '', monoidString.concat), 'b')
-    assert.strictEqual(F.reduceRight([option.none, option.none, option.none], '', monoidString.concat), '')
-    assert.strictEqual(F.reduceRight([], '', monoidString.concat), '')
+    assert.deepStrictEqual(F.reduceRight([option.none, option.some('b'), option.none], '', monoidString.concat), 'b')
+    assert.deepStrictEqual(F.reduceRight([option.none, option.none, option.none], '', monoidString.concat), '')
+    assert.deepStrictEqual(F.reduceRight([], '', monoidString.concat), '')
   })
 
   it('intercalate', () => {
-    assert.strictEqual(intercalate(monoidString, array)(',', ['a', 'b', 'c']), 'a,b,c')
+    assert.deepStrictEqual(intercalate(monoidString, array)(',', ['a', 'b', 'c']), 'a,b,c')
   })
 
   it('traverse_', () => {
     let log = ''
     const append = (s: String) => () => (log += s)
     traverse_(io, array)(['a', 'b', 'c'], append)()
-    assert.strictEqual(log, 'abc')
+    assert.deepStrictEqual(log, 'abc')
   })
 
   it('foldM', () => {

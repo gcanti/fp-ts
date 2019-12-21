@@ -27,9 +27,9 @@ describe('OptionT', () => {
     const f = () => task.of('none')
     const g = (s: string) => task.of(`some${s.length}`)
     const s1 = await T.fold(task.of(O.none), f, g)()
-    assert.strictEqual(s1, 'none')
+    assert.deepStrictEqual(s1, 'none')
     const s2 = await T.fold(T.of('s'), f, g)()
-    assert.strictEqual(s2, 'some1')
+    assert.deepStrictEqual(s2, 'some1')
   })
 
   it('alt', async () => {
@@ -41,9 +41,9 @@ describe('OptionT', () => {
 
   it('getOrElse', async () => {
     const n1 = await T.getOrElse(task.of(O.some(1)), () => task.of(2))()
-    assert.strictEqual(n1, 1)
+    assert.deepStrictEqual(n1, 1)
     const n2 = await T.getOrElse(task.of(O.none), () => task.of(2))()
-    assert.strictEqual(n2, 2)
+    assert.deepStrictEqual(n2, 2)
   })
 
   it('fromM', () => {

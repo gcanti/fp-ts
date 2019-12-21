@@ -91,40 +91,40 @@ describe('Array', () => {
 
   it('getEq', () => {
     const O = getEq(ordString)
-    assert.strictEqual(O.equals([], []), true, '[] ]')
-    assert.strictEqual(O.equals(['a'], ['a']), true, '[a], [a]')
-    assert.strictEqual(O.equals(['a', 'b'], ['a', 'b']), true, '[a, b], [a, b]')
-    assert.strictEqual(O.equals(['a'], []), false, '[a] []')
-    assert.strictEqual(O.equals([], ['a']), false, '[], [a]')
-    assert.strictEqual(O.equals(['a'], ['b']), false, '[a], [b]')
-    assert.strictEqual(O.equals(['a', 'b'], ['b', 'a']), false, '[a, b], [b, a]')
-    assert.strictEqual(O.equals(['a', 'a'], ['a']), false, '[a, a], [a]')
+    assert.deepStrictEqual(O.equals([], []), true, '[] ]')
+    assert.deepStrictEqual(O.equals(['a'], ['a']), true, '[a], [a]')
+    assert.deepStrictEqual(O.equals(['a', 'b'], ['a', 'b']), true, '[a, b], [a, b]')
+    assert.deepStrictEqual(O.equals(['a'], []), false, '[a] []')
+    assert.deepStrictEqual(O.equals([], ['a']), false, '[], [a]')
+    assert.deepStrictEqual(O.equals(['a'], ['b']), false, '[a], [b]')
+    assert.deepStrictEqual(O.equals(['a', 'b'], ['b', 'a']), false, '[a, b], [b, a]')
+    assert.deepStrictEqual(O.equals(['a', 'a'], ['a']), false, '[a, a], [a]')
   })
 
   it('getOrd', () => {
     const O = getOrd(ordString)
-    assert.strictEqual(O.compare([], []), 0, '[] ]')
-    assert.strictEqual(O.compare(['a'], ['a']), 0, '[a], [a]')
+    assert.deepStrictEqual(O.compare([], []), 0, '[] ]')
+    assert.deepStrictEqual(O.compare(['a'], ['a']), 0, '[a], [a]')
 
-    assert.strictEqual(O.compare(['b'], ['a']), 1, '[b], [a]')
-    assert.strictEqual(O.compare(['a'], ['b']), -1, '[a], [b]')
+    assert.deepStrictEqual(O.compare(['b'], ['a']), 1, '[b], [a]')
+    assert.deepStrictEqual(O.compare(['a'], ['b']), -1, '[a], [b]')
 
-    assert.strictEqual(O.compare(['a'], []), 1, '[a] []')
-    assert.strictEqual(O.compare([], ['a']), -1, '[], [a]')
-    assert.strictEqual(O.compare(['a', 'a'], ['a']), 1, '[a, a], [a]')
-    assert.strictEqual(O.compare(['a', 'a'], ['b']), -1, '[a, a], [a]')
+    assert.deepStrictEqual(O.compare(['a'], []), 1, '[a] []')
+    assert.deepStrictEqual(O.compare([], ['a']), -1, '[], [a]')
+    assert.deepStrictEqual(O.compare(['a', 'a'], ['a']), 1, '[a, a], [a]')
+    assert.deepStrictEqual(O.compare(['a', 'a'], ['b']), -1, '[a, a], [a]')
 
-    assert.strictEqual(O.compare(['a', 'a'], ['a', 'a']), 0, '[a, a], [a, a]')
-    assert.strictEqual(O.compare(['a', 'b'], ['a', 'b']), 0, '[a, b], [a, b]')
+    assert.deepStrictEqual(O.compare(['a', 'a'], ['a', 'a']), 0, '[a, a], [a, a]')
+    assert.deepStrictEqual(O.compare(['a', 'b'], ['a', 'b']), 0, '[a, b], [a, b]')
 
-    assert.strictEqual(O.compare(['a', 'a'], ['a', 'b']), -1, '[a, a], [a, b]')
-    assert.strictEqual(O.compare(['a', 'b'], ['a', 'a']), 1, '[a, b], [a, a]')
+    assert.deepStrictEqual(O.compare(['a', 'a'], ['a', 'b']), -1, '[a, a], [a, b]')
+    assert.deepStrictEqual(O.compare(['a', 'b'], ['a', 'a']), 1, '[a, b], [a, a]')
 
-    assert.strictEqual(O.compare(['a', 'b'], ['b', 'a']), -1, '[a, b], [b, a]')
-    assert.strictEqual(O.compare(['b', 'a'], ['a', 'a']), 1, '[b, a], [a, a]')
-    assert.strictEqual(O.compare(['b', 'a'], ['a', 'b']), 1, '[b, b], [a, a]')
-    assert.strictEqual(O.compare(['b', 'b'], ['b', 'a']), 1, '[b, b], [b, a]')
-    assert.strictEqual(O.compare(['b', 'a'], ['b', 'b']), -1, '[b, a], [b, b]')
+    assert.deepStrictEqual(O.compare(['a', 'b'], ['b', 'a']), -1, '[a, b], [b, a]')
+    assert.deepStrictEqual(O.compare(['b', 'a'], ['a', 'a']), 1, '[b, a], [a, a]')
+    assert.deepStrictEqual(O.compare(['b', 'a'], ['a', 'b']), 1, '[b, b], [a, a]')
+    assert.deepStrictEqual(O.compare(['b', 'b'], ['b', 'a']), 1, '[b, b], [b, a]')
+    assert.deepStrictEqual(O.compare(['b', 'a'], ['b', 'b']), -1, '[b, a], [b, b]')
   })
 
   it('ap', () => {
@@ -153,13 +153,13 @@ describe('Array', () => {
   })
 
   it('isEmpty', () => {
-    assert.strictEqual(isEmpty(as), false)
-    assert.strictEqual(isEmpty([]), true)
+    assert.deepStrictEqual(isEmpty(as), false)
+    assert.deepStrictEqual(isEmpty([]), true)
   })
 
   it('isNotEmpty', () => {
-    assert.strictEqual(isNonEmpty(as), true)
-    assert.strictEqual(isNonEmpty([]), false)
+    assert.deepStrictEqual(isNonEmpty(as), true)
+    assert.deepStrictEqual(isNonEmpty([]), false)
   })
 
   it('cons', () => {
@@ -342,7 +342,7 @@ describe('Array', () => {
     const x = { a: 1 }
     const as = [x]
     const result = unsafeUpdateAt(0, x, as)
-    assert.strictEqual(result, as)
+    assert.deepStrictEqual(result, as)
   })
 
   it('updateAt', () => {
@@ -448,7 +448,7 @@ describe('Array', () => {
     const xs = [1, 2, 3]
     const ys = copy([1, 2, 3])
     assert.deepStrictEqual(xs, ys)
-    assert.strictEqual(xs !== ys, true)
+    assert.deepStrictEqual(xs !== ys, true)
   })
 
   it('chain', () => {
@@ -473,9 +473,9 @@ describe('Array', () => {
     const foldMap = array.foldMap(monoidString)
     const x1 = ['a', 'b', 'c']
     const f1 = identity
-    assert.strictEqual(foldMap(x1, f1), 'abc')
+    assert.deepStrictEqual(foldMap(x1, f1), 'abc')
     const x2: Array<string> = []
-    assert.strictEqual(foldMap(x2, f1), '')
+    assert.deepStrictEqual(foldMap(x2, f1), '')
   })
 
   it('reduceRight', () => {
@@ -483,9 +483,9 @@ describe('Array', () => {
     const x1 = ['a', 'b', 'c']
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
-    assert.strictEqual(reduceRight(x1, init1, f1), 'cba')
+    assert.deepStrictEqual(reduceRight(x1, init1, f1), 'cba')
     const x2: Array<string> = []
-    assert.strictEqual(reduceRight(x2, init1, f1), '')
+    assert.deepStrictEqual(reduceRight(x2, init1, f1), '')
   })
 
   it('foldLeft', () => {
@@ -493,7 +493,7 @@ describe('Array', () => {
       () => 0,
       (_, tail) => 1 + len(tail)
     )
-    assert.strictEqual(len([1, 2, 3]), 3)
+    assert.deepStrictEqual(len([1, 2, 3]), 3)
   })
 
   it('foldRight', () => {
@@ -501,7 +501,7 @@ describe('Array', () => {
       () => 0,
       (init, _) => 1 + len(init)
     )
-    assert.strictEqual(len([1, 2, 3]), 3)
+    assert.deepStrictEqual(len([1, 2, 3]), 3)
   })
 
   it('scanLeft', () => {
@@ -846,8 +846,8 @@ describe('Array', () => {
 
   it('getShow', () => {
     const S = getShow(showString)
-    assert.strictEqual(S.show([]), `[]`)
-    assert.strictEqual(S.show(['a']), `["a"]`)
-    assert.strictEqual(S.show(['a', 'b']), `["a", "b"]`)
+    assert.deepStrictEqual(S.show([]), `[]`)
+    assert.deepStrictEqual(S.show(['a']), `["a"]`)
+    assert.deepStrictEqual(S.show(['a', 'b']), `["a", "b"]`)
   })
 })

@@ -53,15 +53,15 @@ describe('Set', () => {
 
   it('getEq', () => {
     const S = getEq(eqNumber)
-    assert.strictEqual(S.equals(new Set([1, 2, 3]), new Set([1, 2, 3])), true)
-    assert.strictEqual(S.equals(new Set([1, 2, 3]), new Set([1, 2])), false)
-    assert.strictEqual(S.equals(new Set([1, 2]), new Set([1, 2, 3])), false)
+    assert.deepStrictEqual(S.equals(new Set([1, 2, 3]), new Set([1, 2, 3])), true)
+    assert.deepStrictEqual(S.equals(new Set([1, 2, 3]), new Set([1, 2])), false)
+    assert.deepStrictEqual(S.equals(new Set([1, 2]), new Set([1, 2, 3])), false)
   })
 
   it('some', () => {
-    assert.strictEqual(some((s: string) => s.trim() === '')(new Set<string>()), false)
-    assert.strictEqual(some(gte2)(new Set([1, 2, 3])), true)
-    assert.strictEqual(some(gte2)(new Set([1])), false)
+    assert.deepStrictEqual(some((s: string) => s.trim() === '')(new Set<string>()), false)
+    assert.deepStrictEqual(some(gte2)(new Set([1, 2, 3])), true)
+    assert.deepStrictEqual(some(gte2)(new Set([1])), false)
   })
 
   it('map', () => {
@@ -71,8 +71,8 @@ describe('Set', () => {
   })
 
   it('every', () => {
-    assert.strictEqual(every(gte2)(new Set([1, 2, 3])), false)
-    assert.strictEqual(every(gte2)(new Set([2, 3])), true)
+    assert.deepStrictEqual(every(gte2)(new Set([1, 2, 3])), false)
+    assert.deepStrictEqual(every(gte2)(new Set([2, 3])), true)
   })
 
   it('chain', () => {
@@ -85,8 +85,8 @@ describe('Set', () => {
   })
 
   it('subset', () => {
-    assert.strictEqual(subset(eqNumber)(new Set([1, 2]), new Set([1, 2, 3])), true)
-    assert.strictEqual(subset(eqNumber)(new Set([1, 2, 4]), new Set([1, 2, 3])), false)
+    assert.deepStrictEqual(subset(eqNumber)(new Set([1, 2]), new Set([1, 2, 3])), true)
+    assert.deepStrictEqual(subset(eqNumber)(new Set([1, 2, 4]), new Set([1, 2, 3])), false)
   })
 
   it('filter', () => {
@@ -188,7 +188,7 @@ describe('Set', () => {
     const x = new Set([1, 2])
     assert.deepStrictEqual(insert(eqNumber)(3)(x), new Set([1, 2, 3]))
     // should return the same ference if the element is already a member
-    assert.strictEqual(insert(eqNumber)(2)(x), x)
+    assert.deepStrictEqual(insert(eqNumber)(2)(x), x)
   })
 
   it('remove', () => {
@@ -252,10 +252,10 @@ describe('Set', () => {
   it('getShow', () => {
     const S = getShow(showString)
     const s1 = new Set<string>([])
-    assert.strictEqual(S.show(s1), `new Set([])`)
+    assert.deepStrictEqual(S.show(s1), `new Set([])`)
     const s2 = new Set<string>(['a'])
-    assert.strictEqual(S.show(s2), `new Set(["a"])`)
+    assert.deepStrictEqual(S.show(s2), `new Set(["a"])`)
     const s3 = new Set<string>(['a', 'b'])
-    assert.strictEqual(S.show(s3), `new Set(["a", "b"])`)
+    assert.deepStrictEqual(S.show(s3), `new Set(["a", "b"])`)
   })
 })

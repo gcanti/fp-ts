@@ -24,7 +24,7 @@ describe('Monoid', () => {
   })
 
   it('fold', () => {
-    assert.strictEqual(fold(monoidSum)([1, 2, 3]), 6)
+    assert.deepStrictEqual(fold(monoidSum)([1, 2, 3]), 6)
   })
 
   it('getFunctionMonoid', () => {
@@ -48,7 +48,7 @@ describe('Monoid', () => {
     const double = (n: number) => n * 2
     const inc = (n: number) => n + 1
     const f = M.concat(double, inc)
-    assert.strictEqual(f(3), 8)
+    assert.deepStrictEqual(f(3), 8)
   })
 
   it('getMeetMonoid', () => {

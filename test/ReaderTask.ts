@@ -72,17 +72,17 @@ describe('ReaderTask', () => {
   it('getSemigroup', async () => {
     const M = _.getSemigroup(semigroupString)
     const e = await M.concat(_.of('a'), _.of('b'))({})()
-    assert.strictEqual(e, 'ab')
+    assert.deepStrictEqual(e, 'ab')
   })
 
   it('getMonoid', async () => {
     const M = _.getMonoid(monoidString)
     const e = await M.concat(_.of('a'), M.empty)({})()
-    assert.strictEqual(e, 'a')
+    assert.deepStrictEqual(e, 'a')
     const e2 = await M.concat(M.empty, _.of('b'))({})()
-    assert.strictEqual(e2, 'b')
+    assert.deepStrictEqual(e2, 'b')
     const e3 = await M.concat(_.of('a'), _.of('b'))({})()
-    assert.strictEqual(e3, 'ab')
+    assert.deepStrictEqual(e3, 'ab')
   })
 
   it('reader', async () => {
@@ -122,12 +122,12 @@ describe('ReaderTask', () => {
   it('chainIO', async () => {
     const f = (s: string) => I.of(s.length)
     const x = await _.run(pipe(_.of('a'), _.chainIO(f)), undefined)
-    assert.strictEqual(x, 1)
+    assert.deepStrictEqual(x, 1)
   })
 
   it('chainTask', async () => {
     const f = (s: string) => T.of(s.length)
     const x = await _.run(pipe(_.of('a'), _.chainTask(f)), undefined)
-    assert.strictEqual(x, 1)
+    assert.deepStrictEqual(x, 1)
   })
 })

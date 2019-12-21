@@ -21,46 +21,46 @@ const g = (n: number) => n * 2
 describe('function', () => {
   it('flip', () => {
     const f = (a: number, b: string) => a - b.length
-    assert.strictEqual(flip(f)('aaa', 2), -1)
+    assert.deepStrictEqual(flip(f)('aaa', 2), -1)
   })
 
   it('not', () => {
     const n = not(Boolean)
-    assert.strictEqual(n(false), true)
-    assert.strictEqual(n(1), false)
-    assert.strictEqual(n(''), true)
+    assert.deepStrictEqual(n(false), true)
+    assert.deepStrictEqual(n(1), false)
+    assert.deepStrictEqual(n(''), true)
   })
 
   it('unsafeCoerce', () => {
-    assert.strictEqual(unsafeCoerce, identity)
+    assert.deepStrictEqual(unsafeCoerce, identity)
   })
 
   it('constTrue', () => {
-    assert.strictEqual(constTrue(), true)
+    assert.deepStrictEqual(constTrue(), true)
   })
 
   it('constFalse', () => {
-    assert.strictEqual(constFalse(), false)
+    assert.deepStrictEqual(constFalse(), false)
   })
 
   it('constNull', () => {
-    assert.strictEqual(constNull(), null)
+    assert.deepStrictEqual(constNull(), null)
   })
 
   it('constUndefined', () => {
-    assert.strictEqual(constUndefined(), undefined)
+    assert.deepStrictEqual(constUndefined(), undefined)
   })
 
   it('constVoid', () => {
-    assert.strictEqual(constVoid(), undefined)
+    assert.deepStrictEqual(constVoid(), undefined)
   })
 
   it('increment', () => {
-    assert.strictEqual(increment(2), 3)
+    assert.deepStrictEqual(increment(2), 3)
   })
 
   it('decrement', () => {
-    assert.strictEqual(decrement(2), 1)
+    assert.deepStrictEqual(decrement(2), 1)
   })
 
   it('absurd', () => {
@@ -68,14 +68,14 @@ describe('function', () => {
   })
 
   it('flow', () => {
-    assert.strictEqual(flow(f)(2), 3)
-    assert.strictEqual(flow(f, g)(2), 6)
-    assert.strictEqual(flow(f, g, f)(2), 7)
-    assert.strictEqual(flow(f, g, f, g)(2), 14)
-    assert.strictEqual(flow(f, g, f, g, f)(2), 15)
-    assert.strictEqual(flow(f, g, f, g, f, g)(2), 30)
-    assert.strictEqual(flow(f, g, f, g, f, g, f)(2), 31)
-    assert.strictEqual(flow(f, g, f, g, f, g, f, g)(2), 62)
-    assert.strictEqual(flow(f, g, f, g, f, g, f, g, f)(2), 63)
+    assert.deepStrictEqual(flow(f)(2), 3)
+    assert.deepStrictEqual(flow(f, g)(2), 6)
+    assert.deepStrictEqual(flow(f, g, f)(2), 7)
+    assert.deepStrictEqual(flow(f, g, f, g)(2), 14)
+    assert.deepStrictEqual(flow(f, g, f, g, f)(2), 15)
+    assert.deepStrictEqual(flow(f, g, f, g, f, g)(2), 30)
+    assert.deepStrictEqual(flow(f, g, f, g, f, g, f)(2), 31)
+    assert.deepStrictEqual(flow(f, g, f, g, f, g, f, g)(2), 62)
+    assert.deepStrictEqual(flow(f, g, f, g, f, g, f, g, f)(2), 63)
   })
 })

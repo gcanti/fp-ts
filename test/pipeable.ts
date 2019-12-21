@@ -126,27 +126,27 @@ describe('pipeable', () => {
       (s: string) => s + 'a',
       (n: number) => n > 2
     )((s: string) => s.length)
-    assert.strictEqual(f('a'), false)
-    assert.strictEqual(f('aa'), true)
+    assert.deepStrictEqual(f('a'), false)
+    assert.deepStrictEqual(f('aa'), true)
   })
 
   it('Semigroupoid', () => {
     const { compose } = pipeable(reader)
-    assert.strictEqual(compose((s: string) => s.length)(n => n * 2)('aa'), 4)
+    assert.deepStrictEqual(compose((s: string) => s.length)(n => n * 2)('aa'), 4)
   })
 
   it('pipe', () => {
     const f = (n: number) => n + 1
     const g = (n: number) => n * 2
-    assert.strictEqual(pipe(2), 2)
-    assert.strictEqual(pipe(2, f), 3)
-    assert.strictEqual(pipe(2, f, g), 6)
-    assert.strictEqual(pipe(2, f, g, f), 7)
-    assert.strictEqual(pipe(2, f, g, f, g), 14)
-    assert.strictEqual(pipe(2, f, g, f, g, f), 15)
-    assert.strictEqual(pipe(2, f, g, f, g, f, g), 30)
-    assert.strictEqual(pipe(2, f, g, f, g, f, g, f), 31)
-    assert.strictEqual(pipe(2, f, g, f, g, f, g, f, g), 62)
-    assert.strictEqual(pipe(2, f, g, f, g, f, g, f, g, f), 63)
+    assert.deepStrictEqual(pipe(2), 2)
+    assert.deepStrictEqual(pipe(2, f), 3)
+    assert.deepStrictEqual(pipe(2, f, g), 6)
+    assert.deepStrictEqual(pipe(2, f, g, f), 7)
+    assert.deepStrictEqual(pipe(2, f, g, f, g), 14)
+    assert.deepStrictEqual(pipe(2, f, g, f, g, f), 15)
+    assert.deepStrictEqual(pipe(2, f, g, f, g, f, g), 30)
+    assert.deepStrictEqual(pipe(2, f, g, f, g, f, g, f), 31)
+    assert.deepStrictEqual(pipe(2, f, g, f, g, f, g, f, g), 62)
+    assert.deepStrictEqual(pipe(2, f, g, f, g, f, g, f, g, f), 63)
   })
 })

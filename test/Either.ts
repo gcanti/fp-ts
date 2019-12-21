@@ -14,8 +14,8 @@ describe('Either', () => {
     const f = (s: string) => `left${s.length}`
     const g = (s: string) => `right${s.length}`
     const fold = _.fold(f, g)
-    assert.strictEqual(fold(_.left('abc')), 'left3')
-    assert.strictEqual(fold(_.right('abc')), 'right3')
+    assert.deepStrictEqual(fold(_.left('abc')), 'left3')
+    assert.deepStrictEqual(fold(_.right('abc')), 'right3')
   })
 
   it('getOrElse', () => {
@@ -89,13 +89,13 @@ describe('Either', () => {
   })
 
   it('isLeft', () => {
-    assert.strictEqual(_.isLeft(_.right(1)), false)
-    assert.strictEqual(_.isLeft(_.left(1)), true)
+    assert.deepStrictEqual(_.isLeft(_.right(1)), false)
+    assert.deepStrictEqual(_.isLeft(_.left(1)), true)
   })
 
   it('isRight', () => {
-    assert.strictEqual(_.isRight(_.right(1)), true)
-    assert.strictEqual(_.isRight(_.left(1)), false)
+    assert.deepStrictEqual(_.isRight(_.right(1)), true)
+    assert.deepStrictEqual(_.isRight(_.left(1)), false)
   })
 
   it('orElse', () => {
@@ -260,12 +260,12 @@ describe('Either', () => {
   describe('getEq', () => {
     it('equals', () => {
       const equals = _.getEq(eqString, eqNumber).equals
-      assert.strictEqual(equals(_.right(1), _.right(1)), true)
-      assert.strictEqual(equals(_.right(1), _.right(2)), false)
-      assert.strictEqual(equals(_.right(1), _.left('foo')), false)
-      assert.strictEqual(equals(_.left('foo'), _.left('foo')), true)
-      assert.strictEqual(equals(_.left('foo'), _.left('bar')), false)
-      assert.strictEqual(equals(_.left('foo'), _.right(1)), false)
+      assert.deepStrictEqual(equals(_.right(1), _.right(1)), true)
+      assert.deepStrictEqual(equals(_.right(1), _.right(2)), false)
+      assert.deepStrictEqual(equals(_.right(1), _.left('foo')), false)
+      assert.deepStrictEqual(equals(_.left('foo'), _.left('foo')), true)
+      assert.deepStrictEqual(equals(_.left('foo'), _.left('bar')), false)
+      assert.deepStrictEqual(equals(_.left('foo'), _.right(1)), false)
     })
   })
 
@@ -344,16 +344,16 @@ describe('Either', () => {
 
     it('foldMap', () => {
       const foldMap = _.either.foldMap(monoidString)
-      assert.strictEqual(foldMap(_.right('a'), identity), 'a')
-      assert.strictEqual(foldMap(_.left(1), identity), '')
+      assert.deepStrictEqual(foldMap(_.right('a'), identity), 'a')
+      assert.deepStrictEqual(foldMap(_.left(1), identity), '')
     })
 
     it('reduceRight', () => {
       const reduceRight = _.either.reduceRight
       const init = ''
       const f = (a: string, acc: string) => acc + a
-      assert.strictEqual(reduceRight(_.right('a'), init, f), 'a')
-      assert.strictEqual(reduceRight(_.left(1), init, f), '')
+      assert.deepStrictEqual(reduceRight(_.right('a'), init, f), 'a')
+      assert.deepStrictEqual(reduceRight(_.left(1), init, f), '')
     })
   })
 
@@ -491,8 +491,8 @@ describe('Either', () => {
   describe('getShow', () => {
     it('show', () => {
       const S = _.getShow(showString, showString)
-      assert.strictEqual(S.show(_.left('a')), `left("a")`)
-      assert.strictEqual(S.show(_.right('a')), `right("a")`)
+      assert.deepStrictEqual(S.show(_.left('a')), `left("a")`)
+      assert.deepStrictEqual(S.show(_.right('a')), `right("a")`)
     })
   })
 
@@ -544,8 +544,8 @@ describe('Either', () => {
 
   it('exists', () => {
     const gt2 = _.exists((n: number) => n > 2)
-    assert.strictEqual(gt2(_.left('a')), false)
-    assert.strictEqual(gt2(_.right(1)), false)
-    assert.strictEqual(gt2(_.right(3)), true)
+    assert.deepStrictEqual(gt2(_.left('a')), false)
+    assert.deepStrictEqual(gt2(_.right(1)), false)
+    assert.deepStrictEqual(gt2(_.right(3)), true)
   })
 })

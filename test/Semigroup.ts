@@ -25,15 +25,15 @@ describe('Semigroup', () => {
   })
 
   it('fold', () => {
-    assert.strictEqual(fold(monoidString)('', ['a', 'b', 'c']), 'abc')
+    assert.deepStrictEqual(fold(monoidString)('', ['a', 'b', 'c']), 'abc')
   })
 
   it('getMeetSemigroup', () => {
-    assert.strictEqual(getMeetSemigroup(ordNumber).concat(1, 2), 1)
+    assert.deepStrictEqual(getMeetSemigroup(ordNumber).concat(1, 2), 1)
   })
 
   it('getJoinSemigroup', () => {
-    assert.strictEqual(getJoinSemigroup(ordNumber).concat(1, 2), 2)
+    assert.deepStrictEqual(getJoinSemigroup(ordNumber).concat(1, 2), 2)
   })
 
   it('getObjectSemigroup', () => {
@@ -51,12 +51,12 @@ describe('Semigroup', () => {
     const S = getObjectSemigroup<T>()
     const result = S.concat(foo, bar)
     const expected = Object.assign({}, foo, bar)
-    assert.strictEqual(result.foo, expected.foo)
-    assert.strictEqual(result.bar, expected.bar)
+    assert.deepStrictEqual(result.foo, expected.foo)
+    assert.deepStrictEqual(result.bar, expected.bar)
   })
 
   it('semigroupProduct', () => {
-    assert.strictEqual(semigroupProduct.concat(2, 3), 6)
+    assert.deepStrictEqual(semigroupProduct.concat(2, 3), 6)
   })
 
   it('getFirstSemigroup', () => {

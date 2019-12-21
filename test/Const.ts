@@ -9,13 +9,13 @@ describe('Const', () => {
   it('map', () => {
     const fa = make('foo')
     const double = (n: number): number => n * 2
-    assert.strictEqual(const_.map(fa, double), fa)
+    assert.deepStrictEqual(const_.map(fa, double), fa)
   })
 
   it('contramap', () => {
     const fa: Const<string, number> = make('foo')
     const double = (n: number): number => n * 2
-    assert.strictEqual(const_.contramap(fa, double), fa)
+    assert.deepStrictEqual(const_.contramap(fa, double), fa)
   })
 
   it('getApplicative', () => {
@@ -25,8 +25,8 @@ describe('Const', () => {
 
   it('getEq', () => {
     const S = getEq(eqNumber)
-    assert.strictEqual(S.equals(make(1), make(1)), true)
-    assert.strictEqual(S.equals(make(1), make(2)), false)
+    assert.deepStrictEqual(S.equals(make(1), make(1)), true)
+    assert.deepStrictEqual(S.equals(make(1), make(2)), false)
   })
 
   it('getApplicative', () => {
@@ -38,6 +38,6 @@ describe('Const', () => {
   it('getShow', () => {
     const S = getShow(showString)
     const x: Const<string, number> = make('a')
-    assert.strictEqual(S.show(x), `make("a")`)
+    assert.deepStrictEqual(S.show(x), `make("a")`)
   })
 })

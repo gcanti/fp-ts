@@ -8,22 +8,22 @@ const len = (s: string): number => s.length
 describe('Store', () => {
   it('map', () => {
     const wa: Store<string, number> = { peek: len, pos: 'a' }
-    assert.strictEqual(store.extract(store.map(wa, n => n + 1)), 2)
+    assert.deepStrictEqual(store.extract(store.map(wa, n => n + 1)), 2)
   })
 
   it('extends', () => {
     const wa: Store<string, number> = { peek: len, pos: 'a' }
-    assert.strictEqual(store.extract(store.extend(wa, wa => store.extract(store.map(wa, n => n + 1)))), 2)
+    assert.deepStrictEqual(store.extract(store.extend(wa, wa => store.extract(store.map(wa, n => n + 1)))), 2)
   })
 
   it('seek', () => {
     const wa: Store<string, number> = { peek: len, pos: 'a' }
-    assert.strictEqual(store.extract(pipe(wa, seek('aa'))), 2)
+    assert.deepStrictEqual(store.extract(pipe(wa, seek('aa'))), 2)
   })
 
   it('seeks', () => {
     const wa: Store<string, number> = { peek: len, pos: 'a' }
-    assert.strictEqual(
+    assert.deepStrictEqual(
       store.extract(
         pipe(
           wa,
@@ -36,7 +36,7 @@ describe('Store', () => {
 
   it('peeks', () => {
     const wa: Store<string, number> = { peek: len, pos: 'a' }
-    assert.strictEqual(
+    assert.deepStrictEqual(
       pipe(
         wa,
         peeks(s => s + 'a')

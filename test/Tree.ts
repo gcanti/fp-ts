@@ -31,7 +31,7 @@ describe('Tree', () => {
 
   it('extract', () => {
     const fa = make(1, [make(2), make(3)])
-    assert.strictEqual(tree.extract(fa), 1)
+    assert.deepStrictEqual(tree.extract(fa), 1)
   })
 
   it('extend', () => {
@@ -43,7 +43,7 @@ describe('Tree', () => {
 
   it('reduce', () => {
     const fa = make('a', [make('b'), make('c')])
-    assert.strictEqual(
+    assert.deepStrictEqual(
       tree.reduce(fa, '', (b, a) => b + a),
       'abc'
     )
@@ -53,7 +53,7 @@ describe('Tree', () => {
     const foldMap = tree.foldMap(monoidString)
     const x1 = make('a', [make('b'), make('c')])
     const f1 = identity
-    assert.strictEqual(foldMap(x1, f1), 'abc')
+    assert.deepStrictEqual(foldMap(x1, f1), 'abc')
   })
 
   it('reduceRight', () => {
@@ -61,7 +61,7 @@ describe('Tree', () => {
     const x1 = make('a', [make('b'), make('c')])
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
-    assert.strictEqual(reduceRight(x1, init1, f1), 'cba')
+    assert.deepStrictEqual(reduceRight(x1, init1, f1), 'cba')
   })
 
   it('traverse', () => {
@@ -80,10 +80,10 @@ describe('Tree', () => {
 
   it('drawTree', () => {
     const tree = make('a')
-    assert.strictEqual(drawTree(tree), 'a')
+    assert.deepStrictEqual(drawTree(tree), 'a')
 
     const tree1 = make('a', [make('b'), make('c'), make('d', [make('e'), make('f')]), make('g')])
-    assert.strictEqual(
+    assert.deepStrictEqual(
       drawTree(tree1),
       `a
 ├─ b
@@ -95,7 +95,7 @@ describe('Tree', () => {
     )
 
     const tree2 = make('a', [make('b', [make('c')])])
-    assert.strictEqual(
+    assert.deepStrictEqual(
       drawTree(tree2),
       `a
 └─ b
@@ -103,7 +103,7 @@ describe('Tree', () => {
     )
 
     const tree3 = make('a', [make('b', [make('c')]), make('d', [make('e')])])
-    assert.strictEqual(
+    assert.deepStrictEqual(
       drawTree(tree3),
       `a
 ├─ b
@@ -113,7 +113,7 @@ describe('Tree', () => {
     )
 
     const tree4 = make('a', [make('b', [make('c', [make('d')]), make('e', [make('f')])]), make('e')])
-    assert.strictEqual(
+    assert.deepStrictEqual(
       drawTree(tree4),
       `a
 ├─ b
@@ -130,9 +130,9 @@ describe('Tree', () => {
     const x = make(1, [make(2)])
     const y = make(2, [make(2)])
     const z = make(1, [make(1)])
-    assert.strictEqual(S.equals(x, x), true)
-    assert.strictEqual(S.equals(x, y), false)
-    assert.strictEqual(S.equals(x, z), false)
+    assert.deepStrictEqual(S.equals(x, x), true)
+    assert.deepStrictEqual(S.equals(x, y), false)
+    assert.deepStrictEqual(S.equals(x, z), false)
   })
 
   it('unfoldTree', () => {
@@ -153,16 +153,16 @@ describe('Tree', () => {
     }
     const S: Eq<User> = eq.contramap(eqNumber, (user: User) => user.id)
     const users = make({ id: 1 }, [make({ id: 1 }, [make({ id: 3 }), make({ id: 4 })]), make({ id: 2 })])
-    assert.strictEqual(elem(S)({ id: 1 }, users), true)
-    assert.strictEqual(elem(S)({ id: 4 }, users), true)
-    assert.strictEqual(elem(S)({ id: 5 }, users), false)
+    assert.deepStrictEqual(elem(S)({ id: 1 }, users), true)
+    assert.deepStrictEqual(elem(S)({ id: 4 }, users), true)
+    assert.deepStrictEqual(elem(S)({ id: 5 }, users), false)
   })
 
   it('getShow', () => {
     const S = getShow(showString)
     const t1 = make('a')
-    assert.strictEqual(S.show(t1), `make("a")`)
+    assert.deepStrictEqual(S.show(t1), `make("a")`)
     const t2 = make('a', [make('b'), make('c')])
-    assert.strictEqual(S.show(t2), `make("a", [make("b"), make("c")])`)
+    assert.deepStrictEqual(S.show(t2), `make("a", [make("b"), make("c")])`)
   })
 })
