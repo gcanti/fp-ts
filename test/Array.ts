@@ -136,7 +136,7 @@ describe('Array', () => {
     const tfanone = [1, 2]
     const f = (n: number): O.Option<number> => (n % 2 === 0 ? O.none : O.some(n))
     const fasnone = array.traverse(O.option)(tfanone, f)
-    assert.ok(O.isNone(fasnone))
+    assert.deepStrictEqual(O.isNone(fasnone), true)
     const tfa = [1, 3]
     const fas = array.traverse(O.option)(tfa, f)
     assert.deepStrictEqual(fas, O.some([1, 3]))
