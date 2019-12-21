@@ -13,7 +13,10 @@ describe('Foldable', () => {
   it('getFoldableComposition', () => {
     const F = getFoldableComposition(array, option.option)
     // reduce
-    assert.deepStrictEqual(F.reduce([option.some('a'), option.some('b'), option.some('c')], '', monoidString.concat), 'abc')
+    assert.deepStrictEqual(
+      F.reduce([option.some('a'), option.some('b'), option.some('c')], '', monoidString.concat),
+      'abc'
+    )
     assert.deepStrictEqual(F.reduce([option.none, option.some('b'), option.none], '', monoidString.concat), 'b')
     assert.deepStrictEqual(F.reduce([option.none, option.none, option.none], '', monoidString.concat), '')
     assert.deepStrictEqual(F.reduce([], '', monoidString.concat), '')
