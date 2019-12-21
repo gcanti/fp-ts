@@ -11,9 +11,9 @@ nav_order: 4
 If you're working with asynchronous tasks that are guaranteed to succeed, use [Task](../modules/Task.ts).
 
 ```ts
-import { Task } from 'fp-ts/lib/Task'
+import * as T from 'fp-ts/lib/Task'
 
-const deepThought: Task<number> = () => Promise.resolve(42)
+const deepThought: T.Task<number> = () => Promise.resolve(42)
 
 deepThought().then(n => {
   console.log(`The answer is ${n}.`)
@@ -25,11 +25,11 @@ deepThought().then(n => {
 If you're working with asynchronous tasks that may fail, use [TaskEither](../modules/TaskEither.ts). If the JSON in this example is malformed (try it!), an "I'm sorry" message is displayed.
 
 ```ts
-import { fold } from 'fp-ts/lib/Either'
+import * as E from 'fp-ts/lib/Either'
+import * as TE from 'fp-ts/lib/TaskEither'
 import { pipe } from 'fp-ts/lib/pipeable'
-import { tryCatch } from 'fp-ts/lib/TaskEither'
 
-const fetchGreeting = tryCatch<Error, { name: string }>(
+const fetchGreeting = TE.tryCatch<Error, { name: string }>(
   () => new Promise(resolve => resolve(JSON.parse('{ "name": "Carol" }'))),
   reason => new Error(String(reason))
 )
@@ -38,7 +38,7 @@ fetchGreeting()
   .then(e =>
     pipe(
       e,
-      fold(err => `I'm sorry, I don't know who you are. (${err.message})`, x => `Hello, ${x.name}!`)
+      E.fold(err => `I'm sorry, I don't know who you are. (${err.message})`, x => `Hello, ${x.name}!`)
     )
   )
   .then(console.log)
@@ -55,11 +55,11 @@ Promise.all([Promise.resolve(1), Promise.resolve(2)]).then(console.log) // [1, 2
 With `Task`s you can achieve the same using `sequence`. Both the `Promise.all` and the `sequence` approach run in parallel and wait until all results have arrived before they proceed.
 
 ```ts
-import { task } from 'fp-ts/lib/Task'
-import { array } from 'fp-ts/lib/Array'
+import * as A from 'fp-ts/lib/Array'
+import * as T from 'fp-ts/lib/Task'
 
-const tasks = [task.of(1), task.of(2)]
-array
+const tasks = [T.of(1), T.of(2)]
+A.array
   .sequence(task)(tasks)()
   .then(console.log) // [ 1, 2 ]
 ```
@@ -69,9 +69,9 @@ array
 If you need to run a list of `Task`s in sequence, i.e. you have to wait for one `Task` to finish before you run the second `Task`, you can use the `taskSeq` instance.
 
 ```ts
-import { array } from 'fp-ts/lib/Array'
+import * as A from 'fp-ts/lib/Array'
+import * as T from 'fp-ts/lib/Task'
 import { pipe } from 'fp-ts/lib/pipeable'
-import { delay, map, task, taskSeq } from 'fp-ts/lib/Task'
 
 const log = <A>(x: A) => {
   console.log(x)
@@ -80,20 +80,52 @@ const log = <A>(x: A) => {
 
 const tasks = [
   pipe(
-    delay(200)(task.of('first')),
-    map(log)
+    T.delay(200)(T.of('first')),
+    T.map(log)
   ),
   pipe(
-    delay(100)(task.of('second')),
-    map(log)
+    T.delay(100)(T.of('second')),
+    T.map(log)
   )
 ]
 
 // Parallel: logs 'second' then 'first'
-array.sequence(task)(tasks)()
+A.array.sequence(task)(tasks)()
 
 // Sequential: logs 'first' then 'second'
-array.sequence(taskSeq)(tasks)()
+A.array.sequence(taskSeq)(tasks)()
+```
+
+## Work with tasks with different type
+
+What if the types are different? We can't use `sequence` anymore
+
+```ts
+import * as A from 'fp-ts/lib/Array'
+import * as T from 'fp-ts/lib/Task'
+
+// Task<number> ----v        v--- Task<string>
+const tasks = [T.of(1), T.of('hello')]
+A.array.sequence(T.task)(tasks)
+/*
+Argument of type '(Task<number> | Task<string>)[]' is not assignable to parameter of type 'Task<number>[]'.
+  Type 'Task<number> | Task<string>' is not assignable to type 'Task<number>'.
+    Type 'Task<string>' is not assignable to type 'Task<number>'.
+      Type 'string' is not assignable to type 'number'.ts(2345)
+*/
+```
+
+However we can use `sequenceT` (or `sequenceS`)
+
+```ts
+import { sequenceT, sequenceS } from 'fp-ts/lib/Apply'
+import * as T from 'fp-ts/lib/Task'
+
+// x: T.Task<[number, string]>
+const x = sequenceT(T.task)(T.of(1), T.of('hello'))
+
+// y: T.Task<{ a: number, b: string }>
+const y = sequenceS(T.task)({ a: T.of(1), b: T.of('hello') })
 ```
 
 ## Work with a list of dependent tasks
@@ -101,13 +133,13 @@ array.sequence(taskSeq)(tasks)()
 If you need the result of on task before you can continue with the next, you can `chain` the tasks like so:
 
 ```ts
+import * as T from 'fp-ts/lib/Task'
 import { pipe } from 'fp-ts/lib/pipeable'
-import { chain, task } from 'fp-ts/lib/Task'
 
 pipe(
-  task.of(2),
-  chain(result => task.of(result * 3)),
-  chain(result => task.of(result + 4))
+  T.of(2),
+  T.chain(result => T.of(result * 3)),
+  T.chain(result => T.of(result + 4))
 )().then(console.log) // 10
 ```
 
@@ -116,9 +148,9 @@ pipe(
 If you have a list of items that you need to `map` over before running them in `sequence`, you can use `traverse`, which is a shortcut for doing both operations in one step.
 
 ```ts
+import * as A from 'fp-ts/lib/Array'
+import * as T from 'fp-ts/lib/Task'
 import { access, constants } from 'fs'
-import { array } from 'fp-ts/lib/Array'
-import { task } from 'fp-ts/lib/Task'
 
 const checkPathExists = (path: string) => () =>
   new Promise(resolve => {
@@ -127,8 +159,8 @@ const checkPathExists = (path: string) => () =>
 
 const items = ['/bin', '/no/real/path']
 
-array
-  .traverse(task)(items, checkPathExists)()
+A.array
+  .traverse(T.task)(items, checkPathExists)()
   .then(console.log) // [ { path: '/bin', exists: true }, { path: '/no/real/path', exists: false } ]
 ```
 
