@@ -93,7 +93,9 @@ Added in v2.0.0
 - [strong (export)](#strong-export)
 - [task (export)](#task-export)
 - [taskEither (export)](#taskeither-export)
+- [taskThese (export)](#taskthese-export)
 - [these (export)](#these-export)
+- [theseT (export)](#theset-export)
 - [traced (export)](#traced-export)
 - [traversable (export)](#traversable-export)
 - [traversableWithIndex (export)](#traversablewithindex-export)
@@ -917,6 +919,16 @@ typeof taskEither
 
 Added in v2.0.0
 
+# taskThese (export)
+
+**Signature**
+
+```ts
+typeof taskThese
+```
+
+Added in v2.4.0
+
 # these (export)
 
 **Signature**
@@ -926,6 +938,16 @@ typeof these
 ```
 
 Added in v2.0.0
+
+# theseT (export)
+
+**Signature**
+
+```ts
+typeof theseT
+```
+
+Added in v2.4.0
 
 # traced (export)
 

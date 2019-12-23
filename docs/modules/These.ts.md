@@ -1,6 +1,6 @@
 ---
 title: These.ts
-nav_order: 83
+nav_order: 84
 parent: Modules
 ---
 
@@ -34,6 +34,7 @@ Added in v2.0.0
 - [These (type alias)](#these-type-alias)
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
+- [swap (constant)](#swap-constant)
 - [these (constant)](#these-constant)
 - [both (function)](#both-function)
 - [fold (function)](#fold-function)
@@ -107,6 +108,16 @@ export const URI: "These" = ...
 
 Added in v2.0.0
 
+# swap (constant)
+
+**Signature**
+
+```ts
+export const swap: <E, A>(fa: These<E, A>) => These<A, E> = ...
+```
+
+Added in v2.4.0
+
 # these (constant)
 
 **Signature**
@@ -177,7 +188,7 @@ Added in v2.0.0
 
 # getLeft (function)
 
-Returns an `L` value if possible
+Returns an `E` value if possible
 
 **Signature**
 
@@ -200,7 +211,7 @@ Added in v2.0.0
 
 # getLeftOnly (function)
 
-Returns the `L` value if and only if the value is constructed with `Left`
+Returns the `E` value if and only if the value is constructed with `Left`
 
 **Signature**
 
@@ -282,7 +293,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getSemigroup<E, A>(SL: Semigroup<E>, SA: Semigroup<A>): Semigroup<These<E, A>> { ... }
+export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<These<E, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -348,7 +359,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function leftOrBoth<E>(defaultLeft: E): <A>(ma: Option<A>) => These<E, A> { ... }
+export function leftOrBoth<E>(e: E): <A>(ma: Option<A>) => These<E, A> { ... }
 ```
 
 **Example**
@@ -378,7 +389,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function rightOrBoth<A>(defaultRight: A): <E>(me: Option<E>) => These<E, A> { ... }
+export function rightOrBoth<A>(a: A): <E>(me: Option<E>) => These<E, A> { ... }
 ```
 
 **Example**

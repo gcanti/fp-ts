@@ -28,10 +28,10 @@ import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { isNone, none, Option, some } from './Option'
+import { pipeable } from './pipeable'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { Traversable2 } from './Traversable'
-import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -105,6 +105,11 @@ export function fold<E, A, B>(
 }
 
 /**
+ * @since 2.4.0
+ */
+export const swap: <E, A>(fa: These<E, A>) => These<A, E> = fold(right, left, (e, a) => both(a, e))
+
+/**
  * @since 2.0.0
  */
 export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>> {
@@ -133,15 +138,15 @@ export function getEq<E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>> {
 /**
  * @since 2.0.0
  */
-export function getSemigroup<E, A>(SL: Semigroup<E>, SA: Semigroup<A>): Semigroup<These<E, A>> {
+export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<These<E, A>> {
   return {
     concat: (x, y) =>
       isLeft(x)
         ? isLeft(y)
-          ? left(SL.concat(x.left, y.left))
+          ? left(SE.concat(x.left, y.left))
           : isRight(y)
           ? both(x.left, y.right)
-          : both(SL.concat(x.left, y.left), y.right)
+          : both(SE.concat(x.left, y.left), y.right)
         : isRight(x)
         ? isLeft(y)
           ? both(y.left, x.right)
@@ -149,10 +154,10 @@ export function getSemigroup<E, A>(SL: Semigroup<E>, SA: Semigroup<A>): Semigrou
           ? right(SA.concat(x.right, y.right))
           : both(y.left, SA.concat(x.right, y.right))
         : isLeft(y)
-        ? both(SL.concat(x.left, y.left), x.right)
+        ? both(SE.concat(x.left, y.left), x.right)
         : isRight(y)
         ? both(x.left, SA.concat(x.right, y.right))
-        : both(SL.concat(x.left, y.left), SA.concat(x.right, y.right))
+        : both(SE.concat(x.left, y.left), SA.concat(x.right, y.right))
   }
 }
 
@@ -186,7 +191,6 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> {
 }
 
 /**
- *
  * @example
  * import { toTuple, left, right, both } from 'fp-ts/lib/These'
  *
@@ -201,7 +205,7 @@ export function toTuple<E, A>(e: E, a: A): (fa: These<E, A>) => [E, A] {
 }
 
 /**
- * Returns an `L` value if possible
+ * Returns an `E` value if possible
  *
  * @example
  * import { getLeft, left, right, both } from 'fp-ts/lib/These'
@@ -271,8 +275,8 @@ export function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A> {
  *
  * @since 2.0.0
  */
-export function leftOrBoth<E>(defaultLeft: E): <A>(ma: Option<A>) => These<E, A> {
-  return ma => (isNone(ma) ? left(defaultLeft) : both(defaultLeft, ma.value))
+export function leftOrBoth<E>(e: E): <A>(ma: Option<A>) => These<E, A> {
+  return ma => (isNone(ma) ? left(e) : both(e, ma.value))
 }
 
 /**
@@ -285,12 +289,12 @@ export function leftOrBoth<E>(defaultLeft: E): <A>(ma: Option<A>) => These<E, A>
  *
  * @since 2.0.0
  */
-export function rightOrBoth<A>(defaultRight: A): <E>(me: Option<E>) => These<E, A> {
-  return me => (isNone(me) ? right(defaultRight) : both(me.value, defaultRight))
+export function rightOrBoth<A>(a: A): <E>(me: Option<E>) => These<E, A> {
+  return me => (isNone(me) ? right(a) : both(me.value, a))
 }
 
 /**
- * Returns the `L` value if and only if the value is constructed with `Left`
+ * Returns the `E` value if and only if the value is constructed with `Left`
  *
  * @example
  * import { getLeftOnly, left, right, both } from 'fp-ts/lib/These'
@@ -348,8 +352,6 @@ export function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
     : some(both(fe.value, fa.value))
 }
 
-const identity = <A>(a: A): A => a
-
 /**
  * @since 2.0.0
  */
@@ -358,7 +360,7 @@ export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversab
   map: (fa, f) => (isLeft(fa) ? fa : isRight(fa) ? right(f(fa.right)) : both(fa.left, f(fa.right))),
   bimap: (fea, f, g) =>
     isLeft(fea) ? left(f(fea.left)) : isRight(fea) ? right(g(fea.right)) : both(f(fea.left), g(fea.right)),
-  mapLeft: (fea, f) => these.bimap(fea, f, identity),
+  mapLeft: (fea, f) => (isLeft(fea) ? left(f(fea.left)) : isBoth(fea) ? both(f(fea.left), fea.right) : fea),
   reduce: (fa, b, f) => (isLeft(fa) ? b : isRight(fa) ? f(b, fa.right) : f(b, fa.right)),
   foldMap: M => (fa, f) => (isLeft(fa) ? M.empty : isRight(fa) ? f(fa.right) : f(fa.right)),
   reduceRight: (fa, b, f) => (isLeft(fa) ? b : isRight(fa) ? f(fa.right, b) : f(fa.right, b)),
