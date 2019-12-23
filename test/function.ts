@@ -12,7 +12,8 @@ import {
   not,
   unsafeCoerce,
   absurd,
-  flow
+  flow,
+  unary
 } from '../src/function'
 
 const f = (n: number) => n + 1
@@ -77,5 +78,16 @@ describe('function', () => {
     assert.deepStrictEqual(flow(f, g, f, g, f, g, f)(2), 31)
     assert.deepStrictEqual(flow(f, g, f, g, f, g, f, g)(2), 62)
     assert.deepStrictEqual(flow(f, g, f, g, f, g, f, g, f)(2), 63)
+  })
+
+  it('unary', () => {
+    const f1 = (a: number): number => a * 2
+    const f2 = (a: number, b: number): number => a + b
+    const u1 = unary(f1)
+    const u2 = unary(f2)
+    assert.deepStrictEqual(u1.length, 1)
+    assert.deepStrictEqual(u1([1]), 2)
+    assert.deepStrictEqual(u2.length, 1)
+    assert.deepStrictEqual(u2([1, 2]), 3)
   })
 })

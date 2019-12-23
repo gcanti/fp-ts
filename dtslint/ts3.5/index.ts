@@ -177,20 +177,14 @@ interface fromNullableTest2 {
 }
 declare const fromNullableTest3: <Key extends keyof fromNullableTest2>(key: Key) => fromNullableTest2[Key]
 // $ExpectType Option<number>
-Fu.flow(
-  fromNullableTest3,
-  O.fromNullable
-)('foo')
+Fu.flow(fromNullableTest3, O.fromNullable)('foo')
 
 //
 // Either
 //
 
 // $ExpectType Either<string, number>
-Fu.flow(
-  fromNullableTest3,
-  E.fromNullable('error')
-)('foo')
+Fu.flow(fromNullableTest3, E.fromNullable('error'))('foo')
 
 //
 // HKT
@@ -375,10 +369,10 @@ Fu.tuple(1, 'a') // $ExpectType [number, string]
 Fu.tuple(1, 'a', true) // $ExpectType [number, string, boolean]
 
 // $ExpectType <A>(head: A, tail: A[]) => Option<A>
-Fu.flow(
-  A.cons,
-  A.head
-)
+Fu.flow(A.cons, A.head)
+
+// unary
+Fu.unary(A.insertAt) // $ExpectType <A>(a: [number, A]) => (as: A[]) => Option<A[]>
 
 //
 // Filterable overloads
