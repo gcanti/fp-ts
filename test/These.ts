@@ -237,4 +237,10 @@ describe('These', () => {
     assert.deepStrictEqual(S.show(_.right('a')), `right("a")`)
     assert.deepStrictEqual(S.show(_.both('a', 'b')), `both("a", "b")`)
   })
+
+  it('swap', () => {
+    assert.deepStrictEqual(_.swap(_.left('a')), _.right('a'))
+    assert.deepStrictEqual(_.swap(_.right('a')), _.left('a'))
+    assert.deepStrictEqual(_.swap(_.both('a', 1)), _.both(1, 'a'))
+  })
 })

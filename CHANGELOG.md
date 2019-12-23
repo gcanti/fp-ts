@@ -18,6 +18,10 @@ high state of flux, you're at risk of it changing without notice.
 
 - **New Feature**
   - add `WriterT` module, closes #1050 (@gcanti)
+  - add `TheseT` module (@gcanti)
+  - add `TaskThese` module (@gcanti)
+  - `These`
+    - add `swap` (@gcanti)
   - `Ord`
     - add `getMonoid` (@vicrac)
   - `Ordering`

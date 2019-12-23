@@ -83,7 +83,9 @@ import * as store from './Store'
 import * as strong from './Strong'
 import * as task from './Task'
 import * as taskEither from './TaskEither'
+import * as taskThese from './TaskThese'
 import * as these from './These'
+import * as theseT from './TheseT'
 import * as traced from './Traced'
 import * as traversable from './Traversable'
 import * as traversableWithIndex from './TraversableWithIndex'
@@ -420,9 +422,17 @@ export {
    */
   taskEither,
   /**
+   * @since 2.4.0
+   */
+  taskThese,
+  /**
    * @since 2.0.0
    */
   these,
+  /**
+   * @since 2.4.0
+   */
+  theseT,
   /**
    * @since 2.0.0
    */
