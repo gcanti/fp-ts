@@ -273,3 +273,19 @@ export function decrement(n: number): number {
 export function absurd<A>(_: never): A {
   throw new Error('Called `absurd` function which should be uncallable')
 }
+
+/**
+ * Returns a unary function from a `n`-ary function
+ *
+ * @example
+ * import { unary } from 'fp-ts/lib/function'
+ *
+ * const add = unary((x: number, y: number): number => x + y)
+ *
+ * assert.strictEqual(add([1, 2]), 3)
+ *
+ * @since 2.4.0
+ */
+export function unary<A extends Array<unknown>, B>(f: (...a: A) => B): (a: A) => B {
+  return a => f(...a)
+}
