@@ -275,17 +275,17 @@ export function absurd<A>(_: never): A {
 }
 
 /**
- * Returns a unary function from a `n`-ary function
+ * Creates a tupled version of this function: instead of `n` arguments, it accepts a single tuple argument.
  *
  * @example
- * import { unary } from 'fp-ts/lib/function'
+ * import { tupled } from 'fp-ts/lib/function'
  *
- * const add = unary((x: number, y: number): number => x + y)
+ * const add = tupled((x: number, y: number): number => x + y)
  *
  * assert.strictEqual(add([1, 2]), 3)
  *
  * @since 2.4.0
  */
-export function unary<A extends Array<unknown>, B>(f: (...a: A) => B): (a: A) => B {
+export function tupled<A extends Array<unknown>, B>(f: (...a: A) => B): (a: A) => B {
   return a => f(...a)
 }

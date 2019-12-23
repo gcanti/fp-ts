@@ -32,7 +32,7 @@ Added in v2.0.0
 - [increment (function)](#increment-function)
 - [not (function)](#not-function)
 - [tuple (function)](#tuple-function)
-- [unary (function)](#unary-function)
+- [tupled (function)](#tupled-function)
 
 ---
 
@@ -340,22 +340,22 @@ export function tuple<T extends Array<any>>(...t: T): T { ... }
 
 Added in v2.0.0
 
-# unary (function)
+# tupled (function)
 
-Returns a unary function from a `n`-ary function
+Creates a tupled version of this function: instead of `n` arguments, it accepts a single tuple argument.
 
 **Signature**
 
 ```ts
-export function unary<A extends Array<unknown>, B>(f: (...a: A) => B): (a: A) => B { ... }
+export function tupled<A extends Array<unknown>, B>(f: (...a: A) => B): (a: A) => B { ... }
 ```
 
 **Example**
 
 ```ts
-import { unary } from 'fp-ts/lib/function'
+import { tupled } from 'fp-ts/lib/function'
 
-const add = unary((x: number, y: number): number => x + y)
+const add = tupled((x: number, y: number): number => x + y)
 
 assert.strictEqual(add([1, 2]), 3)
 ```

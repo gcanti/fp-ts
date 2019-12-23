@@ -38,7 +38,7 @@ high state of flux, you're at risk of it changing without notice.
   - `StateReaderTaskEither`
     - add `chainEither`, `chainIOEither`, `chainTaskEither`, `chainReaderTaskEither` (@gcanti)
   - `function`
-    - add `unary` function, closes #1062 (@gcanti)
+    - add `tupled` function, closes #1062 (@gcanti)
 - **Deprecation**
   - `Ord`
     - deprecate `getSemigroup` in favor of `getMonoid` (@gcanti)

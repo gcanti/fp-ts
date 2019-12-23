@@ -371,8 +371,8 @@ Fu.tuple(1, 'a', true) // $ExpectType [number, string, boolean]
 // $ExpectType <A>(head: A, tail: A[]) => Option<A>
 Fu.flow(A.cons, A.head)
 
-// unary
-Fu.unary(A.insertAt) // $ExpectType <A>(a: [number, A]) => (as: A[]) => Option<A[]>
+// tupled
+Fu.tupled(A.insertAt) // $ExpectType <A>(a: [number, A]) => (as: A[]) => Option<A[]>
 
 //
 // Filterable overloads
