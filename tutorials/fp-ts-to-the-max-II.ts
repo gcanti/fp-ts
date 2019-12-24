@@ -1,34 +1,14 @@
 import { log } from '../src/Console'
 import { Kind, URIS } from '../src/HKT'
-import { none, Option, some, fold } from '../src/Option'
+import * as O from '../src/Option'
 import { randomInt } from '../src/Random'
 import * as T from '../src/Task'
 import { createInterface } from 'readline'
 import { State, state } from '../src/State'
 import { Monad1 } from '../src/Monad'
-
-//
-// helpers
-//
-
-const getStrLn: T.Task<string> = () =>
-  new Promise(resolve => {
-    const rl = createInterface({
-      input: process.stdin,
-      output: process.stdout
-    })
-    rl.question('> ', answer => {
-      rl.close()
-      resolve(answer)
-    })
-  })
-
-const putStrLn = (message: string): T.Task<void> => T.task.fromIO(log(message))
-
-const parse = (s: string): Option<number> => {
-  const i = +s
-  return isNaN(i) || i % 1 !== 0 ? none : some(i)
-}
+import { flow } from '../src/function'
+import { pipe, pipeable } from '../src/pipeable'
+import { sequenceS } from '../src/Apply'
 
 //
 // type classes
@@ -55,8 +35,24 @@ interface Main<F extends URIS> extends Program<F>, Console<F>, Random<F> {}
 
 const programTask: Program<T.URI> = {
   ...T.task,
-  finish: T.task.of
+  finish: T.of
 }
+
+// read from standard input
+const getStrLn: T.Task<string> = () =>
+  new Promise(resolve => {
+    const rl = createInterface({
+      input: process.stdin,
+      output: process.stdout
+    })
+    rl.question('> ', answer => {
+      rl.close()
+      resolve(answer)
+    })
+  })
+
+// write to standard output
+const putStrLn = flow(log, T.fromIO)
 
 const consoleTask: Console<T.URI> = {
   putStrLn,
@@ -64,56 +60,83 @@ const consoleTask: Console<T.URI> = {
 }
 
 const randomTask: Random<T.URI> = {
-  nextInt: upper => T.task.fromIO(randomInt(1, upper))
+  nextInt: upper => T.fromIO(randomInt(1, upper))
 }
 
 //
 // game
 //
 
-const checkContinue = <F extends URIS>(F: Program<F> & Console<F>) => (name: string): Kind<F, boolean> => {
-  const put = F.putStrLn(`Do you want to continue, ${name}?`)
-  const get = F.chain(put, () => F.getStrLn)
-  const answer = F.chain(get, answer => {
-    switch (answer.toLowerCase()) {
-      case 'y':
-        return F.of(true)
-      case 'n':
-        return F.of(false)
-      default:
-        return checkContinue(F)(name)
-    }
-  })
-  return answer
+// parse a string to an integer
+function parse(s: string): O.Option<number> {
+  const i = +s
+  return isNaN(i) || i % 1 !== 0 ? O.none : O.some(i)
 }
 
-const gameLoop = <F extends URIS>(F: Main<F>) => (name: string): Kind<F, void> => {
-  const parseFailureMessage = F.putStrLn('You did not enter an integer!')
+function main<F extends URIS>(F: Main<F>): Kind<F, void> {
+  // run `n` tasks in parallel
+  const ado = sequenceS(F)
 
-  return F.chain(F.nextInt(5), secret => {
-    const game = F.chain(F.putStrLn(`Dear ${name}, please guess a number from 1 to 5`), () =>
-      F.chain(F.getStrLn, guess =>
-        fold(
-          () => parseFailureMessage,
-          x =>
-            x === secret
-              ? F.putStrLn(`You guessed right, ${name}!`)
-              : F.putStrLn(`You guessed wrong, ${name}! The number was: ${secret}`)
-        )(parse(guess))
-      )
+  const { chain, chainFirst } = pipeable(F)
+
+  // ask something and get the answer
+  const ask = (question: string): Kind<F, string> =>
+    pipe(
+      F.putStrLn(question),
+      chain(() => F.getStrLn)
     )
-    const doContinue = F.chain(game, () => checkContinue(F)(name))
-    return F.chain(doContinue, shouldContinue => (shouldContinue ? gameLoop(F)(name) : F.of<void>(undefined)))
-  })
+
+  const shouldContinue = (name: string): Kind<F, boolean> => {
+    return pipe(
+      ask(`Do you want to continue, ${name} (y/n)?`),
+      chain(answer => {
+        switch (answer.toLowerCase()) {
+          case 'y':
+            return F.of<boolean>(true)
+          case 'n':
+            return F.of<boolean>(false)
+          default:
+            return shouldContinue(name)
+        }
+      })
+    )
+  }
+
+  const gameLoop = (name: string): Kind<F, void> => {
+    return pipe(
+      ado({
+        secret: F.nextInt(5),
+        guess: ask(`Dear ${name}, please guess a number from 1 to 5`)
+      }),
+      chain(({ secret, guess }) =>
+        pipe(
+          parse(guess),
+          O.fold(
+            () => F.putStrLn('You did not enter an integer!'),
+            x =>
+              x === secret
+                ? F.putStrLn(`You guessed right, ${name}!`)
+                : F.putStrLn(`You guessed wrong, ${name}! The number was: ${secret}`)
+          )
+        )
+      ),
+      chain(() => shouldContinue(name)),
+      chain(b => (b ? gameLoop(name) : F.of<void>(undefined)))
+    )
+  }
+
+  return pipe(
+    ask('What is your name?'),
+    chainFirst(name => F.putStrLn(`Hello, ${name} welcome to the game!`)),
+    chain(gameLoop)
+  )
 }
 
-const main = <F extends URIS>(F: Main<F>): Kind<F, void> => {
-  const nameMessage = F.putStrLn('What is your name?')
-  const askName = F.chain(nameMessage, () => F.getStrLn)
-  return F.chain(askName, name => F.chain(F.putStrLn(`Hello, ${name} welcome to the game!`), () => gameLoop(F)(name)))
-}
-
-export const mainTask = main({ ...programTask, ...consoleTask, ...randomTask })
+export const mainTask = main({
+  ...programTask,
+  ...consoleTask,
+  ...randomTask
+})
 
 // tslint:disable-next-line: no-floating-promises
 // mainTask.run()
@@ -171,7 +194,12 @@ const randomTest: Random<URI> = {
   }
 }
 
-const mainTestTask = main({ ...programTest, ...consoleTest, ...randomTest })
+const mainTestTask = main({
+  ...programTest,
+  ...consoleTest,
+  ...randomTest
+})
+
 const testExample = new TestData(['Giulio', '1', 'n'], [], [1])
 
 import * as assert from 'assert'
@@ -185,7 +213,7 @@ assert.deepStrictEqual(mainTestTask(testExample), [
       'Hello, Giulio welcome to the game!',
       'Dear Giulio, please guess a number from 1 to 5',
       'You guessed right, Giulio!',
-      'Do you want to continue, Giulio?'
+      'Do you want to continue, Giulio (y/n)?'
     ],
     []
   )
