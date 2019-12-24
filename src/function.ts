@@ -289,3 +289,12 @@ export function absurd<A>(_: never): A {
 export function tupled<A extends Array<unknown>, B>(f: (...a: A) => B): (a: A) => B {
   return a => f(...a)
 }
+
+/**
+ * Inverse function of `tupled`
+ *
+ * @since 2.4.0
+ */
+export function untupled<A extends Array<unknown>, B>(f: (a: A) => B): (...a: A) => B {
+  return (...a) => f(a)
+}
