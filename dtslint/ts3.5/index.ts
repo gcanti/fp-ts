@@ -374,6 +374,9 @@ Fu.flow(A.cons, A.head)
 // tupled
 Fu.tupled(A.insertAt) // $ExpectType <A>(a: [number, A]) => (as: A[]) => Option<A[]>
 
+// untupled
+Fu.untupled(Fu.tupled(A.insertAt)) // $ExpectType <A>(i: number, a: A) => (as: A[]) => Option<A[]>
+
 //
 // Filterable overloads
 //

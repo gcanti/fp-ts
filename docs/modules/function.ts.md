@@ -33,6 +33,7 @@ Added in v2.0.0
 - [not (function)](#not-function)
 - [tuple (function)](#tuple-function)
 - [tupled (function)](#tupled-function)
+- [untupled (function)](#untupled-function)
 
 ---
 
@@ -358,6 +359,18 @@ import { tupled } from 'fp-ts/lib/function'
 const add = tupled((x: number, y: number): number => x + y)
 
 assert.strictEqual(add([1, 2]), 3)
+```
+
+Added in v2.4.0
+
+# untupled (function)
+
+Inverse function of `tupled`
+
+**Signature**
+
+```ts
+export function untupled<A extends Array<unknown>, B>(f: (a: A) => B): (...a: A) => B { ... }
 ```
 
 Added in v2.4.0
