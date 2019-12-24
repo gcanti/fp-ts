@@ -1,14 +1,18 @@
 import { createInterface } from 'readline'
+import { sequenceS } from '../src/Apply'
 import { log } from '../src/Console'
-import { fold, none, Option, some } from '../src/Option'
+import { flow } from '../src/function'
+import * as O from '../src/Option'
+import { pipe } from '../src/pipeable'
 import { randomInt } from '../src/Random'
-import { Task, task } from '../src/Task'
+import * as T from '../src/Task'
 
 //
 // helpers
 //
 
-const getStrLn: Task<string> = () =>
+// read from standard input
+const getStrLn: T.Task<string> = () =>
   new Promise(resolve => {
     const rl = createInterface({
       input: process.stdin,
@@ -20,60 +24,76 @@ const getStrLn: Task<string> = () =>
     })
   })
 
-const putStrLn = (message: string): Task<void> => task.fromIO(log(message))
+// write to standard output
+const putStrLn = flow(log, T.fromIO)
 
-const random = task.fromIO(randomInt(1, 5))
+// ask something and get the answer
+function ask(question: string): T.Task<string> {
+  return pipe(
+    putStrLn(question),
+    T.chain(() => getStrLn)
+  )
+}
 
-const parse = (s: string): Option<number> => {
+// get a random int between 1 and 5
+const random = T.fromIO(randomInt(1, 5))
+
+// parse a string to an integer
+function parse(s: string): O.Option<number> {
   const i = +s
-  return isNaN(i) || i % 1 !== 0 ? none : some(i)
+  return isNaN(i) || i % 1 !== 0 ? O.none : O.some(i)
 }
 
 //
 // game
 //
 
-const checkContinue = (name: string): Task<boolean> => {
-  const put = putStrLn(`Do you want to continue, ${name}?`)
-  const get = task.chain(put, () => getStrLn)
-  const answer = task.chain(get, answer => {
-    switch (answer.toLowerCase()) {
-      case 'y':
-        return task.of(true)
-      case 'n':
-        return task.of(false)
-      default:
-        return checkContinue(name)
-    }
-  })
-  return answer
+function shouldContinue(name: string): T.Task<boolean> {
+  return pipe(
+    ask(`Do you want to continue, ${name} (y/n)?`),
+    T.chain(answer => {
+      switch (answer.toLowerCase()) {
+        case 'y':
+          return T.of(true)
+        case 'n':
+          return T.of(false)
+        default:
+          return shouldContinue(name)
+      }
+    })
+  )
 }
 
-const parseFailureMessage = putStrLn('You did not enter an integer!')
+// run `n` tasks in parallel
+const ado = sequenceS(T.task)
 
-const gameLoop = (name: string): Task<void> =>
-  task.chain(random, secret => {
-    const game = task.chain(putStrLn(`Dear ${name}, please guess a number from 1 to 5`), () =>
-      task.chain(getStrLn, guess =>
-        fold(
-          () => parseFailureMessage,
+function gameLoop(name: string): T.Task<void> {
+  return pipe(
+    ado({
+      secret: random,
+      guess: ask(`Dear ${name}, please guess a number from 1 to 5`)
+    }),
+    T.chain(({ secret, guess }) =>
+      pipe(
+        parse(guess),
+        O.fold(
+          () => putStrLn('You did not enter an integer!'),
           x =>
             x === secret
               ? putStrLn(`You guessed right, ${name}!`)
               : putStrLn(`You guessed wrong, ${name}! The number was: ${secret}`)
-        )(parse(guess))
+        )
       )
-    )
-    const doContinue = task.chain(game, () => checkContinue(name))
-    return task.chain(doContinue, shouldContinue => (shouldContinue ? gameLoop(name) : task.of(undefined)))
-  })
+    ),
+    T.chain(() => shouldContinue(name)),
+    T.chain(b => (b ? gameLoop(name) : T.of(undefined)))
+  )
+}
 
-const nameMessage = putStrLn('What is your name?')
-
-const askName = task.chain(nameMessage, () => getStrLn)
-
-const main: Task<void> = task.chain(askName, name =>
-  task.chain(putStrLn(`Hello, ${name} welcome to the game!`), () => gameLoop(name))
+const main: T.Task<void> = pipe(
+  ask('What is your name?'),
+  T.chainFirst(name => putStrLn(`Hello, ${name} welcome to the game!`)),
+  T.chain(gameLoop)
 )
 
 // tslint:disable-next-line: no-floating-promises
