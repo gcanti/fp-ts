@@ -50,6 +50,14 @@ export function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: 
 }
 
 /**
+ * Run a computation in the `StateReaderTaskEither` monad, retaining a tuple final state and result
+ *
+ * @since 2.4.0
+ */
+export const runState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S) => ReaderTaskEither<R, E, [A, S]> =
+  T.runState
+
+/**
  * Run a computation in the `StateReaderTaskEither` monad, discarding the final state
  *
  * @since 2.0.0

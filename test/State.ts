@@ -3,6 +3,10 @@ import * as S from '../src/State'
 import { tuple } from '../src/function'
 
 describe('State', () => {
+  it('run', () => {
+    assert.deepStrictEqual(S.runState(S.state.of<number, string>('a'), 0), ['a', 0])
+  })
+
   it('eval', () => {
     assert.deepStrictEqual(S.evalState(S.state.of<number, string>('a'), 0), 'a')
   })

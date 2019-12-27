@@ -37,6 +37,13 @@ export interface State<S, A> {
 }
 
 /**
+ * Run a computation in the `State` monad, returning a tuple of final state and result
+ *
+ * @since 2.4.0
+ */
+export const runState: <S, A>(ma: State<S, A>, s: S) => [A, S] = T.runState
+
+/**
  * Run a computation in the `State` monad, discarding the final state
  *
  * @since 2.0.0

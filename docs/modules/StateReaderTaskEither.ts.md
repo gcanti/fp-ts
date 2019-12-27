@@ -24,6 +24,7 @@ Added in v2.0.0
 - [put (constant)](#put-constant)
 - [right (constant)](#right-constant)
 - [rightState (constant)](#rightstate-constant)
+- [runState (constant)](#runstate-constant)
 - [stateReaderTaskEither (constant)](#statereadertaskeither-constant)
 - [stateReaderTaskEitherSeq (constant)](#statereadertaskeitherseq-constant)
 - [chainEither (function)](#chaineither-function)
@@ -187,6 +188,18 @@ export const rightState: <S, R, E = ...
 ```
 
 Added in v2.0.0
+
+# runState (constant)
+
+Run a computation in the `StateReaderTaskEither` monad, retaining a tuple final state and result
+
+**Signature**
+
+```ts
+export const : <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S) => RTE.ReaderTaskEither<R, E, [A, S]> = ...
+```
+
+Added in v2.4.0
 
 # stateReaderTaskEither (constant)
 

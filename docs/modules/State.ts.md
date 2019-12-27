@@ -27,6 +27,7 @@ Added in v2.0.0
 - [modify (constant)](#modify-constant)
 - [of (constant)](#of-constant)
 - [put (constant)](#put-constant)
+- [runState (constant)](#runstate-constant)
 - [state (constant)](#state-constant)
 - [ap (export)](#ap-export)
 - [apFirst (export)](#apfirst-export)
@@ -151,6 +152,18 @@ export const put: <S>(s: S) => State<S, void> = ...
 ```
 
 Added in v2.0.0
+
+# runState (constant)
+
+Run a computation in the `State` monad, returning a tuple of final state and result
+
+**Signature**
+
+```ts
+export const runState: <S, A>(ma: State<S, A>, s: S) => [A, S] = ...
+```
+
+Added in v2.4.0
 
 # state (constant)
 

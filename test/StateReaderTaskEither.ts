@@ -51,6 +51,13 @@ describe('StateReaderTaskEither', () => {
     })
   })
 
+  it('runState', async () => {
+    const ma = _.right('aaa')
+    const s = {}
+    const e = await RTE.run(_.runState(ma, s), {})
+    assert.deepStrictEqual(e, E.right(['aaa', {}]))
+  })
+
   it('execState', async () => {
     const ma = _.right('aaa')
     const s = {}
