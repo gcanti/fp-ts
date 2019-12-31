@@ -27,9 +27,11 @@ Added in v2.0.0
 - [taskEither (constant)](#taskeither-constant)
 - [taskEitherSeq (constant)](#taskeitherseq-constant)
 - [bracket (function)](#bracket-function)
-- [chainEither (function)](#chaineither-function)
-- [chainIOEither (function)](#chainioeither-function)
+- [chainEitherK (function)](#chaineitherk-function)
+- [chainIOEitherK (function)](#chainioeitherk-function)
 - [fold (function)](#fold-function)
+- [fromEitherK (function)](#fromeitherk-function)
+- [fromIOEitherK (function)](#fromioeitherk-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getFilterable (function)](#getfilterable-function)
@@ -189,22 +191,22 @@ export function bracket<E, A, B>(
 
 Added in v2.0.0
 
-# chainEither (function)
+# chainEitherK (function)
 
 **Signature**
 
 ```ts
-export function chainEither<E, A, B>(f: (a: A) => Either<E, B>): (ma: TaskEither<E, A>) => TaskEither<E, B> { ... }
+export function chainEitherK<E, A, B>(f: (a: A) => Either<E, B>): (ma: TaskEither<E, A>) => TaskEither<E, B> { ... }
 ```
 
 Added in v2.4.0
 
-# chainIOEither (function)
+# chainIOEitherK (function)
 
 **Signature**
 
 ```ts
-export function chainIOEither<E, A, B>(f: (a: A) => IOEither<E, B>): (ma: TaskEither<E, A>) => TaskEither<E, B> { ... }
+export function chainIOEitherK<E, A, B>(f: (a: A) => IOEither<E, B>): (ma: TaskEither<E, A>) => TaskEither<E, B> { ... }
 ```
 
 Added in v2.4.0
@@ -221,6 +223,26 @@ export function fold<E, A, B>(
 ```
 
 Added in v2.0.0
+
+# fromEitherK (function)
+
+**Signature**
+
+```ts
+export function fromEitherK<E, A, B>(f: (a: A) => Either<E, B>): (a: A) => TaskEither<E, B> { ... }
+```
+
+Added in v2.4.0
+
+# fromIOEitherK (function)
+
+**Signature**
+
+```ts
+export function fromIOEitherK<E, A, B>(f: (a: A) => IOEither<E, B>): (a: A) => TaskEither<E, B> { ... }
+```
+
+Added in v2.4.0
 
 # getApplyMonoid (function)
 

@@ -251,28 +251,49 @@ export function getReaderTaskValidation<E>(
 /**
  * @since 2.4.0
  */
-export function chainEither<E, A, B>(
+export function fromEitherK<E, A, B>(f: (a: A) => Either<E, B>): <R>(a: A) => ReaderTaskEither<R, E, B> {
+  return a => fromEither(f(a))
+}
+
+/**
+ * @since 2.4.0
+ */
+export function chainEitherK<E, A, B>(
   f: (a: A) => Either<E, B>
 ): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> {
-  return chain(a => fromEither(f(a)))
+  return chain<any, E, A, B>(fromEitherK(f))
 }
 
 /**
  * @since 2.4.0
  */
-export function chainIOEither<E, A, B>(
+export function fromIOEitherK<E, A, B>(f: (a: A) => IOEither<E, B>): <R>(a: A) => ReaderTaskEither<R, E, B> {
+  return a => fromIOEither(f(a))
+}
+
+/**
+ * @since 2.4.0
+ */
+export function chainIOEitherK<E, A, B>(
   f: (a: A) => IOEither<E, B>
 ): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> {
-  return chain(a => fromIOEither(f(a)))
+  return chain<any, E, A, B>(fromIOEitherK(f))
 }
 
 /**
  * @since 2.4.0
  */
-export function chainTaskEither<E, A, B>(
+export function fromTaskEitherK<E, A, B>(f: (a: A) => TaskEither<E, B>): <R>(a: A) => ReaderTaskEither<R, E, B> {
+  return a => fromTaskEither(f(a))
+}
+
+/**
+ * @since 2.4.0
+ */
+export function chainTaskEitherK<E, A, B>(
   f: (a: A) => TaskEither<E, B>
 ): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> {
-  return chain(a => fromTaskEither(f(a)))
+  return chain<any, E, A, B>(fromTaskEitherK(f))
 }
 
 /**

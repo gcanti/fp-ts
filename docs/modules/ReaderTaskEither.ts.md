@@ -23,12 +23,15 @@ Added in v2.0.0
 - [right (constant)](#right-constant)
 - [rightReader (constant)](#rightreader-constant)
 - [bracket (function)](#bracket-function)
-- [chainEither (function)](#chaineither-function)
-- [chainIOEither (function)](#chainioeither-function)
-- [chainTaskEither (function)](#chaintaskeither-function)
+- [chainEitherK (function)](#chaineitherk-function)
+- [chainIOEitherK (function)](#chainioeitherk-function)
+- [chainTaskEitherK (function)](#chaintaskeitherk-function)
 - [fold (function)](#fold-function)
+- [fromEitherK (function)](#fromeitherk-function)
 - [fromIOEither (function)](#fromioeither-function)
+- [fromIOEitherK (function)](#fromioeitherk-function)
 - [fromReaderEither (function)](#fromreadereither-function)
+- [fromTaskEitherK (function)](#fromtaskeitherk-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getOrElse (function)](#getorelse-function)
@@ -184,36 +187,36 @@ export function bracket<R, E, A, B>(
 
 Added in v2.0.4
 
-# chainEither (function)
+# chainEitherK (function)
 
 **Signature**
 
 ```ts
-export function chainEither<E, A, B>(
+export function chainEitherK<E, A, B>(
   f: (a: A) => Either<E, B>
 ): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> { ... }
 ```
 
 Added in v2.4.0
 
-# chainIOEither (function)
+# chainIOEitherK (function)
 
 **Signature**
 
 ```ts
-export function chainIOEither<E, A, B>(
+export function chainIOEitherK<E, A, B>(
   f: (a: A) => IOEither<E, B>
 ): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> { ... }
 ```
 
 Added in v2.4.0
 
-# chainTaskEither (function)
+# chainTaskEitherK (function)
 
 **Signature**
 
 ```ts
-export function chainTaskEither<E, A, B>(
+export function chainTaskEitherK<E, A, B>(
   f: (a: A) => TaskEither<E, B>
 ): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> { ... }
 ```
@@ -233,6 +236,16 @@ export function fold<R, E, A, B>(
 
 Added in v2.0.0
 
+# fromEitherK (function)
+
+**Signature**
+
+```ts
+export function fromEitherK<E, A, B>(f: (a: A) => Either<E, B>): <R>(a: A) => ReaderTaskEither<R, E, B> { ... }
+```
+
+Added in v2.4.0
+
 # fromIOEither (function)
 
 **Signature**
@@ -243,6 +256,16 @@ export function fromIOEither<R, E, A>(ma: IOEither<E, A>): ReaderTaskEither<R, E
 
 Added in v2.0.0
 
+# fromIOEitherK (function)
+
+**Signature**
+
+```ts
+export function fromIOEitherK<E, A, B>(f: (a: A) => IOEither<E, B>): <R>(a: A) => ReaderTaskEither<R, E, B> { ... }
+```
+
+Added in v2.4.0
+
 # fromReaderEither (function)
 
 **Signature**
@@ -252,6 +275,16 @@ export function fromReaderEither<R, E, A>(ma: ReaderEither<R, E, A>): ReaderTask
 ```
 
 Added in v2.0.0
+
+# fromTaskEitherK (function)
+
+**Signature**
+
+```ts
+export function fromTaskEitherK<E, A, B>(f: (a: A) => TaskEither<E, B>): <R>(a: A) => ReaderTaskEither<R, E, B> { ... }
+```
+
+Added in v2.4.0
 
 # getApplyMonoid (function)
 

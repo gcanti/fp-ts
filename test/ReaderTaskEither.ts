@@ -456,21 +456,21 @@ describe('ReaderTaskEither', () => {
     })
   })
 
-  it('chainEither', async () => {
+  it('chainEitherK', async () => {
     const f = (s: string) => E.right(s.length)
-    const x = await _.run(pipe(_.right('a'), _.chainEither(f)), undefined)
+    const x = await _.run(pipe(_.right('a'), _.chainEitherK(f)), undefined)
     assert.deepStrictEqual(x, E.right(1))
   })
 
-  it('chainIOEither', async () => {
+  it('chainIOEitherK', async () => {
     const f = (s: string) => IE.right(s.length)
-    const x = await _.run(pipe(_.right('a'), _.chainIOEither(f)), undefined)
+    const x = await _.run(pipe(_.right('a'), _.chainIOEitherK(f)), undefined)
     assert.deepStrictEqual(x, E.right(1))
   })
 
-  it('chainTaskEither', async () => {
+  it('chainTaskEitherK', async () => {
     const f = (s: string) => TE.right(s.length)
-    const x = await _.run(pipe(_.right('a'), _.chainTaskEither(f)), undefined)
+    const x = await _.run(pipe(_.right('a'), _.chainTaskEitherK(f)), undefined)
     assert.deepStrictEqual(x, E.right(1))
   })
 })
