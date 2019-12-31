@@ -40,7 +40,7 @@ high state of flux, you're at risk of it changing without notice.
   - `StateReaderTaskEither`
     - add `fromEitherK`, `chainEitherK`, `fromIOEitherK`, `chainIOEitherK`, `fromTaskEitherK`, `chainTaskEitherK`, `fromReaderTaskEitherK`, `chainReaderTaskEitherK` (@gcanti)
   - `Task`
-    - add `formIOK`, `chainIOK` (@gcanti)
+    - add `fromIOK`, `chainIOK` (@gcanti)
   - `TaskEither`
     - add `fromEitherK`, `chainEitherK`, `fromIOEitherK`, `chainIOEitherK` (@gcanti)
 - **Deprecation**
