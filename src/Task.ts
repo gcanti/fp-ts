@@ -117,8 +117,15 @@ export function of<A>(a: A): Task<A> {
 /**
  * @since 2.4.0
  */
-export function chainIO<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> {
-  return chain(a => fromIO(f(a)))
+export function fromIOK<A, B>(f: (a: A) => IO<B>): (a: A) => Task<B> {
+  return a => fromIO(f(a))
+}
+
+/**
+ * @since 2.4.0
+ */
+export function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> {
+  return chain(fromIOK(f))
 }
 
 /**

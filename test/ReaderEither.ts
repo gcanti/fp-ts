@@ -131,9 +131,9 @@ describe('ReaderEither', () => {
     })
   })
 
-  it('chainEither', () => {
+  it('chainEitherK', () => {
     const f = (s: string) => E.right(s.length)
-    const x = pipe(_.right('a'), _.chainEither(f))(undefined)
+    const x = pipe(_.right('a'), _.chainEitherK(f))(undefined)
     assert.deepStrictEqual(x, E.right(1))
   })
 })

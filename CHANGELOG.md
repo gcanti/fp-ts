@@ -20,29 +20,29 @@ high state of flux, you're at risk of it changing without notice.
   - add `WriterT` module, closes #1050 (@gcanti)
   - add `TheseT` module (@gcanti)
   - add `TaskThese` module (@gcanti)
+  - `function`
+    - add `tupled`, `untupled` functions, closes #1062 (@gcanti)
+  - `IOEither`
+    - add `fromEitherK`, `chainEitherK` (@gcanti)
+  - `ReaderEither`
+    - add `fromEitherK`, `chainEitherK` (@gcanti)
+  - `ReaderTask`
+    - add `run` (@gcanti)
+    - add `fromIOK`, `chainIOK`, `fromTaskK`, `chainTaskK` (@gcanti)
+  - `ReaderTaskEither`
+    - add `fromEitherK`, `chainEitherK`, `fromIOEitherK`, `chainIOEitherK`, `fromTaskEitherK`, `chainTaskEitherK` (@gcanti)
   - `These`
     - add `swap` (@gcanti)
   - `Ord`
     - add `getMonoid` (@vicrac)
   - `Ordering`
     - add `monoidOrdering` (@gcanti)
-  - `Task`
-    - add `chainIO` (@gcanti)
-  - `TaskEither`
-    - add `chainEither`, `chainIOEither` (@gcanti)
-  - `IOEither`
-    - add `chainEither` (@gcanti)
-  - `ReaderEither`
-    - add `chainEither` (@gcanti)
-  - `ReaderTask`
-    - add `run` (@gcanti)
-    - add `chainIO`, `chainTask` (@gcanti)
-  - `ReaderTaskEither`
-    - add `chainEither`, `chainIOEither`, `chainTaskEither` (@gcanti)
   - `StateReaderTaskEither`
-    - add `chainEither`, `chainIOEither`, `chainTaskEither`, `chainReaderTaskEither` (@gcanti)
-  - `function`
-    - add `tupled`, `untupled` functions, closes #1062 (@gcanti)
+    - add `fromEitherK`, `chainEitherK`, `fromIOEitherK`, `chainIOEitherK`, `fromTaskEitherK`, `chainTaskEitherK`, `fromReaderTaskEitherK`, `chainReaderTaskEitherK` (@gcanti)
+  - `Task`
+    - add `formIOK`, `chainIOK` (@gcanti)
+  - `TaskEither`
+    - add `fromEitherK`, `chainEitherK`, `fromIOEitherK`, `chainIOEitherK` (@gcanti)
 - **Deprecation**
   - `Ord`
     - deprecate `getSemigroup` in favor of `getMonoid` (@gcanti)

@@ -25,8 +25,9 @@ Added in v2.0.0
 - [rightIO (constant)](#rightio-constant)
 - [swap (constant)](#swap-constant)
 - [bracket (function)](#bracket-function)
-- [chainEither (function)](#chaineither-function)
+- [chainEitherK (function)](#chaineitherk-function)
 - [fold (function)](#fold-function)
+- [fromEitherK (function)](#fromeitherk-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getFilterable (function)](#getfilterable-function)
@@ -161,12 +162,12 @@ export function bracket<E, A, B>(
 
 Added in v2.0.0
 
-# chainEither (function)
+# chainEitherK (function)
 
 **Signature**
 
 ```ts
-export function chainEither<E, A, B>(f: (a: A) => Either<E, B>): (ma: IOEither<E, A>) => IOEither<E, B> { ... }
+export function chainEitherK<E, A, B>(f: (a: A) => Either<E, B>): (ma: IOEither<E, A>) => IOEither<E, B> { ... }
 ```
 
 Added in v2.4.0
@@ -180,6 +181,16 @@ export function fold<E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>)
 ```
 
 Added in v2.0.0
+
+# fromEitherK (function)
+
+**Signature**
+
+```ts
+export function fromEitherK<E, A, B>(f: (a: A) => Either<E, B>): (a: A) => IOEither<E, B> { ... }
+```
+
+Added in v2.4.0
 
 # getApplyMonoid (function)
 

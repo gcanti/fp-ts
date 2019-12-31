@@ -311,9 +311,9 @@ describe('IOEither', () => {
     })
   })
 
-  it('chainEither', () => {
+  it('chainEitherK', () => {
     const f = (s: string) => E.right(s.length)
-    const x = pipe(_.right('a'), _.chainEither(f))()
+    const x = pipe(_.right('a'), _.chainEitherK(f))()
     assert.deepStrictEqual(x, E.right(1))
   })
 })

@@ -22,9 +22,11 @@ Added in v2.3.0
 - [of (constant)](#of-constant)
 - [readerTask (constant)](#readertask-constant)
 - [readerTaskSeq (constant)](#readertaskseq-constant)
-- [chainIO (function)](#chainio-function)
-- [chainTask (function)](#chaintask-function)
+- [chainIOK (function)](#chainiok-function)
+- [chainTaskK (function)](#chaintaskk-function)
 - [fromIO (function)](#fromio-function)
+- [fromIOK (function)](#fromiok-function)
+- [fromTaskK (function)](#fromtaskk-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [local (function)](#local-function)
@@ -143,22 +145,22 @@ export const readerTaskSeq: typeof readerTask = ...
 
 Added in v2.3.0
 
-# chainIO (function)
+# chainIOK (function)
 
 **Signature**
 
 ```ts
-export function chainIO<A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> { ... }
+export function chainIOK<A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> { ... }
 ```
 
 Added in v2.4.0
 
-# chainTask (function)
+# chainTaskK (function)
 
 **Signature**
 
 ```ts
-export function chainTask<A, B>(f: (a: A) => Task<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> { ... }
+export function chainTaskK<A, B>(f: (a: A) => Task<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> { ... }
 ```
 
 Added in v2.4.0
@@ -172,6 +174,26 @@ export function fromIO<R, A>(ma: IO<A>): ReaderTask<R, A> { ... }
 ```
 
 Added in v2.3.0
+
+# fromIOK (function)
+
+**Signature**
+
+```ts
+export function fromIOK<A, B>(f: (a: A) => IO<B>): <R>(a: A) => ReaderTask<R, B> { ... }
+```
+
+Added in v2.4.0
+
+# fromTaskK (function)
+
+**Signature**
+
+```ts
+export function fromTaskK<A, B>(f: (a: A) => Task<B>): <R>(a: A) => ReaderTask<R, B> { ... }
+```
+
+Added in v2.4.0
 
 # getMonoid (function)
 

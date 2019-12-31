@@ -364,15 +364,15 @@ describe('TaskEither', () => {
     })
   })
 
-  it('chainEither', async () => {
+  it('chainEitherK', async () => {
     const f = (s: string) => E.right(s.length)
-    const x = await pipe(_.right('a'), _.chainEither(f))()
+    const x = await pipe(_.right('a'), _.chainEitherK(f))()
     assert.deepStrictEqual(x, E.right(1))
   })
 
-  it('chainIOEither', async () => {
+  it('chainIOEitherK', async () => {
     const f = (s: string) => ioEither.of(s.length)
-    const x = await pipe(_.right('a'), _.chainIOEither(f))()
+    const x = await pipe(_.right('a'), _.chainIOEitherK(f))()
     assert.deepStrictEqual(x, E.right(1))
   })
 })

@@ -104,15 +104,29 @@ export function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderTask<R, A>) => Rea
 /**
  * @since 2.4.0
  */
-export function chainIO<A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> {
-  return chain(a => fromIO(f(a)))
+export function fromIOK<A, B>(f: (a: A) => IO<B>): <R>(a: A) => ReaderTask<R, B> {
+  return a => fromIO(f(a))
 }
 
 /**
  * @since 2.4.0
  */
-export function chainTask<A, B>(f: (a: A) => Task<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> {
-  return chain(a => fromTask(f(a)))
+export function chainIOK<A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> {
+  return chain<any, A, B>(fromIOK(f))
+}
+
+/**
+ * @since 2.4.0
+ */
+export function fromTaskK<A, B>(f: (a: A) => Task<B>): <R>(a: A) => ReaderTask<R, B> {
+  return a => fromTask(f(a))
+}
+
+/**
+ * @since 2.4.0
+ */
+export function chainTaskK<A, B>(f: (a: A) => Task<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> {
+  return chain<any, A, B>(fromTaskK(f))
 }
 
 /**

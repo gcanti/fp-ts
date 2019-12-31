@@ -23,8 +23,9 @@ Added in v2.0.0
 - [swap (constant)](#swap-constant)
 - [ask (function)](#ask-function)
 - [asks (function)](#asks-function)
-- [chainEither (function)](#chaineither-function)
+- [chainEitherK (function)](#chaineitherk-function)
 - [fold (function)](#fold-function)
+- [fromEitherK (function)](#fromeitherk-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getOrElse (function)](#getorelse-function)
@@ -159,12 +160,12 @@ export function asks<R, E = never, A = never>(f: (r: R) => A): ReaderEither<R, E
 
 Added in v2.0.0
 
-# chainEither (function)
+# chainEitherK (function)
 
 **Signature**
 
 ```ts
-export function chainEither<E, A, B>(
+export function chainEitherK<E, A, B>(
   f: (a: A) => Either<E, B>
 ): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> { ... }
 ```
@@ -183,6 +184,16 @@ export function fold<R, E, A, B>(
 ```
 
 Added in v2.0.0
+
+# fromEitherK (function)
+
+**Signature**
+
+```ts
+export function fromEitherK<E, A, B>(f: (a: A) => Either<E, B>): <R>(a: A) => ReaderEither<R, E, B> { ... }
+```
+
+Added in v2.4.0
 
 # getApplyMonoid (function)
 

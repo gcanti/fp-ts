@@ -26,13 +26,17 @@ Added in v2.0.0
 - [rightState (constant)](#rightstate-constant)
 - [stateReaderTaskEither (constant)](#statereadertaskeither-constant)
 - [stateReaderTaskEitherSeq (constant)](#statereadertaskeitherseq-constant)
-- [chainEither (function)](#chaineither-function)
-- [chainIOEither (function)](#chainioeither-function)
-- [chainReaderTaskEither (function)](#chainreadertaskeither-function)
-- [chainTaskEither (function)](#chaintaskeither-function)
+- [chainEitherK (function)](#chaineitherk-function)
+- [chainIOEitherK (function)](#chainioeitherk-function)
+- [chainReaderTaskEitherK (function)](#chainreadertaskeitherk-function)
+- [chainTaskEitherK (function)](#chaintaskeitherk-function)
+- [fromEitherK (function)](#fromeitherk-function)
 - [fromIOEither (function)](#fromioeither-function)
+- [fromIOEitherK (function)](#fromioeitherk-function)
 - [fromReaderEither (function)](#fromreadereither-function)
+- [fromReaderTaskEitherK (function)](#fromreadertaskeitherk-function)
 - [fromTaskEither (function)](#fromtaskeither-function)
+- [fromTaskEitherK (function)](#fromtaskeitherk-function)
 - [left (function)](#left-function)
 - [leftIO (function)](#leftio-function)
 - [leftReader (function)](#leftreader-function)
@@ -210,50 +214,60 @@ export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = ...
 
 Added in v2.0.0
 
-# chainEither (function)
+# chainEitherK (function)
 
 **Signature**
 
 ```ts
-export function chainEither<E, A, B>(
+export function chainEitherK<E, A, B>(
   f: (a: A) => Either<E, B>
 ): <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> { ... }
 ```
 
 Added in v2.4.0
 
-# chainIOEither (function)
+# chainIOEitherK (function)
 
 **Signature**
 
 ```ts
-export function chainIOEither<E, A, B>(
+export function chainIOEitherK<E, A, B>(
   f: (a: A) => IOEither<E, B>
 ): <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> { ... }
 ```
 
 Added in v2.4.0
 
-# chainReaderTaskEither (function)
+# chainReaderTaskEitherK (function)
 
 **Signature**
 
 ```ts
-export function chainReaderTaskEither<R, E, A, B>(
+export function chainReaderTaskEitherK<R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
 ): <S>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> { ... }
 ```
 
 Added in v2.4.0
 
-# chainTaskEither (function)
+# chainTaskEitherK (function)
 
 **Signature**
 
 ```ts
-export function chainTaskEither<E, A, B>(
+export function chainTaskEitherK<E, A, B>(
   f: (a: A) => TaskEither<E, B>
 ): <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> { ... }
+```
+
+Added in v2.4.0
+
+# fromEitherK (function)
+
+**Signature**
+
+```ts
+export function fromEitherK<E, A, B>(f: (a: A) => Either<E, B>): <S, R>(a: A) => StateReaderTaskEither<S, R, E, B> { ... }
 ```
 
 Added in v2.4.0
@@ -268,6 +282,16 @@ export function fromIOEither<S, R, E, A>(ma: IOEither<E, A>): StateReaderTaskEit
 
 Added in v2.0.0
 
+# fromIOEitherK (function)
+
+**Signature**
+
+```ts
+export function fromIOEitherK<E, A, B>(f: (a: A) => IOEither<E, B>): <S, R>(a: A) => StateReaderTaskEither<S, R, E, B> { ... }
+```
+
+Added in v2.4.0
+
 # fromReaderEither (function)
 
 **Signature**
@@ -278,6 +302,18 @@ export function fromReaderEither<S, R, E, A>(ma: ReaderEither<R, E, A>): StateRe
 
 Added in v2.0.0
 
+# fromReaderTaskEitherK (function)
+
+**Signature**
+
+```ts
+export function fromReaderTaskEitherK<R, E, A, B>(
+  f: (a: A) => ReaderTaskEither<R, E, B>
+): <S>(a: A) => StateReaderTaskEither<S, R, E, B> { ... }
+```
+
+Added in v2.4.0
+
 # fromTaskEither (function)
 
 **Signature**
@@ -287,6 +323,18 @@ export function fromTaskEither<S, R, E, A>(ma: TaskEither<E, A>): StateReaderTas
 ```
 
 Added in v2.0.0
+
+# fromTaskEitherK (function)
+
+**Signature**
+
+```ts
+export function fromTaskEitherK<E, A, B>(
+  f: (a: A) => TaskEither<E, B>
+): <S, R>(a: A) => StateReaderTaskEither<S, R, E, B> { ... }
+```
+
+Added in v2.4.0
 
 # left (function)
 

@@ -151,27 +151,27 @@ describe('StateReaderTaskEither', () => {
     assert.deepStrictEqual(e2, E.right([1, {}]))
   })
 
-  it('chainEither', async () => {
+  it('chainEitherK', async () => {
     const f = (s: string) => E.right(s.length)
-    const x = await _.run(pipe(_.right('a'), _.chainEither(f)), undefined, undefined)
+    const x = await _.run(pipe(_.right('a'), _.chainEitherK(f)), undefined, undefined)
     assert.deepStrictEqual(x, E.right([1, undefined]))
   })
 
-  it('chainIOEither', async () => {
+  it('chainIOEitherK', async () => {
     const f = (s: string) => IE.right(s.length)
-    const x = await _.run(pipe(_.right('a'), _.chainIOEither(f)), undefined, undefined)
+    const x = await _.run(pipe(_.right('a'), _.chainIOEitherK(f)), undefined, undefined)
     assert.deepStrictEqual(x, E.right([1, undefined]))
   })
 
-  it('chainTaskEither', async () => {
+  it('chainTaskEitherK', async () => {
     const f = (s: string) => TE.right(s.length)
-    const x = await _.run(pipe(_.right('a'), _.chainTaskEither(f)), undefined, undefined)
+    const x = await _.run(pipe(_.right('a'), _.chainTaskEitherK(f)), undefined, undefined)
     assert.deepStrictEqual(x, E.right([1, undefined]))
   })
 
-  it('chainReaderTaskEither', async () => {
+  it('chainReaderTaskEitherK', async () => {
     const f = (s: string) => RTE.right(s.length)
-    const x = await _.run(pipe(_.right('a'), _.chainReaderTaskEither(f)), undefined, undefined)
+    const x = await _.run(pipe(_.right('a'), _.chainReaderTaskEitherK(f)), undefined, undefined)
     assert.deepStrictEqual(x, E.right([1, undefined]))
   })
 })

@@ -269,15 +269,29 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
 /**
  * @since 2.4.0
  */
-export function chainEither<E, A, B>(f: (a: A) => Either<E, B>): (ma: TaskEither<E, A>) => TaskEither<E, B> {
-  return chain(a => fromEither(f(a)))
+export function fromEitherK<E, A, B>(f: (a: A) => Either<E, B>): (a: A) => TaskEither<E, B> {
+  return a => fromEither(f(a))
 }
 
 /**
  * @since 2.4.0
  */
-export function chainIOEither<E, A, B>(f: (a: A) => IOEither<E, B>): (ma: TaskEither<E, A>) => TaskEither<E, B> {
-  return chain(a => fromIOEither(f(a)))
+export function chainEitherK<E, A, B>(f: (a: A) => Either<E, B>): (ma: TaskEither<E, A>) => TaskEither<E, B> {
+  return chain(fromEitherK(f))
+}
+
+/**
+ * @since 2.4.0
+ */
+export function fromIOEitherK<E, A, B>(f: (a: A) => IOEither<E, B>): (a: A) => TaskEither<E, B> {
+  return a => fromIOEither(f(a))
+}
+
+/**
+ * @since 2.4.0
+ */
+export function chainIOEitherK<E, A, B>(f: (a: A) => IOEither<E, B>): (ma: TaskEither<E, A>) => TaskEither<E, B> {
+  return chain(fromIOEitherK(f))
 }
 
 /**

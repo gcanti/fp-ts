@@ -20,9 +20,10 @@ Added in v2.0.0
 - [URI (constant)](#uri-constant)
 - [task (constant)](#task-constant)
 - [taskSeq (constant)](#taskseq-constant)
-- [chainIO (function)](#chainio-function)
+- [chainIOK (function)](#chainiok-function)
 - [delay (function)](#delay-function)
 - [fromIO (function)](#fromio-function)
+- [fromIOK (function)](#fromiok-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getRaceMonoid (function)](#getracemonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
@@ -92,12 +93,12 @@ export const taskSeq: typeof task = ...
 
 Added in v2.0.0
 
-# chainIO (function)
+# chainIOK (function)
 
 **Signature**
 
 ```ts
-export function chainIO<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> { ... }
+export function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> { ... }
 ```
 
 Added in v2.4.0
@@ -121,6 +122,16 @@ export function fromIO<A>(ma: IO<A>): Task<A> { ... }
 ```
 
 Added in v2.0.0
+
+# fromIOK (function)
+
+**Signature**
+
+```ts
+export function fromIOK<A, B>(f: (a: A) => IO<B>): (a: A) => Task<B> { ... }
+```
+
+Added in v2.4.0
 
 # getMonoid (function)
 
