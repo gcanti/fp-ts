@@ -25,6 +25,7 @@ has_toc: false
 - [waveguide](https://github.com/rzeigler/waveguide) - Bifunctor effect type and concurrent data structures.
 - [kleisli-ts](https://github.com/YBogomolov/kleisli-ts) - Kleisli arrows for bifunctor MonadThrow (IOEither, TaskEither)
 - [@nll/datum](https://github.com/nullpub/datum) - Datum and DatumEither types, another take on RemoteData and [flow](https://medium.com/@gcanti/slaying-a-ui-antipattern-with-flow-5eed0cfb627b)
+- [fetcher-ts](https://github.com/YBogomolov/fetcher-ts) - Type-safe REST HTTP client with io-ts response validation
 
 ## Bindings
 
