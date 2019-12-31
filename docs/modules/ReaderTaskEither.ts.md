@@ -241,7 +241,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromEitherK<E, A, B>(f: (a: A) => Either<E, B>): <R>(a: A) => ReaderTaskEither<R, E, B> { ... }
+export function fromEitherK<E, A extends Array<unknown>, B>(
+  f: (...a: A) => Either<E, B>
+): <R>(...a: A) => ReaderTaskEither<R, E, B> { ... }
 ```
 
 Added in v2.4.0
@@ -261,7 +263,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromIOEitherK<E, A, B>(f: (a: A) => IOEither<E, B>): <R>(a: A) => ReaderTaskEither<R, E, B> { ... }
+export function fromIOEitherK<E, A extends Array<unknown>, B>(
+  f: (...a: A) => IOEither<E, B>
+): <R>(...a: A) => ReaderTaskEither<R, E, B> { ... }
 ```
 
 Added in v2.4.0
@@ -281,7 +285,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromTaskEitherK<E, A, B>(f: (a: A) => TaskEither<E, B>): <R>(a: A) => ReaderTaskEither<R, E, B> { ... }
+export function fromTaskEitherK<E, A extends Array<unknown>, B>(
+  f: (...a: A) => TaskEither<E, B>
+): <R>(...a: A) => ReaderTaskEither<R, E, B> { ... }
 ```
 
 Added in v2.4.0

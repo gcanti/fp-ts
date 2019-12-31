@@ -117,8 +117,8 @@ export function of<A>(a: A): Task<A> {
 /**
  * @since 2.4.0
  */
-export function fromIOK<A, B>(f: (a: A) => IO<B>): (a: A) => Task<B> {
-  return a => fromIO(f(a))
+export function fromIOK<A extends Array<unknown>, B>(f: (...a: A) => IO<B>): (...a: A) => Task<B> {
+  return (...a) => fromIO(f(...a))
 }
 
 /**
