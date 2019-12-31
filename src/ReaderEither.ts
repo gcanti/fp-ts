@@ -154,8 +154,10 @@ export function getReaderValidation<E>(
 /**
  * @since 2.4.0
  */
-export function fromEitherK<E, A, B>(f: (a: A) => Either<E, B>): <R>(a: A) => ReaderEither<R, E, B> {
-  return a => fromEither(f(a))
+export function fromEitherK<E, A extends Array<unknown>, B>(
+  f: (...a: A) => Either<E, B>
+): <R>(...a: A) => ReaderEither<R, E, B> {
+  return (...a) => fromEither(f(...a))
 }
 
 /**

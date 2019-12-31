@@ -175,8 +175,8 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
 /**
  * @since 2.4.0
  */
-export function fromEitherK<E, A, B>(f: (a: A) => Either<E, B>): (a: A) => IOEither<E, B> {
-  return a => fromEither(f(a))
+export function fromEitherK<E, A extends Array<unknown>, B>(f: (...a: A) => Either<E, B>): (...a: A) => IOEither<E, B> {
+  return (...a) => fromEither(f(...a))
 }
 
 /**

@@ -251,8 +251,10 @@ export function getReaderTaskValidation<E>(
 /**
  * @since 2.4.0
  */
-export function fromEitherK<E, A, B>(f: (a: A) => Either<E, B>): <R>(a: A) => ReaderTaskEither<R, E, B> {
-  return a => fromEither(f(a))
+export function fromEitherK<E, A extends Array<unknown>, B>(
+  f: (...a: A) => Either<E, B>
+): <R>(...a: A) => ReaderTaskEither<R, E, B> {
+  return (...a) => fromEither(f(...a))
 }
 
 /**
@@ -267,8 +269,10 @@ export function chainEitherK<E, A, B>(
 /**
  * @since 2.4.0
  */
-export function fromIOEitherK<E, A, B>(f: (a: A) => IOEither<E, B>): <R>(a: A) => ReaderTaskEither<R, E, B> {
-  return a => fromIOEither(f(a))
+export function fromIOEitherK<E, A extends Array<unknown>, B>(
+  f: (...a: A) => IOEither<E, B>
+): <R>(...a: A) => ReaderTaskEither<R, E, B> {
+  return (...a) => fromIOEither(f(...a))
 }
 
 /**
@@ -283,8 +287,10 @@ export function chainIOEitherK<E, A, B>(
 /**
  * @since 2.4.0
  */
-export function fromTaskEitherK<E, A, B>(f: (a: A) => TaskEither<E, B>): <R>(a: A) => ReaderTaskEither<R, E, B> {
-  return a => fromTaskEither(f(a))
+export function fromTaskEitherK<E, A extends Array<unknown>, B>(
+  f: (...a: A) => TaskEither<E, B>
+): <R>(...a: A) => ReaderTaskEither<R, E, B> {
+  return (...a) => fromTaskEither(f(...a))
 }
 
 /**

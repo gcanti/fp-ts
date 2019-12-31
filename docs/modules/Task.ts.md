@@ -128,7 +128,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromIOK<A, B>(f: (a: A) => IO<B>): (a: A) => Task<B> { ... }
+export function fromIOK<A extends Array<unknown>, B>(f: (...a: A) => IO<B>): (...a: A) => Task<B> { ... }
 ```
 
 Added in v2.4.0
