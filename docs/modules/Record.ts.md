@@ -353,14 +353,14 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function hasOwnProperty<K extends string>(k: K, r: Record<K, unknown>): boolean { ... }
+export function hasOwnProperty<K extends string>(k: string, r: Record<K, unknown>): k is K { ... }
 ```
 
 Added in v2.0.0
 
 # insertAt (function)
 
-Insert or replace a key/value pair in a map
+Insert or replace a key/value pair in a record
 
 **Signature**
 
