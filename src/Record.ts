@@ -170,7 +170,7 @@ export function deleteAt(k: string): <A>(r: Record<string, A>) => Record<string,
 /**
  * @since 2.0.0
  */
-export function updateAt<K extends string, A>(k: K, a: A): (r: Record<K, A>) => Option<Record<K, A>> {
+export function updateAt<A>(k: string, a: A): <K extends string>(r: Record<K, A>) => Option<Record<K, A>> {
   return r => {
     if (!hasOwnProperty(k, r)) {
       return none
@@ -187,7 +187,7 @@ export function updateAt<K extends string, A>(k: K, a: A): (r: Record<K, A>) => 
 /**
  * @since 2.0.0
  */
-export function modifyAt<K extends string, A>(k: K, f: (a: A) => A): (r: Record<K, A>) => Option<Record<K, A>> {
+export function modifyAt<A>(k: string, f: (a: A) => A): <K extends string>(r: Record<K, A>) => Option<Record<K, A>> {
   return r => {
     if (!hasOwnProperty(k, r)) {
       return none
