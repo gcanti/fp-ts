@@ -123,7 +123,7 @@ export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <A>(r: Record<string
 }
 
 /**
- * Insert or replace a key/value pair in a map
+ * Insert or replace a key/value pair in a record
  *
  * @since 2.0.0
  */
@@ -144,7 +144,7 @@ const _hasOwnProperty = Object.prototype.hasOwnProperty
 /**
  * @since 2.0.0
  */
-export function hasOwnProperty<K extends string>(k: K, r: Record<K, unknown>): boolean {
+export function hasOwnProperty<K extends string>(k: string, r: Record<K, unknown>): k is K {
   return _hasOwnProperty.call(r, k)
 }
 
