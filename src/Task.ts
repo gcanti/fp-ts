@@ -63,24 +63,7 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>> {
  */
 export function getRaceMonoid<A = never>(): Monoid<Task<A>> {
   return {
-    concat: (x, y) => () =>
-      new Promise((resolve, reject) => {
-        let running = true
-        const resolveFirst = (a: A) => {
-          if (running) {
-            running = false
-            resolve(a)
-          }
-        }
-        const rejectFirst = (e: any) => {
-          if (running) {
-            running = false
-            reject(e)
-          }
-        }
-        x().then(resolveFirst, rejectFirst)
-        y().then(resolveFirst, rejectFirst)
-      }),
+    concat: (x, y) => () => Promise.race([x(), y()]),
     empty: never
   }
 }
