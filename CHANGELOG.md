@@ -48,6 +48,8 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `getSemigroup` in favor of `getMonoid` (@gcanti)
   - `Ordering`
     - deprecate `semigroupOrdering` in favor of `monoidOrdering` (@gcanti)
+- **Internal**
+  - use native `Promise.race` in `Task.getRaceMonoid` (@gcanti)
 
 # 2.3.1
 
