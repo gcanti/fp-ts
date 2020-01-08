@@ -59,6 +59,8 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>> {
 }
 
 /**
+ * Note: uses `Promise.race` internally
+ *
  * @since 2.0.0
  */
 export function getRaceMonoid<A = never>(): Monoid<Task<A>> {

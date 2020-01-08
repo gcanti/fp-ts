@@ -145,6 +145,8 @@ Added in v2.0.0
 
 # getRaceMonoid (function)
 
+Note: uses `Promise.race` internally
+
 **Signature**
 
 ```ts
