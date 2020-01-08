@@ -148,5 +148,8 @@ describe('pipeable', () => {
     assert.deepStrictEqual(pipe(2, f, g, f, g, f, g, f), 31)
     assert.deepStrictEqual(pipe(2, f, g, f, g, f, g, f, g), 62)
     assert.deepStrictEqual(pipe(2, f, g, f, g, f, g, f, g, f), 63)
+    assert.deepStrictEqual(pipe(2, f, g, f, g, f, g, f, g, f), 63)
+    // this is just to satisfy noImplicitReturns and 100% coverage
+    assert.deepStrictEqual((pipe as any)(...[2, f, g, f, g, f, g, f, g, f, g]), undefined)
   })
 })

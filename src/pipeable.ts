@@ -181,6 +181,7 @@ export function pipe(
     case 10:
       return ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))))
   }
+  return
 }
 
 /**

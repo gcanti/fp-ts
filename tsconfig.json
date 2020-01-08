@@ -6,9 +6,9 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "strict": true,
-    "noImplicitReturns": false,
+    "noImplicitReturns": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": false,
+    "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "lib": ["es6"]
