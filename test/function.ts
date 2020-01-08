@@ -79,6 +79,8 @@ describe('function', () => {
     assert.deepStrictEqual(flow(f, g, f, g, f, g, f)(2), 31)
     assert.deepStrictEqual(flow(f, g, f, g, f, g, f, g)(2), 62)
     assert.deepStrictEqual(flow(f, g, f, g, f, g, f, g, f)(2), 63)
+    // this is just to satisfy noImplicitReturns and 100% coverage
+    assert.deepStrictEqual((flow as any)(...[f, g, f, g, f, g, f, g, f, g]), undefined)
   })
 
   it('tupled', () => {

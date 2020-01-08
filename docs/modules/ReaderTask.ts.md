@@ -220,7 +220,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderTask<R, A>) => ReaderTask<Q, A> { ... }
+export function local<Q, R>(f: (f: Q) => R): <A>(ma: ReaderTask<R, A>) => ReaderTask<Q, A> { ... }
 ```
 
 Added in v2.3.0

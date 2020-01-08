@@ -97,7 +97,7 @@ export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> = T.asks
 /**
  * @since 2.3.0
  */
-export function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderTask<R, A>) => ReaderTask<Q, A> {
+export function local<Q, R>(f: (f: Q) => R): <A>(ma: ReaderTask<R, A>) => ReaderTask<Q, A> {
   return ma => T.local(ma, f)
 }
 
