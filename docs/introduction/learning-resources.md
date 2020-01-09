@@ -44,3 +44,9 @@ If you are coming from Haskell or Purescript:
   - [tagless final](https://dev.to/gcanti/functional-design-tagless-final-332k)
   - [smart constructors](https://dev.to/gcanti/functional-design-smart-constructors-14nb)
   - [Algebraic Data Types](https://dev.to/gcanti/functional-design-algebraic-data-types-36kf)
+
+## Advanced tutorials
+
+- "`fp-ts` to the max" (TypeScript port of John De Goes's ["FP to the max"](https://www.youtube.com/watch?v=sxudIMiOo68) in Scala)
+  - [Part I](https://github.com/gcanti/fp-ts/blob/master/tutorials/fp-ts-to-the-max-I.ts)
+  - [Part II](https://github.com/gcanti/fp-ts/blob/master/tutorials/fp-ts-to-the-max-II.ts)
