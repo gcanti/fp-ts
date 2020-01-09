@@ -24,7 +24,7 @@ Functional programming is all about pure functions and how to compose them into 
 
 Data types are the practical part of `fp-ts`: you can instantiate them with your data to gain properties and functionality that are useful for solving a specific need. Because data types all share common interfaces (through [type classes](#type-classes)), once you learn how to use one data type, you can apply the same concepts to the others.
 
-Many functions in `fp-ts` use [ad hoc polymorphism](https://en.wikipedia.org/wiki/Ad_hoc_polymorphism), meaning that they have a single implementation that can deal with arguments of different types. To make this work, it is often necessary to provide a data type _instance_ that provides functionality that is specific to the data type. Here is an example:
+Many functions in `fp-ts` use [ad hoc polymorphism](https://en.wikipedia.org/wiki/Ad_hoc_polymorphism), meaning that they have a single implementation that can deal with arguments of different types. To make this work, it is often necessary to provide a data type [_instance_](../recipes/HKT.md) that provides functionality that is specific to the data type. Here is an example:
 
 ```ts
 import { option } from 'fp-ts/lib/Option'
@@ -48,7 +48,7 @@ It can be useful to define your own data types, in which case you could use a to
 
 Type classes provide the theoretical underpinnings of `fp-ts`: they describe what you can do with your data. To guarantee that they can be safely composed, they are built on laws rooted in [category theory](https://en.wikipedia.org/wiki/Category_theory).
 
-A concrete example: A [Functor](../modules/Functor.ts) is a type constructor which supports a mapping operation `map`. Instances must satisfy the following laws:
+A concrete example: A [Functor](../modules/Functor.ts) is a type constructor which supports a mapping operation `map`. [Instances](../recipes/HKT.md) must satisfy the following laws:
 
 1. Identity: `F.map(fa, a => a) = fa`
 2. Composition: `F.map(fa, a => bc(ab(a))) = F.map(F.map(fa, ab), bc)`
