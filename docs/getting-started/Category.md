@@ -18,7 +18,7 @@ We need a **formal definition** of composition. That's what categories are all a
 
 > Categories capture the essence of composition.
 
-# Categories
+## Categories
 
 The definition of category is a bit long so I'm going to split its definition in two parts:
 

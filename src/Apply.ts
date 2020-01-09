@@ -10,7 +10,7 @@
  *
  * Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
  *
- * See [Getting started with fp-ts: Applicative](https://dev.to/gcanti/getting-started-with-fp-ts-applicative-1kb3)
+ * See [Getting started with fp-ts: Applicative](https://gcanti.github.io/fp-ts/getting-started/Applicative.html)
  *
  * @since 2.0.0
  */

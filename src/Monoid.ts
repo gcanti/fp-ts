@@ -1,5 +1,5 @@
 /**
- * See [Getting started with fp-ts: Monoid](https://dev.to/gcanti/getting-started-with-fp-ts-monoid-ja0)
+ * See [Getting started with fp-ts: Monoid](https://gcanti.github.io/fp-ts/getting-started/Monoid.html)
  *
  * @since 2.0.0
  */

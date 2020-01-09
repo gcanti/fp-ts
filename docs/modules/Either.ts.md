@@ -345,7 +345,7 @@ Added in v2.0.0
 
 # getValidation (function)
 
-See [Getting started with fp-ts: Either vs Validation](https://dev.to/gcanti/getting-started-with-fp-ts-either-vs-validation-5eja)
+See [Getting started with fp-ts: Either vs Validation](https://gcanti.github.io/fp-ts/getting-started/either-vs-validation.html)
 
 **Signature**
 

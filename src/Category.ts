@@ -1,5 +1,5 @@
 /**
- * See [Getting started with fp-ts: Category](https://dev.to/gcanti/getting-started-with-fp-ts-category-4c9a)
+ * See [Getting started with fp-ts: Category](https://gcanti.github.io/fp-ts/getting-started/Category.html)
  *
  * @since 2.0.0
  */

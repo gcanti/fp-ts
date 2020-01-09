@@ -17,7 +17,7 @@ Instances must satisfy the following law in addition to the `Functor` laws:
 
 Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
 
-See [Getting started with fp-ts: Applicative](https://dev.to/gcanti/getting-started-with-fp-ts-applicative-1kb3)
+See [Getting started with fp-ts: Applicative](https://gcanti.github.io/fp-ts/getting-started/Applicative.html)
 
 Added in v2.0.0
 

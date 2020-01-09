@@ -16,7 +16,7 @@ Instances must satisfy the following laws:
 1. Identity: `F.map(fa, a => a) = fa`
 2. Composition: `F.map(fa, a => bc(ab(a))) = F.map(F.map(fa, ab), bc)`
 
-See [Getting started with fp-ts: Functor](https://dev.to/gcanti/getting-started-with-fp-ts-functor-36ek)
+See [Getting started with fp-ts: Functor](https://gcanti.github.io/fp-ts/getting-started/Functor.html)
 
 Added in v2.0.0
 

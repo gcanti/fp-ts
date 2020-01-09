@@ -14,7 +14,7 @@ Instances must satisfy the following laws:
 2. Symmetry: `E.equals(a, b) === E.equals(b, a)`
 3. Transitivity: if `E.equals(a, b) === true` and `E.equals(b, c) === true`, then `E.equals(a, c) === true`
 
-See [Getting started with fp-ts: Eq](https://dev.to/gcanti/getting-started-with-fp-ts-eq-39f3)
+See [Getting started with fp-ts: Eq](https://gcanti.github.io/fp-ts/getting-started/Eq.html)
 
 Added in v2.0.0
 

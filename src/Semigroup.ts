@@ -1,5 +1,5 @@
 /**
- * See [Getting started with fp-ts: Semigroup](https://dev.to/gcanti/getting-started-with-fp-ts-semigroup-2mf7)
+ * See [Getting started with fp-ts: Semigroup](https://gcanti.github.io/fp-ts/getting-started/Semigroup.html)
  *
  * @since 2.0.0
  */

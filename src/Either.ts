@@ -464,7 +464,7 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
 }
 
 /**
- * See [Getting started with fp-ts: Either vs Validation](https://dev.to/gcanti/getting-started-with-fp-ts-either-vs-validation-5eja)
+ * See [Getting started with fp-ts: Either vs Validation](https://gcanti.github.io/fp-ts/getting-started/either-vs-validation.html)
  *
  * @since 2.0.0
  */
