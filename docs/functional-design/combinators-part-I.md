@@ -1,5 +1,5 @@
 ---
-title: Combinators
+title: Combinators Part I
 parent: Functional design
 nav_order: 1
 ---
