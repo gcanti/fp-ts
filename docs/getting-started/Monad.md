@@ -26,7 +26,7 @@ What's the "composition" of such `f` and `g`?
 
 In order to handle this last case we need something more powerful than `Functor` since it's quite easy to end up with nested contexts.
 
-# The problem: nested contexts
+## The problem: nested contexts
 
 To better explain why we need something more, let's see some examples.
 
@@ -95,7 +95,7 @@ So what's a monad?
 
 This is how monads are often presented...
 
-# Definition
+## Definition
 
 A monad is defined by three things:
 
@@ -123,7 +123,7 @@ The functions `of` and `flatMap` are required to obey three laws:
 
 where `f`, `g`, `h` are all effectful functions and `∘` is the usual function composition.
 
-# Ok but... why?
+## Ok but... why?
 
 Back in the day when I first saw such a definition my first reaction was bewilderment.
 
@@ -150,7 +150,7 @@ Wait... we already encountered an abstraction that is all about composition. Do 
 
 We can turn our problem into a category problem: can we find a category that models the composition of Kleisli arrows?
 
-# The Kleisli category
+## The Kleisli category
 
 Let's try to build a category _K_ (named **Kleisli category**) which only contains effectful functions:
 
@@ -173,7 +173,7 @@ So a good candidate for the composition of `f` and `g` in _TS_ is still an effec
 
 How can we build such a function? Well, let's try!
 
-# In which we build the composition step by step
+## In which we build the composition step by step
 
 The point (1) of the monad defintion says the `M` admits a functor instance, so we can `lift` the function `g: (b: B) => M<C>` to a function `lift(g): (mb: M<B>) => M<M<C>>` (here I'm using its synonym `map`)
 
@@ -207,7 +207,7 @@ What about `of`? Well, `of` comes from the identity morphisms in _K_: for each i
 
 <center>(where `of` comes from)</center>
 
-# The laws
+## The laws
 
 Last question: where do the laws come from? They are just the category laws in _K_ translated into _TS_:
 
@@ -217,7 +217,7 @@ Last question: where do the laws come from? They are just the category laws in _
 | Right identity | `f'` ∘ 1<sub>A</sub> = `f'`       | `flatMap(f) ∘ of = f`                                           |
 | Associativity  | `h' ∘ (g' ∘ f') = (h' ∘ g') ∘ f'` | `flatMap(h) ∘ (flatMap(g) ∘ f) = flatMap((flatMap(h) ∘ g)) ∘ f` |
 
-# Monads in `fp-ts`
+## Monads in `fp-ts`
 
 In `fp-ts` the `flatMap` function is modeled by a variant called `chain`, which is basically `flatMap` with the arguments rearranged
 
@@ -239,6 +239,6 @@ const followersOfFollowers: Array<User> = array.chain(getFollowers(user), getFol
 const headInverse: Option<number> = option.chain(head([1, 2, 3]), inverse)
 ```
 
-# Conclusion
+## Conclusion
 
 Functional programming provides universal ways to compose functions with effects: functors, applicative functors and monads are all abstractions that offer principled tools for composing different kind of programs.

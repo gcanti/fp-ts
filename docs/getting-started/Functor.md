@@ -16,7 +16,7 @@ Because if categories can be used to model programmming languages, morphisms (i.
 
 Therefore solving the problem also means to find **how to compose programs in a general way**. And _this_ is pretty interesting for a developer, isn't it?
 
-# Functions as programs
+## Functions as programs
 
 We call **pure program** a function with the following signature
 
@@ -64,7 +64,7 @@ function compose<A, B, C>(g: (b: B) => C, f: (a: A) => B): (a: A) => C {
 
 What about the other cases?
 
-# In which the constraint `B = F<C>` leads to functors
+## In which the constraint `B = F<C>` leads to functors
 
 Let's consider the following constraint: `B = F<C>` for some type constructor `F`, or in other words (and after some renaming)
 
@@ -109,7 +109,7 @@ All those `lift` functions almost look the same. It's not a coincidence, there's
 
 Indeed all those type constructors (and many others) admit a **functor instance**.
 
-# Functors
+## Functors
 
 Functors are **mappings between categories** that preserve the categorical structure, i.e. that preserve identity morphisms and composition.
 
@@ -154,7 +154,7 @@ map:  <A, B>(fa: F<A>, f: (a: A) => B) => F<B>
 
 Note that `map` can be derived from `lift` (and viceversa).
 
-# Functors in `fp-ts`
+## Functors in `fp-ts`
 
 How can we define a functor instance in `fp-ts`? Let's see a practical example.
 
@@ -206,7 +206,7 @@ export const functorResponse: Functor1<URI> = {
 }
 ```
 
-# Is the general problem solved?
+## Is the general problem solved?
 
 Not at all. Functors allow us to compose an effectful program `f` with a pure program `g`, but `g` must be **unary**, that is it must accept only one argument as input. What if `g` accepts two arguments? Or three?
 

@@ -15,7 +15,7 @@ In the [last](https://dev.to/gcanti/getting-started-with-fp-ts-functor-36ek) pos
 
 However `g` must be unary, that is it must accept only one argument as input. What if `g` accepts two arguments? Can we still lift `g` by using only the functor instance? Well, let's try!
 
-# Currying
+## Currying
 
 First of all we must model a function that accepts two arguments, let's say of type `B` and `C` (we can use a tuple) and returns a value of type `D`
 
@@ -49,7 +49,7 @@ lift(g): (fb: F<B>) => F<(c: C) => D>
 
 But now we are stuck: there's no legal operation on the functor instance which is able to **unpack** the value `F<(c: C) => D>` to a function `(fc: F<C>) => F<D>`.
 
-# Apply
+## Apply
 
 So let's introduce a new abstraction `Apply` that owns such a unpacking operation (named `ap`)
 
@@ -70,7 +70,7 @@ so `ap` can be derived from `unpack` (and viceversa).
 
 **Note**: the `HKT` type is the `fp-ts` way to represent a generic type constructor (a technique proposed in the [Lightweight higher-kinded polymorphism](https://www.cl.cam.ac.uk/~jdy22/papers/lightweight-higher-kinded-polymorphism.pdf) paper) so when you see `HKT<F, X>` you can think to the type constructor `F` applied to the type `X` (i.e. `F<X>`).
 
-# Applicative
+## Applicative
 
 Moreover it would be handy if there exists an operation which is able to **lift a value** of type `A` to a value of type `F<A>`. This way we could call the `liftA2(g)` function either by providing arguments of type `F<B>` and `F<C>` or by lifting values of type `B` and `C`.
 
@@ -124,7 +124,7 @@ const applicativeTask = {
 }
 ```
 
-# Lifting
+## Lifting
 
 So given an instance of `Apply` for `F` can we now write `liftA2`?
 
@@ -170,7 +170,7 @@ We can now update our "composition table"
 
 <center>where `liftA1 = lift`</center>
 
-# Is the general problem solved?
+## Is the general problem solved?
 
 Not yet. There's still an important case which is missing: what if **both** programs are effectful?
 
