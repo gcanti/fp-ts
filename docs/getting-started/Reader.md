@@ -10,6 +10,16 @@ The purpose of the `Reader` monad is to avoid threading arguments through multip
 
 One of the ideas presented here is to use the `Reader` monad for **dependency injection**.
 
+## What's a dependency?
+
+But what's a dependency, anyway? This is not a precisely defined term. As used here, a dependency is a type which instances are **static**, **global** and **stateless**:
+
+- **static**: as it's created on application startup, possibly depending on configuration, but not on dynamically-provided data
+- **global**: there's usually a single instance of a given dependency in an application
+- **stateless**: dependencies don't usually carry any state (especially mutable state), and are a collection of fields / functions implementing some business logic
+
+## Example
+
 The first thing you need to know is that the type `Reader<R, A>` represents a function `(r: R) => A`
 
 ```ts
@@ -19,8 +29,6 @@ interface Reader<R, A> {
 ```
 
 where `R` represents an "environment" needed for the computation (we can "read" from it) and `A` is the result.
-
-## Example
 
 Let's say we have the following piece of code
 
