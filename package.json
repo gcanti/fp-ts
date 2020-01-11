@@ -20,6 +20,7 @@
     "clean": "rimraf lib/* es6/*",
     "prebuild": "npm run clean",
     "build": "tsc -p ./tsconfig.build.json && tsc -p ./tsconfig.build-es6.json",
+    "postbuild": "prettier --write \"./{lib,es6}/**/*.ts\"",
     "prepublish": "npm run build",
     "doctoc": "doctoc README.md docs/introduction/code-conventions.md --title \"**Table of contents**\"",
     "mocha": "mocha -r ts-node/register test/*.ts",
