@@ -363,12 +363,19 @@ export function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either
  * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
  *
  * @example
- * import { stringifyJSON, toError, right, left } from 'fp-ts/lib/Either'
+ * import * as E from 'fp-ts/lib/Either'
+ * import { pipe } from 'fp-ts/lib/pipeable'
  *
- * assert.deepStrictEqual(stringifyJSON({ a: 1 }, toError), right('{"a":1}'))
+ * assert.deepStrictEqual(E.stringifyJSON({ a: 1 }, E.toError), E.right('{"a":1}'))
  * const circular: any = { ref: null }
  * circular.ref = circular
- * assert.deepStrictEqual(stringifyJSON(circular, toError), left(new TypeError('Converting circular structure to JSON')))
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.stringifyJSON(circular, E.toError),
+ *     E.mapLeft(e => e.message.includes('Converting circular structure to JSON'))
+ *   ),
+ *   E.left(true)
+ * )
  *
  * @since 2.0.0
  */

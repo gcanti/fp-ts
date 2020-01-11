@@ -166,8 +166,11 @@ describe('Either', () => {
     const circular: any = { ref: null }
     circular.ref = circular
     assert.deepStrictEqual(
-      _.stringifyJSON(circular, _.toError),
-      _.left(new TypeError('Converting circular structure to JSON'))
+      pipe(
+        _.stringifyJSON(circular, _.toError),
+        _.mapLeft(e => e.message.includes('Converting circular structure to JSON'))
+      ),
+      _.left(true)
     )
     interface Person {
       name: string
