@@ -277,7 +277,12 @@ Group equal, consecutive elements of an array into non empty arrays.
 **Signature**
 
 ```ts
-export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> { ... }
+export function group<A>(
+  E: Eq<A>
+): {
+  (as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
+  (as: Array<A>): Array<NonEmptyArray<A>>
+} { ... }
 ```
 
 **Example**
