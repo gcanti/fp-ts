@@ -44,6 +44,8 @@ Here's a small list of some commonly used data types, you can find more in the [
 
 It can be useful to define your own data types, in which case you could use a tool like [fp-ts-codegen](https://gcanti.github.io/fp-ts-codegen/) as a starting point.
 
+**Note**. Data types are not stack safe and there is no trampolining implementation.
+
 ## Type Classes
 
 Type classes provide the theoretical underpinnings of `fp-ts`: they describe what you can do with your data. To guarantee that they can be safely composed, they are built on laws rooted in [category theory](https://en.wikipedia.org/wiki/Category_theory).
