@@ -147,7 +147,7 @@ export function getOrd<A>(O: Ord<A>): Ord<Array<A>> {
  *
  * @since 2.0.0
  */
-export const empty: Array<never> = []
+export const empty: Array<never> = Object.freeze([]) as any
 
 /**
  * Return a list of length `n` with element `i` initialized with `f(i)`
