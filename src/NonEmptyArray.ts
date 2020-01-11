@@ -153,6 +153,12 @@ export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = A.getEq
  *
  * @since 2.0.0
  */
+export function group<A>(
+  E: Eq<A>
+): {
+  (as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
+  (as: Array<A>): Array<NonEmptyArray<A>>
+}
 export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
   return as => {
     const len = as.length

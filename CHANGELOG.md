@@ -14,6 +14,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.4.1
+
+- **Polish**
+  - add overloading to `NEA.group` managing non empty arrays, closes #831 (@gcanti)
+
 # 2.4.0
 
 - **New Feature**

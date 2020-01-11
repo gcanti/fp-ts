@@ -10,7 +10,6 @@ import * as Fu from '../../src/function'
 import * as H from '../../src/HKT'
 import * as Map from '../../src/Map'
 import * as Mon from '../../src/Monoid'
-import * as NEA from '../../src/NonEmptyArray'
 import * as O from '../../src/Option'
 import * as Or from '../../src/Ord'
 import * as Re from '../../src/Reader'
@@ -341,16 +340,6 @@ Mon.getTupleMonoid(Mon.monoidString, Mon.monoidSum, Mon.monoidAll) // $ExpectTyp
 //
 
 Ring.getTupleRing(Field.fieldNumber, Field.fieldNumber, Field.fieldNumber) // $ExpectType Ring<[number, number, number]>
-
-//
-// NonEmptyArray
-//
-
-declare const nea2v1: NEA.NonEmptyArray<string>
-
-NEA.cons(1, []) // $ExpectType NonEmptyArray<1>
-
-nea2v1.sort(Or.ordString.compare) // $ExpectType NonEmptyArray<string>
 
 //
 // function
