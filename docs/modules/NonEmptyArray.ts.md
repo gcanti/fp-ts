@@ -537,7 +537,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: NonEmptyArray<A>) => M
+;<S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) => S
 ```
 
 Added in v2.0.0
@@ -547,7 +547,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: NonEmptyArray<A>) => M
+;<S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (fa: NonEmptyArray<A>) => S
 ```
 
 Added in v2.0.0
