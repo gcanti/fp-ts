@@ -356,8 +356,6 @@ const {
   duplicate,
   extend,
   flatten,
-  foldMap,
-  foldMapWithIndex,
   map,
   mapWithIndex,
   reduce,
@@ -365,6 +363,12 @@ const {
   reduceRightWithIndex,
   reduceWithIndex
 } = pipeable(nonEmptyArray)
+
+const foldMapWithIndex = <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (fa: NonEmptyArray<A>) =>
+  fa.slice(1).reduce((s, a, i) => S.concat(s, f(i + 1, a)), f(0, fa[0]))
+
+const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) =>
+  fa.slice(1).reduce((s, a) => S.concat(s, f(a)), f(fa[0]))
 
 export {
   /**

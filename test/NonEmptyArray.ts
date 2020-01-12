@@ -5,10 +5,13 @@ import { identity } from '../src/function'
 import * as I from '../src/Identity'
 import { fold, monoidString, monoidSum } from '../src/Monoid'
 import {
+  concat,
   cons,
   copy,
   filter,
   filterWithIndex,
+  foldMap,
+  foldMapWithIndex,
   fromArray,
   getEq,
   getSemigroup,
@@ -17,23 +20,23 @@ import {
   groupBy,
   groupSort,
   head,
+  init,
   insertAt,
   last,
   max,
   min,
   modifyAt,
   nonEmptyArray,
+  NonEmptyArray,
   reverse,
   snoc,
   sort,
   tail,
-  updateAt,
-  NonEmptyArray,
-  init,
-  concat
+  updateAt
 } from '../src/NonEmptyArray'
 import { isSome, none, option, some } from '../src/Option'
 import { ordNumber } from '../src/Ord'
+import { semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
 
 describe('NonEmptyArray', () => {
@@ -329,5 +332,17 @@ describe('NonEmptyArray', () => {
       nonEmptyArray.alt(['a'], () => ['b']),
       ['a', 'b']
     )
+  })
+
+  it('foldMap', () => {
+    const f = foldMap(semigroupSum)((s: string) => s.length)
+    assert.deepStrictEqual(f(['a']), 1)
+    assert.deepStrictEqual(f(['a', 'bb']), 3)
+  })
+
+  it('foldMapWithIndex', () => {
+    const f = foldMapWithIndex(semigroupSum)((i: number, s: string) => s.length + i)
+    assert.deepStrictEqual(f(['a']), 1)
+    assert.deepStrictEqual(f(['a', 'bb']), 4)
   })
 })

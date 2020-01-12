@@ -17,7 +17,9 @@ high state of flux, you're at risk of it changing without notice.
 # 2.4.1
 
 - **Polish**
-  - add overloading to `NEA.group` managing non empty arrays, closes #831 (@gcanti)
+  - `NonEmptyArray`
+    - add overloading to `group` managing non empty arrays, closes #831 (@gcanti)
+    - `foldMap` and `foldMapWithIndex` now require a `Semigroup` instead of a `Monoid` (@gcanti)
 
 # 2.4.0
 
