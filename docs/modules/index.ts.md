@@ -79,6 +79,8 @@ Added in v2.0.0
 - [readerT (export)](#readert-export)
 - [readerTask (export)](#readertask-export)
 - [readerTaskEither (export)](#readertaskeither-export)
+- [readonlyArray (export)](#readonlyarray-export)
+- [readonlyNonEmptyArray (export)](#readonlynonemptyarray-export)
 - [record (export)](#record-export)
 - [ring (export)](#ring-export)
 - [semigroup (export)](#semigroup-export)
@@ -778,6 +780,26 @@ typeof readerTaskEither
 ```
 
 Added in v2.0.0
+
+# readonlyArray (export)
+
+**Signature**
+
+```ts
+typeof readonlyArray
+```
+
+Added in v2.5.0
+
+# readonlyNonEmptyArray (export)
+
+**Signature**
+
+```ts
+typeof readonlyNonEmptyArray
+```
+
+Added in v2.5.0
 
 # record (export)
 

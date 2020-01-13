@@ -69,6 +69,8 @@ import * as readerEither from './ReaderEither'
 import * as readerT from './ReaderT'
 import * as readerTask from './ReaderTask'
 import * as readerTaskEither from './ReaderTaskEither'
+import * as readonlyArray from './ReadonlyArray'
+import * as readonlyNonEmptyArray from './ReadonlyNonEmptyArray'
 import * as record from './Record'
 import * as ring from './Ring'
 import * as semigroup from './Semigroup'
@@ -357,6 +359,14 @@ export {
    * @since 2.0.0
    */
   readerTaskEither,
+  /**
+   * @since 2.5.0
+   */
+  readonlyArray,
+  /**
+   * @since 2.5.0
+   */
+  readonlyNonEmptyArray,
   /**
    * @since 2.3.0
    */

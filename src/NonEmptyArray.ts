@@ -222,7 +222,7 @@ export function groupBy<A>(f: (a: A) => string): (as: Array<A>) => Record<string
       if (r.hasOwnProperty(k)) {
         r[k].push(a)
       } else {
-        r[k] = cons(a, [])
+        r[k] = [a]
       }
     }
     return r

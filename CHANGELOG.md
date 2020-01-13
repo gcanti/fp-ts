@@ -14,8 +14,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
-# 2.4.1
+# 2.5.0
 
+- **New Feature**
+  - add `ReadonlyArray` module (@gcanti)
+  - add `ReadonlyNonEmptyArray` module (@gcanti)
 - **Polish**
   - `NonEmptyArray`
     - add overloading to `group` managing non empty arrays, closes #831 (@gcanti)
