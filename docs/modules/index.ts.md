@@ -80,6 +80,7 @@ Added in v2.0.0
 - [readerTask (export)](#readertask-export)
 - [readerTaskEither (export)](#readertaskeither-export)
 - [readonlyArray (export)](#readonlyarray-export)
+- [readonlyMap (export)](#readonlymap-export)
 - [readonlyNonEmptyArray (export)](#readonlynonemptyarray-export)
 - [readonlyRecord (export)](#readonlyrecord-export)
 - [readonlySet (export)](#readonlyset-export)
@@ -789,6 +790,16 @@ Added in v2.0.0
 
 ```ts
 typeof readonlyArray
+```
+
+Added in v2.5.0
+
+# readonlyMap (export)
+
+**Signature**
+
+```ts
+typeof readonlyMap
 ```
 
 Added in v2.5.0

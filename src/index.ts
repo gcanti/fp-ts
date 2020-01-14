@@ -70,6 +70,7 @@ import * as readerT from './ReaderT'
 import * as readerTask from './ReaderTask'
 import * as readerTaskEither from './ReaderTaskEither'
 import * as readonlyArray from './ReadonlyArray'
+import * as readonlyMap from './ReadonlyMap'
 import * as readonlyNonEmptyArray from './ReadonlyNonEmptyArray'
 import * as readonlyRecord from './ReadonlyRecord'
 import * as readonlySet from './ReadonlySet'
@@ -365,6 +366,10 @@ export {
    * @since 2.5.0
    */
   readonlyArray,
+  /**
+   * @since 2.5.0
+   */
+  readonlyMap,
   /**
    * @since 2.5.0
    */
