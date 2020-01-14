@@ -135,7 +135,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getStructEq<O extends { [key: string]: any }>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> { ... }
+export function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> { ... }
 ```
 
 Added in v2.0.0

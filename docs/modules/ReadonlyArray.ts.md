@@ -12,6 +12,7 @@ Added in v2.5.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Spanned (interface)](#spanned-interface)
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
 - [empty (constant)](#empty-constant)
@@ -105,6 +106,19 @@ Added in v2.5.0
 - [separate (export)](#separate-export)
 
 ---
+
+# Spanned (interface)
+
+**Signature**
+
+```ts
+export interface Spanned<I, R> {
+  readonly init: ReadonlyArray<I>
+  readonly rest: ReadonlyArray<R>
+}
+```
+
+Added in v2.5.0
 
 # URI (type alias)
 
@@ -1223,12 +1237,8 @@ Split an array into two parts:
 **Signature**
 
 ```ts
-export function spanLeft<A, B extends A>(
-  refinement: Refinement<A, B>
-): (as: ReadonlyArray<A>) => { init: ReadonlyArray<B>; rest: ReadonlyArray<A> }
-export function spanLeft<A>(
-  predicate: Predicate<A>
-): (as: ReadonlyArray<A>) => { init: ReadonlyArray<A>; rest: ReadonlyArray<A> } { ... }
+export function spanLeft<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Spanned<B, A>
+export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Spanned<A, A> { ... }
 ```
 
 **Example**

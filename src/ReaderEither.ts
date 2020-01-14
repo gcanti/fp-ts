@@ -19,7 +19,7 @@ const T = getEitherM(reader)
 
 declare module './HKT' {
   interface URItoKind3<R, E, A> {
-    ReaderEither: ReaderEither<R, E, A>
+    readonly ReaderEither: ReaderEither<R, E, A>
   }
 }
 

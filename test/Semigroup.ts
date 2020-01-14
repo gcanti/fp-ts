@@ -38,8 +38,8 @@ describe('Semigroup', () => {
 
   it('getObjectSemigroup', () => {
     type T = {
-      foo?: number
-      bar: string
+      readonly foo?: number
+      readonly bar: string
     }
     const foo: T = {
       foo: 123,

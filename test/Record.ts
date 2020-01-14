@@ -265,14 +265,14 @@ describe('Record', () => {
 
   it('every', () => {
     const x: Record<string, number> = { a: 1, b: 2 }
-    const y: { [key: string]: number } = { a: 1, b: 2 }
+    const y: Record<string, number> = { a: 1, b: 2 }
     assert.deepStrictEqual(R.every((n: number) => n <= 2)(x), true)
     assert.deepStrictEqual(R.every((n: number) => n <= 1)(y), false)
   })
 
   it('some', () => {
     const x: Record<string, number> = { a: 1, b: 2 }
-    const y: { [key: string]: number } = { a: 1, b: 2 }
+    const y: Record<string, number> = { a: 1, b: 2 }
     assert.deepStrictEqual(R.some((n: number) => n <= 1)(x), true)
     assert.deepStrictEqual(R.some((n: number) => n <= 0)(y), false)
   })
@@ -289,8 +289,8 @@ describe('Record', () => {
     assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
 
     interface User {
-      id: string
-      name: string
+      readonly id: string
+      readonly name: string
     }
 
     const users: Array<User> = [

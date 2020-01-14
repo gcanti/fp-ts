@@ -21,7 +21,7 @@ const T = getStateM(RTE.readerTaskEither)
 
 declare module './HKT' {
   interface URItoKind4<S, R, E, A> {
-    StateReaderTaskEither: StateReaderTaskEither<S, R, E, A>
+    readonly StateReaderTaskEither: StateReaderTaskEither<S, R, E, A>
   }
 }
 

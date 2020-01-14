@@ -3,6 +3,7 @@
  *
  * @since 2.0.0
  */
+/* tslint:disable:readonly-keyword */
 import { Alternative1 } from './Alternative'
 import { Applicative } from './Applicative'
 import { Compactable1, Separated } from './Compactable'
@@ -28,7 +29,7 @@ import { Witherable1 } from './Witherable'
 
 declare module './HKT' {
   interface URItoKind<A> {
-    Array: Array<A>
+    readonly Array: Array<A>
   }
 }
 

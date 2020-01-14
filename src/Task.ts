@@ -13,7 +13,7 @@ import { Semigroup } from './Semigroup'
 
 declare module './HKT' {
   interface URItoKind<A> {
-    Task: Task<A>
+    readonly Task: Task<A>
   }
 }
 

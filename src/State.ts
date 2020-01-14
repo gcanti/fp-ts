@@ -15,7 +15,7 @@ const T = getStateM(identity)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    State: State<E, A>
+    readonly State: State<E, A>
   }
 }
 

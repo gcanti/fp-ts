@@ -11,12 +11,12 @@ describe('Eq', () => {
   })
 
   interface Person {
-    name: string
-    age: number
+    readonly name: string
+    readonly age: number
   }
   it('fromEquals', () => {
     interface A {
-      x: number
+      readonly x: number
     }
     let nbCall = 0
     const S1 = fromEquals<A>((a, b) => {

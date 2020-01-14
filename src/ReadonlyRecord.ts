@@ -28,7 +28,7 @@ export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
 
 declare module './HKT' {
   interface URItoKind<A> {
-    ReadonlyRecord: ReadonlyRecord<string, A>
+    readonly ReadonlyRecord: ReadonlyRecord<string, A>
   }
 }
 

@@ -23,7 +23,7 @@ import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    Map: Map<E, A>
+    readonly Map: Map<E, A>
   }
 }
 
@@ -83,6 +83,11 @@ export function member<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => boolean {
   return (k, m) => isSome(lookupE(k, m))
 }
 
+interface Next<A> {
+  readonly done?: boolean
+  readonly value: A
+}
+
 /**
  * Test whether or not a value is a member of a map
  *
@@ -91,7 +96,7 @@ export function member<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => boolean {
 export function elem<A>(E: Eq<A>): <K>(a: A, m: Map<K, A>) => boolean {
   return (a, m) => {
     const values = m.values()
-    let e: { done?: boolean; value: A }
+    let e: Next<A>
     // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
       const v = e.value
@@ -256,7 +261,7 @@ export function pop<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Option<[A, Map<
 export function lookupWithKey<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Option<[K, A]> {
   return <A>(k: K, m: Map<K, A>) => {
     const entries = m.entries()
-    let e: { done?: boolean; value: [K, A] }
+    let e: Next<[K, A]>
     // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [ka, a] = e.value
@@ -287,7 +292,7 @@ export function isSubmap<K, A>(SK: Eq<K>, SA: Eq<A>): (d1: Map<K, A>, d2: Map<K,
   const lookupWithKeyS = lookupWithKey(SK)
   return (d1: Map<K, A>, d2: Map<K, A>): boolean => {
     const entries = d1.entries()
-    let e: { done?: boolean; value: [K, A] }
+    let e: Next<[K, A]>
     // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
@@ -330,7 +335,7 @@ export function getMonoid<K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<Map<K, A>> 
       }
       const r = new Map(mx)
       const entries = my.entries()
-      let e: { done?: boolean; value: [K, A] }
+      let e: Next<[K, A]>
       // tslint:disable-next-line: strict-boolean-expressions
       while (!(e = entries.next()).done) {
         const [k, a] = e.value
@@ -396,7 +401,7 @@ export function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable<F>): (f
 const _mapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => B): Map<K, B> => {
   const m = new Map<K, B>()
   const entries = fa.entries()
-  let e: { done?: boolean; value: [K, A] }
+  let e: Next<[K, A]>
   // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [key, a] = e.value
@@ -412,7 +417,7 @@ const _partitionMapWithIndex = <K, A, B, C>(
   const left = new Map<K, B>()
   const right = new Map<K, C>()
   const entries = fa.entries()
-  let e: { done?: boolean; value: [K, A] }
+  let e: Next<[K, A]>
   // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
@@ -433,7 +438,7 @@ const _partitionWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): S
   const left = new Map<K, A>()
   const right = new Map<K, A>()
   const entries = fa.entries()
-  let e: { done?: boolean; value: [K, A] }
+  let e: Next<[K, A]>
   // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
@@ -452,7 +457,7 @@ const _partitionWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): S
 const _filterMapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => Option<B>): Map<K, B> => {
   const m = new Map<K, B>()
   const entries = fa.entries()
-  let e: { done?: boolean; value: [K, A] }
+  let e: Next<[K, A]>
   // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
@@ -467,7 +472,7 @@ const _filterMapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => Option<B
 const _filterWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<K, A> => {
   const m = new Map<K, A>()
   const entries = fa.entries()
-  let e: { done?: boolean; value: [K, A] }
+  let e: Next<[K, A]>
   // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
@@ -538,7 +543,7 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
     return <K, A, B>(ta: Map<K, A>, f: (k: K, a: A) => HKT<F, B>) => {
       let fm: HKT<F, Map<K, B>> = F.of(empty)
       const entries = ta.entries()
-      let e: { done?: boolean; value: [K, A] }
+      let e: Next<[K, A]>
       // tslint:disable-next-line: strict-boolean-expressions
       while (!(e = entries.next()).done) {
         const [key, a] = e.value
@@ -599,7 +604,7 @@ export const map_: Filterable2<URI> = {
   compact: <K, A>(fa: Map<K, Option<A>>): Map<K, A> => {
     const m = new Map<K, A>()
     const entries = fa.entries()
-    let e: { done?: boolean; value: [K, Option<A>] }
+    let e: Next<[K, Option<A>]>
     // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [k, oa] = e.value
@@ -613,7 +618,7 @@ export const map_: Filterable2<URI> = {
     const left = new Map<K, A>()
     const right = new Map<K, B>()
     const entries = fa.entries()
-    let e: { done?: boolean; value: [K, Either<A, B>] }
+    let e: Next<[K, Either<A, B>]>
     // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [k, ei] = e.value

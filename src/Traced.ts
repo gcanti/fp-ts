@@ -8,7 +8,7 @@ import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    Traced: Traced<E, A>
+    readonly Traced: Traced<E, A>
   }
 }
 

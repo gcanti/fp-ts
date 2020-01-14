@@ -217,7 +217,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getStructSemigroup<O extends { [key: string]: any }>(
+export function getStructSemigroup<O extends ReadonlyRecord<string, any>>(
   semigroups: { [K in keyof O]: Semigroup<O[K]> }
 ): Semigroup<O> { ... }
 ```

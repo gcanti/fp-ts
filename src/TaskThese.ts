@@ -19,7 +19,7 @@ const T = getTheseM(task)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    TaskThese: TaskThese<E, A>
+    readonly TaskThese: TaskThese<E, A>
   }
 }
 

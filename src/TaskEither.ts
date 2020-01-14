@@ -27,7 +27,7 @@ const T = getEitherM(task)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    TaskEither: TaskEither<E, A>
+    readonly TaskEither: TaskEither<E, A>
   }
 }
 

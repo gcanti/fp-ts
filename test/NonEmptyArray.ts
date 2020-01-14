@@ -207,7 +207,7 @@ describe('NonEmptyArray', () => {
     const a2 = make2(1)
     const a3 = make2(2)
     const a4 = make2(3)
-    const arr: NonEmptyArray<{ x: number }> = [a1, a2, a3]
+    const arr: NonEmptyArray<{ readonly x: number }> = [a1, a2, a3]
     assert.deepStrictEqual(updateAt(0, a4)(arr), some([a4, a2, a3]))
     assert.deepStrictEqual(updateAt(-1, a4)(arr), none)
     assert.deepStrictEqual(updateAt(3, a4)(arr), none)

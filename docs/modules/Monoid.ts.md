@@ -177,7 +177,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getStructMonoid<O extends { [key: string]: any }>(
+export function getStructMonoid<O extends ReadonlyRecord<string, any>>(
   monoids: { [K in keyof O]: Monoid<O[K]> }
 ): Monoid<O> { ... }
 ```

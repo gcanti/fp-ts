@@ -25,7 +25,7 @@ const T = getEitherM(io)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    IOEither: IOEither<E, A>
+    readonly IOEither: IOEither<E, A>
   }
 }
 

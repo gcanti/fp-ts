@@ -114,7 +114,7 @@ describe('Ord', () => {
     assert.deepStrictEqual(O1.equals(0, 1), false)
     assert.deepStrictEqual(O1.equals(1, 1), true)
     interface A {
-      x: number
+      readonly x: number
     }
     let nbCall = 0
     const O2 = fromCompare<A>((a, b) => {

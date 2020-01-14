@@ -26,7 +26,7 @@ const T = getReaderM(TE.taskEither)
 
 declare module './HKT' {
   interface URItoKind3<R, E, A> {
-    ReaderTaskEither: ReaderTaskEither<R, E, A>
+    readonly ReaderTaskEither: ReaderTaskEither<R, E, A>
   }
 }
 

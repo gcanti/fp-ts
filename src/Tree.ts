@@ -21,7 +21,7 @@ import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URItoKind<A> {
-    Tree: Tree<A>
+    readonly Tree: Tree<A>
   }
 }
 

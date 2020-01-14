@@ -21,7 +21,7 @@ import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    Tuple: [A, E]
+    readonly Tuple: [A, E]
   }
 }
 

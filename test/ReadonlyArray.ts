@@ -194,19 +194,19 @@ describe('Array', () => {
   it('findFirst', () => {
     assert.deepStrictEqual(_.findFirst(x => x === 2)([]), O.none)
     assert.deepStrictEqual(
-      _.findFirst((x: { a: number; b: number }) => x.a === 1)([
+      _.findFirst((x: { readonly a: number; readonly b: number }) => x.a === 1)([
         { a: 1, b: 1 },
         { a: 1, b: 2 }
       ]),
       O.some({ a: 1, b: 1 })
     )
     interface A {
-      type: 'A'
-      a: number
+      readonly type: 'A'
+      readonly a: number
     }
 
     interface B {
-      type: 'B'
+      readonly type: 'B'
     }
 
     type AOrB = A | B
@@ -236,14 +236,14 @@ describe('Array', () => {
   it('findLast', () => {
     assert.deepStrictEqual(_.findLast(x => x === 2)([]), O.none)
     assert.deepStrictEqual(
-      _.findLast((x: { a: number; b: number }) => x.a === 1)([
+      _.findLast((x: { readonly a: number; readonly b: number }) => x.a === 1)([
         { a: 1, b: 1 },
         { a: 1, b: 2 }
       ]),
       O.some({ a: 1, b: 2 })
     )
     assert.deepStrictEqual(
-      _.findLast((x: { a: number; b: number }) => x.a === 1)([
+      _.findLast((x: { readonly a: number; readonly b: number }) => x.a === 1)([
         { a: 1, b: 2 },
         { a: 2, b: 1 }
       ]),
@@ -265,8 +265,8 @@ describe('Array', () => {
 
   it('findLastIndex', () => {
     interface X {
-      a: number
-      b: number
+      readonly a: number
+      readonly b: number
     }
     const xs: Array<X> = [
       { a: 1, b: 0 },
@@ -466,8 +466,8 @@ describe('Array', () => {
 
   it('uniq', () => {
     interface A {
-      a: string
-      b: number
+      readonly a: string
+      readonly b: number
     }
 
     const eqA = Eq.eq.contramap(Ord.ordNumber, (f: A) => f.b)
@@ -499,8 +499,8 @@ describe('Array', () => {
 
   it('sortBy', () => {
     interface Person {
-      name: string
-      age: number
+      readonly name: string
+      readonly age: number
     }
     const byName = Ord.ord.contramap(Ord.ordString, (p: Person) => p.name)
     const byAge = Ord.ord.contramap(Ord.ordNumber, (p: Person) => p.age)
@@ -788,7 +788,7 @@ describe('Array', () => {
 
   it('should be safe when calling map with a binary function', () => {
     interface Foo {
-      bar: () => number
+      readonly bar: () => number
     }
     const f = (a: number, x?: Foo) => (x !== undefined ? `${a}${x.bar()}` : `${a}`)
     const res = _.readonlyArray.map([1, 2], f)

@@ -3,6 +3,7 @@
  *
  * @since 2.0.0
  */
+/* tslint:disable:readonly-keyword readonly-array */
 import { Monad1 } from './Monad'
 import * as A from './Array'
 import { Comonad1 } from './Comonad'
@@ -20,7 +21,7 @@ import { Alt1 } from './Alt'
 
 declare module './HKT' {
   interface URItoKind<A> {
-    NonEmptyArray: NonEmptyArray<A>
+    readonly NonEmptyArray: NonEmptyArray<A>
   }
 }
 

@@ -23,7 +23,7 @@ import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URItoKind<A> {
-    Record: Record<string, A>
+    readonly Record: Record<string, A>
   }
 }
 

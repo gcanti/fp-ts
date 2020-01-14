@@ -12,7 +12,7 @@ const T = getWriterM(identity)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    Writer: Writer<E, A>
+    readonly Writer: Writer<E, A>
   }
 }
 

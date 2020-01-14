@@ -12,7 +12,7 @@ import { ord, ordString, fromCompare, ordNumber } from '../src/Ord'
 import { showString, getStructShow, Show } from '../src/Show'
 
 interface User {
-  id: string
+  readonly id: string
 }
 
 const ordUser = ord.contramap(ordString, (u: User) => u.id)
@@ -22,11 +22,11 @@ const eqUser: Eq<User> = { equals: ordUser.equals }
 const p = ((n: number): boolean => n > 2) as Refinement<number, number>
 
 interface Key {
-  id: number
+  readonly id: number
 }
 
 interface Value {
-  value: number
+  readonly value: number
 }
 
 const eqKey: Eq<Key> = fromEquals((x, y) => x.id % 3 === y.id % 3)

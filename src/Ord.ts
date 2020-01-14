@@ -20,7 +20,7 @@ import { Monoid } from './Monoid'
 
 declare module './HKT' {
   interface URItoKind<A> {
-    Ord: Ord<A>
+    readonly Ord: Ord<A>
   }
 }
 

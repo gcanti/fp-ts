@@ -53,8 +53,14 @@ data Foo = Bar String | Baz Boolean
 TypeScript
 
 ```ts
-interface Bar { type: 'Bar'; value: string }
-interface Baz { type: 'Baz'; value: boolean }
+interface Bar {
+  type: 'Bar'
+  value: string
+}
+interface Baz {
+  type: 'Baz'
+  value: boolean
+}
 // type
 type Foo = Bar | Baz
 // constructors
@@ -75,7 +81,7 @@ TypeScript
 ```ts
 declare module 'fp-ts/lib/HKT' {
   interface URItoKind<A> {
-    Option: Option<A>
+    readonly Option: Option<A>
   }
 }
 
@@ -175,7 +181,12 @@ TypeScript
 
 ```ts
 const functorOption: Functor1<'Option'> = {
-  map: (fa, f) => maybe(() => none, a => some(f(fa.value)), fa)
+  map: (fa, f) =>
+    maybe(
+      () => none,
+      a => some(f(fa.value)),
+      fa
+    )
 }
 ```
 
@@ -234,17 +245,9 @@ const fa = O.some(1)
 const fb = O.some('foo')
 const f = (a: number) => (b: string): boolean => a + b.length > 2
 
-const fc1 = pipe(
-  O.some(f),
-  O.ap(fa),
-  O.ap(fb)
-)
+const fc1 = pipe(O.some(f), O.ap(fa), O.ap(fb))
 
-const fc2 = pipe(
-  fa,
-  O.map(f),
-  O.ap(fb)
-)
+const fc2 = pipe(fa, O.map(f), O.ap(fb))
 
 const fc3 = pipe(
   sequenceT(O.option)(fa, fb),

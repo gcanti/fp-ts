@@ -26,7 +26,7 @@ import { Witherable1 } from './Witherable'
 
 declare module './HKT' {
   interface URItoKind<A> {
-    ReadonlyArray: ReadonlyArray<A>
+    readonly ReadonlyArray: ReadonlyArray<A>
   }
 }
 
@@ -516,6 +516,14 @@ const spanIndexUncurry = <A>(as: ReadonlyArray<A>, predicate: Predicate<A>): num
 }
 
 /**
+ * @since 2.5.0
+ */
+export interface Spanned<I, R> {
+  readonly init: ReadonlyArray<I>
+  readonly rest: ReadonlyArray<R>
+}
+
+/**
  * Split an array into two parts:
  * 1. the longest initial subarray for which all elements satisfy the specified predicate
  * 2. the remaining elements
@@ -527,15 +535,9 @@ const spanIndexUncurry = <A>(as: ReadonlyArray<A>, predicate: Predicate<A>): num
  *
  * @since 2.5.0
  */
-export function spanLeft<A, B extends A>(
-  refinement: Refinement<A, B>
-): (as: ReadonlyArray<A>) => { init: ReadonlyArray<B>; rest: ReadonlyArray<A> }
-export function spanLeft<A>(
-  predicate: Predicate<A>
-): (as: ReadonlyArray<A>) => { init: ReadonlyArray<A>; rest: ReadonlyArray<A> }
-export function spanLeft<A>(
-  predicate: Predicate<A>
-): (as: ReadonlyArray<A>) => { init: ReadonlyArray<A>; rest: ReadonlyArray<A> } {
+export function spanLeft<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Spanned<B, A>
+export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Spanned<A, A>
+export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Spanned<A, A> {
   return as => {
     const i = spanIndexUncurry(as, predicate)
     const init = Array(i)

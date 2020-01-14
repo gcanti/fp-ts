@@ -22,7 +22,7 @@ import { TraversableWithIndex1 } from './TraversableWithIndex'
 
 declare module './HKT' {
   interface URItoKind<A> {
-    ReadonlyNonEmptyArray: ReadonlyNonEmptyArray<A>
+    readonly ReadonlyNonEmptyArray: ReadonlyNonEmptyArray<A>
   }
 }
 

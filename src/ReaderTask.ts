@@ -17,7 +17,7 @@ const T = getReaderM(TA.task)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    ReaderTask: ReaderTask<E, A>
+    readonly ReaderTask: ReaderTask<E, A>
   }
 }
 

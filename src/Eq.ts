@@ -13,10 +13,11 @@
  */
 import { Contravariant1 } from './Contravariant'
 import { pipeable } from './pipeable'
+import { ReadonlyRecord } from './ReadonlyRecord'
 
 declare module './HKT' {
   interface URItoKind<A> {
-    Eq: Eq<A>
+    readonly Eq: Eq<A>
   }
 }
 
@@ -73,7 +74,7 @@ export const eqBoolean: Eq<boolean> = eqStrict
 /**
  * @since 2.0.0
  */
-export function getStructEq<O extends { [key: string]: any }>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> {
+export function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> {
   return fromEquals((x, y) => {
     for (const k in eqs) {
       if (!eqs[k].equals(x[k], y[k])) {

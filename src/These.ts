@@ -35,7 +35,7 @@ import { Traversable2 } from './Traversable'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    These: These<E, A>
+    readonly These: These<E, A>
   }
 }
 
