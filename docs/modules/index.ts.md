@@ -81,6 +81,7 @@ Added in v2.0.0
 - [readerTaskEither (export)](#readertaskeither-export)
 - [readonlyArray (export)](#readonlyarray-export)
 - [readonlyNonEmptyArray (export)](#readonlynonemptyarray-export)
+- [readonlyRecord (export)](#readonlyrecord-export)
 - [record (export)](#record-export)
 - [ring (export)](#ring-export)
 - [semigroup (export)](#semigroup-export)
@@ -797,6 +798,16 @@ Added in v2.5.0
 
 ```ts
 typeof readonlyNonEmptyArray
+```
+
+Added in v2.5.0
+
+# readonlyRecord (export)
+
+**Signature**
+
+```ts
+typeof readonlyRecord
 ```
 
 Added in v2.5.0

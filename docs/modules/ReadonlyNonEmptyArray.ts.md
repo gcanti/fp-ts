@@ -295,7 +295,7 @@ function on each element, and grouping the results according to values returned
 ```ts
 export function groupBy<A>(
   f: (a: A) => string
-): (as: ReadonlyArray<A>) => Readonly<Record<string, ReadonlyNonEmptyArray<A>>> { ... }
+): (as: ReadonlyArray<A>) => ReadonlyRecord<string, ReadonlyNonEmptyArray<A>> { ... }
 ```
 
 **Example**

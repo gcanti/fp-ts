@@ -3,21 +3,22 @@
  *
  * @since 2.5.0
  */
-import { Monad1 } from './Monad'
-import * as RA from './ReadonlyArray'
-import { Comonad1 } from './Comonad'
-import { FunctorWithIndex1 } from './FunctorWithIndex'
-import { TraversableWithIndex1 } from './TraversableWithIndex'
-import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { Ord } from './Ord'
-import { getMeetSemigroup, getJoinSemigroup, Semigroup } from './Semigroup'
-import { Option, some, none } from './Option'
-import { Eq } from './Eq'
-import { Predicate, Refinement } from './function'
-import { Show } from './Show'
-import { pipeable } from './pipeable'
 import { Alt1 } from './Alt'
+import { Comonad1 } from './Comonad'
+import { Eq } from './Eq'
+import { FoldableWithIndex1 } from './FoldableWithIndex'
+import { Predicate, Refinement } from './function'
+import { FunctorWithIndex1 } from './FunctorWithIndex'
+import { Monad1 } from './Monad'
 import { NonEmptyArray } from './NonEmptyArray'
+import { none, Option, some } from './Option'
+import { Ord } from './Ord'
+import { pipeable } from './pipeable'
+import * as RA from './ReadonlyArray'
+import { ReadonlyRecord } from './ReadonlyRecord'
+import { getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
+import { Show } from './Show'
+import { TraversableWithIndex1 } from './TraversableWithIndex'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -217,7 +218,7 @@ export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray
  */
 export function groupBy<A>(
   f: (a: A) => string
-): (as: ReadonlyArray<A>) => Readonly<Record<string, ReadonlyNonEmptyArray<A>>> {
+): (as: ReadonlyArray<A>) => ReadonlyRecord<string, ReadonlyNonEmptyArray<A>> {
   return as => {
     const r: Record<string, NonEmptyArray<A>> = {}
     for (const a of as) {
