@@ -181,7 +181,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const copy: <A>(nea: NonEmptyArray<A>) => NonEmptyArray<A> = ...
+export function copy<A>(nea: NonEmptyArray<A>): NonEmptyArray<A> { ... }
 ```
 
 Added in v2.0.0
@@ -224,9 +224,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function filterWithIndex<A>(
+export const filterWithIndex: <A>(
   predicate: (i: number, a: A) => boolean
-): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> { ... }
+) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> = ...
 ```
 
 Added in v2.0.0
@@ -246,7 +246,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A
+export const fold: <A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A = ...
 ```
 
 Added in v2.5.0
@@ -256,7 +256,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-;<S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) => S
+;<S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: RNEA.ReadonlyNonEmptyArray<A>) => S
 ```
 
 Added in v2.0.0
@@ -266,7 +266,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (fa: NonEmptyArray<A>) => S
+;<S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (fa: RNEA.ReadonlyNonEmptyArray<A>) => S
 ```
 
 Added in v2.0.0
@@ -278,7 +278,7 @@ Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty ar
 **Signature**
 
 ```ts
-export function fromArray<A>(as: Array<A>): Option<NonEmptyArray<A>> { ... }
+export const fromArray: <A>(as: Array<A>) => Option<NonEmptyArray<A>> = ...
 ```
 
 Added in v2.0.0
@@ -311,7 +311,7 @@ Builds a `Semigroup` instance for `NonEmptyArray`
 **Signature**
 
 ```ts
-export function getSemigroup<A = never>(): Semigroup<NonEmptyArray<A>> { ... }
+export const getSemigroup: <A = never>() => Semigroup<NonEmptyArray<A>> = ...
 ```
 
 Added in v2.0.0
@@ -360,7 +360,9 @@ function on each element, and grouping the results according to values returned
 **Signature**
 
 ```ts
-export function groupBy<A>(f: (a: A) => string): (as: Array<A>) => Record<string, NonEmptyArray<A>> { ... }
+export const groupBy: <A>(
+  f: (a: A) => string
+) => (as: Array<A>) => Record<string, NonEmptyArray<A>> = ...
 ```
 
 **Example**
@@ -383,7 +385,7 @@ Sort and then group the elements of an array into non empty arrays.
 **Signature**
 
 ```ts
-export function groupSort<A>(O: Ord<A>): (as: Array<A>) => Array<NonEmptyArray<A>> { ... }
+export const groupSort: <A>(O: Ord<A>) => (as: Array<A>) => Array<NonEmptyArray<A>> = ...
 ```
 
 **Example**
@@ -402,7 +404,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function head<A>(nea: NonEmptyArray<A>): A { ... }
+export const head: <A>(nea: NonEmptyArray<A>) => A = ...
 ```
 
 Added in v2.0.0
@@ -414,7 +416,7 @@ Get all but the last element of a non empty array, creating a new array.
 **Signature**
 
 ```ts
-export function init<A>(nea: NonEmptyArray<A>): Array<A> { ... }
+export const init: <A>(nea: NonEmptyArray<A>) => Array<A> = ...
 ```
 
 **Example**
@@ -433,7 +435,10 @@ Added in v2.2.0
 **Signature**
 
 ```ts
-export function insertAt<A>(i: number, a: A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> { ... }
+export const insertAt: <A>(
+  i: number,
+  a: A
+) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> = ...
 ```
 
 Added in v2.0.0
@@ -443,7 +448,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function last<A>(nea: NonEmptyArray<A>): A { ... }
+export const last: <A>(nea: NonEmptyArray<A>) => A = ...
 ```
 
 Added in v2.0.0
@@ -473,7 +478,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function max<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A { ... }
+export const max: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A = ...
 ```
 
 Added in v2.0.0
@@ -483,7 +488,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function min<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A { ... }
+export const min: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A = ...
 ```
 
 Added in v2.0.0
@@ -493,7 +498,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function modifyAt<A>(i: number, f: (a: A) => A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> { ... }
+export const modifyAt: <A>(
+  i: number,
+  f: (a: A) => A
+) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> = ...
 ```
 
 Added in v2.0.0
@@ -598,7 +606,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function sort<A>(O: Ord<A>): (nea: NonEmptyArray<A>) => NonEmptyArray<A> { ... }
+export const sort: <A>(O: Ord<A>) => (nea: NonEmptyArray<A>) => NonEmptyArray<A> = ...
 ```
 
 Added in v2.0.0
@@ -608,7 +616,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function tail<A>(nea: NonEmptyArray<A>): Array<A> { ... }
+export const tail: <A>(nea: NonEmptyArray<A>) => Array<A> = ...
 ```
 
 Added in v2.0.0
@@ -618,7 +626,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function updateAt<A>(i: number, a: A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> { ... }
+export const updateAt: <A>(
+  i: number,
+  a: A
+) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> = ...
 ```
 
 Added in v2.0.0

@@ -143,7 +143,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getStructEq<O extends { [key: string]: any }>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> { ... }
+export function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> { ... }
 ```
 
 Added in v2.0.0
@@ -155,7 +155,7 @@ Given a tuple of `Eq`s returns a `Eq` for the tuple
 **Signature**
 
 ```ts
-export function getTupleEq<T extends Array<Eq<any>>>(
+export function getTupleEq<T extends ReadonlyArray<Eq<any>>>(
   ...eqs: T
 ): Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }> { ... }
 ```

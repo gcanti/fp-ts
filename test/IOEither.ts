@@ -190,6 +190,7 @@ describe('IOEither', () => {
   })
 
   describe('bracket', () => {
+    // tslint:disable-next-line: readonly-array
     let log: Array<string> = []
 
     const acquireFailure = _.left('acquire failure')

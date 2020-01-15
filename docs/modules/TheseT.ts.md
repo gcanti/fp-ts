@@ -1,6 +1,6 @@
 ---
 title: TheseT.ts
-nav_order: 85
+nav_order: 91
 parent: Modules
 ---
 
@@ -43,6 +43,7 @@ export interface TheseM<M> {
   readonly left: <E, A>(e: E) => TheseT<M, E, A>
   readonly right: <E, A>(a: A) => TheseT<M, E, A>
   readonly both: <E, A>(e: E, a: A) => TheseT<M, E, A>
+  // tslint:disable-next-line: readonly-array
   readonly toTuple: <E, A>(fa: TheseT<M, E, A>, e: E, a: A) => HKT<M, [E, A]>
   readonly getMonad: <E>(
     S: Semigroup<E>
@@ -79,6 +80,7 @@ export interface TheseM1<M extends URIS> {
   readonly left: <E, A>(e: E) => TheseT1<M, E, A>
   readonly right: <E, A>(a: A) => TheseT1<M, E, A>
   readonly both: <E, A>(e: E, a: A) => TheseT1<M, E, A>
+  // tslint:disable-next-line: readonly-array
   readonly toTuple: <E, A>(fa: TheseT1<M, E, A>, e: E, a: A) => Kind<M, [E, A]>
   readonly getMonad: <E>(
     S: Semigroup<E>
@@ -115,6 +117,7 @@ export interface TheseM2<M extends URIS2> {
   readonly left: <R, E, A>(e: E) => TheseT2<M, R, E, A>
   readonly right: <R, E, A>(a: A) => TheseT2<M, R, E, A>
   readonly both: <R, E, A>(e: E, a: A) => TheseT2<M, R, E, A>
+  // tslint:disable-next-line: readonly-array
   readonly toTuple: <R, E, A>(fa: TheseT2<M, R, E, A>, e: E, a: A) => Kind2<M, R, [E, A]>
   readonly getMonad: <E>(
     S: Semigroup<E>

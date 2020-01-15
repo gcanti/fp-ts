@@ -19,6 +19,7 @@ describe('IO', () => {
 
   it('getSemigroup', () => {
     const S = getSemigroup(semigroupSum)
+    // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): IO<number> => () => log.push(message)
     assert.deepStrictEqual(S.concat(append('a'), append('b'))(), 3)
@@ -27,6 +28,7 @@ describe('IO', () => {
 
   it('getMonoid', () => {
     const M = getMonoid(monoidSum)
+    // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): IO<number> => () => log.push(message)
     assert.deepStrictEqual(M.concat(append('a'), M.empty)(), 1)

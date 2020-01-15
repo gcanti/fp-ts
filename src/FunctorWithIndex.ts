@@ -80,6 +80,8 @@ export interface FunctorWithIndex4<F extends URIS4, I> extends Functor4<F> {
   readonly mapWithIndex: <S, R, E, A, B>(fa: Kind4<F, S, R, E, A>, f: (i: I, a: A) => B) => Kind4<F, S, R, E, B>
 }
 
+/* tslint:disable:readonly-array */
+
 /**
  * @since 2.0.0
  */
@@ -148,6 +150,8 @@ export interface FunctorWithIndexComposition22C<F extends URIS2, FI, G extends U
     f: (i: [FI, GI], a: A) => B
   ) => Kind2<F, FE, Kind2<G, E, B>>
 }
+
+/* tslint:enable:readonly-array */
 
 /**
  * @since 2.0.0

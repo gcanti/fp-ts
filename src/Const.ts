@@ -14,7 +14,7 @@ import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    Const: Const<E, A>
+    readonly Const: Const<E, A>
   }
 }
 

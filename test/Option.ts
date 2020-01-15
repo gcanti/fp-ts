@@ -90,10 +90,10 @@ describe('Option', () => {
 
   it('mapNullable', () => {
     interface X {
-      a?: {
-        b?: {
-          c?: {
-            d: number
+      readonly a?: {
+        readonly b?: {
+          readonly c?: {
+            readonly d: number
           }
         }
       }
@@ -374,8 +374,8 @@ describe('Option', () => {
     const isString = O.getRefinement(f)
     assert.deepStrictEqual(isString('s'), true)
     assert.deepStrictEqual(isString(1), false)
-    type A = { type: 'A' }
-    type B = { type: 'B' }
+    type A = { readonly type: 'A' }
+    type B = { readonly type: 'B' }
     type C = A | B
     const isA = O.getRefinement<C, A>(c => (c.type === 'A' ? O.some(c) : O.none))
     assert.deepStrictEqual(isA({ type: 'A' }), true)

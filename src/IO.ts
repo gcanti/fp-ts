@@ -101,7 +101,7 @@ import { ChainRec1 } from './ChainRec'
 
 declare module './HKT' {
   interface URItoKind<A> {
-    IO: IO<A>
+    readonly IO: IO<A>
   }
 }
 

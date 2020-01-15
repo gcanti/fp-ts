@@ -83,6 +83,7 @@ describe('Task', () => {
 
   describe('Traversable', () => {
     it('sequence parallel', async () => {
+      // tslint:disable-next-line: readonly-array
       const log: Array<string> = []
       const append = (message: string): _.Task<number> => () => Promise.resolve(log.push(message))
       const t1 = _.task.chain(append('start 1'), () => append('end 1'))
@@ -94,6 +95,7 @@ describe('Task', () => {
     })
 
     it('sequence series', async () => {
+      // tslint:disable-next-line: readonly-array
       const log: Array<string> = []
       const append = (message: string): _.Task<number> => () => Promise.resolve(log.push(message))
       const t1 = _.task.chain(append('start 1'), () => append('end 1'))
