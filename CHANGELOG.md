@@ -18,7 +18,13 @@ high state of flux, you're at risk of it changing without notice.
 
 - **New Feature**
   - add `ReadonlyArray` module (@gcanti)
+  - add `ReadonlyMap` module (@gcanti)
   - add `ReadonlyNonEmptyArray` module (@gcanti)
+  - add `ReadonlyRecord` module (@gcanti)
+  - add `ReadonlySet` module (@gcanti)
+
+# 2.4.1
+
 - **Polish**
   - `NonEmptyArray`
     - add overloading to `group` managing non empty arrays, closes #831 (@gcanti)
