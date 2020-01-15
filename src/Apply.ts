@@ -67,7 +67,7 @@ export interface Apply4<F extends URIS4> extends Functor4<F> {
   readonly ap: <S, R, E, A, B>(fab: Kind4<F, S, R, E, (a: A) => B>, fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
 }
 
-function curried(f: Function, n: number, acc: Array<unknown>) {
+function curried(f: Function, n: number, acc: ReadonlyArray<unknown>) {
   return function(x: unknown) {
     const combined = acc.concat([x])
     return n === 0 ? f.apply(null, combined) : curried(f, n - 1, combined)
@@ -83,6 +83,7 @@ function getTupleConstructor(len: number): (a: unknown) => any {
   return tupleConstructors[len]
 }
 
+/* tslint:disable:readonly-array */
 /**
  * Tuple sequencing, i.e., take a tuple of monadic actions and does them from left-to-right, returning the resulting tuple.
  *
@@ -122,7 +123,6 @@ export function sequenceT<F extends URIS2, E>(
 ): <T extends Array<Kind2<F, E, any>>>(
   ...t: T & { readonly 0: Kind2<F, E, any> }
 ) => Kind2<F, E, { [K in keyof T]: [T[K]] extends [Kind2<F, E, infer A>] ? A : never }>
-
 export function sequenceT<F extends URIS>(
   F: Apply1<F>
 ): <T extends Array<Kind<F, any>>>(
@@ -144,13 +144,14 @@ export function sequenceT<F>(F: Apply<F>): any {
     return fas
   }
 }
+/* tslint:enable:readonly-array */
 
 type EnforceNonEmptyRecord<R> = keyof R extends never ? never : R
 
-function getRecordConstructor(keys: Array<string>) {
+function getRecordConstructor(keys: ReadonlyArray<string>) {
   const len = keys.length
   return curried(
-    (...args: Array<unknown>) => {
+    (...args: ReadonlyArray<unknown>) => {
       const r: Record<string, unknown> = {}
       for (let i = 0; i < len; i++) {
         r[keys[i]] = args[i]
@@ -162,6 +163,7 @@ function getRecordConstructor(keys: Array<string>) {
   )
 }
 
+/* tslint:disable:readonly-array */
 /**
  * Like `Apply.sequenceT` but works with structs instead of tuples.
  *
@@ -235,3 +237,4 @@ export function sequenceS<F>(F: Apply<F>): (r: Record<string, HKT<F, any>>) => H
     return fr
   }
 }
+/* tslint:enable:readonly-array */

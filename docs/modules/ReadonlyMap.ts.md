@@ -36,7 +36,7 @@ Added in v2.5.0
 - [pop (function)](#pop-function)
 - [singleton (function)](#singleton-function)
 - [size (function)](#size-function)
-- [toArray (function)](#toarray-function)
+- [toReadonlyArray (function)](#toreadonlyarray-function)
 - [toUnfoldable (function)](#tounfoldable-function)
 - [updateAt (function)](#updateat-function)
 - [values (function)](#values-function)
@@ -95,7 +95,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K, A>) => Array<B> { ... }
+export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K, A>) => ReadonlyArray<B> { ... }
 ```
 
 Added in v2.5.0
@@ -136,18 +136,22 @@ export function fromFoldable<F extends URIS3, K, A>(
   E: Eq<K>,
   M: Magma<A>,
   F: Foldable3<F>
-): <R, E>(fka: Kind3<F, R, E, [K, A]>) => ReadonlyMap<K, A>
+): <R, E>(fka: Kind3<F, R, E, readonly [K, A]>) => ReadonlyMap<K, A>
 export function fromFoldable<F extends URIS2, K, A>(
   E: Eq<K>,
   M: Magma<A>,
   F: Foldable2<F>
-): <E>(fka: Kind2<F, E, [K, A]>) => ReadonlyMap<K, A>
+): <E>(fka: Kind2<F, E, readonly [K, A]>) => ReadonlyMap<K, A>
 export function fromFoldable<F extends URIS, K, A>(
   E: Eq<K>,
   M: Magma<A>,
   F: Foldable1<F>
-): (fka: Kind<F, [K, A]>) => ReadonlyMap<K, A>
-export function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable<F>): (fka: HKT<F, [K, A]>) => ReadonlyMap<K, A> { ... }
+): (fka: Kind<F, readonly [K, A]>) => ReadonlyMap<K, A>
+export function fromFoldable<F, K, A>(
+  E: Eq<K>,
+  M: Magma<A>,
+  F: Foldable<F>
+): (fka: HKT<F, readonly [K, A]>) => ReadonlyMap<K, A> { ... }
 ```
 
 Added in v2.5.0
@@ -247,7 +251,7 @@ Get a sorted array of the keys contained in a map
 **Signature**
 
 ```ts
-export function keys<K>(O: Ord<K>): <A>(m: ReadonlyMap<K, A>) => Array<K> { ... }
+export function keys<K>(O: Ord<K>): <A>(m: ReadonlyMap<K, A>) => ReadonlyArray<K> { ... }
 ```
 
 Added in v2.5.0
@@ -272,7 +276,7 @@ If the result is a `Some`, the existing key is also returned.
 **Signature**
 
 ```ts
-export function lookupWithKey<K>(E: Eq<K>): <A>(k: K, m: ReadonlyMap<K, A>) => Option<[K, A]> { ... }
+export function lookupWithKey<K>(E: Eq<K>): <A>(k: K, m: ReadonlyMap<K, A>) => Option<readonly [K, A]> { ... }
 ```
 
 Added in v2.5.0
@@ -308,7 +312,7 @@ Delete a key and value from a map, returning the value as well as the subsequent
 **Signature**
 
 ```ts
-export function pop<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) => Option<[A, ReadonlyMap<K, A>]> { ... }
+export function pop<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) => Option<readonly [A, ReadonlyMap<K, A>]> { ... }
 ```
 
 Added in v2.5.0
@@ -337,14 +341,14 @@ export function size<K, A>(d: ReadonlyMap<K, A>): number { ... }
 
 Added in v2.5.0
 
-# toArray (function)
+# toReadonlyArray (function)
 
 Get a sorted of the key/value pairs contained in a map
 
 **Signature**
 
 ```ts
-export function toArray<K>(O: Ord<K>): <A>(m: ReadonlyMap<K, A>) => Array<[K, A]> { ... }
+export function toReadonlyArray<K>(O: Ord<K>): <A>(m: ReadonlyMap<K, A>) => ReadonlyArray<readonly [K, A]> { ... }
 ```
 
 Added in v2.5.0
@@ -359,8 +363,8 @@ Unfolds a map into a list of key/value pairs
 export function toUnfoldable<K, F extends URIS>(
   O: Ord<K>,
   U: Unfoldable1<F>
-): <A>(d: ReadonlyMap<K, A>) => Kind<F, [K, A]>
-export function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: ReadonlyMap<K, A>) => HKT<F, [K, A]> { ... }
+): <A>(d: ReadonlyMap<K, A>) => Kind<F, readonly [K, A]>
+export function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: ReadonlyMap<K, A>) => HKT<F, readonly [K, A]> { ... }
 ```
 
 Added in v2.5.0
@@ -382,7 +386,7 @@ Get a sorted array of the values contained in a map
 **Signature**
 
 ```ts
-export function values<A>(O: Ord<A>): <K>(m: ReadonlyMap<K, A>) => Array<A> { ... }
+export function values<A>(O: Ord<A>): <K>(m: ReadonlyMap<K, A>) => ReadonlyArray<A> { ... }
 ```
 
 Added in v2.5.0

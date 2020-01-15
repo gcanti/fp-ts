@@ -3,7 +3,6 @@
  *
  * @since 2.0.0
  */
-/* tslint:disable:readonly-keyword */
 import { Alternative1 } from './Alternative'
 import { Applicative } from './Applicative'
 import { Compactable1, Separated } from './Compactable'
@@ -26,6 +25,8 @@ import { Show } from './Show'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
+
+/* tslint:disable:readonly-array */
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -512,6 +513,7 @@ const spanIndexUncurry = <A>(as: Array<A>, predicate: Predicate<A>): number => {
   return i
 }
 
+/* tslint:disable:readonly-keyword */
 /**
  * Split an array into two parts:
  * 1. the longest initial subarray for which all elements satisfy the specified predicate
@@ -543,6 +545,7 @@ export function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => { init: 
     return { init, rest }
   }
 }
+/* tslint:enable:readonly-keyword */
 
 /**
  * Drop a number of elements from the start of an array, creating a new array

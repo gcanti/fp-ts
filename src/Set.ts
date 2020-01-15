@@ -37,8 +37,10 @@ export const empty: Set<never> = new Set()
 /**
  * @since 2.0.0
  */
+// tslint:disable-next-line: readonly-array
 export function toArray<A>(O: Ord<A>): (set: Set<A>) => Array<A> {
   return x => {
+    // tslint:disable-next-line: readonly-array
     const r: Array<A> = []
     x.forEach(e => r.push(e))
     return r.sort(O.compare)
@@ -363,6 +365,7 @@ export function remove<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A> {
  *
  * @since 2.0.0
  */
+// tslint:disable-next-line: readonly-array
 export function fromArray<A>(E: Eq<A>): (as: Array<A>) => Set<A> {
   return as => {
     const len = as.length

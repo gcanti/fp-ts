@@ -5,12 +5,14 @@ import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad3 } from './Monad'
 import { State } from './State'
 
+/* tslint:disable:readonly-array */
 /**
  * @since 2.0.0
  */
 export interface StateT<M, S, A> {
   (s: S): HKT<M, [A, S]>
 }
+/* tslint:enable:readonly-array */
 
 /**
  * @since 2.0.0
@@ -30,12 +32,14 @@ export interface StateM<M> {
   readonly execState: <S, A>(ma: StateT<M, S, A>, s: S) => HKT<M, S>
 }
 
+/* tslint:disable:readonly-array */
 /**
  * @since 2.0.0
  */
 export interface StateT1<M extends URIS, S, A> {
   (s: S): Kind<M, [A, S]>
 }
+/* tslint:enable:readonly-array */
 
 /**
  * @since 2.0.0
@@ -55,12 +59,14 @@ export interface StateM1<M extends URIS> {
   readonly execState: <S, A>(ma: StateT1<M, S, A>, s: S) => Kind<M, S>
 }
 
+/* tslint:disable:readonly-array */
 /**
  * @since 2.0.0
  */
 export interface StateT2<M extends URIS2, S, E, A> {
   (s: S): Kind2<M, E, [A, S]>
 }
+/* tslint:enable:readonly-array */
 
 /**
  * @since 2.0.0
@@ -80,12 +86,14 @@ export interface StateM2<M extends URIS2> {
   readonly execState: <S, E, A>(ma: StateT2<M, S, E, A>, s: S) => Kind2<M, E, S>
 }
 
+/* tslint:disable:readonly-array */
 /**
  * @since 2.0.0
  */
 export interface StateT3<M extends URIS3, S, R, E, A> {
   (s: S): Kind3<M, R, E, [A, S]>
 }
+/* tslint:enable:readonly-array */
 
 /**
  * @since 2.0.0

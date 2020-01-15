@@ -53,7 +53,7 @@ export function getStructShow<O extends ReadonlyRecord<string, any>>(shows: { [K
 /**
  * @since 2.0.0
  */
-export function getTupleShow<T extends Array<Show<any>>>(
+export function getTupleShow<T extends ReadonlyArray<Show<any>>>(
   ...shows: T
 ): Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }> {
   return {

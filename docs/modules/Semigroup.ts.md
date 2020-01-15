@@ -231,7 +231,7 @@ Given a tuple of semigroups returns a semigroup for the tuple
 **Signature**
 
 ```ts
-export function getTupleSemigroup<T extends Array<Semigroup<any>>>(
+export function getTupleSemigroup<T extends ReadonlyArray<Semigroup<any>>>(
   ...semigroups: T
 ): Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> { ... }
 ```

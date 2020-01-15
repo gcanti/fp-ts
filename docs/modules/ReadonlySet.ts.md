@@ -37,7 +37,7 @@ Added in v2.5.0
 - [singleton (function)](#singleton-function)
 - [some (function)](#some-function)
 - [subset (function)](#subset-function)
-- [toArray (function)](#toarray-function)
+- [toReadonlyArray (function)](#toreadonlyarray-function)
 - [union (function)](#union-function)
 
 ---
@@ -153,7 +153,7 @@ Create a set from an array
 **Signature**
 
 ```ts
-export function fromArray<A>(E: Eq<A>): (as: Array<A>) => ReadonlySet<A> { ... }
+export function fromArray<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlySet<A> { ... }
 ```
 
 Added in v2.5.0
@@ -331,12 +331,12 @@ export function subset<A>(E: Eq<A>): (x: ReadonlySet<A>, y: ReadonlySet<A>) => b
 
 Added in v2.5.0
 
-# toArray (function)
+# toReadonlyArray (function)
 
 **Signature**
 
 ```ts
-export function toArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => Array<A> { ... }
+export function toReadonlyArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => ReadonlyArray<A> { ... }
 ```
 
 Added in v2.5.0

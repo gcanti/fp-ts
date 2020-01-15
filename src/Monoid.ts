@@ -104,7 +104,7 @@ export function fold<A>(M: Monoid<A>): (as: ReadonlyArray<A>) => A {
  *
  * @since 2.0.0
  */
-export function getTupleMonoid<T extends Array<Monoid<any>>>(
+export function getTupleMonoid<T extends ReadonlyArray<Monoid<any>>>(
   ...monoids: T
 ): Monoid<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> {
   return {

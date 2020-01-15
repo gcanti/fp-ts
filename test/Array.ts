@@ -70,6 +70,8 @@ import * as C from '../src/Const'
 import { showString } from '../src/Show'
 import { isDeepStrictEqual } from 'util'
 
+// tslint:disable:readonly-array
+
 const p = (n: number) => n > 2
 
 describe('Array', () => {

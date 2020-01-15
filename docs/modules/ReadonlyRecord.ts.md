@@ -17,7 +17,7 @@ Added in v2.5.0
 - [URI (constant)](#uri-constant)
 - [empty (constant)](#empty-constant)
 - [readonlyRecord (constant)](#readonlyrecord-constant)
-- [toArray (constant)](#toarray-constant)
+- [toReadonlyArray (constant)](#toreadonlyarray-constant)
 - [collect (function)](#collect-function)
 - [deleteAt (function)](#deleteat-function)
 - [elem (function)](#elem-function)
@@ -120,12 +120,14 @@ export const readonlyRecord: FunctorWithIndex1<URI, string> &
 
 Added in v2.5.0
 
-# toArray (constant)
+# toReadonlyArray (constant)
 
 **Signature**
 
 ```ts
-export const toArray: <K extends string, A>(r: ReadonlyRecord<K, A>) => ReadonlyArray<[K, A]> = ...
+export const toReadonlyArray: <K extends string, A>(
+  r: ReadonlyRecord<K, A>
+) => ReadonlyArray<readonly [K, A]> = ...
 ```
 
 Added in v2.5.0
@@ -613,10 +615,10 @@ Unfolds a record into a list of key/value pairs
 ```ts
 export function toUnfoldable<F extends URIS>(
   unfoldable: Unfoldable1<F>
-): <K extends string, A>(r: ReadonlyRecord<K, A>) => Kind<F, [K, A]>
+): <K extends string, A>(r: ReadonlyRecord<K, A>) => Kind<F, readonly [K, A]>
 export function toUnfoldable<F>(
   unfoldable: Unfoldable<F>
-): <K extends string, A>(r: ReadonlyRecord<K, A>) => HKT<F, [K, A]> { ... }
+): <K extends string, A>(r: ReadonlyRecord<K, A>) => HKT<F, readonly [K, A]> { ... }
 ```
 
 Added in v2.5.0

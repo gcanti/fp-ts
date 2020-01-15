@@ -85,7 +85,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getTupleShow<T extends Array<Show<any>>>(
+export function getTupleShow<T extends ReadonlyArray<Show<any>>>(
   ...shows: T
 ): Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }> { ... }
 ```

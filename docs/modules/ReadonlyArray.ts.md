@@ -1258,7 +1258,7 @@ Splits an array into two pieces, the first piece has `n` elements.
 **Signature**
 
 ```ts
-export function splitAt(n: number): <A>(as: ReadonlyArray<A>) => [ReadonlyArray<A>, ReadonlyArray<A>] { ... }
+export function splitAt(n: number): <A>(as: ReadonlyArray<A>) => readonly [ReadonlyArray<A>, ReadonlyArray<A>] { ... }
 ```
 
 **Example**
@@ -1438,7 +1438,7 @@ The function is reverse of `zip`. Takes an array of pairs and return two corresp
 **Signature**
 
 ```ts
-export function unzip<A, B>(as: ReadonlyArray<readonly [A, B]>): [ReadonlyArray<A>, ReadonlyArray<B>] { ... }
+export function unzip<A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [ReadonlyArray<A>, ReadonlyArray<B>] { ... }
 ```
 
 **Example**

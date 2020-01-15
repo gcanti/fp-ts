@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { sort } from '../src/Array'
+import { sort } from '../src/ReadonlyArray'
 import {
   ord,
   between,
@@ -26,8 +26,8 @@ describe('Ord', () => {
   })
 
   it('getMonoid', () => {
-    type T = [number, string]
-    const tuples: Array<T> = [
+    type T = readonly [number, string]
+    const tuples: ReadonlyArray<T> = [
       [2, 'c'],
       [1, 'b'],
       [2, 'a'],

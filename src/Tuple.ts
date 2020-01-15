@@ -19,6 +19,8 @@ import { Semigroupoid2 } from './Semigroupoid'
 import { Traversable2 } from './Traversable'
 import { pipeable } from './pipeable'
 
+// tslint:disable:readonly-array
+
 declare module './HKT' {
   interface URItoKind2<E, A> {
     readonly Tuple: [A, E]

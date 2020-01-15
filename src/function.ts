@@ -40,7 +40,7 @@ export interface Endomorphism<A> {
  *
  * @since 2.0.0
  */
-export interface FunctionN<A extends Array<unknown>, B> {
+export interface FunctionN<A extends ReadonlyArray<unknown>, B> {
   (...args: A): B
 }
 
@@ -139,27 +139,27 @@ export function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C {
  *
  * @since 2.0.0
  */
-export function flow<A extends Array<unknown>, B>(ab: (...a: A) => B): (...a: A) => B
-export function flow<A extends Array<unknown>, B, C>(ab: (...a: A) => B, bc: (b: B) => C): (...a: A) => C
-export function flow<A extends Array<unknown>, B, C, D>(
+export function flow<A extends ReadonlyArray<unknown>, B>(ab: (...a: A) => B): (...a: A) => B
+export function flow<A extends ReadonlyArray<unknown>, B, C>(ab: (...a: A) => B, bc: (b: B) => C): (...a: A) => C
+export function flow<A extends ReadonlyArray<unknown>, B, C, D>(
   ab: (...a: A) => B,
   bc: (b: B) => C,
   cd: (c: C) => D
 ): (...a: A) => D
-export function flow<A extends Array<unknown>, B, C, D, E>(
+export function flow<A extends ReadonlyArray<unknown>, B, C, D, E>(
   ab: (...a: A) => B,
   bc: (b: B) => C,
   cd: (c: C) => D,
   de: (d: D) => E
 ): (...a: A) => E
-export function flow<A extends Array<unknown>, B, C, D, E, F>(
+export function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F>(
   ab: (...a: A) => B,
   bc: (b: B) => C,
   cd: (c: C) => D,
   de: (d: D) => E,
   ef: (e: E) => F
 ): (...a: A) => F
-export function flow<A extends Array<unknown>, B, C, D, E, F, G>(
+export function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F, G>(
   ab: (...a: A) => B,
   bc: (b: B) => C,
   cd: (c: C) => D,
@@ -167,7 +167,7 @@ export function flow<A extends Array<unknown>, B, C, D, E, F, G>(
   ef: (e: E) => F,
   fg: (f: F) => G
 ): (...a: A) => G
-export function flow<A extends Array<unknown>, B, C, D, E, F, G, H>(
+export function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F, G, H>(
   ab: (...a: A) => B,
   bc: (b: B) => C,
   cd: (c: C) => D,
@@ -176,7 +176,7 @@ export function flow<A extends Array<unknown>, B, C, D, E, F, G, H>(
   fg: (f: F) => G,
   gh: (g: G) => H
 ): (...a: A) => H
-export function flow<A extends Array<unknown>, B, C, D, E, F, G, H, I>(
+export function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F, G, H, I>(
   ab: (...a: A) => B,
   bc: (b: B) => C,
   cd: (c: C) => D,
@@ -186,7 +186,7 @@ export function flow<A extends Array<unknown>, B, C, D, E, F, G, H, I>(
   gh: (g: G) => H,
   hi: (h: H) => I
 ): (...a: A) => I
-export function flow<A extends Array<unknown>, B, C, D, E, F, G, H, I, J>(
+export function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F, G, H, I, J>(
   ab: (...a: A) => B,
   bc: (b: B) => C,
   cd: (c: C) => D,
@@ -250,7 +250,7 @@ export function flow(
 /**
  * @since 2.0.0
  */
-export function tuple<T extends Array<any>>(...t: T): T {
+export function tuple<T extends ReadonlyArray<any>>(...t: T): T {
   return t
 }
 
@@ -287,7 +287,7 @@ export function absurd<A>(_: never): A {
  *
  * @since 2.4.0
  */
-export function tupled<A extends Array<unknown>, B>(f: (...a: A) => B): (a: A) => B {
+export function tupled<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B): (a: A) => B {
   return a => f(...a)
 }
 
@@ -296,6 +296,6 @@ export function tupled<A extends Array<unknown>, B>(f: (...a: A) => B): (a: A) =
  *
  * @since 2.4.0
  */
-export function untupled<A extends Array<unknown>, B>(f: (a: A) => B): (...a: A) => B {
+export function untupled<A extends ReadonlyArray<unknown>, B>(f: (a: A) => B): (...a: A) => B {
   return (...a) => f(a)
 }

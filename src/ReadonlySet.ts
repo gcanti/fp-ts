@@ -37,8 +37,9 @@ export const empty: ReadonlySet<never> = new Set()
 /**
  * @since 2.5.0
  */
-export function toArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => Array<A> {
+export function toReadonlyArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => ReadonlyArray<A> {
   return x => {
+    // tslint:disable-next-line: readonly-array
     const r: Array<A> = []
     x.forEach(e => r.push(e))
     return r.sort(O.compare)
@@ -316,7 +317,7 @@ export function getIntersectionSemigroup<A>(E: Eq<A>): Semigroup<ReadonlySet<A>>
  * @since 2.5.0
  */
 export function reduce<A>(O: Ord<A>): <B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlySet<A>) => B {
-  const toArrayO = toArray(O)
+  const toArrayO = toReadonlyArray(O)
   return (b, f) => fa => toArrayO(fa).reduce(f, b)
 }
 
@@ -324,7 +325,7 @@ export function reduce<A>(O: Ord<A>): <B>(b: B, f: (b: B, a: A) => B) => (fa: Re
  * @since 2.5.0
  */
 export function foldMap<A, M>(O: Ord<A>, M: Monoid<M>): (f: (a: A) => M) => (fa: ReadonlySet<A>) => M {
-  const toArrayO = toArray(O)
+  const toArrayO = toReadonlyArray(O)
   return f => fa => toArrayO(fa).reduce((b, a) => M.concat(b, f(a)), M.empty)
 }
 
@@ -369,7 +370,7 @@ export function remove<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => Readonly
  *
  * @since 2.5.0
  */
-export function fromArray<A>(E: Eq<A>): (as: Array<A>) => ReadonlySet<A> {
+export function fromArray<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlySet<A> {
   return as => {
     const len = as.length
     const r = new Set<A>()

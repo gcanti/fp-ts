@@ -21,7 +21,7 @@ const getExportName = (name: string): string => {
   return name.substring(0, 1).toLowerCase() + name.substring(1)
 }
 
-function getModuleNames(): Array<string> {
+function getModuleNames(): ReadonlyArray<string> {
   return glob.sync('./src/**/*.ts').map(file => path.parse(file).name)
 }
 

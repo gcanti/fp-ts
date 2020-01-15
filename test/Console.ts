@@ -5,6 +5,7 @@ describe('Console', () => {
   it('log', () => {
     // tslint:disable-next-line:no-console
     const log_ = console.log
+    // tslint:disable-next-line: readonly-array
     const logger: Array<any> = []
     // tslint:disable-next-line:no-console
     console.log = (a: any) => {
@@ -19,6 +20,7 @@ describe('Console', () => {
   it('info', () => {
     // tslint:disable-next-line:no-console
     const info_ = console.info
+    // tslint:disable-next-line: readonly-array
     const logger: Array<any> = []
     // tslint:disable-next-line:no-console
     console.info = (a: any) => {
@@ -33,6 +35,7 @@ describe('Console', () => {
   it('error', () => {
     // tslint:disable-next-line:no-console
     const error_ = console.error
+    // tslint:disable-next-line: readonly-array
     const logger: Array<any> = []
     // tslint:disable-next-line:no-console
     console.error = (a: any) => {
@@ -47,6 +50,7 @@ describe('Console', () => {
   it('warn', () => {
     // tslint:disable-next-line:no-console
     const warn_ = console.warn
+    // tslint:disable-next-line: readonly-array
     const logger: Array<any> = []
     // tslint:disable-next-line:no-console
     console.warn = (a: any) => {

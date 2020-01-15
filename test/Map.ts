@@ -157,7 +157,7 @@ describe('Map', () => {
     assert.deepStrictEqual(collectO(f)(m2), [2, 3])
 
     const collect = M.collect(ordKey)
-    const g = (k: Key, a: Value): [number, number] => [k.id, a.value]
+    const g = (k: Key, a: Value): readonly [number, number] => [k.id, a.value]
     assert.deepStrictEqual(
       collect(g)(
         new Map([

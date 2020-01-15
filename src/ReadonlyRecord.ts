@@ -72,13 +72,11 @@ export function isEmpty(r: ReadonlyRecord<string, unknown>): boolean {
   return Object.keys(r).length === 0
 }
 
-const unorderedKeys = <K extends string>(r: ReadonlyRecord<K, unknown>): Array<K> => Object.keys(r) as any
-
 /**
  * @since 2.5.0
  */
 export function keys<K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyArray<K> {
-  return unorderedKeys(r).sort()
+  return (Object.keys(r) as any).sort()
 }
 
 /**
@@ -97,6 +95,7 @@ export function keys<K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyA
  */
 export function collect<K extends string, A, B>(f: (k: K, a: A) => B): (r: ReadonlyRecord<K, A>) => ReadonlyArray<B> {
   return r => {
+    // tslint:disable-next-line: readonly-array
     const out: Array<B> = []
     for (const key of keys(r)) {
       out.push(f(key, r[key]))
@@ -108,10 +107,9 @@ export function collect<K extends string, A, B>(f: (k: K, a: A) => B): (r: Reado
 /**
  * @since 2.5.0
  */
-export const toArray: <K extends string, A>(r: ReadonlyRecord<K, A>) => ReadonlyArray<[K, A]> = collect((k, a) => [
-  k,
-  a
-])
+export const toReadonlyArray: <K extends string, A>(
+  r: ReadonlyRecord<K, A>
+) => ReadonlyArray<readonly [K, A]> = collect((k, a) => [k, a])
 
 /**
  * Unfolds a record into a list of key/value pairs
@@ -120,13 +118,15 @@ export const toArray: <K extends string, A>(r: ReadonlyRecord<K, A>) => Readonly
  */
 export function toUnfoldable<F extends URIS>(
   unfoldable: Unfoldable1<F>
-): <K extends string, A>(r: ReadonlyRecord<K, A>) => Kind<F, [K, A]>
+): <K extends string, A>(r: ReadonlyRecord<K, A>) => Kind<F, readonly [K, A]>
 export function toUnfoldable<F>(
   unfoldable: Unfoldable<F>
-): <K extends string, A>(r: ReadonlyRecord<K, A>) => HKT<F, [K, A]>
-export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <A>(r: ReadonlyRecord<string, A>) => HKT<F, [string, A]> {
+): <K extends string, A>(r: ReadonlyRecord<K, A>) => HKT<F, readonly [K, A]>
+export function toUnfoldable<F>(
+  unfoldable: Unfoldable<F>
+): <A>(r: ReadonlyRecord<string, A>) => HKT<F, readonly [string, A]> {
   return r => {
-    const arr = toArray(r)
+    const arr = toReadonlyArray(r)
     const len = arr.length
     return unfoldable.unfold(0, b => (b < len ? optionSome([arr[b], b + 1]) : none))
   }
@@ -563,7 +563,7 @@ export function fromFoldable<F, A>(
 export function fromFoldable<F, A>(
   M: Magma<A>,
   F: Foldable<F>
-): (fka: HKT<F, [string, A]>) => ReadonlyRecord<string, A> {
+): (fka: HKT<F, readonly [string, A]>) => ReadonlyRecord<string, A> {
   const fromFoldableMapM = fromFoldableMap(M, F)
   return fka => fromFoldableMapM(fka, identity)
 }

@@ -229,7 +229,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromEitherK<E, A extends Array<unknown>, B>(
+export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Either<E, B>
 ): (...a: A) => TaskEither<E, B> { ... }
 ```
@@ -241,7 +241,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export function fromIOEitherK<E, A extends Array<unknown>, B>(
+export function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => IOEither<E, B>
 ): (...a: A) => TaskEither<E, B> { ... }
 ```

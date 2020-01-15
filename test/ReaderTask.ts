@@ -91,6 +91,7 @@ describe('ReaderTask', () => {
   })
 
   it('sequence parallel', async () => {
+    // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): _.ReaderTask<{}, number> => _.fromTask(() => Promise.resolve(log.push(message)))
     const t1 = _.readerTask.chain(append('start 1'), () => append('end 1'))
@@ -102,6 +103,7 @@ describe('ReaderTask', () => {
   })
 
   it('sequence series', async () => {
+    // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): _.ReaderTask<{}, number> => _.fromTask(() => Promise.resolve(log.push(message)))
     const t1 = _.readerTask.chain(append('start 1'), () => append('end 1'))

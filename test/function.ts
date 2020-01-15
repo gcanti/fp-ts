@@ -93,8 +93,8 @@ describe('function', () => {
   })
 
   it('untupled', () => {
-    const f1 = (a: [number]): number => a[0] * 2
-    const f2 = (a: [number, number]): number => a[0] + a[1]
+    const f1 = (a: readonly [number]): number => a[0] * 2
+    const f2 = (a: readonly [number, number]): number => a[0] + a[1]
     const u1 = untupled(f1)
     const u2 = untupled(f2)
     assert.deepStrictEqual(u1(1), 2)

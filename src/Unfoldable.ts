@@ -6,6 +6,8 @@
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Option } from './Option'
 
+// tslint:disable:readonly-array
+
 /**
  * @since 2.0.0
  */

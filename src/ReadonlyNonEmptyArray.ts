@@ -167,6 +167,7 @@ export function group<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<Read
     if (len === 0) {
       return RA.empty
     }
+    // tslint:disable-next-line: readonly-array
     const r: Array<ReadonlyNonEmptyArray<A>> = []
     let head: A = as[0]
     let nea: NonEmptyArray<A> = [head]

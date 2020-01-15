@@ -147,7 +147,7 @@ Given a tuple of `Eq`s returns a `Eq` for the tuple
 **Signature**
 
 ```ts
-export function getTupleEq<T extends Array<Eq<any>>>(
+export function getTupleEq<T extends ReadonlyArray<Eq<any>>>(
   ...eqs: T
 ): Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }> { ... }
 ```

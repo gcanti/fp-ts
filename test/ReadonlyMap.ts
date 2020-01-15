@@ -153,7 +153,7 @@ describe('ReadonlyMap', () => {
     assert.deepStrictEqual(collectO(f)(m2), [2, 3])
 
     const collect = _.collect(ordKey)
-    const g = (k: Key, a: Value): [number, number] => [k.id, a.value]
+    const g = (k: Key, a: Value): readonly [number, number] => [k.id, a.value]
     assert.deepStrictEqual(
       collect(g)(
         new Map([
@@ -204,7 +204,7 @@ describe('ReadonlyMap', () => {
     )
   })
 
-  it('toArray', () => {
+  it('toReadonlyArray', () => {
     const m1 = new Map<User, number>([
       [{ id: 'a' }, 1],
       [{ id: 'b' }, 2]
@@ -213,7 +213,7 @@ describe('ReadonlyMap', () => {
       [{ id: 'b' }, 2],
       [{ id: 'a' }, 1]
     ])
-    const toArrayO = _.toArray(ordUser)
+    const toArrayO = _.toReadonlyArray(ordUser)
     assert.deepStrictEqual(toArrayO(m1), [
       [{ id: 'a' }, 1],
       [{ id: 'b' }, 2]
@@ -223,7 +223,7 @@ describe('ReadonlyMap', () => {
       [{ id: 'b' }, 2]
     ])
 
-    const toArray = _.toArray(ordKey)
+    const toArray = _.toReadonlyArray(ordKey)
     assert.deepStrictEqual(
       toArray(
         new Map([

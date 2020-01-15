@@ -52,7 +52,7 @@ export function getLastSemigroup<A = never>(): Semigroup<A> {
  *
  * @since 2.0.0
  */
-export function getTupleSemigroup<T extends Array<Semigroup<any>>>(
+export function getTupleSemigroup<T extends ReadonlyArray<Semigroup<any>>>(
   ...semigroups: T
 ): Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> {
   return {

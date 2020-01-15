@@ -56,7 +56,7 @@ Given a tuple of `Ring`s returns a `Ring` for the tuple
 **Signature**
 
 ```ts
-export function getTupleRing<T extends Array<Ring<any>>>(
+export function getTupleRing<T extends ReadonlyArray<Ring<any>>>(
   ...rings: T
 ): Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }> { ... }
 ```

@@ -191,7 +191,7 @@ Given a tuple of monoids returns a monoid for the tuple
 **Signature**
 
 ```ts
-export function getTupleMonoid<T extends Array<Monoid<any>>>(
+export function getTupleMonoid<T extends ReadonlyArray<Monoid<any>>>(
   ...monoids: T
 ): Monoid<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> { ... }
 ```

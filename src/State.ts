@@ -29,12 +29,14 @@ export const URI = 'State'
  */
 export type URI = typeof URI
 
+/* tslint:disable:readonly-array */
 /**
  * @since 2.0.0
  */
 export interface State<S, A> {
   (s: S): [A, S]
 }
+/* tslint:enable:readonly-array */
 
 /**
  * Run a computation in the `State` monad, discarding the final state

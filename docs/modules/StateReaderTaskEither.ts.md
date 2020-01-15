@@ -267,7 +267,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export function fromEitherK<E, A extends Array<unknown>, B>(
+export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Either<E, B>
 ): <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B> { ... }
 ```
@@ -289,7 +289,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromIOEitherK<E, A extends Array<unknown>, B>(
+export function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => IOEither<E, B>
 ): <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B> { ... }
 ```
@@ -311,7 +311,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromReaderTaskEitherK<R, E, A extends Array<unknown>, B>(
+export function fromReaderTaskEitherK<R, E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => ReaderTaskEither<R, E, B>
 ): <S>(...a: A) => StateReaderTaskEither<S, R, E, B> { ... }
 ```
@@ -333,7 +333,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromTaskEitherK<E, A extends Array<unknown>, B>(
+export function fromTaskEitherK<E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => TaskEither<E, B>
 ): <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B> { ... }
 ```

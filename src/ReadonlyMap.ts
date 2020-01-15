@@ -113,7 +113,7 @@ export function elem<A>(E: Eq<A>): <K>(a: A, m: ReadonlyMap<K, A>) => boolean {
  *
  * @since 2.5.0
  */
-export function keys<K>(O: Ord<K>): <A>(m: ReadonlyMap<K, A>) => Array<K> {
+export function keys<K>(O: Ord<K>): <A>(m: ReadonlyMap<K, A>) => ReadonlyArray<K> {
   return m => Array.from(m.keys()).sort(O.compare)
 }
 
@@ -122,16 +122,17 @@ export function keys<K>(O: Ord<K>): <A>(m: ReadonlyMap<K, A>) => Array<K> {
  *
  * @since 2.5.0
  */
-export function values<A>(O: Ord<A>): <K>(m: ReadonlyMap<K, A>) => Array<A> {
+export function values<A>(O: Ord<A>): <K>(m: ReadonlyMap<K, A>) => ReadonlyArray<A> {
   return m => Array.from(m.values()).sort(O.compare)
 }
 
 /**
  * @since 2.5.0
  */
-export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K, A>) => Array<B> {
+export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K, A>) => ReadonlyArray<B> {
   const keysO = keys(O)
-  return <A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K, A>): Array<B> => {
+  return <A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K, A>): ReadonlyArray<B> => {
+    // tslint:disable-next-line: readonly-array
     const out: Array<B> = []
     const ks = keysO(m)
     for (const key of ks) {
@@ -146,8 +147,8 @@ export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: Reado
  *
  * @since 2.5.0
  */
-export function toArray<K>(O: Ord<K>): <A>(m: ReadonlyMap<K, A>) => Array<[K, A]> {
-  return collect(O)((k, a) => [k, a])
+export function toReadonlyArray<K>(O: Ord<K>): <A>(m: ReadonlyMap<K, A>) => ReadonlyArray<readonly [K, A]> {
+  return collect(O)((k, a) => [k, a] as const)
 }
 
 /**
@@ -158,10 +159,10 @@ export function toArray<K>(O: Ord<K>): <A>(m: ReadonlyMap<K, A>) => Array<[K, A]
 export function toUnfoldable<K, F extends URIS>(
   O: Ord<K>,
   U: Unfoldable1<F>
-): <A>(d: ReadonlyMap<K, A>) => Kind<F, [K, A]>
-export function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: ReadonlyMap<K, A>) => HKT<F, [K, A]>
-export function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: ReadonlyMap<K, A>) => HKT<F, [K, A]> {
-  const toArrayO = toArray(O)
+): <A>(d: ReadonlyMap<K, A>) => Kind<F, readonly [K, A]>
+export function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: ReadonlyMap<K, A>) => HKT<F, readonly [K, A]>
+export function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: ReadonlyMap<K, A>) => HKT<F, readonly [K, A]> {
+  const toArrayO = toReadonlyArray(O)
   return d => {
     const arr = toArrayO(d)
     const len = arr.length
@@ -248,7 +249,7 @@ export function modifyAt<K>(
  *
  * @since 2.5.0
  */
-export function pop<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) => Option<[A, ReadonlyMap<K, A>]> {
+export function pop<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) => Option<readonly [A, ReadonlyMap<K, A>]> {
   const lookupE = lookup(E)
   const deleteAtE = deleteAt(E)
   return k => {
@@ -263,10 +264,10 @@ export function pop<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) => Option<
  *
  * @since 2.5.0
  */
-export function lookupWithKey<K>(E: Eq<K>): <A>(k: K, m: ReadonlyMap<K, A>) => Option<[K, A]> {
+export function lookupWithKey<K>(E: Eq<K>): <A>(k: K, m: ReadonlyMap<K, A>) => Option<readonly [K, A]> {
   return <A>(k: K, m: ReadonlyMap<K, A>) => {
     const entries = m.entries()
-    let e: Next<[K, A]>
+    let e: Next<readonly [K, A]>
     // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [ka, a] = e.value
@@ -297,7 +298,7 @@ export function isSubmap<K, A>(SK: Eq<K>, SA: Eq<A>): (d1: ReadonlyMap<K, A>, d2
   const lookupWithKeyS = lookupWithKey(SK)
   return (d1: ReadonlyMap<K, A>, d2: ReadonlyMap<K, A>): boolean => {
     const entries = d1.entries()
-    let e: Next<[K, A]>
+    let e: Next<readonly [K, A]>
     // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
@@ -340,7 +341,7 @@ export function getMonoid<K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap
       }
       const r = new Map(mx)
       const entries = my.entries()
-      let e: Next<[K, A]>
+      let e: Next<readonly [K, A]>
       // tslint:disable-next-line: strict-boolean-expressions
       while (!(e = entries.next()).done) {
         const [k, a] = e.value
@@ -376,26 +377,30 @@ export function fromFoldable<F extends URIS3, K, A>(
   E: Eq<K>,
   M: Magma<A>,
   F: Foldable3<F>
-): <R, E>(fka: Kind3<F, R, E, [K, A]>) => ReadonlyMap<K, A>
+): <R, E>(fka: Kind3<F, R, E, readonly [K, A]>) => ReadonlyMap<K, A>
 export function fromFoldable<F extends URIS2, K, A>(
   E: Eq<K>,
   M: Magma<A>,
   F: Foldable2<F>
-): <E>(fka: Kind2<F, E, [K, A]>) => ReadonlyMap<K, A>
+): <E>(fka: Kind2<F, E, readonly [K, A]>) => ReadonlyMap<K, A>
 export function fromFoldable<F extends URIS, K, A>(
   E: Eq<K>,
   M: Magma<A>,
   F: Foldable1<F>
-): (fka: Kind<F, [K, A]>) => ReadonlyMap<K, A>
-export function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable<F>): (fka: HKT<F, [K, A]>) => ReadonlyMap<K, A>
+): (fka: Kind<F, readonly [K, A]>) => ReadonlyMap<K, A>
 export function fromFoldable<F, K, A>(
   E: Eq<K>,
   M: Magma<A>,
   F: Foldable<F>
-): (fka: HKT<F, [K, A]>) => ReadonlyMap<K, A> {
-  return (fka: HKT<F, [K, A]>) => {
+): (fka: HKT<F, readonly [K, A]>) => ReadonlyMap<K, A>
+export function fromFoldable<F, K, A>(
+  E: Eq<K>,
+  M: Magma<A>,
+  F: Foldable<F>
+): (fka: HKT<F, readonly [K, A]>) => ReadonlyMap<K, A> {
+  return (fka: HKT<F, readonly [K, A]>) => {
     const lookupWithKeyE = lookupWithKey(E)
-    return F.reduce<[K, A], Map<K, A>>(fka, new Map<K, A>(), (b, [k, a]) => {
+    return F.reduce<readonly [K, A], Map<K, A>>(fka, new Map<K, A>(), (b, [k, a]) => {
       const bOpt = lookupWithKeyE(k, b)
       if (isSome(bOpt)) {
         b.set(bOpt.value[0], M.concat(bOpt.value[1], a))
@@ -410,7 +415,7 @@ export function fromFoldable<F, K, A>(
 const _mapWithIndex = <K, A, B>(fa: ReadonlyMap<K, A>, f: (k: K, a: A) => B): ReadonlyMap<K, B> => {
   const m = new Map<K, B>()
   const entries = fa.entries()
-  let e: Next<[K, A]>
+  let e: Next<readonly [K, A]>
   // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [key, a] = e.value
@@ -426,7 +431,7 @@ const _partitionMapWithIndex = <K, A, B, C>(
   const left = new Map<K, B>()
   const right = new Map<K, C>()
   const entries = fa.entries()
-  let e: Next<[K, A]>
+  let e: Next<readonly [K, A]>
   // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
@@ -450,7 +455,7 @@ const _partitionWithIndex = <K, A>(
   const left = new Map<K, A>()
   const right = new Map<K, A>()
   const entries = fa.entries()
-  let e: Next<[K, A]>
+  let e: Next<readonly [K, A]>
   // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
@@ -469,7 +474,7 @@ const _partitionWithIndex = <K, A>(
 const _filterMapWithIndex = <K, A, B>(fa: ReadonlyMap<K, A>, f: (k: K, a: A) => Option<B>): ReadonlyMap<K, B> => {
   const m = new Map<K, B>()
   const entries = fa.entries()
-  let e: Next<[K, A]>
+  let e: Next<readonly [K, A]>
   // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
@@ -484,7 +489,7 @@ const _filterMapWithIndex = <K, A, B>(fa: ReadonlyMap<K, A>, f: (k: K, a: A) => 
 const _filterWithIndex = <K, A>(fa: ReadonlyMap<K, A>, p: (k: K, a: A) => boolean): ReadonlyMap<K, A> => {
   const m = new Map<K, A>()
   const entries = fa.entries()
-  let e: Next<[K, A]>
+  let e: Next<readonly [K, A]>
   // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
@@ -555,7 +560,7 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
     return <K, A, B>(ta: ReadonlyMap<K, A>, f: (k: K, a: A) => HKT<F, B>) => {
       let fm: HKT<F, ReadonlyMap<K, B>> = F.of(empty)
       const entries = ta.entries()
-      let e: Next<[K, A]>
+      let e: Next<readonly [K, A]>
       // tslint:disable-next-line: strict-boolean-expressions
       while (!(e = entries.next()).done) {
         const [key, a] = e.value
@@ -623,7 +628,7 @@ export const readonlyMap: Filterable2<URI> = {
   compact: <K, A>(fa: ReadonlyMap<K, Option<A>>): ReadonlyMap<K, A> => {
     const m = new Map<K, A>()
     const entries = fa.entries()
-    let e: Next<[K, Option<A>]>
+    let e: Next<readonly [K, Option<A>]>
     // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [k, oa] = e.value
@@ -637,7 +642,7 @@ export const readonlyMap: Filterable2<URI> = {
     const left = new Map<K, A>()
     const right = new Map<K, B>()
     const entries = fa.entries()
-    let e: Next<[K, Either<A, B>]>
+    let e: Next<readonly [K, Either<A, B>]>
     // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [k, ei] = e.value

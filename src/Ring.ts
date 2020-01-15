@@ -53,7 +53,7 @@ export function negate<A>(ring: Ring<A>): (a: A) => A {
  *
  * @since 2.0.0
  */
-export function getTupleRing<T extends Array<Ring<any>>>(
+export function getTupleRing<T extends ReadonlyArray<Ring<any>>>(
   ...rings: T
 ): Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }> {
   return {

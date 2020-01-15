@@ -3,7 +3,6 @@
  *
  * @since 2.0.0
  */
-/* tslint:disable:readonly-keyword readonly-array */
 import { Monad1 } from './Monad'
 import * as A from './Array'
 import { Comonad1 } from './Comonad'
@@ -18,6 +17,8 @@ import { Predicate, Refinement } from './function'
 import { Show } from './Show'
 import { pipeable } from './pipeable'
 import { Alt1 } from './Alt'
+
+/* tslint:disable:readonly-array */
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -35,12 +36,14 @@ export const URI = 'NonEmptyArray'
  */
 export type URI = typeof URI
 
+/* tslint:disable:readonly-keyword */
 /**
  * @since 2.0.0
  */
 export interface NonEmptyArray<A> extends Array<A> {
   0: A
 }
+/* tslint:enable:readonly-keyword */
 
 /**
  * Append an element to the front of an array, creating a new non empty array

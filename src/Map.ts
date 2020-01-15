@@ -21,6 +21,8 @@ import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable2C } from './Witherable'
 import { pipeable } from './pipeable'
 
+/* tslint:disable:readonly-array */
+
 declare module './HKT' {
   interface URItoKind2<E, A> {
     readonly Map: Map<E, A>

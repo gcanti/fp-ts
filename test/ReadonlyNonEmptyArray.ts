@@ -39,7 +39,7 @@ describe('NonEmptyArray', () => {
   })
 
   it('chain', () => {
-    const f = (a: number) => [a, 4] as [number, number]
+    const f = (a: number): _.ReadonlyNonEmptyArray<number> => [a, 4]
     assert.deepStrictEqual(_.readonlyNonEmptyArray.chain([1, 2], f), [1, 4, 2, 4])
   })
 
@@ -144,9 +144,7 @@ describe('NonEmptyArray', () => {
   })
 
   it('reverse', () => {
-    const result = _.reverse([1, 2, 3])
-    const expected = [3, 2, 1]
-    assert.deepStrictEqual(result, expected)
+    assert.deepStrictEqual(_.reverse([1, 2, 3]), [3, 2, 1])
   })
 
   it('groupBy', () => {

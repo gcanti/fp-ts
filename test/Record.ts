@@ -1,13 +1,13 @@
 import * as assert from 'assert'
-import * as R from '../src/Record'
-import { semigroupSum, getLastSemigroup, getFirstSemigroup } from '../src/Semigroup'
-import { monoidString } from '../src/Monoid'
-import { identity } from '../src/function'
-import { option, some, none, Option, getOrElse, isSome } from '../src/Option'
-import { eqNumber } from '../src/Eq'
-import { array, zip } from '../src/Array'
 import { left, right } from '../src/Either'
+import { eqNumber } from '../src/Eq'
+import { identity } from '../src/function'
 import * as I from '../src/Identity'
+import { monoidString } from '../src/Monoid'
+import { getOrElse, isSome, none, option, Option, some } from '../src/Option'
+import { readonlyArray, zip } from '../src/ReadonlyArray'
+import * as R from '../src/Record'
+import { getFirstSemigroup, getLastSemigroup, semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
 
 const p = (n: number) => n > 2
@@ -95,11 +95,11 @@ describe('Record', () => {
 
   it('fromFoldable', () => {
     const First = getFirstSemigroup<number>()
-    assert.deepStrictEqual(R.fromFoldable(First, array)([['a', 1]]), { a: 1 })
+    assert.deepStrictEqual(R.fromFoldable(First, readonlyArray)([['a', 1]]), { a: 1 })
     assert.deepStrictEqual(
       R.fromFoldable(
         First,
-        array
+        readonlyArray
       )([
         ['a', 1],
         ['a', 2]
@@ -112,7 +112,7 @@ describe('Record', () => {
     assert.deepStrictEqual(
       R.fromFoldable(
         Last,
-        array
+        readonlyArray
       )([
         ['a', 1],
         ['a', 2]
@@ -135,7 +135,7 @@ describe('Record', () => {
   })
 
   it('toUnfoldable', () => {
-    assert.deepStrictEqual(R.toUnfoldable(array)({ a: 1 }), [['a', 1]])
+    assert.deepStrictEqual(R.toUnfoldable(readonlyArray)({ a: 1 }), [['a', 1]])
   })
 
   it('traverseWithIndex', () => {
@@ -283,8 +283,8 @@ describe('Record', () => {
   })
 
   it('fromFoldableMap', () => {
-    const zipObject = <K extends string, A>(keys: Array<K>, values: Array<A>): Record<K, A> =>
-      R.fromFoldableMap(getLastSemigroup<A>(), array)(zip(keys, values), identity)
+    const zipObject = <K extends string, A>(keys: ReadonlyArray<K>, values: ReadonlyArray<A>): Record<K, A> =>
+      R.fromFoldableMap(getLastSemigroup<A>(), readonlyArray)(zip(keys, values), ([k, a]) => [k, a])
 
     assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
 
@@ -293,14 +293,14 @@ describe('Record', () => {
       readonly name: string
     }
 
-    const users: Array<User> = [
+    const users: ReadonlyArray<User> = [
       { id: 'id1', name: 'name1' },
       { id: 'id2', name: 'name2' },
       { id: 'id1', name: 'name3' }
     ]
 
     assert.deepStrictEqual(
-      R.fromFoldableMap(getLastSemigroup<User>(), array)(users, user => [user.id, user]),
+      R.fromFoldableMap(getLastSemigroup<User>(), readonlyArray)(users, user => [user.id, user]),
       {
         id1: { id: 'id1', name: 'name3' },
         id2: { id: 'id2', name: 'name2' }

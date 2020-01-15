@@ -99,7 +99,7 @@ export function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in 
  *
  * @since 2.0.0
  */
-export function getTupleEq<T extends Array<Eq<any>>>(
+export function getTupleEq<T extends ReadonlyArray<Eq<any>>>(
   ...eqs: T
 ): Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }> {
   return fromEquals((x, y) => eqs.every((E, i) => E.equals(x[i], y[i])))
