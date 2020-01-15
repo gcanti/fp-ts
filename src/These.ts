@@ -35,7 +35,7 @@ import { Traversable2 } from './Traversable'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    These: These<E, A>
+    readonly These: These<E, A>
   }
 }
 
@@ -190,6 +190,7 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> {
   }
 }
 
+/* tslint:disable:readonly-array */
 /**
  * @example
  * import { toTuple, left, right, both } from 'fp-ts/lib/These'
@@ -203,6 +204,7 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> {
 export function toTuple<E, A>(e: E, a: A): (fa: These<E, A>) => [E, A] {
   return fa => (isLeft(fa) ? [fa.left, a] : isRight(fa) ? [e, fa.right] : [fa.left, fa.right])
 }
+/* tslint:enable:readonly-array */
 
 /**
  * Returns an `E` value if possible

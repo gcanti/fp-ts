@@ -19,7 +19,7 @@ const T = getTheseM(task)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    TaskThese: TaskThese<E, A>
+    readonly TaskThese: TaskThese<E, A>
   }
 }
 
@@ -117,12 +117,14 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI,
   }
 }
 
+/* tslint:disable:readonly-array */
 /**
  * @since 2.4.0
  */
 export function toTuple<E, A>(e: E, a: A): (fa: TaskThese<E, A>) => Task<[E, A]> {
   return fa => T.toTuple(fa, e, a)
 }
+/* tslint:enable:readonly-array */
 
 /**
  * @since 2.4.0

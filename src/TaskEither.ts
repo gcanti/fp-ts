@@ -27,7 +27,7 @@ const T = getEitherM(task)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    TaskEither: TaskEither<E, A>
+    readonly TaskEither: TaskEither<E, A>
   }
 }
 
@@ -269,7 +269,7 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
 /**
  * @since 2.4.0
  */
-export function fromEitherK<E, A extends Array<unknown>, B>(
+export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Either<E, B>
 ): (...a: A) => TaskEither<E, B> {
   return (...a) => fromEither(f(...a))
@@ -285,7 +285,7 @@ export function chainEitherK<E, A, B>(f: (a: A) => Either<E, B>): (ma: TaskEithe
 /**
  * @since 2.4.0
  */
-export function fromIOEitherK<E, A extends Array<unknown>, B>(
+export function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => IOEither<E, B>
 ): (...a: A) => TaskEither<E, B> {
   return (...a) => fromIOEither(f(...a))
@@ -303,7 +303,7 @@ export function chainIOEitherK<E, A, B>(f: (a: A) => IOEither<E, B>): (ma: TaskE
  *
  * @since 2.5.0
  */
-export function tryCatchK<E, A extends Array<unknown>, B>(
+export function tryCatchK<E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Promise<B>,
   onRejected: (reason: unknown) => E
 ): (...a: A) => TaskEither<E, B> {

@@ -29,7 +29,7 @@ export type URI = typeof URI
 
 declare module 'fp-ts/lib/HKT' {
   interface URItoKind<A> {
-    Identity: Identity<A>
+    readonly Identity: Identity<A>
   }
 }
 
@@ -68,7 +68,7 @@ export interface URItoKind<A> {}
 
 declare module 'fp-ts/lib/HKT' {
   interface URItoKind<A> {
-    Identity: Identity<A> // maps the key "Identity" to the type `Identity`
+    readonly Identity: Identity<A> // maps the key "Identity" to the type `Identity`
   }
 }
 ```
@@ -95,7 +95,7 @@ export type URI = typeof URI
 
 declare module 'fp-ts/lib/HKT' {
   interface URItoKind2<E, A> {
-    Either: Either<E, A>
+    readonly Either: Either<E, A>
   }
 }
 

@@ -32,6 +32,8 @@ import { identity } from './function'
 import { HKT2, Kind2, Kind3, URIS2, URIS3, URIS4, Kind4 } from './HKT'
 import { Profunctor, Profunctor2, Profunctor3, Profunctor4 } from './Profunctor'
 
+/* tslint:disable:readonly-array */
+
 /**
  * @since 2.0.0
  */

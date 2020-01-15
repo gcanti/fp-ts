@@ -32,44 +32,44 @@ export interface Witherable<T> extends Traversable<T>, Filterable<T> {
   /**
    * Partition a structure with effects
    */
-  wilt: Wilt<T>
+  readonly wilt: Wilt<T>
 
   /**
    * Filter a structure  with effects
    */
-  wither: Wither<T>
+  readonly wither: Wither<T>
 }
 
 /**
  * @since 2.0.0
  */
 export interface Witherable1<T extends URIS> extends Traversable1<T>, Filterable1<T> {
-  wilt: Wilt1<T>
-  wither: Wither1<T>
+  readonly wilt: Wilt1<T>
+  readonly wither: Wither1<T>
 }
 
 /**
  * @since 2.0.0
  */
 export interface Witherable2<T extends URIS2> extends Traversable2<T>, Filterable2<T> {
-  wilt: Wilt2<T>
-  wither: Wither2<T>
+  readonly wilt: Wilt2<T>
+  readonly wither: Wither2<T>
 }
 
 /**
  * @since 2.0.0
  */
 export interface Witherable2C<T extends URIS2, TL> extends Traversable2C<T, TL>, Filterable2C<T, TL> {
-  wilt: Wilt2C<T, TL>
-  wither: Wither2C<T, TL>
+  readonly wilt: Wilt2C<T, TL>
+  readonly wither: Wither2C<T, TL>
 }
 
 /**
  * @since 2.0.0
  */
 export interface Witherable3<T extends URIS3> extends Traversable3<T>, Filterable3<T> {
-  wilt: Wilt3<T>
-  wither: Wither3<T>
+  readonly wilt: Wilt3<T>
+  readonly wither: Wither3<T>
 }
 
 /**

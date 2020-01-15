@@ -1,6 +1,6 @@
 ---
 title: Tuple.ts
-nav_order: 90
+nav_order: 96
 parent: Modules
 ---
 
@@ -110,7 +110,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fst<A, S>(sa: [A, S]): A { ... }
+export const fst: <A, S>(sa: [A, S]) => A = ...
 ```
 
 Added in v2.0.0
@@ -120,7 +120,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApplicative<S>(M: Monoid<S>): Applicative2C<URI, S> { ... }
+export const getApplicative: <S>(M: Monoid<S>) => Applicative2C<URI, S> = ...
 ```
 
 Added in v2.0.0
@@ -130,7 +130,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> { ... }
+export const getApply: <S>(S: Semigroup<S>) => Apply2C<URI, S> = ...
 ```
 
 Added in v2.0.0
@@ -140,7 +140,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getChain<S>(S: Semigroup<S>): Chain2C<URI, S> { ... }
+export const getChain: <S>(S: Semigroup<S>) => Chain2C<URI, S> = ...
 ```
 
 Added in v2.0.0
@@ -150,7 +150,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getChainRec<S>(M: Monoid<S>): ChainRec2C<URI, S> { ... }
+export const getChainRec: <S>(M: Monoid<S>) => ChainRec2C<URI, S> = ...
 ```
 
 Added in v2.0.0
@@ -160,7 +160,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getMonad<S>(M: Monoid<S>): Monad2C<URI, S> { ... }
+export const getMonad: <S>(M: Monoid<S>) => Monad2C<URI, S> = ...
 ```
 
 Added in v2.0.0
@@ -210,7 +210,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function snd<A, S>(sa: [A, S]): S { ... }
+export const snd: <A, S>(sa: [A, S]) => S = ...
 ```
 
 Added in v2.0.0
@@ -220,7 +220,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function swap<A, S>(sa: [A, S]): [S, A] { ... }
+export const swap: <A, S>(sa: [A, S]) => [S, A] = ...
 ```
 
 Added in v2.0.0

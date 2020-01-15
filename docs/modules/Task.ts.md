@@ -1,6 +1,6 @@
 ---
 title: Task.ts
-nav_order: 81
+nav_order: 87
 parent: Modules
 ---
 
@@ -166,7 +166,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromIOK<A extends Array<unknown>, B>(f: (...a: A) => IO<B>): (...a: A) => Task<B> { ... }
+export function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): (...a: A) => Task<B> { ... }
 ```
 
 Added in v2.4.0

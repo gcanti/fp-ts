@@ -1,15 +1,20 @@
 /**
+ * @since 2.0.0
+ */
+import { ReadonlyRecord } from './ReadonlyRecord'
+
+/**
  * The `Show` type class represents those types which can be converted into
  * a human-readable `string` representation.
  *
  * While not required, it is recommended that for any expression `x`, the
- * string `show x` be executable TypeScript code which evaluates to the same
+ * string `show(x)` be executable TypeScript code which evaluates to the same
  * value as the expression `x`.
  *
  * @since 2.0.0
  */
 export interface Show<A> {
-  show: (a: A) => string
+  readonly show: (a: A) => string
 }
 
 /**
@@ -36,7 +41,7 @@ export const showBoolean: Show<boolean> = {
 /**
  * @since 2.0.0
  */
-export function getStructShow<O extends { [key: string]: any }>(shows: { [K in keyof O]: Show<O[K]> }): Show<O> {
+export function getStructShow<O extends ReadonlyRecord<string, any>>(shows: { [K in keyof O]: Show<O[K]> }): Show<O> {
   return {
     show: s =>
       `{ ${Object.keys(shows)
@@ -48,7 +53,7 @@ export function getStructShow<O extends { [key: string]: any }>(shows: { [K in k
 /**
  * @since 2.0.0
  */
-export function getTupleShow<T extends Array<Show<any>>>(
+export function getTupleShow<T extends ReadonlyArray<Show<any>>>(
   ...shows: T
 ): Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }> {
   return {

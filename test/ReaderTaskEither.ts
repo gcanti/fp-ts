@@ -187,22 +187,23 @@ describe('ReaderTaskEither', () => {
     assert.deepStrictEqual(e3, E.left('b'))
   })
 
-  it('fromPredicate', () => {
+  it('fromPredicate', async () => {
     const predicate = (n: number) => n >= 2
     const gt2 = _.fromPredicate(predicate, n => `Invalid number ${n}`)
 
     const refinement = (u: string | number): u is number => typeof u === 'number'
     const isNumber = _.fromPredicate(refinement, u => `Invalid number ${String(u)}`)
 
-    const rtes = [gt2(3), gt2(1), isNumber(4)]
-    return Promise.all(rtes.map(rte => _.run(rte, {}))).then(([e1, e2, e3]) => {
-      assert.deepStrictEqual(e1, E.right(3))
-      assert.deepStrictEqual(e2, E.left('Invalid number 1'))
-      assert.deepStrictEqual(e3, E.right(4))
-    })
+    const e1 = await _.run(gt2(3), {})
+    const e2 = await _.run(gt2(1), {})
+    const e3 = await _.run(isNumber(4), {})
+    assert.deepStrictEqual(e1, E.right(3))
+    assert.deepStrictEqual(e2, E.left('Invalid number 1'))
+    assert.deepStrictEqual(e3, E.right(4))
   })
 
   it('sequence parallel', async () => {
+    // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): _.ReaderTaskEither<{}, void, number> =>
       _.rightTask(() => Promise.resolve(log.push(message)))
@@ -215,6 +216,7 @@ describe('ReaderTaskEither', () => {
   })
 
   it('sequence series', async () => {
+    // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): _.ReaderTaskEither<{}, void, number> =>
       _.rightTask(() => Promise.resolve(log.push(message)))
@@ -404,6 +406,7 @@ describe('ReaderTaskEither', () => {
   })
 
   describe('bracket', () => {
+    // tslint:disable-next-line: readonly-array
     let log: Array<string> = []
 
     const acquireFailure = _.left('acquire failure')

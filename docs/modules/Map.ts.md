@@ -75,7 +75,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: Map<K, A>) => Array<B> { ... }
+export const collect: <K>(O: Ord<K>) => <A, B>(f: (k: K, a: A) => B) => (m: Map<K, A>) => Array<B> = ...
 ```
 
 Added in v2.0.0
@@ -97,7 +97,7 @@ Delete a key and value from a map
 **Signature**
 
 ```ts
-export function deleteAt<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Map<K, A> { ... }
+export const deleteAt: <K>(E: Eq<K>) => (k: K) => <A>(m: Map<K, A>) => Map<K, A> = ...
 ```
 
 Added in v2.0.0
@@ -109,7 +109,7 @@ Test whether or not a value is a member of a map
 **Signature**
 
 ```ts
-export function elem<A>(E: Eq<A>): <K>(a: A, m: Map<K, A>) => boolean { ... }
+export const elem: <A>(E: Eq<A>) => <K>(a: A, m: Map<K, A>) => boolean = ...
 ```
 
 Added in v2.0.0
@@ -177,7 +177,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getEq<K, A>(SK: Eq<K>, SA: Eq<A>): Eq<Map<K, A>> { ... }
+export const getEq: <K, A>(SK: Eq<K>, SA: Eq<A>) => Eq<Map<K, A>> = ...
 ```
 
 Added in v2.0.0
@@ -187,7 +187,11 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, K, K> { ... }
+export const getFilterableWithIndex: <K = never>() => FilterableWithIndex2C<
+  URI,
+  K,
+  K
+> = ...
 ```
 
 Added in v2.0.0
@@ -199,7 +203,7 @@ Gets `Monoid` instance for Maps given `Semigroup` instance for their values
 **Signature**
 
 ```ts
-export function getMonoid<K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<Map<K, A>> { ... }
+export const getMonoid: <K, A>(SK: Eq<K>, SA: Semigroup<A>) => Monoid<Map<K, A>> = ...
 ```
 
 Added in v2.0.0
@@ -209,7 +213,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getShow<K, A>(SK: Show<K>, SA: Show<A>): Show<Map<K, A>> { ... }
+export const getShow: <K, A>(SK: Show<K>, SA: Show<A>) => Show<Map<K, A>> = ...
 ```
 
 Added in v2.0.0
@@ -219,7 +223,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableWithIndex2C<URI, K, K> { ... }
+export const getWitherable: <K>(
+  O: Ord<K>
+) => Witherable2C<URI, K> & TraversableWithIndex2C<URI, K, K> = ...
 ```
 
 Added in v2.0.0
@@ -231,7 +237,7 @@ Insert or replace a key/value pair in a map
 **Signature**
 
 ```ts
-export function insertAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A> { ... }
+export const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A> = ...
 ```
 
 Added in v2.0.0
@@ -243,7 +249,7 @@ Test whether or not a map is empty
 **Signature**
 
 ```ts
-export function isEmpty<K, A>(d: Map<K, A>): boolean { ... }
+export const isEmpty: <K, A>(d: Map<K, A>) => boolean = ...
 ```
 
 Added in v2.0.0
@@ -255,7 +261,7 @@ Test whether or not one Map contains all of the keys and values contained in ano
 **Signature**
 
 ```ts
-export function isSubmap<K, A>(SK: Eq<K>, SA: Eq<A>): (d1: Map<K, A>, d2: Map<K, A>) => boolean { ... }
+export const isSubmap: <K, A>(SK: Eq<K>, SA: Eq<A>) => (d1: Map<K, A>, d2: Map<K, A>) => boolean = ...
 ```
 
 Added in v2.0.0
@@ -267,7 +273,7 @@ Get a sorted array of the keys contained in a map
 **Signature**
 
 ```ts
-export function keys<K>(O: Ord<K>): <A>(m: Map<K, A>) => Array<K> { ... }
+export const keys: <K>(O: Ord<K>) => <A>(m: Map<K, A>) => Array<K> = ...
 ```
 
 Added in v2.0.0
@@ -279,7 +285,7 @@ Lookup the value for a key in a `Map`.
 **Signature**
 
 ```ts
-export function lookup<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Option<A> { ... }
+export const lookup: <K>(E: Eq<K>) => <A>(k: K, m: Map<K, A>) => Option<A> = ...
 ```
 
 Added in v2.0.0
@@ -292,7 +298,7 @@ If the result is a `Some`, the existing key is also returned.
 **Signature**
 
 ```ts
-export function lookupWithKey<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Option<[K, A]> { ... }
+export const lookupWithKey: <K>(E: Eq<K>) => <A>(k: K, m: Map<K, A>) => Option<[K, A]> = ...
 ```
 
 Added in v2.0.0
@@ -324,7 +330,7 @@ Test whether or not a key exists in a map
 **Signature**
 
 ```ts
-export function member<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => boolean { ... }
+export const member: <K>(E: Eq<K>) => <A>(k: K, m: Map<K, A>) => boolean = ...
 ```
 
 Added in v2.0.0
@@ -334,7 +340,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function modifyAt<K>(E: Eq<K>): <A>(k: K, f: (a: A) => A) => (m: Map<K, A>) => Option<Map<K, A>> { ... }
+export const modifyAt: <K>(
+  E: Eq<K>
+) => <A>(k: K, f: (a: A) => A) => (m: Map<K, A>) => Option<Map<K, A>> = ...
 ```
 
 Added in v2.0.0
@@ -366,7 +374,7 @@ Delete a key and value from a map, returning the value as well as the subsequent
 **Signature**
 
 ```ts
-export function pop<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Option<[A, Map<K, A>]> { ... }
+export const pop: <K>(E: Eq<K>) => (k: K) => <A>(m: Map<K, A>) => Option<[A, Map<K, A>]> = ...
 ```
 
 Added in v2.0.0
@@ -388,7 +396,7 @@ Create a map with one key/value pair
 **Signature**
 
 ```ts
-export function singleton<K, A>(k: K, a: A): Map<K, A> { ... }
+export const singleton: <K, A>(k: K, a: A) => Map<K, A> = ...
 ```
 
 Added in v2.0.0
@@ -400,7 +408,7 @@ Calculate the number of key/value pairs in a map
 **Signature**
 
 ```ts
-export function size<K, A>(d: Map<K, A>): number { ... }
+export const size: <K, A>(d: Map<K, A>) => number = ...
 ```
 
 Added in v2.0.0
@@ -412,7 +420,7 @@ Get a sorted of the key/value pairs contained in a map
 **Signature**
 
 ```ts
-export function toArray<K>(O: Ord<K>): <A>(m: Map<K, A>) => Array<[K, A]> { ... }
+export const toArray: <K>(O: Ord<K>) => <A>(m: Map<K, A>) => Array<[K, A]> = ...
 ```
 
 Added in v2.0.0
@@ -435,7 +443,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function updateAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: Map<K, A>) => Option<Map<K, A>> { ... }
+export const updateAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>) => Option<Map<K, A>> = ...
 ```
 
 Added in v2.0.0
@@ -447,7 +455,7 @@ Get a sorted array of the values contained in a map
 **Signature**
 
 ```ts
-export function values<A>(O: Ord<A>): <K>(m: Map<K, A>) => Array<A> { ... }
+export const values: <A>(O: Ord<A>) => <K>(m: Map<K, A>) => Array<A> = ...
 ```
 
 Added in v2.0.0

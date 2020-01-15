@@ -1,9 +1,10 @@
 /**
  * @since 2.0.0
  */
-import { Ord, max, min } from './Ord'
 import { identity } from './function'
 import { Magma } from './Magma'
+import { max, min, Ord } from './Ord'
+import { ReadonlyRecord } from './ReadonlyRecord'
 
 /**
  * A `Semigroup` is a `Magma` where `concat` is associative, that is:
@@ -17,7 +18,7 @@ export interface Semigroup<A> extends Magma<A> {}
 /**
  * @since 2.0.0
  */
-export function fold<A>(S: Semigroup<A>): (a: A, as: Array<A>) => A {
+export function fold<A>(S: Semigroup<A>): (a: A, as: ReadonlyArray<A>) => A {
   return (a, as) => as.reduce(S.concat, a)
 }
 
@@ -49,7 +50,7 @@ export function getLastSemigroup<A = never>(): Semigroup<A> {
  *
  * @since 2.0.0
  */
-export function getTupleSemigroup<T extends Array<Semigroup<any>>>(
+export function getTupleSemigroup<T extends ReadonlyArray<Semigroup<any>>>(
   ...semigroups: T
 ): Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> {
   return {
@@ -78,7 +79,7 @@ export function getFunctionSemigroup<S>(S: Semigroup<S>): <A = never>() => Semig
 /**
  * @since 2.0.0
  */
-export function getStructSemigroup<O extends { [key: string]: any }>(
+export function getStructSemigroup<O extends ReadonlyRecord<string, any>>(
   semigroups: { [K in keyof O]: Semigroup<O[K]> }
 ): Semigroup<O> {
   return {
