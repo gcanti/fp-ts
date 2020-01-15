@@ -10,7 +10,7 @@ import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { Ord } from './Ord'
-import { getMeetSemigroup, getJoinSemigroup, Semigroup } from './Semigroup'
+import { getMeetSemigroup, getJoinSemigroup, Semigroup, fold as sfold } from './Semigroup'
 import { Option, some, none } from './Option'
 import { Eq } from './Eq'
 import { Predicate, Refinement } from './function'
@@ -364,6 +364,8 @@ const {
   reduceWithIndex
 } = pipeable(nonEmptyArray)
 
+const fold = <A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => sfold(S)(head(fa), tail(fa))
+
 const foldMapWithIndex = <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (fa: NonEmptyArray<A>) =>
   fa.slice(1).reduce((s, a, i) => S.concat(s, f(i + 1, a)), f(0, fa[0]))
 
@@ -403,6 +405,10 @@ export {
    * @since 2.0.0
    */
   flatten,
+  /**
+   * @since 2.5.0
+   */
+  fold,
   /**
    * @since 2.0.0
    */

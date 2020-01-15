@@ -10,6 +10,7 @@ import {
   copy,
   filter,
   filterWithIndex,
+  fold as nfold,
   foldMap,
   foldMapWithIndex,
   fromArray,
@@ -36,7 +37,7 @@ import {
 } from '../src/NonEmptyArray'
 import { isSome, none, option, some } from '../src/Option'
 import { ordNumber } from '../src/Ord'
-import { semigroupSum } from '../src/Semigroup'
+import { semigroupSum, semigroupString } from '../src/Semigroup'
 import { showString } from '../src/Show'
 
 describe('NonEmptyArray', () => {
@@ -344,5 +345,11 @@ describe('NonEmptyArray', () => {
     const f = foldMapWithIndex(semigroupSum)((i: number, s: string) => s.length + i)
     assert.deepStrictEqual(f(['a']), 1)
     assert.deepStrictEqual(f(['a', 'bb']), 4)
+  })
+
+  it('fold', () => {
+    const f = nfold(semigroupString)
+    assert.deepStrictEqual(f(['a']), 'a')
+    assert.deepStrictEqual(f(['a', 'bb']), 'abb')
   })
 })
