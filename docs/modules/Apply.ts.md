@@ -199,37 +199,37 @@ Tuple sequencing, i.e., take a tuple of monadic actions and does them from left-
 export function sequenceT<F extends URIS4>(
   F: Apply4<F>
 ): <S, R, E, T extends Array<Kind4<F, S, R, E, any>>>(
-  ...t: T & { 0: Kind4<F, S, R, E, any> }
+  ...t: T & { readonly 0: Kind4<F, S, R, E, any> }
 ) => Kind4<F, S, R, E, { [K in keyof T]: [T[K]] extends [Kind4<F, S, R, E, infer A>] ? A : never }>
 export function sequenceT<F extends URIS3>(
   F: Apply3<F>
 ): <R, E, T extends Array<Kind3<F, R, E, any>>>(
-  ...t: T & { 0: Kind3<F, R, E, any> }
+  ...t: T & { readonly 0: Kind3<F, R, E, any> }
 ) => Kind3<F, R, E, { [K in keyof T]: [T[K]] extends [Kind3<F, R, E, infer A>] ? A : never }>
 export function sequenceT<F extends URIS3, E>(
   F: Apply3C<F, E>
 ): <R, T extends Array<Kind3<F, R, E, any>>>(
-  ...t: T & { 0: Kind3<F, R, E, any> }
+  ...t: T & { readonly 0: Kind3<F, R, E, any> }
 ) => Kind3<F, R, E, { [K in keyof T]: [T[K]] extends [Kind3<F, R, E, infer A>] ? A : never }>
 export function sequenceT<F extends URIS2>(
   F: Apply2<F>
 ): <E, T extends Array<Kind2<F, E, any>>>(
-  ...t: T & { 0: Kind2<F, E, any> }
+  ...t: T & { readonly 0: Kind2<F, E, any> }
 ) => Kind2<F, E, { [K in keyof T]: [T[K]] extends [Kind2<F, E, infer A>] ? A : never }>
 export function sequenceT<F extends URIS2, E>(
   F: Apply2C<F, E>
 ): <T extends Array<Kind2<F, E, any>>>(
-  ...t: T & { 0: Kind2<F, E, any> }
+  ...t: T & { readonly 0: Kind2<F, E, any> }
 ) => Kind2<F, E, { [K in keyof T]: [T[K]] extends [Kind2<F, E, infer A>] ? A : never }>
 export function sequenceT<F extends URIS>(
   F: Apply1<F>
 ): <T extends Array<Kind<F, any>>>(
-  ...t: T & { 0: Kind<F, any> }
+  ...t: T & { readonly 0: Kind<F, any> }
 ) => Kind<F, { [K in keyof T]: [T[K]] extends [Kind<F, infer A>] ? A : never }>
 export function sequenceT<F>(
   F: Apply<F>
 ): <T extends Array<HKT<F, any>>>(
-  ...t: T & { 0: HKT<F, any> }
+  ...t: T & { readonly 0: HKT<F, any> }
 ) => HKT<F, { [K in keyof T]: [T[K]] extends [HKT<F, infer A>] ? A : never }> { ... }
 ```
 

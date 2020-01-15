@@ -1,6 +1,6 @@
 ---
 title: Semigroup.ts
-nav_order: 71
+nav_order: 77
 parent: Modules
 ---
 
@@ -17,6 +17,7 @@ Added in v2.0.0
 - [getDualSemigroup](#getdualsemigroup)
 - [getFirstSemigroup](#getfirstsemigroup)
 - [getFunctionSemigroup](#getfunctionsemigroup)
+- [getIntercalateSemigroup](#getintercalatesemigroup)
 - [getJoinSemigroup](#getjoinsemigroup)
 - [getLastSemigroup](#getlastsemigroup)
 - [getMeetSemigroup](#getmeetsemigroup)
@@ -51,7 +52,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fold<A>(S: Semigroup<A>): (a: A, as: Array<A>) => A { ... }
+export function fold<A>(S: Semigroup<A>): (a: A, as: ReadonlyArray<A>) => A { ... }
 ```
 
 Added in v2.0.0
@@ -85,6 +86,29 @@ export function getFunctionSemigroup<S>(S: Semigroup<S>): <A = never>() => Semig
 ```
 
 Added in v2.0.0
+
+# getIntercalateSemigroup
+
+You can glue items between and stay associative
+
+**Signature**
+
+```ts
+export function getIntercalateSemigroup<A>(a: A): (S: Semigroup<A>) => Semigroup<A> { ... }
+```
+
+**Example**
+
+```ts
+import { getIntercalateSemigroup, semigroupString } from 'fp-ts/lib/Semigroup'
+
+const S = getIntercalateSemigroup(' ')(semigroupString)
+
+assert.strictEqual(S.concat('a', 'b'), 'a b')
+assert.strictEqual(S.concat(S.concat('a', 'b'), 'c'), S.concat('a', S.concat('b', 'c')))
+```
+
+Added in v2.5.0
 
 # getJoinSemigroup
 
@@ -147,7 +171,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getStructSemigroup<O extends { [key: string]: any }>(
+export function getStructSemigroup<O extends ReadonlyRecord<string, any>>(
   semigroups: { [K in keyof O]: Semigroup<O[K]> }
 ): Semigroup<O> { ... }
 ```
@@ -161,7 +185,7 @@ Given a tuple of semigroups returns a semigroup for the tuple
 **Signature**
 
 ```ts
-export function getTupleSemigroup<T extends Array<Semigroup<any>>>(
+export function getTupleSemigroup<T extends ReadonlyArray<Semigroup<any>>>(
   ...semigroups: T
 ): Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> { ... }
 ```

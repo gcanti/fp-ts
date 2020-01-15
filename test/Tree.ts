@@ -149,7 +149,7 @@ describe('Tree', () => {
 
   it('elem', () => {
     interface User {
-      id: number
+      readonly id: number
     }
     const S: Eq<User> = eq.contramap(eqNumber, (user: User) => user.id)
     const users = make({ id: 1 }, [make({ id: 1 }, [make({ id: 3 }), make({ id: 4 })]), make({ id: 2 })])

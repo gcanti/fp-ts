@@ -50,7 +50,7 @@ import { MonadThrow1 } from './MonadThrow'
 
 declare module './HKT' {
   interface URItoKind<A> {
-    Option: Option<A>
+    readonly Option: Option<A>
   }
 }
 

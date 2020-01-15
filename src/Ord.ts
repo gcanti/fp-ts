@@ -18,7 +18,7 @@ import { Monoid } from './Monoid'
 
 declare module './HKT' {
   interface URItoKind<A> {
-    Ord: Ord<A>
+    readonly Ord: Ord<A>
   }
 }
 
@@ -259,7 +259,7 @@ export function getMonoid<A = never>(): Monoid<Ord<A>> {
  *
  * @since 2.0.0
  */
-export function getTupleOrd<T extends Array<Ord<any>>>(
+export function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
   ...ords: T
 ): Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }> {
   const len = ords.length

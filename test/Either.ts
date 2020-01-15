@@ -173,8 +173,8 @@ describe('Either', () => {
       _.left(true)
     )
     interface Person {
-      name: string
-      age: number
+      readonly name: string
+      readonly age: number
     }
     const person: Person = { name: 'Giulio', age: 45 }
     assert.deepStrictEqual(_.stringifyJSON(person, _.toError), _.right('{"name":"Giulio","age":45}'))

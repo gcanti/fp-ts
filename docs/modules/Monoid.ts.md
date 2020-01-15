@@ -47,7 +47,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fold<A>(M: Monoid<A>): (as: Array<A>) => A { ... }
+export function fold<A>(M: Monoid<A>): (as: ReadonlyArray<A>) => A { ... }
 ```
 
 Added in v2.0.0
@@ -107,7 +107,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getStructMonoid<O extends { [key: string]: any }>(
+export function getStructMonoid<O extends ReadonlyRecord<string, any>>(
   monoids: { [K in keyof O]: Monoid<O[K]> }
 ): Monoid<O> { ... }
 ```
@@ -121,7 +121,7 @@ Given a tuple of monoids returns a monoid for the tuple
 **Signature**
 
 ```ts
-export function getTupleMonoid<T extends Array<Monoid<any>>>(
+export function getTupleMonoid<T extends ReadonlyArray<Monoid<any>>>(
   ...monoids: T
 ): Monoid<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> { ... }
 ```

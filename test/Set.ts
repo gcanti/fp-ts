@@ -38,7 +38,7 @@ import { getMonoid } from '../src/Array'
 const gte2 = (n: number) => n >= 2
 
 interface Foo {
-  x: string
+  readonly x: string
 }
 const foo = (x: string): Foo => ({ x })
 const fooEq: Eq<Foo> = {
@@ -143,7 +143,7 @@ describe('Set', () => {
       partitionMap(
         SL,
         SR
-      )((x: { value: number }) => (x.value % 2 === 0 ? left({ value: 2 }) : right({ value: 'odd' })))(
+      )((x: { readonly value: number }) => (x.value % 2 === 0 ? left({ value: 2 }) : right({ value: 'odd' })))(
         new Set([{ value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }])
       ),
       {
@@ -213,7 +213,7 @@ describe('Set', () => {
 
   it('compact', () => {
     assert.deepStrictEqual(compact(eqNumber)(new Set([optionSome(1), none, optionSome(2)])), new Set([1, 2]))
-    type R = { id: string }
+    type R = { readonly id: string }
     const S: Eq<R> = eq.contramap(eqString, x => x.id)
     assert.deepStrictEqual(
       compact(S)(new Set([optionSome({ id: 'a' }), none, optionSome({ id: 'a' })])),
@@ -226,8 +226,8 @@ describe('Set', () => {
       left: new Set(['a']),
       right: new Set([1, 2])
     })
-    type L = { error: string }
-    type R = { id: string }
+    type L = { readonly error: string }
+    type R = { readonly id: string }
     const SL: Eq<L> = eq.contramap(eqString, x => x.error)
     const SR: Eq<R> = eq.contramap(eqString, x => x.id)
     assert.deepStrictEqual(
@@ -247,10 +247,10 @@ describe('Set', () => {
       filterMap(eqNumber)((s: string) => (s.length > 1 ? optionSome(s.length) : none))(new Set(['a', 'bb', 'ccc'])),
       new Set([2, 3])
     )
-    type R = { id: string }
+    type R = { readonly id: string }
     const S: Eq<R> = eq.contramap(eqString, x => x.id)
     assert.deepStrictEqual(
-      filterMap(S)((x: { id: string }) => optionSome(x))(new Set([{ id: 'a' }, { id: 'a' }])),
+      filterMap(S)((x: { readonly id: string }) => optionSome(x))(new Set([{ id: 'a' }, { id: 'a' }])),
       new Set([{ id: 'a' }])
     )
   })

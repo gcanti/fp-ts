@@ -8,7 +8,7 @@ import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    Traced: Traced<E, A>
+    readonly Traced: Traced<E, A>
   }
 }
 
@@ -38,6 +38,7 @@ export function tracks<P, A>(M: Monoid<P>, f: (a: A) => P): (wa: Traced<P, A>) =
   return wa => wa(f(wa(M.empty)))
 }
 
+// tslint:disable:readonly-array
 /**
  * Get the current position
  *
@@ -46,7 +47,9 @@ export function tracks<P, A>(M: Monoid<P>, f: (a: A) => P): (wa: Traced<P, A>) =
 export function listen<P, A>(wa: Traced<P, A>): Traced<P, [A, P]> {
   return e => [wa(e), e]
 }
+// tslint:enable:readonly-array
 
+// tslint:disable:readonly-array
 /**
  * Get a value which depends on the current position
  *
@@ -55,6 +58,7 @@ export function listen<P, A>(wa: Traced<P, A>): Traced<P, [A, P]> {
 export function listens<P, B>(f: (p: P) => B): <A>(wa: Traced<P, A>) => Traced<P, [A, B]> {
   return wa => e => [wa(e), f(e)]
 }
+// tslint:enable:readonly-array
 
 /**
  * Apply a function to the current position

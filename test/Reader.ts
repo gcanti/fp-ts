@@ -5,7 +5,7 @@ import { monoidSum } from '../src/Monoid'
 import { pipe } from '../src/pipeable'
 
 interface Env {
-  count: number
+  readonly count: number
 }
 
 describe('Reader', () => {
@@ -33,7 +33,7 @@ describe('Reader', () => {
 
   it('local', () => {
     interface E {
-      name: string
+      readonly name: string
     }
     const x = pipe(
       (s: string) => s.length,
@@ -46,7 +46,7 @@ describe('Reader', () => {
     const x = (s: string) => s.length
     const y = R.reader.promap(
       x,
-      (a: { name: string }) => a.name,
+      (a: { readonly name: string }) => a.name,
       n => n >= 2
     )
     assert.deepStrictEqual(y({ name: 'foo' }), true)

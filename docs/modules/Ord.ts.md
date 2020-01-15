@@ -223,7 +223,7 @@ Given a tuple of `Ord`s returns an `Ord` for the tuple
 **Signature**
 
 ```ts
-export function getTupleOrd<T extends Array<Ord<any>>>(
+export function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
   ...ords: T
 ): Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }> { ... }
 ```

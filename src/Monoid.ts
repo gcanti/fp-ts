@@ -3,21 +3,22 @@
  */
 import { Bounded } from './Bounded'
 import { Endomorphism, identity } from './function'
+import { ReadonlyRecord } from './ReadonlyRecord'
 import {
   fold as foldSemigroup,
   getDualSemigroup,
   getFunctionSemigroup,
   getJoinSemigroup,
   getMeetSemigroup,
+  getStructSemigroup,
+  getTupleSemigroup,
   Semigroup,
   semigroupAll,
   semigroupAny,
   semigroupProduct,
   semigroupString,
   semigroupSum,
-  semigroupVoid,
-  getStructSemigroup,
-  getTupleSemigroup
+  semigroupVoid
 } from './Semigroup'
 
 /**
@@ -82,9 +83,9 @@ export const monoidVoid: Monoid<void> = {
 /**
  * @since 2.0.0
  */
-export function fold<A>(M: Monoid<A>): (as: Array<A>) => A {
-  const foldSemigroupM = foldSemigroup(M)
-  return as => foldSemigroupM(M.empty, as)
+export function fold<A>(M: Monoid<A>): (as: ReadonlyArray<A>) => A {
+  const foldM = foldSemigroup(M)
+  return as => foldM(M.empty, as)
 }
 
 /**
@@ -101,7 +102,7 @@ export function fold<A>(M: Monoid<A>): (as: Array<A>) => A {
  *
  * @since 2.0.0
  */
-export function getTupleMonoid<T extends Array<Monoid<any>>>(
+export function getTupleMonoid<T extends ReadonlyArray<Monoid<any>>>(
   ...monoids: T
 ): Monoid<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> {
   return {
@@ -143,7 +144,7 @@ export function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<A>> {
 /**
  * @since 2.0.0
  */
-export function getStructMonoid<O extends { [key: string]: any }>(
+export function getStructMonoid<O extends ReadonlyRecord<string, any>>(
   monoids: { [K in keyof O]: Monoid<O[K]> }
 ): Monoid<O> {
   const empty: any = {}

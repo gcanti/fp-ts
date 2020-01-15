@@ -1,6 +1,6 @@
 ---
 title: TaskEither.ts
-nav_order: 82
+nav_order: 88
 parent: Modules
 ---
 
@@ -248,7 +248,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromEitherK<E, A extends Array<unknown>, B>(
+export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Either<E, B>
 ): (...a: A) => TaskEither<E, B> { ... }
 ```
@@ -270,7 +270,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromIOEitherK<E, A extends Array<unknown>, B>(
+export function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => IOEither<E, B>
 ): (...a: A) => TaskEither<E, B> { ... }
 ```
@@ -568,7 +568,7 @@ Converts a function returning a `Promise` to one returning a `TaskEither`.
 **Signature**
 
 ```ts
-export function tryCatchK<E, A extends Array<unknown>, B>(
+export function tryCatchK<E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Promise<B>,
   onRejected: (reason: unknown) => E
 ): (...a: A) => TaskEither<E, B> { ... }

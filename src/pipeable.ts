@@ -1310,7 +1310,7 @@ const isMonadThrow = <F>(I: any): I is MonadThrow<F> => typeof I.throwError === 
  * @since 2.0.0
  */
 export function pipeable<F extends URIS4, I>(
-  I: { URI: F } & I
+  I: { readonly URI: F } & I
 ): (I extends Chain4<F>
   ? PipeableChain4<F>
   : I extends Apply4<F>
@@ -1339,7 +1339,7 @@ export function pipeable<F extends URIS4, I>(
   (I extends Semigroupoid4<F> ? PipeableSemigroupoid4<F> : {}) &
   (I extends MonadThrow4<F> ? PipeableMonadThrow4<F> : {})
 export function pipeable<F extends URIS3, I>(
-  I: { URI: F } & I
+  I: { readonly URI: F } & I
 ): (I extends Chain3<F>
   ? PipeableChain3<F>
   : I extends Apply3<F>
@@ -1368,7 +1368,7 @@ export function pipeable<F extends URIS3, I>(
   (I extends Semigroupoid3<F> ? PipeableSemigroupoid3<F> : {}) &
   (I extends MonadThrow3<F> ? PipeableMonadThrow3<F> : {})
 export function pipeable<F extends URIS3, I, E>(
-  I: { URI: F } & I
+  I: { readonly URI: F } & I
 ): (I extends Chain3C<F, E>
   ? PipeableChain3C<F, E>
   : I extends Apply3C<F, E>
@@ -1397,7 +1397,7 @@ export function pipeable<F extends URIS3, I, E>(
   (I extends Semigroupoid3C<F, E> ? PipeableSemigroupoid3C<F, E> : {}) &
   (I extends MonadThrow3C<F, E> ? PipeableMonadThrow3C<F, E> : {})
 export function pipeable<F extends URIS2, I, E>(
-  I: { URI: F; _E: E } & I
+  I: { readonly URI: F; readonly _E: E } & I
 ): (I extends Chain2C<F, E>
   ? PipeableChain2C<F, E>
   : I extends Apply2C<F, E>
@@ -1425,7 +1425,7 @@ export function pipeable<F extends URIS2, I, E>(
   (I extends Semigroupoid2C<F, E> ? PipeableSemigroupoid2C<F, E> : {}) &
   (I extends MonadThrow2C<F, E> ? PipeableMonadThrow2C<F, E> : {})
 export function pipeable<F extends URIS2, I>(
-  I: { URI: F } & I
+  I: { readonly URI: F } & I
 ): (I extends Chain2<F>
   ? PipeableChain2<F>
   : I extends Apply2<F>
@@ -1454,7 +1454,7 @@ export function pipeable<F extends URIS2, I>(
   (I extends Semigroupoid2<F> ? PipeableSemigroupoid2<F> : {}) &
   (I extends MonadThrow2<F> ? PipeableMonadThrow2<F> : {})
 export function pipeable<F extends URIS, I>(
-  I: { URI: F } & I
+  I: { readonly URI: F } & I
 ): (I extends Chain1<F>
   ? PipeableChain1<F>
   : I extends Apply1<F>
@@ -1480,7 +1480,7 @@ export function pipeable<F extends URIS, I>(
     : {}) &
   (I extends MonadThrow1<F> ? PipeableMonadThrow1<F> : {})
 export function pipeable<F, I>(
-  I: { URI: F } & I
+  I: { readonly URI: F } & I
 ): (I extends Chain<F>
   ? PipeableChain<F>
   : I extends Apply<F>
@@ -1508,7 +1508,7 @@ export function pipeable<F, I>(
   (I extends Profunctor<F> ? PipeableProfunctor<F> : {}) &
   (I extends Semigroupoid<F> ? PipeableSemigroupoid<F> : {}) &
   (I extends MonadThrow<F> ? PipeableMonadThrow<F> : {})
-export function pipeable<F, I>(I: { URI: F } & I): Record<string, unknown> {
+export function pipeable<F, I>(I: { readonly URI: F } & I): Record<string, unknown> {
   const r: any = {}
   if (isFunctor<F>(I)) {
     const map: PipeableFunctor<F>['map'] = f => fa => I.map(fa, f)

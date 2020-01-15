@@ -79,6 +79,12 @@ Added in v2.0.0
 - [readerT](#readert)
 - [readerTask](#readertask)
 - [readerTaskEither](#readertaskeither)
+- [readonlyArray](#readonlyarray)
+- [readonlyMap](#readonlymap)
+- [readonlyNonEmptyArray](#readonlynonemptyarray)
+- [readonlyRecord](#readonlyrecord)
+- [readonlySet](#readonlyset)
+- [readonlyTuple](#readonlytuple)
 - [record](#record)
 - [ring](#ring)
 - [semigroup](#semigroup)
@@ -778,6 +784,66 @@ typeof readerTaskEither
 ```
 
 Added in v2.0.0
+
+# readonlyArray
+
+**Signature**
+
+```ts
+typeof readonlyArray
+```
+
+Added in v2.5.0
+
+# readonlyMap
+
+**Signature**
+
+```ts
+typeof readonlyMap
+```
+
+Added in v2.5.0
+
+# readonlyNonEmptyArray
+
+**Signature**
+
+```ts
+typeof readonlyNonEmptyArray
+```
+
+Added in v2.5.0
+
+# readonlyRecord
+
+**Signature**
+
+```ts
+typeof readonlyRecord
+```
+
+Added in v2.5.0
+
+# readonlySet
+
+**Signature**
+
+```ts
+typeof readonlySet
+```
+
+Added in v2.5.0
+
+# readonlyTuple
+
+**Signature**
+
+```ts
+typeof readonlyTuple
+```
+
+Added in v2.5.0
 
 # record
 

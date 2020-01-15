@@ -6,9 +6,9 @@ import { pipe } from '../src/pipeable'
 // Adapted from https://chshersh.github.io/posts/2019-03-25-comonadic-builders
 
 interface Settings {
-  settingsHasLibrary: boolean
-  settingsGitHub: boolean
-  settingsTravis: boolean
+  readonly settingsHasLibrary: boolean
+  readonly settingsGitHub: boolean
+  readonly settingsTravis: boolean
 }
 
 const M: Monoid<Settings> = getStructMonoid({
@@ -20,10 +20,10 @@ const M: Monoid<Settings> = getStructMonoid({
 const C = getComonad(M)
 
 interface Project {
-  projectName: string
-  projectHasLibrary: boolean
-  projectGitHub: boolean
-  projectTravis: boolean
+  readonly projectName: string
+  readonly projectHasLibrary: boolean
+  readonly projectGitHub: boolean
+  readonly projectTravis: boolean
 }
 
 interface ProjectBuilder extends Traced<Settings, Project> {}
