@@ -84,6 +84,7 @@ Added in v2.0.0
 - [readonlyNonEmptyArray (export)](#readonlynonemptyarray-export)
 - [readonlyRecord (export)](#readonlyrecord-export)
 - [readonlySet (export)](#readonlyset-export)
+- [readonlyTuple (export)](#readonlytuple-export)
 - [record (export)](#record-export)
 - [ring (export)](#ring-export)
 - [semigroup (export)](#semigroup-export)
@@ -830,6 +831,16 @@ Added in v2.5.0
 
 ```ts
 typeof readonlySet
+```
+
+Added in v2.5.0
+
+# readonlyTuple (export)
+
+**Signature**
+
+```ts
+typeof readonlyTuple
 ```
 
 Added in v2.5.0

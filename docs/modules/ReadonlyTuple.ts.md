@@ -1,14 +1,12 @@
 ---
-title: Tuple.ts
-nav_order: 96
+title: ReadonlyTuple.ts
+nav_order: 74
 parent: Modules
 ---
 
-# Tuple overview
+# ReadonlyTuple overview
 
-Adapted from https://github.com/purescript/purescript-tuples
-
-Added in v2.0.0
+Added in v2.5.0
 
 ---
 
@@ -16,7 +14,7 @@ Added in v2.0.0
 
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
-- [tuple (constant)](#tuple-constant)
+- [readonlyTuple (constant)](#readonlytuple-constant)
 - [fst (function)](#fst-function)
 - [getApplicative (function)](#getapplicative-function)
 - [getApply (function)](#getapply-function)
@@ -45,37 +43,41 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 # URI (constant)
 
 **Signature**
 
 ```ts
-export const URI: "Tuple" = ...
+export const URI: "ReadonlyTuple" = ...
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
-# tuple (constant)
+# readonlyTuple (constant)
 
 **Signature**
 
 ```ts
-export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> = ...
+export const readonlyTuple: Semigroupoid2<URI> &
+  Bifunctor2<URI> &
+  Comonad2<URI> &
+  Foldable2<URI> &
+  Traversable2<URI> = ...
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 # fst (function)
 
 **Signature**
 
 ```ts
-export function fst<A, S>(sa: [A, S]): A { ... }
+export function fst<A, S>(sa: readonly [A, S]): A { ... }
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 # getApplicative (function)
 
@@ -85,7 +87,7 @@ Added in v2.0.0
 export function getApplicative<S>(M: Monoid<S>): Applicative2C<URI, S> { ... }
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 # getApply (function)
 
@@ -95,7 +97,7 @@ Added in v2.0.0
 export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> { ... }
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 # getChain (function)
 
@@ -105,7 +107,7 @@ Added in v2.0.0
 export function getChain<S>(S: Semigroup<S>): Chain2C<URI, S> { ... }
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 # getChainRec (function)
 
@@ -115,7 +117,7 @@ Added in v2.0.0
 export function getChainRec<S>(M: Monoid<S>): ChainRec2C<URI, S> { ... }
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 # getMonad (function)
 
@@ -125,114 +127,114 @@ Added in v2.0.0
 export function getMonad<S>(M: Monoid<S>): Monad2C<URI, S> { ... }
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 # snd (function)
 
 **Signature**
 
 ```ts
-export function snd<A, S>(sa: [A, S]): S { ... }
+export function snd<A, S>(sa: readonly [A, S]): S { ... }
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 # swap (function)
 
 **Signature**
 
 ```ts
-export function swap<A, S>(sa: [A, S]): [S, A] { ... }
+export function swap<A, S>(sa: readonly [A, S]): readonly [S, A] { ... }
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 # bimap (export)
 
 **Signature**
 
 ```ts
-;<E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: [A, E]) => [B, G]
+;<E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: readonly [A, E]) => readonly[(B, G)]
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 # compose (export)
 
 **Signature**
 
 ```ts
-;<E, A>(la: [A, E]) => <B>(ab: [B, A]) => [B, E]
+;<E, A>(la: readonly [A, E]) => <B>(ab: readonly [B, A]) => readonly[(B, E)]
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 # duplicate (export)
 
 **Signature**
 
 ```ts
-;<E, A>(ma: [A, E]) => [[A, E], E]
+;<E, A>(ma: readonly [A, E]) => readonly[(readonly[(A, E)], E)]
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 # extend (export)
 
 **Signature**
 
 ```ts
-;<E, A, B>(f: (fa: [A, E]) => B) => (ma: [A, E]) => [B, E]
+;<E, A, B>(f: (fa: readonly [A, E]) => B) => (ma: readonly [A, E]) => readonly[(B, E)]
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 # foldMap (export)
 
 **Signature**
 
 ```ts
-;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: [A, E]) => M
+;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: readonly [A, E]) => M
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 # map (export)
 
 **Signature**
 
 ```ts
-;<A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E]
+;<A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly[(B, E)]
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 # mapLeft (export)
 
 **Signature**
 
 ```ts
-;<E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G]
+;<E, G>(f: (e: E) => G) => <A>(fa: readonly [A, E]) => readonly[(A, G)]
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 # reduce (export)
 
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: [A, E]) => B
+;<A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: readonly [A, E]) => B
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 # reduceRight (export)
 
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: [A, E]) => B
+;<A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: readonly [A, E]) => B
 ```
 
-Added in v2.0.0
+Added in v2.5.0

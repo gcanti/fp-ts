@@ -74,6 +74,7 @@ import * as readonlyMap from './ReadonlyMap'
 import * as readonlyNonEmptyArray from './ReadonlyNonEmptyArray'
 import * as readonlyRecord from './ReadonlyRecord'
 import * as readonlySet from './ReadonlySet'
+import * as readonlyTuple from './ReadonlyTuple'
 import * as record from './Record'
 import * as ring from './Ring'
 import * as semigroup from './Semigroup'
@@ -382,6 +383,10 @@ export {
    * @since 2.5.0
    */
   readonlySet,
+  /**
+   * @since 2.5.0
+   */
+  readonlyTuple,
   /**
    * @since 2.3.0
    */
