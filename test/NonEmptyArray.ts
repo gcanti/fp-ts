@@ -3,14 +3,14 @@ import * as C from '../src/Const'
 import { eqNumber } from '../src/Eq'
 import { identity } from '../src/function'
 import * as I from '../src/Identity'
-import { fold, monoidString, monoidSum } from '../src/Monoid'
+import * as M from '../src/Monoid'
 import {
   concat,
   cons,
   copy,
   filter,
   filterWithIndex,
-  fold as nfold,
+  fold,
   foldMap,
   foldMapWithIndex,
   fromArray,
@@ -37,7 +37,7 @@ import {
 } from '../src/NonEmptyArray'
 import { isSome, none, option, some } from '../src/Option'
 import { ordNumber } from '../src/Ord'
-import { semigroupSum, semigroupString } from '../src/Semigroup'
+import { semigroupString, semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
 
 describe('NonEmptyArray', () => {
@@ -69,12 +69,12 @@ describe('NonEmptyArray', () => {
   })
 
   it('chain', () => {
-    const f = (a: number) => [a, 4] as [number, number]
+    const f = (a: number): NonEmptyArray<number> => [a, 4]
     assert.deepStrictEqual(nonEmptyArray.chain([1, 2], f), [1, 4, 2, 4])
   })
 
   it('extend', () => {
-    const sum = fold(monoidSum)
+    const sum = fold(M.monoidSum)
     assert.deepStrictEqual(nonEmptyArray.extend([1, 2, 3, 4], sum), [10, 9, 7, 4])
   })
 
@@ -117,7 +117,7 @@ describe('NonEmptyArray', () => {
   })
 
   it('foldMap', () => {
-    const foldMap = nonEmptyArray.foldMap(monoidString)
+    const foldMap = nonEmptyArray.foldMap(M.monoidString)
     assert.deepStrictEqual(foldMap(['a', 'b', 'c'], identity), 'abc')
   })
 
@@ -174,9 +174,7 @@ describe('NonEmptyArray', () => {
   })
 
   it('reverse', () => {
-    const result = reverse([1, 2, 3])
-    const expected = [3, 2, 1]
-    assert.deepStrictEqual(result, expected)
+    assert.deepStrictEqual(reverse([1, 2, 3]), [3, 2, 1])
   })
 
   it('groupBy', () => {
@@ -207,7 +205,7 @@ describe('NonEmptyArray', () => {
     const a2 = make2(1)
     const a3 = make2(2)
     const a4 = make2(3)
-    const arr: NonEmptyArray<{ x: number }> = [a1, a2, a3]
+    const arr: NonEmptyArray<{ readonly x: number }> = [a1, a2, a3]
     assert.deepStrictEqual(updateAt(0, a4)(arr), some([a4, a2, a3]))
     assert.deepStrictEqual(updateAt(-1, a4)(arr), none)
     assert.deepStrictEqual(updateAt(3, a4)(arr), none)
@@ -276,7 +274,7 @@ describe('NonEmptyArray', () => {
 
   it('foldMapWithIndex', () => {
     assert.deepStrictEqual(
-      nonEmptyArray.foldMapWithIndex(monoidString)(['a', 'b'], (i, a) => i + a),
+      nonEmptyArray.foldMapWithIndex(M.monoidString)(['a', 'b'], (i, a) => i + a),
       '0a1b'
     )
   })
@@ -299,11 +297,10 @@ describe('NonEmptyArray', () => {
     )
 
     // FoldableWithIndex compatibility
-    const M = monoidString
     const f = (i: number, s: string): string => s + i
     assert.deepStrictEqual(
-      nonEmptyArray.foldMapWithIndex(M)(['a', 'bb'], f),
-      nonEmptyArray.traverseWithIndex(C.getApplicative(M))(['a', 'bb'], (i, a) => C.make(f(i, a)))
+      nonEmptyArray.foldMapWithIndex(M.monoidString)(['a', 'bb'], f),
+      nonEmptyArray.traverseWithIndex(C.getApplicative(M.monoidString))(['a', 'bb'], (i, a) => C.make(f(i, a)))
     )
 
     // FunctorWithIndex compatibility
@@ -348,7 +345,7 @@ describe('NonEmptyArray', () => {
   })
 
   it('fold', () => {
-    const f = nfold(semigroupString)
+    const f = fold(semigroupString)
     assert.deepStrictEqual(f(['a']), 'a')
     assert.deepStrictEqual(f(['a', 'bb']), 'abb')
   })

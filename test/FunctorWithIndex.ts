@@ -5,7 +5,7 @@ import { getFunctorWithIndexComposition } from '../src/FunctorWithIndex'
 describe('FunctorWithIndex', () => {
   it('getFunctorComposition', () => {
     const arrayOfArray = getFunctorWithIndexComposition(array, array)
-    const f = ([i, j]: [number, number], a: string) => a + i + j
+    const f = ([i, j]: readonly [number, number], a: string) => a + i + j
     assert.deepStrictEqual(
       arrayOfArray.mapWithIndex(
         [

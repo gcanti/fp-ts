@@ -17,7 +17,7 @@ const T = getReaderM(TA.task)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    ReaderTask: ReaderTask<E, A>
+    readonly ReaderTask: ReaderTask<E, A>
   }
 }
 
@@ -104,7 +104,7 @@ export function local<Q, R>(f: (f: Q) => R): <A>(ma: ReaderTask<R, A>) => Reader
 /**
  * @since 2.4.0
  */
-export function fromIOK<A extends Array<unknown>, B>(f: (...a: A) => IO<B>): <R>(...a: A) => ReaderTask<R, B> {
+export function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): <R>(...a: A) => ReaderTask<R, B> {
   return (...a) => fromIO(f(...a))
 }
 
@@ -118,7 +118,9 @@ export function chainIOK<A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderTask<R, A>) =>
 /**
  * @since 2.4.0
  */
-export function fromTaskK<A extends Array<unknown>, B>(f: (...a: A) => Task<B>): <R>(...a: A) => ReaderTask<R, B> {
+export function fromTaskK<A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Task<B>
+): <R>(...a: A) => ReaderTask<R, B> {
   return (...a) => fromTask(f(...a))
 }
 

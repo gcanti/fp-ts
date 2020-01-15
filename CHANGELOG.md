@@ -14,6 +14,24 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.5.0
+
+- **New Feature**
+  - add `ReadonlyArray` module (@gcanti)
+  - add `ReadonlyNonEmptyArray` module (@gcanti)
+  - add `ReadonlySet` module (@gcanti)
+  - add `ReadonlyMap` module (@gcanti)
+  - add `ReadonlyRecord` module (@gcanti)
+  - add `ReadonlyTuple` module (@gcanti)
+  - `NonEmptyArray`
+    - add `fold` (@vicrac)
+  - `Semigroup`
+    - add `getIntercalateSemigroup` (@gcanti)
+  - `Set`
+    - add `toggle` (@ryota-ka)
+  - `TaskEither`
+    - add `tryCatchK` (@DenisFrezzato)
+
 # 2.4.4
 
 - **Polish**

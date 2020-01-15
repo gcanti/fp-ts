@@ -18,7 +18,7 @@ const T = getReaderM(identity)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    Reader: Reader<E, A>
+    readonly Reader: Reader<E, A>
   }
 }
 

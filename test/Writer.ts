@@ -48,7 +48,7 @@ describe('Writer', () => {
   })
 
   it('censor', () => {
-    const fa: W.Writer<Array<string>, number> = () => [1, ['a', 'b']]
+    const fa: W.Writer<ReadonlyArray<string>, number> = () => [1, ['a', 'b']]
     assert.deepStrictEqual(
       pipe(
         fa,

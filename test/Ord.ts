@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { sort } from '../src/Array'
+import { sort } from '../src/ReadonlyArray'
 import {
   ord,
   between,
@@ -26,8 +26,8 @@ describe('Ord', () => {
   })
 
   it('getMonoid', () => {
-    type T = [number, string]
-    const tuples: Array<T> = [
+    type T = readonly [number, string]
+    const tuples: ReadonlyArray<T> = [
       [2, 'c'],
       [1, 'b'],
       [2, 'a'],
@@ -114,7 +114,7 @@ describe('Ord', () => {
     assert.deepStrictEqual(O1.equals(0, 1), false)
     assert.deepStrictEqual(O1.equals(1, 1), true)
     interface A {
-      x: number
+      readonly x: number
     }
     let nbCall = 0
     const O2 = fromCompare<A>((a, b) => {

@@ -19,9 +19,11 @@ import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { pipeable } from './pipeable'
 
+// tslint:disable:readonly-array
+
 declare module './HKT' {
   interface URItoKind<A> {
-    Tree: Tree<A>
+    readonly Tree: Tree<A>
   }
 }
 
@@ -231,7 +233,7 @@ export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<U
     value: a,
     forest: empty
   }),
-  ap: (fab, fa) => tree.chain(fab, f => tree.map(fa, f)), // <- derived
+  ap: (fab, fa) => tree.chain(fab, f => tree.map(fa, f)),
   chain: <A, B>(fa: Tree<A>, f: (a: A) => Tree<B>): Tree<B> => {
     const { value, forest } = f(fa.value)
     const concat = getMonoid<Tree<B>>().concat

@@ -54,7 +54,7 @@ import { Witherable2C } from './Witherable'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    Either: Either<E, A>
+    readonly Either: Either<E, A>
   }
 }
 

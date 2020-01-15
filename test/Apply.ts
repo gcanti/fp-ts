@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import { sequenceS, sequenceT } from '../src/Apply'
-import { array, getMonoid } from '../src/Array'
+import { readonlyArray, getMonoid } from '../src/ReadonlyArray'
 import { either, getValidation, left, right } from '../src/Either'
 import { none, option, some } from '../src/Option'
 import { pipe } from '../src/pipeable'
@@ -13,11 +13,11 @@ describe('Apply', () => {
     assert.deepStrictEqual(sequenceTOption(some(1), some('2'), none), none)
 
     // #914
-    const a1 = [1, 2, 3]
-    const a2 = ['a', 'b', 'c']
-    const a3 = [true, false]
+    const a1: ReadonlyArray<number> = [1, 2, 3]
+    const a2: ReadonlyArray<string> = ['a', 'b', 'c']
+    const a3: ReadonlyArray<boolean> = [true, false]
     assert.deepStrictEqual(
-      pipe(sequenceT(array)(a1, a2, a3), arr => arr.map(([x, y, z]) => `(${x}, ${y}, ${z})`)),
+      pipe(sequenceT(readonlyArray)(a1, a2, a3), arr => arr.map(([x, y, z]) => `(${x}, ${y}, ${z})`)),
       [
         '(1, a, true)',
         '(1, a, false)',
@@ -59,11 +59,11 @@ describe('Apply', () => {
     assert.deepStrictEqual(adoValidation({ a: left(['error1']), b: left(['error2']) }), left(['error1', 'error2']))
 
     // #914
-    const a1 = [1, 2, 3]
-    const a2 = ['a', 'b', 'c']
-    const a3 = [true, false]
+    const a1: ReadonlyArray<number> = [1, 2, 3]
+    const a2: ReadonlyArray<string> = ['a', 'b', 'c']
+    const a3: ReadonlyArray<boolean> = [true, false]
     assert.deepStrictEqual(
-      pipe(sequenceS(array)({ a1, a2, a3 }), arr => arr.map(({ a1, a2, a3 }) => `(${a1}, ${a2}, ${a3})`)),
+      pipe(sequenceS(readonlyArray)({ a1, a2, a3 }), arr => arr.map(({ a1, a2, a3 }) => `(${a1}, ${a2}, ${a3})`)),
       [
         '(1, a, true)',
         '(1, a, false)',

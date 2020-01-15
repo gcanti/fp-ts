@@ -54,12 +54,21 @@ TypeScript
 
 ```ts
 interface Bar {
+<<<<<<< HEAD:docs/guides/purescript.md
   type: 'Bar'
   value: string
 }
 interface Baz {
   type: 'Baz'
   value: boolean
+=======
+  readonly type: 'Bar'
+  readonly value: string
+}
+interface Baz {
+  readonly type: 'Baz'
+  readonly value: boolean
+>>>>>>> add readonly modules:docs/recipes/purescript.md
 }
 // type
 type Foo = Bar | Baz
@@ -81,7 +90,7 @@ TypeScript
 ```ts
 declare module 'fp-ts/lib/HKT' {
   interface URItoKind<A> {
-    Option: Option<A>
+    readonly Option: Option<A>
   }
 }
 

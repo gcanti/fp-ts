@@ -216,7 +216,7 @@ value and the rest of the array.
 **Signature**
 
 ```ts
-export function chop<A, B>(f: (as: NonEmptyArray<A>) => [B, Array<A>]): (as: Array<A>) => Array<B> { ... }
+export const chop: <A, B>(f: (as: NonEmptyArray<A>) => [B, Array<A>]) => (as: Array<A>) => Array<B> = ...
 ```
 
 **Example**
@@ -251,7 +251,7 @@ whenever `n` evenly divides the length of `xs`.
 **Signature**
 
 ```ts
-export function chunksOf(n: number): <A>(as: Array<A>) => Array<Array<A>> { ... }
+export const chunksOf: (n: number) => <A>(as: Array<A>) => Array<Array<A>> = ...
 ```
 
 **Example**
@@ -337,7 +337,7 @@ Attaches an element to the front of an array, creating a new non empty array
 **Signature**
 
 ```ts
-export function cons<A>(head: A, tail: Array<A>): NonEmptyArray<A> { ... }
+export const cons: <A>(head: A, tail: Array<A>) => NonEmptyArray<A> = ...
 ```
 
 **Example**
@@ -355,7 +355,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function copy<A>(as: Array<A>): Array<A> { ... }
+export const copy: <A>(as: Array<A>) => Array<A> = ...
 ```
 
 Added in v2.0.0
@@ -367,7 +367,7 @@ Delete the element at the specified index, creating a new array, or returning `N
 **Signature**
 
 ```ts
-export function deleteAt(i: number): <A>(as: Array<A>) => Option<Array<A>> { ... }
+export const deleteAt: (i: number) => <A>(as: Array<A>) => Option<Array<A>> = ...
 ```
 
 **Example**
@@ -390,7 +390,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export function difference<A>(E: Eq<A>): (xs: Array<A>, ys: Array<A>) => Array<A> { ... }
+export const difference: <A>(E: Eq<A>) => (xs: Array<A>, ys: Array<A>) => Array<A> = ...
 ```
 
 **Example**
@@ -411,7 +411,7 @@ Drop a number of elements from the start of an array, creating a new array
 **Signature**
 
 ```ts
-export function dropLeft(n: number): <A>(as: Array<A>) => Array<A> { ... }
+export const dropLeft: (n: number) => <A>(as: Array<A>) => Array<A> = ...
 ```
 
 **Example**
@@ -431,7 +431,7 @@ Remove the longest initial subarray for which all element satisfy the specified 
 **Signature**
 
 ```ts
-export function dropLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A> { ... }
+export const dropLeftWhile: <A>(predicate: Predicate<A>) => (as: Array<A>) => Array<A> = ...
 ```
 
 **Example**
@@ -451,7 +451,7 @@ Drop a number of elements from the end of an array, creating a new array
 **Signature**
 
 ```ts
-export function dropRight(n: number): <A>(as: Array<A>) => Array<A> { ... }
+export const dropRight: (n: number) => <A>(as: Array<A>) => Array<A> = ...
 ```
 
 **Example**
@@ -483,7 +483,7 @@ an array of type `Array<A>`.
 **Signature**
 
 ```ts
-export function elem<A>(E: Eq<A>): (a: A, as: Array<A>) => boolean { ... }
+export const elem: <A>(E: Eq<A>) => (a: A, as: Array<A>) => boolean = ...
 ```
 
 **Example**
@@ -595,7 +595,7 @@ Find the first element returned by an option based selector function
 **Signature**
 
 ```ts
-export function findFirstMap<A, B>(f: (a: A) => Option<B>): (as: Array<A>) => Option<B> { ... }
+export const findFirstMap: <A, B>(f: (a: A) => Option<B>) => (as: Array<A>) => Option<B> = ...
 ```
 
 **Example**
@@ -624,7 +624,7 @@ Find the first index for which a predicate holds
 **Signature**
 
 ```ts
-export function findIndex<A>(predicate: Predicate<A>): (as: Array<A>) => Option<number> { ... }
+export const findIndex: <A>(predicate: Predicate<A>) => (as: Array<A>) => Option<number> = ...
 ```
 
 **Example**
@@ -674,7 +674,7 @@ Returns the index of the last element of the list which matches the predicate
 **Signature**
 
 ```ts
-export function findLastIndex<A>(predicate: Predicate<A>): (as: Array<A>) => Option<number> { ... }
+export const findLastIndex: <A>(predicate: Predicate<A>) => (as: Array<A>) => Option<number> = ...
 ```
 
 **Example**
@@ -704,7 +704,7 @@ Find the last element returned by an option based selector function
 **Signature**
 
 ```ts
-export function findLastMap<A, B>(f: (a: A) => Option<B>): (as: Array<A>) => Option<B> { ... }
+export const findLastMap: <A, B>(f: (a: A) => Option<B>) => (as: Array<A>) => Option<B> = ...
 ```
 
 **Example**
@@ -733,7 +733,7 @@ Removes one level of nesting
 **Signature**
 
 ```ts
-export function flatten<A>(mma: Array<Array<A>>): Array<A> { ... }
+export const flatten: <A>(mma: Array<Array<A>>) => Array<A> = ...
 ```
 
 **Example**
@@ -753,7 +753,10 @@ Break an array into its first element and remaining elements
 **Signature**
 
 ```ts
-export function foldLeft<A, B>(onNil: () => B, onCons: (head: A, tail: Array<A>) => B): (as: Array<A>) => B { ... }
+export const foldLeft: <A, B>(
+  onNil: () => B,
+  onCons: (head: A, tail: Array<A>) => B
+) => (as: Array<A>) => B = ...
 ```
 
 **Example**
@@ -797,7 +800,10 @@ Break an array into its initial elements and the last element
 **Signature**
 
 ```ts
-export function foldRight<A, B>(onNil: () => B, onCons: (init: Array<A>, last: A) => B): (as: Array<A>) => B { ... }
+export const foldRight: <A, B>(
+  onNil: () => B,
+  onCons: (init: Array<A>, last: A) => B
+) => (as: Array<A>) => B = ...
 ```
 
 Added in v2.0.0
@@ -811,7 +817,7 @@ different lengths, the result is non equality.
 **Signature**
 
 ```ts
-export function getEq<A>(E: Eq<A>): Eq<Array<A>> { ... }
+export const getEq: <A>(E: Eq<A>) => Eq<Array<A>> = ...
 ```
 
 **Example**
@@ -834,7 +840,7 @@ Returns a `Monoid` for `Array<A>`
 **Signature**
 
 ```ts
-export function getMonoid<A = never>(): Monoid<Array<A>> { ... }
+export const getMonoid: <A = never>() => Monoid<Array<A>> = ...
 ```
 
 **Example**
@@ -858,7 +864,7 @@ the same length, the result is equality.
 **Signature**
 
 ```ts
-export function getOrd<A>(O: Ord<A>): Ord<Array<A>> { ... }
+export const getOrd: <A>(O: Ord<A>) => Ord<Array<A>> = ...
 ```
 
 **Example**
@@ -880,7 +886,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getShow<A>(S: Show<A>): Show<Array<A>> { ... }
+export const getShow: <A>(S: Show<A>) => Show<Array<A>> = ...
 ```
 
 Added in v2.0.0
@@ -892,7 +898,7 @@ Get the first element in an array, or `None` if the array is empty
 **Signature**
 
 ```ts
-export function head<A>(as: Array<A>): Option<A> { ... }
+export const head: <A>(as: Array<A>) => Option<A> = ...
 ```
 
 **Example**
@@ -914,7 +920,7 @@ Get all but the last element of an array, creating a new array, or `None` if the
 **Signature**
 
 ```ts
-export function init<A>(as: Array<A>): Option<Array<A>> { ... }
+export const init: <A>(as: Array<A>) => Option<Array<A>> = ...
 ```
 
 **Example**
@@ -936,7 +942,7 @@ Insert an element at the specified index, creating a new array, or returning `No
 **Signature**
 
 ```ts
-export function insertAt<A>(i: number, a: A): (as: Array<A>) => Option<Array<A>> { ... }
+export const insertAt: <A>(i: number, a: A) => (as: Array<A>) => Option<Array<A>> = ...
 ```
 
 **Example**
@@ -958,7 +964,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export function intersection<A>(E: Eq<A>): (xs: Array<A>, ys: Array<A>) => Array<A> { ... }
+export const intersection: <A>(E: Eq<A>) => (xs: Array<A>, ys: Array<A>) => Array<A> = ...
 ```
 
 **Example**
@@ -979,7 +985,7 @@ Test whether an array is empty
 **Signature**
 
 ```ts
-export function isEmpty<A>(as: Array<A>): boolean { ... }
+export const isEmpty: <A>(as: Array<A>) => boolean = ...
 ```
 
 **Example**
@@ -999,7 +1005,7 @@ Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
 **Signature**
 
 ```ts
-export function isNonEmpty<A>(as: Array<A>): as is NonEmptyArray<A> { ... }
+export const isNonEmpty: <A>(as: Array<A>) => as is NonEmptyArray<A> = ...
 ```
 
 Added in v2.0.0
@@ -1011,7 +1017,7 @@ Test whether an array contains a particular index
 **Signature**
 
 ```ts
-export function isOutOfBound<A>(i: number, as: Array<A>): boolean { ... }
+export const isOutOfBound: <A>(i: number, as: Array<A>) => boolean = ...
 ```
 
 Added in v2.0.0
@@ -1023,7 +1029,7 @@ Get the last element in an array, or `None` if the array is empty
 **Signature**
 
 ```ts
-export function last<A>(as: Array<A>): Option<A> { ... }
+export const last: <A>(as: Array<A>) => Option<A> = ...
 ```
 
 **Example**
@@ -1045,7 +1051,7 @@ Extracts from an array of `Either` all the `Left` elements. All the `Left` eleme
 **Signature**
 
 ```ts
-export function lefts<E, A>(as: Array<Either<E, A>>): Array<E> { ... }
+export const lefts: <E, A>(as: Array<Either<E, A>>) => Array<E> = ...
 ```
 
 **Example**
@@ -1066,7 +1072,7 @@ This function provides a safe way to read a value at a particular index from an 
 **Signature**
 
 ```ts
-export function lookup<A>(i: number, as: Array<A>): Option<A> { ... }
+export const lookup: <A>(i: number, as: Array<A>) => Option<A> = ...
 ```
 
 **Example**
@@ -1088,7 +1094,7 @@ Return a list of length `n` with element `i` initialized with `f(i)`
 **Signature**
 
 ```ts
-export function makeBy<A>(n: number, f: (i: number) => A): Array<A> { ... }
+export const makeBy: <A>(n: number, f: (i: number) => A) => Array<A> = ...
 ```
 
 **Example**
@@ -1130,7 +1136,7 @@ of bounds
 **Signature**
 
 ```ts
-export function modifyAt<A>(i: number, f: (a: A) => A): (as: Array<A>) => Option<Array<A>> { ... }
+export const modifyAt: <A>(i: number, f: (a: A) => A) => (as: Array<A>) => Option<Array<A>> = ...
 ```
 
 **Example**
@@ -1151,7 +1157,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const of = <A>(a: A): Array<A> => ...
+export const of: <A>(a: A) => Array<A> = ...
 ```
 
 Added in v2.0.0
@@ -1203,7 +1209,7 @@ Create an array containing a range of integers, including both endpoints
 **Signature**
 
 ```ts
-export function range(start: number, end: number): Array<number> { ... }
+export const range: (start: number, end: number) => Array<number> = ...
 ```
 
 **Example**
@@ -1263,7 +1269,7 @@ Create an array containing a value repeated the specified number of times
 **Signature**
 
 ```ts
-export function replicate<A>(n: number, a: A): Array<A> { ... }
+export const replicate: <A>(n: number, a: A) => Array<A> = ...
 ```
 
 **Example**
@@ -1283,7 +1289,7 @@ Reverse an array, creating a new array
 **Signature**
 
 ```ts
-export function reverse<A>(as: Array<A>): Array<A> { ... }
+export const reverse: <A>(as: Array<A>) => Array<A> = ...
 ```
 
 **Example**
@@ -1303,7 +1309,7 @@ Extracts from an array of `Either` all the `Right` elements. All the `Right` ele
 **Signature**
 
 ```ts
-export function rights<E, A>(as: Array<Either<E, A>>): Array<A> { ... }
+export const rights: <E, A>(as: Array<Either<E, A>>) => Array<A> = ...
 ```
 
 **Example**
@@ -1324,7 +1330,7 @@ Rotate an array to the right by `n` steps
 **Signature**
 
 ```ts
-export function rotate(n: number): <A>(as: Array<A>) => Array<A> { ... }
+export const rotate: (n: number) => <A>(as: Array<A>) => Array<A> = ...
 ```
 
 **Example**
@@ -1350,7 +1356,7 @@ assert.deepStrictEqual(scanLeft(10, (b, a: number) => b - a)([1, 2, 3]), [10, 9,
 **Signature**
 
 ```ts
-export function scanLeft<A, B>(b: B, f: (b: B, a: A) => B): (as: Array<A>) => Array<B> { ... }
+export const scanLeft: <A, B>(b: B, f: (b: B, a: A) => B) => (as: Array<A>) => Array<B> = ...
 ```
 
 Added in v2.0.0
@@ -1362,7 +1368,7 @@ Fold an array from the right, keeping all intermediate results instead of only t
 **Signature**
 
 ```ts
-export function scanRight<A, B>(b: B, f: (a: A, b: B) => B): (as: Array<A>) => Array<B> { ... }
+export const scanRight: <A, B>(b: B, f: (a: A, b: B) => B) => (as: Array<A>) => Array<B> = ...
 ```
 
 **Example**
@@ -1392,7 +1398,7 @@ Append an element to the end of an array, creating a new non empty array
 **Signature**
 
 ```ts
-export function snoc<A>(init: Array<A>, end: A): NonEmptyArray<A> { ... }
+export const snoc: <A>(init: Array<A>, end: A) => NonEmptyArray<A> = ...
 ```
 
 **Example**
@@ -1412,7 +1418,7 @@ Sort the elements of an array in increasing order, creating a new array
 **Signature**
 
 ```ts
-export function sort<A>(O: Ord<A>): (as: Array<A>) => Array<A> { ... }
+export const sort: <A>(O: Ord<A>) => (as: Array<A>) => Array<A> = ...
 ```
 
 **Example**
@@ -1434,7 +1440,7 @@ etc...
 **Signature**
 
 ```ts
-export function sortBy<A>(ords: Array<Ord<A>>): (as: Array<A>) => Array<A> { ... }
+export const sortBy: <A>(ords: Array<Ord<A>>) => (as: Array<A>) => Array<A> = ...
 ```
 
 **Example**
@@ -1501,7 +1507,7 @@ Splits an array into two pieces, the first piece has `n` elements.
 **Signature**
 
 ```ts
-export function splitAt(n: number): <A>(as: Array<A>) => [Array<A>, Array<A>] { ... }
+export const splitAt: (n: number) => <A>(as: Array<A>) => [Array<A>, Array<A>] = ...
 ```
 
 **Example**
@@ -1524,7 +1530,7 @@ Get all but the first element of an array, creating a new array, or `None` if th
 **Signature**
 
 ```ts
-export function tail<A>(as: Array<A>): Option<Array<A>> { ... }
+export const tail: <A>(as: Array<A>) => Option<Array<A>> = ...
 ```
 
 **Example**
@@ -1547,7 +1553,7 @@ Keep only a number of elements from the start of an array, creating a new array.
 **Signature**
 
 ```ts
-export function takeLeft(n: number): <A>(as: Array<A>) => Array<A> { ... }
+export const takeLeft: (n: number) => <A>(as: Array<A>) => Array<A> = ...
 ```
 
 **Example**
@@ -1589,7 +1595,7 @@ Keep only a number of elements from the end of an array, creating a new array.
 **Signature**
 
 ```ts
-export function takeRight(n: number): <A>(as: Array<A>) => Array<A> { ... }
+export const takeRight: (n: number) => <A>(as: Array<A>) => Array<A> = ...
 ```
 
 **Example**
@@ -1609,7 +1615,7 @@ Creates an array of unique values, in order, from all given arrays using a `Eq` 
 **Signature**
 
 ```ts
-export function union<A>(E: Eq<A>): (xs: Array<A>, ys: Array<A>) => Array<A> { ... }
+export const union: <A>(E: Eq<A>) => (xs: Array<A>, ys: Array<A>) => Array<A> = ...
 ```
 
 **Example**
@@ -1630,7 +1636,7 @@ Remove duplicates from an array, keeping the first occurrence of an element.
 **Signature**
 
 ```ts
-export function uniq<A>(E: Eq<A>): (as: Array<A>) => Array<A> { ... }
+export const uniq: <A>(E: Eq<A>) => (as: Array<A>) => Array<A> = ...
 ```
 
 **Example**
@@ -1649,7 +1655,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function unsafeDeleteAt<A>(i: number, as: Array<A>): Array<A> { ... }
+export const unsafeDeleteAt: <A>(i: number, as: Array<A>) => Array<A> = ...
 ```
 
 Added in v2.0.0
@@ -1659,7 +1665,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function unsafeInsertAt<A>(i: number, a: A, as: Array<A>): Array<A> { ... }
+export const unsafeInsertAt: <A>(i: number, a: A, as: Array<A>) => Array<A> = ...
 ```
 
 Added in v2.0.0
@@ -1669,7 +1675,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function unsafeUpdateAt<A>(i: number, a: A, as: Array<A>): Array<A> { ... }
+export const unsafeUpdateAt: <A>(i: number, a: A, as: Array<A>) => Array<A> = ...
 ```
 
 Added in v2.0.0
@@ -1681,7 +1687,7 @@ The function is reverse of `zip`. Takes an array of pairs and return two corresp
 **Signature**
 
 ```ts
-export function unzip<A, B>(as: Array<[A, B]>): [Array<A>, Array<B>] { ... }
+export const unzip: <A, B>(as: Array<[A, B]>) => [Array<A>, Array<B>] = ...
 ```
 
 **Example**
@@ -1711,7 +1717,7 @@ Change the element at the specified index, creating a new array, or returning `N
 **Signature**
 
 ```ts
-export function updateAt<A>(i: number, a: A): (as: Array<A>) => Option<Array<A>> { ... }
+export const updateAt: <A>(i: number, a: A) => (as: Array<A>) => Option<Array<A>> = ...
 ```
 
 **Example**
@@ -1734,7 +1740,7 @@ longer array are discarded
 **Signature**
 
 ```ts
-export function zip<A, B>(fa: Array<A>, fb: Array<B>): Array<[A, B]> { ... }
+export const zip: <A, B>(fa: Array<A>, fb: Array<B>) => Array<[A, B]> = ...
 ```
 
 **Example**
@@ -1759,7 +1765,7 @@ input array is short, excess elements of the longer array are discarded.
 **Signature**
 
 ```ts
-export function zipWith<A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => C): Array<C> { ... }
+export const zipWith: <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => C) => Array<C> = ...
 ```
 
 **Example**

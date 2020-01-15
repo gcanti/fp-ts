@@ -1,6 +1,6 @@
 ---
 title: Set.ts
-nav_order: 74
+nav_order: 80
 parent: Modules
 ---
 
@@ -48,7 +48,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function chain<B>(E: Eq<B>): <A>(f: (x: A) => Set<B>) => (set: Set<A>) => Set<B> { ... }
+export const chain: <B>(E: Eq<B>) => <A>(f: (x: A) => Set<B>) => (set: Set<A>) => Set<B> = ...
 ```
 
 Added in v2.0.0
@@ -58,7 +58,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function compact<A>(E: Eq<A>): (fa: Set<Option<A>>) => Set<A> { ... }
+export const compact: <A>(E: Eq<A>) => (fa: Set<Option<A>>) => Set<A> = ...
 ```
 
 Added in v2.0.0
@@ -70,7 +70,7 @@ Form the set difference (`x` - `y`)
 **Signature**
 
 ```ts
-export function difference<A>(E: Eq<A>): (x: Set<A>, y: Set<A>) => Set<A> { ... }
+export const difference: <A>(E: Eq<A>) => (x: Set<A>, y: Set<A>) => Set<A> = ...
 ```
 
 **Example**
@@ -91,7 +91,7 @@ Test if a value is a member of a set
 **Signature**
 
 ```ts
-export function elem<A>(E: Eq<A>): (a: A, set: Set<A>) => boolean { ... }
+export const elem: <A>(E: Eq<A>) => (a: A, set: Set<A>) => boolean = ...
 ```
 
 Added in v2.0.0
@@ -111,7 +111,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function every<A>(predicate: Predicate<A>): (set: Set<A>) => boolean { ... }
+export const every: <A>(predicate: Predicate<A>) => (set: Set<A>) => boolean = ...
 ```
 
 Added in v2.0.0
@@ -132,7 +132,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function filterMap<B>(E: Eq<B>): <A>(f: (a: A) => Option<B>) => (fa: Set<A>) => Set<B> { ... }
+export const filterMap: <B>(E: Eq<B>) => <A>(f: (a: A) => Option<B>) => (fa: Set<A>) => Set<B> = ...
 ```
 
 Added in v2.0.0
@@ -142,7 +142,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function foldMap<A, M>(O: Ord<A>, M: Monoid<M>): (f: (a: A) => M) => (fa: Set<A>) => M { ... }
+export const foldMap: <A, M>(O: Ord<A>, M: Monoid<M>) => (f: (a: A) => M) => (fa: Set<A>) => M = ...
 ```
 
 Added in v2.0.0
@@ -154,7 +154,7 @@ Create a set from an array
 **Signature**
 
 ```ts
-export function fromArray<A>(E: Eq<A>): (as: Array<A>) => Set<A> { ... }
+export const fromArray: <A>(E: Eq<A>) => (as: Array<A>) => Set<A> = ...
 ```
 
 Added in v2.0.0
@@ -164,7 +164,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getEq<A>(E: Eq<A>): Eq<Set<A>> { ... }
+export const getEq: <A>(E: Eq<A>) => Eq<Set<A>> = ...
 ```
 
 Added in v2.0.0
@@ -174,7 +174,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getIntersectionSemigroup<A>(E: Eq<A>): Semigroup<Set<A>> { ... }
+export const getIntersectionSemigroup: <A>(E: Eq<A>) => Semigroup<Set<A>> = ...
 ```
 
 Added in v2.0.0
@@ -184,7 +184,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getShow<A>(S: Show<A>): Show<Set<A>> { ... }
+export const getShow: <A>(S: Show<A>) => Show<Set<A>> = ...
 ```
 
 Added in v2.0.0
@@ -194,7 +194,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getUnionMonoid<A>(E: Eq<A>): Monoid<Set<A>> { ... }
+export const getUnionMonoid: <A>(E: Eq<A>) => Monoid<Set<A>> = ...
 ```
 
 Added in v2.0.0
@@ -206,7 +206,7 @@ Insert a value into a set
 **Signature**
 
 ```ts
-export function insert<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A> { ... }
+export const insert: <A>(E: Eq<A>) => (a: A) => (set: Set<A>) => Set<A> = ...
 ```
 
 Added in v2.0.0
@@ -218,7 +218,7 @@ The set of elements which are in both the first and second set
 **Signature**
 
 ```ts
-export function intersection<A>(E: Eq<A>): (set: Set<A>, y: Set<A>) => Set<A> { ... }
+export const intersection: <A>(E: Eq<A>) => (set: Set<A>, y: Set<A>) => Set<A> = ...
 ```
 
 Added in v2.0.0
@@ -230,7 +230,7 @@ Projects a Set through a function
 **Signature**
 
 ```ts
-export function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: Set<A>) => Set<B> { ... }
+export const map: <B>(E: Eq<B>) => <A>(f: (x: A) => B) => (set: Set<A>) => Set<B> = ...
 ```
 
 Added in v2.0.0
@@ -251,10 +251,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function partitionMap<B, C>(
+export const partitionMap: <B, C>(
   EB: Eq<B>,
   EC: Eq<C>
-): <A>(f: (a: A) => Either<B, C>) => (set: Set<A>) => Separated<Set<B>, Set<C>> { ... }
+) => <A>(f: (a: A) => Either<B, C>) => (set: Set<A>) => Separated<Set<B>, Set<C>> = ...
 ```
 
 Added in v2.0.0
@@ -264,7 +264,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function reduce<A>(O: Ord<A>): <B>(b: B, f: (b: B, a: A) => B) => (fa: Set<A>) => B { ... }
+export const reduce: <A>(O: Ord<A>) => <B>(b: B, f: (b: B, a: A) => B) => (fa: Set<A>) => B = ...
 ```
 
 Added in v2.0.0
@@ -276,7 +276,7 @@ Delete a value from a set
 **Signature**
 
 ```ts
-export function remove<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A> { ... }
+export const remove: <A>(E: Eq<A>) => (a: A) => (set: Set<A>) => Set<A> = ...
 ```
 
 Added in v2.0.0
@@ -286,7 +286,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function separate<E, A>(EE: Eq<E>, EA: Eq<A>): (fa: Set<Either<E, A>>) => Separated<Set<E>, Set<A>> { ... }
+export const separate: <E, A>(
+  EE: Eq<E>,
+  EA: Eq<A>
+) => (fa: Set<Either<E, A>>) => Separated<Set<E>, Set<A>> = ...
 ```
 
 Added in v2.0.0
@@ -298,7 +301,7 @@ Create a set with one element
 **Signature**
 
 ```ts
-export function singleton<A>(a: A): Set<A> { ... }
+export const singleton: <A>(a: A) => Set<A> = ...
 ```
 
 Added in v2.0.0
@@ -308,7 +311,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function some<A>(predicate: Predicate<A>): (set: Set<A>) => boolean { ... }
+export const some: <A>(predicate: Predicate<A>) => (set: Set<A>) => boolean = ...
 ```
 
 Added in v2.0.0
@@ -320,7 +323,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function subset<A>(E: Eq<A>): (x: Set<A>, y: Set<A>) => boolean { ... }
+export const subset: <A>(E: Eq<A>) => (x: Set<A>, y: Set<A>) => boolean = ...
 ```
 
 Added in v2.0.0
@@ -330,7 +333,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function toArray<A>(O: Ord<A>): (set: Set<A>) => Array<A> { ... }
+export const toArray: <A>(O: Ord<A>) => (set: Set<A>) => Array<A> = ...
 ```
 
 Added in v2.0.0
@@ -356,7 +359,7 @@ Form the union of two sets
 **Signature**
 
 ```ts
-export function union<A>(E: Eq<A>): (set: Set<A>, y: Set<A>) => Set<A> { ... }
+export const union: <A>(E: Eq<A>) => (set: Set<A>, y: Set<A>) => Set<A> = ...
 ```
 
 Added in v2.0.0

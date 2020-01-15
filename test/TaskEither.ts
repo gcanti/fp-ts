@@ -34,6 +34,7 @@ describe('TaskEither', () => {
   })
 
   describe('bracket', () => {
+    // tslint:disable-next-line: readonly-array
     let log: Array<string> = []
 
     const acquireFailure = _.left('acquire failure')
@@ -230,6 +231,7 @@ describe('TaskEither', () => {
   })
 
   it('sequence parallel', async () => {
+    // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): _.TaskEither<void, number> =>
       _.rightTask(() => Promise.resolve(log.push(message)))
@@ -242,6 +244,7 @@ describe('TaskEither', () => {
   })
 
   it('sequence series', async () => {
+    // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): _.TaskEither<void, number> =>
       _.rightTask(() => Promise.resolve(log.push(message)))

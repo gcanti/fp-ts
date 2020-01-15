@@ -21,26 +21,10 @@ describe('Tuple', () => {
   })
 
   it('extend', () => {
+    // tslint:disable-next-line: readonly-array
     const f = (fa: [number, string]): number => T.snd(fa).length + T.fst(fa)
     assert.deepStrictEqual(T.tuple.extend([1, 'bb'], f), [3, 'bb'])
   })
-
-  // it('getApplicative', () => {
-  //   const F = T.getApplicative(monoidString)
-  //   const double = (n: number): number => n * 2
-  //   const x = F.of(double)
-  //   const y = tuple('a', 1)
-  //   const z = tuple('a', 2)
-  //   assert.deepStrictEqual(F.ap(x, y), z)
-  // })
-
-  // it('getMonad', () => {
-  //   const M = T.getMonad(monoidString)
-  //   const f = (n: number) => M.of(n * 2)
-  //   const x = tuple('a', 1)
-  //   const y = tuple('a', 2)
-  //   assert.deepStrictEqual(M.chain(x, f), y)
-  // })
 
   describe('Bifunctor', () => {
     it('bimap', () => {
@@ -98,6 +82,7 @@ describe('Tuple', () => {
 
   it('chainRec', () => {
     const { chainRec } = T.getChainRec(getMonoid<number>())
+    // tslint:disable-next-line: readonly-array
     function seqReq(upper: number): [number, Array<number>] {
       return chainRec(1, init => [init >= upper ? right(init) : left(init + 1), [init]])
     }

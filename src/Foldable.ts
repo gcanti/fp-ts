@@ -276,8 +276,8 @@ export function intercalate<M, F extends URIS>(M: Monoid<M>, F: Foldable1<F>): (
 export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M, fm: HKT<F, M>) => M
 export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M, fm: HKT<F, M>) => M {
   interface Acc<M> {
-    init: boolean
-    acc: M
+    readonly init: boolean
+    readonly acc: M
   }
   return (sep, fm) => {
     const go = ({ init, acc }: Acc<M>, x: M): Acc<M> =>

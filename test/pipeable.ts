@@ -64,7 +64,7 @@ describe('pipeable', () => {
 
   it('Extend', () => {
     const { extend, duplicate } = pipeable(array)
-    assert.deepStrictEqual(extend((as: Array<number>) => fold(monoidSum)(as))([1, 2, 3]), [6, 5, 3])
+    assert.deepStrictEqual(extend((as: ReadonlyArray<number>) => fold(monoidSum)(as))([1, 2, 3]), [6, 5, 3])
     assert.deepStrictEqual(duplicate([1, 2, 3]), [[1, 2, 3], [2, 3], [3]])
   })
 

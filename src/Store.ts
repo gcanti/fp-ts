@@ -9,7 +9,7 @@ import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    Store: Store<E, A>
+    readonly Store: Store<E, A>
   }
 }
 
