@@ -15,7 +15,7 @@ import { Magma } from './Magma'
 import { Monoid } from './Monoid'
 import { isNone, isSome, none, Option, some as optionSome } from './Option'
 import { Semigroup } from './Semigroup'
-import { Show, showString } from './Show'
+import { Show } from './Show'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
@@ -55,7 +55,7 @@ export function fromRecord<K extends string, A>(r: Record<K, A>): ReadonlyRecord
 export function getShow<A>(S: Show<A>): Show<ReadonlyRecord<string, A>> {
   return {
     show: r => {
-      const elements = collect((k, a: A) => `${showString.show(k)}: ${S.show(a)}`)(r).join(', ')
+      const elements = collect((k, a: A) => `${JSON.stringify(k)}: ${S.show(a)}`)(r).join(', ')
       return elements === '' ? '{}' : `{ ${elements} }`
     }
   }
