@@ -4,13 +4,13 @@ import { eqNumber } from '../src/Eq'
 import { identity } from '../src/function'
 import * as I from '../src/Identity'
 import { fold, monoidString, monoidSum } from '../src/Monoid'
-import * as _ from '../src/ReadonlyNonEmptyArray'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
+import * as _ from '../src/ReadonlyNonEmptyArray'
 import * as S from '../src/Semigroup'
 import { showString } from '../src/Show'
 
-describe('NonEmptyArray', () => {
+describe('ReadonlyNonEmptyArray', () => {
   it('head', () => {
     assert.deepStrictEqual(_.head([1, 2]), 1)
   })
@@ -310,5 +310,21 @@ describe('NonEmptyArray', () => {
     const f = _.foldMapWithIndex(S.semigroupSum)((i: number, s: string) => s.length + i)
     assert.deepStrictEqual(f(['a']), 1)
     assert.deepStrictEqual(f(['a', 'bb']), 4)
+  })
+
+  it('fromArray', () => {
+    assert.strictEqual(_.fromArray([]), O.none)
+    // tslint:disable-next-line: readonly-array
+    const as = [1, 2, 3]
+    const bs = _.fromArray(as)
+    assert.deepStrictEqual(bs, O.some(as))
+    assert.notStrictEqual((bs as any).value, as)
+  })
+
+  it('fromReadonlyArray', () => {
+    const as: ReadonlyArray<number> = [1, 2, 3]
+    const bs = _.fromReadonlyArray(as)
+    assert.deepStrictEqual(bs, O.some(as))
+    assert.strictEqual((bs as any).value, as)
   })
 })

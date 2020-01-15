@@ -17,7 +17,7 @@ const fooEq: Eq<Foo> = {
   equals: (a: Foo, b: Foo) => a.x === b.x
 }
 
-describe('Set', () => {
+describe('ReadonlySet', () => {
   it('toReadonlyArray', () => {
     assert.deepStrictEqual(_.toReadonlyArray(ordNumber)(new Set()), [])
     assert.deepStrictEqual(_.toReadonlyArray(ordNumber)(new Set([1, 2, 3])), [1, 2, 3])
@@ -230,5 +230,12 @@ describe('Set', () => {
     assert.deepStrictEqual(S.show(s2), `new Set(["a"])`)
     const s3 = new Set<string>(['a', 'b'])
     assert.deepStrictEqual(S.show(s3), `new Set(["a", "b"])`)
+  })
+
+  it('fromSet', () => {
+    const as = new Set(['a'])
+    const bs = _.fromSet(as)
+    assert.deepStrictEqual(bs, as)
+    assert.notStrictEqual(bs, as)
   })
 })

@@ -36,6 +36,7 @@ Added in v2.5.0
 - [flatten (function)](#flatten-function)
 - [foldLeft (function)](#foldleft-function)
 - [foldRight (function)](#foldright-function)
+- [fromArray (function)](#fromarray-function)
 - [getEq (function)](#geteq-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getOrd (function)](#getord-function)
@@ -667,6 +668,16 @@ export function foldRight<A, B>(
   onNil: () => B,
   onCons: (init: ReadonlyArray<A>, last: A) => B
 ): (as: ReadonlyArray<A>) => B { ... }
+```
+
+Added in v2.5.0
+
+# fromArray (function)
+
+**Signature**
+
+```ts
+export function fromArray<A>(as: Array<A>): ReadonlyArray<A> { ... }
 ```
 
 Added in v2.5.0

@@ -79,6 +79,14 @@ export function fromReadonlyArray<A>(as: ReadonlyArray<A>): Option<ReadonlyNonEm
 /**
  * @since 2.5.0
  */
+// tslint:disable-next-line: readonly-array
+export function fromArray<A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>> {
+  return fromReadonlyArray(RA.fromArray(as))
+}
+
+/**
+ * @since 2.5.0
+ */
 export const getShow: <A>(S: Show<A>) => Show<ReadonlyNonEmptyArray<A>> = RA.getShow
 
 /**

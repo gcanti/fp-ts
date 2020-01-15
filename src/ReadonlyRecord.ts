@@ -45,6 +45,13 @@ export type URI = typeof URI
 /**
  * @since 2.5.0
  */
+export function fromRecord<K extends string, A>(r: Record<K, A>): ReadonlyRecord<K, A> {
+  return Object.assign({}, r)
+}
+
+/**
+ * @since 2.5.0
+ */
 export function getShow<A>(S: Show<A>): Show<ReadonlyRecord<string, A>> {
   return {
     show: r => {

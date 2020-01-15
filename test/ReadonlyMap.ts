@@ -1042,4 +1042,11 @@ describe('ReadonlyMap', () => {
       )
     )
   })
+
+  it('fromMap', () => {
+    const as = new Map([[1, 'a']])
+    const bs = _.fromMap(as)
+    assert.deepStrictEqual(bs, as)
+    assert.notStrictEqual(bs, as)
+  })
 })

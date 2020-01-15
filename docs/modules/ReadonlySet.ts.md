@@ -22,6 +22,7 @@ Added in v2.5.0
 - [filterMap (function)](#filtermap-function)
 - [foldMap (function)](#foldmap-function)
 - [fromArray (function)](#fromarray-function)
+- [fromSet (function)](#fromset-function)
 - [getEq (function)](#geteq-function)
 - [getIntersectionSemigroup (function)](#getintersectionsemigroup-function)
 - [getShow (function)](#getshow-function)
@@ -154,6 +155,16 @@ Create a set from an array
 
 ```ts
 export function fromArray<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlySet<A> { ... }
+```
+
+Added in v2.5.0
+
+# fromSet (function)
+
+**Signature**
+
+```ts
+export function fromSet<A>(s: Set<A>): ReadonlySet<A> { ... }
 ```
 
 Added in v2.5.0

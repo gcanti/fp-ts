@@ -27,6 +27,7 @@ Added in v2.5.0
 - [concat (function)](#concat-function)
 - [filter (function)](#filter-function)
 - [filterWithIndex (function)](#filterwithindex-function)
+- [fromArray (function)](#fromarray-function)
 - [fromReadonlyArray (function)](#fromreadonlyarray-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [group (function)](#group-function)
@@ -231,6 +232,16 @@ Added in v2.5.0
 export function filterWithIndex<A>(
   predicate: (i: number, a: A) => boolean
 ): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> { ... }
+```
+
+Added in v2.5.0
+
+# fromArray (function)
+
+**Signature**
+
+```ts
+export function fromArray<A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>> { ... }
 ```
 
 Added in v2.5.0

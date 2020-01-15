@@ -20,6 +20,7 @@ Added in v2.5.0
 - [deleteAt (function)](#deleteat-function)
 - [elem (function)](#elem-function)
 - [fromFoldable (function)](#fromfoldable-function)
+- [fromMap (function)](#frommap-function)
 - [getEq (function)](#geteq-function)
 - [getFilterableWithIndex (function)](#getfilterablewithindex-function)
 - [getMonoid (function)](#getmonoid-function)
@@ -152,6 +153,16 @@ export function fromFoldable<F, K, A>(
   M: Magma<A>,
   F: Foldable<F>
 ): (fka: HKT<F, readonly [K, A]>) => ReadonlyMap<K, A> { ... }
+```
+
+Added in v2.5.0
+
+# fromMap (function)
+
+**Signature**
+
+```ts
+export function fromMap<K, A>(m: Map<K, A>): ReadonlyMap<K, A> { ... }
 ```
 
 Added in v2.5.0

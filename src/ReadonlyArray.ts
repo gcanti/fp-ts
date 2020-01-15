@@ -43,6 +43,22 @@ export type URI = typeof URI
 /**
  * @since 2.5.0
  */
+// tslint:disable-next-line: readonly-array
+export function fromArray<A>(as: Array<A>): ReadonlyArray<A> {
+  const l = as.length
+  if (l === 0) {
+    return empty
+  }
+  const r = Array(l)
+  for (let i = 0; i < l; i++) {
+    r[i] = as[i]
+  }
+  return r
+}
+
+/**
+ * @since 2.5.0
+ */
 export function getShow<A>(S: Show<A>): Show<ReadonlyArray<A>> {
   return {
     show: as => `[${as.map(S.show).join(', ')}]`

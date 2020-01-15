@@ -801,4 +801,13 @@ describe('ReadonlyArray', () => {
     assert.deepStrictEqual(S.show(['a']), `["a"]`)
     assert.deepStrictEqual(S.show(['a', 'b']), `["a", "b"]`)
   })
+
+  it('fromArray', () => {
+    assert.strictEqual(_.fromArray([]), _.empty)
+    // tslint:disable-next-line: readonly-array
+    const as = [1, 2, 3]
+    const bs = _.fromArray(as)
+    assert.deepStrictEqual(bs, as)
+    assert.notStrictEqual(bs, as)
+  })
 })

@@ -27,6 +27,7 @@ Added in v2.5.0
 - [foldMapWithIndex (function)](#foldmapwithindex-function)
 - [fromFoldable (function)](#fromfoldable-function)
 - [fromFoldableMap (function)](#fromfoldablemap-function)
+- [fromRecord (function)](#fromrecord-function)
 - [getEq (function)](#geteq-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getShow (function)](#getshow-function)
@@ -320,6 +321,16 @@ assert.deepStrictEqual(
     id2: { id: 'id2', name: 'name2' }
   }
 )
+```
+
+Added in v2.5.0
+
+# fromRecord (function)
+
+**Signature**
+
+```ts
+export function fromRecord<K extends string, A>(r: Record<K, A>): ReadonlyRecord<K, A> { ... }
 ```
 
 Added in v2.5.0
