@@ -334,6 +334,13 @@ export function concat<A>(fx: ReadonlyArray<A>, fy: ReadonlyArray<A>): ReadonlyA
 /**
  * @since 2.5.0
  */
+export function fold<A>(S: Semigroup<A>): (fa: ReadonlyNonEmptyArray<A>) => A {
+  return fa => fa.reduce(S.concat)
+}
+
+/**
+ * @since 2.5.0
+ */
 export const readonlyNonEmptyArray: Monad1<URI> &
   Comonad1<URI> &
   TraversableWithIndex1<URI, number> &

@@ -3,7 +3,7 @@ import * as C from '../src/Const'
 import { eqNumber } from '../src/Eq'
 import { identity } from '../src/function'
 import * as I from '../src/Identity'
-import { fold, monoidString, monoidSum } from '../src/Monoid'
+import * as M from '../src/Monoid'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
 import * as _ from '../src/ReadonlyNonEmptyArray'
@@ -44,7 +44,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('extend', () => {
-    const sum = fold(monoidSum)
+    const sum = M.fold(M.monoidSum)
     assert.deepStrictEqual(_.readonlyNonEmptyArray.extend([1, 2, 3, 4], sum), [10, 9, 7, 4])
   })
 
@@ -87,7 +87,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('foldMap', () => {
-    const foldMap = _.readonlyNonEmptyArray.foldMap(monoidString)
+    const foldMap = _.readonlyNonEmptyArray.foldMap(M.monoidString)
     assert.deepStrictEqual(foldMap(['a', 'b', 'c'], identity), 'abc')
   })
 
@@ -237,7 +237,7 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('foldMapWithIndex', () => {
     assert.deepStrictEqual(
-      _.readonlyNonEmptyArray.foldMapWithIndex(monoidString)(['a', 'b'], (i, a) => i + a),
+      _.readonlyNonEmptyArray.foldMapWithIndex(M.monoidString)(['a', 'b'], (i, a) => i + a),
       '0a1b'
     )
   })
@@ -264,11 +264,12 @@ describe('ReadonlyNonEmptyArray', () => {
     )
 
     // FoldableWithIndex compatibility
-    const M = monoidString
     const f = (i: number, s: string): string => s + i
     assert.deepStrictEqual(
-      _.readonlyNonEmptyArray.foldMapWithIndex(M)(['a', 'bb'], f),
-      _.readonlyNonEmptyArray.traverseWithIndex(C.getApplicative(M))(['a', 'bb'], (i, a) => C.make(f(i, a)))
+      _.readonlyNonEmptyArray.foldMapWithIndex(M.monoidString)(['a', 'bb'], f),
+      _.readonlyNonEmptyArray.traverseWithIndex(C.getApplicative(M.monoidString))(['a', 'bb'], (i, a) =>
+        C.make(f(i, a))
+      )
     )
 
     // FunctorWithIndex compatibility
@@ -326,5 +327,11 @@ describe('ReadonlyNonEmptyArray', () => {
     const bs = _.fromReadonlyArray(as)
     assert.deepStrictEqual(bs, O.some(as))
     assert.strictEqual((bs as any).value, as)
+  })
+
+  it('fold', () => {
+    const f = _.fold(S.semigroupString)
+    assert.deepStrictEqual(f(['a']), 'a')
+    assert.deepStrictEqual(f(['a', 'bb']), 'abb')
   })
 })

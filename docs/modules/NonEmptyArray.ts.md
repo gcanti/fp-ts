@@ -28,6 +28,7 @@ Added in v2.0.0
 - [concat (function)](#concat-function)
 - [filter (function)](#filter-function)
 - [filterWithIndex (function)](#filterwithindex-function)
+- [fold (function)](#fold-function)
 - [fromArray (function)](#fromarray-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [group (function)](#group-function)
@@ -245,6 +246,16 @@ export function filterWithIndex<A>(
 ```
 
 Added in v2.0.0
+
+# fold (function)
+
+**Signature**
+
+```ts
+export function fold<A>(S: Semigroup<A>): (fa: NonEmptyArray<A>) => A { ... }
+```
+
+Added in v2.5.0
 
 # fromArray (function)
 

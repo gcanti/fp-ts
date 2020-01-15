@@ -27,6 +27,7 @@ Added in v2.5.0
 - [concat (function)](#concat-function)
 - [filter (function)](#filter-function)
 - [filterWithIndex (function)](#filterwithindex-function)
+- [fold (function)](#fold-function)
 - [fromArray (function)](#fromarray-function)
 - [fromReadonlyArray (function)](#fromreadonlyarray-function)
 - [getSemigroup (function)](#getsemigroup-function)
@@ -232,6 +233,16 @@ Added in v2.5.0
 export function filterWithIndex<A>(
   predicate: (i: number, a: A) => boolean
 ): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> { ... }
+```
+
+Added in v2.5.0
+
+# fold (function)
+
+**Signature**
+
+```ts
+export function fold<A>(S: Semigroup<A>): (fa: ReadonlyNonEmptyArray<A>) => A { ... }
 ```
 
 Added in v2.5.0
