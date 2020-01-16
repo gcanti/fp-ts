@@ -347,6 +347,10 @@ describe('Record', () => {
     assert.deepStrictEqual(R.filterWithIndex((_, a: number) => a > 1)({ a: 1, b: 2 }), { b: 2 })
   })
 
+  it('mapWithIndex', () => {
+    assert.deepStrictEqual(R.mapWithIndex((k, a: number) => k + String(a))({ a: 1, b: 2 }), { a: 'a1', b: 'b2' })
+  })
+
   it('updateAt', () => {
     const x: Record<string, number> = { a: 1 }
     assert.deepStrictEqual(R.updateAt('b', 2)(x), none)

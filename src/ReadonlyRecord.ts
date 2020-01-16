@@ -131,18 +131,16 @@ export const toReadonlyArray: <K extends string, A>(
  * @since 2.5.0
  */
 export function toUnfoldable<F extends URIS>(
-  unfoldable: Unfoldable1<F>
+  U: Unfoldable1<F>
 ): <K extends string, A>(r: ReadonlyRecord<K, A>) => Kind<F, readonly [K, A]>
 export function toUnfoldable<F>(
-  unfoldable: Unfoldable<F>
+  U: Unfoldable<F>
 ): <K extends string, A>(r: ReadonlyRecord<K, A>) => HKT<F, readonly [K, A]>
-export function toUnfoldable<F>(
-  unfoldable: Unfoldable<F>
-): <A>(r: ReadonlyRecord<string, A>) => HKT<F, readonly [string, A]> {
+export function toUnfoldable<F>(U: Unfoldable<F>): <A>(r: ReadonlyRecord<string, A>) => HKT<F, readonly [string, A]> {
   return r => {
     const arr = toReadonlyArray(r)
     const len = arr.length
-    return unfoldable.unfold(0, b => (b < len ? optionSome([arr[b], b + 1]) : none))
+    return U.unfold(0, b => (b < len ? optionSome([arr[b], b + 1]) : none))
   }
 }
 
