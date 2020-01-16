@@ -54,12 +54,12 @@ TypeScript
 
 ```ts
 interface Bar {
-  type: 'Bar'
-  value: string
+  readonly type: 'Bar'
+  readonly value: string
 }
 interface Baz {
-  type: 'Baz'
-  value: boolean
+  readonly type: 'Baz'
+  readonly value: boolean
 }
 // type
 type Foo = Bar | Baz
