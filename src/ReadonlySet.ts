@@ -64,7 +64,7 @@ export function toReadonlyArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => Readonly
  * @since 2.5.0
  */
 export function getEq<A>(E: Eq<A>): Eq<ReadonlySet<A>> {
-  const subsetE = subset(E)
+  const subsetE = isSubset(E)
   return fromEquals((x, y) => subsetE(x, y) && subsetE(y, x))
 }
 
@@ -138,7 +138,7 @@ export function chain<B>(E: Eq<B>): <A>(f: (x: A) => ReadonlySet<B>) => (set: Re
  *
  * @since 2.5.0
  */
-export function subset<A>(E: Eq<A>): (x: ReadonlySet<A>, y: ReadonlySet<A>) => boolean {
+export function isSubset<A>(E: Eq<A>): (x: ReadonlySet<A>, y: ReadonlySet<A>) => boolean {
   const elemE = elem(E)
   return (x, y) => every((a: A) => elemE(a, y))(x)
 }

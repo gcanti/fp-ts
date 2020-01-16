@@ -57,9 +57,9 @@ describe('ReadonlySet', () => {
     )
   })
 
-  it('subset', () => {
-    assert.deepStrictEqual(_.subset(eqNumber)(new Set([1, 2]), new Set([1, 2, 3])), true)
-    assert.deepStrictEqual(_.subset(eqNumber)(new Set([1, 2, 4]), new Set([1, 2, 3])), false)
+  it('isSubset', () => {
+    assert.deepStrictEqual(_.isSubset(eqNumber)(new Set([1, 2]), new Set([1, 2, 3])), true)
+    assert.deepStrictEqual(_.isSubset(eqNumber)(new Set([1, 2, 4]), new Set([1, 2, 3])), false)
   })
 
   it('filter', () => {
