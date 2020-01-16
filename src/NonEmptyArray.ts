@@ -3,20 +3,20 @@
  *
  * @since 2.0.0
  */
-import { Monad1 } from './Monad'
-import * as A from './Array'
-import { Comonad1 } from './Comonad'
-import { FunctorWithIndex1 } from './FunctorWithIndex'
-import { TraversableWithIndex1 } from './TraversableWithIndex'
-import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { Ord } from './Ord'
-import { getMeetSemigroup, getJoinSemigroup, Semigroup } from './Semigroup'
-import { Option, some, none } from './Option'
-import { Eq } from './Eq'
-import { Predicate, Refinement } from './function'
-import { Show } from './Show'
-import { pipeable } from './pipeable'
 import { Alt1 } from './Alt'
+import { Comonad1 } from './Comonad'
+import { Eq } from './Eq'
+import { FoldableWithIndex1 } from './FoldableWithIndex'
+import { Predicate, Refinement } from './function'
+import { FunctorWithIndex1 } from './FunctorWithIndex'
+import { Monad1 } from './Monad'
+import { Option } from './Option'
+import { Ord } from './Ord'
+import { pipeable } from './pipeable'
+import * as RNEA from './ReadonlyNonEmptyArray'
+import { Semigroup } from './Semigroup'
+import { Show } from './Show'
+import { TraversableWithIndex1 } from './TraversableWithIndex'
 
 /* tslint:disable:readonly-array */
 
@@ -55,7 +55,7 @@ export interface NonEmptyArray<A> extends Array<A> {
  *
  * @since 2.0.0
  */
-export const cons: <A>(head: A, tail: Array<A>) => NonEmptyArray<A> = A.cons
+export const cons: <A>(head: A, tail: Array<A>) => NonEmptyArray<A> = RNEA.cons as any
 
 /**
  * Append an element to the end of an array, creating a new non empty array
@@ -67,67 +67,51 @@ export const cons: <A>(head: A, tail: Array<A>) => NonEmptyArray<A> = A.cons
  *
  * @since 2.0.0
  */
-export const snoc: <A>(init: Array<A>, end: A) => NonEmptyArray<A> = A.snoc
+export const snoc: <A>(init: Array<A>, end: A) => NonEmptyArray<A> = RNEA.snoc as any
 
 /**
  * Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty array
  *
  * @since 2.0.0
  */
-export function fromArray<A>(as: Array<A>): Option<NonEmptyArray<A>> {
-  return A.isNonEmpty(as) ? some(as) : none
-}
+export const fromArray: <A>(as: Array<A>) => Option<NonEmptyArray<A>> = RNEA.fromArray as any
 
 /**
  * @since 2.0.0
  */
-export const getShow: <A>(S: Show<A>) => Show<NonEmptyArray<A>> = A.getShow
+export const getShow: <A>(S: Show<A>) => Show<NonEmptyArray<A>> = RNEA.getShow
 
 /**
  * @since 2.0.0
  */
-export function head<A>(nea: NonEmptyArray<A>): A {
-  return nea[0]
-}
+export const head: <A>(nea: NonEmptyArray<A>) => A = RNEA.head
 
 /**
  * @since 2.0.0
  */
-export function tail<A>(nea: NonEmptyArray<A>): Array<A> {
-  return nea.slice(1)
-}
+export const tail: <A>(nea: NonEmptyArray<A>) => Array<A> = RNEA.tail as any
 
 /**
  * @since 2.0.0
  */
-export const reverse: <A>(nea: NonEmptyArray<A>) => NonEmptyArray<A> = A.reverse as any
+export const reverse: <A>(nea: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.reverse as any
 
 /**
  * @since 2.0.0
  */
-export function min<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A {
-  const S = getMeetSemigroup(ord)
-  return nea => nea.reduce(S.concat)
-}
+export const min: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A = RNEA.min
 
 /**
  * @since 2.0.0
  */
-export function max<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A {
-  const S = getJoinSemigroup(ord)
-  return nea => nea.reduce(S.concat)
-}
+export const max: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A = RNEA.max
 
 /**
  * Builds a `Semigroup` instance for `NonEmptyArray`
  *
  * @since 2.0.0
  */
-export function getSemigroup<A = never>(): Semigroup<NonEmptyArray<A>> {
-  return {
-    concat: concat
-  }
-}
+export const getSemigroup: <A = never>() => Semigroup<NonEmptyArray<A>> = RNEA.getSemigroup as any
 
 /**
  * @example
@@ -140,7 +124,7 @@ export function getSemigroup<A = never>(): Semigroup<NonEmptyArray<A>> {
  *
  * @since 2.0.0
  */
-export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = A.getEq
+export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = RNEA.getEq
 
 /**
  * Group equal, consecutive elements of an array into non empty arrays.
@@ -164,27 +148,7 @@ export function group<A>(
   (as: Array<A>): Array<NonEmptyArray<A>>
 }
 export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
-  return as => {
-    const len = as.length
-    if (len === 0) {
-      return A.empty
-    }
-    const r: Array<NonEmptyArray<A>> = []
-    let head: A = as[0]
-    let nea: NonEmptyArray<A> = [head]
-    for (let i = 1; i < len; i++) {
-      const x = as[i]
-      if (E.equals(x, head)) {
-        nea.push(x)
-      } else {
-        r.push(nea)
-        head = x
-        nea = [head]
-      }
-    }
-    r.push(nea)
-    return r
-  }
+  return RNEA.group(E) as any
 }
 
 /**
@@ -198,11 +162,7 @@ export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
  *
  * @since 2.0.0
  */
-export function groupSort<A>(O: Ord<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
-  const sortO = A.sort(O)
-  const groupO = group(O)
-  return as => groupO(sortO(as))
-}
+export const groupSort: <A>(O: Ord<A>) => (as: Array<A>) => Array<NonEmptyArray<A>> = RNEA.groupSort as any
 
 /**
  * Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning
@@ -218,27 +178,14 @@ export function groupSort<A>(O: Ord<A>): (as: Array<A>) => Array<NonEmptyArray<A
  *
  * @since 2.0.0
  */
-export function groupBy<A>(f: (a: A) => string): (as: Array<A>) => Record<string, NonEmptyArray<A>> {
-  return as => {
-    const r: Record<string, NonEmptyArray<A>> = {}
-    for (const a of as) {
-      const k = f(a)
-      if (r.hasOwnProperty(k)) {
-        r[k].push(a)
-      } else {
-        r[k] = [a]
-      }
-    }
-    return r
-  }
-}
+export const groupBy: <A>(
+  f: (a: A) => string
+) => (as: Array<A>) => Record<string, NonEmptyArray<A>> = RNEA.groupBy as any
 
 /**
  * @since 2.0.0
  */
-export function last<A>(nea: NonEmptyArray<A>): A {
-  return nea[nea.length - 1]
-}
+export const last: <A>(nea: NonEmptyArray<A>) => A = RNEA.last
 
 /**
  * Get all but the last element of a non empty array, creating a new array.
@@ -251,42 +198,48 @@ export function last<A>(nea: NonEmptyArray<A>): A {
  *
  * @since 2.2.0
  */
-export function init<A>(nea: NonEmptyArray<A>): Array<A> {
-  return nea.slice(0, -1)
-}
+export const init: <A>(nea: NonEmptyArray<A>) => Array<A> = RNEA.init as any
 
 /**
  * @since 2.0.0
  */
-export function sort<A>(O: Ord<A>): (nea: NonEmptyArray<A>) => NonEmptyArray<A> {
-  return A.sort(O) as any
-}
+export const sort: <A>(O: Ord<A>) => (nea: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.sort as any
 
 /**
  * @since 2.0.0
  */
-export function insertAt<A>(i: number, a: A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> {
-  return A.insertAt(i, a) as any
-}
+export const insertAt: <A>(
+  i: number,
+  a: A
+) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> = RNEA.insertAt as any
 
 /**
  * @since 2.0.0
  */
-export function updateAt<A>(i: number, a: A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> {
-  return A.updateAt(i, a) as any
-}
+export const updateAt: <A>(
+  i: number,
+  a: A
+) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> = RNEA.updateAt as any
 
 /**
  * @since 2.0.0
  */
-export function modifyAt<A>(i: number, f: (a: A) => A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> {
-  return A.modifyAt(i, f) as any
-}
+export const modifyAt: <A>(
+  i: number,
+  f: (a: A) => A
+) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> = RNEA.modifyAt as any
 
 /**
  * @since 2.0.0
  */
-export const copy: <A>(nea: NonEmptyArray<A>) => NonEmptyArray<A> = A.copy as any
+export function copy<A>(nea: NonEmptyArray<A>): NonEmptyArray<A> {
+  const l = nea.length
+  const as = Array(l)
+  for (let i = 0; i < l; i++) {
+    as[i] = nea[i]
+  }
+  return as as any
+}
 
 /**
  * @since 2.0.0
@@ -296,22 +249,20 @@ export function filter<A, B extends A>(
 ): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
 export function filter<A>(predicate: Predicate<A>): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
 export function filter<A>(predicate: Predicate<A>): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> {
-  return filterWithIndex((_, a) => predicate(a))
+  return RNEA.filter(predicate) as any
 }
 
 /**
  * @since 2.0.0
  */
-export function filterWithIndex<A>(
+export const filterWithIndex: <A>(
   predicate: (i: number, a: A) => boolean
-): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> {
-  return nea => fromArray(nea.filter((a, i) => predicate(i, a)))
-}
+) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> = RNEA.filterWithIndex as any
 
 /**
  * @since 2.0.0
  */
-export const of: <A>(a: A) => NonEmptyArray<A> = A.of as any
+export const of: <A>(a: A) => NonEmptyArray<A> = RNEA.of as any
 
 /**
  * @since 2.2.0
@@ -319,15 +270,13 @@ export const of: <A>(a: A) => NonEmptyArray<A> = A.of as any
 export function concat<A>(fx: Array<A>, fy: NonEmptyArray<A>): NonEmptyArray<A>
 export function concat<A>(fx: NonEmptyArray<A>, fy: Array<A>): NonEmptyArray<A>
 export function concat<A>(fx: Array<A>, fy: Array<A>): Array<A> {
-  return fx.concat(fy)
+  return RNEA.concat(fx as any, fy as any) as any
 }
 
 /**
  * @since 2.5.0
  */
-export function fold<A>(S: Semigroup<A>): (fa: NonEmptyArray<A>) => A {
-  return fa => fa.reduce(S.concat)
-}
+export const fold: <A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A = RNEA.fold
 
 /**
  * @since 2.0.0
@@ -339,23 +288,23 @@ export const nonEmptyArray: Monad1<URI> &
   FoldableWithIndex1<URI, number> &
   Alt1<URI> = {
   URI,
-  map: A.array.map as any,
-  mapWithIndex: A.array.mapWithIndex as any,
+  map: RNEA.readonlyNonEmptyArray.map as any,
+  mapWithIndex: RNEA.readonlyNonEmptyArray.mapWithIndex as any,
   of,
-  ap: A.array.ap as any,
-  chain: A.array.chain as any,
-  extend: A.array.extend as any,
+  ap: RNEA.readonlyNonEmptyArray.ap as any,
+  chain: RNEA.readonlyNonEmptyArray.chain as any,
+  extend: RNEA.readonlyNonEmptyArray.extend as any,
   extract: head,
-  reduce: A.array.reduce,
-  foldMap: A.array.foldMap,
-  reduceRight: A.array.reduceRight,
-  traverse: A.array.traverse as any,
-  sequence: A.array.sequence as any,
-  reduceWithIndex: A.array.reduceWithIndex,
-  foldMapWithIndex: A.array.foldMapWithIndex,
-  reduceRightWithIndex: A.array.reduceRightWithIndex,
-  traverseWithIndex: A.array.traverseWithIndex as any,
-  alt: (fx, fy) => concat(fx, fy())
+  reduce: RNEA.readonlyNonEmptyArray.reduce,
+  foldMap: RNEA.readonlyNonEmptyArray.foldMap,
+  reduceRight: RNEA.readonlyNonEmptyArray.reduceRight,
+  traverse: RNEA.readonlyNonEmptyArray.traverse as any,
+  sequence: RNEA.readonlyNonEmptyArray.sequence as any,
+  reduceWithIndex: RNEA.readonlyNonEmptyArray.reduceWithIndex,
+  foldMapWithIndex: RNEA.readonlyNonEmptyArray.foldMapWithIndex,
+  reduceRightWithIndex: RNEA.readonlyNonEmptyArray.reduceRightWithIndex,
+  traverseWithIndex: RNEA.readonlyNonEmptyArray.traverseWithIndex as any,
+  alt: RNEA.readonlyNonEmptyArray.alt as any
 }
 
 const {
@@ -375,11 +324,9 @@ const {
   reduceWithIndex
 } = pipeable(nonEmptyArray)
 
-const foldMapWithIndex = <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (fa: NonEmptyArray<A>) =>
-  fa.slice(1).reduce((s, a, i) => S.concat(s, f(i + 1, a)), f(0, fa[0]))
+const foldMapWithIndex = RNEA.foldMapWithIndex
 
-const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) =>
-  fa.slice(1).reduce((s, a) => S.concat(s, f(a)), f(fa[0]))
+const foldMap = RNEA.foldMap
 
 export {
   /**
