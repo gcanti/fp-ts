@@ -1,23 +1,20 @@
 /**
- * Adapted from https://github.com/purescript/purescript-tuples
- *
  * @since 2.0.0
  */
-import { Applicative, Applicative2C } from './Applicative'
+import { Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { Chain2C } from './Chain'
 import { ChainRec2C } from './ChainRec'
 import { Comonad2 } from './Comonad'
-import { Either } from './Either'
 import { Foldable2 } from './Foldable'
-import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
+import { pipeable } from './pipeable'
+import * as RT from './ReadonlyTuple'
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
 import { Traversable2 } from './Traversable'
-import { pipeable } from './pipeable'
 
 // tslint:disable:readonly-array
 
@@ -40,115 +37,59 @@ export type URI = typeof URI
 /**
  * @since 2.0.0
  */
-export function fst<A, S>(sa: [A, S]): A {
-  return sa[0]
-}
+export const fst: <A, S>(sa: [A, S]) => A = RT.fst
 
 /**
  * @since 2.0.0
  */
-export function snd<A, S>(sa: [A, S]): S {
-  return sa[1]
-}
+export const snd: <A, S>(sa: [A, S]) => S = RT.snd
 
 /**
  * @since 2.0.0
  */
-export function swap<A, S>(sa: [A, S]): [S, A] {
-  return [snd(sa), fst(sa)]
-}
+export const swap: <A, S>(sa: [A, S]) => [S, A] = RT.swap as any
 
 /**
  * @since 2.0.0
  */
-export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
-  return {
-    URI,
-    _E: undefined as any,
-    map: tuple.map,
-    ap: (fab, fa) => [fst(fab)(fst(fa)), S.concat(snd(fab), snd(fa))]
-  }
-}
-
-const of = <S>(M: Monoid<S>) => <A>(a: A): [A, S] => {
-  return [a, M.empty]
-}
+export const getApply: <S>(S: Semigroup<S>) => Apply2C<URI, S> = RT.getApply as any
 
 /**
  * @since 2.0.0
  */
-export function getApplicative<S>(M: Monoid<S>): Applicative2C<URI, S> {
-  return {
-    ...getApply(M),
-    of: of(M)
-  }
-}
+export const getApplicative: <S>(M: Monoid<S>) => Applicative2C<URI, S> = RT.getApplicative as any
 
 /**
  * @since 2.0.0
  */
-export function getChain<S>(S: Semigroup<S>): Chain2C<URI, S> {
-  return {
-    ...getApply(S),
-    chain: (fa, f) => {
-      const [b, s] = f(fst(fa))
-      return [b, S.concat(snd(fa), s)]
-    }
-  }
-}
+export const getChain: <S>(S: Semigroup<S>) => Chain2C<URI, S> = RT.getChain as any
 
 /**
  * @since 2.0.0
  */
-export function getMonad<S>(M: Monoid<S>): Monad2C<URI, S> {
-  return {
-    ...getChain(M),
-    of: of(M)
-  }
-}
+export const getMonad: <S>(M: Monoid<S>) => Monad2C<URI, S> = RT.getMonad as any
 
 /**
  * @since 2.0.0
  */
-export function getChainRec<S>(M: Monoid<S>): ChainRec2C<URI, S> {
-  const chainRec = <A, B>(a: A, f: (a: A) => [Either<A, B>, S]): [B, S] => {
-    let result: [Either<A, B>, S] = f(a)
-    let acc: S = M.empty
-    let s: Either<A, B> = fst(result)
-    while (s._tag === 'Left') {
-      acc = M.concat(acc, snd(result))
-      result = f(s.left)
-      s = fst(result)
-    }
-    return [s.right, M.concat(acc, snd(result))]
-  }
-
-  return {
-    ...getChain(M),
-    chainRec
-  }
-}
+export const getChainRec: <S>(M: Monoid<S>) => ChainRec2C<URI, S> = RT.getChainRec as any
 
 /**
  * @since 2.0.0
  */
 export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,
-  compose: (ba, ae) => [fst(ba), snd(ae)],
-  map: (ae, f) => [f(fst(ae)), snd(ae)],
-  bimap: (fea, f, g) => [g(fst(fea)), f(snd(fea))],
-  mapLeft: (fea, f) => [fst(fea), f(snd(fea))],
+  compose: RT.readonlyTuple.compose as any,
+  map: RT.readonlyTuple.map as any,
+  bimap: RT.readonlyTuple.bimap as any,
+  mapLeft: RT.readonlyTuple.mapLeft as any,
   extract: fst,
-  extend: (ae, f) => [f(ae), snd(ae)],
-  reduce: (ae, b, f) => f(b, fst(ae)),
-  foldMap: _ => (ae, f) => f(fst(ae)),
-  reduceRight: (ae, b, f) => f(fst(ae), b),
-  traverse: <F>(F: Applicative<F>) => <A, S, B>(as: [A, S], f: (a: A) => HKT<F, B>): HKT<F, [B, S]> => {
-    return F.map(f(fst(as)), b => [b, snd(as)])
-  },
-  sequence: <F>(F: Applicative<F>) => <A, S>(fas: [HKT<F, A>, S]): HKT<F, [A, S]> => {
-    return F.map(fst(fas), a => [a, snd(fas)])
-  }
+  extend: RT.readonlyTuple.extend as any,
+  reduce: RT.readonlyTuple.reduce as any,
+  foldMap: RT.readonlyTuple.foldMap as any,
+  reduceRight: RT.readonlyTuple.reduceRight as any,
+  traverse: RT.readonlyTuple.traverse as any,
+  sequence: RT.readonlyTuple.sequence as any
 }
 
 const { bimap, compose, duplicate, extend, foldMap, map, mapLeft, reduce, reduceRight } = pipeable(tuple)
