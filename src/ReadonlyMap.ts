@@ -47,6 +47,13 @@ export function fromMap<K, A>(m: Map<K, A>): ReadonlyMap<K, A> {
 /**
  * @since 2.5.0
  */
+export function toMap<K, A>(m: ReadonlyMap<K, A>): Map<K, A> {
+  return new Map(m)
+}
+
+/**
+ * @since 2.5.0
+ */
 export function getShow<K, A>(SK: Show<K>, SA: Show<A>): Show<ReadonlyMap<K, A>> {
   return {
     show: m => {

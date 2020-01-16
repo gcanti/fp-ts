@@ -238,4 +238,11 @@ describe('ReadonlySet', () => {
     assert.deepStrictEqual(bs, as)
     assert.notStrictEqual(bs, as)
   })
+
+  it('toSet', () => {
+    const as: ReadonlySet<string> = new Set(['a'])
+    const bs = _.toSet(as)
+    assert.deepStrictEqual(bs, as)
+    assert.notStrictEqual(bs, as)
+  })
 })

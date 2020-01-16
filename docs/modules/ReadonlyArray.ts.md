@@ -70,6 +70,7 @@ Added in v2.5.0
 - [takeLeft (function)](#takeleft-function)
 - [takeLeftWhile (function)](#takeleftwhile-function)
 - [takeRight (function)](#takeright-function)
+- [toArray (function)](#toarray-function)
 - [union (function)](#union-function)
 - [uniq (function)](#uniq-function)
 - [unsafeDeleteAt (function)](#unsafedeleteat-function)
@@ -1366,6 +1367,16 @@ export function takeRight(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray
 import { takeRight } from 'fp-ts/lib/ReadonlyArray'
 
 assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
+```
+
+Added in v2.5.0
+
+# toArray (function)
+
+**Signature**
+
+```ts
+export function toArray<A>(ras: ReadonlyArray<A>): Array<A> { ... }
 ```
 
 Added in v2.5.0

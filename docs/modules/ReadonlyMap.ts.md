@@ -37,6 +37,7 @@ Added in v2.5.0
 - [pop (function)](#pop-function)
 - [singleton (function)](#singleton-function)
 - [size (function)](#size-function)
+- [toMap (function)](#tomap-function)
 - [toReadonlyArray (function)](#toreadonlyarray-function)
 - [toUnfoldable (function)](#tounfoldable-function)
 - [updateAt (function)](#updateat-function)
@@ -348,6 +349,16 @@ Calculate the number of key/value pairs in a map
 
 ```ts
 export function size<K, A>(d: ReadonlyMap<K, A>): number { ... }
+```
+
+Added in v2.5.0
+
+# toMap (function)
+
+**Signature**
+
+```ts
+export function toMap<K, A>(m: ReadonlyMap<K, A>): Map<K, A> { ... }
 ```
 
 Added in v2.5.0

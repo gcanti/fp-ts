@@ -49,6 +49,7 @@ Added in v2.5.0
 - [singleton (function)](#singleton-function)
 - [size (function)](#size-function)
 - [some (function)](#some-function)
+- [toRecord (function)](#torecord-function)
 - [toUnfoldable (function)](#tounfoldable-function)
 - [traverse (function)](#traverse-function)
 - [traverseWithIndex (function)](#traversewithindex-function)
@@ -613,6 +614,16 @@ Added in v2.5.0
 
 ```ts
 export function some<A>(predicate: (a: A) => boolean): (r: ReadonlyRecord<string, A>) => boolean { ... }
+```
+
+Added in v2.5.0
+
+# toRecord (function)
+
+**Signature**
+
+```ts
+export function toRecord<K extends string, A>(r: ReadonlyRecord<K, A>): Record<K, A> { ... }
 ```
 
 Added in v2.5.0

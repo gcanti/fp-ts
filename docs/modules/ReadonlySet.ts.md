@@ -39,6 +39,7 @@ Added in v2.5.0
 - [some (function)](#some-function)
 - [subset (function)](#subset-function)
 - [toReadonlyArray (function)](#toreadonlyarray-function)
+- [toSet (function)](#toset-function)
 - [union (function)](#union-function)
 
 ---
@@ -348,6 +349,16 @@ Added in v2.5.0
 
 ```ts
 export function toReadonlyArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => ReadonlyArray<A> { ... }
+```
+
+Added in v2.5.0
+
+# toSet (function)
+
+**Signature**
+
+```ts
+export function toSet<A>(s: ReadonlySet<A>): Set<A> { ... }
 ```
 
 Added in v2.5.0

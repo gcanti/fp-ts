@@ -1049,4 +1049,11 @@ describe('ReadonlyMap', () => {
     assert.deepStrictEqual(bs, as)
     assert.notStrictEqual(bs, as)
   })
+
+  it('toMap', () => {
+    const as: ReadonlyMap<number, string> = new Map([[1, 'a']])
+    const bs = _.toMap(as)
+    assert.deepStrictEqual(bs, as)
+    assert.notStrictEqual(bs, as)
+  })
 })

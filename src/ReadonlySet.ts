@@ -21,6 +21,13 @@ export function fromSet<A>(s: Set<A>): ReadonlySet<A> {
 /**
  * @since 2.5.0
  */
+export function toSet<A>(s: ReadonlySet<A>): Set<A> {
+  return new Set(s)
+}
+
+/**
+ * @since 2.5.0
+ */
 export function getShow<A>(S: Show<A>): Show<ReadonlySet<A>> {
   return {
     show: s => {

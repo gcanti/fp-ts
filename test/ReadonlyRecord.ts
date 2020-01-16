@@ -367,4 +367,11 @@ describe('ReadonlyRecord', () => {
     assert.deepStrictEqual(bs, as)
     assert.notStrictEqual(bs, as)
   })
+
+  it('toRecord', () => {
+    const as: _.ReadonlyRecord<string, number> = { a: 1, b: 2 }
+    const bs = _.toRecord(as)
+    assert.deepStrictEqual(bs, as)
+    assert.notStrictEqual(bs, as)
+  })
 })
