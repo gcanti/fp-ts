@@ -1,6 +1,6 @@
 import * as Benchmark from 'benchmark'
 import { map, filter } from '../../src/Array'
-import { pipeOp } from '../../src/function'
+import { pipe } from '../../src/pipeable'
 
 const suite = new Benchmark.Suite()
 
@@ -11,8 +11,8 @@ suite
   .add('native', function() {
     as.map(double).filter(n => n > 2)
   })
-  .add('pipeOp', function() {
-    pipeOp(as, map(double), filter(n => n > 2))
+  .add('pipe', function() {
+    pipe(as, map(double), filter(n => n > 2))
   })
   .on('cycle', function(event: any) {
     // tslint:disable-next-line: no-console
