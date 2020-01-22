@@ -122,6 +122,18 @@ const maybe = <A, B>(whenNone: () => B, whenSome: (a: A) => B, fa: Option<A>): B
 }
 ```
 
+Here TypeScript also provides exhaustiveness check as the function would otherwise
+lack ending return statement and its return type does not include 'undefined'.
+
+Alternatively you can provide a default case using `absurd` function
+from `fp-ts/lib/function` which would force unification of unmatched cases
+with type `never`:
+
+```ts
+    default:
+      return absurd(fa)
+```
+
 ## Type classes
 
 PureScript
