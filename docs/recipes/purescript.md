@@ -94,9 +94,9 @@ export interface Some<A> {
   readonly value: A
 }
 
-export const none: Option<never> = { _tag: 'None' }
+export const none: Option<never> = ({ _tag: 'None' })
 
-export const some = <A>(a: A): Option<A> => new Some(a)
+export const some = <A>(a: A): Option<A> => ({ _tag: 'Some', value: a })
 ```
 
 ## Pattern matching
