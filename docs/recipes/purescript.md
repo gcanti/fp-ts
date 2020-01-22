@@ -112,7 +112,7 @@ maybe _ f (Some a) = f a
 TypeScript
 
 ```ts
-function maybe<A, B>(whenNone: () => B, whenSome: (a: A) => B, fa: Option<A>): B => {
+const maybe = <A, B>(whenNone: () => B, whenSome: (a: A) => B, fa: Option<A>): B => {
   switch (fa._tag) {
     case 'None' :
       return whenNone()
