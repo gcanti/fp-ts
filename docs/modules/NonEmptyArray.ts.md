@@ -51,6 +51,7 @@ Added in v2.0.0
 - [duplicate (export)](#duplicate-export)
 - [extend (export)](#extend-export)
 - [flatten (export)](#flatten-export)
+- [fold (export)](#fold-export)
 - [foldMap (export)](#foldmap-export)
 - [foldMapWithIndex (export)](#foldmapwithindex-export)
 - [map (export)](#map-export)
@@ -531,6 +532,16 @@ Added in v2.0.0
 ```
 
 Added in v2.0.0
+
+# fold (export)
+
+**Signature**
+
+```ts
+;<A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A
+```
+
+Added in v2.5.0
 
 # foldMap (export)
 
