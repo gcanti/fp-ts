@@ -214,9 +214,9 @@ export function groupSort<A>(O: Ord<A>): (as: Array<A>) => Array<NonEmptyArray<A
  *
  * @since 2.0.0
  */
-export function groupBy<A>(f: (a: A) => string): (as: Array<A>) => Record<string, NonEmptyArray<A>> {
+export function groupBy<A, B extends string | number | symbol>(f: (a: A) => B): (as: Array<A>) => Record<B, NonEmptyArray<A>> {
   return as => {
-    const r: Record<string, NonEmptyArray<A>> = {}
+    const r = {} as Record<B, NonEmptyArray<A>>
     for (const a of as) {
       const k = f(a)
       if (r.hasOwnProperty(k)) {
