@@ -96,8 +96,6 @@ const computation: IO<Result> = sequenceS(io)(computations)
 computation() // returns { name: 'Aristotle', age: 60 }
 ```
 
-See [Getting started with fp-ts: IO](https://gcanti.github.io/fp-ts/getting-started/IO.html)
-
 Added in v2.0.0
 
 ---

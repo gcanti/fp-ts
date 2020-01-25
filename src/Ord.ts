@@ -7,8 +7,6 @@
  * 2. Antisymmetry: if `S.compare(a, b) <= 0` and `S.compare(b, a) <= 0` then `a <-> b`
  * 3. Transitivity: if `S.compare(a, b) <= 0` and `S.compare(b, c) <= 0` then `S.compare(a, c) <= 0`
  *
- * See [Getting started with fp-ts: Ord](https://gcanti.github.io/fp-ts/getting-started/Ord.html)
- *
  * @since 2.0.0
  */
 import { Ordering, monoidOrdering } from './Ordering'

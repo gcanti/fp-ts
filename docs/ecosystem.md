@@ -1,7 +1,8 @@
 ---
 title: Ecosystem
-parent: Introduction
+permalink: /ecosystem/
 nav_order: 3
+has_children: false
 has_toc: false
 ---
 

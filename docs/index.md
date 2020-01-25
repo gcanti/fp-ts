@@ -2,7 +2,7 @@
 title: Introduction
 permalink: /
 nav_order: 1
-has_children: true
+has_children: false
 has_toc: false
 ---
 
@@ -13,28 +13,26 @@ has_toc: false
 `fp-ts` provides developers with popular patterns and reliable abstractions from typed functional languages in TypeScript.
 {: .fs-6 .fw-300 }
 
-[Get started](./introduction/core-concepts){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+## Core Concepts
 
----
+The goal of `fp-ts` is to empower developers to write pure FP apps and libraries built atop higher order abstractions. It includes the most popular data types, type classes, and abstractions from languages like [Haskell](https://haskell-lang.org), [PureScript](http://www.purescript.org), and [Scala](https://www.scala-lang.org/).
 
-## Installation
+## Functions
 
-To install the stable version:
+Functional programming is all about pure functions and how to compose them into bigger structures. `fp-ts` provides a few general [functions](../modules/function.ts) to support you with composition, constant functions, and more.
 
-```
-npm install fp-ts
-```
+## Data Types
 
-Make sure to always have a single version of `fp-ts` installed in your project. Multiple versions are known to cause `tsc` to hang during compilation. You can check the versions currently installed using `npm ls fp-ts` (make sure there's a single version and all the others are marked as `deduped`).
+Data types are the practical part of `fp-ts`: you can instantiate them with your data to gain properties and functionality that are useful for solving a specific need. Because data types all share common interfaces (through [type classes](#type-classes)), once you learn how to use one data type, you can apply the same concepts to the others.
 
-## TypeScript compatibility
+Many functions in `fp-ts` use [ad hoc polymorphism](https://en.wikipedia.org/wiki/Ad_hoc_polymorphism), meaning that they have a single implementation that can deal with arguments of different types. To make this work, it is often necessary to provide a data type [_instance_](./HKT.md) that provides functionality that is specific to the data type.
 
-**Strictness** – This library is conceived, tested and is supposed to be consumed by TypeScript with the `strict` flag turned on.
+**Note**. Data types are not stack safe and there is no trampolining implementation.
 
-| `fp-ts` version | required `typescript` version |
-| --------------- | ----------------------------- |
-| 2.0.x+          | 3.5+                          |
-| 1.15.x+         | 3.1+                          |
-| <= 1.14.4       | 2.8+ (\*)                     |
+## Type Classes
 
-(\*) If you are running `< typescript@3.0.1` you have to polyfill the `unknown` type. You can use [unknown-ts](https://github.com/gcanti/unknown-ts) as a polyfill.
+Type classes provide the theoretical underpinnings of `fp-ts`: they describe what you can do with your data. To guarantee that they can be safely composed, they are built on laws rooted in abstract algebra and [category theory](https://en.wikipedia.org/wiki/Category_theory).
+
+## Higher Kinded Types
+
+A distinctive feature of `fp-ts` with respect to other functional libraries is its implementation of [Higher Kinded Types](<https://en.wikipedia.org/wiki/Kind_(type_theory)>), which TypeScript doesn't support natively. The idea for emulating higher kinded types in TypeScript is based on [Lightweight higher-kinded polymorphism](https://www.cl.cam.ac.uk/~jdy22/papers/lightweight-higher-kinded-polymorphism.pdf).

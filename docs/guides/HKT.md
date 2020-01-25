@@ -1,7 +1,7 @@
 ---
 title: Write type class instances
-parent: Recipes
-nav_order: 6
+parent: Guides
+nav_order: 1
 ---
 
 # How to write type class instances for your data type
@@ -165,7 +165,7 @@ There's a problem though, this doesn't type check
 ```ts
 const double = (n: number): number => n * 2
 
-//                        v-- the Functor instance of Identity
+//                             v-- the Functor instance of Identity
 const doubleIdentity = lift(identity)(double)
 ```
 
@@ -191,10 +191,10 @@ export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>
 Now we can lift `double` to both `Identity` and `Either`
 
 ```ts
-//                          v-- the Functor instance of Identity
+//                             v-- the Functor instance of Identity
 const doubleIdentity = lift(identity)(double)
 
-//                        v-- the Functor instance of Either
+//                           v-- the Functor instance of Either
 const doubleEither = lift(either)(double)
 ```
 

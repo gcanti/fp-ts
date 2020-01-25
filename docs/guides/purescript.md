@@ -1,7 +1,7 @@
 ---
 title: Migrate from PureScript/Haskell
-parent: Recipes
-nav_order: 8
+parent: Guides
+nav_order: 2
 ---
 
 # Migrate from PureScript/Haskell
@@ -53,8 +53,14 @@ data Foo = Bar String | Baz Boolean
 TypeScript
 
 ```ts
-interface Bar { type: 'Bar'; value: string }
-interface Baz { type: 'Baz'; value: boolean }
+interface Bar {
+  type: 'Bar'
+  value: string
+}
+interface Baz {
+  type: 'Baz'
+  value: boolean
+}
 // type
 type Foo = Bar | Baz
 // constructors
@@ -94,7 +100,7 @@ export interface Some<A> {
   readonly value: A
 }
 
-export const none: Option<never> = ({ _tag: 'None' })
+export const none: Option<never> = { _tag: 'None' }
 
 export const some = <A>(a: A): Option<A> => ({ _tag: 'Some', value: a })
 ```
@@ -112,11 +118,11 @@ maybe _ f (Some a) = f a
 TypeScript
 
 ```ts
-const maybe = <A, B>(whenNone: () => B, whenSome: (a: A) => B, fa: Option<A>): B => {
+function maybe<A, B>(whenNone: () => B, whenSome: (a: A) => B, fa: Option<A>): B {
   switch (fa._tag) {
-    case 'None' :
+    case 'None':
       return whenNone()
-    case 'Some' :
+    case 'Some':
       return whenSome(fa.value)
   }
 }
@@ -187,7 +193,12 @@ TypeScript
 
 ```ts
 const functorOption: Functor1<'Option'> = {
-  map: (fa, f) => maybe(() => none, a => some(f(fa.value)), fa)
+  map: (fa, f) =>
+    maybe(
+      () => none,
+      a => some(f(fa.value)),
+      fa
+    )
 }
 ```
 
@@ -246,17 +257,9 @@ const fa = O.some(1)
 const fb = O.some('foo')
 const f = (a: number) => (b: string): boolean => a + b.length > 2
 
-const fc1 = pipe(
-  O.some(f),
-  O.ap(fa),
-  O.ap(fb)
-)
+const fc1 = pipe(O.some(f), O.ap(fa), O.ap(fb))
 
-const fc2 = pipe(
-  fa,
-  O.map(f),
-  O.ap(fb)
-)
+const fc2 = pipe(fa, O.map(f), O.ap(fb))
 
 const fc3 = pipe(
   sequenceT(O.option)(fa, fb),

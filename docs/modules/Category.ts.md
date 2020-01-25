@@ -6,8 +6,6 @@ parent: Modules
 
 # Category overview
 
-See [Getting started with fp-ts: Category](https://gcanti.github.io/fp-ts/getting-started/Category.html)
-
 Added in v2.0.0
 
 ---

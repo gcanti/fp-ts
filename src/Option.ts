@@ -16,6 +16,13 @@
  * an instance of `Some<A>`, containing the present value of type `A`. If the value is absent, the `Option<A>` is an
  * instance of `None`.
  *
+ * ```ts
+ * import { lookup } from 'fp-ts/lib/Array'
+ *
+ * const as: Array<string> = []
+ * lookup(0, as) // => Option<string>
+ * ```
+ *
  * An option could be looked at as a collection or foldable structure with either one or zero elements.
  * Another way to look at option is: it represents the effect of a possibly failing computation.
  *

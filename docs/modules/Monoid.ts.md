@@ -6,8 +6,6 @@ parent: Modules
 
 # Monoid overview
 
-See [Getting started with fp-ts: Monoid](https://gcanti.github.io/fp-ts/getting-started/Monoid.html)
-
 Added in v2.0.0
 
 ---

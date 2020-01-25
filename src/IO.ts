@@ -89,8 +89,6 @@
  * computation() // returns { name: 'Aristotle', age: 60 }
  * ```
  *
- * See [Getting started with fp-ts: IO](https://gcanti.github.io/fp-ts/getting-started/IO.html)
- *
  * @since 2.0.0
  */
 import { identity } from './function'

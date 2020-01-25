@@ -10,9 +10,11 @@
  * For example, you could use `Either<string, number>` to detect whether a received input is a `string` or a `number`.
  *
  * ```ts
- * const parse = (errorMessage: string) => (input: string): Either<string, number> => {
+ * import { Either, left, right } from 'fp-ts/lib/Either'
+ *
+ * function parse(input: string): Either<Error, number> {
  *   const n = parseInt(input, 10)
- *   return isNaN(n) ? left(errorMessage) : right(n)
+ *   return isNaN(n) ? left(new Error('not a number')) : right(n)
  * }
  * ```
  *
@@ -20,10 +22,11 @@
  * operations like `map`, `chain`, ... return the `Left` value unchanged:
  *
  * ```ts
- * import { either } from 'fp-ts/lib/Either'
+ * import { map, left, right } from 'fp-ts/lib/Either'
+ * import { pipe } from 'fp-ts/lib/pipeable'
  *
- * either.map(right(12), double) // right(24)
- * either.map(left(23), double)  // left(23)
+ * pipe(right(12), map(double)) // right(24)
+ * pipe(left(23), map(double))  // left(23)
  * ```
  *
  * @since 2.0.0
@@ -471,8 +474,6 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
 }
 
 /**
- * See [Getting started with fp-ts: Either vs Validation](https://gcanti.github.io/fp-ts/getting-started/either-vs-validation.html)
- *
  * @since 2.0.0
  */
 export function getValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E> {
