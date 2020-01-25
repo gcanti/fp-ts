@@ -88,7 +88,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export const asks: <R, A = ...
+export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> = ...
 ```
 
 Added in v2.3.0
@@ -98,7 +98,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export const fromReader: <R, A = ...
+export const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A> = ...
 ```
 
 Added in v2.3.0
