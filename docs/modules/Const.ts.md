@@ -81,7 +81,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const make: <E, A = ...
+export const make: <E, A = never>(l: E) => Const<E, A> = ...
 ```
 
 Added in v2.0.0

@@ -85,7 +85,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const left: <R, E = ...
+export const left: <R, E = never, A = never>(e: E) => ReaderEither<R, E, A> = ...
 ```
 
 Added in v2.0.0
@@ -95,7 +95,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const leftReader: <R, E = ...
+export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderEither<R, E, A> = ...
 ```
 
 Added in v2.0.0
@@ -115,7 +115,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const right: <R, E = ...
+export const right: <R, E = never, A = never>(a: A) => ReaderEither<R, E, A> = ...
 ```
 
 Added in v2.0.0
@@ -125,7 +125,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const rightReader: <R, E = ...
+export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderEither<R, E, A> = ...
 ```
 
 Added in v2.0.0

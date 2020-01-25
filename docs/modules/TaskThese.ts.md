@@ -90,7 +90,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export const left: <E = ...
+export const left: <E = never, A = never>(e: E) => TaskThese<E, A> = ...
 ```
 
 Added in v2.4.0
@@ -100,7 +100,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export const leftTask: <E = ...
+export const leftTask: <E = never, A = never>(me: Task<E>) => TaskThese<E, A> = ...
 ```
 
 Added in v2.4.0
@@ -110,7 +110,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export const right: <E = ...
+export const right: <E = never, A = never>(a: A) => TaskThese<E, A> = ...
 ```
 
 Added in v2.4.0
@@ -120,7 +120,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export const rightTask: <E = ...
+export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskThese<E, A> = ...
 ```
 
 Added in v2.4.0

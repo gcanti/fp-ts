@@ -101,7 +101,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const ask: <R, E = ...
+export const ask: <R, E = never>() => ReaderTaskEither<R, E, R> = ...
 ```
 
 Added in v2.0.0
@@ -111,7 +111,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const asks: <R, E = ...
+export const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A> = ...
 ```
 
 Added in v2.0.0
@@ -153,7 +153,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const right: <R, E = ...
+export const right: <R, E = never, A = never>(a: A) => ReaderTaskEither<R, E, A> = ...
 ```
 
 Added in v2.0.0
@@ -163,7 +163,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const rightReader: <R, E = ...
+export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderTaskEither<R, E, A> = ...
 ```
 
 Added in v2.0.0

@@ -131,7 +131,7 @@ Get the current state
 **Signature**
 
 ```ts
-export const get: <S, R, E = ...
+export const get: <S, R, E = never>() => StateReaderTaskEither<S, R, E, S> = ...
 ```
 
 Added in v2.0.0
@@ -143,7 +143,7 @@ Get a value which depends on the current state
 **Signature**
 
 ```ts
-export const gets: <S, R, E = ...
+export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTaskEither<S, R, E, A> = ...
 ```
 
 Added in v2.0.0
@@ -155,7 +155,7 @@ Modify the state by applying a function to the current state
 **Signature**
 
 ```ts
-export const modify: <S, R, E = ...
+export const modify: <S, R, E = never>(f: (s: S) => S) => StateReaderTaskEither<S, R, E, void> = ...
 ```
 
 Added in v2.0.0
@@ -167,7 +167,7 @@ Set the state
 **Signature**
 
 ```ts
-export const put: <S, R, E = ...
+export const put: <S, R, E = never>(s: S) => StateReaderTaskEither<S, R, E, void> = ...
 ```
 
 Added in v2.0.0
@@ -177,7 +177,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const right: <S, R, E = ...
+export const right: <S, R, E = never, A = never>(a: A) => StateReaderTaskEither<S, R, E, A> = ...
 ```
 
 Added in v2.0.0
@@ -187,7 +187,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const rightState: <S, R, E = ...
+export const : <S, R, E = never, A = never>(ma: State<S, A>) => StateReaderTaskEither<S, R, E, A> = ...
 ```
 
 Added in v2.0.0
