@@ -7,7 +7,6 @@
  * Takes two thunks `onTrue`, `onFalse` and a `boolean` value.
  * If `value` is false, `onFalse()` is returned, otherwise `onTrue()`.
  *
- *
  * @example
  * import { some, map } from 'fp-ts/lib/Option'
  * import { pipe } from 'fp-ts/lib/pipeable'

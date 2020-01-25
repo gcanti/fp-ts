@@ -6,8 +6,6 @@ parent: Modules
 
 # Array overview
 
-Adapted from https://github.com/purescript/purescript-arrays
-
 Added in v2.0.0
 
 ---

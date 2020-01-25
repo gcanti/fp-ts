@@ -1,6 +1,4 @@
 /**
- * See [Getting started with fp-ts: Category](https://gcanti.github.io/fp-ts/getting-started/Category.html)
- *
  * @since 2.0.0
  */
 import { HKT2, Kind2, Kind3, URIS2, URIS3, URIS4, Kind4 } from './HKT'

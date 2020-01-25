@@ -9,8 +9,6 @@
  * 1. Identity: `F.map(fa, a => a) = fa`
  * 2. Composition: `F.map(fa, a => bc(ab(a))) = F.map(F.map(fa, ab), bc)`
  *
- * See [Getting started with fp-ts: Functor](https://gcanti.github.io/fp-ts/getting-started/Functor.html)
- *
  * @since 2.0.0
  */
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'

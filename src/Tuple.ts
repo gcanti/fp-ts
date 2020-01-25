@@ -1,6 +1,4 @@
 /**
- * Adapted from https://github.com/purescript/purescript-tuples
- *
  * @since 2.0.0
  */
 import { Applicative, Applicative2C } from './Applicative'

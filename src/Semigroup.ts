@@ -1,6 +1,4 @@
 /**
- * See [Getting started with fp-ts: Semigroup](https://gcanti.github.io/fp-ts/getting-started/Semigroup.html)
- *
  * @since 2.0.0
  */
 import { Ord, max, min } from './Ord'

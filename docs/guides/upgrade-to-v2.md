@@ -1,8 +1,7 @@
 ---
 title: Upgrade to fp-ts 2.x
-parent: Introduction
-nav_order: 5
-has_toc: false
+parent: Guides
+nav_order: 3
 ---
 
 # Upgrade to version 2.x
@@ -71,7 +70,10 @@ O.some(1)
   .map(n => n * 2)
   .chain(n => (n === 0 ? O.none : O.some(1 / n)))
   .filter(n => n > 1)
-  .foldL(() => 'ko', () => 'ok')
+  .foldL(
+    () => 'ko',
+    () => 'ok'
+  )
 ```
 
 v2 (new)
@@ -86,7 +88,10 @@ pipe(
   O.map(n => n * 2),
   O.chain(n => (n === 0 ? O.none : O.some(1 / n))),
   O.filter(n => n > 1),
-  O.fold(() => 'ko', () => 'ok')
+  O.fold(
+    () => 'ko',
+    () => 'ok'
+  )
 )
 ```
 
@@ -96,7 +101,13 @@ We recommend to use `pipe` even if you work with just one function, as it allows
 import * as O from 'fp-ts/lib/Option'
 import { pipe } from 'fp-ts/lib/pipeable'
 
-pipe(O.some(1), O.fold(() => 'ko', n => `ok: ${n}`))
+pipe(
+  O.some(1),
+  O.fold(
+    () => 'ko',
+    n => `ok: ${n}`
+  )
+)
 ```
 
 If you are interested, read about the [benefits of the new API](https://github.com/gcanti/fp-ts/issues/823#issuecomment-486066792) in the technical discussion leading to `fp-ts@2.x`.
@@ -141,7 +152,7 @@ v1 (deprecated)
 ```ts
 import * as O from 'fp-ts/lib/Option'
 
-O.some(1).getOrElse(0)        // Direct
+O.some(1).getOrElse(0) // Direct
 O.some(1).getOrElseL(() => 0) // Lazy, i.e. only run if needed
 ```
 

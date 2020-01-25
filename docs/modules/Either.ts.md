@@ -17,9 +17,11 @@ dictates that `Left` is used for failure and `Right` is used for success.
 For example, you could use `Either<string, number>` to detect whether a received input is a `string` or a `number`.
 
 ```ts
-const parse = (errorMessage: string) => (input: string): Either<string, number> => {
+import { Either, left, right } from 'fp-ts/lib/Either'
+
+function parse(input: string): Either<Error, number> {
   const n = parseInt(input, 10)
-  return isNaN(n) ? left(errorMessage) : right(n)
+  return isNaN(n) ? left(new Error('not a number')) : right(n)
 }
 ```
 
@@ -27,10 +29,11 @@ const parse = (errorMessage: string) => (input: string): Either<string, number> 
 operations like `map`, `chain`, ... return the `Left` value unchanged:
 
 ```ts
-import { either } from 'fp-ts/lib/Either'
+import { map, left, right } from 'fp-ts/lib/Either'
+import { pipe } from 'fp-ts/lib/pipeable'
 
-either.map(right(12), double) // right(24)
-either.map(left(23), double) // left(23)
+pipe(right(12), map(double)) // right(24)
+pipe(left(23), map(double)) // left(23)
 ```
 
 Added in v2.0.0
@@ -344,8 +347,6 @@ export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>> { ..
 Added in v2.0.0
 
 # getValidation (function)
-
-See [Getting started with fp-ts: Either vs Validation](https://gcanti.github.io/fp-ts/getting-started/either-vs-validation.html)
 
 **Signature**
 

@@ -6,8 +6,6 @@ parent: Modules
 
 # Semigroup overview
 
-See [Getting started with fp-ts: Semigroup](https://gcanti.github.io/fp-ts/getting-started/Semigroup.html)
-
 Added in v2.0.0
 
 ---
