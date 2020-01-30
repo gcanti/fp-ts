@@ -1,7 +1,7 @@
 ---
 title: Write type class instances
 parent: Guides
-nav_order: 1
+nav_order: 2
 ---
 
 # How to write type class instances for your data type

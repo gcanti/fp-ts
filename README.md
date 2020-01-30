@@ -36,6 +36,7 @@ A distinctive feature of `fp-ts` with respect to other functional libraries is i
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 **Table of contents**
 
 - [Installation](#installation)
@@ -90,16 +91,15 @@ Note that there are caveats such as some tools (e.g. Jest) not supporting ES6 mo
 # Documentation
 
 - [Docs](https://gcanti.github.io/fp-ts)
-- [Core Concepts](https://gcanti.github.io/fp-ts/introduction/core-concepts)
-- [Learning Resources](https://gcanti.github.io/fp-ts/introduction/learning-resources)
-- [Ecosystem](https://gcanti.github.io/fp-ts/introduction/ecosystem)
+- [Learning Resources](https://gcanti.github.io/fp-ts/learning-resources/)
+- [Ecosystem](https://gcanti.github.io/fp-ts/ecosystem/)
 - API Reference
   - [version 2.x (current)](https://gcanti.github.io/fp-ts/modules/)
   - [version 1.x](https://github.com/gcanti/fp-ts/tree/1.x/docs/modules/)
 
 # Development
 
-- [Code conventions](https://gcanti.github.io/fp-ts/introduction/code-conventions)
+- [Code conventions](https://gcanti.github.io/fp-ts/guides/code-conventions)
 
 # License
 

@@ -1,7 +1,7 @@
 ---
 title: Migrate from PureScript/Haskell
 parent: Guides
-nav_order: 2
+nav_order: 3
 ---
 
 # Migrate from PureScript/Haskell
