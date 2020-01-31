@@ -20,7 +20,7 @@ Added in v2.0.0
 - [StateT1 (interface)](#statet1-interface)
 - [StateT2 (interface)](#statet2-interface)
 - [StateT3 (interface)](#statet3-interface)
-- [getStateM (function)](#getstatem-function)
+- [getStateM](#getstatem)
 
 ---
 
@@ -170,7 +170,7 @@ export interface StateT3<M extends URIS3, S, R, E, A> {
 
 Added in v2.0.0
 
-# getStateM (function)
+# getStateM
 
 **Signature**
 

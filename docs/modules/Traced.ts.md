@@ -14,14 +14,14 @@ Added in v2.0.0
 
 - [Traced (interface)](#traced-interface)
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [traced (constant)](#traced-constant)
-- [censor (function)](#censor-function)
-- [getComonad (function)](#getcomonad-function)
-- [listen (function)](#listen-function)
-- [listens (function)](#listens-function)
-- [tracks (function)](#tracks-function)
-- [map (export)](#map-export)
+- [URI](#uri)
+- [censor](#censor)
+- [getComonad](#getcomonad)
+- [listen](#listen)
+- [listens](#listens)
+- [map](#map)
+- [traced](#traced)
+- [tracks](#tracks)
 
 ---
 
@@ -47,7 +47,7 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -57,17 +57,7 @@ export const URI: "Traced" = ...
 
 Added in v2.0.0
 
-# traced (constant)
-
-**Signature**
-
-```ts
-export const traced: Functor2<URI> = ...
-```
-
-Added in v2.0.0
-
-# censor (function)
+# censor
 
 Apply a function to the current position
 
@@ -79,7 +69,7 @@ export function censor<P>(f: (p: P) => P): <A>(wa: Traced<P, A>) => Traced<P, A>
 
 Added in v2.0.0
 
-# getComonad (function)
+# getComonad
 
 **Signature**
 
@@ -89,7 +79,7 @@ export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> { ... }
 
 Added in v2.0.0
 
-# listen (function)
+# listen
 
 Get the current position
 
@@ -101,7 +91,7 @@ export function listen<P, A>(wa: Traced<P, A>): Traced<P, [A, P]> { ... }
 
 Added in v2.0.0
 
-# listens (function)
+# listens
 
 Get a value which depends on the current position
 
@@ -113,7 +103,27 @@ export function listens<P, B>(f: (p: P) => B): <A>(wa: Traced<P, A>) => Traced<P
 
 Added in v2.0.0
 
-# tracks (function)
+# map
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => <E>(fa: Traced<E, A>) => Traced<E, B>
+```
+
+Added in v2.0.0
+
+# traced
+
+**Signature**
+
+```ts
+export const traced: Functor2<URI> = ...
+```
+
+Added in v2.0.0
+
+# tracks
 
 Extracts a value at a relative position which depends on the current value.
 
@@ -121,16 +131,6 @@ Extracts a value at a relative position which depends on the current value.
 
 ```ts
 export function tracks<P, A>(M: Monoid<P>, f: (a: A) => P): (wa: Traced<P, A>) => A { ... }
-```
-
-Added in v2.0.0
-
-# map (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => B) => <E>(fa: Traced<E, A>) => Traced<E, B>
 ```
 
 Added in v2.0.0

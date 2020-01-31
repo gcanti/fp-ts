@@ -18,7 +18,7 @@ Added in v2.0.0
 - [EitherT (interface)](#eithert-interface)
 - [EitherT1 (type alias)](#eithert1-type-alias)
 - [EitherT2 (type alias)](#eithert2-type-alias)
-- [getEitherM (function)](#geteitherm-function)
+- [getEitherM](#geteitherm)
 
 ---
 
@@ -129,7 +129,7 @@ export type EitherT2<M extends URIS2, R, E, A> = Kind2<M, R, Either<E, A>>
 
 Added in v2.0.0
 
-# getEitherM (function)
+# getEitherM
 
 **Signature**
 

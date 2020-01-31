@@ -14,15 +14,15 @@ Added in v2.0.0
 
 - [Store (interface)](#store-interface)
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [store (constant)](#store-constant)
-- [experiment (function)](#experiment-function)
-- [peeks (function)](#peeks-function)
-- [seek (function)](#seek-function)
-- [seeks (function)](#seeks-function)
-- [duplicate (export)](#duplicate-export)
-- [extend (export)](#extend-export)
-- [map (export)](#map-export)
+- [URI](#uri)
+- [duplicate](#duplicate)
+- [experiment](#experiment)
+- [extend](#extend)
+- [map](#map)
+- [peeks](#peeks)
+- [seek](#seek)
+- [seeks](#seeks)
+- [store](#store)
 
 ---
 
@@ -49,7 +49,7 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -59,17 +59,17 @@ export const URI: "Store" = ...
 
 Added in v2.0.0
 
-# store (constant)
+# duplicate
 
 **Signature**
 
 ```ts
-export const store: Comonad2<URI> = ...
+<E, A>(ma: Store<E, A>) => Store<E, Store<E, A>>
 ```
 
 Added in v2.0.0
 
-# experiment (function)
+# experiment
 
 Extract a collection of values from positions which depend on the current position
 
@@ -96,7 +96,27 @@ export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>
 
 Added in v2.0.0
 
-# peeks (function)
+# extend
+
+**Signature**
+
+```ts
+<E, A, B>(f: (fa: Store<E, A>) => B) => (ma: Store<E, A>) => Store<E, B>
+```
+
+Added in v2.0.0
+
+# map
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B>
+```
+
+Added in v2.0.0
+
+# peeks
 
 Extract a value from a position which depends on the current position
 
@@ -108,7 +128,7 @@ export function peeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => A { ... }
 
 Added in v2.0.0
 
-# seek (function)
+# seek
 
 Reposition the focus at the specified position
 
@@ -120,7 +140,7 @@ export function seek<S>(s: S): <A>(wa: Store<S, A>) => Store<S, A> { ... }
 
 Added in v2.0.0
 
-# seeks (function)
+# seeks
 
 Reposition the focus at the specified position, which depends on the current position
 
@@ -132,32 +152,12 @@ export function seeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => Store<S, A
 
 Added in v2.0.0
 
-# duplicate (export)
+# store
 
 **Signature**
 
 ```ts
-<E, A>(ma: Store<E, A>) => Store<E, Store<E, A>>
-```
-
-Added in v2.0.0
-
-# extend (export)
-
-**Signature**
-
-```ts
-<E, A, B>(f: (fa: Store<E, A>) => B) => (ma: Store<E, A>) => Store<E, B>
-```
-
-Added in v2.0.0
-
-# map (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B>
+export const store: Comonad2<URI> = ...
 ```
 
 Added in v2.0.0

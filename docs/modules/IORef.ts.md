@@ -17,7 +17,7 @@ Added in v2.0.0
 - [IORef (class)](#ioref-class)
   - [write (method)](#write-method)
   - [modify (method)](#modify-method)
-- [newIORef (function)](#newioref-function)
+- [newIORef](#newioref)
 
 ---
 
@@ -63,7 +63,7 @@ modify(f: (a: A) => A): IO<void> { ... }
 
 Added in v2.0.0
 
-# newIORef (function)
+# newIORef
 
 **Signature**
 

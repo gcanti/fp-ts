@@ -13,22 +13,22 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [Semigroup (interface)](#semigroup-interface)
-- [semigroupAll (constant)](#semigroupall-constant)
-- [semigroupAny (constant)](#semigroupany-constant)
-- [semigroupProduct (constant)](#semigroupproduct-constant)
-- [semigroupString (constant)](#semigroupstring-constant)
-- [semigroupSum (constant)](#semigroupsum-constant)
-- [semigroupVoid (constant)](#semigroupvoid-constant)
-- [fold (function)](#fold-function)
-- [getDualSemigroup (function)](#getdualsemigroup-function)
-- [getFirstSemigroup (function)](#getfirstsemigroup-function)
-- [getFunctionSemigroup (function)](#getfunctionsemigroup-function)
-- [getJoinSemigroup (function)](#getjoinsemigroup-function)
-- [getLastSemigroup (function)](#getlastsemigroup-function)
-- [getMeetSemigroup (function)](#getmeetsemigroup-function)
-- [getObjectSemigroup (function)](#getobjectsemigroup-function)
-- [getStructSemigroup (function)](#getstructsemigroup-function)
-- [getTupleSemigroup (function)](#gettuplesemigroup-function)
+- [fold](#fold)
+- [getDualSemigroup](#getdualsemigroup)
+- [getFirstSemigroup](#getfirstsemigroup)
+- [getFunctionSemigroup](#getfunctionsemigroup)
+- [getJoinSemigroup](#getjoinsemigroup)
+- [getLastSemigroup](#getlastsemigroup)
+- [getMeetSemigroup](#getmeetsemigroup)
+- [getObjectSemigroup](#getobjectsemigroup)
+- [getStructSemigroup](#getstructsemigroup)
+- [getTupleSemigroup](#gettuplesemigroup)
+- [semigroupAll](#semigroupall)
+- [semigroupAny](#semigroupany)
+- [semigroupProduct](#semigroupproduct)
+- [semigroupString](#semigroupstring)
+- [semigroupSum](#semigroupsum)
+- [semigroupVoid](#semigroupvoid)
 
 ---
 
@@ -46,75 +46,7 @@ export interface Semigroup<A> extends Magma<A> {}
 
 Added in v2.0.0
 
-# semigroupAll (constant)
-
-Boolean semigroup under conjunction
-
-**Signature**
-
-```ts
-export const semigroupAll: Semigroup<boolean> = ...
-```
-
-Added in v2.0.0
-
-# semigroupAny (constant)
-
-Boolean semigroup under disjunction
-
-**Signature**
-
-```ts
-export const semigroupAny: Semigroup<boolean> = ...
-```
-
-Added in v2.0.0
-
-# semigroupProduct (constant)
-
-Number `Semigroup` under multiplication
-
-**Signature**
-
-```ts
-export const semigroupProduct: Semigroup<number> = ...
-```
-
-Added in v2.0.0
-
-# semigroupString (constant)
-
-**Signature**
-
-```ts
-export const semigroupString: Semigroup<string> = ...
-```
-
-Added in v2.0.0
-
-# semigroupSum (constant)
-
-Number `Semigroup` under addition
-
-**Signature**
-
-```ts
-export const semigroupSum: Semigroup<number> = ...
-```
-
-Added in v2.0.0
-
-# semigroupVoid (constant)
-
-**Signature**
-
-```ts
-export const semigroupVoid: Semigroup<void> = ...
-```
-
-Added in v2.0.0
-
-# fold (function)
+# fold
 
 **Signature**
 
@@ -124,7 +56,7 @@ export function fold<A>(S: Semigroup<A>): (a: A, as: Array<A>) => A { ... }
 
 Added in v2.0.0
 
-# getDualSemigroup (function)
+# getDualSemigroup
 
 **Signature**
 
@@ -134,7 +66,7 @@ export function getDualSemigroup<A>(S: Semigroup<A>): Semigroup<A> { ... }
 
 Added in v2.0.0
 
-# getFirstSemigroup (function)
+# getFirstSemigroup
 
 **Signature**
 
@@ -144,7 +76,7 @@ export function getFirstSemigroup<A = never>(): Semigroup<A> { ... }
 
 Added in v2.0.0
 
-# getFunctionSemigroup (function)
+# getFunctionSemigroup
 
 **Signature**
 
@@ -154,7 +86,7 @@ export function getFunctionSemigroup<S>(S: Semigroup<S>): <A = never>() => Semig
 
 Added in v2.0.0
 
-# getJoinSemigroup (function)
+# getJoinSemigroup
 
 **Signature**
 
@@ -164,7 +96,7 @@ export function getJoinSemigroup<A>(O: Ord<A>): Semigroup<A> { ... }
 
 Added in v2.0.0
 
-# getLastSemigroup (function)
+# getLastSemigroup
 
 **Signature**
 
@@ -174,7 +106,7 @@ export function getLastSemigroup<A = never>(): Semigroup<A> { ... }
 
 Added in v2.0.0
 
-# getMeetSemigroup (function)
+# getMeetSemigroup
 
 **Signature**
 
@@ -184,7 +116,7 @@ export function getMeetSemigroup<A>(O: Ord<A>): Semigroup<A> { ... }
 
 Added in v2.0.0
 
-# getObjectSemigroup (function)
+# getObjectSemigroup
 
 Returns a `Semigroup` instance for objects preserving their type
 
@@ -210,7 +142,7 @@ assert.deepStrictEqual(S.concat({ name: 'name', age: 23 }, { name: 'name', age: 
 
 Added in v2.0.0
 
-# getStructSemigroup (function)
+# getStructSemigroup
 
 **Signature**
 
@@ -222,7 +154,7 @@ export function getStructSemigroup<O extends { [key: string]: any }>(
 
 Added in v2.0.0
 
-# getTupleSemigroup (function)
+# getTupleSemigroup
 
 Given a tuple of semigroups returns a semigroup for the tuple
 
@@ -244,6 +176,74 @@ assert.deepStrictEqual(S1.concat(['a', 1], ['b', 2]), ['ab', 3])
 
 const S2 = getTupleSemigroup(semigroupString, semigroupSum, semigroupAll)
 assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
+```
+
+Added in v2.0.0
+
+# semigroupAll
+
+Boolean semigroup under conjunction
+
+**Signature**
+
+```ts
+export const semigroupAll: Semigroup<boolean> = ...
+```
+
+Added in v2.0.0
+
+# semigroupAny
+
+Boolean semigroup under disjunction
+
+**Signature**
+
+```ts
+export const semigroupAny: Semigroup<boolean> = ...
+```
+
+Added in v2.0.0
+
+# semigroupProduct
+
+Number `Semigroup` under multiplication
+
+**Signature**
+
+```ts
+export const semigroupProduct: Semigroup<number> = ...
+```
+
+Added in v2.0.0
+
+# semigroupString
+
+**Signature**
+
+```ts
+export const semigroupString: Semigroup<string> = ...
+```
+
+Added in v2.0.0
+
+# semigroupSum
+
+Number `Semigroup` under addition
+
+**Signature**
+
+```ts
+export const semigroupSum: Semigroup<number> = ...
+```
+
+Added in v2.0.0
+
+# semigroupVoid
+
+**Signature**
+
+```ts
+export const semigroupVoid: Semigroup<void> = ...
 ```
 
 Added in v2.0.0

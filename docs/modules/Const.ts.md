@@ -14,15 +14,15 @@ Added in v2.0.0
 
 - [Const (type alias)](#const-type-alias)
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [const\_ (constant)](#const_-constant)
-- [getEq (constant)](#geteq-constant)
-- [make (constant)](#make-constant)
-- [getApplicative (function)](#getapplicative-function)
-- [getApply (function)](#getapply-function)
-- [getShow (function)](#getshow-function)
-- [contramap (export)](#contramap-export)
-- [map (export)](#map-export)
+- [URI](#uri)
+- [const\_](#const_)
+- [contramap](#contramap)
+- [getApplicative](#getapplicative)
+- [getApply](#getapply)
+- [getEq](#geteq)
+- [getShow](#getshow)
+- [make](#make)
+- [map](#map)
 
 ---
 
@@ -46,7 +46,7 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -56,7 +56,7 @@ export const URI: "Const" = ...
 
 Added in v2.0.0
 
-# const\_ (constant)
+# const\_
 
 **Signature**
 
@@ -66,57 +66,7 @@ export const const_: Functor2<URI> & Contravariant2<URI> = ...
 
 Added in v2.0.0
 
-# getEq (constant)
-
-**Signature**
-
-```ts
-export const getEq: <E, A>(E: Eq<E>) => Eq<Const<E, A>> = ...
-```
-
-Added in v2.0.0
-
-# make (constant)
-
-**Signature**
-
-```ts
-export const make: <E, A = never>(l: E) => Const<E, A> = ...
-```
-
-Added in v2.0.0
-
-# getApplicative (function)
-
-**Signature**
-
-```ts
-export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> { ... }
-```
-
-Added in v2.0.0
-
-# getApply (function)
-
-**Signature**
-
-```ts
-export function getApply<E>(S: Semigroup<E>): Apply2C<URI, E> { ... }
-```
-
-Added in v2.0.0
-
-# getShow (function)
-
-**Signature**
-
-```ts
-export function getShow<E, A>(S: Show<E>): Show<Const<E, A>> { ... }
-```
-
-Added in v2.0.0
-
-# contramap (export)
+# contramap
 
 **Signature**
 
@@ -126,7 +76,57 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# map (export)
+# getApplicative
+
+**Signature**
+
+```ts
+export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> { ... }
+```
+
+Added in v2.0.0
+
+# getApply
+
+**Signature**
+
+```ts
+export function getApply<E>(S: Semigroup<E>): Apply2C<URI, E> { ... }
+```
+
+Added in v2.0.0
+
+# getEq
+
+**Signature**
+
+```ts
+export const getEq: <E, A>(E: Eq<E>) => Eq<Const<E, A>> = ...
+```
+
+Added in v2.0.0
+
+# getShow
+
+**Signature**
+
+```ts
+export function getShow<E, A>(S: Show<E>): Show<Const<E, A>> { ... }
+```
+
+Added in v2.0.0
+
+# make
+
+**Signature**
+
+```ts
+export const make: <E, A = never>(l: E) => Const<E, A> = ...
+```
+
+Added in v2.0.0
+
+# map
 
 **Signature**
 

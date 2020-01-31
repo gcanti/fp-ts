@@ -16,50 +16,50 @@ Added in v2.0.0
 
 - [NonEmptyArray (interface)](#nonemptyarray-interface)
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [cons (constant)](#cons-constant)
-- [copy (constant)](#copy-constant)
-- [getEq (constant)](#geteq-constant)
-- [getShow (constant)](#getshow-constant)
-- [nonEmptyArray (constant)](#nonemptyarray-constant)
-- [of (constant)](#of-constant)
-- [reverse (constant)](#reverse-constant)
-- [snoc (constant)](#snoc-constant)
-- [concat (function)](#concat-function)
-- [filter (function)](#filter-function)
-- [filterWithIndex (function)](#filterwithindex-function)
-- [fromArray (function)](#fromarray-function)
-- [getSemigroup (function)](#getsemigroup-function)
-- [group (function)](#group-function)
-- [groupBy (function)](#groupby-function)
-- [groupSort (function)](#groupsort-function)
-- [head (function)](#head-function)
-- [init (function)](#init-function)
-- [insertAt (function)](#insertat-function)
-- [last (function)](#last-function)
-- [max (function)](#max-function)
-- [min (function)](#min-function)
-- [modifyAt (function)](#modifyat-function)
-- [sort (function)](#sort-function)
-- [tail (function)](#tail-function)
-- [updateAt (function)](#updateat-function)
-- [ap (export)](#ap-export)
-- [apFirst (export)](#apfirst-export)
-- [apSecond (export)](#apsecond-export)
-- [chain (export)](#chain-export)
-- [chainFirst (export)](#chainfirst-export)
-- [duplicate (export)](#duplicate-export)
-- [extend (export)](#extend-export)
-- [flatten (export)](#flatten-export)
-- [fold (export)](#fold-export)
-- [foldMap (export)](#foldmap-export)
-- [foldMapWithIndex (export)](#foldmapwithindex-export)
-- [map (export)](#map-export)
-- [mapWithIndex (export)](#mapwithindex-export)
-- [reduce (export)](#reduce-export)
-- [reduceRight (export)](#reduceright-export)
-- [reduceRightWithIndex (export)](#reducerightwithindex-export)
-- [reduceWithIndex (export)](#reducewithindex-export)
+- [URI](#uri)
+- [ap](#ap)
+- [apFirst](#apfirst)
+- [apSecond](#apsecond)
+- [chain](#chain)
+- [chainFirst](#chainfirst)
+- [concat](#concat)
+- [cons](#cons)
+- [copy](#copy)
+- [duplicate](#duplicate)
+- [extend](#extend)
+- [filter](#filter)
+- [filterWithIndex](#filterwithindex)
+- [flatten](#flatten)
+- [fold](#fold)
+- [foldMap](#foldmap)
+- [foldMapWithIndex](#foldmapwithindex)
+- [fromArray](#fromarray)
+- [getEq](#geteq)
+- [getSemigroup](#getsemigroup)
+- [getShow](#getshow)
+- [group](#group)
+- [groupBy](#groupby)
+- [groupSort](#groupsort)
+- [head](#head)
+- [init](#init)
+- [insertAt](#insertat)
+- [last](#last)
+- [map](#map)
+- [mapWithIndex](#mapwithindex)
+- [max](#max)
+- [min](#min)
+- [modifyAt](#modifyat)
+- [nonEmptyArray](#nonemptyarray)
+- [of](#of)
+- [reduce](#reduce)
+- [reduceRight](#reduceright)
+- [reduceRightWithIndex](#reducerightwithindex)
+- [reduceWithIndex](#reducewithindex)
+- [reverse](#reverse)
+- [snoc](#snoc)
+- [sort](#sort)
+- [tail](#tail)
+- [updateAt](#updateat)
 
 ---
 
@@ -85,7 +85,7 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -95,7 +95,68 @@ export const URI: "NonEmptyArray" = ...
 
 Added in v2.0.0
 
-# cons (constant)
+# ap
+
+**Signature**
+
+```ts
+<A>(fa: NonEmptyArray<A>) => <B>(fab: NonEmptyArray<(a: A) => B>) => NonEmptyArray<B>
+```
+
+Added in v2.0.0
+
+# apFirst
+
+**Signature**
+
+```ts
+<B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+Added in v2.0.0
+
+# apSecond
+
+**Signature**
+
+```ts
+<B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<B>
+```
+
+Added in v2.0.0
+
+# chain
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => NonEmptyArray<B>) => (ma: NonEmptyArray<A>) => NonEmptyArray<B>
+```
+
+Added in v2.0.0
+
+# chainFirst
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => NonEmptyArray<B>) => (ma: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+Added in v2.0.0
+
+# concat
+
+**Signature**
+
+```ts
+export function concat<A>(fx: Array<A>, fy: NonEmptyArray<A>): NonEmptyArray<A>
+export function concat<A>(fx: NonEmptyArray<A>, fy: Array<A>): NonEmptyArray<A> { ... }
+```
+
+Added in v2.2.0
+
+# cons
 
 Append an element to the front of an array, creating a new non empty array
 
@@ -115,7 +176,7 @@ assert.deepStrictEqual(cons(1, [2, 3, 4]), [1, 2, 3, 4])
 
 Added in v2.0.0
 
-# copy (constant)
+# copy
 
 **Signature**
 
@@ -125,7 +186,104 @@ export const copy: <A>(nea: NonEmptyArray<A>) => NonEmptyArray<A> = ...
 
 Added in v2.0.0
 
-# getEq (constant)
+# duplicate
+
+**Signature**
+
+```ts
+<A>(ma: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>>
+```
+
+Added in v2.0.0
+
+# extend
+
+**Signature**
+
+```ts
+<A, B>(f: (fa: NonEmptyArray<A>) => B) => (ma: NonEmptyArray<A>) => NonEmptyArray<B>
+```
+
+Added in v2.0.0
+
+# filter
+
+**Signature**
+
+```ts
+export function filter<A, B extends A>(
+  refinement: Refinement<A, B>
+): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+export function filter<A>(predicate: Predicate<A>): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> { ... }
+```
+
+Added in v2.0.0
+
+# filterWithIndex
+
+**Signature**
+
+```ts
+export function filterWithIndex<A>(
+  predicate: (i: number, a: A) => boolean
+): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> { ... }
+```
+
+Added in v2.0.0
+
+# flatten
+
+**Signature**
+
+```ts
+<A>(mma: NonEmptyArray<NonEmptyArray<A>>) => NonEmptyArray<A>
+```
+
+Added in v2.0.0
+
+# fold
+
+**Signature**
+
+```ts
+;<A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A
+```
+
+Added in v2.5.0
+
+# foldMap
+
+**Signature**
+
+```ts
+;<S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) => S
+```
+
+Added in v2.0.0
+
+# foldMapWithIndex
+
+**Signature**
+
+```ts
+;<S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (fa: NonEmptyArray<A>) => S
+```
+
+Added in v2.0.0
+
+# fromArray
+
+Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty array
+
+**Signature**
+
+```ts
+export function fromArray<A>(as: Array<A>): Option<NonEmptyArray<A>> { ... }
+```
+
+Added in v2.0.0
+
+# getEq
 
 **Signature**
 
@@ -146,120 +304,7 @@ assert.strictEqual(E.equals(cons(1, [2]), [1, 3]), false)
 
 Added in v2.0.0
 
-# getShow (constant)
-
-**Signature**
-
-```ts
-export const getShow: <A>(S: Show<A>) => Show<NonEmptyArray<A>> = ...
-```
-
-Added in v2.0.0
-
-# nonEmptyArray (constant)
-
-**Signature**
-
-```ts
-export const nonEmptyArray: Monad1<URI> &
-  Comonad1<URI> &
-  TraversableWithIndex1<URI, number> &
-  FunctorWithIndex1<URI, number> &
-  FoldableWithIndex1<URI, number> &
-  Alt1<URI> = ...
-```
-
-Added in v2.0.0
-
-# of (constant)
-
-**Signature**
-
-```ts
-export const of: <A>(a: A) => NonEmptyArray<A> = ...
-```
-
-Added in v2.0.0
-
-# reverse (constant)
-
-**Signature**
-
-```ts
-export const reverse: <A>(nea: NonEmptyArray<A>) => NonEmptyArray<A> = ...
-```
-
-Added in v2.0.0
-
-# snoc (constant)
-
-Append an element to the end of an array, creating a new non empty array
-
-**Signature**
-
-```ts
-export const snoc: <A>(init: Array<A>, end: A) => NonEmptyArray<A> = ...
-```
-
-**Example**
-
-```ts
-import { snoc } from 'fp-ts/lib/NonEmptyArray'
-
-assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
-```
-
-Added in v2.0.0
-
-# concat (function)
-
-**Signature**
-
-```ts
-export function concat<A>(fx: Array<A>, fy: NonEmptyArray<A>): NonEmptyArray<A>
-export function concat<A>(fx: NonEmptyArray<A>, fy: Array<A>): NonEmptyArray<A> { ... }
-```
-
-Added in v2.2.0
-
-# filter (function)
-
-**Signature**
-
-```ts
-export function filter<A, B extends A>(
-  refinement: Refinement<A, B>
-): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
-export function filter<A>(predicate: Predicate<A>): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> { ... }
-```
-
-Added in v2.0.0
-
-# filterWithIndex (function)
-
-**Signature**
-
-```ts
-export function filterWithIndex<A>(
-  predicate: (i: number, a: A) => boolean
-): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> { ... }
-```
-
-Added in v2.0.0
-
-# fromArray (function)
-
-Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty array
-
-**Signature**
-
-```ts
-export function fromArray<A>(as: Array<A>): Option<NonEmptyArray<A>> { ... }
-```
-
-Added in v2.0.0
-
-# getSemigroup (function)
+# getSemigroup
 
 Builds a `Semigroup` instance for `NonEmptyArray`
 
@@ -271,7 +316,17 @@ export function getSemigroup<A = never>(): Semigroup<NonEmptyArray<A>> { ... }
 
 Added in v2.0.0
 
-# group (function)
+# getShow
+
+**Signature**
+
+```ts
+export const getShow: <A>(S: Show<A>) => Show<NonEmptyArray<A>> = ...
+```
+
+Added in v2.0.0
+
+# group
 
 Group equal, consecutive elements of an array into non empty arrays.
 
@@ -297,7 +352,7 @@ assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [cons(1, []), cons(2, [])
 
 Added in v2.0.0
 
-# groupBy (function)
+# groupBy
 
 Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning
 function on each element, and grouping the results according to values returned
@@ -321,7 +376,7 @@ assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['foo', 'bar', '
 
 Added in v2.0.0
 
-# groupSort (function)
+# groupSort
 
 Sort and then group the elements of an array into non empty arrays.
 
@@ -342,7 +397,7 @@ assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [cons(1, [1, 1]), con
 
 Added in v2.0.0
 
-# head (function)
+# head
 
 **Signature**
 
@@ -352,7 +407,7 @@ export function head<A>(nea: NonEmptyArray<A>): A { ... }
 
 Added in v2.0.0
 
-# init (function)
+# init
 
 Get all but the last element of a non empty array, creating a new array.
 
@@ -373,7 +428,7 @@ assert.deepStrictEqual(init([1]), [])
 
 Added in v2.2.0
 
-# insertAt (function)
+# insertAt
 
 **Signature**
 
@@ -383,7 +438,7 @@ export function insertAt<A>(i: number, a: A): (nea: NonEmptyArray<A>) => Option<
 
 Added in v2.0.0
 
-# last (function)
+# last
 
 **Signature**
 
@@ -393,177 +448,7 @@ export function last<A>(nea: NonEmptyArray<A>): A { ... }
 
 Added in v2.0.0
 
-# max (function)
-
-**Signature**
-
-```ts
-export function max<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A { ... }
-```
-
-Added in v2.0.0
-
-# min (function)
-
-**Signature**
-
-```ts
-export function min<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A { ... }
-```
-
-Added in v2.0.0
-
-# modifyAt (function)
-
-**Signature**
-
-```ts
-export function modifyAt<A>(i: number, f: (a: A) => A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> { ... }
-```
-
-Added in v2.0.0
-
-# sort (function)
-
-**Signature**
-
-```ts
-export function sort<A>(O: Ord<A>): (nea: NonEmptyArray<A>) => NonEmptyArray<A> { ... }
-```
-
-Added in v2.0.0
-
-# tail (function)
-
-**Signature**
-
-```ts
-export function tail<A>(nea: NonEmptyArray<A>): Array<A> { ... }
-```
-
-Added in v2.0.0
-
-# updateAt (function)
-
-**Signature**
-
-```ts
-export function updateAt<A>(i: number, a: A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> { ... }
-```
-
-Added in v2.0.0
-
-# ap (export)
-
-**Signature**
-
-```ts
-<A>(fa: NonEmptyArray<A>) => <B>(fab: NonEmptyArray<(a: A) => B>) => NonEmptyArray<B>
-```
-
-Added in v2.0.0
-
-# apFirst (export)
-
-**Signature**
-
-```ts
-<B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<A>
-```
-
-Added in v2.0.0
-
-# apSecond (export)
-
-**Signature**
-
-```ts
-<B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<B>
-```
-
-Added in v2.0.0
-
-# chain (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => NonEmptyArray<B>) => (ma: NonEmptyArray<A>) => NonEmptyArray<B>
-```
-
-Added in v2.0.0
-
-# chainFirst (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => NonEmptyArray<B>) => (ma: NonEmptyArray<A>) => NonEmptyArray<A>
-```
-
-Added in v2.0.0
-
-# duplicate (export)
-
-**Signature**
-
-```ts
-<A>(ma: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>>
-```
-
-Added in v2.0.0
-
-# extend (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (fa: NonEmptyArray<A>) => B) => (ma: NonEmptyArray<A>) => NonEmptyArray<B>
-```
-
-Added in v2.0.0
-
-# flatten (export)
-
-**Signature**
-
-```ts
-<A>(mma: NonEmptyArray<NonEmptyArray<A>>) => NonEmptyArray<A>
-```
-
-Added in v2.0.0
-
-# fold (export)
-
-**Signature**
-
-```ts
-;<A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A
-```
-
-Added in v2.5.0
-
-# foldMap (export)
-
-**Signature**
-
-```ts
-;<S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) => S
-```
-
-Added in v2.0.0
-
-# foldMapWithIndex (export)
-
-**Signature**
-
-```ts
-;<S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (fa: NonEmptyArray<A>) => S
-```
-
-Added in v2.0.0
-
-# map (export)
+# map
 
 **Signature**
 
@@ -573,7 +458,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# mapWithIndex (export)
+# mapWithIndex
 
 **Signature**
 
@@ -583,7 +468,62 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# reduce (export)
+# max
+
+**Signature**
+
+```ts
+export function max<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A { ... }
+```
+
+Added in v2.0.0
+
+# min
+
+**Signature**
+
+```ts
+export function min<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A { ... }
+```
+
+Added in v2.0.0
+
+# modifyAt
+
+**Signature**
+
+```ts
+export function modifyAt<A>(i: number, f: (a: A) => A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> { ... }
+```
+
+Added in v2.0.0
+
+# nonEmptyArray
+
+**Signature**
+
+```ts
+export const nonEmptyArray: Monad1<URI> &
+  Comonad1<URI> &
+  TraversableWithIndex1<URI, number> &
+  FunctorWithIndex1<URI, number> &
+  FoldableWithIndex1<URI, number> &
+  Alt1<URI> = ...
+```
+
+Added in v2.0.0
+
+# of
+
+**Signature**
+
+```ts
+export const of: <A>(a: A) => NonEmptyArray<A> = ...
+```
+
+Added in v2.0.0
+
+# reduce
 
 **Signature**
 
@@ -593,7 +533,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# reduceRight (export)
+# reduceRight
 
 **Signature**
 
@@ -603,7 +543,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# reduceRightWithIndex (export)
+# reduceRightWithIndex
 
 **Signature**
 
@@ -613,12 +553,72 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# reduceWithIndex (export)
+# reduceWithIndex
 
 **Signature**
 
 ```ts
 ;<A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: NonEmptyArray<A>) => B
+```
+
+Added in v2.0.0
+
+# reverse
+
+**Signature**
+
+```ts
+export const reverse: <A>(nea: NonEmptyArray<A>) => NonEmptyArray<A> = ...
+```
+
+Added in v2.0.0
+
+# snoc
+
+Append an element to the end of an array, creating a new non empty array
+
+**Signature**
+
+```ts
+export const snoc: <A>(init: Array<A>, end: A) => NonEmptyArray<A> = ...
+```
+
+**Example**
+
+```ts
+import { snoc } from 'fp-ts/lib/NonEmptyArray'
+
+assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
+```
+
+Added in v2.0.0
+
+# sort
+
+**Signature**
+
+```ts
+export function sort<A>(O: Ord<A>): (nea: NonEmptyArray<A>) => NonEmptyArray<A> { ... }
+```
+
+Added in v2.0.0
+
+# tail
+
+**Signature**
+
+```ts
+export function tail<A>(nea: NonEmptyArray<A>): Array<A> { ... }
+```
+
+Added in v2.0.0
+
+# updateAt
+
+**Signature**
+
+```ts
+export function updateAt<A>(i: number, a: A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> { ... }
 ```
 
 Added in v2.0.0

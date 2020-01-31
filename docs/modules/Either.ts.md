@@ -46,50 +46,50 @@ Added in v2.0.0
 - [Right (interface)](#right-interface)
 - [Either (type alias)](#either-type-alias)
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [either (constant)](#either-constant)
-- [elem (function)](#elem-function)
-- [exists (function)](#exists-function)
-- [fold (function)](#fold-function)
-- [fromNullable (function)](#fromnullable-function)
-- [getApplyMonoid (function)](#getapplymonoid-function)
-- [getApplySemigroup (function)](#getapplysemigroup-function)
-- [getEq (function)](#geteq-function)
-- [getOrElse (function)](#getorelse-function)
-- [getSemigroup (function)](#getsemigroup-function)
-- [getShow (function)](#getshow-function)
-- [getValidation (function)](#getvalidation-function)
-- [getValidationMonoid (function)](#getvalidationmonoid-function)
-- [getValidationSemigroup (function)](#getvalidationsemigroup-function)
-- [getWitherable (function)](#getwitherable-function)
-- [isLeft (function)](#isleft-function)
-- [isRight (function)](#isright-function)
-- [left (function)](#left-function)
-- [orElse (function)](#orelse-function)
-- [parseJSON (function)](#parsejson-function)
-- [right (function)](#right-function)
-- [stringifyJSON (function)](#stringifyjson-function)
-- [swap (function)](#swap-function)
-- [toError (function)](#toerror-function)
-- [tryCatch (function)](#trycatch-function)
-- [alt (export)](#alt-export)
-- [ap (export)](#ap-export)
-- [apFirst (export)](#apfirst-export)
-- [apSecond (export)](#apsecond-export)
-- [bimap (export)](#bimap-export)
-- [chain (export)](#chain-export)
-- [chainFirst (export)](#chainfirst-export)
-- [duplicate (export)](#duplicate-export)
-- [extend (export)](#extend-export)
-- [filterOrElse (export)](#filterorelse-export)
-- [flatten (export)](#flatten-export)
-- [foldMap (export)](#foldmap-export)
-- [fromOption (export)](#fromoption-export)
-- [fromPredicate (export)](#frompredicate-export)
-- [map (export)](#map-export)
-- [mapLeft (export)](#mapleft-export)
-- [reduce (export)](#reduce-export)
-- [reduceRight (export)](#reduceright-export)
+- [URI](#uri)
+- [alt](#alt)
+- [ap](#ap)
+- [apFirst](#apfirst)
+- [apSecond](#apsecond)
+- [bimap](#bimap)
+- [chain](#chain)
+- [chainFirst](#chainfirst)
+- [duplicate](#duplicate)
+- [either](#either)
+- [elem](#elem)
+- [exists](#exists)
+- [extend](#extend)
+- [filterOrElse](#filterorelse)
+- [flatten](#flatten)
+- [fold](#fold)
+- [foldMap](#foldmap)
+- [fromNullable](#fromnullable)
+- [fromOption](#fromoption)
+- [fromPredicate](#frompredicate)
+- [getApplyMonoid](#getapplymonoid)
+- [getApplySemigroup](#getapplysemigroup)
+- [getEq](#geteq)
+- [getOrElse](#getorelse)
+- [getSemigroup](#getsemigroup)
+- [getShow](#getshow)
+- [getValidation](#getvalidation)
+- [getValidationMonoid](#getvalidationmonoid)
+- [getValidationSemigroup](#getvalidationsemigroup)
+- [getWitherable](#getwitherable)
+- [isLeft](#isleft)
+- [isRight](#isright)
+- [left](#left)
+- [map](#map)
+- [mapLeft](#mapleft)
+- [orElse](#orelse)
+- [parseJSON](#parsejson)
+- [reduce](#reduce)
+- [reduceRight](#reduceright)
+- [right](#right)
+- [stringifyJSON](#stringifyjson)
+- [swap](#swap)
+- [toError](#toerror)
+- [tryCatch](#trycatch)
 
 ---
 
@@ -139,7 +139,7 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -149,7 +149,87 @@ export const URI: "Either" = ...
 
 Added in v2.0.0
 
-# either (constant)
+# alt
+
+**Signature**
+
+```ts
+<E, A>(that: () => Either<E, A>) => (fa: Either<E, A>) => Either<E, A>
+```
+
+Added in v2.0.0
+
+# ap
+
+**Signature**
+
+```ts
+<E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B>
+```
+
+Added in v2.0.0
+
+# apFirst
+
+**Signature**
+
+```ts
+<E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, A>
+```
+
+Added in v2.0.0
+
+# apSecond
+
+**Signature**
+
+```ts
+<E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, B>
+```
+
+Added in v2.0.0
+
+# bimap
+
+**Signature**
+
+```ts
+<E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<E, A>) => Either<G, B>
+```
+
+Added in v2.0.0
+
+# chain
+
+**Signature**
+
+```ts
+<E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B>
+```
+
+Added in v2.0.0
+
+# chainFirst
+
+**Signature**
+
+```ts
+<E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A>
+```
+
+Added in v2.0.0
+
+# duplicate
+
+**Signature**
+
+```ts
+<E, A>(ma: Either<E, A>) => Either<E, Either<E, A>>
+```
+
+Added in v2.0.0
+
+# either
 
 **Signature**
 
@@ -166,7 +246,7 @@ export const either: Monad2<URI> &
 
 Added in v2.0.0
 
-# elem (function)
+# elem
 
 **Signature**
 
@@ -176,7 +256,7 @@ export function elem<A>(E: Eq<A>): <E>(a: A, ma: Either<E, A>) => boolean { ... 
 
 Added in v2.0.0
 
-# exists (function)
+# exists
 
 Returns `false` if `Left` or returns the result of the application of the given predicate to the `Right` value.
 
@@ -200,7 +280,37 @@ assert.strictEqual(gt2(right(3)), true)
 
 Added in v2.0.0
 
-# fold (function)
+# extend
+
+**Signature**
+
+```ts
+<E, A, B>(f: (fa: Either<E, A>) => B) => (ma: Either<E, A>) => Either<E, B>
+```
+
+Added in v2.0.0
+
+# filterOrElse
+
+**Signature**
+
+```ts
+{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>; }
+```
+
+Added in v2.0.0
+
+# flatten
+
+**Signature**
+
+```ts
+<E, A>(mma: Either<E, Either<E, A>>) => Either<E, A>
+```
+
+Added in v2.0.0
+
+# fold
 
 Takes two functions and an `Either` value, if the value is a `Left` the inner value is applied to the first function,
 if the value is a `Right` the inner value is applied to the second function.
@@ -231,7 +341,17 @@ assert.strictEqual(pipe(left(['error 1', 'error 2']), fold(onLeft, onRight)), 'E
 
 Added in v2.0.0
 
-# fromNullable (function)
+# foldMap
+
+**Signature**
+
+```ts
+;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M
+```
+
+Added in v2.0.0
+
+# fromNullable
 
 Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
 the provided default as a `Left`
@@ -255,7 +375,27 @@ assert.deepStrictEqual(parse(null), left('nully'))
 
 Added in v2.0.0
 
-# getApplyMonoid (function)
+# fromOption
+
+**Signature**
+
+```ts
+<E>(onNone: () => E) => <A>(ma: Option<A>) => Either<E, A>
+```
+
+Added in v2.0.0
+
+# fromPredicate
+
+**Signature**
+
+```ts
+{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Either<E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A>; }
+```
+
+Added in v2.0.0
+
+# getApplyMonoid
 
 **Signature**
 
@@ -265,7 +405,7 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<Either<E, A>> { ... }
 
 Added in v2.0.0
 
-# getApplySemigroup (function)
+# getApplySemigroup
 
 `Apply` semigroup
 
@@ -290,7 +430,7 @@ assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
 
 Added in v2.0.0
 
-# getEq (function)
+# getEq
 
 **Signature**
 
@@ -300,7 +440,7 @@ export function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> { ... }
 
 Added in v2.0.0
 
-# getOrElse (function)
+# getOrElse
 
 **Signature**
 
@@ -310,7 +450,7 @@ export function getOrElse<E, A>(onLeft: (e: E) => A): (ma: Either<E, A>) => A { 
 
 Added in v2.0.0
 
-# getSemigroup (function)
+# getSemigroup
 
 Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
 appended using the provided `Semigroup`
@@ -336,7 +476,7 @@ assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
 
 Added in v2.0.0
 
-# getShow (function)
+# getShow
 
 **Signature**
 
@@ -346,7 +486,7 @@ export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>> { ..
 
 Added in v2.0.0
 
-# getValidation (function)
+# getValidation
 
 **Signature**
 
@@ -356,7 +496,7 @@ export function getValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, 
 
 Added in v2.0.0
 
-# getValidationMonoid (function)
+# getValidationMonoid
 
 **Signature**
 
@@ -366,7 +506,7 @@ export function getValidationMonoid<E, A>(SE: Semigroup<E>, SA: Monoid<A>): Mono
 
 Added in v2.0.0
 
-# getValidationSemigroup (function)
+# getValidationSemigroup
 
 **Signature**
 
@@ -376,7 +516,7 @@ export function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>)
 
 Added in v2.0.0
 
-# getWitherable (function)
+# getWitherable
 
 Builds `Witherable` instance for `Either` given `Monoid` for the left side
 
@@ -388,7 +528,7 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> { ... }
 
 Added in v2.0.0
 
-# isLeft (function)
+# isLeft
 
 Returns `true` if the either is an instance of `Left`, `false` otherwise
 
@@ -400,7 +540,7 @@ export function isLeft<E, A>(ma: Either<E, A>): ma is Left<E> { ... }
 
 Added in v2.0.0
 
-# isRight (function)
+# isRight
 
 Returns `true` if the either is an instance of `Right`, `false` otherwise
 
@@ -412,7 +552,7 @@ export function isRight<E, A>(ma: Either<E, A>): ma is Right<A> { ... }
 
 Added in v2.0.0
 
-# left (function)
+# left
 
 Constructs a new `Either` holding a `Left` value. This usually represents a failure, due to the right-bias of this
 structure
@@ -425,7 +565,27 @@ export function left<E = never, A = never>(e: E): Either<E, A> { ... }
 
 Added in v2.0.0
 
-# orElse (function)
+# map
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B>
+```
+
+Added in v2.0.0
+
+# mapLeft
+
+**Signature**
+
+```ts
+<E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A>
+```
+
+Added in v2.0.0
+
+# orElse
 
 **Signature**
 
@@ -435,7 +595,7 @@ export function orElse<E, A, M>(onLeft: (e: E) => Either<M, A>): (ma: Either<E, 
 
 Added in v2.0.0
 
-# parseJSON (function)
+# parseJSON
 
 Converts a JavaScript Object Notation (JSON) string into an object.
 
@@ -456,7 +616,27 @@ assert.deepStrictEqual(parseJSON('{"a":}', toError), left(new SyntaxError('Unexp
 
 Added in v2.0.0
 
-# right (function)
+# reduce
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B
+```
+
+Added in v2.0.0
+
+# reduceRight
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B
+```
+
+Added in v2.0.0
+
+# right
 
 Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
 of this structure
@@ -469,7 +649,7 @@ export function right<E = never, A = never>(a: A): Either<E, A> { ... }
 
 Added in v2.0.0
 
-# stringifyJSON (function)
+# stringifyJSON
 
 Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
 
@@ -499,7 +679,7 @@ assert.deepStrictEqual(
 
 Added in v2.0.0
 
-# swap (function)
+# swap
 
 **Signature**
 
@@ -509,7 +689,7 @@ export function swap<E, A>(ma: Either<E, A>): Either<A, E> { ... }
 
 Added in v2.0.0
 
-# toError (function)
+# toError
 
 Default value for the `onError` argument of `tryCatch`
 
@@ -521,7 +701,7 @@ export function toError(e: unknown): Error { ... }
 
 Added in v2.0.0
 
-# tryCatch (function)
+# tryCatch
 
 Constructs a new `Either` from a function that might throw
 
@@ -553,186 +733,6 @@ const head = <A>(as: Array<A>): Either<Error, A> => {
 
 assert.deepStrictEqual(head([]), left(new Error('empty array')))
 assert.deepStrictEqual(head([1, 2, 3]), right(1))
-```
-
-Added in v2.0.0
-
-# alt (export)
-
-**Signature**
-
-```ts
-<E, A>(that: () => Either<E, A>) => (fa: Either<E, A>) => Either<E, A>
-```
-
-Added in v2.0.0
-
-# ap (export)
-
-**Signature**
-
-```ts
-<E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B>
-```
-
-Added in v2.0.0
-
-# apFirst (export)
-
-**Signature**
-
-```ts
-<E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, A>
-```
-
-Added in v2.0.0
-
-# apSecond (export)
-
-**Signature**
-
-```ts
-<E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, B>
-```
-
-Added in v2.0.0
-
-# bimap (export)
-
-**Signature**
-
-```ts
-<E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<E, A>) => Either<G, B>
-```
-
-Added in v2.0.0
-
-# chain (export)
-
-**Signature**
-
-```ts
-<E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B>
-```
-
-Added in v2.0.0
-
-# chainFirst (export)
-
-**Signature**
-
-```ts
-<E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A>
-```
-
-Added in v2.0.0
-
-# duplicate (export)
-
-**Signature**
-
-```ts
-<E, A>(ma: Either<E, A>) => Either<E, Either<E, A>>
-```
-
-Added in v2.0.0
-
-# extend (export)
-
-**Signature**
-
-```ts
-<E, A, B>(f: (fa: Either<E, A>) => B) => (ma: Either<E, A>) => Either<E, B>
-```
-
-Added in v2.0.0
-
-# filterOrElse (export)
-
-**Signature**
-
-```ts
-{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>; }
-```
-
-Added in v2.0.0
-
-# flatten (export)
-
-**Signature**
-
-```ts
-<E, A>(mma: Either<E, Either<E, A>>) => Either<E, A>
-```
-
-Added in v2.0.0
-
-# foldMap (export)
-
-**Signature**
-
-```ts
-;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M
-```
-
-Added in v2.0.0
-
-# fromOption (export)
-
-**Signature**
-
-```ts
-<E>(onNone: () => E) => <A>(ma: Option<A>) => Either<E, A>
-```
-
-Added in v2.0.0
-
-# fromPredicate (export)
-
-**Signature**
-
-```ts
-{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Either<E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A>; }
-```
-
-Added in v2.0.0
-
-# map (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B>
-```
-
-Added in v2.0.0
-
-# mapLeft (export)
-
-**Signature**
-
-```ts
-<E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A>
-```
-
-Added in v2.0.0
-
-# reduce (export)
-
-**Signature**
-
-```ts
-;<A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B
-```
-
-Added in v2.0.0
-
-# reduceRight (export)
-
-**Signature**
-
-```ts
-;<A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B
 ```
 
 Added in v2.0.0

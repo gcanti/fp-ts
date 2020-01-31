@@ -13,97 +13,97 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [array (constant)](#array-constant)
-- [empty (constant)](#empty-constant)
-- [chop (function)](#chop-function)
-- [chunksOf (function)](#chunksof-function)
-- [comprehension (function)](#comprehension-function)
-- [cons (function)](#cons-function)
-- [copy (function)](#copy-function)
-- [deleteAt (function)](#deleteat-function)
-- [difference (function)](#difference-function)
-- [dropLeft (function)](#dropleft-function)
-- [dropLeftWhile (function)](#dropleftwhile-function)
-- [dropRight (function)](#dropright-function)
-- [elem (function)](#elem-function)
-- [findFirst (function)](#findfirst-function)
-- [findFirstMap (function)](#findfirstmap-function)
-- [findIndex (function)](#findindex-function)
-- [findLast (function)](#findlast-function)
-- [findLastIndex (function)](#findlastindex-function)
-- [findLastMap (function)](#findlastmap-function)
-- [flatten (function)](#flatten-function)
-- [foldLeft (function)](#foldleft-function)
-- [foldRight (function)](#foldright-function)
-- [getEq (function)](#geteq-function)
-- [getMonoid (function)](#getmonoid-function)
-- [getOrd (function)](#getord-function)
-- [getShow (function)](#getshow-function)
-- [head (function)](#head-function)
-- [init (function)](#init-function)
-- [insertAt (function)](#insertat-function)
-- [intersection (function)](#intersection-function)
-- [isEmpty (function)](#isempty-function)
-- [isNonEmpty (function)](#isnonempty-function)
-- [isOutOfBound (function)](#isoutofbound-function)
-- [last (function)](#last-function)
-- [lefts (function)](#lefts-function)
-- [lookup (function)](#lookup-function)
-- [makeBy (function)](#makeby-function)
-- [modifyAt (function)](#modifyat-function)
-- [of (function)](#of-function)
-- [range (function)](#range-function)
-- [replicate (function)](#replicate-function)
-- [reverse (function)](#reverse-function)
-- [rights (function)](#rights-function)
-- [rotate (function)](#rotate-function)
-- [scanLeft (function)](#scanleft-function)
-- [scanRight (function)](#scanright-function)
-- [snoc (function)](#snoc-function)
-- [sort (function)](#sort-function)
-- [sortBy (function)](#sortby-function)
-- [spanLeft (function)](#spanleft-function)
-- [splitAt (function)](#splitat-function)
-- [tail (function)](#tail-function)
-- [takeLeft (function)](#takeleft-function)
-- [takeLeftWhile (function)](#takeleftwhile-function)
-- [takeRight (function)](#takeright-function)
-- [union (function)](#union-function)
-- [uniq (function)](#uniq-function)
-- [unsafeDeleteAt (function)](#unsafedeleteat-function)
-- [unsafeInsertAt (function)](#unsafeinsertat-function)
-- [unsafeUpdateAt (function)](#unsafeupdateat-function)
-- [unzip (function)](#unzip-function)
-- [updateAt (function)](#updateat-function)
-- [zip (function)](#zip-function)
-- [zipWith (function)](#zipwith-function)
-- [alt (export)](#alt-export)
-- [ap (export)](#ap-export)
-- [apFirst (export)](#apfirst-export)
-- [apSecond (export)](#apsecond-export)
-- [chain (export)](#chain-export)
-- [chainFirst (export)](#chainfirst-export)
-- [compact (export)](#compact-export)
-- [duplicate (export)](#duplicate-export)
-- [extend (export)](#extend-export)
-- [filter (export)](#filter-export)
-- [filterMap (export)](#filtermap-export)
-- [filterMapWithIndex (export)](#filtermapwithindex-export)
-- [filterWithIndex (export)](#filterwithindex-export)
-- [foldMap (export)](#foldmap-export)
-- [foldMapWithIndex (export)](#foldmapwithindex-export)
-- [map (export)](#map-export)
-- [mapWithIndex (export)](#mapwithindex-export)
-- [partition (export)](#partition-export)
-- [partitionMap (export)](#partitionmap-export)
-- [partitionMapWithIndex (export)](#partitionmapwithindex-export)
-- [partitionWithIndex (export)](#partitionwithindex-export)
-- [reduce (export)](#reduce-export)
-- [reduceRight (export)](#reduceright-export)
-- [reduceRightWithIndex (export)](#reducerightwithindex-export)
-- [reduceWithIndex (export)](#reducewithindex-export)
-- [separate (export)](#separate-export)
+- [URI](#uri)
+- [alt](#alt)
+- [ap](#ap)
+- [apFirst](#apfirst)
+- [apSecond](#apsecond)
+- [array](#array)
+- [chain](#chain)
+- [chainFirst](#chainfirst)
+- [chop](#chop)
+- [chunksOf](#chunksof)
+- [compact](#compact)
+- [comprehension](#comprehension)
+- [cons](#cons)
+- [copy](#copy)
+- [deleteAt](#deleteat)
+- [difference](#difference)
+- [dropLeft](#dropleft)
+- [dropLeftWhile](#dropleftwhile)
+- [dropRight](#dropright)
+- [duplicate](#duplicate)
+- [elem](#elem)
+- [empty](#empty)
+- [extend](#extend)
+- [filter](#filter)
+- [filterMap](#filtermap)
+- [filterMapWithIndex](#filtermapwithindex)
+- [filterWithIndex](#filterwithindex)
+- [findFirst](#findfirst)
+- [findFirstMap](#findfirstmap)
+- [findIndex](#findindex)
+- [findLast](#findlast)
+- [findLastIndex](#findlastindex)
+- [findLastMap](#findlastmap)
+- [flatten](#flatten)
+- [foldLeft](#foldleft)
+- [foldMap](#foldmap)
+- [foldMapWithIndex](#foldmapwithindex)
+- [foldRight](#foldright)
+- [getEq](#geteq)
+- [getMonoid](#getmonoid)
+- [getOrd](#getord)
+- [getShow](#getshow)
+- [head](#head)
+- [init](#init)
+- [insertAt](#insertat)
+- [intersection](#intersection)
+- [isEmpty](#isempty)
+- [isNonEmpty](#isnonempty)
+- [isOutOfBound](#isoutofbound)
+- [last](#last)
+- [lefts](#lefts)
+- [lookup](#lookup)
+- [makeBy](#makeby)
+- [map](#map)
+- [mapWithIndex](#mapwithindex)
+- [modifyAt](#modifyat)
+- [of](#of)
+- [partition](#partition)
+- [partitionMap](#partitionmap)
+- [partitionMapWithIndex](#partitionmapwithindex)
+- [partitionWithIndex](#partitionwithindex)
+- [range](#range)
+- [reduce](#reduce)
+- [reduceRight](#reduceright)
+- [reduceRightWithIndex](#reducerightwithindex)
+- [reduceWithIndex](#reducewithindex)
+- [replicate](#replicate)
+- [reverse](#reverse)
+- [rights](#rights)
+- [rotate](#rotate)
+- [scanLeft](#scanleft)
+- [scanRight](#scanright)
+- [separate](#separate)
+- [snoc](#snoc)
+- [sort](#sort)
+- [sortBy](#sortby)
+- [spanLeft](#spanleft)
+- [splitAt](#splitat)
+- [tail](#tail)
+- [takeLeft](#takeleft)
+- [takeLeftWhile](#takeleftwhile)
+- [takeRight](#takeright)
+- [union](#union)
+- [uniq](#uniq)
+- [unsafeDeleteAt](#unsafedeleteat)
+- [unsafeInsertAt](#unsafeinsertat)
+- [unsafeUpdateAt](#unsafeupdateat)
+- [unzip](#unzip)
+- [updateAt](#updateat)
+- [zip](#zip)
+- [zipWith](#zipwith)
 
 ---
 
@@ -117,7 +117,7 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -127,7 +127,47 @@ export const URI: "Array" = ...
 
 Added in v2.0.0
 
-# array (constant)
+# alt
+
+**Signature**
+
+```ts
+<A>(that: () => A[]) => (fa: A[]) => A[]
+```
+
+Added in v2.0.0
+
+# ap
+
+**Signature**
+
+```ts
+<A>(fa: A[]) => <B>(fab: ((a: A) => B)[]) => B[]
+```
+
+Added in v2.0.0
+
+# apFirst
+
+**Signature**
+
+```ts
+<B>(fb: B[]) => <A>(fa: A[]) => A[]
+```
+
+Added in v2.0.0
+
+# apSecond
+
+**Signature**
+
+```ts
+<B>(fb: B[]) => <A>(fa: A[]) => B[]
+```
+
+Added in v2.0.0
+
+# array
 
 **Signature**
 
@@ -147,19 +187,27 @@ export const array: Monad1<URI> &
 
 Added in v2.0.0
 
-# empty (constant)
-
-An empty array
+# chain
 
 **Signature**
 
 ```ts
-export const empty: Array<never> = ...
+<A, B>(f: (a: A) => B[]) => (ma: A[]) => B[]
 ```
 
 Added in v2.0.0
 
-# chop (function)
+# chainFirst
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B[]) => (ma: A[]) => A[]
+```
+
+Added in v2.0.0
+
+# chop
 
 A useful recursion pattern for processing an array to produce a new array, often used for "chopping" up the input
 array. Typically chop is called with some function that will consume an initial prefix of the array and produce a
@@ -188,7 +236,7 @@ assert.deepStrictEqual(group(eqNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3]
 
 Added in v2.0.0
 
-# chunksOf (function)
+# chunksOf
 
 Splits an array into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
 the array. Note that `chunksOf(n)([])` is `[]`, not `[[]]`. This is intentional, and is consistent with a recursive
@@ -216,7 +264,17 @@ assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
 
 Added in v2.0.0
 
-# comprehension (function)
+# compact
+
+**Signature**
+
+```ts
+<A>(fa: Option<A>[]) => A[]
+```
+
+Added in v2.0.0
+
+# comprehension
 
 Array comprehension
 
@@ -272,7 +330,7 @@ assert.deepStrictEqual(
 
 Added in v2.0.0
 
-# cons (function)
+# cons
 
 Attaches an element to the front of an array, creating a new non empty array
 
@@ -292,7 +350,7 @@ assert.deepStrictEqual(cons(0, [1, 2, 3]), [0, 1, 2, 3])
 
 Added in v2.0.0
 
-# copy (function)
+# copy
 
 **Signature**
 
@@ -302,7 +360,7 @@ export function copy<A>(as: Array<A>): Array<A> { ... }
 
 Added in v2.0.0
 
-# deleteAt (function)
+# deleteAt
 
 Delete the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
 
@@ -324,7 +382,7 @@ assert.deepStrictEqual(deleteAt(1)([]), none)
 
 Added in v2.0.0
 
-# difference (function)
+# difference
 
 Creates an array of array values not included in the other given array using a `Eq` for equality
 comparisons. The order and references of result values are determined by the first array.
@@ -346,7 +404,7 @@ assert.deepStrictEqual(difference(eqNumber)([1, 2], [2, 3]), [1])
 
 Added in v2.0.0
 
-# dropLeft (function)
+# dropLeft
 
 Drop a number of elements from the start of an array, creating a new array
 
@@ -366,7 +424,7 @@ assert.deepStrictEqual(dropLeft(2)([1, 2, 3]), [3])
 
 Added in v2.0.0
 
-# dropLeftWhile (function)
+# dropLeftWhile
 
 Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new array
 
@@ -386,7 +444,7 @@ assert.deepStrictEqual(dropLeftWhile((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]
 
 Added in v2.0.0
 
-# dropRight (function)
+# dropRight
 
 Drop a number of elements from the end of an array, creating a new array
 
@@ -406,7 +464,17 @@ assert.deepStrictEqual(dropRight(2)([1, 2, 3, 4, 5]), [1, 2, 3])
 
 Added in v2.0.0
 
-# elem (function)
+# duplicate
+
+**Signature**
+
+```ts
+<A>(ma: A[]) => A[][]
+```
+
+Added in v2.0.0
+
+# elem
 
 Test if a value is a member of an array. Takes a `Eq<A>` as a single
 argument which returns the function to use to search for a value of type `A` in
@@ -430,7 +498,69 @@ assert.strictEqual(elem(eqNumber)(4, [1, 2, 3]), false)
 
 Added in v2.0.0
 
-# findFirst (function)
+# empty
+
+An empty array
+
+**Signature**
+
+```ts
+export const empty: Array<never> = ...
+```
+
+Added in v2.0.0
+
+# extend
+
+**Signature**
+
+```ts
+<A, B>(f: (fa: A[]) => B) => (ma: A[]) => B[]
+```
+
+Added in v2.0.0
+
+# filter
+
+**Signature**
+
+```ts
+{ <A, B>(refinement: Refinement<A, B>): (fa: A[]) => B[]; <A>(predicate: Predicate<A>): (fa: A[]) => A[]; }
+```
+
+Added in v2.0.0
+
+# filterMap
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => Option<B>) => (fa: A[]) => B[]
+```
+
+Added in v2.0.0
+
+# filterMapWithIndex
+
+**Signature**
+
+```ts
+<A, B>(f: (i: number, a: A) => Option<B>) => (fa: A[]) => B[]
+```
+
+Added in v2.0.0
+
+# filterWithIndex
+
+**Signature**
+
+```ts
+{ <A, B>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: A[]) => B[]; <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: A[]) => A[]; }
+```
+
+Added in v2.0.0
+
+# findFirst
 
 Find the first element which satisfies a predicate (or a refinement) function
 
@@ -458,7 +588,7 @@ assert.deepStrictEqual(
 
 Added in v2.0.0
 
-# findFirstMap (function)
+# findFirstMap
 
 Find the first element returned by an option based selector function
 
@@ -487,7 +617,7 @@ assert.deepStrictEqual(findFirstMap((p: Person) => (p.age === undefined ? none :
 
 Added in v2.0.0
 
-# findIndex (function)
+# findIndex
 
 Find the first index for which a predicate holds
 
@@ -509,7 +639,7 @@ assert.deepStrictEqual(findIndex((n: number) => n === 2)([]), none)
 
 Added in v2.0.0
 
-# findLast (function)
+# findLast
 
 Find the last element which satisfies a predicate function
 
@@ -537,7 +667,7 @@ assert.deepStrictEqual(
 
 Added in v2.0.0
 
-# findLastIndex (function)
+# findLastIndex
 
 Returns the index of the last element of the list which matches the predicate
 
@@ -567,7 +697,7 @@ assert.deepStrictEqual(findLastIndex((x: { a: number }) => x.a === 4)(xs), none)
 
 Added in v2.0.0
 
-# findLastMap (function)
+# findLastMap
 
 Find the last element returned by an option based selector function
 
@@ -596,7 +726,7 @@ assert.deepStrictEqual(findLastMap((p: Person) => (p.age === undefined ? none : 
 
 Added in v2.0.0
 
-# flatten (function)
+# flatten
 
 Removes one level of nesting
 
@@ -616,7 +746,7 @@ assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
 
 Added in v2.0.0
 
-# foldLeft (function)
+# foldLeft
 
 Break an array into its first element and remaining elements
 
@@ -640,7 +770,27 @@ assert.strictEqual(len([1, 2, 3]), 3)
 
 Added in v2.0.0
 
-# foldRight (function)
+# foldMap
+
+**Signature**
+
+```ts
+;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: A[]) => M
+```
+
+Added in v2.0.0
+
+# foldMapWithIndex
+
+**Signature**
+
+```ts
+;<M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: A[]) => M
+```
+
+Added in v2.0.0
+
+# foldRight
 
 Break an array into its initial elements and the last element
 
@@ -652,7 +802,7 @@ export function foldRight<A, B>(onNil: () => B, onCons: (init: Array<A>, last: A
 
 Added in v2.0.0
 
-# getEq (function)
+# getEq
 
 Derives an `Eq` over the `Array` of a given element type from the `Eq` of that type. The derived `Eq` defines two
 arrays as equal if all elements of both arrays are compared equal pairwise with the given `E`. In case of arrays of
@@ -677,7 +827,7 @@ assert.strictEqual(E.equals(['a'], []), false)
 
 Added in v2.0.0
 
-# getMonoid (function)
+# getMonoid
 
 Returns a `Monoid` for `Array<A>`
 
@@ -698,7 +848,7 @@ assert.deepStrictEqual(M.concat([1, 2], [3, 4]), [1, 2, 3, 4])
 
 Added in v2.0.0
 
-# getOrd (function)
+# getOrd
 
 Derives an `Ord` over the `Array` of a given element type from the `Ord` of that type. The ordering between two such
 arrays is equal to: the first non equal comparison of each arrays elements taken pairwise in increasing order, in
@@ -725,7 +875,7 @@ assert.strictEqual(O.compare(['a'], ['b']), -1)
 
 Added in v2.0.0
 
-# getShow (function)
+# getShow
 
 **Signature**
 
@@ -735,7 +885,7 @@ export function getShow<A>(S: Show<A>): Show<Array<A>> { ... }
 
 Added in v2.0.0
 
-# head (function)
+# head
 
 Get the first element in an array, or `None` if the array is empty
 
@@ -757,7 +907,7 @@ assert.deepStrictEqual(head([]), none)
 
 Added in v2.0.0
 
-# init (function)
+# init
 
 Get all but the last element of an array, creating a new array, or `None` if the array is empty
 
@@ -779,7 +929,7 @@ assert.deepStrictEqual(init([]), none)
 
 Added in v2.0.0
 
-# insertAt (function)
+# insertAt
 
 Insert an element at the specified index, creating a new array, or returning `None` if the index is out of bounds
 
@@ -800,7 +950,7 @@ assert.deepStrictEqual(insertAt(2, 5)([1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
 
 Added in v2.0.0
 
-# intersection (function)
+# intersection
 
 Creates an array of unique values that are included in all given arrays using a `Eq` for equality
 comparisons. The order and references of result values are determined by the first array.
@@ -822,7 +972,7 @@ assert.deepStrictEqual(intersection(eqNumber)([1, 2], [2, 3]), [2])
 
 Added in v2.0.0
 
-# isEmpty (function)
+# isEmpty
 
 Test whether an array is empty
 
@@ -842,7 +992,7 @@ assert.strictEqual(isEmpty([]), true)
 
 Added in v2.0.0
 
-# isNonEmpty (function)
+# isNonEmpty
 
 Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
 
@@ -854,7 +1004,7 @@ export function isNonEmpty<A>(as: Array<A>): as is NonEmptyArray<A> { ... }
 
 Added in v2.0.0
 
-# isOutOfBound (function)
+# isOutOfBound
 
 Test whether an array contains a particular index
 
@@ -866,7 +1016,7 @@ export function isOutOfBound<A>(i: number, as: Array<A>): boolean { ... }
 
 Added in v2.0.0
 
-# last (function)
+# last
 
 Get the last element in an array, or `None` if the array is empty
 
@@ -888,7 +1038,7 @@ assert.deepStrictEqual(last([]), none)
 
 Added in v2.0.0
 
-# lefts (function)
+# lefts
 
 Extracts from an array of `Either` all the `Left` elements. All the `Left` elements are extracted in order
 
@@ -909,7 +1059,7 @@ assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
 
 Added in v2.0.0
 
-# lookup (function)
+# lookup
 
 This function provides a safe way to read a value at a particular index from an array
 
@@ -931,7 +1081,7 @@ assert.deepStrictEqual(lookup(3, [1, 2, 3]), none)
 
 Added in v2.0.0
 
-# makeBy (function)
+# makeBy
 
 Return a list of length `n` with element `i` initialized with `f(i)`
 
@@ -952,7 +1102,27 @@ assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
 
 Added in v2.0.0
 
-# modifyAt (function)
+# map
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => (fa: A[]) => B[]
+```
+
+Added in v2.0.0
+
+# mapWithIndex
+
+**Signature**
+
+```ts
+<A, B>(f: (i: number, a: A) => B) => (fa: A[]) => B[]
+```
+
+Added in v2.0.0
+
+# modifyAt
 
 Apply a function to the element at the specified index, creating a new array, or returning `None` if the index is out
 of bounds
@@ -976,7 +1146,7 @@ assert.deepStrictEqual(modifyAt(1, double)([]), none)
 
 Added in v2.0.0
 
-# of (function)
+# of
 
 **Signature**
 
@@ -986,7 +1156,47 @@ export const of = <A>(a: A): Array<A> => ...
 
 Added in v2.0.0
 
-# range (function)
+# partition
+
+**Signature**
+
+```ts
+{ <A, B>(refinement: Refinement<A, B>): (fa: A[]) => Separated<A[], B[]>; <A>(predicate: Predicate<A>): (fa: A[]) => Separated<A[], A[]>; }
+```
+
+Added in v2.0.0
+
+# partitionMap
+
+**Signature**
+
+```ts
+<A, B, C>(f: (a: A) => Either<B, C>) => (fa: A[]) => Separated<B[], C[]>
+```
+
+Added in v2.0.0
+
+# partitionMapWithIndex
+
+**Signature**
+
+```ts
+<A, B, C>(f: (i: number, a: A) => Either<B, C>) => (fa: A[]) => Separated<B[], C[]>
+```
+
+Added in v2.0.0
+
+# partitionWithIndex
+
+**Signature**
+
+```ts
+{ <A, B>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: A[]) => Separated<A[], B[]>; <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: A[]) => Separated<A[], A[]>; }
+```
+
+Added in v2.0.0
+
+# range
 
 Create an array containing a range of integers, including both endpoints
 
@@ -1006,7 +1216,47 @@ assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
 
 Added in v2.0.0
 
-# replicate (function)
+# reduce
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: A[]) => B
+```
+
+Added in v2.0.0
+
+# reduceRight
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: A[]) => B
+```
+
+Added in v2.0.0
+
+# reduceRightWithIndex
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: A[]) => B
+```
+
+Added in v2.0.0
+
+# reduceWithIndex
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: A[]) => B
+```
+
+Added in v2.0.0
+
+# replicate
 
 Create an array containing a value repeated the specified number of times
 
@@ -1026,7 +1276,7 @@ assert.deepStrictEqual(replicate(3, 'a'), ['a', 'a', 'a'])
 
 Added in v2.0.0
 
-# reverse (function)
+# reverse
 
 Reverse an array, creating a new array
 
@@ -1046,7 +1296,7 @@ assert.deepStrictEqual(reverse([1, 2, 3]), [3, 2, 1])
 
 Added in v2.0.0
 
-# rights (function)
+# rights
 
 Extracts from an array of `Either` all the `Right` elements. All the `Right` elements are extracted in order
 
@@ -1067,7 +1317,7 @@ assert.deepStrictEqual(rights([right(1), left('foo'), right(2)]), [1, 2])
 
 Added in v2.0.0
 
-# rotate (function)
+# rotate
 
 Rotate an array to the right by `n` steps
 
@@ -1087,7 +1337,7 @@ assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
 
 Added in v2.0.0
 
-# scanLeft (function)
+# scanLeft
 
 Same as `reduce` but it carries over the intermediate steps
 
@@ -1105,7 +1355,7 @@ export function scanLeft<A, B>(b: B, f: (b: B, a: A) => B): (as: Array<A>) => Ar
 
 Added in v2.0.0
 
-# scanRight (function)
+# scanRight
 
 Fold an array from the right, keeping all intermediate results instead of only the final result
 
@@ -1125,7 +1375,17 @@ assert.deepStrictEqual(scanRight(10, (a: number, b) => b - a)([1, 2, 3]), [4, 5,
 
 Added in v2.0.0
 
-# snoc (function)
+# separate
+
+**Signature**
+
+```ts
+<A, B>(fa: Either<A, B>[]) => Separated<A[], B[]>
+```
+
+Added in v2.0.0
+
+# snoc
 
 Append an element to the end of an array, creating a new non empty array
 
@@ -1145,7 +1405,7 @@ assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
 
 Added in v2.0.0
 
-# sort (function)
+# sort
 
 Sort the elements of an array in increasing order, creating a new array
 
@@ -1166,7 +1426,7 @@ assert.deepStrictEqual(sort(ordNumber)([3, 2, 1]), [1, 2, 3])
 
 Added in v2.0.0
 
-# sortBy (function)
+# sortBy
 
 Sort the elements of an array in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
 etc...
@@ -1208,7 +1468,7 @@ assert.deepStrictEqual(sortByNameByAge(persons), [
 
 Added in v2.0.0
 
-# spanLeft (function)
+# spanLeft
 
 Split an array into two parts:
 
@@ -1234,7 +1494,7 @@ assert.deepStrictEqual(spanLeft((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { 
 
 Added in v2.0.0
 
-# splitAt (function)
+# splitAt
 
 Splits an array into two pieces, the first piece has `n` elements.
 
@@ -1257,7 +1517,7 @@ assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
 
 Added in v2.0.0
 
-# tail (function)
+# tail
 
 Get all but the first element of an array, creating a new array, or `None` if the array is empty
 
@@ -1279,7 +1539,7 @@ assert.deepStrictEqual(tail([]), none)
 
 Added in v2.0.0
 
-# takeLeft (function)
+# takeLeft
 
 Keep only a number of elements from the start of an array, creating a new array.
 `n` must be a natural number
@@ -1300,7 +1560,7 @@ assert.deepStrictEqual(takeLeft(2)([1, 2, 3]), [1, 2])
 
 Added in v2.0.0
 
-# takeLeftWhile (function)
+# takeLeftWhile
 
 Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
 
@@ -1321,7 +1581,7 @@ assert.deepStrictEqual(takeLeftWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), 
 
 Added in v2.0.0
 
-# takeRight (function)
+# takeRight
 
 Keep only a number of elements from the end of an array, creating a new array.
 `n` must be a natural number
@@ -1342,7 +1602,7 @@ assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
 
 Added in v2.0.0
 
-# union (function)
+# union
 
 Creates an array of unique values, in order, from all given arrays using a `Eq` for equality comparisons
 
@@ -1363,7 +1623,7 @@ assert.deepStrictEqual(union(eqNumber)([1, 2], [2, 3]), [1, 2, 3])
 
 Added in v2.0.0
 
-# uniq (function)
+# uniq
 
 Remove duplicates from an array, keeping the first occurrence of an element.
 
@@ -1384,7 +1644,7 @@ assert.deepStrictEqual(uniq(eqNumber)([1, 2, 1]), [1, 2])
 
 Added in v2.0.0
 
-# unsafeDeleteAt (function)
+# unsafeDeleteAt
 
 **Signature**
 
@@ -1394,7 +1654,7 @@ export function unsafeDeleteAt<A>(i: number, as: Array<A>): Array<A> { ... }
 
 Added in v2.0.0
 
-# unsafeInsertAt (function)
+# unsafeInsertAt
 
 **Signature**
 
@@ -1404,7 +1664,7 @@ export function unsafeInsertAt<A>(i: number, a: A, as: Array<A>): Array<A> { ...
 
 Added in v2.0.0
 
-# unsafeUpdateAt (function)
+# unsafeUpdateAt
 
 **Signature**
 
@@ -1414,7 +1674,7 @@ export function unsafeUpdateAt<A>(i: number, a: A, as: Array<A>): Array<A> { ...
 
 Added in v2.0.0
 
-# unzip (function)
+# unzip
 
 The function is reverse of `zip`. Takes an array of pairs and return two corresponding arrays
 
@@ -1444,7 +1704,7 @@ assert.deepStrictEqual(
 
 Added in v2.0.0
 
-# updateAt (function)
+# updateAt
 
 Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
 
@@ -1466,7 +1726,7 @@ assert.deepStrictEqual(updateAt(1, 1)([]), none)
 
 Added in v2.0.0
 
-# zip (function)
+# zip
 
 Takes two arrays and returns an array of corresponding pairs. If one input array is short, excess elements of the
 longer array are discarded
@@ -1491,7 +1751,7 @@ assert.deepStrictEqual(zip([1, 2, 3], ['a', 'b', 'c', 'd']), [
 
 Added in v2.0.0
 
-# zipWith (function)
+# zipWith
 
 Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If one
 input array is short, excess elements of the longer array are discarded.
@@ -1511,266 +1771,6 @@ assert.deepStrictEqual(
   zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n),
   ['a1', 'b2', 'c3']
 )
-```
-
-Added in v2.0.0
-
-# alt (export)
-
-**Signature**
-
-```ts
-<A>(that: () => A[]) => (fa: A[]) => A[]
-```
-
-Added in v2.0.0
-
-# ap (export)
-
-**Signature**
-
-```ts
-<A>(fa: A[]) => <B>(fab: ((a: A) => B)[]) => B[]
-```
-
-Added in v2.0.0
-
-# apFirst (export)
-
-**Signature**
-
-```ts
-<B>(fb: B[]) => <A>(fa: A[]) => A[]
-```
-
-Added in v2.0.0
-
-# apSecond (export)
-
-**Signature**
-
-```ts
-<B>(fb: B[]) => <A>(fa: A[]) => B[]
-```
-
-Added in v2.0.0
-
-# chain (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => B[]) => (ma: A[]) => B[]
-```
-
-Added in v2.0.0
-
-# chainFirst (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => B[]) => (ma: A[]) => A[]
-```
-
-Added in v2.0.0
-
-# compact (export)
-
-**Signature**
-
-```ts
-<A>(fa: Option<A>[]) => A[]
-```
-
-Added in v2.0.0
-
-# duplicate (export)
-
-**Signature**
-
-```ts
-<A>(ma: A[]) => A[][]
-```
-
-Added in v2.0.0
-
-# extend (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (fa: A[]) => B) => (ma: A[]) => B[]
-```
-
-Added in v2.0.0
-
-# filter (export)
-
-**Signature**
-
-```ts
-{ <A, B>(refinement: Refinement<A, B>): (fa: A[]) => B[]; <A>(predicate: Predicate<A>): (fa: A[]) => A[]; }
-```
-
-Added in v2.0.0
-
-# filterMap (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => Option<B>) => (fa: A[]) => B[]
-```
-
-Added in v2.0.0
-
-# filterMapWithIndex (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (i: number, a: A) => Option<B>) => (fa: A[]) => B[]
-```
-
-Added in v2.0.0
-
-# filterWithIndex (export)
-
-**Signature**
-
-```ts
-{ <A, B>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: A[]) => B[]; <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: A[]) => A[]; }
-```
-
-Added in v2.0.0
-
-# foldMap (export)
-
-**Signature**
-
-```ts
-;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: A[]) => M
-```
-
-Added in v2.0.0
-
-# foldMapWithIndex (export)
-
-**Signature**
-
-```ts
-;<M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: A[]) => M
-```
-
-Added in v2.0.0
-
-# map (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => B) => (fa: A[]) => B[]
-```
-
-Added in v2.0.0
-
-# mapWithIndex (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (i: number, a: A) => B) => (fa: A[]) => B[]
-```
-
-Added in v2.0.0
-
-# partition (export)
-
-**Signature**
-
-```ts
-{ <A, B>(refinement: Refinement<A, B>): (fa: A[]) => Separated<A[], B[]>; <A>(predicate: Predicate<A>): (fa: A[]) => Separated<A[], A[]>; }
-```
-
-Added in v2.0.0
-
-# partitionMap (export)
-
-**Signature**
-
-```ts
-<A, B, C>(f: (a: A) => Either<B, C>) => (fa: A[]) => Separated<B[], C[]>
-```
-
-Added in v2.0.0
-
-# partitionMapWithIndex (export)
-
-**Signature**
-
-```ts
-<A, B, C>(f: (i: number, a: A) => Either<B, C>) => (fa: A[]) => Separated<B[], C[]>
-```
-
-Added in v2.0.0
-
-# partitionWithIndex (export)
-
-**Signature**
-
-```ts
-{ <A, B>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: A[]) => Separated<A[], B[]>; <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: A[]) => Separated<A[], A[]>; }
-```
-
-Added in v2.0.0
-
-# reduce (export)
-
-**Signature**
-
-```ts
-;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: A[]) => B
-```
-
-Added in v2.0.0
-
-# reduceRight (export)
-
-**Signature**
-
-```ts
-;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: A[]) => B
-```
-
-Added in v2.0.0
-
-# reduceRightWithIndex (export)
-
-**Signature**
-
-```ts
-;<A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: A[]) => B
-```
-
-Added in v2.0.0
-
-# reduceWithIndex (export)
-
-**Signature**
-
-```ts
-;<A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: A[]) => B
-```
-
-Added in v2.0.0
-
-# separate (export)
-
-**Signature**
-
-```ts
-<A, B>(fa: Either<A, B>[]) => Separated<A[], B[]>
 ```
 
 Added in v2.0.0

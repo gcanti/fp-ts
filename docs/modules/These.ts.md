@@ -33,34 +33,34 @@ Added in v2.0.0
 - [Both (interface)](#both-interface)
 - [These (type alias)](#these-type-alias)
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [swap (constant)](#swap-constant)
-- [these (constant)](#these-constant)
-- [both (function)](#both-function)
-- [fold (function)](#fold-function)
-- [fromOptions (function)](#fromoptions-function)
-- [getEq (function)](#geteq-function)
-- [getLeft (function)](#getleft-function)
-- [getLeftOnly (function)](#getleftonly-function)
-- [getMonad (function)](#getmonad-function)
-- [getRight (function)](#getright-function)
-- [getRightOnly (function)](#getrightonly-function)
-- [getSemigroup (function)](#getsemigroup-function)
-- [getShow (function)](#getshow-function)
-- [isBoth (function)](#isboth-function)
-- [isLeft (function)](#isleft-function)
-- [isRight (function)](#isright-function)
-- [left (function)](#left-function)
-- [leftOrBoth (function)](#leftorboth-function)
-- [right (function)](#right-function)
-- [rightOrBoth (function)](#rightorboth-function)
-- [toTuple (function)](#totuple-function)
-- [bimap (export)](#bimap-export)
-- [foldMap (export)](#foldmap-export)
-- [map (export)](#map-export)
-- [mapLeft (export)](#mapleft-export)
-- [reduce (export)](#reduce-export)
-- [reduceRight (export)](#reduceright-export)
+- [URI](#uri)
+- [bimap](#bimap)
+- [both](#both)
+- [fold](#fold)
+- [foldMap](#foldmap)
+- [fromOptions](#fromoptions)
+- [getEq](#geteq)
+- [getLeft](#getleft)
+- [getLeftOnly](#getleftonly)
+- [getMonad](#getmonad)
+- [getRight](#getright)
+- [getRightOnly](#getrightonly)
+- [getSemigroup](#getsemigroup)
+- [getShow](#getshow)
+- [isBoth](#isboth)
+- [isLeft](#isleft)
+- [isRight](#isright)
+- [left](#left)
+- [leftOrBoth](#leftorboth)
+- [map](#map)
+- [mapLeft](#mapleft)
+- [reduce](#reduce)
+- [reduceRight](#reduceright)
+- [right](#right)
+- [rightOrBoth](#rightorboth)
+- [swap](#swap)
+- [these](#these)
+- [toTuple](#totuple)
 
 ---
 
@@ -98,7 +98,7 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -108,27 +108,17 @@ export const URI: "These" = ...
 
 Added in v2.0.0
 
-# swap (constant)
+# bimap
 
 **Signature**
 
 ```ts
-export const swap: <E, A>(fa: These<E, A>) => These<A, E> = ...
-```
-
-Added in v2.4.0
-
-# these (constant)
-
-**Signature**
-
-```ts
-export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI> = ...
+<E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: These<E, A>) => These<G, B>
 ```
 
 Added in v2.0.0
 
-# both (function)
+# both
 
 **Signature**
 
@@ -138,7 +128,7 @@ export function both<E, A>(left: E, right: A): These<E, A> { ... }
 
 Added in v2.0.0
 
-# fold (function)
+# fold
 
 **Signature**
 
@@ -152,7 +142,17 @@ export function fold<E, A, B>(
 
 Added in v2.0.0
 
-# fromOptions (function)
+# foldMap
+
+**Signature**
+
+```ts
+;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<E, A>) => M
+```
+
+Added in v2.0.0
+
+# fromOptions
 
 Takes a pair of `Option`s and attempts to create a `These` from them
 
@@ -176,7 +176,7 @@ assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
 
 Added in v2.0.0
 
-# getEq (function)
+# getEq
 
 **Signature**
 
@@ -186,7 +186,7 @@ export function getEq<E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>> { ... }
 
 Added in v2.0.0
 
-# getLeft (function)
+# getLeft
 
 Returns an `E` value if possible
 
@@ -209,7 +209,7 @@ assert.deepStrictEqual(getLeft(both('a', 1)), some('a'))
 
 Added in v2.0.0
 
-# getLeftOnly (function)
+# getLeftOnly
 
 Returns the `E` value if and only if the value is constructed with `Left`
 
@@ -232,7 +232,7 @@ assert.deepStrictEqual(getLeftOnly(both('a', 1)), none)
 
 Added in v2.0.0
 
-# getMonad (function)
+# getMonad
 
 **Signature**
 
@@ -242,7 +242,7 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> { ... }
 
 Added in v2.0.0
 
-# getRight (function)
+# getRight
 
 Returns an `A` value if possible
 
@@ -265,7 +265,7 @@ assert.deepStrictEqual(getRight(both('a', 1)), some(1))
 
 Added in v2.0.0
 
-# getRightOnly (function)
+# getRightOnly
 
 Returns the `A` value if and only if the value is constructed with `Right`
 
@@ -288,7 +288,7 @@ assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
 
 Added in v2.0.0
 
-# getSemigroup (function)
+# getSemigroup
 
 **Signature**
 
@@ -298,7 +298,7 @@ export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
 
 Added in v2.0.0
 
-# getShow (function)
+# getShow
 
 **Signature**
 
@@ -308,7 +308,7 @@ export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>> { ...
 
 Added in v2.0.0
 
-# isBoth (function)
+# isBoth
 
 Returns `true` if the these is an instance of `Both`, `false` otherwise
 
@@ -320,7 +320,7 @@ export function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A> { ... }
 
 Added in v2.0.0
 
-# isLeft (function)
+# isLeft
 
 Returns `true` if the these is an instance of `Left`, `false` otherwise
 
@@ -332,7 +332,7 @@ export function isLeft<E, A>(fa: These<E, A>): fa is Left<E> { ... }
 
 Added in v2.0.0
 
-# isRight (function)
+# isRight
 
 Returns `true` if the these is an instance of `Right`, `false` otherwise
 
@@ -344,7 +344,7 @@ export function isRight<E, A>(fa: These<E, A>): fa is Right<A> { ... }
 
 Added in v2.0.0
 
-# left (function)
+# left
 
 **Signature**
 
@@ -354,7 +354,7 @@ export function left<E = never, A = never>(left: E): These<E, A> { ... }
 
 Added in v2.0.0
 
-# leftOrBoth (function)
+# leftOrBoth
 
 **Signature**
 
@@ -374,7 +374,47 @@ assert.deepStrictEqual(leftOrBoth('a')(some(1)), both('a', 1))
 
 Added in v2.0.0
 
-# right (function)
+# map
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B>
+```
+
+Added in v2.0.0
+
+# mapLeft
+
+**Signature**
+
+```ts
+<E, G>(f: (e: E) => G) => <A>(fa: These<E, A>) => These<G, A>
+```
+
+Added in v2.0.0
+
+# reduce
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) => B
+```
+
+Added in v2.0.0
+
+# reduceRight
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B
+```
+
+Added in v2.0.0
+
+# right
 
 **Signature**
 
@@ -384,7 +424,7 @@ export function right<E = never, A = never>(right: A): These<E, A> { ... }
 
 Added in v2.0.0
 
-# rightOrBoth (function)
+# rightOrBoth
 
 **Signature**
 
@@ -404,7 +444,27 @@ assert.deepStrictEqual(rightOrBoth(1)(some('a')), both('a', 1))
 
 Added in v2.0.0
 
-# toTuple (function)
+# swap
+
+**Signature**
+
+```ts
+export const swap: <E, A>(fa: These<E, A>) => These<A, E> = ...
+```
+
+Added in v2.4.0
+
+# these
+
+**Signature**
+
+```ts
+export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI> = ...
+```
+
+Added in v2.0.0
+
+# toTuple
 
 **Signature**
 
@@ -420,66 +480,6 @@ import { toTuple, left, right, both } from 'fp-ts/lib/These'
 assert.deepStrictEqual(toTuple('a', 1)(left('b')), ['b', 1])
 assert.deepStrictEqual(toTuple('a', 1)(right(2)), ['a', 2])
 assert.deepStrictEqual(toTuple('a', 1)(both('b', 2)), ['b', 2])
-```
-
-Added in v2.0.0
-
-# bimap (export)
-
-**Signature**
-
-```ts
-<E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: These<E, A>) => These<G, B>
-```
-
-Added in v2.0.0
-
-# foldMap (export)
-
-**Signature**
-
-```ts
-;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<E, A>) => M
-```
-
-Added in v2.0.0
-
-# map (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B>
-```
-
-Added in v2.0.0
-
-# mapLeft (export)
-
-**Signature**
-
-```ts
-<E, G>(f: (e: E) => G) => <A>(fa: These<E, A>) => These<G, A>
-```
-
-Added in v2.0.0
-
-# reduce (export)
-
-**Signature**
-
-```ts
-;<A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) => B
-```
-
-Added in v2.0.0
-
-# reduceRight (export)
-
-**Signature**
-
-```ts
-;<A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B
 ```
 
 Added in v2.0.0

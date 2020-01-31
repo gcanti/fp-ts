@@ -104,18 +104,18 @@ Added in v2.0.0
 
 - [IO (interface)](#io-interface)
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [io (constant)](#io-constant)
-- [getMonoid (function)](#getmonoid-function)
-- [getSemigroup (function)](#getsemigroup-function)
-- [of (function)](#of-function)
-- [ap (export)](#ap-export)
-- [apFirst (export)](#apfirst-export)
-- [apSecond (export)](#apsecond-export)
-- [chain (export)](#chain-export)
-- [chainFirst (export)](#chainfirst-export)
-- [flatten (export)](#flatten-export)
-- [map (export)](#map-export)
+- [URI](#uri)
+- [ap](#ap)
+- [apFirst](#apfirst)
+- [apSecond](#apsecond)
+- [chain](#chain)
+- [chainFirst](#chainfirst)
+- [flatten](#flatten)
+- [getMonoid](#getmonoid)
+- [getSemigroup](#getsemigroup)
+- [io](#io)
+- [map](#map)
+- [of](#of)
 
 ---
 
@@ -141,7 +141,7 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -151,47 +151,7 @@ export const URI: "IO" = ...
 
 Added in v2.0.0
 
-# io (constant)
-
-**Signature**
-
-```ts
-export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = ...
-```
-
-Added in v2.0.0
-
-# getMonoid (function)
-
-**Signature**
-
-```ts
-export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> { ... }
-```
-
-Added in v2.0.0
-
-# getSemigroup (function)
-
-**Signature**
-
-```ts
-export function getSemigroup<A>(S: Semigroup<A>): Semigroup<IO<A>> { ... }
-```
-
-Added in v2.0.0
-
-# of (function)
-
-**Signature**
-
-```ts
-export const of = <A>(a: A): IO<A> => () => ...
-```
-
-Added in v2.0.0
-
-# ap (export)
+# ap
 
 **Signature**
 
@@ -201,7 +161,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# apFirst (export)
+# apFirst
 
 **Signature**
 
@@ -211,7 +171,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# apSecond (export)
+# apSecond
 
 **Signature**
 
@@ -221,7 +181,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# chain (export)
+# chain
 
 **Signature**
 
@@ -231,7 +191,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# chainFirst (export)
+# chainFirst
 
 **Signature**
 
@@ -241,7 +201,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# flatten (export)
+# flatten
 
 **Signature**
 
@@ -251,12 +211,52 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# map (export)
+# getMonoid
+
+**Signature**
+
+```ts
+export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> { ... }
+```
+
+Added in v2.0.0
+
+# getSemigroup
+
+**Signature**
+
+```ts
+export function getSemigroup<A>(S: Semigroup<A>): Semigroup<IO<A>> { ... }
+```
+
+Added in v2.0.0
+
+# io
+
+**Signature**
+
+```ts
+export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = ...
+```
+
+Added in v2.0.0
+
+# map
 
 **Signature**
 
 ```ts
 <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B>
+```
+
+Added in v2.0.0
+
+# of
+
+**Signature**
+
+```ts
+export const of = <A>(a: A): IO<A> => () => ...
 ```
 
 Added in v2.0.0

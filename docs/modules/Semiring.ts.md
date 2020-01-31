@@ -33,7 +33,7 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [Semiring (interface)](#semiring-interface)
-- [getFunctionSemiring (function)](#getfunctionsemiring-function)
+- [getFunctionSemiring](#getfunctionsemiring)
 
 ---
 
@@ -52,7 +52,7 @@ export interface Semiring<A> {
 
 Added in v2.0.0
 
-# getFunctionSemiring (function)
+# getFunctionSemiring
 
 **Signature**
 

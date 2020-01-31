@@ -21,9 +21,9 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [Ring (interface)](#ring-interface)
-- [getFunctionRing (function)](#getfunctionring-function)
-- [getTupleRing (function)](#gettuplering-function)
-- [negate (function)](#negate-function)
+- [getFunctionRing](#getfunctionring)
+- [getTupleRing](#gettuplering)
+- [negate](#negate)
 
 ---
 
@@ -39,7 +39,7 @@ export interface Ring<A> extends Semiring<A> {
 
 Added in v2.0.0
 
-# getFunctionRing (function)
+# getFunctionRing
 
 **Signature**
 
@@ -49,7 +49,7 @@ export function getFunctionRing<A, B>(ring: Ring<B>): Ring<(a: A) => B> { ... }
 
 Added in v2.0.0
 
-# getTupleRing (function)
+# getTupleRing
 
 Given a tuple of `Ring`s returns a `Ring` for the tuple
 
@@ -77,7 +77,7 @@ assert.deepStrictEqual(R.zero, [0, 0, 0])
 
 Added in v2.0.0
 
-# negate (function)
+# negate
 
 `negate x` can be used as a shorthand for `zero - x`
 

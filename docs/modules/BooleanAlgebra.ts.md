@@ -22,10 +22,10 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [BooleanAlgebra (interface)](#booleanalgebra-interface)
-- [booleanAlgebraBoolean (constant)](#booleanalgebraboolean-constant)
-- [booleanAlgebraVoid (constant)](#booleanalgebravoid-constant)
-- [getDualBooleanAlgebra (function)](#getdualbooleanalgebra-function)
-- [getFunctionBooleanAlgebra (function)](#getfunctionbooleanalgebra-function)
+- [booleanAlgebraBoolean](#booleanalgebraboolean)
+- [booleanAlgebraVoid](#booleanalgebravoid)
+- [getDualBooleanAlgebra](#getdualbooleanalgebra)
+- [getFunctionBooleanAlgebra](#getfunctionbooleanalgebra)
 
 ---
 
@@ -39,7 +39,7 @@ export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
 
 Added in v2.0.0
 
-# booleanAlgebraBoolean (constant)
+# booleanAlgebraBoolean
 
 **Signature**
 
@@ -49,7 +49,7 @@ export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = ...
 
 Added in v2.0.0
 
-# booleanAlgebraVoid (constant)
+# booleanAlgebraVoid
 
 **Signature**
 
@@ -59,7 +59,7 @@ export const booleanAlgebraVoid: BooleanAlgebra<void> = ...
 
 Added in v2.0.0
 
-# getDualBooleanAlgebra (function)
+# getDualBooleanAlgebra
 
 Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
 
@@ -71,7 +71,7 @@ export function getDualBooleanAlgebra<A>(B: BooleanAlgebra<A>): BooleanAlgebra<A
 
 Added in v2.0.0
 
-# getFunctionBooleanAlgebra (function)
+# getFunctionBooleanAlgebra
 
 **Signature**
 

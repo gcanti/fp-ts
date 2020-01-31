@@ -120,8 +120,8 @@ Added in v2.0.0
 - [PipeableSemigroupoid3 (interface)](#pipeablesemigroupoid3-interface)
 - [PipeableSemigroupoid3C (interface)](#pipeablesemigroupoid3c-interface)
 - [PipeableSemigroupoid4 (interface)](#pipeablesemigroupoid4-interface)
-- [pipe (function)](#pipe-function)
-- [pipeable (function)](#pipeable-function)
+- [pipe](#pipe)
+- [pipeable](#pipeable)
 
 ---
 
@@ -1769,7 +1769,7 @@ export interface PipeableSemigroupoid4<F extends URIS4> {
 
 Added in v2.0.0
 
-# pipe (function)
+# pipe
 
 **Signature**
 
@@ -1833,7 +1833,7 @@ export function pipe<A, B, C, D, E, F, G, H, I, J>(
 
 Added in v2.0.0
 
-# pipeable (function)
+# pipeable
 
 **Signature**
 

@@ -15,9 +15,9 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [Field (interface)](#field-interface)
-- [fieldNumber (constant)](#fieldnumber-constant)
-- [gcd (function)](#gcd-function)
-- [lcm (function)](#lcm-function)
+- [fieldNumber](#fieldnumber)
+- [gcd](#gcd)
+- [lcm](#lcm)
 
 ---
 
@@ -35,7 +35,7 @@ export interface Field<A> extends Ring<A> {
 
 Added in v2.0.0
 
-# fieldNumber (constant)
+# fieldNumber
 
 **Signature**
 
@@ -45,7 +45,7 @@ export const fieldNumber: Field<number> = ...
 
 Added in v2.0.0
 
-# gcd (function)
+# gcd
 
 The _greatest common divisor_ of two values
 
@@ -57,7 +57,7 @@ export function gcd<A>(E: Eq<A>, field: Field<A>): (x: A, y: A) => A { ... }
 
 Added in v2.0.0
 
-# lcm (function)
+# lcm
 
 The _least common multiple_ of two values
 

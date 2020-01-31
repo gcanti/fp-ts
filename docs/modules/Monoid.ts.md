@@ -13,20 +13,20 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [Monoid (interface)](#monoid-interface)
-- [monoidAll (constant)](#monoidall-constant)
-- [monoidAny (constant)](#monoidany-constant)
-- [monoidProduct (constant)](#monoidproduct-constant)
-- [monoidString (constant)](#monoidstring-constant)
-- [monoidSum (constant)](#monoidsum-constant)
-- [monoidVoid (constant)](#monoidvoid-constant)
-- [fold (function)](#fold-function)
-- [getDualMonoid (function)](#getdualmonoid-function)
-- [getEndomorphismMonoid (function)](#getendomorphismmonoid-function)
-- [getFunctionMonoid (function)](#getfunctionmonoid-function)
-- [getJoinMonoid (function)](#getjoinmonoid-function)
-- [getMeetMonoid (function)](#getmeetmonoid-function)
-- [getStructMonoid (function)](#getstructmonoid-function)
-- [getTupleMonoid (function)](#gettuplemonoid-function)
+- [fold](#fold)
+- [getDualMonoid](#getdualmonoid)
+- [getEndomorphismMonoid](#getendomorphismmonoid)
+- [getFunctionMonoid](#getfunctionmonoid)
+- [getJoinMonoid](#getjoinmonoid)
+- [getMeetMonoid](#getmeetmonoid)
+- [getStructMonoid](#getstructmonoid)
+- [getTupleMonoid](#gettuplemonoid)
+- [monoidAll](#monoidall)
+- [monoidAny](#monoidany)
+- [monoidProduct](#monoidproduct)
+- [monoidString](#monoidstring)
+- [monoidSum](#monoidsum)
+- [monoidVoid](#monoidvoid)
 
 ---
 
@@ -42,75 +42,7 @@ export interface Monoid<A> extends Semigroup<A> {
 
 Added in v2.0.0
 
-# monoidAll (constant)
-
-Boolean monoid under conjunction
-
-**Signature**
-
-```ts
-export const monoidAll: Monoid<boolean> = ...
-```
-
-Added in v2.0.0
-
-# monoidAny (constant)
-
-Boolean monoid under disjunction
-
-**Signature**
-
-```ts
-export const monoidAny: Monoid<boolean> = ...
-```
-
-Added in v2.0.0
-
-# monoidProduct (constant)
-
-Number monoid under multiplication
-
-**Signature**
-
-```ts
-export const monoidProduct: Monoid<number> = ...
-```
-
-Added in v2.0.0
-
-# monoidString (constant)
-
-**Signature**
-
-```ts
-export const monoidString: Monoid<string> = ...
-```
-
-Added in v2.0.0
-
-# monoidSum (constant)
-
-Number monoid under addition
-
-**Signature**
-
-```ts
-export const monoidSum: Monoid<number> = ...
-```
-
-Added in v2.0.0
-
-# monoidVoid (constant)
-
-**Signature**
-
-```ts
-export const monoidVoid: Monoid<void> = ...
-```
-
-Added in v2.0.0
-
-# fold (function)
+# fold
 
 **Signature**
 
@@ -120,7 +52,7 @@ export function fold<A>(M: Monoid<A>): (as: Array<A>) => A { ... }
 
 Added in v2.0.0
 
-# getDualMonoid (function)
+# getDualMonoid
 
 **Signature**
 
@@ -130,7 +62,7 @@ export function getDualMonoid<A>(M: Monoid<A>): Monoid<A> { ... }
 
 Added in v2.0.0
 
-# getEndomorphismMonoid (function)
+# getEndomorphismMonoid
 
 **Signature**
 
@@ -140,7 +72,7 @@ export function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<A>> { ..
 
 Added in v2.0.0
 
-# getFunctionMonoid (function)
+# getFunctionMonoid
 
 **Signature**
 
@@ -150,7 +82,7 @@ export function getFunctionMonoid<M>(M: Monoid<M>): <A = never>() => Monoid<(a: 
 
 Added in v2.0.0
 
-# getJoinMonoid (function)
+# getJoinMonoid
 
 **Signature**
 
@@ -160,7 +92,7 @@ export function getJoinMonoid<A>(B: Bounded<A>): Monoid<A> { ... }
 
 Added in v2.0.0
 
-# getMeetMonoid (function)
+# getMeetMonoid
 
 **Signature**
 
@@ -170,7 +102,7 @@ export function getMeetMonoid<A>(B: Bounded<A>): Monoid<A> { ... }
 
 Added in v2.0.0
 
-# getStructMonoid (function)
+# getStructMonoid
 
 **Signature**
 
@@ -182,7 +114,7 @@ export function getStructMonoid<O extends { [key: string]: any }>(
 
 Added in v2.0.0
 
-# getTupleMonoid (function)
+# getTupleMonoid
 
 Given a tuple of monoids returns a monoid for the tuple
 
@@ -204,6 +136,74 @@ assert.deepStrictEqual(M1.concat(['a', 1], ['b', 2]), ['ab', 3])
 
 const M2 = getTupleMonoid(monoidString, monoidSum, monoidAll)
 assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
+```
+
+Added in v2.0.0
+
+# monoidAll
+
+Boolean monoid under conjunction
+
+**Signature**
+
+```ts
+export const monoidAll: Monoid<boolean> = ...
+```
+
+Added in v2.0.0
+
+# monoidAny
+
+Boolean monoid under disjunction
+
+**Signature**
+
+```ts
+export const monoidAny: Monoid<boolean> = ...
+```
+
+Added in v2.0.0
+
+# monoidProduct
+
+Number monoid under multiplication
+
+**Signature**
+
+```ts
+export const monoidProduct: Monoid<number> = ...
+```
+
+Added in v2.0.0
+
+# monoidString
+
+**Signature**
+
+```ts
+export const monoidString: Monoid<string> = ...
+```
+
+Added in v2.0.0
+
+# monoidSum
+
+Number monoid under addition
+
+**Signature**
+
+```ts
+export const monoidSum: Monoid<number> = ...
+```
+
+Added in v2.0.0
+
+# monoidVoid
+
+**Signature**
+
+```ts
+export const monoidVoid: Monoid<void> = ...
 ```
 
 Added in v2.0.0

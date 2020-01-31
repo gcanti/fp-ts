@@ -12,47 +12,37 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [empty (constant)](#empty-constant)
-- [chain (function)](#chain-function)
-- [compact (function)](#compact-function)
-- [difference (function)](#difference-function)
-- [elem (function)](#elem-function)
-- [every (function)](#every-function)
-- [filter (function)](#filter-function)
-- [filterMap (function)](#filtermap-function)
-- [foldMap (function)](#foldmap-function)
-- [fromArray (function)](#fromarray-function)
-- [getEq (function)](#geteq-function)
-- [getIntersectionSemigroup (function)](#getintersectionsemigroup-function)
-- [getShow (function)](#getshow-function)
-- [getUnionMonoid (function)](#getunionmonoid-function)
-- [insert (function)](#insert-function)
-- [intersection (function)](#intersection-function)
-- [map (function)](#map-function)
-- [partition (function)](#partition-function)
-- [partitionMap (function)](#partitionmap-function)
-- [reduce (function)](#reduce-function)
-- [remove (function)](#remove-function)
-- [separate (function)](#separate-function)
-- [singleton (function)](#singleton-function)
-- [some (function)](#some-function)
-- [subset (function)](#subset-function)
-- [toArray (function)](#toarray-function)
-- [union (function)](#union-function)
+- [chain](#chain)
+- [compact](#compact)
+- [difference](#difference)
+- [elem](#elem)
+- [empty](#empty)
+- [every](#every)
+- [filter](#filter)
+- [filterMap](#filtermap)
+- [foldMap](#foldmap)
+- [fromArray](#fromarray)
+- [getEq](#geteq)
+- [getIntersectionSemigroup](#getintersectionsemigroup)
+- [getShow](#getshow)
+- [getUnionMonoid](#getunionmonoid)
+- [insert](#insert)
+- [intersection](#intersection)
+- [map](#map)
+- [partition](#partition)
+- [partitionMap](#partitionmap)
+- [reduce](#reduce)
+- [remove](#remove)
+- [separate](#separate)
+- [singleton](#singleton)
+- [some](#some)
+- [subset](#subset)
+- [toArray](#toarray)
+- [union](#union)
 
 ---
 
-# empty (constant)
-
-**Signature**
-
-```ts
-export const empty: Set<never> = ...
-```
-
-Added in v2.0.0
-
-# chain (function)
+# chain
 
 **Signature**
 
@@ -62,7 +52,7 @@ export function chain<B>(E: Eq<B>): <A>(f: (x: A) => Set<B>) => (set: Set<A>) =>
 
 Added in v2.0.0
 
-# compact (function)
+# compact
 
 **Signature**
 
@@ -72,7 +62,7 @@ export function compact<A>(E: Eq<A>): (fa: Set<Option<A>>) => Set<A> { ... }
 
 Added in v2.0.0
 
-# difference (function)
+# difference
 
 Form the set difference (`x` - `y`)
 
@@ -93,7 +83,7 @@ assert.deepStrictEqual(difference(eqNumber)(new Set([1, 2]), new Set([1, 3])), n
 
 Added in v2.0.0
 
-# elem (function)
+# elem
 
 Test if a value is a member of a set
 
@@ -105,7 +95,17 @@ export function elem<A>(E: Eq<A>): (a: A, set: Set<A>) => boolean { ... }
 
 Added in v2.0.0
 
-# every (function)
+# empty
+
+**Signature**
+
+```ts
+export const empty: Set<never> = ...
+```
+
+Added in v2.0.0
+
+# every
 
 **Signature**
 
@@ -115,7 +115,7 @@ export function every<A>(predicate: Predicate<A>): (set: Set<A>) => boolean { ..
 
 Added in v2.0.0
 
-# filter (function)
+# filter
 
 **Signature**
 
@@ -126,7 +126,7 @@ export function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A> { ..
 
 Added in v2.0.0
 
-# filterMap (function)
+# filterMap
 
 **Signature**
 
@@ -136,7 +136,7 @@ export function filterMap<B>(E: Eq<B>): <A>(f: (a: A) => Option<B>) => (fa: Set<
 
 Added in v2.0.0
 
-# foldMap (function)
+# foldMap
 
 **Signature**
 
@@ -146,7 +146,7 @@ export function foldMap<A, M>(O: Ord<A>, M: Monoid<M>): (f: (a: A) => M) => (fa:
 
 Added in v2.0.0
 
-# fromArray (function)
+# fromArray
 
 Create a set from an array
 
@@ -158,7 +158,7 @@ export function fromArray<A>(E: Eq<A>): (as: Array<A>) => Set<A> { ... }
 
 Added in v2.0.0
 
-# getEq (function)
+# getEq
 
 **Signature**
 
@@ -168,7 +168,7 @@ export function getEq<A>(E: Eq<A>): Eq<Set<A>> { ... }
 
 Added in v2.0.0
 
-# getIntersectionSemigroup (function)
+# getIntersectionSemigroup
 
 **Signature**
 
@@ -178,7 +178,7 @@ export function getIntersectionSemigroup<A>(E: Eq<A>): Semigroup<Set<A>> { ... }
 
 Added in v2.0.0
 
-# getShow (function)
+# getShow
 
 **Signature**
 
@@ -188,7 +188,7 @@ export function getShow<A>(S: Show<A>): Show<Set<A>> { ... }
 
 Added in v2.0.0
 
-# getUnionMonoid (function)
+# getUnionMonoid
 
 **Signature**
 
@@ -198,7 +198,7 @@ export function getUnionMonoid<A>(E: Eq<A>): Monoid<Set<A>> { ... }
 
 Added in v2.0.0
 
-# insert (function)
+# insert
 
 Insert a value into a set
 
@@ -210,7 +210,7 @@ export function insert<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A> { ... }
 
 Added in v2.0.0
 
-# intersection (function)
+# intersection
 
 The set of elements which are in both the first and second set
 
@@ -222,7 +222,7 @@ export function intersection<A>(E: Eq<A>): (set: Set<A>, y: Set<A>) => Set<A> { 
 
 Added in v2.0.0
 
-# map (function)
+# map
 
 Projects a Set through a function
 
@@ -234,7 +234,7 @@ export function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: Set<A>) => Set<B>
 
 Added in v2.0.0
 
-# partition (function)
+# partition
 
 **Signature**
 
@@ -245,7 +245,7 @@ export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separate
 
 Added in v2.0.0
 
-# partitionMap (function)
+# partitionMap
 
 **Signature**
 
@@ -258,7 +258,7 @@ export function partitionMap<B, C>(
 
 Added in v2.0.0
 
-# reduce (function)
+# reduce
 
 **Signature**
 
@@ -268,7 +268,7 @@ export function reduce<A>(O: Ord<A>): <B>(b: B, f: (b: B, a: A) => B) => (fa: Se
 
 Added in v2.0.0
 
-# remove (function)
+# remove
 
 Delete a value from a set
 
@@ -280,7 +280,7 @@ export function remove<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A> { ... }
 
 Added in v2.0.0
 
-# separate (function)
+# separate
 
 **Signature**
 
@@ -290,7 +290,7 @@ export function separate<E, A>(EE: Eq<E>, EA: Eq<A>): (fa: Set<Either<E, A>>) =>
 
 Added in v2.0.0
 
-# singleton (function)
+# singleton
 
 Create a set with one element
 
@@ -302,7 +302,7 @@ export function singleton<A>(a: A): Set<A> { ... }
 
 Added in v2.0.0
 
-# some (function)
+# some
 
 **Signature**
 
@@ -312,7 +312,7 @@ export function some<A>(predicate: Predicate<A>): (set: Set<A>) => boolean { ...
 
 Added in v2.0.0
 
-# subset (function)
+# subset
 
 `true` if and only if every element in the first set is an element of the second set
 
@@ -324,7 +324,7 @@ export function subset<A>(E: Eq<A>): (x: Set<A>, y: Set<A>) => boolean { ... }
 
 Added in v2.0.0
 
-# toArray (function)
+# toArray
 
 **Signature**
 
@@ -334,7 +334,7 @@ export function toArray<A>(O: Ord<A>): (set: Set<A>) => Array<A> { ... }
 
 Added in v2.0.0
 
-# union (function)
+# union
 
 Form the union of two sets
 

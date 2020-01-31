@@ -21,7 +21,7 @@ Added in v2.0.0
 - [ReaderT1 (interface)](#readert1-interface)
 - [ReaderT2 (interface)](#readert2-interface)
 - [ReaderT3 (interface)](#readert3-interface)
-- [getReaderM (function)](#getreaderm-function)
+- [getReaderM](#getreaderm)
 
 ---
 
@@ -179,7 +179,7 @@ export interface ReaderT3<M extends URIS3, R, U, E, A> {
 
 Added in v2.0.0
 
-# getReaderM (function)
+# getReaderM
 
 **Signature**
 

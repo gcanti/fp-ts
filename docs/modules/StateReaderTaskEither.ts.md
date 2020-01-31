@@ -14,47 +14,47 @@ Added in v2.0.0
 
 - [StateReaderTaskEither (interface)](#statereadertaskeither-interface)
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [evalState (constant)](#evalstate-constant)
-- [execState (constant)](#execstate-constant)
-- [fromReaderTaskEither (constant)](#fromreadertaskeither-constant)
-- [get (constant)](#get-constant)
-- [gets (constant)](#gets-constant)
-- [modify (constant)](#modify-constant)
-- [put (constant)](#put-constant)
-- [right (constant)](#right-constant)
-- [rightState (constant)](#rightstate-constant)
-- [stateReaderTaskEither (constant)](#statereadertaskeither-constant)
-- [stateReaderTaskEitherSeq (constant)](#statereadertaskeitherseq-constant)
-- [chainEitherK (function)](#chaineitherk-function)
-- [chainIOEitherK (function)](#chainioeitherk-function)
-- [chainReaderTaskEitherK (function)](#chainreadertaskeitherk-function)
-- [chainTaskEitherK (function)](#chaintaskeitherk-function)
-- [fromEitherK (function)](#fromeitherk-function)
-- [fromIOEither (function)](#fromioeither-function)
-- [fromIOEitherK (function)](#fromioeitherk-function)
-- [fromReaderEither (function)](#fromreadereither-function)
-- [fromReaderTaskEitherK (function)](#fromreadertaskeitherk-function)
-- [fromTaskEither (function)](#fromtaskeither-function)
-- [fromTaskEitherK (function)](#fromtaskeitherk-function)
-- [left (function)](#left-function)
-- [leftIO (function)](#leftio-function)
-- [leftReader (function)](#leftreader-function)
-- [leftState (function)](#leftstate-function)
-- [leftTask (function)](#lefttask-function)
-- [rightIO (function)](#rightio-function)
-- [rightReader (function)](#rightreader-function)
-- [rightTask (function)](#righttask-function)
-- [run (function)](#run-function)
-- [ap (export)](#ap-export)
-- [apFirst (export)](#apfirst-export)
-- [apSecond (export)](#apsecond-export)
-- [chain (export)](#chain-export)
-- [chainFirst (export)](#chainfirst-export)
-- [flatten (export)](#flatten-export)
-- [fromEither (export)](#fromeither-export)
-- [fromOption (export)](#fromoption-export)
-- [map (export)](#map-export)
+- [URI](#uri)
+- [ap](#ap)
+- [apFirst](#apfirst)
+- [apSecond](#apsecond)
+- [chain](#chain)
+- [chainEitherK](#chaineitherk)
+- [chainFirst](#chainfirst)
+- [chainIOEitherK](#chainioeitherk)
+- [chainReaderTaskEitherK](#chainreadertaskeitherk)
+- [chainTaskEitherK](#chaintaskeitherk)
+- [evalState](#evalstate)
+- [execState](#execstate)
+- [flatten](#flatten)
+- [fromEither](#fromeither)
+- [fromEitherK](#fromeitherk)
+- [fromIOEither](#fromioeither)
+- [fromIOEitherK](#fromioeitherk)
+- [fromOption](#fromoption)
+- [fromReaderEither](#fromreadereither)
+- [fromReaderTaskEither](#fromreadertaskeither)
+- [fromReaderTaskEitherK](#fromreadertaskeitherk)
+- [fromTaskEither](#fromtaskeither)
+- [fromTaskEitherK](#fromtaskeitherk)
+- [get](#get)
+- [gets](#gets)
+- [left](#left)
+- [leftIO](#leftio)
+- [leftReader](#leftreader)
+- [leftState](#leftstate)
+- [leftTask](#lefttask)
+- [map](#map)
+- [modify](#modify)
+- [put](#put)
+- [right](#right)
+- [rightIO](#rightio)
+- [rightReader](#rightreader)
+- [rightState](#rightstate)
+- [rightTask](#righttask)
+- [run](#run)
+- [stateReaderTaskEither](#statereadertaskeither)
+- [stateReaderTaskEitherSeq](#statereadertaskeitherseq)
 
 ---
 
@@ -80,7 +80,7 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -90,131 +90,47 @@ export const URI: "StateReaderTaskEither" = ...
 
 Added in v2.0.0
 
-# evalState (constant)
-
-Run a computation in the `StateReaderTaskEither` monad, discarding the final state
+# ap
 
 **Signature**
 
 ```ts
-export const : <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S) => RTE.ReaderTaskEither<R, E, A> = ...
+<S, R, E, A>(fa: StateReaderTaskEither<S, R, E, A>) => <B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.0.0
 
-# execState (constant)
-
-Run a computation in the `StateReaderTaskEither` monad discarding the result
+# apFirst
 
 **Signature**
 
 ```ts
-export const : <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S) => RTE.ReaderTaskEither<R, E, S> = ...
+<S, R, E, B>(fb: StateReaderTaskEither<S, R, E, B>) => <A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.0.0
 
-# fromReaderTaskEither (constant)
+# apSecond
 
 **Signature**
 
 ```ts
-export const : <S, R, E, A>(ma: RTE.ReaderTaskEither<R, E, A>) => StateReaderTaskEither<S, R, E, A> = ...
+<S, R, E, B>(fb: StateReaderTaskEither<S, R, E, B>) => <A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.0.0
 
-# get (constant)
-
-Get the current state
+# chain
 
 **Signature**
 
 ```ts
-export const get: <S, R, E = never>() => StateReaderTaskEither<S, R, E, S> = ...
+<S, R, E, A, B>(f: (a: A) => StateReaderTaskEither<S, R, E, B>) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.0.0
 
-# gets (constant)
-
-Get a value which depends on the current state
-
-**Signature**
-
-```ts
-export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTaskEither<S, R, E, A> = ...
-```
-
-Added in v2.0.0
-
-# modify (constant)
-
-Modify the state by applying a function to the current state
-
-**Signature**
-
-```ts
-export const modify: <S, R, E = never>(f: (s: S) => S) => StateReaderTaskEither<S, R, E, void> = ...
-```
-
-Added in v2.0.0
-
-# put (constant)
-
-Set the state
-
-**Signature**
-
-```ts
-export const put: <S, R, E = never>(s: S) => StateReaderTaskEither<S, R, E, void> = ...
-```
-
-Added in v2.0.0
-
-# right (constant)
-
-**Signature**
-
-```ts
-export const right: <S, R, E = never, A = never>(a: A) => StateReaderTaskEither<S, R, E, A> = ...
-```
-
-Added in v2.0.0
-
-# rightState (constant)
-
-**Signature**
-
-```ts
-export const : <S, R, E = never, A = never>(ma: State<S, A>) => StateReaderTaskEither<S, R, E, A> = ...
-```
-
-Added in v2.0.0
-
-# stateReaderTaskEither (constant)
-
-**Signature**
-
-```ts
-export const stateReaderTaskEither: Monad4<URI> & MonadThrow4<URI> = ...
-```
-
-Added in v2.0.0
-
-# stateReaderTaskEitherSeq (constant)
-
-Like `stateReaderTaskEither` but `ap` is sequential
-
-**Signature**
-
-```ts
-export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = ...
-```
-
-Added in v2.0.0
-
-# chainEitherK (function)
+# chainEitherK
 
 **Signature**
 
@@ -226,7 +142,17 @@ export function chainEitherK<E, A, B>(
 
 Added in v2.4.0
 
-# chainIOEitherK (function)
+# chainFirst
+
+**Signature**
+
+```ts
+<S, R, E, A, B>(f: (a: A) => StateReaderTaskEither<S, R, E, B>) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.0.0
+
+# chainIOEitherK
 
 **Signature**
 
@@ -238,7 +164,7 @@ export function chainIOEitherK<E, A, B>(
 
 Added in v2.4.0
 
-# chainReaderTaskEitherK (function)
+# chainReaderTaskEitherK
 
 **Signature**
 
@@ -250,7 +176,7 @@ export function chainReaderTaskEitherK<R, E, A, B>(
 
 Added in v2.4.0
 
-# chainTaskEitherK (function)
+# chainTaskEitherK
 
 **Signature**
 
@@ -262,7 +188,51 @@ export function chainTaskEitherK<E, A, B>(
 
 Added in v2.4.0
 
-# fromEitherK (function)
+# evalState
+
+Run a computation in the `StateReaderTaskEither` monad, discarding the final state
+
+**Signature**
+
+```ts
+export const : <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S) => RTE.ReaderTaskEither<R, E, A> = ...
+```
+
+Added in v2.0.0
+
+# execState
+
+Run a computation in the `StateReaderTaskEither` monad discarding the result
+
+**Signature**
+
+```ts
+export const : <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S) => RTE.ReaderTaskEither<R, E, S> = ...
+```
+
+Added in v2.0.0
+
+# flatten
+
+**Signature**
+
+```ts
+<S, R, E, A>(mma: StateReaderTaskEither<S, R, E, StateReaderTaskEither<S, R, E, A>>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.0.0
+
+# fromEither
+
+**Signature**
+
+```ts
+<S, R, E, A>(ma: Either<E, A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.0.0
+
+# fromEitherK
 
 **Signature**
 
@@ -274,7 +244,7 @@ export function fromEitherK<E, A extends Array<unknown>, B>(
 
 Added in v2.4.0
 
-# fromIOEither (function)
+# fromIOEither
 
 **Signature**
 
@@ -284,7 +254,7 @@ export function fromIOEither<S, R, E, A>(ma: IOEither<E, A>): StateReaderTaskEit
 
 Added in v2.0.0
 
-# fromIOEitherK (function)
+# fromIOEitherK
 
 **Signature**
 
@@ -296,7 +266,17 @@ export function fromIOEitherK<E, A extends Array<unknown>, B>(
 
 Added in v2.4.0
 
-# fromReaderEither (function)
+# fromOption
+
+**Signature**
+
+```ts
+<E>(onNone: () => E) => <S, R, A>(ma: Option<A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.0.0
+
+# fromReaderEither
 
 **Signature**
 
@@ -306,7 +286,17 @@ export function fromReaderEither<S, R, E, A>(ma: ReaderEither<R, E, A>): StateRe
 
 Added in v2.0.0
 
-# fromReaderTaskEitherK (function)
+# fromReaderTaskEither
+
+**Signature**
+
+```ts
+export const : <S, R, E, A>(ma: RTE.ReaderTaskEither<R, E, A>) => StateReaderTaskEither<S, R, E, A> = ...
+```
+
+Added in v2.0.0
+
+# fromReaderTaskEitherK
 
 **Signature**
 
@@ -318,7 +308,7 @@ export function fromReaderTaskEitherK<R, E, A extends Array<unknown>, B>(
 
 Added in v2.4.0
 
-# fromTaskEither (function)
+# fromTaskEither
 
 **Signature**
 
@@ -328,7 +318,7 @@ export function fromTaskEither<S, R, E, A>(ma: TaskEither<E, A>): StateReaderTas
 
 Added in v2.0.0
 
-# fromTaskEitherK (function)
+# fromTaskEitherK
 
 **Signature**
 
@@ -340,7 +330,31 @@ export function fromTaskEitherK<E, A extends Array<unknown>, B>(
 
 Added in v2.4.0
 
-# left (function)
+# get
+
+Get the current state
+
+**Signature**
+
+```ts
+export const get: <S, R, E = never>() => StateReaderTaskEither<S, R, E, S> = ...
+```
+
+Added in v2.0.0
+
+# gets
+
+Get a value which depends on the current state
+
+**Signature**
+
+```ts
+export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTaskEither<S, R, E, A> = ...
+```
+
+Added in v2.0.0
+
+# left
 
 **Signature**
 
@@ -350,7 +364,7 @@ export function left<S, R, E = never, A = never>(e: E): StateReaderTaskEither<S,
 
 Added in v2.0.0
 
-# leftIO (function)
+# leftIO
 
 **Signature**
 
@@ -360,7 +374,7 @@ export function leftIO<S, R, E = never, A = never>(me: IO<E>): StateReaderTaskEi
 
 Added in v2.0.0
 
-# leftReader (function)
+# leftReader
 
 **Signature**
 
@@ -370,7 +384,7 @@ export function leftReader<S, R, E = never, A = never>(me: Reader<R, E>): StateR
 
 Added in v2.0.0
 
-# leftState (function)
+# leftState
 
 **Signature**
 
@@ -380,7 +394,7 @@ export function leftState<S, R, E = never, A = never>(me: State<S, E>): StateRea
 
 Added in v2.0.0
 
-# leftTask (function)
+# leftTask
 
 **Signature**
 
@@ -390,7 +404,51 @@ export function leftTask<S, R, E = never, A = never>(me: Task<E>): StateReaderTa
 
 Added in v2.0.0
 
-# rightIO (function)
+# map
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => <S, R, E>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v2.0.0
+
+# modify
+
+Modify the state by applying a function to the current state
+
+**Signature**
+
+```ts
+export const modify: <S, R, E = never>(f: (s: S) => S) => StateReaderTaskEither<S, R, E, void> = ...
+```
+
+Added in v2.0.0
+
+# put
+
+Set the state
+
+**Signature**
+
+```ts
+export const put: <S, R, E = never>(s: S) => StateReaderTaskEither<S, R, E, void> = ...
+```
+
+Added in v2.0.0
+
+# right
+
+**Signature**
+
+```ts
+export const right: <S, R, E = never, A = never>(a: A) => StateReaderTaskEither<S, R, E, A> = ...
+```
+
+Added in v2.0.0
+
+# rightIO
 
 **Signature**
 
@@ -400,7 +458,7 @@ export function rightIO<S, R, E = never, A = never>(ma: IO<A>): StateReaderTaskE
 
 Added in v2.0.0
 
-# rightReader (function)
+# rightReader
 
 **Signature**
 
@@ -410,7 +468,17 @@ export function rightReader<S, R, E = never, A = never>(ma: Reader<R, A>): State
 
 Added in v2.0.0
 
-# rightTask (function)
+# rightState
+
+**Signature**
+
+```ts
+export const : <S, R, E = never, A = never>(ma: State<S, A>) => StateReaderTaskEither<S, R, E, A> = ...
+```
+
+Added in v2.0.0
+
+# rightTask
 
 **Signature**
 
@@ -420,7 +488,7 @@ export function rightTask<S, R, E = never, A = never>(ma: Task<A>): StateReaderT
 
 Added in v2.0.0
 
-# run (function)
+# run
 
 **Signature**
 
@@ -430,92 +498,24 @@ export function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: 
 
 Added in v2.0.0
 
-# ap (export)
+# stateReaderTaskEither
 
 **Signature**
 
 ```ts
-<S, R, E, A>(fa: StateReaderTaskEither<S, R, E, A>) => <B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B>
+export const stateReaderTaskEither: Monad4<URI> & MonadThrow4<URI> = ...
 ```
 
 Added in v2.0.0
 
-# apFirst (export)
+# stateReaderTaskEitherSeq
+
+Like `stateReaderTaskEither` but `ap` is sequential
 
 **Signature**
 
 ```ts
-<S, R, E, B>(fb: StateReaderTaskEither<S, R, E, B>) => <A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v2.0.0
-
-# apSecond (export)
-
-**Signature**
-
-```ts
-<S, R, E, B>(fb: StateReaderTaskEither<S, R, E, B>) => <A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v2.0.0
-
-# chain (export)
-
-**Signature**
-
-```ts
-<S, R, E, A, B>(f: (a: A) => StateReaderTaskEither<S, R, E, B>) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v2.0.0
-
-# chainFirst (export)
-
-**Signature**
-
-```ts
-<S, R, E, A, B>(f: (a: A) => StateReaderTaskEither<S, R, E, B>) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v2.0.0
-
-# flatten (export)
-
-**Signature**
-
-```ts
-<S, R, E, A>(mma: StateReaderTaskEither<S, R, E, StateReaderTaskEither<S, R, E, A>>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v2.0.0
-
-# fromEither (export)
-
-**Signature**
-
-```ts
-<S, R, E, A>(ma: Either<E, A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v2.0.0
-
-# fromOption (export)
-
-**Signature**
-
-```ts
-<E>(onNone: () => E) => <S, R, A>(ma: Option<A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v2.0.0
-
-# map (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => B) => <S, R, E>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = ...
 ```
 
 Added in v2.0.0

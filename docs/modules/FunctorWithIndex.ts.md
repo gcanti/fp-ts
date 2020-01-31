@@ -37,7 +37,7 @@ Added in v2.0.0
 - [FunctorWithIndexComposition22 (interface)](#functorwithindexcomposition22-interface)
 - [FunctorWithIndexComposition22C (interface)](#functorwithindexcomposition22c-interface)
 - [FunctorWithIndexComposition2C1 (interface)](#functorwithindexcomposition2c1-interface)
-- [getFunctorWithIndexComposition (function)](#getfunctorwithindexcomposition-function)
+- [getFunctorWithIndexComposition](#getfunctorwithindexcomposition)
 
 ---
 
@@ -234,7 +234,7 @@ export interface FunctorWithIndexComposition2C1<F extends URIS2, FI, G extends U
 
 Added in v2.0.0
 
-# getFunctorWithIndexComposition (function)
+# getFunctorWithIndexComposition
 
 **Signature**
 

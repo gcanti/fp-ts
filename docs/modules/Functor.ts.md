@@ -42,7 +42,7 @@ Added in v2.0.0
 - [FunctorCompositionHKT1 (interface)](#functorcompositionhkt1-interface)
 - [FunctorCompositionHKT2 (interface)](#functorcompositionhkt2-interface)
 - [FunctorCompositionHKT2C (interface)](#functorcompositionhkt2c-interface)
-- [getFunctorComposition (function)](#getfunctorcomposition-function)
+- [getFunctorComposition](#getfunctorcomposition)
 
 ---
 
@@ -295,7 +295,7 @@ export interface FunctorCompositionHKT2C<F, G extends URIS2, E> {
 
 Added in v2.0.0
 
-# getFunctorComposition (function)
+# getFunctorComposition
 
 **Signature**
 

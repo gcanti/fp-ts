@@ -42,8 +42,8 @@ Added in v2.0.0
 - [Strong2 (interface)](#strong2-interface)
 - [Strong3 (interface)](#strong3-interface)
 - [Strong4 (interface)](#strong4-interface)
-- [fanout (function)](#fanout-function)
-- [splitStrong (function)](#splitstrong-function)
+- [fanout](#fanout)
+- [splitStrong](#splitstrong)
 
 ---
 
@@ -99,7 +99,7 @@ export interface Strong4<F extends URIS4> extends Profunctor4<F> {
 
 Added in v2.0.0
 
-# fanout (function)
+# fanout
 
 Compose a value which introduces a tuple from two values, each introducing one side of the tuple.
 
@@ -135,7 +135,7 @@ export function fanout<F>(
 
 Added in v2.0.0
 
-# splitStrong (function)
+# splitStrong
 
 Compose a value acting on a tuple from two values, each acting on one of the components of the tuple.
 

@@ -17,7 +17,7 @@ Added in v2.0.0
 - [ChainRec2 (interface)](#chainrec2-interface)
 - [ChainRec2C (interface)](#chainrec2c-interface)
 - [ChainRec3 (interface)](#chainrec3-interface)
-- [tailRec (function)](#tailrec-function)
+- [tailRec](#tailrec)
 
 ---
 
@@ -81,7 +81,7 @@ export interface ChainRec3<F extends URIS3> extends Chain3<F> {
 
 Added in v2.0.0
 
-# tailRec (function)
+# tailRec
 
 **Signature**
 

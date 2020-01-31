@@ -18,7 +18,7 @@ Added in v2.4.0
 - [TheseT (interface)](#theset-interface)
 - [TheseT1 (type alias)](#theset1-type-alias)
 - [TheseT2 (type alias)](#theset2-type-alias)
-- [getTheseM (function)](#getthesem-function)
+- [getTheseM](#getthesem)
 
 ---
 
@@ -160,7 +160,7 @@ export type TheseT2<M extends URIS2, R, E, A> = Kind2<M, R, These<E, A>>
 
 Added in v2.4.0
 
-# getTheseM (function)
+# getTheseM
 
 **Signature**
 

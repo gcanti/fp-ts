@@ -27,10 +27,10 @@ Added in v2.0.0
 - [FoldableComposition22 (interface)](#foldablecomposition22-interface)
 - [FoldableComposition22C (interface)](#foldablecomposition22c-interface)
 - [FoldableComposition2C1 (interface)](#foldablecomposition2c1-interface)
-- [foldM (function)](#foldm-function)
-- [getFoldableComposition (function)](#getfoldablecomposition-function)
-- [intercalate (function)](#intercalate-function)
-- [traverse\_ (function)](#traverse_-function)
+- [foldM](#foldm)
+- [getFoldableComposition](#getfoldablecomposition)
+- [intercalate](#intercalate)
+- [traverse\_](#traverse_)
 
 ---
 
@@ -253,7 +253,7 @@ export interface FoldableComposition2C1<F extends URIS2, G extends URIS, E> {
 
 Added in v2.0.0
 
-# foldM (function)
+# foldM
 
 Similar to 'reduce', but the result is encapsulated in a monad.
 
@@ -304,7 +304,7 @@ assert.deepStrictEqual(
 
 Added in v2.0.0
 
-# getFoldableComposition (function)
+# getFoldableComposition
 
 Returns the composition of two foldables
 
@@ -357,7 +357,7 @@ assert.strictEqual(F.reduce([some('a'), none, some('c')], '', monoidString.conca
 
 Added in v2.0.0
 
-# intercalate (function)
+# intercalate
 
 Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator
 
@@ -387,7 +387,7 @@ assert.strictEqual(intercalate(monoidString, tree)('|', t), 'a|b|c|d')
 
 Added in v2.0.0
 
-# traverse\_ (function)
+# traverse\_
 
 Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
 final result.

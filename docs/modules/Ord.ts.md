@@ -22,26 +22,26 @@ Added in v2.0.0
 
 - [Ord (interface)](#ord-interface)
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [ord (constant)](#ord-constant)
-- [ordBoolean (constant)](#ordboolean-constant)
-- [ordDate (constant)](#orddate-constant)
-- [ordNumber (constant)](#ordnumber-constant)
-- [ordString (constant)](#ordstring-constant)
-- [between (function)](#between-function)
-- [clamp (function)](#clamp-function)
-- [fromCompare (function)](#fromcompare-function)
-- [geq (function)](#geq-function)
-- [getDualOrd (function)](#getdualord-function)
-- [getMonoid (function)](#getmonoid-function)
-- [~~getSemigroup~~ (function)](#getsemigroup-function)
-- [getTupleOrd (function)](#gettupleord-function)
-- [gt (function)](#gt-function)
-- [leq (function)](#leq-function)
-- [lt (function)](#lt-function)
-- [max (function)](#max-function)
-- [min (function)](#min-function)
-- [contramap (export)](#contramap-export)
+- [URI](#uri)
+- [between](#between)
+- [clamp](#clamp)
+- [contramap](#contramap)
+- [fromCompare](#fromcompare)
+- [geq](#geq)
+- [getDualOrd](#getdualord)
+- [getMonoid](#getmonoid)
+- [getTupleOrd](#gettupleord)
+- [gt](#gt)
+- [leq](#leq)
+- [lt](#lt)
+- [max](#max)
+- [min](#min)
+- [ord](#ord)
+- [ordBoolean](#ordboolean)
+- [ordDate](#orddate)
+- [ordNumber](#ordnumber)
+- [ordString](#ordstring)
+- [~~getSemigroup~~](#getsemigroup)
 
 ---
 
@@ -67,7 +67,7 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -77,57 +77,7 @@ export const URI: "Ord" = ...
 
 Added in v2.0.0
 
-# ord (constant)
-
-**Signature**
-
-```ts
-export const ord: Contravariant1<URI> = ...
-```
-
-Added in v2.0.0
-
-# ordBoolean (constant)
-
-**Signature**
-
-```ts
-export const ordBoolean: Ord<boolean> = ...
-```
-
-Added in v2.0.0
-
-# ordDate (constant)
-
-**Signature**
-
-```ts
-export const ordDate: Ord<Date> = ...
-```
-
-Added in v2.0.0
-
-# ordNumber (constant)
-
-**Signature**
-
-```ts
-export const ordNumber: Ord<number> = ...
-```
-
-Added in v2.0.0
-
-# ordString (constant)
-
-**Signature**
-
-```ts
-export const ordString: Ord<string> = ...
-```
-
-Added in v2.0.0
-
-# between (function)
+# between
 
 Test whether a value is between a minimum and a maximum (inclusive)
 
@@ -139,7 +89,7 @@ export function between<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => boolean { ..
 
 Added in v2.0.0
 
-# clamp (function)
+# clamp
 
 Clamp a value between a minimum and a maximum
 
@@ -151,7 +101,17 @@ export function clamp<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => A { ... }
 
 Added in v2.0.0
 
-# fromCompare (function)
+# contramap
+
+**Signature**
+
+```ts
+<A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B>
+```
+
+Added in v2.0.0
+
+# fromCompare
 
 **Signature**
 
@@ -161,7 +121,7 @@ export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> { ... 
 
 Added in v2.0.0
 
-# geq (function)
+# geq
 
 Test whether one value is _non-strictly greater than_ another
 
@@ -173,7 +133,7 @@ export function geq<A>(O: Ord<A>): (x: A, y: A) => boolean { ... }
 
 Added in v2.0.0
 
-# getDualOrd (function)
+# getDualOrd
 
 **Signature**
 
@@ -183,7 +143,7 @@ export function getDualOrd<A>(O: Ord<A>): Ord<A> { ... }
 
 Added in v2.0.0
 
-# getMonoid (function)
+# getMonoid
 
 Returns a `Monoid` such that:
 
@@ -256,19 +216,7 @@ assert.deepStrictEqual(sort(O2)(users), [
 
 Added in v2.4.0
 
-# ~~getSemigroup~~ (function)
-
-Use `getMonoid` instead
-
-**Signature**
-
-```ts
-export function getSemigroup<A = never>(): Semigroup<Ord<A>> { ... }
-```
-
-Added in v2.0.0
-
-# getTupleOrd (function)
+# getTupleOrd
 
 Given a tuple of `Ord`s returns an `Ord` for the tuple
 
@@ -293,7 +241,7 @@ assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
 
 Added in v2.0.0
 
-# gt (function)
+# gt
 
 Test whether one value is _strictly greater than_ another
 
@@ -305,7 +253,7 @@ export function gt<A>(O: Ord<A>): (x: A, y: A) => boolean { ... }
 
 Added in v2.0.0
 
-# leq (function)
+# leq
 
 Test whether one value is _non-strictly less than_ another
 
@@ -317,7 +265,7 @@ export function leq<A>(O: Ord<A>): (x: A, y: A) => boolean { ... }
 
 Added in v2.0.0
 
-# lt (function)
+# lt
 
 Test whether one value is _strictly less than_ another
 
@@ -329,7 +277,7 @@ export function lt<A>(O: Ord<A>): (x: A, y: A) => boolean { ... }
 
 Added in v2.0.0
 
-# max (function)
+# max
 
 Take the maximum of two values. If they are considered equal, the first argument is chosen
 
@@ -341,7 +289,7 @@ export function max<A>(O: Ord<A>): (x: A, y: A) => A { ... }
 
 Added in v2.0.0
 
-# min (function)
+# min
 
 Take the minimum of two values. If they are considered equal, the first argument is chosen
 
@@ -353,12 +301,64 @@ export function min<A>(O: Ord<A>): (x: A, y: A) => A { ... }
 
 Added in v2.0.0
 
-# contramap (export)
+# ord
 
 **Signature**
 
 ```ts
-<A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B>
+export const ord: Contravariant1<URI> = ...
+```
+
+Added in v2.0.0
+
+# ordBoolean
+
+**Signature**
+
+```ts
+export const ordBoolean: Ord<boolean> = ...
+```
+
+Added in v2.0.0
+
+# ordDate
+
+**Signature**
+
+```ts
+export const ordDate: Ord<Date> = ...
+```
+
+Added in v2.0.0
+
+# ordNumber
+
+**Signature**
+
+```ts
+export const ordNumber: Ord<number> = ...
+```
+
+Added in v2.0.0
+
+# ordString
+
+**Signature**
+
+```ts
+export const ordString: Ord<string> = ...
+```
+
+Added in v2.0.0
+
+# ~~getSemigroup~~
+
+Use `getMonoid` instead
+
+**Signature**
+
+```ts
+export function getSemigroup<A = never>(): Semigroup<Ord<A>> { ... }
 ```
 
 Added in v2.0.0

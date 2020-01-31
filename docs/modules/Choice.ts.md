@@ -43,8 +43,8 @@ Added in v2.0.0
 - [Choice2 (interface)](#choice2-interface)
 - [Choice3 (interface)](#choice3-interface)
 - [Choice4 (interface)](#choice4-interface)
-- [fanin (function)](#fanin-function)
-- [splitChoice (function)](#splitchoice-function)
+- [fanin](#fanin)
+- [splitChoice](#splitchoice)
 
 ---
 
@@ -100,7 +100,7 @@ export interface Choice4<F extends URIS4> extends Profunctor4<F> {
 
 Added in v2.0.0
 
-# fanin (function)
+# fanin
 
 Compose a value which eliminates a sum from two values, each eliminating
 one side of the sum.
@@ -137,7 +137,7 @@ export function fanin<F>(
 
 Added in v2.0.0
 
-# splitChoice (function)
+# splitChoice
 
 Compose a value acting on a sum from two values, each acting on one of
 the components of the sum.

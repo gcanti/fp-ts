@@ -19,7 +19,7 @@ Added in v2.0.0
 - [OptionT (interface)](#optiont-interface)
 - [OptionT1 (type alias)](#optiont1-type-alias)
 - [OptionT2 (type alias)](#optiont2-type-alias)
-- [getOptionM (function)](#getoptionm-function)
+- [getOptionM](#getoptionm)
 
 ---
 
@@ -129,7 +129,7 @@ export type OptionT2<M extends URIS2, E, A> = Kind2<M, E, Option<A>>
 
 Added in v2.0.0
 
-# getOptionM (function)
+# getOptionM
 
 **Signature**
 

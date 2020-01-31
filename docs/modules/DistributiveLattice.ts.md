@@ -18,7 +18,7 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [DistributiveLattice (interface)](#distributivelattice-interface)
-- [getMinMaxDistributiveLattice (function)](#getminmaxdistributivelattice-function)
+- [getMinMaxDistributiveLattice](#getminmaxdistributivelattice)
 
 ---
 
@@ -32,7 +32,7 @@ export interface DistributiveLattice<A> extends Lattice<A> {}
 
 Added in v2.0.0
 
-# getMinMaxDistributiveLattice (function)
+# getMinMaxDistributiveLattice
 
 **Signature**
 

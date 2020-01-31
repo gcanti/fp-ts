@@ -30,8 +30,8 @@ Added in v2.0.0
 - [Apply3 (interface)](#apply3-interface)
 - [Apply3C (interface)](#apply3c-interface)
 - [Apply4 (interface)](#apply4-interface)
-- [sequenceS (function)](#sequences-function)
-- [sequenceT (function)](#sequencet-function)
+- [sequenceS](#sequences)
+- [sequenceT](#sequencet)
 
 ---
 
@@ -119,7 +119,7 @@ export interface Apply4<F extends URIS4> extends Functor4<F> {
 
 Added in v2.0.0
 
-# sequenceS (function)
+# sequenceS
 
 Like `Apply.sequenceT` but works with structs instead of tuples.
 
@@ -189,7 +189,7 @@ assert.deepStrictEqual(
 
 Added in v2.0.0
 
-# sequenceT (function)
+# sequenceT
 
 Tuple sequencing, i.e., take a tuple of monadic actions and does them from left-to-right, returning the resulting tuple.
 

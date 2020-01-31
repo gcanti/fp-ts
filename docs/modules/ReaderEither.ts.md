@@ -14,39 +14,39 @@ Added in v2.0.0
 
 - [ReaderEither (interface)](#readereither-interface)
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [left (constant)](#left-constant)
-- [leftReader (constant)](#leftreader-constant)
-- [readerEither (constant)](#readereither-constant)
-- [right (constant)](#right-constant)
-- [rightReader (constant)](#rightreader-constant)
-- [swap (constant)](#swap-constant)
-- [ask (function)](#ask-function)
-- [asks (function)](#asks-function)
-- [chainEitherK (function)](#chaineitherk-function)
-- [fold (function)](#fold-function)
-- [fromEitherK (function)](#fromeitherk-function)
-- [getApplyMonoid (function)](#getapplymonoid-function)
-- [getApplySemigroup (function)](#getapplysemigroup-function)
-- [getOrElse (function)](#getorelse-function)
-- [getReaderValidation (function)](#getreadervalidation-function)
-- [getSemigroup (function)](#getsemigroup-function)
-- [local (function)](#local-function)
-- [orElse (function)](#orelse-function)
-- [alt (export)](#alt-export)
-- [ap (export)](#ap-export)
-- [apFirst (export)](#apfirst-export)
-- [apSecond (export)](#apsecond-export)
-- [bimap (export)](#bimap-export)
-- [chain (export)](#chain-export)
-- [chainFirst (export)](#chainfirst-export)
-- [filterOrElse (export)](#filterorelse-export)
-- [flatten (export)](#flatten-export)
-- [fromEither (export)](#fromeither-export)
-- [fromOption (export)](#fromoption-export)
-- [fromPredicate (export)](#frompredicate-export)
-- [map (export)](#map-export)
-- [mapLeft (export)](#mapleft-export)
+- [URI](#uri)
+- [alt](#alt)
+- [ap](#ap)
+- [apFirst](#apfirst)
+- [apSecond](#apsecond)
+- [ask](#ask)
+- [asks](#asks)
+- [bimap](#bimap)
+- [chain](#chain)
+- [chainEitherK](#chaineitherk)
+- [chainFirst](#chainfirst)
+- [filterOrElse](#filterorelse)
+- [flatten](#flatten)
+- [fold](#fold)
+- [fromEither](#fromeither)
+- [fromEitherK](#fromeitherk)
+- [fromOption](#fromoption)
+- [fromPredicate](#frompredicate)
+- [getApplyMonoid](#getapplymonoid)
+- [getApplySemigroup](#getapplysemigroup)
+- [getOrElse](#getorelse)
+- [getReaderValidation](#getreadervalidation)
+- [getSemigroup](#getsemigroup)
+- [left](#left)
+- [leftReader](#leftreader)
+- [local](#local)
+- [map](#map)
+- [mapLeft](#mapleft)
+- [orElse](#orelse)
+- [readerEither](#readereither)
+- [right](#right)
+- [rightReader](#rightreader)
+- [swap](#swap)
 
 ---
 
@@ -70,7 +70,7 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -80,67 +80,47 @@ export const URI: "ReaderEither" = ...
 
 Added in v2.0.0
 
-# left (constant)
+# alt
 
 **Signature**
 
 ```ts
-export const left: <R, E = never, A = never>(e: E) => ReaderEither<R, E, A> = ...
+<R, E, A>(that: () => ReaderEither<R, E, A>) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
 
-# leftReader (constant)
+# ap
 
 **Signature**
 
 ```ts
-export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderEither<R, E, A> = ...
+<R, E, A>(fa: ReaderEither<R, E, A>) => <B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B>
 ```
 
 Added in v2.0.0
 
-# readerEither (constant)
+# apFirst
 
 **Signature**
 
 ```ts
-export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThrow3<URI> = ...
+<R, E, B>(fb: ReaderEither<R, E, B>) => <A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
 
-# right (constant)
+# apSecond
 
 **Signature**
 
 ```ts
-export const right: <R, E = never, A = never>(a: A) => ReaderEither<R, E, A> = ...
+<R, E, B>(fb: ReaderEither<R, E, B>) => <A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
 ```
 
 Added in v2.0.0
 
-# rightReader (constant)
-
-**Signature**
-
-```ts
-export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderEither<R, E, A> = ...
-```
-
-Added in v2.0.0
-
-# swap (constant)
-
-**Signature**
-
-```ts
-export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E> = ...
-```
-
-Added in v2.0.0
-
-# ask (function)
+# ask
 
 **Signature**
 
@@ -150,7 +130,7 @@ export function ask<R, E = never>(): ReaderEither<R, E, R> { ... }
 
 Added in v2.0.0
 
-# asks (function)
+# asks
 
 **Signature**
 
@@ -160,7 +140,27 @@ export function asks<R, E = never, A = never>(f: (r: R) => A): ReaderEither<R, E
 
 Added in v2.0.0
 
-# chainEitherK (function)
+# bimap
+
+**Signature**
+
+```ts
+<E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => <R>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, B>
+```
+
+Added in v2.0.0
+
+# chain
+
+**Signature**
+
+```ts
+<R, E, A, B>(f: (a: A) => ReaderEither<R, E, B>) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+```
+
+Added in v2.0.0
+
+# chainEitherK
 
 **Signature**
 
@@ -172,7 +172,37 @@ export function chainEitherK<E, A, B>(
 
 Added in v2.4.0
 
-# fold (function)
+# chainFirst
+
+**Signature**
+
+```ts
+<R, E, A, B>(f: (a: A) => ReaderEither<R, E, B>) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+```
+
+Added in v2.0.0
+
+# filterOrElse
+
+**Signature**
+
+```ts
+{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>; }
+```
+
+Added in v2.0.0
+
+# flatten
+
+**Signature**
+
+```ts
+<R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) => ReaderEither<R, E, A>
+```
+
+Added in v2.0.0
+
+# fold
 
 **Signature**
 
@@ -185,7 +215,17 @@ export function fold<R, E, A, B>(
 
 Added in v2.0.0
 
-# fromEitherK (function)
+# fromEither
+
+**Signature**
+
+```ts
+<R, E, A>(ma: E.Either<E, A>) => ReaderEither<R, E, A>
+```
+
+Added in v2.0.0
+
+# fromEitherK
 
 **Signature**
 
@@ -197,7 +237,27 @@ export function fromEitherK<E, A extends Array<unknown>, B>(
 
 Added in v2.4.0
 
-# getApplyMonoid (function)
+# fromOption
+
+**Signature**
+
+```ts
+<E>(onNone: () => E) => <R, A>(ma: Option<A>) => ReaderEither<R, E, A>
+```
+
+Added in v2.0.0
+
+# fromPredicate
+
+**Signature**
+
+```ts
+{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => ReaderEither<U, E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>; }
+```
+
+Added in v2.0.0
+
+# getApplyMonoid
 
 **Signature**
 
@@ -207,7 +267,7 @@ export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderEither<R, E,
 
 Added in v2.0.0
 
-# getApplySemigroup (function)
+# getApplySemigroup
 
 **Signature**
 
@@ -217,7 +277,7 @@ export function getApplySemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEit
 
 Added in v2.0.0
 
-# getOrElse (function)
+# getOrElse
 
 **Signature**
 
@@ -227,7 +287,7 @@ export function getOrElse<R, E, A>(onLeft: (e: E) => Reader<R, A>): (ma: ReaderE
 
 Added in v2.0.0
 
-# getReaderValidation (function)
+# getReaderValidation
 
 **Signature**
 
@@ -239,7 +299,7 @@ export function getReaderValidation<E>(
 
 Added in v2.3.0
 
-# getSemigroup (function)
+# getSemigroup
 
 **Signature**
 
@@ -249,7 +309,27 @@ export function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R
 
 Added in v2.0.0
 
-# local (function)
+# left
+
+**Signature**
+
+```ts
+export const left: <R, E = never, A = never>(e: E) => ReaderEither<R, E, A> = ...
+```
+
+Added in v2.0.0
+
+# leftReader
+
+**Signature**
+
+```ts
+export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderEither<R, E, A> = ...
+```
+
+Added in v2.0.0
+
+# local
 
 **Signature**
 
@@ -259,7 +339,27 @@ export function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderEither<R, E, A>) =
 
 Added in v2.0.0
 
-# orElse (function)
+# map
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+```
+
+Added in v2.0.0
+
+# mapLeft
+
+**Signature**
+
+```ts
+<E, G>(f: (e: E) => G) => <R, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, A>
+```
+
+Added in v2.0.0
+
+# orElse
 
 **Signature**
 
@@ -271,142 +371,42 @@ export function orElse<R, E, A, M>(
 
 Added in v2.0.0
 
-# alt (export)
+# readerEither
 
 **Signature**
 
 ```ts
-<R, E, A>(that: () => ReaderEither<R, E, A>) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThrow3<URI> = ...
 ```
 
 Added in v2.0.0
 
-# ap (export)
+# right
 
 **Signature**
 
 ```ts
-<R, E, A>(fa: ReaderEither<R, E, A>) => <B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B>
+export const right: <R, E = never, A = never>(a: A) => ReaderEither<R, E, A> = ...
 ```
 
 Added in v2.0.0
 
-# apFirst (export)
+# rightReader
 
 **Signature**
 
 ```ts
-<R, E, B>(fb: ReaderEither<R, E, B>) => <A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderEither<R, E, A> = ...
 ```
 
 Added in v2.0.0
 
-# apSecond (export)
+# swap
 
 **Signature**
 
 ```ts
-<R, E, B>(fb: ReaderEither<R, E, B>) => <A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
-```
-
-Added in v2.0.0
-
-# bimap (export)
-
-**Signature**
-
-```ts
-<E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => <R>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, B>
-```
-
-Added in v2.0.0
-
-# chain (export)
-
-**Signature**
-
-```ts
-<R, E, A, B>(f: (a: A) => ReaderEither<R, E, B>) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
-```
-
-Added in v2.0.0
-
-# chainFirst (export)
-
-**Signature**
-
-```ts
-<R, E, A, B>(f: (a: A) => ReaderEither<R, E, B>) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
-```
-
-Added in v2.0.0
-
-# filterOrElse (export)
-
-**Signature**
-
-```ts
-{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>; }
-```
-
-Added in v2.0.0
-
-# flatten (export)
-
-**Signature**
-
-```ts
-<R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) => ReaderEither<R, E, A>
-```
-
-Added in v2.0.0
-
-# fromEither (export)
-
-**Signature**
-
-```ts
-<R, E, A>(ma: E.Either<E, A>) => ReaderEither<R, E, A>
-```
-
-Added in v2.0.0
-
-# fromOption (export)
-
-**Signature**
-
-```ts
-<E>(onNone: () => E) => <R, A>(ma: Option<A>) => ReaderEither<R, E, A>
-```
-
-Added in v2.0.0
-
-# fromPredicate (export)
-
-**Signature**
-
-```ts
-{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => ReaderEither<U, E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>; }
-```
-
-Added in v2.0.0
-
-# map (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
-```
-
-Added in v2.0.0
-
-# mapLeft (export)
-
-**Signature**
-
-```ts
-<E, G>(f: (e: E) => G) => <R, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, A>
+export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E> = ...
 ```
 
 Added in v2.0.0

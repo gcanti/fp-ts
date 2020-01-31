@@ -20,11 +20,11 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [Show (interface)](#show-interface)
-- [showBoolean (constant)](#showboolean-constant)
-- [showNumber (constant)](#shownumber-constant)
-- [showString (constant)](#showstring-constant)
-- [getStructShow (function)](#getstructshow-function)
-- [getTupleShow (function)](#gettupleshow-function)
+- [getStructShow](#getstructshow)
+- [getTupleShow](#gettupleshow)
+- [showBoolean](#showboolean)
+- [showNumber](#shownumber)
+- [showString](#showstring)
 
 ---
 
@@ -47,37 +47,7 @@ export interface Show<A> {
 
 Added in v2.0.0
 
-# showBoolean (constant)
-
-**Signature**
-
-```ts
-export const showBoolean: Show<boolean> = ...
-```
-
-Added in v2.0.0
-
-# showNumber (constant)
-
-**Signature**
-
-```ts
-export const showNumber: Show<number> = ...
-```
-
-Added in v2.0.0
-
-# showString (constant)
-
-**Signature**
-
-```ts
-export const showString: Show<string> = ...
-```
-
-Added in v2.0.0
-
-# getStructShow (function)
+# getStructShow
 
 **Signature**
 
@@ -87,7 +57,7 @@ export function getStructShow<O extends { [key: string]: any }>(shows: { [K in k
 
 Added in v2.0.0
 
-# getTupleShow (function)
+# getTupleShow
 
 **Signature**
 
@@ -95,6 +65,36 @@ Added in v2.0.0
 export function getTupleShow<T extends Array<Show<any>>>(
   ...shows: T
 ): Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }> { ... }
+```
+
+Added in v2.0.0
+
+# showBoolean
+
+**Signature**
+
+```ts
+export const showBoolean: Show<boolean> = ...
+```
+
+Added in v2.0.0
+
+# showNumber
+
+**Signature**
+
+```ts
+export const showNumber: Show<number> = ...
+```
+
+Added in v2.0.0
+
+# showString
+
+**Signature**
+
+```ts
+export const showString: Show<string> = ...
 ```
 
 Added in v2.0.0

@@ -18,7 +18,7 @@ Added in v2.0.0
 - [ValidationT (interface)](#validationt-interface)
 - [ValidationT1 (type alias)](#validationt1-type-alias)
 - [ValidationT2 (type alias)](#validationt2-type-alias)
-- [getValidationM (function)](#getvalidationm-function)
+- [getValidationM](#getvalidationm)
 
 ---
 
@@ -94,7 +94,7 @@ export type ValidationT2<M extends URIS2, R, E, A> = Kind2<M, R, Either<E, A>>
 
 Added in v2.0.0
 
-# getValidationM (function)
+# getValidationM
 
 **Signature**
 

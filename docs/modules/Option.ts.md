@@ -43,53 +43,53 @@ Added in v2.0.0
 - [Some (interface)](#some-interface)
 - [Option (type alias)](#option-type-alias)
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [none (constant)](#none-constant)
-- [option (constant)](#option-constant)
-- [elem (function)](#elem-function)
-- [exists (function)](#exists-function)
-- [fold (function)](#fold-function)
-- [fromNullable (function)](#fromnullable-function)
-- [fromPredicate (function)](#frompredicate-function)
-- [getApplyMonoid (function)](#getapplymonoid-function)
-- [getApplySemigroup (function)](#getapplysemigroup-function)
-- [getEq (function)](#geteq-function)
-- [getFirstMonoid (function)](#getfirstmonoid-function)
-- [getLastMonoid (function)](#getlastmonoid-function)
-- [getLeft (function)](#getleft-function)
-- [getMonoid (function)](#getmonoid-function)
-- [getOrElse (function)](#getorelse-function)
-- [getOrd (function)](#getord-function)
-- [getRefinement (function)](#getrefinement-function)
-- [getRight (function)](#getright-function)
-- [getShow (function)](#getshow-function)
-- [isNone (function)](#isnone-function)
-- [isSome (function)](#issome-function)
-- [mapNullable (function)](#mapnullable-function)
-- [some (function)](#some-function)
-- [toNullable (function)](#tonullable-function)
-- [toUndefined (function)](#toundefined-function)
-- [tryCatch (function)](#trycatch-function)
-- [alt (export)](#alt-export)
-- [ap (export)](#ap-export)
-- [apFirst (export)](#apfirst-export)
-- [apSecond (export)](#apsecond-export)
-- [chain (export)](#chain-export)
-- [chainFirst (export)](#chainfirst-export)
-- [compact (export)](#compact-export)
-- [duplicate (export)](#duplicate-export)
-- [extend (export)](#extend-export)
-- [filter (export)](#filter-export)
-- [filterMap (export)](#filtermap-export)
-- [flatten (export)](#flatten-export)
-- [foldMap (export)](#foldmap-export)
-- [fromEither (export)](#fromeither-export)
-- [map (export)](#map-export)
-- [partition (export)](#partition-export)
-- [partitionMap (export)](#partitionmap-export)
-- [reduce (export)](#reduce-export)
-- [reduceRight (export)](#reduceright-export)
-- [separate (export)](#separate-export)
+- [URI](#uri)
+- [alt](#alt)
+- [ap](#ap)
+- [apFirst](#apfirst)
+- [apSecond](#apsecond)
+- [chain](#chain)
+- [chainFirst](#chainfirst)
+- [compact](#compact)
+- [duplicate](#duplicate)
+- [elem](#elem)
+- [exists](#exists)
+- [extend](#extend)
+- [filter](#filter)
+- [filterMap](#filtermap)
+- [flatten](#flatten)
+- [fold](#fold)
+- [foldMap](#foldmap)
+- [fromEither](#fromeither)
+- [fromNullable](#fromnullable)
+- [fromPredicate](#frompredicate)
+- [getApplyMonoid](#getapplymonoid)
+- [getApplySemigroup](#getapplysemigroup)
+- [getEq](#geteq)
+- [getFirstMonoid](#getfirstmonoid)
+- [getLastMonoid](#getlastmonoid)
+- [getLeft](#getleft)
+- [getMonoid](#getmonoid)
+- [getOrElse](#getorelse)
+- [getOrd](#getord)
+- [getRefinement](#getrefinement)
+- [getRight](#getright)
+- [getShow](#getshow)
+- [isNone](#isnone)
+- [isSome](#issome)
+- [map](#map)
+- [mapNullable](#mapnullable)
+- [none](#none)
+- [option](#option)
+- [partition](#partition)
+- [partitionMap](#partitionmap)
+- [reduce](#reduce)
+- [reduceRight](#reduceright)
+- [separate](#separate)
+- [some](#some)
+- [toNullable](#tonullable)
+- [toUndefined](#toundefined)
+- [tryCatch](#trycatch)
 
 ---
 
@@ -138,7 +138,7 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -148,35 +148,87 @@ export const URI: "Option" = ...
 
 Added in v2.0.0
 
-# none (constant)
+# alt
 
 **Signature**
 
 ```ts
-export const none: Option<never> = ...
+<A>(that: () => Option<A>) => (fa: Option<A>) => Option<A>
 ```
 
 Added in v2.0.0
 
-# option (constant)
+# ap
 
 **Signature**
 
 ```ts
-export const option: Monad1<URI> &
-  Foldable1<URI> &
-  Traversable1<URI> &
-  Alternative1<URI> &
-  Extend1<URI> &
-  Compactable1<URI> &
-  Filterable1<URI> &
-  Witherable1<URI> &
-  MonadThrow1<URI> = ...
+<A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B>
 ```
 
 Added in v2.0.0
 
-# elem (function)
+# apFirst
+
+**Signature**
+
+```ts
+<B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<A>
+```
+
+Added in v2.0.0
+
+# apSecond
+
+**Signature**
+
+```ts
+<B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<B>
+```
+
+Added in v2.0.0
+
+# chain
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B>
+```
+
+Added in v2.0.0
+
+# chainFirst
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<A>
+```
+
+Added in v2.0.0
+
+# compact
+
+**Signature**
+
+```ts
+<A>(fa: Option<Option<A>>) => Option<A>
+```
+
+Added in v2.0.0
+
+# duplicate
+
+**Signature**
+
+```ts
+<A>(ma: Option<A>) => Option<Option<A>>
+```
+
+Added in v2.0.0
+
+# elem
 
 Returns `true` if `ma` contains `a`
 
@@ -199,7 +251,7 @@ assert.strictEqual(elem(eqNumber)(1, none), false)
 
 Added in v2.0.0
 
-# exists (function)
+# exists
 
 Returns `true` if the predicate is satisfied by the wrapped value
 
@@ -240,7 +292,47 @@ assert.strictEqual(
 
 Added in v2.0.0
 
-# fold (function)
+# extend
+
+**Signature**
+
+```ts
+<A, B>(f: (fa: Option<A>) => B) => (ma: Option<A>) => Option<B>
+```
+
+Added in v2.0.0
+
+# filter
+
+**Signature**
+
+```ts
+{ <A, B>(refinement: Refinement<A, B>): (fa: Option<A>) => Option<B>; <A>(predicate: Predicate<A>): (fa: Option<A>) => Option<A>; }
+```
+
+Added in v2.0.0
+
+# filterMap
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B>
+```
+
+Added in v2.0.0
+
+# flatten
+
+**Signature**
+
+```ts
+<A>(mma: Option<Option<A>>) => Option<A>
+```
+
+Added in v2.0.0
+
+# fold
 
 Takes a default value, a function, and an `Option` value, if the `Option` value is `None` the default value is
 returned, otherwise the function is applied to the value inside the `Some` and the result is returned.
@@ -282,7 +374,27 @@ assert.strictEqual(
 
 Added in v2.0.0
 
-# fromNullable (function)
+# foldMap
+
+**Signature**
+
+```ts
+;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M
+```
+
+Added in v2.0.0
+
+# fromEither
+
+**Signature**
+
+```ts
+<E, A>(ma: Either<E, A>) => Option<A>
+```
+
+Added in v2.0.0
+
+# fromNullable
 
 Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
 returns the value wrapped in a `Some`
@@ -305,7 +417,7 @@ assert.deepStrictEqual(fromNullable(1), some(1))
 
 Added in v2.0.0
 
-# fromPredicate (function)
+# fromPredicate
 
 Returns a smart constructor based on the given predicate
 
@@ -329,7 +441,7 @@ assert.deepStrictEqual(getOption(1), some(1))
 
 Added in v2.0.0
 
-# getApplyMonoid (function)
+# getApplyMonoid
 
 **Signature**
 
@@ -339,7 +451,7 @@ export function getApplyMonoid<A>(M: Monoid<A>): Monoid<Option<A>> { ... }
 
 Added in v2.0.0
 
-# getApplySemigroup (function)
+# getApplySemigroup
 
 `Apply` semigroup
 
@@ -371,7 +483,7 @@ assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
 
 Added in v2.0.0
 
-# getEq (function)
+# getEq
 
 **Signature**
 
@@ -395,7 +507,7 @@ assert.strictEqual(E.equals(some(1), some(1)), true)
 
 Added in v2.0.0
 
-# getFirstMonoid (function)
+# getFirstMonoid
 
 Monoid returning the left-most non-`None` value
 
@@ -426,7 +538,7 @@ assert.deepStrictEqual(M.concat(some(1), some(2)), some(1))
 
 Added in v2.0.0
 
-# getLastMonoid (function)
+# getLastMonoid
 
 Monoid returning the right-most non-`None` value
 
@@ -457,7 +569,7 @@ assert.deepStrictEqual(M.concat(some(1), some(2)), some(2))
 
 Added in v2.0.0
 
-# getLeft (function)
+# getLeft
 
 Returns an `E` value if possible
 
@@ -469,7 +581,7 @@ export function getLeft<E, A>(ma: Either<E, A>): Option<E> { ... }
 
 Added in v2.0.0
 
-# getMonoid (function)
+# getMonoid
 
 Monoid returning the left-most non-`None` value. If both operands are `Some`s then the inner values are
 appended using the provided `Semigroup`
@@ -502,7 +614,7 @@ assert.deepStrictEqual(M.concat(some(1), some(2)), some(3))
 
 Added in v2.0.0
 
-# getOrElse (function)
+# getOrElse
 
 Extracts the value out of the structure, if it exists. Otherwise returns the given default value
 
@@ -536,7 +648,7 @@ assert.strictEqual(
 
 Added in v2.0.0
 
-# getOrd (function)
+# getOrd
 
 The `Ord` instance allows `Option` values to be compared with
 `compare`, whenever there is an `Ord` instance for
@@ -566,7 +678,7 @@ assert.strictEqual(O.compare(some(1), some(1)), 0)
 
 Added in v2.0.0
 
-# getRefinement (function)
+# getRefinement
 
 Returns a `Refinement` (i.e. a custom type guard) from a `Option` returning function.
 This function ensures that a custom type guard definition is type-safe.
@@ -590,7 +702,7 @@ export function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): R
 
 Added in v2.0.0
 
-# getRight (function)
+# getRight
 
 Returns an `A` value if possible
 
@@ -602,7 +714,7 @@ export function getRight<E, A>(ma: Either<E, A>): Option<A> { ... }
 
 Added in v2.0.0
 
-# getShow (function)
+# getShow
 
 **Signature**
 
@@ -612,7 +724,7 @@ export function getShow<A>(S: Show<A>): Show<Option<A>> { ... }
 
 Added in v2.0.0
 
-# isNone (function)
+# isNone
 
 Returns `true` if the option is `None`, `false` otherwise
 
@@ -633,7 +745,7 @@ assert.strictEqual(isNone(none), true)
 
 Added in v2.0.0
 
-# isSome (function)
+# isSome
 
 Returns `true` if the option is an instance of `Some`, `false` otherwise
 
@@ -654,7 +766,17 @@ assert.strictEqual(isSome(none), false)
 
 Added in v2.0.0
 
-# mapNullable (function)
+# map
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B>
+```
+
+Added in v2.0.0
+
+# mapNullable
 
 This is `chain` + `fromNullable`, useful when working with optional values
 
@@ -707,7 +829,85 @@ assert.deepStrictEqual(
 
 Added in v2.0.0
 
-# some (function)
+# none
+
+**Signature**
+
+```ts
+export const none: Option<never> = ...
+```
+
+Added in v2.0.0
+
+# option
+
+**Signature**
+
+```ts
+export const option: Monad1<URI> &
+  Foldable1<URI> &
+  Traversable1<URI> &
+  Alternative1<URI> &
+  Extend1<URI> &
+  Compactable1<URI> &
+  Filterable1<URI> &
+  Witherable1<URI> &
+  MonadThrow1<URI> = ...
+```
+
+Added in v2.0.0
+
+# partition
+
+**Signature**
+
+```ts
+{ <A, B>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>; <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>; }
+```
+
+Added in v2.0.0
+
+# partitionMap
+
+**Signature**
+
+```ts
+<A, B, C>(f: (a: A) => Either<B, C>) => (fa: Option<A>) => Separated<Option<B>, Option<C>>
+```
+
+Added in v2.0.0
+
+# reduce
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B
+```
+
+Added in v2.0.0
+
+# reduceRight
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B
+```
+
+Added in v2.0.0
+
+# separate
+
+**Signature**
+
+```ts
+<A, B>(fa: Option<Either<A, B>>) => Separated<Option<A>, Option<B>>
+```
+
+Added in v2.0.0
+
+# some
 
 **Signature**
 
@@ -717,7 +917,7 @@ export function some<A>(a: A): Option<A> { ... }
 
 Added in v2.0.0
 
-# toNullable (function)
+# toNullable
 
 Extracts the value out of the structure, if it exists. Otherwise returns `null`.
 
@@ -739,7 +939,7 @@ assert.strictEqual(pipe(none, toNullable), null)
 
 Added in v2.0.0
 
-# toUndefined (function)
+# toUndefined
 
 Extracts the value out of the structure, if it exists. Otherwise returns `undefined`.
 
@@ -761,7 +961,7 @@ assert.strictEqual(pipe(none, toUndefined), undefined)
 
 Added in v2.0.0
 
-# tryCatch (function)
+# tryCatch
 
 Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in
 `Some`
@@ -787,206 +987,6 @@ assert.deepStrictEqual(
   tryCatch(() => 1),
   some(1)
 )
-```
-
-Added in v2.0.0
-
-# alt (export)
-
-**Signature**
-
-```ts
-<A>(that: () => Option<A>) => (fa: Option<A>) => Option<A>
-```
-
-Added in v2.0.0
-
-# ap (export)
-
-**Signature**
-
-```ts
-<A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B>
-```
-
-Added in v2.0.0
-
-# apFirst (export)
-
-**Signature**
-
-```ts
-<B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<A>
-```
-
-Added in v2.0.0
-
-# apSecond (export)
-
-**Signature**
-
-```ts
-<B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<B>
-```
-
-Added in v2.0.0
-
-# chain (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B>
-```
-
-Added in v2.0.0
-
-# chainFirst (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<A>
-```
-
-Added in v2.0.0
-
-# compact (export)
-
-**Signature**
-
-```ts
-<A>(fa: Option<Option<A>>) => Option<A>
-```
-
-Added in v2.0.0
-
-# duplicate (export)
-
-**Signature**
-
-```ts
-<A>(ma: Option<A>) => Option<Option<A>>
-```
-
-Added in v2.0.0
-
-# extend (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (fa: Option<A>) => B) => (ma: Option<A>) => Option<B>
-```
-
-Added in v2.0.0
-
-# filter (export)
-
-**Signature**
-
-```ts
-{ <A, B>(refinement: Refinement<A, B>): (fa: Option<A>) => Option<B>; <A>(predicate: Predicate<A>): (fa: Option<A>) => Option<A>; }
-```
-
-Added in v2.0.0
-
-# filterMap (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B>
-```
-
-Added in v2.0.0
-
-# flatten (export)
-
-**Signature**
-
-```ts
-<A>(mma: Option<Option<A>>) => Option<A>
-```
-
-Added in v2.0.0
-
-# foldMap (export)
-
-**Signature**
-
-```ts
-;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M
-```
-
-Added in v2.0.0
-
-# fromEither (export)
-
-**Signature**
-
-```ts
-<E, A>(ma: Either<E, A>) => Option<A>
-```
-
-Added in v2.0.0
-
-# map (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B>
-```
-
-Added in v2.0.0
-
-# partition (export)
-
-**Signature**
-
-```ts
-{ <A, B>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>; <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>; }
-```
-
-Added in v2.0.0
-
-# partitionMap (export)
-
-**Signature**
-
-```ts
-<A, B, C>(f: (a: A) => Either<B, C>) => (fa: Option<A>) => Separated<Option<B>, Option<C>>
-```
-
-Added in v2.0.0
-
-# reduce (export)
-
-**Signature**
-
-```ts
-;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B
-```
-
-Added in v2.0.0
-
-# reduceRight (export)
-
-**Signature**
-
-```ts
-;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B
-```
-
-Added in v2.0.0
-
-# separate (export)
-
-**Signature**
-
-```ts
-<A, B>(fa: Option<Either<A, B>>) => Separated<Option<A>, Option<B>>
 ```
 
 Added in v2.0.0

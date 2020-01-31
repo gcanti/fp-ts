@@ -36,7 +36,7 @@ Added in v2.0.0
 - [FoldableWithIndexComposition22 (interface)](#foldablewithindexcomposition22-interface)
 - [FoldableWithIndexComposition22C (interface)](#foldablewithindexcomposition22c-interface)
 - [FoldableWithIndexComposition2C1 (interface)](#foldablewithindexcomposition2c1-interface)
-- [getFoldableWithIndexComposition (function)](#getfoldablewithindexcomposition-function)
+- [getFoldableWithIndexComposition](#getfoldablewithindexcomposition)
 
 ---
 
@@ -275,7 +275,7 @@ export interface FoldableWithIndexComposition2C1<F extends URIS2, FI, G extends 
 
 Added in v2.0.0
 
-# getFoldableWithIndexComposition (function)
+# getFoldableWithIndexComposition
 
 **Signature**
 

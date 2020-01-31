@@ -46,7 +46,7 @@ Added in v2.0.0
 - [ApplicativeCompositionHKT1 (interface)](#applicativecompositionhkt1-interface)
 - [ApplicativeCompositionHKT2 (interface)](#applicativecompositionhkt2-interface)
 - [ApplicativeCompositionHKT2C (interface)](#applicativecompositionhkt2c-interface)
-- [getApplicativeComposition (function)](#getapplicativecomposition-function)
+- [getApplicativeComposition](#getapplicativecomposition)
 
 ---
 
@@ -289,7 +289,7 @@ export interface ApplicativeCompositionHKT2C<F, G extends URIS2, E> extends Func
 
 Added in v2.0.0
 
-# getApplicativeComposition (function)
+# getApplicativeComposition
 
 Like `Functor`, `Applicative`s compose. If `F` and `G` have `Applicative` instances, then so does `F<G<_>>`
 

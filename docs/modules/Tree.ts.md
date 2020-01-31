@@ -21,30 +21,30 @@ Added in v2.0.0
 - [Tree (interface)](#tree-interface)
 - [Forest (type alias)](#forest-type-alias)
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [tree (constant)](#tree-constant)
-- [drawForest (function)](#drawforest-function)
-- [drawTree (function)](#drawtree-function)
-- [elem (function)](#elem-function)
-- [getEq (function)](#geteq-function)
-- [getShow (function)](#getshow-function)
-- [make (function)](#make-function)
-- [unfoldForest (function)](#unfoldforest-function)
-- [unfoldForestM (function)](#unfoldforestm-function)
-- [unfoldTree (function)](#unfoldtree-function)
-- [unfoldTreeM (function)](#unfoldtreem-function)
-- [ap (export)](#ap-export)
-- [apFirst (export)](#apfirst-export)
-- [apSecond (export)](#apsecond-export)
-- [chain (export)](#chain-export)
-- [chainFirst (export)](#chainfirst-export)
-- [duplicate (export)](#duplicate-export)
-- [extend (export)](#extend-export)
-- [flatten (export)](#flatten-export)
-- [foldMap (export)](#foldmap-export)
-- [map (export)](#map-export)
-- [reduce (export)](#reduce-export)
-- [reduceRight (export)](#reduceright-export)
+- [URI](#uri)
+- [ap](#ap)
+- [apFirst](#apfirst)
+- [apSecond](#apsecond)
+- [chain](#chain)
+- [chainFirst](#chainfirst)
+- [drawForest](#drawforest)
+- [drawTree](#drawtree)
+- [duplicate](#duplicate)
+- [elem](#elem)
+- [extend](#extend)
+- [flatten](#flatten)
+- [foldMap](#foldmap)
+- [getEq](#geteq)
+- [getShow](#getshow)
+- [make](#make)
+- [map](#map)
+- [reduce](#reduce)
+- [reduceRight](#reduceright)
+- [tree](#tree)
+- [unfoldForest](#unfoldforest)
+- [unfoldForestM](#unfoldforestm)
+- [unfoldTree](#unfoldtree)
+- [unfoldTreeM](#unfoldtreem)
 
 ---
 
@@ -81,7 +81,7 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -91,17 +91,57 @@ export const URI: "Tree" = ...
 
 Added in v2.0.0
 
-# tree (constant)
+# ap
 
 **Signature**
 
 ```ts
-export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = ...
+<A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B>
 ```
 
 Added in v2.0.0
 
-# drawForest (function)
+# apFirst
+
+**Signature**
+
+```ts
+<B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<A>
+```
+
+Added in v2.0.0
+
+# apSecond
+
+**Signature**
+
+```ts
+<B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<B>
+```
+
+Added in v2.0.0
+
+# chain
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B>
+```
+
+Added in v2.0.0
+
+# chainFirst
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<A>
+```
+
+Added in v2.0.0
+
+# drawForest
 
 Neat 2-dimensional drawing of a forest
 
@@ -113,7 +153,7 @@ export function drawForest(forest: Forest<string>): string { ... }
 
 Added in v2.0.0
 
-# drawTree (function)
+# drawTree
 
 Neat 2-dimensional drawing of a tree
 
@@ -143,7 +183,17 @@ assert.strictEqual(
 
 Added in v2.0.0
 
-# elem (function)
+# duplicate
+
+**Signature**
+
+```ts
+<A>(ma: Tree<A>) => Tree<Tree<A>>
+```
+
+Added in v2.0.0
+
+# elem
 
 **Signature**
 
@@ -153,7 +203,37 @@ export function elem<A>(E: Eq<A>): (a: A, fa: Tree<A>) => boolean { ... }
 
 Added in v2.0.0
 
-# getEq (function)
+# extend
+
+**Signature**
+
+```ts
+<A, B>(f: (fa: Tree<A>) => B) => (ma: Tree<A>) => Tree<B>
+```
+
+Added in v2.0.0
+
+# flatten
+
+**Signature**
+
+```ts
+<A>(mma: Tree<Tree<A>>) => Tree<A>
+```
+
+Added in v2.0.0
+
+# foldMap
+
+**Signature**
+
+```ts
+;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Tree<A>) => M
+```
+
+Added in v2.0.0
+
+# getEq
 
 **Signature**
 
@@ -163,7 +243,7 @@ export function getEq<A>(E: Eq<A>): Eq<Tree<A>> { ... }
 
 Added in v2.0.0
 
-# getShow (function)
+# getShow
 
 **Signature**
 
@@ -173,7 +253,7 @@ export function getShow<A>(S: Show<A>): Show<Tree<A>> { ... }
 
 Added in v2.0.0
 
-# make (function)
+# make
 
 **Signature**
 
@@ -183,7 +263,47 @@ export function make<A>(value: A, forest: Forest<A> = empty): Tree<A> { ... }
 
 Added in v2.0.0
 
-# unfoldForest (function)
+# map
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B>
+```
+
+Added in v2.0.0
+
+# reduce
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>) => B
+```
+
+Added in v2.0.0
+
+# reduceRight
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>) => B
+```
+
+Added in v2.0.0
+
+# tree
+
+**Signature**
+
+```ts
+export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = ...
+```
+
+Added in v2.0.0
+
+# unfoldForest
 
 Build a tree from a seed value
 
@@ -195,7 +315,7 @@ export function unfoldForest<A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Fo
 
 Added in v2.0.0
 
-# unfoldForestM (function)
+# unfoldForestM
 
 Monadic forest builder, in depth-first order
 
@@ -224,7 +344,7 @@ export function unfoldForestM<M>(
 
 Added in v2.0.0
 
-# unfoldTree (function)
+# unfoldTree
 
 Build a tree from a seed value
 
@@ -236,7 +356,7 @@ export function unfoldTree<A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A> { ..
 
 Added in v2.0.0
 
-# unfoldTreeM (function)
+# unfoldTreeM
 
 Monadic tree builder, in depth-first order
 
@@ -259,126 +379,6 @@ export function unfoldTreeM<M extends URIS>(
   M: Monad1<M>
 ): <A, B>(b: B, f: (b: B) => Kind<M, [A, Array<B>]>) => Kind<M, Tree<A>>
 export function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>> { ... }
-```
-
-Added in v2.0.0
-
-# ap (export)
-
-**Signature**
-
-```ts
-<A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B>
-```
-
-Added in v2.0.0
-
-# apFirst (export)
-
-**Signature**
-
-```ts
-<B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<A>
-```
-
-Added in v2.0.0
-
-# apSecond (export)
-
-**Signature**
-
-```ts
-<B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<B>
-```
-
-Added in v2.0.0
-
-# chain (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B>
-```
-
-Added in v2.0.0
-
-# chainFirst (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<A>
-```
-
-Added in v2.0.0
-
-# duplicate (export)
-
-**Signature**
-
-```ts
-<A>(ma: Tree<A>) => Tree<Tree<A>>
-```
-
-Added in v2.0.0
-
-# extend (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (fa: Tree<A>) => B) => (ma: Tree<A>) => Tree<B>
-```
-
-Added in v2.0.0
-
-# flatten (export)
-
-**Signature**
-
-```ts
-<A>(mma: Tree<Tree<A>>) => Tree<A>
-```
-
-Added in v2.0.0
-
-# foldMap (export)
-
-**Signature**
-
-```ts
-;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Tree<A>) => M
-```
-
-Added in v2.0.0
-
-# map (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B>
-```
-
-Added in v2.0.0
-
-# reduce (export)
-
-**Signature**
-
-```ts
-;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>) => B
-```
-
-Added in v2.0.0
-
-# reduceRight (export)
-
-**Signature**
-
-```ts
-;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>) => B
 ```
 
 Added in v2.0.0

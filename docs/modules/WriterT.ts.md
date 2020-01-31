@@ -21,7 +21,7 @@ Added in v2.4.0
 - [WriterT1 (interface)](#writert1-interface)
 - [WriterT2 (interface)](#writert2-interface)
 - [WriterT3 (interface)](#writert3-interface)
-- [getWriterM (function)](#getwriterm-function)
+- [getWriterM](#getwriterm)
 
 ---
 
@@ -219,7 +219,7 @@ export interface WriterT3<M extends URIS3, R, E, W, A> {
 
 Added in v2.4.0
 
-# getWriterM (function)
+# getWriterM
 
 **Signature**
 

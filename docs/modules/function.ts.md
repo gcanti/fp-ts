@@ -17,23 +17,23 @@ Added in v2.0.0
 - [Lazy (interface)](#lazy-interface)
 - [Predicate (interface)](#predicate-interface)
 - [Refinement (interface)](#refinement-interface)
-- [unsafeCoerce (constant)](#unsafecoerce-constant)
-- [absurd (function)](#absurd-function)
-- [constFalse (function)](#constfalse-function)
-- [constNull (function)](#constnull-function)
-- [constTrue (function)](#consttrue-function)
-- [constUndefined (function)](#constundefined-function)
-- [constVoid (function)](#constvoid-function)
-- [constant (function)](#constant-function)
-- [decrement (function)](#decrement-function)
-- [flip (function)](#flip-function)
-- [flow (function)](#flow-function)
-- [identity (function)](#identity-function)
-- [increment (function)](#increment-function)
-- [not (function)](#not-function)
-- [tuple (function)](#tuple-function)
-- [tupled (function)](#tupled-function)
-- [untupled (function)](#untupled-function)
+- [absurd](#absurd)
+- [constFalse](#constfalse)
+- [constNull](#constnull)
+- [constTrue](#consttrue)
+- [constUndefined](#constundefined)
+- [constVoid](#constvoid)
+- [constant](#constant)
+- [decrement](#decrement)
+- [flip](#flip)
+- [flow](#flow)
+- [identity](#identity)
+- [increment](#increment)
+- [not](#not)
+- [tuple](#tuple)
+- [tupled](#tupled)
+- [unsafeCoerce](#unsafecoerce)
+- [untupled](#untupled)
 
 ---
 
@@ -107,17 +107,7 @@ export interface Refinement<A, B extends A> {
 
 Added in v2.0.0
 
-# unsafeCoerce (constant)
-
-**Signature**
-
-```ts
-export const unsafeCoerce: <A, B>(a: A) => B = ...
-```
-
-Added in v2.0.0
-
-# absurd (function)
+# absurd
 
 **Signature**
 
@@ -127,7 +117,7 @@ export function absurd<A>(_: never): A { ... }
 
 Added in v2.0.0
 
-# constFalse (function)
+# constFalse
 
 A thunk that returns always `false`
 
@@ -139,7 +129,7 @@ export const constFalse = (): boolean => ...
 
 Added in v2.0.0
 
-# constNull (function)
+# constNull
 
 A thunk that returns always `null`
 
@@ -151,7 +141,7 @@ export const constNull = (): null => ...
 
 Added in v2.0.0
 
-# constTrue (function)
+# constTrue
 
 A thunk that returns always `true`
 
@@ -163,7 +153,7 @@ export const constTrue = (): boolean => ...
 
 Added in v2.0.0
 
-# constUndefined (function)
+# constUndefined
 
 A thunk that returns always `undefined`
 
@@ -175,7 +165,7 @@ export const constUndefined = (): undefined => ...
 
 Added in v2.0.0
 
-# constVoid (function)
+# constVoid
 
 A thunk that returns always `void`
 
@@ -187,7 +177,7 @@ export const constVoid = (): void => ...
 
 Added in v2.0.0
 
-# constant (function)
+# constant
 
 **Signature**
 
@@ -197,7 +187,7 @@ export function constant<A>(a: A): Lazy<A> { ... }
 
 Added in v2.0.0
 
-# decrement (function)
+# decrement
 
 **Signature**
 
@@ -207,7 +197,7 @@ export function decrement(n: number): number { ... }
 
 Added in v2.0.0
 
-# flip (function)
+# flip
 
 Flips the order of the arguments of a function of two arguments.
 
@@ -219,7 +209,7 @@ export function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C { ... }
 
 Added in v2.0.0
 
-# flow (function)
+# flow
 
 Function composition (from left to right).
 
@@ -301,7 +291,7 @@ assert.strictEqual(f('aaa'), 6)
 
 Added in v2.0.0
 
-# identity (function)
+# identity
 
 **Signature**
 
@@ -311,7 +301,7 @@ export function identity<A>(a: A): A { ... }
 
 Added in v2.0.0
 
-# increment (function)
+# increment
 
 **Signature**
 
@@ -321,7 +311,7 @@ export function increment(n: number): number { ... }
 
 Added in v2.0.0
 
-# not (function)
+# not
 
 **Signature**
 
@@ -331,7 +321,7 @@ export function not<A>(predicate: Predicate<A>): Predicate<A> { ... }
 
 Added in v2.0.0
 
-# tuple (function)
+# tuple
 
 **Signature**
 
@@ -341,7 +331,7 @@ export function tuple<T extends Array<any>>(...t: T): T { ... }
 
 Added in v2.0.0
 
-# tupled (function)
+# tupled
 
 Creates a tupled version of this function: instead of `n` arguments, it accepts a single tuple argument.
 
@@ -363,7 +353,17 @@ assert.strictEqual(add([1, 2]), 3)
 
 Added in v2.4.0
 
-# untupled (function)
+# unsafeCoerce
+
+**Signature**
+
+```ts
+export const unsafeCoerce: <A, B>(a: A) => B = ...
+```
+
+Added in v2.0.0
+
+# untupled
 
 Inverse function of `tupled`
 

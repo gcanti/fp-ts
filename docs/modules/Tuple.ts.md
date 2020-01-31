@@ -13,25 +13,25 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [tuple (constant)](#tuple-constant)
-- [fst (function)](#fst-function)
-- [getApplicative (function)](#getapplicative-function)
-- [getApply (function)](#getapply-function)
-- [getChain (function)](#getchain-function)
-- [getChainRec (function)](#getchainrec-function)
-- [getMonad (function)](#getmonad-function)
-- [snd (function)](#snd-function)
-- [swap (function)](#swap-function)
-- [bimap (export)](#bimap-export)
-- [compose (export)](#compose-export)
-- [duplicate (export)](#duplicate-export)
-- [extend (export)](#extend-export)
-- [foldMap (export)](#foldmap-export)
-- [map (export)](#map-export)
-- [mapLeft (export)](#mapleft-export)
-- [reduce (export)](#reduce-export)
-- [reduceRight (export)](#reduceright-export)
+- [URI](#uri)
+- [bimap](#bimap)
+- [compose](#compose)
+- [duplicate](#duplicate)
+- [extend](#extend)
+- [foldMap](#foldmap)
+- [fst](#fst)
+- [getApplicative](#getapplicative)
+- [getApply](#getapply)
+- [getChain](#getchain)
+- [getChainRec](#getchainrec)
+- [getMonad](#getmonad)
+- [map](#map)
+- [mapLeft](#mapleft)
+- [reduce](#reduce)
+- [reduceRight](#reduceright)
+- [snd](#snd)
+- [swap](#swap)
+- [tuple](#tuple)
 
 ---
 
@@ -45,7 +45,7 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -55,97 +55,7 @@ export const URI: "Tuple" = ...
 
 Added in v2.0.0
 
-# tuple (constant)
-
-**Signature**
-
-```ts
-export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> = ...
-```
-
-Added in v2.0.0
-
-# fst (function)
-
-**Signature**
-
-```ts
-export function fst<A, S>(sa: [A, S]): A { ... }
-```
-
-Added in v2.0.0
-
-# getApplicative (function)
-
-**Signature**
-
-```ts
-export function getApplicative<S>(M: Monoid<S>): Applicative2C<URI, S> { ... }
-```
-
-Added in v2.0.0
-
-# getApply (function)
-
-**Signature**
-
-```ts
-export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> { ... }
-```
-
-Added in v2.0.0
-
-# getChain (function)
-
-**Signature**
-
-```ts
-export function getChain<S>(S: Semigroup<S>): Chain2C<URI, S> { ... }
-```
-
-Added in v2.0.0
-
-# getChainRec (function)
-
-**Signature**
-
-```ts
-export function getChainRec<S>(M: Monoid<S>): ChainRec2C<URI, S> { ... }
-```
-
-Added in v2.0.0
-
-# getMonad (function)
-
-**Signature**
-
-```ts
-export function getMonad<S>(M: Monoid<S>): Monad2C<URI, S> { ... }
-```
-
-Added in v2.0.0
-
-# snd (function)
-
-**Signature**
-
-```ts
-export function snd<A, S>(sa: [A, S]): S { ... }
-```
-
-Added in v2.0.0
-
-# swap (function)
-
-**Signature**
-
-```ts
-export function swap<A, S>(sa: [A, S]): [S, A] { ... }
-```
-
-Added in v2.0.0
-
-# bimap (export)
+# bimap
 
 **Signature**
 
@@ -155,7 +65,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# compose (export)
+# compose
 
 **Signature**
 
@@ -165,7 +75,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# duplicate (export)
+# duplicate
 
 **Signature**
 
@@ -175,7 +85,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# extend (export)
+# extend
 
 **Signature**
 
@@ -185,7 +95,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# foldMap (export)
+# foldMap
 
 **Signature**
 
@@ -195,7 +105,67 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# map (export)
+# fst
+
+**Signature**
+
+```ts
+export function fst<A, S>(sa: [A, S]): A { ... }
+```
+
+Added in v2.0.0
+
+# getApplicative
+
+**Signature**
+
+```ts
+export function getApplicative<S>(M: Monoid<S>): Applicative2C<URI, S> { ... }
+```
+
+Added in v2.0.0
+
+# getApply
+
+**Signature**
+
+```ts
+export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> { ... }
+```
+
+Added in v2.0.0
+
+# getChain
+
+**Signature**
+
+```ts
+export function getChain<S>(S: Semigroup<S>): Chain2C<URI, S> { ... }
+```
+
+Added in v2.0.0
+
+# getChainRec
+
+**Signature**
+
+```ts
+export function getChainRec<S>(M: Monoid<S>): ChainRec2C<URI, S> { ... }
+```
+
+Added in v2.0.0
+
+# getMonad
+
+**Signature**
+
+```ts
+export function getMonad<S>(M: Monoid<S>): Monad2C<URI, S> { ... }
+```
+
+Added in v2.0.0
+
+# map
 
 **Signature**
 
@@ -205,7 +175,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# mapLeft (export)
+# mapLeft
 
 **Signature**
 
@@ -215,7 +185,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# reduce (export)
+# reduce
 
 **Signature**
 
@@ -225,12 +195,42 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# reduceRight (export)
+# reduceRight
 
 **Signature**
 
 ```ts
 ;<A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: [A, E]) => B
+```
+
+Added in v2.0.0
+
+# snd
+
+**Signature**
+
+```ts
+export function snd<A, S>(sa: [A, S]): S { ... }
+```
+
+Added in v2.0.0
+
+# swap
+
+**Signature**
+
+```ts
+export function swap<A, S>(sa: [A, S]): [S, A] { ... }
+```
+
+Added in v2.0.0
+
+# tuple
+
+**Signature**
+
+```ts
+export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> = ...
 ```
 
 Added in v2.0.0

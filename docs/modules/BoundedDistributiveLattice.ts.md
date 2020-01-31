@@ -15,7 +15,7 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [BoundedDistributiveLattice (interface)](#boundeddistributivelattice-interface)
-- [getMinMaxBoundedDistributiveLattice (function)](#getminmaxboundeddistributivelattice-function)
+- [getMinMaxBoundedDistributiveLattice](#getminmaxboundeddistributivelattice)
 
 ---
 
@@ -29,7 +29,7 @@ export interface BoundedDistributiveLattice<A> extends BoundedLattice<A>, Distri
 
 Added in v2.0.0
 
-# getMinMaxBoundedDistributiveLattice (function)
+# getMinMaxBoundedDistributiveLattice
 
 **Signature**
 

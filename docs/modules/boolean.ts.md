@@ -12,11 +12,11 @@ Added in v2.2.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [fold (function)](#fold-function)
+- [fold](#fold)
 
 ---
 
-# fold (function)
+# fold
 
 Defines the fold over a boolean value.
 Takes two thunks `onTrue`, `onFalse` and a `boolean` value.

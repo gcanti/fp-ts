@@ -22,17 +22,17 @@ Added in v2.0.0
 
 - [Eq (interface)](#eq-interface)
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [eq (constant)](#eq-constant)
-- [eqBoolean (constant)](#eqboolean-constant)
-- [eqDate (constant)](#eqdate-constant)
-- [eqNumber (constant)](#eqnumber-constant)
-- [eqString (constant)](#eqstring-constant)
-- [fromEquals (function)](#fromequals-function)
-- [getStructEq (function)](#getstructeq-function)
-- [getTupleEq (function)](#gettupleeq-function)
-- [strictEqual (function)](#strictequal-function)
-- [contramap (export)](#contramap-export)
+- [URI](#uri)
+- [contramap](#contramap)
+- [eq](#eq)
+- [eqBoolean](#eqboolean)
+- [eqDate](#eqdate)
+- [eqNumber](#eqnumber)
+- [eqString](#eqstring)
+- [fromEquals](#fromequals)
+- [getStructEq](#getstructeq)
+- [getTupleEq](#gettupleeq)
+- [strictEqual](#strictequal)
 
 ---
 
@@ -58,7 +58,7 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -68,7 +68,17 @@ export const URI: "Eq" = ...
 
 Added in v2.0.0
 
-# eq (constant)
+# contramap
+
+**Signature**
+
+```ts
+<A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B>
+```
+
+Added in v2.0.0
+
+# eq
 
 **Signature**
 
@@ -78,7 +88,7 @@ export const eq: Contravariant1<URI> = ...
 
 Added in v2.0.0
 
-# eqBoolean (constant)
+# eqBoolean
 
 **Signature**
 
@@ -88,7 +98,7 @@ export const eqBoolean: Eq<boolean> = ...
 
 Added in v2.0.0
 
-# eqDate (constant)
+# eqDate
 
 **Signature**
 
@@ -98,7 +108,7 @@ export const eqDate: Eq<Date> = ...
 
 Added in v2.0.0
 
-# eqNumber (constant)
+# eqNumber
 
 **Signature**
 
@@ -108,7 +118,7 @@ export const eqNumber: Eq<number> = ...
 
 Added in v2.0.0
 
-# eqString (constant)
+# eqString
 
 **Signature**
 
@@ -118,7 +128,7 @@ export const eqString: Eq<string> = ...
 
 Added in v2.0.0
 
-# fromEquals (function)
+# fromEquals
 
 **Signature**
 
@@ -128,7 +138,7 @@ export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> { ... }
 
 Added in v2.0.0
 
-# getStructEq (function)
+# getStructEq
 
 **Signature**
 
@@ -138,7 +148,7 @@ export function getStructEq<O extends { [key: string]: any }>(eqs: { [K in keyof
 
 Added in v2.0.0
 
-# getTupleEq (function)
+# getTupleEq
 
 Given a tuple of `Eq`s returns a `Eq` for the tuple
 
@@ -164,22 +174,12 @@ assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
 
 Added in v2.0.0
 
-# strictEqual (function)
+# strictEqual
 
 **Signature**
 
 ```ts
 export function strictEqual<A>(a: A, b: A): boolean { ... }
-```
-
-Added in v2.0.0
-
-# contramap (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B>
 ```
 
 Added in v2.0.0

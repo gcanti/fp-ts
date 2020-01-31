@@ -14,30 +14,30 @@ Added in v2.3.0
 
 - [ReaderTask (interface)](#readertask-interface)
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [ask (constant)](#ask-constant)
-- [asks (constant)](#asks-constant)
-- [fromReader (constant)](#fromreader-constant)
-- [fromTask (constant)](#fromtask-constant)
-- [of (constant)](#of-constant)
-- [readerTask (constant)](#readertask-constant)
-- [readerTaskSeq (constant)](#readertaskseq-constant)
-- [chainIOK (function)](#chainiok-function)
-- [chainTaskK (function)](#chaintaskk-function)
-- [fromIO (function)](#fromio-function)
-- [fromIOK (function)](#fromiok-function)
-- [fromTaskK (function)](#fromtaskk-function)
-- [getMonoid (function)](#getmonoid-function)
-- [getSemigroup (function)](#getsemigroup-function)
-- [local (function)](#local-function)
-- [run (function)](#run-function)
-- [ap (export)](#ap-export)
-- [apFirst (export)](#apfirst-export)
-- [apSecond (export)](#apsecond-export)
-- [chain (export)](#chain-export)
-- [chainFirst (export)](#chainfirst-export)
-- [flatten (export)](#flatten-export)
-- [map (export)](#map-export)
+- [URI](#uri)
+- [ap](#ap)
+- [apFirst](#apfirst)
+- [apSecond](#apsecond)
+- [ask](#ask)
+- [asks](#asks)
+- [chain](#chain)
+- [chainFirst](#chainfirst)
+- [chainIOK](#chainiok)
+- [chainTaskK](#chaintaskk)
+- [flatten](#flatten)
+- [fromIO](#fromio)
+- [fromIOK](#fromiok)
+- [fromReader](#fromreader)
+- [fromTask](#fromtask)
+- [fromTaskK](#fromtaskk)
+- [getMonoid](#getmonoid)
+- [getSemigroup](#getsemigroup)
+- [local](#local)
+- [map](#map)
+- [of](#of)
+- [readerTask](#readertask)
+- [readerTaskSeq](#readertaskseq)
+- [run](#run)
 
 ---
 
@@ -63,7 +63,7 @@ export type URI = typeof URI
 
 Added in v2.3.0
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -73,7 +73,37 @@ export const URI: "ReaderTask" = ...
 
 Added in v2.3.0
 
-# ask (constant)
+# ap
+
+**Signature**
+
+```ts
+<E, A>(fa: ReaderTask<E, A>) => <B>(fab: ReaderTask<E, (a: A) => B>) => ReaderTask<E, B>
+```
+
+Added in v2.3.0
+
+# apFirst
+
+**Signature**
+
+```ts
+<E, B>(fb: ReaderTask<E, B>) => <A>(fa: ReaderTask<E, A>) => ReaderTask<E, A>
+```
+
+Added in v2.3.0
+
+# apSecond
+
+**Signature**
+
+```ts
+<E, B>(fb: ReaderTask<E, B>) => <A>(fa: ReaderTask<E, A>) => ReaderTask<E, B>
+```
+
+Added in v2.3.0
+
+# ask
 
 **Signature**
 
@@ -83,7 +113,7 @@ export const ask: <R>() => ReaderTask<R, R> = ...
 
 Added in v2.3.0
 
-# asks (constant)
+# asks
 
 **Signature**
 
@@ -93,7 +123,77 @@ export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> = ...
 
 Added in v2.3.0
 
-# fromReader (constant)
+# chain
+
+**Signature**
+
+```ts
+<E, A, B>(f: (a: A) => ReaderTask<E, B>) => (ma: ReaderTask<E, A>) => ReaderTask<E, B>
+```
+
+Added in v2.3.0
+
+# chainFirst
+
+**Signature**
+
+```ts
+<E, A, B>(f: (a: A) => ReaderTask<E, B>) => (ma: ReaderTask<E, A>) => ReaderTask<E, A>
+```
+
+Added in v2.3.0
+
+# chainIOK
+
+**Signature**
+
+```ts
+export function chainIOK<A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> { ... }
+```
+
+Added in v2.4.0
+
+# chainTaskK
+
+**Signature**
+
+```ts
+export function chainTaskK<A, B>(f: (a: A) => Task<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> { ... }
+```
+
+Added in v2.4.0
+
+# flatten
+
+**Signature**
+
+```ts
+<E, A>(mma: ReaderTask<E, ReaderTask<E, A>>) => ReaderTask<E, A>
+```
+
+Added in v2.3.0
+
+# fromIO
+
+**Signature**
+
+```ts
+export function fromIO<R, A>(ma: IO<A>): ReaderTask<R, A> { ... }
+```
+
+Added in v2.3.0
+
+# fromIOK
+
+**Signature**
+
+```ts
+export function fromIOK<A extends Array<unknown>, B>(f: (...a: A) => IO<B>): <R>(...a: A) => ReaderTask<R, B> { ... }
+```
+
+Added in v2.4.0
+
+# fromReader
 
 **Signature**
 
@@ -103,7 +203,7 @@ export const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A> = 
 
 Added in v2.3.0
 
-# fromTask (constant)
+# fromTask
 
 **Signature**
 
@@ -113,7 +213,57 @@ export const fromTask: <R, A>(ma: Task<A>) => ReaderTask<R, A> = ...
 
 Added in v2.3.0
 
-# of (constant)
+# fromTaskK
+
+**Signature**
+
+```ts
+export function fromTaskK<A extends Array<unknown>, B>(f: (...a: A) => Task<B>): <R>(...a: A) => ReaderTask<R, B> { ... }
+```
+
+Added in v2.4.0
+
+# getMonoid
+
+**Signature**
+
+```ts
+export function getMonoid<R, A>(M: Monoid<A>): Monoid<ReaderTask<R, A>> { ... }
+```
+
+Added in v2.3.0
+
+# getSemigroup
+
+**Signature**
+
+```ts
+export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<ReaderTask<R, A>> { ... }
+```
+
+Added in v2.3.0
+
+# local
+
+**Signature**
+
+```ts
+export function local<Q, R>(f: (f: Q) => R): <A>(ma: ReaderTask<R, A>) => ReaderTask<Q, A> { ... }
+```
+
+Added in v2.3.0
+
+# map
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => <E>(fa: ReaderTask<E, A>) => ReaderTask<E, B>
+```
+
+Added in v2.3.0
+
+# of
 
 **Signature**
 
@@ -123,7 +273,7 @@ export const of: <R, A>(a: A) => ReaderTask<R, A> = ...
 
 Added in v2.3.0
 
-# readerTask (constant)
+# readerTask
 
 **Signature**
 
@@ -133,7 +283,7 @@ export const readerTask: Monad2<URI> & MonadTask2<URI> = ...
 
 Added in v2.3.0
 
-# readerTaskSeq (constant)
+# readerTaskSeq
 
 Like `readerTask` but `ap` is sequential
 
@@ -145,87 +295,7 @@ export const readerTaskSeq: typeof readerTask = ...
 
 Added in v2.3.0
 
-# chainIOK (function)
-
-**Signature**
-
-```ts
-export function chainIOK<A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> { ... }
-```
-
-Added in v2.4.0
-
-# chainTaskK (function)
-
-**Signature**
-
-```ts
-export function chainTaskK<A, B>(f: (a: A) => Task<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> { ... }
-```
-
-Added in v2.4.0
-
-# fromIO (function)
-
-**Signature**
-
-```ts
-export function fromIO<R, A>(ma: IO<A>): ReaderTask<R, A> { ... }
-```
-
-Added in v2.3.0
-
-# fromIOK (function)
-
-**Signature**
-
-```ts
-export function fromIOK<A extends Array<unknown>, B>(f: (...a: A) => IO<B>): <R>(...a: A) => ReaderTask<R, B> { ... }
-```
-
-Added in v2.4.0
-
-# fromTaskK (function)
-
-**Signature**
-
-```ts
-export function fromTaskK<A extends Array<unknown>, B>(f: (...a: A) => Task<B>): <R>(...a: A) => ReaderTask<R, B> { ... }
-```
-
-Added in v2.4.0
-
-# getMonoid (function)
-
-**Signature**
-
-```ts
-export function getMonoid<R, A>(M: Monoid<A>): Monoid<ReaderTask<R, A>> { ... }
-```
-
-Added in v2.3.0
-
-# getSemigroup (function)
-
-**Signature**
-
-```ts
-export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<ReaderTask<R, A>> { ... }
-```
-
-Added in v2.3.0
-
-# local (function)
-
-**Signature**
-
-```ts
-export function local<Q, R>(f: (f: Q) => R): <A>(ma: ReaderTask<R, A>) => ReaderTask<Q, A> { ... }
-```
-
-Added in v2.3.0
-
-# run (function)
+# run
 
 **Signature**
 
@@ -234,73 +304,3 @@ export function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A> { ... }
 ```
 
 Added in v2.4.0
-
-# ap (export)
-
-**Signature**
-
-```ts
-<E, A>(fa: ReaderTask<E, A>) => <B>(fab: ReaderTask<E, (a: A) => B>) => ReaderTask<E, B>
-```
-
-Added in v2.3.0
-
-# apFirst (export)
-
-**Signature**
-
-```ts
-<E, B>(fb: ReaderTask<E, B>) => <A>(fa: ReaderTask<E, A>) => ReaderTask<E, A>
-```
-
-Added in v2.3.0
-
-# apSecond (export)
-
-**Signature**
-
-```ts
-<E, B>(fb: ReaderTask<E, B>) => <A>(fa: ReaderTask<E, A>) => ReaderTask<E, B>
-```
-
-Added in v2.3.0
-
-# chain (export)
-
-**Signature**
-
-```ts
-<E, A, B>(f: (a: A) => ReaderTask<E, B>) => (ma: ReaderTask<E, A>) => ReaderTask<E, B>
-```
-
-Added in v2.3.0
-
-# chainFirst (export)
-
-**Signature**
-
-```ts
-<E, A, B>(f: (a: A) => ReaderTask<E, B>) => (ma: ReaderTask<E, A>) => ReaderTask<E, A>
-```
-
-Added in v2.3.0
-
-# flatten (export)
-
-**Signature**
-
-```ts
-<E, A>(mma: ReaderTask<E, ReaderTask<E, A>>) => ReaderTask<E, A>
-```
-
-Added in v2.3.0
-
-# map (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => B) => <E>(fa: ReaderTask<E, A>) => ReaderTask<E, B>
-```
-
-Added in v2.3.0

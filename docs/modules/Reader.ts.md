@@ -14,23 +14,23 @@ Added in v2.0.0
 
 - [Reader (interface)](#reader-interface)
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [ask (constant)](#ask-constant)
-- [asks (constant)](#asks-constant)
-- [of (constant)](#of-constant)
-- [reader (constant)](#reader-constant)
-- [getMonoid (function)](#getmonoid-function)
-- [getSemigroup (function)](#getsemigroup-function)
-- [local (function)](#local-function)
-- [ap (export)](#ap-export)
-- [apFirst (export)](#apfirst-export)
-- [apSecond (export)](#apsecond-export)
-- [chain (export)](#chain-export)
-- [chainFirst (export)](#chainfirst-export)
-- [compose (export)](#compose-export)
-- [flatten (export)](#flatten-export)
-- [map (export)](#map-export)
-- [promap (export)](#promap-export)
+- [URI](#uri)
+- [ap](#ap)
+- [apFirst](#apfirst)
+- [apSecond](#apsecond)
+- [ask](#ask)
+- [asks](#asks)
+- [chain](#chain)
+- [chainFirst](#chainfirst)
+- [compose](#compose)
+- [flatten](#flatten)
+- [getMonoid](#getmonoid)
+- [getSemigroup](#getsemigroup)
+- [local](#local)
+- [map](#map)
+- [of](#of)
+- [promap](#promap)
+- [reader](#reader)
 
 ---
 
@@ -56,7 +56,7 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -66,7 +66,37 @@ export const URI: "Reader" = ...
 
 Added in v2.0.0
 
-# ask (constant)
+# ap
+
+**Signature**
+
+```ts
+<E, A>(fa: Reader<E, A>) => <B>(fab: Reader<E, (a: A) => B>) => Reader<E, B>
+```
+
+Added in v2.0.0
+
+# apFirst
+
+**Signature**
+
+```ts
+<E, B>(fb: Reader<E, B>) => <A>(fa: Reader<E, A>) => Reader<E, A>
+```
+
+Added in v2.0.0
+
+# apSecond
+
+**Signature**
+
+```ts
+<E, B>(fb: Reader<E, B>) => <A>(fa: Reader<E, A>) => Reader<E, B>
+```
+
+Added in v2.0.0
+
+# ask
 
 Reads the current context
 
@@ -78,7 +108,7 @@ export const ask: <R>() => Reader<R, R> = ...
 
 Added in v2.0.0
 
-# asks (constant)
+# asks
 
 Projects a value from the global context in a Reader
 
@@ -90,27 +120,47 @@ export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = ...
 
 Added in v2.0.0
 
-# of (constant)
+# chain
 
 **Signature**
 
 ```ts
-export const of: <R, A>(a: A) => Reader<R, A> = ...
+<E, A, B>(f: (a: A) => Reader<E, B>) => (ma: Reader<E, A>) => Reader<E, B>
 ```
 
 Added in v2.0.0
 
-# reader (constant)
+# chainFirst
 
 **Signature**
 
 ```ts
-export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = ...
+<E, A, B>(f: (a: A) => Reader<E, B>) => (ma: Reader<E, A>) => Reader<E, A>
 ```
 
 Added in v2.0.0
 
-# getMonoid (function)
+# compose
+
+**Signature**
+
+```ts
+<E, A>(la: Reader<E, A>) => <B>(ab: Reader<A, B>) => Reader<E, B>
+```
+
+Added in v2.0.0
+
+# flatten
+
+**Signature**
+
+```ts
+<E, A>(mma: Reader<E, Reader<E, A>>) => Reader<E, A>
+```
+
+Added in v2.0.0
+
+# getMonoid
 
 **Signature**
 
@@ -120,7 +170,7 @@ export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> { ... }
 
 Added in v2.0.0
 
-# getSemigroup (function)
+# getSemigroup
 
 **Signature**
 
@@ -130,7 +180,7 @@ export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R, A>> { .
 
 Added in v2.0.0
 
-# local (function)
+# local
 
 Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
 `contramap`).
@@ -143,77 +193,7 @@ export function local<Q, R>(f: (d: Q) => R): <A>(ma: Reader<R, A>) => Reader<Q, 
 
 Added in v2.0.0
 
-# ap (export)
-
-**Signature**
-
-```ts
-<E, A>(fa: Reader<E, A>) => <B>(fab: Reader<E, (a: A) => B>) => Reader<E, B>
-```
-
-Added in v2.0.0
-
-# apFirst (export)
-
-**Signature**
-
-```ts
-<E, B>(fb: Reader<E, B>) => <A>(fa: Reader<E, A>) => Reader<E, A>
-```
-
-Added in v2.0.0
-
-# apSecond (export)
-
-**Signature**
-
-```ts
-<E, B>(fb: Reader<E, B>) => <A>(fa: Reader<E, A>) => Reader<E, B>
-```
-
-Added in v2.0.0
-
-# chain (export)
-
-**Signature**
-
-```ts
-<E, A, B>(f: (a: A) => Reader<E, B>) => (ma: Reader<E, A>) => Reader<E, B>
-```
-
-Added in v2.0.0
-
-# chainFirst (export)
-
-**Signature**
-
-```ts
-<E, A, B>(f: (a: A) => Reader<E, B>) => (ma: Reader<E, A>) => Reader<E, A>
-```
-
-Added in v2.0.0
-
-# compose (export)
-
-**Signature**
-
-```ts
-<E, A>(la: Reader<E, A>) => <B>(ab: Reader<A, B>) => Reader<E, B>
-```
-
-Added in v2.0.0
-
-# flatten (export)
-
-**Signature**
-
-```ts
-<E, A>(mma: Reader<E, Reader<E, A>>) => Reader<E, A>
-```
-
-Added in v2.0.0
-
-# map (export)
+# map
 
 **Signature**
 
@@ -223,12 +203,32 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# promap (export)
+# of
+
+**Signature**
+
+```ts
+export const of: <R, A>(a: A) => Reader<R, A> = ...
+```
+
+Added in v2.0.0
+
+# promap
 
 **Signature**
 
 ```ts
 <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reader<E, A>) => Reader<D, B>
+```
+
+Added in v2.0.0
+
+# reader
+
+**Signature**
+
+```ts
+export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = ...
 ```
 
 Added in v2.0.0

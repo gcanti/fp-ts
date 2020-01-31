@@ -46,7 +46,7 @@ Added in v2.0.0
 - [Traverse2C (interface)](#traverse2c-interface)
 - [Traverse3 (interface)](#traverse3-interface)
 - [TraverseComposition11 (interface)](#traversecomposition11-interface)
-- [getTraversableComposition (function)](#gettraversablecomposition-function)
+- [getTraversableComposition](#gettraversablecomposition)
 
 ---
 
@@ -428,7 +428,7 @@ export interface TraverseComposition11<F extends URIS, G extends URIS> {
 
 Added in v2.0.0
 
-# getTraversableComposition (function)
+# getTraversableComposition
 
 Returns the composition of two traversables
 

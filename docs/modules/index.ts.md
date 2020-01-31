@@ -12,104 +12,104 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [alt (export)](#alt-export)
-- [alternative (export)](#alternative-export)
-- [applicative (export)](#applicative-export)
-- [apply (export)](#apply-export)
-- [array (export)](#array-export)
-- [bifunctor (export)](#bifunctor-export)
-- [boolean (export)](#boolean-export)
-- [booleanAlgebra (export)](#booleanalgebra-export)
-- [bounded (export)](#bounded-export)
-- [boundedDistributiveLattice (export)](#boundeddistributivelattice-export)
-- [boundedJoinSemilattice (export)](#boundedjoinsemilattice-export)
-- [boundedLattice (export)](#boundedlattice-export)
-- [boundedMeetSemilattice (export)](#boundedmeetsemilattice-export)
-- [category (export)](#category-export)
-- [chain (export)](#chain-export)
-- [chainRec (export)](#chainrec-export)
-- [choice (export)](#choice-export)
-- [comonad (export)](#comonad-export)
-- [compactable (export)](#compactable-export)
-- [console (export)](#console-export)
-- [const (export)](#const-export)
-- [contravariant (export)](#contravariant-export)
-- [date (export)](#date-export)
-- [distributiveLattice (export)](#distributivelattice-export)
-- [either (export)](#either-export)
-- [eitherT (export)](#eithert-export)
-- [eq (export)](#eq-export)
-- [extend (export)](#extend-export)
-- [field (export)](#field-export)
-- [filterable (export)](#filterable-export)
-- [filterableWithIndex (export)](#filterablewithindex-export)
-- [foldable (export)](#foldable-export)
-- [foldableWithIndex (export)](#foldablewithindex-export)
-- [function (export)](#function-export)
-- [functor (export)](#functor-export)
-- [functorWithIndex (export)](#functorwithindex-export)
-- [group (export)](#group-export)
-- [heytingAlgebra (export)](#heytingalgebra-export)
-- [hkt (export)](#hkt-export)
-- [identity (export)](#identity-export)
-- [invariant (export)](#invariant-export)
-- [io (export)](#io-export)
-- [ioEither (export)](#ioeither-export)
-- [ioRef (export)](#ioref-export)
-- [joinSemilattice (export)](#joinsemilattice-export)
-- [lattice (export)](#lattice-export)
-- [magma (export)](#magma-export)
-- [map (export)](#map-export)
-- [meetSemilattice (export)](#meetsemilattice-export)
-- [monad (export)](#monad-export)
-- [monadIO (export)](#monadio-export)
-- [monadTask (export)](#monadtask-export)
-- [monadThrow (export)](#monadthrow-export)
-- [monoid (export)](#monoid-export)
-- [nonEmptyArray (export)](#nonemptyarray-export)
-- [option (export)](#option-export)
-- [optionT (export)](#optiont-export)
-- [ord (export)](#ord-export)
-- [ordering (export)](#ordering-export)
-- [pipeable (export)](#pipeable-export)
-- [profunctor (export)](#profunctor-export)
-- [random (export)](#random-export)
-- [reader (export)](#reader-export)
-- [readerEither (export)](#readereither-export)
-- [readerT (export)](#readert-export)
-- [readerTask (export)](#readertask-export)
-- [readerTaskEither (export)](#readertaskeither-export)
-- [record (export)](#record-export)
-- [ring (export)](#ring-export)
-- [semigroup (export)](#semigroup-export)
-- [semigroupoid (export)](#semigroupoid-export)
-- [semiring (export)](#semiring-export)
-- [set (export)](#set-export)
-- [show (export)](#show-export)
-- [state (export)](#state-export)
-- [stateReaderTaskEither (export)](#statereadertaskeither-export)
-- [stateT (export)](#statet-export)
-- [store (export)](#store-export)
-- [strong (export)](#strong-export)
-- [task (export)](#task-export)
-- [taskEither (export)](#taskeither-export)
-- [taskThese (export)](#taskthese-export)
-- [these (export)](#these-export)
-- [theseT (export)](#theset-export)
-- [traced (export)](#traced-export)
-- [traversable (export)](#traversable-export)
-- [traversableWithIndex (export)](#traversablewithindex-export)
-- [tree (export)](#tree-export)
-- [tuple (export)](#tuple-export)
-- [unfoldable (export)](#unfoldable-export)
-- [validationT (export)](#validationt-export)
-- [witherable (export)](#witherable-export)
-- [writer (export)](#writer-export)
-- [writerT (export)](#writert-export)
+- [alt](#alt)
+- [alternative](#alternative)
+- [applicative](#applicative)
+- [apply](#apply)
+- [array](#array)
+- [bifunctor](#bifunctor)
+- [boolean](#boolean)
+- [booleanAlgebra](#booleanalgebra)
+- [bounded](#bounded)
+- [boundedDistributiveLattice](#boundeddistributivelattice)
+- [boundedJoinSemilattice](#boundedjoinsemilattice)
+- [boundedLattice](#boundedlattice)
+- [boundedMeetSemilattice](#boundedmeetsemilattice)
+- [category](#category)
+- [chain](#chain)
+- [chainRec](#chainrec)
+- [choice](#choice)
+- [comonad](#comonad)
+- [compactable](#compactable)
+- [console](#console)
+- [const](#const)
+- [contravariant](#contravariant)
+- [date](#date)
+- [distributiveLattice](#distributivelattice)
+- [either](#either)
+- [eitherT](#eithert)
+- [eq](#eq)
+- [extend](#extend)
+- [field](#field)
+- [filterable](#filterable)
+- [filterableWithIndex](#filterablewithindex)
+- [foldable](#foldable)
+- [foldableWithIndex](#foldablewithindex)
+- [function](#function)
+- [functor](#functor)
+- [functorWithIndex](#functorwithindex)
+- [group](#group)
+- [heytingAlgebra](#heytingalgebra)
+- [hkt](#hkt)
+- [identity](#identity)
+- [invariant](#invariant)
+- [io](#io)
+- [ioEither](#ioeither)
+- [ioRef](#ioref)
+- [joinSemilattice](#joinsemilattice)
+- [lattice](#lattice)
+- [magma](#magma)
+- [map](#map)
+- [meetSemilattice](#meetsemilattice)
+- [monad](#monad)
+- [monadIO](#monadio)
+- [monadTask](#monadtask)
+- [monadThrow](#monadthrow)
+- [monoid](#monoid)
+- [nonEmptyArray](#nonemptyarray)
+- [option](#option)
+- [optionT](#optiont)
+- [ord](#ord)
+- [ordering](#ordering)
+- [pipeable](#pipeable)
+- [profunctor](#profunctor)
+- [random](#random)
+- [reader](#reader)
+- [readerEither](#readereither)
+- [readerT](#readert)
+- [readerTask](#readertask)
+- [readerTaskEither](#readertaskeither)
+- [record](#record)
+- [ring](#ring)
+- [semigroup](#semigroup)
+- [semigroupoid](#semigroupoid)
+- [semiring](#semiring)
+- [set](#set)
+- [show](#show)
+- [state](#state)
+- [stateReaderTaskEither](#statereadertaskeither)
+- [stateT](#statet)
+- [store](#store)
+- [strong](#strong)
+- [task](#task)
+- [taskEither](#taskeither)
+- [taskThese](#taskthese)
+- [these](#these)
+- [theseT](#theset)
+- [traced](#traced)
+- [traversable](#traversable)
+- [traversableWithIndex](#traversablewithindex)
+- [tree](#tree)
+- [tuple](#tuple)
+- [unfoldable](#unfoldable)
+- [validationT](#validationt)
+- [witherable](#witherable)
+- [writer](#writer)
+- [writerT](#writert)
 
 ---
 
-# alt (export)
+# alt
 
 **Signature**
 
@@ -119,7 +119,7 @@ typeof alt
 
 Added in v2.0.0
 
-# alternative (export)
+# alternative
 
 **Signature**
 
@@ -129,7 +129,7 @@ typeof alternative
 
 Added in v2.0.0
 
-# applicative (export)
+# applicative
 
 **Signature**
 
@@ -139,7 +139,7 @@ typeof applicative
 
 Added in v2.0.0
 
-# apply (export)
+# apply
 
 **Signature**
 
@@ -149,7 +149,7 @@ typeof apply
 
 Added in v2.0.0
 
-# array (export)
+# array
 
 **Signature**
 
@@ -159,7 +159,7 @@ typeof array
 
 Added in v2.0.0
 
-# bifunctor (export)
+# bifunctor
 
 **Signature**
 
@@ -169,7 +169,7 @@ typeof bifunctor
 
 Added in v2.0.0
 
-# boolean (export)
+# boolean
 
 **Signature**
 
@@ -179,7 +179,7 @@ typeof boolean
 
 Added in v2.2.0
 
-# booleanAlgebra (export)
+# booleanAlgebra
 
 **Signature**
 
@@ -189,7 +189,7 @@ typeof booleanAlgebra
 
 Added in v2.0.0
 
-# bounded (export)
+# bounded
 
 **Signature**
 
@@ -199,7 +199,7 @@ typeof bounded
 
 Added in v2.0.0
 
-# boundedDistributiveLattice (export)
+# boundedDistributiveLattice
 
 **Signature**
 
@@ -209,7 +209,7 @@ typeof boundedDistributiveLattice
 
 Added in v2.0.0
 
-# boundedJoinSemilattice (export)
+# boundedJoinSemilattice
 
 **Signature**
 
@@ -219,7 +219,7 @@ typeof boundedJoinSemilattice
 
 Added in v2.0.0
 
-# boundedLattice (export)
+# boundedLattice
 
 **Signature**
 
@@ -229,7 +229,7 @@ typeof boundedLattice
 
 Added in v2.0.0
 
-# boundedMeetSemilattice (export)
+# boundedMeetSemilattice
 
 **Signature**
 
@@ -239,7 +239,7 @@ typeof boundedMeetSemilattice
 
 Added in v2.0.0
 
-# category (export)
+# category
 
 **Signature**
 
@@ -249,7 +249,7 @@ typeof category
 
 Added in v2.0.0
 
-# chain (export)
+# chain
 
 **Signature**
 
@@ -259,7 +259,7 @@ typeof chain
 
 Added in v2.0.0
 
-# chainRec (export)
+# chainRec
 
 **Signature**
 
@@ -269,7 +269,7 @@ typeof chainRec
 
 Added in v2.0.0
 
-# choice (export)
+# choice
 
 **Signature**
 
@@ -279,7 +279,7 @@ typeof choice
 
 Added in v2.0.0
 
-# comonad (export)
+# comonad
 
 **Signature**
 
@@ -289,7 +289,7 @@ typeof comonad
 
 Added in v2.0.0
 
-# compactable (export)
+# compactable
 
 **Signature**
 
@@ -299,7 +299,7 @@ typeof compactable
 
 Added in v2.0.0
 
-# console (export)
+# console
 
 **Signature**
 
@@ -309,7 +309,7 @@ typeof console
 
 Added in v2.0.0
 
-# const (export)
+# const
 
 **Signature**
 
@@ -319,7 +319,7 @@ typeof const_
 
 Added in v2.0.0
 
-# contravariant (export)
+# contravariant
 
 **Signature**
 
@@ -329,7 +329,7 @@ typeof contravariant
 
 Added in v2.0.0
 
-# date (export)
+# date
 
 **Signature**
 
@@ -339,7 +339,7 @@ typeof date
 
 Added in v2.0.0
 
-# distributiveLattice (export)
+# distributiveLattice
 
 **Signature**
 
@@ -349,7 +349,7 @@ typeof distributiveLattice
 
 Added in v2.0.0
 
-# either (export)
+# either
 
 **Signature**
 
@@ -359,7 +359,7 @@ typeof either
 
 Added in v2.0.0
 
-# eitherT (export)
+# eitherT
 
 **Signature**
 
@@ -369,7 +369,7 @@ typeof eitherT
 
 Added in v2.0.0
 
-# eq (export)
+# eq
 
 **Signature**
 
@@ -379,7 +379,7 @@ typeof eq
 
 Added in v2.0.0
 
-# extend (export)
+# extend
 
 **Signature**
 
@@ -389,7 +389,7 @@ typeof extend
 
 Added in v2.0.0
 
-# field (export)
+# field
 
 **Signature**
 
@@ -399,7 +399,7 @@ typeof field
 
 Added in v2.0.0
 
-# filterable (export)
+# filterable
 
 **Signature**
 
@@ -409,7 +409,7 @@ typeof filterable
 
 Added in v2.0.0
 
-# filterableWithIndex (export)
+# filterableWithIndex
 
 **Signature**
 
@@ -419,7 +419,7 @@ typeof filterableWithIndex
 
 Added in v2.0.0
 
-# foldable (export)
+# foldable
 
 **Signature**
 
@@ -429,7 +429,7 @@ typeof foldable
 
 Added in v2.0.0
 
-# foldableWithIndex (export)
+# foldableWithIndex
 
 **Signature**
 
@@ -439,7 +439,7 @@ typeof foldableWithIndex
 
 Added in v2.0.0
 
-# function (export)
+# function
 
 **Signature**
 
@@ -449,7 +449,7 @@ typeof function_
 
 Added in v2.0.0
 
-# functor (export)
+# functor
 
 **Signature**
 
@@ -459,7 +459,7 @@ typeof functor
 
 Added in v2.0.0
 
-# functorWithIndex (export)
+# functorWithIndex
 
 **Signature**
 
@@ -469,7 +469,7 @@ typeof functorWithIndex
 
 Added in v2.0.0
 
-# group (export)
+# group
 
 **Signature**
 
@@ -479,7 +479,7 @@ typeof group
 
 Added in v2.0.0
 
-# heytingAlgebra (export)
+# heytingAlgebra
 
 **Signature**
 
@@ -489,7 +489,7 @@ typeof heytingAlgebra
 
 Added in v2.0.0
 
-# hkt (export)
+# hkt
 
 **Signature**
 
@@ -499,7 +499,7 @@ typeof hkt
 
 Added in v2.0.0
 
-# identity (export)
+# identity
 
 **Signature**
 
@@ -509,7 +509,7 @@ typeof identity
 
 Added in v2.0.0
 
-# invariant (export)
+# invariant
 
 **Signature**
 
@@ -519,7 +519,7 @@ typeof invariant
 
 Added in v2.0.0
 
-# io (export)
+# io
 
 **Signature**
 
@@ -529,7 +529,7 @@ typeof io
 
 Added in v2.0.0
 
-# ioEither (export)
+# ioEither
 
 **Signature**
 
@@ -539,7 +539,7 @@ typeof ioEither
 
 Added in v2.0.0
 
-# ioRef (export)
+# ioRef
 
 **Signature**
 
@@ -549,7 +549,7 @@ typeof ioRef
 
 Added in v2.0.0
 
-# joinSemilattice (export)
+# joinSemilattice
 
 **Signature**
 
@@ -559,7 +559,7 @@ typeof joinSemilattice
 
 Added in v2.0.0
 
-# lattice (export)
+# lattice
 
 **Signature**
 
@@ -569,7 +569,7 @@ typeof lattice
 
 Added in v2.0.0
 
-# magma (export)
+# magma
 
 **Signature**
 
@@ -579,7 +579,7 @@ typeof magma
 
 Added in v2.0.0
 
-# map (export)
+# map
 
 **Signature**
 
@@ -589,7 +589,7 @@ typeof map
 
 Added in v2.0.0
 
-# meetSemilattice (export)
+# meetSemilattice
 
 **Signature**
 
@@ -599,7 +599,7 @@ typeof meetSemilattice
 
 Added in v2.0.0
 
-# monad (export)
+# monad
 
 **Signature**
 
@@ -609,7 +609,7 @@ typeof monad
 
 Added in v2.0.0
 
-# monadIO (export)
+# monadIO
 
 **Signature**
 
@@ -619,7 +619,7 @@ typeof monadIO
 
 Added in v2.0.0
 
-# monadTask (export)
+# monadTask
 
 **Signature**
 
@@ -629,7 +629,7 @@ typeof monadTask
 
 Added in v2.0.0
 
-# monadThrow (export)
+# monadThrow
 
 **Signature**
 
@@ -639,7 +639,7 @@ typeof monadThrow
 
 Added in v2.0.0
 
-# monoid (export)
+# monoid
 
 **Signature**
 
@@ -649,7 +649,7 @@ typeof monoid
 
 Added in v2.0.0
 
-# nonEmptyArray (export)
+# nonEmptyArray
 
 **Signature**
 
@@ -659,7 +659,7 @@ typeof nonEmptyArray
 
 Added in v2.0.0
 
-# option (export)
+# option
 
 **Signature**
 
@@ -669,7 +669,7 @@ typeof option
 
 Added in v2.0.0
 
-# optionT (export)
+# optionT
 
 **Signature**
 
@@ -679,7 +679,7 @@ typeof optionT
 
 Added in v2.0.0
 
-# ord (export)
+# ord
 
 **Signature**
 
@@ -689,7 +689,7 @@ typeof ord
 
 Added in v2.0.0
 
-# ordering (export)
+# ordering
 
 **Signature**
 
@@ -699,7 +699,7 @@ typeof ordering
 
 Added in v2.0.0
 
-# pipeable (export)
+# pipeable
 
 **Signature**
 
@@ -709,7 +709,7 @@ typeof pipeable
 
 Added in v2.0.0
 
-# profunctor (export)
+# profunctor
 
 **Signature**
 
@@ -719,7 +719,7 @@ typeof profunctor
 
 Added in v2.0.0
 
-# random (export)
+# random
 
 **Signature**
 
@@ -729,7 +729,7 @@ typeof random
 
 Added in v2.0.0
 
-# reader (export)
+# reader
 
 **Signature**
 
@@ -739,7 +739,7 @@ typeof reader
 
 Added in v2.0.0
 
-# readerEither (export)
+# readerEither
 
 **Signature**
 
@@ -749,7 +749,7 @@ typeof readerEither
 
 Added in v2.0.0
 
-# readerT (export)
+# readerT
 
 **Signature**
 
@@ -759,7 +759,7 @@ typeof readerT
 
 Added in v2.0.0
 
-# readerTask (export)
+# readerTask
 
 **Signature**
 
@@ -769,7 +769,7 @@ typeof readerTask
 
 Added in v2.3.0
 
-# readerTaskEither (export)
+# readerTaskEither
 
 **Signature**
 
@@ -779,7 +779,7 @@ typeof readerTaskEither
 
 Added in v2.0.0
 
-# record (export)
+# record
 
 **Signature**
 
@@ -789,7 +789,7 @@ typeof record
 
 Added in v2.0.0
 
-# ring (export)
+# ring
 
 **Signature**
 
@@ -799,7 +799,7 @@ typeof ring
 
 Added in v2.0.0
 
-# semigroup (export)
+# semigroup
 
 **Signature**
 
@@ -809,7 +809,7 @@ typeof semigroup
 
 Added in v2.0.0
 
-# semigroupoid (export)
+# semigroupoid
 
 **Signature**
 
@@ -819,7 +819,7 @@ typeof semigroupoid
 
 Added in v2.0.0
 
-# semiring (export)
+# semiring
 
 **Signature**
 
@@ -829,7 +829,7 @@ typeof semiring
 
 Added in v2.0.0
 
-# set (export)
+# set
 
 **Signature**
 
@@ -839,7 +839,7 @@ typeof set
 
 Added in v2.0.0
 
-# show (export)
+# show
 
 **Signature**
 
@@ -849,7 +849,7 @@ typeof show
 
 Added in v2.0.0
 
-# state (export)
+# state
 
 **Signature**
 
@@ -859,7 +859,7 @@ typeof state
 
 Added in v2.0.0
 
-# stateReaderTaskEither (export)
+# stateReaderTaskEither
 
 **Signature**
 
@@ -869,7 +869,7 @@ typeof stateReaderTaskEither
 
 Added in v2.0.0
 
-# stateT (export)
+# stateT
 
 **Signature**
 
@@ -879,7 +879,7 @@ typeof stateT
 
 Added in v2.0.0
 
-# store (export)
+# store
 
 **Signature**
 
@@ -889,7 +889,7 @@ typeof store
 
 Added in v2.0.0
 
-# strong (export)
+# strong
 
 **Signature**
 
@@ -899,7 +899,7 @@ typeof strong
 
 Added in v2.0.0
 
-# task (export)
+# task
 
 **Signature**
 
@@ -909,7 +909,7 @@ typeof task
 
 Added in v2.0.0
 
-# taskEither (export)
+# taskEither
 
 **Signature**
 
@@ -919,7 +919,7 @@ typeof taskEither
 
 Added in v2.0.0
 
-# taskThese (export)
+# taskThese
 
 **Signature**
 
@@ -929,7 +929,7 @@ typeof taskThese
 
 Added in v2.4.0
 
-# these (export)
+# these
 
 **Signature**
 
@@ -939,7 +939,7 @@ typeof these
 
 Added in v2.0.0
 
-# theseT (export)
+# theseT
 
 **Signature**
 
@@ -949,7 +949,7 @@ typeof theseT
 
 Added in v2.4.0
 
-# traced (export)
+# traced
 
 **Signature**
 
@@ -959,7 +959,7 @@ typeof traced
 
 Added in v2.0.0
 
-# traversable (export)
+# traversable
 
 **Signature**
 
@@ -969,7 +969,7 @@ typeof traversable
 
 Added in v2.0.0
 
-# traversableWithIndex (export)
+# traversableWithIndex
 
 **Signature**
 
@@ -979,7 +979,7 @@ typeof traversableWithIndex
 
 Added in v2.0.0
 
-# tree (export)
+# tree
 
 **Signature**
 
@@ -989,7 +989,7 @@ typeof tree
 
 Added in v2.0.0
 
-# tuple (export)
+# tuple
 
 **Signature**
 
@@ -999,7 +999,7 @@ typeof tuple
 
 Added in v2.0.0
 
-# unfoldable (export)
+# unfoldable
 
 **Signature**
 
@@ -1009,7 +1009,7 @@ typeof unfoldable
 
 Added in v2.0.0
 
-# validationT (export)
+# validationT
 
 **Signature**
 
@@ -1019,7 +1019,7 @@ typeof validationT
 
 Added in v2.0.0
 
-# witherable (export)
+# witherable
 
 **Signature**
 
@@ -1029,7 +1029,7 @@ typeof witherable
 
 Added in v2.0.0
 
-# writer (export)
+# writer
 
 **Signature**
 
@@ -1039,7 +1039,7 @@ typeof writer
 
 Added in v2.0.0
 
-# writerT (export)
+# writerT
 
 **Signature**
 

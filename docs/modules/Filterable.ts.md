@@ -46,7 +46,7 @@ Added in v2.0.0
 - [Partition3 (interface)](#partition3-interface)
 - [Partition3C (interface)](#partition3c-interface)
 - [Partition4 (interface)](#partition4-interface)
-- [getFilterableComposition (function)](#getfilterablecomposition-function)
+- [getFilterableComposition](#getfilterablecomposition)
 
 ---
 
@@ -593,7 +593,7 @@ export interface Partition4<F extends URIS4> {
 
 Added in v2.0.0
 
-# getFilterableComposition (function)
+# getFilterableComposition
 
 **Signature**
 

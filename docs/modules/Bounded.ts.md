@@ -19,7 +19,7 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [Bounded (interface)](#bounded-interface)
-- [boundedNumber (constant)](#boundednumber-constant)
+- [boundedNumber](#boundednumber)
 
 ---
 
@@ -36,7 +36,7 @@ export interface Bounded<A> extends Ord<A> {
 
 Added in v2.0.0
 
-# boundedNumber (constant)
+# boundedNumber
 
 **Signature**
 

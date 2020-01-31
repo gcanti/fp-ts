@@ -38,7 +38,7 @@ Added in v2.0.0
 - [CompactableComposition23C (interface)](#compactablecomposition23c-interface)
 - [CompactableComposition2C1 (interface)](#compactablecomposition2c1-interface)
 - [Separated (interface)](#separated-interface)
-- [getCompactableComposition (function)](#getcompactablecomposition-function)
+- [getCompactableComposition](#getcompactablecomposition)
 
 ---
 
@@ -310,7 +310,7 @@ export interface Separated<A, B> {
 
 Added in v2.0.0
 
-# getCompactableComposition (function)
+# getCompactableComposition
 
 **Signature**
 

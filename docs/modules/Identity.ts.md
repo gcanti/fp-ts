@@ -14,23 +14,23 @@ Added in v2.0.0
 
 - [Identity (type alias)](#identity-type-alias)
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [getEq (constant)](#geteq-constant)
-- [getShow (constant)](#getshow-constant)
-- [identity (constant)](#identity-constant)
-- [alt (export)](#alt-export)
-- [ap (export)](#ap-export)
-- [apFirst (export)](#apfirst-export)
-- [apSecond (export)](#apsecond-export)
-- [chain (export)](#chain-export)
-- [chainFirst (export)](#chainfirst-export)
-- [duplicate (export)](#duplicate-export)
-- [extend (export)](#extend-export)
-- [flatten (export)](#flatten-export)
-- [foldMap (export)](#foldmap-export)
-- [map (export)](#map-export)
-- [reduce (export)](#reduce-export)
-- [reduceRight (export)](#reduceright-export)
+- [URI](#uri)
+- [alt](#alt)
+- [ap](#ap)
+- [apFirst](#apfirst)
+- [apSecond](#apsecond)
+- [chain](#chain)
+- [chainFirst](#chainfirst)
+- [duplicate](#duplicate)
+- [extend](#extend)
+- [flatten](#flatten)
+- [foldMap](#foldmap)
+- [getEq](#geteq)
+- [getShow](#getshow)
+- [identity](#identity)
+- [map](#map)
+- [reduce](#reduce)
+- [reduceRight](#reduceright)
 
 ---
 
@@ -54,7 +54,7 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -64,37 +64,7 @@ export const URI: "Identity" = ...
 
 Added in v2.0.0
 
-# getEq (constant)
-
-**Signature**
-
-```ts
-export const getEq: <A>(E: Eq<A>) => Eq<Identity<A>> = ...
-```
-
-Added in v2.0.0
-
-# getShow (constant)
-
-**Signature**
-
-```ts
-export const getShow: <A>(S: Show<A>) => Show<Identity<A>> = ...
-```
-
-Added in v2.0.0
-
-# identity (constant)
-
-**Signature**
-
-```ts
-export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI> = ...
-```
-
-Added in v2.0.0
-
-# alt (export)
+# alt
 
 **Signature**
 
@@ -104,7 +74,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# ap (export)
+# ap
 
 **Signature**
 
@@ -114,7 +84,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# apFirst (export)
+# apFirst
 
 **Signature**
 
@@ -124,7 +94,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# apSecond (export)
+# apSecond
 
 **Signature**
 
@@ -134,7 +104,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# chain (export)
+# chain
 
 **Signature**
 
@@ -144,7 +114,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# chainFirst (export)
+# chainFirst
 
 **Signature**
 
@@ -154,7 +124,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# duplicate (export)
+# duplicate
 
 **Signature**
 
@@ -164,7 +134,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# extend (export)
+# extend
 
 **Signature**
 
@@ -174,7 +144,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# flatten (export)
+# flatten
 
 **Signature**
 
@@ -184,7 +154,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# foldMap (export)
+# foldMap
 
 **Signature**
 
@@ -194,7 +164,37 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# map (export)
+# getEq
+
+**Signature**
+
+```ts
+export const getEq: <A>(E: Eq<A>) => Eq<Identity<A>> = ...
+```
+
+Added in v2.0.0
+
+# getShow
+
+**Signature**
+
+```ts
+export const getShow: <A>(S: Show<A>) => Show<Identity<A>> = ...
+```
+
+Added in v2.0.0
+
+# identity
+
+**Signature**
+
+```ts
+export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI> = ...
+```
+
+Added in v2.0.0
+
+# map
 
 **Signature**
 
@@ -204,7 +204,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# reduce (export)
+# reduce
 
 **Signature**
 
@@ -214,7 +214,7 @@ Added in v2.0.0
 
 Added in v2.0.0
 
-# reduceRight (export)
+# reduceRight
 
 **Signature**
 

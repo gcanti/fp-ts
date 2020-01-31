@@ -12,12 +12,12 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [create (function)](#create-function)
-- [now (function)](#now-function)
+- [create](#create)
+- [now](#now)
 
 ---
 
-# create (function)
+# create
 
 Returns the current `Date`
 
@@ -29,7 +29,7 @@ export const create: IO<Date> = () => ...
 
 Added in v2.0.0
 
-# now (function)
+# now
 
 Returns the number of milliseconds elapsed since January 1, 1970, 00:00:00 UTC
 
