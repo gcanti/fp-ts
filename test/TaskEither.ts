@@ -375,4 +375,18 @@ describe('TaskEither', () => {
     const x = await pipe(_.right('a'), _.chainIOEitherK(f))()
     assert.deepStrictEqual(x, E.right(1))
   })
+
+  describe('tryCatchK', () => {
+    const handleRejection = () => 'rejected'
+
+    it('resolving', () => {
+      const fOk = (n: number, s: string) => Promise.resolve(n + s.length)
+      return _.tryCatchK(fOk, handleRejection)(2, '1')().then(x => assert.deepStrictEqual(x, E.right(3)))
+    })
+
+    it('rejecting', () => {
+      const fReject = () => Promise.reject()
+      return _.tryCatchK(fReject, handleRejection)()().then(x => assert.deepStrictEqual(x, E.left('rejected')))
+    })
+  })
 })
