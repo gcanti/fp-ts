@@ -57,6 +57,7 @@ Added in v2.0.0
 - [taskEitherSeq](#taskeitherseq)
 - [taskify](#taskify)
 - [tryCatch](#trycatch)
+- [tryCatchK](#trycatchk)
 
 ---
 
@@ -559,3 +560,18 @@ tryCatch(() => Promise.reject('error'), String)().then(result => {
 ```
 
 Added in v2.0.0
+
+# tryCatchK
+
+Converts a function returning a `Promise` to one returning a `TaskEither`.
+
+**Signature**
+
+```ts
+export function tryCatchK<E, A extends Array<unknown>, B>(
+  f: (...a: A) => Promise<B>,
+  onRejected: (reason: unknown) => E
+): (...a: A) => TaskEither<E, B> { ... }
+```
+
+Added in v2.5.0
