@@ -20,6 +20,7 @@ import {
   some,
   subset,
   toArray,
+  toggle,
   union,
   difference,
   compact,
@@ -194,6 +195,11 @@ describe('Set', () => {
   it('remove', () => {
     assert.deepStrictEqual(remove(eqNumber)(3)(new Set([1, 2])), new Set([1, 2]))
     assert.deepStrictEqual(remove(eqNumber)(1)(new Set([1, 2])), new Set([2]))
+  })
+
+  it('toggle', () => {
+    assert.deepStrictEqual(toggle(eqNumber)(1)(new Set([2])), new Set([1, 2]))
+    assert.deepStrictEqual(toggle(eqNumber)(1)(new Set([1, 2])), new Set([2]))
   })
 
   it('fromArray', () => {
