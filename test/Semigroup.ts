@@ -13,7 +13,8 @@ import {
   semigroupString,
   semigroupSum,
   semigroupVoid,
-  getDualSemigroup
+  getDualSemigroup,
+  getIntercalateSemigroup
 } from '../src/Semigroup'
 
 describe('Semigroup', () => {
@@ -70,5 +71,11 @@ describe('Semigroup', () => {
   it('getDualSemigroup', () => {
     const S = getDualSemigroup(semigroupString)
     assert.deepStrictEqual(S.concat('a', 'b'), 'ba')
+  })
+
+  it('getIntercalateSemigroup', () => {
+    const S = getIntercalateSemigroup(' ')(semigroupString)
+    assert.strictEqual(S.concat('a', 'b'), 'a b')
+    assert.strictEqual(S.concat(S.concat('a', 'b'), 'c'), S.concat('a', S.concat('b', 'c')))
   })
 })
