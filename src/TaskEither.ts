@@ -299,6 +299,18 @@ export function chainIOEitherK<E, A, B>(f: (a: A) => IOEither<E, B>): (ma: TaskE
 }
 
 /**
+ * Converts a function returning a `Promise` to one returning a `TaskEither`.
+ *
+ * @since 2.5.0
+ */
+export function tryCatchK<E, A extends Array<unknown>, B>(
+  f: (...a: A) => Promise<B>,
+  onRejected: (reason: unknown) => E
+): (...a: A) => TaskEither<E, B> {
+  return (...a) => tryCatch(() => f(...a), onRejected)
+}
+
+/**
  * @since 2.0.0
  */
 export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<URI> & MonadThrow2<URI> = {
