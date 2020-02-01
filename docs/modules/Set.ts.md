@@ -38,6 +38,7 @@ Added in v2.0.0
 - [some](#some)
 - [subset](#subset)
 - [toArray](#toarray)
+- [toggle](#toggle)
 - [union](#union)
 
 ---
@@ -333,6 +334,20 @@ export function toArray<A>(O: Ord<A>): (set: Set<A>) => Array<A> { ... }
 ```
 
 Added in v2.0.0
+
+# toggle
+
+Checks an element is a member of a set;
+If yes, removes the value from the set
+If no, inserts the value to the set
+
+**Signature**
+
+```ts
+export function toggle<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A> { ... }
+```
+
+Added in v2.5.0
 
 # union
 
