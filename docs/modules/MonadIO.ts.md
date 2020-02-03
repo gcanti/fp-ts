@@ -20,6 +20,7 @@ Added in v2.0.0
 - [MonadIO2C (interface)](#monadio2c-interface)
 - [MonadIO3 (interface)](#monadio3-interface)
 - [MonadIO3C (interface)](#monadio3c-interface)
+- [MonadIO4 (interface)](#monadio4-interface)
 
 ---
 
@@ -94,3 +95,15 @@ export interface MonadIO3C<M extends URIS3, E> extends Monad3C<M, E> {
 ```
 
 Added in v2.2.0
+
+# MonadIO4 (interface)
+
+**Signature**
+
+```ts
+export interface MonadIO4<M extends URIS4> extends Monad4<M> {
+  readonly fromIO: <S, R, E, A>(fa: IO<A>) => Kind4<M, S, R, E, A>
+}
+```
+
+Added in v2.4.4

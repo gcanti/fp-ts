@@ -20,6 +20,7 @@ Added in v2.0.0
 - [MonadTask2C (interface)](#monadtask2c-interface)
 - [MonadTask3 (interface)](#monadtask3-interface)
 - [MonadTask3C (interface)](#monadtask3c-interface)
+- [MonadTask4 (interface)](#monadtask4-interface)
 
 ---
 
@@ -94,3 +95,15 @@ export interface MonadTask3C<M extends URIS3, E> extends MonadIO3C<M, E> {
 ```
 
 Added in v2.2.0
+
+# MonadTask4 (interface)
+
+**Signature**
+
+```ts
+export interface MonadTask4<M extends URIS4> extends MonadIO4<M> {
+  readonly fromTask: <S, R, E, A>(fa: Task<A>) => Kind4<M, S, R, E, A>
+}
+```
+
+Added in v2.4.4

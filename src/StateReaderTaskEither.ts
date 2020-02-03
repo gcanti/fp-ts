@@ -16,6 +16,7 @@ import { TaskEither } from './TaskEither'
 
 import ReaderTaskEither = RTE.ReaderTaskEither
 import { MonadThrow4 } from './MonadThrow'
+import { MonadTask4 } from './MonadTask'
 
 const T = getStateM(RTE.readerTaskEither)
 
@@ -262,12 +263,14 @@ export function chainReaderTaskEitherK<R, E, A, B>(
 /**
  * @since 2.0.0
  */
-export const stateReaderTaskEither: Monad4<URI> & MonadThrow4<URI> = {
+export const stateReaderTaskEither: Monad4<URI> & MonadThrow4<URI> & MonadTask4<URI> = {
   URI,
   map: T.map,
   of: right,
   ap: T.ap,
   chain: T.chain,
+  fromIO: rightIO,
+  fromTask: rightTask,
   throwError: left
 }
 
@@ -280,9 +283,19 @@ export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
   ap: (mab, ma) => stateReaderTaskEither.chain(mab, f => stateReaderTaskEither.map(ma, f))
 }
 
-const { ap, apFirst, apSecond, chain, chainFirst, flatten, map, fromEither, fromOption } = pipeable(
-  stateReaderTaskEither
-)
+const {
+  ap,
+  apFirst,
+  apSecond,
+  chain,
+  chainFirst,
+  flatten,
+  map,
+  fromEither,
+  fromOption,
+  filterOrElse,
+  fromPredicate
+} = pipeable(stateReaderTaskEither)
 
 export {
   /**
@@ -320,5 +333,13 @@ export {
   /**
    * @since 2.0.0
    */
-  fromOption
+  fromOption,
+  /**
+   * @since 2.4.4
+   */
+  fromPredicate,
+  /**
+   * @since 2.4.4
+   */
+  filterOrElse
 }
