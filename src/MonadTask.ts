@@ -3,8 +3,8 @@
  *
  * @since 2.0.0
  */
-import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
-import { MonadIO, MonadIO1, MonadIO2, MonadIO2C, MonadIO3, MonadIO3C } from './MonadIO'
+import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'
+import { MonadIO, MonadIO1, MonadIO2, MonadIO2C, MonadIO3, MonadIO3C, MonadIO4 } from './MonadIO'
 import { Task } from './Task'
 
 /**
@@ -47,4 +47,11 @@ export interface MonadTask3<M extends URIS3> extends MonadIO3<M> {
  */
 export interface MonadTask3C<M extends URIS3, E> extends MonadIO3C<M, E> {
   readonly fromTask: <R, A>(fa: Task<A>) => Kind3<M, R, E, A>
+}
+
+/**
+ * @since 2.4.4
+ */
+export interface MonadTask4<M extends URIS4> extends MonadIO4<M> {
+  readonly fromTask: <S, R, E, A>(fa: Task<A>) => Kind4<M, S, R, E, A>
 }

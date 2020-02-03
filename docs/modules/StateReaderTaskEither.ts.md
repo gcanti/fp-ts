@@ -26,12 +26,14 @@ Added in v2.0.0
 - [chainTaskEitherK](#chaintaskeitherk)
 - [evalState](#evalstate)
 - [execState](#execstate)
+- [filterOrElse](#filterorelse)
 - [flatten](#flatten)
 - [fromEither](#fromeither)
 - [fromEitherK](#fromeitherk)
 - [fromIOEither](#fromioeither)
 - [fromIOEitherK](#fromioeitherk)
 - [fromOption](#fromoption)
+- [fromPredicate](#frompredicate)
 - [fromReaderEither](#fromreadereither)
 - [fromReaderTaskEither](#fromreadertaskeither)
 - [fromReaderTaskEitherK](#fromreadertaskeitherk)
@@ -212,6 +214,16 @@ export const : <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S) => RTE.
 
 Added in v2.0.0
 
+# filterOrElse
+
+**Signature**
+
+```ts
+{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>; }
+```
+
+Added in v2.4.4
+
 # flatten
 
 **Signature**
@@ -275,6 +287,16 @@ Added in v2.4.0
 ```
 
 Added in v2.0.0
+
+# fromPredicate
+
+**Signature**
+
+```ts
+{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(a: A) => StateReaderTaskEither<S, R, E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(a: A) => StateReaderTaskEither<S, R, E, A>; }
+```
+
+Added in v2.4.4
 
 # fromReaderEither
 
@@ -503,7 +525,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const stateReaderTaskEither: Monad4<URI> & MonadThrow4<URI> = ...
+export const stateReaderTaskEither: Monad4<URI> & MonadThrow4<URI> & MonadTask4<URI> = ...
 ```
 
 Added in v2.0.0
