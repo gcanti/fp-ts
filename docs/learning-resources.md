@@ -40,3 +40,8 @@ has_toc: false
 - "`fp-ts` to the max" (TypeScript port of John De Goes's ["FP to the max"](https://www.youtube.com/watch?v=sxudIMiOo68) in Scala)
   - [Part I](https://github.com/gcanti/fp-ts/blob/master/examples/fp-ts-to-the-max-I.ts)
   - [Part II](https://github.com/gcanti/fp-ts/blob/master/examples/fp-ts-to-the-max-II.ts)
+
+## Community documentation
+
+- [A Workers guide to static functional programming in TypeScript](https://tstelzer.github.io/workers-guide-to-fp-in-ts/)
+- [fp-ts recipes](https://grossbart.github.io/fp-ts-recipes/) – A collection of practical recipes for working with `fp-ts`
