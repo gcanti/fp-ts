@@ -14,6 +14,15 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.4.4
+
+- **Polish**
+  - add missing `MonadIO4` (@mlegenhausen)
+  - add missing `MonadTask4` (@mlegenhausen)
+  - `StateReaderTaskEither`
+    - add missing `MonadTask4` instance (@mlegenhausen)
+    - add missing `filterOrElse`, `fromPredicate` combinators (@mlegenhausen)
+
 # 2.4.3
 
 - **Bug Fix**
