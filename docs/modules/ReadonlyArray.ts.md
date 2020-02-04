@@ -1720,6 +1720,9 @@ The function is reverse of `zip`. Takes an array of pairs and return two corresp
 **Signature**
 
 ```ts
+export function unzip<A, B>(
+  as: ReadonlyNonEmptyArray<readonly [A, B]>
+): readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>]
 export function unzip<A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [ReadonlyArray<A>, ReadonlyArray<B>] { ... }
 ```
 
@@ -1773,6 +1776,10 @@ longer array are discarded
 **Signature**
 
 ```ts
+export function zip<A, B>(
+  fa: ReadonlyNonEmptyArray<A>,
+  fb: ReadonlyNonEmptyArray<B>
+): ReadonlyNonEmptyArray<readonly [A, B]>
 export function zip<A, B>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>): ReadonlyArray<readonly [A, B]> { ... }
 ```
 
@@ -1798,6 +1805,11 @@ input array is short, excess elements of the longer array are discarded.
 **Signature**
 
 ```ts
+export function zipWith<A, B, C>(
+  fa: ReadonlyNonEmptyArray<A>,
+  fb: ReadonlyNonEmptyArray<B>,
+  f: (a: A, b: B) => C
+): ReadonlyNonEmptyArray<C>
 export function zipWith<A, B, C>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>, f: (a: A, b: B) => C): ReadonlyArray<C> { ... }
 ```
 

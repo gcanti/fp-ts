@@ -990,6 +990,12 @@ export function sort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
  *
  * @since 2.5.0
  */
+export function zipWith<A, B, C>(
+  fa: ReadonlyNonEmptyArray<A>,
+  fb: ReadonlyNonEmptyArray<B>,
+  f: (a: A, b: B) => C
+): ReadonlyNonEmptyArray<C>
+export function zipWith<A, B, C>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>, f: (a: A, b: B) => C): ReadonlyArray<C>
 export function zipWith<A, B, C>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>, f: (a: A, b: B) => C): ReadonlyArray<C> {
   // tslint:disable-next-line: readonly-array
   const fc: Array<C> = []
@@ -1011,6 +1017,11 @@ export function zipWith<A, B, C>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>, f: 
  *
  * @since 2.5.0
  */
+export function zip<A, B>(
+  fa: ReadonlyNonEmptyArray<A>,
+  fb: ReadonlyNonEmptyArray<B>
+): ReadonlyNonEmptyArray<readonly [A, B]>
+export function zip<A, B>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>): ReadonlyArray<readonly [A, B]>
 export function zip<A, B>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>): ReadonlyArray<readonly [A, B]> {
   return zipWith(fa, fb, (a, b) => [a, b])
 }
@@ -1025,6 +1036,10 @@ export function zip<A, B>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>): ReadonlyA
  *
  * @since 2.5.0
  */
+export function unzip<A, B>(
+  as: ReadonlyNonEmptyArray<readonly [A, B]>
+): readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>]
+export function unzip<A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [ReadonlyArray<A>, ReadonlyArray<B>]
 export function unzip<A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [ReadonlyArray<A>, ReadonlyArray<B>] {
   // tslint:disable-next-line: readonly-array
   const fa: Array<A> = []
