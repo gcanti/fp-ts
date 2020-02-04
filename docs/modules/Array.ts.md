@@ -1687,7 +1687,10 @@ The function is reverse of `zip`. Takes an array of pairs and return two corresp
 **Signature**
 
 ```ts
-export const unzip: <A, B>(as: Array<[A, B]>) => [Array<A>, Array<B>] = ...
+export const unzip: {
+  <A, B>(as: NonEmptyArray<[A, B]>): [NonEmptyArray<A>, NonEmptyArray<B>]
+  <A, B>(as: Array<[A, B]>): [Array<A>, Array<B>]
+} = ...
 ```
 
 **Example**
@@ -1740,7 +1743,10 @@ longer array are discarded
 **Signature**
 
 ```ts
-export const zip: <A, B>(fa: Array<A>, fb: Array<B>) => Array<[A, B]> = ...
+export const zip: {
+  <A, B>(fa: NonEmptyArray<A>, fb: NonEmptyArray<B>): NonEmptyArray<[A, B]>
+  <A, B>(fa: Array<A>, fb: Array<B>): Array<[A, B]>
+} = ...
 ```
 
 **Example**
@@ -1765,7 +1771,10 @@ input array is short, excess elements of the longer array are discarded.
 **Signature**
 
 ```ts
-export const zipWith: <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => C) => Array<C> = ...
+export const zipWith: {
+  <A, B, C>(fa: NonEmptyArray<A>, fb: NonEmptyArray<B>, f: (a: A, b: B) => C): NonEmptyArray<C>
+  <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => C): Array<C>
+} = ...
 ```
 
 **Example**
