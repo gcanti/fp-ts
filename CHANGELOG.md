@@ -23,6 +23,8 @@ high state of flux, you're at risk of it changing without notice.
   - add `ReadonlyMap` module (@gcanti)
   - add `ReadonlyRecord` module (@gcanti)
   - add `ReadonlyTuple` module (@gcanti)
+  - `Eq`
+    - add `eqStrict`, closes #965 (@gcanti)
   - `NonEmptyArray`
     - add `fold` (@vicrac)
   - `Semigroup`

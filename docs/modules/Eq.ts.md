@@ -28,11 +28,12 @@ Added in v2.0.0
 - [eqBoolean](#eqboolean)
 - [eqDate](#eqdate)
 - [eqNumber](#eqnumber)
+- [eqStrict](#eqstrict)
 - [eqString](#eqstring)
 - [fromEquals](#fromequals)
 - [getStructEq](#getstructeq)
 - [getTupleEq](#gettupleeq)
-- [strictEqual](#strictequal)
+- [~~strictEqual~~](#strictequal)
 
 ---
 
@@ -118,6 +119,16 @@ export const eqNumber: Eq<number> = ...
 
 Added in v2.0.0
 
+# eqStrict
+
+**Signature**
+
+```ts
+export const eqStrict: Eq<unknown> = ...
+```
+
+Added in v2.5.0
+
 # eqString
 
 **Signature**
@@ -174,7 +185,9 @@ assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
 
 Added in v2.0.0
 
-# strictEqual
+# ~~strictEqual~~
+
+Use `eqStrict` instead
 
 **Signature**
 
