@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { eq, eqDate, eqNumber, eqString, fromEquals, getTupleEq, eqBoolean, getStructEq } from '../src/Eq'
+import { eq, eqDate, eqNumber, eqString, fromEquals, getTupleEq, eqBoolean, getStructEq, eqStrict } from '../src/Eq'
 
 describe('Eq', () => {
   it('getTupleEq', () => {
@@ -53,5 +53,10 @@ describe('Eq', () => {
     assert.deepStrictEqual(S.equals({ name: 'a', age: 1 }, { name: 'a', age: 1 }), true)
     assert.deepStrictEqual(S.equals({ name: 'a', age: 1 }, { name: 'a', age: 2 }), false)
     assert.deepStrictEqual(S.equals({ name: 'a', age: 1 }, { name: 'b', age: 1 }), false)
+  })
+
+  it('eqStrict', () => {
+    assert.deepStrictEqual(eqStrict.equals(1, 1), true)
+    assert.deepStrictEqual(eqStrict.equals(1, 'a'), false)
   })
 })
