@@ -43,5 +43,4 @@ has_toc: false
 
 ## Community documentation
 
-- [A Workers guide to static functional programming in TypeScript](https://tstelzer.github.io/workers-guide-to-fp-in-ts/)
 - [fp-ts recipes](https://grossbart.github.io/fp-ts-recipes/) – A collection of practical recipes for working with `fp-ts`
