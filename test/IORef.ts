@@ -1,6 +1,7 @@
 import * as assert from 'assert'
 import { io } from '../src/IO'
 import { IORef, newIORef } from '../src/IORef'
+import { pipe } from '../src/pipeable'
 
 describe('IORef', () => {
   it('read', () => {
@@ -21,5 +22,13 @@ describe('IORef', () => {
 
   it('newIORef', () => {
     assert.deepStrictEqual(io.chain(newIORef(1), ref => ref.read)(), 1)
+  })
+
+  it('pipe', () => {
+    const ref = new IORef(1)
+    pipe(2, ref.write)()
+    assert.deepStrictEqual(ref.read(), 2)
+    pipe(() => 3, ref.modify)()
+    assert.deepStrictEqual(ref.read(), 3)
   })
 })
