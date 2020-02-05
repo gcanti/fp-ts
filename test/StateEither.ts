@@ -1,16 +1,8 @@
 import * as assert from 'assert'
 import * as E from '../src/Either'
-// import { io } from '../src/IO'
-// import * as IE from '../src/IOEither'
-// import * as O from '../src/Option'
 import { pipe } from '../src/pipeable'
-// import { reader } from '../src/Reader'
-// import * as RE from '../src/ReaderEither'
-// import * as RTE from '../src/ReaderTaskEither'
 import { State } from '../src/State'
 import * as _ from '../src/StateEither'
-// import { task } from '../src/Task'
-// import * as TE from '../src/TaskEither'
 
 describe('StateEither', () => {
   it('run', () => {
