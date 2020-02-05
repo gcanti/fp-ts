@@ -18,6 +18,8 @@ export class IORef<A> {
   readonly read: IO<A>
   constructor(private value: A) {
     this.read = () => this.value
+    this.write = this.write.bind(this)
+    this.modify = this.modify.bind(this)
   }
   /**
    * @since 2.0.0
