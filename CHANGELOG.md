@@ -31,6 +31,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `toggle` (@ryota-ka)
   - `TaskEither`
     - add `tryCatchK` (@DenisFrezzato)
+  - `StateReaderTaskEither`
+    - add missing `Bifunctor`, `Alt` instances (@gcanti)
 
 # 2.4.4
 
