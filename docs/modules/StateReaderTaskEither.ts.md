@@ -525,7 +525,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const stateReaderTaskEither: Monad4<URI> & MonadThrow4<URI> & MonadTask4<URI> = ...
+export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & MonadTask4<URI> & MonadThrow4<URI> = ...
 ```
 
 Added in v2.0.0
