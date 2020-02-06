@@ -1,10 +1,14 @@
 /**
  * @since 2.0.0
  */
+import { Alt4 } from './Alt'
+import { Bifunctor4 } from './Bifunctor'
 import { Either } from './Either'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad4 } from './Monad'
+import { MonadTask4 } from './MonadTask'
+import { MonadThrow4 } from './MonadThrow'
 import { pipeable } from './pipeable'
 import { Reader } from './Reader'
 import { ReaderEither } from './ReaderEither'
@@ -15,8 +19,6 @@ import { Task } from './Task'
 import { TaskEither } from './TaskEither'
 
 import ReaderTaskEither = RTE.ReaderTaskEither
-import { MonadThrow4 } from './MonadThrow'
-import { MonadTask4 } from './MonadTask'
 
 const T = getStateM(RTE.readerTaskEither)
 
@@ -267,12 +269,15 @@ export function chainReaderTaskEitherK<R, E, A, B>(
 /**
  * @since 2.0.0
  */
-export const stateReaderTaskEither: Monad4<URI> & MonadThrow4<URI> & MonadTask4<URI> = {
+export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & MonadTask4<URI> & MonadThrow4<URI> = {
   URI,
   map: T.map,
   of: right,
   ap: T.ap,
   chain: T.chain,
+  bimap: (fea, f, g) => s => RTE.readerTaskEither.bimap(fea(s), f, ([a, s]) => [g(a), s]),
+  mapLeft: (fea, f) => s => RTE.readerTaskEither.mapLeft(fea(s), f),
+  alt: (fx, fy) => s => RTE.readerTaskEither.alt(fx(s), () => fy()(s)),
   fromIO: rightIO,
   fromTask: rightTask,
   throwError: left

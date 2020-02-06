@@ -51,6 +51,52 @@ describe('StateReaderTaskEither', () => {
     })
   })
 
+  describe('Bifunctor', () => {
+    it('bimap', async () => {
+      const gt2 = (n: number): boolean => n > 2
+      const len = (s: string): number => s.length
+      const e1 = await RTE.run(_.evalState(_.stateReaderTaskEither.bimap(_.right('aaa'), gt2, len), {}), {})
+      assert.deepStrictEqual(e1, E.right(3))
+      const e2 = await RTE.run(_.evalState(_.stateReaderTaskEither.bimap(_.left(3), gt2, len), {}), {})
+      assert.deepStrictEqual(e2, E.left(true))
+    })
+
+    it('mapLeft', async () => {
+      const gt2 = (n: number): boolean => n > 2
+      const e = await RTE.run(_.evalState(_.stateReaderTaskEither.mapLeft(_.left(3), gt2), {}), {})
+      assert.deepStrictEqual(e, E.left(true))
+    })
+  })
+
+  describe('Alt', () => {
+    it('alt', async () => {
+      const e1 = await RTE.run(
+        _.evalState(
+          _.stateReaderTaskEither.alt(_.right('a'), () => _.left(1)),
+          {}
+        ),
+        {}
+      )
+      assert.deepStrictEqual(e1, E.right('a'))
+      const e2 = await RTE.run(
+        _.evalState(
+          _.stateReaderTaskEither.alt(_.left(1), () => _.right('b')),
+          {}
+        ),
+        {}
+      )
+      assert.deepStrictEqual(e2, E.right('b'))
+      const e3 = await RTE.run(
+        _.evalState(
+          _.stateReaderTaskEither.alt(_.left(1), () => _.left(2)),
+          {}
+        ),
+        {}
+      )
+      assert.deepStrictEqual(e3, E.left(2))
+    })
+  })
+
   it('execState', async () => {
     const ma = _.right('aaa')
     const s = {}
