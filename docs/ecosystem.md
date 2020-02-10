@@ -28,6 +28,7 @@ has_toc: false
 - [@nll/datum](https://github.com/nullpub/datum) - Datum and DatumEither types, another take on RemoteData and [flow](https://medium.com/@gcanti/slaying-a-ui-antipattern-with-flow-5eed0cfb627b)
 - [fetcher-ts](https://github.com/YBogomolov/fetcher-ts) - Type-safe REST HTTP client with io-ts response validation
 - [alga-ts](https://github.com/algebraic-graphs/typescript) – Algebraic encoding for graphs, which makes invalid graphs unrepresentable
+- [matechs-effect](https://github.com/mikearnaldi/matechs-effect) – Contravariant trifunctor effect with useful integrations (http, react, orm, cqrs, etc.) 
 
 ## Bindings
 
