@@ -12,6 +12,7 @@ import * as _ from '../src/ReaderTaskEither'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
 import { task } from '../src/Task'
 import * as TE from '../src/TaskEither'
+import { readerTask } from '../src'
 
 describe('ReaderTaskEither', () => {
   describe('Monad', () => {
@@ -90,6 +91,16 @@ describe('ReaderTaskEither', () => {
 
   it('rightTask', async () => {
     const e = await _.run(_.rightTask(task.of(1)), {})
+    assert.deepStrictEqual(e, E.right(1))
+  })
+
+  it('leftReaderTask', async () => {
+    const e = await _.run(_.leftReaderTask(readerTask.of(1)), {})
+    assert.deepStrictEqual(e, E.left(1))
+  })
+
+  it('rightReaderTask', async () => {
+    const e = await _.run(_.rightReaderTask(readerTask.of(1)), {})
     assert.deepStrictEqual(e, E.right(1))
   })
 
