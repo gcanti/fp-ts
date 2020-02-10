@@ -17,6 +17,8 @@ high state of flux, you're at risk of it changing without notice.
 # 2.5.0
 
 - **New Feature**
+  - add overlodings to `zip`, `zipWith` and `unzip`, closes #1109 (@gcanti)
+  - add `eqStrict`, closes #965 (@gcanti)
   - add `ReadonlyArray` module (@gcanti)
   - add `ReadonlyNonEmptyArray` module (@gcanti)
   - add `ReadonlySet` module (@gcanti)
@@ -33,6 +35,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `toggle` (@ryota-ka)
   - `TaskEither`
     - add `tryCatchK` (@DenisFrezzato)
+  - `ReaderTaskEither`
+    - add missing `leftReaderTask`, `rightReaderTask` functions (@gcanti)
   - `StateReaderTaskEither`
     - add missing `Bifunctor`, `Alt` instances (@gcanti)
 

@@ -91,6 +91,20 @@ export const fromTaskEither: <R, E, A>(ma: TaskEither<E, A>) => ReaderTaskEither
 export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderTaskEither<R, E, A> = T.fromReader
 
 /**
+ * @since 2.5.0
+ */
+export function leftReaderTask<R, E = never, A = never>(me: ReaderTask<R, E>): ReaderTaskEither<R, E, A> {
+  return r => TE.leftTask(me(r))
+}
+
+/**
+ * @since 2.5.0
+ */
+export function rightReaderTask<R, E = never, A = never>(ma: ReaderTask<R, A>): ReaderTaskEither<R, E, A> {
+  return r => TE.rightTask(ma(r))
+}
+
+/**
  * @since 2.0.0
  */
 export function leftReader<R, E = never, A = never>(me: Reader<R, E>): ReaderTaskEither<R, E, A> {
