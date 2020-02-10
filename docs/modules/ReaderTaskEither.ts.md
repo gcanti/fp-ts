@@ -48,6 +48,7 @@ Added in v2.0.0
 - [left](#left)
 - [leftIO](#leftio)
 - [leftReader](#leftreader)
+- [leftReaderTask](#leftreadertask)
 - [leftTask](#lefttask)
 - [local](#local)
 - [map](#map)
@@ -58,6 +59,7 @@ Added in v2.0.0
 - [right](#right)
 - [rightIO](#rightio)
 - [rightReader](#rightreader)
+- [rightReaderTask](#rightreadertask)
 - [rightTask](#righttask)
 - [run](#run)
 - [swap](#swap)
@@ -454,6 +456,16 @@ export function leftReader<R, E = never, A = never>(me: Reader<R, E>): ReaderTas
 
 Added in v2.0.0
 
+# leftReaderTask
+
+**Signature**
+
+```ts
+export function leftReaderTask<R, E = never, A = never>(me: ReaderTask<R, E>): ReaderTaskEither<R, E, A> { ... }
+```
+
+Added in v2.5.0
+
 # leftTask
 
 **Signature**
@@ -557,6 +569,16 @@ export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderT
 ```
 
 Added in v2.0.0
+
+# rightReaderTask
+
+**Signature**
+
+```ts
+export function rightReaderTask<R, E = never, A = never>(ma: ReaderTask<R, A>): ReaderTaskEither<R, E, A> { ... }
+```
+
+Added in v2.5.0
 
 # rightTask
 
