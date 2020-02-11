@@ -19,12 +19,6 @@ high state of flux, you're at risk of it changing without notice.
 - **New Feature**
   - add overlodings to `zip`, `zipWith` and `unzip`, closes #1109 (@gcanti)
   - add `eqStrict`, closes #965 (@gcanti)
-  - add `ReadonlyArray` module (@gcanti)
-  - add `ReadonlyNonEmptyArray` module (@gcanti)
-  - add `ReadonlySet` module (@gcanti)
-  - add `ReadonlyMap` module (@gcanti)
-  - add `ReadonlyRecord` module (@gcanti)
-  - add `ReadonlyTuple` module (@gcanti)
   - `Eq`
     - add `eqStrict`, closes #965 (@gcanti)
   - `NonEmptyArray`
@@ -39,6 +33,13 @@ high state of flux, you're at risk of it changing without notice.
     - add missing `leftReaderTask`, `rightReaderTask` functions (@gcanti)
   - `StateReaderTaskEither`
     - add missing `Bifunctor`, `Alt` instances (@gcanti)
+- **Experimental**
+  - add `ReadonlyArray` module (@gcanti)
+  - add `ReadonlyNonEmptyArray` module (@gcanti)
+  - add `ReadonlySet` module (@gcanti)
+  - add `ReadonlyMap` module (@gcanti)
+  - add `ReadonlyRecord` module (@gcanti)
+  - add `ReadonlyTuple` module (@gcanti)
 
 # 2.4.4
 
