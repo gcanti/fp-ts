@@ -17,7 +17,7 @@ high state of flux, you're at risk of it changing without notice.
 # 2.5.0
 
 - **New Feature**
-  - add overlodings to `zip`, `zipWith` and `unzip`, closes #1109 (@gcanti)
+  - add overloadings to `zip`, `zipWith` and `unzip`, closes #1109 (@gcanti)
   - add `eqStrict`, closes #965 (@gcanti)
   - `Eq`
     - add `eqStrict`, closes #965 (@gcanti)
