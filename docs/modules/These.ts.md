@@ -237,7 +237,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> { ... }
+export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI, E> { ... }
 ```
 
 Added in v2.0.0

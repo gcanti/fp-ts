@@ -27,6 +27,7 @@ import { Foldable2 } from './Foldable'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
+import { MonadThrow2C } from './MonadThrow'
 import { isNone, none, Option, some } from './Option'
 import { pipeable } from './pipeable'
 import { Semigroup } from './Semigroup'
@@ -164,7 +165,7 @@ export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
 /**
  * @since 2.0.0
  */
-export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> {
+export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI, E> {
   const chain = <A, B>(ma: These<E, A>, f: (a: A) => These<E, B>): These<E, B> => {
     if (isLeft(ma)) {
       return ma
@@ -186,7 +187,8 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> {
     map: these.map,
     of: right,
     ap: (mab, ma) => chain(mab, f => these.map(ma, f)),
-    chain
+    chain,
+    throwError: left
   }
 }
 
