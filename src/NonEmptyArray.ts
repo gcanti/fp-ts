@@ -279,6 +279,25 @@ export function concat<A>(fx: Array<A>, fy: Array<A>): Array<A> {
 export const fold: <A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A = RNEA.fold
 
 /**
+ * @since 2.5.1
+ */
+export const zipWith: <A, B, C>(
+  fa: NonEmptyArray<A>,
+  fb: NonEmptyArray<B>,
+  f: (a: A, b: B) => C
+) => NonEmptyArray<C> = RNEA.zipWith as any
+
+/**
+ * @since 2.5.1
+ */
+export const zip: <A, B>(fa: NonEmptyArray<A>, fb: NonEmptyArray<B>) => NonEmptyArray<[A, B]> = RNEA.zip as any
+
+/**
+ * @since 2.5.1
+ */
+export const unzip: <A, B>(as: NonEmptyArray<[A, B]>) => [NonEmptyArray<A>, NonEmptyArray<B>] = RNEA.unzip as any
+
+/**
  * @since 2.0.0
  */
 export const nonEmptyArray: Monad1<URI> &

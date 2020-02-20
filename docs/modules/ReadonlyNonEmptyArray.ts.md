@@ -59,7 +59,10 @@ Added in v2.5.0
 - [snoc](#snoc)
 - [sort](#sort)
 - [tail](#tail)
+- [unzip](#unzip)
 - [updateAt](#updateat)
+- [zip](#zip)
+- [zipWith](#zipwith)
 
 ---
 
@@ -618,6 +621,18 @@ export function tail<A>(nea: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> { ... }
 
 Added in v2.5.0
 
+# unzip
+
+**Signature**
+
+```ts
+export const unzip: <A, B>(
+  as: ReadonlyNonEmptyArray<readonly [A, B]>
+) => readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>] = ...
+```
+
+Added in v2.5.1
+
 # updateAt
 
 **Signature**
@@ -627,3 +642,30 @@ export function updateAt<A>(i: number, a: A): (nea: ReadonlyNonEmptyArray<A>) =>
 ```
 
 Added in v2.5.0
+
+# zip
+
+**Signature**
+
+```ts
+export const zip: <A, B>(
+  fa: ReadonlyNonEmptyArray<A>,
+  fb: ReadonlyNonEmptyArray<B>
+) => ReadonlyNonEmptyArray<readonly [A, B]> = ...
+```
+
+Added in v2.5.1
+
+# zipWith
+
+**Signature**
+
+```ts
+export const zipWith: <A, B, C>(
+  fa: ReadonlyNonEmptyArray<A>,
+  fb: ReadonlyNonEmptyArray<B>,
+  f: (a: A, b: B) => C
+) => ReadonlyNonEmptyArray<C> = ...
+```
+
+Added in v2.5.1

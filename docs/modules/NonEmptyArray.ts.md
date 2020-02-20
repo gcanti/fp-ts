@@ -59,7 +59,10 @@ Added in v2.0.0
 - [snoc](#snoc)
 - [sort](#sort)
 - [tail](#tail)
+- [unzip](#unzip)
 - [updateAt](#updateat)
+- [zip](#zip)
+- [zipWith](#zipwith)
 
 ---
 
@@ -621,6 +624,16 @@ export const tail: <A>(nea: NonEmptyArray<A>) => Array<A> = ...
 
 Added in v2.0.0
 
+# unzip
+
+**Signature**
+
+```ts
+export const unzip: <A, B>(as: NonEmptyArray<[A, B]>) => [NonEmptyArray<A>, NonEmptyArray<B>] = ...
+```
+
+Added in v2.5.1
+
 # updateAt
 
 **Signature**
@@ -633,3 +646,27 @@ export const updateAt: <A>(
 ```
 
 Added in v2.0.0
+
+# zip
+
+**Signature**
+
+```ts
+export const zip: <A, B>(fa: NonEmptyArray<A>, fb: NonEmptyArray<B>) => NonEmptyArray<[A, B]> = ...
+```
+
+Added in v2.5.1
+
+# zipWith
+
+**Signature**
+
+```ts
+export const zipWith: <A, B, C>(
+  fa: NonEmptyArray<A>,
+  fb: NonEmptyArray<B>,
+  f: (a: A, b: B) => C
+) => NonEmptyArray<C> = ...
+```
+
+Added in v2.5.1
