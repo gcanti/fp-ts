@@ -1,30 +1,25 @@
 import * as _ from '../../src/ReadonlyArray'
-import { ReadonlyNonEmptyArray } from '../../src/ReadonlyNonEmptyArray'
+import { pipe } from '../../src/pipeable'
 
-declare const ns: ReadonlyArray<number>
-declare const ss: ReadonlyArray<string>
-declare const nens: ReadonlyNonEmptyArray<number>
-declare const sess: ReadonlyNonEmptyArray<string>
-declare const tns: ReadonlyArray<readonly [number, string]>
-declare const netns: ReadonlyNonEmptyArray<readonly [number, string]>
+declare const rns: ReadonlyArray<number>
+declare const rss: ReadonlyArray<string>
+declare const rtns: ReadonlyArray<readonly [number, string]>
 
 //
 // zip
 //
 
-_.zip(ns, ss) // $ExpectType readonly (readonly [number, string])[]
-_.zip(nens, sess) // $ExpectType ReadonlyNonEmptyArray<readonly [number, string]>
+_.zip(rns, rss) // $ExpectType readonly (readonly [number, string])[]
 
 //
 // zipWith
 //
 
-_.zipWith(ns, ss, (n, s) => [n, s] as const) // $ExpectType readonly (readonly [number, string])[]
-_.zipWith(nens, sess, (n, s) => [n, s] as const) // $ExpectType ReadonlyNonEmptyArray<readonly [number, string]>
+_.zipWith(rns, rss, (n, s) => [n, s] as const) // $ExpectType readonly (readonly [number, string])[]
 
 //
 // unzip
 //
 
-_.unzip(tns) // $ExpectType readonly [readonly number[], readonly string[]]
-_.unzip(netns) // $ExpectType readonly [ReadonlyNonEmptyArray<number>, ReadonlyNonEmptyArray<string>]
+_.unzip(rtns) // $ExpectType readonly [readonly number[], readonly string[]]
+pipe(rtns, _.unzip) // $ExpectType readonly [readonly number[], readonly string[]]

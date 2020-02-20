@@ -339,6 +339,30 @@ export function fold<A>(S: Semigroup<A>): (fa: ReadonlyNonEmptyArray<A>) => A {
 }
 
 /**
+ * @since 2.5.1
+ */
+export const zipWith: <A, B, C>(
+  fa: ReadonlyNonEmptyArray<A>,
+  fb: ReadonlyNonEmptyArray<B>,
+  f: (a: A, b: B) => C
+) => ReadonlyNonEmptyArray<C> = RA.zipWith as any
+
+/**
+ * @since 2.5.1
+ */
+export const zip: <A, B>(
+  fa: ReadonlyNonEmptyArray<A>,
+  fb: ReadonlyNonEmptyArray<B>
+) => ReadonlyNonEmptyArray<readonly [A, B]> = RA.zip as any
+
+/**
+ * @since 2.5.1
+ */
+export const unzip: <A, B>(
+  as: ReadonlyNonEmptyArray<readonly [A, B]>
+) => readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>] = RA.unzip as any
+
+/**
  * @since 2.5.0
  */
 export const readonlyNonEmptyArray: Monad1<URI> &

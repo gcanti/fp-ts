@@ -16,25 +16,20 @@ high state of flux, you're at risk of it changing without notice.
 
 # 2.5.1
 
-- **Polish**
-  - `These`
-    - add missing `MonadThrow` instance (@gcanti)
-
-# 2.5.0
-
 - **New Feature**
-  - add overloadings to `zip`, `zipWith` and `unzip`, closes #1109 (@gcanti)
-  - add `eqStrict`, closes #965 (@gcanti)
   - `Eq`
     - add `eqStrict`, closes #965 (@gcanti)
   - `NonEmptyArray`
     - add `fold` (@vicrac)
+    - add `zip`, `zipWith` and `unzip`, closes #1109 (@gcanti)
   - `Semigroup`
     - add `getIntercalateSemigroup` (@gcanti)
   - `Set`
     - add `toggle` (@ryota-ka)
   - `TaskEither`
     - add `tryCatchK` (@DenisFrezzato)
+  - `These`
+    - add missing `MonadThrow` instance (@gcanti)
   - `ReaderTaskEither`
     - add missing `leftReaderTask`, `rightReaderTask` functions (@gcanti)
   - `StateReaderTaskEither`

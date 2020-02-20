@@ -375,12 +375,17 @@ describe('Array', () => {
 
   it('zipWith', () => {
     assert.deepStrictEqual(
+      zipWith([], [], (n, s) => s + n),
+      []
+    )
+    assert.deepStrictEqual(
       zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n),
       ['a1', 'b2', 'c3']
     )
   })
 
   it('zip', () => {
+    assert.deepStrictEqual(zip([], []), [])
     assert.deepStrictEqual(zip([1, 2, 3], ['a', 'b', 'c', 'd']), [
       [1, 'a'],
       [2, 'b'],
@@ -389,6 +394,7 @@ describe('Array', () => {
   })
 
   it('unzip', () => {
+    assert.deepStrictEqual(unzip([]), [[], []])
     assert.deepStrictEqual(
       unzip([
         [1, 'a'],

@@ -671,10 +671,7 @@ export const sort: <A>(O: Ord<A>) => (as: Array<A>) => Array<A> = RA.sort as any
  *
  * @since 2.0.0
  */
-export const zipWith: {
-  <A, B, C>(fa: NonEmptyArray<A>, fb: NonEmptyArray<B>, f: (a: A, b: B) => C): NonEmptyArray<C>
-  <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => C): Array<C>
-} = RA.zipWith as any
+export const zipWith: <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => C) => Array<C> = RA.zipWith as any
 
 /**
  * Takes two arrays and returns an array of corresponding pairs. If one input array is short, excess elements of the
@@ -687,10 +684,7 @@ export const zipWith: {
  *
  * @since 2.0.0
  */
-export const zip: {
-  <A, B>(fa: NonEmptyArray<A>, fb: NonEmptyArray<B>): NonEmptyArray<[A, B]>
-  <A, B>(fa: Array<A>, fb: Array<B>): Array<[A, B]>
-} = RA.zip as any
+export const zip: <A, B>(fa: Array<A>, fb: Array<B>) => Array<[A, B]> = RA.zip as any
 
 /**
  * The function is reverse of `zip`. Takes an array of pairs and return two corresponding arrays
@@ -702,10 +696,7 @@ export const zip: {
  *
  * @since 2.0.0
  */
-export const unzip: {
-  <A, B>(as: NonEmptyArray<[A, B]>): [NonEmptyArray<A>, NonEmptyArray<B>]
-  <A, B>(as: Array<[A, B]>): [Array<A>, Array<B>]
-} = RA.unzip as any
+export const unzip: <A, B>(as: Array<[A, B]>) => [Array<A>, Array<B>] = RA.unzip as any
 
 /**
  * Rotate an array to the right by `n` steps
