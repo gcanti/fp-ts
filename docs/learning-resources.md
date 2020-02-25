@@ -24,7 +24,7 @@ has_toc: false
 - [Monad](https://dev.to/gcanti/getting-started-with-fp-ts-monad-6k)
 - [Either vs Validation](https://dev.to/gcanti/getting-started-with-fp-ts-either-vs-validation-5eja)
 - [IO](https://dev.to/gcanti/getting-started-with-fp-ts-io-36p6)
-- [Reader]
+- [Reader](https://dev.to/gcanti/getting-started-with-fp-ts-reader-1ie5)
 
 ## Functional design series
 
