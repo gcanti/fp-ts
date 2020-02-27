@@ -225,8 +225,8 @@ describe('TaskEither', () => {
     })
 
     it('empty (left)', async () => {
-      const x = await M.concat(M.empty, _.right('a'))()
-      return assert.deepStrictEqual(x, E.right('a'))
+      const x = await M.concat(M.empty, _.left('a'))()
+      return assert.deepStrictEqual(x, E.left('a'))
     })
   })
 
