@@ -5,7 +5,7 @@
  * @since 2.0.0
  */
 import { Alt2, Alt2C } from './Alt'
-import { Bifunctor2, Bifunctor2C } from './Bifunctor'
+import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { getEitherM } from './EitherT'
 import { Filterable2C, getFilterableComposition } from './Filterable'
@@ -239,16 +239,12 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
  */
 export function getTaskValidation<E>(
   S: Semigroup<E>
-): Monad2C<URI, E> & Bifunctor2C<URI, E> & Alt2C<URI, E> & MonadTask2C<URI, E> & MonadThrow2C<URI, E> {
+): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadTask2C<URI, E> & MonadThrow2C<URI, E> {
   const T = getValidationM(S, task)
   return {
     URI,
     _E: undefined as any,
-    throwError: taskEither.throwError,
-    bimap: taskEither.bimap,
-    mapLeft: taskEither.mapLeft,
-    fromIO: taskEither.fromIO,
-    fromTask: taskEither.fromTask,
+    ...taskEither,
     ...T
   }
 }

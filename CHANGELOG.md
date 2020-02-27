@@ -23,6 +23,10 @@ high state of flux, you're at risk of it changing without notice.
     - relax `Bifunctor2C` to `Bifunctor2` in `getIOValidation` (@gcanti)
   - `ReaderEither`
     - relax `Bifunctor3C` to `Bifunctor3` in `getReaderValidation` (@gcanti)
+  - `ReaderTaskEither`
+    - relax `Bifunctor3C` to `Bifunctor3` in `getReaderTaskValidation` (@gcanti)
+  - `TaskEither`
+    - relax `Bifunctor2C` to `Bifunctor2` in `getTaskValidation` (@gcanti)
 
 # 2.5.1
 

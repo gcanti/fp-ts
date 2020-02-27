@@ -2,7 +2,7 @@
  * @since 2.0.0
  */
 import { Alt3, Alt3C } from './Alt'
-import { Bifunctor3, Bifunctor3C } from './Bifunctor'
+import { Bifunctor3 } from './Bifunctor'
 import { Either } from './Either'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
@@ -248,16 +248,12 @@ export function bracket<R, E, A, B>(
  */
 export function getReaderTaskValidation<E>(
   S: Semigroup<E>
-): Monad3C<URI, E> & Bifunctor3C<URI, E> & Alt3C<URI, E> & MonadTask3C<URI, E> & MonadThrow3C<URI, E> {
+): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadTask3C<URI, E> & MonadThrow3C<URI, E> {
   const T = getValidationM(S, readerTask)
   return {
     URI,
     _E: undefined as any,
-    fromIO: readerTaskEither.fromIO,
-    fromTask: readerTaskEither.fromTask,
-    throwError: readerTaskEither.throwError,
-    bimap: (ma, f, g) => e => TE.taskEither.bimap(ma(e), f, g),
-    mapLeft: (ma, f) => e => TE.taskEither.mapLeft(ma(e), f),
+    ...readerTaskEither,
     ...T
   }
 }
