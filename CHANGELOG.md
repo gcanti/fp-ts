@@ -14,6 +14,12 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.5.2
+
+- **Polish**
+  - `Either`
+    - add missing instances to `getValidation` (@gcanti)
+
 # 2.5.1
 
 - **New Feature**

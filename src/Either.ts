@@ -35,7 +35,7 @@
 import { Alt2, Alt2C } from './Alt'
 import { Applicative } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
-import { ChainRec2, tailRec } from './ChainRec'
+import { ChainRec2, tailRec, ChainRec2C } from './ChainRec'
 import { Separated } from './Compactable'
 import { Eq } from './Eq'
 import { Extend2 } from './Extend'
@@ -43,7 +43,7 @@ import { Foldable2 } from './Foldable'
 import { Lazy, Predicate } from './function'
 import { HKT } from './HKT'
 import { Monad2, Monad2C } from './Monad'
-import { MonadThrow2 } from './MonadThrow'
+import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { pipeable } from './pipeable'
@@ -476,12 +476,19 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
 /**
  * @since 2.0.0
  */
-export function getValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E> {
+export function getValidation<E>(
+  S: Semigroup<E>
+): Monad2C<URI, E> &
+  Foldable2<URI> &
+  Traversable2<URI> &
+  Bifunctor2<URI> &
+  Alt2C<URI, E> &
+  Extend2<URI> &
+  ChainRec2C<URI, E> &
+  MonadThrow2C<URI, E> {
   return {
-    URI,
+    ...either,
     _E: undefined as any,
-    map: either.map,
-    of: either.of,
     ap: (mab, ma) =>
       isLeft(mab)
         ? isLeft(ma)
@@ -490,7 +497,6 @@ export function getValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, 
         : isLeft(ma)
         ? ma
         : right(mab.right(ma.right)),
-    chain: either.chain,
     alt: (fx, f) => {
       if (isRight(fx)) {
         return fx
