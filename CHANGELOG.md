@@ -19,6 +19,8 @@ high state of flux, you're at risk of it changing without notice.
 - **Polish**
   - `Either`
     - add missing instances to `getValidation` (@gcanti)
+  - `IOEither`
+    - relax `Bifunctor2C` to `Bifunctor2` in `getIOValidation` (@gcanti)
 
 # 2.5.1
 
