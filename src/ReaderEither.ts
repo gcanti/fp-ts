@@ -2,7 +2,7 @@
  * @since 2.0.0
  */
 import { Alt3, Alt3C } from './Alt'
-import { Bifunctor3, Bifunctor3C } from './Bifunctor'
+import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import { getEitherM } from './EitherT'
 import { Monad3, Monad3C } from './Monad'
@@ -139,14 +139,12 @@ export function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderEither<R, E, A>) =
  */
 export function getReaderValidation<E>(
   S: Semigroup<E>
-): Monad3C<URI, E> & Bifunctor3C<URI, E> & Alt3C<URI, E> & MonadThrow3C<URI, E> {
+): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadThrow3C<URI, E> {
   const T = getValidationM(S, reader)
   return {
     URI,
     _E: undefined as any,
-    throwError: readerEither.throwError,
-    bimap: readerEither.bimap,
-    mapLeft: readerEither.mapLeft,
+    ...readerEither,
     ...T
   }
 }
