@@ -411,7 +411,7 @@ Added in v2.0.0
 ```ts
 export function getReaderTaskValidation<E>(
   S: Semigroup<E>
-): Monad3C<URI, E> & Bifunctor3C<URI, E> & Alt3C<URI, E> & MonadTask3C<URI, E> & MonadThrow3C<URI, E> { ... }
+): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadTask3C<URI, E> & MonadThrow3C<URI, E> { ... }
 ```
 
 Added in v2.3.0
