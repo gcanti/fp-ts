@@ -491,7 +491,16 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E> { ... }
+export function getValidation<E>(
+  S: Semigroup<E>
+): Monad2C<URI, E> &
+  Foldable2<URI> &
+  Traversable2<URI> &
+  Bifunctor2<URI> &
+  Alt2C<URI, E> &
+  Extend2<URI> &
+  ChainRec2C<URI, E> &
+  MonadThrow2C<URI, E> { ... }
 ```
 
 Added in v2.0.0

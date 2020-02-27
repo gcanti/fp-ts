@@ -354,7 +354,7 @@ Added in v2.0.0
 ```ts
 export function getTaskValidation<E>(
   S: Semigroup<E>
-): Monad2C<URI, E> & Bifunctor2C<URI, E> & Alt2C<URI, E> & MonadTask2C<URI, E> & MonadThrow2C<URI, E> { ... }
+): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadTask2C<URI, E> & MonadThrow2C<URI, E> { ... }
 ```
 
 Added in v2.0.0
