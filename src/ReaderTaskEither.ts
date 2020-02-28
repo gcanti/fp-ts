@@ -251,7 +251,6 @@ export function getReaderTaskValidation<E>(
 ): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadTask3C<URI, E> & MonadThrow3C<URI, E> {
   const T = getValidationM(S, readerTask)
   return {
-    URI,
     _E: undefined as any,
     ...readerTaskEither,
     ...T

@@ -242,7 +242,6 @@ export function getTaskValidation<E>(
 ): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadTask2C<URI, E> & MonadThrow2C<URI, E> {
   const T = getValidationM(S, task)
   return {
-    URI,
     _E: undefined as any,
     ...taskEither,
     ...T
