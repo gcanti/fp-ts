@@ -1,15 +1,13 @@
 import * as Benchmark from 'benchmark'
-import { getMonoid, empty } from '../../src/Array'
+import { chunksOf } from '../../src/Array'
 
 const suite = new Benchmark.Suite()
 
-const M = getMonoid<number>()
-// tslint:disable-next-line: readonly-array
-const as = [1, 2, 3]
+const f = chunksOf(3)
 
 suite
-  .add('concat', function() {
-    M.concat(as, empty)
+  .add('chunksOf', function() {
+    f([1, 2, 3, 4, 5, 6, 7, 8, 9])
   })
   .on('cycle', function(event: any) {
     // tslint:disable-next-line: no-console
