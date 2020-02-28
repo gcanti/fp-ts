@@ -149,7 +149,6 @@ export function getIOValidation<E>(
 ): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadIO2C<URI, E> & MonadThrow2C<URI, E> {
   const T = getValidationM(S, io)
   return {
-    URI,
     _E: undefined as any,
     ...ioEither,
     ...T

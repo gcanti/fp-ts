@@ -142,7 +142,6 @@ export function getReaderValidation<E>(
 ): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadThrow3C<URI, E> {
   const T = getValidationM(S, reader)
   return {
-    URI,
     _E: undefined as any,
     ...readerEither,
     ...T
