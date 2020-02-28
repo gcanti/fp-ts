@@ -36,7 +36,7 @@ export type Const<E, A> = E & { readonly _A: A }
 /**
  * @since 2.0.0
  */
-export const make: <E, A = never>(l: E) => Const<E, A> = unsafeCoerce
+export const make: <E, A = never>(e: E) => Const<E, A> = unsafeCoerce
 
 /**
  * @since 2.0.0
