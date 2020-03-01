@@ -2,17 +2,27 @@
  * `Traversable` represents data structures which can be _traversed_ accumulating results and effects in some
  * `Applicative` functor.
  *
- * `traverse` signature:
+ * - `traverse` runs an action for every element in a data structure, and accumulates the results.
+ * - `sequence` runs the actions _contained_ in a data structure, and accumulates the results.
+ *
+ * The `traverse` and `sequence` functions should be compatible in the following sense:
+ *
+ * - `traverse(A)(xs, f) = sequence(A)(A.map(xs, f))`
+ * - `sequence(A)(xs) = traverse(A)(xs, identity)`
+ *
+ * where `A` is an `Applicative` instance
+ *
+ * `Traversable` instances should also be compatible with the corresponding `Foldable` instances, in the following sense:
  *
  * ```ts
- * <F>(F: Applicative<F>) => <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
+ * import { getApplicative, make } from 'fp-ts/lib/Const'
+ *
+ * const A = getApplicative(M)
+ *
+ * foldMap(M)(xs, f) = traverse(A)(xs, a => make(f(a)))
  * ```
  *
- * `sequence` signature:
- *
- * ```ts
- * <F>(F: Applicative<F>) => <A>(ta: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
- * ```
+ * where `M` is a `Monoid` instance
  *
  * @since 2.0.0
  */
