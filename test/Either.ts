@@ -129,6 +129,49 @@ describe('Either', () => {
     )
   })
 
+  it('mapNullable', () => {
+    interface X {
+      readonly a?: {
+        readonly b?: {
+          readonly c?: {
+            readonly d: number
+          }
+        }
+      }
+    }
+    const x1: X = { a: {} }
+    const x2: X = { a: { b: {} } }
+    const x3: X = { a: { b: { c: { d: 1 } } } }
+    const err: Error = new Error('Not present')
+    assert.deepStrictEqual(
+      pipe(
+        _.fromNullable(err)(x1.a),
+        _.mapNullable(err, x => x.b),
+        _.mapNullable(err, x => x.c),
+        _.mapNullable(err, x => x.d)
+      ),
+      _.left(err)
+    )
+    assert.deepStrictEqual(
+      pipe(
+        _.fromNullable(err)(x2.a),
+        _.mapNullable(err, x => x.b),
+        _.mapNullable(err, x => x.c),
+        _.mapNullable(err, x => x.d)
+      ),
+      _.left(err)
+    )
+    assert.deepStrictEqual(
+      pipe(
+        _.fromNullable(err)(x3.a),
+        _.mapNullable(err, x => x.b),
+        _.mapNullable(err, x => x.c),
+        _.mapNullable(err, x => x.d)
+      ),
+      _.right(1)
+    )
+  })
+
   it('alt', () => {
     assert.deepStrictEqual(
       _.either.alt(_.right(1), () => _.right(2)),

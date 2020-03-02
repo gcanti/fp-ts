@@ -81,6 +81,7 @@ Added in v2.0.0
 - [left](#left)
 - [map](#map)
 - [mapLeft](#mapleft)
+- [mapNullable](#mapnullable)
 - [orElse](#orelse)
 - [parseJSON](#parsejson)
 - [reduce](#reduce)
@@ -584,6 +585,23 @@ Added in v2.0.0
 ```
 
 Added in v2.0.0
+
+# mapNullable
+
+This is `chain` + `fromNullable`, useful when working with Either.
+Similar to Option.mapNullable except with Either, instead of None the value will be Left(leftOrNull)
+TODO add to docs
+
+**Signature**
+
+```ts
+export function mapNullable<E, A, B>(
+  leftOrNull: E,
+  f: (a: A) => B | null | undefined
+): (ma: Either<E, A>) => Either<E, B> { ... }
+```
+
+Added in v2.5.3
 
 # orElse
 

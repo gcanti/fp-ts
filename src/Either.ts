@@ -214,6 +214,19 @@ export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>> {
 }
 
 /**
+ * This is `chain` + `fromNullable`, useful when working with Either.
+ * Similar to Option.mapNullable except with Either, instead of None the value will be Left(leftOrNull)
+ * TODO add to docs
+ * @since 2.5.3
+ */
+export function mapNullable<E, A, B>(
+  leftOrNull: E,
+  f: (a: A) => B | null | undefined
+): (ma: Either<E, A>) => Either<E, B> {
+  return (ma: Either<E, A>) => (isLeft(ma) ? left<E, B>(leftOrNull) : fromNullable<E>(leftOrNull)(f(ma.right)))
+}
+
+/**
  * @since 2.0.0
  */
 export function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> {
