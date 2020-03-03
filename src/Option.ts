@@ -45,7 +45,7 @@ import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { Witherable1 } from './Witherable'
-import { pipeable } from './pipeable'
+import { pipeable, pipe } from './pipeable'
 import { MonadThrow1 } from './MonadThrow'
 
 declare module './HKT' {
@@ -227,6 +227,20 @@ export function toNullable<A>(ma: Option<A>): A | null {
  */
 export function toUndefined<A>(ma: Option<A>): A | undefined {
   return isNone(ma) ? undefined : ma.value
+}
+
+/**
+ * Returns an empty array if none. Returns a single element array if some containing value of some.
+ * @since 2.5.3
+ */
+export function toArray<A>(ma: Option<A>): ReadonlyArray<A> {
+  return pipe(
+    ma,
+    fold(
+      () => [],
+      a => [a]
+    )
+  )
 }
 
 /**

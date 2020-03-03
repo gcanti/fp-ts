@@ -87,6 +87,7 @@ Added in v2.0.0
 - [reduceRight](#reduceright)
 - [separate](#separate)
 - [some](#some)
+- [toArray](#toarray)
 - [toNullable](#tonullable)
 - [toUndefined](#toundefined)
 - [tryCatch](#trycatch)
@@ -916,6 +917,18 @@ export function some<A>(a: A): Option<A> { ... }
 ```
 
 Added in v2.0.0
+
+# toArray
+
+Returns an empty array if none. Returns a single element array if some containing value of some.
+
+**Signature**
+
+```ts
+export function toArray<A>(ma: Option<A>): ReadonlyArray<A> { ... }
+```
+
+Added in v2.5.3
 
 # toNullable
 

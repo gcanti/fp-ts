@@ -36,6 +36,11 @@ describe('Option', () => {
     assert.deepStrictEqual(O.toUndefined(O.some(1)), 1)
   })
 
+  it('toArray', () => {
+    assert.deepStrictEqual(O.toArray(O.none), [])
+    assert.deepStrictEqual(O.toArray(O.some(1)), [1])
+  })
+
   it('getOrElse', () => {
     assert.deepStrictEqual(
       pipe(
