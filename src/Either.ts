@@ -223,7 +223,7 @@ export function mapNullable<E, A, B>(
   leftOrNull: E,
   f: (a: A) => B | null | undefined
 ): (ma: Either<E, A>) => Either<E, B> {
-  return (ma: Either<E, A>) => (isLeft(ma) ? left<E, B>(leftOrNull) : fromNullable<E>(leftOrNull)(f(ma.right)))
+  return (ma: Either<E, A>) => (isLeft(ma) ? ma : fromNullable<E>(leftOrNull)(f(ma.right)))
 }
 
 /**
