@@ -22,5 +22,5 @@ export function getNone<A>(): fc.Arbitrary<Option<A>> {
  * @since 0.0.2
  */
 export function getOption<A>(arb: fc.Arbitrary<A>): fc.Arbitrary<Option<A>> {
-  return fc.oneof(getNone(), getSome(arb))
+  return fc.oneof(getNone<A>(), getSome(arb))
 }
