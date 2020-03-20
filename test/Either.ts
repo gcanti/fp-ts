@@ -91,11 +91,13 @@ describe('Either', () => {
   it('isLeft', () => {
     assert.deepStrictEqual(_.isLeft(_.right(1)), false)
     assert.deepStrictEqual(_.isLeft(_.left(1)), true)
+    assert.deepStrictEqual(_.isLeft(('Left' as unknown) as _.Either<unknown, unknown>), false)
   })
 
   it('isRight', () => {
     assert.deepStrictEqual(_.isRight(_.right(1)), true)
     assert.deepStrictEqual(_.isRight(_.left(1)), false)
+    assert.deepStrictEqual(_.isRight(('Right' as unknown) as _.Either<unknown, unknown>), false)
   })
 
   it('orElse', () => {

@@ -287,7 +287,7 @@ export function isLeft<E, A>(ma: Either<E, A>): ma is Left<E> {
   switch (ma._tag) {
     case 'Left':
       return true
-    case 'Right':
+    default:
       return false
   }
 }
@@ -298,7 +298,12 @@ export function isLeft<E, A>(ma: Either<E, A>): ma is Left<E> {
  * @since 2.0.0
  */
 export function isRight<E, A>(ma: Either<E, A>): ma is Right<A> {
-  return isLeft(ma) ? false : true
+  switch (ma._tag) {
+    case 'Right':
+      return true
+    default:
+      return false
+  }
 }
 
 /**
