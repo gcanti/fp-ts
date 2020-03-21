@@ -35,7 +35,7 @@ In general a module containing the definition of a data structure has the follow
 The naming convention is:
 
 - the number means the kind
-- `C` means *C*urried
+- `C` means *C*onstrained
 
 | Kind               | Type class           | Type defunctionalization | Note                                                     |
 | ------------------ | -------------------- | ------------------------ | -------------------------------------------------------- |
