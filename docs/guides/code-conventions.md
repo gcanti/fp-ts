@@ -91,3 +91,59 @@ const getFunctor = <E>(S: Semigroup<E>): Functor2C<"Validation", E> = { ... }
 in `sequenceT` means *T*uple, I borrowed the name from the corresponding [Haskell function](http://hackage.haskell.org/package/tuple-0.3.0.2/docs/Data-Tuple-Sequence.html)
 
 However usually it means *T*ransformer like in "monad transformers" (e.g. `OptionT`, `EitherT`, `ReaderT`, `StateT`)
+
+### What a `K` suffix means, e.g. `fromEitherK` vs `chainEitherK`
+
+`K` means *K*leisli. A _Kelisli arrow_ is a function with the following signature
+
+```ts
+(a: A) => F<B>
+```
+
+where `F` is a type constructor.
+
+**Example**
+
+Let's say we have the following parser
+
+```ts
+import * as E from 'fp-ts/lib/Either'
+
+function parse(s: string): E.Either<Error, number> {
+  const n = parseFloat(s)
+  return isNaN(n) ? E.left(new Error(`cannot decode ${JSON.stringify(s)} to number`)) : E.right(n)
+}
+```
+
+and a value of type `IOEither<Error, string>`
+
+```ts
+import * as IE from 'fp-ts/lib/IOEither'
+
+const input: IE.IOEither<Error, string> = IE.right('foo')
+```
+
+how can we parse `input`?
+
+We could lift the Kleisli arrow `parse`, i.e. transform a function
+
+```ts
+(s: string) => E.Either<Error, number>
+```
+
+into a function
+
+```ts
+(s: string) => IE.IOEither<Error, number>
+```
+
+That's what `fromEitherK` is all about
+
+```ts
+import { pipe } from 'fp-ts/lib/pipeable'
+
+pipe(input, IE.chain(IE.fromEitherK(parse)))() // left(new Error('cannot decode "foo" to number'))
+
+// or with less boilerplate
+pipe(input, IE.chainEitherK(parse))() // left(new Error('cannot decode "foo" to number'))
+```
