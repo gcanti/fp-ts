@@ -94,7 +94,7 @@ However usually it means *T*ransformer like in "monad transformers" (e.g. `Optio
 
 ### What a `K` suffix means, e.g. `fromEitherK` vs `chainEitherK`
 
-`K` means *K*leisli. A _Kelisli arrow_ is a function with the following signature
+`K` means *K*leisli. A _Kleisli arrow_ is a function with the following signature
 
 ```ts
 (a: A) => F<B>
