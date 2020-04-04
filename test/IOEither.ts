@@ -52,7 +52,7 @@ describe('IOEither', () => {
       pipe(
         _.right(12),
         _.filterOrElse(
-          n => n > 10,
+          (n) => n > 10,
           () => 'bar'
         )
       )(),
@@ -62,7 +62,7 @@ describe('IOEither', () => {
       pipe(
         _.right(7),
         _.filterOrElse(
-          n => n > 10,
+          (n) => n > 10,
           () => 'bar'
         )
       )(),
@@ -72,7 +72,7 @@ describe('IOEither', () => {
       pipe(
         _.left('foo'),
         _.filterOrElse(
-          n => n > 10,
+          (n) => n > 10,
           () => 'bar'
         )
       )(),
@@ -82,8 +82,8 @@ describe('IOEither', () => {
       pipe(
         _.right(7),
         _.filterOrElse(
-          n => n > 10,
-          n => `invalid ${n}`
+          (n) => n > 10,
+          (n) => `invalid ${n}`
         )
       )(),
       E.left('invalid 7')
@@ -105,7 +105,7 @@ describe('IOEither', () => {
   it('fromPredicate', () => {
     const gt2 = _.fromPredicate(
       (n: number) => n >= 2,
-      n => `Invalid number ${n}`
+      (n) => `Invalid number ${n}`
     )
     assert.deepStrictEqual(gt2(3)(), E.right(3))
     assert.deepStrictEqual(gt2(1)(), E.left('Invalid number 1'))
@@ -266,11 +266,11 @@ describe('IOEither', () => {
     })
 
     it('chain', () => {
-      const e1 = IV.chain(_.right(3), a => (a > 2 ? _.right(a) : _.left('b')))()
+      const e1 = IV.chain(_.right(3), (a) => (a > 2 ? _.right(a) : _.left('b')))()
       assert.deepStrictEqual(e1, E.right(3))
-      const e2 = IV.chain(_.right(1), a => (a > 2 ? _.right(a) : _.left('b')))()
+      const e2 = IV.chain(_.right(1), (a) => (a > 2 ? _.right(a) : _.left('b')))()
       assert.deepStrictEqual(e2, E.left('b'))
-      const e3 = IV.chain(_.left('a'), a => (a > 2 ? _.right(a) : _.left('b')))()
+      const e3 = IV.chain(_.left('a'), (a) => (a > 2 ? _.right(a) : _.left('b')))()
       assert.deepStrictEqual(e3, E.left('a'))
     })
 
@@ -296,17 +296,17 @@ describe('IOEither', () => {
     it('filter', async () => {
       const r1 = pipe(
         _.right(1),
-        filter(n => n > 0)
+        filter((n) => n > 0)
       )
       assert.deepStrictEqual(r1(), _.right(1)())
       const r2 = pipe(
         _.right(-1),
-        filter(n => n > 0)
+        filter((n) => n > 0)
       )
       assert.deepStrictEqual(r2(), _.left([])())
       const r3 = pipe(
         _.left(['a']),
-        filter(n => n > 0)
+        filter((n) => n > 0)
       )
       assert.deepStrictEqual(r3(), _.left(['a'])())
     })

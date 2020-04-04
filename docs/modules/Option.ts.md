@@ -143,7 +143,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI: "Option" = ...
+export declare const URI: 'Option'
 ```
 
 Added in v2.0.0
@@ -153,7 +153,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A>(that: () => Option<A>) => (fa: Option<A>) => Option<A>
+export declare const alt: <A>(that: () => Option<A>) => (fa: Option<A>) => Option<A>
 ```
 
 Added in v2.0.0
@@ -163,7 +163,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B>
+export declare const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B>
 ```
 
 Added in v2.0.0
@@ -173,7 +173,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<A>
+export declare const apFirst: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<A>
 ```
 
 Added in v2.0.0
@@ -183,7 +183,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<B>
+export declare const apSecond: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<B>
 ```
 
 Added in v2.0.0
@@ -193,7 +193,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B>
+export declare const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B>
 ```
 
 Added in v2.0.0
@@ -203,7 +203,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<A>
+export declare const chainFirst: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<A>
 ```
 
 Added in v2.0.0
@@ -213,7 +213,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A>(fa: Option<Option<A>>) => Option<A>
+export declare const compact: <A>(fa: Option<Option<A>>) => Option<A>
 ```
 
 Added in v2.0.0
@@ -223,7 +223,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A>(ma: Option<A>) => Option<Option<A>>
+export declare const duplicate: <A>(ma: Option<A>) => Option<Option<A>>
 ```
 
 Added in v2.0.0
@@ -235,7 +235,7 @@ Returns `true` if `ma` contains `a`
 **Signature**
 
 ```ts
-export function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean { ... }
+export declare function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean
 ```
 
 **Example**
@@ -258,7 +258,7 @@ Returns `true` if the predicate is satisfied by the wrapped value
 **Signature**
 
 ```ts
-export function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => boolean { ... }
+export declare function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => boolean
 ```
 
 **Example**
@@ -270,21 +270,21 @@ import { pipe } from 'fp-ts/lib/pipeable'
 assert.strictEqual(
   pipe(
     some(1),
-    exists(n => n > 0)
+    exists((n) => n > 0)
   ),
   true
 )
 assert.strictEqual(
   pipe(
     some(1),
-    exists(n => n > 1)
+    exists((n) => n > 1)
   ),
   false
 )
 assert.strictEqual(
   pipe(
     none,
-    exists(n => n > 0)
+    exists((n) => n > 0)
   ),
   false
 )
@@ -297,7 +297,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (fa: Option<A>) => B) => (ma: Option<A>) => Option<B>
+export declare const extend: <A, B>(f: (fa: Option<A>) => B) => (ma: Option<A>) => Option<B>
 ```
 
 Added in v2.0.0
@@ -307,7 +307,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-{ <A, B>(refinement: Refinement<A, B>): (fa: Option<A>) => Option<B>; <A>(predicate: Predicate<A>): (fa: Option<A>) => Option<A>; }
+export declare const filter: {
+  <A, B>(refinement: Refinement<A, B>): (fa: Option<A>) => Option<B>
+  <A>(predicate: Predicate<A>): (fa: Option<A>) => Option<A>
+}
 ```
 
 Added in v2.0.0
@@ -317,7 +320,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B>
+export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B>
 ```
 
 Added in v2.0.0
@@ -327,7 +330,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A>(mma: Option<Option<A>>) => Option<A>
+export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
 ```
 
 Added in v2.0.0
@@ -340,7 +343,7 @@ returned, otherwise the function is applied to the value inside the `Some` and t
 **Signature**
 
 ```ts
-export function fold<A, B>(onNone: () => B, onSome: (a: A) => B): (ma: Option<A>) => B { ... }
+export declare function fold<A, B>(onNone: () => B, onSome: (a: A) => B): (ma: Option<A>) => B
 ```
 
 **Example**
@@ -354,7 +357,7 @@ assert.strictEqual(
     some(1),
     fold(
       () => 'a none',
-      a => `a some containing ${a}`
+      (a) => `a some containing ${a}`
     )
   ),
   'a some containing 1'
@@ -365,7 +368,7 @@ assert.strictEqual(
     none,
     fold(
       () => 'a none',
-      a => `a some containing ${a}`
+      (a) => `a some containing ${a}`
     )
   ),
   'a none'
@@ -379,7 +382,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M
 ```
 
 Added in v2.0.0
@@ -389,7 +392,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A>(ma: Either<E, A>) => Option<A>
+export declare const fromEither: <E, A>(ma: Either<E, A>) => Option<A>
 ```
 
 Added in v2.0.0
@@ -402,7 +405,7 @@ returns the value wrapped in a `Some`
 **Signature**
 
 ```ts
-export function fromNullable<A>(a: A): Option<NonNullable<A>> { ... }
+export declare function fromNullable<A>(a: A): Option<NonNullable<A>>
 ```
 
 **Example**
@@ -424,8 +427,8 @@ Returns a smart constructor based on the given predicate
 **Signature**
 
 ```ts
-export function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
-export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> { ... }
+export declare function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
+export declare function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A>
 ```
 
 **Example**
@@ -446,7 +449,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApplyMonoid<A>(M: Monoid<A>): Monoid<Option<A>> { ... }
+export declare function getApplyMonoid<A>(M: Monoid<A>): Monoid<Option<A>>
 ```
 
 Added in v2.0.0
@@ -465,7 +468,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApplySemigroup<A>(S: Semigroup<A>): Semigroup<Option<A>> { ... }
+export declare function getApplySemigroup<A>(S: Semigroup<A>): Semigroup<Option<A>>
 ```
 
 **Example**
@@ -488,7 +491,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getEq<A>(E: Eq<A>): Eq<Option<A>> { ... }
+export declare function getEq<A>(E: Eq<A>): Eq<Option<A>>
 ```
 
 **Example**
@@ -521,7 +524,7 @@ Monoid returning the left-most non-`None` value
 **Signature**
 
 ```ts
-export function getFirstMonoid<A = never>(): Monoid<Option<A>> { ... }
+export declare function getFirstMonoid<A = never>(): Monoid<Option<A>>
 ```
 
 **Example**
@@ -552,7 +555,7 @@ Monoid returning the right-most non-`None` value
 **Signature**
 
 ```ts
-export function getLastMonoid<A = never>(): Monoid<Option<A>> { ... }
+export declare function getLastMonoid<A = never>(): Monoid<Option<A>>
 ```
 
 **Example**
@@ -576,7 +579,7 @@ Returns an `E` value if possible
 **Signature**
 
 ```ts
-export function getLeft<E, A>(ma: Either<E, A>): Option<E> { ... }
+export declare function getLeft<E, A>(ma: Either<E, A>): Option<E>
 ```
 
 Added in v2.0.0
@@ -596,7 +599,7 @@ appended using the provided `Semigroup`
 **Signature**
 
 ```ts
-export function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>> { ... }
+export declare function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>>
 ```
 
 **Example**
@@ -621,7 +624,7 @@ Extracts the value out of the structure, if it exists. Otherwise returns the giv
 **Signature**
 
 ```ts
-export function getOrElse<A>(onNone: () => A): (ma: Option<A>) => A { ... }
+export declare function getOrElse<A>(onNone: () => A): (ma: Option<A>) => A
 ```
 
 **Example**
@@ -659,7 +662,7 @@ the type the `Option` contains.
 **Signature**
 
 ```ts
-export function getOrd<A>(O: Ord<A>): Ord<Option<A>> { ... }
+export declare function getOrd<A>(O: Ord<A>): Ord<Option<A>>
 ```
 
 **Example**
@@ -691,13 +694,13 @@ type B = { type: 'B' }
 type C = A | B
 
 const isA = (c: C): c is A => c.type === 'B' // <= typo but typescript doesn't complain
-const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none)) // static error: Type '"B"' is not assignable to type '"A"'
+const isA = getRefinement<C, A>((c) => (c.type === 'B' ? some(c) : none)) // static error: Type '"B"' is not assignable to type '"A"'
 ```
 
 **Signature**
 
 ```ts
-export function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> { ... }
+export declare function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B>
 ```
 
 Added in v2.0.0
@@ -709,7 +712,7 @@ Returns an `A` value if possible
 **Signature**
 
 ```ts
-export function getRight<E, A>(ma: Either<E, A>): Option<A> { ... }
+export declare function getRight<E, A>(ma: Either<E, A>): Option<A>
 ```
 
 Added in v2.0.0
@@ -719,7 +722,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getShow<A>(S: Show<A>): Show<Option<A>> { ... }
+export declare function getShow<A>(S: Show<A>): Show<Option<A>>
 ```
 
 Added in v2.0.0
@@ -731,7 +734,7 @@ Returns `true` if the option is `None`, `false` otherwise
 **Signature**
 
 ```ts
-export function isNone<A>(fa: Option<A>): fa is None { ... }
+export declare function isNone<A>(fa: Option<A>): fa is None
 ```
 
 **Example**
@@ -752,7 +755,7 @@ Returns `true` if the option is an instance of `Some`, `false` otherwise
 **Signature**
 
 ```ts
-export function isSome<A>(fa: Option<A>): fa is Some<A> { ... }
+export declare function isSome<A>(fa: Option<A>): fa is Some<A>
 ```
 
 **Example**
@@ -771,7 +774,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B>
+export declare const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B>
 ```
 
 Added in v2.0.0
@@ -783,7 +786,7 @@ This is `chain` + `fromNullable`, useful when working with optional values
 **Signature**
 
 ```ts
-export function mapNullable<A, B>(f: (a: A) => B | null | undefined): (ma: Option<A>) => Option<B> { ... }
+export declare function mapNullable<A, B>(f: (a: A) => B | null | undefined): (ma: Option<A>) => Option<B>
 ```
 
 **Example**
@@ -807,9 +810,9 @@ const employee1: Employee = { company: { address: { street: { name: 'high street
 assert.deepStrictEqual(
   pipe(
     fromNullable(employee1.company),
-    mapNullable(company => company.address),
-    mapNullable(address => address.street),
-    mapNullable(street => street.name)
+    mapNullable((company) => company.address),
+    mapNullable((address) => address.street),
+    mapNullable((street) => street.name)
   ),
   some('high street')
 )
@@ -819,9 +822,9 @@ const employee2: Employee = { company: { address: { street: {} } } }
 assert.deepStrictEqual(
   pipe(
     fromNullable(employee2.company),
-    mapNullable(company => company.address),
-    mapNullable(address => address.street),
-    mapNullable(street => street.name)
+    mapNullable((company) => company.address),
+    mapNullable((address) => address.street),
+    mapNullable((street) => street.name)
   ),
   none
 )
@@ -834,7 +837,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const none: Option<never> = ...
+export declare const none: Option<never>
 ```
 
 Added in v2.0.0
@@ -844,15 +847,15 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const option: Monad1<URI> &
-  Foldable1<URI> &
-  Traversable1<URI> &
-  Alternative1<URI> &
-  Extend1<URI> &
-  Compactable1<URI> &
-  Filterable1<URI> &
-  Witherable1<URI> &
-  MonadThrow1<URI> = ...
+export declare const option: Monad1<'Option'> &
+  Foldable1<'Option'> &
+  Traversable1<'Option'> &
+  Alternative1<'Option'> &
+  Extend1<'Option'> &
+  Compactable1<'Option'> &
+  Filterable1<'Option'> &
+  Witherable1<'Option'> &
+  MonadThrow1<'Option'>
 ```
 
 Added in v2.0.0
@@ -862,7 +865,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-{ <A, B>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>; <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>; }
+export declare const partition: {
+  <A, B>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>
+  <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>
+}
 ```
 
 Added in v2.0.0
@@ -872,7 +878,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B, C>(f: (a: A) => Either<B, C>) => (fa: Option<A>) => Separated<Option<B>, Option<C>>
+export declare const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: Option<A>) => Separated<Option<B>, Option<C>>
 ```
 
 Added in v2.0.0
@@ -882,7 +890,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B
 ```
 
 Added in v2.0.0
@@ -892,7 +900,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B
 ```
 
 Added in v2.0.0
@@ -902,7 +910,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(fa: Option<Either<A, B>>) => Separated<Option<A>, Option<B>>
+export declare const separate: <A, B>(fa: Option<Either<A, B>>) => Separated<Option<A>, Option<B>>
 ```
 
 Added in v2.0.0
@@ -912,7 +920,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function some<A>(a: A): Option<A> { ... }
+export declare function some<A>(a: A): Option<A>
 ```
 
 Added in v2.0.0
@@ -924,7 +932,7 @@ Extracts the value out of the structure, if it exists. Otherwise returns `null`.
 **Signature**
 
 ```ts
-export function toNullable<A>(ma: Option<A>): A | null { ... }
+export declare function toNullable<A>(ma: Option<A>): A | null
 ```
 
 **Example**
@@ -946,7 +954,7 @@ Extracts the value out of the structure, if it exists. Otherwise returns `undefi
 **Signature**
 
 ```ts
-export function toUndefined<A>(ma: Option<A>): A | undefined { ... }
+export declare function toUndefined<A>(ma: Option<A>): A | undefined
 ```
 
 **Example**
@@ -969,7 +977,7 @@ Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwi
 **Signature**
 
 ```ts
-export function tryCatch<A>(f: Lazy<A>): Option<A> { ... }
+export declare function tryCatch<A>(f: Lazy<A>): Option<A>
 ```
 
 **Example**

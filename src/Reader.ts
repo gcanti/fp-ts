@@ -60,7 +60,7 @@ export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = T.asks
  * @since 2.0.0
  */
 export function local<Q, R>(f: (d: Q) => R): <A>(ma: Reader<R, A>) => Reader<Q, A> {
-  return ma => T.local(ma, f)
+  return (ma) => T.local(ma, f)
 }
 
 /**
@@ -68,7 +68,7 @@ export function local<Q, R>(f: (d: Q) => R): <A>(ma: Reader<R, A>) => Reader<Q, 
  */
 export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R, A>> {
   return {
-    concat: (x, y) => e => S.concat(x(e), y(e))
+    concat: (x, y) => (e) => S.concat(x(e), y(e))
   }
 }
 
@@ -92,19 +92,19 @@ export const of: <R, A>(a: A) => Reader<R, A> = T.of
  */
 export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = {
   URI,
-  map: (ma, f) => e => f(ma(e)),
+  map: (ma, f) => (e) => f(ma(e)),
   of,
   ap: T.ap,
   chain: T.chain,
-  promap: (mbc, f, g) => a => g(mbc(f(a))),
-  compose: (ab, la) => l => ab(la(l)),
+  promap: (mbc, f, g) => (a) => g(mbc(f(a))),
+  compose: (ab, la) => (l) => ab(la(l)),
   id: () => id,
-  first: pab => ([a, c]) => [pab(a), c],
-  second: pbc => ([a, b]) => [a, pbc(b)],
+  first: (pab) => ([a, c]) => [pab(a), c],
+  second: (pbc) => ([a, b]) => [a, pbc(b)],
   left: <A, B, C>(pab: Reader<A, B>): Reader<E.Either<A, C>, E.Either<B, C>> =>
-    E.fold<A, C, E.Either<B, C>>(a => E.left(pab(a)), E.right),
+    E.fold<A, C, E.Either<B, C>>((a) => E.left(pab(a)), E.right),
   right: <A, B, C>(pbc: Reader<B, C>): Reader<E.Either<A, B>, E.Either<A, C>> =>
-    E.fold<A, B, E.Either<A, C>>(E.left, b => E.right(pbc(b)))
+    E.fold<A, B, E.Either<A, C>>(E.left, (b) => E.right(pbc(b)))
 }
 
 const { ap, apFirst, apSecond, chain, chainFirst, compose, flatten, map, promap } = pipeable(reader)

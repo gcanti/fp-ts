@@ -86,7 +86,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function tailRec<A, B>(a: A, f: (a: A) => Either<A, B>): B { ... }
+export declare function tailRec<A, B>(a: A, f: (a: A) => Either<A, B>): B
 ```
 
 Added in v2.0.0

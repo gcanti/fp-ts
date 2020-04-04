@@ -66,7 +66,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI: "Task" = ...
+export declare const URI: 'Task'
 ```
 
 Added in v2.0.0
@@ -76,7 +76,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B>
+export declare const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B>
 ```
 
 Added in v2.0.0
@@ -86,7 +86,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<A>
+export declare const apFirst: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<A>
 ```
 
 Added in v2.0.0
@@ -96,7 +96,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<B>
+export declare const apSecond: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<B>
 ```
 
 Added in v2.0.0
@@ -106,7 +106,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B>
+export declare const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B>
 ```
 
 Added in v2.0.0
@@ -116,7 +116,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<A>
+export declare const chainFirst: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<A>
 ```
 
 Added in v2.0.0
@@ -126,7 +126,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> { ... }
+export declare function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B>
 ```
 
 Added in v2.4.0
@@ -136,7 +136,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export function delay(millis: number): <A>(ma: Task<A>) => Task<A> { ... }
+export declare function delay(millis: number): <A>(ma: Task<A>) => Task<A>
 ```
 
 Added in v2.0.0
@@ -146,7 +146,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A>(mma: Task<Task<A>>) => Task<A>
+export declare const flatten: <A>(mma: Task<Task<A>>) => Task<A>
 ```
 
 Added in v2.0.0
@@ -156,7 +156,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromIO<A>(ma: IO<A>): Task<A> { ... }
+export declare function fromIO<A>(ma: IO<A>): Task<A>
 ```
 
 Added in v2.0.0
@@ -166,7 +166,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): (...a: A) => Task<B> { ... }
+export declare function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): (...a: A) => Task<B>
 ```
 
 Added in v2.4.0
@@ -176,7 +176,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>> { ... }
+export declare function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>>
 ```
 
 Added in v2.0.0
@@ -188,7 +188,7 @@ Note: uses `Promise.race` internally
 **Signature**
 
 ```ts
-export function getRaceMonoid<A = never>(): Monoid<Task<A>> { ... }
+export declare function getRaceMonoid<A = never>(): Monoid<Task<A>>
 ```
 
 Added in v2.0.0
@@ -198,7 +198,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>> { ... }
+export declare function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>>
 ```
 
 Added in v2.0.0
@@ -208,7 +208,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B>
+export declare const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B>
 ```
 
 Added in v2.0.0
@@ -218,7 +218,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const never: Task<never> = () => new Promise(_ => ...
+export declare const never: Task<never>
 ```
 
 Added in v2.0.0
@@ -228,7 +228,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function of<A>(a: A): Task<A> { ... }
+export declare function of<A>(a: A): Task<A>
 ```
 
 Added in v2.0.0
@@ -238,7 +238,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const task: Monad1<URI> & MonadTask1<URI> = ...
+export declare const task: Monad1<'Task'> & MonadTask1<'Task'>
 ```
 
 Added in v2.0.0
@@ -250,7 +250,7 @@ Like `Task` but `ap` is sequential
 **Signature**
 
 ```ts
-export const taskSeq: typeof task = ...
+export declare const taskSeq: Monad1<'Task'> & MonadTask1<'Task'>
 ```
 
 Added in v2.0.0

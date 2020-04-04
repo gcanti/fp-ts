@@ -144,7 +144,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI: "Either" = ...
+export declare const URI: 'Either'
 ```
 
 Added in v2.0.0
@@ -154,7 +154,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A>(that: () => Either<E, A>) => (fa: Either<E, A>) => Either<E, A>
+export declare const alt: <E, A>(that: () => Either<E, A>) => (fa: Either<E, A>) => Either<E, A>
 ```
 
 Added in v2.0.0
@@ -164,7 +164,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B>
+export declare const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B>
 ```
 
 Added in v2.0.0
@@ -174,7 +174,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, A>
+export declare const apFirst: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, A>
 ```
 
 Added in v2.0.0
@@ -184,7 +184,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, B>
+export declare const apSecond: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, B>
 ```
 
 Added in v2.0.0
@@ -194,7 +194,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<E, A>) => Either<G, B>
+export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<E, A>) => Either<G, B>
 ```
 
 Added in v2.0.0
@@ -204,7 +204,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B>
+export declare const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B>
 ```
 
 Added in v2.0.0
@@ -214,7 +214,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A>
+export declare const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A>
 ```
 
 Added in v2.0.0
@@ -224,7 +224,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A>(ma: Either<E, A>) => Either<E, Either<E, A>>
+export declare const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>>
 ```
 
 Added in v2.0.0
@@ -234,14 +234,14 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const either: Monad2<URI> &
-  Foldable2<URI> &
-  Traversable2<URI> &
-  Bifunctor2<URI> &
-  Alt2<URI> &
-  Extend2<URI> &
-  ChainRec2<URI> &
-  MonadThrow2<URI> = ...
+export declare const either: Monad2<'Either'> &
+  Foldable2<'Either'> &
+  Traversable2<'Either'> &
+  Bifunctor2<'Either'> &
+  Alt2<'Either'> &
+  Extend2<'Either'> &
+  ChainRec2<'Either'> &
+  MonadThrow2<'Either'>
 ```
 
 Added in v2.0.0
@@ -251,7 +251,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function elem<A>(E: Eq<A>): <E>(a: A, ma: Either<E, A>) => boolean { ... }
+export declare function elem<A>(E: Eq<A>): <E>(a: A, ma: Either<E, A>) => boolean
 ```
 
 Added in v2.0.0
@@ -263,7 +263,7 @@ Returns `false` if `Left` or returns the result of the application of the given 
 **Signature**
 
 ```ts
-export function exists<A>(predicate: Predicate<A>): <E>(ma: Either<E, A>) => boolean { ... }
+export declare function exists<A>(predicate: Predicate<A>): <E>(ma: Either<E, A>) => boolean
 ```
 
 **Example**
@@ -285,7 +285,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A, B>(f: (fa: Either<E, A>) => B) => (ma: Either<E, A>) => Either<E, B>
+export declare const extend: <E, A, B>(f: (fa: Either<E, A>) => B) => (ma: Either<E, A>) => Either<E, B>
 ```
 
 Added in v2.0.0
@@ -295,7 +295,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>; }
+export declare const filterOrElse: {
+  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
+}
 ```
 
 Added in v2.0.0
@@ -305,7 +308,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A>(mma: Either<E, Either<E, A>>) => Either<E, A>
+export declare const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A>
 ```
 
 Added in v2.0.0
@@ -318,7 +321,7 @@ if the value is a `Right` the inner value is applied to the second function.
 **Signature**
 
 ```ts
-export function fold<E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B): (ma: Either<E, A>) => B { ... }
+export declare function fold<E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B): (ma: Either<E, A>) => B
 ```
 
 **Example**
@@ -346,7 +349,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M
 ```
 
 Added in v2.0.0
@@ -359,7 +362,7 @@ the provided default as a `Left`
 **Signature**
 
 ```ts
-export function fromNullable<E>(e: E): <A>(a: A) => Either<E, NonNullable<A>> { ... }
+export declare function fromNullable<E>(e: E): <A>(a: A) => Either<E, NonNullable<A>>
 ```
 
 **Example**
@@ -380,7 +383,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E>(onNone: () => E) => <A>(ma: Option<A>) => Either<E, A>
+export declare const fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => Either<E, A>
 ```
 
 Added in v2.0.0
@@ -390,7 +393,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Either<E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A>; }
+export declare const fromPredicate: {
+  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Either<E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A>
+}
 ```
 
 Added in v2.0.0
@@ -400,7 +406,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<Either<E, A>> { ... }
+export declare function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<Either<E, A>>
 ```
 
 Added in v2.0.0
@@ -412,7 +418,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> { ... }
+export declare function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>>
 ```
 
 **Example**
@@ -435,7 +441,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> { ... }
+export declare function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>>
 ```
 
 Added in v2.0.0
@@ -445,7 +451,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getOrElse<E, A>(onLeft: (e: E) => A): (ma: Either<E, A>) => A { ... }
+export declare function getOrElse<E, A>(onLeft: (e: E) => A): (ma: Either<E, A>) => A
 ```
 
 Added in v2.0.0
@@ -458,7 +464,7 @@ appended using the provided `Semigroup`
 **Signature**
 
 ```ts
-export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> { ... }
+export declare function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>>
 ```
 
 **Example**
@@ -481,7 +487,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>> { ... }
+export declare function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>>
 ```
 
 Added in v2.0.0
@@ -491,7 +497,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getValidation<E>(
+export declare function getValidation<E>(
   S: Semigroup<E>
 ): Monad2C<URI, E> &
   Foldable2<URI> &
@@ -500,7 +506,7 @@ export function getValidation<E>(
   Alt2C<URI, E> &
   Extend2<URI> &
   ChainRec2C<URI, E> &
-  MonadThrow2C<URI, E> { ... }
+  MonadThrow2C<URI, E>
 ```
 
 Added in v2.0.0
@@ -510,7 +516,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getValidationMonoid<E, A>(SE: Semigroup<E>, SA: Monoid<A>): Monoid<Either<E, A>> { ... }
+export declare function getValidationMonoid<E, A>(SE: Semigroup<E>, SA: Monoid<A>): Monoid<Either<E, A>>
 ```
 
 Added in v2.0.0
@@ -520,7 +526,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<Either<E, A>> { ... }
+export declare function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<Either<E, A>>
 ```
 
 Added in v2.0.0
@@ -532,7 +538,7 @@ Builds `Witherable` instance for `Either` given `Monoid` for the left side
 **Signature**
 
 ```ts
-export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> { ... }
+export declare function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E>
 ```
 
 Added in v2.0.0
@@ -544,7 +550,7 @@ Returns `true` if the either is an instance of `Left`, `false` otherwise
 **Signature**
 
 ```ts
-export function isLeft<E, A>(ma: Either<E, A>): ma is Left<E> { ... }
+export declare function isLeft<E, A>(ma: Either<E, A>): ma is Left<E>
 ```
 
 Added in v2.0.0
@@ -556,7 +562,7 @@ Returns `true` if the either is an instance of `Right`, `false` otherwise
 **Signature**
 
 ```ts
-export function isRight<E, A>(ma: Either<E, A>): ma is Right<A> { ... }
+export declare function isRight<E, A>(ma: Either<E, A>): ma is Right<A>
 ```
 
 Added in v2.0.0
@@ -569,7 +575,7 @@ structure
 **Signature**
 
 ```ts
-export function left<E = never, A = never>(e: E): Either<E, A> { ... }
+export declare function left<E = never, A = never>(e: E): Either<E, A>
 ```
 
 Added in v2.0.0
@@ -579,7 +585,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B>
 ```
 
 Added in v2.0.0
@@ -589,7 +595,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A>
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A>
 ```
 
 Added in v2.0.0
@@ -599,7 +605,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function orElse<E, A, M>(onLeft: (e: E) => Either<M, A>): (ma: Either<E, A>) => Either<M, A> { ... }
+export declare function orElse<E, A, M>(onLeft: (e: E) => Either<M, A>): (ma: Either<E, A>) => Either<M, A>
 ```
 
 Added in v2.0.0
@@ -611,7 +617,7 @@ Converts a JavaScript Object Notation (JSON) string into an object.
 **Signature**
 
 ```ts
-export function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either<E, unknown> { ... }
+export declare function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either<E, unknown>
 ```
 
 **Example**
@@ -630,7 +636,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B
 ```
 
 Added in v2.0.0
@@ -640,7 +646,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B
 ```
 
 Added in v2.0.0
@@ -653,7 +659,7 @@ of this structure
 **Signature**
 
 ```ts
-export function right<E = never, A = never>(a: A): Either<E, A> { ... }
+export declare function right<E = never, A = never>(a: A): Either<E, A>
 ```
 
 Added in v2.0.0
@@ -665,7 +671,7 @@ Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
 **Signature**
 
 ```ts
-export function stringifyJSON<E>(u: unknown, onError: (reason: unknown) => E): Either<E, string> { ... }
+export declare function stringifyJSON<E>(u: unknown, onError: (reason: unknown) => E): Either<E, string>
 ```
 
 **Example**
@@ -680,7 +686,7 @@ circular.ref = circular
 assert.deepStrictEqual(
   pipe(
     E.stringifyJSON(circular, E.toError),
-    E.mapLeft(e => e.message.includes('Converting circular structure to JSON'))
+    E.mapLeft((e) => e.message.includes('Converting circular structure to JSON'))
   ),
   E.left(true)
 )
@@ -693,7 +699,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function swap<E, A>(ma: Either<E, A>): Either<A, E> { ... }
+export declare function swap<E, A>(ma: Either<E, A>): Either<A, E>
 ```
 
 Added in v2.0.0
@@ -705,7 +711,7 @@ Default value for the `onError` argument of `tryCatch`
 **Signature**
 
 ```ts
-export function toError(e: unknown): Error { ... }
+export declare function toError(e: unknown): Error
 ```
 
 Added in v2.0.0
@@ -717,7 +723,7 @@ Constructs a new `Either` from a function that might throw
 **Signature**
 
 ```ts
-export function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): Either<E, A> { ... }
+export declare function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): Either<E, A>
 ```
 
 **Example**
@@ -736,7 +742,7 @@ const unsafeHead = <A>(as: Array<A>): A => {
 const head = <A>(as: Array<A>): Either<Error, A> => {
   return tryCatch(
     () => unsafeHead(as),
-    e => (e instanceof Error ? e : new Error('unknown error'))
+    (e) => (e instanceof Error ? e : new Error('unknown error'))
   )
 }
 

@@ -184,11 +184,11 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getReaderM<M extends URIS3>(M: Monad3<M>): ReaderM3<M>
-export function getReaderM<M extends URIS2>(M: Monad2<M>): ReaderM2<M>
-export function getReaderM<M extends URIS2, E>(M: Monad2C<M, E>): ReaderM2C<M, E>
-export function getReaderM<M extends URIS>(M: Monad1<M>): ReaderM1<M>
-export function getReaderM<M>(M: Monad<M>): ReaderM<M> { ... }
+export declare function getReaderM<M extends URIS3>(M: Monad3<M>): ReaderM3<M>
+export declare function getReaderM<M extends URIS2>(M: Monad2<M>): ReaderM2<M>
+export declare function getReaderM<M extends URIS2, E>(M: Monad2C<M, E>): ReaderM2C<M, E>
+export declare function getReaderM<M extends URIS>(M: Monad1<M>): ReaderM1<M>
+export declare function getReaderM<M>(M: Monad<M>): ReaderM<M>
 ```
 
 Added in v2.0.0

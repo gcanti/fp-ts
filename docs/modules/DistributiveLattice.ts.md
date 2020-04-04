@@ -37,7 +37,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getMinMaxDistributiveLattice<A>(O: Ord<A>): DistributiveLattice<A> { ... }
+export declare function getMinMaxDistributiveLattice<A>(O: Ord<A>): DistributiveLattice<A>
 ```
 
 Added in v2.0.0

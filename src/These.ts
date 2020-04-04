@@ -93,7 +93,7 @@ export function fold<E, A, B>(
   onRight: (a: A) => B,
   onBoth: (e: E, a: A) => B
 ): (fa: These<E, A>) => B {
-  return fa => {
+  return (fa) => {
     switch (fa._tag) {
       case 'Left':
         return onLeft(fa.left)
@@ -116,8 +116,8 @@ export const swap: <E, A>(fa: These<E, A>) => These<A, E> = fold(right, left, (e
 export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>> {
   return {
     show: fold(
-      l => `left(${SE.show(l)})`,
-      a => `right(${SA.show(a)})`,
+      (l) => `left(${SE.show(l)})`,
+      (a) => `right(${SA.show(a)})`,
       (l, a) => `both(${SE.show(l)}, ${SA.show(a)})`
     )
   }
@@ -186,7 +186,7 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI
     _E: undefined as any,
     map: these.map,
     of: right,
-    ap: (mab, ma) => chain(mab, f => these.map(ma, f)),
+    ap: (mab, ma) => chain(mab, (f) => these.map(ma, f)),
     chain,
     throwError: left
   }
@@ -204,7 +204,7 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI
  * @since 2.0.0
  */
 export function toTuple<E, A>(e: E, a: A): (fa: These<E, A>) => [E, A] {
-  return fa => (isLeft(fa) ? [fa.left, a] : isRight(fa) ? [e, fa.right] : [fa.left, fa.right])
+  return (fa) => (isLeft(fa) ? [fa.left, a] : isRight(fa) ? [e, fa.right] : [fa.left, fa.right])
 }
 /* tslint:enable:readonly-array */
 
@@ -280,7 +280,7 @@ export function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A> {
  * @since 2.0.0
  */
 export function leftOrBoth<E>(e: E): <A>(ma: Option<A>) => These<E, A> {
-  return ma => (isNone(ma) ? left(e) : both(e, ma.value))
+  return (ma) => (isNone(ma) ? left(e) : both(e, ma.value))
 }
 
 /**
@@ -294,7 +294,7 @@ export function leftOrBoth<E>(e: E): <A>(ma: Option<A>) => These<E, A> {
  * @since 2.0.0
  */
 export function rightOrBoth<A>(a: A): <E>(me: Option<E>) => These<E, A> {
-  return me => (isNone(me) ? right(a) : both(me.value, a))
+  return (me) => (isNone(me) ? right(a) : both(me.value, a))
 }
 
 /**
@@ -366,13 +366,13 @@ export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversab
     isLeft(fea) ? left(f(fea.left)) : isRight(fea) ? right(g(fea.right)) : both(f(fea.left), g(fea.right)),
   mapLeft: (fea, f) => (isLeft(fea) ? left(f(fea.left)) : isBoth(fea) ? both(f(fea.left), fea.right) : fea),
   reduce: (fa, b, f) => (isLeft(fa) ? b : isRight(fa) ? f(b, fa.right) : f(b, fa.right)),
-  foldMap: M => (fa, f) => (isLeft(fa) ? M.empty : isRight(fa) ? f(fa.right) : f(fa.right)),
+  foldMap: (M) => (fa, f) => (isLeft(fa) ? M.empty : isRight(fa) ? f(fa.right) : f(fa.right)),
   reduceRight: (fa, b, f) => (isLeft(fa) ? b : isRight(fa) ? f(fa.right, b) : f(fa.right, b)),
   traverse: <F>(F: Applicative<F>) => <E, A, B>(ta: These<E, A>, f: (a: A) => HKT<F, B>): HKT<F, These<E, B>> => {
-    return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(f(ta.right), right) : F.map(f(ta.right), b => both(ta.left, b))
+    return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(f(ta.right), right) : F.map(f(ta.right), (b) => both(ta.left, b))
   },
   sequence: <F>(F: Applicative<F>) => <E, A>(ta: These<E, HKT<F, A>>): HKT<F, These<E, A>> => {
-    return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(ta.right, right) : F.map(ta.right, b => both(ta.left, b))
+    return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(ta.right, right) : F.map(ta.right, (b) => both(ta.left, b))
   }
 }
 

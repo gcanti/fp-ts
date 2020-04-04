@@ -64,7 +64,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI: "Eq" = ...
+export declare const URI: 'Eq'
 ```
 
 Added in v2.0.0
@@ -74,7 +74,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B>
+export declare const contramap: <A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B>
 ```
 
 Added in v2.0.0
@@ -84,7 +84,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const eq: Contravariant1<URI> = ...
+export declare const eq: Contravariant1<'Eq'>
 ```
 
 Added in v2.0.0
@@ -94,7 +94,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const eqBoolean: Eq<boolean> = ...
+export declare const eqBoolean: Eq<boolean>
 ```
 
 Added in v2.0.0
@@ -104,7 +104,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const eqDate: Eq<Date> = ...
+export declare const eqDate: Eq<Date>
 ```
 
 Added in v2.0.0
@@ -114,7 +114,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const eqNumber: Eq<number> = ...
+export declare const eqNumber: Eq<number>
 ```
 
 Added in v2.0.0
@@ -124,7 +124,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const eqStrict: Eq<unknown> = ...
+export declare const eqStrict: Eq<unknown>
 ```
 
 Added in v2.5.0
@@ -134,7 +134,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export const eqString: Eq<string> = ...
+export declare const eqString: Eq<string>
 ```
 
 Added in v2.0.0
@@ -144,7 +144,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> { ... }
+export declare function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A>
 ```
 
 Added in v2.0.0
@@ -154,7 +154,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> { ... }
+export declare function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O>
 ```
 
 Added in v2.0.0
@@ -166,9 +166,9 @@ Given a tuple of `Eq`s returns a `Eq` for the tuple
 **Signature**
 
 ```ts
-export function getTupleEq<T extends ReadonlyArray<Eq<any>>>(
+export declare function getTupleEq<T extends ReadonlyArray<Eq<any>>>(
   ...eqs: T
-): Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }> { ... }
+): Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }>
 ```
 
 **Example**
@@ -192,7 +192,7 @@ Use `eqStrict` instead
 **Signature**
 
 ```ts
-export function strictEqual<A>(a: A, b: A): boolean { ... }
+export declare function strictEqual<A>(a: A, b: A): boolean
 ```
 
 Added in v2.0.0

@@ -17,6 +17,7 @@ Added in v2.0.0
 - [IORef (class)](#ioref-class)
   - [write (method)](#write-method)
   - [modify (method)](#modify-method)
+  - [read (property)](#read-property)
 - [newIORef](#newioref)
 
 ---
@@ -26,9 +27,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export class IORef<A> {
-  constructor(private value: A) { ... }
-  ...
+export declare class IORef<A> {
+  constructor(private value: A)
 }
 ```
 
@@ -38,7 +38,7 @@ export class IORef<A> {
 import { io } from 'fp-ts/lib/IO'
 import { newIORef } from 'fp-ts/lib/IORef'
 
-assert.strictEqual(io.chain(newIORef(1), ref => io.chain(ref.write(2), () => ref.read))(), 2)
+assert.strictEqual(io.chain(newIORef(1), (ref) => io.chain(ref.write(2), () => ref.read))(), 2)
 ```
 
 Added in v2.0.0
@@ -48,7 +48,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-write(a: A): IO<void> { ... }
+write(a: A): IO<void>
 ```
 
 Added in v2.0.0
@@ -58,7 +58,17 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-modify(f: (a: A) => A): IO<void> { ... }
+modify(f: (a: A) => A): IO<void>
+```
+
+Added in v2.0.0
+
+## read (property)
+
+**Signature**
+
+```ts
+readonly read: IO<A>
 ```
 
 Added in v2.0.0
@@ -68,7 +78,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function newIORef<A>(a: A): IO<IORef<A>> { ... }
+export declare function newIORef<A>(a: A): IO<IORef<A>>
 ```
 
 Added in v2.0.0

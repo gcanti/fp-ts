@@ -68,21 +68,21 @@ export const leftIO: <E = never, A = never>(me: IO<E>) => IOEither<E, A> = T.lef
  * @since 2.0.0
  */
 export function fold<E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>): (ma: IOEither<E, A>) => IO<B> {
-  return ma => T.fold(ma, onLeft, onRight)
+  return (ma) => T.fold(ma, onLeft, onRight)
 }
 
 /**
  * @since 2.0.0
  */
 export function getOrElse<E, A>(onLeft: (e: E) => IO<A>): (ma: IOEither<E, A>) => IO<A> {
-  return ma => T.getOrElse(ma, onLeft)
+  return (ma) => T.getOrElse(ma, onLeft)
 }
 
 /**
  * @since 2.0.0
  */
 export function orElse<E, A, M>(onLeft: (e: E) => IOEither<M, A>): (ma: IOEither<E, A>) => IOEither<M, A> {
-  return ma => T.orElse(ma, onLeft)
+  return (ma) => T.orElse(ma, onLeft)
 }
 
 /**
@@ -136,8 +136,10 @@ export function bracket<E, A, B>(
   use: (a: A) => IOEither<E, B>,
   release: (a: A, e: Either<E, B>) => IOEither<E, void>
 ): IOEither<E, B> {
-  return T.chain(acquire, a =>
-    T.chain(io.map(use(a), E.right), e => T.chain(release(a, e), () => (E.isLeft(e) ? T.left(e.left) : T.of(e.right))))
+  return T.chain(acquire, (a) =>
+    T.chain(io.map(use(a), E.right), (e) =>
+      T.chain(release(a, e), () => (E.isLeft(e) ? T.left(e.left) : T.of(e.right)))
+    )
   )
 }
 

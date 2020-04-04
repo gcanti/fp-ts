@@ -50,7 +50,7 @@ import { pipe } from 'fp-ts/lib/pipeable'
 const logger = (input: number | null) =>
   pipe(
     fromNullable(input),
-    fold(log('Received null'), value => log(`Received ${value}`))
+    fold(log('Received null'), (value) => log(`Received ${value}`))
   )
 
 logger(123)() // returns undefined and outputs "Received 123" to console
@@ -88,7 +88,7 @@ interface Result {
 
 const computations: { [K in keyof Result]: IO<Result[K]> } = {
   name: io.of('Aristotle'),
-  age: io.of(60)
+  age: io.of(60),
 }
 
 const computation: IO<Result> = sequenceS(io)(computations)
@@ -146,7 +146,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI: "IO" = ...
+export declare const URI: 'IO'
 ```
 
 Added in v2.0.0
@@ -156,7 +156,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B>
+export declare const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B>
 ```
 
 Added in v2.0.0
@@ -166,7 +166,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<B>(fb: IO<B>) => <A>(fa: IO<A>) => IO<A>
+export declare const apFirst: <B>(fb: IO<B>) => <A>(fa: IO<A>) => IO<A>
 ```
 
 Added in v2.0.0
@@ -176,7 +176,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<B>(fb: IO<B>) => <A>(fa: IO<A>) => IO<B>
+export declare const apSecond: <B>(fb: IO<B>) => <A>(fa: IO<A>) => IO<B>
 ```
 
 Added in v2.0.0
@@ -186,7 +186,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B>
+export declare const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B>
 ```
 
 Added in v2.0.0
@@ -196,7 +196,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<A>
+export declare const chainFirst: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<A>
 ```
 
 Added in v2.0.0
@@ -206,7 +206,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A>(mma: IO<IO<A>>) => IO<A>
+export declare const flatten: <A>(mma: IO<IO<A>>) => IO<A>
 ```
 
 Added in v2.0.0
@@ -216,7 +216,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> { ... }
+export declare function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>>
 ```
 
 Added in v2.0.0
@@ -226,7 +226,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getSemigroup<A>(S: Semigroup<A>): Semigroup<IO<A>> { ... }
+export declare function getSemigroup<A>(S: Semigroup<A>): Semigroup<IO<A>>
 ```
 
 Added in v2.0.0
@@ -236,7 +236,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = ...
+export declare const io: Monad1<'IO'> & MonadIO1<'IO'> & ChainRec1<'IO'>
 ```
 
 Added in v2.0.0
@@ -246,7 +246,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B>
+export declare const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B>
 ```
 
 Added in v2.0.0
@@ -256,7 +256,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const of = <A>(a: A): IO<A> => () => ...
+export declare const of: <A>(a: A) => IO<A>
 ```
 
 Added in v2.0.0

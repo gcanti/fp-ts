@@ -130,7 +130,7 @@ describe('Array', () => {
   })
 
   it('ap', () => {
-    const as = array.ap([x => x * 2, x => x * 3], [1, 2, 3])
+    const as = array.ap([(x) => x * 2, (x) => x * 3], [1, 2, 3])
     assert.deepStrictEqual(as, [2, 4, 6, 3, 6, 9])
   })
 
@@ -150,7 +150,7 @@ describe('Array', () => {
   })
 
   it('unfold', () => {
-    const as = array.unfold(5, n => (n > 0 ? O.some([n, n - 1]) : O.none))
+    const as = array.unfold(5, (n) => (n > 0 ? O.some([n, n - 1]) : O.none))
     assert.deepStrictEqual(as, [5, 4, 3, 2, 1])
   })
 
@@ -249,12 +249,12 @@ describe('Array', () => {
   })
 
   it('findIndex', () => {
-    assert.deepStrictEqual(findIndex(x => x === 2)([1, 2, 3]), O.some(1))
-    assert.deepStrictEqual(findIndex(x => x === 2)([]), O.none)
+    assert.deepStrictEqual(findIndex((x) => x === 2)([1, 2, 3]), O.some(1))
+    assert.deepStrictEqual(findIndex((x) => x === 2)([]), O.none)
   })
 
   it('findFirst', () => {
-    assert.deepStrictEqual(findFirst(x => x === 2)([]), O.none)
+    assert.deepStrictEqual(findFirst((x) => x === 2)([]), O.none)
     assert.deepStrictEqual(
       findFirst((x: { readonly a: number; readonly b: number }) => x.a === 1)([
         { a: 1, b: 1 },
@@ -282,18 +282,18 @@ describe('Array', () => {
 
   const optionStringEq = O.getEq(eqString)
   const multipleOf3: Predicate<number> = (x: number) => x % 3 === 0
-  const multipleOf3AsString = (x: number) => O.option.map(O.fromPredicate(multipleOf3)(x), x => `${x}`)
+  const multipleOf3AsString = (x: number) => O.option.map(O.fromPredicate(multipleOf3)(x), (x) => `${x}`)
 
   it('`findFirstMap(arr, fun)` is equivalent to map and `head(mapOption(arr, fun)`', () => {
     fc.assert(
-      fc.property(fc.array(fc.integer()), arr =>
+      fc.property(fc.array(fc.integer()), (arr) =>
         optionStringEq.equals(findFirstMap(multipleOf3AsString)(arr), head(array.filterMap(arr, multipleOf3AsString)))
       )
     )
   })
 
   it('findLast', () => {
-    assert.deepStrictEqual(findLast(x => x === 2)([]), O.none)
+    assert.deepStrictEqual(findLast((x) => x === 2)([]), O.none)
     assert.deepStrictEqual(
       findLast((x: { readonly a: number; readonly b: number }) => x.a === 1)([
         { a: 1, b: 1 },
@@ -313,7 +313,7 @@ describe('Array', () => {
 
   it('`findLastMap(arr, fun)` is equivalent to `last(mapOption(arr, fun))`', () => {
     fc.assert(
-      fc.property(fc.array(fc.integer()), arr =>
+      fc.property(fc.array(fc.integer()), (arr) =>
         optionStringEq.equals(findLastMap(multipleOf3AsString)(arr), last(array.filterMap(arr, multipleOf3AsString)))
       )
     )
@@ -436,7 +436,7 @@ describe('Array', () => {
 
   it('map', () => {
     assert.deepStrictEqual(
-      array.map([1, 2, 3], n => n * 2),
+      array.map([1, 2, 3], (n) => n * 2),
       [2, 4, 6]
     )
   })
@@ -461,7 +461,7 @@ describe('Array', () => {
 
   it('chain', () => {
     assert.deepStrictEqual(
-      array.chain([1, 2, 3], n => [n, n + 1]),
+      array.chain([1, 2, 3], (n) => [n, n + 1]),
       [1, 2, 2, 3, 3, 4]
     )
   })
@@ -658,7 +658,7 @@ describe('Array', () => {
 
   it('chop', () => {
     const group = <A>(S: Eq<A>): ((as: Array<A>) => Array<Array<A>>) => {
-      return chop(as => {
+      return chop((as) => {
         const { init, rest } = spanLeft((a: A) => S.equals(a, as[0]))(as)
         return [init, rest]
       })
@@ -709,9 +709,9 @@ describe('Array', () => {
       assert.deepStrictEqual(chunksOf(2)(xs).concat(chunksOf(2)(ys)), chunksOf(2)(xs.concat(ys)))
       fc.assert(
         fc.property(
-          fc.array(fc.integer()).filter(xs => xs.length % 2 === 0), // Ensures `xs.length` is even
+          fc.array(fc.integer()).filter((xs) => xs.length % 2 === 0), // Ensures `xs.length` is even
           fc.array(fc.integer()),
-          fc.integer(1, 1).map(x => x * 2), // Generates `n` to be even so that it evenly divides `xs`
+          fc.integer(1, 1).map((x) => x * 2), // Generates `n` to be even so that it evenly divides `xs`
           (xs, ys, n) => {
             const as = chunksOf(n)(xs).concat(chunksOf(n)(ys))
             const bs = chunksOf(n)(xs.concat(ys))
@@ -740,7 +740,7 @@ describe('Array', () => {
 
   it('comprehension', () => {
     assert.deepStrictEqual(
-      comprehension([[1, 2, 3]], a => a * 2),
+      comprehension([[1, 2, 3]], (a) => a * 2),
       [2, 4, 6]
     )
     assert.deepStrictEqual(

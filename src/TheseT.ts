@@ -141,9 +141,9 @@ export function getTheseM<M>(M: Monad<M>): TheseM<M> {
     bimap: (fa, f, g) => M.map(fa, bimap(f, g)),
     mapLeft: (fa, f) => M.map(fa, mapLeft(f)),
     fold: (fa, onLeft, onRight, onBoth) => M.chain(fa, fold(onLeft, onRight, onBoth)),
-    swap: fa => M.map(fa, swap),
-    rightM: ma => M.map(ma, right),
-    leftM: me => M.map(me, left),
+    swap: (fa) => M.map(fa, swap),
+    rightM: (ma) => M.map(ma, right),
+    leftM: (me) => M.map(me, left),
     left: leftT,
     right: of,
     both: (e, a) => M.of(both(e, a)),
@@ -156,7 +156,7 @@ export function getTheseM<M>(M: Monad<M>): TheseM<M> {
             M.map(
               f(a),
               fold(
-                e2 => left(E.concat(e1, e2)),
+                (e2) => left(E.concat(e1, e2)),
                 right,
                 (e2, b) => both(E.concat(e1, e2), b)
               )
@@ -170,7 +170,7 @@ export function getTheseM<M>(M: Monad<M>): TheseM<M> {
         map: mapT,
         of,
         ap: <A, B>(mab: TheseT<M, E, (a: A) => B>, ma: TheseT<M, E, A>): TheseT<M, E, B> =>
-          chain(mab, f => mapT(ma, f)),
+          chain(mab, (f) => mapT(ma, f)),
         chain
       }
     }

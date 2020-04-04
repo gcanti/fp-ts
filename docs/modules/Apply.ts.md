@@ -126,41 +126,41 @@ Like `Apply.sequenceT` but works with structs instead of tuples.
 **Signature**
 
 ```ts
-export function sequenceS<F extends URIS4>(
+export declare function sequenceS<F extends URIS4>(
   F: Apply4<F>
 ): <S, R, E, NER extends Record<string, Kind4<F, S, R, E, any>>>(
   r: EnforceNonEmptyRecord<NER> & Record<string, Kind4<F, S, R, E, any>>
 ) => Kind4<F, S, R, E, { [K in keyof NER]: [NER[K]] extends [Kind4<F, any, any, any, infer A>] ? A : never }>
-export function sequenceS<F extends URIS3>(
+export declare function sequenceS<F extends URIS3>(
   F: Apply3<F>
 ): <R, E, NER extends Record<string, Kind3<F, R, E, any>>>(
   r: EnforceNonEmptyRecord<NER> & Record<string, Kind3<F, R, E, any>>
 ) => Kind3<F, R, E, { [K in keyof NER]: [NER[K]] extends [Kind3<F, any, any, infer A>] ? A : never }>
-export function sequenceS<F extends URIS3, E>(
+export declare function sequenceS<F extends URIS3, E>(
   F: Apply3C<F, E>
 ): <R, NER extends Record<string, Kind3<F, R, E, any>>>(
   r: EnforceNonEmptyRecord<NER> & Record<string, Kind3<F, R, E, any>>
 ) => Kind3<F, R, E, { [K in keyof NER]: [NER[K]] extends [Kind3<F, any, any, infer A>] ? A : never }>
-export function sequenceS<F extends URIS2>(
+export declare function sequenceS<F extends URIS2>(
   F: Apply2<F>
 ): <E, NER extends Record<string, Kind2<F, E, any>>>(
   r: EnforceNonEmptyRecord<NER> & Record<string, Kind2<F, E, any>>
 ) => Kind2<F, E, { [K in keyof NER]: [NER[K]] extends [Kind2<F, any, infer A>] ? A : never }>
-export function sequenceS<F extends URIS2, E>(
+export declare function sequenceS<F extends URIS2, E>(
   F: Apply2C<F, E>
 ): <NER extends Record<string, Kind2<F, E, any>>>(
   r: EnforceNonEmptyRecord<NER>
 ) => Kind2<F, E, { [K in keyof NER]: [NER[K]] extends [Kind2<F, any, infer A>] ? A : never }>
-export function sequenceS<F extends URIS>(
+export declare function sequenceS<F extends URIS>(
   F: Apply1<F>
 ): <NER extends Record<string, Kind<F, any>>>(
   r: EnforceNonEmptyRecord<NER>
 ) => Kind<F, { [K in keyof NER]: [NER[K]] extends [Kind<F, infer A>] ? A : never }>
-export function sequenceS<F>(
+export declare function sequenceS<F>(
   F: Apply<F>
 ): <NER extends Record<string, HKT<F, any>>>(
   r: EnforceNonEmptyRecord<NER>
-) => HKT<F, { [K in keyof NER]: [NER[K]] extends [HKT<F, infer A>] ? A : never }> { ... }
+) => HKT<F, { [K in keyof NER]: [NER[K]] extends [HKT<F, infer A>] ? A : never }>
 ```
 
 **Example**
@@ -174,14 +174,14 @@ const ado = sequenceS(either)
 assert.deepStrictEqual(
   ado({
     a: right(1),
-    b: right(true)
+    b: right(true),
   }),
   right({ a: 1, b: true })
 )
 assert.deepStrictEqual(
   ado({
     a: right(1),
-    b: left('error')
+    b: left('error'),
   }),
   left('error')
 )
@@ -196,41 +196,41 @@ Tuple sequencing, i.e., take a tuple of monadic actions and does them from left-
 **Signature**
 
 ```ts
-export function sequenceT<F extends URIS4>(
+export declare function sequenceT<F extends URIS4>(
   F: Apply4<F>
 ): <S, R, E, T extends Array<Kind4<F, S, R, E, any>>>(
   ...t: T & { readonly 0: Kind4<F, S, R, E, any> }
 ) => Kind4<F, S, R, E, { [K in keyof T]: [T[K]] extends [Kind4<F, S, R, E, infer A>] ? A : never }>
-export function sequenceT<F extends URIS3>(
+export declare function sequenceT<F extends URIS3>(
   F: Apply3<F>
 ): <R, E, T extends Array<Kind3<F, R, E, any>>>(
   ...t: T & { readonly 0: Kind3<F, R, E, any> }
 ) => Kind3<F, R, E, { [K in keyof T]: [T[K]] extends [Kind3<F, R, E, infer A>] ? A : never }>
-export function sequenceT<F extends URIS3, E>(
+export declare function sequenceT<F extends URIS3, E>(
   F: Apply3C<F, E>
 ): <R, T extends Array<Kind3<F, R, E, any>>>(
   ...t: T & { readonly 0: Kind3<F, R, E, any> }
 ) => Kind3<F, R, E, { [K in keyof T]: [T[K]] extends [Kind3<F, R, E, infer A>] ? A : never }>
-export function sequenceT<F extends URIS2>(
+export declare function sequenceT<F extends URIS2>(
   F: Apply2<F>
 ): <E, T extends Array<Kind2<F, E, any>>>(
   ...t: T & { readonly 0: Kind2<F, E, any> }
 ) => Kind2<F, E, { [K in keyof T]: [T[K]] extends [Kind2<F, E, infer A>] ? A : never }>
-export function sequenceT<F extends URIS2, E>(
+export declare function sequenceT<F extends URIS2, E>(
   F: Apply2C<F, E>
 ): <T extends Array<Kind2<F, E, any>>>(
   ...t: T & { readonly 0: Kind2<F, E, any> }
 ) => Kind2<F, E, { [K in keyof T]: [T[K]] extends [Kind2<F, E, infer A>] ? A : never }>
-export function sequenceT<F extends URIS>(
+export declare function sequenceT<F extends URIS>(
   F: Apply1<F>
 ): <T extends Array<Kind<F, any>>>(
   ...t: T & { readonly 0: Kind<F, any> }
 ) => Kind<F, { [K in keyof T]: [T[K]] extends [Kind<F, infer A>] ? A : never }>
-export function sequenceT<F>(
+export declare function sequenceT<F>(
   F: Apply<F>
 ): <T extends Array<HKT<F, any>>>(
   ...t: T & { readonly 0: HKT<F, any> }
-) => HKT<F, { [K in keyof T]: [T[K]] extends [HKT<F, infer A>] ? A : never }> { ... }
+) => HKT<F, { [K in keyof T]: [T[K]] extends [HKT<F, infer A>] ? A : never }>
 ```
 
 **Example**

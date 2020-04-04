@@ -74,7 +74,7 @@ describe('Either', () => {
     assert.deepStrictEqual(
       pipe(
         _.right(7),
-        _.filterOrElse(gt10, n => `invalid ${n}`)
+        _.filterOrElse(gt10, (n) => `invalid ${n}`)
       ),
       _.left('invalid 7')
     )
@@ -168,7 +168,7 @@ describe('Either', () => {
     assert.deepStrictEqual(
       pipe(
         _.stringifyJSON(circular, _.toError),
-        _.mapLeft(e => e.message.includes('Converting circular structure to JSON'))
+        _.mapLeft((e) => e.message.includes('Converting circular structure to JSON'))
       ),
       _.left(true)
     )
@@ -223,7 +223,7 @@ describe('Either', () => {
     it('fromPredicate', () => {
       const gt2 = _.fromPredicate(
         (n: number) => n >= 2,
-        n => `Invalid number ${n}`
+        (n) => `Invalid number ${n}`
       )
       assert.deepStrictEqual(gt2(3), _.right(3))
       assert.deepStrictEqual(gt2(1), _.left('Invalid number 1'))
@@ -231,7 +231,7 @@ describe('Either', () => {
       // refinements
       type Color = 'red' | 'blue'
       const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
-      const from = _.fromPredicate(isColor, s => `invalid color ${s}`)
+      const from = _.fromPredicate(isColor, (s) => `invalid color ${s}`)
       assert.deepStrictEqual(from('red'), _.right('red'))
       assert.deepStrictEqual(from('foo'), _.left('invalid color foo'))
     })
@@ -275,15 +275,15 @@ describe('Either', () => {
   describe('Traversable', () => {
     it('traverse', () => {
       assert.deepStrictEqual(
-        _.either.traverse(option)(_.left('foo'), a => (a >= 2 ? some(a) : none)),
+        _.either.traverse(option)(_.left('foo'), (a) => (a >= 2 ? some(a) : none)),
         some(_.left('foo'))
       )
       assert.deepStrictEqual(
-        _.either.traverse(option)(_.right(1), a => (a >= 2 ? some(a) : none)),
+        _.either.traverse(option)(_.right(1), (a) => (a >= 2 ? some(a) : none)),
         none
       )
       assert.deepStrictEqual(
-        _.either.traverse(option)(_.right(3), a => (a >= 2 ? some(a) : none)),
+        _.either.traverse(option)(_.right(3), (a) => (a >= 2 ? some(a) : none)),
         some(_.right(3))
       )
     })
@@ -308,7 +308,7 @@ describe('Either', () => {
         _.right(1)
       )
       assert.deepStrictEqual(
-        chainRec(1, a => {
+        chainRec(1, (a) => {
           if (a < 5) {
             return _.right(_.left(a + 1))
           } else {

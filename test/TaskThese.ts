@@ -44,8 +44,8 @@ describe('TaskThese', () => {
 
   it('fold', async () => {
     const f = TT.fold(
-      e => T.of(`left ${e}`),
-      a => T.of(`right ${a}`),
+      (e) => T.of(`left ${e}`),
+      (a) => T.of(`right ${a}`),
       (e, a) => T.of(`both ${e} ${a}`)
     )
     assert.deepStrictEqual(await pipe(TT.right(1), f)(), 'right 1')

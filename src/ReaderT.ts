@@ -124,14 +124,14 @@ export function getReaderM<M extends URIS>(M: Monad1<M>): ReaderM1<M>
 export function getReaderM<M>(M: Monad<M>): ReaderM<M>
 export function getReaderM<M>(M: Monad<M>): ReaderM<M> {
   return {
-    map: (ma, f) => r => M.map(ma(r), f),
-    of: a => () => M.of(a),
-    ap: (mab, ma) => r => M.ap(mab(r), ma(r)),
-    chain: (ma, f) => r => M.chain(ma(r), a => f(a)(r)),
+    map: (ma, f) => (r) => M.map(ma(r), f),
+    of: (a) => () => M.of(a),
+    ap: (mab, ma) => (r) => M.ap(mab(r), ma(r)),
+    chain: (ma, f) => (r) => M.chain(ma(r), (a) => f(a)(r)),
     ask: () => M.of,
-    asks: f => r => M.map(M.of(r), f),
-    local: (ma, f) => q => ma(f(q)),
-    fromReader: ma => r => M.of(ma(r)),
-    fromM: ma => () => ma
+    asks: (f) => (r) => M.map(M.of(r), f),
+    local: (ma, f) => (q) => ma(f(q)),
+    fromReader: (ma) => (r) => M.of(ma(r)),
+    fromM: (ma) => () => ma
   }
 }

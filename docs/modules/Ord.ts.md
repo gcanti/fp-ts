@@ -72,7 +72,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI: "Ord" = ...
+export declare const URI: 'Ord'
 ```
 
 Added in v2.0.0
@@ -84,7 +84,7 @@ Test whether a value is between a minimum and a maximum (inclusive)
 **Signature**
 
 ```ts
-export function between<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => boolean { ... }
+export declare function between<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => boolean
 ```
 
 Added in v2.0.0
@@ -96,7 +96,7 @@ Clamp a value between a minimum and a maximum
 **Signature**
 
 ```ts
-export function clamp<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => A { ... }
+export declare function clamp<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => A
 ```
 
 Added in v2.0.0
@@ -106,7 +106,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B>
+export declare const contramap: <A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B>
 ```
 
 Added in v2.0.0
@@ -116,7 +116,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> { ... }
+export declare function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A>
 ```
 
 Added in v2.0.0
@@ -128,7 +128,7 @@ Test whether one value is _non-strictly greater than_ another
 **Signature**
 
 ```ts
-export function geq<A>(O: Ord<A>): (x: A, y: A) => boolean { ... }
+export declare function geq<A>(O: Ord<A>): (x: A, y: A) => boolean
 ```
 
 Added in v2.0.0
@@ -138,7 +138,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getDualOrd<A>(O: Ord<A>): Ord<A> { ... }
+export declare function getDualOrd<A>(O: Ord<A>): Ord<A>
 ```
 
 Added in v2.0.0
@@ -153,7 +153,7 @@ Returns a `Monoid` such that:
 **Signature**
 
 ```ts
-export function getMonoid<A = never>(): Monoid<Ord<A>> { ... }
+export declare function getMonoid<A = never>(): Monoid<Ord<A>>
 ```
 
 **Example**
@@ -192,7 +192,7 @@ const users: Array<User> = [
   { id: 1, name: 'Guido', age: 47, rememberMe: false },
   { id: 2, name: 'Guido', age: 46, rememberMe: true },
   { id: 3, name: 'Giulio', age: 44, rememberMe: false },
-  { id: 4, name: 'Giulio', age: 44, rememberMe: true }
+  { id: 4, name: 'Giulio', age: 44, rememberMe: true },
 ]
 
 // sort by name, then by age, then by `rememberMe`
@@ -201,7 +201,7 @@ assert.deepStrictEqual(sort(O1)(users), [
   { id: 3, name: 'Giulio', age: 44, rememberMe: false },
   { id: 4, name: 'Giulio', age: 44, rememberMe: true },
   { id: 2, name: 'Guido', age: 46, rememberMe: true },
-  { id: 1, name: 'Guido', age: 47, rememberMe: false }
+  { id: 1, name: 'Guido', age: 47, rememberMe: false },
 ])
 
 // now `rememberMe = true` first, then by name, then by age
@@ -210,7 +210,7 @@ assert.deepStrictEqual(sort(O2)(users), [
   { id: 4, name: 'Giulio', age: 44, rememberMe: true },
   { id: 2, name: 'Guido', age: 46, rememberMe: true },
   { id: 3, name: 'Giulio', age: 44, rememberMe: false },
-  { id: 1, name: 'Guido', age: 47, rememberMe: false }
+  { id: 1, name: 'Guido', age: 47, rememberMe: false },
 ])
 ```
 
@@ -223,9 +223,9 @@ Given a tuple of `Ord`s returns an `Ord` for the tuple
 **Signature**
 
 ```ts
-export function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
+export declare function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
   ...ords: T
-): Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }> { ... }
+): Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }>
 ```
 
 **Example**
@@ -248,7 +248,7 @@ Test whether one value is _strictly greater than_ another
 **Signature**
 
 ```ts
-export function gt<A>(O: Ord<A>): (x: A, y: A) => boolean { ... }
+export declare function gt<A>(O: Ord<A>): (x: A, y: A) => boolean
 ```
 
 Added in v2.0.0
@@ -260,7 +260,7 @@ Test whether one value is _non-strictly less than_ another
 **Signature**
 
 ```ts
-export function leq<A>(O: Ord<A>): (x: A, y: A) => boolean { ... }
+export declare function leq<A>(O: Ord<A>): (x: A, y: A) => boolean
 ```
 
 Added in v2.0.0
@@ -272,7 +272,7 @@ Test whether one value is _strictly less than_ another
 **Signature**
 
 ```ts
-export function lt<A>(O: Ord<A>): (x: A, y: A) => boolean { ... }
+export declare function lt<A>(O: Ord<A>): (x: A, y: A) => boolean
 ```
 
 Added in v2.0.0
@@ -284,7 +284,7 @@ Take the maximum of two values. If they are considered equal, the first argument
 **Signature**
 
 ```ts
-export function max<A>(O: Ord<A>): (x: A, y: A) => A { ... }
+export declare function max<A>(O: Ord<A>): (x: A, y: A) => A
 ```
 
 Added in v2.0.0
@@ -296,7 +296,7 @@ Take the minimum of two values. If they are considered equal, the first argument
 **Signature**
 
 ```ts
-export function min<A>(O: Ord<A>): (x: A, y: A) => A { ... }
+export declare function min<A>(O: Ord<A>): (x: A, y: A) => A
 ```
 
 Added in v2.0.0
@@ -306,7 +306,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const ord: Contravariant1<URI> = ...
+export declare const ord: Contravariant1<'Ord'>
 ```
 
 Added in v2.0.0
@@ -316,7 +316,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const ordBoolean: Ord<boolean> = ...
+export declare const ordBoolean: Ord<boolean>
 ```
 
 Added in v2.0.0
@@ -326,7 +326,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const ordDate: Ord<Date> = ...
+export declare const ordDate: Ord<Date>
 ```
 
 Added in v2.0.0
@@ -336,7 +336,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const ordNumber: Ord<number> = ...
+export declare const ordNumber: Ord<number>
 ```
 
 Added in v2.0.0
@@ -346,7 +346,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const ordString: Ord<string> = ...
+export declare const ordString: Ord<string>
 ```
 
 Added in v2.0.0
@@ -358,7 +358,7 @@ Use `getMonoid` instead
 **Signature**
 
 ```ts
-export function getSemigroup<A = never>(): Semigroup<Ord<A>> { ... }
+export declare function getSemigroup<A = never>(): Semigroup<Ord<A>>
 ```
 
 Added in v2.0.0

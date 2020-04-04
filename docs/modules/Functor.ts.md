@@ -300,39 +300,39 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getFunctorComposition<F extends URIS2, G extends URIS3, E>(
+export declare function getFunctorComposition<F extends URIS2, G extends URIS3, E>(
   F: Functor2<F>,
   G: Functor3C<G, E>
 ): FunctorComposition23C<F, G, E>
-export function getFunctorComposition<F extends URIS2, G extends URIS2, E>(
+export declare function getFunctorComposition<F extends URIS2, G extends URIS2, E>(
   F: Functor2<F>,
   G: Functor2C<G, E>
 ): FunctorComposition22C<F, G, E>
-export function getFunctorComposition<F extends URIS2, G extends URIS2>(
+export declare function getFunctorComposition<F extends URIS2, G extends URIS2>(
   F: Functor2<F>,
   G: Functor2<G>
 ): FunctorComposition22<F, G>
-export function getFunctorComposition<F extends URIS2, G extends URIS, E>(
+export declare function getFunctorComposition<F extends URIS2, G extends URIS, E>(
   F: Functor2C<F, E>,
   G: Functor1<G>
 ): FunctorComposition2C1<F, G, E>
-export function getFunctorComposition<F extends URIS2, G extends URIS>(
+export declare function getFunctorComposition<F extends URIS2, G extends URIS>(
   F: Functor2<F>,
   G: Functor1<G>
 ): FunctorComposition21<F, G>
-export function getFunctorComposition<F extends URIS, G extends URIS2, E>(
+export declare function getFunctorComposition<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Functor2C<G, E>
 ): FunctorComposition12C<F, G, E>
-export function getFunctorComposition<F extends URIS, G extends URIS2>(
+export declare function getFunctorComposition<F extends URIS, G extends URIS2>(
   F: Functor1<F>,
   G: Functor2<G>
 ): FunctorComposition12<F, G>
-export function getFunctorComposition<F extends URIS, G extends URIS>(
+export declare function getFunctorComposition<F extends URIS, G extends URIS>(
   F: Functor1<F>,
   G: Functor1<G>
 ): FunctorComposition11<F, G>
-export function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G> { ... }
+export declare function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G>
 ```
 
 Added in v2.0.0

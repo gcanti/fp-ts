@@ -40,7 +40,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const fieldNumber: Field<number> = ...
+export declare const fieldNumber: Field<number>
 ```
 
 Added in v2.0.0
@@ -52,7 +52,7 @@ The _greatest common divisor_ of two values
 **Signature**
 
 ```ts
-export function gcd<A>(E: Eq<A>, field: Field<A>): (x: A, y: A) => A { ... }
+export declare function gcd<A>(E: Eq<A>, field: Field<A>): (x: A, y: A) => A
 ```
 
 Added in v2.0.0
@@ -64,7 +64,7 @@ The _least common multiple_ of two values
 **Signature**
 
 ```ts
-export function lcm<A>(E: Eq<A>, F: Field<A>): (x: A, y: A) => A { ... }
+export declare function lcm<A>(E: Eq<A>, F: Field<A>): (x: A, y: A) => A
 ```
 
 Added in v2.0.0

@@ -90,7 +90,7 @@ export function fold<E, A, B>(
   onRight: (a: A) => Task<B>,
   onBoth: (e: E, a: A) => Task<B>
 ): (fa: TaskThese<E, A>) => Task<B> {
-  return fa => T.fold(fa, onLeft, onRight, onBoth)
+  return (fa) => T.fold(fa, onLeft, onRight, onBoth)
 }
 
 /**
@@ -122,7 +122,7 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI,
  * @since 2.4.0
  */
 export function toTuple<E, A>(e: E, a: A): (fa: TaskThese<E, A>) => Task<[E, A]> {
-  return fa => T.toTuple(fa, e, a)
+  return (fa) => T.toTuple(fa, e, a)
 }
 /* tslint:enable:readonly-array */
 

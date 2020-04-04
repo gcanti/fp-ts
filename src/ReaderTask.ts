@@ -98,7 +98,7 @@ export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> = T.asks
  * @since 2.3.0
  */
 export function local<Q, R>(f: (f: Q) => R): <A>(ma: ReaderTask<R, A>) => ReaderTask<Q, A> {
-  return ma => T.local(ma, f)
+  return (ma) => T.local(ma, f)
 }
 
 /**
@@ -151,7 +151,7 @@ export const readerTask: Monad2<URI> & MonadTask2<URI> = {
  */
 export const readerTaskSeq: typeof readerTask = {
   ...readerTask,
-  ap: (mab, ma) => T.chain(mab, f => T.map(ma, f))
+  ap: (mab, ma) => T.chain(mab, (f) => T.map(ma, f))
 }
 
 const { ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(readerTask)

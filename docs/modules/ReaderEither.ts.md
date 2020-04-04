@@ -75,7 +75,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI: "ReaderEither" = ...
+export declare const URI: 'ReaderEither'
 ```
 
 Added in v2.0.0
@@ -85,7 +85,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<R, E, A>(that: () => ReaderEither<R, E, A>) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+export declare const alt: <R, E, A>(
+  that: () => ReaderEither<R, E, A>
+) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -95,7 +97,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<R, E, A>(fa: ReaderEither<R, E, A>) => <B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B>
+export declare const ap: <R, E, A>(
+  fa: ReaderEither<R, E, A>
+) => <B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B>
 ```
 
 Added in v2.0.0
@@ -105,7 +109,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<R, E, B>(fb: ReaderEither<R, E, B>) => <A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+export declare const apFirst: <R, E, B>(
+  fb: ReaderEither<R, E, B>
+) => <A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -115,7 +121,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<R, E, B>(fb: ReaderEither<R, E, B>) => <A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+export declare const apSecond: <R, E, B>(
+  fb: ReaderEither<R, E, B>
+) => <A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
 ```
 
 Added in v2.0.0
@@ -125,7 +133,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function ask<R, E = never>(): ReaderEither<R, E, R> { ... }
+export declare function ask<R, E = never>(): ReaderEither<R, E, R>
 ```
 
 Added in v2.0.0
@@ -135,7 +143,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function asks<R, E = never, A = never>(f: (r: R) => A): ReaderEither<R, E, A> { ... }
+export declare function asks<R, E = never, A = never>(f: (r: R) => A): ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -145,7 +153,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => <R>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, B>
+export declare const bimap: <E, G, A, B>(
+  f: (e: E) => G,
+  g: (a: A) => B
+) => <R>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, B>
 ```
 
 Added in v2.0.0
@@ -155,7 +166,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<R, E, A, B>(f: (a: A) => ReaderEither<R, E, B>) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+export declare const chain: <R, E, A, B>(
+  f: (a: A) => ReaderEither<R, E, B>
+) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
 ```
 
 Added in v2.0.0
@@ -165,9 +178,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function chainEitherK<E, A, B>(
+export declare function chainEitherK<E, A, B>(
   f: (a: A) => Either<E, B>
-): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> { ... }
+): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
 ```
 
 Added in v2.4.0
@@ -177,7 +190,9 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-<R, E, A, B>(f: (a: A) => ReaderEither<R, E, B>) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+export declare const chainFirst: <R, E, A, B>(
+  f: (a: A) => ReaderEither<R, E, B>
+) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -187,7 +202,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>; }
+export declare const filterOrElse: {
+  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+}
 ```
 
 Added in v2.0.0
@@ -197,7 +215,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) => ReaderEither<R, E, A>
+export declare const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -207,10 +225,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fold<R, E, A, B>(
+export declare function fold<R, E, A, B>(
   onLeft: (e: E) => Reader<R, B>,
   onRight: (a: A) => Reader<R, B>
-): (ma: ReaderEither<R, E, A>) => Reader<R, B> { ... }
+): (ma: ReaderEither<R, E, A>) => Reader<R, B>
 ```
 
 Added in v2.0.0
@@ -220,7 +238,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<R, E, A>(ma: E.Either<E, A>) => ReaderEither<R, E, A>
+export declare const fromEither: <R, E, A>(ma: E.Either<E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -230,9 +248,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
+export declare function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Either<E, B>
-): <R>(...a: A) => ReaderEither<R, E, B> { ... }
+): <R>(...a: A) => ReaderEither<R, E, B>
 ```
 
 Added in v2.4.0
@@ -242,7 +260,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-<E>(onNone: () => E) => <R, A>(ma: Option<A>) => ReaderEither<R, E, A>
+export declare const fromOption: <E>(onNone: () => E) => <R, A>(ma: Option<A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -252,7 +270,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => ReaderEither<U, E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>; }
+export declare const fromPredicate: {
+  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => ReaderEither<U, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>
+}
 ```
 
 Added in v2.0.0
@@ -262,7 +283,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderEither<R, E, A>> { ... }
+export declare function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderEither<R, E, A>>
 ```
 
 Added in v2.0.0
@@ -272,7 +293,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApplySemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>> { ... }
+export declare function getApplySemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>>
 ```
 
 Added in v2.0.0
@@ -282,7 +303,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getOrElse<R, E, A>(onLeft: (e: E) => Reader<R, A>): (ma: ReaderEither<R, E, A>) => Reader<R, A> { ... }
+export declare function getOrElse<R, E, A>(onLeft: (e: E) => Reader<R, A>): (ma: ReaderEither<R, E, A>) => Reader<R, A>
 ```
 
 Added in v2.0.0
@@ -292,9 +313,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getReaderValidation<E>(
+export declare function getReaderValidation<E>(
   S: Semigroup<E>
-): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadThrow3C<URI, E> { ... }
+): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadThrow3C<URI, E>
 ```
 
 Added in v2.3.0
@@ -304,7 +325,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>> { ... }
+export declare function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>>
 ```
 
 Added in v2.0.0
@@ -314,7 +335,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const left: <R, E = never, A = never>(e: E) => ReaderEither<R, E, A> = ...
+export declare const left: <R, E = never, A = never>(e: E) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -324,7 +345,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderEither<R, E, A> = ...
+export declare const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -334,7 +355,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<Q, E, A> { ... }
+export declare function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<Q, E, A>
 ```
 
 Added in v2.0.0
@@ -344,7 +365,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
 ```
 
 Added in v2.0.0
@@ -354,7 +375,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, G>(f: (e: E) => G) => <R, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, A>
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, A>
 ```
 
 Added in v2.0.0
@@ -364,9 +385,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function orElse<R, E, A, M>(
+export declare function orElse<R, E, A, M>(
   onLeft: (e: E) => ReaderEither<R, M, A>
-): (ma: ReaderEither<R, E, A>) => ReaderEither<R, M, A> { ... }
+): (ma: ReaderEither<R, E, A>) => ReaderEither<R, M, A>
 ```
 
 Added in v2.0.0
@@ -376,7 +397,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThrow3<URI> = ...
+export declare const readerEither: Monad3<'ReaderEither'> &
+  Bifunctor3<'ReaderEither'> &
+  Alt3<'ReaderEither'> &
+  MonadThrow3<'ReaderEither'>
 ```
 
 Added in v2.0.0
@@ -386,7 +410,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const right: <R, E = never, A = never>(a: A) => ReaderEither<R, E, A> = ...
+export declare const right: <R, E = never, A = never>(a: A) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -396,7 +420,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderEither<R, E, A> = ...
+export declare const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -406,7 +430,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E> = ...
+export declare const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E>
 ```
 
 Added in v2.0.0

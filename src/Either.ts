@@ -201,7 +201,7 @@ export function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): Either<E
  * @since 2.0.0
  */
 export function fold<E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B): (ma: Either<E, A>) => B {
-  return ma => (isLeft(ma) ? onLeft(ma.left) : onRight(ma.right))
+  return (ma) => (isLeft(ma) ? onLeft(ma.left) : onRight(ma.right))
 }
 
 /**
@@ -209,7 +209,7 @@ export function fold<E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B): (ma: E
  */
 export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>> {
   return {
-    show: ma => (isLeft(ma) ? `left(${SE.show(ma.left)})` : `right(${SA.show(ma.right)})`)
+    show: (ma) => (isLeft(ma) ? `left(${SE.show(ma.left)})` : `right(${SA.show(ma.right)})`)
   }
 }
 
@@ -312,14 +312,14 @@ export function swap<E, A>(ma: Either<E, A>): Either<A, E> {
  * @since 2.0.0
  */
 export function orElse<E, A, M>(onLeft: (e: E) => Either<M, A>): (ma: Either<E, A>) => Either<M, A> {
-  return ma => (isLeft(ma) ? onLeft(ma.left) : ma)
+  return (ma) => (isLeft(ma) ? onLeft(ma.left) : ma)
 }
 
 /**
  * @since 2.0.0
  */
 export function getOrElse<E, A>(onLeft: (e: E) => A): (ma: Either<E, A>) => A {
-  return ma => (isLeft(ma) ? onLeft(ma.left) : ma.right)
+  return (ma) => (isLeft(ma) ? onLeft(ma.left) : ma.right)
 }
 
 /**
@@ -344,7 +344,7 @@ export function elem<A>(E: Eq<A>): <E>(a: A, ma: Either<E, A>) => boolean {
  * @since 2.0.0
  */
 export function exists<A>(predicate: Predicate<A>): <E>(ma: Either<E, A>) => boolean {
-  return ma => (isLeft(ma) ? false : predicate(ma.right))
+  return (ma) => (isLeft(ma) ? false : predicate(ma.right))
 }
 
 /**
@@ -550,7 +550,7 @@ export const either: Monad2<URI> &
   ap: (mab, ma) => (isLeft(mab) ? mab : isLeft(ma) ? ma : right(mab.right(ma.right))),
   chain: (ma, f) => (isLeft(ma) ? ma : f(ma.right)),
   reduce: (fa, b, f) => (isLeft(fa) ? b : f(b, fa.right)),
-  foldMap: M => (fa, f) => (isLeft(fa) ? M.empty : f(fa.right)),
+  foldMap: (M) => (fa, f) => (isLeft(fa) ? M.empty : f(fa.right)),
   reduceRight: (fa, b, f) => (isLeft(fa) ? b : f(fa.right, b)),
   traverse: <F>(F: Applicative<F>) => <E, A, B>(ma: Either<E, A>, f: (a: A) => HKT<F, B>): HKT<F, Either<E, B>> => {
     return isLeft(ma) ? F.of(left(ma.left)) : F.map<B, Either<E, B>>(f(ma.right), right)
@@ -563,7 +563,7 @@ export const either: Monad2<URI> &
   alt: (fx, fy) => (isLeft(fx) ? fy() : fx),
   extend: (wa, f) => (isLeft(wa) ? wa : right(f(wa))),
   chainRec: (a, f) =>
-    tailRec(f(a), e =>
+    tailRec(f(a), (e) =>
       isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
     ),
   throwError: left

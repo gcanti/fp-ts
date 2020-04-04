@@ -134,7 +134,7 @@ export function max<A>(O: Ord<A>): (x: A, y: A) => A {
 export function clamp<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => A {
   const minO = min(O)
   const maxO = max(O)
-  return (low, hi) => x => maxO(minO(x, hi), low)
+  return (low, hi) => (x) => maxO(minO(x, hi), low)
 }
 
 /**
@@ -145,7 +145,7 @@ export function clamp<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => A {
 export function between<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => boolean {
   const lessThanO = lt(O)
   const greaterThanO = gt(O)
-  return (low, hi) => x => (lessThanO(x, low) || greaterThanO(x, hi) ? false : true)
+  return (low, hi) => (x) => (lessThanO(x, low) || greaterThanO(x, hi) ? false : true)
 }
 
 /**
@@ -302,4 +302,4 @@ export {
 /**
  * @since 2.0.0
  */
-export const ordDate: Ord<Date> = ord.contramap(ordNumber, date => date.valueOf())
+export const ordDate: Ord<Date> = ord.contramap(ordNumber, (date) => date.valueOf())

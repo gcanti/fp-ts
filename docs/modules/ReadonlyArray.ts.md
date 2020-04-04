@@ -137,7 +137,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export const URI: "ReadonlyArray" = ...
+export declare const URI: 'ReadonlyArray'
 ```
 
 Added in v2.5.0
@@ -147,7 +147,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-<A>(that: () => readonly A[]) => (fa: readonly A[]) => readonly A[]
+export declare const alt: <A>(that: () => readonly A[]) => (fa: readonly A[]) => readonly A[]
 ```
 
 Added in v2.5.0
@@ -157,7 +157,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-<A>(fa: readonly A[]) => <B>(fab: readonly ((a: A) => B)[]) => readonly B[]
+export declare const ap: <A>(fa: readonly A[]) => <B>(fab: readonly ((a: A) => B)[]) => readonly B[]
 ```
 
 Added in v2.5.0
@@ -167,7 +167,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-<B>(fb: readonly B[]) => <A>(fa: readonly A[]) => readonly A[]
+export declare const apFirst: <B>(fb: readonly B[]) => <A>(fa: readonly A[]) => readonly A[]
 ```
 
 Added in v2.5.0
@@ -177,7 +177,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-<B>(fb: readonly B[]) => <A>(fa: readonly A[]) => readonly B[]
+export declare const apSecond: <B>(fb: readonly B[]) => <A>(fa: readonly A[]) => readonly B[]
 ```
 
 Added in v2.5.0
@@ -187,7 +187,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => readonly B[]) => (ma: readonly A[]) => readonly B[]
+export declare const chain: <A, B>(f: (a: A) => readonly B[]) => (ma: readonly A[]) => readonly B[]
 ```
 
 Added in v2.5.0
@@ -197,7 +197,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => readonly B[]) => (ma: readonly A[]) => readonly A[]
+export declare const chainFirst: <A, B>(f: (a: A) => readonly B[]) => (ma: readonly A[]) => readonly A[]
 ```
 
 Added in v2.5.0
@@ -211,9 +211,9 @@ value and the rest of the array.
 **Signature**
 
 ```ts
-export function chop<A, B>(
+export declare function chop<A, B>(
   f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, ReadonlyArray<A>]
-): (as: ReadonlyArray<A>) => ReadonlyArray<B> { ... }
+): (as: ReadonlyArray<A>) => ReadonlyArray<B>
 ```
 
 **Example**
@@ -223,7 +223,7 @@ import { Eq, eqNumber } from 'fp-ts/lib/Eq'
 import { chop, spanLeft } from 'fp-ts/lib/ReadonlyArray'
 
 const group = <A>(S: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
-  return chop(as => {
+  return chop((as) => {
     const { init, rest } = spanLeft((a: A) => S.equals(a, as[0]))(as)
     return [init, rest]
   })
@@ -248,7 +248,7 @@ whenever `n` evenly divides the length of `xs`.
 **Signature**
 
 ```ts
-export function chunksOf(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>> { ... }
+export declare function chunksOf(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>
 ```
 
 **Example**
@@ -266,7 +266,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-<A>(fa: readonly Option<A>[]) => readonly A[]
+export declare const compact: <A>(fa: readonly Option<A>[]) => readonly A[]
 ```
 
 Added in v2.5.0
@@ -282,31 +282,31 @@ Array comprehension
 **Signature**
 
 ```ts
-export function comprehension<A, B, C, D, R>(
+export declare function comprehension<A, B, C, D, R>(
   input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>, ReadonlyArray<D>],
   f: (a: A, b: B, c: C, d: D) => R,
   g?: (a: A, b: B, c: C, d: D) => boolean
 ): ReadonlyArray<R>
-export function comprehension<A, B, C, R>(
+export declare function comprehension<A, B, C, R>(
   input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>],
   f: (a: A, b: B, c: C) => R,
   g?: (a: A, b: B, c: C) => boolean
 ): ReadonlyArray<R>
-export function comprehension<A, R>(
+export declare function comprehension<A, R>(
   input: readonly [ReadonlyArray<A>],
   f: (a: A) => R,
   g?: (a: A) => boolean
 ): ReadonlyArray<R>
-export function comprehension<A, B, R>(
+export declare function comprehension<A, B, R>(
   input: readonly [ReadonlyArray<A>, ReadonlyArray<B>],
   f: (a: A, b: B) => R,
   g?: (a: A, b: B) => boolean
 ): ReadonlyArray<R>
-export function comprehension<A, R>(
+export declare function comprehension<A, R>(
   input: readonly [ReadonlyArray<A>],
   f: (a: A) => boolean,
   g?: (a: A) => R
-): ReadonlyArray<R> { ... }
+): ReadonlyArray<R>
 ```
 
 **Example**
@@ -319,7 +319,7 @@ assert.deepStrictEqual(
   comprehension(
     [
       [1, 2, 3],
-      ['a', 'b']
+      ['a', 'b'],
     ],
     tuple,
     (a, b) => (a + b.length) % 2 === 0
@@ -328,7 +328,7 @@ assert.deepStrictEqual(
     [1, 'a'],
     [1, 'b'],
     [3, 'a'],
-    [3, 'b']
+    [3, 'b'],
   ]
 )
 ```
@@ -342,7 +342,7 @@ Attaches an element to the front of an array, creating a new non empty array
 **Signature**
 
 ```ts
-export function cons<A>(head: A, tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> { ... }
+export declare function cons<A>(head: A, tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
 ```
 
 **Example**
@@ -362,7 +362,7 @@ Delete the element at the specified index, creating a new array, or returning `N
 **Signature**
 
 ```ts
-export function deleteAt(i: number): <A>(as: ReadonlyArray<A>) => Option<ReadonlyArray<A>> { ... }
+export declare function deleteAt(i: number): <A>(as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>
 ```
 
 **Example**
@@ -385,7 +385,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export function difference<A>(E: Eq<A>): (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>) => ReadonlyArray<A> { ... }
+export declare function difference<A>(E: Eq<A>): (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>) => ReadonlyArray<A>
 ```
 
 **Example**
@@ -406,7 +406,7 @@ Drop a number of elements from the start of an array, creating a new array
 **Signature**
 
 ```ts
-export function dropLeft(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A> { ... }
+export declare function dropLeft(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
 ```
 
 **Example**
@@ -426,7 +426,7 @@ Remove the longest initial subarray for which all element satisfy the specified 
 **Signature**
 
 ```ts
-export function dropLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> { ... }
+export declare function dropLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
 ```
 
 **Example**
@@ -446,7 +446,7 @@ Drop a number of elements from the end of an array, creating a new array
 **Signature**
 
 ```ts
-export function dropRight(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A> { ... }
+export declare function dropRight(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
 ```
 
 **Example**
@@ -464,7 +464,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-<A>(ma: readonly A[]) => readonly (readonly A[])[]
+export declare const duplicate: <A>(ma: readonly A[]) => readonly (readonly A[])[]
 ```
 
 Added in v2.5.0
@@ -478,7 +478,7 @@ an array of type `ReadonlyArray<A>`.
 **Signature**
 
 ```ts
-export function elem<A>(E: Eq<A>): (a: A, as: ReadonlyArray<A>) => boolean { ... }
+export declare function elem<A>(E: Eq<A>): (a: A, as: ReadonlyArray<A>) => boolean
 ```
 
 **Example**
@@ -500,7 +500,7 @@ An empty array
 **Signature**
 
 ```ts
-export const empty: ReadonlyArray<never> = ...
+export declare const empty: readonly never[]
 ```
 
 Added in v2.5.0
@@ -510,7 +510,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-<A, B>(f: (fa: readonly A[]) => B) => (ma: readonly A[]) => readonly B[]
+export declare const extend: <A, B>(f: (fa: readonly A[]) => B) => (ma: readonly A[]) => readonly B[]
 ```
 
 Added in v2.5.0
@@ -520,7 +520,10 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-{ <A, B>(refinement: Refinement<A, B>): (fa: readonly A[]) => readonly B[]; <A>(predicate: Predicate<A>): (fa: readonly A[]) => readonly A[]; }
+export declare const filter: {
+  <A, B>(refinement: Refinement<A, B>): (fa: readonly A[]) => readonly B[]
+  <A>(predicate: Predicate<A>): (fa: readonly A[]) => readonly A[]
+}
 ```
 
 Added in v2.5.0
@@ -530,7 +533,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
+export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
 ```
 
 Added in v2.5.0
@@ -540,7 +543,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-<A, B>(f: (i: number, a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
+export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
 ```
 
 Added in v2.5.0
@@ -550,7 +553,10 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-{ <A, B>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: readonly A[]) => readonly B[]; <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: readonly A[]) => readonly A[]; }
+export declare const filterWithIndex: {
+  <A, B>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: readonly A[]) => readonly B[]
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: readonly A[]) => readonly A[]
+}
 ```
 
 Added in v2.5.0
@@ -562,8 +568,8 @@ Find the first element which satisfies a predicate (or a refinement) function
 **Signature**
 
 ```ts
-export function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
-export function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A> { ... }
+export declare function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
+export declare function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>
 ```
 
 **Example**
@@ -575,7 +581,7 @@ import { some } from 'fp-ts/lib/Option'
 assert.deepStrictEqual(
   findFirst((x: { a: number; b: number }) => x.a === 1)([
     { a: 1, b: 1 },
-    { a: 1, b: 2 }
+    { a: 1, b: 2 },
   ]),
   some({ a: 1, b: 1 })
 )
@@ -590,7 +596,7 @@ Find the first element returned by an option based selector function
 **Signature**
 
 ```ts
-export function findFirstMap<A, B>(f: (a: A) => Option<B>): (as: ReadonlyArray<A>) => Option<B> { ... }
+export declare function findFirstMap<A, B>(f: (a: A) => Option<B>): (as: ReadonlyArray<A>) => Option<B>
 ```
 
 **Example**
@@ -619,7 +625,7 @@ Find the first index for which a predicate holds
 **Signature**
 
 ```ts
-export function findIndex<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<number> { ... }
+export declare function findIndex<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<number>
 ```
 
 **Example**
@@ -641,8 +647,8 @@ Find the last element which satisfies a predicate function
 **Signature**
 
 ```ts
-export function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
-export function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A> { ... }
+export declare function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
+export declare function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>
 ```
 
 **Example**
@@ -654,7 +660,7 @@ import { some } from 'fp-ts/lib/Option'
 assert.deepStrictEqual(
   findLast((x: { a: number; b: number }) => x.a === 1)([
     { a: 1, b: 1 },
-    { a: 1, b: 2 }
+    { a: 1, b: 2 },
   ]),
   some({ a: 1, b: 2 })
 )
@@ -669,7 +675,7 @@ Returns the index of the last element of the list which matches the predicate
 **Signature**
 
 ```ts
-export function findLastIndex<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<number> { ... }
+export declare function findLastIndex<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<number>
 ```
 
 **Example**
@@ -684,7 +690,7 @@ interface X {
 }
 const xs: ReadonlyArray<X> = [
   { a: 1, b: 0 },
-  { a: 1, b: 1 }
+  { a: 1, b: 1 },
 ]
 assert.deepStrictEqual(findLastIndex((x: { a: number }) => x.a === 1)(xs), some(1))
 assert.deepStrictEqual(findLastIndex((x: { a: number }) => x.a === 4)(xs), none)
@@ -699,7 +705,7 @@ Find the last element returned by an option based selector function
 **Signature**
 
 ```ts
-export function findLastMap<A, B>(f: (a: A) => Option<B>): (as: ReadonlyArray<A>) => Option<B> { ... }
+export declare function findLastMap<A, B>(f: (a: A) => Option<B>): (as: ReadonlyArray<A>) => Option<B>
 ```
 
 **Example**
@@ -728,7 +734,7 @@ Removes one level of nesting
 **Signature**
 
 ```ts
-export function flatten<A>(mma: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<A> { ... }
+export declare function flatten<A>(mma: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<A>
 ```
 
 **Example**
@@ -748,10 +754,10 @@ Break an array into its first element and remaining elements
 **Signature**
 
 ```ts
-export function foldLeft<A, B>(
+export declare function foldLeft<A, B>(
   onNil: () => B,
   onCons: (head: A, tail: ReadonlyArray<A>) => B
-): (as: ReadonlyArray<A>) => B { ... }
+): (as: ReadonlyArray<A>) => B
 ```
 
 **Example**
@@ -773,7 +779,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: readonly A[]) => M
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: readonly A[]) => M
 ```
 
 Added in v2.5.0
@@ -783,7 +789,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-;<M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: readonly A[]) => M
+export declare const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: readonly A[]) => M
 ```
 
 Added in v2.5.0
@@ -795,10 +801,10 @@ Break an array into its initial elements and the last element
 **Signature**
 
 ```ts
-export function foldRight<A, B>(
+export declare function foldRight<A, B>(
   onNil: () => B,
   onCons: (init: ReadonlyArray<A>, last: A) => B
-): (as: ReadonlyArray<A>) => B { ... }
+): (as: ReadonlyArray<A>) => B
 ```
 
 Added in v2.5.0
@@ -808,7 +814,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export function fromArray<A>(as: Array<A>): ReadonlyArray<A> { ... }
+export declare function fromArray<A>(as: Array<A>): ReadonlyArray<A>
 ```
 
 Added in v2.5.0
@@ -822,7 +828,7 @@ different lengths, the result is non equality.
 **Signature**
 
 ```ts
-export function getEq<A>(E: Eq<A>): Eq<ReadonlyArray<A>> { ... }
+export declare function getEq<A>(E: Eq<A>): Eq<ReadonlyArray<A>>
 ```
 
 **Example**
@@ -845,7 +851,7 @@ Returns a `Monoid` for `ReadonlyArray<A>`
 **Signature**
 
 ```ts
-export function getMonoid<A = never>(): Monoid<ReadonlyArray<A>> { ... }
+export declare function getMonoid<A = never>(): Monoid<ReadonlyArray<A>>
 ```
 
 **Example**
@@ -869,7 +875,7 @@ the same length, the result is equality.
 **Signature**
 
 ```ts
-export function getOrd<A>(O: Ord<A>): Ord<ReadonlyArray<A>> { ... }
+export declare function getOrd<A>(O: Ord<A>): Ord<ReadonlyArray<A>>
 ```
 
 **Example**
@@ -891,7 +897,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export function getShow<A>(S: Show<A>): Show<ReadonlyArray<A>> { ... }
+export declare function getShow<A>(S: Show<A>): Show<ReadonlyArray<A>>
 ```
 
 Added in v2.5.0
@@ -903,7 +909,7 @@ Get the first element in an array, or `None` if the array is empty
 **Signature**
 
 ```ts
-export function head<A>(as: ReadonlyArray<A>): Option<A> { ... }
+export declare function head<A>(as: ReadonlyArray<A>): Option<A>
 ```
 
 **Example**
@@ -925,7 +931,7 @@ Get all but the last element of an array, creating a new array, or `None` if the
 **Signature**
 
 ```ts
-export function init<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> { ... }
+export declare function init<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>>
 ```
 
 **Example**
@@ -947,7 +953,7 @@ Insert an element at the specified index, creating a new array, or returning `No
 **Signature**
 
 ```ts
-export function insertAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>> { ... }
+export declare function insertAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>
 ```
 
 **Example**
@@ -969,7 +975,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export function intersection<A>(E: Eq<A>): (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>) => ReadonlyArray<A> { ... }
+export declare function intersection<A>(E: Eq<A>): (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>) => ReadonlyArray<A>
 ```
 
 **Example**
@@ -990,7 +996,7 @@ Test whether an array is empty
 **Signature**
 
 ```ts
-export function isEmpty<A>(as: ReadonlyArray<A>): boolean { ... }
+export declare function isEmpty<A>(as: ReadonlyArray<A>): boolean
 ```
 
 **Example**
@@ -1010,7 +1016,7 @@ Test whether an array is non empty narrowing down the type to `NonEmptyReadonlyA
 **Signature**
 
 ```ts
-export function isNonEmpty<A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> { ... }
+export declare function isNonEmpty<A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.5.0
@@ -1022,7 +1028,7 @@ Test whether an array contains a particular index
 **Signature**
 
 ```ts
-export function isOutOfBound<A>(i: number, as: ReadonlyArray<A>): boolean { ... }
+export declare function isOutOfBound<A>(i: number, as: ReadonlyArray<A>): boolean
 ```
 
 Added in v2.5.0
@@ -1034,7 +1040,7 @@ Get the last element in an array, or `None` if the array is empty
 **Signature**
 
 ```ts
-export function last<A>(as: ReadonlyArray<A>): Option<A> { ... }
+export declare function last<A>(as: ReadonlyArray<A>): Option<A>
 ```
 
 **Example**
@@ -1056,7 +1062,7 @@ Extracts from an array of `Either` all the `Left` elements. All the `Left` eleme
 **Signature**
 
 ```ts
-export function lefts<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<E> { ... }
+export declare function lefts<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<E>
 ```
 
 **Example**
@@ -1077,7 +1083,7 @@ This function provides a safe way to read a value at a particular index from an 
 **Signature**
 
 ```ts
-export function lookup<A>(i: number, as: ReadonlyArray<A>): Option<A> { ... }
+export declare function lookup<A>(i: number, as: ReadonlyArray<A>): Option<A>
 ```
 
 **Example**
@@ -1099,7 +1105,7 @@ Return a list of length `n` with element `i` initialized with `f(i)`
 **Signature**
 
 ```ts
-export function makeBy<A>(n: number, f: (i: number) => A): ReadonlyArray<A> { ... }
+export declare function makeBy<A>(n: number, f: (i: number) => A): ReadonlyArray<A>
 ```
 
 **Example**
@@ -1118,7 +1124,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => B) => (fa: readonly A[]) => readonly B[]
+export declare const map: <A, B>(f: (a: A) => B) => (fa: readonly A[]) => readonly B[]
 ```
 
 Added in v2.5.0
@@ -1128,7 +1134,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-<A, B>(f: (i: number, a: A) => B) => (fa: readonly A[]) => readonly B[]
+export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: readonly A[]) => readonly B[]
 ```
 
 Added in v2.5.0
@@ -1141,7 +1147,7 @@ of bounds
 **Signature**
 
 ```ts
-export function modifyAt<A>(i: number, f: (a: A) => A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>> { ... }
+export declare function modifyAt<A>(i: number, f: (a: A) => A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>
 ```
 
 **Example**
@@ -1162,7 +1168,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export const of = <A>(a: A): ReadonlyArray<A> => ...
+export declare const of: <A>(a: A) => readonly A[]
 ```
 
 Added in v2.5.0
@@ -1172,7 +1178,10 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-{ <A, B>(refinement: Refinement<A, B>): (fa: readonly A[]) => Separated<readonly A[], readonly B[]>; <A>(predicate: Predicate<A>): (fa: readonly A[]) => Separated<readonly A[], readonly A[]>; }
+export declare const partition: {
+  <A, B>(refinement: Refinement<A, B>): (fa: readonly A[]) => Separated<readonly A[], readonly B[]>
+  <A>(predicate: Predicate<A>): (fa: readonly A[]) => Separated<readonly A[], readonly A[]>
+}
 ```
 
 Added in v2.5.0
@@ -1182,7 +1191,9 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-<A, B, C>(f: (a: A) => Either<B, C>) => (fa: readonly A[]) => Separated<readonly B[], readonly C[]>
+export declare const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: readonly A[]) => Separated<readonly B[], readonly C[]>
 ```
 
 Added in v2.5.0
@@ -1192,7 +1203,9 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-<A, B, C>(f: (i: number, a: A) => Either<B, C>) => (fa: readonly A[]) => Separated<readonly B[], readonly C[]>
+export declare const partitionMapWithIndex: <A, B, C>(
+  f: (i: number, a: A) => Either<B, C>
+) => (fa: readonly A[]) => Separated<readonly B[], readonly C[]>
 ```
 
 Added in v2.5.0
@@ -1202,7 +1215,12 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-{ <A, B>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: readonly A[]) => Separated<readonly A[], readonly B[]>; <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: readonly A[]) => Separated<readonly A[], readonly A[]>; }
+export declare const partitionWithIndex: {
+  <A, B>(refinementWithIndex: RefinementWithIndex<number, A, B>): (
+    fa: readonly A[]
+  ) => Separated<readonly A[], readonly B[]>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: readonly A[]) => Separated<readonly A[], readonly A[]>
+}
 ```
 
 Added in v2.5.0
@@ -1214,7 +1232,7 @@ Create an array containing a range of integers, including both endpoints
 **Signature**
 
 ```ts
-export function range(start: number, end: number): ReadonlyArray<number> { ... }
+export declare function range(start: number, end: number): ReadonlyArray<number>
 ```
 
 **Example**
@@ -1232,17 +1250,17 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export const readonlyArray: Monad1<URI> &
-  Foldable1<URI> &
-  Unfoldable1<URI> &
-  TraversableWithIndex1<URI, number> &
-  Alternative1<URI> &
-  Extend1<URI> &
-  Compactable1<URI> &
-  FilterableWithIndex1<URI, number> &
-  Witherable1<URI> &
-  FunctorWithIndex1<URI, number> &
-  FoldableWithIndex1<URI, number> = ...
+export declare const readonlyArray: Monad1<'ReadonlyArray'> &
+  Foldable1<'ReadonlyArray'> &
+  Unfoldable1<'ReadonlyArray'> &
+  TraversableWithIndex1<'ReadonlyArray', number> &
+  Alternative1<'ReadonlyArray'> &
+  Extend1<'ReadonlyArray'> &
+  Compactable1<'ReadonlyArray'> &
+  FilterableWithIndex1<'ReadonlyArray', number> &
+  Witherable1<'ReadonlyArray'> &
+  FunctorWithIndex1<'ReadonlyArray', number> &
+  FoldableWithIndex1<'ReadonlyArray', number>
 ```
 
 Added in v2.5.0
@@ -1252,7 +1270,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: readonly A[]) => B
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: readonly A[]) => B
 ```
 
 Added in v2.5.0
@@ -1262,7 +1280,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: readonly A[]) => B
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: readonly A[]) => B
 ```
 
 Added in v2.5.0
@@ -1272,7 +1290,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: readonly A[]) => B
+export declare const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: readonly A[]) => B
 ```
 
 Added in v2.5.0
@@ -1282,7 +1300,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: readonly A[]) => B
+export declare const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: readonly A[]) => B
 ```
 
 Added in v2.5.0
@@ -1294,7 +1312,7 @@ Create an array containing a value repeated the specified number of times
 **Signature**
 
 ```ts
-export function replicate<A>(n: number, a: A): ReadonlyArray<A> { ... }
+export declare function replicate<A>(n: number, a: A): ReadonlyArray<A>
 ```
 
 **Example**
@@ -1314,7 +1332,7 @@ Reverse an array, creating a new array
 **Signature**
 
 ```ts
-export function reverse<A>(as: ReadonlyArray<A>): ReadonlyArray<A> { ... }
+export declare function reverse<A>(as: ReadonlyArray<A>): ReadonlyArray<A>
 ```
 
 **Example**
@@ -1334,7 +1352,7 @@ Extracts from an array of `Either` all the `Right` elements. All the `Right` ele
 **Signature**
 
 ```ts
-export function rights<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<A> { ... }
+export declare function rights<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<A>
 ```
 
 **Example**
@@ -1355,7 +1373,7 @@ Rotate an array to the right by `n` steps
 **Signature**
 
 ```ts
-export function rotate(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A> { ... }
+export declare function rotate(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
 ```
 
 **Example**
@@ -1381,7 +1399,7 @@ assert.deepStrictEqual(scanLeft(10, (b, a: number) => b - a)([1, 2, 3]), [10, 9,
 **Signature**
 
 ```ts
-export function scanLeft<A, B>(b: B, f: (b: B, a: A) => B): (as: ReadonlyArray<A>) => ReadonlyArray<B> { ... }
+export declare function scanLeft<A, B>(b: B, f: (b: B, a: A) => B): (as: ReadonlyArray<A>) => ReadonlyArray<B>
 ```
 
 Added in v2.5.0
@@ -1393,7 +1411,7 @@ Fold an array from the right, keeping all intermediate results instead of only t
 **Signature**
 
 ```ts
-export function scanRight<A, B>(b: B, f: (a: A, b: B) => B): (as: ReadonlyArray<A>) => ReadonlyArray<B> { ... }
+export declare function scanRight<A, B>(b: B, f: (a: A, b: B) => B): (as: ReadonlyArray<A>) => ReadonlyArray<B>
 ```
 
 **Example**
@@ -1411,7 +1429,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-<A, B>(fa: readonly Either<A, B>[]) => Separated<readonly A[], readonly B[]>
+export declare const separate: <A, B>(fa: readonly Either<A, B>[]) => Separated<readonly A[], readonly B[]>
 ```
 
 Added in v2.5.0
@@ -1423,7 +1441,7 @@ Append an element to the end of an array, creating a new non empty array
 **Signature**
 
 ```ts
-export function snoc<A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A> { ... }
+export declare function snoc<A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A>
 ```
 
 **Example**
@@ -1443,7 +1461,7 @@ Sort the elements of an array in increasing order, creating a new array
 **Signature**
 
 ```ts
-export function sort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> { ... }
+export declare function sort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
 ```
 
 **Example**
@@ -1465,7 +1483,7 @@ etc...
 **Signature**
 
 ```ts
-export function sortBy<A>(ords: ReadonlyArray<Ord<A>>): (as: ReadonlyArray<A>) => ReadonlyArray<A> { ... }
+export declare function sortBy<A>(ords: ReadonlyArray<Ord<A>>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
 ```
 
 **Example**
@@ -1487,13 +1505,13 @@ const persons = [
   { name: 'a', age: 1 },
   { name: 'b', age: 3 },
   { name: 'c', age: 2 },
-  { name: 'b', age: 2 }
+  { name: 'b', age: 2 },
 ]
 assert.deepStrictEqual(sortByNameByAge(persons), [
   { name: 'a', age: 1 },
   { name: 'b', age: 2 },
   { name: 'b', age: 3 },
-  { name: 'c', age: 2 }
+  { name: 'c', age: 2 },
 ])
 ```
 
@@ -1509,8 +1527,8 @@ Split an array into two parts:
 **Signature**
 
 ```ts
-export function spanLeft<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Spanned<B, A>
-export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Spanned<A, A> { ... }
+export declare function spanLeft<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Spanned<B, A>
+export declare function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Spanned<A, A>
 ```
 
 **Example**
@@ -1530,7 +1548,7 @@ Splits an array into two pieces, the first piece has `n` elements.
 **Signature**
 
 ```ts
-export function splitAt(n: number): <A>(as: ReadonlyArray<A>) => readonly [ReadonlyArray<A>, ReadonlyArray<A>] { ... }
+export declare function splitAt(n: number): <A>(as: ReadonlyArray<A>) => readonly [ReadonlyArray<A>, ReadonlyArray<A>]
 ```
 
 **Example**
@@ -1540,7 +1558,7 @@ import { splitAt } from 'fp-ts/lib/ReadonlyArray'
 
 assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
   [1, 2],
-  [3, 4, 5]
+  [3, 4, 5],
 ])
 ```
 
@@ -1553,7 +1571,7 @@ Get all but the first element of an array, creating a new array, or `None` if th
 **Signature**
 
 ```ts
-export function tail<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> { ... }
+export declare function tail<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>>
 ```
 
 **Example**
@@ -1576,7 +1594,7 @@ Keep only a number of elements from the start of an array, creating a new array.
 **Signature**
 
 ```ts
-export function takeLeft(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A> { ... }
+export declare function takeLeft(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
 ```
 
 **Example**
@@ -1596,8 +1614,10 @@ Calculate the longest initial subarray for which all element satisfy the specifi
 **Signature**
 
 ```ts
-export function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => ReadonlyArray<B>
-export function takeLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> { ... }
+export declare function takeLeftWhile<A, B extends A>(
+  refinement: Refinement<A, B>
+): (as: ReadonlyArray<A>) => ReadonlyArray<B>
+export declare function takeLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
 ```
 
 **Example**
@@ -1618,7 +1638,7 @@ Keep only a number of elements from the end of an array, creating a new array.
 **Signature**
 
 ```ts
-export function takeRight(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A> { ... }
+export declare function takeRight(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
 ```
 
 **Example**
@@ -1636,7 +1656,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export function toArray<A>(ras: ReadonlyArray<A>): Array<A> { ... }
+export declare function toArray<A>(ras: ReadonlyArray<A>): Array<A>
 ```
 
 Added in v2.5.0
@@ -1648,7 +1668,7 @@ Creates an array of unique values, in order, from all given arrays using a `Eq` 
 **Signature**
 
 ```ts
-export function union<A>(E: Eq<A>): (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>) => ReadonlyArray<A> { ... }
+export declare function union<A>(E: Eq<A>): (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>) => ReadonlyArray<A>
 ```
 
 **Example**
@@ -1669,7 +1689,7 @@ Remove duplicates from an array, keeping the first occurrence of an element.
 **Signature**
 
 ```ts
-export function uniq<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> { ... }
+export declare function uniq<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
 ```
 
 **Example**
@@ -1688,7 +1708,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export function unsafeDeleteAt<A>(i: number, as: ReadonlyArray<A>): ReadonlyArray<A> { ... }
+export declare function unsafeDeleteAt<A>(i: number, as: ReadonlyArray<A>): ReadonlyArray<A>
 ```
 
 Added in v2.5.0
@@ -1698,7 +1718,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export function unsafeInsertAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> { ... }
+export declare function unsafeInsertAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A>
 ```
 
 Added in v2.5.0
@@ -1708,7 +1728,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export function unsafeUpdateAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> { ... }
+export declare function unsafeUpdateAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A>
 ```
 
 Added in v2.5.0
@@ -1720,7 +1740,7 @@ The function is reverse of `zip`. Takes an array of pairs and return two corresp
 **Signature**
 
 ```ts
-export function unzip<A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [ReadonlyArray<A>, ReadonlyArray<B>] { ... }
+export declare function unzip<A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [ReadonlyArray<A>, ReadonlyArray<B>]
 ```
 
 **Example**
@@ -1732,11 +1752,11 @@ assert.deepStrictEqual(
   unzip([
     [1, 'a'],
     [2, 'b'],
-    [3, 'c']
+    [3, 'c'],
   ]),
   [
     [1, 2, 3],
-    ['a', 'b', 'c']
+    ['a', 'b', 'c'],
   ]
 )
 ```
@@ -1750,7 +1770,7 @@ Change the element at the specified index, creating a new array, or returning `N
 **Signature**
 
 ```ts
-export function updateAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>> { ... }
+export declare function updateAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>
 ```
 
 **Example**
@@ -1773,7 +1793,7 @@ longer array are discarded
 **Signature**
 
 ```ts
-export function zip<A, B>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>): ReadonlyArray<readonly [A, B]> { ... }
+export declare function zip<A, B>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>): ReadonlyArray<readonly [A, B]>
 ```
 
 **Example**
@@ -1784,7 +1804,7 @@ import { zip } from 'fp-ts/lib/ReadonlyArray'
 assert.deepStrictEqual(zip([1, 2, 3], ['a', 'b', 'c', 'd']), [
   [1, 'a'],
   [2, 'b'],
-  [3, 'c']
+  [3, 'c'],
 ])
 ```
 
@@ -1798,7 +1818,11 @@ input array is short, excess elements of the longer array are discarded.
 **Signature**
 
 ```ts
-export function zipWith<A, B, C>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>, f: (a: A, b: B) => C): ReadonlyArray<C> { ... }
+export declare function zipWith<A, B, C>(
+  fa: ReadonlyArray<A>,
+  fb: ReadonlyArray<B>,
+  f: (a: A, b: B) => C
+): ReadonlyArray<C>
 ```
 
 **Example**

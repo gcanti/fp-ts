@@ -24,7 +24,7 @@ export interface Ring<A> extends Semiring<A> {
 export function getFunctionRing<A, B>(ring: Ring<B>): Ring<(a: A) => B> {
   return {
     ...getFunctionSemiring(ring),
-    sub: (f, g) => x => ring.sub(f(x), g(x))
+    sub: (f, g) => (x) => ring.sub(f(x), g(x))
   }
 }
 
@@ -34,7 +34,7 @@ export function getFunctionRing<A, B>(ring: Ring<B>): Ring<(a: A) => B> {
  * @since 2.0.0
  */
 export function negate<A>(ring: Ring<A>): (a: A) => A {
-  return a => ring.sub(ring.zero, a)
+  return (a) => ring.sub(ring.zero, a)
 }
 
 /**
@@ -58,9 +58,9 @@ export function getTupleRing<T extends ReadonlyArray<Ring<any>>>(
 ): Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }> {
   return {
     add: (x: any, y: any) => rings.map((R, i) => R.add(x[i], y[i])),
-    zero: rings.map(R => R.zero),
+    zero: rings.map((R) => R.zero),
     mul: (x: any, y: any) => rings.map((R, i) => R.mul(x[i], y[i])),
-    one: rings.map(R => R.one),
+    one: rings.map((R) => R.one),
     sub: (x: any, y: any) => rings.map((R, i) => R.sub(x[i], y[i]))
   } as any
 }

@@ -141,16 +141,16 @@ export const readonlyTuple: Semigroupoid2<URI> &
   extract: fst,
   extend: (ae, f) => [f(ae), snd(ae)],
   reduce: (ae, b, f) => f(b, fst(ae)),
-  foldMap: _ => (ae, f) => f(fst(ae)),
+  foldMap: (_) => (ae, f) => f(fst(ae)),
   reduceRight: (ae, b, f) => f(fst(ae), b),
   traverse: <F>(F: Applicative<F>) => <A, S, B>(
     as: readonly [A, S],
     f: (a: A) => HKT<F, B>
   ): HKT<F, readonly [B, S]> => {
-    return F.map(f(fst(as)), b => [b, snd(as)])
+    return F.map(f(fst(as)), (b) => [b, snd(as)])
   },
   sequence: <F>(F: Applicative<F>) => <A, S>(fas: readonly [HKT<F, A>, S]): HKT<F, readonly [A, S]> => {
-    return F.map(fst(fas), a => [a, snd(fas)])
+    return F.map(fst(fas), (a) => [a, snd(fas)])
   }
 }
 

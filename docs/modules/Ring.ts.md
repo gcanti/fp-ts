@@ -44,7 +44,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getFunctionRing<A, B>(ring: Ring<B>): Ring<(a: A) => B> { ... }
+export declare function getFunctionRing<A, B>(ring: Ring<B>): Ring<(a: A) => B>
 ```
 
 Added in v2.0.0
@@ -56,9 +56,9 @@ Given a tuple of `Ring`s returns a `Ring` for the tuple
 **Signature**
 
 ```ts
-export function getTupleRing<T extends ReadonlyArray<Ring<any>>>(
+export declare function getTupleRing<T extends ReadonlyArray<Ring<any>>>(
   ...rings: T
-): Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }> { ... }
+): Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }>
 ```
 
 **Example**
@@ -84,7 +84,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function negate<A>(ring: Ring<A>): (a: A) => A { ... }
+export declare function negate<A>(ring: Ring<A>): (a: A) => A
 ```
 
 Added in v2.0.0

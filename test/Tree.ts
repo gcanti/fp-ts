@@ -67,7 +67,7 @@ describe('Tree', () => {
   it('traverse', () => {
     const fa = make('a', [make('b'), make('c')])
     assert.deepStrictEqual(
-      tree.traverse(I.identity)(fa, a => I.identity.of(a)),
+      tree.traverse(I.identity)(fa, (a) => I.identity.of(a)),
       I.identity.of(fa)
     )
   })
@@ -136,13 +136,13 @@ describe('Tree', () => {
   })
 
   it('unfoldTree', () => {
-    const fa = unfoldTree(1, b => [b, b < 3 ? [b + 1, b + 2] : []])
+    const fa = unfoldTree(1, (b) => [b, b < 3 ? [b + 1, b + 2] : []])
     const expected = make(1, [make(2, [make(3), make(4)]), make(3)])
     assert.deepStrictEqual(fa, expected)
   })
 
   it('unfoldTreeM', () => {
-    const fa = unfoldTreeM(I.identity)(1, b => I.identity.of([b, b < 3 ? [b + 1, b + 2] : []]))
+    const fa = unfoldTreeM(I.identity)(1, (b) => I.identity.of([b, b < 3 ? [b + 1, b + 2] : []]))
     const expected = I.identity.of(make(1, [make(2, [make(3), make(4)]), make(3)]))
     assert.deepStrictEqual(fa, expected)
   })

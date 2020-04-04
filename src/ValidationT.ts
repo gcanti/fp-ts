@@ -65,10 +65,10 @@ export function getValidationM<E, M>(S: Semigroup<E>, M: Monad<M>): ValidationM<
 
   return {
     ...A,
-    chain: (ma, f) => M.chain(ma, e => (isLeft(e) ? M.of(left(e.left)) : f(e.right))),
+    chain: (ma, f) => M.chain(ma, (e) => (isLeft(e) ? M.of(left(e.left)) : f(e.right))),
     alt: (fx, f) =>
-      M.chain(fx, e1 =>
-        isRight(e1) ? A.of(e1.right) : M.map(f(), e2 => (isLeft(e2) ? left(S.concat(e1.left, e2.left)) : e2))
+      M.chain(fx, (e1) =>
+        isRight(e1) ? A.of(e1.right) : M.map(f(), (e2) => (isLeft(e2) ? left(S.concat(e1.left, e2.left)) : e2))
       )
   }
 }

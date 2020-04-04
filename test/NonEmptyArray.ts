@@ -84,11 +84,11 @@ describe('NonEmptyArray', () => {
 
   it('traverse', () => {
     assert.deepStrictEqual(
-      nonEmptyArray.traverse(option)([1, 2, 3], n => (n >= 0 ? some(n) : none)),
+      nonEmptyArray.traverse(option)([1, 2, 3], (n) => (n >= 0 ? some(n) : none)),
       some([1, 2, 3])
     )
     assert.deepStrictEqual(
-      nonEmptyArray.traverse(option)([1, 2, 3], n => (n >= 2 ? some(n) : none)),
+      nonEmptyArray.traverse(option)([1, 2, 3], (n) => (n >= 2 ? some(n) : none)),
       none
     )
   })
@@ -178,7 +178,7 @@ describe('NonEmptyArray', () => {
   })
 
   it('groupBy', () => {
-    assert.deepStrictEqual(groupBy(_ => '')([]), {})
+    assert.deepStrictEqual(groupBy((_) => '')([]), {})
     assert.deepStrictEqual(groupBy(String)([1]), { '1': [1] })
     assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['foo', 'bar', 'foobar']), {
       '3': ['foo', 'bar'],
@@ -261,7 +261,7 @@ describe('NonEmptyArray', () => {
   })
 
   it('filterWithIndex', () => {
-    assert.deepStrictEqual(filterWithIndex(i => i % 2 === 0)([1, 2, 3]), some([1, 3]))
+    assert.deepStrictEqual(filterWithIndex((i) => i % 2 === 0)([1, 2, 3]), some([1, 3]))
     assert.deepStrictEqual(filterWithIndex((i, a: number) => i % 2 === 1 && a > 2)([1, 2, 3]), none)
   })
 

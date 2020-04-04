@@ -598,39 +598,39 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getFilterableComposition<F extends URIS2, G extends URIS3, E>(
+export declare function getFilterableComposition<F extends URIS2, G extends URIS3, E>(
   F: Functor2<F>,
   G: Filterable3C<G, E>
 ): FilterableComposition23C<F, G, E>
-export function getFilterableComposition<F extends URIS2, G extends URIS2, E>(
+export declare function getFilterableComposition<F extends URIS2, G extends URIS2, E>(
   F: Functor2<F>,
   G: Filterable2C<G, E>
 ): FilterableComposition22C<F, G, E>
-export function getFilterableComposition<F extends URIS2, G extends URIS2>(
+export declare function getFilterableComposition<F extends URIS2, G extends URIS2>(
   F: Functor2<F>,
   G: Filterable2<G>
 ): FilterableComposition22<F, G>
-export function getFilterableComposition<F extends URIS2, G extends URIS, E>(
+export declare function getFilterableComposition<F extends URIS2, G extends URIS, E>(
   F: Functor2C<F, E>,
   G: Filterable1<G>
 ): FilterableComposition2C1<F, G, E>
-export function getFilterableComposition<F extends URIS2, G extends URIS>(
+export declare function getFilterableComposition<F extends URIS2, G extends URIS>(
   F: Functor2<F>,
   G: Filterable1<G>
 ): FilterableComposition21<F, G>
-export function getFilterableComposition<F extends URIS, G extends URIS2, E>(
+export declare function getFilterableComposition<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Filterable2C<G, E>
 ): FilterableComposition12C<F, G, E>
-export function getFilterableComposition<F extends URIS, G extends URIS2>(
+export declare function getFilterableComposition<F extends URIS, G extends URIS2>(
   F: Functor1<F>,
   G: Filterable2<G>
 ): FilterableComposition12<F, G>
-export function getFilterableComposition<F extends URIS, G extends URIS>(
+export declare function getFilterableComposition<F extends URIS, G extends URIS>(
   F: Functor1<F>,
   G: Filterable1<G>
 ): FilterableComposition11<F, G>
-export function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>): FilterableComposition<F, G> { ... }
+export declare function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>): FilterableComposition<F, G>
 ```
 
 Added in v2.0.0

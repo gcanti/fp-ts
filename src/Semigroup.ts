@@ -72,7 +72,7 @@ export function getDualSemigroup<A>(S: Semigroup<A>): Semigroup<A> {
  */
 export function getFunctionSemigroup<S>(S: Semigroup<S>): <A = never>() => Semigroup<(a: A) => S> {
   return () => ({
-    concat: (f, g) => a => S.concat(f(a), g(a))
+    concat: (f, g) => (a) => S.concat(f(a), g(a))
   })
 }
 
@@ -193,7 +193,7 @@ export const semigroupVoid: Semigroup<void> = {
  * @since 2.5.0
  */
 export function getIntercalateSemigroup<A>(a: A): (S: Semigroup<A>) => Semigroup<A> {
-  return S => ({
+  return (S) => ({
     concat: (x, y) => S.concat(x, S.concat(a, y))
   })
 }

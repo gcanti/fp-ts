@@ -113,7 +113,7 @@ export const reverse: <A>(nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArra
  */
 export function min<A>(ord: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
   const S = getMeetSemigroup(ord)
-  return nea => nea.reduce(S.concat)
+  return (nea) => nea.reduce(S.concat)
 }
 
 /**
@@ -121,7 +121,7 @@ export function min<A>(ord: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
  */
 export function max<A>(ord: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
   const S = getJoinSemigroup(ord)
-  return nea => nea.reduce(S.concat)
+  return (nea) => nea.reduce(S.concat)
 }
 
 /**
@@ -170,7 +170,7 @@ export function group<A>(
   (as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
 }
 export function group<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyNonEmptyArray<A>> {
-  return as => {
+  return (as) => {
     const len = as.length
     if (len === 0) {
       return RA.empty
@@ -208,7 +208,7 @@ export function group<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<Read
 export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyNonEmptyArray<A>> {
   const sortO = RA.sort(O)
   const groupO = group(O)
-  return as => groupO(sortO(as))
+  return (as) => groupO(sortO(as))
 }
 
 /**
@@ -228,7 +228,7 @@ export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray
 export function groupBy<A>(
   f: (a: A) => string
 ): (as: ReadonlyArray<A>) => ReadonlyRecord<string, ReadonlyNonEmptyArray<A>> {
-  return as => {
+  return (as) => {
     const r: Record<string, NonEmptyArray<A>> = {}
     for (const a of as) {
       const k = f(a)
@@ -314,7 +314,7 @@ export function filter<A>(
 export function filterWithIndex<A>(
   predicate: (i: number, a: A) => boolean
 ): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> {
-  return nea => fromReadonlyArray(nea.filter((a, i) => predicate(i, a)))
+  return (nea) => fromReadonlyArray(nea.filter((a, i) => predicate(i, a)))
 }
 
 /**
@@ -335,7 +335,7 @@ export function concat<A>(fx: ReadonlyArray<A>, fy: ReadonlyArray<A>): ReadonlyA
  * @since 2.5.0
  */
 export function fold<A>(S: Semigroup<A>): (fa: ReadonlyNonEmptyArray<A>) => A {
-  return fa => fa.reduce(S.concat)
+  return (fa) => fa.reduce(S.concat)
 }
 
 /**

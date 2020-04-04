@@ -22,15 +22,15 @@ describe('Foldable', () => {
     assert.deepStrictEqual(F.reduce([], '', monoidString.concat), '')
     // foldMap
     assert.deepStrictEqual(
-      F.foldMap(monoidString)([option.some('a'), option.some('b'), option.some('c')], a => a),
+      F.foldMap(monoidString)([option.some('a'), option.some('b'), option.some('c')], (a) => a),
       'abc'
     )
     assert.deepStrictEqual(
-      F.foldMap(monoidString)([option.none, option.some('b'), option.none], a => a),
+      F.foldMap(monoidString)([option.none, option.some('b'), option.none], (a) => a),
       'b'
     )
     assert.deepStrictEqual(
-      F.foldMap(monoidString)([option.none, option.none, option.none], a => a),
+      F.foldMap(monoidString)([option.none, option.none, option.none], (a) => a),
       ''
     )
     assert.deepStrictEqual(

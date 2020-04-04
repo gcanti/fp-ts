@@ -40,12 +40,12 @@ const programTask: Program<T.URI> = {
 
 // read from standard input
 const getStrLn: T.Task<string> = () =>
-  new Promise(resolve => {
+  new Promise((resolve) => {
     const rl = createInterface({
       input: process.stdin,
       output: process.stdout
     })
-    rl.question('> ', answer => {
+    rl.question('> ', (answer) => {
       rl.close()
       resolve(answer)
     })
@@ -60,7 +60,7 @@ const consoleTask: Console<T.URI> = {
 }
 
 const randomTask: Random<T.URI> = {
-  nextInt: upper => T.fromIO(randomInt(1, upper))
+  nextInt: (upper) => T.fromIO(randomInt(1, upper))
 }
 
 //
@@ -89,7 +89,7 @@ function main<F extends URIS>(F: Main<F>): Kind<F, void> {
   const shouldContinue = (name: string): Kind<F, boolean> => {
     return pipe(
       ask(`Do you want to continue, ${name} (y/n)?`),
-      chain(answer => {
+      chain((answer) => {
         switch (answer.toLowerCase()) {
           case 'y':
             return F.of<boolean>(true)
@@ -113,7 +113,7 @@ function main<F extends URIS>(F: Main<F>): Kind<F, void> {
           parse(guess),
           O.fold(
             () => F.putStrLn('You did not enter an integer!'),
-            x =>
+            (x) =>
               x === secret
                 ? F.putStrLn(`You guessed right, ${name}!`)
                 : F.putStrLn(`You guessed wrong, ${name}! The number was: ${secret}`)
@@ -121,13 +121,13 @@ function main<F extends URIS>(F: Main<F>): Kind<F, void> {
         )
       ),
       chain(() => shouldContinue(name)),
-      chain(b => (b ? gameLoop(name) : F.of<void>(undefined)))
+      chain((b) => (b ? gameLoop(name) : F.of<void>(undefined)))
     )
   }
 
   return pipe(
     ask('What is your name?'),
-    chainFirst(name => F.putStrLn(`Hello, ${name} welcome to the game!`)),
+    chainFirst((name) => F.putStrLn(`Hello, ${name} welcome to the game!`)),
     chain(gameLoop)
   )
 }
@@ -172,7 +172,7 @@ declare module '../src/HKT' {
 
 interface Test<A> extends State<TestData, A> {}
 
-const of = <A>(a: A): Test<A> => data => [a, data]
+const of = <A>(a: A): Test<A> => (data) => [a, data]
 
 const programTest: Program<URI> = {
   URI,
@@ -184,12 +184,12 @@ const programTest: Program<URI> = {
 }
 
 const consoleTest: Console<URI> = {
-  putStrLn: message => data => data.putStrLn(message),
-  getStrLn: data => data.getStrLn()
+  putStrLn: (message) => (data) => data.putStrLn(message),
+  getStrLn: (data) => data.getStrLn()
 }
 
 const randomTest: Random<URI> = {
-  nextInt: upper => data => {
+  nextInt: (upper) => (data) => {
     return data.nextInt(upper)
   }
 }

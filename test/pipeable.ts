@@ -30,7 +30,7 @@ describe('pipeable', () => {
 
   it('Apply', () => {
     const { ap, apFirst, apSecond } = pipeable(array)
-    assert.deepStrictEqual(ap([1, 2, 3])([n => n * 2]), [2, 4, 6])
+    assert.deepStrictEqual(ap([1, 2, 3])([(n) => n * 2]), [2, 4, 6])
     assert.deepStrictEqual(apFirst([2])([1]), [1])
     assert.deepStrictEqual(apSecond([2])([1]), [2])
   })
@@ -104,7 +104,7 @@ describe('pipeable', () => {
       some(2)
     ])
     assert.deepStrictEqual(
-      filterMapWithIndex((i, a: Option<number>) => option.map(a, n => n + i))([some(1), none, some(2)]),
+      filterMapWithIndex((i, a: Option<number>) => option.map(a, (n) => n + i))([some(1), none, some(2)]),
       [1, 4]
     )
     assert.deepStrictEqual(partitionWithIndex((i, a: Option<number>) => i > 1 && isSome(a))([some(1), none, some(2)]), {
@@ -132,7 +132,7 @@ describe('pipeable', () => {
 
   it('Semigroupoid', () => {
     const { compose } = pipeable(reader)
-    assert.deepStrictEqual(compose((s: string) => s.length)(n => n * 2)('aa'), 4)
+    assert.deepStrictEqual(compose((s: string) => s.length)((n) => n * 2)('aa'), 4)
   })
 
   it('pipe', () => {

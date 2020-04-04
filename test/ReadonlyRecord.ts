@@ -195,7 +195,7 @@ describe('ReadonlyRecord', () => {
     assert.deepStrictEqual(actual, { a: 1 })
 
     assert.deepStrictEqual(
-      _.readonlyRecord.filter(y, _ => true),
+      _.readonlyRecord.filter(y, (_) => true),
       y
     )
 
@@ -296,7 +296,7 @@ describe('ReadonlyRecord', () => {
     ]
 
     assert.deepStrictEqual(
-      _.fromFoldableMap(getLastSemigroup<User>(), readonlyArray)(users, user => [user.id, user]),
+      _.fromFoldableMap(getLastSemigroup<User>(), readonlyArray)(users, (user) => [user.id, user]),
       {
         id1: { id: 'id1', name: 'name3' },
         id2: { id: 'id2', name: 'name2' }

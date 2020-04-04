@@ -66,7 +66,7 @@ export interface Apply4<F extends URIS4> extends Functor4<F> {
 }
 
 function curried(f: Function, n: number, acc: ReadonlyArray<unknown>) {
-  return function(x: unknown) {
+  return function (x: unknown) {
     const combined = acc.concat([x])
     return n === 0 ? f.apply(null, combined) : curried(f, n - 1, combined)
   }
@@ -224,7 +224,7 @@ export function sequenceS<F>(
   r: EnforceNonEmptyRecord<NER>
 ) => HKT<F, { [K in keyof NER]: [NER[K]] extends [HKT<F, infer A>] ? A : never }>
 export function sequenceS<F>(F: Apply<F>): (r: Record<string, HKT<F, any>>) => HKT<F, Record<string, any>> {
-  return r => {
+  return (r) => {
     const keys = Object.keys(r)
     const len = keys.length
     const f = getRecordConstructor(keys)

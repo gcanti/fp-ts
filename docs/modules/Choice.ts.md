@@ -124,15 +124,15 @@ function which will run the appropriate computation based on the parameter suppl
 **Signature**
 
 ```ts
-export function fanin<F extends URIS3>(
+export declare function fanin<F extends URIS3>(
   F: Category3<F> & Choice3<F>
 ): <R, A, B, C>(pac: Kind3<F, R, A, C>, pbc: Kind3<F, R, B, C>) => Kind3<F, R, Either<A, B>, C>
-export function fanin<F extends URIS2>(
+export declare function fanin<F extends URIS2>(
   F: Category2<F> & Choice2<F>
 ): <A, B, C>(pac: Kind2<F, A, C>, pbc: Kind2<F, B, C>) => Kind2<F, Either<A, B>, C>
-export function fanin<F>(
+export declare function fanin<F>(
   F: Category<F> & Choice<F>
-): <A, B, C>(pac: HKT2<F, A, C>, pbc: HKT2<F, B, C>) => HKT2<F, Either<A, B>, C> { ... }
+): <A, B, C>(pac: HKT2<F, A, C>, pbc: HKT2<F, B, C>) => HKT2<F, Either<A, B>, C>
 ```
 
 Added in v2.0.0
@@ -155,15 +155,15 @@ takes an `Either`and maps `f` over the left side and `g` over the right side. Ju
 **Signature**
 
 ```ts
-export function splitChoice<F extends URIS3>(
+export declare function splitChoice<F extends URIS3>(
   F: Category3<F> & Choice3<F>
 ): <R, A, B, C, D>(pab: Kind3<F, R, A, B>, pcd: Kind3<F, R, C, D>) => Kind3<F, R, Either<A, C>, Either<B, D>>
-export function splitChoice<F extends URIS2>(
+export declare function splitChoice<F extends URIS2>(
   F: Category2<F> & Choice2<F>
 ): <A, B, C, D>(pab: Kind2<F, A, B>, pcd: Kind2<F, C, D>) => Kind2<F, Either<A, C>, Either<B, D>>
-export function splitChoice<F>(
+export declare function splitChoice<F>(
   F: Category<F> & Choice<F>
-): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, Either<A, C>, Either<B, D>> { ... }
+): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, Either<A, C>, Either<B, D>>
 ```
 
 Added in v2.0.0

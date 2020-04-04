@@ -54,7 +54,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI: "Store" = ...
+export declare const URI: 'Store'
 ```
 
 Added in v2.0.0
@@ -64,7 +64,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A>(ma: Store<E, A>) => Store<E, Store<E, A>>
+export declare const duplicate: <E, A>(ma: Store<E, A>) => Store<E, Store<E, A>>
 ```
 
 Added in v2.0.0
@@ -76,22 +76,22 @@ Extract a collection of values from positions which depend on the current positi
 **Signature**
 
 ```ts
-export function experiment<F extends URIS3>(
+export declare function experiment<F extends URIS3>(
   F: Functor3<F>
 ): <R, E, S>(f: (s: S) => Kind3<F, R, E, S>) => <A>(wa: Store<S, A>) => Kind3<F, R, E, A>
-export function experiment<F extends URIS3, E>(
+export declare function experiment<F extends URIS3, E>(
   F: Functor3C<F, E>
 ): <R, S>(f: (s: S) => Kind3<F, R, E, S>) => <A>(wa: Store<S, A>) => Kind3<F, R, E, A>
-export function experiment<F extends URIS2>(
+export declare function experiment<F extends URIS2>(
   F: Functor2<F>
 ): <E, S>(f: (s: S) => Kind2<F, E, S>) => <A>(wa: Store<S, A>) => Kind2<F, E, A>
-export function experiment<F extends URIS2, E>(
+export declare function experiment<F extends URIS2, E>(
   F: Functor2C<F, E>
 ): <S>(f: (s: S) => Kind2<F, E, S>) => <A>(wa: Store<S, A>) => Kind2<F, E, A>
-export function experiment<F extends URIS>(
+export declare function experiment<F extends URIS>(
   F: Functor1<F>
 ): <S>(f: (s: S) => Kind<F, S>) => <A>(wa: Store<S, A>) => Kind<F, A>
-export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A> { ... }
+export declare function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A>
 ```
 
 Added in v2.0.0
@@ -101,7 +101,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A, B>(f: (fa: Store<E, A>) => B) => (ma: Store<E, A>) => Store<E, B>
+export declare const extend: <E, A, B>(f: (fa: Store<E, A>) => B) => (ma: Store<E, A>) => Store<E, B>
 ```
 
 Added in v2.0.0
@@ -111,7 +111,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B>
 ```
 
 Added in v2.0.0
@@ -123,7 +123,7 @@ Extract a value from a position which depends on the current position
 **Signature**
 
 ```ts
-export function peeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => A { ... }
+export declare function peeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => A
 ```
 
 Added in v2.0.0
@@ -135,7 +135,7 @@ Reposition the focus at the specified position
 **Signature**
 
 ```ts
-export function seek<S>(s: S): <A>(wa: Store<S, A>) => Store<S, A> { ... }
+export declare function seek<S>(s: S): <A>(wa: Store<S, A>) => Store<S, A>
 ```
 
 Added in v2.0.0
@@ -147,7 +147,7 @@ Reposition the focus at the specified position, which depends on the current pos
 **Signature**
 
 ```ts
-export function seeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => Store<S, A> { ... }
+export declare function seeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => Store<S, A>
 ```
 
 Added in v2.0.0
@@ -157,7 +157,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const store: Comonad2<URI> = ...
+export declare const store: Comonad2<'Store'>
 ```
 
 Added in v2.0.0

@@ -17,7 +17,7 @@ describe('Apply', () => {
     const a2: ReadonlyArray<string> = ['a', 'b', 'c']
     const a3: ReadonlyArray<boolean> = [true, false]
     assert.deepStrictEqual(
-      pipe(sequenceT(readonlyArray)(a1, a2, a3), arr => arr.map(([x, y, z]) => `(${x}, ${y}, ${z})`)),
+      pipe(sequenceT(readonlyArray)(a1, a2, a3), (arr) => arr.map(([x, y, z]) => `(${x}, ${y}, ${z})`)),
       [
         '(1, a, true)',
         '(1, a, false)',
@@ -63,7 +63,7 @@ describe('Apply', () => {
     const a2: ReadonlyArray<string> = ['a', 'b', 'c']
     const a3: ReadonlyArray<boolean> = [true, false]
     assert.deepStrictEqual(
-      pipe(sequenceS(readonlyArray)({ a1, a2, a3 }), arr => arr.map(({ a1, a2, a3 }) => `(${a1}, ${a2}, ${a3})`)),
+      pipe(sequenceS(readonlyArray)({ a1, a2, a3 }), (arr) => arr.map(({ a1, a2, a3 }) => `(${a1}, ${a2}, ${a3})`)),
       [
         '(1, a, true)',
         '(1, a, false)',

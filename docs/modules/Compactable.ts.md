@@ -315,42 +315,42 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getCompactableComposition<F extends URIS2, G extends URIS3, E>(
+export declare function getCompactableComposition<F extends URIS2, G extends URIS3, E>(
   F: Functor2<F>,
   G: Compactable3C<G, E> & Functor3C<G, E>
 ): CompactableComposition23C<F, G, E>
-export function getCompactableComposition<F extends URIS2, G extends URIS2, E>(
+export declare function getCompactableComposition<F extends URIS2, G extends URIS2, E>(
   F: Functor2<F>,
   G: Compactable2C<G, E> & Functor2C<G, E>
 ): CompactableComposition22C<F, G, E>
-export function getCompactableComposition<F extends URIS2, G extends URIS2>(
+export declare function getCompactableComposition<F extends URIS2, G extends URIS2>(
   F: Functor2<F>,
   G: Compactable2<G> & Functor2<G>
 ): CompactableComposition22<F, G>
-export function getCompactableComposition<F extends URIS2, G extends URIS, E>(
+export declare function getCompactableComposition<F extends URIS2, G extends URIS, E>(
   F: Functor2C<F, E>,
   G: Compactable1<G> & Functor1<G>
 ): CompactableComposition2C1<F, G, E>
-export function getCompactableComposition<F extends URIS2, G extends URIS>(
+export declare function getCompactableComposition<F extends URIS2, G extends URIS>(
   F: Functor2<F>,
   G: Compactable1<G> & Functor1<G>
 ): CompactableComposition21<F, G>
-export function getCompactableComposition<F extends URIS, G extends URIS2, E>(
+export declare function getCompactableComposition<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Compactable2C<G, E> & Functor2C<G, E>
 ): CompactableComposition12<F, G>
-export function getCompactableComposition<F extends URIS, G extends URIS2>(
+export declare function getCompactableComposition<F extends URIS, G extends URIS2>(
   F: Functor1<F>,
   G: Compactable2<G> & Functor2<G>
 ): CompactableComposition12<F, G>
-export function getCompactableComposition<F extends URIS, G extends URIS>(
+export declare function getCompactableComposition<F extends URIS, G extends URIS>(
   F: Functor1<F>,
   G: Compactable1<G> & Functor1<G>
 ): CompactableComposition11<F, G>
-export function getCompactableComposition<F, G>(
+export declare function getCompactableComposition<F, G>(
   F: Functor<F>,
   G: Compactable<G> & Functor<G>
-): CompactableComposition<F, G> { ... }
+): CompactableComposition<F, G>
 ```
 
 Added in v2.0.0

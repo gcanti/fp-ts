@@ -59,7 +59,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI: "Identity" = ...
+export declare const URI: 'Identity'
 ```
 
 Added in v2.0.0
@@ -69,7 +69,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A>(that: () => A) => (fa: A) => A
+export declare const alt: <A>(that: () => A) => (fa: A) => A
 ```
 
 Added in v2.0.0
@@ -79,7 +79,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A>(fa: A) => <B>(fab: (a: A) => B) => B
+export declare const ap: <A>(fa: A) => <B>(fab: (a: A) => B) => B
 ```
 
 Added in v2.0.0
@@ -89,7 +89,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<B>(fb: B) => <A>(fa: A) => A
+export declare const apFirst: <B>(fb: B) => <A>(fa: A) => A
 ```
 
 Added in v2.0.0
@@ -99,7 +99,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<B>(fb: B) => <A>(fa: A) => B
+export declare const apSecond: <B>(fb: B) => <A>(fa: A) => B
 ```
 
 Added in v2.0.0
@@ -109,7 +109,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A, B>(f: (a: A) => B) => (ma: A) => B
+export declare const chain: <A, B>(f: (a: A) => B) => (ma: A) => B
 ```
 
 Added in v2.0.0
@@ -119,7 +119,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A, B>(f: (a: A) => B) => (ma: A) => A
+export declare const chainFirst: <A, B>(f: (a: A) => B) => (ma: A) => A
 ```
 
 Added in v2.0.0
@@ -129,7 +129,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A>(ma: A) => A
+export declare const duplicate: <A>(ma: A) => A
 ```
 
 Added in v2.0.0
@@ -139,7 +139,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A, B>(f: (fa: A) => B) => (ma: A) => B
+export declare const extend: <A, B>(f: (fa: A) => B) => (ma: A) => B
 ```
 
 Added in v2.0.0
@@ -149,7 +149,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A>(mma: A) => A
+export declare const flatten: <A>(mma: A) => A
 ```
 
 Added in v2.0.0
@@ -159,7 +159,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: A) => M
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: A) => M
 ```
 
 Added in v2.0.0
@@ -169,7 +169,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getEq: <A>(E: Eq<A>) => Eq<Identity<A>> = ...
+export declare const getEq: <A>(E: Eq<A>) => Eq<A>
 ```
 
 Added in v2.0.0
@@ -179,7 +179,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getShow: <A>(S: Show<A>) => Show<Identity<A>> = ...
+export declare const getShow: <A>(S: Show<A>) => Show<A>
 ```
 
 Added in v2.0.0
@@ -189,7 +189,12 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI> = ...
+export declare const identity: Monad1<'Identity'> &
+  Foldable1<'Identity'> &
+  Traversable1<'Identity'> &
+  Alt1<'Identity'> &
+  Comonad1<'Identity'> &
+  ChainRec1<'Identity'>
 ```
 
 Added in v2.0.0
@@ -199,7 +204,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A, B>(f: (a: A) => B) => (fa: A) => B
+export declare const map: <A, B>(f: (a: A) => B) => (fa: A) => B
 ```
 
 Added in v2.0.0
@@ -209,7 +214,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: A) => B
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: A) => B
 ```
 
 Added in v2.0.0
@@ -219,7 +224,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: A) => B
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: A) => B
 ```
 
 Added in v2.0.0

@@ -54,11 +54,11 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('traverse', () => {
     assert.deepStrictEqual(
-      _.readonlyNonEmptyArray.traverse(O.option)([1, 2, 3], n => (n >= 0 ? O.some(n) : O.none)),
+      _.readonlyNonEmptyArray.traverse(O.option)([1, 2, 3], (n) => (n >= 0 ? O.some(n) : O.none)),
       O.some([1, 2, 3])
     )
     assert.deepStrictEqual(
-      _.readonlyNonEmptyArray.traverse(O.option)([1, 2, 3], n => (n >= 2 ? O.some(n) : O.none)),
+      _.readonlyNonEmptyArray.traverse(O.option)([1, 2, 3], (n) => (n >= 2 ? O.some(n) : O.none)),
       O.none
     )
   })
@@ -148,7 +148,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('groupBy', () => {
-    assert.deepStrictEqual(_.groupBy(_ => '')([]), {})
+    assert.deepStrictEqual(_.groupBy((_) => '')([]), {})
     assert.deepStrictEqual(_.groupBy(String)([1]), { '1': [1] })
     assert.deepStrictEqual(_.groupBy((s: string) => String(s.length))(['foo', 'bar', 'foobar']), {
       '3': ['foo', 'bar'],
@@ -224,7 +224,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('filterWithIndex', () => {
-    assert.deepStrictEqual(_.filterWithIndex(i => i % 2 === 0)([1, 2, 3]), O.some([1, 3]))
+    assert.deepStrictEqual(_.filterWithIndex((i) => i % 2 === 0)([1, 2, 3]), O.some([1, 3]))
     assert.deepStrictEqual(_.filterWithIndex((i, a: number) => i % 2 === 1 && a > 2)([1, 2, 3]), O.none)
   })
 

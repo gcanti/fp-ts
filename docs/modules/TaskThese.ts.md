@@ -60,7 +60,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export const URI: "TaskThese" = ...
+export declare const URI: 'TaskThese'
 ```
 
 Added in v2.4.0
@@ -70,7 +70,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-<E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskThese<E, A>) => TaskThese<G, B>
+export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskThese<E, A>) => TaskThese<G, B>
 ```
 
 Added in v2.4.0
@@ -80,7 +80,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export const both: <E, A>(e: E, a: A) => TaskThese<E, A> = ...
+export declare const both: <E, A>(e: E, a: A) => TaskThese<E, A>
 ```
 
 Added in v2.4.0
@@ -90,11 +90,11 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export function fold<E, A, B>(
+export declare function fold<E, A, B>(
   onLeft: (e: E) => Task<B>,
   onRight: (a: A) => Task<B>,
   onBoth: (e: E, a: A) => Task<B>
-): (fa: TaskThese<E, A>) => Task<B> { ... }
+): (fa: TaskThese<E, A>) => Task<B>
 ```
 
 Added in v2.4.0
@@ -104,7 +104,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> = ...
+export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A>
 ```
 
 Added in v2.4.0
@@ -114,7 +114,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI, E> { ... }
+export declare function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI, E>
 ```
 
 Added in v2.4.0
@@ -124,7 +124,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<TaskThese<E, A>> { ... }
+export declare function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<TaskThese<E, A>>
 ```
 
 Added in v2.4.0
@@ -134,7 +134,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export const left: <E = never, A = never>(e: E) => TaskThese<E, A> = ...
+export declare const left: <E = never, A = never>(e: E) => TaskThese<E, A>
 ```
 
 Added in v2.4.0
@@ -144,7 +144,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export function leftIO<E = never, A = never>(me: IO<E>): TaskThese<E, A> { ... }
+export declare function leftIO<E = never, A = never>(me: IO<E>): TaskThese<E, A>
 ```
 
 Added in v2.4.0
@@ -154,7 +154,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export const leftTask: <E = never, A = never>(me: Task<E>) => TaskThese<E, A> = ...
+export declare const leftTask: <E = never, A = never>(me: Task<E>) => TaskThese<E, A>
 ```
 
 Added in v2.4.0
@@ -164,7 +164,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThese<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThese<E, B>
 ```
 
 Added in v2.4.0
@@ -174,7 +174,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-<E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => TaskThese<G, A>
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => TaskThese<G, A>
 ```
 
 Added in v2.4.0
@@ -184,7 +184,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export const right: <E = never, A = never>(a: A) => TaskThese<E, A> = ...
+export declare const right: <E = never, A = never>(a: A) => TaskThese<E, A>
 ```
 
 Added in v2.4.0
@@ -194,7 +194,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export function rightIO<E = never, A = never>(ma: IO<A>): TaskThese<E, A> { ... }
+export declare function rightIO<E = never, A = never>(ma: IO<A>): TaskThese<E, A>
 ```
 
 Added in v2.4.0
@@ -204,7 +204,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskThese<E, A> = ...
+export declare const rightTask: <E = never, A = never>(ma: Task<A>) => TaskThese<E, A>
 ```
 
 Added in v2.4.0
@@ -214,7 +214,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E> = ...
+export declare const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E>
 ```
 
 Added in v2.4.0
@@ -224,7 +224,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export const taskThese: Functor2<URI> & Bifunctor2<URI> = ...
+export declare const taskThese: Functor2<'TaskThese'> & Bifunctor2<'TaskThese'>
 ```
 
 Added in v2.4.0
@@ -234,7 +234,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export function toTuple<E, A>(e: E, a: A): (fa: TaskThese<E, A>) => Task<[E, A]> { ... }
+export declare function toTuple<E, A>(e: E, a: A): (fa: TaskThese<E, A>) => Task<[E, A]>
 ```
 
 Added in v2.4.0

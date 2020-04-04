@@ -361,15 +361,15 @@ export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversabl
   return {
     ...getFunctorComposition(F, G),
     ...getFoldableComposition(F, G),
-    traverse: H => {
+    traverse: (H) => {
       const traverseF = F.traverse(H)
       const traverseG = G.traverse(H)
-      return (fga, f) => traverseF(fga, ga => traverseG(ga, f))
+      return (fga, f) => traverseF(fga, (ga) => traverseG(ga, f))
     },
-    sequence: H => {
+    sequence: (H) => {
       const sequenceF = F.sequence(H)
       const sequenceG = G.sequence(H)
-      return fgha => sequenceF(F.map(fgha, sequenceG))
+      return (fgha) => sequenceF(F.map(fgha, sequenceG))
     }
   }
 }

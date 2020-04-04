@@ -199,7 +199,7 @@ describe('Record', () => {
     assert.deepStrictEqual(actual, { a: 1 })
 
     assert.deepStrictEqual(
-      R.record.filter(y, _ => true),
+      R.record.filter(y, (_) => true),
       y
     )
 
@@ -300,7 +300,7 @@ describe('Record', () => {
     ]
 
     assert.deepStrictEqual(
-      R.fromFoldableMap(getLastSemigroup<User>(), readonlyArray)(users, user => [user.id, user]),
+      R.fromFoldableMap(getLastSemigroup<User>(), readonlyArray)(users, (user) => [user.id, user]),
       {
         id1: { id: 'id1', name: 'name3' },
         id2: { id: 'id2', name: 'name2' }

@@ -200,6 +200,6 @@ export function getFunctorComposition<F extends URIS, G extends URIS>(
 export function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G>
 export function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G> {
   return {
-    map: (fa, f) => F.map(fa, ga => G.map(ga, f))
+    map: (fa, f) => F.map(fa, (ga) => G.map(ga, f))
   }
 }

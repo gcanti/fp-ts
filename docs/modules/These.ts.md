@@ -103,7 +103,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI: "These" = ...
+export declare const URI: 'These'
 ```
 
 Added in v2.0.0
@@ -113,7 +113,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: These<E, A>) => These<G, B>
+export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: These<E, A>) => These<G, B>
 ```
 
 Added in v2.0.0
@@ -123,7 +123,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function both<E, A>(left: E, right: A): These<E, A> { ... }
+export declare function both<E, A>(left: E, right: A): These<E, A>
 ```
 
 Added in v2.0.0
@@ -133,11 +133,11 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fold<E, A, B>(
+export declare function fold<E, A, B>(
   onLeft: (e: E) => B,
   onRight: (a: A) => B,
   onBoth: (e: E, a: A) => B
-): (fa: These<E, A>) => B { ... }
+): (fa: These<E, A>) => B
 ```
 
 Added in v2.0.0
@@ -147,7 +147,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<E, A>) => M
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<E, A>) => M
 ```
 
 Added in v2.0.0
@@ -159,7 +159,7 @@ Takes a pair of `Option`s and attempts to create a `These` from them
 **Signature**
 
 ```ts
-export function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E, A>> { ... }
+export declare function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E, A>>
 ```
 
 **Example**
@@ -181,7 +181,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getEq<E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>> { ... }
+export declare function getEq<E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>>
 ```
 
 Added in v2.0.0
@@ -193,7 +193,7 @@ Returns an `E` value if possible
 **Signature**
 
 ```ts
-export function getLeft<E, A>(fa: These<E, A>): Option<E> { ... }
+export declare function getLeft<E, A>(fa: These<E, A>): Option<E>
 ```
 
 **Example**
@@ -216,7 +216,7 @@ Returns the `E` value if and only if the value is constructed with `Left`
 **Signature**
 
 ```ts
-export function getLeftOnly<E, A>(fa: These<E, A>): Option<E> { ... }
+export declare function getLeftOnly<E, A>(fa: These<E, A>): Option<E>
 ```
 
 **Example**
@@ -237,7 +237,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI, E> { ... }
+export declare function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI, E>
 ```
 
 Added in v2.0.0
@@ -249,7 +249,7 @@ Returns an `A` value if possible
 **Signature**
 
 ```ts
-export function getRight<E, A>(fa: These<E, A>): Option<A> { ... }
+export declare function getRight<E, A>(fa: These<E, A>): Option<A>
 ```
 
 **Example**
@@ -272,7 +272,7 @@ Returns the `A` value if and only if the value is constructed with `Right`
 **Signature**
 
 ```ts
-export function getRightOnly<E, A>(fa: These<E, A>): Option<A> { ... }
+export declare function getRightOnly<E, A>(fa: These<E, A>): Option<A>
 ```
 
 **Example**
@@ -293,7 +293,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<These<E, A>> { ... }
+export declare function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<These<E, A>>
 ```
 
 Added in v2.0.0
@@ -303,7 +303,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>> { ... }
+export declare function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>>
 ```
 
 Added in v2.0.0
@@ -315,7 +315,7 @@ Returns `true` if the these is an instance of `Both`, `false` otherwise
 **Signature**
 
 ```ts
-export function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A> { ... }
+export declare function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A>
 ```
 
 Added in v2.0.0
@@ -327,7 +327,7 @@ Returns `true` if the these is an instance of `Left`, `false` otherwise
 **Signature**
 
 ```ts
-export function isLeft<E, A>(fa: These<E, A>): fa is Left<E> { ... }
+export declare function isLeft<E, A>(fa: These<E, A>): fa is Left<E>
 ```
 
 Added in v2.0.0
@@ -339,7 +339,7 @@ Returns `true` if the these is an instance of `Right`, `false` otherwise
 **Signature**
 
 ```ts
-export function isRight<E, A>(fa: These<E, A>): fa is Right<A> { ... }
+export declare function isRight<E, A>(fa: These<E, A>): fa is Right<A>
 ```
 
 Added in v2.0.0
@@ -349,7 +349,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function left<E = never, A = never>(left: E): These<E, A> { ... }
+export declare function left<E = never, A = never>(left: E): These<E, A>
 ```
 
 Added in v2.0.0
@@ -359,7 +359,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function leftOrBoth<E>(e: E): <A>(ma: Option<A>) => These<E, A> { ... }
+export declare function leftOrBoth<E>(e: E): <A>(ma: Option<A>) => These<E, A>
 ```
 
 **Example**
@@ -379,7 +379,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B>
 ```
 
 Added in v2.0.0
@@ -389,7 +389,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, G>(f: (e: E) => G) => <A>(fa: These<E, A>) => These<G, A>
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: These<E, A>) => These<G, A>
 ```
 
 Added in v2.0.0
@@ -399,7 +399,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) => B
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) => B
 ```
 
 Added in v2.0.0
@@ -409,7 +409,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B
 ```
 
 Added in v2.0.0
@@ -419,7 +419,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function right<E = never, A = never>(right: A): These<E, A> { ... }
+export declare function right<E = never, A = never>(right: A): These<E, A>
 ```
 
 Added in v2.0.0
@@ -429,7 +429,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function rightOrBoth<A>(a: A): <E>(me: Option<E>) => These<E, A> { ... }
+export declare function rightOrBoth<A>(a: A): <E>(me: Option<E>) => These<E, A>
 ```
 
 **Example**
@@ -449,7 +449,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const swap: <E, A>(fa: These<E, A>) => These<A, E> = ...
+export declare const swap: <E, A>(fa: These<E, A>) => These<A, E>
 ```
 
 Added in v2.4.0
@@ -459,7 +459,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI> = ...
+export declare const these: Functor2<'These'> & Bifunctor2<'These'> & Foldable2<'These'> & Traversable2<'These'>
 ```
 
 Added in v2.0.0
@@ -469,7 +469,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function toTuple<E, A>(e: E, a: A): (fa: These<E, A>) => [E, A] { ... }
+export declare function toTuple<E, A>(e: E, a: A): (fa: These<E, A>) => [E, A]
 ```
 
 **Example**

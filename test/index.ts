@@ -22,14 +22,14 @@ const getExportName = (name: string): string => {
 }
 
 function getModuleNames(): ReadonlyArray<string> {
-  return glob.sync('./src/**/*.ts').map(file => path.parse(file).name)
+  return glob.sync('./src/**/*.ts').map((file) => path.parse(file).name)
 }
 
 describe('index', () => {
   it('check exported modules', () => {
     const moduleNames = getModuleNames()
     const fp = require('../src')
-    moduleNames.forEach(name => {
+    moduleNames.forEach((name) => {
       if (name !== 'index') {
         const exportName = getExportName(name)
         assert.deepStrictEqual(

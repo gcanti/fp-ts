@@ -122,7 +122,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI: "Array" = ...
+export declare const URI: 'Array'
 ```
 
 Added in v2.0.0
@@ -132,7 +132,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A>(that: () => A[]) => (fa: A[]) => A[]
+export declare const alt: <A>(that: () => A[]) => (fa: A[]) => A[]
 ```
 
 Added in v2.0.0
@@ -142,7 +142,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A>(fa: A[]) => <B>(fab: ((a: A) => B)[]) => B[]
+export declare const ap: <A>(fa: A[]) => <B>(fab: ((a: A) => B)[]) => B[]
 ```
 
 Added in v2.0.0
@@ -152,7 +152,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<B>(fb: B[]) => <A>(fa: A[]) => A[]
+export declare const apFirst: <B>(fb: B[]) => <A>(fa: A[]) => A[]
 ```
 
 Added in v2.0.0
@@ -162,7 +162,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<B>(fb: B[]) => <A>(fa: A[]) => B[]
+export declare const apSecond: <B>(fb: B[]) => <A>(fa: A[]) => B[]
 ```
 
 Added in v2.0.0
@@ -172,17 +172,17 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const array: Monad1<URI> &
-  Foldable1<URI> &
-  Unfoldable1<URI> &
-  TraversableWithIndex1<URI, number> &
-  Alternative1<URI> &
-  Extend1<URI> &
-  Compactable1<URI> &
-  FilterableWithIndex1<URI, number> &
-  Witherable1<URI> &
-  FunctorWithIndex1<URI, number> &
-  FoldableWithIndex1<URI, number> = ...
+export declare const array: Monad1<'Array'> &
+  Foldable1<'Array'> &
+  Unfoldable1<'Array'> &
+  TraversableWithIndex1<'Array', number> &
+  Alternative1<'Array'> &
+  Extend1<'Array'> &
+  Compactable1<'Array'> &
+  FilterableWithIndex1<'Array', number> &
+  Witherable1<'Array'> &
+  FunctorWithIndex1<'Array', number> &
+  FoldableWithIndex1<'Array', number>
 ```
 
 Added in v2.0.0
@@ -192,7 +192,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => B[]) => (ma: A[]) => B[]
+export declare const chain: <A, B>(f: (a: A) => B[]) => (ma: A[]) => B[]
 ```
 
 Added in v2.0.0
@@ -202,7 +202,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => B[]) => (ma: A[]) => A[]
+export declare const chainFirst: <A, B>(f: (a: A) => B[]) => (ma: A[]) => A[]
 ```
 
 Added in v2.0.0
@@ -216,7 +216,7 @@ value and the rest of the array.
 **Signature**
 
 ```ts
-export const chop: <A, B>(f: (as: NonEmptyArray<A>) => [B, Array<A>]) => (as: Array<A>) => Array<B> = ...
+export declare const chop: <A, B>(f: (as: NonEmptyArray<A>) => [B, A[]]) => (as: A[]) => B[]
 ```
 
 **Example**
@@ -226,7 +226,7 @@ import { Eq, eqNumber } from 'fp-ts/lib/Eq'
 import { chop, spanLeft } from 'fp-ts/lib/Array'
 
 const group = <A>(S: Eq<A>): ((as: Array<A>) => Array<Array<A>>) => {
-  return chop(as => {
+  return chop((as) => {
     const { init, rest } = spanLeft((a: A) => S.equals(a, as[0]))(as)
     return [init, rest]
   })
@@ -251,7 +251,7 @@ whenever `n` evenly divides the length of `xs`.
 **Signature**
 
 ```ts
-export const chunksOf: (n: number) => <A>(as: Array<A>) => Array<Array<A>> = ...
+export declare const chunksOf: (n: number) => <A>(as: A[]) => A[][]
 ```
 
 **Example**
@@ -269,7 +269,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A>(fa: Option<A>[]) => A[]
+export declare const compact: <A>(fa: Option<A>[]) => A[]
 ```
 
 Added in v2.0.0
@@ -285,23 +285,23 @@ Array comprehension
 **Signature**
 
 ```ts
-export function comprehension<A, B, C, D, R>(
+export declare function comprehension<A, B, C, D, R>(
   input: [Array<A>, Array<B>, Array<C>, Array<D>],
   f: (a: A, b: B, c: C, d: D) => R,
   g?: (a: A, b: B, c: C, d: D) => boolean
 ): Array<R>
-export function comprehension<A, B, C, R>(
+export declare function comprehension<A, B, C, R>(
   input: [Array<A>, Array<B>, Array<C>],
   f: (a: A, b: B, c: C) => R,
   g?: (a: A, b: B, c: C) => boolean
 ): Array<R>
-export function comprehension<A, R>(input: [Array<A>], f: (a: A) => R, g?: (a: A) => boolean): Array<R>
-export function comprehension<A, B, R>(
+export declare function comprehension<A, R>(input: [Array<A>], f: (a: A) => R, g?: (a: A) => boolean): Array<R>
+export declare function comprehension<A, B, R>(
   input: [Array<A>, Array<B>],
   f: (a: A, b: B) => R,
   g?: (a: A, b: B) => boolean
 ): Array<R>
-export function comprehension<A, R>(input: [Array<A>], f: (a: A) => boolean, g?: (a: A) => R): Array<R> { ... }
+export declare function comprehension<A, R>(input: [Array<A>], f: (a: A) => boolean, g?: (a: A) => R): Array<R>
 ```
 
 **Example**
@@ -314,7 +314,7 @@ assert.deepStrictEqual(
   comprehension(
     [
       [1, 2, 3],
-      ['a', 'b']
+      ['a', 'b'],
     ],
     tuple,
     (a, b) => (a + b.length) % 2 === 0
@@ -323,7 +323,7 @@ assert.deepStrictEqual(
     [1, 'a'],
     [1, 'b'],
     [3, 'a'],
-    [3, 'b']
+    [3, 'b'],
   ]
 )
 ```
@@ -337,7 +337,7 @@ Attaches an element to the front of an array, creating a new non empty array
 **Signature**
 
 ```ts
-export const cons: <A>(head: A, tail: Array<A>) => NonEmptyArray<A> = ...
+export declare const cons: <A>(head: A, tail: A[]) => NonEmptyArray<A>
 ```
 
 **Example**
@@ -355,7 +355,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const copy: <A>(as: Array<A>) => Array<A> = ...
+export declare const copy: <A>(as: A[]) => A[]
 ```
 
 Added in v2.0.0
@@ -367,7 +367,7 @@ Delete the element at the specified index, creating a new array, or returning `N
 **Signature**
 
 ```ts
-export const deleteAt: (i: number) => <A>(as: Array<A>) => Option<Array<A>> = ...
+export declare const deleteAt: (i: number) => <A>(as: A[]) => Option<A[]>
 ```
 
 **Example**
@@ -390,7 +390,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export const difference: <A>(E: Eq<A>) => (xs: Array<A>, ys: Array<A>) => Array<A> = ...
+export declare const difference: <A>(E: Eq<A>) => (xs: A[], ys: A[]) => A[]
 ```
 
 **Example**
@@ -411,7 +411,7 @@ Drop a number of elements from the start of an array, creating a new array
 **Signature**
 
 ```ts
-export const dropLeft: (n: number) => <A>(as: Array<A>) => Array<A> = ...
+export declare const dropLeft: (n: number) => <A>(as: A[]) => A[]
 ```
 
 **Example**
@@ -431,7 +431,7 @@ Remove the longest initial subarray for which all element satisfy the specified 
 **Signature**
 
 ```ts
-export const dropLeftWhile: <A>(predicate: Predicate<A>) => (as: Array<A>) => Array<A> = ...
+export declare const dropLeftWhile: <A>(predicate: Predicate<A>) => (as: A[]) => A[]
 ```
 
 **Example**
@@ -451,7 +451,7 @@ Drop a number of elements from the end of an array, creating a new array
 **Signature**
 
 ```ts
-export const dropRight: (n: number) => <A>(as: Array<A>) => Array<A> = ...
+export declare const dropRight: (n: number) => <A>(as: A[]) => A[]
 ```
 
 **Example**
@@ -469,7 +469,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A>(ma: A[]) => A[][]
+export declare const duplicate: <A>(ma: A[]) => A[][]
 ```
 
 Added in v2.0.0
@@ -483,7 +483,7 @@ an array of type `Array<A>`.
 **Signature**
 
 ```ts
-export const elem: <A>(E: Eq<A>) => (a: A, as: Array<A>) => boolean = ...
+export declare const elem: <A>(E: Eq<A>) => (a: A, as: A[]) => boolean
 ```
 
 **Example**
@@ -505,7 +505,7 @@ An empty array
 **Signature**
 
 ```ts
-export const empty: Array<never> = ...
+export declare const empty: never[]
 ```
 
 Added in v2.0.0
@@ -515,7 +515,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (fa: A[]) => B) => (ma: A[]) => B[]
+export declare const extend: <A, B>(f: (fa: A[]) => B) => (ma: A[]) => B[]
 ```
 
 Added in v2.0.0
@@ -525,7 +525,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-{ <A, B>(refinement: Refinement<A, B>): (fa: A[]) => B[]; <A>(predicate: Predicate<A>): (fa: A[]) => A[]; }
+export declare const filter: {
+  <A, B>(refinement: Refinement<A, B>): (fa: A[]) => B[]
+  <A>(predicate: Predicate<A>): (fa: A[]) => A[]
+}
 ```
 
 Added in v2.0.0
@@ -535,7 +538,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => Option<B>) => (fa: A[]) => B[]
+export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: A[]) => B[]
 ```
 
 Added in v2.0.0
@@ -545,7 +548,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (i: number, a: A) => Option<B>) => (fa: A[]) => B[]
+export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B>) => (fa: A[]) => B[]
 ```
 
 Added in v2.0.0
@@ -555,7 +558,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-{ <A, B>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: A[]) => B[]; <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: A[]) => A[]; }
+export declare const filterWithIndex: {
+  <A, B>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: A[]) => B[]
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: A[]) => A[]
+}
 ```
 
 Added in v2.0.0
@@ -567,8 +573,8 @@ Find the first element which satisfies a predicate (or a refinement) function
 **Signature**
 
 ```ts
-export function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
-export function findFirst<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A> { ... }
+export declare function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
+export declare function findFirst<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A>
 ```
 
 **Example**
@@ -580,7 +586,7 @@ import { some } from 'fp-ts/lib/Option'
 assert.deepStrictEqual(
   findFirst((x: { a: number; b: number }) => x.a === 1)([
     { a: 1, b: 1 },
-    { a: 1, b: 2 }
+    { a: 1, b: 2 },
   ]),
   some({ a: 1, b: 1 })
 )
@@ -595,7 +601,7 @@ Find the first element returned by an option based selector function
 **Signature**
 
 ```ts
-export const findFirstMap: <A, B>(f: (a: A) => Option<B>) => (as: Array<A>) => Option<B> = ...
+export declare const findFirstMap: <A, B>(f: (a: A) => Option<B>) => (as: A[]) => Option<B>
 ```
 
 **Example**
@@ -624,7 +630,7 @@ Find the first index for which a predicate holds
 **Signature**
 
 ```ts
-export const findIndex: <A>(predicate: Predicate<A>) => (as: Array<A>) => Option<number> = ...
+export declare const findIndex: <A>(predicate: Predicate<A>) => (as: A[]) => Option<number>
 ```
 
 **Example**
@@ -646,8 +652,8 @@ Find the last element which satisfies a predicate function
 **Signature**
 
 ```ts
-export function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
-export function findLast<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A> { ... }
+export declare function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
+export declare function findLast<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A>
 ```
 
 **Example**
@@ -659,7 +665,7 @@ import { some } from 'fp-ts/lib/Option'
 assert.deepStrictEqual(
   findLast((x: { a: number; b: number }) => x.a === 1)([
     { a: 1, b: 1 },
-    { a: 1, b: 2 }
+    { a: 1, b: 2 },
   ]),
   some({ a: 1, b: 2 })
 )
@@ -674,7 +680,7 @@ Returns the index of the last element of the list which matches the predicate
 **Signature**
 
 ```ts
-export const findLastIndex: <A>(predicate: Predicate<A>) => (as: Array<A>) => Option<number> = ...
+export declare const findLastIndex: <A>(predicate: Predicate<A>) => (as: A[]) => Option<number>
 ```
 
 **Example**
@@ -689,7 +695,7 @@ interface X {
 }
 const xs: Array<X> = [
   { a: 1, b: 0 },
-  { a: 1, b: 1 }
+  { a: 1, b: 1 },
 ]
 assert.deepStrictEqual(findLastIndex((x: { a: number }) => x.a === 1)(xs), some(1))
 assert.deepStrictEqual(findLastIndex((x: { a: number }) => x.a === 4)(xs), none)
@@ -704,7 +710,7 @@ Find the last element returned by an option based selector function
 **Signature**
 
 ```ts
-export const findLastMap: <A, B>(f: (a: A) => Option<B>) => (as: Array<A>) => Option<B> = ...
+export declare const findLastMap: <A, B>(f: (a: A) => Option<B>) => (as: A[]) => Option<B>
 ```
 
 **Example**
@@ -733,7 +739,7 @@ Removes one level of nesting
 **Signature**
 
 ```ts
-export const flatten: <A>(mma: Array<Array<A>>) => Array<A> = ...
+export declare const flatten: <A>(mma: A[][]) => A[]
 ```
 
 **Example**
@@ -753,10 +759,7 @@ Break an array into its first element and remaining elements
 **Signature**
 
 ```ts
-export const foldLeft: <A, B>(
-  onNil: () => B,
-  onCons: (head: A, tail: Array<A>) => B
-) => (as: Array<A>) => B = ...
+export declare const foldLeft: <A, B>(onNil: () => B, onCons: (head: A, tail: A[]) => B) => (as: A[]) => B
 ```
 
 **Example**
@@ -778,7 +781,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: A[]) => M
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: A[]) => M
 ```
 
 Added in v2.0.0
@@ -788,7 +791,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: A[]) => M
+export declare const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: A[]) => M
 ```
 
 Added in v2.0.0
@@ -800,10 +803,7 @@ Break an array into its initial elements and the last element
 **Signature**
 
 ```ts
-export const foldRight: <A, B>(
-  onNil: () => B,
-  onCons: (init: Array<A>, last: A) => B
-) => (as: Array<A>) => B = ...
+export declare const foldRight: <A, B>(onNil: () => B, onCons: (init: A[], last: A) => B) => (as: A[]) => B
 ```
 
 Added in v2.0.0
@@ -817,7 +817,7 @@ different lengths, the result is non equality.
 **Signature**
 
 ```ts
-export const getEq: <A>(E: Eq<A>) => Eq<Array<A>> = ...
+export declare const getEq: <A>(E: Eq<A>) => Eq<A[]>
 ```
 
 **Example**
@@ -840,7 +840,7 @@ Returns a `Monoid` for `Array<A>`
 **Signature**
 
 ```ts
-export const getMonoid: <A = never>() => Monoid<Array<A>> = ...
+export declare const getMonoid: <A = never>() => Monoid<A[]>
 ```
 
 **Example**
@@ -864,7 +864,7 @@ the same length, the result is equality.
 **Signature**
 
 ```ts
-export const getOrd: <A>(O: Ord<A>) => Ord<Array<A>> = ...
+export declare const getOrd: <A>(O: Ord<A>) => Ord<A[]>
 ```
 
 **Example**
@@ -886,7 +886,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getShow: <A>(S: Show<A>) => Show<Array<A>> = ...
+export declare const getShow: <A>(S: Show<A>) => Show<A[]>
 ```
 
 Added in v2.0.0
@@ -898,7 +898,7 @@ Get the first element in an array, or `None` if the array is empty
 **Signature**
 
 ```ts
-export const head: <A>(as: Array<A>) => Option<A> = ...
+export declare const head: <A>(as: A[]) => Option<A>
 ```
 
 **Example**
@@ -920,7 +920,7 @@ Get all but the last element of an array, creating a new array, or `None` if the
 **Signature**
 
 ```ts
-export const init: <A>(as: Array<A>) => Option<Array<A>> = ...
+export declare const init: <A>(as: A[]) => Option<A[]>
 ```
 
 **Example**
@@ -942,7 +942,7 @@ Insert an element at the specified index, creating a new array, or returning `No
 **Signature**
 
 ```ts
-export const insertAt: <A>(i: number, a: A) => (as: Array<A>) => Option<Array<A>> = ...
+export declare const insertAt: <A>(i: number, a: A) => (as: A[]) => Option<A[]>
 ```
 
 **Example**
@@ -964,7 +964,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export const intersection: <A>(E: Eq<A>) => (xs: Array<A>, ys: Array<A>) => Array<A> = ...
+export declare const intersection: <A>(E: Eq<A>) => (xs: A[], ys: A[]) => A[]
 ```
 
 **Example**
@@ -985,7 +985,7 @@ Test whether an array is empty
 **Signature**
 
 ```ts
-export const isEmpty: <A>(as: Array<A>) => boolean = ...
+export declare const isEmpty: <A>(as: A[]) => boolean
 ```
 
 **Example**
@@ -1005,7 +1005,7 @@ Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
 **Signature**
 
 ```ts
-export const isNonEmpty: <A>(as: Array<A>) => as is NonEmptyArray<A> = ...
+export declare const isNonEmpty: <A>(as: A[]) => as is NonEmptyArray<A>
 ```
 
 Added in v2.0.0
@@ -1017,7 +1017,7 @@ Test whether an array contains a particular index
 **Signature**
 
 ```ts
-export const isOutOfBound: <A>(i: number, as: Array<A>) => boolean = ...
+export declare const isOutOfBound: <A>(i: number, as: A[]) => boolean
 ```
 
 Added in v2.0.0
@@ -1029,7 +1029,7 @@ Get the last element in an array, or `None` if the array is empty
 **Signature**
 
 ```ts
-export const last: <A>(as: Array<A>) => Option<A> = ...
+export declare const last: <A>(as: A[]) => Option<A>
 ```
 
 **Example**
@@ -1051,7 +1051,7 @@ Extracts from an array of `Either` all the `Left` elements. All the `Left` eleme
 **Signature**
 
 ```ts
-export const lefts: <E, A>(as: Array<Either<E, A>>) => Array<E> = ...
+export declare const lefts: <E, A>(as: Either<E, A>[]) => E[]
 ```
 
 **Example**
@@ -1072,7 +1072,7 @@ This function provides a safe way to read a value at a particular index from an 
 **Signature**
 
 ```ts
-export const lookup: <A>(i: number, as: Array<A>) => Option<A> = ...
+export declare const lookup: <A>(i: number, as: A[]) => Option<A>
 ```
 
 **Example**
@@ -1094,7 +1094,7 @@ Return a list of length `n` with element `i` initialized with `f(i)`
 **Signature**
 
 ```ts
-export const makeBy: <A>(n: number, f: (i: number) => A) => Array<A> = ...
+export declare const makeBy: <A>(n: number, f: (i: number) => A) => A[]
 ```
 
 **Example**
@@ -1113,7 +1113,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => B) => (fa: A[]) => B[]
+export declare const map: <A, B>(f: (a: A) => B) => (fa: A[]) => B[]
 ```
 
 Added in v2.0.0
@@ -1123,7 +1123,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (i: number, a: A) => B) => (fa: A[]) => B[]
+export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: A[]) => B[]
 ```
 
 Added in v2.0.0
@@ -1136,7 +1136,7 @@ of bounds
 **Signature**
 
 ```ts
-export const modifyAt: <A>(i: number, f: (a: A) => A) => (as: Array<A>) => Option<Array<A>> = ...
+export declare const modifyAt: <A>(i: number, f: (a: A) => A) => (as: A[]) => Option<A[]>
 ```
 
 **Example**
@@ -1157,7 +1157,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const of: <A>(a: A) => Array<A> = ...
+export declare const of: <A>(a: A) => A[]
 ```
 
 Added in v2.0.0
@@ -1167,7 +1167,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-{ <A, B>(refinement: Refinement<A, B>): (fa: A[]) => Separated<A[], B[]>; <A>(predicate: Predicate<A>): (fa: A[]) => Separated<A[], A[]>; }
+export declare const partition: {
+  <A, B>(refinement: Refinement<A, B>): (fa: A[]) => Separated<A[], B[]>
+  <A>(predicate: Predicate<A>): (fa: A[]) => Separated<A[], A[]>
+}
 ```
 
 Added in v2.0.0
@@ -1177,7 +1180,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B, C>(f: (a: A) => Either<B, C>) => (fa: A[]) => Separated<B[], C[]>
+export declare const partitionMap: <A, B, C>(f: (a: A) => Either<B, C>) => (fa: A[]) => Separated<B[], C[]>
 ```
 
 Added in v2.0.0
@@ -1187,7 +1190,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B, C>(f: (i: number, a: A) => Either<B, C>) => (fa: A[]) => Separated<B[], C[]>
+export declare const partitionMapWithIndex: <A, B, C>(
+  f: (i: number, a: A) => Either<B, C>
+) => (fa: A[]) => Separated<B[], C[]>
 ```
 
 Added in v2.0.0
@@ -1197,7 +1202,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-{ <A, B>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: A[]) => Separated<A[], B[]>; <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: A[]) => Separated<A[], A[]>; }
+export declare const partitionWithIndex: {
+  <A, B>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: A[]) => Separated<A[], B[]>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: A[]) => Separated<A[], A[]>
+}
 ```
 
 Added in v2.0.0
@@ -1209,7 +1217,7 @@ Create an array containing a range of integers, including both endpoints
 **Signature**
 
 ```ts
-export const range: (start: number, end: number) => Array<number> = ...
+export declare const range: (start: number, end: number) => number[]
 ```
 
 **Example**
@@ -1227,7 +1235,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: A[]) => B
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: A[]) => B
 ```
 
 Added in v2.0.0
@@ -1237,7 +1245,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: A[]) => B
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: A[]) => B
 ```
 
 Added in v2.0.0
@@ -1247,7 +1255,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: A[]) => B
+export declare const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: A[]) => B
 ```
 
 Added in v2.0.0
@@ -1257,7 +1265,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: A[]) => B
+export declare const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: A[]) => B
 ```
 
 Added in v2.0.0
@@ -1269,7 +1277,7 @@ Create an array containing a value repeated the specified number of times
 **Signature**
 
 ```ts
-export const replicate: <A>(n: number, a: A) => Array<A> = ...
+export declare const replicate: <A>(n: number, a: A) => A[]
 ```
 
 **Example**
@@ -1289,7 +1297,7 @@ Reverse an array, creating a new array
 **Signature**
 
 ```ts
-export const reverse: <A>(as: Array<A>) => Array<A> = ...
+export declare const reverse: <A>(as: A[]) => A[]
 ```
 
 **Example**
@@ -1309,7 +1317,7 @@ Extracts from an array of `Either` all the `Right` elements. All the `Right` ele
 **Signature**
 
 ```ts
-export const rights: <E, A>(as: Array<Either<E, A>>) => Array<A> = ...
+export declare const rights: <E, A>(as: Either<E, A>[]) => A[]
 ```
 
 **Example**
@@ -1330,7 +1338,7 @@ Rotate an array to the right by `n` steps
 **Signature**
 
 ```ts
-export const rotate: (n: number) => <A>(as: Array<A>) => Array<A> = ...
+export declare const rotate: (n: number) => <A>(as: A[]) => A[]
 ```
 
 **Example**
@@ -1356,7 +1364,7 @@ assert.deepStrictEqual(scanLeft(10, (b, a: number) => b - a)([1, 2, 3]), [10, 9,
 **Signature**
 
 ```ts
-export const scanLeft: <A, B>(b: B, f: (b: B, a: A) => B) => (as: Array<A>) => Array<B> = ...
+export declare const scanLeft: <A, B>(b: B, f: (b: B, a: A) => B) => (as: A[]) => B[]
 ```
 
 Added in v2.0.0
@@ -1368,7 +1376,7 @@ Fold an array from the right, keeping all intermediate results instead of only t
 **Signature**
 
 ```ts
-export const scanRight: <A, B>(b: B, f: (a: A, b: B) => B) => (as: Array<A>) => Array<B> = ...
+export declare const scanRight: <A, B>(b: B, f: (a: A, b: B) => B) => (as: A[]) => B[]
 ```
 
 **Example**
@@ -1386,7 +1394,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(fa: Either<A, B>[]) => Separated<A[], B[]>
+export declare const separate: <A, B>(fa: Either<A, B>[]) => Separated<A[], B[]>
 ```
 
 Added in v2.0.0
@@ -1398,7 +1406,7 @@ Append an element to the end of an array, creating a new non empty array
 **Signature**
 
 ```ts
-export const snoc: <A>(init: Array<A>, end: A) => NonEmptyArray<A> = ...
+export declare const snoc: <A>(init: A[], end: A) => NonEmptyArray<A>
 ```
 
 **Example**
@@ -1418,7 +1426,7 @@ Sort the elements of an array in increasing order, creating a new array
 **Signature**
 
 ```ts
-export const sort: <A>(O: Ord<A>) => (as: Array<A>) => Array<A> = ...
+export declare const sort: <A>(O: Ord<A>) => (as: A[]) => A[]
 ```
 
 **Example**
@@ -1440,7 +1448,7 @@ etc...
 **Signature**
 
 ```ts
-export const sortBy: <A>(ords: Array<Ord<A>>) => (as: Array<A>) => Array<A> = ...
+export declare const sortBy: <A>(ords: Ord<A>[]) => (as: A[]) => A[]
 ```
 
 **Example**
@@ -1462,13 +1470,13 @@ const persons = [
   { name: 'a', age: 1 },
   { name: 'b', age: 3 },
   { name: 'c', age: 2 },
-  { name: 'b', age: 2 }
+  { name: 'b', age: 2 },
 ]
 assert.deepStrictEqual(sortByNameByAge(persons), [
   { name: 'a', age: 1 },
   { name: 'b', age: 2 },
   { name: 'b', age: 3 },
-  { name: 'c', age: 2 }
+  { name: 'c', age: 2 },
 ])
 ```
 
@@ -1484,10 +1492,10 @@ Split an array into two parts:
 **Signature**
 
 ```ts
-export function spanLeft<A, B extends A>(
+export declare function spanLeft<A, B extends A>(
   refinement: Refinement<A, B>
 ): (as: Array<A>) => { init: Array<B>; rest: Array<A> }
-export function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => { init: Array<A>; rest: Array<A> } { ... }
+export declare function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => { init: Array<A>; rest: Array<A> }
 ```
 
 **Example**
@@ -1507,7 +1515,7 @@ Splits an array into two pieces, the first piece has `n` elements.
 **Signature**
 
 ```ts
-export const splitAt: (n: number) => <A>(as: Array<A>) => [Array<A>, Array<A>] = ...
+export declare const splitAt: (n: number) => <A>(as: A[]) => [A[], A[]]
 ```
 
 **Example**
@@ -1517,7 +1525,7 @@ import { splitAt } from 'fp-ts/lib/Array'
 
 assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
   [1, 2],
-  [3, 4, 5]
+  [3, 4, 5],
 ])
 ```
 
@@ -1530,7 +1538,7 @@ Get all but the first element of an array, creating a new array, or `None` if th
 **Signature**
 
 ```ts
-export const tail: <A>(as: Array<A>) => Option<Array<A>> = ...
+export declare const tail: <A>(as: A[]) => Option<A[]>
 ```
 
 **Example**
@@ -1553,7 +1561,7 @@ Keep only a number of elements from the start of an array, creating a new array.
 **Signature**
 
 ```ts
-export const takeLeft: (n: number) => <A>(as: Array<A>) => Array<A> = ...
+export declare const takeLeft: (n: number) => <A>(as: A[]) => A[]
 ```
 
 **Example**
@@ -1573,8 +1581,8 @@ Calculate the longest initial subarray for which all element satisfy the specifi
 **Signature**
 
 ```ts
-export function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
-export function takeLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A> { ... }
+export declare function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
+export declare function takeLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A>
 ```
 
 **Example**
@@ -1595,7 +1603,7 @@ Keep only a number of elements from the end of an array, creating a new array.
 **Signature**
 
 ```ts
-export const takeRight: (n: number) => <A>(as: Array<A>) => Array<A> = ...
+export declare const takeRight: (n: number) => <A>(as: A[]) => A[]
 ```
 
 **Example**
@@ -1615,7 +1623,7 @@ Creates an array of unique values, in order, from all given arrays using a `Eq` 
 **Signature**
 
 ```ts
-export const union: <A>(E: Eq<A>) => (xs: Array<A>, ys: Array<A>) => Array<A> = ...
+export declare const union: <A>(E: Eq<A>) => (xs: A[], ys: A[]) => A[]
 ```
 
 **Example**
@@ -1636,7 +1644,7 @@ Remove duplicates from an array, keeping the first occurrence of an element.
 **Signature**
 
 ```ts
-export const uniq: <A>(E: Eq<A>) => (as: Array<A>) => Array<A> = ...
+export declare const uniq: <A>(E: Eq<A>) => (as: A[]) => A[]
 ```
 
 **Example**
@@ -1655,7 +1663,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const unsafeDeleteAt: <A>(i: number, as: Array<A>) => Array<A> = ...
+export declare const unsafeDeleteAt: <A>(i: number, as: A[]) => A[]
 ```
 
 Added in v2.0.0
@@ -1665,7 +1673,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const unsafeInsertAt: <A>(i: number, a: A, as: Array<A>) => Array<A> = ...
+export declare const unsafeInsertAt: <A>(i: number, a: A, as: A[]) => A[]
 ```
 
 Added in v2.0.0
@@ -1675,7 +1683,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const unsafeUpdateAt: <A>(i: number, a: A, as: Array<A>) => Array<A> = ...
+export declare const unsafeUpdateAt: <A>(i: number, a: A, as: A[]) => A[]
 ```
 
 Added in v2.0.0
@@ -1687,7 +1695,7 @@ The function is reverse of `zip`. Takes an array of pairs and return two corresp
 **Signature**
 
 ```ts
-export const unzip: <A, B>(as: Array<[A, B]>) => [Array<A>, Array<B>] = ...
+export declare const unzip: <A, B>(as: [A, B][]) => [A[], B[]]
 ```
 
 **Example**
@@ -1699,11 +1707,11 @@ assert.deepStrictEqual(
   unzip([
     [1, 'a'],
     [2, 'b'],
-    [3, 'c']
+    [3, 'c'],
   ]),
   [
     [1, 2, 3],
-    ['a', 'b', 'c']
+    ['a', 'b', 'c'],
   ]
 )
 ```
@@ -1717,7 +1725,7 @@ Change the element at the specified index, creating a new array, or returning `N
 **Signature**
 
 ```ts
-export const updateAt: <A>(i: number, a: A) => (as: Array<A>) => Option<Array<A>> = ...
+export declare const updateAt: <A>(i: number, a: A) => (as: A[]) => Option<A[]>
 ```
 
 **Example**
@@ -1740,7 +1748,7 @@ longer array are discarded
 **Signature**
 
 ```ts
-export const zip: <A, B>(fa: Array<A>, fb: Array<B>) => Array<[A, B]> = ...
+export declare const zip: <A, B>(fa: A[], fb: B[]) => [A, B][]
 ```
 
 **Example**
@@ -1751,7 +1759,7 @@ import { zip } from 'fp-ts/lib/Array'
 assert.deepStrictEqual(zip([1, 2, 3], ['a', 'b', 'c', 'd']), [
   [1, 'a'],
   [2, 'b'],
-  [3, 'c']
+  [3, 'c'],
 ])
 ```
 
@@ -1765,7 +1773,7 @@ input array is short, excess elements of the longer array are discarded.
 **Signature**
 
 ```ts
-export const zipWith: <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => C) => Array<C> = ...
+export declare const zipWith: <A, B, C>(fa: A[], fb: B[], f: (a: A, b: B) => C) => C[]
 ```
 
 **Example**

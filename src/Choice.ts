@@ -133,7 +133,7 @@ export function fanin<F>(
 ): <A, B, C>(pac: HKT2<F, A, C>, pbc: HKT2<F, B, C>) => HKT2<F, Either<A, B>, C> {
   const splitChoiceF = splitChoice(F)
   return <A, B, C>(pac: HKT2<F, A, C>, pbc: HKT2<F, B, C>): HKT2<F, Either<A, B>, C> => {
-    const join: HKT2<F, Either<C, C>, C> = F.promap(F.id<C>(), e => (e._tag === 'Left' ? e.left : e.right), identity)
+    const join: HKT2<F, Either<C, C>, C> = F.promap(F.id<C>(), (e) => (e._tag === 'Left' ? e.left : e.right), identity)
     return F.compose(join, splitChoiceF(pac, pbc))
   }
 }

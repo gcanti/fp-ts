@@ -37,7 +37,7 @@ export interface Store<S, A> {
  * @since 2.0.0
  */
 export function seek<S>(s: S): <A>(wa: Store<S, A>) => Store<S, A> {
-  return wa => ({ peek: wa.peek, pos: s })
+  return (wa) => ({ peek: wa.peek, pos: s })
 }
 
 /**
@@ -46,7 +46,7 @@ export function seek<S>(s: S): <A>(wa: Store<S, A>) => Store<S, A> {
  * @since 2.0.0
  */
 export function seeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => Store<S, A> {
-  return wa => ({ peek: wa.peek, pos: f(wa.pos) })
+  return (wa) => ({ peek: wa.peek, pos: f(wa.pos) })
 }
 
 /**
@@ -55,7 +55,7 @@ export function seeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => Store<S, A
  * @since 2.0.0
  */
 export function peeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => A {
-  return wa => wa.peek(f(wa.pos))
+  return (wa) => wa.peek(f(wa.pos))
 }
 
 /**
@@ -80,7 +80,7 @@ export function experiment<F extends URIS>(
 ): <S>(f: (s: S) => Kind<F, S>) => <A>(wa: Store<S, A>) => Kind<F, A>
 export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A>
 export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A> {
-  return f => wa => F.map(f(wa.pos), s => wa.peek(s))
+  return (f) => (wa) => F.map(f(wa.pos), (s) => wa.peek(s))
 }
 
 /**
@@ -89,12 +89,12 @@ export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>
 export const store: Comonad2<URI> = {
   URI,
   map: (wa, f) => ({
-    peek: s => f(wa.peek(s)),
+    peek: (s) => f(wa.peek(s)),
     pos: wa.pos
   }),
-  extract: wa => wa.peek(wa.pos),
+  extract: (wa) => wa.peek(wa.pos),
   extend: (wa, f) => ({
-    peek: s => f({ peek: wa.peek, pos: s }),
+    peek: (s) => f({ peek: wa.peek, pos: s }),
     pos: wa.pos
   })
 }

@@ -175,10 +175,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getStateM<M extends URIS3>(M: Monad3<M>): StateM3<M>
-export function getStateM<M extends URIS2>(M: Monad2<M>): StateM2<M>
-export function getStateM<M extends URIS>(M: Monad1<M>): StateM1<M>
-export function getStateM<M>(M: Monad<M>): StateM<M> { ... }
+export declare function getStateM<M extends URIS3>(M: Monad3<M>): StateM3<M>
+export declare function getStateM<M extends URIS2>(M: Monad2<M>): StateM2<M>
+export declare function getStateM<M extends URIS>(M: Monad1<M>): StateM1<M>
+export declare function getStateM<M>(M: Monad<M>): StateM<M>
 ```
 
 Added in v2.0.0

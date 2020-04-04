@@ -27,7 +27,7 @@ Returns a random number between 0 (inclusive) and 1 (exclusive). This is a direc
 **Signature**
 
 ```ts
-export const random: IO<number> = () => ...
+export declare const random: IO<number>
 ```
 
 Added in v2.0.0
@@ -39,7 +39,7 @@ Returns a random boolean value with an equal chance of being `true` or `false`
 **Signature**
 
 ```ts
-export const randomBool: IO<boolean> = ...
+export declare const randomBool: IO<boolean>
 ```
 
 Added in v2.0.0
@@ -53,7 +53,7 @@ distributed in the closed interval `[low, high]`. It is unspecified what happens
 **Signature**
 
 ```ts
-export function randomInt(low: number, high: number): IO<number> { ... }
+export declare function randomInt(low: number, high: number): IO<number>
 ```
 
 Added in v2.0.0
@@ -66,7 +66,7 @@ happens if `maximum < minimum`.
 **Signature**
 
 ```ts
-export function randomRange(min: number, max: number): IO<number> { ... }
+export declare function randomRange(min: number, max: number): IO<number>
 ```
 
 Added in v2.0.0

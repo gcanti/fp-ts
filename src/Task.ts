@@ -37,14 +37,14 @@ export interface Task<A> {
 /**
  * @since 2.0.0
  */
-export const never: Task<never> = () => new Promise(_ => undefined)
+export const never: Task<never> = () => new Promise((_) => undefined)
 
 /**
  * @since 2.0.0
  */
 export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>> {
   return {
-    concat: (x, y) => () => x().then(rx => y().then(ry => S.concat(rx, ry)))
+    concat: (x, y) => () => x().then((rx) => y().then((ry) => S.concat(rx, ry)))
   }
 }
 
@@ -74,8 +74,8 @@ export function getRaceMonoid<A = never>(): Monoid<Task<A>> {
  * @since 2.0.0
  */
 export function delay(millis: number): <A>(ma: Task<A>) => Task<A> {
-  return ma => () =>
-    new Promise(resolve => {
+  return (ma) => () =>
+    new Promise((resolve) => {
       setTimeout(() => {
         // tslint:disable-next-line: no-floating-promises
         ma().then(resolve)
@@ -121,7 +121,7 @@ export const task: Monad1<URI> & MonadTask1<URI> = {
   map: (ma, f) => () => ma().then(f),
   of,
   ap: (mab, ma) => () => Promise.all([mab(), ma()]).then(([f, a]) => f(a)),
-  chain: (ma, f) => () => ma().then(a => f(a)()),
+  chain: (ma, f) => () => ma().then((a) => f(a)()),
   fromIO,
   fromTask: identity
 }
@@ -133,7 +133,7 @@ export const task: Monad1<URI> & MonadTask1<URI> = {
  */
 export const taskSeq: typeof task = {
   ...task,
-  ap: (mab, ma) => () => mab().then(f => ma().then(a => f(a)))
+  ap: (mab, ma) => () => mab().then((f) => ma().then((a) => f(a)))
 }
 
 const { ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(task)

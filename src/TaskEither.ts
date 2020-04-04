@@ -92,21 +92,21 @@ export function fold<E, A, B>(
   onLeft: (e: E) => Task<B>,
   onRight: (a: A) => Task<B>
 ): (ma: TaskEither<E, A>) => Task<B> {
-  return ma => T.fold(ma, onLeft, onRight)
+  return (ma) => T.fold(ma, onLeft, onRight)
 }
 
 /**
  * @since 2.0.0
  */
 export function getOrElse<E, A>(onLeft: (e: E) => Task<A>): (ma: TaskEither<E, A>) => Task<A> {
-  return ma => T.getOrElse(ma, onLeft)
+  return (ma) => T.getOrElse(ma, onLeft)
 }
 
 /**
  * @since 2.0.0
  */
 export function orElse<E, A, M>(onLeft: (e: E) => TaskEither<M, A>): (ma: TaskEither<E, A>) => TaskEither<M, A> {
-  return ma => T.orElse(ma, onLeft)
+  return (ma) => T.orElse(ma, onLeft)
 }
 
 /**
@@ -157,7 +157,7 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>> {
  * @since 2.0.0
  */
 export function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> {
-  return () => f().then(E.right, reason => E.left(onRejected(reason)))
+  return () => f().then(E.right, (reason) => E.left(onRejected(reason)))
 }
 
 /**
@@ -173,8 +173,8 @@ export function bracket<E, A, B>(
   use: (a: A) => TaskEither<E, B>,
   release: (a: A, e: Either<E, B>) => TaskEither<E, void>
 ): TaskEither<E, B> {
-  return T.chain(acquire, a =>
-    T.chain(task.map(use(a), E.right), e =>
+  return T.chain(acquire, (a) =>
+    T.chain(task.map(use(a), E.right), (e) =>
       T.chain(release(a, e), () => (E.isLeft(e) ? T.left(e.left) : T.of(e.right)))
     )
   )
@@ -224,10 +224,10 @@ export function taskify<A, B, C, D, E, L, R>(
   f: (a: A, b: B, c: C, d: D, e: E, cb: (e: L | null | undefined, r?: R) => void) => void
 ): (a: A, b: B, c: C, d: D, e: E) => TaskEither<L, R>
 export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
-  return function() {
+  return function () {
     const args = Array.prototype.slice.call(arguments)
     return () =>
-      new Promise(resolve => {
+      new Promise((resolve) => {
         const cbResolver = (e: L, r: R) => (e != null ? resolve(E.left(e)) : resolve(E.right(r)))
         f.apply(null, args.concat(cbResolver))
       })
@@ -329,7 +329,7 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<
  */
 export const taskEitherSeq: typeof taskEither = {
   ...taskEither,
-  ap: (mab, ma) => T.chain(mab, f => T.map(ma, f))
+  ap: (mab, ma) => T.chain(mab, (f) => T.map(ma, f))
 }
 
 const {
