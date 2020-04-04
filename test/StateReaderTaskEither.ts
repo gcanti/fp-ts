@@ -105,13 +105,13 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('rightState', async () => {
-    const state: State<{}, number> = s => [1, s]
+    const state: State<{}, number> = (s) => [1, s]
     const e = await RTE.run(_.evalState(_.rightState(state), {}), {})
     assert.deepStrictEqual(e, E.right(1))
   })
 
   it('leftState', async () => {
-    const state: State<{}, number> = s => [1, s]
+    const state: State<{}, number> = (s) => [1, s]
     const e = await RTE.run(_.evalState(_.leftState(state), {}), {})
     assert.deepStrictEqual(e, E.left(1))
   })

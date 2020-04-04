@@ -94,21 +94,21 @@ export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderT
  * @since 2.5.0
  */
 export function leftReaderTask<R, E = never, A = never>(me: ReaderTask<R, E>): ReaderTaskEither<R, E, A> {
-  return r => TE.leftTask(me(r))
+  return (r) => TE.leftTask(me(r))
 }
 
 /**
  * @since 2.5.0
  */
 export function rightReaderTask<R, E = never, A = never>(ma: ReaderTask<R, A>): ReaderTaskEither<R, E, A> {
-  return r => TE.rightTask(ma(r))
+  return (r) => TE.rightTask(ma(r))
 }
 
 /**
  * @since 2.0.0
  */
 export function leftReader<R, E = never, A = never>(me: Reader<R, E>): ReaderTaskEither<R, E, A> {
-  return r => TE.left(me(r))
+  return (r) => TE.left(me(r))
 }
 
 /**
@@ -122,7 +122,7 @@ export function fromIOEither<R, E, A>(ma: IOEither<E, A>): ReaderTaskEither<R, E
  * @since 2.0.0
  */
 export function fromReaderEither<R, E, A>(ma: ReaderEither<R, E, A>): ReaderTaskEither<R, E, A> {
-  return r => TE.fromEither(ma(r))
+  return (r) => TE.fromEither(ma(r))
 }
 
 /**
@@ -146,12 +146,12 @@ export function fold<R, E, A, B>(
   onLeft: (e: E) => ReaderTask<R, B>,
   onRight: (a: A) => ReaderTask<R, B>
 ): (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B> {
-  return ma => r =>
+  return (ma) => (r) =>
     pipe(
       ma(r),
       TE.fold(
-        e => onLeft(e)(r),
-        a => onRight(a)(r)
+        (e) => onLeft(e)(r),
+        (a) => onRight(a)(r)
       )
     )
 }
@@ -162,7 +162,7 @@ export function fold<R, E, A, B>(
 export function getOrElse<R, E, A>(
   onLeft: (e: E) => ReaderTask<R, A>
 ): (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, A> {
-  return ma => r => TE.getOrElse<E, A>(e => onLeft(e)(r))(ma(r))
+  return (ma) => (r) => TE.getOrElse<E, A>((e) => onLeft(e)(r))(ma(r))
 }
 
 /**
@@ -171,14 +171,14 @@ export function getOrElse<R, E, A>(
 export function orElse<R, E, A, M>(
   onLeft: (e: E) => ReaderTaskEither<R, M, A>
 ): (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, M, A> {
-  return ma => r => TE.orElse<E, A, M>(e => onLeft(e)(r))(ma(r))
+  return (ma) => (r) => TE.orElse<E, A, M>((e) => onLeft(e)(r))(ma(r))
 }
 
 /**
  * @since 2.0.0
  */
 export function swap<R, E, A>(ma: ReaderTaskEither<R, E, A>): ReaderTaskEither<R, A, E> {
-  return e => TE.swap(ma(e))
+  return (e) => TE.swap(ma(e))
 }
 
 /**
@@ -219,7 +219,7 @@ export const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderTaskEither
  * @since 2.0.0
  */
 export function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<Q, E, A> {
-  return ma => T.local(ma, f)
+  return (ma) => T.local(ma, f)
 }
 
 /**
@@ -235,10 +235,10 @@ export function bracket<R, E, A, B>(
   use: (a: A) => ReaderTaskEither<R, E, B>,
   release: (a: A, e: Either<E, B>) => ReaderTaskEither<R, E, void>
 ): ReaderTaskEither<R, E, B> {
-  return r =>
+  return (r) =>
     TE.bracket(
       aquire(r),
-      a => use(a)(r),
+      (a) => use(a)(r),
       (a, e) => release(a, e)(r)
     )
 }
@@ -320,9 +320,9 @@ export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & Monad
   of: right,
   ap: T.ap,
   chain: T.chain,
-  alt: (fx, fy) => r => TE.taskEither.alt(fx(r), () => fy()(r)),
-  bimap: (ma, f, g) => e => TE.taskEither.bimap(ma(e), f, g),
-  mapLeft: (ma, f) => e => TE.taskEither.mapLeft(ma(e), f),
+  alt: (fx, fy) => (r) => TE.taskEither.alt(fx(r), () => fy()(r)),
+  bimap: (ma, f, g) => (e) => TE.taskEither.bimap(ma(e), f, g),
+  mapLeft: (ma, f) => (e) => TE.taskEither.mapLeft(ma(e), f),
   fromIO: rightIO,
   fromTask: rightTask,
   throwError: left
@@ -334,7 +334,7 @@ export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & Monad
  */
 export const readerTaskEitherSeq: typeof readerTaskEither = {
   ...readerTaskEither,
-  ap: (mab, ma) => T.chain(mab, f => T.map(ma, f))
+  ap: (mab, ma) => T.chain(mab, (f) => T.map(ma, f))
 }
 
 const {

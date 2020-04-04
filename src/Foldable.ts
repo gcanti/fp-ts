@@ -198,10 +198,10 @@ export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): Fo
 export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): FoldableComposition<F, G> {
   return {
     reduce: (fga, b, f) => F.reduce(fga, b, (b, ga) => G.reduce(ga, b, f)),
-    foldMap: M => {
+    foldMap: (M) => {
       const foldMapF = F.foldMap(M)
       const foldMapG = G.foldMap(M)
-      return (fa, f) => foldMapF(fa, ga => foldMapG(ga, f))
+      return (fa, f) => foldMapF(fa, (ga) => foldMapG(ga, f))
     },
     reduceRight: (fa, b, f) => F.reduceRight(fa, b, (ga, b) => G.reduceRight(ga, b, f))
   }
@@ -250,7 +250,7 @@ export function foldM<M, F>(
   M: Monad<M>,
   F: Foldable<F>
 ): <A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => HKT<M, B>) => HKT<M, B> {
-  return (fa, b, f) => F.reduce(fa, M.of(b), (mb, a) => M.chain(mb, b => f(b, a)))
+  return (fa, b, f) => F.reduce(fa, M.of(b), (mb, a) => M.chain(mb, (b) => f(b, a)))
 }
 
 /**

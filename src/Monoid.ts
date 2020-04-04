@@ -85,7 +85,7 @@ export const monoidVoid: Monoid<void> = {
  */
 export function fold<A>(M: Monoid<A>): (as: ReadonlyArray<A>) => A {
   const foldM = foldSemigroup(M)
-  return as => foldM(M.empty, as)
+  return (as) => foldM(M.empty, as)
 }
 
 /**
@@ -107,7 +107,7 @@ export function getTupleMonoid<T extends ReadonlyArray<Monoid<any>>>(
 ): Monoid<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> {
   return {
     concat: getTupleSemigroup(...monoids).concat,
-    empty: monoids.map(m => m.empty)
+    empty: monoids.map((m) => m.empty)
   } as any
 }
 
@@ -136,7 +136,7 @@ export function getFunctionMonoid<M>(M: Monoid<M>): <A = never>() => Monoid<(a: 
  */
 export function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<A>> {
   return {
-    concat: (x, y) => a => x(y(a)),
+    concat: (x, y) => (a) => x(y(a)),
     empty: identity
   }
 }

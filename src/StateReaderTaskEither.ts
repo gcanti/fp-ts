@@ -157,7 +157,7 @@ export const rightState: <S, R, E = never, A = never>(ma: State<S, A>) => StateR
  * @since 2.0.0
  */
 export function leftState<S, R, E = never, A = never>(me: State<S, E>): StateReaderTaskEither<S, R, E, A> {
-  return s => RTE.left(me(s)[0])
+  return (s) => RTE.left(me(s)[0])
 }
 
 /**
@@ -275,9 +275,9 @@ export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & 
   of: right,
   ap: T.ap,
   chain: T.chain,
-  bimap: (fea, f, g) => s => RTE.readerTaskEither.bimap(fea(s), f, ([a, s]) => [g(a), s]),
-  mapLeft: (fea, f) => s => RTE.readerTaskEither.mapLeft(fea(s), f),
-  alt: (fx, fy) => s => RTE.readerTaskEither.alt(fx(s), () => fy()(s)),
+  bimap: (fea, f, g) => (s) => RTE.readerTaskEither.bimap(fea(s), f, ([a, s]) => [g(a), s]),
+  mapLeft: (fea, f) => (s) => RTE.readerTaskEither.mapLeft(fea(s), f),
+  alt: (fx, fy) => (s) => RTE.readerTaskEither.alt(fx(s), () => fy()(s)),
   fromIO: rightIO,
   fromTask: rightTask,
   throwError: left
@@ -289,7 +289,7 @@ export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & 
  */
 export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
   ...stateReaderTaskEither,
-  ap: (mab, ma) => stateReaderTaskEither.chain(mab, f => stateReaderTaskEither.map(ma, f))
+  ap: (mab, ma) => stateReaderTaskEither.chain(mab, (f) => stateReaderTaskEither.map(ma, f))
 }
 
 const {

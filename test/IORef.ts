@@ -21,7 +21,7 @@ describe('IORef', () => {
   })
 
   it('newIORef', () => {
-    assert.deepStrictEqual(io.chain(newIORef(1), ref => ref.read)(), 1)
+    assert.deepStrictEqual(io.chain(newIORef(1), (ref) => ref.read)(), 1)
   })
 
   it('pipe', () => {

@@ -132,4 +132,4 @@ export {
 /**
  * @since 2.0.0
  */
-export const eqDate: Eq<Date> = eq.contramap(eqNumber, date => date.valueOf())
+export const eqDate: Eq<Date> = eq.contramap(eqNumber, (date) => date.valueOf())

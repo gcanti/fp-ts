@@ -74,7 +74,7 @@ describe('ReadonlyTuple', () => {
   it('getMonad', () => {
     const monad = RT.getMonad(monoidString)
     assert.deepStrictEqual(
-      monad.chain([1, 'a'], a => [a * 2, 'b']),
+      monad.chain([1, 'a'], (a) => [a * 2, 'b']),
       [2, 'ab']
     )
   })
@@ -82,7 +82,7 @@ describe('ReadonlyTuple', () => {
   it('chainRec', () => {
     const { chainRec } = RT.getChainRec(getMonoid<number>())
     function seqReq(upper: number): readonly [number, ReadonlyArray<number>] {
-      return chainRec(1, init => [init >= upper ? right(init) : left(init + 1), [init]])
+      return chainRec(1, (init) => [init >= upper ? right(init) : left(init + 1), [init]])
     }
     const xs = RT.snd(seqReq(10000))
     assert.deepStrictEqual(xs.length, 10000)
@@ -92,11 +92,11 @@ describe('ReadonlyTuple', () => {
 
   it('traverse', () => {
     assert.deepStrictEqual(
-      RT.readonlyTuple.traverse(option)([2, 'a'], n => (n >= 2 ? some(n) : none)),
+      RT.readonlyTuple.traverse(option)([2, 'a'], (n) => (n >= 2 ? some(n) : none)),
       some([2, 'a'])
     )
     assert.deepStrictEqual(
-      RT.readonlyTuple.traverse(option)([1, 'a'], n => (n >= 2 ? some(n) : none)),
+      RT.readonlyTuple.traverse(option)([1, 'a'], (n) => (n >= 2 ? some(n) : none)),
       none
     )
   })

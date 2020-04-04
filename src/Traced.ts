@@ -35,7 +35,7 @@ export interface Traced<P, A> {
  * @since 2.0.0
  */
 export function tracks<P, A>(M: Monoid<P>, f: (a: A) => P): (wa: Traced<P, A>) => A {
-  return wa => wa(f(wa(M.empty)))
+  return (wa) => wa(f(wa(M.empty)))
 }
 
 // tslint:disable:readonly-array
@@ -45,7 +45,7 @@ export function tracks<P, A>(M: Monoid<P>, f: (a: A) => P): (wa: Traced<P, A>) =
  * @since 2.0.0
  */
 export function listen<P, A>(wa: Traced<P, A>): Traced<P, [A, P]> {
-  return e => [wa(e), e]
+  return (e) => [wa(e), e]
 }
 // tslint:enable:readonly-array
 
@@ -56,7 +56,7 @@ export function listen<P, A>(wa: Traced<P, A>): Traced<P, [A, P]> {
  * @since 2.0.0
  */
 export function listens<P, B>(f: (p: P) => B): <A>(wa: Traced<P, A>) => Traced<P, [A, B]> {
-  return wa => e => [wa(e), f(e)]
+  return (wa) => (e) => [wa(e), f(e)]
 }
 // tslint:enable:readonly-array
 
@@ -66,7 +66,7 @@ export function listens<P, B>(f: (p: P) => B): <A>(wa: Traced<P, A>) => Traced<P
  * @since 2.0.0
  */
 export function censor<P>(f: (p: P) => P): <A>(wa: Traced<P, A>) => Traced<P, A> {
-  return wa => e => wa(f(e))
+  return (wa) => (e) => wa(f(e))
 }
 
 /**
@@ -74,7 +74,7 @@ export function censor<P>(f: (p: P) => P): <A>(wa: Traced<P, A>) => Traced<P, A>
  */
 export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
   function extend<A, B>(wa: Traced<P, A>, f: (wa: Traced<P, A>) => B): Traced<P, B> {
-    return p1 => f(p2 => wa(monoid.concat(p1, p2)))
+    return (p1) => f((p2) => wa(monoid.concat(p1, p2)))
   }
 
   function extract<A>(wa: Traced<P, A>): A {
@@ -95,7 +95,7 @@ export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
  */
 export const traced: Functor2<URI> = {
   URI,
-  map: (wa, f) => p => f(wa(p))
+  map: (wa, f) => (p) => f(wa(p))
 }
 
 const { map } = pipeable(traced)

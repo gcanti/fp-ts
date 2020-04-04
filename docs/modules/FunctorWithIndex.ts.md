@@ -239,38 +239,38 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getFunctorWithIndexComposition<F extends URIS2, FI, G extends URIS2, GI, E>(
+export declare function getFunctorWithIndexComposition<F extends URIS2, FI, G extends URIS2, GI, E>(
   F: FunctorWithIndex2<F, FI>,
   G: FunctorWithIndex2C<G, FI, E>
 ): FunctorWithIndexComposition22C<F, FI, G, GI, E>
-export function getFunctorWithIndexComposition<F extends URIS2, FI, G extends URIS2, GI>(
+export declare function getFunctorWithIndexComposition<F extends URIS2, FI, G extends URIS2, GI>(
   F: FunctorWithIndex2<F, FI>,
   G: FunctorWithIndex2<G, FI>
 ): FunctorWithIndexComposition22<F, FI, G, GI>
-export function getFunctorWithIndexComposition<F extends URIS2, FI, G extends URIS, GI, E>(
+export declare function getFunctorWithIndexComposition<F extends URIS2, FI, G extends URIS, GI, E>(
   F: FunctorWithIndex2C<F, FI, E>,
   G: FunctorWithIndex1<G, GI>
 ): FunctorWithIndexComposition2C1<F, FI, G, GI, E>
-export function getFunctorWithIndexComposition<F extends URIS2, FI, G extends URIS, GI>(
+export declare function getFunctorWithIndexComposition<F extends URIS2, FI, G extends URIS, GI>(
   F: FunctorWithIndex2<F, FI>,
   G: FunctorWithIndex1<G, GI>
 ): FunctorWithIndexComposition21<F, FI, G, GI>
-export function getFunctorWithIndexComposition<F extends URIS, FI, G extends URIS2, GI, E>(
+export declare function getFunctorWithIndexComposition<F extends URIS, FI, G extends URIS2, GI, E>(
   F: FunctorWithIndex1<F, FI>,
   G: FunctorWithIndex2C<G, GI, E>
 ): FunctorWithIndexComposition12C<F, FI, G, GI, E>
-export function getFunctorWithIndexComposition<F extends URIS, FI, G extends URIS2, GI>(
+export declare function getFunctorWithIndexComposition<F extends URIS, FI, G extends URIS2, GI>(
   F: FunctorWithIndex1<F, FI>,
   G: FunctorWithIndex2<G, GI>
 ): FunctorWithIndexComposition12<F, FI, G, GI>
-export function getFunctorWithIndexComposition<F extends URIS, FI, G extends URIS, GI>(
+export declare function getFunctorWithIndexComposition<F extends URIS, FI, G extends URIS, GI>(
   F: FunctorWithIndex1<F, FI>,
   G: FunctorWithIndex1<G, GI>
 ): FunctorWithIndexComposition11<F, FI, G, GI>
-export function getFunctorWithIndexComposition<F, FI, G, GI>(
+export declare function getFunctorWithIndexComposition<F, FI, G, GI>(
   F: FunctorWithIndex<F, FI>,
   G: FunctorWithIndex<G, GI>
-): FunctorWithIndexComposition<F, FI, G, GI> { ... }
+): FunctorWithIndexComposition<F, FI, G, GI>
 ```
 
 Added in v2.0.0

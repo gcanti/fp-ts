@@ -65,14 +65,14 @@ export function fold<R, E, A, B>(
   onLeft: (e: E) => Reader<R, B>,
   onRight: (a: A) => Reader<R, B>
 ): (ma: ReaderEither<R, E, A>) => Reader<R, B> {
-  return ma => T.fold(ma, onLeft, onRight)
+  return (ma) => T.fold(ma, onLeft, onRight)
 }
 
 /**
  * @since 2.0.0
  */
 export function getOrElse<R, E, A>(onLeft: (e: E) => Reader<R, A>): (ma: ReaderEither<R, E, A>) => Reader<R, A> {
-  return ma => T.getOrElse(ma, onLeft)
+  return (ma) => T.getOrElse(ma, onLeft)
 }
 
 /**
@@ -81,7 +81,7 @@ export function getOrElse<R, E, A>(onLeft: (e: E) => Reader<R, A>): (ma: ReaderE
 export function orElse<R, E, A, M>(
   onLeft: (e: E) => ReaderEither<R, M, A>
 ): (ma: ReaderEither<R, E, A>) => ReaderEither<R, M, A> {
-  return ma => T.orElse(ma, onLeft)
+  return (ma) => T.orElse(ma, onLeft)
 }
 
 /**
@@ -124,14 +124,14 @@ export function ask<R, E = never>(): ReaderEither<R, E, R> {
  * @since 2.0.0
  */
 export function asks<R, E = never, A = never>(f: (r: R) => A): ReaderEither<R, E, A> {
-  return r => E.right(f(r))
+  return (r) => E.right(f(r))
 }
 
 /**
  * @since 2.0.0
  */
 export function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<Q, E, A> {
-  return ma => q => ma(f(q))
+  return (ma) => (q) => ma(f(q))
 }
 
 /**

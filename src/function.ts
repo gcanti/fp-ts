@@ -60,7 +60,7 @@ export const unsafeCoerce: <A, B>(a: A) => B = identity as any
  * @since 2.0.0
  */
 export function not<A>(predicate: Predicate<A>): Predicate<A> {
-  return a => !predicate(a)
+  return (a) => !predicate(a)
 }
 
 /**
@@ -212,35 +212,35 @@ export function flow(
     case 1:
       return ab
     case 2:
-      return function(this: unknown) {
+      return function (this: unknown) {
         return bc!(ab.apply(this, arguments))
       }
     case 3:
-      return function(this: unknown) {
+      return function (this: unknown) {
         return cd!(bc!(ab.apply(this, arguments)))
       }
     case 4:
-      return function(this: unknown) {
+      return function (this: unknown) {
         return de!(cd!(bc!(ab.apply(this, arguments))))
       }
     case 5:
-      return function(this: unknown) {
+      return function (this: unknown) {
         return ef!(de!(cd!(bc!(ab.apply(this, arguments)))))
       }
     case 6:
-      return function(this: unknown) {
+      return function (this: unknown) {
         return fg!(ef!(de!(cd!(bc!(ab.apply(this, arguments))))))
       }
     case 7:
-      return function(this: unknown) {
+      return function (this: unknown) {
         return gh!(fg!(ef!(de!(cd!(bc!(ab.apply(this, arguments)))))))
       }
     case 8:
-      return function(this: unknown) {
+      return function (this: unknown) {
         return hi!(gh!(fg!(ef!(de!(cd!(bc!(ab.apply(this, arguments))))))))
       }
     case 9:
-      return function(this: unknown) {
+      return function (this: unknown) {
         return ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab.apply(this, arguments)))))))))
       }
   }
@@ -288,7 +288,7 @@ export function absurd<A>(_: never): A {
  * @since 2.4.0
  */
 export function tupled<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B): (a: A) => B {
-  return a => f(...a)
+  return (a) => f(...a)
 }
 
 /**

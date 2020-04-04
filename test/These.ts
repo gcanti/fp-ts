@@ -87,23 +87,23 @@ describe('These', () => {
 
   it('traverse', () => {
     assert.deepStrictEqual(
-      _.these.traverse(option)(_.left('a'), n => (n >= 2 ? some(n) : none)),
+      _.these.traverse(option)(_.left('a'), (n) => (n >= 2 ? some(n) : none)),
       some(_.left('a'))
     )
     assert.deepStrictEqual(
-      _.these.traverse(option)(_.right(2), n => (n >= 2 ? some(n) : none)),
+      _.these.traverse(option)(_.right(2), (n) => (n >= 2 ? some(n) : none)),
       some(_.right(2))
     )
     assert.deepStrictEqual(
-      _.these.traverse(option)(_.right(1), n => (n >= 2 ? some(n) : none)),
+      _.these.traverse(option)(_.right(1), (n) => (n >= 2 ? some(n) : none)),
       none
     )
     assert.deepStrictEqual(
-      _.these.traverse(option)(_.both('a', 2), n => (n >= 2 ? some(n) : none)),
+      _.these.traverse(option)(_.both('a', 2), (n) => (n >= 2 ? some(n) : none)),
       some(_.both('a', 2))
     )
     assert.deepStrictEqual(
-      _.these.traverse(option)(_.both('a', 1), n => (n >= 2 ? some(n) : none)),
+      _.these.traverse(option)(_.both('a', 1), (n) => (n >= 2 ? some(n) : none)),
       none
     )
   })

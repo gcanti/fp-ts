@@ -15,6 +15,9 @@ import { IO } from './IO'
  * @since 2.0.0
  */
 export class IORef<A> {
+  /**
+   * @since 2.0.0
+   */
   readonly read: IO<A>
   constructor(private value: A) {
     this.read = () => this.value

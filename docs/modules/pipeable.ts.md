@@ -1774,12 +1774,12 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function pipe<A>(a: A): A
-export function pipe<A, B>(a: A, ab: (a: A) => B): B
-export function pipe<A, B, C>(a: A, ab: (a: A) => B, bc: (b: B) => C): C
-export function pipe<A, B, C, D>(a: A, ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D): D
-export function pipe<A, B, C, D, E>(a: A, ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E): E
-export function pipe<A, B, C, D, E, F>(
+export declare function pipe<A>(a: A): A
+export declare function pipe<A, B>(a: A, ab: (a: A) => B): B
+export declare function pipe<A, B, C>(a: A, ab: (a: A) => B, bc: (b: B) => C): C
+export declare function pipe<A, B, C, D>(a: A, ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D): D
+export declare function pipe<A, B, C, D, E>(a: A, ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E): E
+export declare function pipe<A, B, C, D, E, F>(
   a: A,
   ab: (a: A) => B,
   bc: (b: B) => C,
@@ -1787,7 +1787,7 @@ export function pipe<A, B, C, D, E, F>(
   de: (d: D) => E,
   ef: (e: E) => F
 ): F
-export function pipe<A, B, C, D, E, F, G>(
+export declare function pipe<A, B, C, D, E, F, G>(
   a: A,
   ab: (a: A) => B,
   bc: (b: B) => C,
@@ -1796,7 +1796,7 @@ export function pipe<A, B, C, D, E, F, G>(
   ef: (e: E) => F,
   fg: (f: F) => G
 ): G
-export function pipe<A, B, C, D, E, F, G, H>(
+export declare function pipe<A, B, C, D, E, F, G, H>(
   a: A,
   ab: (a: A) => B,
   bc: (b: B) => C,
@@ -1806,7 +1806,7 @@ export function pipe<A, B, C, D, E, F, G, H>(
   fg: (f: F) => G,
   gh: (g: G) => H
 ): H
-export function pipe<A, B, C, D, E, F, G, H, I>(
+export declare function pipe<A, B, C, D, E, F, G, H, I>(
   a: A,
   ab: (a: A) => B,
   bc: (b: B) => C,
@@ -1817,7 +1817,7 @@ export function pipe<A, B, C, D, E, F, G, H, I>(
   gh: (g: G) => H,
   hi: (h: H) => I
 ): I
-export function pipe<A, B, C, D, E, F, G, H, I, J>(
+export declare function pipe<A, B, C, D, E, F, G, H, I, J>(
   a: A,
   ab: (a: A) => B,
   bc: (b: B) => C,
@@ -1828,7 +1828,7 @@ export function pipe<A, B, C, D, E, F, G, H, I, J>(
   gh: (g: G) => H,
   hi: (h: H) => I,
   ij: (i: I) => J
-): J { ... }
+): J
 ```
 
 Added in v2.0.0
@@ -1838,7 +1838,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function pipeable<F extends URIS4, I>(
+export declare function pipeable<F extends URIS4, I>(
   I: { readonly URI: F } & I
 ): (I extends Chain4<F>
   ? PipeableChain4<F>
@@ -1867,7 +1867,7 @@ export function pipeable<F extends URIS4, I>(
   (I extends Profunctor4<F> ? PipeableProfunctor4<F> : {}) &
   (I extends Semigroupoid4<F> ? PipeableSemigroupoid4<F> : {}) &
   (I extends MonadThrow4<F> ? PipeableMonadThrow4<F> : {})
-export function pipeable<F extends URIS3, I>(
+export declare function pipeable<F extends URIS3, I>(
   I: { readonly URI: F } & I
 ): (I extends Chain3<F>
   ? PipeableChain3<F>
@@ -1896,7 +1896,7 @@ export function pipeable<F extends URIS3, I>(
   (I extends Profunctor3<F> ? PipeableProfunctor3<F> : {}) &
   (I extends Semigroupoid3<F> ? PipeableSemigroupoid3<F> : {}) &
   (I extends MonadThrow3<F> ? PipeableMonadThrow3<F> : {})
-export function pipeable<F extends URIS3, I, E>(
+export declare function pipeable<F extends URIS3, I, E>(
   I: { readonly URI: F } & I
 ): (I extends Chain3C<F, E>
   ? PipeableChain3C<F, E>
@@ -1925,7 +1925,7 @@ export function pipeable<F extends URIS3, I, E>(
   (I extends Profunctor3C<F, E> ? PipeableProfunctor3C<F, E> : {}) &
   (I extends Semigroupoid3C<F, E> ? PipeableSemigroupoid3C<F, E> : {}) &
   (I extends MonadThrow3C<F, E> ? PipeableMonadThrow3C<F, E> : {})
-export function pipeable<F extends URIS2, I, E>(
+export declare function pipeable<F extends URIS2, I, E>(
   I: { readonly URI: F; readonly _E: E } & I
 ): (I extends Chain2C<F, E>
   ? PipeableChain2C<F, E>
@@ -1953,7 +1953,7 @@ export function pipeable<F extends URIS2, I, E>(
   (I extends Profunctor2C<F, E> ? PipeableProfunctor2C<F, E> : {}) &
   (I extends Semigroupoid2C<F, E> ? PipeableSemigroupoid2C<F, E> : {}) &
   (I extends MonadThrow2C<F, E> ? PipeableMonadThrow2C<F, E> : {})
-export function pipeable<F extends URIS2, I>(
+export declare function pipeable<F extends URIS2, I>(
   I: { readonly URI: F } & I
 ): (I extends Chain2<F>
   ? PipeableChain2<F>
@@ -1982,7 +1982,7 @@ export function pipeable<F extends URIS2, I>(
   (I extends Profunctor2<F> ? PipeableProfunctor2<F> : {}) &
   (I extends Semigroupoid2<F> ? PipeableSemigroupoid2<F> : {}) &
   (I extends MonadThrow2<F> ? PipeableMonadThrow2<F> : {})
-export function pipeable<F extends URIS, I>(
+export declare function pipeable<F extends URIS, I>(
   I: { readonly URI: F } & I
 ): (I extends Chain1<F>
   ? PipeableChain1<F>
@@ -2008,7 +2008,7 @@ export function pipeable<F extends URIS, I>(
     ? PipeableCompactable1<F>
     : {}) &
   (I extends MonadThrow1<F> ? PipeableMonadThrow1<F> : {})
-export function pipeable<F, I>(
+export declare function pipeable<F, I>(
   I: { readonly URI: F } & I
 ): (I extends Chain<F>
   ? PipeableChain<F>
@@ -2036,7 +2036,7 @@ export function pipeable<F, I>(
     : {}) &
   (I extends Profunctor<F> ? PipeableProfunctor<F> : {}) &
   (I extends Semigroupoid<F> ? PipeableSemigroupoid<F> : {}) &
-  (I extends MonadThrow<F> ? PipeableMonadThrow<F> : {}) { ... }
+  (I extends MonadThrow<F> ? PipeableMonadThrow<F> : {})
 ```
 
 Added in v2.0.0

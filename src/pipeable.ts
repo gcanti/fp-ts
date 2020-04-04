@@ -1511,22 +1511,22 @@ export function pipeable<F, I>(
 export function pipeable<F, I>(I: { readonly URI: F } & I): Record<string, unknown> {
   const r: any = {}
   if (isFunctor<F>(I)) {
-    const map: PipeableFunctor<F>['map'] = f => fa => I.map(fa, f)
+    const map: PipeableFunctor<F>['map'] = (f) => (fa) => I.map(fa, f)
     r.map = map
   }
   if (isContravariant<F>(I)) {
-    const contramap: PipeableContravariant<F>['contramap'] = f => fa => I.contramap(fa, f)
+    const contramap: PipeableContravariant<F>['contramap'] = (f) => (fa) => I.contramap(fa, f)
     r.contramap = contramap
   }
   if (isFunctorWithIndex<F>(I)) {
-    const mapWithIndex: PipeableFunctorWithIndex<F, unknown>['mapWithIndex'] = f => fa => I.mapWithIndex(fa, f)
+    const mapWithIndex: PipeableFunctorWithIndex<F, unknown>['mapWithIndex'] = (f) => (fa) => I.mapWithIndex(fa, f)
     r.mapWithIndex = mapWithIndex
   }
   if (isApply<F>(I)) {
-    const ap: PipeableApply<F>['ap'] = fa => fab => I.ap(fab, fa)
-    const apFirst: PipeableApply<F>['apFirst'] = fb => fa =>
+    const ap: PipeableApply<F>['ap'] = (fa) => (fab) => I.ap(fab, fa)
+    const apFirst: PipeableApply<F>['apFirst'] = (fb) => (fa) =>
       I.ap(
-        I.map(fa, a => () => a),
+        I.map(fa, (a) => () => a),
         fb
       )
     r.ap = ap
@@ -1538,51 +1538,51 @@ export function pipeable<F, I>(I: { readonly URI: F } & I): Record<string, unkno
       )
   }
   if (isChain<F>(I)) {
-    const chain: PipeableChain<F>['chain'] = f => ma => I.chain(ma, f)
-    const chainFirst: PipeableChain<F>['chainFirst'] = f => ma => I.chain(ma, a => I.map(f(a), () => a))
-    const flatten: PipeableChain<F>['flatten'] = mma => I.chain(mma, identity)
+    const chain: PipeableChain<F>['chain'] = (f) => (ma) => I.chain(ma, f)
+    const chainFirst: PipeableChain<F>['chainFirst'] = (f) => (ma) => I.chain(ma, (a) => I.map(f(a), () => a))
+    const flatten: PipeableChain<F>['flatten'] = (mma) => I.chain(mma, identity)
     r.chain = chain
     r.chainFirst = chainFirst
     r.flatten = flatten
   }
   if (isBifunctor<F>(I)) {
-    const bimap: PipeableBifunctor<F>['bimap'] = (f, g) => fa => I.bimap(fa, f, g)
-    const mapLeft: PipeableBifunctor<F>['mapLeft'] = f => fa => I.mapLeft(fa, f)
+    const bimap: PipeableBifunctor<F>['bimap'] = (f, g) => (fa) => I.bimap(fa, f, g)
+    const mapLeft: PipeableBifunctor<F>['mapLeft'] = (f) => (fa) => I.mapLeft(fa, f)
     r.bimap = bimap
     r.mapLeft = mapLeft
   }
   if (isExtend<F>(I)) {
-    const extend: PipeableExtend<F>['extend'] = f => wa => I.extend(wa, f)
-    const duplicate: PipeableExtend<F>['duplicate'] = wa => I.extend(wa, identity)
+    const extend: PipeableExtend<F>['extend'] = (f) => (wa) => I.extend(wa, f)
+    const duplicate: PipeableExtend<F>['duplicate'] = (wa) => I.extend(wa, identity)
     r.extend = extend
     r.duplicate = duplicate
   }
   if (isFoldable<F>(I)) {
-    const reduce: PipeableFoldable<F>['reduce'] = (b, f) => fa => I.reduce(fa, b, f)
-    const foldMap: PipeableFoldable<F>['foldMap'] = M => {
+    const reduce: PipeableFoldable<F>['reduce'] = (b, f) => (fa) => I.reduce(fa, b, f)
+    const foldMap: PipeableFoldable<F>['foldMap'] = (M) => {
       const foldMapM = I.foldMap(M)
-      return f => fa => foldMapM(fa, f)
+      return (f) => (fa) => foldMapM(fa, f)
     }
-    const reduceRight: PipeableFoldable<F>['reduceRight'] = (b, f) => fa => I.reduceRight(fa, b, f)
+    const reduceRight: PipeableFoldable<F>['reduceRight'] = (b, f) => (fa) => I.reduceRight(fa, b, f)
     r.reduce = reduce
     r.foldMap = foldMap
     r.reduceRight = reduceRight
   }
   if (isFoldableWithIndex<F>(I)) {
-    const reduceWithIndex: PipeableFoldableWithIndex<F, unknown>['reduceWithIndex'] = (b, f) => fa =>
+    const reduceWithIndex: PipeableFoldableWithIndex<F, unknown>['reduceWithIndex'] = (b, f) => (fa) =>
       I.reduceWithIndex(fa, b, f)
-    const foldMapWithIndex: PipeableFoldableWithIndex<F, unknown>['foldMapWithIndex'] = M => {
+    const foldMapWithIndex: PipeableFoldableWithIndex<F, unknown>['foldMapWithIndex'] = (M) => {
       const foldMapM = I.foldMapWithIndex(M)
-      return f => fa => foldMapM(fa, f)
+      return (f) => (fa) => foldMapM(fa, f)
     }
-    const reduceRightWithIndex: PipeableFoldableWithIndex<F, unknown>['reduceRightWithIndex'] = (b, f) => fa =>
+    const reduceRightWithIndex: PipeableFoldableWithIndex<F, unknown>['reduceRightWithIndex'] = (b, f) => (fa) =>
       I.reduceRightWithIndex(fa, b, f)
     r.reduceWithIndex = reduceWithIndex
     r.foldMapWithIndex = foldMapWithIndex
     r.reduceRightWithIndex = reduceRightWithIndex
   }
   if (isAlt<F>(I)) {
-    const alt: PipeableAlt<F>['alt'] = that => fa => I.alt(fa, that)
+    const alt: PipeableAlt<F>['alt'] = (that) => (fa) => I.alt(fa, that)
     r.alt = alt
   }
   if (isCompactable<F>(I)) {
@@ -1592,10 +1592,10 @@ export function pipeable<F, I>(I: { readonly URI: F } & I): Record<string, unkno
   if (isFilterable<F>(I)) {
     const filter: PipeableFilterable<F>['filter'] = <A>(predicate: Predicate<A>) => (fa: HKT<F, A>) =>
       I.filter(fa, predicate)
-    const filterMap: PipeableFilterable<F>['filterMap'] = f => fa => I.filterMap(fa, f)
+    const filterMap: PipeableFilterable<F>['filterMap'] = (f) => (fa) => I.filterMap(fa, f)
     const partition: PipeableFilterable<F>['partition'] = <A>(predicate: Predicate<A>) => (fa: HKT<F, A>) =>
       I.partition(fa, predicate)
-    const partitionMap: PipeableFilterable<F>['partitionMap'] = f => fa => I.partitionMap(fa, f)
+    const partitionMap: PipeableFilterable<F>['partitionMap'] = (f) => (fa) => I.partitionMap(fa, f)
     r.filter = filter
     r.filterMap = filterMap
     r.partition = partition
@@ -1605,12 +1605,12 @@ export function pipeable<F, I>(I: { readonly URI: F } & I): Record<string, unkno
     const filterWithIndex: PipeableFilterableWithIndex<F, unknown>['filterWithIndex'] = <A>(
       predicateWithIndex: PredicateWithIndex<unknown, A>
     ) => (fa: HKT<F, A>) => I.filterWithIndex(fa, predicateWithIndex)
-    const filterMapWithIndex: PipeableFilterableWithIndex<F, unknown>['filterMapWithIndex'] = f => fa =>
+    const filterMapWithIndex: PipeableFilterableWithIndex<F, unknown>['filterMapWithIndex'] = (f) => (fa) =>
       I.filterMapWithIndex(fa, f)
     const partitionWithIndex: PipeableFilterableWithIndex<F, unknown>['partitionWithIndex'] = <A>(
       predicateWithIndex: PredicateWithIndex<unknown, A>
     ) => (fa: HKT<F, A>) => I.partitionWithIndex(fa, predicateWithIndex)
-    const partitionMapWithIndex: PipeableFilterableWithIndex<F, unknown>['partitionMapWithIndex'] = f => fa =>
+    const partitionMapWithIndex: PipeableFilterableWithIndex<F, unknown>['partitionMapWithIndex'] = (f) => (fa) =>
       I.partitionMapWithIndex(fa, f)
     r.filterWithIndex = filterWithIndex
     r.filterMapWithIndex = filterMapWithIndex
@@ -1618,17 +1618,17 @@ export function pipeable<F, I>(I: { readonly URI: F } & I): Record<string, unkno
     r.partitionMapWithIndex = partitionMapWithIndex
   }
   if (isProfunctor<F>(I)) {
-    const promap: PipeableProfunctor<F>['promap'] = (f, g) => fa => I.promap(fa, f, g)
+    const promap: PipeableProfunctor<F>['promap'] = (f, g) => (fa) => I.promap(fa, f, g)
     r.promap = promap
   }
   if (isSemigroupoid<F>(I)) {
-    const compose: PipeableSemigroupoid<F>['compose'] = that => fa => I.compose(fa, that)
+    const compose: PipeableSemigroupoid<F>['compose'] = (that) => (fa) => I.compose(fa, that)
     r.compose = compose
   }
   if (isMonadThrow<F>(I)) {
-    const fromOption: PipeableMonadThrow<F>['fromOption'] = onNone => ma =>
+    const fromOption: PipeableMonadThrow<F>['fromOption'] = (onNone) => (ma) =>
       ma._tag === 'None' ? I.throwError(onNone()) : I.of(ma.value)
-    const fromEither: PipeableMonadThrow<F>['fromEither'] = ma =>
+    const fromEither: PipeableMonadThrow<F>['fromEither'] = (ma) =>
       ma._tag === 'Left' ? I.throwError(ma.left) : I.of(ma.right)
     const fromPredicate: PipeableMonadThrow<F>['fromPredicate'] = <E, A>(
       predicate: Predicate<A>,
@@ -1637,7 +1637,7 @@ export function pipeable<F, I>(I: { readonly URI: F } & I): Record<string, unkno
     const filterOrElse: PipeableMonadThrow<F>['filterOrElse'] = <E, A>(
       predicate: Predicate<A>,
       onFalse: (a: A) => E
-    ) => (ma: HKT<F, A>) => I.chain(ma, a => (predicate(a) ? I.of(a) : I.throwError(onFalse(a))))
+    ) => (ma: HKT<F, A>) => I.chain(ma, (a) => (predicate(a) ? I.of(a) : I.throwError(onFalse(a))))
     r.fromOption = fromOption
     r.fromEither = fromEither
     r.fromPredicate = fromPredicate

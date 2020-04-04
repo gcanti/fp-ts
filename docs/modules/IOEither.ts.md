@@ -78,7 +78,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI: "IOEither" = ...
+export declare const URI: 'IOEither'
 ```
 
 Added in v2.0.0
@@ -88,7 +88,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A>(that: () => IOEither<E, A>) => (fa: IOEither<E, A>) => IOEither<E, A>
+export declare const alt: <E, A>(that: () => IOEither<E, A>) => (fa: IOEither<E, A>) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -98,7 +98,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B>
+export declare const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B>
 ```
 
 Added in v2.0.0
@@ -108,7 +108,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>) => IOEither<E, A>
+export declare const apFirst: <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -118,7 +118,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>) => IOEither<E, B>
+export declare const apSecond: <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>) => IOEither<E, B>
 ```
 
 Added in v2.0.0
@@ -128,7 +128,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: IOEither<E, A>) => IOEither<G, B>
+export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: IOEither<E, A>) => IOEither<G, B>
 ```
 
 Added in v2.0.0
@@ -143,11 +143,11 @@ whether the body action throws (_) or returns.
 **Signature**
 
 ```ts
-export function bracket<E, A, B>(
+export declare function bracket<E, A, B>(
   acquire: IOEither<E, A>,
   use: (a: A) => IOEither<E, B>,
   release: (a: A, e: Either<E, B>) => IOEither<E, void>
-): IOEither<E, B> { ... }
+): IOEither<E, B>
 ```
 
 Added in v2.0.0
@@ -157,7 +157,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B>
+export declare const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B>
 ```
 
 Added in v2.0.0
@@ -167,7 +167,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function chainEitherK<E, A, B>(f: (a: A) => Either<E, B>): (ma: IOEither<E, A>) => IOEither<E, B> { ... }
+export declare function chainEitherK<E, A, B>(f: (a: A) => Either<E, B>): (ma: IOEither<E, A>) => IOEither<E, B>
 ```
 
 Added in v2.4.0
@@ -177,7 +177,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-<E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, A>
+export declare const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -187,7 +187,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, A>; }
+export declare const filterOrElse: {
+  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, A>
+}
 ```
 
 Added in v2.0.0
@@ -197,7 +200,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A>
+export declare const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -207,7 +210,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fold<E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>): (ma: IOEither<E, A>) => IO<B> { ... }
+export declare function fold<E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>): (ma: IOEither<E, A>) => IO<B>
 ```
 
 Added in v2.0.0
@@ -217,7 +220,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A>(ma: E.Either<E, A>) => IOEither<E, A>
+export declare const fromEither: <E, A>(ma: E.Either<E, A>) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -227,9 +230,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
+export declare function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Either<E, B>
-): (...a: A) => IOEither<E, B> { ... }
+): (...a: A) => IOEither<E, B>
 ```
 
 Added in v2.4.0
@@ -239,7 +242,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-<E>(onNone: () => E) => <A>(ma: Option<A>) => IOEither<E, A>
+export declare const fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -249,7 +252,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-{ <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => IOEither<E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A>; }
+export declare const fromPredicate: {
+  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => IOEither<E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A>
+}
 ```
 
 Added in v2.0.0
@@ -259,7 +265,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<IOEither<E, A>> { ... }
+export declare function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<IOEither<E, A>>
 ```
 
 Added in v2.0.0
@@ -269,7 +275,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> { ... }
+export declare function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>>
 ```
 
 Added in v2.0.0
@@ -279,7 +285,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> { ... }
+export declare function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E>
 ```
 
 Added in v2.1.0
@@ -289,9 +295,9 @@ Added in v2.1.0
 **Signature**
 
 ```ts
-export function getIOValidation<E>(
+export declare function getIOValidation<E>(
   S: Semigroup<E>
-): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadIO2C<URI, E> & MonadThrow2C<URI, E> { ... }
+): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadIO2C<URI, E> & MonadThrow2C<URI, E>
 ```
 
 Added in v2.0.0
@@ -301,7 +307,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getOrElse<E, A>(onLeft: (e: E) => IO<A>): (ma: IOEither<E, A>) => IO<A> { ... }
+export declare function getOrElse<E, A>(onLeft: (e: E) => IO<A>): (ma: IOEither<E, A>) => IO<A>
 ```
 
 Added in v2.0.0
@@ -311,7 +317,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> { ... }
+export declare function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>>
 ```
 
 Added in v2.0.0
@@ -321,7 +327,11 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadThrow2<URI> = ...
+export declare const ioEither: Monad2<'IOEither'> &
+  Bifunctor2<'IOEither'> &
+  Alt2<'IOEither'> &
+  MonadIO2<'IOEither'> &
+  MonadThrow2<'IOEither'>
 ```
 
 Added in v2.0.0
@@ -331,7 +341,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const left: <E = never, A = never>(l: E) => IOEither<E, A> = ...
+export declare const left: <E = never, A = never>(l: E) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -341,7 +351,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const leftIO: <E = never, A = never>(me: IO<E>) => IOEither<E, A> = ...
+export declare const leftIO: <E = never, A = never>(me: IO<E>) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -351,7 +361,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<E, B>
 ```
 
 Added in v2.0.0
@@ -361,7 +371,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) => IOEither<G, A>
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) => IOEither<G, A>
 ```
 
 Added in v2.0.0
@@ -371,7 +381,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function orElse<E, A, M>(onLeft: (e: E) => IOEither<M, A>): (ma: IOEither<E, A>) => IOEither<M, A> { ... }
+export declare function orElse<E, A, M>(onLeft: (e: E) => IOEither<M, A>): (ma: IOEither<E, A>) => IOEither<M, A>
 ```
 
 Added in v2.0.0
@@ -381,7 +391,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const right: <E = never, A = never>(a: A) => IOEither<E, A> = ...
+export declare const right: <E = never, A = never>(a: A) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -391,7 +401,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const rightIO: <E = never, A = never>(ma: IO<A>) => IOEither<E, A> = ...
+export declare const rightIO: <E = never, A = never>(ma: IO<A>) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -401,7 +411,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> = ...
+export declare const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E>
 ```
 
 Added in v2.0.0
@@ -413,7 +423,7 @@ Constructs a new `IOEither` from a function that performs a side effect and migh
 **Signature**
 
 ```ts
-export function tryCatch<E, A>(f: Lazy<A>, onError: (reason: unknown) => E): IOEither<E, A> { ... }
+export declare function tryCatch<E, A>(f: Lazy<A>, onError: (reason: unknown) => E): IOEither<E, A>
 ```
 
 Added in v2.0.0

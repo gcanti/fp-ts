@@ -13,12 +13,12 @@ import * as T from '../src/Task'
 
 // read from standard input
 const getStrLn: T.Task<string> = () =>
-  new Promise(resolve => {
+  new Promise((resolve) => {
     const rl = createInterface({
       input: process.stdin,
       output: process.stdout
     })
-    rl.question('> ', answer => {
+    rl.question('> ', (answer) => {
       rl.close()
       resolve(answer)
     })
@@ -51,7 +51,7 @@ function parse(s: string): O.Option<number> {
 function shouldContinue(name: string): T.Task<boolean> {
   return pipe(
     ask(`Do you want to continue, ${name} (y/n)?`),
-    T.chain(answer => {
+    T.chain((answer) => {
       switch (answer.toLowerCase()) {
         case 'y':
           return T.of(true)
@@ -78,7 +78,7 @@ function gameLoop(name: string): T.Task<void> {
         parse(guess),
         O.fold(
           () => putStrLn('You did not enter an integer!'),
-          x =>
+          (x) =>
             x === secret
               ? putStrLn(`You guessed right, ${name}!`)
               : putStrLn(`You guessed wrong, ${name}! The number was: ${secret}`)
@@ -86,13 +86,13 @@ function gameLoop(name: string): T.Task<void> {
       )
     ),
     T.chain(() => shouldContinue(name)),
-    T.chain(b => (b ? gameLoop(name) : T.of(undefined)))
+    T.chain((b) => (b ? gameLoop(name) : T.of(undefined)))
   )
 }
 
 const main: T.Task<void> = pipe(
   ask('What is your name?'),
-  T.chainFirst(name => putStrLn(`Hello, ${name} welcome to the game!`)),
+  T.chainFirst((name) => putStrLn(`Hello, ${name} welcome to the game!`)),
   T.chain(gameLoop)
 )
 

@@ -23,5 +23,5 @@
  * @since 2.2.0
  */
 export function fold<A>(onFalse: () => A, onTrue: () => A): (value: boolean) => A {
-  return value => (value ? onTrue() : onFalse())
+  return (value) => (value ? onTrue() : onFalse())
 }

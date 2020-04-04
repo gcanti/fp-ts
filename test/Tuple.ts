@@ -75,7 +75,7 @@ describe('Tuple', () => {
   it('getMonad', () => {
     const monad = T.getMonad(monoidString)
     assert.deepStrictEqual(
-      monad.chain([1, 'a'], a => [a * 2, 'b']),
+      monad.chain([1, 'a'], (a) => [a * 2, 'b']),
       [2, 'ab']
     )
   })
@@ -84,7 +84,7 @@ describe('Tuple', () => {
     const { chainRec } = T.getChainRec(getMonoid<number>())
     // tslint:disable-next-line: readonly-array
     function seqReq(upper: number): [number, Array<number>] {
-      return chainRec(1, init => [init >= upper ? right(init) : left(init + 1), [init]])
+      return chainRec(1, (init) => [init >= upper ? right(init) : left(init + 1), [init]])
     }
     const xs = T.snd(seqReq(10000))
     assert.deepStrictEqual(xs.length, 10000)
@@ -94,11 +94,11 @@ describe('Tuple', () => {
 
   it('traverse', () => {
     assert.deepStrictEqual(
-      T.tuple.traverse(option)([2, 'a'], n => (n >= 2 ? some(n) : none)),
+      T.tuple.traverse(option)([2, 'a'], (n) => (n >= 2 ? some(n) : none)),
       some([2, 'a'])
     )
     assert.deepStrictEqual(
-      T.tuple.traverse(option)([1, 'a'], n => (n >= 2 ? some(n) : none)),
+      T.tuple.traverse(option)([1, 'a'], (n) => (n >= 2 ? some(n) : none)),
       none
     )
   })

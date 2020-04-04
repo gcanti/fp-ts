@@ -262,30 +262,30 @@ Note: this function is not generally stack-safe, e.g., for monads which build up
 **Signature**
 
 ```ts
-export function foldM<M extends URIS3, F extends URIS>(
+export declare function foldM<M extends URIS3, F extends URIS>(
   M: Monad3<M>,
   F: Foldable1<F>
 ): <R, E, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, B>
-export function foldM<M extends URIS3, F extends URIS, E>(
+export declare function foldM<M extends URIS3, F extends URIS, E>(
   M: Monad3C<M, E>,
   F: Foldable1<F>
 ): <R, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, B>
-export function foldM<M extends URIS2, F extends URIS>(
+export declare function foldM<M extends URIS2, F extends URIS>(
   M: Monad2<M>,
   F: Foldable1<F>
 ): <E, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind2<M, E, B>) => Kind2<M, E, B>
-export function foldM<M extends URIS2, F extends URIS, E>(
+export declare function foldM<M extends URIS2, F extends URIS, E>(
   M: Monad2C<M, E>,
   F: Foldable1<F>
 ): <A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind2<M, E, B>) => Kind2<M, E, B>
-export function foldM<M extends URIS, F extends URIS>(
+export declare function foldM<M extends URIS, F extends URIS>(
   M: Monad1<M>,
   F: Foldable1<F>
 ): <A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind<M, B>) => Kind<M, B>
-export function foldM<M, F>(
+export declare function foldM<M, F>(
   M: Monad<M>,
   F: Foldable<F>
-): <A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => HKT<M, B>) => HKT<M, B> { ... }
+): <A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => HKT<M, B>) => HKT<M, B>
 ```
 
 **Example**
@@ -311,35 +311,35 @@ Returns the composition of two foldables
 **Signature**
 
 ```ts
-export function getFoldableComposition<F extends URIS2, G extends URIS2, E>(
+export declare function getFoldableComposition<F extends URIS2, G extends URIS2, E>(
   F: Foldable2<F>,
   G: Foldable2C<G, E>
 ): FoldableComposition22C<F, G, E>
-export function getFoldableComposition<F extends URIS2, G extends URIS2>(
+export declare function getFoldableComposition<F extends URIS2, G extends URIS2>(
   F: Foldable2<F>,
   G: Foldable2<G>
 ): FoldableComposition22<F, G>
-export function getFoldableComposition<F extends URIS2, G extends URIS, E>(
+export declare function getFoldableComposition<F extends URIS2, G extends URIS, E>(
   F: Foldable2C<F, E>,
   G: Foldable1<G>
 ): FoldableComposition2C1<F, G, E>
-export function getFoldableComposition<F extends URIS2, G extends URIS>(
+export declare function getFoldableComposition<F extends URIS2, G extends URIS>(
   F: Foldable2<F>,
   G: Foldable1<G>
 ): FoldableComposition21<F, G>
-export function getFoldableComposition<F extends URIS, G extends URIS2, E>(
+export declare function getFoldableComposition<F extends URIS, G extends URIS2, E>(
   F: Foldable1<F>,
   G: Foldable2C<G, E>
 ): FoldableComposition12C<F, G, E>
-export function getFoldableComposition<F extends URIS, G extends URIS2>(
+export declare function getFoldableComposition<F extends URIS, G extends URIS2>(
   F: Foldable1<F>,
   G: Foldable2<G>
 ): FoldableComposition12<F, G>
-export function getFoldableComposition<F extends URIS, G extends URIS>(
+export declare function getFoldableComposition<F extends URIS, G extends URIS>(
   F: Foldable1<F>,
   G: Foldable1<G>
 ): FoldableComposition11<F, G>
-export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): FoldableComposition<F, G> { ... }
+export declare function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): FoldableComposition<F, G>
 ```
 
 **Example**
@@ -364,14 +364,20 @@ Fold a data structure, accumulating values in some `Monoid`, combining adjacent 
 **Signature**
 
 ```ts
-export function intercalate<M, F extends URIS3>(
+export declare function intercalate<M, F extends URIS3>(
   M: Monoid<M>,
   F: Foldable3<F>
 ): <R, E>(sep: M, fm: Kind3<F, R, E, M>) => M
-export function intercalate<M, F extends URIS2>(M: Monoid<M>, F: Foldable2<F>): <E>(sep: M, fm: Kind2<F, E, M>) => M
-export function intercalate<M, F extends URIS2, E>(M: Monoid<M>, F: Foldable2C<F, E>): (sep: M, fm: Kind2<F, E, M>) => M
-export function intercalate<M, F extends URIS>(M: Monoid<M>, F: Foldable1<F>): (sep: M, fm: Kind<F, M>) => M
-export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M, fm: HKT<F, M>) => M { ... }
+export declare function intercalate<M, F extends URIS2>(
+  M: Monoid<M>,
+  F: Foldable2<F>
+): <E>(sep: M, fm: Kind2<F, E, M>) => M
+export declare function intercalate<M, F extends URIS2, E>(
+  M: Monoid<M>,
+  F: Foldable2C<F, E>
+): (sep: M, fm: Kind2<F, E, M>) => M
+export declare function intercalate<M, F extends URIS>(M: Monoid<M>, F: Foldable1<F>): (sep: M, fm: Kind<F, M>) => M
+export declare function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M, fm: HKT<F, M>) => M
 ```
 
 **Example**
@@ -395,26 +401,26 @@ final result.
 **Signature**
 
 ```ts
-export function traverse_<M extends URIS3, F extends URIS>(
+export declare function traverse_<M extends URIS3, F extends URIS>(
   M: Applicative3<M>,
   F: Foldable1<F>
 ): <R, E, A, B>(fa: Kind<F, A>, f: (a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, void>
-export function traverse_<M extends URIS2, F extends URIS>(
+export declare function traverse_<M extends URIS2, F extends URIS>(
   M: Applicative2<M>,
   F: Foldable1<F>
 ): <E, A, B>(fa: Kind<F, A>, f: (a: A) => Kind2<M, E, B>) => Kind2<M, E, void>
-export function traverse_<M extends URIS2, F extends URIS, E>(
+export declare function traverse_<M extends URIS2, F extends URIS, E>(
   M: Applicative2C<M, E>,
   F: Foldable1<F>
 ): <A, B>(fa: Kind<F, A>, f: (a: A) => Kind2<M, E, B>) => Kind2<M, E, void>
-export function traverse_<M extends URIS, F extends URIS>(
+export declare function traverse_<M extends URIS, F extends URIS>(
   M: Applicative1<M>,
   F: Foldable1<F>
 ): <A, B>(fa: Kind<F, A>, f: (a: A) => Kind<M, B>) => Kind<M, void>
-export function traverse_<M, F>(
+export declare function traverse_<M, F>(
   M: Applicative<M>,
   F: Foldable<F>
-): <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<M, B>) => HKT<M, void> { ... }
+): <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<M, B>) => HKT<M, void>
 ```
 
 **Example**

@@ -280,38 +280,38 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS2, GI, E>(
+export declare function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS2, GI, E>(
   F: FoldableWithIndex2<F, FI>,
   G: FoldableWithIndex2C<G, GI, E>
 ): FoldableWithIndexComposition22C<F, FI, G, GI, E>
-export function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS2, GI>(
+export declare function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS2, GI>(
   F: FoldableWithIndex2<F, FI>,
   G: FoldableWithIndex2<G, GI>
 ): FoldableWithIndexComposition22<F, FI, G, GI>
-export function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS, GI, E>(
+export declare function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS, GI, E>(
   F: FoldableWithIndex2C<F, FI, E>,
   G: FoldableWithIndex1<G, GI>
 ): FoldableWithIndexComposition2C1<F, FI, G, GI, E>
-export function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS, GI>(
+export declare function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS, GI>(
   F: FoldableWithIndex2<F, FI>,
   G: FoldableWithIndex1<G, GI>
 ): FoldableWithIndexComposition21<F, FI, G, GI>
-export function getFoldableWithIndexComposition<F extends URIS, FI, G extends URIS2, GI>(
+export declare function getFoldableWithIndexComposition<F extends URIS, FI, G extends URIS2, GI>(
   F: FoldableWithIndex1<F, FI>,
   G: FoldableWithIndex2<G, GI>
 ): FoldableWithIndexComposition12<F, FI, G, GI>
-export function getFoldableWithIndexComposition<F extends URIS, FI, G extends URIS2, GI>(
+export declare function getFoldableWithIndexComposition<F extends URIS, FI, G extends URIS2, GI>(
   F: FoldableWithIndex1<F, FI>,
   G: FoldableWithIndex2<G, GI>
 ): FoldableWithIndexComposition12<F, FI, G, GI>
-export function getFoldableWithIndexComposition<F extends URIS, FI, G extends URIS, GI>(
+export declare function getFoldableWithIndexComposition<F extends URIS, FI, G extends URIS, GI>(
   F: FoldableWithIndex1<F, FI>,
   G: FoldableWithIndex1<G, GI>
 ): FoldableWithIndexComposition11<F, FI, G, GI>
-export function getFoldableWithIndexComposition<F, FI, G, GI>(
+export declare function getFoldableWithIndexComposition<F, FI, G, GI>(
   F: FoldableWithIndex<F, FI>,
   G: FoldableWithIndex<G, GI>
-): FoldableWithIndexComposition<F, FI, G, GI> { ... }
+): FoldableWithIndexComposition<F, FI, G, GI>
 ```
 
 Added in v2.0.0

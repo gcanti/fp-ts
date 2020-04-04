@@ -120,7 +120,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof alt
+export declare const alt: typeof alt
 ```
 
 Added in v2.0.0
@@ -130,7 +130,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof alternative
+export declare const alternative: typeof alternative
 ```
 
 Added in v2.0.0
@@ -140,7 +140,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof applicative
+export declare const applicative: typeof applicative
 ```
 
 Added in v2.0.0
@@ -150,7 +150,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof apply
+export declare const apply: typeof apply
 ```
 
 Added in v2.0.0
@@ -160,7 +160,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof array
+export declare const array: typeof array
 ```
 
 Added in v2.0.0
@@ -170,7 +170,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof bifunctor
+export declare const bifunctor: typeof bifunctor
 ```
 
 Added in v2.0.0
@@ -180,7 +180,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof boolean
+export declare const boolean: typeof boolean
 ```
 
 Added in v2.2.0
@@ -190,7 +190,7 @@ Added in v2.2.0
 **Signature**
 
 ```ts
-typeof booleanAlgebra
+export declare const booleanAlgebra: typeof booleanAlgebra
 ```
 
 Added in v2.0.0
@@ -200,7 +200,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof bounded
+export declare const bounded: typeof bounded
 ```
 
 Added in v2.0.0
@@ -210,7 +210,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof boundedDistributiveLattice
+export declare const boundedDistributiveLattice: typeof boundedDistributiveLattice
 ```
 
 Added in v2.0.0
@@ -220,7 +220,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof boundedJoinSemilattice
+export declare const boundedJoinSemilattice: typeof boundedJoinSemilattice
 ```
 
 Added in v2.0.0
@@ -230,7 +230,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof boundedLattice
+export declare const boundedLattice: typeof boundedLattice
 ```
 
 Added in v2.0.0
@@ -240,7 +240,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof boundedMeetSemilattice
+export declare const boundedMeetSemilattice: typeof boundedMeetSemilattice
 ```
 
 Added in v2.0.0
@@ -250,7 +250,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof category
+export declare const category: typeof category
 ```
 
 Added in v2.0.0
@@ -260,7 +260,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof chain
+export declare const chain: typeof chain
 ```
 
 Added in v2.0.0
@@ -270,7 +270,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof chainRec
+export declare const chainRec: typeof chainRec
 ```
 
 Added in v2.0.0
@@ -280,7 +280,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof choice
+export declare const choice: typeof choice
 ```
 
 Added in v2.0.0
@@ -290,7 +290,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof comonad
+export declare const comonad: typeof comonad
 ```
 
 Added in v2.0.0
@@ -300,7 +300,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof compactable
+export declare const compactable: typeof compactable
 ```
 
 Added in v2.0.0
@@ -310,7 +310,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof console
+export declare const console: typeof console
 ```
 
 Added in v2.0.0
@@ -320,7 +320,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof const_
+export declare const const: typeof const_
 ```
 
 Added in v2.0.0
@@ -330,7 +330,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof contravariant
+export declare const contravariant: typeof contravariant
 ```
 
 Added in v2.0.0
@@ -340,7 +340,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof date
+export declare const date: typeof date
 ```
 
 Added in v2.0.0
@@ -350,7 +350,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof distributiveLattice
+export declare const distributiveLattice: typeof distributiveLattice
 ```
 
 Added in v2.0.0
@@ -360,7 +360,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof either
+export declare const either: typeof either
 ```
 
 Added in v2.0.0
@@ -370,7 +370,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof eitherT
+export declare const eitherT: typeof eitherT
 ```
 
 Added in v2.0.0
@@ -380,7 +380,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof eq
+export declare const eq: typeof eq
 ```
 
 Added in v2.0.0
@@ -390,7 +390,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof extend
+export declare const extend: typeof extend
 ```
 
 Added in v2.0.0
@@ -400,7 +400,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof field
+export declare const field: typeof field
 ```
 
 Added in v2.0.0
@@ -410,7 +410,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof filterable
+export declare const filterable: typeof filterable
 ```
 
 Added in v2.0.0
@@ -420,7 +420,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof filterableWithIndex
+export declare const filterableWithIndex: typeof filterableWithIndex
 ```
 
 Added in v2.0.0
@@ -430,7 +430,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof foldable
+export declare const foldable: typeof foldable
 ```
 
 Added in v2.0.0
@@ -440,7 +440,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof foldableWithIndex
+export declare const foldableWithIndex: typeof foldableWithIndex
 ```
 
 Added in v2.0.0
@@ -450,7 +450,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof function_
+export declare const function: typeof function_
 ```
 
 Added in v2.0.0
@@ -460,7 +460,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof functor
+export declare const functor: typeof functor
 ```
 
 Added in v2.0.0
@@ -470,7 +470,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof functorWithIndex
+export declare const functorWithIndex: typeof functorWithIndex
 ```
 
 Added in v2.0.0
@@ -480,7 +480,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof group
+export declare const group: typeof group
 ```
 
 Added in v2.0.0
@@ -490,7 +490,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof heytingAlgebra
+export declare const heytingAlgebra: typeof heytingAlgebra
 ```
 
 Added in v2.0.0
@@ -500,7 +500,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof hkt
+export declare const hkt: typeof hkt
 ```
 
 Added in v2.0.0
@@ -510,7 +510,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof identity
+export declare const identity: typeof identity
 ```
 
 Added in v2.0.0
@@ -520,7 +520,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof invariant
+export declare const invariant: typeof invariant
 ```
 
 Added in v2.0.0
@@ -530,7 +530,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof io
+export declare const io: typeof io
 ```
 
 Added in v2.0.0
@@ -540,7 +540,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof ioEither
+export declare const ioEither: typeof ioEither
 ```
 
 Added in v2.0.0
@@ -550,7 +550,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof ioRef
+export declare const ioRef: typeof ioRef
 ```
 
 Added in v2.0.0
@@ -560,7 +560,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof joinSemilattice
+export declare const joinSemilattice: typeof joinSemilattice
 ```
 
 Added in v2.0.0
@@ -570,7 +570,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof lattice
+export declare const lattice: typeof lattice
 ```
 
 Added in v2.0.0
@@ -580,7 +580,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof magma
+export declare const magma: typeof magma
 ```
 
 Added in v2.0.0
@@ -590,7 +590,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof map
+export declare const map: typeof map
 ```
 
 Added in v2.0.0
@@ -600,7 +600,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof meetSemilattice
+export declare const meetSemilattice: typeof meetSemilattice
 ```
 
 Added in v2.0.0
@@ -610,7 +610,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof monad
+export declare const monad: typeof monad
 ```
 
 Added in v2.0.0
@@ -620,7 +620,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof monadIO
+export declare const monadIO: typeof monadIO
 ```
 
 Added in v2.0.0
@@ -630,7 +630,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof monadTask
+export declare const monadTask: typeof monadTask
 ```
 
 Added in v2.0.0
@@ -640,7 +640,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof monadThrow
+export declare const monadThrow: typeof monadThrow
 ```
 
 Added in v2.0.0
@@ -650,7 +650,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof monoid
+export declare const monoid: typeof monoid
 ```
 
 Added in v2.0.0
@@ -660,7 +660,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof nonEmptyArray
+export declare const nonEmptyArray: typeof nonEmptyArray
 ```
 
 Added in v2.0.0
@@ -670,7 +670,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof option
+export declare const option: typeof option
 ```
 
 Added in v2.0.0
@@ -680,7 +680,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof optionT
+export declare const optionT: typeof optionT
 ```
 
 Added in v2.0.0
@@ -690,7 +690,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof ord
+export declare const ord: typeof ord
 ```
 
 Added in v2.0.0
@@ -700,7 +700,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof ordering
+export declare const ordering: typeof ordering
 ```
 
 Added in v2.0.0
@@ -710,7 +710,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof pipeable
+export declare const pipeable: typeof pipeable
 ```
 
 Added in v2.0.0
@@ -720,7 +720,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof profunctor
+export declare const profunctor: typeof profunctor
 ```
 
 Added in v2.0.0
@@ -730,7 +730,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof random
+export declare const random: typeof random
 ```
 
 Added in v2.0.0
@@ -740,7 +740,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof reader
+export declare const reader: typeof reader
 ```
 
 Added in v2.0.0
@@ -750,7 +750,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof readerEither
+export declare const readerEither: typeof readerEither
 ```
 
 Added in v2.0.0
@@ -760,7 +760,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof readerT
+export declare const readerT: typeof readerT
 ```
 
 Added in v2.0.0
@@ -770,7 +770,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof readerTask
+export declare const readerTask: typeof readerTask
 ```
 
 Added in v2.3.0
@@ -780,7 +780,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-typeof readerTaskEither
+export declare const readerTaskEither: typeof readerTaskEither
 ```
 
 Added in v2.0.0
@@ -790,7 +790,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof readonlyArray
+export declare const readonlyArray: typeof readonlyArray
 ```
 
 Added in v2.5.0
@@ -800,7 +800,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-typeof readonlyMap
+export declare const readonlyMap: typeof readonlyMap
 ```
 
 Added in v2.5.0
@@ -810,7 +810,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-typeof readonlyNonEmptyArray
+export declare const readonlyNonEmptyArray: typeof readonlyNonEmptyArray
 ```
 
 Added in v2.5.0
@@ -820,7 +820,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-typeof readonlyRecord
+export declare const readonlyRecord: typeof readonlyRecord
 ```
 
 Added in v2.5.0
@@ -830,7 +830,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-typeof readonlySet
+export declare const readonlySet: typeof readonlySet
 ```
 
 Added in v2.5.0
@@ -840,7 +840,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-typeof readonlyTuple
+export declare const readonlyTuple: typeof readonlyTuple
 ```
 
 Added in v2.5.0
@@ -850,7 +850,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-typeof record
+export declare const record: typeof record
 ```
 
 Added in v2.0.0
@@ -860,7 +860,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof ring
+export declare const ring: typeof ring
 ```
 
 Added in v2.0.0
@@ -870,7 +870,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof semigroup
+export declare const semigroup: typeof semigroup
 ```
 
 Added in v2.0.0
@@ -880,7 +880,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof semigroupoid
+export declare const semigroupoid: typeof semigroupoid
 ```
 
 Added in v2.0.0
@@ -890,7 +890,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof semiring
+export declare const semiring: typeof semiring
 ```
 
 Added in v2.0.0
@@ -900,7 +900,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof set
+export declare const set: typeof set
 ```
 
 Added in v2.0.0
@@ -910,7 +910,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof show
+export declare const show: typeof show
 ```
 
 Added in v2.0.0
@@ -920,7 +920,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof state
+export declare const state: typeof state
 ```
 
 Added in v2.0.0
@@ -930,7 +930,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof stateReaderTaskEither
+export declare const stateReaderTaskEither: typeof stateReaderTaskEither
 ```
 
 Added in v2.0.0
@@ -940,7 +940,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof stateT
+export declare const stateT: typeof stateT
 ```
 
 Added in v2.0.0
@@ -950,7 +950,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof store
+export declare const store: typeof store
 ```
 
 Added in v2.0.0
@@ -960,7 +960,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof strong
+export declare const strong: typeof strong
 ```
 
 Added in v2.0.0
@@ -970,7 +970,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof task
+export declare const task: typeof task
 ```
 
 Added in v2.0.0
@@ -980,7 +980,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof taskEither
+export declare const taskEither: typeof taskEither
 ```
 
 Added in v2.0.0
@@ -990,7 +990,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof taskThese
+export declare const taskThese: typeof taskThese
 ```
 
 Added in v2.4.0
@@ -1000,7 +1000,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-typeof these
+export declare const these: typeof these
 ```
 
 Added in v2.0.0
@@ -1010,7 +1010,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof theseT
+export declare const theseT: typeof theseT
 ```
 
 Added in v2.4.0
@@ -1020,7 +1020,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-typeof traced
+export declare const traced: typeof traced
 ```
 
 Added in v2.0.0
@@ -1030,7 +1030,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof traversable
+export declare const traversable: typeof traversable
 ```
 
 Added in v2.0.0
@@ -1040,7 +1040,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof traversableWithIndex
+export declare const traversableWithIndex: typeof traversableWithIndex
 ```
 
 Added in v2.0.0
@@ -1050,7 +1050,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof tree
+export declare const tree: typeof tree
 ```
 
 Added in v2.0.0
@@ -1060,7 +1060,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof tuple
+export declare const tuple: typeof tuple
 ```
 
 Added in v2.0.0
@@ -1070,7 +1070,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof unfoldable
+export declare const unfoldable: typeof unfoldable
 ```
 
 Added in v2.0.0
@@ -1080,7 +1080,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof validationT
+export declare const validationT: typeof validationT
 ```
 
 Added in v2.0.0
@@ -1090,7 +1090,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof witherable
+export declare const witherable: typeof witherable
 ```
 
 Added in v2.0.0
@@ -1100,7 +1100,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof writer
+export declare const writer: typeof writer
 ```
 
 Added in v2.0.0
@@ -1110,7 +1110,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-typeof writerT
+export declare const writerT: typeof writerT
 ```
 
 Added in v2.4.0

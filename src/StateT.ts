@@ -128,16 +128,16 @@ export function getStateM<M extends URIS>(M: Monad1<M>): StateM1<M>
 export function getStateM<M>(M: Monad<M>): StateM<M>
 export function getStateM<M>(M: Monad<M>): StateM<M> {
   return {
-    map: (fa, f) => s => M.map(fa(s), ([a, s1]) => [f(a), s1]),
-    of: a => s => M.of([a, s]),
-    ap: (fab, fa) => s => M.chain(fab(s), ([f, s]) => M.map(fa(s), ([a, s]) => [f(a), s])),
-    chain: (fa, f) => s => M.chain(fa(s), ([a, s1]) => f(a)(s1)),
-    get: () => s => M.of([s, s]),
-    put: s => () => M.of([undefined, s]),
-    modify: f => s => M.of([undefined, f(s)]),
-    gets: f => s => M.of([f(s), s]),
-    fromState: sa => s => M.of(sa(s)),
-    fromM: ma => s => M.map(ma, a => [a, s]),
+    map: (fa, f) => (s) => M.map(fa(s), ([a, s1]) => [f(a), s1]),
+    of: (a) => (s) => M.of([a, s]),
+    ap: (fab, fa) => (s) => M.chain(fab(s), ([f, s]) => M.map(fa(s), ([a, s]) => [f(a), s])),
+    chain: (fa, f) => (s) => M.chain(fa(s), ([a, s1]) => f(a)(s1)),
+    get: () => (s) => M.of([s, s]),
+    put: (s) => () => M.of([undefined, s]),
+    modify: (f) => (s) => M.of([undefined, f(s)]),
+    gets: (f) => (s) => M.of([f(s), s]),
+    fromState: (sa) => (s) => M.of(sa(s)),
+    fromM: (ma) => (s) => M.map(ma, (a) => [a, s]),
     evalState: (ma, s) => M.map(ma(s), ([a]) => a),
     execState: (ma, s) => M.map(ma(s), ([_, s]) => s)
   }

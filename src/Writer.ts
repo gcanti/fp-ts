@@ -77,7 +77,7 @@ export const pass: <W, A>(fa: Writer<W, [A, (w: W) => W]>) => Writer<W, A> = T.p
  * @since 2.0.0
  */
 export function listens<W, B>(f: (w: W) => B): <A>(fa: Writer<W, A>) => Writer<W, [A, B]> {
-  return fa => T.listens(fa, f)
+  return (fa) => T.listens(fa, f)
 }
 // tslint:enable:readonly-array
 
@@ -87,7 +87,7 @@ export function listens<W, B>(f: (w: W) => B): <A>(fa: Writer<W, A>) => Writer<W
  * @since 2.0.0
  */
 export function censor<W>(f: (w: W) => W): <A>(fa: Writer<W, A>) => Writer<W, A> {
-  return fa => T.censor(fa, f)
+  return (fa) => T.censor(fa, f)
 }
 
 /**

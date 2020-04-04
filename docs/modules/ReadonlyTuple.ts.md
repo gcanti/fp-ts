@@ -50,7 +50,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export const URI: "ReadonlyTuple" = ...
+export declare const URI: 'ReadonlyTuple'
 ```
 
 Added in v2.5.0
@@ -60,7 +60,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-;<E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: readonly [A, E]) => readonly[(B, G)]
+export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: readonly [A, E]) => readonly [B, G]
 ```
 
 Added in v2.5.0
@@ -70,7 +70,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-;<E, A>(la: readonly [A, E]) => <B>(ab: readonly [B, A]) => readonly[(B, E)]
+export declare const compose: <E, A>(la: readonly [A, E]) => <B>(ab: readonly [B, A]) => readonly [B, E]
 ```
 
 Added in v2.5.0
@@ -80,7 +80,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-;<E, A>(ma: readonly [A, E]) => readonly[(readonly[(A, E)], E)]
+export declare const duplicate: <E, A>(ma: readonly [A, E]) => readonly [readonly [A, E], E]
 ```
 
 Added in v2.5.0
@@ -90,7 +90,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-;<E, A, B>(f: (fa: readonly [A, E]) => B) => (ma: readonly [A, E]) => readonly[(B, E)]
+export declare const extend: <E, A, B>(f: (fa: readonly [A, E]) => B) => (ma: readonly [A, E]) => readonly [B, E]
 ```
 
 Added in v2.5.0
@@ -100,7 +100,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: readonly [A, E]) => M
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: readonly [A, E]) => M
 ```
 
 Added in v2.5.0
@@ -110,7 +110,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export function fst<A, S>(sa: readonly [A, S]): A { ... }
+export declare function fst<A, S>(sa: readonly [A, S]): A
 ```
 
 Added in v2.5.0
@@ -120,7 +120,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export function getApplicative<S>(M: Monoid<S>): Applicative2C<URI, S> { ... }
+export declare function getApplicative<S>(M: Monoid<S>): Applicative2C<URI, S>
 ```
 
 Added in v2.5.0
@@ -130,7 +130,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> { ... }
+export declare function getApply<S>(S: Semigroup<S>): Apply2C<URI, S>
 ```
 
 Added in v2.5.0
@@ -140,7 +140,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export function getChain<S>(S: Semigroup<S>): Chain2C<URI, S> { ... }
+export declare function getChain<S>(S: Semigroup<S>): Chain2C<URI, S>
 ```
 
 Added in v2.5.0
@@ -150,7 +150,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export function getChainRec<S>(M: Monoid<S>): ChainRec2C<URI, S> { ... }
+export declare function getChainRec<S>(M: Monoid<S>): ChainRec2C<URI, S>
 ```
 
 Added in v2.5.0
@@ -160,7 +160,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export function getMonad<S>(M: Monoid<S>): Monad2C<URI, S> { ... }
+export declare function getMonad<S>(M: Monoid<S>): Monad2C<URI, S>
 ```
 
 Added in v2.5.0
@@ -170,7 +170,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-;<A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly[(B, E)]
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly [B, E]
 ```
 
 Added in v2.5.0
@@ -180,7 +180,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-;<E, G>(f: (e: E) => G) => <A>(fa: readonly [A, E]) => readonly[(A, G)]
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: readonly [A, E]) => readonly [A, G]
 ```
 
 Added in v2.5.0
@@ -190,11 +190,11 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export const readonlyTuple: Semigroupoid2<URI> &
-  Bifunctor2<URI> &
-  Comonad2<URI> &
-  Foldable2<URI> &
-  Traversable2<URI> = ...
+export declare const readonlyTuple: Semigroupoid2<'ReadonlyTuple'> &
+  Bifunctor2<'ReadonlyTuple'> &
+  Comonad2<'ReadonlyTuple'> &
+  Foldable2<'ReadonlyTuple'> &
+  Traversable2<'ReadonlyTuple'>
 ```
 
 Added in v2.5.0
@@ -204,7 +204,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: readonly [A, E]) => B
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: readonly [A, E]) => B
 ```
 
 Added in v2.5.0
@@ -214,7 +214,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: readonly [A, E]) => B
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: readonly [A, E]) => B
 ```
 
 Added in v2.5.0
@@ -224,7 +224,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export function snd<A, S>(sa: readonly [A, S]): S { ... }
+export declare function snd<A, S>(sa: readonly [A, S]): S
 ```
 
 Added in v2.5.0
@@ -234,7 +234,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export function swap<A, S>(sa: readonly [A, S]): readonly [S, A] { ... }
+export declare function swap<A, S>(sa: readonly [A, S]): readonly [S, A]
 ```
 
 Added in v2.5.0

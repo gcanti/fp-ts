@@ -41,7 +41,7 @@ describe('Writer', () => {
     assert.deepStrictEqual(
       pipe(
         fa,
-        W.listens(w => w.length)
+        W.listens((w) => w.length)
       )(),
       [[1, 1], 'a']
     )
@@ -52,7 +52,7 @@ describe('Writer', () => {
     assert.deepStrictEqual(
       pipe(
         fa,
-        W.censor(w => w.filter(a => a !== 'a'))
+        W.censor((w) => w.filter((a) => a !== 'a'))
       )(),
       [1, ['b']]
     )

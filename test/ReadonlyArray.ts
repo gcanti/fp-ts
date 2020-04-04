@@ -68,7 +68,7 @@ describe('ReadonlyArray', () => {
   })
 
   it('ap', () => {
-    const as = _.readonlyArray.ap([x => x * 2, x => x * 3], [1, 2, 3])
+    const as = _.readonlyArray.ap([(x) => x * 2, (x) => x * 3], [1, 2, 3])
     assert.deepStrictEqual(as, [2, 4, 6, 3, 6, 9])
   })
 
@@ -88,7 +88,7 @@ describe('ReadonlyArray', () => {
   })
 
   it('unfold', () => {
-    const as = _.readonlyArray.unfold(5, n => (n > 0 ? O.some([n, n - 1]) : O.none))
+    const as = _.readonlyArray.unfold(5, (n) => (n > 0 ? O.some([n, n - 1]) : O.none))
     assert.deepStrictEqual(as, [5, 4, 3, 2, 1])
   })
 
@@ -187,12 +187,12 @@ describe('ReadonlyArray', () => {
   })
 
   it('findIndex', () => {
-    assert.deepStrictEqual(_.findIndex(x => x === 2)([1, 2, 3]), O.some(1))
-    assert.deepStrictEqual(_.findIndex(x => x === 2)([]), O.none)
+    assert.deepStrictEqual(_.findIndex((x) => x === 2)([1, 2, 3]), O.some(1))
+    assert.deepStrictEqual(_.findIndex((x) => x === 2)([]), O.none)
   })
 
   it('findFirst', () => {
-    assert.deepStrictEqual(_.findFirst(x => x === 2)([]), O.none)
+    assert.deepStrictEqual(_.findFirst((x) => x === 2)([]), O.none)
     assert.deepStrictEqual(
       _.findFirst((x: { readonly a: number; readonly b: number }) => x.a === 1)([
         { a: 1, b: 1 },
@@ -220,11 +220,11 @@ describe('ReadonlyArray', () => {
 
   const optionStringEq = O.getEq(Eq.eqString)
   const multipleOf3: F.Predicate<number> = (x: number) => x % 3 === 0
-  const multipleOf3AsString = (x: number) => O.option.map(O.fromPredicate(multipleOf3)(x), x => `${x}`)
+  const multipleOf3AsString = (x: number) => O.option.map(O.fromPredicate(multipleOf3)(x), (x) => `${x}`)
 
   it('`findFirstMap(arr, fun)` is equivalent to map and `head(mapOption(arr, fun)`', () => {
     fc.assert(
-      fc.property(fc.array(fc.integer()), arr =>
+      fc.property(fc.array(fc.integer()), (arr) =>
         optionStringEq.equals(
           _.findFirstMap(multipleOf3AsString)(arr),
           _.head(_.readonlyArray.filterMap(arr, multipleOf3AsString))
@@ -234,7 +234,7 @@ describe('ReadonlyArray', () => {
   })
 
   it('findLast', () => {
-    assert.deepStrictEqual(_.findLast(x => x === 2)([]), O.none)
+    assert.deepStrictEqual(_.findLast((x) => x === 2)([]), O.none)
     assert.deepStrictEqual(
       _.findLast((x: { readonly a: number; readonly b: number }) => x.a === 1)([
         { a: 1, b: 1 },
@@ -254,7 +254,7 @@ describe('ReadonlyArray', () => {
 
   it('`findLastMap(arr, fun)` is equivalent to `last(mapOption(arr, fun))`', () => {
     fc.assert(
-      fc.property(fc.array(fc.integer()), arr =>
+      fc.property(fc.array(fc.integer()), (arr) =>
         optionStringEq.equals(
           _.findLastMap(multipleOf3AsString)(arr),
           _.last(_.readonlyArray.filterMap(arr, multipleOf3AsString))
@@ -374,7 +374,7 @@ describe('ReadonlyArray', () => {
 
   it('map', () => {
     assert.deepStrictEqual(
-      _.readonlyArray.map([1, 2, 3], n => n * 2),
+      _.readonlyArray.map([1, 2, 3], (n) => n * 2),
       [2, 4, 6]
     )
   })
@@ -399,7 +399,7 @@ describe('ReadonlyArray', () => {
 
   it('chain', () => {
     assert.deepStrictEqual(
-      _.readonlyArray.chain([1, 2, 3], n => [n, n + 1]),
+      _.readonlyArray.chain([1, 2, 3], (n) => [n, n + 1]),
       [1, 2, 2, 3, 3, 4]
     )
   })
@@ -602,7 +602,7 @@ describe('ReadonlyArray', () => {
 
   it('chop', () => {
     const group = <A>(E: Eq.Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
-      return _.chop(as => {
+      return _.chop((as) => {
         const { init, rest } = _.spanLeft((a: A) => E.equals(a, as[0]))(as)
         return [init, rest]
       })
@@ -653,9 +653,9 @@ describe('ReadonlyArray', () => {
       assert.deepStrictEqual(_.chunksOf(2)(xs).concat(_.chunksOf(2)(ys)), _.chunksOf(2)(xs.concat(ys)))
       fc.assert(
         fc.property(
-          fc.array(fc.integer()).filter(xs => xs.length % 2 === 0), // Ensures `xs.length` is even
+          fc.array(fc.integer()).filter((xs) => xs.length % 2 === 0), // Ensures `xs.length` is even
           fc.array(fc.integer()),
-          fc.integer(1, 1).map(x => x * 2), // Generates `n` to be even so that it evenly divides `xs`
+          fc.integer(1, 1).map((x) => x * 2), // Generates `n` to be even so that it evenly divides `xs`
           (xs, ys, n) => {
             const as = _.chunksOf(n)(xs).concat(_.chunksOf(n)(ys))
             const bs = _.chunksOf(n)(xs.concat(ys))
@@ -684,7 +684,7 @@ describe('ReadonlyArray', () => {
 
   it('comprehension', () => {
     assert.deepStrictEqual(
-      _.comprehension([[1, 2, 3]], a => a * 2),
+      _.comprehension([[1, 2, 3]], (a) => a * 2),
       [2, 4, 6]
     )
     assert.deepStrictEqual(

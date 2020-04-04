@@ -119,18 +119,18 @@ allows us to run two parallel computations on the same input and return both res
 **Signature**
 
 ```ts
-export function fanout<F extends URIS4>(
+export declare function fanout<F extends URIS4>(
   F: Category4<F> & Strong4<F>
 ): <S, R, A, B, C>(pab: Kind4<F, S, R, A, B>, pac: Kind4<F, S, R, A, C>) => Kind4<F, S, R, A, [B, C]>
-export function fanout<F extends URIS3>(
+export declare function fanout<F extends URIS3>(
   F: Category3<F> & Strong3<F>
 ): <R, A, B, C>(pab: Kind3<F, R, A, B>, pac: Kind3<F, R, A, C>) => Kind3<F, R, A, [B, C]>
-export function fanout<F extends URIS2>(
+export declare function fanout<F extends URIS2>(
   F: Category2<F> & Strong2<F>
 ): <A, B, C>(pab: Kind2<F, A, B>, pac: Kind2<F, A, C>) => Kind2<F, A, [B, C]>
-export function fanout<F>(
+export declare function fanout<F>(
   F: Category<F> & Strong<F>
-): <A, B, C>(pab: HKT2<F, A, B>, pac: HKT2<F, A, C>) => HKT2<F, A, [B, C]> { ... }
+): <A, B, C>(pab: HKT2<F, A, B>, pac: HKT2<F, A, C>) => HKT2<F, A, [B, C]>
 ```
 
 Added in v2.0.0
@@ -151,18 +151,18 @@ over the first element and `g` over the second. Just like `bi-map` would do for 
 **Signature**
 
 ```ts
-export function splitStrong<F extends URIS4>(
+export declare function splitStrong<F extends URIS4>(
   F: Category4<F> & Strong4<F>
 ): <S, R, A, B, C, D>(pab: Kind4<F, S, R, A, B>, pcd: Kind4<F, S, R, C, D>) => Kind4<F, S, R, [A, C], [B, D]>
-export function splitStrong<F extends URIS3>(
+export declare function splitStrong<F extends URIS3>(
   F: Category3<F> & Strong3<F>
 ): <R, A, B, C, D>(pab: Kind3<F, R, A, B>, pcd: Kind3<F, R, C, D>) => Kind3<F, R, [A, C], [B, D]>
-export function splitStrong<F extends URIS2>(
+export declare function splitStrong<F extends URIS2>(
   F: Category2<F> & Strong2<F>
 ): <A, B, C, D>(pab: Kind2<F, A, B>, pcd: Kind2<F, C, D>) => Kind2<F, [A, C], [B, D]>
-export function splitStrong<F>(
+export declare function splitStrong<F>(
   F: Category<F> & Strong<F>
-): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, [A, C], [B, D]> { ... }
+): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, [A, C], [B, D]>
 ```
 
 Added in v2.0.0

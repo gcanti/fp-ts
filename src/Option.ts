@@ -153,7 +153,7 @@ export function isNone<A>(fa: Option<A>): fa is None {
  * @since 2.0.0
  */
 export function fold<A, B>(onNone: () => B, onSome: (a: A) => B): (ma: Option<A>) => B {
-  return ma => (isNone(ma) ? onNone() : onSome(ma.value))
+  return (ma) => (isNone(ma) ? onNone() : onSome(ma.value))
 }
 
 /**
@@ -254,7 +254,7 @@ export function toUndefined<A>(ma: Option<A>): A | undefined {
  * @since 2.0.0
  */
 export function getOrElse<A>(onNone: () => A): (ma: Option<A>) => A {
-  return ma => (isNone(ma) ? onNone() : ma.value)
+  return (ma) => (isNone(ma) ? onNone() : ma.value)
 }
 
 /**
@@ -306,7 +306,7 @@ export function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean {
  * @since 2.0.0
  */
 export function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => boolean {
-  return ma => (isNone(ma) ? false : predicate(ma.value))
+  return (ma) => (isNone(ma) ? false : predicate(ma.value))
 }
 
 /**
@@ -325,7 +325,7 @@ export function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => boolean {
 export function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
 export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A>
 export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
-  return a => (predicate(a) ? some(a) : none)
+  return (a) => (predicate(a) ? some(a) : none)
 }
 
 /**
@@ -436,7 +436,7 @@ export function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): R
  * @since 2.0.0
  */
 export function mapNullable<A, B>(f: (a: A) => B | null | undefined): (ma: Option<A>) => Option<B> {
-  return ma => (isNone(ma) ? none : fromNullable(f(ma.value)))
+  return (ma) => (isNone(ma) ? none : fromNullable(f(ma.value)))
 }
 
 /**
@@ -444,7 +444,7 @@ export function mapNullable<A, B>(f: (a: A) => B | null | undefined): (ma: Optio
  */
 export function getShow<A>(S: Show<A>): Show<Option<A>> {
   return {
-    show: ma => (isNone(ma) ? 'none' : `some(${S.show(ma.value)})`)
+    show: (ma) => (isNone(ma) ? 'none' : `some(${S.show(ma.value)})`)
   }
 }
 
@@ -641,7 +641,7 @@ export const option: Monad1<URI> &
   ap: (mab, ma) => (isNone(mab) ? none : isNone(ma) ? none : some(mab.value(ma.value))),
   chain: (ma, f) => (isNone(ma) ? none : f(ma.value)),
   reduce: (fa, b, f) => (isNone(fa) ? b : f(b, fa.value)),
-  foldMap: M => (fa, f) => (isNone(fa) ? M.empty : f(fa.value)),
+  foldMap: (M) => (fa, f) => (isNone(fa) ? M.empty : f(fa.value)),
   reduceRight: (fa, b, f) => (isNone(fa) ? b : f(fa.value, b)),
   traverse: <F>(F: Applicative<F>) => <A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>): HKT<F, Option<B>> => {
     return isNone(ta) ? F.of(none) : F.map(f(ta.value), some)
@@ -652,9 +652,9 @@ export const option: Monad1<URI> &
   zero: () => none,
   alt: (ma, f) => (isNone(ma) ? f() : ma),
   extend: (wa, f) => (isNone(wa) ? none : some(f(wa))),
-  compact: ma => option.chain(ma, identity),
+  compact: (ma) => option.chain(ma, identity),
   separate: <A, B>(ma: Option<Either<A, B>>): Separated<Option<A>, Option<B>> => {
-    const o = option.map(ma, e => ({
+    const o = option.map(ma, (e) => ({
       left: getLeft(e),
       right: getRight(e)
     }))
@@ -666,7 +666,7 @@ export const option: Monad1<URI> &
   filterMap: (ma, f) => (isNone(ma) ? none : f(ma.value)),
   partition: <A>(fa: Option<A>, predicate: Predicate<A>): Separated<Option<A>, Option<A>> => {
     return {
-      left: option.filter(fa, a => !predicate(a)),
+      left: option.filter(fa, (a) => !predicate(a)),
       right: option.filter(fa, predicate)
     }
   },
@@ -677,8 +677,8 @@ export const option: Monad1<URI> &
     fa: Option<A>,
     f: (a: A) => HKT<F, Either<B, C>>
   ): HKT<F, Separated<Option<B>, Option<C>>> => {
-    const o = option.map(fa, a =>
-      F.map(f(a), e => ({
+    const o = option.map(fa, (a) =>
+      F.map(f(a), (e) => ({
         left: getLeft(e),
         right: getRight(e)
       }))

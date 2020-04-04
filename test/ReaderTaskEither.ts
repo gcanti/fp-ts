@@ -173,7 +173,7 @@ describe('ReaderTaskEither', () => {
     const e2 = await _.run(
       pipe(
         _.left('error'),
-        _.orElse(s => _.right(s.length))
+        _.orElse((s) => _.right(s.length))
       ),
       {}
     )
@@ -200,10 +200,10 @@ describe('ReaderTaskEither', () => {
 
   it('fromPredicate', async () => {
     const predicate = (n: number) => n >= 2
-    const gt2 = _.fromPredicate(predicate, n => `Invalid number ${n}`)
+    const gt2 = _.fromPredicate(predicate, (n) => `Invalid number ${n}`)
 
     const refinement = (u: string | number): u is number => typeof u === 'number'
-    const isNumber = _.fromPredicate(refinement, u => `Invalid number ${String(u)}`)
+    const isNumber = _.fromPredicate(refinement, (u) => `Invalid number ${String(u)}`)
 
     const e1 = await _.run(gt2(3), {})
     const e2 = await _.run(gt2(1), {})
@@ -309,7 +309,7 @@ describe('ReaderTaskEither', () => {
       pipe(
         _.right(12),
         _.filterOrElse(
-          n => n > 10,
+          (n) => n > 10,
           () => 'a'
         )
       ),
@@ -321,7 +321,7 @@ describe('ReaderTaskEither', () => {
       pipe(
         _.right(8),
         _.filterOrElse(
-          n => n > 10,
+          (n) => n > 10,
           () => 'a'
         )
       ),
@@ -365,33 +365,33 @@ describe('ReaderTaskEither', () => {
     })
 
     it('chain', async () => {
-      const e1 = await RTV.chain(_.right(3), a => (a > 2 ? _.right(a) : _.left('b')))({})()
+      const e1 = await RTV.chain(_.right(3), (a) => (a > 2 ? _.right(a) : _.left('b')))({})()
       assert.deepStrictEqual(e1, E.right(3))
-      const e2 = await RTV.chain(_.right(1), a => (a > 2 ? _.right(a) : _.left('b')))({})()
+      const e2 = await RTV.chain(_.right(1), (a) => (a > 2 ? _.right(a) : _.left('b')))({})()
       assert.deepStrictEqual(e2, E.left('b'))
-      const e3 = await RTV.chain(_.left('a'), a => (a > 2 ? _.right(a) : _.left('b')))({})()
+      const e3 = await RTV.chain(_.left('a'), (a) => (a > 2 ? _.right(a) : _.left('b')))({})()
       assert.deepStrictEqual(e3, E.left('a'))
     })
 
     it('bimap', async () => {
       const e1 = await RTV.bimap(
         _.right(3),
-        e => e,
-        v => v
+        (e) => e,
+        (v) => v
       )({})()
       assert.deepStrictEqual(e1, E.right(3))
       const e2 = await RTV.bimap(
         _.left('3'),
-        e => e,
-        v => v
+        (e) => e,
+        (v) => v
       )({})()
       assert.deepStrictEqual(e2, E.left('3'))
     })
 
     it('mapLeft', async () => {
-      const e1 = await RTV.mapLeft(_.right(3), a => `x${a}`)({})()
+      const e1 = await RTV.mapLeft(_.right(3), (a) => `x${a}`)({})()
       assert.deepStrictEqual(e1, E.right(3))
-      const e2 = await RTV.mapLeft(_.left('3'), a => `x${a}`)({})()
+      const e2 = await RTV.mapLeft(_.left('3'), (a) => `x${a}`)({})()
       assert.deepStrictEqual(e2, E.left('x3'))
     })
 
@@ -409,9 +409,9 @@ describe('ReaderTaskEither', () => {
     it('traverse', async () => {
       const e1 = await array.traverse(RTV)([1, 2, 3], RTV.of)({})()
       assert.deepStrictEqual(e1, E.right([1, 2, 3]))
-      const e2 = await array.traverse(RTV)([1, 2, 3], v => RTV.throwError(`${v}`))({})()
+      const e2 = await array.traverse(RTV)([1, 2, 3], (v) => RTV.throwError(`${v}`))({})()
       assert.deepStrictEqual(e2, E.left('123'))
-      const e3 = await array.traverse(RTV)([1, 2, 3], v => (v % 2 === 1 ? RTV.throwError(`${v}`) : RTV.of(v)))({})()
+      const e3 = await array.traverse(RTV)([1, 2, 3], (v) => (v % 2 === 1 ? RTV.throwError(`${v}`) : RTV.of(v)))({})()
       assert.deepStrictEqual(e3, E.left('13'))
     })
   })

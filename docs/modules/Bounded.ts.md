@@ -41,7 +41,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const boundedNumber: Bounded<number> = ...
+export declare const boundedNumber: Bounded<number>
 ```
 
 Added in v2.0.0

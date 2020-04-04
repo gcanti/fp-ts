@@ -45,7 +45,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getStructShow<O extends ReadonlyRecord<string, any>>(shows: { [K in keyof O]: Show<O[K]> }): Show<O> { ... }
+export declare function getStructShow<O extends ReadonlyRecord<string, any>>(
+  shows: { [K in keyof O]: Show<O[K]> }
+): Show<O>
 ```
 
 Added in v2.0.0
@@ -55,9 +57,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getTupleShow<T extends ReadonlyArray<Show<any>>>(
+export declare function getTupleShow<T extends ReadonlyArray<Show<any>>>(
   ...shows: T
-): Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }> { ... }
+): Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }>
 ```
 
 Added in v2.0.0
@@ -67,7 +69,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const showBoolean: Show<boolean> = ...
+export declare const showBoolean: Show<boolean>
 ```
 
 Added in v2.0.0
@@ -77,7 +79,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const showNumber: Show<number> = ...
+export declare const showNumber: Show<number>
 ```
 
 Added in v2.0.0
@@ -87,7 +89,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const showString: Show<string> = ...
+export declare const showString: Show<string>
 ```
 
 Added in v2.0.0

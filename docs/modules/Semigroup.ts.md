@@ -52,7 +52,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fold<A>(S: Semigroup<A>): (a: A, as: ReadonlyArray<A>) => A { ... }
+export declare function fold<A>(S: Semigroup<A>): (a: A, as: ReadonlyArray<A>) => A
 ```
 
 Added in v2.0.0
@@ -62,7 +62,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getDualSemigroup<A>(S: Semigroup<A>): Semigroup<A> { ... }
+export declare function getDualSemigroup<A>(S: Semigroup<A>): Semigroup<A>
 ```
 
 Added in v2.0.0
@@ -72,7 +72,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getFirstSemigroup<A = never>(): Semigroup<A> { ... }
+export declare function getFirstSemigroup<A = never>(): Semigroup<A>
 ```
 
 Added in v2.0.0
@@ -82,7 +82,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getFunctionSemigroup<S>(S: Semigroup<S>): <A = never>() => Semigroup<(a: A) => S> { ... }
+export declare function getFunctionSemigroup<S>(S: Semigroup<S>): <A = never>() => Semigroup<(a: A) => S>
 ```
 
 Added in v2.0.0
@@ -94,7 +94,7 @@ You can glue items between and stay associative
 **Signature**
 
 ```ts
-export function getIntercalateSemigroup<A>(a: A): (S: Semigroup<A>) => Semigroup<A> { ... }
+export declare function getIntercalateSemigroup<A>(a: A): (S: Semigroup<A>) => Semigroup<A>
 ```
 
 **Example**
@@ -115,7 +115,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export function getJoinSemigroup<A>(O: Ord<A>): Semigroup<A> { ... }
+export declare function getJoinSemigroup<A>(O: Ord<A>): Semigroup<A>
 ```
 
 Added in v2.0.0
@@ -125,7 +125,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getLastSemigroup<A = never>(): Semigroup<A> { ... }
+export declare function getLastSemigroup<A = never>(): Semigroup<A>
 ```
 
 Added in v2.0.0
@@ -135,7 +135,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getMeetSemigroup<A>(O: Ord<A>): Semigroup<A> { ... }
+export declare function getMeetSemigroup<A>(O: Ord<A>): Semigroup<A>
 ```
 
 Added in v2.0.0
@@ -147,7 +147,7 @@ Returns a `Semigroup` instance for objects preserving their type
 **Signature**
 
 ```ts
-export function getObjectSemigroup<A extends object = never>(): Semigroup<A> { ... }
+export declare function getObjectSemigroup<A extends object = never>(): Semigroup<A>
 ```
 
 **Example**
@@ -171,9 +171,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getStructSemigroup<O extends ReadonlyRecord<string, any>>(
+export declare function getStructSemigroup<O extends ReadonlyRecord<string, any>>(
   semigroups: { [K in keyof O]: Semigroup<O[K]> }
-): Semigroup<O> { ... }
+): Semigroup<O>
 ```
 
 Added in v2.0.0
@@ -185,9 +185,9 @@ Given a tuple of semigroups returns a semigroup for the tuple
 **Signature**
 
 ```ts
-export function getTupleSemigroup<T extends ReadonlyArray<Semigroup<any>>>(
+export declare function getTupleSemigroup<T extends ReadonlyArray<Semigroup<any>>>(
   ...semigroups: T
-): Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> { ... }
+): Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }>
 ```
 
 **Example**
@@ -211,7 +211,7 @@ Boolean semigroup under conjunction
 **Signature**
 
 ```ts
-export const semigroupAll: Semigroup<boolean> = ...
+export declare const semigroupAll: Semigroup<boolean>
 ```
 
 Added in v2.0.0
@@ -223,7 +223,7 @@ Boolean semigroup under disjunction
 **Signature**
 
 ```ts
-export const semigroupAny: Semigroup<boolean> = ...
+export declare const semigroupAny: Semigroup<boolean>
 ```
 
 Added in v2.0.0
@@ -235,7 +235,7 @@ Number `Semigroup` under multiplication
 **Signature**
 
 ```ts
-export const semigroupProduct: Semigroup<number> = ...
+export declare const semigroupProduct: Semigroup<number>
 ```
 
 Added in v2.0.0
@@ -245,7 +245,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const semigroupString: Semigroup<string> = ...
+export declare const semigroupString: Semigroup<string>
 ```
 
 Added in v2.0.0
@@ -257,7 +257,7 @@ Number `Semigroup` under addition
 **Signature**
 
 ```ts
-export const semigroupSum: Semigroup<number> = ...
+export declare const semigroupSum: Semigroup<number>
 ```
 
 Added in v2.0.0
@@ -267,7 +267,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const semigroupVoid: Semigroup<void> = ...
+export declare const semigroupVoid: Semigroup<void>
 ```
 
 Added in v2.0.0

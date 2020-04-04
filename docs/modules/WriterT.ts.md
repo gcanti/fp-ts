@@ -224,11 +224,11 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export function getWriterM<M extends URIS3>(M: Monad3<M>): WriterM3<M>
-export function getWriterM<M extends URIS2>(M: Monad2<M>): WriterM2<M>
-export function getWriterM<M extends URIS2, E>(M: Monad2C<M, E>): WriterM2C<M, E>
-export function getWriterM<M extends URIS>(M: Monad1<M>): WriterM1<M>
-export function getWriterM<M>(M: Monad<M>): WriterM<M> { ... }
+export declare function getWriterM<M extends URIS3>(M: Monad3<M>): WriterM3<M>
+export declare function getWriterM<M extends URIS2>(M: Monad2<M>): WriterM2<M>
+export declare function getWriterM<M extends URIS2, E>(M: Monad2C<M, E>): WriterM2C<M, E>
+export declare function getWriterM<M extends URIS>(M: Monad1<M>): WriterM1<M>
+export declare function getWriterM<M>(M: Monad<M>): WriterM<M>
 ```
 
 Added in v2.4.0

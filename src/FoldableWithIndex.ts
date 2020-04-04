@@ -238,7 +238,7 @@ export function getFoldableWithIndexComposition<F, FI, G, GI>(
     ...getFoldableComposition(F, G),
     reduceWithIndex: (fga, b, f) =>
       F.reduceWithIndex(fga, b, (fi, b, ga) => G.reduceWithIndex(ga, b, (gi, b, a) => f([fi, gi], b, a))),
-    foldMapWithIndex: M => {
+    foldMapWithIndex: (M) => {
       const foldMapWithIndexF = F.foldMapWithIndex(M)
       const foldMapWithIndexG = G.foldMapWithIndex(M)
       return (fga, f) => foldMapWithIndexF(fga, (fi, ga) => foldMapWithIndexG(ga, (gi, a) => f([fi, gi], a)))

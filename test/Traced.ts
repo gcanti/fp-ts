@@ -28,7 +28,7 @@ interface Project {
 
 interface ProjectBuilder extends Traced<Settings, Project> {}
 
-const buildProject = (projectName: string): ProjectBuilder => settings => ({
+const buildProject = (projectName: string): ProjectBuilder => (settings) => ({
   projectName,
   projectHasLibrary: settings.settingsHasLibrary,
   projectGitHub: settings.settingsGitHub,
@@ -106,7 +106,7 @@ describe('Traced', () => {
       C.extract(
         pipe(
           buildProject('myproject'),
-          listens(settings => settings.settingsTravis)
+          listens((settings) => settings.settingsTravis)
         )
       ),
       [
@@ -126,7 +126,7 @@ describe('Traced', () => {
       C.extract(
         pipe(
           buildProject('myproject'),
-          censor(settings => ({
+          censor((settings) => ({
             ...settings,
             settingsHasLibrary: !settings.settingsHasLibrary
           }))

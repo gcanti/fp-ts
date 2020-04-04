@@ -51,7 +51,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI: "Const" = ...
+export declare const URI: 'Const'
 ```
 
 Added in v2.0.0
@@ -61,7 +61,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const const_: Functor2<URI> & Contravariant2<URI> = ...
+export declare const const_: Functor2<'Const'> & Contravariant2<'Const'>
 ```
 
 Added in v2.0.0
@@ -71,7 +71,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (b: B) => A) => <E>(fa: Const<E, A>) => Const<E, B>
+export declare const contramap: <A, B>(f: (b: B) => A) => <E>(fa: Const<E, A>) => Const<E, B>
 ```
 
 Added in v2.0.0
@@ -81,7 +81,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> { ... }
+export declare function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E>
 ```
 
 Added in v2.0.0
@@ -91,7 +91,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApply<E>(S: Semigroup<E>): Apply2C<URI, E> { ... }
+export declare function getApply<E>(S: Semigroup<E>): Apply2C<URI, E>
 ```
 
 Added in v2.0.0
@@ -101,7 +101,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getEq: <E, A>(E: Eq<E>) => Eq<Const<E, A>> = ...
+export declare const getEq: <E, A>(E: Eq<E>) => Eq<Const<E, A>>
 ```
 
 Added in v2.0.0
@@ -111,7 +111,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getShow<E, A>(S: Show<E>): Show<Const<E, A>> { ... }
+export declare function getShow<E, A>(S: Show<E>): Show<Const<E, A>>
 ```
 
 Added in v2.0.0
@@ -121,7 +121,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const make: <E, A = never>(e: E) => Const<E, A> = ...
+export declare const make: <E, A = never>(e: E) => Const<E, A>
 ```
 
 Added in v2.0.0
@@ -131,7 +131,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B>
 ```
 
 Added in v2.0.0

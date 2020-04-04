@@ -133,7 +133,7 @@ export function fanout<F>(
 ): <A, B, C>(pab: HKT2<F, A, B>, pac: HKT2<F, A, C>) => HKT2<F, A, [B, C]> {
   const splitStrongF = splitStrong(F)
   return <A, B, C>(pab: HKT2<F, A, B>, pac: HKT2<F, A, C>): HKT2<F, A, [B, C]> => {
-    const split: HKT2<F, A, [A, A]> = F.promap(F.id<A>(), identity, a => [a, a])
+    const split: HKT2<F, A, [A, A]> = F.promap(F.id<A>(), identity, (a) => [a, a])
     return F.compose(splitStrongF(pab, pac), split)
   }
 }

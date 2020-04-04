@@ -47,7 +47,7 @@ describe('Reader', () => {
     const y = R.reader.promap(
       x,
       (a: { readonly name: string }) => a.name,
-      n => n >= 2
+      (n) => n >= 2
     )
     assert.deepStrictEqual(y({ name: 'foo' }), true)
     assert.deepStrictEqual(y({ name: 'a' }), false)

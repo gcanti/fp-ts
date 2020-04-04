@@ -112,7 +112,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function absurd<A>(_: never): A { ... }
+export declare function absurd<A>(_: never): A
 ```
 
 Added in v2.0.0
@@ -124,7 +124,7 @@ A thunk that returns always `false`
 **Signature**
 
 ```ts
-export const constFalse = (): boolean => ...
+export declare const constFalse: () => boolean
 ```
 
 Added in v2.0.0
@@ -136,7 +136,7 @@ A thunk that returns always `null`
 **Signature**
 
 ```ts
-export const constNull = (): null => ...
+export declare const constNull: () => null
 ```
 
 Added in v2.0.0
@@ -148,7 +148,7 @@ A thunk that returns always `true`
 **Signature**
 
 ```ts
-export const constTrue = (): boolean => ...
+export declare const constTrue: () => boolean
 ```
 
 Added in v2.0.0
@@ -160,7 +160,7 @@ A thunk that returns always `undefined`
 **Signature**
 
 ```ts
-export const constUndefined = (): undefined => ...
+export declare const constUndefined: () => undefined
 ```
 
 Added in v2.0.0
@@ -172,7 +172,7 @@ A thunk that returns always `void`
 **Signature**
 
 ```ts
-export const constVoid = (): void => ...
+export declare const constVoid: () => void
 ```
 
 Added in v2.0.0
@@ -182,7 +182,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function constant<A>(a: A): Lazy<A> { ... }
+export declare function constant<A>(a: A): Lazy<A>
 ```
 
 Added in v2.0.0
@@ -192,7 +192,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function decrement(n: number): number { ... }
+export declare function decrement(n: number): number
 ```
 
 Added in v2.0.0
@@ -204,7 +204,7 @@ Flips the order of the arguments of a function of two arguments.
 **Signature**
 
 ```ts
-export function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C { ... }
+export declare function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C
 ```
 
 Added in v2.0.0
@@ -216,27 +216,30 @@ Function composition (from left to right).
 **Signature**
 
 ```ts
-export function flow<A extends ReadonlyArray<unknown>, B>(ab: (...a: A) => B): (...a: A) => B
-export function flow<A extends ReadonlyArray<unknown>, B, C>(ab: (...a: A) => B, bc: (b: B) => C): (...a: A) => C
-export function flow<A extends ReadonlyArray<unknown>, B, C, D>(
+export declare function flow<A extends ReadonlyArray<unknown>, B>(ab: (...a: A) => B): (...a: A) => B
+export declare function flow<A extends ReadonlyArray<unknown>, B, C>(
+  ab: (...a: A) => B,
+  bc: (b: B) => C
+): (...a: A) => C
+export declare function flow<A extends ReadonlyArray<unknown>, B, C, D>(
   ab: (...a: A) => B,
   bc: (b: B) => C,
   cd: (c: C) => D
 ): (...a: A) => D
-export function flow<A extends ReadonlyArray<unknown>, B, C, D, E>(
+export declare function flow<A extends ReadonlyArray<unknown>, B, C, D, E>(
   ab: (...a: A) => B,
   bc: (b: B) => C,
   cd: (c: C) => D,
   de: (d: D) => E
 ): (...a: A) => E
-export function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F>(
+export declare function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F>(
   ab: (...a: A) => B,
   bc: (b: B) => C,
   cd: (c: C) => D,
   de: (d: D) => E,
   ef: (e: E) => F
 ): (...a: A) => F
-export function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F, G>(
+export declare function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F, G>(
   ab: (...a: A) => B,
   bc: (b: B) => C,
   cd: (c: C) => D,
@@ -244,7 +247,7 @@ export function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F, G>(
   ef: (e: E) => F,
   fg: (f: F) => G
 ): (...a: A) => G
-export function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F, G, H>(
+export declare function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F, G, H>(
   ab: (...a: A) => B,
   bc: (b: B) => C,
   cd: (c: C) => D,
@@ -253,7 +256,7 @@ export function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F, G, H>(
   fg: (f: F) => G,
   gh: (g: G) => H
 ): (...a: A) => H
-export function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F, G, H, I>(
+export declare function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F, G, H, I>(
   ab: (...a: A) => B,
   bc: (b: B) => C,
   cd: (c: C) => D,
@@ -263,7 +266,7 @@ export function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F, G, H, I>(
   gh: (g: G) => H,
   hi: (h: H) => I
 ): (...a: A) => I
-export function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F, G, H, I, J>(
+export declare function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F, G, H, I, J>(
   ab: (...a: A) => B,
   bc: (b: B) => C,
   cd: (c: C) => D,
@@ -273,7 +276,7 @@ export function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F, G, H, I, J
   gh: (g: G) => H,
   hi: (h: H) => I,
   ij: (i: I) => J
-): (...a: A) => J { ... }
+): (...a: A) => J
 ```
 
 **Example**
@@ -296,7 +299,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function identity<A>(a: A): A { ... }
+export declare function identity<A>(a: A): A
 ```
 
 Added in v2.0.0
@@ -306,7 +309,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function increment(n: number): number { ... }
+export declare function increment(n: number): number
 ```
 
 Added in v2.0.0
@@ -316,7 +319,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function not<A>(predicate: Predicate<A>): Predicate<A> { ... }
+export declare function not<A>(predicate: Predicate<A>): Predicate<A>
 ```
 
 Added in v2.0.0
@@ -326,7 +329,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function tuple<T extends ReadonlyArray<any>>(...t: T): T { ... }
+export declare function tuple<T extends ReadonlyArray<any>>(...t: T): T
 ```
 
 Added in v2.0.0
@@ -338,7 +341,7 @@ Creates a tupled version of this function: instead of `n` arguments, it accepts 
 **Signature**
 
 ```ts
-export function tupled<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B): (a: A) => B { ... }
+export declare function tupled<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B): (a: A) => B
 ```
 
 **Example**
@@ -358,7 +361,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export const unsafeCoerce: <A, B>(a: A) => B = ...
+export declare const unsafeCoerce: <A, B>(a: A) => B
 ```
 
 Added in v2.0.0
@@ -370,7 +373,7 @@ Inverse function of `tupled`
 **Signature**
 
 ```ts
-export function untupled<A extends ReadonlyArray<unknown>, B>(f: (a: A) => B): (...a: A) => B { ... }
+export declare function untupled<A extends ReadonlyArray<unknown>, B>(f: (a: A) => B): (...a: A) => B
 ```
 
 Added in v2.4.0

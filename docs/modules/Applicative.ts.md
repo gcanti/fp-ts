@@ -296,47 +296,50 @@ Like `Functor`, `Applicative`s compose. If `F` and `G` have `Applicative` instan
 **Signature**
 
 ```ts
-export function getApplicativeComposition<F extends URIS2, G extends URIS2, E>(
+export declare function getApplicativeComposition<F extends URIS2, G extends URIS2, E>(
   F: Applicative2<F>,
   G: Applicative2C<G, E>
 ): ApplicativeComposition22C<F, G, E>
-export function getApplicativeComposition<F extends URIS2, G extends URIS2>(
+export declare function getApplicativeComposition<F extends URIS2, G extends URIS2>(
   F: Applicative2<F>,
   G: Applicative2<G>
 ): ApplicativeComposition22<F, G>
-export function getApplicativeComposition<F extends URIS2, G extends URIS2, E>(
+export declare function getApplicativeComposition<F extends URIS2, G extends URIS2, E>(
   F: Applicative2<F>,
   G: Applicative2C<G, E>
 ): ApplicativeComposition22C<F, G, E>
-export function getApplicativeComposition<F extends URIS2, G extends URIS>(
+export declare function getApplicativeComposition<F extends URIS2, G extends URIS>(
   F: Applicative2<F>,
   G: Applicative1<G>
 ): ApplicativeComposition21<F, G>
-export function getApplicativeComposition<F extends URIS, G extends URIS2>(
+export declare function getApplicativeComposition<F extends URIS, G extends URIS2>(
   F: Applicative1<F>,
   G: Applicative2<G>
 ): ApplicativeComposition12<F, G>
-export function getApplicativeComposition<F extends URIS, G extends URIS2, E>(
+export declare function getApplicativeComposition<F extends URIS, G extends URIS2, E>(
   F: Applicative1<F>,
   G: Applicative2C<G, E>
 ): ApplicativeComposition12C<F, G, E>
-export function getApplicativeComposition<F extends URIS, G extends URIS>(
+export declare function getApplicativeComposition<F extends URIS, G extends URIS>(
   F: Applicative1<F>,
   G: Applicative1<G>
 ): ApplicativeComposition11<F, G>
-export function getApplicativeComposition<F, G extends URIS2>(
+export declare function getApplicativeComposition<F, G extends URIS2>(
   F: Applicative<F>,
   G: Applicative2<G>
 ): ApplicativeCompositionHKT2<F, G>
-export function getApplicativeComposition<F, G extends URIS2, E>(
+export declare function getApplicativeComposition<F, G extends URIS2, E>(
   F: Applicative<F>,
   G: Applicative2C<G, E>
 ): ApplicativeCompositionHKT2C<F, G, E>
-export function getApplicativeComposition<F, G extends URIS>(
+export declare function getApplicativeComposition<F, G extends URIS>(
   F: Applicative<F>,
   G: Applicative1<G>
 ): ApplicativeCompositionHKT1<F, G>
-export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G> { ... }
+export declare function getApplicativeComposition<F, G>(
+  F: Applicative<F>,
+  G: Applicative<G>
+): ApplicativeComposition<F, G>
 ```
 
 **Example**
@@ -354,7 +357,7 @@ const y: Task<Option<number>> = task.of(some(2))
 
 const sum = (a: number) => (b: number): number => a + b
 
-A.ap(A.map(x, sum), y)().then(result => assert.deepStrictEqual(result, some(3)))
+A.ap(A.map(x, sum), y)().then((result) => assert.deepStrictEqual(result, some(3)))
 ```
 
 Added in v2.0.0

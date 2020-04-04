@@ -177,8 +177,8 @@ describe('Set', () => {
   })
 
   it('foldMap', () => {
-    assert.deepStrictEqual(foldMap(ordNumber, getMonoid<number>())(a => [a])(new Set([1, 2, 3])), [1, 2, 3])
-    assert.deepStrictEqual(foldMap(ordNumber, getMonoid<number>())(a => [a])(new Set([3, 2, 1])), [1, 2, 3])
+    assert.deepStrictEqual(foldMap(ordNumber, getMonoid<number>())((a) => [a])(new Set([1, 2, 3])), [1, 2, 3])
+    assert.deepStrictEqual(foldMap(ordNumber, getMonoid<number>())((a) => [a])(new Set([3, 2, 1])), [1, 2, 3])
   })
 
   it('singleton', () => {
@@ -214,7 +214,7 @@ describe('Set', () => {
   it('compact', () => {
     assert.deepStrictEqual(compact(eqNumber)(new Set([optionSome(1), none, optionSome(2)])), new Set([1, 2]))
     type R = { readonly id: string }
-    const S: Eq<R> = eq.contramap(eqString, x => x.id)
+    const S: Eq<R> = eq.contramap(eqString, (x) => x.id)
     assert.deepStrictEqual(
       compact(S)(new Set([optionSome({ id: 'a' }), none, optionSome({ id: 'a' })])),
       new Set([{ id: 'a' }])
@@ -228,8 +228,8 @@ describe('Set', () => {
     })
     type L = { readonly error: string }
     type R = { readonly id: string }
-    const SL: Eq<L> = eq.contramap(eqString, x => x.error)
-    const SR: Eq<R> = eq.contramap(eqString, x => x.id)
+    const SL: Eq<L> = eq.contramap(eqString, (x) => x.error)
+    const SR: Eq<R> = eq.contramap(eqString, (x) => x.id)
     assert.deepStrictEqual(
       separate(
         SL,
@@ -248,7 +248,7 @@ describe('Set', () => {
       new Set([2, 3])
     )
     type R = { readonly id: string }
-    const S: Eq<R> = eq.contramap(eqString, x => x.id)
+    const S: Eq<R> = eq.contramap(eqString, (x) => x.id)
     assert.deepStrictEqual(
       filterMap(S)((x: { readonly id: string }) => optionSome(x))(new Set([{ id: 'a' }, { id: 'a' }])),
       new Set([{ id: 'a' }])

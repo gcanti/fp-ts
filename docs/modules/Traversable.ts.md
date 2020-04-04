@@ -26,7 +26,7 @@ import { getApplicative, make } from 'fp-ts/lib/Const'
 
 const A = getApplicative(M)
 
-foldMap(M)(xs, f) = traverse(A)(xs, a => make(f(a)))
+foldMap(M)(xs, f) = traverse(A)(xs, (a) => make(f(a)))
 ```
 
 where `M` is a `Monoid` instance
@@ -445,11 +445,14 @@ Returns the composition of two traversables
 **Signature**
 
 ```ts
-export function getTraversableComposition<F extends URIS, G extends URIS>(
+export declare function getTraversableComposition<F extends URIS, G extends URIS>(
   F: Traversable1<F>,
   G: Traversable1<G>
 ): TraversableComposition11<F, G>
-export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G> { ... }
+export declare function getTraversableComposition<F, G>(
+  F: Traversable<F>,
+  G: Traversable<G>
+): TraversableComposition<F, G>
 ```
 
 **Example**
@@ -463,7 +466,7 @@ import { getTraversableComposition } from 'fp-ts/lib/Traversable'
 const T = getTraversableComposition(array, option)
 const state: Record<string, number | undefined> = {
   a: 1,
-  b: 2
+  b: 2,
 }
 const read = (s: string) => () => state[s]
 const x = T.sequence(io)([some(read('a')), none, some(read('b')), some(read('c'))])

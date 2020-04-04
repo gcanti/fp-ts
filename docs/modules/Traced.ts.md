@@ -52,7 +52,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI: "Traced" = ...
+export declare const URI: 'Traced'
 ```
 
 Added in v2.0.0
@@ -64,7 +64,7 @@ Apply a function to the current position
 **Signature**
 
 ```ts
-export function censor<P>(f: (p: P) => P): <A>(wa: Traced<P, A>) => Traced<P, A> { ... }
+export declare function censor<P>(f: (p: P) => P): <A>(wa: Traced<P, A>) => Traced<P, A>
 ```
 
 Added in v2.0.0
@@ -74,7 +74,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> { ... }
+export declare function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P>
 ```
 
 Added in v2.0.0
@@ -86,7 +86,7 @@ Get the current position
 **Signature**
 
 ```ts
-export function listen<P, A>(wa: Traced<P, A>): Traced<P, [A, P]> { ... }
+export declare function listen<P, A>(wa: Traced<P, A>): Traced<P, [A, P]>
 ```
 
 Added in v2.0.0
@@ -98,7 +98,7 @@ Get a value which depends on the current position
 **Signature**
 
 ```ts
-export function listens<P, B>(f: (p: P) => B): <A>(wa: Traced<P, A>) => Traced<P, [A, B]> { ... }
+export declare function listens<P, B>(f: (p: P) => B): <A>(wa: Traced<P, A>) => Traced<P, [A, B]>
 ```
 
 Added in v2.0.0
@@ -108,7 +108,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => B) => <E>(fa: Traced<E, A>) => Traced<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Traced<E, A>) => Traced<E, B>
 ```
 
 Added in v2.0.0
@@ -118,7 +118,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const traced: Functor2<URI> = ...
+export declare const traced: Functor2<'Traced'>
 ```
 
 Added in v2.0.0
@@ -130,7 +130,7 @@ Extracts a value at a relative position which depends on the current value.
 **Signature**
 
 ```ts
-export function tracks<P, A>(M: Monoid<P>, f: (a: A) => P): (wa: Traced<P, A>) => A { ... }
+export declare function tracks<P, A>(M: Monoid<P>, f: (a: A) => P): (wa: Traced<P, A>) => A
 ```
 
 Added in v2.0.0

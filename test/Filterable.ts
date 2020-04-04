@@ -13,7 +13,7 @@ describe('Filterable', () => {
           [1, 2],
           [3, 4]
         ],
-        a => a > 1
+        (a) => a > 1
       ),
       [[2], [3, 4]]
     )
@@ -24,7 +24,7 @@ describe('Filterable', () => {
           ['a', 'bb'],
           ['ccc', 'dddd']
         ],
-        a => (a.length > 1 ? some(a.length) : none)
+        (a) => (a.length > 1 ? some(a.length) : none)
       ),
       [[2], [3, 4]]
     )
@@ -35,7 +35,7 @@ describe('Filterable', () => {
           ['a', 'bb'],
           ['ccc', 'dddd']
         ],
-        a => a.length % 2 === 0
+        (a) => a.length % 2 === 0
       ),
       {
         left: [['a'], ['ccc']],
@@ -49,7 +49,7 @@ describe('Filterable', () => {
           ['a', 'bb'],
           ['ccc', 'dddd']
         ],
-        a => (a.length % 2 === 0 ? right(a.length) : left(a))
+        (a) => (a.length % 2 === 0 ? right(a.length) : left(a))
       ),
       {
         left: [['a'], ['ccc']],

@@ -104,27 +104,27 @@ describe('Option', () => {
     assert.deepStrictEqual(
       pipe(
         O.fromNullable(x1.a),
-        O.mapNullable(x => x.b),
-        O.mapNullable(x => x.c),
-        O.mapNullable(x => x.d)
+        O.mapNullable((x) => x.b),
+        O.mapNullable((x) => x.c),
+        O.mapNullable((x) => x.d)
       ),
       O.none
     )
     assert.deepStrictEqual(
       pipe(
         O.fromNullable(x2.a),
-        O.mapNullable(x => x.b),
-        O.mapNullable(x => x.c),
-        O.mapNullable(x => x.d)
+        O.mapNullable((x) => x.b),
+        O.mapNullable((x) => x.c),
+        O.mapNullable((x) => x.d)
       ),
       O.none
     )
     assert.deepStrictEqual(
       pipe(
         O.fromNullable(x3.a),
-        O.mapNullable(x => x.b),
-        O.mapNullable(x => x.c),
-        O.mapNullable(x => x.d)
+        O.mapNullable((x) => x.b),
+        O.mapNullable((x) => x.c),
+        O.mapNullable((x) => x.d)
       ),
       O.some(1)
     )
@@ -204,11 +204,11 @@ describe('Option', () => {
       []
     )
     assert.deepStrictEqual(
-      O.option.traverse(array)(O.some('hello'), s => [s.length]),
+      O.option.traverse(array)(O.some('hello'), (s) => [s.length]),
       [O.some(5)]
     )
     assert.deepStrictEqual(
-      O.option.traverse(array)(O.none, s => [s]),
+      O.option.traverse(array)(O.none, (s) => [s]),
       [O.none]
     )
   })
@@ -377,7 +377,7 @@ describe('Option', () => {
     type A = { readonly type: 'A' }
     type B = { readonly type: 'B' }
     type C = A | B
-    const isA = O.getRefinement<C, A>(c => (c.type === 'A' ? O.some(c) : O.none))
+    const isA = O.getRefinement<C, A>((c) => (c.type === 'A' ? O.some(c) : O.none))
     assert.deepStrictEqual(isA({ type: 'A' }), true)
     assert.deepStrictEqual(isA({ type: 'B' }), false)
   })

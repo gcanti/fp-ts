@@ -831,11 +831,11 @@ describe('Map', () => {
         [{ id: 'k2' }, 2]
       ])
       assert.deepStrictEqual(
-        optionTraverse(x, n => (n <= 2 ? some(n) : none)),
+        optionTraverse(x, (n) => (n <= 2 ? some(n) : none)),
         some(x)
       )
       assert.deepStrictEqual(
-        optionTraverse(x, n => (n >= 2 ? some(n) : none)),
+        optionTraverse(x, (n) => (n >= 2 ? some(n) : none)),
         none
       )
     })

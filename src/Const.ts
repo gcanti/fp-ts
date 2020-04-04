@@ -43,7 +43,7 @@ export const make: <E, A = never>(e: E) => Const<E, A> = unsafeCoerce
  */
 export function getShow<E, A>(S: Show<E>): Show<Const<E, A>> {
   return {
-    show: c => `make(${S.show(c)})`
+    show: (c) => `make(${S.show(c)})`
   }
 }
 

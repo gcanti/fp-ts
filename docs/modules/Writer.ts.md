@@ -55,7 +55,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI: "Writer" = ...
+export declare const URI: 'Writer'
 ```
 
 Added in v2.0.0
@@ -67,7 +67,7 @@ Modify the final accumulator value by applying a function
 **Signature**
 
 ```ts
-export function censor<W>(f: (w: W) => W): <A>(fa: Writer<W, A>) => Writer<W, A> { ... }
+export declare function censor<W>(f: (w: W) => W): <A>(fa: Writer<W, A>) => Writer<W, A>
 ```
 
 Added in v2.0.0
@@ -77,7 +77,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const evalWriter: <W, A>(fa: Writer<W, A>) => A = ...
+export declare const evalWriter: <W, A>(fa: Writer<W, A>) => A
 ```
 
 Added in v2.0.0
@@ -87,7 +87,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const execWriter: <W, A>(fa: Writer<W, A>) => W = ...
+export declare const execWriter: <W, A>(fa: Writer<W, A>) => W
 ```
 
 Added in v2.0.0
@@ -97,7 +97,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> { ... }
+export declare function getMonad<W>(M: Monoid<W>): Monad2C<URI, W>
 ```
 
 Added in v2.0.0
@@ -109,7 +109,7 @@ Modifies the result to include the changes to the accumulator
 **Signature**
 
 ```ts
-export const listen: <W, A>(fa: Writer<W, A>) => Writer<W, [A, W]> = ...
+export declare const listen: <W, A>(fa: Writer<W, A>) => Writer<W, [A, W]>
 ```
 
 Added in v2.0.0
@@ -121,7 +121,7 @@ Projects a value from modifications made to the accumulator during an action
 **Signature**
 
 ```ts
-export function listens<W, B>(f: (w: W) => B): <A>(fa: Writer<W, A>) => Writer<W, [A, B]> { ... }
+export declare function listens<W, B>(f: (w: W) => B): <A>(fa: Writer<W, A>) => Writer<W, [A, B]>
 ```
 
 Added in v2.0.0
@@ -131,7 +131,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B>
 ```
 
 Added in v2.0.0
@@ -143,7 +143,7 @@ Applies the returned function to the accumulator
 **Signature**
 
 ```ts
-export const pass: <W, A>(fa: Writer<W, [A, (w: W) => W]>) => Writer<W, A> = ...
+export declare const pass: <W, A>(fa: Writer<W, [A, (w: W) => W]>) => Writer<W, A>
 ```
 
 Added in v2.0.0
@@ -155,7 +155,7 @@ Appends a value to the accumulator
 **Signature**
 
 ```ts
-export const tell: <W>(w: W) => Writer<W, void> = ...
+export declare const tell: <W>(w: W) => Writer<W, void>
 ```
 
 Added in v2.0.0
@@ -165,7 +165,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const writer: Functor2<URI> = ...
+export declare const writer: Functor2<'Writer'>
 ```
 
 Added in v2.0.0

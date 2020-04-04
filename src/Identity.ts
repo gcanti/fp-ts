@@ -55,7 +55,7 @@ export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<U
   ap: (mab, ma) => mab(ma),
   chain: (ma, f) => f(ma),
   reduce: (fa, b, f) => f(b, fa),
-  foldMap: _ => (fa, f) => f(fa),
+  foldMap: (_) => (fa, f) => f(fa),
   reduceRight: (fa, b, f) => f(fa, b),
   traverse: <F>(F: Applicative<F>) => <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>): HKT<F, Identity<B>> => {
     return F.map(f(ta), id)

@@ -62,7 +62,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI: "State" = ...
+export declare const URI: 'State'
 ```
 
 Added in v2.0.0
@@ -72,7 +72,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => State<E, B>
+export declare const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => State<E, B>
 ```
 
 Added in v2.0.0
@@ -82,7 +82,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, A>
+export declare const apFirst: <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, A>
 ```
 
 Added in v2.0.0
@@ -92,7 +92,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, B>
+export declare const apSecond: <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, B>
 ```
 
 Added in v2.0.0
@@ -102,7 +102,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, B>
+export declare const chain: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, B>
 ```
 
 Added in v2.0.0
@@ -112,7 +112,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, A>
+export declare const chainFirst: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, A>
 ```
 
 Added in v2.0.0
@@ -124,7 +124,7 @@ Run a computation in the `State` monad, discarding the final state
 **Signature**
 
 ```ts
-export const evalState: <S, A>(ma: State<S, A>, s: S) => A = ...
+export declare const evalState: <S, A>(ma: State<S, A>, s: S) => A
 ```
 
 Added in v2.0.0
@@ -136,7 +136,7 @@ Run a computation in the `State` monad discarding the result
 **Signature**
 
 ```ts
-export const execState: <S, A>(ma: State<S, A>, s: S) => S = ...
+export declare const execState: <S, A>(ma: State<S, A>, s: S) => S
 ```
 
 Added in v2.0.0
@@ -146,7 +146,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A>(mma: State<E, State<E, A>>) => State<E, A>
+export declare const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A>
 ```
 
 Added in v2.0.0
@@ -158,7 +158,7 @@ Get the current state
 **Signature**
 
 ```ts
-export const get: <S>() => State<S, S> = ...
+export declare const get: <S>() => State<S, S>
 ```
 
 Added in v2.0.0
@@ -170,7 +170,7 @@ Get a value which depends on the current state
 **Signature**
 
 ```ts
-export const gets: <S, A>(f: (s: S) => A) => State<S, A> = ...
+export declare const gets: <S, A>(f: (s: S) => A) => State<S, A>
 ```
 
 Added in v2.0.0
@@ -180,7 +180,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => B) => <E>(fa: State<E, A>) => State<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: State<E, A>) => State<E, B>
 ```
 
 Added in v2.0.0
@@ -192,7 +192,7 @@ Modify the state by applying a function to the current state
 **Signature**
 
 ```ts
-export const modify: <S>(f: (s: S) => S) => State<S, void> = ...
+export declare const modify: <S>(f: (s: S) => S) => State<S, void>
 ```
 
 Added in v2.0.0
@@ -202,7 +202,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const of: <S, A>(a: A) => State<S, A> = ...
+export declare const of: <S, A>(a: A) => State<S, A>
 ```
 
 Added in v2.0.0
@@ -214,7 +214,7 @@ Set the state
 **Signature**
 
 ```ts
-export const put: <S>(s: S) => State<S, void> = ...
+export declare const put: <S>(s: S) => State<S, void>
 ```
 
 Added in v2.0.0
@@ -224,7 +224,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const state: Monad2<URI> = ...
+export declare const state: Monad2<'State'>
 ```
 
 Added in v2.0.0

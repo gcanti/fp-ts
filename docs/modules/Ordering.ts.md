@@ -36,7 +36,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const eqOrdering: Eq<Ordering> = ...
+export declare const eqOrdering: Eq<Ordering>
 ```
 
 Added in v2.0.0
@@ -46,7 +46,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function invert(O: Ordering): Ordering { ... }
+export declare function invert(O: Ordering): Ordering
 ```
 
 Added in v2.0.0
@@ -56,7 +56,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const monoidOrdering: Monoid<Ordering> = ...
+export declare const monoidOrdering: Monoid<Ordering>
 ```
 
 Added in v2.4.0
@@ -66,7 +66,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export function sign(n: number): Ordering { ... }
+export declare function sign(n: number): Ordering
 ```
 
 Added in v2.0.0
@@ -78,7 +78,7 @@ Use `monoidOrdering` instead
 **Signature**
 
 ```ts
-export const semigroupOrdering: Semigroup<Ordering> = ...
+export declare const semigroupOrdering: Semigroup<Ordering>
 ```
 
 Added in v2.0.0

@@ -61,7 +61,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI: "Reader" = ...
+export declare const URI: 'Reader'
 ```
 
 Added in v2.0.0
@@ -71,7 +71,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A>(fa: Reader<E, A>) => <B>(fab: Reader<E, (a: A) => B>) => Reader<E, B>
+export declare const ap: <E, A>(fa: Reader<E, A>) => <B>(fab: Reader<E, (a: A) => B>) => Reader<E, B>
 ```
 
 Added in v2.0.0
@@ -81,7 +81,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, B>(fb: Reader<E, B>) => <A>(fa: Reader<E, A>) => Reader<E, A>
+export declare const apFirst: <E, B>(fb: Reader<E, B>) => <A>(fa: Reader<E, A>) => Reader<E, A>
 ```
 
 Added in v2.0.0
@@ -91,7 +91,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, B>(fb: Reader<E, B>) => <A>(fa: Reader<E, A>) => Reader<E, B>
+export declare const apSecond: <E, B>(fb: Reader<E, B>) => <A>(fa: Reader<E, A>) => Reader<E, B>
 ```
 
 Added in v2.0.0
@@ -103,7 +103,7 @@ Reads the current context
 **Signature**
 
 ```ts
-export const ask: <R>() => Reader<R, R> = ...
+export declare const ask: <R>() => Reader<R, R>
 ```
 
 Added in v2.0.0
@@ -115,7 +115,7 @@ Projects a value from the global context in a Reader
 **Signature**
 
 ```ts
-export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = ...
+export declare const asks: <R, A>(f: (r: R) => A) => Reader<R, A>
 ```
 
 Added in v2.0.0
@@ -125,7 +125,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A, B>(f: (a: A) => Reader<E, B>) => (ma: Reader<E, A>) => Reader<E, B>
+export declare const chain: <E, A, B>(f: (a: A) => Reader<E, B>) => (ma: Reader<E, A>) => Reader<E, B>
 ```
 
 Added in v2.0.0
@@ -135,7 +135,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A, B>(f: (a: A) => Reader<E, B>) => (ma: Reader<E, A>) => Reader<E, A>
+export declare const chainFirst: <E, A, B>(f: (a: A) => Reader<E, B>) => (ma: Reader<E, A>) => Reader<E, A>
 ```
 
 Added in v2.0.0
@@ -145,7 +145,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A>(la: Reader<E, A>) => <B>(ab: Reader<A, B>) => Reader<E, B>
+export declare const compose: <E, A>(la: Reader<E, A>) => <B>(ab: Reader<A, B>) => Reader<E, B>
 ```
 
 Added in v2.0.0
@@ -155,7 +155,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A>(mma: Reader<E, Reader<E, A>>) => Reader<E, A>
+export declare const flatten: <E, A>(mma: Reader<E, Reader<E, A>>) => Reader<E, A>
 ```
 
 Added in v2.0.0
@@ -165,7 +165,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> { ... }
+export declare function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>>
 ```
 
 Added in v2.0.0
@@ -175,7 +175,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R, A>> { ... }
+export declare function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R, A>>
 ```
 
 Added in v2.0.0
@@ -188,7 +188,7 @@ Changes the value of the local context during the execution of the action `ma` (
 **Signature**
 
 ```ts
-export function local<Q, R>(f: (d: Q) => R): <A>(ma: Reader<R, A>) => Reader<Q, A> { ... }
+export declare function local<Q, R>(f: (d: Q) => R): <A>(ma: Reader<R, A>) => Reader<Q, A>
 ```
 
 Added in v2.0.0
@@ -198,7 +198,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => B) => <E>(fa: Reader<E, A>) => Reader<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Reader<E, A>) => Reader<E, B>
 ```
 
 Added in v2.0.0
@@ -208,7 +208,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const of: <R, A>(a: A) => Reader<R, A> = ...
+export declare const of: <R, A>(a: A) => Reader<R, A>
 ```
 
 Added in v2.0.0
@@ -218,7 +218,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-<E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reader<E, A>) => Reader<D, B>
+export declare const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reader<E, A>) => Reader<D, B>
 ```
 
 Added in v2.0.0
@@ -228,7 +228,11 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = ...
+export declare const reader: Monad2<'Reader'> &
+  Profunctor2<'Reader'> &
+  Category2<'Reader'> &
+  Strong2<'Reader'> &
+  Choice2<'Reader'>
 ```
 
 Added in v2.0.0

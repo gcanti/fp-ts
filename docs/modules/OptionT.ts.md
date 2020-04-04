@@ -134,10 +134,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getOptionM<M extends URIS2>(M: Monad2<M>): OptionM2<M>
-export function getOptionM<M extends URIS2, E>(M: Monad2C<M, E>): OptionM2C<M, E>
-export function getOptionM<M extends URIS>(M: Monad1<M>): OptionM1<M>
-export function getOptionM<M>(M: Monad<M>): OptionM<M> { ... }
+export declare function getOptionM<M extends URIS2>(M: Monad2<M>): OptionM2<M>
+export declare function getOptionM<M extends URIS2, E>(M: Monad2C<M, E>): OptionM2C<M, E>
+export declare function getOptionM<M extends URIS>(M: Monad1<M>): OptionM1<M>
+export declare function getOptionM<M>(M: Monad<M>): OptionM<M>
 ```
 
 Added in v2.0.0

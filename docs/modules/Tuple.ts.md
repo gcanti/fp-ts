@@ -50,7 +50,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const URI: "Tuple" = ...
+export declare const URI: 'Tuple'
 ```
 
 Added in v2.0.0
@@ -60,7 +60,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: [A, E]) => [B, G]
+export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: [A, E]) => [B, G]
 ```
 
 Added in v2.0.0
@@ -70,7 +70,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<E, A>(la: [A, E]) => <B>(ab: [B, A]) => [B, E]
+export declare const compose: <E, A>(la: [A, E]) => <B>(ab: [B, A]) => [B, E]
 ```
 
 Added in v2.0.0
@@ -80,7 +80,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<E, A>(ma: [A, E]) => [[A, E], E]
+export declare const duplicate: <E, A>(ma: [A, E]) => [[A, E], E]
 ```
 
 Added in v2.0.0
@@ -90,7 +90,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<E, A, B>(f: (fa: [A, E]) => B) => (ma: [A, E]) => [B, E]
+export declare const extend: <E, A, B>(f: (fa: [A, E]) => B) => (ma: [A, E]) => [B, E]
 ```
 
 Added in v2.0.0
@@ -100,7 +100,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: [A, E]) => M
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: [A, E]) => M
 ```
 
 Added in v2.0.0
@@ -110,7 +110,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const fst: <A, S>(sa: [A, S]) => A = ...
+export declare const fst: <A, S>(sa: [A, S]) => A
 ```
 
 Added in v2.0.0
@@ -120,7 +120,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getApplicative: <S>(M: Monoid<S>) => Applicative2C<URI, S> = ...
+export declare const getApplicative: <S>(M: Monoid<S>) => Applicative2C<'Tuple', S>
 ```
 
 Added in v2.0.0
@@ -130,7 +130,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getApply: <S>(S: Semigroup<S>) => Apply2C<URI, S> = ...
+export declare const getApply: <S>(S: Semigroup<S>) => Apply2C<'Tuple', S>
 ```
 
 Added in v2.0.0
@@ -140,7 +140,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getChain: <S>(S: Semigroup<S>) => Chain2C<URI, S> = ...
+export declare const getChain: <S>(S: Semigroup<S>) => Chain2C<'Tuple', S>
 ```
 
 Added in v2.0.0
@@ -150,7 +150,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getChainRec: <S>(M: Monoid<S>) => ChainRec2C<URI, S> = ...
+export declare const getChainRec: <S>(M: Monoid<S>) => ChainRec2C<'Tuple', S>
 ```
 
 Added in v2.0.0
@@ -160,7 +160,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getMonad: <S>(M: Monoid<S>) => Monad2C<URI, S> = ...
+export declare const getMonad: <S>(M: Monoid<S>) => Monad2C<'Tuple', S>
 ```
 
 Added in v2.0.0
@@ -170,7 +170,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E]
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E]
 ```
 
 Added in v2.0.0
@@ -180,7 +180,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G]
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G]
 ```
 
 Added in v2.0.0
@@ -190,7 +190,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: [A, E]) => B
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: [A, E]) => B
 ```
 
 Added in v2.0.0
@@ -200,7 +200,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-;<A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: [A, E]) => B
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: [A, E]) => B
 ```
 
 Added in v2.0.0
@@ -210,7 +210,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const snd: <A, S>(sa: [A, S]) => S = ...
+export declare const snd: <A, S>(sa: [A, S]) => S
 ```
 
 Added in v2.0.0
@@ -220,7 +220,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const swap: <A, S>(sa: [A, S]) => [S, A] = ...
+export declare const swap: <A, S>(sa: [A, S]) => [S, A]
 ```
 
 Added in v2.0.0
@@ -230,7 +230,11 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> = ...
+export declare const tuple: Semigroupoid2<'Tuple'> &
+  Bifunctor2<'Tuple'> &
+  Comonad2<'Tuple'> &
+  Foldable2<'Tuple'> &
+  Traversable2<'Tuple'>
 ```
 
 Added in v2.0.0

@@ -47,7 +47,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fold<A>(M: Monoid<A>): (as: ReadonlyArray<A>) => A { ... }
+export declare function fold<A>(M: Monoid<A>): (as: ReadonlyArray<A>) => A
 ```
 
 Added in v2.0.0
@@ -57,7 +57,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getDualMonoid<A>(M: Monoid<A>): Monoid<A> { ... }
+export declare function getDualMonoid<A>(M: Monoid<A>): Monoid<A>
 ```
 
 Added in v2.0.0
@@ -67,7 +67,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<A>> { ... }
+export declare function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<A>>
 ```
 
 Added in v2.0.0
@@ -77,7 +77,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getFunctionMonoid<M>(M: Monoid<M>): <A = never>() => Monoid<(a: A) => M> { ... }
+export declare function getFunctionMonoid<M>(M: Monoid<M>): <A = never>() => Monoid<(a: A) => M>
 ```
 
 Added in v2.0.0
@@ -87,7 +87,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getJoinMonoid<A>(B: Bounded<A>): Monoid<A> { ... }
+export declare function getJoinMonoid<A>(B: Bounded<A>): Monoid<A>
 ```
 
 Added in v2.0.0
@@ -97,7 +97,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getMeetMonoid<A>(B: Bounded<A>): Monoid<A> { ... }
+export declare function getMeetMonoid<A>(B: Bounded<A>): Monoid<A>
 ```
 
 Added in v2.0.0
@@ -107,9 +107,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getStructMonoid<O extends ReadonlyRecord<string, any>>(
+export declare function getStructMonoid<O extends ReadonlyRecord<string, any>>(
   monoids: { [K in keyof O]: Monoid<O[K]> }
-): Monoid<O> { ... }
+): Monoid<O>
 ```
 
 Added in v2.0.0
@@ -121,9 +121,9 @@ Given a tuple of monoids returns a monoid for the tuple
 **Signature**
 
 ```ts
-export function getTupleMonoid<T extends ReadonlyArray<Monoid<any>>>(
+export declare function getTupleMonoid<T extends ReadonlyArray<Monoid<any>>>(
   ...monoids: T
-): Monoid<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> { ... }
+): Monoid<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }>
 ```
 
 **Example**
@@ -147,7 +147,7 @@ Boolean monoid under conjunction
 **Signature**
 
 ```ts
-export const monoidAll: Monoid<boolean> = ...
+export declare const monoidAll: Monoid<boolean>
 ```
 
 Added in v2.0.0
@@ -159,7 +159,7 @@ Boolean monoid under disjunction
 **Signature**
 
 ```ts
-export const monoidAny: Monoid<boolean> = ...
+export declare const monoidAny: Monoid<boolean>
 ```
 
 Added in v2.0.0
@@ -171,7 +171,7 @@ Number monoid under multiplication
 **Signature**
 
 ```ts
-export const monoidProduct: Monoid<number> = ...
+export declare const monoidProduct: Monoid<number>
 ```
 
 Added in v2.0.0
@@ -181,7 +181,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const monoidString: Monoid<string> = ...
+export declare const monoidString: Monoid<string>
 ```
 
 Added in v2.0.0
@@ -193,7 +193,7 @@ Number monoid under addition
 **Signature**
 
 ```ts
-export const monoidSum: Monoid<number> = ...
+export declare const monoidSum: Monoid<number>
 ```
 
 Added in v2.0.0
@@ -203,7 +203,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const monoidVoid: Monoid<void> = ...
+export declare const monoidVoid: Monoid<void>
 ```
 
 Added in v2.0.0

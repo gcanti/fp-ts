@@ -168,9 +168,9 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export function getTheseM<M extends URIS2>(M: Monad2<M>): TheseM2<M>
-export function getTheseM<M extends URIS>(M: Monad1<M>): TheseM1<M>
-export function getTheseM<M>(M: Monad<M>): TheseM<M> { ... }
+export declare function getTheseM<M extends URIS2>(M: Monad2<M>): TheseM2<M>
+export declare function getTheseM<M extends URIS>(M: Monad1<M>): TheseM1<M>
+export declare function getTheseM<M>(M: Monad<M>): TheseM<M>
 ```
 
 Added in v2.4.0

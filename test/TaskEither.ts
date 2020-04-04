@@ -26,9 +26,9 @@ describe('TaskEither', () => {
     })
 
     it('chain', async () => {
-      const e1 = await _.taskEither.chain(_.right('foo'), a => (a.length > 2 ? _.right(a.length) : _.left('foo')))()
+      const e1 = await _.taskEither.chain(_.right('foo'), (a) => (a.length > 2 ? _.right(a.length) : _.left('foo')))()
       assert.deepStrictEqual(e1, E.right(3))
-      const e2 = await _.taskEither.chain(_.right('a'), a => (a.length > 2 ? _.right(a.length) : _.left('foo')))()
+      const e2 = await _.taskEither.chain(_.right('a'), (a) => (a.length > 2 ? _.right(a.length) : _.left('foo')))()
       assert.deepStrictEqual(e2, E.left('foo'))
     })
   })
@@ -108,7 +108,7 @@ describe('TaskEither', () => {
   it('orElse', async () => {
     const e1 = await pipe(
       _.left('foo'),
-      _.orElse(l => _.right(l.length))
+      _.orElse((l) => _.right(l.length))
     )()
     assert.deepStrictEqual(e1, E.right(3))
     const e2 = await pipe(
@@ -176,7 +176,7 @@ describe('TaskEither', () => {
   it('fromPredicate', async () => {
     const gt2 = _.fromPredicate(
       (n: number) => n >= 2,
-      n => `Invalid number ${n}`
+      (n) => `Invalid number ${n}`
     )
     const e1 = await gt2(3)()
     assert.deepStrictEqual(e1, E.right(3))
@@ -260,7 +260,7 @@ describe('TaskEither', () => {
     const e1 = await pipe(
       _.right(12),
       _.filterOrElse(
-        n => n > 10,
+        (n) => n > 10,
         () => 'a'
       )
     )()
@@ -268,7 +268,7 @@ describe('TaskEither', () => {
     const e2 = await pipe(
       _.right(7),
       _.filterOrElse(
-        n => n > 10,
+        (n) => n > 10,
         () => 'a'
       )
     )()
@@ -321,11 +321,11 @@ describe('TaskEither', () => {
     })
 
     it('chain', async () => {
-      const e1 = await TV.chain(_.right(3), a => (a > 2 ? _.right(a) : _.left('b')))()
+      const e1 = await TV.chain(_.right(3), (a) => (a > 2 ? _.right(a) : _.left('b')))()
       assert.deepStrictEqual(e1, E.right(3))
-      const e2 = await TV.chain(_.right(1), a => (a > 2 ? _.right(a) : _.left('b')))()
+      const e2 = await TV.chain(_.right(1), (a) => (a > 2 ? _.right(a) : _.left('b')))()
       assert.deepStrictEqual(e2, E.left('b'))
-      const e3 = await TV.chain(_.left('a'), a => (a > 2 ? _.right(a) : _.left('b')))()
+      const e3 = await TV.chain(_.left('a'), (a) => (a > 2 ? _.right(a) : _.left('b')))()
       assert.deepStrictEqual(e3, E.left('a'))
     })
 
@@ -351,17 +351,17 @@ describe('TaskEither', () => {
     it('filter', async () => {
       const r1 = pipe(
         _.right(1),
-        filter(n => n > 0)
+        filter((n) => n > 0)
       )
       assert.deepStrictEqual(await r1(), await _.right(1)())
       const r2 = pipe(
         _.right(-1),
-        filter(n => n > 0)
+        filter((n) => n > 0)
       )
       assert.deepStrictEqual(await r2(), await _.left([])())
       const r3 = pipe(
         _.left(['a']),
-        filter(n => n > 0)
+        filter((n) => n > 0)
       )
       assert.deepStrictEqual(await r3(), await _.left(['a'])())
     })
@@ -384,12 +384,12 @@ describe('TaskEither', () => {
 
     it('resolving', () => {
       const fOk = (n: number, s: string) => Promise.resolve(n + s.length)
-      return _.tryCatchK(fOk, handleRejection)(2, '1')().then(x => assert.deepStrictEqual(x, E.right(3)))
+      return _.tryCatchK(fOk, handleRejection)(2, '1')().then((x) => assert.deepStrictEqual(x, E.right(3)))
     })
 
     it('rejecting', () => {
       const fReject = () => Promise.reject()
-      return _.tryCatchK(fReject, handleRejection)()().then(x => assert.deepStrictEqual(x, E.left('rejected')))
+      return _.tryCatchK(fReject, handleRejection)()().then((x) => assert.deepStrictEqual(x, E.left('rejected')))
     })
   })
 })

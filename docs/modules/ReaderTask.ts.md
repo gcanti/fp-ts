@@ -68,7 +68,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export const URI: "ReaderTask" = ...
+export declare const URI: 'ReaderTask'
 ```
 
 Added in v2.3.0
@@ -78,7 +78,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-<E, A>(fa: ReaderTask<E, A>) => <B>(fab: ReaderTask<E, (a: A) => B>) => ReaderTask<E, B>
+export declare const ap: <E, A>(fa: ReaderTask<E, A>) => <B>(fab: ReaderTask<E, (a: A) => B>) => ReaderTask<E, B>
 ```
 
 Added in v2.3.0
@@ -88,7 +88,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-<E, B>(fb: ReaderTask<E, B>) => <A>(fa: ReaderTask<E, A>) => ReaderTask<E, A>
+export declare const apFirst: <E, B>(fb: ReaderTask<E, B>) => <A>(fa: ReaderTask<E, A>) => ReaderTask<E, A>
 ```
 
 Added in v2.3.0
@@ -98,7 +98,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-<E, B>(fb: ReaderTask<E, B>) => <A>(fa: ReaderTask<E, A>) => ReaderTask<E, B>
+export declare const apSecond: <E, B>(fb: ReaderTask<E, B>) => <A>(fa: ReaderTask<E, A>) => ReaderTask<E, B>
 ```
 
 Added in v2.3.0
@@ -108,7 +108,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export const ask: <R>() => ReaderTask<R, R> = ...
+export declare const ask: <R>() => ReaderTask<R, R>
 ```
 
 Added in v2.3.0
@@ -118,7 +118,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> = ...
+export declare const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
@@ -128,7 +128,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-<E, A, B>(f: (a: A) => ReaderTask<E, B>) => (ma: ReaderTask<E, A>) => ReaderTask<E, B>
+export declare const chain: <E, A, B>(f: (a: A) => ReaderTask<E, B>) => (ma: ReaderTask<E, A>) => ReaderTask<E, B>
 ```
 
 Added in v2.3.0
@@ -138,7 +138,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-<E, A, B>(f: (a: A) => ReaderTask<E, B>) => (ma: ReaderTask<E, A>) => ReaderTask<E, A>
+export declare const chainFirst: <E, A, B>(f: (a: A) => ReaderTask<E, B>) => (ma: ReaderTask<E, A>) => ReaderTask<E, A>
 ```
 
 Added in v2.3.0
@@ -148,7 +148,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export function chainIOK<A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> { ... }
+export declare function chainIOK<A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v2.4.0
@@ -158,7 +158,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export function chainTaskK<A, B>(f: (a: A) => Task<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> { ... }
+export declare function chainTaskK<A, B>(f: (a: A) => Task<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v2.4.0
@@ -168,7 +168,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-<E, A>(mma: ReaderTask<E, ReaderTask<E, A>>) => ReaderTask<E, A>
+export declare const flatten: <E, A>(mma: ReaderTask<E, ReaderTask<E, A>>) => ReaderTask<E, A>
 ```
 
 Added in v2.3.0
@@ -178,7 +178,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export function fromIO<R, A>(ma: IO<A>): ReaderTask<R, A> { ... }
+export declare function fromIO<R, A>(ma: IO<A>): ReaderTask<R, A>
 ```
 
 Added in v2.3.0
@@ -188,7 +188,9 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): <R>(...a: A) => ReaderTask<R, B> { ... }
+export declare function fromIOK<A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => IO<B>
+): <R>(...a: A) => ReaderTask<R, B>
 ```
 
 Added in v2.4.0
@@ -198,7 +200,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A> = ...
+export declare const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
@@ -208,7 +210,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export const fromTask: <R, A>(ma: Task<A>) => ReaderTask<R, A> = ...
+export declare const fromTask: <R, A>(ma: TA.Task<A>) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
@@ -218,9 +220,9 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export function fromTaskK<A extends ReadonlyArray<unknown>, B>(
+export declare function fromTaskK<A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Task<B>
-): <R>(...a: A) => ReaderTask<R, B> { ... }
+): <R>(...a: A) => ReaderTask<R, B>
 ```
 
 Added in v2.4.0
@@ -230,7 +232,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export function getMonoid<R, A>(M: Monoid<A>): Monoid<ReaderTask<R, A>> { ... }
+export declare function getMonoid<R, A>(M: Monoid<A>): Monoid<ReaderTask<R, A>>
 ```
 
 Added in v2.3.0
@@ -240,7 +242,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<ReaderTask<R, A>> { ... }
+export declare function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<ReaderTask<R, A>>
 ```
 
 Added in v2.3.0
@@ -250,7 +252,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export function local<Q, R>(f: (f: Q) => R): <A>(ma: ReaderTask<R, A>) => ReaderTask<Q, A> { ... }
+export declare function local<Q, R>(f: (f: Q) => R): <A>(ma: ReaderTask<R, A>) => ReaderTask<Q, A>
 ```
 
 Added in v2.3.0
@@ -260,7 +262,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-<A, B>(f: (a: A) => B) => <E>(fa: ReaderTask<E, A>) => ReaderTask<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: ReaderTask<E, A>) => ReaderTask<E, B>
 ```
 
 Added in v2.3.0
@@ -270,7 +272,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export const of: <R, A>(a: A) => ReaderTask<R, A> = ...
+export declare const of: <R, A>(a: A) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
@@ -280,7 +282,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export const readerTask: Monad2<URI> & MonadTask2<URI> = ...
+export declare const readerTask: Monad2<'ReaderTask'> & MonadTask2<'ReaderTask'>
 ```
 
 Added in v2.3.0
@@ -292,7 +294,7 @@ Like `readerTask` but `ap` is sequential
 **Signature**
 
 ```ts
-export const readerTaskSeq: typeof readerTask = ...
+export declare const readerTaskSeq: Monad2<'ReaderTask'> & MonadTask2<'ReaderTask'>
 ```
 
 Added in v2.3.0
@@ -302,7 +304,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A> { ... }
+export declare function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A>
 ```
 
 Added in v2.4.0
