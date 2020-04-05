@@ -2,6 +2,7 @@
  * @since 2.0.0
  */
 
+import * as algebra from './Algebra'
 import * as alt from './Alt'
 import * as alternative from './Alternative'
 import * as applicative from './Applicative'
@@ -103,6 +104,10 @@ import * as witherable from './Witherable'
 import * as writer from './Writer'
 import * as writerT from './WriterT'
 export {
+  /**
+   * @since 2.5.4
+   */
+  algebra,
   /**
    * @since 2.0.0
    */
