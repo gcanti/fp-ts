@@ -96,6 +96,7 @@ Added in v2.0.0
 - [stateReaderTaskEither](#statereadertaskeither)
 - [stateT](#statet)
 - [store](#store)
+- [string](#string)
 - [strong](#strong)
 - [task](#task)
 - [taskEither](#taskeither)
@@ -954,6 +955,16 @@ export declare const store: typeof store
 ```
 
 Added in v2.0.0
+
+# string
+
+**Signature**
+
+```ts
+export declare const string: typeof string
+```
+
+Added in v2.6.0
 
 # strong
 
