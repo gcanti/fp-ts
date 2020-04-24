@@ -33,6 +33,7 @@ Added in v2.0.0
 - [elem](#elem)
 - [extend](#extend)
 - [flatten](#flatten)
+- [fold](#fold)
 - [foldMap](#foldmap)
 - [getEq](#geteq)
 - [getShow](#getshow)
@@ -222,6 +223,41 @@ export declare const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A>
 ```
 
 Added in v2.0.0
+
+# fold
+
+Fold a tree into a "summary" value in depth-first order.
+
+For each node in the tree, apply `f` to the `value` and the result of applying `f` to each `forest`.
+
+This is also known as the catamorphism on trees.
+
+**Signature**
+
+```ts
+export declare function fold<A, B>(f: (a: A, bs: Array<B>) => B): (tree: Tree<A>) => B
+```
+
+**Example**
+
+```ts
+import { fold, make } from 'fp-ts/lib/Tree'
+
+const t = make(1, [make(2), make(3)])
+
+const sum = (as: Array<number>) => as.reduce((a, acc) => a + acc, 0)
+
+// Sum the values in a tree:
+assert.deepStrictEqual(fold((a: number, bs: Array<number>) => a + sum(bs))(t), 6)
+
+// Find the maximum value in the tree:
+assert.deepStrictEqual(fold((a: number, bs: Array<number>) => bs.reduce((b, acc) => Math.max(b, acc), a))(t), 3)
+
+// Count the number of leaves in the tree:
+assert.deepStrictEqual(fold((_: number, bs: Array<number>) => (bs.length === 0 ? 1 : sum(bs)))(t), 2)
+```
+
+Added in v2.6.0
 
 # foldMap
 
