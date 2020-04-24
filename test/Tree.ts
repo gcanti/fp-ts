@@ -4,7 +4,7 @@ import * as I from '../src/Identity'
 import { monoidString } from '../src/Monoid'
 import { eq, Eq, eqNumber } from '../src/Eq'
 import { showString } from '../src/Show'
-import { drawTree, elem, getEq, getShow, Tree, tree, unfoldTree, unfoldTreeM, make } from '../src/Tree'
+import { drawTree, elem, getEq, getShow, Tree, tree, unfoldTree, unfoldTreeM, make, fold } from '../src/Tree'
 
 describe('Tree', () => {
   it('map', () => {
@@ -164,5 +164,13 @@ describe('Tree', () => {
     assert.deepStrictEqual(S.show(t1), `make("a")`)
     const t2 = make('a', [make('b'), make('c')])
     assert.deepStrictEqual(S.show(t2), `make("a", [make("b"), make("c")])`)
+  })
+
+  it('fold', () => {
+    const t = make(1, [make(2), make(3)])
+    assert.deepStrictEqual(
+      fold((a: number, bs: ReadonlyArray<number>) => bs.reduce((b, acc) => Math.max(b, acc), a))(t),
+      3
+    )
   })
 })
