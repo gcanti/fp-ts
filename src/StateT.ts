@@ -2,7 +2,7 @@
  * @since 2.0.0
  */
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
-import { Monad, Monad1, Monad2, Monad3 } from './Monad'
+import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { State } from './State'
 
 /* tslint:disable:readonly-array */
@@ -86,6 +86,24 @@ export interface StateM2<M extends URIS2> {
   readonly execState: <S, E, A>(ma: StateT2<M, S, E, A>, s: S) => Kind2<M, E, S>
 }
 
+/**
+ * @since 2.5.4
+ */
+export interface StateM2C<M extends URIS2, E> {
+  readonly map: <S, A, B>(fa: StateT2<M, S, E, A>, f: (a: A) => B) => StateT2<M, S, E, B>
+  readonly of: <S, A>(a: A) => StateT2<M, S, E, A>
+  readonly ap: <S, A, B>(fab: StateT2<M, S, E, (a: A) => B>, fa: StateT2<M, S, E, A>) => StateT2<M, S, E, B>
+  readonly chain: <S, A, B>(fa: StateT2<M, S, E, A>, f: (a: A) => StateT2<M, S, E, B>) => StateT2<M, S, E, B>
+  readonly get: <S>() => StateT2<M, S, E, S>
+  readonly put: <S>(s: S) => StateT2<M, S, E, void>
+  readonly modify: <S>(f: (s: S) => S) => StateT2<M, S, E, void>
+  readonly gets: <S, A>(f: (s: S) => A) => StateT2<M, S, E, A>
+  readonly fromState: <S, A>(fa: State<S, A>) => StateT2<M, S, E, A>
+  readonly fromM: <S, A>(ma: Kind2<M, E, A>) => StateT2<M, S, E, A>
+  readonly evalState: <S, A>(ma: StateT2<M, S, E, A>, s: S) => Kind2<M, E, A>
+  readonly execState: <S, A>(ma: StateT2<M, S, E, A>, s: S) => Kind2<M, E, S>
+}
+
 /* tslint:disable:readonly-array */
 /**
  * @since 2.0.0
@@ -120,9 +138,32 @@ export interface StateM3<M extends URIS3> {
 }
 
 /**
+ * @since 2.5.4
+ */
+export interface StateM3C<M extends URIS3, E> {
+  readonly map: <S, R, A, B>(fa: StateT3<M, S, R, E, A>, f: (a: A) => B) => StateT3<M, S, R, E, B>
+  readonly of: <S, R, A>(a: A) => StateT3<M, S, R, E, A>
+  readonly ap: <S, R, A, B>(fab: StateT3<M, S, R, E, (a: A) => B>, fa: StateT3<M, S, R, E, A>) => StateT3<M, S, R, E, B>
+  readonly chain: <S, R, A, B>(
+    fa: StateT3<M, S, R, E, A>,
+    f: (a: A) => StateT3<M, S, R, E, B>
+  ) => StateT3<M, S, R, E, B>
+  readonly get: <R, S>() => StateT3<M, S, R, E, S>
+  readonly put: <R, S>(s: S) => StateT3<M, S, R, E, void>
+  readonly modify: <R, S>(f: (s: S) => S) => StateT3<M, S, R, E, void>
+  readonly gets: <S, R, A>(f: (s: S) => A) => StateT3<M, S, R, E, A>
+  readonly fromState: <S, R, A>(fa: State<S, A>) => StateT3<M, S, R, E, A>
+  readonly fromM: <S, R, A>(ma: Kind3<M, R, E, A>) => StateT3<M, S, R, E, A>
+  readonly evalState: <S, R, A>(ma: StateT3<M, S, R, E, A>, s: S) => Kind3<M, R, E, A>
+  readonly execState: <S, R, A>(ma: StateT3<M, S, R, E, A>, s: S) => Kind3<M, R, E, S>
+}
+
+/**
  * @since 2.0.0
  */
+export function getStateM<M extends URIS3, E>(M: Monad3C<M, E>): StateM3C<M, E>
 export function getStateM<M extends URIS3>(M: Monad3<M>): StateM3<M>
+export function getStateM<M extends URIS2, E>(M: Monad2C<M, E>): StateM2C<M, E>
 export function getStateM<M extends URIS2>(M: Monad2<M>): StateM2<M>
 export function getStateM<M extends URIS>(M: Monad1<M>): StateM1<M>
 export function getStateM<M>(M: Monad<M>): StateM<M>
