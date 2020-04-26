@@ -14,6 +14,12 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.5.4
+
+- **Polish**
+  - `StateT`
+    - add missing `StateM2C` and `StateM3C` (@qlonik)
+
 # 2.5.3
 
 - **Polish**

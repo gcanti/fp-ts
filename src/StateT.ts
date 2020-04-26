@@ -161,10 +161,10 @@ export interface StateM3C<M extends URIS3, E> {
 /**
  * @since 2.0.0
  */
-export function getStateM<M extends URIS3, E>(M: Monad3C<M, E>): StateM3C<M, E>
 export function getStateM<M extends URIS3>(M: Monad3<M>): StateM3<M>
-export function getStateM<M extends URIS2, E>(M: Monad2C<M, E>): StateM2C<M, E>
+export function getStateM<M extends URIS3, E>(M: Monad3C<M, E>): StateM3C<M, E>
 export function getStateM<M extends URIS2>(M: Monad2<M>): StateM2<M>
+export function getStateM<M extends URIS2, E>(M: Monad2C<M, E>): StateM2C<M, E>
 export function getStateM<M extends URIS>(M: Monad1<M>): StateM1<M>
 export function getStateM<M>(M: Monad<M>): StateM<M>
 export function getStateM<M>(M: Monad<M>): StateM<M> {
