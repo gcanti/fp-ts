@@ -54,10 +54,20 @@ Added in v2.0.0
 
 # getDualMonoid
 
+The dual of a `Monoid`, obtained by swapping the arguments of `concat`.
+
 **Signature**
 
 ```ts
 export declare function getDualMonoid<A>(M: Monoid<A>): Monoid<A>
+```
+
+**Example**
+
+```ts
+import { getDualMonoid, monoidString } from 'fp-ts/lib/Monoid'
+
+assert.deepStrictEqual(getDualMonoid(monoidString).concat('a', 'b'), 'ba')
 ```
 
 Added in v2.0.0

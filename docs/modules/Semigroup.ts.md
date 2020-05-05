@@ -59,10 +59,20 @@ Added in v2.0.0
 
 # getDualSemigroup
 
+The dual of a `Semigroup`, obtained by swapping the arguments of `concat`.
+
 **Signature**
 
 ```ts
 export declare function getDualSemigroup<A>(S: Semigroup<A>): Semigroup<A>
+```
+
+**Example**
+
+```ts
+import { getDualSemigroup, semigroupString } from 'fp-ts/lib/Semigroup'
+
+assert.deepStrictEqual(getDualSemigroup(semigroupString).concat('a', 'b'), 'ba')
 ```
 
 Added in v2.0.0
