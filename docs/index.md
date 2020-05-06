@@ -19,7 +19,7 @@ The goal of `fp-ts` is to empower developers to write pure FP apps and libraries
 
 ## Functions
 
-Functional programming is all about pure functions and how to compose them into bigger structures. `fp-ts` provides a few general [functions](../modules/function.ts) to support you with composition, constant functions, and more.
+Functional programming is all about pure functions and how to compose them into bigger structures. `fp-ts` provides a few general [functions](../modules/function.ts.html) to support you with composition, constant functions, and more.
 
 ## Data Types
 
