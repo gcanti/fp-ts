@@ -14,6 +14,33 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.6.0
+
+- **New Feature**
+  - `Either`
+    - add `getOrElseW` (@gcanti)
+    - add `chainW` (@gcanti)
+  - `IOEither`
+    - add `getOrElseW` (@gcanti)
+    - add `chainW` (@gcanti)
+  - `Option`
+    - add `getOrElseW` (@gcanti)
+  - `Reader`
+    - add `chainW` (@gcanti)
+  - `ReaderEither`
+    - add `getOrElseW` (@gcanti)
+    - add `chainW` (@gcanti)
+  - `ReaderTaskEither`
+    - add `getOrElseW` (@gcanti)
+    - add `chainW` (@gcanti)
+  - `StateReaderTaskEither`
+    - add `chainW` (@gcanti)
+  - `TaskEither`
+    - add `getOrElseW` (@gcanti)
+    - add `chainW` (@gcanti)
+  - `Tree`
+    - add `fold` function (@gcanti)
+
 # 2.5.4
 
 - **Polish**
