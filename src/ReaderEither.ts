@@ -76,6 +76,13 @@ export function getOrElse<R, E, A>(onLeft: (e: E) => Reader<R, A>): (ma: ReaderE
 }
 
 /**
+ * @since 2.6.0
+ */
+export const getOrElseW: <Q, E, B>(
+  onLeft: (e: E) => Reader<Q, B>
+) => <R, A>(ma: ReaderEither<R, E, A>) => Reader<R & Q, A | B> = getOrElse as any
+
+/**
  * @since 2.0.0
  */
 export function orElse<R, E, A, M>(
@@ -203,6 +210,13 @@ const {
   fromPredicate,
   filterOrElse
 } = pipeable(readerEither)
+
+/**
+ * @since 2.6.0
+ */
+export const chainW: <Q, D, A, B>(
+  f: (a: A) => ReaderEither<Q, D, B>
+) => <R, E>(ma: ReaderEither<R, E, A>) => ReaderEither<R & Q, E | D, B> = chain as any
 
 export {
   /**

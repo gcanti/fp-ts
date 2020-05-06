@@ -79,6 +79,11 @@ export function getOrElse<E, A>(onLeft: (e: E) => IO<A>): (ma: IOEither<E, A>) =
 }
 
 /**
+ * @since 2.6.0
+ */
+export const getOrElseW: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IO<A | B> = getOrElse as any
+
+/**
  * @since 2.0.0
  */
 export function orElse<E, A, M>(onLeft: (e: E) => IOEither<M, A>): (ma: IOEither<E, A>) => IOEither<M, A> {
@@ -224,6 +229,13 @@ const {
   fromPredicate,
   filterOrElse
 } = pipeable(ioEither)
+
+/**
+ * @since 2.6.0
+ */
+export const chainW: <D, A, B>(
+  f: (a: A) => IOEither<D, B>
+) => <E>(ma: IOEither<E, A>) => IOEither<E | D, B> = chain as any
 
 export {
   /**

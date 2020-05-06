@@ -324,6 +324,11 @@ export function getOrElse<E, A>(onLeft: (e: E) => A): (ma: Either<E, A>) => A {
 }
 
 /**
+ * @since 2.6.0
+ */
+export const getOrElseW: <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>) => A | B = getOrElse as any
+
+/**
  * @since 2.0.0
  */
 export function elem<A>(E: Eq<A>): <E>(a: A, ma: Either<E, A>) => boolean {
@@ -590,6 +595,11 @@ const {
   fromPredicate,
   filterOrElse
 } = pipeable(either)
+
+/**
+ * @since 2.6.0
+ */
+export const chainW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>) => Either<E | D, B> = chain as any
 
 export {
   /**

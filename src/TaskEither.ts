@@ -103,6 +103,13 @@ export function getOrElse<E, A>(onLeft: (e: E) => Task<A>): (ma: TaskEither<E, A
 }
 
 /**
+ * @since 2.6.0
+ */
+export const getOrElseW: <E, B>(
+  onLeft: (e: E) => Task<B>
+) => <A>(ma: TaskEither<E, A>) => Task<A | B> = getOrElse as any
+
+/**
  * @since 2.0.0
  */
 export function orElse<E, A, M>(onLeft: (e: E) => TaskEither<M, A>): (ma: TaskEither<E, A>) => TaskEither<M, A> {
@@ -354,6 +361,13 @@ const {
   fromPredicate,
   filterOrElse
 } = pipeable(taskEither)
+
+/**
+ * @since 2.6.0
+ */
+export const chainW: <D, A, B>(
+  f: (a: A) => TaskEither<D, B>
+) => <E>(ma: TaskEither<E, A>) => TaskEither<E | D, B> = chain as any
 
 export {
   /**
