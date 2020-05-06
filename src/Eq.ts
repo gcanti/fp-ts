@@ -12,6 +12,7 @@
 import { Contravariant1 } from './Contravariant'
 import { pipeable } from './pipeable'
 import { ReadonlyRecord } from './ReadonlyRecord'
+import { Monoid } from './Monoid'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -133,3 +134,17 @@ export {
  * @since 2.0.0
  */
 export const eqDate: Eq<Date> = eq.contramap(eqNumber, (date) => date.valueOf())
+
+const empty: Eq<unknown> = {
+  equals: () => true
+}
+
+/**
+ * @since 2.6.0
+ */
+export function getMonoid<A>(): Monoid<Eq<A>> {
+  return {
+    concat: (x, y) => fromEquals((a, b) => x.equals(a, b) && y.equals(a, b)),
+    empty
+  }
+}
