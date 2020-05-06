@@ -258,6 +258,11 @@ export function getOrElse<A>(onNone: () => A): (ma: Option<A>) => A {
 }
 
 /**
+ * @since 2.6.0
+ */
+export const getOrElseW: <B>(onNone: () => B) => <A>(ma: Option<A>) => A | B = getOrElse as any
+
+/**
  * Returns `true` if `ma` contains `a`
  *
  * @example

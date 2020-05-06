@@ -306,6 +306,13 @@ const {
   fromPredicate
 } = pipeable(stateReaderTaskEither)
 
+/**
+ * @since 2.6.0
+ */
+export const chainW: <S, Q, D, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, Q, D, B>
+) => <R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R & Q, E | D, B> = chain as any
+
 export {
   /**
    * @since 2.0.0
