@@ -18,6 +18,19 @@ describe('Const', () => {
     assert.deepStrictEqual(const_.contramap(fa, double), fa)
   })
 
+  it('bimap', () => {
+    const fa: Const<string, number> = make('a')
+    const f = (s: string): string => s.toUpperCase()
+    const g = (n: number): number => n * 2
+    assert.deepStrictEqual(const_.bimap(fa, f, g), make('A'))
+  })
+
+  it('mapLeft', () => {
+    const fa: Const<string, number> = make('a')
+    const f = (s: string): string => s.toUpperCase()
+    assert.deepStrictEqual(const_.mapLeft(fa, f), make('A'))
+  })
+
   it('getApplicative', () => {
     const F = getApplicative(monoidString)
     assert.deepStrictEqual(F.of(1), make(''))
