@@ -90,6 +90,9 @@ export function orElse<R, E, A, M>(
 export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E> = T.swap
 
 /**
+ * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
+ * appended using the provided `Semigroup`
+ *
  * @since 2.0.0
  */
 export function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>> {
@@ -97,6 +100,9 @@ export function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R
 }
 
 /**
+ * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
+ * are appended using the provided `Semigroup`
+ *
  * @since 2.0.0
  */
 export function getApplySemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>> {

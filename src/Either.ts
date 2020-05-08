@@ -247,7 +247,8 @@ export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> {
 }
 
 /**
- * `Apply` semigroup
+ * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
+ * are appended using the provided `Semigroup`
  *
  * @example
  * import { getApplySemigroup, left, right } from 'fp-ts/lib/Either'

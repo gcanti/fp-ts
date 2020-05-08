@@ -413,7 +413,8 @@ Added in v2.0.0
 
 # getApplySemigroup
 
-`Apply` semigroup
+Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
+are appended using the provided `Semigroup`
 
 **Signature**
 

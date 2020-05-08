@@ -182,6 +182,9 @@ export function swap<R, E, A>(ma: ReaderTaskEither<R, E, A>): ReaderTaskEither<R
 }
 
 /**
+ * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
+ * appended using the provided `Semigroup`
+ *
  * @since 2.0.0
  */
 export function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>> {
@@ -189,6 +192,9 @@ export function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEith
 }
 
 /**
+ * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
+ * are appended using the provided `Semigroup`
+ *
  * @since 2.0.0
  */
 export function getApplySemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>> {

@@ -115,6 +115,9 @@ export function orElse<E, A, M>(onLeft: (e: E) => TaskEither<M, A>): (ma: TaskEi
 export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> = T.swap
 
 /**
+ * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
+ * appended using the provided `Semigroup`
+ *
  * @since 2.0.0
  */
 export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>> {
@@ -122,6 +125,9 @@ export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>>
 }
 
 /**
+ * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
+ * are appended using the provided `Semigroup`
+ *
  * @since 2.0.0
  */
 export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>> {
