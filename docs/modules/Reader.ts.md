@@ -22,6 +22,7 @@ Added in v2.0.0
 - [asks](#asks)
 - [chain](#chain)
 - [chainFirst](#chainfirst)
+- [chainW](#chainw)
 - [compose](#compose)
 - [flatten](#flatten)
 - [getMonoid](#getmonoid)
@@ -139,6 +140,16 @@ export declare const chainFirst: <E, A, B>(f: (a: A) => Reader<E, B>) => (ma: Re
 ```
 
 Added in v2.0.0
+
+# chainW
+
+**Signature**
+
+```ts
+export declare const chainW: <Q, A, B>(f: (a: A) => Reader<Q, B>) => <R>(ma: Reader<R, A>) => Reader<R & Q, B>
+```
+
+Added in v2.6.0
 
 # compose
 

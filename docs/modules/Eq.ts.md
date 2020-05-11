@@ -31,6 +31,7 @@ Added in v2.0.0
 - [eqStrict](#eqstrict)
 - [eqString](#eqstring)
 - [fromEquals](#fromequals)
+- [getMonoid](#getmonoid)
 - [getStructEq](#getstructeq)
 - [getTupleEq](#gettupleeq)
 - [~~strictEqual~~](#strictequal)
@@ -148,6 +149,16 @@ export declare function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A>
 ```
 
 Added in v2.0.0
+
+# getMonoid
+
+**Signature**
+
+```ts
+export declare function getMonoid<A>(): Monoid<Eq<A>>
+```
+
+Added in v2.6.0
 
 # getStructEq
 

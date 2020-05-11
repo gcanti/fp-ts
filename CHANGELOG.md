@@ -17,9 +17,16 @@ high state of flux, you're at risk of it changing without notice.
 # 2.6.0
 
 - **New Feature**
+  - add W variants, closes #904 (@gcanti)
+  - `Const`
+    - add missing instances, #1201 (@gcanti)
+  - `Date`
+    - add `eqDate`, `eqMonth`, `eqYear` (@gcanti)
   - `Either`
     - add `getOrElseW` (@gcanti)
     - add `chainW` (@gcanti)
+  - `Eq`
+    - add `getMonoid` (@gcanti)
   - `IOEither`
     - add `getOrElseW` (@gcanti)
     - add `chainW` (@gcanti)
