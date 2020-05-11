@@ -71,6 +71,7 @@ Added in v2.0.0
 - [getLeft](#getleft)
 - [getMonoid](#getmonoid)
 - [getOrElse](#getorelse)
+- [getOrElseW](#getorelsew)
 - [getOrd](#getord)
 - [getRefinement](#getrefinement)
 - [getRight](#getright)
@@ -650,6 +651,16 @@ assert.strictEqual(
 ```
 
 Added in v2.0.0
+
+# getOrElseW
+
+**Signature**
+
+```ts
+export declare const getOrElseW: <B>(onNone: () => B) => <A>(ma: Option<A>) => B | A
+```
+
+Added in v2.6.0
 
 # getOrd
 

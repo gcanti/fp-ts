@@ -28,6 +28,7 @@ Added in v2.0.0
 - [chainFirst](#chainfirst)
 - [chainIOEitherK](#chainioeitherk)
 - [chainTaskEitherK](#chaintaskeitherk)
+- [chainW](#chainw)
 - [filterOrElse](#filterorelse)
 - [flatten](#flatten)
 - [fold](#fold)
@@ -43,6 +44,7 @@ Added in v2.0.0
 - [getApplyMonoid](#getapplymonoid)
 - [getApplySemigroup](#getapplysemigroup)
 - [getOrElse](#getorelse)
+- [getOrElseW](#getorelsew)
 - [getReaderTaskValidation](#getreadertaskvalidation)
 - [getSemigroup](#getsemigroup)
 - [left](#left)
@@ -258,6 +260,18 @@ export declare function chainTaskEitherK<E, A, B>(
 
 Added in v2.4.0
 
+# chainW
+
+**Signature**
+
+```ts
+export declare const chainW: <Q, D, A, B>(
+  f: (a: A) => ReaderTaskEither<Q, D, B>
+) => <R, E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R & Q, D | E, B>
+```
+
+Added in v2.6.0
+
 # filterOrElse
 
 **Signature**
@@ -431,6 +445,18 @@ export declare function getOrElse<R, E, A>(
 ```
 
 Added in v2.0.0
+
+# getOrElseW
+
+**Signature**
+
+```ts
+export declare const getOrElseW: <Q, E, B>(
+  onLeft: (e: E) => ReaderTask<Q, B>
+) => <R, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTask<R & Q, B | A>
+```
+
+Added in v2.6.0
 
 # getReaderTaskValidation
 

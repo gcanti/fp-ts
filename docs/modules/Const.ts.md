@@ -6,6 +6,12 @@ parent: Modules
 
 # Const overview
 
+The `Const` type constructor, which wraps its first type argument and ignores its second.
+That is, `Const<E, A>` is isomorphic to `E` for any `A`.
+
+`Const` has some useful instances. For example, the `Applicative` instance allows us to collect results using a `Monoid`
+while ignoring return values.
+
 Added in v2.0.0
 
 ---
@@ -19,7 +25,15 @@ Added in v2.0.0
 - [contramap](#contramap)
 - [getApplicative](#getapplicative)
 - [getApply](#getapply)
+- [getBooleanAlgebra](#getbooleanalgebra)
+- [getBounded](#getbounded)
 - [getEq](#geteq)
+- [getHeytingAlgebra](#getheytingalgebra)
+- [getMonoid](#getmonoid)
+- [getOrd](#getord)
+- [getRing](#getring)
+- [getSemigroup](#getsemigroup)
+- [getSemiring](#getsemiring)
 - [getShow](#getshow)
 - [make](#make)
 - [map](#map)
@@ -61,7 +75,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const const_: Functor2<'Const'> & Contravariant2<'Const'>
+export declare const const_: Functor2<'Const'> & Contravariant2<'Const'> & Bifunctor2<'Const'>
 ```
 
 Added in v2.0.0
@@ -96,6 +110,26 @@ export declare function getApply<E>(S: Semigroup<E>): Apply2C<URI, E>
 
 Added in v2.0.0
 
+# getBooleanAlgebra
+
+**Signature**
+
+```ts
+export declare const getBooleanAlgebra: <E, A>(H: BooleanAlgebra<E>) => BooleanAlgebra<Const<E, A>>
+```
+
+Added in v2.6.0
+
+# getBounded
+
+**Signature**
+
+```ts
+export declare const getBounded: <E, A>(B: Bounded<E>) => Bounded<Const<E, A>>
+```
+
+Added in v2.6.0
+
 # getEq
 
 **Signature**
@@ -105,6 +139,66 @@ export declare const getEq: <E, A>(E: Eq<E>) => Eq<Const<E, A>>
 ```
 
 Added in v2.0.0
+
+# getHeytingAlgebra
+
+**Signature**
+
+```ts
+export declare const getHeytingAlgebra: <E, A>(H: HeytingAlgebra<E>) => HeytingAlgebra<Const<E, A>>
+```
+
+Added in v2.6.0
+
+# getMonoid
+
+**Signature**
+
+```ts
+export declare const getMonoid: <E, A>(M: Monoid<E>) => Monoid<Const<E, A>>
+```
+
+Added in v2.6.0
+
+# getOrd
+
+**Signature**
+
+```ts
+export declare const getOrd: <E, A>(O: Ord<E>) => Ord<Const<E, A>>
+```
+
+Added in v2.6.0
+
+# getRing
+
+**Signature**
+
+```ts
+export declare const getRing: <E, A>(S: Ring<E>) => Ring<Const<E, A>>
+```
+
+Added in v2.6.0
+
+# getSemigroup
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <E, A>(S: Semigroup<E>) => Semigroup<Const<E, A>>
+```
+
+Added in v2.6.0
+
+# getSemiring
+
+**Signature**
+
+```ts
+export declare const getSemiring: <E, A>(S: Semiring<E>) => Semiring<Const<E, A>>
+```
+
+Added in v2.6.0
 
 # getShow
 

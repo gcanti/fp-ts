@@ -54,6 +54,7 @@ Added in v2.0.0
 - [bimap](#bimap)
 - [chain](#chain)
 - [chainFirst](#chainfirst)
+- [chainW](#chainw)
 - [duplicate](#duplicate)
 - [either](#either)
 - [elem](#elem)
@@ -70,6 +71,7 @@ Added in v2.0.0
 - [getApplySemigroup](#getapplysemigroup)
 - [getEq](#geteq)
 - [getOrElse](#getorelse)
+- [getOrElseW](#getorelsew)
 - [getSemigroup](#getsemigroup)
 - [getShow](#getshow)
 - [getValidation](#getvalidation)
@@ -218,6 +220,16 @@ export declare const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Ei
 ```
 
 Added in v2.0.0
+
+# chainW
+
+**Signature**
+
+```ts
+export declare const chainW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>) => Either<D | E, B>
+```
+
+Added in v2.6.0
 
 # duplicate
 
@@ -456,6 +468,16 @@ export declare function getOrElse<E, A>(onLeft: (e: E) => A): (ma: Either<E, A>)
 ```
 
 Added in v2.0.0
+
+# getOrElseW
+
+**Signature**
+
+```ts
+export declare const getOrElseW: <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>) => B | A
+```
+
+Added in v2.6.0
 
 # getSemigroup
 

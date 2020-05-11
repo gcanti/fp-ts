@@ -24,6 +24,7 @@ Added in v2.0.0
 - [chainIOEitherK](#chainioeitherk)
 - [chainReaderTaskEitherK](#chainreadertaskeitherk)
 - [chainTaskEitherK](#chaintaskeitherk)
+- [chainW](#chainw)
 - [evalState](#evalstate)
 - [execState](#execstate)
 - [filterOrElse](#filterorelse)
@@ -199,6 +200,18 @@ export declare function chainTaskEitherK<E, A, B>(
 ```
 
 Added in v2.4.0
+
+# chainW
+
+**Signature**
+
+```ts
+export declare const chainW: <S, Q, D, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, Q, D, B>
+) => <R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R & Q, D | E, B>
+```
+
+Added in v2.6.0
 
 # evalState
 

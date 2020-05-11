@@ -27,6 +27,7 @@ Added in v2.0.0
 - [chain](#chain)
 - [chainEitherK](#chaineitherk)
 - [chainFirst](#chainfirst)
+- [chainW](#chainw)
 - [filterOrElse](#filterorelse)
 - [flatten](#flatten)
 - [fold](#fold)
@@ -39,6 +40,7 @@ Added in v2.0.0
 - [getFilterable](#getfilterable)
 - [getIOValidation](#getiovalidation)
 - [getOrElse](#getorelse)
+- [getOrElseW](#getorelsew)
 - [getSemigroup](#getsemigroup)
 - [ioEither](#ioeither)
 - [left](#left)
@@ -182,6 +184,16 @@ export declare const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: 
 
 Added in v2.0.0
 
+# chainW
+
+**Signature**
+
+```ts
+export declare const chainW: <D, A, B>(f: (a: A) => IOEither<D, B>) => <E>(ma: IOEither<E, A>) => IOEither<D | E, B>
+```
+
+Added in v2.6.0
+
 # filterOrElse
 
 **Signature**
@@ -314,6 +326,16 @@ export declare function getOrElse<E, A>(onLeft: (e: E) => IO<A>): (ma: IOEither<
 ```
 
 Added in v2.0.0
+
+# getOrElseW
+
+**Signature**
+
+```ts
+export declare const getOrElseW: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IO<B | A>
+```
+
+Added in v2.6.0
 
 # getSemigroup
 

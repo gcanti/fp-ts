@@ -25,6 +25,7 @@ Added in v2.0.0
 - [chain](#chain)
 - [chainEitherK](#chaineitherk)
 - [chainFirst](#chainfirst)
+- [chainW](#chainw)
 - [filterOrElse](#filterorelse)
 - [flatten](#flatten)
 - [fold](#fold)
@@ -35,6 +36,7 @@ Added in v2.0.0
 - [getApplyMonoid](#getapplymonoid)
 - [getApplySemigroup](#getapplysemigroup)
 - [getOrElse](#getorelse)
+- [getOrElseW](#getorelsew)
 - [getReaderValidation](#getreadervalidation)
 - [getSemigroup](#getsemigroup)
 - [left](#left)
@@ -197,6 +199,18 @@ export declare const chainFirst: <R, E, A, B>(
 
 Added in v2.0.0
 
+# chainW
+
+**Signature**
+
+```ts
+export declare const chainW: <Q, D, A, B>(
+  f: (a: A) => ReaderEither<Q, D, B>
+) => <R, E>(ma: ReaderEither<R, E, A>) => ReaderEither<R & Q, D | E, B>
+```
+
+Added in v2.6.0
+
 # filterOrElse
 
 **Signature**
@@ -310,6 +324,18 @@ export declare function getOrElse<R, E, A>(onLeft: (e: E) => Reader<R, A>): (ma:
 ```
 
 Added in v2.0.0
+
+# getOrElseW
+
+**Signature**
+
+```ts
+export declare const getOrElseW: <Q, E, B>(
+  onLeft: (e: E) => Reader<Q, B>
+) => <R, A>(ma: ReaderEither<R, E, A>) => Reader<R & Q, B | A>
+```
+
+Added in v2.6.0
 
 # getReaderValidation
 
