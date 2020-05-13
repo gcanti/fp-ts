@@ -237,6 +237,13 @@ export const chainW: <D, A, B>(
   f: (a: A) => IOEither<D, B>
 ) => <E>(ma: IOEither<E, A>) => IOEither<E | D, B> = chain as any
 
+/**
+ * @since 2.6.1
+ */
+export const chainEitherKW: <D, A, B>(
+  f: (a: A) => Either<D, B>
+) => <E>(ma: IOEither<E, A>) => IOEither<E | D, B> = chainEitherK as any
+
 export {
   /**
    * @since 2.0.0

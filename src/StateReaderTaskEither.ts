@@ -313,6 +313,36 @@ export const chainW: <S, Q, D, A, B>(
   f: (a: A) => StateReaderTaskEither<S, Q, D, B>
 ) => <R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R & Q, E | D, B> = chain as any
 
+/**
+ * @since 2.6.1
+ */
+export const chainEitherKW: <D, A, B>(
+  f: (a: A) => Either<D, B>
+) => <S, R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E | D, B> = chainEitherK as any
+
+/**
+ * @since 2.6.1
+ */
+export const chainTaskEitherKW: <D, A, B>(
+  f: (a: A) => TaskEither<D, B>
+) => <S, R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E | D, B> = chainTaskEitherK as any
+
+/**
+ * @since 2.6.1
+ */
+export const chainReaderTaskEitherKW: <R, D, A, B>(
+  f: (a: A) => ReaderTaskEither<R, D, B>
+) => <S, E>(
+  ma: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E | D, B> = chainReaderTaskEitherK as any
+
+/**
+ * @since 2.6.1
+ */
+export const chainIOEitherKW: <R, D, A, B>(
+  f: (a: A) => IOEither<D, B>
+) => <S, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E | D, B> = chainIOEitherK as any
+
 export {
   /**
    * @since 2.0.0

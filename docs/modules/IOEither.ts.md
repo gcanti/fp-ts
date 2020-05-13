@@ -26,6 +26,7 @@ Added in v2.0.0
 - [bracket](#bracket)
 - [chain](#chain)
 - [chainEitherK](#chaineitherk)
+- [chainEitherKW](#chaineitherkw)
 - [chainFirst](#chainfirst)
 - [chainW](#chainw)
 - [filterOrElse](#filterorelse)
@@ -173,6 +174,18 @@ export declare function chainEitherK<E, A, B>(f: (a: A) => Either<E, B>): (ma: I
 ```
 
 Added in v2.4.0
+
+# chainEitherKW
+
+**Signature**
+
+```ts
+export declare const chainEitherKW: <D, A, B>(
+  f: (a: A) => E.Either<D, B>
+) => <E>(ma: IOEither<E, A>) => IOEither<D | E, B>
+```
+
+Added in v2.6.1
 
 # chainFirst
 

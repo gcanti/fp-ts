@@ -26,8 +26,10 @@ Added in v2.0.0
 - [bracket](#bracket)
 - [chain](#chain)
 - [chainEitherK](#chaineitherk)
+- [chainEitherKW](#chaineitherkw)
 - [chainFirst](#chainfirst)
 - [chainIOEitherK](#chainioeitherk)
+- [chainIOEitherKW](#chainioeitherkw)
 - [chainW](#chainw)
 - [filterOrElse](#filterorelse)
 - [flatten](#flatten)
@@ -182,6 +184,18 @@ export declare function chainEitherK<E, A, B>(f: (a: A) => Either<E, B>): (ma: T
 
 Added in v2.4.0
 
+# chainEitherKW
+
+**Signature**
+
+```ts
+export declare const chainEitherKW: <D, A, B>(
+  f: (a: A) => E.Either<D, B>
+) => <E>(ma: TaskEither<E, A>) => TaskEither<D | E, B>
+```
+
+Added in v2.6.1
+
 # chainFirst
 
 **Signature**
@@ -201,6 +215,18 @@ export declare function chainIOEitherK<E, A, B>(f: (a: A) => IOEither<E, B>): (m
 ```
 
 Added in v2.4.0
+
+# chainIOEitherKW
+
+**Signature**
+
+```ts
+export declare const chainIOEitherKW: <D, A, B>(
+  f: (a: A) => IOEither<D, B>
+) => <E>(ma: TaskEither<E, A>) => TaskEither<D | E, B>
+```
+
+Added in v2.6.1
 
 # chainW
 

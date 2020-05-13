@@ -374,6 +374,27 @@ export const chainW: <Q, D, A, B>(
   f: (a: A) => ReaderTaskEither<Q, D, B>
 ) => <R, E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R & Q, E | D, B> = chain as any
 
+/**
+ * @since 2.6.1
+ */
+export const chainEitherKW: <D, A, B>(
+  f: (a: A) => Either<D, B>
+) => <R, E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E | D, B> = chainEitherK as any
+
+/**
+ * @since 2.6.1
+ */
+export const chainTaskEitherKW: <D, A, B>(
+  f: (a: A) => TaskEither<D, B>
+) => <R, E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E | D, B> = chainTaskEitherK as any
+
+/**
+ * @since 2.6.1
+ */
+export const chainIOEitherKW: <D, A, B>(
+  f: (a: A) => IOEither<D, B>
+) => <R, E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E | D, B> = chainIOEitherK as any
+
 export {
   /**
    * @since 2.0.0

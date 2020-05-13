@@ -24,6 +24,7 @@ Added in v2.0.0
 - [bimap](#bimap)
 - [chain](#chain)
 - [chainEitherK](#chaineitherk)
+- [chainEitherKW](#chaineitherkw)
 - [chainFirst](#chainfirst)
 - [chainW](#chainw)
 - [filterOrElse](#filterorelse)
@@ -186,6 +187,18 @@ export declare function chainEitherK<E, A, B>(
 ```
 
 Added in v2.4.0
+
+# chainEitherKW
+
+**Signature**
+
+```ts
+export declare const chainEitherKW: <D, A, B>(
+  f: (a: A) => E.Either<D, B>
+) => <R, E>(ma: ReaderEither<R, E, A>) => ReaderEither<R, D | E, B>
+```
+
+Added in v2.6.1
 
 # chainFirst
 

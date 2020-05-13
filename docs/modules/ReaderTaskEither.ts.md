@@ -25,9 +25,12 @@ Added in v2.0.0
 - [bracket](#bracket)
 - [chain](#chain)
 - [chainEitherK](#chaineitherk)
+- [chainEitherKW](#chaineitherkw)
 - [chainFirst](#chainfirst)
 - [chainIOEitherK](#chainioeitherk)
+- [chainIOEitherKW](#chainioeitherkw)
 - [chainTaskEitherK](#chaintaskeitherk)
+- [chainTaskEitherKW](#chaintaskeitherkw)
 - [chainW](#chainw)
 - [filterOrElse](#filterorelse)
 - [flatten](#flatten)
@@ -224,6 +227,18 @@ export declare function chainEitherK<E, A, B>(
 
 Added in v2.4.0
 
+# chainEitherKW
+
+**Signature**
+
+```ts
+export declare const chainEitherKW: <D, A, B>(
+  f: (a: A) => Either<D, B>
+) => <R, E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, D | E, B>
+```
+
+Added in v2.6.1
+
 # chainFirst
 
 **Signature**
@@ -248,6 +263,18 @@ export declare function chainIOEitherK<E, A, B>(
 
 Added in v2.4.0
 
+# chainIOEitherKW
+
+**Signature**
+
+```ts
+export declare const chainIOEitherKW: <D, A, B>(
+  f: (a: A) => IOEither<D, B>
+) => <R, E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, D | E, B>
+```
+
+Added in v2.6.1
+
 # chainTaskEitherK
 
 **Signature**
@@ -259,6 +286,18 @@ export declare function chainTaskEitherK<E, A, B>(
 ```
 
 Added in v2.4.0
+
+# chainTaskEitherKW
+
+**Signature**
+
+```ts
+export declare const chainTaskEitherKW: <D, A, B>(
+  f: (a: A) => TE.TaskEither<D, B>
+) => <R, E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, D | E, B>
+```
+
+Added in v2.6.1
 
 # chainW
 
