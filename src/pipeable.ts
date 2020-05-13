@@ -90,6 +90,22 @@ import {
 } from './Semigroupoid'
 
 /**
+ * Pipes the value of an expression into a pipeline of functions.
+ *
+ * See also [`flow`](https://gcanti.github.io/fp-ts/modules/function.ts.html#flow).
+ *
+ * @example
+ * import { pipe } from 'fp-ts/lib/pipeable'
+ *
+ * const len = (s: string): number => s.length
+ * const double = (n: number): number => n * 2
+ *
+ * // without pipe
+ * assert.strictEqual(double(len('aaa')), 6)
+ *
+ * // with pipe
+ * assert.strictEqual(pipe('aaa', len, double), 6)
+ *
  * @since 2.0.0
  */
 export function pipe<A>(a: A): A

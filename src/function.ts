@@ -125,7 +125,9 @@ export function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C {
 }
 
 /**
- * Function composition (from left to right).
+ * Performs left-to-right function composition. The first argument may have any arity, the remaining arguments must be unary.
+ *
+ * See also [`pipe`](https://gcanti.github.io/fp-ts/modules/pipeable.ts.html#pipe).
  *
  * @example
  * import { flow } from 'fp-ts/lib/function'

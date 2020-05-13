@@ -211,7 +211,9 @@ Added in v2.0.0
 
 # flow
 
-Function composition (from left to right).
+Performs left-to-right function composition. The first argument may have any arity, the remaining arguments must be unary.
+
+See also [`pipe`](https://gcanti.github.io/fp-ts/modules/pipeable.ts.html#pipe).
 
 **Signature**
 
