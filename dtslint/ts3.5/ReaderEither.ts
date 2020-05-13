@@ -1,5 +1,6 @@
 import * as _ from '../../src/ReaderEither'
 import * as R from '../../src/Reader'
+import * as E from '../../src/Either'
 import { pipe } from '../../src/pipeable'
 
 //
@@ -20,4 +21,14 @@ pipe(
 pipe(
   _.right<{ a: string }, string, string>('a'),
   _.chainW(() => _.right<{ b: number }, number, number>(1))
+)
+
+//
+// chainEitherKW
+//
+
+// $ExpectType ReaderEither<string, string | number, number>
+pipe(
+  _.right<string, string, string>('a'),
+  _.chainEitherKW(() => E.right<number, number>(1))
 )

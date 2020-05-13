@@ -20,10 +20,14 @@ Added in v2.0.0
 - [apSecond](#apsecond)
 - [chain](#chain)
 - [chainEitherK](#chaineitherk)
+- [chainEitherKW](#chaineitherkw)
 - [chainFirst](#chainfirst)
 - [chainIOEitherK](#chainioeitherk)
+- [chainIOEitherKW](#chainioeitherkw)
 - [chainReaderTaskEitherK](#chainreadertaskeitherk)
+- [chainReaderTaskEitherKW](#chainreadertaskeitherkw)
 - [chainTaskEitherK](#chaintaskeitherk)
+- [chainTaskEitherKW](#chaintaskeitherkw)
 - [chainW](#chainw)
 - [evalState](#evalstate)
 - [execState](#execstate)
@@ -153,6 +157,18 @@ export declare function chainEitherK<E, A, B>(
 
 Added in v2.4.0
 
+# chainEitherKW
+
+**Signature**
+
+```ts
+export declare const chainEitherKW: <D, A, B>(
+  f: (a: A) => Either<D, B>
+) => <S, R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, D | E, B>
+```
+
+Added in v2.6.1
+
 # chainFirst
 
 **Signature**
@@ -177,6 +193,18 @@ export declare function chainIOEitherK<E, A, B>(
 
 Added in v2.4.0
 
+# chainIOEitherKW
+
+**Signature**
+
+```ts
+export declare const chainIOEitherKW: <R, D, A, B>(
+  f: (a: A) => IOEither<D, B>
+) => <S, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, D | E, B>
+```
+
+Added in v2.6.1
+
 # chainReaderTaskEitherK
 
 **Signature**
@@ -189,6 +217,18 @@ export declare function chainReaderTaskEitherK<R, E, A, B>(
 
 Added in v2.4.0
 
+# chainReaderTaskEitherKW
+
+**Signature**
+
+```ts
+export declare const chainReaderTaskEitherKW: <R, D, A, B>(
+  f: (a: A) => RTE.ReaderTaskEither<R, D, B>
+) => <S, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, D | E, B>
+```
+
+Added in v2.6.1
+
 # chainTaskEitherK
 
 **Signature**
@@ -200,6 +240,18 @@ export declare function chainTaskEitherK<E, A, B>(
 ```
 
 Added in v2.4.0
+
+# chainTaskEitherKW
+
+**Signature**
+
+```ts
+export declare const chainTaskEitherKW: <D, A, B>(
+  f: (a: A) => TaskEither<D, B>
+) => <S, R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, D | E, B>
+```
+
+Added in v2.6.1
 
 # chainW
 

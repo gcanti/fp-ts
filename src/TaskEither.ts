@@ -369,6 +369,20 @@ export const chainW: <D, A, B>(
   f: (a: A) => TaskEither<D, B>
 ) => <E>(ma: TaskEither<E, A>) => TaskEither<E | D, B> = chain as any
 
+/**
+ * @since 2.6.1
+ */
+export const chainEitherKW: <D, A, B>(
+  f: (a: A) => Either<D, B>
+) => <E>(ma: TaskEither<E, A>) => TaskEither<E | D, B> = chainEitherK as any
+
+/**
+ * @since 2.6.1
+ */
+export const chainIOEitherKW: <D, A, B>(
+  f: (a: A) => IOEither<D, B>
+) => <E>(ma: TaskEither<E, A>) => TaskEither<E | D, B> = chainIOEitherK as any
+
 export {
   /**
    * @since 2.0.0

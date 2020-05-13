@@ -218,6 +218,13 @@ export const chainW: <Q, D, A, B>(
   f: (a: A) => ReaderEither<Q, D, B>
 ) => <R, E>(ma: ReaderEither<R, E, A>) => ReaderEither<R & Q, E | D, B> = chain as any
 
+/**
+ * @since 2.6.1
+ */
+export const chainEitherKW: <D, A, B>(
+  f: (a: A) => Either<D, B>
+) => <R, E>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E | D, B> = chainEitherK as any
+
 export {
   /**
    * @since 2.0.0
