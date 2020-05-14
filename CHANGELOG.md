@@ -14,7 +14,7 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
-# 2.6.0
+# 2.6.1
 
 - **New Feature**
   - add W variants, closes #904 (@gcanti)
@@ -30,6 +30,7 @@ high state of flux, you're at risk of it changing without notice.
   - `IOEither`
     - add `getOrElseW` (@gcanti)
     - add `chainW` (@gcanti)
+    - add `chainEitherKW` (@giogonzo)
   - `Option`
     - add `getOrElseW` (@gcanti)
   - `Reader`
@@ -37,14 +38,24 @@ high state of flux, you're at risk of it changing without notice.
   - `ReaderEither`
     - add `getOrElseW` (@gcanti)
     - add `chainW` (@gcanti)
+    - add `chainEitherKW` (@giogonzo)
   - `ReaderTaskEither`
     - add `getOrElseW` (@gcanti)
     - add `chainW` (@gcanti)
+    - add `chainEitherKW` (@giogonzo)
+    - add `chainTaskEitherKW` (@giogonzo)
+    - add `chainIOEitherKW` (@giogonzo)
   - `StateReaderTaskEither`
     - add `chainW` (@gcanti)
+    - add `chainEitherKW` (@giogonzo)
+    - add `chainTaskEitherKW` (@giogonzo)
+    - add `chainReaderTaskEitherKW` (@giogonzo)
+    - add `chainIOEitherKW` (@giogonzo)
   - `TaskEither`
     - add `getOrElseW` (@gcanti)
     - add `chainW` (@gcanti)
+    - add `chainEitherKW` (@giogonzo)
+    - add `chainIOEitherKW` (@giogonzo)
   - `Tree`
     - add `fold` function (@gcanti)
 

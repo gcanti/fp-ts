@@ -92,7 +92,7 @@ in `sequenceT` means *T*uple, I borrowed the name from the corresponding [Haskel
 
 However usually it means *T*ransformer like in "monad transformers" (e.g. `OptionT`, `EitherT`, `ReaderT`, `StateT`)
 
-### What a `K` suffix means, e.g. `fromEitherK` vs `chainEitherK`
+### What a `K` suffix means, e.g. `fromEitherK` or `chainEitherK`
 
 `K` means *K*leisli. A _Kleisli arrow_ is a function with the following signature
 
@@ -146,4 +146,25 @@ pipe(input, IE.chain(IE.fromEitherK(parse)))() // left(new Error('cannot decode 
 
 // or with less boilerplate
 pipe(input, IE.chainEitherK(parse))() // left(new Error('cannot decode "foo" to number'))
+```
+
+### What a `W` suffix means, e.g. `chainW` or `chainEitherKW`
+
+`W` means *W*iden. Functions that end with `W` are able to aggregate errors into a union (for `Either` based data types) or environments into an intersection (for `Reader` based data types).
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/lib/Either'
+import * as TE from 'fp-ts/lib/TaskEither'
+import { pipe } from 'fp-ts/lib/pipeable'
+
+declare function parseString(s: string): E.Either<string, number>
+declare function fetchUser(id: number): TE.TaskEither<Error, User>
+
+// this raises an error because: Type 'string' is not assignable to type 'Error'
+const program_ = (s: string) => pipe(s, TE.fromEitherK(parseString), TE.chain(fetchUser))
+
+// const program: (s: string) => TE.TaskEither<string | Error, User>
+const program = (s: string) => pipe(s, TE.fromEitherK(parseString), TE.chainW(fetchUser))
 ```
