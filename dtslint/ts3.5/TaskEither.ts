@@ -43,3 +43,11 @@ pipe(
   _.right<string, string>('a'),
   _.chainIOEitherKW(() => IOE.right<number, number>(1))
 )
+
+//
+// taskify
+//
+
+declare function apiForTaskify(path: string, callback: (err: Error | null | undefined, result?: string) => void): void
+
+_.taskify(apiForTaskify) // $ExpectType (a: string) => TaskEither<Error, string>

@@ -1,5 +1,7 @@
 import * as _ from '../../src/Either'
 import { pipe } from '../../src/pipeable'
+import { flow } from '../../src/function'
+import { monoidAll } from '../../src/Monoid'
 
 //
 // getOrElseW
@@ -20,3 +22,25 @@ pipe(
   _.right<string, string>('a'),
   _.chainW(() => _.right<number, number>(1))
 )
+
+//
+// fromNullable
+//
+
+interface D {
+  foo: number | undefined
+}
+declare const f: <K extends keyof D>(key: K) => D[K]
+
+// $ExpectType Either<string, number>
+flow(f, _.fromNullable('error'))('foo')
+
+//
+// Witherable overlodings
+//
+
+declare function isString(x: unknown): x is string
+const W = _.getWitherable(monoidAll)
+
+W.filter(_.right<boolean, string | number>(1), isString) // $ExpectType Either<boolean, string>
+W.partition(_.right<boolean, string | number>(1), isString) // $ExpectType Separated<Either<boolean, string | number>, Either<boolean, string>>

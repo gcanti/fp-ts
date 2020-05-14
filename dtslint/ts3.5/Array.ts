@@ -23,3 +23,12 @@ _.zipWith(ns, ss, (n, s) => [n, s] as const) // $ExpectType (readonly [number, s
 
 _.unzip(tns) // $ExpectType [number[], string[]]
 pipe(tns, _.unzip) // $ExpectType [number[], string[]]
+
+//
+// Filterable overlodings
+//
+
+declare function isStringWithIndex(i: number, x: unknown): x is string
+
+_.array.filterWithIndex([] as Array<string | number>, isStringWithIndex) // $ExpectType string[]
+_.array.partitionWithIndex([] as Array<string | number>, isStringWithIndex) // $ExpectType Separated<(string | number)[], string[]>
