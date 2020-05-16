@@ -48,22 +48,29 @@ Added in v2.0.0
 - [URI (type alias)](#uri-type-alias)
 - [URI](#uri)
 - [alt](#alt)
+- [alt\_](#alt_)
 - [ap](#ap)
 - [apFirst](#apfirst)
 - [apSecond](#apsecond)
+- [ap\_](#ap_)
 - [bimap](#bimap)
+- [bimap\_](#bimap_)
 - [chain](#chain)
 - [chainFirst](#chainfirst)
+- [chainRec\_](#chainrec_)
 - [chainW](#chainw)
+- [chain\_](#chain_)
 - [duplicate](#duplicate)
 - [either](#either)
 - [elem](#elem)
 - [exists](#exists)
 - [extend](#extend)
+- [extend\_](#extend_)
 - [filterOrElse](#filterorelse)
 - [flatten](#flatten)
 - [fold](#fold)
 - [foldMap](#foldmap)
+- [foldMap\_](#foldmap_)
 - [fromNullable](#fromnullable)
 - [fromOption](#fromoption)
 - [fromPredicate](#frompredicate)
@@ -83,14 +90,20 @@ Added in v2.0.0
 - [left](#left)
 - [map](#map)
 - [mapLeft](#mapleft)
+- [mapLeft\_](#mapleft_)
+- [map\_](#map_)
 - [orElse](#orelse)
 - [parseJSON](#parsejson)
 - [reduce](#reduce)
 - [reduceRight](#reduceright)
+- [reduceRight\_](#reduceright_)
+- [reduce\_](#reduce_)
 - [right](#right)
+- [sequence\_](#sequence_)
 - [stringifyJSON](#stringifyjson)
 - [swap](#swap)
 - [toError](#toerror)
+- [traverse\_](#traverse_)
 - [tryCatch](#trycatch)
 
 ---
@@ -161,6 +174,16 @@ export declare const alt: <E, A>(that: () => Either<E, A>) => (fa: Either<E, A>)
 
 Added in v2.0.0
 
+# alt\_
+
+**Signature**
+
+```ts
+export declare const alt_: <E, A>(fx: Either<E, A>, fy: () => Either<E, A>) => Either<E, A>
+```
+
+Added in v2.7.0
+
 # ap
 
 **Signature**
@@ -191,6 +214,16 @@ export declare const apSecond: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>)
 
 Added in v2.0.0
 
+# ap\_
+
+**Signature**
+
+```ts
+export declare const ap_: <E, A, B>(fab: Either<E, (a: A) => B>, fa: Either<E, A>) => Either<E, B>
+```
+
+Added in v2.7.0
+
 # bimap
 
 **Signature**
@@ -200,6 +233,16 @@ export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa:
 ```
 
 Added in v2.0.0
+
+# bimap\_
+
+**Signature**
+
+```ts
+export declare const bimap_: <E, A, G, B>(fea: Either<E, A>, f: (e: E) => G, g: (a: A) => B) => Either<G, B>
+```
+
+Added in v2.7.0
 
 # chain
 
@@ -221,6 +264,16 @@ export declare const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Ei
 
 Added in v2.0.0
 
+# chainRec\_
+
+**Signature**
+
+```ts
+export declare const chainRec_: <E, A, B>(a: A, f: (a: A) => Either<E, Either<A, B>>) => Either<E, B>
+```
+
+Added in v2.7.0
+
 # chainW
 
 **Signature**
@@ -230,6 +283,16 @@ export declare const chainW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Eit
 ```
 
 Added in v2.6.0
+
+# chain\_
+
+**Signature**
+
+```ts
+export declare const chain_: <E, A, B>(fa: Either<E, A>, f: (a: A) => Either<E, B>) => Either<E, B>
+```
+
+Added in v2.7.0
 
 # duplicate
 
@@ -302,13 +365,23 @@ export declare const extend: <E, A, B>(f: (fa: Either<E, A>) => B) => (ma: Eithe
 
 Added in v2.0.0
 
+# extend\_
+
+**Signature**
+
+```ts
+export declare const extend_: <E, A, B>(wa: Either<E, A>, f: (wa: Either<E, A>) => B) => Either<E, B>
+```
+
+Added in v2.7.0
+
 # filterOrElse
 
 **Signature**
 
 ```ts
 export declare const filterOrElse: {
-  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
 }
 ```
@@ -366,6 +439,16 @@ export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa
 
 Added in v2.0.0
 
+# foldMap\_
+
+**Signature**
+
+```ts
+export declare const foldMap_: <M>(M: Monoid<M>) => <E, A>(fa: Either<E, A>, f: (a: A) => M) => M
+```
+
+Added in v2.7.0
+
 # fromNullable
 
 Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
@@ -406,7 +489,7 @@ Added in v2.0.0
 
 ```ts
 export declare const fromPredicate: {
-  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Either<E, B>
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Either<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A>
 }
 ```
@@ -623,6 +706,26 @@ export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) =>
 
 Added in v2.0.0
 
+# mapLeft\_
+
+**Signature**
+
+```ts
+export declare const mapLeft_: <E, A, G>(fea: Either<E, A>, f: (e: E) => G) => Either<G, A>
+```
+
+Added in v2.7.0
+
+# map\_
+
+**Signature**
+
+```ts
+export declare const map_: <E, A, B>(fa: Either<E, A>, f: (a: A) => B) => Either<E, B>
+```
+
+Added in v2.7.0
+
 # orElse
 
 **Signature**
@@ -674,6 +777,26 @@ export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: 
 
 Added in v2.0.0
 
+# reduceRight\_
+
+**Signature**
+
+```ts
+export declare const reduceRight_: <E, A, B>(fa: Either<E, A>, b: B, f: (a: A, b: B) => B) => B
+```
+
+Added in v2.7.0
+
+# reduce\_
+
+**Signature**
+
+```ts
+export declare const reduce_: <E, A, B>(fa: Either<E, A>, b: B, f: (b: B, a: A) => B) => B
+```
+
+Added in v2.7.0
+
 # right
 
 Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
@@ -686,6 +809,16 @@ export declare function right<E = never, A = never>(a: A): Either<E, A>
 ```
 
 Added in v2.0.0
+
+# sequence\_
+
+**Signature**
+
+```ts
+export declare const sequence_: Sequence2<'Either'>
+```
+
+Added in v2.7.0
 
 # stringifyJSON
 
@@ -738,6 +871,16 @@ export declare function toError(e: unknown): Error
 ```
 
 Added in v2.0.0
+
+# traverse\_
+
+**Signature**
+
+```ts
+export declare const traverse_: Traverse2<'Either'>
+```
+
+Added in v2.7.0
 
 # tryCatch
 

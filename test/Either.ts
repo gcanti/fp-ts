@@ -205,6 +205,104 @@ describe('Either', () => {
     })
   })
 
+  describe('Pipeable', () => {
+    it('alt', () => {
+      const l = pipe(
+        _.left('a'),
+        _.alt(() => _.right('b'))
+      )
+      const r = pipe(
+        _.right('a'),
+        _.alt(() => _.right('b'))
+      )
+      assert.deepStrictEqual(l, _.right('b'))
+      assert.deepStrictEqual(r, _.right('a'))
+    })
+    it('ap', () => {
+      const f = (s: string): number => s.length
+      assert.deepStrictEqual(pipe(_.right(f), _.ap(_.right('abc'))), _.right(3))
+    })
+    it('apFirst', () => {
+      assert.deepStrictEqual(pipe(_.right(0), _.apFirst(_.right('abc'))), _.right(0))
+    })
+    it('apSecond', () => {
+      assert.deepStrictEqual(pipe(_.right(0), _.apSecond(_.right('abc'))), _.right('abc'))
+    })
+    it('bimap', () => {
+      assert.deepStrictEqual(pipe(_.right(0), _.bimap(identity, identity)), _.right(0))
+      assert.deepStrictEqual(pipe(_.left(0), _.bimap(identity, identity)), _.left(0))
+    })
+    it('chain', () => {
+      assert.deepStrictEqual(
+        pipe(
+          _.right(0),
+          _.chain((n) => _.right(n + 1))
+        ),
+        _.right(1)
+      )
+    })
+    it('chainFirst', () => {
+      assert.deepStrictEqual(
+        pipe(
+          _.right(0),
+          _.chainFirst((n) => _.right(n + 1))
+        ),
+        _.right(0)
+      )
+    })
+    it('duplicate', () => {
+      assert.deepStrictEqual(pipe(_.right(0), _.duplicate), _.right(_.right(0)))
+    })
+    it('extend', () => {
+      assert.deepStrictEqual(
+        pipe(
+          _.right(0),
+          _.extend(() => 1)
+        ),
+        _.right(1)
+      )
+    })
+    it('flatten', () => {
+      assert.deepStrictEqual(pipe(_.right(_.right(0)), _.flatten), _.right(0))
+    })
+    it('foldMap', () => {
+      assert.deepStrictEqual(
+        pipe(
+          _.right('a'),
+          _.foldMap(monoidSum)((s) => s.length)
+        ),
+        1
+      )
+    })
+    it('map', () => {
+      assert.deepStrictEqual(
+        pipe(
+          _.right(0),
+          _.map((n) => n + 1)
+        ),
+        _.right(1)
+      )
+    })
+    it('reduce', () => {
+      assert.deepStrictEqual(
+        pipe(
+          _.right('a'),
+          _.reduce(0, (n, s) => n + s.length)
+        ),
+        1
+      )
+    })
+    it('reduceRight', () => {
+      assert.deepStrictEqual(
+        pipe(
+          _.right('a'),
+          _.reduceRight(0, (s, n) => n + s.length)
+        ),
+        1
+      )
+    })
+  })
+
   describe('Bifunctor', () => {
     it('bimap', () => {
       const f = (s: string): number => s.length
