@@ -17,6 +17,7 @@ Added in v2.5.0
 - [ReadonlyNonEmptyArray (interface)](#readonlynonemptyarray-interface)
 - [URI (type alias)](#uri-type-alias)
 - [URI](#uri)
+- [alt](#alt)
 - [ap](#ap)
 - [apFirst](#apfirst)
 - [apSecond](#apsecond)
@@ -97,6 +98,18 @@ export declare const URI: 'ReadonlyNonEmptyArray'
 ```
 
 Added in v2.5.0
+
+# alt
+
+**Signature**
+
+```ts
+export declare const alt: <A>(
+  that: () => ReadonlyNonEmptyArray<A>
+) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.6.2
 
 # ap
 

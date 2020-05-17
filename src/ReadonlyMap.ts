@@ -678,7 +678,14 @@ export const readonlyMap: Filterable2<URI> = {
   partitionMap: (fa, f) => _partitionMapWithIndex(fa, (_, a) => f(a))
 }
 
-const { filter, filterMap, map, partition, partitionMap, compact, separate } = pipeable(readonlyMap)
+const pipeables = /*#__PURE__*/ pipeable(readonlyMap)
+const filter = /*#__PURE__*/ (() => pipeables.filter)()
+const filterMap = /*#__PURE__*/ (() => pipeables.filterMap)()
+const map = /*#__PURE__*/ (() => pipeables.map)()
+const partition = /*#__PURE__*/ (() => pipeables.partition)()
+const partitionMap = /*#__PURE__*/ (() => pipeables.partitionMap)()
+const compact = /*#__PURE__*/ (() => pipeables.compact)()
+const separate = /*#__PURE__*/ (() => pipeables.separate)()
 
 export {
   /**

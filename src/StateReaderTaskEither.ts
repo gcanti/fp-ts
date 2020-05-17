@@ -20,7 +20,7 @@ import { TaskEither } from './TaskEither'
 
 import ReaderTaskEither = RTE.ReaderTaskEither
 
-const T = getStateM(RTE.readerTaskEither)
+const T = /*#__PURE__*/ getStateM(RTE.readerTaskEither)
 
 declare module './HKT' {
   interface URItoKind4<S, R, E, A> {
@@ -292,19 +292,21 @@ export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
   ap: (mab, ma) => stateReaderTaskEither.chain(mab, (f) => stateReaderTaskEither.map(ma, f))
 }
 
-const {
-  ap,
-  apFirst,
-  apSecond,
-  chain,
-  chainFirst,
-  flatten,
-  map,
-  fromEither,
-  fromOption,
-  filterOrElse,
-  fromPredicate
-} = pipeable(stateReaderTaskEither)
+const pipeables = /*#__PURE__*/ pipeable(stateReaderTaskEither)
+const alt = /*#__PURE__*/ (() => pipeables.alt)()
+const ap = /*#__PURE__*/ (() => pipeables.ap)()
+const apFirst = /*#__PURE__*/ (() => pipeables.apFirst)()
+const apSecond = /*#__PURE__*/ (() => pipeables.apSecond)()
+const bimap = /*#__PURE__*/ (() => pipeables.bimap)()
+const chain = /*#__PURE__*/ (() => pipeables.chain)()
+const chainFirst = /*#__PURE__*/ (() => pipeables.chainFirst)()
+const flatten = /*#__PURE__*/ (() => pipeables.flatten)()
+const map = /*#__PURE__*/ (() => pipeables.map)()
+const mapLeft = /*#__PURE__*/ (() => pipeables.mapLeft)()
+const fromEither = /*#__PURE__*/ (() => pipeables.fromEither)()
+const fromOption = /*#__PURE__*/ (() => pipeables.fromOption)()
+const fromPredicate = /*#__PURE__*/ (() => pipeables.fromPredicate)()
+const filterOrElse = /*#__PURE__*/ (() => pipeables.filterOrElse)()
 
 /**
  * @since 2.6.0
@@ -345,6 +347,10 @@ export const chainIOEitherKW: <R, D, A, B>(
 
 export {
   /**
+   * @since 2.6.2
+   */
+  alt,
+  /**
    * @since 2.0.0
    */
   ap,
@@ -356,6 +362,10 @@ export {
    * @since 2.0.0
    */
   apSecond,
+  /**
+   * @since 2.6.2
+   */
+  bimap,
   /**
    * @since 2.0.0
    */
@@ -372,6 +382,10 @@ export {
    * @since 2.0.0
    */
   map,
+  /**
+   * @since 2.6.2
+   */
+  mapLeft,
   /**
    * @since 2.0.0
    */

@@ -376,7 +376,13 @@ export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversab
   }
 }
 
-const { bimap, foldMap, map, mapLeft, reduce, reduceRight } = pipeable(these)
+const pipeables = /*#__PURE__*/ pipeable(these)
+const bimap = /*#__PURE__*/ (() => pipeables.bimap)()
+const foldMap = /*#__PURE__*/ (() => pipeables.foldMap)()
+const map = /*#__PURE__*/ (() => pipeables.map)()
+const mapLeft = /*#__PURE__*/ (() => pipeables.mapLeft)()
+const reduce = /*#__PURE__*/ (() => pipeables.reduce)()
+const reduceRight = /*#__PURE__*/ (() => pipeables.reduceRight)()
 
 export {
   /**

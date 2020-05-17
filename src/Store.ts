@@ -99,7 +99,10 @@ export const store: Comonad2<URI> = {
   })
 }
 
-const { duplicate, extend, map } = pipeable(store)
+const pipeables = /*#__PURE__*/ pipeable(store)
+const duplicate = /*#__PURE__*/ (() => pipeables.duplicate)()
+const extend = /*#__PURE__*/ (() => pipeables.extend)()
+const map = /*#__PURE__*/ (() => pipeables.map)()
 
 export {
   /**

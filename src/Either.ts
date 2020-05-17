@@ -575,26 +575,25 @@ export const either: Monad2<URI> &
   throwError: left
 }
 
-const {
-  alt,
-  ap,
-  apFirst,
-  apSecond,
-  bimap,
-  chain,
-  chainFirst,
-  duplicate,
-  extend,
-  flatten,
-  foldMap,
-  map,
-  mapLeft,
-  reduce,
-  reduceRight,
-  fromOption,
-  fromPredicate,
-  filterOrElse
-} = pipeable(either)
+const pipeables = /*#__PURE__*/ pipeable(either)
+const alt = /*#__PURE__*/ (() => pipeables.alt)()
+const ap = /*#__PURE__*/ (() => pipeables.ap)()
+const apFirst = /*#__PURE__*/ (() => pipeables.apFirst)()
+const apSecond = /*#__PURE__*/ (() => pipeables.apSecond)()
+const bimap = /*#__PURE__*/ (() => pipeables.bimap)()
+const chain = /*#__PURE__*/ (() => pipeables.chain)()
+const chainFirst = /*#__PURE__*/ (() => pipeables.chainFirst)()
+const duplicate = /*#__PURE__*/ (() => pipeables.duplicate)()
+const extend = /*#__PURE__*/ (() => pipeables.extend)()
+const flatten = /*#__PURE__*/ (() => pipeables.flatten)()
+const foldMap = /*#__PURE__*/ (() => pipeables.foldMap)()
+const map = /*#__PURE__*/ (() => pipeables.map)()
+const mapLeft = /*#__PURE__*/ (() => pipeables.mapLeft)()
+const reduce = /*#__PURE__*/ (() => pipeables.reduce)()
+const reduceRight = /*#__PURE__*/ (() => pipeables.reduceRight)()
+const fromOption = /*#__PURE__*/ (() => pipeables.fromOption)()
+const fromPredicate = /*#__PURE__*/ (() => pipeables.fromPredicate)()
+const filterOrElse = /*#__PURE__*/ (() => pipeables.filterOrElse)()
 
 /**
  * @since 2.6.0

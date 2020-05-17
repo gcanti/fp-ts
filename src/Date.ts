@@ -2,7 +2,7 @@
  * @since 2.0.0
  */
 import { IO } from './IO'
-import { eqNumber, contramap, Eq } from './Eq'
+import { Eq } from './Eq'
 
 /**
  * Returns the current `Date`
@@ -21,14 +21,20 @@ export const now: IO<number> = () => new Date().getTime()
 /**
  * @since 2.6.0
  */
-export const eqDate: Eq<Date> = contramap((x: Date) => x.getDate())(eqNumber)
+export const eqDate: Eq<Date> = {
+  equals: (x, y) => x.getDate() === y.getDate()
+}
 
 /**
  * @since 2.6.0
  */
-export const eqMonth: Eq<Date> = contramap((x: Date) => x.getMonth())(eqNumber)
+export const eqMonth: Eq<Date> = {
+  equals: (x, y) => x.getMonth() === y.getMonth()
+}
 
 /**
  * @since 2.6.0
  */
-export const eqYear: Eq<Date> = contramap((x: Date) => x.getFullYear())(eqNumber)
+export const eqYear: Eq<Date> = {
+  equals: (x, y) => x.getFullYear() === y.getFullYear()
+}

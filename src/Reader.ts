@@ -14,7 +14,7 @@ import { Semigroup } from './Semigroup'
 import { Strong2 } from './Strong'
 import { pipeable } from './pipeable'
 
-const T = getReaderM(identity)
+const T = /*#__PURE__*/ getReaderM(identity)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -107,7 +107,16 @@ export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<U
     E.fold<A, B, E.Either<A, C>>(E.left, (b) => E.right(pbc(b)))
 }
 
-const { ap, apFirst, apSecond, chain, chainFirst, compose, flatten, map, promap } = pipeable(reader)
+const pipeables = /*#__PURE__*/ pipeable(reader)
+const ap = /*#__PURE__*/ (() => pipeables.ap)()
+const apFirst = /*#__PURE__*/ (() => pipeables.apFirst)()
+const apSecond = /*#__PURE__*/ (() => pipeables.apSecond)()
+const chain = /*#__PURE__*/ (() => pipeables.chain)()
+const chainFirst = /*#__PURE__*/ (() => pipeables.chainFirst)()
+const compose = /*#__PURE__*/ (() => pipeables.compose)()
+const flatten = /*#__PURE__*/ (() => pipeables.flatten)()
+const map = /*#__PURE__*/ (() => pipeables.map)()
+const promap = /*#__PURE__*/ (() => pipeables.promap)()
 
 /**
  * @since 2.6.0

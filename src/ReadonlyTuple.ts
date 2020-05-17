@@ -154,7 +154,16 @@ export const readonlyTuple: Semigroupoid2<URI> &
   }
 }
 
-const { bimap, compose, duplicate, extend, foldMap, map, mapLeft, reduce, reduceRight } = pipeable(readonlyTuple)
+const pipeables = /*#__PURE__*/ pipeable(readonlyTuple)
+const bimap = /*#__PURE__*/ (() => pipeables.bimap)()
+const compose = /*#__PURE__*/ (() => pipeables.compose)()
+const duplicate = /*#__PURE__*/ (() => pipeables.duplicate)()
+const extend = /*#__PURE__*/ (() => pipeables.extend)()
+const foldMap = /*#__PURE__*/ (() => pipeables.foldMap)()
+const map = /*#__PURE__*/ (() => pipeables.map)()
+const mapLeft = /*#__PURE__*/ (() => pipeables.mapLeft)()
+const reduce = /*#__PURE__*/ (() => pipeables.reduce)()
+const reduceRight = /*#__PURE__*/ (() => pipeables.reduceRight)()
 
 export {
   /**

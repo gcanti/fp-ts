@@ -305,49 +305,36 @@ export const nonEmptyArray: Monad1<URI> &
   TraversableWithIndex1<URI, number> &
   FunctorWithIndex1<URI, number> &
   FoldableWithIndex1<URI, number> &
-  Alt1<URI> = {
-  URI,
-  map: RNEA.readonlyNonEmptyArray.map as any,
-  mapWithIndex: RNEA.readonlyNonEmptyArray.mapWithIndex as any,
-  of,
-  ap: RNEA.readonlyNonEmptyArray.ap as any,
-  chain: RNEA.readonlyNonEmptyArray.chain as any,
-  extend: RNEA.readonlyNonEmptyArray.extend as any,
-  extract: head,
-  reduce: RNEA.readonlyNonEmptyArray.reduce,
-  foldMap: RNEA.readonlyNonEmptyArray.foldMap,
-  reduceRight: RNEA.readonlyNonEmptyArray.reduceRight,
-  traverse: RNEA.readonlyNonEmptyArray.traverse as any,
-  sequence: RNEA.readonlyNonEmptyArray.sequence as any,
-  reduceWithIndex: RNEA.readonlyNonEmptyArray.reduceWithIndex,
-  foldMapWithIndex: RNEA.readonlyNonEmptyArray.foldMapWithIndex,
-  reduceRightWithIndex: RNEA.readonlyNonEmptyArray.reduceRightWithIndex,
-  traverseWithIndex: RNEA.readonlyNonEmptyArray.traverseWithIndex as any,
-  alt: RNEA.readonlyNonEmptyArray.alt as any
-}
+  Alt1<URI> =
+  /*#__PURE__*/
+  (() => Object.assign({}, RNEA.readonlyNonEmptyArray, { URI }) as any)()
 
-const {
-  ap,
-  apFirst,
-  apSecond,
-  chain,
-  chainFirst,
-  duplicate,
-  extend,
-  flatten,
-  map,
-  mapWithIndex,
-  reduce,
-  reduceRight,
-  reduceRightWithIndex,
-  reduceWithIndex
-} = pipeable(nonEmptyArray)
+const pipeables = /*#__PURE__*/ pipeable(nonEmptyArray)
+const alt = /*#__PURE__*/ (() => pipeables.alt)()
+const ap = /*#__PURE__*/ (() => pipeables.ap)()
+const apFirst = /*#__PURE__*/ (() => pipeables.apFirst)()
+const apSecond = /*#__PURE__*/ (() => pipeables.apSecond)()
+const chain = /*#__PURE__*/ (() => pipeables.chain)()
+const chainFirst = /*#__PURE__*/ (() => pipeables.chainFirst)()
+const duplicate = /*#__PURE__*/ (() => pipeables.duplicate)()
+const extend = /*#__PURE__*/ (() => pipeables.extend)()
+const flatten = /*#__PURE__*/ (() => pipeables.flatten)()
+const map = /*#__PURE__*/ (() => pipeables.map)()
+const mapWithIndex = /*#__PURE__*/ (() => pipeables.mapWithIndex)()
+const reduce = /*#__PURE__*/ (() => pipeables.reduce)()
+const reduceWithIndex = /*#__PURE__*/ (() => pipeables.reduceWithIndex)()
+const reduceRight = /*#__PURE__*/ (() => pipeables.reduceRight)()
+const reduceRightWithIndex = /*#__PURE__*/ (() => pipeables.reduceRightWithIndex)()
 
-const foldMapWithIndex = RNEA.foldMapWithIndex
-
-const foldMap = RNEA.foldMap
+// from RNEA
+const foldMapWithIndex = /*#__PURE__*/ (() => RNEA.foldMapWithIndex)()
+const foldMap = /*#__PURE__*/ (() => RNEA.foldMap)()
 
 export {
+  /**
+   * @since 2.6.2
+   */
+  alt,
   /**
    * @since 2.0.0
    */

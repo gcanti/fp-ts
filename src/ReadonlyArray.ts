@@ -8,7 +8,6 @@ import { Either } from './Either'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { FilterableWithIndex1 } from './FilterableWithIndex'
-import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { Predicate, Refinement, identity } from './function'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
@@ -1346,7 +1345,6 @@ export const of = <A>(a: A): ReadonlyArray<A> => [a]
  * @since 2.5.0
  */
 export const readonlyArray: Monad1<URI> &
-  Foldable1<URI> &
   Unfoldable1<URI> &
   TraversableWithIndex1<URI, number> &
   Alternative1<URI> &
@@ -1542,34 +1540,33 @@ export const readonlyArray: Monad1<URI> &
   }
 }
 
-const {
-  alt,
-  ap,
-  apFirst,
-  apSecond,
-  chain,
-  chainFirst,
-  duplicate,
-  extend,
-  filter,
-  filterMap,
-  filterMapWithIndex,
-  filterWithIndex,
-  foldMap,
-  foldMapWithIndex,
-  map,
-  mapWithIndex,
-  partition,
-  partitionMap,
-  partitionMapWithIndex,
-  partitionWithIndex,
-  reduce,
-  reduceRight,
-  reduceRightWithIndex,
-  reduceWithIndex,
-  compact,
-  separate
-} = pipeable(readonlyArray)
+const pipeables = /*#__PURE__*/ pipeable(readonlyArray)
+const alt = /*#__PURE__*/ (() => pipeables.alt)()
+const ap = /*#__PURE__*/ (() => pipeables.ap)()
+const apFirst = /*#__PURE__*/ (() => pipeables.apFirst)()
+const apSecond = /*#__PURE__*/ (() => pipeables.apSecond)()
+const chain = /*#__PURE__*/ (() => pipeables.chain)()
+const chainFirst = /*#__PURE__*/ (() => pipeables.chainFirst)()
+const duplicate = /*#__PURE__*/ (() => pipeables.duplicate)()
+const extend = /*#__PURE__*/ (() => pipeables.extend)()
+const filter = /*#__PURE__*/ (() => pipeables.filter)()
+const filterMap = /*#__PURE__*/ (() => pipeables.filterMap)()
+const filterMapWithIndex = /*#__PURE__*/ (() => pipeables.filterMapWithIndex)()
+const filterWithIndex = /*#__PURE__*/ (() => pipeables.filterWithIndex)()
+const foldMap = /*#__PURE__*/ (() => pipeables.foldMap)()
+const foldMapWithIndex = /*#__PURE__*/ (() => pipeables.foldMapWithIndex)()
+const map = /*#__PURE__*/ (() => pipeables.map)()
+const mapWithIndex = /*#__PURE__*/ (() => pipeables.mapWithIndex)()
+const partition = /*#__PURE__*/ (() => pipeables.partition)()
+const partitionWithIndex = /*#__PURE__*/ (() => pipeables.partitionWithIndex)()
+const partitionMap = /*#__PURE__*/ (() => pipeables.partitionMap)()
+const partitionMapWithIndex = /*#__PURE__*/ (() => pipeables.partitionMapWithIndex)()
+const reduce = /*#__PURE__*/ (() => pipeables.reduce)()
+const reduceWithIndex = /*#__PURE__*/ (() => pipeables.reduceWithIndex)()
+const reduceRight = /*#__PURE__*/ (() => pipeables.reduceRight)()
+const reduceRightWithIndex = /*#__PURE__*/ (() => pipeables.reduceRightWithIndex)()
+const compact = /*#__PURE__*/ (() => pipeables.compact)()
+const separate = /*#__PURE__*/ (() => pipeables.separate)()
 
 export {
   /**

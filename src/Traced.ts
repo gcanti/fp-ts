@@ -98,7 +98,8 @@ export const traced: Functor2<URI> = {
   map: (wa, f) => (p) => f(wa(p))
 }
 
-const { map } = pipeable(traced)
+const pipeables = /*#__PURE__*/ pipeable(traced)
+const map = /*#__PURE__*/ (() => pipeables.map)()
 
 export {
   /**
