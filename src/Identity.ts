@@ -69,21 +69,20 @@ export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<U
   chainRec: tailRec
 }
 
-const {
-  alt,
-  ap,
-  apFirst,
-  apSecond,
-  chain,
-  chainFirst,
-  duplicate,
-  extend,
-  flatten,
-  foldMap,
-  map,
-  reduce,
-  reduceRight
-} = pipeable(identity)
+const pipeables = /*#__PURE__*/ pipeable(identity)
+const alt = /*#__PURE__*/ (() => pipeables.alt)()
+const ap = /*#__PURE__*/ (() => pipeables.ap)()
+const apFirst = /*#__PURE__*/ (() => pipeables.apFirst)()
+const apSecond = /*#__PURE__*/ (() => pipeables.apSecond)()
+const chain = /*#__PURE__*/ (() => pipeables.chain)()
+const chainFirst = /*#__PURE__*/ (() => pipeables.chainFirst)()
+const duplicate = /*#__PURE__*/ (() => pipeables.duplicate)()
+const extend = /*#__PURE__*/ (() => pipeables.extend)()
+const flatten = /*#__PURE__*/ (() => pipeables.flatten)()
+const foldMap = /*#__PURE__*/ (() => pipeables.foldMap)()
+const map = /*#__PURE__*/ (() => pipeables.map)()
+const reduce = /*#__PURE__*/ (() => pipeables.reduce)()
+const reduceRight = /*#__PURE__*/ (() => pipeables.reduceRight)()
 
 export {
   /**

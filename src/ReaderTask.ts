@@ -13,7 +13,7 @@ import * as TA from './Task'
 
 import Task = TA.Task
 
-const T = getReaderM(TA.task)
+const T = /*#__PURE__*/ getReaderM(TA.task)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -154,7 +154,14 @@ export const readerTaskSeq: typeof readerTask = {
   ap: (mab, ma) => T.chain(mab, (f) => T.map(ma, f))
 }
 
-const { ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(readerTask)
+const pipeables = /*#__PURE__*/ pipeable(readerTask)
+const ap = /*#__PURE__*/ (() => pipeables.ap)()
+const apFirst = /*#__PURE__*/ (() => pipeables.apFirst)()
+const apSecond = /*#__PURE__*/ (() => pipeables.apSecond)()
+const chain = /*#__PURE__*/ (() => pipeables.chain)()
+const chainFirst = /*#__PURE__*/ (() => pipeables.chainFirst)()
+const flatten = /*#__PURE__*/ (() => pipeables.flatten)()
+const map = /*#__PURE__*/ (() => pipeables.map)()
 
 export {
   /**

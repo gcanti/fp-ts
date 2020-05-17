@@ -14,6 +14,12 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.6.2
+
+- **Polish**
+  - Tree shaking
+    - add `/*@__PURE__*/` comments to pipeables (@gcanti)
+
 # 2.6.1
 
 - **New Feature**

@@ -895,9 +895,16 @@ export const readonlyRecord: FunctorWithIndex1<URI, string> &
   }
 }
 
-const { filter, filterMap, foldMap, partition, partitionMap, reduce, reduceRight, compact, separate } = pipeable(
-  readonlyRecord
-)
+const pipeables = /*#__PURE__*/ pipeable(readonlyRecord)
+const filter = /*#__PURE__*/ (() => pipeables.filter)()
+const filterMap = /*#__PURE__*/ (() => pipeables.filterMap)()
+const foldMap = /*#__PURE__*/ (() => pipeables.foldMap)()
+const partition = /*#__PURE__*/ (() => pipeables.partition)()
+const partitionMap = /*#__PURE__*/ (() => pipeables.partitionMap)()
+const reduce = /*#__PURE__*/ (() => pipeables.reduce)()
+const reduceRight = /*#__PURE__*/ (() => pipeables.reduceRight)()
+const compact = /*#__PURE__*/ (() => pipeables.compact)()
+const separate = /*#__PURE__*/ (() => pipeables.separate)()
 
 export {
   /**

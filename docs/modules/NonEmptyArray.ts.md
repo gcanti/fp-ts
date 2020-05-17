@@ -17,6 +17,7 @@ Added in v2.0.0
 - [NonEmptyArray (interface)](#nonemptyarray-interface)
 - [URI (type alias)](#uri-type-alias)
 - [URI](#uri)
+- [alt](#alt)
 - [ap](#ap)
 - [apFirst](#apfirst)
 - [apSecond](#apsecond)
@@ -97,6 +98,16 @@ export declare const URI: 'NonEmptyArray'
 ```
 
 Added in v2.0.0
+
+# alt
+
+**Signature**
+
+```ts
+export declare const alt: <A>(that: () => NonEmptyArray<A>) => (fa: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+Added in v2.6.2
 
 # ap
 

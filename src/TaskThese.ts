@@ -15,7 +15,7 @@ import { getTheseM } from './TheseT'
 
 import These = TH.These
 
-const T = getTheseM(task)
+const T = /*#__PURE__*/ getTheseM(task)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -136,7 +136,10 @@ export const taskThese: Functor2<URI> & Bifunctor2<URI> = {
   mapLeft: T.mapLeft
 }
 
-const { bimap, map, mapLeft } = pipeable(taskThese)
+const pipeables = /*#__PURE__*/ pipeable(taskThese)
+const bimap = /*#__PURE__*/ (() => pipeables.bimap)()
+const map = /*#__PURE__*/ (() => pipeables.map)()
+const mapLeft = /*#__PURE__*/ (() => pipeables.mapLeft)()
 
 export {
   /**

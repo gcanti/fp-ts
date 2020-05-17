@@ -10,6 +10,7 @@ import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { pipeable } from './pipeable'
 import { Semigroup } from './Semigroup'
+import { identity } from './function'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -90,8 +91,6 @@ export function fromIO<A>(ma: IO<A>): Task<A> {
   return () => Promise.resolve(ma())
 }
 
-const identity = <A>(a: A): A => a
-
 /**
  * @since 2.0.0
  */
@@ -132,11 +131,23 @@ export const task: Monad1<URI> & MonadTask1<URI> = {
  * @since 2.0.0
  */
 export const taskSeq: typeof task = {
-  ...task,
-  ap: (mab, ma) => () => mab().then((f) => ma().then((a) => f(a)))
+  URI,
+  map: task.map,
+  of: task.of,
+  ap: (mab, ma) => () => mab().then((f) => ma().then((a) => f(a))),
+  chain: task.chain,
+  fromIO: task.fromIO,
+  fromTask: task.fromTask
 }
 
-const { ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(task)
+const pipeables = /*#__PURE__*/ pipeable(task)
+const ap = /*#__PURE__*/ (() => pipeables.ap)()
+const apFirst = /*#__PURE__*/ (() => pipeables.apFirst)()
+const apSecond = /*#__PURE__*/ (() => pipeables.apSecond)()
+const chain = /*#__PURE__*/ (() => pipeables.chain)()
+const chainFirst = /*#__PURE__*/ (() => pipeables.chainFirst)()
+const flatten = /*#__PURE__*/ (() => pipeables.flatten)()
+const map = /*#__PURE__*/ (() => pipeables.map)()
 
 export {
   /**

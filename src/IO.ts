@@ -165,7 +165,14 @@ export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
   }
 }
 
-const { ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(io)
+const pipeables = /*#__PURE__*/ pipeable(io)
+const ap = /*#__PURE__*/ (() => pipeables.ap)()
+const apFirst = /*#__PURE__*/ (() => pipeables.apFirst)()
+const apSecond = /*#__PURE__*/ (() => pipeables.apSecond)()
+const chain = /*#__PURE__*/ (() => pipeables.chain)()
+const chainFirst = /*#__PURE__*/ (() => pipeables.chainFirst)()
+const flatten = /*#__PURE__*/ (() => pipeables.flatten)()
+const map = /*#__PURE__*/ (() => pipeables.map)()
 
 export {
   /**

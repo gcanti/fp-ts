@@ -315,20 +315,19 @@ export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<U
   })
 }
 
-const {
-  ap,
-  apFirst,
-  apSecond,
-  chain,
-  chainFirst,
-  duplicate,
-  extend,
-  flatten,
-  foldMap,
-  map,
-  reduce,
-  reduceRight
-} = pipeable(tree)
+const pipeables = /*#__PURE__*/ pipeable(tree)
+const ap = /*#__PURE__*/ (() => pipeables.ap)()
+const apFirst = /*#__PURE__*/ (() => pipeables.apFirst)()
+const apSecond = /*#__PURE__*/ (() => pipeables.apSecond)()
+const chain = /*#__PURE__*/ (() => pipeables.chain)()
+const chainFirst = /*#__PURE__*/ (() => pipeables.chainFirst)()
+const duplicate = /*#__PURE__*/ (() => pipeables.duplicate)()
+const extend = /*#__PURE__*/ (() => pipeables.extend)()
+const flatten = /*#__PURE__*/ (() => pipeables.flatten)()
+const foldMap = /*#__PURE__*/ (() => pipeables.foldMap)()
+const map = /*#__PURE__*/ (() => pipeables.map)()
+const reduce = /*#__PURE__*/ (() => pipeables.reduce)()
+const reduceRight = /*#__PURE__*/ (() => pipeables.reduceRight)()
 
 export {
   /**

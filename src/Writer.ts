@@ -8,7 +8,7 @@ import { Monoid } from './Monoid'
 import { pipeable } from './pipeable'
 import { getWriterM } from './WriterT'
 
-const T = getWriterM(identity)
+const T = /*#__PURE__*/ getWriterM(identity)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -108,7 +108,8 @@ export const writer: Functor2<URI> = {
   map: T.map
 }
 
-const { map } = pipeable(writer)
+const pipeables = /*#__PURE__*/ pipeable(writer)
+const map = /*#__PURE__*/ (() => pipeables.map)()
 
 export {
   /**

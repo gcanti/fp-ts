@@ -926,68 +926,37 @@ export const array: Monad1<URI> &
   FilterableWithIndex1<URI, number> &
   Witherable1<URI> &
   FunctorWithIndex1<URI, number> &
-  FoldableWithIndex1<URI, number> = {
-  URI,
-  map: RA.readonlyArray.map as any,
-  mapWithIndex: RA.readonlyArray.mapWithIndex as any,
-  compact: RA.readonlyArray.compact as any,
-  separate: RA.readonlyArray.separate as any,
-  filter: RA.readonlyArray.filter as any,
-  filterMap: RA.readonlyArray.filterMap as any,
-  partition: RA.readonlyArray.partition as any,
-  partitionMap: RA.readonlyArray.partitionMap as any,
-  of,
-  ap: RA.readonlyArray.ap as any,
-  chain: RA.readonlyArray.chain as any,
-  reduce: RA.readonlyArray.reduce as any,
-  foldMap: RA.readonlyArray.foldMap as any,
-  reduceRight: RA.readonlyArray.reduceRight as any,
-  unfold: RA.readonlyArray.unfold as any,
-  traverse: RA.readonlyArray.traverse as any,
-  sequence: RA.readonlyArray.sequence as any,
-  zero: RA.readonlyArray.zero as any,
-  alt: RA.readonlyArray.alt as any,
-  extend: RA.readonlyArray.extend as any,
-  wither: RA.readonlyArray.wither as any,
-  wilt: RA.readonlyArray.wilt as any,
-  reduceWithIndex: RA.readonlyArray.reduceWithIndex as any,
-  foldMapWithIndex: RA.readonlyArray.foldMapWithIndex as any,
-  reduceRightWithIndex: RA.readonlyArray.reduceRightWithIndex as any,
-  traverseWithIndex: RA.readonlyArray.traverseWithIndex as any,
-  partitionMapWithIndex: RA.readonlyArray.partitionMapWithIndex as any,
-  partitionWithIndex: RA.readonlyArray.partitionWithIndex as any,
-  filterMapWithIndex: RA.readonlyArray.filterMapWithIndex as any,
-  filterWithIndex: RA.readonlyArray.filterWithIndex as any
-}
+  FoldableWithIndex1<URI, number> =
+  /*#__PURE__*/
+  (() => Object.assign({}, RA.readonlyArray, { URI }) as any)()
 
-const {
-  alt,
-  ap,
-  apFirst,
-  apSecond,
-  chain,
-  chainFirst,
-  duplicate,
-  extend,
-  filter,
-  filterMap,
-  filterMapWithIndex,
-  filterWithIndex,
-  foldMap,
-  foldMapWithIndex,
-  map,
-  mapWithIndex,
-  partition,
-  partitionMap,
-  partitionMapWithIndex,
-  partitionWithIndex,
-  reduce,
-  reduceRight,
-  reduceRightWithIndex,
-  reduceWithIndex,
-  compact,
-  separate
-} = pipeable(array)
+const pipeables = /*#__PURE__*/ pipeable(array)
+const alt = /*#__PURE__*/ (() => pipeables.alt)()
+const ap = /*#__PURE__*/ (() => pipeables.ap)()
+const apFirst = /*#__PURE__*/ (() => pipeables.apFirst)()
+const apSecond = /*#__PURE__*/ (() => pipeables.apSecond)()
+const chain = /*#__PURE__*/ (() => pipeables.chain)()
+const chainFirst = /*#__PURE__*/ (() => pipeables.chainFirst)()
+const duplicate = /*#__PURE__*/ (() => pipeables.duplicate)()
+const extend = /*#__PURE__*/ (() => pipeables.extend)()
+const filter = /*#__PURE__*/ (() => pipeables.filter)()
+const filterMap = /*#__PURE__*/ (() => pipeables.filterMap)()
+const filterMapWithIndex = /*#__PURE__*/ (() => pipeables.filterMapWithIndex)()
+const filterWithIndex = /*#__PURE__*/ (() => pipeables.filterWithIndex)()
+const foldMap = /*#__PURE__*/ (() => pipeables.foldMap)()
+const foldMapWithIndex = /*#__PURE__*/ (() => pipeables.foldMapWithIndex)()
+const map = /*#__PURE__*/ (() => pipeables.map)()
+const mapWithIndex = /*#__PURE__*/ (() => pipeables.mapWithIndex)()
+const partition = /*#__PURE__*/ (() => pipeables.partition)()
+const partitionWithIndex = /*#__PURE__*/ (() => pipeables.partitionWithIndex)()
+const partitionMap = /*#__PURE__*/ (() => pipeables.partitionMap)()
+const partitionMapWithIndex = /*#__PURE__*/ (() => pipeables.partitionMapWithIndex)()
+const reduce = /*#__PURE__*/ (() => pipeables.reduce)()
+const reduceWithIndex = /*#__PURE__*/ (() => pipeables.reduceWithIndex)()
+const reduceRight = /*#__PURE__*/ (() => pipeables.reduceRight)()
+const reduceRightWithIndex = /*#__PURE__*/ (() => pipeables.reduceRightWithIndex)()
+const compact = /*#__PURE__*/ (() => pipeables.compact)()
+const separate = /*#__PURE__*/ (() => pipeables.separate)()
 
 export {
   /**

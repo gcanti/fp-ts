@@ -116,24 +116,9 @@ export function getTupleEq<T extends ReadonlyArray<Eq<any>>>(
 /**
  * @since 2.0.0
  */
-export const eq: Contravariant1<URI> = {
-  URI,
-  contramap: (fa, f) => fromEquals((x, y) => fa.equals(f(x), f(y)))
+export const eqDate: Eq<Date> = {
+  equals: (x, y) => x.valueOf() === y.valueOf()
 }
-
-const { contramap } = pipeable(eq)
-
-export {
-  /**
-   * @since 2.0.0
-   */
-  contramap
-}
-
-/**
- * @since 2.0.0
- */
-export const eqDate: Eq<Date> = eq.contramap(eqNumber, (date) => date.valueOf())
 
 const empty: Eq<unknown> = {
   equals: () => true
@@ -147,4 +132,22 @@ export function getMonoid<A>(): Monoid<Eq<A>> {
     concat: (x, y) => fromEquals((a, b) => x.equals(a, b) && y.equals(a, b)),
     empty
   }
+}
+
+/**
+ * @since 2.0.0
+ */
+export const eq: Contravariant1<URI> = {
+  URI,
+  contramap: (fa, f) => fromEquals((x, y) => fa.equals(f(x), f(y)))
+}
+
+const pipeables = /*#__PURE__*/ pipeable(eq)
+const contramap = /*#__PURE__*/ (() => pipeables.contramap)()
+
+export {
+  /**
+   * @since 2.0.0
+   */
+  contramap
 }

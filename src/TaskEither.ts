@@ -23,7 +23,7 @@ import { getValidationM } from './ValidationT'
 
 import Either = E.Either
 
-const T = getEitherM(task)
+const T = /*#__PURE__*/ getEitherM(task)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -345,22 +345,21 @@ export const taskEitherSeq: typeof taskEither = {
   ap: (mab, ma) => T.chain(mab, (f) => T.map(ma, f))
 }
 
-const {
-  alt,
-  ap,
-  apFirst,
-  apSecond,
-  bimap,
-  chain,
-  chainFirst,
-  flatten,
-  map,
-  mapLeft,
-  fromEither,
-  fromOption,
-  fromPredicate,
-  filterOrElse
-} = pipeable(taskEither)
+const pipeables = /*#__PURE__*/ pipeable(taskEither)
+const alt = /*#__PURE__*/ (() => pipeables.alt)()
+const ap = /*#__PURE__*/ (() => pipeables.ap)()
+const apFirst = /*#__PURE__*/ (() => pipeables.apFirst)()
+const apSecond = /*#__PURE__*/ (() => pipeables.apSecond)()
+const bimap = /*#__PURE__*/ (() => pipeables.bimap)()
+const chain = /*#__PURE__*/ (() => pipeables.chain)()
+const chainFirst = /*#__PURE__*/ (() => pipeables.chainFirst)()
+const flatten = /*#__PURE__*/ (() => pipeables.flatten)()
+const map = /*#__PURE__*/ (() => pipeables.map)()
+const mapLeft = /*#__PURE__*/ (() => pipeables.mapLeft)()
+const fromEither = /*#__PURE__*/ (() => pipeables.fromEither)()
+const fromOption = /*#__PURE__*/ (() => pipeables.fromOption)()
+const fromPredicate = /*#__PURE__*/ (() => pipeables.fromPredicate)()
+const filterOrElse = /*#__PURE__*/ (() => pipeables.filterOrElse)()
 
 /**
  * @since 2.6.0

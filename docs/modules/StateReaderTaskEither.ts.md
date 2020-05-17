@@ -15,9 +15,11 @@ Added in v2.0.0
 - [StateReaderTaskEither (interface)](#statereadertaskeither-interface)
 - [URI (type alias)](#uri-type-alias)
 - [URI](#uri)
+- [alt](#alt)
 - [ap](#ap)
 - [apFirst](#apfirst)
 - [apSecond](#apsecond)
+- [bimap](#bimap)
 - [chain](#chain)
 - [chainEitherK](#chaineitherk)
 - [chainEitherKW](#chaineitherkw)
@@ -52,6 +54,7 @@ Added in v2.0.0
 - [leftState](#leftstate)
 - [leftTask](#lefttask)
 - [map](#map)
+- [mapLeft](#mapleft)
 - [modify](#modify)
 - [put](#put)
 - [right](#right)
@@ -97,6 +100,18 @@ export declare const URI: 'StateReaderTaskEither'
 
 Added in v2.0.0
 
+# alt
+
+**Signature**
+
+```ts
+export declare const alt: <S, R, E, A>(
+  that: () => StateReaderTaskEither<S, R, E, A>
+) => (fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.6.2
+
 # ap
 
 **Signature**
@@ -132,6 +147,19 @@ export declare const apSecond: <S, R, E, B>(
 ```
 
 Added in v2.0.0
+
+# bimap
+
+**Signature**
+
+```ts
+export declare const bimap: <E, G, A, B>(
+  f: (e: E) => G,
+  g: (a: A) => B
+) => <S, R>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, B>
+```
+
+Added in v2.6.2
 
 # chain
 
@@ -532,6 +560,18 @@ export declare const map: <A, B>(
 ```
 
 Added in v2.0.0
+
+# mapLeft
+
+**Signature**
+
+```ts
+export declare const mapLeft: <E, G>(
+  f: (e: E) => G
+) => <S, R, A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, A>
+```
+
+Added in v2.6.2
 
 # modify
 

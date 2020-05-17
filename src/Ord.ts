@@ -40,7 +40,7 @@ export interface Ord<A> extends Eq<A> {
 }
 
 // default compare for primitive types
-const compare = (x: any, y: any): Ordering => {
+function compare(x: any, y: any): Ordering {
   return x < y ? -1 : x > y ? 1 : 0
 }
 
@@ -159,10 +159,6 @@ export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> {
   }
 }
 
-const S: Semigroup<Ord<any>> = {
-  concat: (x, y) => fromCompare((a, b) => monoidOrdering.concat(x.compare(a, b), y.compare(a, b)))
-}
-
 /**
  * Use `getMonoid` instead
  *
@@ -170,13 +166,9 @@ const S: Semigroup<Ord<any>> = {
  * @deprecated
  */
 export function getSemigroup<A = never>(): Semigroup<Ord<A>> {
-  return S
-}
-
-const M = {
-  // tslint:disable-next-line: deprecation
-  concat: getSemigroup<any>().concat,
-  empty: fromCompare(() => 0)
+  return {
+    concat: (x, y) => fromCompare((a, b) => monoidOrdering.concat(x.compare(a, b), y.compare(a, b)))
+  }
 }
 
 /**
@@ -243,7 +235,12 @@ const M = {
  * @since 2.4.0
  */
 export function getMonoid<A = never>(): Monoid<Ord<A>> {
-  return M
+  // tslint:disable-next-line: deprecation
+  const S = getSemigroup<A>()
+  return {
+    concat: S.concat,
+    empty: fromCompare(() => 0)
+  }
 }
 
 /**
@@ -290,7 +287,8 @@ export const ord: Contravariant1<URI> = {
   contramap: (fa, f) => fromCompare((x, y) => fa.compare(f(x), f(y)))
 }
 
-const { contramap } = pipeable(ord)
+const pipeables = /*#__PURE__*/ pipeable(ord)
+const contramap = /*#__PURE__*/ (() => pipeables.contramap)()
 
 export {
   /**
@@ -302,4 +300,6 @@ export {
 /**
  * @since 2.0.0
  */
-export const ordDate: Ord<Date> = ord.contramap(ordNumber, (date) => date.valueOf())
+export const ordDate: Ord<Date> =
+  /*#__PURE__*/
+  ord.contramap(ordNumber, (date) => date.valueOf())

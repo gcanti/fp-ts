@@ -77,22 +77,20 @@ export const getChainRec: <S>(M: Monoid<S>) => ChainRec2C<URI, S> = RT.getChainR
 /**
  * @since 2.0.0
  */
-export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> = {
-  URI,
-  compose: RT.readonlyTuple.compose as any,
-  map: RT.readonlyTuple.map as any,
-  bimap: RT.readonlyTuple.bimap as any,
-  mapLeft: RT.readonlyTuple.mapLeft as any,
-  extract: fst,
-  extend: RT.readonlyTuple.extend as any,
-  reduce: RT.readonlyTuple.reduce as any,
-  foldMap: RT.readonlyTuple.foldMap as any,
-  reduceRight: RT.readonlyTuple.reduceRight as any,
-  traverse: RT.readonlyTuple.traverse as any,
-  sequence: RT.readonlyTuple.sequence as any
-}
+export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> =
+  /*#__PURE__*/
+  (() => Object.assign({}, RT.readonlyTuple, { URI }) as any)()
 
-const { bimap, compose, duplicate, extend, foldMap, map, mapLeft, reduce, reduceRight } = pipeable(tuple)
+const pipeables = /*#__PURE__*/ pipeable(tuple)
+const bimap = /*#__PURE__*/ (() => pipeables.bimap)()
+const compose = /*#__PURE__*/ (() => pipeables.compose)()
+const duplicate = /*#__PURE__*/ (() => pipeables.duplicate)()
+const extend = /*#__PURE__*/ (() => pipeables.extend)()
+const foldMap = /*#__PURE__*/ (() => pipeables.foldMap)()
+const map = /*#__PURE__*/ (() => pipeables.map)()
+const mapLeft = /*#__PURE__*/ (() => pipeables.mapLeft)()
+const reduce = /*#__PURE__*/ (() => pipeables.reduce)()
+const reduceRight = /*#__PURE__*/ (() => pipeables.reduceRight)()
 
 export {
   /**

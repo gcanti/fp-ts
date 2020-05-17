@@ -138,7 +138,9 @@ export const const_: Functor2<URI> & Contravariant2<URI> & Bifunctor2<URI> = {
   mapLeft: (fea, f) => make(f(fea))
 }
 
-const { contramap, map } = pipeable(const_)
+const pipeables = /*#__PURE__*/ pipeable(const_)
+const contramap = /*#__PURE__*/ (() => pipeables.contramap)()
+const map = /*#__PURE__*/ (() => pipeables.map)()
 
 export {
   /**

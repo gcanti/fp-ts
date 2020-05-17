@@ -1251,7 +1251,6 @@ Added in v2.5.0
 
 ```ts
 export declare const readonlyArray: Monad1<'ReadonlyArray'> &
-  Foldable1<'ReadonlyArray'> &
   Unfoldable1<'ReadonlyArray'> &
   TraversableWithIndex1<'ReadonlyArray', number> &
   Alternative1<'ReadonlyArray'> &
