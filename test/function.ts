@@ -19,6 +19,7 @@ import {
   toString,
   constVoid,
   tupleCurried,
+  raise,
   absurd,
   flow
 } from '../src/function'
@@ -360,6 +361,10 @@ describe('function', () => {
   it('tupleCurried', () => {
     // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(tupleCurried(1)('a'), [1, 'a'])
+  })
+
+  it('raise', () => {
+    assert.throws(() => raise(new Error('raise')))
   })
 
   it('absurd', () => {

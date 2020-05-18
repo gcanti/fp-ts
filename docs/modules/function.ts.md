@@ -59,6 +59,7 @@ parent: Modules
 - [~~on~~ (function)](#on-function)
 - [~~or~~ (function)](#or-function)
 - [~~pipe~~ (function)](#pipe-function)
+- [raise (function)](#raise-function)
 - [~~toString~~ (function)](#tostring-function)
 - [tuple (function)](#tuple-function)
 - [~~tupleCurried~~ (function)](#tuplecurried-function)
@@ -752,6 +753,16 @@ export function pipe<A, B, C, D, E, F, G, H, I, J>(
 ```
 
 Added in v1.0.0
+
+# raise (function)
+
+**Signature**
+
+```ts
+export function raise<E extends Error>(e: E): never { ... }
+```
+
+Added in v1.19.5
 
 # ~~toString~~ (function)
 

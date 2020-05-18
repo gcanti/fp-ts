@@ -500,6 +500,13 @@ export const decrement = (n: number): number => {
 }
 
 /**
+ * @since 1.19.5
+ */
+export function raise<E extends Error>(e: E): never {
+  throw e
+}
+
+/**
  * @since 1.18.0
  */
 export function absurd<A>(_: never): A {
