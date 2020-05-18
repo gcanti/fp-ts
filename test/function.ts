@@ -11,6 +11,7 @@ import {
   increment,
   not,
   unsafeCoerce,
+  raise,
   absurd,
   flow,
   tupled,
@@ -63,6 +64,10 @@ describe('function', () => {
 
   it('decrement', () => {
     assert.deepStrictEqual(decrement(2), 1)
+  })
+
+  it('raise', () => {
+    assert.throws(() => raise(new Error('raise')))
   })
 
   it('absurd', () => {

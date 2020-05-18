@@ -30,6 +30,7 @@ Added in v2.0.0
 - [identity](#identity)
 - [increment](#increment)
 - [not](#not)
+- [raise](#raise)
 - [tuple](#tuple)
 - [tupled](#tupled)
 - [unsafeCoerce](#unsafecoerce)
@@ -323,6 +324,17 @@ export declare function not<A>(predicate: Predicate<A>): Predicate<A>
 ```
 
 Added in v2.0.0
+
+# raise
+
+**Signature**
+
+```ts
+export declare function raise<E extends Error>(e: E): never
+```
+
+Added in v2.6.1
+Throws an error more compositionally.
 
 # tuple
 

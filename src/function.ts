@@ -269,6 +269,14 @@ export function decrement(n: number): number {
 }
 
 /**
+ * @since 2.6.1
+ * Throws an error more compositionally.
+ */
+export function raise<E extends Error>(e: E): never {
+  throw e
+}
+
+/**
  * @since 2.0.0
  */
 export function absurd<A>(_: never): A {
