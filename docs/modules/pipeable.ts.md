@@ -662,8 +662,8 @@ Added in v2.0.0
 
 ```ts
 export interface PipeableExtend<F> extends PipeableFunctor<F> {
-  readonly extend: <A, B>(f: (fa: HKT<F, A>) => B) => (ma: HKT<F, A>) => HKT<F, B>
-  readonly duplicate: <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>>
+  readonly extend: <A, B>(f: (wa: HKT<F, A>) => B) => (wa: HKT<F, A>) => HKT<F, B>
+  readonly duplicate: <A>(wa: HKT<F, A>) => HKT<F, HKT<F, A>>
 }
 ```
 
@@ -675,8 +675,8 @@ Added in v2.0.0
 
 ```ts
 export interface PipeableExtend1<F extends URIS> extends PipeableFunctor1<F> {
-  readonly extend: <A, B>(f: (fa: Kind<F, A>) => B) => (ma: Kind<F, A>) => Kind<F, B>
-  readonly duplicate: <A>(ma: Kind<F, A>) => Kind<F, Kind<F, A>>
+  readonly extend: <A, B>(f: (wa: Kind<F, A>) => B) => (wa: Kind<F, A>) => Kind<F, B>
+  readonly duplicate: <A>(wa: Kind<F, A>) => Kind<F, Kind<F, A>>
 }
 ```
 
@@ -688,8 +688,8 @@ Added in v2.0.0
 
 ```ts
 export interface PipeableExtend2<F extends URIS2> extends PipeableFunctor2<F> {
-  readonly extend: <E, A, B>(f: (fa: Kind2<F, E, A>) => B) => (ma: Kind2<F, E, A>) => Kind2<F, E, B>
-  readonly duplicate: <E, A>(ma: Kind2<F, E, A>) => Kind2<F, E, Kind2<F, E, A>>
+  readonly extend: <E, A, B>(f: (wa: Kind2<F, E, A>) => B) => (wa: Kind2<F, E, A>) => Kind2<F, E, B>
+  readonly duplicate: <E, A>(wa: Kind2<F, E, A>) => Kind2<F, E, Kind2<F, E, A>>
 }
 ```
 
@@ -701,8 +701,8 @@ Added in v2.0.0
 
 ```ts
 export interface PipeableExtend2C<F extends URIS2, E> extends PipeableFunctor2C<F, E> {
-  readonly extend: <A, B>(f: (fa: Kind2<F, E, A>) => B) => (ma: Kind2<F, E, A>) => Kind2<F, E, B>
-  readonly duplicate: <A>(ma: Kind2<F, E, A>) => Kind2<F, E, Kind2<F, E, A>>
+  readonly extend: <A, B>(f: (wa: Kind2<F, E, A>) => B) => (wa: Kind2<F, E, A>) => Kind2<F, E, B>
+  readonly duplicate: <A>(wa: Kind2<F, E, A>) => Kind2<F, E, Kind2<F, E, A>>
 }
 ```
 
@@ -714,8 +714,8 @@ Added in v2.0.0
 
 ```ts
 export interface PipeableExtend3<F extends URIS3> extends PipeableFunctor3<F> {
-  readonly extend: <R, E, A, B>(f: (fa: Kind3<F, R, E, A>) => B) => (ma: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
-  readonly duplicate: <R, E, A>(ma: Kind3<F, R, E, A>) => Kind3<F, R, E, Kind3<F, R, E, A>>
+  readonly extend: <R, E, A, B>(f: (wa: Kind3<F, R, E, A>) => B) => (wa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+  readonly duplicate: <R, E, A>(wa: Kind3<F, R, E, A>) => Kind3<F, R, E, Kind3<F, R, E, A>>
 }
 ```
 
@@ -727,8 +727,8 @@ Added in v2.0.0
 
 ```ts
 export interface PipeableExtend3C<F extends URIS3, E> extends PipeableFunctor3C<F, E> {
-  readonly extend: <R, A, B>(f: (fa: Kind3<F, R, E, A>) => B) => (ma: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
-  readonly duplicate: <R, A>(ma: Kind3<F, R, E, A>) => Kind3<F, R, E, Kind3<F, R, E, A>>
+  readonly extend: <R, A, B>(f: (wa: Kind3<F, R, E, A>) => B) => (wa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+  readonly duplicate: <R, A>(wa: Kind3<F, R, E, A>) => Kind3<F, R, E, Kind3<F, R, E, A>>
 }
 ```
 
@@ -741,9 +741,9 @@ Added in v2.2.0
 ```ts
 export interface PipeableExtend4<F extends URIS4> extends PipeableFunctor4<F> {
   readonly extend: <S, R, E, A, B>(
-    f: (fa: Kind4<F, S, R, E, A>) => B
-  ) => (ma: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
-  readonly duplicate: <S, R, E, A>(ma: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, Kind4<F, S, R, E, A>>
+    f: (wa: Kind4<F, S, R, E, A>) => B
+  ) => (wa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
+  readonly duplicate: <S, R, E, A>(wa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, Kind4<F, S, R, E, A>>
 }
 ```
 

@@ -64,7 +64,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const duplicate: <E, A>(ma: Store<E, A>) => Store<E, Store<E, A>>
+export declare const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>>
 ```
 
 Added in v2.0.0
@@ -101,7 +101,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const extend: <E, A, B>(f: (fa: Store<E, A>) => B) => (ma: Store<E, A>) => Store<E, B>
+export declare const extend: <E, A, B>(f: (wa: Store<E, A>) => B) => (wa: Store<E, A>) => Store<E, B>
 ```
 
 Added in v2.0.0

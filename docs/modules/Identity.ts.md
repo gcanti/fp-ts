@@ -129,7 +129,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const duplicate: <A>(ma: A) => A
+export declare const duplicate: <A>(wa: A) => A
 ```
 
 Added in v2.0.0
@@ -139,7 +139,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const extend: <A, B>(f: (fa: A) => B) => (ma: A) => B
+export declare const extend: <A, B>(f: (wa: A) => B) => (wa: A) => B
 ```
 
 Added in v2.0.0

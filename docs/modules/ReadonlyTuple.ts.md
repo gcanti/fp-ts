@@ -80,7 +80,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const duplicate: <E, A>(ma: readonly [A, E]) => readonly [readonly [A, E], E]
+export declare const duplicate: <E, A>(wa: readonly [A, E]) => readonly [readonly [A, E], E]
 ```
 
 Added in v2.5.0
@@ -90,7 +90,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const extend: <E, A, B>(f: (fa: readonly [A, E]) => B) => (ma: readonly [A, E]) => readonly [B, E]
+export declare const extend: <E, A, B>(f: (wa: readonly [A, E]) => B) => (wa: readonly [A, E]) => readonly [B, E]
 ```
 
 Added in v2.5.0

@@ -189,7 +189,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const duplicate: <A>(ma: Tree<A>) => Tree<Tree<A>>
+export declare const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>>
 ```
 
 Added in v2.0.0
@@ -209,7 +209,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const extend: <A, B>(f: (fa: Tree<A>) => B) => (ma: Tree<A>) => Tree<B>
+export declare const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B>
 ```
 
 Added in v2.0.0
