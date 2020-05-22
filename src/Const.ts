@@ -19,7 +19,6 @@ import { Functor2 } from './Functor'
 import { HeytingAlgebra } from './HeytingAlgebra'
 import { Monoid } from './Monoid'
 import { Ord } from './Ord'
-import { pipeable } from './pipeable'
 import { Ring } from './Ring'
 import { Semigroup } from './Semigroup'
 import { Semiring } from './Semiring'
@@ -127,28 +126,50 @@ export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> {
   }
 }
 
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+const contramap_: <E, A, B>(fa: Const<E, A>, f: (b: B) => A) => Const<E, B> = unsafeCoerce
+
+const map_: <E, A, B>(fa: Const<E, A>, f: (a: A) => B) => Const<E, B> = unsafeCoerce
+
+const bimap_: <E, A, G, B>(fea: Const<E, A>, f: (e: E) => G, g: (a: A) => B) => Const<G, B> = (fea, f) => make(f(fea))
+
+const mapLeft_: <E, A, G>(fea: Const<E, A>, f: (e: E) => G) => Const<G, A> = (fea, f) => make(f(fea))
+
+/**
+ * @since 2.0.0
+ */
+export const contramap: <A, B>(f: (b: B) => A) => <E>(fa: Const<E, A>) => Const<E, B> = (f) => (fa) => contramap_(fa, f)
+
+/**
+ * @since 2.0.0
+ */
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B> = (f) => (fa) => map_(fa, f)
+
+/**
+ * @since 2.6.2
+ */
+export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Const<E, A>) => Const<G, B> = (f, g) => (fa) =>
+  bimap_(fa, f, g)
+
+/**
+ * @since 2.6.2
+ */
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Const<E, A>) => Const<G, A> = (f) => (fa) => mapLeft_(fa, f)
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 2.0.0
  */
 export const const_: Functor2<URI> & Contravariant2<URI> & Bifunctor2<URI> = {
   URI,
-  map: unsafeCoerce,
-  contramap: unsafeCoerce,
-  bimap: (fea, f) => make(f(fea)),
-  mapLeft: (fea, f) => make(f(fea))
-}
-
-const pipeables = /*#__PURE__*/ pipeable(const_)
-const contramap = /*#__PURE__*/ (() => pipeables.contramap)()
-const map = /*#__PURE__*/ (() => pipeables.map)()
-
-export {
-  /**
-   * @since 2.0.0
-   */
-  contramap,
-  /**
-   * @since 2.0.0
-   */
-  map
+  map: map_,
+  contramap: contramap_,
+  bimap: bimap_,
+  mapLeft: mapLeft_
 }
