@@ -1,108 +1,119 @@
 import * as assert from 'assert'
 import { left, right } from '../src/Either'
 import { identity } from '../src/function'
-import * as I from '../src/Identity'
+import * as _ from '../src/Identity'
 import { monoidString } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { eqNumber } from '../src/Eq'
 import { showString } from '../src/Show'
+import { pipe } from '../src/pipeable'
 
 describe('Identity', () => {
-  it('map', () => {
-    const double = (n: number): number => n * 2
-    const x = I.identity.of(1)
-    const expected = I.identity.of(2)
-    assert.deepStrictEqual(I.identity.map(x, double), expected)
-  })
+  describe('pipeables', () => {
+    it('map', () => {
+      const double = (n: number): number => n * 2
+      assert.deepStrictEqual(pipe(1, _.map(double)), 2)
+    })
 
-  it('ap', () => {
-    const double = (n: number): number => n * 2
-    const fab = I.identity.of(double)
-    const fa = I.identity.of(1)
-    const expected = I.identity.of(2)
-    assert.deepStrictEqual(I.identity.ap(fab, fa), expected)
-  })
+    it('ap', () => {
+      const double = (n: number): number => n * 2
+      const fab = _.identity.of(double)
+      assert.deepStrictEqual(pipe(fab, _.ap(1)), 2)
+    })
 
-  it('chain', () => {
-    const f = (n: number) => I.identity.of(n * 2)
-    const x = I.identity.of(1)
-    const expected = I.identity.of(2)
-    assert.deepStrictEqual(I.identity.chain(x, f), expected)
-  })
+    it('apFirst', () => {
+      assert.deepStrictEqual(pipe('a', _.apFirst('b')), 'a')
+    })
 
-  it('reduce', () => {
-    const x = I.identity.of('b')
-    const expected = 'ab'
-    assert.deepStrictEqual(
-      I.identity.reduce(x, 'a', (b, a) => b + a),
-      expected
-    )
-  })
+    it('apSecond', () => {
+      assert.deepStrictEqual(pipe('a', _.apSecond('b')), 'b')
+    })
 
-  it('foldMap', () => {
-    const foldMap = I.identity.foldMap(monoidString)
-    const x1 = I.identity.of('a')
-    const f1 = identity
-    assert.deepStrictEqual(foldMap(x1, f1), 'a')
-  })
+    it('chain', () => {
+      const f = (n: number) => _.identity.of(n * 2)
+      assert.deepStrictEqual(pipe(1, _.chain(f)), 2)
+    })
 
-  it('reduceRight', () => {
-    const reduceRight = I.identity.reduceRight
-    const x1 = I.identity.of('a')
-    const init1 = ''
-    const f1 = (a: string, acc: string) => acc + a
-    assert.deepStrictEqual(reduceRight(x1, init1, f1), 'a')
-  })
+    it('chainFirst', () => {
+      const f = (n: number) => _.identity.of(n * 2)
+      assert.deepStrictEqual(pipe(1, _.chainFirst(f)), 1)
+    })
 
-  it('alt', () => {
-    const x = I.identity.of(1)
-    const y = I.identity.of(2)
-    assert.deepStrictEqual(
-      I.identity.alt(x, () => y),
-      x
-    )
-  })
+    it('reduce', () => {
+      assert.deepStrictEqual(
+        pipe(
+          'b',
+          _.reduce('a', (b, a) => b + a)
+        ),
+        'ab'
+      )
+    })
 
-  it('extract', () => {
-    const x = I.identity.of(1)
-    assert.deepStrictEqual(I.identity.extract(x), 1)
-  })
+    it('foldMap', () => {
+      assert.deepStrictEqual(pipe('a', _.foldMap(monoidString)(identity)), 'a')
+    })
 
-  it('extend', () => {
-    const f = (fa: I.Identity<string>): number => fa.length
-    const x = I.identity.of('foo')
-    const expected = I.identity.of(3)
-    assert.deepStrictEqual(I.identity.extend(x, f), expected)
+    it('reduceRight', () => {
+      const f = (a: string, acc: string) => acc + a
+      assert.deepStrictEqual(pipe('a', _.reduceRight('', f)), 'a')
+    })
+
+    it('alt', () => {
+      assert.deepStrictEqual(
+        pipe(
+          1,
+          _.alt(() => 2)
+        ),
+        1
+      )
+    })
+
+    it('extract', () => {
+      assert.deepStrictEqual(pipe(1, _.extract), 1)
+    })
+
+    it('extend', () => {
+      const f = (fa: _.Identity<string>): number => fa.length
+      assert.deepStrictEqual(pipe('foo', _.extend(f)), 3)
+    })
+
+    it('duplicate', () => {
+      assert.deepStrictEqual(pipe('a', _.duplicate), 'a')
+    })
+
+    it('flatten', () => {
+      assert.deepStrictEqual(pipe('a', _.flatten), 'a')
+    })
   })
 
   it('getEq', () => {
-    const S = I.getEq(eqNumber)
-    assert.deepStrictEqual(S.equals(I.identity.of(1), I.identity.of(1)), true)
-    assert.deepStrictEqual(S.equals(I.identity.of(1), I.identity.of(2)), false)
-    assert.deepStrictEqual(S.equals(I.identity.of(2), I.identity.of(1)), false)
+    const S = _.getEq(eqNumber)
+    assert.deepStrictEqual(S.equals(_.identity.of(1), _.identity.of(1)), true)
+    assert.deepStrictEqual(S.equals(_.identity.of(1), _.identity.of(2)), false)
+    assert.deepStrictEqual(S.equals(_.identity.of(2), _.identity.of(1)), false)
   })
 
   it('ChainRec', () => {
-    const x = I.identity.chainRec<number, number>(0, (a) => I.identity.of(a < 10 ? left(a + 1) : right(a)))
-    const expected = I.identity.of(10)
+    const x = _.identity.chainRec<number, number>(0, (a) => _.identity.of(a < 10 ? left(a + 1) : right(a)))
+    const expected = _.identity.of(10)
     assert.deepStrictEqual(x, expected)
   })
 
   it('traverse', () => {
-    const x1 = I.identity.traverse(option)(I.identity.of(1), some)
-    assert.deepStrictEqual(x1, some(I.identity.of(1)))
-    const x2 = I.identity.traverse(option)(I.identity.of(1), () => none)
+    const x1 = _.identity.traverse(option)(_.identity.of(1), some)
+    assert.deepStrictEqual(x1, some(_.identity.of(1)))
+    const x2 = _.identity.traverse(option)(_.identity.of(1), () => none)
     assert.deepStrictEqual(x2, none)
   })
 
   it('sequence', () => {
-    const sequence = I.identity.sequence(option)
-    const x1 = I.identity.of(some('a'))
-    assert.deepStrictEqual(sequence(x1), some(I.identity.of('a')))
+    const sequence = _.identity.sequence(option)
+    const x1 = _.identity.of(some('a'))
+    assert.deepStrictEqual(sequence(x1), some(_.identity.of('a')))
   })
 
   it('getShow', () => {
-    const S = I.getShow(showString)
-    assert.deepStrictEqual(S.show(I.identity.of('a')), `"a"`)
+    const S = _.getShow(showString)
+    assert.deepStrictEqual(S.show(_.identity.of('a')), `"a"`)
   })
 })
