@@ -23,6 +23,7 @@ Added in v2.0.0
 - [chainFirst](#chainfirst)
 - [duplicate](#duplicate)
 - [extend](#extend)
+- [extract](#extract)
 - [flatten](#flatten)
 - [foldMap](#foldmap)
 - [getEq](#geteq)
@@ -129,7 +130,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const duplicate: <A>(wa: A) => A
+export declare const duplicate: <A>(ma: A) => A
 ```
 
 Added in v2.0.0
@@ -143,6 +144,16 @@ export declare const extend: <A, B>(f: (wa: A) => B) => (wa: A) => B
 ```
 
 Added in v2.0.0
+
+# extract
+
+**Signature**
+
+```ts
+export declare const extract: <A>(wa: A) => A
+```
+
+Added in v2.6.2
 
 # flatten
 
