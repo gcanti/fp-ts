@@ -2,11 +2,11 @@
  * @since 2.0.0
  */
 import { Alternative1 } from './Alternative'
-import { Compactable1 } from './Compactable'
+import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
-import { FilterableWithIndex1 } from './FilterableWithIndex'
+import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from './FilterableWithIndex'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { Predicate, Refinement } from './function'
@@ -16,7 +16,6 @@ import { Monoid } from './Monoid'
 import { NonEmptyArray } from './NonEmptyArray'
 import { Option } from './Option'
 import { Ord } from './Ord'
-import { pipeable } from './pipeable'
 import * as RA from './ReadonlyArray'
 import { Show } from './Show'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
@@ -913,6 +912,166 @@ export const difference: <A>(E: Eq<A>) => (xs: Array<A>, ys: Array<A>) => Array<
  */
 export const of: <A>(a: A) => Array<A> = RA.of as any
 
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.0.0
+ */
+export const map: <A, B>(f: (a: A) => B) => (fa: Array<A>) => Array<B> = RA.map as any
+
+/**
+ * @since 2.0.0
+ */
+export const ap: <A>(fa: Array<A>) => <B>(fab: Array<(a: A) => B>) => Array<B> = RA.ap as any
+
+/**
+ * @since 2.0.0
+ */
+export const apFirst: <B>(fb: Array<B>) => <A>(fa: Array<A>) => Array<A> = RA.apFirst as any
+
+/**
+ * @since 2.0.0
+ */
+export const apSecond: <B>(fb: Array<B>) => <A>(fa: Array<A>) => Array<B> = RA.apSecond as any
+
+/**
+ * @since 2.0.0
+ */
+export const chain: <A, B>(f: (a: A) => Array<B>) => (ma: Array<A>) => Array<B> = RA.chain as any
+
+/**
+ * @since 2.0.0
+ */
+export const chainFirst: <A, B>(f: (a: A) => Array<B>) => (ma: Array<A>) => Array<A> = RA.chainFirst as any
+
+/**
+ * @since 2.0.0
+ */
+export const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: Array<A>) => Array<B> = RA.mapWithIndex as any
+
+/**
+ * @since 2.0.0
+ */
+export const compact: <A>(fa: Array<Option<A>>) => Array<A> = RA.compact as any
+
+/**
+ * @since 2.0.0
+ */
+export const separate: <A, B>(fa: Array<Either<A, B>>) => Separated<Array<A>, Array<B>> = RA.separate as any
+
+/**
+ * @since 2.0.0
+ */
+export const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: Array<A>) => Array<B>
+  <A>(predicate: Predicate<A>): (fa: Array<A>) => Array<A>
+} = RA.filter as any
+
+/**
+ * @since 2.0.0
+ */
+export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Array<A>) => Array<B> = RA.filterMap as any
+
+/**
+ * @since 2.0.0
+ */
+export const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: Array<A>) => Separated<Array<A>, Array<B>>
+  <A>(predicate: Predicate<A>): (fa: Array<A>) => Separated<Array<A>, Array<A>>
+} = RA.partition as any
+
+/**
+ * @since 2.0.0
+ */
+export const partitionWithIndex: {
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (
+    fa: Array<A>
+  ) => Separated<Array<A>, Array<B>>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: Array<A>) => Separated<Array<A>, Array<A>>
+} = RA.partitionWithIndex as any
+
+/**
+ * @since 2.0.0
+ */
+export const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: Array<A>) => Separated<Array<B>, Array<C>> = RA.partitionMap as any
+
+/**
+ * @since 2.0.0
+ */
+export const partitionMapWithIndex: <A, B, C>(
+  f: (i: number, a: A) => Either<B, C>
+) => (fa: Array<A>) => Separated<Array<B>, Array<C>> = RA.partitionMapWithIndex as any
+
+/**
+ * @since 2.0.0
+ */
+export const alt: <A>(that: () => Array<A>) => (fa: Array<A>) => Array<A> = RA.alt as any
+
+/**
+ * @since 2.0.0
+ */
+export const filterMapWithIndex: <A, B>(
+  f: (i: number, a: A) => Option<B>
+) => (fa: Array<A>) => Array<B> = RA.filterMapWithIndex as any
+
+/**
+ * @since 2.0.0
+ */
+export const filterWithIndex: {
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: Array<A>) => Array<B>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: Array<A>) => Array<A>
+} = RA.filterWithIndex as any
+
+/**
+ * @since 2.0.0
+ */
+export const extend: <A, B>(f: (fa: Array<A>) => B) => (wa: Array<A>) => ReadonlyArray<B> = RA.extend as any
+
+/**
+ * @since 2.0.0
+ */
+export const duplicate: <A>(wa: Array<A>) => Array<Array<A>> = RA.duplicate as any
+
+/**
+ * @since 2.0.0
+ */
+export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Array<A>) => M = RA.foldMap
+
+/**
+ * @since 2.0.0
+ */
+export const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: Array<A>) => M =
+  RA.foldMapWithIndex
+
+/**
+ * @since 2.0.0
+ */
+export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Array<A>) => B = RA.reduce
+
+/**
+ * @since 2.0.0
+ */
+export const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: Array<A>) => B = RA.reduceWithIndex
+
+/**
+ * @since 2.0.0
+ */
+export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Array<A>) => B = RA.reduceRight
+
+/**
+ * @since 2.0.0
+ */
+export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: Array<A>) => B =
+  RA.reduceRightWithIndex
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 2.0.0
  */
@@ -926,141 +1085,7 @@ export const array: Monad1<URI> &
   FilterableWithIndex1<URI, number> &
   Witherable1<URI> &
   FunctorWithIndex1<URI, number> &
-  FoldableWithIndex1<URI, number> =
-  /*#__PURE__*/
-  (() => Object.assign({}, RA.readonlyArray, { URI }) as any)()
-
-const pipeables = /*#__PURE__*/ pipeable(array)
-const alt = /*#__PURE__*/ (() => pipeables.alt)()
-const ap = /*#__PURE__*/ (() => pipeables.ap)()
-const apFirst = /*#__PURE__*/ (() => pipeables.apFirst)()
-const apSecond = /*#__PURE__*/ (() => pipeables.apSecond)()
-const chain = /*#__PURE__*/ (() => pipeables.chain)()
-const chainFirst = /*#__PURE__*/ (() => pipeables.chainFirst)()
-const duplicate = /*#__PURE__*/ (() => pipeables.duplicate)()
-const extend = /*#__PURE__*/ (() => pipeables.extend)()
-const filter = /*#__PURE__*/ (() => pipeables.filter)()
-const filterMap = /*#__PURE__*/ (() => pipeables.filterMap)()
-const filterMapWithIndex = /*#__PURE__*/ (() => pipeables.filterMapWithIndex)()
-const filterWithIndex = /*#__PURE__*/ (() => pipeables.filterWithIndex)()
-const foldMap = /*#__PURE__*/ (() => pipeables.foldMap)()
-const foldMapWithIndex = /*#__PURE__*/ (() => pipeables.foldMapWithIndex)()
-const map = /*#__PURE__*/ (() => pipeables.map)()
-const mapWithIndex = /*#__PURE__*/ (() => pipeables.mapWithIndex)()
-const partition = /*#__PURE__*/ (() => pipeables.partition)()
-const partitionWithIndex = /*#__PURE__*/ (() => pipeables.partitionWithIndex)()
-const partitionMap = /*#__PURE__*/ (() => pipeables.partitionMap)()
-const partitionMapWithIndex = /*#__PURE__*/ (() => pipeables.partitionMapWithIndex)()
-const reduce = /*#__PURE__*/ (() => pipeables.reduce)()
-const reduceWithIndex = /*#__PURE__*/ (() => pipeables.reduceWithIndex)()
-const reduceRight = /*#__PURE__*/ (() => pipeables.reduceRight)()
-const reduceRightWithIndex = /*#__PURE__*/ (() => pipeables.reduceRightWithIndex)()
-const compact = /*#__PURE__*/ (() => pipeables.compact)()
-const separate = /*#__PURE__*/ (() => pipeables.separate)()
-
-export {
-  /**
-   * @since 2.0.0
-   */
-  alt,
-  /**
-   * @since 2.0.0
-   */
-  ap,
-  /**
-   * @since 2.0.0
-   */
-  apFirst,
-  /**
-   * @since 2.0.0
-   */
-  apSecond,
-  /**
-   * @since 2.0.0
-   */
-  chain,
-  /**
-   * @since 2.0.0
-   */
-  chainFirst,
-  /**
-   * @since 2.0.0
-   */
-  duplicate,
-  /**
-   * @since 2.0.0
-   */
-  extend,
-  /**
-   * @since 2.0.0
-   */
-  filter,
-  /**
-   * @since 2.0.0
-   */
-  filterMap,
-  /**
-   * @since 2.0.0
-   */
-  filterMapWithIndex,
-  /**
-   * @since 2.0.0
-   */
-  filterWithIndex,
-  /**
-   * @since 2.0.0
-   */
-  foldMap,
-  /**
-   * @since 2.0.0
-   */
-  foldMapWithIndex,
-  /**
-   * @since 2.0.0
-   */
-  map,
-  /**
-   * @since 2.0.0
-   */
-  mapWithIndex,
-  /**
-   * @since 2.0.0
-   */
-  partition,
-  /**
-   * @since 2.0.0
-   */
-  partitionMap,
-  /**
-   * @since 2.0.0
-   */
-  partitionMapWithIndex,
-  /**
-   * @since 2.0.0
-   */
-  partitionWithIndex,
-  /**
-   * @since 2.0.0
-   */
-  reduce,
-  /**
-   * @since 2.0.0
-   */
-  reduceRight,
-  /**
-   * @since 2.0.0
-   */
-  reduceRightWithIndex,
-  /**
-   * @since 2.0.0
-   */
-  reduceWithIndex,
-  /**
-   * @since 2.0.0
-   */
-  compact,
-  /**
-   * @since 2.0.0
-   */
-  separate
+  FoldableWithIndex1<URI, number> = {
+  ...(RA.readonlyArray as any),
+  URI
 }
