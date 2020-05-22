@@ -270,7 +270,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const foldMap: <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: RNEA.ReadonlyNonEmptyArray<A>) => S
+export declare const foldMap: <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) => S
 ```
 
 Added in v2.0.0
@@ -282,7 +282,7 @@ Added in v2.0.0
 ```ts
 export declare const foldMapWithIndex: <S>(
   S: Semigroup<S>
-) => <A>(f: (i: number, a: A) => S) => (fa: RNEA.ReadonlyNonEmptyArray<A>) => S
+) => <A>(f: (i: number, a: A) => S) => (fa: NonEmptyArray<A>) => S
 ```
 
 Added in v2.0.0

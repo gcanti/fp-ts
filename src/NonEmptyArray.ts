@@ -12,7 +12,6 @@ import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { Monad1 } from './Monad'
 import { Option } from './Option'
 import { Ord } from './Ord'
-import { pipeable } from './pipeable'
 import * as RNEA from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
@@ -297,6 +296,110 @@ export const zip: <A, B>(fa: NonEmptyArray<A>, fb: NonEmptyArray<B>) => NonEmpty
  */
 export const unzip: <A, B>(as: NonEmptyArray<[A, B]>) => [NonEmptyArray<A>, NonEmptyArray<B>] = RNEA.unzip as any
 
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.0.0
+ */
+export const foldMapWithIndex: <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (fa: NonEmptyArray<A>) => S =
+  RNEA.foldMapWithIndex
+
+/**
+ * @since 2.0.0
+ */
+export const foldMap: <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) => S = RNEA.foldMap
+
+/**
+ * @since 2.6.2
+ */
+export const alt: <A>(that: () => NonEmptyArray<A>) => (fa: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.alt as any
+
+/**
+ * @since 2.0.0
+ */
+export const ap: <A>(fa: NonEmptyArray<A>) => <B>(fab: NonEmptyArray<(a: A) => B>) => NonEmptyArray<B> = RNEA.ap as any
+
+/**
+ * @since 2.0.0
+ */
+export const apFirst: <B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.apFirst as any
+
+/**
+ * @since 2.0.0
+ */
+export const apSecond: <B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<B> = RNEA.apSecond as any
+
+/**
+ * @since 2.0.0
+ */
+export const chain: <A, B>(
+  f: (a: A) => NonEmptyArray<B>
+) => (ma: NonEmptyArray<A>) => NonEmptyArray<B> = RNEA.chain as any
+
+/**
+ * @since 2.0.0
+ */
+export const chainFirst: <A, B>(
+  f: (a: A) => NonEmptyArray<B>
+) => (ma: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.chainFirst as any
+
+/**
+ * @since 2.0.0
+ */
+export const duplicate: <A>(ma: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>> = RNEA.duplicate as any
+
+/**
+ * @since 2.0.0
+ */
+export const extend: <A, B>(
+  f: (fa: NonEmptyArray<A>) => B
+) => (ma: NonEmptyArray<A>) => NonEmptyArray<B> = RNEA.extend as any
+
+/**
+ * @since 2.0.0
+ */
+export const flatten: <A>(mma: NonEmptyArray<NonEmptyArray<A>>) => NonEmptyArray<A> = RNEA.flatten as any
+
+/**
+ * @since 2.0.0
+ */
+export const map: <A, B>(f: (a: A) => B) => (fa: NonEmptyArray<A>) => NonEmptyArray<B> = RNEA.map as any
+
+/**
+ * @since 2.0.0
+ */
+export const mapWithIndex: <A, B>(
+  f: (i: number, a: A) => B
+) => (fa: NonEmptyArray<A>) => NonEmptyArray<B> = RNEA.mapWithIndex as any
+
+/**
+ * @since 2.0.0
+ */
+export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: NonEmptyArray<A>) => B = RNEA.reduce
+
+/**
+ * @since 2.0.0
+ */
+export const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: NonEmptyArray<A>) => B =
+  RNEA.reduceWithIndex
+
+/**
+ * @since 2.0.0
+ */
+export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: NonEmptyArray<A>) => B = RNEA.reduceRight
+
+/**
+ * @since 2.0.0
+ */
+export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: NonEmptyArray<A>) => B =
+  RNEA.reduceRightWithIndex
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 2.0.0
  */
@@ -305,98 +408,7 @@ export const nonEmptyArray: Monad1<URI> &
   TraversableWithIndex1<URI, number> &
   FunctorWithIndex1<URI, number> &
   FoldableWithIndex1<URI, number> &
-  Alt1<URI> =
-  /*#__PURE__*/
-  (() => Object.assign({}, RNEA.readonlyNonEmptyArray, { URI }) as any)()
-
-const pipeables = /*#__PURE__*/ pipeable(nonEmptyArray)
-const alt = /*#__PURE__*/ (() => pipeables.alt)()
-const ap = /*#__PURE__*/ (() => pipeables.ap)()
-const apFirst = /*#__PURE__*/ (() => pipeables.apFirst)()
-const apSecond = /*#__PURE__*/ (() => pipeables.apSecond)()
-const chain = /*#__PURE__*/ (() => pipeables.chain)()
-const chainFirst = /*#__PURE__*/ (() => pipeables.chainFirst)()
-const duplicate = /*#__PURE__*/ (() => pipeables.duplicate)()
-const extend = /*#__PURE__*/ (() => pipeables.extend)()
-const flatten = /*#__PURE__*/ (() => pipeables.flatten)()
-const map = /*#__PURE__*/ (() => pipeables.map)()
-const mapWithIndex = /*#__PURE__*/ (() => pipeables.mapWithIndex)()
-const reduce = /*#__PURE__*/ (() => pipeables.reduce)()
-const reduceWithIndex = /*#__PURE__*/ (() => pipeables.reduceWithIndex)()
-const reduceRight = /*#__PURE__*/ (() => pipeables.reduceRight)()
-const reduceRightWithIndex = /*#__PURE__*/ (() => pipeables.reduceRightWithIndex)()
-
-// from RNEA
-const foldMapWithIndex = /*#__PURE__*/ (() => RNEA.foldMapWithIndex)()
-const foldMap = /*#__PURE__*/ (() => RNEA.foldMap)()
-
-export {
-  /**
-   * @since 2.6.2
-   */
-  alt,
-  /**
-   * @since 2.0.0
-   */
-  ap,
-  /**
-   * @since 2.0.0
-   */
-  apFirst,
-  /**
-   * @since 2.0.0
-   */
-  apSecond,
-  /**
-   * @since 2.0.0
-   */
-  chain,
-  /**
-   * @since 2.0.0
-   */
-  chainFirst,
-  /**
-   * @since 2.0.0
-   */
-  duplicate,
-  /**
-   * @since 2.0.0
-   */
-  extend,
-  /**
-   * @since 2.0.0
-   */
-  flatten,
-  /**
-   * @since 2.0.0
-   */
-  foldMap,
-  /**
-   * @since 2.0.0
-   */
-  foldMapWithIndex,
-  /**
-   * @since 2.0.0
-   */
-  map,
-  /**
-   * @since 2.0.0
-   */
-  mapWithIndex,
-  /**
-   * @since 2.0.0
-   */
-  reduce,
-  /**
-   * @since 2.0.0
-   */
-  reduceRight,
-  /**
-   * @since 2.0.0
-   */
-  reduceRightWithIndex,
-  /**
-   * @since 2.0.0
-   */
-  reduceWithIndex
+  Alt1<URI> = {
+  ...(RNEA.readonlyNonEmptyArray as any),
+  URI
 }
