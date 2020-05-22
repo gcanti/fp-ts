@@ -15,7 +15,7 @@ import {
   RefinementWithIndex
 } from './FilterableWithIndex'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { constant, identity, Predicate, Refinement } from './function'
+import { identity, Predicate, Refinement } from './function'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
@@ -1561,7 +1561,8 @@ const wilt_ = <F>(
 /**
  * @since 2.5.0
  */
-export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (fa) => map_(fa, f)
+export const alt: <A>(that: () => ReadonlyArray<A>) => (fa: ReadonlyArray<A>) => ReadonlyArray<A> = (that) => (fa) =>
+  alt_(fa, that)
 
 /**
  * @since 2.5.0
@@ -1574,13 +1575,19 @@ export const ap: <A>(fa: ReadonlyArray<A>) => <B>(fab: ReadonlyArray<(a: A) => B
  * @since 2.5.0
  */
 export const apFirst: <B>(fb: ReadonlyArray<B>) => <A>(fa: ReadonlyArray<A>) => ReadonlyArray<A> = (fb) => (fa) =>
-  ap_(map_(fa, constant), fb)
+  ap_(
+    map_(fa, (a) => () => a),
+    fb
+  )
 
 /**
  * @since 2.5.0
  */
 export const apSecond = <B>(fb: ReadonlyArray<B>) => <A>(fa: ReadonlyArray<A>): ReadonlyArray<B> =>
-  ap_(map_<A, (b: B) => B>(fa, constant(identity)), fb)
+  ap_(
+    map_(fa, () => (b: B) => b),
+    fb
+  )
 
 /**
  * @since 2.5.0
@@ -1594,6 +1601,16 @@ export const chain: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<
 export const chainFirst: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<A>) => ReadonlyArray<A> = (f) => (
   ma
 ) => chain_(ma, (a) => map_(f(a), () => a))
+
+/**
+ * @since 2.5.0
+ */
+export const duplicate: <A>(wa: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>> = (wa) => extend_(wa, identity)
+
+/**
+ * @since 2.5.0
+ */
+export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (fa) => map_(fa, f)
 
 /**
  * @since 2.5.0
@@ -1683,12 +1700,6 @@ export const partitionMapWithIndex: <A, B, C>(
 /**
  * @since 2.5.0
  */
-export const alt: <A>(that: () => ReadonlyArray<A>) => (fa: ReadonlyArray<A>) => ReadonlyArray<A> = (that) => (fa) =>
-  alt_(fa, that)
-
-/**
- * @since 2.5.0
- */
 export const filterMapWithIndex: <A, B>(
   f: (i: number, a: A) => Option<B>
 ) => (fa: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (fa) => filterMapWithIndex_(fa, f)
@@ -1708,11 +1719,6 @@ export const filterWithIndex: {
 export const extend: <A, B>(f: (fa: ReadonlyArray<A>) => B) => (wa: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (
   ma
 ) => extend_(ma, f)
-
-/**
- * @since 2.5.0
- */
-export const duplicate: <A>(wa: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>> = (wa) => extend_(wa, identity)
 
 /**
  * @since 2.5.0

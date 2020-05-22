@@ -224,7 +224,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const duplicate: <A>(ma: Option<A>) => Option<Option<A>>
+export declare const duplicate: <A>(wa: Option<A>) => Option<Option<A>>
 ```
 
 Added in v2.0.0
@@ -298,7 +298,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const extend: <A, B>(f: (fa: Option<A>) => B) => (ma: Option<A>) => Option<B>
+export declare const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Option<B>
 ```
 
 Added in v2.0.0

@@ -80,7 +80,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const duplicate: <E, A>(ma: [A, E]) => [[A, E], E]
+export declare const duplicate: <E, A>(wa: [A, E]) => [[A, E], E]
 ```
 
 Added in v2.0.0
@@ -90,7 +90,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const extend: <E, A, B>(f: (fa: [A, E]) => B) => (ma: [A, E]) => [B, E]
+export declare const extend: <E, A, B>(f: (wa: [A, E]) => B) => (wa: [A, E]) => [B, E]
 ```
 
 Added in v2.0.0
