@@ -464,7 +464,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const duplicate: <A>(ma: readonly A[]) => readonly (readonly A[])[]
+export declare const duplicate: <A>(wa: readonly A[]) => readonly (readonly A[])[]
 ```
 
 Added in v2.5.0
@@ -510,7 +510,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const extend: <A, B>(f: (fa: readonly A[]) => B) => (ma: readonly A[]) => readonly B[]
+export declare const extend: <A, B>(f: (fa: readonly A[]) => B) => (wa: readonly A[]) => readonly B[]
 ```
 
 Added in v2.5.0
@@ -521,7 +521,7 @@ Added in v2.5.0
 
 ```ts
 export declare const filter: {
-  <A, B>(refinement: Refinement<A, B>): (fa: readonly A[]) => readonly B[]
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: readonly A[]) => readonly B[]
   <A>(predicate: Predicate<A>): (fa: readonly A[]) => readonly A[]
 }
 ```
@@ -554,7 +554,7 @@ Added in v2.5.0
 
 ```ts
 export declare const filterWithIndex: {
-  <A, B>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: readonly A[]) => readonly B[]
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: readonly A[]) => readonly B[]
   <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: readonly A[]) => readonly A[]
 }
 ```
@@ -1179,7 +1179,7 @@ Added in v2.5.0
 
 ```ts
 export declare const partition: {
-  <A, B>(refinement: Refinement<A, B>): (fa: readonly A[]) => Separated<readonly A[], readonly B[]>
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: readonly A[]) => Separated<readonly A[], readonly B[]>
   <A>(predicate: Predicate<A>): (fa: readonly A[]) => Separated<readonly A[], readonly A[]>
 }
 ```
@@ -1216,7 +1216,7 @@ Added in v2.5.0
 
 ```ts
 export declare const partitionWithIndex: {
-  <A, B>(refinementWithIndex: RefinementWithIndex<number, A, B>): (
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (
     fa: readonly A[]
   ) => Separated<readonly A[], readonly B[]>
   <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: readonly A[]) => Separated<readonly A[], readonly A[]>
