@@ -469,7 +469,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const duplicate: <A>(ma: A[]) => A[][]
+export declare const duplicate: <A>(wa: A[]) => A[][]
 ```
 
 Added in v2.0.0
@@ -515,7 +515,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const extend: <A, B>(f: (fa: A[]) => B) => (ma: A[]) => B[]
+export declare const extend: <A, B>(f: (fa: A[]) => B) => (wa: A[]) => readonly B[]
 ```
 
 Added in v2.0.0
@@ -526,7 +526,7 @@ Added in v2.0.0
 
 ```ts
 export declare const filter: {
-  <A, B>(refinement: Refinement<A, B>): (fa: A[]) => B[]
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: A[]) => B[]
   <A>(predicate: Predicate<A>): (fa: A[]) => A[]
 }
 ```
@@ -559,7 +559,7 @@ Added in v2.0.0
 
 ```ts
 export declare const filterWithIndex: {
-  <A, B>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: A[]) => B[]
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: A[]) => B[]
   <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: A[]) => A[]
 }
 ```
@@ -1168,7 +1168,7 @@ Added in v2.0.0
 
 ```ts
 export declare const partition: {
-  <A, B>(refinement: Refinement<A, B>): (fa: A[]) => Separated<A[], B[]>
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: A[]) => Separated<A[], B[]>
   <A>(predicate: Predicate<A>): (fa: A[]) => Separated<A[], A[]>
 }
 ```
@@ -1203,7 +1203,7 @@ Added in v2.0.0
 
 ```ts
 export declare const partitionWithIndex: {
-  <A, B>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: A[]) => Separated<A[], B[]>
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: A[]) => Separated<A[], B[]>
   <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: A[]) => Separated<A[], A[]>
 }
 ```
