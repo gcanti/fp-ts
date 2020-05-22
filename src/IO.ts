@@ -91,13 +91,12 @@
  *
  * @since 2.0.0
  */
+import { ChainRec1 } from './ChainRec'
 import { identity } from './function'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
-import { pipeable } from './pipeable'
 import { Semigroup } from './Semigroup'
-import { ChainRec1 } from './ChainRec'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -146,15 +145,73 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> {
  */
 export const of = <A>(a: A): IO<A> => () => a
 
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+const map_: <A, B>(fa: IO<A>, f: (a: A) => B) => IO<B> = (ma, f) => () => f(ma())
+
+const ap_: <A, B>(fab: IO<(a: A) => B>, fa: IO<A>) => IO<B> = (mab, ma) => () => mab()(ma())
+
+const chain_: <A, B>(fa: IO<A>, f: (a: A) => IO<B>) => IO<B> = (ma, f) => () => f(ma())()
+
+/**
+ * @since 2.0.0
+ */
+export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = (fa) => (fab) => ap_(fab, fa)
+
+/**
+ * @since 2.0.0
+ */
+export const apFirst: <B>(fb: IO<B>) => <A>(fa: IO<A>) => IO<A> = (fb) => (fa) =>
+  ap_(
+    map_(fa, (a) => () => a),
+    fb
+  )
+
+/**
+ * @since 2.0.0
+ */
+export const apSecond = <B>(fb: IO<B>) => <A>(fa: IO<A>): IO<B> =>
+  ap_(
+    map_(fa, () => (b: B) => b),
+    fb
+  )
+
+/**
+ * @since 2.0.0
+ */
+export const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B> = (f) => (ma) => chain_(ma, f)
+
+/**
+ * @since 2.0.0
+ */
+export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<A> = (f) => (ma) =>
+  chain_(ma, (a) => map_(f(a), () => a))
+
+/**
+ * @since 2.0.0
+ */
+export const flatten: <A>(mma: IO<IO<A>>) => IO<A> = (mma) => chain_(mma, identity)
+
+/**
+ * @since 2.0.0
+ */
+export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) => map_(fa, f)
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 2.0.0
  */
 export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
   URI,
-  map: (ma, f) => () => f(ma()),
+  map: map_,
   of,
-  ap: (mab, ma) => () => mab()(ma()),
-  chain: (ma, f) => () => f(ma())(),
+  ap: ap_,
+  chain: chain_,
   fromIO: identity,
   chainRec: (a, f) => () => {
     let e = f(a)()
@@ -163,44 +220,4 @@ export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
     }
     return e.right
   }
-}
-
-const pipeables = /*#__PURE__*/ pipeable(io)
-const ap = /*#__PURE__*/ (() => pipeables.ap)()
-const apFirst = /*#__PURE__*/ (() => pipeables.apFirst)()
-const apSecond = /*#__PURE__*/ (() => pipeables.apSecond)()
-const chain = /*#__PURE__*/ (() => pipeables.chain)()
-const chainFirst = /*#__PURE__*/ (() => pipeables.chainFirst)()
-const flatten = /*#__PURE__*/ (() => pipeables.flatten)()
-const map = /*#__PURE__*/ (() => pipeables.map)()
-
-export {
-  /**
-   * @since 2.0.0
-   */
-  ap,
-  /**
-   * @since 2.0.0
-   */
-  apFirst,
-  /**
-   * @since 2.0.0
-   */
-  apSecond,
-  /**
-   * @since 2.0.0
-   */
-  chain,
-  /**
-   * @since 2.0.0
-   */
-  chainFirst,
-  /**
-   * @since 2.0.0
-   */
-  flatten,
-  /**
-   * @since 2.0.0
-   */
-  map
 }
