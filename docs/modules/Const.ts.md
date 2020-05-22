@@ -21,6 +21,7 @@ Added in v2.0.0
 - [Const (type alias)](#const-type-alias)
 - [URI (type alias)](#uri-type-alias)
 - [URI](#uri)
+- [bimap](#bimap)
 - [const\_](#const_)
 - [contramap](#contramap)
 - [getApplicative](#getapplicative)
@@ -37,6 +38,7 @@ Added in v2.0.0
 - [getShow](#getshow)
 - [make](#make)
 - [map](#map)
+- [mapLeft](#mapleft)
 
 ---
 
@@ -69,6 +71,16 @@ export declare const URI: 'Const'
 ```
 
 Added in v2.0.0
+
+# bimap
+
+**Signature**
+
+```ts
+export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Const<E, A>) => Const<G, B>
+```
+
+Added in v2.6.2
 
 # const\_
 
@@ -229,3 +241,13 @@ export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Cons
 ```
 
 Added in v2.0.0
+
+# mapLeft
+
+**Signature**
+
+```ts
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Const<E, A>) => Const<G, A>
+```
+
+Added in v2.6.2
