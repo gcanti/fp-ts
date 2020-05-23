@@ -72,7 +72,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const ap: <E, A>(fa: Reader<E, A>) => <B>(fab: Reader<E, (a: A) => B>) => Reader<E, B>
+export declare const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B>
 ```
 
 Added in v2.0.0
@@ -82,7 +82,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const apFirst: <E, B>(fb: Reader<E, B>) => <A>(fa: Reader<E, A>) => Reader<E, A>
+export declare const apFirst: <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>) => Reader<R, A>
 ```
 
 Added in v2.0.0
@@ -92,7 +92,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const apSecond: <E, B>(fb: Reader<E, B>) => <A>(fa: Reader<E, A>) => Reader<E, B>
+export declare const apSecond: <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>) => Reader<R, B>
 ```
 
 Added in v2.0.0
@@ -126,7 +126,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const chain: <E, A, B>(f: (a: A) => Reader<E, B>) => (ma: Reader<E, A>) => Reader<E, B>
+export declare const chain: <R, A, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B>
 ```
 
 Added in v2.0.0
@@ -136,7 +136,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const chainFirst: <E, A, B>(f: (a: A) => Reader<E, B>) => (ma: Reader<E, A>) => Reader<E, A>
+export declare const chainFirst: <R, A, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, A>
 ```
 
 Added in v2.0.0
@@ -166,7 +166,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const flatten: <E, A>(mma: Reader<E, Reader<E, A>>) => Reader<E, A>
+export declare const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A>
 ```
 
 Added in v2.0.0
@@ -209,7 +209,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Reader<E, A>) => Reader<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B>
 ```
 
 Added in v2.0.0
