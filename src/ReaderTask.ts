@@ -1,11 +1,11 @@
 /**
  * @since 2.3.0
  */
+import { identity } from './function'
 import { IO } from './IO'
 import { Monad2 } from './Monad'
 import { MonadTask2 } from './MonadTask'
 import { Monoid } from './Monoid'
-import { pipeable } from './pipeable'
 import { getSemigroup as getReaderSemigroup, Reader } from './Reader'
 import { getReaderM } from './ReaderT'
 import { Semigroup } from './Semigroup'
@@ -131,10 +131,66 @@ export function chainTaskK<A, B>(f: (a: A) => Task<B>): <R>(ma: ReaderTask<R, A>
   return chain<any, A, B>(fromTaskK(f))
 }
 
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 2.3.0
  */
+export const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B> = (fa) => (
+  fab
+) => T.ap(fab, fa)
 
+/**
+ * @since 2.3.0
+ */
+export const apFirst = <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask<R, A>): ReaderTask<R, A> =>
+  T.ap(
+    T.map(fa, (a) => (_: B) => a),
+    fb
+  )
+
+/**
+ * @since 2.3.0
+ */
+export const apSecond = <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask<R, A>): ReaderTask<R, B> =>
+  T.ap(
+    T.map(fa, () => (b) => b),
+    fb
+  )
+
+/**
+ * @since 2.3.0
+ */
+export const chain: <R, A, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> = (f) => (
+  ma
+) => T.chain(ma, f)
+
+/**
+ * @since 2.3.0
+ */
+export const chainFirst: <R, A, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, A> = (
+  f
+) => (ma) => T.chain(ma, (a) => T.map(f(a), () => a))
+
+/**
+ * @since 2.3.0
+ */
+export const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => ReaderTask<R, A> = (mma) => T.chain(mma, identity)
+
+/**
+ * @since 2.3.0
+ */
+export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B> = (f) => (fa) => T.map(fa, f)
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.3.0
+ */
 export const readerTask: Monad2<URI> & MonadTask2<URI> = {
   URI,
   map: T.map,
@@ -152,44 +208,4 @@ export const readerTask: Monad2<URI> & MonadTask2<URI> = {
 export const readerTaskSeq: typeof readerTask = {
   ...readerTask,
   ap: (mab, ma) => T.chain(mab, (f) => T.map(ma, f))
-}
-
-const pipeables = /*#__PURE__*/ pipeable(readerTask)
-const ap = /*#__PURE__*/ (() => pipeables.ap)()
-const apFirst = /*#__PURE__*/ (() => pipeables.apFirst)()
-const apSecond = /*#__PURE__*/ (() => pipeables.apSecond)()
-const chain = /*#__PURE__*/ (() => pipeables.chain)()
-const chainFirst = /*#__PURE__*/ (() => pipeables.chainFirst)()
-const flatten = /*#__PURE__*/ (() => pipeables.flatten)()
-const map = /*#__PURE__*/ (() => pipeables.map)()
-
-export {
-  /**
-   * @since 2.3.0
-   */
-  ap,
-  /**
-   * @since 2.3.0
-   */
-  apFirst,
-  /**
-   * @since 2.3.0
-   */
-  apSecond,
-  /**
-   * @since 2.3.0
-   */
-  chain,
-  /**
-   * @since 2.3.0
-   */
-  chainFirst,
-  /**
-   * @since 2.3.0
-   */
-  flatten,
-  /**
-   * @since 2.3.0
-   */
-  map
 }
