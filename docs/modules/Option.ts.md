@@ -224,7 +224,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const duplicate: <A>(wa: Option<A>) => Option<Option<A>>
+export declare const duplicate: <A>(ma: Option<A>) => Option<Option<A>>
 ```
 
 Added in v2.0.0
@@ -309,7 +309,7 @@ Added in v2.0.0
 
 ```ts
 export declare const filter: {
-  <A, B>(refinement: Refinement<A, B>): (fa: Option<A>) => Option<B>
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Option<B>
   <A>(predicate: Predicate<A>): (fa: Option<A>) => Option<A>
 }
 ```
@@ -877,7 +877,7 @@ Added in v2.0.0
 
 ```ts
 export declare const partition: {
-  <A, B>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>
   <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>
 }
 ```
@@ -921,7 +921,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const separate: <A, B>(fa: Option<Either<A, B>>) => Separated<Option<A>, Option<B>>
+export declare const separate: <A, B>(ma: Option<Either<A, B>>) => Separated<Option<A>, Option<B>>
 ```
 
 Added in v2.0.0
