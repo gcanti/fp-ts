@@ -9,12 +9,11 @@
  *
  * @since 2.0.0
  */
-import { Ordering, monoidOrdering } from './Ordering'
-import { Semigroup } from './Semigroup'
-import { Eq } from './Eq'
 import { Contravariant1 } from './Contravariant'
-import { pipeable } from './pipeable'
+import { Eq } from './Eq'
 import { Monoid } from './Monoid'
+import { monoidOrdering, Ordering } from './Ordering'
+import { Semigroup } from './Semigroup'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -279,27 +278,33 @@ export function getDualOrd<A>(O: Ord<A>): Ord<A> {
   return fromCompare((x, y) => O.compare(y, x))
 }
 
-/**
- * @since 2.0.0
- */
-export const ord: Contravariant1<URI> = {
-  URI,
-  contramap: (fa, f) => fromCompare((x, y) => fa.compare(f(x), f(y)))
-}
-
-const pipeables = /*#__PURE__*/ pipeable(ord)
-const contramap = /*#__PURE__*/ (() => pipeables.contramap)()
-
-export {
-  /**
-   * @since 2.0.0
-   */
-  contramap
-}
+const contramap_: <A, B>(fa: Ord<A>, f: (b: B) => A) => Ord<B> = (fa, f) =>
+  fromCompare((x, y) => fa.compare(f(x), f(y)))
 
 /**
  * @since 2.0.0
  */
 export const ordDate: Ord<Date> =
   /*#__PURE__*/
-  ord.contramap(ordNumber, (date) => date.valueOf())
+  contramap_(ordNumber, (date) => date.valueOf())
+
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.0.0
+ */
+export const contramap: <A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B> = (f) => (fa) => contramap_(fa, f)
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.0.0
+ */
+export const ord: Contravariant1<URI> = {
+  URI,
+  contramap: contramap_
+}
