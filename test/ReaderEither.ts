@@ -8,20 +8,108 @@ import * as _ from '../src/ReaderEither'
 import { semigroupSum, semigroupString } from '../src/Semigroup'
 
 describe('ReaderEither', () => {
-  it('fromOption', () => {
-    const e1 = _.fromOption(() => 'none')(none)({})
-    assert.deepStrictEqual(e1, E.left('none'))
-    const e2 = _.fromOption(() => 'none')(some(1))({})
-    assert.deepStrictEqual(e2, E.right(1))
-  })
+  describe('pipeables', () => {
+    it('map', () => {
+      const double = (n: number) => n * 2
+      assert.deepStrictEqual(pipe(_.right(1), _.map(double))({}), E.right(2))
+    })
 
-  it('fromPredicate', () => {
-    const gt2 = _.fromPredicate(
-      (n: number) => n >= 2,
-      (n) => `Invalid number ${n}`
-    )
-    assert.deepStrictEqual(gt2(3)({}), E.right(3))
-    assert.deepStrictEqual(gt2(1)({}), E.left('Invalid number 1'))
+    it('alt', () => {
+      assert.deepStrictEqual(
+        pipe(
+          _.right('a'),
+          _.alt(() => _.right('b'))
+        )({}),
+        E.right('a')
+      )
+      assert.deepStrictEqual(
+        pipe(
+          _.left(1),
+          _.alt(() => _.right('b'))
+        )({}),
+        E.right('b')
+      )
+    })
+
+    it('ap', () => {
+      const double = (n: number) => n * 2
+      assert.deepStrictEqual(pipe(_.right(double), _.ap(_.right(1)))({}), E.right(2))
+    })
+
+    it('apFirst', () => {
+      assert.deepStrictEqual(pipe(_.right('a'), _.apFirst(_.right('b')))({}), E.right('a'))
+    })
+
+    it('apSecond', () => {
+      assert.deepStrictEqual(pipe(_.right('a'), _.apSecond(_.right('b')))({}), E.right('b'))
+    })
+
+    it('chainFirst', () => {
+      const f = (n: number) => _.right(n * 2)
+      assert.deepStrictEqual(pipe(_.right(1), _.chainFirst(f))({}), E.right(1))
+    })
+
+    it('flatten', () => {
+      assert.deepStrictEqual(pipe(_.right(_.right('a')), _.flatten)({}), E.right('a'))
+    })
+
+    it('mapLeft', () => {
+      const len = (s: string) => s.length
+      assert.deepStrictEqual(pipe(_.right(1), _.mapLeft(len))({}), E.right(1))
+      assert.deepStrictEqual(pipe(_.left('aa'), _.mapLeft(len))({}), E.left(2))
+    })
+
+    it('bimap', () => {
+      const double = (n: number) => n * 2
+      const len = (s: string) => s.length
+      assert.deepStrictEqual(pipe(_.right(1), _.bimap(len, double))({}), E.right(2))
+      assert.deepStrictEqual(pipe(_.left('aaa'), _.bimap(len, double))({}), E.left(3))
+    })
+
+    it('fromOption', () => {
+      assert.deepStrictEqual(
+        pipe(
+          none,
+          _.fromOption(() => 'none')
+        )({}),
+        E.left('none')
+      )
+      assert.deepStrictEqual(
+        pipe(
+          some(1),
+          _.fromOption(() => 'none')
+        )({}),
+        E.right(1)
+      )
+    })
+
+    it('fromPredicate', () => {
+      const gt2 = _.fromPredicate(
+        (n: number) => n >= 2,
+        (n) => `Invalid number ${n}`
+      )
+      assert.deepStrictEqual(gt2(3)({}), E.right(3))
+      assert.deepStrictEqual(gt2(1)({}), E.left('Invalid number 1'))
+    })
+
+    it('filterOrElse', () => {
+      const e1 = pipe(
+        _.right(12),
+        _.filterOrElse(
+          (n) => n > 10,
+          () => 'a'
+        )
+      )({})
+      assert.deepStrictEqual(e1, E.right(12))
+      const e2 = pipe(
+        _.right(7),
+        _.filterOrElse(
+          (n) => n > 10,
+          () => 'a'
+        )
+      )({})
+      assert.deepStrictEqual(e2, E.left('a'))
+    })
   })
 
   it('fold', () => {
@@ -42,25 +130,6 @@ describe('ReaderEither', () => {
   it('orElse', () => {
     const orElse = _.orElse((s: string) => (s.length > 2 ? _.right(1) : _.left(2)))
     assert.deepStrictEqual(orElse(_.right(1))({}), E.right(1))
-  })
-
-  it('filterOrElse', () => {
-    const e1 = pipe(
-      _.right(12),
-      _.filterOrElse(
-        (n) => n > 10,
-        () => 'a'
-      )
-    )({})
-    assert.deepStrictEqual(e1, E.right(12))
-    const e2 = pipe(
-      _.right(7),
-      _.filterOrElse(
-        (n) => n > 10,
-        () => 'a'
-      )
-    )({})
-    assert.deepStrictEqual(e2, E.left('a'))
   })
 
   describe('getSemigroup', () => {
@@ -135,8 +204,8 @@ describe('ReaderEither', () => {
   })
 
   it('chainEitherK', () => {
-    const f = (s: string) => E.right(s.length)
-    const x = pipe(_.right('a'), _.chainEitherK(f))(undefined)
-    assert.deepStrictEqual(x, E.right(1))
+    const f = (s: string) => (s.length === 1 ? E.right(s.length) : E.left('b'))
+    assert.deepStrictEqual(pipe(_.right('a'), _.chainEitherK(f))({}), E.right(1))
+    assert.deepStrictEqual(pipe(_.right('aa'), _.chainEitherK(f))({}), E.left('b'))
   })
 })
