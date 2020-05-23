@@ -18,6 +18,7 @@ Added in v2.0.0
 - [compose](#compose)
 - [duplicate](#duplicate)
 - [extend](#extend)
+- [extract](#extract)
 - [foldMap](#foldmap)
 - [fst](#fst)
 - [getApplicative](#getapplicative)
@@ -80,7 +81,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const duplicate: <E, A>(wa: [A, E]) => [[A, E], E]
+export declare const duplicate: <E, A>(ma: [A, E]) => [[A, E], E]
 ```
 
 Added in v2.0.0
@@ -94,6 +95,16 @@ export declare const extend: <E, A, B>(f: (wa: [A, E]) => B) => (wa: [A, E]) => 
 ```
 
 Added in v2.0.0
+
+# extract
+
+**Signature**
+
+```ts
+export declare const extract: <E, A>(wa: [A, E]) => A
+```
+
+Added in v2.6.2
 
 # foldMap
 
