@@ -12,7 +12,6 @@ import { Profunctor2 } from './Profunctor'
 import { getReaderM } from './ReaderT'
 import { Semigroup } from './Semigroup'
 import { Strong2 } from './Strong'
-import { pipeable } from './pipeable'
 
 const T = /*#__PURE__*/ getReaderM(identity)
 
@@ -87,17 +86,94 @@ export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> {
  */
 export const of: <R, A>(a: A) => Reader<R, A> = T.of
 
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+const compose_: <E, A, B>(ab: Reader<A, B>, la: Reader<E, A>) => Reader<E, B> = (ab, la) => (l) => ab(la(l))
+
+const promap_: <E, A, D, B>(fbc: Reader<E, A>, f: (d: D) => E, g: (a: A) => B) => Reader<D, B> = (mbc, f, g) => (a) =>
+  g(mbc(f(a)))
+
+/**
+ * @since 2.0.0
+ */
+export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> = (fa) => (fab) =>
+  T.ap(fab, fa)
+
+/**
+ * @since 2.0.0
+ */
+export const apFirst = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reader<R, A> =>
+  T.ap(
+    T.map(fa, (a) => (_: B) => a),
+    fb
+  )
+
+/**
+ * @since 2.0.0
+ */
+export const apSecond = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reader<R, B> =>
+  T.ap(
+    T.map(fa, () => (b: B) => b),
+    fb
+  )
+
+/**
+ * @since 2.0.0
+ */
+export const chain: <R, A, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B> = (f) => (ma) =>
+  T.chain(ma, f)
+
+/**
+ * @since 2.0.0
+ */
+export const chainFirst: <R, A, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, A> = (f) => (ma) =>
+  T.chain(ma, (a) => T.map(f(a), () => a))
+
+/**
+ * @since 2.6.0
+ */
+export const chainW: <Q, A, B>(f: (a: A) => Reader<Q, B>) => <R>(ma: Reader<R, A>) => Reader<R & Q, B> = chain as any
+
+/**
+ * @since 2.0.0
+ */
+export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> = (mma) => T.chain(mma, id)
+
+/**
+ * @since 2.0.0
+ */
+export const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B> = (f) => (fa) => T.map(fa, f)
+
+/**
+ * @since 2.0.0
+ */
+export const compose: <E, A>(la: Reader<E, A>) => <B>(ab: Reader<A, B>) => Reader<E, B> = (la) => (ab) =>
+  compose_(ab, la)
+
+/**
+ * @since 2.0.0
+ */
+export const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reader<E, A>) => Reader<D, B> = (f, g) => (
+  fbc
+) => promap_(fbc, f, g)
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 2.0.0
  */
 export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = {
   URI,
-  map: (ma, f) => (e) => f(ma(e)),
+  map: T.map,
   of,
   ap: T.ap,
   chain: T.chain,
-  promap: (mbc, f, g) => (a) => g(mbc(f(a))),
-  compose: (ab, la) => (l) => ab(la(l)),
+  promap: promap_,
+  compose: compose_,
   id: () => id,
   first: (pab) => ([a, c]) => [pab(a), c],
   second: (pbc) => ([a, b]) => [a, pbc(b)],
@@ -105,59 +181,4 @@ export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<U
     E.fold<A, C, E.Either<B, C>>((a) => E.left(pab(a)), E.right),
   right: <A, B, C>(pbc: Reader<B, C>): Reader<E.Either<A, B>, E.Either<A, C>> =>
     E.fold<A, B, E.Either<A, C>>(E.left, (b) => E.right(pbc(b)))
-}
-
-const pipeables = /*#__PURE__*/ pipeable(reader)
-const ap = /*#__PURE__*/ (() => pipeables.ap)()
-const apFirst = /*#__PURE__*/ (() => pipeables.apFirst)()
-const apSecond = /*#__PURE__*/ (() => pipeables.apSecond)()
-const chain = /*#__PURE__*/ (() => pipeables.chain)()
-const chainFirst = /*#__PURE__*/ (() => pipeables.chainFirst)()
-const compose = /*#__PURE__*/ (() => pipeables.compose)()
-const flatten = /*#__PURE__*/ (() => pipeables.flatten)()
-const map = /*#__PURE__*/ (() => pipeables.map)()
-const promap = /*#__PURE__*/ (() => pipeables.promap)()
-
-/**
- * @since 2.6.0
- */
-export const chainW: <Q, A, B>(f: (a: A) => Reader<Q, B>) => <R>(ma: Reader<R, A>) => Reader<R & Q, B> = chain as any
-
-export {
-  /**
-   * @since 2.0.0
-   */
-  ap,
-  /**
-   * @since 2.0.0
-   */
-  apFirst,
-  /**
-   * @since 2.0.0
-   */
-  apSecond,
-  /**
-   * @since 2.0.0
-   */
-  chain,
-  /**
-   * @since 2.0.0
-   */
-  chainFirst,
-  /**
-   * @since 2.0.0
-   */
-  compose,
-  /**
-   * @since 2.0.0
-   */
-  flatten,
-  /**
-   * @since 2.0.0
-   */
-  map,
-  /**
-   * @since 2.0.0
-   */
-  promap
 }
