@@ -8,7 +8,7 @@ import { Eq, fromEquals } from './Eq'
 import { Filterable2 } from './Filterable'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
-import { Predicate } from './function'
+import { Predicate, Refinement } from './function'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
@@ -19,7 +19,6 @@ import { Show } from './Show'
 import { TraversableWithIndex2C } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable2C } from './Witherable'
-import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -426,7 +425,7 @@ export function fromFoldable<F, K, A>(
   }
 }
 
-const _mapWithIndex = <K, A, B>(fa: ReadonlyMap<K, A>, f: (k: K, a: A) => B): ReadonlyMap<K, B> => {
+const mapWithIndex_ = <K, A, B>(fa: ReadonlyMap<K, A>, f: (k: K, a: A) => B): ReadonlyMap<K, B> => {
   const m = new Map<K, B>()
   const entries = fa.entries()
   let e: Next<readonly [K, A]>
@@ -438,7 +437,7 @@ const _mapWithIndex = <K, A, B>(fa: ReadonlyMap<K, A>, f: (k: K, a: A) => B): Re
   return m
 }
 
-const _partitionMapWithIndex = <K, A, B, C>(
+const partitionMapWithIndex_ = <K, A, B, C>(
   fa: ReadonlyMap<K, A>,
   f: (k: K, a: A) => Either<B, C>
 ): Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>> => {
@@ -462,7 +461,7 @@ const _partitionMapWithIndex = <K, A, B, C>(
   }
 }
 
-const _partitionWithIndex = <K, A>(
+const partitionWithIndex_ = <K, A>(
   fa: ReadonlyMap<K, A>,
   p: (k: K, a: A) => boolean
 ): Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>> => {
@@ -485,7 +484,7 @@ const _partitionWithIndex = <K, A>(
   }
 }
 
-const _filterMapWithIndex = <K, A, B>(fa: ReadonlyMap<K, A>, f: (k: K, a: A) => Option<B>): ReadonlyMap<K, B> => {
+const filterMapWithIndex_ = <K, A, B>(fa: ReadonlyMap<K, A>, f: (k: K, a: A) => Option<B>): ReadonlyMap<K, B> => {
   const m = new Map<K, B>()
   const entries = fa.entries()
   let e: Next<readonly [K, A]>
@@ -500,7 +499,7 @@ const _filterMapWithIndex = <K, A, B>(fa: ReadonlyMap<K, A>, f: (k: K, a: A) => 
   return m
 }
 
-const _filterWithIndex = <K, A>(fa: ReadonlyMap<K, A>, p: (k: K, a: A) => boolean): ReadonlyMap<K, A> => {
+const filterWithIndex_ = <K, A>(fa: ReadonlyMap<K, A>, p: (k: K, a: A) => boolean): ReadonlyMap<K, A> => {
   const m = new Map<K, A>()
   const entries = fa.entries()
   let e: Next<readonly [K, A]>
@@ -514,6 +513,112 @@ const _filterWithIndex = <K, A>(fa: ReadonlyMap<K, A>, p: (k: K, a: A) => boolea
   return m
 }
 
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+const map_: <E, A, B>(fa: ReadonlyMap<E, A>, f: (a: A) => B) => ReadonlyMap<E, B> = (fa, f) =>
+  mapWithIndex_(fa, (_, a) => f(a))
+
+const filter_ = <K, A>(fa: ReadonlyMap<K, A>, p: Predicate<A>): ReadonlyMap<K, A> =>
+  filterWithIndex_(fa, (_, a) => p(a))
+
+const filterMap_: <E, A, B>(fa: ReadonlyMap<E, A>, f: (a: A) => Option<B>) => ReadonlyMap<E, B> = (fa, f) =>
+  filterMapWithIndex_(fa, (_, a) => f(a))
+
+const partition_ = <K, A>(
+  fa: ReadonlyMap<K, A>,
+  predicate: Predicate<A>
+): Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>> => partitionWithIndex_(fa, (_, a) => predicate(a))
+
+const partitionMap_: <E, A, B, C>(
+  fa: ReadonlyMap<E, A>,
+  f: (a: A) => Either<B, C>
+) => Separated<ReadonlyMap<E, B>, ReadonlyMap<E, C>> = (fa, f) => partitionMapWithIndex_(fa, (_, a) => f(a))
+
+/**
+ * @since 2.5.0
+ */
+export const compact = <K, A>(fa: ReadonlyMap<K, Option<A>>): ReadonlyMap<K, A> => {
+  const m = new Map<K, A>()
+  const entries = fa.entries()
+  let e: Next<readonly [K, Option<A>]>
+  // tslint:disable-next-line: strict-boolean-expressions
+  while (!(e = entries.next()).done) {
+    const [k, oa] = e.value
+    if (isSome(oa)) {
+      m.set(k, oa.value)
+    }
+  }
+  return m
+}
+
+/**
+ * @since 2.5.0
+ */
+export const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): <E>(fa: ReadonlyMap<E, A>) => ReadonlyMap<E, B>
+  <A>(predicate: Predicate<A>): <E>(fa: ReadonlyMap<E, A>) => ReadonlyMap<E, A>
+} = <A>(predicate: Predicate<A>) => <E>(fa: ReadonlyMap<E, A>) => filter_(fa, predicate)
+
+/**
+ * @since 2.5.0
+ */
+export const filterMap: <A, B>(f: (a: A) => Option<B>) => <E>(fa: ReadonlyMap<E, A>) => ReadonlyMap<E, B> = (f) => (
+  fa
+) => filterMap_(fa, f)
+
+/**
+ * @since 2.5.0
+ */
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: ReadonlyMap<E, A>) => ReadonlyMap<E, B> = (f) => (fa) => map_(fa, f)
+
+/**
+ * @since 2.5.0
+ */
+export const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): <E>(
+    fa: ReadonlyMap<E, A>
+  ) => Separated<ReadonlyMap<E, A>, ReadonlyMap<E, B>>
+  <A>(predicate: Predicate<A>): <E>(fa: ReadonlyMap<E, A>) => Separated<ReadonlyMap<E, A>, ReadonlyMap<E, A>>
+} = <A>(predicate: Predicate<A>) => <E>(fa: ReadonlyMap<E, A>) => partition_(fa, predicate)
+
+/**
+ * @since 2.5.0
+ */
+export const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => <E>(fa: ReadonlyMap<E, A>) => Separated<ReadonlyMap<E, B>, ReadonlyMap<E, C>> = (f) => (fa) => partitionMap_(fa, f)
+
+/**
+ * @since 2.5.0
+ */
+export const separate = <K, A, B>(
+  fa: ReadonlyMap<K, Either<A, B>>
+): Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>> => {
+  const left = new Map<K, A>()
+  const right = new Map<K, B>()
+  const entries = fa.entries()
+  let e: Next<readonly [K, Either<A, B>]>
+  // tslint:disable-next-line: strict-boolean-expressions
+  while (!(e = entries.next()).done) {
+    const [k, ei] = e.value
+    if (isLeft(ei)) {
+      left.set(k, ei.left)
+    } else {
+      right.set(k, ei.right)
+    }
+  }
+  return {
+    left,
+    right
+  }
+}
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 2.5.0
  */
@@ -521,11 +626,11 @@ export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, 
   return {
     ...readonlyMap,
     _E: undefined as any,
-    mapWithIndex: _mapWithIndex,
-    partitionMapWithIndex: _partitionMapWithIndex,
-    partitionWithIndex: _partitionWithIndex,
-    filterMapWithIndex: _filterMapWithIndex,
-    filterWithIndex: _filterWithIndex
+    mapWithIndex: mapWithIndex_,
+    partitionMapWithIndex: partitionMapWithIndex_,
+    partitionWithIndex: partitionWithIndex_,
+    filterMapWithIndex: filterMapWithIndex_,
+    filterWithIndex: filterWithIndex_
   }
 }
 
@@ -610,7 +715,7 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
     reduceRight: (fa, b, f) => reduceRightWithIndex(fa, b, (_, a, b) => f(a, b)),
     traverse,
     sequence,
-    mapWithIndex: _mapWithIndex,
+    mapWithIndex: mapWithIndex_,
     reduceWithIndex,
     foldMapWithIndex,
     reduceRightWithIndex,
@@ -638,82 +743,11 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
  */
 export const readonlyMap: Filterable2<URI> = {
   URI,
-  map: (fa, f) => _mapWithIndex(fa, (_, a) => f(a)),
-  compact: <K, A>(fa: ReadonlyMap<K, Option<A>>): ReadonlyMap<K, A> => {
-    const m = new Map<K, A>()
-    const entries = fa.entries()
-    let e: Next<readonly [K, Option<A>]>
-    // tslint:disable-next-line: strict-boolean-expressions
-    while (!(e = entries.next()).done) {
-      const [k, oa] = e.value
-      if (isSome(oa)) {
-        m.set(k, oa.value)
-      }
-    }
-    return m
-  },
-  separate: <K, A, B>(fa: ReadonlyMap<K, Either<A, B>>): Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>> => {
-    const left = new Map<K, A>()
-    const right = new Map<K, B>()
-    const entries = fa.entries()
-    let e: Next<readonly [K, Either<A, B>]>
-    // tslint:disable-next-line: strict-boolean-expressions
-    while (!(e = entries.next()).done) {
-      const [k, ei] = e.value
-      if (isLeft(ei)) {
-        left.set(k, ei.left)
-      } else {
-        right.set(k, ei.right)
-      }
-    }
-    return {
-      left,
-      right
-    }
-  },
-  filter: <K, A>(fa: ReadonlyMap<K, A>, p: Predicate<A>): ReadonlyMap<K, A> => _filterWithIndex(fa, (_, a) => p(a)),
-  filterMap: (fa, f) => _filterMapWithIndex(fa, (_, a) => f(a)),
-  partition: <K, A>(fa: ReadonlyMap<K, A>, predicate: Predicate<A>): Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>> =>
-    _partitionWithIndex(fa, (_, a) => predicate(a)),
-  partitionMap: (fa, f) => _partitionMapWithIndex(fa, (_, a) => f(a))
-}
-
-const pipeables = /*#__PURE__*/ pipeable(readonlyMap)
-const filter = /*#__PURE__*/ (() => pipeables.filter)()
-const filterMap = /*#__PURE__*/ (() => pipeables.filterMap)()
-const map = /*#__PURE__*/ (() => pipeables.map)()
-const partition = /*#__PURE__*/ (() => pipeables.partition)()
-const partitionMap = /*#__PURE__*/ (() => pipeables.partitionMap)()
-const compact = /*#__PURE__*/ (() => pipeables.compact)()
-const separate = /*#__PURE__*/ (() => pipeables.separate)()
-
-export {
-  /**
-   * @since 2.5.0
-   */
-  filter,
-  /**
-   * @since 2.5.0
-   */
-  filterMap,
-  /**
-   * @since 2.5.0
-   */
-  map,
-  /**
-   * @since 2.5.0
-   */
-  partition,
-  /**
-   * @since 2.5.0
-   */
-  partitionMap,
-  /**
-   * @since 2.5.0
-   */
+  map: map_,
   compact,
-  /**
-   * @since 2.5.0
-   */
-  separate
+  separate,
+  filter: filter_,
+  filterMap: filterMap_,
+  partition: partition_,
+  partitionMap: partitionMap_
 }

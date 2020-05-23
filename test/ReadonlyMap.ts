@@ -10,6 +10,7 @@ import { Either, left, right } from '../src/Either'
 import * as I from '../src/Identity'
 import { ord, ordString, fromCompare, ordNumber } from '../src/Ord'
 import { showString, getStructShow, Show } from '../src/Show'
+import { pipe } from '../src/pipeable'
 
 interface User {
   readonly id: string
@@ -45,6 +46,104 @@ const repo = new Map<Key, Value>([
 ])
 
 describe('ReadonlyMap', () => {
+  describe('pipeables', () => {
+    it('map', () => {
+      const double = (n: number): number => n * 2
+      assert.deepStrictEqual(
+        pipe(
+          new Map<string, number>([
+            ['k1', 1],
+            ['k2', 2]
+          ]),
+          _.map(double)
+        ),
+        new Map<string, number>([
+          ['k1', 2],
+          ['k2', 4]
+        ])
+      )
+    })
+
+    it('filter', () => {
+      assert.deepStrictEqual(
+        pipe(
+          new Map<string, number>([
+            ['a', 1],
+            ['b', 3]
+          ]),
+          _.filter(p)
+        ),
+        new Map<string, number>([['b', 3]])
+      )
+
+      // refinements
+      const isNumber = (u: string | number): u is number => typeof u === 'number'
+      assert.deepStrictEqual(
+        pipe(
+          new Map<string, string | number>([
+            ['a', 1],
+            ['b', 'foo']
+          ]),
+          _.filter(isNumber)
+        ),
+        new Map<string, number>([['a', 1]])
+      )
+    })
+
+    it('filterMap', () => {
+      const empty = new Map<string, number>()
+      const f = (n: number) => (p(n) ? some(n + 1) : none)
+      assert.deepStrictEqual(pipe(empty, _.filterMap(f)), empty)
+      assert.deepStrictEqual(
+        pipe(
+          new Map<string, number>([
+            ['a', 1],
+            ['b', 3]
+          ]),
+          _.filterMap(f)
+        ),
+        new Map<string, number>([['b', 4]])
+      )
+    })
+
+    it('partitionMap', () => {
+      const empty = new Map<string, number>()
+      const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
+      assert.deepStrictEqual(pipe(empty, _.partitionMap(f)), { left: empty, right: empty })
+      assert.deepStrictEqual(
+        pipe(
+          new Map<string, number>([
+            ['a', 1],
+            ['b', 3]
+          ]),
+          _.partitionMap(f)
+        ),
+        {
+          left: new Map<string, number>([['a', 0]]),
+          right: new Map<string, number>([['b', 4]])
+        }
+      )
+    })
+
+    it('partition', () => {
+      const empty = new Map<string, number>()
+      assert.deepStrictEqual(pipe(empty, _.partition(p)), { left: empty, right: empty })
+      assert.deepStrictEqual(
+        pipe(
+          new Map<string, number>([
+            ['a', 1],
+            ['b', 3]
+          ]),
+          _.partition(p)
+        ),
+        {
+          left: new Map<string, number>([['a', 1]]),
+          right: new Map<string, number>([['b', 3]])
+        }
+      )
+    })
+  })
+
   it('size', () => {
     const emptyMap = new Map<string, number>()
     const a1 = new Map<string, number>([['a', 1]])
@@ -614,23 +713,7 @@ describe('ReadonlyMap', () => {
   })
 
   describe('readonlyMap', () => {
-    describe('functor', () => {
-      it('map', () => {
-        const map = _.readonlyMap.map
-        const d1 = new Map<string, number>([
-          ['k1', 1],
-          ['k2', 2]
-        ])
-        const expected = new Map<string, number>([
-          ['k1', 2],
-          ['k2', 4]
-        ])
-        const double = (n: number): number => n * 2
-        assert.deepStrictEqual(map(d1, double), expected)
-      })
-    })
-
-    describe('filterable', () => {
+    describe('compactable', () => {
       it('compact', () => {
         const compact = _.readonlyMap.compact
         const fooBar = new Map<string, Option<number>>([
@@ -639,39 +722,6 @@ describe('ReadonlyMap', () => {
         ])
         const bar = new Map<string, number>([['bar', 123]])
         assert.deepStrictEqual(compact(fooBar), bar)
-      })
-
-      it('partitionMap', () => {
-        const partitionMap = _.readonlyMap.partitionMap
-        const emptyMap = new Map<string, number>()
-        const a1b3 = new Map<string, number>([
-          ['a', 1],
-          ['b', 3]
-        ])
-        const a0 = new Map<string, number>([['a', 0]])
-        const b4 = new Map<string, number>([['b', 4]])
-        const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
-        assert.deepStrictEqual(partitionMap(emptyMap, f), { left: emptyMap, right: emptyMap })
-        assert.deepStrictEqual(partitionMap(a1b3, f), {
-          left: a0,
-          right: b4
-        })
-      })
-
-      it('partition', () => {
-        const partition = _.readonlyMap.partition
-        const emptyMap = new Map<string, number>()
-        const a1b3 = new Map<string, number>([
-          ['a', 1],
-          ['b', 3]
-        ])
-        const a1 = new Map<string, number>([['a', 1]])
-        const b3 = new Map<string, number>([['b', 3]])
-        assert.deepStrictEqual(partition(emptyMap, p), { left: emptyMap, right: emptyMap })
-        assert.deepStrictEqual(partition(a1b3, p), {
-          left: a1,
-          right: b3
-        })
       })
 
       it('separate', () => {
@@ -686,39 +736,6 @@ describe('ReadonlyMap', () => {
           left: foo,
           right: bar
         })
-      })
-
-      it('filter', () => {
-        const filter = _.readonlyMap.filter
-        const a1b3 = new Map<string, number>([
-          ['a', 1],
-          ['b', 3]
-        ])
-        const b3 = new Map<string, number>([['b', 3]])
-        assert.deepStrictEqual(filter(a1b3, p), b3)
-
-        // refinements
-        const isNumber = (u: string | number): u is number => typeof u === 'number'
-        const y = new Map<string, string | number>([
-          ['a', 1],
-          ['b', 'foo']
-        ])
-        const a1 = new Map<string, number>([['a', 1]])
-        const actual = filter(y, isNumber)
-        assert.deepStrictEqual(actual, a1)
-      })
-
-      it('filterMap', () => {
-        const filterMap = _.readonlyMap.filterMap
-        const emptyMap = new Map<string, number>()
-        const a1b3 = new Map<string, number>([
-          ['a', 1],
-          ['b', 3]
-        ])
-        const b4 = new Map<string, number>([['b', 4]])
-        const f = (n: number) => (p(n) ? some(n + 1) : none)
-        assert.deepStrictEqual(filterMap(emptyMap, f), emptyMap)
-        assert.deepStrictEqual(filterMap(a1b3, f), b4)
       })
     })
   })
