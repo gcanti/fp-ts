@@ -167,7 +167,7 @@ Added in v2.0.0
 
 ```ts
 export declare const filter: {
-  <A, B>(refinement: Refinement<A, B>): (fa: Record<string, A>) => Record<string, B>
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: Record<string, A>) => Record<string, B>
   <A>(predicate: Predicate<A>): (fa: Record<string, A>) => Record<string, A>
 }
 ```
@@ -482,7 +482,9 @@ Added in v2.0.0
 
 ```ts
 export declare const partition: {
-  <A, B>(refinement: Refinement<A, B>): (fa: Record<string, A>) => Separated<Record<string, A>, Record<string, B>>
+  <A, B extends A>(refinement: Refinement<A, B>): (
+    fa: Record<string, A>
+  ) => Separated<Record<string, A>, Record<string, B>>
   <A>(predicate: Predicate<A>): (fa: Record<string, A>) => Separated<Record<string, A>, Record<string, A>>
 }
 ```
