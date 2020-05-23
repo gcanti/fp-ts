@@ -8,13 +8,12 @@ import { Eq } from './Eq'
 import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { Predicate } from './function'
+import { Predicate, Refinement } from './function'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
-import { pipeable } from './pipeable'
 import * as RR from './ReadonlyRecord'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
@@ -480,6 +479,70 @@ export const some: <A>(predicate: (a: A) => boolean) => (r: Record<string, A>) =
  */
 export const elem: <A>(E: Eq<A>) => (a: A, fa: Record<string, A>) => boolean = RR.elem
 
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.0.0
+ */
+export const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: Record<string, A>) => Record<string, B>
+  <A>(predicate: Predicate<A>): (fa: Record<string, A>) => Record<string, A>
+} = RR.filter
+
+/**
+ * @since 2.0.0
+ */
+export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Record<string, A>) => Record<string, B> = RR.filterMap
+
+/**
+ * @since 2.0.0
+ */
+export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Record<string, A>) => M = RR.foldMap
+
+/**
+ * @since 2.0.0
+ */
+export const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): (
+    fa: Record<string, A>
+  ) => Separated<Record<string, A>, Record<string, B>>
+  <A>(predicate: Predicate<A>): (fa: Record<string, A>) => Separated<Record<string, A>, Record<string, A>>
+} = RR.partition
+
+/**
+ * @since 2.0.0
+ */
+export const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: Record<string, A>) => Separated<Record<string, B>, Record<string, C>> = RR.partitionMap
+
+/**
+ * @since 2.0.0
+ */
+export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Record<string, A>) => B = RR.reduce
+
+/**
+ * @since 2.0.0
+ */
+export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Record<string, A>) => B = RR.reduceRight
+
+/**
+ * @since 2.0.0
+ */
+export const compact: <A>(fa: Record<string, Option<A>>) => Record<string, A> = RR.compact
+
+/**
+ * @since 2.0.0
+ */
+export const separate: <A, B>(fa: Record<string, Either<A, B>>) => Separated<Record<string, A>, Record<string, B>> =
+  RR.separate
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 2.0.0
  */
@@ -489,56 +552,7 @@ export const record: FunctorWithIndex1<URI, string> &
   Compactable1<URI> &
   FilterableWithIndex1<URI, string> &
   Witherable1<URI> &
-  FoldableWithIndex1<URI, string> =
-  /*#__PURE__*/
-  (() => Object.assign({}, RR.readonlyRecord, { URI }) as any)()
-
-const pipeables = /*#__PURE__*/ pipeable(record)
-const filter = /*#__PURE__*/ (() => pipeables.filter)()
-const filterMap = /*#__PURE__*/ (() => pipeables.filterMap)()
-const foldMap = /*#__PURE__*/ (() => pipeables.foldMap)()
-const partition = /*#__PURE__*/ (() => pipeables.partition)()
-const partitionMap = /*#__PURE__*/ (() => pipeables.partitionMap)()
-const reduce = /*#__PURE__*/ (() => pipeables.reduce)()
-const reduceRight = /*#__PURE__*/ (() => pipeables.reduceRight)()
-const compact = /*#__PURE__*/ (() => pipeables.compact)()
-const separate = /*#__PURE__*/ (() => pipeables.separate)()
-
-export {
-  /**
-   * @since 2.0.0
-   */
-  filter,
-  /**
-   * @since 2.0.0
-   */
-  filterMap,
-  /**
-   * @since 2.0.0
-   */
-  foldMap,
-  /**
-   * @since 2.0.0
-   */
-  partition,
-  /**
-   * @since 2.0.0
-   */
-  partitionMap,
-  /**
-   * @since 2.0.0
-   */
-  reduce,
-  /**
-   * @since 2.0.0
-   */
-  reduceRight,
-  /**
-   * @since 2.0.0
-   */
-  compact,
-  /**
-   * @since 2.0.0
-   */
-  separate
+  FoldableWithIndex1<URI, string> = {
+  ...(RR.readonlyRecord as any),
+  URI
 }
