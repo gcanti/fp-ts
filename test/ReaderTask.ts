@@ -9,34 +9,52 @@ import { monoidString } from '../src/Monoid'
 import { semigroupString } from '../src/Semigroup'
 
 describe('ReaderTask', () => {
-  describe('Monad', () => {
+  describe('pipeable', () => {
     it('map', async () => {
       const double = (n: number): number => n * 2
-
-      const x = await _.readerTask.map(_.of(1), double)({})()
+      const x = await pipe(_.of(1), _.map(double))({})()
       assert.deepStrictEqual(x, 2)
     })
 
     it('ap', async () => {
       const double = (n: number): number => n * 2
-      const mab = _.of(double)
-      const ma = _.of(1)
-      const x = await _.readerTask.ap(mab, ma)({})()
+      const x = await pipe(_.of(double), _.ap(_.of(1)))({})()
       assert.deepStrictEqual(x, 2)
+    })
+
+    it('apFirst', async () => {
+      const x = await pipe(_.of('a'), _.apFirst(_.of('b')))({})()
+      assert.deepStrictEqual(x, 'a')
+    })
+
+    it('apSecond', async () => {
+      const x = await pipe(_.of('a'), _.apSecond(_.of('b')))({})()
+      assert.deepStrictEqual(x, 'b')
     })
 
     it('chain', async () => {
       const f = (a: string) => _.of(a.length)
-      const e1 = await _.readerTask.chain(_.of('foo'), f)({})()
-      assert.deepStrictEqual(e1, 3)
+      const x = await pipe(_.of('foo'), _.chain(f))({})()
+      assert.deepStrictEqual(x, 3)
     })
 
-    describe('readerTaskSeq', () => {
-      it('chain ', async () => {
-        const f = (a: string) => _.of(a.length)
-        const e1 = await _.readerTaskSeq.chain(_.of('foo'), f)({})()
-        assert.deepStrictEqual(e1, 3)
-      })
+    it('chainFirst', async () => {
+      const f = (a: string) => _.of(a.length)
+      const x = await pipe(_.of('foo'), _.chainFirst(f))({})()
+      assert.deepStrictEqual(x, 'foo')
+    })
+
+    it('flatten', async () => {
+      const x = await pipe(_.of(_.of('a')), _.flatten)({})()
+      assert.deepStrictEqual(x, 'a')
+    })
+  })
+
+  describe('readerTaskSeq', () => {
+    it('chain ', async () => {
+      const f = (a: string) => _.of(a.length)
+      const e1 = await _.readerTaskSeq.chain(_.of('foo'), f)({})()
+      assert.deepStrictEqual(e1, 3)
     })
   })
 
@@ -85,7 +103,7 @@ describe('ReaderTask', () => {
     assert.deepStrictEqual(e3, 'ab')
   })
 
-  it('reader', async () => {
+  it('of', async () => {
     const e = await _.fromReader(reader.of(1))({})()
     assert.deepStrictEqual(e, 1)
   })

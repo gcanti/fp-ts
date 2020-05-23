@@ -78,7 +78,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export declare const ap: <E, A>(fa: ReaderTask<E, A>) => <B>(fab: ReaderTask<E, (a: A) => B>) => ReaderTask<E, B>
+export declare const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B>
 ```
 
 Added in v2.3.0
@@ -88,7 +88,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export declare const apFirst: <E, B>(fb: ReaderTask<E, B>) => <A>(fa: ReaderTask<E, A>) => ReaderTask<E, A>
+export declare const apFirst: <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
@@ -98,7 +98,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export declare const apSecond: <E, B>(fb: ReaderTask<E, B>) => <A>(fa: ReaderTask<E, A>) => ReaderTask<E, B>
+export declare const apSecond: <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v2.3.0
@@ -128,7 +128,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export declare const chain: <E, A, B>(f: (a: A) => ReaderTask<E, B>) => (ma: ReaderTask<E, A>) => ReaderTask<E, B>
+export declare const chain: <R, A, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v2.3.0
@@ -138,7 +138,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export declare const chainFirst: <E, A, B>(f: (a: A) => ReaderTask<E, B>) => (ma: ReaderTask<E, A>) => ReaderTask<E, A>
+export declare const chainFirst: <R, A, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
@@ -168,7 +168,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare const flatten: <E, A>(mma: ReaderTask<E, ReaderTask<E, A>>) => ReaderTask<E, A>
+export declare const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
@@ -262,7 +262,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: ReaderTask<E, A>) => ReaderTask<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v2.3.0
