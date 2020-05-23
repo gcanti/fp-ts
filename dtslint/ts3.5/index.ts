@@ -14,3 +14,5 @@ const testURI = <F extends _.URIS>(ma: T.Task<number>): _.Kind<F, number> => {
 
 // $ExpectError
 type HKT1 = _.Kind<'a', string>
+
+type Tuple<E, A> = readonly [A, E]

@@ -18,6 +18,7 @@ Added in v2.5.0
 - [compose](#compose)
 - [duplicate](#duplicate)
 - [extend](#extend)
+- [extract](#extract)
 - [foldMap](#foldmap)
 - [fst](#fst)
 - [getApplicative](#getapplicative)
@@ -80,7 +81,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const duplicate: <E, A>(wa: readonly [A, E]) => readonly [readonly [A, E], E]
+export declare const duplicate: <E, A>(ma: readonly [A, E]) => readonly [readonly [A, E], E]
 ```
 
 Added in v2.5.0
@@ -90,10 +91,20 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const extend: <E, A, B>(f: (wa: readonly [A, E]) => B) => (wa: readonly [A, E]) => readonly [B, E]
+export declare const extend: <E, A, B>(f: (fa: readonly [A, E]) => B) => (wa: readonly [A, E]) => readonly [B, E]
 ```
 
 Added in v2.5.0
+
+# extract
+
+**Signature**
+
+```ts
+export declare const extract: <E, A>(wa: readonly [A, E]) => A
+```
+
+Added in v2.6.2
 
 # foldMap
 
