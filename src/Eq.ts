@@ -10,9 +10,8 @@
  * @since 2.0.0
  */
 import { Contravariant1 } from './Contravariant'
-import { pipeable } from './pipeable'
-import { ReadonlyRecord } from './ReadonlyRecord'
 import { Monoid } from './Monoid'
+import { ReadonlyRecord } from './ReadonlyRecord'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -134,20 +133,25 @@ export function getMonoid<A>(): Monoid<Eq<A>> {
   }
 }
 
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+const contramap_: <A, B>(fa: Eq<A>, f: (b: B) => A) => Eq<B> = (fa, f) => fromEquals((x, y) => fa.equals(f(x), f(y)))
+
+/**
+ * @since 2.0.0
+ */
+export const contramap: <A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B> = (f) => (fa) => contramap_(fa, f)
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 2.0.0
  */
 export const eq: Contravariant1<URI> = {
   URI,
   contramap: (fa, f) => fromEquals((x, y) => fa.equals(f(x), f(y)))
-}
-
-const pipeables = /*#__PURE__*/ pipeable(eq)
-const contramap = /*#__PURE__*/ (() => pipeables.contramap)()
-
-export {
-  /**
-   * @since 2.0.0
-   */
-  contramap
 }

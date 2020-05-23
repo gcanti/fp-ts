@@ -1,8 +1,22 @@
 import * as assert from 'assert'
 import * as _ from '../src/Eq'
 import { fold } from '../src/Monoid'
+import { pipe } from '../src/pipeable'
 
 describe('Eq', () => {
+  describe('pipeables', () => {
+    it('contramap', () => {
+      const S = pipe(
+        _.eqString,
+        _.contramap((p: Person) => p.name)
+      )
+      assert.deepStrictEqual(S.equals({ name: 'a', age: 1 }, { name: 'a', age: 2 }), true)
+      assert.deepStrictEqual(S.equals({ name: 'a', age: 1 }, { name: 'a', age: 1 }), true)
+      assert.deepStrictEqual(S.equals({ name: 'a', age: 1 }, { name: 'b', age: 1 }), false)
+      assert.deepStrictEqual(S.equals({ name: 'a', age: 1 }, { name: 'b', age: 2 }), false)
+    })
+  })
+
   it('getTupleEq', () => {
     const S = _.getTupleEq(_.eqString, _.eqNumber, _.eqBoolean)
     assert.deepStrictEqual(S.equals(['a', 1, true], ['a', 1, true]), true)
@@ -15,6 +29,7 @@ describe('Eq', () => {
     readonly name: string
     readonly age: number
   }
+
   it('fromEquals', () => {
     interface A {
       readonly x: number
@@ -30,14 +45,6 @@ describe('Eq', () => {
     assert.deepStrictEqual(nbCall, 0)
     S1.equals(a1, a2)
     assert.deepStrictEqual(nbCall, 1)
-  })
-
-  it('contramap', () => {
-    const S = _.eq.contramap(_.eqString, (p: Person) => p.name)
-    assert.deepStrictEqual(S.equals({ name: 'a', age: 1 }, { name: 'a', age: 2 }), true)
-    assert.deepStrictEqual(S.equals({ name: 'a', age: 1 }, { name: 'a', age: 1 }), true)
-    assert.deepStrictEqual(S.equals({ name: 'a', age: 1 }, { name: 'b', age: 1 }), false)
-    assert.deepStrictEqual(S.equals({ name: 'a', age: 1 }, { name: 'b', age: 2 }), false)
   })
 
   it('eqDate', () => {
