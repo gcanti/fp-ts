@@ -317,7 +317,7 @@ Added in v2.6.0
 
 ```ts
 export declare const filterOrElse: {
-  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
     ma: ReaderTaskEither<R, E, A>
   ) => ReaderTaskEither<R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
@@ -411,7 +411,7 @@ Added in v2.0.0
 
 ```ts
 export declare const fromPredicate: {
-  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => ReaderTaskEither<U, E, B>
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => ReaderTaskEither<U, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderTaskEither<R, E, A>
 }
 ```
