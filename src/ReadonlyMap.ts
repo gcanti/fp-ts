@@ -517,13 +517,13 @@ const filterWithIndex_ = <K, A>(fa: ReadonlyMap<K, A>, p: (k: K, a: A) => boolea
 // pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: <E, A, B>(fa: ReadonlyMap<E, A>, f: (a: A) => B) => ReadonlyMap<E, B> = (fa, f) =>
+const map_: <K, A, B>(fa: ReadonlyMap<K, A>, f: (a: A) => B) => ReadonlyMap<K, B> = (fa, f) =>
   mapWithIndex_(fa, (_, a) => f(a))
 
 const filter_ = <K, A>(fa: ReadonlyMap<K, A>, p: Predicate<A>): ReadonlyMap<K, A> =>
   filterWithIndex_(fa, (_, a) => p(a))
 
-const filterMap_: <E, A, B>(fa: ReadonlyMap<E, A>, f: (a: A) => Option<B>) => ReadonlyMap<E, B> = (fa, f) =>
+const filterMap_: <K, A, B>(fa: ReadonlyMap<K, A>, f: (a: A) => Option<B>) => ReadonlyMap<K, B> = (fa, f) =>
   filterMapWithIndex_(fa, (_, a) => f(a))
 
 const partition_ = <K, A>(
@@ -531,10 +531,10 @@ const partition_ = <K, A>(
   predicate: Predicate<A>
 ): Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>> => partitionWithIndex_(fa, (_, a) => predicate(a))
 
-const partitionMap_: <E, A, B, C>(
-  fa: ReadonlyMap<E, A>,
+const partitionMap_: <K, A, B, C>(
+  fa: ReadonlyMap<K, A>,
   f: (a: A) => Either<B, C>
-) => Separated<ReadonlyMap<E, B>, ReadonlyMap<E, C>> = (fa, f) => partitionMapWithIndex_(fa, (_, a) => f(a))
+) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>> = (fa, f) => partitionMapWithIndex_(fa, (_, a) => f(a))
 
 /**
  * @since 2.5.0
@@ -557,38 +557,38 @@ export const compact = <K, A>(fa: ReadonlyMap<K, Option<A>>): ReadonlyMap<K, A> 
  * @since 2.5.0
  */
 export const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): <E>(fa: ReadonlyMap<E, A>) => ReadonlyMap<E, B>
-  <A>(predicate: Predicate<A>): <E>(fa: ReadonlyMap<E, A>) => ReadonlyMap<E, A>
-} = <A>(predicate: Predicate<A>) => <E>(fa: ReadonlyMap<E, A>) => filter_(fa, predicate)
+  <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
+  <A>(predicate: Predicate<A>): <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+} = <A>(predicate: Predicate<A>) => <K>(fa: ReadonlyMap<K, A>) => filter_(fa, predicate)
 
 /**
  * @since 2.5.0
  */
-export const filterMap: <A, B>(f: (a: A) => Option<B>) => <E>(fa: ReadonlyMap<E, A>) => ReadonlyMap<E, B> = (f) => (
+export const filterMap: <A, B>(f: (a: A) => Option<B>) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> = (f) => (
   fa
 ) => filterMap_(fa, f)
 
 /**
  * @since 2.5.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: ReadonlyMap<E, A>) => ReadonlyMap<E, B> = (f) => (fa) => map_(fa, f)
+export const map: <A, B>(f: (a: A) => B) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> = (f) => (fa) => map_(fa, f)
 
 /**
  * @since 2.5.0
  */
 export const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): <E>(
-    fa: ReadonlyMap<E, A>
-  ) => Separated<ReadonlyMap<E, A>, ReadonlyMap<E, B>>
-  <A>(predicate: Predicate<A>): <E>(fa: ReadonlyMap<E, A>) => Separated<ReadonlyMap<E, A>, ReadonlyMap<E, A>>
-} = <A>(predicate: Predicate<A>) => <E>(fa: ReadonlyMap<E, A>) => partition_(fa, predicate)
+  <A, B extends A>(refinement: Refinement<A, B>): <K>(
+    fa: ReadonlyMap<K, A>
+  ) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>>
+  <A>(predicate: Predicate<A>): <K>(fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
+} = <A>(predicate: Predicate<A>) => <K>(fa: ReadonlyMap<K, A>) => partition_(fa, predicate)
 
 /**
  * @since 2.5.0
  */
 export const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => <E>(fa: ReadonlyMap<E, A>) => Separated<ReadonlyMap<E, B>, ReadonlyMap<E, C>> = (f) => (fa) => partitionMap_(fa, f)
+) => <K>(fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>> = (f) => (fa) => partitionMap_(fa, f)
 
 /**
  * @since 2.5.0

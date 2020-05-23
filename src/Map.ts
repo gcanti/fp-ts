@@ -1,16 +1,18 @@
 /**
  * @since 2.0.0
  */
+import { Separated } from './Compactable'
+import { Either } from './Either'
 import { Eq } from './Eq'
 import { Filterable2 } from './Filterable'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
+import { Predicate, Refinement } from './function'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Ord } from './Ord'
-import { pipeable } from './pipeable'
 import * as RM from './ReadonlyMap'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
@@ -211,6 +213,57 @@ export function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable<F>): (f
   return RM.fromFoldable(E, M, F) as any
 }
 
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.0.0
+ */
+export const compact: <K, A>(fa: Map<K, Option<A>>) => Map<K, A> = RM.compact as any
+
+/**
+ * @since 2.0.0
+ */
+export const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Map<K, B>
+  <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Map<K, A>
+} = RM.filter as any
+
+/**
+ * @since 2.0.0
+ */
+export const filterMap: <A, B>(f: (a: A) => Option<B>) => <K>(fa: Map<K, A>) => Map<K, B> = RM.filterMap as any
+
+/**
+ * @since 2.0.0
+ */
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: Map<E, A>) => Map<E, B> = RM.map as any
+
+/**
+ * @since 2.0.0
+ */
+export const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
+  <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
+} = RM.partition as any
+
+/**
+ * @since 2.0.0
+ */
+export const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => <K>(fa: Map<K, A>) => Separated<Map<K, B>, Map<K, C>> = RM.partitionMap as any
+
+/**
+ * @since 2.0.0
+ */
+export const separate: <K, A, B>(fa: Map<K, Either<A, B>>) => Separated<Map<K, A>, Map<K, B>> = RM.separate as any
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 2.0.0
  */
@@ -230,46 +283,7 @@ export const getWitherable: <K>(
 /**
  * @since 2.0.0
  */
-export const map_: Filterable2<URI> =
-  /*#__PURE__*/
-  (() => Object.assign({}, RM.readonlyMap, { URI }) as any)()
-
-const pipeables = /*#__PURE__*/ pipeable(map_)
-const filter = /*#__PURE__*/ (() => pipeables.filter)()
-const filterMap = /*#__PURE__*/ (() => pipeables.filterMap)()
-const map = /*#__PURE__*/ (() => pipeables.map)()
-const partition = /*#__PURE__*/ (() => pipeables.partition)()
-const partitionMap = /*#__PURE__*/ (() => pipeables.partitionMap)()
-const compact = /*#__PURE__*/ (() => pipeables.compact)()
-const separate = /*#__PURE__*/ (() => pipeables.separate)()
-
-export {
-  /**
-   * @since 2.0.0
-   */
-  filter,
-  /**
-   * @since 2.0.0
-   */
-  filterMap,
-  /**
-   * @since 2.0.0
-   */
-  map,
-  /**
-   * @since 2.0.0
-   */
-  partition,
-  /**
-   * @since 2.0.0
-   */
-  partitionMap,
-  /**
-   * @since 2.0.0
-   */
-  compact,
-  /**
-   * @since 2.0.0
-   */
-  separate
+export const map_: Filterable2<URI> = {
+  ...(RM.readonlyMap as any),
+  URI
 }
