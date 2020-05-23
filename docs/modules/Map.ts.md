@@ -85,7 +85,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const compact: <E, A>(fa: Map<E, Option<A>>) => Map<E, A>
+export declare const compact: <K, A>(fa: Map<K, Option<A>>) => Map<K, A>
 ```
 
 Added in v2.0.0
@@ -130,8 +130,8 @@ Added in v2.0.0
 
 ```ts
 export declare const filter: {
-  <A, B>(refinement: Refinement<A, B>): <E>(fa: Map<E, A>) => Map<E, B>
-  <A>(predicate: Predicate<A>): <E>(fa: Map<E, A>) => Map<E, A>
+  <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Map<K, B>
+  <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Map<K, A>
 }
 ```
 
@@ -142,7 +142,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => <E>(fa: Map<E, A>) => Map<E, B>
+export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => <K>(fa: Map<K, A>) => Map<K, B>
 ```
 
 Added in v2.0.0
@@ -348,8 +348,8 @@ Added in v2.0.0
 
 ```ts
 export declare const partition: {
-  <A, B>(refinement: Refinement<A, B>): <E>(fa: Map<E, A>) => Separated<Map<E, A>, Map<E, B>>
-  <A>(predicate: Predicate<A>): <E>(fa: Map<E, A>) => Separated<Map<E, A>, Map<E, A>>
+  <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
+  <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
 }
 ```
 
@@ -362,7 +362,7 @@ Added in v2.0.0
 ```ts
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => <E>(fa: Map<E, A>) => Separated<Map<E, B>, Map<E, C>>
+) => <K>(fa: Map<K, A>) => Separated<Map<K, B>, Map<K, C>>
 ```
 
 Added in v2.0.0
@@ -384,7 +384,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const separate: <E, A, B>(fa: Map<E, Either<A, B>>) => Separated<Map<E, A>, Map<E, B>>
+export declare const separate: <K, A, B>(fa: Map<K, Either<A, B>>) => Separated<Map<K, A>, Map<K, B>>
 ```
 
 Added in v2.0.0
