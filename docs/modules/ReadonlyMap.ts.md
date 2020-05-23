@@ -89,7 +89,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const compact: <E, A>(fa: ReadonlyMap<E, Option<A>>) => ReadonlyMap<E, A>
+export declare const compact: <K, A>(fa: ReadonlyMap<K, Option<A>>) => ReadonlyMap<K, A>
 ```
 
 Added in v2.5.0
@@ -134,7 +134,7 @@ Added in v2.5.0
 
 ```ts
 export declare const filter: {
-  <A, B>(refinement: Refinement<A, B>): <E>(fa: ReadonlyMap<E, A>) => ReadonlyMap<E, B>
+  <A, B extends A>(refinement: Refinement<A, B>): <E>(fa: ReadonlyMap<E, A>) => ReadonlyMap<E, B>
   <A>(predicate: Predicate<A>): <E>(fa: ReadonlyMap<E, A>) => ReadonlyMap<E, A>
 }
 ```
@@ -358,7 +358,9 @@ Added in v2.5.0
 
 ```ts
 export declare const partition: {
-  <A, B>(refinement: Refinement<A, B>): <E>(fa: ReadonlyMap<E, A>) => Separated<ReadonlyMap<E, A>, ReadonlyMap<E, B>>
+  <A, B extends A>(refinement: Refinement<A, B>): <E>(
+    fa: ReadonlyMap<E, A>
+  ) => Separated<ReadonlyMap<E, A>, ReadonlyMap<E, B>>
   <A>(predicate: Predicate<A>): <E>(fa: ReadonlyMap<E, A>) => Separated<ReadonlyMap<E, A>, ReadonlyMap<E, A>>
 }
 ```
@@ -404,9 +406,9 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const separate: <E, A, B>(
-  fa: ReadonlyMap<E, Either<A, B>>
-) => Separated<ReadonlyMap<E, A>, ReadonlyMap<E, B>>
+export declare const separate: <K, A, B>(
+  fa: ReadonlyMap<K, Either<A, B>>
+) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>>
 ```
 
 Added in v2.5.0
