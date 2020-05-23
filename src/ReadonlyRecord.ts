@@ -8,7 +8,7 @@ import { Eq, fromEquals } from './Eq'
 import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { identity, Predicate } from './function'
+import { identity, Predicate, Refinement } from './function'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Magma } from './Magma'
@@ -19,7 +19,6 @@ import { Show } from './Show'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
-import { pipeable } from './pipeable'
 
 /**
  * @since 2.5.0
@@ -335,7 +334,7 @@ export function mapWithIndex<K extends string, A, B>(
 export function mapWithIndex<A, B>(
   f: (k: string, a: A) => B
 ): (fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, B> {
-  return (fa) => readonlyRecord.mapWithIndex(fa, f)
+  return (fa) => mapWithIndex_(fa, f)
 }
 
 /**
@@ -356,7 +355,7 @@ export function reduceWithIndex<K extends string, A, B>(
   f: (k: K, b: B, a: A) => B
 ): (fa: ReadonlyRecord<K, A>) => B
 export function reduceWithIndex<A, B>(b: B, f: (k: string, b: B, a: A) => B): (fa: ReadonlyRecord<string, A>) => B {
-  return (fa) => readonlyRecord.reduceWithIndex(fa, b, f)
+  return (fa) => reduceWithIndex_(fa, b, f)
 }
 
 /**
@@ -368,7 +367,7 @@ export function foldMapWithIndex<M>(
 export function foldMapWithIndex<M>(
   M: Monoid<M>
 ): <A>(f: (k: string, a: A) => M) => (fa: ReadonlyRecord<string, A>) => M {
-  const foldMapWithIndexM = readonlyRecord.foldMapWithIndex(M)
+  const foldMapWithIndexM = foldMapWithIndex_(M)
   return (f) => (fa) => foldMapWithIndexM(fa, f)
 }
 
@@ -383,7 +382,7 @@ export function reduceRightWithIndex<A, B>(
   b: B,
   f: (k: string, a: A, b: B) => B
 ): (fa: ReadonlyRecord<string, A>) => B {
-  return (fa) => readonlyRecord.reduceRightWithIndex(fa, b, f)
+  return (fa) => reduceRightWithIndex_(fa, b, f)
 }
 
 /**
@@ -429,7 +428,7 @@ export function traverseWithIndex<F>(
 export function traverseWithIndex<F>(
   F: Applicative<F>
 ): <A, B>(f: (k: string, a: A) => HKT<F, B>) => (ta: ReadonlyRecord<string, A>) => HKT<F, ReadonlyRecord<string, B>> {
-  const traverseWithIndexF = readonlyRecord.traverseWithIndex(F)
+  const traverseWithIndexF = traverseWithIndex_(F)
   return (f) => (ta) => traverseWithIndexF(ta, f)
 }
 
@@ -505,7 +504,7 @@ export function partitionMapWithIndex<K extends string, A, B, C>(
 export function partitionMapWithIndex<A, B, C>(
   f: (key: string, a: A) => Either<B, C>
 ): (fa: ReadonlyRecord<string, A>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>> {
-  return (fa) => readonlyRecord.partitionMapWithIndex(fa, f)
+  return (fa) => partitionMapWithIndex_(fa, f)
 }
 
 /**
@@ -520,7 +519,7 @@ export function partitionWithIndex<K extends string, A>(
 export function partitionWithIndex<A>(
   predicateWithIndex: PredicateWithIndex<string, A>
 ): (fa: ReadonlyRecord<string, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>> {
-  return (fa) => readonlyRecord.partitionWithIndex(fa, predicateWithIndex)
+  return (fa) => partitionWithIndex_(fa, predicateWithIndex)
 }
 
 /**
@@ -532,7 +531,7 @@ export function filterMapWithIndex<K extends string, A, B>(
 export function filterMapWithIndex<A, B>(
   f: (key: string, a: A) => Option<B>
 ): (fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, B> {
-  return (fa) => readonlyRecord.filterMapWithIndex(fa, f)
+  return (fa) => filterMapWithIndex_(fa, f)
 }
 
 /**
@@ -547,7 +546,7 @@ export function filterWithIndex<K extends string, A>(
 export function filterWithIndex<A>(
   predicateWithIndex: PredicateWithIndex<string, A>
 ): (fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A> {
-  return (fa) => readonlyRecord.filterWithIndex(fa, predicateWithIndex)
+  return (fa) => filterWithIndex_(fa, predicateWithIndex)
 }
 
 /**
@@ -688,6 +687,300 @@ export function elem<A>(E: Eq<A>): (a: A, fa: ReadonlyRecord<string, A>) => bool
   }
 }
 
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+const map_: <A, B>(fa: Readonly<Record<string, A>>, f: (a: A) => B) => Readonly<Record<string, B>> = (fa, f) =>
+  mapWithIndex_(fa, (_, a) => f(a))
+
+const reduce_: <A, B>(fa: Readonly<Record<string, A>>, b: B, f: (b: B, a: A) => B) => B = (fa, b, f) =>
+  reduceWithIndex_(fa, b, (_, b, a) => f(b, a))
+
+const foldMap_: <M>(M: Monoid<M>) => <A>(fa: Readonly<Record<string, A>>, f: (a: A) => M) => M = (M) => {
+  const foldMapWithIndexM = foldMapWithIndex_(M)
+  return (fa, f) => foldMapWithIndexM(fa, (_, a) => f(a))
+}
+
+const reduceRight_: <A, B>(fa: Readonly<Record<string, A>>, b: B, f: (a: A, b: B) => B) => B = (fa, b, f) =>
+  reduceRightWithIndex_(fa, b, (_, a, b) => f(a, b))
+
+const traverse_ = <F>(
+  F: Applicative<F>
+): (<A, B>(ta: ReadonlyRecord<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, ReadonlyRecord<string, B>>) => {
+  const traverseWithIndexF = traverseWithIndex_(F)
+  return (ta, f) => traverseWithIndexF(ta, (_, a) => f(a))
+}
+
+const filter_ = <A>(fa: ReadonlyRecord<string, A>, predicate: Predicate<A>): ReadonlyRecord<string, A> => {
+  return filterWithIndex_(fa, (_, a) => predicate(a))
+}
+
+const filterMap_: <A, B>(fa: Readonly<Record<string, A>>, f: (a: A) => Option<B>) => Readonly<Record<string, B>> = (
+  fa,
+  f
+) => filterMapWithIndex_(fa, (_, a) => f(a))
+
+const partition_ = <A>(
+  fa: ReadonlyRecord<string, A>,
+  predicate: Predicate<A>
+): Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>> => {
+  return partitionWithIndex_(fa, (_, a) => predicate(a))
+}
+
+const partitionMap_: <A, B, C>(
+  fa: Readonly<Record<string, A>>,
+  f: (a: A) => Either<B, C>
+) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>> = (fa, f) =>
+  partitionMapWithIndex_(fa, (_, a) => f(a))
+
+const mapWithIndex_ = <A, B>(fa: ReadonlyRecord<string, A>, f: (k: string, a: A) => B) => {
+  const out: Record<string, B> = {}
+  const keys = Object.keys(fa)
+  for (const key of keys) {
+    out[key] = f(key, fa[key])
+  }
+  return out
+}
+
+const reduceWithIndex_: <A, B>(fa: Readonly<Record<string, A>>, b: B, f: (i: string, b: B, a: A) => B) => B = (
+  fa,
+  b,
+  f
+) => {
+  let out = b
+  const keys = Object.keys(fa).sort()
+  const len = keys.length
+  for (let i = 0; i < len; i++) {
+    const k = keys[i]
+    out = f(k, out, fa[k])
+  }
+  return out
+}
+
+const foldMapWithIndex_: <M>(M: Monoid<M>) => <A>(fa: Readonly<Record<string, A>>, f: (i: string, a: A) => M) => M = (
+  M
+) => (fa, f) => {
+  let out = M.empty
+  const keys = Object.keys(fa).sort()
+  const len = keys.length
+  for (let i = 0; i < len; i++) {
+    const k = keys[i]
+    out = M.concat(out, f(k, fa[k]))
+  }
+  return out
+}
+
+const reduceRightWithIndex_: <A, B>(fa: Readonly<Record<string, A>>, b: B, f: (i: string, a: A, b: B) => B) => B = (
+  fa,
+  b,
+  f
+) => {
+  let out = b
+  const keys = Object.keys(fa).sort()
+  const len = keys.length
+  for (let i = len - 1; i >= 0; i--) {
+    const k = keys[i]
+    out = f(k, fa[k], out)
+  }
+  return out
+}
+
+const partitionMapWithIndex_: <A, B, C>(
+  fa: Readonly<Record<string, A>>,
+  f: (i: string, a: A) => Either<B, C>
+) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>> = <A, B, C>(
+  fa: ReadonlyRecord<string, A>,
+  f: (key: string, a: A) => Either<B, C>
+) => {
+  const left: Record<string, B> = {}
+  const right: Record<string, C> = {}
+  const keys = Object.keys(fa)
+  for (const key of keys) {
+    const e = f(key, fa[key])
+    switch (e._tag) {
+      case 'Left':
+        left[key] = e.left
+        break
+      case 'Right':
+        right[key] = e.right
+        break
+    }
+  }
+  return {
+    left,
+    right
+  }
+}
+
+const partitionWithIndex_ = <A>(fa: ReadonlyRecord<string, A>, predicateWithIndex: PredicateWithIndex<string, A>) => {
+  const left: Record<string, A> = {}
+  const right: Record<string, A> = {}
+  const keys = Object.keys(fa)
+  for (const key of keys) {
+    const a = fa[key]
+    if (predicateWithIndex(key, a)) {
+      right[key] = a
+    } else {
+      left[key] = a
+    }
+  }
+  return {
+    left,
+    right
+  }
+}
+
+const filterMapWithIndex_ = <A, B>(fa: ReadonlyRecord<string, A>, f: (key: string, a: A) => Option<B>) => {
+  const r: Record<string, B> = {}
+  const keys = Object.keys(fa)
+  for (const key of keys) {
+    const optionB = f(key, fa[key])
+    if (isSome(optionB)) {
+      r[key] = optionB.value
+    }
+  }
+  return r
+}
+
+const filterWithIndex_ = <A>(fa: ReadonlyRecord<string, A>, predicateWithIndex: PredicateWithIndex<string, A>) => {
+  const out: Record<string, A> = {}
+  let changed = false
+  for (const key in fa) {
+    if (_hasOwnProperty.call(fa, key)) {
+      const a = fa[key]
+      if (predicateWithIndex(key, a)) {
+        out[key] = a
+      } else {
+        changed = true
+      }
+    }
+  }
+  return changed ? out : fa
+}
+
+const traverseWithIndex_ = <F>(F: Applicative<F>) => <A, B>(
+  ta: ReadonlyRecord<string, A>,
+  f: (k: string, a: A) => HKT<F, B>
+) => {
+  const keys = Object.keys(ta)
+  if (keys.length === 0) {
+    return F.of(empty)
+  }
+  let fr: HKT<F, Record<string, B>> = F.of({})
+  for (const key of keys) {
+    fr = F.ap(
+      F.map(fr, (r) => (b: B) => {
+        r[key] = b
+        return r
+      }),
+      f(key, ta[key])
+    )
+  }
+  return fr
+}
+
+/**
+ * @since 2.5.0
+ */
+export const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>>
+  <A>(predicate: Predicate<A>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+} = <A>(predicate: Predicate<A>) => (fa: Readonly<Record<string, A>>) => filter_(fa, predicate)
+/**
+ * @since 2.5.0
+ */
+export const filterMap: <A, B>(
+  f: (a: A) => Option<B>
+) => (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>> = (f) => (fa) => filterMap_(fa, f)
+
+/**
+ * @since 2.5.0
+ */
+export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Readonly<Record<string, A>>) => M = (M) => {
+  const foldMapM = foldMap_(M)
+  return (f) => (fa) => foldMapM(fa, f)
+}
+
+/**
+ * @since 2.5.0
+ */
+export const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): (
+    fa: Readonly<Record<string, A>>
+  ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>>
+  <A>(predicate: Predicate<A>): (
+    fa: Readonly<Record<string, A>>
+  ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, A>>>
+} = <A>(predicate: Predicate<A>) => (fa: Readonly<Record<string, A>>) => partition_(fa, predicate)
+
+/**
+ * @since 2.5.0
+ */
+export const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: Readonly<Record<string, A>>) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>> = (f) => (
+  fa
+) => partitionMap_(fa, f)
+
+/**
+ * @since 2.5.0
+ */
+export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Readonly<Record<string, A>>) => B = (b, f) => (fa) =>
+  reduce_(fa, b, f)
+
+/**
+ * @since 2.5.0
+ */
+export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Readonly<Record<string, A>>) => B = (b, f) => (
+  fa
+) => reduceRight_(fa, b, f)
+
+/**
+ * @since 2.5.0
+ */
+export const compact = <A>(fa: Readonly<Record<string, Option<A>>>): Readonly<Record<string, A>> => {
+  const r: Record<string, A> = {}
+  const keys = Object.keys(fa)
+  for (const key of keys) {
+    const optionA = fa[key]
+    if (isSome(optionA)) {
+      r[key] = optionA.value
+    }
+  }
+  return r
+}
+
+/**
+ * @since 2.5.0
+ */
+export const separate = <A, B>(
+  fa: Readonly<Record<string, Either<A, B>>>
+): Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>> => {
+  const left: Record<string, A> = {}
+  const right: Record<string, B> = {}
+  const keys = Object.keys(fa)
+  for (const key of keys) {
+    const e = fa[key]
+    switch (e._tag) {
+      case 'Left':
+        left[key] = e.left
+        break
+      case 'Right':
+        right[key] = e.right
+        break
+    }
+  }
+  return {
+    left,
+    right
+  }
+}
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 2.5.0
  */
@@ -699,69 +992,31 @@ export const readonlyRecord: FunctorWithIndex1<URI, string> &
   Witherable1<URI> &
   FoldableWithIndex1<URI, string> = {
   URI,
-  map: (fa, f) => readonlyRecord.mapWithIndex(fa, (_, a) => f(a)),
-  reduce: (fa, b, f) => readonlyRecord.reduceWithIndex(fa, b, (_, b, a) => f(b, a)),
-  foldMap: (M) => {
-    const foldMapWithIndexM = readonlyRecord.foldMapWithIndex(M)
-    return (fa, f) => foldMapWithIndexM(fa, (_, a) => f(a))
-  },
-  reduceRight: (fa, b, f) => readonlyRecord.reduceRightWithIndex(fa, b, (_, a, b) => f(a, b)),
-  traverse: <F>(
-    F: Applicative<F>
-  ): (<A, B>(ta: ReadonlyRecord<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, ReadonlyRecord<string, B>>) => {
-    const traverseWithIndexF = readonlyRecord.traverseWithIndex(F)
-    return (ta, f) => traverseWithIndexF(ta, (_, a) => f(a))
-  },
+  map: map_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  traverse: traverse_,
   sequence,
-  compact: <A>(fa: ReadonlyRecord<string, Option<A>>): ReadonlyRecord<string, A> => {
-    const r: Record<string, A> = {}
-    const keys = Object.keys(fa)
-    for (const key of keys) {
-      const optionA = fa[key]
-      if (isSome(optionA)) {
-        r[key] = optionA.value
-      }
-    }
-    return r
-  },
-  separate: <A, B>(
-    fa: ReadonlyRecord<string, Either<A, B>>
-  ): Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>> => {
-    const left: Record<string, A> = {}
-    const right: Record<string, B> = {}
-    const keys = Object.keys(fa)
-    for (const key of keys) {
-      const e = fa[key]
-      switch (e._tag) {
-        case 'Left':
-          left[key] = e.left
-          break
-        case 'Right':
-          right[key] = e.right
-          break
-      }
-    }
-    return {
-      left,
-      right
-    }
-  },
-  filter: <A>(fa: ReadonlyRecord<string, A>, predicate: Predicate<A>): ReadonlyRecord<string, A> => {
-    return readonlyRecord.filterWithIndex(fa, (_, a) => predicate(a))
-  },
-  filterMap: (fa, f) => readonlyRecord.filterMapWithIndex(fa, (_, a) => f(a)),
-  partition: <A>(
-    fa: ReadonlyRecord<string, A>,
-    predicate: Predicate<A>
-  ): Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>> => {
-    return readonlyRecord.partitionWithIndex(fa, (_, a) => predicate(a))
-  },
-  partitionMap: (fa, f) => readonlyRecord.partitionMapWithIndex(fa, (_, a) => f(a)),
+  compact,
+  separate,
+  filter: filter_,
+  filterMap: filterMap_,
+  partition: partition_,
+  partitionMap: partitionMap_,
+  mapWithIndex: mapWithIndex_,
+  reduceWithIndex: reduceWithIndex_,
+  foldMapWithIndex: foldMapWithIndex_,
+  reduceRightWithIndex: reduceRightWithIndex_,
+  partitionMapWithIndex: partitionMapWithIndex_,
+  partitionWithIndex: partitionWithIndex_,
+  filterMapWithIndex: filterMapWithIndex_,
+  filterWithIndex: filterWithIndex_,
   wither: <F>(
     F: Applicative<F>
   ): (<A, B>(wa: ReadonlyRecord<string, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, ReadonlyRecord<string, B>>) => {
-    const traverseF = readonlyRecord.traverse(F)
-    return (wa, f) => F.map(traverseF(wa, f), readonlyRecord.compact)
+    const traverseF = traverse_(F)
+    return (wa, f) => F.map(traverseF(wa, f), compact)
   },
   wilt: <F>(
     F: Applicative<F>
@@ -769,178 +1024,8 @@ export const readonlyRecord: FunctorWithIndex1<URI, string> &
     wa: ReadonlyRecord<string, A>,
     f: (a: A) => HKT<F, Either<B, C>>
   ) => HKT<F, Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>>>) => {
-    const traverseF = readonlyRecord.traverse(F)
-    return (wa, f) => F.map(traverseF(wa, f), readonlyRecord.separate)
+    const traverseF = traverse_(F)
+    return (wa, f) => F.map(traverseF(wa, f), separate)
   },
-  mapWithIndex: <A, B>(fa: ReadonlyRecord<string, A>, f: (k: string, a: A) => B) => {
-    const out: Record<string, B> = {}
-    const keys = Object.keys(fa)
-    for (const key of keys) {
-      out[key] = f(key, fa[key])
-    }
-    return out
-  },
-  reduceWithIndex: (fa, b, f) => {
-    let out = b
-    const keys = Object.keys(fa).sort()
-    const len = keys.length
-    for (let i = 0; i < len; i++) {
-      const k = keys[i]
-      out = f(k, out, fa[k])
-    }
-    return out
-  },
-  foldMapWithIndex: (M) => (fa, f) => {
-    let out = M.empty
-    const keys = Object.keys(fa).sort()
-    const len = keys.length
-    for (let i = 0; i < len; i++) {
-      const k = keys[i]
-      out = M.concat(out, f(k, fa[k]))
-    }
-    return out
-  },
-  reduceRightWithIndex: (fa, b, f) => {
-    let out = b
-    const keys = Object.keys(fa).sort()
-    const len = keys.length
-    for (let i = len - 1; i >= 0; i--) {
-      const k = keys[i]
-      out = f(k, fa[k], out)
-    }
-    return out
-  },
-  traverseWithIndex: <F>(F: Applicative<F>) => <A, B>(
-    ta: ReadonlyRecord<string, A>,
-    f: (k: string, a: A) => HKT<F, B>
-  ) => {
-    const keys = Object.keys(ta)
-    if (keys.length === 0) {
-      return F.of(empty)
-    }
-    let fr: HKT<F, Record<string, B>> = F.of({})
-    for (const key of keys) {
-      fr = F.ap(
-        F.map(fr, (r) => (b: B) => {
-          r[key] = b
-          return r
-        }),
-        f(key, ta[key])
-      )
-    }
-    return fr
-  },
-  partitionMapWithIndex: <A, B, C>(fa: ReadonlyRecord<string, A>, f: (key: string, a: A) => Either<B, C>) => {
-    const left: Record<string, B> = {}
-    const right: Record<string, C> = {}
-    const keys = Object.keys(fa)
-    for (const key of keys) {
-      const e = f(key, fa[key])
-      switch (e._tag) {
-        case 'Left':
-          left[key] = e.left
-          break
-        case 'Right':
-          right[key] = e.right
-          break
-      }
-    }
-    return {
-      left,
-      right
-    }
-  },
-  partitionWithIndex: <A>(fa: ReadonlyRecord<string, A>, predicateWithIndex: PredicateWithIndex<string, A>) => {
-    const left: Record<string, A> = {}
-    const right: Record<string, A> = {}
-    const keys = Object.keys(fa)
-    for (const key of keys) {
-      const a = fa[key]
-      if (predicateWithIndex(key, a)) {
-        right[key] = a
-      } else {
-        left[key] = a
-      }
-    }
-    return {
-      left,
-      right
-    }
-  },
-  filterMapWithIndex: <A, B>(fa: ReadonlyRecord<string, A>, f: (key: string, a: A) => Option<B>) => {
-    const r: Record<string, B> = {}
-    const keys = Object.keys(fa)
-    for (const key of keys) {
-      const optionB = f(key, fa[key])
-      if (isSome(optionB)) {
-        r[key] = optionB.value
-      }
-    }
-    return r
-  },
-  filterWithIndex: <A>(fa: ReadonlyRecord<string, A>, predicateWithIndex: PredicateWithIndex<string, A>) => {
-    const out: Record<string, A> = {}
-    let changed = false
-    for (const key in fa) {
-      if (_hasOwnProperty.call(fa, key)) {
-        const a = fa[key]
-        if (predicateWithIndex(key, a)) {
-          out[key] = a
-        } else {
-          changed = true
-        }
-      }
-    }
-    return changed ? out : fa
-  }
-}
-
-const pipeables = /*#__PURE__*/ pipeable(readonlyRecord)
-const filter = /*#__PURE__*/ (() => pipeables.filter)()
-const filterMap = /*#__PURE__*/ (() => pipeables.filterMap)()
-const foldMap = /*#__PURE__*/ (() => pipeables.foldMap)()
-const partition = /*#__PURE__*/ (() => pipeables.partition)()
-const partitionMap = /*#__PURE__*/ (() => pipeables.partitionMap)()
-const reduce = /*#__PURE__*/ (() => pipeables.reduce)()
-const reduceRight = /*#__PURE__*/ (() => pipeables.reduceRight)()
-const compact = /*#__PURE__*/ (() => pipeables.compact)()
-const separate = /*#__PURE__*/ (() => pipeables.separate)()
-
-export {
-  /**
-   * @since 2.5.0
-   */
-  filter,
-  /**
-   * @since 2.5.0
-   */
-  filterMap,
-  /**
-   * @since 2.5.0
-   */
-  foldMap,
-  /**
-   * @since 2.5.0
-   */
-  partition,
-  /**
-   * @since 2.5.0
-   */
-  partitionMap,
-  /**
-   * @since 2.5.0
-   */
-  reduce,
-  /**
-   * @since 2.5.0
-   */
-  reduceRight,
-  /**
-   * @since 2.5.0
-   */
-  compact,
-  /**
-   * @since 2.5.0
-   */
-  separate
+  traverseWithIndex: traverseWithIndex_
 }
