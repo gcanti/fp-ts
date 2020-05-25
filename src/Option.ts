@@ -29,7 +29,7 @@
  * @since 2.0.0
  */
 import { Alternative1 } from './Alternative'
-import { Applicative } from './Applicative'
+import { Applicative, Applicative1 } from './Applicative'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
@@ -824,6 +824,16 @@ export const fromEither: <E, A>(ma: Either<E, A>) => Option<A> = (ma) => (ma._ta
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @internal
+ */
+export const applicativeOption: Applicative1<URI> = {
+  URI,
+  map: map_,
+  of: some,
+  ap: ap_
+}
 
 /**
  * @since 2.0.0

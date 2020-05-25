@@ -7,7 +7,7 @@ import {
   ApplicativeCompositionHKT2,
   getApplicativeComposition
 } from './Applicative'
-import { Either, either, fold, isLeft, left, right, swap, URI } from './Either'
+import { applicativeEither, bifunctorEither, Either, fold, isLeft, left, right, swap, URI } from './Either'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
 
@@ -95,14 +95,14 @@ export function getEitherM<M extends URIS2>(M: Monad2<M>): EitherM2<M>
 export function getEitherM<M extends URIS>(M: Monad1<M>): EitherM1<M>
 export function getEitherM<M>(M: Monad<M>): EitherM<M>
 export function getEitherM<M>(M: Monad<M>): EitherM<M> {
-  const A = getApplicativeComposition(M, either)
+  const A = getApplicativeComposition(M, applicativeEither)
 
   return {
     ...A,
     chain: (ma, f) => M.chain(ma, (e) => (isLeft(e) ? M.of(left(e.left)) : f(e.right))),
     alt: (fx, f) => M.chain(fx, (e) => (isLeft(e) ? f() : A.of(e.right))),
-    bimap: (ma, f, g) => M.map(ma, (e) => either.bimap(e, f, g)),
-    mapLeft: (ma, f) => M.map(ma, (e) => either.mapLeft(e, f)),
+    bimap: (ma, f, g) => M.map(ma, (e) => bifunctorEither.bimap(e, f, g)),
+    mapLeft: (ma, f) => M.map(ma, (e) => bifunctorEither.mapLeft(e, f)),
     fold: (ma, onLeft, onRight) => M.chain(ma, fold(onLeft, onRight)),
     getOrElse: (ma, onLeft) => M.chain(ma, fold(onLeft, M.of)),
     orElse: (ma, f) =>
