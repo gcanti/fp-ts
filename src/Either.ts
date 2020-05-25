@@ -33,7 +33,7 @@
  */
 
 import { Alt2, Alt2C } from './Alt'
-import { Applicative } from './Applicative'
+import { Applicative, Applicative2 } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, tailRec, ChainRec2C } from './ChainRec'
 import { Separated } from './Compactable'
@@ -713,6 +713,25 @@ export const filterOrElse: {
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @internal
+ */
+export const applicativeEither: Applicative2<URI> = {
+  URI,
+  map: map_,
+  of: right,
+  ap: ap_
+}
+
+/**
+ * @internal
+ */
+export const bifunctorEither: Bifunctor2<URI> = {
+  URI,
+  bimap: bimap_,
+  mapLeft: mapLeft_
+}
 
 /**
  * @since 2.0.0
