@@ -15,9 +15,9 @@ import { Foldable1 } from './Foldable'
 import { identity } from './function'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
+import { Monoid } from './Monoid'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
-import { pipeable } from './pipeable'
 
 // tslint:disable:readonly-array
 
@@ -250,48 +250,152 @@ export function fold<A, B>(f: (a: A, bs: Array<B>) => B): (tree: Tree<A>) => B {
   return go
 }
 
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+const map_: <A, B>(fa: Tree<A>, f: (a: A) => B) => Tree<B> = (fa, f) => ({
+  value: f(fa.value),
+  forest: fa.forest.map((t) => tree.map(t, f))
+})
+
+const ap_: <A, B>(fab: Tree<(a: A) => B>, fa: Tree<A>) => Tree<B> = (fab, fa) => tree.chain(fab, (f) => tree.map(fa, f))
+
+const chain_ = <A, B>(fa: Tree<A>, f: (a: A) => Tree<B>): Tree<B> => {
+  const { value, forest } = f(fa.value)
+  const concat = getMonoid<Tree<B>>().concat
+  return {
+    value,
+    forest: concat(
+      forest,
+      fa.forest.map((t) => tree.chain(t, f))
+    )
+  }
+}
+
+const reduce_ = <A, B>(fa: Tree<A>, b: B, f: (b: B, a: A) => B): B => {
+  let r: B = f(b, fa.value)
+  const len = fa.forest.length
+  for (let i = 0; i < len; i++) {
+    r = tree.reduce(fa.forest[i], r, f)
+  }
+  return r
+}
+
+const foldMap_: <M>(M: Monoid<M>) => <A>(fa: Tree<A>, f: (a: A) => M) => M = (M) => (fa, f) =>
+  tree.reduce(fa, M.empty, (acc, a) => M.concat(acc, f(a)))
+
+const reduceRight_ = <A, B>(fa: Tree<A>, b: B, f: (a: A, b: B) => B): B => {
+  let r: B = b
+  const len = fa.forest.length
+  for (let i = len - 1; i >= 0; i--) {
+    r = tree.reduceRight(fa.forest[i], r, f)
+  }
+  return f(fa.value, r)
+}
+
+const extend_: <A, B>(wa: Tree<A>, f: (wa: Tree<A>) => B) => Tree<B> = (wa, f) => ({
+  value: f(wa),
+  forest: wa.forest.map((t) => tree.extend(t, f))
+})
+
+/**
+ * @since 2.0.0
+ */
+export const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = (fa) => (fab) => ap_(fab, fa)
+
+/**
+ * @since 2.0.0
+ */
+export const apFirst: <B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<A> = (fb) => (fa) =>
+  ap_(
+    map_(fa, (a) => () => a),
+    fb
+  )
+
+/**
+ * @since 2.0.0
+ */
+export const apSecond = <B>(fb: Tree<B>) => <A>(fa: Tree<A>): Tree<B> =>
+  ap_(
+    map_(fa, () => (b: B) => b),
+    fb
+  )
+
+/**
+ * @since 2.0.0
+ */
+export const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B> = (f) => (ma) => chain_(ma, f)
+
+/**
+ * @since 2.0.0
+ */
+export const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<A> = (f) => (ma) =>
+  chain_(ma, (a) => map_(f(a), () => a))
+
+/**
+ * @since 2.0.0
+ */
+export const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>> = (wa) => extend_(wa, identity)
+
+/**
+ * @since 2.0.0
+ */
+export const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B> = (f) => (wa) => extend_(wa, f)
+
+/**
+ * @since 2.0.0
+ */
+export const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A> = (mma) => chain_(mma, identity)
+
+/**
+ * @since 2.0.0
+ */
+export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Tree<A>) => M = (M) => {
+  const foldMapM = foldMap_(M)
+  return (f) => (fa) => foldMapM(fa, f)
+}
+
+/**
+ * @since 2.0.0
+ */
+export const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B> = (f) => (fa) => map_(fa, f)
+
+/**
+ * @since 2.0.0
+ */
+export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>) => B = (b, f) => (fa) => reduce_(fa, b, f)
+
+/**
+ * @since 2.0.0
+ */
+export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>) => B = (b, f) => (fa) =>
+  reduceRight_(fa, b, f)
+
+/**
+ * @since 2.6.2
+ */
+export const extract: <A>(wa: Tree<A>) => A = (wa) => wa.value
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 2.0.0
  */
 export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
   URI,
-  map: (fa, f) => ({
-    value: f(fa.value),
-    forest: fa.forest.map((t) => tree.map(t, f))
-  }),
+  map: map_,
   of: (a) => ({
     value: a,
     forest: empty
   }),
-  ap: (fab, fa) => tree.chain(fab, (f) => tree.map(fa, f)),
-  chain: <A, B>(fa: Tree<A>, f: (a: A) => Tree<B>): Tree<B> => {
-    const { value, forest } = f(fa.value)
-    const concat = getMonoid<Tree<B>>().concat
-    return {
-      value,
-      forest: concat(
-        forest,
-        fa.forest.map((t) => tree.chain(t, f))
-      )
-    }
-  },
-  reduce: <A, B>(fa: Tree<A>, b: B, f: (b: B, a: A) => B): B => {
-    let r: B = f(b, fa.value)
-    const len = fa.forest.length
-    for (let i = 0; i < len; i++) {
-      r = tree.reduce(fa.forest[i], r, f)
-    }
-    return r
-  },
-  foldMap: (M) => (fa, f) => tree.reduce(fa, M.empty, (acc, a) => M.concat(acc, f(a))),
-  reduceRight: <A, B>(fa: Tree<A>, b: B, f: (a: A, b: B) => B): B => {
-    let r: B = b
-    const len = fa.forest.length
-    for (let i = len - 1; i >= 0; i--) {
-      r = tree.reduceRight(fa.forest[i], r, f)
-    }
-    return f(fa.value, r)
-  },
+  ap: ap_,
+  chain: chain_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
   traverse: <F>(F: Applicative<F>): (<A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>) => HKT<F, Tree<B>>) => {
     const traverseF = array.traverse(F)
     const r = <A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>): HKT<F, Tree<B>> =>
@@ -308,74 +412,6 @@ export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<U
     const traverseF = tree.traverse(F)
     return (ta) => traverseF(ta, identity)
   },
-  extract: (wa) => wa.value,
-  extend: (wa, f) => ({
-    value: f(wa),
-    forest: wa.forest.map((t) => tree.extend(t, f))
-  })
-}
-
-const pipeables = /*#__PURE__*/ pipeable(tree)
-const ap = /*#__PURE__*/ (() => pipeables.ap)()
-const apFirst = /*#__PURE__*/ (() => pipeables.apFirst)()
-const apSecond = /*#__PURE__*/ (() => pipeables.apSecond)()
-const chain = /*#__PURE__*/ (() => pipeables.chain)()
-const chainFirst = /*#__PURE__*/ (() => pipeables.chainFirst)()
-const duplicate = /*#__PURE__*/ (() => pipeables.duplicate)()
-const extend = /*#__PURE__*/ (() => pipeables.extend)()
-const flatten = /*#__PURE__*/ (() => pipeables.flatten)()
-const foldMap = /*#__PURE__*/ (() => pipeables.foldMap)()
-const map = /*#__PURE__*/ (() => pipeables.map)()
-const reduce = /*#__PURE__*/ (() => pipeables.reduce)()
-const reduceRight = /*#__PURE__*/ (() => pipeables.reduceRight)()
-
-export {
-  /**
-   * @since 2.0.0
-   */
-  ap,
-  /**
-   * @since 2.0.0
-   */
-  apFirst,
-  /**
-   * @since 2.0.0
-   */
-  apSecond,
-  /**
-   * @since 2.0.0
-   */
-  chain,
-  /**
-   * @since 2.0.0
-   */
-  chainFirst,
-  /**
-   * @since 2.0.0
-   */
-  duplicate,
-  /**
-   * @since 2.0.0
-   */
-  extend,
-  /**
-   * @since 2.0.0
-   */
-  flatten,
-  /**
-   * @since 2.0.0
-   */
-  foldMap,
-  /**
-   * @since 2.0.0
-   */
-  map,
-  /**
-   * @since 2.0.0
-   */
-  reduce,
-  /**
-   * @since 2.0.0
-   */
-  reduceRight
+  extract,
+  extend: extend_
 }
