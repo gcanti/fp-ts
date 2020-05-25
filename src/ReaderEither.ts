@@ -10,13 +10,13 @@ import { Monad3, Monad3C } from './Monad'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
-import { getSemigroup as getReaderSemigroup, Reader, reader } from './Reader'
+import { getSemigroup as getReaderSemigroup, Reader, monadReader } from './Reader'
 import { Semigroup } from './Semigroup'
 import { getValidationM } from './ValidationT'
 
 import Either = E.Either
 
-const T = /*#__PURE__*/ getEitherM(reader)
+const T = /*#__PURE__*/ getEitherM(monadReader)
 
 declare module './HKT' {
   interface URItoKind3<R, E, A> {
@@ -154,7 +154,7 @@ export function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderEither<R, E, A>) =
 export function getReaderValidation<E>(
   S: Semigroup<E>
 ): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadThrow3C<URI, E> {
-  const T = getValidationM(S, reader)
+  const T = getValidationM(S, monadReader)
   return {
     _E: undefined as any,
     ...readerEither,

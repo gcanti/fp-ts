@@ -162,6 +162,17 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Identity<A>
 // -------------------------------------------------------------------------------------
 
 /**
+ * @internal
+ */
+export const monadIdentity: Monad1<URI> = {
+  URI,
+  map: map_,
+  of: id,
+  ap: ap_,
+  chain: chain_
+}
+
+/**
  * @since 2.0.0
  */
 export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI> = {

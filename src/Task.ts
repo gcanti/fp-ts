@@ -171,6 +171,17 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (f
 // -------------------------------------------------------------------------------------
 
 /**
+ * @internal
+ */
+export const monadTask: Monad1<URI> = {
+  URI,
+  map: map_,
+  of,
+  ap: ap_,
+  chain: chain_
+}
+
+/**
  * @since 2.0.0
  */
 export const task: Monad1<URI> & MonadTask1<URI> = {

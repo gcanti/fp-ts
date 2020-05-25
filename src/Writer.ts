@@ -2,12 +2,12 @@
  * @since 2.0.0
  */
 import { Functor2 } from './Functor'
-import { identity } from './Identity'
+import { monadIdentity } from './Identity'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
 import { getWriterM } from './WriterT'
 
-const T = /*#__PURE__*/ getWriterM(identity)
+const T = /*#__PURE__*/ getWriterM(monadIdentity)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
