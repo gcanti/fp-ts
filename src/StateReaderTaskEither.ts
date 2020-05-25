@@ -4,12 +4,13 @@
 import { Alt4 } from './Alt'
 import { Bifunctor4 } from './Bifunctor'
 import { Either } from './Either'
+import { identity, Predicate, Refinement } from './function'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad4 } from './Monad'
 import { MonadTask4 } from './MonadTask'
 import { MonadThrow4 } from './MonadThrow'
-import { pipeable } from './pipeable'
+import { Option } from './Option'
 import { Reader } from './Reader'
 import { ReaderEither } from './ReaderEither'
 import * as RTE from './ReaderTaskEither'
@@ -266,47 +267,87 @@ export function chainReaderTaskEitherK<R, E, A, B>(
   return chain<any, any, E, A, B>(fromReaderTaskEitherK(f))
 }
 
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+const alt_: <S, R, E, A>(
+  fx: StateReaderTaskEither<S, R, E, A>,
+  fy: () => StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, A> = (fx, fy) => (s) => RTE.readerTaskEither.alt(fx(s), () => fy()(s))
+
+const bimap_: <S, R, E, A, G, B>(
+  fea: StateReaderTaskEither<S, R, E, A>,
+  f: (e: E) => G,
+  g: (a: A) => B
+) => StateReaderTaskEither<S, R, G, B> = (fea, f, g) => (s) =>
+  RTE.readerTaskEither.bimap(fea(s), f, ([a, s]) => [g(a), s])
+
+const mapLeft_: <S, R, E, A, G>(
+  fea: StateReaderTaskEither<S, R, E, A>,
+  f: (e: E) => G
+) => StateReaderTaskEither<S, R, G, A> = (fea, f) => (s) => RTE.readerTaskEither.mapLeft(fea(s), f)
+
+/**
+ * @since 2.6.2
+ */
+export const alt: <S, R, E, A>(
+  that: () => StateReaderTaskEither<S, R, E, A>
+) => (fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = (that) => (fa) => alt_(fa, that)
+
 /**
  * @since 2.0.0
  */
-export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & MonadTask4<URI> & MonadThrow4<URI> = {
-  URI,
-  map: T.map,
-  of: right,
-  ap: T.ap,
-  chain: T.chain,
-  bimap: (fea, f, g) => (s) => RTE.readerTaskEither.bimap(fea(s), f, ([a, s]) => [g(a), s]),
-  mapLeft: (fea, f) => (s) => RTE.readerTaskEither.mapLeft(fea(s), f),
-  alt: (fx, fy) => (s) => RTE.readerTaskEither.alt(fx(s), () => fy()(s)),
-  fromIO: rightIO,
-  fromTask: rightTask,
-  throwError: left
-}
+export const ap: <S, R, E, A>(
+  fa: StateReaderTaskEither<S, R, E, A>
+) => <B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B> = (fa) => (fab) =>
+  T.ap(fab, fa)
 
 /**
- * Like `stateReaderTaskEither` but `ap` is sequential
  * @since 2.0.0
  */
-export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
-  ...stateReaderTaskEither,
-  ap: (mab, ma) => stateReaderTaskEither.chain(mab, (f) => stateReaderTaskEither.map(ma, f))
-}
+export const apFirst = <S, R, E, B>(fb: StateReaderTaskEither<S, R, E, B>) => <A>(
+  fa: StateReaderTaskEither<S, R, E, A>
+): StateReaderTaskEither<S, R, E, A> =>
+  T.ap(
+    T.map(fa, (a) => (_: B) => a),
+    fb
+  )
 
-const pipeables = /*#__PURE__*/ pipeable(stateReaderTaskEither)
-const alt = /*#__PURE__*/ (() => pipeables.alt)()
-const ap = /*#__PURE__*/ (() => pipeables.ap)()
-const apFirst = /*#__PURE__*/ (() => pipeables.apFirst)()
-const apSecond = /*#__PURE__*/ (() => pipeables.apSecond)()
-const bimap = /*#__PURE__*/ (() => pipeables.bimap)()
-const chain = /*#__PURE__*/ (() => pipeables.chain)()
-const chainFirst = /*#__PURE__*/ (() => pipeables.chainFirst)()
-const flatten = /*#__PURE__*/ (() => pipeables.flatten)()
-const map = /*#__PURE__*/ (() => pipeables.map)()
-const mapLeft = /*#__PURE__*/ (() => pipeables.mapLeft)()
-const fromEither = /*#__PURE__*/ (() => pipeables.fromEither)()
-const fromOption = /*#__PURE__*/ (() => pipeables.fromOption)()
-const fromPredicate = /*#__PURE__*/ (() => pipeables.fromPredicate)()
-const filterOrElse = /*#__PURE__*/ (() => pipeables.filterOrElse)()
+/**
+ * @since 2.0.0
+ */
+export const apSecond: <S, R, E, B>(
+  fb: StateReaderTaskEither<S, R, E, B>
+) => <A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = (fb) => (fa) =>
+  T.ap(
+    T.map(fa, () => (b) => b),
+    fb
+  )
+
+/**
+ * @since 2.6.2
+ */
+export const bimap: <E, G, A, B>(
+  f: (e: E) => G,
+  g: (a: A) => B
+) => <S, R>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, B> = (f, g) => (fa) =>
+  bimap_(fa, f, g)
+
+/**
+ * @since 2.0.0
+ */
+export const chain: <S, R, E, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, R, E, B>
+) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = (f) => (ma) => T.chain(ma, f)
+
+/**
+ * @since 2.0.0
+ */
+export const chainFirst: <S, R, E, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, R, E, B>
+) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = (f) => (ma) =>
+  T.chain(ma, (a) => T.map(f(a), () => a))
 
 /**
  * @since 2.6.0
@@ -345,61 +386,92 @@ export const chainIOEitherKW: <R, D, A, B>(
   f: (a: A) => IOEither<D, B>
 ) => <S, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E | D, B> = chainIOEitherK as any
 
-export {
-  /**
-   * @since 2.6.2
-   */
-  alt,
-  /**
-   * @since 2.0.0
-   */
-  ap,
-  /**
-   * @since 2.0.0
-   */
-  apFirst,
-  /**
-   * @since 2.0.0
-   */
-  apSecond,
-  /**
-   * @since 2.6.2
-   */
-  bimap,
-  /**
-   * @since 2.0.0
-   */
-  chain,
-  /**
-   * @since 2.0.0
-   */
-  chainFirst,
-  /**
-   * @since 2.0.0
-   */
-  flatten,
-  /**
-   * @since 2.0.0
-   */
-  map,
-  /**
-   * @since 2.6.2
-   */
-  mapLeft,
-  /**
-   * @since 2.0.0
-   */
-  fromEither,
-  /**
-   * @since 2.0.0
-   */
-  fromOption,
-  /**
-   * @since 2.4.4
-   */
-  fromPredicate,
-  /**
-   * @since 2.4.4
-   */
-  filterOrElse
+/**
+ * @since 2.0.0
+ */
+export const flatten: <S, R, E, A>(
+  mma: StateReaderTaskEither<S, R, E, StateReaderTaskEither<S, R, E, A>>
+) => StateReaderTaskEither<S, R, E, A> = (mma) => T.chain(mma, identity)
+
+/**
+ * @since 2.0.0
+ */
+export const map: <A, B>(
+  f: (a: A) => B
+) => <S, R, E>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = (f) => (fa) => T.map(fa, f)
+
+/**
+ * @since 2.6.2
+ */
+export const mapLeft: <E, G>(
+  f: (e: E) => G
+) => <S, R, A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, A> = (f) => (fa) =>
+  mapLeft_(fa, f)
+
+/**
+ * @since 2.0.0
+ */
+export const fromEither: <S, R, E, A>(ma: Either<E, A>) => StateReaderTaskEither<S, R, E, A> = (ma) =>
+  ma._tag === 'Left' ? left(ma.left) : right(ma.right)
+
+/**
+ * @since 2.0.0
+ */
+export const fromOption: <E>(onNone: () => E) => <S, R, A>(ma: Option<A>) => StateReaderTaskEither<S, R, E, A> = (
+  onNone
+) => (ma) => (ma._tag === 'None' ? left(onNone()) : right(ma.value))
+
+/**
+ * @since 2.4.4
+ */
+export const fromPredicate: {
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
+    a: A
+  ) => StateReaderTaskEither<S, R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(a: A) => StateReaderTaskEither<S, R, E, A>
+} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => <S, R>(a: A): StateReaderTaskEither<S, R, E, A> =>
+  predicate(a) ? right(a) : left(onFalse(a))
+
+/**
+ * @since 2.4.4
+ */
+export const filterOrElse: {
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
+    ma: StateReaderTaskEither<S, R, E, A>
+  ) => StateReaderTaskEither<S, R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(
+    ma: StateReaderTaskEither<S, R, E, A>
+  ) => StateReaderTaskEither<S, R, E, A>
+} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => <S, R>(
+  ma: StateReaderTaskEither<S, R, E, A>
+): StateReaderTaskEither<S, R, E, A> => T.chain(ma, (a) => (predicate(a) ? right(a) : left(onFalse(a))))
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.0.0
+ */
+export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & MonadTask4<URI> & MonadThrow4<URI> = {
+  URI,
+  map: T.map,
+  of: right,
+  ap: T.ap,
+  chain: T.chain,
+  bimap: bimap_,
+  mapLeft: mapLeft_,
+  alt: alt_,
+  fromIO: rightIO,
+  fromTask: rightTask,
+  throwError: left
+}
+
+/**
+ * Like `stateReaderTaskEither` but `ap` is sequential
+ * @since 2.0.0
+ */
+export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
+  ...stateReaderTaskEither,
+  ap: (mab, ma) => stateReaderTaskEither.chain(mab, (f) => stateReaderTaskEither.map(ma, f))
 }
