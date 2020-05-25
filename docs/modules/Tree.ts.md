@@ -32,6 +32,7 @@ Added in v2.0.0
 - [duplicate](#duplicate)
 - [elem](#elem)
 - [extend](#extend)
+- [extract](#extract)
 - [flatten](#flatten)
 - [fold](#fold)
 - [foldMap](#foldmap)
@@ -213,6 +214,16 @@ export declare const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => T
 ```
 
 Added in v2.0.0
+
+# extract
+
+**Signature**
+
+```ts
+export declare const extract: <A>(wa: Tree<A>) => A
+```
+
+Added in v2.6.2
 
 # flatten
 
