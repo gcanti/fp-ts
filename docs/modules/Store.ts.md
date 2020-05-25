@@ -18,6 +18,7 @@ Added in v2.0.0
 - [duplicate](#duplicate)
 - [experiment](#experiment)
 - [extend](#extend)
+- [extract](#extract)
 - [map](#map)
 - [peeks](#peeks)
 - [seek](#seek)
@@ -105,6 +106,16 @@ export declare const extend: <E, A, B>(f: (wa: Store<E, A>) => B) => (wa: Store<
 ```
 
 Added in v2.0.0
+
+# extract
+
+**Signature**
+
+```ts
+export declare const extract: <E, A>(wa: Store<E, A>) => A
+```
+
+Added in v2.6.2
 
 # map
 

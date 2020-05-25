@@ -2,10 +2,9 @@
  * @since 2.0.0
  */
 import { Comonad2 } from './Comonad'
-import { Endomorphism } from './function'
+import { Endomorphism, identity } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
-import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -83,38 +82,51 @@ export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>
   return (f) => (wa) => F.map(f(wa.pos), (s) => wa.peek(s))
 }
 
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+const map_: <E, A, B>(fa: Store<E, A>, f: (a: A) => B) => Store<E, B> = (wa, f) => ({
+  peek: (s) => f(wa.peek(s)),
+  pos: wa.pos
+})
+
+const extend_: <E, A, B>(wa: Store<E, A>, f: (wa: Store<E, A>) => B) => Store<E, B> = (wa, f) => ({
+  peek: (s) => f({ peek: wa.peek, pos: s }),
+  pos: wa.pos
+})
+
+/**
+ * @since 2.0.0
+ */
+export const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>> = (wa) => extend_(wa, identity)
+
+/**
+ * @since 2.6.2
+ */
+export const extract: <E, A>(wa: Store<E, A>) => A = (wa) => wa.peek(wa.pos)
+
+/**
+ * @since 2.0.0
+ */
+export const extend: <E, A, B>(f: (wa: Store<E, A>) => B) => (wa: Store<E, A>) => Store<E, B> = (f) => (wa) =>
+  extend_(wa, f)
+
+/**
+ * @since 2.0.0
+ */
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B> = (f) => (fa) => map_(fa, f)
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 2.0.0
  */
 export const store: Comonad2<URI> = {
   URI,
-  map: (wa, f) => ({
-    peek: (s) => f(wa.peek(s)),
-    pos: wa.pos
-  }),
-  extract: (wa) => wa.peek(wa.pos),
-  extend: (wa, f) => ({
-    peek: (s) => f({ peek: wa.peek, pos: s }),
-    pos: wa.pos
-  })
-}
-
-const pipeables = /*#__PURE__*/ pipeable(store)
-const duplicate = /*#__PURE__*/ (() => pipeables.duplicate)()
-const extend = /*#__PURE__*/ (() => pipeables.extend)()
-const map = /*#__PURE__*/ (() => pipeables.map)()
-
-export {
-  /**
-   * @since 2.0.0
-   */
-  duplicate,
-  /**
-   * @since 2.0.0
-   */
-  extend,
-  /**
-   * @since 2.0.0
-   */
-  map
+  map: map_,
+  extract,
+  extend: extend_
 }
