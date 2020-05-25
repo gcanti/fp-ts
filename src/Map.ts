@@ -283,7 +283,11 @@ export const getWitherable: <K>(
 /**
  * @since 2.0.0
  */
-export const map_: Filterable2<URI> = {
-  ...(RM.readonlyMap as any),
-  URI
-}
+export const map_: Filterable2<URI> =
+  /*@__PURE__*/
+  (() => {
+    return {
+      ...(RM.readonlyMap as any),
+      URI
+    }
+  })()
