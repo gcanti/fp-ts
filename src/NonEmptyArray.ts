@@ -408,7 +408,11 @@ export const nonEmptyArray: Monad1<URI> &
   TraversableWithIndex1<URI, number> &
   FunctorWithIndex1<URI, number> &
   FoldableWithIndex1<URI, number> &
-  Alt1<URI> = {
-  ...(RNEA.readonlyNonEmptyArray as any),
-  URI
-}
+  Alt1<URI> =
+  /*@__PURE__*/
+  (() => {
+    return {
+      ...(RNEA.readonlyNonEmptyArray as any),
+      URI
+    }
+  })()
