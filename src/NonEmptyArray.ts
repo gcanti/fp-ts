@@ -409,7 +409,7 @@ export const nonEmptyArray: Monad1<URI> &
   FunctorWithIndex1<URI, number> &
   FoldableWithIndex1<URI, number> &
   Alt1<URI> =
-  /*@__PURE__*/
+  /*#__PURE__*/
   (() => {
     return {
       ...(RNEA.readonlyNonEmptyArray as any),

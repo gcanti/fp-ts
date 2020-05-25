@@ -553,7 +553,7 @@ export const record: FunctorWithIndex1<URI, string> &
   FilterableWithIndex1<URI, string> &
   Witherable1<URI> &
   FoldableWithIndex1<URI, string> =
-  /*@__PURE__*/
+  /*#__PURE__*/
   (() => {
     return {
       ...(RR.readonlyRecord as any),

@@ -127,7 +127,7 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: [A, E]) 
  * @since 2.0.0
  */
 export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> =
-  /*@__PURE__*/
+  /*#__PURE__*/
   (() => {
     return {
       ...(RT.readonlyTuple as any),

@@ -1086,7 +1086,7 @@ export const array: Monad1<URI> &
   Witherable1<URI> &
   FunctorWithIndex1<URI, number> &
   FoldableWithIndex1<URI, number> =
-  /*@__PURE__*/
+  /*#__PURE__*/
   (() => {
     return {
       ...(RA.readonlyArray as any),

@@ -200,7 +200,7 @@ export const task: Monad1<URI> & MonadTask1<URI> = {
  * @since 2.0.0
  */
 export const taskSeq: typeof task =
-  /*@__PURE__*/
+  /*#__PURE__*/
   ((): typeof task => {
     return {
       ...task,
