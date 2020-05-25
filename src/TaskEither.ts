@@ -9,14 +9,14 @@ import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { getEitherM } from './EitherT'
 import { Filterable2C, getFilterableComposition } from './Filterable'
-import { Lazy } from './function'
+import { identity, Lazy, Predicate, Refinement } from './function'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2, Monad2C } from './Monad'
 import { MonadTask2, MonadTask2C } from './MonadTask'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
-import { pipeable } from './pipeable'
+import { Option } from './Option'
 import { Semigroup } from './Semigroup'
 import { getSemigroup as getTaskSemigroup, Task, task } from './Task'
 import { getValidationM } from './ValidationT'
@@ -318,6 +318,133 @@ export function tryCatchK<E, A extends ReadonlyArray<unknown>, B>(
   return (...a) => tryCatch(() => f(...a), onRejected)
 }
 
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.0.0
+ */
+export const alt: <E, A>(that: () => TaskEither<E, A>) => (fa: TaskEither<E, A>) => TaskEither<E, A> = (that) => (fa) =>
+  T.alt(fa, that)
+
+/**
+ * @since 2.0.0
+ */
+export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B> = (fa) => (
+  fab
+) => T.ap(fab, fa)
+
+/**
+ * @since 2.0.0
+ */
+export const apFirst: <E, B>(fb: TaskEither<E, B>) => <A>(fa: TaskEither<E, A>) => TaskEither<E, A> = (fb) => (fa) =>
+  T.ap(
+    T.map(fa, (a) => () => a),
+    fb
+  )
+
+/**
+ * @since 2.0.0
+ */
+export const apSecond = <E, B>(fb: TaskEither<E, B>) => <A>(fa: TaskEither<E, A>): TaskEither<E, B> =>
+  T.ap(
+    T.map(fa, () => (b: B) => b),
+    fb
+  )
+
+/**
+ * @since 2.0.0
+ */
+export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskEither<E, A>) => TaskEither<G, B> = (
+  f,
+  g
+) => (fa) => T.bimap(fa, f, g)
+
+/**
+ * @since 2.0.0
+ */
+export const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> = (f) => (
+  ma
+) => T.chain(ma, f)
+
+/**
+ * @since 2.6.0
+ */
+export const chainW: <D, A, B>(
+  f: (a: A) => TaskEither<D, B>
+) => <E>(ma: TaskEither<E, A>) => TaskEither<E | D, B> = chain as any
+
+/**
+ * @since 2.6.1
+ */
+export const chainEitherKW: <D, A, B>(
+  f: (a: A) => Either<D, B>
+) => <E>(ma: TaskEither<E, A>) => TaskEither<E | D, B> = chainEitherK as any
+
+/**
+ * @since 2.6.1
+ */
+export const chainIOEitherKW: <D, A, B>(
+  f: (a: A) => IOEither<D, B>
+) => <E>(ma: TaskEither<E, A>) => TaskEither<E | D, B> = chainIOEitherK as any
+
+/**
+ * @since 2.0.0
+ */
+export const chainFirst: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, A> = (
+  f
+) => (ma) => T.chain(ma, (a) => T.map(f(a), () => a))
+
+/**
+ * @since 2.0.0
+ */
+export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither<E, A> = (mma) => T.chain(mma, identity)
+
+/**
+ * @since 2.0.0
+ */
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEither<E, B> = (f) => (fa) => T.map(fa, f)
+
+/**
+ * @since 2.0.0
+ */
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskEither<E, A>) => TaskEither<G, A> = (f) => (fa) =>
+  T.mapLeft(fa, f)
+
+/**
+ * @since 2.0.0
+ */
+export const fromEither: <E, A>(ma: E.Either<E, A>) => TaskEither<E, A> = (ma) =>
+  E.isLeft(ma) ? left(ma.left) : right(ma.right)
+
+/**
+ * @since 2.0.0
+ */
+export const fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => TaskEither<E, A> = (onNone) => (ma) =>
+  ma._tag === 'None' ? left(onNone()) : right(ma.value)
+
+/**
+ * @since 2.0.0
+ */
+export const fromPredicate: {
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskEither<E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskEither<E, A>
+} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (a: A) => (predicate(a) ? right(a) : left(onFalse(a)))
+
+/**
+ * @since 2.0.0
+ */
+export const filterOrElse: {
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, A>
+} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (ma: TaskEither<E, A>) =>
+  T.chain(ma, (a) => (predicate(a) ? right(a) : left(onFalse(a))))
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 2.0.0
  */
@@ -343,100 +470,4 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<
 export const taskEitherSeq: typeof taskEither = {
   ...taskEither,
   ap: (mab, ma) => T.chain(mab, (f) => T.map(ma, f))
-}
-
-const pipeables = /*#__PURE__*/ pipeable(taskEither)
-const alt = /*#__PURE__*/ (() => pipeables.alt)()
-const ap = /*#__PURE__*/ (() => pipeables.ap)()
-const apFirst = /*#__PURE__*/ (() => pipeables.apFirst)()
-const apSecond = /*#__PURE__*/ (() => pipeables.apSecond)()
-const bimap = /*#__PURE__*/ (() => pipeables.bimap)()
-const chain = /*#__PURE__*/ (() => pipeables.chain)()
-const chainFirst = /*#__PURE__*/ (() => pipeables.chainFirst)()
-const flatten = /*#__PURE__*/ (() => pipeables.flatten)()
-const map = /*#__PURE__*/ (() => pipeables.map)()
-const mapLeft = /*#__PURE__*/ (() => pipeables.mapLeft)()
-const fromEither = /*#__PURE__*/ (() => pipeables.fromEither)()
-const fromOption = /*#__PURE__*/ (() => pipeables.fromOption)()
-const fromPredicate = /*#__PURE__*/ (() => pipeables.fromPredicate)()
-const filterOrElse = /*#__PURE__*/ (() => pipeables.filterOrElse)()
-
-/**
- * @since 2.6.0
- */
-export const chainW: <D, A, B>(
-  f: (a: A) => TaskEither<D, B>
-) => <E>(ma: TaskEither<E, A>) => TaskEither<E | D, B> = chain as any
-
-/**
- * @since 2.6.1
- */
-export const chainEitherKW: <D, A, B>(
-  f: (a: A) => Either<D, B>
-) => <E>(ma: TaskEither<E, A>) => TaskEither<E | D, B> = chainEitherK as any
-
-/**
- * @since 2.6.1
- */
-export const chainIOEitherKW: <D, A, B>(
-  f: (a: A) => IOEither<D, B>
-) => <E>(ma: TaskEither<E, A>) => TaskEither<E | D, B> = chainIOEitherK as any
-
-export {
-  /**
-   * @since 2.0.0
-   */
-  alt,
-  /**
-   * @since 2.0.0
-   */
-  ap,
-  /**
-   * @since 2.0.0
-   */
-  apFirst,
-  /**
-   * @since 2.0.0
-   */
-  apSecond,
-  /**
-   * @since 2.0.0
-   */
-  bimap,
-  /**
-   * @since 2.0.0
-   */
-  chain,
-  /**
-   * @since 2.0.0
-   */
-  chainFirst,
-  /**
-   * @since 2.0.0
-   */
-  flatten,
-  /**
-   * @since 2.0.0
-   */
-  map,
-  /**
-   * @since 2.0.0
-   */
-  mapLeft,
-  /**
-   * @since 2.0.0
-   */
-  fromEither,
-  /**
-   * @since 2.0.0
-   */
-  fromOption,
-  /**
-   * @since 2.0.0
-   */
-  fromPredicate,
-  /**
-   * @since 2.0.0
-   */
-  filterOrElse
 }
