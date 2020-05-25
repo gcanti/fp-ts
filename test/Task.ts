@@ -13,6 +13,47 @@ const delayReject = <A>(n: number, a: A): _.Task<A> => () =>
 const delay = <A>(millis: number, a: A): _.Task<A> => _.delay(millis)(_.task.of(a))
 
 describe('Task', () => {
+  describe('pipeables', () => {
+    it('map', async () => {
+      const double = (n: number): number => n * 2
+      const x = await pipe(delay(1, 2), _.map(double))()
+      assert.deepStrictEqual(x, 4)
+    })
+
+    it('ap', async () => {
+      const double = (n: number): number => n * 2
+      const x = await pipe(delay(1, double), _.ap(delay(0, 2)))()
+      assert.deepStrictEqual(x, 4)
+    })
+
+    it('apFirst', async () => {
+      const x = await pipe(_.of('a'), _.apFirst(_.of('b')))()
+      assert.deepStrictEqual(x, 'a')
+    })
+
+    it('apSecond', async () => {
+      const x = await pipe(_.of('a'), _.apSecond(_.of('b')))()
+      assert.deepStrictEqual(x, 'b')
+    })
+
+    it('chain', async () => {
+      const f = (n: number): _.Task<number> => () => Promise.resolve(n * 2)
+      const x = await pipe(delay(1, 2), _.chain(f))()
+      return assert.deepStrictEqual(x, 4)
+    })
+
+    it('chainFirst', async () => {
+      const f = (n: number): _.Task<number> => () => Promise.resolve(n * 2)
+      const x = await pipe(delay(1, 2), _.chainFirst(f))()
+      return assert.deepStrictEqual(x, 2)
+    })
+
+    it('flatten', async () => {
+      const x = await pipe(_.of(_.of('a')), _.flatten)()
+      return assert.deepStrictEqual(x, 'a')
+    })
+  })
+
   describe('getRaceMonoid', () => {
     const M = _.getRaceMonoid<number>()
 
@@ -59,69 +100,29 @@ describe('Task', () => {
     })
   })
 
-  describe('Monad', () => {
-    it('map', async () => {
-      const double = (n: number): number => n * 2
-      const x = await _.task.map(delay(0, 1), double)()
-      assert.deepStrictEqual(x, 2)
-    })
-
-    it('ap', async () => {
-      const double = (n: number): number => n * 2
-      const tab = delay(0, double)
-      const ta = delay(0, 1)
-      const x = await _.task.ap(tab, ta)()
-      assert.deepStrictEqual(x, 2)
-    })
-
-    it('chain', async () => {
-      const f = (n: number): _.Task<number> => () => Promise.resolve(n * 2)
-      const x = await _.task.chain(delay(0, 1), f)()
-      return assert.deepStrictEqual(x, 2)
-    })
+  it('taskSeq', async () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<string> = []
+    const append = (message: string): _.Task<number> => () => Promise.resolve(log.push(message))
+    const t1 = _.task.chain(append('start 1'), () => append('end 1'))
+    const t2 = _.task.chain(append('start 2'), () => append('end 2'))
+    const sequenceSeries = array.sequence(_.taskSeq)
+    const x = await sequenceSeries([t1, t2])()
+    assert.deepStrictEqual(x, [2, 4])
+    assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
   })
 
-  describe('Traversable', () => {
-    it('sequence parallel', async () => {
-      // tslint:disable-next-line: readonly-array
-      const log: Array<string> = []
-      const append = (message: string): _.Task<number> => () => Promise.resolve(log.push(message))
-      const t1 = _.task.chain(append('start 1'), () => append('end 1'))
-      const t2 = _.task.chain(append('start 2'), () => append('end 2'))
-      const sequenceParallel = array.sequence(_.task)
-      const x = await sequenceParallel([t1, t2])()
-      assert.deepStrictEqual(x, [3, 4])
-      assert.deepStrictEqual(log, ['start 1', 'start 2', 'end 1', 'end 2'])
-    })
-
-    it('sequence series', async () => {
-      // tslint:disable-next-line: readonly-array
-      const log: Array<string> = []
-      const append = (message: string): _.Task<number> => () => Promise.resolve(log.push(message))
-      const t1 = _.task.chain(append('start 1'), () => append('end 1'))
-      const t2 = _.task.chain(append('start 2'), () => append('end 2'))
-      const sequenceSeries = array.sequence(_.taskSeq)
-      const x = await sequenceSeries([t1, t2])()
-      assert.deepStrictEqual(x, [2, 4])
-      assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
-    })
+  it('fromIO', async () => {
+    const io = () => 1
+    const task = _.task.fromIO(io)
+    const x = await task()
+    assert.deepStrictEqual(x, 1)
   })
 
-  describe('MonadIO', () => {
-    it('fromIO', async () => {
-      const io = () => 1
-      const task = _.task.fromIO(io)
-      const x = await task()
-      assert.deepStrictEqual(x, 1)
-    })
-  })
-
-  describe('MonadTask', () => {
-    it('fromTask', async () => {
-      const io = () => 1
-      const t = _.task.fromIO(io)
-      assert.deepStrictEqual(_.task.fromTask(t), t)
-    })
+  it('fromTask', async () => {
+    const io = () => 1
+    const t = _.task.fromIO(io)
+    assert.deepStrictEqual(_.task.fromTask(t), t)
   })
 
   it('chainIOK', async () => {

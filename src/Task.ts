@@ -4,13 +4,12 @@
  *
  * @since 2.0.0
  */
+import { identity } from './function'
 import { IO } from './IO'
 import { Monad1 } from './Monad'
 import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
-import { pipeable } from './pipeable'
 import { Semigroup } from './Semigroup'
-import { identity } from './function'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -112,15 +111,74 @@ export function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> {
   return chain(fromIOK(f))
 }
 
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+const map_: <A, B>(fa: Task<A>, f: (a: A) => B) => Task<B> = (ma, f) => () => ma().then(f)
+
+const ap_: <A, B>(fab: Task<(a: A) => B>, fa: Task<A>) => Task<B> = (mab, ma) => () =>
+  Promise.all([mab(), ma()]).then(([f, a]) => f(a))
+
+const chain_: <A, B>(fa: Task<A>, f: (a: A) => Task<B>) => Task<B> = (ma, f) => () => ma().then((a) => f(a)())
+
+/**
+ * @since 2.0.0
+ */
+export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (fa) => (fab) => ap_(fab, fa)
+
+/**
+ * @since 2.0.0
+ */
+export const apFirst: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<A> = (fb) => (fa) =>
+  ap_(
+    map_(fa, (a) => () => a),
+    fb
+  )
+
+/**
+ * @since 2.0.0
+ */
+export const apSecond: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<B> = (fb) => (fa) =>
+  ap_(
+    map_(fa, () => (b) => b),
+    fb
+  )
+
+/**
+ * @since 2.0.0
+ */
+export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (f) => (ma) => chain_(ma, f)
+
+/**
+ * @since 2.0.0
+ */
+export const chainFirst: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<A> = (f) => (ma) =>
+  chain_(ma, (a) => map_(f(a), () => a))
+
+/**
+ * @since 2.0.0
+ */
+export const flatten: <A>(mma: Task<Task<A>>) => Task<A> = (mma) => chain_(mma, identity)
+
+/**
+ * @since 2.0.0
+ */
+export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (fa) => map_(fa, f)
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 2.0.0
  */
 export const task: Monad1<URI> & MonadTask1<URI> = {
   URI,
-  map: (ma, f) => () => ma().then(f),
+  map: map_,
   of,
-  ap: (mab, ma) => () => Promise.all([mab(), ma()]).then(([f, a]) => f(a)),
-  chain: (ma, f) => () => ma().then((a) => f(a)()),
+  ap: ap_,
+  chain: chain_,
   fromIO,
   fromTask: identity
 }
@@ -132,50 +190,10 @@ export const task: Monad1<URI> & MonadTask1<URI> = {
  */
 export const taskSeq: typeof task = {
   URI,
-  map: task.map,
-  of: task.of,
+  map: map_,
+  of,
   ap: (mab, ma) => () => mab().then((f) => ma().then((a) => f(a))),
-  chain: task.chain,
-  fromIO: task.fromIO,
-  fromTask: task.fromTask
-}
-
-const pipeables = /*#__PURE__*/ pipeable(task)
-const ap = /*#__PURE__*/ (() => pipeables.ap)()
-const apFirst = /*#__PURE__*/ (() => pipeables.apFirst)()
-const apSecond = /*#__PURE__*/ (() => pipeables.apSecond)()
-const chain = /*#__PURE__*/ (() => pipeables.chain)()
-const chainFirst = /*#__PURE__*/ (() => pipeables.chainFirst)()
-const flatten = /*#__PURE__*/ (() => pipeables.flatten)()
-const map = /*#__PURE__*/ (() => pipeables.map)()
-
-export {
-  /**
-   * @since 2.0.0
-   */
-  ap,
-  /**
-   * @since 2.0.0
-   */
-  apFirst,
-  /**
-   * @since 2.0.0
-   */
-  apSecond,
-  /**
-   * @since 2.0.0
-   */
-  chain,
-  /**
-   * @since 2.0.0
-   */
-  chainFirst,
-  /**
-   * @since 2.0.0
-   */
-  flatten,
-  /**
-   * @since 2.0.0
-   */
-  map
+  chain: chain_,
+  fromIO,
+  fromTask: identity
 }
