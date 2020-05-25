@@ -16,7 +16,7 @@ import { pipe } from './pipeable'
 import { getSemigroup as getReaderSemigroup, Reader } from './Reader'
 import { ReaderEither } from './ReaderEither'
 import { getReaderM } from './ReaderT'
-import { readerTask, ReaderTask } from './ReaderTask'
+import { monadReaderTask, ReaderTask } from './ReaderTask'
 import { Semigroup } from './Semigroup'
 import { Task } from './Task'
 import * as TE from './TaskEither'
@@ -24,7 +24,7 @@ import { getValidationM } from './ValidationT'
 
 import TaskEither = TE.TaskEither
 
-const T = /*#__PURE__*/ getReaderM(TE.taskEither)
+const T = /*#__PURE__*/ getReaderM(TE.monadTaskEither)
 
 declare module './HKT' {
   interface URItoKind3<R, E, A> {
@@ -264,7 +264,7 @@ export function bracket<R, E, A, B>(
 export function getReaderTaskValidation<E>(
   S: Semigroup<E>
 ): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadTask3C<URI, E> & MonadThrow3C<URI, E> {
-  const T = getValidationM(S, readerTask)
+  const T = getValidationM(S, monadReaderTask)
   return {
     _E: undefined as any,
     ...readerTaskEither,
@@ -333,17 +333,21 @@ export function chainTaskEitherK<E, A, B>(
 const alt_: <R, E, A>(
   fx: ReaderTaskEither<R, E, A>,
   fy: () => ReaderTaskEither<R, E, A>
-) => ReaderTaskEither<R, E, A> = (fx, fy) => (r) => TE.taskEither.alt(fx(r), () => fy()(r))
+) => ReaderTaskEither<R, E, A> = (fx, fy) => (r) =>
+  pipe(
+    fx(r),
+    TE.alt(() => fy()(r))
+  )
 
 const bimap_: <R, E, A, G, B>(
   fea: ReaderTaskEither<R, E, A>,
   f: (e: E) => G,
   g: (a: A) => B
-) => ReaderTaskEither<R, G, B> = (ma, f, g) => (e) => TE.taskEither.bimap(ma(e), f, g)
+) => ReaderTaskEither<R, G, B> = (ma, f, g) => (e) => pipe(ma(e), TE.bimap(f, g))
 
 const mapLeft_: <R, E, A, G>(fea: ReaderTaskEither<R, E, A>, f: (e: E) => G) => ReaderTaskEither<R, G, A> = (ma, f) => (
   e
-) => TE.taskEither.mapLeft(ma(e), f)
+) => pipe(ma(e), TE.mapLeft(f))
 
 /**
  * @since 2.0.0
@@ -461,6 +465,17 @@ export const filterOrElse: {
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @internal
+ */
+export const monadReaderTaskEither: Monad3<URI> = {
+  URI,
+  map: T.map,
+  of: right,
+  ap: T.ap,
+  chain: T.chain
+}
 
 /**
  * @since 2.0.0

@@ -204,6 +204,17 @@ export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) =
 // -------------------------------------------------------------------------------------
 
 /**
+ * @internal
+ */
+export const monadIO: Monad1<URI> = {
+  URI,
+  map: map_,
+  of,
+  ap: ap_,
+  chain: chain_
+}
+
+/**
  * @since 2.0.0
  */
 export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {

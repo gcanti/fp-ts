@@ -13,7 +13,7 @@ import * as TA from './Task'
 
 import Task = TA.Task
 
-const T = /*#__PURE__*/ getReaderM(TA.task)
+const T = /*#__PURE__*/ getReaderM(TA.monadTask)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -187,6 +187,17 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderT
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @internal
+ */
+export const monadReaderTask: Monad2<URI> = {
+  URI,
+  map: T.map,
+  of,
+  ap: T.ap,
+  chain: T.chain
+}
 
 /**
  * @since 2.3.0

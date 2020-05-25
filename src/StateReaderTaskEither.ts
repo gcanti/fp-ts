@@ -20,8 +20,9 @@ import { Task } from './Task'
 import { TaskEither } from './TaskEither'
 
 import ReaderTaskEither = RTE.ReaderTaskEither
+import { pipe } from './pipeable'
 
-const T = /*#__PURE__*/ getStateM(RTE.readerTaskEither)
+const T = /*#__PURE__*/ getStateM(RTE.monadReaderTaskEither)
 
 declare module './HKT' {
   interface URItoKind4<S, R, E, A> {
@@ -274,19 +275,26 @@ export function chainReaderTaskEitherK<R, E, A, B>(
 const alt_: <S, R, E, A>(
   fx: StateReaderTaskEither<S, R, E, A>,
   fy: () => StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, A> = (fx, fy) => (s) => RTE.readerTaskEither.alt(fx(s), () => fy()(s))
+) => StateReaderTaskEither<S, R, E, A> = (fx, fy) => (s) =>
+  pipe(
+    fx(s),
+    RTE.alt(() => fy()(s))
+  )
 
 const bimap_: <S, R, E, A, G, B>(
   fea: StateReaderTaskEither<S, R, E, A>,
   f: (e: E) => G,
   g: (a: A) => B
 ) => StateReaderTaskEither<S, R, G, B> = (fea, f, g) => (s) =>
-  RTE.readerTaskEither.bimap(fea(s), f, ([a, s]) => [g(a), s])
+  pipe(
+    fea(s),
+    RTE.bimap(f, ([a, s]) => [g(a), s])
+  )
 
 const mapLeft_: <S, R, E, A, G>(
   fea: StateReaderTaskEither<S, R, E, A>,
   f: (e: E) => G
-) => StateReaderTaskEither<S, R, G, A> = (fea, f) => (s) => RTE.readerTaskEither.mapLeft(fea(s), f)
+) => StateReaderTaskEither<S, R, G, A> = (fea, f) => (s) => pipe(fea(s), RTE.mapLeft(f))
 
 /**
  * @since 2.6.2

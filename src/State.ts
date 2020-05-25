@@ -3,12 +3,12 @@
  *
  * @since 2.0.0
  */
-import { identity } from './Identity'
+import { monadIdentity } from './Identity'
 import { Monad2 } from './Monad'
 import { getStateM } from './StateT'
-import { identity as id } from './function'
+import { identity } from './function'
 
-const T = /*#__PURE__*/ getStateM(identity)
+const T = /*#__PURE__*/ getStateM(monadIdentity)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -125,7 +125,7 @@ export const chainFirst: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>
 /**
  * @since 2.0.0
  */
-export const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A> = (mma) => T.chain(mma, id)
+export const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A> = (mma) => T.chain(mma, identity)
 
 /**
  * @since 2.0.0

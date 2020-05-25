@@ -8,13 +8,13 @@ import { IOEither } from './IOEither'
 import { Monad2C } from './Monad'
 import { MonadTask2C } from './MonadTask'
 import { Semigroup } from './Semigroup'
-import { getSemigroup as getTaskSemigroup, Task, task } from './Task'
+import { getSemigroup as getTaskSemigroup, Task, monadTask, fromIO as fromIOTask } from './Task'
 import * as TH from './These'
 import { getTheseM } from './TheseT'
 
 import These = TH.These
 
-const T = /*#__PURE__*/ getTheseM(task)
+const T = /*#__PURE__*/ getTheseM(monadTask)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -56,14 +56,14 @@ export const both: <E, A>(e: E, a: A) => TaskThese<E, A> = T.both
  * @since 2.4.0
  */
 export function rightIO<E = never, A = never>(ma: IO<A>): TaskThese<E, A> {
-  return rightTask(task.fromIO(ma))
+  return rightTask(fromIOTask(ma))
 }
 
 /**
  * @since 2.4.0
  */
 export function leftIO<E = never, A = never>(me: IO<E>): TaskThese<E, A> {
-  return leftTask(task.fromIO(me))
+  return leftTask(fromIOTask(me))
 }
 
 /**
@@ -79,7 +79,7 @@ export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskThese<E, A> =
 /**
  * @since 2.4.0
  */
-export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> = task.fromIO
+export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> = fromIOTask
 
 /**
  * @since 2.4.0

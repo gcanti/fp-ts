@@ -4,8 +4,8 @@
 import { Category2 } from './Category'
 import { Choice2 } from './Choice'
 import * as E from './Either'
-import { identity as id } from './function'
-import { identity } from './Identity'
+import { identity } from './function'
+import { monadIdentity } from './Identity'
 import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Profunctor2 } from './Profunctor'
@@ -13,7 +13,7 @@ import { getReaderM } from './ReaderT'
 import { Semigroup } from './Semigroup'
 import { Strong2 } from './Strong'
 
-const T = /*#__PURE__*/ getReaderM(identity)
+const T = /*#__PURE__*/ getReaderM(monadIdentity)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -139,7 +139,7 @@ export const chainW: <Q, A, B>(f: (a: A) => Reader<Q, B>) => <R>(ma: Reader<R, A
 /**
  * @since 2.0.0
  */
-export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> = (mma) => T.chain(mma, id)
+export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> = (mma) => T.chain(mma, identity)
 
 /**
  * @since 2.0.0
@@ -164,6 +164,17 @@ export const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reade
 // -------------------------------------------------------------------------------------
 
 /**
+ * @internal
+ */
+export const monadReader: Monad2<URI> = {
+  URI,
+  map: T.map,
+  of,
+  ap: T.ap,
+  chain: T.chain
+}
+
+/**
  * @since 2.0.0
  */
 export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = {
@@ -174,7 +185,7 @@ export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<U
   chain: T.chain,
   promap: promap_,
   compose: compose_,
-  id: () => id,
+  id: () => identity,
   first: (pab) => ([a, c]) => [pab(a), c],
   second: (pbc) => ([a, b]) => [a, pbc(b)],
   left: <A, B, C>(pab: Reader<A, B>): Reader<E.Either<A, C>, E.Either<B, C>> =>

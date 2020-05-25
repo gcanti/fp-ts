@@ -18,12 +18,12 @@ import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
-import { getSemigroup as getTaskSemigroup, Task, task } from './Task'
+import { getSemigroup as getTaskSemigroup, Task, monadTask, fromIO as fromIOTask } from './Task'
 import { getValidationM } from './ValidationT'
 
 import Either = E.Either
 
-const T = /*#__PURE__*/ getEitherM(task)
+const T = /*#__PURE__*/ getEitherM(monadTask)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -60,14 +60,14 @@ export const right: <E = never, A = never>(a: A) => TaskEither<E, A> = T.of
  * @since 2.0.0
  */
 export function rightIO<E = never, A = never>(ma: IO<A>): TaskEither<E, A> {
-  return rightTask(task.fromIO(ma))
+  return rightTask(fromIOTask(ma))
 }
 
 /**
  * @since 2.0.0
  */
 export function leftIO<E = never, A = never>(me: IO<E>): TaskEither<E, A> {
-  return leftTask(task.fromIO(me))
+  return leftTask(fromIOTask(me))
 }
 
 /**
@@ -83,7 +83,7 @@ export const leftTask: <E = never, A = never>(me: Task<E>) => TaskEither<E, A> =
 /**
  * @since 2.0.0
  */
-export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = task.fromIO
+export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = fromIOTask
 
 /**
  * @since 2.0.0
@@ -187,7 +187,7 @@ export function bracket<E, A, B>(
   release: (a: A, e: Either<E, B>) => TaskEither<E, void>
 ): TaskEither<E, B> {
   return T.chain(acquire, (a) =>
-    T.chain(task.map(use(a), E.right), (e) =>
+    T.chain(monadTask.map(use(a), E.right), (e) =>
       T.chain(release(a, e), () => (E.isLeft(e) ? T.left(e.left) : T.of(e.right)))
     )
   )
@@ -253,7 +253,7 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
 export function getTaskValidation<E>(
   S: Semigroup<E>
 ): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadTask2C<URI, E> & MonadThrow2C<URI, E> {
-  const T = getValidationM(S, task)
+  const T = getValidationM(S, monadTask)
   return {
     _E: undefined as any,
     ...taskEither,
@@ -270,7 +270,7 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
   return {
     URI,
     _E: undefined as any,
-    ...getFilterableComposition(task, F)
+    ...getFilterableComposition(monadTask, F)
   }
 }
 
@@ -444,6 +444,17 @@ export const filterOrElse: {
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @internal
+ */
+export const monadTaskEither: Monad2<URI> = {
+  URI,
+  map: T.map,
+  of: T.of,
+  ap: T.ap,
+  chain: T.chain
+}
 
 /**
  * @since 2.0.0
