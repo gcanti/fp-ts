@@ -498,10 +498,14 @@ export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & Monad
  * Like `readerTaskEither` but `ap` is sequential
  * @since 2.0.0
  */
-export const readerTaskEitherSeq: typeof readerTaskEither = {
-  ...readerTaskEither,
-  ap: (mab, ma) => T.chain(mab, (f) => T.map(ma, f))
-}
+export const readerTaskEitherSeq: typeof readerTaskEither =
+  /*@__PURE__*/
+  ((): typeof readerTaskEither => {
+    return {
+      ...readerTaskEither,
+      ap: (mab, ma) => T.chain(mab, (f) => T.map(ma, f))
+    }
+  })()
 
 /**
  * @since 2.6.0
