@@ -50,7 +50,10 @@ import { pipe } from 'fp-ts/lib/pipeable'
 const logger = (input: number | null) =>
   pipe(
     fromNullable(input),
-    fold(log('Received null'), (value) => log(`Received ${value}`))
+    fold(
+      () => log('Received null'),
+      (value) => log(`Received ${value}`)
+    )
   )
 
 logger(123)() // returns undefined and outputs "Received 123" to console
