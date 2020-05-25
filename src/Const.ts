@@ -111,7 +111,7 @@ export function getApply<E>(S: Semigroup<E>): Apply2C<URI, E> {
   return {
     URI,
     _E: undefined as any,
-    map: const_.map,
+    map: map_,
     ap: (fab, fa) => make(S.concat(fab, fa))
   }
 }

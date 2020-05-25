@@ -136,7 +136,7 @@ export function getSemigroup<A>(S: Semigroup<A>): Semigroup<IO<A>> {
 export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> {
   return {
     concat: getSemigroup(M).concat,
-    empty: io.of(M.empty)
+    empty: of(M.empty)
   }
 }
 

@@ -61,7 +61,7 @@ export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
   return {
     URI,
     _E: undefined as any,
-    map: readonlyTuple.map,
+    map: map_,
     ap: (fab, fa) => [fst(fab)(fst(fa)), S.concat(snd(fab), snd(fa))]
   }
 }

@@ -473,5 +473,5 @@ export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & 
  */
 export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
   ...stateReaderTaskEither,
-  ap: (mab, ma) => stateReaderTaskEither.chain(mab, (f) => stateReaderTaskEither.map(ma, f))
+  ap: (mab, ma) => T.chain(mab, (f) => T.map(ma, f))
 }

@@ -256,10 +256,10 @@ export function fold<A, B>(f: (a: A, bs: Array<B>) => B): (tree: Tree<A>) => B {
 
 const map_: <A, B>(fa: Tree<A>, f: (a: A) => B) => Tree<B> = (fa, f) => ({
   value: f(fa.value),
-  forest: fa.forest.map((t) => tree.map(t, f))
+  forest: fa.forest.map((t) => map_(t, f))
 })
 
-const ap_: <A, B>(fab: Tree<(a: A) => B>, fa: Tree<A>) => Tree<B> = (fab, fa) => tree.chain(fab, (f) => tree.map(fa, f))
+const ap_: <A, B>(fab: Tree<(a: A) => B>, fa: Tree<A>) => Tree<B> = (fab, fa) => chain_(fab, (f) => map_(fa, f))
 
 const chain_ = <A, B>(fa: Tree<A>, f: (a: A) => Tree<B>): Tree<B> => {
   const { value, forest } = f(fa.value)
@@ -268,7 +268,7 @@ const chain_ = <A, B>(fa: Tree<A>, f: (a: A) => Tree<B>): Tree<B> => {
     value,
     forest: concat(
       forest,
-      fa.forest.map((t) => tree.chain(t, f))
+      fa.forest.map((t) => chain_(t, f))
     )
   }
 }
@@ -277,26 +277,26 @@ const reduce_ = <A, B>(fa: Tree<A>, b: B, f: (b: B, a: A) => B): B => {
   let r: B = f(b, fa.value)
   const len = fa.forest.length
   for (let i = 0; i < len; i++) {
-    r = tree.reduce(fa.forest[i], r, f)
+    r = reduce_(fa.forest[i], r, f)
   }
   return r
 }
 
 const foldMap_: <M>(M: Monoid<M>) => <A>(fa: Tree<A>, f: (a: A) => M) => M = (M) => (fa, f) =>
-  tree.reduce(fa, M.empty, (acc, a) => M.concat(acc, f(a)))
+  reduce_(fa, M.empty, (acc, a) => M.concat(acc, f(a)))
 
 const reduceRight_ = <A, B>(fa: Tree<A>, b: B, f: (a: A, b: B) => B): B => {
   let r: B = b
   const len = fa.forest.length
   for (let i = len - 1; i >= 0; i--) {
-    r = tree.reduceRight(fa.forest[i], r, f)
+    r = reduceRight_(fa.forest[i], r, f)
   }
   return f(fa.value, r)
 }
 
 const extend_: <A, B>(wa: Tree<A>, f: (wa: Tree<A>) => B) => Tree<B> = (wa, f) => ({
   value: f(wa),
-  forest: wa.forest.map((t) => tree.extend(t, f))
+  forest: wa.forest.map((t) => extend_(t, f))
 })
 
 /**
