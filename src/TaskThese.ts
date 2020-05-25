@@ -7,7 +7,6 @@ import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2C } from './Monad'
 import { MonadTask2C } from './MonadTask'
-import { pipeable } from './pipeable'
 import { Semigroup } from './Semigroup'
 import { getSemigroup as getTaskSemigroup, Task, task } from './Task'
 import * as TH from './These'
@@ -126,6 +125,33 @@ export function toTuple<E, A>(e: E, a: A): (fa: TaskThese<E, A>) => Task<[E, A]>
 }
 /* tslint:enable:readonly-array */
 
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.4.0
+ */
+export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskThese<E, A>) => TaskThese<G, B> = (
+  f,
+  g
+) => (fa) => T.bimap(fa, f, g)
+
+/**
+ * @since 2.4.0
+ */
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThese<E, B> = (f) => (fa) => T.map(fa, f)
+
+/**
+ * @since 2.4.0
+ */
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => TaskThese<G, A> = (f) => (fa) =>
+  T.mapLeft(fa, f)
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 2.4.0
  */
@@ -134,24 +160,4 @@ export const taskThese: Functor2<URI> & Bifunctor2<URI> = {
   map: T.map,
   bimap: T.bimap,
   mapLeft: T.mapLeft
-}
-
-const pipeables = /*#__PURE__*/ pipeable(taskThese)
-const bimap = /*#__PURE__*/ (() => pipeables.bimap)()
-const map = /*#__PURE__*/ (() => pipeables.map)()
-const mapLeft = /*#__PURE__*/ (() => pipeables.mapLeft)()
-
-export {
-  /**
-   * @since 2.4.0
-   */
-  bimap,
-  /**
-   * @since 2.4.0
-   */
-  map,
-  /**
-   * @since 2.4.0
-   */
-  mapLeft
 }
