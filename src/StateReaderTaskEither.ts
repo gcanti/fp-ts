@@ -480,7 +480,7 @@ export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & 
  * @since 2.0.0
  */
 export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither =
-  /*@__PURE__*/
+  /*#__PURE__*/
   ((): typeof stateReaderTaskEither => {
     return {
       ...stateReaderTaskEither,

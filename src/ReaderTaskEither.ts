@@ -499,7 +499,7 @@ export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & Monad
  * @since 2.0.0
  */
 export const readerTaskEitherSeq: typeof readerTaskEither =
-  /*@__PURE__*/
+  /*#__PURE__*/
   ((): typeof readerTaskEither => {
     return {
       ...readerTaskEither,

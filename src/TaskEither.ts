@@ -479,7 +479,7 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<
  * @since 2.0.0
  */
 export const taskEitherSeq: typeof taskEither =
-  /*@__PURE__*/
+  /*#__PURE__*/
   ((): typeof taskEither => {
     return {
       ...taskEither,

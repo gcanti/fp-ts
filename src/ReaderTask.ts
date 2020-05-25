@@ -217,7 +217,7 @@ export const readerTask: Monad2<URI> & MonadTask2<URI> = {
  * @since 2.3.0
  */
 export const readerTaskSeq: typeof readerTask =
-  /*@__PURE__*/
+  /*#__PURE__*/
   ((): typeof readerTask => {
     return {
       ...readerTask,
