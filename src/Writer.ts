@@ -5,7 +5,6 @@ import { Functor2 } from './Functor'
 import { identity } from './Identity'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
-import { pipeable } from './pipeable'
 import { getWriterM } from './WriterT'
 
 const T = /*#__PURE__*/ getWriterM(identity)
@@ -100,20 +99,23 @@ export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
   }
 }
 
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.0.0
+ */
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B> = (f) => (fa) => T.map(fa, f)
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 2.0.0
  */
 export const writer: Functor2<URI> = {
   URI,
   map: T.map
-}
-
-const pipeables = /*#__PURE__*/ pipeable(writer)
-const map = /*#__PURE__*/ (() => pipeables.map)()
-
-export {
-  /**
-   * @since 2.0.0
-   */
-  map
 }
