@@ -10,26 +10,125 @@ import * as _ from '../src/TaskEither'
 import { ioEither } from '../src/IOEither'
 
 describe('TaskEither', () => {
-  describe('Monad', () => {
+  describe('pipeables', () => {
+    it('alt', async () => {
+      const x = await pipe(
+        _.left('a'),
+        _.alt(() => _.right(1))
+      )()
+      assert.deepStrictEqual(x, E.right(1))
+    })
+
     it('map', async () => {
       const double = (n: number): number => n * 2
-      const x = await _.taskEither.map(_.right(1), double)()
+      const x = await pipe(_.right(1), _.map(double))()
       assert.deepStrictEqual(x, E.right(2))
     })
 
     it('ap', async () => {
       const double = (n: number): number => n * 2
-      const mab = _.right(double)
-      const ma = _.right(1)
-      const x = await _.taskEither.ap(mab, ma)()
+      const x = await pipe(_.right(double), _.ap(_.right(1)))()
       assert.deepStrictEqual(x, E.right(2))
     })
 
+    it('apFirst', async () => {
+      const x = await pipe(_.right('a'), _.apFirst(_.right('b')))()
+      assert.deepStrictEqual(x, E.right('a'))
+    })
+
+    it('apSecond', async () => {
+      const x = await pipe(_.right('a'), _.apSecond(_.right('b')))()
+      assert.deepStrictEqual(x, E.right('b'))
+    })
+
     it('chain', async () => {
-      const e1 = await _.taskEither.chain(_.right('foo'), (a) => (a.length > 2 ? _.right(a.length) : _.left('foo')))()
+      const e1 = await pipe(
+        _.right('foo'),
+        _.chain((a) => (a.length > 2 ? _.right(a.length) : _.left('foo')))
+      )()
       assert.deepStrictEqual(e1, E.right(3))
-      const e2 = await _.taskEither.chain(_.right('a'), (a) => (a.length > 2 ? _.right(a.length) : _.left('foo')))()
+      const e2 = await pipe(
+        _.right('a'),
+        _.chain((a) => (a.length > 2 ? _.right(a.length) : _.left('foo')))
+      )()
       assert.deepStrictEqual(e2, E.left('foo'))
+    })
+
+    it('chainFirst', async () => {
+      const e1 = await pipe(
+        _.right('foo'),
+        _.chainFirst((a) => (a.length > 2 ? _.right(a.length) : _.left('foo')))
+      )()
+      assert.deepStrictEqual(e1, E.right('foo'))
+    })
+
+    it('flatten', async () => {
+      const e1 = await pipe(_.right(_.right('a')), _.flatten)()
+      assert.deepStrictEqual(e1, E.right('a'))
+    })
+
+    it('bimap', async () => {
+      const f = (s: string): number => s.length
+      const g = (n: number): boolean => n > 2
+
+      const e1 = await pipe(_.right(1), _.bimap(f, g))()
+      assert.deepStrictEqual(e1, E.right(false))
+      const e2 = await pipe(_.left('foo'), _.bimap(f, g))()
+      assert.deepStrictEqual(e2, E.left(3))
+    })
+
+    it('mapLeft', async () => {
+      const double = (n: number): number => n * 2
+      const e = await pipe(_.left(1), _.mapLeft(double))()
+      assert.deepStrictEqual(e, E.left(2))
+    })
+
+    it('fromPredicate', async () => {
+      const gt2 = _.fromPredicate(
+        (n: number) => n >= 2,
+        (n) => `Invalid number ${n}`
+      )
+      const e1 = await gt2(3)()
+      assert.deepStrictEqual(e1, E.right(3))
+      const e2 = await gt2(1)()
+      assert.deepStrictEqual(e2, E.left('Invalid number 1'))
+
+      // refinements
+      const isNumber = (u: string | number): u is number => typeof u === 'number'
+      const e3 = await _.fromPredicate(isNumber, () => 'not a number')(4)()
+      assert.deepStrictEqual(e3, E.right(4))
+    })
+
+    it('filterOrElse', async () => {
+      const e1 = await pipe(
+        _.right(12),
+        _.filterOrElse(
+          (n) => n > 10,
+          () => 'a'
+        )
+      )()
+      assert.deepStrictEqual(e1, E.right(12))
+      const e2 = await pipe(
+        _.right(7),
+        _.filterOrElse(
+          (n) => n > 10,
+          () => 'a'
+        )
+      )()
+      assert.deepStrictEqual(e2, E.left('a'))
+    })
+
+    it('fromOption', async () => {
+      const e1 = await pipe(
+        none,
+        _.fromOption(() => 'none')
+      )()
+      assert.deepStrictEqual(e1, E.left('none'))
+      const e2 = await pipe(
+        some(1),
+        _.fromOption(() => 'none')
+      )()
+      assert.deepStrictEqual(e2, E.right(1))
     })
   })
 
@@ -84,24 +183,6 @@ describe('TaskEither', () => {
     it('should return the release error if release fails', async () => {
       const e = await _.bracket(acquireSuccess, useSuccess, releaseFailure)()
       assert.deepStrictEqual(e, E.left('release failure'))
-    })
-  })
-
-  describe('Bifunctor', () => {
-    it('bimap', async () => {
-      const f = (s: string): number => s.length
-      const g = (n: number): boolean => n > 2
-
-      const e1 = await _.taskEither.bimap(_.right(1), f, g)()
-      assert.deepStrictEqual(e1, E.right(false))
-      const e2 = await _.taskEither.bimap(_.left('foo'), f, g)()
-      assert.deepStrictEqual(e2, E.left(3))
-    })
-
-    it('mapLeft', async () => {
-      const double = (n: number): number => n * 2
-      const e = await _.taskEither.mapLeft(_.left(1), double)()
-      assert.deepStrictEqual(e, E.left(2))
     })
   })
 
@@ -173,22 +254,6 @@ describe('TaskEither', () => {
     assert.deepStrictEqual(e2, E.left('foo'))
   })
 
-  it('fromPredicate', async () => {
-    const gt2 = _.fromPredicate(
-      (n: number) => n >= 2,
-      (n) => `Invalid number ${n}`
-    )
-    const e1 = await gt2(3)()
-    assert.deepStrictEqual(e1, E.right(3))
-    const e2 = await gt2(1)()
-    assert.deepStrictEqual(e2, E.left('Invalid number 1'))
-
-    // refinements
-    const isNumber = (u: string | number): u is number => typeof u === 'number'
-    const e3 = await _.fromPredicate(isNumber, () => 'not a number')(4)()
-    assert.deepStrictEqual(e3, E.right(4))
-  })
-
   describe('getSemigroup', () => {
     it('concat', async () => {
       const S = _.getSemigroup<string, number>(semigroupSum)
@@ -256,32 +321,11 @@ describe('TaskEither', () => {
     assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
   })
 
-  it('filterOrElse', async () => {
-    const e1 = await pipe(
-      _.right(12),
-      _.filterOrElse(
-        (n) => n > 10,
-        () => 'a'
-      )
-    )()
-    assert.deepStrictEqual(e1, E.right(12))
-    const e2 = await pipe(
-      _.right(7),
-      _.filterOrElse(
-        (n) => n > 10,
-        () => 'a'
-      )
-    )()
-    assert.deepStrictEqual(e2, E.left('a'))
-  })
-
-  describe('MonadIO', () => {
-    it('fromIO', async () => {
-      const io = () => 1
-      const fa = _.taskEither.fromIO(io)
-      const e = await fa()
-      assert.deepStrictEqual(e, E.right(1))
-    })
+  it('fromIO', async () => {
+    const io = () => 1
+    const fa = _.taskEither.fromIO(io)
+    const e = await fa()
+    assert.deepStrictEqual(e, E.right(1))
   })
 
   it('swap', async () => {
@@ -289,13 +333,6 @@ describe('TaskEither', () => {
     assert.deepStrictEqual(e1, E.left(1))
     const e2 = await _.swap(_.left('a'))()
     assert.deepStrictEqual(e2, E.right('a'))
-  })
-
-  it('fromOption', async () => {
-    const e1 = await _.fromOption(() => 'none')(none)()
-    assert.deepStrictEqual(e1, E.left('none'))
-    const e2 = await _.fromOption(() => 'none')(some(1))()
-    assert.deepStrictEqual(e2, E.right(1))
   })
 
   describe('getTaskValidation', () => {
