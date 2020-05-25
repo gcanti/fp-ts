@@ -2,9 +2,8 @@
  * @since 2.0.0
  */
 import { Comonad2C } from './Comonad'
-import { Monoid } from './Monoid'
 import { Functor2 } from './Functor'
-import { pipeable } from './pipeable'
+import { Monoid } from './Monoid'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -90,20 +89,25 @@ export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
   }
 }
 
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+const map_: <E, A, B>(fa: Traced<E, A>, f: (a: A) => B) => Traced<E, B> = (wa, f) => (p) => f(wa(p))
+
+/**
+ * @since 2.0.0
+ */
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: Traced<E, A>) => Traced<E, B> = (f) => (fa) => map_(fa, f)
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 2.0.0
  */
 export const traced: Functor2<URI> = {
   URI,
-  map: (wa, f) => (p) => f(wa(p))
-}
-
-const pipeables = /*#__PURE__*/ pipeable(traced)
-const map = /*#__PURE__*/ (() => pipeables.map)()
-
-export {
-  /**
-   * @since 2.0.0
-   */
-  map
+  map: map_
 }
