@@ -1281,7 +1281,7 @@ export function comprehension<R>(
     if (input.length === 0) {
       return g(...scope) ? [f(...scope)] : empty
     } else {
-      return readonlyArray.chain(input[0], (x) => go(snoc(scope, x), input.slice(1)))
+      return chain_(input[0], (x) => go(snoc(scope, x), input.slice(1)))
     }
   }
   return go(empty, input)
@@ -1359,7 +1359,7 @@ const mapWithIndex_: <A, B>(fa: ReadonlyArray<A>, f: (i: number, a: A) => B) => 
   fa.map((a, i) => f(i, a))
 
 const filterMap_: <A, B>(fa: ReadonlyArray<A>, f: (a: A) => Option<B>) => ReadonlyArray<B> = (as, f) =>
-  readonlyArray.filterMapWithIndex(as, (_, a) => f(a))
+  filterMapWithIndex_(as, (_, a) => f(a))
 
 const filter_: Filter1<URI> = <A>(as: ReadonlyArray<A>, predicate: Predicate<A>) => as.filter(predicate)
 
@@ -1447,15 +1447,15 @@ const chain_: <A, B>(fa: ReadonlyArray<A>, f: (a: A) => ReadonlyArray<B>) => Rea
 }
 
 const reduce_: <A, B>(fa: ReadonlyArray<A>, b: B, f: (b: B, a: A) => B) => B = (fa, b, f) =>
-  readonlyArray.reduceWithIndex(fa, b, (_, b, a) => f(b, a))
+  reduceWithIndex_(fa, b, (_, b, a) => f(b, a))
 
 const foldMap_: <M>(M: Monoid<M>) => <A>(fa: ReadonlyArray<A>, f: (a: A) => M) => M = (M) => {
-  const foldMapWithIndexM = readonlyArray.foldMapWithIndex(M)
+  const foldMapWithIndexM = foldMapWithIndex_(M)
   return (fa, f) => foldMapWithIndexM(fa, (_, a) => f(a))
 }
 
 const reduceRight_: <A, B>(fa: ReadonlyArray<A>, b: B, f: (a: A, b: B) => B) => B = (fa, b, f) =>
-  readonlyArray.reduceRightWithIndex(fa, b, (_, a, b) => f(a, b))
+  reduceRightWithIndex_(fa, b, (_, a, b) => f(a, b))
 
 const reduceWithIndex_: <A, B>(fa: ReadonlyArray<A>, b: B, f: (i: number, b: B, a: A) => B) => B = (fa, b, f) => {
   const l = fa.length
@@ -1516,12 +1516,12 @@ const unfold_ = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): ReadonlyArra
 const traverse_ = <F>(
   F: Applicative<F>
 ): (<A, B>(ta: ReadonlyArray<A>, f: (a: A) => HKT<F, B>) => HKT<F, ReadonlyArray<B>>) => {
-  const traverseWithIndexF = readonlyArray.traverseWithIndex(F)
+  const traverseWithIndexF = traverseWithIndex_(F)
   return (ta, f) => traverseWithIndexF(ta, (_, a) => f(a))
 }
 
 const sequence_ = <F>(F: Applicative<F>) => <A>(ta: ReadonlyArray<HKT<F, A>>): HKT<F, ReadonlyArray<A>> => {
-  return readonlyArray.reduce(ta, F.of(readonlyArray.zero()), (fas, fa) =>
+  return reduce_(ta, F.of(zero_()), (fas, fa) =>
     F.ap(
       F.map(fas, (as) => (a: A) => snoc(as, a)),
       fa
@@ -1533,7 +1533,7 @@ const traverseWithIndex_ = <F>(F: Applicative<F>) => <A, B>(
   ta: ReadonlyArray<A>,
   f: (i: number, a: A) => HKT<F, B>
 ): HKT<F, ReadonlyArray<B>> => {
-  return readonlyArray.reduceWithIndex(ta, F.of<ReadonlyArray<B>>(readonlyArray.zero()), (i, fbs, a) =>
+  return reduceWithIndex_(ta, F.of<ReadonlyArray<B>>(zero_()), (i, fbs, a) =>
     F.ap(
       F.map(fbs, (bs) => (b: B) => snoc(bs, b)),
       f(i, a)
@@ -1544,8 +1544,8 @@ const traverseWithIndex_ = <F>(F: Applicative<F>) => <A, B>(
 const wither_ = <F>(
   F: Applicative<F>
 ): (<A, B>(ta: ReadonlyArray<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, ReadonlyArray<B>>) => {
-  const traverseF = readonlyArray.traverse(F)
-  return (wa, f) => F.map(traverseF(wa, f), readonlyArray.compact)
+  const traverseF = traverse_(F)
+  return (wa, f) => F.map(traverseF(wa, f), compact)
 }
 
 const wilt_ = <F>(
@@ -1554,8 +1554,8 @@ const wilt_ = <F>(
   wa: ReadonlyArray<A>,
   f: (a: A) => HKT<F, Either<B, C>>
 ) => HKT<F, Separated<ReadonlyArray<B>, ReadonlyArray<C>>>) => {
-  const traverseF = readonlyArray.traverse(F)
-  return (wa, f) => F.map(traverseF(wa, f), readonlyArray.separate)
+  const traverseF = traverse_(F)
+  return (wa, f) => F.map(traverseF(wa, f), separate)
 }
 
 /**

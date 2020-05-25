@@ -83,7 +83,7 @@ export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
   return {
     URI,
     _E: undefined as any,
-    map: traced.map,
+    map: map_,
     extend,
     extract
   }

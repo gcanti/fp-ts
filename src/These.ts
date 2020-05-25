@@ -184,9 +184,9 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI
   return {
     URI,
     _E: undefined as any,
-    map: these.map,
+    map: map_,
     of: right,
-    ap: (mab, ma) => chain(mab, (f) => these.map(ma, f)),
+    ap: (mab, ma) => chain(mab, (f) => map_(ma, f)),
     chain,
     throwError: left
   }

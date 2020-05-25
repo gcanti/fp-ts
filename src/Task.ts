@@ -54,7 +54,7 @@ export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>> {
 export function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>> {
   return {
     concat: getSemigroup(M).concat,
-    empty: task.of(M.empty)
+    empty: of(M.empty)
   }
 }
 
