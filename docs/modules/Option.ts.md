@@ -151,10 +151,46 @@ Added in v2.0.0
 
 # alt
 
+Similar to [Option.orElse](<https://www.scala-lang.org/api/current/scala/Option.html#orElse[B%3E:A](alternative:=%3EOption[B]):Option[B]>) from Scala,
+`alt` provides an alternative value of type `Option<A>` as a fallback when `fa` is `None`.
+
 **Signature**
 
 ```ts
 export declare const alt: <A>(that: () => Option<A>) => (fa: Option<A>) => Option<A>
+```
+
+**Example**
+
+```ts
+import { Option, fromNullable, filter, alt } from 'fp-ts/lib/Option'
+import { pipe } from 'fp-ts/lib/pipeable'
+
+interface Store {
+  a?: {
+    b?: unknown
+  }
+}
+
+const isNumber = (value: unknown): value is number => typeof value === 'number'
+
+const getFromStore = (store: Store) => pipe(fromNullable(store.a?.b), filter(isNumber))
+
+const getValue = ([mainStore, secondStore]: [Store, Store]) =>
+  pipe(
+    getFromStore(mainStore),
+    alt(() => getFromStore(secondStore))
+  )
+
+assert.deepStrictEqual(getValue([{ a: { b: 1 } }, {}]), some(1))
+assert.deepStrictEqual(getValue([{}, { a: { b: 2 } }]), some(2))
+assert.deepStrictEqual(getValue([{ a: { b: 1 } }, { a: { b: 2 } }]), some(1))
+assert.deepStrictEqual(getValue([{ a: { b: 'corrupted data' } }, { a: { b: 2 } }]), some(2))
+assert.deepStrictEqual(getValue([{ a: { b: 'corrupted data' } }, {}]), none)
+assert.deepStrictEqual(getValue([{}, { a: { b: 'corrupted data' } }]), none)
+assert.deepStrictEqual(getValue([{ a: {} }, {}]), none)
+assert.deepStrictEqual(getValue([{}, { a: {} }]), none)
+assert.deepStrictEqual(getValue([{}, {}]), none)
 ```
 
 Added in v2.0.0
