@@ -16,9 +16,12 @@ high state of flux, you're at risk of it changing without notice.
 
 # 2.6.2
 
+The goal of this release is to make `fp-ts` more "tree shaking" friendly.
+
 - **Polish**
-  - Tree shaking
-    - add `/*@__PURE__*/` comments to pipeables (@gcanti)
+  - add `/*@__PURE__*/` comments to pipeables (@gcanti)
+  - add `/*@__PURE__*/` comments to transformers (@gcanti)
+  - remove `pipeable.ts` module imports (@gcanti)
 
 # 2.6.1
 
