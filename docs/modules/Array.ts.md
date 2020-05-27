@@ -515,7 +515,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const extend: <A, B>(f: (fa: A[]) => B) => (wa: A[]) => readonly B[]
+export declare const extend: <A, B>(f: (fa: A[]) => B) => (wa: A[]) => B[]
 ```
 
 Added in v2.0.0

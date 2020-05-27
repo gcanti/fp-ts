@@ -1029,7 +1029,7 @@ export const filterWithIndex: {
 /**
  * @since 2.0.0
  */
-export const extend: <A, B>(f: (fa: Array<A>) => B) => (wa: Array<A>) => ReadonlyArray<B> = RA.extend as any
+export const extend: <A, B>(f: (fa: Array<A>) => B) => (wa: Array<A>) => Array<B> = RA.extend as any
 
 /**
  * @since 2.0.0
