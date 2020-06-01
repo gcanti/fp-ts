@@ -19,13 +19,13 @@ The goal of `fp-ts` is to empower developers to write pure FP apps and libraries
 
 ## Functions
 
-Functional programming is all about pure functions and how to compose them into bigger structures. `fp-ts` provides a few general [functions](../modules/function.ts.html) to support you with composition, constant functions, and more.
+Functional programming is all about pure functions and how to compose them into bigger structures. `fp-ts` provides a few general [functions](./modules/function.ts.html) to support you with composition, constant functions, and more.
 
 ## Data Types
 
 Data types are the practical part of `fp-ts`: you can instantiate them with your data to gain properties and functionality that are useful for solving a specific need. Because data types all share common interfaces (through [type classes](#type-classes)), once you learn how to use one data type, you can apply the same concepts to the others.
 
-Many functions in `fp-ts` use [ad hoc polymorphism](https://en.wikipedia.org/wiki/Ad_hoc_polymorphism), meaning that they have a single implementation that can deal with arguments of different types. To make this work, it is often necessary to provide a data type [_instance_](./HKT.md) that provides functionality that is specific to the data type.
+Many functions in `fp-ts` use [ad hoc polymorphism](https://en.wikipedia.org/wiki/Ad_hoc_polymorphism), meaning that they have a single implementation that can deal with arguments of different types. To make this work, it is often necessary to provide a data type _instance_ that provides functionality that is specific to the data type.
 
 **Note**. Data types are not stack safe and there is no trampolining implementation.
 
