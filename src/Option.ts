@@ -1,30 +1,10 @@
 /**
- * If you have worked with JavaScript at all in the past, it is very likely that you have come across a `TypeError` at
- * some time (other languages will throw similarly named errors in such a case). Usually this happens because some
- * function returns `null` or `undefined` when you were not expecting it and thus not dealing with that possibility in
- * your client code.
- *
- * ```ts
- * const as: Array<string> = []
- * as[0].trim() // throws TypeError: Cannot read property 'trim' of undefined
- * ```
- *
- * `fp-ts` models the absence of values through the `Option` datatype similar to how Scala, Haskell and other FP languages
- * handle optional values. A value of `null` or `undefined` is often abused to represent an absent optional value.
- *
  * `Option<A>` is a container for an optional value of type `A`. If the value of type `A` is present, the `Option<A>` is
  * an instance of `Some<A>`, containing the present value of type `A`. If the value is absent, the `Option<A>` is an
  * instance of `None`.
  *
- * ```ts
- * import { lookup } from 'fp-ts/lib/Array'
- *
- * const as: Array<string> = []
- * lookup(0, as) // => Option<string>
- * ```
- *
  * An option could be looked at as a collection or foldable structure with either one or zero elements.
- * Another way to look at option is: it represents the effect of a possibly failing computation.
+ * Another way to look at `Option` is: it represents the effect of a possibly failing computation.
  *
  * @since 2.0.0
  */

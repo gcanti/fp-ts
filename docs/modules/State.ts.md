@@ -6,8 +6,6 @@ parent: Modules
 
 # State overview
 
-The `State` monad is a synonym for the `StateT` monad transformer, applied to the `Identity` monad.
-
 Added in v2.0.0
 
 ---

@@ -1,6 +1,4 @@
 /**
- * The `State` monad is a synonym for the `StateT` monad transformer, applied to the `Identity` monad.
- *
  * @since 2.0.0
  */
 import { monadIdentity } from './Identity'
