@@ -34,8 +34,8 @@ declare const readLine: T.Task<string>
 
 pipe(
   print('foo'),
-  T.chain(_ => print('bar')),
-  T.chain(_ => readLine),
+  T.chain((_) => print('bar')),
+  T.chain((_) => readLine),
   T.chain(print)
 )
 ```
@@ -54,18 +54,22 @@ TypeScript
 
 ```ts
 interface Bar {
-  readonly type: 'Bar'
+  readonly _tag: 'Bar'
   readonly value: string
 }
+
 interface Baz {
-  readonly type: 'Baz'
+  readonly _tag: 'Baz'
   readonly value: boolean
 }
+
 // type
 type Foo = Bar | Baz
+
 // constructors
-const Bar = (value: string): Foo => ({ type: 'Bar', value })
-const Baz = (value: boolean): Foo => ({ type: 'Baz', value })
+const Bar = (value: string): Foo => ({ _tag: 'Bar', value })
+
+const Baz = (value: boolean): Foo => ({ _tag: 'Baz', value })
 ```
 
 ## Polymorphic data
@@ -79,17 +83,15 @@ data Option a = None | Some a
 TypeScript
 
 ```ts
-declare module 'fp-ts/lib/HKT' {
-  interface URItoKind<A> {
-    readonly Option: Option<A>
-  }
-}
-
 export const URI = 'Option'
 
 export type URI = typeof URI
 
-export type Option<A> = None | Some<A>
+declare module 'fp-ts/lib/HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: Option<A>
+  }
+}
 
 export interface None {
   readonly _tag: 'None'
@@ -99,6 +101,8 @@ export interface Some<A> {
   readonly _tag: 'Some'
   readonly value: A
 }
+
+export type Option<A> = None | Some<A>
 
 export const none: Option<never> = { _tag: 'None' }
 
@@ -118,7 +122,8 @@ maybe _ f (Some a) = f a
 TypeScript
 
 ```ts
-function maybe<A, B>(whenNone: () => B, whenSome: (a: A) => B, fa: Option<A>): B {
+// here TypeScript also provides exhaustiveness check
+const maybe = <A, B>(whenNone: () => B, whenSome: (a: A) => B) => (fa: Option<A>): B => {
   switch (fa._tag) {
     case 'None':
       return whenNone()
@@ -126,18 +131,6 @@ function maybe<A, B>(whenNone: () => B, whenSome: (a: A) => B, fa: Option<A>): B
       return whenSome(fa.value)
   }
 }
-```
-
-Here TypeScript also provides exhaustiveness check as the function would otherwise
-lack ending return statement and its return type does not include 'undefined'.
-
-Alternatively you can provide a default case using `absurd` function
-from `fp-ts/lib/function` which would force unification of unmatched cases
-with type `never`:
-
-```ts
-    default:
-      return absurd(fa)
 ```
 
 ## Type classes
@@ -167,16 +160,7 @@ export interface Functor2<F extends URIS2> {
   readonly map: <E, A, B>(fa: Kind2<F, E, A>, f: (a: A) => B) => Kind2<F, E, B>
 }
 
-export interface Functor2C<F extends URIS2, E> {
-  readonly URI: F
-  readonly _E: E
-  readonly map: <A, B>(fa: Kind2<F, E, A>, f: (a: A) => B) => Kind2<F, E, B>
-}
-
-export interface Functor3<F extends URIS3> {
-  readonly URI: F
-  readonly map: <R, E, A, B>(fa: Kind3<F, R, E, A>, f: (a: A) => B) => Kind3<F, R, E, B>
-}
+// etc...
 ```
 
 ## Instances
@@ -192,12 +176,18 @@ instance functorOption :: Functor Option where
 TypeScript
 
 ```ts
-const functorOption: Functor1<'Option'> = {
+import { Functor1 } from 'fp-ts/lib/Functor'
+import { pipe } from 'fp-ts/lib/pipeable'
+
+const functorOption: Functor1<URI> = {
+  URI,
   map: (fa, f) =>
-    maybe(
-      () => none,
-      a => some(f(fa.value)),
-      fa
+    pipe(
+      fa,
+      maybe(
+        () => none,
+        (a) => some(f(a))
+      )
     )
 }
 ```
@@ -219,6 +209,9 @@ instance monoidOption :: Semigroup a => Monoid (Option a) where
 TypeScript
 
 ```ts
+import { Semigroup } from 'fp-ts/lib/Semigroup'
+import { Monoid } from 'fp-ts/lib/Monoid'
+
 //                    ↓ the constraint is implemented as an additional parameter
 function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>> {
   return {
@@ -236,14 +229,6 @@ function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>> {
 }
 ```
 
-## Newtypes
-
-See [newtype-ts](https://github.com/gcanti/newtype-ts)
-
-## Functional optics
-
-See [monocle-ts](https://github.com/gcanti/monocle-ts)
-
 ## Where's my `f <$> fa <*> fb`?
 
 A few options:
@@ -257,15 +242,19 @@ const fa = O.some(1)
 const fb = O.some('foo')
 const f = (a: number) => (b: string): boolean => a + b.length > 2
 
+// 1)
 const fc1 = pipe(O.some(f), O.ap(fa), O.ap(fb))
 
+// 2)
 const fc2 = pipe(fa, O.map(f), O.ap(fb))
 
+// 3)
 const fc3 = pipe(
   sequenceT(O.option)(fa, fb),
   O.map(([a, b]) => f(a)(b))
 )
 
+// 4)
 const fc4 = pipe(
   sequenceS(O.option)({ fa, fb }),
   O.map(({ fa: a, fb: b }) => f(a)(b))
