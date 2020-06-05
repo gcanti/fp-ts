@@ -48,4 +48,4 @@ has_toc: false
 
 ## Community Blog Posts
 
-[When An Error Is Not An Exception](https://dev.to/vncz/forewords-and-domain-model-1p13)
+[When An Error Is Not An Exception](https://dev.to/vncz/forewords-and-domain-model-1p13) — How we rewrote the core of Prism to make it almost totally functional
