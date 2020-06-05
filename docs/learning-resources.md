@@ -36,15 +36,6 @@ has_toc: false
 - [Introduction to property based testing](https://dev.to/gcanti/introduction-to-property-based-testing-17nk)
 - [Algebraic Data Types](https://dev.to/gcanti/functional-design-algebraic-data-types-36kf)
 
-## When An Error Is Not An Exception series
-
-- [Foreword and domain model](https://dev.to/vncz/forewords-and-domain-model-1p13)
-- [Finding the right abstraction](https://dev.to/vncz/finding-the-right-abstraction-57bb)
-- [Introducing in the company](https://dev.to/vncz/introducing-in-the-company-4hg4)
-- [Return Of Investment](https://dev.to/vncz/the-road-to-the-return-of-the-investment-lbd)
-- [FAQ and what’s next](https://dev.to/vncz/frequently-asked-questions-1108)
-
-
 ## Advanced code examples
 
 - "`fp-ts` to the max" (TypeScript port of John De Goes's ["FP to the max"](https://www.youtube.com/watch?v=sxudIMiOo68) in Scala)
@@ -54,3 +45,7 @@ has_toc: false
 ## Community documentation
 
 - [fp-ts recipes](https://grossbart.github.io/fp-ts-recipes/) – A collection of practical recipes for working with `fp-ts`
+
+## Community Blog Posts
+
+[When An Error Is Not An Exception](https://dev.to/vncz/forewords-and-domain-model-1p13)
