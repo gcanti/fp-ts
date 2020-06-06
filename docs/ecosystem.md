@@ -30,6 +30,7 @@ has_toc: false
 - [alga-ts](https://github.com/algebraic-graphs/typescript) – Algebraic encoding for graphs, which makes invalid graphs unrepresentable
 - [matechs-effect](https://github.com/mikearnaldi/matechs-effect) – Contravariant trifunctor effect with useful integrations (http, react, orm, cqrs, etc.)
 - [morphic-ts](https://github.com/sledorze/morphic-ts) - Code first Domain modeling with extensive pattern supports (matchers, predicates, lenses) with useful, extensible, customisable derivations (Show, Eq, io-ts, fast-check, jsonSchema, ..).
+- [graphics-ts](https://github.com/gcanti/graphics-ts) - A porting of purescript-{canvas, drawing} featuring fp-ts
 
 ## Bindings
 
