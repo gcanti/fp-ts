@@ -22,9 +22,6 @@ Added in v2.0.0
   - [partitionMap](#partitionmap)
 - [Functor](#functor)
   - [map](#map)
-- [Model](#model)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
   - [insertAt](#insertat)
@@ -37,6 +34,9 @@ Added in v2.0.0
   - [getShow](#getshow)
   - [getWitherable](#getwitherable)
   - [map\_](#map_)
+- [model](#model)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [collect](#collect)
   - [elem](#elem)
@@ -138,28 +138,6 @@ Added in v2.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Map<E, A>) => Map<E, B>
-```
-
-Added in v2.0.0
-
-# Model
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Map'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0
@@ -280,6 +258,28 @@ Added in v2.0.0
 
 ```ts
 export declare const map_: Filterable2<'Map'>
+```
+
+Added in v2.0.0
+
+# model
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Map'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

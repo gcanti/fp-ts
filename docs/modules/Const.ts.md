@@ -25,10 +25,6 @@ Added in v2.0.0
   - [contramap](#contramap)
 - [Functor](#functor)
   - [map](#map)
-- [Model](#model)
-  - [Const (type alias)](#const-type-alias)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [constructors](#constructors)
   - [make](#make)
 - [instances](#instances)
@@ -45,6 +41,10 @@ Added in v2.0.0
   - [getSemigroup](#getsemigroup)
   - [getSemiring](#getsemiring)
   - [getShow](#getshow)
+- [model](#model)
+  - [Const (type alias)](#const-type-alias)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 
 ---
 
@@ -90,38 +90,6 @@ Added in v2.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B>
-```
-
-Added in v2.0.0
-
-# Model
-
-## Const (type alias)
-
-**Signature**
-
-```ts
-export type Const<E, A> = E & { readonly _A: A }
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Const'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0
@@ -266,6 +234,38 @@ Added in v2.6.0
 
 ```ts
 export declare function getShow<E, A>(S: Show<E>): Show<Const<E, A>>
+```
+
+Added in v2.0.0
+
+# model
+
+## Const (type alias)
+
+**Signature**
+
+```ts
+export type Const<E, A> = E & { readonly _A: A }
+```
+
+Added in v2.0.0
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Const'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

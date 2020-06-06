@@ -37,10 +37,6 @@ Added in v2.5.0
   - [map](#map)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
-- [Model](#model)
-  - [ReadonlyNonEmptyArray (interface)](#readonlynonemptyarray-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
@@ -64,6 +60,10 @@ Added in v2.5.0
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [readonlyNonEmptyArray](#readonlynonemptyarray)
+- [model](#model)
+  - [ReadonlyNonEmptyArray (interface)](#readonlynonemptyarray-interface)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [filter](#filter)
   - [filterWithIndex](#filterwithindex)
@@ -263,40 +263,6 @@ Added in v2.5.0
 export declare const mapWithIndex: <A, B>(
   f: (i: number, a: A) => B
 ) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
-```
-
-Added in v2.5.0
-
-# Model
-
-## ReadonlyNonEmptyArray (interface)
-
-**Signature**
-
-```ts
-export interface ReadonlyNonEmptyArray<A> extends ReadonlyArray<A> {
-  readonly 0: A
-}
-```
-
-Added in v2.5.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReadonlyNonEmptyArray'
-```
-
-Added in v2.5.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.5.0
@@ -590,6 +556,40 @@ export declare const readonlyNonEmptyArray: Monad1<'ReadonlyNonEmptyArray'> &
   FunctorWithIndex1<'ReadonlyNonEmptyArray', number> &
   FoldableWithIndex1<'ReadonlyNonEmptyArray', number> &
   Alt1<'ReadonlyNonEmptyArray'>
+```
+
+Added in v2.5.0
+
+# model
+
+## ReadonlyNonEmptyArray (interface)
+
+**Signature**
+
+```ts
+export interface ReadonlyNonEmptyArray<A> extends ReadonlyArray<A> {
+  readonly 0: A
+}
+```
+
+Added in v2.5.0
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReadonlyNonEmptyArray'
+```
+
+Added in v2.5.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.5.0

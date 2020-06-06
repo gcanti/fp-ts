@@ -20,16 +20,16 @@ Added in v2.0.0
   - [apSecond](#apsecond)
 - [Functor](#functor)
   - [map](#map)
-- [Model](#model)
-  - [State (interface)](#state-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
 - [instances](#instances)
   - [state](#state)
+- [model](#model)
+  - [State (interface)](#state-interface)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [evalState](#evalstate)
   - [execState](#execstate)
@@ -96,40 +96,6 @@ export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: State<E, A>) => Stat
 
 Added in v2.0.0
 
-# Model
-
-## State (interface)
-
-**Signature**
-
-```ts
-export interface State<S, A> {
-  (s: S): [A, S]
-}
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'State'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
 # Monad
 
 ## chain
@@ -170,6 +136,40 @@ Added in v2.0.0
 
 ```ts
 export declare const state: Monad2<'State'>
+```
+
+Added in v2.0.0
+
+# model
+
+## State (interface)
+
+**Signature**
+
+```ts
+export interface State<S, A> {
+  (s: S): [A, S]
+}
+```
+
+Added in v2.0.0
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'State'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

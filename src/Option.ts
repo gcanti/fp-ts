@@ -34,19 +34,19 @@ declare module './HKT' {
 }
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export const URI = 'Option'
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export interface None {
@@ -54,7 +54,7 @@ export interface None {
 }
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export interface Some<A> {
@@ -63,7 +63,7 @@ export interface Some<A> {
 }
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export type Option<A> = None | Some<A>

@@ -24,10 +24,6 @@ Added in v2.0.0
   - [apSecond](#apsecond)
 - [Functor](#functor)
   - [map](#map)
-- [Model](#model)
-  - [IO (interface)](#io-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
@@ -36,6 +32,10 @@ Added in v2.0.0
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
   - [io](#io)
+- [model](#model)
+  - [IO (interface)](#io-interface)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 
 ---
 
@@ -91,40 +91,6 @@ Added in v2.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B>
-```
-
-Added in v2.0.0
-
-# Model
-
-## IO (interface)
-
-**Signature**
-
-```ts
-export interface IO<A> {
-  (): A
-}
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'IO'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0
@@ -189,6 +155,40 @@ Added in v2.0.0
 
 ```ts
 export declare const io: Monad1<'IO'> & MonadIO1<'IO'> & ChainRec1<'IO'>
+```
+
+Added in v2.0.0
+
+# model
+
+## IO (interface)
+
+**Signature**
+
+```ts
+export interface IO<A> {
+  (): A
+}
+```
+
+Added in v2.0.0
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'IO'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

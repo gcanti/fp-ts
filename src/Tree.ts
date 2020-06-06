@@ -28,25 +28,25 @@ declare module './HKT' {
 }
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export const URI = 'Tree'
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export type Forest<A> = Array<Tree<A>>
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export interface Tree<A> {

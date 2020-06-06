@@ -29,10 +29,6 @@ Added in v2.0.0
   - [reduceRight](#reduceright)
 - [Functor](#functor)
   - [map](#map)
-- [Model](#model)
-  - [Identity (type alias)](#identity-type-alias)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
@@ -41,6 +37,10 @@ Added in v2.0.0
   - [getEq](#geteq)
   - [getShow](#getshow)
   - [identity](#identity)
+- [model](#model)
+  - [Identity (type alias)](#identity-type-alias)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 
 ---
 
@@ -166,38 +166,6 @@ export declare const map: <A, B>(f: (a: A) => B) => (fa: A) => B
 
 Added in v2.0.0
 
-# Model
-
-## Identity (type alias)
-
-**Signature**
-
-```ts
-export type Identity<A> = A
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Identity'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
 # Monad
 
 ## chain
@@ -263,6 +231,38 @@ export declare const identity: Monad1<'Identity'> &
   Alt1<'Identity'> &
   Comonad1<'Identity'> &
   ChainRec1<'Identity'>
+```
+
+Added in v2.0.0
+
+# model
+
+## Identity (type alias)
+
+**Signature**
+
+```ts
+export type Identity<A> = A
+```
+
+Added in v2.0.0
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Identity'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

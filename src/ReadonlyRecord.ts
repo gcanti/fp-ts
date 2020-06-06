@@ -21,7 +21,7 @@ import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
 
 /**
- * @category Model
+ * @category model
  * @since 2.5.0
  */
 export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
@@ -33,13 +33,13 @@ declare module './HKT' {
 }
 
 /**
- * @category Model
+ * @category model
  * @since 2.5.0
  */
 export const URI = 'ReadonlyRecord'
 
 /**
- * @category Model
+ * @category model
  * @since 2.5.0
  */
 export type URI = typeof URI

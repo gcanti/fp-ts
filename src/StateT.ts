@@ -7,7 +7,7 @@ import { State } from './State'
 
 /* tslint:disable:readonly-array */
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export interface StateT<M, S, A> {
@@ -35,7 +35,7 @@ export interface StateM<M> {
 
 /* tslint:disable:readonly-array */
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export interface StateT1<M extends URIS, S, A> {
@@ -63,7 +63,7 @@ export interface StateM1<M extends URIS> {
 
 /* tslint:disable:readonly-array */
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export interface StateT2<M extends URIS2, S, E, A> {

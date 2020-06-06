@@ -6,7 +6,7 @@ import { Eq } from './Eq'
 import { Monoid } from './Monoid'
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export type Ordering = -1 | 0 | 1

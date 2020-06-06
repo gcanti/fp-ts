@@ -12,7 +12,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Model](#model)
+- [model](#model)
   - [StateT (interface)](#statet-interface)
   - [StateT1 (interface)](#statet1-interface)
   - [StateT2 (interface)](#statet2-interface)
@@ -28,7 +28,7 @@ Added in v2.0.0
 
 ---
 
-# Model
+# model
 
 ## StateT (interface)
 

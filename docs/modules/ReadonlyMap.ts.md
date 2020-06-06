@@ -22,9 +22,6 @@ Added in v2.5.0
   - [partitionMap](#partitionmap)
 - [Functor](#functor)
   - [map](#map)
-- [Model](#model)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
   - [insertAt](#insertat)
@@ -43,6 +40,9 @@ Added in v2.5.0
   - [getShow](#getshow)
   - [getWitherable](#getwitherable)
   - [readonlyMap](#readonlymap)
+- [model](#model)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [collect](#collect)
   - [elem](#elem)
@@ -145,28 +145,6 @@ Added in v2.5.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
-```
-
-Added in v2.5.0
-
-# Model
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReadonlyMap'
-```
-
-Added in v2.5.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.5.0
@@ -356,6 +334,28 @@ Added in v2.5.0
 
 ```ts
 export declare const readonlyMap: Filterable2<'ReadonlyMap'>
+```
+
+Added in v2.5.0
+
+# model
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReadonlyMap'
+```
+
+Added in v2.5.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.5.0

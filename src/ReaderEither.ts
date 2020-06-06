@@ -25,19 +25,19 @@ declare module './HKT' {
 }
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export const URI = 'ReaderEither'
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}

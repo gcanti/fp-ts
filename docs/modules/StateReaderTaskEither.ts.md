@@ -12,7 +12,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Model](#model)
+- [model](#model)
   - [StateReaderTaskEither (interface)](#statereadertaskeither-interface)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -70,7 +70,7 @@ Added in v2.0.0
 
 ---
 
-# Model
+# model
 
 ## StateReaderTaskEither (interface)
 

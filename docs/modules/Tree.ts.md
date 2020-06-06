@@ -33,11 +33,6 @@ Added in v2.0.0
   - [reduceRight](#reduceright)
 - [Functor](#functor)
   - [map](#map)
-- [Model](#model)
-  - [Forest (type alias)](#forest-type-alias)
-  - [Tree (interface)](#tree-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
@@ -54,6 +49,11 @@ Added in v2.0.0
   - [getEq](#geteq)
   - [getShow](#getshow)
   - [tree](#tree)
+- [model](#model)
+  - [Forest (type alias)](#forest-type-alias)
+  - [Tree (interface)](#tree-interface)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [drawForest](#drawforest)
   - [drawTree](#drawtree)
@@ -167,51 +167,6 @@ Added in v2.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B>
-```
-
-Added in v2.0.0
-
-# Model
-
-## Forest (type alias)
-
-**Signature**
-
-```ts
-export type Forest<A> = Array<Tree<A>>
-```
-
-Added in v2.0.0
-
-## Tree (interface)
-
-**Signature**
-
-```ts
-export interface Tree<A> {
-  readonly value: A
-  readonly forest: Forest<A>
-}
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Tree'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0
@@ -405,6 +360,51 @@ Added in v2.0.0
 
 ```ts
 export declare const tree: Monad1<'Tree'> & Foldable1<'Tree'> & Traversable1<'Tree'> & Comonad1<'Tree'>
+```
+
+Added in v2.0.0
+
+# model
+
+## Forest (type alias)
+
+**Signature**
+
+```ts
+export type Forest<A> = Array<Tree<A>>
+```
+
+Added in v2.0.0
+
+## Tree (interface)
+
+**Signature**
+
+```ts
+export interface Tree<A> {
+  readonly value: A
+  readonly forest: Forest<A>
+}
+```
+
+Added in v2.0.0
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Tree'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

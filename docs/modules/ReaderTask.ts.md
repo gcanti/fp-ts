@@ -20,10 +20,6 @@ Added in v2.3.0
   - [apSecond](#apsecond)
 - [Functor](#functor)
   - [map](#map)
-- [Model](#model)
-  - [ReaderTask (interface)](#readertask-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
@@ -39,6 +35,10 @@ Added in v2.3.0
   - [getSemigroup](#getsemigroup)
   - [readerTask](#readertask)
   - [readerTaskSeq](#readertaskseq)
+- [model](#model)
+  - [ReaderTask (interface)](#readertask-interface)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ask](#ask)
   - [asks](#asks)
@@ -101,40 +101,6 @@ Added in v2.3.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B>
-```
-
-Added in v2.3.0
-
-# Model
-
-## ReaderTask (interface)
-
-**Signature**
-
-```ts
-export interface ReaderTask<R, A> {
-  (r: R): Task<A>
-}
-```
-
-Added in v2.3.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReaderTask'
-```
-
-Added in v2.3.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.3.0
@@ -263,6 +229,40 @@ Like `readerTask` but `ap` is sequential
 
 ```ts
 export declare const readerTaskSeq: Monad2<'ReaderTask'> & MonadTask2<'ReaderTask'>
+```
+
+Added in v2.3.0
+
+# model
+
+## ReaderTask (interface)
+
+**Signature**
+
+```ts
+export interface ReaderTask<R, A> {
+  (r: R): Task<A>
+}
+```
+
+Added in v2.3.0
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReaderTask'
+```
+
+Added in v2.3.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.3.0

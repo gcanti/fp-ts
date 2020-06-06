@@ -49,9 +49,6 @@ Added in v2.0.0
   - [map](#map)
 - [FunctorWithIndex operations](#functorwithindex-operations)
   - [mapWithIndex](#mapwithindex)
-- [Model](#model)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [Monad operations](#monad-operations)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
@@ -107,6 +104,9 @@ Added in v2.0.0
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getShow](#getshow)
+- [model](#model)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [chunksOf](#chunksof)
   - [comprehension](#comprehension)
@@ -434,28 +434,6 @@ Added in v2.0.0
 
 ```ts
 export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: A[]) => B[]
-```
-
-Added in v2.0.0
-
-# Model
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Array'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0
@@ -1472,6 +1450,28 @@ Added in v2.0.0
 
 ```ts
 export declare const getShow: <A>(S: Show<A>) => Show<A[]>
+```
+
+Added in v2.0.0
+
+# model
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Array'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

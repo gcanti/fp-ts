@@ -26,10 +26,6 @@ Added in v2.0.0
   - [mapLeft](#mapleft)
 - [Functor](#functor)
   - [map](#map)
-- [Model](#model)
-  - [IOEither (interface)](#ioeither-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainEitherK](#chaineitherk)
@@ -60,6 +56,10 @@ Added in v2.0.0
   - [getIOValidation](#getiovalidation)
   - [getSemigroup](#getsemigroup)
   - [ioEither](#ioeither)
+- [model](#model)
+  - [IOEither (interface)](#ioeither-interface)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [bracket](#bracket)
   - [chainEitherKW](#chaineitherkw)
@@ -141,38 +141,6 @@ Added in v2.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<E, B>
-```
-
-Added in v2.0.0
-
-# Model
-
-## IOEither (interface)
-
-**Signature**
-
-```ts
-export interface IOEither<E, A> extends IO<Either<E, A>> {}
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'IOEither'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0
@@ -453,6 +421,38 @@ export declare const ioEither: Monad2<'IOEither'> &
   Alt2<'IOEither'> &
   MonadIO2<'IOEither'> &
   MonadThrow2<'IOEither'>
+```
+
+Added in v2.0.0
+
+# model
+
+## IOEither (interface)
+
+**Signature**
+
+```ts
+export interface IOEither<E, A> extends IO<Either<E, A>> {}
+```
+
+Added in v2.0.0
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'IOEither'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

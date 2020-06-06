@@ -26,9 +26,6 @@ Added in v2.5.0
   - [reduceRight](#reduceright)
 - [Functor](#functor)
   - [map](#map)
-- [Model](#model)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [Semigroupoid](#semigroupoid)
   - [compose](#compose)
 - [combinators](#combinators)
@@ -43,6 +40,9 @@ Added in v2.5.0
   - [getChainRec](#getchainrec)
   - [getMonad](#getmonad)
   - [readonlyTuple](#readonlytuple)
+- [model](#model)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 
 ---
 
@@ -142,28 +142,6 @@ Added in v2.5.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly [B, E]
-```
-
-Added in v2.5.0
-
-# Model
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReadonlyTuple'
-```
-
-Added in v2.5.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.5.0
@@ -276,6 +254,28 @@ export declare const readonlyTuple: Semigroupoid2<'ReadonlyTuple'> &
   Comonad2<'ReadonlyTuple'> &
   Foldable2<'ReadonlyTuple'> &
   Traversable2<'ReadonlyTuple'>
+```
+
+Added in v2.5.0
+
+# model
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReadonlyTuple'
+```
+
+Added in v2.5.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.5.0

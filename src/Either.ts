@@ -36,19 +36,19 @@ declare module './HKT' {
 }
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export const URI = 'Either'
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export interface Left<E> {
@@ -57,7 +57,7 @@ export interface Left<E> {
 }
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export interface Right<A> {
@@ -66,7 +66,7 @@ export interface Right<A> {
 }
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export type Either<E, A> = Left<E> | Right<A>

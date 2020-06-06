@@ -14,13 +14,13 @@ Added in v2.0.0
 
 - [Functor](#functor)
   - [map](#map)
-- [Model](#model)
-  - [Traced (interface)](#traced-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [instances](#instances)
   - [getComonad](#getcomonad)
   - [traced](#traced)
+- [model](#model)
+  - [Traced (interface)](#traced-interface)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [censor](#censor)
   - [listen](#listen)
@@ -41,7 +41,29 @@ export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Traced<E, A>) => Tra
 
 Added in v2.0.0
 
-# Model
+# instances
+
+## getComonad
+
+**Signature**
+
+```ts
+export declare function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P>
+```
+
+Added in v2.0.0
+
+## traced
+
+**Signature**
+
+```ts
+export declare const traced: Functor2<'Traced'>
+```
+
+Added in v2.0.0
+
+# model
 
 ## Traced (interface)
 
@@ -71,28 +93,6 @@ Added in v2.0.0
 
 ```ts
 export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-# instances
-
-## getComonad
-
-**Signature**
-
-```ts
-export declare function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P>
-```
-
-Added in v2.0.0
-
-## traced
-
-**Signature**
-
-```ts
-export declare const traced: Functor2<'Traced'>
 ```
 
 Added in v2.0.0

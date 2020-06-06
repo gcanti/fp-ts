@@ -24,10 +24,6 @@ Added in v2.5.0
   - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
-- [Model](#model)
-  - [ReadonlyRecord (type alias)](#readonlyrecord-type-alias)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
   - [filterMapWithIndex](#filtermapwithindex)
@@ -46,6 +42,10 @@ Added in v2.5.0
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
   - [readonlyRecord](#readonlyrecord)
+- [model](#model)
+  - [ReadonlyRecord (type alias)](#readonlyrecord-type-alias)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [collect](#collect)
   - [elem](#elem)
@@ -183,38 +183,6 @@ Added in v2.5.0
 
 ```ts
 export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Readonly<Record<string, A>>) => B
-```
-
-Added in v2.5.0
-
-# Model
-
-## ReadonlyRecord (type alias)
-
-**Signature**
-
-```ts
-export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
-```
-
-Added in v2.5.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReadonlyRecord'
-```
-
-Added in v2.5.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.5.0
@@ -407,6 +375,38 @@ export declare const readonlyRecord: FunctorWithIndex1<'ReadonlyRecord', string>
   FilterableWithIndex1<'ReadonlyRecord', string> &
   Witherable1<'ReadonlyRecord'> &
   FoldableWithIndex1<'ReadonlyRecord', string>
+```
+
+Added in v2.5.0
+
+# model
+
+## ReadonlyRecord (type alias)
+
+**Signature**
+
+```ts
+export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
+```
+
+Added in v2.5.0
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReadonlyRecord'
+```
+
+Added in v2.5.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.5.0

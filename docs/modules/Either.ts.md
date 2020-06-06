@@ -38,12 +38,6 @@ Added in v2.0.0
   - [reduceRight](#reduceright)
 - [Functor](#functor)
   - [map](#map)
-- [Model](#model)
-  - [Either (type alias)](#either-type-alias)
-  - [Left (interface)](#left-interface)
-  - [Right (interface)](#right-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
@@ -80,6 +74,12 @@ Added in v2.0.0
   - [getValidationMonoid](#getvalidationmonoid)
   - [getValidationSemigroup](#getvalidationsemigroup)
   - [getWitherable](#getwitherable)
+- [model](#model)
+  - [Either (type alias)](#either-type-alias)
+  - [Left (interface)](#left-interface)
+  - [Right (interface)](#right-interface)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [elem](#elem)
   - [exists](#exists)
@@ -215,64 +215,6 @@ Added in v2.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B>
-```
-
-Added in v2.0.0
-
-# Model
-
-## Either (type alias)
-
-**Signature**
-
-```ts
-export type Either<E, A> = Left<E> | Right<A>
-```
-
-Added in v2.0.0
-
-## Left (interface)
-
-**Signature**
-
-```ts
-export interface Left<E> {
-  readonly _tag: 'Left'
-  readonly left: E
-}
-```
-
-Added in v2.0.0
-
-## Right (interface)
-
-**Signature**
-
-```ts
-export interface Right<A> {
-  readonly _tag: 'Right'
-  readonly right: A
-}
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Either'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0
@@ -743,6 +685,64 @@ Builds `Witherable` instance for `Either` given `Monoid` for the left side
 
 ```ts
 export declare function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E>
+```
+
+Added in v2.0.0
+
+# model
+
+## Either (type alias)
+
+**Signature**
+
+```ts
+export type Either<E, A> = Left<E> | Right<A>
+```
+
+Added in v2.0.0
+
+## Left (interface)
+
+**Signature**
+
+```ts
+export interface Left<E> {
+  readonly _tag: 'Left'
+  readonly left: E
+}
+```
+
+Added in v2.0.0
+
+## Right (interface)
+
+**Signature**
+
+```ts
+export interface Right<A> {
+  readonly _tag: 'Right'
+  readonly right: A
+}
+```
+
+Added in v2.0.0
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Either'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

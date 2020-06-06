@@ -37,10 +37,6 @@ Added in v2.0.0
   - [map](#map)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
-- [Model](#model)
-  - [NonEmptyArray (interface)](#nonemptyarray-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
@@ -65,6 +61,10 @@ Added in v2.0.0
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [nonEmptyArray](#nonemptyarray)
+- [model](#model)
+  - [NonEmptyArray (interface)](#nonemptyarray-interface)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [filterWithIndex](#filterwithindex)
   - [fold](#fold)
@@ -245,40 +245,6 @@ Added in v2.0.0
 
 ```ts
 export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: NonEmptyArray<A>) => NonEmptyArray<B>
-```
-
-Added in v2.0.0
-
-# Model
-
-## NonEmptyArray (interface)
-
-**Signature**
-
-```ts
-export interface NonEmptyArray<A> extends Array<A> {
-  0: A
-}
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'NonEmptyArray'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0
@@ -576,6 +542,40 @@ export declare const nonEmptyArray: Monad1<'NonEmptyArray'> &
   FunctorWithIndex1<'NonEmptyArray', number> &
   FoldableWithIndex1<'NonEmptyArray', number> &
   Alt1<'NonEmptyArray'>
+```
+
+Added in v2.0.0
+
+# model
+
+## NonEmptyArray (interface)
+
+**Signature**
+
+```ts
+export interface NonEmptyArray<A> extends Array<A> {
+  0: A
+}
+```
+
+Added in v2.0.0
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'NonEmptyArray'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

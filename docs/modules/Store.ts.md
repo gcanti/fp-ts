@@ -19,12 +19,12 @@ Added in v2.0.0
   - [extract](#extract)
 - [Functor](#functor)
   - [map](#map)
-- [Model](#model)
+- [instances](#instances)
+  - [store](#store)
+- [model](#model)
   - [Store (interface)](#store-interface)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-- [instances](#instances)
-  - [store](#store)
 - [utils](#utils)
   - [experiment](#experiment)
   - [peeks](#peeks)
@@ -79,7 +79,19 @@ export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Stor
 
 Added in v2.0.0
 
-# Model
+# instances
+
+## store
+
+**Signature**
+
+```ts
+export declare const store: Comonad2<'Store'>
+```
+
+Added in v2.0.0
+
+# model
 
 ## Store (interface)
 
@@ -110,18 +122,6 @@ Added in v2.0.0
 
 ```ts
 export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-# instances
-
-## store
-
-**Signature**
-
-```ts
-export declare const store: Comonad2<'Store'>
 ```
 
 Added in v2.0.0

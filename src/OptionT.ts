@@ -13,7 +13,7 @@ import { Monad, Monad1, Monad2, Monad2C } from './Monad'
 import { fold, none, Option, applicativeOption, some, URI } from './Option'
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export interface OptionT<M, A> extends HKT<M, Option<A>> {}
@@ -31,7 +31,7 @@ export interface OptionM<M> extends ApplicativeCompositionHKT1<M, URI> {
 }
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export type OptionT1<M extends URIS, A> = Kind<M, Option<A>>
@@ -49,7 +49,7 @@ export interface OptionM1<M extends URIS> extends ApplicativeComposition11<M, UR
 }
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export type OptionT2<M extends URIS2, E, A> = Kind2<M, E, Option<A>>

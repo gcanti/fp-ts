@@ -31,20 +31,20 @@ declare module './HKT' {
 }
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export const URI = 'StateReaderTaskEither'
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /* tslint:disable:readonly-array */
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export interface StateReaderTaskEither<S, R, E, A> {

@@ -20,10 +20,6 @@ Added in v2.0.0
   - [apSecond](#apsecond)
 - [Functor](#functor)
   - [map](#map)
-- [Model](#model)
-  - [Reader (interface)](#reader-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
@@ -37,6 +33,10 @@ Added in v2.0.0
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
   - [reader](#reader)
+- [model](#model)
+  - [Reader (interface)](#reader-interface)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ask](#ask)
   - [asks](#asks)
@@ -96,40 +96,6 @@ Added in v2.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B>
-```
-
-Added in v2.0.0
-
-# Model
-
-## Reader (interface)
-
-**Signature**
-
-```ts
-export interface Reader<R, A> {
-  (r: R): A
-}
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Reader'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0
@@ -232,6 +198,40 @@ export declare const reader: Monad2<'Reader'> &
   Category2<'Reader'> &
   Strong2<'Reader'> &
   Choice2<'Reader'>
+```
+
+Added in v2.0.0
+
+# model
+
+## Reader (interface)
+
+**Signature**
+
+```ts
+export interface Reader<R, A> {
+  (r: R): A
+}
+```
+
+Added in v2.0.0
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Reader'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

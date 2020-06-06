@@ -12,7 +12,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Model](#model)
+- [model](#model)
   - [EitherT (interface)](#eithert-interface)
   - [EitherT1 (type alias)](#eithert1-type-alias)
   - [EitherT2 (type alias)](#eithert2-type-alias)
@@ -24,7 +24,7 @@ Added in v2.0.0
 
 ---
 
-# Model
+# model
 
 ## EitherT (interface)
 

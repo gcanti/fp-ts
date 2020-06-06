@@ -24,7 +24,7 @@ Added in v2.0.0
   - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
-- [Model](#model)
+- [model](#model)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
@@ -176,7 +176,7 @@ export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Rec
 
 Added in v2.0.0
 
-# Model
+# model
 
 ## URI
 

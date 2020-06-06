@@ -24,13 +24,13 @@ declare module './HKT' {
 }
 
 /**
- * @category Model
+ * @category model
  * @since 2.5.0
  */
 export const URI = 'ReadonlyTuple'
 
 /**
- * @category Model
+ * @category model
  * @since 2.5.0
  */
 export type URI = typeof URI

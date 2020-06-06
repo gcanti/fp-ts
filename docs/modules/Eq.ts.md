@@ -22,9 +22,6 @@ Added in v2.0.0
 
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
-- [Model](#model)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [constructors](#constructors)
   - [fromEquals](#fromequals)
 - [instances](#instances)
@@ -37,6 +34,9 @@ Added in v2.0.0
   - [getMonoid](#getmonoid)
   - [getStructEq](#getstructeq)
   - [getTupleEq](#gettupleeq)
+- [model](#model)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [type classes](#type-classes)
   - [Eq (interface)](#eq-interface)
 - [utils](#utils)
@@ -52,28 +52,6 @@ Added in v2.0.0
 
 ```ts
 export declare const contramap: <A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B>
-```
-
-Added in v2.0.0
-
-# Model
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Eq'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0
@@ -194,6 +172,28 @@ assert.strictEqual(E.equals(['a', 1, true], ['a', 1, true]), true)
 assert.strictEqual(E.equals(['a', 1, true], ['b', 1, true]), false)
 assert.strictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
 assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
+```
+
+Added in v2.0.0
+
+# model
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Eq'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

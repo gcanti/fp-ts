@@ -26,10 +26,6 @@ Added in v2.0.0
   - [mapLeft](#mapleft)
 - [Functor](#functor)
   - [map](#map)
-- [Model](#model)
-  - [TaskEither (interface)](#taskeither-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainEitherK](#chaineitherk)
@@ -68,6 +64,10 @@ Added in v2.0.0
   - [getTaskValidation](#gettaskvalidation)
   - [taskEither](#taskeither)
   - [taskEitherSeq](#taskeitherseq)
+- [model](#model)
+  - [TaskEither (interface)](#taskeither-interface)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [bracket](#bracket)
   - [fromEitherK](#fromeitherk)
@@ -150,38 +150,6 @@ Added in v2.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v2.0.0
-
-# Model
-
-## TaskEither (interface)
-
-**Signature**
-
-```ts
-export interface TaskEither<E, A> extends Task<Either<E, A>> {}
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'TaskEither'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0
@@ -615,6 +583,38 @@ export declare const taskEitherSeq: Monad2<'TaskEither'> &
   Alt2<'TaskEither'> &
   MonadTask2<'TaskEither'> &
   MonadThrow2<'TaskEither'>
+```
+
+Added in v2.0.0
+
+# model
+
+## TaskEither (interface)
+
+**Signature**
+
+```ts
+export interface TaskEither<E, A> extends Task<Either<E, A>> {}
+```
+
+Added in v2.0.0
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'TaskEither'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

@@ -12,7 +12,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Model](#model)
+- [model](#model)
   - [ReaderT (interface)](#readert-interface)
   - [ReaderT1 (interface)](#readert1-interface)
   - [ReaderT2 (interface)](#readert2-interface)
@@ -27,7 +27,7 @@ Added in v2.0.0
 
 ---
 
-# Model
+# model
 
 ## ReaderT (interface)
 

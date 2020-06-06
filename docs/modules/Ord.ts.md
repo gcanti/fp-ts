@@ -22,9 +22,6 @@ Added in v2.0.0
 
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
-- [Model](#model)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [combinators](#combinators)
   - [getDualOrd](#getdualord)
 - [constructors](#constructors)
@@ -38,6 +35,9 @@ Added in v2.0.0
   - [ordNumber](#ordnumber)
   - [ordString](#ordstring)
   - [~~getSemigroup~~](#getsemigroup)
+- [model](#model)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [type classes](#type-classes)
   - [Ord (interface)](#ord-interface)
 - [utils](#utils)
@@ -60,28 +60,6 @@ Added in v2.0.0
 
 ```ts
 export declare const contramap: <A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B>
-```
-
-Added in v2.0.0
-
-# Model
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Ord'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0
@@ -268,6 +246,28 @@ Use `getMonoid` instead
 
 ```ts
 export declare function getSemigroup<A = never>(): Semigroup<Ord<A>>
+```
+
+Added in v2.0.0
+
+# model
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Ord'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

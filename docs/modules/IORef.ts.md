@@ -14,17 +14,29 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Model](#model)
+- [constructors](#constructors)
+  - [newIORef](#newioref)
+- [model](#model)
   - [IORef (class)](#ioref-class)
     - [write (method)](#write-method)
     - [modify (method)](#modify-method)
     - [read (property)](#read-property)
-- [constructors](#constructors)
-  - [newIORef](#newioref)
 
 ---
 
-# Model
+# constructors
+
+## newIORef
+
+**Signature**
+
+```ts
+export declare function newIORef<A>(a: A): IO<IORef<A>>
+```
+
+Added in v2.0.0
+
+# model
 
 ## IORef (class)
 
@@ -73,18 +85,6 @@ Added in v2.0.0
 
 ```ts
 readonly read: IO<A>
-```
-
-Added in v2.0.0
-
-# constructors
-
-## newIORef
-
-**Signature**
-
-```ts
-export declare function newIORef<A>(a: A): IO<IORef<A>>
 ```
 
 Added in v2.0.0

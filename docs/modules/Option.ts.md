@@ -42,12 +42,6 @@ Added in v2.0.0
   - [reduceRight](#reduceright)
 - [Functor](#functor)
   - [map](#map)
-- [Model](#model)
-  - [None (interface)](#none-interface)
-  - [Option (type alias)](#option-type-alias)
-  - [Some (interface)](#some-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
@@ -82,6 +76,12 @@ Added in v2.0.0
   - [getOrd](#getord)
   - [getShow](#getshow)
   - [option](#option)
+- [model](#model)
+  - [None (interface)](#none-interface)
+  - [Option (type alias)](#option-type-alias)
+  - [Some (interface)](#some-interface)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [elem](#elem)
   - [exists](#exists)
@@ -267,63 +267,6 @@ Added in v2.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B>
-```
-
-Added in v2.0.0
-
-# Model
-
-## None (interface)
-
-**Signature**
-
-```ts
-export interface None {
-  readonly _tag: 'None'
-}
-```
-
-Added in v2.0.0
-
-## Option (type alias)
-
-**Signature**
-
-```ts
-export type Option<A> = None | Some<A>
-```
-
-Added in v2.0.0
-
-## Some (interface)
-
-**Signature**
-
-```ts
-export interface Some<A> {
-  readonly _tag: 'Some'
-  readonly value: A
-}
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Option'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0
@@ -941,6 +884,63 @@ export declare const option: Monad1<'Option'> &
   Filterable1<'Option'> &
   Witherable1<'Option'> &
   MonadThrow1<'Option'>
+```
+
+Added in v2.0.0
+
+# model
+
+## None (interface)
+
+**Signature**
+
+```ts
+export interface None {
+  readonly _tag: 'None'
+}
+```
+
+Added in v2.0.0
+
+## Option (type alias)
+
+**Signature**
+
+```ts
+export type Option<A> = None | Some<A>
+```
+
+Added in v2.0.0
+
+## Some (interface)
+
+**Signature**
+
+```ts
+export interface Some<A> {
+  readonly _tag: 'Some'
+  readonly value: A
+}
+```
+
+Added in v2.0.0
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Option'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

@@ -22,19 +22,19 @@ declare module './HKT' {
 }
 
 /**
- * @category Model
+ * @category model
  * @since 2.3.0
  */
 export const URI = 'ReaderTask'
 
 /**
- * @category Model
+ * @category model
  * @since 2.3.0
  */
 export type URI = typeof URI
 
 /**
- * @category Model
+ * @category model
  * @since 2.3.0
  */
 export interface ReaderTask<R, A> {

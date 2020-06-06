@@ -12,7 +12,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Model](#model)
+- [model](#model)
   - [OptionT (interface)](#optiont-interface)
   - [OptionT1 (type alias)](#optiont1-type-alias)
   - [OptionT2 (type alias)](#optiont2-type-alias)
@@ -25,7 +25,7 @@ Added in v2.0.0
 
 ---
 
-# Model
+# model
 
 ## OptionT (interface)
 

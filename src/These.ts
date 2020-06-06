@@ -41,19 +41,19 @@ declare module './HKT' {
 }
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export const URI = 'These'
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export interface Both<E, A> {
@@ -63,7 +63,7 @@ export interface Both<E, A> {
 }
 
 /**
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export type These<E, A> = Either<E, A> | Both<E, A>

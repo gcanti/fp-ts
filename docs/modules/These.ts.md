@@ -39,11 +39,6 @@ Added in v2.0.0
   - [reduceRight](#reduceright)
 - [Functor](#functor)
   - [map](#map)
-- [Model](#model)
-  - [Both (interface)](#both-interface)
-  - [These (type alias)](#these-type-alias)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [combinators](#combinators)
   - [swap](#swap)
 - [constructors](#constructors)
@@ -70,6 +65,11 @@ Added in v2.0.0
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [these](#these)
+- [model](#model)
+  - [Both (interface)](#both-interface)
+  - [These (type alias)](#these-type-alias)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 
 ---
 
@@ -135,52 +135,6 @@ Added in v2.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B>
-```
-
-Added in v2.0.0
-
-# Model
-
-## Both (interface)
-
-**Signature**
-
-```ts
-export interface Both<E, A> {
-  readonly _tag: 'Both'
-  readonly left: E
-  readonly right: A
-}
-```
-
-Added in v2.0.0
-
-## These (type alias)
-
-**Signature**
-
-```ts
-export type These<E, A> = Either<E, A> | Both<E, A>
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'These'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0
@@ -507,6 +461,52 @@ Added in v2.0.0
 
 ```ts
 export declare const these: Functor2<'These'> & Bifunctor2<'These'> & Foldable2<'These'> & Traversable2<'These'>
+```
+
+Added in v2.0.0
+
+# model
+
+## Both (interface)
+
+**Signature**
+
+```ts
+export interface Both<E, A> {
+  readonly _tag: 'Both'
+  readonly left: E
+  readonly right: A
+}
+```
+
+Added in v2.0.0
+
+## These (type alias)
+
+**Signature**
+
+```ts
+export type These<E, A> = Either<E, A> | Both<E, A>
+```
+
+Added in v2.0.0
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'These'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

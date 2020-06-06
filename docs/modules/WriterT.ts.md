@@ -12,7 +12,7 @@ Added in v2.4.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Model](#model)
+- [model](#model)
   - [WriterT (interface)](#writert-interface)
   - [WriterT1 (interface)](#writert1-interface)
   - [WriterT2 (interface)](#writert2-interface)
@@ -27,7 +27,7 @@ Added in v2.4.0
 
 ---
 
-# Model
+# model
 
 ## WriterT (interface)
 

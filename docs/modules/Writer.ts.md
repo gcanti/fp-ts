@@ -14,13 +14,13 @@ Added in v2.0.0
 
 - [Functor](#functor)
   - [map](#map)
-- [Model](#model)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
-  - [Writer (interface)](#writer-interface)
 - [instances](#instances)
   - [getMonad](#getmonad)
   - [writer](#writer)
+- [model](#model)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+  - [Writer (interface)](#writer-interface)
 - [utils](#utils)
   - [censor](#censor)
   - [evalWriter](#evalwriter)
@@ -44,7 +44,29 @@ export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Wri
 
 Added in v2.0.0
 
-# Model
+# instances
+
+## getMonad
+
+**Signature**
+
+```ts
+export declare function getMonad<W>(M: Monoid<W>): Monad2C<URI, W>
+```
+
+Added in v2.0.0
+
+## writer
+
+**Signature**
+
+```ts
+export declare const writer: Functor2<'Writer'>
+```
+
+Added in v2.0.0
+
+# model
 
 ## URI
 
@@ -74,28 +96,6 @@ Added in v2.0.0
 export interface Writer<W, A> {
   (): [A, W]
 }
-```
-
-Added in v2.0.0
-
-# instances
-
-## getMonad
-
-**Signature**
-
-```ts
-export declare function getMonad<W>(M: Monoid<W>): Monad2C<URI, W>
-```
-
-Added in v2.0.0
-
-## writer
-
-**Signature**
-
-```ts
-export declare const writer: Functor2<'Writer'>
 ```
 
 Added in v2.0.0

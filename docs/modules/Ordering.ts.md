@@ -12,29 +12,17 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Model](#model)
-  - [Ordering (type alias)](#ordering-type-alias)
 - [instances](#instances)
   - [eqOrdering](#eqordering)
   - [monoidOrdering](#monoidordering)
   - [~~semigroupOrdering~~](#semigroupordering)
+- [model](#model)
+  - [Ordering (type alias)](#ordering-type-alias)
 - [utils](#utils)
   - [invert](#invert)
   - [sign](#sign)
 
 ---
-
-# Model
-
-## Ordering (type alias)
-
-**Signature**
-
-```ts
-export type Ordering = -1 | 0 | 1
-```
-
-Added in v2.0.0
 
 # instances
 
@@ -66,6 +54,18 @@ Use `monoidOrdering` instead
 
 ```ts
 export declare const semigroupOrdering: Semigroup<Ordering>
+```
+
+Added in v2.0.0
+
+# model
+
+## Ordering (type alias)
+
+**Signature**
+
+```ts
+export type Ordering = -1 | 0 | 1
 ```
 
 Added in v2.0.0

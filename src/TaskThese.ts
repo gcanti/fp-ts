@@ -23,19 +23,19 @@ declare module './HKT' {
 }
 
 /**
- * @category Model
+ * @category model
  * @since 2.4.0
  */
 export const URI = 'TaskThese'
 
 /**
- * @category Model
+ * @category model
  * @since 2.4.0
  */
 export type URI = typeof URI
 
 /**
- * @category Model
+ * @category model
  * @since 2.4.0
  */
 export interface TaskThese<E, A> extends Task<These<E, A>> {}

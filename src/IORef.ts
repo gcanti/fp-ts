@@ -12,7 +12,7 @@ import { IO } from './IO'
  *
  * assert.strictEqual(io.chain(newIORef(1), ref => io.chain(ref.write(2), () => ref.read))(), 2)
  *
- * @category Model
+ * @category model
  * @since 2.0.0
  */
 export class IORef<A> {

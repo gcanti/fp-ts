@@ -23,10 +23,6 @@ Added in v2.0.0
   - [apSecond](#apsecond)
 - [Functor](#functor)
   - [map](#map)
-- [Model](#model)
-  - [Task (interface)](#task-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
@@ -41,6 +37,10 @@ Added in v2.0.0
   - [getSemigroup](#getsemigroup)
   - [task](#task)
   - [taskSeq](#taskseq)
+- [model](#model)
+  - [Task (interface)](#task-interface)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [fromIOK](#fromiok)
   - [never](#never)
@@ -99,40 +99,6 @@ Added in v2.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B>
-```
-
-Added in v2.0.0
-
-# Model
-
-## Task (interface)
-
-**Signature**
-
-```ts
-export interface Task<A> {
-  (): Promise<A>
-}
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Task'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0
@@ -253,6 +219,40 @@ Like `Task` but `ap` is sequential
 
 ```ts
 export declare const taskSeq: Monad1<'Task'> & MonadTask1<'Task'>
+```
+
+Added in v2.0.0
+
+# model
+
+## Task (interface)
+
+**Signature**
+
+```ts
+export interface Task<A> {
+  (): Promise<A>
+}
+```
+
+Added in v2.0.0
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Task'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

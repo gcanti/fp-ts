@@ -23,10 +23,6 @@ Added in v2.0.0
   - [mapLeft](#mapleft)
 - [Functor](#functor)
   - [map](#map)
-- [Model](#model)
-  - [ReaderTaskEither (interface)](#readertaskeither-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainEitherK](#chaineitherk)
@@ -70,6 +66,10 @@ Added in v2.0.0
   - [getSemigroup](#getsemigroup)
   - [readerTaskEither](#readertaskeither)
   - [readerTaskEitherSeq](#readertaskeitherseq)
+- [model](#model)
+  - [ReaderTaskEither (interface)](#readertaskeither-interface)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [ask](#ask)
   - [asks](#asks)
@@ -169,40 +169,6 @@ Added in v2.0.0
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
-```
-
-Added in v2.0.0
-
-# Model
-
-## ReaderTaskEither (interface)
-
-**Signature**
-
-```ts
-export interface ReaderTaskEither<R, E, A> {
-  (r: R): TaskEither<E, A>
-}
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReaderTaskEither'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0
@@ -648,6 +614,40 @@ export declare const readerTaskEitherSeq: Monad3<'ReaderTaskEither'> &
   Alt3<'ReaderTaskEither'> &
   MonadTask3<'ReaderTaskEither'> &
   MonadThrow3<'ReaderTaskEither'>
+```
+
+Added in v2.0.0
+
+# model
+
+## ReaderTaskEither (interface)
+
+**Signature**
+
+```ts
+export interface ReaderTaskEither<R, E, A> {
+  (r: R): TaskEither<E, A>
+}
+```
+
+Added in v2.0.0
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReaderTaskEither'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.0.0

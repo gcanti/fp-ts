@@ -12,7 +12,7 @@ Added in v2.4.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Model](#model)
+- [model](#model)
   - [TheseT (interface)](#theset-interface)
   - [TheseT1 (type alias)](#theset1-type-alias)
   - [TheseT2 (type alias)](#theset2-type-alias)
@@ -24,7 +24,7 @@ Added in v2.4.0
 
 ---
 
-# Model
+# model
 
 ## TheseT (interface)
 

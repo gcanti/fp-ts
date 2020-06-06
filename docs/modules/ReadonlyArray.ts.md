@@ -46,9 +46,6 @@ Added in v2.5.0
   - [map](#map)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
-- [Model](#model)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
@@ -94,6 +91,9 @@ Added in v2.5.0
   - [getOrd](#getord)
   - [getShow](#getshow)
   - [readonlyArray](#readonlyarray)
+- [model](#model)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [Spanned (interface)](#spanned-interface)
   - [chunksOf](#chunksof)
@@ -401,28 +401,6 @@ Added in v2.5.0
 
 ```ts
 export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: readonly A[]) => readonly B[]
-```
-
-Added in v2.5.0
-
-# Model
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReadonlyArray'
-```
-
-Added in v2.5.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.5.0
@@ -1208,6 +1186,28 @@ export declare const readonlyArray: Monad1<'ReadonlyArray'> &
   Witherable1<'ReadonlyArray'> &
   FunctorWithIndex1<'ReadonlyArray', number> &
   FoldableWithIndex1<'ReadonlyArray', number>
+```
+
+Added in v2.5.0
+
+# model
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReadonlyArray'
+```
+
+Added in v2.5.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
 ```
 
 Added in v2.5.0
