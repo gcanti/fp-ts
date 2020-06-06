@@ -167,7 +167,7 @@ export const replicate: <A>(n: number, a: A) => Array<A> = RA.replicate as any
  *
  * assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
  *
- * @category Monad operations
+ * @category Monad
  * @since 2.0.0
  */
 export const flatten: <A>(mma: Array<Array<A>>) => Array<A> = RA.flatten as any
@@ -976,61 +976,61 @@ export const of: <A>(a: A) => Array<A> = RA.of as any
 // -------------------------------------------------------------------------------------
 
 /**
- * @category Functor operations
+ * @category Functor
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: Array<A>) => Array<B> = RA.map as any
 
 /**
- * @category Apply operations
+ * @category Apply
  * @since 2.0.0
  */
 export const ap: <A>(fa: Array<A>) => <B>(fab: Array<(a: A) => B>) => Array<B> = RA.ap as any
 
 /**
- * @category Apply operations
+ * @category Apply
  * @since 2.0.0
  */
 export const apFirst: <B>(fb: Array<B>) => <A>(fa: Array<A>) => Array<A> = RA.apFirst as any
 
 /**
- * @category Apply operations
+ * @category Apply
  * @since 2.0.0
  */
 export const apSecond: <B>(fb: Array<B>) => <A>(fa: Array<A>) => Array<B> = RA.apSecond as any
 
 /**
- * @category Monad operations
+ * @category Monad
  * @since 2.0.0
  */
 export const chain: <A, B>(f: (a: A) => Array<B>) => (ma: Array<A>) => Array<B> = RA.chain as any
 
 /**
- * @category Monad operations
+ * @category Monad
  * @since 2.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => Array<B>) => (ma: Array<A>) => Array<A> = RA.chainFirst as any
 
 /**
- * @category FunctorWithIndex operations
+ * @category FunctorWithIndex
  * @since 2.0.0
  */
 export const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: Array<A>) => Array<B> = RA.mapWithIndex as any
 
 /**
- * @category Compactable operations
+ * @category Compactable
  * @since 2.0.0
  */
 export const compact: <A>(fa: Array<Option<A>>) => Array<A> = RA.compact as any
 
 /**
- * @category Compactable operations
+ * @category Compactable
  * @since 2.0.0
  */
 export const separate: <A, B>(fa: Array<Either<A, B>>) => Separated<Array<A>, Array<B>> = RA.separate as any
 
 /**
- * @category Filterable operations
+ * @category Filterable
  * @since 2.0.0
  */
 export const filter: {
@@ -1039,13 +1039,13 @@ export const filter: {
 } = RA.filter as any
 
 /**
- * @category Filterable operations
+ * @category Filterable
  * @since 2.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Array<A>) => Array<B> = RA.filterMap as any
 
 /**
- * @category Filterable operations
+ * @category Filterable
  * @since 2.0.0
  */
 export const partition: {
@@ -1054,7 +1054,7 @@ export const partition: {
 } = RA.partition as any
 
 /**
- * @category FilterableWithIndex operations
+ * @category FilterableWithIndex
  * @since 2.0.0
  */
 export const partitionWithIndex: {
@@ -1065,7 +1065,7 @@ export const partitionWithIndex: {
 } = RA.partitionWithIndex as any
 
 /**
- * @category Filterable operations
+ * @category Filterable
  * @since 2.0.0
  */
 export const partitionMap: <A, B, C>(
@@ -1073,7 +1073,7 @@ export const partitionMap: <A, B, C>(
 ) => (fa: Array<A>) => Separated<Array<B>, Array<C>> = RA.partitionMap as any
 
 /**
- * @category FilterableWithIndex operations
+ * @category FilterableWithIndex
  * @since 2.0.0
  */
 export const partitionMapWithIndex: <A, B, C>(
@@ -1081,13 +1081,13 @@ export const partitionMapWithIndex: <A, B, C>(
 ) => (fa: Array<A>) => Separated<Array<B>, Array<C>> = RA.partitionMapWithIndex as any
 
 /**
- * @category Alt operations
+ * @category Alt
  * @since 2.0.0
  */
 export const alt: <A>(that: () => Array<A>) => (fa: Array<A>) => Array<A> = RA.alt as any
 
 /**
- * @category FilterableWithIndex operations
+ * @category FilterableWithIndex
  * @since 2.0.0
  */
 export const filterMapWithIndex: <A, B>(
@@ -1095,7 +1095,7 @@ export const filterMapWithIndex: <A, B>(
 ) => (fa: Array<A>) => Array<B> = RA.filterMapWithIndex as any
 
 /**
- * @category FilterableWithIndex operations
+ * @category FilterableWithIndex
  * @since 2.0.0
  */
 export const filterWithIndex: {
@@ -1104,50 +1104,50 @@ export const filterWithIndex: {
 } = RA.filterWithIndex as any
 
 /**
- * @category Extend operations
+ * @category Extend
  * @since 2.0.0
  */
 export const extend: <A, B>(f: (fa: Array<A>) => B) => (wa: Array<A>) => Array<B> = RA.extend as any
 
 /**
- * @category Extend operations
+ * @category Extend
  * @since 2.0.0
  */
 export const duplicate: <A>(wa: Array<A>) => Array<Array<A>> = RA.duplicate as any
 
 /**
- * @category Foldable operations
+ * @category Foldable
  * @since 2.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Array<A>) => M = RA.foldMap
 
 /**
- * @category FoldableWithIndex operations
+ * @category FoldableWithIndex
  * @since 2.0.0
  */
 export const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: Array<A>) => M =
   RA.foldMapWithIndex
 
 /**
- * @category Foldable operations
+ * @category Foldable
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Array<A>) => B = RA.reduce
 
 /**
- * @category FoldableWithIndex operations
+ * @category FoldableWithIndex
  * @since 2.0.0
  */
 export const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: Array<A>) => B = RA.reduceWithIndex
 
 /**
- * @category Foldable operations
+ * @category Foldable
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Array<A>) => B = RA.reduceRight
 
 /**
- * @category FoldableWithIndex operations
+ * @category FoldableWithIndex
  * @since 2.0.0
  */
 export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: Array<A>) => B =

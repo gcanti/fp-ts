@@ -12,44 +12,44 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alt operations](#alt-operations)
+- [Alt](#alt)
   - [alt](#alt)
-- [Apply operations](#apply-operations)
+- [Apply](#apply)
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-- [Compactable operations](#compactable-operations)
+- [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
 - [Destructors](#destructors)
   - [foldLeft](#foldleft)
   - [foldRight](#foldright)
-- [Extend operations](#extend-operations)
+- [Extend](#extend)
   - [duplicate](#duplicate)
   - [extend](#extend)
-- [Filterable operations](#filterable-operations)
+- [Filterable](#filterable)
   - [filter](#filter)
   - [filterMap](#filtermap)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
-- [FilterableWithIndex operations](#filterablewithindex-operations)
+- [FilterableWithIndex](#filterablewithindex)
   - [filterMapWithIndex](#filtermapwithindex)
   - [filterWithIndex](#filterwithindex)
   - [partitionMapWithIndex](#partitionmapwithindex)
   - [partitionWithIndex](#partitionwithindex)
-- [Foldable operations](#foldable-operations)
+- [Foldable](#foldable)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
-- [FoldableWithIndex operations](#foldablewithindex-operations)
+- [FoldableWithIndex](#foldablewithindex)
   - [foldMapWithIndex](#foldmapwithindex)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
-- [Functor operations](#functor-operations)
+- [Functor](#functor)
   - [map](#map)
-- [FunctorWithIndex operations](#functorwithindex-operations)
+- [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
-- [Monad operations](#monad-operations)
+- [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
@@ -126,7 +126,7 @@ Added in v2.0.0
 
 ---
 
-# Alt operations
+# Alt
 
 ## alt
 
@@ -138,7 +138,7 @@ export declare const alt: <A>(that: () => A[]) => (fa: A[]) => A[]
 
 Added in v2.0.0
 
-# Apply operations
+# Apply
 
 ## ap
 
@@ -170,7 +170,7 @@ export declare const apSecond: <B>(fb: B[]) => <A>(fa: A[]) => B[]
 
 Added in v2.0.0
 
-# Compactable operations
+# Compactable
 
 ## compact
 
@@ -230,7 +230,7 @@ export declare const foldRight: <A, B>(onNil: () => B, onCons: (init: A[], last:
 
 Added in v2.0.0
 
-# Extend operations
+# Extend
 
 ## duplicate
 
@@ -252,7 +252,7 @@ export declare const extend: <A, B>(f: (fa: A[]) => B) => (wa: A[]) => B[]
 
 Added in v2.0.0
 
-# Filterable operations
+# Filterable
 
 ## filter
 
@@ -300,7 +300,7 @@ export declare const partitionMap: <A, B, C>(f: (a: A) => Either<B, C>) => (fa: 
 
 Added in v2.0.0
 
-# FilterableWithIndex operations
+# FilterableWithIndex
 
 ## filterMapWithIndex
 
@@ -350,7 +350,7 @@ export declare const partitionWithIndex: {
 
 Added in v2.0.0
 
-# Foldable operations
+# Foldable
 
 ## foldMap
 
@@ -382,7 +382,7 @@ export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: A[]
 
 Added in v2.0.0
 
-# FoldableWithIndex operations
+# FoldableWithIndex
 
 ## foldMapWithIndex
 
@@ -414,7 +414,7 @@ export declare const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) =>
 
 Added in v2.0.0
 
-# Functor operations
+# Functor
 
 ## map
 
@@ -426,7 +426,7 @@ export declare const map: <A, B>(f: (a: A) => B) => (fa: A[]) => B[]
 
 Added in v2.0.0
 
-# FunctorWithIndex operations
+# FunctorWithIndex
 
 ## mapWithIndex
 
@@ -438,7 +438,7 @@ export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: A[]
 
 Added in v2.0.0
 
-# Monad operations
+# Monad
 
 ## chain
 
