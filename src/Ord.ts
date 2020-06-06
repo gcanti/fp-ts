@@ -22,16 +22,19 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export const URI = 'Ord'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Ord<A> extends Eq<A> {
@@ -48,6 +51,7 @@ function strictEqual<A>(a: A, b: A): boolean {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const ordString: Ord<string> = {
@@ -56,6 +60,7 @@ export const ordString: Ord<string> = {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const ordNumber: Ord<number> = {
@@ -64,6 +69,7 @@ export const ordNumber: Ord<number> = {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const ordBoolean: Ord<boolean> = {
@@ -148,6 +154,7 @@ export function between<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => boolean {
 }
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> {
@@ -161,6 +168,7 @@ export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> {
 /**
  * Use `getMonoid` instead
  *
+ * @category instances
  * @since 2.0.0
  * @deprecated
  */
@@ -231,6 +239,7 @@ export function getSemigroup<A = never>(): Semigroup<Ord<A>> {
  *   { id: 1, name: 'Guido', age: 47, rememberMe: false }
  * ])
  *
+ * @category instances
  * @since 2.4.0
  */
 export function getMonoid<A = never>(): Monoid<Ord<A>> {
@@ -253,6 +262,7 @@ export function getMonoid<A = never>(): Monoid<Ord<A>> {
  * assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
  * assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
  *
+ * @category instances
  * @since 2.0.0
  */
 export function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
@@ -272,6 +282,7 @@ export function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
 }
 
 /**
+ * @category combinators
  * @since 2.0.0
  */
 export function getDualOrd<A>(O: Ord<A>): Ord<A> {
@@ -282,6 +293,7 @@ const contramap_: <A, B>(fa: Ord<A>, f: (b: B) => A) => Ord<B> = (fa, f) =>
   fromCompare((x, y) => fa.compare(f(x), f(y)))
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const ordDate: Ord<Date> =
@@ -293,6 +305,7 @@ export const ordDate: Ord<Date> =
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category Contravariant
  * @since 2.0.0
  */
 export const contramap: <A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B> = (f) => (fa) => contramap_(fa, f)
@@ -302,6 +315,7 @@ export const contramap: <A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B> = (f) =
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const ord: Contravariant1<URI> = {

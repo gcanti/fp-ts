@@ -4,7 +4,7 @@ nav_order: 20
 parent: Modules
 ---
 
-# Console overview
+## Console overview
 
 Added in v2.0.0
 
@@ -12,14 +12,17 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [error](#error)
-- [info](#info)
-- [log](#log)
-- [warn](#warn)
+- [utils](#utils)
+  - [error](#error)
+  - [info](#info)
+  - [log](#log)
+  - [warn](#warn)
 
 ---
 
-# error
+# utils
+
+## error
 
 **Signature**
 
@@ -29,7 +32,7 @@ export declare function error(s: unknown): IO<void>
 
 Added in v2.0.0
 
-# info
+## info
 
 **Signature**
 
@@ -39,7 +42,7 @@ export declare function info(s: unknown): IO<void>
 
 Added in v2.0.0
 
-# log
+## log
 
 **Signature**
 
@@ -49,7 +52,7 @@ export declare function log(s: unknown): IO<void>
 
 Added in v2.0.0
 
-# warn
+## warn
 
 **Signature**
 

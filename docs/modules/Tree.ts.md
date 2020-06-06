@@ -4,7 +4,7 @@ nav_order: 95
 parent: Modules
 ---
 
-# Tree overview
+## Tree overview
 
 Multi-way trees (aka rose trees) and forests, where a forest is
 
@@ -18,39 +18,172 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Tree (interface)](#tree-interface)
-- [Forest (type alias)](#forest-type-alias)
-- [URI (type alias)](#uri-type-alias)
-- [URI](#uri)
-- [ap](#ap)
-- [apFirst](#apfirst)
-- [apSecond](#apsecond)
-- [chain](#chain)
-- [chainFirst](#chainfirst)
-- [drawForest](#drawforest)
-- [drawTree](#drawtree)
-- [duplicate](#duplicate)
-- [elem](#elem)
-- [extend](#extend)
-- [extract](#extract)
-- [flatten](#flatten)
-- [fold](#fold)
-- [foldMap](#foldmap)
-- [getEq](#geteq)
-- [getShow](#getshow)
-- [make](#make)
-- [map](#map)
-- [reduce](#reduce)
-- [reduceRight](#reduceright)
-- [tree](#tree)
-- [unfoldForest](#unfoldforest)
-- [unfoldForestM](#unfoldforestm)
-- [unfoldTree](#unfoldtree)
-- [unfoldTreeM](#unfoldtreem)
+- [Apply](#apply)
+  - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+- [Extend](#extend)
+  - [duplicate](#duplicate)
+  - [extend](#extend)
+- [Extract](#extract)
+  - [extract](#extract)
+- [Foldable](#foldable)
+  - [foldMap](#foldmap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
+- [Functor](#functor)
+  - [map](#map)
+- [Model](#model)
+  - [Forest (type alias)](#forest-type-alias)
+  - [Tree (interface)](#tree-interface)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+- [Monad](#monad)
+  - [chain](#chain)
+  - [chainFirst](#chainfirst)
+  - [flatten](#flatten)
+- [constructors](#constructors)
+  - [make](#make)
+  - [unfoldForest](#unfoldforest)
+  - [unfoldForestM](#unfoldforestm)
+  - [unfoldTree](#unfoldtree)
+  - [unfoldTreeM](#unfoldtreem)
+- [destructors](#destructors)
+  - [fold](#fold)
+- [instances](#instances)
+  - [getEq](#geteq)
+  - [getShow](#getshow)
+  - [tree](#tree)
+- [utils](#utils)
+  - [drawForest](#drawforest)
+  - [drawTree](#drawtree)
+  - [elem](#elem)
 
 ---
 
-# Tree (interface)
+# Apply
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B>
+```
+
+Added in v2.0.0
+
+## apFirst
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<A>
+```
+
+Added in v2.0.0
+
+## apSecond
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<B>
+```
+
+Added in v2.0.0
+
+# Extend
+
+## duplicate
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>>
+```
+
+Added in v2.0.0
+
+## extend
+
+**Signature**
+
+```ts
+export declare const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B>
+```
+
+Added in v2.0.0
+
+# Extract
+
+## extract
+
+**Signature**
+
+```ts
+export declare const extract: <A>(wa: Tree<A>) => A
+```
+
+Added in v2.6.2
+
+# Foldable
+
+## foldMap
+
+**Signature**
+
+```ts
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Tree<A>) => M
+```
+
+Added in v2.0.0
+
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>) => B
+```
+
+Added in v2.0.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>) => B
+```
+
+Added in v2.0.0
+
+# Functor
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B>
+```
+
+Added in v2.0.0
+
+# Model
+
+## Forest (type alias)
+
+**Signature**
+
+```ts
+export type Forest<A> = Array<Tree<A>>
+```
+
+Added in v2.0.0
+
+## Tree (interface)
 
 **Signature**
 
@@ -63,27 +196,7 @@ export interface Tree<A> {
 
 Added in v2.0.0
 
-# Forest (type alias)
-
-**Signature**
-
-```ts
-export type Forest<A> = Array<Tree<A>>
-```
-
-Added in v2.0.0
-
-# URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-# URI
+## URI
 
 **Signature**
 
@@ -93,37 +206,19 @@ export declare const URI: 'Tree'
 
 Added in v2.0.0
 
-# ap
+## URI (type alias)
 
 **Signature**
 
 ```ts
-export declare const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B>
+export type URI = typeof URI
 ```
 
 Added in v2.0.0
 
-# apFirst
+# Monad
 
-**Signature**
-
-```ts
-export declare const apFirst: <B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<A>
-```
-
-Added in v2.0.0
-
-# apSecond
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<B>
-```
-
-Added in v2.0.0
-
-# chain
+## chain
 
 **Signature**
 
@@ -133,7 +228,7 @@ export declare const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tre
 
 Added in v2.0.0
 
-# chainFirst
+## chainFirst
 
 **Signature**
 
@@ -143,89 +238,7 @@ export declare const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) =
 
 Added in v2.0.0
 
-# drawForest
-
-Neat 2-dimensional drawing of a forest
-
-**Signature**
-
-```ts
-export declare function drawForest(forest: Forest<string>): string
-```
-
-Added in v2.0.0
-
-# drawTree
-
-Neat 2-dimensional drawing of a tree
-
-**Signature**
-
-```ts
-export declare function drawTree(tree: Tree<string>): string
-```
-
-**Example**
-
-```ts
-import { make, drawTree, tree } from 'fp-ts/lib/Tree'
-
-const fa = make('a', [tree.of('b'), tree.of('c'), make('d', [tree.of('e'), tree.of('f')])])
-
-assert.strictEqual(
-  drawTree(fa),
-  `a
-├─ b
-├─ c
-└─ d
-   ├─ e
-   └─ f`
-)
-```
-
-Added in v2.0.0
-
-# duplicate
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>>
-```
-
-Added in v2.0.0
-
-# elem
-
-**Signature**
-
-```ts
-export declare function elem<A>(E: Eq<A>): (a: A, fa: Tree<A>) => boolean
-```
-
-Added in v2.0.0
-
-# extend
-
-**Signature**
-
-```ts
-export declare const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B>
-```
-
-Added in v2.0.0
-
-# extract
-
-**Signature**
-
-```ts
-export declare const extract: <A>(wa: Tree<A>) => A
-```
-
-Added in v2.6.2
-
-# flatten
+## flatten
 
 **Signature**
 
@@ -235,7 +248,101 @@ export declare const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A>
 
 Added in v2.0.0
 
-# fold
+# constructors
+
+## make
+
+**Signature**
+
+```ts
+export declare function make<A>(value: A, forest: Forest<A> = empty): Tree<A>
+```
+
+Added in v2.0.0
+
+## unfoldForest
+
+Build a tree from a seed value
+
+**Signature**
+
+```ts
+export declare function unfoldForest<A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Forest<A>
+```
+
+Added in v2.0.0
+
+## unfoldForestM
+
+Monadic forest builder, in depth-first order
+
+**Signature**
+
+```ts
+export declare function unfoldForestM<M extends URIS3>(
+  M: Monad3<M>
+): <R, E, A, B>(bs: Array<B>, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Forest<A>>
+export declare function unfoldForestM<M extends URIS3, E>(
+  M: Monad3C<M, E>
+): <R, A, B>(bs: Array<B>, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Forest<A>>
+export declare function unfoldForestM<M extends URIS2>(
+  M: Monad2<M>
+): <R, E, B>(bs: Array<B>, f: (b: B) => Kind2<M, R, [E, Array<B>]>) => Kind2<M, R, Forest<E>>
+export declare function unfoldForestM<M extends URIS2, E>(
+  M: Monad2C<M, E>
+): <A, B>(bs: Array<B>, f: (b: B) => Kind2<M, E, [A, Array<B>]>) => Kind2<M, E, Forest<A>>
+export declare function unfoldForestM<M extends URIS>(
+  M: Monad1<M>
+): <A, B>(bs: Array<B>, f: (b: B) => Kind<M, [A, Array<B>]>) => Kind<M, Forest<A>>
+export declare function unfoldForestM<M>(
+  M: Monad<M>
+): <A, B>(bs: Array<B>, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Forest<A>>
+```
+
+Added in v2.0.0
+
+## unfoldTree
+
+Build a tree from a seed value
+
+**Signature**
+
+```ts
+export declare function unfoldTree<A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A>
+```
+
+Added in v2.0.0
+
+## unfoldTreeM
+
+Monadic tree builder, in depth-first order
+
+**Signature**
+
+```ts
+export declare function unfoldTreeM<M extends URIS3>(
+  M: Monad3<M>
+): <R, E, A, B>(b: B, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Tree<A>>
+export declare function unfoldTreeM<M extends URIS3, E>(
+  M: Monad3C<M, E>
+): <R, A, B>(b: B, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Tree<A>>
+export declare function unfoldTreeM<M extends URIS2>(
+  M: Monad2<M>
+): <E, A, B>(b: B, f: (b: B) => Kind2<M, E, [A, Array<B>]>) => Kind2<M, E, Tree<A>>
+export declare function unfoldTreeM<M extends URIS2, E>(
+  M: Monad2C<M, E>
+): <A, B>(b: B, f: (b: B) => Kind2<M, E, [A, Array<B>]>) => Kind2<M, E, Tree<A>>
+export declare function unfoldTreeM<M extends URIS>(
+  M: Monad1<M>
+): <A, B>(b: B, f: (b: B) => Kind<M, [A, Array<B>]>) => Kind<M, Tree<A>>
+export declare function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>>
+```
+
+Added in v2.0.0
+
+# destructors
+
+## fold
 
 Fold a tree into a "summary" value in depth-first order.
 
@@ -270,17 +377,9 @@ assert.deepStrictEqual(fold((_: number, bs: Array<number>) => (bs.length === 0 ?
 
 Added in v2.6.0
 
-# foldMap
+# instances
 
-**Signature**
-
-```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Tree<A>) => M
-```
-
-Added in v2.0.0
-
-# getEq
+## getEq
 
 **Signature**
 
@@ -290,7 +389,7 @@ export declare function getEq<A>(E: Eq<A>): Eq<Tree<A>>
 
 Added in v2.0.0
 
-# getShow
+## getShow
 
 **Signature**
 
@@ -300,47 +399,7 @@ export declare function getShow<A>(S: Show<A>): Show<Tree<A>>
 
 Added in v2.0.0
 
-# make
-
-**Signature**
-
-```ts
-export declare function make<A>(value: A, forest: Forest<A> = empty): Tree<A>
-```
-
-Added in v2.0.0
-
-# map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B>
-```
-
-Added in v2.0.0
-
-# reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>) => B
-```
-
-Added in v2.0.0
-
-# reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>) => B
-```
-
-Added in v2.0.0
-
-# tree
+## tree
 
 **Signature**
 
@@ -350,82 +409,56 @@ export declare const tree: Monad1<'Tree'> & Foldable1<'Tree'> & Traversable1<'Tr
 
 Added in v2.0.0
 
-# unfoldForest
+# utils
 
-Build a tree from a seed value
+## drawForest
+
+Neat 2-dimensional drawing of a forest
 
 **Signature**
 
 ```ts
-export declare function unfoldForest<A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Forest<A>
+export declare function drawForest(forest: Forest<string>): string
 ```
 
 Added in v2.0.0
 
-# unfoldForestM
+## drawTree
 
-Monadic forest builder, in depth-first order
+Neat 2-dimensional drawing of a tree
 
 **Signature**
 
 ```ts
-export declare function unfoldForestM<M extends URIS3>(
-  M: Monad3<M>
-): <R, E, A, B>(bs: Array<B>, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Forest<A>>
-export declare function unfoldForestM<M extends URIS3, E>(
-  M: Monad3C<M, E>
-): <R, A, B>(bs: Array<B>, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Forest<A>>
-export declare function unfoldForestM<M extends URIS2>(
-  M: Monad2<M>
-): <R, E, B>(bs: Array<B>, f: (b: B) => Kind2<M, R, [E, Array<B>]>) => Kind2<M, R, Forest<E>>
-export declare function unfoldForestM<M extends URIS2, E>(
-  M: Monad2C<M, E>
-): <A, B>(bs: Array<B>, f: (b: B) => Kind2<M, E, [A, Array<B>]>) => Kind2<M, E, Forest<A>>
-export declare function unfoldForestM<M extends URIS>(
-  M: Monad1<M>
-): <A, B>(bs: Array<B>, f: (b: B) => Kind<M, [A, Array<B>]>) => Kind<M, Forest<A>>
-export declare function unfoldForestM<M>(
-  M: Monad<M>
-): <A, B>(bs: Array<B>, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Forest<A>>
+export declare function drawTree(tree: Tree<string>): string
+```
+
+**Example**
+
+```ts
+import { make, drawTree, tree } from 'fp-ts/lib/Tree'
+
+const fa = make('a', [tree.of('b'), tree.of('c'), make('d', [tree.of('e'), tree.of('f')])])
+
+assert.strictEqual(
+  drawTree(fa),
+  `a
+├─ b
+├─ c
+└─ d
+   ├─ e
+   └─ f`
+)
 ```
 
 Added in v2.0.0
 
-# unfoldTree
-
-Build a tree from a seed value
+## elem
 
 **Signature**
 
 ```ts
-export declare function unfoldTree<A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A>
-```
-
-Added in v2.0.0
-
-# unfoldTreeM
-
-Monadic tree builder, in depth-first order
-
-**Signature**
-
-```ts
-export declare function unfoldTreeM<M extends URIS3>(
-  M: Monad3<M>
-): <R, E, A, B>(b: B, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Tree<A>>
-export declare function unfoldTreeM<M extends URIS3, E>(
-  M: Monad3C<M, E>
-): <R, A, B>(b: B, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Tree<A>>
-export declare function unfoldTreeM<M extends URIS2>(
-  M: Monad2<M>
-): <E, A, B>(b: B, f: (b: B) => Kind2<M, E, [A, Array<B>]>) => Kind2<M, E, Tree<A>>
-export declare function unfoldTreeM<M extends URIS2, E>(
-  M: Monad2C<M, E>
-): <A, B>(b: B, f: (b: B) => Kind2<M, E, [A, Array<B>]>) => Kind2<M, E, Tree<A>>
-export declare function unfoldTreeM<M extends URIS>(
-  M: Monad1<M>
-): <A, B>(b: B, f: (b: B) => Kind<M, [A, Array<B>]>) => Kind<M, Tree<A>>
-export declare function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>>
+export declare function elem<A>(E: Eq<A>): (a: A, fa: Tree<A>) => boolean
 ```
 
 Added in v2.0.0

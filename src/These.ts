@@ -41,16 +41,19 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export const URI = 'These'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export interface Both<E, A> {
@@ -60,11 +63,13 @@ export interface Both<E, A> {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type These<E, A> = Either<E, A> | Both<E, A>
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 export function left<E = never, A = never>(left: E): These<E, A> {
@@ -72,6 +77,7 @@ export function left<E = never, A = never>(left: E): These<E, A> {
 }
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 export function right<E = never, A = never>(right: A): These<E, A> {
@@ -79,6 +85,7 @@ export function right<E = never, A = never>(right: A): These<E, A> {
 }
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 export function both<E, A>(left: E, right: A): These<E, A> {
@@ -86,6 +93,7 @@ export function both<E, A>(left: E, right: A): These<E, A> {
 }
 
 /**
+ * @category destructors
  * @since 2.0.0
  */
 export function fold<E, A, B>(
@@ -106,11 +114,13 @@ export function fold<E, A, B>(
 }
 
 /**
+ * @category combinators
  * @since 2.4.0
  */
 export const swap: <E, A>(fa: These<E, A>) => These<A, E> = fold(right, left, (e, a) => both(a, e))
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>> {
@@ -124,6 +134,7 @@ export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>> {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getEq<E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>> {
@@ -137,6 +148,7 @@ export function getEq<E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>> {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<These<E, A>> {
@@ -163,6 +175,7 @@ export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI, E> {
@@ -201,6 +214,7 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI
  * assert.deepStrictEqual(toTuple('a', 1)(right(2)), ['a', 2])
  * assert.deepStrictEqual(toTuple('a', 1)(both('b', 2)), ['b', 2])
  *
+ * @category destructors
  * @since 2.0.0
  */
 export function toTuple<E, A>(e: E, a: A): (fa: These<E, A>) => [E, A] {
@@ -219,6 +233,7 @@ export function toTuple<E, A>(e: E, a: A): (fa: These<E, A>) => [E, A] {
  * assert.deepStrictEqual(getLeft(right(1)), none)
  * assert.deepStrictEqual(getLeft(both('a', 1)), some('a'))
  *
+ * @category destructors
  * @since 2.0.0
  */
 export function getLeft<E, A>(fa: These<E, A>): Option<E> {
@@ -236,6 +251,7 @@ export function getLeft<E, A>(fa: These<E, A>): Option<E> {
  * assert.deepStrictEqual(getRight(right(1)), some(1))
  * assert.deepStrictEqual(getRight(both('a', 1)), some(1))
  *
+ * @category destructors
  * @since 2.0.0
  */
 export function getRight<E, A>(fa: These<E, A>): Option<A> {
@@ -245,6 +261,7 @@ export function getRight<E, A>(fa: These<E, A>): Option<A> {
 /**
  * Returns `true` if the these is an instance of `Left`, `false` otherwise
  *
+ * @category guards
  * @since 2.0.0
  */
 export function isLeft<E, A>(fa: These<E, A>): fa is Left<E> {
@@ -254,6 +271,7 @@ export function isLeft<E, A>(fa: These<E, A>): fa is Left<E> {
 /**
  * Returns `true` if the these is an instance of `Right`, `false` otherwise
  *
+ * @category guards
  * @since 2.0.0
  */
 export function isRight<E, A>(fa: These<E, A>): fa is Right<A> {
@@ -263,6 +281,7 @@ export function isRight<E, A>(fa: These<E, A>): fa is Right<A> {
 /**
  * Returns `true` if the these is an instance of `Both`, `false` otherwise
  *
+ * @category guards
  * @since 2.0.0
  */
 export function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A> {
@@ -277,6 +296,7 @@ export function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A> {
  * assert.deepStrictEqual(leftOrBoth('a')(none), left('a'))
  * assert.deepStrictEqual(leftOrBoth('a')(some(1)), both('a', 1))
  *
+ * @category constructors
  * @since 2.0.0
  */
 export function leftOrBoth<E>(e: E): <A>(ma: Option<A>) => These<E, A> {
@@ -291,6 +311,7 @@ export function leftOrBoth<E>(e: E): <A>(ma: Option<A>) => These<E, A> {
  * assert.deepStrictEqual(rightOrBoth(1)(none), right(1))
  * assert.deepStrictEqual(rightOrBoth(1)(some('a')), both('a', 1))
  *
+ * @category constructors
  * @since 2.0.0
  */
 export function rightOrBoth<A>(a: A): <E>(me: Option<E>) => These<E, A> {
@@ -308,6 +329,7 @@ export function rightOrBoth<A>(a: A): <E>(me: Option<E>) => These<E, A> {
  * assert.deepStrictEqual(getLeftOnly(right(1)), none)
  * assert.deepStrictEqual(getLeftOnly(both('a', 1)), none)
  *
+ * @category destructors
  * @since 2.0.0
  */
 export function getLeftOnly<E, A>(fa: These<E, A>): Option<E> {
@@ -325,7 +347,7 @@ export function getLeftOnly<E, A>(fa: These<E, A>): Option<E> {
  * assert.deepStrictEqual(getRightOnly(right(1)), some(1))
  * assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
  *
- *
+ * @category destructors
  * @since 2.0.0
  */
 export function getRightOnly<E, A>(fa: These<E, A>): Option<A> {
@@ -344,6 +366,7 @@ export function getRightOnly<E, A>(fa: These<E, A>): Option<A> {
  * assert.deepStrictEqual(fromOptions(none, some(1)), some(right(1)))
  * assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
  *
+ * @category constructors
  * @since 2.0.0
  */
 export function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E, A>> {
@@ -379,12 +402,14 @@ const reduceRight_: <E, A, B>(fa: These<E, A>, b: B, f: (a: A, b: B) => B) => B 
   isLeft(fa) ? b : isRight(fa) ? f(fa.right, b) : f(fa.right, b)
 
 /**
+ * @category Bifunctor
  * @since 2.0.0
  */
 export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: These<E, A>) => These<G, B> = (f, g) => (fa) =>
   bimap_(fa, f, g)
 
 /**
+ * @category Foldable
  * @since 2.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<E, A>) => M = (M) => {
@@ -393,22 +418,26 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<
 }
 
 /**
+ * @category Functor
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B> = (f) => (fa) => map_(fa, f)
 
 /**
+ * @category Bifunctor
  * @since 2.0.0
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: These<E, A>) => These<G, A> = (f) => (fa) => mapLeft_(fa, f)
 
 /**
+ * @category Foldable
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>
   reduce_(fa, b, f)
 
 /**
+ * @category Foldable
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>
@@ -419,6 +448,7 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E,
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI> = {

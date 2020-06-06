@@ -4,7 +4,7 @@ nav_order: 6
 parent: Modules
 ---
 
-# Bifunctor overview
+## Bifunctor overview
 
 Added in v2.0.0
 
@@ -12,16 +12,19 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Bifunctor (interface)](#bifunctor-interface)
-- [Bifunctor2 (interface)](#bifunctor2-interface)
-- [Bifunctor2C (interface)](#bifunctor2c-interface)
-- [Bifunctor3 (interface)](#bifunctor3-interface)
-- [Bifunctor3C (interface)](#bifunctor3c-interface)
-- [Bifunctor4 (interface)](#bifunctor4-interface)
+- [type classes](#type-classes)
+  - [Bifunctor (interface)](#bifunctor-interface)
+  - [Bifunctor2 (interface)](#bifunctor2-interface)
+  - [Bifunctor2C (interface)](#bifunctor2c-interface)
+  - [Bifunctor3 (interface)](#bifunctor3-interface)
+  - [Bifunctor3C (interface)](#bifunctor3c-interface)
+  - [Bifunctor4 (interface)](#bifunctor4-interface)
 
 ---
 
-# Bifunctor (interface)
+# type classes
+
+## Bifunctor (interface)
 
 **Signature**
 
@@ -35,7 +38,7 @@ export interface Bifunctor<F> {
 
 Added in v2.0.0
 
-# Bifunctor2 (interface)
+## Bifunctor2 (interface)
 
 **Signature**
 
@@ -49,7 +52,7 @@ export interface Bifunctor2<F extends URIS2> {
 
 Added in v2.0.0
 
-# Bifunctor2C (interface)
+## Bifunctor2C (interface)
 
 **Signature**
 
@@ -64,7 +67,7 @@ export interface Bifunctor2C<F extends URIS2, E> {
 
 Added in v2.0.0
 
-# Bifunctor3 (interface)
+## Bifunctor3 (interface)
 
 **Signature**
 
@@ -78,7 +81,7 @@ export interface Bifunctor3<F extends URIS3> {
 
 Added in v2.0.0
 
-# Bifunctor3C (interface)
+## Bifunctor3C (interface)
 
 **Signature**
 
@@ -92,7 +95,7 @@ export interface Bifunctor3C<F extends URIS3, E> {
 
 Added in v2.2.0
 
-# Bifunctor4 (interface)
+## Bifunctor4 (interface)
 
 **Signature**
 

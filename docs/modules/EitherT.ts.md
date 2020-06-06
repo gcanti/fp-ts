@@ -4,7 +4,7 @@ nav_order: 26
 parent: Modules
 ---
 
-# EitherT overview
+## EitherT overview
 
 Added in v2.0.0
 
@@ -12,17 +12,53 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [EitherM (interface)](#eitherm-interface)
-- [EitherM1 (interface)](#eitherm1-interface)
-- [EitherM2 (interface)](#eitherm2-interface)
-- [EitherT (interface)](#eithert-interface)
-- [EitherT1 (type alias)](#eithert1-type-alias)
-- [EitherT2 (type alias)](#eithert2-type-alias)
-- [getEitherM](#geteitherm)
+- [Model](#model)
+  - [EitherT (interface)](#eithert-interface)
+  - [EitherT1 (type alias)](#eithert1-type-alias)
+  - [EitherT2 (type alias)](#eithert2-type-alias)
+- [utils](#utils)
+  - [EitherM (interface)](#eitherm-interface)
+  - [EitherM1 (interface)](#eitherm1-interface)
+  - [EitherM2 (interface)](#eitherm2-interface)
+  - [getEitherM](#geteitherm)
 
 ---
 
-# EitherM (interface)
+# Model
+
+## EitherT (interface)
+
+**Signature**
+
+```ts
+export interface EitherT<M, E, A> extends HKT<M, Either<E, A>> {}
+```
+
+Added in v2.0.0
+
+## EitherT1 (type alias)
+
+**Signature**
+
+```ts
+export type EitherT1<M extends URIS, E, A> = Kind<M, Either<E, A>>
+```
+
+Added in v2.0.0
+
+## EitherT2 (type alias)
+
+**Signature**
+
+```ts
+export type EitherT2<M extends URIS2, R, E, A> = Kind2<M, R, Either<E, A>>
+```
+
+Added in v2.0.0
+
+# utils
+
+## EitherM (interface)
 
 **Signature**
 
@@ -44,7 +80,7 @@ export interface EitherM<M> extends ApplicativeCompositionHKT2<M, URI> {
 
 Added in v2.0.0
 
-# EitherM1 (interface)
+## EitherM1 (interface)
 
 **Signature**
 
@@ -70,7 +106,7 @@ export interface EitherM1<M extends URIS> extends ApplicativeComposition12<M, UR
 
 Added in v2.0.0
 
-# EitherM2 (interface)
+## EitherM2 (interface)
 
 **Signature**
 
@@ -99,37 +135,7 @@ export interface EitherM2<M extends URIS2> extends ApplicativeComposition22<M, U
 
 Added in v2.0.0
 
-# EitherT (interface)
-
-**Signature**
-
-```ts
-export interface EitherT<M, E, A> extends HKT<M, Either<E, A>> {}
-```
-
-Added in v2.0.0
-
-# EitherT1 (type alias)
-
-**Signature**
-
-```ts
-export type EitherT1<M extends URIS, E, A> = Kind<M, Either<E, A>>
-```
-
-Added in v2.0.0
-
-# EitherT2 (type alias)
-
-**Signature**
-
-```ts
-export type EitherT2<M extends URIS2, R, E, A> = Kind2<M, R, Either<E, A>>
-```
-
-Added in v2.0.0
-
-# getEitherM
+## getEitherM
 
 **Signature**
 

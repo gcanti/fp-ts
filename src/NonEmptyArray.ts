@@ -26,17 +26,20 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export const URI = 'NonEmptyArray'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /* tslint:disable:readonly-keyword */
 /**
+ * @category Model
  * @since 2.0.0
  */
 export interface NonEmptyArray<A> extends Array<A> {
@@ -52,6 +55,7 @@ export interface NonEmptyArray<A> extends Array<A> {
  *
  * assert.deepStrictEqual(cons(1, [2, 3, 4]), [1, 2, 3, 4])
  *
+ * @category constructors
  * @since 2.0.0
  */
 export const cons: <A>(head: A, tail: Array<A>) => NonEmptyArray<A> = RNEA.cons as any
@@ -64,6 +68,7 @@ export const cons: <A>(head: A, tail: Array<A>) => NonEmptyArray<A> = RNEA.cons 
  *
  * assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
  *
+ * @category constructors
  * @since 2.0.0
  */
 export const snoc: <A>(init: Array<A>, end: A) => NonEmptyArray<A> = RNEA.snoc as any
@@ -71,11 +76,13 @@ export const snoc: <A>(init: Array<A>, end: A) => NonEmptyArray<A> = RNEA.snoc a
 /**
  * Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty array
  *
+ * @category constructors
  * @since 2.0.0
  */
 export const fromArray: <A>(as: Array<A>) => Option<NonEmptyArray<A>> = RNEA.fromArray as any
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const getShow: <A>(S: Show<A>) => Show<NonEmptyArray<A>> = RNEA.getShow
@@ -91,6 +98,7 @@ export const head: <A>(nea: NonEmptyArray<A>) => A = RNEA.head
 export const tail: <A>(nea: NonEmptyArray<A>) => Array<A> = RNEA.tail as any
 
 /**
+ * @category combinators
  * @since 2.0.0
  */
 export const reverse: <A>(nea: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.reverse as any
@@ -108,6 +116,7 @@ export const max: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A = RNEA.max
 /**
  * Builds a `Semigroup` instance for `NonEmptyArray`
  *
+ * @category instances
  * @since 2.0.0
  */
 export const getSemigroup: <A = never>() => Semigroup<NonEmptyArray<A>> = RNEA.getSemigroup as any
@@ -121,6 +130,7 @@ export const getSemigroup: <A = never>() => Semigroup<NonEmptyArray<A>> = RNEA.g
  * assert.strictEqual(E.equals(cons(1, [2]), [1, 2]), true)
  * assert.strictEqual(E.equals(cons(1, [2]), [1, 3]), false)
  *
+ * @category instances
  * @since 2.0.0
  */
 export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = RNEA.getEq
@@ -138,6 +148,7 @@ export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = RNEA.getEq
  *   cons(1, [1])
  * ])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export function group<A>(
@@ -159,6 +170,7 @@ export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
  *
  * assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [cons(1, [1, 1]), cons(2, [])])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const groupSort: <A>(O: Ord<A>) => (as: Array<A>) => Array<NonEmptyArray<A>> = RNEA.groupSort as any
@@ -175,6 +187,7 @@ export const groupSort: <A>(O: Ord<A>) => (as: Array<A>) => Array<NonEmptyArray<
  *   '6': cons('foobar', [])
  * })
  *
+ * @category constructors
  * @since 2.0.0
  */
 export const groupBy: <A>(
@@ -200,6 +213,7 @@ export const last: <A>(nea: NonEmptyArray<A>) => A = RNEA.last
 export const init: <A>(nea: NonEmptyArray<A>) => Array<A> = RNEA.init as any
 
 /**
+ * @category combinators
  * @since 2.0.0
  */
 export const sort: <A>(O: Ord<A>) => (nea: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.sort as any
@@ -229,6 +243,7 @@ export const modifyAt: <A>(
 ) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> = RNEA.modifyAt as any
 
 /**
+ * @category combinators
  * @since 2.0.0
  */
 export function copy<A>(nea: NonEmptyArray<A>): NonEmptyArray<A> {
@@ -241,6 +256,7 @@ export function copy<A>(nea: NonEmptyArray<A>): NonEmptyArray<A> {
 }
 
 /**
+ * @category combinators
  * @since 2.0.0
  */
 export function filter<A, B extends A>(
@@ -259,11 +275,13 @@ export const filterWithIndex: <A>(
 ) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> = RNEA.filterWithIndex as any
 
 /**
+ * @category Applicative
  * @since 2.0.0
  */
 export const of: <A>(a: A) => NonEmptyArray<A> = RNEA.of as any
 
 /**
+ * @category constructors
  * @since 2.2.0
  */
 export function concat<A>(fx: Array<A>, fy: NonEmptyArray<A>): NonEmptyArray<A>
@@ -278,6 +296,7 @@ export function concat<A>(fx: Array<A>, fy: Array<A>): Array<A> {
 export const fold: <A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A = RNEA.fold
 
 /**
+ * @category combinators
  * @since 2.5.1
  */
 export const zipWith: <A, B, C>(
@@ -287,6 +306,7 @@ export const zipWith: <A, B, C>(
 ) => NonEmptyArray<C> = RNEA.zipWith as any
 
 /**
+ * @category combinators
  * @since 2.5.1
  */
 export const zip: <A, B>(fa: NonEmptyArray<A>, fb: NonEmptyArray<B>) => NonEmptyArray<[A, B]> = RNEA.zip as any
@@ -301,37 +321,44 @@ export const unzip: <A, B>(as: NonEmptyArray<[A, B]>) => [NonEmptyArray<A>, NonE
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category FoldableWithIndex
  * @since 2.0.0
  */
 export const foldMapWithIndex: <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (fa: NonEmptyArray<A>) => S =
   RNEA.foldMapWithIndex
 
 /**
+ * @category Foldable
  * @since 2.0.0
  */
 export const foldMap: <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) => S = RNEA.foldMap
 
 /**
+ * @category Alt
  * @since 2.6.2
  */
 export const alt: <A>(that: () => NonEmptyArray<A>) => (fa: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.alt as any
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const ap: <A>(fa: NonEmptyArray<A>) => <B>(fab: NonEmptyArray<(a: A) => B>) => NonEmptyArray<B> = RNEA.ap as any
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const apFirst: <B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.apFirst as any
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const apSecond: <B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<B> = RNEA.apSecond as any
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const chain: <A, B>(
@@ -339,6 +366,7 @@ export const chain: <A, B>(
 ) => (ma: NonEmptyArray<A>) => NonEmptyArray<B> = RNEA.chain as any
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const chainFirst: <A, B>(
@@ -346,11 +374,13 @@ export const chainFirst: <A, B>(
 ) => (ma: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.chainFirst as any
 
 /**
+ * @category Extend
  * @since 2.0.0
  */
 export const duplicate: <A>(ma: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>> = RNEA.duplicate as any
 
 /**
+ * @category Extend
  * @since 2.0.0
  */
 export const extend: <A, B>(
@@ -358,16 +388,19 @@ export const extend: <A, B>(
 ) => (ma: NonEmptyArray<A>) => NonEmptyArray<B> = RNEA.extend as any
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const flatten: <A>(mma: NonEmptyArray<NonEmptyArray<A>>) => NonEmptyArray<A> = RNEA.flatten as any
 
 /**
+ * @category Functor
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: NonEmptyArray<A>) => NonEmptyArray<B> = RNEA.map as any
 
 /**
+ * @category FunctorWithIndex
  * @since 2.0.0
  */
 export const mapWithIndex: <A, B>(
@@ -375,22 +408,26 @@ export const mapWithIndex: <A, B>(
 ) => (fa: NonEmptyArray<A>) => NonEmptyArray<B> = RNEA.mapWithIndex as any
 
 /**
+ * @category Foldable
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: NonEmptyArray<A>) => B = RNEA.reduce
 
 /**
+ * @category FoldableWithIndex
  * @since 2.0.0
  */
 export const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: NonEmptyArray<A>) => B =
   RNEA.reduceWithIndex
 
 /**
+ * @category Foldable
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: NonEmptyArray<A>) => B = RNEA.reduceRight
 
 /**
+ * @category FoldableWithIndex
  * @since 2.0.0
  */
 export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: NonEmptyArray<A>) => B =
@@ -401,6 +438,7 @@ export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B)
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const nonEmptyArray: Monad1<URI> &

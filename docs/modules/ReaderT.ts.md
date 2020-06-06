@@ -4,7 +4,7 @@ nav_order: 66
 parent: Modules
 ---
 
-# ReaderT overview
+## ReaderT overview
 
 Added in v2.0.0
 
@@ -12,20 +12,62 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [ReaderM (interface)](#readerm-interface)
-- [ReaderM1 (interface)](#readerm1-interface)
-- [ReaderM2 (interface)](#readerm2-interface)
-- [ReaderM2C (interface)](#readerm2c-interface)
-- [ReaderM3 (interface)](#readerm3-interface)
-- [ReaderT (interface)](#readert-interface)
-- [ReaderT1 (interface)](#readert1-interface)
-- [ReaderT2 (interface)](#readert2-interface)
-- [ReaderT3 (interface)](#readert3-interface)
-- [getReaderM](#getreaderm)
+- [Model](#model)
+  - [ReaderT (interface)](#readert-interface)
+  - [ReaderT1 (interface)](#readert1-interface)
+  - [ReaderT2 (interface)](#readert2-interface)
+- [utils](#utils)
+  - [ReaderM (interface)](#readerm-interface)
+  - [ReaderM1 (interface)](#readerm1-interface)
+  - [ReaderM2 (interface)](#readerm2-interface)
+  - [ReaderM2C (interface)](#readerm2c-interface)
+  - [ReaderM3 (interface)](#readerm3-interface)
+  - [ReaderT3 (interface)](#readert3-interface)
+  - [getReaderM](#getreaderm)
 
 ---
 
-# ReaderM (interface)
+# Model
+
+## ReaderT (interface)
+
+**Signature**
+
+```ts
+export interface ReaderT<M, R, A> {
+  (r: R): HKT<M, A>
+}
+```
+
+Added in v2.0.0
+
+## ReaderT1 (interface)
+
+**Signature**
+
+```ts
+export interface ReaderT1<M extends URIS, R, A> {
+  (r: R): Kind<M, A>
+}
+```
+
+Added in v2.0.0
+
+## ReaderT2 (interface)
+
+**Signature**
+
+```ts
+export interface ReaderT2<M extends URIS2, R, E, A> {
+  (r: R): Kind2<M, E, A>
+}
+```
+
+Added in v2.0.0
+
+# utils
+
+## ReaderM (interface)
 
 **Signature**
 
@@ -45,7 +87,7 @@ export interface ReaderM<M> {
 
 Added in v2.0.0
 
-# ReaderM1 (interface)
+## ReaderM1 (interface)
 
 **Signature**
 
@@ -65,7 +107,7 @@ export interface ReaderM1<M extends URIS> {
 
 Added in v2.0.0
 
-# ReaderM2 (interface)
+## ReaderM2 (interface)
 
 **Signature**
 
@@ -85,7 +127,7 @@ export interface ReaderM2<M extends URIS2> {
 
 Added in v2.0.0
 
-# ReaderM2C (interface)
+## ReaderM2C (interface)
 
 **Signature**
 
@@ -105,7 +147,7 @@ export interface ReaderM2C<M extends URIS2, E> {
 
 Added in v2.2.0
 
-# ReaderM3 (interface)
+## ReaderM3 (interface)
 
 **Signature**
 
@@ -131,43 +173,7 @@ export interface ReaderM3<M extends URIS3> {
 
 Added in v2.0.0
 
-# ReaderT (interface)
-
-**Signature**
-
-```ts
-export interface ReaderT<M, R, A> {
-  (r: R): HKT<M, A>
-}
-```
-
-Added in v2.0.0
-
-# ReaderT1 (interface)
-
-**Signature**
-
-```ts
-export interface ReaderT1<M extends URIS, R, A> {
-  (r: R): Kind<M, A>
-}
-```
-
-Added in v2.0.0
-
-# ReaderT2 (interface)
-
-**Signature**
-
-```ts
-export interface ReaderT2<M extends URIS2, R, E, A> {
-  (r: R): Kind2<M, E, A>
-}
-```
-
-Added in v2.0.0
-
-# ReaderT3 (interface)
+## ReaderT3 (interface)
 
 **Signature**
 
@@ -179,7 +185,7 @@ export interface ReaderT3<M extends URIS3, R, U, E, A> {
 
 Added in v2.0.0
 
-# getReaderM
+## getReaderM
 
 **Signature**
 

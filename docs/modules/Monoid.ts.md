@@ -4,7 +4,7 @@ nav_order: 55
 parent: Modules
 ---
 
-# Monoid overview
+## Monoid overview
 
 Added in v2.0.0
 
@@ -12,47 +12,31 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Monoid (interface)](#monoid-interface)
-- [fold](#fold)
-- [getDualMonoid](#getdualmonoid)
-- [getEndomorphismMonoid](#getendomorphismmonoid)
-- [getFunctionMonoid](#getfunctionmonoid)
-- [getJoinMonoid](#getjoinmonoid)
-- [getMeetMonoid](#getmeetmonoid)
-- [getStructMonoid](#getstructmonoid)
-- [getTupleMonoid](#gettuplemonoid)
-- [monoidAll](#monoidall)
-- [monoidAny](#monoidany)
-- [monoidProduct](#monoidproduct)
-- [monoidString](#monoidstring)
-- [monoidSum](#monoidsum)
-- [monoidVoid](#monoidvoid)
+- [combinators](#combinators)
+  - [getDualMonoid](#getdualmonoid)
+- [instances](#instances)
+  - [getEndomorphismMonoid](#getendomorphismmonoid)
+  - [getFunctionMonoid](#getfunctionmonoid)
+  - [getJoinMonoid](#getjoinmonoid)
+  - [getMeetMonoid](#getmeetmonoid)
+  - [getStructMonoid](#getstructmonoid)
+  - [getTupleMonoid](#gettuplemonoid)
+  - [monoidAll](#monoidall)
+  - [monoidAny](#monoidany)
+  - [monoidProduct](#monoidproduct)
+  - [monoidString](#monoidstring)
+  - [monoidSum](#monoidsum)
+  - [monoidVoid](#monoidvoid)
+- [type classes](#type-classes)
+  - [Monoid (interface)](#monoid-interface)
+- [utils](#utils)
+  - [fold](#fold)
 
 ---
 
-# Monoid (interface)
+# combinators
 
-**Signature**
-
-```ts
-export interface Monoid<A> extends Semigroup<A> {
-  readonly empty: A
-}
-```
-
-Added in v2.0.0
-
-# fold
-
-**Signature**
-
-```ts
-export declare function fold<A>(M: Monoid<A>): (as: ReadonlyArray<A>) => A
-```
-
-Added in v2.0.0
-
-# getDualMonoid
+## getDualMonoid
 
 The dual of a `Monoid`, obtained by swapping the arguments of `concat`.
 
@@ -72,7 +56,9 @@ assert.deepStrictEqual(getDualMonoid(monoidString).concat('a', 'b'), 'ba')
 
 Added in v2.0.0
 
-# getEndomorphismMonoid
+# instances
+
+## getEndomorphismMonoid
 
 **Signature**
 
@@ -82,7 +68,7 @@ export declare function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<
 
 Added in v2.0.0
 
-# getFunctionMonoid
+## getFunctionMonoid
 
 **Signature**
 
@@ -92,7 +78,7 @@ export declare function getFunctionMonoid<M>(M: Monoid<M>): <A = never>() => Mon
 
 Added in v2.0.0
 
-# getJoinMonoid
+## getJoinMonoid
 
 **Signature**
 
@@ -102,7 +88,7 @@ export declare function getJoinMonoid<A>(B: Bounded<A>): Monoid<A>
 
 Added in v2.0.0
 
-# getMeetMonoid
+## getMeetMonoid
 
 **Signature**
 
@@ -112,7 +98,7 @@ export declare function getMeetMonoid<A>(B: Bounded<A>): Monoid<A>
 
 Added in v2.0.0
 
-# getStructMonoid
+## getStructMonoid
 
 **Signature**
 
@@ -124,7 +110,7 @@ export declare function getStructMonoid<O extends ReadonlyRecord<string, any>>(
 
 Added in v2.0.0
 
-# getTupleMonoid
+## getTupleMonoid
 
 Given a tuple of monoids returns a monoid for the tuple
 
@@ -150,7 +136,7 @@ assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, fal
 
 Added in v2.0.0
 
-# monoidAll
+## monoidAll
 
 Boolean monoid under conjunction
 
@@ -162,7 +148,7 @@ export declare const monoidAll: Monoid<boolean>
 
 Added in v2.0.0
 
-# monoidAny
+## monoidAny
 
 Boolean monoid under disjunction
 
@@ -174,7 +160,7 @@ export declare const monoidAny: Monoid<boolean>
 
 Added in v2.0.0
 
-# monoidProduct
+## monoidProduct
 
 Number monoid under multiplication
 
@@ -186,7 +172,7 @@ export declare const monoidProduct: Monoid<number>
 
 Added in v2.0.0
 
-# monoidString
+## monoidString
 
 **Signature**
 
@@ -196,7 +182,7 @@ export declare const monoidString: Monoid<string>
 
 Added in v2.0.0
 
-# monoidSum
+## monoidSum
 
 Number monoid under addition
 
@@ -208,12 +194,38 @@ export declare const monoidSum: Monoid<number>
 
 Added in v2.0.0
 
-# monoidVoid
+## monoidVoid
 
 **Signature**
 
 ```ts
 export declare const monoidVoid: Monoid<void>
+```
+
+Added in v2.0.0
+
+# type classes
+
+## Monoid (interface)
+
+**Signature**
+
+```ts
+export interface Monoid<A> extends Semigroup<A> {
+  readonly empty: A
+}
+```
+
+Added in v2.0.0
+
+# utils
+
+## fold
+
+**Signature**
+
+```ts
+export declare function fold<A>(M: Monoid<A>): (as: ReadonlyArray<A>) => A
 ```
 
 Added in v2.0.0

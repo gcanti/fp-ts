@@ -30,41 +30,49 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export const URI = 'IOEither'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export interface IOEither<E, A> extends IO<Either<E, A>> {}
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 export const left: <E = never, A = never>(l: E) => IOEither<E, A> = T.left
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 export const right: <E = never, A = never>(a: A) => IOEither<E, A> = T.of
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 export const rightIO: <E = never, A = never>(ma: IO<A>) => IOEither<E, A> = T.rightM
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 export const leftIO: <E = never, A = never>(me: IO<E>) => IOEither<E, A> = T.leftM
 
 /**
+ * @category destructors
  * @since 2.0.0
  */
 export function fold<E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>): (ma: IOEither<E, A>) => IO<B> {
@@ -72,6 +80,7 @@ export function fold<E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>)
 }
 
 /**
+ * @category destructors
  * @since 2.0.0
  */
 export function getOrElse<E, A>(onLeft: (e: E) => IO<A>): (ma: IOEither<E, A>) => IO<A> {
@@ -79,11 +88,13 @@ export function getOrElse<E, A>(onLeft: (e: E) => IO<A>): (ma: IOEither<E, A>) =
 }
 
 /**
+ * @category destructors
  * @since 2.6.0
  */
 export const getOrElseW: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IO<A | B> = getOrElse as any
 
 /**
+ * @category combinators
  * @since 2.0.0
  */
 export function orElse<E, A, M>(onLeft: (e: E) => IOEither<M, A>): (ma: IOEither<E, A>) => IOEither<M, A> {
@@ -91,6 +102,7 @@ export function orElse<E, A, M>(onLeft: (e: E) => IOEither<M, A>): (ma: IOEither
 }
 
 /**
+ * @category combinators
  * @since 2.0.0
  */
 export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> = T.swap
@@ -99,6 +111,7 @@ export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> = T.swap
  * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
  * appended using the provided `Semigroup`
  *
+ * @category instances
  * @since 2.0.0
  */
 export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> {
@@ -109,6 +122,7 @@ export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> {
  * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
  * are appended using the provided `Semigroup`
  *
+ * @category instances
  * @since 2.0.0
  */
 export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> {
@@ -116,6 +130,7 @@ export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, 
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<IOEither<E, A>> {
@@ -128,6 +143,7 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<IOEither<E, A>> {
 /**
  * Constructs a new `IOEither` from a function that performs a side effect and might throw
  *
+ * @category constructors
  * @since 2.0.0
  */
 export function tryCatch<E, A>(f: Lazy<A>, onError: (reason: unknown) => E): IOEither<E, A> {
@@ -155,6 +171,7 @@ export function bracket<E, A, B>(
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getIOValidation<E>(
@@ -169,6 +186,7 @@ export function getIOValidation<E>(
 }
 
 /**
+ * @category instances
  * @since 2.1.0
  */
 export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
@@ -191,6 +209,7 @@ export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
 }
 
 /**
+ * @category Monad
  * @since 2.4.0
  */
 export function chainEitherK<E, A, B>(f: (a: A) => Either<E, B>): (ma: IOEither<E, A>) => IOEither<E, B> {
@@ -202,18 +221,21 @@ export function chainEitherK<E, A, B>(f: (a: A) => Either<E, B>): (ma: IOEither<
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category Alt
  * @since 2.0.0
  */
 export const alt: <E, A>(that: () => IOEither<E, A>) => (fa: IOEither<E, A>) => IOEither<E, A> = (that) => (fa) =>
   T.alt(fa, that)
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B> = (fa) => (fab) =>
   T.ap(fab, fa)
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const apFirst: <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>) => IOEither<E, A> = (fb) => (fa) =>
@@ -223,6 +245,7 @@ export const apFirst: <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>) => I
   )
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const apSecond = <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>): IOEither<E, B> =>
@@ -232,12 +255,14 @@ export const apSecond = <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>): I
   )
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B> = (f) => (ma) =>
   T.chain(ma, f)
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, A> = (f) => (
@@ -245,6 +270,7 @@ export const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither
 ) => T.chain(ma, (a) => T.map(f(a), () => a))
 
 /**
+ * @category Monad
  * @since 2.6.0
  */
 export const chainW: <D, A, B>(
@@ -259,11 +285,19 @@ export const chainEitherKW: <D, A, B>(
 ) => <E>(ma: IOEither<E, A>) => IOEither<E | D, B> = chainEitherK as any
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A> = (mma) => T.chain(mma, identity)
 
 /**
+ * @category Functor
+ * @since 2.0.0
+ */
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<E, B> = (f) => (fa) => T.map(fa, f)
+
+/**
+ * @category Bifunctor
  * @since 2.0.0
  */
 export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: IOEither<E, A>) => IOEither<G, B> = (f, g) => (
@@ -271,23 +305,21 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: IOEithe
 ) => T.bimap(fa, f, g)
 
 /**
- * @since 2.0.0
- */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<E, B> = (f) => (fa) => T.map(fa, f)
-
-/**
+ * @category Bifunctor
  * @since 2.0.0
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) => IOEither<G, A> = (f) => (fa) =>
   T.mapLeft(fa, f)
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 export const fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => IOEither<E, A> = (onNone) => (ma) =>
   ma._tag === 'None' ? left(onNone()) : right(ma.value)
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 export const fromPredicate: {
@@ -296,6 +328,7 @@ export const fromPredicate: {
 } = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (a: A) => (predicate(a) ? right(a) : left(onFalse(a)))
 
 /**
+ * @category combinators
  * @since 2.0.0
  */
 export const filterOrElse: {
@@ -305,6 +338,7 @@ export const filterOrElse: {
   T.chain(ma, (a) => (predicate(a) ? right(a) : left(onFalse(a))))
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 export const fromEither: <E, A>(ma: E.Either<E, A>) => IOEither<E, A> = (ma) =>
@@ -315,6 +349,7 @@ export const fromEither: <E, A>(ma: E.Either<E, A>) => IOEither<E, A> = (ma) =>
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadThrow2<URI> = {

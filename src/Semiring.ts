@@ -23,6 +23,7 @@
  */
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Semiring<A> {
@@ -33,6 +34,7 @@ export interface Semiring<A> {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getFunctionSemiring<A, B>(S: Semiring<B>): Semiring<(a: A) => B> {

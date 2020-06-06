@@ -4,7 +4,7 @@ nav_order: 78
 parent: Modules
 ---
 
-# Semigroupoid overview
+## Semigroupoid overview
 
 Added in v2.0.0
 
@@ -12,16 +12,19 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Semigroupoid (interface)](#semigroupoid-interface)
-- [Semigroupoid2 (interface)](#semigroupoid2-interface)
-- [Semigroupoid2C (interface)](#semigroupoid2c-interface)
-- [Semigroupoid3 (interface)](#semigroupoid3-interface)
-- [Semigroupoid3C (interface)](#semigroupoid3c-interface)
-- [Semigroupoid4 (interface)](#semigroupoid4-interface)
+- [type classes](#type-classes)
+  - [Semigroupoid (interface)](#semigroupoid-interface)
+  - [Semigroupoid2 (interface)](#semigroupoid2-interface)
+  - [Semigroupoid2C (interface)](#semigroupoid2c-interface)
+  - [Semigroupoid3 (interface)](#semigroupoid3-interface)
+  - [Semigroupoid3C (interface)](#semigroupoid3c-interface)
+  - [Semigroupoid4 (interface)](#semigroupoid4-interface)
 
 ---
 
-# Semigroupoid (interface)
+# type classes
+
+## Semigroupoid (interface)
 
 **Signature**
 
@@ -34,7 +37,7 @@ export interface Semigroupoid<F> {
 
 Added in v2.0.0
 
-# Semigroupoid2 (interface)
+## Semigroupoid2 (interface)
 
 **Signature**
 
@@ -47,7 +50,7 @@ export interface Semigroupoid2<F extends URIS2> {
 
 Added in v2.0.0
 
-# Semigroupoid2C (interface)
+## Semigroupoid2C (interface)
 
 **Signature**
 
@@ -61,7 +64,7 @@ export interface Semigroupoid2C<F extends URIS2, E> {
 
 Added in v2.0.0
 
-# Semigroupoid3 (interface)
+## Semigroupoid3 (interface)
 
 **Signature**
 
@@ -74,7 +77,7 @@ export interface Semigroupoid3<F extends URIS3> {
 
 Added in v2.0.0
 
-# Semigroupoid3C (interface)
+## Semigroupoid3C (interface)
 
 **Signature**
 
@@ -88,7 +91,7 @@ export interface Semigroupoid3C<F extends URIS3, E> {
 
 Added in v2.2.0
 
-# Semigroupoid4 (interface)
+## Semigroupoid4 (interface)
 
 **Signature**
 

@@ -4,7 +4,7 @@ nav_order: 3
 parent: Modules
 ---
 
-# Applicative overview
+## Applicative overview
 
 The `Applicative` type class extends the `Apply` type class with a `of` function, which can be used to create values
 of type `f a` from values of type `a`.
@@ -28,29 +28,33 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Applicative (interface)](#applicative-interface)
-- [Applicative1 (interface)](#applicative1-interface)
-- [Applicative2 (interface)](#applicative2-interface)
-- [Applicative2C (interface)](#applicative2c-interface)
-- [Applicative3 (interface)](#applicative3-interface)
-- [Applicative3C (interface)](#applicative3c-interface)
-- [Applicative4 (interface)](#applicative4-interface)
-- [ApplicativeComposition (interface)](#applicativecomposition-interface)
-- [ApplicativeComposition11 (interface)](#applicativecomposition11-interface)
-- [ApplicativeComposition12 (interface)](#applicativecomposition12-interface)
-- [ApplicativeComposition12C (interface)](#applicativecomposition12c-interface)
-- [ApplicativeComposition21 (interface)](#applicativecomposition21-interface)
-- [ApplicativeComposition22 (interface)](#applicativecomposition22-interface)
-- [ApplicativeComposition22C (interface)](#applicativecomposition22c-interface)
-- [ApplicativeComposition2C1 (interface)](#applicativecomposition2c1-interface)
-- [ApplicativeCompositionHKT1 (interface)](#applicativecompositionhkt1-interface)
-- [ApplicativeCompositionHKT2 (interface)](#applicativecompositionhkt2-interface)
-- [ApplicativeCompositionHKT2C (interface)](#applicativecompositionhkt2c-interface)
-- [getApplicativeComposition](#getapplicativecomposition)
+- [type classes](#type-classes)
+  - [Applicative (interface)](#applicative-interface)
+  - [Applicative1 (interface)](#applicative1-interface)
+  - [Applicative2 (interface)](#applicative2-interface)
+  - [Applicative2C (interface)](#applicative2c-interface)
+  - [Applicative3 (interface)](#applicative3-interface)
+  - [Applicative3C (interface)](#applicative3c-interface)
+  - [Applicative4 (interface)](#applicative4-interface)
+- [utils](#utils)
+  - [ApplicativeComposition (interface)](#applicativecomposition-interface)
+  - [ApplicativeComposition11 (interface)](#applicativecomposition11-interface)
+  - [ApplicativeComposition12 (interface)](#applicativecomposition12-interface)
+  - [ApplicativeComposition12C (interface)](#applicativecomposition12c-interface)
+  - [ApplicativeComposition21 (interface)](#applicativecomposition21-interface)
+  - [ApplicativeComposition22 (interface)](#applicativecomposition22-interface)
+  - [ApplicativeComposition22C (interface)](#applicativecomposition22c-interface)
+  - [ApplicativeComposition2C1 (interface)](#applicativecomposition2c1-interface)
+  - [ApplicativeCompositionHKT1 (interface)](#applicativecompositionhkt1-interface)
+  - [ApplicativeCompositionHKT2 (interface)](#applicativecompositionhkt2-interface)
+  - [ApplicativeCompositionHKT2C (interface)](#applicativecompositionhkt2c-interface)
+  - [getApplicativeComposition](#getapplicativecomposition)
 
 ---
 
-# Applicative (interface)
+# type classes
+
+## Applicative (interface)
 
 **Signature**
 
@@ -62,7 +66,7 @@ export interface Applicative<F> extends Apply<F> {
 
 Added in v2.0.0
 
-# Applicative1 (interface)
+## Applicative1 (interface)
 
 **Signature**
 
@@ -74,7 +78,7 @@ export interface Applicative1<F extends URIS> extends Apply1<F> {
 
 Added in v2.0.0
 
-# Applicative2 (interface)
+## Applicative2 (interface)
 
 **Signature**
 
@@ -86,7 +90,7 @@ export interface Applicative2<F extends URIS2> extends Apply2<F> {
 
 Added in v2.0.0
 
-# Applicative2C (interface)
+## Applicative2C (interface)
 
 **Signature**
 
@@ -98,7 +102,7 @@ export interface Applicative2C<F extends URIS2, E> extends Apply2C<F, E> {
 
 Added in v2.0.0
 
-# Applicative3 (interface)
+## Applicative3 (interface)
 
 **Signature**
 
@@ -110,7 +114,7 @@ export interface Applicative3<F extends URIS3> extends Apply3<F> {
 
 Added in v2.0.0
 
-# Applicative3C (interface)
+## Applicative3C (interface)
 
 **Signature**
 
@@ -122,7 +126,7 @@ export interface Applicative3C<F extends URIS3, E> extends Apply3C<F, E> {
 
 Added in v2.2.0
 
-# Applicative4 (interface)
+## Applicative4 (interface)
 
 **Signature**
 
@@ -134,7 +138,9 @@ export interface Applicative4<F extends URIS4> extends Apply4<F> {
 
 Added in v2.0.0
 
-# ApplicativeComposition (interface)
+# utils
+
+## ApplicativeComposition (interface)
 
 **Signature**
 
@@ -147,7 +153,7 @@ export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {
 
 Added in v2.0.0
 
-# ApplicativeComposition11 (interface)
+## ApplicativeComposition11 (interface)
 
 **Signature**
 
@@ -160,7 +166,7 @@ export interface ApplicativeComposition11<F extends URIS, G extends URIS> extend
 
 Added in v2.0.0
 
-# ApplicativeComposition12 (interface)
+## ApplicativeComposition12 (interface)
 
 **Signature**
 
@@ -176,7 +182,7 @@ export interface ApplicativeComposition12<F extends URIS, G extends URIS2> exten
 
 Added in v2.0.0
 
-# ApplicativeComposition12C (interface)
+## ApplicativeComposition12C (interface)
 
 **Signature**
 
@@ -189,7 +195,7 @@ export interface ApplicativeComposition12C<F extends URIS, G extends URIS2, E> e
 
 Added in v2.0.0
 
-# ApplicativeComposition21 (interface)
+## ApplicativeComposition21 (interface)
 
 **Signature**
 
@@ -205,7 +211,7 @@ export interface ApplicativeComposition21<F extends URIS2, G extends URIS> exten
 
 Added in v2.0.0
 
-# ApplicativeComposition22 (interface)
+## ApplicativeComposition22 (interface)
 
 **Signature**
 
@@ -221,7 +227,7 @@ export interface ApplicativeComposition22<F extends URIS2, G extends URIS2> exte
 
 Added in v2.0.0
 
-# ApplicativeComposition22C (interface)
+## ApplicativeComposition22C (interface)
 
 **Signature**
 
@@ -237,7 +243,7 @@ export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, E> 
 
 Added in v2.0.0
 
-# ApplicativeComposition2C1 (interface)
+## ApplicativeComposition2C1 (interface)
 
 **Signature**
 
@@ -250,7 +256,7 @@ export interface ApplicativeComposition2C1<F extends URIS2, G extends URIS, E> e
 
 Added in v2.0.0
 
-# ApplicativeCompositionHKT1 (interface)
+## ApplicativeCompositionHKT1 (interface)
 
 **Signature**
 
@@ -263,7 +269,7 @@ export interface ApplicativeCompositionHKT1<F, G extends URIS> extends FunctorCo
 
 Added in v2.0.0
 
-# ApplicativeCompositionHKT2 (interface)
+## ApplicativeCompositionHKT2 (interface)
 
 **Signature**
 
@@ -276,7 +282,7 @@ export interface ApplicativeCompositionHKT2<F, G extends URIS2> extends FunctorC
 
 Added in v2.0.0
 
-# ApplicativeCompositionHKT2C (interface)
+## ApplicativeCompositionHKT2C (interface)
 
 **Signature**
 
@@ -289,7 +295,7 @@ export interface ApplicativeCompositionHKT2C<F, G extends URIS2, E> extends Func
 
 Added in v2.0.0
 
-# getApplicativeComposition
+## getApplicativeComposition
 
 Like `Functor`, `Applicative`s compose. If `F` and `G` have `Applicative` instances, then so does `F<G<_>>`
 

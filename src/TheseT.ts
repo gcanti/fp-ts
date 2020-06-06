@@ -7,6 +7,7 @@ import { Semigroup } from './Semigroup'
 import { bimap, both, fold, left, map, mapLeft, right, swap, These, toTuple } from './These'
 
 /**
+ * @category Model
  * @since 2.4.0
  */
 export interface TheseT<M, E, A> extends HKT<M, These<E, A>> {}
@@ -44,6 +45,7 @@ export interface TheseM<M> {
 }
 
 /**
+ * @category Model
  * @since 2.4.0
  */
 export type TheseT1<M extends URIS, E, A> = Kind<M, These<E, A>>
@@ -81,6 +83,7 @@ export interface TheseM1<M extends URIS> {
 }
 
 /**
+ * @category Model
  * @since 2.4.0
  */
 export type TheseT2<M extends URIS2, R, E, A> = Kind2<M, R, These<E, A>>

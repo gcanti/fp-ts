@@ -4,7 +4,7 @@ nav_order: 18
 parent: Modules
 ---
 
-# Comonad overview
+## Comonad overview
 
 Added in v2.0.0
 
@@ -12,15 +12,18 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Comonad (interface)](#comonad-interface)
-- [Comonad1 (interface)](#comonad1-interface)
-- [Comonad2 (interface)](#comonad2-interface)
-- [Comonad2C (interface)](#comonad2c-interface)
-- [Comonad3 (interface)](#comonad3-interface)
+- [type classes](#type-classes)
+  - [Comonad (interface)](#comonad-interface)
+  - [Comonad1 (interface)](#comonad1-interface)
+  - [Comonad2 (interface)](#comonad2-interface)
+  - [Comonad2C (interface)](#comonad2c-interface)
+  - [Comonad3 (interface)](#comonad3-interface)
 
 ---
 
-# Comonad (interface)
+# type classes
+
+## Comonad (interface)
 
 **Signature**
 
@@ -32,7 +35,7 @@ export interface Comonad<W> extends Extend<W> {
 
 Added in v2.0.0
 
-# Comonad1 (interface)
+## Comonad1 (interface)
 
 **Signature**
 
@@ -44,7 +47,7 @@ export interface Comonad1<W extends URIS> extends Extend1<W> {
 
 Added in v2.0.0
 
-# Comonad2 (interface)
+## Comonad2 (interface)
 
 **Signature**
 
@@ -56,7 +59,7 @@ export interface Comonad2<W extends URIS2> extends Extend2<W> {
 
 Added in v2.0.0
 
-# Comonad2C (interface)
+## Comonad2C (interface)
 
 **Signature**
 
@@ -68,7 +71,7 @@ export interface Comonad2C<W extends URIS2, E> extends Extend2C<W, E> {
 
 Added in v2.0.0
 
-# Comonad3 (interface)
+## Comonad3 (interface)
 
 **Signature**
 

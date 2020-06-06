@@ -4,7 +4,7 @@ nav_order: 87
 parent: Modules
 ---
 
-# Task overview
+## Task overview
 
 `Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
 If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
@@ -15,31 +15,97 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Task (interface)](#task-interface)
-- [URI (type alias)](#uri-type-alias)
-- [URI](#uri)
-- [ap](#ap)
-- [apFirst](#apfirst)
-- [apSecond](#apsecond)
-- [chain](#chain)
-- [chainFirst](#chainfirst)
-- [chainIOK](#chainiok)
-- [delay](#delay)
-- [flatten](#flatten)
-- [fromIO](#fromio)
-- [fromIOK](#fromiok)
-- [getMonoid](#getmonoid)
-- [getRaceMonoid](#getracemonoid)
-- [getSemigroup](#getsemigroup)
-- [map](#map)
-- [never](#never)
-- [of](#of)
-- [task](#task)
-- [taskSeq](#taskseq)
+- [Applicative](#applicative)
+  - [of](#of)
+- [Apply](#apply)
+  - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+- [Functor](#functor)
+  - [map](#map)
+- [Model](#model)
+  - [Task (interface)](#task-interface)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+- [Monad](#monad)
+  - [chain](#chain)
+  - [chainFirst](#chainfirst)
+  - [chainIOK](#chainiok)
+  - [flatten](#flatten)
+- [constructors](#constructors)
+  - [delay](#delay)
+  - [fromIO](#fromio)
+- [instances](#instances)
+  - [getMonoid](#getmonoid)
+  - [getRaceMonoid](#getracemonoid)
+  - [getSemigroup](#getsemigroup)
+  - [task](#task)
+  - [taskSeq](#taskseq)
+- [utils](#utils)
+  - [fromIOK](#fromiok)
+  - [never](#never)
 
 ---
 
-# Task (interface)
+# Applicative
+
+## of
+
+**Signature**
+
+```ts
+export declare function of<A>(a: A): Task<A>
+```
+
+Added in v2.0.0
+
+# Apply
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B>
+```
+
+Added in v2.0.0
+
+## apFirst
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<A>
+```
+
+Added in v2.0.0
+
+## apSecond
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<B>
+```
+
+Added in v2.0.0
+
+# Functor
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B>
+```
+
+Added in v2.0.0
+
+# Model
+
+## Task (interface)
 
 **Signature**
 
@@ -51,17 +117,7 @@ export interface Task<A> {
 
 Added in v2.0.0
 
-# URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-# URI
+## URI
 
 **Signature**
 
@@ -71,37 +127,19 @@ export declare const URI: 'Task'
 
 Added in v2.0.0
 
-# ap
+## URI (type alias)
 
 **Signature**
 
 ```ts
-export declare const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B>
+export type URI = typeof URI
 ```
 
 Added in v2.0.0
 
-# apFirst
+# Monad
 
-**Signature**
-
-```ts
-export declare const apFirst: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<A>
-```
-
-Added in v2.0.0
-
-# apSecond
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<B>
-```
-
-Added in v2.0.0
-
-# chain
+## chain
 
 **Signature**
 
@@ -111,7 +149,7 @@ export declare const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Tas
 
 Added in v2.0.0
 
-# chainFirst
+## chainFirst
 
 **Signature**
 
@@ -121,7 +159,7 @@ export declare const chainFirst: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) =
 
 Added in v2.0.0
 
-# chainIOK
+## chainIOK
 
 **Signature**
 
@@ -131,17 +169,7 @@ export declare function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Tas
 
 Added in v2.4.0
 
-# delay
-
-**Signature**
-
-```ts
-export declare function delay(millis: number): <A>(ma: Task<A>) => Task<A>
-```
-
-Added in v2.0.0
-
-# flatten
+## flatten
 
 **Signature**
 
@@ -151,7 +179,19 @@ export declare const flatten: <A>(mma: Task<Task<A>>) => Task<A>
 
 Added in v2.0.0
 
-# fromIO
+# constructors
+
+## delay
+
+**Signature**
+
+```ts
+export declare function delay(millis: number): <A>(ma: Task<A>) => Task<A>
+```
+
+Added in v2.0.0
+
+## fromIO
 
 **Signature**
 
@@ -161,17 +201,9 @@ export declare function fromIO<A>(ma: IO<A>): Task<A>
 
 Added in v2.0.0
 
-# fromIOK
+# instances
 
-**Signature**
-
-```ts
-export declare function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): (...a: A) => Task<B>
-```
-
-Added in v2.4.0
-
-# getMonoid
+## getMonoid
 
 **Signature**
 
@@ -181,7 +213,7 @@ export declare function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>>
 
 Added in v2.0.0
 
-# getRaceMonoid
+## getRaceMonoid
 
 Note: uses `Promise.race` internally
 
@@ -193,7 +225,7 @@ export declare function getRaceMonoid<A = never>(): Monoid<Task<A>>
 
 Added in v2.0.0
 
-# getSemigroup
+## getSemigroup
 
 **Signature**
 
@@ -203,37 +235,7 @@ export declare function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>>
 
 Added in v2.0.0
 
-# map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B>
-```
-
-Added in v2.0.0
-
-# never
-
-**Signature**
-
-```ts
-export declare const never: Task<never>
-```
-
-Added in v2.0.0
-
-# of
-
-**Signature**
-
-```ts
-export declare function of<A>(a: A): Task<A>
-```
-
-Added in v2.0.0
-
-# task
+## task
 
 **Signature**
 
@@ -243,7 +245,7 @@ export declare const task: Monad1<'Task'> & MonadTask1<'Task'>
 
 Added in v2.0.0
 
-# taskSeq
+## taskSeq
 
 Like `Task` but `ap` is sequential
 
@@ -251,6 +253,28 @@ Like `Task` but `ap` is sequential
 
 ```ts
 export declare const taskSeq: Monad1<'Task'> & MonadTask1<'Task'>
+```
+
+Added in v2.0.0
+
+# utils
+
+## fromIOK
+
+**Signature**
+
+```ts
+export declare function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): (...a: A) => Task<B>
+```
+
+Added in v2.4.0
+
+## never
+
+**Signature**
+
+```ts
+export declare const never: Task<never>
 ```
 
 Added in v2.0.0

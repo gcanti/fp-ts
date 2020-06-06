@@ -4,7 +4,7 @@ nav_order: 42
 parent: Modules
 ---
 
-# Invariant overview
+## Invariant overview
 
 Added in v2.0.0
 
@@ -12,17 +12,20 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Invariant (interface)](#invariant-interface)
-- [Invariant1 (interface)](#invariant1-interface)
-- [Invariant2 (interface)](#invariant2-interface)
-- [Invariant2C (interface)](#invariant2c-interface)
-- [Invariant3 (interface)](#invariant3-interface)
-- [Invariant3C (interface)](#invariant3c-interface)
-- [Invariant4 (interface)](#invariant4-interface)
+- [type classes](#type-classes)
+  - [Invariant (interface)](#invariant-interface)
+  - [Invariant1 (interface)](#invariant1-interface)
+  - [Invariant2 (interface)](#invariant2-interface)
+  - [Invariant2C (interface)](#invariant2c-interface)
+  - [Invariant3 (interface)](#invariant3-interface)
+  - [Invariant3C (interface)](#invariant3c-interface)
+  - [Invariant4 (interface)](#invariant4-interface)
 
 ---
 
-# Invariant (interface)
+# type classes
+
+## Invariant (interface)
 
 **Signature**
 
@@ -35,7 +38,7 @@ export interface Invariant<F> {
 
 Added in v2.0.0
 
-# Invariant1 (interface)
+## Invariant1 (interface)
 
 **Signature**
 
@@ -48,7 +51,7 @@ export interface Invariant1<F extends URIS> {
 
 Added in v2.0.0
 
-# Invariant2 (interface)
+## Invariant2 (interface)
 
 **Signature**
 
@@ -61,7 +64,7 @@ export interface Invariant2<F extends URIS2> {
 
 Added in v2.0.0
 
-# Invariant2C (interface)
+## Invariant2C (interface)
 
 **Signature**
 
@@ -75,7 +78,7 @@ export interface Invariant2C<F extends URIS2, E> {
 
 Added in v2.0.0
 
-# Invariant3 (interface)
+## Invariant3 (interface)
 
 **Signature**
 
@@ -88,7 +91,7 @@ export interface Invariant3<F extends URIS3> {
 
 Added in v2.0.0
 
-# Invariant3C (interface)
+## Invariant3C (interface)
 
 **Signature**
 
@@ -101,7 +104,7 @@ export interface Invariant3C<F extends URIS3, E> {
 
 Added in v2.4.2
 
-# Invariant4 (interface)
+## Invariant4 (interface)
 
 **Signature**
 

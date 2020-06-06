@@ -17,6 +17,7 @@ import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT
 import { tuple } from './function'
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Apply<F> extends Functor<F> {
@@ -24,6 +25,7 @@ export interface Apply<F> extends Functor<F> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Apply1<F extends URIS> extends Functor1<F> {
@@ -31,6 +33,7 @@ export interface Apply1<F extends URIS> extends Functor1<F> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Apply2<F extends URIS2> extends Functor2<F> {
@@ -38,6 +41,7 @@ export interface Apply2<F extends URIS2> extends Functor2<F> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Apply2C<F extends URIS2, E> extends Functor2C<F, E> {
@@ -45,6 +49,7 @@ export interface Apply2C<F extends URIS2, E> extends Functor2C<F, E> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Apply3<F extends URIS3> extends Functor3<F> {
@@ -52,6 +57,7 @@ export interface Apply3<F extends URIS3> extends Functor3<F> {
 }
 
 /**
+ * @category type classes
  * @since 2.2.0
  */
 export interface Apply3C<F extends URIS3, E> extends Functor3C<F, E> {
@@ -59,6 +65,7 @@ export interface Apply3C<F extends URIS3, E> extends Functor3C<F, E> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Apply4<F extends URIS4> extends Functor4<F> {

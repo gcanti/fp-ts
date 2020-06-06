@@ -15,17 +15,20 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export const URI = 'State'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /* tslint:disable:readonly-array */
 /**
+ * @category Model
  * @since 2.0.0
  */
 export interface State<S, A> {
@@ -76,6 +79,7 @@ export const modify: <S>(f: (s: S) => S) => State<S, void> = T.modify
 export const gets: <S, A>(f: (s: S) => A) => State<S, A> = T.gets
 
 /**
+ * @category Applicative
  * @since 2.0.0
  */
 export const of: <S, A>(a: A) => State<S, A> = T.of
@@ -85,12 +89,14 @@ export const of: <S, A>(a: A) => State<S, A> = T.of
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => State<E, B> = (fa) => (fab) =>
   T.ap(fab, fa)
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const apFirst = <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>): State<E, A> =>
@@ -100,6 +106,7 @@ export const apFirst = <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>): State<E,
   )
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const apSecond: <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, B> = (fb) => (fa) =>
@@ -109,23 +116,27 @@ export const apSecond: <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<
   )
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const chain: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, B> = (f) => (ma) =>
   T.chain(ma, f)
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const chainFirst: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, A> = (f) => (ma) =>
   T.chain(ma, (a) => T.map(f(a), () => a))
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A> = (mma) => T.chain(mma, identity)
 
 /**
+ * @category Functor
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: State<E, A>) => State<E, B> = (f) => (fa) => T.map(fa, f)
@@ -135,6 +146,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: State<E, A>) => State<E, B> 
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const state: Monad2<URI> = {

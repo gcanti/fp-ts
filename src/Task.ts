@@ -18,16 +18,19 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export const URI = 'Task'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export interface Task<A> {
@@ -40,6 +43,7 @@ export interface Task<A> {
 export const never: Task<never> = () => new Promise((_) => undefined)
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>> {
@@ -49,6 +53,7 @@ export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>> {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>> {
@@ -61,6 +66,7 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>> {
 /**
  * Note: uses `Promise.race` internally
  *
+ * @category instances
  * @since 2.0.0
  */
 export function getRaceMonoid<A = never>(): Monoid<Task<A>> {
@@ -71,6 +77,7 @@ export function getRaceMonoid<A = never>(): Monoid<Task<A>> {
 }
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 export function delay(millis: number): <A>(ma: Task<A>) => Task<A> {
@@ -84,6 +91,7 @@ export function delay(millis: number): <A>(ma: Task<A>) => Task<A> {
 }
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 export function fromIO<A>(ma: IO<A>): Task<A> {
@@ -91,6 +99,7 @@ export function fromIO<A>(ma: IO<A>): Task<A> {
 }
 
 /**
+ * @category Applicative
  * @since 2.0.0
  */
 export function of<A>(a: A): Task<A> {
@@ -105,6 +114,7 @@ export function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<
 }
 
 /**
+ * @category Monad
  * @since 2.4.0
  */
 export function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> {
@@ -123,11 +133,13 @@ const ap_: <A, B>(fab: Task<(a: A) => B>, fa: Task<A>) => Task<B> = (mab, ma) =>
 const chain_: <A, B>(fa: Task<A>, f: (a: A) => Task<B>) => Task<B> = (ma, f) => () => ma().then((a) => f(a)())
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (fa) => (fab) => ap_(fab, fa)
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const apFirst: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<A> = (fb) => (fa) =>
@@ -137,6 +149,7 @@ export const apFirst: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<A> = (fb) => 
   )
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const apSecond: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<B> = (fb) => (fa) =>
@@ -146,22 +159,26 @@ export const apSecond: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<B> = (fb) =>
   )
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (f) => (ma) => chain_(ma, f)
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<A> = (f) => (ma) =>
   chain_(ma, (a) => map_(f(a), () => a))
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const flatten: <A>(mma: Task<Task<A>>) => Task<A> = (mma) => chain_(mma, identity)
 
 /**
+ * @category Functor
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (fa) => map_(fa, f)
@@ -182,6 +199,7 @@ export const monadTask: Monad1<URI> = {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const task: Monad1<URI> & MonadTask1<URI> = {
@@ -197,6 +215,7 @@ export const task: Monad1<URI> & MonadTask1<URI> = {
 /**
  * Like `Task` but `ap` is sequential
  *
+ * @category instances
  * @since 2.0.0
  */
 export const taskSeq: typeof task =

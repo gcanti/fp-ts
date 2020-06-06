@@ -12,6 +12,7 @@ import { IO } from './IO'
  *
  * assert.strictEqual(io.chain(newIORef(1), ref => io.chain(ref.write(2), () => ref.read))(), 2)
  *
+ * @category Model
  * @since 2.0.0
  */
 export class IORef<A> {
@@ -43,6 +44,7 @@ export class IORef<A> {
 }
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 export function newIORef<A>(a: A): IO<IORef<A>> {

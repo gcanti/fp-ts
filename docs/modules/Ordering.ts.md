@@ -4,7 +4,7 @@ nav_order: 60
 parent: Modules
 ---
 
-# Ordering overview
+## Ordering overview
 
 Added in v2.0.0
 
@@ -12,16 +12,21 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Ordering (type alias)](#ordering-type-alias)
-- [eqOrdering](#eqordering)
-- [invert](#invert)
-- [monoidOrdering](#monoidordering)
-- [sign](#sign)
-- [~~semigroupOrdering~~](#semigroupordering)
+- [Model](#model)
+  - [Ordering (type alias)](#ordering-type-alias)
+- [instances](#instances)
+  - [eqOrdering](#eqordering)
+  - [monoidOrdering](#monoidordering)
+  - [~~semigroupOrdering~~](#semigroupordering)
+- [utils](#utils)
+  - [invert](#invert)
+  - [sign](#sign)
 
 ---
 
-# Ordering (type alias)
+# Model
+
+## Ordering (type alias)
 
 **Signature**
 
@@ -31,7 +36,9 @@ export type Ordering = -1 | 0 | 1
 
 Added in v2.0.0
 
-# eqOrdering
+# instances
+
+## eqOrdering
 
 **Signature**
 
@@ -41,17 +48,7 @@ export declare const eqOrdering: Eq<Ordering>
 
 Added in v2.0.0
 
-# invert
-
-**Signature**
-
-```ts
-export declare function invert(O: Ordering): Ordering
-```
-
-Added in v2.0.0
-
-# monoidOrdering
+## monoidOrdering
 
 **Signature**
 
@@ -61,17 +58,7 @@ export declare const monoidOrdering: Monoid<Ordering>
 
 Added in v2.4.0
 
-# sign
-
-**Signature**
-
-```ts
-export declare function sign(n: number): Ordering
-```
-
-Added in v2.0.0
-
-# ~~semigroupOrdering~~
+## ~~semigroupOrdering~~
 
 Use `monoidOrdering` instead
 
@@ -79,6 +66,28 @@ Use `monoidOrdering` instead
 
 ```ts
 export declare const semigroupOrdering: Semigroup<Ordering>
+```
+
+Added in v2.0.0
+
+# utils
+
+## invert
+
+**Signature**
+
+```ts
+export declare function invert(O: Ordering): Ordering
+```
+
+Added in v2.0.0
+
+## sign
+
+**Signature**
+
+```ts
+export declare function sign(n: number): Ordering
 ```
 
 Added in v2.0.0

@@ -12,6 +12,7 @@ import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export interface EitherT<M, E, A> extends HKT<M, Either<E, A>> {}
@@ -34,6 +35,7 @@ export interface EitherM<M> extends ApplicativeCompositionHKT2<M, URI> {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type EitherT1<M extends URIS, E, A> = Kind<M, Either<E, A>>
@@ -60,6 +62,7 @@ export interface EitherM1<M extends URIS> extends ApplicativeComposition12<M, UR
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type EitherT2<M extends URIS2, R, E, A> = Kind2<M, R, Either<E, A>>

@@ -4,7 +4,7 @@ nav_order: 86
 parent: Modules
 ---
 
-# Strong overview
+## Strong overview
 
 The `Strong` class extends `Profunctor` with combinators for working with product types.
 
@@ -38,16 +38,20 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Strong (interface)](#strong-interface)
-- [Strong2 (interface)](#strong2-interface)
-- [Strong3 (interface)](#strong3-interface)
-- [Strong4 (interface)](#strong4-interface)
-- [fanout](#fanout)
-- [splitStrong](#splitstrong)
+- [type classes](#type-classes)
+  - [Strong (interface)](#strong-interface)
+  - [Strong2 (interface)](#strong2-interface)
+  - [Strong3 (interface)](#strong3-interface)
+  - [Strong4 (interface)](#strong4-interface)
+- [utils](#utils)
+  - [fanout](#fanout)
+  - [splitStrong](#splitstrong)
 
 ---
 
-# Strong (interface)
+# type classes
+
+## Strong (interface)
 
 **Signature**
 
@@ -60,7 +64,7 @@ export interface Strong<F> extends Profunctor<F> {
 
 Added in v2.0.0
 
-# Strong2 (interface)
+## Strong2 (interface)
 
 **Signature**
 
@@ -73,7 +77,7 @@ export interface Strong2<F extends URIS2> extends Profunctor2<F> {
 
 Added in v2.0.0
 
-# Strong3 (interface)
+## Strong3 (interface)
 
 **Signature**
 
@@ -86,7 +90,7 @@ export interface Strong3<F extends URIS3> extends Profunctor3<F> {
 
 Added in v2.0.0
 
-# Strong4 (interface)
+## Strong4 (interface)
 
 **Signature**
 
@@ -99,7 +103,9 @@ export interface Strong4<F extends URIS4> extends Profunctor4<F> {
 
 Added in v2.0.0
 
-# fanout
+# utils
+
+## fanout
 
 Compose a value which introduces a tuple from two values, each introducing one side of the tuple.
 
@@ -135,7 +141,7 @@ export declare function fanout<F>(
 
 Added in v2.0.0
 
-# splitStrong
+## splitStrong
 
 Compose a value acting on a tuple from two values, each acting on one of the components of the tuple.
 

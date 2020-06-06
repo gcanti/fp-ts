@@ -4,7 +4,7 @@ nav_order: 35
 parent: Modules
 ---
 
-# Functor overview
+## Functor overview
 
 A `Functor` is a type constructor which supports a mapping operation `map`.
 
@@ -22,31 +22,35 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Functor (interface)](#functor-interface)
-- [Functor1 (interface)](#functor1-interface)
-- [Functor2 (interface)](#functor2-interface)
-- [Functor2C (interface)](#functor2c-interface)
-- [Functor3 (interface)](#functor3-interface)
-- [Functor3C (interface)](#functor3c-interface)
-- [Functor4 (interface)](#functor4-interface)
-- [FunctorComposition (interface)](#functorcomposition-interface)
-- [FunctorComposition11 (interface)](#functorcomposition11-interface)
-- [FunctorComposition12 (interface)](#functorcomposition12-interface)
-- [FunctorComposition12C (interface)](#functorcomposition12c-interface)
-- [FunctorComposition21 (interface)](#functorcomposition21-interface)
-- [FunctorComposition22 (interface)](#functorcomposition22-interface)
-- [FunctorComposition22C (interface)](#functorcomposition22c-interface)
-- [FunctorComposition23 (interface)](#functorcomposition23-interface)
-- [FunctorComposition23C (interface)](#functorcomposition23c-interface)
-- [FunctorComposition2C1 (interface)](#functorcomposition2c1-interface)
-- [FunctorCompositionHKT1 (interface)](#functorcompositionhkt1-interface)
-- [FunctorCompositionHKT2 (interface)](#functorcompositionhkt2-interface)
-- [FunctorCompositionHKT2C (interface)](#functorcompositionhkt2c-interface)
-- [getFunctorComposition](#getfunctorcomposition)
+- [type classes](#type-classes)
+  - [Functor (interface)](#functor-interface)
+  - [Functor1 (interface)](#functor1-interface)
+  - [Functor2 (interface)](#functor2-interface)
+  - [Functor2C (interface)](#functor2c-interface)
+  - [Functor3 (interface)](#functor3-interface)
+  - [Functor3C (interface)](#functor3c-interface)
+  - [Functor4 (interface)](#functor4-interface)
+- [utils](#utils)
+  - [FunctorComposition (interface)](#functorcomposition-interface)
+  - [FunctorComposition11 (interface)](#functorcomposition11-interface)
+  - [FunctorComposition12 (interface)](#functorcomposition12-interface)
+  - [FunctorComposition12C (interface)](#functorcomposition12c-interface)
+  - [FunctorComposition21 (interface)](#functorcomposition21-interface)
+  - [FunctorComposition22 (interface)](#functorcomposition22-interface)
+  - [FunctorComposition22C (interface)](#functorcomposition22c-interface)
+  - [FunctorComposition23 (interface)](#functorcomposition23-interface)
+  - [FunctorComposition23C (interface)](#functorcomposition23c-interface)
+  - [FunctorComposition2C1 (interface)](#functorcomposition2c1-interface)
+  - [FunctorCompositionHKT1 (interface)](#functorcompositionhkt1-interface)
+  - [FunctorCompositionHKT2 (interface)](#functorcompositionhkt2-interface)
+  - [FunctorCompositionHKT2C (interface)](#functorcompositionhkt2c-interface)
+  - [getFunctorComposition](#getfunctorcomposition)
 
 ---
 
-# Functor (interface)
+# type classes
+
+## Functor (interface)
 
 **Signature**
 
@@ -59,7 +63,7 @@ export interface Functor<F> {
 
 Added in v2.0.0
 
-# Functor1 (interface)
+## Functor1 (interface)
 
 **Signature**
 
@@ -72,7 +76,7 @@ export interface Functor1<F extends URIS> {
 
 Added in v2.0.0
 
-# Functor2 (interface)
+## Functor2 (interface)
 
 **Signature**
 
@@ -85,7 +89,7 @@ export interface Functor2<F extends URIS2> {
 
 Added in v2.0.0
 
-# Functor2C (interface)
+## Functor2C (interface)
 
 **Signature**
 
@@ -99,7 +103,7 @@ export interface Functor2C<F extends URIS2, E> {
 
 Added in v2.0.0
 
-# Functor3 (interface)
+## Functor3 (interface)
 
 **Signature**
 
@@ -112,7 +116,7 @@ export interface Functor3<F extends URIS3> {
 
 Added in v2.0.0
 
-# Functor3C (interface)
+## Functor3C (interface)
 
 **Signature**
 
@@ -126,7 +130,7 @@ export interface Functor3C<F extends URIS3, E> {
 
 Added in v2.2.0
 
-# Functor4 (interface)
+## Functor4 (interface)
 
 **Signature**
 
@@ -139,7 +143,9 @@ export interface Functor4<F extends URIS4> {
 
 Added in v2.0.0
 
-# FunctorComposition (interface)
+# utils
+
+## FunctorComposition (interface)
 
 **Signature**
 
@@ -151,7 +157,7 @@ export interface FunctorComposition<F, G> {
 
 Added in v2.0.0
 
-# FunctorComposition11 (interface)
+## FunctorComposition11 (interface)
 
 **Signature**
 
@@ -163,7 +169,7 @@ export interface FunctorComposition11<F extends URIS, G extends URIS> {
 
 Added in v2.0.0
 
-# FunctorComposition12 (interface)
+## FunctorComposition12 (interface)
 
 **Signature**
 
@@ -175,7 +181,7 @@ export interface FunctorComposition12<F extends URIS, G extends URIS2> {
 
 Added in v2.0.0
 
-# FunctorComposition12C (interface)
+## FunctorComposition12C (interface)
 
 **Signature**
 
@@ -187,7 +193,7 @@ export interface FunctorComposition12C<F extends URIS, G extends URIS2, E> {
 
 Added in v2.0.0
 
-# FunctorComposition21 (interface)
+## FunctorComposition21 (interface)
 
 **Signature**
 
@@ -199,7 +205,7 @@ export interface FunctorComposition21<F extends URIS2, G extends URIS> {
 
 Added in v2.0.0
 
-# FunctorComposition22 (interface)
+## FunctorComposition22 (interface)
 
 **Signature**
 
@@ -211,7 +217,7 @@ export interface FunctorComposition22<F extends URIS2, G extends URIS2> {
 
 Added in v2.0.0
 
-# FunctorComposition22C (interface)
+## FunctorComposition22C (interface)
 
 **Signature**
 
@@ -223,7 +229,7 @@ export interface FunctorComposition22C<F extends URIS2, G extends URIS2, E> {
 
 Added in v2.0.0
 
-# FunctorComposition23 (interface)
+## FunctorComposition23 (interface)
 
 **Signature**
 
@@ -235,7 +241,7 @@ export interface FunctorComposition23<F extends URIS2, G extends URIS3> {
 
 Added in v2.2.0
 
-# FunctorComposition23C (interface)
+## FunctorComposition23C (interface)
 
 **Signature**
 
@@ -247,7 +253,7 @@ export interface FunctorComposition23C<F extends URIS2, G extends URIS3, E> {
 
 Added in v2.2.0
 
-# FunctorComposition2C1 (interface)
+## FunctorComposition2C1 (interface)
 
 **Signature**
 
@@ -259,7 +265,7 @@ export interface FunctorComposition2C1<F extends URIS2, G extends URIS, E> {
 
 Added in v2.0.0
 
-# FunctorCompositionHKT1 (interface)
+## FunctorCompositionHKT1 (interface)
 
 **Signature**
 
@@ -271,7 +277,7 @@ export interface FunctorCompositionHKT1<F, G extends URIS> {
 
 Added in v2.0.0
 
-# FunctorCompositionHKT2 (interface)
+## FunctorCompositionHKT2 (interface)
 
 **Signature**
 
@@ -283,7 +289,7 @@ export interface FunctorCompositionHKT2<F, G extends URIS2> {
 
 Added in v2.0.0
 
-# FunctorCompositionHKT2C (interface)
+## FunctorCompositionHKT2C (interface)
 
 **Signature**
 
@@ -295,7 +301,7 @@ export interface FunctorCompositionHKT2C<F, G extends URIS2, E> {
 
 Added in v2.0.0
 
-# getFunctorComposition
+## getFunctorComposition
 
 **Signature**
 

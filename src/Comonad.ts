@@ -5,6 +5,7 @@ import { Extend, Extend1, Extend2, Extend2C, Extend3 } from './Extend'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Comonad<W> extends Extend<W> {
@@ -12,6 +13,7 @@ export interface Comonad<W> extends Extend<W> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Comonad1<W extends URIS> extends Extend1<W> {
@@ -19,6 +21,7 @@ export interface Comonad1<W extends URIS> extends Extend1<W> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Comonad2<W extends URIS2> extends Extend2<W> {
@@ -26,6 +29,7 @@ export interface Comonad2<W extends URIS2> extends Extend2<W> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Comonad2C<W extends URIS2, E> extends Extend2C<W, E> {
@@ -33,6 +37,7 @@ export interface Comonad2C<W extends URIS2, E> extends Extend2C<W, E> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Comonad3<W extends URIS3> extends Extend3<W> {

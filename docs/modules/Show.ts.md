@@ -4,7 +4,7 @@ nav_order: 81
 parent: Modules
 ---
 
-# Show overview
+## Show overview
 
 Added in v2.0.0
 
@@ -12,16 +12,76 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Show (interface)](#show-interface)
-- [getStructShow](#getstructshow)
-- [getTupleShow](#gettupleshow)
-- [showBoolean](#showboolean)
-- [showNumber](#shownumber)
-- [showString](#showstring)
+- [instances](#instances)
+  - [getStructShow](#getstructshow)
+  - [getTupleShow](#gettupleshow)
+  - [showBoolean](#showboolean)
+  - [showNumber](#shownumber)
+  - [showString](#showstring)
+- [type classes](#type-classes)
+  - [Show (interface)](#show-interface)
 
 ---
 
-# Show (interface)
+# instances
+
+## getStructShow
+
+**Signature**
+
+```ts
+export declare function getStructShow<O extends ReadonlyRecord<string, any>>(
+  shows: { [K in keyof O]: Show<O[K]> }
+): Show<O>
+```
+
+Added in v2.0.0
+
+## getTupleShow
+
+**Signature**
+
+```ts
+export declare function getTupleShow<T extends ReadonlyArray<Show<any>>>(
+  ...shows: T
+): Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }>
+```
+
+Added in v2.0.0
+
+## showBoolean
+
+**Signature**
+
+```ts
+export declare const showBoolean: Show<boolean>
+```
+
+Added in v2.0.0
+
+## showNumber
+
+**Signature**
+
+```ts
+export declare const showNumber: Show<number>
+```
+
+Added in v2.0.0
+
+## showString
+
+**Signature**
+
+```ts
+export declare const showString: Show<string>
+```
+
+Added in v2.0.0
+
+# type classes
+
+## Show (interface)
 
 The `Show` type class represents those types which can be converted into
 a human-readable `string` representation.
@@ -36,60 +96,6 @@ value as the expression `x`.
 export interface Show<A> {
   readonly show: (a: A) => string
 }
-```
-
-Added in v2.0.0
-
-# getStructShow
-
-**Signature**
-
-```ts
-export declare function getStructShow<O extends ReadonlyRecord<string, any>>(
-  shows: { [K in keyof O]: Show<O[K]> }
-): Show<O>
-```
-
-Added in v2.0.0
-
-# getTupleShow
-
-**Signature**
-
-```ts
-export declare function getTupleShow<T extends ReadonlyArray<Show<any>>>(
-  ...shows: T
-): Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }>
-```
-
-Added in v2.0.0
-
-# showBoolean
-
-**Signature**
-
-```ts
-export declare const showBoolean: Show<boolean>
-```
-
-Added in v2.0.0
-
-# showNumber
-
-**Signature**
-
-```ts
-export declare const showNumber: Show<number>
-```
-
-Added in v2.0.0
-
-# showString
-
-**Signature**
-
-```ts
-export declare const showString: Show<string>
 ```
 
 Added in v2.0.0

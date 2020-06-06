@@ -9,6 +9,7 @@ import { Option } from './Option'
 // tslint:disable:readonly-array
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Unfoldable<F> {
@@ -17,6 +18,7 @@ export interface Unfoldable<F> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Unfoldable1<F extends URIS> {
@@ -25,6 +27,7 @@ export interface Unfoldable1<F extends URIS> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Unfoldable2<F extends URIS2> {
@@ -33,6 +36,7 @@ export interface Unfoldable2<F extends URIS2> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Unfoldable2C<F extends URIS2, E> {
@@ -42,6 +46,7 @@ export interface Unfoldable2C<F extends URIS2, E> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Unfoldable3<F extends URIS3> {

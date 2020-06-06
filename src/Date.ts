@@ -7,6 +7,7 @@ import { Eq } from './Eq'
 /**
  * Returns the current `Date`
  *
+ * @category constructors
  * @since 2.0.0
  */
 export const create: IO<Date> = () => new Date()
@@ -19,6 +20,7 @@ export const create: IO<Date> = () => new Date()
 export const now: IO<number> = () => new Date().getTime()
 
 /**
+ * @category instances
  * @since 2.6.0
  */
 export const eqDate: Eq<Date> = {
@@ -26,6 +28,7 @@ export const eqDate: Eq<Date> = {
 }
 
 /**
+ * @category instances
  * @since 2.6.0
  */
 export const eqMonth: Eq<Date> = {
@@ -33,6 +36,7 @@ export const eqMonth: Eq<Date> = {
 }
 
 /**
+ * @category instances
  * @since 2.6.0
  */
 export const eqYear: Eq<Date> = {

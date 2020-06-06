@@ -21,6 +21,7 @@ import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
 
 /**
+ * @category Model
  * @since 2.5.0
  */
 export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
@@ -32,16 +33,19 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.5.0
  */
 export const URI = 'ReadonlyRecord'
 
 /**
+ * @category Model
  * @since 2.5.0
  */
 export type URI = typeof URI
 
 /**
+ * @category constructors
  * @since 2.5.0
  */
 export function fromRecord<K extends string, A>(r: Record<K, A>): ReadonlyRecord<K, A> {
@@ -49,6 +53,7 @@ export function fromRecord<K extends string, A>(r: Record<K, A>): ReadonlyRecord
 }
 
 /**
+ * @category destructors
  * @since 2.5.0
  */
 export function toRecord<K extends string, A>(r: ReadonlyRecord<K, A>): Record<K, A> {
@@ -56,6 +61,7 @@ export function toRecord<K extends string, A>(r: ReadonlyRecord<K, A>): Record<K
 }
 
 /**
+ * @category instances
  * @since 2.5.0
  */
 export function getShow<A>(S: Show<A>): Show<ReadonlyRecord<string, A>> {
@@ -118,6 +124,7 @@ export function collect<K extends string, A, B>(f: (k: K, a: A) => B): (r: Reado
 }
 
 /**
+ * @category destructors
  * @since 2.5.0
  */
 export const toReadonlyArray: <K extends string, A>(
@@ -127,6 +134,7 @@ export const toReadonlyArray: <K extends string, A>(
 /**
  * Unfolds a record into a list of key/value pairs
  *
+ * @category destructors
  * @since 2.5.0
  */
 export function toUnfoldable<F extends URIS>(
@@ -146,6 +154,7 @@ export function toUnfoldable<F>(U: Unfoldable<F>): <A>(r: ReadonlyRecord<string,
 /**
  * Insert or replace a key/value pair in a record
  *
+ * @category combinators
  * @since 2.5.0
  */
 export function insertAt<K extends string, A>(
@@ -175,6 +184,7 @@ export function hasOwnProperty<K extends string>(k: string, r: ReadonlyRecord<K,
 /**
  * Delete a key and value from a map
  *
+ * @category combinators
  * @since 2.5.0
  */
 export function deleteAt<K extends string>(
@@ -263,6 +273,7 @@ export function isSubrecord<A>(E: Eq<A>): (x: ReadonlyRecord<string, A>, y: Read
 }
 
 /**
+ * @category instances
  * @since 2.5.0
  */
 export function getEq<K extends string, A>(E: Eq<A>): Eq<ReadonlyRecord<K, A>>
@@ -281,6 +292,7 @@ export function getEq<A>(E: Eq<A>): Eq<ReadonlyRecord<string, A>> {
  * const M = getMonoid(semigroupSum)
  * assert.deepStrictEqual(M.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
  *
+ * @category instances
  * @since 2.5.0
  */
 export function getMonoid<K extends string, A>(S: Semigroup<A>): Monoid<ReadonlyRecord<K, A>>
@@ -326,6 +338,7 @@ export const empty: ReadonlyRecord<string, never> = {}
 /**
  * Map a record passing the keys to the iterating function
  *
+ * @category combinators
  * @since 2.5.0
  */
 export function mapWithIndex<K extends string, A, B>(
@@ -340,6 +353,7 @@ export function mapWithIndex<A, B>(
 /**
  * Map a record passing the values to the iterating function
  *
+ * @category combinators
  * @since 2.5.0
  */
 export function map<A, B>(f: (a: A) => B): <K extends string>(fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
@@ -388,6 +402,7 @@ export function reduceRightWithIndex<A, B>(
 /**
  * Create a record with one key/value pair
  *
+ * @category constructors
  * @since 2.5.0
  */
 export function singleton<K extends string, A>(k: K, a: A): ReadonlyRecord<K, A> {
@@ -523,6 +538,7 @@ export function partitionWithIndex<A>(
 }
 
 /**
+ * @category combinators
  * @since 2.5.0
  */
 export function filterMapWithIndex<K extends string, A, B>(
@@ -881,13 +897,16 @@ const traverseWithIndex_ = <F>(F: Applicative<F>) => <A, B>(
 }
 
 /**
+ * @category Filterable
  * @since 2.5.0
  */
 export const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>>
   <A>(predicate: Predicate<A>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
 } = <A>(predicate: Predicate<A>) => (fa: Readonly<Record<string, A>>) => filter_(fa, predicate)
+
 /**
+ * @category Filterable
  * @since 2.5.0
  */
 export const filterMap: <A, B>(
@@ -895,6 +914,7 @@ export const filterMap: <A, B>(
 ) => (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>> = (f) => (fa) => filterMap_(fa, f)
 
 /**
+ * @category Foldable
  * @since 2.5.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Readonly<Record<string, A>>) => M = (M) => {
@@ -903,6 +923,7 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Readonly<
 }
 
 /**
+ * @category Filterable
  * @since 2.5.0
  */
 export const partition: {
@@ -915,6 +936,7 @@ export const partition: {
 } = <A>(predicate: Predicate<A>) => (fa: Readonly<Record<string, A>>) => partition_(fa, predicate)
 
 /**
+ * @category Filterable
  * @since 2.5.0
  */
 export const partitionMap: <A, B, C>(
@@ -924,12 +946,14 @@ export const partitionMap: <A, B, C>(
 ) => partitionMap_(fa, f)
 
 /**
+ * @category Foldable
  * @since 2.5.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Readonly<Record<string, A>>) => B = (b, f) => (fa) =>
   reduce_(fa, b, f)
 
 /**
+ * @category Foldable
  * @since 2.5.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Readonly<Record<string, A>>) => B = (b, f) => (
@@ -937,6 +961,7 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Readonly<Re
 ) => reduceRight_(fa, b, f)
 
 /**
+ * @category Compactable
  * @since 2.5.0
  */
 export const compact = <A>(fa: Readonly<Record<string, Option<A>>>): Readonly<Record<string, A>> => {
@@ -952,6 +977,7 @@ export const compact = <A>(fa: Readonly<Record<string, Option<A>>>): Readonly<Re
 }
 
 /**
+ * @category Compactable
  * @since 2.5.0
  */
 export const separate = <A, B>(
@@ -982,6 +1008,7 @@ export const separate = <A, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category instances
  * @since 2.5.0
  */
 export const readonlyRecord: FunctorWithIndex1<URI, string> &

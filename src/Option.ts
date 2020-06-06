@@ -34,16 +34,19 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export const URI = 'Option'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export interface None {
@@ -51,6 +54,7 @@ export interface None {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export interface Some<A> {
@@ -59,16 +63,19 @@ export interface Some<A> {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type Option<A> = None | Some<A>
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 export const none: Option<never> = { _tag: 'None' }
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 export function some<A>(a: A): Option<A> {
@@ -84,6 +91,7 @@ export function some<A>(a: A): Option<A> {
  * assert.strictEqual(isSome(some(1)), true)
  * assert.strictEqual(isSome(none), false)
  *
+ * @category guards
  * @since 2.0.0
  */
 export function isSome<A>(fa: Option<A>): fa is Some<A> {
@@ -99,6 +107,7 @@ export function isSome<A>(fa: Option<A>): fa is Some<A> {
  * assert.strictEqual(isNone(some(1)), false)
  * assert.strictEqual(isNone(none), true)
  *
+ * @category guards
  * @since 2.0.0
  */
 export function isNone<A>(fa: Option<A>): fa is None {
@@ -129,6 +138,7 @@ export function isNone<A>(fa: Option<A>): fa is None {
  *   'a none'
  * )
  *
+ * @category destructors
  * @since 2.0.0
  */
 export function fold<A, B>(onNone: () => B, onSome: (a: A) => B): (ma: Option<A>) => B {
@@ -146,6 +156,7 @@ export function fold<A, B>(onNone: () => B, onSome: (a: A) => B): (ma: Option<A>
  * assert.deepStrictEqual(fromNullable(null), none)
  * assert.deepStrictEqual(fromNullable(1), some(1))
  *
+ * @category constructors
  * @since 2.0.0
  */
 export function fromNullable<A>(a: A): Option<NonNullable<A>> {
@@ -174,6 +185,7 @@ export function fromNullable<A>(a: A): Option<NonNullable<A>> {
  *   null
  * )
  *
+ * @category destructors
  * @since 2.0.0
  */
 export function toNullable<A>(ma: Option<A>): A | null {
@@ -202,6 +214,7 @@ export function toNullable<A>(ma: Option<A>): A | null {
  *   undefined
  * )
  *
+ * @category destructors
  * @since 2.0.0
  */
 export function toUndefined<A>(ma: Option<A>): A | undefined {
@@ -230,6 +243,7 @@ export function toUndefined<A>(ma: Option<A>): A | undefined {
  *   0
  * )
  *
+ * @category destructors
  * @since 2.0.0
  */
 export function getOrElse<A>(onNone: () => A): (ma: Option<A>) => A {
@@ -237,6 +251,7 @@ export function getOrElse<A>(onNone: () => A): (ma: Option<A>) => A {
 }
 
 /**
+ * @category destructors
  * @since 2.6.0
  */
 export const getOrElseW: <B>(onNone: () => B) => <A>(ma: Option<A>) => A | B = getOrElse as any
@@ -304,6 +319,7 @@ export function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => boolean {
  * assert.deepStrictEqual(getOption(-1), none)
  * assert.deepStrictEqual(getOption(1), some(1))
  *
+ * @category constructors
  * @since 2.0.0
  */
 export function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
@@ -327,6 +343,7 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
  * )
  * assert.deepStrictEqual(tryCatch(() => 1), some(1))
  *
+ * @category constructors
  * @since 2.0.0
  */
 export function tryCatch<A>(f: Lazy<A>): Option<A> {
@@ -340,6 +357,7 @@ export function tryCatch<A>(f: Lazy<A>): Option<A> {
 /**
  * Returns an `E` value if possible
  *
+ * @category constructors
  * @since 2.0.0
  */
 export function getLeft<E, A>(ma: Either<E, A>): Option<E> {
@@ -349,6 +367,7 @@ export function getLeft<E, A>(ma: Either<E, A>): Option<E> {
 /**
  * Returns an `A` value if possible
  *
+ * @category constructors
  * @since 2.0.0
  */
 export function getRight<E, A>(ma: Either<E, A>): Option<A> {
@@ -417,6 +436,7 @@ export function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): R
  *   none
  * )
  *
+ * @category combinators
  * @since 2.0.0
  */
 export function mapNullable<A, B>(f: (a: A) => B | null | undefined): (ma: Option<A>) => Option<B> {
@@ -424,6 +444,7 @@ export function mapNullable<A, B>(f: (a: A) => B | null | undefined): (ma: Optio
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getShow<A>(S: Show<A>): Show<Option<A>> {
@@ -444,6 +465,7 @@ export function getShow<A>(S: Show<A>): Show<Option<A>> {
  * assert.strictEqual(E.equals(some(1), some(2)), false)
  * assert.strictEqual(E.equals(some(1), some(1)), true)
  *
+ * @category instances
  * @since 2.0.0
  */
 export function getEq<A>(E: Eq<A>): Eq<Option<A>> {
@@ -470,6 +492,7 @@ export function getEq<A>(E: Eq<A>): Eq<Option<A>> {
  * assert.strictEqual(O.compare(some(1), some(2)), -1)
  * assert.strictEqual(O.compare(some(1), some(1)), 0)
  *
+ * @category instances
  * @since 2.0.0
  */
 export function getOrd<A>(O: Ord<A>): Ord<Option<A>> {
@@ -499,6 +522,7 @@ export function getOrd<A>(O: Ord<A>): Ord<Option<A>> {
  * assert.deepStrictEqual(S.concat(none, some(1)), none)
  * assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
  *
+ * @category instances
  * @since 2.0.0
  */
 export function getApplySemigroup<A>(S: Semigroup<A>): Semigroup<Option<A>> {
@@ -508,6 +532,7 @@ export function getApplySemigroup<A>(S: Semigroup<A>): Semigroup<Option<A>> {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getApplyMonoid<A>(M: Monoid<A>): Monoid<Option<A>> {
@@ -536,6 +561,7 @@ export function getApplyMonoid<A>(M: Monoid<A>): Monoid<Option<A>> {
  * assert.deepStrictEqual(M.concat(none, some(1)), some(1))
  * assert.deepStrictEqual(M.concat(some(1), some(2)), some(1))
  *
+ * @category instances
  * @since 2.0.0
  */
 export function getFirstMonoid<A = never>(): Monoid<Option<A>> {
@@ -564,6 +590,7 @@ export function getFirstMonoid<A = never>(): Monoid<Option<A>> {
  * assert.deepStrictEqual(M.concat(none, some(1)), some(1))
  * assert.deepStrictEqual(M.concat(some(1), some(2)), some(2))
  *
+ * @category instances
  * @since 2.0.0
  */
 export function getLastMonoid<A = never>(): Monoid<Option<A>> {
@@ -594,6 +621,7 @@ export function getLastMonoid<A = never>(): Monoid<Option<A>> {
  * assert.deepStrictEqual(M.concat(none, some(1)), some(1))
  * assert.deepStrictEqual(M.concat(some(1), some(2)), some(3))
  *
+ * @category instances
  * @since 2.0.0
  */
 export function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>> {
@@ -674,16 +702,19 @@ const wilt_ = <F>(F: Applicative<F>) => <A, B, C>(
 }
 
 /**
+ * @category Alt
  * @since 2.0.0
  */
 export const alt: <A>(that: () => Option<A>) => (fa: Option<A>) => Option<A> = (that) => (fa) => alt_(fa, that)
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B> = (fa) => (fab) => ap_(fab, fa)
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const apFirst: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<A> = (fb) => (fa) =>
@@ -693,6 +724,7 @@ export const apFirst: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<A> = (f
   )
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const apSecond = <B>(fb: Option<B>) => <A>(fa: Option<A>): Option<B> =>
@@ -702,32 +734,38 @@ export const apSecond = <B>(fb: Option<B>) => <A>(fa: Option<A>): Option<B> =>
   )
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B> = (f) => (ma) => chain_(ma, f)
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<A> = (f) => (ma) =>
   chain_(ma, (a) => map_(f(a), () => a))
 
 /**
+ * @category Extend
  * @since 2.0.0
  */
 export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> = (wa) => extend_(wa, identity)
 
 /**
+ * @category Extend
  * @since 2.0.0
  */
 export const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Option<B> = (f) => (ma) => extend_(ma, f)
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = (mma) => chain_(mma, identity)
 
 /**
+ * @category Foldable
  * @since 2.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M = (M) => {
@@ -736,27 +774,32 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>
 }
 
 /**
+ * @category Functor
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B> = (f) => (fa) => map_(fa, f)
 
 /**
+ * @category Foldable
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B = (b, f) => (fa) => reduce_(fa, b, f)
 
 /**
+ * @category Foldable
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B = (b, f) => (fa) =>
   reduceRight_(fa, b, f)
 
 /**
+ * @category Compatable
  * @since 2.0.0
  */
 export const compact: <A>(fa: Option<Option<A>>) => Option<A> = (ma) => chain_(ma, identity)
 
 /**
+ * @category Compatable
  * @since 2.0.0
  */
 export const separate: <A, B>(ma: Option<Either<A, B>>) => Separated<Option<A>, Option<B>> = (ma) => {
@@ -768,6 +811,7 @@ export const separate: <A, B>(ma: Option<Either<A, B>>) => Separated<Option<A>, 
 }
 
 /**
+ * @category Filterable
  * @since 2.0.0
  */
 export const filter: {
@@ -776,12 +820,14 @@ export const filter: {
 } = <A>(predicate: Predicate<A>) => (fa: Option<A>) => filter_(fa, predicate)
 
 /**
+ * @category Filterable
  * @since 2.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B> = (f) => (fa) =>
   filterMap_(fa, f)
 
 /**
+ * @category Filterable
  * @since 2.0.0
  */
 export const partition: {
@@ -790,6 +836,7 @@ export const partition: {
 } = <A>(predicate: Predicate<A>) => (fa: Option<A>) => partition_(fa, predicate)
 
 /**
+ * @category Filterable
  * @since 2.0.0
  */
 export const partitionMap: <A, B, C>(
@@ -797,6 +844,7 @@ export const partitionMap: <A, B, C>(
 ) => (fa: Option<A>) => Separated<Option<B>, Option<C>> = (f) => (fa) => partitionMap_(fa, f)
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 export const fromEither: <E, A>(ma: Either<E, A>) => Option<A> = (ma) => (ma._tag === 'Left' ? none : some(ma.right))
@@ -816,6 +864,7 @@ export const applicativeOption: Applicative1<URI> = {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const option: Monad1<URI> &

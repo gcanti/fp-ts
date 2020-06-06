@@ -28,21 +28,25 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export const URI = 'Tree'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type Forest<A> = Array<Tree<A>>
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export interface Tree<A> {
@@ -51,6 +55,7 @@ export interface Tree<A> {
 }
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 export function make<A>(value: A, forest: Forest<A> = empty): Tree<A> {
@@ -61,6 +66,7 @@ export function make<A>(value: A, forest: Forest<A> = empty): Tree<A> {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getShow<A>(S: Show<A>): Show<Tree<A>> {
@@ -75,6 +81,7 @@ export function getShow<A>(S: Show<A>): Show<Tree<A>> {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getEq<A>(E: Eq<A>): Eq<Tree<A>> {
@@ -135,6 +142,7 @@ export function drawTree(tree: Tree<string>): string {
 /**
  * Build a tree from a seed value
  *
+ * @category constructors
  * @since 2.0.0
  */
 export function unfoldTree<A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A> {
@@ -145,6 +153,7 @@ export function unfoldTree<A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A> {
 /**
  * Build a tree from a seed value
  *
+ * @category constructors
  * @since 2.0.0
  */
 export function unfoldForest<A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Forest<A> {
@@ -154,6 +163,7 @@ export function unfoldForest<A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Fo
 /**
  * Monadic tree builder, in depth-first order
  *
+ * @category constructors
  * @since 2.0.0
  */
 export function unfoldTreeM<M extends URIS3>(
@@ -180,6 +190,7 @@ export function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A
 /**
  * Monadic forest builder, in depth-first order
  *
+ * @category constructors
  * @since 2.0.0
  */
 export function unfoldForestM<M extends URIS3>(
@@ -243,6 +254,7 @@ export function elem<A>(E: Eq<A>): (a: A, fa: Tree<A>) => boolean {
  * // Count the number of leaves in the tree:
  * assert.deepStrictEqual(fold((_: number, bs: Array<number>) => (bs.length === 0 ? 1 : sum(bs)))(t), 2)
  *
+ * @category destructors
  * @since 2.6.0
  */
 export function fold<A, B>(f: (a: A, bs: Array<B>) => B): (tree: Tree<A>) => B {
@@ -300,11 +312,13 @@ const extend_: <A, B>(wa: Tree<A>, f: (wa: Tree<A>) => B) => Tree<B> = (wa, f) =
 })
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = (fa) => (fab) => ap_(fab, fa)
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const apFirst: <B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<A> = (fb) => (fa) =>
@@ -314,6 +328,7 @@ export const apFirst: <B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<A> = (fb) => 
   )
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const apSecond = <B>(fb: Tree<B>) => <A>(fa: Tree<A>): Tree<B> =>
@@ -323,32 +338,38 @@ export const apSecond = <B>(fb: Tree<B>) => <A>(fa: Tree<A>): Tree<B> =>
   )
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B> = (f) => (ma) => chain_(ma, f)
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<A> = (f) => (ma) =>
   chain_(ma, (a) => map_(f(a), () => a))
 
 /**
+ * @category Extend
  * @since 2.0.0
  */
 export const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>> = (wa) => extend_(wa, identity)
 
 /**
+ * @category Extend
  * @since 2.0.0
  */
 export const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B> = (f) => (wa) => extend_(wa, f)
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A> = (mma) => chain_(mma, identity)
 
 /**
+ * @category Foldable
  * @since 2.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Tree<A>) => M = (M) => {
@@ -357,22 +378,26 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Tree<A>) 
 }
 
 /**
+ * @category Functor
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B> = (f) => (fa) => map_(fa, f)
 
 /**
+ * @category Foldable
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>) => B = (b, f) => (fa) => reduce_(fa, b, f)
 
 /**
+ * @category Foldable
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>) => B = (b, f) => (fa) =>
   reduceRight_(fa, b, f)
 
 /**
+ * @category Extract
  * @since 2.6.2
  */
 export const extract: <A>(wa: Tree<A>) => A = (wa) => wa.value
@@ -382,6 +407,7 @@ export const extract: <A>(wa: Tree<A>) => A = (wa) => wa.value
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {

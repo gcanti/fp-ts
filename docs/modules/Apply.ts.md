@@ -4,7 +4,7 @@ nav_order: 4
 parent: Modules
 ---
 
-# Apply overview
+## Apply overview
 
 The `Apply` class provides the `ap` which is used to apply a function to an argument under a type constructor.
 
@@ -23,19 +23,23 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Apply (interface)](#apply-interface)
-- [Apply1 (interface)](#apply1-interface)
-- [Apply2 (interface)](#apply2-interface)
-- [Apply2C (interface)](#apply2c-interface)
-- [Apply3 (interface)](#apply3-interface)
-- [Apply3C (interface)](#apply3c-interface)
-- [Apply4 (interface)](#apply4-interface)
-- [sequenceS](#sequences)
-- [sequenceT](#sequencet)
+- [type classes](#type-classes)
+  - [Apply (interface)](#apply-interface)
+  - [Apply1 (interface)](#apply1-interface)
+  - [Apply2 (interface)](#apply2-interface)
+  - [Apply2C (interface)](#apply2c-interface)
+  - [Apply3 (interface)](#apply3-interface)
+  - [Apply3C (interface)](#apply3c-interface)
+  - [Apply4 (interface)](#apply4-interface)
+- [utils](#utils)
+  - [sequenceS](#sequences)
+  - [sequenceT](#sequencet)
 
 ---
 
-# Apply (interface)
+# type classes
+
+## Apply (interface)
 
 **Signature**
 
@@ -47,7 +51,7 @@ export interface Apply<F> extends Functor<F> {
 
 Added in v2.0.0
 
-# Apply1 (interface)
+## Apply1 (interface)
 
 **Signature**
 
@@ -59,7 +63,7 @@ export interface Apply1<F extends URIS> extends Functor1<F> {
 
 Added in v2.0.0
 
-# Apply2 (interface)
+## Apply2 (interface)
 
 **Signature**
 
@@ -71,7 +75,7 @@ export interface Apply2<F extends URIS2> extends Functor2<F> {
 
 Added in v2.0.0
 
-# Apply2C (interface)
+## Apply2C (interface)
 
 **Signature**
 
@@ -83,7 +87,7 @@ export interface Apply2C<F extends URIS2, E> extends Functor2C<F, E> {
 
 Added in v2.0.0
 
-# Apply3 (interface)
+## Apply3 (interface)
 
 **Signature**
 
@@ -95,7 +99,7 @@ export interface Apply3<F extends URIS3> extends Functor3<F> {
 
 Added in v2.0.0
 
-# Apply3C (interface)
+## Apply3C (interface)
 
 **Signature**
 
@@ -107,7 +111,7 @@ export interface Apply3C<F extends URIS3, E> extends Functor3C<F, E> {
 
 Added in v2.2.0
 
-# Apply4 (interface)
+## Apply4 (interface)
 
 **Signature**
 
@@ -119,7 +123,9 @@ export interface Apply4<F extends URIS4> extends Functor4<F> {
 
 Added in v2.0.0
 
-# sequenceS
+# utils
+
+## sequenceS
 
 Like `Apply.sequenceT` but works with structs instead of tuples.
 
@@ -189,7 +195,7 @@ assert.deepStrictEqual(
 
 Added in v2.0.0
 
-# sequenceT
+## sequenceT
 
 Tuple sequencing, i.e., take a tuple of monadic actions and does them from left-to-right, returning the resulting tuple.
 

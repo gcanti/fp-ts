@@ -4,7 +4,7 @@ nav_order: 49
 parent: Modules
 ---
 
-# Map overview
+## Map overview
 
 Added in v2.0.0
 
@@ -12,75 +12,55 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [URI (type alias)](#uri-type-alias)
-- [URI](#uri)
-- [collect](#collect)
-- [compact](#compact)
-- [deleteAt](#deleteat)
-- [elem](#elem)
-- [empty](#empty)
-- [filter](#filter)
-- [filterMap](#filtermap)
-- [fromFoldable](#fromfoldable)
-- [getEq](#geteq)
-- [getFilterableWithIndex](#getfilterablewithindex)
-- [getMonoid](#getmonoid)
-- [getShow](#getshow)
-- [getWitherable](#getwitherable)
-- [insertAt](#insertat)
-- [isEmpty](#isempty)
-- [isSubmap](#issubmap)
-- [keys](#keys)
-- [lookup](#lookup)
-- [lookupWithKey](#lookupwithkey)
-- [map](#map)
-- [map\_](#map_)
-- [member](#member)
-- [modifyAt](#modifyat)
-- [partition](#partition)
-- [partitionMap](#partitionmap)
-- [pop](#pop)
-- [separate](#separate)
-- [singleton](#singleton)
-- [size](#size)
-- [toArray](#toarray)
-- [toUnfoldable](#tounfoldable)
-- [updateAt](#updateat)
-- [values](#values)
+- [Compactable](#compactable)
+  - [compact](#compact)
+  - [separate](#separate)
+- [Filterable](#filterable)
+  - [filter](#filter)
+  - [filterMap](#filtermap)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
+- [Functor](#functor)
+  - [map](#map)
+- [Model](#model)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+- [combinators](#combinators)
+  - [deleteAt](#deleteat)
+  - [insertAt](#insertat)
+- [constructors](#constructors)
+  - [fromFoldable](#fromfoldable)
+- [instances](#instances)
+  - [getEq](#geteq)
+  - [getFilterableWithIndex](#getfilterablewithindex)
+  - [getMonoid](#getmonoid)
+  - [getShow](#getshow)
+  - [getWitherable](#getwitherable)
+  - [map\_](#map_)
+- [utils](#utils)
+  - [collect](#collect)
+  - [elem](#elem)
+  - [empty](#empty)
+  - [isEmpty](#isempty)
+  - [isSubmap](#issubmap)
+  - [keys](#keys)
+  - [lookup](#lookup)
+  - [lookupWithKey](#lookupwithkey)
+  - [member](#member)
+  - [modifyAt](#modifyat)
+  - [pop](#pop)
+  - [singleton](#singleton)
+  - [size](#size)
+  - [toArray](#toarray)
+  - [toUnfoldable](#tounfoldable)
+  - [updateAt](#updateat)
+  - [values](#values)
 
 ---
 
-# URI (type alias)
+# Compactable
 
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-# URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Map'
-```
-
-Added in v2.0.0
-
-# collect
-
-**Signature**
-
-```ts
-export declare const collect: <K>(O: Ord<K>) => <A, B>(f: (k: K, a: A) => B) => (m: Map<K, A>) => B[]
-```
-
-Added in v2.0.0
-
-# compact
+## compact
 
 **Signature**
 
@@ -90,41 +70,19 @@ export declare const compact: <K, A>(fa: Map<K, Option<A>>) => Map<K, A>
 
 Added in v2.0.0
 
-# deleteAt
-
-Delete a key and value from a map
+## separate
 
 **Signature**
 
 ```ts
-export declare const deleteAt: <K>(E: Eq<K>) => (k: K) => <A>(m: Map<K, A>) => Map<K, A>
+export declare const separate: <K, A, B>(fa: Map<K, Either<A, B>>) => Separated<Map<K, A>, Map<K, B>>
 ```
 
 Added in v2.0.0
 
-# elem
+# Filterable
 
-Test whether or not a value is a member of a map
-
-**Signature**
-
-```ts
-export declare const elem: <A>(E: Eq<A>) => <K>(a: A, m: Map<K, A>) => boolean
-```
-
-Added in v2.0.0
-
-# empty
-
-**Signature**
-
-```ts
-export declare const empty: Map<never, never>
-```
-
-Added in v2.0.0
-
-# filter
+## filter
 
 **Signature**
 
@@ -137,7 +95,7 @@ export declare const filter: {
 
 Added in v2.0.0
 
-# filterMap
+## filterMap
 
 **Signature**
 
@@ -147,7 +105,94 @@ export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => <K>(fa: Map<K,
 
 Added in v2.0.0
 
-# fromFoldable
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
+  <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
+}
+```
+
+Added in v2.0.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => <K>(fa: Map<K, A>) => Separated<Map<K, B>, Map<K, C>>
+```
+
+Added in v2.0.0
+
+# Functor
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Map<E, A>) => Map<E, B>
+```
+
+Added in v2.0.0
+
+# Model
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Map'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
+# combinators
+
+## deleteAt
+
+Delete a key and value from a map
+
+**Signature**
+
+```ts
+export declare const deleteAt: <K>(E: Eq<K>) => (k: K) => <A>(m: Map<K, A>) => Map<K, A>
+```
+
+Added in v2.0.0
+
+## insertAt
+
+Insert or replace a key/value pair in a map
+
+**Signature**
+
+```ts
+export declare const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A>
+```
+
+Added in v2.0.0
+
+# constructors
+
+## fromFoldable
 
 Create a map from a foldable collection of key/value pairs, using the
 specified `Magma` to combine values for duplicate keys.
@@ -175,7 +220,9 @@ export declare function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable
 
 Added in v2.0.0
 
-# getEq
+# instances
+
+## getEq
 
 **Signature**
 
@@ -185,7 +232,7 @@ export declare const getEq: <K, A>(SK: Eq<K>, SA: Eq<A>) => Eq<Map<K, A>>
 
 Added in v2.0.0
 
-# getFilterableWithIndex
+## getFilterableWithIndex
 
 **Signature**
 
@@ -195,7 +242,7 @@ export declare const getFilterableWithIndex: <K = never>() => FilterableWithInde
 
 Added in v2.0.0
 
-# getMonoid
+## getMonoid
 
 Gets `Monoid` instance for Maps given `Semigroup` instance for their values
 
@@ -207,7 +254,7 @@ export declare const getMonoid: <K, A>(SK: Eq<K>, SA: Semigroup<A>) => Monoid<Ma
 
 Added in v2.0.0
 
-# getShow
+## getShow
 
 **Signature**
 
@@ -217,7 +264,7 @@ export declare const getShow: <K, A>(SK: Show<K>, SA: Show<A>) => Show<Map<K, A>
 
 Added in v2.0.0
 
-# getWitherable
+## getWitherable
 
 **Signature**
 
@@ -227,19 +274,51 @@ export declare const getWitherable: <K>(O: Ord<K>) => Witherable2C<'Map', K> & T
 
 Added in v2.0.0
 
-# insertAt
-
-Insert or replace a key/value pair in a map
+## map\_
 
 **Signature**
 
 ```ts
-export declare const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A>
+export declare const map_: Filterable2<'Map'>
 ```
 
 Added in v2.0.0
 
-# isEmpty
+# utils
+
+## collect
+
+**Signature**
+
+```ts
+export declare const collect: <K>(O: Ord<K>) => <A, B>(f: (k: K, a: A) => B) => (m: Map<K, A>) => B[]
+```
+
+Added in v2.0.0
+
+## elem
+
+Test whether or not a value is a member of a map
+
+**Signature**
+
+```ts
+export declare const elem: <A>(E: Eq<A>) => <K>(a: A, m: Map<K, A>) => boolean
+```
+
+Added in v2.0.0
+
+## empty
+
+**Signature**
+
+```ts
+export declare const empty: Map<never, never>
+```
+
+Added in v2.0.0
+
+## isEmpty
 
 Test whether or not a map is empty
 
@@ -251,7 +330,7 @@ export declare const isEmpty: <K, A>(d: Map<K, A>) => boolean
 
 Added in v2.0.0
 
-# isSubmap
+## isSubmap
 
 Test whether or not one Map contains all of the keys and values contained in another Map
 
@@ -263,7 +342,7 @@ export declare const isSubmap: <K, A>(SK: Eq<K>, SA: Eq<A>) => (d1: Map<K, A>, d
 
 Added in v2.0.0
 
-# keys
+## keys
 
 Get a sorted array of the keys contained in a map
 
@@ -275,7 +354,7 @@ export declare const keys: <K>(O: Ord<K>) => <A>(m: Map<K, A>) => K[]
 
 Added in v2.0.0
 
-# lookup
+## lookup
 
 Lookup the value for a key in a `Map`.
 
@@ -287,7 +366,7 @@ export declare const lookup: <K>(E: Eq<K>) => <A>(k: K, m: Map<K, A>) => Option<
 
 Added in v2.0.0
 
-# lookupWithKey
+## lookupWithKey
 
 Lookup the value for a key in a `Map`.
 If the result is a `Some`, the existing key is also returned.
@@ -300,27 +379,7 @@ export declare const lookupWithKey: <K>(E: Eq<K>) => <A>(k: K, m: Map<K, A>) => 
 
 Added in v2.0.0
 
-# map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Map<E, A>) => Map<E, B>
-```
-
-Added in v2.0.0
-
-# map\_
-
-**Signature**
-
-```ts
-export declare const map_: Filterable2<'Map'>
-```
-
-Added in v2.0.0
-
-# member
+## member
 
 Test whether or not a key exists in a map
 
@@ -332,7 +391,7 @@ export declare const member: <K>(E: Eq<K>) => <A>(k: K, m: Map<K, A>) => boolean
 
 Added in v2.0.0
 
-# modifyAt
+## modifyAt
 
 **Signature**
 
@@ -342,32 +401,7 @@ export declare const modifyAt: <K>(E: Eq<K>) => <A>(k: K, f: (a: A) => A) => (m:
 
 Added in v2.0.0
 
-# partition
-
-**Signature**
-
-```ts
-export declare const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
-  <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
-}
-```
-
-Added in v2.0.0
-
-# partitionMap
-
-**Signature**
-
-```ts
-export declare const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
-) => <K>(fa: Map<K, A>) => Separated<Map<K, B>, Map<K, C>>
-```
-
-Added in v2.0.0
-
-# pop
+## pop
 
 Delete a key and value from a map, returning the value as well as the subsequent map
 
@@ -379,17 +413,7 @@ export declare const pop: <K>(E: Eq<K>) => (k: K) => <A>(m: Map<K, A>) => Option
 
 Added in v2.0.0
 
-# separate
-
-**Signature**
-
-```ts
-export declare const separate: <K, A, B>(fa: Map<K, Either<A, B>>) => Separated<Map<K, A>, Map<K, B>>
-```
-
-Added in v2.0.0
-
-# singleton
+## singleton
 
 Create a map with one key/value pair
 
@@ -401,7 +425,7 @@ export declare const singleton: <K, A>(k: K, a: A) => Map<K, A>
 
 Added in v2.0.0
 
-# size
+## size
 
 Calculate the number of key/value pairs in a map
 
@@ -413,7 +437,7 @@ export declare const size: <K, A>(d: Map<K, A>) => number
 
 Added in v2.0.0
 
-# toArray
+## toArray
 
 Get a sorted of the key/value pairs contained in a map
 
@@ -425,7 +449,7 @@ export declare const toArray: <K>(O: Ord<K>) => <A>(m: Map<K, A>) => [K, A][]
 
 Added in v2.0.0
 
-# toUnfoldable
+## toUnfoldable
 
 Unfolds a map into a list of key/value pairs
 
@@ -441,7 +465,7 @@ export declare function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: 
 
 Added in v2.0.0
 
-# updateAt
+## updateAt
 
 **Signature**
 
@@ -451,7 +475,7 @@ export declare const updateAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>
 
 Added in v2.0.0
 
-# values
+## values
 
 Get a sorted array of the values contained in a map
 

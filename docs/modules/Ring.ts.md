@@ -4,7 +4,7 @@ nav_order: 76
 parent: Modules
 ---
 
-# Ring overview
+## Ring overview
 
 The `Ring` class is for types that support addition, multiplication, and subtraction operations.
 
@@ -20,26 +20,19 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Ring (interface)](#ring-interface)
-- [getFunctionRing](#getfunctionring)
-- [getTupleRing](#gettuplering)
-- [negate](#negate)
+- [instances](#instances)
+  - [getFunctionRing](#getfunctionring)
+  - [getTupleRing](#gettuplering)
+- [type classes](#type-classes)
+  - [Ring (interface)](#ring-interface)
+- [utils](#utils)
+  - [negate](#negate)
 
 ---
 
-# Ring (interface)
+# instances
 
-**Signature**
-
-```ts
-export interface Ring<A> extends Semiring<A> {
-  readonly sub: (x: A, y: A) => A
-}
-```
-
-Added in v2.0.0
-
-# getFunctionRing
+## getFunctionRing
 
 **Signature**
 
@@ -49,7 +42,7 @@ export declare function getFunctionRing<A, B>(ring: Ring<B>): Ring<(a: A) => B>
 
 Added in v2.0.0
 
-# getTupleRing
+## getTupleRing
 
 Given a tuple of `Ring`s returns a `Ring` for the tuple
 
@@ -77,7 +70,23 @@ assert.deepStrictEqual(R.zero, [0, 0, 0])
 
 Added in v2.0.0
 
-# negate
+# type classes
+
+## Ring (interface)
+
+**Signature**
+
+```ts
+export interface Ring<A> extends Semiring<A> {
+  readonly sub: (x: A, y: A) => A
+}
+```
+
+Added in v2.0.0
+
+# utils
+
+## negate
 
 `negate x` can be used as a shorthand for `zero - x`
 

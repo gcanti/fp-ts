@@ -4,7 +4,7 @@ nav_order: 101
 parent: Modules
 ---
 
-# WriterT overview
+## WriterT overview
 
 Added in v2.4.0
 
@@ -12,20 +12,62 @@ Added in v2.4.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [WriterM (interface)](#writerm-interface)
-- [WriterM1 (interface)](#writerm1-interface)
-- [WriterM2 (interface)](#writerm2-interface)
-- [WriterM2C (interface)](#writerm2c-interface)
-- [WriterM3 (interface)](#writerm3-interface)
-- [WriterT (interface)](#writert-interface)
-- [WriterT1 (interface)](#writert1-interface)
-- [WriterT2 (interface)](#writert2-interface)
-- [WriterT3 (interface)](#writert3-interface)
-- [getWriterM](#getwriterm)
+- [Model](#model)
+  - [WriterT (interface)](#writert-interface)
+  - [WriterT1 (interface)](#writert1-interface)
+  - [WriterT2 (interface)](#writert2-interface)
+- [utils](#utils)
+  - [WriterM (interface)](#writerm-interface)
+  - [WriterM1 (interface)](#writerm1-interface)
+  - [WriterM2 (interface)](#writerm2-interface)
+  - [WriterM2C (interface)](#writerm2c-interface)
+  - [WriterM3 (interface)](#writerm3-interface)
+  - [WriterT3 (interface)](#writert3-interface)
+  - [getWriterM](#getwriterm)
 
 ---
 
-# WriterM (interface)
+# Model
+
+## WriterT (interface)
+
+**Signature**
+
+```ts
+export interface WriterT<M, W, A> {
+  (): HKT<M, [A, W]>
+}
+```
+
+Added in v2.4.0
+
+## WriterT1 (interface)
+
+**Signature**
+
+```ts
+export interface WriterT1<M extends URIS, W, A> {
+  (): Kind<M, [A, W]>
+}
+```
+
+Added in v2.4.0
+
+## WriterT2 (interface)
+
+**Signature**
+
+```ts
+export interface WriterT2<M extends URIS2, E, W, A> {
+  (): Kind2<M, E, [A, W]>
+}
+```
+
+Added in v2.4.0
+
+# utils
+
+## WriterM (interface)
 
 **Signature**
 
@@ -53,7 +95,7 @@ export interface WriterM<M> {
 
 Added in v2.4.0
 
-# WriterM1 (interface)
+## WriterM1 (interface)
 
 **Signature**
 
@@ -81,7 +123,7 @@ export interface WriterM1<M extends URIS> {
 
 Added in v2.4.0
 
-# WriterM2 (interface)
+## WriterM2 (interface)
 
 **Signature**
 
@@ -109,7 +151,7 @@ export interface WriterM2<M extends URIS2> {
 
 Added in v2.4.0
 
-# WriterM2C (interface)
+## WriterM2C (interface)
 
 **Signature**
 
@@ -137,7 +179,7 @@ export interface WriterM2C<M extends URIS2, E> {
 
 Added in v2.4.0
 
-# WriterM3 (interface)
+## WriterM3 (interface)
 
 **Signature**
 
@@ -171,43 +213,7 @@ export interface WriterM3<M extends URIS3> {
 
 Added in v2.4.0
 
-# WriterT (interface)
-
-**Signature**
-
-```ts
-export interface WriterT<M, W, A> {
-  (): HKT<M, [A, W]>
-}
-```
-
-Added in v2.4.0
-
-# WriterT1 (interface)
-
-**Signature**
-
-```ts
-export interface WriterT1<M extends URIS, W, A> {
-  (): Kind<M, [A, W]>
-}
-```
-
-Added in v2.4.0
-
-# WriterT2 (interface)
-
-**Signature**
-
-```ts
-export interface WriterT2<M extends URIS2, E, W, A> {
-  (): Kind2<M, E, [A, W]>
-}
-```
-
-Added in v2.4.0
-
-# WriterT3 (interface)
+## WriterT3 (interface)
 
 **Signature**
 
@@ -219,7 +225,7 @@ export interface WriterT3<M extends URIS3, R, E, W, A> {
 
 Added in v2.4.0
 
-# getWriterM
+## getWriterM
 
 **Signature**
 

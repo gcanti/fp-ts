@@ -32,6 +32,7 @@ import {
 } from './Functor'
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface FunctorWithIndex<F, I> extends Functor<F> {
@@ -39,6 +40,7 @@ export interface FunctorWithIndex<F, I> extends Functor<F> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface FunctorWithIndex1<F extends URIS, I> extends Functor1<F> {
@@ -46,6 +48,7 @@ export interface FunctorWithIndex1<F extends URIS, I> extends Functor1<F> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface FunctorWithIndex2<F extends URIS2, I> extends Functor2<F> {
@@ -53,6 +56,7 @@ export interface FunctorWithIndex2<F extends URIS2, I> extends Functor2<F> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface FunctorWithIndex2C<F extends URIS2, I, E> extends Functor2C<F, E> {
@@ -60,6 +64,7 @@ export interface FunctorWithIndex2C<F extends URIS2, I, E> extends Functor2C<F, 
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface FunctorWithIndex3<F extends URIS3, I> extends Functor3<F> {
@@ -67,6 +72,7 @@ export interface FunctorWithIndex3<F extends URIS3, I> extends Functor3<F> {
 }
 
 /**
+ * @category type classes
  * @since 2.2.0
  */
 export interface FunctorWithIndex3C<F extends URIS3, I, E> extends Functor3C<F, E> {
@@ -74,6 +80,7 @@ export interface FunctorWithIndex3C<F extends URIS3, I, E> extends Functor3C<F, 
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface FunctorWithIndex4<F extends URIS4, I> extends Functor4<F> {

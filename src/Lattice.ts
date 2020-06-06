@@ -10,6 +10,7 @@ import { JoinSemilattice } from './JoinSemilattice'
 import { MeetSemilattice } from './MeetSemilattice'
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Lattice<A> extends JoinSemilattice<A>, MeetSemilattice<A> {}

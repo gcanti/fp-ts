@@ -13,6 +13,7 @@ import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const getShow: <A>(S: Show<A>) => Show<Set<A>> = RS.getShow
@@ -23,12 +24,14 @@ export const getShow: <A>(S: Show<A>) => Show<Set<A>> = RS.getShow
 export const empty: Set<never> = new Set()
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 // tslint:disable-next-line: readonly-array
 export const toArray: <A>(O: Ord<A>) => (set: Set<A>) => Array<A> = RS.toReadonlyArray as any
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const getEq: <A>(E: Eq<A>) => Eq<Set<A>> = RS.getEq
@@ -41,6 +44,7 @@ export const some: <A>(predicate: Predicate<A>) => (set: Set<A>) => boolean = RS
 /**
  * Projects a Set through a function
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const map: <B>(E: Eq<B>) => <A>(f: (x: A) => B) => (set: Set<A>) => Set<B> = RS.map as any
@@ -51,6 +55,7 @@ export const map: <B>(E: Eq<B>) => <A>(f: (x: A) => B) => (set: Set<A>) => Set<B
 export const every: <A>(predicate: Predicate<A>) => (set: Set<A>) => boolean = RS.every
 
 /**
+ * @category combinators
  * @since 2.0.0
  */
 export const chain: <B>(E: Eq<B>) => <A>(f: (x: A) => Set<B>) => (set: Set<A>) => Set<B> = RS.chain as any
@@ -63,6 +68,7 @@ export const chain: <B>(E: Eq<B>) => <A>(f: (x: A) => Set<B>) => (set: Set<A>) =
 export const subset: <A>(E: Eq<A>) => (x: Set<A>, y: Set<A>) => boolean = RS.isSubset
 
 /**
+ * @category combinators
  * @since 2.0.0
  */
 export function filter<A, B extends A>(refinement: Refinement<A, B>): (set: Set<A>) => Set<B>
@@ -90,6 +96,7 @@ export const elem: <A>(E: Eq<A>) => (a: A, set: Set<A>) => boolean = RS.elem
 /**
  * Form the union of two sets
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const union: <A>(E: Eq<A>) => (set: Set<A>, y: Set<A>) => Set<A> = RS.union as any
@@ -97,6 +104,7 @@ export const union: <A>(E: Eq<A>) => (set: Set<A>, y: Set<A>) => Set<A> = RS.uni
 /**
  * The set of elements which are in both the first and second set
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const intersection: <A>(E: Eq<A>) => (set: Set<A>, y: Set<A>) => Set<A> = RS.intersection as any
@@ -118,17 +126,19 @@ export const partitionMap: <B, C>(
  *
  * assert.deepStrictEqual(difference(eqNumber)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
  *
- *
+ * @category combinators
  * @since 2.0.0
  */
 export const difference: <A>(E: Eq<A>) => (x: Set<A>, y: Set<A>) => Set<A> = RS.difference as any
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const getUnionMonoid: <A>(E: Eq<A>) => Monoid<Set<A>> = RS.getUnionMonoid as any
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const getIntersectionSemigroup: <A>(E: Eq<A>) => Semigroup<Set<A>> = RS.getIntersectionSemigroup as any
@@ -146,6 +156,7 @@ export const foldMap: <A, M>(O: Ord<A>, M: Monoid<M>) => (f: (a: A) => M) => (fa
 /**
  * Create a set with one element
  *
+ * @category constructors
  * @since 2.0.0
  */
 export const singleton: <A>(a: A) => Set<A> = RS.singleton as any
@@ -153,6 +164,7 @@ export const singleton: <A>(a: A) => Set<A> = RS.singleton as any
 /**
  * Insert a value into a set
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const insert: <A>(E: Eq<A>) => (a: A) => (set: Set<A>) => Set<A> = RS.insert as any
@@ -160,6 +172,7 @@ export const insert: <A>(E: Eq<A>) => (a: A) => (set: Set<A>) => Set<A> = RS.ins
 /**
  * Delete a value from a set
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const remove: <A>(E: Eq<A>) => (a: A) => (set: Set<A>) => Set<A> = RS.remove as any
@@ -169,6 +182,7 @@ export const remove: <A>(E: Eq<A>) => (a: A) => (set: Set<A>) => Set<A> = RS.rem
  * If yes, removes the value from the set
  * If no, inserts the value to the set
  *
+ * @category combinators
  * @since 2.5.0
  */
 export function toggle<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A> {
@@ -181,12 +195,14 @@ export function toggle<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A> {
 /**
  * Create a set from an array
  *
+ * @category constructors
  * @since 2.0.0
  */
 // tslint:disable-next-line: readonly-array
 export const fromArray: <A>(E: Eq<A>) => (as: Array<A>) => Set<A> = RS.fromArray as any
 
 /**
+ * @category combinators
  * @since 2.0.0
  */
 export const compact: <A>(E: Eq<A>) => (fa: Set<Option<A>>) => Set<A> = RS.compact as any
@@ -200,6 +216,7 @@ export const separate: <E, A>(
 ) => (fa: Set<Either<E, A>>) => Separated<Set<E>, Set<A>> = RS.separate as any
 
 /**
+ * @category combinators
  * @since 2.0.0
  */
 export const filterMap: <B>(E: Eq<B>) => <A>(f: (a: A) => Option<B>) => (fa: Set<A>) => Set<B> = RS.filterMap as any

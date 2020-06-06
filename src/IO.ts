@@ -19,16 +19,19 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export const URI = 'IO'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export interface IO<A> {
@@ -36,6 +39,7 @@ export interface IO<A> {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getSemigroup<A>(S: Semigroup<A>): Semigroup<IO<A>> {
@@ -45,6 +49,7 @@ export function getSemigroup<A>(S: Semigroup<A>): Semigroup<IO<A>> {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> {
@@ -55,6 +60,7 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> {
 }
 
 /**
+ * @category Applicative
  * @since 2.0.0
  */
 export const of = <A>(a: A): IO<A> => () => a
@@ -70,11 +76,13 @@ const ap_: <A, B>(fab: IO<(a: A) => B>, fa: IO<A>) => IO<B> = (mab, ma) => () =>
 const chain_: <A, B>(fa: IO<A>, f: (a: A) => IO<B>) => IO<B> = (ma, f) => () => f(ma())()
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = (fa) => (fab) => ap_(fab, fa)
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const apFirst: <B>(fb: IO<B>) => <A>(fa: IO<A>) => IO<A> = (fb) => (fa) =>
@@ -84,6 +92,7 @@ export const apFirst: <B>(fb: IO<B>) => <A>(fa: IO<A>) => IO<A> = (fb) => (fa) =
   )
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const apSecond = <B>(fb: IO<B>) => <A>(fa: IO<A>): IO<B> =>
@@ -93,22 +102,26 @@ export const apSecond = <B>(fb: IO<B>) => <A>(fa: IO<A>): IO<B> =>
   )
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B> = (f) => (ma) => chain_(ma, f)
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<A> = (f) => (ma) =>
   chain_(ma, (a) => map_(f(a), () => a))
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const flatten: <A>(mma: IO<IO<A>>) => IO<A> = (mma) => chain_(mma, identity)
 
 /**
+ * @category Functor
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) => map_(fa, f)
@@ -129,6 +142,7 @@ export const monadIO: Monad1<URI> = {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {

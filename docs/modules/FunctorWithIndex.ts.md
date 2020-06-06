@@ -4,7 +4,7 @@ nav_order: 36
 parent: Modules
 ---
 
-# FunctorWithIndex overview
+## FunctorWithIndex overview
 
 A `FunctorWithIndex` is a type constructor which supports a mapping operation `mapWithIndex`.
 
@@ -22,26 +22,30 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [FunctorWithIndex (interface)](#functorwithindex-interface)
-- [FunctorWithIndex1 (interface)](#functorwithindex1-interface)
-- [FunctorWithIndex2 (interface)](#functorwithindex2-interface)
-- [FunctorWithIndex2C (interface)](#functorwithindex2c-interface)
-- [FunctorWithIndex3 (interface)](#functorwithindex3-interface)
-- [FunctorWithIndex3C (interface)](#functorwithindex3c-interface)
-- [FunctorWithIndex4 (interface)](#functorwithindex4-interface)
-- [FunctorWithIndexComposition (interface)](#functorwithindexcomposition-interface)
-- [FunctorWithIndexComposition11 (interface)](#functorwithindexcomposition11-interface)
-- [FunctorWithIndexComposition12 (interface)](#functorwithindexcomposition12-interface)
-- [FunctorWithIndexComposition12C (interface)](#functorwithindexcomposition12c-interface)
-- [FunctorWithIndexComposition21 (interface)](#functorwithindexcomposition21-interface)
-- [FunctorWithIndexComposition22 (interface)](#functorwithindexcomposition22-interface)
-- [FunctorWithIndexComposition22C (interface)](#functorwithindexcomposition22c-interface)
-- [FunctorWithIndexComposition2C1 (interface)](#functorwithindexcomposition2c1-interface)
-- [getFunctorWithIndexComposition](#getfunctorwithindexcomposition)
+- [type classes](#type-classes)
+  - [FunctorWithIndex (interface)](#functorwithindex-interface)
+  - [FunctorWithIndex1 (interface)](#functorwithindex1-interface)
+  - [FunctorWithIndex2 (interface)](#functorwithindex2-interface)
+  - [FunctorWithIndex2C (interface)](#functorwithindex2c-interface)
+  - [FunctorWithIndex3 (interface)](#functorwithindex3-interface)
+  - [FunctorWithIndex3C (interface)](#functorwithindex3c-interface)
+  - [FunctorWithIndex4 (interface)](#functorwithindex4-interface)
+- [utils](#utils)
+  - [FunctorWithIndexComposition (interface)](#functorwithindexcomposition-interface)
+  - [FunctorWithIndexComposition11 (interface)](#functorwithindexcomposition11-interface)
+  - [FunctorWithIndexComposition12 (interface)](#functorwithindexcomposition12-interface)
+  - [FunctorWithIndexComposition12C (interface)](#functorwithindexcomposition12c-interface)
+  - [FunctorWithIndexComposition21 (interface)](#functorwithindexcomposition21-interface)
+  - [FunctorWithIndexComposition22 (interface)](#functorwithindexcomposition22-interface)
+  - [FunctorWithIndexComposition22C (interface)](#functorwithindexcomposition22c-interface)
+  - [FunctorWithIndexComposition2C1 (interface)](#functorwithindexcomposition2c1-interface)
+  - [getFunctorWithIndexComposition](#getfunctorwithindexcomposition)
 
 ---
 
-# FunctorWithIndex (interface)
+# type classes
+
+## FunctorWithIndex (interface)
 
 **Signature**
 
@@ -53,7 +57,7 @@ export interface FunctorWithIndex<F, I> extends Functor<F> {
 
 Added in v2.0.0
 
-# FunctorWithIndex1 (interface)
+## FunctorWithIndex1 (interface)
 
 **Signature**
 
@@ -65,7 +69,7 @@ export interface FunctorWithIndex1<F extends URIS, I> extends Functor1<F> {
 
 Added in v2.0.0
 
-# FunctorWithIndex2 (interface)
+## FunctorWithIndex2 (interface)
 
 **Signature**
 
@@ -77,7 +81,7 @@ export interface FunctorWithIndex2<F extends URIS2, I> extends Functor2<F> {
 
 Added in v2.0.0
 
-# FunctorWithIndex2C (interface)
+## FunctorWithIndex2C (interface)
 
 **Signature**
 
@@ -89,7 +93,7 @@ export interface FunctorWithIndex2C<F extends URIS2, I, E> extends Functor2C<F, 
 
 Added in v2.0.0
 
-# FunctorWithIndex3 (interface)
+## FunctorWithIndex3 (interface)
 
 **Signature**
 
@@ -101,7 +105,7 @@ export interface FunctorWithIndex3<F extends URIS3, I> extends Functor3<F> {
 
 Added in v2.0.0
 
-# FunctorWithIndex3C (interface)
+## FunctorWithIndex3C (interface)
 
 **Signature**
 
@@ -113,7 +117,7 @@ export interface FunctorWithIndex3C<F extends URIS3, I, E> extends Functor3C<F, 
 
 Added in v2.2.0
 
-# FunctorWithIndex4 (interface)
+## FunctorWithIndex4 (interface)
 
 **Signature**
 
@@ -125,7 +129,9 @@ export interface FunctorWithIndex4<F extends URIS4, I> extends Functor4<F> {
 
 Added in v2.0.0
 
-# FunctorWithIndexComposition (interface)
+# utils
+
+## FunctorWithIndexComposition (interface)
 
 **Signature**
 
@@ -137,7 +143,7 @@ export interface FunctorWithIndexComposition<F, FI, G, GI> extends FunctorCompos
 
 Added in v2.0.0
 
-# FunctorWithIndexComposition11 (interface)
+## FunctorWithIndexComposition11 (interface)
 
 **Signature**
 
@@ -150,7 +156,7 @@ export interface FunctorWithIndexComposition11<F extends URIS, FI, G extends URI
 
 Added in v2.0.0
 
-# FunctorWithIndexComposition12 (interface)
+## FunctorWithIndexComposition12 (interface)
 
 **Signature**
 
@@ -163,7 +169,7 @@ export interface FunctorWithIndexComposition12<F extends URIS, FI, G extends URI
 
 Added in v2.0.0
 
-# FunctorWithIndexComposition12C (interface)
+## FunctorWithIndexComposition12C (interface)
 
 **Signature**
 
@@ -176,7 +182,7 @@ export interface FunctorWithIndexComposition12C<F extends URIS, FI, G extends UR
 
 Added in v2.0.0
 
-# FunctorWithIndexComposition21 (interface)
+## FunctorWithIndexComposition21 (interface)
 
 **Signature**
 
@@ -189,7 +195,7 @@ export interface FunctorWithIndexComposition21<F extends URIS2, FI, G extends UR
 
 Added in v2.0.0
 
-# FunctorWithIndexComposition22 (interface)
+## FunctorWithIndexComposition22 (interface)
 
 **Signature**
 
@@ -205,7 +211,7 @@ export interface FunctorWithIndexComposition22<F extends URIS2, FI, G extends UR
 
 Added in v2.0.0
 
-# FunctorWithIndexComposition22C (interface)
+## FunctorWithIndexComposition22C (interface)
 
 **Signature**
 
@@ -221,7 +227,7 @@ export interface FunctorWithIndexComposition22C<F extends URIS2, FI, G extends U
 
 Added in v2.0.0
 
-# FunctorWithIndexComposition2C1 (interface)
+## FunctorWithIndexComposition2C1 (interface)
 
 **Signature**
 
@@ -234,7 +240,7 @@ export interface FunctorWithIndexComposition2C1<F extends URIS2, FI, G extends U
 
 Added in v2.0.0
 
-# getFunctorWithIndexComposition
+## getFunctorWithIndexComposition
 
 **Signature**
 

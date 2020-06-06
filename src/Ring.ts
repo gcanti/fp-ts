@@ -12,6 +12,7 @@
 import { Semiring, getFunctionSemiring } from './Semiring'
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Ring<A> extends Semiring<A> {
@@ -19,6 +20,7 @@ export interface Ring<A> extends Semiring<A> {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getFunctionRing<A, B>(ring: Ring<B>): Ring<(a: A) => B> {
@@ -51,6 +53,7 @@ export function negate<A>(ring: Ring<A>): (a: A) => A {
  * assert.deepStrictEqual(R.sub([1, 2, 3], [4, 5, 6]), [-3, -3, -3])
  * assert.deepStrictEqual(R.zero, [0, 0, 0])
  *
+ * @category instances
  * @since 2.0.0
  */
 export function getTupleRing<T extends ReadonlyArray<Ring<any>>>(

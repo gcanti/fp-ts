@@ -13,16 +13,19 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export const URI = 'Store'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export interface Store<S, A> {
@@ -97,22 +100,26 @@ const extend_: <E, A, B>(wa: Store<E, A>, f: (wa: Store<E, A>) => B) => Store<E,
 })
 
 /**
+ * @category Extend
  * @since 2.0.0
  */
 export const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>> = (wa) => extend_(wa, identity)
 
 /**
+ * @category Extract
  * @since 2.6.2
  */
 export const extract: <E, A>(wa: Store<E, A>) => A = (wa) => wa.peek(wa.pos)
 
 /**
+ * @category Extend
  * @since 2.0.0
  */
 export const extend: <E, A, B>(f: (wa: Store<E, A>) => B) => (wa: Store<E, A>) => Store<E, B> = (f) => (wa) =>
   extend_(wa, f)
 
 /**
+ * @category Functor
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B> = (f) => (fa) => map_(fa, f)
@@ -122,6 +129,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B> 
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const store: Comonad2<URI> = {

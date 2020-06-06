@@ -26,36 +26,43 @@ import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain4, Chain3C } from './Chain
 import { URIS, URIS2, URIS3, URIS4 } from './HKT'
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Monad<F> extends Applicative<F>, Chain<F> {}
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Monad1<F extends URIS> extends Applicative1<F>, Chain1<F> {}
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Monad2<M extends URIS2> extends Applicative2<M>, Chain2<M> {}
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Monad2C<M extends URIS2, L> extends Applicative2C<M, L>, Chain2C<M, L> {}
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Monad3<M extends URIS3> extends Applicative3<M>, Chain3<M> {}
 
 /**
+ * @category type classes
  * @since 2.2.0
  */
 export interface Monad3C<M extends URIS3, E> extends Applicative3C<M, E>, Chain3C<M, E> {}
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Monad4<M extends URIS4> extends Applicative4<M>, Chain4<M> {}

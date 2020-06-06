@@ -12,16 +12,19 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export const URI = 'Traced'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export interface Traced<P, A> {
@@ -69,6 +72,7 @@ export function censor<P>(f: (p: P) => P): <A>(wa: Traced<P, A>) => Traced<P, A>
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
@@ -96,6 +100,7 @@ export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
 const map_: <E, A, B>(fa: Traced<E, A>, f: (a: A) => B) => Traced<E, B> = (wa, f) => (p) => f(wa(p))
 
 /**
+ * @category Functor
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Traced<E, A>) => Traced<E, B> = (f) => (fa) => map_(fa, f)
@@ -105,6 +110,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: Traced<E, A>) => Traced<E, B
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const traced: Functor2<URI> = {

@@ -4,7 +4,7 @@ nav_order: 16
 parent: Modules
 ---
 
-# ChainRec overview
+## ChainRec overview
 
 Added in v2.0.0
 
@@ -12,16 +12,20 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [ChainRec (interface)](#chainrec-interface)
-- [ChainRec1 (interface)](#chainrec1-interface)
-- [ChainRec2 (interface)](#chainrec2-interface)
-- [ChainRec2C (interface)](#chainrec2c-interface)
-- [ChainRec3 (interface)](#chainrec3-interface)
-- [tailRec](#tailrec)
+- [type classes](#type-classes)
+  - [ChainRec (interface)](#chainrec-interface)
+  - [ChainRec1 (interface)](#chainrec1-interface)
+  - [ChainRec2 (interface)](#chainrec2-interface)
+  - [ChainRec2C (interface)](#chainrec2c-interface)
+  - [ChainRec3 (interface)](#chainrec3-interface)
+- [utils](#utils)
+  - [tailRec](#tailrec)
 
 ---
 
-# ChainRec (interface)
+# type classes
+
+## ChainRec (interface)
 
 **Signature**
 
@@ -33,7 +37,7 @@ export interface ChainRec<F> extends Chain<F> {
 
 Added in v2.0.0
 
-# ChainRec1 (interface)
+## ChainRec1 (interface)
 
 **Signature**
 
@@ -45,7 +49,7 @@ export interface ChainRec1<F extends URIS> extends Chain1<F> {
 
 Added in v2.0.0
 
-# ChainRec2 (interface)
+## ChainRec2 (interface)
 
 **Signature**
 
@@ -57,7 +61,7 @@ export interface ChainRec2<F extends URIS2> extends Chain2<F> {
 
 Added in v2.0.0
 
-# ChainRec2C (interface)
+## ChainRec2C (interface)
 
 **Signature**
 
@@ -69,7 +73,7 @@ export interface ChainRec2C<F extends URIS2, E> extends Chain2C<F, E> {
 
 Added in v2.0.0
 
-# ChainRec3 (interface)
+## ChainRec3 (interface)
 
 **Signature**
 
@@ -81,7 +85,9 @@ export interface ChainRec3<F extends URIS3> extends Chain3<F> {
 
 Added in v2.0.0
 
-# tailRec
+# utils
+
+## tailRec
 
 **Signature**
 

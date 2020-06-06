@@ -4,7 +4,7 @@ nav_order: 47
 parent: Modules
 ---
 
-# Lattice overview
+## Lattice overview
 
 A `Lattice` must satisfy the following in addition to `JoinSemilattice` and `MeetSemilattice` laws:
 
@@ -17,11 +17,14 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Lattice (interface)](#lattice-interface)
+- [type classes](#type-classes)
+  - [Lattice (interface)](#lattice-interface)
 
 ---
 
-# Lattice (interface)
+# type classes
+
+## Lattice (interface)
 
 **Signature**
 

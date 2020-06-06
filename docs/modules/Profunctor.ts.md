@@ -4,7 +4,7 @@ nav_order: 62
 parent: Modules
 ---
 
-# Profunctor overview
+## Profunctor overview
 
 Added in v2.0.0
 
@@ -12,16 +12,19 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Profunctor (interface)](#profunctor-interface)
-- [Profunctor2 (interface)](#profunctor2-interface)
-- [Profunctor2C (interface)](#profunctor2c-interface)
-- [Profunctor3 (interface)](#profunctor3-interface)
-- [Profunctor3C (interface)](#profunctor3c-interface)
-- [Profunctor4 (interface)](#profunctor4-interface)
+- [type classes](#type-classes)
+  - [Profunctor (interface)](#profunctor-interface)
+  - [Profunctor2 (interface)](#profunctor2-interface)
+  - [Profunctor2C (interface)](#profunctor2c-interface)
+  - [Profunctor3 (interface)](#profunctor3-interface)
+  - [Profunctor3C (interface)](#profunctor3c-interface)
+  - [Profunctor4 (interface)](#profunctor4-interface)
 
 ---
 
-# Profunctor (interface)
+# type classes
+
+## Profunctor (interface)
 
 **Signature**
 
@@ -35,7 +38,7 @@ export interface Profunctor<F> {
 
 Added in v2.0.0
 
-# Profunctor2 (interface)
+## Profunctor2 (interface)
 
 **Signature**
 
@@ -47,7 +50,7 @@ export interface Profunctor2<F extends URIS2> extends Functor2<F> {
 
 Added in v2.0.0
 
-# Profunctor2C (interface)
+## Profunctor2C (interface)
 
 **Signature**
 
@@ -59,7 +62,7 @@ export interface Profunctor2C<F extends URIS2, E> extends Functor2C<F, E> {
 
 Added in v2.0.0
 
-# Profunctor3 (interface)
+## Profunctor3 (interface)
 
 **Signature**
 
@@ -71,7 +74,7 @@ export interface Profunctor3<F extends URIS3> extends Functor3<F> {
 
 Added in v2.0.0
 
-# Profunctor3C (interface)
+## Profunctor3C (interface)
 
 **Signature**
 
@@ -83,7 +86,7 @@ export interface Profunctor3C<F extends URIS3, E> extends Functor3C<F, E> {
 
 Added in v2.2.0
 
-# Profunctor4 (interface)
+## Profunctor4 (interface)
 
 **Signature**
 

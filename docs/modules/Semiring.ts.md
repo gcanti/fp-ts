@@ -4,7 +4,7 @@ nav_order: 79
 parent: Modules
 ---
 
-# Semiring overview
+## Semiring overview
 
 The `Semiring` class is for types that support an addition and multiplication operation.
 
@@ -32,12 +32,28 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Semiring (interface)](#semiring-interface)
-- [getFunctionSemiring](#getfunctionsemiring)
+- [instances](#instances)
+  - [getFunctionSemiring](#getfunctionsemiring)
+- [type classes](#type-classes)
+  - [Semiring (interface)](#semiring-interface)
 
 ---
 
-# Semiring (interface)
+# instances
+
+## getFunctionSemiring
+
+**Signature**
+
+```ts
+export declare function getFunctionSemiring<A, B>(S: Semiring<B>): Semiring<(a: A) => B>
+```
+
+Added in v2.0.0
+
+# type classes
+
+## Semiring (interface)
 
 **Signature**
 
@@ -48,16 +64,6 @@ export interface Semiring<A> {
   readonly mul: (x: A, y: A) => A
   readonly one: A
 }
-```
-
-Added in v2.0.0
-
-# getFunctionSemiring
-
-**Signature**
-
-```ts
-export declare function getFunctionSemiring<A, B>(S: Semiring<B>): Semiring<(a: A) => B>
 ```
 
 Added in v2.0.0

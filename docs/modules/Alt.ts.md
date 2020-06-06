@@ -4,7 +4,7 @@ nav_order: 1
 parent: Modules
 ---
 
-# Alt overview
+## Alt overview
 
 The `Alt` type class identifies an associative operation on a type constructor. It is similar to `Semigroup`, except
 that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than concrete types like `string` or
@@ -21,17 +21,20 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alt (interface)](#alt-interface)
-- [Alt1 (interface)](#alt1-interface)
-- [Alt2 (interface)](#alt2-interface)
-- [Alt2C (interface)](#alt2c-interface)
-- [Alt3 (interface)](#alt3-interface)
-- [Alt3C (interface)](#alt3c-interface)
-- [Alt4 (interface)](#alt4-interface)
+- [type classes](#type-classes)
+  - [Alt (interface)](#alt-interface)
+  - [Alt1 (interface)](#alt1-interface)
+  - [Alt2 (interface)](#alt2-interface)
+  - [Alt2C (interface)](#alt2c-interface)
+  - [Alt3 (interface)](#alt3-interface)
+  - [Alt3C (interface)](#alt3c-interface)
+  - [Alt4 (interface)](#alt4-interface)
 
 ---
 
-# Alt (interface)
+# type classes
+
+## Alt (interface)
 
 **Signature**
 
@@ -43,7 +46,7 @@ export interface Alt<F> extends Functor<F> {
 
 Added in v2.0.0
 
-# Alt1 (interface)
+## Alt1 (interface)
 
 **Signature**
 
@@ -55,7 +58,7 @@ export interface Alt1<F extends URIS> extends Functor1<F> {
 
 Added in v2.0.0
 
-# Alt2 (interface)
+## Alt2 (interface)
 
 **Signature**
 
@@ -67,7 +70,7 @@ export interface Alt2<F extends URIS2> extends Functor2<F> {
 
 Added in v2.0.0
 
-# Alt2C (interface)
+## Alt2C (interface)
 
 **Signature**
 
@@ -79,7 +82,7 @@ export interface Alt2C<F extends URIS2, E> extends Functor2C<F, E> {
 
 Added in v2.0.0
 
-# Alt3 (interface)
+## Alt3 (interface)
 
 **Signature**
 
@@ -91,7 +94,7 @@ export interface Alt3<F extends URIS3> extends Functor3<F> {
 
 Added in v2.0.0
 
-# Alt3C (interface)
+## Alt3C (interface)
 
 **Signature**
 
@@ -103,7 +106,7 @@ export interface Alt3C<F extends URIS3, E> extends Functor3C<F, E> {
 
 Added in v2.2.0
 
-# Alt4 (interface)
+## Alt4 (interface)
 
 **Signature**
 

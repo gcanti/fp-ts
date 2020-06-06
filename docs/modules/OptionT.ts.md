@@ -4,7 +4,7 @@ nav_order: 58
 parent: Modules
 ---
 
-# OptionT overview
+## OptionT overview
 
 Added in v2.0.0
 
@@ -12,18 +12,54 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [OptionM (interface)](#optionm-interface)
-- [OptionM1 (interface)](#optionm1-interface)
-- [OptionM2 (interface)](#optionm2-interface)
-- [OptionM2C (interface)](#optionm2c-interface)
-- [OptionT (interface)](#optiont-interface)
-- [OptionT1 (type alias)](#optiont1-type-alias)
-- [OptionT2 (type alias)](#optiont2-type-alias)
-- [getOptionM](#getoptionm)
+- [Model](#model)
+  - [OptionT (interface)](#optiont-interface)
+  - [OptionT1 (type alias)](#optiont1-type-alias)
+  - [OptionT2 (type alias)](#optiont2-type-alias)
+- [utils](#utils)
+  - [OptionM (interface)](#optionm-interface)
+  - [OptionM1 (interface)](#optionm1-interface)
+  - [OptionM2 (interface)](#optionm2-interface)
+  - [OptionM2C (interface)](#optionm2c-interface)
+  - [getOptionM](#getoptionm)
 
 ---
 
-# OptionM (interface)
+# Model
+
+## OptionT (interface)
+
+**Signature**
+
+```ts
+export interface OptionT<M, A> extends HKT<M, Option<A>> {}
+```
+
+Added in v2.0.0
+
+## OptionT1 (type alias)
+
+**Signature**
+
+```ts
+export type OptionT1<M extends URIS, A> = Kind<M, Option<A>>
+```
+
+Added in v2.0.0
+
+## OptionT2 (type alias)
+
+**Signature**
+
+```ts
+export type OptionT2<M extends URIS2, E, A> = Kind2<M, E, Option<A>>
+```
+
+Added in v2.0.0
+
+# utils
+
+## OptionM (interface)
 
 **Signature**
 
@@ -40,7 +76,7 @@ export interface OptionM<M> extends ApplicativeCompositionHKT1<M, URI> {
 
 Added in v2.0.0
 
-# OptionM1 (interface)
+## OptionM1 (interface)
 
 **Signature**
 
@@ -57,7 +93,7 @@ export interface OptionM1<M extends URIS> extends ApplicativeComposition11<M, UR
 
 Added in v2.0.0
 
-# OptionM2 (interface)
+## OptionM2 (interface)
 
 **Signature**
 
@@ -78,7 +114,7 @@ export interface OptionM2<M extends URIS2> extends ApplicativeComposition21<M, U
 
 Added in v2.0.0
 
-# OptionM2C (interface)
+## OptionM2C (interface)
 
 **Signature**
 
@@ -99,37 +135,7 @@ export interface OptionM2C<M extends URIS2, E> extends ApplicativeComposition2C1
 
 Added in v2.2.0
 
-# OptionT (interface)
-
-**Signature**
-
-```ts
-export interface OptionT<M, A> extends HKT<M, Option<A>> {}
-```
-
-Added in v2.0.0
-
-# OptionT1 (type alias)
-
-**Signature**
-
-```ts
-export type OptionT1<M extends URIS, A> = Kind<M, Option<A>>
-```
-
-Added in v2.0.0
-
-# OptionT2 (type alias)
-
-**Signature**
-
-```ts
-export type OptionT2<M extends URIS2, E, A> = Kind2<M, E, Option<A>>
-```
-
-Added in v2.0.0
-
-# getOptionM
+## getOptionM
 
 **Signature**
 

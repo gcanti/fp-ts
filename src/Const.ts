@@ -31,26 +31,31 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export const URI = 'Const'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type Const<E, A> = E & { readonly _A: A }
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 export const make: <E, A = never>(e: E) => Const<E, A> = unsafeCoerce
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getShow<E, A>(S: Show<E>): Show<Const<E, A>> {
@@ -60,51 +65,61 @@ export function getShow<E, A>(S: Show<E>): Show<Const<E, A>> {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const getEq: <E, A>(E: Eq<E>) => Eq<Const<E, A>> = identity
 
 /**
+ * @category instances
  * @since 2.6.0
  */
 export const getOrd: <E, A>(O: Ord<E>) => Ord<Const<E, A>> = identity
 
 /**
+ * @category instances
  * @since 2.6.0
  */
 export const getBounded: <E, A>(B: Bounded<E>) => Bounded<Const<E, A>> = identity as any
 
 /**
+ * @category instances
  * @since 2.6.0
  */
 export const getSemigroup: <E, A>(S: Semigroup<E>) => Semigroup<Const<E, A>> = identity as any
 
 /**
+ * @category instances
  * @since 2.6.0
  */
 export const getMonoid: <E, A>(M: Monoid<E>) => Monoid<Const<E, A>> = identity as any
 
 /**
+ * @category instances
  * @since 2.6.0
  */
 export const getSemiring: <E, A>(S: Semiring<E>) => Semiring<Const<E, A>> = identity as any
 
 /**
+ * @category instances
  * @since 2.6.0
  */
 export const getRing: <E, A>(S: Ring<E>) => Ring<Const<E, A>> = identity as any
 
 /**
+ * @category instances
  * @since 2.6.0
  */
 export const getHeytingAlgebra: <E, A>(H: HeytingAlgebra<E>) => HeytingAlgebra<Const<E, A>> = identity as any
 
 /**
+ * @category instances
  * @since 2.6.0
  */
 export const getBooleanAlgebra: <E, A>(H: BooleanAlgebra<E>) => BooleanAlgebra<Const<E, A>> = identity as any
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getApply<E>(S: Semigroup<E>): Apply2C<URI, E> {
@@ -117,6 +132,7 @@ export function getApply<E>(S: Semigroup<E>): Apply2C<URI, E> {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> {
@@ -139,22 +155,26 @@ const bimap_: <E, A, G, B>(fea: Const<E, A>, f: (e: E) => G, g: (a: A) => B) => 
 const mapLeft_: <E, A, G>(fea: Const<E, A>, f: (e: E) => G) => Const<G, A> = (fea, f) => make(f(fea))
 
 /**
+ * @category Contravariant
  * @since 2.0.0
  */
 export const contramap: <A, B>(f: (b: B) => A) => <E>(fa: Const<E, A>) => Const<E, B> = (f) => (fa) => contramap_(fa, f)
 
 /**
+ * @category Functor
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B> = (f) => (fa) => map_(fa, f)
 
 /**
+ * @category Bifunctor
  * @since 2.6.2
  */
 export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Const<E, A>) => Const<G, B> = (f, g) => (fa) =>
   bimap_(fa, f, g)
 
 /**
+ * @category Bifunctor
  * @since 2.6.2
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Const<E, A>) => Const<G, A> = (f) => (fa) => mapLeft_(fa, f)
@@ -164,6 +184,7 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Const<E, A>) => Const<G,
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const const_: Functor2<URI> & Contravariant2<URI> & Bifunctor2<URI> = {

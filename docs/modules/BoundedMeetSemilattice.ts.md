@@ -4,7 +4,7 @@ nav_order: 13
 parent: Modules
 ---
 
-# BoundedMeetSemilattice overview
+## BoundedMeetSemilattice overview
 
 A `BoundedMeetSemilattice` must satisfy the following laws in addition to `MeetSemilattice` laws:
 
@@ -16,11 +16,14 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [BoundedMeetSemilattice (interface)](#boundedmeetsemilattice-interface)
+- [type classes](#type-classes)
+  - [BoundedMeetSemilattice (interface)](#boundedmeetsemilattice-interface)
 
 ---
 
-# BoundedMeetSemilattice (interface)
+# type classes
+
+## BoundedMeetSemilattice (interface)
 
 **Signature**
 

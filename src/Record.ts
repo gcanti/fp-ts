@@ -30,11 +30,13 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export const URI = 'Record'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type URI = typeof URI
@@ -484,6 +486,7 @@ export const elem: <A>(E: Eq<A>) => (a: A, fa: Record<string, A>) => boolean = R
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category Filterable
  * @since 2.0.0
  */
 export const filter: {
@@ -492,16 +495,19 @@ export const filter: {
 } = RR.filter
 
 /**
+ * @category Filterable
  * @since 2.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Record<string, A>) => Record<string, B> = RR.filterMap
 
 /**
+ * @category Foldable
  * @since 2.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Record<string, A>) => M = RR.foldMap
 
 /**
+ * @category Filterable
  * @since 2.0.0
  */
 export const partition: {
@@ -512,6 +518,7 @@ export const partition: {
 } = RR.partition
 
 /**
+ * @category Filterable
  * @since 2.0.0
  */
 export const partitionMap: <A, B, C>(
@@ -519,21 +526,25 @@ export const partitionMap: <A, B, C>(
 ) => (fa: Record<string, A>) => Separated<Record<string, B>, Record<string, C>> = RR.partitionMap
 
 /**
+ * @category Foldable
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Record<string, A>) => B = RR.reduce
 
 /**
+ * @category Foldable
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Record<string, A>) => B = RR.reduceRight
 
 /**
+ * @category Compactable
  * @since 2.0.0
  */
 export const compact: <A>(fa: Record<string, Option<A>>) => Record<string, A> = RR.compact
 
 /**
+ * @category Compactable
  * @since 2.0.0
  */
 export const separate: <A, B>(fa: Record<string, Either<A, B>>) => Separated<Record<string, A>, Record<string, B>> =

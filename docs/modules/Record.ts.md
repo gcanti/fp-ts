@@ -4,7 +4,7 @@ nav_order: 75
 parent: Modules
 ---
 
-# Record overview
+## Record overview
 
 Added in v2.0.0
 
@@ -12,68 +12,173 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [URI (type alias)](#uri-type-alias)
-- [URI](#uri)
-- [collect](#collect)
-- [compact](#compact)
-- [deleteAt](#deleteat)
-- [elem](#elem)
-- [empty](#empty)
-- [every](#every)
-- [filter](#filter)
-- [filterMap](#filtermap)
-- [filterMapWithIndex](#filtermapwithindex)
-- [filterWithIndex](#filterwithindex)
-- [foldMap](#foldmap)
-- [foldMapWithIndex](#foldmapwithindex)
-- [fromFoldable](#fromfoldable)
-- [fromFoldableMap](#fromfoldablemap)
-- [getEq](#geteq)
-- [getMonoid](#getmonoid)
-- [getShow](#getshow)
-- [hasOwnProperty (function)](#hasownproperty-function)
-- [insertAt](#insertat)
-- [isEmpty](#isempty)
-- [isSubrecord](#issubrecord)
-- [keys](#keys)
-- [lookup](#lookup)
-- [map](#map)
-- [mapWithIndex](#mapwithindex)
-- [modifyAt](#modifyat)
-- [partition](#partition)
-- [partitionMap](#partitionmap)
-- [partitionMapWithIndex](#partitionmapwithindex)
-- [partitionWithIndex](#partitionwithindex)
-- [pop](#pop)
-- [record](#record)
-- [reduce](#reduce)
-- [reduceRight](#reduceright)
-- [reduceRightWithIndex](#reducerightwithindex)
-- [reduceWithIndex](#reducewithindex)
-- [separate](#separate)
-- [sequence](#sequence)
-- [singleton](#singleton)
-- [size](#size)
-- [some](#some)
-- [toArray](#toarray)
-- [toUnfoldable](#tounfoldable)
-- [traverse](#traverse)
-- [traverseWithIndex](#traversewithindex)
-- [updateAt](#updateat)
+- [Compactable](#compactable)
+  - [compact](#compact)
+  - [separate](#separate)
+- [Filterable](#filterable)
+  - [filter](#filter)
+  - [filterMap](#filtermap)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
+- [Foldable](#foldable)
+  - [foldMap](#foldmap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
+- [Model](#model)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+- [utils](#utils)
+  - [collect](#collect)
+  - [deleteAt](#deleteat)
+  - [elem](#elem)
+  - [empty](#empty)
+  - [every](#every)
+  - [filterMapWithIndex](#filtermapwithindex)
+  - [filterWithIndex](#filterwithindex)
+  - [foldMapWithIndex](#foldmapwithindex)
+  - [fromFoldable](#fromfoldable)
+  - [fromFoldableMap](#fromfoldablemap)
+  - [getEq](#geteq)
+  - [getMonoid](#getmonoid)
+  - [getShow](#getshow)
+  - [hasOwnProperty (function)](#hasownproperty-function)
+  - [insertAt](#insertat)
+  - [isEmpty](#isempty)
+  - [isSubrecord](#issubrecord)
+  - [keys](#keys)
+  - [lookup](#lookup)
+  - [map](#map)
+  - [mapWithIndex](#mapwithindex)
+  - [modifyAt](#modifyat)
+  - [partitionMapWithIndex](#partitionmapwithindex)
+  - [partitionWithIndex](#partitionwithindex)
+  - [pop](#pop)
+  - [record](#record)
+  - [reduceRightWithIndex](#reducerightwithindex)
+  - [reduceWithIndex](#reducewithindex)
+  - [sequence](#sequence)
+  - [singleton](#singleton)
+  - [size](#size)
+  - [some](#some)
+  - [toArray](#toarray)
+  - [toUnfoldable](#tounfoldable)
+  - [traverse](#traverse)
+  - [traverseWithIndex](#traversewithindex)
+  - [updateAt](#updateat)
 
 ---
 
-# URI (type alias)
+# Compactable
+
+## compact
 
 **Signature**
 
 ```ts
-export type URI = typeof URI
+export declare const compact: <A>(fa: Record<string, Option<A>>) => Record<string, A>
 ```
 
 Added in v2.0.0
 
-# URI
+## separate
+
+**Signature**
+
+```ts
+export declare const separate: <A, B>(
+  fa: Record<string, Either<A, B>>
+) => Separated<Record<string, A>, Record<string, B>>
+```
+
+Added in v2.0.0
+
+# Filterable
+
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: Record<string, A>) => Record<string, B>
+  <A>(predicate: Predicate<A>): (fa: Record<string, A>) => Record<string, A>
+}
+```
+
+Added in v2.0.0
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Record<string, A>) => Record<string, B>
+```
+
+Added in v2.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): (
+    fa: Record<string, A>
+  ) => Separated<Record<string, A>, Record<string, B>>
+  <A>(predicate: Predicate<A>): (fa: Record<string, A>) => Separated<Record<string, A>, Record<string, A>>
+}
+```
+
+Added in v2.0.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: Record<string, A>) => Separated<Record<string, B>, Record<string, C>>
+```
+
+Added in v2.0.0
+
+# Foldable
+
+## foldMap
+
+**Signature**
+
+```ts
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Record<string, A>) => M
+```
+
+Added in v2.0.0
+
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Record<string, A>) => B
+```
+
+Added in v2.0.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Record<string, A>) => B
+```
+
+Added in v2.0.0
+
+# Model
+
+## URI
 
 **Signature**
 
@@ -83,7 +188,19 @@ export declare const URI: 'Record'
 
 Added in v2.0.0
 
-# collect
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
+# utils
+
+## collect
 
 Map a record into an array
 
@@ -107,17 +224,7 @@ assert.deepStrictEqual(collect((key, val) => ({ key: key, value: val }))(x), [
 
 Added in v2.0.0
 
-# compact
-
-**Signature**
-
-```ts
-export declare const compact: <A>(fa: Record<string, Option<A>>) => Record<string, A>
-```
-
-Added in v2.0.0
-
-# deleteAt
+## deleteAt
 
 Delete a key and value from a map
 
@@ -131,7 +238,7 @@ export declare function deleteAt<K extends string>(
 
 Added in v2.0.0
 
-# elem
+## elem
 
 **Signature**
 
@@ -141,7 +248,7 @@ export declare const elem: <A>(E: Eq<A>) => (a: A, fa: Record<string, A>) => boo
 
 Added in v2.0.0
 
-# empty
+## empty
 
 **Signature**
 
@@ -151,7 +258,7 @@ export declare const empty: Record<string, never>
 
 Added in v2.0.0
 
-# every
+## every
 
 **Signature**
 
@@ -161,30 +268,7 @@ export declare const every: <A>(predicate: Predicate<A>) => (r: Record<string, A
 
 Added in v2.0.0
 
-# filter
-
-**Signature**
-
-```ts
-export declare const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: Record<string, A>) => Record<string, B>
-  <A>(predicate: Predicate<A>): (fa: Record<string, A>) => Record<string, A>
-}
-```
-
-Added in v2.0.0
-
-# filterMap
-
-**Signature**
-
-```ts
-export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Record<string, A>) => Record<string, B>
-```
-
-Added in v2.0.0
-
-# filterMapWithIndex
+## filterMapWithIndex
 
 **Signature**
 
@@ -196,7 +280,7 @@ export declare function filterMapWithIndex<K extends string, A, B>(
 
 Added in v2.0.0
 
-# filterWithIndex
+## filterWithIndex
 
 **Signature**
 
@@ -211,17 +295,7 @@ export declare function filterWithIndex<K extends string, A>(
 
 Added in v2.0.0
 
-# foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Record<string, A>) => M
-```
-
-Added in v2.0.0
-
-# foldMapWithIndex
+## foldMapWithIndex
 
 **Signature**
 
@@ -233,7 +307,7 @@ export declare function foldMapWithIndex<M>(
 
 Added in v2.0.0
 
-# fromFoldable
+## fromFoldable
 
 Create a record from a foldable collection of key/value pairs, using the
 specified `Magma` to combine values for duplicate keys.
@@ -261,7 +335,7 @@ export declare function fromFoldable<F, A>(
 
 Added in v2.0.0
 
-# fromFoldableMap
+## fromFoldableMap
 
 Create a record from a foldable collection using the specified functions to
 
@@ -326,7 +400,7 @@ assert.deepStrictEqual(
 
 Added in v2.0.0
 
-# getEq
+## getEq
 
 **Signature**
 
@@ -336,7 +410,7 @@ export declare function getEq<K extends string, A>(E: Eq<A>): Eq<Record<K, A>>
 
 Added in v2.0.0
 
-# getMonoid
+## getMonoid
 
 Returns a `Semigroup` instance for records given a `Semigroup` instance for their values
 
@@ -358,7 +432,7 @@ assert.deepStrictEqual(M.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
 
 Added in v2.0.0
 
-# getShow
+## getShow
 
 **Signature**
 
@@ -368,7 +442,7 @@ export declare const getShow: <A>(S: Show<A>) => Show<Record<string, A>>
 
 Added in v2.0.0
 
-# hasOwnProperty (function)
+## hasOwnProperty (function)
 
 **Signature**
 
@@ -378,7 +452,7 @@ export declare const hasOwnProperty: <K extends string>(k: string, r: Record<K, 
 
 Added in v2.0.0
 
-# insertAt
+## insertAt
 
 Insert or replace a key/value pair in a record
 
@@ -393,7 +467,7 @@ export declare function insertAt<K extends string, A>(
 
 Added in v2.0.0
 
-# isEmpty
+## isEmpty
 
 Test whether a record is empty
 
@@ -405,7 +479,7 @@ export declare const isEmpty: (r: Record<string, unknown>) => boolean
 
 Added in v2.0.0
 
-# isSubrecord
+## isSubrecord
 
 Test whether one record contains all of the keys and values contained in another record
 
@@ -417,7 +491,7 @@ export declare const isSubrecord: <A>(E: Eq<A>) => (x: Record<string, A>, y: Rec
 
 Added in v2.0.0
 
-# keys
+## keys
 
 **Signature**
 
@@ -427,7 +501,7 @@ export declare const keys: <K extends string>(r: Record<K, unknown>) => K[]
 
 Added in v2.0.0
 
-# lookup
+## lookup
 
 Lookup the value for a key in a record
 
@@ -439,7 +513,7 @@ export declare const lookup: <A>(k: string, r: Record<string, A>) => Option<A>
 
 Added in v2.0.0
 
-# map
+## map
 
 Map a record passing the values to the iterating function
 
@@ -451,7 +525,7 @@ export declare function map<A, B>(f: (a: A) => B): <K extends string>(fa: Record
 
 Added in v2.0.0
 
-# mapWithIndex
+## mapWithIndex
 
 Map a record passing the keys to the iterating function
 
@@ -463,7 +537,7 @@ export declare function mapWithIndex<K extends string, A, B>(f: (k: K, a: A) => 
 
 Added in v2.0.0
 
-# modifyAt
+## modifyAt
 
 **Signature**
 
@@ -476,34 +550,7 @@ export declare const modifyAt: <A>(
 
 Added in v2.0.0
 
-# partition
-
-**Signature**
-
-```ts
-export declare const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (
-    fa: Record<string, A>
-  ) => Separated<Record<string, A>, Record<string, B>>
-  <A>(predicate: Predicate<A>): (fa: Record<string, A>) => Separated<Record<string, A>, Record<string, A>>
-}
-```
-
-Added in v2.0.0
-
-# partitionMap
-
-**Signature**
-
-```ts
-export declare const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
-) => (fa: Record<string, A>) => Separated<Record<string, B>, Record<string, C>>
-```
-
-Added in v2.0.0
-
-# partitionMapWithIndex
+## partitionMapWithIndex
 
 **Signature**
 
@@ -515,7 +562,7 @@ export declare function partitionMapWithIndex<K extends string, A, B, C>(
 
 Added in v2.0.0
 
-# partitionWithIndex
+## partitionWithIndex
 
 **Signature**
 
@@ -530,7 +577,7 @@ export declare function partitionWithIndex<K extends string, A>(
 
 Added in v2.0.0
 
-# pop
+## pop
 
 Delete a key and value from a map, returning the value as well as the subsequent map
 
@@ -544,7 +591,7 @@ export declare function pop<K extends string>(
 
 Added in v2.0.0
 
-# record
+## record
 
 **Signature**
 
@@ -560,27 +607,7 @@ export declare const record: FunctorWithIndex1<'Record', string> &
 
 Added in v2.0.0
 
-# reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Record<string, A>) => B
-```
-
-Added in v2.0.0
-
-# reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Record<string, A>) => B
-```
-
-Added in v2.0.0
-
-# reduceRightWithIndex
+## reduceRightWithIndex
 
 **Signature**
 
@@ -593,7 +620,7 @@ export declare function reduceRightWithIndex<K extends string, A, B>(
 
 Added in v2.0.0
 
-# reduceWithIndex
+## reduceWithIndex
 
 **Signature**
 
@@ -606,19 +633,7 @@ export declare function reduceWithIndex<K extends string, A, B>(
 
 Added in v2.0.0
 
-# separate
-
-**Signature**
-
-```ts
-export declare const separate: <A, B>(
-  fa: Record<string, Either<A, B>>
-) => Separated<Record<string, A>, Record<string, B>>
-```
-
-Added in v2.0.0
-
-# sequence
+## sequence
 
 **Signature**
 
@@ -645,7 +660,7 @@ export declare function sequence<F>(
 
 Added in v2.0.0
 
-# singleton
+## singleton
 
 Create a record with one key/value pair
 
@@ -657,7 +672,7 @@ export declare const singleton: <K extends string, A>(k: K, a: A) => Record<K, A
 
 Added in v2.0.0
 
-# size
+## size
 
 Calculate the number of key/value pairs in a record
 
@@ -669,7 +684,7 @@ export declare const size: (r: Record<string, unknown>) => number
 
 Added in v2.0.0
 
-# some
+## some
 
 **Signature**
 
@@ -679,7 +694,7 @@ export declare const some: <A>(predicate: (a: A) => boolean) => (r: Record<strin
 
 Added in v2.0.0
 
-# toArray
+## toArray
 
 **Signature**
 
@@ -689,7 +704,7 @@ export declare const toArray: <K extends string, A>(r: Record<K, A>) => [K, A][]
 
 Added in v2.0.0
 
-# toUnfoldable
+## toUnfoldable
 
 Unfolds a record into a list of key/value pairs
 
@@ -704,7 +719,7 @@ export declare function toUnfoldable<F>(U: Unfoldable<F>): <K extends string, A>
 
 Added in v2.0.0
 
-# traverse
+## traverse
 
 **Signature**
 
@@ -731,7 +746,7 @@ export declare function traverse<F>(
 
 Added in v2.0.0
 
-# traverseWithIndex
+## traverseWithIndex
 
 **Signature**
 
@@ -762,7 +777,7 @@ export declare function traverseWithIndex<F>(
 
 Added in v2.0.0
 
-# updateAt
+## updateAt
 
 **Signature**
 

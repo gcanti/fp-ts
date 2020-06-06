@@ -21,26 +21,31 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export const URI = 'Identity'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type Identity<A> = A
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const getShow: <A>(S: Show<A>) => Show<Identity<A>> = id
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const getEq: <A>(E: Eq<A>) => Eq<Identity<A>> = id
@@ -74,16 +79,19 @@ const sequence_ = <F>(F: Applicative<F>) => <A>(ta: Identity<HKT<F, A>>): HKT<F,
 }
 
 /**
+ * @category Alt
  * @since 2.0.0
  */
 export const alt: <A>(that: () => Identity<A>) => (fa: Identity<A>) => Identity<A> = (that) => (fa) => alt_(fa, that)
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const ap: <A>(fa: Identity<A>) => <B>(fab: Identity<(a: A) => B>) => Identity<B> = (fa) => (fab) => ap_(fab, fa)
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const apFirst: <B>(fb: Identity<B>) => <A>(fa: Identity<A>) => Identity<A> = (fb) => (fa) =>
@@ -93,6 +101,7 @@ export const apFirst: <B>(fb: Identity<B>) => <A>(fa: Identity<A>) => Identity<A
   )
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const apSecond = <B>(fb: Identity<B>) => <A>(fa: Identity<A>): Identity<B> =>
@@ -102,38 +111,45 @@ export const apSecond = <B>(fb: Identity<B>) => <A>(fa: Identity<A>): Identity<B
   )
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const chain: <A, B>(f: (a: A) => Identity<B>) => (ma: Identity<A>) => Identity<B> = (f) => (ma) => chain_(ma, f)
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => Identity<B>) => (ma: Identity<A>) => Identity<A> = (f) => (ma) =>
   chain_(ma, (a) => map_(f(a), () => a))
 
 /**
+ * @category Extend
  * @since 2.0.0
  */
 export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> = (wa) => extend_(wa, id)
 
 /**
+ * @category Extract
  * @since 2.6.2
  */
 export const extract: <A>(wa: Identity<A>) => A = id
 
 /**
+ * @category Extend
  * @since 2.0.0
  */
 export const extend: <A, B>(f: (wa: Identity<A>) => B) => (wa: Identity<A>) => Identity<B> = (f) => (ma) =>
   extend_(ma, f)
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> = (mma) => chain_(mma, id)
 
 /**
+ * @category Foldable
  * @since 2.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Identity<A>) => M = (M) => {
@@ -142,20 +158,23 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Identity<
 }
 
 /**
- * @since 2.0.0
- */
-export const map: <A, B>(f: (a: A) => B) => (fa: Identity<A>) => Identity<B> = (f) => (fa) => map_(fa, f)
-
-/**
+ * @category Foldable
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Identity<A>) => B = (b, f) => (fa) => reduce_(fa, b, f)
 
 /**
+ * @category Foldable
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Identity<A>) => B = (b, f) => (fa) =>
   reduceRight_(fa, b, f)
+
+/**
+ * @category Functor
+ * @since 2.0.0
+ */
+export const map: <A, B>(f: (a: A) => B) => (fa: Identity<A>) => Identity<B> = (f) => (fa) => map_(fa, f)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -173,6 +192,7 @@ export const monadIdentity: Monad1<URI> = {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI> = {

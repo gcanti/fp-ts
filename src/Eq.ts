@@ -20,16 +20,19 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export const URI = 'Eq'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Eq<A> {
@@ -37,6 +40,7 @@ export interface Eq<A> {
 }
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> {
@@ -46,6 +50,7 @@ export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> {
 }
 
 /**
+ * @category instances
  * @since 2.5.0
  */
 export const eqStrict: Eq<unknown> = {
@@ -64,21 +69,25 @@ export function strictEqual<A>(a: A, b: A): boolean {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const eqString: Eq<string> = eqStrict
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const eqNumber: Eq<number> = eqStrict
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const eqBoolean: Eq<boolean> = eqStrict
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> {
@@ -104,6 +113,7 @@ export function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in 
  * assert.strictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
  * assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
  *
+ * @category instances
  * @since 2.0.0
  */
 export function getTupleEq<T extends ReadonlyArray<Eq<any>>>(
@@ -113,6 +123,7 @@ export function getTupleEq<T extends ReadonlyArray<Eq<any>>>(
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const eqDate: Eq<Date> = {
@@ -124,6 +135,7 @@ const empty: Eq<unknown> = {
 }
 
 /**
+ * @category instances
  * @since 2.6.0
  */
 export function getMonoid<A>(): Monoid<Eq<A>> {
@@ -140,6 +152,7 @@ export function getMonoid<A>(): Monoid<Eq<A>> {
 const contramap_: <A, B>(fa: Eq<A>, f: (b: B) => A) => Eq<B> = (fa, f) => fromEquals((x, y) => fa.equals(f(x), f(y)))
 
 /**
+ * @category Contravariant
  * @since 2.0.0
  */
 export const contramap: <A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B> = (f) => (fa) => contramap_(fa, f)
@@ -149,6 +162,7 @@ export const contramap: <A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B> = (f) => 
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const eq: Contravariant1<URI> = {

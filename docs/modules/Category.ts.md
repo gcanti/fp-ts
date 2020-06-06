@@ -4,7 +4,7 @@ nav_order: 14
 parent: Modules
 ---
 
-# Category overview
+## Category overview
 
 Added in v2.0.0
 
@@ -12,14 +12,17 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Category (interface)](#category-interface)
-- [Category2 (interface)](#category2-interface)
-- [Category3 (interface)](#category3-interface)
-- [Category4 (interface)](#category4-interface)
+- [type classes](#type-classes)
+  - [Category (interface)](#category-interface)
+  - [Category2 (interface)](#category2-interface)
+  - [Category3 (interface)](#category3-interface)
+  - [Category4 (interface)](#category4-interface)
 
 ---
 
-# Category (interface)
+# type classes
+
+## Category (interface)
 
 **Signature**
 
@@ -31,7 +34,7 @@ export interface Category<F> extends Semigroupoid<F> {
 
 Added in v2.0.0
 
-# Category2 (interface)
+## Category2 (interface)
 
 **Signature**
 
@@ -43,7 +46,7 @@ export interface Category2<F extends URIS2> extends Semigroupoid2<F> {
 
 Added in v2.0.0
 
-# Category3 (interface)
+## Category3 (interface)
 
 **Signature**
 
@@ -55,7 +58,7 @@ export interface Category3<F extends URIS3> extends Semigroupoid3<F> {
 
 Added in v2.0.0
 
-# Category4 (interface)
+## Category4 (interface)
 
 **Signature**
 

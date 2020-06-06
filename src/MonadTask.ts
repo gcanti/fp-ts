@@ -8,6 +8,7 @@ import { MonadIO, MonadIO1, MonadIO2, MonadIO2C, MonadIO3, MonadIO3C, MonadIO4 }
 import { Task } from './Task'
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface MonadTask<M> extends MonadIO<M> {
@@ -15,6 +16,7 @@ export interface MonadTask<M> extends MonadIO<M> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface MonadTask1<M extends URIS> extends MonadIO1<M> {
@@ -22,6 +24,7 @@ export interface MonadTask1<M extends URIS> extends MonadIO1<M> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface MonadTask2<M extends URIS2> extends MonadIO2<M> {
@@ -29,6 +32,7 @@ export interface MonadTask2<M extends URIS2> extends MonadIO2<M> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface MonadTask2C<M extends URIS2, E> extends MonadIO2C<M, E> {
@@ -36,6 +40,7 @@ export interface MonadTask2C<M extends URIS2, E> extends MonadIO2C<M, E> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface MonadTask3<M extends URIS3> extends MonadIO3<M> {
@@ -43,6 +48,7 @@ export interface MonadTask3<M extends URIS3> extends MonadIO3<M> {
 }
 
 /**
+ * @category type classes
  * @since 2.2.0
  */
 export interface MonadTask3C<M extends URIS3, E> extends MonadIO3C<M, E> {
@@ -50,6 +56,7 @@ export interface MonadTask3C<M extends URIS3, E> extends MonadIO3C<M, E> {
 }
 
 /**
+ * @category type classes
  * @since 2.4.4
  */
 export interface MonadTask4<M extends URIS4> extends MonadIO4<M> {

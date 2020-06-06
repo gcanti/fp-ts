@@ -34,6 +34,7 @@ import { Monoid } from './Monoid'
 /* tslint:disable:readonly-array */
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface FoldableWithIndex<F, I> extends Foldable<F> {
@@ -43,6 +44,7 @@ export interface FoldableWithIndex<F, I> extends Foldable<F> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface FoldableWithIndex1<F extends URIS, I> extends Foldable1<F> {
@@ -52,6 +54,7 @@ export interface FoldableWithIndex1<F extends URIS, I> extends Foldable1<F> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface FoldableWithIndex2<F extends URIS2, I> extends Foldable2<F> {
@@ -61,6 +64,7 @@ export interface FoldableWithIndex2<F extends URIS2, I> extends Foldable2<F> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface FoldableWithIndex2C<F extends URIS2, I, E> extends Foldable2C<F, E> {
@@ -70,6 +74,7 @@ export interface FoldableWithIndex2C<F extends URIS2, I, E> extends Foldable2C<F
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface FoldableWithIndex3<F extends URIS3, I> extends Foldable3<F> {
@@ -79,6 +84,7 @@ export interface FoldableWithIndex3<F extends URIS3, I> extends Foldable3<F> {
 }
 
 /**
+ * @category type classes
  * @since 2.2.0
  */
 export interface FoldableWithIndex3C<F extends URIS3, I, E> extends Foldable3C<F, E> {
@@ -88,6 +94,7 @@ export interface FoldableWithIndex3C<F extends URIS3, I, E> extends Foldable3C<F
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface FoldableWithIndex4<F extends URIS4, I> extends Foldable4<F> {

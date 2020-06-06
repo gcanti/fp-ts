@@ -4,7 +4,7 @@ nav_order: 59
 parent: Modules
 ---
 
-# Ord overview
+## Ord overview
 
 The `Ord` type class represents types which support comparisons with a _total order_.
 
@@ -20,88 +20,41 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Ord (interface)](#ord-interface)
-- [URI (type alias)](#uri-type-alias)
-- [URI](#uri)
-- [between](#between)
-- [clamp](#clamp)
-- [contramap](#contramap)
-- [fromCompare](#fromcompare)
-- [geq](#geq)
-- [getDualOrd](#getdualord)
-- [getMonoid](#getmonoid)
-- [getTupleOrd](#gettupleord)
-- [gt](#gt)
-- [leq](#leq)
-- [lt](#lt)
-- [max](#max)
-- [min](#min)
-- [ord](#ord)
-- [ordBoolean](#ordboolean)
-- [ordDate](#orddate)
-- [ordNumber](#ordnumber)
-- [ordString](#ordstring)
-- [~~getSemigroup~~](#getsemigroup)
+- [Contravariant](#contravariant)
+  - [contramap](#contramap)
+- [Model](#model)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+- [combinators](#combinators)
+  - [getDualOrd](#getdualord)
+- [constructors](#constructors)
+  - [fromCompare](#fromcompare)
+- [instances](#instances)
+  - [getMonoid](#getmonoid)
+  - [getTupleOrd](#gettupleord)
+  - [ord](#ord)
+  - [ordBoolean](#ordboolean)
+  - [ordDate](#orddate)
+  - [ordNumber](#ordnumber)
+  - [ordString](#ordstring)
+  - [~~getSemigroup~~](#getsemigroup)
+- [type classes](#type-classes)
+  - [Ord (interface)](#ord-interface)
+- [utils](#utils)
+  - [between](#between)
+  - [clamp](#clamp)
+  - [geq](#geq)
+  - [gt](#gt)
+  - [leq](#leq)
+  - [lt](#lt)
+  - [max](#max)
+  - [min](#min)
 
 ---
 
-# Ord (interface)
+# Contravariant
 
-**Signature**
-
-```ts
-export interface Ord<A> extends Eq<A> {
-  readonly compare: (x: A, y: A) => Ordering
-}
-```
-
-Added in v2.0.0
-
-# URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-# URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Ord'
-```
-
-Added in v2.0.0
-
-# between
-
-Test whether a value is between a minimum and a maximum (inclusive)
-
-**Signature**
-
-```ts
-export declare function between<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => boolean
-```
-
-Added in v2.0.0
-
-# clamp
-
-Clamp a value between a minimum and a maximum
-
-**Signature**
-
-```ts
-export declare function clamp<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => A
-```
-
-Added in v2.0.0
-
-# contramap
+## contramap
 
 **Signature**
 
@@ -111,29 +64,31 @@ export declare const contramap: <A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B>
 
 Added in v2.0.0
 
-# fromCompare
+# Model
+
+## URI
 
 **Signature**
 
 ```ts
-export declare function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A>
+export declare const URI: 'Ord'
 ```
 
 Added in v2.0.0
 
-# geq
-
-Test whether one value is _non-strictly greater than_ another
+## URI (type alias)
 
 **Signature**
 
 ```ts
-export declare function geq<A>(O: Ord<A>): (x: A, y: A) => boolean
+export type URI = typeof URI
 ```
 
 Added in v2.0.0
 
-# getDualOrd
+# combinators
+
+## getDualOrd
 
 **Signature**
 
@@ -143,7 +98,21 @@ export declare function getDualOrd<A>(O: Ord<A>): Ord<A>
 
 Added in v2.0.0
 
-# getMonoid
+# constructors
+
+## fromCompare
+
+**Signature**
+
+```ts
+export declare function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A>
+```
+
+Added in v2.0.0
+
+# instances
+
+## getMonoid
 
 Returns a `Monoid` such that:
 
@@ -216,7 +185,7 @@ assert.deepStrictEqual(sort(O2)(users), [
 
 Added in v2.4.0
 
-# getTupleOrd
+## getTupleOrd
 
 Given a tuple of `Ord`s returns an `Ord` for the tuple
 
@@ -241,7 +210,121 @@ assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
 
 Added in v2.0.0
 
-# gt
+## ord
+
+**Signature**
+
+```ts
+export declare const ord: Contravariant1<'Ord'>
+```
+
+Added in v2.0.0
+
+## ordBoolean
+
+**Signature**
+
+```ts
+export declare const ordBoolean: Ord<boolean>
+```
+
+Added in v2.0.0
+
+## ordDate
+
+**Signature**
+
+```ts
+export declare const ordDate: Ord<Date>
+```
+
+Added in v2.0.0
+
+## ordNumber
+
+**Signature**
+
+```ts
+export declare const ordNumber: Ord<number>
+```
+
+Added in v2.0.0
+
+## ordString
+
+**Signature**
+
+```ts
+export declare const ordString: Ord<string>
+```
+
+Added in v2.0.0
+
+## ~~getSemigroup~~
+
+Use `getMonoid` instead
+
+**Signature**
+
+```ts
+export declare function getSemigroup<A = never>(): Semigroup<Ord<A>>
+```
+
+Added in v2.0.0
+
+# type classes
+
+## Ord (interface)
+
+**Signature**
+
+```ts
+export interface Ord<A> extends Eq<A> {
+  readonly compare: (x: A, y: A) => Ordering
+}
+```
+
+Added in v2.0.0
+
+# utils
+
+## between
+
+Test whether a value is between a minimum and a maximum (inclusive)
+
+**Signature**
+
+```ts
+export declare function between<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => boolean
+```
+
+Added in v2.0.0
+
+## clamp
+
+Clamp a value between a minimum and a maximum
+
+**Signature**
+
+```ts
+export declare function clamp<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => A
+```
+
+Added in v2.0.0
+
+## geq
+
+Test whether one value is _non-strictly greater than_ another
+
+**Signature**
+
+```ts
+export declare function geq<A>(O: Ord<A>): (x: A, y: A) => boolean
+```
+
+Added in v2.0.0
+
+## gt
 
 Test whether one value is _strictly greater than_ another
 
@@ -253,7 +336,7 @@ export declare function gt<A>(O: Ord<A>): (x: A, y: A) => boolean
 
 Added in v2.0.0
 
-# leq
+## leq
 
 Test whether one value is _non-strictly less than_ another
 
@@ -265,7 +348,7 @@ export declare function leq<A>(O: Ord<A>): (x: A, y: A) => boolean
 
 Added in v2.0.0
 
-# lt
+## lt
 
 Test whether one value is _strictly less than_ another
 
@@ -277,7 +360,7 @@ export declare function lt<A>(O: Ord<A>): (x: A, y: A) => boolean
 
 Added in v2.0.0
 
-# max
+## max
 
 Take the maximum of two values. If they are considered equal, the first argument is chosen
 
@@ -289,7 +372,7 @@ export declare function max<A>(O: Ord<A>): (x: A, y: A) => A
 
 Added in v2.0.0
 
-# min
+## min
 
 Take the minimum of two values. If they are considered equal, the first argument is chosen
 
@@ -297,68 +380,6 @@ Take the minimum of two values. If they are considered equal, the first argument
 
 ```ts
 export declare function min<A>(O: Ord<A>): (x: A, y: A) => A
-```
-
-Added in v2.0.0
-
-# ord
-
-**Signature**
-
-```ts
-export declare const ord: Contravariant1<'Ord'>
-```
-
-Added in v2.0.0
-
-# ordBoolean
-
-**Signature**
-
-```ts
-export declare const ordBoolean: Ord<boolean>
-```
-
-Added in v2.0.0
-
-# ordDate
-
-**Signature**
-
-```ts
-export declare const ordDate: Ord<Date>
-```
-
-Added in v2.0.0
-
-# ordNumber
-
-**Signature**
-
-```ts
-export declare const ordNumber: Ord<number>
-```
-
-Added in v2.0.0
-
-# ordString
-
-**Signature**
-
-```ts
-export declare const ordString: Ord<string>
-```
-
-Added in v2.0.0
-
-# ~~getSemigroup~~
-
-Use `getMonoid` instead
-
-**Signature**
-
-```ts
-export declare function getSemigroup<A = never>(): Semigroup<Ord<A>>
 ```
 
 Added in v2.0.0

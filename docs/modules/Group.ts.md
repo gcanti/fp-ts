@@ -4,7 +4,7 @@ nav_order: 37
 parent: Modules
 ---
 
-# Group overview
+## Group overview
 
 A `Group` is a `Monoid` with inverses. Instances must satisfy the following law in addition to the monoid laws:
 
@@ -16,11 +16,14 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Group (interface)](#group-interface)
+- [type classes](#type-classes)
+  - [Group (interface)](#group-interface)
 
 ---
 
-# Group (interface)
+# type classes
+
+## Group (interface)
 
 **Signature**
 

@@ -24,16 +24,19 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.5.0
  */
 export const URI = 'ReadonlyTuple'
 
 /**
+ * @category Model
  * @since 2.5.0
  */
 export type URI = typeof URI
 
 /**
+ * @category destructors
  * @since 2.5.0
  */
 export function fst<A, S>(sa: readonly [A, S]): A {
@@ -41,6 +44,7 @@ export function fst<A, S>(sa: readonly [A, S]): A {
 }
 
 /**
+ * @category destructors
  * @since 2.5.0
  */
 export function snd<A, S>(sa: readonly [A, S]): S {
@@ -48,6 +52,7 @@ export function snd<A, S>(sa: readonly [A, S]): S {
 }
 
 /**
+ * @category combinators
  * @since 2.5.0
  */
 export function swap<A, S>(sa: readonly [A, S]): readonly [S, A] {
@@ -55,6 +60,7 @@ export function swap<A, S>(sa: readonly [A, S]): readonly [S, A] {
 }
 
 /**
+ * @category instances
  * @since 2.5.0
  */
 export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
@@ -71,6 +77,7 @@ const of = <S>(M: Monoid<S>) => <A>(a: A): readonly [A, S] => {
 }
 
 /**
+ * @category instances
  * @since 2.5.0
  */
 export function getApplicative<S>(M: Monoid<S>): Applicative2C<URI, S> {
@@ -81,6 +88,7 @@ export function getApplicative<S>(M: Monoid<S>): Applicative2C<URI, S> {
 }
 
 /**
+ * @category instances
  * @since 2.5.0
  */
 export function getChain<S>(S: Semigroup<S>): Chain2C<URI, S> {
@@ -94,6 +102,7 @@ export function getChain<S>(S: Semigroup<S>): Chain2C<URI, S> {
 }
 
 /**
+ * @category instances
  * @since 2.5.0
  */
 export function getMonad<S>(M: Monoid<S>): Monad2C<URI, S> {
@@ -104,6 +113,7 @@ export function getMonad<S>(M: Monoid<S>): Monad2C<URI, S> {
 }
 
 /**
+ * @category instances
  * @since 2.5.0
  */
 export function getChainRec<S>(M: Monoid<S>): ChainRec2C<URI, S> {
@@ -152,6 +162,7 @@ const foldMap_: <M>(M: Monoid<M>) => <E, A>(fa: readonly [A, E], f: (a: A) => M)
 const reduceRight_: <E, A, B>(fa: readonly [A, E], b: B, f: (a: A, b: B) => B) => B = (ae, b, f) => f(fst(ae), b)
 
 /**
+ * @category Bifunctor
  * @since 2.5.0
  */
 export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: readonly [A, E]) => readonly [B, G] = (
@@ -160,17 +171,20 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: readonl
 ) => (fa) => bimap_(fa, f, g)
 
 /**
+ * @category Semigroupoid
  * @since 2.5.0
  */
 export const compose: <E, A>(la: readonly [A, E]) => <B>(ab: readonly [B, A]) => readonly [B, E] = (la) => (ab) =>
   compose_(ab, la)
 
 /**
+ * @category Extend
  * @since 2.5.0
  */
 export const duplicate: <E, A>(ma: readonly [A, E]) => readonly [readonly [A, E], E] = (ma) => extend_(ma, identity)
 
 /**
+ * @category Extend
  * @since 2.5.0
  */
 export const extend: <E, A, B>(f: (fa: readonly [A, E]) => B) => (wa: readonly [A, E]) => readonly [B, E] = (f) => (
@@ -178,11 +192,13 @@ export const extend: <E, A, B>(f: (fa: readonly [A, E]) => B) => (wa: readonly [
 ) => extend_(ma, f)
 
 /**
+ * @category Extract
  * @since 2.6.2
  */
 export const extract: <E, A>(wa: readonly [A, E]) => A = fst
 
 /**
+ * @category Foldable
  * @since 2.5.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: readonly [A, E]) => M = (M) => {
@@ -191,23 +207,27 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: readon
 }
 
 /**
+ * @category Functor
  * @since 2.5.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly [B, E] = (f) => (fa) => map_(fa, f)
 
 /**
+ * @category Bifunctor
  * @since 2.5.0
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: readonly [A, E]) => readonly [A, G] = (f) => (fa) =>
   mapLeft_(fa, f)
 
 /**
+ * @category Foldable
  * @since 2.5.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: readonly [A, E]) => B = (b, f) => (fa) =>
   reduce_(fa, b, f)
 
 /**
+ * @category Foldable
  * @since 2.5.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: readonly [A, E]) => B = (b, f) => (fa) =>
@@ -218,6 +238,7 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: readonly
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category instances
  * @since 2.5.0
  */
 export const readonlyTuple: Semigroupoid2<URI> &

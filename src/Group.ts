@@ -8,6 +8,7 @@
 import { Monoid } from './Monoid'
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Group<A> extends Monoid<A> {

@@ -4,7 +4,7 @@ nav_order: 85
 parent: Modules
 ---
 
-# Store overview
+## Store overview
 
 Added in v2.0.0
 
@@ -12,22 +12,76 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Store (interface)](#store-interface)
-- [URI (type alias)](#uri-type-alias)
-- [URI](#uri)
-- [duplicate](#duplicate)
-- [experiment](#experiment)
-- [extend](#extend)
-- [extract](#extract)
-- [map](#map)
-- [peeks](#peeks)
-- [seek](#seek)
-- [seeks](#seeks)
-- [store](#store)
+- [Extend](#extend)
+  - [duplicate](#duplicate)
+  - [extend](#extend)
+- [Extract](#extract)
+  - [extract](#extract)
+- [Functor](#functor)
+  - [map](#map)
+- [Model](#model)
+  - [Store (interface)](#store-interface)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+- [instances](#instances)
+  - [store](#store)
+- [utils](#utils)
+  - [experiment](#experiment)
+  - [peeks](#peeks)
+  - [seek](#seek)
+  - [seeks](#seeks)
 
 ---
 
-# Store (interface)
+# Extend
+
+## duplicate
+
+**Signature**
+
+```ts
+export declare const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>>
+```
+
+Added in v2.0.0
+
+## extend
+
+**Signature**
+
+```ts
+export declare const extend: <E, A, B>(f: (wa: Store<E, A>) => B) => (wa: Store<E, A>) => Store<E, B>
+```
+
+Added in v2.0.0
+
+# Extract
+
+## extract
+
+**Signature**
+
+```ts
+export declare const extract: <E, A>(wa: Store<E, A>) => A
+```
+
+Added in v2.6.2
+
+# Functor
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B>
+```
+
+Added in v2.0.0
+
+# Model
+
+## Store (interface)
 
 **Signature**
 
@@ -40,17 +94,7 @@ export interface Store<S, A> {
 
 Added in v2.0.0
 
-# URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-# URI
+## URI
 
 **Signature**
 
@@ -60,17 +104,31 @@ export declare const URI: 'Store'
 
 Added in v2.0.0
 
-# duplicate
+## URI (type alias)
 
 **Signature**
 
 ```ts
-export declare const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>>
+export type URI = typeof URI
 ```
 
 Added in v2.0.0
 
-# experiment
+# instances
+
+## store
+
+**Signature**
+
+```ts
+export declare const store: Comonad2<'Store'>
+```
+
+Added in v2.0.0
+
+# utils
+
+## experiment
 
 Extract a collection of values from positions which depend on the current position
 
@@ -97,37 +155,7 @@ export declare function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>
 
 Added in v2.0.0
 
-# extend
-
-**Signature**
-
-```ts
-export declare const extend: <E, A, B>(f: (wa: Store<E, A>) => B) => (wa: Store<E, A>) => Store<E, B>
-```
-
-Added in v2.0.0
-
-# extract
-
-**Signature**
-
-```ts
-export declare const extract: <E, A>(wa: Store<E, A>) => A
-```
-
-Added in v2.6.2
-
-# map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B>
-```
-
-Added in v2.0.0
-
-# peeks
+## peeks
 
 Extract a value from a position which depends on the current position
 
@@ -139,7 +167,7 @@ export declare function peeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => A
 
 Added in v2.0.0
 
-# seek
+## seek
 
 Reposition the focus at the specified position
 
@@ -151,7 +179,7 @@ export declare function seek<S>(s: S): <A>(wa: Store<S, A>) => Store<S, A>
 
 Added in v2.0.0
 
-# seeks
+## seeks
 
 Reposition the focus at the specified position, which depends on the current position
 
@@ -159,16 +187,6 @@ Reposition the focus at the specified position, which depends on the current pos
 
 ```ts
 export declare function seeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => Store<S, A>
-```
-
-Added in v2.0.0
-
-# store
-
-**Signature**
-
-```ts
-export declare const store: Comonad2<'Store'>
 ```
 
 Added in v2.0.0

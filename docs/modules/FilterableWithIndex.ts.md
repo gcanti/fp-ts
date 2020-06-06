@@ -4,7 +4,7 @@ nav_order: 31
 parent: Modules
 ---
 
-# FilterableWithIndex overview
+## FilterableWithIndex overview
 
 Added in v2.0.0
 
@@ -12,130 +12,37 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [FilterWithIndex (interface)](#filterwithindex-interface)
-- [FilterWithIndex1 (interface)](#filterwithindex1-interface)
-- [FilterWithIndex2 (interface)](#filterwithindex2-interface)
-- [FilterWithIndex2C (interface)](#filterwithindex2c-interface)
-- [FilterWithIndex3 (interface)](#filterwithindex3-interface)
-- [FilterWithIndex3C (interface)](#filterwithindex3c-interface)
-- [FilterWithIndex4 (interface)](#filterwithindex4-interface)
-- [FilterableWithIndex (interface)](#filterablewithindex-interface)
-- [FilterableWithIndex1 (interface)](#filterablewithindex1-interface)
-- [FilterableWithIndex2 (interface)](#filterablewithindex2-interface)
-- [FilterableWithIndex2C (interface)](#filterablewithindex2c-interface)
-- [FilterableWithIndex3 (interface)](#filterablewithindex3-interface)
-- [FilterableWithIndex3C (interface)](#filterablewithindex3c-interface)
-- [FilterableWithIndex4 (interface)](#filterablewithindex4-interface)
-- [PartitionWithIndex (interface)](#partitionwithindex-interface)
-- [PartitionWithIndex1 (interface)](#partitionwithindex1-interface)
-- [PartitionWithIndex2 (interface)](#partitionwithindex2-interface)
-- [PartitionWithIndex2C (interface)](#partitionwithindex2c-interface)
-- [PartitionWithIndex3 (interface)](#partitionwithindex3-interface)
-- [PartitionWithIndex3C (interface)](#partitionwithindex3c-interface)
-- [PartitionWithIndex4 (interface)](#partitionwithindex4-interface)
-- [PredicateWithIndex (type alias)](#predicatewithindex-type-alias)
-- [RefinementWithIndex (type alias)](#refinementwithindex-type-alias)
+- [type classes](#type-classes)
+  - [FilterableWithIndex (interface)](#filterablewithindex-interface)
+  - [FilterableWithIndex1 (interface)](#filterablewithindex1-interface)
+  - [FilterableWithIndex2 (interface)](#filterablewithindex2-interface)
+  - [FilterableWithIndex2C (interface)](#filterablewithindex2c-interface)
+  - [FilterableWithIndex3 (interface)](#filterablewithindex3-interface)
+  - [FilterableWithIndex3C (interface)](#filterablewithindex3c-interface)
+  - [FilterableWithIndex4 (interface)](#filterablewithindex4-interface)
+- [utils](#utils)
+  - [FilterWithIndex (interface)](#filterwithindex-interface)
+  - [FilterWithIndex1 (interface)](#filterwithindex1-interface)
+  - [FilterWithIndex2 (interface)](#filterwithindex2-interface)
+  - [FilterWithIndex2C (interface)](#filterwithindex2c-interface)
+  - [FilterWithIndex3 (interface)](#filterwithindex3-interface)
+  - [FilterWithIndex3C (interface)](#filterwithindex3c-interface)
+  - [FilterWithIndex4 (interface)](#filterwithindex4-interface)
+  - [PartitionWithIndex (interface)](#partitionwithindex-interface)
+  - [PartitionWithIndex1 (interface)](#partitionwithindex1-interface)
+  - [PartitionWithIndex2 (interface)](#partitionwithindex2-interface)
+  - [PartitionWithIndex2C (interface)](#partitionwithindex2c-interface)
+  - [PartitionWithIndex3 (interface)](#partitionwithindex3-interface)
+  - [PartitionWithIndex3C (interface)](#partitionwithindex3c-interface)
+  - [PartitionWithIndex4 (interface)](#partitionwithindex4-interface)
+  - [PredicateWithIndex (type alias)](#predicatewithindex-type-alias)
+  - [RefinementWithIndex (type alias)](#refinementwithindex-type-alias)
 
 ---
 
-# FilterWithIndex (interface)
+# type classes
 
-**Signature**
-
-```ts
-export interface FilterWithIndex<F, I> {
-  <A, B extends A>(fa: HKT<F, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): HKT<F, B>
-  <A>(fa: HKT<F, A>, predicateWithIndex: PredicateWithIndex<I, A>): HKT<F, A>
-}
-```
-
-Added in v2.0.0
-
-# FilterWithIndex1 (interface)
-
-**Signature**
-
-```ts
-export interface FilterWithIndex1<F extends URIS, I> {
-  <A, B extends A>(fa: Kind<F, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Kind<F, B>
-  <A>(fa: Kind<F, A>, predicateWithIndex: PredicateWithIndex<I, A>): Kind<F, A>
-}
-```
-
-Added in v2.0.0
-
-# FilterWithIndex2 (interface)
-
-**Signature**
-
-```ts
-export interface FilterWithIndex2<F extends URIS2, I> {
-  <E, A, B extends A>(fa: Kind2<F, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Kind2<F, E, B>
-  <E, A>(fa: Kind2<F, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Kind2<F, E, A>
-}
-```
-
-Added in v2.0.0
-
-# FilterWithIndex2C (interface)
-
-**Signature**
-
-```ts
-export interface FilterWithIndex2C<F extends URIS2, I, E> {
-  <A, B extends A>(fa: Kind2<F, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Kind2<F, E, B>
-  <A>(fa: Kind2<F, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Kind2<F, E, A>
-}
-```
-
-Added in v2.0.0
-
-# FilterWithIndex3 (interface)
-
-**Signature**
-
-```ts
-export interface FilterWithIndex3<F extends URIS3, I> {
-  <R, E, A, B extends A>(fa: Kind3<F, R, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Kind3<F, R, E, B>
-  <R, E, A>(fa: Kind3<F, R, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Kind3<F, R, E, A>
-}
-```
-
-Added in v2.0.0
-
-# FilterWithIndex3C (interface)
-
-**Signature**
-
-```ts
-export interface FilterWithIndex3C<F extends URIS3, I, E> {
-  <R, A, B extends A>(fa: Kind3<F, R, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Kind3<F, R, E, B>
-  <R, A>(fa: Kind3<F, R, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Kind3<F, R, E, A>
-}
-```
-
-Added in v2.2.0
-
-# FilterWithIndex4 (interface)
-
-**Signature**
-
-```ts
-export interface FilterWithIndex4<F extends URIS4, I> {
-  <S, R, E, A, B extends A>(fa: Kind4<F, S, R, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Kind4<
-    F,
-    S,
-    R,
-    E,
-    B
-  >
-  <S, R, E, A>(fa: Kind4<F, S, R, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Kind4<F, S, R, E, A>
-}
-```
-
-Added in v2.0.0
-
-# FilterableWithIndex (interface)
+## FilterableWithIndex (interface)
 
 **Signature**
 
@@ -153,7 +60,7 @@ export interface FilterableWithIndex<F, I> extends FunctorWithIndex<F, I>, Filte
 
 Added in v2.0.0
 
-# FilterableWithIndex1 (interface)
+## FilterableWithIndex1 (interface)
 
 **Signature**
 
@@ -171,7 +78,7 @@ export interface FilterableWithIndex1<F extends URIS, I> extends FunctorWithInde
 
 Added in v2.0.0
 
-# FilterableWithIndex2 (interface)
+## FilterableWithIndex2 (interface)
 
 **Signature**
 
@@ -189,7 +96,7 @@ export interface FilterableWithIndex2<F extends URIS2, I> extends FunctorWithInd
 
 Added in v2.0.0
 
-# FilterableWithIndex2C (interface)
+## FilterableWithIndex2C (interface)
 
 **Signature**
 
@@ -207,7 +114,7 @@ export interface FilterableWithIndex2C<F extends URIS2, I, E> extends FunctorWit
 
 Added in v2.0.0
 
-# FilterableWithIndex3 (interface)
+## FilterableWithIndex3 (interface)
 
 **Signature**
 
@@ -225,7 +132,7 @@ export interface FilterableWithIndex3<F extends URIS3, I> extends FunctorWithInd
 
 Added in v2.0.0
 
-# FilterableWithIndex3C (interface)
+## FilterableWithIndex3C (interface)
 
 **Signature**
 
@@ -243,7 +150,7 @@ export interface FilterableWithIndex3C<F extends URIS3, I, E> extends FunctorWit
 
 Added in v2.2.0
 
-# FilterableWithIndex4 (interface)
+## FilterableWithIndex4 (interface)
 
 **Signature**
 
@@ -264,7 +171,106 @@ export interface FilterableWithIndex4<F extends URIS4, I> extends FunctorWithInd
 
 Added in v2.0.0
 
-# PartitionWithIndex (interface)
+# utils
+
+## FilterWithIndex (interface)
+
+**Signature**
+
+```ts
+export interface FilterWithIndex<F, I> {
+  <A, B extends A>(fa: HKT<F, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): HKT<F, B>
+  <A>(fa: HKT<F, A>, predicateWithIndex: PredicateWithIndex<I, A>): HKT<F, A>
+}
+```
+
+Added in v2.0.0
+
+## FilterWithIndex1 (interface)
+
+**Signature**
+
+```ts
+export interface FilterWithIndex1<F extends URIS, I> {
+  <A, B extends A>(fa: Kind<F, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Kind<F, B>
+  <A>(fa: Kind<F, A>, predicateWithIndex: PredicateWithIndex<I, A>): Kind<F, A>
+}
+```
+
+Added in v2.0.0
+
+## FilterWithIndex2 (interface)
+
+**Signature**
+
+```ts
+export interface FilterWithIndex2<F extends URIS2, I> {
+  <E, A, B extends A>(fa: Kind2<F, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Kind2<F, E, B>
+  <E, A>(fa: Kind2<F, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Kind2<F, E, A>
+}
+```
+
+Added in v2.0.0
+
+## FilterWithIndex2C (interface)
+
+**Signature**
+
+```ts
+export interface FilterWithIndex2C<F extends URIS2, I, E> {
+  <A, B extends A>(fa: Kind2<F, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Kind2<F, E, B>
+  <A>(fa: Kind2<F, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Kind2<F, E, A>
+}
+```
+
+Added in v2.0.0
+
+## FilterWithIndex3 (interface)
+
+**Signature**
+
+```ts
+export interface FilterWithIndex3<F extends URIS3, I> {
+  <R, E, A, B extends A>(fa: Kind3<F, R, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Kind3<F, R, E, B>
+  <R, E, A>(fa: Kind3<F, R, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Kind3<F, R, E, A>
+}
+```
+
+Added in v2.0.0
+
+## FilterWithIndex3C (interface)
+
+**Signature**
+
+```ts
+export interface FilterWithIndex3C<F extends URIS3, I, E> {
+  <R, A, B extends A>(fa: Kind3<F, R, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Kind3<F, R, E, B>
+  <R, A>(fa: Kind3<F, R, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Kind3<F, R, E, A>
+}
+```
+
+Added in v2.2.0
+
+## FilterWithIndex4 (interface)
+
+**Signature**
+
+```ts
+export interface FilterWithIndex4<F extends URIS4, I> {
+  <S, R, E, A, B extends A>(fa: Kind4<F, S, R, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Kind4<
+    F,
+    S,
+    R,
+    E,
+    B
+  >
+  <S, R, E, A>(fa: Kind4<F, S, R, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Kind4<F, S, R, E, A>
+}
+```
+
+Added in v2.0.0
+
+## PartitionWithIndex (interface)
 
 **Signature**
 
@@ -277,7 +283,7 @@ export interface PartitionWithIndex<F, I> {
 
 Added in v2.0.0
 
-# PartitionWithIndex1 (interface)
+## PartitionWithIndex1 (interface)
 
 **Signature**
 
@@ -290,7 +296,7 @@ export interface PartitionWithIndex1<F extends URIS, I> {
 
 Added in v2.0.0
 
-# PartitionWithIndex2 (interface)
+## PartitionWithIndex2 (interface)
 
 **Signature**
 
@@ -306,7 +312,7 @@ export interface PartitionWithIndex2<F extends URIS2, I> {
 
 Added in v2.0.0
 
-# PartitionWithIndex2C (interface)
+## PartitionWithIndex2C (interface)
 
 **Signature**
 
@@ -322,7 +328,7 @@ export interface PartitionWithIndex2C<F extends URIS2, I, E> {
 
 Added in v2.0.0
 
-# PartitionWithIndex3 (interface)
+## PartitionWithIndex3 (interface)
 
 **Signature**
 
@@ -341,7 +347,7 @@ export interface PartitionWithIndex3<F extends URIS3, I> {
 
 Added in v2.0.0
 
-# PartitionWithIndex3C (interface)
+## PartitionWithIndex3C (interface)
 
 **Signature**
 
@@ -360,7 +366,7 @@ export interface PartitionWithIndex3C<F extends URIS3, I, E> {
 
 Added in v2.2.0
 
-# PartitionWithIndex4 (interface)
+## PartitionWithIndex4 (interface)
 
 **Signature**
 
@@ -379,7 +385,7 @@ export interface PartitionWithIndex4<F extends URIS4, I> {
 
 Added in v2.0.0
 
-# PredicateWithIndex (type alias)
+## PredicateWithIndex (type alias)
 
 **Signature**
 
@@ -389,7 +395,7 @@ export type PredicateWithIndex<I, A> = (i: I, a: A) => boolean
 
 Added in v2.0.0
 
-# RefinementWithIndex (type alias)
+## RefinementWithIndex (type alias)
 
 **Signature**
 

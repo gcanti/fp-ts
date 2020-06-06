@@ -22,16 +22,19 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.3.0
  */
 export const URI = 'ReaderTask'
 
 /**
+ * @category Model
  * @since 2.3.0
  */
 export type URI = typeof URI
 
 /**
+ * @category Model
  * @since 2.3.0
  */
 export interface ReaderTask<R, A> {
@@ -46,16 +49,19 @@ export function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A> {
 }
 
 /**
+ * @category constructors
  * @since 2.3.0
  */
 export const fromTask: <R, A>(ma: Task<A>) => ReaderTask<R, A> = T.fromM
 
 /**
+ * @category constructors
  * @since 2.3.0
  */
 export const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A> = T.fromReader
 
 /**
+ * @category constructors
  * @since 2.3.0
  */
 export function fromIO<R, A>(ma: IO<A>): ReaderTask<R, A> {
@@ -63,11 +69,13 @@ export function fromIO<R, A>(ma: IO<A>): ReaderTask<R, A> {
 }
 
 /**
+ * @category Applicative
  * @since 2.3.0
  */
 export const of: <R, A>(a: A) => ReaderTask<R, A> = T.of
 
 /**
+ * @category instances
  * @since 2.3.0
  */
 export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<ReaderTask<R, A>> {
@@ -75,6 +83,7 @@ export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<ReaderTask<R, A>>
 }
 
 /**
+ * @category instances
  * @since 2.3.0
  */
 export function getMonoid<R, A>(M: Monoid<A>): Monoid<ReaderTask<R, A>> {
@@ -109,6 +118,7 @@ export function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<
 }
 
 /**
+ * @category Monad
  * @since 2.4.0
  */
 export function chainIOK<A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> {
@@ -125,6 +135,7 @@ export function fromTaskK<A extends ReadonlyArray<unknown>, B>(
 }
 
 /**
+ * @category Monad
  * @since 2.4.0
  */
 export function chainTaskK<A, B>(f: (a: A) => Task<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> {
@@ -136,6 +147,7 @@ export function chainTaskK<A, B>(f: (a: A) => Task<B>): <R>(ma: ReaderTask<R, A>
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category Apply
  * @since 2.3.0
  */
 export const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B> = (fa) => (
@@ -143,6 +155,7 @@ export const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) =
 ) => T.ap(fab, fa)
 
 /**
+ * @category Apply
  * @since 2.3.0
  */
 export const apFirst = <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask<R, A>): ReaderTask<R, A> =>
@@ -152,6 +165,7 @@ export const apFirst = <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask<R, A>)
   )
 
 /**
+ * @category Apply
  * @since 2.3.0
  */
 export const apSecond = <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask<R, A>): ReaderTask<R, B> =>
@@ -161,6 +175,7 @@ export const apSecond = <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask<R, A>
   )
 
 /**
+ * @category Monad
  * @since 2.3.0
  */
 export const chain: <R, A, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> = (f) => (
@@ -168,6 +183,7 @@ export const chain: <R, A, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<
 ) => T.chain(ma, f)
 
 /**
+ * @category Monad
  * @since 2.3.0
  */
 export const chainFirst: <R, A, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, A> = (
@@ -175,11 +191,13 @@ export const chainFirst: <R, A, B>(f: (a: A) => ReaderTask<R, B>) => (ma: Reader
 ) => (ma) => T.chain(ma, (a) => T.map(f(a), () => a))
 
 /**
+ * @category Monad
  * @since 2.3.0
  */
 export const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => ReaderTask<R, A> = (mma) => T.chain(mma, identity)
 
 /**
+ * @category Functor
  * @since 2.3.0
  */
 export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B> = (f) => (fa) => T.map(fa, f)
@@ -200,6 +218,7 @@ export const monadReaderTask: Monad2<URI> = {
 }
 
 /**
+ * @category instances
  * @since 2.3.0
  */
 export const readerTask: Monad2<URI> & MonadTask2<URI> = {
@@ -214,6 +233,8 @@ export const readerTask: Monad2<URI> & MonadTask2<URI> = {
 
 /**
  * Like `readerTask` but `ap` is sequential
+ *
+ * @category instances
  * @since 2.3.0
  */
 export const readerTaskSeq: typeof readerTask =

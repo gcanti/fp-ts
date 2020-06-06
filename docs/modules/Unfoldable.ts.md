@@ -4,7 +4,7 @@ nav_order: 97
 parent: Modules
 ---
 
-# Unfoldable overview
+## Unfoldable overview
 
 This class identifies data structures which can be _unfolded_, generalizing `unfold` on arrays.
 
@@ -14,15 +14,18 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Unfoldable (interface)](#unfoldable-interface)
-- [Unfoldable1 (interface)](#unfoldable1-interface)
-- [Unfoldable2 (interface)](#unfoldable2-interface)
-- [Unfoldable2C (interface)](#unfoldable2c-interface)
-- [Unfoldable3 (interface)](#unfoldable3-interface)
+- [type classes](#type-classes)
+  - [Unfoldable (interface)](#unfoldable-interface)
+  - [Unfoldable1 (interface)](#unfoldable1-interface)
+  - [Unfoldable2 (interface)](#unfoldable2-interface)
+  - [Unfoldable2C (interface)](#unfoldable2c-interface)
+  - [Unfoldable3 (interface)](#unfoldable3-interface)
 
 ---
 
-# Unfoldable (interface)
+# type classes
+
+## Unfoldable (interface)
 
 **Signature**
 
@@ -35,7 +38,7 @@ export interface Unfoldable<F> {
 
 Added in v2.0.0
 
-# Unfoldable1 (interface)
+## Unfoldable1 (interface)
 
 **Signature**
 
@@ -48,7 +51,7 @@ export interface Unfoldable1<F extends URIS> {
 
 Added in v2.0.0
 
-# Unfoldable2 (interface)
+## Unfoldable2 (interface)
 
 **Signature**
 
@@ -61,7 +64,7 @@ export interface Unfoldable2<F extends URIS2> {
 
 Added in v2.0.0
 
-# Unfoldable2C (interface)
+## Unfoldable2C (interface)
 
 **Signature**
 
@@ -75,7 +78,7 @@ export interface Unfoldable2C<F extends URIS2, E> {
 
 Added in v2.0.0
 
-# Unfoldable3 (interface)
+## Unfoldable3 (interface)
 
 **Signature**
 

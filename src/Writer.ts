@@ -16,17 +16,20 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export const URI = 'Writer'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 // tslint:disable:readonly-array
 /**
+ * @category Model
  * @since 2.0.0
  */
 export interface Writer<W, A> {
@@ -90,6 +93,7 @@ export function censor<W>(f: (w: W) => W): <A>(fa: Writer<W, A>) => Writer<W, A>
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
@@ -104,6 +108,7 @@ export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category Functor
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B> = (f) => (fa) => T.map(fa, f)
@@ -113,6 +118,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const writer: Functor2<URI> = {

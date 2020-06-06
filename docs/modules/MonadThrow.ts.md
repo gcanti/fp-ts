@@ -4,7 +4,7 @@ nav_order: 54
 parent: Modules
 ---
 
-# MonadThrow overview
+## MonadThrow overview
 
 The `MonadThrow` type class represents those monads which support errors via
 `throwError`, where `throwError(e)` halts, yielding the error `e`.
@@ -19,17 +19,20 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [MonadThrow (interface)](#monadthrow-interface)
-- [MonadThrow1 (interface)](#monadthrow1-interface)
-- [MonadThrow2 (interface)](#monadthrow2-interface)
-- [MonadThrow2C (interface)](#monadthrow2c-interface)
-- [MonadThrow3 (interface)](#monadthrow3-interface)
-- [MonadThrow3C (interface)](#monadthrow3c-interface)
-- [MonadThrow4 (interface)](#monadthrow4-interface)
+- [type classes](#type-classes)
+  - [MonadThrow (interface)](#monadthrow-interface)
+  - [MonadThrow1 (interface)](#monadthrow1-interface)
+  - [MonadThrow2 (interface)](#monadthrow2-interface)
+  - [MonadThrow2C (interface)](#monadthrow2c-interface)
+  - [MonadThrow3 (interface)](#monadthrow3-interface)
+  - [MonadThrow3C (interface)](#monadthrow3c-interface)
+  - [MonadThrow4 (interface)](#monadthrow4-interface)
 
 ---
 
-# MonadThrow (interface)
+# type classes
+
+## MonadThrow (interface)
 
 **Signature**
 
@@ -41,7 +44,7 @@ export interface MonadThrow<M> extends Monad<M> {
 
 Added in v2.0.0
 
-# MonadThrow1 (interface)
+## MonadThrow1 (interface)
 
 **Signature**
 
@@ -53,7 +56,7 @@ export interface MonadThrow1<M extends URIS> extends Monad1<M> {
 
 Added in v2.0.0
 
-# MonadThrow2 (interface)
+## MonadThrow2 (interface)
 
 **Signature**
 
@@ -65,7 +68,7 @@ export interface MonadThrow2<M extends URIS2> extends Monad2<M> {
 
 Added in v2.0.0
 
-# MonadThrow2C (interface)
+## MonadThrow2C (interface)
 
 **Signature**
 
@@ -77,7 +80,7 @@ export interface MonadThrow2C<M extends URIS2, E> extends Monad2C<M, E> {
 
 Added in v2.0.0
 
-# MonadThrow3 (interface)
+## MonadThrow3 (interface)
 
 **Signature**
 
@@ -89,7 +92,7 @@ export interface MonadThrow3<M extends URIS3> extends Monad3<M> {
 
 Added in v2.0.0
 
-# MonadThrow3C (interface)
+## MonadThrow3C (interface)
 
 **Signature**
 
@@ -101,7 +104,7 @@ export interface MonadThrow3C<M extends URIS3, E> extends Monad3C<M, E> {
 
 Added in v2.2.0
 
-# MonadThrow4 (interface)
+## MonadThrow4 (interface)
 
 **Signature**
 

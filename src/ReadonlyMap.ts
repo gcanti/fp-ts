@@ -27,16 +27,19 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.5.0
  */
 export const URI = 'ReadonlyMap'
 
 /**
+ * @category Model
  * @since 2.5.0
  */
 export type URI = typeof URI
 
 /**
+ * @category constructors
  * @since 2.5.0
  */
 export function fromMap<K, A>(m: Map<K, A>): ReadonlyMap<K, A> {
@@ -44,6 +47,7 @@ export function fromMap<K, A>(m: Map<K, A>): ReadonlyMap<K, A> {
 }
 
 /**
+ * @category destructors
  * @since 2.5.0
  */
 export function toMap<K, A>(m: ReadonlyMap<K, A>): Map<K, A> {
@@ -51,6 +55,7 @@ export function toMap<K, A>(m: ReadonlyMap<K, A>): Map<K, A> {
 }
 
 /**
+ * @category instances
  * @since 2.5.0
  */
 export function getShow<K, A>(SK: Show<K>, SA: Show<A>): Show<ReadonlyMap<K, A>> {
@@ -158,6 +163,7 @@ export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: Reado
 /**
  * Get a sorted of the key/value pairs contained in a map
  *
+ * @category destructors
  * @since 2.5.0
  */
 export function toReadonlyArray<K>(O: Ord<K>): <A>(m: ReadonlyMap<K, A>) => ReadonlyArray<readonly [K, A]> {
@@ -167,6 +173,7 @@ export function toReadonlyArray<K>(O: Ord<K>): <A>(m: ReadonlyMap<K, A>) => Read
 /**
  * Unfolds a map into a list of key/value pairs
  *
+ * @category destructors
  * @since 2.5.0
  */
 export function toUnfoldable<K, F extends URIS>(
@@ -186,6 +193,7 @@ export function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: Readonly
 /**
  * Insert or replace a key/value pair in a map
  *
+ * @category combinators
  * @since 2.5.0
  */
 export function insertAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A> {
@@ -208,6 +216,7 @@ export function insertAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: ReadonlyMap<K, A>)
 /**
  * Delete a key and value from a map
  *
+ * @category combinators
  * @since 2.5.0
  */
 export function deleteAt<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) => ReadonlyMap<K, A> {
@@ -330,6 +339,7 @@ export function isSubmap<K, A>(SK: Eq<K>, SA: Eq<A>): (d1: ReadonlyMap<K, A>, d2
 export const empty: ReadonlyMap<never, never> = new Map<never, never>()
 
 /**
+ * @category instances
  * @since 2.5.0
  */
 export function getEq<K, A>(SK: Eq<K>, SA: Eq<A>): Eq<ReadonlyMap<K, A>> {
@@ -340,6 +350,7 @@ export function getEq<K, A>(SK: Eq<K>, SA: Eq<A>): Eq<ReadonlyMap<K, A>> {
 /**
  * Gets `Monoid` instance for Maps given `Semigroup` instance for their values
  *
+ * @category instances
  * @since 2.5.0
  */
 export function getMonoid<K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap<K, A>> {
@@ -374,6 +385,7 @@ export function getMonoid<K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap
 /**
  * Create a map with one key/value pair
  *
+ * @category constructors
  * @since 2.5.0
  */
 export function singleton<K, A>(k: K, a: A): ReadonlyMap<K, A> {
@@ -384,6 +396,7 @@ export function singleton<K, A>(k: K, a: A): ReadonlyMap<K, A> {
  * Create a map from a foldable collection of key/value pairs, using the
  * specified `Magma` to combine values for duplicate keys.
  *
+ * @category constructors
  * @since 2.5.0
  */
 export function fromFoldable<F extends URIS3, K, A>(
@@ -537,6 +550,7 @@ const partitionMap_: <K, A, B, C>(
 ) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>> = (fa, f) => partitionMapWithIndex_(fa, (_, a) => f(a))
 
 /**
+ * @category Compactable
  * @since 2.5.0
  */
 export const compact = <K, A>(fa: ReadonlyMap<K, Option<A>>): ReadonlyMap<K, A> => {
@@ -554,6 +568,7 @@ export const compact = <K, A>(fa: ReadonlyMap<K, Option<A>>): ReadonlyMap<K, A> 
 }
 
 /**
+ * @category Filterable
  * @since 2.5.0
  */
 export const filter: {
@@ -562,6 +577,7 @@ export const filter: {
 } = <A>(predicate: Predicate<A>) => <K>(fa: ReadonlyMap<K, A>) => filter_(fa, predicate)
 
 /**
+ * @category Filterable
  * @since 2.5.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> = (f) => (
@@ -569,11 +585,13 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => <K>(fa: ReadonlyMap<K,
 ) => filterMap_(fa, f)
 
 /**
+ * @category Functor
  * @since 2.5.0
  */
 export const map: <A, B>(f: (a: A) => B) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> = (f) => (fa) => map_(fa, f)
 
 /**
+ * @category Filterable
  * @since 2.5.0
  */
 export const partition: {
@@ -584,6 +602,7 @@ export const partition: {
 } = <A>(predicate: Predicate<A>) => <K>(fa: ReadonlyMap<K, A>) => partition_(fa, predicate)
 
 /**
+ * @category Filterable
  * @since 2.5.0
  */
 export const partitionMap: <A, B, C>(
@@ -591,6 +610,7 @@ export const partitionMap: <A, B, C>(
 ) => <K>(fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>> = (f) => (fa) => partitionMap_(fa, f)
 
 /**
+ * @category Compactable
  * @since 2.5.0
  */
 export const separate = <K, A, B>(
@@ -620,6 +640,7 @@ export const separate = <K, A, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category instances
  * @since 2.5.0
  */
 export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, K, K> {
@@ -635,6 +656,7 @@ export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, 
 }
 
 /**
+ * @category instances
  * @since 2.5.0
  */
 export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableWithIndex2C<URI, K, K> {
@@ -739,6 +761,7 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
 }
 
 /**
+ * @category instances
  * @since 2.5.0
  */
 export const readonlyMap: Filterable2<URI> = {

@@ -4,7 +4,7 @@ nav_order: 82
 parent: Modules
 ---
 
-# State overview
+## State overview
 
 Added in v2.0.0
 
@@ -12,28 +12,93 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [State (interface)](#state-interface)
-- [URI (type alias)](#uri-type-alias)
-- [URI](#uri)
-- [ap](#ap)
-- [apFirst](#apfirst)
-- [apSecond](#apsecond)
-- [chain](#chain)
-- [chainFirst](#chainfirst)
-- [evalState](#evalstate)
-- [execState](#execstate)
-- [flatten](#flatten)
-- [get](#get)
-- [gets](#gets)
-- [map](#map)
-- [modify](#modify)
-- [of](#of)
-- [put](#put)
-- [state](#state)
+- [Applicative](#applicative)
+  - [of](#of)
+- [Apply](#apply)
+  - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+- [Functor](#functor)
+  - [map](#map)
+- [Model](#model)
+  - [State (interface)](#state-interface)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+- [Monad](#monad)
+  - [chain](#chain)
+  - [chainFirst](#chainfirst)
+  - [flatten](#flatten)
+- [instances](#instances)
+  - [state](#state)
+- [utils](#utils)
+  - [evalState](#evalstate)
+  - [execState](#execstate)
+  - [get](#get)
+  - [gets](#gets)
+  - [modify](#modify)
+  - [put](#put)
 
 ---
 
-# State (interface)
+# Applicative
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <S, A>(a: A) => State<S, A>
+```
+
+Added in v2.0.0
+
+# Apply
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => State<E, B>
+```
+
+Added in v2.0.0
+
+## apFirst
+
+**Signature**
+
+```ts
+export declare const apFirst: <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, A>
+```
+
+Added in v2.0.0
+
+## apSecond
+
+**Signature**
+
+```ts
+export declare const apSecond: <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, B>
+```
+
+Added in v2.0.0
+
+# Functor
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: State<E, A>) => State<E, B>
+```
+
+Added in v2.0.0
+
+# Model
+
+## State (interface)
 
 **Signature**
 
@@ -45,17 +110,7 @@ export interface State<S, A> {
 
 Added in v2.0.0
 
-# URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-# URI
+## URI
 
 **Signature**
 
@@ -65,37 +120,19 @@ export declare const URI: 'State'
 
 Added in v2.0.0
 
-# ap
+## URI (type alias)
 
 **Signature**
 
 ```ts
-export declare const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => State<E, B>
+export type URI = typeof URI
 ```
 
 Added in v2.0.0
 
-# apFirst
+# Monad
 
-**Signature**
-
-```ts
-export declare const apFirst: <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, A>
-```
-
-Added in v2.0.0
-
-# apSecond
-
-**Signature**
-
-```ts
-export declare const apSecond: <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, B>
-```
-
-Added in v2.0.0
-
-# chain
+## chain
 
 **Signature**
 
@@ -105,7 +142,7 @@ export declare const chain: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E,
 
 Added in v2.0.0
 
-# chainFirst
+## chainFirst
 
 **Signature**
 
@@ -115,7 +152,31 @@ export declare const chainFirst: <E, A, B>(f: (a: A) => State<E, B>) => (ma: Sta
 
 Added in v2.0.0
 
-# evalState
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A>
+```
+
+Added in v2.0.0
+
+# instances
+
+## state
+
+**Signature**
+
+```ts
+export declare const state: Monad2<'State'>
+```
+
+Added in v2.0.0
+
+# utils
+
+## evalState
 
 Run a computation in the `State` monad, discarding the final state
 
@@ -127,7 +188,7 @@ export declare const evalState: <S, A>(ma: State<S, A>, s: S) => A
 
 Added in v2.0.0
 
-# execState
+## execState
 
 Run a computation in the `State` monad discarding the result
 
@@ -139,17 +200,7 @@ export declare const execState: <S, A>(ma: State<S, A>, s: S) => S
 
 Added in v2.0.0
 
-# flatten
-
-**Signature**
-
-```ts
-export declare const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A>
-```
-
-Added in v2.0.0
-
-# get
+## get
 
 Get the current state
 
@@ -161,7 +212,7 @@ export declare const get: <S>() => State<S, S>
 
 Added in v2.0.0
 
-# gets
+## gets
 
 Get a value which depends on the current state
 
@@ -173,17 +224,7 @@ export declare const gets: <S, A>(f: (s: S) => A) => State<S, A>
 
 Added in v2.0.0
 
-# map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: State<E, A>) => State<E, B>
-```
-
-Added in v2.0.0
-
-# modify
+## modify
 
 Modify the state by applying a function to the current state
 
@@ -195,17 +236,7 @@ export declare const modify: <S>(f: (s: S) => S) => State<S, void>
 
 Added in v2.0.0
 
-# of
-
-**Signature**
-
-```ts
-export declare const of: <S, A>(a: A) => State<S, A>
-```
-
-Added in v2.0.0
-
-# put
+## put
 
 Set the state
 
@@ -213,16 +244,6 @@ Set the state
 
 ```ts
 export declare const put: <S>(s: S) => State<S, void>
-```
-
-Added in v2.0.0
-
-# state
-
-**Signature**
-
-```ts
-export declare const state: Monad2<'State'>
 ```
 
 Added in v2.0.0

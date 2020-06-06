@@ -19,6 +19,7 @@ import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3 } 
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Alternative<F> extends Applicative<F>, Alt<F> {
@@ -26,6 +27,7 @@ export interface Alternative<F> extends Applicative<F>, Alt<F> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Alternative1<F extends URIS> extends Applicative1<F>, Alt1<F> {
@@ -33,6 +35,7 @@ export interface Alternative1<F extends URIS> extends Applicative1<F>, Alt1<F> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Alternative2<F extends URIS2> extends Applicative2<F>, Alt2<F> {
@@ -40,6 +43,7 @@ export interface Alternative2<F extends URIS2> extends Applicative2<F>, Alt2<F> 
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Alternative2C<F extends URIS2, E> extends Applicative2C<F, E>, Alt2C<F, E> {
@@ -47,6 +51,7 @@ export interface Alternative2C<F extends URIS2, E> extends Applicative2C<F, E>, 
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Alternative3<F extends URIS3> extends Applicative3<F>, Alt3<F> {

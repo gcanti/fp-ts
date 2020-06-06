@@ -4,7 +4,7 @@ nav_order: 48
 parent: Modules
 ---
 
-# Magma overview
+## Magma overview
 
 A `Magma` is a pair `(A, concat)` in which `A` is a non-empty set and `concat` is a binary operation on `A`
 
@@ -16,11 +16,14 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Magma (interface)](#magma-interface)
+- [type classes](#type-classes)
+  - [Magma (interface)](#magma-interface)
 
 ---
 
-# Magma (interface)
+# type classes
+
+## Magma (interface)
 
 A `Magma` is a pair `(A, concat)` in which `A` is a non-empty set and `concat` is a binary operation on `A`
 

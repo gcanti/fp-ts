@@ -4,7 +4,7 @@ nav_order: 28
 parent: Modules
 ---
 
-# Extend overview
+## Extend overview
 
 Added in v2.0.0
 
@@ -12,17 +12,20 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Extend (interface)](#extend-interface)
-- [Extend1 (interface)](#extend1-interface)
-- [Extend2 (interface)](#extend2-interface)
-- [Extend2C (interface)](#extend2c-interface)
-- [Extend3 (interface)](#extend3-interface)
-- [Extend3C (interface)](#extend3c-interface)
-- [Extend4 (interface)](#extend4-interface)
+- [type classes](#type-classes)
+  - [Extend (interface)](#extend-interface)
+  - [Extend1 (interface)](#extend1-interface)
+  - [Extend2 (interface)](#extend2-interface)
+  - [Extend2C (interface)](#extend2c-interface)
+  - [Extend3 (interface)](#extend3-interface)
+  - [Extend3C (interface)](#extend3c-interface)
+  - [Extend4 (interface)](#extend4-interface)
 
 ---
 
-# Extend (interface)
+# type classes
+
+## Extend (interface)
 
 **Signature**
 
@@ -34,7 +37,7 @@ export interface Extend<W> extends Functor<W> {
 
 Added in v2.0.0
 
-# Extend1 (interface)
+## Extend1 (interface)
 
 **Signature**
 
@@ -46,7 +49,7 @@ export interface Extend1<W extends URIS> extends Functor1<W> {
 
 Added in v2.0.0
 
-# Extend2 (interface)
+## Extend2 (interface)
 
 **Signature**
 
@@ -58,7 +61,7 @@ export interface Extend2<W extends URIS2> extends Functor2<W> {
 
 Added in v2.0.0
 
-# Extend2C (interface)
+## Extend2C (interface)
 
 **Signature**
 
@@ -70,7 +73,7 @@ export interface Extend2C<W extends URIS2, E> extends Functor2C<W, E> {
 
 Added in v2.0.0
 
-# Extend3 (interface)
+## Extend3 (interface)
 
 **Signature**
 
@@ -82,7 +85,7 @@ export interface Extend3<W extends URIS3> extends Functor3<W> {
 
 Added in v2.0.0
 
-# Extend3C (interface)
+## Extend3C (interface)
 
 **Signature**
 
@@ -94,7 +97,7 @@ export interface Extend3C<W extends URIS3, E> extends Functor3C<W, E> {
 
 Added in v2.2.0
 
-# Extend4 (interface)
+## Extend4 (interface)
 
 **Signature**
 

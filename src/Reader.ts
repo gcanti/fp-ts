@@ -22,16 +22,19 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export const URI = 'Reader'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export interface Reader<R, A> {
@@ -63,6 +66,7 @@ export function local<Q, R>(f: (d: Q) => R): <A>(ma: Reader<R, A>) => Reader<Q, 
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R, A>> {
@@ -72,6 +76,7 @@ export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R, A>> {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> {
@@ -82,6 +87,7 @@ export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> {
 }
 
 /**
+ * @category Applicative
  * @since 2.0.0
  */
 export const of: <R, A>(a: A) => Reader<R, A> = T.of
@@ -96,12 +102,14 @@ const promap_: <E, A, D, B>(fbc: Reader<E, A>, f: (d: D) => E, g: (a: A) => B) =
   g(mbc(f(a)))
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> = (fa) => (fab) =>
   T.ap(fab, fa)
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const apFirst = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reader<R, A> =>
@@ -111,6 +119,7 @@ export const apFirst = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reader
   )
 
 /**
+ * @category Apply
  * @since 2.0.0
  */
 export const apSecond = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reader<R, B> =>
@@ -120,39 +129,46 @@ export const apSecond = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reade
   )
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const chain: <R, A, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B> = (f) => (ma) =>
   T.chain(ma, f)
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const chainFirst: <R, A, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, A> = (f) => (ma) =>
   T.chain(ma, (a) => T.map(f(a), () => a))
 
 /**
+ * @category Monad
  * @since 2.6.0
  */
 export const chainW: <Q, A, B>(f: (a: A) => Reader<Q, B>) => <R>(ma: Reader<R, A>) => Reader<R & Q, B> = chain as any
 
 /**
+ * @category Monad
  * @since 2.0.0
  */
 export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> = (mma) => T.chain(mma, identity)
 
 /**
+ * @category Functor
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B> = (f) => (fa) => T.map(fa, f)
 
 /**
+ * @category Semigroupoid
  * @since 2.0.0
  */
 export const compose: <E, A>(la: Reader<E, A>) => <B>(ab: Reader<A, B>) => Reader<E, B> = (la) => (ab) =>
   compose_(ab, la)
 
 /**
+ * @category Profunctor
  * @since 2.0.0
  */
 export const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reader<E, A>) => Reader<D, B> = (f, g) => (
@@ -175,6 +191,7 @@ export const monadReader: Monad2<URI> = {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = {

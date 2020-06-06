@@ -12,6 +12,7 @@ import { Option } from './Option'
 import { Show } from './Show'
 
 /**
+ * @category constructors
  * @since 2.5.0
  */
 export function fromSet<A>(s: Set<A>): ReadonlySet<A> {
@@ -19,6 +20,7 @@ export function fromSet<A>(s: Set<A>): ReadonlySet<A> {
 }
 
 /**
+ * @category destructors
  * @since 2.5.0
  */
 export function toSet<A>(s: ReadonlySet<A>): Set<A> {
@@ -26,6 +28,7 @@ export function toSet<A>(s: ReadonlySet<A>): Set<A> {
 }
 
 /**
+ * @category instances
  * @since 2.5.0
  */
 export function getShow<A>(S: Show<A>): Show<ReadonlySet<A>> {
@@ -49,6 +52,7 @@ export function getShow<A>(S: Show<A>): Show<ReadonlySet<A>> {
 export const empty: ReadonlySet<never> = new Set()
 
 /**
+ * @category destructors
  * @since 2.5.0
  */
 export function toReadonlyArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => ReadonlyArray<A> {
@@ -61,6 +65,7 @@ export function toReadonlyArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => Readonly
 }
 
 /**
+ * @category instances
  * @since 2.5.0
  */
 export function getEq<A>(E: Eq<A>): Eq<ReadonlySet<A>> {
@@ -92,6 +97,7 @@ export function some<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => boole
 /**
  * Projects a Set through a function
  *
+ * @category combinators
  * @since 2.5.0
  */
 export function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: ReadonlySet<A>) => ReadonlySet<B> {
@@ -116,6 +122,7 @@ export function every<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => bool
 }
 
 /**
+ * @category combinators
  * @since 2.5.0
  */
 export function chain<B>(E: Eq<B>): <A>(f: (x: A) => ReadonlySet<B>) => (set: ReadonlySet<A>) => ReadonlySet<B> {
@@ -144,6 +151,7 @@ export function isSubset<A>(E: Eq<A>): (x: ReadonlySet<A>, y: ReadonlySet<A>) =>
 }
 
 /**
+ * @category combinators
  * @since 2.5.0
  */
 export function filter<A, B extends A>(refinement: Refinement<A, B>): (set: ReadonlySet<A>) => ReadonlySet<B>
@@ -215,6 +223,7 @@ export function elem<A>(E: Eq<A>): (a: A, set: ReadonlySet<A>) => boolean {
 /**
  * Form the union of two sets
  *
+ * @category combinators
  * @since 2.5.0
  */
 export function union<A>(E: Eq<A>): (set: ReadonlySet<A>, y: ReadonlySet<A>) => ReadonlySet<A> {
@@ -239,6 +248,7 @@ export function union<A>(E: Eq<A>): (set: ReadonlySet<A>, y: ReadonlySet<A>) => 
 /**
  * The set of elements which are in both the first and second set
  *
+ * @category combinators
  * @since 2.5.0
  */
 export function intersection<A>(E: Eq<A>): (set: ReadonlySet<A>, y: ReadonlySet<A>) => ReadonlySet<A> {
@@ -300,7 +310,7 @@ export function partitionMap<B, C>(
  *
  * assert.deepStrictEqual(difference(eqNumber)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
  *
- *
+ * @category combinators
  * @since 2.5.0
  */
 export function difference<A>(E: Eq<A>): (x: ReadonlySet<A>, y: ReadonlySet<A>) => ReadonlySet<A> {
@@ -309,6 +319,7 @@ export function difference<A>(E: Eq<A>): (x: ReadonlySet<A>, y: ReadonlySet<A>) 
 }
 
 /**
+ * @category instances
  * @since 2.5.0
  */
 export function getUnionMonoid<A>(E: Eq<A>): Monoid<ReadonlySet<A>> {
@@ -319,6 +330,7 @@ export function getUnionMonoid<A>(E: Eq<A>): Monoid<ReadonlySet<A>> {
 }
 
 /**
+ * @category instances
  * @since 2.5.0
  */
 export function getIntersectionSemigroup<A>(E: Eq<A>): Semigroup<ReadonlySet<A>> {
@@ -346,6 +358,7 @@ export function foldMap<A, M>(O: Ord<A>, M: Monoid<M>): (f: (a: A) => M) => (fa:
 /**
  * Create a set with one element
  *
+ * @category constructors
  * @since 2.5.0
  */
 export function singleton<A>(a: A): ReadonlySet<A> {
@@ -355,6 +368,7 @@ export function singleton<A>(a: A): ReadonlySet<A> {
 /**
  * Insert a value into a set
  *
+ * @category combinators
  * @since 2.5.0
  */
 export function insert<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A> {
@@ -373,6 +387,7 @@ export function insert<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => Readonly
 /**
  * Delete a value from a set
  *
+ * @category combinators
  * @since 2.5.0
  */
 export function remove<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A> {
@@ -382,6 +397,7 @@ export function remove<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => Readonly
 /**
  * Create a set from an array
  *
+ * @category constructors
  * @since 2.5.0
  */
 export function fromArray<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlySet<A> {
@@ -400,6 +416,7 @@ export function fromArray<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlySet<A>
 }
 
 /**
+ * @category combinators
  * @since 2.5.0
  */
 export function compact<A>(E: Eq<A>): (fa: ReadonlySet<Option<A>>) => ReadonlySet<A> {
@@ -437,6 +454,7 @@ export function separate<E, A>(
 }
 
 /**
+ * @category combinators
  * @since 2.5.0
  */
 export function filterMap<B>(E: Eq<B>): <A>(f: (a: A) => Option<B>) => (fa: ReadonlySet<A>) => ReadonlySet<B> {

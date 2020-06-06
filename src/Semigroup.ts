@@ -11,6 +11,7 @@ import { ReadonlyRecord } from './ReadonlyRecord'
  *
  * Associativiy: `concat(concat(x, y), z) = concat(x, concat(y, z))`
  *
+ * @category type classes
  * @since 2.0.0
  */
 export interface Semigroup<A> extends Magma<A> {}
@@ -23,6 +24,7 @@ export function fold<A>(S: Semigroup<A>): (a: A, as: ReadonlyArray<A>) => A {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getFirstSemigroup<A = never>(): Semigroup<A> {
@@ -30,6 +32,7 @@ export function getFirstSemigroup<A = never>(): Semigroup<A> {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getLastSemigroup<A = never>(): Semigroup<A> {
@@ -48,6 +51,7 @@ export function getLastSemigroup<A = never>(): Semigroup<A> {
  * const S2 = getTupleSemigroup(semigroupString, semigroupSum, semigroupAll)
  * assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
  *
+ * @category instances
  * @since 2.0.0
  */
 export function getTupleSemigroup<T extends ReadonlyArray<Semigroup<any>>>(
@@ -66,6 +70,7 @@ export function getTupleSemigroup<T extends ReadonlyArray<Semigroup<any>>>(
  *
  * assert.deepStrictEqual(getDualSemigroup(semigroupString).concat('a', 'b'), 'ba')
  *
+ * @category instances
  * @since 2.0.0
  */
 export function getDualSemigroup<A>(S: Semigroup<A>): Semigroup<A> {
@@ -75,6 +80,7 @@ export function getDualSemigroup<A>(S: Semigroup<A>): Semigroup<A> {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getFunctionSemigroup<S>(S: Semigroup<S>): <A = never>() => Semigroup<(a: A) => S> {
@@ -84,6 +90,7 @@ export function getFunctionSemigroup<S>(S: Semigroup<S>): <A = never>() => Semig
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getStructSemigroup<O extends ReadonlyRecord<string, any>>(
@@ -101,6 +108,7 @@ export function getStructSemigroup<O extends ReadonlyRecord<string, any>>(
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getMeetSemigroup<A>(O: Ord<A>): Semigroup<A> {
@@ -110,6 +118,7 @@ export function getMeetSemigroup<A>(O: Ord<A>): Semigroup<A> {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getJoinSemigroup<A>(O: Ord<A>): Semigroup<A> {
@@ -132,6 +141,7 @@ export function getJoinSemigroup<A>(O: Ord<A>): Semigroup<A> {
  * const S = getObjectSemigroup<Person>()
  * assert.deepStrictEqual(S.concat({ name: 'name', age: 23 }, { name: 'name', age: 24 }), { name: 'name', age: 24 })
  *
+ * @category instances
  * @since 2.0.0
  */
 export function getObjectSemigroup<A extends object = never>(): Semigroup<A> {
@@ -142,6 +152,8 @@ export function getObjectSemigroup<A extends object = never>(): Semigroup<A> {
 
 /**
  * Boolean semigroup under conjunction
+ *
+ * @category instances
  * @since 2.0.0
  */
 export const semigroupAll: Semigroup<boolean> = {
@@ -150,6 +162,8 @@ export const semigroupAll: Semigroup<boolean> = {
 
 /**
  * Boolean semigroup under disjunction
+ *
+ * @category instances
  * @since 2.0.0
  */
 export const semigroupAny: Semigroup<boolean> = {
@@ -158,6 +172,8 @@ export const semigroupAny: Semigroup<boolean> = {
 
 /**
  * Number `Semigroup` under addition
+ *
+ * @category instances
  * @since 2.0.0
  */
 export const semigroupSum: Semigroup<number> = {
@@ -166,6 +182,8 @@ export const semigroupSum: Semigroup<number> = {
 
 /**
  * Number `Semigroup` under multiplication
+ *
+ * @category instances
  * @since 2.0.0
  */
 export const semigroupProduct: Semigroup<number> = {
@@ -173,6 +191,7 @@ export const semigroupProduct: Semigroup<number> = {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const semigroupString: Semigroup<string> = {
@@ -180,6 +199,7 @@ export const semigroupString: Semigroup<string> = {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const semigroupVoid: Semigroup<void> = {
@@ -197,6 +217,7 @@ export const semigroupVoid: Semigroup<void> = {
  * assert.strictEqual(S.concat('a', 'b'), 'a b')
  * assert.strictEqual(S.concat(S.concat('a', 'b'), 'c'), S.concat('a', S.concat('b', 'c')))
  *
+ * @category instances
  * @since 2.5.0
  */
 export function getIntercalateSemigroup<A>(a: A): (S: Semigroup<A>) => Semigroup<A> {

@@ -23,36 +23,43 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.4.0
  */
 export const URI = 'TaskThese'
 
 /**
+ * @category Model
  * @since 2.4.0
  */
 export type URI = typeof URI
 
 /**
+ * @category Model
  * @since 2.4.0
  */
 export interface TaskThese<E, A> extends Task<These<E, A>> {}
 
 /**
+ * @category constructors
  * @since 2.4.0
  */
 export const left: <E = never, A = never>(e: E) => TaskThese<E, A> = T.left
 
 /**
+ * @category constructors
  * @since 2.4.0
  */
 export const right: <E = never, A = never>(a: A) => TaskThese<E, A> = T.right
 
 /**
+ * @category constructors
  * @since 2.4.0
  */
 export const both: <E, A>(e: E, a: A) => TaskThese<E, A> = T.both
 
 /**
+ * @category constructors
  * @since 2.4.0
  */
 export function rightIO<E = never, A = never>(ma: IO<A>): TaskThese<E, A> {
@@ -60,6 +67,7 @@ export function rightIO<E = never, A = never>(ma: IO<A>): TaskThese<E, A> {
 }
 
 /**
+ * @category constructors
  * @since 2.4.0
  */
 export function leftIO<E = never, A = never>(me: IO<E>): TaskThese<E, A> {
@@ -67,21 +75,25 @@ export function leftIO<E = never, A = never>(me: IO<E>): TaskThese<E, A> {
 }
 
 /**
+ * @category constructors
  * @since 2.4.0
  */
 export const leftTask: <E = never, A = never>(me: Task<E>) => TaskThese<E, A> = T.leftM
 
 /**
+ * @category constructors
  * @since 2.4.0
  */
 export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskThese<E, A> = T.rightM
 
 /**
+ * @category constructors
  * @since 2.4.0
  */
 export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> = fromIOTask
 
 /**
+ * @category destructors
  * @since 2.4.0
  */
 export function fold<E, A, B>(
@@ -93,11 +105,13 @@ export function fold<E, A, B>(
 }
 
 /**
+ * @category combinators
  * @since 2.4.0
  */
 export const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E> = T.swap
 
 /**
+ * @category instances
  * @since 2.4.0
  */
 export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<TaskThese<E, A>> {
@@ -105,6 +119,7 @@ export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
 }
 
 /**
+ * @category instances
  * @since 2.4.0
  */
 export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI, E> {
@@ -118,6 +133,7 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI,
 
 /* tslint:disable:readonly-array */
 /**
+ * @category destructors
  * @since 2.4.0
  */
 export function toTuple<E, A>(e: E, a: A): (fa: TaskThese<E, A>) => Task<[E, A]> {
@@ -130,6 +146,7 @@ export function toTuple<E, A>(e: E, a: A): (fa: TaskThese<E, A>) => Task<[E, A]>
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category Bifunctor
  * @since 2.4.0
  */
 export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskThese<E, A>) => TaskThese<G, B> = (
@@ -138,11 +155,13 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskThe
 ) => (fa) => T.bimap(fa, f, g)
 
 /**
+ * @category Functor
  * @since 2.4.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThese<E, B> = (f) => (fa) => T.map(fa, f)
 
 /**
+ * @category Bifunctor
  * @since 2.4.0
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => TaskThese<G, A> = (f) => (fa) =>
@@ -153,6 +172,7 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => Task
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category instances
  * @since 2.4.0
  */
 export const taskThese: Functor2<URI> & Bifunctor2<URI> = {

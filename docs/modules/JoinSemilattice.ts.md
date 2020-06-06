@@ -4,7 +4,7 @@ nav_order: 46
 parent: Modules
 ---
 
-# JoinSemilattice overview
+## JoinSemilattice overview
 
 A join-semilattice (or upper semilattice) is a semilattice whose operation is called `join`, and which can be thought
 of as a least upper bound.
@@ -21,11 +21,14 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [JoinSemilattice (interface)](#joinsemilattice-interface)
+- [type classes](#type-classes)
+  - [JoinSemilattice (interface)](#joinsemilattice-interface)
 
 ---
 
-# JoinSemilattice (interface)
+# type classes
+
+## JoinSemilattice (interface)
 
 **Signature**
 

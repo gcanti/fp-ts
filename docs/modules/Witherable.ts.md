@@ -4,7 +4,7 @@ nav_order: 99
 parent: Modules
 ---
 
-# Witherable overview
+## Witherable overview
 
 `Witherable` represents data structures which can be _partitioned_ with effects in some `Applicative` functor.
 
@@ -28,25 +28,103 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Wilt (interface)](#wilt-interface)
-- [Wilt1 (interface)](#wilt1-interface)
-- [Wilt2 (interface)](#wilt2-interface)
-- [Wilt2C (interface)](#wilt2c-interface)
-- [Wilt3 (interface)](#wilt3-interface)
-- [Wither (interface)](#wither-interface)
-- [Wither1 (interface)](#wither1-interface)
-- [Wither2 (interface)](#wither2-interface)
-- [Wither2C (interface)](#wither2c-interface)
-- [Wither3 (interface)](#wither3-interface)
-- [Witherable (interface)](#witherable-interface)
-- [Witherable1 (interface)](#witherable1-interface)
-- [Witherable2 (interface)](#witherable2-interface)
-- [Witherable2C (interface)](#witherable2c-interface)
-- [Witherable3 (interface)](#witherable3-interface)
+- [type classes](#type-classes)
+  - [Witherable (interface)](#witherable-interface)
+  - [Witherable1 (interface)](#witherable1-interface)
+  - [Witherable2 (interface)](#witherable2-interface)
+  - [Witherable2C (interface)](#witherable2c-interface)
+  - [Witherable3 (interface)](#witherable3-interface)
+- [utils](#utils)
+  - [Wilt (interface)](#wilt-interface)
+  - [Wilt1 (interface)](#wilt1-interface)
+  - [Wilt2 (interface)](#wilt2-interface)
+  - [Wilt2C (interface)](#wilt2c-interface)
+  - [Wilt3 (interface)](#wilt3-interface)
+  - [Wither (interface)](#wither-interface)
+  - [Wither1 (interface)](#wither1-interface)
+  - [Wither2 (interface)](#wither2-interface)
+  - [Wither2C (interface)](#wither2c-interface)
+  - [Wither3 (interface)](#wither3-interface)
 
 ---
 
-# Wilt (interface)
+# type classes
+
+## Witherable (interface)
+
+**Signature**
+
+```ts
+export interface Witherable<T> extends Traversable<T>, Filterable<T> {
+  /**
+   * Partition a structure with effects
+   */
+  readonly wilt: Wilt<T>
+
+  /**
+   * Filter a structure  with effects
+   */
+  readonly wither: Wither<T>
+}
+```
+
+Added in v2.0.0
+
+## Witherable1 (interface)
+
+**Signature**
+
+```ts
+export interface Witherable1<T extends URIS> extends Traversable1<T>, Filterable1<T> {
+  readonly wilt: Wilt1<T>
+  readonly wither: Wither1<T>
+}
+```
+
+Added in v2.0.0
+
+## Witherable2 (interface)
+
+**Signature**
+
+```ts
+export interface Witherable2<T extends URIS2> extends Traversable2<T>, Filterable2<T> {
+  readonly wilt: Wilt2<T>
+  readonly wither: Wither2<T>
+}
+```
+
+Added in v2.0.0
+
+## Witherable2C (interface)
+
+**Signature**
+
+```ts
+export interface Witherable2C<T extends URIS2, TL> extends Traversable2C<T, TL>, Filterable2C<T, TL> {
+  readonly wilt: Wilt2C<T, TL>
+  readonly wither: Wither2C<T, TL>
+}
+```
+
+Added in v2.0.0
+
+## Witherable3 (interface)
+
+**Signature**
+
+```ts
+export interface Witherable3<T extends URIS3> extends Traversable3<T>, Filterable3<T> {
+  readonly wilt: Wilt3<T>
+  readonly wither: Wither3<T>
+}
+```
+
+Added in v2.0.0
+
+# utils
+
+## Wilt (interface)
 
 **Signature**
 
@@ -81,7 +159,7 @@ export interface Wilt<W> {
 
 Added in v2.0.0
 
-# Wilt1 (interface)
+## Wilt1 (interface)
 
 **Signature**
 
@@ -116,7 +194,7 @@ export interface Wilt1<W extends URIS> {
 
 Added in v2.0.0
 
-# Wilt2 (interface)
+## Wilt2 (interface)
 
 **Signature**
 
@@ -147,7 +225,7 @@ export interface Wilt2<W extends URIS2> {
 
 Added in v2.0.0
 
-# Wilt2C (interface)
+## Wilt2C (interface)
 
 **Signature**
 
@@ -178,7 +256,7 @@ export interface Wilt2C<W extends URIS2, E> {
 
 Added in v2.0.0
 
-# Wilt3 (interface)
+## Wilt3 (interface)
 
 **Signature**
 
@@ -209,7 +287,7 @@ export interface Wilt3<W extends URIS3> {
 
 Added in v2.0.0
 
-# Wither (interface)
+## Wither (interface)
 
 **Signature**
 
@@ -238,7 +316,7 @@ export interface Wither<W> {
 
 Added in v2.0.0
 
-# Wither1 (interface)
+## Wither1 (interface)
 
 **Signature**
 
@@ -267,7 +345,7 @@ export interface Wither1<W extends URIS> {
 
 Added in v2.0.0
 
-# Wither2 (interface)
+## Wither2 (interface)
 
 **Signature**
 
@@ -295,7 +373,7 @@ export interface Wither2<W extends URIS2> {
 
 Added in v2.0.0
 
-# Wither2C (interface)
+## Wither2C (interface)
 
 **Signature**
 
@@ -323,7 +401,7 @@ export interface Wither2C<W extends URIS2, E> {
 
 Added in v2.0.0
 
-# Wither3 (interface)
+## Wither3 (interface)
 
 **Signature**
 
@@ -349,78 +427,6 @@ export interface Wither3<W extends URIS3> {
     ta: Kind3<W, R, E, A>,
     f: (a: A) => HKT<F, Option<B>>
   ) => HKT<F, Kind3<W, R, E, B>>
-}
-```
-
-Added in v2.0.0
-
-# Witherable (interface)
-
-**Signature**
-
-```ts
-export interface Witherable<T> extends Traversable<T>, Filterable<T> {
-  /**
-   * Partition a structure with effects
-   */
-  readonly wilt: Wilt<T>
-
-  /**
-   * Filter a structure  with effects
-   */
-  readonly wither: Wither<T>
-}
-```
-
-Added in v2.0.0
-
-# Witherable1 (interface)
-
-**Signature**
-
-```ts
-export interface Witherable1<T extends URIS> extends Traversable1<T>, Filterable1<T> {
-  readonly wilt: Wilt1<T>
-  readonly wither: Wither1<T>
-}
-```
-
-Added in v2.0.0
-
-# Witherable2 (interface)
-
-**Signature**
-
-```ts
-export interface Witherable2<T extends URIS2> extends Traversable2<T>, Filterable2<T> {
-  readonly wilt: Wilt2<T>
-  readonly wither: Wither2<T>
-}
-```
-
-Added in v2.0.0
-
-# Witherable2C (interface)
-
-**Signature**
-
-```ts
-export interface Witherable2C<T extends URIS2, TL> extends Traversable2C<T, TL>, Filterable2C<T, TL> {
-  readonly wilt: Wilt2C<T, TL>
-  readonly wither: Wither2C<T, TL>
-}
-```
-
-Added in v2.0.0
-
-# Witherable3 (interface)
-
-**Signature**
-
-```ts
-export interface Witherable3<T extends URIS3> extends Traversable3<T>, Filterable3<T> {
-  readonly wilt: Wilt3<T>
-  readonly wither: Wither3<T>
 }
 ```
 

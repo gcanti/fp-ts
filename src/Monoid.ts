@@ -22,6 +22,7 @@ import {
 } from './Semigroup'
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Monoid<A> extends Semigroup<A> {
@@ -30,6 +31,8 @@ export interface Monoid<A> extends Semigroup<A> {
 
 /**
  * Boolean monoid under conjunction
+ *
+ * @category instances
  * @since 2.0.0
  */
 export const monoidAll: Monoid<boolean> = {
@@ -39,6 +42,8 @@ export const monoidAll: Monoid<boolean> = {
 
 /**
  * Boolean monoid under disjunction
+ *
+ * @category instances
  * @since 2.0.0
  */
 export const monoidAny: Monoid<boolean> = {
@@ -48,6 +53,8 @@ export const monoidAny: Monoid<boolean> = {
 
 /**
  * Number monoid under addition
+ *
+ * @category instances
  * @since 2.0.0
  */
 export const monoidSum: Monoid<number> = {
@@ -57,6 +64,8 @@ export const monoidSum: Monoid<number> = {
 
 /**
  * Number monoid under multiplication
+ *
+ * @category instances
  * @since 2.0.0
  */
 export const monoidProduct: Monoid<number> = {
@@ -65,6 +74,7 @@ export const monoidProduct: Monoid<number> = {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const monoidString: Monoid<string> = {
@@ -73,6 +83,7 @@ export const monoidString: Monoid<string> = {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const monoidVoid: Monoid<void> = {
@@ -100,6 +111,7 @@ export function fold<A>(M: Monoid<A>): (as: ReadonlyArray<A>) => A {
  * const M2 = getTupleMonoid(monoidString, monoidSum, monoidAll)
  * assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
  *
+ * @category instances
  * @since 2.0.0
  */
 export function getTupleMonoid<T extends ReadonlyArray<Monoid<any>>>(
@@ -119,6 +131,7 @@ export function getTupleMonoid<T extends ReadonlyArray<Monoid<any>>>(
  *
  * assert.deepStrictEqual(getDualMonoid(monoidString).concat('a', 'b'), 'ba')
  *
+ * @category combinators
  * @since 2.0.0
  */
 export function getDualMonoid<A>(M: Monoid<A>): Monoid<A> {
@@ -129,6 +142,7 @@ export function getDualMonoid<A>(M: Monoid<A>): Monoid<A> {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getFunctionMonoid<M>(M: Monoid<M>): <A = never>() => Monoid<(a: A) => M> {
@@ -139,6 +153,7 @@ export function getFunctionMonoid<M>(M: Monoid<M>): <A = never>() => Monoid<(a: 
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<A>> {
@@ -149,6 +164,7 @@ export function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<A>> {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getStructMonoid<O extends ReadonlyRecord<string, any>>(
@@ -165,6 +181,7 @@ export function getStructMonoid<O extends ReadonlyRecord<string, any>>(
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getMeetMonoid<A>(B: Bounded<A>): Monoid<A> {
@@ -175,6 +192,7 @@ export function getMeetMonoid<A>(B: Bounded<A>): Monoid<A> {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export function getJoinMonoid<A>(B: Bounded<A>): Monoid<A> {

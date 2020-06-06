@@ -6,6 +6,7 @@ import { Monad, Monad1, Monad2, Monad2C, Monad3 } from './Monad'
 import { Reader } from './Reader'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export interface ReaderT<M, R, A> {
@@ -28,6 +29,7 @@ export interface ReaderM<M> {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export interface ReaderT1<M extends URIS, R, A> {
@@ -50,6 +52,7 @@ export interface ReaderM1<M extends URIS> {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export interface ReaderT2<M extends URIS2, R, E, A> {

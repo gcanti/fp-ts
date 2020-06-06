@@ -4,7 +4,7 @@ nav_order: 15
 parent: Modules
 ---
 
-# Chain overview
+## Chain overview
 
 The `Chain` type class extends the `Apply` type class with a `chain` operation which composes computations in
 sequence, using the return value of one computation to determine the next computation.
@@ -21,17 +21,20 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Chain (interface)](#chain-interface)
-- [Chain1 (interface)](#chain1-interface)
-- [Chain2 (interface)](#chain2-interface)
-- [Chain2C (interface)](#chain2c-interface)
-- [Chain3 (interface)](#chain3-interface)
-- [Chain3C (interface)](#chain3c-interface)
-- [Chain4 (interface)](#chain4-interface)
+- [type classes](#type-classes)
+  - [Chain (interface)](#chain-interface)
+  - [Chain1 (interface)](#chain1-interface)
+  - [Chain2 (interface)](#chain2-interface)
+  - [Chain2C (interface)](#chain2c-interface)
+  - [Chain3 (interface)](#chain3-interface)
+  - [Chain3C (interface)](#chain3c-interface)
+  - [Chain4 (interface)](#chain4-interface)
 
 ---
 
-# Chain (interface)
+# type classes
+
+## Chain (interface)
 
 **Signature**
 
@@ -43,7 +46,7 @@ export interface Chain<F> extends Apply<F> {
 
 Added in v2.0.0
 
-# Chain1 (interface)
+## Chain1 (interface)
 
 **Signature**
 
@@ -55,7 +58,7 @@ export interface Chain1<F extends URIS> extends Apply1<F> {
 
 Added in v2.0.0
 
-# Chain2 (interface)
+## Chain2 (interface)
 
 **Signature**
 
@@ -67,7 +70,7 @@ export interface Chain2<F extends URIS2> extends Apply2<F> {
 
 Added in v2.0.0
 
-# Chain2C (interface)
+## Chain2C (interface)
 
 **Signature**
 
@@ -79,7 +82,7 @@ export interface Chain2C<F extends URIS2, E> extends Apply2C<F, E> {
 
 Added in v2.0.0
 
-# Chain3 (interface)
+## Chain3 (interface)
 
 **Signature**
 
@@ -91,7 +94,7 @@ export interface Chain3<F extends URIS3> extends Apply3<F> {
 
 Added in v2.0.0
 
-# Chain3C (interface)
+## Chain3C (interface)
 
 **Signature**
 
@@ -103,7 +106,7 @@ export interface Chain3C<F extends URIS3, E> extends Apply3C<F, E> {
 
 Added in v2.2.0
 
-# Chain4 (interface)
+## Chain4 (interface)
 
 **Signature**
 

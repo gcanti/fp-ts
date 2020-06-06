@@ -4,7 +4,7 @@ nav_order: 92
 parent: Modules
 ---
 
-# Traced overview
+## Traced overview
 
 Added in v2.0.0
 
@@ -12,20 +12,38 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Traced (interface)](#traced-interface)
-- [URI (type alias)](#uri-type-alias)
-- [URI](#uri)
-- [censor](#censor)
-- [getComonad](#getcomonad)
-- [listen](#listen)
-- [listens](#listens)
-- [map](#map)
-- [traced](#traced)
-- [tracks](#tracks)
+- [Functor](#functor)
+  - [map](#map)
+- [Model](#model)
+  - [Traced (interface)](#traced-interface)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+- [instances](#instances)
+  - [getComonad](#getcomonad)
+  - [traced](#traced)
+- [utils](#utils)
+  - [censor](#censor)
+  - [listen](#listen)
+  - [listens](#listens)
+  - [tracks](#tracks)
 
 ---
 
-# Traced (interface)
+# Functor
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Traced<E, A>) => Traced<E, B>
+```
+
+Added in v2.0.0
+
+# Model
+
+## Traced (interface)
 
 **Signature**
 
@@ -37,17 +55,7 @@ export interface Traced<P, A> {
 
 Added in v2.0.0
 
-# URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-# URI
+## URI
 
 **Signature**
 
@@ -57,7 +65,41 @@ export declare const URI: 'Traced'
 
 Added in v2.0.0
 
-# censor
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
+# instances
+
+## getComonad
+
+**Signature**
+
+```ts
+export declare function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P>
+```
+
+Added in v2.0.0
+
+## traced
+
+**Signature**
+
+```ts
+export declare const traced: Functor2<'Traced'>
+```
+
+Added in v2.0.0
+
+# utils
+
+## censor
 
 Apply a function to the current position
 
@@ -69,17 +111,7 @@ export declare function censor<P>(f: (p: P) => P): <A>(wa: Traced<P, A>) => Trac
 
 Added in v2.0.0
 
-# getComonad
-
-**Signature**
-
-```ts
-export declare function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P>
-```
-
-Added in v2.0.0
-
-# listen
+## listen
 
 Get the current position
 
@@ -91,7 +123,7 @@ export declare function listen<P, A>(wa: Traced<P, A>): Traced<P, [A, P]>
 
 Added in v2.0.0
 
-# listens
+## listens
 
 Get a value which depends on the current position
 
@@ -103,27 +135,7 @@ export declare function listens<P, B>(f: (p: P) => B): <A>(wa: Traced<P, A>) => 
 
 Added in v2.0.0
 
-# map
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Traced<E, A>) => Traced<E, B>
-```
-
-Added in v2.0.0
-
-# traced
-
-**Signature**
-
-```ts
-export declare const traced: Functor2<'Traced'>
-```
-
-Added in v2.0.0
-
-# tracks
+## tracks
 
 Extracts a value at a relative position which depends on the current value.
 

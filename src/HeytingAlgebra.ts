@@ -24,6 +24,7 @@
 import { BoundedDistributiveLattice } from './BoundedDistributiveLattice'
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface HeytingAlgebra<A> extends BoundedDistributiveLattice<A> {

@@ -4,7 +4,7 @@ nav_order: 61
 parent: Modules
 ---
 
-# pipeable overview
+## pipeable overview
 
 Added in v2.0.0
 
@@ -12,120 +12,123 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [PipeableAlt (interface)](#pipeablealt-interface)
-- [PipeableAlt1 (interface)](#pipeablealt1-interface)
-- [PipeableAlt2 (interface)](#pipeablealt2-interface)
-- [PipeableAlt2C (interface)](#pipeablealt2c-interface)
-- [PipeableAlt3 (interface)](#pipeablealt3-interface)
-- [PipeableAlt3C (interface)](#pipeablealt3c-interface)
-- [PipeableAlt4 (interface)](#pipeablealt4-interface)
-- [PipeableApply (interface)](#pipeableapply-interface)
-- [PipeableApply1 (interface)](#pipeableapply1-interface)
-- [PipeableApply2 (interface)](#pipeableapply2-interface)
-- [PipeableApply2C (interface)](#pipeableapply2c-interface)
-- [PipeableApply3 (interface)](#pipeableapply3-interface)
-- [PipeableApply3C (interface)](#pipeableapply3c-interface)
-- [PipeableApply4 (interface)](#pipeableapply4-interface)
-- [PipeableBifunctor (interface)](#pipeablebifunctor-interface)
-- [PipeableBifunctor2 (interface)](#pipeablebifunctor2-interface)
-- [PipeableBifunctor3 (interface)](#pipeablebifunctor3-interface)
-- [PipeableBifunctor3C (interface)](#pipeablebifunctor3c-interface)
-- [PipeableBifunctor4 (interface)](#pipeablebifunctor4-interface)
-- [PipeableChain (interface)](#pipeablechain-interface)
-- [PipeableChain1 (interface)](#pipeablechain1-interface)
-- [PipeableChain2 (interface)](#pipeablechain2-interface)
-- [PipeableChain2C (interface)](#pipeablechain2c-interface)
-- [PipeableChain3 (interface)](#pipeablechain3-interface)
-- [PipeableChain3C (interface)](#pipeablechain3c-interface)
-- [PipeableChain4 (interface)](#pipeablechain4-interface)
-- [PipeableCompactable (interface)](#pipeablecompactable-interface)
-- [PipeableCompactable1 (interface)](#pipeablecompactable1-interface)
-- [PipeableCompactable2 (interface)](#pipeablecompactable2-interface)
-- [PipeableCompactable2C (interface)](#pipeablecompactable2c-interface)
-- [PipeableCompactable3 (interface)](#pipeablecompactable3-interface)
-- [PipeableCompactable3C (interface)](#pipeablecompactable3c-interface)
-- [PipeableCompactable4 (interface)](#pipeablecompactable4-interface)
-- [PipeableContravariant (interface)](#pipeablecontravariant-interface)
-- [PipeableContravariant1 (interface)](#pipeablecontravariant1-interface)
-- [PipeableContravariant2 (interface)](#pipeablecontravariant2-interface)
-- [PipeableContravariant2C (interface)](#pipeablecontravariant2c-interface)
-- [PipeableContravariant3 (interface)](#pipeablecontravariant3-interface)
-- [PipeableContravariant3C (interface)](#pipeablecontravariant3c-interface)
-- [PipeableContravariant4 (interface)](#pipeablecontravariant4-interface)
-- [PipeableExtend (interface)](#pipeableextend-interface)
-- [PipeableExtend1 (interface)](#pipeableextend1-interface)
-- [PipeableExtend2 (interface)](#pipeableextend2-interface)
-- [PipeableExtend2C (interface)](#pipeableextend2c-interface)
-- [PipeableExtend3 (interface)](#pipeableextend3-interface)
-- [PipeableExtend3C (interface)](#pipeableextend3c-interface)
-- [PipeableExtend4 (interface)](#pipeableextend4-interface)
-- [PipeableFilterable (interface)](#pipeablefilterable-interface)
-- [PipeableFilterable1 (interface)](#pipeablefilterable1-interface)
-- [PipeableFilterable2 (interface)](#pipeablefilterable2-interface)
-- [PipeableFilterable2C (interface)](#pipeablefilterable2c-interface)
-- [PipeableFilterable3 (interface)](#pipeablefilterable3-interface)
-- [PipeableFilterable3C (interface)](#pipeablefilterable3c-interface)
-- [PipeableFilterable4 (interface)](#pipeablefilterable4-interface)
-- [PipeableFilterableWithIndex (interface)](#pipeablefilterablewithindex-interface)
-- [PipeableFilterableWithIndex1 (interface)](#pipeablefilterablewithindex1-interface)
-- [PipeableFilterableWithIndex2 (interface)](#pipeablefilterablewithindex2-interface)
-- [PipeableFilterableWithIndex2C (interface)](#pipeablefilterablewithindex2c-interface)
-- [PipeableFilterableWithIndex3 (interface)](#pipeablefilterablewithindex3-interface)
-- [PipeableFilterableWithIndex3C (interface)](#pipeablefilterablewithindex3c-interface)
-- [PipeableFilterableWithIndex4 (interface)](#pipeablefilterablewithindex4-interface)
-- [PipeableFoldable (interface)](#pipeablefoldable-interface)
-- [PipeableFoldable1 (interface)](#pipeablefoldable1-interface)
-- [PipeableFoldable2 (interface)](#pipeablefoldable2-interface)
-- [PipeableFoldable2C (interface)](#pipeablefoldable2c-interface)
-- [PipeableFoldable3 (interface)](#pipeablefoldable3-interface)
-- [PipeableFoldable3C (interface)](#pipeablefoldable3c-interface)
-- [PipeableFoldable4 (interface)](#pipeablefoldable4-interface)
-- [PipeableFoldableWithIndex (interface)](#pipeablefoldablewithindex-interface)
-- [PipeableFoldableWithIndex1 (interface)](#pipeablefoldablewithindex1-interface)
-- [PipeableFoldableWithIndex2 (interface)](#pipeablefoldablewithindex2-interface)
-- [PipeableFoldableWithIndex2C (interface)](#pipeablefoldablewithindex2c-interface)
-- [PipeableFoldableWithIndex3 (interface)](#pipeablefoldablewithindex3-interface)
-- [PipeableFoldableWithIndex3C (interface)](#pipeablefoldablewithindex3c-interface)
-- [PipeableFoldableWithIndex4 (interface)](#pipeablefoldablewithindex4-interface)
-- [PipeableFunctor (interface)](#pipeablefunctor-interface)
-- [PipeableFunctor1 (interface)](#pipeablefunctor1-interface)
-- [PipeableFunctor2 (interface)](#pipeablefunctor2-interface)
-- [PipeableFunctor2C (interface)](#pipeablefunctor2c-interface)
-- [PipeableFunctor3 (interface)](#pipeablefunctor3-interface)
-- [PipeableFunctor3C (interface)](#pipeablefunctor3c-interface)
-- [PipeableFunctor4 (interface)](#pipeablefunctor4-interface)
-- [PipeableFunctorWithIndex (interface)](#pipeablefunctorwithindex-interface)
-- [PipeableFunctorWithIndex1 (interface)](#pipeablefunctorwithindex1-interface)
-- [PipeableFunctorWithIndex2 (interface)](#pipeablefunctorwithindex2-interface)
-- [PipeableFunctorWithIndex2C (interface)](#pipeablefunctorwithindex2c-interface)
-- [PipeableFunctorWithIndex3 (interface)](#pipeablefunctorwithindex3-interface)
-- [PipeableFunctorWithIndex3C (interface)](#pipeablefunctorwithindex3c-interface)
-- [PipeableFunctorWithIndex4 (interface)](#pipeablefunctorwithindex4-interface)
-- [PipeableMonadThrow (interface)](#pipeablemonadthrow-interface)
-- [PipeableMonadThrow1 (interface)](#pipeablemonadthrow1-interface)
-- [PipeableMonadThrow2 (interface)](#pipeablemonadthrow2-interface)
-- [PipeableMonadThrow2C (interface)](#pipeablemonadthrow2c-interface)
-- [PipeableMonadThrow3 (interface)](#pipeablemonadthrow3-interface)
-- [PipeableMonadThrow3C (interface)](#pipeablemonadthrow3c-interface)
-- [PipeableMonadThrow4 (interface)](#pipeablemonadthrow4-interface)
-- [PipeableProfunctor (interface)](#pipeableprofunctor-interface)
-- [PipeableProfunctor2 (interface)](#pipeableprofunctor2-interface)
-- [PipeableProfunctor2C (interface)](#pipeableprofunctor2c-interface)
-- [PipeableProfunctor3 (interface)](#pipeableprofunctor3-interface)
-- [PipeableProfunctor3C (interface)](#pipeableprofunctor3c-interface)
-- [PipeableProfunctor4 (interface)](#pipeableprofunctor4-interface)
-- [PipeableSemigroupoid (interface)](#pipeablesemigroupoid-interface)
-- [PipeableSemigroupoid2 (interface)](#pipeablesemigroupoid2-interface)
-- [PipeableSemigroupoid2C (interface)](#pipeablesemigroupoid2c-interface)
-- [PipeableSemigroupoid3 (interface)](#pipeablesemigroupoid3-interface)
-- [PipeableSemigroupoid3C (interface)](#pipeablesemigroupoid3c-interface)
-- [PipeableSemigroupoid4 (interface)](#pipeablesemigroupoid4-interface)
-- [pipe](#pipe)
-- [pipeable](#pipeable)
+- [utils](#utils)
+  - [PipeableAlt (interface)](#pipeablealt-interface)
+  - [PipeableAlt1 (interface)](#pipeablealt1-interface)
+  - [PipeableAlt2 (interface)](#pipeablealt2-interface)
+  - [PipeableAlt2C (interface)](#pipeablealt2c-interface)
+  - [PipeableAlt3 (interface)](#pipeablealt3-interface)
+  - [PipeableAlt3C (interface)](#pipeablealt3c-interface)
+  - [PipeableAlt4 (interface)](#pipeablealt4-interface)
+  - [PipeableApply (interface)](#pipeableapply-interface)
+  - [PipeableApply1 (interface)](#pipeableapply1-interface)
+  - [PipeableApply2 (interface)](#pipeableapply2-interface)
+  - [PipeableApply2C (interface)](#pipeableapply2c-interface)
+  - [PipeableApply3 (interface)](#pipeableapply3-interface)
+  - [PipeableApply3C (interface)](#pipeableapply3c-interface)
+  - [PipeableApply4 (interface)](#pipeableapply4-interface)
+  - [PipeableBifunctor (interface)](#pipeablebifunctor-interface)
+  - [PipeableBifunctor2 (interface)](#pipeablebifunctor2-interface)
+  - [PipeableBifunctor3 (interface)](#pipeablebifunctor3-interface)
+  - [PipeableBifunctor3C (interface)](#pipeablebifunctor3c-interface)
+  - [PipeableBifunctor4 (interface)](#pipeablebifunctor4-interface)
+  - [PipeableChain (interface)](#pipeablechain-interface)
+  - [PipeableChain1 (interface)](#pipeablechain1-interface)
+  - [PipeableChain2 (interface)](#pipeablechain2-interface)
+  - [PipeableChain2C (interface)](#pipeablechain2c-interface)
+  - [PipeableChain3 (interface)](#pipeablechain3-interface)
+  - [PipeableChain3C (interface)](#pipeablechain3c-interface)
+  - [PipeableChain4 (interface)](#pipeablechain4-interface)
+  - [PipeableCompactable (interface)](#pipeablecompactable-interface)
+  - [PipeableCompactable1 (interface)](#pipeablecompactable1-interface)
+  - [PipeableCompactable2 (interface)](#pipeablecompactable2-interface)
+  - [PipeableCompactable2C (interface)](#pipeablecompactable2c-interface)
+  - [PipeableCompactable3 (interface)](#pipeablecompactable3-interface)
+  - [PipeableCompactable3C (interface)](#pipeablecompactable3c-interface)
+  - [PipeableCompactable4 (interface)](#pipeablecompactable4-interface)
+  - [PipeableContravariant (interface)](#pipeablecontravariant-interface)
+  - [PipeableContravariant1 (interface)](#pipeablecontravariant1-interface)
+  - [PipeableContravariant2 (interface)](#pipeablecontravariant2-interface)
+  - [PipeableContravariant2C (interface)](#pipeablecontravariant2c-interface)
+  - [PipeableContravariant3 (interface)](#pipeablecontravariant3-interface)
+  - [PipeableContravariant3C (interface)](#pipeablecontravariant3c-interface)
+  - [PipeableContravariant4 (interface)](#pipeablecontravariant4-interface)
+  - [PipeableExtend (interface)](#pipeableextend-interface)
+  - [PipeableExtend1 (interface)](#pipeableextend1-interface)
+  - [PipeableExtend2 (interface)](#pipeableextend2-interface)
+  - [PipeableExtend2C (interface)](#pipeableextend2c-interface)
+  - [PipeableExtend3 (interface)](#pipeableextend3-interface)
+  - [PipeableExtend3C (interface)](#pipeableextend3c-interface)
+  - [PipeableExtend4 (interface)](#pipeableextend4-interface)
+  - [PipeableFilterable (interface)](#pipeablefilterable-interface)
+  - [PipeableFilterable1 (interface)](#pipeablefilterable1-interface)
+  - [PipeableFilterable2 (interface)](#pipeablefilterable2-interface)
+  - [PipeableFilterable2C (interface)](#pipeablefilterable2c-interface)
+  - [PipeableFilterable3 (interface)](#pipeablefilterable3-interface)
+  - [PipeableFilterable3C (interface)](#pipeablefilterable3c-interface)
+  - [PipeableFilterable4 (interface)](#pipeablefilterable4-interface)
+  - [PipeableFilterableWithIndex (interface)](#pipeablefilterablewithindex-interface)
+  - [PipeableFilterableWithIndex1 (interface)](#pipeablefilterablewithindex1-interface)
+  - [PipeableFilterableWithIndex2 (interface)](#pipeablefilterablewithindex2-interface)
+  - [PipeableFilterableWithIndex2C (interface)](#pipeablefilterablewithindex2c-interface)
+  - [PipeableFilterableWithIndex3 (interface)](#pipeablefilterablewithindex3-interface)
+  - [PipeableFilterableWithIndex3C (interface)](#pipeablefilterablewithindex3c-interface)
+  - [PipeableFilterableWithIndex4 (interface)](#pipeablefilterablewithindex4-interface)
+  - [PipeableFoldable (interface)](#pipeablefoldable-interface)
+  - [PipeableFoldable1 (interface)](#pipeablefoldable1-interface)
+  - [PipeableFoldable2 (interface)](#pipeablefoldable2-interface)
+  - [PipeableFoldable2C (interface)](#pipeablefoldable2c-interface)
+  - [PipeableFoldable3 (interface)](#pipeablefoldable3-interface)
+  - [PipeableFoldable3C (interface)](#pipeablefoldable3c-interface)
+  - [PipeableFoldable4 (interface)](#pipeablefoldable4-interface)
+  - [PipeableFoldableWithIndex (interface)](#pipeablefoldablewithindex-interface)
+  - [PipeableFoldableWithIndex1 (interface)](#pipeablefoldablewithindex1-interface)
+  - [PipeableFoldableWithIndex2 (interface)](#pipeablefoldablewithindex2-interface)
+  - [PipeableFoldableWithIndex2C (interface)](#pipeablefoldablewithindex2c-interface)
+  - [PipeableFoldableWithIndex3 (interface)](#pipeablefoldablewithindex3-interface)
+  - [PipeableFoldableWithIndex3C (interface)](#pipeablefoldablewithindex3c-interface)
+  - [PipeableFoldableWithIndex4 (interface)](#pipeablefoldablewithindex4-interface)
+  - [PipeableFunctor (interface)](#pipeablefunctor-interface)
+  - [PipeableFunctor1 (interface)](#pipeablefunctor1-interface)
+  - [PipeableFunctor2 (interface)](#pipeablefunctor2-interface)
+  - [PipeableFunctor2C (interface)](#pipeablefunctor2c-interface)
+  - [PipeableFunctor3 (interface)](#pipeablefunctor3-interface)
+  - [PipeableFunctor3C (interface)](#pipeablefunctor3c-interface)
+  - [PipeableFunctor4 (interface)](#pipeablefunctor4-interface)
+  - [PipeableFunctorWithIndex (interface)](#pipeablefunctorwithindex-interface)
+  - [PipeableFunctorWithIndex1 (interface)](#pipeablefunctorwithindex1-interface)
+  - [PipeableFunctorWithIndex2 (interface)](#pipeablefunctorwithindex2-interface)
+  - [PipeableFunctorWithIndex2C (interface)](#pipeablefunctorwithindex2c-interface)
+  - [PipeableFunctorWithIndex3 (interface)](#pipeablefunctorwithindex3-interface)
+  - [PipeableFunctorWithIndex3C (interface)](#pipeablefunctorwithindex3c-interface)
+  - [PipeableFunctorWithIndex4 (interface)](#pipeablefunctorwithindex4-interface)
+  - [PipeableMonadThrow (interface)](#pipeablemonadthrow-interface)
+  - [PipeableMonadThrow1 (interface)](#pipeablemonadthrow1-interface)
+  - [PipeableMonadThrow2 (interface)](#pipeablemonadthrow2-interface)
+  - [PipeableMonadThrow2C (interface)](#pipeablemonadthrow2c-interface)
+  - [PipeableMonadThrow3 (interface)](#pipeablemonadthrow3-interface)
+  - [PipeableMonadThrow3C (interface)](#pipeablemonadthrow3c-interface)
+  - [PipeableMonadThrow4 (interface)](#pipeablemonadthrow4-interface)
+  - [PipeableProfunctor (interface)](#pipeableprofunctor-interface)
+  - [PipeableProfunctor2 (interface)](#pipeableprofunctor2-interface)
+  - [PipeableProfunctor2C (interface)](#pipeableprofunctor2c-interface)
+  - [PipeableProfunctor3 (interface)](#pipeableprofunctor3-interface)
+  - [PipeableProfunctor3C (interface)](#pipeableprofunctor3c-interface)
+  - [PipeableProfunctor4 (interface)](#pipeableprofunctor4-interface)
+  - [PipeableSemigroupoid (interface)](#pipeablesemigroupoid-interface)
+  - [PipeableSemigroupoid2 (interface)](#pipeablesemigroupoid2-interface)
+  - [PipeableSemigroupoid2C (interface)](#pipeablesemigroupoid2c-interface)
+  - [PipeableSemigroupoid3 (interface)](#pipeablesemigroupoid3-interface)
+  - [PipeableSemigroupoid3C (interface)](#pipeablesemigroupoid3c-interface)
+  - [PipeableSemigroupoid4 (interface)](#pipeablesemigroupoid4-interface)
+  - [pipe](#pipe)
+  - [pipeable](#pipeable)
 
 ---
 
-# PipeableAlt (interface)
+# utils
+
+## PipeableAlt (interface)
 
 **Signature**
 
@@ -137,7 +140,7 @@ export interface PipeableAlt<F> {
 
 Added in v2.0.0
 
-# PipeableAlt1 (interface)
+## PipeableAlt1 (interface)
 
 **Signature**
 
@@ -149,7 +152,7 @@ export interface PipeableAlt1<F extends URIS> {
 
 Added in v2.0.0
 
-# PipeableAlt2 (interface)
+## PipeableAlt2 (interface)
 
 **Signature**
 
@@ -161,7 +164,7 @@ export interface PipeableAlt2<F extends URIS2> {
 
 Added in v2.0.0
 
-# PipeableAlt2C (interface)
+## PipeableAlt2C (interface)
 
 **Signature**
 
@@ -173,7 +176,7 @@ export interface PipeableAlt2C<F extends URIS2, E> {
 
 Added in v2.0.0
 
-# PipeableAlt3 (interface)
+## PipeableAlt3 (interface)
 
 **Signature**
 
@@ -185,7 +188,7 @@ export interface PipeableAlt3<F extends URIS3> {
 
 Added in v2.0.0
 
-# PipeableAlt3C (interface)
+## PipeableAlt3C (interface)
 
 **Signature**
 
@@ -197,7 +200,7 @@ export interface PipeableAlt3C<F extends URIS3, E> {
 
 Added in v2.2.0
 
-# PipeableAlt4 (interface)
+## PipeableAlt4 (interface)
 
 **Signature**
 
@@ -209,7 +212,7 @@ export interface PipeableAlt4<F extends URIS4> {
 
 Added in v2.0.0
 
-# PipeableApply (interface)
+## PipeableApply (interface)
 
 **Signature**
 
@@ -223,7 +226,7 @@ export interface PipeableApply<F> extends PipeableFunctor<F> {
 
 Added in v2.0.0
 
-# PipeableApply1 (interface)
+## PipeableApply1 (interface)
 
 **Signature**
 
@@ -237,7 +240,7 @@ export interface PipeableApply1<F extends URIS> extends PipeableFunctor1<F> {
 
 Added in v2.0.0
 
-# PipeableApply2 (interface)
+## PipeableApply2 (interface)
 
 **Signature**
 
@@ -251,7 +254,7 @@ export interface PipeableApply2<F extends URIS2> extends PipeableFunctor2<F> {
 
 Added in v2.0.0
 
-# PipeableApply2C (interface)
+## PipeableApply2C (interface)
 
 **Signature**
 
@@ -265,7 +268,7 @@ export interface PipeableApply2C<F extends URIS2, E> extends PipeableFunctor2C<F
 
 Added in v2.0.0
 
-# PipeableApply3 (interface)
+## PipeableApply3 (interface)
 
 **Signature**
 
@@ -279,7 +282,7 @@ export interface PipeableApply3<F extends URIS3> extends PipeableFunctor3<F> {
 
 Added in v2.0.0
 
-# PipeableApply3C (interface)
+## PipeableApply3C (interface)
 
 **Signature**
 
@@ -293,7 +296,7 @@ export interface PipeableApply3C<F extends URIS3, E> extends PipeableFunctor3C<F
 
 Added in v2.2.0
 
-# PipeableApply4 (interface)
+## PipeableApply4 (interface)
 
 **Signature**
 
@@ -309,7 +312,7 @@ export interface PipeableApply4<F extends URIS4> extends PipeableFunctor4<F> {
 
 Added in v2.0.0
 
-# PipeableBifunctor (interface)
+## PipeableBifunctor (interface)
 
 **Signature**
 
@@ -322,7 +325,7 @@ export interface PipeableBifunctor<F> {
 
 Added in v2.0.0
 
-# PipeableBifunctor2 (interface)
+## PipeableBifunctor2 (interface)
 
 **Signature**
 
@@ -335,7 +338,7 @@ export interface PipeableBifunctor2<F extends URIS2> {
 
 Added in v2.0.0
 
-# PipeableBifunctor3 (interface)
+## PipeableBifunctor3 (interface)
 
 **Signature**
 
@@ -348,7 +351,7 @@ export interface PipeableBifunctor3<F extends URIS3> {
 
 Added in v2.0.0
 
-# PipeableBifunctor3C (interface)
+## PipeableBifunctor3C (interface)
 
 **Signature**
 
@@ -361,7 +364,7 @@ export interface PipeableBifunctor3C<F extends URIS3, E> {
 
 Added in v2.2.0
 
-# PipeableBifunctor4 (interface)
+## PipeableBifunctor4 (interface)
 
 **Signature**
 
@@ -377,7 +380,7 @@ export interface PipeableBifunctor4<F extends URIS4> {
 
 Added in v2.0.0
 
-# PipeableChain (interface)
+## PipeableChain (interface)
 
 **Signature**
 
@@ -391,7 +394,7 @@ export interface PipeableChain<F> extends PipeableApply<F> {
 
 Added in v2.0.0
 
-# PipeableChain1 (interface)
+## PipeableChain1 (interface)
 
 **Signature**
 
@@ -405,7 +408,7 @@ export interface PipeableChain1<F extends URIS> extends PipeableApply1<F> {
 
 Added in v2.0.0
 
-# PipeableChain2 (interface)
+## PipeableChain2 (interface)
 
 **Signature**
 
@@ -419,7 +422,7 @@ export interface PipeableChain2<F extends URIS2> extends PipeableApply2<F> {
 
 Added in v2.0.0
 
-# PipeableChain2C (interface)
+## PipeableChain2C (interface)
 
 **Signature**
 
@@ -433,7 +436,7 @@ export interface PipeableChain2C<F extends URIS2, E> extends PipeableApply2C<F, 
 
 Added in v2.0.0
 
-# PipeableChain3 (interface)
+## PipeableChain3 (interface)
 
 **Signature**
 
@@ -447,7 +450,7 @@ export interface PipeableChain3<F extends URIS3> extends PipeableApply3<F> {
 
 Added in v2.0.0
 
-# PipeableChain3C (interface)
+## PipeableChain3C (interface)
 
 **Signature**
 
@@ -461,7 +464,7 @@ export interface PipeableChain3C<F extends URIS3, E> extends PipeableApply3C<F, 
 
 Added in v2.2.0
 
-# PipeableChain4 (interface)
+## PipeableChain4 (interface)
 
 **Signature**
 
@@ -479,7 +482,7 @@ export interface PipeableChain4<F extends URIS4> extends PipeableApply4<F> {
 
 Added in v2.0.0
 
-# PipeableCompactable (interface)
+## PipeableCompactable (interface)
 
 **Signature**
 
@@ -492,7 +495,7 @@ export interface PipeableCompactable<F> {
 
 Added in v2.0.0
 
-# PipeableCompactable1 (interface)
+## PipeableCompactable1 (interface)
 
 **Signature**
 
@@ -505,7 +508,7 @@ export interface PipeableCompactable1<F extends URIS> {
 
 Added in v2.0.0
 
-# PipeableCompactable2 (interface)
+## PipeableCompactable2 (interface)
 
 **Signature**
 
@@ -518,7 +521,7 @@ export interface PipeableCompactable2<F extends URIS2> {
 
 Added in v2.0.0
 
-# PipeableCompactable2C (interface)
+## PipeableCompactable2C (interface)
 
 **Signature**
 
@@ -531,7 +534,7 @@ export interface PipeableCompactable2C<F extends URIS2, E> {
 
 Added in v2.0.0
 
-# PipeableCompactable3 (interface)
+## PipeableCompactable3 (interface)
 
 **Signature**
 
@@ -544,7 +547,7 @@ export interface PipeableCompactable3<F extends URIS3> {
 
 Added in v2.0.0
 
-# PipeableCompactable3C (interface)
+## PipeableCompactable3C (interface)
 
 **Signature**
 
@@ -557,7 +560,7 @@ export interface PipeableCompactable3C<F extends URIS3, E> {
 
 Added in v2.2.0
 
-# PipeableCompactable4 (interface)
+## PipeableCompactable4 (interface)
 
 **Signature**
 
@@ -572,7 +575,7 @@ export interface PipeableCompactable4<F extends URIS4> {
 
 Added in v2.0.0
 
-# PipeableContravariant (interface)
+## PipeableContravariant (interface)
 
 **Signature**
 
@@ -584,7 +587,7 @@ export interface PipeableContravariant<F> {
 
 Added in v2.0.0
 
-# PipeableContravariant1 (interface)
+## PipeableContravariant1 (interface)
 
 **Signature**
 
@@ -596,7 +599,7 @@ export interface PipeableContravariant1<F extends URIS> {
 
 Added in v2.0.0
 
-# PipeableContravariant2 (interface)
+## PipeableContravariant2 (interface)
 
 **Signature**
 
@@ -608,7 +611,7 @@ export interface PipeableContravariant2<F extends URIS2> {
 
 Added in v2.0.0
 
-# PipeableContravariant2C (interface)
+## PipeableContravariant2C (interface)
 
 **Signature**
 
@@ -620,7 +623,7 @@ export interface PipeableContravariant2C<F extends URIS2, E> {
 
 Added in v2.0.0
 
-# PipeableContravariant3 (interface)
+## PipeableContravariant3 (interface)
 
 **Signature**
 
@@ -632,7 +635,7 @@ export interface PipeableContravariant3<F extends URIS3> {
 
 Added in v2.0.0
 
-# PipeableContravariant3C (interface)
+## PipeableContravariant3C (interface)
 
 **Signature**
 
@@ -644,7 +647,7 @@ export interface PipeableContravariant3C<F extends URIS3, E> {
 
 Added in v2.2.0
 
-# PipeableContravariant4 (interface)
+## PipeableContravariant4 (interface)
 
 **Signature**
 
@@ -656,7 +659,7 @@ export interface PipeableContravariant4<F extends URIS4> {
 
 Added in v2.0.0
 
-# PipeableExtend (interface)
+## PipeableExtend (interface)
 
 **Signature**
 
@@ -669,7 +672,7 @@ export interface PipeableExtend<F> extends PipeableFunctor<F> {
 
 Added in v2.0.0
 
-# PipeableExtend1 (interface)
+## PipeableExtend1 (interface)
 
 **Signature**
 
@@ -682,7 +685,7 @@ export interface PipeableExtend1<F extends URIS> extends PipeableFunctor1<F> {
 
 Added in v2.0.0
 
-# PipeableExtend2 (interface)
+## PipeableExtend2 (interface)
 
 **Signature**
 
@@ -695,7 +698,7 @@ export interface PipeableExtend2<F extends URIS2> extends PipeableFunctor2<F> {
 
 Added in v2.0.0
 
-# PipeableExtend2C (interface)
+## PipeableExtend2C (interface)
 
 **Signature**
 
@@ -708,7 +711,7 @@ export interface PipeableExtend2C<F extends URIS2, E> extends PipeableFunctor2C<
 
 Added in v2.0.0
 
-# PipeableExtend3 (interface)
+## PipeableExtend3 (interface)
 
 **Signature**
 
@@ -721,7 +724,7 @@ export interface PipeableExtend3<F extends URIS3> extends PipeableFunctor3<F> {
 
 Added in v2.0.0
 
-# PipeableExtend3C (interface)
+## PipeableExtend3C (interface)
 
 **Signature**
 
@@ -734,7 +737,7 @@ export interface PipeableExtend3C<F extends URIS3, E> extends PipeableFunctor3C<
 
 Added in v2.2.0
 
-# PipeableExtend4 (interface)
+## PipeableExtend4 (interface)
 
 **Signature**
 
@@ -749,7 +752,7 @@ export interface PipeableExtend4<F extends URIS4> extends PipeableFunctor4<F> {
 
 Added in v2.0.0
 
-# PipeableFilterable (interface)
+## PipeableFilterable (interface)
 
 **Signature**
 
@@ -770,7 +773,7 @@ export interface PipeableFilterable<F> extends PipeableCompactable<F> {
 
 Added in v2.0.0
 
-# PipeableFilterable1 (interface)
+## PipeableFilterable1 (interface)
 
 **Signature**
 
@@ -791,7 +794,7 @@ export interface PipeableFilterable1<F extends URIS> extends PipeableCompactable
 
 Added in v2.0.0
 
-# PipeableFilterable2 (interface)
+## PipeableFilterable2 (interface)
 
 **Signature**
 
@@ -814,7 +817,7 @@ export interface PipeableFilterable2<F extends URIS2> extends PipeableCompactabl
 
 Added in v2.0.0
 
-# PipeableFilterable2C (interface)
+## PipeableFilterable2C (interface)
 
 **Signature**
 
@@ -837,7 +840,7 @@ export interface PipeableFilterable2C<F extends URIS2, E> extends PipeableCompac
 
 Added in v2.0.0
 
-# PipeableFilterable3 (interface)
+## PipeableFilterable3 (interface)
 
 **Signature**
 
@@ -862,7 +865,7 @@ export interface PipeableFilterable3<F extends URIS3> extends PipeableCompactabl
 
 Added in v2.0.0
 
-# PipeableFilterable3C (interface)
+## PipeableFilterable3C (interface)
 
 **Signature**
 
@@ -887,7 +890,7 @@ export interface PipeableFilterable3C<F extends URIS3, E> extends PipeableCompac
 
 Added in v2.2.0
 
-# PipeableFilterable4 (interface)
+## PipeableFilterable4 (interface)
 
 **Signature**
 
@@ -914,7 +917,7 @@ export interface PipeableFilterable4<F extends URIS4> extends PipeableCompactabl
 
 Added in v2.0.0
 
-# PipeableFilterableWithIndex (interface)
+## PipeableFilterableWithIndex (interface)
 
 **Signature**
 
@@ -939,7 +942,7 @@ export interface PipeableFilterableWithIndex<F, I> extends PipeableFilterable<F>
 
 Added in v2.0.0
 
-# PipeableFilterableWithIndex1 (interface)
+## PipeableFilterableWithIndex1 (interface)
 
 **Signature**
 
@@ -964,7 +967,7 @@ export interface PipeableFilterableWithIndex1<F extends URIS, I> extends Pipeabl
 
 Added in v2.0.0
 
-# PipeableFilterableWithIndex2 (interface)
+## PipeableFilterableWithIndex2 (interface)
 
 **Signature**
 
@@ -991,7 +994,7 @@ export interface PipeableFilterableWithIndex2<F extends URIS2, I> extends Pipeab
 
 Added in v2.0.0
 
-# PipeableFilterableWithIndex2C (interface)
+## PipeableFilterableWithIndex2C (interface)
 
 **Signature**
 
@@ -1016,7 +1019,7 @@ export interface PipeableFilterableWithIndex2C<F extends URIS2, I, E> extends Pi
 
 Added in v2.0.0
 
-# PipeableFilterableWithIndex3 (interface)
+## PipeableFilterableWithIndex3 (interface)
 
 **Signature**
 
@@ -1047,7 +1050,7 @@ export interface PipeableFilterableWithIndex3<F extends URIS3, I> extends Pipeab
 
 Added in v2.0.0
 
-# PipeableFilterableWithIndex3C (interface)
+## PipeableFilterableWithIndex3C (interface)
 
 **Signature**
 
@@ -1074,7 +1077,7 @@ export interface PipeableFilterableWithIndex3C<F extends URIS3, I, E> extends Pi
 
 Added in v2.2.0
 
-# PipeableFilterableWithIndex4 (interface)
+## PipeableFilterableWithIndex4 (interface)
 
 **Signature**
 
@@ -1105,7 +1108,7 @@ export interface PipeableFilterableWithIndex4<F extends URIS4, I> extends Pipeab
 
 Added in v2.0.0
 
-# PipeableFoldable (interface)
+## PipeableFoldable (interface)
 
 **Signature**
 
@@ -1119,7 +1122,7 @@ export interface PipeableFoldable<F> {
 
 Added in v2.0.0
 
-# PipeableFoldable1 (interface)
+## PipeableFoldable1 (interface)
 
 **Signature**
 
@@ -1133,7 +1136,7 @@ export interface PipeableFoldable1<F extends URIS> {
 
 Added in v2.0.0
 
-# PipeableFoldable2 (interface)
+## PipeableFoldable2 (interface)
 
 **Signature**
 
@@ -1147,7 +1150,7 @@ export interface PipeableFoldable2<F extends URIS2> {
 
 Added in v2.0.0
 
-# PipeableFoldable2C (interface)
+## PipeableFoldable2C (interface)
 
 **Signature**
 
@@ -1161,7 +1164,7 @@ export interface PipeableFoldable2C<F extends URIS2, E> {
 
 Added in v2.0.0
 
-# PipeableFoldable3 (interface)
+## PipeableFoldable3 (interface)
 
 **Signature**
 
@@ -1175,7 +1178,7 @@ export interface PipeableFoldable3<F extends URIS3> {
 
 Added in v2.0.0
 
-# PipeableFoldable3C (interface)
+## PipeableFoldable3C (interface)
 
 **Signature**
 
@@ -1189,7 +1192,7 @@ export interface PipeableFoldable3C<F extends URIS3, E> {
 
 Added in v2.2.0
 
-# PipeableFoldable4 (interface)
+## PipeableFoldable4 (interface)
 
 **Signature**
 
@@ -1203,7 +1206,7 @@ export interface PipeableFoldable4<F extends URIS4> {
 
 Added in v2.0.0
 
-# PipeableFoldableWithIndex (interface)
+## PipeableFoldableWithIndex (interface)
 
 **Signature**
 
@@ -1217,7 +1220,7 @@ export interface PipeableFoldableWithIndex<F, I> extends PipeableFoldable<F> {
 
 Added in v2.0.0
 
-# PipeableFoldableWithIndex1 (interface)
+## PipeableFoldableWithIndex1 (interface)
 
 **Signature**
 
@@ -1231,7 +1234,7 @@ export interface PipeableFoldableWithIndex1<F extends URIS, I> extends PipeableF
 
 Added in v2.0.0
 
-# PipeableFoldableWithIndex2 (interface)
+## PipeableFoldableWithIndex2 (interface)
 
 **Signature**
 
@@ -1245,7 +1248,7 @@ export interface PipeableFoldableWithIndex2<F extends URIS2, I> extends Pipeable
 
 Added in v2.0.0
 
-# PipeableFoldableWithIndex2C (interface)
+## PipeableFoldableWithIndex2C (interface)
 
 **Signature**
 
@@ -1259,7 +1262,7 @@ export interface PipeableFoldableWithIndex2C<F extends URIS2, I, E> extends Pipe
 
 Added in v2.0.0
 
-# PipeableFoldableWithIndex3 (interface)
+## PipeableFoldableWithIndex3 (interface)
 
 **Signature**
 
@@ -1273,7 +1276,7 @@ export interface PipeableFoldableWithIndex3<F extends URIS3, I> extends Pipeable
 
 Added in v2.0.0
 
-# PipeableFoldableWithIndex3C (interface)
+## PipeableFoldableWithIndex3C (interface)
 
 **Signature**
 
@@ -1287,7 +1290,7 @@ export interface PipeableFoldableWithIndex3C<F extends URIS3, I, E> extends Pipe
 
 Added in v2.2.0
 
-# PipeableFoldableWithIndex4 (interface)
+## PipeableFoldableWithIndex4 (interface)
 
 **Signature**
 
@@ -1301,7 +1304,7 @@ export interface PipeableFoldableWithIndex4<F extends URIS4, I> extends Pipeable
 
 Added in v2.0.0
 
-# PipeableFunctor (interface)
+## PipeableFunctor (interface)
 
 **Signature**
 
@@ -1313,7 +1316,7 @@ export interface PipeableFunctor<F> {
 
 Added in v2.0.0
 
-# PipeableFunctor1 (interface)
+## PipeableFunctor1 (interface)
 
 **Signature**
 
@@ -1325,7 +1328,7 @@ export interface PipeableFunctor1<F extends URIS> {
 
 Added in v2.0.0
 
-# PipeableFunctor2 (interface)
+## PipeableFunctor2 (interface)
 
 **Signature**
 
@@ -1337,7 +1340,7 @@ export interface PipeableFunctor2<F extends URIS2> {
 
 Added in v2.0.0
 
-# PipeableFunctor2C (interface)
+## PipeableFunctor2C (interface)
 
 **Signature**
 
@@ -1349,7 +1352,7 @@ export interface PipeableFunctor2C<F extends URIS2, E> {
 
 Added in v2.0.0
 
-# PipeableFunctor3 (interface)
+## PipeableFunctor3 (interface)
 
 **Signature**
 
@@ -1361,7 +1364,7 @@ export interface PipeableFunctor3<F extends URIS3> {
 
 Added in v2.0.0
 
-# PipeableFunctor3C (interface)
+## PipeableFunctor3C (interface)
 
 **Signature**
 
@@ -1373,7 +1376,7 @@ export interface PipeableFunctor3C<F extends URIS3, E> {
 
 Added in v2.2.0
 
-# PipeableFunctor4 (interface)
+## PipeableFunctor4 (interface)
 
 **Signature**
 
@@ -1385,7 +1388,7 @@ export interface PipeableFunctor4<F extends URIS4> {
 
 Added in v2.0.0
 
-# PipeableFunctorWithIndex (interface)
+## PipeableFunctorWithIndex (interface)
 
 **Signature**
 
@@ -1397,7 +1400,7 @@ export interface PipeableFunctorWithIndex<F, I> extends PipeableFunctor<F> {
 
 Added in v2.0.0
 
-# PipeableFunctorWithIndex1 (interface)
+## PipeableFunctorWithIndex1 (interface)
 
 **Signature**
 
@@ -1409,7 +1412,7 @@ export interface PipeableFunctorWithIndex1<F extends URIS, I> extends PipeableFu
 
 Added in v2.0.0
 
-# PipeableFunctorWithIndex2 (interface)
+## PipeableFunctorWithIndex2 (interface)
 
 **Signature**
 
@@ -1421,7 +1424,7 @@ export interface PipeableFunctorWithIndex2<F extends URIS2, I> extends PipeableF
 
 Added in v2.0.0
 
-# PipeableFunctorWithIndex2C (interface)
+## PipeableFunctorWithIndex2C (interface)
 
 **Signature**
 
@@ -1433,7 +1436,7 @@ export interface PipeableFunctorWithIndex2C<F extends URIS2, I, E> extends Pipea
 
 Added in v2.0.0
 
-# PipeableFunctorWithIndex3 (interface)
+## PipeableFunctorWithIndex3 (interface)
 
 **Signature**
 
@@ -1445,7 +1448,7 @@ export interface PipeableFunctorWithIndex3<F extends URIS3, I> extends PipeableF
 
 Added in v2.0.0
 
-# PipeableFunctorWithIndex3C (interface)
+## PipeableFunctorWithIndex3C (interface)
 
 **Signature**
 
@@ -1457,7 +1460,7 @@ export interface PipeableFunctorWithIndex3C<F extends URIS3, I, E> extends Pipea
 
 Added in v2.2.0
 
-# PipeableFunctorWithIndex4 (interface)
+## PipeableFunctorWithIndex4 (interface)
 
 **Signature**
 
@@ -1469,7 +1472,7 @@ export interface PipeableFunctorWithIndex4<F extends URIS4, I> extends PipeableF
 
 Added in v2.0.0
 
-# PipeableMonadThrow (interface)
+## PipeableMonadThrow (interface)
 
 **Signature**
 
@@ -1490,7 +1493,7 @@ export interface PipeableMonadThrow<F> {
 
 Added in v2.0.0
 
-# PipeableMonadThrow1 (interface)
+## PipeableMonadThrow1 (interface)
 
 **Signature**
 
@@ -1511,7 +1514,7 @@ export interface PipeableMonadThrow1<F extends URIS> {
 
 Added in v2.0.0
 
-# PipeableMonadThrow2 (interface)
+## PipeableMonadThrow2 (interface)
 
 **Signature**
 
@@ -1532,7 +1535,7 @@ export interface PipeableMonadThrow2<F extends URIS2> {
 
 Added in v2.0.0
 
-# PipeableMonadThrow2C (interface)
+## PipeableMonadThrow2C (interface)
 
 **Signature**
 
@@ -1553,7 +1556,7 @@ export interface PipeableMonadThrow2C<F extends URIS2, E> {
 
 Added in v2.0.0
 
-# PipeableMonadThrow3 (interface)
+## PipeableMonadThrow3 (interface)
 
 **Signature**
 
@@ -1576,7 +1579,7 @@ export interface PipeableMonadThrow3<F extends URIS3> {
 
 Added in v2.0.0
 
-# PipeableMonadThrow3C (interface)
+## PipeableMonadThrow3C (interface)
 
 **Signature**
 
@@ -1599,7 +1602,7 @@ export interface PipeableMonadThrow3C<F extends URIS3, E> {
 
 Added in v2.2.0
 
-# PipeableMonadThrow4 (interface)
+## PipeableMonadThrow4 (interface)
 
 **Signature**
 
@@ -1622,7 +1625,7 @@ export interface PipeableMonadThrow4<F extends URIS4> {
 
 Added in v2.0.0
 
-# PipeableProfunctor (interface)
+## PipeableProfunctor (interface)
 
 **Signature**
 
@@ -1634,7 +1637,7 @@ export interface PipeableProfunctor<F> {
 
 Added in v2.0.0
 
-# PipeableProfunctor2 (interface)
+## PipeableProfunctor2 (interface)
 
 **Signature**
 
@@ -1646,7 +1649,7 @@ export interface PipeableProfunctor2<F extends URIS2> extends PipeableFunctor2<F
 
 Added in v2.0.0
 
-# PipeableProfunctor2C (interface)
+## PipeableProfunctor2C (interface)
 
 **Signature**
 
@@ -1658,7 +1661,7 @@ export interface PipeableProfunctor2C<F extends URIS2, E> extends PipeableFuncto
 
 Added in v2.0.0
 
-# PipeableProfunctor3 (interface)
+## PipeableProfunctor3 (interface)
 
 **Signature**
 
@@ -1670,7 +1673,7 @@ export interface PipeableProfunctor3<F extends URIS3> extends PipeableFunctor3<F
 
 Added in v2.0.0
 
-# PipeableProfunctor3C (interface)
+## PipeableProfunctor3C (interface)
 
 **Signature**
 
@@ -1682,7 +1685,7 @@ export interface PipeableProfunctor3C<F extends URIS3, E> extends PipeableFuncto
 
 Added in v2.2.0
 
-# PipeableProfunctor4 (interface)
+## PipeableProfunctor4 (interface)
 
 **Signature**
 
@@ -1697,7 +1700,7 @@ export interface PipeableProfunctor4<F extends URIS4> extends PipeableFunctor4<F
 
 Added in v2.0.0
 
-# PipeableSemigroupoid (interface)
+## PipeableSemigroupoid (interface)
 
 **Signature**
 
@@ -1709,7 +1712,7 @@ export interface PipeableSemigroupoid<F> {
 
 Added in v2.0.0
 
-# PipeableSemigroupoid2 (interface)
+## PipeableSemigroupoid2 (interface)
 
 **Signature**
 
@@ -1721,7 +1724,7 @@ export interface PipeableSemigroupoid2<F extends URIS2> {
 
 Added in v2.0.0
 
-# PipeableSemigroupoid2C (interface)
+## PipeableSemigroupoid2C (interface)
 
 **Signature**
 
@@ -1733,7 +1736,7 @@ export interface PipeableSemigroupoid2C<F extends URIS2, E> {
 
 Added in v2.0.0
 
-# PipeableSemigroupoid3 (interface)
+## PipeableSemigroupoid3 (interface)
 
 **Signature**
 
@@ -1745,7 +1748,7 @@ export interface PipeableSemigroupoid3<F extends URIS3> {
 
 Added in v2.0.0
 
-# PipeableSemigroupoid3C (interface)
+## PipeableSemigroupoid3C (interface)
 
 **Signature**
 
@@ -1757,7 +1760,7 @@ export interface PipeableSemigroupoid3C<F extends URIS3, E> {
 
 Added in v2.2.0
 
-# PipeableSemigroupoid4 (interface)
+## PipeableSemigroupoid4 (interface)
 
 **Signature**
 
@@ -1769,7 +1772,7 @@ export interface PipeableSemigroupoid4<F extends URIS4> {
 
 Added in v2.0.0
 
-# pipe
+## pipe
 
 Pipes the value of an expression into a pipeline of functions.
 
@@ -1852,7 +1855,7 @@ assert.strictEqual(pipe('aaa', len, double), 6)
 
 Added in v2.0.0
 
-# pipeable
+## pipeable
 
 **Signature**
 

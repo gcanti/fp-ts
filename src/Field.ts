@@ -7,6 +7,7 @@ import { Ring } from './Ring'
 import { Eq } from './Eq'
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface Field<A> extends Ring<A> {
@@ -16,6 +17,7 @@ export interface Field<A> extends Ring<A> {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const fieldNumber: Field<number> = {

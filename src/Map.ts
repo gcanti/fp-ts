@@ -29,16 +29,19 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export const URI = 'Map'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const getShow: <K, A>(SK: Show<K>, SA: Show<A>) => Show<Map<K, A>> = RM.getShow
@@ -111,6 +114,7 @@ export function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: Map<K, A
 /**
  * Insert or replace a key/value pair in a map
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A> = RM.insertAt as any
@@ -118,6 +122,7 @@ export const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>) => Map
 /**
  * Delete a key and value from a map
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const deleteAt: <K>(E: Eq<K>) => (k: K) => <A>(m: Map<K, A>) => Map<K, A> = RM.deleteAt as any
@@ -169,6 +174,7 @@ export const isSubmap: <K, A>(SK: Eq<K>, SA: Eq<A>) => (d1: Map<K, A>, d2: Map<K
 export const empty = new Map<never, never>()
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const getEq: <K, A>(SK: Eq<K>, SA: Eq<A>) => Eq<Map<K, A>> = RM.getEq
@@ -176,6 +182,7 @@ export const getEq: <K, A>(SK: Eq<K>, SA: Eq<A>) => Eq<Map<K, A>> = RM.getEq
 /**
  * Gets `Monoid` instance for Maps given `Semigroup` instance for their values
  *
+ * @category instances
  * @since 2.0.0
  */
 export const getMonoid: <K, A>(SK: Eq<K>, SA: Semigroup<A>) => Monoid<Map<K, A>> = RM.getMonoid as any
@@ -191,6 +198,7 @@ export const singleton: <K, A>(k: K, a: A) => Map<K, A> = RM.singleton as any
  * Create a map from a foldable collection of key/value pairs, using the
  * specified `Magma` to combine values for duplicate keys.
  *
+ * @category constructors
  * @since 2.0.0
  */
 export function fromFoldable<F extends URIS3, K, A>(
@@ -218,11 +226,13 @@ export function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable<F>): (f
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category Compactable
  * @since 2.0.0
  */
 export const compact: <K, A>(fa: Map<K, Option<A>>) => Map<K, A> = RM.compact as any
 
 /**
+ * @category Filterable
  * @since 2.0.0
  */
 export const filter: {
@@ -231,16 +241,19 @@ export const filter: {
 } = RM.filter as any
 
 /**
+ * @category Filterable
  * @since 2.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => <K>(fa: Map<K, A>) => Map<K, B> = RM.filterMap as any
 
 /**
+ * @category Functor
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Map<E, A>) => Map<E, B> = RM.map as any
 
 /**
+ * @category Filterable
  * @since 2.0.0
  */
 export const partition: {
@@ -249,6 +262,7 @@ export const partition: {
 } = RM.partition as any
 
 /**
+ * @category Filterable
  * @since 2.0.0
  */
 export const partitionMap: <A, B, C>(
@@ -256,6 +270,7 @@ export const partitionMap: <A, B, C>(
 ) => <K>(fa: Map<K, A>) => Separated<Map<K, B>, Map<K, C>> = RM.partitionMap as any
 
 /**
+ * @category Compactable
  * @since 2.0.0
  */
 export const separate: <K, A, B>(fa: Map<K, Either<A, B>>) => Separated<Map<K, A>, Map<K, B>> = RM.separate as any
@@ -265,6 +280,7 @@ export const separate: <K, A, B>(fa: Map<K, Either<A, B>>) => Separated<Map<K, A
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const getFilterableWithIndex: <K = never>() => FilterableWithIndex2C<
@@ -274,6 +290,7 @@ export const getFilterableWithIndex: <K = never>() => FilterableWithIndex2C<
 > = RM.getFilterableWithIndex as any
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const getWitherable: <K>(
@@ -281,6 +298,7 @@ export const getWitherable: <K>(
 ) => Witherable2C<URI, K> & TraversableWithIndex2C<URI, K, K> = RM.getWitherable as any
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const map_: Filterable2<URI> =

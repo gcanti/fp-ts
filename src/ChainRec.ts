@@ -6,6 +6,7 @@ import { Either } from './Either'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface ChainRec<F> extends Chain<F> {
@@ -13,6 +14,7 @@ export interface ChainRec<F> extends Chain<F> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface ChainRec1<F extends URIS> extends Chain1<F> {
@@ -20,6 +22,7 @@ export interface ChainRec1<F extends URIS> extends Chain1<F> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface ChainRec2<F extends URIS2> extends Chain2<F> {
@@ -27,6 +30,7 @@ export interface ChainRec2<F extends URIS2> extends Chain2<F> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface ChainRec2C<F extends URIS2, E> extends Chain2C<F, E> {
@@ -34,6 +38,7 @@ export interface ChainRec2C<F extends URIS2, E> extends Chain2C<F, E> {
 }
 
 /**
+ * @category type classes
  * @since 2.0.0
  */
 export interface ChainRec3<F extends URIS3> extends Chain3<F> {

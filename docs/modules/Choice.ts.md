@@ -4,7 +4,7 @@ nav_order: 17
 parent: Modules
 ---
 
-# Choice overview
+## Choice overview
 
 The `Choice` class extends `Profunctor` with combinators for working with
 sum types.
@@ -39,16 +39,20 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Choice (interface)](#choice-interface)
-- [Choice2 (interface)](#choice2-interface)
-- [Choice3 (interface)](#choice3-interface)
-- [Choice4 (interface)](#choice4-interface)
-- [fanin](#fanin)
-- [splitChoice](#splitchoice)
+- [type classes](#type-classes)
+  - [Choice (interface)](#choice-interface)
+  - [Choice2 (interface)](#choice2-interface)
+  - [Choice3 (interface)](#choice3-interface)
+  - [Choice4 (interface)](#choice4-interface)
+- [utils](#utils)
+  - [fanin](#fanin)
+  - [splitChoice](#splitchoice)
 
 ---
 
-# Choice (interface)
+# type classes
+
+## Choice (interface)
 
 **Signature**
 
@@ -61,7 +65,7 @@ export interface Choice<F> extends Profunctor<F> {
 
 Added in v2.0.0
 
-# Choice2 (interface)
+## Choice2 (interface)
 
 **Signature**
 
@@ -74,7 +78,7 @@ export interface Choice2<F extends URIS2> extends Profunctor2<F> {
 
 Added in v2.0.0
 
-# Choice3 (interface)
+## Choice3 (interface)
 
 **Signature**
 
@@ -87,7 +91,7 @@ export interface Choice3<F extends URIS3> extends Profunctor3<F> {
 
 Added in v2.0.0
 
-# Choice4 (interface)
+## Choice4 (interface)
 
 **Signature**
 
@@ -100,7 +104,9 @@ export interface Choice4<F extends URIS4> extends Profunctor4<F> {
 
 Added in v2.0.0
 
-# fanin
+# utils
+
+## fanin
 
 Compose a value which eliminates a sum from two values, each eliminating
 one side of the sum.
@@ -137,7 +143,7 @@ export declare function fanin<F>(
 
 Added in v2.0.0
 
-# splitChoice
+## splitChoice
 
 Compose a value acting on a sum from two values, each acting on one of
 the components of the sum.

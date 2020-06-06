@@ -22,6 +22,10 @@ import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /* tslint:disable:readonly-array */
 
 declare module './HKT' {
@@ -31,16 +35,19 @@ declare module './HKT' {
 }
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export const URI = 'Array'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type URI = typeof URI
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const getShow: <A>(S: Show<A>) => Show<Array<A>> = RA.getShow
@@ -54,6 +61,7 @@ export const getShow: <A>(S: Show<A>) => Show<Array<A>> = RA.getShow
  * const M = getMonoid<number>()
  * assert.deepStrictEqual(M.concat([1, 2], [3, 4]), [1, 2, 3, 4])
  *
+ * @category instances
  * @since 2.0.0
  */
 export const getMonoid: <A = never>() => Monoid<Array<A>> = RA.getMonoid as any
@@ -71,6 +79,7 @@ export const getMonoid: <A = never>() => Monoid<Array<A>> = RA.getMonoid as any
  * assert.strictEqual(E.equals(['a', 'b'], ['a', 'b']), true)
  * assert.strictEqual(E.equals(['a'], []), false)
  *
+ * @category instances
  * @since 2.0.0
  */
 export const getEq: <A>(E: Eq<A>) => Eq<Array<A>> = RA.getEq
@@ -90,10 +99,14 @@ export const getEq: <A>(E: Eq<A>) => Eq<Array<A>> = RA.getEq
  * assert.strictEqual(O.compare(['a'], ['a']), 0)
  * assert.strictEqual(O.compare(['a'], ['b']), -1)
  *
- *
+ * @category instances
  * @since 2.0.0
  */
 export const getOrd: <A>(O: Ord<A>) => Ord<Array<A>> = RA.getOrd
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
 
 /**
  * An empty array
@@ -101,6 +114,10 @@ export const getOrd: <A>(O: Ord<A>) => Ord<Array<A>> = RA.getOrd
  * @since 2.0.0
  */
 export const empty: Array<never> = []
+
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
 
 /**
  * Return a list of length `n` with element `i` initialized with `f(i)`
@@ -111,6 +128,7 @@ export const empty: Array<never> = []
  * const double = (n: number): number => n * 2
  * assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
  *
+ * @category constructors
  * @since 2.0.0
  */
 export const makeBy: <A>(n: number, f: (i: number) => A) => Array<A> = RA.makeBy as any
@@ -123,6 +141,7 @@ export const makeBy: <A>(n: number, f: (i: number) => A) => Array<A> = RA.makeBy
  *
  * assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
  *
+ * @category constructors
  * @since 2.0.0
  */
 export const range: (start: number, end: number) => Array<number> = RA.range as any
@@ -135,6 +154,7 @@ export const range: (start: number, end: number) => Array<number> = RA.range as 
  *
  * assert.deepStrictEqual(replicate(3, 'a'), ['a', 'a', 'a'])
  *
+ * @category constructors
  * @since 2.0.0
  */
 export const replicate: <A>(n: number, a: A) => Array<A> = RA.replicate as any
@@ -147,6 +167,7 @@ export const replicate: <A>(n: number, a: A) => Array<A> = RA.replicate as any
  *
  * assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
  *
+ * @category Monad operations
  * @since 2.0.0
  */
 export const flatten: <A>(mma: Array<Array<A>>) => Array<A> = RA.flatten as any
@@ -160,6 +181,7 @@ export const flatten: <A>(mma: Array<Array<A>>) => Array<A> = RA.flatten as any
  * const len: <A>(as: Array<A>) => number = foldLeft(() => 0, (_, tail) => 1 + len(tail))
  * assert.strictEqual(len([1, 2, 3]), 3)
  *
+ * @category Destructors
  * @since 2.0.0
  */
 export const foldLeft: <A, B>(
@@ -170,6 +192,7 @@ export const foldLeft: <A, B>(
 /**
  * Break an array into its initial elements and the last element
  *
+ * @category Destructors
  * @since 2.0.0
  */
 export const foldRight: <A, B>(
@@ -185,7 +208,7 @@ export const foldRight: <A, B>(
  *
  * assert.deepStrictEqual(scanLeft(10, (b, a: number) => b - a)([1, 2, 3]), [10, 9, 7, 4])
  * ```
- *
+ * @category combinators
  * @since 2.0.0
  */
 export const scanLeft: <A, B>(b: B, f: (b: B, a: A) => B) => (as: Array<A>) => Array<B> = RA.scanLeft as any
@@ -198,6 +221,7 @@ export const scanLeft: <A, B>(b: B, f: (b: B, a: A) => B) => (as: Array<A>) => A
  *
  * assert.deepStrictEqual(scanRight(10, (a: number, b) => b - a)([1, 2, 3]), [4, 5, 7, 10])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const scanRight: <A, B>(b: B, f: (a: A, b: B) => B) => (as: Array<A>) => Array<B> = RA.scanRight as any
@@ -217,6 +241,7 @@ export const isEmpty: <A>(as: Array<A>) => boolean = RA.isEmpty
 /**
  * Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
  *
+ * @category guards
  * @since 2.0.0
  */
 export const isNonEmpty: <A>(as: Array<A>) => as is NonEmptyArray<A> = RA.isNonEmpty as any
@@ -250,6 +275,7 @@ export const lookup: <A>(i: number, as: Array<A>) => Option<A> = RA.lookup
  *
  * assert.deepStrictEqual(cons(0, [1, 2, 3]), [0, 1, 2, 3])
  *
+ * @category constructors
  * @since 2.0.0
  */
 export const cons: <A>(head: A, tail: Array<A>) => NonEmptyArray<A> = RA.cons as any
@@ -262,6 +288,7 @@ export const cons: <A>(head: A, tail: Array<A>) => NonEmptyArray<A> = RA.cons as
  *
  * assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
  *
+ * @category constructors
  * @since 2.0.0
  */
 export const snoc: <A>(init: Array<A>, end: A) => NonEmptyArray<A> = RA.snoc as any
@@ -276,6 +303,7 @@ export const snoc: <A>(init: Array<A>, end: A) => NonEmptyArray<A> = RA.snoc as 
  * assert.deepStrictEqual(head([1, 2, 3]), some(1))
  * assert.deepStrictEqual(head([]), none)
  *
+ * @category destructors
  * @since 2.0.0
  */
 export const head: <A>(as: Array<A>) => Option<A> = RA.head
@@ -289,6 +317,7 @@ export const head: <A>(as: Array<A>) => Option<A> = RA.head
  * assert.deepStrictEqual(last([1, 2, 3]), some(3))
  * assert.deepStrictEqual(last([]), none)
  *
+ * @category destructors
  * @since 2.0.0
  */
 export const last: <A>(as: Array<A>) => Option<A> = RA.last
@@ -303,6 +332,7 @@ export const last: <A>(as: Array<A>) => Option<A> = RA.last
  * assert.deepStrictEqual(tail([1, 2, 3]), some([2, 3]))
  * assert.deepStrictEqual(tail([]), none)
  *
+ * @category destructors
  * @since 2.0.0
  */
 export const tail: <A>(as: Array<A>) => Option<Array<A>> = RA.tail as any
@@ -317,6 +347,7 @@ export const tail: <A>(as: Array<A>) => Option<Array<A>> = RA.tail as any
  * assert.deepStrictEqual(init([1, 2, 3]), some([1, 2]))
  * assert.deepStrictEqual(init([]), none)
  *
+ * @category destructors
  * @since 2.0.0
  */
 export const init: <A>(as: Array<A>) => Option<Array<A>> = RA.init as any
@@ -330,6 +361,7 @@ export const init: <A>(as: Array<A>) => Option<Array<A>> = RA.init as any
  *
  * assert.deepStrictEqual(takeLeft(2)([1, 2, 3]), [1, 2])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const takeLeft: (n: number) => <A>(as: Array<A>) => Array<A> = RA.takeLeft as any
@@ -343,6 +375,7 @@ export const takeLeft: (n: number) => <A>(as: Array<A>) => Array<A> = RA.takeLef
  *
  * assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const takeRight: (n: number) => <A>(as: Array<A>) => Array<A> = RA.takeRight as any
@@ -355,6 +388,7 @@ export const takeRight: (n: number) => <A>(as: Array<A>) => Array<A> = RA.takeRi
  *
  * assert.deepStrictEqual(takeLeftWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), [2, 4])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
@@ -374,6 +408,7 @@ export function takeLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Arr
  *
  * assert.deepStrictEqual(spanLeft((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
  *
+ * @category destructors
  * @since 2.0.0
  */
 export function spanLeft<A, B extends A>(
@@ -393,6 +428,7 @@ export function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => { init: 
  *
  * assert.deepStrictEqual(dropLeft(2)([1, 2, 3]), [3])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const dropLeft: (n: number) => <A>(as: Array<A>) => Array<A> = RA.dropLeft as any
@@ -405,6 +441,7 @@ export const dropLeft: (n: number) => <A>(as: Array<A>) => Array<A> = RA.dropLef
  *
  * assert.deepStrictEqual(dropRight(2)([1, 2, 3, 4, 5]), [1, 2, 3])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const dropRight: (n: number) => <A>(as: Array<A>) => Array<A> = RA.dropRight as any
@@ -417,6 +454,7 @@ export const dropRight: (n: number) => <A>(as: Array<A>) => Array<A> = RA.dropRi
  *
  * assert.deepStrictEqual(dropLeftWhile((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), [2, 4, 5])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const dropLeftWhile: <A>(predicate: Predicate<A>) => (as: Array<A>) => Array<A> = RA.dropLeftWhile as any
@@ -444,6 +482,7 @@ export const findIndex: <A>(predicate: Predicate<A>) => (as: Array<A>) => Option
  *
  * assert.deepStrictEqual(findFirst((x: { a: number, b: number }) => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]), some({ a: 1, b: 1 }))
  *
+ * @category destructors
  * @since 2.0.0
  */
 export function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
@@ -469,6 +508,7 @@ export function findFirst<A>(predicate: Predicate<A>): (as: Array<A>) => Option<
  * // returns the name of the first person that has an age
  * assert.deepStrictEqual(findFirstMap((p: Person) => (p.age === undefined ? none : some(p.name)))(persons), some('Mary'))
  *
+ * @category destructors
  * @since 2.0.0
  */
 export const findFirstMap: <A, B>(f: (a: A) => Option<B>) => (as: Array<A>) => Option<B> = RA.findFirstMap
@@ -482,6 +522,7 @@ export const findFirstMap: <A, B>(f: (a: A) => Option<B>) => (as: Array<A>) => O
  *
  * assert.deepStrictEqual(findLast((x: { a: number, b: number }) => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]), some({ a: 1, b: 2 }))
  *
+ * @category destructors
  * @since 2.0.0
  */
 export function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
@@ -507,6 +548,7 @@ export function findLast<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A
  * // returns the name of the last person that has an age
  * assert.deepStrictEqual(findLastMap((p: Person) => (p.age === undefined ? none : some(p.name)))(persons), some('Joey'))
  *
+ * @category destructors
  * @since 2.0.0
  */
 export const findLastMap: <A, B>(f: (a: A) => Option<B>) => (as: Array<A>) => Option<B> = RA.findLastMap
@@ -532,11 +574,13 @@ export const findLastMap: <A, B>(f: (a: A) => Option<B>) => (as: Array<A>) => Op
 export const findLastIndex: <A>(predicate: Predicate<A>) => (as: Array<A>) => Option<number> = RA.findLastIndex
 
 /**
+ * @category combinators
  * @since 2.0.0
  */
 export const copy: <A>(as: Array<A>) => Array<A> = RA.toArray
 
 /**
+ * @category combinators
  * @since 2.0.0
  */
 export const unsafeInsertAt: <A>(i: number, a: A, as: Array<A>) => Array<A> = RA.unsafeInsertAt as any
@@ -555,6 +599,7 @@ export const unsafeInsertAt: <A>(i: number, a: A, as: Array<A>) => Array<A> = RA
 export const insertAt: <A>(i: number, a: A) => (as: Array<A>) => Option<Array<A>> = RA.insertAt as any
 
 /**
+ * @category combinators
  * @since 2.0.0
  */
 export const unsafeUpdateAt: <A>(i: number, a: A, as: Array<A>) => Array<A> = RA.unsafeUpdateAt as any
@@ -574,6 +619,7 @@ export const unsafeUpdateAt: <A>(i: number, a: A, as: Array<A>) => Array<A> = RA
 export const updateAt: <A>(i: number, a: A) => (as: Array<A>) => Option<Array<A>> = RA.updateAt as any
 
 /**
+ * @category combinators
  * @since 2.0.0
  */
 export const unsafeDeleteAt: <A>(i: number, as: Array<A>) => Array<A> = RA.unsafeDeleteAt as any
@@ -616,6 +662,7 @@ export const modifyAt: <A>(i: number, f: (a: A) => A) => (as: Array<A>) => Optio
  *
  * assert.deepStrictEqual(reverse([1, 2, 3]), [3, 2, 1])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const reverse: <A>(as: Array<A>) => Array<A> = RA.reverse as any
@@ -629,6 +676,7 @@ export const reverse: <A>(as: Array<A>) => Array<A> = RA.reverse as any
  *
  * assert.deepStrictEqual(rights([right(1), left('foo'), right(2)]), [1, 2])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const rights: <E, A>(as: Array<Either<E, A>>) => Array<A> = RA.rights as any
@@ -642,6 +690,7 @@ export const rights: <E, A>(as: Array<Either<E, A>>) => Array<A> = RA.rights as 
  *
  * assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const lefts: <E, A>(as: Array<Either<E, A>>) => Array<E> = RA.lefts as any
@@ -655,6 +704,7 @@ export const lefts: <E, A>(as: Array<Either<E, A>>) => Array<E> = RA.lefts as an
  *
  * assert.deepStrictEqual(sort(ordNumber)([3, 2, 1]), [1, 2, 3])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const sort: <A>(O: Ord<A>) => (as: Array<A>) => Array<A> = RA.sort as any
@@ -668,6 +718,7 @@ export const sort: <A>(O: Ord<A>) => (as: Array<A>) => Array<A> = RA.sort as any
  *
  * assert.deepStrictEqual(zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n), ['a1', 'b2', 'c3'])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const zipWith: <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => C) => Array<C> = RA.zipWith as any
@@ -681,6 +732,7 @@ export const zipWith: <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => C
  *
  * assert.deepStrictEqual(zip([1, 2, 3], ['a', 'b', 'c', 'd']), [[1, 'a'], [2, 'b'], [3, 'c']])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const zip: <A, B>(fa: Array<A>, fb: Array<B>) => Array<[A, B]> = RA.zip as any
@@ -705,6 +757,7 @@ export const unzip: <A, B>(as: Array<[A, B]>) => [Array<A>, Array<B>] = RA.unzip
  *
  * assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const rotate: (n: number) => <A>(as: Array<A>) => Array<A> = RA.rotate as any
@@ -734,6 +787,7 @@ export const elem: <A>(E: Eq<A>) => (a: A, as: Array<A>) => boolean = RA.elem
  *
  * assert.deepStrictEqual(uniq(eqNumber)([1, 2, 1]), [1, 2])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const uniq: <A>(E: Eq<A>) => (as: Array<A>) => Array<A> = RA.uniq as any
@@ -763,6 +817,7 @@ export const uniq: <A>(E: Eq<A>) => (as: Array<A>) => Array<A> = RA.uniq as any
  *   { name: 'c', age: 2 }
  * ])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const sortBy: <A>(ords: Array<Ord<A>>) => (as: Array<A>) => Array<A> = RA.sortBy as any
@@ -784,6 +839,7 @@ export const sortBy: <A>(ords: Array<Ord<A>>) => (as: Array<A>) => Array<A> = RA
  * }
  * assert.deepStrictEqual(group(eqNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const chop: <A, B>(f: (as: NonEmptyArray<A>) => [B, Array<A>]) => (as: Array<A>) => Array<B> = RA.chop as any
@@ -815,7 +871,6 @@ export const splitAt: (n: number) => <A>(as: Array<A>) => [Array<A>, Array<A>] =
  * import { chunksOf } from 'fp-ts/lib/Array'
  *
  * assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
- *
  *
  * @since 2.0.0
  */
@@ -875,6 +930,7 @@ export function comprehension<R>(
  *
  * assert.deepStrictEqual(union(eqNumber)([1, 2], [2, 3]), [1, 2, 3])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const union: <A>(E: Eq<A>) => (xs: Array<A>, ys: Array<A>) => Array<A> = RA.union as any
@@ -889,6 +945,7 @@ export const union: <A>(E: Eq<A>) => (xs: Array<A>, ys: Array<A>) => Array<A> = 
  *
  * assert.deepStrictEqual(intersection(eqNumber)([1, 2], [2, 3]), [2])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const intersection: <A>(E: Eq<A>) => (xs: Array<A>, ys: Array<A>) => Array<A> = RA.intersection as any
@@ -903,11 +960,13 @@ export const intersection: <A>(E: Eq<A>) => (xs: Array<A>, ys: Array<A>) => Arra
  *
  * assert.deepStrictEqual(difference(eqNumber)([1, 2], [2, 3]), [1])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const difference: <A>(E: Eq<A>) => (xs: Array<A>, ys: Array<A>) => Array<A> = RA.difference as any
 
 /**
+ * @category constructors
  * @since 2.0.0
  */
 export const of: <A>(a: A) => Array<A> = RA.of as any
@@ -917,51 +976,61 @@ export const of: <A>(a: A) => Array<A> = RA.of as any
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category Functor operations
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: Array<A>) => Array<B> = RA.map as any
 
 /**
+ * @category Apply operations
  * @since 2.0.0
  */
 export const ap: <A>(fa: Array<A>) => <B>(fab: Array<(a: A) => B>) => Array<B> = RA.ap as any
 
 /**
+ * @category Apply operations
  * @since 2.0.0
  */
 export const apFirst: <B>(fb: Array<B>) => <A>(fa: Array<A>) => Array<A> = RA.apFirst as any
 
 /**
+ * @category Apply operations
  * @since 2.0.0
  */
 export const apSecond: <B>(fb: Array<B>) => <A>(fa: Array<A>) => Array<B> = RA.apSecond as any
 
 /**
+ * @category Monad operations
  * @since 2.0.0
  */
 export const chain: <A, B>(f: (a: A) => Array<B>) => (ma: Array<A>) => Array<B> = RA.chain as any
 
 /**
+ * @category Monad operations
  * @since 2.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => Array<B>) => (ma: Array<A>) => Array<A> = RA.chainFirst as any
 
 /**
+ * @category FunctorWithIndex operations
  * @since 2.0.0
  */
 export const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: Array<A>) => Array<B> = RA.mapWithIndex as any
 
 /**
+ * @category Compactable operations
  * @since 2.0.0
  */
 export const compact: <A>(fa: Array<Option<A>>) => Array<A> = RA.compact as any
 
 /**
+ * @category Compactable operations
  * @since 2.0.0
  */
 export const separate: <A, B>(fa: Array<Either<A, B>>) => Separated<Array<A>, Array<B>> = RA.separate as any
 
 /**
+ * @category Filterable operations
  * @since 2.0.0
  */
 export const filter: {
@@ -970,11 +1039,13 @@ export const filter: {
 } = RA.filter as any
 
 /**
+ * @category Filterable operations
  * @since 2.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Array<A>) => Array<B> = RA.filterMap as any
 
 /**
+ * @category Filterable operations
  * @since 2.0.0
  */
 export const partition: {
@@ -983,6 +1054,7 @@ export const partition: {
 } = RA.partition as any
 
 /**
+ * @category FilterableWithIndex operations
  * @since 2.0.0
  */
 export const partitionWithIndex: {
@@ -993,6 +1065,7 @@ export const partitionWithIndex: {
 } = RA.partitionWithIndex as any
 
 /**
+ * @category Filterable operations
  * @since 2.0.0
  */
 export const partitionMap: <A, B, C>(
@@ -1000,6 +1073,7 @@ export const partitionMap: <A, B, C>(
 ) => (fa: Array<A>) => Separated<Array<B>, Array<C>> = RA.partitionMap as any
 
 /**
+ * @category FilterableWithIndex operations
  * @since 2.0.0
  */
 export const partitionMapWithIndex: <A, B, C>(
@@ -1007,11 +1081,13 @@ export const partitionMapWithIndex: <A, B, C>(
 ) => (fa: Array<A>) => Separated<Array<B>, Array<C>> = RA.partitionMapWithIndex as any
 
 /**
+ * @category Alt operations
  * @since 2.0.0
  */
 export const alt: <A>(that: () => Array<A>) => (fa: Array<A>) => Array<A> = RA.alt as any
 
 /**
+ * @category FilterableWithIndex operations
  * @since 2.0.0
  */
 export const filterMapWithIndex: <A, B>(
@@ -1019,6 +1095,7 @@ export const filterMapWithIndex: <A, B>(
 ) => (fa: Array<A>) => Array<B> = RA.filterMapWithIndex as any
 
 /**
+ * @category FilterableWithIndex operations
  * @since 2.0.0
  */
 export const filterWithIndex: {
@@ -1027,42 +1104,50 @@ export const filterWithIndex: {
 } = RA.filterWithIndex as any
 
 /**
+ * @category Extend operations
  * @since 2.0.0
  */
 export const extend: <A, B>(f: (fa: Array<A>) => B) => (wa: Array<A>) => Array<B> = RA.extend as any
 
 /**
+ * @category Extend operations
  * @since 2.0.0
  */
 export const duplicate: <A>(wa: Array<A>) => Array<Array<A>> = RA.duplicate as any
 
 /**
+ * @category Foldable operations
  * @since 2.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Array<A>) => M = RA.foldMap
 
 /**
+ * @category FoldableWithIndex operations
  * @since 2.0.0
  */
 export const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: Array<A>) => M =
   RA.foldMapWithIndex
 
 /**
+ * @category Foldable operations
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Array<A>) => B = RA.reduce
 
 /**
+ * @category FoldableWithIndex operations
  * @since 2.0.0
  */
 export const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: Array<A>) => B = RA.reduceWithIndex
 
 /**
+ * @category Foldable operations
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Array<A>) => B = RA.reduceRight
 
 /**
+ * @category FoldableWithIndex operations
  * @since 2.0.0
  */
 export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: Array<A>) => B =
@@ -1073,6 +1158,7 @@ export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B)
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const array: Monad1<URI> &

@@ -4,7 +4,7 @@ nav_order: 98
 parent: Modules
 ---
 
-# ValidationT overview
+## ValidationT overview
 
 Added in v2.0.0
 
@@ -12,17 +12,20 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [ValidationM (interface)](#validationm-interface)
-- [ValidationM1 (interface)](#validationm1-interface)
-- [ValidationM2 (interface)](#validationm2-interface)
-- [ValidationT (interface)](#validationt-interface)
-- [ValidationT1 (type alias)](#validationt1-type-alias)
-- [ValidationT2 (type alias)](#validationt2-type-alias)
-- [getValidationM](#getvalidationm)
+- [utils](#utils)
+  - [ValidationM (interface)](#validationm-interface)
+  - [ValidationM1 (interface)](#validationm1-interface)
+  - [ValidationM2 (interface)](#validationm2-interface)
+  - [ValidationT (interface)](#validationt-interface)
+  - [ValidationT1 (type alias)](#validationt1-type-alias)
+  - [ValidationT2 (type alias)](#validationt2-type-alias)
+  - [getValidationM](#getvalidationm)
 
 ---
 
-# ValidationM (interface)
+# utils
+
+## ValidationM (interface)
 
 **Signature**
 
@@ -35,7 +38,7 @@ export interface ValidationM<M, E> extends ApplicativeCompositionHKT2C<M, URI, E
 
 Added in v2.0.0
 
-# ValidationM1 (interface)
+## ValidationM1 (interface)
 
 **Signature**
 
@@ -48,7 +51,7 @@ export interface ValidationM1<M extends URIS, E> extends ApplicativeComposition1
 
 Added in v2.0.0
 
-# ValidationM2 (interface)
+## ValidationM2 (interface)
 
 **Signature**
 
@@ -64,7 +67,7 @@ export interface ValidationM2<M extends URIS2, E> extends ApplicativeComposition
 
 Added in v2.0.0
 
-# ValidationT (interface)
+## ValidationT (interface)
 
 **Signature**
 
@@ -74,7 +77,7 @@ export interface ValidationT<M, E, A> extends HKT<M, Either<E, A>> {}
 
 Added in v2.0.0
 
-# ValidationT1 (type alias)
+## ValidationT1 (type alias)
 
 **Signature**
 
@@ -84,7 +87,7 @@ export type ValidationT1<M extends URIS, E, A> = Kind<M, Either<E, A>>
 
 Added in v2.0.0
 
-# ValidationT2 (type alias)
+## ValidationT2 (type alias)
 
 **Signature**
 
@@ -94,7 +97,7 @@ export type ValidationT2<M extends URIS2, R, E, A> = Kind2<M, R, Either<E, A>>
 
 Added in v2.0.0
 
-# getValidationM
+## getValidationM
 
 **Signature**
 

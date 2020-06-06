@@ -8,6 +8,7 @@ import { Monoid } from './Monoid'
 // tslint:disable:readonly-array
 
 /**
+ * @category Model
  * @since 2.4.0
  */
 export interface WriterT<M, W, A> {
@@ -38,6 +39,7 @@ export interface WriterM<M> {
 }
 
 /**
+ * @category Model
  * @since 2.4.0
  */
 export interface WriterT1<M extends URIS, W, A> {
@@ -68,6 +70,7 @@ export interface WriterM1<M extends URIS> {
 }
 
 /**
+ * @category Model
  * @since 2.4.0
  */
 export interface WriterT2<M extends URIS2, E, W, A> {

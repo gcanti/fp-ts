@@ -4,7 +4,7 @@ nav_order: 91
 parent: Modules
 ---
 
-# TheseT overview
+## TheseT overview
 
 Added in v2.4.0
 
@@ -12,17 +12,53 @@ Added in v2.4.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [TheseM (interface)](#thesem-interface)
-- [TheseM1 (interface)](#thesem1-interface)
-- [TheseM2 (interface)](#thesem2-interface)
-- [TheseT (interface)](#theset-interface)
-- [TheseT1 (type alias)](#theset1-type-alias)
-- [TheseT2 (type alias)](#theset2-type-alias)
-- [getTheseM](#getthesem)
+- [Model](#model)
+  - [TheseT (interface)](#theset-interface)
+  - [TheseT1 (type alias)](#theset1-type-alias)
+  - [TheseT2 (type alias)](#theset2-type-alias)
+- [utils](#utils)
+  - [TheseM (interface)](#thesem-interface)
+  - [TheseM1 (interface)](#thesem1-interface)
+  - [TheseM2 (interface)](#thesem2-interface)
+  - [getTheseM](#getthesem)
 
 ---
 
-# TheseM (interface)
+# Model
+
+## TheseT (interface)
+
+**Signature**
+
+```ts
+export interface TheseT<M, E, A> extends HKT<M, These<E, A>> {}
+```
+
+Added in v2.4.0
+
+## TheseT1 (type alias)
+
+**Signature**
+
+```ts
+export type TheseT1<M extends URIS, E, A> = Kind<M, These<E, A>>
+```
+
+Added in v2.4.0
+
+## TheseT2 (type alias)
+
+**Signature**
+
+```ts
+export type TheseT2<M extends URIS2, R, E, A> = Kind2<M, R, These<E, A>>
+```
+
+Added in v2.4.0
+
+# utils
+
+## TheseM (interface)
 
 **Signature**
 
@@ -59,7 +95,7 @@ export interface TheseM<M> {
 
 Added in v2.4.0
 
-# TheseM1 (interface)
+## TheseM1 (interface)
 
 **Signature**
 
@@ -96,7 +132,7 @@ export interface TheseM1<M extends URIS> {
 
 Added in v2.4.0
 
-# TheseM2 (interface)
+## TheseM2 (interface)
 
 **Signature**
 
@@ -133,37 +169,7 @@ export interface TheseM2<M extends URIS2> {
 
 Added in v2.4.0
 
-# TheseT (interface)
-
-**Signature**
-
-```ts
-export interface TheseT<M, E, A> extends HKT<M, These<E, A>> {}
-```
-
-Added in v2.4.0
-
-# TheseT1 (type alias)
-
-**Signature**
-
-```ts
-export type TheseT1<M extends URIS, E, A> = Kind<M, These<E, A>>
-```
-
-Added in v2.4.0
-
-# TheseT2 (type alias)
-
-**Signature**
-
-```ts
-export type TheseT2<M extends URIS2, R, E, A> = Kind2<M, R, These<E, A>>
-```
-
-Added in v2.4.0
-
-# getTheseM
+## getTheseM
 
 **Signature**
 

@@ -4,7 +4,7 @@ nav_order: 22
 parent: Modules
 ---
 
-# Contravariant overview
+## Contravariant overview
 
 Added in v2.0.0
 
@@ -12,17 +12,20 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Contravariant (interface)](#contravariant-interface)
-- [Contravariant1 (interface)](#contravariant1-interface)
-- [Contravariant2 (interface)](#contravariant2-interface)
-- [Contravariant2C (interface)](#contravariant2c-interface)
-- [Contravariant3 (interface)](#contravariant3-interface)
-- [Contravariant3C (interface)](#contravariant3c-interface)
-- [Contravariant4 (interface)](#contravariant4-interface)
+- [type classes](#type-classes)
+  - [Contravariant (interface)](#contravariant-interface)
+  - [Contravariant1 (interface)](#contravariant1-interface)
+  - [Contravariant2 (interface)](#contravariant2-interface)
+  - [Contravariant2C (interface)](#contravariant2c-interface)
+  - [Contravariant3 (interface)](#contravariant3-interface)
+  - [Contravariant3C (interface)](#contravariant3c-interface)
+  - [Contravariant4 (interface)](#contravariant4-interface)
 
 ---
 
-# Contravariant (interface)
+# type classes
+
+## Contravariant (interface)
 
 **Signature**
 
@@ -35,7 +38,7 @@ export interface Contravariant<F> {
 
 Added in v2.0.0
 
-# Contravariant1 (interface)
+## Contravariant1 (interface)
 
 **Signature**
 
@@ -48,7 +51,7 @@ export interface Contravariant1<F extends URIS> {
 
 Added in v2.0.0
 
-# Contravariant2 (interface)
+## Contravariant2 (interface)
 
 **Signature**
 
@@ -61,7 +64,7 @@ export interface Contravariant2<F extends URIS2> {
 
 Added in v2.0.0
 
-# Contravariant2C (interface)
+## Contravariant2C (interface)
 
 **Signature**
 
@@ -75,7 +78,7 @@ export interface Contravariant2C<F extends URIS2, E> {
 
 Added in v2.0.0
 
-# Contravariant3 (interface)
+## Contravariant3 (interface)
 
 **Signature**
 
@@ -88,7 +91,7 @@ export interface Contravariant3<F extends URIS3> {
 
 Added in v2.0.0
 
-# Contravariant3C (interface)
+## Contravariant3C (interface)
 
 **Signature**
 
@@ -101,7 +104,7 @@ export interface Contravariant3C<F extends URIS3, E> {
 
 Added in v2.2.0
 
-# Contravariant4 (interface)
+## Contravariant4 (interface)
 
 **Signature**
 

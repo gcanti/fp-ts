@@ -4,7 +4,7 @@ nav_order: 38
 parent: Modules
 ---
 
-# HeytingAlgebra overview
+## HeytingAlgebra overview
 
 Heyting algebras are bounded (distributive) lattices that are also equipped with an additional binary operation
 `implies` (also written as `→`). Heyting algebras also define a complement operation `not` (sometimes written as
@@ -32,11 +32,14 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [HeytingAlgebra (interface)](#heytingalgebra-interface)
+- [type classes](#type-classes)
+  - [HeytingAlgebra (interface)](#heytingalgebra-interface)
 
 ---
 
-# HeytingAlgebra (interface)
+# type classes
+
+## HeytingAlgebra (interface)
 
 **Signature**
 

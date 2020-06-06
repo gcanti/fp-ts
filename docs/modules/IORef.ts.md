@@ -4,7 +4,7 @@ nav_order: 45
 parent: Modules
 ---
 
-# IORef overview
+## IORef overview
 
 Mutable references in the `IO` monad
 
@@ -14,15 +14,19 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [IORef (class)](#ioref-class)
-  - [write (method)](#write-method)
-  - [modify (method)](#modify-method)
-  - [read (property)](#read-property)
-- [newIORef](#newioref)
+- [Model](#model)
+  - [IORef (class)](#ioref-class)
+    - [write (method)](#write-method)
+    - [modify (method)](#modify-method)
+    - [read (property)](#read-property)
+- [constructors](#constructors)
+  - [newIORef](#newioref)
 
 ---
 
-# IORef (class)
+# Model
+
+## IORef (class)
 
 **Signature**
 
@@ -43,7 +47,7 @@ assert.strictEqual(io.chain(newIORef(1), (ref) => io.chain(ref.write(2), () => r
 
 Added in v2.0.0
 
-## write (method)
+### write (method)
 
 **Signature**
 
@@ -53,7 +57,7 @@ write(a: A): IO<void>
 
 Added in v2.0.0
 
-## modify (method)
+### modify (method)
 
 **Signature**
 
@@ -63,7 +67,7 @@ modify(f: (a: A) => A): IO<void>
 
 Added in v2.0.0
 
-## read (property)
+### read (property)
 
 **Signature**
 
@@ -73,7 +77,9 @@ readonly read: IO<A>
 
 Added in v2.0.0
 
-# newIORef
+# constructors
+
+## newIORef
 
 **Signature**
 

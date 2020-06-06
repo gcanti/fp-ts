@@ -4,7 +4,7 @@ nav_order: 12
 parent: Modules
 ---
 
-# BoundedLattice overview
+## BoundedLattice overview
 
 A `BoundedLattice` must satisfy the following in addition to `BoundedMeetSemilattice` and `BoundedJoinSemilattice` laws:
 
@@ -17,11 +17,14 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [BoundedLattice (interface)](#boundedlattice-interface)
+- [type classes](#type-classes)
+  - [BoundedLattice (interface)](#boundedlattice-interface)
 
 ---
 
-# BoundedLattice (interface)
+# type classes
+
+## BoundedLattice (interface)
 
 **Signature**
 

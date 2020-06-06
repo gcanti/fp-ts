@@ -6,6 +6,7 @@ import { Eq } from './Eq'
 import { Monoid } from './Monoid'
 
 /**
+ * @category Model
  * @since 2.0.0
  */
 export type Ordering = -1 | 0 | 1
@@ -18,6 +19,7 @@ export function sign(n: number): Ordering {
 }
 
 /**
+ * @category instances
  * @since 2.0.0
  */
 export const eqOrdering: Eq<Ordering> = {
@@ -26,6 +28,8 @@ export const eqOrdering: Eq<Ordering> = {
 
 /**
  * Use `monoidOrdering` instead
+ *
+ * @category instances
  * @since 2.0.0
  * @deprecated
  */
@@ -34,6 +38,7 @@ export const semigroupOrdering: Semigroup<Ordering> = {
 }
 
 /**
+ * @category instances
  * @since 2.4.0
  */
 export const monoidOrdering: Monoid<Ordering> = {

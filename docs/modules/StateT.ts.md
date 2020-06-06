@@ -4,7 +4,7 @@ nav_order: 84
 parent: Modules
 ---
 
-# StateT overview
+## StateT overview
 
 Added in v2.0.0
 
@@ -12,21 +12,63 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [StateM (interface)](#statem-interface)
-- [StateM1 (interface)](#statem1-interface)
-- [StateM2 (interface)](#statem2-interface)
-- [StateM2C (interface)](#statem2c-interface)
-- [StateM3 (interface)](#statem3-interface)
-- [StateM3C (interface)](#statem3c-interface)
-- [StateT (interface)](#statet-interface)
-- [StateT1 (interface)](#statet1-interface)
-- [StateT2 (interface)](#statet2-interface)
-- [StateT3 (interface)](#statet3-interface)
-- [getStateM](#getstatem)
+- [Model](#model)
+  - [StateT (interface)](#statet-interface)
+  - [StateT1 (interface)](#statet1-interface)
+  - [StateT2 (interface)](#statet2-interface)
+- [utils](#utils)
+  - [StateM (interface)](#statem-interface)
+  - [StateM1 (interface)](#statem1-interface)
+  - [StateM2 (interface)](#statem2-interface)
+  - [StateM2C (interface)](#statem2c-interface)
+  - [StateM3 (interface)](#statem3-interface)
+  - [StateM3C (interface)](#statem3c-interface)
+  - [StateT3 (interface)](#statet3-interface)
+  - [getStateM](#getstatem)
 
 ---
 
-# StateM (interface)
+# Model
+
+## StateT (interface)
+
+**Signature**
+
+```ts
+export interface StateT<M, S, A> {
+  (s: S): HKT<M, [A, S]>
+}
+```
+
+Added in v2.0.0
+
+## StateT1 (interface)
+
+**Signature**
+
+```ts
+export interface StateT1<M extends URIS, S, A> {
+  (s: S): Kind<M, [A, S]>
+}
+```
+
+Added in v2.0.0
+
+## StateT2 (interface)
+
+**Signature**
+
+```ts
+export interface StateT2<M extends URIS2, S, E, A> {
+  (s: S): Kind2<M, E, [A, S]>
+}
+```
+
+Added in v2.0.0
+
+# utils
+
+## StateM (interface)
 
 **Signature**
 
@@ -49,7 +91,7 @@ export interface StateM<M> {
 
 Added in v2.0.0
 
-# StateM1 (interface)
+## StateM1 (interface)
 
 **Signature**
 
@@ -72,7 +114,7 @@ export interface StateM1<M extends URIS> {
 
 Added in v2.0.0
 
-# StateM2 (interface)
+## StateM2 (interface)
 
 **Signature**
 
@@ -95,7 +137,7 @@ export interface StateM2<M extends URIS2> {
 
 Added in v2.0.0
 
-# StateM2C (interface)
+## StateM2C (interface)
 
 **Signature**
 
@@ -118,7 +160,7 @@ export interface StateM2C<M extends URIS2, E> {
 
 Added in v2.5.4
 
-# StateM3 (interface)
+## StateM3 (interface)
 
 **Signature**
 
@@ -147,7 +189,7 @@ export interface StateM3<M extends URIS3> {
 
 Added in v2.0.0
 
-# StateM3C (interface)
+## StateM3C (interface)
 
 **Signature**
 
@@ -173,43 +215,7 @@ export interface StateM3C<M extends URIS3, E> {
 
 Added in v2.5.4
 
-# StateT (interface)
-
-**Signature**
-
-```ts
-export interface StateT<M, S, A> {
-  (s: S): HKT<M, [A, S]>
-}
-```
-
-Added in v2.0.0
-
-# StateT1 (interface)
-
-**Signature**
-
-```ts
-export interface StateT1<M extends URIS, S, A> {
-  (s: S): Kind<M, [A, S]>
-}
-```
-
-Added in v2.0.0
-
-# StateT2 (interface)
-
-**Signature**
-
-```ts
-export interface StateT2<M extends URIS2, S, E, A> {
-  (s: S): Kind2<M, E, [A, S]>
-}
-```
-
-Added in v2.0.0
-
-# StateT3 (interface)
+## StateT3 (interface)
 
 **Signature**
 
@@ -221,7 +227,7 @@ export interface StateT3<M extends URIS3, S, R, E, A> {
 
 Added in v2.0.0
 
-# getStateM
+## getStateM
 
 **Signature**
 

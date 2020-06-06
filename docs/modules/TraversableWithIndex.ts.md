@@ -4,7 +4,7 @@ nav_order: 94
 parent: Modules
 ---
 
-# TraversableWithIndex overview
+## TraversableWithIndex overview
 
 A `Traversable` with an additional index.
 A `TraversableWithIndex` instance must be compatible with its `Traversable` instance
@@ -31,18 +31,21 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [TraversableWithIndex (interface)](#traversablewithindex-interface)
-- [TraversableWithIndex1 (interface)](#traversablewithindex1-interface)
-- [TraversableWithIndex2 (interface)](#traversablewithindex2-interface)
-- [TraversableWithIndex2C (interface)](#traversablewithindex2c-interface)
-- [TraverseWithIndex (interface)](#traversewithindex-interface)
-- [TraverseWithIndex1 (interface)](#traversewithindex1-interface)
-- [TraverseWithIndex2 (interface)](#traversewithindex2-interface)
-- [TraverseWithIndex2C (interface)](#traversewithindex2c-interface)
+- [utils](#utils)
+  - [TraversableWithIndex (interface)](#traversablewithindex-interface)
+  - [TraversableWithIndex1 (interface)](#traversablewithindex1-interface)
+  - [TraversableWithIndex2 (interface)](#traversablewithindex2-interface)
+  - [TraversableWithIndex2C (interface)](#traversablewithindex2c-interface)
+  - [TraverseWithIndex (interface)](#traversewithindex-interface)
+  - [TraverseWithIndex1 (interface)](#traversewithindex1-interface)
+  - [TraverseWithIndex2 (interface)](#traversewithindex2-interface)
+  - [TraverseWithIndex2C (interface)](#traversewithindex2c-interface)
 
 ---
 
-# TraversableWithIndex (interface)
+# utils
+
+## TraversableWithIndex (interface)
 
 **Signature**
 
@@ -54,7 +57,7 @@ export interface TraversableWithIndex<T, I> extends FunctorWithIndex<T, I>, Fold
 
 Added in v2.0.0
 
-# TraversableWithIndex1 (interface)
+## TraversableWithIndex1 (interface)
 
 **Signature**
 
@@ -69,7 +72,7 @@ export interface TraversableWithIndex1<T extends URIS, I>
 
 Added in v2.0.0
 
-# TraversableWithIndex2 (interface)
+## TraversableWithIndex2 (interface)
 
 **Signature**
 
@@ -84,7 +87,7 @@ export interface TraversableWithIndex2<T extends URIS2, I>
 
 Added in v2.0.0
 
-# TraversableWithIndex2C (interface)
+## TraversableWithIndex2C (interface)
 
 **Signature**
 
@@ -99,7 +102,7 @@ export interface TraversableWithIndex2C<T extends URIS2, I, E>
 
 Added in v2.0.0
 
-# TraverseWithIndex (interface)
+## TraverseWithIndex (interface)
 
 **Signature**
 
@@ -128,7 +131,7 @@ export interface TraverseWithIndex<T, I> {
 
 Added in v2.0.0
 
-# TraverseWithIndex1 (interface)
+## TraverseWithIndex1 (interface)
 
 **Signature**
 
@@ -157,7 +160,7 @@ export interface TraverseWithIndex1<T extends URIS, I> {
 
 Added in v2.0.0
 
-# TraverseWithIndex2 (interface)
+## TraverseWithIndex2 (interface)
 
 **Signature**
 
@@ -185,7 +188,7 @@ export interface TraverseWithIndex2<T extends URIS2, I> {
 
 Added in v2.0.0
 
-# TraverseWithIndex2C (interface)
+## TraverseWithIndex2C (interface)
 
 **Signature**
 

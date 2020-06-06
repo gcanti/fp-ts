@@ -4,7 +4,7 @@ nav_order: 19
 parent: Modules
 ---
 
-# Compactable overview
+## Compactable overview
 
 `Compactable` represents data structures which can be _compacted_/_filtered_. This is a generalization of
 `catOptions` as a new function `compact`. `compact` has relations with `Functor`, `Applicative`,
@@ -20,29 +20,33 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Compactable (interface)](#compactable-interface)
-- [Compactable1 (interface)](#compactable1-interface)
-- [Compactable2 (interface)](#compactable2-interface)
-- [Compactable2C (interface)](#compactable2c-interface)
-- [Compactable3 (interface)](#compactable3-interface)
-- [Compactable3C (interface)](#compactable3c-interface)
-- [Compactable4 (interface)](#compactable4-interface)
-- [CompactableComposition (interface)](#compactablecomposition-interface)
-- [CompactableComposition11 (interface)](#compactablecomposition11-interface)
-- [CompactableComposition12 (interface)](#compactablecomposition12-interface)
-- [CompactableComposition12C (interface)](#compactablecomposition12c-interface)
-- [CompactableComposition21 (interface)](#compactablecomposition21-interface)
-- [CompactableComposition22 (interface)](#compactablecomposition22-interface)
-- [CompactableComposition22C (interface)](#compactablecomposition22c-interface)
-- [CompactableComposition23 (interface)](#compactablecomposition23-interface)
-- [CompactableComposition23C (interface)](#compactablecomposition23c-interface)
-- [CompactableComposition2C1 (interface)](#compactablecomposition2c1-interface)
-- [Separated (interface)](#separated-interface)
-- [getCompactableComposition](#getcompactablecomposition)
+- [type classes](#type-classes)
+  - [Compactable (interface)](#compactable-interface)
+  - [Compactable1 (interface)](#compactable1-interface)
+  - [Compactable2 (interface)](#compactable2-interface)
+  - [Compactable2C (interface)](#compactable2c-interface)
+  - [Compactable3 (interface)](#compactable3-interface)
+  - [Compactable3C (interface)](#compactable3c-interface)
+  - [Compactable4 (interface)](#compactable4-interface)
+- [utils](#utils)
+  - [CompactableComposition (interface)](#compactablecomposition-interface)
+  - [CompactableComposition11 (interface)](#compactablecomposition11-interface)
+  - [CompactableComposition12 (interface)](#compactablecomposition12-interface)
+  - [CompactableComposition12C (interface)](#compactablecomposition12c-interface)
+  - [CompactableComposition21 (interface)](#compactablecomposition21-interface)
+  - [CompactableComposition22 (interface)](#compactablecomposition22-interface)
+  - [CompactableComposition22C (interface)](#compactablecomposition22c-interface)
+  - [CompactableComposition23 (interface)](#compactablecomposition23-interface)
+  - [CompactableComposition23C (interface)](#compactablecomposition23c-interface)
+  - [CompactableComposition2C1 (interface)](#compactablecomposition2c1-interface)
+  - [Separated (interface)](#separated-interface)
+  - [getCompactableComposition](#getcompactablecomposition)
 
 ---
 
-# Compactable (interface)
+# type classes
+
+## Compactable (interface)
 
 **Signature**
 
@@ -62,7 +66,7 @@ export interface Compactable<F> {
 
 Added in v2.0.0
 
-# Compactable1 (interface)
+## Compactable1 (interface)
 
 **Signature**
 
@@ -76,7 +80,7 @@ export interface Compactable1<F extends URIS> {
 
 Added in v2.0.0
 
-# Compactable2 (interface)
+## Compactable2 (interface)
 
 **Signature**
 
@@ -90,7 +94,7 @@ export interface Compactable2<F extends URIS2> {
 
 Added in v2.0.0
 
-# Compactable2C (interface)
+## Compactable2C (interface)
 
 **Signature**
 
@@ -105,7 +109,7 @@ export interface Compactable2C<F extends URIS2, E> {
 
 Added in v2.0.0
 
-# Compactable3 (interface)
+## Compactable3 (interface)
 
 **Signature**
 
@@ -119,7 +123,7 @@ export interface Compactable3<F extends URIS3> {
 
 Added in v2.0.0
 
-# Compactable3C (interface)
+## Compactable3C (interface)
 
 **Signature**
 
@@ -133,7 +137,7 @@ export interface Compactable3C<F extends URIS3, E> {
 
 Added in v2.2.0
 
-# Compactable4 (interface)
+## Compactable4 (interface)
 
 **Signature**
 
@@ -149,7 +153,9 @@ export interface Compactable4<F extends URIS4> {
 
 Added in v2.0.0
 
-# CompactableComposition (interface)
+# utils
+
+## CompactableComposition (interface)
 
 **Signature**
 
@@ -162,7 +168,7 @@ export interface CompactableComposition<F, G> extends FunctorComposition<F, G> {
 
 Added in v2.0.0
 
-# CompactableComposition11 (interface)
+## CompactableComposition11 (interface)
 
 **Signature**
 
@@ -175,7 +181,7 @@ export interface CompactableComposition11<F extends URIS, G extends URIS> extend
 
 Added in v2.0.0
 
-# CompactableComposition12 (interface)
+## CompactableComposition12 (interface)
 
 **Signature**
 
@@ -190,7 +196,7 @@ export interface CompactableComposition12<F extends URIS, G extends URIS2> exten
 
 Added in v2.0.0
 
-# CompactableComposition12C (interface)
+## CompactableComposition12C (interface)
 
 **Signature**
 
@@ -205,7 +211,7 @@ export interface CompactableComposition12C<F extends URIS, G extends URIS2, E> e
 
 Added in v2.0.0
 
-# CompactableComposition21 (interface)
+## CompactableComposition21 (interface)
 
 **Signature**
 
@@ -220,7 +226,7 @@ export interface CompactableComposition21<F extends URIS2, G extends URIS> exten
 
 Added in v2.0.0
 
-# CompactableComposition22 (interface)
+## CompactableComposition22 (interface)
 
 **Signature**
 
@@ -235,7 +241,7 @@ export interface CompactableComposition22<F extends URIS2, G extends URIS2> exte
 
 Added in v2.0.0
 
-# CompactableComposition22C (interface)
+## CompactableComposition22C (interface)
 
 **Signature**
 
@@ -250,7 +256,7 @@ export interface CompactableComposition22C<F extends URIS2, G extends URIS2, E> 
 
 Added in v2.0.0
 
-# CompactableComposition23 (interface)
+## CompactableComposition23 (interface)
 
 **Signature**
 
@@ -265,7 +271,7 @@ export interface CompactableComposition23<F extends URIS2, G extends URIS3> exte
 
 Added in v2.2.0
 
-# CompactableComposition23C (interface)
+## CompactableComposition23C (interface)
 
 **Signature**
 
@@ -280,7 +286,7 @@ export interface CompactableComposition23C<F extends URIS2, G extends URIS3, E> 
 
 Added in v2.2.0
 
-# CompactableComposition2C1 (interface)
+## CompactableComposition2C1 (interface)
 
 **Signature**
 
@@ -295,7 +301,7 @@ export interface CompactableComposition2C1<F extends URIS2, G extends URIS, E> e
 
 Added in v2.0.0
 
-# Separated (interface)
+## Separated (interface)
 
 A `Separated` type which holds `left` and `right` parts.
 
@@ -310,7 +316,7 @@ export interface Separated<A, B> {
 
 Added in v2.0.0
 
-# getCompactableComposition
+## getCompactableComposition
 
 **Signature**
 

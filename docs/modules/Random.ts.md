@@ -4,7 +4,7 @@ nav_order: 63
 parent: Modules
 ---
 
-# Random overview
+## Random overview
 
 Added in v2.0.0
 
@@ -12,14 +12,17 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [random](#random)
-- [randomBool](#randombool)
-- [randomInt](#randomint)
-- [randomRange](#randomrange)
+- [utils](#utils)
+  - [random](#random)
+  - [randomBool](#randombool)
+  - [randomInt](#randomint)
+  - [randomRange](#randomrange)
 
 ---
 
-# random
+# utils
+
+## random
 
 Returns a random number between 0 (inclusive) and 1 (exclusive). This is a direct wrapper around JavaScript's
 `Math.random()`.
@@ -32,7 +35,7 @@ export declare const random: IO<number>
 
 Added in v2.0.0
 
-# randomBool
+## randomBool
 
 Returns a random boolean value with an equal chance of being `true` or `false`
 
@@ -44,7 +47,7 @@ export declare const randomBool: IO<boolean>
 
 Added in v2.0.0
 
-# randomInt
+## randomInt
 
 Takes a range specified by `low` (the first argument) and `high` (the second), and returns a random integer uniformly
 distributed in the closed interval `[low, high]`. It is unspecified what happens if `low > high`, or if either of
@@ -58,7 +61,7 @@ export declare function randomInt(low: number, high: number): IO<number>
 
 Added in v2.0.0
 
-# randomRange
+## randomRange
 
 Returns a random number between a minimum value (inclusive) and a maximum value (exclusive). It is unspecified what
 happens if `maximum < minimum`.

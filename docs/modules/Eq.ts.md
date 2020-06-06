@@ -4,7 +4,7 @@ nav_order: 27
 parent: Modules
 ---
 
-# Eq overview
+## Eq overview
 
 The `Eq` type class represents types which support decidable equality.
 
@@ -20,57 +20,33 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Eq (interface)](#eq-interface)
-- [URI (type alias)](#uri-type-alias)
-- [URI](#uri)
-- [contramap](#contramap)
-- [eq](#eq)
-- [eqBoolean](#eqboolean)
-- [eqDate](#eqdate)
-- [eqNumber](#eqnumber)
-- [eqStrict](#eqstrict)
-- [eqString](#eqstring)
-- [fromEquals](#fromequals)
-- [getMonoid](#getmonoid)
-- [getStructEq](#getstructeq)
-- [getTupleEq](#gettupleeq)
-- [~~strictEqual~~](#strictequal)
+- [Contravariant](#contravariant)
+  - [contramap](#contramap)
+- [Model](#model)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+- [constructors](#constructors)
+  - [fromEquals](#fromequals)
+- [instances](#instances)
+  - [eq](#eq)
+  - [eqBoolean](#eqboolean)
+  - [eqDate](#eqdate)
+  - [eqNumber](#eqnumber)
+  - [eqStrict](#eqstrict)
+  - [eqString](#eqstring)
+  - [getMonoid](#getmonoid)
+  - [getStructEq](#getstructeq)
+  - [getTupleEq](#gettupleeq)
+- [type classes](#type-classes)
+  - [Eq (interface)](#eq-interface)
+- [utils](#utils)
+  - [~~strictEqual~~](#strictequal)
 
 ---
 
-# Eq (interface)
+# Contravariant
 
-**Signature**
-
-```ts
-export interface Eq<A> {
-  readonly equals: (x: A, y: A) => boolean
-}
-```
-
-Added in v2.0.0
-
-# URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-# URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Eq'
-```
-
-Added in v2.0.0
-
-# contramap
+## contramap
 
 **Signature**
 
@@ -80,67 +56,31 @@ export declare const contramap: <A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B>
 
 Added in v2.0.0
 
-# eq
+# Model
+
+## URI
 
 **Signature**
 
 ```ts
-export declare const eq: Contravariant1<'Eq'>
+export declare const URI: 'Eq'
 ```
 
 Added in v2.0.0
 
-# eqBoolean
+## URI (type alias)
 
 **Signature**
 
 ```ts
-export declare const eqBoolean: Eq<boolean>
+export type URI = typeof URI
 ```
 
 Added in v2.0.0
 
-# eqDate
+# constructors
 
-**Signature**
-
-```ts
-export declare const eqDate: Eq<Date>
-```
-
-Added in v2.0.0
-
-# eqNumber
-
-**Signature**
-
-```ts
-export declare const eqNumber: Eq<number>
-```
-
-Added in v2.0.0
-
-# eqStrict
-
-**Signature**
-
-```ts
-export declare const eqStrict: Eq<unknown>
-```
-
-Added in v2.5.0
-
-# eqString
-
-**Signature**
-
-```ts
-export declare const eqString: Eq<string>
-```
-
-Added in v2.0.0
-
-# fromEquals
+## fromEquals
 
 **Signature**
 
@@ -150,7 +90,69 @@ export declare function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A>
 
 Added in v2.0.0
 
-# getMonoid
+# instances
+
+## eq
+
+**Signature**
+
+```ts
+export declare const eq: Contravariant1<'Eq'>
+```
+
+Added in v2.0.0
+
+## eqBoolean
+
+**Signature**
+
+```ts
+export declare const eqBoolean: Eq<boolean>
+```
+
+Added in v2.0.0
+
+## eqDate
+
+**Signature**
+
+```ts
+export declare const eqDate: Eq<Date>
+```
+
+Added in v2.0.0
+
+## eqNumber
+
+**Signature**
+
+```ts
+export declare const eqNumber: Eq<number>
+```
+
+Added in v2.0.0
+
+## eqStrict
+
+**Signature**
+
+```ts
+export declare const eqStrict: Eq<unknown>
+```
+
+Added in v2.5.0
+
+## eqString
+
+**Signature**
+
+```ts
+export declare const eqString: Eq<string>
+```
+
+Added in v2.0.0
+
+## getMonoid
 
 **Signature**
 
@@ -160,7 +162,7 @@ export declare function getMonoid<A>(): Monoid<Eq<A>>
 
 Added in v2.6.0
 
-# getStructEq
+## getStructEq
 
 **Signature**
 
@@ -170,7 +172,7 @@ export declare function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: 
 
 Added in v2.0.0
 
-# getTupleEq
+## getTupleEq
 
 Given a tuple of `Eq`s returns a `Eq` for the tuple
 
@@ -196,7 +198,23 @@ assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
 
 Added in v2.0.0
 
-# ~~strictEqual~~
+# type classes
+
+## Eq (interface)
+
+**Signature**
+
+```ts
+export interface Eq<A> {
+  readonly equals: (x: A, y: A) => boolean
+}
+```
+
+Added in v2.0.0
+
+# utils
+
+## ~~strictEqual~~
 
 Use `eqStrict` instead
 
