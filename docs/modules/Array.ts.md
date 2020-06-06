@@ -21,9 +21,6 @@ Added in v2.0.0
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
-- [Destructors](#destructors)
-  - [foldLeft](#foldleft)
-  - [foldRight](#foldright)
 - [Extend](#extend)
   - [duplicate](#duplicate)
   - [extend](#extend)
@@ -91,6 +88,8 @@ Added in v2.0.0
   - [findFirstMap](#findfirstmap)
   - [findLast](#findlast)
   - [findLastMap](#findlastmap)
+  - [foldLeft](#foldleft)
+  - [foldRight](#foldright)
   - [head](#head)
   - [init](#init)
   - [last](#last)
@@ -188,44 +187,6 @@ Added in v2.0.0
 
 ```ts
 export declare const separate: <A, B>(fa: Either<A, B>[]) => Separated<A[], B[]>
-```
-
-Added in v2.0.0
-
-# Destructors
-
-## foldLeft
-
-Break an array into its first element and remaining elements
-
-**Signature**
-
-```ts
-export declare const foldLeft: <A, B>(onNil: () => B, onCons: (head: A, tail: A[]) => B) => (as: A[]) => B
-```
-
-**Example**
-
-```ts
-import { foldLeft } from 'fp-ts/lib/Array'
-
-const len: <A>(as: Array<A>) => number = foldLeft(
-  () => 0,
-  (_, tail) => 1 + len(tail)
-)
-assert.strictEqual(len([1, 2, 3]), 3)
-```
-
-Added in v2.0.0
-
-## foldRight
-
-Break an array into its initial elements and the last element
-
-**Signature**
-
-```ts
-export declare const foldRight: <A, B>(onNil: () => B, onCons: (init: A[], last: A) => B) => (as: A[]) => B
 ```
 
 Added in v2.0.0
@@ -1217,6 +1178,42 @@ const persons: Array<Person> = [{ name: 'John' }, { name: 'Mary', age: 45 }, { n
 
 // returns the name of the last person that has an age
 assert.deepStrictEqual(findLastMap((p: Person) => (p.age === undefined ? none : some(p.name)))(persons), some('Joey'))
+```
+
+Added in v2.0.0
+
+## foldLeft
+
+Break an array into its first element and remaining elements
+
+**Signature**
+
+```ts
+export declare const foldLeft: <A, B>(onNil: () => B, onCons: (head: A, tail: A[]) => B) => (as: A[]) => B
+```
+
+**Example**
+
+```ts
+import { foldLeft } from 'fp-ts/lib/Array'
+
+const len: <A>(as: Array<A>) => number = foldLeft(
+  () => 0,
+  (_, tail) => 1 + len(tail)
+)
+assert.strictEqual(len([1, 2, 3]), 3)
+```
+
+Added in v2.0.0
+
+## foldRight
+
+Break an array into its initial elements and the last element
+
+**Signature**
+
+```ts
+export declare const foldRight: <A, B>(onNil: () => B, onCons: (init: A[], last: A) => B) => (as: A[]) => B
 ```
 
 Added in v2.0.0

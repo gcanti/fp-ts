@@ -181,7 +181,7 @@ export const flatten: <A>(mma: Array<Array<A>>) => Array<A> = RA.flatten as any
  * const len: <A>(as: Array<A>) => number = foldLeft(() => 0, (_, tail) => 1 + len(tail))
  * assert.strictEqual(len([1, 2, 3]), 3)
  *
- * @category Destructors
+ * @category destructors
  * @since 2.0.0
  */
 export const foldLeft: <A, B>(
@@ -192,7 +192,7 @@ export const foldLeft: <A, B>(
 /**
  * Break an array into its initial elements and the last element
  *
- * @category Destructors
+ * @category destructors
  * @since 2.0.0
  */
 export const foldRight: <A, B>(
