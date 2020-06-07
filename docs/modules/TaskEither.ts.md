@@ -28,16 +28,16 @@ Added in v2.0.0
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
-  - [chainEitherK](#chaineitherk)
-  - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
-  - [chainIOEitherK](#chainioeitherk)
-  - [chainIOEitherKW](#chainioeitherkw)
   - [chainW](#chainw)
   - [flatten](#flatten)
 - [MonadThrow](#monadthrow)
   - [bracket](#bracket)
 - [combinators](#combinators)
+  - [chainEitherK](#chaineitherk)
+  - [chainEitherKW](#chaineitherkw)
+  - [chainIOEitherK](#chainioeitherk)
+  - [chainIOEitherKW](#chainioeitherkw)
   - [filterOrElse](#filterorelse)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
@@ -166,28 +166,6 @@ export declare const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: Tas
 
 Added in v2.0.0
 
-## chainEitherK
-
-**Signature**
-
-```ts
-export declare function chainEitherK<E, A, B>(f: (a: A) => Either<E, B>): (ma: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v2.4.0
-
-## chainEitherKW
-
-**Signature**
-
-```ts
-export declare const chainEitherKW: <D, A, B>(
-  f: (a: A) => E.Either<D, B>
-) => <E>(ma: TaskEither<E, A>) => TaskEither<D | E, B>
-```
-
-Added in v2.6.1
-
 ## chainFirst
 
 **Signature**
@@ -197,28 +175,6 @@ export declare const chainFirst: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma
 ```
 
 Added in v2.0.0
-
-## chainIOEitherK
-
-**Signature**
-
-```ts
-export declare function chainIOEitherK<E, A, B>(f: (a: A) => IOEither<E, B>): (ma: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v2.4.0
-
-## chainIOEitherKW
-
-**Signature**
-
-```ts
-export declare const chainIOEitherKW: <D, A, B>(
-  f: (a: A) => IOEither<D, B>
-) => <E>(ma: TaskEither<E, A>) => TaskEither<D | E, B>
-```
-
-Added in v2.6.1
 
 ## chainW
 
@@ -264,6 +220,50 @@ export declare const bracket: <E, A, B>(
 Added in v2.0.0
 
 # combinators
+
+## chainEitherK
+
+**Signature**
+
+```ts
+export declare function chainEitherK<E, A, B>(f: (a: A) => Either<E, B>): (ma: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v2.4.0
+
+## chainEitherKW
+
+**Signature**
+
+```ts
+export declare const chainEitherKW: <D, A, B>(
+  f: (a: A) => E.Either<D, B>
+) => <E>(ma: TaskEither<E, A>) => TaskEither<D | E, B>
+```
+
+Added in v2.6.1
+
+## chainIOEitherK
+
+**Signature**
+
+```ts
+export declare function chainIOEitherK<E, A, B>(f: (a: A) => IOEither<E, B>): (ma: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v2.4.0
+
+## chainIOEitherKW
+
+**Signature**
+
+```ts
+export declare const chainIOEitherKW: <D, A, B>(
+  f: (a: A) => IOEither<D, B>
+) => <E>(ma: TaskEither<E, A>) => TaskEither<D | E, B>
+```
+
+Added in v2.6.1
 
 ## filterOrElse
 

@@ -139,7 +139,7 @@ describe('TaskEither', () => {
     const useSuccess = () => _.right('use success')
     const useFailure = () => _.left('use failure')
     const releaseSuccess = () =>
-      _.taskEither.fromIO(() => {
+      _.rightIO(() => {
         log.push('release success')
       })
     const releaseFailure = () => _.left('release failure')
@@ -319,9 +319,9 @@ describe('TaskEither', () => {
     assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
   })
 
-  it('fromIO', async () => {
+  it('rightIO', async () => {
     const io = () => 1
-    const fa = _.taskEither.fromIO(io)
+    const fa = _.rightIO(io)
     const e = await fa()
     assert.deepStrictEqual(e, E.right(1))
   })
@@ -335,33 +335,12 @@ describe('TaskEither', () => {
 
   describe('getTaskValidation', () => {
     const TV = _.getTaskValidation(semigroupString)
-    it('of', async () => {
-      const e = await TV.of(1)()
-      assert.deepStrictEqual(e, E.right(1))
-    })
-
-    it('map', async () => {
-      const double = (n: number): number => n * 2
-      const e1 = await TV.map(TV.of(1), double)()
-      assert.deepStrictEqual(e1, E.right(2))
-      const e2 = await TV.map(_.left('a'), double)()
-      assert.deepStrictEqual(e2, E.left('a'))
-    })
 
     it('ap', async () => {
       const fab = _.left('a')
       const fa = _.left('b')
       const e1 = await TV.ap(fab, fa)()
       assert.deepStrictEqual(e1, E.left('ab'))
-    })
-
-    it('chain', async () => {
-      const e1 = await TV.chain(_.right(3), (a) => (a > 2 ? _.right(a) : _.left('b')))()
-      assert.deepStrictEqual(e1, E.right(3))
-      const e2 = await TV.chain(_.right(1), (a) => (a > 2 ? _.right(a) : _.left('b')))()
-      assert.deepStrictEqual(e2, E.left('b'))
-      const e3 = await TV.chain(_.left('a'), (a) => (a > 2 ? _.right(a) : _.left('b')))()
-      assert.deepStrictEqual(e3, E.left('a'))
     })
 
     it('alt', async () => {

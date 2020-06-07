@@ -53,7 +53,7 @@ declare module './HKT' {
 export interface TaskEither<E, A> extends Task<Either<E, A>> {}
 
 // -------------------------------------------------------------------------------------
-// model
+// constructors
 // -------------------------------------------------------------------------------------
 
 /**
@@ -271,6 +271,19 @@ export const filterOrElse: {
   )
 
 /**
+ * Converts a function returning a `Promise` to one returning a `TaskEither`.
+ *
+ * @category combinators
+ * @since 2.5.0
+ */
+export function tryCatchK<E, A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Promise<B>,
+  onRejected: (reason: unknown) => E
+): (...a: A) => TaskEither<E, B> {
+  return (...a) => tryCatch(() => f(...a), onRejected)
+}
+
+/**
  * @category combinators
  * @since 2.4.0
  */
@@ -291,17 +304,36 @@ export function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
 }
 
 /**
- * Converts a function returning a `Promise` to one returning a `TaskEither`.
- *
  * @category combinators
- * @since 2.5.0
+ * @since 2.4.0
  */
-export function tryCatchK<E, A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Promise<B>,
-  onRejected: (reason: unknown) => E
-): (...a: A) => TaskEither<E, B> {
-  return (...a) => tryCatch(() => f(...a), onRejected)
+export function chainEitherK<E, A, B>(f: (a: A) => Either<E, B>): (ma: TaskEither<E, A>) => TaskEither<E, B> {
+  return chain(fromEitherK(f))
 }
+
+/**
+ * @category combinators
+ * @since 2.6.1
+ */
+export const chainEitherKW: <D, A, B>(
+  f: (a: A) => Either<D, B>
+) => <E>(ma: TaskEither<E, A>) => TaskEither<E | D, B> = chainEitherK as any
+
+/**
+ * @category combinators
+ * @since 2.4.0
+ */
+export function chainIOEitherK<E, A, B>(f: (a: A) => IOEither<E, B>): (ma: TaskEither<E, A>) => TaskEither<E, B> {
+  return chain(fromIOEitherK(f))
+}
+
+/**
+ * @category combinators
+ * @since 2.6.1
+ */
+export const chainIOEitherKW: <D, A, B>(
+  f: (a: A) => IOEither<D, B>
+) => <E>(ma: TaskEither<E, A>) => TaskEither<E | D, B> = chainIOEitherK as any
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -375,22 +407,6 @@ export const chainW: <D, A, B>(
 
 /**
  * @category Monad
- * @since 2.6.1
- */
-export const chainEitherKW: <D, A, B>(
-  f: (a: A) => Either<D, B>
-) => <E>(ma: TaskEither<E, A>) => TaskEither<E | D, B> = chainEitherK as any
-
-/**
- * @category Monad
- * @since 2.6.1
- */
-export const chainIOEitherKW: <D, A, B>(
-  f: (a: A) => IOEither<D, B>
-) => <E>(ma: TaskEither<E, A>) => TaskEither<E | D, B> = chainIOEitherK as any
-
-/**
- * @category Monad
  * @since 2.0.0
  */
 export const chainFirst: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, A> = (f) =>
@@ -408,22 +424,6 @@ export const chainFirst: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEi
 export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither<E, A> =
   /*#__PURE__*/
   chain(identity)
-
-/**
- * @category Monad
- * @since 2.4.0
- */
-export function chainEitherK<E, A, B>(f: (a: A) => Either<E, B>): (ma: TaskEither<E, A>) => TaskEither<E, B> {
-  return chain(fromEitherK(f))
-}
-
-/**
- * @category Monad
- * @since 2.4.0
- */
-export function chainIOEitherK<E, A, B>(f: (a: A) => IOEither<E, B>): (ma: TaskEither<E, A>) => TaskEither<E, B> {
-  return chain(fromIOEitherK(f))
-}
 
 /**
  * @category Alt

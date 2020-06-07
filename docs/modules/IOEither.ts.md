@@ -28,12 +28,16 @@ Added in v2.0.0
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
-  - [chainEitherK](#chaineitherk)
   - [chainFirst](#chainfirst)
   - [chainW](#chainw)
   - [flatten](#flatten)
+- [MonadThrow](#monadthrow)
+  - [bracket](#bracket)
 - [combinators](#combinators)
+  - [chainEitherK](#chaineitherk)
+  - [chainEitherKW](#chaineitherkw)
   - [filterOrElse](#filterorelse)
+  - [fromEitherK](#fromeitherk)
   - [orElse](#orelse)
   - [swap](#swap)
 - [constructors](#constructors)
@@ -60,10 +64,6 @@ Added in v2.0.0
   - [IOEither (interface)](#ioeither-interface)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-- [utils](#utils)
-  - [bracket](#bracket)
-  - [chainEitherKW](#chaineitherkw)
-  - [fromEitherK](#fromeitherk)
 
 ---
 
@@ -157,16 +157,6 @@ export declare const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEit
 
 Added in v2.0.0
 
-## chainEitherK
-
-**Signature**
-
-```ts
-export declare function chainEitherK<E, A, B>(f: (a: A) => Either<E, B>): (ma: IOEither<E, A>) => IOEither<E, B>
-```
-
-Added in v2.4.0
-
 ## chainFirst
 
 **Signature**
@@ -197,7 +187,50 @@ export declare const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEith
 
 Added in v2.0.0
 
+# MonadThrow
+
+## bracket
+
+Make sure that a resource is cleaned up in the event of an exception (_). The release action is called regardless of
+whether the body action throws (_) or returns.
+
+(\*) i.e. returns a `Left`
+
+**Signature**
+
+```ts
+export declare const bracket: <E, A, B>(
+  acquire: IOEither<E, A>,
+  use: (a: A) => IOEither<E, B>,
+  release: (a: A, e: E.Either<E, B>) => IOEither<E, void>
+) => IOEither<E, B>
+```
+
+Added in v2.0.0
+
 # combinators
+
+## chainEitherK
+
+**Signature**
+
+```ts
+export declare function chainEitherK<E, A, B>(f: (a: A) => Either<E, B>): (ma: IOEither<E, A>) => IOEither<E, B>
+```
+
+Added in v2.4.0
+
+## chainEitherKW
+
+**Signature**
+
+```ts
+export declare const chainEitherKW: <D, A, B>(
+  f: (a: A) => E.Either<D, B>
+) => <E>(ma: IOEither<E, A>) => IOEither<D | E, B>
+```
+
+Added in v2.6.1
 
 ## filterOrElse
 
@@ -212,12 +245,24 @@ export declare const filterOrElse: {
 
 Added in v2.0.0
 
+## fromEitherK
+
+**Signature**
+
+```ts
+export declare function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Either<E, B>
+): (...a: A) => IOEither<E, B>
+```
+
+Added in v2.4.0
+
 ## orElse
 
 **Signature**
 
 ```ts
-export declare function orElse<E, A, M>(onLeft: (e: E) => IOEither<M, A>): (ma: IOEither<E, A>) => IOEither<M, A>
+export declare const orElse: <E, A, M>(onLeft: (e: E) => IOEither<M, A>) => (ma: IOEither<E, A>) => IOEither<M, A>
 ```
 
 Added in v2.0.0
@@ -326,7 +371,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function fold<E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>): (ma: IOEither<E, A>) => IO<B>
+export declare const fold: <E, A, B>(
+  onLeft: (e: E) => I.IO<B>,
+  onRight: (a: A) => I.IO<B>
+) => (ma: IOEither<E, A>) => I.IO<B>
 ```
 
 Added in v2.0.0
@@ -336,7 +384,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getOrElse<E, A>(onLeft: (e: E) => IO<A>): (ma: IOEither<E, A>) => IO<A>
+export declare const getOrElse: <E, A>(onLeft: (e: E) => I.IO<A>) => (ma: IOEither<E, A>) => I.IO<A>
 ```
 
 Added in v2.0.0
@@ -456,48 +504,3 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
-
-# utils
-
-## bracket
-
-Make sure that a resource is cleaned up in the event of an exception (_). The release action is called regardless of
-whether the body action throws (_) or returns.
-
-(\*) i.e. returns a `Left`
-
-**Signature**
-
-```ts
-export declare function bracket<E, A, B>(
-  acquire: IOEither<E, A>,
-  use: (a: A) => IOEither<E, B>,
-  release: (a: A, e: Either<E, B>) => IOEither<E, void>
-): IOEither<E, B>
-```
-
-Added in v2.0.0
-
-## chainEitherKW
-
-**Signature**
-
-```ts
-export declare const chainEitherKW: <D, A, B>(
-  f: (a: A) => E.Either<D, B>
-) => <E>(ma: IOEither<E, A>) => IOEither<D | E, B>
-```
-
-Added in v2.6.1
-
-## fromEitherK
-
-**Signature**
-
-```ts
-export declare function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Either<E, B>
-): (...a: A) => IOEither<E, B>
-```
-
-Added in v2.4.0
