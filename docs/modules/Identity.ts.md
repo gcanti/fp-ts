@@ -41,6 +41,8 @@ Added in v2.0.0
   - [Identity (type alias)](#identity-type-alias)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+- [utils](#utils)
+  - [sequence](#sequence)
 
 ---
 
@@ -266,3 +268,15 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
+
+# utils
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence1<'Identity'>
+```
+
+Added in v2.6.3

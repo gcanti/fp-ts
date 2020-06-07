@@ -75,6 +75,7 @@ Added in v2.0.0
   - [max](#max)
   - [min](#min)
   - [modifyAt](#modifyat)
+  - [sequence](#sequence)
   - [tail](#tail)
   - [unzip](#unzip)
   - [updateAt](#updateat)
@@ -684,6 +685,16 @@ export declare const modifyAt: <A>(i: number, f: (a: A) => A) => (nea: NonEmptyA
 ```
 
 Added in v2.0.0
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence1<'NonEmptyArray'>
+```
+
+Added in v2.6.3
 
 ## tail
 

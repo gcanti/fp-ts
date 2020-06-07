@@ -238,6 +238,15 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: readonly
 // -------------------------------------------------------------------------------------
 
 /**
+ * @since 2.6.3
+ */
+export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <A, S>(
+  fas: readonly [HKT<F, A>, S]
+): HKT<F, readonly [A, S]> => {
+  return F.map(fst(fas), (a) => [a, snd(fas)])
+}
+
+/**
  * @category instances
  * @since 2.5.0
  */
@@ -262,7 +271,5 @@ export const readonlyTuple: Semigroupoid2<URI> &
   ): HKT<F, readonly [B, S]> => {
     return F.map(f(fst(as)), (b) => [b, snd(as)])
   },
-  sequence: <F>(F: Applicative<F>) => <A, S>(fas: readonly [HKT<F, A>, S]): HKT<F, readonly [A, S]> => {
-    return F.map(fst(fas), (a) => [a, snd(fas)])
-  }
+  sequence
 }

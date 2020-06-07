@@ -75,6 +75,7 @@ Added in v2.5.0
   - [max](#max)
   - [min](#min)
   - [modifyAt](#modifyat)
+  - [sequence](#sequence)
   - [tail](#tail)
   - [unzip](#unzip)
   - [updateAt](#updateat)
@@ -719,6 +720,16 @@ export declare function modifyAt<A>(
 ```
 
 Added in v2.5.0
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence1<'ReadonlyNonEmptyArray'>
+```
+
+Added in v2.6.3
 
 ## tail
 

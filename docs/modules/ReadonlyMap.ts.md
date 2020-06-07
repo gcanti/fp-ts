@@ -68,7 +68,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const compact: <K, A>(fa: ReadonlyMap<K, Option<A>>) => ReadonlyMap<K, A>
+export declare const compact: <K, A>(fa: ReadonlyMap<K, O.Option<A>>) => ReadonlyMap<K, A>
 ```
 
 Added in v2.5.0
@@ -105,7 +105,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
+export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
 ```
 
 Added in v2.5.0
@@ -263,11 +263,11 @@ Unfolds a map into a list of key/value pairs
 
 ```ts
 export declare function toUnfoldable<K, F extends URIS>(
-  O: Ord<K>,
+  ord: Ord<K>,
   U: Unfoldable1<F>
 ): <A>(d: ReadonlyMap<K, A>) => Kind<F, readonly [K, A]>
 export declare function toUnfoldable<K, F>(
-  O: Ord<K>,
+  ord: Ord<K>,
   U: Unfoldable<F>
 ): <A>(d: ReadonlyMap<K, A>) => HKT<F, readonly [K, A]>
 ```

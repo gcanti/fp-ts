@@ -70,6 +70,8 @@ Added in v2.0.0
   - [These (type alias)](#these-type-alias)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+- [utils](#utils)
+  - [sequence](#sequence)
 
 ---
 
@@ -510,3 +512,15 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
+
+# utils
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence2<'These'>
+```
+
+Added in v2.6.3
