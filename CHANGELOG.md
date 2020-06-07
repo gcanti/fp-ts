@@ -19,6 +19,7 @@ high state of flux, you're at risk of it changing without notice.
 - **Polish**
   - change `ReadonlyNonEmptyArray` to get better type inference (@gcanti)
   - move `pipe` to `function` module (@gcanti)
+  - export `sequence` from all modules which admit a `Traversable` instance (@gcanti)
 
 # 2.6.2
 

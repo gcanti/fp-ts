@@ -469,7 +469,7 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
     partition,
     partitionMap,
     traverse: traverse_,
-    sequence: sequence_,
+    sequence,
     reduce: reduce_,
     foldMap: foldMap_,
     reduceRight: reduceRight_,
@@ -570,7 +570,12 @@ const traverse_ = <F>(F: Applicative<F>) => <E, A, B>(
   return isLeft(ma) ? F.of(left(ma.left)) : F.map<B, Either<E, B>>(f(ma.right), right)
 }
 
-const sequence_ = <F>(F: Applicative<F>) => <E, A>(ma: Either<E, HKT<F, A>>): HKT<F, Either<E, A>> => {
+/**
+ * @since 2.6.3
+ */
+export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <E, A>(
+  ma: Either<E, HKT<F, A>>
+): HKT<F, Either<E, A>> => {
   return isLeft(ma) ? F.of(left(ma.left)) : F.map<A, Either<E, A>>(ma.right, right)
 }
 
@@ -776,7 +781,7 @@ export const either: Monad2<URI> &
   foldMap: foldMap_,
   reduceRight: reduceRight_,
   traverse: traverse_,
-  sequence: sequence_,
+  sequence,
   bimap: bimap_,
   mapLeft: mapLeft_,
   alt: alt_,

@@ -448,6 +448,15 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E,
 // -------------------------------------------------------------------------------------
 
 /**
+ * @since 2.6.3
+ */
+export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <E, A>(
+  ta: These<E, HKT<F, A>>
+): HKT<F, These<E, A>> => {
+  return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(ta.right, right) : F.map(ta.right, (b) => both(ta.left, b))
+}
+
+/**
  * @category instances
  * @since 2.0.0
  */
@@ -462,7 +471,5 @@ export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversab
   traverse: <F>(F: Applicative<F>) => <E, A, B>(ta: These<E, A>, f: (a: A) => HKT<F, B>): HKT<F, These<E, B>> => {
     return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(f(ta.right), right) : F.map(f(ta.right), (b) => both(ta.left, b))
   },
-  sequence: <F>(F: Applicative<F>) => <E, A>(ta: These<E, HKT<F, A>>): HKT<F, These<E, A>> => {
-    return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(ta.right, right) : F.map(ta.right, (b) => both(ta.left, b))
-  }
+  sequence
 }

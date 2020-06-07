@@ -420,6 +420,16 @@ const traverse_ = <F>(F: Applicative<F>): (<A, B>(ta: Tree<A>, f: (a: A) => HKT<
 }
 
 /**
+ * @since 2.6.3
+ */
+export const sequence: Traversable1<URI>['sequence'] = <F>(
+  F: Applicative<F>
+): (<A>(ta: Tree<HKT<F, A>>) => HKT<F, Tree<A>>) => {
+  const traverseF = traverse_(F)
+  return (ta) => traverseF(ta, identity)
+}
+
+/**
  * @category instances
  * @since 2.0.0
  */
@@ -436,10 +446,7 @@ export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<U
   foldMap: foldMap_,
   reduceRight: reduceRight_,
   traverse: traverse_,
-  sequence: <F>(F: Applicative<F>): (<A>(ta: Tree<HKT<F, A>>) => HKT<F, Tree<A>>) => {
-    const traverseF = traverse_(F)
-    return (ta) => traverseF(ta, identity)
-  },
+  sequence,
   extract,
   extend: extend_
 }

@@ -119,6 +119,7 @@ Added in v2.0.0
   - [isOutOfBound](#isoutofbound)
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
+  - [sequence](#sequence)
   - [splitAt](#splitat)
   - [unzip](#unzip)
   - [updateAt](#updateat)
@@ -1767,6 +1768,16 @@ assert.deepStrictEqual(modifyAt(1, double)([]), none)
 ```
 
 Added in v2.0.0
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence1<'Array'>
+```
+
+Added in v2.6.3
 
 ## splitAt
 

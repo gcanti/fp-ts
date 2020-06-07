@@ -74,7 +74,12 @@ const traverse_ = <F>(F: Applicative<F>) => <A, B>(ta: Identity<A>, f: (a: A) =>
   return F.map(f(ta), id)
 }
 
-const sequence_ = <F>(F: Applicative<F>) => <A>(ta: Identity<HKT<F, A>>): HKT<F, Identity<A>> => {
+/**
+ * @since 2.6.3
+ */
+export const sequence: Traversable1<URI>['sequence'] = <F>(F: Applicative<F>) => <A>(
+  ta: Identity<HKT<F, A>>
+): HKT<F, Identity<A>> => {
   return F.map(ta, id)
 }
 
@@ -205,7 +210,7 @@ export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<U
   foldMap: foldMap_,
   reduceRight: reduceRight_,
   traverse: traverse_,
-  sequence: sequence_,
+  sequence,
   alt: alt_,
   extract,
   extend: extend_,

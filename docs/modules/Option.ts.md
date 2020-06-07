@@ -86,6 +86,7 @@ Added in v2.0.0
   - [elem](#elem)
   - [exists](#exists)
   - [getRefinement](#getrefinement)
+  - [sequence](#sequence)
 
 ---
 
@@ -1034,3 +1035,13 @@ export declare function getRefinement<A, B extends A>(getOption: (a: A) => Optio
 ```
 
 Added in v2.0.0
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence1<'Option'>
+```
+
+Added in v2.6.3

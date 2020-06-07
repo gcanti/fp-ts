@@ -18,6 +18,7 @@ import { ReadonlyRecord } from './ReadonlyRecord'
 import { getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
+import { Traversable1 } from './Traversable'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -518,6 +519,11 @@ export const reduceRightWithIndex: <A, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * @since 2.6.3
+ */
+export const sequence: Traversable1<URI>['sequence'] = RA.readonlyArray.sequence as any
+
+/**
  * @category instances
  * @since 2.5.0
  */
@@ -539,7 +545,7 @@ export const readonlyNonEmptyArray: Monad1<URI> &
   foldMap: RA.readonlyArray.foldMap,
   reduceRight: RA.readonlyArray.reduceRight,
   traverse: RA.readonlyArray.traverse as any,
-  sequence: RA.readonlyArray.sequence as any,
+  sequence,
   reduceWithIndex: RA.readonlyArray.reduceWithIndex,
   foldMapWithIndex: RA.readonlyArray.foldMapWithIndex,
   reduceRightWithIndex: RA.readonlyArray.reduceRightWithIndex,

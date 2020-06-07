@@ -43,6 +43,8 @@ Added in v2.5.0
 - [model](#model)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+- [utils](#utils)
+  - [sequence](#sequence)
 
 ---
 
@@ -279,3 +281,15 @@ export type URI = typeof URI
 ```
 
 Added in v2.5.0
+
+# utils
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence2<'ReadonlyTuple'>
+```
+
+Added in v2.6.3

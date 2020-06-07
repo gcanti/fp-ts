@@ -27,6 +27,7 @@ import { Show } from './Show'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
+import { Traversable1 } from './Traversable'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -1558,7 +1559,12 @@ const traverse_ = <F>(
   return (ta, f) => traverseWithIndexF(ta, (_, a) => f(a))
 }
 
-const sequence_ = <F>(F: Applicative<F>) => <A>(ta: ReadonlyArray<HKT<F, A>>): HKT<F, ReadonlyArray<A>> => {
+/**
+ * @since 2.6.3
+ */
+export const sequence: Traversable1<URI>['sequence'] = <F>(F: Applicative<F>) => <A>(
+  ta: ReadonlyArray<HKT<F, A>>
+): HKT<F, ReadonlyArray<A>> => {
   return reduce_(ta, F.of(zero_()), (fas, fa) =>
     F.ap(
       F.map(fas, (as) => (a: A) => snoc(as, a)),
@@ -1870,7 +1876,7 @@ export const readonlyArray: Monad1<URI> &
   foldMap: foldMap_,
   reduceRight: reduceRight_,
   traverse: traverse_,
-  sequence: sequence_,
+  sequence,
   reduceWithIndex: reduceWithIndex_,
   foldMapWithIndex: foldMapWithIndex_,
   reduceRightWithIndex: reduceRightWithIndex_,

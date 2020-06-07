@@ -21,6 +21,7 @@ import { Show } from './Show'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
+import { Traversable1 } from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -1156,6 +1157,11 @@ export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B)
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.6.3
+ */
+export const sequence: Traversable1<URI>['sequence'] = RA.sequence as any
 
 /**
  * @category instances

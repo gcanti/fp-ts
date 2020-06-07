@@ -655,7 +655,13 @@ const reduceRight_: <A, B>(fa: Option<A>, b: B, f: (a: A, b: B) => B) => B = (fa
 const traverse_ = <F>(F: Applicative<F>) => <A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>): HKT<F, Option<B>> => {
   return isNone(ta) ? F.of(none) : F.map(f(ta.value), some)
 }
-const sequence_ = <F>(F: Applicative<F>) => <A>(ta: Option<HKT<F, A>>): HKT<F, Option<A>> => {
+
+/**
+ * @since 2.6.3
+ */
+export const sequence: Traversable1<URI>['sequence'] = <F>(F: Applicative<F>) => <A>(
+  ta: Option<HKT<F, A>>
+): HKT<F, Option<A>> => {
   return isNone(ta) ? F.of(none) : F.map(ta.value, some)
 }
 
@@ -885,7 +891,7 @@ export const option: Monad1<URI> &
   foldMap: foldMap_,
   reduceRight: reduceRight_,
   traverse: traverse_,
-  sequence: sequence_,
+  sequence,
   zero: () => none,
   alt: alt_,
   extend: extend_,

@@ -83,6 +83,7 @@ Added in v2.0.0
 - [utils](#utils)
   - [elem](#elem)
   - [exists](#exists)
+  - [sequence](#sequence)
   - [toError](#toerror)
 
 ---
@@ -782,6 +783,16 @@ assert.strictEqual(gt2(right(3)), true)
 ```
 
 Added in v2.0.0
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence2<'Either'>
+```
+
+Added in v2.6.3
 
 ## toError
 

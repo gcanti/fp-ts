@@ -117,6 +117,7 @@ Added in v2.5.0
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
   - [of](#of)
+  - [sequence](#sequence)
   - [spanLeft](#spanleft)
   - [splitAt](#splitat)
   - [tail](#tail)
@@ -1738,6 +1739,16 @@ export declare const of: <A>(a: A) => readonly A[]
 ```
 
 Added in v2.5.0
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence1<'ReadonlyArray'>
+```
+
+Added in v2.6.3
 
 ## spanLeft
 
