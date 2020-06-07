@@ -4,7 +4,7 @@
 import { Alt4 } from './Alt'
 import { Bifunctor4 } from './Bifunctor'
 import { Either } from './Either'
-import { identity, Predicate, Refinement } from './function'
+import { identity, pipe, Predicate, Refinement } from './function'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad4 } from './Monad'
@@ -20,7 +20,6 @@ import { Task } from './Task'
 import { TaskEither } from './TaskEither'
 
 import ReaderTaskEither = RTE.ReaderTaskEither
-import { pipe } from './pipeable'
 
 const T = /*#__PURE__*/ getStateM(RTE.monadReaderTaskEither)
 

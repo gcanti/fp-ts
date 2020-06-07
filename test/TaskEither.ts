@@ -4,10 +4,11 @@ import * as E from '../src/Either'
 import { io } from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
-import { pipe, pipeable } from '../src/pipeable'
+import { pipeable } from '../src/pipeable'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
 import * as _ from '../src/TaskEither'
 import { ioEither } from '../src/IOEither'
+import { pipe } from '../src/function'
 
 describe('TaskEither', () => {
   describe('pipeables', () => {

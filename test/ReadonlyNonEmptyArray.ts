@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import * as C from '../src/Const'
 import { eqNumber } from '../src/Eq'
-import { identity } from '../src/function'
+import { identity, pipe } from '../src/function'
 import * as I from '../src/Identity'
 import * as M from '../src/Monoid'
 import * as O from '../src/Option'
@@ -9,7 +9,6 @@ import * as Ord from '../src/Ord'
 import * as _ from '../src/ReadonlyNonEmptyArray'
 import * as S from '../src/Semigroup'
 import { showString } from '../src/Show'
-import { pipe } from '../src/pipeable'
 
 describe('ReadonlyNonEmptyArray', () => {
   it('head', () => {

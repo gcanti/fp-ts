@@ -2,14 +2,13 @@ import * as assert from 'assert'
 import { array } from '../src/Array'
 import { left, right } from '../src/Either'
 import { eqNumber } from '../src/Eq'
-import { identity } from '../src/function'
+import { identity, pipe } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString, monoidSum } from '../src/Monoid'
 import * as _ from '../src/Option'
 import { ordString } from '../src/Ord'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
-import { pipe } from '../src/pipeable'
 
 const p = (n: number): boolean => n > 2
 

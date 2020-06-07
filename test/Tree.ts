@@ -1,11 +1,10 @@
 import * as assert from 'assert'
-import { identity } from '../src/function'
+import { eq, Eq, eqNumber } from '../src/Eq'
+import { identity, pipe } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString } from '../src/Monoid'
-import { eq, Eq, eqNumber } from '../src/Eq'
 import { showString } from '../src/Show'
 import * as _ from '../src/Tree'
-import { pipe } from '../src/pipeable'
 
 describe('Tree', () => {
   it('map', () => {

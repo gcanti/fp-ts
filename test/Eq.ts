@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import * as _ from '../src/Eq'
 import { fold } from '../src/Monoid'
-import { pipe } from '../src/pipeable'
+import { pipe } from '../src/function'
 
 describe('Eq', () => {
   describe('pipeables', () => {

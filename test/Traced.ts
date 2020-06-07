@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import { getStructMonoid, monoidAny, Monoid } from '../src/Monoid'
 import * as _ from '../src/Traced'
-import { pipe } from '../src/pipeable'
+import { pipe } from '../src/function'
 
 // Adapted from https://chshersh.github.io/posts/2019-03-25-comonadic-builders
 

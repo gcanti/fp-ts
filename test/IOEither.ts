@@ -1,12 +1,13 @@
 import * as assert from 'assert'
+import { getMonoid } from '../src/Array'
 import * as E from '../src/Either'
+import { pipe } from '../src/function'
 import { io } from '../src/IO'
 import * as _ from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
-import { semigroupSum, semigroupString } from '../src/Semigroup'
 import { none, some } from '../src/Option'
-import { pipe, pipeable } from '../src/pipeable'
-import { getMonoid } from '../src/Array'
+import { pipeable } from '../src/pipeable'
+import { semigroupString, semigroupSum } from '../src/Semigroup'
 
 describe('IOEither', () => {
   describe('pipeables', () => {

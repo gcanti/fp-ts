@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import { io } from '../src/IO'
 import { IORef, newIORef } from '../src/IORef'
-import { pipe } from '../src/pipeable'
+import { pipe } from '../src/function'
 
 describe('IORef', () => {
   it('read', () => {

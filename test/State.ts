@@ -1,7 +1,6 @@
 import * as assert from 'assert'
+import { pipe, tuple } from '../src/function'
 import * as _ from '../src/State'
-import { tuple } from '../src/function'
-import { pipe } from '../src/pipeable'
 
 describe('State', () => {
   describe('pipeables', () => {

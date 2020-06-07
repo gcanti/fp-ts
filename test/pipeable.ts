@@ -1,11 +1,11 @@
 import * as assert from 'assert'
 import { array } from '../src/Array'
-import { pipeable, pipe } from '../src/pipeable'
-import { either, right, left } from '../src/Either'
-import { monoidSum, fold } from '../src/Monoid'
-import { some, none, isSome, Option, option } from '../src/Option'
-import { reader } from '../src/Reader'
 import * as C from '../src/Const'
+import { either, left, right } from '../src/Either'
+import { fold, monoidSum } from '../src/Monoid'
+import { isSome, none, Option, option, some } from '../src/Option'
+import { pipeable } from '../src/pipeable'
+import { reader } from '../src/Reader'
 
 describe('pipeable', () => {
   it('{}', () => {
@@ -133,23 +133,5 @@ describe('pipeable', () => {
   it('Semigroupoid', () => {
     const { compose } = pipeable(reader)
     assert.deepStrictEqual(compose((s: string) => s.length)((n) => n * 2)('aa'), 4)
-  })
-
-  it('pipe', () => {
-    const f = (n: number) => n + 1
-    const g = (n: number) => n * 2
-    assert.deepStrictEqual(pipe(2), 2)
-    assert.deepStrictEqual(pipe(2, f), 3)
-    assert.deepStrictEqual(pipe(2, f, g), 6)
-    assert.deepStrictEqual(pipe(2, f, g, f), 7)
-    assert.deepStrictEqual(pipe(2, f, g, f, g), 14)
-    assert.deepStrictEqual(pipe(2, f, g, f, g, f), 15)
-    assert.deepStrictEqual(pipe(2, f, g, f, g, f, g), 30)
-    assert.deepStrictEqual(pipe(2, f, g, f, g, f, g, f), 31)
-    assert.deepStrictEqual(pipe(2, f, g, f, g, f, g, f, g), 62)
-    assert.deepStrictEqual(pipe(2, f, g, f, g, f, g, f, g, f), 63)
-    assert.deepStrictEqual(pipe(2, f, g, f, g, f, g, f, g, f), 63)
-    // this is just to satisfy noImplicitReturns and 100% coverage
-    assert.deepStrictEqual((pipe as any)(...[2, f, g, f, g, f, g, f, g, f, g]), undefined)
   })
 })

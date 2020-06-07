@@ -1,12 +1,11 @@
 import * as assert from 'assert'
 import { left, right } from '../src/Either'
-import { identity } from '../src/function'
+import { identity, pipe } from '../src/function'
 import * as _ from '../src/Identity'
 import { monoidString } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { eqNumber } from '../src/Eq'
 import { showString } from '../src/Show'
-import { pipe } from '../src/pipeable'
 
 describe('Identity', () => {
   describe('pipeables', () => {

@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import * as C from '../src/Const'
 import { eqNumber } from '../src/Eq'
-import { identity } from '../src/function'
+import { identity, pipe } from '../src/function'
 import * as I from '../src/Identity'
 import * as M from '../src/Monoid'
 import * as _ from '../src/NonEmptyArray'
@@ -9,7 +9,6 @@ import { isSome, none, option, some } from '../src/Option'
 import { ordNumber } from '../src/Ord'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
-import { pipe } from '../src/pipeable'
 
 describe('NonEmptyArray', () => {
   it('head', () => {

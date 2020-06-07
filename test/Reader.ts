@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import * as _ from '../src/Reader'
 import { semigroupSum } from '../src/Semigroup'
 import { monoidSum } from '../src/Monoid'
-import { pipe } from '../src/pipeable'
+import { pipe } from '../src/function'
 
 interface Env {
   readonly count: number

@@ -31,6 +31,7 @@ Added in v2.0.0
   - [identity](#identity)
   - [increment](#increment)
   - [not](#not)
+  - [pipe](#pipe)
   - [tuple](#tuple)
   - [tupled](#tupled)
   - [unsafeCoerce](#unsafecoerce)
@@ -216,7 +217,7 @@ Added in v2.0.0
 
 Performs left-to-right function composition. The first argument may have any arity, the remaining arguments must be unary.
 
-See also [`pipe`](https://gcanti.github.io/fp-ts/modules/pipeable.ts.html#pipe).
+See also [`pipe`](#pipe).
 
 **Signature**
 
@@ -328,6 +329,89 @@ export declare function not<A>(predicate: Predicate<A>): Predicate<A>
 ```
 
 Added in v2.0.0
+
+## pipe
+
+Pipes the value of an expression into a pipeline of functions.
+
+See also [`flow`](#flow).
+
+**Signature**
+
+```ts
+export declare function pipe<A>(a: A): A
+export declare function pipe<A, B>(a: A, ab: (a: A) => B): B
+export declare function pipe<A, B, C>(a: A, ab: (a: A) => B, bc: (b: B) => C): C
+export declare function pipe<A, B, C, D>(a: A, ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D): D
+export declare function pipe<A, B, C, D, E>(a: A, ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E): E
+export declare function pipe<A, B, C, D, E, F>(
+  a: A,
+  ab: (a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E,
+  ef: (e: E) => F
+): F
+export declare function pipe<A, B, C, D, E, F, G>(
+  a: A,
+  ab: (a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E,
+  ef: (e: E) => F,
+  fg: (f: F) => G
+): G
+export declare function pipe<A, B, C, D, E, F, G, H>(
+  a: A,
+  ab: (a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E,
+  ef: (e: E) => F,
+  fg: (f: F) => G,
+  gh: (g: G) => H
+): H
+export declare function pipe<A, B, C, D, E, F, G, H, I>(
+  a: A,
+  ab: (a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E,
+  ef: (e: E) => F,
+  fg: (f: F) => G,
+  gh: (g: G) => H,
+  hi: (h: H) => I
+): I
+export declare function pipe<A, B, C, D, E, F, G, H, I, J>(
+  a: A,
+  ab: (a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E,
+  ef: (e: E) => F,
+  fg: (f: F) => G,
+  gh: (g: G) => H,
+  hi: (h: H) => I,
+  ij: (i: I) => J
+): J
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/lib/pipeable'
+
+const len = (s: string): number => s.length
+const double = (n: number): number => n * 2
+
+// without pipe
+assert.strictEqual(double(len('aaa')), 6)
+
+// with pipe
+assert.strictEqual(pipe('aaa', len, double), 6)
+```
+
+Added in v2.6.3
 
 ## tuple
 
