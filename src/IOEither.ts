@@ -9,8 +9,8 @@ import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { getEitherM } from './EitherT'
 import { Filterable2C, getFilterableComposition } from './Filterable'
-import { identity, Lazy, Predicate, Refinement } from './function'
-import { getSemigroup as getIOSemigroup, IO, monadIO } from './IO'
+import { identity, Lazy, Predicate, Refinement, pipe } from './function'
+import * as I from './IO'
 import { Monad2, Monad2C } from './Monad'
 import { MonadIO2, MonadIO2C } from './MonadIO'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
@@ -20,8 +20,9 @@ import { Semigroup } from './Semigroup'
 import { getValidationM } from './ValidationT'
 
 import Either = E.Either
+import IO = I.IO
 
-const T = /*#__PURE__*/ getEitherM(monadIO)
+const T = /*#__PURE__*/ getEitherM(I.monadIO)
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -115,7 +116,7 @@ export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> = T.swap
  * @since 2.0.0
  */
 export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> {
-  return getIOSemigroup(E.getSemigroup<E, A>(S))
+  return I.getSemigroup(E.getSemigroup<E, A>(S))
 }
 
 /**
@@ -126,7 +127,7 @@ export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> {
  * @since 2.0.0
  */
 export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> {
-  return getIOSemigroup(E.getApplySemigroup<E, A>(S))
+  return I.getSemigroup(E.getApplySemigroup<E, A>(S))
 }
 
 /**
@@ -164,7 +165,7 @@ export function bracket<E, A, B>(
   release: (a: A, e: Either<E, B>) => IOEither<E, void>
 ): IOEither<E, B> {
   return T.chain(acquire, (a) =>
-    T.chain(monadIO.map(use(a), E.right), (e) =>
+    T.chain(pipe(use(a), I.map(E.right)), (e) =>
       T.chain(release(a, e), () => (E.isLeft(e) ? T.left(e.left) : T.of(e.right)))
     )
   )
@@ -177,11 +178,11 @@ export function bracket<E, A, B>(
 export function getIOValidation<E>(
   S: Semigroup<E>
 ): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadIO2C<URI, E> & MonadThrow2C<URI, E> {
-  const T = getValidationM(S, monadIO)
+  const V = getValidationM(S, I.monadIO)
   return {
     _E: undefined as any,
     ...ioEither,
-    ...T
+    ...V
   }
 }
 
@@ -195,7 +196,7 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
   return {
     URI,
     _E: undefined as any,
-    ...getFilterableComposition(monadIO, F)
+    ...getFilterableComposition(I.monadIO, F)
   }
 }
 

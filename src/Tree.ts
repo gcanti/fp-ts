@@ -406,6 +406,19 @@ export const extract: <A>(wa: Tree<A>) => A = (wa) => wa.value
 // instances
 // -------------------------------------------------------------------------------------
 
+const traverse_ = <F>(F: Applicative<F>): (<A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>) => HKT<F, Tree<B>>) => {
+  const traverseF = array.traverse(F)
+  const r = <A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>): HKT<F, Tree<B>> =>
+    F.ap(
+      F.map(f(ta.value), (value: B) => (forest: Forest<B>) => ({
+        value,
+        forest
+      })),
+      traverseF(ta.forest, (t) => r(t, f))
+    )
+  return r
+}
+
 /**
  * @category instances
  * @since 2.0.0
@@ -422,20 +435,9 @@ export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<U
   reduce: reduce_,
   foldMap: foldMap_,
   reduceRight: reduceRight_,
-  traverse: <F>(F: Applicative<F>): (<A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>) => HKT<F, Tree<B>>) => {
-    const traverseF = array.traverse(F)
-    const r = <A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>): HKT<F, Tree<B>> =>
-      F.ap(
-        F.map(f(ta.value), (value: B) => (forest: Forest<B>) => ({
-          value,
-          forest
-        })),
-        traverseF(ta.forest, (t) => r(t, f))
-      )
-    return r
-  },
+  traverse: traverse_,
   sequence: <F>(F: Applicative<F>): (<A>(ta: Tree<HKT<F, A>>) => HKT<F, Tree<A>>) => {
-    const traverseF = tree.traverse(F)
+    const traverseF = traverse_(F)
     return (ta) => traverseF(ta, identity)
   },
   extract,

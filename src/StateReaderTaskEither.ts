@@ -481,11 +481,16 @@ export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & 
  * Like `stateReaderTaskEither` but `ap` is sequential
  * @since 2.0.0
  */
-export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither =
-  /*#__PURE__*/
-  ((): typeof stateReaderTaskEither => {
-    return {
-      ...stateReaderTaskEither,
-      ap: (mab, ma) => T.chain(mab, (f) => T.map(ma, f))
-    }
-  })()
+export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
+  URI,
+  map: T.map,
+  of: right,
+  ap: (mab, ma) => T.chain(mab, (f) => T.map(ma, f)),
+  chain: T.chain,
+  bimap: bimap_,
+  mapLeft: mapLeft_,
+  alt: alt_,
+  fromIO: rightIO,
+  fromTask: rightTask,
+  throwError: left
+}

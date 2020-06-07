@@ -542,14 +542,19 @@ export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & Monad
  * @category instances
  * @since 2.0.0
  */
-export const readerTaskEitherSeq: typeof readerTaskEither =
-  /*#__PURE__*/
-  ((): typeof readerTaskEither => {
-    return {
-      ...readerTaskEither,
-      ap: (mab, ma) => T.chain(mab, (f) => T.map(ma, f))
-    }
-  })()
+export const readerTaskEitherSeq: typeof readerTaskEither = {
+  URI,
+  map: T.map,
+  of: right,
+  ap: (mab, ma) => T.chain(mab, (f) => T.map(ma, f)),
+  chain: T.chain,
+  alt: alt_,
+  bimap: bimap_,
+  mapLeft: mapLeft_,
+  fromIO: rightIO,
+  fromTask: rightTask,
+  throwError: left
+}
 
 /**
  * @category Monad
