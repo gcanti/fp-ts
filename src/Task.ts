@@ -218,11 +218,12 @@ export const task: Monad1<URI> & MonadTask1<URI> = {
  * @category instances
  * @since 2.0.0
  */
-export const taskSeq: typeof task =
-  /*#__PURE__*/
-  ((): typeof task => {
-    return {
-      ...task,
-      ap: (mab, ma) => () => mab().then((f) => ma().then((a) => f(a)))
-    }
-  })()
+export const taskSeq: typeof task = {
+  URI,
+  map: map_,
+  of,
+  ap: (mab, ma) => () => mab().then((f) => ma().then((a) => f(a))),
+  chain: chain_,
+  fromIO,
+  fromTask: identity
+}

@@ -237,11 +237,12 @@ export const readerTask: Monad2<URI> & MonadTask2<URI> = {
  * @category instances
  * @since 2.3.0
  */
-export const readerTaskSeq: typeof readerTask =
-  /*#__PURE__*/
-  ((): typeof readerTask => {
-    return {
-      ...readerTask,
-      ap: (mab, ma) => T.chain(mab, (f) => T.map(ma, f))
-    }
-  })()
+export const readerTaskSeq: typeof readerTask = {
+  URI,
+  map: T.map,
+  of,
+  ap: (mab, ma) => T.chain(mab, (f) => T.map(ma, f)),
+  chain: T.chain,
+  fromIO,
+  fromTask
+}
