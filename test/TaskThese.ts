@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import * as IO from '../src/IO'
 import { monoidString, monoidSum } from '../src/Monoid'
-import { pipe } from '../src/pipeable'
+import { pipe } from '../src/function'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskThese'
 import * as TH from '../src/These'

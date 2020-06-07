@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import { array } from '../src/Array'
 import * as I from '../src/IO'
 import { monoidString } from '../src/Monoid'
-import { pipe } from '../src/pipeable'
+import { pipe } from '../src/function'
 import * as _ from '../src/Task'
 
 const delayReject = <A>(n: number, a: A): _.Task<A> => () =>

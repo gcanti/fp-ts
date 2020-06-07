@@ -1,15 +1,14 @@
 import * as assert from 'assert'
-import * as _ from '../src/ReadonlyRecord'
-import { semigroupSum, getLastSemigroup, getFirstSemigroup } from '../src/Semigroup'
-import { monoidString } from '../src/Monoid'
-import { identity } from '../src/function'
-import { option, some, none, Option, getOrElse, isSome } from '../src/Option'
-import { eqNumber } from '../src/Eq'
-import { readonlyArray, zip } from '../src/ReadonlyArray'
 import { left, right } from '../src/Either'
+import { eqNumber } from '../src/Eq'
+import { identity, pipe } from '../src/function'
 import * as I from '../src/Identity'
+import { monoidString } from '../src/Monoid'
+import { getOrElse, isSome, none, option, Option, some } from '../src/Option'
+import { readonlyArray, zip } from '../src/ReadonlyArray'
+import * as _ from '../src/ReadonlyRecord'
+import { getFirstSemigroup, getLastSemigroup, semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
-import { pipe } from '../src/pipeable'
 
 const p = (n: number) => n > 2
 

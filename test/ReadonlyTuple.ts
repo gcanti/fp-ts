@@ -1,11 +1,10 @@
 import * as assert from 'assert'
 import { getMonoid } from '../src/Array'
 import { left, right } from '../src/Either'
-import { identity } from '../src/function'
+import { identity, pipe } from '../src/function'
 import { monoidString } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import * as _ from '../src/ReadonlyTuple'
-import { pipe } from '../src/pipeable'
 
 describe('ReadonlyTuple', () => {
   describe('pipeables', () => {

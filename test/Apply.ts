@@ -3,7 +3,7 @@ import { sequenceS, sequenceT } from '../src/Apply'
 import { readonlyArray, getMonoid } from '../src/ReadonlyArray'
 import { either, getValidation, left, right } from '../src/Either'
 import { none, option, some } from '../src/Option'
-import { pipe } from '../src/pipeable'
+import { pipe } from '../src/function'
 
 describe('Apply', () => {
   it('sequenceT', () => {

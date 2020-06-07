@@ -3,7 +3,7 @@ import * as _ from '../src/IO'
 import { semigroupSum } from '../src/Semigroup'
 import { monoidSum } from '../src/Monoid'
 import * as E from '../src/Either'
-import { pipe } from '../src/pipeable'
+import { pipe } from '../src/function'
 
 describe('IO', () => {
   describe('pipeables', () => {

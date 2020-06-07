@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import { array } from '../src/Array'
-import { pipe } from '../src/pipeable'
+import { pipe } from '../src/function'
 import { reader } from '../src/Reader'
 import * as _ from '../src/ReaderTask'
 import * as T from '../src/Task'

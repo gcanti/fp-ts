@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import { sort } from '../src/ReadonlyArray'
 import * as _ from '../src/Ord'
 import { fold } from '../src/Monoid'
-import { pipe } from '../src/pipeable'
+import { pipe } from '../src/function'
 
 describe('Ord', () => {
   it('getTupleOrd', () => {

@@ -4,7 +4,7 @@ import { semigroupString } from '../src/Semigroup'
 import { eqNumber } from '../src/Eq'
 import { monoidString } from '../src/Monoid'
 import { showString } from '../src/Show'
-import { pipe } from '../src/pipeable'
+import { pipe } from '../src/function'
 
 describe('Const', () => {
   describe('pipeables', () => {
