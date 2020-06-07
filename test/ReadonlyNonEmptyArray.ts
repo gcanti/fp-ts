@@ -9,6 +9,7 @@ import * as Ord from '../src/Ord'
 import * as _ from '../src/ReadonlyNonEmptyArray'
 import * as S from '../src/Semigroup'
 import { showString } from '../src/Show'
+import { pipe } from '../src/pipeable'
 
 describe('ReadonlyNonEmptyArray', () => {
   it('head', () => {
@@ -20,8 +21,13 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('map', () => {
-    const double = (n: number) => n * 2
-    assert.deepStrictEqual(_.readonlyNonEmptyArray.map([1, 2], double), [2, 4])
+    assert.deepStrictEqual(
+      pipe(
+        [1, 2],
+        _.map((n) => n * 2)
+      ),
+      [2, 4]
+    )
   })
 
   it('mapWithIndex', () => {

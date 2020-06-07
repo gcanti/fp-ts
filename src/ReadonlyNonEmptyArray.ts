@@ -41,7 +41,7 @@ export type URI = typeof URI
  * @category model
  * @since 2.5.0
  */
-export interface ReadonlyNonEmptyArray<A> extends ReadonlyArray<A> {
+export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
   readonly 0: A
 }
 

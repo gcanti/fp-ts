@@ -61,7 +61,7 @@ Added in v2.5.0
   - [getShow](#getshow)
   - [readonlyNonEmptyArray](#readonlynonemptyarray)
 - [model](#model)
-  - [ReadonlyNonEmptyArray (interface)](#readonlynonemptyarray-interface)
+  - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
@@ -562,12 +562,12 @@ Added in v2.5.0
 
 # model
 
-## ReadonlyNonEmptyArray (interface)
+## ReadonlyNonEmptyArray (type alias)
 
 **Signature**
 
 ```ts
-export interface ReadonlyNonEmptyArray<A> extends ReadonlyArray<A> {
+export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
   readonly 0: A
 }
 ```
