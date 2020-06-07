@@ -77,6 +77,7 @@ Added in v2.0.0
   - [modifyAt](#modifyat)
   - [sequence](#sequence)
   - [tail](#tail)
+  - [traverse](#traverse)
   - [unzip](#unzip)
   - [updateAt](#updateat)
 
@@ -705,6 +706,16 @@ export declare const tail: <A>(nea: NonEmptyArray<A>) => A[]
 ```
 
 Added in v2.0.0
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: PipeableTraverse1<'NonEmptyArray'>
+```
+
+Added in v2.6.3
 
 ## unzip
 

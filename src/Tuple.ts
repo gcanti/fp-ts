@@ -13,7 +13,7 @@ import { Monoid } from './Monoid'
 import * as RT from './ReadonlyTuple'
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
-import { Traversable2 } from './Traversable'
+import { Traversable2, PipeableTraverse2 } from './Traversable'
 
 // tslint:disable:readonly-array
 
@@ -150,6 +150,11 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: [A, E]) 
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.6.3
+ */
+export const traverse: PipeableTraverse2<URI> = RT.traverse as any
 
 /**
  * @since 2.6.3

@@ -15,7 +15,7 @@ import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
-import { Traversable2 } from './Traversable'
+import { Traversable2, PipeableTraverse2 } from './Traversable'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -237,6 +237,22 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: readonly
 // instances
 // -------------------------------------------------------------------------------------
 
+const traverse_ = <F>(F: Applicative<F>) => <A, S, B>(
+  as: readonly [A, S],
+  f: (a: A) => HKT<F, B>
+): HKT<F, readonly [B, S]> => {
+  return F.map(f(fst(as)), (b) => [b, snd(as)])
+}
+
+/**
+ * @since 2.6.3
+ */
+export const traverse: PipeableTraverse2<URI> = <F>(
+  F: Applicative<F>
+): (<A, B>(f: (a: A) => HKT<F, B>) => <S>(as: readonly [A, S]) => HKT<F, readonly [B, S]>) => {
+  return (f) => (ta) => traverse_(F)(ta, f)
+}
+
 /**
  * @since 2.6.3
  */
@@ -265,11 +281,6 @@ export const readonlyTuple: Semigroupoid2<URI> &
   reduce: reduce_,
   foldMap: foldMap_,
   reduceRight: reduceRight_,
-  traverse: <F>(F: Applicative<F>) => <A, S, B>(
-    as: readonly [A, S],
-    f: (a: A) => HKT<F, B>
-  ): HKT<F, readonly [B, S]> => {
-    return F.map(f(fst(as)), (b) => [b, snd(as)])
-  },
+  traverse: traverse_,
   sequence
 }

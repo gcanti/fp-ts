@@ -12,7 +12,7 @@ import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { Show } from './Show'
-import { Traversable1 } from './Traversable'
+import { Traversable1, PipeableTraverse1 } from './Traversable'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -72,6 +72,16 @@ const reduceRight_: <A, B>(fa: Identity<A>, b: B, f: (a: A, b: B) => B) => B = (
 
 const traverse_ = <F>(F: Applicative<F>) => <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>): HKT<F, Identity<B>> => {
   return F.map(f(ta), id)
+}
+
+/**
+ * @since 2.6.3
+ */
+export const traverse: PipeableTraverse1<URI> = <F>(
+  F: Applicative<F>
+): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Identity<A>) => HKT<F, Identity<B>>) => {
+  const traverseF = traverse_(F)
+  return (f) => (ta) => traverseF(ta, f)
 }
 
 /**

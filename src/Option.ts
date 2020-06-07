@@ -24,7 +24,7 @@ import { Monoid } from './Monoid'
 import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
-import { Traversable1 } from './Traversable'
+import { Traversable1, PipeableTraverse1 } from './Traversable'
 import { Witherable1 } from './Witherable'
 
 declare module './HKT' {
@@ -654,6 +654,16 @@ const reduceRight_: <A, B>(fa: Option<A>, b: B, f: (a: A, b: B) => B) => B = (fa
 
 const traverse_ = <F>(F: Applicative<F>) => <A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>): HKT<F, Option<B>> => {
   return isNone(ta) ? F.of(none) : F.map(f(ta.value), some)
+}
+
+/**
+ * @since 2.6.3
+ */
+export const traverse: PipeableTraverse1<URI> = <F>(
+  F: Applicative<F>
+): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Option<A>) => HKT<F, Option<B>>) => {
+  const traverseF = traverse_(F)
+  return (f) => (ta) => traverseF(ta, f)
 }
 
 /**

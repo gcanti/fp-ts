@@ -99,10 +99,14 @@ describe('Identity', () => {
   })
 
   it('traverse', () => {
-    const x1 = _.identity.traverse(option)(_.identity.of(1), some)
-    assert.deepStrictEqual(x1, some(_.identity.of(1)))
-    const x2 = _.identity.traverse(option)(_.identity.of(1), () => none)
-    assert.deepStrictEqual(x2, none)
+    assert.deepStrictEqual(pipe(_.identity.of(1), _.traverse(option)(some)), some(_.identity.of(1)))
+    assert.deepStrictEqual(
+      pipe(
+        _.identity.of(1),
+        _.traverse(option)(() => none)
+      ),
+      none
+    )
   })
 
   it('sequence', () => {

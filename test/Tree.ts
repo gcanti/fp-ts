@@ -88,7 +88,10 @@ describe('Tree', () => {
   it('traverse', () => {
     const fa = _.make('a', [_.make('b'), _.make('c')])
     assert.deepStrictEqual(
-      _.tree.traverse(I.identity)(fa, (a) => I.identity.of(a)),
+      pipe(
+        fa,
+        _.traverse(I.identity)((a) => I.identity.of(a))
+      ),
       I.identity.of(fa)
     )
   })

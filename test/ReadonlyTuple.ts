@@ -101,14 +101,9 @@ describe('ReadonlyTuple', () => {
   })
 
   it('traverse', () => {
-    assert.deepStrictEqual(
-      _.readonlyTuple.traverse(option)([2, 'a'], (n) => (n >= 2 ? some(n) : none)),
-      some([2, 'a'])
-    )
-    assert.deepStrictEqual(
-      _.readonlyTuple.traverse(option)([1, 'a'], (n) => (n >= 2 ? some(n) : none)),
-      none
-    )
+    const traverse = _.traverse(option)((n: number) => (n > 1 ? some(n) : none))
+    assert.deepStrictEqual(traverse([2, 'a']), some([2, 'a']))
+    assert.deepStrictEqual(traverse([1, 'a']), none)
   })
 
   it('sequence', () => {

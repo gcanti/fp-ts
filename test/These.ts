@@ -134,24 +134,16 @@ describe('These', () => {
   })
 
   it('traverse', () => {
+    const traverse = _.traverse(option)((n: number) => (n > 1 ? some(n) : none))
+    assert.deepStrictEqual(pipe(_.left('a'), traverse), some(_.left('a')))
+    assert.deepStrictEqual(pipe(_.right(2), traverse), some(_.right(2)))
+    assert.deepStrictEqual(pipe(_.right(1), traverse), none)
+    assert.deepStrictEqual(pipe(_.both('a', 2), traverse), some(_.both('a', 2)))
     assert.deepStrictEqual(
-      _.these.traverse(option)(_.left('a'), (n) => (n >= 2 ? some(n) : none)),
-      some(_.left('a'))
-    )
-    assert.deepStrictEqual(
-      _.these.traverse(option)(_.right(2), (n) => (n >= 2 ? some(n) : none)),
-      some(_.right(2))
-    )
-    assert.deepStrictEqual(
-      _.these.traverse(option)(_.right(1), (n) => (n >= 2 ? some(n) : none)),
-      none
-    )
-    assert.deepStrictEqual(
-      _.these.traverse(option)(_.both('a', 2), (n) => (n >= 2 ? some(n) : none)),
-      some(_.both('a', 2))
-    )
-    assert.deepStrictEqual(
-      _.these.traverse(option)(_.both('a', 1), (n) => (n >= 2 ? some(n) : none)),
+      pipe(
+        _.both('a', 1),
+        _.traverse(option)((n) => (n >= 2 ? some(n) : none))
+      ),
       none
     )
   })

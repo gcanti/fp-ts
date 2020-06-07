@@ -17,7 +17,7 @@ import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid } from './Monoid'
 import { Show } from './Show'
-import { Traversable1 } from './Traversable'
+import { Traversable1, PipeableTraverse1 } from './Traversable'
 
 // tslint:disable:readonly-array
 
@@ -417,6 +417,16 @@ const traverse_ = <F>(F: Applicative<F>): (<A, B>(ta: Tree<A>, f: (a: A) => HKT<
       traverseF(ta.forest, (t) => r(t, f))
     )
   return r
+}
+
+/**
+ * @since 2.6.3
+ */
+export const traverse: PipeableTraverse1<URI> = <F>(
+  F: Applicative<F>
+): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Tree<A>) => HKT<F, Tree<B>>) => {
+  const traverseF = traverse_(F)
+  return (f) => (ta) => traverseF(ta, f)
 }
 
 /**

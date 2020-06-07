@@ -307,15 +307,24 @@ describe('Option', () => {
   describe('Traversable', () => {
     it('traverse', () => {
       assert.deepStrictEqual(
-        _.option.traverse(array)(_.some('hello'), () => []),
+        pipe(
+          _.some('hello'),
+          _.traverse(array)(() => [])
+        ),
         []
       )
       assert.deepStrictEqual(
-        _.option.traverse(array)(_.some('hello'), (s) => [s.length]),
+        pipe(
+          _.some('hello'),
+          _.traverse(array)((s) => [s.length])
+        ),
         [_.some(5)]
       )
       assert.deepStrictEqual(
-        _.option.traverse(array)(_.none, (s) => [s]),
+        pipe(
+          _.none,
+          _.traverse(array)((s) => [s])
+        ),
         [_.none]
       )
     })
