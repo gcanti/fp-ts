@@ -15,7 +15,7 @@ import { Ord } from './Ord'
 import * as RNEA from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
-import { TraversableWithIndex1 } from './TraversableWithIndex'
+import { TraversableWithIndex1, PipeableTraverseWithIndex1 } from './TraversableWithIndex'
 import { Traversable1, PipeableTraverse1 } from './Traversable'
 
 /* tslint:disable:readonly-array */
@@ -447,6 +447,11 @@ export const traverse: PipeableTraverse1<URI> = RNEA.traverse as any
  * @since 2.6.3
  */
 export const sequence: Traversable1<URI>['sequence'] = RNEA.sequence as any
+
+/**
+ * @since 2.6.3
+ */
+export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = RNEA.traverseWithIndex as any
 
 /**
  * @category instances

@@ -59,11 +59,17 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('traverse', () => {
     assert.deepStrictEqual(
-      _.readonlyNonEmptyArray.traverse(O.option)([1, 2, 3], (n) => (n >= 0 ? O.some(n) : O.none)),
+      pipe(
+        [1, 2, 3],
+        _.traverse(O.option)((n) => (n >= 0 ? O.some(n) : O.none))
+      ),
       O.some([1, 2, 3])
     )
     assert.deepStrictEqual(
-      _.readonlyNonEmptyArray.traverse(O.option)([1, 2, 3], (n) => (n >= 2 ? O.some(n) : O.none)),
+      pipe(
+        [1, 2, 3],
+        _.traverse(O.option)((n) => (n >= 2 ? O.some(n) : O.none))
+      ),
       O.none
     )
   })
@@ -256,14 +262,16 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('traverseWithIndex', () => {
     assert.deepStrictEqual(
-      _.readonlyNonEmptyArray.traverseWithIndex(O.option)(['a', 'bb'], (i, s) =>
-        s.length >= 1 ? O.some(s + i) : O.none
+      pipe(
+        ['a', 'bb'],
+        _.traverseWithIndex(O.option)((i, s) => (s.length >= 1 ? O.some(s + i) : O.none))
       ),
       O.some(['a0', 'bb1'])
     )
     assert.deepStrictEqual(
-      _.readonlyNonEmptyArray.traverseWithIndex(O.option)(['a', 'bb'], (i, s) =>
-        s.length > 1 ? O.some(s + i) : O.none
+      pipe(
+        ['a', 'bb'],
+        _.traverseWithIndex(O.option)((i, s) => (s.length > 1 ? O.some(s + i) : O.none))
       ),
       O.none
     )
@@ -272,15 +280,19 @@ describe('ReadonlyNonEmptyArray', () => {
     const f = (i: number, s: string): string => s + i
     assert.deepStrictEqual(
       _.readonlyNonEmptyArray.foldMapWithIndex(M.monoidString)(['a', 'bb'], f),
-      _.readonlyNonEmptyArray.traverseWithIndex(C.getApplicative(M.monoidString))(['a', 'bb'], (i, a) =>
-        C.make(f(i, a))
+      pipe(
+        ['a', 'bb'],
+        _.traverseWithIndex(C.getApplicative(M.monoidString))((i, a) => C.make(f(i, a)))
       )
     )
 
     // FunctorWithIndex compatibility
     assert.deepStrictEqual(
       _.readonlyNonEmptyArray.mapWithIndex(['a', 'bb'], f),
-      _.readonlyNonEmptyArray.traverseWithIndex(I.identity)(['a', 'bb'], (i, a) => I.identity.of(f(i, a)))
+      pipe(
+        ['a', 'bb'],
+        _.traverseWithIndex(I.identity)((i, a) => I.identity.of(f(i, a)))
+      )
     )
   })
 

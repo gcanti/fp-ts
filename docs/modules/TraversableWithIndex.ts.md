@@ -32,6 +32,8 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [utils](#utils)
+  - [PipeableTraverseWithIndex1 (interface)](#pipeabletraversewithindex1-interface)
+  - [PipeableTraverseWithIndex2 (interface)](#pipeabletraversewithindex2-interface)
   - [TraversableWithIndex (interface)](#traversablewithindex-interface)
   - [TraversableWithIndex1 (interface)](#traversablewithindex1-interface)
   - [TraversableWithIndex2 (interface)](#traversablewithindex2-interface)
@@ -44,6 +46,55 @@ Added in v2.0.0
 ---
 
 # utils
+
+## PipeableTraverseWithIndex1 (interface)
+
+**Signature**
+
+```ts
+export interface PipeableTraverseWithIndex1<T extends URIS, I> {
+  <F extends URIS3>(F: Applicative3<F>): <A, R, E, B>(
+    f: (i: I, a: A) => Kind3<F, R, E, B>
+  ) => (ta: Kind<T, A>) => Kind3<F, R, E, Kind<T, B>>
+  <F extends URIS3, E>(F: Applicative3C<F, E>): <A, R, B>(
+    f: (i: I, a: A) => Kind3<F, R, E, B>
+  ) => (ta: Kind<T, A>) => Kind3<F, R, E, Kind<T, B>>
+  <F extends URIS2>(F: Applicative2<F>): <A, E, B>(
+    f: (i: I, a: A) => Kind2<F, E, B>
+  ) => (ta: Kind<T, A>) => Kind2<F, E, Kind<T, B>>
+  <F extends URIS2, E>(F: Applicative2C<F, E>): <A, B>(
+    f: (i: I, a: A) => Kind2<F, E, B>
+  ) => (ta: Kind<T, A>) => Kind2<F, E, Kind<T, B>>
+  <F extends URIS>(F: Applicative1<F>): <A, B>(f: (i: I, a: A) => Kind<F, B>) => (ta: Kind<T, A>) => Kind<F, Kind<T, B>>
+  <F>(F: Applicative<F>): <A, B>(f: (i: I, a: A) => HKT<F, B>) => (ta: Kind<T, A>) => HKT<F, Kind<T, B>>
+}
+```
+
+Added in v2.6.3
+
+## PipeableTraverseWithIndex2 (interface)
+
+**Signature**
+
+```ts
+export interface PipeableTraverseWithIndex2<T extends URIS2, I> {
+  <F extends URIS3>(F: Applicative3<F>): <A, R, FE, B>(
+    f: (i: I, a: A) => Kind3<F, R, FE, B>
+  ) => <TE>(ta: Kind2<T, TE, A>) => Kind3<F, R, FE, Kind2<T, TE, B>>
+  <F extends URIS2>(F: Applicative2<F>): <A, FE, B>(
+    f: (i: I, a: A) => Kind2<F, FE, B>
+  ) => <TE>(ta: Kind2<T, TE, A>) => Kind2<F, FE, Kind2<T, TE, B>>
+  <F extends URIS2, FE>(F: Applicative2C<F, FE>): <A, B>(
+    f: (i: I, a: A) => Kind2<F, FE, B>
+  ) => <TE>(ta: Kind2<T, TE, A>) => Kind2<F, FE, Kind2<T, TE, B>>
+  <F extends URIS>(F: Applicative1<F>): <A, B>(
+    f: (i: I, a: A) => Kind<F, B>
+  ) => <E>(ta: Kind2<T, E, A>) => Kind<F, Kind2<T, E, B>>
+  <F>(F: Applicative<F>): <A, B>(f: (i: I, a: A) => HKT<F, B>) => <E>(ta: Kind2<T, E, A>) => HKT<F, Kind2<T, E, B>>
+}
+```
+
+Added in v2.6.3
 
 ## TraversableWithIndex (interface)
 

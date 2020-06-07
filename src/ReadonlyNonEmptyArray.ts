@@ -17,7 +17,7 @@ import * as RA from './ReadonlyArray'
 import { ReadonlyRecord } from './ReadonlyRecord'
 import { getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
 import { Show } from './Show'
-import { TraversableWithIndex1 } from './TraversableWithIndex'
+import { TraversableWithIndex1, PipeableTraverseWithIndex1 } from './TraversableWithIndex'
 import { Traversable1, PipeableTraverse1 } from './Traversable'
 
 declare module './HKT' {
@@ -527,6 +527,11 @@ export const traverse: PipeableTraverse1<URI> = RA.traverse as any
  * @since 2.6.3
  */
 export const sequence: Traversable1<URI>['sequence'] = RA.sequence as any
+
+/**
+ * @since 2.6.3
+ */
+export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = RA.traverseWithIndex as any
 
 /**
  * @category instances

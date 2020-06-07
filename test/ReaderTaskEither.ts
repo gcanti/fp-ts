@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { array } from '../src/Array'
+import * as A from '../src/Array'
 import * as E from '../src/Either'
 import { io } from '../src/IO'
 import * as IE from '../src/IOEither'
@@ -285,7 +285,7 @@ describe('ReaderTaskEither', () => {
       _.rightTask(() => Promise.resolve(log.push(message)))
     const t1 = _.readerTaskEither.chain(append('start 1'), () => append('end 1'))
     const t2 = _.readerTaskEither.chain(append('start 2'), () => append('end 2'))
-    const sequenceParallel = array.sequence(_.readerTaskEither)
+    const sequenceParallel = A.sequence(_.readerTaskEither)
     const ns = await _.run(sequenceParallel([t1, t2]), {})
     assert.deepStrictEqual(ns, E.right([3, 4]))
     assert.deepStrictEqual(log, ['start 1', 'start 2', 'end 1', 'end 2'])
@@ -298,7 +298,7 @@ describe('ReaderTaskEither', () => {
       _.rightTask(() => Promise.resolve(log.push(message)))
     const t1 = _.readerTaskEither.chain(append('start 1'), () => append('end 1'))
     const t2 = _.readerTaskEither.chain(append('start 2'), () => append('end 2'))
-    const sequenceSeries = array.sequence(_.readerTaskEitherSeq)
+    const sequenceSeries = A.sequence(_.readerTaskEitherSeq)
     const ns = await _.run(sequenceSeries([t1, t2]), {})
     assert.deepStrictEqual(ns, E.right([2, 4]))
     assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
@@ -382,11 +382,17 @@ describe('ReaderTaskEither', () => {
     })
 
     it('traverse', async () => {
-      const e1 = await array.traverse(RTV)([1, 2, 3], RTV.of)({})()
+      const e1 = await pipe([1, 2, 3], A.traverse(RTV)(RTV.of))({})()
       assert.deepStrictEqual(e1, E.right([1, 2, 3]))
-      const e2 = await array.traverse(RTV)([1, 2, 3], (v) => RTV.throwError(`${v}`))({})()
+      const e2 = await pipe(
+        [1, 2, 3],
+        A.traverse(RTV)((v) => RTV.throwError(`${v}`))
+      )({})()
       assert.deepStrictEqual(e2, E.left('123'))
-      const e3 = await array.traverse(RTV)([1, 2, 3], (v) => (v % 2 === 1 ? RTV.throwError(`${v}`) : RTV.of(v)))({})()
+      const e3 = await pipe(
+        [1, 2, 3],
+        A.traverse(RTV)((v) => (v % 2 === 1 ? RTV.throwError(`${v}`) : RTV.of(v)))
+      )({})()
       assert.deepStrictEqual(e3, E.left('13'))
     })
   })

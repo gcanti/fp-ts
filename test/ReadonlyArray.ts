@@ -846,11 +846,17 @@ describe('ReadonlyArray', () => {
   it('traverseWithIndex', () => {
     const ta: ReadonlyArray<string> = ['a', 'bb']
     assert.deepStrictEqual(
-      _.readonlyArray.traverseWithIndex(O.option)(ta, (i, s) => (s.length >= 1 ? O.some(s + i) : O.none)),
+      F.pipe(
+        ta,
+        _.traverseWithIndex(O.option)((i, s) => (s.length >= 1 ? O.some(s + i) : O.none))
+      ),
       O.some(['a0', 'bb1'])
     )
     assert.deepStrictEqual(
-      _.readonlyArray.traverseWithIndex(O.option)(ta, (i, s) => (s.length > 1 ? O.some(s + i) : O.none)),
+      F.pipe(
+        ta,
+        _.traverseWithIndex(O.option)((i, s) => (s.length > 1 ? O.some(s + i) : O.none))
+      ),
       O.none
     )
 
@@ -858,13 +864,19 @@ describe('ReadonlyArray', () => {
     const f = (i: number, s: string): string => s + i
     assert.deepStrictEqual(
       _.readonlyArray.foldMapWithIndex(M.monoidString)(ta, f),
-      _.readonlyArray.traverseWithIndex(C.getApplicative(M.monoidString))(ta, (i, a) => C.make(f(i, a)))
+      F.pipe(
+        ta,
+        _.traverseWithIndex(C.getApplicative(M.monoidString))((i, a) => C.make(f(i, a)))
+      )
     )
 
     // FunctorWithIndex compatibility
     assert.deepStrictEqual(
       _.readonlyArray.mapWithIndex(ta, f),
-      _.readonlyArray.traverseWithIndex(I.identity)(ta, (i, a) => I.identity.of(f(i, a)))
+      F.pipe(
+        ta,
+        _.traverseWithIndex(I.identity)((i, a) => I.identity.of(f(i, a)))
+      )
     )
   })
 

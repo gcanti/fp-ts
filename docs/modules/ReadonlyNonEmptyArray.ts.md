@@ -78,6 +78,7 @@ Added in v2.5.0
   - [sequence](#sequence)
   - [tail](#tail)
   - [traverse](#traverse)
+  - [traverseWithIndex](#traversewithindex)
   - [unzip](#unzip)
   - [updateAt](#updateat)
 
@@ -748,6 +749,16 @@ Added in v2.5.0
 
 ```ts
 export declare const traverse: PipeableTraverse1<'ReadonlyNonEmptyArray'>
+```
+
+Added in v2.6.3
+
+## traverseWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseWithIndex: PipeableTraverseWithIndex1<'ReadonlyNonEmptyArray', number>
 ```
 
 Added in v2.6.3
