@@ -13,10 +13,7 @@ import { pipe } from '../src/function'
 describe('TaskEither', () => {
   describe('pipeables', () => {
     it('alt', async () => {
-      const x = await pipe(
-        _.left('a'),
-        _.alt(() => _.right(1))
-      )()
+      const x = await _.taskEither.alt(_.left('a'), () => _.right(1))()
       assert.deepStrictEqual(x, E.right(1))
     })
 
@@ -72,15 +69,15 @@ describe('TaskEither', () => {
       const f = (s: string): number => s.length
       const g = (n: number): boolean => n > 2
 
-      const e1 = await pipe(_.right(1), _.bimap(f, g))()
+      const e1 = await _.taskEither.bimap(_.right(1), f, g)()
       assert.deepStrictEqual(e1, E.right(false))
-      const e2 = await pipe(_.left('foo'), _.bimap(f, g))()
+      const e2 = await _.taskEither.bimap(_.left('foo'), f, g)()
       assert.deepStrictEqual(e2, E.left(3))
     })
 
     it('mapLeft', async () => {
       const double = (n: number): number => n * 2
-      const e = await pipe(_.left(1), _.mapLeft(double))()
+      const e = await _.taskEither.mapLeft(_.left(1), double)()
       assert.deepStrictEqual(e, E.left(2))
     })
 

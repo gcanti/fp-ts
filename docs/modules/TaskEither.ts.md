@@ -35,10 +35,15 @@ Added in v2.0.0
   - [chainIOEitherKW](#chainioeitherkw)
   - [chainW](#chainw)
   - [flatten](#flatten)
+- [MonadThrow](#monadthrow)
+  - [bracket](#bracket)
 - [combinators](#combinators)
   - [filterOrElse](#filterorelse)
+  - [fromEitherK](#fromeitherk)
+  - [fromIOEitherK](#fromioeitherk)
   - [orElse](#orelse)
   - [swap](#swap)
+  - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
   - [fromIOEither](#fromioeither)
@@ -68,11 +73,6 @@ Added in v2.0.0
   - [TaskEither (interface)](#taskeither-interface)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-- [utils](#utils)
-  - [bracket](#bracket)
-  - [fromEitherK](#fromeitherk)
-  - [fromIOEitherK](#fromioeitherk)
-  - [tryCatchK](#trycatchk)
 
 ---
 
@@ -242,6 +242,27 @@ export declare const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => Ta
 
 Added in v2.0.0
 
+# MonadThrow
+
+## bracket
+
+Make sure that a resource is cleaned up in the event of an exception (_). The release action is called regardless of
+whether the body action throws (_) or returns.
+
+(\*) i.e. returns a `Left`
+
+**Signature**
+
+```ts
+export declare const bracket: <E, A, B>(
+  acquire: TaskEither<E, A>,
+  use: (a: A) => TaskEither<E, B>,
+  release: (a: A, e: E.Either<E, B>) => TaskEither<E, void>
+) => TaskEither<E, B>
+```
+
+Added in v2.0.0
+
 # combinators
 
 ## filterOrElse
@@ -257,12 +278,36 @@ export declare const filterOrElse: {
 
 Added in v2.0.0
 
+## fromEitherK
+
+**Signature**
+
+```ts
+export declare function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Either<E, B>
+): (...a: A) => TaskEither<E, B>
+```
+
+Added in v2.4.0
+
+## fromIOEitherK
+
+**Signature**
+
+```ts
+export declare function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => IOEither<E, B>
+): (...a: A) => TaskEither<E, B>
+```
+
+Added in v2.4.0
+
 ## orElse
 
 **Signature**
 
 ```ts
-export declare function orElse<E, A, M>(onLeft: (e: E) => TaskEither<M, A>): (ma: TaskEither<E, A>) => TaskEither<M, A>
+export declare const orElse: <E, A, M>(onLeft: (e: E) => TaskEither<M, A>) => (ma: TaskEither<E, A>) => TaskEither<M, A>
 ```
 
 Added in v2.0.0
@@ -276,6 +321,21 @@ export declare const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E>
 ```
 
 Added in v2.0.0
+
+## tryCatchK
+
+Converts a function returning a `Promise` to one returning a `TaskEither`.
+
+**Signature**
+
+```ts
+export declare function tryCatchK<E, A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Promise<B>,
+  onRejected: (reason: unknown) => E
+): (...a: A) => TaskEither<E, B>
+```
+
+Added in v2.5.0
 
 # constructors
 
@@ -337,7 +397,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function leftIO<E = never, A = never>(me: IO<E>): TaskEither<E, A>
+export declare const leftIO: <E = never, A = never>(me: IO<E>) => TaskEither<E, A>
 ```
 
 Added in v2.0.0
@@ -367,7 +427,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function rightIO<E = never, A = never>(ma: IO<A>): TaskEither<E, A>
+export declare const rightIO: <E = never, A = never>(ma: IO<A>) => TaskEither<E, A>
 ```
 
 Added in v2.0.0
@@ -469,10 +529,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function fold<E, A, B>(
-  onLeft: (e: E) => Task<B>,
-  onRight: (a: A) => Task<B>
-): (ma: TaskEither<E, A>) => Task<B>
+export declare const fold: <E, A, B>(
+  onLeft: (e: E) => T.Task<B>,
+  onRight: (a: A) => T.Task<B>
+) => (ma: TaskEither<E, A>) => T.Task<B>
 ```
 
 Added in v2.0.0
@@ -482,7 +542,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getOrElse<E, A>(onLeft: (e: E) => Task<A>): (ma: TaskEither<E, A>) => Task<A>
+export declare const getOrElse: <E, A>(onLeft: (e: E) => T.Task<A>) => (ma: TaskEither<E, A>) => T.Task<A>
 ```
 
 Added in v2.0.0
@@ -618,63 +678,3 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
-
-# utils
-
-## bracket
-
-Make sure that a resource is cleaned up in the event of an exception (_). The release action is called regardless of
-whether the body action throws (_) or returns.
-
-(\*) i.e. returns a `Left`
-
-**Signature**
-
-```ts
-export declare function bracket<E, A, B>(
-  acquire: TaskEither<E, A>,
-  use: (a: A) => TaskEither<E, B>,
-  release: (a: A, e: Either<E, B>) => TaskEither<E, void>
-): TaskEither<E, B>
-```
-
-Added in v2.0.0
-
-## fromEitherK
-
-**Signature**
-
-```ts
-export declare function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Either<E, B>
-): (...a: A) => TaskEither<E, B>
-```
-
-Added in v2.4.0
-
-## fromIOEitherK
-
-**Signature**
-
-```ts
-export declare function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => IOEither<E, B>
-): (...a: A) => TaskEither<E, B>
-```
-
-Added in v2.4.0
-
-## tryCatchK
-
-Converts a function returning a `Promise` to one returning a `TaskEither`.
-
-**Signature**
-
-```ts
-export declare function tryCatchK<E, A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Promise<B>,
-  onRejected: (reason: unknown) => E
-): (...a: A) => TaskEither<E, B>
-```
-
-Added in v2.5.0

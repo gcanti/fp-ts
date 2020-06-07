@@ -2,7 +2,7 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   collectCoverage: true,
-  collectCoverageFrom: ['src/**/*.ts', '!src/pipeable.ts'],
+  collectCoverageFrom: ['src/**/*.ts', '!src/pipeable.ts', '!src/EitherT.ts'],
   transform: {
     '^.+\\.tsx?$': 'ts-jest'
   },
