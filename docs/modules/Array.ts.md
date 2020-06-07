@@ -121,6 +121,7 @@ Added in v2.0.0
   - [modifyAt](#modifyat)
   - [sequence](#sequence)
   - [splitAt](#splitat)
+  - [traverse](#traverse)
   - [unzip](#unzip)
   - [updateAt](#updateat)
 
@@ -1801,6 +1802,16 @@ assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
 ```
 
 Added in v2.0.0
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: PipeableTraverse1<'Array'>
+```
+
+Added in v2.6.3
 
 ## unzip
 

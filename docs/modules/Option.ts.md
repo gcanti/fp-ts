@@ -87,6 +87,7 @@ Added in v2.0.0
   - [exists](#exists)
   - [getRefinement](#getrefinement)
   - [sequence](#sequence)
+  - [traverse](#traverse)
 
 ---
 
@@ -1042,6 +1043,16 @@ Added in v2.0.0
 
 ```ts
 export declare const sequence: Sequence1<'Option'>
+```
+
+Added in v2.6.3
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: PipeableTraverse1<'Option'>
 ```
 
 Added in v2.6.3

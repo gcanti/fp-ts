@@ -15,13 +15,11 @@ import { showString } from '../src/Show'
 describe('ReadonlyArray', () => {
   describe('instances', () => {
     it('traverse', () => {
-      const tfanone: ReadonlyArray<number> = [1, 2]
-      const f = (n: number): O.Option<number> => (n % 2 === 0 ? O.none : O.some(n))
-      const fasnone = _.readonlyArray.traverse(O.option)(tfanone, f)
-      assert.deepStrictEqual(O.isNone(fasnone), true)
-      const tfa: ReadonlyArray<number> = [1, 3]
-      const fas = _.readonlyArray.traverse(O.option)(tfa, f)
-      assert.deepStrictEqual(fas, O.some([1, 3]))
+      const traverse = _.traverse(O.applicativeOption)(
+        (n: number): O.Option<number> => (n % 2 === 0 ? O.none : O.some(n))
+      )
+      assert.deepStrictEqual(traverse([1, 2]), O.none)
+      assert.deepStrictEqual(traverse([1, 3]), O.some([1, 3]))
     })
 
     it('sequence', () => {

@@ -27,7 +27,7 @@ import { Show } from './Show'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
-import { Traversable1 } from './Traversable'
+import { Traversable1, PipeableTraverse1 } from './Traversable'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -1557,6 +1557,16 @@ const traverse_ = <F>(
 ): (<A, B>(ta: ReadonlyArray<A>, f: (a: A) => HKT<F, B>) => HKT<F, ReadonlyArray<B>>) => {
   const traverseWithIndexF = traverseWithIndex_(F)
   return (ta, f) => traverseWithIndexF(ta, (_, a) => f(a))
+}
+
+/**
+ * @since 2.6.3
+ */
+export const traverse: PipeableTraverse1<URI> = <F>(
+  F: Applicative<F>
+): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: ReadonlyArray<A>) => HKT<F, ReadonlyArray<B>>) => {
+  const traverseF = traverse_(F)
+  return (f) => (ta) => traverseF(ta, f)
 }
 
 /**

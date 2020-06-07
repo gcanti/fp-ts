@@ -44,6 +44,8 @@ Added in v2.0.0
   - [Traversable2C (interface)](#traversable2c-interface)
   - [Traversable3 (interface)](#traversable3-interface)
 - [utils](#utils)
+  - [PipeableTraverse1 (interface)](#pipeabletraverse1-interface)
+  - [PipeableTraverse2 (interface)](#pipeabletraverse2-interface)
   - [Sequence (interface)](#sequence-interface)
   - [Sequence1 (interface)](#sequence1-interface)
   - [Sequence2 (interface)](#sequence2-interface)
@@ -133,6 +135,55 @@ export interface Traversable3<T extends URIS3> extends Functor3<T>, Foldable3<T>
 Added in v2.0.0
 
 # utils
+
+## PipeableTraverse1 (interface)
+
+**Signature**
+
+```ts
+export interface PipeableTraverse1<T extends URIS> {
+  <F extends URIS3>(F: Applicative3<F>): <A, FR, FE, B>(
+    f: (a: A) => Kind3<F, FR, FE, B>
+  ) => (ta: Kind<T, A>) => Kind3<F, FR, FE, Kind<T, B>>
+  <F extends URIS3, FE>(F: Applicative3C<F, FE>): <A, FR, B>(
+    f: (a: A) => Kind3<F, FR, FE, B>
+  ) => (ta: Kind<T, A>) => Kind3<F, FR, FE, Kind<T, B>>
+  <F extends URIS2>(F: Applicative2<F>): <A, FE, B>(
+    f: (a: A) => Kind2<F, FE, B>
+  ) => (ta: Kind<T, A>) => Kind2<F, FE, Kind<T, B>>
+  <F extends URIS2, FE>(F: Applicative2C<F, FE>): <A, B>(
+    f: (a: A) => Kind2<F, FE, B>
+  ) => (ta: Kind<T, A>) => Kind2<F, FE, Kind<T, B>>
+  <F extends URIS>(F: Applicative1<F>): <A, B>(f: (a: A) => Kind<F, B>) => (ta: Kind<T, A>) => Kind<F, Kind<T, B>>
+  <F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>) => (ta: Kind<T, A>) => HKT<F, Kind<T, B>>
+}
+```
+
+Added in v2.6.3
+
+## PipeableTraverse2 (interface)
+
+**Signature**
+
+```ts
+export interface PipeableTraverse2<T extends URIS2> {
+  <F extends URIS3>(F: Applicative3<F>): <A, FR, FE, B>(
+    f: (a: A) => Kind3<F, FR, FE, B>
+  ) => <TE>(ta: Kind2<T, TE, A>) => Kind3<F, FR, FE, Kind2<T, TE, B>>
+  <F extends URIS2>(F: Applicative2<F>): <A, FE, B>(
+    f: (a: A) => Kind2<F, FE, B>
+  ) => <TE>(ta: Kind2<T, TE, A>) => Kind2<F, FE, Kind2<T, TE, B>>
+  <F extends URIS2, FE>(F: Applicative2C<F, FE>): <A, B>(
+    f: (a: A) => Kind2<F, FE, B>
+  ) => <TE>(ta: Kind2<T, TE, A>) => Kind2<F, FE, Kind2<T, TE, B>>
+  <F extends URIS>(F: Applicative1<F>): <A, B>(
+    f: (a: A) => Kind<F, B>
+  ) => <TE>(ta: Kind2<T, TE, A>) => Kind<F, Kind2<T, TE, B>>
+  <F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>) => <TE>(ta: Kind2<T, TE, A>) => HKT<F, Kind2<T, TE, B>>
+}
+```
+
+Added in v2.6.3
 
 ## Sequence (interface)
 

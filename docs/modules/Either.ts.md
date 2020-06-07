@@ -85,6 +85,7 @@ Added in v2.0.0
   - [exists](#exists)
   - [sequence](#sequence)
   - [toError](#toerror)
+  - [traverse](#traverse)
 
 ---
 
@@ -805,3 +806,13 @@ export declare function toError(e: unknown): Error
 ```
 
 Added in v2.0.0
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: PipeableTraverse2<'Either'>
+```
+
+Added in v2.6.3

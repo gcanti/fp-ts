@@ -45,6 +45,7 @@ Added in v2.5.0
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [sequence](#sequence)
+  - [traverse](#traverse)
 
 ---
 
@@ -290,6 +291,16 @@ Added in v2.5.0
 
 ```ts
 export declare const sequence: Sequence2<'ReadonlyTuple'>
+```
+
+Added in v2.6.3
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: PipeableTraverse2<'ReadonlyTuple'>
 ```
 
 Added in v2.6.3

@@ -353,21 +353,30 @@ describe('Either', () => {
   describe('Traversable', () => {
     it('traverse', () => {
       assert.deepStrictEqual(
-        _.either.traverse(option)(_.left('foo'), (a) => (a >= 2 ? some(a) : none)),
+        pipe(
+          _.left('foo'),
+          _.traverse(option)((a) => (a >= 2 ? some(a) : none))
+        ),
         some(_.left('foo'))
       )
       assert.deepStrictEqual(
-        _.either.traverse(option)(_.right(1), (a) => (a >= 2 ? some(a) : none)),
+        pipe(
+          _.right(1),
+          _.traverse(option)((a) => (a >= 2 ? some(a) : none))
+        ),
         none
       )
       assert.deepStrictEqual(
-        _.either.traverse(option)(_.right(3), (a) => (a >= 2 ? some(a) : none)),
+        pipe(
+          _.right(3),
+          _.traverse(option)((a) => (a >= 2 ? some(a) : none))
+        ),
         some(_.right(3))
       )
     })
 
     it('sequence', () => {
-      const sequence = _.either.sequence(option)
+      const sequence = _.sequence(option)
       assert.deepStrictEqual(sequence(_.right(some('a'))), some(_.right('a')))
       assert.deepStrictEqual(sequence(_.left(1)), some(_.left(1)))
       assert.deepStrictEqual(sequence(_.right(none)), none)

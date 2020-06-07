@@ -122,6 +122,7 @@ Added in v2.5.0
   - [splitAt](#splitat)
   - [tail](#tail)
   - [takeRight](#takeright)
+  - [traverse](#traverse)
   - [unsafeInsertAt](#unsafeinsertat)
   - [unzip](#unzip)
   - [updateAt](#updateat)
@@ -1839,6 +1840,16 @@ assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
 ```
 
 Added in v2.5.0
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: PipeableTraverse1<'ReadonlyArray'>
+```
+
+Added in v2.6.3
 
 ## unsafeInsertAt
 
