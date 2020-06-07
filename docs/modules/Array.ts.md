@@ -122,6 +122,7 @@ Added in v2.0.0
   - [sequence](#sequence)
   - [splitAt](#splitat)
   - [traverse](#traverse)
+  - [traverseWithIndex](#traversewithindex)
   - [unzip](#unzip)
   - [updateAt](#updateat)
 
@@ -1809,6 +1810,16 @@ Added in v2.0.0
 
 ```ts
 export declare const traverse: PipeableTraverse1<'Array'>
+```
+
+Added in v2.6.3
+
+## traverseWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseWithIndex: PipeableTraverseWithIndex1<'Array', number>
 ```
 
 Added in v2.6.3

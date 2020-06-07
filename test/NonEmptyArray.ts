@@ -59,11 +59,17 @@ describe('NonEmptyArray', () => {
 
   it('traverse', () => {
     assert.deepStrictEqual(
-      _.nonEmptyArray.traverse(option)([1, 2, 3], (n) => (n >= 0 ? some(n) : none)),
+      pipe(
+        [1, 2, 3],
+        _.traverse(option)((n) => (n >= 0 ? some(n) : none))
+      ),
       some([1, 2, 3])
     )
     assert.deepStrictEqual(
-      _.nonEmptyArray.traverse(option)([1, 2, 3], (n) => (n >= 2 ? some(n) : none)),
+      pipe(
+        [1, 2, 3],
+        _.traverse(option)((n) => (n >= 2 ? some(n) : none))
+      ),
       none
     )
   })
@@ -263,11 +269,17 @@ describe('NonEmptyArray', () => {
 
   it('traverseWithIndex', () => {
     assert.deepStrictEqual(
-      _.nonEmptyArray.traverseWithIndex(option)(['a', 'bb'], (i, s) => (s.length >= 1 ? some(s + i) : none)),
+      pipe(
+        ['a', 'bb'],
+        _.traverseWithIndex(option)((i, s) => (s.length >= 1 ? some(s + i) : none))
+      ),
       some(['a0', 'bb1'])
     )
     assert.deepStrictEqual(
-      _.nonEmptyArray.traverseWithIndex(option)(['a', 'bb'], (i, s) => (s.length > 1 ? some(s + i) : none)),
+      pipe(
+        ['a', 'bb'],
+        _.traverseWithIndex(option)((i, s) => (s.length > 1 ? some(s + i) : none))
+      ),
       none
     )
 
@@ -275,13 +287,19 @@ describe('NonEmptyArray', () => {
     const f = (i: number, s: string): string => s + i
     assert.deepStrictEqual(
       _.nonEmptyArray.foldMapWithIndex(M.monoidString)(['a', 'bb'], f),
-      _.nonEmptyArray.traverseWithIndex(C.getApplicative(M.monoidString))(['a', 'bb'], (i, a) => C.make(f(i, a)))
+      pipe(
+        ['a', 'bb'],
+        _.traverseWithIndex(C.getApplicative(M.monoidString))((i, a) => C.make(f(i, a)))
+      )
     )
 
     // FunctorWithIndex compatibility
     assert.deepStrictEqual(
       _.nonEmptyArray.mapWithIndex(['a', 'bb'], f),
-      _.nonEmptyArray.traverseWithIndex(I.identity)(['a', 'bb'], (i, a) => I.identity.of(f(i, a)))
+      pipe(
+        ['a', 'bb'],
+        _.traverseWithIndex(I.identity)((i, a) => I.identity.of(f(i, a)))
+      )
     )
   })
 

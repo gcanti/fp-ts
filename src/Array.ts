@@ -18,7 +18,7 @@ import { Option } from './Option'
 import { Ord } from './Ord'
 import * as RA from './ReadonlyArray'
 import { Show } from './Show'
-import { TraversableWithIndex1 } from './TraversableWithIndex'
+import { TraversableWithIndex1, PipeableTraverseWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
 import { Traversable1, PipeableTraverse1 } from './Traversable'
@@ -1167,6 +1167,11 @@ export const traverse: PipeableTraverse1<URI> = RA.traverse as any
  * @since 2.6.3
  */
 export const sequence: Traversable1<URI>['sequence'] = RA.sequence as any
+
+/**
+ * @since 2.6.3
+ */
+export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = RA.traverseWithIndex as any
 
 /**
  * @category instances

@@ -123,6 +123,7 @@ Added in v2.5.0
   - [tail](#tail)
   - [takeRight](#takeright)
   - [traverse](#traverse)
+  - [traverseWithIndex](#traversewithindex)
   - [unsafeInsertAt](#unsafeinsertat)
   - [unzip](#unzip)
   - [updateAt](#updateat)
@@ -1847,6 +1848,16 @@ Added in v2.5.0
 
 ```ts
 export declare const traverse: PipeableTraverse1<'ReadonlyArray'>
+```
+
+Added in v2.6.3
+
+## traverseWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseWithIndex: PipeableTraverseWithIndex1<'ReadonlyArray', number>
 ```
 
 Added in v2.6.3
