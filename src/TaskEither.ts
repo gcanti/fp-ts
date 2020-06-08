@@ -558,17 +558,6 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
 }
 
 /**
- * @internal
- */
-export const monadTaskEither: Monad2<URI> = {
-  URI,
-  map: map_,
-  of,
-  ap: ap_,
-  chain: chain_
-}
-
-/**
  * @category instances
  * @since 2.0.0
  */
