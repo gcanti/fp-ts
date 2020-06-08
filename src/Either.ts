@@ -11,14 +11,15 @@
  */
 
 import { Alt2, Alt2C } from './Alt'
-import { Applicative, Applicative2 } from './Applicative'
+import { Applicative } from './Applicative'
+import { Apply2 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
-import { ChainRec2, tailRec, ChainRec2C } from './ChainRec'
+import { ChainRec2, ChainRec2C, tailRec } from './ChainRec'
 import { Separated } from './Compactable'
 import { Eq } from './Eq'
 import { Extend2 } from './Extend'
 import { Foldable2 } from './Foldable'
-import { Lazy, Predicate, identity, Refinement } from './function'
+import { identity, Lazy, Predicate, Refinement } from './function'
 import { HKT } from './HKT'
 import { Monad2, Monad2C } from './Monad'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
@@ -26,9 +27,8 @@ import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
-import { Traversable2, PipeableTraverse2 } from './Traversable'
+import { PipeableTraverse2, Traversable2 } from './Traversable'
 import { Witherable2C } from './Witherable'
-import { Apply2 } from './Apply'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -759,25 +759,6 @@ export const applyEither: Apply2<URI> = {
   URI,
   map: map_,
   ap: ap_
-}
-
-/**
- * @internal
- */
-export const applicativeEither: Applicative2<URI> = {
-  URI,
-  map: map_,
-  of: right,
-  ap: ap_
-}
-
-/**
- * @internal
- */
-export const bifunctorEither: Bifunctor2<URI> = {
-  URI,
-  bimap: bimap_,
-  mapLeft: mapLeft_
 }
 
 /**

@@ -1,15 +1,15 @@
 /**
  * @since 2.0.0
  */
-import {
-  ApplicativeComposition12,
-  ApplicativeComposition22,
-  ApplicativeCompositionHKT2,
-  getApplicativeComposition
-} from './Applicative'
-import { applicativeEither, bifunctorEither, Either, fold, isLeft, left, right, swap, URI } from './Either'
+import { ApplicativeComposition12, ApplicativeComposition22, ApplicativeCompositionHKT2 } from './Applicative'
+import { apComposition } from './Apply'
+import * as E from './Either'
+import { flow, pipe } from './function'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
+
+import Either = E.Either
+import URI = E.URI
 
 /**
  * @category model
@@ -98,24 +98,27 @@ export function getEitherM<M extends URIS2>(M: Monad2<M>): EitherM2<M>
 export function getEitherM<M extends URIS>(M: Monad1<M>): EitherM1<M>
 export function getEitherM<M>(M: Monad<M>): EitherM<M>
 export function getEitherM<M>(M: Monad<M>): EitherM<M> {
-  const A = getApplicativeComposition(M, applicativeEither)
+  const ap = apComposition(M, E.applyEither)
+  const of = flow(E.right, M.of)
 
   return {
-    ...A,
-    chain: (ma, f) => M.chain(ma, (e) => (isLeft(e) ? M.of(left(e.left)) : f(e.right))),
-    alt: (fx, f) => M.chain(fx, (e) => (isLeft(e) ? f() : A.of(e.right))),
-    bimap: (ma, f, g) => M.map(ma, (e) => bifunctorEither.bimap(e, f, g)),
-    mapLeft: (ma, f) => M.map(ma, (e) => bifunctorEither.mapLeft(e, f)),
-    fold: (ma, onLeft, onRight) => M.chain(ma, fold(onLeft, onRight)),
-    getOrElse: (ma, onLeft) => M.chain(ma, fold(onLeft, M.of)),
+    map: (fa, f) => M.map(fa, E.map(f)),
+    ap: (fab, fa) => pipe(fab, ap(fa)),
+    of,
+    chain: (ma, f) => M.chain(ma, (e) => (E.isLeft(e) ? M.of(E.left(e.left)) : f(e.right))),
+    alt: (fx, f) => M.chain(fx, (e) => (E.isLeft(e) ? f() : of(e.right))),
+    bimap: (ma, f, g) => M.map(ma, (e) => pipe(e, E.bimap(f, g))),
+    mapLeft: (ma, f) => M.map(ma, (e) => pipe(e, E.mapLeft(f))),
+    fold: (ma, onLeft, onRight) => M.chain(ma, E.fold(onLeft, onRight)),
+    getOrElse: (ma, onLeft) => M.chain(ma, E.fold(onLeft, M.of)),
     orElse: (ma, f) =>
       M.chain(
         ma,
-        fold(f, (a) => A.of(a))
+        E.fold(f, (a) => of(a))
       ),
-    swap: (ma) => M.map(ma, swap),
-    rightM: (ma) => M.map(ma, right),
-    leftM: (ml) => M.map(ml, left),
-    left: (e) => M.of(left(e))
+    swap: (ma) => M.map(ma, E.swap),
+    rightM: (ma) => M.map(ma, E.right),
+    leftM: (ml) => M.map(ml, E.left),
+    left: (e) => M.of(E.left(e))
   }
 }

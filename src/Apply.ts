@@ -271,6 +271,10 @@ export function apComposition<F extends URIS, G extends URIS>(
   F: Apply1<F>,
   G: Apply1<G>
 ): <A>(fga: Kind<F, Kind<G, A>>) => <B>(fgab: Kind<F, Kind<G, (a: A) => B>>) => Kind<F, Kind<G, B>>
+export function apComposition<F, G extends URIS2>(
+  F: Apply<F>,
+  G: Apply2<G>
+): <E, A>(fga: HKT<F, Kind2<G, E, A>>) => <B>(fgab: HKT<F, Kind2<G, E, (a: A) => B>>) => HKT<F, Kind2<G, E, B>>
 export function apComposition<F, G>(
   F: Apply<F>,
   G: Apply<G>
