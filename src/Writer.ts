@@ -2,18 +2,13 @@
  * @since 2.0.0
  */
 import { Functor2 } from './Functor'
-import { monadIdentity } from './Identity'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
-import { getWriterM } from './WriterT'
+import { pipe } from './function'
 
-const T = /*#__PURE__*/ getWriterM(monadIdentity)
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly Writer: Writer<E, A>
-  }
-}
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
 
 /**
  * @category model
@@ -27,6 +22,12 @@ export const URI = 'Writer'
  */
 export type URI = typeof URI
 
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: Writer<E, A>
+  }
+}
+
 // tslint:disable:readonly-array
 /**
  * @category model
@@ -37,70 +38,67 @@ export interface Writer<W, A> {
 }
 // tslint:enable:readonly-array
 
-/**
- * @since 2.0.0
- */
-export const evalWriter: <W, A>(fa: Writer<W, A>) => A = T.evalWriter
-
-/**
- * @since 2.0.0
- */
-export const execWriter: <W, A>(fa: Writer<W, A>) => W = T.execWriter
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
 
 /**
  * Appends a value to the accumulator
  *
+ * @category combinators
  * @since 2.0.0
  */
-export const tell: <W>(w: W) => Writer<W, void> = T.tell
+export const tell: <W>(w: W) => Writer<W, void> = (w) => () => [undefined, w]
 
 // tslint:disable:readonly-array
 /**
  * Modifies the result to include the changes to the accumulator
  *
+ * @category combinators
  * @since 2.0.0
  */
-export const listen: <W, A>(fa: Writer<W, A>) => Writer<W, [A, W]> = T.listen
+export const listen: <W, A>(fa: Writer<W, A>) => Writer<W, [A, W]> = (fa) => () => {
+  const [a, w] = fa()
+  return [[a, w], w]
+}
+
 // tslint:enable:readonly-array
 
 // tslint:disable:readonly-array
 /**
  * Applies the returned function to the accumulator
  *
+ * @category combinators
  * @since 2.0.0
  */
-export const pass: <W, A>(fa: Writer<W, [A, (w: W) => W]>) => Writer<W, A> = T.pass
+export const pass: <W, A>(fa: Writer<W, [A, (w: W) => W]>) => Writer<W, A> = (fa) => () => {
+  const [[a, f], w] = fa()
+  return [a, f(w)]
+}
 // tslint:enable:readonly-array
 
 // tslint:disable:readonly-array
 /**
  * Projects a value from modifications made to the accumulator during an action
  *
+ * @category combinators
  * @since 2.0.0
  */
-export function listens<W, B>(f: (w: W) => B): <A>(fa: Writer<W, A>) => Writer<W, [A, B]> {
-  return (fa) => T.listens(fa, f)
+export const listens: <W, B>(f: (w: W) => B) => <A>(fa: Writer<W, A>) => Writer<W, [A, B]> = (f) => (fa) => () => {
+  const [a, w] = fa()
+  return [[a, f(w)], w]
 }
 // tslint:enable:readonly-array
 
 /**
  * Modify the final accumulator value by applying a function
  *
+ * @category combinators
  * @since 2.0.0
  */
-export function censor<W>(f: (w: W) => W): <A>(fa: Writer<W, A>) => Writer<W, A> {
-  return (fa) => T.censor(fa, f)
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
-  return {
-    URI,
-    ...T.getMonad(M)
-  }
+export const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A> = (f) => (fa) => () => {
+  const [a, w] = fa()
+  return [a, f(w)]
 }
 
 // -------------------------------------------------------------------------------------
@@ -111,11 +109,40 @@ export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
  * @category Functor
  * @since 2.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B> = (f) => (fa) => T.map(fa, f)
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B> = (f) => (fa) => () => {
+  const [a, w] = fa()
+  return [f(a), w]
+}
 
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/* istanbul ignore next */
+const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    ap: (fab, fa) => () => {
+      const [f, w1] = fab()
+      const [a, w2] = fa()
+      return [f(a), M.concat(w1, w2)]
+    },
+    of: (a) => () => [a, M.empty],
+    chain: (fa, f) => () => {
+      const [a, w1] = fa()
+      const [b, w2] = f(a)()
+      return [b, M.concat(w1, w2)]
+    }
+  }
+}
 
 /**
  * @category instances
@@ -123,5 +150,19 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B
  */
 export const writer: Functor2<URI> = {
   URI,
-  map: T.map
+  map: map_
 }
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.0.0
+ */
+export const evalWriter: <W, A>(fa: Writer<W, A>) => A = (fa) => fa()[0]
+
+/**
+ * @since 2.0.0
+ */
+export const execWriter: <W, A>(fa: Writer<W, A>) => W = (fa) => fa()[1]
