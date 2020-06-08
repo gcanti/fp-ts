@@ -59,7 +59,8 @@ import {
   getEq,
   isNonEmpty,
   traverseWithIndex,
-  traverse
+  traverse,
+  sequence
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
@@ -143,8 +144,8 @@ describe('Array', () => {
   })
 
   it('sequence', () => {
-    assert.deepStrictEqual(array.sequence(O.option)([O.some(1), O.some(3)]), O.some([1, 3]))
-    assert.deepStrictEqual(array.sequence(O.option)([O.some(1), O.none]), O.none)
+    assert.deepStrictEqual(sequence(O.option)([O.some(1), O.some(3)]), O.some([1, 3]))
+    assert.deepStrictEqual(sequence(O.option)([O.some(1), O.none]), O.none)
   })
 
   it('unfold', () => {

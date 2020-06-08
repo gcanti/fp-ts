@@ -75,7 +75,7 @@ describe('NonEmptyArray', () => {
   })
 
   it('sequence', () => {
-    const sequence = _.nonEmptyArray.sequence(option)
+    const sequence = _.sequence(option)
     assert.deepStrictEqual(sequence([some(1), some(2), some(3)]), some([1, 2, 3]))
     assert.deepStrictEqual(sequence([none, some(2), some(3)]), none)
   })
