@@ -210,7 +210,7 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) => IOEit
  */
 export const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B> =
   /*#__PURE__*/
-  apComposition(I.io, E.either)
+  apComposition(I.applyIO, E.applyEither)
 
 /**
  * @category Apply

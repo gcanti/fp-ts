@@ -28,6 +28,7 @@ import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { Traversable2, PipeableTraverse2 } from './Traversable'
 import { Witherable2C } from './Witherable'
+import { Apply2 } from './Apply'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
@@ -750,6 +751,15 @@ export const filterOrElse: {
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @internal
+ */
+export const applyEither: Apply2<URI> = {
+  URI,
+  map: map_,
+  ap: ap_
+}
 
 /**
  * @internal

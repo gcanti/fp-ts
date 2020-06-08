@@ -11,6 +11,7 @@ import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
+import { Apply1 } from './Apply'
 
 declare module './HKT' {
   interface URItoKind<A> {
@@ -129,6 +130,15 @@ export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) =
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @internal
+ */
+export const applyIO: Apply1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_
+}
 
 /**
  * @internal

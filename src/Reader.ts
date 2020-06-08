@@ -12,6 +12,7 @@ import { Profunctor2 } from './Profunctor'
 import { getReaderM } from './ReaderT'
 import { Semigroup } from './Semigroup'
 import { Strong2 } from './Strong'
+import { Apply2 } from './Apply'
 
 const T = /*#__PURE__*/ getReaderM(monadIdentity)
 
@@ -178,6 +179,15 @@ export const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reade
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @internal
+ */
+export const applyReader: Apply2<URI> = {
+  URI,
+  map: T.map,
+  ap: T.ap
+}
 
 /**
  * @internal
