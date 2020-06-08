@@ -15,12 +15,6 @@ import { Monoid } from './Monoid'
 import { monoidOrdering, Ordering } from './Ordering'
 import { Semigroup } from './Semigroup'
 
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly Ord: Ord<A>
-  }
-}
-
 /**
  * @category model
  * @since 2.0.0
@@ -32,6 +26,12 @@ export const URI = 'Ord'
  * @since 2.0.0
  */
 export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: Ord<A>
+  }
+}
 
 /**
  * @category type classes

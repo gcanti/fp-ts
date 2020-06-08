@@ -5,12 +5,6 @@ import { Comonad2C } from './Comonad'
 import { Functor2 } from './Functor'
 import { Monoid } from './Monoid'
 
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly Traced: Traced<E, A>
-  }
-}
-
 /**
  * @category model
  * @since 2.0.0
@@ -22,6 +16,12 @@ export const URI = 'Traced'
  * @since 2.0.0
  */
 export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: Traced<E, A>
+  }
+}
 
 /**
  * @category model

@@ -1,6 +1,7 @@
 /**
  * @since 2.4.0
  */
+import { apComposition } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { flow, pipe } from './function'
 import { Functor2 } from './Functor'
@@ -18,13 +19,6 @@ import * as TH from './These'
 
 import These = TH.These
 import Task = T.Task
-import { apComposition } from './Apply'
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly TaskThese: TaskThese<E, A>
-  }
-}
 
 /**
  * @category model
@@ -37,6 +31,12 @@ export const URI = 'TaskThese'
  * @since 2.4.0
  */
 export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: TaskThese<E, A>
+  }
+}
 
 /**
  * @category model

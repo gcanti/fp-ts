@@ -29,12 +29,6 @@ import { Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
 import { Traversable1, PipeableTraverse1 } from './Traversable'
 
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly ReadonlyArray: ReadonlyArray<A>
-  }
-}
-
 /**
  * @category model
  * @since 2.5.0
@@ -46,6 +40,12 @@ export const URI = 'ReadonlyArray'
  * @since 2.5.0
  */
 export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: ReadonlyArray<A>
+  }
+}
 
 /**
  * @category constructors

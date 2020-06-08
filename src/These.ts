@@ -34,12 +34,6 @@ import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { Traversable2, PipeableTraverse2 } from './Traversable'
 
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly These: These<E, A>
-  }
-}
-
 /**
  * @category model
  * @since 2.0.0
@@ -51,6 +45,12 @@ export const URI = 'These'
  * @since 2.0.0
  */
 export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: These<E, A>
+  }
+}
 
 /**
  * @category model

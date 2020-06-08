@@ -29,12 +29,6 @@ import { Traversable1, PipeableTraverse1 } from './Traversable'
 
 /* tslint:disable:readonly-array */
 
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly Array: Array<A>
-  }
-}
-
 /**
  * @category model
  * @since 2.0.0
@@ -46,6 +40,12 @@ export const URI = 'Array'
  * @since 2.0.0
  */
 export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: Array<A>
+  }
+}
 
 /**
  * @category instances

@@ -17,12 +17,6 @@ import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
 import { Traversable2, PipeableTraverse2 } from './Traversable'
 
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly ReadonlyTuple: readonly [A, E]
-  }
-}
-
 /**
  * @category model
  * @since 2.5.0
@@ -34,6 +28,12 @@ export const URI = 'ReadonlyTuple'
  * @since 2.5.0
  */
 export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: readonly [A, E]
+  }
+}
 
 /**
  * @category destructors

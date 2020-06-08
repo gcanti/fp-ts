@@ -17,12 +17,6 @@ import { Traversable2, PipeableTraverse2 } from './Traversable'
 
 // tslint:disable:readonly-array
 
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly Tuple: [A, E]
-  }
-}
-
 /**
  * @category model
  * @since 2.0.0
@@ -34,6 +28,12 @@ export const URI = 'Tuple'
  * @since 2.0.0
  */
 export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: [A, E]
+  }
+}
 
 /**
  * @category destructors

@@ -22,12 +22,6 @@ import { Witherable2C } from './Witherable'
 
 /* tslint:disable:readonly-array */
 
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly Map: Map<E, A>
-  }
-}
-
 /**
  * @category model
  * @since 2.0.0
@@ -39,6 +33,12 @@ export const URI = 'Map'
  * @since 2.0.0
  */
 export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: Map<E, A>
+  }
+}
 
 /**
  * @category instances

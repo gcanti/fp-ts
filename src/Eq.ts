@@ -13,12 +13,6 @@ import { Contravariant1 } from './Contravariant'
 import { Monoid } from './Monoid'
 import { ReadonlyRecord } from './ReadonlyRecord'
 
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly Eq: Eq<A>
-  }
-}
-
 /**
  * @category model
  * @since 2.0.0
@@ -30,6 +24,12 @@ export const URI = 'Eq'
  * @since 2.0.0
  */
 export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: Eq<A>
+  }
+}
 
 /**
  * @category type classes

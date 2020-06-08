@@ -27,12 +27,6 @@ import { Show } from './Show'
 import { Traversable1, PipeableTraverse1 } from './Traversable'
 import { Witherable1 } from './Witherable'
 
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly Option: Option<A>
-  }
-}
-
 /**
  * @category model
  * @since 2.0.0
@@ -44,6 +38,12 @@ export const URI = 'Option'
  * @since 2.0.0
  */
 export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: Option<A>
+  }
+}
 
 /**
  * @category model

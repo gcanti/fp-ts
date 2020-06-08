@@ -30,12 +30,6 @@ import { Show } from './Show'
 import { PipeableTraverse2, Traversable2 } from './Traversable'
 import { Witherable2C } from './Witherable'
 
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly Either: Either<E, A>
-  }
-}
-
 /**
  * @category model
  * @since 2.0.0
@@ -47,6 +41,12 @@ export const URI = 'Either'
  * @since 2.0.0
  */
 export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: Either<E, A>
+  }
+}
 
 /**
  * @category model

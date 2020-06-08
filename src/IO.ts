@@ -13,12 +13,6 @@ import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Apply1 } from './Apply'
 
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly IO: IO<A>
-  }
-}
-
 /**
  * @category model
  * @since 2.0.0
@@ -30,6 +24,12 @@ export const URI = 'IO'
  * @since 2.0.0
  */
 export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: IO<A>
+  }
+}
 
 /**
  * @category model
