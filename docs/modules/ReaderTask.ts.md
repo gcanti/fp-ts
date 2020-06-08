@@ -23,10 +23,16 @@ Added in v2.3.0
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
+  - [flatten](#flatten)
+- [combinators](#combinators)
   - [chainIOK](#chainiok)
   - [chainTaskK](#chaintaskk)
-  - [flatten](#flatten)
+  - [fromIOK](#fromiok)
+  - [fromTaskK](#fromtaskk)
+  - [local](#local)
 - [constructors](#constructors)
+  - [ask](#ask)
+  - [asks](#asks)
   - [fromIO](#fromio)
   - [fromReader](#fromreader)
   - [fromTask](#fromtask)
@@ -40,11 +46,6 @@ Added in v2.3.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
-  - [ask](#ask)
-  - [asks](#asks)
-  - [fromIOK](#fromiok)
-  - [fromTaskK](#fromtaskk)
-  - [local](#local)
   - [run](#run)
 
 ---
@@ -112,7 +113,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export declare const chain: <R, A, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B>
+export declare const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v2.3.0
@@ -122,30 +123,10 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export declare const chainFirst: <R, A, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, A>
+export declare const chainFirst: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
-
-## chainIOK
-
-**Signature**
-
-```ts
-export declare function chainIOK<A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B>
-```
-
-Added in v2.4.0
-
-## chainTaskK
-
-**Signature**
-
-```ts
-export declare function chainTaskK<A, B>(f: (a: A) => Task<B>): <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B>
-```
-
-Added in v2.4.0
 
 ## flatten
 
@@ -157,14 +138,90 @@ export declare const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => Re
 
 Added in v2.3.0
 
+# combinators
+
+## chainIOK
+
+**Signature**
+
+```ts
+export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B>
+```
+
+Added in v2.4.0
+
+## chainTaskK
+
+**Signature**
+
+```ts
+export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B>
+```
+
+Added in v2.4.0
+
+## fromIOK
+
+**Signature**
+
+```ts
+export declare function fromIOK<A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => IO<B>
+): <R>(...a: A) => ReaderTask<R, B>
+```
+
+Added in v2.4.0
+
+## fromTaskK
+
+**Signature**
+
+```ts
+export declare function fromTaskK<A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Task<B>
+): <R>(...a: A) => ReaderTask<R, B>
+```
+
+Added in v2.4.0
+
+## local
+
+**Signature**
+
+```ts
+export declare const local: <Q, R>(f: (f: Q) => R) => <A>(ma: ReaderTask<R, A>) => ReaderTask<Q, A>
+```
+
+Added in v2.3.0
+
 # constructors
+
+## ask
+
+**Signature**
+
+```ts
+export declare const ask: <R>() => ReaderTask<R, R>
+```
+
+Added in v2.3.0
+
+## asks
+
+**Signature**
+
+```ts
+export declare const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A>
+```
+
+Added in v2.3.0
 
 ## fromIO
 
 **Signature**
 
 ```ts
-export declare function fromIO<R, A>(ma: IO<A>): ReaderTask<R, A>
+export declare const fromIO: <R, A>(ma: IO<A>) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
@@ -174,7 +231,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export declare const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A>
+export declare const fromReader: <R, A = never>(ma: R.Reader<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
@@ -184,7 +241,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export declare const fromTask: <R, A>(ma: TA.Task<A>) => ReaderTask<R, A>
+export declare const fromTask: <R, A>(ma: T.Task<A>) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
@@ -268,60 +325,6 @@ export type URI = typeof URI
 Added in v2.3.0
 
 # utils
-
-## ask
-
-**Signature**
-
-```ts
-export declare const ask: <R>() => ReaderTask<R, R>
-```
-
-Added in v2.3.0
-
-## asks
-
-**Signature**
-
-```ts
-export declare const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A>
-```
-
-Added in v2.3.0
-
-## fromIOK
-
-**Signature**
-
-```ts
-export declare function fromIOK<A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => IO<B>
-): <R>(...a: A) => ReaderTask<R, B>
-```
-
-Added in v2.4.0
-
-## fromTaskK
-
-**Signature**
-
-```ts
-export declare function fromTaskK<A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Task<B>
-): <R>(...a: A) => ReaderTask<R, B>
-```
-
-Added in v2.4.0
-
-## local
-
-**Signature**
-
-```ts
-export declare function local<Q, R>(f: (f: Q) => R): <A>(ma: ReaderTask<R, A>) => ReaderTask<Q, A>
-```
-
-Added in v2.3.0
 
 ## run
 
