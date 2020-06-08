@@ -22,6 +22,7 @@ high state of flux, you're at risk of it changing without notice.
   - export `sequence` from all modules which admit a `Traversable` instance (@gcanti)
   - export a pipeable `traverse` function from all modules which admit a `Traversable` instance (@gcanti)
   - export a pipeable `traverseWithIndex` function from all modules which admit a `TraversableWithIndex` instance (@gcanti)
+  - remove monad transformers imports from all modules (@gcanti)
 
 # 2.6.2
 
