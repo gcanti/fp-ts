@@ -25,20 +25,26 @@ Added in v2.0.0
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
-  - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
-  - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
-  - [chainTaskEitherK](#chaintaskeitherk)
   - [chainTaskEitherKW](#chaintaskeitherkw)
   - [chainW](#chainw)
   - [flatten](#flatten)
 - [combinators](#combinators)
+  - [chainEitherK](#chaineitherk)
+  - [chainIOEitherK](#chainioeitherk)
+  - [chainTaskEitherK](#chaintaskeitherk)
   - [filterOrElse](#filterorelse)
+  - [fromEitherK](#fromeitherk)
+  - [fromIOEitherK](#fromioeitherk)
+  - [fromTaskEitherK](#fromtaskeitherk)
+  - [local](#local)
   - [orElse](#orelse)
   - [swap](#swap)
 - [constructors](#constructors)
+  - [ask](#ask)
+  - [asks](#asks)
   - [fromEither](#fromeither)
   - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
@@ -71,13 +77,7 @@ Added in v2.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
-  - [ask](#ask)
-  - [asks](#asks)
   - [bracket](#bracket)
-  - [fromEitherK](#fromeitherk)
-  - [fromIOEitherK](#fromioeitherk)
-  - [fromTaskEitherK](#fromtaskeitherk)
-  - [local](#local)
   - [run](#run)
 
 ---
@@ -187,18 +187,6 @@ export declare const chain: <R, E, A, B>(
 
 Added in v2.0.0
 
-## chainEitherK
-
-**Signature**
-
-```ts
-export declare function chainEitherK<E, A, B>(
-  f: (a: A) => Either<E, B>
-): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
-```
-
-Added in v2.4.0
-
 ## chainEitherKW
 
 **Signature**
@@ -223,18 +211,6 @@ export declare const chainFirst: <R, E, A, B>(
 
 Added in v2.0.0
 
-## chainIOEitherK
-
-**Signature**
-
-```ts
-export declare function chainIOEitherK<E, A, B>(
-  f: (a: A) => IOEither<E, B>
-): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
-```
-
-Added in v2.4.0
-
 ## chainIOEitherKW
 
 **Signature**
@@ -246,18 +222,6 @@ export declare const chainIOEitherKW: <D, A, B>(
 ```
 
 Added in v2.6.1
-
-## chainTaskEitherK
-
-**Signature**
-
-```ts
-export declare function chainTaskEitherK<E, A, B>(
-  f: (a: A) => TaskEither<E, B>
-): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
-```
-
-Added in v2.4.0
 
 ## chainTaskEitherKW
 
@@ -297,6 +261,42 @@ Added in v2.0.0
 
 # combinators
 
+## chainEitherK
+
+**Signature**
+
+```ts
+export declare function chainEitherK<E, A, B>(
+  f: (a: A) => Either<E, B>
+): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.4.0
+
+## chainIOEitherK
+
+**Signature**
+
+```ts
+export declare function chainIOEitherK<E, A, B>(
+  f: (a: A) => IOEither<E, B>
+): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.4.0
+
+## chainTaskEitherK
+
+**Signature**
+
+```ts
+export declare function chainTaskEitherK<E, A, B>(
+  f: (a: A) => TaskEither<E, B>
+): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.4.0
+
 ## filterOrElse
 
 **Signature**
@@ -308,6 +308,52 @@ export declare const filterOrElse: {
   ) => ReaderTaskEither<R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
 }
+```
+
+Added in v2.0.0
+
+## fromEitherK
+
+**Signature**
+
+```ts
+export declare function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Either<E, B>
+): <R>(...a: A) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.4.0
+
+## fromIOEitherK
+
+**Signature**
+
+```ts
+export declare function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => IOEither<E, B>
+): <R>(...a: A) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.4.0
+
+## fromTaskEitherK
+
+**Signature**
+
+```ts
+export declare function fromTaskEitherK<E, A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => TaskEither<E, B>
+): <R>(...a: A) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.4.0
+
+## local
+
+**Signature**
+
+```ts
+export declare const local: <Q, R>(f: (f: Q) => R) => <E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<Q, E, A>
 ```
 
 Added in v2.0.0
@@ -335,6 +381,26 @@ export declare function swap<R, E, A>(ma: ReaderTaskEither<R, E, A>): ReaderTask
 Added in v2.0.0
 
 # constructors
+
+## ask
+
+**Signature**
+
+```ts
+export declare const ask: <R, E = never>() => ReaderTaskEither<R, E, R>
+```
+
+Added in v2.0.0
+
+## asks
+
+**Signature**
+
+```ts
+export declare const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.0.0
 
 ## fromEither
 
@@ -474,7 +540,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderTaskEither<R, E, A>
+export declare const rightReader: <R, E = never, A = never>(ma: R.Reader<R, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -654,26 +720,6 @@ Added in v2.0.0
 
 # utils
 
-## ask
-
-**Signature**
-
-```ts
-export declare const ask: <R, E = never>() => ReaderTaskEither<R, E, R>
-```
-
-Added in v2.0.0
-
-## asks
-
-**Signature**
-
-```ts
-export declare const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A>
-```
-
-Added in v2.0.0
-
 ## bracket
 
 Make sure that a resource is cleaned up in the event of an exception (_). The release action is called regardless of
@@ -692,52 +738,6 @@ export declare function bracket<R, E, A, B>(
 ```
 
 Added in v2.0.4
-
-## fromEitherK
-
-**Signature**
-
-```ts
-export declare function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Either<E, B>
-): <R>(...a: A) => ReaderTaskEither<R, E, B>
-```
-
-Added in v2.4.0
-
-## fromIOEitherK
-
-**Signature**
-
-```ts
-export declare function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => IOEither<E, B>
-): <R>(...a: A) => ReaderTaskEither<R, E, B>
-```
-
-Added in v2.4.0
-
-## fromTaskEitherK
-
-**Signature**
-
-```ts
-export declare function fromTaskEitherK<E, A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => TaskEither<E, B>
-): <R>(...a: A) => ReaderTaskEither<R, E, B>
-```
-
-Added in v2.4.0
-
-## local
-
-**Signature**
-
-```ts
-export declare function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<Q, E, A>
-```
-
-Added in v2.0.0
 
 ## run
 
