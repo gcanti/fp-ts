@@ -289,4 +289,22 @@ describe('StateReaderTaskEither', () => {
     const x = await _.run(pipe(_.right('a'), _.chainReaderTaskEitherK(f)), undefined, undefined)
     assert.deepStrictEqual(x, E.right([1, undefined]))
   })
+
+  it('put', async () => {
+    assert.deepStrictEqual(await _.put(2)(1)({})(), E.right([undefined, 2]))
+  })
+
+  it('get', async () => {
+    assert.deepStrictEqual(await _.get()(1)({})(), E.right([1, 1]))
+  })
+
+  it('modify', async () => {
+    const double = (n: number) => n * 2
+    assert.deepStrictEqual(await _.modify(double)(1)({})(), E.right([undefined, 2]))
+  })
+
+  it('gets', async () => {
+    const double = (n: number) => n * 2
+    assert.deepStrictEqual(await _.gets(double)(1)({})(), E.right([2, 1]))
+  })
 })
