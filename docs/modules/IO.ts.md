@@ -6,6 +6,12 @@ parent: Modules
 
 ## IO overview
 
+```ts
+interface IO<A> {
+  (): A
+}
+```
+
 `IO<A>` represents a non-deterministic synchronous computation that can cause side effects, yields a value of
 type `A` and **never fails**. If you want to represent a synchronous computation that may fail, please see
 `IOEither`.

@@ -1,4 +1,10 @@
 /**
+ * ```ts
+ * interface IO<A> {
+ *   (): A
+ * }
+ * ```
+ *
  * `IO<A>` represents a non-deterministic synchronous computation that can cause side effects, yields a value of
  * type `A` and **never fails**. If you want to represent a synchronous computation that may fail, please see
  * `IOEither`.
@@ -12,6 +18,10 @@ import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Apply1 } from './Apply'
+
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
 
 /**
  * @category model
@@ -39,42 +49,15 @@ export interface IO<A> {
   (): A
 }
 
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getSemigroup<A>(S: Semigroup<A>): Semigroup<IO<A>> {
-  return {
-    concat: (x, y) => () => S.concat(x(), y())
-  }
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> {
-  return {
-    concat: getSemigroup(M).concat,
-    empty: of(M.empty)
-  }
-}
-
-/**
- * @category Applicative
- * @since 2.0.0
- */
-export const of = <A>(a: A): IO<A> => () => a
-
 // -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: <A, B>(fa: IO<A>, f: (a: A) => B) => IO<B> = (ma, f) => () => f(ma())
-
-const ap_: <A, B>(fab: IO<(a: A) => B>, fa: IO<A>) => IO<B> = (mab, ma) => () => mab()(ma())
-
-const chain_: <A, B>(fa: IO<A>, f: (a: A) => IO<B>) => IO<B> = (ma, f) => () => f(ma())()
+/**
+ * @category Functor
+ * @since 2.0.0
+ */
+export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) => map_(fa, f)
 
 /**
  * @category Apply
@@ -103,6 +86,12 @@ export const apSecond = <B>(fb: IO<B>) => <A>(fa: IO<A>): IO<B> =>
   )
 
 /**
+ * @category Applicative
+ * @since 2.0.0
+ */
+export const of = <A>(a: A): IO<A> => () => a
+
+/**
  * @category Monad
  * @since 2.0.0
  */
@@ -121,15 +110,13 @@ export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<A> = (f
  */
 export const flatten: <A>(mma: IO<IO<A>>) => IO<A> = (mma) => chain_(mma, identity)
 
-/**
- * @category Functor
- * @since 2.0.0
- */
-export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) => map_(fa, f)
-
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+const map_: <A, B>(fa: IO<A>, f: (a: A) => B) => IO<B> = (ma, f) => () => f(ma())
+const ap_: <A, B>(fab: IO<(a: A) => B>, fa: IO<A>) => IO<B> = (mab, ma) => () => mab()(ma())
+const chain_: <A, B>(fa: IO<A>, f: (a: A) => IO<B>) => IO<B> = (ma, f) => () => f(ma())()
 
 /**
  * @internal
@@ -149,6 +136,27 @@ export const monadIO: Monad1<URI> = {
   of,
   ap: ap_,
   chain: chain_
+}
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export function getSemigroup<A>(S: Semigroup<A>): Semigroup<IO<A>> {
+  return {
+    concat: (x, y) => () => S.concat(x(), y())
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> {
+  return {
+    concat: getSemigroup(M).concat,
+    empty: of(M.empty)
+  }
 }
 
 /**

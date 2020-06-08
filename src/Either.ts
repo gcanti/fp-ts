@@ -1,4 +1,8 @@
 /**
+ * ```ts
+ * type Either<E, A> = Left<E> | Right<A>
+ * ```
+ *
  * Represents a value of one of two possible types (a disjoint union).
  *
  * An instance of `Either` is either an instance of `Left` or `Right`.
@@ -9,7 +13,6 @@
  *
  * @since 2.0.0
  */
-
 import { Alt2, Alt2C } from './Alt'
 import { Applicative } from './Applicative'
 import { Apply2 } from './Apply'
