@@ -81,8 +81,12 @@ const of = <S>(M: Monoid<S>) => <A>(a: A): readonly [A, S] => {
  * @since 2.5.0
  */
 export function getApplicative<S>(M: Monoid<S>): Applicative2C<URI, S> {
+  const A = getApply(M)
   return {
-    ...getApply(M),
+    URI,
+    _E: undefined as any,
+    map: A.map,
+    ap: A.ap,
     of: of(M)
   }
 }
@@ -92,8 +96,12 @@ export function getApplicative<S>(M: Monoid<S>): Applicative2C<URI, S> {
  * @since 2.5.0
  */
 export function getChain<S>(S: Semigroup<S>): Chain2C<URI, S> {
+  const A = getApply(S)
   return {
-    ...getApply(S),
+    URI,
+    _E: undefined as any,
+    map: A.map,
+    ap: A.ap,
     chain: (fa, f) => {
       const [b, s] = f(fst(fa))
       return [b, S.concat(snd(fa), s)]
@@ -106,8 +114,13 @@ export function getChain<S>(S: Semigroup<S>): Chain2C<URI, S> {
  * @since 2.5.0
  */
 export function getMonad<S>(M: Monoid<S>): Monad2C<URI, S> {
+  const C = getChain(M)
   return {
-    ...getChain(M),
+    URI,
+    _E: undefined as any,
+    map: C.map,
+    ap: C.ap,
+    chain: C.chain,
     of: of(M)
   }
 }
@@ -129,8 +142,13 @@ export function getChainRec<S>(M: Monoid<S>): ChainRec2C<URI, S> {
     return [s.right, M.concat(acc, snd(result))]
   }
 
+  const C = getChain(M)
   return {
-    ...getChain(M),
+    URI,
+    _E: undefined as any,
+    map: C.map,
+    ap: C.ap,
+    chain: C.chain,
     chainRec
   }
 }

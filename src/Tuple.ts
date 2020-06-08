@@ -168,8 +168,5 @@ export const sequence: Traversable2<URI>['sequence'] = RT.sequence as any
 export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> =
   /*#__PURE__*/
   (() => {
-    return {
-      ...(RT.readonlyTuple as any),
-      URI
-    }
+    return Object.assign({}, RT.readonlyTuple as any, { URI })
   })()

@@ -363,9 +363,12 @@ export function getTraversableComposition<F extends URIS, G extends URIS>(
 ): TraversableComposition11<F, G>
 export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G>
 export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G> {
+  const FC = getFoldableComposition(F, G)
   return {
-    ...getFunctorComposition(F, G),
-    ...getFoldableComposition(F, G),
+    map: getFunctorComposition(F, G).map,
+    reduce: FC.reduce,
+    foldMap: FC.foldMap,
+    reduceRight: FC.reduceRight,
     traverse: (H) => {
       const traverseF = F.traverse(H)
       const traverseG = G.traverse(H)

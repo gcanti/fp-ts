@@ -136,8 +136,12 @@ export function getApply<E>(S: Semigroup<E>): Apply2C<URI, E> {
  * @since 2.0.0
  */
 export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> {
+  const A = getApply(M)
   return {
-    ...getApply(M),
+    URI,
+    _E: undefined as any,
+    map: A.map,
+    ap: A.ap,
     of: () => make(M.empty)
   }
 }

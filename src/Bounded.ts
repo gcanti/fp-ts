@@ -23,7 +23,8 @@ export interface Bounded<A> extends Ord<A> {
  * @since 2.0.0
  */
 export const boundedNumber: Bounded<number> = {
-  ...ordNumber,
+  equals: ordNumber.equals,
+  compare: ordNumber.compare,
   top: Infinity,
   bottom: -Infinity
 }

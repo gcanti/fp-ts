@@ -465,8 +465,5 @@ export const nonEmptyArray: Monad1<URI> &
   Alt1<URI> =
   /*#__PURE__*/
   (() => {
-    return {
-      ...(RNEA.readonlyNonEmptyArray as any),
-      URI
-    }
+    return Object.assign({}, RNEA.readonlyNonEmptyArray as any, { URI })
   })()

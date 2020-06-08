@@ -123,9 +123,14 @@ export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
  * @since 2.4.0
  */
 export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI, E> {
+  const M = T.getMonad(S)
   return {
     URI,
-    ...T.getMonad(S),
+    _E: undefined as any,
+    map: M.map,
+    ap: M.ap,
+    of: M.of,
+    chain: M.chain,
     fromIO: rightIO,
     fromTask: rightTask
   }

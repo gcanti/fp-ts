@@ -566,8 +566,5 @@ export const record: FunctorWithIndex1<URI, string> &
   FoldableWithIndex1<URI, string> =
   /*#__PURE__*/
   (() => {
-    return {
-      ...(RR.readonlyRecord as any),
-      URI
-    }
+    return Object.assign({}, RR.readonlyRecord as any, { URI })
   })()

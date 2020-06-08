@@ -1190,8 +1190,5 @@ export const array: Monad1<URI> &
   FoldableWithIndex1<URI, number> =
   /*#__PURE__*/
   (() => {
-    return {
-      ...(RA.readonlyArray as any),
-      URI
-    }
+    return Object.assign({}, RA.readonlyArray as any, { URI })
   })()

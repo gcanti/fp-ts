@@ -658,9 +658,16 @@ export const separate = <K, A, B>(
  */
 export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, K, K> {
   return {
-    ...readonlyMap,
+    URI,
     _E: undefined as any,
+    map: map_,
     mapWithIndex: mapWithIndex_,
+    compact,
+    separate,
+    filter: filter_,
+    filterMap: filterMap_,
+    partition: partition_,
+    partitionMap: partitionMap_,
     partitionMapWithIndex: partitionMapWithIndex_,
     partitionWithIndex: partitionWithIndex_,
     filterMapWithIndex: filterMapWithIndex_,
@@ -740,8 +747,15 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
   }
 
   return {
-    ...readonlyMap,
+    URI,
     _E: undefined as any,
+    map: map_,
+    compact,
+    separate,
+    filter: filter_,
+    filterMap: filterMap_,
+    partition: partition_,
+    partitionMap: partitionMap_,
     reduce: (fa, b, f) => reduceWithIndex(fa, b, (_, b, a) => f(b, a)),
     foldMap: (M) => {
       const foldMapWithIndexM = foldMapWithIndex(M)
