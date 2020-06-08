@@ -4,23 +4,17 @@
 import { Category2 } from './Category'
 import { Choice2 } from './Choice'
 import * as E from './Either'
-import { identity } from './function'
-import { monadIdentity } from './Identity'
+import * as F from './function'
 import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Profunctor2 } from './Profunctor'
-import { getReaderM } from './ReaderT'
 import { Semigroup } from './Semigroup'
 import { Strong2 } from './Strong'
 import { Apply2 } from './Apply'
 
-const T = /*#__PURE__*/ getReaderM(monadIdentity)
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly Reader: Reader<E, A>
-  }
-}
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
 
 /**
  * @category model
@@ -34,6 +28,12 @@ export const URI = 'Reader'
  */
 export type URI = typeof URI
 
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: Reader<E, A>
+  }
+}
+
 /**
  * @category model
  * @since 2.0.0
@@ -42,28 +42,164 @@ export interface Reader<R, A> {
   (r: R): A
 }
 
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
+
 /**
  * Reads the current context
  *
+ * @category constructors
  * @since 2.0.0
  */
-export const ask: <R>() => Reader<R, R> = T.ask
+export const ask: <R>() => Reader<R, R> = () => F.identity
 
 /**
  * Projects a value from the global context in a Reader
  *
+ * @category constructors
  * @since 2.0.0
  */
-export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = T.asks
+export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = (f) => (r) => f(r)
+
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
 
 /**
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
  * `contramap`).
  *
+ * @category combinators
  * @since 2.0.0
  */
-export function local<Q, R>(f: (d: Q) => R): <A>(ma: Reader<R, A>) => Reader<Q, A> {
-  return (ma) => T.local(ma, f)
+export const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q, A> = (f) => (ma) => (q) => ma(f(q))
+
+/**
+ * @category Applicative
+ * @since 2.0.0
+ */
+export const of: <R, A>(a: A) => Reader<R, A> = (a) => () => a
+
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category Functor
+ * @since 2.0.0
+ */
+export const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B> = (f) => (fa) => (r) => f(fa(r))
+
+/**
+ * @category Apply
+ * @since 2.0.0
+ */
+export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> = (fa) => (fab) => (r) =>
+  fab(r)(fa(r))
+
+/**
+ * @category Apply
+ * @since 2.0.0
+ */
+export const apFirst = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reader<R, A> =>
+  F.pipe(
+    fa,
+    map((a) => (_: B) => a),
+    ap(fb)
+  )
+
+/**
+ * @category Apply
+ * @since 2.0.0
+ */
+export const apSecond = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reader<R, B> =>
+  F.pipe(
+    fa,
+    map(() => (b: B) => b),
+    ap(fb)
+  )
+
+/**
+ * @category Monad
+ * @since 2.0.0
+ */
+export const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B> = (f) => (fa) => (r) =>
+  f(fa(r))(r)
+
+/**
+ * @category Monad
+ * @since 2.0.0
+ */
+export const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, A> = (f) =>
+  chain((a) =>
+    F.pipe(
+      f(a),
+      map(() => a)
+    )
+  )
+
+/**
+ * @category Monad
+ * @since 2.6.0
+ */
+export const chainW: <Q, A, B>(f: (a: A) => Reader<Q, B>) => <R>(ma: Reader<R, A>) => Reader<R & Q, B> = chain as any
+
+/**
+ * @category Monad
+ * @since 2.0.0
+ */
+export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> =
+  /*#__PURE__*/
+  chain(F.identity)
+
+/**
+ * @category Semigroupoid
+ * @since 2.0.0
+ */
+export const compose: <E, A>(la: Reader<E, A>) => <B>(ab: Reader<A, B>) => Reader<E, B> = (la) => (ab) =>
+  compose_(ab, la)
+
+/**
+ * @category Profunctor
+ * @since 2.0.0
+ */
+export const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reader<E, A>) => Reader<D, B> = (f, g) => (
+  fbc
+) => promap_(fbc, f, g)
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
+/* istanbul ignore next */
+const map_: Monad2<URI>['map'] = (fa, f) => F.pipe(fa, map(f))
+/* istanbul ignore next */
+const ap_: Monad2<URI>['ap'] = (fab, fa) => F.pipe(fab, ap(fa))
+/* istanbul ignore next */
+const chain_: Monad2<URI>['chain'] = (ma, f) => F.pipe(ma, chain(f))
+const compose_: <E, A, B>(ab: Reader<A, B>, la: Reader<E, A>) => Reader<E, B> = (ab, la) => (l) => ab(la(l))
+const promap_: <E, A, D, B>(fbc: Reader<E, A>, f: (d: D) => E, g: (a: A) => B) => Reader<D, B> = (mbc, f, g) => (a) =>
+  g(mbc(f(a)))
+
+/**
+ * @internal
+ */
+export const applyReader: Apply2<URI> = {
+  URI,
+  map: map_,
+  ap: ap_
+}
+
+/**
+ * @internal
+ */
+export const monadReader: Monad2<URI> = {
+  URI,
+  map: map_,
+  of,
+  ap: ap_,
+  chain: chain_
 }
 
 /**
@@ -88,131 +224,18 @@ export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> {
 }
 
 /**
- * @category Applicative
- * @since 2.0.0
- */
-export const of: <R, A>(a: A) => Reader<R, A> = T.of
-
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
-
-const compose_: <E, A, B>(ab: Reader<A, B>, la: Reader<E, A>) => Reader<E, B> = (ab, la) => (l) => ab(la(l))
-
-const promap_: <E, A, D, B>(fbc: Reader<E, A>, f: (d: D) => E, g: (a: A) => B) => Reader<D, B> = (mbc, f, g) => (a) =>
-  g(mbc(f(a)))
-
-/**
- * @category Apply
- * @since 2.0.0
- */
-export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> = (fa) => (fab) =>
-  T.ap(fab, fa)
-
-/**
- * @category Apply
- * @since 2.0.0
- */
-export const apFirst = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reader<R, A> =>
-  T.ap(
-    T.map(fa, (a) => (_: B) => a),
-    fb
-  )
-
-/**
- * @category Apply
- * @since 2.0.0
- */
-export const apSecond = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reader<R, B> =>
-  T.ap(
-    T.map(fa, () => (b: B) => b),
-    fb
-  )
-
-/**
- * @category Monad
- * @since 2.0.0
- */
-export const chain: <R, A, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B> = (f) => (ma) =>
-  T.chain(ma, f)
-
-/**
- * @category Monad
- * @since 2.0.0
- */
-export const chainFirst: <R, A, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, A> = (f) => (ma) =>
-  T.chain(ma, (a) => T.map(f(a), () => a))
-
-/**
- * @category Monad
- * @since 2.6.0
- */
-export const chainW: <Q, A, B>(f: (a: A) => Reader<Q, B>) => <R>(ma: Reader<R, A>) => Reader<R & Q, B> = chain as any
-
-/**
- * @category Monad
- * @since 2.0.0
- */
-export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> = (mma) => T.chain(mma, identity)
-
-/**
- * @category Functor
- * @since 2.0.0
- */
-export const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B> = (f) => (fa) => T.map(fa, f)
-
-/**
- * @category Semigroupoid
- * @since 2.0.0
- */
-export const compose: <E, A>(la: Reader<E, A>) => <B>(ab: Reader<A, B>) => Reader<E, B> = (la) => (ab) =>
-  compose_(ab, la)
-
-/**
- * @category Profunctor
- * @since 2.0.0
- */
-export const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reader<E, A>) => Reader<D, B> = (f, g) => (
-  fbc
-) => promap_(fbc, f, g)
-
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
-/**
- * @internal
- */
-export const applyReader: Apply2<URI> = {
-  URI,
-  map: T.map,
-  ap: T.ap
-}
-
-/**
- * @internal
- */
-export const monadReader: Monad2<URI> = {
-  URI,
-  map: T.map,
-  of,
-  ap: T.ap,
-  chain: T.chain
-}
-
-/**
  * @category instances
  * @since 2.0.0
  */
 export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = {
   URI,
-  map: T.map,
+  map: map_,
   of,
-  ap: T.ap,
-  chain: T.chain,
+  ap: ap_,
+  chain: chain_,
   promap: promap_,
   compose: compose_,
-  id: () => identity,
+  id: () => F.identity,
   first: (pab) => ([a, c]) => [pab(a), c],
   second: (pbc) => ([a, b]) => [a, pbc(b)],
   left: <A, B, C>(pab: Reader<A, B>): Reader<E.Either<A, C>, E.Either<B, C>> =>
