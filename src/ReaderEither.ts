@@ -241,7 +241,7 @@ export const ap: <R, E, A>(
   fa: ReaderEither<R, E, A>
 ) => <B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B> =
   /*#__PURE__*/
-  apComposition(R.reader, E.either)
+  apComposition(R.applyReader, E.applyEither)
 
 /**
  * @category Apply

@@ -366,7 +366,7 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskEither<E, A>) => Tas
  */
 export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B> =
   /*#__PURE__*/
-  apComposition(T.task, E.either)
+  apComposition(T.applyTask, E.applyEither)
 
 /**
  * @category Apply
