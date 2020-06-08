@@ -23,12 +23,6 @@ import { Witherable1 } from './Witherable'
 
 /* tslint:disable:readonly-array */
 
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly Record: Record<string, A>
-  }
-}
-
 /**
  * @category model
  * @since 2.0.0
@@ -40,6 +34,12 @@ export const URI = 'Record'
  * @since 2.0.0
  */
 export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: Record<string, A>
+  }
+}
 
 /**
  * @since 2.0.0

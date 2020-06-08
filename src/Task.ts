@@ -12,12 +12,6 @@ import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Apply1 } from './Apply'
 
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly Task: Task<A>
-  }
-}
-
 /**
  * @category model
  * @since 2.0.0
@@ -29,6 +23,12 @@ export const URI = 'Task'
  * @since 2.0.0
  */
 export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: Task<A>
+  }
+}
 
 /**
  * @category model

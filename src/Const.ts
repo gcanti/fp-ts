@@ -24,12 +24,6 @@ import { Semigroup } from './Semigroup'
 import { Semiring } from './Semiring'
 import { Show } from './Show'
 
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly Const: Const<E, A>
-  }
-}
-
 /**
  * @category model
  * @since 2.0.0
@@ -41,6 +35,12 @@ export const URI = 'Const'
  * @since 2.0.0
  */
 export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: Const<E, A>
+  }
+}
 
 /**
  * @category model

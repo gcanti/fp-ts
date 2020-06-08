@@ -20,12 +20,6 @@ import { Show } from './Show'
 import { TraversableWithIndex1, PipeableTraverseWithIndex1 } from './TraversableWithIndex'
 import { Traversable1, PipeableTraverse1 } from './Traversable'
 
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly ReadonlyNonEmptyArray: ReadonlyNonEmptyArray<A>
-  }
-}
-
 /**
  * @category model
  * @since 2.5.0
@@ -37,6 +31,12 @@ export const URI = 'ReadonlyNonEmptyArray'
  * @since 2.5.0
  */
 export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: ReadonlyNonEmptyArray<A>
+  }
+}
 
 /**
  * @category model

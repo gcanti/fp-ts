@@ -14,12 +14,6 @@ import { Monoid } from './Monoid'
 import { Show } from './Show'
 import { Traversable1, PipeableTraverse1 } from './Traversable'
 
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly Identity: Identity<A>
-  }
-}
-
 /**
  * @category model
  * @since 2.0.0
@@ -31,6 +25,12 @@ export const URI = 'Identity'
  * @since 2.0.0
  */
 export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: Identity<A>
+  }
+}
 
 /**
  * @category model

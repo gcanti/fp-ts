@@ -22,12 +22,6 @@ import { Witherable2C } from './Witherable'
 
 import Option = O.Option
 
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly ReadonlyMap: ReadonlyMap<E, A>
-  }
-}
-
 /**
  * @category model
  * @since 2.5.0
@@ -39,6 +33,12 @@ export const URI = 'ReadonlyMap'
  * @since 2.5.0
  */
 export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: ReadonlyMap<E, A>
+  }
+}
 
 /**
  * @category constructors
