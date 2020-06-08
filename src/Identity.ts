@@ -196,17 +196,6 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Identity<A>) => Identity<B> = (
 // -------------------------------------------------------------------------------------
 
 /**
- * @internal
- */
-export const monadIdentity: Monad1<URI> = {
-  URI,
-  map: map_,
-  of: id,
-  ap: ap_,
-  chain: chain_
-}
-
-/**
  * @category instances
  * @since 2.0.0
  */
