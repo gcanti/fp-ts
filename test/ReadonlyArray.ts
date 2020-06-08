@@ -23,8 +23,8 @@ describe('ReadonlyArray', () => {
     })
 
     it('sequence', () => {
-      assert.deepStrictEqual(_.readonlyArray.sequence(O.option)([O.some(1), O.some(3)]), O.some([1, 3]))
-      assert.deepStrictEqual(_.readonlyArray.sequence(O.option)([O.some(1), O.none]), O.none)
+      assert.deepStrictEqual(_.sequence(O.option)([O.some(1), O.some(3)]), O.some([1, 3]))
+      assert.deepStrictEqual(_.sequence(O.option)([O.some(1), O.none]), O.none)
     })
 
     it('unfold', () => {
