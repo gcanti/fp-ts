@@ -8,6 +8,7 @@ module.exports = {
     '!src/EitherT.ts',
     '!src/ReaderT.ts',
     '!src/StateT.ts',
+    '!src/TheseT.ts',
     '!src/WriterT.ts'
   ],
   transform: {

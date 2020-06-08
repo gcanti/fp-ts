@@ -125,7 +125,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare function leftIO<E = never, A = never>(me: IO<E>): TaskThese<E, A>
+export declare const leftIO: <E = never, A = never>(me: IO<E>) => TaskThese<E, A>
 ```
 
 Added in v2.4.0
@@ -135,7 +135,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare const leftTask: <E = never, A = never>(me: Task<E>) => TaskThese<E, A>
+export declare const leftTask: <E = never, A = never>(me: T.Task<E>) => TaskThese<E, A>
 ```
 
 Added in v2.4.0
@@ -155,7 +155,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare function rightIO<E = never, A = never>(ma: IO<A>): TaskThese<E, A>
+export declare const rightIO: <E = never, A = never>(ma: IO<A>) => TaskThese<E, A>
 ```
 
 Added in v2.4.0
@@ -165,7 +165,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare const rightTask: <E = never, A = never>(ma: Task<A>) => TaskThese<E, A>
+export declare const rightTask: <E = never, A = never>(ma: T.Task<A>) => TaskThese<E, A>
 ```
 
 Added in v2.4.0
@@ -177,11 +177,11 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare function fold<E, A, B>(
-  onLeft: (e: E) => Task<B>,
-  onRight: (a: A) => Task<B>,
-  onBoth: (e: E, a: A) => Task<B>
-): (fa: TaskThese<E, A>) => Task<B>
+export declare const fold: <E, B, A>(
+  onLeft: (e: E) => T.Task<B>,
+  onRight: (a: A) => T.Task<B>,
+  onBoth: (e: E, a: A) => T.Task<B>
+) => (fa: TaskThese<E, A>) => T.Task<B>
 ```
 
 Added in v2.4.0
@@ -191,7 +191,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare function toTuple<E, A>(e: E, a: A): (fa: TaskThese<E, A>) => Task<[E, A]>
+export declare const toTuple: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => T.Task<[E, A]>
 ```
 
 Added in v2.4.0
