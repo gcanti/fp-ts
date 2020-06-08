@@ -24,6 +24,11 @@ Added in v2.0.0
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
+- [constructors](#constructors)
+  - [get](#get)
+  - [gets](#gets)
+  - [modify](#modify)
+  - [put](#put)
 - [instances](#instances)
   - [state](#state)
 - [model](#model)
@@ -33,10 +38,6 @@ Added in v2.0.0
 - [utils](#utils)
   - [evalState](#evalstate)
   - [execState](#execstate)
-  - [get](#get)
-  - [gets](#gets)
-  - [modify](#modify)
-  - [put](#put)
 
 ---
 
@@ -128,6 +129,56 @@ export declare const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A>
 
 Added in v2.0.0
 
+# constructors
+
+## get
+
+Get the current state
+
+**Signature**
+
+```ts
+export declare const get: <S>() => State<S, S>
+```
+
+Added in v2.0.0
+
+## gets
+
+Get a value which depends on the current state
+
+**Signature**
+
+```ts
+export declare const gets: <S, A>(f: (s: S) => A) => State<S, A>
+```
+
+Added in v2.0.0
+
+## modify
+
+Modify the state by applying a function to the current state
+
+**Signature**
+
+```ts
+export declare const modify: <S>(f: (s: S) => S) => State<S, void>
+```
+
+Added in v2.0.0
+
+## put
+
+Set the state
+
+**Signature**
+
+```ts
+export declare const put: <S>(s: S) => State<S, void>
+```
+
+Added in v2.0.0
+
 # instances
 
 ## state
@@ -196,54 +247,6 @@ Run a computation in the `State` monad discarding the result
 
 ```ts
 export declare const execState: <S, A>(ma: State<S, A>, s: S) => S
-```
-
-Added in v2.0.0
-
-## get
-
-Get the current state
-
-**Signature**
-
-```ts
-export declare const get: <S>() => State<S, S>
-```
-
-Added in v2.0.0
-
-## gets
-
-Get a value which depends on the current state
-
-**Signature**
-
-```ts
-export declare const gets: <S, A>(f: (s: S) => A) => State<S, A>
-```
-
-Added in v2.0.0
-
-## modify
-
-Modify the state by applying a function to the current state
-
-**Signature**
-
-```ts
-export declare const modify: <S>(f: (s: S) => S) => State<S, void>
-```
-
-Added in v2.0.0
-
-## put
-
-Set the state
-
-**Signature**
-
-```ts
-export declare const put: <S>(s: S) => State<S, void>
 ```
 
 Added in v2.0.0

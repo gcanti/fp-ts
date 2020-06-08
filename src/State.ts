@@ -1,18 +1,12 @@
 /**
  * @since 2.0.0
  */
-import { monadIdentity } from './Identity'
 import { Monad2 } from './Monad'
-import { getStateM } from './StateT'
-import { identity } from './function'
+import { identity, pipe } from './function'
 
-const T = /*#__PURE__*/ getStateM(monadIdentity)
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly State: State<E, A>
-  }
-}
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
 
 /**
  * @category model
@@ -26,6 +20,12 @@ export const URI = 'State'
  */
 export type URI = typeof URI
 
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: State<E, A>
+  }
+}
+
 /* tslint:disable:readonly-array */
 /**
  * @category model
@@ -36,114 +36,132 @@ export interface State<S, A> {
 }
 /* tslint:enable:readonly-array */
 
-/**
- * Run a computation in the `State` monad, discarding the final state
- *
- * @since 2.0.0
- */
-export const evalState: <S, A>(ma: State<S, A>, s: S) => A = T.evalState
-
-/**
- * Run a computation in the `State` monad discarding the result
- *
- * @since 2.0.0
- */
-export const execState: <S, A>(ma: State<S, A>, s: S) => S = T.execState
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
 
 /**
  * Get the current state
  *
+ * @category constructors
  * @since 2.0.0
  */
-export const get: <S>() => State<S, S> = T.get
+export const get: <S>() => State<S, S> = () => (s) => [s, s]
 
 /**
  * Set the state
  *
+ * @category constructors
  * @since 2.0.0
  */
-export const put: <S>(s: S) => State<S, void> = T.put
+export const put: <S>(s: S) => State<S, void> = (s) => () => [undefined, s]
 
 /**
  * Modify the state by applying a function to the current state
  *
+ * @category constructors
  * @since 2.0.0
  */
-export const modify: <S>(f: (s: S) => S) => State<S, void> = T.modify
+export const modify: <S>(f: (s: S) => S) => State<S, void> = (f) => (s) => [undefined, f(s)]
 
 /**
  * Get a value which depends on the current state
  *
+ * @category constructors
  * @since 2.0.0
  */
-export const gets: <S, A>(f: (s: S) => A) => State<S, A> = T.gets
-
-/**
- * @category Applicative
- * @since 2.0.0
- */
-export const of: <S, A>(a: A) => State<S, A> = T.of
+export const gets: <S, A>(f: (s: S) => A) => State<S, A> = (f) => (s) => [f(s), s]
 
 // -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category Functor
+ * @since 2.0.0
+ */
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: State<E, A>) => State<E, B> = (f) => (fa) => (s1) => {
+  const [a, s2] = fa(s1)
+  return [f(a), s2]
+}
+
+/**
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => State<E, B> = (fa) => (fab) =>
-  T.ap(fab, fa)
+export const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => State<E, B> = (fa) => (fab) => (s1) => {
+  const [f, s2] = fab(s1)
+  const [a, s3] = fa(s2)
+  return [f(a), s3]
+}
 
 /**
  * @category Apply
  * @since 2.0.0
  */
 export const apFirst = <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>): State<E, A> =>
-  T.ap(
-    T.map(fa, (a) => (_: B) => a),
-    fb
+  pipe(
+    fa,
+    map((a) => (_: B) => a),
+    ap(fb)
   )
 
 /**
  * @category Apply
  * @since 2.0.0
  */
-export const apSecond: <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, B> = (fb) => (fa) =>
-  T.ap(
-    T.map(fa, () => (b) => b),
-    fb
+export const apSecond = <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>): State<E, B> =>
+  pipe(
+    fa,
+    map(() => (b: B) => b),
+    ap(fb)
+  )
+
+/**
+ * @category Applicative
+ * @since 2.0.0
+ */
+export const of: <S, A>(a: A) => State<S, A> = (a) => (s) => [a, s]
+
+/**
+ * @category Monad
+ * @since 2.0.0
+ */
+export const chain: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, B> = (f) => (ma) => (s1) => {
+  const [a, s2] = ma(s1)
+  return f(a)(s2)
+}
+
+/**
+ * @category Monad
+ * @since 2.0.0
+ */
+export const chainFirst: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, A> = (f) =>
+  chain((a) =>
+    pipe(
+      f(a),
+      map(() => a)
+    )
   )
 
 /**
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, B> = (f) => (ma) =>
-  T.chain(ma, f)
-
-/**
- * @category Monad
- * @since 2.0.0
- */
-export const chainFirst: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, A> = (f) => (ma) =>
-  T.chain(ma, (a) => T.map(f(a), () => a))
-
-/**
- * @category Monad
- * @since 2.0.0
- */
-export const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A> = (mma) => T.chain(mma, identity)
-
-/**
- * @category Functor
- * @since 2.0.0
- */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: State<E, A>) => State<E, B> = (f) => (fa) => T.map(fa, f)
+export const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A> =
+  /*#__PURE__*/
+  chain(identity)
 
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/* istanbul ignore next */
+const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+/* istanbul ignore next */
+const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+/* istanbul ignore next */
+const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
 /**
  * @category instances
@@ -151,8 +169,26 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: State<E, A>) => State<E, B> 
  */
 export const state: Monad2<URI> = {
   URI,
-  map: T.map,
+  map: map_,
   of,
-  ap: T.ap,
-  chain: T.chain
+  ap: ap_,
+  chain: chain_
 }
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * Run a computation in the `State` monad, discarding the final state
+ *
+ * @since 2.0.0
+ */
+export const evalState: <S, A>(ma: State<S, A>, s: S) => A = (ma, s) => ma(s)[0]
+
+/**
+ * Run a computation in the `State` monad discarding the result
+ *
+ * @since 2.0.0
+ */
+export const execState: <S, A>(ma: State<S, A>, s: S) => S = (ma, s) => ma(s)[1]
