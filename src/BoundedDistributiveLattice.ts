@@ -18,8 +18,10 @@ export interface BoundedDistributiveLattice<A> extends BoundedLattice<A>, Distri
  * @since 2.0.0
  */
 export function getMinMaxBoundedDistributiveLattice<A>(O: Ord<A>): (min: A, max: A) => BoundedDistributiveLattice<A> {
+  const L = getMinMaxDistributiveLattice(O)
   return (min, max) => ({
-    ...getMinMaxDistributiveLattice(O),
+    join: L.join,
+    meet: L.meet,
     zero: min,
     one: max
   })

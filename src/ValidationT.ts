@@ -64,7 +64,9 @@ export function getValidationM<E, M>(S: Semigroup<E>, M: Monad<M>): ValidationM<
   const A = getApplicativeComposition(M, getValidation(S))
 
   return {
-    ...A,
+    map: A.map,
+    ap: A.ap,
+    of: A.of,
     chain: /* istanbul ignore next */ (ma, f) => M.chain(ma, (e) => (isLeft(e) ? M.of(left(e.left)) : f(e.right))),
     alt: (fx, f) =>
       M.chain(fx, (e1) =>

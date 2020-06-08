@@ -537,7 +537,7 @@ export function getApplySemigroup<A>(S: Semigroup<A>): Semigroup<Option<A>> {
  */
 export function getApplyMonoid<A>(M: Monoid<A>): Monoid<Option<A>> {
   return {
-    ...getApplySemigroup(M),
+    concat: getApplySemigroup(M).concat,
     empty: some(M.empty)
   }
 }

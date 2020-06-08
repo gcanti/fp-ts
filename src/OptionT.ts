@@ -98,7 +98,9 @@ export function getOptionM<M>(M: Monad<M>): OptionM<M> {
   const fnone = M.of(none)
 
   return {
-    ...A,
+    map: A.map,
+    ap: A.ap,
+    of: A.of,
     chain: (ma, f) =>
       M.chain(
         ma,

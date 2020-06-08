@@ -491,6 +491,9 @@ const bimap_: <R, E, A, G, B>(
 const mapLeft_: <R, E, A, G>(fea: ReaderTaskEither<R, E, A>, f: (e: E) => G) => ReaderTaskEither<R, G, A> = (ma, f) => (
   e
 ) => pipe(ma(e), TE.mapLeft(f))
+const fromIO_ = rightIO
+const fromTask_ = rightTask
+const throwError_ = left
 
 /**
  * @internal
@@ -543,11 +546,20 @@ export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderTaskEither<R
 export function getReaderTaskValidation<E>(
   S: Semigroup<E>
 ): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadTask3C<URI, E> & MonadThrow3C<URI, E> {
-  const T = getValidationM(S, monadReaderTask)
+  const V = getValidationM(S, monadReaderTask)
   return {
+    URI,
     _E: undefined as any,
-    ...readerTaskEither,
-    ...T
+    map: map_,
+    of,
+    chain: chain_,
+    bimap: bimap_,
+    mapLeft: mapLeft_,
+    ap: V.ap,
+    alt: V.alt,
+    fromIO: fromIO_,
+    fromTask: fromTask_,
+    throwError: throwError_
   }
 }
 
@@ -564,9 +576,9 @@ export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & Monad
   alt: alt_,
   bimap: bimap_,
   mapLeft: mapLeft_,
-  fromIO: rightIO,
-  fromTask: rightTask,
-  throwError: left
+  fromIO: fromIO_,
+  fromTask: fromTask_,
+  throwError: throwError_
 }
 
 /**
@@ -588,9 +600,9 @@ export const readerTaskEitherSeq: typeof readerTaskEither = {
   alt: alt_,
   bimap: bimap_,
   mapLeft: mapLeft_,
-  fromIO: rightIO,
-  fromTask: rightTask,
-  throwError: left
+  fromIO: fromIO_,
+  fromTask: fromTask_,
+  throwError: throwError_
 }
 
 /**

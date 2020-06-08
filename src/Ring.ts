@@ -24,8 +24,12 @@ export interface Ring<A> extends Semiring<A> {
  * @since 2.0.0
  */
 export function getFunctionRing<A, B>(ring: Ring<B>): Ring<(a: A) => B> {
+  const S = getFunctionSemiring<A, B>(ring)
   return {
-    ...getFunctionSemiring(ring),
+    add: S.add,
+    mul: S.mul,
+    one: S.one,
+    zero: S.zero,
     sub: (f, g) => (x) => ring.sub(f(x), g(x))
   }
 }

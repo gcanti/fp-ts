@@ -200,7 +200,7 @@ export function getFunctorWithIndexComposition<F, FI, G, GI>(
   G: FunctorWithIndex<G, GI>
 ): FunctorWithIndexComposition<F, FI, G, GI> {
   return {
-    ...getFunctorComposition(F, G),
+    map: getFunctorComposition(F, G).map,
     mapWithIndex: (fga, f) => F.mapWithIndex(fga, (fi, ga) => G.mapWithIndex(ga, (gi, a) => f([fi, gi], a)))
   }
 }

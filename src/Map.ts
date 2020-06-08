@@ -304,8 +304,5 @@ export const getWitherable: <K>(
 export const map_: Filterable2<URI> =
   /*#__PURE__*/
   (() => {
-    return {
-      ...(RM.readonlyMap as any),
-      URI
-    }
+    return Object.assign({}, RM.readonlyMap as any, { URI })
   })()

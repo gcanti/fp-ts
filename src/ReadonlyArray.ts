@@ -837,7 +837,7 @@ export function findLastIndex<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>
  */
 export function unsafeInsertAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> {
   // tslint:disable-next-line: readonly-array
-  const xs = [...as]
+  const xs = as.slice()
   xs.splice(i, 0, a)
   return xs
 }
@@ -866,7 +866,7 @@ export function unsafeUpdateAt<A>(i: number, a: A, as: ReadonlyArray<A>): Readon
     return as
   } else {
     // tslint:disable-next-line: readonly-array
-    const xs = [...as]
+    const xs = as.slice()
     xs[i] = a
     return xs
   }
@@ -894,7 +894,7 @@ export function updateAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<R
  */
 export function unsafeDeleteAt<A>(i: number, as: ReadonlyArray<A>): ReadonlyArray<A> {
   // tslint:disable-next-line: readonly-array
-  const xs = [...as]
+  const xs = as.slice()
   xs.splice(i, 1)
   return xs
 }
@@ -945,7 +945,7 @@ export function modifyAt<A>(i: number, f: (a: A) => A): (as: ReadonlyArray<A>) =
  * @since 2.5.0
  */
 export function reverse<A>(as: ReadonlyArray<A>): ReadonlyArray<A> {
-  return [...as].reverse()
+  return as.slice().reverse()
 }
 
 /**
@@ -1010,7 +1010,7 @@ export function lefts<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<E> {
  * @since 2.5.0
  */
 export function sort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
-  return (as) => [...as].sort(O.compare)
+  return (as) => as.slice().sort(O.compare)
 }
 
 /**
