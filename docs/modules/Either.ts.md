@@ -43,6 +43,9 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainW](#chainw)
   - [flatten](#flatten)
+- [Traversable](#traversable)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
 - [combinators](#combinators)
   - [filterOrElse](#filterorelse)
   - [orElse](#orelse)
@@ -83,9 +86,7 @@ Added in v2.0.0
 - [utils](#utils)
   - [elem](#elem)
   - [exists](#exists)
-  - [sequence](#sequence)
   - [toError](#toerror)
-  - [traverse](#traverse)
 
 ---
 
@@ -262,6 +263,28 @@ export declare const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, 
 ```
 
 Added in v2.0.0
+
+# Traversable
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence2<'Either'>
+```
+
+Added in v2.6.3
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: PipeableTraverse2<'Either'>
+```
+
+Added in v2.6.3
 
 # combinators
 
@@ -785,16 +808,6 @@ assert.strictEqual(gt2(right(3)), true)
 
 Added in v2.0.0
 
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: Sequence2<'Either'>
-```
-
-Added in v2.6.3
-
 ## toError
 
 Default value for the `onError` argument of `tryCatch`
@@ -806,13 +819,3 @@ export declare function toError(e: unknown): Error
 ```
 
 Added in v2.0.0
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: PipeableTraverse2<'Either'>
-```
-
-Added in v2.6.3
