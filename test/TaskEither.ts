@@ -13,7 +13,10 @@ import { pipe } from '../src/function'
 describe('TaskEither', () => {
   describe('pipeables', () => {
     it('alt', async () => {
-      const x = await _.taskEither.alt(_.left('a'), () => _.right(1))()
+      const x = await pipe(
+        _.left('a'),
+        _.alt(() => _.right(1))
+      )()
       assert.deepStrictEqual(x, E.right(1))
     })
 
@@ -69,15 +72,15 @@ describe('TaskEither', () => {
       const f = (s: string): number => s.length
       const g = (n: number): boolean => n > 2
 
-      const e1 = await _.taskEither.bimap(_.right(1), f, g)()
+      const e1 = await pipe(_.right(1), _.bimap(f, g))()
       assert.deepStrictEqual(e1, E.right(false))
-      const e2 = await _.taskEither.bimap(_.left('foo'), f, g)()
+      const e2 = await pipe(_.left('foo'), _.bimap(f, g))()
       assert.deepStrictEqual(e2, E.left(3))
     })
 
     it('mapLeft', async () => {
       const double = (n: number): number => n * 2
-      const e = await _.taskEither.mapLeft(_.left(1), double)()
+      const e = await pipe(_.left(1), _.mapLeft(double))()
       assert.deepStrictEqual(e, E.left(2))
     })
 
@@ -298,8 +301,14 @@ describe('TaskEither', () => {
     const log: Array<string> = []
     const append = (message: string): _.TaskEither<void, number> =>
       _.rightTask(() => Promise.resolve(log.push(message)))
-    const t1 = _.taskEither.chain(append('start 1'), () => append('end 1'))
-    const t2 = _.taskEither.chain(append('start 2'), () => append('end 2'))
+    const t1 = pipe(
+      append('start 1'),
+      _.chain(() => append('end 1'))
+    )
+    const t2 = pipe(
+      append('start 2'),
+      _.chain(() => append('end 2'))
+    )
     const sequenceParallel = A.sequence(_.taskEither)
     const x = await sequenceParallel([t1, t2])()
     assert.deepStrictEqual(x, E.right([3, 4]))
@@ -311,8 +320,14 @@ describe('TaskEither', () => {
     const log: Array<string> = []
     const append = (message: string): _.TaskEither<void, number> =>
       _.rightTask(() => Promise.resolve(log.push(message)))
-    const t1 = _.taskEither.chain(append('start 1'), () => append('end 1'))
-    const t2 = _.taskEither.chain(append('start 2'), () => append('end 2'))
+    const t1 = pipe(
+      append('start 1'),
+      _.chain(() => append('end 1'))
+    )
+    const t2 = pipe(
+      append('start 2'),
+      _.chain(() => append('end 2'))
+    )
     const sequenceSeries = A.sequence(_.taskEitherSeq)
     const x = await sequenceSeries([t1, t2])()
     assert.deepStrictEqual(x, E.right([2, 4]))

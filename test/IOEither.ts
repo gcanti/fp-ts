@@ -10,45 +10,6 @@ import { pipeable } from '../src/pipeable'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
 
 describe('IOEither', () => {
-  describe('instances', () => {
-    it('map', () => {
-      const double = (n: number): number => n * 2
-      assert.deepStrictEqual(_.ioEither.map(_.right(1), double)(), E.right(2))
-    })
-
-    it('ap', () => {
-      const double = (n: number): number => n * 2
-      assert.deepStrictEqual(_.ioEither.ap(_.right(double), _.right(1))(), E.right(2))
-    })
-
-    it('alt', () => {
-      const x = _.ioEither.alt(_.left('a'), () => _.right(1))()
-      assert.deepStrictEqual(x, E.right(1))
-    })
-
-    it('bimap', () => {
-      const f = (s: string): number => s.length
-      const g = (n: number): boolean => n > 2
-
-      const e1 = _.ioEither.bimap(_.right(1), f, g)()
-      assert.deepStrictEqual(e1, E.right(false))
-      const e2 = _.ioEither.bimap(_.left('foo'), f, g)()
-      assert.deepStrictEqual(e2, E.left(3))
-    })
-
-    it('mapLeft', () => {
-      const double = (n: number): number => n * 2
-      const e = _.ioEither.mapLeft(_.left(1), double)()
-      assert.deepStrictEqual(e, E.left(2))
-    })
-
-    it('chain', () => {
-      const f = (a: string) => (a.length > 2 ? _.right(a.length) : _.left('foo'))
-      assert.deepStrictEqual(_.ioEither.chain(_.right('foo'), f)(), E.right(3))
-      assert.deepStrictEqual(_.ioEither.chain(_.right('a'), f)(), E.left('foo'))
-    })
-  })
-
   describe('pipeables', () => {
     it('alt', () => {
       const r1 = _.right<string, number>(1)
@@ -214,7 +175,7 @@ describe('IOEither', () => {
       _.fold(
         () => io.of('left'),
         () => io.of('right')
-      )(_.ioEither.of(1))(),
+      )(_.right(1))(),
       'right'
     )
     assert.deepStrictEqual(

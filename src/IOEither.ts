@@ -330,12 +330,18 @@ export const fromEither: <E, A>(ma: E.Either<E, A>) => IOEither<E, A> = (ma) =>
 // instances
 // -------------------------------------------------------------------------------------
 
+/* istanbul ignore next */
 const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+/* istanbul ignore next */
+const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
+/* istanbul ignore next */
+const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
+/* istanbul ignore next */
 const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const of = right
+/* istanbul ignore next */
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
-const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
+/* istanbul ignore next */
 const alt_: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 const fromIO_ = rightIO
 const throwError_ = left
