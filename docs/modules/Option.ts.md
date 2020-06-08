@@ -25,7 +25,7 @@ Added in v2.0.0
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-- [Compatable](#compatable)
+- [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
 - [Extend](#extend)
@@ -46,6 +46,9 @@ Added in v2.0.0
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
+- [Traversable](#traversable)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
 - [combinators](#combinators)
   - [mapNullable](#mapnullable)
 - [constructors](#constructors)
@@ -86,8 +89,6 @@ Added in v2.0.0
   - [elem](#elem)
   - [exists](#exists)
   - [getRefinement](#getrefinement)
-  - [sequence](#sequence)
-  - [traverse](#traverse)
 
 ---
 
@@ -135,7 +136,7 @@ export declare const apSecond: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Optio
 
 Added in v2.0.0
 
-# Compatable
+# Compactable
 
 ## compact
 
@@ -304,6 +305,28 @@ export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
 ```
 
 Added in v2.0.0
+
+# Traversable
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence1<'Option'>
+```
+
+Added in v2.6.3
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: PipeableTraverse1<'Option'>
+```
+
+Added in v2.6.3
 
 # combinators
 
@@ -1036,23 +1059,3 @@ export declare function getRefinement<A, B extends A>(getOption: (a: A) => Optio
 ```
 
 Added in v2.0.0
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: Sequence1<'Option'>
-```
-
-Added in v2.6.3
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: PipeableTraverse1<'Option'>
-```
-
-Added in v2.6.3
