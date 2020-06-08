@@ -29,6 +29,11 @@ Added in v2.0.0
   - [promap](#promap)
 - [Semigroupoid](#semigroupoid)
   - [compose](#compose)
+- [combinators](#combinators)
+  - [local](#local)
+- [constructors](#constructors)
+  - [ask](#ask)
+  - [asks](#asks)
 - [instances](#instances)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
@@ -37,10 +42,6 @@ Added in v2.0.0
   - [Reader (interface)](#reader-interface)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-- [utils](#utils)
-  - [ask](#ask)
-  - [asks](#asks)
-  - [local](#local)
 
 ---
 
@@ -107,7 +108,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const chain: <R, A, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B>
+export declare const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B>
 ```
 
 Added in v2.0.0
@@ -117,7 +118,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const chainFirst: <R, A, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, A>
+export declare const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, A>
 ```
 
 Added in v2.0.0
@@ -162,6 +163,47 @@ Added in v2.0.0
 
 ```ts
 export declare const compose: <E, A>(la: Reader<E, A>) => <B>(ab: Reader<A, B>) => Reader<E, B>
+```
+
+Added in v2.0.0
+
+# combinators
+
+## local
+
+Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+`contramap`).
+
+**Signature**
+
+```ts
+export declare const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q, A>
+```
+
+Added in v2.0.0
+
+# constructors
+
+## ask
+
+Reads the current context
+
+**Signature**
+
+```ts
+export declare const ask: <R>() => Reader<R, R>
+```
+
+Added in v2.0.0
+
+## asks
+
+Projects a value from the global context in a Reader
+
+**Signature**
+
+```ts
+export declare const asks: <R, A>(f: (r: R) => A) => Reader<R, A>
 ```
 
 Added in v2.0.0
@@ -232,45 +274,6 @@ Added in v2.0.0
 
 ```ts
 export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-# utils
-
-## ask
-
-Reads the current context
-
-**Signature**
-
-```ts
-export declare const ask: <R>() => Reader<R, R>
-```
-
-Added in v2.0.0
-
-## asks
-
-Projects a value from the global context in a Reader
-
-**Signature**
-
-```ts
-export declare const asks: <R, A>(f: (r: R) => A) => Reader<R, A>
-```
-
-Added in v2.0.0
-
-## local
-
-Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
-`contramap`).
-
-**Signature**
-
-```ts
-export declare function local<Q, R>(f: (d: Q) => R): <A>(ma: Reader<R, A>) => Reader<Q, A>
 ```
 
 Added in v2.0.0
