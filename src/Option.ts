@@ -520,6 +520,27 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = (mma) => chain_
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
+ * In case of `Option` returns the left-most non-`None` value
+ *
+ * @example
+ * import * as O from 'fp-ts/lib/Option'
+ * import { pipe } from 'fp-ts/lib/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     O.some('a'),
+ *     O.alt(() => O.some('b'))
+ *   ),
+ *   O.some('a')
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     O.none,
+ *     O.alt(() => O.some('b'))
+ *   ),
+ *   O.some('b')
+ * )
+ *
  * @category Alt
  * @since 2.0.0
  */

@@ -103,10 +103,34 @@ Added in v2.0.0
 Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
 types of kind `* -> *`.
 
+In case of `Option` returns the left-most non-`None` value
+
 **Signature**
 
 ```ts
 export declare const alt: <A>(that: () => Option<A>) => (fa: Option<A>) => Option<A>
+```
+
+**Example**
+
+```ts
+import * as O from 'fp-ts/lib/Option'
+import { pipe } from 'fp-ts/lib/function'
+
+assert.deepStrictEqual(
+  pipe(
+    O.some('a'),
+    O.alt(() => O.some('b'))
+  ),
+  O.some('a')
+)
+assert.deepStrictEqual(
+  pipe(
+    O.none,
+    O.alt(() => O.some('b'))
+  ),
+  O.some('b')
+)
 ```
 
 Added in v2.0.0
