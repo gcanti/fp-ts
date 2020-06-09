@@ -765,10 +765,10 @@ const reduceWithIndex_: <A, B>(fa: Readonly<Record<string, A>>, b: B, f: (i: str
   f
 ) => {
   let out = b
-  const keys = Object.keys(fa).sort()
-  const len = keys.length
+  const ks = keys(fa)
+  const len = ks.length
   for (let i = 0; i < len; i++) {
-    const k = keys[i]
+    const k = ks[i]
     out = f(k, out, fa[k])
   }
   return out
@@ -778,10 +778,10 @@ const foldMapWithIndex_: <M>(M: Monoid<M>) => <A>(fa: Readonly<Record<string, A>
   M
 ) => (fa, f) => {
   let out = M.empty
-  const keys = Object.keys(fa).sort()
-  const len = keys.length
+  const ks = keys(fa)
+  const len = ks.length
   for (let i = 0; i < len; i++) {
-    const k = keys[i]
+    const k = ks[i]
     out = M.concat(out, f(k, fa[k]))
   }
   return out
@@ -793,10 +793,10 @@ const reduceRightWithIndex_: <A, B>(fa: Readonly<Record<string, A>>, b: B, f: (i
   f
 ) => {
   let out = b
-  const keys = Object.keys(fa).sort()
-  const len = keys.length
+  const ks = keys(fa)
+  const len = ks.length
   for (let i = len - 1; i >= 0; i--) {
-    const k = keys[i]
+    const k = ks[i]
     out = f(k, fa[k], out)
   }
   return out
@@ -879,12 +879,12 @@ const traverseWithIndex_ = <F>(F: Applicative<F>) => <A, B>(
   ta: ReadonlyRecord<string, A>,
   f: (k: string, a: A) => HKT<F, B>
 ) => {
-  const keys = Object.keys(ta)
-  if (keys.length === 0) {
+  const ks = keys(ta)
+  if (ks.length === 0) {
     return F.of(empty)
   }
   let fr: HKT<F, Record<string, B>> = F.of({})
-  for (const key of keys) {
+  for (const key of ks) {
     fr = F.ap(
       F.map(fr, (r) => (b: B) => {
         r[key] = b

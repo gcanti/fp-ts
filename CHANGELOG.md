@@ -14,6 +14,14 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.6.4
+
+- **Bug Fix**
+  - `ReadonlyMap`
+    - `traverseWithIndex` should sort the keys (@gcanti)
+  - `ReadonlyRecord`
+    - `traverseWithIndex` should sort the keys (@gcanti)
+
 # 2.6.3
 
 - **Polish**

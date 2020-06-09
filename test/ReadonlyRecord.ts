@@ -3,6 +3,7 @@ import { left, right } from '../src/Either'
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import * as I from '../src/Identity'
+import * as IO from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import { getOrElse, isSome, none, option, Option, some } from '../src/Option'
 import { readonlyArray, zip } from '../src/ReadonlyArray'
@@ -270,6 +271,20 @@ describe('ReadonlyRecord', () => {
 
   it('toUnfoldable', () => {
     assert.deepStrictEqual(_.toUnfoldable(readonlyArray)({ a: 1 }), [['a', 1]])
+  })
+
+  it('traverseWithIndex should sort the keys', () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<string> = []
+    const append = (message: string): IO.IO<void> => () => {
+      log.push(message)
+    }
+
+    pipe(
+      { b: append('b'), a: append('a') },
+      _.traverseWithIndex(IO.io)((_, io) => io)
+    )()
+    assert.deepStrictEqual(log, ['a', 'b'])
   })
 
   it('traverseWithIndex', () => {
