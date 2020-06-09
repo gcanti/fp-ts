@@ -983,6 +983,8 @@ export const of: <A>(a: A) => Array<A> = RA.of as any
 export const map: <A, B>(f: (a: A) => B) => (fa: Array<A>) => Array<B> = RA.map as any
 
 /**
+ * Apply a function to an argument under a type constructor.
+ *
  * @category Apply
  * @since 2.0.0
  */

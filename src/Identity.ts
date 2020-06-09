@@ -100,6 +100,8 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(F: Applicative<F>) =>
 export const alt: <A>(that: () => Identity<A>) => (fa: Identity<A>) => Identity<A> = (that) => (fa) => alt_(fa, that)
 
 /**
+ * Apply a function to an argument under a type constructor.
+ *
  * @category Apply
  * @since 2.0.0
  */

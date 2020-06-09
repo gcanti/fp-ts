@@ -234,6 +234,8 @@ export const bimap: <E, G, A, B>(
   flow(E.bimap, R.map)
 
 /**
+ * Apply a function to an argument under a type constructor.
+ *
  * @category Apply
  * @since 2.0.0
  */

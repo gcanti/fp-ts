@@ -135,6 +135,8 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderT
   flow(fa, T.map(f))
 
 /**
+ * Apply a function to an argument under a type constructor.
+ *
  * @category Apply
  * @since 2.3.0
  */

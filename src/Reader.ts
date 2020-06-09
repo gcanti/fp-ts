@@ -92,6 +92,8 @@ export const of: <R, A>(a: A) => Reader<R, A> = (a) => () => a
 export const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B> = (f) => (fa) => (r) => f(fa(r))
 
 /**
+ * Apply a function to an argument under a type constructor.
+ *
  * @category Apply
  * @since 2.0.0
  */

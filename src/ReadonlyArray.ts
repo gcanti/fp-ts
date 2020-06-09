@@ -1596,6 +1596,8 @@ export const alt: <A>(that: () => ReadonlyArray<A>) => (fa: ReadonlyArray<A>) =>
   alt_(fa, that)
 
 /**
+ * Apply a function to an argument under a type constructor.
+ *
  * @category Apply
  * @since 2.5.0
  */

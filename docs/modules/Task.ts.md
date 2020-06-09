@@ -70,6 +70,8 @@ Added in v2.0.0
 
 ## ap
 
+Apply a function to an argument under a type constructor.
+
 **Signature**
 
 ```ts
