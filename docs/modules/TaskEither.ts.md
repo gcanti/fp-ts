@@ -55,7 +55,6 @@ Added in v2.0.0
   - [right](#right)
   - [rightIO](#rightio)
   - [rightTask](#righttask)
-  - [taskify](#taskify)
   - [tryCatch](#trycatch)
 - [destructors](#destructors)
   - [fold](#fold)
@@ -73,12 +72,17 @@ Added in v2.0.0
   - [TaskEither (interface)](#taskeither-interface)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+- [utils](#utils)
+  - [taskify](#taskify)
 
 ---
 
 # Alt
 
 ## alt
+
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
 
 **Signature**
 
@@ -453,58 +457,6 @@ export declare const rightTask: <E = never, A = never>(ma: T.Task<A>) => TaskEit
 
 Added in v2.0.0
 
-## taskify
-
-Convert a node style callback function to one returning a `TaskEither`
-
-**Note**. If the function `f` admits multiple overloadings, `taskify` will pick last one. If you want a different
-behaviour, add an explicit type annotation
-
-```ts
-// readFile admits multiple overloadings
-
-// const readFile: (a: string) => TaskEither<NodeJS.ErrnoException, Buffer>
-const readFile = taskify(fs.readFile)
-
-const readFile2: (filename: string, encoding: string) => TaskEither<NodeJS.ErrnoException, Buffer> = taskify(
-  fs.readFile
-)
-```
-
-**Signature**
-
-```ts
-export declare function taskify<L, R>(f: (cb: (e: L | null | undefined, r?: R) => void) => void): () => TaskEither<L, R>
-export declare function taskify<A, L, R>(
-  f: (a: A, cb: (e: L | null | undefined, r?: R) => void) => void
-): (a: A) => TaskEither<L, R>
-export declare function taskify<A, B, L, R>(
-  f: (a: A, b: B, cb: (e: L | null | undefined, r?: R) => void) => void
-): (a: A, b: B) => TaskEither<L, R>
-export declare function taskify<A, B, C, L, R>(
-  f: (a: A, b: B, c: C, cb: (e: L | null | undefined, r?: R) => void) => void
-): (a: A, b: B, c: C) => TaskEither<L, R>
-export declare function taskify<A, B, C, D, L, R>(
-  f: (a: A, b: B, c: C, d: D, cb: (e: L | null | undefined, r?: R) => void) => void
-): (a: A, b: B, c: C, d: D) => TaskEither<L, R>
-export declare function taskify<A, B, C, D, E, L, R>(
-  f: (a: A, b: B, c: C, d: D, e: E, cb: (e: L | null | undefined, r?: R) => void) => void
-): (a: A, b: B, c: C, d: D, e: E) => TaskEither<L, R>
-```
-
-**Example**
-
-```ts
-import { taskify } from 'fp-ts/lib/TaskEither'
-import * as fs from 'fs'
-
-// const stat: (a: string | Buffer) => TaskEither<NodeJS.ErrnoException, fs.Stats>
-const stat = taskify(fs.stat)
-assert.strictEqual(stat.length, 0)
-```
-
-Added in v2.0.0
-
 ## tryCatch
 
 Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Either` instead.
@@ -686,6 +638,60 @@ Added in v2.0.0
 
 ```ts
 export type URI = typeof URI
+```
+
+Added in v2.0.0
+
+# utils
+
+## taskify
+
+Convert a node style callback function to one returning a `TaskEither`
+
+**Note**. If the function `f` admits multiple overloadings, `taskify` will pick last one. If you want a different
+behaviour, add an explicit type annotation
+
+```ts
+// readFile admits multiple overloadings
+
+// const readFile: (a: string) => TaskEither<NodeJS.ErrnoException, Buffer>
+const readFile = taskify(fs.readFile)
+
+const readFile2: (filename: string, encoding: string) => TaskEither<NodeJS.ErrnoException, Buffer> = taskify(
+  fs.readFile
+)
+```
+
+**Signature**
+
+```ts
+export declare function taskify<L, R>(f: (cb: (e: L | null | undefined, r?: R) => void) => void): () => TaskEither<L, R>
+export declare function taskify<A, L, R>(
+  f: (a: A, cb: (e: L | null | undefined, r?: R) => void) => void
+): (a: A) => TaskEither<L, R>
+export declare function taskify<A, B, L, R>(
+  f: (a: A, b: B, cb: (e: L | null | undefined, r?: R) => void) => void
+): (a: A, b: B) => TaskEither<L, R>
+export declare function taskify<A, B, C, L, R>(
+  f: (a: A, b: B, c: C, cb: (e: L | null | undefined, r?: R) => void) => void
+): (a: A, b: B, c: C) => TaskEither<L, R>
+export declare function taskify<A, B, C, D, L, R>(
+  f: (a: A, b: B, c: C, d: D, cb: (e: L | null | undefined, r?: R) => void) => void
+): (a: A, b: B, c: C, d: D) => TaskEither<L, R>
+export declare function taskify<A, B, C, D, E, L, R>(
+  f: (a: A, b: B, c: C, d: D, e: E, cb: (e: L | null | undefined, r?: R) => void) => void
+): (a: A, b: B, c: C, d: D, e: E) => TaskEither<L, R>
+```
+
+**Example**
+
+```ts
+import { taskify } from 'fp-ts/lib/TaskEither'
+import * as fs from 'fs'
+
+// const stat: (a: string | Buffer) => TaskEither<NodeJS.ErrnoException, fs.Stats>
+const stat = taskify(fs.stat)
+assert.strictEqual(stat.length, 0)
 ```
 
 Added in v2.0.0

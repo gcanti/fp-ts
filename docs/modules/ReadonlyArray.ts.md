@@ -134,6 +134,9 @@ Added in v2.5.0
 
 ## alt
 
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
+
 **Signature**
 
 ```ts

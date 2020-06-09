@@ -517,6 +517,9 @@ export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Op
 export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = (mma) => chain_(mma, identity)
 
 /**
+ * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+ * types of kind `* -> *`.
+ *
  * @category Alt
  * @since 2.0.0
  */

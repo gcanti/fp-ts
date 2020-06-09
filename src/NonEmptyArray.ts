@@ -335,6 +335,9 @@ export const foldMapWithIndex: <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) 
 export const foldMap: <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) => S = RNEA.foldMap
 
 /**
+ * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+ * types of kind `* -> *`.
+ *
  * @category Alt
  * @since 2.6.2
  */

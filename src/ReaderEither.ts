@@ -325,6 +325,9 @@ export const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) 
   chain(identity)
 
 /**
+ * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+ * types of kind `* -> *`.
+ *
  * @category Alt
  * @since 2.0.0
  */

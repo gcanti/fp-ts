@@ -94,6 +94,9 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(F: Applicative<F>) =>
 }
 
 /**
+ * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+ * types of kind `* -> *`.
+ *
  * @category Alt
  * @since 2.0.0
  */

@@ -1093,6 +1093,9 @@ export const partitionMapWithIndex: <A, B, C>(
 ) => (fa: Array<A>) => Separated<Array<B>, Array<C>> = RA.partitionMapWithIndex as any
 
 /**
+ * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+ * types of kind `* -> *`.
+ *
  * @category Alt
  * @since 2.0.0
  */

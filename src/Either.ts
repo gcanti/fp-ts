@@ -417,6 +417,9 @@ export const chainW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A
 export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> = (mma) => chain_(mma, identity)
 
 /**
+ * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+ * types of kind `* -> *`.
+ *
  * @category Alt
  * @since 2.0.0
  */

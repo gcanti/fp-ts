@@ -1589,6 +1589,9 @@ const wilt_ = <F>(
 }
 
 /**
+ * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+ * types of kind `* -> *`.
+ *
  * @category Alt
  * @since 2.5.0
  */
