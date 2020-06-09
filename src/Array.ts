@@ -18,10 +18,10 @@ import { Option } from './Option'
 import { Ord } from './Ord'
 import * as RA from './ReadonlyArray'
 import { Show } from './Show'
-import { TraversableWithIndex1, PipeableTraverseWithIndex1 } from './TraversableWithIndex'
+import { PipeableTraverse1, Traversable1 } from './Traversable'
+import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
-import { Witherable1 } from './Witherable'
-import { Traversable1, PipeableTraverse1 } from './Traversable'
+import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -1189,6 +1189,18 @@ export const sequence: Traversable1<URI>['sequence'] = RA.sequence as any
  * @since 2.6.3
  */
 export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = RA.traverseWithIndex as any
+
+/**
+ * @category Whitherable
+ * @since 2.6.5
+ */
+export const wither: PipeableWither1<URI> = RA.wither as any
+
+/**
+ * @category Whitherable
+ * @since 2.6.5
+ */
+export const wilt: PipeableWilt1<URI> = RA.wilt as any
 
 /**
  * @category instances

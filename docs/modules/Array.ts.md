@@ -50,6 +50,9 @@ Added in v2.0.0
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
+- [Whitherable](#whitherable)
+  - [wilt](#wilt)
+  - [wither](#wither)
 - [combinators](#combinators)
   - [chop](#chop)
   - [copy](#copy)
@@ -460,6 +463,28 @@ assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
 ```
 
 Added in v2.0.0
+
+# Whitherable
+
+## wilt
+
+**Signature**
+
+```ts
+export declare const wilt: PipeableWilt1<'Array'>
+```
+
+Added in v2.6.5
+
+## wither
+
+**Signature**
+
+```ts
+export declare const wither: PipeableWither1<'Array'>
+```
+
+Added in v2.6.5
 
 # combinators
 

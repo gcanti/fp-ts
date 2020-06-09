@@ -24,6 +24,9 @@ Added in v2.5.0
   - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
+- [Whitherable](#whitherable)
+  - [wilt](#wilt)
+  - [wither](#wither)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
   - [filterMapWithIndex](#filtermapwithindex)
@@ -186,6 +189,28 @@ export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Rea
 ```
 
 Added in v2.5.0
+
+# Whitherable
+
+## wilt
+
+**Signature**
+
+```ts
+export declare const wilt: PipeableWilt1<'ReadonlyRecord'>
+```
+
+Added in v2.6.5
+
+## wither
+
+**Signature**
+
+```ts
+export declare const wither: PipeableWither1<'ReadonlyRecord'>
+```
+
+Added in v2.6.5
 
 # combinators
 

@@ -403,19 +403,17 @@ describe('Option', () => {
 
   describe('Witherable', () => {
     it('wither', () => {
-      const witherIdentity = _.option.wither(I.identity)
       const f = (n: number) => I.identity.of(p(n) ? _.some(n + 1) : _.none)
-      assert.deepStrictEqual(witherIdentity(_.none, f), I.identity.of(_.none))
-      assert.deepStrictEqual(witherIdentity(_.some(1), f), I.identity.of(_.none))
-      assert.deepStrictEqual(witherIdentity(_.some(3), f), I.identity.of(_.some(4)))
+      assert.deepStrictEqual(pipe(_.none, _.wither(I.identity)(f)), I.identity.of(_.none))
+      assert.deepStrictEqual(pipe(_.some(1), _.wither(I.identity)(f)), I.identity.of(_.none))
+      assert.deepStrictEqual(pipe(_.some(3), _.wither(I.identity)(f)), I.identity.of(_.some(4)))
     })
 
     it('wilt', () => {
-      const wiltIdentity = _.option.wilt(I.identity)
       const f = (n: number) => I.identity.of(p(n) ? right(n + 1) : left(n - 1))
-      assert.deepStrictEqual(wiltIdentity(_.none, f), I.identity.of({ left: _.none, right: _.none }))
-      assert.deepStrictEqual(wiltIdentity(_.some(1), f), I.identity.of({ left: _.some(0), right: _.none }))
-      assert.deepStrictEqual(wiltIdentity(_.some(3), f), I.identity.of({ left: _.none, right: _.some(4) }))
+      assert.deepStrictEqual(pipe(_.none, _.wilt(I.identity)(f)), I.identity.of({ left: _.none, right: _.none }))
+      assert.deepStrictEqual(pipe(_.some(1), _.wilt(I.identity)(f)), I.identity.of({ left: _.some(0), right: _.none }))
+      assert.deepStrictEqual(pipe(_.some(3), _.wilt(I.identity)(f)), I.identity.of({ left: _.none, right: _.some(4) }))
     })
   })
 
