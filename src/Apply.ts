@@ -10,6 +10,29 @@
  *
  * Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
  *
+ * @example
+ * import * as O from 'fp-ts/lib/Option'
+ * import { pipe } from 'fp-ts/lib/pipeable'
+ *
+ * const f = (a: string) => (b: number) => (c: boolean) => a + String(b) + (c ? 'true' : 'false')
+ * const fa: O.Option<string> = O.some('s')
+ * const fb: O.Option<number> = O.some(1)
+ * const fc: O.Option<boolean> = O.some(true)
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     // lift a function
+ *     O.some(f),
+ *     // apply the first argument
+ *     O.ap(fa),
+ *     // apply the second argument
+ *     O.ap(fb),
+ *     // apply the third argument
+ *     O.ap(fc)
+ *   ),
+ *   O.some('s1true')
+ * )
+ *
  * @since 2.0.0
  */
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor4, Functor3C } from './Functor'

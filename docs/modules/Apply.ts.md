@@ -17,6 +17,32 @@ Instances must satisfy the following law in addition to the `Functor` laws:
 
 Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
 
+**Example**
+
+```ts
+import * as O from 'fp-ts/lib/Option'
+import { pipe } from 'fp-ts/lib/pipeable'
+
+const f = (a: string) => (b: number) => (c: boolean) => a + String(b) + (c ? 'true' : 'false')
+const fa: O.Option<string> = O.some('s')
+const fb: O.Option<number> = O.some(1)
+const fc: O.Option<boolean> = O.some(true)
+
+assert.deepStrictEqual(
+  pipe(
+    // lift a function
+    O.some(f),
+    // apply the first argument
+    O.ap(fa),
+    // apply the second argument
+    O.ap(fb),
+    // apply the third argument
+    O.ap(fc)
+  ),
+  O.some('s1true')
+)
+```
+
 Added in v2.0.0
 
 ---
