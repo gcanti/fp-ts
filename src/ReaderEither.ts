@@ -126,20 +126,22 @@ export const fold: <R, E, A, B>(
 ) => (ma: ReaderEither<R, E, A>) => Reader<R, B> = flow(E.fold, R.chain)
 
 /**
- * @category destructors
- * @since 2.0.0
- */
-export const getOrElse: <E, R, A>(onLeft: (e: E) => Reader<R, A>) => (ma: ReaderEither<R, E, A>) => Reader<R, A> = (
-  onLeft
-) => R.chain(E.fold(onLeft, R.of))
-
-/**
+ * Less strict version of [`getOrElse`](#getOrElse).
+ *
  * @category destructors
  * @since 2.6.0
  */
-export const getOrElseW: <Q, E, B>(
-  onLeft: (e: E) => Reader<Q, B>
-) => <R, A>(ma: ReaderEither<R, E, A>) => Reader<R & Q, A | B> = getOrElse as any
+export const getOrElseW = <R, E, B>(onLeft: (e: E) => Reader<R, B>) => <Q, A>(
+  ma: ReaderEither<Q, E, A>
+): Reader<Q & R, A | B> => pipe(ma, R.chain(E.fold<E, A, R.Reader<Q & R, A | B>>(onLeft, R.of)))
+
+/**
+ * @category destructors
+ * @since 2.0.0
+ */
+export const getOrElse: <E, R, A>(
+  onLeft: (e: E) => Reader<R, A>
+) => (ma: ReaderEither<R, E, A>) => Reader<R, A> = getOrElseW
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -180,14 +182,22 @@ export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
 }
 
 /**
+ * Less strict version of [`chainEitherK`](#chainEitherK).
+ *
+ * @category combinators
+ * @since 2.6.1
+ */
+export const chainEitherKW: <E, A, B>(
+  f: (a: A) => Either<E, B>
+) => <R, D>(ma: ReaderEither<R, D, A>) => ReaderEither<R, D | E, B> = (f) => chainW(fromEitherK(f))
+
+/**
  * @category combinators
  * @since 2.4.0
  */
-export function chainEitherK<E, A, B>(
+export const chainEitherK: <E, A, B>(
   f: (a: A) => Either<E, B>
-): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> {
-  return chain<any, E, A, B>(fromEitherK(f))
-}
+) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = chainEitherKW
 
 /**
  * @category combinators
@@ -278,6 +288,16 @@ export const apSecond = <R, E, B>(fb: ReaderEither<R, E, B>) => <A>(fa: ReaderEi
   )
 
 /**
+ * Less strict version of [`chain`](#chain).
+ *
+ * @category Monad
+ * @since 2.6.0
+ */
+export const chainW = <R, E, A, B>(f: (a: A) => ReaderEither<R, E, B>) => <Q, D>(
+  ma: ReaderEither<Q, D, A>
+): ReaderEither<Q & R, D | E, B> => pipe(ma, R.chain(E.fold<D, A, ReaderEither<Q & R, D | E, B>>(left, f)))
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad
@@ -285,23 +305,7 @@ export const apSecond = <R, E, B>(fb: ReaderEither<R, E, B>) => <A>(fa: ReaderEi
  */
 export const chain: <R, E, A, B>(
   f: (a: A) => ReaderEither<R, E, B>
-) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = (f) => R.chain(E.fold(left, f))
-
-/**
- * @category Monad
- * @since 2.6.0
- */
-export const chainW: <Q, D, A, B>(
-  f: (a: A) => ReaderEither<Q, D, B>
-) => <R, E>(ma: ReaderEither<R, E, A>) => ReaderEither<R & Q, E | D, B> = chain as any
-
-/**
- * @category Monad
- * @since 2.6.1
- */
-export const chainEitherKW: <D, A, B>(
-  f: (a: A) => Either<D, B>
-) => <R, E>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E | D, B> = chainEitherK as any
+) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = chainW
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and

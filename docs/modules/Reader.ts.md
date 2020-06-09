@@ -139,10 +139,12 @@ Added in v2.0.0
 
 ## chainW
 
+Less strict version of [`chain`](#chain).
+
 **Signature**
 
 ```ts
-export declare const chainW: <Q, A, B>(f: (a: A) => Reader<Q, B>) => <R>(ma: Reader<R, A>) => Reader<R & Q, B>
+export declare const chainW: <R, A, B>(f: (a: A) => Reader<R, B>) => <Q>(ma: Reader<Q, A>) => Reader<Q & R, B>
 ```
 
 Added in v2.6.0

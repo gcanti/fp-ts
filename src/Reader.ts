@@ -130,13 +130,22 @@ export const apSecond = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reade
   )
 
 /**
+ * Less strict version of [`chain`](#chain).
+ *
+ * @category Monad
+ * @since 2.6.0
+ */
+export const chainW: <R, A, B>(f: (a: A) => Reader<R, B>) => <Q>(ma: Reader<Q, A>) => Reader<Q & R, B> = (f) => (
+  fa
+) => (r) => f(fa(r))(r)
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B> = (f) => (fa) => (r) =>
-  f(fa(r))(r)
+export const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B> = chainW
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -152,12 +161,6 @@ export const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, 
       map(() => a)
     )
   )
-
-/**
- * @category Monad
- * @since 2.6.0
- */
-export const chainW: <Q, A, B>(f: (a: A) => Reader<Q, B>) => <R>(ma: Reader<R, A>) => Reader<R & Q, B> = chain as any
 
 /**
  * @category Monad

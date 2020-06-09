@@ -248,14 +248,22 @@ export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
 }
 
 /**
+ * Less strict version of [`chainEitherK`](#chainEitherK).
+ *
+ * @category combinators
+ * @since 2.6.1
+ */
+export const chainEitherKW = <E, A, B>(f: (a: A) => Either<E, B>) => <S, R, D>(
+  ma: StateReaderTaskEither<S, R, D, A>
+): StateReaderTaskEither<S, R, D | E, B> => pipe(ma, chainW<S, R, E, A, B>(fromEitherK(f)))
+
+/**
  * @category combinators
  * @since 2.4.0
  */
-export function chainEitherK<E, A, B>(
+export const chainEitherK: <E, A, B>(
   f: (a: A) => Either<E, B>
-): <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> {
-  return chain<any, any, E, A, B>(fromEitherK(f))
-}
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = chainEitherKW
 
 /**
  * @category combinators
@@ -268,14 +276,22 @@ export function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
 }
 
 /**
+ * Less strict version of [`chainIOEitherK`](#chainIOEitherK).
+ *
+ * @category combinators
+ * @since 2.6.1
+ */
+export const chainIOEitherKW = <E, A, B>(f: (a: A) => IOEither<E, B>) => <S, R, D>(
+  ma: StateReaderTaskEither<S, R, D, A>
+): StateReaderTaskEither<S, R, D | E, B> => pipe(ma, chainW<S, R, E, A, B>(fromIOEitherK(f)))
+
+/**
  * @category combinators
  * @since 2.4.0
  */
-export function chainIOEitherK<E, A, B>(
+export const chainIOEitherK: <E, A, B>(
   f: (a: A) => IOEither<E, B>
-): <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> {
-  return chain<any, any, E, A, B>(fromIOEitherK(f))
-}
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = chainIOEitherKW
 
 /**
  * @category combinators
@@ -288,14 +304,22 @@ export function fromTaskEitherK<E, A extends ReadonlyArray<unknown>, B>(
 }
 
 /**
+ * Less strict version of [`chainTaskEitherK`](#chainTaskEitherK).
+ *
+ * @category combinators
+ * @since 2.6.1
+ */
+export const chainTaskEitherKW = <E, A, B>(f: (a: A) => TaskEither<E, B>) => <S, R, D>(
+  ma: StateReaderTaskEither<S, R, D, A>
+): StateReaderTaskEither<S, R, D | E, B> => pipe(ma, chainW<S, R, E, A, B>(fromTaskEitherK(f)))
+
+/**
  * @category combinators
  * @since 2.4.0
  */
-export function chainTaskEitherK<E, A, B>(
+export const chainTaskEitherK: <E, A, B>(
   f: (a: A) => TaskEither<E, B>
-): <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> {
-  return chain<any, any, E, A, B>(fromTaskEitherK(f))
-}
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = chainTaskEitherKW
 
 /**
  * @category combinators
@@ -308,48 +332,22 @@ export function fromReaderTaskEitherK<R, E, A extends ReadonlyArray<unknown>, B>
 }
 
 /**
+ * Less strict version of [`chainReaderTaskEitherK`](#chainReaderTaskEitherK).
+ *
+ * @category combinators
+ * @since 2.6.1
+ */
+export const chainReaderTaskEitherKW = <R, E, A, B>(f: (a: A) => ReaderTaskEither<R, E, B>) => <S, D>(
+  ma: StateReaderTaskEither<S, R, D, A>
+): StateReaderTaskEither<S, R, D | E, B> => pipe(ma, chainW<S, R, E, A, B>(fromReaderTaskEitherK(f)))
+
+/**
  * @category combinators
  * @since 2.4.0
  */
-export function chainReaderTaskEitherK<R, E, A, B>(
+export const chainReaderTaskEitherK: <R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
-): <S>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> {
-  return chain<any, any, E, A, B>(fromReaderTaskEitherK(f))
-}
-
-/**
- * @category combinators
- * @since 2.6.1
- */
-export const chainEitherKW: <D, A, B>(
-  f: (a: A) => Either<D, B>
-) => <S, R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E | D, B> = chainEitherK as any
-
-/**
- * @category combinators
- * @since 2.6.1
- */
-export const chainTaskEitherKW: <D, A, B>(
-  f: (a: A) => TaskEither<D, B>
-) => <S, R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E | D, B> = chainTaskEitherK as any
-
-/**
- * @category combinators
- * @since 2.6.1
- */
-export const chainReaderTaskEitherKW: <R, D, A, B>(
-  f: (a: A) => ReaderTaskEither<R, D, B>
-) => <S, E>(
-  ma: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E | D, B> = chainReaderTaskEitherK as any
-
-/**
- * @category combinators
- * @since 2.6.1
- */
-export const chainIOEitherKW: <R, D, A, B>(
-  f: (a: A) => IOEither<D, B>
-) => <S, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E | D, B> = chainIOEitherK as any
+) => <S>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = chainReaderTaskEitherKW
 
 /**
  * @category combinators
@@ -461,6 +459,20 @@ export const apSecond = <S, R, E, B>(fb: StateReaderTaskEither<S, R, E, B>) => <
   )
 
 /**
+ * Less strict version of [`chain`](#chain).
+ *
+ * @category Monad
+ * @since 2.6.0
+ */
+export const chainW: <S, R, E, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, R, E, B>
+) => <Q, D>(ma: StateReaderTaskEither<S, Q, D, A>) => StateReaderTaskEither<S, Q & R, D | E, B> = (f) => (ma) => (s1) =>
+  pipe(
+    ma(s1),
+    RTE.chainW(([a, s2]) => f(a)(s2))
+  )
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad
@@ -468,19 +480,7 @@ export const apSecond = <S, R, E, B>(fb: StateReaderTaskEither<S, R, E, B>) => <
  */
 export const chain: <S, R, E, A, B>(
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = (f) => (ma) => (s1) =>
-  pipe(
-    ma(s1),
-    RTE.chain(([a, s2]) => f(a)(s2))
-  )
-
-/**
- * @category Monad
- * @since 2.6.0
- */
-export const chainW: <S, Q, D, A, B>(
-  f: (a: A) => StateReaderTaskEither<S, Q, D, B>
-) => <R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R & Q, E | D, B> = chain as any
+) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = chainW
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and

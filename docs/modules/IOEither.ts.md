@@ -190,6 +190,8 @@ Added in v2.0.0
 
 ## chainW
 
+Less strict version of [`chain`](#chain).
+
 **Signature**
 
 ```ts
@@ -236,19 +238,21 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function chainEitherK<E, A, B>(f: (a: A) => Either<E, B>): (ma: IOEither<E, A>) => IOEither<E, B>
+export declare const chainEitherK: <E, A, B>(f: (a: A) => E.Either<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B>
 ```
 
 Added in v2.4.0
 
 ## chainEitherKW
 
+Less strict version of [`chainEitherK`](#chainEitherK).
+
 **Signature**
 
 ```ts
-export declare const chainEitherKW: <D, A, B>(
-  f: (a: A) => E.Either<D, B>
-) => <E>(ma: IOEither<E, A>) => IOEither<D | E, B>
+export declare const chainEitherKW: <E, A, B>(
+  f: (a: A) => E.Either<E, B>
+) => <D>(ma: IOEither<D, A>) => IOEither<E | D, B>
 ```
 
 Added in v2.6.1
@@ -411,6 +415,8 @@ export declare const getOrElse: <E, A>(onLeft: (e: E) => I.IO<A>) => (ma: IOEith
 Added in v2.0.0
 
 ## getOrElseW
+
+Less strict version of [`getOrElse`](#getOrElse).
 
 **Signature**
 

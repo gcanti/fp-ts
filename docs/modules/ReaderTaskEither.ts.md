@@ -25,16 +25,16 @@ Added in v2.0.0
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
-  - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
-  - [chainIOEitherKW](#chainioeitherkw)
-  - [chainTaskEitherKW](#chaintaskeitherkw)
   - [chainW](#chainw)
   - [flatten](#flatten)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
+  - [chainEitherKW](#chaineitherkw)
   - [chainIOEitherK](#chainioeitherk)
+  - [chainIOEitherKW](#chainioeitherkw)
   - [chainTaskEitherK](#chaintaskeitherk)
+  - [chainTaskEitherKW](#chaintaskeitherkw)
   - [filterOrElse](#filterorelse)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
@@ -205,18 +205,6 @@ export declare const chain: <R, E, A, B>(
 
 Added in v2.0.0
 
-## chainEitherKW
-
-**Signature**
-
-```ts
-export declare const chainEitherKW: <D, A, B>(
-  f: (a: A) => Either<D, B>
-) => <R, E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, D | E, B>
-```
-
-Added in v2.6.1
-
 ## chainFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -232,38 +220,16 @@ export declare const chainFirst: <R, E, A, B>(
 
 Added in v2.0.0
 
-## chainIOEitherKW
-
-**Signature**
-
-```ts
-export declare const chainIOEitherKW: <D, A, B>(
-  f: (a: A) => IOEither<D, B>
-) => <R, E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, D | E, B>
-```
-
-Added in v2.6.1
-
-## chainTaskEitherKW
-
-**Signature**
-
-```ts
-export declare const chainTaskEitherKW: <D, A, B>(
-  f: (a: A) => TE.TaskEither<D, B>
-) => <R, E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, D | E, B>
-```
-
-Added in v2.6.1
-
 ## chainW
 
+Less strict version of [`chain`](#chain).
+
 **Signature**
 
 ```ts
-export declare const chainW: <Q, D, A, B>(
-  f: (a: A) => ReaderTaskEither<Q, D, B>
-) => <R, E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R & Q, D | E, B>
+export declare const chainW: <R, E, A, B>(
+  f: (a: A) => ReaderTaskEither<R, E, B>
+) => <Q, D>(ma: ReaderTaskEither<Q, D, A>) => ReaderTaskEither<Q & R, E | D, B>
 ```
 
 Added in v2.6.0
@@ -287,36 +253,78 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function chainEitherK<E, A, B>(
+export declare const chainEitherK: <E, A, B>(
   f: (a: A) => Either<E, B>
-): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v2.4.0
+
+## chainEitherKW
+
+Less strict version of [`chainEitherK`](#chainEitherK).
+
+**Signature**
+
+```ts
+export declare const chainEitherKW: <E, A, B>(
+  f: (a: A) => Either<E, B>
+) => <R, D>(ma: ReaderTaskEither<R, D, A>) => ReaderTaskEither<R, E | D, B>
+```
+
+Added in v2.6.1
 
 ## chainIOEitherK
 
 **Signature**
 
 ```ts
-export declare function chainIOEitherK<E, A, B>(
+export declare const chainIOEitherK: <E, A, B>(
   f: (a: A) => IOEither<E, B>
-): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v2.4.0
+
+## chainIOEitherKW
+
+Less strict version of [`chainIOEitherK`](#chainIOEitherK).
+
+**Signature**
+
+```ts
+export declare const chainIOEitherKW: <E, A, B>(
+  f: (a: A) => IOEither<E, B>
+) => <R, D>(ma: ReaderTaskEither<R, D, A>) => ReaderTaskEither<R, E | D, B>
+```
+
+Added in v2.6.1
 
 ## chainTaskEitherK
 
 **Signature**
 
 ```ts
-export declare function chainTaskEitherK<E, A, B>(
-  f: (a: A) => TaskEither<E, B>
-): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+export declare const chainTaskEitherK: <E, A, B>(
+  f: (a: A) => TE.TaskEither<E, B>
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v2.4.0
+
+## chainTaskEitherKW
+
+Less strict version of [`chainTaskEitherK`](#chainTaskEitherK).
+
+**Signature**
+
+```ts
+export declare const chainTaskEitherKW: <E, A, B>(
+  f: (a: A) => TE.TaskEither<E, B>
+) => <R, D>(ma: ReaderTaskEither<R, D, A>) => ReaderTaskEither<R, E | D, B>
+```
+
+Added in v2.6.1
 
 ## filterOrElse
 
@@ -606,21 +614,23 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getOrElse<R, E, A>(
+export declare const getOrElse: <R, E, A>(
   onLeft: (e: E) => ReaderTask<R, A>
-): (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, A>
+) => (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, A>
 ```
 
 Added in v2.0.0
 
 ## getOrElseW
 
+Less strict version of [`getOrElse`](#getOrElse).
+
 **Signature**
 
 ```ts
-export declare const getOrElseW: <Q, E, B>(
-  onLeft: (e: E) => ReaderTask<Q, B>
-) => <R, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTask<R & Q, B | A>
+export declare const getOrElseW: <R, E, B>(
+  onLeft: (e: E) => ReaderTask<R, B>
+) => <Q, A>(ma: ReaderTaskEither<Q, E, A>) => ReaderTask<Q & R, B | A>
 ```
 
 Added in v2.6.0

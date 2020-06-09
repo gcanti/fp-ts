@@ -109,17 +109,19 @@ export const fold: <E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>) 
   flow(E.fold, I.chain)
 
 /**
- * @category destructors
- * @since 2.0.0
- */
-export const getOrElse: <E, A>(onLeft: (e: E) => IO<A>) => (ma: IOEither<E, A>) => IO<A> = (onLeft) =>
-  I.chain(E.fold(onLeft, I.of))
-
-/**
+ * Less strict version of [`getOrElse`](#getOrElse).
+ *
  * @category destructors
  * @since 2.6.0
  */
-export const getOrElseW: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IO<A | B> = getOrElse as any
+export const getOrElseW = <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>): IO<A | B> =>
+  pipe(ma, I.chain(E.fold<E, A, I.IO<A | B>>(onLeft, I.of)))
+
+/**
+ * @category destructors
+ * @since 2.0.0
+ */
+export const getOrElse: <E, A>(onLeft: (e: E) => IO<A>) => (ma: IOEither<E, A>) => IO<A> = getOrElseW
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -164,20 +166,22 @@ export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
 }
 
 /**
- * @category combinators
- * @since 2.4.0
- */
-export function chainEitherK<E, A, B>(f: (a: A) => Either<E, B>): (ma: IOEither<E, A>) => IOEither<E, B> {
-  return chain(fromEitherK(f))
-}
-
-/**
+ * Less strict version of [`chainEitherK`](#chainEitherK).
+ *
  * @category combinators
  * @since 2.6.1
  */
-export const chainEitherKW: <D, A, B>(
-  f: (a: A) => Either<D, B>
-) => <E>(ma: IOEither<E, A>) => IOEither<E | D, B> = chainEitherK as any
+export const chainEitherKW: <E, A, B>(f: (a: A) => Either<E, B>) => <D>(ma: IOEither<D, A>) => IOEither<D | E, B> = (
+  f
+) => chainW(fromEitherK(f))
+
+/**
+ * @category combinators
+ * @since 2.4.0
+ */
+export const chainEitherK: <E, A, B>(
+  f: (a: A) => Either<E, B>
+) => (ma: IOEither<E, A>) => IOEither<E, B> = chainEitherKW
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -248,13 +252,21 @@ export const apSecond = <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>): I
   )
 
 /**
+ * Less strict version of [`chain`](#chain).
+ *
+ * @category Monad
+ * @since 2.6.0
+ */
+export const chainW = <D, A, B>(f: (a: A) => IOEither<D, B>) => <E>(ma: IOEither<E, A>): IOEither<D | E, B> =>
+  pipe(ma, I.chain(E.fold<E, A, IOEither<D | E, B>>(left, f)))
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B> = (f) =>
-  I.chain(E.fold(left, f))
+export const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B> = chainW
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -270,14 +282,6 @@ export const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither
       map(() => a)
     )
   )
-
-/**
- * @category Monad
- * @since 2.6.0
- */
-export const chainW: <D, A, B>(
-  f: (a: A) => IOEither<D, B>
-) => <E>(ma: IOEither<E, A>) => IOEither<E | D, B> = chain as any
 
 /**
  * @category Monad

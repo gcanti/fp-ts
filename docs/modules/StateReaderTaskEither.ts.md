@@ -216,12 +216,14 @@ Added in v2.0.0
 
 ## chainW
 
+Less strict version of [`chain`](#chain).
+
 **Signature**
 
 ```ts
-export declare const chainW: <S, Q, D, A, B>(
-  f: (a: A) => StateReaderTaskEither<S, Q, D, B>
-) => <R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R & Q, D | E, B>
+export declare const chainW: <S, R, E, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, R, E, B>
+) => <Q, D>(ma: StateReaderTaskEither<S, Q, D, A>) => StateReaderTaskEither<S, Q & R, E | D, B>
 ```
 
 Added in v2.6.0
@@ -245,21 +247,23 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function chainEitherK<E, A, B>(
+export declare const chainEitherK: <E, A, B>(
   f: (a: A) => Either<E, B>
-): <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.4.0
 
 ## chainEitherKW
 
+Less strict version of [`chainEitherK`](#chainEitherK).
+
 **Signature**
 
 ```ts
-export declare const chainEitherKW: <D, A, B>(
-  f: (a: A) => Either<D, B>
-) => <S, R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, D | E, B>
+export declare const chainEitherKW: <E, A, B>(
+  f: (a: A) => Either<E, B>
+) => <S, R, D>(ma: StateReaderTaskEither<S, R, D, A>) => StateReaderTaskEither<S, R, E | D, B>
 ```
 
 Added in v2.6.1
@@ -269,21 +273,23 @@ Added in v2.6.1
 **Signature**
 
 ```ts
-export declare function chainIOEitherK<E, A, B>(
+export declare const chainIOEitherK: <E, A, B>(
   f: (a: A) => IOEither<E, B>
-): <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.4.0
 
 ## chainIOEitherKW
 
+Less strict version of [`chainIOEitherK`](#chainIOEitherK).
+
 **Signature**
 
 ```ts
-export declare const chainIOEitherKW: <R, D, A, B>(
-  f: (a: A) => IOEither<D, B>
-) => <S, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, D | E, B>
+export declare const chainIOEitherKW: <E, A, B>(
+  f: (a: A) => IOEither<E, B>
+) => <S, R, D>(ma: StateReaderTaskEither<S, R, D, A>) => StateReaderTaskEither<S, R, E | D, B>
 ```
 
 Added in v2.6.1
@@ -293,21 +299,23 @@ Added in v2.6.1
 **Signature**
 
 ```ts
-export declare function chainReaderTaskEitherK<R, E, A, B>(
-  f: (a: A) => ReaderTaskEither<R, E, B>
-): <S>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+export declare const chainReaderTaskEitherK: <R, E, A, B>(
+  f: (a: A) => RTE.ReaderTaskEither<R, E, B>
+) => <S>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.4.0
 
 ## chainReaderTaskEitherKW
 
+Less strict version of [`chainReaderTaskEitherK`](#chainReaderTaskEitherK).
+
 **Signature**
 
 ```ts
-export declare const chainReaderTaskEitherKW: <R, D, A, B>(
-  f: (a: A) => RTE.ReaderTaskEither<R, D, B>
-) => <S, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, D | E, B>
+export declare const chainReaderTaskEitherKW: <R, E, A, B>(
+  f: (a: A) => RTE.ReaderTaskEither<R, E, B>
+) => <S, D>(ma: StateReaderTaskEither<S, R, D, A>) => StateReaderTaskEither<S, R, E | D, B>
 ```
 
 Added in v2.6.1
@@ -317,21 +325,23 @@ Added in v2.6.1
 **Signature**
 
 ```ts
-export declare function chainTaskEitherK<E, A, B>(
+export declare const chainTaskEitherK: <E, A, B>(
   f: (a: A) => TaskEither<E, B>
-): <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.4.0
 
 ## chainTaskEitherKW
 
+Less strict version of [`chainTaskEitherK`](#chainTaskEitherK).
+
 **Signature**
 
 ```ts
-export declare const chainTaskEitherKW: <D, A, B>(
-  f: (a: A) => TaskEither<D, B>
-) => <S, R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, D | E, B>
+export declare const chainTaskEitherKW: <E, A, B>(
+  f: (a: A) => TaskEither<E, B>
+) => <S, R, D>(ma: StateReaderTaskEither<S, R, D, A>) => StateReaderTaskEither<S, R, E | D, B>
 ```
 
 Added in v2.6.1

@@ -25,12 +25,12 @@ Added in v2.0.0
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
-  - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
   - [chainW](#chainw)
   - [flatten](#flatten)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
+  - [chainEitherKW](#chaineitherkw)
   - [filterOrElse](#filterorelse)
   - [fromEitherK](#fromeitherk)
   - [local](#local)
@@ -181,18 +181,6 @@ export declare const chain: <R, E, A, B>(
 
 Added in v2.0.0
 
-## chainEitherKW
-
-**Signature**
-
-```ts
-export declare const chainEitherKW: <D, A, B>(
-  f: (a: A) => E.Either<D, B>
-) => <R, E>(ma: ReaderEither<R, E, A>) => ReaderEither<R, D | E, B>
-```
-
-Added in v2.6.1
-
 ## chainFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -210,12 +198,14 @@ Added in v2.0.0
 
 ## chainW
 
+Less strict version of [`chain`](#chain).
+
 **Signature**
 
 ```ts
-export declare const chainW: <Q, D, A, B>(
-  f: (a: A) => ReaderEither<Q, D, B>
-) => <R, E>(ma: ReaderEither<R, E, A>) => ReaderEither<R & Q, D | E, B>
+export declare const chainW: <R, E, A, B>(
+  f: (a: A) => ReaderEither<R, E, B>
+) => <Q, D>(ma: ReaderEither<Q, D, A>) => ReaderEither<Q & R, E | D, B>
 ```
 
 Added in v2.6.0
@@ -237,12 +227,26 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function chainEitherK<E, A, B>(
-  f: (a: A) => Either<E, B>
-): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+export declare const chainEitherK: <E, A, B>(
+  f: (a: A) => E.Either<E, B>
+) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
 ```
 
 Added in v2.4.0
+
+## chainEitherKW
+
+Less strict version of [`chainEitherK`](#chainEitherK).
+
+**Signature**
+
+```ts
+export declare const chainEitherKW: <E, A, B>(
+  f: (a: A) => E.Either<E, B>
+) => <R, D>(ma: ReaderEither<R, D, A>) => ReaderEither<R, E | D, B>
+```
+
+Added in v2.6.1
 
 ## filterOrElse
 
@@ -427,12 +431,14 @@ Added in v2.0.0
 
 ## getOrElseW
 
+Less strict version of [`getOrElse`](#getOrElse).
+
 **Signature**
 
 ```ts
-export declare const getOrElseW: <Q, E, B>(
-  onLeft: (e: E) => R.Reader<Q, B>
-) => <R, A>(ma: ReaderEither<R, E, A>) => R.Reader<R & Q, B | A>
+export declare const getOrElseW: <R, E, B>(
+  onLeft: (e: E) => R.Reader<R, B>
+) => <Q, A>(ma: ReaderEither<Q, E, A>) => R.Reader<Q & R, B | A>
 ```
 
 Added in v2.6.0
