@@ -14,6 +14,12 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.6.5
+
+- **Polish**
+  - export a pipeable `wither` function from all modules which admit a `Witherable` instance (@gcanti)
+  - export a pipeable `wilt` function from all modules which admit a `Witherable` instance (@gcanti)
+
 # 2.6.4
 
 - **Bug Fix**

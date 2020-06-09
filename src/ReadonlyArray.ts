@@ -26,7 +26,7 @@ import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Show } from './Show'
 import { TraversableWithIndex1, PipeableTraverseWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
-import { Witherable1 } from './Witherable'
+import { Witherable1, PipeableWither1, PipeableWilt1 } from './Witherable'
 import { Traversable1, PipeableTraverse1 } from './Traversable'
 
 /**
@@ -1874,6 +1874,30 @@ export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = <F>(
 ): (<A, B>(f: (i: number, a: A) => HKT<F, B>) => (ta: ReadonlyArray<A>) => HKT<F, ReadonlyArray<B>>) => {
   const traverseWithIndexF = traverseWithIndex_(F)
   return (f) => (ta) => traverseWithIndexF(ta, f)
+}
+
+/**
+ * @category Whitherable
+ * @since 2.6.5
+ */
+export const wither: PipeableWither1<URI> = <F>(
+  F: Applicative<F>
+): (<A, B>(f: (a: A) => HKT<F, Option<B>>) => (ta: ReadonlyArray<A>) => HKT<F, ReadonlyArray<B>>) => {
+  const witherF = wither_(F)
+  return (f) => (ta) => witherF(ta, f)
+}
+
+/**
+ * @category Whitherable
+ * @since 2.6.5
+ */
+export const wilt: PipeableWilt1<URI> = <F>(
+  F: Applicative<F>
+): (<A, B, C>(
+  f: (a: A) => HKT<F, Either<B, C>>
+) => (wa: ReadonlyArray<A>) => HKT<F, Separated<ReadonlyArray<B>, ReadonlyArray<C>>>) => {
+  const wiltF = wilt_(F)
+  return (f) => (ta) => wiltF(ta, f)
 }
 
 /**

@@ -53,6 +53,9 @@ Added in v2.0.0
 - [Traversable](#traversable)
   - [sequence](#sequence)
   - [traverse](#traverse)
+- [Whitherable](#whitherable)
+  - [wilt](#wilt)
+  - [wither](#wither)
 - [combinators](#combinators)
   - [mapNullable](#mapnullable)
 - [constructors](#constructors)
@@ -369,6 +372,28 @@ export declare const traverse: PipeableTraverse1<'Option'>
 ```
 
 Added in v2.6.3
+
+# Whitherable
+
+## wilt
+
+**Signature**
+
+```ts
+export declare const wilt: PipeableWilt1<'Option'>
+```
+
+Added in v2.6.5
+
+## wither
+
+**Signature**
+
+```ts
+export declare const wither: PipeableWither1<'Option'>
+```
+
+Added in v2.6.5
 
 # combinators
 

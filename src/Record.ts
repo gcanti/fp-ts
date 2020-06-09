@@ -19,7 +19,7 @@ import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
-import { Witherable1 } from './Witherable'
+import { Witherable1, PipeableWither1, PipeableWilt1 } from './Witherable'
 
 /* tslint:disable:readonly-array */
 
@@ -328,6 +328,18 @@ export function sequence<F>(F: Applicative<F>): <K extends string, A>(ta: Record
 export function sequence<F>(F: Applicative<F>): <A>(ta: Record<string, HKT<F, A>>) => HKT<F, Record<string, A>> {
   return RR.sequence(F)
 }
+
+/**
+ * @category Whitherable
+ * @since 2.6.5
+ */
+export const wither: PipeableWither1<URI> = RR.wither as any
+
+/**
+ * @category Whitherable
+ * @since 2.6.5
+ */
+export const wilt: PipeableWilt1<URI> = RR.wilt as any
 
 /**
  * @since 2.0.0

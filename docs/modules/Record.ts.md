@@ -24,6 +24,9 @@ Added in v2.0.0
   - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
+- [Whitherable](#whitherable)
+  - [wilt](#wilt)
+  - [wither](#wither)
 - [model](#model)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -175,6 +178,28 @@ export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Rec
 ```
 
 Added in v2.0.0
+
+# Whitherable
+
+## wilt
+
+**Signature**
+
+```ts
+export declare const wilt: PipeableWilt1<'Record'>
+```
+
+Added in v2.6.5
+
+## wither
+
+**Signature**
+
+```ts
+export declare const wither: PipeableWither1<'Record'>
+```
+
+Added in v2.6.5
 
 # model
 

@@ -18,7 +18,7 @@ import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
-import { Witherable1 } from './Witherable'
+import { Witherable1, PipeableWither1, PipeableWilt1 } from './Witherable'
 
 /**
  * @category model
@@ -511,6 +511,30 @@ export function sequence<F>(
 }
 
 /**
+ * @category Whitherable
+ * @since 2.6.5
+ */
+export const wither: PipeableWither1<URI> = <F>(
+  F: Applicative<F>
+): (<A, B>(f: (a: A) => HKT<F, Option<B>>) => (ta: ReadonlyRecord<string, A>) => HKT<F, ReadonlyRecord<string, B>>) => {
+  const witherF = wither_(F)
+  return (f) => (ta) => witherF(ta, f)
+}
+
+/**
+ * @category Whitherable
+ * @since 2.6.5
+ */
+export const wilt: PipeableWilt1<URI> = <F>(
+  F: Applicative<F>
+): (<A, B, C>(
+  f: (a: A) => HKT<F, Either<B, C>>
+) => (wa: ReadonlyRecord<string, A>) => HKT<F, Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>>>) => {
+  const wiltF = wilt_(F)
+  return (f) => (ta) => wiltF(ta, f)
+}
+
+/**
  * @since 2.5.0
  */
 export function partitionMapWithIndex<K extends string, A, B, C>(
@@ -896,6 +920,23 @@ const traverseWithIndex_ = <F>(F: Applicative<F>) => <A, B>(
   return fr
 }
 
+const wither_ = <F>(
+  F: Applicative<F>
+): (<A, B>(wa: ReadonlyRecord<string, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, ReadonlyRecord<string, B>>) => {
+  const traverseF = traverse_(F)
+  return (wa, f) => F.map(traverseF(wa, f), compact)
+}
+
+const wilt_ = <F>(
+  F: Applicative<F>
+): (<A, B, C>(
+  wa: ReadonlyRecord<string, A>,
+  f: (a: A) => HKT<F, Either<B, C>>
+) => HKT<F, Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>>>) => {
+  const traverseF = traverse_(F)
+  return (wa, f) => F.map(traverseF(wa, f), separate)
+}
+
 /**
  * @category Filterable
  * @since 2.5.0
@@ -1039,20 +1080,7 @@ export const readonlyRecord: FunctorWithIndex1<URI, string> &
   partitionWithIndex: partitionWithIndex_,
   filterMapWithIndex: filterMapWithIndex_,
   filterWithIndex: filterWithIndex_,
-  wither: <F>(
-    F: Applicative<F>
-  ): (<A, B>(wa: ReadonlyRecord<string, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, ReadonlyRecord<string, B>>) => {
-    const traverseF = traverse_(F)
-    return (wa, f) => F.map(traverseF(wa, f), compact)
-  },
-  wilt: <F>(
-    F: Applicative<F>
-  ): (<A, B, C>(
-    wa: ReadonlyRecord<string, A>,
-    f: (a: A) => HKT<F, Either<B, C>>
-  ) => HKT<F, Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>>>) => {
-    const traverseF = traverse_(F)
-    return (wa, f) => F.map(traverseF(wa, f), separate)
-  },
+  wither: wither_,
+  wilt: wilt_,
   traverseWithIndex: traverseWithIndex_
 }

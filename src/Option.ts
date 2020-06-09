@@ -29,7 +29,7 @@ import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { Traversable1, PipeableTraverse1 } from './Traversable'
-import { Witherable1 } from './Witherable'
+import { Witherable1, PipeableWither1, PipeableWilt1 } from './Witherable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -650,6 +650,28 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(F: Applicative<F>) =>
   ta: Option<HKT<F, A>>
 ): HKT<F, Option<A>> => {
   return isNone(ta) ? F.of(none) : F.map(ta.value, some)
+}
+
+/**
+ * @category Whitherable
+ * @since 2.6.5
+ */
+export const wither: PipeableWither1<URI> = <F>(
+  F: Applicative<F>
+): (<A, B>(f: (a: A) => HKT<F, Option<B>>) => (ta: Option<A>) => HKT<F, Option<B>>) => {
+  const witherF = wither_(F)
+  return (f) => (ta) => witherF(ta, f)
+}
+
+/**
+ * @category Whitherable
+ * @since 2.6.5
+ */
+export const wilt: PipeableWilt1<URI> = <F>(
+  F: Applicative<F>
+): (<A, B, C>(f: (a: A) => HKT<F, Either<B, C>>) => (wa: Option<A>) => HKT<F, Separated<Option<B>, Option<C>>>) => {
+  const wiltF = wilt_(F)
+  return (f) => (ta) => wiltF(ta, f)
 }
 
 // -------------------------------------------------------------------------------------
