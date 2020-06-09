@@ -4,6 +4,7 @@ import { Either, left, right } from '../src/Either'
 import { Eq, eqNumber, fromEquals } from '../src/Eq'
 import { identity, pipe, Refinement } from '../src/function'
 import * as I from '../src/Identity'
+import * as IO from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import { none, option, Option, some } from '../src/Option'
 import { fromCompare, ord, ordNumber, ordString } from '../src/Ord'
@@ -741,6 +742,24 @@ describe('ReadonlyMap', () => {
 
   describe('getWitherable', () => {
     const W = _.getWitherable(ordUser)
+
+    it('traverseWithIndex should sort the keys', () => {
+      const W = _.getWitherable(ordString)
+      // tslint:disable-next-line: readonly-array
+      const log: Array<string> = []
+      const append = (message: string): IO.IO<void> => () => {
+        log.push(message)
+      }
+
+      W.traverseWithIndex(IO.io)(
+        new Map([
+          ['b', append('b')],
+          ['a', append('a')]
+        ]),
+        (_, io) => io
+      )()
+      assert.deepStrictEqual(log, ['a', 'b'])
+    })
 
     it('mapWithIndex', () => {
       const mapWithIndex = W.mapWithIndex
