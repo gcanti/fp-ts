@@ -76,6 +76,8 @@ Added in v2.3.0
 
 ## apFirst
 
+Combine two effectful actions, keeping only the result of the first.
+
 **Signature**
 
 ```ts
@@ -85,6 +87,8 @@ export declare const apFirst: <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask
 Added in v2.3.0
 
 ## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
 
 **Signature**
 

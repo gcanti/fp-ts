@@ -347,12 +347,16 @@ export const alt: <A>(that: () => NonEmptyArray<A>) => (fa: NonEmptyArray<A>) =>
 export const ap: <A>(fa: NonEmptyArray<A>) => <B>(fab: NonEmptyArray<(a: A) => B>) => NonEmptyArray<B> = RNEA.ap as any
 
 /**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
  * @category Apply
  * @since 2.0.0
  */
 export const apFirst: <B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.apFirst as any
 
 /**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
  * @category Apply
  * @since 2.0.0
  */

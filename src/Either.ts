@@ -360,6 +360,8 @@ export const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) =>
   ap_(fab, fa)
 
 /**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
  * @category Apply
  * @since 2.0.0
  */
@@ -370,6 +372,8 @@ export const apFirst: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Eithe
   )
 
 /**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
  * @category Apply
  * @since 2.0.0
  */

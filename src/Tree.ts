@@ -322,6 +322,8 @@ const extend_: <A, B>(wa: Tree<A>, f: (wa: Tree<A>) => B) => Tree<B> = (wa, f) =
 export const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = (fa) => (fab) => ap_(fab, fa)
 
 /**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
  * @category Apply
  * @since 2.0.0
  */
@@ -332,6 +334,8 @@ export const apFirst: <B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<A> = (fb) => 
   )
 
 /**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
  * @category Apply
  * @since 2.0.0
  */

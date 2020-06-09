@@ -99,6 +99,8 @@ export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) =>
   fab(r)(fa(r))
 
 /**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
  * @category Apply
  * @since 2.0.0
  */
@@ -110,6 +112,8 @@ export const apFirst = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reader
   )
 
 /**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
  * @category Apply
  * @since 2.0.0
  */

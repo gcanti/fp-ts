@@ -417,6 +417,8 @@ export const ap: <A>(
 ) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B> = RA.ap as any
 
 /**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
  * @category Apply
  * @since 2.5.0
  */
@@ -425,6 +427,8 @@ export const apFirst: <B>(
 ) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.apFirst as any
 
 /**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
  * @category Apply
  * @since 2.5.0
  */

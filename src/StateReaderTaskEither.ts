@@ -425,6 +425,8 @@ export const ap: <S, R, E, A>(
   )
 
 /**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
  * @category Apply
  * @since 2.0.0
  */
@@ -438,6 +440,8 @@ export const apFirst = <S, R, E, B>(fb: StateReaderTaskEither<S, R, E, B>) => <A
   )
 
 /**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
  * @category Apply
  * @since 2.0.0
  */

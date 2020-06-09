@@ -378,6 +378,8 @@ export const ap: <R, E, A>(
   pipe(fab(r), TE.ap(fa(r)))
 
 /**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
  * @category Apply
  * @since 2.0.0
  */
@@ -391,6 +393,8 @@ export const apFirst: <R, E, B>(
   )
 
 /**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
  * @category Apply
  * @since 2.0.0
  */

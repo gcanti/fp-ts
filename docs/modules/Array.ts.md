@@ -154,6 +154,8 @@ Added in v2.0.0
 
 ## apFirst
 
+Combine two effectful actions, keeping only the result of the first.
+
 **Signature**
 
 ```ts
@@ -163,6 +165,8 @@ export declare const apFirst: <B>(fb: B[]) => <A>(fa: A[]) => A[]
 Added in v2.0.0
 
 ## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
 
 **Signature**
 
