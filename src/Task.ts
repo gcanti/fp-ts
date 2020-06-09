@@ -1,4 +1,10 @@
 /**
+ * ```ts
+ * interface Task<A> {
+ *   (): Promise<A>
+ * }
+ * ```
+ *
  * `Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
  * If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
  *
@@ -11,6 +17,10 @@ import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Apply1 } from './Apply'
+
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
 
 /**
  * @category model
@@ -38,47 +48,26 @@ export interface Task<A> {
   (): Promise<A>
 }
 
-/**
- * @since 2.0.0
- */
-export const never: Task<never> = () => new Promise((_) => undefined)
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>> {
-  return {
-    concat: (x, y) => () => x().then((rx) => y().then((ry) => S.concat(rx, ry)))
-  }
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>> {
-  return {
-    concat: getSemigroup(M).concat,
-    empty: of(M.empty)
-  }
-}
-
-/**
- * Note: uses `Promise.race` internally
- *
- * @category instances
- * @since 2.0.0
- */
-export function getRaceMonoid<A = never>(): Monoid<Task<A>> {
-  return {
-    concat: (x, y) => () => Promise.race([x(), y()]),
-    empty: never
-  }
-}
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors
+ * @since 2.0.0
+ */
+export function fromIO<A>(ma: IO<A>): Task<A> {
+  return () => Promise.resolve(ma())
+}
+
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
+/**
+ * Creates a task that will complete after a time delay
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export function delay(millis: number): <A>(ma: Task<A>) => Task<A> {
@@ -92,22 +81,7 @@ export function delay(millis: number): <A>(ma: Task<A>) => Task<A> {
 }
 
 /**
- * @category constructors
- * @since 2.0.0
- */
-export function fromIO<A>(ma: IO<A>): Task<A> {
-  return () => Promise.resolve(ma())
-}
-
-/**
- * @category Applicative
- * @since 2.0.0
- */
-export function of<A>(a: A): Task<A> {
-  return () => Promise.resolve(a)
-}
-
-/**
+ * @category combinators
  * @since 2.4.0
  */
 export function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): (...a: A) => Task<B> {
@@ -115,7 +89,7 @@ export function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<
 }
 
 /**
- * @category Monad
+ * @category combinators
  * @since 2.4.0
  */
 export function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> {
@@ -127,11 +101,15 @@ export function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> {
 // -------------------------------------------------------------------------------------
 
 const map_: <A, B>(fa: Task<A>, f: (a: A) => B) => Task<B> = (ma, f) => () => ma().then(f)
-
 const ap_: <A, B>(fab: Task<(a: A) => B>, fa: Task<A>) => Task<B> = (mab, ma) => () =>
   Promise.all([mab(), ma()]).then(([f, a]) => f(a))
-
 const chain_: <A, B>(fa: Task<A>, f: (a: A) => Task<B>) => Task<B> = (ma, f) => () => ma().then((a) => f(a)())
+
+/**
+ * @category Functor
+ * @since 2.0.0
+ */
+export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (fa) => map_(fa, f)
 
 /**
  * @category Apply
@@ -160,6 +138,12 @@ export const apSecond: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<B> = (fb) =>
   )
 
 /**
+ * @category Applicative
+ * @since 2.0.0
+ */
+export const of: <A>(a: A) => Task<A> = (a) => () => Promise.resolve(a)
+
+/**
  * @category Monad
  * @since 2.0.0
  */
@@ -177,12 +161,6 @@ export const chainFirst: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<A
  * @since 2.0.0
  */
 export const flatten: <A>(mma: Task<Task<A>>) => Task<A> = (mma) => chain_(mma, identity)
-
-/**
- * @category Functor
- * @since 2.0.0
- */
-export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (fa) => map_(fa, f)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -206,6 +184,46 @@ export const monadTask: Monad1<URI> = {
   of,
   ap: ap_,
   chain: chain_
+}
+
+/**
+ * Lift a semigroup into 'Task', the inner values are concatenated using the provided `Semigroup`.
+ *
+ * @category instances
+ * @since 2.0.0
+ */
+export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>> {
+  return {
+    concat: (x, y) => () => x().then((rx) => y().then((ry) => S.concat(rx, ry)))
+  }
+}
+
+/**
+ * Lift a monoid into 'Task', the inner values are concatenated using the provided `Monoid`.
+ *
+ * @category instances
+ * @since 2.0.0
+ */
+export function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>> {
+  return {
+    concat: getSemigroup(M).concat,
+    empty: of(M.empty)
+  }
+}
+
+/**
+ * Monoid returning the first completed task.
+ *
+ * Note: uses `Promise.race` internally
+ *
+ * @category instances
+ * @since 2.0.0
+ */
+export function getRaceMonoid<A = never>(): Monoid<Task<A>> {
+  return {
+    concat: (x, y) => () => Promise.race([x(), y()]),
+    empty: never
+  }
 }
 
 /**
@@ -237,3 +255,12 @@ export const taskSeq: typeof task = {
   fromIO,
   fromTask: identity
 }
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.0.0
+ */
+export const never: Task<never> = () => new Promise((_) => undefined)

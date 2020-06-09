@@ -414,7 +414,7 @@ Added in v2.0.0
 ## getApplySemigroup
 
 Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
-are appended using the provided `Semigroup`
+are concatenated using the provided `Semigroup`
 
 **Signature**
 
@@ -449,7 +449,7 @@ Added in v2.0.0
 ## getSemigroup
 
 Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
-appended using the provided `Semigroup`
+concatenated using the provided `Semigroup`
 
 **Signature**
 

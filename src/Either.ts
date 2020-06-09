@@ -537,7 +537,7 @@ export function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> {
 
 /**
  * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
- * appended using the provided `Semigroup`
+ * concatenated using the provided `Semigroup`
  *
  * @example
  * import { getSemigroup, left, right } from 'fp-ts/lib/Either'
@@ -560,7 +560,7 @@ export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> {
 
 /**
  * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
- * are appended using the provided `Semigroup`
+ * are concatenated using the provided `Semigroup`
  *
  * @example
  * import { getApplySemigroup, left, right } from 'fp-ts/lib/Either'

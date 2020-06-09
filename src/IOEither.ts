@@ -348,7 +348,7 @@ const throwError_ = left
 
 /**
  * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
- * appended using the provided `Semigroup`
+ * concatenated using the provided `Semigroup`
  *
  * @category instances
  * @since 2.0.0
@@ -359,7 +359,7 @@ export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> {
 
 /**
  * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
- * are appended using the provided `Semigroup`
+ * are concatenated using the provided `Semigroup`
  *
  * @category instances
  * @since 2.0.0

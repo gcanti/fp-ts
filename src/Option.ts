@@ -406,9 +406,9 @@ export function mapNullable<A, B>(f: (a: A) => B | null | undefined): (ma: Optio
 
 const defaultSeparate = { left: none, right: none }
 
-const map_: <A, B>(fa: Option<A>, f: (a: A) => B) => Option<B> = (ma, f) => (isNone(ma) ? none : some(f(ma.value)))
-const ap_: <A, B>(fab: Option<(a: A) => B>, fa: Option<A>) => Option<B> = (mab, ma) =>
-  isNone(mab) ? none : isNone(ma) ? none : some(mab.value(ma.value))
+const map_: <A, B>(fa: Option<A>, f: (a: A) => B) => Option<B> = (fa, f) => (isNone(fa) ? none : some(f(fa.value)))
+const ap_: <A, B>(fab: Option<(a: A) => B>, fa: Option<A>) => Option<B> = (fab, fa) =>
+  isNone(fab) ? none : isNone(fa) ? none : some(fab.value(fa.value))
 const of = some
 const chain_: <A, B>(fa: Option<A>, f: (a: A) => Option<B>) => Option<B> = (ma, f) => (isNone(ma) ? none : f(ma.value))
 const reduce_: <A, B>(fa: Option<A>, b: B, f: (b: B, a: A) => B) => B = (fa, b, f) => (isNone(fa) ? b : f(b, fa.value))
@@ -790,7 +790,7 @@ export function getLastMonoid<A = never>(): Monoid<Option<A>> {
 
 /**
  * Monoid returning the left-most non-`None` value. If both operands are `Some`s then the inner values are
- * appended using the provided `Semigroup`
+ * concatenated using the provided `Semigroup`
  *
  * | x       | y       | concat(x, y)       |
  * | ------- | ------- | ------------------ |

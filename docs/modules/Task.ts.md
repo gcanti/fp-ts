@@ -6,6 +6,12 @@ parent: Modules
 
 ## Task overview
 
+```ts
+interface Task<A> {
+  (): Promise<A>
+}
+```
+
 `Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
 If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
 
@@ -26,10 +32,12 @@ Added in v2.0.0
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
-  - [chainIOK](#chainiok)
   - [flatten](#flatten)
-- [constructors](#constructors)
+- [combinators](#combinators)
+  - [chainIOK](#chainiok)
   - [delay](#delay)
+  - [fromIOK](#fromiok)
+- [constructors](#constructors)
   - [fromIO](#fromio)
 - [instances](#instances)
   - [getMonoid](#getmonoid)
@@ -42,7 +50,6 @@ Added in v2.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
-  - [fromIOK](#fromiok)
   - [never](#never)
 
 ---
@@ -54,7 +61,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function of<A>(a: A): Task<A>
+export declare const of: <A>(a: A) => Task<A>
 ```
 
 Added in v2.0.0
@@ -125,16 +132,6 @@ export declare const chainFirst: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) =
 
 Added in v2.0.0
 
-## chainIOK
-
-**Signature**
-
-```ts
-export declare function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B>
-```
-
-Added in v2.4.0
-
 ## flatten
 
 **Signature**
@@ -145,9 +142,21 @@ export declare const flatten: <A>(mma: Task<Task<A>>) => Task<A>
 
 Added in v2.0.0
 
-# constructors
+# combinators
+
+## chainIOK
+
+**Signature**
+
+```ts
+export declare function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B>
+```
+
+Added in v2.4.0
 
 ## delay
+
+Creates a task that will complete after a time delay
 
 **Signature**
 
@@ -156,6 +165,18 @@ export declare function delay(millis: number): <A>(ma: Task<A>) => Task<A>
 ```
 
 Added in v2.0.0
+
+## fromIOK
+
+**Signature**
+
+```ts
+export declare function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): (...a: A) => Task<B>
+```
+
+Added in v2.4.0
+
+# constructors
 
 ## fromIO
 
@@ -171,6 +192,8 @@ Added in v2.0.0
 
 ## getMonoid
 
+Lift a monoid into 'Task', the inner values are concatenated using the provided `Monoid`.
+
 **Signature**
 
 ```ts
@@ -180,6 +203,8 @@ export declare function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>>
 Added in v2.0.0
 
 ## getRaceMonoid
+
+Monoid returning the first completed task.
 
 Note: uses `Promise.race` internally
 
@@ -192,6 +217,8 @@ export declare function getRaceMonoid<A = never>(): Monoid<Task<A>>
 Added in v2.0.0
 
 ## getSemigroup
+
+Lift a semigroup into 'Task', the inner values are concatenated using the provided `Semigroup`.
 
 **Signature**
 
@@ -258,16 +285,6 @@ export type URI = typeof URI
 Added in v2.0.0
 
 # utils
-
-## fromIOK
-
-**Signature**
-
-```ts
-export declare function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): (...a: A) => Task<B>
-```
-
-Added in v2.4.0
 
 ## never
 

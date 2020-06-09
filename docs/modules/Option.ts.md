@@ -829,7 +829,7 @@ Added in v2.0.0
 ## getMonoid
 
 Monoid returning the left-most non-`None` value. If both operands are `Some`s then the inner values are
-appended using the provided `Semigroup`
+concatenated using the provided `Semigroup`
 
 | x       | y       | concat(x, y)       |
 | ------- | ------- | ------------------ |
