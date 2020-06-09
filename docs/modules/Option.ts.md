@@ -362,7 +362,7 @@ export declare function mapNullable<A, B>(f: (a: A) => B | null | undefined): (m
 
 ```ts
 import { some, none, fromNullable, mapNullable } from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/pipeable'
+import { pipe } from 'fp-ts/lib/function'
 
 interface Employee {
   company?: {
@@ -551,7 +551,7 @@ export declare function fold<A, B>(onNone: () => B, onSome: (a: A) => B): (ma: O
 
 ```ts
 import { some, none, fold } from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/pipeable'
+import { pipe } from 'fp-ts/lib/function'
 
 assert.strictEqual(
   pipe(
@@ -592,7 +592,7 @@ export declare function getOrElse<A>(onNone: () => A): (ma: Option<A>) => A
 
 ```ts
 import { some, none, getOrElse } from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/pipeable'
+import { pipe } from 'fp-ts/lib/function'
 
 assert.strictEqual(
   pipe(
@@ -636,7 +636,7 @@ export declare function toNullable<A>(ma: Option<A>): A | null
 
 ```ts
 import { some, none, toNullable } from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/pipeable'
+import { pipe } from 'fp-ts/lib/function'
 
 assert.strictEqual(pipe(some(1), toNullable), 1)
 assert.strictEqual(pipe(none, toNullable), null)
@@ -658,7 +658,7 @@ export declare function toUndefined<A>(ma: Option<A>): A | undefined
 
 ```ts
 import { some, none, toUndefined } from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/pipeable'
+import { pipe } from 'fp-ts/lib/function'
 
 assert.strictEqual(pipe(some(1), toUndefined), 1)
 assert.strictEqual(pipe(none, toUndefined), undefined)
@@ -1027,7 +1027,7 @@ export declare function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => b
 
 ```ts
 import { some, none, exists } from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/pipeable'
+import { pipe } from 'fp-ts/lib/function'
 
 assert.strictEqual(
   pipe(

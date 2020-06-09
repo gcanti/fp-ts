@@ -308,7 +308,7 @@ export function untupled<A extends ReadonlyArray<unknown>, B>(f: (a: A) => B): (
  * See also [`flow`](#flow).
  *
  * @example
- * import { pipe } from 'fp-ts/lib/pipeable'
+ * import { pipe } from 'fp-ts/lib/function'
  *
  * const len = (s: string): number => s.length
  * const double = (n: number): number => n * 2

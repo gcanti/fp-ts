@@ -206,7 +206,7 @@ export function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either
  *
  * @example
  * import * as E from 'fp-ts/lib/Either'
- * import { pipe } from 'fp-ts/lib/pipeable'
+ * import { pipe } from 'fp-ts/lib/function'
  *
  * assert.deepStrictEqual(E.stringifyJSON({ a: 1 }, E.toError), E.right('{"a":1}'))
  * const circular: any = { ref: null }
@@ -252,7 +252,7 @@ export const fromPredicate: {
  *
  * @example
  * import { fold, left, right } from 'fp-ts/lib/Either'
- * import { pipe } from 'fp-ts/lib/pipeable'
+ * import { pipe } from 'fp-ts/lib/function'
  *
  * function onLeft(errors: Array<string>): string {
  *   return `Errors: ${errors.join(', ')}`

@@ -230,7 +230,7 @@ export const fromEither: <E, A>(ma: Either<E, A>) => Option<A> = (ma) => (ma._ta
  *
  * @example
  * import { some, none, fold } from 'fp-ts/lib/Option'
- * import { pipe } from 'fp-ts/lib/pipeable'
+ * import { pipe } from 'fp-ts/lib/function'
  *
  * assert.strictEqual(
  *   pipe(
@@ -260,7 +260,7 @@ export function fold<A, B>(onNone: () => B, onSome: (a: A) => B): (ma: Option<A>
  *
  * @example
  * import { some, none, toNullable } from 'fp-ts/lib/Option'
- * import { pipe } from 'fp-ts/lib/pipeable'
+ * import { pipe } from 'fp-ts/lib/function'
  *
  * assert.strictEqual(
  *   pipe(
@@ -289,7 +289,7 @@ export function toNullable<A>(ma: Option<A>): A | null {
  *
  * @example
  * import { some, none, toUndefined } from 'fp-ts/lib/Option'
- * import { pipe } from 'fp-ts/lib/pipeable'
+ * import { pipe } from 'fp-ts/lib/function'
  *
  * assert.strictEqual(
  *   pipe(
@@ -318,7 +318,7 @@ export function toUndefined<A>(ma: Option<A>): A | undefined {
  *
  * @example
  * import { some, none, getOrElse } from 'fp-ts/lib/Option'
- * import { pipe } from 'fp-ts/lib/pipeable'
+ * import { pipe } from 'fp-ts/lib/function'
  *
  * assert.strictEqual(
  *   pipe(
@@ -357,7 +357,7 @@ export const getOrElseW: <B>(onNone: () => B) => <A>(ma: Option<A>) => A | B = g
  *
  * @example
  * import { some, none, fromNullable, mapNullable } from 'fp-ts/lib/Option'
- * import { pipe } from 'fp-ts/lib/pipeable'
+ * import { pipe } from 'fp-ts/lib/function'
  *
  * interface Employee {
  *   company?: {
@@ -896,7 +896,7 @@ export function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean {
  *
  * @example
  * import { some, none, exists } from 'fp-ts/lib/Option'
- * import { pipe } from 'fp-ts/lib/pipeable'
+ * import { pipe } from 'fp-ts/lib/function'
  *
  * assert.strictEqual(
  *   pipe(

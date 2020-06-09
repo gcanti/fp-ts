@@ -9,7 +9,7 @@
  *
  * @example
  * import { some, map } from 'fp-ts/lib/Option'
- * import { pipe } from 'fp-ts/lib/pipeable'
+ * import { pipe } from 'fp-ts/lib/function'
  * import { fold } from 'fp-ts/lib/boolean'
  *
  * assert.deepStrictEqual(

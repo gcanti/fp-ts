@@ -187,7 +187,7 @@ export function getSemigroup<A = never>(): Semigroup<Ord<A>> {
  * @example
  * import { sort } from 'fp-ts/lib/Array'
  * import { contramap, getDualOrd, getMonoid, ordBoolean, ordNumber, ordString } from 'fp-ts/lib/Ord'
- * import { pipe } from 'fp-ts/lib/pipeable'
+ * import { pipe } from 'fp-ts/lib/function'
  * import { fold } from 'fp-ts/lib/Monoid'
  *
  * interface User {

@@ -399,7 +399,7 @@ export declare function pipe<A, B, C, D, E, F, G, H, I, J>(
 **Example**
 
 ```ts
-import { pipe } from 'fp-ts/lib/pipeable'
+import { pipe } from 'fp-ts/lib/function'
 
 const len = (s: string): number => s.length
 const double = (n: number): number => n * 2

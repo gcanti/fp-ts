@@ -12,7 +12,7 @@
  *
  * @example
  * import * as O from 'fp-ts/lib/Option'
- * import { pipe } from 'fp-ts/lib/pipeable'
+ * import { pipe } from 'fp-ts/lib/function'
  *
  * const f = (a: string) => (b: number) => (c: boolean) => a + String(b) + (c ? 'true' : 'false')
  * const fa: O.Option<string> = O.some('s')
