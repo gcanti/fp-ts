@@ -42,7 +42,8 @@ export const getEq: <A>(E: Eq<A>) => Eq<Set<A>> = RS.getEq
 export const some: <A>(predicate: Predicate<A>) => (set: Set<A>) => boolean = RS.some
 
 /**
- * Projects a Set through a function
+ * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+ * use the type constructor `F` to represent some computational context.
  *
  * @category combinators
  * @since 2.0.0
