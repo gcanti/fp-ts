@@ -271,6 +271,8 @@ Added in v2.0.0
 
 ## chainW
 
+Less strict version of [`chain`](#chain).
+
 **Signature**
 
 ```ts
@@ -546,12 +548,14 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getOrElse<E, A>(onLeft: (e: E) => A): (ma: Either<E, A>) => A
+export declare const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: Either<E, A>) => A
 ```
 
 Added in v2.0.0
 
 ## getOrElseW
+
+Less strict version of [`getOrElse`](#getOrElse).
 
 **Signature**
 

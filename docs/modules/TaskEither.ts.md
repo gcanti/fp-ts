@@ -200,12 +200,14 @@ Added in v2.0.0
 
 ## chainW
 
+Less strict version of [`chain`](#chain).
+
 **Signature**
 
 ```ts
-export declare const chainW: <D, A, B>(
-  f: (a: A) => TaskEither<D, B>
-) => <E>(ma: TaskEither<E, A>) => TaskEither<D | E, B>
+export declare const chainW: <E, A, B>(
+  f: (a: A) => TaskEither<E, B>
+) => <D>(ma: TaskEither<D, A>) => TaskEither<E | D, B>
 ```
 
 Added in v2.6.0
@@ -248,19 +250,21 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function chainEitherK<E, A, B>(f: (a: A) => Either<E, B>): (ma: TaskEither<E, A>) => TaskEither<E, B>
+export declare const chainEitherK: <E, A, B>(f: (a: A) => E.Either<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
 ```
 
 Added in v2.4.0
 
 ## chainEitherKW
 
+Less strict version of [`chainEitherK`](#chainEitherK).
+
 **Signature**
 
 ```ts
-export declare const chainEitherKW: <D, A, B>(
-  f: (a: A) => E.Either<D, B>
-) => <E>(ma: TaskEither<E, A>) => TaskEither<D | E, B>
+export declare const chainEitherKW: <E, A, B>(
+  f: (a: A) => E.Either<E, B>
+) => <D>(ma: TaskEither<D, A>) => TaskEither<E | D, B>
 ```
 
 Added in v2.6.1
@@ -270,19 +274,23 @@ Added in v2.6.1
 **Signature**
 
 ```ts
-export declare function chainIOEitherK<E, A, B>(f: (a: A) => IOEither<E, B>): (ma: TaskEither<E, A>) => TaskEither<E, B>
+export declare const chainIOEitherK: <E, A, B>(
+  f: (a: A) => IOEither<E, B>
+) => (ma: TaskEither<E, A>) => TaskEither<E, B>
 ```
 
 Added in v2.4.0
 
 ## chainIOEitherKW
 
+Less strict version of [`chainIOEitherK`](#chainIOEitherK).
+
 **Signature**
 
 ```ts
-export declare const chainIOEitherKW: <D, A, B>(
-  f: (a: A) => IOEither<D, B>
-) => <E>(ma: TaskEither<E, A>) => TaskEither<D | E, B>
+export declare const chainIOEitherKW: <E, A, B>(
+  f: (a: A) => IOEither<E, B>
+) => <D>(ma: TaskEither<D, A>) => TaskEither<E | D, B>
 ```
 
 Added in v2.6.1
@@ -518,6 +526,8 @@ export declare const getOrElse: <E, A>(onLeft: (e: E) => T.Task<A>) => (ma: Task
 Added in v2.0.0
 
 ## getOrElseW
+
+Less strict version of [`getOrElse`](#getOrElse).
 
 **Signature**
 

@@ -314,6 +314,14 @@ export function toUndefined<A>(ma: Option<A>): A | undefined {
 }
 
 /**
+ * Less strict version of [`getOrElse`](#getOrElse).
+ *
+ * @category destructors
+ * @since 2.6.0
+ */
+export const getOrElseW = <B>(onNone: () => B) => <A>(ma: Option<A>): A | B => (isNone(ma) ? onNone() : ma.value)
+
+/**
  * Extracts the value out of the structure, if it exists. Otherwise returns the given default value
  *
  * @example
@@ -338,15 +346,7 @@ export function toUndefined<A>(ma: Option<A>): A | undefined {
  * @category destructors
  * @since 2.0.0
  */
-export function getOrElse<A>(onNone: () => A): (ma: Option<A>) => A {
-  return (ma) => (isNone(ma) ? onNone() : ma.value)
-}
-
-/**
- * @category destructors
- * @since 2.6.0
- */
-export const getOrElseW: <B>(onNone: () => B) => <A>(ma: Option<A>) => A | B = getOrElse as any
+export const getOrElse: <A>(onNone: () => A) => (ma: Option<A>) => A = getOrElseW
 
 // -------------------------------------------------------------------------------------
 // combinators

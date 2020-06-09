@@ -285,18 +285,19 @@ export function fold<E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B): (ma: E
 }
 
 /**
- * @category destructors
- * @since 2.0.0
- */
-export function getOrElse<E, A>(onLeft: (e: E) => A): (ma: Either<E, A>) => A {
-  return (ma) => (isLeft(ma) ? onLeft(ma.left) : ma.right)
-}
-
-/**
+ * Less strict version of [`getOrElse`](#getOrElse).
+ *
  * @category destructors
  * @since 2.6.0
  */
-export const getOrElseW: <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>) => A | B = getOrElse as any
+export const getOrElseW = <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>): A | B =>
+  isLeft(ma) ? onLeft(ma.left) : ma.right
+
+/**
+ * @category destructors
+ * @since 2.0.0
+ */
+export const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: Either<E, A>) => A = getOrElseW
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -393,13 +394,20 @@ export const apSecond = <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>): Eithe
   )
 
 /**
+ * Less strict version of [`chain`](#chain).
+ *
+ * @category Monad
+ * @since 2.6.0
+ */
+export const chainW = <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>): Either<D | E, B> => chain_(ma, f)
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B> = (f) => (ma) =>
-  chain_(ma, f)
+export const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B> = chainW
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -410,12 +418,6 @@ export const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) =
  */
 export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A> = (f) => (ma) =>
   chain_(ma, (a) => map_(f(a), () => a))
-
-/**
- * @category Monad
- * @since 2.6.0
- */
-export const chainW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>) => Either<E | D, B> = chain as any
 
 /**
  * @category Monad
@@ -499,7 +501,7 @@ const map_: <E, A, B>(fa: Either<E, A>, f: (a: A) => B) => Either<E, B> = (ma, f
 const ap_: <E, A, B>(fab: Either<E, (a: A) => B>, fa: Either<E, A>) => Either<E, B> = (mab, ma) =>
   isLeft(mab) ? mab : isLeft(ma) ? ma : right(mab.right(ma.right))
 const of = right
-const chain_: <E, A, B>(fa: Either<E, A>, f: (a: A) => Either<E, B>) => Either<E, B> = (ma, f) =>
+const chain_: <D, A, E, B>(fa: Either<D, A>, f: (a: A) => Either<E, B>) => Either<D | E, B> = (ma, f) =>
   isLeft(ma) ? ma : f(ma.right)
 const reduce_: <E, A, B>(fa: Either<E, A>, b: B, f: (b: B, a: A) => B) => B = (fa, b, f) =>
   isLeft(fa) ? b : f(b, fa.right)

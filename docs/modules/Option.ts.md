@@ -634,7 +634,7 @@ Extracts the value out of the structure, if it exists. Otherwise returns the giv
 **Signature**
 
 ```ts
-export declare function getOrElse<A>(onNone: () => A): (ma: Option<A>) => A
+export declare const getOrElse: <A>(onNone: () => A) => (ma: Option<A>) => A
 ```
 
 **Example**
@@ -662,6 +662,8 @@ assert.strictEqual(
 Added in v2.0.0
 
 ## getOrElseW
+
+Less strict version of [`getOrElse`](#getOrElse).
 
 **Signature**
 
