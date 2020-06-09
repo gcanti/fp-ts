@@ -157,6 +157,8 @@ export const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E> =
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThese<E, B> = (f) => T.map(TH.map(f))
 
 /**
+ * Map a pair of functions over the two type arguments of the bifunctor.
+ *
  * @category Bifunctor
  * @since 2.4.0
  */
@@ -164,6 +166,8 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskThe
   T.map(TH.bimap(f, g))
 
 /**
+ * Map a function over the first type argument of a bifunctor.
+ *
  * @category Bifunctor
  * @since 2.4.0
  */

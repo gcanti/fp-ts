@@ -402,11 +402,21 @@ const reduceRight_: <E, A, B>(fa: These<E, A>, b: B, f: (a: A, b: B) => B) => B 
   isLeft(fa) ? b : isRight(fa) ? f(fa.right, b) : f(fa.right, b)
 
 /**
+ * Map a pair of functions over the two type arguments of the bifunctor.
+ *
  * @category Bifunctor
  * @since 2.0.0
  */
 export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: These<E, A>) => These<G, B> = (f, g) => (fa) =>
   bimap_(fa, f, g)
+
+/**
+ * Map a function over the first type argument of a bifunctor.
+ *
+ * @category Bifunctor
+ * @since 2.0.0
+ */
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: These<E, A>) => These<G, A> = (f) => (fa) => mapLeft_(fa, f)
 
 /**
  * @category Foldable
@@ -422,12 +432,6 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B> = (f) => (fa) => map_(fa, f)
-
-/**
- * @category Bifunctor
- * @since 2.0.0
- */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: These<E, A>) => These<G, A> = (f) => (fa) => mapLeft_(fa, f)
 
 /**
  * @category Foldable

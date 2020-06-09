@@ -387,6 +387,8 @@ export const map: <A, B>(
   )
 
 /**
+ * Map a pair of functions over the two last type arguments of the bifunctor.
+ *
  * @category Bifunctor
  * @since 2.6.2
  */
@@ -397,6 +399,8 @@ export const bimap: <E, G, A, B>(
   bimap_(fa, f, g)
 
 /**
+ * Map a function over the third type argument of a bifunctor.
+ *
  * @category Bifunctor
  * @since 2.6.2
  */

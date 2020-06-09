@@ -147,6 +147,8 @@ Added in v2.0.0
 
 ## bimap
 
+Map a pair of functions over the two last type arguments of the bifunctor.
+
 **Signature**
 
 ```ts
@@ -159,6 +161,8 @@ export declare const bimap: <E, G, A, B>(
 Added in v2.0.0
 
 ## mapLeft
+
+Map a function over the second type argument of a bifunctor.
 
 **Signature**
 

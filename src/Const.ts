@@ -171,6 +171,8 @@ export const contramap: <A, B>(f: (b: B) => A) => <E>(fa: Const<E, A>) => Const<
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B> = (f) => (fa) => map_(fa, f)
 
 /**
+ * Map a pair of functions over the two type arguments of the bifunctor.
+ *
  * @category Bifunctor
  * @since 2.6.2
  */
@@ -178,6 +180,8 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Const<E
   bimap_(fa, f, g)
 
 /**
+ * Map a function over the first type argument of a bifunctor.
+ *
  * @category Bifunctor
  * @since 2.6.2
  */

@@ -352,6 +352,8 @@ export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderTaskEither<R, E, A>
 ) => (fa) => flow(fa, TE.map(f))
 
 /**
+ * Map a pair of functions over the two last type arguments of the bifunctor.
+ *
  * @category Bifunctor
  * @since 2.0.0
  */
@@ -361,6 +363,8 @@ export const bimap: <E, G, A, B>(
 ) => <R>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, B> = (f, g) => (fa) => bimap_(fa, f, g)
 
 /**
+ * Map a function over the second type argument of a bifunctor.
+ *
  * @category Bifunctor
  * @since 2.0.0
  */

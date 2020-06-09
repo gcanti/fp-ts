@@ -53,6 +53,8 @@ Added in v2.5.0
 
 ## bimap
 
+Map a pair of functions over the two type arguments of the bifunctor.
+
 **Signature**
 
 ```ts
@@ -62,6 +64,8 @@ export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa:
 Added in v2.5.0
 
 ## mapLeft
+
+Map a function over the first type argument of a bifunctor.
 
 **Signature**
 

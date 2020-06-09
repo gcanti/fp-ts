@@ -216,13 +216,8 @@ export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) =>
   R.map(E.map(f))
 
 /**
- * @category Bifunctor
- * @since 2.0.0
- */
-export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, A> = (f) =>
-  R.map(E.mapLeft(f))
-
-/**
+ * Map a pair of functions over the two last type arguments of the bifunctor.
+ *
  * @category Bifunctor
  * @since 2.0.0
  */
@@ -232,6 +227,15 @@ export const bimap: <E, G, A, B>(
 ) => <R>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, B> =
   /*#__PURE__*/
   flow(E.bimap, R.map)
+
+/**
+ * Map a function over the second type argument of a bifunctor.
+ *
+ * @category Bifunctor
+ * @since 2.0.0
+ */
+export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, A> = (f) =>
+  R.map(E.mapLeft(f))
 
 /**
  * Apply a function to an argument under a type constructor.

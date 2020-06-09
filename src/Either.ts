@@ -339,6 +339,8 @@ export const filterOrElse: {
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B> = (f) => (fa) => map_(fa, f)
 
 /**
+ * Map a pair of functions over the two type arguments of the bifunctor.
+ *
  * @category Bifunctor
  * @since 2.0.0
  */
@@ -347,6 +349,8 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<
 ) => bimap_(fa, f, g)
 
 /**
+ * Map a function over the first type argument of a bifunctor.
+ *
  * @category Bifunctor
  * @since 2.0.0
  */

@@ -291,6 +291,8 @@ export const chainIOEitherKW: <D, A, B>(
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEither<E, B> = (f) => T.map(E.map(f))
 
 /**
+ * Map a pair of functions over the two type arguments of the bifunctor.
+ *
  * @category Bifunctor
  * @since 2.0.0
  */
@@ -299,6 +301,8 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskEit
   flow(E.bimap, T.map)
 
 /**
+ * Map a function over the first type argument of a bifunctor.
+ *
  * @category Bifunctor
  * @since 2.0.0
  */

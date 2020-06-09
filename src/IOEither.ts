@@ -190,6 +190,8 @@ export const chainEitherKW: <D, A, B>(
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<E, B> = (f) => I.map(E.map(f))
 
 /**
+ * Map a pair of functions over the two type arguments of the bifunctor.
+ *
  * @category Bifunctor
  * @since 2.0.0
  */
@@ -199,6 +201,8 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: IOEithe
 )
 
 /**
+ * Map a function over the first type argument of a bifunctor.
+ *
  * @category Bifunctor
  * @since 2.0.0
  */

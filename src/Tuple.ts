@@ -88,10 +88,20 @@ export const getChainRec: <S>(M: Monoid<S>) => ChainRec2C<URI, S> = RT.getChainR
 // -------------------------------------------------------------------------------------
 
 /**
+ * Map a pair of functions over the two type arguments of the bifunctor.
+ *
  * @category Bifunctor
  * @since 2.0.0
  */
 export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: [A, E]) => [B, G] = RT.bimap as any
+
+/**
+ * Map a function over the first type argument of a bifunctor.
+ *
+ * @category Bifunctor
+ * @since 2.0.0
+ */
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G] = RT.mapLeft as any
 
 /**
  * @category Semigroupoid
@@ -128,12 +138,6 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: [A, E]
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E] = RT.map as any
-
-/**
- * @category Bifunctor
- * @since 2.0.0
- */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G] = RT.mapLeft as any
 
 /**
  * @category Foldable
