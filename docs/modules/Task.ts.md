@@ -178,6 +178,29 @@ Creates a task that will complete after a time delay
 export declare function delay(millis: number): <A>(ma: Task<A>) => Task<A>
 ```
 
+**Example**
+
+```ts
+import { sequenceT } from 'fp-ts/lib/Apply'
+import * as T from 'fp-ts/lib/Task'
+
+async function test() {
+  const log: Array<string> = []
+  const append = (message: string): T.Task<void> =>
+    T.fromIO(() => {
+      log.push(message)
+    })
+  const fa = append('a')
+  const fb = append('b')
+  const fc = T.delay(10)(append('c'))
+  const fd = append('d')
+  await sequenceT(T.task)(fa, fb, fc, fd)()
+  assert.deepStrictEqual(log, ['a', 'b', 'd', 'c'])
+}
+
+test()
+```
+
 Added in v2.0.0
 
 ## fromIOK

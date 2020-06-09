@@ -67,6 +67,26 @@ export function fromIO<A>(ma: IO<A>): Task<A> {
 /**
  * Creates a task that will complete after a time delay
  *
+ * @example
+ * import { sequenceT } from 'fp-ts/lib/Apply'
+ * import * as T from 'fp-ts/lib/Task'
+ *
+ * async function test() {
+ *   const log: Array<string> = []
+ *   const append = (message: string): T.Task<void> =>
+ *     T.fromIO(() => {
+ *       log.push(message)
+ *     })
+ *   const fa = append('a')
+ *   const fb = append('b')
+ *   const fc = T.delay(10)(append('c'))
+ *   const fd = append('d')
+ *   await sequenceT(T.task)(fa, fb, fc, fd)()
+ *   assert.deepStrictEqual(log, ['a', 'b', 'd', 'c'])
+ * }
+ *
+ * test()
+ *
  * @category combinators
  * @since 2.0.0
  */
