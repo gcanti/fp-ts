@@ -437,6 +437,8 @@ export const apSecond: <B>(
 ) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = RA.apSecond as any
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
  * @category Monad
  * @since 2.5.0
  */
@@ -445,6 +447,9 @@ export const chain: <A, B>(
 ) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = RA.chain as any
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
  * @category Monad
  * @since 2.5.0
  */

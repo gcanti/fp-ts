@@ -1007,12 +1007,17 @@ export const apFirst: <B>(fb: Array<B>) => <A>(fa: Array<A>) => Array<A> = RA.ap
 export const apSecond: <B>(fb: Array<B>) => <A>(fa: Array<A>) => Array<B> = RA.apSecond as any
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
  * @category Monad
  * @since 2.0.0
  */
 export const chain: <A, B>(f: (a: A) => Array<B>) => (ma: Array<A>) => Array<B> = RA.chain as any
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
  * @category Monad
  * @since 2.0.0
  */

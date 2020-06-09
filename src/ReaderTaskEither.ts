@@ -410,6 +410,8 @@ export const apSecond = <R, E, B>(fb: ReaderTaskEither<R, E, B>) => <A>(
   )
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
  * @category Monad
  * @since 2.0.0
  */
@@ -422,6 +424,9 @@ export const chain: <R, E, A, B>(
   )
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
  * @category Monad
  * @since 2.0.0
  */

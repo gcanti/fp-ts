@@ -365,6 +365,8 @@ export const apFirst: <B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => 
 export const apSecond: <B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<B> = RNEA.apSecond as any
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
  * @category Monad
  * @since 2.0.0
  */
@@ -373,6 +375,9 @@ export const chain: <A, B>(
 ) => (ma: NonEmptyArray<A>) => NonEmptyArray<B> = RNEA.chain as any
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
  * @category Monad
  * @since 2.0.0
  */

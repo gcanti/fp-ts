@@ -348,12 +348,17 @@ export const apSecond = <B>(fb: Tree<B>) => <A>(fa: Tree<A>): Tree<B> =>
   )
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
  * @category Monad
  * @since 2.0.0
  */
 export const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B> = (f) => (ma) => chain_(ma, f)
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
  * @category Monad
  * @since 2.0.0
  */

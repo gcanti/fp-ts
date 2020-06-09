@@ -116,6 +116,8 @@ Added in v2.3.0
 
 ## chain
 
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
 **Signature**
 
 ```ts
@@ -125,6 +127,9 @@ export declare const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: Rea
 Added in v2.3.0
 
 ## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
 
 **Signature**
 

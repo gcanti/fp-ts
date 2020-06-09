@@ -130,6 +130,8 @@ export const apSecond = <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>): State<E
 export const of: <S, A>(a: A) => State<S, A> = (a) => (s) => [a, s]
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
  * @category Monad
  * @since 2.0.0
  */
@@ -139,6 +141,9 @@ export const chain: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => 
 }
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
  * @category Monad
  * @since 2.0.0
  */

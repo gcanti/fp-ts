@@ -274,6 +274,8 @@ export const apSecond = <R, E, B>(fb: ReaderEither<R, E, B>) => <A>(fa: ReaderEi
   )
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
  * @category Monad
  * @since 2.0.0
  */
@@ -298,6 +300,9 @@ export const chainEitherKW: <D, A, B>(
 ) => <R, E>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E | D, B> = chainEitherK as any
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
  * @category Monad
  * @since 2.0.0
  */

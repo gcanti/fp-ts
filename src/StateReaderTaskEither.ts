@@ -457,6 +457,8 @@ export const apSecond = <S, R, E, B>(fb: StateReaderTaskEither<S, R, E, B>) => <
   )
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
  * @category Monad
  * @since 2.0.0
  */
@@ -477,6 +479,9 @@ export const chainW: <S, Q, D, A, B>(
 ) => <R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R & Q, E | D, B> = chain as any
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
  * @category Monad
  * @since 2.0.0
  */

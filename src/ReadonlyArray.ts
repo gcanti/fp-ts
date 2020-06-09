@@ -1630,6 +1630,8 @@ export const apSecond = <B>(fb: ReadonlyArray<B>) => <A>(fa: ReadonlyArray<A>): 
   )
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
  * @category Monad
  * @since 2.5.0
  */
@@ -1637,6 +1639,9 @@ export const chain: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<
   chain_(ma, f)
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
  * @category Monad
  * @since 2.5.0
  */

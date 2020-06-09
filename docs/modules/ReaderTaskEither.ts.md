@@ -183,6 +183,8 @@ Added in v2.0.0
 
 ## chain
 
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
 **Signature**
 
 ```ts
@@ -206,6 +208,9 @@ export declare const chainEitherKW: <D, A, B>(
 Added in v2.6.1
 
 ## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
 
 **Signature**
 

@@ -150,12 +150,17 @@ export const apSecond: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<B> = (fb) =>
 export const of: <A>(a: A) => Task<A> = (a) => () => Promise.resolve(a)
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
  * @category Monad
  * @since 2.0.0
  */
 export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (f) => (ma) => chain_(ma, f)
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
  * @category Monad
  * @since 2.0.0
  */

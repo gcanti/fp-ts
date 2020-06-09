@@ -241,6 +241,8 @@ export const apSecond = <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>): I
   )
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
  * @category Monad
  * @since 2.0.0
  */
@@ -248,6 +250,9 @@ export const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A
   I.chain(E.fold(left, f))
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
  * @category Monad
  * @since 2.0.0
  */
