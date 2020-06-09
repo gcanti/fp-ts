@@ -13,6 +13,8 @@ has_toc: false
 `fp-ts` provides developers with popular patterns and reliable abstractions from typed functional languages in TypeScript.
 {: .fs-6 .fw-300 }
 
+**Disclaimer**. Teaching functional programming is out of scope of this project, so the documentation assumes you already know what FP is.
+
 ## Core Concepts
 
 The goal of `fp-ts` is to empower developers to write pure FP apps and libraries built atop higher order abstractions. It includes the most popular data types, type classes, and abstractions from languages like [Haskell](https://haskell-lang.org), [PureScript](http://www.purescript.org), and [Scala](https://www.scala-lang.org/).

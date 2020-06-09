@@ -90,6 +90,8 @@ Note that there are caveats such as some tools (e.g. Jest) not supporting ES6 mo
 
 # Documentation
 
+**Disclaimer**. Teaching functional programming is out of scope of this project, so the documentation assumes you already know what FP is.
+
 - [Docs](https://gcanti.github.io/fp-ts)
 - [Learning Resources](https://gcanti.github.io/fp-ts/learning-resources/)
 - [Ecosystem](https://gcanti.github.io/fp-ts/ecosystem/)
