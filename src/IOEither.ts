@@ -293,10 +293,10 @@ export const alt: <E, A>(that: () => IOEither<E, A>) => (fa: IOEither<E, A>) => 
   I.chain(E.fold(that, right))
 
 /**
- * Make sure that a resource is cleaned up in the event of an exception (*). The release action is called regardless of
- * whether the body action throws (*) or returns.
+ * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
+ * whether the body action throws (\*) or returns.
  *
- * (*) i.e. returns a `Left`
+ * (\*) i.e. returns a `Left`
  *
  * @category MonadThrow
  * @since 2.0.0

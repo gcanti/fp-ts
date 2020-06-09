@@ -740,8 +740,8 @@ Added in v2.0.0
 
 ## bracket
 
-Make sure that a resource is cleaned up in the event of an exception (_). The release action is called regardless of
-whether the body action throws (_) or returns.
+Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
+whether the body action throws (\*) or returns.
 
 (\*) i.e. returns a `Left`
 

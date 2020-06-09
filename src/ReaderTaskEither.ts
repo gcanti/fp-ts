@@ -464,10 +464,10 @@ export const alt: <R, E, A>(
 ) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = (that) => (fa) => alt_(fa, that)
 
 /**
- * Make sure that a resource is cleaned up in the event of an exception (*). The release action is called regardless of
- * whether the body action throws (*) or returns.
+ * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
+ * whether the body action throws (\*) or returns.
  *
- * (*) i.e. returns a `Left`
+ * (\*) i.e. returns a `Left`
  *
  * @MonadThrow
  * @since 2.0.4
