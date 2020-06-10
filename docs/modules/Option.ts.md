@@ -106,7 +106,7 @@ Added in v2.0.0
 Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
 types of kind `* -> *`.
 
-In case of `Option` returns the left-most non-`None` value
+In case of `Option` returns the left-most non-`None` value.
 
 **Signature**
 

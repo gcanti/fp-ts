@@ -169,6 +169,23 @@ export const getOrElse: <E, A>(onLeft: (e: E) => Task<A>) => (ma: TaskEither<E, 
 // -------------------------------------------------------------------------------------
 
 /**
+ * Returns `ma` if is a `Right` or the value returned by `onLeft` otherwise.
+ *
+ * See also [alt](#alt).
+ *
+ * @example
+ * import * as E from 'fp-ts/lib/Either'
+ * import { pipe } from 'fp-ts/lib/function'
+ * import * as TE from 'fp-ts/lib/TaskEither'
+ *
+ * async function test() {
+ *   const errorHandler = TE.orElse((error: string) => TE.right(`recovering from ${error}...`))
+ *   assert.deepStrictEqual(await pipe(TE.right('ok'), errorHandler)(), E.right('ok'))
+ *   assert.deepStrictEqual(await pipe(TE.left('ko'), errorHandler)(), E.right('recovering from ko...'))
+ * }
+ *
+ * test()
+ *
  * @category combinators
  * @since 2.0.0
  */
@@ -377,6 +394,41 @@ export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
+ *
+ * In case of `TaskEither` returns `fa` if is a `Right` or the value returned by `that` otherwise.
+ *
+ * See also [orElse](#orElse).
+ *
+ * @example
+ * import * as E from 'fp-ts/lib/Either'
+ * import { pipe } from 'fp-ts/lib/function'
+ * import * as TE from 'fp-ts/lib/TaskEither'
+ *
+ * async function test() {
+ *   assert.deepStrictEqual(
+ *     await pipe(
+ *       TE.right(1),
+ *       TE.alt(() => TE.right(2))
+ *     )(),
+ *     E.right(1)
+ *   )
+ *   assert.deepStrictEqual(
+ *     await pipe(
+ *       TE.left('a'),
+ *       TE.alt(() => TE.right(2))
+ *     )(),
+ *     E.right(2)
+ *   )
+ *   assert.deepStrictEqual(
+ *     await pipe(
+ *       TE.left('a'),
+ *       TE.alt(() => TE.left('b'))
+ *     )(),
+ *     E.left('b')
+ *   )
+ * }
+ *
+ * test()
  *
  * @category Alt
  * @since 2.0.0

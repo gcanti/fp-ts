@@ -280,7 +280,7 @@ async function test() {
   const S = T.getRaceMonoid<string>()
   const fa = T.delay(20)(T.of('a'))
   const fb = T.delay(10)(T.of('b'))
-  assert.deepStrictEqual(S.concat(fa, fb)(), 'b')
+  assert.deepStrictEqual(await S.concat(fa, fb)(), 'b')
 }
 
 test()
@@ -308,7 +308,7 @@ async function test() {
   const S = T.getSemigroup(semigroupString)
   const fa = T.of('a')
   const fb = T.of('b')
-  assert.deepStrictEqual(S.concat(fa, fb)(), 'ab')
+  assert.deepStrictEqual(await S.concat(fa, fb)(), 'ab')
 }
 
 test()
