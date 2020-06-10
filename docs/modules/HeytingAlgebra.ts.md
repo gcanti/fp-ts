@@ -19,12 +19,12 @@ implemented as `BooleanAlgebra`.
 A `HeytingAlgebra` must satisfy the following laws in addition to `BoundedDistributiveLattice` laws:
 
 - Implication:
-  - `a → a = 1`
-  - `a ∧ (a → b) = a ∧ b`
-  - `b ∧ (a → b) = b`
-  - `a → (b ∧ c) = (a → b) ∧ (a → c)`
+  - `a → a <-> 1`
+  - `a ∧ (a → b) <-> a ∧ b`
+  - `b ∧ (a → b) <-> b`
+  - `a → (b ∧ c) <-> (a → b) ∧ (a → c)`
 - Complemented
-  - `¬a = a → 0`
+  - `¬a <-> a → 0`
 
 Added in v2.0.0
 

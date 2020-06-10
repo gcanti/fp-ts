@@ -7,8 +7,8 @@
  *
  * The `traverse` and `sequence` functions should be compatible in the following sense:
  *
- * - `traverse(A)(xs, f) = sequence(A)(A.map(xs, f))`
- * - `sequence(A)(xs) = traverse(A)(xs, identity)`
+ * - `traverse(A)(xs, f) <-> sequence(A)(A.map(xs, f))`
+ * - `sequence(A)(xs) <-> traverse(A)(xs, identity)`
  *
  * where `A` is an `Applicative` instance
  *

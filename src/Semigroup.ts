@@ -1,4 +1,8 @@
 /**
+ * A `Semigroup` is a `Magma` where `concat` is associative, that is:
+ *
+ * Associativiy: `concat(concat(x, y), z) <-> concat(x, concat(y, z))`
+ *
  * @since 2.0.0
  */
 import { identity } from './function'
@@ -7,10 +11,6 @@ import { max, min, Ord } from './Ord'
 import { ReadonlyRecord } from './ReadonlyRecord'
 
 /**
- * A `Semigroup` is a `Magma` where `concat` is associative, that is:
- *
- * Associativiy: `concat(concat(x, y), z) = concat(x, concat(y, z))`
- *
  * @category type classes
  * @since 2.0.0
  */

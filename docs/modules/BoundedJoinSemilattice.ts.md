@@ -8,7 +8,7 @@ parent: Modules
 
 A `BoundedJoinSemilattice` must satisfy the following laws in addition to `JoinSemilattice` laws:
 
-- `a ∨ 0 == a`
+- `a ∨ 0 <-> a`
 
 Added in v2.0.0
 

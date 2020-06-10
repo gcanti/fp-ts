@@ -11,7 +11,7 @@ Boolean algebras are Heyting algebras with the additional constraint that the la
 
 Instances should satisfy the following laws in addition to the `HeytingAlgebra` laws:
 
-- Excluded middle: `a ∨ ¬a = 1`
+- Excluded middle: `a ∨ ¬a <-> 1`
 
 Boolean algebras generalize classical logic: one is equivalent to "true" and zero is equivalent to "false".
 

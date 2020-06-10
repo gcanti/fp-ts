@@ -4,9 +4,9 @@
  *
  * A `JoinSemilattice` must satisfy the following laws:
  *
- * - Associativity: `a ∨ (b ∨ c) = (a ∨ b) ∨ c`
- * - Commutativity: `a ∨ b = b ∨ a`
- * - Idempotency:   `a ∨ a = a`
+ * - Associativity: `a ∨ (b ∨ c) <-> (a ∨ b) ∨ c`
+ * - Commutativity: `a ∨ b <-> b ∨ a`
+ * - Idempotency:   `a ∨ a <-> a`
  *
  * @since 2.0.0
  */

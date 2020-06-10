@@ -6,8 +6,8 @@
  *
  * Instances must satisfy the following laws in addition to the `Applicative` and `Chain` laws:
  *
- * 1. Left identity: `M.chain(M.of(a), f) = f(a)`
- * 2. Right identity: `M.chain(fa, M.of) = fa`
+ * 1. Left identity: `M.chain(M.of(a), f) <-> f(a)`
+ * 2. Right identity: `M.chain(fa, M.of) <-> fa`
  *
  * Note. `Functor`'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.of(f(a)))`
  *

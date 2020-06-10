@@ -13,11 +13,11 @@ concrete types like `string` or `number`.
 
 `Alternative` instances should satisfy the following laws:
 
-1. Left identity: `A.alt(zero, fa) == fa`
-2. Right identity: `A.alt(fa, zero) == fa`
-3. Annihilation: `A.map(zero, f) == zero`
-4. Distributivity: `A.ap(A.alt(fab, gab), fa) = A.alt(A.ap(fab, fa), A.ap(gab, fa))`
-5. Annihilation: `A.ap(zero, fa) = zero`
+1. Left identity: `A.alt(zero, fa) <-> fa`
+2. Right identity: `A.alt(fa, zero) <-> fa`
+3. Annihilation: `A.map(zero, f) <-> zero`
+4. Distributivity: `A.ap(A.alt(fab, gab), fa) <-> A.alt(A.ap(fab, fa), A.ap(gab, fa))`
+5. Annihilation: `A.ap(zero, fa) <-> zero`
 
 Added in v2.0.0
 

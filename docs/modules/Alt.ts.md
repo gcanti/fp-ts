@@ -12,8 +12,8 @@ that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than
 
 `Alt` instances are required to satisfy the following laws:
 
-1. Associativity: `A.alt(A.alt(fa, ga), ha) = A.alt(fa, A.alt(ga, ha))`
-2. Distributivity: `A.map(A.alt(fa, ga), ab) = A.alt(A.map(fa, ab), A.map(ga, ab))`
+1. Associativity: `A.alt(A.alt(fa, ga), ha) <-> A.alt(fa, A.alt(ga, ha))`
+2. Distributivity: `A.map(A.alt(fa, ga), ab) <-> A.alt(A.map(fa, ab), A.map(ga, ab))`
 
 Added in v2.0.0
 

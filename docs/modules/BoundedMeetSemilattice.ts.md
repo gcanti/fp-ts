@@ -8,7 +8,7 @@ parent: Modules
 
 A `BoundedMeetSemilattice` must satisfy the following laws in addition to `MeetSemilattice` laws:
 
-- `a ∧ 1 = a`
+- `a ∧ 1 <-> a`
 
 Added in v2.0.0
 

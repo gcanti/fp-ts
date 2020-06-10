@@ -6,8 +6,8 @@
  *
  * Instances must satisfy the following laws:
  *
- * 1. Identity: `F.map(fa, a => a) = fa`
- * 2. Composition: `F.map(fa, a => bc(ab(a))) = F.map(F.map(fa, ab), bc)`
+ * 1. Identity: `F.map(fa, a => a) <-> fa`
+ * 2. Composition: `F.map(fa, a => bc(ab(a))) <-> F.map(F.map(fa, ab), bc)`
  *
  * @since 2.0.0
  */

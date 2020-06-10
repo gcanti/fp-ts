@@ -8,18 +8,6 @@ parent: Modules
 
 `Witherable` represents data structures which can be _partitioned_ with effects in some `Applicative` functor.
 
-`wilt` signature (see `Compactable` `Separated`):
-
-```ts
-<F>(F: Applicative<F>) => <A, B, C>(wa: HKT<W, A>, f: (a: A) => HKT<F, Either<B, C>>) => HKT<F, Separated<HKT<W, B>, HKT<W, C>>>
-```
-
-`wither` signature:
-
-```ts
-<F>(F: Applicative<F>) => <A, B>(ta: HKT<W, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, HKT<W, B>>
-```
-
 Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Witherable.purs
 
 Added in v2.0.0

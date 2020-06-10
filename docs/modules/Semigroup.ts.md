@@ -6,6 +6,10 @@ parent: Modules
 
 ## Semigroup overview
 
+A `Semigroup` is a `Magma` where `concat` is associative, that is:
+
+Associativiy: `concat(concat(x, y), z) <-> concat(x, concat(y, z))`
+
 Added in v2.0.0
 
 ---
@@ -266,10 +270,6 @@ Added in v2.0.0
 # type classes
 
 ## Semigroup (interface)
-
-A `Semigroup` is a `Magma` where `concat` is associative, that is:
-
-Associativiy: `concat(concat(x, y), z) = concat(x, concat(y, z))`
 
 **Signature**
 

@@ -10,7 +10,7 @@ The `Ring` class is for types that support addition, multiplication, and subtrac
 
 Instances must satisfy the following law in addition to the `Semiring` laws:
 
-- Additive inverse: `a - a = (zero - a) + a = zero`
+- Additive inverse: `a - a <-> (zero - a) + a <-> zero`
 
 Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Ring.purs
 
