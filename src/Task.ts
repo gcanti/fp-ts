@@ -38,9 +38,7 @@ export interface Task<A> {
  * @category constructors
  * @since 2.0.0
  */
-export function fromIO<A>(ma: IO<A>): Task<A> {
-  return () => Promise.resolve(ma())
-}
+export const fromIO: <A>(ma: IO<A>) => Task<A> = (ma) => () => Promise.resolve(ma())
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -223,6 +221,19 @@ export const monadTask: Monad1<URI> = {
 /**
  * Lift a semigroup into 'Task', the inner values are concatenated using the provided `Semigroup`.
  *
+ * @example
+ * import * as T from 'fp-ts/lib/Task'
+ * import { semigroupString } from 'fp-ts/lib/Semigroup'
+ *
+ * async function test() {
+ *   const S = T.getSemigroup(semigroupString)
+ *   const fa = T.of('a')
+ *   const fb = T.of('b')
+ *   assert.deepStrictEqual(S.concat(fa, fb)(), 'ab')
+ * }
+ *
+ * test()
+ *
  * @category instances
  * @since 2.0.0
  */
@@ -248,7 +259,19 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>> {
 /**
  * Monoid returning the first completed task.
  *
- * Note: uses `Promise.race` internally
+ * Note: uses `Promise.race` internally.
+ *
+ * @example
+ * import * as T from 'fp-ts/lib/Task'
+ *
+ * async function test() {
+ *   const S = T.getRaceMonoid<string>()
+ *   const fa = T.delay(20)(T.of('a'))
+ *   const fb = T.delay(10)(T.of('b'))
+ *   assert.deepStrictEqual(S.concat(fa, fb)(), 'b')
+ * }
+ *
+ * test()
  *
  * @category instances
  * @since 2.0.0
@@ -275,7 +298,7 @@ export const task: Monad1<URI> & MonadTask1<URI> = {
 }
 
 /**
- * Like `Task` but `ap` is sequential
+ * Like `task` but `ap` is sequential
  *
  * @category instances
  * @since 2.0.0
@@ -295,6 +318,8 @@ export const taskSeq: typeof task = {
 // -------------------------------------------------------------------------------------
 
 /**
+ * A `Task` that never completes.
+ *
  * @since 2.0.0
  */
 export const never: Task<never> = () => new Promise((_) => undefined)

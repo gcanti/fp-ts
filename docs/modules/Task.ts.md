@@ -220,7 +220,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare function fromIO<A>(ma: IO<A>): Task<A>
+export declare const fromIO: <A>(ma: IO<A>) => Task<A>
 ```
 
 Added in v2.0.0
@@ -263,12 +263,27 @@ Added in v2.0.0
 
 Monoid returning the first completed task.
 
-Note: uses `Promise.race` internally
+Note: uses `Promise.race` internally.
 
 **Signature**
 
 ```ts
 export declare function getRaceMonoid<A = never>(): Monoid<Task<A>>
+```
+
+**Example**
+
+```ts
+import * as T from 'fp-ts/lib/Task'
+
+async function test() {
+  const S = T.getRaceMonoid<string>()
+  const fa = T.delay(20)(T.of('a'))
+  const fb = T.delay(10)(T.of('b'))
+  assert.deepStrictEqual(S.concat(fa, fb)(), 'b')
+}
+
+test()
 ```
 
 Added in v2.0.0
@@ -281,6 +296,22 @@ Lift a semigroup into 'Task', the inner values are concatenated using the provid
 
 ```ts
 export declare function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>>
+```
+
+**Example**
+
+```ts
+import * as T from 'fp-ts/lib/Task'
+import { semigroupString } from 'fp-ts/lib/Semigroup'
+
+async function test() {
+  const S = T.getSemigroup(semigroupString)
+  const fa = T.of('a')
+  const fb = T.of('b')
+  assert.deepStrictEqual(S.concat(fa, fb)(), 'ab')
+}
+
+test()
 ```
 
 Added in v2.0.0
@@ -297,7 +328,7 @@ Added in v2.0.0
 
 ## taskSeq
 
-Like `Task` but `ap` is sequential
+Like `task` but `ap` is sequential
 
 **Signature**
 
@@ -324,6 +355,8 @@ Added in v2.0.0
 # utils
 
 ## never
+
+A `Task` that never completes.
 
 **Signature**
 
