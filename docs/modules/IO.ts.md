@@ -35,13 +35,13 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
   - [io](#io)
 - [model](#model)
   - [IO (interface)](#io-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 
 ---
 
@@ -147,6 +147,26 @@ Added in v2.0.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'IO'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
 ## getMonoid
 
 **Signature**
@@ -187,26 +207,6 @@ Added in v2.0.0
 export interface IO<A> {
   (): A
 }
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'IO'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0

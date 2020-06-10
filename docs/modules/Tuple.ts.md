@@ -34,15 +34,14 @@ Added in v2.0.0
   - [fst](#fst)
   - [snd](#snd)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getChain](#getchain)
   - [getChainRec](#getchainrec)
   - [getMonad](#getmonad)
   - [tuple](#tuple)
-- [model](#model)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [sequence](#sequence)
   - [traverse](#traverse)
@@ -204,6 +203,26 @@ Added in v2.0.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Tuple'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
 ## getApplicative
 
 **Signature**
@@ -264,28 +283,6 @@ export declare const tuple: Semigroupoid2<'Tuple'> &
   Comonad2<'Tuple'> &
   Foldable2<'Tuple'> &
   Traversable2<'Tuple'>
-```
-
-Added in v2.0.0
-
-# model
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Tuple'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0

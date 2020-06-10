@@ -101,14 +101,13 @@ Added in v2.0.0
 - [guards](#guards)
   - [isNonEmpty](#isnonempty)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [array](#array)
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getShow](#getshow)
-- [model](#model)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [chunksOf](#chunksof)
   - [comprehension](#comprehension)
@@ -1393,6 +1392,26 @@ Added in v2.0.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Array'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
 ## array
 
 **Signature**
@@ -1492,28 +1511,6 @@ Added in v2.0.0
 
 ```ts
 export declare const getShow: <A>(S: Show<A>) => Show<A[]>
-```
-
-Added in v2.0.0
-
-# model
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Array'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0

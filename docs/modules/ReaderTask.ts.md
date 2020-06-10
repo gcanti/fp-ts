@@ -37,14 +37,14 @@ Added in v2.3.0
   - [fromReader](#fromreader)
   - [fromTask](#fromtask)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
   - [readerTask](#readertask)
   - [readerTaskSeq](#readertaskseq)
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [run](#run)
 
@@ -259,6 +259,26 @@ Added in v2.3.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReaderTask'
+```
+
+Added in v2.3.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.3.0
+
 ## getMonoid
 
 **Signature**
@@ -311,26 +331,6 @@ Added in v2.3.0
 export interface ReaderTask<R, A> {
   (r: R): Task<A>
 }
-```
-
-Added in v2.3.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReaderTask'
-```
-
-Added in v2.3.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.3.0

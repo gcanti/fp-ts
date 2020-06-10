@@ -71,6 +71,8 @@ Added in v2.0.0
   - [isLeft](#isleft)
   - [isRight](#isright)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [either](#either)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
@@ -85,8 +87,6 @@ Added in v2.0.0
   - [Either (type alias)](#either-type-alias)
   - [Left (interface)](#left-interface)
   - [Right (interface)](#right-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [elem](#elem)
   - [exists](#exists)
@@ -593,6 +593,26 @@ Added in v2.0.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Either'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
 ## either
 
 **Signature**
@@ -777,26 +797,6 @@ export interface Right<A> {
   readonly _tag: 'Right'
   readonly right: A
 }
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Either'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0

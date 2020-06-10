@@ -20,23 +20,9 @@ import { Show } from './Show'
 import { TraversableWithIndex1, PipeableTraverseWithIndex1 } from './TraversableWithIndex'
 import { Traversable1, PipeableTraverse1 } from './Traversable'
 
-/**
- * @category model
- * @since 2.5.0
- */
-export const URI = 'ReadonlyNonEmptyArray'
-
-/**
- * @category model
- * @since 2.5.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly [URI]: ReadonlyNonEmptyArray<A>
-  }
-}
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
 
 /**
  * @category model
@@ -529,10 +515,6 @@ export const reduceRightWithIndex: <A, B>(
   f: (i: number, a: A, b: B) => B
 ) => (fa: ReadonlyNonEmptyArray<A>) => B = RA.reduceRightWithIndex
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
  * @since 2.6.3
  */
@@ -547,6 +529,28 @@ export const sequence: Traversable1<URI>['sequence'] = RA.sequence as any
  * @since 2.6.3
  */
 export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = RA.traverseWithIndex as any
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export const URI = 'ReadonlyNonEmptyArray'
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: ReadonlyNonEmptyArray<A>
+  }
+}
 
 /**
  * @category instances

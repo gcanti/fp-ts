@@ -24,24 +24,6 @@ import Task = T.Task
  * @category model
  * @since 2.4.0
  */
-export const URI = 'TaskThese'
-
-/**
- * @category model
- * @since 2.4.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly [URI]: TaskThese<E, A>
-  }
-}
-
-/**
- * @category model
- * @since 2.4.0
- */
 export interface TaskThese<E, A> extends Task<These<E, A>> {}
 
 /**
@@ -180,6 +162,24 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => Task
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.4.0
+ */
+export const URI = 'TaskThese'
+
+/**
+ * @category instances
+ * @since 2.4.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: TaskThese<E, A>
+  }
+}
 
 const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */

@@ -24,23 +24,9 @@ import { Semigroup } from './Semigroup'
 import { Semiring } from './Semiring'
 import { Show } from './Show'
 
-/**
- * @category model
- * @since 2.0.0
- */
-export const URI = 'Const'
-
-/**
- * @category model
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly [URI]: Const<E, A>
-  }
-}
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
 
 /**
  * @category model
@@ -193,6 +179,24 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Const<E, A>) => Const<G,
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'Const'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: Const<E, A>
+  }
+}
 
 /**
  * @category instances

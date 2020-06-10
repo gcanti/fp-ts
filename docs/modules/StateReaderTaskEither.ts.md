@@ -64,10 +64,11 @@ Added in v2.0.0
   - [rightReader](#rightreader)
   - [rightState](#rightstate)
   - [rightTask](#righttask)
-- [model](#model)
-  - [StateReaderTaskEither (interface)](#statereadertaskeither-interface)
+- [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+- [model](#model)
+  - [StateReaderTaskEither (interface)](#statereadertaskeither-interface)
 - [utils](#utils)
   - [evalState](#evalstate)
   - [execState](#execstate)
@@ -638,19 +639,7 @@ export declare function rightTask<S, R, E = never, A = never>(ma: Task<A>): Stat
 
 Added in v2.0.0
 
-# model
-
-## StateReaderTaskEither (interface)
-
-**Signature**
-
-```ts
-export interface StateReaderTaskEither<S, R, E, A> {
-  (s: S): ReaderTaskEither<R, E, [A, S]>
-}
-```
-
-Added in v2.0.0
+# instances
 
 ## URI
 
@@ -668,6 +657,20 @@ Added in v2.0.0
 
 ```ts
 export type URI = typeof URI
+```
+
+Added in v2.0.0
+
+# model
+
+## StateReaderTaskEither (interface)
+
+**Signature**
+
+```ts
+export interface StateReaderTaskEither<S, R, E, A> {
+  (s: S): ReaderTaskEither<R, E, [A, S]>
+}
 ```
 
 Added in v2.0.0

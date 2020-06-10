@@ -41,24 +41,6 @@ import { Witherable2C } from './Witherable'
  * @category model
  * @since 2.0.0
  */
-export const URI = 'Either'
-
-/**
- * @category model
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly [URI]: Either<E, A>
-  }
-}
-
-/**
- * @category model
- * @since 2.0.0
- */
 export interface Left<E> {
   readonly _tag: 'Left'
   readonly left: E
@@ -495,6 +477,24 @@ export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) =>
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'Either'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: Either<E, A>
+  }
+}
 
 const map_: <E, A, B>(fa: Either<E, A>, f: (a: A) => B) => Either<E, B> = (ma, f) =>
   isLeft(ma) ? ma : right(f(ma.right))

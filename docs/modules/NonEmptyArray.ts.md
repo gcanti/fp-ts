@@ -57,14 +57,14 @@ Added in v2.0.0
   - [groupBy](#groupby)
   - [snoc](#snoc)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [nonEmptyArray](#nonemptyarray)
 - [model](#model)
   - [NonEmptyArray (interface)](#nonemptyarray-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [filterWithIndex](#filterwithindex)
   - [fold](#fold)
@@ -508,6 +508,26 @@ Added in v2.0.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'NonEmptyArray'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
 ## getEq
 
 **Signature**
@@ -576,26 +596,6 @@ Added in v2.0.0
 export interface NonEmptyArray<A> extends Array<A> {
   0: A
 }
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'NonEmptyArray'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0

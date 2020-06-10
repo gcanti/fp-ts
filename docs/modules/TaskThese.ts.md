@@ -32,13 +32,13 @@ Added in v2.4.0
   - [fold](#fold)
   - [toTuple](#totuple)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
   - [taskThese](#taskthese)
 - [model](#model)
   - [TaskThese (interface)](#taskthese-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 
 ---
 
@@ -205,6 +205,26 @@ Added in v2.4.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'TaskThese'
+```
+
+Added in v2.4.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.4.0
+
 ## getMonad
 
 **Signature**
@@ -243,26 +263,6 @@ Added in v2.4.0
 
 ```ts
 export interface TaskThese<E, A> extends Task<These<E, A>> {}
-```
-
-Added in v2.4.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'TaskThese'
-```
-
-Added in v2.4.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.4.0

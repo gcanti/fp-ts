@@ -26,24 +26,6 @@ import { Apply1 } from './Apply'
  * @category model
  * @since 2.0.0
  */
-export const URI = 'Task'
-
-/**
- * @category model
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly [URI]: Task<A>
-  }
-}
-
-/**
- * @category model
- * @since 2.0.0
- */
 export interface Task<A> {
   (): Promise<A>
 }
@@ -199,6 +181,24 @@ export const flatten: <A>(mma: Task<Task<A>>) => Task<A> = (mma) => chain_(mma, 
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'Task'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: Task<A>
+  }
+}
 
 /**
  * @internal

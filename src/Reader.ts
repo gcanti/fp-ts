@@ -20,24 +20,6 @@ import { Apply2 } from './Apply'
  * @category model
  * @since 2.0.0
  */
-export const URI = 'Reader'
-
-/**
- * @category model
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly [URI]: Reader<E, A>
-  }
-}
-
-/**
- * @category model
- * @since 2.0.0
- */
 export interface Reader<R, A> {
   (r: R): A
 }
@@ -188,6 +170,24 @@ export const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reade
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'Reader'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: Reader<E, A>
+  }
+}
 
 const map_: Monad2<URI>['map'] = (fa, f) => F.pipe(fa, map(f))
 const ap_: Monad2<URI>['ap'] = (fab, fa) => F.pipe(fab, ap(fa))

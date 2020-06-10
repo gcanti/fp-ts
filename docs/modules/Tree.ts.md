@@ -46,14 +46,14 @@ Added in v2.0.0
 - [destructors](#destructors)
   - [fold](#fold)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
   - [getShow](#getshow)
   - [tree](#tree)
 - [model](#model)
   - [Forest (type alias)](#forest-type-alias)
   - [Tree (interface)](#tree-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [drawForest](#drawforest)
   - [drawTree](#drawtree)
@@ -350,6 +350,26 @@ Added in v2.6.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Tree'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
 ## getEq
 
 **Signature**
@@ -401,26 +421,6 @@ export interface Tree<A> {
   readonly value: A
   readonly forest: Forest<A>
 }
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Tree'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0

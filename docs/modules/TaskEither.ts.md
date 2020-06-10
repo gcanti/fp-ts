@@ -61,6 +61,8 @@ Added in v2.0.0
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getFilterable](#getfilterable)
@@ -70,8 +72,6 @@ Added in v2.0.0
   - [taskEitherSeq](#taskeitherseq)
 - [model](#model)
   - [TaskEither (interface)](#taskeither-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [taskify](#taskify)
 
@@ -539,6 +539,26 @@ Added in v2.6.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'TaskEither'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
 ## getApplyMonoid
 
 **Signature**
@@ -635,26 +655,6 @@ Added in v2.0.0
 
 ```ts
 export interface TaskEither<E, A> extends Task<Either<E, A>> {}
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'TaskEither'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0

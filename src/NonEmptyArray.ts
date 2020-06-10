@@ -20,23 +20,9 @@ import { Traversable1, PipeableTraverse1 } from './Traversable'
 
 /* tslint:disable:readonly-array */
 
-/**
- * @category model
- * @since 2.0.0
- */
-export const URI = 'NonEmptyArray'
-
-/**
- * @category model
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly [URI]: NonEmptyArray<A>
-  }
-}
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
 
 /* tslint:disable:readonly-keyword */
 /**
@@ -451,10 +437,6 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: NonEmptyArr
 export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: NonEmptyArray<A>) => B =
   RNEA.reduceRightWithIndex
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
  * @since 2.6.3
  */
@@ -469,6 +451,28 @@ export const sequence: Traversable1<URI>['sequence'] = RNEA.sequence as any
  * @since 2.6.3
  */
 export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = RNEA.traverseWithIndex as any
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'NonEmptyArray'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: NonEmptyArray<A>
+  }
+}
 
 /**
  * @category instances

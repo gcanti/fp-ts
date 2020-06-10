@@ -23,24 +23,6 @@ import { Witherable2C } from './Witherable'
 /* tslint:disable:readonly-array */
 
 /**
- * @category model
- * @since 2.0.0
- */
-export const URI = 'Map'
-
-/**
- * @category model
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly [URI]: Map<E, A>
-  }
-}
-
-/**
  * @category instances
  * @since 2.0.0
  */
@@ -281,6 +263,24 @@ export const separate: <K, A, B>(fa: Map<K, Either<A, B>>) => Separated<Map<K, A
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'Map'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: Map<E, A>
+  }
+}
 
 /**
  * @category instances

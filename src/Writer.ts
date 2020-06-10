@@ -10,24 +10,6 @@ import { pipe } from './function'
 // model
 // -------------------------------------------------------------------------------------
 
-/**
- * @category model
- * @since 2.0.0
- */
-export const URI = 'Writer'
-
-/**
- * @category model
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly [URI]: Writer<E, A>
-  }
-}
-
 // tslint:disable:readonly-array
 /**
  * @category model
@@ -120,6 +102,24 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'Writer'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: Writer<E, A>
+  }
+}
 
 /* istanbul ignore next */
 const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))

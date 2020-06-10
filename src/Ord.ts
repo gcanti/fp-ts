@@ -15,23 +15,9 @@ import { Monoid } from './Monoid'
 import { monoidOrdering, Ordering } from './Ordering'
 import { Semigroup } from './Semigroup'
 
-/**
- * @category model
- * @since 2.0.0
- */
-export const URI = 'Ord'
-
-/**
- * @category model
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly [URI]: Ord<A>
-  }
-}
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
 
 /**
  * @category type classes
@@ -313,6 +299,24 @@ export const contramap: <A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B> = (f) =
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'Ord'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: Ord<A>
+  }
+}
 
 /**
  * @category instances

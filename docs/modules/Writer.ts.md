@@ -21,11 +21,11 @@ Added in v2.0.0
   - [pass](#pass)
   - [tell](#tell)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [getMonad](#getmonad)
   - [writer](#writer)
 - [model](#model)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
   - [Writer (interface)](#writer-interface)
 - [utils](#utils)
   - [evalWriter](#evalwriter)
@@ -112,6 +112,26 @@ Added in v2.0.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Writer'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
 ## getMonad
 
 **Signature**
@@ -133,26 +153,6 @@ export declare const writer: Functor2<'Writer'>
 Added in v2.0.0
 
 # model
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Writer'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
-```
-
-Added in v2.0.0
 
 ## Writer (interface)
 

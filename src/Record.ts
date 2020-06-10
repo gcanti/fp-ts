@@ -23,23 +23,9 @@ import { Witherable1, PipeableWither1, PipeableWilt1 } from './Witherable'
 
 /* tslint:disable:readonly-array */
 
-/**
- * @category model
- * @since 2.0.0
- */
-export const URI = 'Record'
-
-/**
- * @category model
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly [URI]: Record<string, A>
-  }
-}
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
 
 /**
  * @since 2.0.0
@@ -565,6 +551,24 @@ export const separate: <A, B>(fa: Record<string, Either<A, B>>) => Separated<Rec
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'Record'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: Record<string, A>
+  }
+}
 
 /**
  * @since 2.0.0

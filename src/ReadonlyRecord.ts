@@ -27,24 +27,6 @@ import { Witherable1, PipeableWither1, PipeableWilt1 } from './Witherable'
 export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
 
 /**
- * @category model
- * @since 2.5.0
- */
-export const URI = 'ReadonlyRecord'
-
-/**
- * @category model
- * @since 2.5.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly [URI]: ReadonlyRecord<string, A>
-  }
-}
-
-/**
  * @category constructors
  * @since 2.5.0
  */
@@ -1047,6 +1029,24 @@ export const separate = <A, B>(
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export const URI = 'ReadonlyRecord'
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: ReadonlyRecord<string, A>
+  }
+}
 
 /**
  * @category instances

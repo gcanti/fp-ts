@@ -20,11 +20,11 @@ Added in v2.0.0
 - [Functor](#functor)
   - [map](#map)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [store](#store)
 - [model](#model)
   - [Store (interface)](#store-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [experiment](#experiment)
   - [peeks](#peeks)
@@ -84,6 +84,26 @@ Added in v2.0.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Store'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
 ## store
 
 **Signature**
@@ -105,26 +125,6 @@ export interface Store<S, A> {
   readonly peek: (s: S) => A
   readonly pos: S
 }
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Store'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0

@@ -29,23 +29,9 @@ import { Unfoldable1 } from './Unfoldable'
 import { Witherable1, PipeableWither1, PipeableWilt1 } from './Witherable'
 import { Traversable1, PipeableTraverse1 } from './Traversable'
 
-/**
- * @category model
- * @since 2.5.0
- */
-export const URI = 'ReadonlyArray'
-
-/**
- * @category model
- * @since 2.5.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly [URI]: ReadonlyArray<A>
-  }
-}
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors
@@ -1841,6 +1827,24 @@ export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B)
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export const URI = 'ReadonlyArray'
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: ReadonlyArray<A>
+  }
+}
 
 /**
  * @since 2.6.3

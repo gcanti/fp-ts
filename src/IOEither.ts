@@ -30,24 +30,6 @@ import IO = I.IO
  * @category model
  * @since 2.0.0
  */
-export const URI = 'IOEither'
-
-/**
- * @category model
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly [URI]: IOEither<E, A>
-  }
-}
-
-/**
- * @category model
- * @since 2.0.0
- */
 export interface IOEither<E, A> extends IO<Either<E, A>> {}
 
 // -------------------------------------------------------------------------------------
@@ -354,6 +336,24 @@ export const fromEither: <E, A>(ma: E.Either<E, A>) => IOEither<E, A> = (ma) =>
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'IOEither'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: IOEither<E, A>
+  }
+}
 
 /* istanbul ignore next */
 const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))

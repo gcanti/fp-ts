@@ -20,25 +20,11 @@ import { TraversableWithIndex2C } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable2C } from './Witherable'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 import Option = O.Option
-
-/**
- * @category model
- * @since 2.5.0
- */
-export const URI = 'ReadonlyMap'
-
-/**
- * @category model
- * @since 2.5.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly [URI]: ReadonlyMap<E, A>
-  }
-}
 
 /**
  * @category constructors
@@ -654,6 +640,24 @@ export const separate = <K, A, B>(
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export const URI = 'ReadonlyMap'
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: ReadonlyMap<E, A>
+  }
+}
 
 /**
  * @category instances

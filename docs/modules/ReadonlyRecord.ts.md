@@ -41,14 +41,14 @@ Added in v2.5.0
   - [toRecord](#torecord)
   - [toUnfoldable](#tounfoldable)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
   - [readonlyRecord](#readonlyrecord)
 - [model](#model)
   - [ReadonlyRecord (type alias)](#readonlyrecord-type-alias)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [collect](#collect)
   - [elem](#elem)
@@ -346,6 +346,26 @@ Added in v2.5.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReadonlyRecord'
+```
+
+Added in v2.5.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.5.0
+
 ## getEq
 
 **Signature**
@@ -412,26 +432,6 @@ Added in v2.5.0
 
 ```ts
 export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
-```
-
-Added in v2.5.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReadonlyRecord'
-```
-
-Added in v2.5.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.5.0

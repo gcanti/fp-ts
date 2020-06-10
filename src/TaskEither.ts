@@ -32,24 +32,6 @@ import Task = T.Task
  * @category model
  * @since 2.0.0
  */
-export const URI = 'TaskEither'
-
-/**
- * @category model
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly [URI]: TaskEither<E, A>
-  }
-}
-
-/**
- * @category model
- * @since 2.0.0
- */
 export interface TaskEither<E, A> extends Task<Either<E, A>> {}
 
 // -------------------------------------------------------------------------------------
@@ -434,6 +416,24 @@ export const bracket = <E, A, B>(
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'TaskEither'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: TaskEither<E, A>
+  }
+}
 
 const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */

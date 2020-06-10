@@ -30,11 +30,11 @@ Added in v2.0.0
   - [modify](#modify)
   - [put](#put)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [state](#state)
 - [model](#model)
   - [State (interface)](#state-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [evalState](#evalstate)
   - [execState](#execstate)
@@ -195,6 +195,26 @@ Added in v2.0.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'State'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
 ## state
 
 **Signature**
@@ -215,26 +235,6 @@ Added in v2.0.0
 export interface State<S, A> {
   (s: S): [A, S]
 }
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'State'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0

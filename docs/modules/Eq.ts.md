@@ -25,6 +25,8 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [fromEquals](#fromequals)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [eq](#eq)
   - [eqBoolean](#eqboolean)
   - [eqDate](#eqdate)
@@ -34,9 +36,6 @@ Added in v2.0.0
   - [getMonoid](#getmonoid)
   - [getStructEq](#getstructeq)
   - [getTupleEq](#gettupleeq)
-- [model](#model)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [type classes](#type-classes)
   - [Eq (interface)](#eq-interface)
 - [utils](#utils)
@@ -69,6 +68,26 @@ export declare function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A>
 Added in v2.0.0
 
 # instances
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Eq'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
 
 ## eq
 
@@ -172,28 +191,6 @@ assert.strictEqual(E.equals(['a', 1, true], ['a', 1, true]), true)
 assert.strictEqual(E.equals(['a', 1, true], ['b', 1, true]), false)
 assert.strictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
 assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
-```
-
-Added in v2.0.0
-
-# model
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Eq'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0

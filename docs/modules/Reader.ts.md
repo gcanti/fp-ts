@@ -35,13 +35,13 @@ Added in v2.0.0
   - [ask](#ask)
   - [asks](#asks)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
   - [reader](#reader)
 - [model](#model)
   - [Reader (interface)](#reader-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 
 ---
 
@@ -226,6 +226,26 @@ Added in v2.0.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Reader'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
 ## getMonoid
 
 **Signature**
@@ -270,26 +290,6 @@ Added in v2.0.0
 export interface Reader<R, A> {
   (r: R): A
 }
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Reader'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0

@@ -21,24 +21,6 @@ import Reader = R.Reader
  * @category model
  * @since 2.3.0
  */
-export const URI = 'ReaderTask'
-
-/**
- * @category model
- * @since 2.3.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly [URI]: ReaderTask<E, A>
-  }
-}
-
-/**
- * @category model
- * @since 2.3.0
- */
 export interface ReaderTask<R, A> {
   (r: R): Task<A>
 }
@@ -216,6 +198,24 @@ export const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => ReaderTask
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.3.0
+ */
+export const URI = 'ReaderTask'
+
+/**
+ * @category instances
+ * @since 2.3.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: ReaderTask<E, A>
+  }
+}
 
 const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))

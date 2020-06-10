@@ -28,6 +28,8 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [make](#make)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [const\_](#const_)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
@@ -43,8 +45,6 @@ Added in v2.0.0
   - [getShow](#getshow)
 - [model](#model)
   - [Const (type alias)](#const-type-alias)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 
 ---
 
@@ -114,6 +114,26 @@ export declare const make: <E, A = never>(e: E) => Const<E, A>
 Added in v2.0.0
 
 # instances
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Const'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
 
 ## const\_
 
@@ -253,26 +273,6 @@ Added in v2.0.0
 
 ```ts
 export type Const<E, A> = E & { readonly _A: A }
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Const'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0

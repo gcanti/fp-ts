@@ -40,6 +40,8 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [fromIO](#fromio)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getRaceMonoid](#getracemonoid)
   - [getSemigroup](#getsemigroup)
@@ -47,8 +49,6 @@ Added in v2.0.0
   - [taskSeq](#taskseq)
 - [model](#model)
   - [Task (interface)](#task-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [never](#never)
 
@@ -227,6 +227,26 @@ Added in v2.0.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Task'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
 ## getMonoid
 
 Lift a monoid into 'Task', the inner values are concatenated using the provided `Monoid`.
@@ -297,26 +317,6 @@ Added in v2.0.0
 export interface Task<A> {
   (): Promise<A>
 }
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Task'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0

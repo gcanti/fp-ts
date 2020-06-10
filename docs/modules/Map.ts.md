@@ -28,15 +28,14 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
   - [getFilterableWithIndex](#getfilterablewithindex)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
   - [getWitherable](#getwitherable)
   - [map\_](#map_)
-- [model](#model)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [collect](#collect)
   - [elem](#elem)
@@ -203,6 +202,26 @@ Added in v2.0.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Map'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
 ## getEq
 
 **Signature**
@@ -261,28 +280,6 @@ Added in v2.0.0
 
 ```ts
 export declare const map_: Filterable2<'Map'>
-```
-
-Added in v2.0.0
-
-# model
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Map'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0

@@ -17,23 +17,9 @@ import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
 import { Traversable2, PipeableTraverse2 } from './Traversable'
 
-/**
- * @category model
- * @since 2.5.0
- */
-export const URI = 'ReadonlyTuple'
-
-/**
- * @category model
- * @since 2.5.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly [URI]: readonly [A, E]
-  }
-}
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
 
 /**
  * @category destructors
@@ -261,6 +247,24 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: readonly
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export const URI = 'ReadonlyTuple'
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: readonly [A, E]
+  }
+}
 
 const traverse_ = <F>(F: Applicative<F>) => <A, S, B>(
   as: readonly [A, S],

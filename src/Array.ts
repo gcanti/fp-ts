@@ -30,24 +30,6 @@ import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
 /* tslint:disable:readonly-array */
 
 /**
- * @category model
- * @since 2.0.0
- */
-export const URI = 'Array'
-
-/**
- * @category model
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly [URI]: Array<A>
-  }
-}
-
-/**
  * @category instances
  * @since 2.0.0
  */
@@ -1174,6 +1156,24 @@ export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B)
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'Array'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: Array<A>
+  }
+}
 
 /**
  * @since 2.6.3

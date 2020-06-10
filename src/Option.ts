@@ -39,24 +39,6 @@ import { Witherable1, PipeableWither1, PipeableWilt1 } from './Witherable'
  * @category model
  * @since 2.0.0
  */
-export const URI = 'Option'
-
-/**
- * @category model
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly [URI]: Option<A>
-  }
-}
-
-/**
- * @category model
- * @since 2.0.0
- */
 export interface None {
   readonly _tag: 'None'
 }
@@ -677,6 +659,24 @@ export const wilt: PipeableWilt1<URI> = <F>(
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'Option'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: Option<A>
+  }
+}
 
 /**
  * @internal

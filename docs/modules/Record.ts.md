@@ -27,7 +27,7 @@ Added in v2.0.0
 - [Whitherable](#whitherable)
   - [wilt](#wilt)
   - [wither](#wither)
-- [model](#model)
+- [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
@@ -201,7 +201,7 @@ export declare const wither: PipeableWither1<'Record'>
 
 Added in v2.6.5
 
-# model
+# instances
 
 ## URI
 

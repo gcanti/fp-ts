@@ -34,15 +34,14 @@ Added in v2.5.0
   - [fst](#fst)
   - [snd](#snd)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getChain](#getchain)
   - [getChainRec](#getchainrec)
   - [getMonad](#getmonad)
   - [readonlyTuple](#readonlytuple)
-- [model](#model)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [sequence](#sequence)
   - [traverse](#traverse)
@@ -204,6 +203,26 @@ Added in v2.5.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReadonlyTuple'
+```
+
+Added in v2.5.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.5.0
+
 ## getApplicative
 
 **Signature**
@@ -264,28 +283,6 @@ export declare const readonlyTuple: Semigroupoid2<'ReadonlyTuple'> &
   Comonad2<'ReadonlyTuple'> &
   Foldable2<'ReadonlyTuple'> &
   Traversable2<'ReadonlyTuple'>
-```
-
-Added in v2.5.0
-
-# model
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReadonlyTuple'
-```
-
-Added in v2.5.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.5.0

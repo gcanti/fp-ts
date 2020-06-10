@@ -13,23 +13,9 @@ import { Contravariant1 } from './Contravariant'
 import { Monoid } from './Monoid'
 import { ReadonlyRecord } from './ReadonlyRecord'
 
-/**
- * @category model
- * @since 2.0.0
- */
-export const URI = 'Eq'
-
-/**
- * @category model
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly [URI]: Eq<A>
-  }
-}
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
 
 /**
  * @category type classes
@@ -38,6 +24,10 @@ declare module './HKT' {
 export interface Eq<A> {
   readonly equals: (x: A, y: A) => boolean
 }
+
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors
@@ -48,6 +38,40 @@ export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> {
     equals: (x, y) => x === y || equals(x, y)
   }
 }
+
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category Contravariant
+ * @since 2.0.0
+ */
+export const contramap: <A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B> = (f) => (fa) => contramap_(fa, f)
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'Eq'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: Eq<A>
+  }
+}
+
+const contramap_: <A, B>(fa: Eq<A>, f: (b: B) => A) => Eq<B> = (fa, f) => fromEquals((x, y) => fa.equals(f(x), f(y)))
 
 /**
  * @category instances
@@ -144,22 +168,6 @@ export function getMonoid<A>(): Monoid<Eq<A>> {
     empty
   }
 }
-
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
-
-const contramap_: <A, B>(fa: Eq<A>, f: (b: B) => A) => Eq<B> = (fa, f) => fromEquals((x, y) => fa.equals(f(x), f(y)))
-
-/**
- * @category Contravariant
- * @since 2.0.0
- */
-export const contramap: <A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B> = (f) => (fa) => contramap_(fa, f)
-
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
 
 /**
  * @category instances

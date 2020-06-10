@@ -56,14 +56,14 @@ Added in v2.5.0
   - [groupBy](#groupby)
   - [snoc](#snoc)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [readonlyNonEmptyArray](#readonlynonemptyarray)
 - [model](#model)
   - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [filter](#filter)
   - [filterWithIndex](#filterwithindex)
@@ -520,6 +520,26 @@ Added in v2.5.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReadonlyNonEmptyArray'
+```
+
+Added in v2.5.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.5.0
+
 ## getEq
 
 **Signature**
@@ -588,26 +608,6 @@ Added in v2.5.0
 export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
   readonly 0: A
 }
-```
-
-Added in v2.5.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReadonlyNonEmptyArray'
-```
-
-Added in v2.5.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.5.0

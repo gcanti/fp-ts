@@ -27,6 +27,8 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [fromCompare](#fromcompare)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getTupleOrd](#gettupleord)
   - [ord](#ord)
@@ -35,9 +37,6 @@ Added in v2.0.0
   - [ordNumber](#ordnumber)
   - [ordString](#ordstring)
   - [~~getSemigroup~~](#getsemigroup)
-- [model](#model)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [type classes](#type-classes)
   - [Ord (interface)](#ord-interface)
 - [utils](#utils)
@@ -89,6 +88,26 @@ export declare function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A
 Added in v2.0.0
 
 # instances
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Ord'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
 
 ## getMonoid
 
@@ -246,28 +265,6 @@ Use `getMonoid` instead
 
 ```ts
 export declare function getSemigroup<A = never>(): Semigroup<Ord<A>>
-```
-
-Added in v2.0.0
-
-# model
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Ord'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0

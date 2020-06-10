@@ -34,15 +34,14 @@ Added in v2.5.0
   - [toReadonlyArray](#toreadonlyarray)
   - [toUnfoldable](#tounfoldable)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
   - [getFilterableWithIndex](#getfilterablewithindex)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
   - [getWitherable](#getwitherable)
   - [readonlyMap](#readonlymap)
-- [model](#model)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [collect](#collect)
   - [elem](#elem)
@@ -279,6 +278,26 @@ Added in v2.5.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReadonlyMap'
+```
+
+Added in v2.5.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.5.0
+
 ## getEq
 
 **Signature**
@@ -337,28 +356,6 @@ Added in v2.5.0
 
 ```ts
 export declare const readonlyMap: Filterable2<'ReadonlyMap'>
-```
-
-Added in v2.5.0
-
-# model
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReadonlyMap'
-```
-
-Added in v2.5.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.5.0

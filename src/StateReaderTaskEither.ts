@@ -24,24 +24,6 @@ import { TaskEither } from './TaskEither'
 
 import ReaderTaskEither = RTE.ReaderTaskEither
 
-/**
- * @category model
- * @since 2.0.0
- */
-export const URI = 'StateReaderTaskEither'
-
-/**
- * @category model
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind4<S, R, E, A> {
-    readonly [URI]: StateReaderTaskEither<S, R, E, A>
-  }
-}
-
 /* tslint:disable:readonly-array */
 /**
  * @category model
@@ -527,6 +509,24 @@ export const alt: <S, R, E, A>(
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'StateReaderTaskEither'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind4<S, R, E, A> {
+    readonly [URI]: StateReaderTaskEither<S, R, E, A>
+  }
+}
 
 /* istanbul ignore next */
 const map_: Monad4<URI>['map'] = (fa, f) => pipe(fa, map(f))

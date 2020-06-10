@@ -21,23 +21,9 @@ import { Traversable1, PipeableTraverse1 } from './Traversable'
 
 // tslint:disable:readonly-array
 
-/**
- * @category model
- * @since 2.0.0
- */
-export const URI = 'Tree'
-
-/**
- * @category model
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly [URI]: Tree<A>
-  }
-}
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
 
 /**
  * @category model
@@ -423,6 +409,24 @@ export const extract: <A>(wa: Tree<A>) => A = (wa) => wa.value
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'Tree'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: Tree<A>
+  }
+}
 
 const traverse_ = <F>(F: Applicative<F>): (<A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>) => HKT<F, Tree<B>>) => {
   const traverseF = A.traverse(F)

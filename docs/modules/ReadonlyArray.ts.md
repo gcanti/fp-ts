@@ -89,14 +89,13 @@ Added in v2.5.0
 - [guards](#guards)
   - [isNonEmpty](#isnonempty)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getShow](#getshow)
   - [readonlyArray](#readonlyarray)
-- [model](#model)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [Spanned (interface)](#spanned-interface)
   - [chunksOf](#chunksof)
@@ -1133,6 +1132,26 @@ Added in v2.5.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReadonlyArray'
+```
+
+Added in v2.5.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.5.0
+
 ## getEq
 
 Derives an `Eq` over the `ReadonlyArray` of a given element type from the `Eq` of that type. The derived `Eq` defines two
@@ -1231,28 +1250,6 @@ export declare const readonlyArray: Monad1<'ReadonlyArray'> &
   Witherable1<'ReadonlyArray'> &
   FunctorWithIndex1<'ReadonlyArray', number> &
   FoldableWithIndex1<'ReadonlyArray', number>
-```
-
-Added in v2.5.0
-
-# model
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReadonlyArray'
-```
-
-Added in v2.5.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.5.0

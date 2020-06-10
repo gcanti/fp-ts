@@ -31,24 +31,6 @@ import Reader = R.Reader
  * @category model
  * @since 2.0.0
  */
-export const URI = 'ReaderTaskEither'
-
-/**
- * @category model
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind3<R, E, A> {
-    readonly [URI]: ReaderTaskEither<R, E, A>
-  }
-}
-
-/**
- * @category model
- * @since 2.0.0
- */
 export interface ReaderTaskEither<R, E, A> {
   (r: R): TaskEither<E, A>
 }
@@ -526,6 +508,24 @@ export function bracket<R, E, A, B>(
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'ReaderTaskEither'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind3<R, E, A> {
+    readonly [URI]: ReaderTaskEither<R, E, A>
+  }
+}
 
 const map_: Monad3<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const ap_: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))

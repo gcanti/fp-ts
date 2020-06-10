@@ -8,24 +8,6 @@ import { identity, pipe } from './function'
 // model
 // -------------------------------------------------------------------------------------
 
-/**
- * @category model
- * @since 2.0.0
- */
-export const URI = 'State'
-
-/**
- * @category model
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly [URI]: State<E, A>
-  }
-}
-
 /* tslint:disable:readonly-array */
 /**
  * @category model
@@ -169,6 +151,24 @@ export const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A> =
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'State'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: State<E, A>
+  }
+}
 
 /* istanbul ignore next */
 const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))

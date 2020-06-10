@@ -25,24 +25,6 @@ import Reader = R.Reader
  * @category model
  * @since 2.0.0
  */
-export const URI = 'ReaderEither'
-
-/**
- * @category model
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind3<R, E, A> {
-    readonly [URI]: ReaderEither<R, E, A>
-  }
-}
-
-/**
- * @category model
- * @since 2.0.0
- */
 export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
 
 // -------------------------------------------------------------------------------------
@@ -346,6 +328,24 @@ export const alt: <R, E, A>(
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'ReaderEither'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind3<R, E, A> {
+    readonly [URI]: ReaderEither<R, E, A>
+  }
+}
 
 /* istanbul ignore next */
 const map_: Monad3<URI>['map'] = (fa, f) => pipe(fa, map(f))

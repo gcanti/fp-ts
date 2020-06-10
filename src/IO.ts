@@ -27,24 +27,6 @@ import { Apply1 } from './Apply'
  * @category model
  * @since 2.0.0
  */
-export const URI = 'IO'
-
-/**
- * @category model
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly [URI]: IO<A>
-  }
-}
-
-/**
- * @category model
- * @since 2.0.0
- */
 export interface IO<A> {
   (): A
 }
@@ -125,6 +107,24 @@ export const flatten: <A>(mma: IO<IO<A>>) => IO<A> = (mma) => chain_(mma, identi
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'IO'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: IO<A>
+  }
+}
 
 const map_: <A, B>(fa: IO<A>, f: (a: A) => B) => IO<B> = (ma, f) => () => f(ma())
 const ap_: <A, B>(fab: IO<(a: A) => B>, fa: IO<A>) => IO<B> = (mab, ma) => () => mab()(ma())

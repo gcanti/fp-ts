@@ -66,6 +66,8 @@ Added in v2.0.0
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getReaderTaskValidation](#getreadertaskvalidation)
@@ -74,8 +76,6 @@ Added in v2.0.0
   - [readerTaskEitherSeq](#readertaskeitherseq)
 - [model](#model)
   - [ReaderTaskEither (interface)](#readertaskeither-interface)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
 - [utils](#utils)
   - [bracket](#bracket)
   - [run](#run)
@@ -637,6 +637,26 @@ Added in v2.6.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReaderTaskEither'
+```
+
+Added in v2.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.0.0
+
 ## getApplyMonoid
 
 **Signature**
@@ -725,26 +745,6 @@ Added in v2.0.0
 export interface ReaderTaskEither<R, E, A> {
   (r: R): TaskEither<E, A>
 }
-```
-
-Added in v2.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReaderTaskEither'
-```
-
-Added in v2.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
 ```
 
 Added in v2.0.0

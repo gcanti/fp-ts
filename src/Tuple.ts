@@ -17,23 +17,9 @@ import { Traversable2, PipeableTraverse2 } from './Traversable'
 
 // tslint:disable:readonly-array
 
-/**
- * @category model
- * @since 2.0.0
- */
-export const URI = 'Tuple'
-
-/**
- * @category model
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly [URI]: [A, E]
-  }
-}
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
 
 /**
  * @category destructors
@@ -154,10 +140,6 @@ export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: [A, E]) => B 
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: [A, E]) => B = RT.reduceRight
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
 /**
  * @since 2.6.3
  */
@@ -167,6 +149,28 @@ export const traverse: PipeableTraverse2<URI> = RT.traverse as any
  * @since 2.6.3
  */
 export const sequence: Traversable2<URI>['sequence'] = RT.sequence as any
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'Tuple'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: [A, E]
+  }
+}
 
 /**
  * @category instances
