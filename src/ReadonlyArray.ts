@@ -1170,20 +1170,18 @@ export function sortBy<A>(ords: ReadonlyArray<Ord<A>>): (as: ReadonlyArray<A>) =
  * @category combinators
  * @since 2.5.0
  */
-export function chop<A, B>(
-  f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, ReadonlyArray<A>]
-): (as: ReadonlyArray<A>) => ReadonlyArray<B> {
-  return (as) => {
-    // tslint:disable-next-line: readonly-array
-    const result: Array<B> = []
-    let cs: ReadonlyArray<A> = as
-    while (isNonEmpty(cs)) {
-      const [b, c] = f(cs)
-      result.push(b)
-      cs = c
-    }
-    return result
+export const chop = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, ReadonlyArray<A>]) => (
+  as: ReadonlyArray<A>
+): ReadonlyArray<B> => {
+  // tslint:disable-next-line: readonly-array
+  const result: Array<B> = []
+  let cs: ReadonlyArray<A> = as
+  while (isNonEmpty(cs)) {
+    const [b, c] = f(cs)
+    result.push(b)
+    cs = c
   }
+  return result
 }
 
 /**
@@ -1805,6 +1803,7 @@ declare module './HKT' {
 }
 
 /**
+ * @category Traversable
  * @since 2.6.3
  */
 export const traverse: PipeableTraverse1<URI> = <F>(
@@ -1815,6 +1814,7 @@ export const traverse: PipeableTraverse1<URI> = <F>(
 }
 
 /**
+ * @category Traversable
  * @since 2.6.3
  */
 export const sequence: Traversable1<URI>['sequence'] = <F>(F: Applicative<F>) => <A>(
@@ -1829,6 +1829,7 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(F: Applicative<F>) =>
 }
 
 /**
+ * @category TraversableWithIndex
  * @since 2.6.3
  */
 export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = <F>(
