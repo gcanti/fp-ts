@@ -286,7 +286,22 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function fold<A>(S: Semigroup<A>): (a: A, as: ReadonlyArray<A>) => A
+export declare function fold<A>(
+  S: Semigroup<A>
+): {
+  (a: A): (as: ReadonlyArray<A>) => A
+  (a: A, as: ReadonlyArray<A>): A
+}
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/lib/Semigroup'
+
+const sum = S.fold(S.semigroupSum)(0)
+
+assert.deepStrictEqual(sum([1, 2, 3]), 6)
 ```
 
 Added in v2.0.0
