@@ -1772,7 +1772,7 @@ This function provides a safe way to read a value at a particular index from an 
 **Signature**
 
 ```ts
-export declare const lookup: <A>(i: number, as: A[]) => Option<A>
+export declare const lookup: { (i: number): <A>(as: A[]) => Option<A>; <A>(i: number, as: A[]): Option<A> }
 ```
 
 **Example**
@@ -1780,9 +1780,10 @@ export declare const lookup: <A>(i: number, as: A[]) => Option<A>
 ```ts
 import { lookup } from 'fp-ts/lib/Array'
 import { some, none } from 'fp-ts/lib/Option'
+import { pipe } from 'fp-ts/lib/function'
 
-assert.deepStrictEqual(lookup(1, [1, 2, 3]), some(2))
-assert.deepStrictEqual(lookup(3, [1, 2, 3]), none)
+assert.deepStrictEqual(pipe([1, 2, 3], lookup(1)), some(2))
+assert.deepStrictEqual(pipe([1, 2, 3], lookup(3)), none)
 ```
 
 Added in v2.0.0

@@ -46,6 +46,13 @@ describe('Array', () => {
       )
     })
 
+    it('lookup', () => {
+      assert.deepStrictEqual(_.lookup(0, [1, 2, 3]), O.some(1))
+      assert.deepStrictEqual(_.lookup(3, [1, 2, 3]), O.none)
+      assert.deepStrictEqual(pipe([1, 2, 3], _.lookup(0)), O.some(1))
+      assert.deepStrictEqual(pipe([1, 2, 3], _.lookup(3)), O.none)
+    })
+
     it('unfold', () => {
       const as = _.unfold(5, (n) => (n > 0 ? O.some([n, n - 1]) : O.none))
       assert.deepStrictEqual(as, [5, 4, 3, 2, 1])

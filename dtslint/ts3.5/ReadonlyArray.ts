@@ -74,3 +74,10 @@ pipe(
   rus,
   _.spanLeft((u: unknown): u is number => typeof u === 'number')
 )
+
+//
+// lookup
+//
+
+_.lookup(0, [1, 2, 3]) // $ExpectType Option<number>
+_.lookup(0) // $ExpectType <A>(as: readonly A[]) => Option<A>

@@ -242,13 +242,17 @@ export const isOutOfBound: <A>(i: number, as: Array<A>) => boolean = RA.isOutOfB
  * @example
  * import { lookup } from 'fp-ts/lib/Array'
  * import { some, none } from 'fp-ts/lib/Option'
+ * import { pipe } from 'fp-ts/lib/function'
  *
- * assert.deepStrictEqual(lookup(1, [1, 2, 3]), some(2))
- * assert.deepStrictEqual(lookup(3, [1, 2, 3]), none)
+ * assert.deepStrictEqual(pipe([1, 2, 3], lookup(1)), some(2))
+ * assert.deepStrictEqual(pipe([1, 2, 3], lookup(3)), none)
  *
  * @since 2.0.0
  */
-export const lookup: <A>(i: number, as: Array<A>) => Option<A> = RA.lookup
+export const lookup: {
+  (i: number): <A>(as: Array<A>) => Option<A>
+  <A>(i: number, as: Array<A>): Option<A>
+} = RA.lookup
 
 /**
  * Attaches an element to the front of an array, creating a new non empty array
