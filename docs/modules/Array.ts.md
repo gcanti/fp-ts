@@ -74,9 +74,6 @@ Added in v2.0.0
   - [takeRight](#takeright)
   - [union](#union)
   - [uniq](#uniq)
-  - [unsafeDeleteAt](#unsafedeleteat)
-  - [unsafeInsertAt](#unsafeinsertat)
-  - [unsafeUpdateAt](#unsafeupdateat)
   - [zip](#zip)
   - [zipWith](#zipwith)
 - [constructors](#constructors)
@@ -108,6 +105,10 @@ Added in v2.0.0
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getShow](#getshow)
+- [unsafe](#unsafe)
+  - [unsafeDeleteAt](#unsafedeleteat)
+  - [unsafeInsertAt](#unsafeinsertat)
+  - [unsafeUpdateAt](#unsafeupdateat)
 - [utils](#utils)
   - [chunksOf](#chunksof)
   - [comprehension](#comprehension)
@@ -919,36 +920,6 @@ assert.deepStrictEqual(uniq(eqNumber)([1, 2, 1]), [1, 2])
 
 Added in v2.0.0
 
-## unsafeDeleteAt
-
-**Signature**
-
-```ts
-export declare const unsafeDeleteAt: <A>(i: number, as: A[]) => A[]
-```
-
-Added in v2.0.0
-
-## unsafeInsertAt
-
-**Signature**
-
-```ts
-export declare const unsafeInsertAt: <A>(i: number, a: A, as: A[]) => A[]
-```
-
-Added in v2.0.0
-
-## unsafeUpdateAt
-
-**Signature**
-
-```ts
-export declare const unsafeUpdateAt: <A>(i: number, a: A, as: A[]) => A[]
-```
-
-Added in v2.0.0
-
 ## zip
 
 Takes two arrays and returns an array of corresponding pairs. If one input array is short, excess elements of the
@@ -1512,6 +1483,38 @@ Added in v2.0.0
 
 ```ts
 export declare const getShow: <A>(S: Show<A>) => Show<A[]>
+```
+
+Added in v2.0.0
+
+# unsafe
+
+## unsafeDeleteAt
+
+**Signature**
+
+```ts
+export declare const unsafeDeleteAt: <A>(i: number, as: A[]) => A[]
+```
+
+Added in v2.0.0
+
+## unsafeInsertAt
+
+**Signature**
+
+```ts
+export declare const unsafeInsertAt: <A>(i: number, a: A, as: A[]) => A[]
+```
+
+Added in v2.0.0
+
+## unsafeUpdateAt
+
+**Signature**
+
+```ts
+export declare const unsafeUpdateAt: <A>(i: number, a: A, as: A[]) => A[]
 ```
 
 Added in v2.0.0
