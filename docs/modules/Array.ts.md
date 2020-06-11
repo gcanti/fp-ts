@@ -1633,7 +1633,7 @@ an array of type `Array<A>`.
 **Signature**
 
 ```ts
-export declare const elem: <A>(E: Eq<A>) => (a: A, as: A[]) => boolean
+export declare const elem: <A>(E: Eq<A>) => { (a: A): (as: A[]) => boolean; (a: A, as: A[]): boolean }
 ```
 
 **Example**
@@ -1641,9 +1641,10 @@ export declare const elem: <A>(E: Eq<A>) => (a: A, as: A[]) => boolean
 ```ts
 import { elem } from 'fp-ts/lib/Array'
 import { eqNumber } from 'fp-ts/lib/Eq'
+import { pipe } from 'fp-ts/lib/function'
 
-assert.strictEqual(elem(eqNumber)(1, [1, 2, 3]), true)
-assert.strictEqual(elem(eqNumber)(4, [1, 2, 3]), false)
+assert.strictEqual(pipe([1, 2, 3], elem(eqNumber)(2)), true)
+assert.strictEqual(pipe([1, 2, 3], elem(eqNumber)(0)), false)
 ```
 
 Added in v2.0.0
