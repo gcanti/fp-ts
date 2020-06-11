@@ -50,6 +50,11 @@ Added in v2.5.0
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
+- [Traversable](#traversable)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
+- [TraversableWithIndex](#traversablewithindex)
+  - [traverseWithIndex](#traversewithindex)
 - [Whitherable](#whitherable)
   - [wilt](#wilt)
   - [wither](#wither)
@@ -121,13 +126,10 @@ Added in v2.5.0
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
   - [of](#of)
-  - [sequence](#sequence)
   - [spanLeft](#spanleft)
   - [splitAt](#splitat)
   - [tail](#tail)
   - [takeRight](#takeright)
-  - [traverse](#traverse)
-  - [traverseWithIndex](#traversewithindex)
   - [unfold](#unfold)
   - [unzip](#unzip)
   - [updateAt](#updateat)
@@ -471,6 +473,40 @@ assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
 
 Added in v2.5.0
 
+# Traversable
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence1<'ReadonlyArray'>
+```
+
+Added in v2.6.3
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: PipeableTraverse1<'ReadonlyArray'>
+```
+
+Added in v2.6.3
+
+# TraversableWithIndex
+
+## traverseWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseWithIndex: PipeableTraverseWithIndex1<'ReadonlyArray', number>
+```
+
+Added in v2.6.3
+
 # Whitherable
 
 ## wilt
@@ -504,9 +540,9 @@ value and the rest of the array.
 **Signature**
 
 ```ts
-export declare function chop<A, B>(
-  f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, ReadonlyArray<A>]
-): (as: ReadonlyArray<A>) => ReadonlyArray<B>
+export declare const chop: <A, B>(
+  f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, readonly A[]]
+) => (as: readonly A[]) => readonly B[]
 ```
 
 **Example**
@@ -1803,16 +1839,6 @@ export declare const of: <A>(a: A) => readonly A[]
 
 Added in v2.5.0
 
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: Sequence1<'ReadonlyArray'>
-```
-
-Added in v2.6.3
-
 ## spanLeft
 
 Split an array into two parts:
@@ -1902,26 +1928,6 @@ assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
 ```
 
 Added in v2.5.0
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: PipeableTraverse1<'ReadonlyArray'>
-```
-
-Added in v2.6.3
-
-## traverseWithIndex
-
-**Signature**
-
-```ts
-export declare const traverseWithIndex: PipeableTraverseWithIndex1<'ReadonlyArray', number>
-```
-
-Added in v2.6.3
 
 ## unfold
 

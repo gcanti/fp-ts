@@ -1157,16 +1157,19 @@ declare module './HKT' {
 }
 
 /**
+ * @category Traversable
  * @since 2.6.3
  */
 export const traverse: PipeableTraverse1<URI> = RA.traverse as any
 
 /**
+ * @category Traversable
  * @since 2.6.3
  */
 export const sequence: Traversable1<URI>['sequence'] = RA.sequence as any
 
 /**
+ * @category TraversableWithIndex
  * @since 2.6.3
  */
 export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = RA.traverseWithIndex as any
