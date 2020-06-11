@@ -50,6 +50,11 @@ Added in v2.0.0
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
+- [Traversable](#traversable)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
+- [TraversableWithIndex](#traversablewithindex)
+  - [traverseWithIndex](#traversewithindex)
 - [Whitherable](#whitherable)
   - [wilt](#wilt)
   - [wither](#wither)
@@ -122,10 +127,7 @@ Added in v2.0.0
   - [isOutOfBound](#isoutofbound)
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
-  - [sequence](#sequence)
   - [splitAt](#splitat)
-  - [traverse](#traverse)
-  - [traverseWithIndex](#traversewithindex)
   - [unfold](#unfold)
   - [unzip](#unzip)
   - [updateAt](#updateat)
@@ -464,6 +466,40 @@ assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
 ```
 
 Added in v2.0.0
+
+# Traversable
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence1<'Array'>
+```
+
+Added in v2.6.3
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: PipeableTraverse1<'Array'>
+```
+
+Added in v2.6.3
+
+# TraversableWithIndex
+
+## traverseWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseWithIndex: PipeableTraverseWithIndex1<'Array', number>
+```
+
+Added in v2.6.3
 
 # Whitherable
 
@@ -1816,16 +1852,6 @@ assert.deepStrictEqual(modifyAt(1, double)([]), none)
 
 Added in v2.0.0
 
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: Sequence1<'Array'>
-```
-
-Added in v2.6.3
-
 ## splitAt
 
 Splits an array into two pieces, the first piece has `n` elements.
@@ -1848,26 +1874,6 @@ assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
 ```
 
 Added in v2.0.0
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: PipeableTraverse1<'Array'>
-```
-
-Added in v2.6.3
-
-## traverseWithIndex
-
-**Signature**
-
-```ts
-export declare const traverseWithIndex: PipeableTraverseWithIndex1<'Array', number>
-```
-
-Added in v2.6.3
 
 ## unfold
 
