@@ -376,14 +376,17 @@ export function isOutOfBound<A>(i: number, as: ReadonlyArray<A>): boolean {
  * @example
  * import { lookup } from 'fp-ts/lib/ReadonlyArray'
  * import { some, none } from 'fp-ts/lib/Option'
+ * import { pipe } from 'fp-ts/lib/function'
  *
- * assert.deepStrictEqual(lookup(1, [1, 2, 3]), some(2))
- * assert.deepStrictEqual(lookup(3, [1, 2, 3]), none)
+ * assert.deepStrictEqual(pipe([1, 2, 3], lookup(1)), some(2))
+ * assert.deepStrictEqual(pipe([1, 2, 3], lookup(3)), none)
  *
  * @since 2.5.0
  */
-export function lookup<A>(i: number, as: ReadonlyArray<A>): Option<A> {
-  return isOutOfBound(i, as) ? none : some(as[i])
+export function lookup(i: number): <A>(as: ReadonlyArray<A>) => Option<A>
+export function lookup<A>(i: number, as: ReadonlyArray<A>): Option<A>
+export function lookup<A>(i: number, as?: ReadonlyArray<A>): Option<A> | (<A>(as: ReadonlyArray<A>) => Option<A>) {
+  return as === undefined ? (as) => lookup(i, as) : isOutOfBound(i, as) ? none : some(as[i])
 }
 
 /**
