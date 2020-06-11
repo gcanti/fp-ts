@@ -4,7 +4,7 @@ import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import * as IO from '../src/IO'
 import { monoidString } from '../src/Monoid'
-import { getOrElse, isSome, none, option, Option, some } from '../src/Option'
+import { isSome, none, option, Option, some } from '../src/Option'
 import { readonlyArray, zip } from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyRecord'
 import { getFirstSemigroup, getLastSemigroup, semigroupSum } from '../src/Semigroup'
@@ -202,6 +202,14 @@ describe('ReadonlyRecord', () => {
       assert.deepStrictEqual(sequence({ a: none, b: some(2) }), none)
     })
 
+    it('traverseWithIndex', () => {
+      const traverseWithIndex = _.traverseWithIndex(option)(
+        (k, n: number): Option<number> => (k !== 'a' ? some(n) : none)
+      )
+      assert.deepStrictEqual(pipe({ a: 1, b: 2 }, traverseWithIndex), none)
+      assert.deepStrictEqual(pipe({ b: 2 }, traverseWithIndex), some({ b: 2 }))
+    })
+
     it('wither', async () => {
       const wither = _.wither(T.task)((n: number) => T.of(p(n) ? some(n + 1) : none))
       assert.deepStrictEqual(await pipe({}, wither)(), {})
@@ -295,14 +303,6 @@ describe('ReadonlyRecord', () => {
       _.traverseWithIndex(IO.io)((_, io) => io)
     )()
     assert.deepStrictEqual(log, ['a', 'b'])
-  })
-
-  it('traverseWithIndex', () => {
-    const d1 = { k1: 1, k2: 2 }
-    const t1 = _.traverseWithIndex(option)((k, n: number): Option<number> => (k !== 'k1' ? some(n) : none))(d1)
-    assert.deepStrictEqual(t1, none)
-    const t2 = _.traverseWithIndex(option)((): Option<number> => none)(_.empty)
-    assert.deepStrictEqual(getOrElse((): _.ReadonlyRecord<string, number> => _.empty)(t2), _.empty)
   })
 
   it('size', () => {

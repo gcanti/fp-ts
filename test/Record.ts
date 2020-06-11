@@ -3,7 +3,7 @@ import { left, right } from '../src/Either'
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import { monoidString } from '../src/Monoid'
-import { getOrElse, isSome, none, option, Option, some } from '../src/Option'
+import { isSome, none, option, Option, some } from '../src/Option'
 import { readonlyArray, zip } from '../src/ReadonlyArray'
 import * as _ from '../src/Record'
 import { getFirstSemigroup, getLastSemigroup, semigroupSum } from '../src/Semigroup'
@@ -28,6 +28,14 @@ describe('Record', () => {
       const sequence = _.sequence(option)
       assert.deepStrictEqual(sequence({ a: some(1), b: some(2) }), some({ a: 1, b: 2 }))
       assert.deepStrictEqual(sequence({ a: none, b: some(2) }), none)
+    })
+
+    it('traverseWithIndex', () => {
+      const traverseWithIndex = _.traverseWithIndex(option)(
+        (k, n: number): Option<number> => (k !== 'a' ? some(n) : none)
+      )
+      assert.deepStrictEqual(pipe({ a: 1, b: 2 }, traverseWithIndex), none)
+      assert.deepStrictEqual(pipe({ b: 2 }, traverseWithIndex), some({ b: 2 }))
     })
 
     it('wither', async () => {
@@ -148,14 +156,6 @@ describe('Record', () => {
 
   it('toUnfoldable', () => {
     assert.deepStrictEqual(_.toUnfoldable(readonlyArray)({ a: 1 }), [['a', 1]])
-  })
-
-  it('traverseWithIndex', () => {
-    const d1 = { k1: 1, k2: 2 }
-    const t1 = _.traverseWithIndex(option)((k, n: number): Option<number> => (k !== 'k1' ? some(n) : none))(d1)
-    assert.deepStrictEqual(t1, none)
-    const t2 = _.traverseWithIndex(option)((): Option<number> => none)(_.empty)
-    assert.deepStrictEqual(getOrElse((): Record<string, number> => _.empty)(t2), _.empty)
   })
 
   it('size', () => {

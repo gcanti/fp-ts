@@ -1,8 +1,6 @@
 import * as assert from 'assert'
-import * as C from '../src/Const'
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
-import * as I from '../src/Identity'
 import * as M from '../src/Monoid'
 import * as _ from '../src/NonEmptyArray'
 import { isSome, none, option, some } from '../src/Option'
@@ -33,6 +31,23 @@ describe('NonEmptyArray', () => {
       const sequence = _.sequence(option)
       assert.deepStrictEqual(sequence([some(1), some(2), some(3)]), some([1, 2, 3]))
       assert.deepStrictEqual(sequence([none, some(2), some(3)]), none)
+    })
+
+    it('traverseWithIndex', () => {
+      assert.deepStrictEqual(
+        pipe(
+          ['a', 'bb'],
+          _.traverseWithIndex(option)((i, s) => (s.length >= 1 ? some(s + i) : none))
+        ),
+        some(['a0', 'bb1'])
+      )
+      assert.deepStrictEqual(
+        pipe(
+          ['a', 'bb'],
+          _.traverseWithIndex(option)((i, s) => (s.length > 1 ? some(s + i) : none))
+        ),
+        none
+      )
     })
   })
 
@@ -266,42 +281,6 @@ describe('NonEmptyArray', () => {
     assert.deepStrictEqual(
       _.nonEmptyArray.reduceRightWithIndex(['a', 'b'], '', (i, a, b) => b + i + a),
       '1b0a'
-    )
-  })
-
-  it('traverseWithIndex', () => {
-    assert.deepStrictEqual(
-      pipe(
-        ['a', 'bb'],
-        _.traverseWithIndex(option)((i, s) => (s.length >= 1 ? some(s + i) : none))
-      ),
-      some(['a0', 'bb1'])
-    )
-    assert.deepStrictEqual(
-      pipe(
-        ['a', 'bb'],
-        _.traverseWithIndex(option)((i, s) => (s.length > 1 ? some(s + i) : none))
-      ),
-      none
-    )
-
-    // FoldableWithIndex compatibility
-    const f = (i: number, s: string): string => s + i
-    assert.deepStrictEqual(
-      _.nonEmptyArray.foldMapWithIndex(M.monoidString)(['a', 'bb'], f),
-      pipe(
-        ['a', 'bb'],
-        _.traverseWithIndex(C.getApplicative(M.monoidString))((i, a) => C.make(f(i, a)))
-      )
-    )
-
-    // FunctorWithIndex compatibility
-    assert.deepStrictEqual(
-      _.nonEmptyArray.mapWithIndex(['a', 'bb'], f),
-      pipe(
-        ['a', 'bb'],
-        _.traverseWithIndex(I.identity)((i, a) => f(i, a))
-      )
     )
   })
 

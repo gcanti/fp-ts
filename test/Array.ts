@@ -2,11 +2,9 @@ import * as assert from 'assert'
 import * as fc from 'fast-check'
 import { isDeepStrictEqual } from 'util'
 import * as _ from '../src/Array'
-import * as C from '../src/Const'
 import { left, right } from '../src/Either'
 import { eq, Eq, eqBoolean, eqNumber, eqString } from '../src/Eq'
 import { identity, pipe, Predicate, tuple } from '../src/function'
-import * as I from '../src/Identity'
 import { fold as foldMonoid, monoidString, monoidSum } from '../src/Monoid'
 import * as O from '../src/Option'
 import { ord, ordNumber, ordString } from '../src/Ord'
@@ -29,6 +27,23 @@ describe('Array', () => {
       const sequence = _.sequence(O.option)
       assert.deepStrictEqual(sequence([O.some(1), O.some(3)]), O.some([1, 3]))
       assert.deepStrictEqual(sequence([O.some(1), O.none]), O.none)
+    })
+
+    it('traverseWithIndex', () => {
+      assert.deepStrictEqual(
+        pipe(
+          ['a', 'bb'],
+          _.traverseWithIndex(O.option)((i, s) => (s.length >= 1 ? O.some(s + i) : O.none))
+        ),
+        O.some(['a0', 'bb1'])
+      )
+      assert.deepStrictEqual(
+        pipe(
+          ['a', 'bb'],
+          _.traverseWithIndex(O.option)((i, s) => (s.length > 1 ? O.some(s + i) : O.none))
+        ),
+        O.none
+      )
     })
 
     it('wither', async () => {
@@ -747,44 +762,6 @@ describe('Array', () => {
     assert.deepStrictEqual(
       _.array.reduceRightWithIndex(['a', 'b'], '', (i, a, b) => b + i + a),
       '1b0a'
-    )
-  })
-
-  it('traverseWithIndex', () => {
-    const ta = ['a', 'bb']
-    assert.deepStrictEqual(
-      pipe(
-        ta,
-        _.traverseWithIndex(O.option)((i, s) => (s.length >= 1 ? O.some(s + i) : O.none))
-      ),
-      O.some(['a0', 'bb1'])
-    )
-    assert.deepStrictEqual(
-      pipe(
-        ta,
-        _.traverseWithIndex(O.option)((i, s) => (s.length > 1 ? O.some(s + i) : O.none))
-      ),
-      O.none
-    )
-
-    // FoldableWithIndex compatibility
-    const M = monoidString
-    const f = (i: number, s: string): string => s + i
-    assert.deepStrictEqual(
-      _.array.foldMapWithIndex(M)(ta, f),
-      pipe(
-        ta,
-        _.traverseWithIndex(C.getApplicative(M))((i, a) => C.make(f(i, a)))
-      )
-    )
-
-    // FunctorWithIndex compatibility
-    assert.deepStrictEqual(
-      _.array.mapWithIndex(ta, f),
-      pipe(
-        ta,
-        _.traverseWithIndex(I.identity)((i, a) => f(i, a))
-      )
     )
   })
 
