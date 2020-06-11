@@ -47,7 +47,7 @@ describe('Array', () => {
     })
 
     it('unfold', () => {
-      const as = _.array.unfold(5, (n) => (n > 0 ? O.some([n, n - 1]) : O.none))
+      const as = _.unfold(5, (n) => (n > 0 ? O.some([n, n - 1]) : O.none))
       assert.deepStrictEqual(as, [5, 4, 3, 2, 1])
     })
 

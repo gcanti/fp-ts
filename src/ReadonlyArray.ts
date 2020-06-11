@@ -1887,8 +1887,10 @@ export const wilt: PipeableWilt1<URI> = <F>(
   return (f) => (ta) => wiltF(ta, f)
 }
 
-// TODO: export
-const unfold = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): ReadonlyArray<A> => {
+/**
+ * @since 2.6.6
+ */
+export const unfold = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): ReadonlyArray<A> => {
   // tslint:disable-next-line: readonly-array
   const ret: Array<A> = []
   let bb: B = b
