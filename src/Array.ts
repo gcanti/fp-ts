@@ -757,13 +757,19 @@ export const rotate: (n: number) => <A>(as: Array<A>) => Array<A> = RA.rotate as
  * @example
  * import { elem } from 'fp-ts/lib/Array'
  * import { eqNumber } from 'fp-ts/lib/Eq'
+ * import { pipe } from 'fp-ts/lib/function'
  *
- * assert.strictEqual(elem(eqNumber)(1, [1, 2, 3]), true)
- * assert.strictEqual(elem(eqNumber)(4, [1, 2, 3]), false)
+ * assert.strictEqual(pipe([1, 2, 3], elem(eqNumber)(2)), true)
+ * assert.strictEqual(pipe([1, 2, 3], elem(eqNumber)(0)), false)
  *
  * @since 2.0.0
  */
-export const elem: <A>(E: Eq<A>) => (a: A, as: Array<A>) => boolean = RA.elem
+export const elem: <A>(
+  E: Eq<A>
+) => {
+  (a: A): (as: Array<A>) => boolean
+  (a: A, as: Array<A>): boolean
+} = RA.elem
 
 /**
  * Remove duplicates from an array, keeping the first occurrence of an element.

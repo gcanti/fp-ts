@@ -854,7 +854,6 @@ export function unsafeUpdateAt<A>(i: number, a: A, as: ReadonlyArray<A>): Readon
   if (as[i] === a) {
     return as
   } else {
-    // tslint:disable-next-line: readonly-array
     const xs = as.slice()
     xs[i] = a
     return xs
@@ -882,7 +881,6 @@ export function updateAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<R
  * @since 2.5.0
  */
 export function unsafeDeleteAt<A>(i: number, as: ReadonlyArray<A>): ReadonlyArray<A> {
-  // tslint:disable-next-line: readonly-array
   const xs = as.slice()
   xs.splice(i, 1)
   return xs
@@ -1096,23 +1094,35 @@ export function rotate(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
  * @example
  * import { elem } from 'fp-ts/lib/ReadonlyArray'
  * import { eqNumber } from 'fp-ts/lib/Eq'
+ * import { pipe } from 'fp-ts/lib/function'
  *
- * assert.strictEqual(elem(eqNumber)(1, [1, 2, 3]), true)
- * assert.strictEqual(elem(eqNumber)(4, [1, 2, 3]), false)
+ * assert.strictEqual(pipe([1, 2, 3], elem(eqNumber)(2)), true)
+ * assert.strictEqual(pipe([1, 2, 3], elem(eqNumber)(0)), false)
  *
  * @since 2.5.0
  */
-export function elem<A>(E: Eq<A>): (a: A, as: ReadonlyArray<A>) => boolean {
+export function elem<A>(
+  E: Eq<A>
+): {
+  (a: A): (as: ReadonlyArray<A>) => boolean
+  (a: A, as: ReadonlyArray<A>): boolean
+}
+export function elem<A>(E: Eq<A>): (a: A, as?: ReadonlyArray<A>) => boolean | ((as: ReadonlyArray<A>) => boolean) {
   return (a, as) => {
-    const predicate = (element: A) => E.equals(element, a)
-    let i = 0
-    const len = as.length
-    for (; i < len; i++) {
-      if (predicate(as[i])) {
-        return true
+    if (as === undefined) {
+      const elemE = elem(E)
+      return (as) => elemE(a, as)
+    } else {
+      const predicate = (element: A) => E.equals(element, a)
+      let i = 0
+      const len = as.length
+      for (; i < len; i++) {
+        if (predicate(as[i])) {
+          return true
+        }
       }
+      return false
     }
-    return false
   }
 }
 

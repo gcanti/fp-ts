@@ -1,5 +1,6 @@
 import * as _ from '../../src/Array'
 import { pipe } from '../../src/pipeable'
+import { eqNumber } from '../../src/Eq'
 
 declare const us: Array<unknown>
 declare const ns: Array<number>
@@ -90,3 +91,10 @@ pipe(
 
 _.lookup(0, [1, 2, 3]) // $ExpectType Option<number>
 _.lookup(0) // $ExpectType <A>(as: A[]) => Option<A>
+
+//
+// elem
+//
+
+_.elem(eqNumber)(1, [1, 2, 3]) // $ExpectType boolean
+_.elem(eqNumber)(1) // $ExpectType (as: number[]) => boolean
