@@ -21,6 +21,8 @@ high state of flux, you're at risk of it changing without notice.
     - export `unfold` (@gcanti)
   - `ReadonlyArray`
     - export `unfold` (@gcanti)
+  - `Semigroup`
+    - make `fold` data-last (@gcanti)
 
 # 2.6.5
 
