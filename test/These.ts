@@ -67,6 +67,30 @@ describe('These', () => {
       assert.deepStrictEqual(pipe(_.left(1), _.reduceRight('', f)), '')
       assert.deepStrictEqual(pipe(_.both(1, 'a'), _.reduceRight('', f)), 'a')
     })
+
+    it('traverse', () => {
+      const traverse = _.traverse(option)((n: number) => (n > 1 ? some(n) : none))
+      assert.deepStrictEqual(pipe(_.left('a'), traverse), some(_.left('a')))
+      assert.deepStrictEqual(pipe(_.right(2), traverse), some(_.right(2)))
+      assert.deepStrictEqual(pipe(_.right(1), traverse), none)
+      assert.deepStrictEqual(pipe(_.both('a', 2), traverse), some(_.both('a', 2)))
+      assert.deepStrictEqual(
+        pipe(
+          _.both('a', 1),
+          _.traverse(option)((n) => (n >= 2 ? some(n) : none))
+        ),
+        none
+      )
+    })
+
+    it('sequence', () => {
+      const sequence = _.sequence(option)
+      assert.deepStrictEqual(sequence(_.left('a')), some(_.left('a')))
+      assert.deepStrictEqual(sequence(_.right(some(1))), some(_.right(1)))
+      assert.deepStrictEqual(sequence(_.right(none)), none)
+      assert.deepStrictEqual(sequence(_.both('a', some(1))), some(_.both('a', 1)))
+      assert.deepStrictEqual(sequence(_.both('a', none)), none)
+    })
   })
 
   it('chain', () => {
@@ -131,35 +155,6 @@ describe('These', () => {
     assert.deepStrictEqual(pipe(_.left('b'), _.toTuple('a', 1)), ['b', 1])
     assert.deepStrictEqual(pipe(_.right(2), _.toTuple('a', 1)), ['a', 2])
     assert.deepStrictEqual(pipe(_.both('b', 2), _.toTuple('a', 1)), ['b', 2])
-  })
-
-  it('traverse', () => {
-    const traverse = _.traverse(option)((n: number) => (n > 1 ? some(n) : none))
-    assert.deepStrictEqual(pipe(_.left('a'), traverse), some(_.left('a')))
-    assert.deepStrictEqual(pipe(_.right(2), traverse), some(_.right(2)))
-    assert.deepStrictEqual(pipe(_.right(1), traverse), none)
-    assert.deepStrictEqual(pipe(_.both('a', 2), traverse), some(_.both('a', 2)))
-    assert.deepStrictEqual(
-      pipe(
-        _.both('a', 1),
-        _.traverse(option)((n) => (n >= 2 ? some(n) : none))
-      ),
-      none
-    )
-  })
-
-  it('sequence', () => {
-    const sequence = _.these.sequence(option)
-    const x1 = _.left('a')
-    assert.deepStrictEqual(sequence(x1), some(_.left('a')))
-    const x2 = _.right(some(1))
-    assert.deepStrictEqual(sequence(x2), some(_.right(1)))
-    const x3 = _.right(none)
-    assert.deepStrictEqual(sequence(x3), none)
-    const x4 = _.both('a', some(1))
-    assert.deepStrictEqual(sequence(x4), some(_.both('a', 1)))
-    const x5 = _.both('a', none)
-    assert.deepStrictEqual(sequence(x5), none)
   })
 
   it('getLeft', () => {

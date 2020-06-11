@@ -136,6 +136,20 @@ describe('Either', () => {
       assert.deepStrictEqual(pipe(_.right('a'), _.reduceRight('', f)), 'a')
       assert.deepStrictEqual(pipe(_.left(1), _.reduceRight('', f)), '')
     })
+
+    it('traverse', () => {
+      const traverse = _.traverse(option)((n: number) => (n >= 2 ? some(n) : none))
+      assert.deepStrictEqual(pipe(_.left('a'), traverse), some(_.left('a')))
+      assert.deepStrictEqual(pipe(_.right(1), traverse), none)
+      assert.deepStrictEqual(pipe(_.right(3), traverse), some(_.right(3)))
+    })
+
+    it('sequence', () => {
+      const sequence = _.sequence(option)
+      assert.deepStrictEqual(sequence(_.right(some(1))), some(_.right(1)))
+      assert.deepStrictEqual(sequence(_.left('a')), some(_.left('a')))
+      assert.deepStrictEqual(sequence(_.right(none)), none)
+    })
   })
 
   it('fold', () => {
@@ -350,39 +364,6 @@ describe('Either', () => {
     })
   })
 
-  describe('Traversable', () => {
-    it('traverse', () => {
-      assert.deepStrictEqual(
-        pipe(
-          _.left('foo'),
-          _.traverse(option)((a) => (a >= 2 ? some(a) : none))
-        ),
-        some(_.left('foo'))
-      )
-      assert.deepStrictEqual(
-        pipe(
-          _.right(1),
-          _.traverse(option)((a) => (a >= 2 ? some(a) : none))
-        ),
-        none
-      )
-      assert.deepStrictEqual(
-        pipe(
-          _.right(3),
-          _.traverse(option)((a) => (a >= 2 ? some(a) : none))
-        ),
-        some(_.right(3))
-      )
-    })
-
-    it('sequence', () => {
-      const sequence = _.sequence(option)
-      assert.deepStrictEqual(sequence(_.right(some('a'))), some(_.right('a')))
-      assert.deepStrictEqual(sequence(_.left(1)), some(_.left(1)))
-      assert.deepStrictEqual(sequence(_.right(none)), none)
-    })
-  })
-
   describe('ChainRec', () => {
     it('chainRec', () => {
       const chainRec = _.either.chainRec
@@ -474,37 +455,28 @@ describe('Either', () => {
     })
 
     it('wither', () => {
-      const f = (n: number) => I.identity.of(p(n) ? some(n + 1) : none)
+      const f = (n: number) => (p(n) ? some(n + 1) : none)
       const witherIdentity = W.wither(I.identity)
-      assert.deepStrictEqual(witherIdentity(_.left('foo'), f), I.identity.of(_.left('foo')))
-      assert.deepStrictEqual(witherIdentity(_.right(1), f), I.identity.of(_.left(monoidString.empty)))
-      assert.deepStrictEqual(witherIdentity(_.right(3), f), I.identity.of(_.right(4)))
+      assert.deepStrictEqual(witherIdentity(_.left('foo'), f), _.left('foo'))
+      assert.deepStrictEqual(witherIdentity(_.right(1), f), _.left(monoidString.empty))
+      assert.deepStrictEqual(witherIdentity(_.right(3), f), _.right(4))
     })
 
     it('wilt', () => {
       const wiltIdentity = W.wilt(I.identity)
-      const f = (n: number) => I.identity.of(p(n) ? _.right(n + 1) : _.left(n - 1))
-      assert.deepStrictEqual(
-        wiltIdentity(_.left('foo'), f),
-        I.identity.of({
-          left: _.left('foo'),
-          right: _.left('foo')
-        })
-      )
-      assert.deepStrictEqual(
-        wiltIdentity(_.right(1), f),
-        I.identity.of({
-          left: _.right(0),
-          right: _.left(monoidString.empty)
-        })
-      )
-      assert.deepStrictEqual(
-        wiltIdentity(_.right(3), f),
-        I.identity.of({
-          left: _.left(monoidString.empty),
-          right: _.right(4)
-        })
-      )
+      const f = (n: number) => (p(n) ? _.right(n + 1) : _.left(n - 1))
+      assert.deepStrictEqual(wiltIdentity(_.left('foo'), f), {
+        left: _.left('foo'),
+        right: _.left('foo')
+      })
+      assert.deepStrictEqual(wiltIdentity(_.right(1), f), {
+        left: _.right(0),
+        right: _.left(monoidString.empty)
+      })
+      assert.deepStrictEqual(wiltIdentity(_.right(3), f), {
+        left: _.left(monoidString.empty),
+        right: _.right(4)
+      })
     })
   })
 

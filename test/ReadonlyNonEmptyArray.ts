@@ -11,6 +11,31 @@ import * as S from '../src/Semigroup'
 import { showString } from '../src/Show'
 
 describe('ReadonlyNonEmptyArray', () => {
+  describe('pipeables', () => {
+    it('traverse', () => {
+      assert.deepStrictEqual(
+        pipe(
+          [1, 2, 3],
+          _.traverse(O.option)((n) => (n >= 0 ? O.some(n) : O.none))
+        ),
+        O.some([1, 2, 3])
+      )
+      assert.deepStrictEqual(
+        pipe(
+          [1, 2, 3],
+          _.traverse(O.option)((n) => (n >= 2 ? O.some(n) : O.none))
+        ),
+        O.none
+      )
+    })
+
+    it('sequence', () => {
+      const sequence = _.sequence(O.option)
+      assert.deepStrictEqual(sequence([O.some(1), O.some(2), O.some(3)]), O.some([1, 2, 3]))
+      assert.deepStrictEqual(sequence([O.none, O.some(2), O.some(3)]), O.none)
+    })
+  })
+
   it('head', () => {
     assert.deepStrictEqual(_.head([1, 2]), 1)
   })
@@ -55,29 +80,6 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('extract', () => {
     assert.deepStrictEqual(_.readonlyNonEmptyArray.extract([1, 2, 3]), 1)
-  })
-
-  it('traverse', () => {
-    assert.deepStrictEqual(
-      pipe(
-        [1, 2, 3],
-        _.traverse(O.option)((n) => (n >= 0 ? O.some(n) : O.none))
-      ),
-      O.some([1, 2, 3])
-    )
-    assert.deepStrictEqual(
-      pipe(
-        [1, 2, 3],
-        _.traverse(O.option)((n) => (n >= 2 ? O.some(n) : O.none))
-      ),
-      O.none
-    )
-  })
-
-  it('sequence', () => {
-    const sequence = _.sequence(O.option)
-    assert.deepStrictEqual(sequence([O.some(1), O.some(2), O.some(3)]), O.some([1, 2, 3]))
-    assert.deepStrictEqual(sequence([O.none, O.some(2), O.some(3)]), O.none)
   })
 
   it('min', () => {
@@ -291,7 +293,7 @@ describe('ReadonlyNonEmptyArray', () => {
       _.readonlyNonEmptyArray.mapWithIndex(['a', 'bb'], f),
       pipe(
         ['a', 'bb'],
-        _.traverseWithIndex(I.identity)((i, a) => I.identity.of(f(i, a)))
+        _.traverseWithIndex(I.identity)((i, a) => f(i, a))
       )
     )
   })

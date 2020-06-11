@@ -16,7 +16,7 @@ describe('Identity', () => {
 
     it('ap', () => {
       const double = (n: number): number => n * 2
-      const fab = _.identity.of(double)
+      const fab = double
       assert.deepStrictEqual(pipe(fab, _.ap(1)), 2)
     })
 
@@ -29,12 +29,12 @@ describe('Identity', () => {
     })
 
     it('chain', () => {
-      const f = (n: number) => _.identity.of(n * 2)
+      const f = (n: number) => n * 2
       assert.deepStrictEqual(pipe(1, _.chain(f)), 2)
     })
 
     it('chainFirst', () => {
-      const f = (n: number) => _.identity.of(n * 2)
+      const f = (n: number) => n * 2
       assert.deepStrictEqual(pipe(1, _.chainFirst(f)), 1)
     })
 
@@ -83,40 +83,41 @@ describe('Identity', () => {
     it('flatten', () => {
       assert.deepStrictEqual(pipe('a', _.flatten), 'a')
     })
+
+    it('traverse', () => {
+      const traverse = _.traverse(option)
+      assert.deepStrictEqual(pipe(1, traverse(some)), some(1))
+      assert.deepStrictEqual(
+        pipe(
+          1,
+          traverse(() => none)
+        ),
+        none
+      )
+    })
+
+    it('sequence', () => {
+      const sequence = _.sequence(option)
+      assert.deepStrictEqual(sequence(some('a')), some('a'))
+      assert.deepStrictEqual(sequence(none), none)
+    })
   })
 
   it('getEq', () => {
     const S = _.getEq(eqNumber)
-    assert.deepStrictEqual(S.equals(_.identity.of(1), _.identity.of(1)), true)
-    assert.deepStrictEqual(S.equals(_.identity.of(1), _.identity.of(2)), false)
-    assert.deepStrictEqual(S.equals(_.identity.of(2), _.identity.of(1)), false)
+    assert.deepStrictEqual(S.equals(1, 1), true)
+    assert.deepStrictEqual(S.equals(1, 2), false)
+    assert.deepStrictEqual(S.equals(2, 1), false)
   })
 
   it('ChainRec', () => {
-    const x = _.identity.chainRec<number, number>(0, (a) => _.identity.of(a < 10 ? left(a + 1) : right(a)))
-    const expected = _.identity.of(10)
+    const x = _.identity.chainRec<number, number>(0, (a) => (a < 10 ? left(a + 1) : right(a)))
+    const expected = 10
     assert.deepStrictEqual(x, expected)
-  })
-
-  it('traverse', () => {
-    assert.deepStrictEqual(pipe(_.identity.of(1), _.traverse(option)(some)), some(_.identity.of(1)))
-    assert.deepStrictEqual(
-      pipe(
-        _.identity.of(1),
-        _.traverse(option)(() => none)
-      ),
-      none
-    )
-  })
-
-  it('sequence', () => {
-    const sequence = _.identity.sequence(option)
-    const x1 = _.identity.of(some('a'))
-    assert.deepStrictEqual(sequence(x1), some(_.identity.of('a')))
   })
 
   it('getShow', () => {
     const S = _.getShow(showString)
-    assert.deepStrictEqual(S.show(_.identity.of('a')), `"a"`)
+    assert.deepStrictEqual(S.show('a'), `"a"`)
   })
 })

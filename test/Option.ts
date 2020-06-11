@@ -162,6 +162,38 @@ describe('Option', () => {
       assert.deepStrictEqual(pipe(_.some(3), _.partitionMap(f)), { left: _.none, right: _.some(4) })
     })
 
+    it('traverse', () => {
+      assert.deepStrictEqual(
+        pipe(
+          _.some('hello'),
+          _.traverse(array)(() => [])
+        ),
+        []
+      )
+      assert.deepStrictEqual(
+        pipe(
+          _.some('hello'),
+          _.traverse(array)((s) => [s.length])
+        ),
+        [_.some(5)]
+      )
+      assert.deepStrictEqual(
+        pipe(
+          _.none,
+          _.traverse(array)((s) => [s])
+        ),
+        [_.none]
+      )
+    })
+
+    it('sequence', () => {
+      const sequence = _.sequence(array)
+      assert.deepStrictEqual(sequence(_.some([1, 2])), [_.some(1), _.some(2)])
+      assert.deepStrictEqual(sequence(_.none), [_.none])
+    })
+  })
+
+  describe('constructors', () => {
     it('fromEither', () => {
       assert.deepStrictEqual(_.fromEither(left('a')), _.none)
       assert.deepStrictEqual(_.fromEither(right(1)), _.some(1))
@@ -304,37 +336,6 @@ describe('Option', () => {
     assert.deepStrictEqual(parseDirection('foo'), _.none)
   })
 
-  describe('Traversable', () => {
-    it('traverse', () => {
-      assert.deepStrictEqual(
-        pipe(
-          _.some('hello'),
-          _.traverse(array)(() => [])
-        ),
-        []
-      )
-      assert.deepStrictEqual(
-        pipe(
-          _.some('hello'),
-          _.traverse(array)((s) => [s.length])
-        ),
-        [_.some(5)]
-      )
-      assert.deepStrictEqual(
-        pipe(
-          _.none,
-          _.traverse(array)((s) => [s])
-        ),
-        [_.none]
-      )
-    })
-
-    it('sequence', () => {
-      assert.deepStrictEqual(_.option.sequence(array)(_.some([1, 2])), [_.some(1), _.some(2)])
-      assert.deepStrictEqual(_.option.sequence(array)(_.none), [_.none])
-    })
-  })
-
   it('getApplySemigroup', () => {
     const S = _.getApplySemigroup(semigroupSum)
     assert.deepStrictEqual(S.concat(_.none, _.none), _.none)
@@ -403,17 +404,17 @@ describe('Option', () => {
 
   describe('Witherable', () => {
     it('wither', () => {
-      const f = (n: number) => I.identity.of(p(n) ? _.some(n + 1) : _.none)
-      assert.deepStrictEqual(pipe(_.none, _.wither(I.identity)(f)), I.identity.of(_.none))
-      assert.deepStrictEqual(pipe(_.some(1), _.wither(I.identity)(f)), I.identity.of(_.none))
-      assert.deepStrictEqual(pipe(_.some(3), _.wither(I.identity)(f)), I.identity.of(_.some(4)))
+      const f = (n: number) => (p(n) ? _.some(n + 1) : _.none)
+      assert.deepStrictEqual(pipe(_.none, _.wither(I.identity)(f)), _.none)
+      assert.deepStrictEqual(pipe(_.some(1), _.wither(I.identity)(f)), _.none)
+      assert.deepStrictEqual(pipe(_.some(3), _.wither(I.identity)(f)), _.some(4))
     })
 
     it('wilt', () => {
-      const f = (n: number) => I.identity.of(p(n) ? right(n + 1) : left(n - 1))
-      assert.deepStrictEqual(pipe(_.none, _.wilt(I.identity)(f)), I.identity.of({ left: _.none, right: _.none }))
-      assert.deepStrictEqual(pipe(_.some(1), _.wilt(I.identity)(f)), I.identity.of({ left: _.some(0), right: _.none }))
-      assert.deepStrictEqual(pipe(_.some(3), _.wilt(I.identity)(f)), I.identity.of({ left: _.none, right: _.some(4) }))
+      const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
+      assert.deepStrictEqual(pipe(_.none, _.wilt(I.identity)(f)), { left: _.none, right: _.none })
+      assert.deepStrictEqual(pipe(_.some(1), _.wilt(I.identity)(f)), { left: _.some(0), right: _.none })
+      assert.deepStrictEqual(pipe(_.some(3), _.wilt(I.identity)(f)), { left: _.none, right: _.some(4) })
     })
   })
 

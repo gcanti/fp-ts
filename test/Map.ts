@@ -825,67 +825,75 @@ describe('Map', () => {
     })
 
     it('traverse', () => {
-      const optionTraverse = W.traverse(option)
-      const x = new Map<User, number>([
+      const traverse = W.traverse(option)
+      const x = new Map([
         [{ id: 'k1' }, 1],
         [{ id: 'k2' }, 2]
       ])
       assert.deepStrictEqual(
-        optionTraverse(x, (n) => (n <= 2 ? some(n) : none)),
+        traverse(x, (n) => (n <= 2 ? some(n) : none)),
         some(x)
       )
       assert.deepStrictEqual(
-        optionTraverse(x, (n) => (n >= 2 ? some(n) : none)),
+        traverse(x, (n) => (n >= 2 ? some(n) : none)),
         none
       )
     })
 
     it('sequence', () => {
-      const optionSequence = W.sequence(option)
-      const m1 = new Map<User, Option<number>>([
-        [{ id: 'k1' }, some(1)],
-        [{ id: 'k2' }, some(2)]
-      ])
-      const m2 = new Map<User, Option<number>>([
-        [{ id: 'k1' }, none],
-        [{ id: 'k2' }, some(2)]
-      ])
+      const sequence = W.sequence(option)
       assert.deepStrictEqual(
-        optionSequence(m1),
+        sequence(
+          new Map([
+            [{ id: 'k1' }, some(1)],
+            [{ id: 'k2' }, some(2)]
+          ])
+        ),
         some(
-          new Map<User, number>([
+          new Map([
             [{ id: 'k1' }, 1],
             [{ id: 'k2' }, 2]
           ])
         )
       )
-      assert.deepStrictEqual(optionSequence(m2), none)
+      assert.deepStrictEqual(
+        sequence(
+          new Map([
+            [{ id: 'k1' }, none],
+            [{ id: 'k2' }, some(2)]
+          ])
+        ),
+        none
+      )
     })
 
     it('traverseWithIndex', () => {
-      const optionTraverseWithIndex = W.traverseWithIndex(option)
-      const d1 = new Map<User, number>([
-        [{ id: 'k1' }, 1],
-        [{ id: 'k2' }, 2]
-      ])
-      const t1 = optionTraverseWithIndex(
-        d1,
-        (k, n): Option<number> => (!ordUser.equals(k, { id: 'k1' }) ? some(n) : none)
+      const traverseWithIndex = W.traverseWithIndex(option)
+      assert.deepStrictEqual(
+        traverseWithIndex(
+          new Map([
+            [{ id: 'k1' }, 1],
+            [{ id: 'k2' }, 2]
+          ]),
+          (k, n): Option<number> => (!ordUser.equals(k, { id: 'k1' }) ? some(n) : none)
+        ),
+        none
       )
-      assert.deepStrictEqual(t1, none)
-      const d2 = new Map<User, number>([
-        [{ id: 'k1' }, 2],
-        [{ id: 'k2' }, 3]
-      ])
-      const t2 = optionTraverseWithIndex(
-        d2,
-        (k, n): Option<number> => (!ordUser.equals(k, { id: 'k3' }) ? some(n) : none)
+      assert.deepStrictEqual(
+        traverseWithIndex(
+          new Map([
+            [{ id: 'k1' }, 2],
+            [{ id: 'k2' }, 3]
+          ]),
+          (k, n): Option<number> => (!ordUser.equals(k, { id: 'k3' }) ? some(n) : none)
+        ),
+        some(
+          new Map([
+            [{ id: 'k1' }, 2],
+            [{ id: 'k2' }, 3]
+          ])
+        )
       )
-      const expected = new Map<User, number>([
-        [{ id: 'k1' }, 2],
-        [{ id: 'k2' }, 3]
-      ])
-      assert.deepStrictEqual(t2, some(expected))
     })
 
     it('wither', () => {
@@ -896,9 +904,9 @@ describe('Map', () => {
       ])
       const b4 = new Map<User, number>([[{ id: 'b' }, 4]])
       const witherIdentity = W.wither(I.identity)
-      const f = (n: number) => I.identity.of(p(n) ? some(n + 1) : none)
-      assert.deepStrictEqual(witherIdentity(emptyMap, f), I.identity.of(emptyMap))
-      assert.deepStrictEqual(witherIdentity(a1b3, f), I.identity.of(b4))
+      const f = (n: number) => (p(n) ? some(n + 1) : none)
+      assert.deepStrictEqual(witherIdentity(emptyMap, f), emptyMap)
+      assert.deepStrictEqual(witherIdentity(a1b3, f), b4)
     })
 
     it('wilt', () => {
@@ -910,9 +918,9 @@ describe('Map', () => {
       const a0 = new Map<User, number>([[{ id: 'a' }, 0]])
       const b4 = new Map<User, number>([[{ id: 'b' }, 4]])
       const wiltIdentity = W.wilt(I.identity)
-      const f = (n: number) => I.identity.of(p(n) ? right(n + 1) : left(n - 1))
-      assert.deepStrictEqual(wiltIdentity(emptyMap, f), I.identity.of({ left: emptyMap, right: emptyMap }))
-      assert.deepStrictEqual(wiltIdentity(a1b3, f), I.identity.of({ left: a0, right: b4 }))
+      const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
+      assert.deepStrictEqual(wiltIdentity(emptyMap, f), { left: emptyMap, right: emptyMap })
+      assert.deepStrictEqual(wiltIdentity(a1b3, f), { left: a0, right: b4 })
     })
   })
 

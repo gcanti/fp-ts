@@ -13,7 +13,7 @@ import * as _ from '../src/ReadonlyArray'
 import { showString } from '../src/Show'
 
 describe('ReadonlyArray', () => {
-  describe('instances', () => {
+  describe('pipeables', () => {
     it('traverse', () => {
       const traverse = _.traverse(O.applicativeOption)(
         (n: number): O.Option<number> => (n % 2 === 0 ? O.none : O.some(n))
@@ -23,8 +23,9 @@ describe('ReadonlyArray', () => {
     })
 
     it('sequence', () => {
-      assert.deepStrictEqual(_.sequence(O.option)([O.some(1), O.some(3)]), O.some([1, 3]))
-      assert.deepStrictEqual(_.sequence(O.option)([O.some(1), O.none]), O.none)
+      const sequence = _.sequence(O.option)
+      assert.deepStrictEqual(sequence([O.some(1), O.some(3)]), O.some([1, 3]))
+      assert.deepStrictEqual(sequence([O.some(1), O.none]), O.none)
     })
 
     it('unfold', () => {
@@ -33,15 +34,15 @@ describe('ReadonlyArray', () => {
     })
 
     it('wither', () => {
-      const f = (n: number) => I.identity.of(n > 2 ? O.some(n + 1) : O.none)
-      assert.deepStrictEqual(F.pipe([], _.wither(I.identity)(f)), I.identity.of([]))
-      assert.deepStrictEqual(F.pipe([1, 3], _.wither(I.identity)(f)), I.identity.of([4]))
+      const f = (n: number) => (n > 2 ? O.some(n + 1) : O.none)
+      assert.deepStrictEqual(F.pipe([], _.wither(I.identity)(f)), [])
+      assert.deepStrictEqual(F.pipe([1, 3], _.wither(I.identity)(f)), [4])
     })
 
     it('wilt', () => {
-      const f = (n: number) => I.identity.of(n > 2 ? E.right(n + 1) : E.left(n - 1))
-      assert.deepStrictEqual(F.pipe([], _.wilt(I.identity)(f)), I.identity.of({ left: [], right: [] }))
-      assert.deepStrictEqual(F.pipe([1, 3], _.wilt(I.identity)(f)), I.identity.of({ left: [0], right: [4] }))
+      const f = (n: number) => (n > 2 ? E.right(n + 1) : E.left(n - 1))
+      assert.deepStrictEqual(F.pipe([], _.wilt(I.identity)(f)), { left: [], right: [] })
+      assert.deepStrictEqual(F.pipe([1, 3], _.wilt(I.identity)(f)), { left: [0], right: [4] })
     })
   })
 
@@ -873,7 +874,7 @@ describe('ReadonlyArray', () => {
       _.readonlyArray.mapWithIndex(ta, f),
       F.pipe(
         ta,
-        _.traverseWithIndex(I.identity)((i, a) => I.identity.of(f(i, a)))
+        _.traverseWithIndex(I.identity)((i, a) => f(i, a))
       )
     )
   })

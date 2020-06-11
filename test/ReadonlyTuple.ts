@@ -64,6 +64,18 @@ describe('ReadonlyTuple', () => {
         'ba'
       )
     })
+
+    it('traverse', () => {
+      const traverse = _.traverse(option)((n: number) => (n > 1 ? some(n) : none))
+      assert.deepStrictEqual(traverse([2, 'a']), some([2, 'a']))
+      assert.deepStrictEqual(traverse([1, 'a']), none)
+    })
+
+    it('sequence', () => {
+      const sequence = _.sequence(option)
+      assert.deepStrictEqual(sequence([some(1), 'a']), some([1, 'a']))
+      assert.deepStrictEqual(sequence([none, 'a']), none)
+    })
   })
 
   it('swap', () => {
@@ -98,17 +110,5 @@ describe('ReadonlyTuple', () => {
     assert.deepStrictEqual(xs.length, 10000)
     assert.deepStrictEqual(xs[0], 1)
     assert.deepStrictEqual(xs[xs.length - 1], 10000)
-  })
-
-  it('traverse', () => {
-    const traverse = _.traverse(option)((n: number) => (n > 1 ? some(n) : none))
-    assert.deepStrictEqual(traverse([2, 'a']), some([2, 'a']))
-    assert.deepStrictEqual(traverse([1, 'a']), none)
-  })
-
-  it('sequence', () => {
-    const sequence = _.readonlyTuple.sequence(option)
-    assert.deepStrictEqual(sequence([some(2), 'a']), some([2, 'a']))
-    assert.deepStrictEqual(sequence([none, 'a']), none)
   })
 })

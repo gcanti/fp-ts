@@ -187,6 +187,20 @@ describe('ReadonlyRecord', () => {
         { b: 2 }
       )
     })
+
+    it('traverse', () => {
+      assert.deepStrictEqual(
+        _.traverse(option)((n: number) => (n <= 2 ? some(n) : none))({ a: 1, b: 2 }),
+        some({ a: 1, b: 2 })
+      )
+      assert.deepStrictEqual(_.traverse(option)((n: number) => (n >= 2 ? some(n) : none))({ a: 1, b: 2 }), none)
+    })
+
+    it('sequence', () => {
+      const sequence = _.sequence(option)
+      assert.deepStrictEqual(sequence({ a: some(1), b: some(2) }), some({ a: 1, b: 2 }))
+      assert.deepStrictEqual(sequence({ a: none, b: some(2) }), none)
+    })
   })
 
   it('getMonoid', () => {
@@ -197,22 +211,6 @@ describe('ReadonlyRecord', () => {
     assert.deepStrictEqual(M.concat(d1, M.empty), d1)
     assert.deepStrictEqual(M.concat(M.empty, d2), d2)
     assert.deepStrictEqual(M.concat(d1, {}), d1)
-  })
-
-  it('traverse', () => {
-    assert.deepStrictEqual(
-      _.traverse(option)((n: number) => (n <= 2 ? some(n) : none))({ k1: 1, k2: 2 }),
-      some({ k1: 1, k2: 2 })
-    )
-    assert.deepStrictEqual(_.traverse(option)((n: number) => (n >= 2 ? some(n) : none))({ k1: 1, k2: 2 }), none)
-  })
-
-  it('sequence', () => {
-    const sequence = _.sequence(option)
-    const x1 = { k1: some(1), k2: some(2) }
-    assert.deepStrictEqual(sequence(x1), some({ k1: 1, k2: 2 }))
-    const x2 = { k1: none, k2: some(2) }
-    assert.deepStrictEqual(sequence(x2), none)
   })
 
   it('getEq', () => {
@@ -327,18 +325,15 @@ describe('ReadonlyRecord', () => {
   })
 
   it('wither', () => {
-    const f = (n: number) => I.identity.of(p(n) ? some(n + 1) : none)
-    assert.deepStrictEqual(pipe({}, _.wither(I.identity)(f)), I.identity.of<_.ReadonlyRecord<string, number>>({}))
-    assert.deepStrictEqual(pipe({ a: 1, b: 3 }, _.wither(I.identity)(f)), I.identity.of({ b: 4 }))
+    const f = (n: number) => (p(n) ? some(n + 1) : none)
+    assert.deepStrictEqual(pipe({}, _.wither(I.identity)(f)), {})
+    assert.deepStrictEqual(pipe({ a: 1, b: 3 }, _.wither(I.identity)(f)), { b: 4 })
   })
 
   it('wilt', () => {
-    const f = (n: number) => I.identity.of(p(n) ? right(n + 1) : left(n - 1))
-    assert.deepStrictEqual(pipe({}, _.wilt(I.identity)(f)), I.identity.of({ left: {}, right: {} }))
-    assert.deepStrictEqual(
-      pipe({ a: 1, b: 3 }, _.wilt(I.identity)(f)),
-      I.identity.of({ left: { a: 0 }, right: { b: 4 } })
-    )
+    const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
+    assert.deepStrictEqual(pipe({}, _.wilt(I.identity)(f)), { left: {}, right: {} })
+    assert.deepStrictEqual(pipe({ a: 1, b: 3 }, _.wilt(I.identity)(f)), { left: { a: 0 }, right: { b: 4 } })
   })
 
   it('every', () => {

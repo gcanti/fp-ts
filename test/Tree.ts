@@ -2,11 +2,26 @@ import * as assert from 'assert'
 import { eq, Eq, eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import * as I from '../src/Identity'
+import * as O from '../src/Option'
 import { monoidString } from '../src/Monoid'
 import { showString } from '../src/Show'
 import * as _ from '../src/Tree'
 
 describe('Tree', () => {
+  describe('pipeables', () => {
+    it('traverse', () => {
+      const fa = _.make('a', [_.make('b'), _.make('c')])
+      assert.deepStrictEqual(pipe(fa, _.traverse(O.option)(O.some)), O.some(fa))
+    })
+
+    it('sequence', () => {
+      assert.deepStrictEqual(
+        _.sequence(O.option)(_.make(O.some('a'), [_.make(O.some('b')), _.make(O.some('c'))])),
+        O.some(_.make('a', [_.make('b'), _.make('c')]))
+      )
+    })
+  })
+
   it('map', () => {
     const double = (n: number): number => n * 2
     const fa = _.make(1, [_.make(2), _.make(3)])
@@ -85,23 +100,6 @@ describe('Tree', () => {
     assert.deepStrictEqual(pipe(x, _.reduceRight('', f)), 'cba')
   })
 
-  it('traverse', () => {
-    const fa = _.make('a', [_.make('b'), _.make('c')])
-    assert.deepStrictEqual(
-      pipe(
-        fa,
-        _.traverse(I.identity)((a) => I.identity.of(a))
-      ),
-      I.identity.of(fa)
-    )
-  })
-
-  it('sequence', () => {
-    const sequence = _.tree.sequence(I.identity)
-    const x1 = _.make(I.identity.of<string>('a'), [_.make(I.identity.of('b')), _.make(I.identity.of('c'))])
-    assert.deepStrictEqual(sequence(x1), I.identity.of(_.make('a', [_.make('b'), _.make('c')])))
-  })
-
   it('drawTree', () => {
     const tree = _.make('a')
     assert.deepStrictEqual(_.drawTree(tree), 'a')
@@ -166,8 +164,8 @@ describe('Tree', () => {
   })
 
   it('unfoldTreeM', () => {
-    const fa = _.unfoldTreeM(I.identity)(1, (b) => I.identity.of([b, b < 3 ? [b + 1, b + 2] : []]))
-    const expected = I.identity.of(_.make(1, [_.make(2, [_.make(3), _.make(4)]), _.make(3)]))
+    const fa = _.unfoldTreeM(I.identity)(1, (b) => [b, b < 3 ? [b + 1, b + 2] : []])
+    const expected = _.make(1, [_.make(2, [_.make(3), _.make(4)]), _.make(3)])
     assert.deepStrictEqual(fa, expected)
   })
 
