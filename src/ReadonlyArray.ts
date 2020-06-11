@@ -1521,23 +1521,6 @@ const filterWithIndex_ = <A>(
 const extend_: <A, B>(wa: ReadonlyArray<A>, f: (wa: ReadonlyArray<A>) => B) => ReadonlyArray<B> = (fa, f) =>
   fa.map((_, i, as) => f(as.slice(i)))
 
-const unfold_ = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): ReadonlyArray<A> => {
-  // tslint:disable-next-line: readonly-array
-  const ret: Array<A> = []
-  let bb: B = b
-  while (true) {
-    const mt = f(bb)
-    if (isSome(mt)) {
-      const [a, b] = mt.value
-      ret.push(a)
-      bb = b
-    } else {
-      break
-    }
-  }
-  return ret
-}
-
 const traverse_ = <F>(
   F: Applicative<F>
 ): (<A, B>(ta: ReadonlyArray<A>, f: (a: A) => HKT<F, B>) => HKT<F, ReadonlyArray<B>>) => {
@@ -1904,6 +1887,24 @@ export const wilt: PipeableWilt1<URI> = <F>(
   return (f) => (ta) => wiltF(ta, f)
 }
 
+// TODO: export
+const unfold = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): ReadonlyArray<A> => {
+  // tslint:disable-next-line: readonly-array
+  const ret: Array<A> = []
+  let bb: B = b
+  while (true) {
+    const mt = f(bb)
+    if (isSome(mt)) {
+      const [a, b] = mt.value
+      ret.push(a)
+      bb = b
+    } else {
+      break
+    }
+  }
+  return ret
+}
+
 /**
  * @category instances
  * @since 2.5.0
@@ -1936,7 +1937,7 @@ export const readonlyArray: Monad1<URI> &
   filterWithIndex: filterWithIndex_,
   alt: alt_,
   zero: zero_,
-  unfold: unfold_,
+  unfold,
   reduce: reduce_,
   foldMap: foldMap_,
   reduceRight: reduceRight_,

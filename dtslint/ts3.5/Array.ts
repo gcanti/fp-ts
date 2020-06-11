@@ -1,6 +1,7 @@
 import * as _ from '../../src/Array'
 import { pipe } from '../../src/pipeable'
 
+declare const us: Array<unknown>
 declare const ns: Array<number>
 declare const ss: Array<string>
 declare const tns: Array<[number, string]>
@@ -32,3 +33,53 @@ declare function isStringWithIndex(i: number, x: unknown): x is string
 
 _.array.filterWithIndex([] as Array<string | number>, isStringWithIndex) // $ExpectType string[]
 _.array.partitionWithIndex([] as Array<string | number>, isStringWithIndex) // $ExpectType Separated<(string | number)[], string[]>
+
+//
+// filter
+//
+
+// $ExpectType number[]
+pipe(
+  us,
+  _.filter((u: unknown): u is number => typeof u === 'number')
+)
+
+//
+// filterWithIndex
+//
+
+// $ExpectType number[]
+pipe(
+  us,
+  _.filterWithIndex((_, u: unknown): u is number => typeof u === 'number')
+)
+
+//
+// partition
+//
+
+// $ExpectType Separated<unknown[], number[]>
+pipe(
+  us,
+  _.partition((u: unknown): u is number => typeof u === 'number')
+)
+
+//
+// partitionWithIndex
+//
+
+// $ExpectType Separated<unknown[], number[]>
+pipe(
+  us,
+  _.partitionWithIndex((_, u: unknown): u is number => typeof u === 'number')
+)
+
+//
+// spanLeft
+//
+
+// $ExpectType { init: number[]; rest: unknown[]; }
+pipe(
+  us,
+  _.spanLeft((u: unknown): u is number => typeof u === 'number')
+)
