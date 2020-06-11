@@ -891,6 +891,9 @@ export function modifyAt<A>(i: number, f: (a: A) => A): (as: ReadonlyArray<A>) =
  * @since 2.5.0
  */
 export function reverse<A>(as: ReadonlyArray<A>): ReadonlyArray<A> {
+  if (isEmpty(as)) {
+    return as
+  }
   return as.slice().reverse()
 }
 
@@ -956,7 +959,7 @@ export function lefts<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<E> {
  * @since 2.5.0
  */
 export function sort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
-  return (as) => as.slice().sort(O.compare)
+  return (as) => (isEmpty(as) ? as : as.slice().sort(O.compare))
 }
 
 /**
@@ -1935,7 +1938,6 @@ export const readonlyArray: Monad1<URI> &
  * @since 2.5.0
  */
 export function unsafeInsertAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> {
-  // tslint:disable-next-line: readonly-array
   const xs = as.slice()
   xs.splice(i, 0, a)
   return xs
