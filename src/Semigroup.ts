@@ -17,10 +17,29 @@ import { ReadonlyRecord } from './ReadonlyRecord'
 export interface Semigroup<A> extends Magma<A> {}
 
 /**
+ * @example
+ * import * as S from 'fp-ts/lib/Semigroup'
+ *
+ * const sum = S.fold(S.semigroupSum)(0)
+ *
+ * assert.deepStrictEqual(sum([1, 2, 3]), 6)
+ *
  * @since 2.0.0
  */
-export function fold<A>(S: Semigroup<A>): (a: A, as: ReadonlyArray<A>) => A {
-  return (a, as) => as.reduce(S.concat, a)
+export function fold<A>(
+  S: Semigroup<A>
+): {
+  (a: A): (as: ReadonlyArray<A>) => A
+  (a: A, as: ReadonlyArray<A>): A
+}
+export function fold<A>(S: Semigroup<A>): (a: A, as?: ReadonlyArray<A>) => A | ((as: ReadonlyArray<A>) => A) {
+  return (a, as) => {
+    if (as === undefined) {
+      return (as) => as.reduce(S.concat, a)
+    } else {
+      return as.reduce(S.concat, a)
+    }
+  }
 }
 
 /**
