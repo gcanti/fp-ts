@@ -586,6 +586,7 @@ describe('ReadonlyArray', () => {
 
   it('sort', () => {
     assert.deepStrictEqual(_.sort(Ord.ordNumber)([3, 2, 1]), [1, 2, 3])
+    assert.strictEqual(_.sort(Ord.ordNumber)(_.empty), _.empty)
   })
 
   it('zipWith', () => {
@@ -645,6 +646,7 @@ describe('ReadonlyArray', () => {
 
   it('reverse', () => {
     assert.deepStrictEqual(_.reverse([1, 2, 3]), [3, 2, 1])
+    assert.strictEqual(_.reverse(_.empty), _.empty)
   })
 
   it('foldLeft', () => {
@@ -914,5 +916,9 @@ describe('ReadonlyArray', () => {
     const bs = _.toArray(as)
     assert.deepStrictEqual(bs, as)
     assert.notStrictEqual(bs, as)
+  })
+
+  it('empty', () => {
+    assert.deepStrictEqual(_.empty.length, 0)
   })
 })
