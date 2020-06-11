@@ -126,6 +126,7 @@ Added in v2.5.0
   - [takeRight](#takeright)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
+  - [unfold](#unfold)
   - [unsafeInsertAt](#unsafeinsertat)
   - [unzip](#unzip)
   - [updateAt](#updateat)
@@ -1900,6 +1901,16 @@ export declare const traverseWithIndex: PipeableTraverseWithIndex1<'ReadonlyArra
 ```
 
 Added in v2.6.3
+
+## unfold
+
+**Signature**
+
+```ts
+export declare const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => readonly A[]
+```
+
+Added in v2.6.6
 
 ## unsafeInsertAt
 

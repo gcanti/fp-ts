@@ -1202,8 +1202,10 @@ export const wither: PipeableWither1<URI> = RA.wither as any
  */
 export const wilt: PipeableWilt1<URI> = RA.wilt as any
 
-// TODO: export
-// export const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => Array<A> = RA.unfold as any
+/**
+ * @since 2.6.6
+ */
+export const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => Array<A> = RA.unfold as any
 
 /**
  * @category instances

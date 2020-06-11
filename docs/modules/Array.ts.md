@@ -125,6 +125,7 @@ Added in v2.0.0
   - [splitAt](#splitat)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
+  - [unfold](#unfold)
   - [unzip](#unzip)
   - [updateAt](#updateat)
 
@@ -1862,6 +1863,16 @@ export declare const traverseWithIndex: PipeableTraverseWithIndex1<'Array', numb
 ```
 
 Added in v2.6.3
+
+## unfold
+
+**Signature**
+
+```ts
+export declare const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => A[]
+```
+
+Added in v2.6.6
 
 ## unzip
 
