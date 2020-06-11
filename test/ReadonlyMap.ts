@@ -3,7 +3,6 @@ import { array } from '../src/Array'
 import { Either, left, right } from '../src/Either'
 import { Eq, eqNumber, fromEquals } from '../src/Eq'
 import { identity, pipe, Refinement } from '../src/function'
-import * as I from '../src/Identity'
 import * as IO from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import { none, option, Option, some } from '../src/Option'
@@ -11,6 +10,7 @@ import { fromCompare, ord, ordNumber, ordString } from '../src/Ord'
 import * as _ from '../src/ReadonlyMap'
 import { getFirstSemigroup, getLastSemigroup, getStructSemigroup, semigroupSum } from '../src/Semigroup'
 import { getStructShow, Show, showString } from '../src/Show'
+import * as T from '../src/Task'
 
 interface User {
   readonly id: string
@@ -899,56 +899,64 @@ describe('ReadonlyMap', () => {
     })
 
     it('traverseWithIndex', () => {
-      const optionTraverseWithIndex = W.traverseWithIndex(option)
-      const d1 = new Map<User, number>([
-        [{ id: 'k1' }, 1],
-        [{ id: 'k2' }, 2]
-      ])
-      const t1 = optionTraverseWithIndex(
-        d1,
-        (k, n): Option<number> => (!ordUser.equals(k, { id: 'k1' }) ? some(n) : none)
+      const traverseWithIndex = W.traverseWithIndex(option)
+      assert.deepStrictEqual(
+        traverseWithIndex(
+          new Map([
+            [{ id: 'k1' }, 1],
+            [{ id: 'k2' }, 2]
+          ]),
+          (k, n): Option<number> => (!ordUser.equals(k, { id: 'k1' }) ? some(n) : none)
+        ),
+        none
       )
-      assert.deepStrictEqual(t1, none)
-      const d2 = new Map<User, number>([
-        [{ id: 'k1' }, 2],
-        [{ id: 'k2' }, 3]
-      ])
-      const t2 = optionTraverseWithIndex(
-        d2,
-        (k, n): Option<number> => (!ordUser.equals(k, { id: 'k3' }) ? some(n) : none)
+      assert.deepStrictEqual(
+        traverseWithIndex(
+          new Map([
+            [{ id: 'k1' }, 2],
+            [{ id: 'k2' }, 3]
+          ]),
+          (k, n): Option<number> => (!ordUser.equals(k, { id: 'k3' }) ? some(n) : none)
+        ),
+        some(
+          new Map([
+            [{ id: 'k1' }, 2],
+            [{ id: 'k2' }, 3]
+          ])
+        )
       )
-      const expected = new Map<User, number>([
-        [{ id: 'k1' }, 2],
-        [{ id: 'k2' }, 3]
-      ])
-      assert.deepStrictEqual(t2, some(expected))
     })
 
-    it('wither', () => {
-      const emptyMap = new Map<User, number>()
-      const a1b3 = new Map<User, number>([
-        [{ id: 'a' }, 1],
-        [{ id: 'b' }, 3]
-      ])
-      const b4 = new Map<User, number>([[{ id: 'b' }, 4]])
-      const witherIdentity = W.wither(I.identity)
-      const f = (n: number) => (p(n) ? some(n + 1) : none)
-      assert.deepStrictEqual(witherIdentity(emptyMap, f), emptyMap)
-      assert.deepStrictEqual(witherIdentity(a1b3, f), b4)
+    it('wither', async () => {
+      const wither = W.wither(T.task)
+      const f = (n: number) => T.of(p(n) ? some(n + 1) : none)
+      assert.deepStrictEqual(await wither(_.empty, f)(), _.empty)
+      assert.deepStrictEqual(
+        await wither(
+          new Map([
+            [{ id: 'a' }, 1],
+            [{ id: 'b' }, 3]
+          ]),
+          f
+        )(),
+        new Map([[{ id: 'b' }, 4]])
+      )
     })
 
-    it('wilt', () => {
-      const emptyMap = new Map<User, number>()
-      const a1b3 = new Map<User, number>([
-        [{ id: 'a' }, 1],
-        [{ id: 'b' }, 3]
-      ])
-      const a0 = new Map<User, number>([[{ id: 'a' }, 0]])
-      const b4 = new Map<User, number>([[{ id: 'b' }, 4]])
-      const wiltIdentity = W.wilt(I.identity)
-      const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
-      assert.deepStrictEqual(wiltIdentity(emptyMap, f), { left: emptyMap, right: emptyMap })
-      assert.deepStrictEqual(wiltIdentity(a1b3, f), { left: a0, right: b4 })
+    it('wilt', async () => {
+      const wilt = W.wilt(T.task)
+      const f = (n: number) => T.of(p(n) ? right(n + 1) : left(n - 1))
+      assert.deepStrictEqual(await wilt(_.empty, f)(), { left: _.empty, right: _.empty })
+      assert.deepStrictEqual(
+        await wilt(
+          new Map([
+            [{ id: 'a' }, 1],
+            [{ id: 'b' }, 3]
+          ]),
+          f
+        )(),
+        { left: new Map([[{ id: 'a' }, 0]]), right: new Map([[{ id: 'b' }, 4]]) }
+      )
     })
   })
 

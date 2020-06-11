@@ -2,7 +2,6 @@ import * as assert from 'assert'
 import { left, right } from '../src/Either'
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
-import * as I from '../src/Identity'
 import * as IO from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import { getOrElse, isSome, none, option, Option, some } from '../src/Option'
@@ -10,6 +9,7 @@ import { readonlyArray, zip } from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyRecord'
 import { getFirstSemigroup, getLastSemigroup, semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
+import * as T from '../src/Task'
 
 const p = (n: number) => n > 2
 
@@ -201,6 +201,18 @@ describe('ReadonlyRecord', () => {
       assert.deepStrictEqual(sequence({ a: some(1), b: some(2) }), some({ a: 1, b: 2 }))
       assert.deepStrictEqual(sequence({ a: none, b: some(2) }), none)
     })
+
+    it('wither', async () => {
+      const wither = _.wither(T.task)((n: number) => T.of(p(n) ? some(n + 1) : none))
+      assert.deepStrictEqual(await pipe({}, wither)(), {})
+      assert.deepStrictEqual(await pipe({ a: 1, b: 3 }, wither)(), { b: 4 })
+    })
+
+    it('wilt', async () => {
+      const wilt = _.wilt(T.task)((n: number) => T.of(p(n) ? right(n + 1) : left(n - 1)))
+      assert.deepStrictEqual(await pipe({}, wilt)(), { left: {}, right: {} })
+      assert.deepStrictEqual(await pipe({ a: 1, b: 3 }, wilt)(), { left: { a: 0 }, right: { b: 4 } })
+    })
   })
 
   it('getMonoid', () => {
@@ -322,18 +334,6 @@ describe('ReadonlyRecord', () => {
   it('pop', () => {
     assert.deepStrictEqual(_.pop('a')({ a: 1, b: 2 }), some([1, { b: 2 }]))
     assert.deepStrictEqual(_.pop('c')({ a: 1, b: 2 }), none)
-  })
-
-  it('wither', () => {
-    const f = (n: number) => (p(n) ? some(n + 1) : none)
-    assert.deepStrictEqual(pipe({}, _.wither(I.identity)(f)), {})
-    assert.deepStrictEqual(pipe({ a: 1, b: 3 }, _.wither(I.identity)(f)), { b: 4 })
-  })
-
-  it('wilt', () => {
-    const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
-    assert.deepStrictEqual(pipe({}, _.wilt(I.identity)(f)), { left: {}, right: {} })
-    assert.deepStrictEqual(pipe({ a: 1, b: 3 }, _.wilt(I.identity)(f)), { left: { a: 0 }, right: { b: 4 } })
   })
 
   it('every', () => {

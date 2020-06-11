@@ -2,11 +2,11 @@ import * as assert from 'assert'
 import * as _ from '../src/Either'
 import { eqNumber, eqString } from '../src/Eq'
 import { identity, pipe } from '../src/function'
-import * as I from '../src/Identity'
 import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
+import * as T from '../src/Task'
 
 describe('Either', () => {
   describe('pipeables', () => {
@@ -454,26 +454,26 @@ describe('Either', () => {
       assert.deepStrictEqual(W.filterMap(_.right(3), f), _.right(4))
     })
 
-    it('wither', () => {
-      const f = (n: number) => (p(n) ? some(n + 1) : none)
-      const witherIdentity = W.wither(I.identity)
-      assert.deepStrictEqual(witherIdentity(_.left('foo'), f), _.left('foo'))
-      assert.deepStrictEqual(witherIdentity(_.right(1), f), _.left(monoidString.empty))
-      assert.deepStrictEqual(witherIdentity(_.right(3), f), _.right(4))
+    it('wither', async () => {
+      const wither = W.wither(T.task)
+      const f = (n: number) => T.of(p(n) ? some(n + 1) : none)
+      assert.deepStrictEqual(await wither(_.left('foo'), f)(), _.left('foo'))
+      assert.deepStrictEqual(await wither(_.right(1), f)(), _.left(monoidString.empty))
+      assert.deepStrictEqual(await wither(_.right(3), f)(), _.right(4))
     })
 
-    it('wilt', () => {
-      const wiltIdentity = W.wilt(I.identity)
-      const f = (n: number) => (p(n) ? _.right(n + 1) : _.left(n - 1))
-      assert.deepStrictEqual(wiltIdentity(_.left('foo'), f), {
+    it('wilt', async () => {
+      const wilt = W.wilt(T.task)
+      const f = (n: number) => T.of(p(n) ? _.right(n + 1) : _.left(n - 1))
+      assert.deepStrictEqual(await wilt(_.left('foo'), f)(), {
         left: _.left('foo'),
         right: _.left('foo')
       })
-      assert.deepStrictEqual(wiltIdentity(_.right(1), f), {
+      assert.deepStrictEqual(await wilt(_.right(1), f)(), {
         left: _.right(0),
         right: _.left(monoidString.empty)
       })
-      assert.deepStrictEqual(wiltIdentity(_.right(3), f), {
+      assert.deepStrictEqual(await wilt(_.right(3), f)(), {
         left: _.left(monoidString.empty),
         right: _.right(4)
       })

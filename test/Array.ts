@@ -1,16 +1,17 @@
 import * as assert from 'assert'
 import * as fc from 'fast-check'
+import { isDeepStrictEqual } from 'util'
 import * as _ from '../src/Array'
+import * as C from '../src/Const'
 import { left, right } from '../src/Either'
-import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
+import { eq, Eq, eqBoolean, eqNumber, eqString } from '../src/Eq'
+import { identity, pipe, Predicate, tuple } from '../src/function'
+import * as I from '../src/Identity'
+import { fold as foldMonoid, monoidString, monoidSum } from '../src/Monoid'
 import * as O from '../src/Option'
 import { ord, ordNumber, ordString } from '../src/Ord'
-import { eq, eqBoolean, eqNumber, eqString, Eq } from '../src/Eq'
-import { identity, tuple, Predicate, pipe } from '../src/function'
-import * as I from '../src/Identity'
-import * as C from '../src/Const'
 import { showString } from '../src/Show'
-import { isDeepStrictEqual } from 'util'
+import * as T from '../src/Task'
 
 // tslint:disable:readonly-array
 
@@ -28,6 +29,20 @@ describe('Array', () => {
       const sequence = _.sequence(O.option)
       assert.deepStrictEqual(sequence([O.some(1), O.some(3)]), O.some([1, 3]))
       assert.deepStrictEqual(sequence([O.some(1), O.none]), O.none)
+    })
+
+    it('wither', async () => {
+      const wither = _.wither(T.task)
+      const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
+      assert.deepStrictEqual(await pipe([], wither(f))(), [])
+      assert.deepStrictEqual(await pipe([1, 3], wither(f))(), [4])
+    })
+
+    it('wilt', async () => {
+      const wilt = _.wilt(T.task)
+      const f = (n: number) => T.of(p(n) ? right(n + 1) : left(n - 1))
+      assert.deepStrictEqual(await pipe([], wilt(f))(), { left: [], right: [] })
+      assert.deepStrictEqual(await pipe([1, 3], wilt(f))(), { left: [0], right: [4] })
     })
   })
 
@@ -590,20 +605,6 @@ describe('Array', () => {
     const isNumber = (x: string | number): x is number => typeof x === 'number'
     const actual = partition(xs, isNumber)
     assert.deepStrictEqual(actual, { left: ['a', 'b'], right: [1] })
-  })
-
-  it('wither', () => {
-    const witherIdentity = _.array.wither(I.identity)
-    const f = (n: number) => (p(n) ? O.some(n + 1) : O.none)
-    assert.deepStrictEqual(witherIdentity([], f), [])
-    assert.deepStrictEqual(witherIdentity([1, 3], f), [4])
-  })
-
-  it('wilt', () => {
-    const wiltIdentity = _.array.wilt(I.identity)
-    const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
-    assert.deepStrictEqual(wiltIdentity([], f), { left: [], right: [] })
-    assert.deepStrictEqual(wiltIdentity([1, 3], f), { left: [0], right: [4] })
   })
 
   it('chop', () => {

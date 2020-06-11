@@ -6,6 +6,7 @@ import * as E from '../src/Either'
 import * as Eq from '../src/Eq'
 import * as F from '../src/function'
 import * as I from '../src/Identity'
+import * as T from '../src/Task'
 import * as M from '../src/Monoid'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
@@ -33,16 +34,16 @@ describe('ReadonlyArray', () => {
       assert.deepStrictEqual(as, [5, 4, 3, 2, 1])
     })
 
-    it('wither', () => {
-      const f = (n: number) => (n > 2 ? O.some(n + 1) : O.none)
-      assert.deepStrictEqual(F.pipe([], _.wither(I.identity)(f)), [])
-      assert.deepStrictEqual(F.pipe([1, 3], _.wither(I.identity)(f)), [4])
+    it('wither', async () => {
+      const wither = _.wither(T.task)((n: number) => T.of(n > 2 ? O.some(n + 1) : O.none))
+      assert.deepStrictEqual(await F.pipe([], wither)(), [])
+      assert.deepStrictEqual(await F.pipe([1, 3], wither)(), [4])
     })
 
-    it('wilt', () => {
-      const f = (n: number) => (n > 2 ? E.right(n + 1) : E.left(n - 1))
-      assert.deepStrictEqual(F.pipe([], _.wilt(I.identity)(f)), { left: [], right: [] })
-      assert.deepStrictEqual(F.pipe([1, 3], _.wilt(I.identity)(f)), { left: [0], right: [4] })
+    it('wilt', async () => {
+      const wilt = _.wilt(T.task)((n: number) => T.of(n > 2 ? E.right(n + 1) : E.left(n - 1)))
+      assert.deepStrictEqual(await F.pipe([], wilt)(), { left: [], right: [] })
+      assert.deepStrictEqual(await F.pipe([1, 3], wilt)(), { left: [0], right: [4] })
     })
   })
 
