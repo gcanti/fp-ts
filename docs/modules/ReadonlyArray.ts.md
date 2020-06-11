@@ -71,8 +71,6 @@ Added in v2.5.0
   - [takeLeftWhile](#takeleftwhile)
   - [union](#union)
   - [uniq](#uniq)
-  - [unsafeDeleteAt](#unsafedeleteat)
-  - [unsafeUpdateAt](#unsafeupdateat)
   - [zip](#zip)
   - [zipWith](#zipwith)
 - [constructors](#constructors)
@@ -96,6 +94,10 @@ Added in v2.5.0
   - [getOrd](#getord)
   - [getShow](#getshow)
   - [readonlyArray](#readonlyarray)
+- [unsafe](#unsafe)
+  - [unsafeDeleteAt](#unsafedeleteat)
+  - [unsafeInsertAt](#unsafeinsertat)
+  - [unsafeUpdateAt](#unsafeupdateat)
 - [utils](#utils)
   - [Spanned (interface)](#spanned-interface)
   - [chunksOf](#chunksof)
@@ -127,7 +129,6 @@ Added in v2.5.0
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
   - [unfold](#unfold)
-  - [unsafeInsertAt](#unsafeinsertat)
   - [unzip](#unzip)
   - [updateAt](#updateat)
 
@@ -877,26 +878,6 @@ assert.deepStrictEqual(uniq(eqNumber)([1, 2, 1]), [1, 2])
 
 Added in v2.5.0
 
-## unsafeDeleteAt
-
-**Signature**
-
-```ts
-export declare function unsafeDeleteAt<A>(i: number, as: ReadonlyArray<A>): ReadonlyArray<A>
-```
-
-Added in v2.5.0
-
-## unsafeUpdateAt
-
-**Signature**
-
-```ts
-export declare function unsafeUpdateAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A>
-```
-
-Added in v2.5.0
-
 ## zip
 
 Takes two arrays and returns an array of corresponding pairs. If one input array is short, excess elements of the
@@ -1251,6 +1232,38 @@ export declare const readonlyArray: Monad1<'ReadonlyArray'> &
   Witherable1<'ReadonlyArray'> &
   FunctorWithIndex1<'ReadonlyArray', number> &
   FoldableWithIndex1<'ReadonlyArray', number>
+```
+
+Added in v2.5.0
+
+# unsafe
+
+## unsafeDeleteAt
+
+**Signature**
+
+```ts
+export declare function unsafeDeleteAt<A>(i: number, as: ReadonlyArray<A>): ReadonlyArray<A>
+```
+
+Added in v2.5.0
+
+## unsafeInsertAt
+
+**Signature**
+
+```ts
+export declare function unsafeInsertAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A>
+```
+
+Added in v2.5.0
+
+## unsafeUpdateAt
+
+**Signature**
+
+```ts
+export declare function unsafeUpdateAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A>
 ```
 
 Added in v2.5.0
@@ -1919,16 +1932,6 @@ export declare const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) 
 ```
 
 Added in v2.6.6
-
-## unsafeInsertAt
-
-**Signature**
-
-```ts
-export declare function unsafeInsertAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A>
-```
-
-Added in v2.5.0
 
 ## unzip
 

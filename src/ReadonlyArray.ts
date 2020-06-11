@@ -169,13 +169,6 @@ export function getOrd<A>(O: Ord<A>): Ord<ReadonlyArray<A>> {
 }
 
 /**
- * An empty array
- *
- * @since 2.5.0
- */
-export const empty: ReadonlyArray<never> = []
-
-/**
  * Return a list of length `n` with element `i` initialized with `f(i)`
  *
  * @example
@@ -822,16 +815,6 @@ export function findLastIndex<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>
 }
 
 /**
- * @since 2.5.0
- */
-export function unsafeInsertAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> {
-  // tslint:disable-next-line: readonly-array
-  const xs = as.slice()
-  xs.splice(i, 0, a)
-  return xs
-}
-
-/**
  * Insert an element at the specified index, creating a new array, or returning `None` if the index is out of bounds
  *
  * @example
@@ -844,20 +827,6 @@ export function unsafeInsertAt<A>(i: number, a: A, as: ReadonlyArray<A>): Readon
  */
 export function insertAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>> {
   return (as) => (i < 0 || i > as.length ? none : some(unsafeInsertAt(i, a, as)))
-}
-
-/**
- * @category combinators
- * @since 2.5.0
- */
-export function unsafeUpdateAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> {
-  if (as[i] === a) {
-    return as
-  } else {
-    const xs = as.slice()
-    xs[i] = a
-    return xs
-  }
 }
 
 /**
@@ -874,16 +843,6 @@ export function unsafeUpdateAt<A>(i: number, a: A, as: ReadonlyArray<A>): Readon
  */
 export function updateAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>> {
   return (as) => (isOutOfBound(i, as) ? none : some(unsafeUpdateAt(i, a, as)))
-}
-
-/**
- * @category combinators
- * @since 2.5.0
- */
-export function unsafeDeleteAt<A>(i: number, as: ReadonlyArray<A>): ReadonlyArray<A> {
-  const xs = as.slice()
-  xs.splice(i, 1)
-  return xs
 }
 
 /**
@@ -1966,3 +1925,53 @@ export const readonlyArray: Monad1<URI> &
   wither: wither_,
   wilt: wilt_
 }
+
+// -------------------------------------------------------------------------------------
+// unsafe
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category unsafe
+ * @since 2.5.0
+ */
+export function unsafeInsertAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> {
+  // tslint:disable-next-line: readonly-array
+  const xs = as.slice()
+  xs.splice(i, 0, a)
+  return xs
+}
+
+/**
+ * @category unsafe
+ * @since 2.5.0
+ */
+export function unsafeUpdateAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> {
+  if (as[i] === a) {
+    return as
+  } else {
+    const xs = as.slice()
+    xs[i] = a
+    return xs
+  }
+}
+
+/**
+ * @category unsafe
+ * @since 2.5.0
+ */
+export function unsafeDeleteAt<A>(i: number, as: ReadonlyArray<A>): ReadonlyArray<A> {
+  const xs = as.slice()
+  xs.splice(i, 1)
+  return xs
+}
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * An empty array
+ *
+ * @since 2.5.0
+ */
+export const empty: ReadonlyArray<never> = []
