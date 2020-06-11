@@ -1393,7 +1393,12 @@ an array of type `ReadonlyArray<A>`.
 **Signature**
 
 ```ts
-export declare function elem<A>(E: Eq<A>): (a: A, as: ReadonlyArray<A>) => boolean
+export declare function elem<A>(
+  E: Eq<A>
+): {
+  (a: A): (as: ReadonlyArray<A>) => boolean
+  (a: A, as: ReadonlyArray<A>): boolean
+}
 ```
 
 **Example**
@@ -1401,9 +1406,10 @@ export declare function elem<A>(E: Eq<A>): (a: A, as: ReadonlyArray<A>) => boole
 ```ts
 import { elem } from 'fp-ts/lib/ReadonlyArray'
 import { eqNumber } from 'fp-ts/lib/Eq'
+import { pipe } from 'fp-ts/lib/function'
 
-assert.strictEqual(elem(eqNumber)(1, [1, 2, 3]), true)
-assert.strictEqual(elem(eqNumber)(4, [1, 2, 3]), false)
+assert.strictEqual(pipe([1, 2, 3], elem(eqNumber)(2)), true)
+assert.strictEqual(pipe([1, 2, 3], elem(eqNumber)(0)), false)
 ```
 
 Added in v2.5.0
