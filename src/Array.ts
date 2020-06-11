@@ -88,17 +88,6 @@ export const getEq: <A>(E: Eq<A>) => Eq<Array<A>> = RA.getEq
 export const getOrd: <A>(O: Ord<A>) => Ord<Array<A>> = RA.getOrd
 
 // -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
-
-/**
- * An empty array
- *
- * @since 2.0.0
- */
-export const empty: Array<never> = []
-
-// -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
 
@@ -567,12 +556,6 @@ export const findLastIndex: <A>(predicate: Predicate<A>) => (as: Array<A>) => Op
 export const copy: <A>(as: Array<A>) => Array<A> = RA.toArray
 
 /**
- * @category combinators
- * @since 2.0.0
- */
-export const unsafeInsertAt: <A>(i: number, a: A, as: Array<A>) => Array<A> = RA.unsafeInsertAt as any
-
-/**
  * Insert an element at the specified index, creating a new array, or returning `None` if the index is out of bounds
  *
  * @example
@@ -584,12 +567,6 @@ export const unsafeInsertAt: <A>(i: number, a: A, as: Array<A>) => Array<A> = RA
  * @since 2.0.0
  */
 export const insertAt: <A>(i: number, a: A) => (as: Array<A>) => Option<Array<A>> = RA.insertAt as any
-
-/**
- * @category combinators
- * @since 2.0.0
- */
-export const unsafeUpdateAt: <A>(i: number, a: A, as: Array<A>) => Array<A> = RA.unsafeUpdateAt as any
 
 /**
  * Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
@@ -604,12 +581,6 @@ export const unsafeUpdateAt: <A>(i: number, a: A, as: Array<A>) => Array<A> = RA
  * @since 2.0.0
  */
 export const updateAt: <A>(i: number, a: A) => (as: Array<A>) => Option<Array<A>> = RA.updateAt as any
-
-/**
- * @category combinators
- * @since 2.0.0
- */
-export const unsafeDeleteAt: <A>(i: number, as: Array<A>) => Array<A> = RA.unsafeDeleteAt as any
 
 /**
  * Delete the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
@@ -1236,3 +1207,36 @@ export const array: Monad1<URI> &
   (() => {
     return Object.assign({}, RA.readonlyArray as any, { URI })
   })()
+
+// -------------------------------------------------------------------------------------
+// unsafe
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category unsafe
+ * @since 2.0.0
+ */
+export const unsafeInsertAt: <A>(i: number, a: A, as: Array<A>) => Array<A> = RA.unsafeInsertAt as any
+
+/**
+ * @category unsafe
+ * @since 2.0.0
+ */
+export const unsafeUpdateAt: <A>(i: number, a: A, as: Array<A>) => Array<A> = RA.unsafeUpdateAt as any
+
+/**
+ * @category unsafe
+ * @since 2.0.0
+ */
+export const unsafeDeleteAt: <A>(i: number, as: Array<A>) => Array<A> = RA.unsafeDeleteAt as any
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * An empty array
+ *
+ * @since 2.0.0
+ */
+export const empty: Array<never> = []
