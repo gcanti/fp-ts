@@ -412,6 +412,7 @@ export function cons<A>(
   return (r as unknown) as ReadonlyNonEmptyArray<A>
 }
 
+// TODO: curry and make data-last in v3
 /**
  * Append an element to the end of an array, creating a new non empty array
  *
@@ -971,6 +972,7 @@ export function sort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
   return (as) => (isEmpty(as) ? as : as.slice().sort(O.compare))
 }
 
+// TODO: curry and make data-last in v3
 /**
  * Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If one
  * input array is short, excess elements of the longer array are discarded.
@@ -999,8 +1001,9 @@ export function zipWith<A, B, C>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>, f: 
  *
  * @example
  * import { zip } from 'fp-ts/lib/ReadonlyArray'
+ * import { pipe } from 'fp-ts/lib/function'
  *
- * assert.deepStrictEqual(zip([1, 2, 3], ['a', 'b', 'c', 'd']), [[1, 'a'], [2, 'b'], [3, 'c']])
+ * assert.deepStrictEqual(pipe([1, 2, 3], zip(['a', 'b', 'c', 'd'])), [[1, 'a'], [2, 'b'], [3, 'c']])
  *
  * @category combinators
  * @since 2.5.0
@@ -1304,8 +1307,9 @@ export function comprehension<R>(
  * @example
  * import { union } from 'fp-ts/lib/ReadonlyArray'
  * import { eqNumber } from 'fp-ts/lib/Eq'
+ * import { pipe } from 'fp-ts/lib/function'
  *
- * assert.deepStrictEqual(union(eqNumber)([1, 2], [2, 3]), [1, 2, 3])
+ * assert.deepStrictEqual(pipe([1, 2], union(eqNumber)([2, 3])), [1, 2, 3])
  *
  * @category combinators
  * @since 2.5.0
@@ -1339,8 +1343,9 @@ export function union<A>(
  * @example
  * import { intersection } from 'fp-ts/lib/ReadonlyArray'
  * import { eqNumber } from 'fp-ts/lib/Eq'
+ * import { pipe } from 'fp-ts/lib/function'
  *
- * assert.deepStrictEqual(intersection(eqNumber)([1, 2], [2, 3]), [2])
+ * assert.deepStrictEqual(pipe([1, 2], intersection(eqNumber)([2, 3])), [2])
  *
  * @category combinators
  * @since 2.5.0
@@ -1371,8 +1376,9 @@ export function intersection<A>(
  * @example
  * import { difference } from 'fp-ts/lib/ReadonlyArray'
  * import { eqNumber } from 'fp-ts/lib/Eq'
+ * import { pipe } from 'fp-ts/lib/function'
  *
- * assert.deepStrictEqual(difference(eqNumber)([1, 2], [2, 3]), [1])
+ * assert.deepStrictEqual(pipe([1, 2], difference(eqNumber)([2, 3])), [1])
  *
  * @category combinators
  * @since 2.5.0

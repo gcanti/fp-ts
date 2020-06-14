@@ -691,8 +691,9 @@ export const zipWith: <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => C
  *
  * @example
  * import { zip } from 'fp-ts/lib/Array'
+ * import { pipe } from 'fp-ts/lib/function'
  *
- * assert.deepStrictEqual(zip([1, 2, 3], ['a', 'b', 'c', 'd']), [[1, 'a'], [2, 'b'], [3, 'c']])
+ * assert.deepStrictEqual(pipe([1, 2, 3], zip(['a', 'b', 'c', 'd'])), [[1, 'a'], [2, 'b'], [3, 'c']])
  *
  * @category combinators
  * @since 2.0.0
@@ -898,8 +899,9 @@ export function comprehension<R>(
  * @example
  * import { union } from 'fp-ts/lib/Array'
  * import { eqNumber } from 'fp-ts/lib/Eq'
+ * import { pipe } from 'fp-ts/lib/function'
  *
- * assert.deepStrictEqual(union(eqNumber)([1, 2], [2, 3]), [1, 2, 3])
+ * assert.deepStrictEqual(pipe([1, 2], union(eqNumber)([2, 3])), [1, 2, 3])
  *
  * @category combinators
  * @since 2.0.0
@@ -918,8 +920,9 @@ export const union: <A>(
  * @example
  * import { intersection } from 'fp-ts/lib/Array'
  * import { eqNumber } from 'fp-ts/lib/Eq'
+ * import { pipe } from 'fp-ts/lib/function'
  *
- * assert.deepStrictEqual(intersection(eqNumber)([1, 2], [2, 3]), [2])
+ * assert.deepStrictEqual(pipe([1, 2], intersection(eqNumber)([2, 3])), [2])
  *
  * @category combinators
  * @since 2.0.0
@@ -938,8 +941,9 @@ export const intersection: <A>(
  * @example
  * import { difference } from 'fp-ts/lib/Array'
  * import { eqNumber } from 'fp-ts/lib/Eq'
+ * import { pipe } from 'fp-ts/lib/function'
  *
- * assert.deepStrictEqual(difference(eqNumber)([1, 2], [2, 3]), [1])
+ * assert.deepStrictEqual(pipe([1, 2], difference(eqNumber)([2, 3])), [1])
  *
  * @category combinators
  * @since 2.0.0
