@@ -996,8 +996,16 @@ export function zipWith<A, B, C>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>, f: 
  * @category combinators
  * @since 2.5.0
  */
-export function zip<A, B>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>): ReadonlyArray<readonly [A, B]> {
-  return zipWith(fa, fb, (a, b) => [a, b])
+export function zip<B>(bs: ReadonlyArray<B>): <A>(as: ReadonlyArray<A>) => ReadonlyArray<readonly [A, B]>
+export function zip<A, B>(as: ReadonlyArray<A>, bs: ReadonlyArray<B>): ReadonlyArray<readonly [A, B]>
+export function zip<A, B>(
+  as: ReadonlyArray<A>,
+  bs?: ReadonlyArray<B>
+): ReadonlyArray<readonly [A, B]> | ((bs: ReadonlyArray<B>) => ReadonlyArray<readonly [B, A]>) {
+  if (bs === undefined) {
+    return (bs) => zip(bs, as)
+  }
+  return zipWith(as, bs, (a, b) => [a, b])
 }
 
 /**

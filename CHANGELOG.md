@@ -24,6 +24,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `difference` data-last (@gcanti)
     - make `intersection` data-last (@gcanti)
     - make `union` data-last (@gcanti)
+    - make `zip` data-last (@gcanti)
   - `ReadonlyArray`
     - export `unfold` (@gcanti)
     - make `lookup` data-last (@gcanti)
@@ -31,6 +32,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `difference` data-last (@gcanti)
     - make `intersection` data-last (@gcanti)
     - make `union` data-last (@gcanti)
+    - make `zip` data-last (@gcanti)
   - `Semigroup`
     - make `fold` data-last (@gcanti)
 

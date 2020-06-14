@@ -693,7 +693,10 @@ export const zipWith: <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => C
  * @category combinators
  * @since 2.0.0
  */
-export const zip: <A, B>(fa: Array<A>, fb: Array<B>) => Array<[A, B]> = RA.zip as any
+export const zip: {
+  <B>(bs: Array<B>): <A>(as: Array<A>) => Array<[A, B]>
+  <A, B>(as: Array<A>, bs: Array<B>): Array<[A, B]>
+} = RA.zip as any
 
 /**
  * The function is reverse of `zip`. Takes an array of pairs and return two corresponding arrays
