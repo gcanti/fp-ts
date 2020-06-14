@@ -89,3 +89,10 @@ _.lookup(0) // $ExpectType <A>(as: readonly A[]) => Option<A>
 
 _.elem(eqNumber)(1, [1, 2, 3]) // $ExpectType boolean
 _.elem(eqNumber)(1) // $ExpectType (as: readonly number[]) => boolean
+
+//
+// difference
+//
+
+_.difference(eqNumber)([1, 2], [3, 4]) // $ExpectType readonly number[]
+_.difference(eqNumber)([3, 4]) // $ExpectType (ys: readonly number[]) => readonly number[]
