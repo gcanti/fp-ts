@@ -119,3 +119,10 @@ _.intersection(eqNumber)([3, 4]) // $ExpectType (ys: number[]) => number[]
 
 _.union(eqNumber)([1, 2], [3, 4]) // $ExpectType number[]
 _.union(eqNumber)([3, 4]) // $ExpectType (ys: number[]) => number[]
+
+//
+// zip
+//
+
+_.zip([1, 2], ['a', 'b']) // $ExpectType [number, string][]
+_.zip(['a', 'b']) // $ExpectType <A>(as: A[]) => [A, string][]
