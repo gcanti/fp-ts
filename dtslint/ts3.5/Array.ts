@@ -126,3 +126,10 @@ _.union(eqNumber)([3, 4]) // $ExpectType (ys: number[]) => number[]
 
 _.zip([1, 2], ['a', 'b']) // $ExpectType [number, string][]
 _.zip(['a', 'b']) // $ExpectType <A>(as: A[]) => [A, string][]
+
+//
+// cons
+//
+
+_.cons(0, [1, 2]) // $ExpectType NonEmptyArray<number>
+_.cons(0) // $ExpectType (tail: number[]) => NonEmptyArray<number>

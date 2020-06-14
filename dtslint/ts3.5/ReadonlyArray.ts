@@ -117,3 +117,10 @@ _.union(eqNumber)([3, 4]) // $ExpectType (ys: readonly number[]) => readonly num
 
 _.zip([1, 2], ['a', 'b']) // $ExpectType readonly (readonly [number, string])[]
 _.zip(['a', 'b']) // $ExpectType <A>(as: readonly A[]) => readonly (readonly [A, string])[]
+
+//
+// cons
+//
+
+_.cons(0, [1, 2]) // $ExpectType ReadonlyNonEmptyArray<number>
+_.cons(0) // $ExpectType (tail: readonly number[]) => ReadonlyNonEmptyArray<number>
