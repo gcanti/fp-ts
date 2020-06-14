@@ -112,3 +112,10 @@ _.difference(eqNumber)([3, 4]) // $ExpectType (ys: number[]) => number[]
 
 _.intersection(eqNumber)([1, 2], [3, 4]) // $ExpectType number[]
 _.intersection(eqNumber)([3, 4]) // $ExpectType (ys: number[]) => number[]
+
+//
+// union
+//
+
+_.union(eqNumber)([1, 2], [3, 4]) // $ExpectType number[]
+_.union(eqNumber)([3, 4]) // $ExpectType (ys: number[]) => number[]

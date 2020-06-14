@@ -1293,13 +1293,26 @@ export function comprehension<R>(
  * @category combinators
  * @since 2.5.0
  */
-export function union<A>(E: Eq<A>): (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>) => ReadonlyArray<A> {
+export function union<A>(
+  E: Eq<A>
+): {
+  (xs: ReadonlyArray<A>): (ys: ReadonlyArray<A>) => ReadonlyArray<A>
+  (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>): ReadonlyArray<A>
+}
+export function union<A>(
+  E: Eq<A>
+): (xs: ReadonlyArray<A>, ys?: ReadonlyArray<A>) => ReadonlyArray<A> | ((ys: ReadonlyArray<A>) => ReadonlyArray<A>) {
   const elemE = elem(E)
-  return (xs, ys) =>
-    concat(
+  return (xs, ys) => {
+    if (ys === undefined) {
+      const unionE = union(E)
+      return (ys) => unionE(ys, xs)
+    }
+    return concat(
       xs,
       ys.filter((a) => !elemE(a, xs))
     )
+  }
 }
 
 /**
