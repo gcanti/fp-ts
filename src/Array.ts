@@ -912,7 +912,12 @@ export const union: <A>(E: Eq<A>) => (xs: Array<A>, ys: Array<A>) => Array<A> = 
  * @category combinators
  * @since 2.0.0
  */
-export const intersection: <A>(E: Eq<A>) => (xs: Array<A>, ys: Array<A>) => Array<A> = RA.intersection as any
+export const intersection: <A>(
+  E: Eq<A>
+) => {
+  (xs: Array<A>): (ys: Array<A>) => Array<A>
+  (xs: Array<A>, ys: Array<A>): Array<A>
+} = RA.intersection as any
 
 /**
  * Creates an array of array values not included in the other given array using a `Eq` for equality
