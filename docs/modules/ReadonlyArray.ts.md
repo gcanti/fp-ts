@@ -889,7 +889,12 @@ Creates an array of unique values, in order, from all given arrays using a `Eq` 
 **Signature**
 
 ```ts
-export declare function union<A>(E: Eq<A>): (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare function union<A>(
+  E: Eq<A>
+): {
+  (xs: ReadonlyArray<A>): (ys: ReadonlyArray<A>) => ReadonlyArray<A>
+  (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>): ReadonlyArray<A>
+}
 ```
 
 **Example**
