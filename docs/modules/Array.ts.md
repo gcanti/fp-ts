@@ -654,7 +654,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export declare const intersection: <A>(E: Eq<A>) => (xs: A[], ys: A[]) => A[]
+export declare const intersection: <A>(E: Eq<A>) => { (xs: A[]): (ys: A[]) => A[]; (xs: A[], ys: A[]): A[] }
 ```
 
 **Example**

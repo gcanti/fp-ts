@@ -877,6 +877,9 @@ describe('Array', () => {
     assert.deepStrictEqual(_.intersection(Eq.eqNumber)([1, 2], [3, 4]), [])
     assert.deepStrictEqual(_.intersection(Eq.eqNumber)([1, 2], [2, 3]), [2])
     assert.deepStrictEqual(_.intersection(Eq.eqNumber)([1, 2], [1, 2]), [1, 2])
+    assert.deepStrictEqual(pipe([1, 2], _.intersection(Eq.eqNumber)([3, 4])), [])
+    assert.deepStrictEqual(pipe([1, 2], _.intersection(Eq.eqNumber)([2, 3])), [2])
+    assert.deepStrictEqual(pipe([1, 2], _.intersection(Eq.eqNumber)([1, 2])), [1, 2])
   })
 
   it('difference', () => {
