@@ -921,7 +921,7 @@ Creates an array of unique values, in order, from all given arrays using a `Eq` 
 **Signature**
 
 ```ts
-export declare const union: <A>(E: Eq<A>) => (xs: A[], ys: A[]) => A[]
+export declare const union: <A>(E: Eq<A>) => { (xs: A[]): (ys: A[]) => A[]; (xs: A[], ys: A[]): A[] }
 ```
 
 **Example**

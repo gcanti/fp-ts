@@ -897,7 +897,12 @@ export function comprehension<R>(
  * @category combinators
  * @since 2.0.0
  */
-export const union: <A>(E: Eq<A>) => (xs: Array<A>, ys: Array<A>) => Array<A> = RA.union as any
+export const union: <A>(
+  E: Eq<A>
+) => {
+  (xs: Array<A>): (ys: Array<A>) => Array<A>
+  (xs: Array<A>, ys: Array<A>): Array<A>
+} = RA.union as any
 
 /**
  * Creates an array of unique values that are included in all given arrays using a `Eq` for equality
