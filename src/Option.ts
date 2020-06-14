@@ -151,7 +151,7 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
 }
 
 /**
- * Constructs a new `Option` from a boolean conditional and a value. When the conditional is `true`, returns 
+ * Constructs a new `Option` from a boolean conditional and a value. When the conditional is `true`, returns
  * the value wrapped in a `Some`, otherwise returns `None`. The dual of `unless`
  *
  * @example
@@ -164,11 +164,11 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
  * @since 2.0.0
  */
 export function when<A>(cond: boolean): (a: A) => Option<A> {
-  return (a: A) => cond ? some(a) : none
+  return (a: A) => (cond ? some(a) : none)
 }
 
 /**
- * Constructs a new `Option` from a boolean conditional and a value. When the conditional is `false`, returns 
+ * Constructs a new `Option` from a boolean conditional and a value. When the conditional is `false`, returns
  * the value wrapped in a `Some`, otherwise returns `None`. The dual of `when`
  *
  * @example
@@ -181,7 +181,7 @@ export function when<A>(cond: boolean): (a: A) => Option<A> {
  * @since 2.0.0
  */
 export function unless<A>(cond: boolean): (a: A) => Option<A> {
-  return (a: A) => cond ? none : some(a)
+  return (a: A) => (cond ? none : some(a))
 }
 
 /**

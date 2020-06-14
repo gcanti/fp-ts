@@ -67,6 +67,8 @@ Added in v2.0.0
   - [none](#none)
   - [some](#some)
   - [tryCatch](#trycatch)
+  - [unless](#unless)
+  - [when](#when)
 - [destructors](#destructors)
   - [fold](#fold)
   - [getOrElse](#getorelse)
@@ -579,6 +581,50 @@ assert.deepStrictEqual(
   tryCatch(() => 1),
   some(1)
 )
+```
+
+Added in v2.0.0
+
+## unless
+
+Constructs a new `Option` from a boolean conditional and a value. When the conditional is `false`, returns
+the value wrapped in a `Some`, otherwise returns `None`. The dual of `when`
+
+**Signature**
+
+```ts
+export declare function unless<A>(cond: boolean): (a: A) => Option<A>
+```
+
+**Example**
+
+```ts
+import { none, some, unless } from 'fp-ts/lib/Option'
+
+assert.deepStrictEqual(unless(true)(42), none)
+assert.deepStrictEqual(unless(false)(42), some(42))
+```
+
+Added in v2.0.0
+
+## when
+
+Constructs a new `Option` from a boolean conditional and a value. When the conditional is `true`, returns
+the value wrapped in a `Some`, otherwise returns `None`. The dual of `unless`
+
+**Signature**
+
+```ts
+export declare function when<A>(cond: boolean): (a: A) => Option<A>
+```
+
+**Example**
+
+```ts
+import { none, some, when } from 'fp-ts/lib/Option'
+
+assert.deepStrictEqual(when(false)(42), none)
+assert.deepStrictEqual(when(true)(42), some(42))
 ```
 
 Added in v2.0.0
