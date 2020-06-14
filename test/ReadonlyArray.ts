@@ -367,9 +367,10 @@ describe('ReadonlyArray', () => {
   })
 
   it('cons', () => {
-    const as: ReadonlyArray<number> = [1, 2, 3]
-    assert.deepStrictEqual(_.cons(0, as), [0, 1, 2, 3])
+    assert.deepStrictEqual(_.cons(0, [1, 2, 3]), [0, 1, 2, 3])
     assert.deepStrictEqual(_.cons([1], [[2]]), [[1], [2]])
+    assert.deepStrictEqual(pipe([1, 2, 3], _.cons(0)), [0, 1, 2, 3])
+    assert.deepStrictEqual(pipe([[2]], _.cons([1])), [[1], [2]])
   })
 
   it('snoc', () => {

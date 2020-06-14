@@ -248,13 +248,17 @@ export const lookup: {
  *
  * @example
  * import { cons } from 'fp-ts/lib/Array'
+ * import { pipe } from 'fp-ts/lib/function'
  *
- * assert.deepStrictEqual(cons(0, [1, 2, 3]), [0, 1, 2, 3])
+ * assert.deepStrictEqual(pipe([1, 2, 3], cons(0)), [0, 1, 2, 3])
  *
  * @category constructors
  * @since 2.0.0
  */
-export const cons: <A>(head: A, tail: Array<A>) => NonEmptyArray<A> = RA.cons as any
+export const cons: {
+  <A>(head: A): (tail: Array<A>) => NonEmptyArray<A>
+  <A>(head: A, tail: Array<A>): NonEmptyArray<A>
+} = RA.cons as any
 
 /**
  * Append an element to the end of an array, creating a new non empty array

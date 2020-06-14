@@ -992,6 +992,7 @@ Attaches an element to the front of an array, creating a new non empty array
 **Signature**
 
 ```ts
+export declare function cons<A>(head: A): (tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
 export declare function cons<A>(head: A, tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
 ```
 
@@ -999,8 +1000,9 @@ export declare function cons<A>(head: A, tail: ReadonlyArray<A>): ReadonlyNonEmp
 
 ```ts
 import { cons } from 'fp-ts/lib/ReadonlyArray'
+import { pipe } from 'fp-ts/lib/function'
 
-assert.deepStrictEqual(cons(0, [1, 2, 3]), [0, 1, 2, 3])
+assert.deepStrictEqual(pipe([1, 2, 3], cons(0)), [0, 1, 2, 3])
 ```
 
 Added in v2.5.0
