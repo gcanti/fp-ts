@@ -583,8 +583,9 @@ export declare function difference<A>(
 ```ts
 import { difference } from 'fp-ts/lib/ReadonlyArray'
 import { eqNumber } from 'fp-ts/lib/Eq'
+import { pipe } from 'fp-ts/lib/function'
 
-assert.deepStrictEqual(difference(eqNumber)([1, 2], [2, 3]), [1])
+assert.deepStrictEqual(pipe([1, 2], difference(eqNumber)([2, 3])), [1])
 ```
 
 Added in v2.5.0
@@ -670,8 +671,9 @@ export declare function intersection<A>(
 ```ts
 import { intersection } from 'fp-ts/lib/ReadonlyArray'
 import { eqNumber } from 'fp-ts/lib/Eq'
+import { pipe } from 'fp-ts/lib/function'
 
-assert.deepStrictEqual(intersection(eqNumber)([1, 2], [2, 3]), [2])
+assert.deepStrictEqual(pipe([1, 2], intersection(eqNumber)([2, 3])), [2])
 ```
 
 Added in v2.5.0
@@ -902,8 +904,9 @@ export declare function union<A>(
 ```ts
 import { union } from 'fp-ts/lib/ReadonlyArray'
 import { eqNumber } from 'fp-ts/lib/Eq'
+import { pipe } from 'fp-ts/lib/function'
 
-assert.deepStrictEqual(union(eqNumber)([1, 2], [2, 3]), [1, 2, 3])
+assert.deepStrictEqual(pipe([1, 2], union(eqNumber)([2, 3])), [1, 2, 3])
 ```
 
 Added in v2.5.0
@@ -945,8 +948,9 @@ export declare function zip<A, B>(as: ReadonlyArray<A>, bs: ReadonlyArray<B>): R
 
 ```ts
 import { zip } from 'fp-ts/lib/ReadonlyArray'
+import { pipe } from 'fp-ts/lib/function'
 
-assert.deepStrictEqual(zip([1, 2, 3], ['a', 'b', 'c', 'd']), [
+assert.deepStrictEqual(pipe([1, 2, 3], zip(['a', 'b', 'c', 'd'])), [
   [1, 'a'],
   [2, 'b'],
   [3, 'c'],
