@@ -6,7 +6,7 @@ import * as A from '../../src/Array'
 //
 
 // should handle generics
-_.flip(A.cons) // $ExpectType <A>(b: A[], a: A) => NonEmptyArray<A>
+_.flip(A.snoc) // $ExpectType <A>(b: A, a: A[]) => NonEmptyArray<A>
 
 //
 // tuple
@@ -17,8 +17,8 @@ _.tuple(1) // $ExpectType [number]
 _.tuple(1, 'a') // $ExpectType [number, string]
 _.tuple(1, 'a', true) // $ExpectType [number, string, boolean]
 
-// $ExpectType <A>(head: A, tail: A[]) => Option<A>
-_.flow(A.cons, A.head)
+// $ExpectType <A>(init: A[], end: A) => Option<A>
+_.flow(A.snoc, A.head)
 
 //
 // tupled
