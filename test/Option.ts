@@ -350,6 +350,16 @@ describe('Option', () => {
     assert.deepStrictEqual(parseDirection('foo'), _.none)
   })
 
+  it('when', () => {
+    assert.deepStrictEqual(_.when(false)(42), _.none)
+    assert.deepStrictEqual(_.when(true)(42), _.some(42))
+  })
+
+  it('unless', () => {
+    assert.deepStrictEqual(_.unless(true)(42), _.none)
+    assert.deepStrictEqual(_.unless(false)(42), _.some(42))
+  })
+
   it('getApplySemigroup', () => {
     const S = _.getApplySemigroup(semigroupSum)
     assert.deepStrictEqual(S.concat(_.none, _.none), _.none)

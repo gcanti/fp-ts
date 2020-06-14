@@ -151,6 +151,40 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
 }
 
 /**
+ * Constructs a new `Option` from a boolean conditional and a value. When the conditional is `true`, returns 
+ * the value wrapped in a `Some`, otherwise returns `None`. The dual of `unless`
+ *
+ * @example
+ * import { none, some, when } from 'fp-ts/lib/Option'
+ *
+ * assert.deepStrictEqual(when(false)(42), none)
+ * assert.deepStrictEqual(when(true)(42), some(42))
+ *
+ * @category constructors
+ * @since 2.0.0
+ */
+export function when<A>(cond: boolean): (a: A) => Option<A> {
+  return (a: A) => cond ? some(a) : none
+}
+
+/**
+ * Constructs a new `Option` from a boolean conditional and a value. When the conditional is `false`, returns 
+ * the value wrapped in a `Some`, otherwise returns `None`. The dual of `when`
+ *
+ * @example
+ * import { none, some, unless } from 'fp-ts/lib/Option'
+ *
+ * assert.deepStrictEqual(unless(true)(42), none)
+ * assert.deepStrictEqual(unless(false)(42), some(42))
+ *
+ * @category constructors
+ * @since 2.0.0
+ */
+export function unless<A>(cond: boolean): (a: A) => Option<A> {
+  return (a: A) => cond ? none : some(a)
+}
+
+/**
  * Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in
  * `Some`
  *
