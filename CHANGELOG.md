@@ -22,11 +22,13 @@ high state of flux, you're at risk of it changing without notice.
     - make `lookup` data-last (@gcanti)
     - make `elem` data-last (@gcanti)
     - make `difference` data-last (@gcanti)
+    - make `intersection` data-last (@gcanti)
   - `ReadonlyArray`
     - export `unfold` (@gcanti)
     - make `lookup` data-last (@gcanti)
     - make `elem` data-last (@gcanti)
     - make `difference` data-last (@gcanti)
+    - make `intersection` data-last (@gcanti)
   - `Semigroup`
     - make `fold` data-last (@gcanti)
 

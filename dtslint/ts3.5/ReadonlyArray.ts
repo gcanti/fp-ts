@@ -96,3 +96,10 @@ _.elem(eqNumber)(1) // $ExpectType (as: readonly number[]) => boolean
 
 _.difference(eqNumber)([1, 2], [3, 4]) // $ExpectType readonly number[]
 _.difference(eqNumber)([3, 4]) // $ExpectType (ys: readonly number[]) => readonly number[]
+
+//
+// intersection
+//
+
+_.intersection(eqNumber)([1, 2], [3, 4]) // $ExpectType readonly number[]
+_.intersection(eqNumber)([3, 4]) // $ExpectType (ys: readonly number[]) => readonly number[]

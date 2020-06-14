@@ -1315,9 +1315,23 @@ export function union<A>(E: Eq<A>): (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>)
  * @category combinators
  * @since 2.5.0
  */
-export function intersection<A>(E: Eq<A>): (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>) => ReadonlyArray<A> {
+export function intersection<A>(
+  E: Eq<A>
+): {
+  (xs: ReadonlyArray<A>): (ys: ReadonlyArray<A>) => ReadonlyArray<A>
+  (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>): ReadonlyArray<A>
+}
+export function intersection<A>(
+  E: Eq<A>
+): (xs: ReadonlyArray<A>, ys?: ReadonlyArray<A>) => ReadonlyArray<A> | ((ys: ReadonlyArray<A>) => ReadonlyArray<A>) {
   const elemE = elem(E)
-  return (xs, ys) => xs.filter((a) => elemE(a, ys))
+  return (xs, ys) => {
+    if (ys === undefined) {
+      const intersectionE = intersection(E)
+      return (ys) => intersectionE(ys, xs)
+    }
+    return xs.filter((a) => elemE(a, ys))
+  }
 }
 
 /**
