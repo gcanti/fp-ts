@@ -964,7 +964,7 @@ longer array are discarded
 **Signature**
 
 ```ts
-export declare const zip: <A, B>(fa: A[], fb: B[]) => [A, B][]
+export declare const zip: { <B>(bs: B[]): <A>(as: A[]) => [A, B][]; <A, B>(as: A[], bs: B[]): [A, B][] }
 ```
 
 **Example**

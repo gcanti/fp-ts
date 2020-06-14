@@ -110,3 +110,10 @@ _.intersection(eqNumber)([3, 4]) // $ExpectType (ys: readonly number[]) => reado
 
 _.union(eqNumber)([1, 2], [3, 4]) // $ExpectType readonly number[]
 _.union(eqNumber)([3, 4]) // $ExpectType (ys: readonly number[]) => readonly number[]
+
+//
+// zip
+//
+
+_.zip([1, 2], ['a', 'b']) // $ExpectType readonly (readonly [number, string])[]
+_.zip(['a', 'b']) // $ExpectType <A>(as: readonly A[]) => readonly (readonly [A, string])[]

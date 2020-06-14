@@ -605,6 +605,11 @@ describe('Array', () => {
       [2, 'b'],
       [3, 'c']
     ])
+    assert.deepStrictEqual(pipe([1, 2, 3], _.zip(['a', 'b', 'c', 'd'])), [
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ])
   })
 
   it('unzip', () => {
