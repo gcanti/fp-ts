@@ -883,6 +883,9 @@ describe('Array', () => {
     assert.deepStrictEqual(_.difference(Eq.eqNumber)([1, 2], [3, 4]), [1, 2])
     assert.deepStrictEqual(_.difference(Eq.eqNumber)([1, 2], [2, 3]), [1])
     assert.deepStrictEqual(_.difference(Eq.eqNumber)([1, 2], [1, 2]), [])
+    assert.deepStrictEqual(pipe([1, 2], _.difference(Eq.eqNumber)([3, 4])), [1, 2])
+    assert.deepStrictEqual(pipe([1, 2], _.difference(Eq.eqNumber)([2, 3])), [1])
+    assert.deepStrictEqual(pipe([1, 2], _.difference(Eq.eqNumber)([1, 2])), [])
   })
 
   it('should be safe when calling map with a binary function', () => {
