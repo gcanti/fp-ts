@@ -387,13 +387,22 @@ export function lookup<A>(i: number, as?: ReadonlyArray<A>): Option<A> | (<A>(as
  *
  * @example
  * import { cons } from 'fp-ts/lib/ReadonlyArray'
+ * import { pipe } from 'fp-ts/lib/function'
  *
- * assert.deepStrictEqual(cons(0, [1, 2, 3]), [0, 1, 2, 3])
+ * assert.deepStrictEqual(pipe([1, 2, 3], cons(0)), [0, 1, 2, 3])
  *
  * @category constructors
  * @since 2.5.0
  */
-export function cons<A>(head: A, tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> {
+export function cons<A>(head: A): (tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
+export function cons<A>(head: A, tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
+export function cons<A>(
+  head: A,
+  tail?: ReadonlyArray<A>
+): ReadonlyNonEmptyArray<A> | ((tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>) {
+  if (tail === undefined) {
+    return (tail) => cons(head, tail)
+  }
   const len = tail.length
   const r = Array(len + 1)
   for (let i = 0; i < len; i++) {
