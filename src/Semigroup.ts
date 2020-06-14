@@ -35,10 +35,10 @@ export function fold<A>(
 export function fold<A>(S: Semigroup<A>): (a: A, as?: ReadonlyArray<A>) => A | ((as: ReadonlyArray<A>) => A) {
   return (a, as) => {
     if (as === undefined) {
-      return (as) => as.reduce(S.concat, a)
-    } else {
-      return as.reduce(S.concat, a)
+      const foldS = fold(S)
+      return (as) => foldS(a, as)
     }
+    return as.reduce(S.concat, a)
   }
 }
 

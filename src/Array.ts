@@ -927,7 +927,12 @@ export const intersection: <A>(E: Eq<A>) => (xs: Array<A>, ys: Array<A>) => Arra
  * @category combinators
  * @since 2.0.0
  */
-export const difference: <A>(E: Eq<A>) => (xs: Array<A>, ys: Array<A>) => Array<A> = RA.difference as any
+export const difference: <A>(
+  E: Eq<A>
+) => {
+  (xs: Array<A>): (ys: Array<A>) => Array<A>
+  (xs: Array<A>, ys: Array<A>): Array<A>
+} = RA.difference as any
 
 /**
  * @category constructors

@@ -292,7 +292,7 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>>
       if (len === 0) {
         return x
       }
-      const r: Record<string, A> = { ...x }
+      const r: Record<string, A> = Object.assign({}, x)
       for (let i = 0; i < len; i++) {
         const k = keys[i]
         r[k] = _hasOwnProperty.call(x, k) ? S.concat(x[k], y[k]) : y[k]

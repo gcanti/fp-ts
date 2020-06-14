@@ -1074,17 +1074,16 @@ export function elem<A>(E: Eq<A>): (a: A, as?: ReadonlyArray<A>) => boolean | ((
     if (as === undefined) {
       const elemE = elem(E)
       return (as) => elemE(a, as)
-    } else {
-      const predicate = (element: A) => E.equals(element, a)
-      let i = 0
-      const len = as.length
-      for (; i < len; i++) {
-        if (predicate(as[i])) {
-          return true
-        }
-      }
-      return false
     }
+    const predicate = (element: A) => E.equals(element, a)
+    let i = 0
+    const len = as.length
+    for (; i < len; i++) {
+      if (predicate(as[i])) {
+        return true
+      }
+    }
+    return false
   }
 }
 
@@ -1334,9 +1333,23 @@ export function intersection<A>(E: Eq<A>): (xs: ReadonlyArray<A>, ys: ReadonlyAr
  * @category combinators
  * @since 2.5.0
  */
-export function difference<A>(E: Eq<A>): (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>) => ReadonlyArray<A> {
+export function difference<A>(
+  E: Eq<A>
+): {
+  (xs: ReadonlyArray<A>): (ys: ReadonlyArray<A>) => ReadonlyArray<A>
+  (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>): ReadonlyArray<A>
+}
+export function difference<A>(
+  E: Eq<A>
+): (xs: ReadonlyArray<A>, ys?: ReadonlyArray<A>) => ReadonlyArray<A> | ((ys: ReadonlyArray<A>) => ReadonlyArray<A>) {
   const elemE = elem(E)
-  return (xs, ys) => xs.filter((a) => !elemE(a, ys))
+  return (xs, ys) => {
+    if (ys === undefined) {
+      const differenceE = difference(E)
+      return (ys) => differenceE(ys, xs)
+    }
+    return xs.filter((a) => !elemE(a, ys))
+  }
 }
 
 /**
