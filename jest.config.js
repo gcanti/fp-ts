@@ -24,5 +24,5 @@ module.exports = {
       statements: 100
     }
   },
-  modulePathIgnorePatterns: ['property-test']
+  modulePathIgnorePatterns: ['property-test', 'smoke-tests']
 }
