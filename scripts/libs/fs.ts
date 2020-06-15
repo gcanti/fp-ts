@@ -1,6 +1,5 @@
-import { mapLeft, taskify, bimap } from '../../src/TaskEither'
+import { taskify, map } from '../../src/TaskEither'
 import { flow } from '../../src/function'
-import { pipe } from '../../src/pipeable'
 import * as fs from 'fs'
 import Glob from 'glob'
 import { Eff } from './program'
@@ -18,19 +17,18 @@ const writeFileTE = taskify<fs.PathLike, string, NodeJS.ErrnoException, void>(fs
 const copyFileTE = taskify<fs.PathLike, fs.PathLike, NodeJS.ErrnoException, void>(fs.copyFile)
 const globTE = taskify<string, Error, ReadonlyArray<string>>(Glob)
 const mkdirTE = taskify(fs.mkdir)
-const toError = (e: Error): string => e.message
 
 export const fsNode: FileSystem = {
-  readFile: (path) => pipe(readFileTE(path, 'utf8'), mapLeft(toError)),
+  readFile: (path) => readFileTE(path, 'utf8'),
 
-  writeFile: flow(writeFileTE, mapLeft(toError)),
+  writeFile: writeFileTE,
 
-  copyFile: flow(copyFileTE, mapLeft(toError)),
+  copyFile: copyFileTE,
 
-  glob: flow(globTE, mapLeft(toError)),
+  glob: globTE,
 
   mkdir: flow(
     mkdirTE,
-    bimap(toError, () => undefined)
+    map(() => undefined)
   )
 }

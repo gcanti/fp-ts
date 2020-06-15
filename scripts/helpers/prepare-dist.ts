@@ -1,9 +1,9 @@
 import * as path from 'path'
 import { FileSystem } from '../libs/fs'
 import { Logger } from '../libs/logger'
-import { Program, toErrMsg, Eff } from '../libs/program'
+import { Program, Eff } from '../libs/program'
 import { sequenceT } from '../../src/Apply'
-import { stringifyJSON } from '../../src/Either'
+import { stringifyJSON, toError } from '../../src/Either'
 import * as RTE from '../../src/ReaderTaskEither'
 import { readonlyArray } from '../../src/ReadonlyArray'
 import { chain, map, fromEither, taskEither } from '../../src/TaskEither'
@@ -20,18 +20,18 @@ const traverseTE = readonlyArray.traverse(taskEither)
 const copyPkgFiles: AppEff<ReadonlyArray<void>> = (C) =>
   traverseTE(FILES, (file) =>
     pipe(
-      C.info(`Copy "${file}" to ${DIST}`),
+      C.log(`Copy "${file}" to ${DIST}`),
       chain(() => C.copyFile(file, path.resolve(DIST, file)))
     )
   )
 
 const makeModules: AppEff<void> = (C) =>
   pipe(
-    C.info('Creating modules directories...'),
+    C.log('Creating modules directories...'),
     chain(() => C.glob(`${DIST}/lib/*.js`)),
     map(getModules),
     chain((modules) => traverseTE(modules, makeSingleModule(C))),
-    chain(() => C.info('modules prepared'))
+    chain(() => C.log('modules prepared'))
   )
 
 export const prepareDist: AppEff<void> = pipe(
@@ -47,7 +47,7 @@ function getModules(paths: ReadonlyArray<string>): ReadonlyArray<string> {
 function makeSingleModule(C: Capabilities): (module: string) => Eff<void> {
   return (m) =>
     pipe(
-      C.info(`prepare ${m}`),
+      C.log(`prepare ${m}`),
       chain(() => C.mkdir(path.join(DIST, m))),
       chain(() => makePkgJson(m)),
       chain((data) => C.writeFile(path.join(DIST, m, 'package.json'), data))
@@ -64,7 +64,7 @@ function makePkgJson(module: string): Eff<string> {
         typings: `../lib/${module}.d.ts`,
         sideEffects: false
       },
-      toErrMsg
+      toError
     ),
     fromEither
   )

@@ -8,10 +8,10 @@ export interface ChildProcess {
 
 export const childProcessNode: ChildProcess = {
   exec: (cmd, args) => () =>
-    new Promise(resolve => {
-      child_process.exec(cmd, args, err => {
+    new Promise((resolve) => {
+      child_process.exec(cmd, args, (err) => {
         if (err !== null) {
-          return resolve(left(err.message))
+          return resolve(left(err))
         }
 
         return resolve(right(undefined))
