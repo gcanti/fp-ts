@@ -140,14 +140,29 @@ export function chain<B>(E: Eq<B>): <A>(f: (x: A) => ReadonlySet<B>) => (set: Re
   }
 }
 
+// TODO: remove non-curried overloading in v3
 /**
  * `true` if and only if every element in the first set is an element of the second set
  *
  * @since 2.5.0
  */
-export function isSubset<A>(E: Eq<A>): (x: ReadonlySet<A>, y: ReadonlySet<A>) => boolean {
+export function isSubset<A>(
+  E: Eq<A>
+): {
+  (that: ReadonlySet<A>): (me: ReadonlySet<A>) => boolean
+  (me: ReadonlySet<A>, that: ReadonlySet<A>): boolean
+}
+export function isSubset<A>(
+  E: Eq<A>
+): (me: ReadonlySet<A>, that?: ReadonlySet<A>) => boolean | ((me: ReadonlySet<A>) => boolean) {
   const elemE = elem(E)
-  return (x, y) => every((a: A) => elemE(a, y))(x)
+  return (me, that?) => {
+    if (that === undefined) {
+      const isSubsetE = isSubset(E)
+      return (that) => isSubsetE(that, me)
+    }
+    return every((a: A) => elemE(a, that))(me)
+  }
 }
 
 /**

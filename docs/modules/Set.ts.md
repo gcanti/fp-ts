@@ -371,7 +371,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const subset: <A>(E: Eq<A>) => (x: Set<A>, y: Set<A>) => boolean
+export declare const subset: <A>(
+  E: Eq<A>
+) => { (that: Set<A>): (me: Set<A>) => boolean; (me: Set<A>, that: Set<A>): boolean }
 ```
 
 Added in v2.0.0

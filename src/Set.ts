@@ -61,12 +61,18 @@ export const every: <A>(predicate: Predicate<A>) => (set: Set<A>) => boolean = R
  */
 export const chain: <B>(E: Eq<B>) => <A>(f: (x: A) => Set<B>) => (set: Set<A>) => Set<B> = RS.chain as any
 
+// TODO: remove non-curried overloading in v3
 /**
  * `true` if and only if every element in the first set is an element of the second set
  *
  * @since 2.0.0
  */
-export const subset: <A>(E: Eq<A>) => (x: Set<A>, y: Set<A>) => boolean = RS.isSubset
+export const subset: <A>(
+  E: Eq<A>
+) => {
+  (that: Set<A>): (me: Set<A>) => boolean
+  (me: Set<A>, that: Set<A>): boolean
+} = RS.isSubset
 
 /**
  * @category combinators
