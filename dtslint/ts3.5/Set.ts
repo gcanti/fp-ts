@@ -30,3 +30,10 @@ _.union(eqNumber)(me) // $ExpectType (me: Set<number>) => Set<number>
 
 _.intersection(eqNumber)(me, me) // $ExpectType Set<number>
 _.intersection(eqNumber)(me) // $ExpectType (me: Set<number>) => Set<number>
+
+//
+// difference
+//
+
+_.difference(eqNumber)(me, me) // $ExpectType Set<number>
+_.difference(eqNumber)(me) // $ExpectType (me: Set<number>) => Set<number>

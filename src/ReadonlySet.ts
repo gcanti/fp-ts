@@ -353,21 +353,37 @@ export function partitionMap<B, C>(
   }
 }
 
+// TODO: remove non-curried overloading in v3
 /**
  * Form the set difference (`x` - `y`)
  *
  * @example
  * import { difference } from 'fp-ts/lib/ReadonlySet'
  * import { eqNumber } from 'fp-ts/lib/Eq'
+ * import { pipe } from 'fp-ts/lib/function'
  *
- * assert.deepStrictEqual(difference(eqNumber)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
+ * assert.deepStrictEqual(pipe(new Set([1, 2]), difference(eqNumber)(new Set([1, 3]))), new Set([2]))
  *
  * @category combinators
  * @since 2.5.0
  */
-export function difference<A>(E: Eq<A>): (x: ReadonlySet<A>, y: ReadonlySet<A>) => ReadonlySet<A> {
+export function difference<A>(
+  E: Eq<A>
+): {
+  (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
+  (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
+}
+export function difference<A>(
+  E: Eq<A>
+): (me: ReadonlySet<A>, that?: ReadonlySet<A>) => ReadonlySet<A> | ((me: ReadonlySet<A>) => ReadonlySet<A>) {
   const elemE = elem(E)
-  return (x, y) => filter((a: A) => !elemE(a, y))(x)
+  return (me, that?) => {
+    if (that === undefined) {
+      const differenceE = difference(E)
+      return (that) => differenceE(that, me)
+    }
+    return filter((a: A) => !elemE(a, that))(me)
+  }
 }
 
 /**
