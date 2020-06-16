@@ -16,3 +16,10 @@ _.subset(eqNumber)(me) // $ExpectType (me: Set<number>) => boolean
 
 _.elem(eqNumber)(1, me) // $ExpectType boolean
 _.elem(eqNumber)(1) // $ExpectType (set: Set<number>) => boolean
+
+//
+// union
+//
+
+_.union(eqNumber)(me, me) // $ExpectType Set<number>
+_.union(eqNumber)(me) // $ExpectType (me: Set<number>) => Set<number>

@@ -181,7 +181,9 @@ Form the union of two sets
 **Signature**
 
 ```ts
-export declare const union: <A>(E: Eq<A>) => (set: Set<A>, y: Set<A>) => Set<A>
+export declare const union: <A>(
+  E: Eq<A>
+) => { (that: Set<A>): (me: Set<A>) => Set<A>; (me: Set<A>, that: Set<A>): Set<A> }
 ```
 
 Added in v2.0.0

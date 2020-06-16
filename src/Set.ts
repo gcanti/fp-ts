@@ -93,6 +93,7 @@ export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separate
   return RS.partition(predicate) as any
 }
 
+// TODO: remove non-curried overloading in v3
 /**
  * Test if a value is a member of a set
  *
@@ -105,13 +106,19 @@ export const elem: <A>(
   (a: A, set: Set<A>): boolean
 } = RS.elem
 
+// TODO: remove non-curried overloading in v3
 /**
  * Form the union of two sets
  *
  * @category combinators
  * @since 2.0.0
  */
-export const union: <A>(E: Eq<A>) => (set: Set<A>, y: Set<A>) => Set<A> = RS.union as any
+export const union: <A>(
+  E: Eq<A>
+) => {
+  (that: Set<A>): (me: Set<A>) => Set<A>
+  (me: Set<A>, that: Set<A>): Set<A>
+} = RS.union as any
 
 /**
  * The set of elements which are in both the first and second set
