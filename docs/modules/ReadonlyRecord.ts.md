@@ -672,6 +672,7 @@ Lookup the value for a key in a record
 **Signature**
 
 ```ts
+export declare function lookup(k: string): <A>(r: ReadonlyRecord<string, A>) => Option<A>
 export declare function lookup<A>(k: string, r: ReadonlyRecord<string, A>): Option<A>
 ```
 

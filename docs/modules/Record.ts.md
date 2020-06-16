@@ -538,7 +538,10 @@ Lookup the value for a key in a record
 **Signature**
 
 ```ts
-export declare const lookup: <A>(k: string, r: Record<string, A>) => Option<A>
+export declare const lookup: {
+  (k: string): <A>(r: Record<string, A>) => Option<A>
+  <A>(k: string, r: Record<string, A>): Option<A>
+}
 ```
 
 Added in v2.0.0

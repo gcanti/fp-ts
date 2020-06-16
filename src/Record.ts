@@ -180,7 +180,10 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>> {
  *
  * @since 2.0.0
  */
-export const lookup: <A>(k: string, r: Record<string, A>) => Option<A> = RR.lookup
+export const lookup: {
+  (k: string): <A>(r: Record<string, A>) => Option<A>
+  <A>(k: string, r: Record<string, A>): Option<A>
+} = RR.lookup
 
 /**
  * @since 2.0.0
