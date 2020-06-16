@@ -42,12 +42,18 @@ export const size: <K, A>(d: Map<K, A>) => number = RM.size
  */
 export const isEmpty: <K, A>(d: Map<K, A>) => boolean = RM.isEmpty
 
+// TODO: remove non-curried overloading in v3
 /**
  * Test whether or not a key exists in a map
  *
  * @since 2.0.0
  */
-export const member: <K>(E: Eq<K>) => <A>(k: K, m: Map<K, A>) => boolean = RM.member
+export const member: <K>(
+  E: Eq<K>
+) => {
+  (k: K): <A>(m: Map<K, A>) => boolean
+  <A>(k: K, m: Map<K, A>): boolean
+} = RM.member
 
 /**
  * Test whether or not a value is a member of a map
