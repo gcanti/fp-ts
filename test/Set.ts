@@ -177,6 +177,8 @@ describe('Set', () => {
 
   it('difference', () => {
     assert.deepStrictEqual(difference(eqNumber)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
+
+    assert.deepStrictEqual(pipe(new Set([1, 2]), difference(eqNumber)(new Set([1, 3]))), new Set([2]))
   })
 
   it('reduce', () => {
