@@ -10,6 +10,7 @@ declare const rnetns: _.ReadonlyNonEmptyArray<[number, string]>
 //
 
 _.zip(rnens, rneas) // $ExpectType ReadonlyNonEmptyArray<readonly [number, string]>
+_.zip(rneas) // $ExpectType <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [A, string]>
 
 //
 // zipWith
