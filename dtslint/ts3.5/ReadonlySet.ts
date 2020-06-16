@@ -9,3 +9,10 @@ declare const me: ReadonlySet<number>
 
 _.isSubset(eqNumber)(me, me) // $ExpectType boolean
 _.isSubset(eqNumber)(me) // $ExpectType (me: ReadonlySet<number>) => boolean
+
+//
+// elem
+//
+
+_.elem(eqNumber)(1, me) // $ExpectType boolean
+_.elem(eqNumber)(1) // $ExpectType (set: ReadonlySet<number>) => boolean

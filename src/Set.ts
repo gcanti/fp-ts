@@ -98,7 +98,12 @@ export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separate
  *
  * @since 2.0.0
  */
-export const elem: <A>(E: Eq<A>) => (a: A, set: Set<A>) => boolean = RS.elem
+export const elem: <A>(
+  E: Eq<A>
+) => {
+  (a: A): (set: Set<A>) => boolean
+  (a: A, set: Set<A>): boolean
+} = RS.elem
 
 /**
  * Form the union of two sets

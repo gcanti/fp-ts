@@ -222,8 +222,18 @@ export function partition<A>(
  *
  * @since 2.5.0
  */
-export function elem<A>(E: Eq<A>): (a: A, set: ReadonlySet<A>) => boolean {
-  return (a, set) => {
+export function elem<A>(
+  E: Eq<A>
+): {
+  (a: A): (set: ReadonlySet<A>) => boolean
+  (a: A, set: ReadonlySet<A>): boolean
+}
+export function elem<A>(E: Eq<A>): (a: A, set?: ReadonlySet<A>) => boolean | ((set: ReadonlySet<A>) => boolean) {
+  return (a, set?) => {
+    if (set === undefined) {
+      const elemE = elem(E)
+      return (set) => elemE(a, set)
+    }
     const values = set.values()
     let e: Next<A>
     let found = false
@@ -389,7 +399,7 @@ export function singleton<A>(a: A): ReadonlySet<A> {
 export function insert<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A> {
   const elemE = elem(E)
   return (a) => (set) => {
-    if (!elemE(a, set)) {
+    if (!elemE(a)(set)) {
       const r = new Set(set)
       r.add(a)
       return r
