@@ -16,3 +16,10 @@ _.isSubset(eqNumber)(me) // $ExpectType (me: ReadonlySet<number>) => boolean
 
 _.elem(eqNumber)(1, me) // $ExpectType boolean
 _.elem(eqNumber)(1) // $ExpectType (set: ReadonlySet<number>) => boolean
+
+//
+// union
+//
+
+_.union(eqNumber)(me, me) // $ExpectType ReadonlySet<number>
+_.union(eqNumber)(me) // $ExpectType (me: ReadonlySet<number>) => ReadonlySet<number>

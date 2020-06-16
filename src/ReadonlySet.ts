@@ -217,6 +217,7 @@ export function partition<A>(
   }
 }
 
+// TODO: remove non-curried overloading in v3
 /**
  * Test if a value is a member of a set
  *
@@ -245,23 +246,36 @@ export function elem<A>(E: Eq<A>): (a: A, set?: ReadonlySet<A>) => boolean | ((s
   }
 }
 
+// TODO: remove non-curried overloading in v3
 /**
  * Form the union of two sets
  *
  * @category combinators
  * @since 2.5.0
  */
-export function union<A>(E: Eq<A>): (set: ReadonlySet<A>, y: ReadonlySet<A>) => ReadonlySet<A> {
+export function union<A>(
+  E: Eq<A>
+): {
+  (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
+  (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
+}
+export function union<A>(
+  E: Eq<A>
+): (me: ReadonlySet<A>, that?: ReadonlySet<A>) => ReadonlySet<A> | ((me: ReadonlySet<A>) => ReadonlySet<A>) {
   const elemE = elem(E)
-  return (x, y) => {
-    if (x === empty) {
-      return y
+  return (me, that?) => {
+    if (that === undefined) {
+      const unionE = union(E)
+      return (that) => unionE(me, that)
     }
-    if (y === empty) {
-      return x
+    if (me === empty) {
+      return that
     }
-    const r = new Set(x)
-    y.forEach((e) => {
+    if (that === empty) {
+      return me
+    }
+    const r = new Set(me)
+    that.forEach((e) => {
       if (!elemE(e, r)) {
         r.add(e)
       }
