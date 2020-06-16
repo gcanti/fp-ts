@@ -444,7 +444,12 @@ Lookup the value for a key in a `Map`.
 **Signature**
 
 ```ts
-export declare function lookup<K>(E: Eq<K>): <A>(k: K, m: ReadonlyMap<K, A>) => Option<A>
+export declare function lookup<K>(
+  E: Eq<K>
+): {
+  (k: K): <A>(m: ReadonlyMap<K, A>) => Option<A>
+  <A>(k: K, m: ReadonlyMap<K, A>): Option<A>
+}
 ```
 
 Added in v2.5.0

@@ -361,7 +361,9 @@ Lookup the value for a key in a `Map`.
 **Signature**
 
 ```ts
-export declare const lookup: <K>(E: Eq<K>) => <A>(k: K, m: Map<K, A>) => Option<A>
+export declare const lookup: <K>(
+  E: Eq<K>
+) => { (k: K): <A>(m: Map<K, A>) => Option<A>; <A>(k: K, m: Map<K, A>): Option<A> }
 ```
 
 Added in v2.0.0

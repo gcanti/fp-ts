@@ -29,6 +29,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Map`
     - make `member` data-last (@gcanti)
     - make `elem` data-last (@gcanti)
+    - make `lookup` data-last (@gcanti)
   - `ReadonlyArray`
     - export `unfold` (@gcanti)
     - make `lookup` data-last (@gcanti)
@@ -41,6 +42,7 @@ high state of flux, you're at risk of it changing without notice.
   - `ReadonlyMap`
     - make `member` data-last (@gcanti)
     - make `elem` data-last (@gcanti)
+    - make `lookup` data-last (@gcanti)
   - `Semigroup`
     - make `fold` data-last (@gcanti)
 
