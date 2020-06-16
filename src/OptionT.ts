@@ -12,6 +12,8 @@ import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C } from './Monad'
 import { fold, none, Option, applicativeOption, some, URI } from './Option'
 
+// TODO: remove module in v3
+
 /**
  * @category model
  * @since 2.0.0

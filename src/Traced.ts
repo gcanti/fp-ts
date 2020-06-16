@@ -17,6 +17,7 @@ export interface Traced<P, A> {
   (p: P): A
 }
 
+// TODO: curry in v3
 /**
  * Extracts a value at a relative position which depends on the current value.
  *

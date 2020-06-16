@@ -240,6 +240,7 @@ export function swap<R, E, A>(ma: ReaderTaskEither<R, E, A>): ReaderTaskEither<R
   return (e) => TE.swap(ma(e))
 }
 
+// TODO: remove in v3
 /**
  * @category combinators
  * @since 2.0.0
@@ -665,6 +666,7 @@ export const readerTaskEitherSeq: typeof readerTaskEither = {
 // utils
 // -------------------------------------------------------------------------------------
 
+// TODO: remove in v3
 /**
  * @since 2.0.0
  */

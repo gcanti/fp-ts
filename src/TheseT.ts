@@ -6,6 +6,8 @@ import { Monad, Monad1, Monad2 } from './Monad'
 import { Semigroup } from './Semigroup'
 import { bimap, both, fold, left, map, mapLeft, right, swap, These, toTuple } from './These'
 
+// TODO: remove module in v3
+
 /**
  * @category model
  * @since 2.4.0

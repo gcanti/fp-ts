@@ -225,6 +225,7 @@ export const isNonEmpty: <A>(as: Array<A>) => as is NonEmptyArray<A> = RA.isNonE
  */
 export const isOutOfBound: <A>(i: number, as: Array<A>) => boolean = RA.isOutOfBound
 
+// TODO: remove non-curried overloading in v3
 /**
  * This function provides a safe way to read a value at a particular index from an array
  *
@@ -243,6 +244,7 @@ export const lookup: {
   <A>(i: number, as: Array<A>): Option<A>
 } = RA.lookup
 
+// TODO: remove non-curried overloading in v3
 /**
  * Attaches an element to the front of an array, creating a new non empty array
  *
@@ -260,6 +262,7 @@ export const cons: {
   <A>(head: A, tail: Array<A>): NonEmptyArray<A>
 } = RA.cons as any
 
+// TODO: curry in v3
 /**
  * Append an element to the end of an array, creating a new non empty array
  *
@@ -685,6 +688,7 @@ export const sort: <A>(O: Ord<A>) => (as: Array<A>) => Array<A> = RA.sort as any
  */
 export const zipWith: <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => C) => Array<C> = RA.zipWith as any
 
+// TODO: remove non-curried overloading in v3
 /**
  * Takes two arrays and returns an array of corresponding pairs. If one input array is short, excess elements of the
  * longer array are discarded
@@ -728,6 +732,7 @@ export const unzip: <A, B>(as: Array<[A, B]>) => [Array<A>, Array<B>] = RA.unzip
  */
 export const rotate: (n: number) => <A>(as: Array<A>) => Array<A> = RA.rotate as any
 
+// TODO: remove non-curried overloading in v3
 /**
  * Test if a value is a member of an array. Takes a `Eq<A>` as a single
  * argument which returns the function to use to search for a value of type `A` in
@@ -893,6 +898,7 @@ export function comprehension<R>(
   return RA.comprehension(input as any, f, g) as any
 }
 
+// TODO: remove non-curried overloading in v3
 /**
  * Creates an array of unique values, in order, from all given arrays using a `Eq` for equality comparisons
  *
@@ -913,6 +919,7 @@ export const union: <A>(
   (xs: Array<A>, ys: Array<A>): Array<A>
 } = RA.union as any
 
+// TODO: remove non-curried overloading in v3
 /**
  * Creates an array of unique values that are included in all given arrays using a `Eq` for equality
  * comparisons. The order and references of result values are determined by the first array.
@@ -934,6 +941,7 @@ export const intersection: <A>(
   (xs: Array<A>, ys: Array<A>): Array<A>
 } = RA.intersection as any
 
+// TODO: remove non-curried overloading in v3
 /**
  * Creates an array of array values not included in the other given array using a `Eq` for equality
  * comparisons. The order and references of result values are determined by the first array.
