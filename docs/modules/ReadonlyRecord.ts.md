@@ -469,7 +469,12 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function elem<A>(E: Eq<A>): (a: A, fa: ReadonlyRecord<string, A>) => boolean
+export declare function elem<A>(
+  E: Eq<A>
+): {
+  (a: A): (fa: ReadonlyRecord<string, A>) => boolean
+  (a: A, fa: ReadonlyRecord<string, A>): boolean
+}
 ```
 
 Added in v2.5.0
