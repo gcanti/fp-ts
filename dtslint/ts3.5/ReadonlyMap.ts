@@ -1,5 +1,5 @@
 import * as _ from '../../src/ReadonlyMap'
-import { eqString } from '../../src/Eq'
+import { eqString, eqNumber } from '../../src/Eq'
 
 //
 // FilterableWithIndex overloadings
@@ -39,3 +39,10 @@ _.lookup(eqString)('a') // $ExpectType <A>(m: ReadonlyMap<string, A>) => Option<
 
 _.lookupWithKey(eqString)('a', new Map([['a', 1]])) // $ExpectType Option<readonly [string, number]>
 _.lookupWithKey(eqString)('a') // $ExpectType <A>(m: ReadonlyMap<string, A>) => Option<readonly [string, A]>
+
+//
+// isSubmap
+//
+
+_.isSubmap(eqString, eqNumber)(new Map([['a', 1]]), new Map([['a', 1]])) // $ExpectType boolean
+_.isSubmap(eqString, eqNumber)(new Map([['a', 1]])) // $ExpectType (me: ReadonlyMap<string, number>) => boolean
