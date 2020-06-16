@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import { array } from '../src/Array'
 import { Either, left, right } from '../src/Either'
 import { Eq, eqNumber, fromEquals } from '../src/Eq'
-import { identity, Refinement } from '../src/function'
+import { identity, Refinement, pipe } from '../src/function'
 import * as _ from '../src/Map'
 import { monoidString } from '../src/Monoid'
 import { none, option, Option, some } from '../src/Option'
@@ -499,13 +499,14 @@ describe('Map', () => {
   })
 
   it('isSubmap', () => {
-    const a1 = new Map<User, number>([[{ id: 'a' }, 1]])
-    const a1b2 = new Map<User, number>([
+    const me = new Map<User, number>([[{ id: 'a' }, 1]])
+    const that = new Map<User, number>([
       [{ id: 'a' }, 1],
       [{ id: 'b' }, 2]
     ])
     const isSubmapS = _.isSubmap(eqUser, eqNumber)
-    assert.deepStrictEqual(isSubmapS(a1, a1b2), true)
+    assert.deepStrictEqual(isSubmapS(me, that), true)
+    assert.deepStrictEqual(isSubmapS(that)(me), true)
 
     const isSubmap = _.isSubmap(eqKey, eqValue)
     assert.deepStrictEqual(isSubmap(new Map([[{ id: 1 }, { value: 1 }]]), repo), true)
@@ -513,6 +514,12 @@ describe('Map', () => {
     assert.deepStrictEqual(isSubmap(new Map([[{ id: 1 }, { value: 4 }]]), repo), true)
     assert.deepStrictEqual(isSubmap(new Map([[{ id: 4 }, { value: 1 }]]), repo), true)
     assert.deepStrictEqual(isSubmap(new Map([[{ id: 3 }, { value: 3 }]]), repo), false)
+
+    assert.deepStrictEqual(pipe(new Map([[{ id: 1 }, { value: 1 }]]), isSubmap(repo)), true)
+    assert.deepStrictEqual(pipe(new Map([[{ id: 1 }, { value: 2 }]]), isSubmap(repo)), false)
+    assert.deepStrictEqual(pipe(new Map([[{ id: 1 }, { value: 4 }]]), isSubmap(repo)), true)
+    assert.deepStrictEqual(pipe(new Map([[{ id: 4 }, { value: 1 }]]), isSubmap(repo)), true)
+    assert.deepStrictEqual(pipe(new Map([[{ id: 3 }, { value: 3 }]]), isSubmap(repo)), false)
   })
 
   it('empty', () => {

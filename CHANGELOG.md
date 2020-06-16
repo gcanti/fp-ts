@@ -31,6 +31,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `elem` data-last (@gcanti)
     - make `lookup` data-last (@gcanti)
     - make `lookupWithKey` data-last (@gcanti)
+    - make `isSubmap` data-last (@gcanti)
   - `ReadonlyArray`
     - export `unfold` (@gcanti)
     - make `lookup` data-last (@gcanti)
@@ -45,6 +46,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `elem` data-last (@gcanti)
     - make `lookup` data-last (@gcanti)
     - make `lookupWithKey` data-last (@gcanti)
+    - make `isSubmap` data-last (@gcanti)
   - `Semigroup`
     - make `fold` data-last (@gcanti)
 

@@ -361,20 +361,35 @@ export function lookup<K>(
   }
 }
 
+// TODO: remove non-curried overloading in v3
 /**
- * Test whether or not one Map contains all of the keys and values contained in another Map
+ * Test whether or not one `Map` contains all of the keys and values contained in another `Map`
  *
  * @since 2.5.0
  */
-export function isSubmap<K, A>(SK: Eq<K>, SA: Eq<A>): (d1: ReadonlyMap<K, A>, d2: ReadonlyMap<K, A>) => boolean {
+export function isSubmap<K, A>(
+  SK: Eq<K>,
+  SA: Eq<A>
+): {
+  (that: ReadonlyMap<K, A>): (me: ReadonlyMap<K, A>) => boolean
+  (me: ReadonlyMap<K, A>, that: ReadonlyMap<K, A>): boolean
+}
+export function isSubmap<K, A>(
+  SK: Eq<K>,
+  SA: Eq<A>
+): (me: ReadonlyMap<K, A>, that?: ReadonlyMap<K, A>) => boolean | ((me: ReadonlyMap<K, A>) => boolean) {
   const lookupWithKeyS = lookupWithKey(SK)
-  return (d1: ReadonlyMap<K, A>, d2: ReadonlyMap<K, A>): boolean => {
-    const entries = d1.entries()
+  return (me: ReadonlyMap<K, A>, that?: ReadonlyMap<K, A>) => {
+    if (that === undefined) {
+      const isSubmapSKSA = isSubmap(SK, SA)
+      return (that) => isSubmapSKSA(that, me)
+    }
+    const entries = me.entries()
     let e: Next<readonly [K, A]>
     // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
-      const d2OptA = lookupWithKeyS(k, d2)
+      const d2OptA = lookupWithKeyS(k, that)
       if (O.isNone(d2OptA) || !SK.equals(k, d2OptA.value[0]) || !SA.equals(a, d2OptA.value[1])) {
         return false
       }
