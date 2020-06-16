@@ -284,21 +284,34 @@ export function union<A>(
   }
 }
 
+// TODO: remove non-curried overloading in v3
 /**
  * The set of elements which are in both the first and second set
  *
  * @category combinators
  * @since 2.5.0
  */
-export function intersection<A>(E: Eq<A>): (set: ReadonlySet<A>, y: ReadonlySet<A>) => ReadonlySet<A> {
+export function intersection<A>(
+  E: Eq<A>
+): {
+  (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
+  (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
+}
+export function intersection<A>(
+  E: Eq<A>
+): (me: ReadonlySet<A>, that?: ReadonlySet<A>) => ReadonlySet<A> | ((that: ReadonlySet<A>) => ReadonlySet<A>) {
   const elemE = elem(E)
-  return (x, y) => {
-    if (x === empty || y === empty) {
+  return (me, that?) => {
+    if (that === undefined) {
+      const intersectionE = intersection(E)
+      return (that) => intersectionE(that, me)
+    }
+    if (me === empty || that === empty) {
       return empty
     }
     const r = new Set<A>()
-    x.forEach((e) => {
-      if (elemE(e, y)) {
+    me.forEach((e) => {
+      if (elemE(e, that)) {
         r.add(e)
       }
     })

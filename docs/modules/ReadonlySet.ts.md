@@ -132,7 +132,12 @@ The set of elements which are in both the first and second set
 **Signature**
 
 ```ts
-export declare function intersection<A>(E: Eq<A>): (set: ReadonlySet<A>, y: ReadonlySet<A>) => ReadonlySet<A>
+export declare function intersection<A>(
+  E: Eq<A>
+): {
+  (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
+  (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
+}
 ```
 
 Added in v2.5.0
