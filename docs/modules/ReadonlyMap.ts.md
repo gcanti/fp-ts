@@ -464,7 +464,12 @@ Test whether or not a key exists in a map
 **Signature**
 
 ```ts
-export declare function member<K>(E: Eq<K>): <A>(k: K, m: ReadonlyMap<K, A>) => boolean
+export declare function member<K>(
+  E: Eq<K>
+): {
+  (k: K): <A>(m: ReadonlyMap<K, A>) => boolean
+  <A>(k: K, m: ReadonlyMap<K, A>): boolean
+}
 ```
 
 Added in v2.5.0
