@@ -511,7 +511,12 @@ Test whether one record contains all of the keys and values contained in another
 **Signature**
 
 ```ts
-export declare const isSubrecord: <A>(E: Eq<A>) => (x: Record<string, A>, y: Record<string, A>) => boolean
+export declare const isSubrecord: <A>(
+  E: Eq<A>
+) => {
+  (that: Record<string, A>): (me: Record<string, A>) => boolean
+  (me: Record<string, A>, that: Record<string, A>): boolean
+}
 ```
 
 Added in v2.0.0

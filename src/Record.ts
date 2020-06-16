@@ -137,12 +137,18 @@ export function pop(k: string): <A>(r: Record<string, A>) => Option<[A, Record<s
   return RR.pop(k) as any
 }
 
+// TODO: remove non-curried overloading in v3
 /**
  * Test whether one record contains all of the keys and values contained in another record
  *
  * @since 2.0.0
  */
-export const isSubrecord: <A>(E: Eq<A>) => (x: Record<string, A>, y: Record<string, A>) => boolean = RR.isSubrecord
+export const isSubrecord: <A>(
+  E: Eq<A>
+) => {
+  (that: Record<string, A>): (me: Record<string, A>) => boolean
+  (me: Record<string, A>, that: Record<string, A>): boolean
+} = RR.isSubrecord
 
 /**
  * @since 2.0.0
