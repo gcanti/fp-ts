@@ -23,3 +23,10 @@ _.elem(eqNumber)(1) // $ExpectType (set: ReadonlySet<number>) => boolean
 
 _.union(eqNumber)(me, me) // $ExpectType ReadonlySet<number>
 _.union(eqNumber)(me) // $ExpectType (me: ReadonlySet<number>) => ReadonlySet<number>
+
+//
+// intersection
+//
+
+_.intersection(eqNumber)(me, me) // $ExpectType ReadonlySet<number>
+_.intersection(eqNumber)(me) // $ExpectType (me: ReadonlySet<number>) => ReadonlySet<number>

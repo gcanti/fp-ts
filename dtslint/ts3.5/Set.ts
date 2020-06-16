@@ -23,3 +23,10 @@ _.elem(eqNumber)(1) // $ExpectType (set: Set<number>) => boolean
 
 _.union(eqNumber)(me, me) // $ExpectType Set<number>
 _.union(eqNumber)(me) // $ExpectType (me: Set<number>) => Set<number>
+
+//
+// intersection
+//
+
+_.intersection(eqNumber)(me, me) // $ExpectType Set<number>
+_.intersection(eqNumber)(me) // $ExpectType (me: Set<number>) => Set<number>

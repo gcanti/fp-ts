@@ -130,7 +130,9 @@ The set of elements which are in both the first and second set
 **Signature**
 
 ```ts
-export declare const intersection: <A>(E: Eq<A>) => (set: Set<A>, y: Set<A>) => Set<A>
+export declare const intersection: <A>(
+  E: Eq<A>
+) => { (that: Set<A>): (me: Set<A>) => Set<A>; (me: Set<A>, that: Set<A>): Set<A> }
 ```
 
 Added in v2.0.0
