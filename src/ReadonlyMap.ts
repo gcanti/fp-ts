@@ -107,13 +107,24 @@ interface Next<A> {
   readonly value: A
 }
 
+// TODO: remove non-curried overloading in v3
 /**
  * Test whether or not a value is a member of a map
  *
  * @since 2.5.0
  */
-export function elem<A>(E: Eq<A>): <K>(a: A, m: ReadonlyMap<K, A>) => boolean {
+export function elem<A>(
+  E: Eq<A>
+): {
+  (a: A): <K>(m: ReadonlyMap<K, A>) => boolean
+  <K>(a: A, m: ReadonlyMap<K, A>): boolean
+}
+export function elem<A>(E: Eq<A>): <K>(a: A, m?: ReadonlyMap<K, A>) => boolean | ((m: ReadonlyMap<K, A>) => boolean) {
   return (a, m) => {
+    if (m === undefined) {
+      const elemE = elem(E)
+      return (m) => elemE(a, m)
+    }
     const values = m.values()
     let e: Next<A>
     // tslint:disable-next-line: strict-boolean-expressions

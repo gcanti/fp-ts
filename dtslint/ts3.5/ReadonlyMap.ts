@@ -18,3 +18,10 @@ FWI.partitionWithIndex(_.empty as ReadonlyMap<'a' | 'b', string | number>, isStr
 
 _.member(eqString)('a', new Map()) // $ExpectType boolean
 _.member(eqString)('a') // $ExpectType <A>(m: ReadonlyMap<string, A>) => boolean
+
+//
+// elem
+//
+
+_.elem(eqString)('a', new Map()) // $ExpectType boolean
+_.elem(eqString)('a') // $ExpectType <K>(m: ReadonlyMap<K, string>) => boolean

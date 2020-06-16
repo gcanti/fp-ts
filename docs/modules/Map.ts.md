@@ -303,7 +303,7 @@ Test whether or not a value is a member of a map
 **Signature**
 
 ```ts
-export declare const elem: <A>(E: Eq<A>) => <K>(a: A, m: Map<K, A>) => boolean
+export declare const elem: <A>(E: Eq<A>) => { (a: A): <K>(m: Map<K, A>) => boolean; <K>(a: A, m: Map<K, A>): boolean }
 ```
 
 Added in v2.0.0

@@ -94,19 +94,25 @@ describe('Map', () => {
   })
 
   it('elem', () => {
-    const a1b2 = new Map<string, number>([
+    const x = new Map<string, number>([
       ['a', 1],
       ['b', 2]
     ])
     const elemS = _.elem(eqNumber)
-    assert.deepStrictEqual(elemS(2, a1b2), true)
-    assert.deepStrictEqual(elemS(3, a1b2), false)
+    assert.deepStrictEqual(elemS(2, x), true)
+    assert.deepStrictEqual(elemS(3, x), false)
+    assert.deepStrictEqual(elemS(2)(x), true)
+    assert.deepStrictEqual(elemS(3)(x), false)
 
     const elem = _.elem(eqValue)
-    assert.deepStrictEqual(elem({ value: 1 }, repo), true)
-    assert.deepStrictEqual(elem({ value: 2 }, repo), true)
-    assert.deepStrictEqual(elem({ value: 4 }, repo), true)
-    assert.deepStrictEqual(elem({ value: 3 }, repo), false)
+    assert.deepStrictEqual(elem({ value: 1 })(repo), true)
+    assert.deepStrictEqual(elem({ value: 2 })(repo), true)
+    assert.deepStrictEqual(elem({ value: 4 })(repo), true)
+    assert.deepStrictEqual(elem({ value: 3 })(repo), false)
+    assert.deepStrictEqual(elem({ value: 1 })(repo), true)
+    assert.deepStrictEqual(elem({ value: 2 })(repo), true)
+    assert.deepStrictEqual(elem({ value: 4 })(repo), true)
+    assert.deepStrictEqual(elem({ value: 3 })(repo), false)
   })
 
   it('keys', () => {
