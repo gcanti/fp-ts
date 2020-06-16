@@ -415,12 +415,18 @@ Added in v2.5.0
 
 ## isSubmap
 
-Test whether or not one Map contains all of the keys and values contained in another Map
+Test whether or not one `Map` contains all of the keys and values contained in another `Map`
 
 **Signature**
 
 ```ts
-export declare function isSubmap<K, A>(SK: Eq<K>, SA: Eq<A>): (d1: ReadonlyMap<K, A>, d2: ReadonlyMap<K, A>) => boolean
+export declare function isSubmap<K, A>(
+  SK: Eq<K>,
+  SA: Eq<A>
+): {
+  (that: ReadonlyMap<K, A>): (me: ReadonlyMap<K, A>) => boolean
+  (me: ReadonlyMap<K, A>, that: ReadonlyMap<K, A>): boolean
+}
 ```
 
 Added in v2.5.0

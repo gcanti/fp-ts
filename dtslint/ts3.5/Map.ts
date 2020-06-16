@@ -1,5 +1,5 @@
 import * as _ from '../../src/Map'
-import { eqString } from '../../src/Eq'
+import { eqString, eqNumber } from '../../src/Eq'
 
 //
 // FilterableWithIndex overloadings
@@ -39,3 +39,10 @@ _.lookup(eqString)('a') // $ExpectType <A>(m: Map<string, A>) => Option<A>
 
 _.lookupWithKey(eqString)('a', new Map([['a', 1]])) // $ExpectType Option<[string, number]>
 _.lookupWithKey(eqString)('a') // $ExpectType <A>(m: Map<string, A>) => Option<[string, A]>
+
+//
+// isSubmap
+//
+
+_.isSubmap(eqString, eqNumber)(new Map([['a', 1]]), new Map([['a', 1]])) // $ExpectType boolean
+_.isSubmap(eqString, eqNumber)(new Map([['a', 1]])) // $ExpectType (me: Map<string, number>) => boolean

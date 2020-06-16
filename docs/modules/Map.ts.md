@@ -332,12 +332,15 @@ Added in v2.0.0
 
 ## isSubmap
 
-Test whether or not one Map contains all of the keys and values contained in another Map
+Test whether or not one `Map` contains all of the keys and values contained in another `Map`
 
 **Signature**
 
 ```ts
-export declare const isSubmap: <K, A>(SK: Eq<K>, SA: Eq<A>) => (d1: Map<K, A>, d2: Map<K, A>) => boolean
+export declare const isSubmap: <K, A>(
+  SK: Eq<K>,
+  SA: Eq<A>
+) => { (that: Map<K, A>): (me: Map<K, A>) => boolean; (me: Map<K, A>, that: Map<K, A>): boolean }
 ```
 
 Added in v2.0.0
