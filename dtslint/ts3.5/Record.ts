@@ -1,5 +1,5 @@
 import { pipe } from '../../src/pipeable'
-import * as R from '../../src/Record'
+import * as _ from '../../src/Record'
 import { identity } from '../../src/function'
 import * as O from '../../src/Option'
 import * as A from '../../src/Array'
@@ -24,13 +24,13 @@ declare const keyString: string
 // hasOwnProperty
 //
 
-if (R.hasOwnProperty(keyString, d1)) {
+if (_.hasOwnProperty(keyString, d1)) {
   keyString // $ExpectType string
 }
-if (R.hasOwnProperty(keyString, recordString)) {
+if (_.hasOwnProperty(keyString, recordString)) {
   keyString // $ExpectType string
 }
-if (R.hasOwnProperty(keyString, r1)) {
+if (_.hasOwnProperty(keyString, r1)) {
   keyString // $ExpectType "a" | "b"
 }
 
@@ -38,140 +38,147 @@ if (R.hasOwnProperty(keyString, r1)) {
 // updateAt
 //
 
-pipe(d1, R.updateAt('a', 3)) // $ExpectType Option<Record<string, number>>
-pipe(recordString, R.updateAt('a', 3)) // $ExpectType Option<Record<string, number>>
-pipe(r1, R.updateAt('a', 3)) // $ExpectType Option<Record<"a" | "b", number>>
+pipe(d1, _.updateAt('a', 3)) // $ExpectType Option<Record<string, number>>
+pipe(recordString, _.updateAt('a', 3)) // $ExpectType Option<Record<string, number>>
+pipe(r1, _.updateAt('a', 3)) // $ExpectType Option<Record<"a" | "b", number>>
 
 //
 // modifyAt
 //
 
-pipe(d1, R.modifyAt('a', identity)) // $ExpectType Option<Record<string, number>>
-pipe(recordString, R.modifyAt('a', identity)) // $ExpectType Option<Record<string, number>>
-pipe(r1, R.modifyAt('a', identity)) // $ExpectType Option<Record<"a" | "b", number>>
+pipe(d1, _.modifyAt('a', identity)) // $ExpectType Option<Record<string, number>>
+pipe(recordString, _.modifyAt('a', identity)) // $ExpectType Option<Record<string, number>>
+pipe(r1, _.modifyAt('a', identity)) // $ExpectType Option<Record<"a" | "b", number>>
 
 //
 // pop
 //
 
-R.pop('a')(r1) // $ExpectType Option<[number, Record<"b", number>]>
-R.pop('a')(d1) // $ExpectType Option<[number, Record<string, number>]>
-R.pop(stringKey)(r1) // $ExpectType Option<[number, Record<string, number>]>
+_.pop('a')(r1) // $ExpectType Option<[number, Record<"b", number>]>
+_.pop('a')(d1) // $ExpectType Option<[number, Record<string, number>]>
+_.pop(stringKey)(r1) // $ExpectType Option<[number, Record<string, number>]>
 
 //
 // collect
 //
 
-R.collect((_k: 'a', n: number) => n)({ a: 1 }) // $ExpectType number[]
-R.collect((_k: 'a', n: number) => n)(l1) // $ExpectType number[]
-R.collect((_k, n: number) => n)(d1) // $ExpectType number[]
-R.collect((_k: 'a' | 'b', n: number) => n)(r1) // $ExpectType number[]
+_.collect((_k: 'a', n: number) => n)({ a: 1 }) // $ExpectType number[]
+_.collect((_k: 'a', n: number) => n)(l1) // $ExpectType number[]
+_.collect((_k, n: number) => n)(d1) // $ExpectType number[]
+_.collect((_k: 'a' | 'b', n: number) => n)(r1) // $ExpectType number[]
 
 //
 // toArray
 //
 
-R.toArray({ a: 1 }) // $ExpectType ["a", number][]
-R.toArray(l1) // $ExpectType ["a", number][]
-R.toArray(d1) // $ExpectType [string, number][]
-R.toArray(r1) // $ExpectType ["a" | "b", number][]
+_.toArray({ a: 1 }) // $ExpectType ["a", number][]
+_.toArray(l1) // $ExpectType ["a", number][]
+_.toArray(d1) // $ExpectType [string, number][]
+_.toArray(r1) // $ExpectType ["a" | "b", number][]
 
 //
 // insertAt
 //
 
-R.insertAt('b', 0)({ a: 1 }) // $ExpectType Record<"a" | "b", number>
-R.insertAt('b', 0)(l1) // $ExpectType Record<"a" | "b", number>
-R.insertAt('b', 0)(d1) // $ExpectType Record<string, number>
-R.insertAt('b', 0)(r1) // $ExpectType Record<"a" | "b", number>
-R.insertAt(stringKey, 0)(r1) // $ExpectType Record<string, number>
-R.insertAt('c', 0)(r1) // $ExpectType Record<"a" | "b" | "c", number>
+_.insertAt('b', 0)({ a: 1 }) // $ExpectType Record<"a" | "b", number>
+_.insertAt('b', 0)(l1) // $ExpectType Record<"a" | "b", number>
+_.insertAt('b', 0)(d1) // $ExpectType Record<string, number>
+_.insertAt('b', 0)(r1) // $ExpectType Record<"a" | "b", number>
+_.insertAt(stringKey, 0)(r1) // $ExpectType Record<string, number>
+_.insertAt('c', 0)(r1) // $ExpectType Record<"a" | "b" | "c", number>
 
 //
 // deleteAt
 //
 
-R.deleteAt('a')({ a: 1 }) // $ExpectType Record<never, number>
-R.deleteAt('b')({ a: 1 }) // $ExpectType Record<"a", number>
-R.deleteAt('a')(l1) // $ExpectType Record<never, number>
-R.deleteAt('b')(l1) // $ExpectType Record<"a", number>
-R.deleteAt('b')(d1) // $ExpectType Record<string, number>
-R.deleteAt('c')(r1) // $ExpectType Record<"a" | "b", number>
-R.deleteAt('a')(r1) // $ExpectType Record<"b", number>
-R.deleteAt(stringKey)(r1) // $ExpectType Record<string, number>
+_.deleteAt('a')({ a: 1 }) // $ExpectType Record<never, number>
+_.deleteAt('b')({ a: 1 }) // $ExpectType Record<"a", number>
+_.deleteAt('a')(l1) // $ExpectType Record<never, number>
+_.deleteAt('b')(l1) // $ExpectType Record<"a", number>
+_.deleteAt('b')(d1) // $ExpectType Record<string, number>
+_.deleteAt('c')(r1) // $ExpectType Record<"a" | "b", number>
+_.deleteAt('a')(r1) // $ExpectType Record<"b", number>
+_.deleteAt(stringKey)(r1) // $ExpectType Record<string, number>
 
 //
 // mapWithIndex
 //
 
-R.mapWithIndex((_k: 'a', n: number) => n > 2)({ a: 1 }) // $ExpectType Record<"a", boolean>
-R.mapWithIndex((_k: 'a', n: number) => n > 2)(l1) // $ExpectType Record<"a", boolean>
-R.mapWithIndex((_k: string, n: number) => n > 2)(d1) // $ExpectType Record<string, boolean>
-R.mapWithIndex((_k: 'a' | 'b', n: number) => n > 2)(r1) // $ExpectType Record<"a" | "b", boolean>
+_.mapWithIndex((_k: 'a', n: number) => n > 2)({ a: 1 }) // $ExpectType Record<"a", boolean>
+_.mapWithIndex((_k: 'a', n: number) => n > 2)(l1) // $ExpectType Record<"a", boolean>
+_.mapWithIndex((_k: string, n: number) => n > 2)(d1) // $ExpectType Record<string, boolean>
+_.mapWithIndex((_k: 'a' | 'b', n: number) => n > 2)(r1) // $ExpectType Record<"a" | "b", boolean>
 
 //
 // map
 //
 
-R.map((n: number) => n > 2)({ a: 1 }) // $ExpectType Record<"a", boolean>
-R.map((n: number) => n > 2)(l1) // $ExpectType Record<"a", boolean>
-R.map((n: number) => n > 2)(d1) // $ExpectType Record<string, boolean>
-R.map((n: number) => n > 2)(r1) // $ExpectType Record<"a" | "b", boolean>
+_.map((n: number) => n > 2)({ a: 1 }) // $ExpectType Record<"a", boolean>
+_.map((n: number) => n > 2)(l1) // $ExpectType Record<"a", boolean>
+_.map((n: number) => n > 2)(d1) // $ExpectType Record<string, boolean>
+_.map((n: number) => n > 2)(r1) // $ExpectType Record<"a" | "b", boolean>
 
 //
 // reduceWithIndex
 //
 
-R.reduceWithIndex('', (k: string, _n) => k)(d1) // $ExpectType string
-R.reduceWithIndex('', (k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
+_.reduceWithIndex('', (k: string, _n) => k)(d1) // $ExpectType string
+_.reduceWithIndex('', (k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
 
-R.foldMapWithIndex(monoidString)((k: string, _n) => k)(d1) // $ExpectType string
-R.foldMapWithIndex(monoidString)((k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
+_.foldMapWithIndex(monoidString)((k: string, _n) => k)(d1) // $ExpectType string
+_.foldMapWithIndex(monoidString)((k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
 
-R.reduceRightWithIndex('', (k: string, _n, _b) => k)(d1) // $ExpectType string
-R.reduceRightWithIndex('', (k: 'a' | 'b', _n, _b) => k)(r1) // $ExpectType string
+_.reduceRightWithIndex('', (k: string, _n, _b) => k)(d1) // $ExpectType string
+_.reduceRightWithIndex('', (k: 'a' | 'b', _n, _b) => k)(r1) // $ExpectType string
 
-R.singleton('a', 1) // $ExpectType Record<"a", number>
+_.singleton('a', 1) // $ExpectType Record<"a", number>
 
-R.traverseWithIndex(O.option)((_k, n: number) => O.some(n))(d1) // $ExpectType Option<Record<string, number>>
-R.traverseWithIndex(O.option)((_k: 'a' | 'b', n: number) => O.some(n))(r1) // $ExpectType Option<Record<"a" | "b", number>>
+_.traverseWithIndex(O.option)((_k, n: number) => O.some(n))(d1) // $ExpectType Option<Record<string, number>>
+_.traverseWithIndex(O.option)((_k: 'a' | 'b', n: number) => O.some(n))(r1) // $ExpectType Option<Record<"a" | "b", number>>
 
-R.traverse(O.option)((n: number) => O.some(n))(d1) // $ExpectType Option<Record<string, number>>
-R.traverse(O.option)((n: number) => O.some(n))(r1) // $ExpectType Option<Record<"a" | "b", number>>
+_.traverse(O.option)((n: number) => O.some(n))(d1) // $ExpectType Option<Record<string, number>>
+_.traverse(O.option)((n: number) => O.some(n))(r1) // $ExpectType Option<Record<"a" | "b", number>>
 
-R.sequence(O.option)(do1) // $ExpectType Option<Record<string, number>>
-R.sequence(O.option)(ro1) // $ExpectType Option<Record<"a" | "b", number>>
+_.sequence(O.option)(do1) // $ExpectType Option<Record<string, number>>
+_.sequence(O.option)(ro1) // $ExpectType Option<Record<"a" | "b", number>>
 
-R.record.compact(do1) // $ExpectType Record<string, number>
+_.record.compact(do1) // $ExpectType Record<string, number>
 
-R.partitionMapWithIndex((_k: string, n: number): E.Either<string, number> => E.right(n))(d1) // $ExpectType Separated<Record<string, string>, Record<string, number>>
-R.partitionMapWithIndex((_k: 'a' | 'b', n: number): E.Either<string, number> => E.right(n))(r1) // $ExpectType Separated<Record<string, string>, Record<string, number>>
+_.partitionMapWithIndex((_k: string, n: number): E.Either<string, number> => E.right(n))(d1) // $ExpectType Separated<Record<string, string>, Record<string, number>>
+_.partitionMapWithIndex((_k: 'a' | 'b', n: number): E.Either<string, number> => E.right(n))(r1) // $ExpectType Separated<Record<string, string>, Record<string, number>>
 
-R.partitionWithIndex((_k: string, n: number) => n > 2)(d1) // $ExpectType Separated<Record<string, number>, Record<string, number>>
-R.partitionWithIndex((_k: 'a' | 'b', n: number) => n > 2)(r1) // $ExpectType Separated<Record<string, number>, Record<string, number>>
+_.partitionWithIndex((_k: string, n: number) => n > 2)(d1) // $ExpectType Separated<Record<string, number>, Record<string, number>>
+_.partitionWithIndex((_k: 'a' | 'b', n: number) => n > 2)(r1) // $ExpectType Separated<Record<string, number>, Record<string, number>>
 
-R.filterMapWithIndex((_k: string, n: number) => O.some(n))(d1) // $ExpectType Record<string, number>
-R.filterMapWithIndex((_k: 'a' | 'b', n: number) => O.some(n))(r1) // $ExpectType Record<string, number>
+_.filterMapWithIndex((_k: string, n: number) => O.some(n))(d1) // $ExpectType Record<string, number>
+_.filterMapWithIndex((_k: 'a' | 'b', n: number) => O.some(n))(r1) // $ExpectType Record<string, number>
 
-R.filterWithIndex((_k: string, n: number) => n > 2)(d1) // $ExpectType Record<string, number>
-R.filterWithIndex((_k: 'a' | 'b', n: number) => n > 2)(r1) // $ExpectType Record<string, number>
+_.filterWithIndex((_k: string, n: number) => n > 2)(d1) // $ExpectType Record<string, number>
+_.filterWithIndex((_k: 'a' | 'b', n: number) => n > 2)(r1) // $ExpectType Record<string, number>
 
 declare const arr1: Array<[string, number]>
 declare const arr2: Array<['a' | 'b', number]>
 
-R.fromFoldable(getFirstSemigroup<number>(), A.array)(arr1) // $ExpectType Record<string, number>
-R.fromFoldable(getFirstSemigroup<number>(), A.array)(arr2) // $ExpectType Record<"a" | "b", number>
+_.fromFoldable(getFirstSemigroup<number>(), A.array)(arr1) // $ExpectType Record<string, number>
+_.fromFoldable(getFirstSemigroup<number>(), A.array)(arr2) // $ExpectType Record<"a" | "b", number>
 
 type Keys = 'key1' | 'key2'
-R.getMonoid(semigroupSum) // $ExpectType Monoid<Record<string, number>>
-R.getMonoid<Keys, number>(semigroupSum) // $ExpectType Monoid<Record<Keys, number>>
+_.getMonoid(semigroupSum) // $ExpectType Monoid<Record<string, number>>
+_.getMonoid<Keys, number>(semigroupSum) // $ExpectType Monoid<Record<Keys, number>>
 
-R.getEq<Keys, number>(eqNumber) // $ExpectType Eq<Record<Keys, number>>
-R.getEq(eqNumber) // $ExpectType Eq<Record<string, number>>
+_.getEq<Keys, number>(eqNumber) // $ExpectType Eq<Record<Keys, number>>
+_.getEq(eqNumber) // $ExpectType Eq<Record<string, number>>
 
-R.toUnfoldable(A.array)({ a: 1 }) // $ExpectType ["a", number][]
-R.toUnfoldable(A.array)({ a: 1, b: 2 }) // $ExpectType ["a" | "b", number][]
+_.toUnfoldable(A.array)({ a: 1 }) // $ExpectType ["a", number][]
+_.toUnfoldable(A.array)({ a: 1, b: 2 }) // $ExpectType ["a" | "b", number][]
 
 declare const fromFoldableF1: Foldable<'Test'>
 declare const fromFoldableInput1: HKT<'Test', ['a' | 'b', number]>
-R.fromFoldable(getFirstSemigroup<number>(), fromFoldableF1)(fromFoldableInput1) // $ExpectType Record<"a" | "b", number>
+_.fromFoldable(getFirstSemigroup<number>(), fromFoldableF1)(fromFoldableInput1) // $ExpectType Record<"a" | "b", number>
+
+//
+// isSubrecord
+//
+
+_.isSubrecord(eqNumber)(recordString, recordString) // $ExpectType boolean
+_.isSubrecord(eqNumber)(recordString) // $ExpectType (me: Record<string, number>) => boolean
