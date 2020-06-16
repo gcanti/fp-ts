@@ -93,7 +93,7 @@ export function member<K>(
 }
 export function member<K>(E: Eq<K>): <A>(k: K, m?: ReadonlyMap<K, A>) => boolean | ((m: ReadonlyMap<K, A>) => boolean) {
   const lookupE = lookup(E)
-  return (k, m) => {
+  return (k, m?) => {
     if (m === undefined) {
       const memberE = member(E)
       return (m) => memberE(k, m)
@@ -120,7 +120,7 @@ export function elem<A>(
   <K>(a: A, m: ReadonlyMap<K, A>): boolean
 }
 export function elem<A>(E: Eq<A>): <K>(a: A, m?: ReadonlyMap<K, A>) => boolean | ((m: ReadonlyMap<K, A>) => boolean) {
-  return (a, m) => {
+  return (a, m?) => {
     if (m === undefined) {
       const elemE = elem(E)
       return (m) => elemE(a, m)
@@ -349,7 +349,7 @@ export function lookup<K>(
   E: Eq<K>
 ): <A>(k: K, m?: ReadonlyMap<K, A>) => Option<A> | ((m: ReadonlyMap<K, A>) => Option<A>) {
   const lookupWithKeyE = lookupWithKey(E)
-  return (k, m) => {
+  return (k, m?) => {
     if (m === undefined) {
       const lookupE = lookup(E)
       return (m) => lookupE(k, m)
