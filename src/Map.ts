@@ -148,12 +148,18 @@ export const pop: <K>(E: Eq<K>) => (k: K) => <A>(m: Map<K, A>) => Option<[A, Map
  */
 export const lookupWithKey: <K>(E: Eq<K>) => <A>(k: K, m: Map<K, A>) => Option<[K, A]> = RM.lookupWithKey as any
 
+// TODO: remove non-curried overloading in v3
 /**
  * Lookup the value for a key in a `Map`.
  *
  * @since 2.0.0
  */
-export const lookup: <K>(E: Eq<K>) => <A>(k: K, m: Map<K, A>) => Option<A> = RM.lookup
+export const lookup: <K>(
+  E: Eq<K>
+) => {
+  (k: K): <A>(m: Map<K, A>) => Option<A>
+  <A>(k: K, m: Map<K, A>): Option<A>
+} = RM.lookup
 
 /**
  * Test whether or not one Map contains all of the keys and values contained in another Map
