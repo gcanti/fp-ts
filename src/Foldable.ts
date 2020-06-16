@@ -158,6 +158,7 @@ export interface FoldableComposition22C<F extends URIS2, G extends URIS2, E> {
   readonly reduceRight: <FE, A, B>(fa: Kind2<F, FE, Kind2<G, E, A>>, b: B, f: (a: A, b: B) => B) => B
 }
 
+// TODO: remove in v3
 /**
  * Returns the composition of two foldables
  *
@@ -214,6 +215,7 @@ export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): Fo
   }
 }
 
+// TODO: rename to `reduceM` in v3
 /**
  * Similar to 'reduce', but the result is encapsulated in a monad.
  *
@@ -293,6 +295,7 @@ export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M, fm: HK
   }
 }
 
+// TODO: remove in v3
 /**
  * Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
  * final result.

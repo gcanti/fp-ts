@@ -106,6 +106,7 @@ export const fold: <E, B, A>(
   /*#__PURE__*/
   flow(TH.fold, T.chain)
 
+// TODO: make lazy in v3
 /* tslint:disable:readonly-array */
 /**
  * @category destructors

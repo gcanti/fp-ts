@@ -191,6 +191,7 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI
   }
 }
 
+// TODO: make lazy in v3
 /* tslint:disable:readonly-array */
 /**
  * @example
@@ -274,6 +275,7 @@ export function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A> {
   return fa._tag === 'Both'
 }
 
+// TODO: make lazy in v3
 /**
  * @example
  * import { leftOrBoth, left, both } from 'fp-ts/lib/These'
@@ -289,6 +291,7 @@ export function leftOrBoth<E>(e: E): <A>(ma: Option<A>) => These<E, A> {
   return (ma) => (isNone(ma) ? left(e) : both(e, ma.value))
 }
 
+// TODO: make lazy in v3
 /**
  * @example
  * import { rightOrBoth, right, both } from 'fp-ts/lib/These'

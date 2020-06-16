@@ -16,6 +16,7 @@ import { ReadonlyRecord } from './ReadonlyRecord'
  */
 export interface Semigroup<A> extends Magma<A> {}
 
+// TODO: remove non-curried overloading in v3
 /**
  * @example
  * import * as S from 'fp-ts/lib/Semigroup'

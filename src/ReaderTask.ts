@@ -67,6 +67,7 @@ export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> = (f) => (
 // combinators
 // -------------------------------------------------------------------------------------
 
+// TODO: remove in v3
 /**
  * @category combinators
  * @since 2.3.0
@@ -289,6 +290,7 @@ export const readerTaskSeq: typeof readerTask = {
 // utils
 // -------------------------------------------------------------------------------------
 
+// TODO: remove in v3
 /**
  * @since 2.4.0
  */

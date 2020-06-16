@@ -193,6 +193,7 @@ export const state: Monad2<URI> = {
 // utils
 // -------------------------------------------------------------------------------------
 
+// TODO: curry and rename to `evaluate` in v3
 /**
  * Run a computation in the `State` monad, discarding the final state
  *
@@ -200,6 +201,7 @@ export const state: Monad2<URI> = {
  */
 export const evalState: <S, A>(ma: State<S, A>, s: S) => A = (ma, s) => ma(s)[0]
 
+// TODO: curry and rename to `execute` in v3
 /**
  * Run a computation in the `State` monad discarding the result
  *

@@ -404,6 +404,7 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<IOEither<E, A>> {
   }
 }
 
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.0.0

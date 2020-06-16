@@ -89,6 +89,8 @@ import {
   Semigroupoid3C
 } from './Semigroupoid'
 
+// TODO: remove module in v3
+
 /**
  * Use [`pipe`](https://gcanti.github.io/fp-ts/modules/function.ts.html#flow) from `function` module instead.
  *

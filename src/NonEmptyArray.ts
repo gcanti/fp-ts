@@ -34,6 +34,7 @@ export interface NonEmptyArray<A> extends Array<A> {
 }
 /* tslint:enable:readonly-keyword */
 
+// TODO: remove in v3
 /**
  * Append an element to the front of an array, creating a new non empty array
  *
@@ -47,6 +48,7 @@ export interface NonEmptyArray<A> extends Array<A> {
  */
 export const cons: <A>(head: A, tail: Array<A>) => NonEmptyArray<A> = RNEA.cons as any
 
+// TODO: remove in v3
 /**
  * Append an element to the end of an array, creating a new non empty array
  *
@@ -68,6 +70,7 @@ export const snoc: <A>(init: Array<A>, end: A) => NonEmptyArray<A> = RNEA.snoc a
  */
 export const fromArray: <A>(as: Array<A>) => Option<NonEmptyArray<A>> = RNEA.fromArray as any
 
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.0.0
@@ -267,6 +270,7 @@ export const filterWithIndex: <A>(
  */
 export const of: <A>(a: A) => NonEmptyArray<A> = RNEA.of as any
 
+// TODO: curry in v3
 /**
  * @category constructors
  * @since 2.2.0

@@ -363,6 +363,7 @@ export function isOutOfBound<A>(i: number, as: ReadonlyArray<A>): boolean {
   return i < 0 || i >= as.length
 }
 
+// TODO: remove non-curried overloading in v3
 /**
  * This function provides a safe way to read a value at a particular index from an array
  *
@@ -382,6 +383,7 @@ export function lookup<A>(i: number, as?: ReadonlyArray<A>): Option<A> | (<A>(as
   return as === undefined ? (as) => lookup(i, as) : isOutOfBound(i, as) ? none : some(as[i])
 }
 
+// TODO: remove non-curried overloading in v3
 /**
  * Attaches an element to the front of an array, creating a new non empty array
  *
@@ -995,6 +997,7 @@ export function zipWith<A, B, C>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>, f: 
   return fc
 }
 
+// TODO: remove non-curried overloading in v3
 /**
  * Takes two arrays and returns an array of corresponding pairs. If one input array is short, excess elements of the
  * longer array are discarded
@@ -1068,6 +1071,7 @@ export function rotate(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
   }
 }
 
+// TODO: remove non-curried overloading in v3
 /**
  * Test if a value is a member of an array. Takes a `Eq<A>` as a single
  * argument which returns the function to use to search for a value of type `A` in
@@ -1301,6 +1305,7 @@ export function comprehension<R>(
   return go(empty, input)
 }
 
+// TODO: remove non-curried overloading in v3
 /**
  * Creates an array of unique values, in order, from all given arrays using a `Eq` for equality comparisons
  *
@@ -1336,6 +1341,7 @@ export function union<A>(
   }
 }
 
+// TODO: remove non-curried overloading in v3
 /**
  * Creates an array of unique values that are included in all given arrays using a `Eq` for equality
  * comparisons. The order and references of result values are determined by the first array.
@@ -1369,6 +1375,7 @@ export function intersection<A>(
   }
 }
 
+// TODO: remove non-curried overloading in v3
 /**
  * Creates an array of array values not included in the other given array using a `Eq` for equality
  * comparisons. The order and references of result values are determined by the first array.

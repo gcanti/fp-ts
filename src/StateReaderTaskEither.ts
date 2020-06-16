@@ -603,6 +603,7 @@ export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
 // utils
 // -------------------------------------------------------------------------------------
 
+// TODO: remove in v3
 /* tslint:disable:readonly-array */
 /**
  * @since 2.0.0
@@ -612,6 +613,7 @@ export function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: 
 }
 /* tslint:enable:readonly-array */
 
+// TODO: curry and rename to `evaluate` in v3
 /**
  * Run a computation in the `StateReaderTaskEither` monad, discarding the final state
  *
@@ -626,6 +628,7 @@ export const evalState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S
     RTE.map(([a]) => a)
   )
 
+// TODO: curry and rename to `execute` in v3
 /**
  * Run a computation in the `StateReaderTaskEither` monad discarding the result
  *

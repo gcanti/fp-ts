@@ -190,6 +190,7 @@ export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, E> 
   ) => Kind2<F, FE, Kind2<G, E, B>>
 }
 
+// TODO: remove in v3
 /**
  * Like `Functor`, `Applicative`s compose. If `F` and `G` have `Applicative` instances, then so does `F<G<_>>`
  *
