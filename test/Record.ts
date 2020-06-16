@@ -111,6 +111,10 @@ describe('Record', () => {
     assert.deepStrictEqual(_.lookup('a', { a: 1 }), some(1))
     assert.deepStrictEqual(_.lookup('b', { a: 1 }), none)
     assert.deepStrictEqual(_.lookup('b', noPrototype), none)
+
+    assert.deepStrictEqual(_.lookup('a')({ a: 1 }), some(1))
+    assert.deepStrictEqual(_.lookup('b')({ a: 1 }), none)
+    assert.deepStrictEqual(_.lookup('b')(noPrototype), none)
   })
 
   it('fromFoldable', () => {
