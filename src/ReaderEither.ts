@@ -145,6 +145,7 @@ export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E>
   /*#__PURE__*/
   R.map(E.swap)
 
+// TODO: remove in v3
 /**
  * @category combinators
  * @since 2.0.0
@@ -395,6 +396,7 @@ export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderEither<R, E,
   }
 }
 
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.3.0

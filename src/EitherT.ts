@@ -8,6 +8,8 @@ import { flow, pipe } from './function'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
 
+// TODO: remove module in v3
+
 import Either = E.Either
 import URI = E.URI
 

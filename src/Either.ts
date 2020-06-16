@@ -116,6 +116,7 @@ export function right<E = never, A = never>(a: A): Either<E, A> {
   return { _tag: 'Right', right: a }
 }
 
+// TODO: make lazy in v3
 /**
  * Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
  * the provided default as a `Left`
@@ -135,6 +136,7 @@ export function fromNullable<E>(e: E): <A>(a: A) => Either<E, NonNullable<A>> {
   return <A>(a: A) => (a == null ? left(e) : right(a as NonNullable<A>))
 }
 
+// TODO: `onError => Lazy<A> => Either` in v3
 /**
  * Constructs a new `Either` from a function that might throw
  *
@@ -703,6 +705,7 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
   }
 }
 
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.0.0

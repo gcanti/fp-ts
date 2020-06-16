@@ -63,6 +63,7 @@ export const getChain: <S>(S: Semigroup<S>) => Chain2C<URI, S> = RT.getChain as 
  */
 export const getMonad: <S>(M: Monoid<S>) => Monad2C<URI, S> = RT.getMonad as any
 
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.0.0
