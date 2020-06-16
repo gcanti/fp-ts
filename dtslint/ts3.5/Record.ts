@@ -182,3 +182,10 @@ _.fromFoldable(getFirstSemigroup<number>(), fromFoldableF1)(fromFoldableInput1) 
 
 _.isSubrecord(eqNumber)(recordString, recordString) // $ExpectType boolean
 _.isSubrecord(eqNumber)(recordString) // $ExpectType (me: Record<string, number>) => boolean
+
+//
+// lookup
+//
+
+_.lookup('a', recordString) // $ExpectType Option<number>
+_.lookup('a') // $ExpectType <A>(r: Record<string, A>) => Option<A>

@@ -324,7 +324,15 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>>
  *
  * @since 2.5.0
  */
-export function lookup<A>(k: string, r: ReadonlyRecord<string, A>): Option<A> {
+export function lookup(k: string): <A>(r: ReadonlyRecord<string, A>) => Option<A>
+export function lookup<A>(k: string, r: ReadonlyRecord<string, A>): Option<A>
+export function lookup<A>(
+  k: string,
+  r?: ReadonlyRecord<string, A>
+): Option<A> | ((r: ReadonlyRecord<string, A>) => Option<A>) {
+  if (r === undefined) {
+    return (r) => lookup(k, r)
+  }
   return _hasOwnProperty.call(r, k) ? optionSome(r[k]) : none
 }
 
