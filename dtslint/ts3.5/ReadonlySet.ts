@@ -30,3 +30,10 @@ _.union(eqNumber)(me) // $ExpectType (me: ReadonlySet<number>) => ReadonlySet<nu
 
 _.intersection(eqNumber)(me, me) // $ExpectType ReadonlySet<number>
 _.intersection(eqNumber)(me) // $ExpectType (me: ReadonlySet<number>) => ReadonlySet<number>
+
+//
+// difference
+//
+
+_.difference(eqNumber)(me, me) // $ExpectType ReadonlySet<number>
+_.difference(eqNumber)(me) // $ExpectType (me: ReadonlySet<number>) => ReadonlySet<number>

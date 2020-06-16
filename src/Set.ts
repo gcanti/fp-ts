@@ -142,19 +142,26 @@ export const partitionMap: <B, C>(
   EC: Eq<C>
 ) => <A>(f: (a: A) => Either<B, C>) => (set: Set<A>) => Separated<Set<B>, Set<C>> = RS.partitionMap as any
 
+// TODO: remove non-curried overloading in v3
 /**
  * Form the set difference (`x` - `y`)
  *
  * @example
  * import { difference } from 'fp-ts/lib/Set'
  * import { eqNumber } from 'fp-ts/lib/Eq'
+ * import { pipe } from 'fp-ts/lib/function'
  *
- * assert.deepStrictEqual(difference(eqNumber)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
+ * assert.deepStrictEqual(pipe(new Set([1, 2]), difference(eqNumber)(new Set([1, 3]))), new Set([2]))
  *
  * @category combinators
  * @since 2.0.0
  */
-export const difference: <A>(E: Eq<A>) => (x: Set<A>, y: Set<A>) => Set<A> = RS.difference as any
+export const difference: <A>(
+  E: Eq<A>
+) => {
+  (that: Set<A>): (me: Set<A>) => Set<A>
+  (me: Set<A>, that: Set<A>): Set<A>
+} = RS.difference as any
 
 /**
  * @category instances

@@ -149,6 +149,8 @@ describe('ReadonlySet', () => {
 
   it('difference', () => {
     assert.deepStrictEqual(_.difference(eqNumber)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
+
+    assert.deepStrictEqual(pipe(new Set([1, 2]), _.difference(eqNumber)(new Set([1, 3]))), new Set([2]))
   })
 
   it('reduce', () => {

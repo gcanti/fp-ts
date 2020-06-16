@@ -78,7 +78,12 @@ Form the set difference (`x` - `y`)
 **Signature**
 
 ```ts
-export declare function difference<A>(E: Eq<A>): (x: ReadonlySet<A>, y: ReadonlySet<A>) => ReadonlySet<A>
+export declare function difference<A>(
+  E: Eq<A>
+): {
+  (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
+  (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
+}
 ```
 
 **Example**
@@ -86,8 +91,9 @@ export declare function difference<A>(E: Eq<A>): (x: ReadonlySet<A>, y: Readonly
 ```ts
 import { difference } from 'fp-ts/lib/ReadonlySet'
 import { eqNumber } from 'fp-ts/lib/Eq'
+import { pipe } from 'fp-ts/lib/function'
 
-assert.deepStrictEqual(difference(eqNumber)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
+assert.deepStrictEqual(pipe(new Set([1, 2]), difference(eqNumber)(new Set([1, 3]))), new Set([2]))
 ```
 
 Added in v2.5.0
