@@ -79,14 +79,27 @@ export function isEmpty<K, A>(d: ReadonlyMap<K, A>): boolean {
   return d.size === 0
 }
 
+// TODO: remove non-curried overloading in v3
 /**
  * Test whether or not a key exists in a map
  *
  * @since 2.5.0
  */
-export function member<K>(E: Eq<K>): <A>(k: K, m: ReadonlyMap<K, A>) => boolean {
+export function member<K>(
+  E: Eq<K>
+): {
+  (k: K): <A>(m: ReadonlyMap<K, A>) => boolean
+  <A>(k: K, m: ReadonlyMap<K, A>): boolean
+}
+export function member<K>(E: Eq<K>): <A>(k: K, m?: ReadonlyMap<K, A>) => boolean | ((m: ReadonlyMap<K, A>) => boolean) {
   const lookupE = lookup(E)
-  return (k, m) => O.isSome(lookupE(k, m))
+  return (k, m) => {
+    if (m === undefined) {
+      const memberE = member(E)
+      return (m) => memberE(k, m)
+    }
+    return O.isSome(lookupE(k, m))
+  }
 }
 
 interface Next<A> {

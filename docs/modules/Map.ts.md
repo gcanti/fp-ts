@@ -386,7 +386,7 @@ Test whether or not a key exists in a map
 **Signature**
 
 ```ts
-export declare const member: <K>(E: Eq<K>) => <A>(k: K, m: Map<K, A>) => boolean
+export declare const member: <K>(E: Eq<K>) => { (k: K): <A>(m: Map<K, A>) => boolean; <A>(k: K, m: Map<K, A>): boolean }
 ```
 
 Added in v2.0.0
