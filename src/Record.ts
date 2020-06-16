@@ -175,6 +175,7 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>> {
   return RR.getMonoid(S)
 }
 
+// TODO: remove non-curried overloading in v3
 /**
  * Lookup the value for a key in a record
  *
@@ -483,10 +484,16 @@ export const every: <A>(predicate: Predicate<A>) => (r: Record<string, A>) => bo
  */
 export const some: <A>(predicate: (a: A) => boolean) => (r: Record<string, A>) => boolean = RR.some
 
+// TODO: remove non-curried overloading in v3
 /**
  * @since 2.0.0
  */
-export const elem: <A>(E: Eq<A>) => (a: A, fa: Record<string, A>) => boolean = RR.elem
+export const elem: <A>(
+  E: Eq<A>
+) => {
+  (a: A): (fa: Record<string, A>) => boolean
+  (a: A, fa: Record<string, A>): boolean
+} = RR.elem
 
 // -------------------------------------------------------------------------------------
 // pipeables

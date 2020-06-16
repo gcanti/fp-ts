@@ -268,7 +268,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const elem: <A>(E: Eq<A>) => (a: A, fa: Record<string, A>) => boolean
+export declare const elem: <A>(
+  E: Eq<A>
+) => { (a: A): (fa: Record<string, A>) => boolean; (a: A, fa: Record<string, A>): boolean }
 ```
 
 Added in v2.0.0

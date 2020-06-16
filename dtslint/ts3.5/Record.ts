@@ -189,3 +189,10 @@ _.isSubrecord(eqNumber)(recordString) // $ExpectType (me: Record<string, number>
 
 _.lookup('a', recordString) // $ExpectType Option<number>
 _.lookup('a') // $ExpectType <A>(r: Record<string, A>) => Option<A>
+
+//
+// elem
+//
+
+_.elem(eqNumber)(1, recordString) // $ExpectType boolean
+_.elem(eqNumber)(1) // $ExpectType (fa: Record<string, number>) => boolean
