@@ -13,6 +13,7 @@ declare const netns: _.NonEmptyArray<[number, string]>
 //
 
 _.zip(nens, neas) // $ExpectType NonEmptyArray<[number, string]>
+_.zip(neas) // $ExpectType <A>(as: NonEmptyArray<A>) => NonEmptyArray<[A, string]>
 
 //
 // zipWith

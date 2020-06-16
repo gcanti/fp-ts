@@ -355,10 +355,10 @@ export const zipWith: <A, B, C>(
  * @category combinators
  * @since 2.5.1
  */
-export const zip: <A, B>(
-  fa: ReadonlyNonEmptyArray<A>,
-  fb: ReadonlyNonEmptyArray<B>
-) => ReadonlyNonEmptyArray<readonly [A, B]> = RA.zip as any
+export const zip: {
+  <B>(bs: ReadonlyNonEmptyArray<B>): <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [A, B]>
+  <A, B>(as: ReadonlyNonEmptyArray<A>, bs: ReadonlyNonEmptyArray<B>): ReadonlyNonEmptyArray<readonly [A, B]>
+} = RA.zip as any
 
 /**
  * @since 2.5.1

@@ -398,7 +398,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const zip: <A, B>(fa: NonEmptyArray<A>, fb: NonEmptyArray<B>) => NonEmptyArray<[A, B]>
+export declare const zip: {
+  <B>(bs: NonEmptyArray<B>): <A>(as: NonEmptyArray<A>) => NonEmptyArray<[A, B]>
+  <A, B>(as: NonEmptyArray<A>, bs: NonEmptyArray<B>): NonEmptyArray<[A, B]>
+}
 ```
 
 Added in v2.5.1
