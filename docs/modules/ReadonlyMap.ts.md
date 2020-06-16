@@ -462,7 +462,12 @@ If the result is a `Some`, the existing key is also returned.
 **Signature**
 
 ```ts
-export declare function lookupWithKey<K>(E: Eq<K>): <A>(k: K, m: ReadonlyMap<K, A>) => Option<readonly [K, A]>
+export declare function lookupWithKey<K>(
+  E: Eq<K>
+): {
+  (k: K): <A>(m: ReadonlyMap<K, A>) => Option<readonly [K, A]>
+  <A>(k: K, m: ReadonlyMap<K, A>): Option<readonly [K, A]>
+}
 ```
 
 Added in v2.5.0
