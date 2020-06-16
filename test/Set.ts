@@ -129,6 +129,8 @@ describe('Set', () => {
 
   it('intersection', () => {
     assert.deepStrictEqual(intersection(eqNumber)(new Set([1, 2]), new Set([1, 3])), new Set([1]))
+
+    assert.deepStrictEqual(pipe(new Set([1, 2]), intersection(eqNumber)(new Set([1, 3]))), new Set([1]))
   })
 
   it('partitionMap', () => {

@@ -120,13 +120,19 @@ export const union: <A>(
   (me: Set<A>, that: Set<A>): Set<A>
 } = RS.union as any
 
+// TODO: remove non-curried overloading in v3
 /**
  * The set of elements which are in both the first and second set
  *
  * @category combinators
  * @since 2.0.0
  */
-export const intersection: <A>(E: Eq<A>) => (set: Set<A>, y: Set<A>) => Set<A> = RS.intersection as any
+export const intersection: <A>(
+  E: Eq<A>
+) => {
+  (that: Set<A>): (me: Set<A>) => Set<A>
+  (me: Set<A>, that: Set<A>): Set<A>
+} = RS.intersection as any
 
 /**
  * @since 2.0.0
