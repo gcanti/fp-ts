@@ -34,7 +34,7 @@ export function fold<A>(
   (a: A, as: ReadonlyArray<A>): A
 }
 export function fold<A>(S: Semigroup<A>): (a: A, as?: ReadonlyArray<A>) => A | ((as: ReadonlyArray<A>) => A) {
-  return (a, as) => {
+  return (a, as?) => {
     if (as === undefined) {
       const foldS = fold(S)
       return (as) => foldS(a, as)

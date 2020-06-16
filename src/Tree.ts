@@ -208,6 +208,7 @@ export function unfoldForestM<M>(
     )
 }
 
+// TODO: curry in v3
 /**
  * @since 2.0.0
  */
