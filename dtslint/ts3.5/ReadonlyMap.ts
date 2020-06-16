@@ -32,3 +32,10 @@ _.elem(eqString)('a') // $ExpectType <K>(m: ReadonlyMap<K, string>) => boolean
 
 _.lookup(eqString)('a', new Map([['a', 1]])) // $ExpectType Option<number>
 _.lookup(eqString)('a') // $ExpectType <A>(m: ReadonlyMap<string, A>) => Option<A>
+
+//
+// lookupWithKey
+//
+
+_.lookupWithKey(eqString)('a', new Map([['a', 1]])) // $ExpectType Option<readonly [string, number]>
+_.lookupWithKey(eqString)('a') // $ExpectType <A>(m: ReadonlyMap<string, A>) => Option<readonly [string, A]>
