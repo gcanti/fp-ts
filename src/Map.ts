@@ -55,12 +55,18 @@ export const member: <K>(
   <A>(k: K, m: Map<K, A>): boolean
 } = RM.member
 
+// TODO: remove non-curried overloading in v3
 /**
  * Test whether or not a value is a member of a map
  *
  * @since 2.0.0
  */
-export const elem: <A>(E: Eq<A>) => <K>(a: A, m: Map<K, A>) => boolean = RM.elem
+export const elem: <A>(
+  E: Eq<A>
+) => {
+  (a: A): <K>(m: Map<K, A>) => boolean
+  <K>(a: A, m: Map<K, A>): boolean
+} = RM.elem
 
 /**
  * Get a sorted array of the keys contained in a map
