@@ -6,6 +6,7 @@ import { Eq, eqNumber, eqString, eq, getStructEq } from '../src/Eq'
 import { none, some as optionSome } from '../src/Option'
 import { showString } from '../src/Show'
 import { getMonoid } from '../src/Array'
+import { pipe } from '../src/function'
 
 const gte2 = (n: number) => n >= 2
 
@@ -60,6 +61,9 @@ describe('ReadonlySet', () => {
   it('isSubset', () => {
     assert.deepStrictEqual(_.isSubset(eqNumber)(new Set([1, 2]), new Set([1, 2, 3])), true)
     assert.deepStrictEqual(_.isSubset(eqNumber)(new Set([1, 2, 4]), new Set([1, 2, 3])), false)
+
+    assert.deepStrictEqual(pipe(new Set([1, 2]), _.isSubset(eqNumber)(new Set([1, 2, 3]))), true)
+    assert.deepStrictEqual(pipe(new Set([1, 2, 4]), _.isSubset(eqNumber)(new Set([1, 2, 3]))), false)
   })
 
   it('filter', () => {

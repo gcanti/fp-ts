@@ -55,10 +55,14 @@ high state of flux, you're at risk of it changing without notice.
     - make `isSubrecord` data-last (@gcanti)
     - make `lookup` data-last (@gcanti)
     - make `elem` data-last (@gcanti)
+  - `ReadonlySet`
+    - make `isSubset` data-last (@gcanti)
   - `Record`
     - make `isSubrecord` data-last (@gcanti)
     - make `lookup` data-last (@gcanti)
     - make `elem` data-last (@gcanti)
+  - `Set`
+    - make `subset` data-last (@gcanti)
   - `Semigroup`
     - make `fold` data-last (@gcanti)
 
