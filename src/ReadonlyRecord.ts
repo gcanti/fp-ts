@@ -238,15 +238,31 @@ export function pop(k: string): <A>(r: ReadonlyRecord<string, A>) => Option<read
   }
 }
 
+// TODO: remove non-curried overloading in v3
 /**
  * Test whether one record contains all of the keys and values contained in another record
  *
  * @since 2.5.0
  */
-export function isSubrecord<A>(E: Eq<A>): (x: ReadonlyRecord<string, A>, y: ReadonlyRecord<string, A>) => boolean {
-  return (x, y) => {
-    for (const k in x) {
-      if (!_hasOwnProperty.call(y, k) || !E.equals(x[k], y[k])) {
+export function isSubrecord<A>(
+  E: Eq<A>
+): {
+  (that: ReadonlyRecord<string, A>): (me: ReadonlyRecord<string, A>) => boolean
+  (me: ReadonlyRecord<string, A>, that: ReadonlyRecord<string, A>): boolean
+}
+export function isSubrecord<A>(
+  E: Eq<A>
+): (
+  me: ReadonlyRecord<string, A>,
+  that?: ReadonlyRecord<string, A>
+) => boolean | ((me: ReadonlyRecord<string, A>) => boolean) {
+  return (me, that?) => {
+    if (that === undefined) {
+      const isSubrecordE = isSubrecord(E)
+      return (that) => isSubrecordE(that, me)
+    }
+    for (const k in me) {
+      if (!_hasOwnProperty.call(that, k) || !E.equals(me[k], that[k])) {
         return false
       }
     }
@@ -261,7 +277,7 @@ export function isSubrecord<A>(E: Eq<A>): (x: ReadonlyRecord<string, A>, y: Read
 export function getEq<K extends string, A>(E: Eq<A>): Eq<ReadonlyRecord<K, A>>
 export function getEq<A>(E: Eq<A>): Eq<ReadonlyRecord<string, A>> {
   const isSubrecordE = isSubrecord(E)
-  return fromEquals((x, y) => isSubrecordE(x, y) && isSubrecordE(y, x))
+  return fromEquals((x, y) => isSubrecordE(x)(y) && isSubrecordE(y)(x))
 }
 
 /**

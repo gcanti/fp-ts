@@ -51,6 +51,10 @@ high state of flux, you're at risk of it changing without notice.
     - make `isSubmap` data-last (@gcanti)
   - `ReadonlyNonEmptyArray`
     - make `zip` data-last (@gcanti)
+  - `ReadonlyRecord`
+    - make `isSubrecord` data-last (@gcanti)
+  - `Record`
+    - make `isSubrecord` data-last (@gcanti)
   - `Semigroup`
     - make `fold` data-last (@gcanti)
 
