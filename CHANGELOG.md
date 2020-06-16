@@ -27,6 +27,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `zip` data-last (@gcanti)
     - make `cons` data-last (@gcanti)
   - `Map`
+    - make `member` data-last (@gcanti)
     - make `elem` data-last (@gcanti)
   - `ReadonlyArray`
     - export `unfold` (@gcanti)
@@ -38,6 +39,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `zip` data-last (@gcanti)
     - make `cons` data-last (@gcanti)
   - `ReadonlyMap`
+    - make `member` data-last (@gcanti)
     - make `elem` data-last (@gcanti)
   - `Semigroup`
     - make `fold` data-last (@gcanti)
