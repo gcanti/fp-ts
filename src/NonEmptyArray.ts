@@ -300,7 +300,10 @@ export const zipWith: <A, B, C>(
  * @category combinators
  * @since 2.5.1
  */
-export const zip: <A, B>(fa: NonEmptyArray<A>, fb: NonEmptyArray<B>) => NonEmptyArray<[A, B]> = RNEA.zip as any
+export const zip: {
+  <B>(bs: NonEmptyArray<B>): <A>(as: NonEmptyArray<A>) => NonEmptyArray<[A, B]>
+  <A, B>(as: NonEmptyArray<A>, bs: NonEmptyArray<B>): NonEmptyArray<[A, B]>
+} = RNEA.zip as any
 
 /**
  * @since 2.5.1
