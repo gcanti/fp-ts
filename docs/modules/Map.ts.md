@@ -376,7 +376,9 @@ If the result is a `Some`, the existing key is also returned.
 **Signature**
 
 ```ts
-export declare const lookupWithKey: <K>(E: Eq<K>) => <A>(k: K, m: Map<K, A>) => Option<[K, A]>
+export declare const lookupWithKey: <K>(
+  E: Eq<K>
+) => { (k: K): <A>(m: Map<K, A>) => Option<[K, A]>; <A>(k: K, m: Map<K, A>): Option<[K, A]> }
 ```
 
 Added in v2.0.0

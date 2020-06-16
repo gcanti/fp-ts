@@ -560,15 +560,20 @@ describe('ReadonlyMap', () => {
   })
 
   it('lookupWithKey', () => {
-    const a1 = new Map<User, number>([[{ id: 'a' }, 1]])
+    const x = new Map<User, number>([[{ id: 'a' }, 1]])
     const lookupWithKeyS = _.lookupWithKey(eqUser)
-    assert.deepStrictEqual(lookupWithKeyS({ id: 'a' }, a1), some([{ id: 'a' }, 1]))
-    assert.deepStrictEqual(lookupWithKeyS({ id: 'b' }, a1), none)
+    assert.deepStrictEqual(lookupWithKeyS({ id: 'a' }, x), some([{ id: 'a' }, 1]))
+    assert.deepStrictEqual(lookupWithKeyS({ id: 'b' }, x), none)
+    assert.deepStrictEqual(lookupWithKeyS({ id: 'a' })(x), some([{ id: 'a' }, 1]))
+    assert.deepStrictEqual(lookupWithKeyS({ id: 'b' })(x), none)
 
     const lookupWithKey = _.lookupWithKey(eqKey)
     assert.deepStrictEqual(lookupWithKey({ id: 1 }, repo), some([{ id: 1 }, { value: 1 }]))
     assert.deepStrictEqual(lookupWithKey({ id: 4 }, repo), some([{ id: 1 }, { value: 1 }]))
     assert.deepStrictEqual(lookupWithKey({ id: 3 }, repo), none)
+    assert.deepStrictEqual(lookupWithKey({ id: 1 })(repo), some([{ id: 1 }, { value: 1 }]))
+    assert.deepStrictEqual(lookupWithKey({ id: 4 })(repo), some([{ id: 1 }, { value: 1 }]))
+    assert.deepStrictEqual(lookupWithKey({ id: 3 })(repo), none)
   })
 
   it('lookup', () => {

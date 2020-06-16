@@ -299,14 +299,27 @@ export function pop<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) => Option<
   }
 }
 
+// TODO: remove non-curried overloading in v3
 /**
  * Lookup the value for a key in a `Map`.
  * If the result is a `Some`, the existing key is also returned.
  *
  * @since 2.5.0
  */
-export function lookupWithKey<K>(E: Eq<K>): <A>(k: K, m: ReadonlyMap<K, A>) => Option<readonly [K, A]> {
-  return <A>(k: K, m: ReadonlyMap<K, A>) => {
+export function lookupWithKey<K>(
+  E: Eq<K>
+): {
+  (k: K): <A>(m: ReadonlyMap<K, A>) => Option<readonly [K, A]>
+  <A>(k: K, m: ReadonlyMap<K, A>): Option<readonly [K, A]>
+}
+export function lookupWithKey<K>(
+  E: Eq<K>
+): <A>(k: K, m?: ReadonlyMap<K, A>) => Option<readonly [K, A]> | ((m: ReadonlyMap<K, A>) => Option<readonly [K, A]>) {
+  return <A>(k: K, m?: ReadonlyMap<K, A>) => {
+    if (m === undefined) {
+      const lookupWithKeyE = lookupWithKey(E)
+      return (m) => lookupWithKeyE(k, m)
+    }
     const entries = m.entries()
     let e: Next<readonly [K, A]>
     // tslint:disable-next-line: strict-boolean-expressions
