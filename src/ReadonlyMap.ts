@@ -320,18 +320,32 @@ export function lookupWithKey<K>(E: Eq<K>): <A>(k: K, m: ReadonlyMap<K, A>) => O
   }
 }
 
+// TODO: remove non-curried overloading in v3
 /**
  * Lookup the value for a key in a `Map`.
  *
  * @since 2.5.0
  */
-export function lookup<K>(E: Eq<K>): <A>(k: K, m: ReadonlyMap<K, A>) => Option<A> {
+export function lookup<K>(
+  E: Eq<K>
+): {
+  (k: K): <A>(m: ReadonlyMap<K, A>) => Option<A>
+  <A>(k: K, m: ReadonlyMap<K, A>): Option<A>
+}
+export function lookup<K>(
+  E: Eq<K>
+): <A>(k: K, m?: ReadonlyMap<K, A>) => Option<A> | ((m: ReadonlyMap<K, A>) => Option<A>) {
   const lookupWithKeyE = lookupWithKey(E)
-  return (k, m) =>
-    pipe(
+  return (k, m) => {
+    if (m === undefined) {
+      const lookupE = lookup(E)
+      return (m) => lookupE(k, m)
+    }
+    return pipe(
       lookupWithKeyE(k, m),
       O.map(([_, a]) => a)
     )
+  }
 }
 
 /**
