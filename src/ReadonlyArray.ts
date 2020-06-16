@@ -1094,7 +1094,7 @@ export function elem<A>(
   (a: A, as: ReadonlyArray<A>): boolean
 }
 export function elem<A>(E: Eq<A>): (a: A, as?: ReadonlyArray<A>) => boolean | ((as: ReadonlyArray<A>) => boolean) {
-  return (a, as) => {
+  return (a, as?) => {
     if (as === undefined) {
       const elemE = elem(E)
       return (as) => elemE(a, as)
@@ -1329,7 +1329,7 @@ export function union<A>(
   E: Eq<A>
 ): (xs: ReadonlyArray<A>, ys?: ReadonlyArray<A>) => ReadonlyArray<A> | ((ys: ReadonlyArray<A>) => ReadonlyArray<A>) {
   const elemE = elem(E)
-  return (xs, ys) => {
+  return (xs, ys?) => {
     if (ys === undefined) {
       const unionE = union(E)
       return (ys) => unionE(ys, xs)
@@ -1366,7 +1366,7 @@ export function intersection<A>(
   E: Eq<A>
 ): (xs: ReadonlyArray<A>, ys?: ReadonlyArray<A>) => ReadonlyArray<A> | ((ys: ReadonlyArray<A>) => ReadonlyArray<A>) {
   const elemE = elem(E)
-  return (xs, ys) => {
+  return (xs, ys?) => {
     if (ys === undefined) {
       const intersectionE = intersection(E)
       return (ys) => intersectionE(ys, xs)
@@ -1400,7 +1400,7 @@ export function difference<A>(
   E: Eq<A>
 ): (xs: ReadonlyArray<A>, ys?: ReadonlyArray<A>) => ReadonlyArray<A> | ((ys: ReadonlyArray<A>) => ReadonlyArray<A>) {
   const elemE = elem(E)
-  return (xs, ys) => {
+  return (xs, ys?) => {
     if (ys === undefined) {
       const differenceE = difference(E)
       return (ys) => differenceE(ys, xs)
