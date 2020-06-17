@@ -84,6 +84,19 @@ high state of flux, you're at risk of it changing without notice.
     - add `functorMap` instance (@gcanti)
     - add `compactableMap` instance (@gcanti)
     - add `filterableMap` instance (@gcanti)
+  - `NonEmptyArray`
+    - add `functorNonEmptyArray` instance (@gcanti)
+    - add `functorWithIndexNonEmptyArray` instance (@gcanti)
+    - add `applyNonEmptyArray` instance (@gcanti)
+    - add `applicativeNonEmptyArray` instance (@gcanti)
+    - add `monadNonEmptyArray` instance (@gcanti)
+    - add `foldableNonEmptyArray` instance (@gcanti)
+    - add `foldableWithIndexNonEmptyArray` instance (@gcanti)
+    - add `traversableNonEmptyArray` instance (@gcanti)
+    - add `traversableWithIndexNonEmptyArray` instance (@gcanti)
+    - add `altNonEmptyArray` instance (@gcanti)
+    - add `extendNonEmptyArray` instance (@gcanti)
+    - add `comonadNonEmptyArray` instance (@gcanti)
   - `ReadonlyArray`
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)
@@ -106,6 +119,19 @@ high state of flux, you're at risk of it changing without notice.
     - add `functorMap` instance (@gcanti)
     - add `compactableMap` instance (@gcanti)
     - add `filterableMap` instance (@gcanti)
+  - `ReadonlyNonEmptyArray`
+    - add `functorNonEmptyArray` instance (@gcanti)
+    - add `functorWithIndexNonEmptyArray` instance (@gcanti)
+    - add `applyNonEmptyArray` instance (@gcanti)
+    - add `applicativeNonEmptyArray` instance (@gcanti)
+    - add `monadNonEmptyArray` instance (@gcanti)
+    - add `foldableNonEmptyArray` instance (@gcanti)
+    - add `foldableWithIndexNonEmptyArray` instance (@gcanti)
+    - add `traversableNonEmptyArray` instance (@gcanti)
+    - add `traversableWithIndexNonEmptyArray` instance (@gcanti)
+    - add `altNonEmptyArray` instance (@gcanti)
+    - add `extendNonEmptyArray` instance (@gcanti)
+    - add `comonadNonEmptyArray` instance (@gcanti)
 
 # 2.6.7
 

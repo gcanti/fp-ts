@@ -71,30 +71,31 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('mapWithIndex', () => {
     const add = (i: number, n: number) => n + i
-    assert.deepStrictEqual(_.readonlyNonEmptyArray.mapWithIndex([1, 2], add), [1, 3])
+    assert.deepStrictEqual(pipe([1, 2], _.mapWithIndex(add)), [1, 3])
   })
 
   it('of', () => {
-    assert.deepStrictEqual(_.readonlyNonEmptyArray.of(1), [1])
+    assert.deepStrictEqual(_.of(1), [1])
   })
 
   it('ap', () => {
     const double = (n: number) => n * 2
-    assert.deepStrictEqual(_.readonlyNonEmptyArray.ap([double, double], [1, 2]), [2, 4, 2, 4])
+    const fab: _.ReadonlyNonEmptyArray<(n: number) => number> = [double, double]
+    assert.deepStrictEqual(pipe(fab, _.ap([1, 2])), [2, 4, 2, 4])
   })
 
   it('chain', () => {
     const f = (a: number): _.ReadonlyNonEmptyArray<number> => [a, 4]
-    assert.deepStrictEqual(_.readonlyNonEmptyArray.chain([1, 2], f), [1, 4, 2, 4])
+    assert.deepStrictEqual(pipe([1, 2], _.chain(f)), [1, 4, 2, 4])
   })
 
   it('extend', () => {
     const sum = M.fold(M.monoidSum)
-    assert.deepStrictEqual(_.readonlyNonEmptyArray.extend([1, 2, 3, 4], sum), [10, 9, 7, 4])
+    assert.deepStrictEqual(pipe([1, 2, 3, 4], _.extend(sum)), [10, 9, 7, 4])
   })
 
   it('extract', () => {
-    assert.deepStrictEqual(_.readonlyNonEmptyArray.extract([1, 2, 3]), 1)
+    assert.deepStrictEqual(_.extract([1, 2, 3]), 1)
   })
 
   it('min', () => {
@@ -109,21 +110,21 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('reduce', () => {
     assert.deepStrictEqual(
-      _.readonlyNonEmptyArray.reduce(['a', 'b'], '', (b, a) => b + a),
+      pipe(
+        ['a', 'b'],
+        _.reduce('', (b, a) => b + a)
+      ),
       'ab'
     )
   })
 
   it('foldMap', () => {
-    const foldMap = _.readonlyNonEmptyArray.foldMap(M.monoidString)
-    assert.deepStrictEqual(foldMap(['a', 'b', 'c'], identity), 'abc')
+    assert.deepStrictEqual(pipe(['a', 'b', 'c'], _.foldMap(M.monoidString)(identity)), 'abc')
   })
 
   it('reduceRight', () => {
-    const reduceRight = _.readonlyNonEmptyArray.reduceRight
-    const init1 = ''
     const f = (a: string, acc: string) => acc + a
-    assert.deepStrictEqual(reduceRight(['a', 'b', 'c'], init1, f), 'cba')
+    assert.deepStrictEqual(pipe(['a', 'b', 'c'], _.reduceRight('', f)), 'cba')
   })
 
   it('fromReadonlyArray', () => {
@@ -258,21 +259,30 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('reduceWithIndex', () => {
     assert.deepStrictEqual(
-      _.readonlyNonEmptyArray.reduceWithIndex(['a', 'b'], '', (i, b, a) => b + i + a),
+      pipe(
+        ['a', 'b'],
+        _.reduceWithIndex('', (i, b, a) => b + i + a)
+      ),
       '0a1b'
     )
   })
 
   it('foldMapWithIndex', () => {
     assert.deepStrictEqual(
-      _.readonlyNonEmptyArray.foldMapWithIndex(M.monoidString)(['a', 'b'], (i, a) => i + a),
+      pipe(
+        ['a', 'b'],
+        _.foldMapWithIndex(M.monoidString)((i, a) => i + a)
+      ),
       '0a1b'
     )
   })
 
   it('reduceRightWithIndex', () => {
     assert.deepStrictEqual(
-      _.readonlyNonEmptyArray.reduceRightWithIndex(['a', 'b'], '', (i, a, b) => b + i + a),
+      pipe(
+        ['a', 'b'],
+        _.reduceRightWithIndex('', (i, a, b) => b + i + a)
+      ),
       '1b0a'
     )
   })
@@ -294,7 +304,10 @@ describe('ReadonlyNonEmptyArray', () => {
   it('alt / concat', () => {
     assert.deepStrictEqual(_.concat(['a'], []), ['a'])
     assert.deepStrictEqual(
-      _.readonlyNonEmptyArray.alt(['a'], () => ['b']),
+      pipe(
+        ['a'],
+        _.alt(() => ['b'])
+      ),
       ['a', 'b']
     )
   })
