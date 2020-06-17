@@ -2187,7 +2187,6 @@ export const readonlyArray: FunctorWithIndex1<URI, number> &
   Unfoldable1<URI> &
   Alternative1<URI> &
   Extend1<URI> &
-  Compactable1<URI> &
   FilterableWithIndex1<URI, number> &
   FoldableWithIndex1<URI, number> &
   TraversableWithIndex1<URI, number> &

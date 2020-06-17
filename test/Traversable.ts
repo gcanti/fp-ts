@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { array } from '../src/Array'
+import * as A from '../src/ReadonlyArray'
 import { none, option, some } from '../src/Option'
 import { getTraversableComposition } from '../src/Traversable'
 
@@ -9,7 +9,7 @@ export type ArrayOptionURI = typeof ArrayOptionURI
 
 describe('Traversable', () => {
   it('getTraversableComposition', () => {
-    const T = getTraversableComposition(array, option)
+    const T = getTraversableComposition(A.traversableArray, option)
     assert.deepStrictEqual(
       T.traverse(option)([some(1), some(2)], (n: number) => (n <= 2 ? some(n * 2) : none)),
       some([some(2), some(4)])

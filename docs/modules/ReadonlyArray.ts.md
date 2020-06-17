@@ -1445,7 +1445,6 @@ export declare const readonlyArray: FunctorWithIndex1<'ReadonlyArray', number> &
   Unfoldable1<'ReadonlyArray'> &
   Alternative1<'ReadonlyArray'> &
   Extend1<'ReadonlyArray'> &
-  Compactable1<'ReadonlyArray'> &
   FilterableWithIndex1<'ReadonlyArray', number> &
   FoldableWithIndex1<'ReadonlyArray', number> &
   TraversableWithIndex1<'ReadonlyArray', number> &

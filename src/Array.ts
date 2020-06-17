@@ -1,15 +1,20 @@
 /**
  * @since 2.0.0
  */
+import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
+import { Applicative1 } from './Applicative'
+import { Apply1 } from './Apply'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
+import { Filterable1 } from './Filterable'
 import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from './FilterableWithIndex'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { Lazy, Predicate, Refinement } from './function'
+import { Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
@@ -1208,6 +1213,39 @@ export const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => Array
 // instances
 // -------------------------------------------------------------------------------------
 
+const map_: Functor1<URI>['map'] = RA.monadArray.map as any
+const ap_: Apply1<URI>['ap'] = RA.monadArray.ap as any
+const chain_: Monad1<URI>['chain'] = RA.monadArray.chain as any
+const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = RA.functorWithIndexArray.mapWithIndex as any
+const filter_: Filterable1<URI>['filter'] = RA.filterableArray.filter as any
+const filterMap_: Filterable1<URI>['filterMap'] = RA.filterableArray.filterMap as any
+const partition_: Filterable1<URI>['partition'] = RA.filterableArray.partition as any
+const partitionMap_: Filterable1<URI>['partitionMap'] = RA.filterableArray.partitionMap as any
+const filterWithIndex_: FilterableWithIndex1<URI, number>['filterWithIndex'] = RA.filterableWithIndexArray
+  .filterWithIndex as any
+const filterMapWithIndex_: FilterableWithIndex1<URI, number>['filterMapWithIndex'] = RA.filterableWithIndexArray
+  .filterMapWithIndex as any
+const partitionWithIndex_: FilterableWithIndex1<URI, number>['partitionWithIndex'] = RA.filterableWithIndexArray
+  .partitionWithIndex as any
+const partitionMapWithIndex_: FilterableWithIndex1<URI, number>['partitionMapWithIndex'] = RA.filterableWithIndexArray
+  .partitionMapWithIndex as any
+const reduce_: Foldable1<URI>['reduce'] = RA.foldableArray.reduce
+const foldMap_: Foldable1<URI>['foldMap'] = RA.foldableArray.foldMap
+const reduceRight_: Foldable1<URI>['reduceRight'] = RA.foldableArray.reduceRight
+const traverse_: Traversable1<URI>['traverse'] = RA.traversableArray.traverse as any
+const alt_: Alternative1<URI>['alt'] = RA.alternativeArray.alt as any
+const zero_: Alternative1<URI>['zero'] = RA.alternativeArray.zero as any
+const reduceWithIndex_: FoldableWithIndex1<URI, number>['reduceWithIndex'] = RA.foldableWithIndexArray.reduceWithIndex
+const foldMapWithIndex_: FoldableWithIndex1<URI, number>['foldMapWithIndex'] =
+  RA.foldableWithIndexArray.foldMapWithIndex
+const reduceRightWithIndex_: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] =
+  RA.foldableWithIndexArray.reduceRightWithIndex
+const traverseWithIndex_: TraversableWithIndex1<URI, number>['traverseWithIndex'] = RA.traversableWithIndexArray
+  .traverseWithIndex as any
+const extend_: Extend1<URI>['extend'] = RA.extendArray.extend as any
+const wither_: Witherable1<URI>['wither'] = RA.witherableArray.wither as any
+const wilt_: Witherable1<URI>['wilt'] = RA.witherableArray.wilt as any
+
 /**
  * @category instances
  * @since 2.0.0
@@ -1228,24 +1266,268 @@ declare module './HKT' {
 
 /**
  * @category instances
+ * @since 2.7.0
+ */
+export const functorArray: Functor1<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorWithIndexArray: FunctorWithIndex1<URI, number> = {
+  URI,
+  map: map_,
+  mapWithIndex: mapWithIndex_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applyArray: Apply1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeArray: Applicative1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const monadArray: Monad1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const unfoldableArray: Unfoldable1<URI> = {
+  URI,
+  unfold
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const altArray: Alt1<URI> = {
+  URI,
+  map: map_,
+  alt: alt_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const alternativeArray: Alternative1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  alt: alt_,
+  zero: zero_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const extendArray: Extend1<URI> = {
+  URI,
+  map: map_,
+  extend: extend_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const compactableArray: Compactable1<URI> = {
+  URI,
+  compact,
+  separate
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const filterableArray: Filterable1<URI> = {
+  URI,
+  map: map_,
+  compact,
+  separate,
+  filter: filter_,
+  filterMap: filterMap_,
+  partition: partition_,
+  partitionMap: partitionMap_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const filterableWithIndexArray: FilterableWithIndex1<URI, number> = {
+  URI,
+  map: map_,
+  mapWithIndex: mapWithIndex_,
+  compact,
+  separate,
+  filter: filter_,
+  filterMap: filterMap_,
+  partition: partition_,
+  partitionMap: partitionMap_,
+  partitionMapWithIndex: partitionMapWithIndex_,
+  partitionWithIndex: partitionWithIndex_,
+  filterMapWithIndex: filterMapWithIndex_,
+  filterWithIndex: filterWithIndex_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const foldableArray: Foldable1<URI> = {
+  URI,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const foldableWithIndexArray: FoldableWithIndex1<URI, number> = {
+  URI,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  reduceWithIndex: reduceWithIndex_,
+  foldMapWithIndex: foldMapWithIndex_,
+  reduceRightWithIndex: reduceRightWithIndex_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const traversableArray: Traversable1<URI> = {
+  URI,
+  map: map_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  traverse: traverse_,
+  sequence
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const traversableWithIndexArray: TraversableWithIndex1<URI, number> = {
+  URI,
+  map: map_,
+  mapWithIndex: mapWithIndex_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  reduceWithIndex: reduceWithIndex_,
+  foldMapWithIndex: foldMapWithIndex_,
+  reduceRightWithIndex: reduceRightWithIndex_,
+  traverse: traverse_,
+  sequence,
+  traverseWithIndex: traverseWithIndex_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const witherableArray: Witherable1<URI> = {
+  URI,
+  map: map_,
+  compact,
+  separate,
+  filter: filter_,
+  filterMap: filterMap_,
+  partition: partition_,
+  partitionMap: partitionMap_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  traverse: traverse_,
+  sequence,
+  wither: wither_,
+  wilt: wilt_
+}
+
+/**
+ * @category instances
  * @since 2.0.0
  */
-export const array: Monad1<URI> &
-  Foldable1<URI> &
+export const array: FunctorWithIndex1<URI, number> &
+  Monad1<URI> &
   Unfoldable1<URI> &
-  TraversableWithIndex1<URI, number> &
   Alternative1<URI> &
   Extend1<URI> &
-  Compactable1<URI> &
   FilterableWithIndex1<URI, number> &
-  Witherable1<URI> &
-  FunctorWithIndex1<URI, number> &
-  FoldableWithIndex1<URI, number> =
-  /*#__PURE__*/
-  (() => {
-    // tslint:disable-next-line: deprecation
-    return Object.assign({}, RA.readonlyArray as any, { URI })
-  })()
+  FoldableWithIndex1<URI, number> &
+  TraversableWithIndex1<URI, number> &
+  Witherable1<URI> = {
+  URI,
+  compact,
+  separate,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_,
+  filter: filter_,
+  filterMap: filterMap_,
+  partition: partition_,
+  partitionMap: partitionMap_,
+  mapWithIndex: mapWithIndex_,
+  partitionMapWithIndex: partitionMapWithIndex_,
+  partitionWithIndex: partitionWithIndex_,
+  filterMapWithIndex: filterMapWithIndex_,
+  filterWithIndex: filterWithIndex_,
+  alt: alt_,
+  zero: zero_,
+  unfold,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  traverse: traverse_,
+  sequence,
+  reduceWithIndex: reduceWithIndex_,
+  foldMapWithIndex: foldMapWithIndex_,
+  reduceRightWithIndex: reduceRightWithIndex_,
+  traverseWithIndex: traverseWithIndex_,
+  extend: extend_,
+  wither: wither_,
+  wilt: wilt_
+}
 
 // -------------------------------------------------------------------------------------
 // unsafe

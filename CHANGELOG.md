@@ -17,6 +17,24 @@ high state of flux, you're at risk of it changing without notice.
 # 2.7.0
 
 - **New Feature**
+  - `Array`
+    - add `functorArray` instance (@gcanti)
+    - add `functorWithIndexArray` instance (@gcanti)
+    - add `applyArray` instance (@gcanti)
+    - add `applicativeArray` instance (@gcanti)
+    - add `monadArray` instance (@gcanti)
+    - add `unfoldableArray` instance (@gcanti)
+    - add `altArray` instance (@gcanti)
+    - add `alternativeArray` instance (@gcanti)
+    - add `extendArray` instance (@gcanti)
+    - add `compactableArray` instance (@gcanti)
+    - add `filterableArray` instance (@gcanti)
+    - add `filterableWithIndexArray` instance (@gcanti)
+    - add `foldableArray` instance (@gcanti)
+    - add `foldableWithIndexArray` instance (@gcanti)
+    - add `traversableArray` instance (@gcanti)
+    - add `traversableWithIndexArray` instance (@gcanti)
+    - add `witherableArray` instance (@gcanti)
   - `ReadonlyArray`
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)
