@@ -80,6 +80,10 @@ high state of flux, you're at risk of it changing without notice.
     - add `altIOEither` instance (@gcanti)
     - add `monadIOIOEither` instance (@gcanti)
     - add `monadThrowIOEither` instance (@gcanti)
+  - `Map`
+    - add `functorMap` instance (@gcanti)
+    - add `compactableMap` instance (@gcanti)
+    - add `filterableMap` instance (@gcanti)
   - `ReadonlyArray`
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)
@@ -98,6 +102,10 @@ high state of flux, you're at risk of it changing without notice.
     - add `traversableArray` instance (@gcanti)
     - add `traversableWithIndexArray` instance (@gcanti)
     - add `witherableArray` instance (@gcanti)
+  - `ReadonlyMap`
+    - add `functorMap` instance (@gcanti)
+    - add `compactableMap` instance (@gcanti)
+    - add `filterableMap` instance (@gcanti)
 
 # 2.6.7
 

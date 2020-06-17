@@ -2,13 +2,14 @@
  * @since 2.5.0
  */
 import { Applicative } from './Applicative'
-import { Separated } from './Compactable'
+import { Compactable2, Separated } from './Compactable'
 import { Either, isLeft } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Filterable2 } from './Filterable'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
-import { Predicate, Refinement, pipe } from './function'
+import { pipe, Predicate, Refinement } from './function'
+import { Functor2 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
@@ -860,6 +861,41 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
   }
 }
 
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorMap: Functor2<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const compactableMap: Compactable2<URI> = {
+  URI,
+  compact,
+  separate
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const filterableMap: Filterable2<URI> = {
+  URI,
+  map: map_,
+  compact,
+  separate,
+  filter: filter_,
+  filterMap: filterMap_,
+  partition: partition_,
+  partitionMap: partitionMap_
+}
+
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.5.0
