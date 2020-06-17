@@ -15,7 +15,7 @@ import {
   RefinementWithIndex
 } from './FilterableWithIndex'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { identity, Predicate, Refinement } from './function'
+import { identity, Lazy, Predicate, Refinement } from './function'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
@@ -24,10 +24,10 @@ import { isSome, none, Option, some } from './Option'
 import { fromCompare, getMonoid as getOrdMonoid, Ord, ordNumber } from './Ord'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Show } from './Show'
-import { TraversableWithIndex1, PipeableTraverseWithIndex1 } from './TraversableWithIndex'
+import { PipeableTraverse1, Traversable1 } from './Traversable'
+import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
-import { Witherable1, PipeableWither1, PipeableWilt1 } from './Witherable'
-import { Traversable1, PipeableTraverse1 } from './Traversable'
+import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -262,7 +262,7 @@ export function flatten<A>(mma: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<
  * @since 2.5.0
  */
 export function foldLeft<A, B>(
-  onNil: () => B,
+  onNil: Lazy<B>,
   onCons: (head: A, tail: ReadonlyArray<A>) => B
 ): (as: ReadonlyArray<A>) => B {
   return (as) => (isEmpty(as) ? onNil() : onCons(as[0], as.slice(1)))
@@ -275,7 +275,7 @@ export function foldLeft<A, B>(
  * @since 2.5.0
  */
 export function foldRight<A, B>(
-  onNil: () => B,
+  onNil: Lazy<B>,
   onCons: (init: ReadonlyArray<A>, last: A) => B
 ): (as: ReadonlyArray<A>) => B {
   return (as) => (isEmpty(as) ? onNil() : onCons(as.slice(0, as.length - 1), as[as.length - 1]))
@@ -1487,7 +1487,8 @@ const partitionMapWithIndex_ = <A, B, C>(
   }
 }
 
-const alt_: <A>(fx: ReadonlyArray<A>, fy: () => ReadonlyArray<A>) => ReadonlyArray<A> = (fx, f) => concat(fx, f())
+const alt_: <A>(fa: ReadonlyArray<A>, that: Lazy<ReadonlyArray<A>>) => ReadonlyArray<A> = (fa, that) =>
+  concat(fa, that())
 
 const zero_: <A>() => ReadonlyArray<A> = () => empty
 
@@ -1607,7 +1608,7 @@ const wilt_ = <F>(
  * @category Alt
  * @since 2.5.0
  */
-export const alt: <A>(that: () => ReadonlyArray<A>) => (fa: ReadonlyArray<A>) => ReadonlyArray<A> = (that) => (fa) =>
+export const alt: <A>(that: Lazy<ReadonlyArray<A>>) => (fa: ReadonlyArray<A>) => ReadonlyArray<A> = (that) => (fa) =>
   alt_(fa, that)
 
 /**

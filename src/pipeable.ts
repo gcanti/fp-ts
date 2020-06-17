@@ -1,19 +1,19 @@
 /**
  * @since 2.0.0
  */
-import { Alt, Alt1, Alt2, Alt2C, Alt3, Alt4, Alt3C } from './Alt'
-import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply4, Apply3C } from './Apply'
-import { Bifunctor, Bifunctor2, Bifunctor3, Bifunctor4, Bifunctor3C } from './Bifunctor'
-import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain4, Chain3C } from './Chain'
+import { Alt, Alt1, Alt2, Alt2C, Alt3, Alt3C, Alt4 } from './Alt'
+import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, Apply4 } from './Apply'
+import { Bifunctor, Bifunctor2, Bifunctor3, Bifunctor3C, Bifunctor4 } from './Bifunctor'
+import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4 } from './Chain'
 import {
   Compactable,
   Compactable1,
   Compactable2,
   Compactable2C,
   Compactable3,
+  Compactable3C,
   Compactable4,
-  Separated,
-  Compactable3C
+  Separated
 } from './Compactable'
 import {
   Contravariant,
@@ -21,19 +21,19 @@ import {
   Contravariant2,
   Contravariant2C,
   Contravariant3,
-  Contravariant4,
-  Contravariant3C
+  Contravariant3C,
+  Contravariant4
 } from './Contravariant'
 import { Either } from './Either'
-import { Extend, Extend1, Extend2, Extend2C, Extend3, Extend4, Extend3C } from './Extend'
+import { Extend, Extend1, Extend2, Extend2C, Extend3, Extend3C, Extend4 } from './Extend'
 import {
   Filterable,
   Filterable1,
   Filterable2,
   Filterable2C,
   Filterable3,
-  Filterable4,
-  Filterable3C
+  Filterable3C,
+  Filterable4
 } from './Filterable'
 import {
   FilterableWithIndex,
@@ -41,31 +41,31 @@ import {
   FilterableWithIndex2,
   FilterableWithIndex2C,
   FilterableWithIndex3,
+  FilterableWithIndex3C,
   FilterableWithIndex4,
   PredicateWithIndex,
-  RefinementWithIndex,
-  FilterableWithIndex3C
+  RefinementWithIndex
 } from './FilterableWithIndex'
-import { Foldable, Foldable1, Foldable2, Foldable2C, Foldable3, Foldable4, Foldable3C } from './Foldable'
+import { Foldable, Foldable1, Foldable2, Foldable2C, Foldable3, Foldable3C, Foldable4 } from './Foldable'
 import {
   FoldableWithIndex,
   FoldableWithIndex1,
   FoldableWithIndex2,
   FoldableWithIndex2C,
   FoldableWithIndex3,
-  FoldableWithIndex4,
-  FoldableWithIndex3C
+  FoldableWithIndex3C,
+  FoldableWithIndex4
 } from './FoldableWithIndex'
-import { identity, pipe as pipeFromFunctionModule, Predicate, Refinement } from './function'
-import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor4, Functor3C } from './Functor'
+import { identity, Lazy, pipe as pipeFromFunctionModule, Predicate, Refinement } from './function'
+import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
 import {
   FunctorWithIndex,
   FunctorWithIndex1,
   FunctorWithIndex2,
   FunctorWithIndex2C,
   FunctorWithIndex3,
-  FunctorWithIndex4,
-  FunctorWithIndex3C
+  FunctorWithIndex3C,
+  FunctorWithIndex4
 } from './FunctorWithIndex'
 import { HKT, HKT2, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import {
@@ -74,19 +74,19 @@ import {
   MonadThrow2,
   MonadThrow2C,
   MonadThrow3,
-  MonadThrow4,
-  MonadThrow3C
+  MonadThrow3C,
+  MonadThrow4
 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
-import { Profunctor, Profunctor2, Profunctor2C, Profunctor3, Profunctor4, Profunctor3C } from './Profunctor'
+import { Profunctor, Profunctor2, Profunctor2C, Profunctor3, Profunctor3C, Profunctor4 } from './Profunctor'
 import {
   Semigroupoid,
   Semigroupoid2,
   Semigroupoid2C,
   Semigroupoid3,
-  Semigroupoid4,
-  Semigroupoid3C
+  Semigroupoid3C,
+  Semigroupoid4
 } from './Semigroupoid'
 
 // TODO: remove module in v3
@@ -608,49 +608,49 @@ export interface PipeableFoldableWithIndex4<F extends URIS4, I> extends Pipeable
  * @since 2.0.0
  */
 export interface PipeableAlt<F> {
-  readonly alt: <A>(that: () => HKT<F, A>) => (fa: HKT<F, A>) => HKT<F, A>
+  readonly alt: <A>(that: Lazy<HKT<F, A>>) => (fa: HKT<F, A>) => HKT<F, A>
 }
 
 /**
  * @since 2.0.0
  */
 export interface PipeableAlt1<F extends URIS> {
-  readonly alt: <A>(that: () => Kind<F, A>) => (fa: Kind<F, A>) => Kind<F, A>
+  readonly alt: <A>(that: Lazy<Kind<F, A>>) => (fa: Kind<F, A>) => Kind<F, A>
 }
 
 /**
  * @since 2.0.0
  */
 export interface PipeableAlt2<F extends URIS2> {
-  readonly alt: <E, A>(that: () => Kind2<F, E, A>) => (fa: Kind2<F, E, A>) => Kind2<F, E, A>
+  readonly alt: <E, A>(that: Lazy<Kind2<F, E, A>>) => (fa: Kind2<F, E, A>) => Kind2<F, E, A>
 }
 
 /**
  * @since 2.0.0
  */
 export interface PipeableAlt2C<F extends URIS2, E> {
-  readonly alt: <A>(that: () => Kind2<F, E, A>) => (fa: Kind2<F, E, A>) => Kind2<F, E, A>
+  readonly alt: <A>(that: Lazy<Kind2<F, E, A>>) => (fa: Kind2<F, E, A>) => Kind2<F, E, A>
 }
 
 /**
  * @since 2.0.0
  */
 export interface PipeableAlt3<F extends URIS3> {
-  readonly alt: <R, E, A>(that: () => Kind3<F, R, E, A>) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+  readonly alt: <R, E, A>(that: Lazy<Kind3<F, R, E, A>>) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
 }
 
 /**
  * @since 2.2.0
  */
 export interface PipeableAlt3C<F extends URIS3, E> {
-  readonly alt: <R, A>(that: () => Kind3<F, R, E, A>) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+  readonly alt: <R, A>(that: Lazy<Kind3<F, R, E, A>>) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
 }
 
 /**
  * @since 2.0.0
  */
 export interface PipeableAlt4<F extends URIS4> {
-  readonly alt: <S, R, E, A>(that: () => Kind4<F, S, R, E, A>) => (fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
+  readonly alt: <S, R, E, A>(that: Lazy<Kind4<F, S, R, E, A>>) => (fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
 }
 
 /**
@@ -1088,7 +1088,7 @@ export interface PipeableSemigroupoid4<F extends URIS4> {
  * @since 2.0.0
  */
 export interface PipeableMonadThrow<F> {
-  readonly fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => HKT<F, A>
+  readonly fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => HKT<F, A>
   readonly fromEither: <E, A>(ma: Either<E, A>) => HKT<F, A>
   readonly fromPredicate: {
     <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => HKT<F, B>
@@ -1104,7 +1104,7 @@ export interface PipeableMonadThrow<F> {
  * @since 2.0.0
  */
 export interface PipeableMonadThrow1<F extends URIS> {
-  readonly fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => Kind<F, A>
+  readonly fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Kind<F, A>
   readonly fromEither: <E, A>(ma: Either<E, A>) => Kind<F, A>
   readonly fromPredicate: {
     <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind<F, B>
@@ -1120,7 +1120,7 @@ export interface PipeableMonadThrow1<F extends URIS> {
  * @since 2.0.0
  */
 export interface PipeableMonadThrow2<F extends URIS2> {
-  readonly fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => Kind2<F, E, A>
+  readonly fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Kind2<F, E, A>
   readonly fromEither: <E, A>(ma: Either<E, A>) => Kind2<F, E, A>
   readonly fromPredicate: {
     <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>
@@ -1136,7 +1136,7 @@ export interface PipeableMonadThrow2<F extends URIS2> {
  * @since 2.0.0
  */
 export interface PipeableMonadThrow2C<F extends URIS2, E> {
-  readonly fromOption: (onNone: () => E) => <A>(ma: Option<A>) => Kind2<F, E, A>
+  readonly fromOption: (onNone: Lazy<E>) => <A>(ma: Option<A>) => Kind2<F, E, A>
   readonly fromEither: <A>(ma: Either<E, A>) => Kind2<F, E, A>
   readonly fromPredicate: {
     <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>
@@ -1152,7 +1152,7 @@ export interface PipeableMonadThrow2C<F extends URIS2, E> {
  * @since 2.0.0
  */
 export interface PipeableMonadThrow3<F extends URIS3> {
-  readonly fromOption: <E>(onNone: () => E) => <R, A>(ma: Option<A>) => Kind3<F, R, E, A>
+  readonly fromOption: <E>(onNone: Lazy<E>) => <R, A>(ma: Option<A>) => Kind3<F, R, E, A>
   readonly fromEither: <R, E, A>(ma: Either<E, A>) => Kind3<F, R, E, A>
   readonly fromPredicate: {
     <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => Kind3<F, U, E, B>
@@ -1170,7 +1170,7 @@ export interface PipeableMonadThrow3<F extends URIS3> {
  * @since 2.2.0
  */
 export interface PipeableMonadThrow3C<F extends URIS3, E> {
-  readonly fromOption: (onNone: () => E) => <R, A>(ma: Option<A>) => Kind3<F, R, E, A>
+  readonly fromOption: (onNone: Lazy<E>) => <R, A>(ma: Option<A>) => Kind3<F, R, E, A>
   readonly fromEither: <R, A>(ma: Either<E, A>) => Kind3<F, R, E, A>
   readonly fromPredicate: {
     <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => Kind3<F, U, E, B>
@@ -1188,7 +1188,7 @@ export interface PipeableMonadThrow3C<F extends URIS3, E> {
  * @since 2.0.0
  */
 export interface PipeableMonadThrow4<F extends URIS4> {
-  readonly fromOption: <E>(onNone: () => E) => <S, R, A>(ma: Option<A>) => Kind4<F, S, R, E, A>
+  readonly fromOption: <E>(onNone: Lazy<E>) => <S, R, A>(ma: Option<A>) => Kind4<F, S, R, E, A>
   readonly fromEither: <S, R, E, A>(ma: Either<E, A>) => Kind4<F, S, R, E, A>
   readonly fromPredicate: {
     <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(a: A) => Kind4<F, S, R, E, B>

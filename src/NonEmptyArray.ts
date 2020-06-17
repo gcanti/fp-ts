@@ -7,7 +7,7 @@ import { Alt1 } from './Alt'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { Predicate, Refinement } from './function'
+import { Lazy, Predicate, Refinement } from './function'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { Monad1 } from './Monad'
 import { Option } from './Option'
@@ -15,8 +15,8 @@ import { Ord } from './Ord'
 import * as RNEA from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
-import { TraversableWithIndex1, PipeableTraverseWithIndex1 } from './TraversableWithIndex'
-import { Traversable1, PipeableTraverse1 } from './Traversable'
+import { PipeableTraverse1, Traversable1 } from './Traversable'
+import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
 
 /* tslint:disable:readonly-array */
 
@@ -334,7 +334,7 @@ export const foldMap: <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmp
  * @category Alt
  * @since 2.6.2
  */
-export const alt: <A>(that: () => NonEmptyArray<A>) => (fa: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.alt as any
+export const alt: <A>(that: Lazy<NonEmptyArray<A>>) => (fa: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.alt as any
 
 /**
  * Apply a function to an argument under a type constructor.

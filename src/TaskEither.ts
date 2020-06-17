@@ -99,7 +99,7 @@ export const fromEither: <E, A>(ma: E.Either<E, A>) => TaskEither<E, A> = (ma) =
  * @category constructors
  * @since 2.0.0
  */
-export const fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => TaskEither<E, A> = (onNone) => (ma) =>
+export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskEither<E, A> = (onNone) => (ma) =>
   ma._tag === 'None' ? left(onNone()) : right(ma.value)
 
 /**
@@ -433,7 +433,7 @@ export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither
  * @category Alt
  * @since 2.0.0
  */
-export const alt: <E, A>(that: () => TaskEither<E, A>) => (fa: TaskEither<E, A>) => TaskEither<E, A> = (that) =>
+export const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>) => TaskEither<E, A> = (that) =>
   T.chain(E.fold(that, right))
 
 /**

@@ -4,7 +4,7 @@
 import { Alt4 } from './Alt'
 import { Bifunctor4 } from './Bifunctor'
 import { Either } from './Either'
-import { identity, pipe, Predicate, Refinement } from './function'
+import { identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad4 } from './Monad'
@@ -199,7 +199,7 @@ export const fromEither: <S, R, E, A>(ma: Either<E, A>) => StateReaderTaskEither
  * @category constructors
  * @since 2.0.0
  */
-export const fromOption: <E>(onNone: () => E) => <S, R, A>(ma: Option<A>) => StateReaderTaskEither<S, R, E, A> = (
+export const fromOption: <E>(onNone: Lazy<E>) => <S, R, A>(ma: Option<A>) => StateReaderTaskEither<S, R, E, A> = (
   onNone
 ) => (ma) => (ma._tag === 'None' ? left(onNone()) : right(ma.value))
 
@@ -499,7 +499,7 @@ export const flatten: <S, R, E, A>(
  * @since 2.6.2
  */
 export const alt: <S, R, E, A>(
-  that: () => StateReaderTaskEither<S, R, E, A>
+  that: Lazy<StateReaderTaskEither<S, R, E, A>>
 ) => (fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = (that) => (fa) => (s) =>
   pipe(
     fa(s),
@@ -537,12 +537,12 @@ const chain_: Monad4<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 const of = right
 /* istanbul ignore next */
 const alt_: <S, R, E, A>(
-  fx: StateReaderTaskEither<S, R, E, A>,
-  fy: () => StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, A> = (fx, fy) => (s) =>
+  fa: StateReaderTaskEither<S, R, E, A>,
+  that: Lazy<StateReaderTaskEither<S, R, E, A>>
+) => StateReaderTaskEither<S, R, E, A> = (fa, that) => (s) =>
   pipe(
-    fx(s),
-    RTE.alt(() => fy()(s))
+    fa(s),
+    RTE.alt(() => that()(s))
   )
 
 const bimap_: <S, R, E, A, G, B>(

@@ -233,7 +233,7 @@ export const fromEither: <E, A>(ma: Either<E, A>) => Option<A> = (ma) => (ma._ta
  * @category destructors
  * @since 2.0.0
  */
-export function fold<A, B>(onNone: () => B, onSome: (a: A) => B): (ma: Option<A>) => B {
+export function fold<A, B>(onNone: Lazy<B>, onSome: (a: A) => B): (ma: Option<A>) => B {
   return (ma) => (isNone(ma) ? onNone() : onSome(ma.value))
 }
 
@@ -301,7 +301,7 @@ export function toUndefined<A>(ma: Option<A>): A | undefined {
  * @category destructors
  * @since 2.6.0
  */
-export const getOrElseW = <B>(onNone: () => B) => <A>(ma: Option<A>): A | B => (isNone(ma) ? onNone() : ma.value)
+export const getOrElseW = <B>(onNone: Lazy<B>) => <A>(ma: Option<A>): A | B => (isNone(ma) ? onNone() : ma.value)
 
 /**
  * Extracts the value out of the structure, if it exists. Otherwise returns the given default value
@@ -328,7 +328,7 @@ export const getOrElseW = <B>(onNone: () => B) => <A>(ma: Option<A>): A | B => (
  * @category destructors
  * @since 2.0.0
  */
-export const getOrElse: <A>(onNone: () => A) => (ma: Option<A>) => A = getOrElseW
+export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElseW
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -401,7 +401,7 @@ const reduceRight_: <A, B>(fa: Option<A>, b: B, f: (a: A, b: B) => B) => B = (fa
 const traverse_ = <F>(F: Applicative<F>) => <A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>): HKT<F, Option<B>> => {
   return isNone(ta) ? F.of(none) : F.map(f(ta.value), some)
 }
-const alt_: <A>(fx: Option<A>, fy: () => Option<A>) => Option<A> = (ma, f) => (isNone(ma) ? f() : ma)
+const alt_: <A>(fa: Option<A>, that: Lazy<Option<A>>) => Option<A> = (fa, that) => (isNone(fa) ? that() : fa)
 const filter_ = <A>(fa: Option<A>, predicate: Predicate<A>): Option<A> =>
   isNone(fa) ? none : predicate(fa.value) ? fa : none
 const filterMap_: <A, B>(fa: Option<A>, f: (a: A) => Option<B>) => Option<B> = (ma, f) =>
@@ -526,7 +526,7 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = (mma) => chain_
  * @category Alt
  * @since 2.0.0
  */
-export const alt: <A>(that: () => Option<A>) => (fa: Option<A>) => Option<A> = (that) => (fa) => alt_(fa, that)
+export const alt: <A>(that: Lazy<Option<A>>) => (fa: Option<A>) => Option<A> = (that) => (fa) => alt_(fa, that)
 
 /**
  * @category Extend

@@ -9,7 +9,7 @@ import { Extend1 } from './Extend'
 import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from './FilterableWithIndex'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { Predicate, Refinement } from './function'
+import { Lazy, Predicate, Refinement } from './function'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
@@ -157,7 +157,7 @@ export const flatten: <A>(mma: Array<Array<A>>) => Array<A> = RA.flatten as any
  * @since 2.0.0
  */
 export const foldLeft: <A, B>(
-  onNil: () => B,
+  onNil: Lazy<B>,
   onCons: (head: A, tail: Array<A>) => B
 ) => (as: Array<A>) => B = RA.foldLeft as any
 
@@ -168,7 +168,7 @@ export const foldLeft: <A, B>(
  * @since 2.0.0
  */
 export const foldRight: <A, B>(
-  onNil: () => B,
+  onNil: Lazy<B>,
   onCons: (init: Array<A>, last: A) => B
 ) => (as: Array<A>) => B = RA.foldRight as any
 
@@ -1099,7 +1099,7 @@ export const partitionMapWithIndex: <A, B, C>(
  * @category Alt
  * @since 2.0.0
  */
-export const alt: <A>(that: () => Array<A>) => (fa: Array<A>) => Array<A> = RA.alt as any
+export const alt: <A>(that: Lazy<Array<A>>) => (fa: Array<A>) => Array<A> = RA.alt as any
 
 /**
  * @category FilterableWithIndex
