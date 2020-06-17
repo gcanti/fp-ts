@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import * as A from '../src/ReadonlyArray'
 import { foldM, getFoldableComposition, intercalate, traverse_ } from '../src/Foldable'
-import { io } from '../src/IO'
+import * as I from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import * as option from '../src/Option'
 
@@ -54,7 +54,7 @@ describe('Foldable', () => {
   it('traverse_', () => {
     let log = ''
     const append = (s: String) => () => (log += s)
-    traverse_(io, A.foldableArray)(['a', 'b', 'c'], append)()
+    traverse_(I.applicativeIO, A.foldableArray)(['a', 'b', 'c'], append)()
     assert.deepStrictEqual(log, 'abc')
   })
 

@@ -780,7 +780,7 @@ describe('ReadonlyMap', () => {
         log.push(message)
       }
 
-      W.traverseWithIndex(IO.io)(
+      W.traverseWithIndex(IO.applicativeIO)(
         new Map([
           ['b', append('b')],
           ['a', append('a')]

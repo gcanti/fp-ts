@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import * as A from '../src/Array'
 import * as E from '../src/Either'
-import { io } from '../src/IO'
+import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import { monoidSum } from '../src/Monoid'
 import { none, some } from '../src/Option'
@@ -218,7 +218,7 @@ describe('ReaderTaskEither', () => {
   })
 
   it('leftIO', async () => {
-    const e = await _.run(_.leftIO(io.of(1)), {})
+    const e = await _.run(_.leftIO(I.of(1)), {})
     assert.deepStrictEqual(e, E.left(1))
   })
 
