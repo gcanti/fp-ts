@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import { sequenceS, sequenceT } from '../src/Apply'
 import * as A from '../src/ReadonlyArray'
-import { either, getValidation, left, right } from '../src/Either'
+import * as E from '../src/Either'
 import { none, option, some } from '../src/Option'
 import { pipe } from '../src/function'
 
@@ -47,16 +47,19 @@ describe('Apply', () => {
     assert.deepStrictEqual(adoOption({ a: some(1), b: some(2) }), some({ a: 1, b: 2 }))
     assert.deepStrictEqual(adoOption({ a: some(1), b: none }), none)
 
-    const adoEither = sequenceS(either)
-    assert.deepStrictEqual(adoEither({ a: right(1) }), right({ a: 1 }))
-    assert.deepStrictEqual(adoEither({ a: right(1), b: right(2) }), right({ a: 1, b: 2 }))
-    assert.deepStrictEqual(adoEither({ a: right(1), b: left('error') }), left('error'))
+    const adoEither = sequenceS(E.applyEither)
+    assert.deepStrictEqual(adoEither({ a: E.right(1) }), E.right({ a: 1 }))
+    assert.deepStrictEqual(adoEither({ a: E.right(1), b: E.right(2) }), E.right({ a: 1, b: 2 }))
+    assert.deepStrictEqual(adoEither({ a: E.right(1), b: E.left('error') }), E.left('error'))
 
-    const adoValidation = sequenceS(getValidation(A.getMonoid<string>()))
-    assert.deepStrictEqual(adoValidation({ a: right(1) }), right({ a: 1 }))
-    assert.deepStrictEqual(adoValidation({ a: right(1), b: right(2) }), right({ a: 1, b: 2 }))
-    assert.deepStrictEqual(adoValidation({ a: right(1), b: left(['error']) }), left(['error']))
-    assert.deepStrictEqual(adoValidation({ a: left(['error1']), b: left(['error2']) }), left(['error1', 'error2']))
+    const adoValidation = sequenceS(E.getValidation(A.getMonoid<string>()))
+    assert.deepStrictEqual(adoValidation({ a: E.right(1) }), E.right({ a: 1 }))
+    assert.deepStrictEqual(adoValidation({ a: E.right(1), b: E.right(2) }), E.right({ a: 1, b: 2 }))
+    assert.deepStrictEqual(adoValidation({ a: E.right(1), b: E.left(['error']) }), E.left(['error']))
+    assert.deepStrictEqual(
+      adoValidation({ a: E.left(['error1']), b: E.left(['error2']) }),
+      E.left(['error1', 'error2'])
+    )
 
     // #914
     const a1: ReadonlyArray<number> = [1, 2, 3]

@@ -14,7 +14,7 @@
  * @since 2.0.0
  */
 import { Alt2, Alt2C } from './Alt'
-import { Applicative } from './Applicative'
+import { Applicative, Applicative2 } from './Applicative'
 import { Apply2 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, ChainRec2C, tailRec } from './ChainRec'
@@ -23,6 +23,7 @@ import { Eq } from './Eq'
 import { Extend2 } from './Extend'
 import { Foldable2 } from './Foldable'
 import { identity, Lazy, Predicate, Refinement } from './function'
+import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2, Monad2C } from './Monad'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
@@ -499,24 +500,6 @@ export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) =>
 // instances
 // -------------------------------------------------------------------------------------
 
-/**
- * @category instances
- * @since 2.0.0
- */
-export const URI = 'Either'
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly [URI]: Either<E, A>
-  }
-}
-
 const map_: <E, A, B>(fa: Either<E, A>, f: (a: A) => B) => Either<E, B> = (ma, f) =>
   isLeft(ma) ? ma : right(f(ma.right))
 const ap_: <E, A, B>(fab: Either<E, (a: A) => B>, fa: Either<E, A>) => Either<E, B> = (mab, ma) =>
@@ -551,12 +534,21 @@ const chainRec_: <E, A, B>(a: A, f: (a: A) => Either<E, Either<A, B>>) => Either
 const throwError_ = left
 
 /**
- * @internal
+ * @category instances
+ * @since 2.0.0
  */
-export const applyEither: Apply2<URI> = {
-  URI,
-  map: map_,
-  ap: ap_
+export const URI = 'Either'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: Either<E, A>
+  }
 }
 
 /**
@@ -789,6 +781,128 @@ export function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>)
         ? fy
         : right(SA.concat(fx.right, fy.right))
   }
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorEither: Functor2<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applyEither: Apply2<URI> = {
+  URI,
+  map: map_,
+  ap: ap_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeEither: Applicative2<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const monadEither: Monad2<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const foldableEither: Foldable2<URI> = {
+  URI,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const traversableEither: Traversable2<URI> = {
+  URI,
+  map: map_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  traverse: traverse_,
+  sequence
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const bifunctorEither: Bifunctor2<URI> = {
+  URI,
+  bimap: bimap_,
+  mapLeft: mapLeft_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const altEither: Alt2<URI> = {
+  URI,
+  map: map_,
+  alt: alt_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const extendEither: Extend2<URI> = {
+  URI,
+  map: map_,
+  extend: extend_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const chainRecEither: ChainRec2<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  chain: chain_,
+  chainRec: chainRec_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const monadThrowEither: MonadThrow2<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_,
+  throwError: throwError_
 }
 
 /**

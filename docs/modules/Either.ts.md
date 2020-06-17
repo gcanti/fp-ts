@@ -73,7 +73,15 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [altEither](#alteither)
+  - [applicativeEither](#applicativeeither)
+  - [applyEither](#applyeither)
+  - [bifunctorEither](#bifunctoreither)
+  - [chainRecEither](#chainreceither)
   - [either](#either)
+  - [extendEither](#extendeither)
+  - [foldableEither](#foldableeither)
+  - [functorEither](#functoreither)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getEq](#geteq)
@@ -83,6 +91,9 @@ Added in v2.0.0
   - [getValidationMonoid](#getvalidationmonoid)
   - [getValidationSemigroup](#getvalidationsemigroup)
   - [getWitherable](#getwitherable)
+  - [monadEither](#monadeither)
+  - [monadThrowEither](#monadthroweither)
+  - [traversableEither](#traversableeither)
 - [model](#model)
   - [Either (type alias)](#either-type-alias)
   - [Left (interface)](#left-interface)
@@ -616,6 +627,56 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
+## altEither
+
+**Signature**
+
+```ts
+export declare const altEither: Alt2<'Either'>
+```
+
+Added in v2.7.0
+
+## applicativeEither
+
+**Signature**
+
+```ts
+export declare const applicativeEither: Applicative2<'Either'>
+```
+
+Added in v2.7.0
+
+## applyEither
+
+**Signature**
+
+```ts
+export declare const applyEither: Apply2<'Either'>
+```
+
+Added in v2.7.0
+
+## bifunctorEither
+
+**Signature**
+
+```ts
+export declare const bifunctorEither: Bifunctor2<'Either'>
+```
+
+Added in v2.7.0
+
+## chainRecEither
+
+**Signature**
+
+```ts
+export declare const chainRecEither: ChainRec2<'Either'>
+```
+
+Added in v2.7.0
+
 ## either
 
 **Signature**
@@ -632,6 +693,36 @@ export declare const either: Monad2<'Either'> &
 ```
 
 Added in v2.0.0
+
+## extendEither
+
+**Signature**
+
+```ts
+export declare const extendEither: Extend2<'Either'>
+```
+
+Added in v2.7.0
+
+## foldableEither
+
+**Signature**
+
+```ts
+export declare const foldableEither: Foldable2<'Either'>
+```
+
+Added in v2.7.0
+
+## functorEither
+
+**Signature**
+
+```ts
+export declare const functorEither: Functor2<'Either'>
+```
+
+Added in v2.7.0
 
 ## getApplyMonoid
 
@@ -765,6 +856,36 @@ export declare function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E>
 ```
 
 Added in v2.0.0
+
+## monadEither
+
+**Signature**
+
+```ts
+export declare const monadEither: Monad2<'Either'>
+```
+
+Added in v2.7.0
+
+## monadThrowEither
+
+**Signature**
+
+```ts
+export declare const monadThrowEither: MonadThrow2<'Either'>
+```
+
+Added in v2.7.0
+
+## traversableEither
+
+**Signature**
+
+```ts
+export declare const traversableEither: Traversable2<'Either'>
+```
+
+Added in v2.7.0
 
 # model
 

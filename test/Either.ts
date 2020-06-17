@@ -10,6 +10,12 @@ import * as T from '../src/Task'
 
 describe('Either', () => {
   describe('pipeables', () => {
+    it('mapLeft', () => {
+      const double = (n: number): number => n * 2
+      assert.deepStrictEqual(pipe(_.right('bar'), _.mapLeft(double)), _.right('bar'))
+      assert.deepStrictEqual(pipe(_.left(2), _.mapLeft(double)), _.left(4))
+    })
+
     it('alt', () => {
       assert.deepStrictEqual(
         pipe(
@@ -303,14 +309,6 @@ describe('Either', () => {
     assert.deepStrictEqual(_.stringifyJSON(person, _.toError), _.right('{"name":"Giulio","age":45}'))
   })
 
-  describe('Bifunctor', () => {
-    it('mapLeft', () => {
-      const double = (n: number): number => n * 2
-      assert.deepStrictEqual(_.either.mapLeft(_.right('bar'), double), _.right('bar'))
-      assert.deepStrictEqual(_.either.mapLeft(_.left(2), double), _.left(4))
-    })
-  })
-
   describe('lifting functions', () => {
     it('fromPredicate', () => {
       const gt2 = _.fromPredicate(
@@ -366,7 +364,7 @@ describe('Either', () => {
 
   describe('ChainRec', () => {
     it('chainRec', () => {
-      const chainRec = _.either.chainRec
+      const chainRec = _.chainRecEither.chainRec
       assert.deepStrictEqual(
         chainRec(1, () => _.left('foo')),
         _.left('foo')
