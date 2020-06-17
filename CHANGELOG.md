@@ -35,6 +35,10 @@ high state of flux, you're at risk of it changing without notice.
     - add `traversableArray` instance (@gcanti)
     - add `traversableWithIndexArray` instance (@gcanti)
     - add `witherableArray` instance (@gcanti)
+  - `Const`
+    - add `functorConst` instance (@gcanti)
+    - add `contravariantConst` instance (@gcanti)
+    - add `bifunctorConst` instance (@gcanti)
   - `ReadonlyArray`
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)

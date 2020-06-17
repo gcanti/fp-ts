@@ -19,7 +19,7 @@ describe('pipeable', () => {
   })
 
   it('Contravariant', () => {
-    const { contramap } = pipeable(C.const_)
+    const { contramap } = pipeable(C.contravariantConst)
     assert.deepStrictEqual(contramap((s: string) => s.length * 2)(C.make(1)), 1)
   })
 

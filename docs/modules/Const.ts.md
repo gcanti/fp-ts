@@ -30,7 +30,10 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [bifunctorConst](#bifunctorconst)
   - [const\_](#const_)
+  - [contravariantConst](#contravariantconst)
+  - [functorConst](#functorconst)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getBooleanAlgebra](#getbooleanalgebra)
@@ -135,6 +138,16 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
+## bifunctorConst
+
+**Signature**
+
+```ts
+export declare const bifunctorConst: Bifunctor2<'Const'>
+```
+
+Added in v2.7.0
+
 ## const\_
 
 **Signature**
@@ -144,6 +157,26 @@ export declare const const_: Functor2<'Const'> & Contravariant2<'Const'> & Bifun
 ```
 
 Added in v2.0.0
+
+## contravariantConst
+
+**Signature**
+
+```ts
+export declare const contravariantConst: Contravariant2<'Const'>
+```
+
+Added in v2.7.0
+
+## functorConst
+
+**Signature**
+
+```ts
+export declare const functorConst: Functor2<'Const'>
+```
+
+Added in v2.7.0
 
 ## getApplicative
 

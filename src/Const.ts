@@ -200,6 +200,34 @@ declare module './HKT' {
 
 /**
  * @category instances
+ * @since 2.7.0
+ */
+export const functorConst: Functor2<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const contravariantConst: Contravariant2<URI> = {
+  URI,
+  contramap: contramap_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const bifunctorConst: Bifunctor2<URI> = {
+  URI,
+  bimap: bimap_,
+  mapLeft: mapLeft_
+}
+
+/**
+ * @category instances
  * @since 2.0.0
  */
 export const const_: Functor2<URI> & Contravariant2<URI> & Bifunctor2<URI> = {
