@@ -905,6 +905,7 @@ export const monadThrowEither: MonadThrow2<URI> = {
   throwError: throwError_
 }
 
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.0.0

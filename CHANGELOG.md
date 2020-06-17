@@ -51,6 +51,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `extendEither` instance (@gcanti)
     - add `chainRecEither` instance (@gcanti)
     - add `monadThrowEither` instance (@gcanti)
+  - `Eq`
+    - add `contravariantEq` instance (@gcanti)
   - `ReadonlyArray`
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)
