@@ -113,6 +113,13 @@ high state of flux, you're at risk of it changing without notice.
     - add `monadThrowOption` instance (@gcanti)
   - `Ord`
     - add `contravariantOrd` instance (@gcanti)
+  - `Reader`
+    - add `functorReader` instance (@gcanti)
+    - add `applyReader` instance (@gcanti)
+    - add `applicativeReader` instance (@gcanti)
+    - add `monadReader` instance (@gcanti)
+    - add `profunctorReader` instance (@gcanti)
+    - add `categoryReader` instance (@gcanti)
   - `ReadonlyArray`
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)

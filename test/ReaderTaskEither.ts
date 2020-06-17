@@ -6,7 +6,7 @@ import * as IE from '../src/IOEither'
 import { monoidSum } from '../src/Monoid'
 import { none, some } from '../src/Option'
 import { pipe } from '../src/function'
-import { reader } from '../src/Reader'
+import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
 import * as _ from '../src/ReaderTaskEither'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
@@ -203,12 +203,12 @@ describe('ReaderTaskEither', () => {
   })
 
   it('rightReader', async () => {
-    const e = await _.run(_.rightReader(reader.of(1)), {})
+    const e = await _.run(_.rightReader(R.of(1)), {})
     assert.deepStrictEqual(e, E.right(1))
   })
 
   it('leftReader', async () => {
-    const e = await _.run(_.leftReader(reader.of(1)), {})
+    const e = await _.run(_.leftReader(R.of(1)), {})
     assert.deepStrictEqual(e, E.left(1))
   })
 
@@ -237,8 +237,8 @@ describe('ReaderTaskEither', () => {
 
   it('fold', async () => {
     const fold = _.fold(
-      (l: string) => reader.of(task.of(l.length)),
-      (a: number) => reader.of(task.of(a * 2))
+      (l: string) => R.of(task.of(l.length)),
+      (a: number) => R.of(task.of(a * 2))
     )
     const e1 = await fold(_.right(1))({})()
     assert.deepStrictEqual(e1, 2)
@@ -249,12 +249,12 @@ describe('ReaderTaskEither', () => {
   it('getOrElse', async () => {
     const e1 = await pipe(
       _.right(1),
-      _.getOrElse((l: string) => reader.of(task.of(l.length)))
+      _.getOrElse((l: string) => R.of(task.of(l.length)))
     )({})()
     assert.deepStrictEqual(e1, 1)
     const e2 = await pipe(
       _.left('err'),
-      _.getOrElse((l: string) => reader.of(task.of(l.length)))
+      _.getOrElse((l: string) => R.of(task.of(l.length)))
     )({})()
     assert.deepStrictEqual(e2, 3)
   })

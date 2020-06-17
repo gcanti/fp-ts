@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import * as A from '../src/Array'
 import { pipe } from '../src/function'
-import { reader } from '../src/Reader'
+import * as R from '../src/Reader'
 import * as _ from '../src/ReaderTask'
 import * as T from '../src/Task'
 import * as I from '../src/IO'
@@ -83,7 +83,7 @@ describe('ReaderTask', () => {
   })
 
   it('fromReader', async () => {
-    const e = await _.fromReader(reader.of(1))({})()
+    const e = await _.fromReader(R.of(1))({})()
     assert.deepStrictEqual(e, 1)
   })
 
@@ -104,7 +104,7 @@ describe('ReaderTask', () => {
   })
 
   it('of', async () => {
-    const e = await _.fromReader(reader.of(1))({})()
+    const e = await _.fromReader(R.of(1))({})()
     assert.deepStrictEqual(e, 1)
   })
 

@@ -5,7 +5,7 @@ import * as E from '../src/Either'
 import { fold, monoidSum } from '../src/Monoid'
 import * as O from '../src/Option'
 import { pipeable, pipe } from '../src/pipeable'
-import { reader } from '../src/Reader'
+import * as R from '../src/Reader'
 
 describe('pipeable', () => {
   it('{}', () => {
@@ -135,7 +135,7 @@ describe('pipeable', () => {
   })
 
   it('Profunctor', () => {
-    const { promap } = pipeable(reader)
+    const { promap } = pipeable(R.profunctorReader)
     const f = promap(
       (s: string) => s + 'a',
       (n: number) => n > 2
@@ -145,7 +145,7 @@ describe('pipeable', () => {
   })
 
   it('Semigroupoid', () => {
-    const { compose } = pipeable(reader)
+    const { compose } = pipeable(R.categoryReader)
     assert.deepStrictEqual(compose((s: string) => s.length)((n) => n * 2)('aa'), 4)
   })
 })
