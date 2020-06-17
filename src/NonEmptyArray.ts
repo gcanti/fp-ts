@@ -4,10 +4,15 @@
  * @since 2.0.0
  */
 import { Alt1 } from './Alt'
+import { Applicative1 } from './Applicative'
+import { Apply1 } from './Apply'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
+import { Extend1 } from './Extend'
+import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { Lazy, Predicate, Refinement } from './function'
+import { Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { Monad1 } from './Monad'
 import { Option } from './Option'
@@ -459,9 +464,34 @@ export const sequence: Traversable1<URI>['sequence'] = RNEA.sequence as any
  */
 export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = RNEA.traverseWithIndex as any
 
+/**
+ * @since 2.7.0
+ */
+export const extract: Comonad1<URI>['extract'] = head
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+const map_: Functor1<URI>['map'] = RNEA.functorNonEmptyArray.map as any
+const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = RNEA.functorWithIndexNonEmptyArray
+  .mapWithIndex as any
+const ap_: Apply1<URI>['ap'] = RNEA.applyNonEmptyArray.ap as any
+const chain_: Monad1<URI>['chain'] = RNEA.monadNonEmptyArray.chain as any
+const extend_: Extend1<URI>['extend'] = RNEA.extendNonEmptyArray.extend as any
+const reduce_: Foldable1<URI>['reduce'] = RNEA.foldableNonEmptyArray.reduce as any
+const foldMap_: Foldable1<URI>['foldMap'] = RNEA.foldableNonEmptyArray.foldMap as any
+const reduceRight_: Foldable1<URI>['reduceRight'] = RNEA.foldableNonEmptyArray.reduceRight as any
+const traverse_: Traversable1<URI>['traverse'] = RNEA.traversableNonEmptyArray.traverse as any
+const alt_: Alt1<URI>['alt'] = RNEA.altNonEmptyArray.alt as any
+const reduceWithIndex_: FoldableWithIndex1<URI, number>['reduceWithIndex'] = RNEA.foldableWithIndexNonEmptyArray
+  .reduceWithIndex as any
+const foldMapWithIndex_: FoldableWithIndex1<URI, number>['foldMapWithIndex'] = RNEA.foldableWithIndexNonEmptyArray
+  .foldMapWithIndex as any
+const reduceRightWithIndex_: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] = RNEA
+  .foldableWithIndexNonEmptyArray.reduceRightWithIndex as any
+const traverseWithIndex_: TraversableWithIndex1<URI, number>['traverseWithIndex'] = RNEA
+  .traversableWithIndexNonEmptyArray.traverseWithIndex as any
 
 /**
  * @category instances
@@ -483,6 +513,148 @@ declare module './HKT' {
 
 /**
  * @category instances
+ * @since 2.7.0
+ */
+export const functorNonEmptyArray: Functor1<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorWithIndexNonEmptyArray: FunctorWithIndex1<URI, number> = {
+  URI,
+  map: map_,
+  mapWithIndex: mapWithIndex_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applyNonEmptyArray: Apply1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeNonEmptyArray: Applicative1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const monadNonEmptyArray: Monad1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const foldableNonEmptyArray: Foldable1<URI> = {
+  URI,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const foldableWithIndexNonEmptyArray: FoldableWithIndex1<URI, number> = {
+  URI,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  reduceWithIndex: reduceWithIndex_,
+  foldMapWithIndex: foldMapWithIndex_,
+  reduceRightWithIndex: reduceRightWithIndex_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const traversableNonEmptyArray: Traversable1<URI> = {
+  URI,
+  map: map_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  traverse: traverse_,
+  sequence
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const traversableWithIndexNonEmptyArray: TraversableWithIndex1<URI, number> = {
+  URI,
+  map: map_,
+  mapWithIndex: mapWithIndex_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  traverse: traverse_,
+  sequence,
+  reduceWithIndex: reduceWithIndex_,
+  foldMapWithIndex: foldMapWithIndex_,
+  reduceRightWithIndex: reduceRightWithIndex_,
+  traverseWithIndex: traverseWithIndex_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const altNonEmptyArray: Alt1<URI> = {
+  URI,
+  map: map_,
+  alt: alt_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const extendNonEmptyArray: Extend1<URI> = {
+  URI,
+  map: map_,
+  extend: extend_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const comonadNonEmptyArray: Comonad1<URI> = {
+  URI,
+  map: map_,
+  extend: extend_,
+  extract
+}
+
+// TODO: remove in v3
+/**
+ * @category instances
  * @since 2.0.0
  */
 export const nonEmptyArray: Monad1<URI> &
@@ -490,8 +662,23 @@ export const nonEmptyArray: Monad1<URI> &
   TraversableWithIndex1<URI, number> &
   FunctorWithIndex1<URI, number> &
   FoldableWithIndex1<URI, number> &
-  Alt1<URI> =
-  /*#__PURE__*/
-  (() => {
-    return Object.assign({}, RNEA.readonlyNonEmptyArray as any, { URI })
-  })()
+  Alt1<URI> = {
+  URI,
+  of,
+  map: map_,
+  mapWithIndex: mapWithIndex_,
+  ap: ap_,
+  chain: chain_,
+  extend: extend_,
+  extract: extract,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  traverse: traverse_,
+  sequence,
+  reduceWithIndex: reduceWithIndex_,
+  foldMapWithIndex: foldMapWithIndex_,
+  reduceRightWithIndex: reduceRightWithIndex_,
+  traverseWithIndex: traverseWithIndex_,
+  alt: alt_
+}
