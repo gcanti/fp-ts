@@ -120,6 +120,14 @@ high state of flux, you're at risk of it changing without notice.
     - add `monadReader` instance (@gcanti)
     - add `profunctorReader` instance (@gcanti)
     - add `categoryReader` instance (@gcanti)
+  - `ReaderEither`
+    - add `functorReaderEither` instance (@gcanti)
+    - add `applyReaderEither` instance (@gcanti)
+    - add `applicativeReaderEither` instance (@gcanti)
+    - add `monadReaderEither` instance (@gcanti)
+    - add `bifunctorReaderEither` instance (@gcanti)
+    - add `altReaderEither` instance (@gcanti)
+    - add `monadThrowReaderEither` instance (@gcanti)
   - `ReadonlyArray`
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)
