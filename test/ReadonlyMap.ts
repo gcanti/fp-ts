@@ -744,24 +744,22 @@ describe('ReadonlyMap', () => {
   describe('readonlyMap', () => {
     describe('compactable', () => {
       it('compact', () => {
-        const compact = _.readonlyMap.compact
         const fooBar = new Map<string, Option<number>>([
           ['foo', none],
           ['bar', some(123)]
         ])
         const bar = new Map<string, number>([['bar', 123]])
-        assert.deepStrictEqual(compact(fooBar), bar)
+        assert.deepStrictEqual(_.compact(fooBar), bar)
       })
 
       it('separate', () => {
-        const separate = _.readonlyMap.separate
         const fooBar = new Map<string, Either<number, number>>([
           ['foo', left(123)],
           ['bar', right(123)]
         ])
         const foo = new Map<string, number>([['foo', 123]])
         const bar = new Map<string, number>([['bar', 123]])
-        assert.deepStrictEqual(separate(fooBar), {
+        assert.deepStrictEqual(_.separate(fooBar), {
           left: foo,
           right: bar
         })
