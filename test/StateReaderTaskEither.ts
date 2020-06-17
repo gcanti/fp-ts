@@ -4,7 +4,7 @@ import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import * as O from '../src/Option'
 import { pipe } from '../src/function'
-import { reader } from '../src/Reader'
+import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
 import * as RTE from '../src/ReaderTaskEither'
 import { State } from '../src/State'
@@ -212,12 +212,12 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('rightReader', async () => {
-    const e = await _.run(_.rightReader(reader.of(1)), {}, {})
+    const e = await _.run(_.rightReader(R.of(1)), {}, {})
     assert.deepStrictEqual(e, E.right([1, {}]))
   })
 
   it('leftReader', async () => {
-    const e = await _.run(_.leftReader(reader.of(1)), {}, {})
+    const e = await _.run(_.leftReader(R.of(1)), {}, {})
     assert.deepStrictEqual(e, E.left(1))
   })
 
