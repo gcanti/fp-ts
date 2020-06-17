@@ -11,12 +11,12 @@ describe('Tree', () => {
   describe('pipeables', () => {
     it('traverse', () => {
       const fa = _.make('a', [_.make('b'), _.make('c')])
-      assert.deepStrictEqual(pipe(fa, _.traverse(O.option)(O.some)), O.some(fa))
+      assert.deepStrictEqual(pipe(fa, _.traverse(O.applicativeOption)(O.some)), O.some(fa))
     })
 
     it('sequence', () => {
       assert.deepStrictEqual(
-        _.sequence(O.option)(_.make(O.some('a'), [_.make(O.some('b')), _.make(O.some('c'))])),
+        _.sequence(O.applicativeOption)(_.make(O.some('a'), [_.make(O.some('b')), _.make(O.some('c'))])),
         O.some(_.make('a', [_.make('b'), _.make('c')]))
       )
     })

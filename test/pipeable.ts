@@ -3,8 +3,8 @@ import * as A from '../src/ReadonlyArray'
 import * as C from '../src/Const'
 import * as E from '../src/Either'
 import { fold, monoidSum } from '../src/Monoid'
-import { isSome, none, Option, option, some } from '../src/Option'
-import { pipeable } from '../src/pipeable'
+import * as O from '../src/Option'
+import { pipeable, pipe } from '../src/pipeable'
 import { reader } from '../src/Reader'
 
 describe('pipeable', () => {
@@ -89,9 +89,12 @@ describe('pipeable', () => {
 
   it('Filterable', () => {
     const { filter, filterMap, partition, partitionMap } = pipeable(A.filterableArray)
-    assert.deepStrictEqual(filter(isSome)([some(1), none, some(2)]), [some(1), some(2)])
-    assert.deepStrictEqual(filterMap(<A>(a: Option<A>) => a)([some(1), none, some(2)]), [1, 2])
-    assert.deepStrictEqual(partition(isSome)([some(1), none, some(2)]), { left: [none], right: [some(1), some(2)] })
+    assert.deepStrictEqual(filter(O.isSome)([O.some(1), O.none, O.some(2)]), [O.some(1), O.some(2)])
+    assert.deepStrictEqual(filterMap(<A>(a: O.Option<A>) => a)([O.some(1), O.none, O.some(2)]), [1, 2])
+    assert.deepStrictEqual(partition(O.isSome)([O.some(1), O.none, O.some(2)]), {
+      left: [O.none],
+      right: [O.some(1), O.some(2)]
+    })
     assert.deepStrictEqual(partitionMap((n: number) => (n > 2 ? E.right(n) : E.left(String(n))))([1, 2, 3]), {
       left: ['1', '2'],
       right: [3]
@@ -102,17 +105,26 @@ describe('pipeable', () => {
     const { filterWithIndex, filterMapWithIndex, partitionWithIndex, partitionMapWithIndex } = pipeable(
       A.filterableWithIndexArray
     )
-    assert.deepStrictEqual(filterWithIndex((i, a: Option<number>) => i > 1 && isSome(a))([some(1), none, some(2)]), [
-      some(2)
-    ])
     assert.deepStrictEqual(
-      filterMapWithIndex((i, a: Option<number>) => option.map(a, (n) => n + i))([some(1), none, some(2)]),
+      filterWithIndex((i, a: O.Option<number>) => i > 1 && O.isSome(a))([O.some(1), O.none, O.some(2)]),
+      [O.some(2)]
+    )
+    assert.deepStrictEqual(
+      filterMapWithIndex((i, a: O.Option<number>) =>
+        pipe(
+          a,
+          O.map((n) => n + i)
+        )
+      )([O.some(1), O.none, O.some(2)]),
       [1, 4]
     )
-    assert.deepStrictEqual(partitionWithIndex((i, a: Option<number>) => i > 1 && isSome(a))([some(1), none, some(2)]), {
-      left: [some(1), none],
-      right: [some(2)]
-    })
+    assert.deepStrictEqual(
+      partitionWithIndex((i, a: O.Option<number>) => i > 1 && O.isSome(a))([O.some(1), O.none, O.some(2)]),
+      {
+        left: [O.some(1), O.none],
+        right: [O.some(2)]
+      }
+    )
     assert.deepStrictEqual(
       partitionMapWithIndex((i, n: number) => (i < 2 && n > 1 ? E.right(n) : E.left(String(n))))([1, 2, 3]),
       {

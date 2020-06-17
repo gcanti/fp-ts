@@ -3,7 +3,7 @@ import { left, right } from '../src/Either'
 import { identity, pipe } from '../src/function'
 import * as _ from '../src/Identity'
 import { monoidString } from '../src/Monoid'
-import { none, option, some } from '../src/Option'
+import * as O from '../src/Option'
 import { eqNumber } from '../src/Eq'
 import { showString } from '../src/Show'
 
@@ -85,21 +85,21 @@ describe('Identity', () => {
     })
 
     it('traverse', () => {
-      const traverse = _.traverse(option)
-      assert.deepStrictEqual(pipe(1, traverse(some)), some(1))
+      const traverse = _.traverse(O.applicativeOption)
+      assert.deepStrictEqual(pipe(1, traverse(O.some)), O.some(1))
       assert.deepStrictEqual(
         pipe(
           1,
-          traverse(() => none)
+          traverse(() => O.none)
         ),
-        none
+        O.none
       )
     })
 
     it('sequence', () => {
-      const sequence = _.sequence(option)
-      assert.deepStrictEqual(sequence(some('a')), some('a'))
-      assert.deepStrictEqual(sequence(none), none)
+      const sequence = _.sequence(O.applicativeOption)
+      assert.deepStrictEqual(sequence(O.some('a')), O.some('a'))
+      assert.deepStrictEqual(sequence(O.none), O.none)
     })
   })
 

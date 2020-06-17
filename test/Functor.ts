@@ -5,7 +5,7 @@ import * as option from '../src/Option'
 
 describe('Functor', () => {
   it('getFunctorComposition', () => {
-    const arrayOption = getFunctorComposition(A.functorArray, option.option)
+    const arrayOption = getFunctorComposition(A.functorArray, option.functorOption)
     const double = (a: number) => a * 2
     assert.deepStrictEqual(arrayOption.map([option.some(1)], double), [option.some(2)])
   })

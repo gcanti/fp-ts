@@ -215,7 +215,7 @@ describe('Option', () => {
   })
 
   it('zero', () => {
-    assert.deepStrictEqual(_.option.zero(), _.none)
+    assert.deepStrictEqual(_.zero(), _.none)
   })
 
   it('fold', () => {
@@ -446,6 +446,6 @@ describe('Option', () => {
   })
 
   it('throwError', () => {
-    assert.deepStrictEqual(_.option.throwError(undefined), _.none)
+    assert.deepStrictEqual(_.throwError(undefined), _.none)
   })
 })
