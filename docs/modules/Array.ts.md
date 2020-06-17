@@ -55,6 +55,8 @@ Added in v2.0.0
   - [traverse](#traverse)
 - [TraversableWithIndex](#traversablewithindex)
   - [traverseWithIndex](#traversewithindex)
+- [Unfoldable](#unfoldable)
+  - [unfold](#unfold)
 - [Whitherable](#whitherable)
   - [wilt](#wilt)
   - [wither](#wither)
@@ -128,7 +130,6 @@ Added in v2.0.0
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
   - [splitAt](#splitat)
-  - [unfold](#unfold)
   - [unzip](#unzip)
   - [updateAt](#updateat)
 
@@ -500,6 +501,18 @@ export declare const traverseWithIndex: PipeableTraverseWithIndex1<'Array', numb
 ```
 
 Added in v2.6.3
+
+# Unfoldable
+
+## unfold
+
+**Signature**
+
+```ts
+export declare const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => A[]
+```
+
+Added in v2.6.6
 
 # Whitherable
 
@@ -1879,16 +1892,6 @@ assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
 ```
 
 Added in v2.0.0
-
-## unfold
-
-**Signature**
-
-```ts
-export declare const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => A[]
-```
-
-Added in v2.6.6
 
 ## unzip
 

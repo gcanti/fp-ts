@@ -4,7 +4,7 @@ import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import { monoidString } from '../src/Monoid'
 import { isSome, none, option, Option, some } from '../src/Option'
-import { readonlyArray, zip } from '../src/ReadonlyArray'
+import * as A from '../src/ReadonlyArray'
 import * as _ from '../src/Record'
 import { getFirstSemigroup, getLastSemigroup, semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
@@ -119,11 +119,11 @@ describe('Record', () => {
 
   it('fromFoldable', () => {
     const First = getFirstSemigroup<number>()
-    assert.deepStrictEqual(_.fromFoldable(First, readonlyArray)([['a', 1]]), { a: 1 })
+    assert.deepStrictEqual(_.fromFoldable(First, A.foldableArray)([['a', 1]]), { a: 1 })
     assert.deepStrictEqual(
       _.fromFoldable(
         First,
-        readonlyArray
+        A.foldableArray
       )([
         ['a', 1],
         ['a', 2]
@@ -136,7 +136,7 @@ describe('Record', () => {
     assert.deepStrictEqual(
       _.fromFoldable(
         Last,
-        readonlyArray
+        A.foldableArray
       )([
         ['a', 1],
         ['a', 2]
@@ -159,7 +159,7 @@ describe('Record', () => {
   })
 
   it('toUnfoldable', () => {
-    assert.deepStrictEqual(_.toUnfoldable(readonlyArray)({ a: 1 }), [['a', 1]])
+    assert.deepStrictEqual(_.toUnfoldable(A.unfoldableArray)({ a: 1 }), [['a', 1]])
   })
 
   it('size', () => {
@@ -289,7 +289,7 @@ describe('Record', () => {
 
   it('fromFoldableMap', () => {
     const zipObject = <K extends string, A>(keys: ReadonlyArray<K>, values: ReadonlyArray<A>): Record<K, A> =>
-      _.fromFoldableMap(getLastSemigroup<A>(), readonlyArray)(zip(keys, values), ([k, a]) => [k, a])
+      _.fromFoldableMap(getLastSemigroup<A>(), A.foldableArray)(A.zip(keys, values), ([k, a]) => [k, a])
 
     assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
 
@@ -305,7 +305,7 @@ describe('Record', () => {
     ]
 
     assert.deepStrictEqual(
-      _.fromFoldableMap(getLastSemigroup<User>(), readonlyArray)(users, (user) => [user.id, user]),
+      _.fromFoldableMap(getLastSemigroup<User>(), A.foldableArray)(users, (user) => [user.id, user]),
       {
         id1: { id: 'id1', name: 'name3' },
         id2: { id: 'id2', name: 'name2' }
