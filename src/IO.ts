@@ -18,6 +18,8 @@ import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Apply1 } from './Apply'
+import { Functor1 } from './Functor'
+import { Applicative1 } from './Applicative'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -108,6 +110,18 @@ export const flatten: <A>(mma: IO<IO<A>>) => IO<A> = (mma) => chain_(mma, identi
 // instances
 // -------------------------------------------------------------------------------------
 
+const map_: <A, B>(fa: IO<A>, f: (a: A) => B) => IO<B> = (ma, f) => () => f(ma())
+const ap_: <A, B>(fab: IO<(a: A) => B>, fa: IO<A>) => IO<B> = (mab, ma) => () => mab()(ma())
+const chain_: <A, B>(fa: IO<A>, f: (a: A) => IO<B>) => IO<B> = (ma, f) => () => f(ma())()
+const fromIO_ = identity
+const chainRec_: ChainRec1<URI>['chainRec'] = (a, f) => () => {
+  let e = f(a)()
+  while (e._tag === 'Left') {
+    e = f(e.left)()
+  }
+  return e.right
+}
+
 /**
  * @category instances
  * @since 2.0.0
@@ -124,30 +138,6 @@ declare module './HKT' {
   interface URItoKind<A> {
     readonly [URI]: IO<A>
   }
-}
-
-const map_: <A, B>(fa: IO<A>, f: (a: A) => B) => IO<B> = (ma, f) => () => f(ma())
-const ap_: <A, B>(fab: IO<(a: A) => B>, fa: IO<A>) => IO<B> = (mab, ma) => () => mab()(ma())
-const chain_: <A, B>(fa: IO<A>, f: (a: A) => IO<B>) => IO<B> = (ma, f) => () => f(ma())()
-
-/**
- * @internal
- */
-export const applyIO: Apply1<URI> = {
-  URI,
-  map: map_,
-  ap: ap_
-}
-
-/**
- * @internal
- */
-export const monadIO: Monad1<URI> = {
-  URI,
-  map: map_,
-  of,
-  ap: ap_,
-  chain: chain_
 }
 
 /**
@@ -173,6 +163,74 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> {
 
 /**
  * @category instances
+ * @since 2.7.0
+ */
+export const functorIO: Functor1<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applyIO: Apply1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeIO: Applicative1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const monadIO: Monad1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const monadIOIO: MonadIO1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_,
+  fromIO: fromIO_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const chainRecIO: ChainRec1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  chain: chain_,
+  chainRec: chainRec_
+}
+
+// TODO: remove in v3
+/**
+ * @category instances
  * @since 2.0.0
  */
 export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
@@ -181,12 +239,6 @@ export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
   of,
   ap: ap_,
   chain: chain_,
-  fromIO: identity,
-  chainRec: (a, f) => () => {
-    let e = f(a)()
-    while (e._tag === 'Left') {
-      e = f(e.left)()
-    }
-    return e.right
-  }
+  fromIO: fromIO_,
+  chainRec: chainRec_
 }

@@ -64,6 +64,13 @@ high state of flux, you're at risk of it changing without notice.
     - add `extendIdentity` instance (@gcanti)
     - add `comonadIdentity` instance (@gcanti)
     - add `chainRecIdentity` instance (@gcanti)
+  - `IO`
+    - add `functorIO` instance (@gcanti)
+    - add `applyIO` instance (@gcanti)
+    - add `applicativeIO` instance (@gcanti)
+    - add `monadIO` instance (@gcanti)
+    - add `monadIOIO` instance (@gcanti)
+    - add `chainRecIO` instance (@gcanti)
   - `ReadonlyArray`
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)

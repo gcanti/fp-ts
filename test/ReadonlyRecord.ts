@@ -304,7 +304,7 @@ describe('ReadonlyRecord', () => {
 
     pipe(
       { b: append('b'), a: append('a') },
-      _.traverseWithIndex(IO.io)((_, io) => io)
+      _.traverseWithIndex(IO.applicativeIO)((_, io) => io)
     )()
     assert.deepStrictEqual(log, ['a', 'b'])
   })

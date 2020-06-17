@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import { getMonoid } from '../src/Array'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
-import { io } from '../src/IO'
+import * as I from '../src/IO'
 import * as _ from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
@@ -173,23 +173,23 @@ describe('IOEither', () => {
   it('fold', () => {
     assert.deepStrictEqual(
       _.fold(
-        () => io.of('left'),
-        () => io.of('right')
+        () => I.of('left'),
+        () => I.of('right')
       )(_.right(1))(),
       'right'
     )
     assert.deepStrictEqual(
       _.fold(
-        () => io.of('left'),
-        () => io.of('right')
+        () => I.of('left'),
+        () => I.of('right')
       )(_.left(1))(),
       'left'
     )
   })
 
   it('getOrElse', () => {
-    assert.deepStrictEqual(_.getOrElse(() => io.of(2))(_.ioEither.of(1))(), 1)
-    assert.deepStrictEqual(_.getOrElse(() => io.of(2))(_.left(1))(), 2)
+    assert.deepStrictEqual(_.getOrElse(() => I.of(2))(_.ioEither.of(1))(), 1)
+    assert.deepStrictEqual(_.getOrElse(() => I.of(2))(_.left(1))(), 2)
   })
 
   it('orElse', () => {
@@ -209,20 +209,20 @@ describe('IOEither', () => {
   describe('getSemigroup', () => {
     it('concat', () => {
       const S = _.getSemigroup<string, number>(semigroupSum)
-      assert.deepStrictEqual(S.concat(_.leftIO(io.of('a')), _.leftIO(io.of('b')))(), E.left('a'))
-      assert.deepStrictEqual(S.concat(_.leftIO(io.of('a')), _.rightIO(io.of(2)))(), E.right(2))
-      assert.deepStrictEqual(S.concat(_.rightIO(io.of(1)), _.leftIO(io.of('b')))(), E.right(1))
-      assert.deepStrictEqual(S.concat(_.rightIO(io.of(1)), _.rightIO(io.of(2)))(), E.right(3))
+      assert.deepStrictEqual(S.concat(_.leftIO(I.of('a')), _.leftIO(I.of('b')))(), E.left('a'))
+      assert.deepStrictEqual(S.concat(_.leftIO(I.of('a')), _.rightIO(I.of(2)))(), E.right(2))
+      assert.deepStrictEqual(S.concat(_.rightIO(I.of(1)), _.leftIO(I.of('b')))(), E.right(1))
+      assert.deepStrictEqual(S.concat(_.rightIO(I.of(1)), _.rightIO(I.of(2)))(), E.right(3))
     })
   })
 
   describe('getApplyMonoid', () => {
     it('concat', () => {
       const M = _.getApplyMonoid(monoidString)
-      assert.deepStrictEqual(M.concat(_.rightIO(io.of('a')), _.rightIO(io.of('b')))(), E.right('ab'))
-      assert.deepStrictEqual(M.concat(_.rightIO(io.of('a')), _.leftIO(io.of('b')))(), E.left('b'))
-      assert.deepStrictEqual(M.concat(_.rightIO(io.of('a')), M.empty)(), E.right('a'))
-      assert.deepStrictEqual(M.concat(M.empty, _.rightIO(io.of('a')))(), E.right('a'))
+      assert.deepStrictEqual(M.concat(_.rightIO(I.of('a')), _.rightIO(I.of('b')))(), E.right('ab'))
+      assert.deepStrictEqual(M.concat(_.rightIO(I.of('a')), _.leftIO(I.of('b')))(), E.left('b'))
+      assert.deepStrictEqual(M.concat(_.rightIO(I.of('a')), M.empty)(), E.right('a'))
+      assert.deepStrictEqual(M.concat(M.empty, _.rightIO(I.of('a')))(), E.right('a'))
     })
   })
 
