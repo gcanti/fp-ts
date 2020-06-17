@@ -104,7 +104,7 @@ types of kind `* -> *`.
 **Signature**
 
 ```ts
-export declare const alt: <E, A>(that: () => Either<E, A>) => (fa: Either<E, A>) => Either<E, A>
+export declare const alt: <E, A>(that: Lazy<Either<E, A>>) => (fa: Either<E, A>) => Either<E, A>
 ```
 
 Added in v2.0.0
@@ -379,7 +379,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => Either<E, A>
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Either<E, A>
 ```
 
 Added in v2.0.0

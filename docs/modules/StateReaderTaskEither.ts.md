@@ -89,7 +89,7 @@ types of kind `* -> *`.
 
 ```ts
 export declare const alt: <S, R, E, A>(
-  that: () => StateReaderTaskEither<S, R, E, A>
+  that: Lazy<StateReaderTaskEither<S, R, E, A>>
 ) => (fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
@@ -439,7 +439,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: () => E) => <S, R, A>(ma: Option<A>) => StateReaderTaskEither<S, R, E, A>
+export declare const fromOption: <E>(onNone: Lazy<E>) => <S, R, A>(ma: Option<A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.0.0

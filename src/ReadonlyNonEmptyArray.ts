@@ -7,7 +7,7 @@ import { Alt1 } from './Alt'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { Predicate, Refinement } from './function'
+import { Lazy, Predicate, Refinement } from './function'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { Monad1 } from './Monad'
 import { NonEmptyArray } from './NonEmptyArray'
@@ -17,8 +17,8 @@ import * as RA from './ReadonlyArray'
 import { ReadonlyRecord } from './ReadonlyRecord'
 import { getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
 import { Show } from './Show'
-import { TraversableWithIndex1, PipeableTraverseWithIndex1 } from './TraversableWithIndex'
-import { Traversable1, PipeableTraverse1 } from './Traversable'
+import { PipeableTraverse1, Traversable1 } from './Traversable'
+import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -394,7 +394,7 @@ export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: Reado
  * @since 2.6.2
  */
 export const alt: <A>(
-  that: () => ReadonlyNonEmptyArray<A>
+  that: Lazy<ReadonlyNonEmptyArray<A>>
 ) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.alt as any
 
 /**

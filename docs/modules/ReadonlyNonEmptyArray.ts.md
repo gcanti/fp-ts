@@ -95,7 +95,7 @@ types of kind `* -> *`.
 
 ```ts
 export declare const alt: <A>(
-  that: () => ReadonlyNonEmptyArray<A>
+  that: Lazy<ReadonlyNonEmptyArray<A>>
 ) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 

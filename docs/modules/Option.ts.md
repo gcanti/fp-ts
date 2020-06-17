@@ -111,7 +111,7 @@ In case of `Option` returns the left-most non-`None` value.
 **Signature**
 
 ```ts
-export declare const alt: <A>(that: () => Option<A>) => (fa: Option<A>) => Option<A>
+export declare const alt: <A>(that: Lazy<Option<A>>) => (fa: Option<A>) => Option<A>
 ```
 
 **Example**
@@ -593,7 +593,7 @@ returned, otherwise the function is applied to the value inside the `Some` and t
 **Signature**
 
 ```ts
-export declare function fold<A, B>(onNone: () => B, onSome: (a: A) => B): (ma: Option<A>) => B
+export declare function fold<A, B>(onNone: Lazy<B>, onSome: (a: A) => B): (ma: Option<A>) => B
 ```
 
 **Example**
@@ -634,7 +634,7 @@ Extracts the value out of the structure, if it exists. Otherwise returns the giv
 **Signature**
 
 ```ts
-export declare const getOrElse: <A>(onNone: () => A) => (ma: Option<A>) => A
+export declare const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A
 ```
 
 **Example**
@@ -668,7 +668,7 @@ Less strict version of [`getOrElse`](#getOrElse).
 **Signature**
 
 ```ts
-export declare const getOrElseW: <B>(onNone: () => B) => <A>(ma: Option<A>) => B | A
+export declare const getOrElseW: <B>(onNone: Lazy<B>) => <A>(ma: Option<A>) => B | A
 ```
 
 Added in v2.6.0

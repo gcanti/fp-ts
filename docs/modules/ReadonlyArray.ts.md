@@ -146,7 +146,7 @@ types of kind `* -> *`.
 **Signature**
 
 ```ts
-export declare const alt: <A>(that: () => readonly A[]) => (fa: readonly A[]) => readonly A[]
+export declare const alt: <A>(that: Lazy<readonly A[]>) => (fa: readonly A[]) => readonly A[]
 ```
 
 Added in v2.5.0
@@ -1112,7 +1112,7 @@ Break an array into its first element and remaining elements
 
 ```ts
 export declare function foldLeft<A, B>(
-  onNil: () => B,
+  onNil: Lazy<B>,
   onCons: (head: A, tail: ReadonlyArray<A>) => B
 ): (as: ReadonlyArray<A>) => B
 ```
@@ -1139,7 +1139,7 @@ Break an array into its initial elements and the last element
 
 ```ts
 export declare function foldRight<A, B>(
-  onNil: () => B,
+  onNil: Lazy<B>,
   onCons: (init: ReadonlyArray<A>, last: A) => B
 ): (as: ReadonlyArray<A>) => B
 ```

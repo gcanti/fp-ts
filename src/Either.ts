@@ -214,7 +214,7 @@ export function stringifyJSON<E>(u: unknown, onError: (reason: unknown) => E): E
  * @category constructors
  * @since 2.0.0
  */
-export const fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => Either<E, A> = (onNone) => (ma) =>
+export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Either<E, A> = (onNone) => (ma) =>
   ma._tag === 'None' ? left(onNone()) : right(ma.value)
 
 /**
@@ -416,7 +416,7 @@ export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> = (mm
  * @category Alt
  * @since 2.0.0
  */
-export const alt: <E, A>(that: () => Either<E, A>) => (fa: Either<E, A>) => Either<E, A> = (that) => (fa) =>
+export const alt: <E, A>(that: Lazy<Either<E, A>>) => (fa: Either<E, A>) => Either<E, A> = (that) => (fa) =>
   alt_(fa, that)
 
 /**
@@ -521,7 +521,8 @@ const bimap_: <E, A, G, B>(fea: Either<E, A>, f: (e: E) => G, g: (a: A) => B) =>
   isLeft(fea) ? left(f(fea.left)) : right(g(fea.right))
 const mapLeft_: <E, A, G>(fea: Either<E, A>, f: (e: E) => G) => Either<G, A> = (fea, f) =>
   isLeft(fea) ? left(f(fea.left)) : fea
-const alt_: <E, A>(fx: Either<E, A>, fy: () => Either<E, A>) => Either<E, A> = (fx, fy) => (isLeft(fx) ? fy() : fx)
+const alt_: <E, A>(fa: Either<E, A>, that: Lazy<Either<E, A>>) => Either<E, A> = (fa, that) =>
+  isLeft(fa) ? that() : fa
 const extend_: <E, A, B>(wa: Either<E, A>, f: (wa: Either<E, A>) => B) => Either<E, B> = (wa, f) =>
   isLeft(wa) ? wa : right(f(wa))
 const chainRec_: <E, A, B>(a: A, f: (a: A) => Either<E, Either<A, B>>) => Either<E, B> = (a, f) =>

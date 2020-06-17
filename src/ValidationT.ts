@@ -11,6 +11,7 @@ import { Either, getValidation, isLeft, isRight, left, URI } from './Either'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
 import { Semigroup } from './Semigroup'
+import { Lazy } from './function'
 
 /**
  * @since 2.0.0
@@ -22,7 +23,7 @@ export interface ValidationT<M, E, A> extends HKT<M, Either<E, A>> {}
  */
 export interface ValidationM<M, E> extends ApplicativeCompositionHKT2C<M, URI, E> {
   readonly chain: <A, B>(ma: ValidationT<M, E, A>, f: (a: A) => ValidationT<M, E, B>) => ValidationT<M, E, B>
-  readonly alt: <A>(fx: ValidationT<M, E, A>, f: () => ValidationT<M, E, A>) => ValidationT<M, E, A>
+  readonly alt: <A>(fa: ValidationT<M, E, A>, that: Lazy<ValidationT<M, E, A>>) => ValidationT<M, E, A>
 }
 
 /**
@@ -35,7 +36,7 @@ export type ValidationT1<M extends URIS, E, A> = Kind<M, Either<E, A>>
  */
 export interface ValidationM1<M extends URIS, E> extends ApplicativeComposition12C<M, URI, E> {
   readonly chain: <A, B>(ma: ValidationT1<M, E, A>, f: (a: A) => ValidationT1<M, E, B>) => ValidationT1<M, E, B>
-  readonly alt: <A>(fx: ValidationT1<M, E, A>, f: () => ValidationT1<M, E, A>) => ValidationT1<M, E, A>
+  readonly alt: <A>(fa: ValidationT1<M, E, A>, that: Lazy<ValidationT1<M, E, A>>) => ValidationT1<M, E, A>
 }
 
 /**
@@ -51,7 +52,7 @@ export interface ValidationM2<M extends URIS2, E> extends ApplicativeComposition
     ma: ValidationT2<M, R, E, A>,
     f: (a: A) => ValidationT2<M, R, E, B>
   ) => ValidationT2<M, R, E, B>
-  readonly alt: <R, A>(fx: ValidationT2<M, R, E, A>, f: () => ValidationT2<M, R, E, A>) => ValidationT2<M, R, E, A>
+  readonly alt: <R, A>(fa: ValidationT2<M, R, E, A>, that: Lazy<ValidationT2<M, R, E, A>>) => ValidationT2<M, R, E, A>
 }
 
 /**
@@ -68,9 +69,9 @@ export function getValidationM<E, M>(S: Semigroup<E>, M: Monad<M>): ValidationM<
     ap: A.ap,
     of: A.of,
     chain: /* istanbul ignore next */ (ma, f) => M.chain(ma, (e) => (isLeft(e) ? M.of(left(e.left)) : f(e.right))),
-    alt: (fx, f) =>
-      M.chain(fx, (e1) =>
-        isRight(e1) ? A.of(e1.right) : M.map(f(), (e2) => (isLeft(e2) ? left(S.concat(e1.left, e2.left)) : e2))
+    alt: (fa, that) =>
+      M.chain(fa, (e1) =>
+        isRight(e1) ? A.of(e1.right) : M.map(that(), (e2) => (isLeft(e2) ? left(S.concat(e1.left, e2.left)) : e2))
       )
   }
 }

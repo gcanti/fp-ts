@@ -7,12 +7,12 @@ import { ChainRec1, tailRec } from './ChainRec'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Foldable1 } from './Foldable'
-import { identity as id } from './function'
+import { identity as id, Lazy } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { Show } from './Show'
-import { Traversable1, PipeableTraverse1 } from './Traversable'
+import { PipeableTraverse1, Traversable1 } from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -40,7 +40,7 @@ export const getEq: <A>(E: Eq<A>) => Eq<Identity<A>> = id
 // pipeables
 // -------------------------------------------------------------------------------------
 
-const alt_: <A>(fx: A, fy: () => A) => A = id
+const alt_: <A>(fa: A, that: Lazy<A>) => A = id
 
 const extend_: <A, B>(wa: A, f: (wa: A) => B) => B = (wa, f) => f(wa)
 

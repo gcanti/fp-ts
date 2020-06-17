@@ -94,7 +94,7 @@ types of kind `* -> *`.
 **Signature**
 
 ```ts
-export declare const alt: <A>(that: () => NonEmptyArray<A>) => (fa: NonEmptyArray<A>) => NonEmptyArray<A>
+export declare const alt: <A>(that: Lazy<NonEmptyArray<A>>) => (fa: NonEmptyArray<A>) => NonEmptyArray<A>
 ```
 
 Added in v2.6.2

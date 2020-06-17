@@ -28,7 +28,7 @@ If `value` is false, `onFalse()` is returned, otherwise `onTrue()`.
 **Signature**
 
 ```ts
-export declare function fold<A>(onFalse: () => A, onTrue: () => A): (value: boolean) => A
+export declare function fold<A>(onFalse: Lazy<A>, onTrue: Lazy<A>): (value: boolean) => A
 ```
 
 **Example**

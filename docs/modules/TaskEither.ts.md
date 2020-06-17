@@ -91,7 +91,7 @@ See also [orElse](#orElse).
 **Signature**
 
 ```ts
-export declare const alt: <E, A>(that: () => TaskEither<E, A>) => (fa: TaskEither<E, A>) => TaskEither<E, A>
+export declare const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>) => TaskEither<E, A>
 ```
 
 **Example**
@@ -452,7 +452,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => TaskEither<E, A>
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskEither<E, A>
 ```
 
 Added in v2.0.0

@@ -4,7 +4,7 @@
 import { Alt3, Alt3C } from './Alt'
 import { Bifunctor3 } from './Bifunctor'
 import { Either } from './Either'
-import { identity, pipe, Predicate, Refinement, flow } from './function'
+import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad3, Monad3C } from './Monad'
@@ -164,7 +164,7 @@ export const fromEither: <R, E, A>(ma: Either<E, A>) => ReaderTaskEither<R, E, A
  * @category constructors
  * @since 2.0.0
  */
-export const fromOption: <E>(onNone: () => E) => <R, A>(ma: Option<A>) => ReaderTaskEither<R, E, A> = (onNone) => (
+export const fromOption: <E>(onNone: Lazy<E>) => <R, A>(ma: Option<A>) => ReaderTaskEither<R, E, A> = (onNone) => (
   ma
 ) => (ma._tag === 'None' ? left(onNone()) : right(ma.value))
 
@@ -533,12 +533,12 @@ const ap_: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const of = right
 const chain_: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 const alt_: <R, E, A>(
-  fx: ReaderTaskEither<R, E, A>,
-  fy: () => ReaderTaskEither<R, E, A>
-) => ReaderTaskEither<R, E, A> = (fx, fy) => (r) =>
+  fa: ReaderTaskEither<R, E, A>,
+  that: Lazy<ReaderTaskEither<R, E, A>>
+) => ReaderTaskEither<R, E, A> = (fa, that) => (r) =>
   pipe(
-    fx(r),
-    TE.alt(() => fy()(r))
+    fa(r),
+    TE.alt(() => that()(r))
   )
 const bimap_: <R, E, A, G, B>(
   fea: ReaderTaskEither<R, E, A>,
