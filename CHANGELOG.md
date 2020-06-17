@@ -39,6 +39,18 @@ high state of flux, you're at risk of it changing without notice.
     - add `functorConst` instance (@gcanti)
     - add `contravariantConst` instance (@gcanti)
     - add `bifunctorConst` instance (@gcanti)
+  - `Either`
+    - add `functorEither` instance (@gcanti)
+    - add `applyEither` instance (@gcanti)
+    - add `applicativeEither` instance (@gcanti)
+    - add `monadEither` instance (@gcanti)
+    - add `foldableEither` instance (@gcanti)
+    - add `traversableEither` instance (@gcanti)
+    - add `bifunctorEither` instance (@gcanti)
+    - add `altEither` instance (@gcanti)
+    - add `extendEither` instance (@gcanti)
+    - add `chainRecEither` instance (@gcanti)
+    - add `monadThrowEither` instance (@gcanti)
   - `ReadonlyArray`
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)

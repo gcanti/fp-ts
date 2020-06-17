@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import * as A from '../src/ReadonlyArray'
 import * as C from '../src/Const'
-import { either, left, right } from '../src/Either'
+import * as E from '../src/Either'
 import { fold, monoidSum } from '../src/Monoid'
 import { isSome, none, Option, option, some } from '../src/Option'
 import { pipeable } from '../src/pipeable'
@@ -43,23 +43,23 @@ describe('pipeable', () => {
   })
 
   it('Bifunctor', () => {
-    const { bimap, mapLeft } = pipeable(either)
+    const { bimap, mapLeft } = pipeable(E.bifunctorEither)
     assert.deepStrictEqual(
       bimap(
         (s: string) => s.length,
         (n: number) => n * 2
-      )(right(1)),
-      right(2)
+      )(E.right(1)),
+      E.right(2)
     )
     assert.deepStrictEqual(
       bimap(
         (s: string) => s.length,
         (n: number) => n * 2
-      )(left('aa')),
-      left(2)
+      )(E.left('aa')),
+      E.left(2)
     )
-    assert.deepStrictEqual(mapLeft((s: string) => s.length)(right(1)), right(1))
-    assert.deepStrictEqual(mapLeft((s: string) => s.length)(left('aa')), left(2))
+    assert.deepStrictEqual(mapLeft((s: string) => s.length)(E.right(1)), E.right(1))
+    assert.deepStrictEqual(mapLeft((s: string) => s.length)(E.left('aa')), E.left(2))
   })
 
   it('Extend', () => {
@@ -92,7 +92,7 @@ describe('pipeable', () => {
     assert.deepStrictEqual(filter(isSome)([some(1), none, some(2)]), [some(1), some(2)])
     assert.deepStrictEqual(filterMap(<A>(a: Option<A>) => a)([some(1), none, some(2)]), [1, 2])
     assert.deepStrictEqual(partition(isSome)([some(1), none, some(2)]), { left: [none], right: [some(1), some(2)] })
-    assert.deepStrictEqual(partitionMap((n: number) => (n > 2 ? right(n) : left(String(n))))([1, 2, 3]), {
+    assert.deepStrictEqual(partitionMap((n: number) => (n > 2 ? E.right(n) : E.left(String(n))))([1, 2, 3]), {
       left: ['1', '2'],
       right: [3]
     })
@@ -114,7 +114,7 @@ describe('pipeable', () => {
       right: [some(2)]
     })
     assert.deepStrictEqual(
-      partitionMapWithIndex((i, n: number) => (i < 2 && n > 1 ? right(n) : left(String(n))))([1, 2, 3]),
+      partitionMapWithIndex((i, n: number) => (i < 2 && n > 1 ? E.right(n) : E.left(String(n))))([1, 2, 3]),
       {
         left: ['1', '3'],
         right: [2]
