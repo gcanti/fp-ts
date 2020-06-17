@@ -2,7 +2,7 @@
  * @since 2.0.0
  */
 import { Alt3, Alt3C } from './Alt'
-import { apComposition } from './Apply'
+import { apComposition, Apply3 } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import { flow, identity, pipe, Predicate, Refinement } from './function'
@@ -20,6 +20,8 @@ import { getValidationM } from './ValidationT'
 
 import Either = E.Either
 import Reader = R.Reader
+import { Functor3 } from './Functor'
+import { Applicative3 } from './Applicative'
 
 /**
  * @category model
@@ -396,7 +398,6 @@ export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderEither<R, E,
   }
 }
 
-// TODO: remove in v3
 /**
  * @category instances
  * @since 2.3.0
@@ -419,6 +420,82 @@ export function getReaderValidation<E>(
   }
 }
 
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorReaderEither: Functor3<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applyReaderEither: Apply3<URI> = {
+  URI,
+  map: map_,
+  ap: ap_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeReaderEither: Applicative3<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const monadReaderEither: Monad3<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const bifunctorReaderEither: Bifunctor3<URI> = {
+  URI,
+  bimap: bimap_,
+  mapLeft: mapLeft_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const altReaderEither: Alt3<URI> = {
+  URI,
+  map: map_,
+  alt: alt_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const monadThrowReaderEither: MonadThrow3<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_,
+  throwError: throwError_
+}
+
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.0.0
