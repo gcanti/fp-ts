@@ -5,7 +5,7 @@ import { Eq, eqNumber, fromEquals } from '../src/Eq'
 import { identity, pipe, Refinement } from '../src/function'
 import * as IO from '../src/IO'
 import { monoidString } from '../src/Monoid'
-import { none, option, Option, some } from '../src/Option'
+import * as O from '../src/Option'
 import { fromCompare, ord, ordNumber, ordString } from '../src/Ord'
 import * as _ from '../src/ReadonlyMap'
 import { getFirstSemigroup, getLastSemigroup, getStructSemigroup, semigroupSum } from '../src/Semigroup'
@@ -92,7 +92,7 @@ describe('ReadonlyMap', () => {
 
     it('filterMap', () => {
       const empty = new Map<string, number>()
-      const f = (n: number) => (p(n) ? some(n + 1) : none)
+      const f = (n: number) => (p(n) ? O.some(n + 1) : O.none)
       assert.deepStrictEqual(pipe(empty, _.filterMap(f)), empty)
       assert.deepStrictEqual(
         pipe(
@@ -542,13 +542,13 @@ describe('ReadonlyMap', () => {
     ])
     const b2 = new Map<User, number>([[{ id: 'b' }, 2]])
     const popS = _.pop(eqUser)
-    assert.deepStrictEqual(popS({ id: 'a' })(a1b2), some([1, b2]))
-    assert.deepStrictEqual(popS({ id: 'c' })(a1b2), none)
+    assert.deepStrictEqual(popS({ id: 'a' })(a1b2), O.some([1, b2]))
+    assert.deepStrictEqual(popS({ id: 'c' })(a1b2), O.none)
 
     const pop = _.pop(eqKey)
-    assert.deepStrictEqual(pop({ id: 1 })(repo), some([{ value: 1 }, new Map([[{ id: 2 }, { value: 2 }]])]))
-    assert.deepStrictEqual(pop({ id: 4 })(repo), some([{ value: 1 }, new Map([[{ id: 2 }, { value: 2 }]])]))
-    assert.deepStrictEqual(pop({ id: 3 })(repo), none)
+    assert.deepStrictEqual(pop({ id: 1 })(repo), O.some([{ value: 1 }, new Map([[{ id: 2 }, { value: 2 }]])]))
+    assert.deepStrictEqual(pop({ id: 4 })(repo), O.some([{ value: 1 }, new Map([[{ id: 2 }, { value: 2 }]])]))
+    assert.deepStrictEqual(pop({ id: 3 })(repo), O.none)
     // should not modify the source
     assert.deepStrictEqual(
       repo,
@@ -562,35 +562,35 @@ describe('ReadonlyMap', () => {
   it('lookupWithKey', () => {
     const x = new Map<User, number>([[{ id: 'a' }, 1]])
     const lookupWithKeyS = _.lookupWithKey(eqUser)
-    assert.deepStrictEqual(lookupWithKeyS({ id: 'a' }, x), some([{ id: 'a' }, 1]))
-    assert.deepStrictEqual(lookupWithKeyS({ id: 'b' }, x), none)
-    assert.deepStrictEqual(lookupWithKeyS({ id: 'a' })(x), some([{ id: 'a' }, 1]))
-    assert.deepStrictEqual(lookupWithKeyS({ id: 'b' })(x), none)
+    assert.deepStrictEqual(lookupWithKeyS({ id: 'a' }, x), O.some([{ id: 'a' }, 1]))
+    assert.deepStrictEqual(lookupWithKeyS({ id: 'b' }, x), O.none)
+    assert.deepStrictEqual(lookupWithKeyS({ id: 'a' })(x), O.some([{ id: 'a' }, 1]))
+    assert.deepStrictEqual(lookupWithKeyS({ id: 'b' })(x), O.none)
 
     const lookupWithKey = _.lookupWithKey(eqKey)
-    assert.deepStrictEqual(lookupWithKey({ id: 1 }, repo), some([{ id: 1 }, { value: 1 }]))
-    assert.deepStrictEqual(lookupWithKey({ id: 4 }, repo), some([{ id: 1 }, { value: 1 }]))
-    assert.deepStrictEqual(lookupWithKey({ id: 3 }, repo), none)
-    assert.deepStrictEqual(lookupWithKey({ id: 1 })(repo), some([{ id: 1 }, { value: 1 }]))
-    assert.deepStrictEqual(lookupWithKey({ id: 4 })(repo), some([{ id: 1 }, { value: 1 }]))
-    assert.deepStrictEqual(lookupWithKey({ id: 3 })(repo), none)
+    assert.deepStrictEqual(lookupWithKey({ id: 1 }, repo), O.some([{ id: 1 }, { value: 1 }]))
+    assert.deepStrictEqual(lookupWithKey({ id: 4 }, repo), O.some([{ id: 1 }, { value: 1 }]))
+    assert.deepStrictEqual(lookupWithKey({ id: 3 }, repo), O.none)
+    assert.deepStrictEqual(lookupWithKey({ id: 1 })(repo), O.some([{ id: 1 }, { value: 1 }]))
+    assert.deepStrictEqual(lookupWithKey({ id: 4 })(repo), O.some([{ id: 1 }, { value: 1 }]))
+    assert.deepStrictEqual(lookupWithKey({ id: 3 })(repo), O.none)
   })
 
   it('lookup', () => {
     const x = new Map<User, number>([[{ id: 'a' }, 1]])
     const lookupS = _.lookup(eqUser)
-    assert.deepStrictEqual(lookupS({ id: 'a' }, x), some(1))
-    assert.deepStrictEqual(lookupS({ id: 'b' }, x), none)
-    assert.deepStrictEqual(lookupS({ id: 'a' })(x), some(1))
-    assert.deepStrictEqual(lookupS({ id: 'b' })(x), none)
+    assert.deepStrictEqual(lookupS({ id: 'a' }, x), O.some(1))
+    assert.deepStrictEqual(lookupS({ id: 'b' }, x), O.none)
+    assert.deepStrictEqual(lookupS({ id: 'a' })(x), O.some(1))
+    assert.deepStrictEqual(lookupS({ id: 'b' })(x), O.none)
 
     const lookup = _.lookup(eqKey)
-    assert.deepStrictEqual(lookup({ id: 1 }, repo), some({ value: 1 }))
-    assert.deepStrictEqual(lookup({ id: 4 }, repo), some({ value: 1 }))
-    assert.deepStrictEqual(lookup({ id: 3 }, repo), none)
-    assert.deepStrictEqual(lookup({ id: 1 })(repo), some({ value: 1 }))
-    assert.deepStrictEqual(lookup({ id: 4 })(repo), some({ value: 1 }))
-    assert.deepStrictEqual(lookup({ id: 3 })(repo), none)
+    assert.deepStrictEqual(lookup({ id: 1 }, repo), O.some({ value: 1 }))
+    assert.deepStrictEqual(lookup({ id: 4 }, repo), O.some({ value: 1 }))
+    assert.deepStrictEqual(lookup({ id: 3 }, repo), O.none)
+    assert.deepStrictEqual(lookup({ id: 1 })(repo), O.some({ value: 1 }))
+    assert.deepStrictEqual(lookup({ id: 4 })(repo), O.some({ value: 1 }))
+    assert.deepStrictEqual(lookup({ id: 3 })(repo), O.none)
   })
 
   it('isSubmap', () => {
@@ -744,9 +744,9 @@ describe('ReadonlyMap', () => {
   describe('readonlyMap', () => {
     describe('compactable', () => {
       it('compact', () => {
-        const fooBar = new Map<string, Option<number>>([
-          ['foo', none],
-          ['bar', some(123)]
+        const fooBar = new Map<string, O.Option<number>>([
+          ['foo', O.none],
+          ['bar', O.some(123)]
         ])
         const bar = new Map<string, number>([['bar', 123]])
         assert.deepStrictEqual(_.compact(fooBar), bar)
@@ -883,31 +883,31 @@ describe('ReadonlyMap', () => {
     })
 
     it('traverse', () => {
-      const traverse = W.traverse(option)
+      const traverse = W.traverse(O.applicativeOption)
       const x = new Map([
         [{ id: 'k1' }, 1],
         [{ id: 'k2' }, 2]
       ])
       assert.deepStrictEqual(
-        traverse(x, (n) => (n <= 2 ? some(n) : none)),
-        some(x)
+        traverse(x, (n) => (n <= 2 ? O.some(n) : O.none)),
+        O.some(x)
       )
       assert.deepStrictEqual(
-        traverse(x, (n) => (n >= 2 ? some(n) : none)),
-        none
+        traverse(x, (n) => (n >= 2 ? O.some(n) : O.none)),
+        O.none
       )
     })
 
     it('sequence', () => {
-      const sequence = W.sequence(option)
+      const sequence = W.sequence(O.applicativeOption)
       assert.deepStrictEqual(
         sequence(
           new Map([
-            [{ id: 'k1' }, some(1)],
-            [{ id: 'k2' }, some(2)]
+            [{ id: 'k1' }, O.some(1)],
+            [{ id: 'k2' }, O.some(2)]
           ])
         ),
-        some(
+        O.some(
           new Map<User, number>([
             [{ id: 'k1' }, 1],
             [{ id: 'k2' }, 2]
@@ -917,25 +917,25 @@ describe('ReadonlyMap', () => {
       assert.deepStrictEqual(
         sequence(
           new Map([
-            [{ id: 'k1' }, none],
-            [{ id: 'k2' }, some(2)]
+            [{ id: 'k1' }, O.none],
+            [{ id: 'k2' }, O.some(2)]
           ])
         ),
-        none
+        O.none
       )
     })
 
     it('traverseWithIndex', () => {
-      const traverseWithIndex = W.traverseWithIndex(option)
+      const traverseWithIndex = W.traverseWithIndex(O.applicativeOption)
       assert.deepStrictEqual(
         traverseWithIndex(
           new Map([
             [{ id: 'k1' }, 1],
             [{ id: 'k2' }, 2]
           ]),
-          (k, n): Option<number> => (!ordUser.equals(k, { id: 'k1' }) ? some(n) : none)
+          (k, n): O.Option<number> => (!ordUser.equals(k, { id: 'k1' }) ? O.some(n) : O.none)
         ),
-        none
+        O.none
       )
       assert.deepStrictEqual(
         traverseWithIndex(
@@ -943,9 +943,9 @@ describe('ReadonlyMap', () => {
             [{ id: 'k1' }, 2],
             [{ id: 'k2' }, 3]
           ]),
-          (k, n): Option<number> => (!ordUser.equals(k, { id: 'k3' }) ? some(n) : none)
+          (k, n): O.Option<number> => (!ordUser.equals(k, { id: 'k3' }) ? O.some(n) : O.none)
         ),
-        some(
+        O.some(
           new Map([
             [{ id: 'k1' }, 2],
             [{ id: 'k2' }, 3]
@@ -956,7 +956,7 @@ describe('ReadonlyMap', () => {
 
     it('wither', async () => {
       const wither = W.wither(T.task)
-      const f = (n: number) => T.of(p(n) ? some(n + 1) : none)
+      const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
       assert.deepStrictEqual(await wither(_.empty, f)(), _.empty)
       assert.deepStrictEqual(
         await wither(
@@ -1030,7 +1030,7 @@ describe('ReadonlyMap', () => {
         ['b', 3]
       ])
       const b4 = new Map<string, number>([['b', 4]])
-      const f = (_: string, n: number) => (p(n) ? some(n + 1) : none)
+      const f = (_: string, n: number) => (p(n) ? O.some(n + 1) : O.none)
       assert.deepStrictEqual(filterMapWithIndex(emptyMap, f), emptyMap)
       assert.deepStrictEqual(filterMapWithIndex(a1b3, f), b4)
     })
@@ -1096,11 +1096,11 @@ describe('ReadonlyMap', () => {
 
   it('updateAt', () => {
     const m1 = new Map<User, string>([])
-    assert.deepStrictEqual(_.updateAt(eqUser)({ id: 'a' }, 'a')(m1), none)
+    assert.deepStrictEqual(_.updateAt(eqUser)({ id: 'a' }, 'a')(m1), O.none)
     const m2 = new Map<User, string>([[{ id: 'a' }, 'b']])
     assert.deepStrictEqual(
       _.updateAt(eqUser)({ id: 'a' }, 'a')(m2),
-      some(
+      O.some(
         new Map<User, string>([[{ id: 'a' }, 'a']])
       )
     )
@@ -1108,11 +1108,11 @@ describe('ReadonlyMap', () => {
 
   it('modifyAt', () => {
     const m1 = new Map<User, number>([])
-    assert.deepStrictEqual(_.modifyAt(eqUser)({ id: 'a' }, (n: number) => n * 2)(m1), none)
+    assert.deepStrictEqual(_.modifyAt(eqUser)({ id: 'a' }, (n: number) => n * 2)(m1), O.none)
     const m2 = new Map<User, number>([[{ id: 'a' }, 1]])
     assert.deepStrictEqual(
       _.modifyAt(eqUser)({ id: 'a' }, (n: number) => n * 2)(m2),
-      some(
+      O.some(
         new Map<User, number>([[{ id: 'a' }, 2]])
       )
     )

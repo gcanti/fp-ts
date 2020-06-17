@@ -3,7 +3,7 @@ import { getMonoid } from '../src/Array'
 import { left, right } from '../src/Either'
 import { identity, pipe } from '../src/function'
 import { monoidString } from '../src/Monoid'
-import { none, option, some } from '../src/Option'
+import * as O from '../src/Option'
 import * as _ from '../src/ReadonlyTuple'
 
 describe('ReadonlyTuple', () => {
@@ -66,15 +66,15 @@ describe('ReadonlyTuple', () => {
     })
 
     it('traverse', () => {
-      const traverse = _.traverse(option)((n: number) => (n > 1 ? some(n) : none))
-      assert.deepStrictEqual(traverse([2, 'a']), some([2, 'a']))
-      assert.deepStrictEqual(traverse([1, 'a']), none)
+      const traverse = _.traverse(O.applicativeOption)((n: number) => (n > 1 ? O.some(n) : O.none))
+      assert.deepStrictEqual(traverse([2, 'a']), O.some([2, 'a']))
+      assert.deepStrictEqual(traverse([1, 'a']), O.none)
     })
 
     it('sequence', () => {
-      const sequence = _.sequence(option)
-      assert.deepStrictEqual(sequence([some(1), 'a']), some([1, 'a']))
-      assert.deepStrictEqual(sequence([none, 'a']), none)
+      const sequence = _.sequence(O.applicativeOption)
+      assert.deepStrictEqual(sequence([O.some(1), 'a']), O.some([1, 'a']))
+      assert.deepStrictEqual(sequence([O.none, 'a']), O.none)
     })
   })
 

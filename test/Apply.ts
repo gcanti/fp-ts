@@ -2,15 +2,15 @@ import * as assert from 'assert'
 import { sequenceS, sequenceT } from '../src/Apply'
 import * as A from '../src/ReadonlyArray'
 import * as E from '../src/Either'
-import { none, option, some } from '../src/Option'
+import * as O from '../src/Option'
 import { pipe } from '../src/function'
 
 describe('Apply', () => {
   it('sequenceT', () => {
-    const sequenceTOption = sequenceT(option)
-    assert.deepStrictEqual(sequenceTOption(some(1)), some([1]))
-    assert.deepStrictEqual(sequenceTOption(some(1), some('2')), some([1, '2']))
-    assert.deepStrictEqual(sequenceTOption(some(1), some('2'), none), none)
+    const sequenceTOption = sequenceT(O.applyOption)
+    assert.deepStrictEqual(sequenceTOption(O.some(1)), O.some([1]))
+    assert.deepStrictEqual(sequenceTOption(O.some(1), O.some('2')), O.some([1, '2']))
+    assert.deepStrictEqual(sequenceTOption(O.some(1), O.some('2'), O.none), O.none)
 
     // #914
     const a1: ReadonlyArray<number> = [1, 2, 3]
@@ -42,10 +42,10 @@ describe('Apply', () => {
   })
 
   it('sequenceS', () => {
-    const adoOption = sequenceS(option)
-    assert.deepStrictEqual(adoOption({ a: some(1) }), some({ a: 1 }))
-    assert.deepStrictEqual(adoOption({ a: some(1), b: some(2) }), some({ a: 1, b: 2 }))
-    assert.deepStrictEqual(adoOption({ a: some(1), b: none }), none)
+    const adoOption = sequenceS(O.applyOption)
+    assert.deepStrictEqual(adoOption({ a: O.some(1) }), O.some({ a: 1 }))
+    assert.deepStrictEqual(adoOption({ a: O.some(1), b: O.some(2) }), O.some({ a: 1, b: 2 }))
+    assert.deepStrictEqual(adoOption({ a: O.some(1), b: O.none }), O.none)
 
     const adoEither = sequenceS(E.applyEither)
     assert.deepStrictEqual(adoEither({ a: E.right(1) }), E.right({ a: 1 }))

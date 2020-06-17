@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import * as A from '../src/ReadonlyArray'
-import { none, option, some } from '../src/Option'
+import * as O from '../src/Option'
 import { getTraversableComposition } from '../src/Traversable'
 
 export const ArrayOptionURI = 'ArrayOption'
@@ -9,17 +9,20 @@ export type ArrayOptionURI = typeof ArrayOptionURI
 
 describe('Traversable', () => {
   it('getTraversableComposition', () => {
-    const T = getTraversableComposition(A.traversableArray, option)
+    const T = getTraversableComposition(A.traversableArray, O.traversableOption)
     assert.deepStrictEqual(
-      T.traverse(option)([some(1), some(2)], (n: number) => (n <= 2 ? some(n * 2) : none)),
-      some([some(2), some(4)])
+      T.traverse(O.applicativeOption)([O.some(1), O.some(2)], (n: number) => (n <= 2 ? O.some(n * 2) : O.none)),
+      O.some([O.some(2), O.some(4)])
     )
     assert.deepStrictEqual(
-      T.traverse(option)([some(1), some(3)], (n: number) => (n <= 2 ? some(n * 2) : none)),
-      none
+      T.traverse(O.applicativeOption)([O.some(1), O.some(3)], (n: number) => (n <= 2 ? O.some(n * 2) : O.none)),
+      O.none
     )
-    assert.deepStrictEqual(T.sequence(option)([some(some(1)), some(some(2))]), some([some(1), some(2)]))
-    assert.deepStrictEqual(T.sequence(option)([some(some(1)), none]), some([some(1), none]))
-    assert.deepStrictEqual(T.sequence(option)([some(some(1)), some(none)]), none)
+    assert.deepStrictEqual(
+      T.sequence(O.applicativeOption)([O.some(O.some(1)), O.some(O.some(2))]),
+      O.some([O.some(1), O.some(2)])
+    )
+    assert.deepStrictEqual(T.sequence(O.applicativeOption)([O.some(O.some(1)), O.none]), O.some([O.some(1), O.none]))
+    assert.deepStrictEqual(T.sequence(O.applicativeOption)([O.some(O.some(1)), O.some(O.none)]), O.none)
   })
 })

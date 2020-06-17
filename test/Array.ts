@@ -24,7 +24,7 @@ describe('Array', () => {
     })
 
     it('sequence', () => {
-      const sequence = _.sequence(O.option)
+      const sequence = _.sequence(O.applicativeOption)
       assert.deepStrictEqual(sequence([O.some(1), O.some(3)]), O.some([1, 3]))
       assert.deepStrictEqual(sequence([O.some(1), O.none]), O.none)
     })
@@ -33,14 +33,14 @@ describe('Array', () => {
       assert.deepStrictEqual(
         pipe(
           ['a', 'bb'],
-          _.traverseWithIndex(O.option)((i, s) => (s.length >= 1 ? O.some(s + i) : O.none))
+          _.traverseWithIndex(O.applicativeOption)((i, s) => (s.length >= 1 ? O.some(s + i) : O.none))
         ),
         O.some(['a0', 'bb1'])
       )
       assert.deepStrictEqual(
         pipe(
           ['a', 'bb'],
-          _.traverseWithIndex(O.option)((i, s) => (s.length > 1 ? O.some(s + i) : O.none))
+          _.traverseWithIndex(O.applicativeOption)((i, s) => (s.length > 1 ? O.some(s + i) : O.none))
         ),
         O.none
       )
