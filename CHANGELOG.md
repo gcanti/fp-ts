@@ -53,6 +53,17 @@ high state of flux, you're at risk of it changing without notice.
     - add `monadThrowEither` instance (@gcanti)
   - `Eq`
     - add `contravariantEq` instance (@gcanti)
+  - `Identity`
+    - add `functorIdentity` instance (@gcanti)
+    - add `applyIdentity` instance (@gcanti)
+    - add `applicativeIdentity` instance (@gcanti)
+    - add `monadIdentity` instance (@gcanti)
+    - add `foldableIdentity` instance (@gcanti)
+    - add `traversableIdentity` instance (@gcanti)
+    - add `altIdentity` instance (@gcanti)
+    - add `extendIdentity` instance (@gcanti)
+    - add `comonadIdentity` instance (@gcanti)
+    - add `chainRecIdentity` instance (@gcanti)
   - `ReadonlyArray`
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)
