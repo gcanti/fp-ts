@@ -1,11 +1,11 @@
 import * as assert from 'assert'
 import { getApplicativeComposition } from '../src/Applicative'
-import { array } from '../src/Array'
+import * as A from '../src/ReadonlyArray'
 import { none, option, some } from '../src/Option'
 
 describe('Applicative', () => {
   it('getApplicativeComposition', () => {
-    const arrayOption = getApplicativeComposition(array, option)
+    const arrayOption = getApplicativeComposition(A.applicativeArray, option)
     const double = (n: number) => n * 2
     const inc = (n: number) => n + 1
     assert.deepStrictEqual(arrayOption.ap([some(double), some(inc)], [some(1), some(2)]), [

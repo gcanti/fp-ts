@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { array } from '../src/Array'
+import * as A from '../src/ReadonlyArray'
 import * as C from '../src/Const'
 import { either, left, right } from '../src/Either'
 import { fold, monoidSum } from '../src/Monoid'
@@ -14,7 +14,7 @@ describe('pipeable', () => {
   })
 
   it('Functor', () => {
-    const { map } = pipeable(array)
+    const { map } = pipeable(A.functorArray)
     assert.deepStrictEqual(map((n: number) => n * 2)([1, 2, 3]), [2, 4, 6])
   })
 
@@ -24,19 +24,19 @@ describe('pipeable', () => {
   })
 
   it('FunctorWithIndex', () => {
-    const { mapWithIndex } = pipeable(array)
+    const { mapWithIndex } = pipeable(A.functorWithIndexArray)
     assert.deepStrictEqual(mapWithIndex((i, n: number) => n * 2 + i)([1, 2, 3]), [2, 5, 8])
   })
 
   it('Apply', () => {
-    const { ap, apFirst, apSecond } = pipeable(array)
+    const { ap, apFirst, apSecond } = pipeable(A.applyArray)
     assert.deepStrictEqual(ap([1, 2, 3])([(n) => n * 2]), [2, 4, 6])
     assert.deepStrictEqual(apFirst([2])([1]), [1])
     assert.deepStrictEqual(apSecond([2])([1]), [2])
   })
 
   it('Chain', () => {
-    const { chain, chainFirst, flatten } = pipeable(array)
+    const { chain, chainFirst, flatten } = pipeable(A.monadArray)
     assert.deepStrictEqual(chain((n: number) => [n * 2])([1, 2, 3]), [2, 4, 6])
     assert.deepStrictEqual(chainFirst((n: number) => [n * 2])([1, 2, 3]), [1, 2, 3])
     assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
@@ -63,32 +63,32 @@ describe('pipeable', () => {
   })
 
   it('Extend', () => {
-    const { extend, duplicate } = pipeable(array)
+    const { extend, duplicate } = pipeable(A.extendArray)
     assert.deepStrictEqual(extend((as: ReadonlyArray<number>) => fold(monoidSum)(as))([1, 2, 3]), [6, 5, 3])
     assert.deepStrictEqual(duplicate([1, 2, 3]), [[1, 2, 3], [2, 3], [3]])
   })
 
   it('Foldable', () => {
-    const { reduce, foldMap, reduceRight } = pipeable(array)
+    const { reduce, foldMap, reduceRight } = pipeable(A.foldableArray)
     assert.deepStrictEqual(reduce(0, (acc, n: number) => acc + n)([1, 2, 3]), 6)
     assert.deepStrictEqual(foldMap(monoidSum)((n: number) => n)([1, 2, 3]), 6)
     assert.deepStrictEqual(reduceRight(0, (n: number, acc) => -acc + n)([1, 2, 3]), 2)
   })
 
   it('FoldableWithIndex', () => {
-    const { reduceWithIndex, foldMapWithIndex, reduceRightWithIndex } = pipeable(array)
+    const { reduceWithIndex, foldMapWithIndex, reduceRightWithIndex } = pipeable(A.foldableWithIndexArray)
     assert.deepStrictEqual(reduceWithIndex(0, (i, acc, n: number) => acc + n + i)([1, 2, 3]), 9)
     assert.deepStrictEqual(foldMapWithIndex(monoidSum)((i, n: number) => n + i)([1, 2, 3]), 9)
     assert.deepStrictEqual(reduceRightWithIndex(0, (i, n: number, acc) => -acc + n + i)([1, 2, 3]), 3)
   })
 
   it('Alt', () => {
-    const { alt } = pipeable(array)
+    const { alt } = pipeable(A.altArray)
     assert.deepStrictEqual(alt(() => [4, 5, 6])([1, 2, 3]), [1, 2, 3, 4, 5, 6])
   })
 
   it('Filterable', () => {
-    const { filter, filterMap, partition, partitionMap } = pipeable(array)
+    const { filter, filterMap, partition, partitionMap } = pipeable(A.filterableArray)
     assert.deepStrictEqual(filter(isSome)([some(1), none, some(2)]), [some(1), some(2)])
     assert.deepStrictEqual(filterMap(<A>(a: Option<A>) => a)([some(1), none, some(2)]), [1, 2])
     assert.deepStrictEqual(partition(isSome)([some(1), none, some(2)]), { left: [none], right: [some(1), some(2)] })
@@ -99,7 +99,9 @@ describe('pipeable', () => {
   })
 
   it('FilterableWithIndex', () => {
-    const { filterWithIndex, filterMapWithIndex, partitionWithIndex, partitionMapWithIndex } = pipeable(array)
+    const { filterWithIndex, filterMapWithIndex, partitionWithIndex, partitionMapWithIndex } = pipeable(
+      A.filterableWithIndexArray
+    )
     assert.deepStrictEqual(filterWithIndex((i, a: Option<number>) => i > 1 && isSome(a))([some(1), none, some(2)]), [
       some(2)
     ])
