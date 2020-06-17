@@ -188,12 +188,12 @@ describe('IOEither', () => {
   })
 
   it('getOrElse', () => {
-    assert.deepStrictEqual(_.getOrElse(() => I.of(2))(_.ioEither.of(1))(), 1)
+    assert.deepStrictEqual(_.getOrElse(() => I.of(2))(_.right(1))(), 1)
     assert.deepStrictEqual(_.getOrElse(() => I.of(2))(_.left(1))(), 2)
   })
 
   it('orElse', () => {
-    assert.deepStrictEqual(_.orElse(() => _.ioEither.of(2))(_.ioEither.of(1))(), E.right(1))
+    assert.deepStrictEqual(_.orElse(() => _.right(2))(_.right(1))(), E.right(1))
   })
 
   it('tryCatch', () => {
@@ -303,10 +303,7 @@ describe('IOEither', () => {
   })
 
   describe('getFilterable', () => {
-    const F_ = {
-      ..._.ioEither,
-      ..._.getFilterable(getMonoid<string>())
-    }
+    const F_ = _.getFilterable(getMonoid<string>())
     const { filter } = pipeable(F_)
 
     it('filter', async () => {

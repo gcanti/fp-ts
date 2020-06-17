@@ -56,12 +56,20 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [altIOEither](#altioeither)
+  - [applicativeIOEither](#applicativeioeither)
+  - [applyIOEither](#applyioeither)
+  - [bifunctorIOEither](#bifunctorioeither)
+  - [functorIOEither](#functorioeither)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getFilterable](#getfilterable)
   - [getIOValidation](#getiovalidation)
   - [getSemigroup](#getsemigroup)
   - [ioEither](#ioeither)
+  - [monadIOEither](#monadioeither)
+  - [monadIOIOEither](#monadioioeither)
+  - [monadThrowIOEither](#monadthrowioeither)
 - [model](#model)
   - [IOEither (interface)](#ioeither-interface)
 
@@ -448,6 +456,56 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
+## altIOEither
+
+**Signature**
+
+```ts
+export declare const altIOEither: Alt2<'IOEither'>
+```
+
+Added in v2.7.0
+
+## applicativeIOEither
+
+**Signature**
+
+```ts
+export declare const applicativeIOEither: Applicative2<'IOEither'>
+```
+
+Added in v2.7.0
+
+## applyIOEither
+
+**Signature**
+
+```ts
+export declare const applyIOEither: Apply2<'IOEither'>
+```
+
+Added in v2.7.0
+
+## bifunctorIOEither
+
+**Signature**
+
+```ts
+export declare const bifunctorIOEither: Bifunctor2<'IOEither'>
+```
+
+Added in v2.7.0
+
+## functorIOEither
+
+**Signature**
+
+```ts
+export declare const functorIOEither: Functor2<'IOEither'>
+```
+
+Added in v2.7.0
+
 ## getApplyMonoid
 
 **Signature**
@@ -519,6 +577,36 @@ export declare const ioEither: Monad2<'IOEither'> &
 ```
 
 Added in v2.0.0
+
+## monadIOEither
+
+**Signature**
+
+```ts
+export declare const monadIOEither: Monad2<'IOEither'>
+```
+
+Added in v2.7.0
+
+## monadIOIOEither
+
+**Signature**
+
+```ts
+export declare const monadIOIOEither: MonadIO2<'IOEither'>
+```
+
+Added in v2.7.0
+
+## monadThrowIOEither
+
+**Signature**
+
+```ts
+export declare const monadThrowIOEither: MonadThrow2<'IOEither'>
+```
+
+Added in v2.7.0
 
 # model
 

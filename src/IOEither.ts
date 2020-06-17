@@ -17,7 +17,7 @@ import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
 import { getValidationM } from './ValidationT'
-import { apComposition } from './Apply'
+import { apComposition, Apply2 } from './Apply'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -25,6 +25,8 @@ import { apComposition } from './Apply'
 
 import Either = E.Either
 import IO = I.IO
+import { Functor2 } from './Functor'
+import { Applicative2 } from './Applicative'
 
 /**
  * @category model
@@ -449,6 +451,95 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
   }
 }
 
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorIOEither: Functor2<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const bifunctorIOEither: Bifunctor2<URI> = {
+  URI,
+  bimap: bimap_,
+  mapLeft: mapLeft_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applyIOEither: Apply2<URI> = {
+  URI,
+  map: map_,
+  ap: ap_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeIOEither: Applicative2<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const monadIOEither: Monad2<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const altIOEither: Alt2<URI> = {
+  URI,
+  map: map_,
+  alt: alt_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const monadIOIOEither: MonadIO2<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_,
+  fromIO: fromIO_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const monadThrowIOEither: MonadThrow2<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_,
+  throwError: throwError_
+}
+
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.0.0
