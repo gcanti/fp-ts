@@ -1,21 +1,25 @@
 /**
  * @since 2.5.0
  */
+import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
-import { Applicative } from './Applicative'
+import { Applicative, Applicative1 } from './Applicative'
+import { Apply1 } from './Apply'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
-import { Filter1, Partition1 } from './Filterable'
+import { Filter1, Filterable1, Partition1 } from './Filterable'
 import {
   FilterableWithIndex1,
   PartitionWithIndex1,
   PredicateWithIndex,
   RefinementWithIndex
 } from './FilterableWithIndex'
+import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { identity, Lazy, Predicate, Refinement } from './function'
+import { Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
@@ -1851,28 +1855,6 @@ export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B)
   f
 ) => (fa) => reduceRightWithIndex_(fa, b, f)
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
-/**
- * @category instances
- * @since 2.5.0
- */
-export const URI = 'ReadonlyArray'
-
-/**
- * @category instances
- * @since 2.5.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly [URI]: ReadonlyArray<A>
-  }
-}
-
 /**
  * @category Traversable
  * @since 2.6.3
@@ -1935,6 +1917,7 @@ export const wilt: PipeableWilt1<URI> = <F>(
 }
 
 /**
+ * @category Unfoldable
  * @since 2.6.6
  */
 export const unfold = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): ReadonlyArray<A> => {
@@ -1954,20 +1937,261 @@ export const unfold = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): Readon
   return ret
 }
 
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @category instances
  * @since 2.5.0
  */
-export const readonlyArray: Monad1<URI> &
+export const URI = 'ReadonlyArray'
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: ReadonlyArray<A>
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorArray: Functor1<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorWithIndexArray: FunctorWithIndex1<URI, number> = {
+  URI,
+  map: map_,
+  mapWithIndex: mapWithIndex_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applyArray: Apply1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeArray: Applicative1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const monadArray: Monad1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const unfoldableArray: Unfoldable1<URI> = {
+  URI,
+  unfold
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const altArray: Alt1<URI> = {
+  URI,
+  map: map_,
+  alt: alt_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const alternativeArray: Alternative1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  alt: alt_,
+  zero: zero_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const extendArray: Extend1<URI> = {
+  URI,
+  map: map_,
+  extend: extend_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const compactableArray: Compactable1<URI> = {
+  URI,
+  compact,
+  separate
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const filterableArray: Filterable1<URI> = {
+  URI,
+  map: map_,
+  compact,
+  separate,
+  filter: filter_,
+  filterMap: filterMap_,
+  partition: partition_,
+  partitionMap: partitionMap_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const filterableWithIndexArray: FilterableWithIndex1<URI, number> = {
+  URI,
+  map: map_,
+  mapWithIndex: mapWithIndex_,
+  compact,
+  separate,
+  filter: filter_,
+  filterMap: filterMap_,
+  partition: partition_,
+  partitionMap: partitionMap_,
+  partitionMapWithIndex: partitionMapWithIndex_,
+  partitionWithIndex: partitionWithIndex_,
+  filterMapWithIndex: filterMapWithIndex_,
+  filterWithIndex: filterWithIndex_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const foldableArray: Foldable1<URI> = {
+  URI,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const foldableWithIndexArray: FoldableWithIndex1<URI, number> = {
+  URI,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  reduceWithIndex: reduceWithIndex_,
+  foldMapWithIndex: foldMapWithIndex_,
+  reduceRightWithIndex: reduceRightWithIndex_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const traversableArray: Traversable1<URI> = {
+  URI,
+  map: map_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  traverse: traverse_,
+  sequence
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const traversableWithIndexArray: TraversableWithIndex1<URI, number> = {
+  URI,
+  map: map_,
+  mapWithIndex: mapWithIndex_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  reduceWithIndex: reduceWithIndex_,
+  foldMapWithIndex: foldMapWithIndex_,
+  reduceRightWithIndex: reduceRightWithIndex_,
+  traverse: traverse_,
+  sequence,
+  traverseWithIndex: traverseWithIndex_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const witherableArray: Witherable1<URI> = {
+  URI,
+  map: map_,
+  compact,
+  separate,
+  filter: filter_,
+  filterMap: filterMap_,
+  partition: partition_,
+  partitionMap: partitionMap_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  traverse: traverse_,
+  sequence,
+  wither: wither_,
+  wilt: wilt_
+}
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export const readonlyArray: FunctorWithIndex1<URI, number> &
+  Monad1<URI> &
   Unfoldable1<URI> &
-  TraversableWithIndex1<URI, number> &
   Alternative1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
   FilterableWithIndex1<URI, number> &
-  Witherable1<URI> &
-  FunctorWithIndex1<URI, number> &
-  FoldableWithIndex1<URI, number> = {
+  FoldableWithIndex1<URI, number> &
+  TraversableWithIndex1<URI, number> &
+  Witherable1<URI> = {
   URI,
   compact,
   separate,

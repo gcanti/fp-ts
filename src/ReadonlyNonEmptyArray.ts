@@ -565,19 +565,33 @@ export const readonlyNonEmptyArray: Monad1<URI> &
   URI,
   of,
   extract: head,
+  // tslint:disable-next-line: deprecation
   map: RA.readonlyArray.map as any,
+  // tslint:disable-next-line: deprecation
   mapWithIndex: RA.readonlyArray.mapWithIndex as any,
+  // tslint:disable-next-line: deprecation
   ap: RA.readonlyArray.ap as any,
+  // tslint:disable-next-line: deprecation
   chain: RA.readonlyArray.chain as any,
+  // tslint:disable-next-line: deprecation
   extend: RA.readonlyArray.extend as any,
+  // tslint:disable-next-line: deprecation
   reduce: RA.readonlyArray.reduce,
+  // tslint:disable-next-line: deprecation
   foldMap: RA.readonlyArray.foldMap,
+  // tslint:disable-next-line: deprecation
   reduceRight: RA.readonlyArray.reduceRight,
+  // tslint:disable-next-line: deprecation
   traverse: RA.readonlyArray.traverse as any,
   sequence,
+  // tslint:disable-next-line: deprecation
   reduceWithIndex: RA.readonlyArray.reduceWithIndex,
+  // tslint:disable-next-line: deprecation
   foldMapWithIndex: RA.readonlyArray.foldMapWithIndex,
+  // tslint:disable-next-line: deprecation
   reduceRightWithIndex: RA.readonlyArray.reduceRightWithIndex,
+  // tslint:disable-next-line: deprecation
   traverseWithIndex: RA.readonlyArray.traverseWithIndex as any,
+  // tslint:disable-next-line: deprecation
   alt: RA.readonlyArray.alt as any
 }

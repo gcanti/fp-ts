@@ -1168,28 +1168,6 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Array<A>) =
 export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: Array<A>) => B =
   RA.reduceRightWithIndex
 
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export const URI = 'Array'
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly [URI]: Array<A>
-  }
-}
-
 /**
  * @category Traversable
  * @since 2.6.3
@@ -1221,9 +1199,32 @@ export const wither: PipeableWither1<URI> = RA.wither as any
 export const wilt: PipeableWilt1<URI> = RA.wilt as any
 
 /**
+ * @category Unfoldable
  * @since 2.6.6
  */
 export const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => Array<A> = RA.unfold as any
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'Array'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: Array<A>
+  }
+}
 
 /**
  * @category instances
@@ -1242,6 +1243,7 @@ export const array: Monad1<URI> &
   FoldableWithIndex1<URI, number> =
   /*#__PURE__*/
   (() => {
+    // tslint:disable-next-line: deprecation
     return Object.assign({}, RA.readonlyArray as any, { URI })
   })()
 

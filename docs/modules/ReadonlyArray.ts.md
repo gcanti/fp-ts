@@ -55,6 +55,8 @@ Added in v2.5.0
   - [traverse](#traverse)
 - [TraversableWithIndex](#traversablewithindex)
   - [traverseWithIndex](#traversewithindex)
+- [Unfoldable](#unfoldable)
+  - [unfold](#unfold)
 - [Whitherable](#whitherable)
   - [wilt](#wilt)
   - [wither](#wither)
@@ -94,11 +96,28 @@ Added in v2.5.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [altArray](#altarray)
+  - [alternativeArray](#alternativearray)
+  - [applicativeArray](#applicativearray)
+  - [applyArray](#applyarray)
+  - [compactableArray](#compactablearray)
+  - [extendArray](#extendarray)
+  - [filterableArray](#filterablearray)
+  - [filterableWithIndexArray](#filterablewithindexarray)
+  - [foldableArray](#foldablearray)
+  - [foldableWithIndexArray](#foldablewithindexarray)
+  - [functorArray](#functorarray)
+  - [functorWithIndexArray](#functorwithindexarray)
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getShow](#getshow)
+  - [monadArray](#monadarray)
   - [readonlyArray](#readonlyarray)
+  - [traversableArray](#traversablearray)
+  - [traversableWithIndexArray](#traversablewithindexarray)
+  - [unfoldableArray](#unfoldablearray)
+  - [witherableArray](#witherablearray)
 - [unsafe](#unsafe)
   - [unsafeDeleteAt](#unsafedeleteat)
   - [unsafeInsertAt](#unsafeinsertat)
@@ -130,7 +149,6 @@ Added in v2.5.0
   - [splitAt](#splitat)
   - [tail](#tail)
   - [takeRight](#takeright)
-  - [unfold](#unfold)
   - [unzip](#unzip)
   - [updateAt](#updateat)
 
@@ -506,6 +524,18 @@ export declare const traverseWithIndex: PipeableTraverseWithIndex1<'ReadonlyArra
 ```
 
 Added in v2.6.3
+
+# Unfoldable
+
+## unfold
+
+**Signature**
+
+```ts
+export declare const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => readonly A[]
+```
+
+Added in v2.6.6
 
 # Whitherable
 
@@ -1192,6 +1222,126 @@ export type URI = typeof URI
 
 Added in v2.5.0
 
+## altArray
+
+**Signature**
+
+```ts
+export declare const altArray: Alt1<'ReadonlyArray'>
+```
+
+Added in v2.7.0
+
+## alternativeArray
+
+**Signature**
+
+```ts
+export declare const alternativeArray: Alternative1<'ReadonlyArray'>
+```
+
+Added in v2.7.0
+
+## applicativeArray
+
+**Signature**
+
+```ts
+export declare const applicativeArray: Applicative1<'ReadonlyArray'>
+```
+
+Added in v2.7.0
+
+## applyArray
+
+**Signature**
+
+```ts
+export declare const applyArray: Apply1<'ReadonlyArray'>
+```
+
+Added in v2.7.0
+
+## compactableArray
+
+**Signature**
+
+```ts
+export declare const compactableArray: Compactable1<'ReadonlyArray'>
+```
+
+Added in v2.7.0
+
+## extendArray
+
+**Signature**
+
+```ts
+export declare const extendArray: Extend1<'ReadonlyArray'>
+```
+
+Added in v2.7.0
+
+## filterableArray
+
+**Signature**
+
+```ts
+export declare const filterableArray: Filterable1<'ReadonlyArray'>
+```
+
+Added in v2.7.0
+
+## filterableWithIndexArray
+
+**Signature**
+
+```ts
+export declare const filterableWithIndexArray: FilterableWithIndex1<'ReadonlyArray', number>
+```
+
+Added in v2.7.0
+
+## foldableArray
+
+**Signature**
+
+```ts
+export declare const foldableArray: Foldable1<'ReadonlyArray'>
+```
+
+Added in v2.7.0
+
+## foldableWithIndexArray
+
+**Signature**
+
+```ts
+export declare const foldableWithIndexArray: FoldableWithIndex1<'ReadonlyArray', number>
+```
+
+Added in v2.7.0
+
+## functorArray
+
+**Signature**
+
+```ts
+export declare const functorArray: Functor1<'ReadonlyArray'>
+```
+
+Added in v2.7.0
+
+## functorWithIndexArray
+
+**Signature**
+
+```ts
+export declare const functorWithIndexArray: FunctorWithIndex1<'ReadonlyArray', number>
+```
+
+Added in v2.7.0
+
 ## getEq
 
 Derives an `Eq` over the `ReadonlyArray` of a given element type from the `Eq` of that type. The derived `Eq` defines two
@@ -1275,24 +1425,74 @@ export declare function getShow<A>(S: Show<A>): Show<ReadonlyArray<A>>
 
 Added in v2.5.0
 
+## monadArray
+
+**Signature**
+
+```ts
+export declare const monadArray: Monad1<'ReadonlyArray'>
+```
+
+Added in v2.7.0
+
 ## readonlyArray
 
 **Signature**
 
 ```ts
-export declare const readonlyArray: Monad1<'ReadonlyArray'> &
+export declare const readonlyArray: FunctorWithIndex1<'ReadonlyArray', number> &
+  Monad1<'ReadonlyArray'> &
   Unfoldable1<'ReadonlyArray'> &
-  TraversableWithIndex1<'ReadonlyArray', number> &
   Alternative1<'ReadonlyArray'> &
   Extend1<'ReadonlyArray'> &
   Compactable1<'ReadonlyArray'> &
   FilterableWithIndex1<'ReadonlyArray', number> &
-  Witherable1<'ReadonlyArray'> &
-  FunctorWithIndex1<'ReadonlyArray', number> &
-  FoldableWithIndex1<'ReadonlyArray', number>
+  FoldableWithIndex1<'ReadonlyArray', number> &
+  TraversableWithIndex1<'ReadonlyArray', number> &
+  Witherable1<'ReadonlyArray'>
 ```
 
 Added in v2.5.0
+
+## traversableArray
+
+**Signature**
+
+```ts
+export declare const traversableArray: Traversable1<'ReadonlyArray'>
+```
+
+Added in v2.7.0
+
+## traversableWithIndexArray
+
+**Signature**
+
+```ts
+export declare const traversableWithIndexArray: TraversableWithIndex1<'ReadonlyArray', number>
+```
+
+Added in v2.7.0
+
+## unfoldableArray
+
+**Signature**
+
+```ts
+export declare const unfoldableArray: Unfoldable1<'ReadonlyArray'>
+```
+
+Added in v2.7.0
+
+## witherableArray
+
+**Signature**
+
+```ts
+export declare const witherableArray: Witherable1<'ReadonlyArray'>
+```
+
+Added in v2.7.0
 
 # unsafe
 
@@ -1950,16 +2150,6 @@ assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
 ```
 
 Added in v2.5.0
-
-## unfold
-
-**Signature**
-
-```ts
-export declare const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => readonly A[]
-```
-
-Added in v2.6.6
 
 ## unzip
 

@@ -1,11 +1,11 @@
 import * as assert from 'assert'
-import { readonlyArray } from '../src/ReadonlyArray'
+import * as A from '../src/ReadonlyArray'
 import { getFoldableWithIndexComposition } from '../src/FoldableWithIndex'
 import { monoidString } from '../src/Monoid'
 
 describe('FoldableWithIndex', () => {
   it('getFoldableWithIndexComposition', () => {
-    const arrayOfArray = getFoldableWithIndexComposition(readonlyArray, readonlyArray)
+    const arrayOfArray = getFoldableWithIndexComposition(A.foldableWithIndexArray, A.foldableWithIndexArray)
     const fa: ReadonlyArray<ReadonlyArray<string>> = [
       ['a', 'b'],
       ['c', 'd']
