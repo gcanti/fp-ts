@@ -726,8 +726,14 @@ describe('ReadonlyArray', () => {
       readonly name: string
       readonly age: number
     }
-    const byName = Ord.ord.contramap(Ord.ordString, (p: Person) => p.name)
-    const byAge = Ord.ord.contramap(Ord.ordNumber, (p: Person) => p.age)
+    const byName = pipe(
+      Ord.ordString,
+      Ord.contramap((p: Person) => p.name)
+    )
+    const byAge = pipe(
+      Ord.ordNumber,
+      Ord.contramap((p: Person) => p.age)
+    )
     const sortByNameByAge = _.sortBy([byName, byAge])
     const persons: ReadonlyArray<Person> = [
       { name: 'a', age: 1 },
