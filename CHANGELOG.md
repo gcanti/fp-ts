@@ -111,6 +111,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `traversableOption` instance (@gcanti)
     - add `witherableOption` instance (@gcanti)
     - add `monadThrowOption` instance (@gcanti)
+  - `Ord`
+    - add `contravariantOrd` instance (@gcanti)
   - `ReadonlyArray`
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)

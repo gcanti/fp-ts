@@ -6,7 +6,7 @@ import { identity, pipe, Refinement } from '../src/function'
 import * as IO from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
-import { fromCompare, ord, ordNumber, ordString } from '../src/Ord'
+import * as Ord from '../src/Ord'
 import * as _ from '../src/ReadonlyMap'
 import { getFirstSemigroup, getLastSemigroup, getStructSemigroup, semigroupSum } from '../src/Semigroup'
 import { getStructShow, Show, showString } from '../src/Show'
@@ -16,7 +16,10 @@ interface User {
   readonly id: string
 }
 
-const ordUser = ord.contramap(ordString, (u: User) => u.id)
+const ordUser = pipe(
+  Ord.ordString,
+  Ord.contramap((u: User) => u.id)
+)
 
 const eqUser: Eq<User> = { equals: ordUser.equals }
 
@@ -32,7 +35,7 @@ interface Value {
 
 const eqKey: Eq<Key> = fromEquals((x, y) => x.id % 3 === y.id % 3)
 
-const ordKey = fromCompare<Key>((x, y) => ordNumber.compare(x.id % 3, y.id % 3))
+const ordKey = Ord.fromCompare<Key>((x, y) => Ord.ordNumber.compare(x.id % 3, y.id % 3))
 
 const eqValue: Eq<Value> = fromEquals((x, y) => x.value % 3 === y.value % 3)
 
@@ -220,7 +223,7 @@ describe('ReadonlyMap', () => {
     assert.deepStrictEqual(ks, [{ id: 'a' }, { id: 'b' }])
 
     assert.deepStrictEqual(
-      _.keys(ordString)(
+      _.keys(Ord.ordString)(
         new Map([
           ['a', 1],
           ['b', 2]
@@ -229,7 +232,7 @@ describe('ReadonlyMap', () => {
       ['a', 'b']
     )
     assert.deepStrictEqual(
-      _.keys(ordString)(
+      _.keys(Ord.ordString)(
         new Map([
           ['b', 2],
           ['a', 1]
@@ -771,7 +774,7 @@ describe('ReadonlyMap', () => {
     const W = _.getWitherable(ordUser)
 
     it('traverseWithIndex should sort the keys', () => {
-      const W = _.getWitherable(ordString)
+      const W = _.getWitherable(Ord.ordString)
       // tslint:disable-next-line: readonly-array
       const log: Array<string> = []
       const append = (message: string): IO.IO<void> => () => {
