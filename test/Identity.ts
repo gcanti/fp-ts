@@ -111,7 +111,7 @@ describe('Identity', () => {
   })
 
   it('ChainRec', () => {
-    const x = _.identity.chainRec<number, number>(0, (a) => (a < 10 ? left(a + 1) : right(a)))
+    const x = _.chainRecIdentity.chainRec<number, number>(0, (a) => (a < 10 ? left(a + 1) : right(a)))
     const expected = 10
     assert.deepStrictEqual(x, expected)
   })

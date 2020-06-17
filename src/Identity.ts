@@ -2,7 +2,7 @@
  * @since 2.0.0
  */
 import { Alt1 } from './Alt'
-import { Applicative } from './Applicative'
+import { Applicative, Applicative1 } from './Applicative'
 import { ChainRec1, tailRec } from './ChainRec'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
@@ -13,6 +13,9 @@ import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
+import { Functor1 } from './Functor'
+import { Apply1 } from './Apply'
+import { Extend1 } from './Extend'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -39,26 +42,6 @@ export const getEq: <A>(E: Eq<A>) => Eq<Identity<A>> = id
 // -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
-
-const alt_: <A>(fa: A, that: Lazy<A>) => A = id
-
-const extend_: <A, B>(wa: A, f: (wa: A) => B) => B = (wa, f) => f(wa)
-
-const map_: <A, B>(fa: Identity<A>, f: (a: A) => B) => Identity<B> = (ma, f) => f(ma)
-
-const ap_: <A, B>(fab: Identity<(a: A) => B>, fa: Identity<A>) => Identity<B> = (mab, ma) => mab(ma)
-
-const chain_: <A, B>(fa: Identity<A>, f: (a: A) => Identity<B>) => Identity<B> = (ma, f) => f(ma)
-
-const reduce_: <A, B>(fa: Identity<A>, b: B, f: (b: B, a: A) => B) => B = (fa, b, f) => f(b, fa)
-
-const foldMap_: <M>(M: Monoid<M>) => <A>(fa: Identity<A>, f: (a: A) => M) => M = (_) => (fa, f) => f(fa)
-
-const reduceRight_: <A, B>(fa: Identity<A>, b: B, f: (a: A, b: B) => B) => B = (fa, b, f) => f(fa, b)
-
-const traverse_ = <F>(F: Applicative<F>) => <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>): HKT<F, Identity<B>> => {
-  return F.map(f(ta), id)
-}
 
 /**
  * @since 2.6.3
@@ -198,6 +181,19 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Identity<A>) => Identity<B> = (
 // instances
 // -------------------------------------------------------------------------------------
 
+const alt_: <A>(fa: A, that: Lazy<A>) => A = id
+const extend_: <A, B>(wa: A, f: (wa: A) => B) => B = (wa, f) => f(wa)
+const map_: <A, B>(fa: Identity<A>, f: (a: A) => B) => Identity<B> = (ma, f) => f(ma)
+const ap_: <A, B>(fab: Identity<(a: A) => B>, fa: Identity<A>) => Identity<B> = (mab, ma) => mab(ma)
+const chain_: <A, B>(fa: Identity<A>, f: (a: A) => Identity<B>) => Identity<B> = (ma, f) => f(ma)
+const reduce_: <A, B>(fa: Identity<A>, b: B, f: (b: B, a: A) => B) => B = (fa, b, f) => f(b, fa)
+const foldMap_: <M>(M: Monoid<M>) => <A>(fa: Identity<A>, f: (a: A) => M) => M = (_) => (fa, f) => f(fa)
+const reduceRight_: <A, B>(fa: Identity<A>, b: B, f: (a: A, b: B) => B) => B = (fa, b, f) => f(fa, b)
+const traverse_ = <F>(F: Applicative<F>) => <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>): HKT<F, Identity<B>> =>
+  F.map(f(ta), id)
+const of = id
+const chainRec_ = tailRec
+
 /**
  * @category instances
  * @since 2.0.0
@@ -218,13 +214,124 @@ declare module './HKT' {
 
 /**
  * @category instances
+ * @since 2.7.0
+ */
+export const functorIdentity: Functor1<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applyIdentity: Apply1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeIdentity: Applicative1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const monadIdentity: Monad1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const foldableIdentity: Foldable1<URI> = {
+  URI,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const traversableIdentity: Traversable1<URI> = {
+  URI,
+  map: map_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  traverse: traverse_,
+  sequence
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const altIdentity: Alt1<URI> = {
+  URI,
+  map: map_,
+  alt: alt_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const extendIdentity: Extend1<URI> = {
+  URI,
+  map: map_,
+  extend: extend_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const comonadIdentity: Comonad1<URI> = {
+  URI,
+  map: map_,
+  extend: extend_,
+  extract
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const chainRecIdentity: ChainRec1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  chain: chain_,
+  chainRec: chainRec_
+}
+
+/**
+ * @category instances
  * @since 2.0.0
+ * @deprecated
  */
 export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI> = {
   URI,
   map: map_,
-  of: id,
   ap: ap_,
+  of,
   chain: chain_,
   reduce: reduce_,
   foldMap: foldMap_,
@@ -234,5 +341,5 @@ export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<U
   alt: alt_,
   extract,
   extend: extend_,
-  chainRec: tailRec
+  chainRec: chainRec_
 }

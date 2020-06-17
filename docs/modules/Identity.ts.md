@@ -36,9 +36,19 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [altIdentity](#altidentity)
+  - [applicativeIdentity](#applicativeidentity)
+  - [applyIdentity](#applyidentity)
+  - [chainRecIdentity](#chainrecidentity)
+  - [comonadIdentity](#comonadidentity)
+  - [extendIdentity](#extendidentity)
+  - [foldableIdentity](#foldableidentity)
+  - [functorIdentity](#functoridentity)
   - [getEq](#geteq)
   - [getShow](#getshow)
-  - [identity](#identity)
+  - [monadIdentity](#monadidentity)
+  - [traversableIdentity](#traversableidentity)
+  - [~~identity~~](#identity)
 - [model](#model)
   - [Identity (type alias)](#identity-type-alias)
 - [utils](#utils)
@@ -240,6 +250,86 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
+## altIdentity
+
+**Signature**
+
+```ts
+export declare const altIdentity: Alt1<'Identity'>
+```
+
+Added in v2.7.0
+
+## applicativeIdentity
+
+**Signature**
+
+```ts
+export declare const applicativeIdentity: Applicative1<'Identity'>
+```
+
+Added in v2.7.0
+
+## applyIdentity
+
+**Signature**
+
+```ts
+export declare const applyIdentity: Apply1<'Identity'>
+```
+
+Added in v2.7.0
+
+## chainRecIdentity
+
+**Signature**
+
+```ts
+export declare const chainRecIdentity: ChainRec1<'Identity'>
+```
+
+Added in v2.7.0
+
+## comonadIdentity
+
+**Signature**
+
+```ts
+export declare const comonadIdentity: Comonad1<'Identity'>
+```
+
+Added in v2.7.0
+
+## extendIdentity
+
+**Signature**
+
+```ts
+export declare const extendIdentity: Extend1<'Identity'>
+```
+
+Added in v2.7.0
+
+## foldableIdentity
+
+**Signature**
+
+```ts
+export declare const foldableIdentity: Foldable1<'Identity'>
+```
+
+Added in v2.7.0
+
+## functorIdentity
+
+**Signature**
+
+```ts
+export declare const functorIdentity: Functor1<'Identity'>
+```
+
+Added in v2.7.0
+
 ## getEq
 
 **Signature**
@@ -260,7 +350,27 @@ export declare const getShow: <A>(S: Show<A>) => Show<A>
 
 Added in v2.0.0
 
-## identity
+## monadIdentity
+
+**Signature**
+
+```ts
+export declare const monadIdentity: Monad1<'Identity'>
+```
+
+Added in v2.7.0
+
+## traversableIdentity
+
+**Signature**
+
+```ts
+export declare const traversableIdentity: Traversable1<'Identity'>
+```
+
+Added in v2.7.0
+
+## ~~identity~~
 
 **Signature**
 
