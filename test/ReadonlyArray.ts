@@ -691,7 +691,10 @@ describe('ReadonlyArray', () => {
       readonly b: number
     }
 
-    const eqA = Eq.eq.contramap(Ord.ordNumber, (f: A) => f.b)
+    const eqA = pipe(
+      Ord.ordNumber,
+      Eq.contramap((f: A) => f.b)
+    )
     const arrA: A = { a: 'a', b: 1 }
     const arrB: A = { a: 'b', b: 1 }
     const arrC: A = { a: 'c', b: 2 }

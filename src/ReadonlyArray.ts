@@ -2178,6 +2178,7 @@ export const witherableArray: Witherable1<URI> = {
   wilt: wilt_
 }
 
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.5.0

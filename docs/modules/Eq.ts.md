@@ -27,6 +27,7 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [contravariantEq](#contravarianteq)
   - [eq](#eq)
   - [eqBoolean](#eqboolean)
   - [eqDate](#eqdate)
@@ -88,6 +89,16 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
+
+## contravariantEq
+
+**Signature**
+
+```ts
+export declare const contravariantEq: Contravariant1<'Eq'>
+```
+
+Added in v2.7.0
 
 ## eq
 

@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { eq, Eq, eqNumber } from '../src/Eq'
+import * as Eq from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import * as I from '../src/Identity'
 import * as O from '../src/Option'
@@ -148,7 +148,7 @@ describe('Tree', () => {
   })
 
   it('getEq', () => {
-    const S = _.getEq(eqNumber)
+    const S = _.getEq(Eq.eqNumber)
     const x = _.make(1, [_.make(2)])
     const y = _.make(2, [_.make(2)])
     const z = _.make(1, [_.make(1)])
@@ -173,7 +173,10 @@ describe('Tree', () => {
     interface User {
       readonly id: number
     }
-    const S: Eq<User> = eq.contramap(eqNumber, (user: User) => user.id)
+    const S: Eq.Eq<User> = pipe(
+      Eq.eqNumber,
+      Eq.contramap((user: User) => user.id)
+    )
     const users = _.make({ id: 1 }, [_.make({ id: 1 }, [_.make({ id: 3 }), _.make({ id: 4 })]), _.make({ id: 2 })])
     assert.deepStrictEqual(_.elem(S)({ id: 1 }, users), true)
     assert.deepStrictEqual(_.elem(S)({ id: 4 }, users), true)
