@@ -71,6 +71,15 @@ high state of flux, you're at risk of it changing without notice.
     - add `monadIO` instance (@gcanti)
     - add `monadIOIO` instance (@gcanti)
     - add `chainRecIO` instance (@gcanti)
+  - `IOEither`
+    - add `functorIOEither` instance (@gcanti)
+    - add `applyIOEither` instance (@gcanti)
+    - add `applicativeIOEither` instance (@gcanti)
+    - add `monadIOEither` instance (@gcanti)
+    - add `bifunctorIOEither` instance (@gcanti)
+    - add `altIOEither` instance (@gcanti)
+    - add `monadIOIOEither` instance (@gcanti)
+    - add `monadThrowIOEither` instance (@gcanti)
   - `ReadonlyArray`
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)
