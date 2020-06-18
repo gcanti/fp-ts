@@ -16,6 +16,8 @@ import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
 import { Traversable2, PipeableTraverse2 } from './Traversable'
+import { Functor2 } from './Functor'
+import { Extend2 } from './Extend'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -144,28 +146,6 @@ export function getChainRec<S>(M: Monoid<S>): ChainRec2C<URI, S> {
 // pipeables
 // -------------------------------------------------------------------------------------
 
-const compose_: <E, A, B>(ab: readonly [B, A], la: readonly [A, E]) => readonly [B, E] = (ba, ae) => [fst(ba), snd(ae)]
-
-const map_: <E, A, B>(fa: readonly [A, E], f: (a: A) => B) => readonly [B, E] = (ae, f) => [f(fst(ae)), snd(ae)]
-
-const bimap_: <E, A, G, B>(fea: readonly [A, E], f: (e: E) => G, g: (a: A) => B) => readonly [B, G] = (fea, f, g) => [
-  g(fst(fea)),
-  f(snd(fea))
-]
-
-const mapLeft_: <E, A, G>(fea: readonly [A, E], f: (e: E) => G) => readonly [A, G] = (fea, f) => [fst(fea), f(snd(fea))]
-
-const extend_: <E, A, B>(wa: readonly [A, E], f: (wa: readonly [A, E]) => B) => readonly [B, E] = (ae, f) => [
-  f(ae),
-  snd(ae)
-]
-
-const reduce_: <E, A, B>(fa: readonly [A, E], b: B, f: (b: B, a: A) => B) => B = (ae, b, f) => f(b, fst(ae))
-
-const foldMap_: <M>(M: Monoid<M>) => <E, A>(fa: readonly [A, E], f: (a: A) => M) => M = (_) => (ae, f) => f(fst(ae))
-
-const reduceRight_: <E, A, B>(fa: readonly [A, E], b: B, f: (a: A, b: B) => B) => B = (ae, b, f) => f(fst(ae), b)
-
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
  *
@@ -245,9 +225,48 @@ export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: readonly [A, 
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: readonly [A, E]) => B = (b, f) => (fa) =>
   reduceRight_(fa, b, f)
 
+/**
+ * @since 2.6.3
+ */
+export const traverse: PipeableTraverse2<URI> = <F>(
+  F: Applicative<F>
+): (<A, B>(f: (a: A) => HKT<F, B>) => <S>(as: readonly [A, S]) => HKT<F, readonly [B, S]>) => {
+  return (f) => (ta) => traverse_(F)(ta, f)
+}
+
+/**
+ * @since 2.6.3
+ */
+export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <A, S>(
+  fas: readonly [HKT<F, A>, S]
+): HKT<F, readonly [A, S]> => {
+  return F.map(fst(fas), (a) => [a, snd(fas)])
+}
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+const compose_: <E, A, B>(ab: readonly [B, A], la: readonly [A, E]) => readonly [B, E] = (ba, ae) => [fst(ba), snd(ae)]
+const map_: <E, A, B>(fa: readonly [A, E], f: (a: A) => B) => readonly [B, E] = (ae, f) => [f(fst(ae)), snd(ae)]
+const bimap_: <E, A, G, B>(fea: readonly [A, E], f: (e: E) => G, g: (a: A) => B) => readonly [B, G] = (fea, f, g) => [
+  g(fst(fea)),
+  f(snd(fea))
+]
+const mapLeft_: <E, A, G>(fea: readonly [A, E], f: (e: E) => G) => readonly [A, G] = (fea, f) => [fst(fea), f(snd(fea))]
+const extend_: <E, A, B>(wa: readonly [A, E], f: (wa: readonly [A, E]) => B) => readonly [B, E] = (ae, f) => [
+  f(ae),
+  snd(ae)
+]
+const reduce_: <E, A, B>(fa: readonly [A, E], b: B, f: (b: B, a: A) => B) => B = (ae, b, f) => f(b, fst(ae))
+const foldMap_: <M>(M: Monoid<M>) => <E, A>(fa: readonly [A, E], f: (a: A) => M) => M = (_) => (ae, f) => f(fst(ae))
+const reduceRight_: <E, A, B>(fa: readonly [A, E], b: B, f: (a: A, b: B) => B) => B = (ae, b, f) => f(fst(ae), b)
+const traverse_ = <F>(F: Applicative<F>) => <A, S, B>(
+  as: readonly [A, S],
+  f: (a: A) => HKT<F, B>
+): HKT<F, readonly [B, S]> => {
+  return F.map(f(fst(as)), (b) => [b, snd(as)])
+}
 
 /**
  * @category instances
@@ -267,31 +286,81 @@ declare module './HKT' {
   }
 }
 
-const traverse_ = <F>(F: Applicative<F>) => <A, S, B>(
-  as: readonly [A, S],
-  f: (a: A) => HKT<F, B>
-): HKT<F, readonly [B, S]> => {
-  return F.map(f(fst(as)), (b) => [b, snd(as)])
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorTuple: Functor2<URI> = {
+  URI,
+  map: map_
 }
 
 /**
- * @since 2.6.3
+ * @category instances
+ * @since 2.7.0
  */
-export const traverse: PipeableTraverse2<URI> = <F>(
-  F: Applicative<F>
-): (<A, B>(f: (a: A) => HKT<F, B>) => <S>(as: readonly [A, S]) => HKT<F, readonly [B, S]>) => {
-  return (f) => (ta) => traverse_(F)(ta, f)
+export const bifunctorTuple: Bifunctor2<URI> = {
+  URI,
+  bimap: bimap_,
+  mapLeft: mapLeft_
 }
 
 /**
- * @since 2.6.3
+ * @category instances
+ * @since 2.7.0
  */
-export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <A, S>(
-  fas: readonly [HKT<F, A>, S]
-): HKT<F, readonly [A, S]> => {
-  return F.map(fst(fas), (a) => [a, snd(fas)])
+export const semigroupoidTuple: Semigroupoid2<URI> = {
+  URI,
+  compose: compose_
 }
 
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const extendTuple: Extend2<URI> = {
+  URI,
+  map: map_,
+  extend: extend_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const comonadTuple: Comonad2<URI> = {
+  URI,
+  map: map_,
+  extend: extend_,
+  extract
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const foldableTuple: Foldable2<URI> = {
+  URI,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const traversableTuple: Traversable2<URI> = {
+  URI,
+  map: map_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  traverse: traverse_,
+  sequence
+}
+
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.5.0

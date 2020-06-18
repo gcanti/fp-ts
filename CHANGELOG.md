@@ -183,6 +183,14 @@ high state of flux, you're at risk of it changing without notice.
     - add `traversableRecord` instance (@gcanti)
     - add `traversableWithIndexRecord` instance (@gcanti)
     - add `witherableRecord` instance (@gcanti)
+  - `ReadonlyTuple`
+    - add `functorTuple` instance (@gcanti)
+    - add `bifunctorTuple` instance (@gcanti)
+    - add `semigroupoidTuple` instance (@gcanti)
+    - add `extendTuple` instance (@gcanti)
+    - add `comonadTuple` instance (@gcanti)
+    - add `foldableTuple` instance (@gcanti)
+    - add `traversableTuple` instance (@gcanti)
   - `Record`
     - add `functorRecord` instance (@gcanti)
     - add `functorWithIndexRecord` instance (@gcanti)
@@ -229,6 +237,14 @@ high state of flux, you're at risk of it changing without notice.
     - add `comonadTree` instance (@gcanti)
   - `Traced`
     - rename `writer` to `functorWriter` for consistency (@gcanti)
+  - `Tuple`
+    - add `functorTuple` instance (@gcanti)
+    - add `bifunctorTuple` instance (@gcanti)
+    - add `semigroupoidTuple` instance (@gcanti)
+    - add `extendTuple` instance (@gcanti)
+    - add `comonadTuple` instance (@gcanti)
+    - add `foldableTuple` instance (@gcanti)
+    - add `traversableTuple` instance (@gcanti)
 
 # 2.6.7
 

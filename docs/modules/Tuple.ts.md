@@ -36,11 +36,18 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [bifunctorTuple](#bifunctortuple)
+  - [comonadTuple](#comonadtuple)
+  - [extendTuple](#extendtuple)
+  - [foldableTuple](#foldabletuple)
+  - [functorTuple](#functortuple)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getChain](#getchain)
   - [getChainRec](#getchainrec)
   - [getMonad](#getmonad)
+  - [semigroupoidTuple](#semigroupoidtuple)
+  - [traversableTuple](#traversabletuple)
   - [tuple](#tuple)
 - [utils](#utils)
   - [sequence](#sequence)
@@ -223,6 +230,56 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
+## bifunctorTuple
+
+**Signature**
+
+```ts
+export declare const bifunctorTuple: Bifunctor2<'Tuple'>
+```
+
+Added in v2.7.0
+
+## comonadTuple
+
+**Signature**
+
+```ts
+export declare const comonadTuple: Comonad2<'Tuple'>
+```
+
+Added in v2.7.0
+
+## extendTuple
+
+**Signature**
+
+```ts
+export declare const extendTuple: Extend2<'Tuple'>
+```
+
+Added in v2.7.0
+
+## foldableTuple
+
+**Signature**
+
+```ts
+export declare const foldableTuple: Foldable2<'Tuple'>
+```
+
+Added in v2.7.0
+
+## functorTuple
+
+**Signature**
+
+```ts
+export declare const functorTuple: Functor2<'Tuple'>
+```
+
+Added in v2.7.0
+
 ## getApplicative
 
 **Signature**
@@ -272,6 +329,26 @@ export declare const getMonad: <S>(M: Monoid<S>) => Monad2C<'Tuple', S>
 ```
 
 Added in v2.0.0
+
+## semigroupoidTuple
+
+**Signature**
+
+```ts
+export declare const semigroupoidTuple: Semigroupoid2<'Tuple'>
+```
+
+Added in v2.7.0
+
+## traversableTuple
+
+**Signature**
+
+```ts
+export declare const traversableTuple: Traversable2<'Tuple'>
+```
+
+Added in v2.7.0
 
 ## tuple
 
