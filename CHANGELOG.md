@@ -154,6 +154,9 @@ high state of flux, you're at risk of it changing without notice.
     - add `applicativeTaskEitherSeq` instance (@gcanti)
     - add `bifunctorTaskEither` instance (@gcanti)
     - add `altTaskEither` instance (@gcanti)
+  - `TaskThese`
+    - add `functorTaskThese` instance (@gcanti)
+    - add `bifunctorTaskThese` instance (@gcanti)
   - `ReadonlyArray`
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)

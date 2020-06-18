@@ -560,7 +560,7 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 2.7.0
  */
 export const functorTaskEither: Functor2<URI> = {
   URI,
@@ -569,7 +569,7 @@ export const functorTaskEither: Functor2<URI> = {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 2.7.0
  */
 export const applicativeTaskEitherPar: Applicative2<URI> = {
   URI,
@@ -580,7 +580,7 @@ export const applicativeTaskEitherPar: Applicative2<URI> = {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 2.7.0
  */
 export const applicativeTaskEitherSeq: Applicative2<URI> = {
   URI,
@@ -591,7 +591,7 @@ export const applicativeTaskEitherSeq: Applicative2<URI> = {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 2.7.0
  */
 export const bifunctorTaskEither: Bifunctor2<URI> = {
   URI,
@@ -601,7 +601,7 @@ export const bifunctorTaskEither: Bifunctor2<URI> = {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 2.7.0
  */
 export const altTaskEither: Alt2<URI> = {
   URI,
