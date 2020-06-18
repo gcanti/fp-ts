@@ -5,10 +5,12 @@ import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, A
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
+import { Filterable1 } from './Filterable'
 import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { identity, Predicate, Refinement } from './function'
+import { Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Magma } from './Magma'
@@ -16,9 +18,10 @@ import { Monoid } from './Monoid'
 import { isNone, isSome, none, Option, some as optionSome } from './Option'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
+import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
-import { Witherable1, PipeableWither1, PipeableWilt1 } from './Witherable'
+import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
 
 /**
  * @category model
@@ -1088,15 +1091,158 @@ declare module './HKT' {
 
 /**
  * @category instances
+ * @since 2.7.0
+ */
+export const functorRecord: Functor1<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorWithIndexRecord: FunctorWithIndex1<URI, string> = {
+  URI,
+  map: map_,
+  mapWithIndex: mapWithIndex_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const foldableRecord: Foldable1<URI> = {
+  URI,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const foldableWithIndexRecord: FoldableWithIndex1<URI, string> = {
+  URI,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  reduceWithIndex: reduceWithIndex_,
+  foldMapWithIndex: foldMapWithIndex_,
+  reduceRightWithIndex: reduceRightWithIndex_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const compactableRecord: Compactable1<URI> = {
+  URI,
+  compact,
+  separate
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const filterableRecord: Filterable1<URI> = {
+  URI,
+  map: map_,
+  compact,
+  separate,
+  filter: filter_,
+  filterMap: filterMap_,
+  partition: partition_,
+  partitionMap: partitionMap_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const filterableWithIndexRecord: FilterableWithIndex1<URI, string> = {
+  URI,
+  map: map_,
+  mapWithIndex: mapWithIndex_,
+  compact,
+  separate,
+  filter: filter_,
+  filterMap: filterMap_,
+  partition: partition_,
+  partitionMap: partitionMap_,
+  filterMapWithIndex: filterMapWithIndex_,
+  filterWithIndex: filterWithIndex_,
+  partitionMapWithIndex: partitionMapWithIndex_,
+  partitionWithIndex: partitionWithIndex_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const traversableRecord: Traversable1<URI> = {
+  URI,
+  map: map_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  traverse: traverse_,
+  sequence
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const traversableWithIndexRecord: TraversableWithIndex1<URI, string> = {
+  URI,
+  map: map_,
+  mapWithIndex: mapWithIndex_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  reduceWithIndex: reduceWithIndex_,
+  foldMapWithIndex: foldMapWithIndex_,
+  reduceRightWithIndex: reduceRightWithIndex_,
+  traverse: traverse_,
+  sequence,
+  traverseWithIndex: traverseWithIndex_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const witherableRecord: Witherable1<URI> = {
+  URI,
+  map: map_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  traverse: traverse_,
+  sequence,
+  compact,
+  separate,
+  filter: filter_,
+  filterMap: filterMap_,
+  partition: partition_,
+  partitionMap: partitionMap_,
+  wither: wither_,
+  wilt: wilt_
+}
+
+// TODO: remove in v3
+/**
+ * @category instances
  * @since 2.5.0
  */
 export const readonlyRecord: FunctorWithIndex1<URI, string> &
-  Foldable1<URI> &
-  TraversableWithIndex1<URI, string> &
-  Compactable1<URI> &
+  FoldableWithIndex1<URI, string> &
   FilterableWithIndex1<URI, string> &
-  Witherable1<URI> &
-  FoldableWithIndex1<URI, string> = {
+  TraversableWithIndex1<URI, string> &
+  Witherable1<URI> = {
   URI,
   map: map_,
   reduce: reduce_,
@@ -1114,11 +1260,11 @@ export const readonlyRecord: FunctorWithIndex1<URI, string> &
   reduceWithIndex: reduceWithIndex_,
   foldMapWithIndex: foldMapWithIndex_,
   reduceRightWithIndex: reduceRightWithIndex_,
-  partitionMapWithIndex: partitionMapWithIndex_,
-  partitionWithIndex: partitionWithIndex_,
   filterMapWithIndex: filterMapWithIndex_,
   filterWithIndex: filterWithIndex_,
+  partitionMapWithIndex: partitionMapWithIndex_,
+  partitionWithIndex: partitionWithIndex_,
+  traverseWithIndex: traverseWithIndex_,
   wither: wither_,
-  wilt: wilt_,
-  traverseWithIndex: traverseWithIndex_
+  wilt: wilt_
 }
