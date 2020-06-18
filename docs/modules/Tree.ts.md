@@ -48,8 +48,15 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [applicativeTree](#applicativetree)
+  - [comonadTree](#comonadtree)
+  - [extendTree](#extendtree)
+  - [foldableTree](#foldabletree)
+  - [functorTree](#functortree)
   - [getEq](#geteq)
   - [getShow](#getshow)
+  - [monadTree](#monadtree)
+  - [traversableTree](#traversabletree)
   - [tree](#tree)
 - [model](#model)
   - [Forest (type alias)](#forest-type-alias)
@@ -58,6 +65,7 @@ Added in v2.0.0
   - [drawForest](#drawforest)
   - [drawTree](#drawtree)
   - [elem](#elem)
+  - [of](#of)
   - [sequence](#sequence)
   - [traverse](#traverse)
 
@@ -370,6 +378,56 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
+## applicativeTree
+
+**Signature**
+
+```ts
+export declare const applicativeTree: Applicative1<'Tree'>
+```
+
+Added in v2.7.0
+
+## comonadTree
+
+**Signature**
+
+```ts
+export declare const comonadTree: Comonad1<'Tree'>
+```
+
+Added in v2.7.0
+
+## extendTree
+
+**Signature**
+
+```ts
+export declare const extendTree: Extend1<'Tree'>
+```
+
+Added in v2.7.0
+
+## foldableTree
+
+**Signature**
+
+```ts
+export declare const foldableTree: Foldable1<'Tree'>
+```
+
+Added in v2.7.0
+
+## functorTree
+
+**Signature**
+
+```ts
+export declare const functorTree: Functor1<'Tree'>
+```
+
+Added in v2.7.0
+
 ## getEq
 
 **Signature**
@@ -389,6 +447,26 @@ export declare function getShow<A>(S: Show<A>): Show<Tree<A>>
 ```
 
 Added in v2.0.0
+
+## monadTree
+
+**Signature**
+
+```ts
+export declare const monadTree: Monad1<'Tree'>
+```
+
+Added in v2.7.0
+
+## traversableTree
+
+**Signature**
+
+```ts
+export declare const traversableTree: Traversable1<'Tree'>
+```
+
+Added in v2.7.0
 
 ## tree
 
@@ -478,6 +556,16 @@ export declare function elem<A>(E: Eq<A>): (a: A, fa: Tree<A>) => boolean
 ```
 
 Added in v2.0.0
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => Tree<A>
+```
+
+Added in v2.7.0
 
 ## sequence
 
