@@ -67,14 +67,19 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [altReaderStateTaskEither](#altreaderstatetaskeither)
+  - [applicativeStateReaderTaskEitherPar](#applicativestatereadertaskeitherpar)
+  - [applicativeStateReaderTaskEitherSeq](#applicativestatereadertaskeitherseq)
+  - [bifunctorStateReaderTaskEither](#bifunctorstatereadertaskeither)
+  - [functorStateReaderTaskEither](#functorstatereadertaskeither)
+  - [stateReaderTaskEither](#statereadertaskeither)
+  - [stateReaderTaskEitherSeq](#statereadertaskeitherseq)
 - [model](#model)
   - [StateReaderTaskEither (interface)](#statereadertaskeither-interface)
 - [utils](#utils)
   - [evalState](#evalstate)
   - [execState](#execstate)
   - [run](#run)
-  - [stateReaderTaskEither](#statereadertaskeither)
-  - [stateReaderTaskEitherSeq](#statereadertaskeitherseq)
 
 ---
 
@@ -661,6 +666,86 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
+## altReaderStateTaskEither
+
+**Signature**
+
+```ts
+export declare const altReaderStateTaskEither: Alt4<'StateReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## applicativeStateReaderTaskEitherPar
+
+**Signature**
+
+```ts
+export declare const applicativeStateReaderTaskEitherPar: Applicative4<'StateReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## applicativeStateReaderTaskEitherSeq
+
+**Signature**
+
+```ts
+export declare const applicativeStateReaderTaskEitherSeq: Applicative4<'StateReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## bifunctorStateReaderTaskEither
+
+**Signature**
+
+```ts
+export declare const bifunctorStateReaderTaskEither: Bifunctor4<'StateReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## functorStateReaderTaskEither
+
+**Signature**
+
+```ts
+export declare const functorStateReaderTaskEither: Functor4<'StateReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## stateReaderTaskEither
+
+**Signature**
+
+```ts
+export declare const stateReaderTaskEither: Monad4<'StateReaderTaskEither'> &
+  Bifunctor4<'StateReaderTaskEither'> &
+  Alt4<'StateReaderTaskEither'> &
+  MonadTask4<'StateReaderTaskEither'> &
+  MonadThrow4<'StateReaderTaskEither'>
+```
+
+Added in v2.0.0
+
+## stateReaderTaskEitherSeq
+
+Like `stateReaderTaskEither` but `ap` is sequential
+
+**Signature**
+
+```ts
+export declare const stateReaderTaskEitherSeq: Monad4<'StateReaderTaskEither'> &
+  Bifunctor4<'StateReaderTaskEither'> &
+  Alt4<'StateReaderTaskEither'> &
+  MonadTask4<'StateReaderTaskEither'> &
+  MonadThrow4<'StateReaderTaskEither'>
+```
+
+Added in v2.0.0
+
 # model
 
 ## StateReaderTaskEither (interface)
@@ -713,36 +798,6 @@ Added in v2.0.0
 
 ```ts
 export declare function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: R): Promise<Either<E, [A, S]>>
-```
-
-Added in v2.0.0
-
-## stateReaderTaskEither
-
-**Signature**
-
-```ts
-export declare const stateReaderTaskEither: Monad4<'StateReaderTaskEither'> &
-  Bifunctor4<'StateReaderTaskEither'> &
-  Alt4<'StateReaderTaskEither'> &
-  MonadTask4<'StateReaderTaskEither'> &
-  MonadThrow4<'StateReaderTaskEither'>
-```
-
-Added in v2.0.0
-
-## stateReaderTaskEitherSeq
-
-Like `stateReaderTaskEither` but `ap` is sequential
-
-**Signature**
-
-```ts
-export declare const stateReaderTaskEitherSeq: Monad4<'StateReaderTaskEither'> &
-  Bifunctor4<'StateReaderTaskEither'> &
-  Alt4<'StateReaderTaskEither'> &
-  MonadTask4<'StateReaderTaskEither'> &
-  MonadThrow4<'StateReaderTaskEither'>
 ```
 
 Added in v2.0.0

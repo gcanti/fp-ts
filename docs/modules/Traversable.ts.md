@@ -208,6 +208,9 @@ Added in v2.0.0
 
 ```ts
 export interface Sequence1<T extends URIS> {
+  <F extends URIS4>(F: Applicative4<F>): <S, R, E, A>(
+    ta: Kind<T, Kind4<F, S, R, E, A>>
+  ) => Kind4<F, S, R, E, Kind<T, A>>
   <F extends URIS3>(F: Applicative3<F>): <R, E, A>(ta: Kind<T, Kind3<F, R, E, A>>) => Kind3<F, R, E, Kind<T, A>>
   <F extends URIS3, E>(F: Applicative3C<F, E>): <R, A>(ta: Kind<T, Kind3<F, R, E, A>>) => Kind3<F, R, E, Kind<T, A>>
   <F extends URIS2>(F: Applicative2<F>): <E, A>(ta: Kind<T, Kind2<F, E, A>>) => Kind2<F, E, Kind<T, A>>
