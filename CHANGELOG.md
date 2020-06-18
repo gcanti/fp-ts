@@ -164,6 +164,14 @@ high state of flux, you're at risk of it changing without notice.
     - add `traversableThese` instance (@gcanti)
   - `Traced`
     - rename `traced` to `functorTraced` for consistency (@gcanti)
+  - `Tree`
+    - add `functorTree` instance (@gcanti)
+    - add `applicativeTree` instance (@gcanti)
+    - add `monadTree` instance (@gcanti)
+    - add `foldableTree` instance (@gcanti)
+    - add `traversableTree` instance (@gcanti)
+    - add `extendTree` instance (@gcanti)
+    - add `comonadTree` instance (@gcanti)
   - `ReadonlyArray`
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)
