@@ -218,7 +218,7 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('fromTaskEither', async () => {
-    const e = await _.run(_.fromTaskEither(TE.taskEither.of(1)), {}, {})
+    const e = await _.run(_.fromTaskEither(TE.of(1)), {}, {})
     assert.deepStrictEqual(e, E.right([1, {}]))
   })
 

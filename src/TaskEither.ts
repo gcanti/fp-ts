@@ -27,6 +27,8 @@ import { getValidationM } from './ValidationT'
 
 import Either = E.Either
 import Task = T.Task
+import { Functor2 } from './Functor'
+import { Applicative2 } from './Applicative'
 
 /**
  * @category model
@@ -437,33 +439,10 @@ export const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>)
   T.chain(E.fold(that, right))
 
 /**
- * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
- * whether the body action throws (\*) or returns.
- *
- * (\*) i.e. returns a `Left`
- *
- * @category MonadThrow
+ * @category Applicative
  * @since 2.0.0
  */
-export const bracket = <E, A, B>(
-  acquire: TaskEither<E, A>,
-  use: (a: A) => TaskEither<E, B>,
-  release: (a: A, e: Either<E, B>) => TaskEither<E, void>
-): TaskEither<E, B> =>
-  pipe(
-    acquire,
-    chain((a) =>
-      pipe(
-        pipe(use(a), T.map(E.right)),
-        chain((e) =>
-          pipe(
-            release(a, e),
-            chain(() => (E.isLeft(e) ? left(e.left) : of(e.right)))
-          )
-        )
-      )
-    )
-  )
+export const of: Applicative2<URI>['of'] = right
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -492,8 +471,8 @@ const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
 const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const of = right
+const apPar_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const apSeq_: Applicative2<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
 const alt_: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
@@ -583,13 +562,65 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
  * @category instances
  * @since 2.0.0
  */
+export const functorTaskEither: Functor2<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const applicativeTaskEitherPar: Applicative2<URI> = {
+  URI,
+  map: map_,
+  ap: apPar_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const applicativeTaskEitherSeq: Applicative2<URI> = {
+  URI,
+  map: map_,
+  ap: apSeq_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const bifunctorTaskEither: Bifunctor2<URI> = {
+  URI,
+  bimap: bimap_,
+  mapLeft: mapLeft_
+}
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const altTaskEither: Alt2<URI> = {
+  URI,
+  map: map_,
+  alt: alt_
+}
+
+// TODO: remove in v3
+/**
+ * @category instances
+ * @since 2.0.0
+ */
 export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<URI> & MonadThrow2<URI> = {
   URI,
   bimap: bimap_,
   mapLeft: mapLeft_,
   map: map_,
   of: of,
-  ap: ap_,
+  ap: apPar_,
   chain: chain_,
   alt: alt_,
   fromIO: fromIO_,
@@ -597,6 +628,7 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<
   throwError: throwError_
 }
 
+// TODO: remove in v3
 /**
  * Like `TaskEither` but `ap` is sequential
  *
@@ -609,7 +641,7 @@ export const taskEitherSeq: typeof taskEither = {
   mapLeft: mapLeft_,
   map: map_,
   of,
-  ap: (mab, ma) => chain_(mab, (f) => map_(ma, f)),
+  ap: apSeq_,
   chain: chain_,
   alt: alt_,
   fromIO: fromIO_,
@@ -674,3 +706,31 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
       })
   }
 }
+
+/**
+ * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
+ * whether the body action throws (\*) or returns.
+ *
+ * (\*) i.e. returns a `Left`
+ *
+ * @since 2.0.0
+ */
+export const bracket = <E, A, B>(
+  acquire: TaskEither<E, A>,
+  use: (a: A) => TaskEither<E, B>,
+  release: (a: A, e: Either<E, B>) => TaskEither<E, void>
+): TaskEither<E, B> =>
+  pipe(
+    acquire,
+    chain((a) =>
+      pipe(
+        pipe(use(a), T.map(E.right)),
+        chain((e) =>
+          pipe(
+            release(a, e),
+            chain(() => (E.isLeft(e) ? left(e.left) : of(e.right)))
+          )
+        )
+      )
+    )
+  )
