@@ -144,6 +144,10 @@ high state of flux, you're at risk of it changing without notice.
     - add `applicativeStateReaderTaskEitherSeq` instance (@gcanti)
     - add `bifunctorStateReaderTaskEither` instance (@gcanti)
     - add `altStateReaderTaskEither` instance (@gcanti)
+  - `Task`
+    - add `functorTask` instance (@gcanti)
+    - add `applicativeTaskPar` instance (@gcanti)
+    - add `applicativeTaskSeq` instance (@gcanti)
   - `ReadonlyArray`
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)

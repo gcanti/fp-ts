@@ -201,7 +201,7 @@ export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
  * @since 2.4.0
  */
 export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI, E> {
-  const ap = apComposition(T.applyTask, TH.getMonad(S))
+  const ap = apComposition(T.applicativeTaskPar, TH.getMonad(S))
   return {
     URI,
     _E: undefined as any,

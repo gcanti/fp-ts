@@ -10,7 +10,7 @@ const delayReject = <A>(n: number, a: A): _.Task<A> => () =>
     setTimeout(() => reject(a), n)
   })
 
-const delay = <A>(millis: number, a: A): _.Task<A> => _.delay(millis)(_.task.of(a))
+const delay = <A>(millis: number, a: A): _.Task<A> => _.delay(millis)(_.of(a))
 
 describe('Task', () => {
   describe('pipeables', () => {
@@ -100,13 +100,19 @@ describe('Task', () => {
     })
   })
 
-  it('taskSeq', async () => {
+  it('applicativeTaskSeq', async () => {
     // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): _.Task<number> => () => Promise.resolve(log.push(message))
-    const t1 = _.task.chain(append('start 1'), () => append('end 1'))
-    const t2 = _.task.chain(append('start 2'), () => append('end 2'))
-    const sequenceSeries = A.sequence(_.taskSeq)
+    const t1 = pipe(
+      append('start 1'),
+      _.chain(() => append('end 1'))
+    )
+    const t2 = pipe(
+      append('start 2'),
+      _.chain(() => append('end 2'))
+    )
+    const sequenceSeries = A.sequence(_.applicativeTaskSeq)
     const x = await sequenceSeries([t1, t2])()
     assert.deepStrictEqual(x, [2, 4])
     assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
@@ -114,15 +120,15 @@ describe('Task', () => {
 
   it('fromIO', async () => {
     const io = () => 1
-    const task = _.task.fromIO(io)
+    const task = _.fromIO(io)
     const x = await task()
     assert.deepStrictEqual(x, 1)
   })
 
   it('fromTask', async () => {
     const io = () => 1
-    const t = _.task.fromIO(io)
-    assert.deepStrictEqual(_.task.fromTask(t), t)
+    const t = _.fromIO(io)
+    assert.deepStrictEqual(_.fromTask(t), t)
   })
 
   it('chainIOK', async () => {

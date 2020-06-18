@@ -9,7 +9,7 @@ import * as RE from '../src/ReaderEither'
 import * as RTE from '../src/ReaderTaskEither'
 import { State } from '../src/State'
 import * as _ from '../src/StateReaderTaskEither'
-import { task } from '../src/Task'
+import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 import * as A from '../src/Array'
 
@@ -208,12 +208,12 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('rightTask', async () => {
-    const e = await _.run(_.rightTask(task.of(1)), {}, {})
+    const e = await _.run(_.rightTask(T.of(1)), {}, {})
     assert.deepStrictEqual(e, E.right([1, {}]))
   })
 
   it('leftTask', async () => {
-    const e = await _.run(_.leftTask(task.of(1)), {}, {})
+    const e = await _.run(_.leftTask(T.of(1)), {}, {})
     assert.deepStrictEqual(e, E.left(1))
   })
 

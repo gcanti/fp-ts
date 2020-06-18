@@ -958,7 +958,7 @@ describe('ReadonlyMap', () => {
     })
 
     it('wither', async () => {
-      const wither = W.wither(T.task)
+      const wither = W.wither(T.applicativeTaskPar)
       const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
       assert.deepStrictEqual(await wither(_.empty, f)(), _.empty)
       assert.deepStrictEqual(
@@ -974,7 +974,7 @@ describe('ReadonlyMap', () => {
     })
 
     it('wilt', async () => {
-      const wilt = W.wilt(T.task)
+      const wilt = W.wilt(T.applicativeTaskPar)
       const f = (n: number) => T.of(p(n) ? right(n + 1) : left(n - 1))
       assert.deepStrictEqual(await wilt(_.empty, f)(), { left: _.empty, right: _.empty })
       assert.deepStrictEqual(
