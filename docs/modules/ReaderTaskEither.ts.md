@@ -28,6 +28,12 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainW](#chainw)
   - [flatten](#flatten)
+- [MonadIO](#monadio)
+  - [fromIO](#fromio)
+- [MonadTask](#monadtask)
+  - [fromTask](#fromtask)
+- [MonadThrow](#monadthrow)
+  - [throwError](#throwerror)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -68,6 +74,11 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [altReaderTaskEither](#altreadertaskeither)
+  - [applicativeReaderTaskEitherPar](#applicativereadertaskeitherpar)
+  - [applicativeReaderTaskEitherSeq](#applicativereadertaskeitherseq)
+  - [bifunctorReaderTaskEither](#bifunctorreadertaskeither)
+  - [functorReaderTaskEither](#functorreadertaskeither)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getReaderTaskValidation](#getreadertaskvalidation)
@@ -242,6 +253,42 @@ Added in v2.6.0
 export declare const flatten: <R, E, A>(
   mma: ReaderTaskEither<R, E, ReaderTaskEither<R, E, A>>
 ) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.0.0
+
+# MonadIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <R, E, A>(fa: IO<A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.0.0
+
+# MonadTask
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <R, E, A>(fa: Task<A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.0.0
+
+# MonadThrow
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <R, E, A>(e: E) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -656,6 +703,56 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
+
+## altReaderTaskEither
+
+**Signature**
+
+```ts
+export declare const altReaderTaskEither: Alt3<'ReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## applicativeReaderTaskEitherPar
+
+**Signature**
+
+```ts
+export declare const applicativeReaderTaskEitherPar: Applicative3<'ReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## applicativeReaderTaskEitherSeq
+
+**Signature**
+
+```ts
+export declare const applicativeReaderTaskEitherSeq: Applicative3<'ReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## bifunctorReaderTaskEither
+
+**Signature**
+
+```ts
+export declare const bifunctorReaderTaskEither: Bifunctor3<'ReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## functorReaderTaskEither
+
+**Signature**
+
+```ts
+export declare const functorReaderTaskEither: Functor3<'ReaderTaskEither'>
+```
+
+Added in v2.7.0
 
 ## getApplyMonoid
 
