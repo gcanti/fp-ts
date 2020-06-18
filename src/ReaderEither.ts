@@ -328,6 +328,12 @@ export const alt: <R, E, A>(
   that: () => ReaderEither<R, E, A>
 ) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = (that) => R.chain(E.fold(that, right))
 
+/**
+ * @category MonadThrow
+ * @since 2.7.0
+ */
+export const throwError: MonadThrow3<URI>['throwError'] = left
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -363,7 +369,6 @@ const of = right
 const chain_: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
 const alt_: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
-const throwError_ = left
 
 /**
  * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
@@ -416,7 +421,7 @@ export function getReaderValidation<E>(
     bimap: bimap_,
     mapLeft: mapLeft_,
     alt: V.alt,
-    throwError: throwError_
+    throwError
   }
 }
 
@@ -492,7 +497,7 @@ export const monadThrowReaderEither: MonadThrow3<URI> = {
   ap: ap_,
   of,
   chain: chain_,
-  throwError: throwError_
+  throwError
 }
 
 // TODO: remove in v3

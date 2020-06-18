@@ -14,6 +14,10 @@ Added in v2.5.0
 
 - [Alt](#alt)
   - [alt](#alt)
+- [Alternative](#alternative)
+  - [zero](#zero)
+- [Applicative](#applicative)
+  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apFirst](#apfirst)
@@ -144,7 +148,6 @@ Added in v2.5.0
   - [lefts](#lefts)
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
-  - [of](#of)
   - [spanLeft](#spanleft)
   - [splitAt](#splitat)
   - [tail](#tail)
@@ -165,6 +168,30 @@ types of kind `* -> *`.
 
 ```ts
 export declare const alt: <A>(that: Lazy<readonly A[]>) => (fa: readonly A[]) => readonly A[]
+```
+
+Added in v2.5.0
+
+# Alternative
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => readonly A[]
+```
+
+Added in v2.7.0
+
+# Applicative
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => readonly A[]
 ```
 
 Added in v2.5.0
@@ -2046,16 +2073,6 @@ import { some, none } from 'fp-ts/lib/Option'
 const double = (x: number): number => x * 2
 assert.deepStrictEqual(modifyAt(1, double)([1, 2, 3]), some([1, 4, 3]))
 assert.deepStrictEqual(modifyAt(1, double)([]), none)
-```
-
-Added in v2.5.0
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => readonly A[]
 ```
 
 Added in v2.5.0

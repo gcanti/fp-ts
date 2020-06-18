@@ -1414,9 +1414,16 @@ export function difference<A>(
 }
 
 /**
+ * @category Applicative
  * @since 2.5.0
  */
 export const of = <A>(a: A): ReadonlyArray<A> => [a]
+
+/**
+ * @category Alternative
+ * @since 2.7.0
+ */
+export const zero: Alternative1<URI>['zero'] = () => empty
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -1493,8 +1500,6 @@ const partitionMapWithIndex_ = <A, B, C>(
 
 const alt_: <A>(fa: ReadonlyArray<A>, that: Lazy<ReadonlyArray<A>>) => ReadonlyArray<A> = (fa, that) =>
   concat(fa, that())
-
-const zero_: <A>() => ReadonlyArray<A> = () => empty
 
 const chain_: <A, B>(fa: ReadonlyArray<A>, f: (a: A) => ReadonlyArray<B>) => ReadonlyArray<B> = (fa, f) => {
   let outLen = 0
@@ -1580,7 +1585,7 @@ const traverseWithIndex_ = <F>(F: Applicative<F>) => <A, B>(
   ta: ReadonlyArray<A>,
   f: (i: number, a: A) => HKT<F, B>
 ): HKT<F, ReadonlyArray<B>> => {
-  return reduceWithIndex_(ta, F.of<ReadonlyArray<B>>(zero_()), (i, fbs, a) =>
+  return reduceWithIndex_(ta, F.of<ReadonlyArray<B>>(zero()), (i, fbs, a) =>
     F.ap(
       F.map(fbs, (bs) => (b: B) => snoc(bs, b)),
       f(i, a)
@@ -1873,7 +1878,7 @@ export const traverse: PipeableTraverse1<URI> = <F>(
 export const sequence: Traversable1<URI>['sequence'] = <F>(F: Applicative<F>) => <A>(
   ta: ReadonlyArray<HKT<F, A>>
 ): HKT<F, ReadonlyArray<A>> => {
-  return reduce_(ta, F.of(zero_()), (fas, fa) =>
+  return reduce_(ta, F.of(zero()), (fas, fa) =>
     F.ap(
       F.map(fas, (as) => (a: A) => snoc(as, a)),
       fa
@@ -2040,7 +2045,7 @@ export const alternativeArray: Alternative1<URI> = {
   ap: ap_,
   of,
   alt: alt_,
-  zero: zero_
+  zero
 }
 
 /**
@@ -2209,7 +2214,7 @@ export const readonlyArray: FunctorWithIndex1<URI, number> &
   filterMapWithIndex: filterMapWithIndex_,
   filterWithIndex: filterWithIndex_,
   alt: alt_,
-  zero: zero_,
+  zero,
   unfold,
   reduce: reduce_,
   foldMap: foldMap_,

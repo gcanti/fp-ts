@@ -335,6 +335,18 @@ export const fromPredicate: {
 export const fromEither: <E, A>(ma: E.Either<E, A>) => IOEither<E, A> = (ma) =>
   E.isLeft(ma) ? left(ma.left) : right(ma.right)
 
+/**
+ * @category MonadIO
+ * @since 2.7.0
+ */
+export const fromIO: MonadIO2<URI>['fromIO'] = rightIO
+
+/**
+ * @category MonadThrow
+ * @since 2.7.0
+ */
+export const throwError: MonadThrow2<URI>['throwError'] = left
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -370,8 +382,6 @@ const of = right
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
 const alt_: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
-const fromIO_ = rightIO
-const throwError_ = left
 
 /**
  * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
@@ -425,8 +435,8 @@ export function getIOValidation<E>(
     bimap: bimap_,
     mapLeft: mapLeft_,
     alt: V.alt,
-    fromIO: fromIO_,
-    throwError: throwError_
+    fromIO,
+    throwError
   }
 }
 
@@ -523,7 +533,7 @@ export const monadIOIOEither: MonadIO2<URI> = {
   ap: ap_,
   of,
   chain: chain_,
-  fromIO: fromIO_
+  fromIO: fromIO
 }
 
 /**
@@ -536,7 +546,7 @@ export const monadThrowIOEither: MonadThrow2<URI> = {
   ap: ap_,
   of,
   chain: chain_,
-  throwError: throwError_
+  throwError
 }
 
 // TODO: remove in v3
@@ -553,6 +563,6 @@ export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI>
   ap: ap_,
   chain: chain_,
   alt: alt_,
-  fromIO: fromIO_,
-  throwError: throwError_
+  fromIO,
+  throwError
 }

@@ -14,6 +14,8 @@ Added in v2.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
+- [Alternative](#alternative)
+  - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
   - [apFirst](#apfirst)
@@ -166,6 +168,18 @@ export declare const alt: <A>(that: Lazy<A[]>) => (fa: A[]) => A[]
 ```
 
 Added in v2.0.0
+
+# Alternative
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => A[]
+```
+
+Added in v2.7.0
 
 # Apply
 

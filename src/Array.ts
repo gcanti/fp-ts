@@ -1209,6 +1209,12 @@ export const wilt: PipeableWilt1<URI> = RA.wilt as any
  */
 export const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => Array<A> = RA.unfold as any
 
+/**
+ * @category Alternative
+ * @since 2.7.0
+ */
+export const zero: Alternative1<URI>['zero'] = RA.alternativeArray.zero as any
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -1234,7 +1240,6 @@ const foldMap_: Foldable1<URI>['foldMap'] = RA.foldableArray.foldMap
 const reduceRight_: Foldable1<URI>['reduceRight'] = RA.foldableArray.reduceRight
 const traverse_: Traversable1<URI>['traverse'] = RA.traversableArray.traverse as any
 const alt_: Alternative1<URI>['alt'] = RA.alternativeArray.alt as any
-const zero_: Alternative1<URI>['zero'] = RA.alternativeArray.zero as any
 const reduceWithIndex_: FoldableWithIndex1<URI, number>['reduceWithIndex'] = RA.foldableWithIndexArray.reduceWithIndex
 const foldMapWithIndex_: FoldableWithIndex1<URI, number>['foldMapWithIndex'] =
   RA.foldableWithIndexArray.foldMapWithIndex
@@ -1345,7 +1350,7 @@ export const alternativeArray: Alternative1<URI> = {
   ap: ap_,
   of,
   alt: alt_,
-  zero: zero_
+  zero
 }
 
 /**
@@ -1514,7 +1519,7 @@ export const array: FunctorWithIndex1<URI, number> &
   filterMapWithIndex: filterMapWithIndex_,
   filterWithIndex: filterWithIndex_,
   alt: alt_,
-  zero: zero_,
+  zero,
   unfold,
   reduce: reduce_,
   foldMap: foldMap_,

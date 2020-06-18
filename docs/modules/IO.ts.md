@@ -34,6 +34,8 @@ Added in v2.0.0
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
+- [MonadIO](#monadio)
+  - [fromIO](#fromio)
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -150,6 +152,18 @@ export declare const flatten: <A>(mma: IO<IO<A>>) => IO<A>
 ```
 
 Added in v2.0.0
+
+# MonadIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A>(fa: IO<A>) => IO<A>
+```
+
+Added in v2.7.0
 
 # instances
 
