@@ -31,8 +31,11 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainW](#chainw)
   - [flatten](#flatten)
+- [MonadIO](#monadio)
+  - [fromIO](#fromio)
 - [MonadThrow](#monadthrow)
   - [bracket](#bracket)
+  - [throwError](#throwerror)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -218,6 +221,18 @@ export declare const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEith
 
 Added in v2.0.0
 
+# MonadIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <E, A>(fa: I.IO<A>) => IOEither<E, A>
+```
+
+Added in v2.7.0
+
 # MonadThrow
 
 ## bracket
@@ -238,6 +253,16 @@ export declare const bracket: <E, A, B>(
 ```
 
 Added in v2.0.0
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <E, A>(e: E) => IOEither<E, A>
+```
+
+Added in v2.7.0
 
 # combinators
 

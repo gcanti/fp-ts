@@ -47,6 +47,8 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainW](#chainw)
   - [flatten](#flatten)
+- [MonadThrow](#monadthrow)
+  - [throwError](#throwerror)
 - [Traversable](#traversable)
   - [sequence](#sequence)
   - [traverse](#traverse)
@@ -304,6 +306,18 @@ export declare const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, 
 ```
 
 Added in v2.0.0
+
+# MonadThrow
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <E, A>(e: E) => Either<E, A>
+```
+
+Added in v2.6.3
 
 # Traversable
 

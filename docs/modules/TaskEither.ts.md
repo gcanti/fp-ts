@@ -33,6 +33,11 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainW](#chainw)
   - [flatten](#flatten)
+- [MonadIO](#monadio)
+  - [fromIO](#fromio)
+- [MonadTask](#monadtask)
+  - [fromTask](#fromtask)
+  - [throwError](#throwerror)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -277,6 +282,40 @@ export declare const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => Ta
 ```
 
 Added in v2.0.0
+
+# MonadIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <E, A>(fa: IO<A>) => TaskEither<E, A>
+```
+
+Added in v2.7.0
+
+# MonadTask
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <E, A>(fa: T.Task<A>) => TaskEither<E, A>
+```
+
+Added in v2.7.0
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <E, A>(e: E) => TaskEither<E, A>
+```
+
+Added in v2.7.0
 
 # combinators
 

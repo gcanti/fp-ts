@@ -29,6 +29,7 @@ import Either = E.Either
 import Task = T.Task
 import { Functor2 } from './Functor'
 import { Applicative2 } from './Applicative'
+import { MonadIO2 } from './MonadIO'
 
 /**
  * @category model
@@ -444,6 +445,24 @@ export const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>)
  */
 export const of: Applicative2<URI>['of'] = right
 
+/**
+ * @category MonadIO
+ * @since 2.7.0
+ */
+export const fromIO: MonadIO2<URI>['fromIO'] = rightIO
+
+/**
+ * @category MonadTask
+ * @since 2.7.0
+ */
+export const fromTask: MonadTask2<URI>['fromTask'] = rightTask
+
+/**
+ * @category MonadTask
+ * @since 2.7.0
+ */
+export const throwError: MonadThrow2<URI>['throwError'] = left
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -476,9 +495,6 @@ const apSeq_: Applicative2<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa,
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
 const alt_: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
-const fromIO_ = rightIO
-const fromTask_ = rightTask
-const throwError_ = left
 
 /**
  * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
@@ -531,9 +547,9 @@ export function getTaskValidation<E>(
     bimap: bimap_,
     mapLeft: mapLeft_,
     alt: V.alt,
-    fromIO: fromIO_,
-    fromTask: fromTask_,
-    throwError: throwError_
+    fromIO,
+    fromTask,
+    throwError
   }
 }
 
@@ -623,9 +639,9 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<
   ap: apPar_,
   chain: chain_,
   alt: alt_,
-  fromIO: fromIO_,
-  fromTask: fromTask_,
-  throwError: throwError_
+  fromIO,
+  fromTask,
+  throwError
 }
 
 // TODO: remove in v3
@@ -644,9 +660,9 @@ export const taskEitherSeq: typeof taskEither = {
   ap: apSeq_,
   chain: chain_,
   alt: alt_,
-  fromIO: fromIO_,
-  fromTask: fromTask_,
-  throwError: throwError_
+  fromIO,
+  fromTask,
+  throwError
 }
 
 // -------------------------------------------------------------------------------------

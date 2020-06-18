@@ -496,6 +496,12 @@ export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) =>
   return isLeft(ma) ? F.of(left(ma.left)) : F.map<A, Either<E, A>>(ma.right, right)
 }
 
+/**
+ * @category MonadThrow
+ * @since 2.6.3
+ */
+export const throwError: MonadThrow2<URI>['throwError'] = left
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -531,7 +537,6 @@ const chainRec_: <E, A, B>(a: A, f: (a: A) => Either<E, Either<A, B>>) => Either
   tailRec(f(a), (e) =>
     isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
   )
-const throwError_ = left
 
 /**
  * @category instances
@@ -747,7 +752,7 @@ export function getValidation<E>(
     traverse: traverse_,
     sequence,
     chainRec: chainRec_,
-    throwError: throwError_,
+    throwError,
     ap: (mab, ma) =>
       isLeft(mab)
         ? isLeft(ma)
@@ -902,7 +907,7 @@ export const monadThrowEither: MonadThrow2<URI> = {
   ap: ap_,
   of,
   chain: chain_,
-  throwError: throwError_
+  throwError: throwError
 }
 
 // TODO: remove in v3
@@ -944,7 +949,7 @@ export const either: Monad2<URI> &
   alt: alt_,
   extend: extend_,
   chainRec: chainRec_,
-  throwError: throwError_
+  throwError: throwError
 }
 
 // -------------------------------------------------------------------------------------

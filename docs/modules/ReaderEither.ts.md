@@ -28,6 +28,8 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainW](#chainw)
   - [flatten](#flatten)
+- [MonadThrow](#monadthrow)
+  - [throwError](#throwerror)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -226,6 +228,18 @@ export declare const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, 
 ```
 
 Added in v2.0.0
+
+# MonadThrow
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <R, E, A>(e: E) => ReaderEither<R, E, A>
+```
+
+Added in v2.7.0
 
 # combinators
 

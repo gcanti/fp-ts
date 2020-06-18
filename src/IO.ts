@@ -106,6 +106,12 @@ export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<A> = (f
  */
 export const flatten: <A>(mma: IO<IO<A>>) => IO<A> = (mma) => chain_(mma, identity)
 
+/**
+ * @category MonadIO
+ * @since 2.7.0
+ */
+export const fromIO: MonadIO1<URI>['fromIO'] = identity
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -113,7 +119,6 @@ export const flatten: <A>(mma: IO<IO<A>>) => IO<A> = (mma) => chain_(mma, identi
 const map_: <A, B>(fa: IO<A>, f: (a: A) => B) => IO<B> = (ma, f) => () => f(ma())
 const ap_: <A, B>(fab: IO<(a: A) => B>, fa: IO<A>) => IO<B> = (mab, ma) => () => mab()(ma())
 const chain_: <A, B>(fa: IO<A>, f: (a: A) => IO<B>) => IO<B> = (ma, f) => () => f(ma())()
-const fromIO_ = identity
 const chainRec_: ChainRec1<URI>['chainRec'] = (a, f) => () => {
   let e = f(a)()
   while (e._tag === 'Left') {
@@ -213,7 +218,7 @@ export const monadIOIO: MonadIO1<URI> = {
   ap: ap_,
   of,
   chain: chain_,
-  fromIO: fromIO_
+  fromIO
 }
 
 /**
@@ -239,6 +244,6 @@ export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
   of,
   ap: ap_,
   chain: chain_,
-  fromIO: fromIO_,
+  fromIO,
   chainRec: chainRec_
 }
