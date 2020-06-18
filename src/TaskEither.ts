@@ -635,7 +635,7 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<
   bimap: bimap_,
   mapLeft: mapLeft_,
   map: map_,
-  of: of,
+  of,
   ap: apPar_,
   chain: chain_,
   alt: alt_,

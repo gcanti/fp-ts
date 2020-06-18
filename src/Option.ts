@@ -77,9 +77,7 @@ export type Option<A> = None | Some<A>
  * @category guards
  * @since 2.0.0
  */
-export function isSome<A>(fa: Option<A>): fa is Some<A> {
-  return fa._tag === 'Some'
-}
+export const isSome = <A>(fa: Option<A>): fa is Some<A> => fa._tag === 'Some'
 
 /**
  * Returns `true` if the option is `None`, `false` otherwise
@@ -93,9 +91,7 @@ export function isSome<A>(fa: Option<A>): fa is Some<A> {
  * @category guards
  * @since 2.0.0
  */
-export function isNone<A>(fa: Option<A>): fa is None {
-  return fa._tag === 'None'
-}
+export const isNone = <A>(fa: Option<A>): fa is None => fa._tag === 'None'
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -111,9 +107,7 @@ export const none: Option<never> = { _tag: 'None' }
  * @category constructors
  * @since 2.0.0
  */
-export function some<A>(a: A): Option<A> {
-  return { _tag: 'Some', value: a }
-}
+export const some = <A>(a: A): Option<A> => ({ _tag: 'Some', value: a })
 
 /**
  * Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise

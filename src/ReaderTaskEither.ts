@@ -705,6 +705,7 @@ export const readerTaskEitherSeq: typeof readerTaskEither = {
 /**
  * @since 2.0.0
  */
+/* istanbul ignore next */
 export function run<R, E, A>(ma: ReaderTaskEither<R, E, A>, r: R): Promise<Either<E, A>> {
   return ma(r)()
 }

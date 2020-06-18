@@ -663,6 +663,7 @@ export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
 /**
  * @since 2.0.0
  */
+/* istanbul ignore next */
 export function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: R): Promise<Either<E, [A, S]>> {
   return ma(s)(r)()
 }

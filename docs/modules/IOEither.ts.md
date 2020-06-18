@@ -34,7 +34,6 @@ Added in v2.0.0
 - [MonadIO](#monadio)
   - [fromIO](#fromio)
 - [MonadThrow](#monadthrow)
-  - [bracket](#bracket)
   - [throwError](#throwerror)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
@@ -75,6 +74,8 @@ Added in v2.0.0
   - [monadThrowIOEither](#monadthrowioeither)
 - [model](#model)
   - [IOEither (interface)](#ioeither-interface)
+- [utils](#utils)
+  - [bracket](#bracket)
 
 ---
 
@@ -234,25 +235,6 @@ export declare const fromIO: <E, A>(fa: I.IO<A>) => IOEither<E, A>
 Added in v2.7.0
 
 # MonadThrow
-
-## bracket
-
-Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
-whether the body action throws (\*) or returns.
-
-(\*) i.e. returns a `Left`
-
-**Signature**
-
-```ts
-export declare const bracket: <E, A, B>(
-  acquire: IOEither<E, A>,
-  use: (a: A) => IOEither<E, B>,
-  release: (a: A, e: E.Either<E, B>) => IOEither<E, void>
-) => IOEither<E, B>
-```
-
-Added in v2.0.0
 
 ## throwError
 
@@ -641,6 +623,27 @@ Added in v2.7.0
 
 ```ts
 export interface IOEither<E, A> extends IO<Either<E, A>> {}
+```
+
+Added in v2.0.0
+
+# utils
+
+## bracket
+
+Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
+whether the body action throws (\*) or returns.
+
+(\*) i.e. returns a `Left`
+
+**Signature**
+
+```ts
+export declare const bracket: <E, A, B>(
+  acquire: IOEither<E, A>,
+  use: (a: A) => IOEither<E, B>,
+  release: (a: A, e: E.Either<E, B>) => IOEither<E, void>
+) => IOEither<E, B>
 ```
 
 Added in v2.0.0
