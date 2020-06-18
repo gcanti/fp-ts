@@ -162,6 +162,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `bifunctorThese` instance (@gcanti)
     - add `foldableThese` instance (@gcanti)
     - add `traversableThese` instance (@gcanti)
+  - `Traced`
+    - rename `traced` to `functorTraced` for consistency (@gcanti)
   - `ReadonlyArray`
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)

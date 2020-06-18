@@ -119,9 +119,16 @@ declare module './HKT' {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 2.7.0
  */
-export const traced: Functor2<URI> = {
+export const functorTraced: Functor2<URI> = {
   URI,
   map: map_
 }
+
+// TODO: remove in v3
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const traced: Functor2<URI> = functorTraced

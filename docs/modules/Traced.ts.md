@@ -17,6 +17,7 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [functorTraced](#functortraced)
   - [getComonad](#getcomonad)
   - [traced](#traced)
 - [model](#model)
@@ -65,6 +66,16 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
+
+## functorTraced
+
+**Signature**
+
+```ts
+export declare const functorTraced: Functor2<'Traced'>
+```
+
+Added in v2.7.0
 
 ## getComonad
 
