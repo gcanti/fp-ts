@@ -201,6 +201,10 @@ high state of flux, you're at risk of it changing without notice.
     - add `traversableRecord` instance (@gcanti)
     - add `traversableWithIndexRecord` instance (@gcanti)
     - add `witherableRecord` instance (@gcanti)
+  - `State`
+    - add `functorState` instance (@gcanti)
+    - add `applicativeState` instance (@gcanti)
+    - add `monadState` instance (@gcanti)
   - `StateReaderTaskEither`
     - add `functorStateReaderTaskEither` instance (@gcanti)
     - add `applicativeStateReaderTaskEitherPar` instance (@gcanti)
