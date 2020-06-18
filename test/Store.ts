@@ -54,7 +54,7 @@ describe('Store', () => {
   it('seeks', () => {
     const wa: _.Store<string, number> = { peek: len, pos: 'a' }
     assert.deepStrictEqual(
-      _.store.extract(
+      _.extract(
         pipe(
           wa,
           _.seeks((s) => s + 'a')
