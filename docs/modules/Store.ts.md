@@ -22,6 +22,9 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [comonadStore](#comonadstore)
+  - [extendStore](#extendstore)
+  - [functorStore](#functorstore)
   - [store](#store)
 - [model](#model)
   - [Store (interface)](#store-interface)
@@ -103,6 +106,36 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
+
+## comonadStore
+
+**Signature**
+
+```ts
+export declare const comonadStore: Comonad2<'Store'>
+```
+
+Added in v2.7.0
+
+## extendStore
+
+**Signature**
+
+```ts
+export declare const extendStore: Extend2<'Store'>
+```
+
+Added in v2.7.0
+
+## functorStore
+
+**Signature**
+
+```ts
+export declare const functorStore: Functor2<'Store'>
+```
+
+Added in v2.7.0
 
 ## store
 

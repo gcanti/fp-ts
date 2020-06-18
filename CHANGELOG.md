@@ -205,6 +205,10 @@ high state of flux, you're at risk of it changing without notice.
     - add `functorState` instance (@gcanti)
     - add `applicativeState` instance (@gcanti)
     - add `monadState` instance (@gcanti)
+  - `Store`
+    - add `functorStore` instance (@gcanti)
+    - add `extendStore` instance (@gcanti)
+    - add `comonadStore` instance (@gcanti)
   - `StateReaderTaskEither`
     - add `functorStateReaderTaskEither` instance (@gcanti)
     - add `applicativeStateReaderTaskEitherPar` instance (@gcanti)
