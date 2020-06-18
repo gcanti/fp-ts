@@ -374,21 +374,19 @@ export function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
 
 const map_: <E, A, B>(fa: These<E, A>, f: (a: A) => B) => These<E, B> = (fa, f) =>
   isLeft(fa) ? fa : isRight(fa) ? right(f(fa.right)) : both(fa.left, f(fa.right))
-
 const bimap_: <E, A, G, B>(fea: These<E, A>, f: (e: E) => G, g: (a: A) => B) => These<G, B> = (fea, f, g) =>
   isLeft(fea) ? left(f(fea.left)) : isRight(fea) ? right(g(fea.right)) : both(f(fea.left), g(fea.right))
-
 const mapLeft_: <E, A, G>(fea: These<E, A>, f: (e: E) => G) => These<G, A> = (fea, f) =>
   isLeft(fea) ? left(f(fea.left)) : isBoth(fea) ? both(f(fea.left), fea.right) : fea
-
 const reduce_: <E, A, B>(fa: These<E, A>, b: B, f: (b: B, a: A) => B) => B = (fa, b, f) =>
   isLeft(fa) ? b : isRight(fa) ? f(b, fa.right) : f(b, fa.right)
-
 const foldMap_: <M>(M: Monoid<M>) => <E, A>(fa: These<E, A>, f: (a: A) => M) => M = (M) => (fa, f) =>
   isLeft(fa) ? M.empty : isRight(fa) ? f(fa.right) : f(fa.right)
-
 const reduceRight_: <E, A, B>(fa: These<E, A>, b: B, f: (a: A, b: B) => B) => B = (fa, b, f) =>
   isLeft(fa) ? b : isRight(fa) ? f(fa.right, b) : f(fa.right, b)
+const traverse_ = <F>(F: Applicative<F>) => <E, A, B>(ta: These<E, A>, f: (a: A) => HKT<F, B>): HKT<F, These<E, B>> => {
+  return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(f(ta.right), right) : F.map(f(ta.right), (b) => both(ta.left, b))
+}
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -439,6 +437,25 @@ export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) 
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>
   reduceRight_(fa, b, f)
 
+/**
+ * @since 2.6.3
+ */
+export const traverse: PipeableTraverse2<URI> = <F>(
+  F: Applicative<F>
+): (<A, B>(f: (a: A) => HKT<F, B>) => <E>(ta: These<E, A>) => HKT<F, These<E, B>>) => {
+  const traverseF = traverse_(F)
+  return (f) => (ta) => traverseF(ta, f)
+}
+
+/**
+ * @since 2.6.3
+ */
+export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <E, A>(
+  ta: These<E, HKT<F, A>>
+): HKT<F, These<E, A>> => {
+  return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(ta.right, right) : F.map(ta.right, (b) => both(ta.left, b))
+}
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -461,29 +478,51 @@ declare module './HKT' {
   }
 }
 
-const traverse_ = <F>(F: Applicative<F>) => <E, A, B>(ta: These<E, A>, f: (a: A) => HKT<F, B>): HKT<F, These<E, B>> => {
-  return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(f(ta.right), right) : F.map(f(ta.right), (b) => both(ta.left, b))
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorThese: Functor2<URI> = {
+  URI,
+  map: map_
 }
 
 /**
- * @since 2.6.3
+ * @category instances
+ * @since 2.7.0
  */
-export const traverse: PipeableTraverse2<URI> = <F>(
-  F: Applicative<F>
-): (<A, B>(f: (a: A) => HKT<F, B>) => <E>(ta: These<E, A>) => HKT<F, These<E, B>>) => {
-  const traverseF = traverse_(F)
-  return (f) => (ta) => traverseF(ta, f)
+export const bifunctorThese: Bifunctor2<URI> = {
+  URI,
+  bimap: bimap_,
+  mapLeft: mapLeft_
 }
 
 /**
- * @since 2.6.3
+ * @category instances
+ * @since 2.7.0
  */
-export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <E, A>(
-  ta: These<E, HKT<F, A>>
-): HKT<F, These<E, A>> => {
-  return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(ta.right, right) : F.map(ta.right, (b) => both(ta.left, b))
+export const foldableThese: Foldable2<URI> = {
+  URI,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_
 }
 
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const traversableThese: Traversable2<URI> = {
+  URI,
+  map: map_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  traverse: traverse_,
+  sequence
+}
+
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.0.0
