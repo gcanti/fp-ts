@@ -16,6 +16,8 @@ import * as T from './Task'
 
 import Task = T.Task
 import Reader = R.Reader
+import { Functor2 } from './Functor'
+import { Applicative2 } from './Applicative'
 
 /**
  * @category model
@@ -227,7 +229,8 @@ declare module './HKT' {
 }
 
 const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const apPar_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const apSeq_: Monad2<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
 /**
@@ -237,7 +240,7 @@ export const monadReaderTask: Monad2<URI> = {
   URI,
   map: map_,
   of,
-  ap: ap_,
+  ap: apPar_,
   chain: chain_
 }
 
@@ -262,18 +265,51 @@ export function getMonoid<R, A>(M: Monoid<A>): Monoid<ReaderTask<R, A>> {
 
 /**
  * @category instances
+ * @since 2.7.0
+ */
+export const functorReaderTask: Functor2<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeReaderTaskPar: Applicative2<URI> = {
+  URI,
+  map: map_,
+  ap: apPar_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeReaderTaskSeq: Applicative2<URI> = {
+  URI,
+  map: map_,
+  ap: apSeq_,
+  of
+}
+
+// TODO: remove in v3
+/**
+ * @category instances
  * @since 2.3.0
  */
-export const readerTask: Monad2<URI> & MonadTask2<URI> = {
+export const readerTask: MonadTask2<URI> = {
   URI,
   map: map_,
   of,
-  ap: ap_,
+  ap: apPar_,
   chain: chain_,
   fromIO,
   fromTask
 }
 
+// TODO: remove in v3
 /**
  * Like `readerTask` but `ap` is sequential
  *
@@ -284,11 +320,7 @@ export const readerTaskSeq: typeof readerTask = {
   URI,
   map: map_,
   of,
-  ap: (fab, fa) =>
-    pipe(
-      fab,
-      chain((f) => pipe(fa, map(f)))
-    ),
+  ap: apSeq_,
   chain: chain_,
   fromIO,
   fromTask

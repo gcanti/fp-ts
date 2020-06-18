@@ -34,8 +34,8 @@ describe('ReaderTask', () => {
 
     it('chain', async () => {
       const f = (a: string) => _.of(a.length)
-      const x = await pipe(_.of('foo'), _.chain(f))({})()
-      assert.deepStrictEqual(x, 3)
+      assert.deepStrictEqual(await pipe(_.of('foo'), _.chain(f))({})(), 3)
+      assert.deepStrictEqual(await _.readerTask.chain(_.of('foo'), f)({})(), 3)
     })
 
     it('chainFirst', async () => {
@@ -47,14 +47,6 @@ describe('ReaderTask', () => {
     it('flatten', async () => {
       const x = await pipe(_.of(_.of('a')), _.flatten)({})()
       assert.deepStrictEqual(x, 'a')
-    })
-  })
-
-  describe('readerTaskSeq', () => {
-    it('chain ', async () => {
-      const f = (a: string) => _.of(a.length)
-      const e1 = await _.readerTaskSeq.chain(_.of('foo'), f)({})()
-      assert.deepStrictEqual(e1, 3)
     })
   })
 
@@ -112,9 +104,15 @@ describe('ReaderTask', () => {
     // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): _.ReaderTask<{}, number> => _.fromTask(() => Promise.resolve(log.push(message)))
-    const t1 = _.readerTask.chain(append('start 1'), () => append('end 1'))
-    const t2 = _.readerTask.chain(append('start 2'), () => append('end 2'))
-    const sequenceParallel = A.sequence(_.readerTask)
+    const t1 = pipe(
+      append('start 1'),
+      _.chain(() => append('end 1'))
+    )
+    const t2 = pipe(
+      append('start 2'),
+      _.chain(() => append('end 2'))
+    )
+    const sequenceParallel = A.sequence(_.applicativeReaderTaskPar)
     const ns = await sequenceParallel([t1, t2])({})()
     assert.deepStrictEqual(ns, [3, 4])
     assert.deepStrictEqual(log, ['start 1', 'start 2', 'end 1', 'end 2'])
@@ -124,9 +122,15 @@ describe('ReaderTask', () => {
     // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): _.ReaderTask<{}, number> => _.fromTask(() => Promise.resolve(log.push(message)))
-    const t1 = _.readerTask.chain(append('start 1'), () => append('end 1'))
-    const t2 = _.readerTask.chain(append('start 2'), () => append('end 2'))
-    const sequenceSeries = A.sequence(_.readerTaskSeq)
+    const t1 = pipe(
+      append('start 1'),
+      _.chain(() => append('end 1'))
+    )
+    const t2 = pipe(
+      append('start 2'),
+      _.chain(() => append('end 2'))
+    )
+    const sequenceSeries = A.sequence(_.applicativeReaderTaskSeq)
     const ns = await sequenceSeries([t1, t2])({})()
     assert.deepStrictEqual(ns, [2, 4])
     assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
@@ -134,7 +138,7 @@ describe('ReaderTask', () => {
 
   describe('MonadIO', () => {
     it('fromIO', async () => {
-      const e = await _.readerTask.fromIO(() => 1)({})()
+      const e = await _.fromIO(() => 1)({})()
       assert.deepStrictEqual(e, 1)
     })
   })
