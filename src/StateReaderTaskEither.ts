@@ -23,6 +23,8 @@ import { TaskEither } from './TaskEither'
 // -------------------------------------------------------------------------------------
 
 import ReaderTaskEither = RTE.ReaderTaskEither
+import { Functor4 } from './Functor'
+import { Applicative4 } from './Applicative'
 
 /* tslint:disable:readonly-array */
 /**
@@ -510,28 +512,11 @@ export const alt: <S, R, E, A>(
 // instances
 // -------------------------------------------------------------------------------------
 
-/**
- * @category instances
- * @since 2.0.0
- */
-export const URI = 'StateReaderTaskEither'
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind4<S, R, E, A> {
-    readonly [URI]: StateReaderTaskEither<S, R, E, A>
-  }
-}
-
 /* istanbul ignore next */
 const map_: Monad4<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
-const ap_: Monad4<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const apPar_: Monad4<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const apSeq_: Monad4<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
 /* istanbul ignore next */
 const chain_: Monad4<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 const of = right
@@ -561,13 +546,84 @@ const mapLeft_: <S, R, E, A, G>(
 ) => StateReaderTaskEither<S, R, G, A> = (fea, f) => (s) => pipe(fea(s), RTE.mapLeft(f))
 
 /**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'StateReaderTaskEither'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind4<S, R, E, A> {
+    readonly [URI]: StateReaderTaskEither<S, R, E, A>
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorStateReaderTaskEither: Functor4<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeStateReaderTaskEitherPar: Applicative4<URI> = {
+  URI,
+  map: map_,
+  ap: apPar_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeStateReaderTaskEitherSeq: Applicative4<URI> = {
+  URI,
+  map: map_,
+  ap: apSeq_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const bifunctorStateReaderTaskEither: Bifunctor4<URI> = {
+  URI,
+  bimap: bimap_,
+  mapLeft: mapLeft_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const altReaderStateTaskEither: Alt4<URI> = {
+  URI,
+  map: map_,
+  alt: alt_
+}
+
+// TODO: remove in v3
+/**
+ * @category instances
  * @since 2.0.0
  */
 export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & MonadTask4<URI> & MonadThrow4<URI> = {
   URI,
   map: map_,
   of,
-  ap: ap_,
+  ap: apPar_,
   chain: chain_,
   bimap: bimap_,
   mapLeft: mapLeft_,
@@ -577,19 +633,18 @@ export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & 
   throwError: left
 }
 
+// TODO: remove in v3
 /**
  * Like `stateReaderTaskEither` but `ap` is sequential
+ *
+ * @category instances
  * @since 2.0.0
  */
 export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
   URI,
   map: map_,
   of,
-  ap: (fab, fa) =>
-    pipe(
-      fab,
-      chain((f) => pipe(fa, map(f)))
-    ),
+  ap: apSeq_,
   chain: chain_,
   bimap: bimap_,
   mapLeft: mapLeft_,

@@ -11,6 +11,7 @@ import { State } from '../src/State'
 import * as _ from '../src/StateReaderTaskEither'
 import { task } from '../src/Task'
 import * as TE from '../src/TaskEither'
+import * as A from '../src/Array'
 
 describe('StateReaderTaskEither', () => {
   describe('pipeables', () => {
@@ -158,12 +159,22 @@ describe('StateReaderTaskEither', () => {
     assert.deepStrictEqual(e, E.right(['aaa', {}]))
   })
 
-  it('ap (seq)', async () => {
-    const len = (s: string): number => s.length
-    const mab = _.right(len)
-    const ma = _.right('aaa')
-    const e = await RTE.run(_.evalState(_.stateReaderTaskEitherSeq.ap(mab, ma), {}), {})
-    assert.deepStrictEqual(e, E.right(3))
+  it('applicativeReaderTaskEitherSeq', async () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<string> = []
+    const append = (message: string): _.StateReaderTaskEither<{}, {}, void, number> =>
+      _.rightTask(() => Promise.resolve(log.push(message)))
+    const t1 = pipe(
+      append('start 1'),
+      _.chain(() => append('end 1'))
+    )
+    const t2 = pipe(
+      append('start 2'),
+      _.chain(() => append('end 2'))
+    )
+    const sequence = A.sequence(_.applicativeStateReaderTaskEitherSeq)
+    assert.deepStrictEqual(await sequence([t1, t2])({})({})(), E.right([[2, 4], {}]))
+    assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
   })
 
   it('execState', async () => {
