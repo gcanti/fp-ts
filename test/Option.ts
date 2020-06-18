@@ -193,14 +193,14 @@ describe('Option', () => {
     })
 
     it('wither', async () => {
-      const wither = _.wither(T.task)((n: number) => T.of(p(n) ? _.some(n + 1) : _.none))
+      const wither = _.wither(T.applicativeTaskPar)((n: number) => T.of(p(n) ? _.some(n + 1) : _.none))
       assert.deepStrictEqual(await pipe(_.none, wither)(), _.none)
       assert.deepStrictEqual(await pipe(_.some(1), wither)(), _.none)
       assert.deepStrictEqual(await pipe(_.some(3), wither)(), _.some(4))
     })
 
     it('wilt', async () => {
-      const wilt = _.wilt(T.task)((n: number) => T.of(p(n) ? right(n + 1) : left(n - 1)))
+      const wilt = _.wilt(T.applicativeTaskPar)((n: number) => T.of(p(n) ? right(n + 1) : left(n - 1)))
       assert.deepStrictEqual(await pipe(_.none, wilt)(), { left: _.none, right: _.none })
       assert.deepStrictEqual(await pipe(_.some(1), wilt)(), { left: _.some(0), right: _.none })
       assert.deepStrictEqual(await pipe(_.some(3), wilt)(), { left: _.none, right: _.some(4) })

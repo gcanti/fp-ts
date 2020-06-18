@@ -453,7 +453,7 @@ describe('Either', () => {
     })
 
     it('wither', async () => {
-      const wither = W.wither(T.task)
+      const wither = W.wither(T.applicativeTaskPar)
       const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
       assert.deepStrictEqual(await wither(_.left('foo'), f)(), _.left('foo'))
       assert.deepStrictEqual(await wither(_.right(1), f)(), _.left(monoidString.empty))
@@ -461,7 +461,7 @@ describe('Either', () => {
     })
 
     it('wilt', async () => {
-      const wilt = W.wilt(T.task)
+      const wilt = W.wilt(T.applicativeTaskPar)
       const f = (n: number) => T.of(p(n) ? _.right(n + 1) : _.left(n - 1))
       assert.deepStrictEqual(await wilt(_.left('foo'), f)(), {
         left: _.left('foo'),

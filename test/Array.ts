@@ -66,13 +66,13 @@ describe('Array', () => {
     })
 
     it('wither', async () => {
-      const wither = _.wither(T.task)((n: number) => T.of(n > 2 ? O.some(n + 1) : O.none))
+      const wither = _.wither(T.applicativeTaskPar)((n: number) => T.of(n > 2 ? O.some(n + 1) : O.none))
       assert.deepStrictEqual(await pipe([], wither)(), [])
       assert.deepStrictEqual(await pipe([1, 3], wither)(), [4])
     })
 
     it('wilt', async () => {
-      const wilt = _.wilt(T.task)((n: number) => T.of(n > 2 ? E.right(n + 1) : E.left(n - 1)))
+      const wilt = _.wilt(T.applicativeTaskPar)((n: number) => T.of(n > 2 ? E.right(n + 1) : E.left(n - 1)))
       assert.deepStrictEqual(await pipe([], wilt)(), { left: [], right: [] })
       assert.deepStrictEqual(await pipe([1, 3], wilt)(), { left: [0], right: [4] })
     })

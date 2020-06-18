@@ -214,13 +214,13 @@ describe('ReadonlyRecord', () => {
     })
 
     it('wither', async () => {
-      const wither = _.wither(T.task)((n: number) => T.of(p(n) ? O.some(n + 1) : O.none))
+      const wither = _.wither(T.applicativeTaskPar)((n: number) => T.of(p(n) ? O.some(n + 1) : O.none))
       assert.deepStrictEqual(await pipe({}, wither)(), {})
       assert.deepStrictEqual(await pipe({ a: 1, b: 3 }, wither)(), { b: 4 })
     })
 
     it('wilt', async () => {
-      const wilt = _.wilt(T.task)((n: number) => T.of(p(n) ? right(n + 1) : left(n - 1)))
+      const wilt = _.wilt(T.applicativeTaskPar)((n: number) => T.of(p(n) ? right(n + 1) : left(n - 1)))
       assert.deepStrictEqual(await pipe({}, wilt)(), { left: {}, right: {} })
       assert.deepStrictEqual(await pipe({ a: 1, b: 3 }, wilt)(), { left: { a: 0 }, right: { b: 4 } })
     })
