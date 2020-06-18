@@ -622,7 +622,7 @@ Added in v2.0.0
 export declare const altTaskEither: Alt2<'TaskEither'>
 ```
 
-Added in v2.0.0
+Added in v2.7.0
 
 ## applicativeTaskEitherPar
 
@@ -632,7 +632,7 @@ Added in v2.0.0
 export declare const applicativeTaskEitherPar: Applicative2<'TaskEither'>
 ```
 
-Added in v2.0.0
+Added in v2.7.0
 
 ## applicativeTaskEitherSeq
 
@@ -642,7 +642,7 @@ Added in v2.0.0
 export declare const applicativeTaskEitherSeq: Applicative2<'TaskEither'>
 ```
 
-Added in v2.0.0
+Added in v2.7.0
 
 ## bifunctorTaskEither
 
@@ -652,7 +652,7 @@ Added in v2.0.0
 export declare const bifunctorTaskEither: Bifunctor2<'TaskEither'>
 ```
 
-Added in v2.0.0
+Added in v2.7.0
 
 ## functorTaskEither
 
@@ -662,7 +662,7 @@ Added in v2.0.0
 export declare const functorTaskEither: Functor2<'TaskEither'>
 ```
 
-Added in v2.0.0
+Added in v2.7.0
 
 ## getApplyMonoid
 

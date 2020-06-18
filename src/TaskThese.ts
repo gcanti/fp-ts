@@ -233,6 +233,26 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI,
 
 /**
  * @category instances
+ * @since 2.7.0
+ */
+export const functorTaskThese: Functor2<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const bifunctorTaskThese: Bifunctor2<URI> = {
+  URI,
+  bimap: bimap_,
+  mapLeft: mapLeft_
+}
+
+// TODO: remove in v3
+/**
+ * @category instances
  * @since 2.4.0
  */
 export const taskThese: Functor2<URI> & Bifunctor2<URI> = {

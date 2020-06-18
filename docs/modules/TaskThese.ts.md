@@ -34,6 +34,8 @@ Added in v2.4.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [bifunctorTaskThese](#bifunctortaskthese)
+  - [functorTaskThese](#functortaskthese)
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
   - [taskThese](#taskthese)
@@ -224,6 +226,26 @@ export type URI = typeof URI
 ```
 
 Added in v2.4.0
+
+## bifunctorTaskThese
+
+**Signature**
+
+```ts
+export declare const bifunctorTaskThese: Bifunctor2<'TaskThese'>
+```
+
+Added in v2.7.0
+
+## functorTaskThese
+
+**Signature**
+
+```ts
+export declare const functorTaskThese: Functor2<'TaskThese'>
+```
+
+Added in v2.7.0
 
 ## getMonad
 
