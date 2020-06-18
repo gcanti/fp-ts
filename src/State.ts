@@ -1,8 +1,10 @@
 /**
  * @since 2.0.0
  */
-import { Monad2 } from './Monad'
 import { identity, pipe } from './function'
+import { Functor2 } from './Functor'
+import { Monad2 } from './Monad'
+import { Applicative2 } from './Applicative'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -152,6 +154,13 @@ export const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A> =
 // instances
 // -------------------------------------------------------------------------------------
 
+/* istanbul ignore next */
+const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+/* istanbul ignore next */
+const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+/* istanbul ignore next */
+const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+
 /**
  * @category instances
  * @since 2.0.0
@@ -170,24 +179,44 @@ declare module './HKT' {
   }
 }
 
-/* istanbul ignore next */
-const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
-/* istanbul ignore next */
-const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-/* istanbul ignore next */
-const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorState: Functor2<URI> = {
+  URI,
+  map: map_
+}
 
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeState: Applicative2<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const monadState: Monad2<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_
+}
+
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.0.0
  */
-export const state: Monad2<URI> = {
-  URI,
-  map: map_,
-  of,
-  ap: ap_,
-  chain: chain_
-}
+export const state: Monad2<URI> = monadState
 
 // -------------------------------------------------------------------------------------
 // utils
