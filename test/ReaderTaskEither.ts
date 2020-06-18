@@ -278,27 +278,39 @@ describe('ReaderTaskEither', () => {
     assert.deepStrictEqual(e2, E.right(5))
   })
 
-  it('sequence parallel', async () => {
+  it('applicativeReaderTaskEitherPar', async () => {
     // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): _.ReaderTaskEither<{}, void, number> =>
       _.rightTask(() => Promise.resolve(log.push(message)))
-    const t1 = _.readerTaskEither.chain(append('start 1'), () => append('end 1'))
-    const t2 = _.readerTaskEither.chain(append('start 2'), () => append('end 2'))
-    const sequenceParallel = A.sequence(_.readerTaskEither)
+    const t1 = pipe(
+      append('start 1'),
+      _.chain(() => append('end 1'))
+    )
+    const t2 = pipe(
+      append('start 2'),
+      _.chain(() => append('end 2'))
+    )
+    const sequenceParallel = A.sequence(_.applicativeReaderTaskEitherPar)
     const ns = await _.run(sequenceParallel([t1, t2]), {})
     assert.deepStrictEqual(ns, E.right([3, 4]))
     assert.deepStrictEqual(log, ['start 1', 'start 2', 'end 1', 'end 2'])
   })
 
-  it('sequence series', async () => {
+  it('applicativeReaderTaskEitherSeq', async () => {
     // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): _.ReaderTaskEither<{}, void, number> =>
       _.rightTask(() => Promise.resolve(log.push(message)))
-    const t1 = _.readerTaskEither.chain(append('start 1'), () => append('end 1'))
-    const t2 = _.readerTaskEither.chain(append('start 2'), () => append('end 2'))
-    const sequenceSeries = A.sequence(_.readerTaskEitherSeq)
+    const t1 = pipe(
+      append('start 1'),
+      _.chain(() => append('end 1'))
+    )
+    const t2 = pipe(
+      append('start 2'),
+      _.chain(() => append('end 2'))
+    )
+    const sequenceSeries = A.sequence(_.applicativeReaderTaskEitherSeq)
     const ns = await _.run(sequenceSeries([t1, t2]), {})
     assert.deepStrictEqual(ns, E.right([2, 4]))
     assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
@@ -307,7 +319,7 @@ describe('ReaderTaskEither', () => {
   describe('MonadIO', () => {
     it('fromIO', async () => {
       const e = await _.run(
-        _.readerTaskEither.fromIO(() => 1),
+        _.fromIO(() => 1),
         {}
       )
       assert.deepStrictEqual(e, E.right(1))
@@ -406,7 +418,7 @@ describe('ReaderTaskEither', () => {
     const useSuccess = () => _.right('use success')
     const useFailure = () => _.left('use failure')
     const releaseSuccess = () =>
-      _.readerTaskEither.fromIO(() => {
+      _.fromIO(() => {
         log.push('release success')
       })
     const releaseFailure = () => _.left('release failure')

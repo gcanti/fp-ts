@@ -26,6 +26,9 @@ import { getValidationM } from './ValidationT'
 
 import TaskEither = TE.TaskEither
 import Reader = R.Reader
+import { Functor3 } from './Functor'
+import { Applicative3 } from './Applicative'
+import { MonadIO3 } from './MonadIO'
 
 /**
  * @category model
@@ -485,26 +488,22 @@ export const alt: <R, E, A>(
 ) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = (that) => (fa) => alt_(fa, that)
 
 /**
- * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
- * whether the body action throws (\*) or returns.
- *
- * (\*) i.e. returns a `Left`
- *
- * @MonadThrow
- * @since 2.0.4
+ * @category MonadIO
+ * @since 2.0.0
  */
-export function bracket<R, E, A, B>(
-  aquire: ReaderTaskEither<R, E, A>,
-  use: (a: A) => ReaderTaskEither<R, E, B>,
-  release: (a: A, e: Either<E, B>) => ReaderTaskEither<R, E, void>
-): ReaderTaskEither<R, E, B> {
-  return (r) =>
-    TE.bracket(
-      aquire(r),
-      (a) => use(a)(r),
-      (a, e) => release(a, e)(r)
-    )
-}
+export const fromIO: MonadIO3<URI>['fromIO'] = rightIO
+
+/**
+ * @category MonadTask
+ * @since 2.0.0
+ */
+export const fromTask: MonadTask3<URI>['fromTask'] = rightTask
+
+/**
+ * @category MonadThrow
+ * @since 2.0.0
+ */
+export const throwError: MonadThrow3<URI>['throwError'] = left
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -529,7 +528,8 @@ declare module './HKT' {
 }
 
 const map_: Monad3<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const ap_: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const apPar_: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const apSeq_: Monad3<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
 const of = right
 const chain_: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 const alt_: <R, E, A>(
@@ -548,20 +548,6 @@ const bimap_: <R, E, A, G, B>(
 const mapLeft_: <R, E, A, G>(fea: ReaderTaskEither<R, E, A>, f: (e: E) => G) => ReaderTaskEither<R, G, A> = (ma, f) => (
   e
 ) => pipe(ma(e), TE.mapLeft(f))
-const fromIO_ = rightIO
-const fromTask_ = rightTask
-const throwError_ = left
-
-/**
- * @internal
- */
-export const monadReaderTaskEither: Monad3<URI> = {
-  URI,
-  map: map_,
-  of,
-  ap: ap_,
-  chain: chain_
-}
 
 /**
  * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
@@ -614,12 +600,64 @@ export function getReaderTaskValidation<E>(
     mapLeft: mapLeft_,
     ap: V.ap,
     alt: V.alt,
-    fromIO: fromIO_,
-    fromTask: fromTask_,
-    throwError: throwError_
+    fromIO,
+    fromTask,
+    throwError
   }
 }
 
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorReaderTaskEither: Functor3<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeReaderTaskEitherPar: Applicative3<URI> = {
+  URI,
+  map: map_,
+  ap: apPar_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeReaderTaskEitherSeq: Applicative3<URI> = {
+  URI,
+  map: map_,
+  ap: apSeq_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const bifunctorReaderTaskEither: Bifunctor3<URI> = {
+  URI,
+  bimap: bimap_,
+  mapLeft: mapLeft_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const altReaderTaskEither: Alt3<URI> = {
+  URI,
+  map: map_,
+  alt: alt_
+}
+
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.0.0
@@ -628,16 +666,17 @@ export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & Monad
   URI,
   map: map_,
   of,
-  ap: ap_,
+  ap: apPar_,
   chain: chain_,
   alt: alt_,
   bimap: bimap_,
   mapLeft: mapLeft_,
-  fromIO: fromIO_,
-  fromTask: fromTask_,
-  throwError: throwError_
+  fromIO,
+  fromTask,
+  throwError
 }
 
+// TODO: remove in v3
 /**
  * Like `readerTaskEither` but `ap` is sequential
  *
@@ -648,18 +687,14 @@ export const readerTaskEitherSeq: typeof readerTaskEither = {
   URI,
   map: map_,
   of,
-  ap: (fab, fa) =>
-    pipe(
-      fab,
-      chain((f) => pipe(fa, map(f)))
-    ),
+  ap: apSeq_,
   chain: chain_,
   alt: alt_,
   bimap: bimap_,
   mapLeft: mapLeft_,
-  fromIO: fromIO_,
-  fromTask: fromTask_,
-  throwError: throwError_
+  fromIO,
+  fromTask,
+  throwError
 }
 
 // -------------------------------------------------------------------------------------
@@ -672,4 +707,25 @@ export const readerTaskEitherSeq: typeof readerTaskEither = {
  */
 export function run<R, E, A>(ma: ReaderTaskEither<R, E, A>, r: R): Promise<Either<E, A>> {
   return ma(r)()
+}
+
+/**
+ * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
+ * whether the body action throws (\*) or returns.
+ *
+ * (\*) i.e. returns a `Left`
+ *
+ * @since 2.0.4
+ */
+export function bracket<R, E, A, B>(
+  aquire: ReaderTaskEither<R, E, A>,
+  use: (a: A) => ReaderTaskEither<R, E, B>,
+  release: (a: A, e: Either<E, B>) => ReaderTaskEither<R, E, void>
+): ReaderTaskEither<R, E, B> {
+  return (r) =>
+    TE.bracket(
+      aquire(r),
+      (a) => use(a)(r),
+      (a, e) => release(a, e)(r)
+    )
 }

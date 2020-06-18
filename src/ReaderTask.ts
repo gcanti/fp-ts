@@ -234,17 +234,6 @@ const apSeq_: Monad2<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
 /**
- * @internal
- */
-export const monadReaderTask: Monad2<URI> = {
-  URI,
-  map: map_,
-  of,
-  ap: apPar_,
-  chain: chain_
-}
-
-/**
  * @category instances
  * @since 2.3.0
  */
@@ -292,6 +281,17 @@ export const applicativeReaderTaskSeq: Applicative2<URI> = {
   map: map_,
   ap: apSeq_,
   of
+}
+
+/**
+ * @internal
+ */
+export const monadReaderTask: Monad2<URI> = {
+  URI,
+  map: map_,
+  of,
+  ap: apPar_,
+  chain: chain_
 }
 
 // TODO: remove in v3
