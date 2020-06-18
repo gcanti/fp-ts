@@ -148,6 +148,12 @@ high state of flux, you're at risk of it changing without notice.
     - add `functorTask` instance (@gcanti)
     - add `applicativeTaskPar` instance (@gcanti)
     - add `applicativeTaskSeq` instance (@gcanti)
+  - `TaskEither`
+    - add `functorTaskEither` instance (@gcanti)
+    - add `applicativeTaskEitherPar` instance (@gcanti)
+    - add `applicativeTaskEitherSeq` instance (@gcanti)
+    - add `bifunctorTaskEither` instance (@gcanti)
+    - add `altTaskEither` instance (@gcanti)
   - `ReadonlyArray`
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)

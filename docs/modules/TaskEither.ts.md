@@ -17,6 +17,8 @@ Added in v2.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
+- [Applicative](#applicative)
+  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apFirst](#apfirst)
@@ -31,8 +33,6 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainW](#chainw)
   - [flatten](#flatten)
-- [MonadThrow](#monadthrow)
-  - [bracket](#bracket)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -63,6 +63,11 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [altTaskEither](#alttaskeither)
+  - [applicativeTaskEitherPar](#applicativetaskeitherpar)
+  - [applicativeTaskEitherSeq](#applicativetaskeitherseq)
+  - [bifunctorTaskEither](#bifunctortaskeither)
+  - [functorTaskEither](#functortaskeither)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getFilterable](#getfilterable)
@@ -73,6 +78,7 @@ Added in v2.0.0
 - [model](#model)
   - [TaskEither (interface)](#taskeither-interface)
 - [utils](#utils)
+  - [bracket](#bracket)
   - [taskify](#taskify)
 
 ---
@@ -126,6 +132,18 @@ async function test() {
 }
 
 test()
+```
+
+Added in v2.0.0
+
+# Applicative
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <E, A>(a: A) => TaskEither<E, A>
 ```
 
 Added in v2.0.0
@@ -256,27 +274,6 @@ Added in v2.6.0
 
 ```ts
 export declare const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither<E, A>
-```
-
-Added in v2.0.0
-
-# MonadThrow
-
-## bracket
-
-Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
-whether the body action throws (\*) or returns.
-
-(\*) i.e. returns a `Left`
-
-**Signature**
-
-```ts
-export declare const bracket: <E, A, B>(
-  acquire: TaskEither<E, A>,
-  use: (a: A) => TaskEither<E, B>,
-  release: (a: A, e: E.Either<E, B>) => TaskEither<E, void>
-) => TaskEither<E, B>
 ```
 
 Added in v2.0.0
@@ -617,6 +614,56 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
+## altTaskEither
+
+**Signature**
+
+```ts
+export declare const altTaskEither: Alt2<'TaskEither'>
+```
+
+Added in v2.0.0
+
+## applicativeTaskEitherPar
+
+**Signature**
+
+```ts
+export declare const applicativeTaskEitherPar: Applicative2<'TaskEither'>
+```
+
+Added in v2.0.0
+
+## applicativeTaskEitherSeq
+
+**Signature**
+
+```ts
+export declare const applicativeTaskEitherSeq: Applicative2<'TaskEither'>
+```
+
+Added in v2.0.0
+
+## bifunctorTaskEither
+
+**Signature**
+
+```ts
+export declare const bifunctorTaskEither: Bifunctor2<'TaskEither'>
+```
+
+Added in v2.0.0
+
+## functorTaskEither
+
+**Signature**
+
+```ts
+export declare const functorTaskEither: Functor2<'TaskEither'>
+```
+
+Added in v2.0.0
+
 ## getApplyMonoid
 
 **Signature**
@@ -718,6 +765,25 @@ export interface TaskEither<E, A> extends Task<Either<E, A>> {}
 Added in v2.0.0
 
 # utils
+
+## bracket
+
+Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
+whether the body action throws (\*) or returns.
+
+(\*) i.e. returns a `Left`
+
+**Signature**
+
+```ts
+export declare const bracket: <E, A, B>(
+  acquire: TaskEither<E, A>,
+  use: (a: A) => TaskEither<E, B>,
+  release: (a: A, e: E.Either<E, B>) => TaskEither<E, void>
+) => TaskEither<E, B>
+```
+
+Added in v2.0.0
 
 ## taskify
 
