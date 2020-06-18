@@ -23,6 +23,7 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [functorWriter](#functorwriter)
   - [getMonad](#getmonad)
   - [writer](#writer)
 - [model](#model)
@@ -131,6 +132,16 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
+
+## functorWriter
+
+**Signature**
+
+```ts
+export declare const functorWriter: Functor2<'Writer'>
+```
+
+Added in v2.7.0
 
 ## getMonad
 

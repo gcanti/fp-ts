@@ -138,40 +138,6 @@ high state of flux, you're at risk of it changing without notice.
     - add `applicativeReaderTaskEitherSeq` instance (@gcanti)
     - add `bifunctorReaderTaskEither` instance (@gcanti)
     - add `altReaderTaskEither` instance (@gcanti)
-  - `StateReaderTaskEither`
-    - add `functorStateReaderTaskEither` instance (@gcanti)
-    - add `applicativeStateReaderTaskEitherPar` instance (@gcanti)
-    - add `applicativeStateReaderTaskEitherSeq` instance (@gcanti)
-    - add `bifunctorStateReaderTaskEither` instance (@gcanti)
-    - add `altStateReaderTaskEither` instance (@gcanti)
-  - `Task`
-    - add `functorTask` instance (@gcanti)
-    - add `applicativeTaskPar` instance (@gcanti)
-    - add `applicativeTaskSeq` instance (@gcanti)
-  - `TaskEither`
-    - add `functorTaskEither` instance (@gcanti)
-    - add `applicativeTaskEitherPar` instance (@gcanti)
-    - add `applicativeTaskEitherSeq` instance (@gcanti)
-    - add `bifunctorTaskEither` instance (@gcanti)
-    - add `altTaskEither` instance (@gcanti)
-  - `TaskThese`
-    - add `functorTaskThese` instance (@gcanti)
-    - add `bifunctorTaskThese` instance (@gcanti)
-  - `These`
-    - add `functorThese` instance (@gcanti)
-    - add `bifunctorThese` instance (@gcanti)
-    - add `foldableThese` instance (@gcanti)
-    - add `traversableThese` instance (@gcanti)
-  - `Traced`
-    - rename `traced` to `functorTraced` for consistency (@gcanti)
-  - `Tree`
-    - add `functorTree` instance (@gcanti)
-    - add `applicativeTree` instance (@gcanti)
-    - add `monadTree` instance (@gcanti)
-    - add `foldableTree` instance (@gcanti)
-    - add `traversableTree` instance (@gcanti)
-    - add `extendTree` instance (@gcanti)
-    - add `comonadTree` instance (@gcanti)
   - `ReadonlyArray`
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)
@@ -207,6 +173,42 @@ high state of flux, you're at risk of it changing without notice.
     - add `altNonEmptyArray` instance (@gcanti)
     - add `extendNonEmptyArray` instance (@gcanti)
     - add `comonadNonEmptyArray` instance (@gcanti)
+  - `StateReaderTaskEither`
+    - add `functorStateReaderTaskEither` instance (@gcanti)
+    - add `applicativeStateReaderTaskEitherPar` instance (@gcanti)
+    - add `applicativeStateReaderTaskEitherSeq` instance (@gcanti)
+    - add `bifunctorStateReaderTaskEither` instance (@gcanti)
+    - add `altStateReaderTaskEither` instance (@gcanti)
+  - `Task`
+    - add `functorTask` instance (@gcanti)
+    - add `applicativeTaskPar` instance (@gcanti)
+    - add `applicativeTaskSeq` instance (@gcanti)
+  - `TaskEither`
+    - add `functorTaskEither` instance (@gcanti)
+    - add `applicativeTaskEitherPar` instance (@gcanti)
+    - add `applicativeTaskEitherSeq` instance (@gcanti)
+    - add `bifunctorTaskEither` instance (@gcanti)
+    - add `altTaskEither` instance (@gcanti)
+  - `TaskThese`
+    - add `functorTaskThese` instance (@gcanti)
+    - add `bifunctorTaskThese` instance (@gcanti)
+  - `These`
+    - add `functorThese` instance (@gcanti)
+    - add `bifunctorThese` instance (@gcanti)
+    - add `foldableThese` instance (@gcanti)
+    - add `traversableThese` instance (@gcanti)
+  - `Traced`
+    - rename `traced` to `functorTraced` for consistency (@gcanti)
+  - `Tree`
+    - add `functorTree` instance (@gcanti)
+    - add `applicativeTree` instance (@gcanti)
+    - add `monadTree` instance (@gcanti)
+    - add `foldableTree` instance (@gcanti)
+    - add `traversableTree` instance (@gcanti)
+    - add `extendTree` instance (@gcanti)
+    - add `comonadTree` instance (@gcanti)
+  - `Traced`
+    - rename `writer` to `functorWriter` for consistency (@gcanti)
 
 # 2.6.7
 
