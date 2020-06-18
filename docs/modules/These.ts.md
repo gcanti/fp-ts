@@ -62,11 +62,15 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [bifunctorThese](#bifunctorthese)
+  - [foldableThese](#foldablethese)
+  - [functorThese](#functorthese)
   - [getEq](#geteq)
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [these](#these)
+  - [traversableThese](#traversablethese)
 - [model](#model)
   - [Both (interface)](#both-interface)
   - [These (type alias)](#these-type-alias)
@@ -445,6 +449,36 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
+## bifunctorThese
+
+**Signature**
+
+```ts
+export declare const bifunctorThese: Bifunctor2<'These'>
+```
+
+Added in v2.7.0
+
+## foldableThese
+
+**Signature**
+
+```ts
+export declare const foldableThese: Foldable2<'These'>
+```
+
+Added in v2.7.0
+
+## functorThese
+
+**Signature**
+
+```ts
+export declare const functorThese: Functor2<'These'>
+```
+
+Added in v2.7.0
+
 ## getEq
 
 **Signature**
@@ -494,6 +528,16 @@ export declare const these: Functor2<'These'> & Bifunctor2<'These'> & Foldable2<
 ```
 
 Added in v2.0.0
+
+## traversableThese
+
+**Signature**
+
+```ts
+export declare const traversableThese: Traversable2<'These'>
+```
+
+Added in v2.7.0
 
 # model
 
