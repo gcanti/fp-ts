@@ -2,9 +2,10 @@ import * as assert from 'assert'
 import { left, right } from '../src/Either'
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
+import * as IO from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
-import * as A from '../src/ReadonlyArray'
+import * as A from '../src/Array'
 import * as _ from '../src/Record'
 import { getFirstSemigroup, getLastSemigroup, semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
@@ -14,8 +15,184 @@ const p = (n: number) => n > 2
 
 const noPrototype = Object.create(null)
 
-describe('Record', () => {
+describe('ReadonlyRecord', () => {
   describe('pipeables', () => {
+    it('map', () => {
+      const double = (n: number): number => n * 2
+      assert.deepStrictEqual(pipe({ k1: 1, k2: 2 }, _.map(double)), { k1: 2, k2: 4 })
+      assert.deepStrictEqual(pipe({ a: 1, b: 2 }, _.map(double)), { a: 2, b: 4 })
+    })
+
+    it('mapWithIndex', () => {
+      const double = (_: string, n: number): number => n * 2
+      assert.deepStrictEqual(pipe({ a: 1, b: 2 }, _.mapWithIndex(double)), { a: 2, b: 4 })
+    })
+
+    it('reduce', () => {
+      assert.deepStrictEqual(
+        pipe(
+          { k1: 'a', k2: 'b' },
+          _.reduce('', (b, a) => b + a)
+        ),
+        'ab'
+      )
+      assert.deepStrictEqual(
+        pipe(
+          { k2: 'b', k1: 'a' },
+          _.reduce('', (b, a) => b + a)
+        ),
+        'ab'
+      )
+    })
+
+    it('foldMap', () => {
+      assert.deepStrictEqual(pipe({ a: 'a', b: 'b' }, _.foldMap(monoidString)(identity)), 'ab')
+    })
+
+    it('reduceRight', () => {
+      const f = (a: string, acc: string) => acc + a
+      assert.deepStrictEqual(pipe({ a: 'a', b: 'b' }, _.reduceRight('', f)), 'ba')
+    })
+
+    it('compact', () => {
+      assert.deepStrictEqual(_.compact({ foo: O.none, bar: O.some(123) }), { bar: 123 })
+    })
+
+    it('separate', () => {
+      assert.deepStrictEqual(_.separate({ foo: left(123), bar: right(123) }), {
+        left: { foo: 123 },
+        right: { bar: 123 }
+      })
+    })
+
+    it('filter', () => {
+      const d = { a: 1, b: 3 }
+      assert.deepStrictEqual(pipe(d, _.filter(p)), { b: 3 })
+
+      // refinements
+      const isNumber = (u: string | number): u is number => typeof u === 'number'
+      const y: Record<string, string | number> = { a: 1, b: 'foo' }
+      const actual = pipe(y, _.filter(isNumber))
+      assert.deepStrictEqual(actual, { a: 1 })
+      assert.deepStrictEqual(
+        pipe(
+          y,
+          _.filter((_) => true)
+        ),
+        y
+      )
+
+      const x = Object.assign(Object.create({ c: true }), { a: 1, b: 'foo' })
+      assert.deepStrictEqual(pipe(x, _.filter(isNumber)), { a: 1 })
+      assert.deepStrictEqual(pipe(noPrototype, _.filter(isNumber)), noPrototype)
+    })
+
+    it('filterMap', () => {
+      const f = (n: number) => (p(n) ? O.some(n + 1) : O.none)
+      assert.deepStrictEqual(pipe({}, _.filterMap(f)), {})
+      assert.deepStrictEqual(pipe({ a: 1, b: 3 }, _.filterMap(f)), { b: 4 })
+    })
+
+    it('partition', () => {
+      assert.deepStrictEqual(pipe({}, _.partition(p)), { left: {}, right: {} })
+      assert.deepStrictEqual(pipe({ a: 1, b: 3 }, _.partition(p)), {
+        left: { a: 1 },
+        right: { b: 3 }
+      })
+    })
+
+    it('partitionMap', () => {
+      const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
+      assert.deepStrictEqual(pipe({}, _.partitionMap(f)), { left: {}, right: {} })
+      assert.deepStrictEqual(pipe({ a: 1, b: 3 }, _.partitionMap(f)), {
+        left: { a: 0 },
+        right: { b: 4 }
+      })
+    })
+
+    it('reduceWithIndex', () => {
+      assert.deepStrictEqual(
+        pipe(
+          { k1: 'a', k2: 'b' },
+          _.reduceWithIndex('', (k, b, a) => b + k + a)
+        ),
+        'k1ak2b'
+      )
+      assert.deepStrictEqual(
+        pipe(
+          { k2: 'b', k1: 'a' },
+          _.reduceWithIndex('', (k, b, a) => b + k + a)
+        ),
+        'k1ak2b'
+      )
+    })
+
+    it('foldMapWithIndex', () => {
+      assert.deepStrictEqual(
+        pipe(
+          { k1: 'a', k2: 'b' },
+          _.foldMapWithIndex(monoidString)((k, a) => k + a)
+        ),
+        'k1ak2b'
+      )
+    })
+
+    it('reduceRightWithIndex', () => {
+      assert.deepStrictEqual(
+        pipe(
+          { k1: 'a', k2: 'b' },
+          _.reduceRightWithIndex('', (k, a, b) => b + k + a)
+        ),
+        'k2bk1a'
+      )
+    })
+
+    it('partitionMapWithIndex', () => {
+      assert.deepStrictEqual(
+        pipe(
+          { a: 1, b: 2 },
+          _.partitionMapWithIndex((k, a: number) => (a > 1 ? right(a) : left(k)))
+        ),
+        {
+          left: { a: 'a' },
+          right: { b: 2 }
+        }
+      )
+    })
+
+    it('partitionWithIndex', () => {
+      assert.deepStrictEqual(
+        pipe(
+          { a: 1, b: 2 },
+          _.partitionWithIndex((_, a: number) => a > 1)
+        ),
+        {
+          left: { a: 1 },
+          right: { b: 2 }
+        }
+      )
+    })
+
+    it('filterMapWithIndex', () => {
+      assert.deepStrictEqual(
+        pipe(
+          { a: 1, b: 2 },
+          _.filterMapWithIndex((_, a: number) => (a > 1 ? O.some(a) : O.none))
+        ),
+        { b: 2 }
+      )
+    })
+
+    it('filterWithIndex', () => {
+      assert.deepStrictEqual(
+        pipe(
+          { a: 1, b: 2 },
+          _.filterWithIndex((_, a: number) => a > 1)
+        ),
+        { b: 2 }
+      )
+    })
+
     it('traverse', () => {
       assert.deepStrictEqual(
         _.traverse(O.applicativeOption)((n: number) => (n <= 2 ? O.some(n) : O.none))({ a: 1, b: 2 }),
@@ -23,6 +200,15 @@ describe('Record', () => {
       )
       assert.deepStrictEqual(
         _.traverse(O.applicativeOption)((n: number) => (n >= 2 ? O.some(n) : O.none))({ a: 1, b: 2 }),
+        O.none
+      )
+
+      assert.deepStrictEqual(
+        _.traversableRecord.traverse(O.applicativeOption)({ a: 1, b: 2 }, (n: number) => (n <= 2 ? O.some(n) : O.none)),
+        O.some({ a: 1, b: 2 })
+      )
+      assert.deepStrictEqual(
+        _.traversableRecord.traverse(O.applicativeOption)({ a: 1, b: 2 }, (n: number) => (n >= 2 ? O.some(n) : O.none)),
         O.none
       )
     })
@@ -62,45 +248,6 @@ describe('Record', () => {
     assert.deepStrictEqual(M.concat(d1, M.empty), d1)
     assert.deepStrictEqual(M.concat(M.empty, d2), d2)
     assert.deepStrictEqual(M.concat(d1, {}), d1)
-  })
-
-  it('map', () => {
-    const d1 = { k1: 1, k2: 2 }
-    const double = (n: number): number => n * 2
-    assert.deepStrictEqual(_.map(double)(d1), { k1: 2, k2: 4 })
-  })
-
-  it('record.map', () => {
-    const double = (n: number): number => n * 2
-    assert.deepStrictEqual(_.record.map({ a: 1, b: 2 }, double), { a: 2, b: 4 })
-  })
-
-  it('reduce', () => {
-    const d1 = { k1: 'a', k2: 'b' }
-    assert.deepStrictEqual(
-      _.record.reduce(d1, '', (b, a) => b + a),
-      'ab'
-    )
-    const d2 = { k2: 'b', k1: 'a' }
-    assert.deepStrictEqual(
-      _.record.reduce(d2, '', (b, a) => b + a),
-      'ab'
-    )
-  })
-
-  it('foldMap', () => {
-    const foldMap = _.record.foldMap(monoidString)
-    const x1 = { a: 'a', b: 'b' }
-    const f1 = identity
-    assert.deepStrictEqual(foldMap(x1, f1), 'ab')
-  })
-
-  it('reduceRight', () => {
-    const reduceRight = _.record.reduceRight
-    const x1 = { a: 'a', b: 'b' }
-    const init1 = ''
-    const f1 = (a: string, acc: string) => acc + a
-    assert.deepStrictEqual(reduceRight(x1, init1, f1), 'ba')
   })
 
   it('getEq', () => {
@@ -150,19 +297,22 @@ describe('Record', () => {
     )
   })
 
-  it('toArray', () => {
-    assert.deepStrictEqual(_.toArray({ a: 1, b: 2 }), [
-      ['a', 1],
-      ['b', 2]
-    ])
-    assert.deepStrictEqual(_.toArray({ b: 2, a: 1 }), [
-      ['a', 1],
-      ['b', 2]
-    ])
-  })
-
   it('toUnfoldable', () => {
     assert.deepStrictEqual(_.toUnfoldable(A.unfoldableArray)({ a: 1 }), [['a', 1]])
+  })
+
+  it('traverseWithIndex should sort the keys', () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<string> = []
+    const append = (message: string): IO.IO<void> => () => {
+      log.push(message)
+    }
+
+    pipe(
+      { b: append('b'), a: append('a') },
+      _.traverseWithIndex(IO.applicativeIO)((_, io) => io)
+    )()
+    assert.deepStrictEqual(log, ['a', 'b'])
   })
 
   it('size', () => {
@@ -196,78 +346,6 @@ describe('Record', () => {
     assert.deepStrictEqual(_.pop('c')({ a: 1, b: 2 }), O.none)
   })
 
-  it('compact', () => {
-    assert.deepStrictEqual(_.record.compact({ foo: O.none, bar: O.some(123) }), { bar: 123 })
-  })
-
-  it('separate', () => {
-    assert.deepStrictEqual(_.record.separate({ foo: left(123), bar: right(123) }), {
-      left: { foo: 123 },
-      right: { bar: 123 }
-    })
-  })
-
-  it('filter', () => {
-    const d = { a: 1, b: 3 }
-    assert.deepStrictEqual(_.record.filter(d, p), { b: 3 })
-
-    // refinements
-    const isNumber = (u: string | number): u is number => typeof u === 'number'
-    const y: Record<string, string | number> = { a: 1, b: 'foo' }
-    const actual = _.record.filter(y, isNumber)
-    assert.deepStrictEqual(actual, { a: 1 })
-
-    assert.deepStrictEqual(
-      _.record.filter(y, (_) => true),
-      y
-    )
-
-    const x = Object.assign(Object.create({ c: true }), { a: 1, b: 'foo' })
-    assert.deepStrictEqual(_.record.filter(x, isNumber), { a: 1 })
-
-    assert.deepStrictEqual(_.record.filter(noPrototype, isNumber), noPrototype)
-  })
-
-  it('filterMap', () => {
-    const f = (n: number) => (p(n) ? O.some(n + 1) : O.none)
-    assert.deepStrictEqual(_.record.filterMap({}, f), {})
-    assert.deepStrictEqual(_.record.filterMap({ a: 1, b: 3 }, f), { b: 4 })
-  })
-
-  it('partition', () => {
-    assert.deepStrictEqual(_.record.partition({}, p), { left: {}, right: {} })
-    assert.deepStrictEqual(_.record.partition({ a: 1, b: 3 }, p), {
-      left: { a: 1 },
-      right: { b: 3 }
-    })
-  })
-
-  it('partitionMap', () => {
-    const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
-    assert.deepStrictEqual(_.record.partitionMap({}, f), { left: {}, right: {} })
-    assert.deepStrictEqual(_.record.partitionMap({ a: 1, b: 3 }, f), {
-      left: { a: 0 },
-      right: { b: 4 }
-    })
-  })
-
-  it('reduceWithIndex', () => {
-    const d1 = { k1: 'a', k2: 'b' }
-    assert.deepStrictEqual(_.reduceWithIndex('', (k, b, a) => b + k + a)(d1), 'k1ak2b')
-    const d2 = { k2: 'b', k1: 'a' }
-    assert.deepStrictEqual(_.reduceWithIndex('', (k, b, a) => b + k + a)(d2), 'k1ak2b')
-  })
-
-  it('foldMapWithIndex', () => {
-    const x1 = { k1: 'a', k2: 'b' }
-    assert.deepStrictEqual(_.foldMapWithIndex(monoidString)((k, a) => k + a)(x1), 'k1ak2b')
-  })
-
-  it('reduceRightWithIndex', () => {
-    const x1 = { k1: 'a', k2: 'b' }
-    assert.deepStrictEqual(_.reduceRightWithIndex('', (k, a, b) => b + k + a)(x1), 'k2bk1a')
-  })
-
   it('every', () => {
     const x: Record<string, number> = { a: 1, b: 2 }
     const y: Record<string, number> = { a: 1, b: 2 }
@@ -291,8 +369,9 @@ describe('Record', () => {
   })
 
   it('fromFoldableMap', () => {
-    const zipObject = <K extends string, A>(keys: ReadonlyArray<K>, values: ReadonlyArray<A>): Record<K, A> =>
-      _.fromFoldableMap(getLastSemigroup<A>(), A.foldableArray)(A.zip(keys, values), ([k, a]) => [k, a])
+    // tslint:disable-next-line: readonly-array
+    const zipObject = <K extends string, A>(keys: Array<K>, values: Array<A>): Record<K, A> =>
+      _.fromFoldableMap(getLastSemigroup<A>(), A.foldableArray)(A.zip(keys, values), identity)
 
     assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
 
@@ -301,7 +380,8 @@ describe('Record', () => {
       readonly name: string
     }
 
-    const users: ReadonlyArray<User> = [
+    // tslint:disable-next-line: readonly-array
+    const users: Array<User> = [
       { id: 'id1', name: 'name1' },
       { id: 'id2', name: 'name2' },
       { id: 'id1', name: 'name3' }
@@ -331,34 +411,6 @@ describe('Record', () => {
     const x: Record<string, number> = { a: 1 }
     assert.deepStrictEqual(_.hasOwnProperty('a', x), true)
     assert.deepStrictEqual(_.hasOwnProperty('b', x), false)
-  })
-
-  it('partitionMapWithIndex', () => {
-    assert.deepStrictEqual(_.partitionMapWithIndex((k, a: number) => (a > 1 ? right(a) : left(k)))({ a: 1, b: 2 }), {
-      left: { a: 'a' },
-      right: { b: 2 }
-    })
-  })
-
-  it('partitionWithIndex', () => {
-    assert.deepStrictEqual(_.partitionWithIndex((_, a: number) => a > 1)({ a: 1, b: 2 }), {
-      left: { a: 1 },
-      right: { b: 2 }
-    })
-  })
-
-  it('filterMapWithIndex', () => {
-    assert.deepStrictEqual(_.filterMapWithIndex((_, a: number) => (a > 1 ? O.some(a) : O.none))({ a: 1, b: 2 }), {
-      b: 2
-    })
-  })
-
-  it('filterWithIndex', () => {
-    assert.deepStrictEqual(_.filterWithIndex((_, a: number) => a > 1)({ a: 1, b: 2 }), { b: 2 })
-  })
-
-  it('mapWithIndex', () => {
-    assert.deepStrictEqual(_.mapWithIndex((k, a: number) => k + String(a))({ a: 1, b: 2 }), { a: 'a1', b: 'b2' })
   })
 
   it('updateAt', () => {
