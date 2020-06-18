@@ -284,35 +284,6 @@ export const alt: <E, A>(that: Lazy<IOEither<E, A>>) => (fa: IOEither<E, A>) => 
   I.chain(E.fold(that, right))
 
 /**
- * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
- * whether the body action throws (\*) or returns.
- *
- * (\*) i.e. returns a `Left`
- *
- * @category MonadThrow
- * @since 2.0.0
- */
-export const bracket = <E, A, B>(
-  acquire: IOEither<E, A>,
-  use: (a: A) => IOEither<E, B>,
-  release: (a: A, e: Either<E, B>) => IOEither<E, void>
-): IOEither<E, B> =>
-  pipe(
-    acquire,
-    chain((a) =>
-      pipe(
-        pipe(use(a), I.map(E.right)),
-        chain((e) =>
-          pipe(
-            release(a, e),
-            chain(() => (E.isLeft(e) ? left(e.left) : of(e.right)))
-          )
-        )
-      )
-    )
-  )
-
-/**
  * @category constructors
  * @since 2.0.0
  */
@@ -566,3 +537,35 @@ export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI>
   fromIO,
   throwError
 }
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
+ * whether the body action throws (\*) or returns.
+ *
+ * (\*) i.e. returns a `Left`
+ *
+ * @since 2.0.0
+ */
+export const bracket = <E, A, B>(
+  acquire: IOEither<E, A>,
+  use: (a: A) => IOEither<E, B>,
+  release: (a: A, e: Either<E, B>) => IOEither<E, void>
+): IOEither<E, B> =>
+  pipe(
+    acquire,
+    chain((a) =>
+      pipe(
+        pipe(use(a), I.map(E.right)),
+        chain((e) =>
+          pipe(
+            release(a, e),
+            chain(() => (E.isLeft(e) ? left(e.left) : of(e.right)))
+          )
+        )
+      )
+    )
+  )

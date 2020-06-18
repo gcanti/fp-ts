@@ -589,7 +589,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function some<A>(a: A): Option<A>
+export declare const some: <A>(a: A) => Option<A>
 ```
 
 Added in v2.0.0
@@ -767,7 +767,7 @@ Returns `true` if the option is `None`, `false` otherwise
 **Signature**
 
 ```ts
-export declare function isNone<A>(fa: Option<A>): fa is None
+export declare const isNone: <A>(fa: Option<A>) => fa is None
 ```
 
 **Example**
@@ -788,7 +788,7 @@ Returns `true` if the option is an instance of `Some`, `false` otherwise
 **Signature**
 
 ```ts
-export declare function isSome<A>(fa: Option<A>): fa is Some<A>
+export declare const isSome: <A>(fa: Option<A>) => fa is Some<A>
 ```
 
 **Example**

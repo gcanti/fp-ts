@@ -72,14 +72,7 @@ export type Either<E, A> = Left<E> | Right<A>
  * @category guards
  * @since 2.0.0
  */
-export function isLeft<E, A>(ma: Either<E, A>): ma is Left<E> {
-  switch (ma._tag) {
-    case 'Left':
-      return true
-    case 'Right':
-      return false
-  }
-}
+export const isLeft = <E, A>(ma: Either<E, A>): ma is Left<E> => ma._tag === 'Left'
 
 /**
  * Returns `true` if the either is an instance of `Right`, `false` otherwise
@@ -87,9 +80,7 @@ export function isLeft<E, A>(ma: Either<E, A>): ma is Left<E> {
  * @category guards
  * @since 2.0.0
  */
-export function isRight<E, A>(ma: Either<E, A>): ma is Right<A> {
-  return isLeft(ma) ? false : true
-}
+export const isRight = <E, A>(ma: Either<E, A>): ma is Right<A> => ma._tag === 'Right'
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -102,9 +93,7 @@ export function isRight<E, A>(ma: Either<E, A>): ma is Right<A> {
  * @category constructors
  * @since 2.0.0
  */
-export function left<E = never, A = never>(e: E): Either<E, A> {
-  return { _tag: 'Left', left: e }
-}
+export const left = <E = never, A = never>(e: E): Either<E, A> => ({ _tag: 'Left', left: e })
 
 /**
  * Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
@@ -113,9 +102,7 @@ export function left<E = never, A = never>(e: E): Either<E, A> {
  * @category constructors
  * @since 2.0.0
  */
-export function right<E = never, A = never>(a: A): Either<E, A> {
-  return { _tag: 'Right', right: a }
-}
+export const right = <E = never, A = never>(a: A): Either<E, A> => ({ _tag: 'Right', right: a })
 
 // TODO: make lazy in v3
 /**

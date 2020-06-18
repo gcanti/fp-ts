@@ -433,7 +433,7 @@ structure
 **Signature**
 
 ```ts
-export declare function left<E = never, A = never>(e: E): Either<E, A>
+export declare const left: <E = never, A = never>(e: E) => Either<E, A>
 ```
 
 Added in v2.0.0
@@ -467,7 +467,7 @@ of this structure
 **Signature**
 
 ```ts
-export declare function right<E = never, A = never>(a: A): Either<E, A>
+export declare const right: <E = never, A = never>(a: A) => Either<E, A>
 ```
 
 Added in v2.0.0
@@ -602,7 +602,7 @@ Returns `true` if the either is an instance of `Left`, `false` otherwise
 **Signature**
 
 ```ts
-export declare function isLeft<E, A>(ma: Either<E, A>): ma is Left<E>
+export declare const isLeft: <E, A>(ma: Either<E, A>) => ma is Left<E>
 ```
 
 Added in v2.0.0
@@ -614,7 +614,7 @@ Returns `true` if the either is an instance of `Right`, `false` otherwise
 **Signature**
 
 ```ts
-export declare function isRight<E, A>(ma: Either<E, A>): ma is Right<A>
+export declare const isRight: <E, A>(ma: Either<E, A>) => ma is Right<A>
 ```
 
 Added in v2.0.0

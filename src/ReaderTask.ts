@@ -334,6 +334,7 @@ export const readerTaskSeq: typeof readerTask = {
 /**
  * @since 2.4.0
  */
+/* istanbul ignore next */
 export function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A> {
   return ma(r)()
 }
