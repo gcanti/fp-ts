@@ -5,29 +5,88 @@ import { pipe } from '../src/function'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskThese'
 import * as TH from '../src/These'
+import { assertSeq, assertPar } from './util'
+import { semigroupString } from '../src/Semigroup'
 
 describe('TaskThese', () => {
-  describe('pipeables', () => {
-    it('map', async () => {
-      const double = (n: number) => n * 2
-      assert.deepStrictEqual(await pipe(_.right(1), _.map(double))(), TH.right(2))
+  // -------------------------------------------------------------------------------------
+  // pipeables
+  // -------------------------------------------------------------------------------------
+
+  it('map', async () => {
+    const double = (n: number) => n * 2
+    assert.deepStrictEqual(await pipe(_.right(1), _.map(double))(), TH.right(2))
+  })
+
+  it('bimap', async () => {
+    const f = (e: string) => e + e
+    const g = (a: number) => a + 1
+    assert.deepStrictEqual(await pipe(_.right(1), _.bimap(f, g))(), TH.right(2))
+    assert.deepStrictEqual(await pipe(_.left('a'), _.bimap(f, g))(), TH.left('aa'))
+    assert.deepStrictEqual(await pipe(_.both('a', 1), _.bimap(f, g))(), TH.both('aa', 2))
+  })
+
+  it('mapLeft', async () => {
+    const f = (e: string) => e + e
+    assert.deepStrictEqual(await pipe(_.right(1), _.mapLeft(f))(), TH.right(1))
+    assert.deepStrictEqual(await pipe(_.left('a'), _.mapLeft(f))(), TH.left('aa'))
+    assert.deepStrictEqual(await pipe(_.both('a', 1), _.mapLeft(f))(), TH.both('aa', 1))
+  })
+
+  // -------------------------------------------------------------------------------------
+  // instances
+  // -------------------------------------------------------------------------------------
+
+  describe('getApplicative', () => {
+    it('Par', async () => {
+      await assertSeq(_.getApplicative(T.applicativeTaskSeq, semigroupString), { fromTask: _.fromTask }, (fa) => fa())
     })
 
-    it('bimap', async () => {
-      const f = (e: string) => e + e
-      const g = (a: number) => a + 1
-      assert.deepStrictEqual(await pipe(_.right(1), _.bimap(f, g))(), TH.right(2))
-      assert.deepStrictEqual(await pipe(_.left('a'), _.bimap(f, g))(), TH.left('aa'))
-      assert.deepStrictEqual(await pipe(_.both('a', 1), _.bimap(f, g))(), TH.both('aa', 2))
-    })
-
-    it('mapLeft', async () => {
-      const f = (e: string) => e + e
-      assert.deepStrictEqual(await pipe(_.right(1), _.mapLeft(f))(), TH.right(1))
-      assert.deepStrictEqual(await pipe(_.left('a'), _.mapLeft(f))(), TH.left('aa'))
-      assert.deepStrictEqual(await pipe(_.both('a', 1), _.mapLeft(f))(), TH.both('aa', 1))
+    it('Seq', async () => {
+      await assertPar(_.getApplicative(T.applicativeTaskPar, semigroupString), { fromTask: _.fromTask }, (fa) => fa())
     })
   })
+
+  it('getSemigroup', async () => {
+    const S = _.getSemigroup(monoidString, monoidSum)
+    assert.deepStrictEqual(await S.concat(_.right(1), _.right(2))(), TH.right(3))
+    assert.deepStrictEqual(await S.concat(_.right(1), _.left('a'))(), TH.both('a', 1))
+    assert.deepStrictEqual(await S.concat(_.left('a'), _.left('b'))(), TH.left('ab'))
+    assert.deepStrictEqual(await S.concat(_.right(1), _.both('a', 2))(), TH.both('a', 3))
+    assert.deepStrictEqual(await S.concat(_.left('a'), _.both('b', 2))(), TH.both('ab', 2))
+    assert.deepStrictEqual(await S.concat(_.both('a', 1), _.both('b', 2))(), TH.both('ab', 3))
+  })
+
+  describe('getMonad', () => {
+    const M = _.getMonad(monoidString)
+    it('map', async () => {
+      const f = (n: number): number => n * 2
+      assert.deepStrictEqual(await M.map(_.right(1), f)(), TH.right(2))
+      assert.deepStrictEqual(await M.map(_.left('a'), f)(), TH.left('a'))
+      assert.deepStrictEqual(await M.map(_.both('a', 1), f)(), TH.both('a', 2))
+    })
+
+    it('ap', async () => {
+      const f = (n: number): number => n * 2
+      assert.deepStrictEqual(await M.ap(_.right(f), _.right(1))(), TH.right(2))
+    })
+
+    it('chain', async () => {
+      const f = (n: number) => (n > 2 ? _.both(`c`, n + 1) : n > 1 ? _.right(n * 2) : _.left(`b`))
+      assert.deepStrictEqual(await M.chain(_.right(1), f)(), TH.left('b'))
+      assert.deepStrictEqual(await M.chain(_.right(2), f)(), TH.right(4))
+
+      assert.deepStrictEqual(await M.chain(_.left('a'), f)(), TH.left('a'))
+
+      assert.deepStrictEqual(await M.chain(_.both('a', 1), f)(), TH.left('ab'))
+      assert.deepStrictEqual(await M.chain(_.both('a', 2), f)(), TH.right(4))
+      assert.deepStrictEqual(await M.chain(_.both('a', 3), f)(), TH.both('ac', 4))
+    })
+  })
+
+  // -------------------------------------------------------------------------------------
+  // constructors
+  // -------------------------------------------------------------------------------------
 
   it('right', async () => {
     const x = await _.right(1)()
@@ -64,6 +123,10 @@ describe('TaskThese', () => {
     assert.deepStrictEqual(x, TH.left('a'))
   })
 
+  // -------------------------------------------------------------------------------------
+  // destructors
+  // -------------------------------------------------------------------------------------
+
   it('fold', async () => {
     const f = _.fold(
       (e) => T.of(`left ${e}`),
@@ -86,42 +149,5 @@ describe('TaskThese', () => {
     assert.deepStrictEqual(await f(_.right(1))(), ['b', 1])
     assert.deepStrictEqual(await f(_.left('a'))(), ['a', 2])
     assert.deepStrictEqual(await f(_.both('a', 1))(), ['a', 1])
-  })
-
-  it('getSemigroup', async () => {
-    const S = _.getSemigroup(monoidString, monoidSum)
-    assert.deepStrictEqual(await S.concat(_.right(1), _.right(2))(), TH.right(3))
-    assert.deepStrictEqual(await S.concat(_.right(1), _.left('a'))(), TH.both('a', 1))
-    assert.deepStrictEqual(await S.concat(_.left('a'), _.left('b'))(), TH.left('ab'))
-    assert.deepStrictEqual(await S.concat(_.right(1), _.both('a', 2))(), TH.both('a', 3))
-    assert.deepStrictEqual(await S.concat(_.left('a'), _.both('b', 2))(), TH.both('ab', 2))
-    assert.deepStrictEqual(await S.concat(_.both('a', 1), _.both('b', 2))(), TH.both('ab', 3))
-  })
-
-  describe('getMonad', () => {
-    const M = _.getMonad(monoidString)
-    it('map', async () => {
-      const f = (n: number): number => n * 2
-      assert.deepStrictEqual(await M.map(_.right(1), f)(), TH.right(2))
-      assert.deepStrictEqual(await M.map(_.left('a'), f)(), TH.left('a'))
-      assert.deepStrictEqual(await M.map(_.both('a', 1), f)(), TH.both('a', 2))
-    })
-
-    it('map', async () => {
-      const f = (n: number): number => n * 2
-      assert.deepStrictEqual(await M.ap(_.right(f), _.right(1))(), TH.right(2))
-    })
-
-    it('chain', async () => {
-      const f = (n: number) => (n > 2 ? _.both(`c`, n + 1) : n > 1 ? _.right(n * 2) : _.left(`b`))
-      assert.deepStrictEqual(await M.chain(_.right(1), f)(), TH.left('b'))
-      assert.deepStrictEqual(await M.chain(_.right(2), f)(), TH.right(4))
-
-      assert.deepStrictEqual(await M.chain(_.left('a'), f)(), TH.left('a'))
-
-      assert.deepStrictEqual(await M.chain(_.both('a', 1), f)(), TH.left('ab'))
-      assert.deepStrictEqual(await M.chain(_.both('a', 2), f)(), TH.right(4))
-      assert.deepStrictEqual(await M.chain(_.both('a', 3), f)(), TH.both('ac', 4))
-    })
   })
 })

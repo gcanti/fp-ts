@@ -28,6 +28,12 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainW](#chainw)
   - [flatten](#flatten)
+- [MonadIO](#monadio)
+  - [fromIO](#fromio)
+- [MonadTask](#monadtask)
+  - [fromTask](#fromtask)
+- [MonadThrow](#monadthrow)
+  - [throwError](#throwerror)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -68,8 +74,7 @@ Added in v2.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [altReaderStateTaskEither](#altreaderstatetaskeither)
-  - [applicativeStateReaderTaskEitherPar](#applicativestatereadertaskeitherpar)
-  - [applicativeStateReaderTaskEitherSeq](#applicativestatereadertaskeitherseq)
+  - [applicativeStateReaderTaskEither](#applicativestatereadertaskeither)
   - [bifunctorStateReaderTaskEither](#bifunctorstatereadertaskeither)
   - [functorStateReaderTaskEither](#functorstatereadertaskeither)
   - [stateReaderTaskEither](#statereadertaskeither)
@@ -245,6 +250,42 @@ export declare const flatten: <S, R, E, A>(
 ```
 
 Added in v2.0.0
+
+# MonadIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <S, R, E, A>(fa: IO<A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.7.0
+
+# MonadTask
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <S, R, E, A>(fa: Task<A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.7.0
+
+# MonadThrow
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <S, R, E, A>(e: E) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.7.0
 
 # combinators
 
@@ -676,22 +717,12 @@ export declare const altReaderStateTaskEither: Alt4<'StateReaderTaskEither'>
 
 Added in v2.7.0
 
-## applicativeStateReaderTaskEitherPar
+## applicativeStateReaderTaskEither
 
 **Signature**
 
 ```ts
-export declare const applicativeStateReaderTaskEitherPar: Applicative4<'StateReaderTaskEither'>
-```
-
-Added in v2.7.0
-
-## applicativeStateReaderTaskEitherSeq
-
-**Signature**
-
-```ts
-export declare const applicativeStateReaderTaskEitherSeq: Applicative4<'StateReaderTaskEither'>
+export declare const applicativeStateReaderTaskEither: Applicative4<'StateReaderTaskEither'>
 ```
 
 Added in v2.7.0

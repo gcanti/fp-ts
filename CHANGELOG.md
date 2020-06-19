@@ -203,8 +203,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `comonadStore` instance (@gcanti)
   - `StateReaderTaskEither`
     - add `functorStateReaderTaskEither` instance (@gcanti)
-    - add `applicativeStateReaderTaskEitherPar` instance (@gcanti)
-    - add `applicativeStateReaderTaskEitherSeq` instance (@gcanti)
+    - add `applicativeStateReaderTaskEither` instance (@gcanti)
     - add `bifunctorStateReaderTaskEither` instance (@gcanti)
     - add `altStateReaderTaskEither` instance (@gcanti)
   - `Task`

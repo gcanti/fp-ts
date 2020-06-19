@@ -13,6 +13,7 @@ import { semigroupString, semigroupSum } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 import * as RT from '../src/ReaderTask'
+import { assertSeq, assertPar } from './util'
 
 describe('ReaderTaskEither', () => {
   describe('pipeables', () => {
@@ -142,6 +143,22 @@ describe('ReaderTaskEither', () => {
     })
   })
 
+  // -------------------------------------------------------------------------------------
+  // instances
+  // -------------------------------------------------------------------------------------
+
+  it('applicativeReaderTaskEitherSeq', async () => {
+    await assertSeq(_.applicativeReaderTaskEitherSeq, { fromTask: _.fromTask }, (fa) => fa(null)())
+  })
+
+  it('applicativeReaderTaskEitherPar', async () => {
+    await assertPar(_.applicativeReaderTaskEitherPar, { fromTask: _.fromTask }, (fa) => fa(null)())
+  })
+
+  // -------------------------------------------------------------------------------------
+  // constructors
+  // -------------------------------------------------------------------------------------
+
   it('ask', async () => {
     const e = await _.ask<number>()(1)()
     return assert.deepStrictEqual(e, E.right(1))
@@ -243,44 +260,6 @@ describe('ReaderTaskEither', () => {
       _.orElse((s) => _.right(s.length))
     )({})()
     assert.deepStrictEqual(e2, E.right(5))
-  })
-
-  it('applicativeReaderTaskEitherPar', async () => {
-    // tslint:disable-next-line: readonly-array
-    const log: Array<string> = []
-    const append = (message: string): _.ReaderTaskEither<{}, void, number> =>
-      _.rightTask(() => Promise.resolve(log.push(message)))
-    const t1 = pipe(
-      append('start 1'),
-      _.chain(() => append('end 1'))
-    )
-    const t2 = pipe(
-      append('start 2'),
-      _.chain(() => append('end 2'))
-    )
-    const sequenceParallel = A.sequence(_.applicativeReaderTaskEitherPar)
-    const ns = await sequenceParallel([t1, t2])({})()
-    assert.deepStrictEqual(ns, E.right([3, 4]))
-    assert.deepStrictEqual(log, ['start 1', 'start 2', 'end 1', 'end 2'])
-  })
-
-  it('applicativeReaderTaskEitherSeq', async () => {
-    // tslint:disable-next-line: readonly-array
-    const log: Array<string> = []
-    const append = (message: string): _.ReaderTaskEither<{}, void, number> =>
-      _.rightTask(() => Promise.resolve(log.push(message)))
-    const t1 = pipe(
-      append('start 1'),
-      _.chain(() => append('end 1'))
-    )
-    const t2 = pipe(
-      append('start 2'),
-      _.chain(() => append('end 2'))
-    )
-    const sequenceSeries = A.sequence(_.applicativeReaderTaskEitherSeq)
-    const ns = await sequenceSeries([t1, t2])({})()
-    assert.deepStrictEqual(ns, E.right([2, 4]))
-    assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
   })
 
   describe('MonadIO', () => {

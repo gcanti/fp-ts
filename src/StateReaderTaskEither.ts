@@ -25,6 +25,7 @@ import { TaskEither } from './TaskEither'
 import ReaderTaskEither = RTE.ReaderTaskEither
 import { Functor4 } from './Functor'
 import { Applicative4 } from './Applicative'
+import { MonadIO4 } from './MonadIO'
 
 /* tslint:disable:readonly-array */
 /**
@@ -508,6 +509,24 @@ export const alt: <S, R, E, A>(
     RTE.alt(() => that()(s))
   )
 
+/**
+ * @category MonadIO
+ * @since 2.7.0
+ */
+export const fromIO: MonadIO4<URI>['fromIO'] = rightIO
+
+/**
+ * @category MonadTask
+ * @since 2.7.0
+ */
+export const fromTask: MonadTask4<URI>['fromTask'] = rightTask
+
+/**
+ * @category MonadThrow
+ * @since 2.7.0
+ */
+export const throwError: MonadThrow4<URI>['throwError'] = left
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -515,8 +534,7 @@ export const alt: <S, R, E, A>(
 /* istanbul ignore next */
 const map_: Monad4<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
-const apPar_: Monad4<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const apSeq_: Monad4<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
+const ap_: Monad4<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
 const chain_: Monad4<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 const of = right
@@ -576,21 +594,10 @@ export const functorStateReaderTaskEither: Functor4<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const applicativeStateReaderTaskEitherPar: Applicative4<URI> = {
+export const applicativeStateReaderTaskEither: Applicative4<URI> = {
   URI,
   map: map_,
-  ap: apPar_,
-  of
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const applicativeStateReaderTaskEitherSeq: Applicative4<URI> = {
-  URI,
-  map: map_,
-  ap: apSeq_,
+  ap: ap_,
   of
 }
 
@@ -623,14 +630,14 @@ export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & 
   URI,
   map: map_,
   of,
-  ap: apPar_,
+  ap: ap_,
   chain: chain_,
   bimap: bimap_,
   mapLeft: mapLeft_,
   alt: alt_,
-  fromIO: rightIO,
-  fromTask: rightTask,
-  throwError: left
+  fromIO,
+  fromTask,
+  throwError
 }
 
 // TODO: remove in v3
@@ -644,14 +651,14 @@ export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
   URI,
   map: map_,
   of,
-  ap: apSeq_,
+  ap: ap_,
   chain: chain_,
   bimap: bimap_,
   mapLeft: mapLeft_,
   alt: alt_,
-  fromIO: rightIO,
-  fromTask: rightTask,
-  throwError: left
+  fromIO,
+  fromTask,
+  throwError
 }
 
 // -------------------------------------------------------------------------------------
