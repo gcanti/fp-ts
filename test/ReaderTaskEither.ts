@@ -1,19 +1,19 @@
 import * as assert from 'assert'
-import * as A from '../src/Array'
+import { sequenceT } from '../src/Apply'
 import * as E from '../src/Either'
+import { pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import { monoidSum } from '../src/Monoid'
 import { none, some } from '../src/Option'
-import { pipe } from '../src/function'
 import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
+import * as RT from '../src/ReaderTask'
 import * as _ from '../src/ReaderTaskEither'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
-import * as RT from '../src/ReaderTask'
-import { assertSeq, assertPar } from './util'
+import { assertPar, assertSeq } from './util'
 
 describe('ReaderTaskEither', () => {
   describe('pipeables', () => {
@@ -324,36 +324,18 @@ describe('ReaderTaskEither', () => {
     assert.deepStrictEqual(e2, E.right(1))
   })
 
-  describe('getReaderTaskValidation', () => {
-    const RTV = _.getReaderTaskValidation(semigroupString)
-    it('of', async () => {
-      const e = await RTV.of(1)({})()
-      assert.deepStrictEqual(e, E.right(1))
-    })
+  it('getApplicativeReaderTaskValidation', async () => {
+    const A = _.getApplicativeReaderTaskValidation(T.applicativeTaskPar, semigroupString)
+    assert.deepStrictEqual(await sequenceT(A)(_.left('a'), _.left('b'))(null)(), E.left('ab'))
+    const AV = _.getReaderTaskValidation(semigroupString)
+    assert.deepStrictEqual(await sequenceT(AV)(_.left('a'), _.left('b'))(null)(), E.left('ab'))
+  })
 
-    it('alt', async () => {
-      assert.deepStrictEqual(await RTV.alt(_.left('a'), () => _.left('b'))(null)(), E.left('ab'))
-    })
-
-    it('throwError', async () => {
-      const e = await RTV.throwError('error')({})()
-      assert.deepStrictEqual(e, E.left('error'))
-    })
-
-    it('traverse', async () => {
-      const e1 = await pipe([1, 2, 3], A.traverse(RTV)(RTV.of))({})()
-      assert.deepStrictEqual(e1, E.right([1, 2, 3]))
-      const e2 = await pipe(
-        [1, 2, 3],
-        A.traverse(RTV)((v) => RTV.throwError(`${v}`))
-      )({})()
-      assert.deepStrictEqual(e2, E.left('123'))
-      const e3 = await pipe(
-        [1, 2, 3],
-        A.traverse(RTV)((v) => (v % 2 === 1 ? RTV.throwError(`${v}`) : RTV.of(v)))
-      )({})()
-      assert.deepStrictEqual(e3, E.left('13'))
-    })
+  it('getAltReaderTaskValidation', async () => {
+    const A = _.getAltReaderTaskValidation(semigroupString)
+    assert.deepStrictEqual(await A.alt(_.left('a'), () => _.left('b'))(null)(), E.left('ab'))
+    const AV = _.getReaderTaskValidation(semigroupString)
+    assert.deepStrictEqual(await AV.alt(_.left('a'), () => _.left('b'))(null)(), E.left('ab'))
   })
 
   describe('bracket', () => {

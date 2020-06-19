@@ -1,15 +1,17 @@
 import * as assert from 'assert'
+import { sequenceT } from '../src/Apply'
 import * as A from '../src/Array'
 import * as E from '../src/Either'
+import { pipe } from '../src/function'
 import * as I from '../src/IO'
+import * as IE from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
 import { pipeable } from '../src/pipeable'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
+import * as T from '../src/Task'
 import * as _ from '../src/TaskEither'
-import * as IE from '../src/IOEither'
-import { pipe } from '../src/function'
-import { assertSeq, assertPar } from './util'
+import { assertPar, assertSeq } from './util'
 
 describe('TaskEither', () => {
   // -------------------------------------------------------------------------------------
@@ -88,61 +90,23 @@ describe('TaskEither', () => {
     assert.deepStrictEqual(await pipe(_.left(1), _.mapLeft(double))(), E.left(2))
   })
 
-  it('fromPredicate', async () => {
-    const gt2 = _.fromPredicate(
-      (n: number) => n >= 2,
-      (n) => `Invalid number ${n}`
-    )
-    assert.deepStrictEqual(await gt2(3)(), E.right(3))
-    assert.deepStrictEqual(await gt2(1)(), E.left('Invalid number 1'))
-    // refinements
-    const isNumber = (u: string | number): u is number => typeof u === 'number'
-    assert.deepStrictEqual(await _.fromPredicate(isNumber, () => 'not a number')(4)(), E.right(4))
-  })
-
-  it('filterOrElse', async () => {
-    assert.deepStrictEqual(
-      await pipe(
-        _.right(12),
-        _.filterOrElse(
-          (n) => n > 10,
-          () => 'a'
-        )
-      )(),
-      E.right(12)
-    )
-    assert.deepStrictEqual(
-      await pipe(
-        _.right(7),
-        _.filterOrElse(
-          (n) => n > 10,
-          () => 'a'
-        )
-      )(),
-      E.left('a')
-    )
-  })
-
-  it('fromOption', async () => {
-    assert.deepStrictEqual(
-      await pipe(
-        none,
-        _.fromOption(() => 'none')
-      )(),
-      E.left('none')
-    )
-    assert.deepStrictEqual(
-      await pipe(
-        some(1),
-        _.fromOption(() => 'none')
-      )(),
-      E.right(1)
-    )
-  })
-
   // -------------------------------------------------------------------------------------
   // instances
   // -------------------------------------------------------------------------------------
+
+  it('getApplicativeTaskValidation', async () => {
+    const A = _.getApplicativeTaskValidation(T.applicativeTaskPar, semigroupString)
+    assert.deepStrictEqual(await sequenceT(A)(_.left('a'), _.left('b'))(), E.left('ab'))
+    const AV = _.getTaskValidation(semigroupString)
+    assert.deepStrictEqual(await sequenceT(AV)(_.left('a'), _.left('b'))(), E.left('ab'))
+  })
+
+  it('getAltTaskValidation', async () => {
+    const A = _.getAltTaskValidation(semigroupString)
+    assert.deepStrictEqual(await A.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
+    const AV = _.getTaskValidation(semigroupString)
+    assert.deepStrictEqual(await AV.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
+  })
 
   describe('getTaskValidation', () => {
     const TV = _.getTaskValidation(semigroupString)
@@ -311,6 +275,29 @@ describe('TaskEither', () => {
   // combinators
   // -------------------------------------------------------------------------------------
 
+  it('filterOrElse', async () => {
+    assert.deepStrictEqual(
+      await pipe(
+        _.right(12),
+        _.filterOrElse(
+          (n) => n > 10,
+          () => 'a'
+        )
+      )(),
+      E.right(12)
+    )
+    assert.deepStrictEqual(
+      await pipe(
+        _.right(7),
+        _.filterOrElse(
+          (n) => n > 10,
+          () => 'a'
+        )
+      )(),
+      E.left('a')
+    )
+  })
+
   it('orElse', async () => {
     assert.deepStrictEqual(
       await pipe(
@@ -391,5 +378,34 @@ describe('TaskEither', () => {
   it('fromIOEither', async () => {
     assert.deepStrictEqual(await _.fromIOEither(() => E.right(1))(), E.right(1))
     assert.deepStrictEqual(await _.fromIOEither(() => E.left('foo'))(), E.left('foo'))
+  })
+
+  it('fromOption', async () => {
+    assert.deepStrictEqual(
+      await pipe(
+        none,
+        _.fromOption(() => 'none')
+      )(),
+      E.left('none')
+    )
+    assert.deepStrictEqual(
+      await pipe(
+        some(1),
+        _.fromOption(() => 'none')
+      )(),
+      E.right(1)
+    )
+  })
+
+  it('fromPredicate', async () => {
+    const gt2 = _.fromPredicate(
+      (n: number) => n >= 2,
+      (n) => `Invalid number ${n}`
+    )
+    assert.deepStrictEqual(await gt2(3)(), E.right(3))
+    assert.deepStrictEqual(await gt2(1)(), E.left('Invalid number 1'))
+    // refinements
+    const isNumber = (u: string | number): u is number => typeof u === 'number'
+    assert.deepStrictEqual(await _.fromPredicate(isNumber, () => 'not a number')(4)(), E.right(4))
   })
 })

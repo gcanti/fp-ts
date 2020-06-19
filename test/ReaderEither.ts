@@ -1,12 +1,12 @@
 import * as assert from 'assert'
+import * as Apply from '../src/Apply'
 import * as E from '../src/Either'
+import { pipe } from '../src/function'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
-import { pipe } from '../src/function'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderEither'
-import { semigroupSum, semigroupString } from '../src/Semigroup'
-import * as Apply from '../src/Apply'
+import { semigroupSum } from '../src/Semigroup'
 
 describe('ReaderEither', () => {
   describe('pipeables', () => {
@@ -189,24 +189,18 @@ describe('ReaderEither', () => {
     )
   })
 
-  describe('getReaderValidation', () => {
-    const RV = _.getReaderValidation(semigroupString)
+  it('getApplicativeReaderValidation', () => {
+    const A = _.getApplicativeReaderValidation(monoidString)
+    assert.deepStrictEqual(Apply.sequenceT(A)(_.left('a'), _.left('b'))(null), E.left('ab'))
+    const AV = _.getReaderValidation(monoidString)
+    assert.deepStrictEqual(Apply.sequenceT(AV)(_.left('a'), _.left('b'))(null), E.left('ab'))
+  })
 
-    it('ap', () => {
-      const sequenceS = Apply.sequenceS(RV)
-      assert.deepStrictEqual(sequenceS({ a: _.left('a'), b: _.left('b') })(undefined), E.left('ab'))
-    })
-
-    it('alt', async () => {
-      const e1 = RV.alt(_.right(1), () => _.right(2))(undefined)
-      assert.deepStrictEqual(e1, E.right(1))
-      const e2 = RV.alt(_.left('a'), () => _.right(2))(undefined)
-      assert.deepStrictEqual(e2, E.right(2))
-      const e3 = RV.alt(_.right(1), () => _.left('b'))(undefined)
-      assert.deepStrictEqual(e3, E.right(1))
-      const e4 = RV.alt(_.left('a'), () => _.left('b'))(undefined)
-      assert.deepStrictEqual(e4, E.left('ab'))
-    })
+  it('getAltReaderValidation', () => {
+    const A = _.getAltReaderValidation(monoidString)
+    assert.deepStrictEqual(A.alt(_.left('a'), () => _.left('b'))(null), E.left('ab'))
+    const AV = _.getReaderValidation(monoidString)
+    assert.deepStrictEqual(AV.alt(_.left('a'), () => _.left('b'))(null), E.left('ab'))
   })
 
   it('chainEitherK', () => {

@@ -52,7 +52,7 @@ describe('Apply', () => {
     assert.deepStrictEqual(adoEither({ a: E.right(1), b: E.right(2) }), E.right({ a: 1, b: 2 }))
     assert.deepStrictEqual(adoEither({ a: E.right(1), b: E.left('error') }), E.left('error'))
 
-    const adoValidation = sequenceS(E.getValidation(A.getMonoid<string>()))
+    const adoValidation = sequenceS(E.getApplicativeValidation(A.getMonoid<string>()))
     assert.deepStrictEqual(adoValidation({ a: E.right(1) }), E.right({ a: 1 }))
     assert.deepStrictEqual(adoValidation({ a: E.right(1), b: E.right(2) }), E.right({ a: 1, b: 2 }))
     assert.deepStrictEqual(adoValidation({ a: E.right(1), b: E.left(['error']) }), E.left(['error']))
