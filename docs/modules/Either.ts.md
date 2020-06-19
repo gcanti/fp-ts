@@ -77,13 +77,14 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [altEither](#alteither)
   - [applicativeEither](#applicativeeither)
-  - [applyEither](#applyeither)
   - [bifunctorEither](#bifunctoreither)
   - [chainRecEither](#chainreceither)
   - [either](#either)
   - [extendEither](#extendeither)
   - [foldableEither](#foldableeither)
   - [functorEither](#functoreither)
+  - [getAltValidation](#getaltvalidation)
+  - [getApplicativeValidation](#getapplicativevalidation)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getEq](#geteq)
@@ -661,16 +662,6 @@ export declare const applicativeEither: Applicative2<'Either'>
 
 Added in v2.7.0
 
-## applyEither
-
-**Signature**
-
-```ts
-export declare const applyEither: Apply2<'Either'>
-```
-
-Added in v2.7.0
-
 ## bifunctorEither
 
 **Signature**
@@ -734,6 +725,26 @@ Added in v2.7.0
 
 ```ts
 export declare const functorEither: Functor2<'Either'>
+```
+
+Added in v2.7.0
+
+## getAltValidation
+
+**Signature**
+
+```ts
+export declare function getAltValidation<E>(S: Semigroup<E>): Alt2C<URI, E>
+```
+
+Added in v2.7.0
+
+## getApplicativeValidation
+
+**Signature**
+
+```ts
+export declare function getApplicativeValidation<E>(S: Semigroup<E>): Applicative2C<URI, E>
 ```
 
 Added in v2.7.0

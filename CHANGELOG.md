@@ -40,8 +40,9 @@ high state of flux, you're at risk of it changing without notice.
     - add `contravariantConst` instance (@gcanti)
     - add `bifunctorConst` instance (@gcanti)
   - `Either`
+    - add `getApplicativeValidation` constrained instance (@gcanti)
+    - add `getAltValidation` constrained instance (@gcanti)
     - add `functorEither` instance (@gcanti)
-    - add `applyEither` instance (@gcanti)
     - add `applicativeEither` instance (@gcanti)
     - add `monadEither` instance (@gcanti)
     - add `foldableEither` instance (@gcanti)

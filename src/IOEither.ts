@@ -207,7 +207,7 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) => IOEit
  */
 export const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B> =
   /*#__PURE__*/
-  apComposition(I.applyIO, E.applyEither)
+  apComposition(I.applyIO, E.applicativeEither)
 
 /**
  * Combine two effectful actions, keeping only the result of the first.

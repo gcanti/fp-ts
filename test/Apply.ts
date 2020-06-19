@@ -47,7 +47,7 @@ describe('Apply', () => {
     assert.deepStrictEqual(adoOption({ a: O.some(1), b: O.some(2) }), O.some({ a: 1, b: 2 }))
     assert.deepStrictEqual(adoOption({ a: O.some(1), b: O.none }), O.none)
 
-    const adoEither = sequenceS(E.applyEither)
+    const adoEither = sequenceS(E.applicativeEither)
     assert.deepStrictEqual(adoEither({ a: E.right(1) }), E.right({ a: 1 }))
     assert.deepStrictEqual(adoEither({ a: E.right(1), b: E.right(2) }), E.right({ a: 1, b: 2 }))
     assert.deepStrictEqual(adoEither({ a: E.right(1), b: E.left('error') }), E.left('error'))
