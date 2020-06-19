@@ -6,6 +6,7 @@ import { pipe } from '../src/function'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderEither'
 import { semigroupSum, semigroupString } from '../src/Semigroup'
+import * as Apply from '../src/Apply'
 
 describe('ReaderEither', () => {
   describe('pipeables', () => {
@@ -190,6 +191,11 @@ describe('ReaderEither', () => {
 
   describe('getReaderValidation', () => {
     const RV = _.getReaderValidation(semigroupString)
+
+    it('ap', () => {
+      const sequenceS = Apply.sequenceS(RV)
+      assert.deepStrictEqual(sequenceS({ a: _.left('a'), b: _.left('b') })(undefined), E.left('ab'))
+    })
 
     it('alt', async () => {
       const e1 = RV.alt(_.right(1), () => _.right(2))(undefined)

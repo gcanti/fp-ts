@@ -2,17 +2,18 @@
  * @since 2.0.0
  */
 import { Alt3, Alt3C } from './Alt'
-import { apComposition, Apply3 } from './Apply'
+import { Applicative3, Applicative3C } from './Applicative'
+import { apComposition } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import { flow, identity, pipe, Predicate, Refinement } from './function'
+import { Functor3 } from './Functor'
 import { Monad3, Monad3C } from './Monad'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import * as R from './Reader'
 import { Semigroup } from './Semigroup'
-import { getValidationM } from './ValidationT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -20,8 +21,6 @@ import { getValidationM } from './ValidationT'
 
 import Either = E.Either
 import Reader = R.Reader
-import { Functor3 } from './Functor'
-import { Applicative3 } from './Applicative'
 
 /**
  * @category model
@@ -405,22 +404,63 @@ export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderEither<R, E,
 
 /**
  * @category instances
+ * @since 2.7.0
+ */
+export function getApplicativeReaderValidation<E>(S: Semigroup<E>): Applicative3C<URI, E> {
+  const ap = apComposition(R.applicativeReader, E.getApplicativeValidation(S))
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    ap: (fab, fa) => pipe(fab, ap(fa)),
+    of
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export function getAltReaderValidation<E>(S: Semigroup<E>): Alt3C<URI, E> {
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    alt: (me, that) =>
+      pipe(
+        me,
+        R.chain((e1) =>
+          E.isRight(e1)
+            ? R.of(e1)
+            : pipe(
+                that(),
+                R.map((e2) => (E.isLeft(e2) ? E.left(S.concat(e1.left, e2.left)) : e2))
+              )
+        )
+      )
+  }
+}
+
+// TODO: remove in v3
+/**
+ * @category instances
  * @since 2.3.0
  */
 export function getReaderValidation<E>(
   S: Semigroup<E>
 ): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadThrow3C<URI, E> {
-  const V = getValidationM(S, R.monadReader)
+  const applicativeReaderValidation = getApplicativeReaderValidation(S)
+  const altReaderValidation = getAltReaderValidation(S)
   return {
     URI,
     _E: undefined as any,
     map: map_,
-    ap: V.ap,
+    ap: applicativeReaderValidation.ap,
     of,
     chain: chain_,
     bimap: bimap_,
     mapLeft: mapLeft_,
-    alt: V.alt,
+    alt: altReaderValidation.alt,
     throwError
   }
 }
@@ -432,16 +472,6 @@ export function getReaderValidation<E>(
 export const functorReaderEither: Functor3<URI> = {
   URI,
   map: map_
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const applyReaderEither: Apply3<URI> = {
-  URI,
-  map: map_,
-  ap: ap_
 }
 
 /**

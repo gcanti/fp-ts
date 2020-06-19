@@ -199,6 +199,7 @@ declare module './HKT' {
 
 const map_: Monad2<URI>['map'] = (fa, f) => F.pipe(fa, map(f))
 const ap_: Monad2<URI>['ap'] = (fab, fa) => F.pipe(fab, ap(fa))
+/* istanbul ignore next */
 const chain_: Monad2<URI>['chain'] = (ma, f) => F.pipe(ma, chain(f))
 const compose_: <E, A, B>(ab: Reader<A, B>, la: Reader<E, A>) => Reader<E, B> = (ab, la) => (l) => ab(la(l))
 const promap_: <E, A, D, B>(fbc: Reader<E, A>, f: (d: D) => E, g: (a: A) => B) => Reader<D, B> = (mbc, f, g) => (a) =>
