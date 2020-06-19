@@ -13,13 +13,12 @@ import { Comonad1 } from './Comonad'
 import { Eq, fromEquals } from './Eq'
 import { Foldable1 } from './Foldable'
 import { identity, pipe } from './function'
+import { Functor1 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid } from './Monoid'
 import { Show } from './Show'
-import { Traversable1, PipeableTraverse1 } from './Traversable'
-import { Functor1 } from './Functor'
-import { Extend1 } from './Extend'
+import { PipeableTraverse1, Traversable1 } from './Traversable'
 
 // tslint:disable:readonly-array
 
@@ -530,16 +529,6 @@ export const traversableTree: Traversable1<URI> = {
   reduceRight: reduceRight_,
   traverse: traverse_,
   sequence
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const extendTree: Extend1<URI> = {
-  URI,
-  map: map_,
-  extend: extend_
 }
 
 /**

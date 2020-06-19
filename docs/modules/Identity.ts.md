@@ -40,7 +40,6 @@ Added in v2.0.0
   - [applicativeIdentity](#applicativeidentity)
   - [chainRecIdentity](#chainrecidentity)
   - [comonadIdentity](#comonadidentity)
-  - [extendIdentity](#extendidentity)
   - [foldableIdentity](#foldableidentity)
   - [functorIdentity](#functoridentity)
   - [getEq](#geteq)
@@ -285,16 +284,6 @@ Added in v2.7.0
 
 ```ts
 export declare const comonadIdentity: Comonad1<'Identity'>
-```
-
-Added in v2.7.0
-
-## extendIdentity
-
-**Signature**
-
-```ts
-export declare const extendIdentity: Extend1<'Identity'>
 ```
 
 Added in v2.7.0

@@ -61,7 +61,6 @@ Added in v2.5.0
   - [altNonEmptyArray](#altnonemptyarray)
   - [applicativeNonEmptyArray](#applicativenonemptyarray)
   - [comonadNonEmptyArray](#comonadnonemptyarray)
-  - [extendNonEmptyArray](#extendnonemptyarray)
   - [foldableNonEmptyArray](#foldablenonemptyarray)
   - [foldableWithIndexNonEmptyArray](#foldablewithindexnonemptyarray)
   - [functorNonEmptyArray](#functornonemptyarray)
@@ -578,16 +577,6 @@ Added in v2.7.0
 
 ```ts
 export declare const comonadNonEmptyArray: Comonad1<'ReadonlyNonEmptyArray'>
-```
-
-Added in v2.7.0
-
-## extendNonEmptyArray
-
-**Signature**
-
-```ts
-export declare const extendNonEmptyArray: Extend1<'ReadonlyNonEmptyArray'>
 ```
 
 Added in v2.7.0

@@ -38,7 +38,6 @@ Added in v2.5.0
   - [URI (type alias)](#uri-type-alias)
   - [bifunctorTuple](#bifunctortuple)
   - [comonadTuple](#comonadtuple)
-  - [extendTuple](#extendtuple)
   - [foldableTuple](#foldabletuple)
   - [functorTuple](#functortuple)
   - [getApplicative](#getapplicative)
@@ -246,16 +245,6 @@ Added in v2.7.0
 
 ```ts
 export declare const comonadTuple: Comonad2<'ReadonlyTuple'>
-```
-
-Added in v2.7.0
-
-## extendTuple
-
-**Signature**
-
-```ts
-export declare const extendTuple: Extend2<'ReadonlyTuple'>
 ```
 
 Added in v2.7.0

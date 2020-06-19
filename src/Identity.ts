@@ -6,7 +6,6 @@ import { Applicative, Applicative1 } from './Applicative'
 import { ChainRec1, tailRec } from './ChainRec'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
-import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { identity as id, Lazy } from './function'
 import { Functor1 } from './Functor'
@@ -276,16 +275,6 @@ export const altIdentity: Alt1<URI> = {
   URI,
   map: map_,
   alt: alt_
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const extendIdentity: Extend1<URI> = {
-  URI,
-  map: map_,
-  extend: extend_
 }
 
 /**

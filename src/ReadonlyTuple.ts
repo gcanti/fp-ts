@@ -10,14 +10,13 @@ import { Comonad2 } from './Comonad'
 import { Either } from './Either'
 import { Foldable2 } from './Foldable'
 import { identity } from './function'
+import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
-import { Traversable2, PipeableTraverse2 } from './Traversable'
-import { Functor2 } from './Functor'
-import { Extend2 } from './Extend'
+import { PipeableTraverse2, Traversable2 } from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -312,16 +311,6 @@ export const bifunctorTuple: Bifunctor2<URI> = {
 export const semigroupoidTuple: Semigroupoid2<URI> = {
   URI,
   compose: compose_
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const extendTuple: Extend2<URI> = {
-  URI,
-  map: map_,
-  extend: extend_
 }
 
 /**
