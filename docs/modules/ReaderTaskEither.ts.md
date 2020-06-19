@@ -79,6 +79,8 @@ Added in v2.0.0
   - [applicativeReaderTaskEitherSeq](#applicativereadertaskeitherseq)
   - [bifunctorReaderTaskEither](#bifunctorreadertaskeither)
   - [functorReaderTaskEither](#functorreadertaskeither)
+  - [getAltReaderTaskValidation](#getaltreadertaskvalidation)
+  - [getApplicativeReaderTaskValidation](#getapplicativereadertaskvalidation)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getReaderTaskValidation](#getreadertaskvalidation)
@@ -276,7 +278,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <R, E, A>(fa: Task<A>) => ReaderTaskEither<R, E, A>
+export declare const fromTask: <R, E, A>(fa: T.Task<A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -301,7 +303,7 @@ Added in v2.0.0
 
 ```ts
 export declare const chainEitherK: <E, A, B>(
-  f: (a: A) => Either<E, B>
+  f: (a: A) => E.Either<E, B>
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
@@ -315,7 +317,7 @@ Less strict version of [`chainEitherK`](#chainEitherK).
 
 ```ts
 export declare const chainEitherKW: <E, A, B>(
-  f: (a: A) => Either<E, B>
+  f: (a: A) => E.Either<E, B>
 ) => <R, D>(ma: ReaderTaskEither<R, D, A>) => ReaderTaskEither<R, E | D, B>
 ```
 
@@ -483,7 +485,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <R, E, A>(ma: Either<E, A>) => ReaderTaskEither<R, E, A>
+export declare const fromEither: <R, E, A>(ma: E.Either<E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -662,8 +664,8 @@ Added in v2.0.0
 
 ```ts
 export declare const getOrElse: <R, E, A>(
-  onLeft: (e: E) => ReaderTask<R, A>
-) => (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, A>
+  onLeft: (e: E) => RT.ReaderTask<R, A>
+) => (ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, A>
 ```
 
 Added in v2.0.0
@@ -676,8 +678,8 @@ Less strict version of [`getOrElse`](#getOrElse).
 
 ```ts
 export declare const getOrElseW: <R, E, B>(
-  onLeft: (e: E) => ReaderTask<R, B>
-) => <Q, A>(ma: ReaderTaskEither<Q, E, A>) => ReaderTask<Q & R, B | A>
+  onLeft: (e: E) => RT.ReaderTask<R, B>
+) => <Q, A>(ma: ReaderTaskEither<Q, E, A>) => RT.ReaderTask<Q & R, B | A>
 ```
 
 Added in v2.6.0
@@ -750,6 +752,26 @@ Added in v2.7.0
 
 ```ts
 export declare const functorReaderTaskEither: Functor3<'ReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## getAltReaderTaskValidation
+
+**Signature**
+
+```ts
+export declare function getAltReaderTaskValidation<E>(S: Semigroup<E>): Alt3C<URI, E>
+```
+
+Added in v2.7.0
+
+## getApplicativeReaderTaskValidation
+
+**Signature**
+
+```ts
+export declare function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative3C<URI, E>
 ```
 
 Added in v2.7.0

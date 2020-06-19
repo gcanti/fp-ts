@@ -422,22 +422,12 @@ export function getApplicativeReaderValidation<E>(S: Semigroup<E>): Applicative3
  * @since 2.7.0
  */
 export function getAltReaderValidation<E>(S: Semigroup<E>): Alt3C<URI, E> {
+  const A = E.getAltValidation(S)
   return {
     URI,
     _E: undefined as any,
     map: map_,
-    alt: (me, that) =>
-      pipe(
-        me,
-        R.chain((e1) =>
-          E.isRight(e1)
-            ? R.of(e1)
-            : pipe(
-                that(),
-                R.map((e2) => (E.isLeft(e2) ? E.left(S.concat(e1.left, e2.left)) : e2))
-              )
-        )
-      )
+    alt: (me, that) => (r) => A.alt(me(r), () => that()(r))
   }
 }
 
