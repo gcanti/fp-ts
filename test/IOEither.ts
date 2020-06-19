@@ -1,4 +1,5 @@
 import * as assert from 'assert'
+import { sequenceT } from '../src/Apply'
 import { getMonoid } from '../src/Array'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
@@ -7,7 +8,7 @@ import * as _ from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
 import { pipeable } from '../src/pipeable'
-import { semigroupString, semigroupSum } from '../src/Semigroup'
+import { semigroupSum } from '../src/Semigroup'
 
 describe('IOEither', () => {
   describe('pipeables', () => {
@@ -280,26 +281,19 @@ describe('IOEither', () => {
     })
   })
 
-  describe('getIOValidation', () => {
-    const IV = _.getIOValidation(semigroupString)
+  it('getApplicativeIOValidation', () => {
+    const A = _.getApplicativeIOValidation(monoidString)
+    assert.deepStrictEqual(sequenceT(A)(_.left('a'), _.left('b'))(), E.left('ab'))
+    assert.deepStrictEqual(sequenceT(A)(_.left('a'), _.right(1))(), E.left('a'))
+    const AV = _.getIOValidation(monoidString)
+    assert.deepStrictEqual(sequenceT(AV)(_.left('a'), _.left('b'))(), E.left('ab'))
+  })
 
-    it('ap', () => {
-      const fab = _.left('a')
-      const fa = _.left('b')
-      const e1 = IV.ap(fab, fa)()
-      assert.deepStrictEqual(e1, E.left('ab'))
-    })
-
-    it('alt', () => {
-      const e1 = IV.alt(_.right(1), () => _.right(2))()
-      assert.deepStrictEqual(e1, E.right(1))
-      const e2 = IV.alt(_.left('a'), () => _.right(2))()
-      assert.deepStrictEqual(e2, E.right(2))
-      const e3 = IV.alt(_.right(1), () => _.left('b'))()
-      assert.deepStrictEqual(e3, E.right(1))
-      const e4 = IV.alt(_.left('a'), () => _.left('b'))()
-      assert.deepStrictEqual(e4, E.left('ab'))
-    })
+  it('getAltIOValidation', () => {
+    const A = _.getAltIOValidation(monoidString)
+    assert.deepStrictEqual(A.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
+    const AV = _.getIOValidation(monoidString)
+    assert.deepStrictEqual(AV.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
   })
 
   describe('getFilterable', () => {
