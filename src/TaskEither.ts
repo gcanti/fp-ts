@@ -532,8 +532,8 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>> {
  * @category instances
  * @since 2.7.0
  */
-export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E> {
-  const ap = apComposition(A, E.getApplicativeValidation(S))
+export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E> {
+  const ap = apComposition(A, E.getApplicativeValidation(SE))
   return {
     URI,
     _E: undefined as any,
@@ -547,7 +547,7 @@ export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E
  * @category instances
  * @since 2.7.0
  */
-export function getAltTaskValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
+export function getAltTaskValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
   return {
     URI,
     _E: undefined as any,
@@ -560,7 +560,7 @@ export function getAltTaskValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
             ? T.of(e1)
             : pipe(
                 that(),
-                T.map((e2) => (E.isLeft(e2) ? E.left(S.concat(e1.left, e2.left)) : e2))
+                T.map((e2) => (E.isLeft(e2) ? E.left(SE.concat(e1.left, e2.left)) : e2))
               )
         )
       )
@@ -573,10 +573,10 @@ export function getAltTaskValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
  * @since 2.0.0
  */
 export function getTaskValidation<E>(
-  S: Semigroup<E>
+  SE: Semigroup<E>
 ): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadTask2C<URI, E> & MonadThrow2C<URI, E> {
-  const applicativeTaskValidation = getApplicativeTaskValidation(T.applicativeTaskPar, S)
-  const altTaskValidation = getAltTaskValidation(S)
+  const applicativeTaskValidation = getApplicativeTaskValidation(T.applicativeTaskPar, SE)
+  const altTaskValidation = getAltTaskValidation(SE)
   return {
     URI,
     _E: undefined as any,

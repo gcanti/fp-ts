@@ -589,8 +589,8 @@ export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderTaskEither<R
  * @category instances
  * @since 2.7.0
  */
-export function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative3C<URI, E> {
-  const ap = apComposition(R.applicativeReader, TE.getApplicativeTaskValidation(A, S))
+export function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative3C<URI, E> {
+  const ap = apComposition(R.applicativeReader, TE.getApplicativeTaskValidation(A, SE))
   return {
     URI,
     _E: undefined as any,
@@ -604,8 +604,8 @@ export function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, S: Semig
  * @category instances
  * @since 2.7.0
  */
-export function getAltReaderTaskValidation<E>(S: Semigroup<E>): Alt3C<URI, E> {
-  const A = TE.getAltTaskValidation(S)
+export function getAltReaderTaskValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
+  const A = TE.getAltTaskValidation(SE)
   return {
     URI,
     _E: undefined as any,
@@ -620,10 +620,10 @@ export function getAltReaderTaskValidation<E>(S: Semigroup<E>): Alt3C<URI, E> {
  * @since 2.3.0
  */
 export function getReaderTaskValidation<E>(
-  S: Semigroup<E>
+  SE: Semigroup<E>
 ): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadTask3C<URI, E> & MonadThrow3C<URI, E> {
-  const applicativeReaderTaskValidation = getApplicativeReaderTaskValidation(T.applicativeTaskPar, S)
-  const altReaderTaskValidation = getAltReaderTaskValidation(S)
+  const applicativeReaderTaskValidation = getApplicativeReaderTaskValidation(T.applicativeTaskPar, SE)
+  const altReaderTaskValidation = getAltReaderTaskValidation(SE)
   return {
     URI,
     _E: undefined as any,

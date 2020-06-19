@@ -532,7 +532,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare function getAltReaderValidation<E>(S: Semigroup<E>): Alt3C<URI, E>
+export declare function getAltReaderValidation<E>(SE: Semigroup<E>): Alt3C<URI, E>
 ```
 
 Added in v2.7.0
@@ -542,7 +542,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare function getApplicativeReaderValidation<E>(S: Semigroup<E>): Applicative3C<URI, E>
+export declare function getApplicativeReaderValidation<E>(SE: Semigroup<E>): Applicative3C<URI, E>
 ```
 
 Added in v2.7.0
@@ -576,7 +576,7 @@ Added in v2.0.0
 
 ```ts
 export declare function getReaderValidation<E>(
-  S: Semigroup<E>
+  SE: Semigroup<E>
 ): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadThrow3C<URI, E>
 ```
 

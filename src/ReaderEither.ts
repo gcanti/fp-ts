@@ -406,8 +406,8 @@ export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderEither<R, E,
  * @category instances
  * @since 2.7.0
  */
-export function getApplicativeReaderValidation<E>(S: Semigroup<E>): Applicative3C<URI, E> {
-  const ap = apComposition(R.applicativeReader, E.getApplicativeValidation(S))
+export function getApplicativeReaderValidation<E>(SE: Semigroup<E>): Applicative3C<URI, E> {
+  const ap = apComposition(R.applicativeReader, E.getApplicativeValidation(SE))
   return {
     URI,
     _E: undefined as any,
@@ -421,8 +421,8 @@ export function getApplicativeReaderValidation<E>(S: Semigroup<E>): Applicative3
  * @category instances
  * @since 2.7.0
  */
-export function getAltReaderValidation<E>(S: Semigroup<E>): Alt3C<URI, E> {
-  const A = E.getAltValidation(S)
+export function getAltReaderValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
+  const A = E.getAltValidation(SE)
   return {
     URI,
     _E: undefined as any,
@@ -437,10 +437,10 @@ export function getAltReaderValidation<E>(S: Semigroup<E>): Alt3C<URI, E> {
  * @since 2.3.0
  */
 export function getReaderValidation<E>(
-  S: Semigroup<E>
+  SE: Semigroup<E>
 ): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadThrow3C<URI, E> {
-  const applicativeReaderValidation = getApplicativeReaderValidation(S)
-  const altReaderValidation = getAltReaderValidation(S)
+  const applicativeReaderValidation = getApplicativeReaderValidation(SE)
+  const altReaderValidation = getAltReaderValidation(SE)
   return {
     URI,
     _E: undefined as any,
