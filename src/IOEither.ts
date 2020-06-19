@@ -5,10 +5,13 @@
  * @since 2.0.0
  */
 import { Alt2, Alt2C } from './Alt'
+import { Applicative2, Applicative2C } from './Applicative'
+import { apComposition } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { Filterable2C, getFilterableComposition } from './Filterable'
-import { identity, Lazy, Predicate, Refinement, pipe, flow } from './function'
+import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { Functor2 } from './Functor'
 import * as I from './IO'
 import { Monad2, Monad2C } from './Monad'
 import { MonadIO2, MonadIO2C } from './MonadIO'
@@ -16,8 +19,6 @@ import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
-import { getValidationM } from './ValidationT'
-import { apComposition, Apply2 } from './Apply'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -25,8 +26,6 @@ import { apComposition, Apply2 } from './Apply'
 
 import Either = E.Either
 import IO = I.IO
-import { Functor2 } from './Functor'
-import { Applicative2 } from './Applicative'
 
 /**
  * @category model
@@ -387,6 +386,45 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<IOEither<E, A>> {
   }
 }
 
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export function getApplicativeIOValidation<E>(S: Semigroup<E>): Applicative2C<URI, E> {
+  const ap = apComposition(I.applicativeIO, E.getApplicativeValidation(S))
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    ap: (fab, fa) => pipe(fab, ap(fa)),
+    of
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export function getAltIOValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    alt: (me, that) =>
+      pipe(
+        me,
+        I.chain((e1) =>
+          E.isRight(e1)
+            ? I.of(e1)
+            : pipe(
+                that(),
+                I.map((e2) => (E.isLeft(e2) ? E.left(S.concat(e1.left, e2.left)) : e2))
+              )
+        )
+      )
+  }
+}
+
 // TODO: remove in v3
 /**
  * @category instances
@@ -395,17 +433,18 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<IOEither<E, A>> {
 export function getIOValidation<E>(
   S: Semigroup<E>
 ): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadIO2C<URI, E> & MonadThrow2C<URI, E> {
-  const V = getValidationM(S, I.monadIO)
+  const applicativeIOValidation = getApplicativeIOValidation(S)
+  const altIOValidation = getAltIOValidation(S)
   return {
     URI,
     _E: undefined as any,
     map: map_,
-    ap: V.ap,
+    ap: applicativeIOValidation.ap,
     of,
     chain: chain_,
     bimap: bimap_,
     mapLeft: mapLeft_,
-    alt: V.alt,
+    alt: altIOValidation.alt,
     fromIO,
     throwError
   }
@@ -449,16 +488,6 @@ export const bifunctorIOEither: Bifunctor2<URI> = {
   URI,
   bimap: bimap_,
   mapLeft: mapLeft_
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const applyIOEither: Apply2<URI> = {
-  URI,
-  map: map_,
-  ap: ap_
 }
 
 /**

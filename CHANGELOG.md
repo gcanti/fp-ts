@@ -73,8 +73,9 @@ high state of flux, you're at risk of it changing without notice.
     - add `monadIOIO` instance (@gcanti)
     - add `chainRecIO` instance (@gcanti)
   - `IOEither`
+    - add `getApplicativeIOValidation` constrained instance (@gcanti)
+    - add `getAltIOValidation` constrained instance (@gcanti)
     - add `functorIOEither` instance (@gcanti)
-    - add `applyIOEither` instance (@gcanti)
     - add `applicativeIOEither` instance (@gcanti)
     - add `monadIOEither` instance (@gcanti)
     - add `bifunctorIOEither` instance (@gcanti)
