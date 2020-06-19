@@ -14,8 +14,7 @@
  * @since 2.0.0
  */
 import { Alt2, Alt2C } from './Alt'
-import { Applicative, Applicative2 } from './Applicative'
-import { Apply2 } from './Apply'
+import { Applicative, Applicative2, Applicative2C } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, ChainRec2C, tailRec } from './ChainRec'
 import { Separated } from './Compactable'
@@ -709,6 +708,46 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
   }
 }
 
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export function getApplicativeValidation<E>(S: Semigroup<E>): Applicative2C<URI, E> {
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    ap: (fab, fa) =>
+      isLeft(fab)
+        ? isLeft(fa)
+          ? left(S.concat(fab.left, fa.left))
+          : fab
+        : isLeft(fa)
+        ? fa
+        : right(fab.right(fa.right)),
+    of
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export function getAltValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    alt: (me, that) => {
+      if (isRight(me)) {
+        return me
+      }
+      const ea = that()
+      return isLeft(ea) ? left(S.concat(me.left, ea.left)) : ea
+    }
+  }
+}
+
 // TODO: remove in v3
 /**
  * @category instances
@@ -724,6 +763,8 @@ export function getValidation<E>(
   Extend2<URI> &
   ChainRec2C<URI, E> &
   MonadThrow2C<URI, E> {
+  const applicativeValidation = getApplicativeValidation(S)
+  const altValidation = getAltValidation(S)
   return {
     URI,
     _E: undefined as any,
@@ -740,21 +781,8 @@ export function getValidation<E>(
     sequence,
     chainRec: chainRec_,
     throwError,
-    ap: (mab, ma) =>
-      isLeft(mab)
-        ? isLeft(ma)
-          ? left(S.concat(mab.left, ma.left))
-          : mab
-        : isLeft(ma)
-        ? ma
-        : right(mab.right(ma.right)),
-    alt: (fx, f) => {
-      if (isRight(fx)) {
-        return fx
-      }
-      const fy = f()
-      return isLeft(fy) ? left(S.concat(fx.left, fy.left)) : fy
-    }
+    ap: applicativeValidation.ap,
+    alt: altValidation.alt
   }
 }
 
@@ -764,14 +792,8 @@ export function getValidation<E>(
  */
 export function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<Either<E, A>> {
   return {
-    concat: (fx, fy) =>
-      isLeft(fx)
-        ? isLeft(fy)
-          ? left(SE.concat(fx.left, fy.left))
-          : fx
-        : isLeft(fy)
-        ? fy
-        : right(SA.concat(fx.right, fy.right))
+    concat: (x, y) =>
+      isLeft(x) ? (isLeft(y) ? left(SE.concat(x.left, y.left)) : x) : isLeft(y) ? y : right(SA.concat(x.right, y.right))
   }
 }
 
@@ -782,16 +804,6 @@ export function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>)
 export const functorEither: Functor2<URI> = {
   URI,
   map: map_
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const applyEither: Apply2<URI> = {
-  URI,
-  map: map_,
-  ap: ap_
 }
 
 /**

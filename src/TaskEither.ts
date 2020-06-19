@@ -326,7 +326,7 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskEither<E, A>) => Tas
  */
 export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B> =
   /*#__PURE__*/
-  apComposition(T.applicativeTaskPar, E.applyEither)
+  apComposition(T.applicativeTaskPar, E.applicativeEither)
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
