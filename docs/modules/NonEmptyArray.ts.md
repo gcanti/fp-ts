@@ -61,7 +61,6 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [altNonEmptyArray](#altnonemptyarray)
   - [applicativeNonEmptyArray](#applicativenonemptyarray)
-  - [applyNonEmptyArray](#applynonemptyarray)
   - [comonadNonEmptyArray](#comonadnonemptyarray)
   - [extendNonEmptyArray](#extendnonemptyarray)
   - [foldableNonEmptyArray](#foldablenonemptyarray)
@@ -560,16 +559,6 @@ Added in v2.7.0
 
 ```ts
 export declare const applicativeNonEmptyArray: Applicative1<'NonEmptyArray'>
-```
-
-Added in v2.7.0
-
-## applyNonEmptyArray
-
-**Signature**
-
-```ts
-export declare const applyNonEmptyArray: Apply1<'NonEmptyArray'>
 ```
 
 Added in v2.7.0

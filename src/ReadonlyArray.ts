@@ -4,7 +4,6 @@
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative, Applicative1 } from './Applicative'
-import { Apply1 } from './Apply'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
@@ -1981,16 +1980,6 @@ export const functorWithIndexArray: FunctorWithIndex1<URI, number> = {
   URI,
   map: map_,
   mapWithIndex: mapWithIndex_
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const applyArray: Apply1<URI> = {
-  URI,
-  map: map_,
-  ap: ap_
 }
 
 /**

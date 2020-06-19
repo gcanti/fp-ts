@@ -241,7 +241,7 @@ export const ap: <R, E, A>(
   fa: ReaderEither<R, E, A>
 ) => <B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B> =
   /*#__PURE__*/
-  apComposition(R.applyReader, E.applicativeEither)
+  apComposition(R.applicativeReader, E.applicativeEither)
 
 /**
  * Combine two effectful actions, keeping only the result of the first.

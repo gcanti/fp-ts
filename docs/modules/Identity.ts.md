@@ -38,7 +38,6 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [altIdentity](#altidentity)
   - [applicativeIdentity](#applicativeidentity)
-  - [applyIdentity](#applyidentity)
   - [chainRecIdentity](#chainrecidentity)
   - [comonadIdentity](#comonadidentity)
   - [extendIdentity](#extendidentity)
@@ -266,16 +265,6 @@ Added in v2.7.0
 
 ```ts
 export declare const applicativeIdentity: Applicative1<'Identity'>
-```
-
-Added in v2.7.0
-
-## applyIdentity
-
-**Signature**
-
-```ts
-export declare const applyIdentity: Apply1<'Identity'>
 ```
 
 Added in v2.7.0

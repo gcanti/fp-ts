@@ -40,7 +40,6 @@ Added in v2.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [applicativeReader](#applicativereader)
-  - [applyReader](#applyreader)
   - [categoryReader](#categoryreader)
   - [functorReader](#functorreader)
   - [getMonoid](#getmonoid)
@@ -272,16 +271,6 @@ Added in v2.0.0
 
 ```ts
 export declare const applicativeReader: Applicative2<'Reader'>
-```
-
-Added in v2.7.0
-
-## applyReader
-
-**Signature**
-
-```ts
-export declare const applyReader: Apply2<'Reader'>
 ```
 
 Added in v2.7.0

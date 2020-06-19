@@ -20,7 +20,6 @@ high state of flux, you're at risk of it changing without notice.
   - `Array`
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)
-    - add `applyArray` instance (@gcanti)
     - add `applicativeArray` instance (@gcanti)
     - add `monadArray` instance (@gcanti)
     - add `unfoldableArray` instance (@gcanti)
@@ -56,7 +55,6 @@ high state of flux, you're at risk of it changing without notice.
     - add `contravariantEq` instance (@gcanti)
   - `Identity`
     - add `functorIdentity` instance (@gcanti)
-    - add `applyIdentity` instance (@gcanti)
     - add `applicativeIdentity` instance (@gcanti)
     - add `monadIdentity` instance (@gcanti)
     - add `foldableIdentity` instance (@gcanti)
@@ -67,7 +65,6 @@ high state of flux, you're at risk of it changing without notice.
     - add `chainRecIdentity` instance (@gcanti)
   - `IO`
     - add `functorIO` instance (@gcanti)
-    - add `applyIO` instance (@gcanti)
     - add `applicativeIO` instance (@gcanti)
     - add `monadIO` instance (@gcanti)
     - add `monadIOIO` instance (@gcanti)
@@ -89,7 +86,6 @@ high state of flux, you're at risk of it changing without notice.
   - `NonEmptyArray`
     - add `functorNonEmptyArray` instance (@gcanti)
     - add `functorWithIndexNonEmptyArray` instance (@gcanti)
-    - add `applyNonEmptyArray` instance (@gcanti)
     - add `applicativeNonEmptyArray` instance (@gcanti)
     - add `monadNonEmptyArray` instance (@gcanti)
     - add `foldableNonEmptyArray` instance (@gcanti)
@@ -101,7 +97,6 @@ high state of flux, you're at risk of it changing without notice.
     - add `comonadNonEmptyArray` instance (@gcanti)
   - `Option`
     - add `functorOption` instance (@gcanti)
-    - add `applyOption` instance (@gcanti)
     - add `applicativeOption` instance (@gcanti)
     - add `monadOption` instance (@gcanti)
     - add `foldableOption` instance (@gcanti)
@@ -117,7 +112,6 @@ high state of flux, you're at risk of it changing without notice.
     - add `contravariantOrd` instance (@gcanti)
   - `Reader`
     - add `functorReader` instance (@gcanti)
-    - add `applyReader` instance (@gcanti)
     - add `applicativeReader` instance (@gcanti)
     - add `monadReader` instance (@gcanti)
     - add `profunctorReader` instance (@gcanti)
@@ -146,7 +140,6 @@ high state of flux, you're at risk of it changing without notice.
   - `ReadonlyArray`
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)
-    - add `applyArray` instance (@gcanti)
     - add `applicativeArray` instance (@gcanti)
     - add `monadArray` instance (@gcanti)
     - add `unfoldableArray` instance (@gcanti)
@@ -168,7 +161,6 @@ high state of flux, you're at risk of it changing without notice.
   - `ReadonlyNonEmptyArray`
     - add `functorNonEmptyArray` instance (@gcanti)
     - add `functorWithIndexNonEmptyArray` instance (@gcanti)
-    - add `applyNonEmptyArray` instance (@gcanti)
     - add `applicativeNonEmptyArray` instance (@gcanti)
     - add `monadNonEmptyArray` instance (@gcanti)
     - add `foldableNonEmptyArray` instance (@gcanti)

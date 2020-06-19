@@ -12,6 +12,7 @@
  *
  * @since 2.0.0
  */
+import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative, Applicative1 } from './Applicative'
 import { Compactable1, Separated } from './Compactable'
@@ -21,6 +22,7 @@ import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
 import { identity, Lazy, Predicate, Refinement } from './function'
+import { Functor1 } from './Functor'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { MonadThrow1 } from './MonadThrow'
@@ -28,11 +30,8 @@ import { Monoid } from './Monoid'
 import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
-import { Traversable1, PipeableTraverse1 } from './Traversable'
-import { Witherable1, PipeableWither1, PipeableWilt1 } from './Witherable'
-import { Functor1 } from './Functor'
-import { Apply1 } from './Apply'
-import { Alt1 } from './Alt'
+import { PipeableTraverse1, Traversable1 } from './Traversable'
+import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -882,16 +881,6 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>> {
 export const functorOption: Functor1<URI> = {
   URI,
   map: map_
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const applyOption: Apply1<URI> = {
-  URI,
-  map: map_,
-  ap: ap_
 }
 
 /**

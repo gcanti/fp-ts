@@ -546,7 +546,7 @@ export const extract: Comonad1<URI>['extract'] = head
 
 const map_: Functor1<URI>['map'] = RA.functorArray.map as any
 const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = RA.functorWithIndexArray.mapWithIndex as any
-const ap_: Apply1<URI>['ap'] = RA.applyArray.ap as any
+const ap_: Apply1<URI>['ap'] = RA.applicativeArray.ap as any
 const chain_: Monad1<URI>['chain'] = RA.monadArray.chain as any
 const extend_: Extend1<URI>['extend'] = RA.extendArray.extend as any
 const reduce_: Foldable1<URI>['reduce'] = RA.foldableArray.reduce as any
@@ -598,16 +598,6 @@ export const functorWithIndexNonEmptyArray: FunctorWithIndex1<URI, number> = {
   URI,
   map: map_,
   mapWithIndex: mapWithIndex_
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const applyNonEmptyArray: Apply1<URI> = {
-  URI,
-  map: map_,
-  ap: ap_
 }
 
 /**

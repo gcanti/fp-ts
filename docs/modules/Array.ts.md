@@ -112,7 +112,6 @@ Added in v2.0.0
   - [altArray](#altarray)
   - [alternativeArray](#alternativearray)
   - [applicativeArray](#applicativearray)
-  - [applyArray](#applyarray)
   - [array](#array)
   - [compactableArray](#compactablearray)
   - [extendArray](#extendarray)
@@ -1495,16 +1494,6 @@ Added in v2.7.0
 
 ```ts
 export declare const applicativeArray: Applicative1<'Array'>
-```
-
-Added in v2.7.0
-
-## applyArray
-
-**Signature**
-
-```ts
-export declare const applyArray: Apply1<'Array'>
 ```
 
 Added in v2.7.0

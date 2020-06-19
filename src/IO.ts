@@ -11,15 +11,14 @@
  *
  * @since 2.0.0
  */
+import { Applicative1 } from './Applicative'
 import { ChainRec1 } from './ChainRec'
 import { identity } from './function'
+import { Functor1 } from './Functor'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { Apply1 } from './Apply'
-import { Functor1 } from './Functor'
-import { Applicative1 } from './Applicative'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -173,16 +172,6 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> {
 export const functorIO: Functor1<URI> = {
   URI,
   map: map_
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const applyIO: Apply1<URI> = {
-  URI,
-  map: map_,
-  ap: ap_
 }
 
 /**
