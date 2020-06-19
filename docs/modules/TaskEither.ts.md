@@ -73,6 +73,8 @@ Added in v2.0.0
   - [applicativeTaskEitherSeq](#applicativetaskeitherseq)
   - [bifunctorTaskEither](#bifunctortaskeither)
   - [functorTaskEither](#functortaskeither)
+  - [getAltTaskValidation](#getalttaskvalidation)
+  - [getApplicativeTaskValidation](#getapplicativetaskvalidation)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getFilterable](#getfilterable)
@@ -699,6 +701,26 @@ Added in v2.7.0
 
 ```ts
 export declare const functorTaskEither: Functor2<'TaskEither'>
+```
+
+Added in v2.7.0
+
+## getAltTaskValidation
+
+**Signature**
+
+```ts
+export declare function getAltTaskValidation<E>(S: Semigroup<E>): Alt2C<URI, E>
+```
+
+Added in v2.7.0
+
+## getApplicativeTaskValidation
+
+**Signature**
+
+```ts
+export declare function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E>
 ```
 
 Added in v2.7.0

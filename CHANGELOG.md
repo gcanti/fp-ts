@@ -223,6 +223,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `applicativeTaskPar` instance (@gcanti)
     - add `applicativeTaskSeq` instance (@gcanti)
   - `TaskEither`
+    - add `getApplicativeTaskValidation` constrained instance (@gcanti)
+    - add `getAltTaskValidation` constrained instance (@gcanti)
     - add `functorTaskEither` instance (@gcanti)
     - add `applicativeTaskEitherPar` instance (@gcanti)
     - add `applicativeTaskEitherSeq` instance (@gcanti)

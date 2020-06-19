@@ -5,21 +5,23 @@
  * @since 2.0.0
  */
 import { Alt2, Alt2C } from './Alt'
-import { apComposition } from './Apply'
+import { Applicative2, Applicative2C } from './Applicative'
+import { apComposition, Apply1 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { Filterable2C, getFilterableComposition } from './Filterable'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2, Monad2C } from './Monad'
+import { MonadIO2 } from './MonadIO'
 import { MonadTask2, MonadTask2C } from './MonadTask'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
-import { getValidationM } from './ValidationT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -27,9 +29,6 @@ import { getValidationM } from './ValidationT'
 
 import Either = E.Either
 import Task = T.Task
-import { Functor2 } from './Functor'
-import { Applicative2 } from './Applicative'
-import { MonadIO2 } from './MonadIO'
 
 /**
  * @category model
@@ -531,22 +530,63 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>> {
 
 /**
  * @category instances
+ * @since 2.7.0
+ */
+export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E> {
+  const ap = apComposition(A, E.getApplicativeValidation(S))
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    ap: (fab, fa) => pipe(fab, ap(fa)),
+    of
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export function getAltTaskValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    alt: (me, that) =>
+      pipe(
+        me,
+        T.chain((e1) =>
+          E.isRight(e1)
+            ? T.of(e1)
+            : pipe(
+                that(),
+                T.map((e2) => (E.isLeft(e2) ? E.left(S.concat(e1.left, e2.left)) : e2))
+              )
+        )
+      )
+  }
+}
+
+// TODO: remove in v3
+/**
+ * @category instances
  * @since 2.0.0
  */
 export function getTaskValidation<E>(
   S: Semigroup<E>
 ): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadTask2C<URI, E> & MonadThrow2C<URI, E> {
-  const V = getValidationM(S, T.monadTask)
+  const applicativeTaskValidation = getApplicativeTaskValidation(T.applicativeTaskPar, S)
+  const altTaskValidation = getAltTaskValidation(S)
   return {
     URI,
     _E: undefined as any,
     map: map_,
-    ap: V.ap,
+    ap: applicativeTaskValidation.ap,
     of,
     chain: chain_,
     bimap: bimap_,
     mapLeft: mapLeft_,
-    alt: V.alt,
+    alt: altTaskValidation.alt,
     fromIO,
     fromTask,
     throwError
