@@ -123,8 +123,9 @@ high state of flux, you're at risk of it changing without notice.
     - add `profunctorReader` instance (@gcanti)
     - add `categoryReader` instance (@gcanti)
   - `ReaderEither`
+    - add `getApplicativeReaderValidation` constrained instance (@gcanti)
+    - add `getAltReaderValidation` constrained instance (@gcanti)
     - add `functorReaderEither` instance (@gcanti)
-    - add `applyReaderEither` instance (@gcanti)
     - add `applicativeReaderEither` instance (@gcanti)
     - add `monadReaderEither` instance (@gcanti)
     - add `bifunctorReaderEither` instance (@gcanti)

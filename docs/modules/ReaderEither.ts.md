@@ -57,9 +57,10 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [altReaderEither](#altreadereither)
   - [applicativeReaderEither](#applicativereadereither)
-  - [applyReaderEither](#applyreadereither)
   - [bifunctorReaderEither](#bifunctorreadereither)
   - [functorReaderEither](#functorreadereither)
+  - [getAltReaderValidation](#getaltreadervalidation)
+  - [getApplicativeReaderValidation](#getapplicativereadervalidation)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getReaderValidation](#getreadervalidation)
@@ -506,16 +507,6 @@ export declare const applicativeReaderEither: Applicative3<'ReaderEither'>
 
 Added in v2.7.0
 
-## applyReaderEither
-
-**Signature**
-
-```ts
-export declare const applyReaderEither: Apply3<'ReaderEither'>
-```
-
-Added in v2.7.0
-
 ## bifunctorReaderEither
 
 **Signature**
@@ -532,6 +523,26 @@ Added in v2.7.0
 
 ```ts
 export declare const functorReaderEither: Functor3<'ReaderEither'>
+```
+
+Added in v2.7.0
+
+## getAltReaderValidation
+
+**Signature**
+
+```ts
+export declare function getAltReaderValidation<E>(S: Semigroup<E>): Alt3C<URI, E>
+```
+
+Added in v2.7.0
+
+## getApplicativeReaderValidation
+
+**Signature**
+
+```ts
+export declare function getApplicativeReaderValidation<E>(S: Semigroup<E>): Applicative3C<URI, E>
 ```
 
 Added in v2.7.0
