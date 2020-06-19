@@ -136,6 +136,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `applicativeReaderTaskPar` instance (@gcanti)
     - add `applicativeReaderTaskSeq` instance (@gcanti)
   - `ReaderTaskEither`
+    - add `getApplicativeReaderTaskValidation` constrained instance (@gcanti)
+    - add `getAltReaderTaskValidation` constrained instance (@gcanti)
     - add `functorReaderTaskEither` instance (@gcanti)
     - add `applicativeReaderTaskEitherPar` instance (@gcanti)
     - add `applicativeReaderTaskEitherSeq` instance (@gcanti)

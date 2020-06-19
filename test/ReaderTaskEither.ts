@@ -352,6 +352,10 @@ describe('ReaderTaskEither', () => {
       assert.deepStrictEqual(e, E.right(1))
     })
 
+    it('alt', async () => {
+      assert.deepStrictEqual(await RTV.alt(_.left('a'), () => _.left('b'))(null)(), E.left('ab'))
+    })
+
     it('throwError', async () => {
       const e = await RTV.throwError('error')({})()
       assert.deepStrictEqual(e, E.left('error'))

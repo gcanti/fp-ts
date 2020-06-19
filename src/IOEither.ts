@@ -406,22 +406,12 @@ export function getApplicativeIOValidation<E>(S: Semigroup<E>): Applicative2C<UR
  * @since 2.7.0
  */
 export function getAltIOValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
+  const A = E.getAltValidation(S)
   return {
     URI,
     _E: undefined as any,
     map: map_,
-    alt: (me, that) =>
-      pipe(
-        me,
-        I.chain((e1) =>
-          E.isRight(e1)
-            ? I.of(e1)
-            : pipe(
-                that(),
-                I.map((e2) => (E.isLeft(e2) ? E.left(S.concat(e1.left, e2.left)) : e2))
-              )
-        )
-      )
+    alt: (me, that) => () => A.alt(me(), () => that()())
   }
 }
 
