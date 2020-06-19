@@ -12,6 +12,8 @@ Added in v2.4.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Applicative](#applicative)
+  - [of](#of)
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
@@ -36,6 +38,7 @@ Added in v2.4.0
   - [URI (type alias)](#uri-type-alias)
   - [bifunctorTaskThese](#bifunctortaskthese)
   - [functorTaskThese](#functortaskthese)
+  - [getApplicative](#getapplicative)
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
   - [taskThese](#taskthese)
@@ -43,6 +46,18 @@ Added in v2.4.0
   - [TaskThese (interface)](#taskthese-interface)
 
 ---
+
+# Applicative
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <E, A>(a: A) => TaskThese<E, A>
+```
+
+Added in v2.7.0
 
 # Bifunctor
 
@@ -247,12 +262,22 @@ export declare const functorTaskThese: Functor2<'TaskThese'>
 
 Added in v2.7.0
 
+## getApplicative
+
+**Signature**
+
+```ts
+export declare function getApplicative<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E>
+```
+
+Added in v2.7.0
+
 ## getMonad
 
 **Signature**
 
 ```ts
-export declare function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI, E>
+export declare function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI, E>
 ```
 
 Added in v2.4.0

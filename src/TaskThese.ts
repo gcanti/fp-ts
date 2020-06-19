@@ -1,7 +1,7 @@
 /**
  * @since 2.4.0
  */
-import { apComposition } from './Apply'
+import { apComposition, Apply1 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { flow, pipe } from './function'
 import { Functor2 } from './Functor'
@@ -19,6 +19,7 @@ import * as TH from './These'
 
 import These = TH.These
 import Task = T.Task
+import { Applicative2C, Applicative2 } from './Applicative'
 
 /**
  * @category model
@@ -160,6 +161,12 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskThe
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => TaskThese<G, A> = (f) =>
   T.map(TH.mapLeft(f))
 
+/**
+ * @category Applicative
+ * @since 2.7.0
+ */
+export const of: Applicative2<URI>['of'] = right
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -198,16 +205,32 @@ export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
 
 /**
  * @category instances
- * @since 2.4.0
+ * @since 2.7.0
  */
-export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI, E> {
-  const ap = apComposition(T.applicativeTaskPar, TH.getMonad(S))
+export function getApplicative<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E> {
+  const ap = apComposition(A, TH.getMonad(SE))
   return {
     URI,
     _E: undefined as any,
     map: map_,
     ap: (fab, fa) => pipe(fab, ap(fa)),
-    of: right,
+    of
+  }
+}
+
+// TODO: remove in v3
+/**
+ * @category instances
+ * @since 2.4.0
+ */
+export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI, E> {
+  const A = getApplicative(T.applicativeTaskPar, SE)
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    ap: A.ap,
+    of,
     chain: (ma, f) =>
       pipe(
         ma,
@@ -217,9 +240,9 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI,
               f(a),
               T.map(
                 TH.fold(
-                  (e2) => TH.left(S.concat(e1, e2)),
+                  (e2) => TH.left(SE.concat(e1, e2)),
                   TH.right,
-                  (e2, b) => TH.both(S.concat(e1, e2), b)
+                  (e2, b) => TH.both(SE.concat(e1, e2), b)
                 )
               )
             )

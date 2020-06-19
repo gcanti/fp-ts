@@ -710,7 +710,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare function getAltTaskValidation<E>(S: Semigroup<E>): Alt2C<URI, E>
+export declare function getAltTaskValidation<E>(SE: Semigroup<E>): Alt2C<URI, E>
 ```
 
 Added in v2.7.0
@@ -720,7 +720,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E>
+export declare function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E>
 ```
 
 Added in v2.7.0
@@ -777,7 +777,7 @@ Added in v2.0.0
 
 ```ts
 export declare function getTaskValidation<E>(
-  S: Semigroup<E>
+  SE: Semigroup<E>
 ): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadTask2C<URI, E> & MonadThrow2C<URI, E>
 ```
 

@@ -712,7 +712,7 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
  * @category instances
  * @since 2.7.0
  */
-export function getApplicativeValidation<E>(S: Semigroup<E>): Applicative2C<URI, E> {
+export function getApplicativeValidation<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
   return {
     URI,
     _E: undefined as any,
@@ -720,7 +720,7 @@ export function getApplicativeValidation<E>(S: Semigroup<E>): Applicative2C<URI,
     ap: (fab, fa) =>
       isLeft(fab)
         ? isLeft(fa)
-          ? left(S.concat(fab.left, fa.left))
+          ? left(SE.concat(fab.left, fa.left))
           : fab
         : isLeft(fa)
         ? fa
@@ -733,7 +733,7 @@ export function getApplicativeValidation<E>(S: Semigroup<E>): Applicative2C<URI,
  * @category instances
  * @since 2.7.0
  */
-export function getAltValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
+export function getAltValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
   return {
     URI,
     _E: undefined as any,
@@ -743,7 +743,7 @@ export function getAltValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
         return me
       }
       const ea = that()
-      return isLeft(ea) ? left(S.concat(me.left, ea.left)) : ea
+      return isLeft(ea) ? left(SE.concat(me.left, ea.left)) : ea
     }
   }
 }
@@ -754,7 +754,7 @@ export function getAltValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
  * @since 2.0.0
  */
 export function getValidation<E>(
-  S: Semigroup<E>
+  SE: Semigroup<E>
 ): Monad2C<URI, E> &
   Foldable2<URI> &
   Traversable2<URI> &
@@ -763,8 +763,8 @@ export function getValidation<E>(
   Extend2<URI> &
   ChainRec2C<URI, E> &
   MonadThrow2C<URI, E> {
-  const applicativeValidation = getApplicativeValidation(S)
-  const altValidation = getAltValidation(S)
+  const applicativeValidation = getApplicativeValidation(SE)
+  const altValidation = getAltValidation(SE)
   return {
     URI,
     _E: undefined as any,

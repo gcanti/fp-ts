@@ -390,8 +390,8 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<IOEither<E, A>> {
  * @category instances
  * @since 2.7.0
  */
-export function getApplicativeIOValidation<E>(S: Semigroup<E>): Applicative2C<URI, E> {
-  const ap = apComposition(I.applicativeIO, E.getApplicativeValidation(S))
+export function getApplicativeIOValidation<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
+  const ap = apComposition(I.applicativeIO, E.getApplicativeValidation(SE))
   return {
     URI,
     _E: undefined as any,
@@ -405,8 +405,8 @@ export function getApplicativeIOValidation<E>(S: Semigroup<E>): Applicative2C<UR
  * @category instances
  * @since 2.7.0
  */
-export function getAltIOValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
-  const A = E.getAltValidation(S)
+export function getAltIOValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
+  const A = E.getAltValidation(SE)
   return {
     URI,
     _E: undefined as any,
@@ -421,10 +421,10 @@ export function getAltIOValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
  * @since 2.0.0
  */
 export function getIOValidation<E>(
-  S: Semigroup<E>
+  SE: Semigroup<E>
 ): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadIO2C<URI, E> & MonadThrow2C<URI, E> {
-  const applicativeIOValidation = getApplicativeIOValidation(S)
-  const altIOValidation = getAltIOValidation(S)
+  const applicativeIOValidation = getApplicativeIOValidation(SE)
+  const altIOValidation = getAltIOValidation(SE)
   return {
     URI,
     _E: undefined as any,

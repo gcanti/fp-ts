@@ -509,7 +509,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare function getAltIOValidation<E>(S: Semigroup<E>): Alt2C<URI, E>
+export declare function getAltIOValidation<E>(SE: Semigroup<E>): Alt2C<URI, E>
 ```
 
 Added in v2.7.0
@@ -519,7 +519,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare function getApplicativeIOValidation<E>(S: Semigroup<E>): Applicative2C<URI, E>
+export declare function getApplicativeIOValidation<E>(SE: Semigroup<E>): Applicative2C<URI, E>
 ```
 
 Added in v2.7.0
@@ -563,7 +563,7 @@ Added in v2.1.0
 
 ```ts
 export declare function getIOValidation<E>(
-  S: Semigroup<E>
+  SE: Semigroup<E>
 ): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadIO2C<URI, E> & MonadThrow2C<URI, E>
 ```
 
