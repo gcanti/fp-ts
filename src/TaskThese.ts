@@ -8,7 +8,7 @@ import { Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2C } from './Monad'
-import { MonadTask2C } from './MonadTask'
+import { MonadTask2C, MonadTask2 } from './MonadTask'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
 import * as TH from './These'
@@ -20,6 +20,7 @@ import * as TH from './These'
 import These = TH.These
 import Task = T.Task
 import { Applicative2C, Applicative2 } from './Applicative'
+import { MonadIO2 } from './MonadIO'
 
 /**
  * @category model
@@ -167,6 +168,18 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => Task
  */
 export const of: Applicative2<URI>['of'] = right
 
+/**
+ * @category MonadIO
+ * @since 2.7.0
+ */
+export const fromIO: MonadIO2<URI>['fromIO'] = rightIO
+
+/**
+ * @category MonadIO
+ * @since 2.7.0
+ */
+export const fromTask: MonadTask2<URI>['fromTask'] = rightTask
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -249,8 +262,8 @@ export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI
           )
         )
       ),
-    fromIO: rightIO,
-    fromTask: rightTask
+    fromIO,
+    fromTask
   }
 }
 

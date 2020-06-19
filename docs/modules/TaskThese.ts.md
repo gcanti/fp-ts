@@ -19,6 +19,9 @@ Added in v2.4.0
   - [mapLeft](#mapleft)
 - [Functor](#functor)
   - [map](#map)
+- [MonadIO](#monadio)
+  - [fromIO](#fromio)
+  - [fromTask](#fromtask)
 - [combinators](#combinators)
   - [swap](#swap)
 - [constructors](#constructors)
@@ -99,6 +102,28 @@ export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => 
 ```
 
 Added in v2.4.0
+
+# MonadIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <E, A>(fa: IO<A>) => TaskThese<E, A>
+```
+
+Added in v2.7.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <E, A>(fa: T.Task<A>) => TaskThese<E, A>
+```
+
+Added in v2.7.0
 
 # combinators
 

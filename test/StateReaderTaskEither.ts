@@ -12,6 +12,7 @@ import * as _ from '../src/StateReaderTaskEither'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 import * as A from '../src/Array'
+import { assertSeq } from './util'
 
 describe('StateReaderTaskEither', () => {
   describe('pipeables', () => {
@@ -138,6 +139,18 @@ describe('StateReaderTaskEither', () => {
     })
   })
 
+  // -------------------------------------------------------------------------------------
+  // instances
+  // -------------------------------------------------------------------------------------
+
+  it('applicativeStateReaderTaskEither', async () => {
+    await assertSeq(_.applicativeStateReaderTaskEither, { fromTask: _.fromTask }, (fa) => fa(null)(null)())
+  })
+
+  // -------------------------------------------------------------------------------------
+  // utils
+  // -------------------------------------------------------------------------------------
+
   it('run', async () => {
     const ma = _.right('aaa')
     const e = await ma({})({})()
@@ -157,7 +170,7 @@ describe('StateReaderTaskEither', () => {
       append('start 2'),
       _.chain(() => append('end 2'))
     )
-    const sequence = A.sequence(_.applicativeStateReaderTaskEitherSeq)
+    const sequence = A.sequence(_.applicativeStateReaderTaskEither)
     assert.deepStrictEqual(await sequence([t1, t2])({})({})(), E.right([[2, 4], {}]))
     assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
   })
