@@ -60,9 +60,10 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [altIOEither](#altioeither)
   - [applicativeIOEither](#applicativeioeither)
-  - [applyIOEither](#applyioeither)
   - [bifunctorIOEither](#bifunctorioeither)
   - [functorIOEither](#functorioeither)
+  - [getAltIOValidation](#getaltiovalidation)
+  - [getApplicativeIOValidation](#getapplicativeiovalidation)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getFilterable](#getfilterable)
@@ -483,16 +484,6 @@ export declare const applicativeIOEither: Applicative2<'IOEither'>
 
 Added in v2.7.0
 
-## applyIOEither
-
-**Signature**
-
-```ts
-export declare const applyIOEither: Apply2<'IOEither'>
-```
-
-Added in v2.7.0
-
 ## bifunctorIOEither
 
 **Signature**
@@ -509,6 +500,26 @@ Added in v2.7.0
 
 ```ts
 export declare const functorIOEither: Functor2<'IOEither'>
+```
+
+Added in v2.7.0
+
+## getAltIOValidation
+
+**Signature**
+
+```ts
+export declare function getAltIOValidation<E>(S: Semigroup<E>): Alt2C<URI, E>
+```
+
+Added in v2.7.0
+
+## getApplicativeIOValidation
+
+**Signature**
+
+```ts
+export declare function getApplicativeIOValidation<E>(S: Semigroup<E>): Applicative2C<URI, E>
 ```
 
 Added in v2.7.0
