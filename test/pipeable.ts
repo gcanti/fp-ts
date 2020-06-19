@@ -29,7 +29,7 @@ describe('pipeable', () => {
   })
 
   it('Apply', () => {
-    const { ap, apFirst, apSecond } = pipeable(A.applyArray)
+    const { ap, apFirst, apSecond } = pipeable(A.applicativeArray)
     assert.deepStrictEqual(ap([1, 2, 3])([(n) => n * 2]), [2, 4, 6])
     assert.deepStrictEqual(apFirst([2])([1]), [1])
     assert.deepStrictEqual(apSecond([2])([1]), [2])

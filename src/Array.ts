@@ -1292,16 +1292,6 @@ export const functorWithIndexArray: FunctorWithIndex1<URI, number> = {
  * @category instances
  * @since 2.7.0
  */
-export const applyArray: Apply1<URI> = {
-  URI,
-  map: map_,
-  ap: ap_
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
 export const applicativeArray: Applicative1<URI> = {
   URI,
   map: map_,

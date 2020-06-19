@@ -1,18 +1,17 @@
 /**
  * @since 2.0.0
  */
+import { Applicative2 } from './Applicative'
 import { Category2 } from './Category'
 import { Choice2 } from './Choice'
 import * as E from './Either'
 import * as F from './function'
+import { Functor2 } from './Functor'
 import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Profunctor2 } from './Profunctor'
 import { Semigroup } from './Semigroup'
 import { Strong2 } from './Strong'
-import { Apply2 } from './Apply'
-import { Functor2 } from './Functor'
-import { Applicative2 } from './Applicative'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -239,16 +238,6 @@ export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> {
 export const functorReader: Functor2<URI> = {
   URI,
   map: map_
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const applyReader: Apply2<URI> = {
-  URI,
-  map: map_,
-  ap: ap_
 }
 
 /**

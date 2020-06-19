@@ -40,7 +40,6 @@ Added in v2.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [applicativeIO](#applicativeio)
-  - [applyIO](#applyio)
   - [chainRecIO](#chainrecio)
   - [functorIO](#functorio)
   - [getMonoid](#getmonoid)
@@ -193,16 +192,6 @@ Added in v2.0.0
 
 ```ts
 export declare const applicativeIO: Applicative1<'IO'>
-```
-
-Added in v2.7.0
-
-## applyIO
-
-**Signature**
-
-```ts
-export declare const applyIO: Apply1<'IO'>
 ```
 
 Added in v2.7.0

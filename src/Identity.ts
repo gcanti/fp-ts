@@ -6,16 +6,15 @@ import { Applicative, Applicative1 } from './Applicative'
 import { ChainRec1, tailRec } from './ChainRec'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
+import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { identity as id, Lazy } from './function'
+import { Functor1 } from './Functor'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
-import { Functor1 } from './Functor'
-import { Apply1 } from './Apply'
-import { Extend1 } from './Extend'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -219,16 +218,6 @@ declare module './HKT' {
 export const functorIdentity: Functor1<URI> = {
   URI,
   map: map_
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const applyIdentity: Apply1<URI> = {
-  URI,
-  map: map_,
-  ap: ap_
 }
 
 /**

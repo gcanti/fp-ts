@@ -7,7 +7,7 @@ import { pipe } from '../src/function'
 
 describe('Apply', () => {
   it('sequenceT', () => {
-    const sequenceTOption = sequenceT(O.applyOption)
+    const sequenceTOption = sequenceT(O.applicativeOption)
     assert.deepStrictEqual(sequenceTOption(O.some(1)), O.some([1]))
     assert.deepStrictEqual(sequenceTOption(O.some(1), O.some('2')), O.some([1, '2']))
     assert.deepStrictEqual(sequenceTOption(O.some(1), O.some('2'), O.none), O.none)
@@ -17,7 +17,7 @@ describe('Apply', () => {
     const a2: ReadonlyArray<string> = ['a', 'b', 'c']
     const a3: ReadonlyArray<boolean> = [true, false]
     assert.deepStrictEqual(
-      pipe(sequenceT(A.applyArray)(a1, a2, a3), (arr) => arr.map(([x, y, z]) => `(${x}, ${y}, ${z})`)),
+      pipe(sequenceT(A.applicativeArray)(a1, a2, a3), (arr) => arr.map(([x, y, z]) => `(${x}, ${y}, ${z})`)),
       [
         '(1, a, true)',
         '(1, a, false)',
@@ -42,7 +42,7 @@ describe('Apply', () => {
   })
 
   it('sequenceS', () => {
-    const adoOption = sequenceS(O.applyOption)
+    const adoOption = sequenceS(O.applicativeOption)
     assert.deepStrictEqual(adoOption({ a: O.some(1) }), O.some({ a: 1 }))
     assert.deepStrictEqual(adoOption({ a: O.some(1), b: O.some(2) }), O.some({ a: 1, b: 2 }))
     assert.deepStrictEqual(adoOption({ a: O.some(1), b: O.none }), O.none)
@@ -66,7 +66,9 @@ describe('Apply', () => {
     const a2: ReadonlyArray<string> = ['a', 'b', 'c']
     const a3: ReadonlyArray<boolean> = [true, false]
     assert.deepStrictEqual(
-      pipe(sequenceS(A.applyArray)({ a1, a2, a3 }), (arr) => arr.map(({ a1, a2, a3 }) => `(${a1}, ${a2}, ${a3})`)),
+      pipe(sequenceS(A.applicativeArray)({ a1, a2, a3 }), (arr) =>
+        arr.map(({ a1, a2, a3 }) => `(${a1}, ${a2}, ${a3})`)
+      ),
       [
         '(1, a, true)',
         '(1, a, false)',

@@ -86,7 +86,6 @@ Added in v2.0.0
   - [altOption](#altoption)
   - [alternativeOption](#alternativeoption)
   - [applicativeOption](#applicativeoption)
-  - [applyOption](#applyoption)
   - [compactableOption](#compactableoption)
   - [extendOption](#extendoption)
   - [filterableOption](#filterableoption)
@@ -850,16 +849,6 @@ Added in v2.7.0
 
 ```ts
 export declare const applicativeOption: Applicative1<'Option'>
-```
-
-Added in v2.7.0
-
-## applyOption
-
-**Signature**
-
-```ts
-export declare const applyOption: Apply1<'Option'>
 ```
 
 Added in v2.7.0
