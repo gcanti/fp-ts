@@ -499,6 +499,42 @@ export const elem: <A>(
 } = RR.elem
 
 // -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+const map_: Functor1<URI>['map'] = RR.functorRecord.map
+const mapWithIndex_: FunctorWithIndex1<URI, string>['mapWithIndex'] = RR.functorWithIndexRecord.mapWithIndex
+const reduce_: Foldable1<URI>['reduce'] = RR.foldableRecord.reduce
+const foldMap_: Foldable1<URI>['foldMap'] = RR.foldableRecord.foldMap
+const reduceRight_: Foldable1<URI>['reduceRight'] = RR.foldableRecord.reduceRight
+const reduceWithIndex_: FoldableWithIndex1<URI, string>['reduceWithIndex'] = RR.foldableWithIndexRecord.reduceWithIndex
+const foldMapWithIndex_: FoldableWithIndex1<URI, string>['foldMapWithIndex'] =
+  RR.foldableWithIndexRecord.foldMapWithIndex
+const reduceRightWithIndex_: FoldableWithIndex1<URI, string>['reduceRightWithIndex'] =
+  RR.foldableWithIndexRecord.reduceRightWithIndex
+const filter_: Filterable1<URI>['filter'] = RR.filterableRecord.filter as any
+const filterMap_: Filterable1<URI>['filterMap'] = RR.filterableRecord.filterMap
+const partition_: Filterable1<URI>['partition'] = RR.filterableRecord.partition as any
+const partitionMap_: Filterable1<URI>['partitionMap'] = RR.filterableRecord.partitionMap
+const filterWithIndex_: FilterableWithIndex1<URI, string>['filterWithIndex'] = RR.filterableWithIndexRecord
+  .filterWithIndex as any
+const filterMapWithIndex_: FilterableWithIndex1<URI, string>['filterMapWithIndex'] =
+  RR.filterableWithIndexRecord.filterMapWithIndex
+const partitionWithIndex_: FilterableWithIndex1<URI, string>['partitionWithIndex'] = RR.filterableWithIndexRecord
+  .partitionWithIndex as any
+const partitionMapWithIndex_: FilterableWithIndex1<URI, string>['partitionMapWithIndex'] =
+  RR.filterableWithIndexRecord.partitionMapWithIndex
+const traverseWithIndex_: TraversableWithIndex1<URI, string>['traverseWithIndex'] = RR.traversableWithIndexRecord
+  .traverseWithIndex as any
+const wither_: Witherable1<URI>['wither'] = RR.witherableRecord.wither as any
+const wilt_: Witherable1<URI>['wilt'] = RR.witherableRecord.wilt as any
+const traverse_: Traversable1<URI>['traverse'] = <F>(
+  F: Applicative<F>
+): (<A, B>(ta: Record<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, Record<string, B>>) => {
+  const traverseF = traverse(F)
+  return (ta, f) => traverseF(f)(ta)
+}
+// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -570,39 +606,6 @@ export const separate: <A, B>(fa: Record<string, Either<A, B>>) => Separated<Rec
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
-
-const map_: Functor1<URI>['map'] = RR.functorRecord.map
-const mapWithIndex_: FunctorWithIndex1<URI, string>['mapWithIndex'] = RR.functorWithIndexRecord.mapWithIndex
-const reduce_: Foldable1<URI>['reduce'] = RR.foldableRecord.reduce
-const foldMap_: Foldable1<URI>['foldMap'] = RR.foldableRecord.foldMap
-const reduceRight_: Foldable1<URI>['reduceRight'] = RR.foldableRecord.reduceRight
-const reduceWithIndex_: FoldableWithIndex1<URI, string>['reduceWithIndex'] = RR.foldableWithIndexRecord.reduceWithIndex
-const foldMapWithIndex_: FoldableWithIndex1<URI, string>['foldMapWithIndex'] =
-  RR.foldableWithIndexRecord.foldMapWithIndex
-const reduceRightWithIndex_: FoldableWithIndex1<URI, string>['reduceRightWithIndex'] =
-  RR.foldableWithIndexRecord.reduceRightWithIndex
-const filter_: Filterable1<URI>['filter'] = RR.filterableRecord.filter as any
-const filterMap_: Filterable1<URI>['filterMap'] = RR.filterableRecord.filterMap
-const partition_: Filterable1<URI>['partition'] = RR.filterableRecord.partition as any
-const partitionMap_: Filterable1<URI>['partitionMap'] = RR.filterableRecord.partitionMap
-const filterWithIndex_: FilterableWithIndex1<URI, string>['filterWithIndex'] = RR.filterableWithIndexRecord
-  .filterWithIndex as any
-const filterMapWithIndex_: FilterableWithIndex1<URI, string>['filterMapWithIndex'] =
-  RR.filterableWithIndexRecord.filterMapWithIndex
-const partitionWithIndex_: FilterableWithIndex1<URI, string>['partitionWithIndex'] = RR.filterableWithIndexRecord
-  .partitionWithIndex as any
-const partitionMapWithIndex_: FilterableWithIndex1<URI, string>['partitionMapWithIndex'] =
-  RR.filterableWithIndexRecord.partitionMapWithIndex
-const traverseWithIndex_: TraversableWithIndex1<URI, string>['traverseWithIndex'] = RR.traversableWithIndexRecord
-  .traverseWithIndex as any
-const wither_: Witherable1<URI>['wither'] = RR.witherableRecord.wither as any
-const wilt_: Witherable1<URI>['wilt'] = RR.witherableRecord.wilt as any
-const traverse_: Traversable1<URI>['traverse'] = <F>(
-  F: Applicative<F>
-): (<A, B>(ta: Record<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, Record<string, B>>) => {
-  const traverseF = traverse(F)
-  return (ta, f) => traverseF(f)(ta)
-}
 
 /**
  * @category instances

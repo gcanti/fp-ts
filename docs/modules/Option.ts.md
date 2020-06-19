@@ -27,6 +27,8 @@ Added in v2.0.0
   - [alt](#alt)
 - [Alternative](#alternative)
   - [zero](#zero)
+- [Applicative](#applicative)
+  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apFirst](#apfirst)
@@ -162,6 +164,18 @@ Added in v2.0.0
 
 ```ts
 export declare const zero: <A>() => Option<A>
+```
+
+Added in v2.7.0
+
+# Applicative
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => Option<A>
 ```
 
 Added in v2.7.0

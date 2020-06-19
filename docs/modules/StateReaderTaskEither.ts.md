@@ -14,6 +14,8 @@ Added in v2.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
+- [Applicative](#applicative)
+  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apFirst](#apfirst)
@@ -104,6 +106,18 @@ export declare const alt: <S, R, E, A>(
 ```
 
 Added in v2.6.2
+
+# Applicative
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <S, R, E, A>(a: A) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.7.0
 
 # Apply
 

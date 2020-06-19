@@ -58,11 +58,23 @@ export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = (f) => (r) => f(r)
  */
 export const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q, A> = (f) => (ma) => (q) => ma(f(q))
 
-/**
- * @category Applicative
- * @since 2.0.0
- */
-export const of: <R, A>(a: A) => Reader<R, A> = (a) => () => a
+// -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+const map_: Monad2<URI>['map'] = (fa, f) => F.pipe(fa, map(f))
+const ap_: Monad2<URI>['ap'] = (fab, fa) => F.pipe(fab, ap(fa))
+/* istanbul ignore next */
+const chain_: Monad2<URI>['chain'] = (ma, f) => F.pipe(ma, chain(f))
+const compose_: <E, A, B>(ab: Reader<A, B>, la: Reader<E, A>) => Reader<E, B> = (ab, la) => (l) => ab(la(l))
+const promap_: <E, A, D, B>(fbc: Reader<E, A>, f: (d: D) => E, g: (a: A) => B) => Reader<D, B> = (mbc, f, g) => (a) =>
+  g(mbc(f(a)))
+const first_: Strong2<URI>['first'] = (pab) => ([a, c]) => [pab(a), c]
+const second_: Strong2<URI>['second'] = (pbc) => ([a, b]) => [a, pbc(b)]
+const left_: Choice2<URI>['left'] = <A, B, C>(pab: Reader<A, B>): Reader<E.Either<A, C>, E.Either<B, C>> =>
+  E.fold<A, C, E.Either<B, C>>((a) => E.left(pab(a)), E.right)
+const right_: Choice2<URI>['right'] = <A, B, C>(pbc: Reader<B, C>): Reader<E.Either<A, B>, E.Either<A, C>> =>
+  E.fold<A, B, E.Either<A, C>>(E.left, (b) => E.right(pbc(b)))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -111,6 +123,12 @@ export const apSecond = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reade
     map(() => (b: B) => b),
     ap(fb)
   )
+
+/**
+ * @category Applicative
+ * @since 2.0.0
+ */
+export const of: Applicative2<URI>['of'] = (a) => () => a
 
 /**
  * Less strict version of [`chain`](#chain).
@@ -195,20 +213,6 @@ declare module './HKT' {
     readonly [URI]: Reader<E, A>
   }
 }
-
-const map_: Monad2<URI>['map'] = (fa, f) => F.pipe(fa, map(f))
-const ap_: Monad2<URI>['ap'] = (fab, fa) => F.pipe(fab, ap(fa))
-/* istanbul ignore next */
-const chain_: Monad2<URI>['chain'] = (ma, f) => F.pipe(ma, chain(f))
-const compose_: <E, A, B>(ab: Reader<A, B>, la: Reader<E, A>) => Reader<E, B> = (ab, la) => (l) => ab(la(l))
-const promap_: <E, A, D, B>(fbc: Reader<E, A>, f: (d: D) => E, g: (a: A) => B) => Reader<D, B> = (mbc, f, g) => (a) =>
-  g(mbc(f(a)))
-const first_: Strong2<URI>['first'] = (pab) => ([a, c]) => [pab(a), c]
-const second_: Strong2<URI>['second'] = (pbc) => ([a, b]) => [a, pbc(b)]
-const left_: Choice2<URI>['left'] = <A, B, C>(pab: Reader<A, B>): Reader<E.Either<A, C>, E.Either<B, C>> =>
-  E.fold<A, C, E.Either<B, C>>((a) => E.left(pab(a)), E.right)
-const right_: Choice2<URI>['right'] = <A, B, C>(pbc: Reader<B, C>): Reader<E.Either<A, B>, E.Either<A, C>> =>
-  E.fold<A, B, E.Either<A, C>>(E.left, (b) => E.right(pbc(b)))
 
 /**
  * @category instances

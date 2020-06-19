@@ -98,14 +98,17 @@ export function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> {
 }
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: <A, B>(fa: Task<A>, f: (a: A) => B) => Task<B> = (ma, f) => () => ma().then(f)
-const apPar_: <A, B>(fab: Task<(a: A) => B>, fa: Task<A>) => Task<B> = (mab, ma) => () =>
-  Promise.all([mab(), ma()]).then(([f, a]) => f(a))
-const apSeq_: Applicative1<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
-const chain_: <A, B>(fa: Task<A>, f: (a: A) => Task<B>) => Task<B> = (ma, f) => () => ma().then((a) => f(a)())
+const map_: Monad1<URI>['map'] = (ma, f) => () => ma().then(f)
+const apPar_: Monad1<URI>['ap'] = (mab, ma) => () => Promise.all([mab(), ma()]).then(([f, a]) => f(a))
+const apSeq_: Monad1<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
+const chain_: Monad1<URI>['chain'] = (ma, f) => () => ma().then((a) => f(a)())
+
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types

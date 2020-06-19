@@ -354,6 +354,31 @@ export const chainTaskEitherK: <E, A, B>(
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainTaskEitherKW
 
 // -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+const map_: Monad3<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const apPar_: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const apSeq_: Monad3<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
+const chain_: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+const alt_: <R, E, A>(
+  fa: ReaderTaskEither<R, E, A>,
+  that: Lazy<ReaderTaskEither<R, E, A>>
+) => ReaderTaskEither<R, E, A> = (fa, that) => (r) =>
+  pipe(
+    fa(r),
+    TE.alt(() => that()(r))
+  )
+const bimap_: <R, E, A, G, B>(
+  fea: ReaderTaskEither<R, E, A>,
+  f: (e: E) => G,
+  g: (a: A) => B
+) => ReaderTaskEither<R, G, B> = (ma, f, g) => (e) => pipe(ma(e), TE.bimap(f, g))
+const mapLeft_: <R, E, A, G>(fea: ReaderTaskEither<R, E, A>, f: (e: E) => G) => ReaderTaskEither<R, G, A> = (ma, f) => (
+  e
+) => pipe(ma(e), TE.mapLeft(f))
+
+// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -429,6 +454,12 @@ export const apSecond = <R, E, B>(fb: ReaderTaskEither<R, E, B>) => <A>(
     map(() => (b: B) => b),
     ap(fb)
   )
+
+/**
+ * @category Applicative
+ * @since 2.7.0
+ */
+export const of: Applicative3<URI>['of'] = right
 
 /**
  * Less strict version of [`chain`](#chain).
@@ -529,28 +560,6 @@ declare module './HKT' {
     readonly [URI]: ReaderTaskEither<R, E, A>
   }
 }
-
-const map_: Monad3<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const apPar_: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const apSeq_: Monad3<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
-const of = right
-const chain_: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-const alt_: <R, E, A>(
-  fa: ReaderTaskEither<R, E, A>,
-  that: Lazy<ReaderTaskEither<R, E, A>>
-) => ReaderTaskEither<R, E, A> = (fa, that) => (r) =>
-  pipe(
-    fa(r),
-    TE.alt(() => that()(r))
-  )
-const bimap_: <R, E, A, G, B>(
-  fea: ReaderTaskEither<R, E, A>,
-  f: (e: E) => G,
-  g: (a: A) => B
-) => ReaderTaskEither<R, G, B> = (ma, f, g) => (e) => pipe(ma(e), TE.bimap(f, g))
-const mapLeft_: <R, E, A, G>(fea: ReaderTaskEither<R, E, A>, f: (e: E) => G) => ReaderTaskEither<R, G, A> = (ma, f) => (
-  e
-) => pipe(ma(e), TE.mapLeft(f))
 
 /**
  * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are

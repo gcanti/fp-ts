@@ -593,27 +593,22 @@ const filterWithIndex_ = <K, A>(fa: ReadonlyMap<K, A>, p: (k: K, a: A) => boolea
 }
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: <K, A, B>(fa: ReadonlyMap<K, A>, f: (a: A) => B) => ReadonlyMap<K, B> = (fa, f) =>
-  mapWithIndex_(fa, (_, a) => f(a))
-
+const map_: Functor2<URI>['map'] = (fa, f) => mapWithIndex_(fa, (_, a) => f(a))
 const filter_ = <K, A>(fa: ReadonlyMap<K, A>, p: Predicate<A>): ReadonlyMap<K, A> =>
   filterWithIndex_(fa, (_, a) => p(a))
-
-const filterMap_: <K, A, B>(fa: ReadonlyMap<K, A>, f: (a: A) => Option<B>) => ReadonlyMap<K, B> = (fa, f) =>
-  filterMapWithIndex_(fa, (_, a) => f(a))
-
+const filterMap_: Filterable2<URI>['filterMap'] = (fa, f) => filterMapWithIndex_(fa, (_, a) => f(a))
 const partition_ = <K, A>(
   fa: ReadonlyMap<K, A>,
   predicate: Predicate<A>
 ): Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>> => partitionWithIndex_(fa, (_, a) => predicate(a))
+const partitionMap_: Filterable2<URI>['partitionMap'] = (fa, f) => partitionMapWithIndex_(fa, (_, a) => f(a))
 
-const partitionMap_: <K, A, B, C>(
-  fa: ReadonlyMap<K, A>,
-  f: (a: A) => Either<B, C>
-) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>> = (fa, f) => partitionMapWithIndex_(fa, (_, a) => f(a))
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
 
 /**
  * @category Compactable

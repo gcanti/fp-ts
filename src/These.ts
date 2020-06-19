@@ -369,24 +369,27 @@ export function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
 }
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: <E, A, B>(fa: These<E, A>, f: (a: A) => B) => These<E, B> = (fa, f) =>
+const map_: Functor2<URI>['map'] = (fa, f) =>
   isLeft(fa) ? fa : isRight(fa) ? right(f(fa.right)) : both(fa.left, f(fa.right))
-const bimap_: <E, A, G, B>(fea: These<E, A>, f: (e: E) => G, g: (a: A) => B) => These<G, B> = (fea, f, g) =>
+const bimap_: Bifunctor2<URI>['bimap'] = (fea, f, g) =>
   isLeft(fea) ? left(f(fea.left)) : isRight(fea) ? right(g(fea.right)) : both(f(fea.left), g(fea.right))
-const mapLeft_: <E, A, G>(fea: These<E, A>, f: (e: E) => G) => These<G, A> = (fea, f) =>
+const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fea, f) =>
   isLeft(fea) ? left(f(fea.left)) : isBoth(fea) ? both(f(fea.left), fea.right) : fea
-const reduce_: <E, A, B>(fa: These<E, A>, b: B, f: (b: B, a: A) => B) => B = (fa, b, f) =>
-  isLeft(fa) ? b : isRight(fa) ? f(b, fa.right) : f(b, fa.right)
-const foldMap_: <M>(M: Monoid<M>) => <E, A>(fa: These<E, A>, f: (a: A) => M) => M = (M) => (fa, f) =>
+const reduce_: Foldable2<URI>['reduce'] = (fa, b, f) => (isLeft(fa) ? b : isRight(fa) ? f(b, fa.right) : f(b, fa.right))
+const foldMap_: Foldable2<URI>['foldMap'] = (M) => (fa, f) =>
   isLeft(fa) ? M.empty : isRight(fa) ? f(fa.right) : f(fa.right)
-const reduceRight_: <E, A, B>(fa: These<E, A>, b: B, f: (a: A, b: B) => B) => B = (fa, b, f) =>
+const reduceRight_: Foldable2<URI>['reduceRight'] = (fa, b, f) =>
   isLeft(fa) ? b : isRight(fa) ? f(fa.right, b) : f(fa.right, b)
 const traverse_ = <F>(F: Applicative<F>) => <E, A, B>(ta: These<E, A>, f: (a: A) => HKT<F, B>): HKT<F, These<E, B>> => {
   return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(f(ta.right), right) : F.map(f(ta.right), (b) => both(ta.left, b))
 }
+
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.

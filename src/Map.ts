@@ -236,6 +236,16 @@ export function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable<F>): (f
 }
 
 // -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+const map__: Functor2<URI>['map'] = RM.functorMap.map as any
+const filter_: Filterable2<URI>['filter'] = RM.filterableMap.filter as any
+const filterMap_: Filterable2<URI>['filterMap'] = RM.filterableMap.filterMap as any
+const partition_: Filterable2<URI>['partition'] = RM.filterableMap.partition as any
+const partitionMap_: Filterable2<URI>['partitionMap'] = RM.filterableMap.partitionMap as any
+
+// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -295,12 +305,6 @@ export const separate: <K, A, B>(fa: Map<K, Either<A, B>>) => Separated<Map<K, A
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
-
-const map__: Functor2<URI>['map'] = RM.functorMap.map as any
-const filter_: Filterable2<URI>['filter'] = RM.filterableMap.filter as any
-const filterMap_: Filterable2<URI>['filterMap'] = RM.filterableMap.filterMap as any
-const partition_: Filterable2<URI>['partition'] = RM.filterableMap.partition as any
-const partitionMap_: Filterable2<URI>['partitionMap'] = RM.filterableMap.partitionMap as any
 
 /**
  * @category instances

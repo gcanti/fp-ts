@@ -109,6 +109,15 @@ export const chainTaskK: <A, B>(f: (a: A) => Task<B>) => <R>(ma: ReaderTask<R, A
   chain((a) => fromTask(f(a)))
 
 // -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const apPar_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const apSeq_: Monad2<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
+const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+
+// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -227,11 +236,6 @@ declare module './HKT' {
     readonly [URI]: ReaderTask<E, A>
   }
 }
-
-const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const apPar_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const apSeq_: Monad2<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
-const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
 /**
  * @category instances

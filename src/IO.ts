@@ -33,6 +33,21 @@ export interface IO<A> {
 }
 
 // -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+const map_: Monad1<URI>['map'] = (ma, f) => () => f(ma())
+const ap_: Monad1<URI>['ap'] = (mab, ma) => () => mab()(ma())
+const chain_: Monad1<URI>['chain'] = (ma, f) => () => f(ma())()
+const chainRec_: ChainRec1<URI>['chainRec'] = (a, f) => () => {
+  let e = f(a)()
+  while (e._tag === 'Left') {
+    e = f(e.left)()
+  }
+  return e.right
+}
+
+// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -114,17 +129,6 @@ export const fromIO: MonadIO1<URI>['fromIO'] = identity
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
-
-const map_: <A, B>(fa: IO<A>, f: (a: A) => B) => IO<B> = (ma, f) => () => f(ma())
-const ap_: <A, B>(fab: IO<(a: A) => B>, fa: IO<A>) => IO<B> = (mab, ma) => () => mab()(ma())
-const chain_: <A, B>(fa: IO<A>, f: (a: A) => IO<B>) => IO<B> = (ma, f) => () => f(ma())()
-const chainRec_: ChainRec1<URI>['chainRec'] = (a, f) => () => {
-  let e = f(a)()
-  while (e._tag === 'Left') {
-    e = f(e.left)()
-  }
-  return e.right
-}
 
 /**
  * @category instances
