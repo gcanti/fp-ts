@@ -60,7 +60,6 @@ high state of flux, you're at risk of it changing without notice.
     - add `foldableIdentity` instance (@gcanti)
     - add `traversableIdentity` instance (@gcanti)
     - add `altIdentity` instance (@gcanti)
-    - add `extendIdentity` instance (@gcanti)
     - add `comonadIdentity` instance (@gcanti)
     - add `chainRecIdentity` instance (@gcanti)
   - `IO`
@@ -93,7 +92,6 @@ high state of flux, you're at risk of it changing without notice.
     - add `traversableNonEmptyArray` instance (@gcanti)
     - add `traversableWithIndexNonEmptyArray` instance (@gcanti)
     - add `altNonEmptyArray` instance (@gcanti)
-    - add `extendNonEmptyArray` instance (@gcanti)
     - add `comonadNonEmptyArray` instance (@gcanti)
   - `Option`
     - add `functorOption` instance (@gcanti)
@@ -168,7 +166,6 @@ high state of flux, you're at risk of it changing without notice.
     - add `traversableNonEmptyArray` instance (@gcanti)
     - add `traversableWithIndexNonEmptyArray` instance (@gcanti)
     - add `altNonEmptyArray` instance (@gcanti)
-    - add `extendNonEmptyArray` instance (@gcanti)
     - add `comonadNonEmptyArray` instance (@gcanti)
   - `ReadonlyRecord`
     - add `functorRecord` instance (@gcanti)
@@ -184,7 +181,6 @@ high state of flux, you're at risk of it changing without notice.
     - add `functorTuple` instance (@gcanti)
     - add `bifunctorTuple` instance (@gcanti)
     - add `semigroupoidTuple` instance (@gcanti)
-    - add `extendTuple` instance (@gcanti)
     - add `comonadTuple` instance (@gcanti)
     - add `foldableTuple` instance (@gcanti)
     - add `traversableTuple` instance (@gcanti)
@@ -204,7 +200,6 @@ high state of flux, you're at risk of it changing without notice.
     - add `monadState` instance (@gcanti)
   - `Store`
     - add `functorStore` instance (@gcanti)
-    - add `extendStore` instance (@gcanti)
     - add `comonadStore` instance (@gcanti)
   - `StateReaderTaskEither`
     - add `functorStateReaderTaskEither` instance (@gcanti)
@@ -241,7 +236,6 @@ high state of flux, you're at risk of it changing without notice.
     - add `monadTree` instance (@gcanti)
     - add `foldableTree` instance (@gcanti)
     - add `traversableTree` instance (@gcanti)
-    - add `extendTree` instance (@gcanti)
     - add `comonadTree` instance (@gcanti)
   - `Traced`
     - rename `writer` to `functorWriter` for consistency (@gcanti)
@@ -249,7 +243,6 @@ high state of flux, you're at risk of it changing without notice.
     - add `functorTuple` instance (@gcanti)
     - add `bifunctorTuple` instance (@gcanti)
     - add `semigroupoidTuple` instance (@gcanti)
-    - add `extendTuple` instance (@gcanti)
     - add `comonadTuple` instance (@gcanti)
     - add `foldableTuple` instance (@gcanti)
     - add `traversableTuple` instance (@gcanti)

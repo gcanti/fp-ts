@@ -50,7 +50,6 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [applicativeTree](#applicativetree)
   - [comonadTree](#comonadtree)
-  - [extendTree](#extendtree)
   - [foldableTree](#foldabletree)
   - [functorTree](#functortree)
   - [getEq](#geteq)
@@ -394,16 +393,6 @@ Added in v2.7.0
 
 ```ts
 export declare const comonadTree: Comonad1<'Tree'>
-```
-
-Added in v2.7.0
-
-## extendTree
-
-**Signature**
-
-```ts
-export declare const extendTree: Extend1<'Tree'>
 ```
 
 Added in v2.7.0

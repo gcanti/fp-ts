@@ -695,16 +695,6 @@ export const altNonEmptyArray: Alt1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const extendNonEmptyArray: Extend1<URI> = {
-  URI,
-  map: map_,
-  extend: extend_
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
 export const comonadNonEmptyArray: Comonad1<URI> = {
   URI,
   map: map_,

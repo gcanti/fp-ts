@@ -23,7 +23,6 @@ Added in v2.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [comonadStore](#comonadstore)
-  - [extendStore](#extendstore)
   - [functorStore](#functorstore)
   - [store](#store)
 - [model](#model)
@@ -113,16 +112,6 @@ Added in v2.0.0
 
 ```ts
 export declare const comonadStore: Comonad2<'Store'>
-```
-
-Added in v2.7.0
-
-## extendStore
-
-**Signature**
-
-```ts
-export declare const extendStore: Extend2<'Store'>
 ```
 
 Added in v2.7.0

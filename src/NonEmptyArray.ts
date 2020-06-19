@@ -478,7 +478,7 @@ const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = RNEA.funct
   .mapWithIndex as any
 const ap_: Apply1<URI>['ap'] = RNEA.applicativeNonEmptyArray.ap as any
 const chain_: Monad1<URI>['chain'] = RNEA.monadNonEmptyArray.chain as any
-const extend_: Extend1<URI>['extend'] = RNEA.extendNonEmptyArray.extend as any
+const extend_: Extend1<URI>['extend'] = RNEA.comonadNonEmptyArray.extend as any
 const reduce_: Foldable1<URI>['reduce'] = RNEA.foldableNonEmptyArray.reduce as any
 const foldMap_: Foldable1<URI>['foldMap'] = RNEA.foldableNonEmptyArray.foldMap as any
 const reduceRight_: Foldable1<URI>['reduceRight'] = RNEA.foldableNonEmptyArray.reduceRight as any
@@ -619,16 +619,6 @@ export const altNonEmptyArray: Alt1<URI> = {
   URI,
   map: map_,
   alt: alt_
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const extendNonEmptyArray: Extend1<URI> = {
-  URI,
-  map: map_,
-  extend: extend_
 }
 
 /**
