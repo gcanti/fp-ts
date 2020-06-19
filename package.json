@@ -49,7 +49,7 @@
     "docs-ts": "^0.5.1",
     "doctoc": "^1.4.0",
     "dtslint": "github:gcanti/dtslint",
-    "fast-check": "^1.23.0",
+    "fast-check": "^1.25.1",
     "glob": "^7.1.6",
     "jest": "^24.8.0",
     "mocha": "^5.2.0",
