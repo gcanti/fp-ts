@@ -320,6 +320,32 @@ export const filterOrElse: {
   chain_(ma, (a) => (predicate(a) ? right(a) : left(onFalse(a))))
 
 // -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+const map_: Monad2<URI>['map'] = (ma, f) => (isLeft(ma) ? ma : right(f(ma.right)))
+const ap_: Monad2<URI>['ap'] = (mab, ma) => (isLeft(mab) ? mab : isLeft(ma) ? ma : right(mab.right(ma.right)))
+const chain_: <D, A, E, B>(fa: Either<D, A>, f: (a: A) => Either<E, B>) => Either<D | E, B> = (ma, f) =>
+  isLeft(ma) ? ma : f(ma.right)
+const reduce_: Foldable2<URI>['reduce'] = (fa, b, f) => (isLeft(fa) ? b : f(b, fa.right))
+const foldMap_: Foldable2<URI>['foldMap'] = (M) => (fa, f) => (isLeft(fa) ? M.empty : f(fa.right))
+const reduceRight_: Foldable2<URI>['reduceRight'] = (fa, b, f) => (isLeft(fa) ? b : f(fa.right, b))
+const traverse_ = <F>(F: Applicative<F>) => <E, A, B>(
+  ma: Either<E, A>,
+  f: (a: A) => HKT<F, B>
+): HKT<F, Either<E, B>> => {
+  return isLeft(ma) ? F.of(left(ma.left)) : F.map<B, Either<E, B>>(f(ma.right), right)
+}
+const bimap_: Bifunctor2<URI>['bimap'] = (fea, f, g) => (isLeft(fea) ? left(f(fea.left)) : right(g(fea.right)))
+const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fea, f) => (isLeft(fea) ? left(f(fea.left)) : fea)
+const alt_: Alt2<URI>['alt'] = (fa, that) => (isLeft(fa) ? that() : fa)
+const extend_: Extend2<URI>['extend'] = (wa, f) => (isLeft(wa) ? wa : right(f(wa)))
+const chainRec_: ChainRec2<URI>['chainRec'] = (a, f) =>
+  tailRec(f(a), (e) =>
+    isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
+  )
+
+// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -382,6 +408,12 @@ export const apSecond = <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>): Eithe
     map_(fa, () => (b: B) => b),
     fb
   )
+
+/**
+ * @category Applicative
+ * @since 2.7.0
+ */
+export const of: Applicative2<URI>['of'] = right
 
 /**
  * Less strict version of [`chain`](#chain).
@@ -491,38 +523,6 @@ export const throwError: MonadThrow2<URI>['throwError'] = left
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
-
-const map_: <E, A, B>(fa: Either<E, A>, f: (a: A) => B) => Either<E, B> = (ma, f) =>
-  isLeft(ma) ? ma : right(f(ma.right))
-const ap_: <E, A, B>(fab: Either<E, (a: A) => B>, fa: Either<E, A>) => Either<E, B> = (mab, ma) =>
-  isLeft(mab) ? mab : isLeft(ma) ? ma : right(mab.right(ma.right))
-const of = right
-const chain_: <D, A, E, B>(fa: Either<D, A>, f: (a: A) => Either<E, B>) => Either<D | E, B> = (ma, f) =>
-  isLeft(ma) ? ma : f(ma.right)
-const reduce_: <E, A, B>(fa: Either<E, A>, b: B, f: (b: B, a: A) => B) => B = (fa, b, f) =>
-  isLeft(fa) ? b : f(b, fa.right)
-const foldMap_: <M>(M: Monoid<M>) => <E, A>(fa: Either<E, A>, f: (a: A) => M) => M = (M) => (fa, f) =>
-  isLeft(fa) ? M.empty : f(fa.right)
-const reduceRight_: <E, A, B>(fa: Either<E, A>, b: B, f: (a: A, b: B) => B) => B = (fa, b, f) =>
-  isLeft(fa) ? b : f(fa.right, b)
-const traverse_ = <F>(F: Applicative<F>) => <E, A, B>(
-  ma: Either<E, A>,
-  f: (a: A) => HKT<F, B>
-): HKT<F, Either<E, B>> => {
-  return isLeft(ma) ? F.of(left(ma.left)) : F.map<B, Either<E, B>>(f(ma.right), right)
-}
-const bimap_: <E, A, G, B>(fea: Either<E, A>, f: (e: E) => G, g: (a: A) => B) => Either<G, B> = (fea, f, g) =>
-  isLeft(fea) ? left(f(fea.left)) : right(g(fea.right))
-const mapLeft_: <E, A, G>(fea: Either<E, A>, f: (e: E) => G) => Either<G, A> = (fea, f) =>
-  isLeft(fea) ? left(f(fea.left)) : fea
-const alt_: <E, A>(fa: Either<E, A>, that: Lazy<Either<E, A>>) => Either<E, A> = (fa, that) =>
-  isLeft(fa) ? that() : fa
-const extend_: <E, A, B>(wa: Either<E, A>, f: (wa: Either<E, A>) => B) => Either<E, B> = (wa, f) =>
-  isLeft(wa) ? wa : right(f(wa))
-const chainRec_: <E, A, B>(a: A, f: (a: A) => Either<E, Either<A, B>>) => Either<E, B> = (a, f) =>
-  tailRec(f(a), (e) =>
-    isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
-  )
 
 /**
  * @category instances

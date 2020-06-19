@@ -57,6 +57,17 @@ export const modify: <S>(f: (s: S) => S) => State<S, void> = (f) => (s) => [unde
 export const gets: <S, A>(f: (s: S) => A) => State<S, A> = (f) => (s) => [f(s), s]
 
 // -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+/* istanbul ignore next */
+const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+/* istanbul ignore next */
+const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+/* istanbul ignore next */
+const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+
+// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -153,13 +164,6 @@ export const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A> =
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
-
-/* istanbul ignore next */
-const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
-/* istanbul ignore next */
-const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-/* istanbul ignore next */
-const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
 /**
  * @category instances

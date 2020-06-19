@@ -373,6 +373,29 @@ export const unzip: <A, B>(
 ) => readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>] = RA.unzip as any
 
 // -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+const map_: Functor1<URI>['map'] = RA.functorArray.map as any
+const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = RA.functorWithIndexArray.mapWithIndex as any
+const ap_: Apply1<URI>['ap'] = RA.applicativeArray.ap as any
+const chain_: Monad1<URI>['chain'] = RA.monadArray.chain as any
+const extend_: Extend1<URI>['extend'] = RA.extendArray.extend as any
+const reduce_: Foldable1<URI>['reduce'] = RA.foldableArray.reduce as any
+const foldMap_: Foldable1<URI>['foldMap'] = RA.foldableArray.foldMap as any
+const reduceRight_: Foldable1<URI>['reduceRight'] = RA.foldableArray.reduceRight as any
+const traverse_: Traversable1<URI>['traverse'] = RA.traversableArray.traverse as any
+const alt_: Alt1<URI>['alt'] = RA.altArray.alt as any
+const reduceWithIndex_: FoldableWithIndex1<URI, number>['reduceWithIndex'] = RA.foldableWithIndexArray
+  .reduceWithIndex as any
+const foldMapWithIndex_: FoldableWithIndex1<URI, number>['foldMapWithIndex'] = RA.foldableWithIndexArray
+  .foldMapWithIndex as any
+const reduceRightWithIndex_: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] = RA.foldableWithIndexArray
+  .reduceRightWithIndex as any
+const traverseWithIndex_: TraversableWithIndex1<URI, number>['traverseWithIndex'] = RA.traversableWithIndexArray
+  .traverseWithIndex as any
+
+// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -543,25 +566,6 @@ export const extract: Comonad1<URI>['extract'] = head
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
-
-const map_: Functor1<URI>['map'] = RA.functorArray.map as any
-const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = RA.functorWithIndexArray.mapWithIndex as any
-const ap_: Apply1<URI>['ap'] = RA.applicativeArray.ap as any
-const chain_: Monad1<URI>['chain'] = RA.monadArray.chain as any
-const extend_: Extend1<URI>['extend'] = RA.extendArray.extend as any
-const reduce_: Foldable1<URI>['reduce'] = RA.foldableArray.reduce as any
-const foldMap_: Foldable1<URI>['foldMap'] = RA.foldableArray.foldMap as any
-const reduceRight_: Foldable1<URI>['reduceRight'] = RA.foldableArray.reduceRight as any
-const traverse_: Traversable1<URI>['traverse'] = RA.traversableArray.traverse as any
-const alt_: Alt1<URI>['alt'] = RA.altArray.alt as any
-const reduceWithIndex_: FoldableWithIndex1<URI, number>['reduceWithIndex'] = RA.foldableWithIndexArray
-  .reduceWithIndex as any
-const foldMapWithIndex_: FoldableWithIndex1<URI, number>['foldMapWithIndex'] = RA.foldableWithIndexArray
-  .foldMapWithIndex as any
-const reduceRightWithIndex_: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] = RA.foldableWithIndexArray
-  .reduceRightWithIndex as any
-const traverseWithIndex_: TraversableWithIndex1<URI, number>['traverseWithIndex'] = RA.traversableWithIndexArray
-  .traverseWithIndex as any
 
 /**
  * @category instances

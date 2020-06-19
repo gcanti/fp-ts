@@ -4,7 +4,6 @@
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative1 } from './Applicative'
-import { Apply1 } from './Apply'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
@@ -975,6 +974,42 @@ export const difference: <A>(
 export const of: <A>(a: A) => Array<A> = RA.of as any
 
 // -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+const map_: Monad1<URI>['map'] = RA.monadArray.map as any
+const ap_: Monad1<URI>['ap'] = RA.monadArray.ap as any
+const chain_: Monad1<URI>['chain'] = RA.monadArray.chain as any
+const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = RA.functorWithIndexArray.mapWithIndex as any
+const filter_: Filterable1<URI>['filter'] = RA.filterableArray.filter as any
+const filterMap_: Filterable1<URI>['filterMap'] = RA.filterableArray.filterMap as any
+const partition_: Filterable1<URI>['partition'] = RA.filterableArray.partition as any
+const partitionMap_: Filterable1<URI>['partitionMap'] = RA.filterableArray.partitionMap as any
+const filterWithIndex_: FilterableWithIndex1<URI, number>['filterWithIndex'] = RA.filterableWithIndexArray
+  .filterWithIndex as any
+const filterMapWithIndex_: FilterableWithIndex1<URI, number>['filterMapWithIndex'] = RA.filterableWithIndexArray
+  .filterMapWithIndex as any
+const partitionWithIndex_: FilterableWithIndex1<URI, number>['partitionWithIndex'] = RA.filterableWithIndexArray
+  .partitionWithIndex as any
+const partitionMapWithIndex_: FilterableWithIndex1<URI, number>['partitionMapWithIndex'] = RA.filterableWithIndexArray
+  .partitionMapWithIndex as any
+const reduce_: Foldable1<URI>['reduce'] = RA.foldableArray.reduce
+const foldMap_: Foldable1<URI>['foldMap'] = RA.foldableArray.foldMap
+const reduceRight_: Foldable1<URI>['reduceRight'] = RA.foldableArray.reduceRight
+const traverse_: Traversable1<URI>['traverse'] = RA.traversableArray.traverse as any
+const alt_: Alternative1<URI>['alt'] = RA.alternativeArray.alt as any
+const reduceWithIndex_: FoldableWithIndex1<URI, number>['reduceWithIndex'] = RA.foldableWithIndexArray.reduceWithIndex
+const foldMapWithIndex_: FoldableWithIndex1<URI, number>['foldMapWithIndex'] =
+  RA.foldableWithIndexArray.foldMapWithIndex
+const reduceRightWithIndex_: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] =
+  RA.foldableWithIndexArray.reduceRightWithIndex
+const traverseWithIndex_: TraversableWithIndex1<URI, number>['traverseWithIndex'] = RA.traversableWithIndexArray
+  .traverseWithIndex as any
+const extend_: Extend1<URI>['extend'] = RA.extendArray.extend as any
+const wither_: Witherable1<URI>['wither'] = RA.witherableArray.wither as any
+const wilt_: Witherable1<URI>['wilt'] = RA.witherableArray.wilt as any
+
+// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -1207,7 +1242,7 @@ export const wilt: PipeableWilt1<URI> = RA.wilt as any
  * @category Unfoldable
  * @since 2.6.6
  */
-export const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => Array<A> = RA.unfold as any
+export const unfold: Unfoldable1<URI>['unfold'] = RA.unfold as any
 
 /**
  * @category Alternative
@@ -1218,38 +1253,6 @@ export const zero: Alternative1<URI>['zero'] = RA.alternativeArray.zero as any
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
-
-const map_: Functor1<URI>['map'] = RA.monadArray.map as any
-const ap_: Apply1<URI>['ap'] = RA.monadArray.ap as any
-const chain_: Monad1<URI>['chain'] = RA.monadArray.chain as any
-const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = RA.functorWithIndexArray.mapWithIndex as any
-const filter_: Filterable1<URI>['filter'] = RA.filterableArray.filter as any
-const filterMap_: Filterable1<URI>['filterMap'] = RA.filterableArray.filterMap as any
-const partition_: Filterable1<URI>['partition'] = RA.filterableArray.partition as any
-const partitionMap_: Filterable1<URI>['partitionMap'] = RA.filterableArray.partitionMap as any
-const filterWithIndex_: FilterableWithIndex1<URI, number>['filterWithIndex'] = RA.filterableWithIndexArray
-  .filterWithIndex as any
-const filterMapWithIndex_: FilterableWithIndex1<URI, number>['filterMapWithIndex'] = RA.filterableWithIndexArray
-  .filterMapWithIndex as any
-const partitionWithIndex_: FilterableWithIndex1<URI, number>['partitionWithIndex'] = RA.filterableWithIndexArray
-  .partitionWithIndex as any
-const partitionMapWithIndex_: FilterableWithIndex1<URI, number>['partitionMapWithIndex'] = RA.filterableWithIndexArray
-  .partitionMapWithIndex as any
-const reduce_: Foldable1<URI>['reduce'] = RA.foldableArray.reduce
-const foldMap_: Foldable1<URI>['foldMap'] = RA.foldableArray.foldMap
-const reduceRight_: Foldable1<URI>['reduceRight'] = RA.foldableArray.reduceRight
-const traverse_: Traversable1<URI>['traverse'] = RA.traversableArray.traverse as any
-const alt_: Alternative1<URI>['alt'] = RA.alternativeArray.alt as any
-const reduceWithIndex_: FoldableWithIndex1<URI, number>['reduceWithIndex'] = RA.foldableWithIndexArray.reduceWithIndex
-const foldMapWithIndex_: FoldableWithIndex1<URI, number>['foldMapWithIndex'] =
-  RA.foldableWithIndexArray.foldMapWithIndex
-const reduceRightWithIndex_: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] =
-  RA.foldableWithIndexArray.reduceRightWithIndex
-const traverseWithIndex_: TraversableWithIndex1<URI, number>['traverseWithIndex'] = RA.traversableWithIndexArray
-  .traverseWithIndex as any
-const extend_: Extend1<URI>['extend'] = RA.extendArray.extend as any
-const wither_: Witherable1<URI>['wither'] = RA.witherableArray.wither as any
-const wilt_: Witherable1<URI>['wilt'] = RA.witherableArray.wilt as any
 
 /**
  * @category instances

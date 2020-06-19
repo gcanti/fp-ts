@@ -59,7 +59,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const of: <R, A>(a: A) => Reader<R, A>
+export declare const of: <E, A>(a: A) => Reader<E, A>
 ```
 
 Added in v2.0.0

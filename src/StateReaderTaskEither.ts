@@ -354,6 +354,41 @@ export const filterOrElse: {
   )
 
 // -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+/* istanbul ignore next */
+const map_: Monad4<URI>['map'] = (fa, f) => pipe(fa, map(f))
+/* istanbul ignore next */
+const ap_: Monad4<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+/* istanbul ignore next */
+const chain_: Monad4<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+/* istanbul ignore next */
+const alt_: <S, R, E, A>(
+  fa: StateReaderTaskEither<S, R, E, A>,
+  that: Lazy<StateReaderTaskEither<S, R, E, A>>
+) => StateReaderTaskEither<S, R, E, A> = (fa, that) => (s) =>
+  pipe(
+    fa(s),
+    RTE.alt(() => that()(s))
+  )
+
+const bimap_: <S, R, E, A, G, B>(
+  fea: StateReaderTaskEither<S, R, E, A>,
+  f: (e: E) => G,
+  g: (a: A) => B
+) => StateReaderTaskEither<S, R, G, B> = (fea, f, g) => (s) =>
+  pipe(
+    fea(s),
+    RTE.bimap(f, ([a, s]) => [g(a), s])
+  )
+
+const mapLeft_: <S, R, E, A, G>(
+  fea: StateReaderTaskEither<S, R, E, A>,
+  f: (e: E) => G
+) => StateReaderTaskEither<S, R, G, A> = (fea, f) => (s) => pipe(fea(s), RTE.mapLeft(f))
+
+// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -444,6 +479,12 @@ export const apSecond = <S, R, E, B>(fb: StateReaderTaskEither<S, R, E, B>) => <
   )
 
 /**
+ * @category Applicative
+ * @since 2.7.0
+ */
+export const of: Applicative4<URI>['of'] = right
+
+/**
  * Less strict version of [`chain`](#chain).
  *
  * @category Monad
@@ -530,38 +571,6 @@ export const throwError: MonadThrow4<URI>['throwError'] = left
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
-
-/* istanbul ignore next */
-const map_: Monad4<URI>['map'] = (fa, f) => pipe(fa, map(f))
-/* istanbul ignore next */
-const ap_: Monad4<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-/* istanbul ignore next */
-const chain_: Monad4<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-const of = right
-/* istanbul ignore next */
-const alt_: <S, R, E, A>(
-  fa: StateReaderTaskEither<S, R, E, A>,
-  that: Lazy<StateReaderTaskEither<S, R, E, A>>
-) => StateReaderTaskEither<S, R, E, A> = (fa, that) => (s) =>
-  pipe(
-    fa(s),
-    RTE.alt(() => that()(s))
-  )
-
-const bimap_: <S, R, E, A, G, B>(
-  fea: StateReaderTaskEither<S, R, E, A>,
-  f: (e: E) => G,
-  g: (a: A) => B
-) => StateReaderTaskEither<S, R, G, B> = (fea, f, g) => (s) =>
-  pipe(
-    fea(s),
-    RTE.bimap(f, ([a, s]) => [g(a), s])
-  )
-
-const mapLeft_: <S, R, E, A, G>(
-  fea: StateReaderTaskEither<S, R, E, A>,
-  f: (e: E) => G
-) => StateReaderTaskEither<S, R, G, A> = (fea, f) => (s) => pipe(fea(s), RTE.mapLeft(f))
 
 /**
  * @category instances

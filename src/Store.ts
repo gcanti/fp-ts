@@ -5,6 +5,7 @@ import { Comonad2 } from './Comonad'
 import { Endomorphism, identity } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
+import { Extend2 } from './Extend'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -72,18 +73,21 @@ export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>
 }
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: <E, A, B>(fa: Store<E, A>, f: (a: A) => B) => Store<E, B> = (wa, f) => ({
+const map_: Functor2<URI>['map'] = (wa, f) => ({
   peek: (s) => f(wa.peek(s)),
   pos: wa.pos
 })
-
-const extend_: <E, A, B>(wa: Store<E, A>, f: (wa: Store<E, A>) => B) => Store<E, B> = (wa, f) => ({
+const extend_: Extend2<URI>['extend'] = (wa, f) => ({
   peek: (s) => f({ peek: wa.peek, pos: s }),
   pos: wa.pos
 })
+
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
 
 /**
  * @category Extend

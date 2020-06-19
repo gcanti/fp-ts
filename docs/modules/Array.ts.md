@@ -539,7 +539,7 @@ Added in v2.6.3
 **Signature**
 
 ```ts
-export declare const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => A[]
+export declare const unfold: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => A[]
 ```
 
 Added in v2.6.6

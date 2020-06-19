@@ -199,6 +199,24 @@ export const filterOrElse: {
   )
 
 // -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+/* istanbul ignore next */
+const map_: Monad3<URI>['map'] = (fa, f) => pipe(fa, map(f))
+/* istanbul ignore next */
+const bimap_: Bifunctor3<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
+/* istanbul ignore next */
+const mapLeft_: Bifunctor3<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
+/* istanbul ignore next */
+const ap_: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const of = right
+/* istanbul ignore next */
+const chain_: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+/* istanbul ignore next */
+const alt_: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
+
+// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -354,20 +372,6 @@ declare module './HKT' {
     readonly [URI]: ReaderEither<R, E, A>
   }
 }
-
-/* istanbul ignore next */
-const map_: Monad3<URI>['map'] = (fa, f) => pipe(fa, map(f))
-/* istanbul ignore next */
-const bimap_: Bifunctor3<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
-/* istanbul ignore next */
-const mapLeft_: Bifunctor3<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-/* istanbul ignore next */
-const ap_: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const of = right
-/* istanbul ignore next */
-const chain_: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-/* istanbul ignore next */
-const alt_: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 
 /**
  * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are

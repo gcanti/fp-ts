@@ -73,6 +73,20 @@ export const getMonad: <S>(M: Monoid<S>) => Monad2C<URI, S> = RT.getMonad as any
 export const getChainRec: <S>(M: Monoid<S>) => ChainRec2C<URI, S> = RT.getChainRec as any
 
 // -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+const map_: Functor2<URI>['map'] = RT.functorTuple.map as any
+const bimap_: Bifunctor2<URI>['bimap'] = RT.bifunctorTuple.bimap as any
+const mapLeft_: Bifunctor2<URI>['mapLeft'] = RT.bifunctorTuple.mapLeft as any
+const compose_: Semigroupoid2<URI>['compose'] = RT.semigroupoidTuple.compose as any
+const extend_: Extend2<URI>['extend'] = RT.comonadTuple.extend as any
+const reduce_: Foldable2<URI>['reduce'] = RT.foldableTuple.reduce
+const foldMap_: Foldable2<URI>['foldMap'] = RT.foldableTuple.foldMap
+const reduceRight_: Foldable2<URI>['reduceRight'] = RT.foldableTuple.reduceRight
+const traverse_: Traversable2<URI>['traverse'] = RT.traversableTuple.traverse as any
+
+// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -156,16 +170,6 @@ export const sequence: Traversable2<URI>['sequence'] = RT.sequence as any
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
-
-const map_: Functor2<URI>['map'] = RT.functorTuple.map as any
-const bimap_: Bifunctor2<URI>['bimap'] = RT.bifunctorTuple.bimap as any
-const mapLeft_: Bifunctor2<URI>['mapLeft'] = RT.bifunctorTuple.mapLeft as any
-const compose_: Semigroupoid2<URI>['compose'] = RT.semigroupoidTuple.compose as any
-const extend_: Extend2<URI>['extend'] = RT.comonadTuple.extend as any
-const reduce_: Foldable2<URI>['reduce'] = RT.foldableTuple.reduce
-const foldMap_: Foldable2<URI>['foldMap'] = RT.foldableTuple.foldMap
-const reduceRight_: Foldable2<URI>['reduceRight'] = RT.foldableTuple.reduceRight
-const traverse_: Traversable2<URI>['traverse'] = RT.traversableTuple.traverse as any
 
 /**
  * @category instances

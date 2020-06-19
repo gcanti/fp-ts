@@ -14,6 +14,8 @@ Added in v2.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
+- [Applicative](#applicative)
+  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apFirst](#apfirst)
@@ -66,6 +68,18 @@ types of kind `* -> *`.
 
 ```ts
 export declare const alt: <A>(that: () => A) => (fa: A) => A
+```
+
+Added in v2.0.0
+
+# Applicative
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => A
 ```
 
 Added in v2.0.0
