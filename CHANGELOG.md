@@ -16,6 +16,9 @@ high state of flux, you're at risk of it changing without notice.
 
 # 2.7.0
 
+- **Bug Fix**
+  - `These`
+    - fix `ap` implementation in `getMonad` function (@gcanti)
 - **New Feature**
   - `Array`
     - add `functorArray` instance (@gcanti)

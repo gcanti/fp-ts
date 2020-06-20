@@ -65,6 +65,7 @@ Added in v2.0.0
   - [bifunctorThese](#bifunctorthese)
   - [foldableThese](#foldablethese)
   - [functorThese](#functorthese)
+  - [getApplicative](#getapplicative)
   - [getEq](#geteq)
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
@@ -479,6 +480,16 @@ export declare const functorThese: Functor2<'These'>
 
 Added in v2.7.0
 
+## getApplicative
+
+**Signature**
+
+```ts
+export declare function getApplicative<E>(SE: Semigroup<E>): Applicative2C<URI, E>
+```
+
+Added in v2.7.0
+
 ## getEq
 
 **Signature**
@@ -494,7 +505,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI, E>
+export declare function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI, E>
 ```
 
 Added in v2.0.0
