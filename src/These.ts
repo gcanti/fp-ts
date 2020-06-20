@@ -19,7 +19,7 @@
  *
  * @since 2.0.0
  */
-import { Applicative } from './Applicative'
+import { Applicative, Applicative2C } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
@@ -32,7 +32,7 @@ import { Monoid } from './Monoid'
 import { isNone, none, Option, some } from './Option'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
-import { Traversable2, PipeableTraverse2 } from './Traversable'
+import { PipeableTraverse2, Traversable2 } from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -162,9 +162,40 @@ export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
 
 /**
  * @category instances
+ * @since 2.7.0
+ */
+export function getApplicative<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    of: right,
+    ap: (fab, fa) =>
+      isLeft(fab)
+        ? isLeft(fa)
+          ? left(SE.concat(fab.left, fa.left))
+          : isRight(fa)
+          ? left(fab.left)
+          : left(SE.concat(fab.left, fa.left))
+        : isRight(fab)
+        ? isLeft(fa)
+          ? left(fa.left)
+          : isRight(fa)
+          ? right(fab.right(fa.right))
+          : both(fa.left, fab.right(fa.right))
+        : isLeft(fa)
+        ? left(SE.concat(fab.left, fa.left))
+        : isRight(fa)
+        ? both(fab.left, fab.right(fa.right))
+        : both(SE.concat(fab.left, fa.left), fab.right(fa.right))
+  }
+}
+
+/**
+ * @category instances
  * @since 2.0.0
  */
-export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI, E> {
+export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI, E> {
   const chain = <A, B>(ma: These<E, A>, f: (a: A) => These<E, B>): These<E, B> => {
     if (isLeft(ma)) {
       return ma
@@ -174,18 +205,19 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI
     }
     const fb = f(ma.right)
     return isLeft(fb)
-      ? left(S.concat(ma.left, fb.left))
+      ? left(SE.concat(ma.left, fb.left))
       : isRight(fb)
       ? both(ma.left, fb.right)
-      : both(S.concat(ma.left, fb.left), fb.right)
+      : both(SE.concat(ma.left, fb.left), fb.right)
   }
 
+  const applicative = getApplicative(SE)
   return {
     URI,
     _E: undefined as any,
     map: map_,
     of: right,
-    ap: (mab, ma) => chain(mab, (f) => map_(ma, f)),
+    ap: applicative.ap,
     chain,
     throwError: left
   }
