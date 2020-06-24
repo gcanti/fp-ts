@@ -159,6 +159,7 @@ export function insertAt<A>(k: string, a: A): (r: ReadonlyRecord<string, A>) => 
 
 const _hasOwnProperty = Object.prototype.hasOwnProperty
 
+// TODO: rename to avoid #1249?
 /**
  * @since 2.5.0
  */
