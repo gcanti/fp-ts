@@ -169,6 +169,13 @@ export function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): Either<E
   }
 }
 
+// Copied from https://github.com/Microsoft/TypeScript/issues/1897#issuecomment-338650717
+type AnyJson = boolean | number | string | null | JsonArray | JsonMap
+interface JsonMap {
+  readonly [key: string]: AnyJson
+}
+interface JsonArray extends Array<AnyJson> {}
+
 /**
  * Converts a JavaScript Object Notation (JSON) string into an object.
  *
@@ -181,7 +188,7 @@ export function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): Either<E
  * @category constructors
  * @since 2.0.0
  */
-export function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either<E, unknown> {
+export function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either<E, AnyJson> {
   return tryCatch(() => JSON.parse(s), onError)
 }
 
