@@ -417,7 +417,7 @@ Converts a JavaScript Object Notation (JSON) string into an object.
 **Signature**
 
 ```ts
-export declare function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either<E, unknown>
+export declare function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either<E, AnyJson>
 ```
 
 **Example**
