@@ -169,8 +169,9 @@ export function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): Either<E
   }
 }
 
-// Copied from https://github.com/Microsoft/TypeScript/issues/1897#issuecomment-338650717
 /**
+ * Copied from https://github.com/Microsoft/TypeScript/issues/1897#issuecomment-338650717
+ * 
  * @since 2.6.7
  */
 export type Json = boolean | number | string | null | JsonArray | JsonRecord
