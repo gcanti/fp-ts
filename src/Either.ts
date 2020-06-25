@@ -170,11 +170,11 @@ export function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): Either<E
 }
 
 // Copied from https://github.com/Microsoft/TypeScript/issues/1897#issuecomment-338650717
-type Json = boolean | number | string | null | JsonArray | JsonRecord
-interface JsonRecord {
+export type Json = boolean | number | string | null | JsonArray | JsonRecord
+export interface JsonRecord {
   readonly [key: string]: Json
 }
-interface JsonArray extends ReadonlyArray<Json> {}
+export interface JsonArray extends ReadonlyArray<Json> {}
 
 /**
  * Converts a JavaScript Object Notation (JSON) string into an object.
