@@ -88,6 +88,9 @@ Added in v2.0.0
   - [Left (interface)](#left-interface)
   - [Right (interface)](#right-interface)
 - [utils](#utils)
+  - [Json (type alias)](#json-type-alias)
+  - [JsonArray (interface)](#jsonarray-interface)
+  - [JsonRecord (interface)](#jsonrecord-interface)
   - [elem](#elem)
   - [exists](#exists)
   - [toError](#toerror)
@@ -417,7 +420,7 @@ Converts a JavaScript Object Notation (JSON) string into an object.
 **Signature**
 
 ```ts
-export declare function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either<E, AnyJson>
+export declare function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either<E, Json>
 ```
 
 **Example**
@@ -802,6 +805,38 @@ export interface Right<A> {
 Added in v2.0.0
 
 # utils
+
+## Json (type alias)
+
+**Signature**
+
+```ts
+export type Json = boolean | number | string | null | JsonArray | JsonRecord
+```
+
+Added in v2.6.7
+
+## JsonArray (interface)
+
+**Signature**
+
+```ts
+export interface JsonArray extends ReadonlyArray<Json> {}
+```
+
+Added in v2.6.7
+
+## JsonRecord (interface)
+
+**Signature**
+
+```ts
+export interface JsonRecord {
+  readonly [key: string]: Json
+}
+```
+
+Added in v2.6.7
 
 ## elem
 
