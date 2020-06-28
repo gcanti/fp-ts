@@ -160,18 +160,26 @@ export const apSecond = <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask<R, A>
 export const of: <R, A>(a: A) => ReaderTask<R, A> = (a) => () => T.of(a)
 
 /**
+ * Less strict version of  [`chain`](#chain).
+ *
+ * @category Monad
+ * @since 2.6.7
+ */
+export const chainW: <R, A, B>(f: (a: A) => ReaderTask<R, B>) => <Q>(ma: ReaderTask<Q, A>) => ReaderTask<Q & R, B> = (
+  f
+) => (fa) => (r) =>
+  pipe(
+    fa(r),
+    T.chain((a) => f(a)(r))
+  )
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad
  * @since 2.3.0
  */
-export const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> = (f) => (
-  fa
-) => (r) =>
-  pipe(
-    fa(r),
-    T.chain((a) => f(a)(r))
-  )
+export const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> = chainW
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
