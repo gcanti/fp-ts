@@ -23,6 +23,7 @@ Added in v2.3.0
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
+  - [chainW](#chainw)
   - [flatten](#flatten)
 - [combinators](#combinators)
   - [chainIOK](#chainiok)
@@ -138,6 +139,20 @@ export declare const chainFirst: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma
 ```
 
 Added in v2.3.0
+
+## chainW
+
+Less strict version of [`chain`](#chain).
+
+**Signature**
+
+```ts
+export declare const chainW: <R, A, B>(
+  f: (a: A) => ReaderTask<R, B>
+) => <Q>(ma: ReaderTask<Q, A>) => ReaderTask<Q & R, B>
+```
+
+Added in v2.6.7
 
 ## flatten
 
