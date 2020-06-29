@@ -1492,10 +1492,10 @@ const alt_: <A>(fa: ReadonlyArray<A>, that: Lazy<ReadonlyArray<A>>) => ReadonlyA
 
 const zero_: <A>() => ReadonlyArray<A> = () => empty
 
-const chainWithIndex_: <A, B>(
-  fa: ReadonlyArray<A>,
-  f: (i: number, a: A) => ReadonlyArray<B>
-) => ReadonlyArray<B> = (fa, f) => {
+const chainWithIndex_: <A, B>(fa: ReadonlyArray<A>, f: (i: number, a: A) => ReadonlyArray<B>) => ReadonlyArray<B> = (
+  fa,
+  f
+) => {
   let outLen = 0
   const l = fa.length
   const temp = new Array(l)
