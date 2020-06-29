@@ -1,23 +1,23 @@
 import * as assert from 'assert'
 import { sequenceS, sequenceT } from '../src/Apply'
-import { readonlyArray, getMonoid } from '../src/ReadonlyArray'
-import { either, getValidation, left, right } from '../src/Either'
-import { none, option, some } from '../src/Option'
+import * as A from '../src/ReadonlyArray'
+import * as E from '../src/Either'
+import * as O from '../src/Option'
 import { pipe } from '../src/function'
 
 describe('Apply', () => {
   it('sequenceT', () => {
-    const sequenceTOption = sequenceT(option)
-    assert.deepStrictEqual(sequenceTOption(some(1)), some([1]))
-    assert.deepStrictEqual(sequenceTOption(some(1), some('2')), some([1, '2']))
-    assert.deepStrictEqual(sequenceTOption(some(1), some('2'), none), none)
+    const sequenceTOption = sequenceT(O.applicativeOption)
+    assert.deepStrictEqual(sequenceTOption(O.some(1)), O.some([1]))
+    assert.deepStrictEqual(sequenceTOption(O.some(1), O.some('2')), O.some([1, '2']))
+    assert.deepStrictEqual(sequenceTOption(O.some(1), O.some('2'), O.none), O.none)
 
     // #914
     const a1: ReadonlyArray<number> = [1, 2, 3]
     const a2: ReadonlyArray<string> = ['a', 'b', 'c']
     const a3: ReadonlyArray<boolean> = [true, false]
     assert.deepStrictEqual(
-      pipe(sequenceT(readonlyArray)(a1, a2, a3), (arr) => arr.map(([x, y, z]) => `(${x}, ${y}, ${z})`)),
+      pipe(sequenceT(A.applicativeArray)(a1, a2, a3), (arr) => arr.map(([x, y, z]) => `(${x}, ${y}, ${z})`)),
       [
         '(1, a, true)',
         '(1, a, false)',
@@ -42,28 +42,33 @@ describe('Apply', () => {
   })
 
   it('sequenceS', () => {
-    const adoOption = sequenceS(option)
-    assert.deepStrictEqual(adoOption({ a: some(1) }), some({ a: 1 }))
-    assert.deepStrictEqual(adoOption({ a: some(1), b: some(2) }), some({ a: 1, b: 2 }))
-    assert.deepStrictEqual(adoOption({ a: some(1), b: none }), none)
+    const adoOption = sequenceS(O.applicativeOption)
+    assert.deepStrictEqual(adoOption({ a: O.some(1) }), O.some({ a: 1 }))
+    assert.deepStrictEqual(adoOption({ a: O.some(1), b: O.some(2) }), O.some({ a: 1, b: 2 }))
+    assert.deepStrictEqual(adoOption({ a: O.some(1), b: O.none }), O.none)
 
-    const adoEither = sequenceS(either)
-    assert.deepStrictEqual(adoEither({ a: right(1) }), right({ a: 1 }))
-    assert.deepStrictEqual(adoEither({ a: right(1), b: right(2) }), right({ a: 1, b: 2 }))
-    assert.deepStrictEqual(adoEither({ a: right(1), b: left('error') }), left('error'))
+    const adoEither = sequenceS(E.applicativeEither)
+    assert.deepStrictEqual(adoEither({ a: E.right(1) }), E.right({ a: 1 }))
+    assert.deepStrictEqual(adoEither({ a: E.right(1), b: E.right(2) }), E.right({ a: 1, b: 2 }))
+    assert.deepStrictEqual(adoEither({ a: E.right(1), b: E.left('error') }), E.left('error'))
 
-    const adoValidation = sequenceS(getValidation(getMonoid<string>()))
-    assert.deepStrictEqual(adoValidation({ a: right(1) }), right({ a: 1 }))
-    assert.deepStrictEqual(adoValidation({ a: right(1), b: right(2) }), right({ a: 1, b: 2 }))
-    assert.deepStrictEqual(adoValidation({ a: right(1), b: left(['error']) }), left(['error']))
-    assert.deepStrictEqual(adoValidation({ a: left(['error1']), b: left(['error2']) }), left(['error1', 'error2']))
+    const adoValidation = sequenceS(E.getApplicativeValidation(A.getMonoid<string>()))
+    assert.deepStrictEqual(adoValidation({ a: E.right(1) }), E.right({ a: 1 }))
+    assert.deepStrictEqual(adoValidation({ a: E.right(1), b: E.right(2) }), E.right({ a: 1, b: 2 }))
+    assert.deepStrictEqual(adoValidation({ a: E.right(1), b: E.left(['error']) }), E.left(['error']))
+    assert.deepStrictEqual(
+      adoValidation({ a: E.left(['error1']), b: E.left(['error2']) }),
+      E.left(['error1', 'error2'])
+    )
 
     // #914
     const a1: ReadonlyArray<number> = [1, 2, 3]
     const a2: ReadonlyArray<string> = ['a', 'b', 'c']
     const a3: ReadonlyArray<boolean> = [true, false]
     assert.deepStrictEqual(
-      pipe(sequenceS(readonlyArray)({ a1, a2, a3 }), (arr) => arr.map(({ a1, a2, a3 }) => `(${a1}, ${a2}, ${a3})`)),
+      pipe(sequenceS(A.applicativeArray)({ a1, a2, a3 }), (arr) =>
+        arr.map(({ a1, a2, a3 }) => `(${a1}, ${a2}, ${a3})`)
+      ),
       [
         '(1, a, true)',
         '(1, a, false)',

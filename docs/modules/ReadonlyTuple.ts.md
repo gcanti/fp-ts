@@ -36,12 +36,18 @@ Added in v2.5.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [bifunctorTuple](#bifunctortuple)
+  - [comonadTuple](#comonadtuple)
+  - [foldableTuple](#foldabletuple)
+  - [functorTuple](#functortuple)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getChain](#getchain)
   - [getChainRec](#getchainrec)
   - [getMonad](#getmonad)
   - [readonlyTuple](#readonlytuple)
+  - [semigroupoidTuple](#semigroupoidtuple)
+  - [traversableTuple](#traversabletuple)
 - [utils](#utils)
   - [sequence](#sequence)
   - [traverse](#traverse)
@@ -223,6 +229,46 @@ export type URI = typeof URI
 
 Added in v2.5.0
 
+## bifunctorTuple
+
+**Signature**
+
+```ts
+export declare const bifunctorTuple: Bifunctor2<'ReadonlyTuple'>
+```
+
+Added in v2.7.0
+
+## comonadTuple
+
+**Signature**
+
+```ts
+export declare const comonadTuple: Comonad2<'ReadonlyTuple'>
+```
+
+Added in v2.7.0
+
+## foldableTuple
+
+**Signature**
+
+```ts
+export declare const foldableTuple: Foldable2<'ReadonlyTuple'>
+```
+
+Added in v2.7.0
+
+## functorTuple
+
+**Signature**
+
+```ts
+export declare const functorTuple: Functor2<'ReadonlyTuple'>
+```
+
+Added in v2.7.0
+
 ## getApplicative
 
 **Signature**
@@ -286,6 +332,26 @@ export declare const readonlyTuple: Semigroupoid2<'ReadonlyTuple'> &
 ```
 
 Added in v2.5.0
+
+## semigroupoidTuple
+
+**Signature**
+
+```ts
+export declare const semigroupoidTuple: Semigroupoid2<'ReadonlyTuple'>
+```
+
+Added in v2.7.0
+
+## traversableTuple
+
+**Signature**
+
+```ts
+export declare const traversableTuple: Traversable2<'ReadonlyTuple'>
+```
+
+Added in v2.7.0
 
 # utils
 

@@ -14,6 +14,8 @@ Added in v2.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
+- [Applicative](#applicative)
+  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apFirst](#apfirst)
@@ -28,6 +30,12 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainW](#chainw)
   - [flatten](#flatten)
+- [MonadIO](#monadio)
+  - [fromIO](#fromio)
+- [MonadTask](#monadtask)
+  - [fromTask](#fromtask)
+- [MonadThrow](#monadthrow)
+  - [throwError](#throwerror)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -67,14 +75,18 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [altReaderStateTaskEither](#altreaderstatetaskeither)
+  - [applicativeStateReaderTaskEither](#applicativestatereadertaskeither)
+  - [bifunctorStateReaderTaskEither](#bifunctorstatereadertaskeither)
+  - [functorStateReaderTaskEither](#functorstatereadertaskeither)
+  - [stateReaderTaskEither](#statereadertaskeither)
+  - [stateReaderTaskEitherSeq](#statereadertaskeitherseq)
 - [model](#model)
   - [StateReaderTaskEither (interface)](#statereadertaskeither-interface)
 - [utils](#utils)
   - [evalState](#evalstate)
   - [execState](#execstate)
   - [run](#run)
-  - [stateReaderTaskEither](#statereadertaskeither)
-  - [stateReaderTaskEitherSeq](#statereadertaskeitherseq)
 
 ---
 
@@ -94,6 +106,18 @@ export declare const alt: <S, R, E, A>(
 ```
 
 Added in v2.6.2
+
+# Applicative
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <S, R, E, A>(a: A) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.7.0
 
 # Apply
 
@@ -240,6 +264,42 @@ export declare const flatten: <S, R, E, A>(
 ```
 
 Added in v2.0.0
+
+# MonadIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <S, R, E, A>(fa: IO<A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.7.0
+
+# MonadTask
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <S, R, E, A>(fa: Task<A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.7.0
+
+# MonadThrow
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <S, R, E, A>(e: E) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.7.0
 
 # combinators
 
@@ -661,6 +721,76 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
+## altReaderStateTaskEither
+
+**Signature**
+
+```ts
+export declare const altReaderStateTaskEither: Alt4<'StateReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## applicativeStateReaderTaskEither
+
+**Signature**
+
+```ts
+export declare const applicativeStateReaderTaskEither: Applicative4<'StateReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## bifunctorStateReaderTaskEither
+
+**Signature**
+
+```ts
+export declare const bifunctorStateReaderTaskEither: Bifunctor4<'StateReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## functorStateReaderTaskEither
+
+**Signature**
+
+```ts
+export declare const functorStateReaderTaskEither: Functor4<'StateReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## stateReaderTaskEither
+
+**Signature**
+
+```ts
+export declare const stateReaderTaskEither: Monad4<'StateReaderTaskEither'> &
+  Bifunctor4<'StateReaderTaskEither'> &
+  Alt4<'StateReaderTaskEither'> &
+  MonadTask4<'StateReaderTaskEither'> &
+  MonadThrow4<'StateReaderTaskEither'>
+```
+
+Added in v2.0.0
+
+## stateReaderTaskEitherSeq
+
+Like `stateReaderTaskEither` but `ap` is sequential
+
+**Signature**
+
+```ts
+export declare const stateReaderTaskEitherSeq: Monad4<'StateReaderTaskEither'> &
+  Bifunctor4<'StateReaderTaskEither'> &
+  Alt4<'StateReaderTaskEither'> &
+  MonadTask4<'StateReaderTaskEither'> &
+  MonadThrow4<'StateReaderTaskEither'>
+```
+
+Added in v2.0.0
+
 # model
 
 ## StateReaderTaskEither (interface)
@@ -713,36 +843,6 @@ Added in v2.0.0
 
 ```ts
 export declare function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: R): Promise<Either<E, [A, S]>>
-```
-
-Added in v2.0.0
-
-## stateReaderTaskEither
-
-**Signature**
-
-```ts
-export declare const stateReaderTaskEither: Monad4<'StateReaderTaskEither'> &
-  Bifunctor4<'StateReaderTaskEither'> &
-  Alt4<'StateReaderTaskEither'> &
-  MonadTask4<'StateReaderTaskEither'> &
-  MonadThrow4<'StateReaderTaskEither'>
-```
-
-Added in v2.0.0
-
-## stateReaderTaskEitherSeq
-
-Like `stateReaderTaskEither` but `ap` is sequential
-
-**Signature**
-
-```ts
-export declare const stateReaderTaskEitherSeq: Monad4<'StateReaderTaskEither'> &
-  Bifunctor4<'StateReaderTaskEither'> &
-  Alt4<'StateReaderTaskEither'> &
-  MonadTask4<'StateReaderTaskEither'> &
-  MonadThrow4<'StateReaderTaskEither'>
 ```
 
 Added in v2.0.0

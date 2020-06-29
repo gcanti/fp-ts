@@ -81,10 +81,14 @@ export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
 }
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: <E, A, B>(fa: Traced<E, A>, f: (a: A) => B) => Traced<E, B> = (wa, f) => (p) => f(wa(p))
+const map_: Functor2<URI>['map'] = (wa, f) => (p) => f(wa(p))
+
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -119,9 +123,16 @@ declare module './HKT' {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 2.7.0
  */
-export const traced: Functor2<URI> = {
+export const functorTraced: Functor2<URI> = {
   URI,
   map: map_
 }
+
+// TODO: remove in v3
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const traced: Functor2<URI> = functorTraced

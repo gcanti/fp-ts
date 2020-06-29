@@ -34,12 +34,19 @@ Added in v2.0.0
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
+- [MonadIO](#monadio)
+  - [fromIO](#fromio)
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [applicativeIO](#applicativeio)
+  - [chainRecIO](#chainrecio)
+  - [functorIO](#functorio)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
   - [io](#io)
+  - [monadIO](#monadio)
+  - [monadIOIO](#monadioio)
 - [model](#model)
   - [IO (interface)](#io-interface)
 
@@ -145,6 +152,18 @@ export declare const flatten: <A>(mma: IO<IO<A>>) => IO<A>
 
 Added in v2.0.0
 
+# MonadIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A>(fa: IO<A>) => IO<A>
+```
+
+Added in v2.7.0
+
 # instances
 
 ## URI
@@ -166,6 +185,36 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
+
+## applicativeIO
+
+**Signature**
+
+```ts
+export declare const applicativeIO: Applicative1<'IO'>
+```
+
+Added in v2.7.0
+
+## chainRecIO
+
+**Signature**
+
+```ts
+export declare const chainRecIO: ChainRec1<'IO'>
+```
+
+Added in v2.7.0
+
+## functorIO
+
+**Signature**
+
+```ts
+export declare const functorIO: Functor1<'IO'>
+```
+
+Added in v2.7.0
 
 ## getMonoid
 
@@ -196,6 +245,26 @@ export declare const io: Monad1<'IO'> & MonadIO1<'IO'> & ChainRec1<'IO'>
 ```
 
 Added in v2.0.0
+
+## monadIO
+
+**Signature**
+
+```ts
+export declare const monadIO: Monad1<'IO'>
+```
+
+Added in v2.7.0
+
+## monadIOIO
+
+**Signature**
+
+```ts
+export declare const monadIOIO: MonadIO1<'IO'>
+```
+
+Added in v2.7.0
 
 # model
 

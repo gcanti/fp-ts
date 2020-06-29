@@ -84,6 +84,13 @@ export const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A
 }
 
 // -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+/* istanbul ignore next */
+const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+
+// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -121,9 +128,6 @@ declare module './HKT' {
   }
 }
 
-/* istanbul ignore next */
-const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
-
 /**
  * @category instances
  * @since 2.0.0
@@ -149,12 +153,19 @@ export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 2.7.0
  */
-export const writer: Functor2<URI> = {
+export const functorWriter: Functor2<URI> = {
   URI,
   map: map_
 }
+
+// TODO: remove in v3
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const writer: Functor2<URI> = functorWriter
 
 // -------------------------------------------------------------------------------------
 // utils

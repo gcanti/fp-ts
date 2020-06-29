@@ -58,13 +58,24 @@ Added in v2.5.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [altNonEmptyArray](#altnonemptyarray)
+  - [applicativeNonEmptyArray](#applicativenonemptyarray)
+  - [comonadNonEmptyArray](#comonadnonemptyarray)
+  - [foldableNonEmptyArray](#foldablenonemptyarray)
+  - [foldableWithIndexNonEmptyArray](#foldablewithindexnonemptyarray)
+  - [functorNonEmptyArray](#functornonemptyarray)
+  - [functorWithIndexNonEmptyArray](#functorwithindexnonemptyarray)
   - [getEq](#geteq)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
+  - [monadNonEmptyArray](#monadnonemptyarray)
   - [readonlyNonEmptyArray](#readonlynonemptyarray)
+  - [traversableNonEmptyArray](#traversablenonemptyarray)
+  - [traversableWithIndexNonEmptyArray](#traversablewithindexnonemptyarray)
 - [model](#model)
   - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
 - [utils](#utils)
+  - [extract](#extract)
   - [filter](#filter)
   - [filterWithIndex](#filterwithindex)
   - [fold](#fold)
@@ -540,6 +551,76 @@ export type URI = typeof URI
 
 Added in v2.5.0
 
+## altNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const altNonEmptyArray: Alt1<'ReadonlyNonEmptyArray'>
+```
+
+Added in v2.7.0
+
+## applicativeNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const applicativeNonEmptyArray: Applicative1<'ReadonlyNonEmptyArray'>
+```
+
+Added in v2.7.0
+
+## comonadNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const comonadNonEmptyArray: Comonad1<'ReadonlyNonEmptyArray'>
+```
+
+Added in v2.7.0
+
+## foldableNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const foldableNonEmptyArray: Foldable1<'ReadonlyNonEmptyArray'>
+```
+
+Added in v2.7.0
+
+## foldableWithIndexNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const foldableWithIndexNonEmptyArray: FoldableWithIndex1<'ReadonlyNonEmptyArray', number>
+```
+
+Added in v2.7.0
+
+## functorNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const functorNonEmptyArray: Functor1<'ReadonlyNonEmptyArray'>
+```
+
+Added in v2.7.0
+
+## functorWithIndexNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const functorWithIndexNonEmptyArray: FunctorWithIndex1<'ReadonlyNonEmptyArray', number>
+```
+
+Added in v2.7.0
+
 ## getEq
 
 **Signature**
@@ -583,6 +664,16 @@ export declare const getShow: <A>(S: Show<A>) => Show<ReadonlyNonEmptyArray<A>>
 
 Added in v2.5.0
 
+## monadNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const monadNonEmptyArray: Monad1<'ReadonlyNonEmptyArray'>
+```
+
+Added in v2.7.0
+
 ## readonlyNonEmptyArray
 
 **Signature**
@@ -597,6 +688,26 @@ export declare const readonlyNonEmptyArray: Monad1<'ReadonlyNonEmptyArray'> &
 ```
 
 Added in v2.5.0
+
+## traversableNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const traversableNonEmptyArray: Traversable1<'ReadonlyNonEmptyArray'>
+```
+
+Added in v2.7.0
+
+## traversableWithIndexNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const traversableWithIndexNonEmptyArray: TraversableWithIndex1<'ReadonlyNonEmptyArray', number>
+```
+
+Added in v2.7.0
 
 # model
 
@@ -613,6 +724,16 @@ export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
 Added in v2.5.0
 
 # utils
+
+## extract
+
+**Signature**
+
+```ts
+export declare const extract: <A>(wa: ReadonlyNonEmptyArray<A>) => A
+```
+
+Added in v2.6.3
 
 ## filter
 

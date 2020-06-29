@@ -23,6 +23,7 @@ Added in v2.3.0
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
+  - [chainW](#chainw)
   - [flatten](#flatten)
 - [combinators](#combinators)
   - [chainIOK](#chainiok)
@@ -39,6 +40,9 @@ Added in v2.3.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [applicativeReaderTaskPar](#applicativereadertaskpar)
+  - [applicativeReaderTaskSeq](#applicativereadertaskseq)
+  - [functorReaderTask](#functorreadertask)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
   - [readerTask](#readertask)
@@ -138,6 +142,20 @@ export declare const chainFirst: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma
 ```
 
 Added in v2.3.0
+
+## chainW
+
+Less strict version of [`chain`](#chain).
+
+**Signature**
+
+```ts
+export declare const chainW: <R, A, B>(
+  f: (a: A) => ReaderTask<R, B>
+) => <Q>(ma: ReaderTask<Q, A>) => ReaderTask<Q & R, B>
+```
+
+Added in v2.6.7
 
 ## flatten
 
@@ -279,6 +297,36 @@ export type URI = typeof URI
 
 Added in v2.3.0
 
+## applicativeReaderTaskPar
+
+**Signature**
+
+```ts
+export declare const applicativeReaderTaskPar: Applicative2<'ReaderTask'>
+```
+
+Added in v2.7.0
+
+## applicativeReaderTaskSeq
+
+**Signature**
+
+```ts
+export declare const applicativeReaderTaskSeq: Applicative2<'ReaderTask'>
+```
+
+Added in v2.7.0
+
+## functorReaderTask
+
+**Signature**
+
+```ts
+export declare const functorReaderTask: Functor2<'ReaderTask'>
+```
+
+Added in v2.7.0
+
 ## getMonoid
 
 **Signature**
@@ -304,7 +352,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export declare const readerTask: Monad2<'ReaderTask'> & MonadTask2<'ReaderTask'>
+export declare const readerTask: MonadTask2<'ReaderTask'>
 ```
 
 Added in v2.3.0
@@ -316,7 +364,7 @@ Like `readerTask` but `ap` is sequential
 **Signature**
 
 ```ts
-export declare const readerTaskSeq: Monad2<'ReaderTask'> & MonadTask2<'ReaderTask'>
+export declare const readerTaskSeq: MonadTask2<'ReaderTask'>
 ```
 
 Added in v2.3.0

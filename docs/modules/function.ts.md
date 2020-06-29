@@ -28,6 +28,7 @@ Added in v2.0.0
   - [decrement](#decrement)
   - [flip](#flip)
   - [flow](#flow)
+  - [hole](#hole)
   - [identity](#identity)
   - [increment](#increment)
   - [not](#not)
@@ -299,6 +300,18 @@ assert.strictEqual(f('aaa'), 6)
 ```
 
 Added in v2.0.0
+
+## hole
+
+Type hole simulation
+
+**Signature**
+
+```ts
+export declare const hole: <T>() => T
+```
+
+Added in v2.7.0
 
 ## identity
 

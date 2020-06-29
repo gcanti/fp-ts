@@ -413,3 +413,10 @@ export function pipe(
   }
   return
 }
+
+/**
+ * Type hole simulation
+ *
+ * @since 2.7.0
+ */
+export const hole: <T>() => T = absurd as any

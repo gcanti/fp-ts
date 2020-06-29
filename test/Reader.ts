@@ -78,14 +78,14 @@ describe('Reader', () => {
   })
 
   it('id', () => {
-    const x = _.reader.id<number>()
+    const x = _.id<number>()
     assert.deepStrictEqual(x(1), 1)
   })
 
   it('compose', () => {
     const x = (s: string) => s.length
     const y = (n: number) => n >= 2
-    const z = _.reader.compose(y, x)
+    const z = pipe(y, _.compose(x))
     assert.deepStrictEqual(z('foo'), true)
     assert.deepStrictEqual(z('a'), false)
   })

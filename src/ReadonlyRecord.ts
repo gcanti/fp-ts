@@ -5,10 +5,12 @@ import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, A
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
+import { Filterable1 } from './Filterable'
 import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { identity, Predicate, Refinement } from './function'
+import { Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Magma } from './Magma'
@@ -16,9 +18,10 @@ import { Monoid } from './Monoid'
 import { isNone, isSome, none, Option, some as optionSome } from './Option'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
+import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
-import { Witherable1, PipeableWither1, PipeableWilt1 } from './Witherable'
+import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
 
 /**
  * @category model
@@ -156,6 +159,7 @@ export function insertAt<A>(k: string, a: A): (r: ReadonlyRecord<string, A>) => 
 
 const _hasOwnProperty = Object.prototype.hasOwnProperty
 
+// TODO: rename to avoid #1249?
 /**
  * @since 2.5.0
  */
@@ -748,52 +752,10 @@ export function elem<A>(
 }
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: <A, B>(fa: Readonly<Record<string, A>>, f: (a: A) => B) => Readonly<Record<string, B>> = (fa, f) =>
-  mapWithIndex_(fa, (_, a) => f(a))
-
-const reduce_: <A, B>(fa: Readonly<Record<string, A>>, b: B, f: (b: B, a: A) => B) => B = (fa, b, f) =>
-  reduceWithIndex_(fa, b, (_, b, a) => f(b, a))
-
-const foldMap_: <M>(M: Monoid<M>) => <A>(fa: Readonly<Record<string, A>>, f: (a: A) => M) => M = (M) => {
-  const foldMapWithIndexM = foldMapWithIndex_(M)
-  return (fa, f) => foldMapWithIndexM(fa, (_, a) => f(a))
-}
-
-const reduceRight_: <A, B>(fa: Readonly<Record<string, A>>, b: B, f: (a: A, b: B) => B) => B = (fa, b, f) =>
-  reduceRightWithIndex_(fa, b, (_, a, b) => f(a, b))
-
-const traverse_ = <F>(
-  F: Applicative<F>
-): (<A, B>(ta: ReadonlyRecord<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, ReadonlyRecord<string, B>>) => {
-  const traverseWithIndexF = traverseWithIndex_(F)
-  return (ta, f) => traverseWithIndexF(ta, (_, a) => f(a))
-}
-
-const filter_ = <A>(fa: ReadonlyRecord<string, A>, predicate: Predicate<A>): ReadonlyRecord<string, A> => {
-  return filterWithIndex_(fa, (_, a) => predicate(a))
-}
-
-const filterMap_: <A, B>(fa: Readonly<Record<string, A>>, f: (a: A) => Option<B>) => Readonly<Record<string, B>> = (
-  fa,
-  f
-) => filterMapWithIndex_(fa, (_, a) => f(a))
-
-const partition_ = <A>(
-  fa: ReadonlyRecord<string, A>,
-  predicate: Predicate<A>
-): Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>> => {
-  return partitionWithIndex_(fa, (_, a) => predicate(a))
-}
-
-const partitionMap_: <A, B, C>(
-  fa: Readonly<Record<string, A>>,
-  f: (a: A) => Either<B, C>
-) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>> = (fa, f) =>
-  partitionMapWithIndex_(fa, (_, a) => f(a))
-
+const map_: Functor1<URI>['map'] = (fa, f) => mapWithIndex_(fa, (_, a) => f(a))
 const mapWithIndex_ = <A, B>(fa: ReadonlyRecord<string, A>, f: (k: string, a: A) => B) => {
   const out: Record<string, B> = {}
   const keys = Object.keys(fa)
@@ -802,12 +764,30 @@ const mapWithIndex_ = <A, B>(fa: ReadonlyRecord<string, A>, f: (k: string, a: A)
   }
   return out
 }
-
-const reduceWithIndex_: <A, B>(fa: Readonly<Record<string, A>>, b: B, f: (i: string, b: B, a: A) => B) => B = (
-  fa,
-  b,
-  f
-) => {
+const reduce_: Foldable1<URI>['reduce'] = (fa, b, f) => reduceWithIndex_(fa, b, (_, b, a) => f(b, a))
+const foldMap_: Foldable1<URI>['foldMap'] = (M) => {
+  const foldMapWithIndexM = foldMapWithIndex_(M)
+  return (fa, f) => foldMapWithIndexM(fa, (_, a) => f(a))
+}
+const reduceRight_: Foldable1<URI>['reduceRight'] = (fa, b, f) => reduceRightWithIndex_(fa, b, (_, a, b) => f(a, b))
+const traverse_ = <F>(
+  F: Applicative<F>
+): (<A, B>(ta: ReadonlyRecord<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, ReadonlyRecord<string, B>>) => {
+  const traverseWithIndexF = traverseWithIndex_(F)
+  return (ta, f) => traverseWithIndexF(ta, (_, a) => f(a))
+}
+const filter_ = <A>(fa: ReadonlyRecord<string, A>, predicate: Predicate<A>): ReadonlyRecord<string, A> => {
+  return filterWithIndex_(fa, (_, a) => predicate(a))
+}
+const filterMap_: Filterable1<URI>['filterMap'] = (fa, f) => filterMapWithIndex_(fa, (_, a) => f(a))
+const partition_ = <A>(
+  fa: ReadonlyRecord<string, A>,
+  predicate: Predicate<A>
+): Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>> => {
+  return partitionWithIndex_(fa, (_, a) => predicate(a))
+}
+const partitionMap_: Filterable1<URI>['partitionMap'] = (fa, f) => partitionMapWithIndex_(fa, (_, a) => f(a))
+const reduceWithIndex_: FoldableWithIndex1<URI, string>['reduceWithIndex'] = (fa, b, f) => {
   let out = b
   const ks = keys(fa)
   const len = ks.length
@@ -817,10 +797,7 @@ const reduceWithIndex_: <A, B>(fa: Readonly<Record<string, A>>, b: B, f: (i: str
   }
   return out
 }
-
-const foldMapWithIndex_: <M>(M: Monoid<M>) => <A>(fa: Readonly<Record<string, A>>, f: (i: string, a: A) => M) => M = (
-  M
-) => (fa, f) => {
+const foldMapWithIndex_: FoldableWithIndex1<URI, string>['foldMapWithIndex'] = (M) => (fa, f) => {
   let out = M.empty
   const ks = keys(fa)
   const len = ks.length
@@ -830,12 +807,7 @@ const foldMapWithIndex_: <M>(M: Monoid<M>) => <A>(fa: Readonly<Record<string, A>
   }
   return out
 }
-
-const reduceRightWithIndex_: <A, B>(fa: Readonly<Record<string, A>>, b: B, f: (i: string, a: A, b: B) => B) => B = (
-  fa,
-  b,
-  f
-) => {
+const reduceRightWithIndex_: FoldableWithIndex1<URI, string>['reduceRightWithIndex'] = (fa, b, f) => {
   let out = b
   const ks = keys(fa)
   const len = ks.length
@@ -845,14 +817,10 @@ const reduceRightWithIndex_: <A, B>(fa: Readonly<Record<string, A>>, b: B, f: (i
   }
   return out
 }
-
-const partitionMapWithIndex_: <A, B, C>(
-  fa: Readonly<Record<string, A>>,
-  f: (i: string, a: A) => Either<B, C>
-) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>> = <A, B, C>(
+const partitionMapWithIndex_ = <A, B, C>(
   fa: ReadonlyRecord<string, A>,
   f: (key: string, a: A) => Either<B, C>
-) => {
+): Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>> => {
   const left: Record<string, B> = {}
   const right: Record<string, C> = {}
   const keys = Object.keys(fa)
@@ -872,7 +840,6 @@ const partitionMapWithIndex_: <A, B, C>(
     right
   }
 }
-
 const partitionWithIndex_ = <A>(fa: ReadonlyRecord<string, A>, predicateWithIndex: PredicateWithIndex<string, A>) => {
   const left: Record<string, A> = {}
   const right: Record<string, A> = {}
@@ -890,7 +857,6 @@ const partitionWithIndex_ = <A>(fa: ReadonlyRecord<string, A>, predicateWithInde
     right
   }
 }
-
 const filterMapWithIndex_ = <A, B>(fa: ReadonlyRecord<string, A>, f: (key: string, a: A) => Option<B>) => {
   const r: Record<string, B> = {}
   const keys = Object.keys(fa)
@@ -902,7 +868,6 @@ const filterMapWithIndex_ = <A, B>(fa: ReadonlyRecord<string, A>, f: (key: strin
   }
   return r
 }
-
 const filterWithIndex_ = <A>(fa: ReadonlyRecord<string, A>, predicateWithIndex: PredicateWithIndex<string, A>) => {
   const out: Record<string, A> = {}
   let changed = false
@@ -918,7 +883,6 @@ const filterWithIndex_ = <A>(fa: ReadonlyRecord<string, A>, predicateWithIndex: 
   }
   return changed ? out : fa
 }
-
 const traverseWithIndex_ = <F>(F: Applicative<F>) => <A, B>(
   ta: ReadonlyRecord<string, A>,
   f: (k: string, a: A) => HKT<F, B>
@@ -939,14 +903,12 @@ const traverseWithIndex_ = <F>(F: Applicative<F>) => <A, B>(
   }
   return fr
 }
-
 const wither_ = <F>(
   F: Applicative<F>
 ): (<A, B>(wa: ReadonlyRecord<string, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, ReadonlyRecord<string, B>>) => {
   const traverseF = traverse_(F)
   return (wa, f) => F.map(traverseF(wa, f), compact)
 }
-
 const wilt_ = <F>(
   F: Applicative<F>
 ): (<A, B, C>(
@@ -956,6 +918,10 @@ const wilt_ = <F>(
   const traverseF = traverse_(F)
   return (wa, f) => F.map(traverseF(wa, f), separate)
 }
+
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
 
 /**
  * @category Filterable
@@ -1088,15 +1054,158 @@ declare module './HKT' {
 
 /**
  * @category instances
+ * @since 2.7.0
+ */
+export const functorRecord: Functor1<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorWithIndexRecord: FunctorWithIndex1<URI, string> = {
+  URI,
+  map: map_,
+  mapWithIndex: mapWithIndex_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const foldableRecord: Foldable1<URI> = {
+  URI,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const foldableWithIndexRecord: FoldableWithIndex1<URI, string> = {
+  URI,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  reduceWithIndex: reduceWithIndex_,
+  foldMapWithIndex: foldMapWithIndex_,
+  reduceRightWithIndex: reduceRightWithIndex_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const compactableRecord: Compactable1<URI> = {
+  URI,
+  compact,
+  separate
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const filterableRecord: Filterable1<URI> = {
+  URI,
+  map: map_,
+  compact,
+  separate,
+  filter: filter_,
+  filterMap: filterMap_,
+  partition: partition_,
+  partitionMap: partitionMap_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const filterableWithIndexRecord: FilterableWithIndex1<URI, string> = {
+  URI,
+  map: map_,
+  mapWithIndex: mapWithIndex_,
+  compact,
+  separate,
+  filter: filter_,
+  filterMap: filterMap_,
+  partition: partition_,
+  partitionMap: partitionMap_,
+  filterMapWithIndex: filterMapWithIndex_,
+  filterWithIndex: filterWithIndex_,
+  partitionMapWithIndex: partitionMapWithIndex_,
+  partitionWithIndex: partitionWithIndex_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const traversableRecord: Traversable1<URI> = {
+  URI,
+  map: map_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  traverse: traverse_,
+  sequence
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const traversableWithIndexRecord: TraversableWithIndex1<URI, string> = {
+  URI,
+  map: map_,
+  mapWithIndex: mapWithIndex_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  reduceWithIndex: reduceWithIndex_,
+  foldMapWithIndex: foldMapWithIndex_,
+  reduceRightWithIndex: reduceRightWithIndex_,
+  traverse: traverse_,
+  sequence,
+  traverseWithIndex: traverseWithIndex_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const witherableRecord: Witherable1<URI> = {
+  URI,
+  map: map_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  traverse: traverse_,
+  sequence,
+  compact,
+  separate,
+  filter: filter_,
+  filterMap: filterMap_,
+  partition: partition_,
+  partitionMap: partitionMap_,
+  wither: wither_,
+  wilt: wilt_
+}
+
+// TODO: remove in v3
+/**
+ * @category instances
  * @since 2.5.0
  */
 export const readonlyRecord: FunctorWithIndex1<URI, string> &
-  Foldable1<URI> &
-  TraversableWithIndex1<URI, string> &
-  Compactable1<URI> &
+  FoldableWithIndex1<URI, string> &
   FilterableWithIndex1<URI, string> &
-  Witherable1<URI> &
-  FoldableWithIndex1<URI, string> = {
+  TraversableWithIndex1<URI, string> &
+  Witherable1<URI> = {
   URI,
   map: map_,
   reduce: reduce_,
@@ -1114,11 +1223,11 @@ export const readonlyRecord: FunctorWithIndex1<URI, string> &
   reduceWithIndex: reduceWithIndex_,
   foldMapWithIndex: foldMapWithIndex_,
   reduceRightWithIndex: reduceRightWithIndex_,
-  partitionMapWithIndex: partitionMapWithIndex_,
-  partitionWithIndex: partitionWithIndex_,
   filterMapWithIndex: filterMapWithIndex_,
   filterWithIndex: filterWithIndex_,
+  partitionMapWithIndex: partitionMapWithIndex_,
+  partitionWithIndex: partitionWithIndex_,
+  traverseWithIndex: traverseWithIndex_,
   wither: wither_,
-  wilt: wilt_,
-  traverseWithIndex: traverseWithIndex_
+  wilt: wilt_
 }

@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { array } from '../src/Array'
+import * as A from '../src/ReadonlyArray'
 import { left, right } from '../src/Either'
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
@@ -166,41 +166,41 @@ describe('Option', () => {
       assert.deepStrictEqual(
         pipe(
           _.some('hello'),
-          _.traverse(array)(() => [])
+          _.traverse(A.applicativeArray)(() => [])
         ),
         []
       )
       assert.deepStrictEqual(
         pipe(
           _.some('hello'),
-          _.traverse(array)((s) => [s.length])
+          _.traverse(A.applicativeArray)((s) => [s.length])
         ),
         [_.some(5)]
       )
       assert.deepStrictEqual(
         pipe(
           _.none,
-          _.traverse(array)((s) => [s])
+          _.traverse(A.applicativeArray)((s) => [s])
         ),
         [_.none]
       )
     })
 
     it('sequence', () => {
-      const sequence = _.sequence(array)
+      const sequence = _.sequence(A.applicativeArray)
       assert.deepStrictEqual(sequence(_.some([1, 2])), [_.some(1), _.some(2)])
       assert.deepStrictEqual(sequence(_.none), [_.none])
     })
 
     it('wither', async () => {
-      const wither = _.wither(T.task)((n: number) => T.of(p(n) ? _.some(n + 1) : _.none))
+      const wither = _.wither(T.applicativeTaskPar)((n: number) => T.of(p(n) ? _.some(n + 1) : _.none))
       assert.deepStrictEqual(await pipe(_.none, wither)(), _.none)
       assert.deepStrictEqual(await pipe(_.some(1), wither)(), _.none)
       assert.deepStrictEqual(await pipe(_.some(3), wither)(), _.some(4))
     })
 
     it('wilt', async () => {
-      const wilt = _.wilt(T.task)((n: number) => T.of(p(n) ? right(n + 1) : left(n - 1)))
+      const wilt = _.wilt(T.applicativeTaskPar)((n: number) => T.of(p(n) ? right(n + 1) : left(n - 1)))
       assert.deepStrictEqual(await pipe(_.none, wilt)(), { left: _.none, right: _.none })
       assert.deepStrictEqual(await pipe(_.some(1), wilt)(), { left: _.some(0), right: _.none })
       assert.deepStrictEqual(await pipe(_.some(3), wilt)(), { left: _.none, right: _.some(4) })
@@ -215,7 +215,7 @@ describe('Option', () => {
   })
 
   it('zero', () => {
-    assert.deepStrictEqual(_.option.zero(), _.none)
+    assert.deepStrictEqual(_.zero(), _.none)
   })
 
   it('fold', () => {
@@ -446,6 +446,6 @@ describe('Option', () => {
   })
 
   it('throwError', () => {
-    assert.deepStrictEqual(_.option.throwError(undefined), _.none)
+    assert.deepStrictEqual(_.throwError(undefined), _.none)
   })
 })

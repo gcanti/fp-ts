@@ -25,6 +25,10 @@ Added in v2.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
+- [Alternative](#alternative)
+  - [zero](#zero)
+- [Applicative](#applicative)
+  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apFirst](#apfirst)
@@ -50,6 +54,8 @@ Added in v2.0.0
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
+- [MonadThrow](#monadthrow)
+  - [throwError](#throwerror)
 - [Traversable](#traversable)
   - [sequence](#sequence)
   - [traverse](#traverse)
@@ -79,6 +85,14 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [altOption](#altoption)
+  - [alternativeOption](#alternativeoption)
+  - [applicativeOption](#applicativeoption)
+  - [compactableOption](#compactableoption)
+  - [extendOption](#extendoption)
+  - [filterableOption](#filterableoption)
+  - [foldableOption](#foldableoption)
+  - [functorOption](#functoroption)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getEq](#geteq)
@@ -87,7 +101,11 @@ Added in v2.0.0
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getShow](#getshow)
+  - [monadOption](#monadoption)
+  - [monadThrowOption](#monadthrowoption)
   - [option](#option)
+  - [traversableOption](#traversableoption)
+  - [witherableOption](#witherableoption)
 - [model](#model)
   - [None (interface)](#none-interface)
   - [Option (type alias)](#option-type-alias)
@@ -137,6 +155,30 @@ assert.deepStrictEqual(
 ```
 
 Added in v2.0.0
+
+# Alternative
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => Option<A>
+```
+
+Added in v2.7.0
+
+# Applicative
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => Option<A>
+```
+
+Added in v2.7.0
 
 # Apply
 
@@ -351,6 +393,18 @@ export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
 
 Added in v2.0.0
 
+# MonadThrow
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <E, A>(e: E) => Option<A>
+```
+
+Added in v2.7.0
+
 # Traversable
 
 ## sequence
@@ -548,7 +602,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function some<A>(a: A): Option<A>
+export declare const some: <A>(a: A) => Option<A>
 ```
 
 Added in v2.0.0
@@ -726,7 +780,7 @@ Returns `true` if the option is `None`, `false` otherwise
 **Signature**
 
 ```ts
-export declare function isNone<A>(fa: Option<A>): fa is None
+export declare const isNone: <A>(fa: Option<A>) => fa is None
 ```
 
 **Example**
@@ -747,7 +801,7 @@ Returns `true` if the option is an instance of `Some`, `false` otherwise
 **Signature**
 
 ```ts
-export declare function isSome<A>(fa: Option<A>): fa is Some<A>
+export declare const isSome: <A>(fa: Option<A>) => fa is Some<A>
 ```
 
 **Example**
@@ -782,6 +836,86 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
+
+## altOption
+
+**Signature**
+
+```ts
+export declare const altOption: Alt1<'Option'>
+```
+
+Added in v2.7.0
+
+## alternativeOption
+
+**Signature**
+
+```ts
+export declare const alternativeOption: Alternative1<'Option'>
+```
+
+Added in v2.7.0
+
+## applicativeOption
+
+**Signature**
+
+```ts
+export declare const applicativeOption: Applicative1<'Option'>
+```
+
+Added in v2.7.0
+
+## compactableOption
+
+**Signature**
+
+```ts
+export declare const compactableOption: Compactable1<'Option'>
+```
+
+Added in v2.7.0
+
+## extendOption
+
+**Signature**
+
+```ts
+export declare const extendOption: Extend1<'Option'>
+```
+
+Added in v2.7.0
+
+## filterableOption
+
+**Signature**
+
+```ts
+export declare const filterableOption: Filterable1<'Option'>
+```
+
+Added in v2.7.0
+
+## foldableOption
+
+**Signature**
+
+```ts
+export declare const foldableOption: Foldable1<'Option'>
+```
+
+Added in v2.7.0
+
+## functorOption
+
+**Signature**
+
+```ts
+export declare const functorOption: Functor1<'Option'>
+```
+
+Added in v2.7.0
 
 ## getApplyMonoid
 
@@ -984,6 +1118,26 @@ export declare function getShow<A>(S: Show<A>): Show<Option<A>>
 
 Added in v2.0.0
 
+## monadOption
+
+**Signature**
+
+```ts
+export declare const monadOption: Monad1<'Option'>
+```
+
+Added in v2.7.0
+
+## monadThrowOption
+
+**Signature**
+
+```ts
+export declare const monadThrowOption: MonadThrow1<'Option'>
+```
+
+Added in v2.7.0
+
 ## option
 
 **Signature**
@@ -991,16 +1145,33 @@ Added in v2.0.0
 ```ts
 export declare const option: Monad1<'Option'> &
   Foldable1<'Option'> &
-  Traversable1<'Option'> &
   Alternative1<'Option'> &
   Extend1<'Option'> &
-  Compactable1<'Option'> &
-  Filterable1<'Option'> &
   Witherable1<'Option'> &
   MonadThrow1<'Option'>
 ```
 
 Added in v2.0.0
+
+## traversableOption
+
+**Signature**
+
+```ts
+export declare const traversableOption: Traversable1<'Option'>
+```
+
+Added in v2.7.0
+
+## witherableOption
+
+**Signature**
+
+```ts
+export declare const witherableOption: Witherable1<'Option'>
+```
+
+Added in v2.7.0
 
 # model
 

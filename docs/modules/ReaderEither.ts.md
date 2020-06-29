@@ -28,6 +28,8 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainW](#chainw)
   - [flatten](#flatten)
+- [MonadThrow](#monadthrow)
+  - [throwError](#throwerror)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -53,10 +55,18 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [altReaderEither](#altreadereither)
+  - [applicativeReaderEither](#applicativereadereither)
+  - [bifunctorReaderEither](#bifunctorreadereither)
+  - [functorReaderEither](#functorreadereither)
+  - [getAltReaderValidation](#getaltreadervalidation)
+  - [getApplicativeReaderValidation](#getapplicativereadervalidation)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getReaderValidation](#getreadervalidation)
   - [getSemigroup](#getsemigroup)
+  - [monadReaderEither](#monadreadereither)
+  - [monadThrowReaderEither](#monadthrowreadereither)
   - [readerEither](#readereither)
 - [model](#model)
   - [ReaderEither (interface)](#readereither-interface)
@@ -219,6 +229,18 @@ export declare const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, 
 ```
 
 Added in v2.0.0
+
+# MonadThrow
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <R, E, A>(e: E) => ReaderEither<R, E, A>
+```
+
+Added in v2.7.0
 
 # combinators
 
@@ -465,6 +487,66 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
+## altReaderEither
+
+**Signature**
+
+```ts
+export declare const altReaderEither: Alt3<'ReaderEither'>
+```
+
+Added in v2.7.0
+
+## applicativeReaderEither
+
+**Signature**
+
+```ts
+export declare const applicativeReaderEither: Applicative3<'ReaderEither'>
+```
+
+Added in v2.7.0
+
+## bifunctorReaderEither
+
+**Signature**
+
+```ts
+export declare const bifunctorReaderEither: Bifunctor3<'ReaderEither'>
+```
+
+Added in v2.7.0
+
+## functorReaderEither
+
+**Signature**
+
+```ts
+export declare const functorReaderEither: Functor3<'ReaderEither'>
+```
+
+Added in v2.7.0
+
+## getAltReaderValidation
+
+**Signature**
+
+```ts
+export declare function getAltReaderValidation<E>(SE: Semigroup<E>): Alt3C<URI, E>
+```
+
+Added in v2.7.0
+
+## getApplicativeReaderValidation
+
+**Signature**
+
+```ts
+export declare function getApplicativeReaderValidation<E>(SE: Semigroup<E>): Applicative3C<URI, E>
+```
+
+Added in v2.7.0
+
 ## getApplyMonoid
 
 **Signature**
@@ -494,7 +576,7 @@ Added in v2.0.0
 
 ```ts
 export declare function getReaderValidation<E>(
-  S: Semigroup<E>
+  SE: Semigroup<E>
 ): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadThrow3C<URI, E>
 ```
 
@@ -512,6 +594,26 @@ export declare function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<Reader
 ```
 
 Added in v2.0.0
+
+## monadReaderEither
+
+**Signature**
+
+```ts
+export declare const monadReaderEither: Monad3<'ReaderEither'>
+```
+
+Added in v2.7.0
+
+## monadThrowReaderEither
+
+**Signature**
+
+```ts
+export declare const monadThrowReaderEither: MonadThrow3<'ReaderEither'>
+```
+
+Added in v2.7.0
 
 ## readerEither
 

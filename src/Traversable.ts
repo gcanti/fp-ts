@@ -26,7 +26,15 @@
  *
  * @since 2.0.0
  */
-import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
+import {
+  Applicative,
+  Applicative1,
+  Applicative2,
+  Applicative2C,
+  Applicative3,
+  Applicative3C,
+  Applicative4
+} from './Applicative'
 import {
   Foldable,
   Foldable1,
@@ -47,7 +55,7 @@ import {
   FunctorComposition11,
   getFunctorComposition
 } from './Functor'
-import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
+import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
 /**
  * @category type classes
@@ -224,6 +232,9 @@ export interface Sequence<T> {
  * @since 2.0.0
  */
 export interface Sequence1<T extends URIS> {
+  <F extends URIS4>(F: Applicative4<F>): <S, R, E, A>(
+    ta: Kind<T, Kind4<F, S, R, E, A>>
+  ) => Kind4<F, S, R, E, Kind<T, A>>
   <F extends URIS3>(F: Applicative3<F>): <R, E, A>(ta: Kind<T, Kind3<F, R, E, A>>) => Kind3<F, R, E, Kind<T, A>>
   <F extends URIS3, E>(F: Applicative3C<F, E>): <R, A>(ta: Kind<T, Kind3<F, R, E, A>>) => Kind3<F, R, E, Kind<T, A>>
   <F extends URIS2>(F: Applicative2<F>): <E, A>(ta: Kind<T, Kind2<F, E, A>>) => Kind2<F, E, Kind<T, A>>

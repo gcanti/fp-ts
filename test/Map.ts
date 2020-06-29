@@ -1,12 +1,12 @@
 import * as assert from 'assert'
-import { array } from '../src/Array'
+import * as A from '../src/ReadonlyArray'
 import { Either, left, right } from '../src/Either'
 import { Eq, eqNumber, fromEquals } from '../src/Eq'
 import { identity, Refinement, pipe } from '../src/function'
 import * as _ from '../src/Map'
 import { monoidString } from '../src/Monoid'
-import { none, option, Option, some } from '../src/Option'
-import { fromCompare, ord, ordNumber, ordString } from '../src/Ord'
+import * as O from '../src/Option'
+import * as Ord from '../src/Ord'
 import { getFirstSemigroup, getLastSemigroup, getStructSemigroup, semigroupSum } from '../src/Semigroup'
 import { getStructShow, Show, showString } from '../src/Show'
 import * as T from '../src/Task'
@@ -15,7 +15,10 @@ interface User {
   readonly id: string
 }
 
-const ordUser = ord.contramap(ordString, (u: User) => u.id)
+const ordUser = pipe(
+  Ord.ordString,
+  Ord.contramap((u: User) => u.id)
+)
 
 const eqUser: Eq<User> = { equals: ordUser.equals }
 
@@ -31,7 +34,7 @@ interface Value {
 
 const eqKey: Eq<Key> = fromEquals((x, y) => x.id % 3 === y.id % 3)
 
-const ordKey = fromCompare<Key>((x, y) => ordNumber.compare(x.id % 3, y.id % 3))
+const ordKey = Ord.fromCompare<Key>((x, y) => Ord.ordNumber.compare(x.id % 3, y.id % 3))
 
 const eqValue: Eq<Value> = fromEquals((x, y) => x.value % 3 === y.value % 3)
 
@@ -125,7 +128,7 @@ describe('Map', () => {
     assert.deepStrictEqual(ks, [{ id: 'a' }, { id: 'b' }])
 
     assert.deepStrictEqual(
-      _.keys(ordString)(
+      _.keys(Ord.ordString)(
         new Map([
           ['a', 1],
           ['b', 2]
@@ -134,7 +137,7 @@ describe('Map', () => {
       ['a', 'b']
     )
     assert.deepStrictEqual(
-      _.keys(ordString)(
+      _.keys(Ord.ordString)(
         new Map([
           ['b', 2],
           ['a', 1]
@@ -292,10 +295,10 @@ describe('Map', () => {
 
   it('toUnfoldable', () => {
     const a1 = new Map<User, number>([[{ id: 'a' }, 1]])
-    const toUnfoldableO = _.toUnfoldable(ordUser, array)
+    const toUnfoldableO = _.toUnfoldable(ordUser, A.unfoldableArray)
     assert.deepStrictEqual(toUnfoldableO(a1), [[{ id: 'a' }, 1]])
 
-    const toUnfoldable = _.toUnfoldable(ordKey, array)
+    const toUnfoldable = _.toUnfoldable(ordKey, A.unfoldableArray)
     assert.deepStrictEqual(
       toUnfoldable(
         new Map([
@@ -447,13 +450,13 @@ describe('Map', () => {
     ])
     const b2 = new Map<User, number>([[{ id: 'b' }, 2]])
     const popS = _.pop(eqUser)
-    assert.deepStrictEqual(popS({ id: 'a' })(a1b2), some([1, b2]))
-    assert.deepStrictEqual(popS({ id: 'c' })(a1b2), none)
+    assert.deepStrictEqual(popS({ id: 'a' })(a1b2), O.some([1, b2]))
+    assert.deepStrictEqual(popS({ id: 'c' })(a1b2), O.none)
 
     const pop = _.pop(eqKey)
-    assert.deepStrictEqual(pop({ id: 1 })(repo), some([{ value: 1 }, new Map([[{ id: 2 }, { value: 2 }]])]))
-    assert.deepStrictEqual(pop({ id: 4 })(repo), some([{ value: 1 }, new Map([[{ id: 2 }, { value: 2 }]])]))
-    assert.deepStrictEqual(pop({ id: 3 })(repo), none)
+    assert.deepStrictEqual(pop({ id: 1 })(repo), O.some([{ value: 1 }, new Map([[{ id: 2 }, { value: 2 }]])]))
+    assert.deepStrictEqual(pop({ id: 4 })(repo), O.some([{ value: 1 }, new Map([[{ id: 2 }, { value: 2 }]])]))
+    assert.deepStrictEqual(pop({ id: 3 })(repo), O.none)
     // should not modify the source
     assert.deepStrictEqual(
       repo,
@@ -467,35 +470,35 @@ describe('Map', () => {
   it('lookupWithKey', () => {
     const x = new Map<User, number>([[{ id: 'a' }, 1]])
     const lookupWithKeyS = _.lookupWithKey(eqUser)
-    assert.deepStrictEqual(lookupWithKeyS({ id: 'a' }, x), some([{ id: 'a' }, 1]))
-    assert.deepStrictEqual(lookupWithKeyS({ id: 'b' }, x), none)
-    assert.deepStrictEqual(lookupWithKeyS({ id: 'a' })(x), some([{ id: 'a' }, 1]))
-    assert.deepStrictEqual(lookupWithKeyS({ id: 'b' })(x), none)
+    assert.deepStrictEqual(lookupWithKeyS({ id: 'a' }, x), O.some([{ id: 'a' }, 1]))
+    assert.deepStrictEqual(lookupWithKeyS({ id: 'b' }, x), O.none)
+    assert.deepStrictEqual(lookupWithKeyS({ id: 'a' })(x), O.some([{ id: 'a' }, 1]))
+    assert.deepStrictEqual(lookupWithKeyS({ id: 'b' })(x), O.none)
 
     const lookupWithKey = _.lookupWithKey(eqKey)
-    assert.deepStrictEqual(lookupWithKey({ id: 1 }, repo), some([{ id: 1 }, { value: 1 }]))
-    assert.deepStrictEqual(lookupWithKey({ id: 4 }, repo), some([{ id: 1 }, { value: 1 }]))
-    assert.deepStrictEqual(lookupWithKey({ id: 3 }, repo), none)
-    assert.deepStrictEqual(lookupWithKey({ id: 1 })(repo), some([{ id: 1 }, { value: 1 }]))
-    assert.deepStrictEqual(lookupWithKey({ id: 4 })(repo), some([{ id: 1 }, { value: 1 }]))
-    assert.deepStrictEqual(lookupWithKey({ id: 3 })(repo), none)
+    assert.deepStrictEqual(lookupWithKey({ id: 1 }, repo), O.some([{ id: 1 }, { value: 1 }]))
+    assert.deepStrictEqual(lookupWithKey({ id: 4 }, repo), O.some([{ id: 1 }, { value: 1 }]))
+    assert.deepStrictEqual(lookupWithKey({ id: 3 }, repo), O.none)
+    assert.deepStrictEqual(lookupWithKey({ id: 1 })(repo), O.some([{ id: 1 }, { value: 1 }]))
+    assert.deepStrictEqual(lookupWithKey({ id: 4 })(repo), O.some([{ id: 1 }, { value: 1 }]))
+    assert.deepStrictEqual(lookupWithKey({ id: 3 })(repo), O.none)
   })
 
   it('lookup', () => {
     const x = new Map<User, number>([[{ id: 'a' }, 1]])
     const lookupS = _.lookup(eqUser)
-    assert.deepStrictEqual(lookupS({ id: 'a' }, x), some(1))
-    assert.deepStrictEqual(lookupS({ id: 'b' }, x), none)
-    assert.deepStrictEqual(lookupS({ id: 'a' })(x), some(1))
-    assert.deepStrictEqual(lookupS({ id: 'b' })(x), none)
+    assert.deepStrictEqual(lookupS({ id: 'a' }, x), O.some(1))
+    assert.deepStrictEqual(lookupS({ id: 'b' }, x), O.none)
+    assert.deepStrictEqual(lookupS({ id: 'a' })(x), O.some(1))
+    assert.deepStrictEqual(lookupS({ id: 'b' })(x), O.none)
 
     const lookup = _.lookup(eqKey)
-    assert.deepStrictEqual(lookup({ id: 1 }, repo), some({ value: 1 }))
-    assert.deepStrictEqual(lookup({ id: 4 }, repo), some({ value: 1 }))
-    assert.deepStrictEqual(lookup({ id: 3 }, repo), none)
-    assert.deepStrictEqual(lookup({ id: 1 })(repo), some({ value: 1 }))
-    assert.deepStrictEqual(lookup({ id: 4 })(repo), some({ value: 1 }))
-    assert.deepStrictEqual(lookup({ id: 3 })(repo), none)
+    assert.deepStrictEqual(lookup({ id: 1 }, repo), O.some({ value: 1 }))
+    assert.deepStrictEqual(lookup({ id: 4 }, repo), O.some({ value: 1 }))
+    assert.deepStrictEqual(lookup({ id: 3 }, repo), O.none)
+    assert.deepStrictEqual(lookup({ id: 1 })(repo), O.some({ value: 1 }))
+    assert.deepStrictEqual(lookup({ id: 4 })(repo), O.some({ value: 1 }))
+    assert.deepStrictEqual(lookup({ id: 3 })(repo), O.none)
   })
 
   it('isSubmap', () => {
@@ -649,7 +652,6 @@ describe('Map', () => {
   describe('map_', () => {
     describe('functor', () => {
       it('map', () => {
-        const map = _.map_.map
         const d1 = new Map<string, number>([
           ['k1', 1],
           ['k2', 2]
@@ -659,23 +661,21 @@ describe('Map', () => {
           ['k2', 4]
         ])
         const double = (n: number): number => n * 2
-        assert.deepStrictEqual(map(d1, double), expected)
+        assert.deepStrictEqual(pipe(d1, _.map(double)), expected)
       })
     })
 
     describe('filterable', () => {
       it('compact', () => {
-        const compact = _.map_.compact
-        const fooBar = new Map<string, Option<number>>([
-          ['foo', none],
-          ['bar', some(123)]
+        const fooBar = new Map<string, O.Option<number>>([
+          ['foo', O.none],
+          ['bar', O.some(123)]
         ])
         const bar = new Map<string, number>([['bar', 123]])
-        assert.deepStrictEqual(compact(fooBar), bar)
+        assert.deepStrictEqual(_.compact(fooBar), bar)
       })
 
       it('partitionMap', () => {
-        const partitionMap = _.map_.partitionMap
         const emptyMap = new Map<string, number>()
         const a1b3 = new Map<string, number>([
           ['a', 1],
@@ -684,15 +684,14 @@ describe('Map', () => {
         const a0 = new Map<string, number>([['a', 0]])
         const b4 = new Map<string, number>([['b', 4]])
         const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
-        assert.deepStrictEqual(partitionMap(emptyMap, f), { left: emptyMap, right: emptyMap })
-        assert.deepStrictEqual(partitionMap(a1b3, f), {
+        assert.deepStrictEqual(pipe(emptyMap, _.partitionMap(f)), { left: emptyMap, right: emptyMap })
+        assert.deepStrictEqual(pipe(a1b3, _.partitionMap(f)), {
           left: a0,
           right: b4
         })
       })
 
       it('partition', () => {
-        const partition = _.map_.partition
         const emptyMap = new Map<string, number>()
         const a1b3 = new Map<string, number>([
           ['a', 1],
@@ -700,35 +699,33 @@ describe('Map', () => {
         ])
         const a1 = new Map<string, number>([['a', 1]])
         const b3 = new Map<string, number>([['b', 3]])
-        assert.deepStrictEqual(partition(emptyMap, p), { left: emptyMap, right: emptyMap })
-        assert.deepStrictEqual(partition(a1b3, p), {
+        assert.deepStrictEqual(pipe(emptyMap, _.partition(p)), { left: emptyMap, right: emptyMap })
+        assert.deepStrictEqual(pipe(a1b3, _.partition(p)), {
           left: a1,
           right: b3
         })
       })
 
       it('separate', () => {
-        const separate = _.map_.separate
         const fooBar = new Map<string, Either<number, number>>([
           ['foo', left(123)],
           ['bar', right(123)]
         ])
         const foo = new Map<string, number>([['foo', 123]])
         const bar = new Map<string, number>([['bar', 123]])
-        assert.deepStrictEqual(separate(fooBar), {
+        assert.deepStrictEqual(_.separate(fooBar), {
           left: foo,
           right: bar
         })
       })
 
       it('filter', () => {
-        const filter = _.map_.filter
         const a1b3 = new Map<string, number>([
           ['a', 1],
           ['b', 3]
         ])
         const b3 = new Map<string, number>([['b', 3]])
-        assert.deepStrictEqual(filter(a1b3, p), b3)
+        assert.deepStrictEqual(pipe(a1b3, _.filter(p)), b3)
 
         // refinements
         const isNumber = (u: string | number): u is number => typeof u === 'number'
@@ -737,21 +734,20 @@ describe('Map', () => {
           ['b', 'foo']
         ])
         const a1 = new Map<string, number>([['a', 1]])
-        const actual = filter(y, isNumber)
+        const actual = pipe(y, _.filter(isNumber))
         assert.deepStrictEqual(actual, a1)
       })
 
       it('filterMap', () => {
-        const filterMap = _.map_.filterMap
         const emptyMap = new Map<string, number>()
         const a1b3 = new Map<string, number>([
           ['a', 1],
           ['b', 3]
         ])
         const b4 = new Map<string, number>([['b', 4]])
-        const f = (n: number) => (p(n) ? some(n + 1) : none)
-        assert.deepStrictEqual(filterMap(emptyMap, f), emptyMap)
-        assert.deepStrictEqual(filterMap(a1b3, f), b4)
+        const f = (n: number) => (p(n) ? O.some(n + 1) : O.none)
+        assert.deepStrictEqual(pipe(emptyMap, _.filterMap(f)), emptyMap)
+        assert.deepStrictEqual(pipe(a1b3, _.filterMap(f)), b4)
       })
     })
   })
@@ -854,31 +850,31 @@ describe('Map', () => {
     })
 
     it('traverse', () => {
-      const traverse = W.traverse(option)
+      const traverse = W.traverse(O.applicativeOption)
       const x = new Map([
         [{ id: 'k1' }, 1],
         [{ id: 'k2' }, 2]
       ])
       assert.deepStrictEqual(
-        traverse(x, (n) => (n <= 2 ? some(n) : none)),
-        some(x)
+        traverse(x, (n) => (n <= 2 ? O.some(n) : O.none)),
+        O.some(x)
       )
       assert.deepStrictEqual(
-        traverse(x, (n) => (n >= 2 ? some(n) : none)),
-        none
+        traverse(x, (n) => (n >= 2 ? O.some(n) : O.none)),
+        O.none
       )
     })
 
     it('sequence', () => {
-      const sequence = W.sequence(option)
+      const sequence = W.sequence(O.applicativeOption)
       assert.deepStrictEqual(
         sequence(
           new Map([
-            [{ id: 'k1' }, some(1)],
-            [{ id: 'k2' }, some(2)]
+            [{ id: 'k1' }, O.some(1)],
+            [{ id: 'k2' }, O.some(2)]
           ])
         ),
-        some(
+        O.some(
           new Map([
             [{ id: 'k1' }, 1],
             [{ id: 'k2' }, 2]
@@ -888,25 +884,25 @@ describe('Map', () => {
       assert.deepStrictEqual(
         sequence(
           new Map([
-            [{ id: 'k1' }, none],
-            [{ id: 'k2' }, some(2)]
+            [{ id: 'k1' }, O.none],
+            [{ id: 'k2' }, O.some(2)]
           ])
         ),
-        none
+        O.none
       )
     })
 
     it('traverseWithIndex', () => {
-      const traverseWithIndex = W.traverseWithIndex(option)
+      const traverseWithIndex = W.traverseWithIndex(O.applicativeOption)
       assert.deepStrictEqual(
         traverseWithIndex(
           new Map([
             [{ id: 'k1' }, 1],
             [{ id: 'k2' }, 2]
           ]),
-          (k, n): Option<number> => (!ordUser.equals(k, { id: 'k1' }) ? some(n) : none)
+          (k, n): O.Option<number> => (!ordUser.equals(k, { id: 'k1' }) ? O.some(n) : O.none)
         ),
-        none
+        O.none
       )
       assert.deepStrictEqual(
         traverseWithIndex(
@@ -914,9 +910,9 @@ describe('Map', () => {
             [{ id: 'k1' }, 2],
             [{ id: 'k2' }, 3]
           ]),
-          (k, n): Option<number> => (!ordUser.equals(k, { id: 'k3' }) ? some(n) : none)
+          (k, n): O.Option<number> => (!ordUser.equals(k, { id: 'k3' }) ? O.some(n) : O.none)
         ),
-        some(
+        O.some(
           new Map([
             [{ id: 'k1' }, 2],
             [{ id: 'k2' }, 3]
@@ -926,8 +922,8 @@ describe('Map', () => {
     })
 
     it('wither', async () => {
-      const wither = W.wither(T.task)
-      const f = (n: number) => T.of(p(n) ? some(n + 1) : none)
+      const wither = W.wither(T.applicativeTaskPar)
+      const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
       assert.deepStrictEqual(await wither(_.empty, f)(), _.empty)
       assert.deepStrictEqual(
         await wither(
@@ -942,7 +938,7 @@ describe('Map', () => {
     })
 
     it('wilt', async () => {
-      const wilt = W.wilt(T.task)
+      const wilt = W.wilt(T.applicativeTaskPar)
       const f = (n: number) => T.of(p(n) ? right(n + 1) : left(n - 1))
       assert.deepStrictEqual(await wilt(_.empty, f)(), { left: _.empty, right: _.empty })
       assert.deepStrictEqual(
@@ -1001,7 +997,7 @@ describe('Map', () => {
         ['b', 3]
       ])
       const b4 = new Map<string, number>([['b', 4]])
-      const f = (_: string, n: number) => (p(n) ? some(n + 1) : none)
+      const f = (_: string, n: number) => (p(n) ? O.some(n + 1) : O.none)
       assert.deepStrictEqual(filterMapWithIndex(emptyMap, f), emptyMap)
       assert.deepStrictEqual(filterMapWithIndex(a1b3, f), b4)
     })
@@ -1032,7 +1028,7 @@ describe('Map', () => {
   it('fromFoldable', () => {
     const a1 = new Map<User, number>([[{ id: 'a' }, 1]])
     const a2 = new Map<User, number>([[{ id: 'a' }, 2]])
-    const fromFoldableS1 = _.fromFoldable(eqUser, getFirstSemigroup<number>(), array)
+    const fromFoldableS1 = _.fromFoldable(eqUser, getFirstSemigroup<number>(), A.foldableArray)
     assert.deepStrictEqual(fromFoldableS1([[{ id: 'a' }, 1]]), a1)
     assert.deepStrictEqual(
       fromFoldableS1([
@@ -1041,7 +1037,7 @@ describe('Map', () => {
       ]),
       a1
     )
-    const fromFoldableS2 = _.fromFoldable(eqUser, getLastSemigroup<number>(), array)
+    const fromFoldableS2 = _.fromFoldable(eqUser, getLastSemigroup<number>(), A.foldableArray)
     assert.deepStrictEqual(
       fromFoldableS2([
         [{ id: 'a' }, 1],
@@ -1067,11 +1063,11 @@ describe('Map', () => {
 
   it('updateAt', () => {
     const m1 = new Map<User, string>([])
-    assert.deepStrictEqual(_.updateAt(eqUser)({ id: 'a' }, 'a')(m1), none)
+    assert.deepStrictEqual(_.updateAt(eqUser)({ id: 'a' }, 'a')(m1), O.none)
     const m2 = new Map<User, string>([[{ id: 'a' }, 'b']])
     assert.deepStrictEqual(
       _.updateAt(eqUser)({ id: 'a' }, 'a')(m2),
-      some(
+      O.some(
         new Map<User, string>([[{ id: 'a' }, 'a']])
       )
     )
@@ -1079,11 +1075,11 @@ describe('Map', () => {
 
   it('modifyAt', () => {
     const m1 = new Map<User, number>([])
-    assert.deepStrictEqual(_.modifyAt(eqUser)({ id: 'a' }, (n: number) => n * 2)(m1), none)
+    assert.deepStrictEqual(_.modifyAt(eqUser)({ id: 'a' }, (n: number) => n * 2)(m1), O.none)
     const m2 = new Map<User, number>([[{ id: 'a' }, 1]])
     assert.deepStrictEqual(
       _.modifyAt(eqUser)({ id: 'a' }, (n: number) => n * 2)(m2),
-      some(
+      O.some(
         new Map<User, number>([[{ id: 'a' }, 2]])
       )
     )

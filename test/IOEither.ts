@@ -1,13 +1,14 @@
 import * as assert from 'assert'
+import { sequenceT } from '../src/Apply'
 import { getMonoid } from '../src/Array'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
-import { io } from '../src/IO'
+import * as I from '../src/IO'
 import * as _ from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
 import { pipeable } from '../src/pipeable'
-import { semigroupString, semigroupSum } from '../src/Semigroup'
+import { semigroupSum } from '../src/Semigroup'
 
 describe('IOEither', () => {
   describe('pipeables', () => {
@@ -173,27 +174,27 @@ describe('IOEither', () => {
   it('fold', () => {
     assert.deepStrictEqual(
       _.fold(
-        () => io.of('left'),
-        () => io.of('right')
+        () => I.of('left'),
+        () => I.of('right')
       )(_.right(1))(),
       'right'
     )
     assert.deepStrictEqual(
       _.fold(
-        () => io.of('left'),
-        () => io.of('right')
+        () => I.of('left'),
+        () => I.of('right')
       )(_.left(1))(),
       'left'
     )
   })
 
   it('getOrElse', () => {
-    assert.deepStrictEqual(_.getOrElse(() => io.of(2))(_.ioEither.of(1))(), 1)
-    assert.deepStrictEqual(_.getOrElse(() => io.of(2))(_.left(1))(), 2)
+    assert.deepStrictEqual(_.getOrElse(() => I.of(2))(_.right(1))(), 1)
+    assert.deepStrictEqual(_.getOrElse(() => I.of(2))(_.left(1))(), 2)
   })
 
   it('orElse', () => {
-    assert.deepStrictEqual(_.orElse(() => _.ioEither.of(2))(_.ioEither.of(1))(), E.right(1))
+    assert.deepStrictEqual(_.orElse(() => _.right(2))(_.right(1))(), E.right(1))
   })
 
   it('tryCatch', () => {
@@ -209,20 +210,20 @@ describe('IOEither', () => {
   describe('getSemigroup', () => {
     it('concat', () => {
       const S = _.getSemigroup<string, number>(semigroupSum)
-      assert.deepStrictEqual(S.concat(_.leftIO(io.of('a')), _.leftIO(io.of('b')))(), E.left('a'))
-      assert.deepStrictEqual(S.concat(_.leftIO(io.of('a')), _.rightIO(io.of(2)))(), E.right(2))
-      assert.deepStrictEqual(S.concat(_.rightIO(io.of(1)), _.leftIO(io.of('b')))(), E.right(1))
-      assert.deepStrictEqual(S.concat(_.rightIO(io.of(1)), _.rightIO(io.of(2)))(), E.right(3))
+      assert.deepStrictEqual(S.concat(_.leftIO(I.of('a')), _.leftIO(I.of('b')))(), E.left('a'))
+      assert.deepStrictEqual(S.concat(_.leftIO(I.of('a')), _.rightIO(I.of(2)))(), E.right(2))
+      assert.deepStrictEqual(S.concat(_.rightIO(I.of(1)), _.leftIO(I.of('b')))(), E.right(1))
+      assert.deepStrictEqual(S.concat(_.rightIO(I.of(1)), _.rightIO(I.of(2)))(), E.right(3))
     })
   })
 
   describe('getApplyMonoid', () => {
     it('concat', () => {
       const M = _.getApplyMonoid(monoidString)
-      assert.deepStrictEqual(M.concat(_.rightIO(io.of('a')), _.rightIO(io.of('b')))(), E.right('ab'))
-      assert.deepStrictEqual(M.concat(_.rightIO(io.of('a')), _.leftIO(io.of('b')))(), E.left('b'))
-      assert.deepStrictEqual(M.concat(_.rightIO(io.of('a')), M.empty)(), E.right('a'))
-      assert.deepStrictEqual(M.concat(M.empty, _.rightIO(io.of('a')))(), E.right('a'))
+      assert.deepStrictEqual(M.concat(_.rightIO(I.of('a')), _.rightIO(I.of('b')))(), E.right('ab'))
+      assert.deepStrictEqual(M.concat(_.rightIO(I.of('a')), _.leftIO(I.of('b')))(), E.left('b'))
+      assert.deepStrictEqual(M.concat(_.rightIO(I.of('a')), M.empty)(), E.right('a'))
+      assert.deepStrictEqual(M.concat(M.empty, _.rightIO(I.of('a')))(), E.right('a'))
     })
   })
 
@@ -280,33 +281,23 @@ describe('IOEither', () => {
     })
   })
 
-  describe('getIOValidation', () => {
-    const IV = _.getIOValidation(semigroupString)
+  it('getApplicativeIOValidation', () => {
+    const A = _.getApplicativeIOValidation(monoidString)
+    assert.deepStrictEqual(sequenceT(A)(_.left('a'), _.left('b'))(), E.left('ab'))
+    assert.deepStrictEqual(sequenceT(A)(_.left('a'), _.right(1))(), E.left('a'))
+    const AV = _.getIOValidation(monoidString)
+    assert.deepStrictEqual(sequenceT(AV)(_.left('a'), _.left('b'))(), E.left('ab'))
+  })
 
-    it('ap', () => {
-      const fab = _.left('a')
-      const fa = _.left('b')
-      const e1 = IV.ap(fab, fa)()
-      assert.deepStrictEqual(e1, E.left('ab'))
-    })
-
-    it('alt', () => {
-      const e1 = IV.alt(_.right(1), () => _.right(2))()
-      assert.deepStrictEqual(e1, E.right(1))
-      const e2 = IV.alt(_.left('a'), () => _.right(2))()
-      assert.deepStrictEqual(e2, E.right(2))
-      const e3 = IV.alt(_.right(1), () => _.left('b'))()
-      assert.deepStrictEqual(e3, E.right(1))
-      const e4 = IV.alt(_.left('a'), () => _.left('b'))()
-      assert.deepStrictEqual(e4, E.left('ab'))
-    })
+  it('getAltIOValidation', () => {
+    const A = _.getAltIOValidation(monoidString)
+    assert.deepStrictEqual(A.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
+    const AV = _.getIOValidation(monoidString)
+    assert.deepStrictEqual(AV.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
   })
 
   describe('getFilterable', () => {
-    const F_ = {
-      ..._.ioEither,
-      ..._.getFilterable(getMonoid<string>())
-    }
+    const F_ = _.getFilterable(getMonoid<string>())
     const { filter } = pipeable(F_)
 
     it('filter', async () => {

@@ -33,6 +33,8 @@ Added in v2.0.0
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
+- [MonadTask](#monadtask)
+  - [fromTask](#fromtask)
 - [combinators](#combinators)
   - [chainIOK](#chainiok)
   - [delay](#delay)
@@ -42,6 +44,9 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [applicativeTaskPar](#applicativetaskpar)
+  - [applicativeTaskSeq](#applicativetaskseq)
+  - [functorTask](#functortask)
   - [getMonoid](#getmonoid)
   - [getRaceMonoid](#getracemonoid)
   - [getSemigroup](#getsemigroup)
@@ -156,6 +161,18 @@ export declare const flatten: <A>(mma: Task<Task<A>>) => Task<A>
 
 Added in v2.0.0
 
+# MonadTask
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <A>(fa: Task<A>) => Task<A>
+```
+
+Added in v2.7.0
+
 # combinators
 
 ## chainIOK
@@ -246,6 +263,36 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
+
+## applicativeTaskPar
+
+**Signature**
+
+```ts
+export declare const applicativeTaskPar: Applicative1<'Task'>
+```
+
+Added in v2.7.0
+
+## applicativeTaskSeq
+
+**Signature**
+
+```ts
+export declare const applicativeTaskSeq: Applicative1<'Task'>
+```
+
+Added in v2.7.0
+
+## functorTask
+
+**Signature**
+
+```ts
+export declare const functorTask: Functor1<'Task'>
+```
+
+Added in v2.7.0
 
 ## getMonoid
 

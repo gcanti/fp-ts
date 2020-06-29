@@ -30,6 +30,17 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [compactableRecord](#compactablerecord)
+  - [filterableRecord](#filterablerecord)
+  - [filterableWithIndexRecord](#filterablewithindexrecord)
+  - [foldableRecord](#foldablerecord)
+  - [foldableWithIndexRecord](#foldablewithindexrecord)
+  - [functorRecord](#functorrecord)
+  - [functorWithIndexRecord](#functorwithindexrecord)
+  - [record](#record)
+  - [traversableRecord](#traversablerecord)
+  - [traversableWithIndexRecord](#traversablewithindexrecord)
+  - [witherableRecord](#witherablerecord)
 - [utils](#utils)
   - [collect](#collect)
   - [deleteAt](#deleteat)
@@ -56,7 +67,6 @@ Added in v2.0.0
   - [partitionMapWithIndex](#partitionmapwithindex)
   - [partitionWithIndex](#partitionwithindex)
   - [pop](#pop)
-  - [record](#record)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
   - [sequence](#sequence)
@@ -222,6 +232,120 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
+
+## compactableRecord
+
+**Signature**
+
+```ts
+export declare const compactableRecord: Compactable1<'Record'>
+```
+
+Added in v2.7.0
+
+## filterableRecord
+
+**Signature**
+
+```ts
+export declare const filterableRecord: Filterable1<'Record'>
+```
+
+Added in v2.7.0
+
+## filterableWithIndexRecord
+
+**Signature**
+
+```ts
+export declare const filterableWithIndexRecord: FilterableWithIndex1<'Record', string>
+```
+
+Added in v2.7.0
+
+## foldableRecord
+
+**Signature**
+
+```ts
+export declare const foldableRecord: Foldable1<'Record'>
+```
+
+Added in v2.7.0
+
+## foldableWithIndexRecord
+
+**Signature**
+
+```ts
+export declare const foldableWithIndexRecord: FoldableWithIndex1<'Record', string>
+```
+
+Added in v2.7.0
+
+## functorRecord
+
+**Signature**
+
+```ts
+export declare const functorRecord: Functor1<'Record'>
+```
+
+Added in v2.7.0
+
+## functorWithIndexRecord
+
+**Signature**
+
+```ts
+export declare const functorWithIndexRecord: FunctorWithIndex1<'Record', string>
+```
+
+Added in v2.7.0
+
+## record
+
+**Signature**
+
+```ts
+export declare const record: FunctorWithIndex1<'Record', string> &
+  FoldableWithIndex1<'Record', string> &
+  FilterableWithIndex1<'Record', string> &
+  TraversableWithIndex1<'Record', string> &
+  Witherable1<'Record'>
+```
+
+Added in v2.0.0
+
+## traversableRecord
+
+**Signature**
+
+```ts
+export declare const traversableRecord: Traversable1<'Record'>
+```
+
+Added in v2.7.0
+
+## traversableWithIndexRecord
+
+**Signature**
+
+```ts
+export declare const traversableWithIndexRecord: TraversableWithIndex1<'Record', string>
+```
+
+Added in v2.7.0
+
+## witherableRecord
+
+**Signature**
+
+```ts
+export declare const witherableRecord: Witherable1<'Record'>
+```
+
+Added in v2.7.0
 
 # utils
 
@@ -622,22 +746,6 @@ Delete a key and value from a map, returning the value as well as the subsequent
 export declare function pop<K extends string>(
   k: K
 ): <KS extends string, A>(r: Record<KS, A>) => Option<[A, Record<string extends K ? string : Exclude<KS, K>, A>]>
-```
-
-Added in v2.0.0
-
-## record
-
-**Signature**
-
-```ts
-export declare const record: FunctorWithIndex1<'Record', string> &
-  Foldable1<'Record'> &
-  TraversableWithIndex1<'Record', string> &
-  Compactable1<'Record'> &
-  FilterableWithIndex1<'Record', string> &
-  Witherable1<'Record'> &
-  FoldableWithIndex1<'Record', string>
 ```
 
 Added in v2.0.0
