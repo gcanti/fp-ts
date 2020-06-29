@@ -1637,7 +1637,7 @@ export const chain: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<
   chain_(ma, f)
 
 /**
- * @since 2.6.7
+ * @since 2.7.0
  */
 export const chainWithIndex: <A, B>(
   f: (i: number, a: A) => ReadonlyArray<B>

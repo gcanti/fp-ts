@@ -1055,7 +1055,7 @@ export const apSecond: <B>(fb: Array<B>) => <A>(fa: Array<A>) => Array<B> = RA.a
 export const chain: <A, B>(f: (a: A) => Array<B>) => (ma: Array<A>) => Array<B> = RA.chain as any
 
 /**
- * @since 2.6.7
+ * @since 2.7.0
  */
 export const chainWithIndex: <A, B>(
   f: (index: number, a: A) => Array<B>
