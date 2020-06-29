@@ -1772,7 +1772,7 @@ Added in v2.0.0
 export declare const chainWithIndex: <A, B>(f: (index: number, a: A) => B[]) => (ma: A[]) => B[]
 ```
 
-Added in v2.6.7
+Added in v2.7.0
 
 ## chunksOf
 

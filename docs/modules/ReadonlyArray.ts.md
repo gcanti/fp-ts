@@ -1562,12 +1562,10 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const chainWithIndex: <A, B>(
-  f: (index: number, a: A) => readonly B[]
-) => (ma: readonly A[]) => readonly B[]
+export declare const chainWithIndex: <A, B>(f: (i: number, a: A) => readonly B[]) => (ma: readonly A[]) => readonly B[]
 ```
 
-Added in v2.6.7
+Added in v2.7.0
 
 ## chunksOf
 
