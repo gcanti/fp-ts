@@ -30,6 +30,9 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [compactableMap](#compactablemap)
+  - [filterableMap](#filterablemap)
+  - [functorMap](#functormap)
   - [getEq](#geteq)
   - [getFilterableWithIndex](#getfilterablewithindex)
   - [getMonoid](#getmonoid)
@@ -221,6 +224,36 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
+
+## compactableMap
+
+**Signature**
+
+```ts
+export declare const compactableMap: Compactable2<'Map'>
+```
+
+Added in v2.7.0
+
+## filterableMap
+
+**Signature**
+
+```ts
+export declare const filterableMap: Filterable2<'Map'>
+```
+
+Added in v2.7.0
+
+## functorMap
+
+**Signature**
+
+```ts
+export declare const functorMap: Functor2<'Map'>
+```
+
+Added in v2.7.0
 
 ## getEq
 

@@ -1,10 +1,10 @@
 import * as assert from 'assert'
-import { array } from '../src/Array'
+import * as A from '../src/ReadonlyArray'
 import { getFunctorWithIndexComposition } from '../src/FunctorWithIndex'
 
 describe('FunctorWithIndex', () => {
   it('getFunctorComposition', () => {
-    const arrayOfArray = getFunctorWithIndexComposition(array, array)
+    const arrayOfArray = getFunctorWithIndexComposition(A.functorWithIndexArray, A.functorWithIndexArray)
     const f = ([i, j]: readonly [number, number], a: string) => a + i + j
     assert.deepStrictEqual(
       arrayOfArray.mapWithIndex(

@@ -2,12 +2,14 @@
  * @since 2.0.0
  */
 import { Alt1 } from './Alt'
-import { Applicative } from './Applicative'
+import { Applicative, Applicative1 } from './Applicative'
 import { ChainRec1, tailRec } from './ChainRec'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
+import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
-import { identity as id, Lazy } from './function'
+import { identity as id } from './function'
+import { Functor1 } from './Functor'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
@@ -24,41 +26,25 @@ import { PipeableTraverse1, Traversable1 } from './Traversable'
  */
 export type Identity<A> = A
 
-/**
- * @category instances
- * @since 2.0.0
- */
-export const getShow: <A>(S: Show<A>) => Show<Identity<A>> = id
+// -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
 
-/**
- * @category instances
- * @since 2.0.0
- */
-export const getEq: <A>(E: Eq<A>) => Eq<Identity<A>> = id
+const map_: Monad1<URI>['map'] = (ma, f) => f(ma)
+const ap_: Monad1<URI>['ap'] = (mab, ma) => mab(ma)
+const chain_: Monad1<URI>['chain'] = (ma, f) => f(ma)
+const reduce_: Foldable1<URI>['reduce'] = (fa, b, f) => f(b, fa)
+const foldMap_: Foldable1<URI>['foldMap'] = (_) => (fa, f) => f(fa)
+const reduceRight_: Foldable1<URI>['reduceRight'] = (fa, b, f) => f(fa, b)
+const alt_: Alt1<URI>['alt'] = id
+const extend_: Extend1<URI>['extend'] = (wa, f) => f(wa)
+const traverse_ = <F>(F: Applicative<F>) => <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>): HKT<F, Identity<B>> =>
+  F.map(f(ta), id)
+const chainRec_: ChainRec1<URI>['chainRec'] = tailRec
 
 // -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
-
-const alt_: <A>(fa: A, that: Lazy<A>) => A = id
-
-const extend_: <A, B>(wa: A, f: (wa: A) => B) => B = (wa, f) => f(wa)
-
-const map_: <A, B>(fa: Identity<A>, f: (a: A) => B) => Identity<B> = (ma, f) => f(ma)
-
-const ap_: <A, B>(fab: Identity<(a: A) => B>, fa: Identity<A>) => Identity<B> = (mab, ma) => mab(ma)
-
-const chain_: <A, B>(fa: Identity<A>, f: (a: A) => Identity<B>) => Identity<B> = (ma, f) => f(ma)
-
-const reduce_: <A, B>(fa: Identity<A>, b: B, f: (b: B, a: A) => B) => B = (fa, b, f) => f(b, fa)
-
-const foldMap_: <M>(M: Monoid<M>) => <A>(fa: Identity<A>, f: (a: A) => M) => M = (_) => (fa, f) => f(fa)
-
-const reduceRight_: <A, B>(fa: Identity<A>, b: B, f: (a: A, b: B) => B) => B = (fa, b, f) => f(fa, b)
-
-const traverse_ = <F>(F: Applicative<F>) => <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>): HKT<F, Identity<B>> => {
-  return F.map(f(ta), id)
-}
 
 /**
  * @since 2.6.3
@@ -119,6 +105,12 @@ export const apSecond = <B>(fb: Identity<B>) => <A>(fa: Identity<A>): Identity<B
     map_(fa, () => (b: B) => b),
     fb
   )
+
+/**
+ * @category Applicative
+ * @since 2.0.0
+ */
+export const of: Applicative1<URI>['of'] = id
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -220,11 +212,114 @@ declare module './HKT' {
  * @category instances
  * @since 2.0.0
  */
+export const getShow: <A>(S: Show<A>) => Show<Identity<A>> = id
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const getEq: <A>(E: Eq<A>) => Eq<Identity<A>> = id
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorIdentity: Functor1<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeIdentity: Applicative1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const monadIdentity: Monad1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const foldableIdentity: Foldable1<URI> = {
+  URI,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const traversableIdentity: Traversable1<URI> = {
+  URI,
+  map: map_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  traverse: traverse_,
+  sequence
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const altIdentity: Alt1<URI> = {
+  URI,
+  map: map_,
+  alt: alt_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const comonadIdentity: Comonad1<URI> = {
+  URI,
+  map: map_,
+  extend: extend_,
+  extract
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const chainRecIdentity: ChainRec1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  chain: chain_,
+  chainRec: chainRec_
+}
+
+/**
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
 export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI> = {
   URI,
   map: map_,
-  of: id,
   ap: ap_,
+  of,
   chain: chain_,
   reduce: reduce_,
   foldMap: foldMap_,
@@ -234,5 +329,5 @@ export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<U
   alt: alt_,
   extract,
   extend: extend_,
-  chainRec: tailRec
+  chainRec: chainRec_
 }

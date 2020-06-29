@@ -43,10 +43,20 @@ Added in v2.5.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [compactableRecord](#compactablerecord)
+  - [filterableRecord](#filterablerecord)
+  - [filterableWithIndexRecord](#filterablewithindexrecord)
+  - [foldableRecord](#foldablerecord)
+  - [foldableWithIndexRecord](#foldablewithindexrecord)
+  - [functorRecord](#functorrecord)
+  - [functorWithIndexRecord](#functorwithindexrecord)
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
   - [readonlyRecord](#readonlyrecord)
+  - [traversableRecord](#traversablerecord)
+  - [traversableWithIndexRecord](#traversablewithindexrecord)
+  - [witherableRecord](#witherablerecord)
 - [model](#model)
   - [ReadonlyRecord (type alias)](#readonlyrecord-type-alias)
 - [utils](#utils)
@@ -366,6 +376,76 @@ export type URI = typeof URI
 
 Added in v2.5.0
 
+## compactableRecord
+
+**Signature**
+
+```ts
+export declare const compactableRecord: Compactable1<'ReadonlyRecord'>
+```
+
+Added in v2.7.0
+
+## filterableRecord
+
+**Signature**
+
+```ts
+export declare const filterableRecord: Filterable1<'ReadonlyRecord'>
+```
+
+Added in v2.7.0
+
+## filterableWithIndexRecord
+
+**Signature**
+
+```ts
+export declare const filterableWithIndexRecord: FilterableWithIndex1<'ReadonlyRecord', string>
+```
+
+Added in v2.7.0
+
+## foldableRecord
+
+**Signature**
+
+```ts
+export declare const foldableRecord: Foldable1<'ReadonlyRecord'>
+```
+
+Added in v2.7.0
+
+## foldableWithIndexRecord
+
+**Signature**
+
+```ts
+export declare const foldableWithIndexRecord: FoldableWithIndex1<'ReadonlyRecord', string>
+```
+
+Added in v2.7.0
+
+## functorRecord
+
+**Signature**
+
+```ts
+export declare const functorRecord: Functor1<'ReadonlyRecord'>
+```
+
+Added in v2.7.0
+
+## functorWithIndexRecord
+
+**Signature**
+
+```ts
+export declare const functorWithIndexRecord: FunctorWithIndex1<'ReadonlyRecord', string>
+```
+
+Added in v2.7.0
+
 ## getEq
 
 **Signature**
@@ -414,15 +494,43 @@ Added in v2.5.0
 
 ```ts
 export declare const readonlyRecord: FunctorWithIndex1<'ReadonlyRecord', string> &
-  Foldable1<'ReadonlyRecord'> &
-  TraversableWithIndex1<'ReadonlyRecord', string> &
-  Compactable1<'ReadonlyRecord'> &
+  FoldableWithIndex1<'ReadonlyRecord', string> &
   FilterableWithIndex1<'ReadonlyRecord', string> &
-  Witherable1<'ReadonlyRecord'> &
-  FoldableWithIndex1<'ReadonlyRecord', string>
+  TraversableWithIndex1<'ReadonlyRecord', string> &
+  Witherable1<'ReadonlyRecord'>
 ```
 
 Added in v2.5.0
+
+## traversableRecord
+
+**Signature**
+
+```ts
+export declare const traversableRecord: Traversable1<'ReadonlyRecord'>
+```
+
+Added in v2.7.0
+
+## traversableWithIndexRecord
+
+**Signature**
+
+```ts
+export declare const traversableWithIndexRecord: TraversableWithIndex1<'ReadonlyRecord', string>
+```
+
+Added in v2.7.0
+
+## witherableRecord
+
+**Signature**
+
+```ts
+export declare const witherableRecord: Witherable1<'ReadonlyRecord'>
+```
+
+Added in v2.7.0
 
 # model
 

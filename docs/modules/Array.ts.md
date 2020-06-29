@@ -14,6 +14,8 @@ Added in v2.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
+- [Alternative](#alternative)
+  - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
   - [apFirst](#apfirst)
@@ -55,6 +57,8 @@ Added in v2.0.0
   - [traverse](#traverse)
 - [TraversableWithIndex](#traversablewithindex)
   - [traverseWithIndex](#traversewithindex)
+- [Unfoldable](#unfoldable)
+  - [unfold](#unfold)
 - [Whitherable](#whitherable)
   - [wilt](#wilt)
   - [wither](#wither)
@@ -105,11 +109,27 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [altArray](#altarray)
+  - [alternativeArray](#alternativearray)
+  - [applicativeArray](#applicativearray)
   - [array](#array)
+  - [compactableArray](#compactablearray)
+  - [extendArray](#extendarray)
+  - [filterableArray](#filterablearray)
+  - [filterableWithIndexArray](#filterablewithindexarray)
+  - [foldableArray](#foldablearray)
+  - [foldableWithIndexArray](#foldablewithindexarray)
+  - [functorArray](#functorarray)
+  - [functorWithIndexArray](#functorwithindexarray)
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getShow](#getshow)
+  - [monadArray](#monadarray)
+  - [traversableArray](#traversablearray)
+  - [traversableWithIndexArray](#traversablewithindexarray)
+  - [unfoldableArray](#unfoldablearray)
+  - [witherableArray](#witherablearray)
 - [unsafe](#unsafe)
   - [unsafeDeleteAt](#unsafedeleteat)
   - [unsafeInsertAt](#unsafeinsertat)
@@ -128,7 +148,6 @@ Added in v2.0.0
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
   - [splitAt](#splitat)
-  - [unfold](#unfold)
   - [unzip](#unzip)
   - [updateAt](#updateat)
 
@@ -148,6 +167,18 @@ export declare const alt: <A>(that: Lazy<A[]>) => (fa: A[]) => A[]
 ```
 
 Added in v2.0.0
+
+# Alternative
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => A[]
+```
+
+Added in v2.7.0
 
 # Apply
 
@@ -500,6 +531,18 @@ export declare const traverseWithIndex: PipeableTraverseWithIndex1<'Array', numb
 ```
 
 Added in v2.6.3
+
+# Unfoldable
+
+## unfold
+
+**Signature**
+
+```ts
+export declare const unfold: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => A[]
+```
+
+Added in v2.6.6
 
 # Whitherable
 
@@ -1425,25 +1468,133 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
+## altArray
+
+**Signature**
+
+```ts
+export declare const altArray: Alt1<'Array'>
+```
+
+Added in v2.7.0
+
+## alternativeArray
+
+**Signature**
+
+```ts
+export declare const alternativeArray: Alternative1<'Array'>
+```
+
+Added in v2.7.0
+
+## applicativeArray
+
+**Signature**
+
+```ts
+export declare const applicativeArray: Applicative1<'Array'>
+```
+
+Added in v2.7.0
+
 ## array
 
 **Signature**
 
 ```ts
-export declare const array: Monad1<'Array'> &
-  Foldable1<'Array'> &
+export declare const array: FunctorWithIndex1<'Array', number> &
+  Monad1<'Array'> &
   Unfoldable1<'Array'> &
-  TraversableWithIndex1<'Array', number> &
   Alternative1<'Array'> &
   Extend1<'Array'> &
-  Compactable1<'Array'> &
   FilterableWithIndex1<'Array', number> &
-  Witherable1<'Array'> &
-  FunctorWithIndex1<'Array', number> &
-  FoldableWithIndex1<'Array', number>
+  FoldableWithIndex1<'Array', number> &
+  TraversableWithIndex1<'Array', number> &
+  Witherable1<'Array'>
 ```
 
 Added in v2.0.0
+
+## compactableArray
+
+**Signature**
+
+```ts
+export declare const compactableArray: Compactable1<'Array'>
+```
+
+Added in v2.7.0
+
+## extendArray
+
+**Signature**
+
+```ts
+export declare const extendArray: Extend1<'Array'>
+```
+
+Added in v2.7.0
+
+## filterableArray
+
+**Signature**
+
+```ts
+export declare const filterableArray: Filterable1<'Array'>
+```
+
+Added in v2.7.0
+
+## filterableWithIndexArray
+
+**Signature**
+
+```ts
+export declare const filterableWithIndexArray: FilterableWithIndex1<'Array', number>
+```
+
+Added in v2.7.0
+
+## foldableArray
+
+**Signature**
+
+```ts
+export declare const foldableArray: Foldable1<'Array'>
+```
+
+Added in v2.7.0
+
+## foldableWithIndexArray
+
+**Signature**
+
+```ts
+export declare const foldableWithIndexArray: FoldableWithIndex1<'Array', number>
+```
+
+Added in v2.7.0
+
+## functorArray
+
+**Signature**
+
+```ts
+export declare const functorArray: Functor1<'Array'>
+```
+
+Added in v2.7.0
+
+## functorWithIndexArray
+
+**Signature**
+
+```ts
+export declare const functorWithIndexArray: FunctorWithIndex1<'Array', number>
+```
+
+Added in v2.7.0
 
 ## getEq
 
@@ -1527,6 +1678,56 @@ export declare const getShow: <A>(S: Show<A>) => Show<A[]>
 ```
 
 Added in v2.0.0
+
+## monadArray
+
+**Signature**
+
+```ts
+export declare const monadArray: Monad1<'Array'>
+```
+
+Added in v2.7.0
+
+## traversableArray
+
+**Signature**
+
+```ts
+export declare const traversableArray: Traversable1<'Array'>
+```
+
+Added in v2.7.0
+
+## traversableWithIndexArray
+
+**Signature**
+
+```ts
+export declare const traversableWithIndexArray: TraversableWithIndex1<'Array', number>
+```
+
+Added in v2.7.0
+
+## unfoldableArray
+
+**Signature**
+
+```ts
+export declare const unfoldableArray: Unfoldable1<'Array'>
+```
+
+Added in v2.7.0
+
+## witherableArray
+
+**Signature**
+
+```ts
+export declare const witherableArray: Witherable1<'Array'>
+```
+
+Added in v2.7.0
 
 # unsafe
 
@@ -1879,16 +2080,6 @@ assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
 ```
 
 Added in v2.0.0
-
-## unfold
-
-**Signature**
-
-```ts
-export declare const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => A[]
-```
-
-Added in v2.6.6
 
 ## unzip
 

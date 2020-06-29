@@ -1,6 +1,6 @@
 {
   "name": "fp-ts",
-  "version": "2.6.7",
+  "version": "2.7.0",
   "description": "Functional programming in TypeScript",
   "files": [
     "lib",
@@ -46,7 +46,7 @@
     "docs-ts": "^0.5.1",
     "doctoc": "^1.4.0",
     "dtslint": "github:gcanti/dtslint",
-    "fast-check": "^1.23.0",
+    "fast-check": "^1.25.1",
     "jest": "^24.8.0",
     "mocha": "^5.2.0",
     "prettier": "^2.0.2",

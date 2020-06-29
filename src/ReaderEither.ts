@@ -2,17 +2,18 @@
  * @since 2.0.0
  */
 import { Alt3, Alt3C } from './Alt'
+import { Applicative3, Applicative3C } from './Applicative'
 import { apComposition } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import { flow, identity, pipe, Predicate, Refinement } from './function'
+import { Functor3 } from './Functor'
 import { Monad3, Monad3C } from './Monad'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import * as R from './Reader'
 import { Semigroup } from './Semigroup'
-import { getValidationM } from './ValidationT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -198,6 +199,24 @@ export const filterOrElse: {
   )
 
 // -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+/* istanbul ignore next */
+const map_: Monad3<URI>['map'] = (fa, f) => pipe(fa, map(f))
+/* istanbul ignore next */
+const bimap_: Bifunctor3<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
+/* istanbul ignore next */
+const mapLeft_: Bifunctor3<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
+/* istanbul ignore next */
+const ap_: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const of = right
+/* istanbul ignore next */
+const chain_: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+/* istanbul ignore next */
+const alt_: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
+
+// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -240,7 +259,7 @@ export const ap: <R, E, A>(
   fa: ReaderEither<R, E, A>
 ) => <B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B> =
   /*#__PURE__*/
-  apComposition(R.applyReader, E.applyEither)
+  apComposition(R.applicativeReader, E.applicativeEither)
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -326,6 +345,12 @@ export const alt: <R, E, A>(
   that: () => ReaderEither<R, E, A>
 ) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = (that) => R.chain(E.fold(that, right))
 
+/**
+ * @category MonadThrow
+ * @since 2.7.0
+ */
+export const throwError: MonadThrow3<URI>['throwError'] = left
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -347,21 +372,6 @@ declare module './HKT' {
     readonly [URI]: ReaderEither<R, E, A>
   }
 }
-
-/* istanbul ignore next */
-const map_: Monad3<URI>['map'] = (fa, f) => pipe(fa, map(f))
-/* istanbul ignore next */
-const bimap_: Bifunctor3<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
-/* istanbul ignore next */
-const mapLeft_: Bifunctor3<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-/* istanbul ignore next */
-const ap_: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const of = right
-/* istanbul ignore next */
-const chain_: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-/* istanbul ignore next */
-const alt_: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
-const throwError_ = left
 
 /**
  * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
@@ -396,29 +406,125 @@ export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderEither<R, E,
   }
 }
 
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export function getApplicativeReaderValidation<E>(SE: Semigroup<E>): Applicative3C<URI, E> {
+  const ap = apComposition(R.applicativeReader, E.getApplicativeValidation(SE))
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    ap: (fab, fa) => pipe(fab, ap(fa)),
+    of
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export function getAltReaderValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
+  const A = E.getAltValidation(SE)
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    alt: (me, that) => (r) => A.alt(me(r), () => that()(r))
+  }
+}
+
 // TODO: remove in v3
 /**
  * @category instances
  * @since 2.3.0
  */
 export function getReaderValidation<E>(
-  S: Semigroup<E>
+  SE: Semigroup<E>
 ): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadThrow3C<URI, E> {
-  const V = getValidationM(S, R.monadReader)
+  const applicativeReaderValidation = getApplicativeReaderValidation(SE)
+  const altReaderValidation = getAltReaderValidation(SE)
   return {
     URI,
     _E: undefined as any,
     map: map_,
-    ap: V.ap,
+    ap: applicativeReaderValidation.ap,
     of,
     chain: chain_,
     bimap: bimap_,
     mapLeft: mapLeft_,
-    alt: V.alt,
-    throwError: throwError_
+    alt: altReaderValidation.alt,
+    throwError
   }
 }
 
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorReaderEither: Functor3<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeReaderEither: Applicative3<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const monadReaderEither: Monad3<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const bifunctorReaderEither: Bifunctor3<URI> = {
+  URI,
+  bimap: bimap_,
+  mapLeft: mapLeft_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const altReaderEither: Alt3<URI> = {
+  URI,
+  map: map_,
+  alt: alt_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const monadThrowReaderEither: MonadThrow3<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_,
+  throwError
+}
+
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.0.0

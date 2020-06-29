@@ -11,13 +11,14 @@
  *
  * @since 2.0.0
  */
+import { Applicative1 } from './Applicative'
 import { ChainRec1 } from './ChainRec'
 import { identity } from './function'
+import { Functor1 } from './Functor'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { Apply1 } from './Apply'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -29,6 +30,21 @@ import { Apply1 } from './Apply'
  */
 export interface IO<A> {
   (): A
+}
+
+// -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+const map_: Monad1<URI>['map'] = (ma, f) => () => f(ma())
+const ap_: Monad1<URI>['ap'] = (mab, ma) => () => mab()(ma())
+const chain_: Monad1<URI>['chain'] = (ma, f) => () => f(ma())()
+const chainRec_: ChainRec1<URI>['chainRec'] = (a, f) => () => {
+  let e = f(a)()
+  while (e._tag === 'Left') {
+    e = f(e.left)()
+  }
+  return e.right
 }
 
 // -------------------------------------------------------------------------------------
@@ -104,6 +120,12 @@ export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<A> = (f
  */
 export const flatten: <A>(mma: IO<IO<A>>) => IO<A> = (mma) => chain_(mma, identity)
 
+/**
+ * @category MonadIO
+ * @since 2.7.0
+ */
+export const fromIO: MonadIO1<URI>['fromIO'] = identity
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -124,30 +146,6 @@ declare module './HKT' {
   interface URItoKind<A> {
     readonly [URI]: IO<A>
   }
-}
-
-const map_: <A, B>(fa: IO<A>, f: (a: A) => B) => IO<B> = (ma, f) => () => f(ma())
-const ap_: <A, B>(fab: IO<(a: A) => B>, fa: IO<A>) => IO<B> = (mab, ma) => () => mab()(ma())
-const chain_: <A, B>(fa: IO<A>, f: (a: A) => IO<B>) => IO<B> = (ma, f) => () => f(ma())()
-
-/**
- * @internal
- */
-export const applyIO: Apply1<URI> = {
-  URI,
-  map: map_,
-  ap: ap_
-}
-
-/**
- * @internal
- */
-export const monadIO: Monad1<URI> = {
-  URI,
-  map: map_,
-  of,
-  ap: ap_,
-  chain: chain_
 }
 
 /**
@@ -173,6 +171,64 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> {
 
 /**
  * @category instances
+ * @since 2.7.0
+ */
+export const functorIO: Functor1<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeIO: Applicative1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const monadIO: Monad1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const monadIOIO: MonadIO1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_,
+  fromIO
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const chainRecIO: ChainRec1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  chain: chain_,
+  chainRec: chainRec_
+}
+
+// TODO: remove in v3
+/**
+ * @category instances
  * @since 2.0.0
  */
 export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
@@ -181,12 +237,6 @@ export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
   of,
   ap: ap_,
   chain: chain_,
-  fromIO: identity,
-  chainRec: (a, f) => () => {
-    let e = f(a)()
-    while (e._tag === 'Left') {
-      e = f(e.left)()
-    }
-    return e.right
-  }
+  fromIO,
+  chainRec: chainRec_
 }

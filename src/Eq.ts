@@ -53,6 +53,8 @@ export const contramap: <A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B> = (f) => 
 // instances
 // -------------------------------------------------------------------------------------
 
+const contramap_: <A, B>(fa: Eq<A>, f: (b: B) => A) => Eq<B> = (fa, f) => fromEquals((x, y) => fa.equals(f(x), f(y)))
+
 /**
  * @category instances
  * @since 2.0.0
@@ -70,8 +72,6 @@ declare module './HKT' {
     readonly [URI]: Eq<A>
   }
 }
-
-const contramap_: <A, B>(fa: Eq<A>, f: (b: B) => A) => Eq<B> = (fa, f) => fromEquals((x, y) => fa.equals(f(x), f(y)))
 
 /**
  * @category instances
@@ -171,9 +171,16 @@ export function getMonoid<A>(): Monoid<Eq<A>> {
 
 /**
  * @category instances
+ * @since 2.7.0
+ */
+export const contravariantEq: Contravariant1<URI> = {
+  URI,
+  contramap: contramap_
+}
+
+// TODO: remove in v3
+/**
+ * @category instances
  * @since 2.0.0
  */
-export const eq: Contravariant1<URI> = {
-  URI,
-  contramap: (fa, f) => fromEquals((x, y) => fa.equals(f(x), f(y)))
-}
+export const eq: Contravariant1<URI> = contravariantEq

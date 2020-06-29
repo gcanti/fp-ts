@@ -13,6 +13,8 @@ import { Monad, Monad1, Monad2 } from './Monad'
 import { Semigroup } from './Semigroup'
 import { Lazy } from './function'
 
+// TODO: remove module in v3
+
 /**
  * @since 2.0.0
  */
@@ -69,9 +71,9 @@ export function getValidationM<E, M>(S: Semigroup<E>, M: Monad<M>): ValidationM<
     ap: A.ap,
     of: A.of,
     chain: /* istanbul ignore next */ (ma, f) => M.chain(ma, (e) => (isLeft(e) ? M.of(left(e.left)) : f(e.right))),
-    alt: (fa, that) =>
-      M.chain(fa, (e1) =>
-        isRight(e1) ? A.of(e1.right) : M.map(that(), (e2) => (isLeft(e2) ? left(S.concat(e1.left, e2.left)) : e2))
+    alt: (me, that) =>
+      M.chain(me, (e1) =>
+        isRight(e1) ? M.of(e1) : M.map(that(), (e2) => (isLeft(e2) ? left(S.concat(e1.left, e2.left)) : e2))
       )
   }
 }

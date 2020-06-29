@@ -10,13 +10,14 @@
  *
  * @since 2.0.0
  */
+import { Applicative1 } from './Applicative'
 import { identity } from './function'
 import { IO } from './IO'
 import { Monad1 } from './Monad'
 import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { Apply1 } from './Apply'
+import { Functor1 } from './Functor'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -97,13 +98,17 @@ export function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> {
 }
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: <A, B>(fa: Task<A>, f: (a: A) => B) => Task<B> = (ma, f) => () => ma().then(f)
-const ap_: <A, B>(fab: Task<(a: A) => B>, fa: Task<A>) => Task<B> = (mab, ma) => () =>
-  Promise.all([mab(), ma()]).then(([f, a]) => f(a))
-const chain_: <A, B>(fa: Task<A>, f: (a: A) => Task<B>) => Task<B> = (ma, f) => () => ma().then((a) => f(a)())
+const map_: Monad1<URI>['map'] = (ma, f) => () => ma().then(f)
+const apPar_: Monad1<URI>['ap'] = (mab, ma) => () => Promise.all([mab(), ma()]).then(([f, a]) => f(a))
+const apSeq_: Monad1<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
+const chain_: Monad1<URI>['chain'] = (ma, f) => () => ma().then((a) => f(a)())
+
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -120,7 +125,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (f
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (fa) => (fab) => ap_(fab, fa)
+export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (fa) => (fab) => apPar_(fab, fa)
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -129,7 +134,7 @@ export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (f
  * @since 2.0.0
  */
 export const apFirst: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<A> = (fb) => (fa) =>
-  ap_(
+  apPar_(
     map_(fa, (a) => () => a),
     fb
   )
@@ -141,7 +146,7 @@ export const apFirst: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<A> = (fb) => 
  * @since 2.0.0
  */
 export const apSecond: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<B> = (fb) => (fa) =>
-  ap_(
+  apPar_(
     map_(fa, () => (b) => b),
     fb
   )
@@ -176,6 +181,12 @@ export const chainFirst: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<A
  */
 export const flatten: <A>(mma: Task<Task<A>>) => Task<A> = (mma) => chain_(mma, identity)
 
+/**
+ * @category MonadTask
+ * @since 2.7.0
+ */
+export const fromTask: MonadTask1<URI>['fromTask'] = identity
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -196,26 +207,6 @@ declare module './HKT' {
   interface URItoKind<A> {
     readonly [URI]: Task<A>
   }
-}
-
-/**
- * @internal
- */
-export const applyTask: Apply1<URI> = {
-  URI,
-  map: map_,
-  ap: ap_
-}
-
-/**
- * @internal
- */
-export const monadTask: Monad1<URI> = {
-  URI,
-  map: map_,
-  of,
-  ap: ap_,
-  chain: chain_
 }
 
 /**
@@ -285,18 +276,64 @@ export function getRaceMonoid<A = never>(): Monoid<Task<A>> {
 
 /**
  * @category instances
+ * @since 2.7.0
+ */
+export const functorTask: Functor1<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeTaskPar: Applicative1<URI> = {
+  URI,
+  map: map_,
+  ap: apPar_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeTaskSeq: Applicative1<URI> = {
+  URI,
+  map: map_,
+  ap: apSeq_,
+  of
+}
+
+/**
+ * Used in TaskEither.getTaskValidation
+ *
+ * @internal
+ */
+export const monadTask: Monad1<URI> = {
+  URI,
+  map: map_,
+  of,
+  ap: apPar_,
+  chain: chain_
+}
+
+// TODO: remove in v3
+/**
+ * @category instances
  * @since 2.0.0
  */
 export const task: Monad1<URI> & MonadTask1<URI> = {
   URI,
   map: map_,
   of,
-  ap: ap_,
+  ap: apPar_,
   chain: chain_,
   fromIO,
-  fromTask: identity
+  fromTask
 }
 
+// TODO: remove in v3
 /**
  * Like `task` but `ap` is sequential
  *
@@ -307,10 +344,10 @@ export const taskSeq: typeof task = {
   URI,
   map: map_,
   of,
-  ap: (mab, ma) => () => mab().then((f) => ma().then((a) => f(a))),
+  ap: apSeq_,
   chain: chain_,
   fromIO,
-  fromTask: identity
+  fromTask
 }
 
 // -------------------------------------------------------------------------------------

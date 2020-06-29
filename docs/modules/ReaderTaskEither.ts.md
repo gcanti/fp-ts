@@ -14,6 +14,8 @@ Added in v2.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
+- [Applicative](#applicative)
+  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apFirst](#apfirst)
@@ -28,6 +30,12 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainW](#chainw)
   - [flatten](#flatten)
+- [MonadIO](#monadio)
+  - [fromIO](#fromio)
+- [MonadTask](#monadtask)
+  - [fromTask](#fromtask)
+- [MonadThrow](#monadthrow)
+  - [throwError](#throwerror)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -68,6 +76,13 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [altReaderTaskEither](#altreadertaskeither)
+  - [applicativeReaderTaskEitherPar](#applicativereadertaskeitherpar)
+  - [applicativeReaderTaskEitherSeq](#applicativereadertaskeitherseq)
+  - [bifunctorReaderTaskEither](#bifunctorreadertaskeither)
+  - [functorReaderTaskEither](#functorreadertaskeither)
+  - [getAltReaderTaskValidation](#getaltreadertaskvalidation)
+  - [getApplicativeReaderTaskValidation](#getapplicativereadertaskvalidation)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getReaderTaskValidation](#getreadertaskvalidation)
@@ -98,6 +113,18 @@ export declare const alt: <R, E, A>(
 ```
 
 Added in v2.0.0
+
+# Applicative
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <R, E, A>(a: A) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.7.0
 
 # Apply
 
@@ -246,6 +273,42 @@ export declare const flatten: <R, E, A>(
 
 Added in v2.0.0
 
+# MonadIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <R, E, A>(fa: IO<A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.0.0
+
+# MonadTask
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <R, E, A>(fa: T.Task<A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.0.0
+
+# MonadThrow
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <R, E, A>(e: E) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.0.0
+
 # combinators
 
 ## chainEitherK
@@ -254,7 +317,7 @@ Added in v2.0.0
 
 ```ts
 export declare const chainEitherK: <E, A, B>(
-  f: (a: A) => Either<E, B>
+  f: (a: A) => E.Either<E, B>
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
@@ -268,7 +331,7 @@ Less strict version of [`chainEitherK`](#chainEitherK).
 
 ```ts
 export declare const chainEitherKW: <E, A, B>(
-  f: (a: A) => Either<E, B>
+  f: (a: A) => E.Either<E, B>
 ) => <R, D>(ma: ReaderTaskEither<R, D, A>) => ReaderTaskEither<R, E | D, B>
 ```
 
@@ -436,7 +499,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <R, E, A>(ma: Either<E, A>) => ReaderTaskEither<R, E, A>
+export declare const fromEither: <R, E, A>(ma: E.Either<E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -615,8 +678,8 @@ Added in v2.0.0
 
 ```ts
 export declare const getOrElse: <R, E, A>(
-  onLeft: (e: E) => ReaderTask<R, A>
-) => (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, A>
+  onLeft: (e: E) => RT.ReaderTask<R, A>
+) => (ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, A>
 ```
 
 Added in v2.0.0
@@ -629,8 +692,8 @@ Less strict version of [`getOrElse`](#getOrElse).
 
 ```ts
 export declare const getOrElseW: <R, E, B>(
-  onLeft: (e: E) => ReaderTask<R, B>
-) => <Q, A>(ma: ReaderTaskEither<Q, E, A>) => ReaderTask<Q & R, B | A>
+  onLeft: (e: E) => RT.ReaderTask<R, B>
+) => <Q, A>(ma: ReaderTaskEither<Q, E, A>) => RT.ReaderTask<Q & R, B | A>
 ```
 
 Added in v2.6.0
@@ -656,6 +719,76 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
+
+## altReaderTaskEither
+
+**Signature**
+
+```ts
+export declare const altReaderTaskEither: Alt3<'ReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## applicativeReaderTaskEitherPar
+
+**Signature**
+
+```ts
+export declare const applicativeReaderTaskEitherPar: Applicative3<'ReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## applicativeReaderTaskEitherSeq
+
+**Signature**
+
+```ts
+export declare const applicativeReaderTaskEitherSeq: Applicative3<'ReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## bifunctorReaderTaskEither
+
+**Signature**
+
+```ts
+export declare const bifunctorReaderTaskEither: Bifunctor3<'ReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## functorReaderTaskEither
+
+**Signature**
+
+```ts
+export declare const functorReaderTaskEither: Functor3<'ReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## getAltReaderTaskValidation
+
+**Signature**
+
+```ts
+export declare function getAltReaderTaskValidation<E>(SE: Semigroup<E>): Alt3C<URI, E>
+```
+
+Added in v2.7.0
+
+## getApplicativeReaderTaskValidation
+
+**Signature**
+
+```ts
+export declare function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative3C<URI, E>
+```
+
+Added in v2.7.0
 
 ## getApplyMonoid
 
@@ -686,7 +819,7 @@ Added in v2.0.0
 
 ```ts
 export declare function getReaderTaskValidation<E>(
-  S: Semigroup<E>
+  SE: Semigroup<E>
 ): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadTask3C<URI, E> & MonadThrow3C<URI, E>
 ```
 

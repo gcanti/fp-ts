@@ -26,6 +26,8 @@ Added in v2.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
+- [Applicative](#applicative)
+  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apFirst](#apfirst)
@@ -47,6 +49,8 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainW](#chainw)
   - [flatten](#flatten)
+- [MonadThrow](#monadthrow)
+  - [throwError](#throwerror)
 - [Traversable](#traversable)
   - [sequence](#sequence)
   - [traverse](#traverse)
@@ -73,7 +77,16 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [altEither](#alteither)
+  - [applicativeEither](#applicativeeither)
+  - [bifunctorEither](#bifunctoreither)
+  - [chainRecEither](#chainreceither)
   - [either](#either)
+  - [extendEither](#extendeither)
+  - [foldableEither](#foldableeither)
+  - [functorEither](#functoreither)
+  - [getAltValidation](#getaltvalidation)
+  - [getApplicativeValidation](#getapplicativevalidation)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getEq](#geteq)
@@ -83,6 +96,9 @@ Added in v2.0.0
   - [getValidationMonoid](#getvalidationmonoid)
   - [getValidationSemigroup](#getvalidationsemigroup)
   - [getWitherable](#getwitherable)
+  - [monadEither](#monadeither)
+  - [monadThrowEither](#monadthroweither)
+  - [traversableEither](#traversableeither)
 - [model](#model)
   - [Either (type alias)](#either-type-alias)
   - [Left (interface)](#left-interface)
@@ -111,6 +127,18 @@ export declare const alt: <E, A>(that: Lazy<Either<E, A>>) => (fa: Either<E, A>)
 ```
 
 Added in v2.0.0
+
+# Applicative
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <E, A>(a: A) => Either<E, A>
+```
+
+Added in v2.7.0
 
 # Apply
 
@@ -294,6 +322,18 @@ export declare const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, 
 
 Added in v2.0.0
 
+# MonadThrow
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <E, A>(e: E) => Either<E, A>
+```
+
+Added in v2.6.3
+
 # Traversable
 
 ## sequence
@@ -408,7 +448,7 @@ structure
 **Signature**
 
 ```ts
-export declare function left<E = never, A = never>(e: E): Either<E, A>
+export declare const left: <E = never, A = never>(e: E) => Either<E, A>
 ```
 
 Added in v2.0.0
@@ -442,7 +482,7 @@ of this structure
 **Signature**
 
 ```ts
-export declare function right<E = never, A = never>(a: A): Either<E, A>
+export declare const right: <E = never, A = never>(a: A) => Either<E, A>
 ```
 
 Added in v2.0.0
@@ -577,7 +617,7 @@ Returns `true` if the either is an instance of `Left`, `false` otherwise
 **Signature**
 
 ```ts
-export declare function isLeft<E, A>(ma: Either<E, A>): ma is Left<E>
+export declare const isLeft: <E, A>(ma: Either<E, A>) => ma is Left<E>
 ```
 
 Added in v2.0.0
@@ -589,7 +629,7 @@ Returns `true` if the either is an instance of `Right`, `false` otherwise
 **Signature**
 
 ```ts
-export declare function isRight<E, A>(ma: Either<E, A>): ma is Right<A>
+export declare const isRight: <E, A>(ma: Either<E, A>) => ma is Right<A>
 ```
 
 Added in v2.0.0
@@ -616,6 +656,46 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
+## altEither
+
+**Signature**
+
+```ts
+export declare const altEither: Alt2<'Either'>
+```
+
+Added in v2.7.0
+
+## applicativeEither
+
+**Signature**
+
+```ts
+export declare const applicativeEither: Applicative2<'Either'>
+```
+
+Added in v2.7.0
+
+## bifunctorEither
+
+**Signature**
+
+```ts
+export declare const bifunctorEither: Bifunctor2<'Either'>
+```
+
+Added in v2.7.0
+
+## chainRecEither
+
+**Signature**
+
+```ts
+export declare const chainRecEither: ChainRec2<'Either'>
+```
+
+Added in v2.7.0
+
 ## either
 
 **Signature**
@@ -632,6 +712,56 @@ export declare const either: Monad2<'Either'> &
 ```
 
 Added in v2.0.0
+
+## extendEither
+
+**Signature**
+
+```ts
+export declare const extendEither: Extend2<'Either'>
+```
+
+Added in v2.7.0
+
+## foldableEither
+
+**Signature**
+
+```ts
+export declare const foldableEither: Foldable2<'Either'>
+```
+
+Added in v2.7.0
+
+## functorEither
+
+**Signature**
+
+```ts
+export declare const functorEither: Functor2<'Either'>
+```
+
+Added in v2.7.0
+
+## getAltValidation
+
+**Signature**
+
+```ts
+export declare function getAltValidation<E>(SE: Semigroup<E>): Alt2C<URI, E>
+```
+
+Added in v2.7.0
+
+## getApplicativeValidation
+
+**Signature**
+
+```ts
+export declare function getApplicativeValidation<E>(SE: Semigroup<E>): Applicative2C<URI, E>
+```
+
+Added in v2.7.0
 
 ## getApplyMonoid
 
@@ -721,7 +851,7 @@ Added in v2.0.0
 
 ```ts
 export declare function getValidation<E>(
-  S: Semigroup<E>
+  SE: Semigroup<E>
 ): Monad2C<URI, E> &
   Foldable2<URI> &
   Traversable2<URI> &
@@ -765,6 +895,36 @@ export declare function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E>
 ```
 
 Added in v2.0.0
+
+## monadEither
+
+**Signature**
+
+```ts
+export declare const monadEither: Monad2<'Either'>
+```
+
+Added in v2.7.0
+
+## monadThrowEither
+
+**Signature**
+
+```ts
+export declare const monadThrowEither: MonadThrow2<'Either'>
+```
+
+Added in v2.7.0
+
+## traversableEither
+
+**Signature**
+
+```ts
+export declare const traversableEither: Traversable2<'Either'>
+```
+
+Added in v2.7.0
 
 # model
 

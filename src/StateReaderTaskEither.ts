@@ -23,6 +23,9 @@ import { TaskEither } from './TaskEither'
 // -------------------------------------------------------------------------------------
 
 import ReaderTaskEither = RTE.ReaderTaskEither
+import { Functor4 } from './Functor'
+import { Applicative4 } from './Applicative'
+import { MonadIO4 } from './MonadIO'
 
 /* tslint:disable:readonly-array */
 /**
@@ -351,6 +354,41 @@ export const filterOrElse: {
   )
 
 // -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+/* istanbul ignore next */
+const map_: Monad4<URI>['map'] = (fa, f) => pipe(fa, map(f))
+/* istanbul ignore next */
+const ap_: Monad4<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+/* istanbul ignore next */
+const chain_: Monad4<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+/* istanbul ignore next */
+const alt_: <S, R, E, A>(
+  fa: StateReaderTaskEither<S, R, E, A>,
+  that: Lazy<StateReaderTaskEither<S, R, E, A>>
+) => StateReaderTaskEither<S, R, E, A> = (fa, that) => (s) =>
+  pipe(
+    fa(s),
+    RTE.alt(() => that()(s))
+  )
+
+const bimap_: <S, R, E, A, G, B>(
+  fea: StateReaderTaskEither<S, R, E, A>,
+  f: (e: E) => G,
+  g: (a: A) => B
+) => StateReaderTaskEither<S, R, G, B> = (fea, f, g) => (s) =>
+  pipe(
+    fea(s),
+    RTE.bimap(f, ([a, s]) => [g(a), s])
+  )
+
+const mapLeft_: <S, R, E, A, G>(
+  fea: StateReaderTaskEither<S, R, E, A>,
+  f: (e: E) => G
+) => StateReaderTaskEither<S, R, G, A> = (fea, f) => (s) => pipe(fea(s), RTE.mapLeft(f))
+
+// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -441,6 +479,12 @@ export const apSecond = <S, R, E, B>(fb: StateReaderTaskEither<S, R, E, B>) => <
   )
 
 /**
+ * @category Applicative
+ * @since 2.7.0
+ */
+export const of: Applicative4<URI>['of'] = right
+
+/**
  * Less strict version of [`chain`](#chain).
  *
  * @category Monad
@@ -506,6 +550,24 @@ export const alt: <S, R, E, A>(
     RTE.alt(() => that()(s))
   )
 
+/**
+ * @category MonadIO
+ * @since 2.7.0
+ */
+export const fromIO: MonadIO4<URI>['fromIO'] = rightIO
+
+/**
+ * @category MonadTask
+ * @since 2.7.0
+ */
+export const fromTask: MonadTask4<URI>['fromTask'] = rightTask
+
+/**
+ * @category MonadThrow
+ * @since 2.7.0
+ */
+export const throwError: MonadThrow4<URI>['throwError'] = left
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -528,39 +590,49 @@ declare module './HKT' {
   }
 }
 
-/* istanbul ignore next */
-const map_: Monad4<URI>['map'] = (fa, f) => pipe(fa, map(f))
-/* istanbul ignore next */
-const ap_: Monad4<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-/* istanbul ignore next */
-const chain_: Monad4<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-const of = right
-/* istanbul ignore next */
-const alt_: <S, R, E, A>(
-  fa: StateReaderTaskEither<S, R, E, A>,
-  that: Lazy<StateReaderTaskEither<S, R, E, A>>
-) => StateReaderTaskEither<S, R, E, A> = (fa, that) => (s) =>
-  pipe(
-    fa(s),
-    RTE.alt(() => that()(s))
-  )
-
-const bimap_: <S, R, E, A, G, B>(
-  fea: StateReaderTaskEither<S, R, E, A>,
-  f: (e: E) => G,
-  g: (a: A) => B
-) => StateReaderTaskEither<S, R, G, B> = (fea, f, g) => (s) =>
-  pipe(
-    fea(s),
-    RTE.bimap(f, ([a, s]) => [g(a), s])
-  )
-
-const mapLeft_: <S, R, E, A, G>(
-  fea: StateReaderTaskEither<S, R, E, A>,
-  f: (e: E) => G
-) => StateReaderTaskEither<S, R, G, A> = (fea, f) => (s) => pipe(fea(s), RTE.mapLeft(f))
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorStateReaderTaskEither: Functor4<URI> = {
+  URI,
+  map: map_
+}
 
 /**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeStateReaderTaskEither: Applicative4<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const bifunctorStateReaderTaskEither: Bifunctor4<URI> = {
+  URI,
+  bimap: bimap_,
+  mapLeft: mapLeft_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const altReaderStateTaskEither: Alt4<URI> = {
+  URI,
+  map: map_,
+  alt: alt_
+}
+
+// TODO: remove in v3
+/**
+ * @category instances
  * @since 2.0.0
  */
 export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & MonadTask4<URI> & MonadThrow4<URI> = {
@@ -572,31 +644,30 @@ export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & 
   bimap: bimap_,
   mapLeft: mapLeft_,
   alt: alt_,
-  fromIO: rightIO,
-  fromTask: rightTask,
-  throwError: left
+  fromIO,
+  fromTask,
+  throwError
 }
 
+// TODO: remove in v3
 /**
  * Like `stateReaderTaskEither` but `ap` is sequential
+ *
+ * @category instances
  * @since 2.0.0
  */
 export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
   URI,
   map: map_,
   of,
-  ap: (fab, fa) =>
-    pipe(
-      fab,
-      chain((f) => pipe(fa, map(f)))
-    ),
+  ap: ap_,
   chain: chain_,
   bimap: bimap_,
   mapLeft: mapLeft_,
   alt: alt_,
-  fromIO: rightIO,
-  fromTask: rightTask,
-  throwError: left
+  fromIO,
+  fromTask,
+  throwError
 }
 
 // -------------------------------------------------------------------------------------
@@ -608,6 +679,7 @@ export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
 /**
  * @since 2.0.0
  */
+/* istanbul ignore next */
 export function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: R): Promise<Either<E, [A, S]>> {
   return ma(s)(r)()
 }

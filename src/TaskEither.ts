@@ -5,21 +5,23 @@
  * @since 2.0.0
  */
 import { Alt2, Alt2C } from './Alt'
-import { apComposition } from './Apply'
+import { Applicative2, Applicative2C } from './Applicative'
+import { apComposition, Apply1 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { Filterable2C, getFilterableComposition } from './Filterable'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2, Monad2C } from './Monad'
+import { MonadIO2 } from './MonadIO'
 import { MonadTask2, MonadTask2C } from './MonadTask'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
-import { getValidationM } from './ValidationT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -284,6 +286,21 @@ export const chainIOEitherK: <E, A, B>(
 ) => (ma: TaskEither<E, A>) => TaskEither<E, B> = chainIOEitherKW
 
 // -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+/* istanbul ignore next */
+const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
+/* istanbul ignore next */
+const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
+const apPar_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const apSeq_: Applicative2<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
+const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+/* istanbul ignore next */
+const alt_: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
+
+// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -323,7 +340,7 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskEither<E, A>) => Tas
  */
 export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B> =
   /*#__PURE__*/
-  apComposition(T.applyTask, E.applyEither)
+  apComposition(T.applicativeTaskPar, E.applicativeEither)
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -437,33 +454,28 @@ export const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>)
   T.chain(E.fold(that, right))
 
 /**
- * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
- * whether the body action throws (\*) or returns.
- *
- * (\*) i.e. returns a `Left`
- *
- * @category MonadThrow
+ * @category Applicative
  * @since 2.0.0
  */
-export const bracket = <E, A, B>(
-  acquire: TaskEither<E, A>,
-  use: (a: A) => TaskEither<E, B>,
-  release: (a: A, e: Either<E, B>) => TaskEither<E, void>
-): TaskEither<E, B> =>
-  pipe(
-    acquire,
-    chain((a) =>
-      pipe(
-        pipe(use(a), T.map(E.right)),
-        chain((e) =>
-          pipe(
-            release(a, e),
-            chain(() => (E.isLeft(e) ? left(e.left) : of(e.right)))
-          )
-        )
-      )
-    )
-  )
+export const of: Applicative2<URI>['of'] = right
+
+/**
+ * @category MonadIO
+ * @since 2.7.0
+ */
+export const fromIO: MonadIO2<URI>['fromIO'] = rightIO
+
+/**
+ * @category MonadTask
+ * @since 2.7.0
+ */
+export const fromTask: MonadTask2<URI>['fromTask'] = rightTask
+
+/**
+ * @category MonadTask
+ * @since 2.7.0
+ */
+export const throwError: MonadThrow2<URI>['throwError'] = left
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -486,20 +498,6 @@ declare module './HKT' {
     readonly [URI]: TaskEither<E, A>
   }
 }
-
-const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
-/* istanbul ignore next */
-const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
-/* istanbul ignore next */
-const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const of = right
-const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-/* istanbul ignore next */
-const alt_: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
-const fromIO_ = rightIO
-const fromTask_ = rightTask
-const throwError_ = left
 
 /**
  * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
@@ -536,25 +534,66 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>> {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 2.7.0
  */
-export function getTaskValidation<E>(
-  S: Semigroup<E>
-): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadTask2C<URI, E> & MonadThrow2C<URI, E> {
-  const V = getValidationM(S, T.monadTask)
+export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E> {
+  const ap = apComposition(A, E.getApplicativeValidation(SE))
   return {
     URI,
     _E: undefined as any,
     map: map_,
-    ap: V.ap,
+    ap: (fab, fa) => pipe(fab, ap(fa)),
+    of
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export function getAltTaskValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    alt: (me, that) =>
+      pipe(
+        me,
+        T.chain((e1) =>
+          E.isRight(e1)
+            ? T.of(e1)
+            : pipe(
+                that(),
+                T.map((e2) => (E.isLeft(e2) ? E.left(SE.concat(e1.left, e2.left)) : e2))
+              )
+        )
+      )
+  }
+}
+
+// TODO: remove in v3
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export function getTaskValidation<E>(
+  SE: Semigroup<E>
+): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadTask2C<URI, E> & MonadThrow2C<URI, E> {
+  const applicativeTaskValidation = getApplicativeTaskValidation(T.applicativeTaskPar, SE)
+  const altTaskValidation = getAltTaskValidation(SE)
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    ap: applicativeTaskValidation.ap,
     of,
     chain: chain_,
     bimap: bimap_,
     mapLeft: mapLeft_,
-    alt: V.alt,
-    fromIO: fromIO_,
-    fromTask: fromTask_,
-    throwError: throwError_
+    alt: altTaskValidation.alt,
+    fromIO,
+    fromTask,
+    throwError
   }
 }
 
@@ -581,6 +620,58 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
 
 /**
  * @category instances
+ * @since 2.7.0
+ */
+export const functorTaskEither: Functor2<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeTaskEitherPar: Applicative2<URI> = {
+  URI,
+  map: map_,
+  ap: apPar_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeTaskEitherSeq: Applicative2<URI> = {
+  URI,
+  map: map_,
+  ap: apSeq_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const bifunctorTaskEither: Bifunctor2<URI> = {
+  URI,
+  bimap: bimap_,
+  mapLeft: mapLeft_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const altTaskEither: Alt2<URI> = {
+  URI,
+  map: map_,
+  alt: alt_
+}
+
+// TODO: remove in v3
+/**
+ * @category instances
  * @since 2.0.0
  */
 export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<URI> & MonadThrow2<URI> = {
@@ -588,15 +679,16 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<
   bimap: bimap_,
   mapLeft: mapLeft_,
   map: map_,
-  of: of,
-  ap: ap_,
+  of,
+  ap: apPar_,
   chain: chain_,
   alt: alt_,
-  fromIO: fromIO_,
-  fromTask: fromTask_,
-  throwError: throwError_
+  fromIO,
+  fromTask,
+  throwError
 }
 
+// TODO: remove in v3
 /**
  * Like `TaskEither` but `ap` is sequential
  *
@@ -609,12 +701,12 @@ export const taskEitherSeq: typeof taskEither = {
   mapLeft: mapLeft_,
   map: map_,
   of,
-  ap: (mab, ma) => chain_(mab, (f) => map_(ma, f)),
+  ap: apSeq_,
   chain: chain_,
   alt: alt_,
-  fromIO: fromIO_,
-  fromTask: fromTask_,
-  throwError: throwError_
+  fromIO,
+  fromTask,
+  throwError
 }
 
 // -------------------------------------------------------------------------------------
@@ -674,3 +766,31 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
       })
   }
 }
+
+/**
+ * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
+ * whether the body action throws (\*) or returns.
+ *
+ * (\*) i.e. returns a `Left`
+ *
+ * @since 2.0.0
+ */
+export const bracket = <E, A, B>(
+  acquire: TaskEither<E, A>,
+  use: (a: A) => TaskEither<E, B>,
+  release: (a: A, e: Either<E, B>) => TaskEither<E, void>
+): TaskEither<E, B> =>
+  pipe(
+    acquire,
+    chain((a) =>
+      pipe(
+        pipe(use(a), T.map(E.right)),
+        chain((e) =>
+          pipe(
+            release(a, e),
+            chain(() => (E.isLeft(e) ? left(e.left) : of(e.right)))
+          )
+        )
+      )
+    )
+  )

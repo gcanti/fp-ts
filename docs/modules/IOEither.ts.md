@@ -31,8 +31,10 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainW](#chainw)
   - [flatten](#flatten)
+- [MonadIO](#monadio)
+  - [fromIO](#fromio)
 - [MonadThrow](#monadthrow)
-  - [bracket](#bracket)
+  - [throwError](#throwerror)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -56,14 +58,25 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [altIOEither](#altioeither)
+  - [applicativeIOEither](#applicativeioeither)
+  - [bifunctorIOEither](#bifunctorioeither)
+  - [functorIOEither](#functorioeither)
+  - [getAltIOValidation](#getaltiovalidation)
+  - [getApplicativeIOValidation](#getapplicativeiovalidation)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getFilterable](#getfilterable)
   - [getIOValidation](#getiovalidation)
   - [getSemigroup](#getsemigroup)
   - [ioEither](#ioeither)
+  - [monadIOEither](#monadioeither)
+  - [monadIOIOEither](#monadioioeither)
+  - [monadThrowIOEither](#monadthrowioeither)
 - [model](#model)
   - [IOEither (interface)](#ioeither-interface)
+- [utils](#utils)
+  - [bracket](#bracket)
 
 ---
 
@@ -210,26 +223,29 @@ export declare const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEith
 
 Added in v2.0.0
 
-# MonadThrow
+# MonadIO
 
-## bracket
-
-Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
-whether the body action throws (\*) or returns.
-
-(\*) i.e. returns a `Left`
+## fromIO
 
 **Signature**
 
 ```ts
-export declare const bracket: <E, A, B>(
-  acquire: IOEither<E, A>,
-  use: (a: A) => IOEither<E, B>,
-  release: (a: A, e: E.Either<E, B>) => IOEither<E, void>
-) => IOEither<E, B>
+export declare const fromIO: <E, A>(fa: I.IO<A>) => IOEither<E, A>
 ```
 
-Added in v2.0.0
+Added in v2.7.0
+
+# MonadThrow
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <E, A>(e: E) => IOEither<E, A>
+```
+
+Added in v2.7.0
 
 # combinators
 
@@ -448,6 +464,66 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
+## altIOEither
+
+**Signature**
+
+```ts
+export declare const altIOEither: Alt2<'IOEither'>
+```
+
+Added in v2.7.0
+
+## applicativeIOEither
+
+**Signature**
+
+```ts
+export declare const applicativeIOEither: Applicative2<'IOEither'>
+```
+
+Added in v2.7.0
+
+## bifunctorIOEither
+
+**Signature**
+
+```ts
+export declare const bifunctorIOEither: Bifunctor2<'IOEither'>
+```
+
+Added in v2.7.0
+
+## functorIOEither
+
+**Signature**
+
+```ts
+export declare const functorIOEither: Functor2<'IOEither'>
+```
+
+Added in v2.7.0
+
+## getAltIOValidation
+
+**Signature**
+
+```ts
+export declare function getAltIOValidation<E>(SE: Semigroup<E>): Alt2C<URI, E>
+```
+
+Added in v2.7.0
+
+## getApplicativeIOValidation
+
+**Signature**
+
+```ts
+export declare function getApplicativeIOValidation<E>(SE: Semigroup<E>): Applicative2C<URI, E>
+```
+
+Added in v2.7.0
+
 ## getApplyMonoid
 
 **Signature**
@@ -487,7 +563,7 @@ Added in v2.1.0
 
 ```ts
 export declare function getIOValidation<E>(
-  S: Semigroup<E>
+  SE: Semigroup<E>
 ): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadIO2C<URI, E> & MonadThrow2C<URI, E>
 ```
 
@@ -520,6 +596,36 @@ export declare const ioEither: Monad2<'IOEither'> &
 
 Added in v2.0.0
 
+## monadIOEither
+
+**Signature**
+
+```ts
+export declare const monadIOEither: Monad2<'IOEither'>
+```
+
+Added in v2.7.0
+
+## monadIOIOEither
+
+**Signature**
+
+```ts
+export declare const monadIOIOEither: MonadIO2<'IOEither'>
+```
+
+Added in v2.7.0
+
+## monadThrowIOEither
+
+**Signature**
+
+```ts
+export declare const monadThrowIOEither: MonadThrow2<'IOEither'>
+```
+
+Added in v2.7.0
+
 # model
 
 ## IOEither (interface)
@@ -528,6 +634,27 @@ Added in v2.0.0
 
 ```ts
 export interface IOEither<E, A> extends IO<Either<E, A>> {}
+```
+
+Added in v2.0.0
+
+# utils
+
+## bracket
+
+Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
+whether the body action throws (\*) or returns.
+
+(\*) i.e. returns a `Left`
+
+**Signature**
+
+```ts
+export declare const bracket: <E, A, B>(
+  acquire: IOEither<E, A>,
+  use: (a: A) => IOEither<E, B>,
+  release: (a: A, e: E.Either<E, B>) => IOEither<E, void>
+) => IOEither<E, B>
 ```
 
 Added in v2.0.0

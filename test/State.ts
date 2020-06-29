@@ -12,15 +12,15 @@ describe('State', () => {
 
     it('ap', () => {
       const double = (n: number) => n * 2
-      assert.deepStrictEqual(pipe(_.state.of(double), _.ap(_.state.of(1)))(0), [2, 0])
+      assert.deepStrictEqual(pipe(_.of(double), _.ap(_.of(1)))(0), [2, 0])
     })
 
     it('apFirst', () => {
-      assert.deepStrictEqual(pipe(_.state.of('a'), _.apFirst(_.state.of('b')))(0), ['a', 0])
+      assert.deepStrictEqual(pipe(_.of('a'), _.apFirst(_.of('b')))(0), ['a', 0])
     })
 
     it('apSecond', () => {
-      assert.deepStrictEqual(pipe(_.state.of('a'), _.apSecond(_.state.of('b')))(0), ['b', 0])
+      assert.deepStrictEqual(pipe(_.of('a'), _.apSecond(_.of('b')))(0), ['b', 0])
     })
 
     it('chain', () => {
@@ -36,16 +36,16 @@ describe('State', () => {
     })
 
     it('flatten', () => {
-      assert.deepStrictEqual(pipe(_.state.of(_.state.of('a')), _.flatten)(0), ['a', 0])
+      assert.deepStrictEqual(pipe(_.of(_.of('a')), _.flatten)(0), ['a', 0])
     })
   })
 
   it('eval', () => {
-    assert.deepStrictEqual(_.evalState(_.state.of<number, string>('a'), 0), 'a')
+    assert.deepStrictEqual(_.evalState(_.of<number, string>('a'), 0), 'a')
   })
 
   it('exec', () => {
-    assert.deepStrictEqual(_.execState(_.state.of<number, string>('a'), 0), 0)
+    assert.deepStrictEqual(_.execState(_.of<number, string>('a'), 0), 0)
   })
 
   it('put', () => {

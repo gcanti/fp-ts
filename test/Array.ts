@@ -24,7 +24,7 @@ describe('Array', () => {
     })
 
     it('sequence', () => {
-      const sequence = _.sequence(O.option)
+      const sequence = _.sequence(O.applicativeOption)
       assert.deepStrictEqual(sequence([O.some(1), O.some(3)]), O.some([1, 3]))
       assert.deepStrictEqual(sequence([O.some(1), O.none]), O.none)
     })
@@ -33,14 +33,14 @@ describe('Array', () => {
       assert.deepStrictEqual(
         pipe(
           ['a', 'bb'],
-          _.traverseWithIndex(O.option)((i, s) => (s.length >= 1 ? O.some(s + i) : O.none))
+          _.traverseWithIndex(O.applicativeOption)((i, s) => (s.length >= 1 ? O.some(s + i) : O.none))
         ),
         O.some(['a0', 'bb1'])
       )
       assert.deepStrictEqual(
         pipe(
           ['a', 'bb'],
-          _.traverseWithIndex(O.option)((i, s) => (s.length > 1 ? O.some(s + i) : O.none))
+          _.traverseWithIndex(O.applicativeOption)((i, s) => (s.length > 1 ? O.some(s + i) : O.none))
         ),
         O.none
       )
@@ -66,13 +66,13 @@ describe('Array', () => {
     })
 
     it('wither', async () => {
-      const wither = _.wither(T.task)((n: number) => T.of(n > 2 ? O.some(n + 1) : O.none))
+      const wither = _.wither(T.applicativeTaskPar)((n: number) => T.of(n > 2 ? O.some(n + 1) : O.none))
       assert.deepStrictEqual(await pipe([], wither)(), [])
       assert.deepStrictEqual(await pipe([1, 3], wither)(), [4])
     })
 
     it('wilt', async () => {
-      const wilt = _.wilt(T.task)((n: number) => T.of(n > 2 ? E.right(n + 1) : E.left(n - 1)))
+      const wilt = _.wilt(T.applicativeTaskPar)((n: number) => T.of(n > 2 ? E.right(n + 1) : E.left(n - 1)))
       assert.deepStrictEqual(await pipe([], wilt)(), { left: [], right: [] })
       assert.deepStrictEqual(await pipe([1, 3], wilt)(), { left: [0], right: [4] })
     })
@@ -693,7 +693,10 @@ describe('Array', () => {
       readonly b: number
     }
 
-    const eqA = Eq.eq.contramap(Ord.ordNumber, (f: A) => f.b)
+    const eqA = pipe(
+      Ord.ordNumber,
+      Eq.contramap((f: A) => f.b)
+    )
     const arrA: A = { a: 'a', b: 1 }
     const arrB: A = { a: 'b', b: 1 }
     const arrC: A = { a: 'c', b: 2 }
@@ -725,8 +728,14 @@ describe('Array', () => {
       readonly name: string
       readonly age: number
     }
-    const byName = Ord.ord.contramap(Ord.ordString, (p: Person) => p.name)
-    const byAge = Ord.ord.contramap(Ord.ordNumber, (p: Person) => p.age)
+    const byName = pipe(
+      Ord.ordString,
+      Ord.contramap((p: Person) => p.name)
+    )
+    const byAge = pipe(
+      Ord.ordNumber,
+      Ord.contramap((p: Person) => p.age)
+    )
     const sortByNameByAge = _.sortBy([byName, byAge])
     const persons: Array<Person> = [
       { name: 'a', age: 1 },
@@ -905,7 +914,7 @@ describe('Array', () => {
       readonly bar: () => number
     }
     const f = (a: number, x?: Foo) => (x !== undefined ? `${a}${x.bar()}` : `${a}`)
-    assert.deepStrictEqual(_.array.map([1, 2], f), ['1', '2'])
+    assert.deepStrictEqual(_.functorArray.map([1, 2], f), ['1', '2'])
     assert.deepStrictEqual(pipe([1, 2], _.map(f)), ['1', '2'])
   })
 

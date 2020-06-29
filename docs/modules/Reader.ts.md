@@ -18,6 +18,8 @@ Added in v2.0.0
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+- [Category](#category)
+  - [id](#id)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -37,9 +39,14 @@ Added in v2.0.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [applicativeReader](#applicativereader)
+  - [categoryReader](#categoryreader)
+  - [functorReader](#functorreader)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
-  - [reader](#reader)
+  - [monadReader](#monadreader)
+  - [profunctorReader](#profunctorreader)
+  - [~~reader~~](#reader)
 - [model](#model)
   - [Reader (interface)](#reader-interface)
 
@@ -52,7 +59,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const of: <R, A>(a: A) => Reader<R, A>
+export declare const of: <E, A>(a: A) => Reader<E, A>
 ```
 
 Added in v2.0.0
@@ -91,6 +98,18 @@ Combine two effectful actions, keeping only the result of the second.
 
 ```ts
 export declare const apSecond: <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>) => Reader<R, B>
+```
+
+Added in v2.0.0
+
+# Category
+
+## id
+
+**Signature**
+
+```ts
+export declare const id: <A>() => Reader<A, A>
 ```
 
 Added in v2.0.0
@@ -246,6 +265,36 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
+## applicativeReader
+
+**Signature**
+
+```ts
+export declare const applicativeReader: Applicative2<'Reader'>
+```
+
+Added in v2.7.0
+
+## categoryReader
+
+**Signature**
+
+```ts
+export declare const categoryReader: Category2<'Reader'>
+```
+
+Added in v2.7.0
+
+## functorReader
+
+**Signature**
+
+```ts
+export declare const functorReader: Functor2<'Reader'>
+```
+
+Added in v2.7.0
+
 ## getMonoid
 
 **Signature**
@@ -266,7 +315,27 @@ export declare function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R,
 
 Added in v2.0.0
 
-## reader
+## monadReader
+
+**Signature**
+
+```ts
+export declare const monadReader: Monad2<'Reader'>
+```
+
+Added in v2.7.0
+
+## profunctorReader
+
+**Signature**
+
+```ts
+export declare const profunctorReader: Profunctor2<'Reader'>
+```
+
+Added in v2.7.0
+
+## ~~reader~~
 
 **Signature**
 

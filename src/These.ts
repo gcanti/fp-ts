@@ -19,7 +19,7 @@
  *
  * @since 2.0.0
  */
-import { Applicative } from './Applicative'
+import { Applicative, Applicative2C } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
@@ -32,7 +32,7 @@ import { Monoid } from './Monoid'
 import { isNone, none, Option, some } from './Option'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
-import { Traversable2, PipeableTraverse2 } from './Traversable'
+import { PipeableTraverse2, Traversable2 } from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -162,9 +162,40 @@ export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
 
 /**
  * @category instances
+ * @since 2.7.0
+ */
+export function getApplicative<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    of: right,
+    ap: (fab, fa) =>
+      isLeft(fab)
+        ? isLeft(fa)
+          ? left(SE.concat(fab.left, fa.left))
+          : isRight(fa)
+          ? left(fab.left)
+          : left(SE.concat(fab.left, fa.left))
+        : isRight(fab)
+        ? isLeft(fa)
+          ? left(fa.left)
+          : isRight(fa)
+          ? right(fab.right(fa.right))
+          : both(fa.left, fab.right(fa.right))
+        : isLeft(fa)
+        ? left(SE.concat(fab.left, fa.left))
+        : isRight(fa)
+        ? both(fab.left, fab.right(fa.right))
+        : both(SE.concat(fab.left, fa.left), fab.right(fa.right))
+  }
+}
+
+/**
+ * @category instances
  * @since 2.0.0
  */
-export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI, E> {
+export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI, E> {
   const chain = <A, B>(ma: These<E, A>, f: (a: A) => These<E, B>): These<E, B> => {
     if (isLeft(ma)) {
       return ma
@@ -174,18 +205,19 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI
     }
     const fb = f(ma.right)
     return isLeft(fb)
-      ? left(S.concat(ma.left, fb.left))
+      ? left(SE.concat(ma.left, fb.left))
       : isRight(fb)
       ? both(ma.left, fb.right)
-      : both(S.concat(ma.left, fb.left), fb.right)
+      : both(SE.concat(ma.left, fb.left), fb.right)
   }
 
+  const applicative = getApplicative(SE)
   return {
     URI,
     _E: undefined as any,
     map: map_,
     of: right,
-    ap: (mab, ma) => chain(mab, (f) => map_(ma, f)),
+    ap: applicative.ap,
     chain,
     throwError: left
   }
@@ -369,26 +401,27 @@ export function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
 }
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: <E, A, B>(fa: These<E, A>, f: (a: A) => B) => These<E, B> = (fa, f) =>
+const map_: Functor2<URI>['map'] = (fa, f) =>
   isLeft(fa) ? fa : isRight(fa) ? right(f(fa.right)) : both(fa.left, f(fa.right))
-
-const bimap_: <E, A, G, B>(fea: These<E, A>, f: (e: E) => G, g: (a: A) => B) => These<G, B> = (fea, f, g) =>
+const bimap_: Bifunctor2<URI>['bimap'] = (fea, f, g) =>
   isLeft(fea) ? left(f(fea.left)) : isRight(fea) ? right(g(fea.right)) : both(f(fea.left), g(fea.right))
-
-const mapLeft_: <E, A, G>(fea: These<E, A>, f: (e: E) => G) => These<G, A> = (fea, f) =>
+const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fea, f) =>
   isLeft(fea) ? left(f(fea.left)) : isBoth(fea) ? both(f(fea.left), fea.right) : fea
-
-const reduce_: <E, A, B>(fa: These<E, A>, b: B, f: (b: B, a: A) => B) => B = (fa, b, f) =>
-  isLeft(fa) ? b : isRight(fa) ? f(b, fa.right) : f(b, fa.right)
-
-const foldMap_: <M>(M: Monoid<M>) => <E, A>(fa: These<E, A>, f: (a: A) => M) => M = (M) => (fa, f) =>
+const reduce_: Foldable2<URI>['reduce'] = (fa, b, f) => (isLeft(fa) ? b : isRight(fa) ? f(b, fa.right) : f(b, fa.right))
+const foldMap_: Foldable2<URI>['foldMap'] = (M) => (fa, f) =>
   isLeft(fa) ? M.empty : isRight(fa) ? f(fa.right) : f(fa.right)
-
-const reduceRight_: <E, A, B>(fa: These<E, A>, b: B, f: (a: A, b: B) => B) => B = (fa, b, f) =>
+const reduceRight_: Foldable2<URI>['reduceRight'] = (fa, b, f) =>
   isLeft(fa) ? b : isRight(fa) ? f(fa.right, b) : f(fa.right, b)
+const traverse_ = <F>(F: Applicative<F>) => <E, A, B>(ta: These<E, A>, f: (a: A) => HKT<F, B>): HKT<F, These<E, B>> => {
+  return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(f(ta.right), right) : F.map(f(ta.right), (b) => both(ta.left, b))
+}
+
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -439,6 +472,25 @@ export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) 
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>
   reduceRight_(fa, b, f)
 
+/**
+ * @since 2.6.3
+ */
+export const traverse: PipeableTraverse2<URI> = <F>(
+  F: Applicative<F>
+): (<A, B>(f: (a: A) => HKT<F, B>) => <E>(ta: These<E, A>) => HKT<F, These<E, B>>) => {
+  const traverseF = traverse_(F)
+  return (f) => (ta) => traverseF(ta, f)
+}
+
+/**
+ * @since 2.6.3
+ */
+export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <E, A>(
+  ta: These<E, HKT<F, A>>
+): HKT<F, These<E, A>> => {
+  return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(ta.right, right) : F.map(ta.right, (b) => both(ta.left, b))
+}
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -461,29 +513,51 @@ declare module './HKT' {
   }
 }
 
-const traverse_ = <F>(F: Applicative<F>) => <E, A, B>(ta: These<E, A>, f: (a: A) => HKT<F, B>): HKT<F, These<E, B>> => {
-  return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(f(ta.right), right) : F.map(f(ta.right), (b) => both(ta.left, b))
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorThese: Functor2<URI> = {
+  URI,
+  map: map_
 }
 
 /**
- * @since 2.6.3
+ * @category instances
+ * @since 2.7.0
  */
-export const traverse: PipeableTraverse2<URI> = <F>(
-  F: Applicative<F>
-): (<A, B>(f: (a: A) => HKT<F, B>) => <E>(ta: These<E, A>) => HKT<F, These<E, B>>) => {
-  const traverseF = traverse_(F)
-  return (f) => (ta) => traverseF(ta, f)
+export const bifunctorThese: Bifunctor2<URI> = {
+  URI,
+  bimap: bimap_,
+  mapLeft: mapLeft_
 }
 
 /**
- * @since 2.6.3
+ * @category instances
+ * @since 2.7.0
  */
-export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <E, A>(
-  ta: These<E, HKT<F, A>>
-): HKT<F, These<E, A>> => {
-  return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(ta.right, right) : F.map(ta.right, (b) => both(ta.left, b))
+export const foldableThese: Foldable2<URI> = {
+  URI,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_
 }
 
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const traversableThese: Traversable2<URI> = {
+  URI,
+  map: map_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  traverse: traverse_,
+  sequence
+}
+
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.0.0

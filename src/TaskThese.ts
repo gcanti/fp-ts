@@ -1,14 +1,14 @@
 /**
  * @since 2.4.0
  */
-import { apComposition } from './Apply'
+import { apComposition, Apply1 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { flow, pipe } from './function'
 import { Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2C } from './Monad'
-import { MonadTask2C } from './MonadTask'
+import { MonadTask2C, MonadTask2 } from './MonadTask'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
 import * as TH from './These'
@@ -19,6 +19,8 @@ import * as TH from './These'
 
 import These = TH.These
 import Task = T.Task
+import { Applicative2C, Applicative2 } from './Applicative'
+import { MonadIO2 } from './MonadIO'
 
 /**
  * @category model
@@ -130,6 +132,16 @@ export const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E> =
   T.map(TH.swap)
 
 // -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+/* istanbul ignore next */
+const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
+/* istanbul ignore next */
+const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
+
+// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -160,6 +172,24 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskThe
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => TaskThese<G, A> = (f) =>
   T.map(TH.mapLeft(f))
 
+/**
+ * @category Applicative
+ * @since 2.7.0
+ */
+export const of: Applicative2<URI>['of'] = right
+
+/**
+ * @category MonadIO
+ * @since 2.7.0
+ */
+export const fromIO: MonadIO2<URI>['fromIO'] = rightIO
+
+/**
+ * @category MonadIO
+ * @since 2.7.0
+ */
+export const fromTask: MonadTask2<URI>['fromTask'] = rightTask
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -182,12 +212,6 @@ declare module './HKT' {
   }
 }
 
-const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
-/* istanbul ignore next */
-const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
-/* istanbul ignore next */
-const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-
 /**
  * @category instances
  * @since 2.4.0
@@ -198,16 +222,32 @@ export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
 
 /**
  * @category instances
- * @since 2.4.0
+ * @since 2.7.0
  */
-export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI, E> {
-  const ap = apComposition(T.applyTask, TH.getMonad(S))
+export function getApplicative<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E> {
+  const ap = apComposition(A, TH.getMonad(SE))
   return {
     URI,
     _E: undefined as any,
     map: map_,
     ap: (fab, fa) => pipe(fab, ap(fa)),
-    of: right,
+    of
+  }
+}
+
+// TODO: remove in v3
+/**
+ * @category instances
+ * @since 2.4.0
+ */
+export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI, E> {
+  const A = getApplicative(T.applicativeTaskPar, SE)
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    ap: A.ap,
+    of,
     chain: (ma, f) =>
       pipe(
         ma,
@@ -217,20 +257,40 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI,
               f(a),
               T.map(
                 TH.fold(
-                  (e2) => TH.left(S.concat(e1, e2)),
+                  (e2) => TH.left(SE.concat(e1, e2)),
                   TH.right,
-                  (e2, b) => TH.both(S.concat(e1, e2), b)
+                  (e2, b) => TH.both(SE.concat(e1, e2), b)
                 )
               )
             )
           )
         )
       ),
-    fromIO: rightIO,
-    fromTask: rightTask
+    fromIO,
+    fromTask
   }
 }
 
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorTaskThese: Functor2<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const bifunctorTaskThese: Bifunctor2<URI> = {
+  URI,
+  bimap: bimap_,
+  mapLeft: mapLeft_
+}
+
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.4.0

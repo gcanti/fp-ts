@@ -7,17 +7,19 @@
  *
  * @since 2.0.0
  */
-import { Applicative } from './Applicative'
+import { Applicative, Applicative1 } from './Applicative'
 import * as A from './Array'
 import { Comonad1 } from './Comonad'
 import { Eq, fromEquals } from './Eq'
 import { Foldable1 } from './Foldable'
 import { identity, pipe } from './function'
+import { Functor1 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid } from './Monoid'
 import { Show } from './Show'
-import { Traversable1, PipeableTraverse1 } from './Traversable'
+import { PipeableTraverse1, Traversable1 } from './Traversable'
+import { Extend1 } from './Extend'
 
 // tslint:disable:readonly-array
 
@@ -254,16 +256,14 @@ export function fold<A, B>(f: (a: A, bs: Array<B>) => B): (tree: Tree<A>) => B {
 }
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: <A, B>(fa: Tree<A>, f: (a: A) => B) => Tree<B> = (fa, f) => ({
+const map_: Monad1<URI>['map'] = (fa, f) => ({
   value: f(fa.value),
   forest: fa.forest.map((t) => map_(t, f))
 })
-
-const ap_: <A, B>(fab: Tree<(a: A) => B>, fa: Tree<A>) => Tree<B> = (fab, fa) => chain_(fab, (f) => map_(fa, f))
-
+const ap_: Monad1<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
 const chain_ = <A, B>(fa: Tree<A>, f: (a: A) => Tree<B>): Tree<B> => {
   const { value, forest } = f(fa.value)
   const concat = A.getMonoid<Tree<B>>().concat
@@ -275,7 +275,6 @@ const chain_ = <A, B>(fa: Tree<A>, f: (a: A) => Tree<B>): Tree<B> => {
     )
   }
 }
-
 const reduce_ = <A, B>(fa: Tree<A>, b: B, f: (b: B, a: A) => B): B => {
   let r: B = f(b, fa.value)
   const len = fa.forest.length
@@ -284,10 +283,7 @@ const reduce_ = <A, B>(fa: Tree<A>, b: B, f: (b: B, a: A) => B): B => {
   }
   return r
 }
-
-const foldMap_: <M>(M: Monoid<M>) => <A>(fa: Tree<A>, f: (a: A) => M) => M = (M) => (fa, f) =>
-  reduce_(fa, M.empty, (acc, a) => M.concat(acc, f(a)))
-
+const foldMap_: Foldable1<URI>['foldMap'] = (M) => (fa, f) => reduce_(fa, M.empty, (acc, a) => M.concat(acc, f(a)))
 const reduceRight_ = <A, B>(fa: Tree<A>, b: B, f: (a: A, b: B) => B): B => {
   let r: B = b
   const len = fa.forest.length
@@ -296,11 +292,29 @@ const reduceRight_ = <A, B>(fa: Tree<A>, b: B, f: (a: A, b: B) => B): B => {
   }
   return f(fa.value, r)
 }
-
-const extend_: <A, B>(wa: Tree<A>, f: (wa: Tree<A>) => B) => Tree<B> = (wa, f) => ({
+const extend_: Extend1<URI>['extend'] = (wa, f) => ({
   value: f(wa),
   forest: wa.forest.map((t) => extend_(t, f))
 })
+const traverse_ = <F>(F: Applicative<F>): (<A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>) => HKT<F, Tree<B>>) => {
+  const traverseF = A.traverse(F)
+  const r = <A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>): HKT<F, Tree<B>> =>
+    F.ap(
+      F.map(f(ta.value), (value: B) => (forest: Forest<B>) => ({
+        value,
+        forest
+      })),
+      pipe(
+        ta.forest,
+        traverseF((t) => r(t, f))
+      )
+    )
+  return r
+}
+
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -407,6 +421,34 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>) =>
  */
 export const extract: <A>(wa: Tree<A>) => A = (wa) => wa.value
 
+/**
+ * @since 2.6.3
+ */
+export const traverse: PipeableTraverse1<URI> = <F>(
+  F: Applicative<F>
+): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Tree<A>) => HKT<F, Tree<B>>) => {
+  const traverseF = traverse_(F)
+  return (f) => (ta) => traverseF(ta, f)
+}
+
+/**
+ * @since 2.6.3
+ */
+export const sequence: Traversable1<URI>['sequence'] = <F>(
+  F: Applicative<F>
+): (<A>(ta: Tree<HKT<F, A>>) => HKT<F, Tree<A>>) => {
+  const traverseF = traverse_(F)
+  return (ta) => traverseF(ta, identity)
+}
+
+/**
+ * @since 2.7.0
+ */
+export const of: Applicative1<URI>['of'] = (a) => ({
+  value: a,
+  forest: A.empty
+})
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -429,42 +471,75 @@ declare module './HKT' {
   }
 }
 
-const traverse_ = <F>(F: Applicative<F>): (<A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>) => HKT<F, Tree<B>>) => {
-  const traverseF = A.traverse(F)
-  const r = <A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>): HKT<F, Tree<B>> =>
-    F.ap(
-      F.map(f(ta.value), (value: B) => (forest: Forest<B>) => ({
-        value,
-        forest
-      })),
-      pipe(
-        ta.forest,
-        traverseF((t) => r(t, f))
-      )
-    )
-  return r
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorTree: Functor1<URI> = {
+  URI,
+  map: map_
 }
 
 /**
- * @since 2.6.3
+ * @category instances
+ * @since 2.7.0
  */
-export const traverse: PipeableTraverse1<URI> = <F>(
-  F: Applicative<F>
-): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Tree<A>) => HKT<F, Tree<B>>) => {
-  const traverseF = traverse_(F)
-  return (f) => (ta) => traverseF(ta, f)
+export const applicativeTree: Applicative1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of
 }
 
 /**
- * @since 2.6.3
+ * @category instances
+ * @since 2.7.0
  */
-export const sequence: Traversable1<URI>['sequence'] = <F>(
-  F: Applicative<F>
-): (<A>(ta: Tree<HKT<F, A>>) => HKT<F, Tree<A>>) => {
-  const traverseF = traverse_(F)
-  return (ta) => traverseF(ta, identity)
+export const monadTree: Monad1<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_
 }
 
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const foldableTree: Foldable1<URI> = {
+  URI,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const traversableTree: Traversable1<URI> = {
+  URI,
+  map: map_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  traverse: traverse_,
+  sequence
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const comonadTree: Comonad1<URI> = {
+  URI,
+  map: map_,
+  extend: extend_,
+  extract
+}
+
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.0.0
@@ -472,10 +547,7 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(
 export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
   URI,
   map: map_,
-  of: (a) => ({
-    value: a,
-    forest: A.empty
-  }),
+  of,
   ap: ap_,
   chain: chain_,
   reduce: reduce_,

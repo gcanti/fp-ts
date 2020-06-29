@@ -2,30 +2,36 @@
  * @since 2.0.0
  */
 import { Alt3, Alt3C } from './Alt'
+import { Applicative3, Applicative3C } from './Applicative'
+import { apComposition, Apply1 } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
-import { Either } from './Either'
+import * as E from './Either'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { Functor3 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad3, Monad3C } from './Monad'
+import { MonadIO3 } from './MonadIO'
 import { MonadTask3, MonadTask3C } from './MonadTask'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import * as R from './Reader'
 import { ReaderEither } from './ReaderEither'
-import { monadReaderTask, ReaderTask } from './ReaderTask'
+import * as RT from './ReaderTask'
 import { Semigroup } from './Semigroup'
-import { Task } from './Task'
+import * as T from './Task'
 import * as TE from './TaskEither'
-import { getValidationM } from './ValidationT'
 
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------
 
+import Either = E.Either
+import Task = T.Task
 import TaskEither = TE.TaskEither
 import Reader = R.Reader
+import ReaderTask = RT.ReaderTask
 
 /**
  * @category model
@@ -348,6 +354,31 @@ export const chainTaskEitherK: <E, A, B>(
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainTaskEitherKW
 
 // -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+const map_: Monad3<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const apPar_: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const apSeq_: Monad3<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
+const chain_: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+const alt_: <R, E, A>(
+  fa: ReaderTaskEither<R, E, A>,
+  that: Lazy<ReaderTaskEither<R, E, A>>
+) => ReaderTaskEither<R, E, A> = (fa, that) => (r) =>
+  pipe(
+    fa(r),
+    TE.alt(() => that()(r))
+  )
+const bimap_: <R, E, A, G, B>(
+  fea: ReaderTaskEither<R, E, A>,
+  f: (e: E) => G,
+  g: (a: A) => B
+) => ReaderTaskEither<R, G, B> = (ma, f, g) => (e) => pipe(ma(e), TE.bimap(f, g))
+const mapLeft_: <R, E, A, G>(fea: ReaderTaskEither<R, E, A>, f: (e: E) => G) => ReaderTaskEither<R, G, A> = (ma, f) => (
+  e
+) => pipe(ma(e), TE.mapLeft(f))
+
+// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -425,6 +456,12 @@ export const apSecond = <R, E, B>(fb: ReaderTaskEither<R, E, B>) => <A>(
   )
 
 /**
+ * @category Applicative
+ * @since 2.7.0
+ */
+export const of: Applicative3<URI>['of'] = right
+
+/**
  * Less strict version of [`chain`](#chain).
  *
  * @category Monad
@@ -485,26 +522,22 @@ export const alt: <R, E, A>(
 ) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = (that) => (fa) => alt_(fa, that)
 
 /**
- * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
- * whether the body action throws (\*) or returns.
- *
- * (\*) i.e. returns a `Left`
- *
- * @MonadThrow
- * @since 2.0.4
+ * @category MonadIO
+ * @since 2.0.0
  */
-export function bracket<R, E, A, B>(
-  aquire: ReaderTaskEither<R, E, A>,
-  use: (a: A) => ReaderTaskEither<R, E, B>,
-  release: (a: A, e: Either<E, B>) => ReaderTaskEither<R, E, void>
-): ReaderTaskEither<R, E, B> {
-  return (r) =>
-    TE.bracket(
-      aquire(r),
-      (a) => use(a)(r),
-      (a, e) => release(a, e)(r)
-    )
-}
+export const fromIO: MonadIO3<URI>['fromIO'] = rightIO
+
+/**
+ * @category MonadTask
+ * @since 2.0.0
+ */
+export const fromTask: MonadTask3<URI>['fromTask'] = rightTask
+
+/**
+ * @category MonadThrow
+ * @since 2.0.0
+ */
+export const throwError: MonadThrow3<URI>['throwError'] = left
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -526,41 +559,6 @@ declare module './HKT' {
   interface URItoKind3<R, E, A> {
     readonly [URI]: ReaderTaskEither<R, E, A>
   }
-}
-
-const map_: Monad3<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const ap_: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const of = right
-const chain_: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-const alt_: <R, E, A>(
-  fa: ReaderTaskEither<R, E, A>,
-  that: Lazy<ReaderTaskEither<R, E, A>>
-) => ReaderTaskEither<R, E, A> = (fa, that) => (r) =>
-  pipe(
-    fa(r),
-    TE.alt(() => that()(r))
-  )
-const bimap_: <R, E, A, G, B>(
-  fea: ReaderTaskEither<R, E, A>,
-  f: (e: E) => G,
-  g: (a: A) => B
-) => ReaderTaskEither<R, G, B> = (ma, f, g) => (e) => pipe(ma(e), TE.bimap(f, g))
-const mapLeft_: <R, E, A, G>(fea: ReaderTaskEither<R, E, A>, f: (e: E) => G) => ReaderTaskEither<R, G, A> = (ma, f) => (
-  e
-) => pipe(ma(e), TE.mapLeft(f))
-const fromIO_ = rightIO
-const fromTask_ = rightTask
-const throwError_ = left
-
-/**
- * @internal
- */
-export const monadReaderTaskEither: Monad3<URI> = {
-  URI,
-  map: map_,
-  of,
-  ap: ap_,
-  chain: chain_
 }
 
 /**
@@ -598,12 +596,43 @@ export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderTaskEither<R
 
 /**
  * @category instances
+ * @since 2.7.0
+ */
+export function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative3C<URI, E> {
+  const ap = apComposition(R.applicativeReader, TE.getApplicativeTaskValidation(A, SE))
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    ap: (fab, fa) => pipe(fab, ap(fa)),
+    of
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export function getAltReaderTaskValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
+  const A = TE.getAltTaskValidation(SE)
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    alt: (me, that) => (r) => A.alt(me(r), () => that()(r))
+  }
+}
+
+// TODO: remove in v3
+/**
+ * @category instances
  * @since 2.3.0
  */
 export function getReaderTaskValidation<E>(
-  S: Semigroup<E>
+  SE: Semigroup<E>
 ): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadTask3C<URI, E> & MonadThrow3C<URI, E> {
-  const V = getValidationM(S, monadReaderTask)
+  const applicativeReaderTaskValidation = getApplicativeReaderTaskValidation(T.applicativeTaskPar, SE)
+  const altReaderTaskValidation = getAltReaderTaskValidation(SE)
   return {
     URI,
     _E: undefined as any,
@@ -612,14 +641,66 @@ export function getReaderTaskValidation<E>(
     chain: chain_,
     bimap: bimap_,
     mapLeft: mapLeft_,
-    ap: V.ap,
-    alt: V.alt,
-    fromIO: fromIO_,
-    fromTask: fromTask_,
-    throwError: throwError_
+    ap: applicativeReaderTaskValidation.ap,
+    alt: altReaderTaskValidation.alt,
+    fromIO,
+    fromTask,
+    throwError
   }
 }
 
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorReaderTaskEither: Functor3<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeReaderTaskEitherPar: Applicative3<URI> = {
+  URI,
+  map: map_,
+  ap: apPar_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeReaderTaskEitherSeq: Applicative3<URI> = {
+  URI,
+  map: map_,
+  ap: apSeq_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const bifunctorReaderTaskEither: Bifunctor3<URI> = {
+  URI,
+  bimap: bimap_,
+  mapLeft: mapLeft_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const altReaderTaskEither: Alt3<URI> = {
+  URI,
+  map: map_,
+  alt: alt_
+}
+
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.0.0
@@ -628,16 +709,17 @@ export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & Monad
   URI,
   map: map_,
   of,
-  ap: ap_,
+  ap: apPar_,
   chain: chain_,
   alt: alt_,
   bimap: bimap_,
   mapLeft: mapLeft_,
-  fromIO: fromIO_,
-  fromTask: fromTask_,
-  throwError: throwError_
+  fromIO,
+  fromTask,
+  throwError
 }
 
+// TODO: remove in v3
 /**
  * Like `readerTaskEither` but `ap` is sequential
  *
@@ -648,18 +730,14 @@ export const readerTaskEitherSeq: typeof readerTaskEither = {
   URI,
   map: map_,
   of,
-  ap: (fab, fa) =>
-    pipe(
-      fab,
-      chain((f) => pipe(fa, map(f)))
-    ),
+  ap: apSeq_,
   chain: chain_,
   alt: alt_,
   bimap: bimap_,
   mapLeft: mapLeft_,
-  fromIO: fromIO_,
-  fromTask: fromTask_,
-  throwError: throwError_
+  fromIO,
+  fromTask,
+  throwError
 }
 
 // -------------------------------------------------------------------------------------
@@ -670,6 +748,28 @@ export const readerTaskEitherSeq: typeof readerTaskEither = {
 /**
  * @since 2.0.0
  */
+/* istanbul ignore next */
 export function run<R, E, A>(ma: ReaderTaskEither<R, E, A>, r: R): Promise<Either<E, A>> {
   return ma(r)()
+}
+
+/**
+ * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
+ * whether the body action throws (\*) or returns.
+ *
+ * (\*) i.e. returns a `Left`
+ *
+ * @since 2.0.4
+ */
+export function bracket<R, E, A, B>(
+  aquire: ReaderTaskEither<R, E, A>,
+  use: (a: A) => ReaderTaskEither<R, E, B>,
+  release: (a: A, e: Either<E, B>) => ReaderTaskEither<R, E, void>
+): ReaderTaskEither<R, E, B> {
+  return (r) =>
+    TE.bracket(
+      aquire(r),
+      (a) => use(a)(r),
+      (a, e) => release(a, e)(r)
+    )
 }

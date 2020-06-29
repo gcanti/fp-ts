@@ -2,13 +2,14 @@
  * @since 2.5.0
  */
 import { Applicative } from './Applicative'
-import { Separated } from './Compactable'
+import { Compactable2, Separated } from './Compactable'
 import { Either, isLeft } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Filterable2 } from './Filterable'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
-import { Predicate, Refinement, pipe } from './function'
+import { pipe, Predicate, Refinement } from './function'
+import { Functor2 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
@@ -592,27 +593,22 @@ const filterWithIndex_ = <K, A>(fa: ReadonlyMap<K, A>, p: (k: K, a: A) => boolea
 }
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: <K, A, B>(fa: ReadonlyMap<K, A>, f: (a: A) => B) => ReadonlyMap<K, B> = (fa, f) =>
-  mapWithIndex_(fa, (_, a) => f(a))
-
+const map_: Functor2<URI>['map'] = (fa, f) => mapWithIndex_(fa, (_, a) => f(a))
 const filter_ = <K, A>(fa: ReadonlyMap<K, A>, p: Predicate<A>): ReadonlyMap<K, A> =>
   filterWithIndex_(fa, (_, a) => p(a))
-
-const filterMap_: <K, A, B>(fa: ReadonlyMap<K, A>, f: (a: A) => Option<B>) => ReadonlyMap<K, B> = (fa, f) =>
-  filterMapWithIndex_(fa, (_, a) => f(a))
-
+const filterMap_: Filterable2<URI>['filterMap'] = (fa, f) => filterMapWithIndex_(fa, (_, a) => f(a))
 const partition_ = <K, A>(
   fa: ReadonlyMap<K, A>,
   predicate: Predicate<A>
 ): Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>> => partitionWithIndex_(fa, (_, a) => predicate(a))
+const partitionMap_: Filterable2<URI>['partitionMap'] = (fa, f) => partitionMapWithIndex_(fa, (_, a) => f(a))
 
-const partitionMap_: <K, A, B, C>(
-  fa: ReadonlyMap<K, A>,
-  f: (a: A) => Either<B, C>
-) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>> = (fa, f) => partitionMapWithIndex_(fa, (_, a) => f(a))
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
 
 /**
  * @category Compactable
@@ -860,6 +856,41 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
   }
 }
 
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorMap: Functor2<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const compactableMap: Compactable2<URI> = {
+  URI,
+  compact,
+  separate
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const filterableMap: Filterable2<URI> = {
+  URI,
+  map: map_,
+  compact,
+  separate,
+  filter: filter_,
+  filterMap: filterMap_,
+  partition: partition_,
+  partitionMap: partitionMap_
+}
+
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.5.0

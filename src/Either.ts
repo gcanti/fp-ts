@@ -14,8 +14,7 @@
  * @since 2.0.0
  */
 import { Alt2, Alt2C } from './Alt'
-import { Applicative } from './Applicative'
-import { Apply2 } from './Apply'
+import { Applicative, Applicative2, Applicative2C } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, ChainRec2C, tailRec } from './ChainRec'
 import { Separated } from './Compactable'
@@ -23,6 +22,7 @@ import { Eq } from './Eq'
 import { Extend2 } from './Extend'
 import { Foldable2 } from './Foldable'
 import { identity, Lazy, Predicate, Refinement } from './function'
+import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2, Monad2C } from './Monad'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
@@ -71,14 +71,7 @@ export type Either<E, A> = Left<E> | Right<A>
  * @category guards
  * @since 2.0.0
  */
-export function isLeft<E, A>(ma: Either<E, A>): ma is Left<E> {
-  switch (ma._tag) {
-    case 'Left':
-      return true
-    case 'Right':
-      return false
-  }
-}
+export const isLeft = <E, A>(ma: Either<E, A>): ma is Left<E> => ma._tag === 'Left'
 
 /**
  * Returns `true` if the either is an instance of `Right`, `false` otherwise
@@ -86,9 +79,7 @@ export function isLeft<E, A>(ma: Either<E, A>): ma is Left<E> {
  * @category guards
  * @since 2.0.0
  */
-export function isRight<E, A>(ma: Either<E, A>): ma is Right<A> {
-  return isLeft(ma) ? false : true
-}
+export const isRight = <E, A>(ma: Either<E, A>): ma is Right<A> => ma._tag === 'Right'
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -101,9 +92,7 @@ export function isRight<E, A>(ma: Either<E, A>): ma is Right<A> {
  * @category constructors
  * @since 2.0.0
  */
-export function left<E = never, A = never>(e: E): Either<E, A> {
-  return { _tag: 'Left', left: e }
-}
+export const left = <E = never, A = never>(e: E): Either<E, A> => ({ _tag: 'Left', left: e })
 
 /**
  * Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
@@ -112,9 +101,7 @@ export function left<E = never, A = never>(e: E): Either<E, A> {
  * @category constructors
  * @since 2.0.0
  */
-export function right<E = never, A = never>(a: A): Either<E, A> {
-  return { _tag: 'Right', right: a }
-}
+export const right = <E = never, A = never>(a: A): Either<E, A> => ({ _tag: 'Right', right: a })
 
 // TODO: make lazy in v3
 /**
@@ -333,6 +320,32 @@ export const filterOrElse: {
   chain_(ma, (a) => (predicate(a) ? right(a) : left(onFalse(a))))
 
 // -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+const map_: Monad2<URI>['map'] = (ma, f) => (isLeft(ma) ? ma : right(f(ma.right)))
+const ap_: Monad2<URI>['ap'] = (mab, ma) => (isLeft(mab) ? mab : isLeft(ma) ? ma : right(mab.right(ma.right)))
+const chain_: <D, A, E, B>(fa: Either<D, A>, f: (a: A) => Either<E, B>) => Either<D | E, B> = (ma, f) =>
+  isLeft(ma) ? ma : f(ma.right)
+const reduce_: Foldable2<URI>['reduce'] = (fa, b, f) => (isLeft(fa) ? b : f(b, fa.right))
+const foldMap_: Foldable2<URI>['foldMap'] = (M) => (fa, f) => (isLeft(fa) ? M.empty : f(fa.right))
+const reduceRight_: Foldable2<URI>['reduceRight'] = (fa, b, f) => (isLeft(fa) ? b : f(fa.right, b))
+const traverse_ = <F>(F: Applicative<F>) => <E, A, B>(
+  ma: Either<E, A>,
+  f: (a: A) => HKT<F, B>
+): HKT<F, Either<E, B>> => {
+  return isLeft(ma) ? F.of(left(ma.left)) : F.map<B, Either<E, B>>(f(ma.right), right)
+}
+const bimap_: Bifunctor2<URI>['bimap'] = (fea, f, g) => (isLeft(fea) ? left(f(fea.left)) : right(g(fea.right)))
+const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fea, f) => (isLeft(fea) ? left(f(fea.left)) : fea)
+const alt_: Alt2<URI>['alt'] = (fa, that) => (isLeft(fa) ? that() : fa)
+const extend_: Extend2<URI>['extend'] = (wa, f) => (isLeft(wa) ? wa : right(f(wa)))
+const chainRec_: ChainRec2<URI>['chainRec'] = (a, f) =>
+  tailRec(f(a), (e) =>
+    isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
+  )
+
+// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -395,6 +408,12 @@ export const apSecond = <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>): Eithe
     map_(fa, () => (b: B) => b),
     fb
   )
+
+/**
+ * @category Applicative
+ * @since 2.7.0
+ */
+export const of: Applicative2<URI>['of'] = right
 
 /**
  * Less strict version of [`chain`](#chain).
@@ -495,6 +514,12 @@ export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) =>
   return isLeft(ma) ? F.of(left(ma.left)) : F.map<A, Either<E, A>>(ma.right, right)
 }
 
+/**
+ * @category MonadThrow
+ * @since 2.6.3
+ */
+export const throwError: MonadThrow2<URI>['throwError'] = left
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -515,48 +540,6 @@ declare module './HKT' {
   interface URItoKind2<E, A> {
     readonly [URI]: Either<E, A>
   }
-}
-
-const map_: <E, A, B>(fa: Either<E, A>, f: (a: A) => B) => Either<E, B> = (ma, f) =>
-  isLeft(ma) ? ma : right(f(ma.right))
-const ap_: <E, A, B>(fab: Either<E, (a: A) => B>, fa: Either<E, A>) => Either<E, B> = (mab, ma) =>
-  isLeft(mab) ? mab : isLeft(ma) ? ma : right(mab.right(ma.right))
-const of = right
-const chain_: <D, A, E, B>(fa: Either<D, A>, f: (a: A) => Either<E, B>) => Either<D | E, B> = (ma, f) =>
-  isLeft(ma) ? ma : f(ma.right)
-const reduce_: <E, A, B>(fa: Either<E, A>, b: B, f: (b: B, a: A) => B) => B = (fa, b, f) =>
-  isLeft(fa) ? b : f(b, fa.right)
-const foldMap_: <M>(M: Monoid<M>) => <E, A>(fa: Either<E, A>, f: (a: A) => M) => M = (M) => (fa, f) =>
-  isLeft(fa) ? M.empty : f(fa.right)
-const reduceRight_: <E, A, B>(fa: Either<E, A>, b: B, f: (a: A, b: B) => B) => B = (fa, b, f) =>
-  isLeft(fa) ? b : f(fa.right, b)
-const traverse_ = <F>(F: Applicative<F>) => <E, A, B>(
-  ma: Either<E, A>,
-  f: (a: A) => HKT<F, B>
-): HKT<F, Either<E, B>> => {
-  return isLeft(ma) ? F.of(left(ma.left)) : F.map<B, Either<E, B>>(f(ma.right), right)
-}
-const bimap_: <E, A, G, B>(fea: Either<E, A>, f: (e: E) => G, g: (a: A) => B) => Either<G, B> = (fea, f, g) =>
-  isLeft(fea) ? left(f(fea.left)) : right(g(fea.right))
-const mapLeft_: <E, A, G>(fea: Either<E, A>, f: (e: E) => G) => Either<G, A> = (fea, f) =>
-  isLeft(fea) ? left(f(fea.left)) : fea
-const alt_: <E, A>(fa: Either<E, A>, that: Lazy<Either<E, A>>) => Either<E, A> = (fa, that) =>
-  isLeft(fa) ? that() : fa
-const extend_: <E, A, B>(wa: Either<E, A>, f: (wa: Either<E, A>) => B) => Either<E, B> = (wa, f) =>
-  isLeft(wa) ? wa : right(f(wa))
-const chainRec_: <E, A, B>(a: A, f: (a: A) => Either<E, Either<A, B>>) => Either<E, B> = (a, f) =>
-  tailRec(f(a), (e) =>
-    isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
-  )
-const throwError_ = left
-
-/**
- * @internal
- */
-export const applyEither: Apply2<URI> = {
-  URI,
-  map: map_,
-  ap: ap_
 }
 
 /**
@@ -725,13 +708,53 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
   }
 }
 
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export function getApplicativeValidation<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    ap: (fab, fa) =>
+      isLeft(fab)
+        ? isLeft(fa)
+          ? left(SE.concat(fab.left, fa.left))
+          : fab
+        : isLeft(fa)
+        ? fa
+        : right(fab.right(fa.right)),
+    of
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export function getAltValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    alt: (me, that) => {
+      if (isRight(me)) {
+        return me
+      }
+      const ea = that()
+      return isLeft(ea) ? left(SE.concat(me.left, ea.left)) : ea
+    }
+  }
+}
+
 // TODO: remove in v3
 /**
  * @category instances
  * @since 2.0.0
  */
 export function getValidation<E>(
-  S: Semigroup<E>
+  SE: Semigroup<E>
 ): Monad2C<URI, E> &
   Foldable2<URI> &
   Traversable2<URI> &
@@ -740,6 +763,8 @@ export function getValidation<E>(
   Extend2<URI> &
   ChainRec2C<URI, E> &
   MonadThrow2C<URI, E> {
+  const applicativeValidation = getApplicativeValidation(SE)
+  const altValidation = getAltValidation(SE)
   return {
     URI,
     _E: undefined as any,
@@ -755,22 +780,9 @@ export function getValidation<E>(
     traverse: traverse_,
     sequence,
     chainRec: chainRec_,
-    throwError: throwError_,
-    ap: (mab, ma) =>
-      isLeft(mab)
-        ? isLeft(ma)
-          ? left(S.concat(mab.left, ma.left))
-          : mab
-        : isLeft(ma)
-        ? ma
-        : right(mab.right(ma.right)),
-    alt: (fx, f) => {
-      if (isRight(fx)) {
-        return fx
-      }
-      const fy = f()
-      return isLeft(fy) ? left(S.concat(fx.left, fy.left)) : fy
-    }
+    throwError,
+    ap: applicativeValidation.ap,
+    alt: altValidation.alt
   }
 }
 
@@ -780,17 +792,124 @@ export function getValidation<E>(
  */
 export function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<Either<E, A>> {
   return {
-    concat: (fx, fy) =>
-      isLeft(fx)
-        ? isLeft(fy)
-          ? left(SE.concat(fx.left, fy.left))
-          : fx
-        : isLeft(fy)
-        ? fy
-        : right(SA.concat(fx.right, fy.right))
+    concat: (x, y) =>
+      isLeft(x) ? (isLeft(y) ? left(SE.concat(x.left, y.left)) : x) : isLeft(y) ? y : right(SA.concat(x.right, y.right))
   }
 }
 
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const functorEither: Functor2<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const applicativeEither: Applicative2<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const monadEither: Monad2<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const foldableEither: Foldable2<URI> = {
+  URI,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const traversableEither: Traversable2<URI> = {
+  URI,
+  map: map_,
+  reduce: reduce_,
+  foldMap: foldMap_,
+  reduceRight: reduceRight_,
+  traverse: traverse_,
+  sequence
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const bifunctorEither: Bifunctor2<URI> = {
+  URI,
+  bimap: bimap_,
+  mapLeft: mapLeft_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const altEither: Alt2<URI> = {
+  URI,
+  map: map_,
+  alt: alt_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const extendEither: Extend2<URI> = {
+  URI,
+  map: map_,
+  extend: extend_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const chainRecEither: ChainRec2<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  chain: chain_,
+  chainRec: chainRec_
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const monadThrowEither: MonadThrow2<URI> = {
+  URI,
+  map: map_,
+  ap: ap_,
+  of,
+  chain: chain_,
+  throwError: throwError
+}
+
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.0.0
@@ -829,7 +948,7 @@ export const either: Monad2<URI> &
   alt: alt_,
   extend: extend_,
   chainRec: chainRec_,
-  throwError: throwError_
+  throwError: throwError
 }
 
 // -------------------------------------------------------------------------------------

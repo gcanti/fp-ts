@@ -12,11 +12,16 @@ Added in v2.4.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Applicative](#applicative)
+  - [of](#of)
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
 - [Functor](#functor)
   - [map](#map)
+- [MonadIO](#monadio)
+  - [fromIO](#fromio)
+  - [fromTask](#fromtask)
 - [combinators](#combinators)
   - [swap](#swap)
 - [constructors](#constructors)
@@ -34,6 +39,9 @@ Added in v2.4.0
 - [instances](#instances)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [bifunctorTaskThese](#bifunctortaskthese)
+  - [functorTaskThese](#functortaskthese)
+  - [getApplicative](#getapplicative)
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
   - [taskThese](#taskthese)
@@ -41,6 +49,18 @@ Added in v2.4.0
   - [TaskThese (interface)](#taskthese-interface)
 
 ---
+
+# Applicative
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <E, A>(a: A) => TaskThese<E, A>
+```
+
+Added in v2.7.0
 
 # Bifunctor
 
@@ -82,6 +102,28 @@ export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => 
 ```
 
 Added in v2.4.0
+
+# MonadIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <E, A>(fa: IO<A>) => TaskThese<E, A>
+```
+
+Added in v2.7.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <E, A>(fa: T.Task<A>) => TaskThese<E, A>
+```
+
+Added in v2.7.0
 
 # combinators
 
@@ -225,12 +267,42 @@ export type URI = typeof URI
 
 Added in v2.4.0
 
+## bifunctorTaskThese
+
+**Signature**
+
+```ts
+export declare const bifunctorTaskThese: Bifunctor2<'TaskThese'>
+```
+
+Added in v2.7.0
+
+## functorTaskThese
+
+**Signature**
+
+```ts
+export declare const functorTaskThese: Functor2<'TaskThese'>
+```
+
+Added in v2.7.0
+
+## getApplicative
+
+**Signature**
+
+```ts
+export declare function getApplicative<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E>
+```
+
+Added in v2.7.0
+
 ## getMonad
 
 **Signature**
 
 ```ts
-export declare function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI, E>
+export declare function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI, E>
 ```
 
 Added in v2.4.0
