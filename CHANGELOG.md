@@ -19,6 +19,8 @@ high state of flux, you're at risk of it changing without notice.
 - **Bug Fix**
   - `These`
     - fix `ap` implementation in `getMonad` function (@gcanti)
+- **Polish**
+  - improve performance of sequenceT and sequenceS, fix #1255 (@gcanti)
 - **New Feature**
   - `function`
     - add `hole` (type hole simulation) (@gcanti)
