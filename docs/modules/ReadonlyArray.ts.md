@@ -127,6 +127,7 @@ Added in v2.5.0
   - [unsafeUpdateAt](#unsafeupdateat)
 - [utils](#utils)
   - [Spanned (interface)](#spanned-interface)
+  - [chainWithIndex](#chainwithindex)
   - [chunksOf](#chunksof)
   - [comprehension](#comprehension)
   - [deleteAt](#deleteat)
@@ -1555,6 +1556,16 @@ export interface Spanned<I, R> {
 ```
 
 Added in v2.5.0
+
+## chainWithIndex
+
+**Signature**
+
+```ts
+export declare const chainWithIndex: <A, B>(f: (i: number, a: A) => readonly B[]) => (ma: readonly A[]) => readonly B[]
+```
+
+Added in v2.7.0
 
 ## chunksOf
 
