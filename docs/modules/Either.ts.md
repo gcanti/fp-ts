@@ -808,6 +808,8 @@ Added in v2.0.0
 
 ## Json (type alias)
 
+Copied from https://github.com/Microsoft/TypeScript/issues/1897#issuecomment-338650717
+
 **Signature**
 
 ```ts
