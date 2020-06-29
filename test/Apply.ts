@@ -9,8 +9,18 @@ describe('Apply', () => {
   it('sequenceT', () => {
     const sequenceTOption = sequenceT(O.applicativeOption)
     assert.deepStrictEqual(sequenceTOption(O.some(1)), O.some([1]))
-    assert.deepStrictEqual(sequenceTOption(O.some(1), O.some('2')), O.some([1, '2']))
-    assert.deepStrictEqual(sequenceTOption(O.some(1), O.some('2'), O.none), O.none)
+    assert.deepStrictEqual(sequenceTOption(O.some(1), O.some('a')), O.some([1, 'a']))
+    assert.deepStrictEqual(sequenceTOption(O.some(1), O.some('a'), O.some(true)), O.some([1, 'a', true]))
+    assert.deepStrictEqual(sequenceTOption(O.some(1), O.some('a'), O.some(true), O.some(2)), O.some([1, 'a', true, 2]))
+    assert.deepStrictEqual(
+      sequenceTOption(O.some(1), O.some('a'), O.some(true), O.some(2), O.some('b')),
+      O.some([1, 'a', true, 2, 'b'])
+    )
+    assert.deepStrictEqual(
+      sequenceTOption(O.some(1), O.some('a'), O.some(true), O.some(2), O.some('b'), O.some(false)),
+      O.some([1, 'a', true, 2, 'b', false])
+    )
+    assert.deepStrictEqual(sequenceTOption(O.some(1), O.some('a'), O.none), O.none)
 
     // #914
     const a1: ReadonlyArray<number> = [1, 2, 3]
@@ -44,7 +54,23 @@ describe('Apply', () => {
   it('sequenceS', () => {
     const adoOption = sequenceS(O.applicativeOption)
     assert.deepStrictEqual(adoOption({ a: O.some(1) }), O.some({ a: 1 }))
-    assert.deepStrictEqual(adoOption({ a: O.some(1), b: O.some(2) }), O.some({ a: 1, b: 2 }))
+    assert.deepStrictEqual(adoOption({ a: O.some(1), b: O.some('a') }), O.some({ a: 1, b: 'a' }))
+    assert.deepStrictEqual(
+      adoOption({ a: O.some(1), b: O.some('a'), c: O.some(true) }),
+      O.some({ a: 1, b: 'a', c: true })
+    )
+    assert.deepStrictEqual(
+      adoOption({ a: O.some(1), b: O.some('a'), c: O.some(true), d: O.some(2) }),
+      O.some({ a: 1, b: 'a', c: true, d: 2 })
+    )
+    assert.deepStrictEqual(
+      adoOption({ a: O.some(1), b: O.some('a'), c: O.some(true), d: O.some(2), e: O.some('b') }),
+      O.some({ a: 1, b: 'a', c: true, d: 2, e: 'b' })
+    )
+    assert.deepStrictEqual(
+      adoOption({ a: O.some(1), b: O.some('a'), c: O.some(true), d: O.some(2), e: O.some('b'), f: O.some(false) }),
+      O.some({ a: 1, b: 'a', c: true, d: 2, e: 'b', f: false })
+    )
     assert.deepStrictEqual(adoOption({ a: O.some(1), b: O.none }), O.none)
 
     const adoEither = sequenceS(E.applicativeEither)

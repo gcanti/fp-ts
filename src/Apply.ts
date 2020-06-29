@@ -97,12 +97,22 @@ export interface Apply4<F extends URIS4> extends Functor4<F> {
 
 function curried(f: Function, n: number, acc: ReadonlyArray<unknown>) {
   return function (x: unknown) {
-    const combined = acc.concat([x])
+    const combined = Array(acc.length + 1)
+    for (let i = 0; i < acc.length; i++) {
+      combined[i] = acc[i]
+    }
+    combined[acc.length] = x
     return n === 0 ? f.apply(null, combined) : curried(f, n - 1, combined)
   }
 }
 
-const tupleConstructors: Record<number, (a: unknown) => unknown> = {}
+const tupleConstructors: Record<number, (a: unknown) => any> = {
+  1: (a) => [a],
+  2: (a) => (b: any) => [a, b],
+  3: (a) => (b: any) => (c: any) => [a, b, c],
+  4: (a) => (b: any) => (c: any) => (d: any) => [a, b, c, d],
+  5: (a) => (b: any) => (c: any) => (d: any) => (e: any) => [a, b, c, d, e]
+}
 
 function getTupleConstructor(len: number): (a: unknown) => any {
   if (!tupleConstructors.hasOwnProperty(len)) {
@@ -178,17 +188,41 @@ type EnforceNonEmptyRecord<R> = keyof R extends never ? never : R
 
 function getRecordConstructor(keys: ReadonlyArray<string>) {
   const len = keys.length
-  return curried(
-    (...args: ReadonlyArray<unknown>) => {
-      const r: Record<string, unknown> = {}
-      for (let i = 0; i < len; i++) {
-        r[keys[i]] = args[i]
-      }
-      return r
-    },
-    len - 1,
-    []
-  )
+  switch (len) {
+    case 1:
+      return (a: any) => ({ [keys[0]]: a })
+    case 2:
+      return (a: any) => (b: any) => ({ [keys[0]]: a, [keys[1]]: b })
+    case 3:
+      return (a: any) => (b: any) => (c: any) => ({ [keys[0]]: a, [keys[1]]: b, [keys[2]]: c })
+    case 4:
+      return (a: any) => (b: any) => (c: any) => (d: any) => ({
+        [keys[0]]: a,
+        [keys[1]]: b,
+        [keys[2]]: c,
+        [keys[3]]: d
+      })
+    case 5:
+      return (a: any) => (b: any) => (c: any) => (d: any) => (e: any) => ({
+        [keys[0]]: a,
+        [keys[1]]: b,
+        [keys[2]]: c,
+        [keys[3]]: d,
+        [keys[4]]: e
+      })
+    default:
+      return curried(
+        (...args: ReadonlyArray<unknown>) => {
+          const r: Record<string, unknown> = {}
+          for (let i = 0; i < len; i++) {
+            r[keys[i]] = args[i]
+          }
+          return r
+        },
+        len - 1,
+        []
+      )
+  }
 }
 
 /* tslint:disable:readonly-array */
