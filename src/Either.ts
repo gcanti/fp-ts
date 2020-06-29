@@ -175,12 +175,14 @@ export function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): Either<E
  * @since 2.6.7
  */
 export type Json = boolean | number | string | null | JsonArray | JsonRecord
+
 /**
  * @since 2.6.7
  */
 export interface JsonRecord {
   readonly [key: string]: Json
 }
+
 /**
  * @since 2.6.7
  */

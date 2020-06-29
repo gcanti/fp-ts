@@ -14,6 +14,12 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.6.7
+
+- **Polish**
+  - refine `Either.parseJSON` return type, #1252 (@OliverJAsh)
+  - add missing `chainW` to `ReaderTask`, #1254 (@adameier)
+
 # 2.6.6
 
 - **Polish**
