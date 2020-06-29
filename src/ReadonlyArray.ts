@@ -1431,13 +1431,16 @@ export const zero: Alternative1<URI>['zero'] = () => empty
 const map_: Monad1<URI>['map'] = (fa, f) => fa.map((a) => f(a))
 const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = (fa, f) => fa.map((a, i) => f(i, a))
 const ap_: Monad1<URI>['ap'] = (fab, fa) => flatten(map_(fab, (f) => map_(fa, f)))
-const chain_: Monad1<URI>['chain'] = (fa, f) => {
+const chainWithIndex_: <A, B>(fa: ReadonlyArray<A>, f: (i: number, a: A) => ReadonlyArray<B>) => ReadonlyArray<B> = (
+  fa,
+  f
+) => {
   let outLen = 0
   const l = fa.length
   const temp = new Array(l)
   for (let i = 0; i < l; i++) {
     const e = fa[i]
-    const arr = f(e)
+    const arr = f(i, e)
     outLen += arr.length
     temp[i] = arr
   }
@@ -1453,6 +1456,8 @@ const chain_: Monad1<URI>['chain'] = (fa, f) => {
   }
   return out
 }
+const chain_: <A, B>(fa: ReadonlyArray<A>, f: (a: A) => ReadonlyArray<B>) => ReadonlyArray<B> = (fa, f) =>
+  chainWithIndex_(fa, (_index, a) => f(a))
 const filterMap_: Filterable1<URI>['filterMap'] = (as, f) => filterMapWithIndex_(as, (_, a) => f(a))
 const filter_: Filter1<URI> = <A>(as: ReadonlyArray<A>, predicate: Predicate<A>) => as.filter(predicate)
 const partitionWithIndex_: PartitionWithIndex1<URI, number> = <A>(
@@ -1630,6 +1635,13 @@ export const apSecond = <B>(fb: ReadonlyArray<B>) => <A>(fa: ReadonlyArray<A>): 
  */
 export const chain: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (ma) =>
   chain_(ma, f)
+
+/**
+ * @since 2.7.0
+ */
+export const chainWithIndex: <A, B>(
+  f: (i: number, a: A) => ReadonlyArray<B>
+) => (ma: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (ma) => chainWithIndex_(ma, f)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
