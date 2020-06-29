@@ -20,6 +20,8 @@ high state of flux, you're at risk of it changing without notice.
   - `These`
     - fix `ap` implementation in `getMonad` function (@gcanti)
 - **New Feature**
+  - `function`
+    - add `hole` (type hole simulation) (@gcanti)
   - `Array`
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)
