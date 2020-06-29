@@ -1494,7 +1494,7 @@ const zero_: <A>() => ReadonlyArray<A> = () => empty
 
 const chainWithIndex_: <A, B>(
   fa: ReadonlyArray<A>,
-  f: (index: number, a: A) => ReadonlyArray<B>
+  f: (i: number, a: A) => ReadonlyArray<B>
 ) => ReadonlyArray<B> = (fa, f) => {
   let outLen = 0
   const l = fa.length
@@ -1664,7 +1664,7 @@ export const chain: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<
  * @since 2.6.7
  */
 export const chainWithIndex: <A, B>(
-  f: (index: number, a: A) => ReadonlyArray<B>
+  f: (i: number, a: A) => ReadonlyArray<B>
 ) => (ma: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (ma) => chainWithIndex_(ma, f)
 
 /**
