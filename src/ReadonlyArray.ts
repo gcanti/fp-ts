@@ -1492,13 +1492,16 @@ const alt_: <A>(fa: ReadonlyArray<A>, that: Lazy<ReadonlyArray<A>>) => ReadonlyA
 
 const zero_: <A>() => ReadonlyArray<A> = () => empty
 
-const chain_: <A, B>(fa: ReadonlyArray<A>, f: (a: A) => ReadonlyArray<B>) => ReadonlyArray<B> = (fa, f) => {
+const chainWithIndex_: <A, B>(
+  fa: ReadonlyArray<A>,
+  f: (index: number, a: A) => ReadonlyArray<B>
+) => ReadonlyArray<B> = (fa, f) => {
   let outLen = 0
   const l = fa.length
   const temp = new Array(l)
   for (let i = 0; i < l; i++) {
     const e = fa[i]
-    const arr = f(e)
+    const arr = f(i, e)
     outLen += arr.length
     temp[i] = arr
   }
@@ -1514,6 +1517,9 @@ const chain_: <A, B>(fa: ReadonlyArray<A>, f: (a: A) => ReadonlyArray<B>) => Rea
   }
   return out
 }
+
+const chain_: <A, B>(fa: ReadonlyArray<A>, f: (a: A) => ReadonlyArray<B>) => ReadonlyArray<B> = (fa, f) =>
+  chainWithIndex_(fa, (_index, a) => f(a))
 
 const reduce_: <A, B>(fa: ReadonlyArray<A>, b: B, f: (b: B, a: A) => B) => B = (fa, b, f) =>
   reduceWithIndex_(fa, b, (_, b, a) => f(b, a))
@@ -1653,6 +1659,13 @@ export const apSecond = <B>(fb: ReadonlyArray<B>) => <A>(fa: ReadonlyArray<A>): 
  */
 export const chain: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (ma) =>
   chain_(ma, f)
+
+/**
+ * @since 2.6.7
+ */
+export const chainWithIndex: <A, B>(
+  f: (index: number, a: A) => ReadonlyArray<B>
+) => (ma: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (ma) => chainWithIndex_(ma, f)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and

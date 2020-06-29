@@ -115,6 +115,7 @@ Added in v2.0.0
   - [unsafeInsertAt](#unsafeinsertat)
   - [unsafeUpdateAt](#unsafeupdateat)
 - [utils](#utils)
+  - [chainWithIndex](#chainwithindex)
   - [chunksOf](#chunksof)
   - [comprehension](#comprehension)
   - [deleteAt](#deleteat)
@@ -1561,6 +1562,16 @@ export declare const unsafeUpdateAt: <A>(i: number, a: A, as: A[]) => A[]
 Added in v2.0.0
 
 # utils
+
+## chainWithIndex
+
+**Signature**
+
+```ts
+export declare const chainWithIndex: <A, B>(f: (index: number, a: A) => B[]) => (ma: A[]) => B[]
+```
+
+Added in v2.6.7
 
 ## chunksOf
 

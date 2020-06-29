@@ -131,6 +131,16 @@ describe('Array', () => {
       )
     })
 
+    it('chainWithIndex', () => {
+      assert.deepStrictEqual(
+        pipe(
+          [1, 2, 3],
+          _.chainWithIndex((i, n) => [n + i])
+        ),
+        [1, 3, 5]
+      )
+    })
+
     it('chainFirst', () => {
       assert.deepStrictEqual(
         pipe(
