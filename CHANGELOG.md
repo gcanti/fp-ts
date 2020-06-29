@@ -23,6 +23,7 @@ high state of flux, you're at risk of it changing without notice.
   - `function`
     - add `hole` (type hole simulation) (@gcanti)
   - `Array`
+    - add `chainWithIndex`, #1256 (@OliverJAsh)
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)
     - add `applicativeArray` instance (@gcanti)
@@ -141,6 +142,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `bifunctorReaderTaskEither` instance (@gcanti)
     - add `altReaderTaskEither` instance (@gcanti)
   - `ReadonlyArray`
+    - add `chainWithIndex`, #1256 (@OliverJAsh)
     - add `functorArray` instance (@gcanti)
     - add `functorWithIndexArray` instance (@gcanti)
     - add `applicativeArray` instance (@gcanti)
