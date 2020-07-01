@@ -407,6 +407,11 @@ describe('ReadonlyRecord', () => {
     const x: _.ReadonlyRecord<string, number> = { a: 1 }
     assert.deepStrictEqual(_.hasOwnProperty('a', x), true)
     assert.deepStrictEqual(_.hasOwnProperty('b', x), false)
+    // TODO: remove in v3
+    // #1249
+    const hasOwnProperty: any = _.hasOwnProperty
+    assert.deepStrictEqual(hasOwnProperty.call(x, 'a'), true)
+    assert.deepStrictEqual(hasOwnProperty.call(x, 'b'), false)
   })
 
   it('updateAt', () => {
