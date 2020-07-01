@@ -563,7 +563,7 @@ Added in v2.0.0
 
 ## getMonoid
 
-Returns a `Semigroup` instance for records given a `Semigroup` instance for their values
+Returns a `Monoid` instance for records given a `Semigroup` instance for their values
 
 **Signature**
 
