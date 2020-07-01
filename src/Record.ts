@@ -162,7 +162,7 @@ export function getEq<A>(E: Eq<A>): Eq<Record<string, A>> {
 }
 
 /**
- * Returns a `Semigroup` instance for records given a `Semigroup` instance for their values
+ * Returns a `Monoid` instance for records given a `Semigroup` instance for their values
  *
  * @example
  * import { semigroupSum } from 'fp-ts/lib/Semigroup'
