@@ -159,12 +159,13 @@ export function insertAt<A>(k: string, a: A): (r: ReadonlyRecord<string, A>) => 
 
 const _hasOwnProperty = Object.prototype.hasOwnProperty
 
-// TODO: rename to avoid #1249?
+// TODO: rename in v3 to avoid #1249
 /**
  * @since 2.5.0
  */
-export function hasOwnProperty<K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K {
-  return _hasOwnProperty.call(r, k)
+export function hasOwnProperty<K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K
+export function hasOwnProperty<K extends string>(this: any, k: string, r?: ReadonlyRecord<K, unknown>): k is K {
+  return _hasOwnProperty.call(r === undefined ? this : r, k)
 }
 
 /**
