@@ -34,19 +34,19 @@ Added in v2.0.0
   - [fst](#fst)
   - [snd](#snd)
 - [instances](#instances)
+  - [Bifunctor](#bifunctor-1)
+  - [Comonad](#comonad)
+  - [Foldable](#foldable-1)
+  - [Functor](#functor-1)
+  - [Semigroupoid](#semigroupoid-1)
+  - [Traversable](#traversable)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [bifunctorTuple](#bifunctortuple)
-  - [comonadTuple](#comonadtuple)
-  - [foldableTuple](#foldabletuple)
-  - [functorTuple](#functortuple)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getChain](#getchain)
   - [getChainRec](#getchainrec)
   - [getMonad](#getmonad)
-  - [semigroupoidTuple](#semigroupoidtuple)
-  - [traversableTuple](#traversabletuple)
   - [tuple](#tuple)
 - [utils](#utils)
   - [sequence](#sequence)
@@ -209,6 +209,66 @@ Added in v2.0.0
 
 # instances
 
+## Bifunctor
+
+**Signature**
+
+```ts
+export declare const Bifunctor: Bifunctor2<'Tuple'>
+```
+
+Added in v2.7.0
+
+## Comonad
+
+**Signature**
+
+```ts
+export declare const Comonad: Comonad2<'Tuple'>
+```
+
+Added in v2.7.0
+
+## Foldable
+
+**Signature**
+
+```ts
+export declare const Foldable: Foldable2<'Tuple'>
+```
+
+Added in v2.7.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor2<'Tuple'>
+```
+
+Added in v2.7.0
+
+## Semigroupoid
+
+**Signature**
+
+```ts
+export declare const Semigroupoid: Semigroupoid2<'Tuple'>
+```
+
+Added in v2.7.0
+
+## Traversable
+
+**Signature**
+
+```ts
+export declare const Traversable: Traversable2<'Tuple'>
+```
+
+Added in v2.7.0
+
 ## URI
 
 **Signature**
@@ -228,46 +288,6 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
-
-## bifunctorTuple
-
-**Signature**
-
-```ts
-export declare const bifunctorTuple: Bifunctor2<'Tuple'>
-```
-
-Added in v2.7.0
-
-## comonadTuple
-
-**Signature**
-
-```ts
-export declare const comonadTuple: Comonad2<'Tuple'>
-```
-
-Added in v2.7.0
-
-## foldableTuple
-
-**Signature**
-
-```ts
-export declare const foldableTuple: Foldable2<'Tuple'>
-```
-
-Added in v2.7.0
-
-## functorTuple
-
-**Signature**
-
-```ts
-export declare const functorTuple: Functor2<'Tuple'>
-```
-
-Added in v2.7.0
 
 ## getApplicative
 
@@ -318,26 +338,6 @@ export declare const getMonad: <S>(M: Monoid<S>) => Monad2C<'Tuple', S>
 ```
 
 Added in v2.0.0
-
-## semigroupoidTuple
-
-**Signature**
-
-```ts
-export declare const semigroupoidTuple: Semigroupoid2<'Tuple'>
-```
-
-Added in v2.7.0
-
-## traversableTuple
-
-**Signature**
-
-```ts
-export declare const traversableTuple: Traversable2<'Tuple'>
-```
-
-Added in v2.7.0
 
 ## tuple
 

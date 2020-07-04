@@ -3,7 +3,7 @@
  */
 import { Comonad2 } from './Comonad'
 import { Endomorphism, identity } from './function'
-import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
+import { Functor as FunctorHKT, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Extend2 } from './Extend'
 
@@ -67,8 +67,8 @@ export function experiment<F extends URIS2, E>(
 export function experiment<F extends URIS>(
   F: Functor1<F>
 ): <S>(f: (s: S) => Kind<F, S>) => <A>(wa: Store<S, A>) => Kind<F, A>
-export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A>
-export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A> {
+export function experiment<F>(F: FunctorHKT<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A>
+export function experiment<F>(F: FunctorHKT<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A> {
   return (f) => (wa) => F.map(f(wa.pos), (s) => wa.peek(s))
 }
 
@@ -143,7 +143,7 @@ declare module './HKT' {
  * @category instances
  * @since 2.7.0
  */
-export const functorStore: Functor2<URI> = {
+export const Functor: Functor2<URI> = {
   URI,
   map: map_
 }
@@ -152,7 +152,7 @@ export const functorStore: Functor2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const comonadStore: Comonad2<URI> = {
+export const Comonad: Comonad2<URI> = {
   URI,
   map: map_,
   extend: extend_,
@@ -164,4 +164,4 @@ export const comonadStore: Comonad2<URI> = {
  * @category instances
  * @since 2.0.0
  */
-export const store: Comonad2<URI> = comonadStore
+export const store: Comonad2<URI> = Comonad

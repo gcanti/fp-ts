@@ -239,7 +239,7 @@ export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> {
  * @category instances
  * @since 2.7.0
  */
-export const functorReader: Functor2<URI> = {
+export const Functor: Functor2<URI> = {
   URI,
   map: map_
 }
@@ -248,7 +248,7 @@ export const functorReader: Functor2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const applicativeReader: Applicative2<URI> = {
+export const Applicative: Applicative2<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -259,7 +259,7 @@ export const applicativeReader: Applicative2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const monadReader: Monad2<URI> = {
+export const Monad: Monad2<URI> = {
   URI,
   map: map_,
   of,
@@ -271,7 +271,7 @@ export const monadReader: Monad2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const profunctorReader: Profunctor2<URI> = {
+export const Profunctor: Profunctor2<URI> = {
   URI,
   map: map_,
   promap: promap_
@@ -281,7 +281,7 @@ export const profunctorReader: Profunctor2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const categoryReader: Category2<URI> = {
+export const Category: Category2<URI> = {
   URI,
   compose: compose_,
   id
@@ -290,7 +290,7 @@ export const categoryReader: Category2<URI> = {
 /**
  * @internal instances
  */
-export const strongReader: Strong2<URI> = {
+export const Strong: Strong2<URI> = {
   URI,
   map: map_,
   promap: promap_,
@@ -301,7 +301,7 @@ export const strongReader: Strong2<URI> = {
 /**
  * @internal instances
  */
-export const choiceReader: Choice2<URI> = {
+export const Choice: Choice2<URI> = {
   URI,
   map: map_,
   promap: promap_,
@@ -313,7 +313,6 @@ export const choiceReader: Choice2<URI> = {
 /**
  * @category instances
  * @since 2.0.0
- * @deprecated
  */
 export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = {
   URI,

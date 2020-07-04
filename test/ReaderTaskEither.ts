@@ -148,11 +148,11 @@ describe('ReaderTaskEither', () => {
   // -------------------------------------------------------------------------------------
 
   it('applicativeReaderTaskEitherSeq', async () => {
-    await assertSeq(_.applicativeReaderTaskEitherSeq, { fromTask: _.fromTask }, (fa) => fa(null)())
+    await assertSeq(_.ApplicativeSeq, { fromTask: _.fromTask }, (fa) => fa(null)())
   })
 
   it('applicativeReaderTaskEitherPar', async () => {
-    await assertPar(_.applicativeReaderTaskEitherPar, { fromTask: _.fromTask }, (fa) => fa(null)())
+    await assertPar(_.ApplicativePar, { fromTask: _.fromTask }, (fa) => fa(null)())
   })
 
   // -------------------------------------------------------------------------------------
@@ -325,7 +325,7 @@ describe('ReaderTaskEither', () => {
   })
 
   it('getApplicativeReaderTaskValidation', async () => {
-    const A = _.getApplicativeReaderTaskValidation(T.applicativeTaskPar, semigroupString)
+    const A = _.getApplicativeReaderTaskValidation(T.ApplicativePar, semigroupString)
     assert.deepStrictEqual(await sequenceT(A)(_.left('a'), _.left('b'))(null)(), E.left('ab'))
     const AV = _.getReaderTaskValidation(semigroupString)
     assert.deepStrictEqual(await sequenceT(AV)(_.left('a'), _.left('b'))(null)(), E.left('ab'))

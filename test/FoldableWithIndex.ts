@@ -5,7 +5,7 @@ import { monoidString } from '../src/Monoid'
 
 describe('FoldableWithIndex', () => {
   it('getFoldableWithIndexComposition', () => {
-    const arrayOfArray = getFoldableWithIndexComposition(A.foldableWithIndexArray, A.foldableWithIndexArray)
+    const arrayOfArray = getFoldableWithIndexComposition(A.FoldableWithIndex, A.FoldableWithIndex)
     const fa: ReadonlyArray<ReadonlyArray<string>> = [
       ['a', 'b'],
       ['c', 'd']

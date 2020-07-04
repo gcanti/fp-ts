@@ -328,14 +328,14 @@ declare module './HKT' {
  * @category instances
  * @since 2.7.0
  */
-export const contravariantOrd: Contravariant1<URI> = {
+export const Contravariant: Contravariant1<URI> = {
   URI,
   contramap: contramap_
 }
 
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.0.0
- * @deprecated
  */
-export const ord: Contravariant1<URI> = contravariantOrd
+export const ord: Contravariant1<URI> = Contravariant

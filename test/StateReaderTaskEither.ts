@@ -144,7 +144,7 @@ describe('StateReaderTaskEither', () => {
   // -------------------------------------------------------------------------------------
 
   it('applicativeStateReaderTaskEither', async () => {
-    await assertSeq(_.applicativeStateReaderTaskEither, { fromTask: _.fromTask }, (fa) => fa(null)(null)())
+    await assertSeq(_.Applicative, { fromTask: _.fromTask }, (fa) => fa(null)(null)())
   })
 
   // -------------------------------------------------------------------------------------
@@ -170,7 +170,7 @@ describe('StateReaderTaskEither', () => {
       append('start 2'),
       _.chain(() => append('end 2'))
     )
-    const sequence = A.sequence(_.applicativeStateReaderTaskEither)
+    const sequence = A.sequence(_.Applicative)
     assert.deepStrictEqual(await sequence([t1, t2])({})({})(), E.right([[2, 4], {}]))
     assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
   })

@@ -28,11 +28,11 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
 - [instances](#instances)
+  - [Compactable](#compactable-1)
+  - [Filterable](#filterable-1)
+  - [Functor](#functor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [compactableMap](#compactablemap)
-  - [filterableMap](#filterablemap)
-  - [functorMap](#functormap)
   - [getEq](#geteq)
   - [getFilterableWithIndex](#getfilterablewithindex)
   - [getMonoid](#getmonoid)
@@ -205,6 +205,36 @@ Added in v2.0.0
 
 # instances
 
+## Compactable
+
+**Signature**
+
+```ts
+export declare const Compactable: Compactable2<'Map'>
+```
+
+Added in v2.7.0
+
+## Filterable
+
+**Signature**
+
+```ts
+export declare const Filterable: Filterable2<'Map'>
+```
+
+Added in v2.7.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor2<'Map'>
+```
+
+Added in v2.7.0
+
 ## URI
 
 **Signature**
@@ -224,36 +254,6 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
-
-## compactableMap
-
-**Signature**
-
-```ts
-export declare const compactableMap: Compactable2<'Map'>
-```
-
-Added in v2.7.0
-
-## filterableMap
-
-**Signature**
-
-```ts
-export declare const filterableMap: Filterable2<'Map'>
-```
-
-Added in v2.7.0
-
-## functorMap
-
-**Signature**
-
-```ts
-export declare const functorMap: Functor2<'Map'>
-```
-
-Added in v2.7.0
 
 ## getEq
 

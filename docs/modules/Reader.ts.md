@@ -37,16 +37,16 @@ Added in v2.0.0
   - [ask](#ask)
   - [asks](#asks)
 - [instances](#instances)
+  - [Applicative](#applicative-1)
+  - [Category](#category-1)
+  - [Functor](#functor-1)
+  - [Monad](#monad-1)
+  - [Profunctor](#profunctor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [applicativeReader](#applicativereader)
-  - [categoryReader](#categoryreader)
-  - [functorReader](#functorreader)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
-  - [monadReader](#monadreader)
-  - [profunctorReader](#profunctorreader)
-  - [~~reader~~](#reader)
+  - [reader](#reader)
 - [model](#model)
   - [Reader (interface)](#reader-interface)
 
@@ -245,6 +245,56 @@ Added in v2.0.0
 
 # instances
 
+## Applicative
+
+**Signature**
+
+```ts
+export declare const Applicative: Applicative2<'Reader'>
+```
+
+Added in v2.7.0
+
+## Category
+
+**Signature**
+
+```ts
+export declare const Category: Category2<'Reader'>
+```
+
+Added in v2.7.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor2<'Reader'>
+```
+
+Added in v2.7.0
+
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad2<'Reader'>
+```
+
+Added in v2.7.0
+
+## Profunctor
+
+**Signature**
+
+```ts
+export declare const Profunctor: Profunctor2<'Reader'>
+```
+
+Added in v2.7.0
+
 ## URI
 
 **Signature**
@@ -264,36 +314,6 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
-
-## applicativeReader
-
-**Signature**
-
-```ts
-export declare const applicativeReader: Applicative2<'Reader'>
-```
-
-Added in v2.7.0
-
-## categoryReader
-
-**Signature**
-
-```ts
-export declare const categoryReader: Category2<'Reader'>
-```
-
-Added in v2.7.0
-
-## functorReader
-
-**Signature**
-
-```ts
-export declare const functorReader: Functor2<'Reader'>
-```
-
-Added in v2.7.0
 
 ## getMonoid
 
@@ -315,27 +335,7 @@ export declare function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R,
 
 Added in v2.0.0
 
-## monadReader
-
-**Signature**
-
-```ts
-export declare const monadReader: Monad2<'Reader'>
-```
-
-Added in v2.7.0
-
-## profunctorReader
-
-**Signature**
-
-```ts
-export declare const profunctorReader: Profunctor2<'Reader'>
-```
-
-Added in v2.7.0
-
-## ~~reader~~
+## reader
 
 **Signature**
 

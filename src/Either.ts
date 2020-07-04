@@ -14,7 +14,7 @@
  * @since 2.0.0
  */
 import { Alt2, Alt2C } from './Alt'
-import { Applicative, Applicative2, Applicative2C } from './Applicative'
+import { Applicative as ApplicativeHKT, Applicative2, Applicative2C } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, ChainRec2C, tailRec } from './ChainRec'
 import { Separated } from './Compactable'
@@ -330,7 +330,7 @@ const chain_: <D, A, E, B>(fa: Either<D, A>, f: (a: A) => Either<E, B>) => Eithe
 const reduce_: Foldable2<URI>['reduce'] = (fa, b, f) => (isLeft(fa) ? b : f(b, fa.right))
 const foldMap_: Foldable2<URI>['foldMap'] = (M) => (fa, f) => (isLeft(fa) ? M.empty : f(fa.right))
 const reduceRight_: Foldable2<URI>['reduceRight'] = (fa, b, f) => (isLeft(fa) ? b : f(fa.right, b))
-const traverse_ = <F>(F: Applicative<F>) => <E, A, B>(
+const traverse_ = <F>(F: ApplicativeHKT<F>) => <E, A, B>(
   ma: Either<E, A>,
   f: (a: A) => HKT<F, B>
 ): HKT<F, Either<E, B>> => {
@@ -498,7 +498,7 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E
  * @since 2.6.3
  */
 export const traverse: PipeableTraverse2<URI> = <F>(
-  F: Applicative<F>
+  F: ApplicativeHKT<F>
 ): (<A, B>(f: (a: A) => HKT<F, B>) => <E>(ta: Either<E, A>) => HKT<F, Either<E, B>>) => {
   const traverseF = traverse_(F)
   return (f) => (fa) => traverseF(fa, f)
@@ -508,7 +508,7 @@ export const traverse: PipeableTraverse2<URI> = <F>(
  * @category Traversable
  * @since 2.6.3
  */
-export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <E, A>(
+export const sequence: Traversable2<URI>['sequence'] = <F>(F: ApplicativeHKT<F>) => <E, A>(
   ma: Either<E, HKT<F, A>>
 ): HKT<F, Either<E, A>> => {
   return isLeft(ma) ? F.of(left(ma.left)) : F.map<A, Either<E, A>>(ma.right, right)
@@ -672,14 +672,14 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
     isLeft(ma) ? ma : predicate(ma.right) ? ma : left(M.empty)
 
   const wither = <F>(
-    F: Applicative<F>
+    F: ApplicativeHKT<F>
   ): (<A, B>(ma: Either<E, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Either<E, B>>) => {
     const traverseF = traverse_(F)
     return (ma, f) => F.map(traverseF(ma, f), compact)
   }
 
   const wilt = <F>(
-    F: Applicative<F>
+    F: ApplicativeHKT<F>
   ): (<A, B, C>(
     ma: Either<E, A>,
     f: (a: A) => HKT<F, Either<B, C>>
@@ -801,7 +801,7 @@ export function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>)
  * @category instances
  * @since 2.7.0
  */
-export const functorEither: Functor2<URI> = {
+export const Functor: Functor2<URI> = {
   URI,
   map: map_
 }
@@ -810,7 +810,7 @@ export const functorEither: Functor2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const applicativeEither: Applicative2<URI> = {
+export const Applicative: Applicative2<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -821,7 +821,7 @@ export const applicativeEither: Applicative2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const monadEither: Monad2<URI> = {
+export const Monad: Monad2<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -833,7 +833,7 @@ export const monadEither: Monad2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const foldableEither: Foldable2<URI> = {
+export const Foldable: Foldable2<URI> = {
   URI,
   reduce: reduce_,
   foldMap: foldMap_,
@@ -844,7 +844,7 @@ export const foldableEither: Foldable2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const traversableEither: Traversable2<URI> = {
+export const Traversable: Traversable2<URI> = {
   URI,
   map: map_,
   reduce: reduce_,
@@ -858,7 +858,7 @@ export const traversableEither: Traversable2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const bifunctorEither: Bifunctor2<URI> = {
+export const Bifunctor: Bifunctor2<URI> = {
   URI,
   bimap: bimap_,
   mapLeft: mapLeft_
@@ -868,7 +868,7 @@ export const bifunctorEither: Bifunctor2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const altEither: Alt2<URI> = {
+export const Alt: Alt2<URI> = {
   URI,
   map: map_,
   alt: alt_
@@ -878,7 +878,7 @@ export const altEither: Alt2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const extendEither: Extend2<URI> = {
+export const Extend: Extend2<URI> = {
   URI,
   map: map_,
   extend: extend_
@@ -888,7 +888,7 @@ export const extendEither: Extend2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const chainRecEither: ChainRec2<URI> = {
+export const ChainRec: ChainRec2<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -900,7 +900,7 @@ export const chainRecEither: ChainRec2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const monadThrowEither: MonadThrow2<URI> = {
+export const MonadThrow: MonadThrow2<URI> = {
   URI,
   map: map_,
   ap: ap_,

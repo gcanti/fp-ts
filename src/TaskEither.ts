@@ -340,7 +340,7 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskEither<E, A>) => Tas
  */
 export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B> =
   /*#__PURE__*/
-  apComposition(T.applicativeTaskPar, E.applicativeEither)
+  apComposition(T.ApplicativePar, E.Applicative)
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -579,7 +579,7 @@ export function getAltTaskValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
 export function getTaskValidation<E>(
   SE: Semigroup<E>
 ): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadTask2C<URI, E> & MonadThrow2C<URI, E> {
-  const applicativeTaskValidation = getApplicativeTaskValidation(T.applicativeTaskPar, SE)
+  const applicativeTaskValidation = getApplicativeTaskValidation(T.ApplicativePar, SE)
   const altTaskValidation = getAltTaskValidation(SE)
   return {
     URI,
@@ -603,7 +603,7 @@ export function getTaskValidation<E>(
  */
 export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
   const W = E.getWitherable(M)
-  const F = getFilterableComposition(T.monadTask, W)
+  const F = getFilterableComposition(T.Monad, W)
 
   return {
     URI,
@@ -622,7 +622,7 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
  * @category instances
  * @since 2.7.0
  */
-export const functorTaskEither: Functor2<URI> = {
+export const Functor: Functor2<URI> = {
   URI,
   map: map_
 }
@@ -631,7 +631,7 @@ export const functorTaskEither: Functor2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const applicativeTaskEitherPar: Applicative2<URI> = {
+export const ApplicativePar: Applicative2<URI> = {
   URI,
   map: map_,
   ap: apPar_,
@@ -642,7 +642,7 @@ export const applicativeTaskEitherPar: Applicative2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const applicativeTaskEitherSeq: Applicative2<URI> = {
+export const ApplicativeSeq: Applicative2<URI> = {
   URI,
   map: map_,
   ap: apSeq_,
@@ -653,7 +653,7 @@ export const applicativeTaskEitherSeq: Applicative2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const bifunctorTaskEither: Bifunctor2<URI> = {
+export const Bifunctor: Bifunctor2<URI> = {
   URI,
   bimap: bimap_,
   mapLeft: mapLeft_
@@ -663,7 +663,7 @@ export const bifunctorTaskEither: Bifunctor2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const altTaskEither: Alt2<URI> = {
+export const Alt: Alt2<URI> = {
   URI,
   map: map_,
   alt: alt_

@@ -203,7 +203,7 @@ declare module './HKT' {
  * @category instances
  * @since 2.7.0
  */
-export const functorConst: Functor2<URI> = {
+export const Functor: Functor2<URI> = {
   URI,
   map: map_
 }
@@ -212,7 +212,7 @@ export const functorConst: Functor2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const contravariantConst: Contravariant2<URI> = {
+export const Contravariant: Contravariant2<URI> = {
   URI,
   contramap: contramap_
 }
@@ -221,12 +221,13 @@ export const contravariantConst: Contravariant2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const bifunctorConst: Bifunctor2<URI> = {
+export const Bifunctor: Bifunctor2<URI> = {
   URI,
   bimap: bimap_,
   mapLeft: mapLeft_
 }
 
+// TODO: remove in v3
 /**
  * @category instances
  * @since 2.0.0

@@ -14,21 +14,21 @@ describe('ReadonlyNonEmptyArray', () => {
       assert.deepStrictEqual(
         pipe(
           [1, 2, 3],
-          _.traverse(O.applicativeOption)((n) => (n >= 0 ? O.some(n) : O.none))
+          _.traverse(O.Applicative)((n) => (n >= 0 ? O.some(n) : O.none))
         ),
         O.some([1, 2, 3])
       )
       assert.deepStrictEqual(
         pipe(
           [1, 2, 3],
-          _.traverse(O.applicativeOption)((n) => (n >= 2 ? O.some(n) : O.none))
+          _.traverse(O.Applicative)((n) => (n >= 2 ? O.some(n) : O.none))
         ),
         O.none
       )
     })
 
     it('sequence', () => {
-      const sequence = _.sequence(O.applicativeOption)
+      const sequence = _.sequence(O.Applicative)
       assert.deepStrictEqual(sequence([O.some(1), O.some(2), O.some(3)]), O.some([1, 2, 3]))
       assert.deepStrictEqual(sequence([O.none, O.some(2), O.some(3)]), O.none)
     })
@@ -37,14 +37,14 @@ describe('ReadonlyNonEmptyArray', () => {
       assert.deepStrictEqual(
         pipe(
           ['a', 'bb'],
-          _.traverseWithIndex(O.applicativeOption)((i, s) => (s.length >= 1 ? O.some(s + i) : O.none))
+          _.traverseWithIndex(O.Applicative)((i, s) => (s.length >= 1 ? O.some(s + i) : O.none))
         ),
         O.some(['a0', 'bb1'])
       )
       assert.deepStrictEqual(
         pipe(
           ['a', 'bb'],
-          _.traverseWithIndex(O.applicativeOption)((i, s) => (s.length > 1 ? O.some(s + i) : O.none))
+          _.traverseWithIndex(O.Applicative)((i, s) => (s.length > 1 ? O.some(s + i) : O.none))
         ),
         O.none
       )

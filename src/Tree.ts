@@ -7,7 +7,7 @@
  *
  * @since 2.0.0
  */
-import { Applicative, Applicative1 } from './Applicative'
+import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
 import * as A from './Array'
 import { Comonad1 } from './Comonad'
 import { Eq, fromEquals } from './Eq'
@@ -15,7 +15,7 @@ import { Foldable1 } from './Foldable'
 import { identity, pipe } from './function'
 import { Functor1 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
-import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
+import { Monad as MonadHKT, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid } from './Monoid'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
@@ -169,8 +169,8 @@ export function unfoldTreeM<M extends URIS2, E>(
 export function unfoldTreeM<M extends URIS>(
   M: Monad1<M>
 ): <A, B>(b: B, f: (b: B) => Kind<M, [A, Array<B>]>) => Kind<M, Tree<A>>
-export function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>>
-export function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>> {
+export function unfoldTreeM<M>(M: MonadHKT<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>>
+export function unfoldTreeM<M>(M: MonadHKT<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>> {
   const unfoldForestMM = unfoldForestM(M)
   return (b, f) => M.chain(f(b), ([a, bs]) => M.chain(unfoldForestMM(bs, f), (ts) => M.of({ value: a, forest: ts })))
 }
@@ -197,10 +197,10 @@ export function unfoldForestM<M extends URIS>(
   M: Monad1<M>
 ): <A, B>(bs: Array<B>, f: (b: B) => Kind<M, [A, Array<B>]>) => Kind<M, Forest<A>>
 export function unfoldForestM<M>(
-  M: Monad<M>
+  M: MonadHKT<M>
 ): <A, B>(bs: Array<B>, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Forest<A>>
 export function unfoldForestM<M>(
-  M: Monad<M>
+  M: MonadHKT<M>
 ): <A, B>(bs: Array<B>, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Forest<A>> {
   const traverseM = A.traverse(M)
   return (bs, f) =>
@@ -296,7 +296,7 @@ const extend_: Extend1<URI>['extend'] = (wa, f) => ({
   value: f(wa),
   forest: wa.forest.map((t) => extend_(t, f))
 })
-const traverse_ = <F>(F: Applicative<F>): (<A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>) => HKT<F, Tree<B>>) => {
+const traverse_ = <F>(F: ApplicativeHKT<F>): (<A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>) => HKT<F, Tree<B>>) => {
   const traverseF = A.traverse(F)
   const r = <A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>): HKT<F, Tree<B>> =>
     F.ap(
@@ -425,7 +425,7 @@ export const extract: <A>(wa: Tree<A>) => A = (wa) => wa.value
  * @since 2.6.3
  */
 export const traverse: PipeableTraverse1<URI> = <F>(
-  F: Applicative<F>
+  F: ApplicativeHKT<F>
 ): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Tree<A>) => HKT<F, Tree<B>>) => {
   const traverseF = traverse_(F)
   return (f) => (ta) => traverseF(ta, f)
@@ -435,7 +435,7 @@ export const traverse: PipeableTraverse1<URI> = <F>(
  * @since 2.6.3
  */
 export const sequence: Traversable1<URI>['sequence'] = <F>(
-  F: Applicative<F>
+  F: ApplicativeHKT<F>
 ): (<A>(ta: Tree<HKT<F, A>>) => HKT<F, Tree<A>>) => {
   const traverseF = traverse_(F)
   return (ta) => traverseF(ta, identity)
@@ -475,7 +475,7 @@ declare module './HKT' {
  * @category instances
  * @since 2.7.0
  */
-export const functorTree: Functor1<URI> = {
+export const Functor: Functor1<URI> = {
   URI,
   map: map_
 }
@@ -484,7 +484,7 @@ export const functorTree: Functor1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const applicativeTree: Applicative1<URI> = {
+export const Applicative: Applicative1<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -495,7 +495,7 @@ export const applicativeTree: Applicative1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const monadTree: Monad1<URI> = {
+export const Monad: Monad1<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -507,7 +507,7 @@ export const monadTree: Monad1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const foldableTree: Foldable1<URI> = {
+export const Foldable: Foldable1<URI> = {
   URI,
   reduce: reduce_,
   foldMap: foldMap_,
@@ -518,7 +518,7 @@ export const foldableTree: Foldable1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const traversableTree: Traversable1<URI> = {
+export const Traversable: Traversable1<URI> = {
   URI,
   map: map_,
   reduce: reduce_,
@@ -532,7 +532,7 @@ export const traversableTree: Traversable1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const comonadTree: Comonad1<URI> = {
+export const Comonad: Comonad1<URI> = {
   URI,
   map: map_,
   extend: extend_,

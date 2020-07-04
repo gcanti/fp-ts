@@ -517,7 +517,7 @@ declare module './HKT' {
  * @category instances
  * @since 2.7.0
  */
-export const functorThese: Functor2<URI> = {
+export const Functor: Functor2<URI> = {
   URI,
   map: map_
 }
@@ -526,7 +526,7 @@ export const functorThese: Functor2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const bifunctorThese: Bifunctor2<URI> = {
+export const Bifunctor: Bifunctor2<URI> = {
   URI,
   bimap: bimap_,
   mapLeft: mapLeft_
@@ -536,7 +536,7 @@ export const bifunctorThese: Bifunctor2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const foldableThese: Foldable2<URI> = {
+export const Foldable: Foldable2<URI> = {
   URI,
   reduce: reduce_,
   foldMap: foldMap_,
@@ -547,7 +547,7 @@ export const foldableThese: Foldable2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const traversableThese: Traversable2<URI> = {
+export const Traversable: Traversable2<URI> = {
   URI,
   map: map_,
   reduce: reduce_,

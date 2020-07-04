@@ -318,25 +318,24 @@ export const unzip: <A, B>(as: NonEmptyArray<[A, B]>) => [NonEmptyArray<A>, NonE
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad1<URI>['map'] = RNEA.functorNonEmptyArray.map as any
-const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = RNEA.functorWithIndexNonEmptyArray
-  .mapWithIndex as any
-const ap_: Monad1<URI>['ap'] = RNEA.applicativeNonEmptyArray.ap as any
-const chain_: Monad1<URI>['chain'] = RNEA.monadNonEmptyArray.chain as any
-const extend_: Extend1<URI>['extend'] = RNEA.comonadNonEmptyArray.extend as any
-const reduce_: Foldable1<URI>['reduce'] = RNEA.foldableNonEmptyArray.reduce as any
-const foldMap_: Foldable1<URI>['foldMap'] = RNEA.foldableNonEmptyArray.foldMap as any
-const reduceRight_: Foldable1<URI>['reduceRight'] = RNEA.foldableNonEmptyArray.reduceRight as any
-const traverse_: Traversable1<URI>['traverse'] = RNEA.traversableNonEmptyArray.traverse as any
-const alt_: Alt1<URI>['alt'] = RNEA.altNonEmptyArray.alt as any
-const reduceWithIndex_: FoldableWithIndex1<URI, number>['reduceWithIndex'] = RNEA.foldableWithIndexNonEmptyArray
+const map_: Monad1<URI>['map'] = RNEA.Functor.map as any
+const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = RNEA.FunctorWithIndex.mapWithIndex as any
+const ap_: Monad1<URI>['ap'] = RNEA.Applicative.ap as any
+const chain_: Monad1<URI>['chain'] = RNEA.Monad.chain as any
+const extend_: Extend1<URI>['extend'] = RNEA.Comonad.extend as any
+const reduce_: Foldable1<URI>['reduce'] = RNEA.Foldable.reduce as any
+const foldMap_: Foldable1<URI>['foldMap'] = RNEA.Foldable.foldMap as any
+const reduceRight_: Foldable1<URI>['reduceRight'] = RNEA.Foldable.reduceRight as any
+const traverse_: Traversable1<URI>['traverse'] = RNEA.Traversable.traverse as any
+const alt_: Alt1<URI>['alt'] = RNEA.Alt.alt as any
+const reduceWithIndex_: FoldableWithIndex1<URI, number>['reduceWithIndex'] = RNEA.FoldableWithIndex
   .reduceWithIndex as any
-const foldMapWithIndex_: FoldableWithIndex1<URI, number>['foldMapWithIndex'] = RNEA.foldableWithIndexNonEmptyArray
+const foldMapWithIndex_: FoldableWithIndex1<URI, number>['foldMapWithIndex'] = RNEA.FoldableWithIndex
   .foldMapWithIndex as any
-const reduceRightWithIndex_: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] = RNEA
-  .foldableWithIndexNonEmptyArray.reduceRightWithIndex as any
-const traverseWithIndex_: TraversableWithIndex1<URI, number>['traverseWithIndex'] = RNEA
-  .traversableWithIndexNonEmptyArray.traverseWithIndex as any
+const reduceRightWithIndex_: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] = RNEA.FoldableWithIndex
+  .reduceRightWithIndex as any
+const traverseWithIndex_: TraversableWithIndex1<URI, number>['traverseWithIndex'] = RNEA.TraversableWithIndex
+  .traverseWithIndex as any
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -518,7 +517,7 @@ declare module './HKT' {
  * @category instances
  * @since 2.7.0
  */
-export const functorNonEmptyArray: Functor1<URI> = {
+export const Functor: Functor1<URI> = {
   URI,
   map: map_
 }
@@ -527,7 +526,7 @@ export const functorNonEmptyArray: Functor1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const functorWithIndexNonEmptyArray: FunctorWithIndex1<URI, number> = {
+export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
   URI,
   map: map_,
   mapWithIndex: mapWithIndex_
@@ -537,7 +536,7 @@ export const functorWithIndexNonEmptyArray: FunctorWithIndex1<URI, number> = {
  * @category instances
  * @since 2.7.0
  */
-export const applicativeNonEmptyArray: Applicative1<URI> = {
+export const Applicative: Applicative1<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -548,7 +547,7 @@ export const applicativeNonEmptyArray: Applicative1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const monadNonEmptyArray: Monad1<URI> = {
+export const Monad: Monad1<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -560,7 +559,7 @@ export const monadNonEmptyArray: Monad1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const foldableNonEmptyArray: Foldable1<URI> = {
+export const Foldable: Foldable1<URI> = {
   URI,
   reduce: reduce_,
   foldMap: foldMap_,
@@ -571,7 +570,7 @@ export const foldableNonEmptyArray: Foldable1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const foldableWithIndexNonEmptyArray: FoldableWithIndex1<URI, number> = {
+export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
   URI,
   reduce: reduce_,
   foldMap: foldMap_,
@@ -585,7 +584,7 @@ export const foldableWithIndexNonEmptyArray: FoldableWithIndex1<URI, number> = {
  * @category instances
  * @since 2.7.0
  */
-export const traversableNonEmptyArray: Traversable1<URI> = {
+export const Traversable: Traversable1<URI> = {
   URI,
   map: map_,
   reduce: reduce_,
@@ -599,7 +598,7 @@ export const traversableNonEmptyArray: Traversable1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const traversableWithIndexNonEmptyArray: TraversableWithIndex1<URI, number> = {
+export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
   URI,
   map: map_,
   mapWithIndex: mapWithIndex_,
@@ -618,7 +617,7 @@ export const traversableWithIndexNonEmptyArray: TraversableWithIndex1<URI, numbe
  * @category instances
  * @since 2.7.0
  */
-export const altNonEmptyArray: Alt1<URI> = {
+export const Alt: Alt1<URI> = {
   URI,
   map: map_,
   alt: alt_
@@ -628,7 +627,7 @@ export const altNonEmptyArray: Alt1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const comonadNonEmptyArray: Comonad1<URI> = {
+export const Comonad: Comonad1<URI> = {
   URI,
   map: map_,
   extend: extend_,

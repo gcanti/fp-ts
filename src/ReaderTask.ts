@@ -260,7 +260,7 @@ export function getMonoid<R, A>(M: Monoid<A>): Monoid<ReaderTask<R, A>> {
  * @category instances
  * @since 2.7.0
  */
-export const functorReaderTask: Functor2<URI> = {
+export const Functor: Functor2<URI> = {
   URI,
   map: map_
 }
@@ -269,7 +269,7 @@ export const functorReaderTask: Functor2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const applicativeReaderTaskPar: Applicative2<URI> = {
+export const ApplicativePar: Applicative2<URI> = {
   URI,
   map: map_,
   ap: apPar_,
@@ -280,7 +280,7 @@ export const applicativeReaderTaskPar: Applicative2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const applicativeReaderTaskSeq: Applicative2<URI> = {
+export const ApplicativeSeq: Applicative2<URI> = {
   URI,
   map: map_,
   ap: apSeq_,
@@ -290,7 +290,7 @@ export const applicativeReaderTaskSeq: Applicative2<URI> = {
 /**
  * @internal
  */
-export const monadReaderTask: Monad2<URI> = {
+export const Monad: Monad2<URI> = {
   URI,
   map: map_,
   of,

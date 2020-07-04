@@ -377,22 +377,21 @@ export const unzip: <A, B>(
 // -------------------------------------------------------------------------------------
 
 const map_: Functor1<URI>['map'] = RA.functorArray.map as any
-const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = RA.functorWithIndexArray.mapWithIndex as any
-const ap_: Apply1<URI>['ap'] = RA.applicativeArray.ap as any
-const chain_: Monad1<URI>['chain'] = RA.monadArray.chain as any
-const extend_: Extend1<URI>['extend'] = RA.extendArray.extend as any
-const reduce_: Foldable1<URI>['reduce'] = RA.foldableArray.reduce as any
-const foldMap_: Foldable1<URI>['foldMap'] = RA.foldableArray.foldMap as any
-const reduceRight_: Foldable1<URI>['reduceRight'] = RA.foldableArray.reduceRight as any
-const traverse_: Traversable1<URI>['traverse'] = RA.traversableArray.traverse as any
-const alt_: Alt1<URI>['alt'] = RA.altArray.alt as any
-const reduceWithIndex_: FoldableWithIndex1<URI, number>['reduceWithIndex'] = RA.foldableWithIndexArray
-  .reduceWithIndex as any
-const foldMapWithIndex_: FoldableWithIndex1<URI, number>['foldMapWithIndex'] = RA.foldableWithIndexArray
+const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = RA.Functor.mapWithIndex as any
+const ap_: Apply1<URI>['ap'] = RA.Applicative.ap as any
+const chain_: Monad1<URI>['chain'] = RA.Monad.chain as any
+const extend_: Extend1<URI>['extend'] = RA.Extend.extend as any
+const reduce_: Foldable1<URI>['reduce'] = RA.Foldable.reduce as any
+const foldMap_: Foldable1<URI>['foldMap'] = RA.Foldable.foldMap as any
+const reduceRight_: Foldable1<URI>['reduceRight'] = RA.Foldable.reduceRight as any
+const traverse_: Traversable1<URI>['traverse'] = RA.Traversable.traverse as any
+const alt_: Alt1<URI>['alt'] = RA.Alt.alt as any
+const reduceWithIndex_: FoldableWithIndex1<URI, number>['reduceWithIndex'] = RA.FoldableWithIndex.reduceWithIndex as any
+const foldMapWithIndex_: FoldableWithIndex1<URI, number>['foldMapWithIndex'] = RA.FoldableWithIndex
   .foldMapWithIndex as any
-const reduceRightWithIndex_: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] = RA.foldableWithIndexArray
+const reduceRightWithIndex_: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] = RA.FoldableWithIndex
   .reduceRightWithIndex as any
-const traverseWithIndex_: TraversableWithIndex1<URI, number>['traverseWithIndex'] = RA.traversableWithIndexArray
+const traverseWithIndex_: TraversableWithIndex1<URI, number>['traverseWithIndex'] = RA.TraversableWithIndex
   .traverseWithIndex as any
 
 // -------------------------------------------------------------------------------------
@@ -589,7 +588,7 @@ declare module './HKT' {
  * @category instances
  * @since 2.7.0
  */
-export const functorNonEmptyArray: Functor1<URI> = {
+export const Functor: Functor1<URI> = {
   URI,
   map: map_
 }
@@ -598,7 +597,7 @@ export const functorNonEmptyArray: Functor1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const functorWithIndexNonEmptyArray: FunctorWithIndex1<URI, number> = {
+export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
   URI,
   map: map_,
   mapWithIndex: mapWithIndex_
@@ -608,7 +607,7 @@ export const functorWithIndexNonEmptyArray: FunctorWithIndex1<URI, number> = {
  * @category instances
  * @since 2.7.0
  */
-export const applicativeNonEmptyArray: Applicative1<URI> = {
+export const Applicative: Applicative1<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -619,7 +618,7 @@ export const applicativeNonEmptyArray: Applicative1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const monadNonEmptyArray: Monad1<URI> = {
+export const Monad: Monad1<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -631,7 +630,7 @@ export const monadNonEmptyArray: Monad1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const foldableNonEmptyArray: Foldable1<URI> = {
+export const Foldable: Foldable1<URI> = {
   URI,
   reduce: reduce_,
   foldMap: foldMap_,
@@ -642,7 +641,7 @@ export const foldableNonEmptyArray: Foldable1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const foldableWithIndexNonEmptyArray: FoldableWithIndex1<URI, number> = {
+export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
   URI,
   reduce: reduce_,
   foldMap: foldMap_,
@@ -656,7 +655,7 @@ export const foldableWithIndexNonEmptyArray: FoldableWithIndex1<URI, number> = {
  * @category instances
  * @since 2.7.0
  */
-export const traversableNonEmptyArray: Traversable1<URI> = {
+export const Traversable: Traversable1<URI> = {
   URI,
   map: map_,
   reduce: reduce_,
@@ -670,7 +669,7 @@ export const traversableNonEmptyArray: Traversable1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const traversableWithIndexNonEmptyArray: TraversableWithIndex1<URI, number> = {
+export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
   URI,
   map: map_,
   mapWithIndex: mapWithIndex_,
@@ -689,7 +688,7 @@ export const traversableWithIndexNonEmptyArray: TraversableWithIndex1<URI, numbe
  * @category instances
  * @since 2.7.0
  */
-export const altNonEmptyArray: Alt1<URI> = {
+export const Alt: Alt1<URI> = {
   URI,
   map: map_,
   alt: alt_
@@ -699,7 +698,7 @@ export const altNonEmptyArray: Alt1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const comonadNonEmptyArray: Comonad1<URI> = {
+export const Comonad: Comonad1<URI> = {
   URI,
   map: map_,
   extend: extend_,

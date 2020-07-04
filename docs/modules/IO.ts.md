@@ -37,16 +37,16 @@ Added in v2.0.0
 - [MonadIO](#monadio)
   - [fromIO](#fromio)
 - [instances](#instances)
+  - [Applicative](#applicative-1)
+  - [ChainRec](#chainrec)
+  - [Functor](#functor-1)
+  - [Monad](#monad-1)
+  - [MonadIO](#monadio-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [applicativeIO](#applicativeio)
-  - [chainRecIO](#chainrecio)
-  - [functorIO](#functorio)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
   - [io](#io)
-  - [monadIO](#monadio)
-  - [monadIOIO](#monadioio)
 - [model](#model)
   - [IO (interface)](#io-interface)
 
@@ -166,6 +166,56 @@ Added in v2.7.0
 
 # instances
 
+## Applicative
+
+**Signature**
+
+```ts
+export declare const Applicative: Applicative1<'IO'>
+```
+
+Added in v2.7.0
+
+## ChainRec
+
+**Signature**
+
+```ts
+export declare const ChainRec: ChainRec1<'IO'>
+```
+
+Added in v2.7.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor1<'IO'>
+```
+
+Added in v2.7.0
+
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad1<'IO'>
+```
+
+Added in v2.7.0
+
+## MonadIO
+
+**Signature**
+
+```ts
+export declare const MonadIO: MonadIO1<'IO'>
+```
+
+Added in v2.7.0
+
 ## URI
 
 **Signature**
@@ -185,36 +235,6 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
-
-## applicativeIO
-
-**Signature**
-
-```ts
-export declare const applicativeIO: Applicative1<'IO'>
-```
-
-Added in v2.7.0
-
-## chainRecIO
-
-**Signature**
-
-```ts
-export declare const chainRecIO: ChainRec1<'IO'>
-```
-
-Added in v2.7.0
-
-## functorIO
-
-**Signature**
-
-```ts
-export declare const functorIO: Functor1<'IO'>
-```
-
-Added in v2.7.0
 
 ## getMonoid
 
@@ -245,26 +265,6 @@ export declare const io: Monad1<'IO'> & MonadIO1<'IO'> & ChainRec1<'IO'>
 ```
 
 Added in v2.0.0
-
-## monadIO
-
-**Signature**
-
-```ts
-export declare const monadIO: Monad1<'IO'>
-```
-
-Added in v2.7.0
-
-## monadIOIO
-
-**Signature**
-
-```ts
-export declare const monadIOIO: MonadIO1<'IO'>
-```
-
-Added in v2.7.0
 
 # model
 

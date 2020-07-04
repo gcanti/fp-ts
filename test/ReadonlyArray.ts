@@ -14,15 +14,13 @@ import * as T from '../src/Task'
 describe('ReadonlyArray', () => {
   describe('pipeables', () => {
     it('traverse', () => {
-      const traverse = _.traverse(O.applicativeOption)(
-        (n: number): O.Option<number> => (n % 2 === 0 ? O.none : O.some(n))
-      )
+      const traverse = _.traverse(O.Applicative)((n: number): O.Option<number> => (n % 2 === 0 ? O.none : O.some(n)))
       assert.deepStrictEqual(traverse([1, 2]), O.none)
       assert.deepStrictEqual(traverse([1, 3]), O.some([1, 3]))
     })
 
     it('sequence', () => {
-      const sequence = _.sequence(O.applicativeOption)
+      const sequence = _.sequence(O.Applicative)
       assert.deepStrictEqual(sequence([O.some(1), O.some(3)]), O.some([1, 3]))
       assert.deepStrictEqual(sequence([O.some(1), O.none]), O.none)
     })
@@ -31,14 +29,14 @@ describe('ReadonlyArray', () => {
       assert.deepStrictEqual(
         pipe(
           ['a', 'bb'],
-          _.traverseWithIndex(O.applicativeOption)((i, s) => (s.length >= 1 ? O.some(s + i) : O.none))
+          _.traverseWithIndex(O.Applicative)((i, s) => (s.length >= 1 ? O.some(s + i) : O.none))
         ),
         O.some(['a0', 'bb1'])
       )
       assert.deepStrictEqual(
         pipe(
           ['a', 'bb'],
-          _.traverseWithIndex(O.applicativeOption)((i, s) => (s.length > 1 ? O.some(s + i) : O.none))
+          _.traverseWithIndex(O.Applicative)((i, s) => (s.length > 1 ? O.some(s + i) : O.none))
         ),
         O.none
       )
@@ -64,13 +62,13 @@ describe('ReadonlyArray', () => {
     })
 
     it('wither', async () => {
-      const wither = _.wither(T.applicativeTaskPar)((n: number) => T.of(n > 2 ? O.some(n + 1) : O.none))
+      const wither = _.wither(T.ApplicativePar)((n: number) => T.of(n > 2 ? O.some(n + 1) : O.none))
       assert.deepStrictEqual(await pipe([], wither)(), [])
       assert.deepStrictEqual(await pipe([1, 3], wither)(), [4])
     })
 
     it('wilt', async () => {
-      const wilt = _.wilt(T.applicativeTaskPar)((n: number) => T.of(n > 2 ? E.right(n + 1) : E.left(n - 1)))
+      const wilt = _.wilt(T.ApplicativePar)((n: number) => T.of(n > 2 ? E.right(n + 1) : E.left(n - 1)))
       assert.deepStrictEqual(await pipe([], wilt)(), { left: [], right: [] })
       assert.deepStrictEqual(await pipe([1, 3], wilt)(), { left: [0], right: [4] })
     })

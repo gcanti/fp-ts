@@ -10,7 +10,7 @@ import {
 } from './Applicative'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C } from './Monad'
-import { fold, none, Option, applicativeOption, some, URI } from './Option'
+import { fold, none, Option, Applicative, some, URI } from './Option'
 import { Lazy } from './function'
 
 // TODO: remove module in v3
@@ -97,7 +97,7 @@ export function getOptionM<M extends URIS2, E>(M: Monad2C<M, E>): OptionM2C<M, E
 export function getOptionM<M extends URIS>(M: Monad1<M>): OptionM1<M>
 export function getOptionM<M>(M: Monad<M>): OptionM<M>
 export function getOptionM<M>(M: Monad<M>): OptionM<M> {
-  const A = getApplicativeComposition(M, applicativeOption)
+  const A = getApplicativeComposition(M, Applicative)
   const fnone = M.of(none)
 
   return {

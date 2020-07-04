@@ -14,7 +14,7 @@
  */
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
-import { Applicative, Applicative1 } from './Applicative'
+import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
@@ -388,7 +388,7 @@ const chain_: Monad1<URI>['chain'] = (ma, f) => (isNone(ma) ? none : f(ma.value)
 const reduce_: Foldable1<URI>['reduce'] = (fa, b, f) => (isNone(fa) ? b : f(b, fa.value))
 const foldMap_: Foldable1<URI>['foldMap'] = (M) => (fa, f) => (isNone(fa) ? M.empty : f(fa.value))
 const reduceRight_: Foldable1<URI>['reduceRight'] = (fa, b, f) => (isNone(fa) ? b : f(fa.value, b))
-const traverse_ = <F>(F: Applicative<F>) => <A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>): HKT<F, Option<B>> => {
+const traverse_ = <F>(F: ApplicativeHKT<F>) => <A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>): HKT<F, Option<B>> => {
   return isNone(ta) ? F.of(none) : F.map(f(ta.value), some)
 }
 const alt_: Alt1<URI>['alt'] = (fa, that) => (isNone(fa) ? that() : fa)
@@ -403,9 +403,9 @@ const partition_ = <A>(fa: Option<A>, predicate: Predicate<A>): Separated<Option
   }
 }
 const partitionMap_: Filterable1<URI>['partitionMap'] = (fa, f) => separate(map_(fa, f))
-const wither_ = <F>(F: Applicative<F>) => <A, B>(fa: Option<A>, f: (a: A) => HKT<F, Option<B>>): HKT<F, Option<B>> =>
+const wither_ = <F>(F: ApplicativeHKT<F>) => <A, B>(fa: Option<A>, f: (a: A) => HKT<F, Option<B>>): HKT<F, Option<B>> =>
   isNone(fa) ? F.of(none) : f(fa.value)
-const wilt_ = <F>(F: Applicative<F>) => <A, B, C>(
+const wilt_ = <F>(F: ApplicativeHKT<F>) => <A, B, C>(
   fa: Option<A>,
   f: (a: A) => HKT<F, Either<B, C>>
 ): HKT<F, Separated<Option<B>, Option<C>>> => {
@@ -574,7 +574,7 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) 
  * @category Compactable
  * @since 2.0.0
  */
-export const compact: <A>(fa: Option<Option<A>>) => Option<A> = (ma) => chain_(ma, identity)
+export const compact: <A>(fa: Option<Option<A>>) => Option<A> = flatten
 
 const defaultSeparate = { left: none, right: none }
 
@@ -628,7 +628,7 @@ export const partitionMap: <A, B, C>(
  * @since 2.6.3
  */
 export const traverse: PipeableTraverse1<URI> = <F>(
-  F: Applicative<F>
+  F: ApplicativeHKT<F>
 ): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Option<A>) => HKT<F, Option<B>>) => {
   const traverseF = traverse_(F)
   return (f) => (ta) => traverseF(ta, f)
@@ -638,7 +638,7 @@ export const traverse: PipeableTraverse1<URI> = <F>(
  * @category Traversable
  * @since 2.6.3
  */
-export const sequence: Traversable1<URI>['sequence'] = <F>(F: Applicative<F>) => <A>(
+export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>) => <A>(
   ta: Option<HKT<F, A>>
 ): HKT<F, Option<A>> => {
   return isNone(ta) ? F.of(none) : F.map(ta.value, some)
@@ -649,7 +649,7 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(F: Applicative<F>) =>
  * @since 2.6.5
  */
 export const wither: PipeableWither1<URI> = <F>(
-  F: Applicative<F>
+  F: ApplicativeHKT<F>
 ): (<A, B>(f: (a: A) => HKT<F, Option<B>>) => (ta: Option<A>) => HKT<F, Option<B>>) => {
   const witherF = wither_(F)
   return (f) => (ta) => witherF(ta, f)
@@ -660,7 +660,7 @@ export const wither: PipeableWither1<URI> = <F>(
  * @since 2.6.5
  */
 export const wilt: PipeableWilt1<URI> = <F>(
-  F: Applicative<F>
+  F: ApplicativeHKT<F>
 ): (<A, B, C>(f: (a: A) => HKT<F, Either<B, C>>) => (wa: Option<A>) => HKT<F, Separated<Option<B>, Option<C>>>) => {
   const wiltF = wilt_(F)
   return (f) => (ta) => wiltF(ta, f)
@@ -880,7 +880,7 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>> {
  * @category instances
  * @since 2.7.0
  */
-export const functorOption: Functor1<URI> = {
+export const Functor: Functor1<URI> = {
   URI,
   map: map_
 }
@@ -889,7 +889,7 @@ export const functorOption: Functor1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const applicativeOption: Applicative1<URI> = {
+export const Applicative: Applicative1<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -900,7 +900,7 @@ export const applicativeOption: Applicative1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const monadOption: Monad1<URI> = {
+export const Monad: Monad1<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -912,7 +912,7 @@ export const monadOption: Monad1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const foldableOption: Foldable1<URI> = {
+export const Foldable: Foldable1<URI> = {
   URI,
   reduce: reduce_,
   foldMap: foldMap_,
@@ -923,7 +923,7 @@ export const foldableOption: Foldable1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const altOption: Alt1<URI> = {
+export const Alt: Alt1<URI> = {
   URI,
   map: map_,
   alt: alt_
@@ -933,7 +933,7 @@ export const altOption: Alt1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const alternativeOption: Alternative1<URI> = {
+export const Alternative: Alternative1<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -946,7 +946,7 @@ export const alternativeOption: Alternative1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const extendOption: Extend1<URI> = {
+export const Extend: Extend1<URI> = {
   URI,
   map: map_,
   extend: extend_
@@ -956,7 +956,7 @@ export const extendOption: Extend1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const compactableOption: Compactable1<URI> = {
+export const Compactable: Compactable1<URI> = {
   URI,
   compact,
   separate
@@ -966,7 +966,7 @@ export const compactableOption: Compactable1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const filterableOption: Filterable1<URI> = {
+export const Filterable: Filterable1<URI> = {
   URI,
   map: map_,
   compact,
@@ -981,7 +981,7 @@ export const filterableOption: Filterable1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const traversableOption: Traversable1<URI> = {
+export const Traversable: Traversable1<URI> = {
   URI,
   map: map_,
   reduce: reduce_,
@@ -995,7 +995,7 @@ export const traversableOption: Traversable1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const witherableOption: Witherable1<URI> = {
+export const Witherable: Witherable1<URI> = {
   URI,
   map: map_,
   reduce: reduce_,
@@ -1017,7 +1017,7 @@ export const witherableOption: Witherable1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const monadThrowOption: MonadThrow1<URI> = {
+export const MonadThrow: MonadThrow1<URI> = {
   URI,
   map: map_,
   ap: ap_,

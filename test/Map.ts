@@ -295,10 +295,10 @@ describe('Map', () => {
 
   it('toUnfoldable', () => {
     const a1 = new Map<User, number>([[{ id: 'a' }, 1]])
-    const toUnfoldableO = _.toUnfoldable(ordUser, A.unfoldableArray)
+    const toUnfoldableO = _.toUnfoldable(ordUser, A.Unfoldable)
     assert.deepStrictEqual(toUnfoldableO(a1), [[{ id: 'a' }, 1]])
 
-    const toUnfoldable = _.toUnfoldable(ordKey, A.unfoldableArray)
+    const toUnfoldable = _.toUnfoldable(ordKey, A.Unfoldable)
     assert.deepStrictEqual(
       toUnfoldable(
         new Map([
@@ -850,7 +850,7 @@ describe('Map', () => {
     })
 
     it('traverse', () => {
-      const traverse = W.traverse(O.applicativeOption)
+      const traverse = W.traverse(O.Applicative)
       const x = new Map([
         [{ id: 'k1' }, 1],
         [{ id: 'k2' }, 2]
@@ -866,7 +866,7 @@ describe('Map', () => {
     })
 
     it('sequence', () => {
-      const sequence = W.sequence(O.applicativeOption)
+      const sequence = W.sequence(O.Applicative)
       assert.deepStrictEqual(
         sequence(
           new Map([
@@ -893,7 +893,7 @@ describe('Map', () => {
     })
 
     it('traverseWithIndex', () => {
-      const traverseWithIndex = W.traverseWithIndex(O.applicativeOption)
+      const traverseWithIndex = W.traverseWithIndex(O.Applicative)
       assert.deepStrictEqual(
         traverseWithIndex(
           new Map([
@@ -922,7 +922,7 @@ describe('Map', () => {
     })
 
     it('wither', async () => {
-      const wither = W.wither(T.applicativeTaskPar)
+      const wither = W.wither(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
       assert.deepStrictEqual(await wither(_.empty, f)(), _.empty)
       assert.deepStrictEqual(
@@ -938,7 +938,7 @@ describe('Map', () => {
     })
 
     it('wilt', async () => {
-      const wilt = W.wilt(T.applicativeTaskPar)
+      const wilt = W.wilt(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? right(n + 1) : left(n - 1))
       assert.deepStrictEqual(await wilt(_.empty, f)(), { left: _.empty, right: _.empty })
       assert.deepStrictEqual(
@@ -1028,7 +1028,7 @@ describe('Map', () => {
   it('fromFoldable', () => {
     const a1 = new Map<User, number>([[{ id: 'a' }, 1]])
     const a2 = new Map<User, number>([[{ id: 'a' }, 2]])
-    const fromFoldableS1 = _.fromFoldable(eqUser, getFirstSemigroup<number>(), A.foldableArray)
+    const fromFoldableS1 = _.fromFoldable(eqUser, getFirstSemigroup<number>(), A.Foldable)
     assert.deepStrictEqual(fromFoldableS1([[{ id: 'a' }, 1]]), a1)
     assert.deepStrictEqual(
       fromFoldableS1([
@@ -1037,7 +1037,7 @@ describe('Map', () => {
       ]),
       a1
     )
-    const fromFoldableS2 = _.fromFoldable(eqUser, getLastSemigroup<number>(), A.foldableArray)
+    const fromFoldableS2 = _.fromFoldable(eqUser, getLastSemigroup<number>(), A.Foldable)
     assert.deepStrictEqual(
       fromFoldableS2([
         [{ id: 'a' }, 1],

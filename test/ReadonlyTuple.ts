@@ -66,13 +66,13 @@ describe('ReadonlyTuple', () => {
     })
 
     it('traverse', () => {
-      const traverse = _.traverse(O.applicativeOption)((n: number) => (n > 1 ? O.some(n) : O.none))
+      const traverse = _.traverse(O.Applicative)((n: number) => (n > 1 ? O.some(n) : O.none))
       assert.deepStrictEqual(traverse([2, 'a']), O.some([2, 'a']))
       assert.deepStrictEqual(traverse([1, 'a']), O.none)
     })
 
     it('sequence', () => {
-      const sequence = _.sequence(O.applicativeOption)
+      const sequence = _.sequence(O.Applicative)
       assert.deepStrictEqual(sequence([O.some(1), 'a']), O.some([1, 'a']))
       assert.deepStrictEqual(sequence([O.none, 'a']), O.none)
     })

@@ -30,11 +30,11 @@ Added in v2.0.0
   - [modify](#modify)
   - [put](#put)
 - [instances](#instances)
+  - [Applicative](#applicative-1)
+  - [Functor](#functor-1)
+  - [Monad](#monad-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [applicativeState](#applicativestate)
-  - [functorState](#functorstate)
-  - [monadState](#monadstate)
   - [state](#state)
 - [model](#model)
   - [State (interface)](#state-interface)
@@ -198,6 +198,36 @@ Added in v2.0.0
 
 # instances
 
+## Applicative
+
+**Signature**
+
+```ts
+export declare const Applicative: Applicative2<'State'>
+```
+
+Added in v2.7.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor2<'State'>
+```
+
+Added in v2.7.0
+
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad2<'State'>
+```
+
+Added in v2.7.0
+
 ## URI
 
 **Signature**
@@ -217,36 +247,6 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
-
-## applicativeState
-
-**Signature**
-
-```ts
-export declare const applicativeState: Applicative2<'State'>
-```
-
-Added in v2.7.0
-
-## functorState
-
-**Signature**
-
-```ts
-export declare const functorState: Functor2<'State'>
-```
-
-Added in v2.7.0
-
-## monadState
-
-**Signature**
-
-```ts
-export declare const monadState: Monad2<'State'>
-```
-
-Added in v2.7.0
 
 ## state
 

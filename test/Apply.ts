@@ -7,7 +7,7 @@ import { pipe } from '../src/function'
 
 describe('Apply', () => {
   it('sequenceT', () => {
-    const sequenceTOption = sequenceT(O.applicativeOption)
+    const sequenceTOption = sequenceT(O.Applicative)
     assert.deepStrictEqual(sequenceTOption(O.some(1)), O.some([1]))
     assert.deepStrictEqual(sequenceTOption(O.some(1), O.some('a')), O.some([1, 'a']))
     assert.deepStrictEqual(sequenceTOption(O.some(1), O.some('a'), O.some(true)), O.some([1, 'a', true]))
@@ -27,7 +27,7 @@ describe('Apply', () => {
     const a2: ReadonlyArray<string> = ['a', 'b', 'c']
     const a3: ReadonlyArray<boolean> = [true, false]
     assert.deepStrictEqual(
-      pipe(sequenceT(A.applicativeArray)(a1, a2, a3), (arr) => arr.map(([x, y, z]) => `(${x}, ${y}, ${z})`)),
+      pipe(sequenceT(A.Applicative)(a1, a2, a3), (arr) => arr.map(([x, y, z]) => `(${x}, ${y}, ${z})`)),
       [
         '(1, a, true)',
         '(1, a, false)',
@@ -52,7 +52,7 @@ describe('Apply', () => {
   })
 
   it('sequenceS', () => {
-    const adoOption = sequenceS(O.applicativeOption)
+    const adoOption = sequenceS(O.Applicative)
     assert.deepStrictEqual(adoOption({ a: O.some(1) }), O.some({ a: 1 }))
     assert.deepStrictEqual(adoOption({ a: O.some(1), b: O.some('a') }), O.some({ a: 1, b: 'a' }))
     assert.deepStrictEqual(
@@ -73,7 +73,7 @@ describe('Apply', () => {
     )
     assert.deepStrictEqual(adoOption({ a: O.some(1), b: O.none }), O.none)
 
-    const adoEither = sequenceS(E.applicativeEither)
+    const adoEither = sequenceS(E.Applicative)
     assert.deepStrictEqual(adoEither({ a: E.right(1) }), E.right({ a: 1 }))
     assert.deepStrictEqual(adoEither({ a: E.right(1), b: E.right(2) }), E.right({ a: 1, b: 2 }))
     assert.deepStrictEqual(adoEither({ a: E.right(1), b: E.left('error') }), E.left('error'))
@@ -92,9 +92,7 @@ describe('Apply', () => {
     const a2: ReadonlyArray<string> = ['a', 'b', 'c']
     const a3: ReadonlyArray<boolean> = [true, false]
     assert.deepStrictEqual(
-      pipe(sequenceS(A.applicativeArray)({ a1, a2, a3 }), (arr) =>
-        arr.map(({ a1, a2, a3 }) => `(${a1}, ${a2}, ${a3})`)
-      ),
+      pipe(sequenceS(A.Applicative)({ a1, a2, a3 }), (arr) => arr.map(({ a1, a2, a3 }) => `(${a1}, ${a2}, ${a3})`)),
       [
         '(1, a, true)',
         '(1, a, false)',

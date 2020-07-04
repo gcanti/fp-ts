@@ -100,7 +100,7 @@ export function getEitherM<M extends URIS2>(M: Monad2<M>): EitherM2<M>
 export function getEitherM<M extends URIS>(M: Monad1<M>): EitherM1<M>
 export function getEitherM<M>(M: Monad<M>): EitherM<M>
 export function getEitherM<M>(M: Monad<M>): EitherM<M> {
-  const ap = apComposition(M, E.applicativeEither)
+  const ap = apComposition(M, E.Applicative)
   const of = flow(E.right, M.of)
 
   return {

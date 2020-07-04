@@ -3,7 +3,7 @@ import * as E from '../src/Either'
 import { getEitherM } from '../src/EitherT'
 import * as I from '../src/IO'
 
-const T = getEitherM(I.monadIO)
+const T = getEitherM(I.Monad)
 
 describe('EitherT', () => {
   it('fold', () => {

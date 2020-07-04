@@ -11,7 +11,7 @@ export type ArrayOptionURI = typeof ArrayOptionURI
 
 describe('Foldable', () => {
   it('getFoldableComposition', () => {
-    const F = getFoldableComposition(A.foldableArray, O.foldableOption)
+    const F = getFoldableComposition(A.Foldable, O.Foldable)
     // reduce
     assert.deepStrictEqual(F.reduce([O.some('a'), O.some('b'), O.some('c')], '', monoidString.concat), 'abc')
     assert.deepStrictEqual(F.reduce([O.none, O.some('b'), O.none], '', monoidString.concat), 'b')
@@ -42,27 +42,27 @@ describe('Foldable', () => {
   })
 
   it('intercalate', () => {
-    assert.deepStrictEqual(intercalate(monoidString, A.foldableArray)(',', ['a', 'b', 'c']), 'a,b,c')
+    assert.deepStrictEqual(intercalate(monoidString, A.Foldable)(',', ['a', 'b', 'c']), 'a,b,c')
   })
 
   it('traverse_', () => {
     let log = ''
     const append = (s: String) => () => (log += s)
-    traverse_(I.applicativeIO, A.foldableArray)(['a', 'b', 'c'], append)()
+    traverse_(I.Applicative, A.Foldable)(['a', 'b', 'c'], append)()
     assert.deepStrictEqual(log, 'abc')
   })
 
   it('foldM', () => {
     assert.deepStrictEqual(
-      foldM(O.monadOption, A.foldableArray)([], 1, () => O.none),
+      foldM(O.Monad, A.Foldable)([], 1, () => O.none),
       O.some(1)
     )
     assert.deepStrictEqual(
-      foldM(O.monadOption, A.foldableArray)([2], 1, () => O.none),
+      foldM(O.Monad, A.Foldable)([2], 1, () => O.none),
       O.none
     )
     assert.deepStrictEqual(
-      foldM(O.monadOption, A.foldableArray)([2], 1, (b, a) => O.some(b + a)),
+      foldM(O.Monad, A.Foldable)([2], 1, (b, a) => O.some(b + a)),
       O.some(3)
     )
   })

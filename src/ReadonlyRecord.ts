@@ -7,7 +7,7 @@ import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Filterable1 } from './Filterable'
 import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from './FilterableWithIndex'
-import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
+import { Foldable as FoldableHKT, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { identity, Predicate, Refinement } from './function'
 import { Functor1 } from './Functor'
@@ -621,11 +621,11 @@ export function fromFoldable<F extends URIS, A>(
 ): <K extends string>(fka: Kind<F, readonly [K, A]>) => ReadonlyRecord<K, A>
 export function fromFoldable<F, A>(
   M: Magma<A>,
-  F: Foldable<F>
+  F: FoldableHKT<F>
 ): <K extends string>(fka: HKT<F, readonly [K, A]>) => ReadonlyRecord<K, A>
 export function fromFoldable<F, A>(
   M: Magma<A>,
-  F: Foldable<F>
+  F: FoldableHKT<F>
 ): (fka: HKT<F, readonly [string, A]>) => ReadonlyRecord<string, A> {
   const fromFoldableMapM = fromFoldableMap(M, F)
   return (fka) => fromFoldableMapM(fka, identity)
@@ -682,11 +682,11 @@ export function fromFoldableMap<F extends URIS, B>(
 ): <A, K extends string>(fa: Kind<F, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
 export function fromFoldableMap<F, B>(
   M: Magma<B>,
-  F: Foldable<F>
+  F: FoldableHKT<F>
 ): <A, K extends string>(fa: HKT<F, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
 export function fromFoldableMap<F, B>(
   M: Magma<B>,
-  F: Foldable<F>
+  F: FoldableHKT<F>
 ): <A>(fa: HKT<F, A>, f: (a: A) => readonly [string, B]) => ReadonlyRecord<string, B> {
   return <A>(ta: HKT<F, A>, f: (a: A) => readonly [string, B]) => {
     return F.reduce<A, Record<string, B>>(ta, {}, (r, a) => {
@@ -1057,7 +1057,7 @@ declare module './HKT' {
  * @category instances
  * @since 2.7.0
  */
-export const functorRecord: Functor1<URI> = {
+export const Functor: Functor1<URI> = {
   URI,
   map: map_
 }
@@ -1066,7 +1066,7 @@ export const functorRecord: Functor1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const functorWithIndexRecord: FunctorWithIndex1<URI, string> = {
+export const FunctorWithIndex: FunctorWithIndex1<URI, string> = {
   URI,
   map: map_,
   mapWithIndex: mapWithIndex_
@@ -1076,7 +1076,7 @@ export const functorWithIndexRecord: FunctorWithIndex1<URI, string> = {
  * @category instances
  * @since 2.7.0
  */
-export const foldableRecord: Foldable1<URI> = {
+export const Foldable: Foldable1<URI> = {
   URI,
   reduce: reduce_,
   foldMap: foldMap_,
@@ -1087,7 +1087,7 @@ export const foldableRecord: Foldable1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const foldableWithIndexRecord: FoldableWithIndex1<URI, string> = {
+export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
   URI,
   reduce: reduce_,
   foldMap: foldMap_,
@@ -1101,7 +1101,7 @@ export const foldableWithIndexRecord: FoldableWithIndex1<URI, string> = {
  * @category instances
  * @since 2.7.0
  */
-export const compactableRecord: Compactable1<URI> = {
+export const Compactable: Compactable1<URI> = {
   URI,
   compact,
   separate
@@ -1111,7 +1111,7 @@ export const compactableRecord: Compactable1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const filterableRecord: Filterable1<URI> = {
+export const Filterable: Filterable1<URI> = {
   URI,
   map: map_,
   compact,
@@ -1126,7 +1126,7 @@ export const filterableRecord: Filterable1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const filterableWithIndexRecord: FilterableWithIndex1<URI, string> = {
+export const FilterableWithIndex: FilterableWithIndex1<URI, string> = {
   URI,
   map: map_,
   mapWithIndex: mapWithIndex_,
@@ -1146,7 +1146,7 @@ export const filterableWithIndexRecord: FilterableWithIndex1<URI, string> = {
  * @category instances
  * @since 2.7.0
  */
-export const traversableRecord: Traversable1<URI> = {
+export const Traversable: Traversable1<URI> = {
   URI,
   map: map_,
   reduce: reduce_,
@@ -1160,7 +1160,7 @@ export const traversableRecord: Traversable1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const traversableWithIndexRecord: TraversableWithIndex1<URI, string> = {
+export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
   URI,
   map: map_,
   mapWithIndex: mapWithIndex_,
@@ -1179,7 +1179,7 @@ export const traversableWithIndexRecord: TraversableWithIndex1<URI, string> = {
  * @category instances
  * @since 2.7.0
  */
-export const witherableRecord: Witherable1<URI> = {
+export const Witherable: Witherable1<URI> = {
   URI,
   map: map_,
   reduce: reduce_,
