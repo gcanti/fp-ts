@@ -27,17 +27,17 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [fromCompare](#fromcompare)
 - [instances](#instances)
+  - [Contravariant](#contravariant-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [contravariantOrd](#contravariantord)
   - [getMonoid](#getmonoid)
   - [getTupleOrd](#gettupleord)
+  - [ord](#ord)
   - [ordBoolean](#ordboolean)
   - [ordDate](#orddate)
   - [ordNumber](#ordnumber)
   - [ordString](#ordstring)
   - [~~getSemigroup~~](#getsemigroup)
-  - [~~ord~~](#ord)
 - [type classes](#type-classes)
   - [Ord (interface)](#ord-interface)
 - [utils](#utils)
@@ -90,6 +90,16 @@ Added in v2.0.0
 
 # instances
 
+## Contravariant
+
+**Signature**
+
+```ts
+export declare const Contravariant: Contravariant1<'Ord'>
+```
+
+Added in v2.7.0
+
 ## URI
 
 **Signature**
@@ -109,16 +119,6 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
-
-## contravariantOrd
-
-**Signature**
-
-```ts
-export declare const contravariantOrd: Contravariant1<'Ord'>
-```
-
-Added in v2.7.0
 
 ## getMonoid
 
@@ -218,6 +218,16 @@ assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
 
 Added in v2.0.0
 
+## ord
+
+**Signature**
+
+```ts
+export declare const ord: Contravariant1<'Ord'>
+```
+
+Added in v2.0.0
+
 ## ordBoolean
 
 **Signature**
@@ -266,16 +276,6 @@ Use `getMonoid` instead
 
 ```ts
 export declare function getSemigroup<A = never>(): Semigroup<Ord<A>>
-```
-
-Added in v2.0.0
-
-## ~~ord~~
-
-**Signature**
-
-```ts
-export declare const ord: Contravariant1<'Ord'>
 ```
 
 Added in v2.0.0

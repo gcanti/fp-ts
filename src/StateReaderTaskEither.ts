@@ -594,7 +594,7 @@ declare module './HKT' {
  * @category instances
  * @since 2.7.0
  */
-export const functorStateReaderTaskEither: Functor4<URI> = {
+export const Functor: Functor4<URI> = {
   URI,
   map: map_
 }
@@ -603,7 +603,7 @@ export const functorStateReaderTaskEither: Functor4<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const applicativeStateReaderTaskEither: Applicative4<URI> = {
+export const Applicative: Applicative4<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -614,7 +614,7 @@ export const applicativeStateReaderTaskEither: Applicative4<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const bifunctorStateReaderTaskEither: Bifunctor4<URI> = {
+export const Bifunctor: Bifunctor4<URI> = {
   URI,
   bimap: bimap_,
   mapLeft: mapLeft_
@@ -624,7 +624,7 @@ export const bifunctorStateReaderTaskEither: Bifunctor4<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const altReaderStateTaskEither: Alt4<URI> = {
+export const Alt: Alt4<URI> = {
   URI,
   map: map_,
   alt: alt_

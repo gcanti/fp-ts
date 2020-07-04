@@ -107,29 +107,29 @@ Added in v2.0.0
 - [guards](#guards)
   - [isNonEmpty](#isnonempty)
 - [instances](#instances)
+  - [Alt](#alt-1)
+  - [Alternative](#alternative-1)
+  - [Applicative](#applicative)
+  - [Compactable](#compactable-1)
+  - [Extend](#extend-1)
+  - [Filterable](#filterable-1)
+  - [FilterableWithIndex](#filterablewithindex-1)
+  - [Foldable](#foldable-1)
+  - [FoldableWithIndex](#foldablewithindex-1)
+  - [Functor](#functor-1)
+  - [FunctorWithIndex](#functorwithindex-1)
+  - [Monad](#monad-1)
+  - [Traversable](#traversable-1)
+  - [TraversableWithIndex](#traversablewithindex-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [altArray](#altarray)
-  - [alternativeArray](#alternativearray)
-  - [applicativeArray](#applicativearray)
+  - [Unfoldable](#unfoldable-1)
+  - [Witherable](#witherable)
   - [array](#array)
-  - [compactableArray](#compactablearray)
-  - [extendArray](#extendarray)
-  - [filterableArray](#filterablearray)
-  - [filterableWithIndexArray](#filterablewithindexarray)
-  - [foldableArray](#foldablearray)
-  - [foldableWithIndexArray](#foldablewithindexarray)
-  - [functorArray](#functorarray)
-  - [functorWithIndexArray](#functorwithindexarray)
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getShow](#getshow)
-  - [monadArray](#monadarray)
-  - [traversableArray](#traversablearray)
-  - [traversableWithIndexArray](#traversablewithindexarray)
-  - [unfoldableArray](#unfoldablearray)
-  - [witherableArray](#witherablearray)
 - [unsafe](#unsafe)
   - [unsafeDeleteAt](#unsafedeleteat)
   - [unsafeInsertAt](#unsafeinsertat)
@@ -1449,6 +1449,146 @@ Added in v2.0.0
 
 # instances
 
+## Alt
+
+**Signature**
+
+```ts
+export declare const Alt: Alt1<'Array'>
+```
+
+Added in v2.7.0
+
+## Alternative
+
+**Signature**
+
+```ts
+export declare const Alternative: Alternative1<'Array'>
+```
+
+Added in v2.7.0
+
+## Applicative
+
+**Signature**
+
+```ts
+export declare const Applicative: Applicative1<'Array'>
+```
+
+Added in v2.7.0
+
+## Compactable
+
+**Signature**
+
+```ts
+export declare const Compactable: Compactable1<'Array'>
+```
+
+Added in v2.7.0
+
+## Extend
+
+**Signature**
+
+```ts
+export declare const Extend: Extend1<'Array'>
+```
+
+Added in v2.7.0
+
+## Filterable
+
+**Signature**
+
+```ts
+export declare const Filterable: Filterable1<'Array'>
+```
+
+Added in v2.7.0
+
+## FilterableWithIndex
+
+**Signature**
+
+```ts
+export declare const FilterableWithIndex: FilterableWithIndex1<'Array', number>
+```
+
+Added in v2.7.0
+
+## Foldable
+
+**Signature**
+
+```ts
+export declare const Foldable: Foldable1<'Array'>
+```
+
+Added in v2.7.0
+
+## FoldableWithIndex
+
+**Signature**
+
+```ts
+export declare const FoldableWithIndex: FoldableWithIndex1<'Array', number>
+```
+
+Added in v2.7.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor1<'Array'>
+```
+
+Added in v2.7.0
+
+## FunctorWithIndex
+
+**Signature**
+
+```ts
+export declare const FunctorWithIndex: FunctorWithIndex1<'Array', number>
+```
+
+Added in v2.7.0
+
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad1<'Array'>
+```
+
+Added in v2.7.0
+
+## Traversable
+
+**Signature**
+
+```ts
+export declare const Traversable: Traversable1<'Array'>
+```
+
+Added in v2.7.0
+
+## TraversableWithIndex
+
+**Signature**
+
+```ts
+export declare const TraversableWithIndex: TraversableWithIndex1<'Array', number>
+```
+
+Added in v2.7.0
+
 ## URI
 
 **Signature**
@@ -1469,32 +1609,22 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-## altArray
+## Unfoldable
 
 **Signature**
 
 ```ts
-export declare const altArray: Alt1<'Array'>
+export declare const Unfoldable: Unfoldable1<'Array'>
 ```
 
 Added in v2.7.0
 
-## alternativeArray
+## Witherable
 
 **Signature**
 
 ```ts
-export declare const alternativeArray: Alternative1<'Array'>
-```
-
-Added in v2.7.0
-
-## applicativeArray
-
-**Signature**
-
-```ts
-export declare const applicativeArray: Applicative1<'Array'>
+export declare const Witherable: Witherable1<'Array'>
 ```
 
 Added in v2.7.0
@@ -1516,86 +1646,6 @@ export declare const array: FunctorWithIndex1<'Array', number> &
 ```
 
 Added in v2.0.0
-
-## compactableArray
-
-**Signature**
-
-```ts
-export declare const compactableArray: Compactable1<'Array'>
-```
-
-Added in v2.7.0
-
-## extendArray
-
-**Signature**
-
-```ts
-export declare const extendArray: Extend1<'Array'>
-```
-
-Added in v2.7.0
-
-## filterableArray
-
-**Signature**
-
-```ts
-export declare const filterableArray: Filterable1<'Array'>
-```
-
-Added in v2.7.0
-
-## filterableWithIndexArray
-
-**Signature**
-
-```ts
-export declare const filterableWithIndexArray: FilterableWithIndex1<'Array', number>
-```
-
-Added in v2.7.0
-
-## foldableArray
-
-**Signature**
-
-```ts
-export declare const foldableArray: Foldable1<'Array'>
-```
-
-Added in v2.7.0
-
-## foldableWithIndexArray
-
-**Signature**
-
-```ts
-export declare const foldableWithIndexArray: FoldableWithIndex1<'Array', number>
-```
-
-Added in v2.7.0
-
-## functorArray
-
-**Signature**
-
-```ts
-export declare const functorArray: Functor1<'Array'>
-```
-
-Added in v2.7.0
-
-## functorWithIndexArray
-
-**Signature**
-
-```ts
-export declare const functorWithIndexArray: FunctorWithIndex1<'Array', number>
-```
-
-Added in v2.7.0
 
 ## getEq
 
@@ -1679,56 +1729,6 @@ export declare const getShow: <A>(S: Show<A>) => Show<A[]>
 ```
 
 Added in v2.0.0
-
-## monadArray
-
-**Signature**
-
-```ts
-export declare const monadArray: Monad1<'Array'>
-```
-
-Added in v2.7.0
-
-## traversableArray
-
-**Signature**
-
-```ts
-export declare const traversableArray: Traversable1<'Array'>
-```
-
-Added in v2.7.0
-
-## traversableWithIndexArray
-
-**Signature**
-
-```ts
-export declare const traversableWithIndexArray: TraversableWithIndex1<'Array', number>
-```
-
-Added in v2.7.0
-
-## unfoldableArray
-
-**Signature**
-
-```ts
-export declare const unfoldableArray: Unfoldable1<'Array'>
-```
-
-Added in v2.7.0
-
-## witherableArray
-
-**Signature**
-
-```ts
-export declare const witherableArray: Witherable1<'Array'>
-```
-
-Added in v2.7.0
 
 # unsafe
 

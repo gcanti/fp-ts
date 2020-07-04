@@ -61,6 +61,6 @@ describe('IO', () => {
 
   it('chainRec', () => {
     const f = (n: number) => (n < 15000 ? _.of(E.left(n + 1)) : _.of(E.right('ok ' + n)))
-    assert.deepStrictEqual(_.chainRecIO.chainRec(0, f)(), 'ok 15000')
+    assert.deepStrictEqual(_.ChainRec.chainRec(0, f)(), 'ok 15000')
   })
 })

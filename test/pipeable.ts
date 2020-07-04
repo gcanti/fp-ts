@@ -19,31 +19,31 @@ describe('pipeable', () => {
   })
 
   it('Contravariant', () => {
-    const { contramap } = pipeable(C.contravariantConst)
+    const { contramap } = pipeable(C.Contravariant)
     assert.deepStrictEqual(contramap((s: string) => s.length * 2)(C.make(1)), 1)
   })
 
   it('FunctorWithIndex', () => {
-    const { mapWithIndex } = pipeable(A.functorWithIndexArray)
+    const { mapWithIndex } = pipeable(A.Functor)
     assert.deepStrictEqual(mapWithIndex((i, n: number) => n * 2 + i)([1, 2, 3]), [2, 5, 8])
   })
 
   it('Apply', () => {
-    const { ap, apFirst, apSecond } = pipeable(A.applicativeArray)
+    const { ap, apFirst, apSecond } = pipeable(A.Applicative)
     assert.deepStrictEqual(ap([1, 2, 3])([(n) => n * 2]), [2, 4, 6])
     assert.deepStrictEqual(apFirst([2])([1]), [1])
     assert.deepStrictEqual(apSecond([2])([1]), [2])
   })
 
   it('Chain', () => {
-    const { chain, chainFirst, flatten } = pipeable(A.monadArray)
+    const { chain, chainFirst, flatten } = pipeable(A.Monad)
     assert.deepStrictEqual(chain((n: number) => [n * 2])([1, 2, 3]), [2, 4, 6])
     assert.deepStrictEqual(chainFirst((n: number) => [n * 2])([1, 2, 3]), [1, 2, 3])
     assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
   })
 
   it('Bifunctor', () => {
-    const { bimap, mapLeft } = pipeable(E.bifunctorEither)
+    const { bimap, mapLeft } = pipeable(E.Bifunctor)
     assert.deepStrictEqual(
       bimap(
         (s: string) => s.length,
@@ -63,32 +63,32 @@ describe('pipeable', () => {
   })
 
   it('Extend', () => {
-    const { extend, duplicate } = pipeable(A.extendArray)
+    const { extend, duplicate } = pipeable(A.Extend)
     assert.deepStrictEqual(extend((as: ReadonlyArray<number>) => fold(monoidSum)(as))([1, 2, 3]), [6, 5, 3])
     assert.deepStrictEqual(duplicate([1, 2, 3]), [[1, 2, 3], [2, 3], [3]])
   })
 
   it('Foldable', () => {
-    const { reduce, foldMap, reduceRight } = pipeable(A.foldableArray)
+    const { reduce, foldMap, reduceRight } = pipeable(A.Foldable)
     assert.deepStrictEqual(reduce(0, (acc, n: number) => acc + n)([1, 2, 3]), 6)
     assert.deepStrictEqual(foldMap(monoidSum)((n: number) => n)([1, 2, 3]), 6)
     assert.deepStrictEqual(reduceRight(0, (n: number, acc) => -acc + n)([1, 2, 3]), 2)
   })
 
   it('FoldableWithIndex', () => {
-    const { reduceWithIndex, foldMapWithIndex, reduceRightWithIndex } = pipeable(A.foldableWithIndexArray)
+    const { reduceWithIndex, foldMapWithIndex, reduceRightWithIndex } = pipeable(A.FoldableWithIndex)
     assert.deepStrictEqual(reduceWithIndex(0, (i, acc, n: number) => acc + n + i)([1, 2, 3]), 9)
     assert.deepStrictEqual(foldMapWithIndex(monoidSum)((i, n: number) => n + i)([1, 2, 3]), 9)
     assert.deepStrictEqual(reduceRightWithIndex(0, (i, n: number, acc) => -acc + n + i)([1, 2, 3]), 3)
   })
 
   it('Alt', () => {
-    const { alt } = pipeable(A.altArray)
+    const { alt } = pipeable(A.Alt)
     assert.deepStrictEqual(alt(() => [4, 5, 6])([1, 2, 3]), [1, 2, 3, 4, 5, 6])
   })
 
   it('Filterable', () => {
-    const { filter, filterMap, partition, partitionMap } = pipeable(A.filterableArray)
+    const { filter, filterMap, partition, partitionMap } = pipeable(A.Filterable)
     assert.deepStrictEqual(filter(O.isSome)([O.some(1), O.none, O.some(2)]), [O.some(1), O.some(2)])
     assert.deepStrictEqual(filterMap(<A>(a: O.Option<A>) => a)([O.some(1), O.none, O.some(2)]), [1, 2])
     assert.deepStrictEqual(partition(O.isSome)([O.some(1), O.none, O.some(2)]), {
@@ -103,7 +103,7 @@ describe('pipeable', () => {
 
   it('FilterableWithIndex', () => {
     const { filterWithIndex, filterMapWithIndex, partitionWithIndex, partitionMapWithIndex } = pipeable(
-      A.filterableWithIndexArray
+      A.FilterableWithIndex
     )
     assert.deepStrictEqual(
       filterWithIndex((i, a: O.Option<number>) => i > 1 && O.isSome(a))([O.some(1), O.none, O.some(2)]),
@@ -135,7 +135,7 @@ describe('pipeable', () => {
   })
 
   it('Profunctor', () => {
-    const { promap } = pipeable(R.profunctorReader)
+    const { promap } = pipeable(R.Profunctor)
     const f = promap(
       (s: string) => s + 'a',
       (n: number) => n > 2
@@ -145,7 +145,7 @@ describe('pipeable', () => {
   })
 
   it('Semigroupoid', () => {
-    const { compose } = pipeable(R.categoryReader)
+    const { compose } = pipeable(R.Category)
     assert.deepStrictEqual(compose((s: string) => s.length)((n) => n * 2)('aa'), 4)
   })
 })

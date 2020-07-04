@@ -6,7 +6,7 @@ import { right, left } from '../src/Either'
 
 describe('Filterable', () => {
   it('getFilterableComposition', () => {
-    const F = getFilterableComposition(A.functorArray, A.filterableArray)
+    const F = getFilterableComposition(A.functorArray, A.Filterable)
     assert.deepStrictEqual(
       F.filter(
         [

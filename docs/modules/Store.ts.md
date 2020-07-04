@@ -20,10 +20,10 @@ Added in v2.0.0
 - [Functor](#functor)
   - [map](#map)
 - [instances](#instances)
+  - [Comonad](#comonad)
+  - [Functor](#functor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [comonadStore](#comonadstore)
-  - [functorStore](#functorstore)
   - [store](#store)
 - [model](#model)
   - [Store (interface)](#store-interface)
@@ -86,6 +86,26 @@ Added in v2.0.0
 
 # instances
 
+## Comonad
+
+**Signature**
+
+```ts
+export declare const Comonad: Comonad2<'Store'>
+```
+
+Added in v2.7.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor2<'Store'>
+```
+
+Added in v2.7.0
+
 ## URI
 
 **Signature**
@@ -105,26 +125,6 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
-
-## comonadStore
-
-**Signature**
-
-```ts
-export declare const comonadStore: Comonad2<'Store'>
-```
-
-Added in v2.7.0
-
-## functorStore
-
-**Signature**
-
-```ts
-export declare const functorStore: Functor2<'Store'>
-```
-
-Added in v2.7.0
 
 ## store
 
@@ -175,7 +175,9 @@ export declare function experiment<F extends URIS2, E>(
 export declare function experiment<F extends URIS>(
   F: Functor1<F>
 ): <S>(f: (s: S) => Kind<F, S>) => <A>(wa: Store<S, A>) => Kind<F, A>
-export declare function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A>
+export declare function experiment<F>(
+  F: FunctorHKT<F>
+): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A>
 ```
 
 Added in v2.0.0

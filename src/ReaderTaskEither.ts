@@ -599,7 +599,7 @@ export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderTaskEither<R
  * @since 2.7.0
  */
 export function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative3C<URI, E> {
-  const ap = apComposition(R.applicativeReader, TE.getApplicativeTaskValidation(A, SE))
+  const ap = apComposition(R.Applicative, TE.getApplicativeTaskValidation(A, SE))
   return {
     URI,
     _E: undefined as any,
@@ -631,7 +631,7 @@ export function getAltReaderTaskValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
 export function getReaderTaskValidation<E>(
   SE: Semigroup<E>
 ): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadTask3C<URI, E> & MonadThrow3C<URI, E> {
-  const applicativeReaderTaskValidation = getApplicativeReaderTaskValidation(T.applicativeTaskPar, SE)
+  const applicativeReaderTaskValidation = getApplicativeReaderTaskValidation(T.ApplicativePar, SE)
   const altReaderTaskValidation = getAltReaderTaskValidation(SE)
   return {
     URI,
@@ -653,7 +653,7 @@ export function getReaderTaskValidation<E>(
  * @category instances
  * @since 2.7.0
  */
-export const functorReaderTaskEither: Functor3<URI> = {
+export const Functor: Functor3<URI> = {
   URI,
   map: map_
 }
@@ -662,7 +662,7 @@ export const functorReaderTaskEither: Functor3<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const applicativeReaderTaskEitherPar: Applicative3<URI> = {
+export const ApplicativePar: Applicative3<URI> = {
   URI,
   map: map_,
   ap: apPar_,
@@ -673,7 +673,7 @@ export const applicativeReaderTaskEitherPar: Applicative3<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const applicativeReaderTaskEitherSeq: Applicative3<URI> = {
+export const ApplicativeSeq: Applicative3<URI> = {
   URI,
   map: map_,
   ap: apSeq_,
@@ -684,7 +684,7 @@ export const applicativeReaderTaskEitherSeq: Applicative3<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const bifunctorReaderTaskEither: Bifunctor3<URI> = {
+export const Bifunctor: Bifunctor3<URI> = {
   URI,
   bimap: bimap_,
   mapLeft: mapLeft_
@@ -694,7 +694,7 @@ export const bifunctorReaderTaskEither: Bifunctor3<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const altReaderTaskEither: Alt3<URI> = {
+export const Alt: Alt3<URI> = {
   URI,
   map: map_,
   alt: alt_

@@ -173,7 +173,7 @@ export function getMonoid<A>(): Monoid<Eq<A>> {
  * @category instances
  * @since 2.7.0
  */
-export const contravariantEq: Contravariant1<URI> = {
+export const Contravariant: Contravariant1<URI> = {
   URI,
   contramap: contramap_
 }
@@ -183,4 +183,4 @@ export const contravariantEq: Contravariant1<URI> = {
  * @category instances
  * @since 2.0.0
  */
-export const eq: Contravariant1<URI> = contravariantEq
+export const eq: Contravariant1<URI> = Contravariant

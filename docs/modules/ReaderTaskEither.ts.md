@@ -74,13 +74,13 @@ Added in v2.0.0
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
 - [instances](#instances)
+  - [Alt](#alt-1)
+  - [ApplicativePar](#applicativepar)
+  - [ApplicativeSeq](#applicativeseq)
+  - [Bifunctor](#bifunctor-1)
+  - [Functor](#functor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [altReaderTaskEither](#altreadertaskeither)
-  - [applicativeReaderTaskEitherPar](#applicativereadertaskeitherpar)
-  - [applicativeReaderTaskEitherSeq](#applicativereadertaskeitherseq)
-  - [bifunctorReaderTaskEither](#bifunctorreadertaskeither)
-  - [functorReaderTaskEither](#functorreadertaskeither)
   - [getAltReaderTaskValidation](#getaltreadertaskvalidation)
   - [getApplicativeReaderTaskValidation](#getapplicativereadertaskvalidation)
   - [getApplyMonoid](#getapplymonoid)
@@ -700,6 +700,56 @@ Added in v2.6.0
 
 # instances
 
+## Alt
+
+**Signature**
+
+```ts
+export declare const Alt: Alt3<'ReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## ApplicativePar
+
+**Signature**
+
+```ts
+export declare const ApplicativePar: Applicative3<'ReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## ApplicativeSeq
+
+**Signature**
+
+```ts
+export declare const ApplicativeSeq: Applicative3<'ReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## Bifunctor
+
+**Signature**
+
+```ts
+export declare const Bifunctor: Bifunctor3<'ReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor3<'ReaderTaskEither'>
+```
+
+Added in v2.7.0
+
 ## URI
 
 **Signature**
@@ -719,56 +769,6 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
-
-## altReaderTaskEither
-
-**Signature**
-
-```ts
-export declare const altReaderTaskEither: Alt3<'ReaderTaskEither'>
-```
-
-Added in v2.7.0
-
-## applicativeReaderTaskEitherPar
-
-**Signature**
-
-```ts
-export declare const applicativeReaderTaskEitherPar: Applicative3<'ReaderTaskEither'>
-```
-
-Added in v2.7.0
-
-## applicativeReaderTaskEitherSeq
-
-**Signature**
-
-```ts
-export declare const applicativeReaderTaskEitherSeq: Applicative3<'ReaderTaskEither'>
-```
-
-Added in v2.7.0
-
-## bifunctorReaderTaskEither
-
-**Signature**
-
-```ts
-export declare const bifunctorReaderTaskEither: Bifunctor3<'ReaderTaskEither'>
-```
-
-Added in v2.7.0
-
-## functorReaderTaskEither
-
-**Signature**
-
-```ts
-export declare const functorReaderTaskEither: Functor3<'ReaderTaskEither'>
-```
-
-Added in v2.7.0
 
 ## getAltReaderTaskValidation
 

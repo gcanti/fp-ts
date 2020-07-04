@@ -125,7 +125,7 @@ declare module './HKT' {
  * @category instances
  * @since 2.7.0
  */
-export const functorTraced: Functor2<URI> = {
+export const Functor: Functor2<URI> = {
   URI,
   map: map_
 }
@@ -135,4 +135,4 @@ export const functorTraced: Functor2<URI> = {
  * @category instances
  * @since 2.0.0
  */
-export const traced: Functor2<URI> = functorTraced
+export const traced: Functor2<URI> = Functor

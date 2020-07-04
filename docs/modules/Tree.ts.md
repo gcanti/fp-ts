@@ -46,16 +46,16 @@ Added in v2.0.0
 - [destructors](#destructors)
   - [fold](#fold)
 - [instances](#instances)
+  - [Applicative](#applicative)
+  - [Comonad](#comonad)
+  - [Foldable](#foldable-1)
+  - [Functor](#functor-1)
+  - [Monad](#monad-1)
+  - [Traversable](#traversable)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [applicativeTree](#applicativetree)
-  - [comonadTree](#comonadtree)
-  - [foldableTree](#foldabletree)
-  - [functorTree](#functortree)
   - [getEq](#geteq)
   - [getShow](#getshow)
-  - [monadTree](#monadtree)
-  - [traversableTree](#traversabletree)
   - [tree](#tree)
 - [model](#model)
   - [Forest (type alias)](#forest-type-alias)
@@ -273,7 +273,7 @@ export declare function unfoldForestM<M extends URIS>(
   M: Monad1<M>
 ): <A, B>(bs: Array<B>, f: (b: B) => Kind<M, [A, Array<B>]>) => Kind<M, Forest<A>>
 export declare function unfoldForestM<M>(
-  M: Monad<M>
+  M: MonadHKT<M>
 ): <A, B>(bs: Array<B>, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Forest<A>>
 ```
 
@@ -313,7 +313,9 @@ export declare function unfoldTreeM<M extends URIS2, E>(
 export declare function unfoldTreeM<M extends URIS>(
   M: Monad1<M>
 ): <A, B>(b: B, f: (b: B) => Kind<M, [A, Array<B>]>) => Kind<M, Tree<A>>
-export declare function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>>
+export declare function unfoldTreeM<M>(
+  M: MonadHKT<M>
+): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>>
 ```
 
 Added in v2.0.0
@@ -357,6 +359,66 @@ Added in v2.6.0
 
 # instances
 
+## Applicative
+
+**Signature**
+
+```ts
+export declare const Applicative: Applicative1<'Tree'>
+```
+
+Added in v2.7.0
+
+## Comonad
+
+**Signature**
+
+```ts
+export declare const Comonad: Comonad1<'Tree'>
+```
+
+Added in v2.7.0
+
+## Foldable
+
+**Signature**
+
+```ts
+export declare const Foldable: Foldable1<'Tree'>
+```
+
+Added in v2.7.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor1<'Tree'>
+```
+
+Added in v2.7.0
+
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad1<'Tree'>
+```
+
+Added in v2.7.0
+
+## Traversable
+
+**Signature**
+
+```ts
+export declare const Traversable: Traversable1<'Tree'>
+```
+
+Added in v2.7.0
+
 ## URI
 
 **Signature**
@@ -377,46 +439,6 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-## applicativeTree
-
-**Signature**
-
-```ts
-export declare const applicativeTree: Applicative1<'Tree'>
-```
-
-Added in v2.7.0
-
-## comonadTree
-
-**Signature**
-
-```ts
-export declare const comonadTree: Comonad1<'Tree'>
-```
-
-Added in v2.7.0
-
-## foldableTree
-
-**Signature**
-
-```ts
-export declare const foldableTree: Foldable1<'Tree'>
-```
-
-Added in v2.7.0
-
-## functorTree
-
-**Signature**
-
-```ts
-export declare const functorTree: Functor1<'Tree'>
-```
-
-Added in v2.7.0
-
 ## getEq
 
 **Signature**
@@ -436,26 +458,6 @@ export declare function getShow<A>(S: Show<A>): Show<Tree<A>>
 ```
 
 Added in v2.0.0
-
-## monadTree
-
-**Signature**
-
-```ts
-export declare const monadTree: Monad1<'Tree'>
-```
-
-Added in v2.7.0
-
-## traversableTree
-
-**Signature**
-
-```ts
-export declare const traversableTree: Traversable1<'Tree'>
-```
-
-Added in v2.7.0
 
 ## tree
 

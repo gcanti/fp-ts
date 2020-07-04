@@ -860,7 +860,7 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
  * @category instances
  * @since 2.7.0
  */
-export const functorMap: Functor2<URI> = {
+export const Functor: Functor2<URI> = {
   URI,
   map: map_
 }
@@ -869,7 +869,7 @@ export const functorMap: Functor2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const compactableMap: Compactable2<URI> = {
+export const Compactable: Compactable2<URI> = {
   URI,
   compact,
   separate
@@ -879,7 +879,7 @@ export const compactableMap: Compactable2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const filterableMap: Filterable2<URI> = {
+export const Filterable: Filterable2<URI> = {
   URI,
   map: map_,
   compact,

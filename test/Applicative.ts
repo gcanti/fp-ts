@@ -5,7 +5,7 @@ import * as O from '../src/Option'
 
 describe('Applicative', () => {
   it('getApplicativeComposition', () => {
-    const arrayOption = getApplicativeComposition(A.applicativeArray, O.applicativeOption)
+    const arrayOption = getApplicativeComposition(A.Applicative, O.Applicative)
     const double = (n: number) => n * 2
     const inc = (n: number) => n + 1
     assert.deepStrictEqual(arrayOption.ap([O.some(double), O.some(inc)], [O.some(1), O.some(2)]), [
