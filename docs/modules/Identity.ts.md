@@ -36,19 +36,19 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
 - [instances](#instances)
+  - [Alt](#alt-1)
+  - [Applicative](#applicative-1)
+  - [ChainRec](#chainrec)
+  - [Comonad](#comonad)
+  - [Foldable](#foldable-1)
+  - [Functor](#functor-1)
+  - [Monad](#monad-1)
+  - [Traversable](#traversable)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [altIdentity](#altidentity)
-  - [applicativeIdentity](#applicativeidentity)
-  - [chainRecIdentity](#chainrecidentity)
-  - [comonadIdentity](#comonadidentity)
-  - [foldableIdentity](#foldableidentity)
-  - [functorIdentity](#functoridentity)
   - [getEq](#geteq)
   - [getShow](#getshow)
-  - [monadIdentity](#monadidentity)
-  - [traversableIdentity](#traversableidentity)
-  - [~~identity~~](#identity)
+  - [identity](#identity)
 - [model](#model)
   - [Identity (type alias)](#identity-type-alias)
 - [utils](#utils)
@@ -242,6 +242,86 @@ Added in v2.0.0
 
 # instances
 
+## Alt
+
+**Signature**
+
+```ts
+export declare const Alt: Alt1<'Identity'>
+```
+
+Added in v2.7.0
+
+## Applicative
+
+**Signature**
+
+```ts
+export declare const Applicative: Applicative1<'Identity'>
+```
+
+Added in v2.7.0
+
+## ChainRec
+
+**Signature**
+
+```ts
+export declare const ChainRec: ChainRec1<'Identity'>
+```
+
+Added in v2.7.0
+
+## Comonad
+
+**Signature**
+
+```ts
+export declare const Comonad: Comonad1<'Identity'>
+```
+
+Added in v2.7.0
+
+## Foldable
+
+**Signature**
+
+```ts
+export declare const Foldable: Foldable1<'Identity'>
+```
+
+Added in v2.7.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor1<'Identity'>
+```
+
+Added in v2.7.0
+
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad1<'Identity'>
+```
+
+Added in v2.7.0
+
+## Traversable
+
+**Signature**
+
+```ts
+export declare const Traversable: Traversable1<'Identity'>
+```
+
+Added in v2.7.0
+
 ## URI
 
 **Signature**
@@ -261,66 +341,6 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
-
-## altIdentity
-
-**Signature**
-
-```ts
-export declare const altIdentity: Alt1<'Identity'>
-```
-
-Added in v2.7.0
-
-## applicativeIdentity
-
-**Signature**
-
-```ts
-export declare const applicativeIdentity: Applicative1<'Identity'>
-```
-
-Added in v2.7.0
-
-## chainRecIdentity
-
-**Signature**
-
-```ts
-export declare const chainRecIdentity: ChainRec1<'Identity'>
-```
-
-Added in v2.7.0
-
-## comonadIdentity
-
-**Signature**
-
-```ts
-export declare const comonadIdentity: Comonad1<'Identity'>
-```
-
-Added in v2.7.0
-
-## foldableIdentity
-
-**Signature**
-
-```ts
-export declare const foldableIdentity: Foldable1<'Identity'>
-```
-
-Added in v2.7.0
-
-## functorIdentity
-
-**Signature**
-
-```ts
-export declare const functorIdentity: Functor1<'Identity'>
-```
-
-Added in v2.7.0
 
 ## getEq
 
@@ -342,27 +362,7 @@ export declare const getShow: <A>(S: Show<A>) => Show<A>
 
 Added in v2.0.0
 
-## monadIdentity
-
-**Signature**
-
-```ts
-export declare const monadIdentity: Monad1<'Identity'>
-```
-
-Added in v2.7.0
-
-## traversableIdentity
-
-**Signature**
-
-```ts
-export declare const traversableIdentity: Traversable1<'Identity'>
-```
-
-Added in v2.7.0
-
-## ~~identity~~
+## identity
 
 **Signature**
 

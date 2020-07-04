@@ -28,12 +28,12 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [make](#make)
 - [instances](#instances)
+  - [Bifunctor](#bifunctor-1)
+  - [Contravariant](#contravariant-1)
+  - [Functor](#functor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [bifunctorConst](#bifunctorconst)
   - [const\_](#const_)
-  - [contravariantConst](#contravariantconst)
-  - [functorConst](#functorconst)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getBooleanAlgebra](#getbooleanalgebra)
@@ -118,6 +118,36 @@ Added in v2.0.0
 
 # instances
 
+## Bifunctor
+
+**Signature**
+
+```ts
+export declare const Bifunctor: Bifunctor2<'Const'>
+```
+
+Added in v2.7.0
+
+## Contravariant
+
+**Signature**
+
+```ts
+export declare const Contravariant: Contravariant2<'Const'>
+```
+
+Added in v2.7.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor2<'Const'>
+```
+
+Added in v2.7.0
+
 ## URI
 
 **Signature**
@@ -138,16 +168,6 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-## bifunctorConst
-
-**Signature**
-
-```ts
-export declare const bifunctorConst: Bifunctor2<'Const'>
-```
-
-Added in v2.7.0
-
 ## const\_
 
 **Signature**
@@ -157,26 +177,6 @@ export declare const const_: Functor2<'Const'> & Contravariant2<'Const'> & Bifun
 ```
 
 Added in v2.0.0
-
-## contravariantConst
-
-**Signature**
-
-```ts
-export declare const contravariantConst: Contravariant2<'Const'>
-```
-
-Added in v2.7.0
-
-## functorConst
-
-**Signature**
-
-```ts
-export declare const functorConst: Functor2<'Const'>
-```
-
-Added in v2.7.0
 
 ## getApplicative
 

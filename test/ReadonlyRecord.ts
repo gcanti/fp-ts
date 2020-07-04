@@ -21,7 +21,7 @@ describe('ReadonlyRecord', () => {
       const double = (n: number): number => n * 2
       assert.deepStrictEqual(pipe({ k1: 1, k2: 2 }, _.map(double)), { k1: 2, k2: 4 })
       assert.deepStrictEqual(pipe({ a: 1, b: 2 }, _.map(double)), { a: 2, b: 4 })
-      assert.deepStrictEqual(_.functorRecord.map({ a: 1, b: 2 }, double), { a: 2, b: 4 })
+      assert.deepStrictEqual(_.Functor.map({ a: 1, b: 2 }, double), { a: 2, b: 4 })
     })
 
     it('reduce', () => {
@@ -191,23 +191,23 @@ describe('ReadonlyRecord', () => {
 
     it('traverse', () => {
       assert.deepStrictEqual(
-        _.traverse(O.applicativeOption)((n: number) => (n <= 2 ? O.some(n) : O.none))({ a: 1, b: 2 }),
+        _.traverse(O.Applicative)((n: number) => (n <= 2 ? O.some(n) : O.none))({ a: 1, b: 2 }),
         O.some({ a: 1, b: 2 })
       )
       assert.deepStrictEqual(
-        _.traverse(O.applicativeOption)((n: number) => (n >= 2 ? O.some(n) : O.none))({ a: 1, b: 2 }),
+        _.traverse(O.Applicative)((n: number) => (n >= 2 ? O.some(n) : O.none))({ a: 1, b: 2 }),
         O.none
       )
     })
 
     it('sequence', () => {
-      const sequence = _.sequence(O.applicativeOption)
+      const sequence = _.sequence(O.Applicative)
       assert.deepStrictEqual(sequence({ a: O.some(1), b: O.some(2) }), O.some({ a: 1, b: 2 }))
       assert.deepStrictEqual(sequence({ a: O.none, b: O.some(2) }), O.none)
     })
 
     it('traverseWithIndex', () => {
-      const traverseWithIndex = _.traverseWithIndex(O.applicativeOption)(
+      const traverseWithIndex = _.traverseWithIndex(O.Applicative)(
         (k, n: number): O.Option<number> => (k !== 'a' ? O.some(n) : O.none)
       )
       assert.deepStrictEqual(pipe({ a: 1, b: 2 }, traverseWithIndex), O.none)
@@ -215,13 +215,13 @@ describe('ReadonlyRecord', () => {
     })
 
     it('wither', async () => {
-      const wither = _.wither(T.applicativeTaskPar)((n: number) => T.of(p(n) ? O.some(n + 1) : O.none))
+      const wither = _.wither(T.ApplicativePar)((n: number) => T.of(p(n) ? O.some(n + 1) : O.none))
       assert.deepStrictEqual(await pipe({}, wither)(), {})
       assert.deepStrictEqual(await pipe({ a: 1, b: 3 }, wither)(), { b: 4 })
     })
 
     it('wilt', async () => {
-      const wilt = _.wilt(T.applicativeTaskPar)((n: number) => T.of(p(n) ? right(n + 1) : left(n - 1)))
+      const wilt = _.wilt(T.ApplicativePar)((n: number) => T.of(p(n) ? right(n + 1) : left(n - 1)))
       assert.deepStrictEqual(await pipe({}, wilt)(), { left: {}, right: {} })
       assert.deepStrictEqual(await pipe({ a: 1, b: 3 }, wilt)(), { left: { a: 0 }, right: { b: 4 } })
     })
@@ -256,11 +256,11 @@ describe('ReadonlyRecord', () => {
 
   it('fromFoldable', () => {
     const First = getFirstSemigroup<number>()
-    assert.deepStrictEqual(_.fromFoldable(First, A.foldableArray)([['a', 1]]), { a: 1 })
+    assert.deepStrictEqual(_.fromFoldable(First, A.Foldable)([['a', 1]]), { a: 1 })
     assert.deepStrictEqual(
       _.fromFoldable(
         First,
-        A.foldableArray
+        A.Foldable
       )([
         ['a', 1],
         ['a', 2]
@@ -273,7 +273,7 @@ describe('ReadonlyRecord', () => {
     assert.deepStrictEqual(
       _.fromFoldable(
         Last,
-        A.foldableArray
+        A.Foldable
       )([
         ['a', 1],
         ['a', 2]
@@ -296,7 +296,7 @@ describe('ReadonlyRecord', () => {
   })
 
   it('toUnfoldable', () => {
-    assert.deepStrictEqual(_.toUnfoldable(A.unfoldableArray)({ a: 1 }), [['a', 1]])
+    assert.deepStrictEqual(_.toUnfoldable(A.Unfoldable)({ a: 1 }), [['a', 1]])
   })
 
   it('traverseWithIndex should sort the keys', () => {
@@ -308,7 +308,7 @@ describe('ReadonlyRecord', () => {
 
     pipe(
       { b: append('b'), a: append('a') },
-      _.traverseWithIndex(IO.applicativeIO)((_, io) => io)
+      _.traverseWithIndex(IO.Applicative)((_, io) => io)
     )()
     assert.deepStrictEqual(log, ['a', 'b'])
   })
@@ -368,7 +368,7 @@ describe('ReadonlyRecord', () => {
 
   it('fromFoldableMap', () => {
     const zipObject = <K extends string, A>(keys: ReadonlyArray<K>, values: ReadonlyArray<A>): _.ReadonlyRecord<K, A> =>
-      _.fromFoldableMap(getLastSemigroup<A>(), A.foldableArray)(A.zip(keys, values), identity)
+      _.fromFoldableMap(getLastSemigroup<A>(), A.Foldable)(A.zip(keys, values), identity)
 
     assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
 
@@ -384,7 +384,7 @@ describe('ReadonlyRecord', () => {
     ]
 
     assert.deepStrictEqual(
-      _.fromFoldableMap(getLastSemigroup<User>(), A.foldableArray)(users, (user) => [user.id, user]),
+      _.fromFoldableMap(getLastSemigroup<User>(), A.Foldable)(users, (user) => [user.id, user]),
       {
         id1: { id: 'id1', name: 'name3' },
         id2: { id: 'id2', name: 'name2' }

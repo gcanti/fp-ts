@@ -42,11 +42,11 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [fromIO](#fromio)
 - [instances](#instances)
+  - [ApplicativePar](#applicativepar)
+  - [ApplicativeSeq](#applicativeseq)
+  - [Functor](#functor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [applicativeTaskPar](#applicativetaskpar)
-  - [applicativeTaskSeq](#applicativetaskseq)
-  - [functorTask](#functortask)
   - [getMonoid](#getmonoid)
   - [getRaceMonoid](#getracemonoid)
   - [getSemigroup](#getsemigroup)
@@ -244,6 +244,36 @@ Added in v2.0.0
 
 # instances
 
+## ApplicativePar
+
+**Signature**
+
+```ts
+export declare const ApplicativePar: Applicative1<'Task'>
+```
+
+Added in v2.7.0
+
+## ApplicativeSeq
+
+**Signature**
+
+```ts
+export declare const ApplicativeSeq: Applicative1<'Task'>
+```
+
+Added in v2.7.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor1<'Task'>
+```
+
+Added in v2.7.0
+
 ## URI
 
 **Signature**
@@ -263,36 +293,6 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
-
-## applicativeTaskPar
-
-**Signature**
-
-```ts
-export declare const applicativeTaskPar: Applicative1<'Task'>
-```
-
-Added in v2.7.0
-
-## applicativeTaskSeq
-
-**Signature**
-
-```ts
-export declare const applicativeTaskSeq: Applicative1<'Task'>
-```
-
-Added in v2.7.0
-
-## functorTask
-
-**Signature**
-
-```ts
-export declare const functorTask: Functor1<'Task'>
-```
-
-Added in v2.7.0
 
 ## getMonoid
 

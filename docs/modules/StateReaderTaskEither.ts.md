@@ -73,12 +73,12 @@ Added in v2.0.0
   - [rightState](#rightstate)
   - [rightTask](#righttask)
 - [instances](#instances)
+  - [Alt](#alt-1)
+  - [Applicative](#applicative-1)
+  - [Bifunctor](#bifunctor-1)
+  - [Functor](#functor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [altReaderStateTaskEither](#altreaderstatetaskeither)
-  - [applicativeStateReaderTaskEither](#applicativestatereadertaskeither)
-  - [bifunctorStateReaderTaskEither](#bifunctorstatereadertaskeither)
-  - [functorStateReaderTaskEither](#functorstatereadertaskeither)
   - [stateReaderTaskEither](#statereadertaskeither)
   - [stateReaderTaskEitherSeq](#statereadertaskeitherseq)
 - [model](#model)
@@ -701,6 +701,46 @@ Added in v2.0.0
 
 # instances
 
+## Alt
+
+**Signature**
+
+```ts
+export declare const Alt: Alt4<'StateReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## Applicative
+
+**Signature**
+
+```ts
+export declare const Applicative: Applicative4<'StateReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## Bifunctor
+
+**Signature**
+
+```ts
+export declare const Bifunctor: Bifunctor4<'StateReaderTaskEither'>
+```
+
+Added in v2.7.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor4<'StateReaderTaskEither'>
+```
+
+Added in v2.7.0
+
 ## URI
 
 **Signature**
@@ -720,46 +760,6 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
-
-## altReaderStateTaskEither
-
-**Signature**
-
-```ts
-export declare const altReaderStateTaskEither: Alt4<'StateReaderTaskEither'>
-```
-
-Added in v2.7.0
-
-## applicativeStateReaderTaskEither
-
-**Signature**
-
-```ts
-export declare const applicativeStateReaderTaskEither: Applicative4<'StateReaderTaskEither'>
-```
-
-Added in v2.7.0
-
-## bifunctorStateReaderTaskEither
-
-**Signature**
-
-```ts
-export declare const bifunctorStateReaderTaskEither: Bifunctor4<'StateReaderTaskEither'>
-```
-
-Added in v2.7.0
-
-## functorStateReaderTaskEither
-
-**Signature**
-
-```ts
-export declare const functorStateReaderTaskEither: Functor4<'StateReaderTaskEither'>
-```
-
-Added in v2.7.0
 
 ## stateReaderTaskEither
 

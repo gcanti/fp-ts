@@ -66,13 +66,13 @@ Added in v2.0.0
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
 - [instances](#instances)
+  - [Alt](#alt-1)
+  - [ApplicativePar](#applicativepar)
+  - [ApplicativeSeq](#applicativeseq)
+  - [Bifunctor](#bifunctor-1)
+  - [Functor](#functor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [altTaskEither](#alttaskeither)
-  - [applicativeTaskEitherPar](#applicativetaskeitherpar)
-  - [applicativeTaskEitherSeq](#applicativetaskeitherseq)
-  - [bifunctorTaskEither](#bifunctortaskeither)
-  - [functorTaskEither](#functortaskeither)
   - [getAltTaskValidation](#getalttaskvalidation)
   - [getApplicativeTaskValidation](#getapplicativetaskvalidation)
   - [getApplyMonoid](#getapplymonoid)
@@ -635,6 +635,56 @@ Added in v2.6.0
 
 # instances
 
+## Alt
+
+**Signature**
+
+```ts
+export declare const Alt: Alt2<'TaskEither'>
+```
+
+Added in v2.7.0
+
+## ApplicativePar
+
+**Signature**
+
+```ts
+export declare const ApplicativePar: Applicative2<'TaskEither'>
+```
+
+Added in v2.7.0
+
+## ApplicativeSeq
+
+**Signature**
+
+```ts
+export declare const ApplicativeSeq: Applicative2<'TaskEither'>
+```
+
+Added in v2.7.0
+
+## Bifunctor
+
+**Signature**
+
+```ts
+export declare const Bifunctor: Bifunctor2<'TaskEither'>
+```
+
+Added in v2.7.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor2<'TaskEither'>
+```
+
+Added in v2.7.0
+
 ## URI
 
 **Signature**
@@ -654,56 +704,6 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
-
-## altTaskEither
-
-**Signature**
-
-```ts
-export declare const altTaskEither: Alt2<'TaskEither'>
-```
-
-Added in v2.7.0
-
-## applicativeTaskEitherPar
-
-**Signature**
-
-```ts
-export declare const applicativeTaskEitherPar: Applicative2<'TaskEither'>
-```
-
-Added in v2.7.0
-
-## applicativeTaskEitherSeq
-
-**Signature**
-
-```ts
-export declare const applicativeTaskEitherSeq: Applicative2<'TaskEither'>
-```
-
-Added in v2.7.0
-
-## bifunctorTaskEither
-
-**Signature**
-
-```ts
-export declare const bifunctorTaskEither: Bifunctor2<'TaskEither'>
-```
-
-Added in v2.7.0
-
-## functorTaskEither
-
-**Signature**
-
-```ts
-export declare const functorTaskEither: Functor2<'TaskEither'>
-```
-
-Added in v2.7.0
 
 ## getAltTaskValidation
 

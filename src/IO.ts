@@ -173,7 +173,7 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> {
  * @category instances
  * @since 2.7.0
  */
-export const functorIO: Functor1<URI> = {
+export const Functor: Functor1<URI> = {
   URI,
   map: map_
 }
@@ -182,7 +182,7 @@ export const functorIO: Functor1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const applicativeIO: Applicative1<URI> = {
+export const Applicative: Applicative1<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -193,7 +193,7 @@ export const applicativeIO: Applicative1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const monadIO: Monad1<URI> = {
+export const Monad: Monad1<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -205,7 +205,7 @@ export const monadIO: Monad1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const monadIOIO: MonadIO1<URI> = {
+export const MonadIO: MonadIO1<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -218,7 +218,7 @@ export const monadIOIO: MonadIO1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const chainRecIO: ChainRec1<URI> = {
+export const ChainRec: ChainRec1<URI> = {
   URI,
   map: map_,
   ap: ap_,

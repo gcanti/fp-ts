@@ -53,20 +53,20 @@ Added in v2.0.0
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
 - [instances](#instances)
+  - [Alt](#alt-1)
+  - [Applicative](#applicative)
+  - [Bifunctor](#bifunctor-1)
+  - [Functor](#functor-1)
+  - [Monad](#monad-1)
+  - [MonadThrow](#monadthrow-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [altReaderEither](#altreadereither)
-  - [applicativeReaderEither](#applicativereadereither)
-  - [bifunctorReaderEither](#bifunctorreadereither)
-  - [functorReaderEither](#functorreadereither)
   - [getAltReaderValidation](#getaltreadervalidation)
   - [getApplicativeReaderValidation](#getapplicativereadervalidation)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getReaderValidation](#getreadervalidation)
   - [getSemigroup](#getsemigroup)
-  - [monadReaderEither](#monadreadereither)
-  - [monadThrowReaderEither](#monadthrowreadereither)
   - [readerEither](#readereither)
 - [model](#model)
   - [ReaderEither (interface)](#readereither-interface)
@@ -467,6 +467,66 @@ Added in v2.6.0
 
 # instances
 
+## Alt
+
+**Signature**
+
+```ts
+export declare const Alt: Alt3<'ReaderEither'>
+```
+
+Added in v2.7.0
+
+## Applicative
+
+**Signature**
+
+```ts
+export declare const Applicative: Applicative3<'ReaderEither'>
+```
+
+Added in v2.7.0
+
+## Bifunctor
+
+**Signature**
+
+```ts
+export declare const Bifunctor: Bifunctor3<'ReaderEither'>
+```
+
+Added in v2.7.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor3<'ReaderEither'>
+```
+
+Added in v2.7.0
+
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad3<'ReaderEither'>
+```
+
+Added in v2.7.0
+
+## MonadThrow
+
+**Signature**
+
+```ts
+export declare const MonadThrow: MonadThrow3<'ReaderEither'>
+```
+
+Added in v2.7.0
+
 ## URI
 
 **Signature**
@@ -486,46 +546,6 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
-
-## altReaderEither
-
-**Signature**
-
-```ts
-export declare const altReaderEither: Alt3<'ReaderEither'>
-```
-
-Added in v2.7.0
-
-## applicativeReaderEither
-
-**Signature**
-
-```ts
-export declare const applicativeReaderEither: Applicative3<'ReaderEither'>
-```
-
-Added in v2.7.0
-
-## bifunctorReaderEither
-
-**Signature**
-
-```ts
-export declare const bifunctorReaderEither: Bifunctor3<'ReaderEither'>
-```
-
-Added in v2.7.0
-
-## functorReaderEither
-
-**Signature**
-
-```ts
-export declare const functorReaderEither: Functor3<'ReaderEither'>
-```
-
-Added in v2.7.0
 
 ## getAltReaderValidation
 
@@ -594,26 +614,6 @@ export declare function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<Reader
 ```
 
 Added in v2.0.0
-
-## monadReaderEither
-
-**Signature**
-
-```ts
-export declare const monadReaderEither: Monad3<'ReaderEither'>
-```
-
-Added in v2.7.0
-
-## monadThrowReaderEither
-
-**Signature**
-
-```ts
-export declare const monadThrowReaderEither: MonadThrow3<'ReaderEither'>
-```
-
-Added in v2.7.0
 
 ## readerEither
 

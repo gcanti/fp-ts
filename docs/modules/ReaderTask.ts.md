@@ -38,11 +38,11 @@ Added in v2.3.0
   - [fromReader](#fromreader)
   - [fromTask](#fromtask)
 - [instances](#instances)
+  - [ApplicativePar](#applicativepar)
+  - [ApplicativeSeq](#applicativeseq)
+  - [Functor](#functor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [applicativeReaderTaskPar](#applicativereadertaskpar)
-  - [applicativeReaderTaskSeq](#applicativereadertaskseq)
-  - [functorReaderTask](#functorreadertask)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
   - [readerTask](#readertask)
@@ -277,6 +277,36 @@ Added in v2.3.0
 
 # instances
 
+## ApplicativePar
+
+**Signature**
+
+```ts
+export declare const ApplicativePar: Applicative2<'ReaderTask'>
+```
+
+Added in v2.7.0
+
+## ApplicativeSeq
+
+**Signature**
+
+```ts
+export declare const ApplicativeSeq: Applicative2<'ReaderTask'>
+```
+
+Added in v2.7.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor2<'ReaderTask'>
+```
+
+Added in v2.7.0
+
 ## URI
 
 **Signature**
@@ -296,36 +326,6 @@ export type URI = typeof URI
 ```
 
 Added in v2.3.0
-
-## applicativeReaderTaskPar
-
-**Signature**
-
-```ts
-export declare const applicativeReaderTaskPar: Applicative2<'ReaderTask'>
-```
-
-Added in v2.7.0
-
-## applicativeReaderTaskSeq
-
-**Signature**
-
-```ts
-export declare const applicativeReaderTaskSeq: Applicative2<'ReaderTask'>
-```
-
-Added in v2.7.0
-
-## functorReaderTask
-
-**Signature**
-
-```ts
-export declare const functorReaderTask: Functor2<'ReaderTask'>
-```
-
-Added in v2.7.0
 
 ## getMonoid
 

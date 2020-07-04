@@ -95,7 +95,7 @@ describe('TaskEither', () => {
   // -------------------------------------------------------------------------------------
 
   it('getApplicativeTaskValidation', async () => {
-    const A = _.getApplicativeTaskValidation(T.applicativeTaskPar, semigroupString)
+    const A = _.getApplicativeTaskValidation(T.ApplicativePar, semigroupString)
     assert.deepStrictEqual(await sequenceT(A)(_.left('a'), _.left('b'))(), E.left('ab'))
     const AV = _.getTaskValidation(semigroupString)
     assert.deepStrictEqual(await sequenceT(AV)(_.left('a'), _.left('b'))(), E.left('ab'))
@@ -185,11 +185,11 @@ describe('TaskEither', () => {
   })
 
   it('applicativeTaskEitherSeq', async () => {
-    await assertSeq(_.applicativeTaskEitherSeq, { fromTask: _.fromTask }, (fa) => fa())
+    await assertSeq(_.ApplicativeSeq, { fromTask: _.fromTask }, (fa) => fa())
   })
 
   it('applicativeTaskEitherPar', async () => {
-    await assertPar(_.applicativeTaskEitherPar, { fromTask: _.fromTask }, (fa) => fa())
+    await assertPar(_.ApplicativePar, { fromTask: _.fromTask }, (fa) => fa())
   })
 
   // -------------------------------------------------------------------------------------

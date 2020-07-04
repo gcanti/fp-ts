@@ -28,19 +28,19 @@ Added in v2.0.0
   - [wilt](#wilt)
   - [wither](#wither)
 - [instances](#instances)
+  - [Compactable](#compactable-1)
+  - [Filterable](#filterable-1)
+  - [FilterableWithIndex](#filterablewithindex)
+  - [Foldable](#foldable-1)
+  - [FoldableWithIndex](#foldablewithindex)
+  - [Functor](#functor)
+  - [FunctorWithIndex](#functorwithindex)
+  - [Traversable](#traversable)
+  - [TraversableWithIndex](#traversablewithindex)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [compactableRecord](#compactablerecord)
-  - [filterableRecord](#filterablerecord)
-  - [filterableWithIndexRecord](#filterablewithindexrecord)
-  - [foldableRecord](#foldablerecord)
-  - [foldableWithIndexRecord](#foldablewithindexrecord)
-  - [functorRecord](#functorrecord)
-  - [functorWithIndexRecord](#functorwithindexrecord)
+  - [Witherable](#witherable)
   - [record](#record)
-  - [traversableRecord](#traversablerecord)
-  - [traversableWithIndexRecord](#traversablewithindexrecord)
-  - [witherableRecord](#witherablerecord)
 - [utils](#utils)
   - [collect](#collect)
   - [deleteAt](#deleteat)
@@ -213,6 +213,96 @@ Added in v2.6.5
 
 # instances
 
+## Compactable
+
+**Signature**
+
+```ts
+export declare const Compactable: Compactable1<'Record'>
+```
+
+Added in v2.7.0
+
+## Filterable
+
+**Signature**
+
+```ts
+export declare const Filterable: Filterable1<'Record'>
+```
+
+Added in v2.7.0
+
+## FilterableWithIndex
+
+**Signature**
+
+```ts
+export declare const FilterableWithIndex: FilterableWithIndex1<'Record', string>
+```
+
+Added in v2.7.0
+
+## Foldable
+
+**Signature**
+
+```ts
+export declare const Foldable: Foldable1<'Record'>
+```
+
+Added in v2.7.0
+
+## FoldableWithIndex
+
+**Signature**
+
+```ts
+export declare const FoldableWithIndex: FoldableWithIndex1<'Record', string>
+```
+
+Added in v2.7.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor1<'Record'>
+```
+
+Added in v2.7.0
+
+## FunctorWithIndex
+
+**Signature**
+
+```ts
+export declare const FunctorWithIndex: FunctorWithIndex1<'Record', string>
+```
+
+Added in v2.7.0
+
+## Traversable
+
+**Signature**
+
+```ts
+export declare const Traversable: Traversable1<'Record'>
+```
+
+Added in v2.7.0
+
+## TraversableWithIndex
+
+**Signature**
+
+```ts
+export declare const TraversableWithIndex: TraversableWithIndex1<'Record', string>
+```
+
+Added in v2.7.0
+
 ## URI
 
 **Signature**
@@ -233,72 +323,12 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-## compactableRecord
+## Witherable
 
 **Signature**
 
 ```ts
-export declare const compactableRecord: Compactable1<'Record'>
-```
-
-Added in v2.7.0
-
-## filterableRecord
-
-**Signature**
-
-```ts
-export declare const filterableRecord: Filterable1<'Record'>
-```
-
-Added in v2.7.0
-
-## filterableWithIndexRecord
-
-**Signature**
-
-```ts
-export declare const filterableWithIndexRecord: FilterableWithIndex1<'Record', string>
-```
-
-Added in v2.7.0
-
-## foldableRecord
-
-**Signature**
-
-```ts
-export declare const foldableRecord: Foldable1<'Record'>
-```
-
-Added in v2.7.0
-
-## foldableWithIndexRecord
-
-**Signature**
-
-```ts
-export declare const foldableWithIndexRecord: FoldableWithIndex1<'Record', string>
-```
-
-Added in v2.7.0
-
-## functorRecord
-
-**Signature**
-
-```ts
-export declare const functorRecord: Functor1<'Record'>
-```
-
-Added in v2.7.0
-
-## functorWithIndexRecord
-
-**Signature**
-
-```ts
-export declare const functorWithIndexRecord: FunctorWithIndex1<'Record', string>
+export declare const Witherable: Witherable1<'Record'>
 ```
 
 Added in v2.7.0
@@ -316,36 +346,6 @@ export declare const record: FunctorWithIndex1<'Record', string> &
 ```
 
 Added in v2.0.0
-
-## traversableRecord
-
-**Signature**
-
-```ts
-export declare const traversableRecord: Traversable1<'Record'>
-```
-
-Added in v2.7.0
-
-## traversableWithIndexRecord
-
-**Signature**
-
-```ts
-export declare const traversableWithIndexRecord: TraversableWithIndex1<'Record', string>
-```
-
-Added in v2.7.0
-
-## witherableRecord
-
-**Signature**
-
-```ts
-export declare const witherableRecord: Witherable1<'Record'>
-```
-
-Added in v2.7.0
 
 # utils
 
@@ -480,7 +480,7 @@ export declare function fromFoldable<F extends URIS, A>(
 ): <K extends string>(fka: Kind<F, [K, A]>) => Record<K, A>
 export declare function fromFoldable<F, A>(
   M: Magma<A>,
-  F: Foldable<F>
+  F: FoldableHKT<F>
 ): <K extends string>(fka: HKT<F, [K, A]>) => Record<K, A>
 ```
 
@@ -510,7 +510,7 @@ export declare function fromFoldableMap<F extends URIS, B>(
 ): <A, K extends string>(fa: Kind<F, A>, f: (a: A) => [K, B]) => Record<K, B>
 export declare function fromFoldableMap<F, B>(
   M: Magma<B>,
-  F: Foldable<F>
+  F: FoldableHKT<F>
 ): <A, K extends string>(fa: HKT<F, A>, f: (a: A) => [K, B]) => Record<K, B>
 ```
 

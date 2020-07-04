@@ -145,14 +145,14 @@ describe('Either', () => {
     })
 
     it('traverse', () => {
-      const traverse = _.traverse(O.applicativeOption)((n: number) => (n >= 2 ? O.some(n) : O.none))
+      const traverse = _.traverse(O.Applicative)((n: number) => (n >= 2 ? O.some(n) : O.none))
       assert.deepStrictEqual(pipe(_.left('a'), traverse), O.some(_.left('a')))
       assert.deepStrictEqual(pipe(_.right(1), traverse), O.none)
       assert.deepStrictEqual(pipe(_.right(3), traverse), O.some(_.right(3)))
     })
 
     it('sequence', () => {
-      const sequence = _.sequence(O.applicativeOption)
+      const sequence = _.sequence(O.Applicative)
       assert.deepStrictEqual(sequence(_.right(O.some(1))), O.some(_.right(1)))
       assert.deepStrictEqual(sequence(_.left('a')), O.some(_.left('a')))
       assert.deepStrictEqual(sequence(_.right(O.none)), O.none)
@@ -365,7 +365,7 @@ describe('Either', () => {
 
   describe('ChainRec', () => {
     it('chainRec', () => {
-      const chainRec = _.chainRecEither.chainRec
+      const chainRec = _.ChainRec.chainRec
       assert.deepStrictEqual(
         chainRec(1, () => _.left('foo')),
         _.left('foo')
@@ -454,7 +454,7 @@ describe('Either', () => {
     })
 
     it('wither', async () => {
-      const wither = W.wither(T.applicativeTaskPar)
+      const wither = W.wither(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
       assert.deepStrictEqual(await wither(_.left('foo'), f)(), _.left('foo'))
       assert.deepStrictEqual(await wither(_.right(1), f)(), _.left(monoidString.empty))
@@ -462,7 +462,7 @@ describe('Either', () => {
     })
 
     it('wilt', async () => {
-      const wilt = W.wilt(T.applicativeTaskPar)
+      const wilt = W.wilt(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? _.right(n + 1) : _.left(n - 1))
       assert.deepStrictEqual(await wilt(_.left('foo'), f)(), {
         left: _.left('foo'),

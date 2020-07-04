@@ -288,7 +288,7 @@ declare module './HKT' {
  * @category instances
  * @since 2.7.0
  */
-export const functorTuple: Functor2<URI> = {
+export const Functor: Functor2<URI> = {
   URI,
   map: map_
 }
@@ -297,7 +297,7 @@ export const functorTuple: Functor2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const bifunctorTuple: Bifunctor2<URI> = {
+export const Bifunctor: Bifunctor2<URI> = {
   URI,
   bimap: bimap_,
   mapLeft: mapLeft_
@@ -307,7 +307,7 @@ export const bifunctorTuple: Bifunctor2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const semigroupoidTuple: Semigroupoid2<URI> = {
+export const Semigroupoid: Semigroupoid2<URI> = {
   URI,
   compose: compose_
 }
@@ -316,7 +316,7 @@ export const semigroupoidTuple: Semigroupoid2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const comonadTuple: Comonad2<URI> = {
+export const Comonad: Comonad2<URI> = {
   URI,
   map: map_,
   extend: extend_,
@@ -327,7 +327,7 @@ export const comonadTuple: Comonad2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const foldableTuple: Foldable2<URI> = {
+export const Foldable: Foldable2<URI> = {
   URI,
   reduce: reduce_,
   foldMap: foldMap_,
@@ -338,7 +338,7 @@ export const foldableTuple: Foldable2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const traversableTuple: Traversable2<URI> = {
+export const Traversable: Traversable2<URI> = {
   URI,
   map: map_,
   reduce: reduce_,

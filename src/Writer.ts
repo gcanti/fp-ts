@@ -155,7 +155,7 @@ export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
  * @category instances
  * @since 2.7.0
  */
-export const functorWriter: Functor2<URI> = {
+export const Functor: Functor2<URI> = {
   URI,
   map: map_
 }
@@ -165,7 +165,7 @@ export const functorWriter: Functor2<URI> = {
  * @category instances
  * @since 2.0.0
  */
-export const writer: Functor2<URI> = functorWriter
+export const writer: Functor2<URI> = Functor
 
 // -------------------------------------------------------------------------------------
 // utils

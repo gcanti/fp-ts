@@ -85,7 +85,7 @@ describe('Identity', () => {
     })
 
     it('traverse', () => {
-      const traverse = _.traverse(O.applicativeOption)
+      const traverse = _.traverse(O.Applicative)
       assert.deepStrictEqual(pipe(1, traverse(O.some)), O.some(1))
       assert.deepStrictEqual(
         pipe(
@@ -97,7 +97,7 @@ describe('Identity', () => {
     })
 
     it('sequence', () => {
-      const sequence = _.sequence(O.applicativeOption)
+      const sequence = _.sequence(O.Applicative)
       assert.deepStrictEqual(sequence(O.some('a')), O.some('a'))
       assert.deepStrictEqual(sequence(O.none), O.none)
     })
@@ -111,7 +111,7 @@ describe('Identity', () => {
   })
 
   it('ChainRec', () => {
-    const x = _.chainRecIdentity.chainRec<number, number>(0, (a) => (a < 10 ? left(a + 1) : right(a)))
+    const x = _.ChainRec.chainRec<number, number>(0, (a) => (a < 10 ? left(a + 1) : right(a)))
     const expected = 10
     assert.deepStrictEqual(x, expected)
   })

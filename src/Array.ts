@@ -977,37 +977,36 @@ export const of: <A>(a: A) => Array<A> = RA.of as any
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad1<URI>['map'] = RA.monadArray.map as any
-const ap_: Monad1<URI>['ap'] = RA.monadArray.ap as any
-const chain_: Monad1<URI>['chain'] = RA.monadArray.chain as any
-const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = RA.functorWithIndexArray.mapWithIndex as any
-const filter_: Filterable1<URI>['filter'] = RA.filterableArray.filter as any
-const filterMap_: Filterable1<URI>['filterMap'] = RA.filterableArray.filterMap as any
-const partition_: Filterable1<URI>['partition'] = RA.filterableArray.partition as any
-const partitionMap_: Filterable1<URI>['partitionMap'] = RA.filterableArray.partitionMap as any
-const filterWithIndex_: FilterableWithIndex1<URI, number>['filterWithIndex'] = RA.filterableWithIndexArray
+const map_: Monad1<URI>['map'] = RA.Monad.map as any
+const ap_: Monad1<URI>['ap'] = RA.Monad.ap as any
+const chain_: Monad1<URI>['chain'] = RA.Monad.chain as any
+const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = RA.Functor.mapWithIndex as any
+const filter_: Filterable1<URI>['filter'] = RA.Filterable.filter as any
+const filterMap_: Filterable1<URI>['filterMap'] = RA.Filterable.filterMap as any
+const partition_: Filterable1<URI>['partition'] = RA.Filterable.partition as any
+const partitionMap_: Filterable1<URI>['partitionMap'] = RA.Filterable.partitionMap as any
+const filterWithIndex_: FilterableWithIndex1<URI, number>['filterWithIndex'] = RA.FilterableWithIndex
   .filterWithIndex as any
-const filterMapWithIndex_: FilterableWithIndex1<URI, number>['filterMapWithIndex'] = RA.filterableWithIndexArray
+const filterMapWithIndex_: FilterableWithIndex1<URI, number>['filterMapWithIndex'] = RA.FilterableWithIndex
   .filterMapWithIndex as any
-const partitionWithIndex_: FilterableWithIndex1<URI, number>['partitionWithIndex'] = RA.filterableWithIndexArray
+const partitionWithIndex_: FilterableWithIndex1<URI, number>['partitionWithIndex'] = RA.FilterableWithIndex
   .partitionWithIndex as any
-const partitionMapWithIndex_: FilterableWithIndex1<URI, number>['partitionMapWithIndex'] = RA.filterableWithIndexArray
+const partitionMapWithIndex_: FilterableWithIndex1<URI, number>['partitionMapWithIndex'] = RA.FilterableWithIndex
   .partitionMapWithIndex as any
-const reduce_: Foldable1<URI>['reduce'] = RA.foldableArray.reduce
-const foldMap_: Foldable1<URI>['foldMap'] = RA.foldableArray.foldMap
-const reduceRight_: Foldable1<URI>['reduceRight'] = RA.foldableArray.reduceRight
-const traverse_: Traversable1<URI>['traverse'] = RA.traversableArray.traverse as any
-const alt_: Alternative1<URI>['alt'] = RA.alternativeArray.alt as any
-const reduceWithIndex_: FoldableWithIndex1<URI, number>['reduceWithIndex'] = RA.foldableWithIndexArray.reduceWithIndex
-const foldMapWithIndex_: FoldableWithIndex1<URI, number>['foldMapWithIndex'] =
-  RA.foldableWithIndexArray.foldMapWithIndex
+const reduce_: Foldable1<URI>['reduce'] = RA.Foldable.reduce
+const foldMap_: Foldable1<URI>['foldMap'] = RA.Foldable.foldMap
+const reduceRight_: Foldable1<URI>['reduceRight'] = RA.Foldable.reduceRight
+const traverse_: Traversable1<URI>['traverse'] = RA.Traversable.traverse as any
+const alt_: Alternative1<URI>['alt'] = RA.Alternative.alt as any
+const reduceWithIndex_: FoldableWithIndex1<URI, number>['reduceWithIndex'] = RA.FoldableWithIndex.reduceWithIndex
+const foldMapWithIndex_: FoldableWithIndex1<URI, number>['foldMapWithIndex'] = RA.FoldableWithIndex.foldMapWithIndex
 const reduceRightWithIndex_: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] =
-  RA.foldableWithIndexArray.reduceRightWithIndex
-const traverseWithIndex_: TraversableWithIndex1<URI, number>['traverseWithIndex'] = RA.traversableWithIndexArray
+  RA.FoldableWithIndex.reduceRightWithIndex
+const traverseWithIndex_: TraversableWithIndex1<URI, number>['traverseWithIndex'] = RA.TraversableWithIndex
   .traverseWithIndex as any
-const extend_: Extend1<URI>['extend'] = RA.extendArray.extend as any
-const wither_: Witherable1<URI>['wither'] = RA.witherableArray.wither as any
-const wilt_: Witherable1<URI>['wilt'] = RA.witherableArray.wilt as any
+const extend_: Extend1<URI>['extend'] = RA.Extend.extend as any
+const wither_: Witherable1<URI>['wither'] = RA.Witherable.wither as any
+const wilt_: Witherable1<URI>['wilt'] = RA.Witherable.wilt as any
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -1255,7 +1254,7 @@ export const unfold: Unfoldable1<URI>['unfold'] = RA.unfold as any
  * @category Alternative
  * @since 2.7.0
  */
-export const zero: Alternative1<URI>['zero'] = RA.alternativeArray.zero as any
+export const zero: Alternative1<URI>['zero'] = RA.Alternative.zero as any
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -1283,7 +1282,7 @@ declare module './HKT' {
  * @category instances
  * @since 2.7.0
  */
-export const functorArray: Functor1<URI> = {
+export const Functor: Functor1<URI> = {
   URI,
   map: map_
 }
@@ -1292,7 +1291,7 @@ export const functorArray: Functor1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const functorWithIndexArray: FunctorWithIndex1<URI, number> = {
+export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
   URI,
   map: map_,
   mapWithIndex: mapWithIndex_
@@ -1302,7 +1301,7 @@ export const functorWithIndexArray: FunctorWithIndex1<URI, number> = {
  * @category instances
  * @since 2.7.0
  */
-export const applicativeArray: Applicative1<URI> = {
+export const Applicative: Applicative1<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -1313,7 +1312,7 @@ export const applicativeArray: Applicative1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const monadArray: Monad1<URI> = {
+export const Monad: Monad1<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -1325,7 +1324,7 @@ export const monadArray: Monad1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const unfoldableArray: Unfoldable1<URI> = {
+export const Unfoldable: Unfoldable1<URI> = {
   URI,
   unfold
 }
@@ -1334,7 +1333,7 @@ export const unfoldableArray: Unfoldable1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const altArray: Alt1<URI> = {
+export const Alt: Alt1<URI> = {
   URI,
   map: map_,
   alt: alt_
@@ -1344,7 +1343,7 @@ export const altArray: Alt1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const alternativeArray: Alternative1<URI> = {
+export const Alternative: Alternative1<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -1357,7 +1356,7 @@ export const alternativeArray: Alternative1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const extendArray: Extend1<URI> = {
+export const Extend: Extend1<URI> = {
   URI,
   map: map_,
   extend: extend_
@@ -1367,7 +1366,7 @@ export const extendArray: Extend1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const compactableArray: Compactable1<URI> = {
+export const Compactable: Compactable1<URI> = {
   URI,
   compact,
   separate
@@ -1377,7 +1376,7 @@ export const compactableArray: Compactable1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const filterableArray: Filterable1<URI> = {
+export const Filterable: Filterable1<URI> = {
   URI,
   map: map_,
   compact,
@@ -1392,7 +1391,7 @@ export const filterableArray: Filterable1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const filterableWithIndexArray: FilterableWithIndex1<URI, number> = {
+export const FilterableWithIndex: FilterableWithIndex1<URI, number> = {
   URI,
   map: map_,
   mapWithIndex: mapWithIndex_,
@@ -1412,7 +1411,7 @@ export const filterableWithIndexArray: FilterableWithIndex1<URI, number> = {
  * @category instances
  * @since 2.7.0
  */
-export const foldableArray: Foldable1<URI> = {
+export const Foldable: Foldable1<URI> = {
   URI,
   reduce: reduce_,
   foldMap: foldMap_,
@@ -1423,7 +1422,7 @@ export const foldableArray: Foldable1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const foldableWithIndexArray: FoldableWithIndex1<URI, number> = {
+export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
   URI,
   reduce: reduce_,
   foldMap: foldMap_,
@@ -1437,7 +1436,7 @@ export const foldableWithIndexArray: FoldableWithIndex1<URI, number> = {
  * @category instances
  * @since 2.7.0
  */
-export const traversableArray: Traversable1<URI> = {
+export const Traversable: Traversable1<URI> = {
   URI,
   map: map_,
   reduce: reduce_,
@@ -1451,7 +1450,7 @@ export const traversableArray: Traversable1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const traversableWithIndexArray: TraversableWithIndex1<URI, number> = {
+export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
   URI,
   map: map_,
   mapWithIndex: mapWithIndex_,
@@ -1470,7 +1469,7 @@ export const traversableWithIndexArray: TraversableWithIndex1<URI, number> = {
  * @category instances
  * @since 2.7.0
  */
-export const witherableArray: Witherable1<URI> = {
+export const Witherable: Witherable1<URI> = {
   URI,
   map: map_,
   compact,

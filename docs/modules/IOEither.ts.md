@@ -56,12 +56,15 @@ Added in v2.0.0
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
 - [instances](#instances)
+  - [Alt](#alt-1)
+  - [Applicative](#applicative)
+  - [Bifunctor](#bifunctor-1)
+  - [Functor](#functor-1)
+  - [Monad](#monad-1)
+  - [MonadIO](#monadio-1)
+  - [MonadThrow](#monadthrow-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [altIOEither](#altioeither)
-  - [applicativeIOEither](#applicativeioeither)
-  - [bifunctorIOEither](#bifunctorioeither)
-  - [functorIOEither](#functorioeither)
   - [getAltIOValidation](#getaltiovalidation)
   - [getApplicativeIOValidation](#getapplicativeiovalidation)
   - [getApplyMonoid](#getapplymonoid)
@@ -70,9 +73,6 @@ Added in v2.0.0
   - [getIOValidation](#getiovalidation)
   - [getSemigroup](#getsemigroup)
   - [ioEither](#ioeither)
-  - [monadIOEither](#monadioeither)
-  - [monadIOIOEither](#monadioioeither)
-  - [monadThrowIOEither](#monadthrowioeither)
 - [model](#model)
   - [IOEither (interface)](#ioeither-interface)
 - [utils](#utils)
@@ -444,6 +444,76 @@ Added in v2.6.0
 
 # instances
 
+## Alt
+
+**Signature**
+
+```ts
+export declare const Alt: Alt2<'IOEither'>
+```
+
+Added in v2.7.0
+
+## Applicative
+
+**Signature**
+
+```ts
+export declare const Applicative: Applicative2<'IOEither'>
+```
+
+Added in v2.7.0
+
+## Bifunctor
+
+**Signature**
+
+```ts
+export declare const Bifunctor: Bifunctor2<'IOEither'>
+```
+
+Added in v2.7.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor2<'IOEither'>
+```
+
+Added in v2.7.0
+
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad2<'IOEither'>
+```
+
+Added in v2.7.0
+
+## MonadIO
+
+**Signature**
+
+```ts
+export declare const MonadIO: MonadIO2<'IOEither'>
+```
+
+Added in v2.7.0
+
+## MonadThrow
+
+**Signature**
+
+```ts
+export declare const MonadThrow: MonadThrow2<'IOEither'>
+```
+
+Added in v2.7.0
+
 ## URI
 
 **Signature**
@@ -463,46 +533,6 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
-
-## altIOEither
-
-**Signature**
-
-```ts
-export declare const altIOEither: Alt2<'IOEither'>
-```
-
-Added in v2.7.0
-
-## applicativeIOEither
-
-**Signature**
-
-```ts
-export declare const applicativeIOEither: Applicative2<'IOEither'>
-```
-
-Added in v2.7.0
-
-## bifunctorIOEither
-
-**Signature**
-
-```ts
-export declare const bifunctorIOEither: Bifunctor2<'IOEither'>
-```
-
-Added in v2.7.0
-
-## functorIOEither
-
-**Signature**
-
-```ts
-export declare const functorIOEither: Functor2<'IOEither'>
-```
-
-Added in v2.7.0
 
 ## getAltIOValidation
 
@@ -595,36 +625,6 @@ export declare const ioEither: Monad2<'IOEither'> &
 ```
 
 Added in v2.0.0
-
-## monadIOEither
-
-**Signature**
-
-```ts
-export declare const monadIOEither: Monad2<'IOEither'>
-```
-
-Added in v2.7.0
-
-## monadIOIOEither
-
-**Signature**
-
-```ts
-export declare const monadIOIOEither: MonadIO2<'IOEither'>
-```
-
-Added in v2.7.0
-
-## monadThrowIOEither
-
-**Signature**
-
-```ts
-export declare const monadThrowIOEither: MonadThrow2<'IOEither'>
-```
-
-Added in v2.7.0
 
 # model
 

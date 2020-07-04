@@ -75,16 +75,19 @@ Added in v2.0.0
   - [isLeft](#isleft)
   - [isRight](#isright)
 - [instances](#instances)
+  - [Alt](#alt-1)
+  - [Applicative](#applicative-1)
+  - [Bifunctor](#bifunctor-1)
+  - [ChainRec](#chainrec)
+  - [Extend](#extend-1)
+  - [Foldable](#foldable-1)
+  - [Functor](#functor-1)
+  - [Monad](#monad-1)
+  - [MonadThrow](#monadthrow-1)
+  - [Traversable](#traversable-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [altEither](#alteither)
-  - [applicativeEither](#applicativeeither)
-  - [bifunctorEither](#bifunctoreither)
-  - [chainRecEither](#chainreceither)
   - [either](#either)
-  - [extendEither](#extendeither)
-  - [foldableEither](#foldableeither)
-  - [functorEither](#functoreither)
   - [getAltValidation](#getaltvalidation)
   - [getApplicativeValidation](#getapplicativevalidation)
   - [getApplyMonoid](#getapplymonoid)
@@ -96,9 +99,6 @@ Added in v2.0.0
   - [getValidationMonoid](#getvalidationmonoid)
   - [getValidationSemigroup](#getvalidationsemigroup)
   - [getWitherable](#getwitherable)
-  - [monadEither](#monadeither)
-  - [monadThrowEither](#monadthroweither)
-  - [traversableEither](#traversableeither)
 - [model](#model)
   - [Either (type alias)](#either-type-alias)
   - [Left (interface)](#left-interface)
@@ -636,6 +636,106 @@ Added in v2.0.0
 
 # instances
 
+## Alt
+
+**Signature**
+
+```ts
+export declare const Alt: Alt2<'Either'>
+```
+
+Added in v2.7.0
+
+## Applicative
+
+**Signature**
+
+```ts
+export declare const Applicative: Applicative2<'Either'>
+```
+
+Added in v2.7.0
+
+## Bifunctor
+
+**Signature**
+
+```ts
+export declare const Bifunctor: Bifunctor2<'Either'>
+```
+
+Added in v2.7.0
+
+## ChainRec
+
+**Signature**
+
+```ts
+export declare const ChainRec: ChainRec2<'Either'>
+```
+
+Added in v2.7.0
+
+## Extend
+
+**Signature**
+
+```ts
+export declare const Extend: Extend2<'Either'>
+```
+
+Added in v2.7.0
+
+## Foldable
+
+**Signature**
+
+```ts
+export declare const Foldable: Foldable2<'Either'>
+```
+
+Added in v2.7.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor2<'Either'>
+```
+
+Added in v2.7.0
+
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad2<'Either'>
+```
+
+Added in v2.7.0
+
+## MonadThrow
+
+**Signature**
+
+```ts
+export declare const MonadThrow: MonadThrow2<'Either'>
+```
+
+Added in v2.7.0
+
+## Traversable
+
+**Signature**
+
+```ts
+export declare const Traversable: Traversable2<'Either'>
+```
+
+Added in v2.7.0
+
 ## URI
 
 **Signature**
@@ -656,46 +756,6 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-## altEither
-
-**Signature**
-
-```ts
-export declare const altEither: Alt2<'Either'>
-```
-
-Added in v2.7.0
-
-## applicativeEither
-
-**Signature**
-
-```ts
-export declare const applicativeEither: Applicative2<'Either'>
-```
-
-Added in v2.7.0
-
-## bifunctorEither
-
-**Signature**
-
-```ts
-export declare const bifunctorEither: Bifunctor2<'Either'>
-```
-
-Added in v2.7.0
-
-## chainRecEither
-
-**Signature**
-
-```ts
-export declare const chainRecEither: ChainRec2<'Either'>
-```
-
-Added in v2.7.0
-
 ## either
 
 **Signature**
@@ -712,36 +772,6 @@ export declare const either: Monad2<'Either'> &
 ```
 
 Added in v2.0.0
-
-## extendEither
-
-**Signature**
-
-```ts
-export declare const extendEither: Extend2<'Either'>
-```
-
-Added in v2.7.0
-
-## foldableEither
-
-**Signature**
-
-```ts
-export declare const foldableEither: Foldable2<'Either'>
-```
-
-Added in v2.7.0
-
-## functorEither
-
-**Signature**
-
-```ts
-export declare const functorEither: Functor2<'Either'>
-```
-
-Added in v2.7.0
 
 ## getAltValidation
 
@@ -895,36 +925,6 @@ export declare function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E>
 ```
 
 Added in v2.0.0
-
-## monadEither
-
-**Signature**
-
-```ts
-export declare const monadEither: Monad2<'Either'>
-```
-
-Added in v2.7.0
-
-## monadThrowEither
-
-**Signature**
-
-```ts
-export declare const monadThrowEither: MonadThrow2<'Either'>
-```
-
-Added in v2.7.0
-
-## traversableEither
-
-**Signature**
-
-```ts
-export declare const traversableEither: Traversable2<'Either'>
-```
-
-Added in v2.7.0
 
 # model
 

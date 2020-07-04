@@ -247,7 +247,7 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) => IOEit
  */
 export const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B> =
   /*#__PURE__*/
-  apComposition(I.applicativeIO, E.applicativeEither)
+  apComposition(I.Applicative, E.Applicative)
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -395,7 +395,7 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<IOEither<E, A>> {
  * @since 2.7.0
  */
 export function getApplicativeIOValidation<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
-  const ap = apComposition(I.applicativeIO, E.getApplicativeValidation(SE))
+  const ap = apComposition(I.Applicative, E.getApplicativeValidation(SE))
   return {
     URI,
     _E: undefined as any,
@@ -450,7 +450,7 @@ export function getIOValidation<E>(
  */
 export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
   const W = E.getWitherable(M)
-  const F = getFilterableComposition(I.monadIO, W)
+  const F = getFilterableComposition(I.Monad, W)
 
   return {
     URI,
@@ -469,7 +469,7 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
  * @category instances
  * @since 2.7.0
  */
-export const functorIOEither: Functor2<URI> = {
+export const Functor: Functor2<URI> = {
   URI,
   map: map_
 }
@@ -478,7 +478,7 @@ export const functorIOEither: Functor2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const bifunctorIOEither: Bifunctor2<URI> = {
+export const Bifunctor: Bifunctor2<URI> = {
   URI,
   bimap: bimap_,
   mapLeft: mapLeft_
@@ -488,7 +488,7 @@ export const bifunctorIOEither: Bifunctor2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const applicativeIOEither: Applicative2<URI> = {
+export const Applicative: Applicative2<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -499,7 +499,7 @@ export const applicativeIOEither: Applicative2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const monadIOEither: Monad2<URI> = {
+export const Monad: Monad2<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -511,7 +511,7 @@ export const monadIOEither: Monad2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const altIOEither: Alt2<URI> = {
+export const Alt: Alt2<URI> = {
   URI,
   map: map_,
   alt: alt_
@@ -521,7 +521,7 @@ export const altIOEither: Alt2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const monadIOIOEither: MonadIO2<URI> = {
+export const MonadIO: MonadIO2<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -534,7 +534,7 @@ export const monadIOIOEither: MonadIO2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const monadThrowIOEither: MonadThrow2<URI> = {
+export const MonadThrow: MonadThrow2<URI> = {
   URI,
   map: map_,
   ap: ap_,

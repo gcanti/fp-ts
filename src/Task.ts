@@ -278,7 +278,7 @@ export function getRaceMonoid<A = never>(): Monoid<Task<A>> {
  * @category instances
  * @since 2.7.0
  */
-export const functorTask: Functor1<URI> = {
+export const Functor: Functor1<URI> = {
   URI,
   map: map_
 }
@@ -287,7 +287,7 @@ export const functorTask: Functor1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const applicativeTaskPar: Applicative1<URI> = {
+export const ApplicativePar: Applicative1<URI> = {
   URI,
   map: map_,
   ap: apPar_,
@@ -298,7 +298,7 @@ export const applicativeTaskPar: Applicative1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const applicativeTaskSeq: Applicative1<URI> = {
+export const ApplicativeSeq: Applicative1<URI> = {
   URI,
   map: map_,
   ap: apSeq_,
@@ -310,7 +310,7 @@ export const applicativeTaskSeq: Applicative1<URI> = {
  *
  * @internal
  */
-export const monadTask: Monad1<URI> = {
+export const Monad: Monad1<URI> = {
   URI,
   map: map_,
   of,

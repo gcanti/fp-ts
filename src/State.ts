@@ -187,7 +187,7 @@ declare module './HKT' {
  * @category instances
  * @since 2.7.0
  */
-export const functorState: Functor2<URI> = {
+export const Functor: Functor2<URI> = {
   URI,
   map: map_
 }
@@ -196,7 +196,7 @@ export const functorState: Functor2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const applicativeState: Applicative2<URI> = {
+export const Applicative: Applicative2<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -207,7 +207,7 @@ export const applicativeState: Applicative2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const monadState: Monad2<URI> = {
+export const Monad: Monad2<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -220,7 +220,7 @@ export const monadState: Monad2<URI> = {
  * @category instances
  * @since 2.0.0
  */
-export const state: Monad2<URI> = monadState
+export const state: Monad2<URI> = Monad
 
 // -------------------------------------------------------------------------------------
 // utils

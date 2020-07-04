@@ -60,18 +60,18 @@ Added in v2.0.0
   - [isLeft](#isleft)
   - [isRight](#isright)
 - [instances](#instances)
+  - [Bifunctor](#bifunctor-1)
+  - [Foldable](#foldable-1)
+  - [Functor](#functor-1)
+  - [Traversable](#traversable)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [bifunctorThese](#bifunctorthese)
-  - [foldableThese](#foldablethese)
-  - [functorThese](#functorthese)
   - [getApplicative](#getapplicative)
   - [getEq](#geteq)
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [these](#these)
-  - [traversableThese](#traversablethese)
 - [model](#model)
   - [Both (interface)](#both-interface)
   - [These (type alias)](#these-type-alias)
@@ -430,6 +430,46 @@ Added in v2.0.0
 
 # instances
 
+## Bifunctor
+
+**Signature**
+
+```ts
+export declare const Bifunctor: Bifunctor2<'These'>
+```
+
+Added in v2.7.0
+
+## Foldable
+
+**Signature**
+
+```ts
+export declare const Foldable: Foldable2<'These'>
+```
+
+Added in v2.7.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor2<'These'>
+```
+
+Added in v2.7.0
+
+## Traversable
+
+**Signature**
+
+```ts
+export declare const Traversable: Traversable2<'These'>
+```
+
+Added in v2.7.0
+
 ## URI
 
 **Signature**
@@ -449,36 +489,6 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
-
-## bifunctorThese
-
-**Signature**
-
-```ts
-export declare const bifunctorThese: Bifunctor2<'These'>
-```
-
-Added in v2.7.0
-
-## foldableThese
-
-**Signature**
-
-```ts
-export declare const foldableThese: Foldable2<'These'>
-```
-
-Added in v2.7.0
-
-## functorThese
-
-**Signature**
-
-```ts
-export declare const functorThese: Functor2<'These'>
-```
-
-Added in v2.7.0
 
 ## getApplicative
 
@@ -539,16 +549,6 @@ export declare const these: Functor2<'These'> & Bifunctor2<'These'> & Foldable2<
 ```
 
 Added in v2.0.0
-
-## traversableThese
-
-**Signature**
-
-```ts
-export declare const traversableThese: Traversable2<'These'>
-```
-
-Added in v2.7.0
 
 # model
 

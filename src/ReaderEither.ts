@@ -259,7 +259,7 @@ export const ap: <R, E, A>(
   fa: ReaderEither<R, E, A>
 ) => <B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B> =
   /*#__PURE__*/
-  apComposition(R.applicativeReader, E.applicativeEither)
+  apComposition(R.Applicative, E.Applicative)
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -411,7 +411,7 @@ export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderEither<R, E,
  * @since 2.7.0
  */
 export function getApplicativeReaderValidation<E>(SE: Semigroup<E>): Applicative3C<URI, E> {
-  const ap = apComposition(R.applicativeReader, E.getApplicativeValidation(SE))
+  const ap = apComposition(R.Applicative, E.getApplicativeValidation(SE))
   return {
     URI,
     _E: undefined as any,
@@ -463,7 +463,7 @@ export function getReaderValidation<E>(
  * @category instances
  * @since 2.7.0
  */
-export const functorReaderEither: Functor3<URI> = {
+export const Functor: Functor3<URI> = {
   URI,
   map: map_
 }
@@ -472,7 +472,7 @@ export const functorReaderEither: Functor3<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const applicativeReaderEither: Applicative3<URI> = {
+export const Applicative: Applicative3<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -483,7 +483,7 @@ export const applicativeReaderEither: Applicative3<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const monadReaderEither: Monad3<URI> = {
+export const Monad: Monad3<URI> = {
   URI,
   map: map_,
   ap: ap_,
@@ -495,7 +495,7 @@ export const monadReaderEither: Monad3<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const bifunctorReaderEither: Bifunctor3<URI> = {
+export const Bifunctor: Bifunctor3<URI> = {
   URI,
   bimap: bimap_,
   mapLeft: mapLeft_
@@ -505,7 +505,7 @@ export const bifunctorReaderEither: Bifunctor3<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const altReaderEither: Alt3<URI> = {
+export const Alt: Alt3<URI> = {
   URI,
   map: map_,
   alt: alt_
@@ -515,7 +515,7 @@ export const altReaderEither: Alt3<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const monadThrowReaderEither: MonadThrow3<URI> = {
+export const MonadThrow: MonadThrow3<URI> = {
   URI,
   map: map_,
   ap: ap_,

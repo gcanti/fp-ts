@@ -239,11 +239,11 @@ export function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable<F>): (f
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map__: Functor2<URI>['map'] = RM.functorMap.map as any
-const filter_: Filterable2<URI>['filter'] = RM.filterableMap.filter as any
-const filterMap_: Filterable2<URI>['filterMap'] = RM.filterableMap.filterMap as any
-const partition_: Filterable2<URI>['partition'] = RM.filterableMap.partition as any
-const partitionMap_: Filterable2<URI>['partitionMap'] = RM.filterableMap.partitionMap as any
+const map__: Functor2<URI>['map'] = RM.Functor.map as any
+const filter_: Filterable2<URI>['filter'] = RM.Filterable.filter as any
+const filterMap_: Filterable2<URI>['filterMap'] = RM.Filterable.filterMap as any
+const partition_: Filterable2<URI>['partition'] = RM.Filterable.partition as any
+const partitionMap_: Filterable2<URI>['partitionMap'] = RM.Filterable.partitionMap as any
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -346,7 +346,7 @@ export const getWitherable: <K>(
  * @category instances
  * @since 2.7.0
  */
-export const functorMap: Functor2<URI> = {
+export const Functor: Functor2<URI> = {
   URI,
   map: map__
 }
@@ -355,7 +355,7 @@ export const functorMap: Functor2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const compactableMap: Compactable2<URI> = {
+export const Compactable: Compactable2<URI> = {
   URI,
   compact,
   separate
@@ -365,7 +365,7 @@ export const compactableMap: Compactable2<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const filterableMap: Filterable2<URI> = {
+export const Filterable: Filterable2<URI> = {
   URI,
   map: map__,
   compact,
@@ -381,4 +381,4 @@ export const filterableMap: Filterable2<URI> = {
  * @category instances
  * @since 2.0.0
  */
-export const map_: Filterable2<URI> = filterableMap
+export const map_: Filterable2<URI> = Filterable
