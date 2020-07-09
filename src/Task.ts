@@ -355,6 +355,15 @@ export const taskSeq: typeof task = {
 // -------------------------------------------------------------------------------------
 
 /**
+ * Converts a Task into a background task with synchronous execution
+ *
+ * @since 2.8.0
+ */
+export const neglect: (t: Task<unknown>) => IO<void> = (t) => () => {
+  void t()
+}
+
+/**
  * A `Task` that never completes.
  *
  * @since 2.0.0

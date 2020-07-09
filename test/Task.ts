@@ -121,4 +121,30 @@ describe('Task', () => {
     const f = (s: string) => I.of(s.length)
     assert.deepStrictEqual(await pipe(_.of('a'), _.chainIOK(f))(), 1)
   })
+
+  // -------------------------------------------------------------------------------------
+  // utils
+  // -------------------------------------------------------------------------------------
+
+  it('neglect', (done) => {
+    let state: string = 'old'
+    const replace: _.Task<unknown> = pipe(
+      delay(1, 'new'),
+      _.chain((newS) => () => {
+        const oldS = state
+        state = newS
+        return Promise.resolve(oldS)
+      })
+    )
+    const daemon: I.IO<void> = _.neglect(replace)
+    const v: void = daemon()
+    assert.strictEqual(v, undefined)
+    const poll = () => {
+      if (state === 'new') {
+        return done()
+      }
+      setTimeout(poll, 100)
+    }
+    poll()
+  })
 })

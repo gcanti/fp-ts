@@ -55,6 +55,7 @@ Added in v2.0.0
 - [model](#model)
   - [Task (interface)](#task-interface)
 - [utils](#utils)
+  - [neglect](#neglect)
   - [never](#never)
 
 ---
@@ -400,6 +401,18 @@ export interface Task<A> {
 Added in v2.0.0
 
 # utils
+
+## neglect
+
+Converts a Task into a background task with synchronous execution
+
+**Signature**
+
+```ts
+export declare const neglect: (t: Task<unknown>) => IO<void>
+```
+
+Added in v2.8.0
 
 ## never
 
