@@ -175,6 +175,7 @@ export interface JsonRecord {
  */
 export interface JsonArray extends ReadonlyArray<Json> {}
 
+// TODO curry in v3
 /**
  * Converts a JavaScript Object Notation (JSON) string into an object.
  *
@@ -191,6 +192,7 @@ export function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either
   return tryCatch(() => JSON.parse(s), onError)
 }
 
+// TODO curry in v3
 /**
  * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
  *
