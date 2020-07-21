@@ -298,7 +298,7 @@ export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M, fm: HK
 
 // tslint:disable: readonly-array
 /**
- * Transforms a foldable into an array
+ * Transforms a foldable into an array.
  *
  * @example
  * import { toArray } from 'fp-ts/lib/Foldable'
@@ -326,7 +326,7 @@ export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A> {
 // tslint:enable: readonly-array
 
 /**
- * Transforms a foldable into an array
+ * Transforms a foldable into a read-only array.
  *
  * @example
  * import { toReadOnlyArray } from 'fp-ts/lib/Foldable'
