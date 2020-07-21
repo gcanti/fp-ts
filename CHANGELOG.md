@@ -20,6 +20,11 @@ high state of flux, you're at risk of it changing without notice.
   - `ReadonlyArray`
     - fix `FunctorWithIndex` instance name (@gcanti)
     - fix `Functor` instance name (@gcanti)
+- **Polish**
+  - `Array`
+    - relax `sort` signature (@gcanti)
+  - `ReadonlyArray`
+    - relax `sort` signature (@gcanti)
 
 # 2.7.0
 

@@ -841,7 +841,7 @@ Sort the elements of an array in increasing order, creating a new array
 **Signature**
 
 ```ts
-export declare function sort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const sort: <B>(O: Ord<B>) => <A extends B>(as: readonly A[]) => readonly A[]
 ```
 
 **Example**
