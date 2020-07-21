@@ -80,7 +80,7 @@ describe('Store', () => {
     assert.deepStrictEqual(
       pipe(
         wa,
-        _.experiment(A.functorArray)((s) => [s, s + 'a'])
+        _.experiment(A.Functor)((s) => [s, s + 'a'])
       ),
       [1, 2]
     )

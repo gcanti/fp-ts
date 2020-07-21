@@ -14,7 +14,7 @@ describe('pipeable', () => {
   })
 
   it('Functor', () => {
-    const { map } = pipeable(A.functorArray)
+    const { map } = pipeable(A.Functor)
     assert.deepStrictEqual(map((n: number) => n * 2)([1, 2, 3]), [2, 4, 6])
   })
 
@@ -24,7 +24,7 @@ describe('pipeable', () => {
   })
 
   it('FunctorWithIndex', () => {
-    const { mapWithIndex } = pipeable(A.Functor)
+    const { mapWithIndex } = pipeable(A.FunctorWithIndex)
     assert.deepStrictEqual(mapWithIndex((i, n: number) => n * 2 + i)([1, 2, 3]), [2, 5, 8])
   })
 

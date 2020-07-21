@@ -14,6 +14,13 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.7.1
+
+- **Bug Fix**
+  - `ReadonlyArray`
+    - fix `FunctorWithIndex` instance name (@gcanti)
+    - fix `Functor` instance name (@gcanti)
+
 # 2.7.0
 
 - **Bug Fix**

@@ -376,8 +376,8 @@ export const unzip: <A, B>(
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Functor1<URI>['map'] = RA.functorArray.map as any
-const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = RA.Functor.mapWithIndex as any
+const map_: Functor1<URI>['map'] = RA.Functor.map as any
+const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = RA.FunctorWithIndex.mapWithIndex as any
 const ap_: Apply1<URI>['ap'] = RA.Applicative.ap as any
 const chain_: Monad1<URI>['chain'] = RA.Monad.chain as any
 const extend_: Extend1<URI>['extend'] = RA.Extend.extend as any
