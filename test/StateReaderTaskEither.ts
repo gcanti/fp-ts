@@ -77,6 +77,12 @@ describe('StateReaderTaskEither', () => {
       assert.deepStrictEqual(e, E.right('aaa'))
     })
 
+    it('chainFirstW', async () => {
+      const f = (s: string) => (s.length > 2 ? _.right<unknown, unknown, string, number>(s.length) : _.right(0))
+      const e = await _.evalState(pipe(_.right<unknown, unknown, boolean, string>('aaa'), _.chainFirstW(f)), {})({})()
+      assert.deepStrictEqual(e, E.right('aaa'))
+    })
+
     it('flatten', async () => {
       const e = await _.evalState(pipe(_.right(_.right('a')), _.flatten), {})({})()
       assert.deepStrictEqual(e, E.right('a'))
