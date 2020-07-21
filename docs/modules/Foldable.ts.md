@@ -420,7 +420,7 @@ export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A> { ...
 **Example**
 
 ```ts
-import { toArray } from 'fp-ts/lib/Foldable2v'
+import { toArray } from 'fp-ts/lib/Foldable'
 import { option, some, none } from 'fp-ts/lib/Option'
 import { Tree, tree } from 'fp-ts/lib/Tree'
 
@@ -430,6 +430,40 @@ assert.deepStrictEqual(optionToArray(none), [])
 
 const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
 assert.deepStrictEqual(toArray(tree)(t), [1, 2, 3, 4])
+```
+
+Added in v2.7.1
+
+## toReadOnlyArray
+
+Transforms a foldable into an read-only array.
+
+**Signature**
+
+```ts
+export function toReadOnlyArray<F extends URIS4>(F: Foldable4<F>): <S, R, E, A>(fa: Kind4<F, S, R, E, A>) => ReadOnlyArray<A>
+export function toReadOnlyArray<F extends URIS3>(F: Foldable3<F>): <R, E, A>(fa: Kind3<F, R, E, A>) => ReadOnlyArray<A>
+export function toReadOnlyArray<F extends URIS3, E>(F: Foldable3C<F, E>): <R, A>(fa: Kind3<F, R, E, A>) => ReadOnlyArray<A>
+export function toReadOnlyArray<F extends URIS2>(F: Foldable2<F>): <E, A>(fa: Kind2<F, E, A>) => ReadOnlyArray<A>
+export function toReadOnlyArray<F extends URIS2, E>(F: Foldable2C<F, E>): <A>(fa: Kind2<F, E, A>) => ReadOnlyArray<A>
+export function toReadOnlyArray<F extends URIS>(F: Foldable1<F>): <A>(fa: Kind<F, A>) => ReadOnlyArray<A>
+export function toReadOnlyArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => ReadOnlyArray<A>
+export function toReadOnlyArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => ReadOnlyArray<A> { ... }
+```
+
+**Example**
+
+```ts
+import { toReadOnlyArray } from 'fp-ts/lib/Foldable'
+import { option, some, none } from 'fp-ts/lib/Option'
+import { Tree, tree } from 'fp-ts/lib/Tree'
+
+const optionToRA = toReadOnlyArray(option)
+assert.deepStrictEqual(optionToRA(some(1)), [1])
+assert.deepStrictEqual(optionToRA(none), [])
+
+const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
+assert.deepStrictEqual(optionToRA(tree)(t), [1, 2, 3, 4])
 ```
 
 Added in v2.7.1
