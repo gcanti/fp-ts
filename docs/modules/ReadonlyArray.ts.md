@@ -108,6 +108,7 @@ Added in v2.5.0
   - [Foldable](#foldable-1)
   - [FoldableWithIndex](#foldablewithindex-1)
   - [Functor](#functor-1)
+  - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad-1)
   - [Traversable](#traversable-1)
   - [TraversableWithIndex](#traversablewithindex-1)
@@ -115,7 +116,6 @@ Added in v2.5.0
   - [URI (type alias)](#uri-type-alias)
   - [Unfoldable](#unfoldable-1)
   - [Witherable](#witherable)
-  - [functorArray](#functorarray)
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
@@ -1324,7 +1324,17 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const Functor: FunctorWithIndex1<'ReadonlyArray', number>
+export declare const Functor: Functor1<'ReadonlyArray'>
+```
+
+Added in v2.7.0
+
+## FunctorWithIndex
+
+**Signature**
+
+```ts
+export declare const FunctorWithIndex: FunctorWithIndex1<'ReadonlyArray', number>
 ```
 
 Added in v2.7.0
@@ -1395,16 +1405,6 @@ Added in v2.7.0
 
 ```ts
 export declare const Witherable: Witherable1<'ReadonlyArray'>
-```
-
-Added in v2.7.0
-
-## functorArray
-
-**Signature**
-
-```ts
-export declare const functorArray: Functor1<'ReadonlyArray'>
 ```
 
 Added in v2.7.0

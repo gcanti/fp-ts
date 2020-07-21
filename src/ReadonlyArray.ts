@@ -1948,7 +1948,7 @@ declare module './HKT' {
  * @category instances
  * @since 2.7.0
  */
-export const functorArray: Functor1<URI> = {
+export const Functor: Functor1<URI> = {
   URI,
   map: map_
 }
@@ -1957,7 +1957,7 @@ export const functorArray: Functor1<URI> = {
  * @category instances
  * @since 2.7.0
  */
-export const Functor: FunctorWithIndex1<URI, number> = {
+export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
   URI,
   map: map_,
   mapWithIndex: mapWithIndex_

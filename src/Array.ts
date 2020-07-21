@@ -980,7 +980,7 @@ export const of: <A>(a: A) => Array<A> = RA.of as any
 const map_: Monad1<URI>['map'] = RA.Monad.map as any
 const ap_: Monad1<URI>['ap'] = RA.Monad.ap as any
 const chain_: Monad1<URI>['chain'] = RA.Monad.chain as any
-const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = RA.Functor.mapWithIndex as any
+const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = RA.FunctorWithIndex.mapWithIndex as any
 const filter_: Filterable1<URI>['filter'] = RA.Filterable.filter as any
 const filterMap_: Filterable1<URI>['filterMap'] = RA.Filterable.filterMap as any
 const partition_: Filterable1<URI>['partition'] = RA.Filterable.partition as any

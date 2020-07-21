@@ -920,7 +920,7 @@ describe('ReadonlyArray', () => {
       readonly bar: () => number
     }
     const f = (a: number, x?: Foo) => (x !== undefined ? `${a}${x.bar()}` : `${a}`)
-    assert.deepStrictEqual(_.functorArray.map([1, 2], f), ['1', '2'])
+    assert.deepStrictEqual(_.Functor.map([1, 2], f), ['1', '2'])
     assert.deepStrictEqual(pipe([1, 2], _.map(f)), ['1', '2'])
   })
 
