@@ -277,7 +277,13 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => <K>(fa: Map<K, A>) => 
  * @category Functor
  * @since 2.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: Map<E, A>) => Map<E, B> = RM.map as any
+export const map: <A, B>(f: (a: A) => B) => <K>(fa: Map<K, A>) => Map<K, B> = RM.map as any
+
+/**
+ * @category FunctorWithIndex
+ * @since 2.7.1
+ */
+export const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (fa: Map<K, A>) => Map<K, B> = RM.mapWithIndex as any
 
 /**
  * @category Filterable

@@ -23,8 +23,12 @@ high state of flux, you're at risk of it changing without notice.
 - **Polish**
   - `Array`
     - relax `sort` signature (@gcanti)
+  - `Map`
+    - export `mapWithIndex` (@gcanti)
   - `ReadonlyArray`
     - relax `sort` signature (@gcanti)
+  - `ReadonlyMap`
+    - export `mapWithIndex` (@gcanti)
 
 # 2.7.0
 

@@ -791,16 +791,6 @@ describe('ReadonlyMap', () => {
       assert.deepStrictEqual(log, ['a', 'b'])
     })
 
-    it('mapWithIndex', () => {
-      const mapWithIndex = W.mapWithIndex
-      const aa1 = new Map<User, number>([[{ id: 'aa' }, 1]])
-      const aa3 = new Map<User, number>([[{ id: 'aa' }, 3]])
-      assert.deepStrictEqual(
-        mapWithIndex(aa1, (k, a) => a + k.id.length),
-        aa3
-      )
-    })
-
     it('reduce', () => {
       const d1 = new Map<User, string>([
         [{ id: 'k1' }, 'a'],
@@ -1133,5 +1123,17 @@ describe('ReadonlyMap', () => {
     const bs = _.toMap(as)
     assert.deepStrictEqual(bs, as)
     assert.notStrictEqual(bs, as)
+  })
+
+  it('mapWithIndex', () => {
+    const aa1 = new Map<User, number>([[{ id: 'aa' }, 1]])
+    const aa3 = new Map<User, number>([[{ id: 'aa' }, 3]])
+    assert.deepStrictEqual(
+      pipe(
+        aa1,
+        _.mapWithIndex((k, a) => a + k.id.length)
+      ),
+      aa3
+    )
   })
 })
