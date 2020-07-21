@@ -29,6 +29,7 @@ Added in v2.0.0
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
+  - [chainFirstW](#chainfirstw)
   - [chainW](#chainw)
   - [flatten](#flatten)
 - [MonadIO](#monadio)
@@ -200,6 +201,20 @@ export declare const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: 
 ```
 
 Added in v2.0.0
+
+## chainFirstW
+
+Less strict version of [`chainFirst`](#chainFirst).
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <D, A, B>(
+  f: (a: A) => IOEither<D, B>
+) => <E>(ma: IOEither<E, A>) => IOEither<D | E, A>
+```
+
+Added in v2.8.0
 
 ## chainW
 

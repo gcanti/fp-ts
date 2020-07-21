@@ -78,6 +78,12 @@ describe('IOEither', () => {
       assert.deepStrictEqual(pipe(_.right('a'), _.chainFirst(f))(), E.left('foo'))
     })
 
+    it('chainFirstW', () => {
+      const f = (a: string) => (a.length > 2 ? _.right(a.length) : _.left('foo'))
+      assert.deepStrictEqual(pipe(_.right<boolean, string>('foo'), _.chainFirstW(f))(), E.right('foo'))
+      assert.deepStrictEqual(pipe(_.right<boolean, string>('a'), _.chainFirstW(f))(), E.left('foo'))
+    })
+
     it('flatten', () => {
       assert.deepStrictEqual(pipe(_.right(_.right('a')), _.flatten)(), E.right('a'))
     })
