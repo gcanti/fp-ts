@@ -47,6 +47,7 @@ Added in v2.0.0
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
+  - [chainFirstW](#chainfirstw)
   - [chainW](#chainw)
   - [flatten](#flatten)
 - [MonadThrow](#monadthrow)
@@ -299,6 +300,18 @@ export declare const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Ei
 ```
 
 Added in v2.0.0
+
+## chainFirstW
+
+Less strict version of [`chainFirst`](#chainFirst)
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>) => Either<D | E, A>
+```
+
+Added in v2.8.0
 
 ## chainW
 
