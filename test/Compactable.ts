@@ -6,7 +6,7 @@ import { left, right } from '../src/Either'
 
 describe('Compactable', () => {
   it('getCompactableComposition', () => {
-    const C = getCompactableComposition(A.functorArray, { ...A.functorArray, ...A.Compactable })
+    const C = getCompactableComposition(A.Functor, { ...A.Functor, ...A.Compactable })
     assert.deepStrictEqual(
       C.compact([
         [some(1), none],
