@@ -22,6 +22,8 @@ Added in v2.0.0
   - [partitionMap](#partitionmap)
 - [Functor](#functor)
   - [map](#map)
+- [FunctorWithIndex](#functorwithindex)
+  - [mapWithIndex](#mapwithindex)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
   - [insertAt](#insertat)
@@ -142,10 +144,22 @@ use the type constructor `F` to represent some computational context.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Map<E, A>) => Map<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <K>(fa: Map<K, A>) => Map<K, B>
 ```
 
 Added in v2.0.0
+
+# FunctorWithIndex
+
+## mapWithIndex
+
+**Signature**
+
+```ts
+export declare const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (fa: Map<K, A>) => Map<K, B>
+```
+
+Added in v2.7.1
 
 # combinators
 

@@ -655,6 +655,14 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => <K>(fa: ReadonlyMap<K,
 export const map: <A, B>(f: (a: A) => B) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> = (f) => (fa) => map_(fa, f)
 
 /**
+ * @category FunctorWithIndex
+ * @since 2.7.1
+ */
+export const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> = (f) => (
+  fa
+) => mapWithIndex_(fa, f)
+
+/**
  * @category Filterable
  * @since 2.5.0
  */
