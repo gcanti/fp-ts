@@ -77,7 +77,7 @@ describe('StateReaderTaskEither', () => {
       assert.deepStrictEqual(e, E.right('aaa'))
     })
 
-    it('chainFirst', async () => {
+    it('flatten', async () => {
       const e = await _.evalState(pipe(_.right(_.right('a')), _.flatten), {})({})()
       assert.deepStrictEqual(e, E.right('a'))
     })
