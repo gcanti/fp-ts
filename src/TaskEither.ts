@@ -386,19 +386,31 @@ export const chainW = <E, A, B>(f: (a: A) => TaskEither<E, B>) => <D>(ma: TaskEi
 export const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> = chainW
 
 /**
+ * Less strict version of [`chainFirst`](#chainFirst).
+ *
+ * @category Monad
+ * @since 2.8.0
+ */
+export const chainFirstW: <E, A, B>(
+  f: (a: A) => TaskEither<E, B>
+) => <D>(ma: TaskEither<D, A>) => TaskEither<D | E, A> = (f) =>
+  chainW((a) =>
+    pipe(
+      f(a),
+      map(() => a)
+    )
+  )
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
  * @category Monad
  * @since 2.0.0
  */
-export const chainFirst: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, A> = (f) =>
-  chain((a) =>
-    pipe(
-      f(a),
-      map(() => a)
-    )
-  )
+export const chainFirst: <E, A, B>(
+  f: (a: A) => TaskEither<E, B>
+) => (ma: TaskEither<E, A>) => TaskEither<E, A> = chainFirstW
 
 /**
  * @category Monad
