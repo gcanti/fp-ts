@@ -486,6 +486,22 @@ export const chain: <R, E, A, B>(
 ) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainW
 
 /**
+ * Less strict version of [`chainFirst`](#chainFirst).
+ *
+ * @category Monad
+ * @since 2.8.0
+ */
+export const chainFirstW: <R, E, A, B>(
+  f: (a: A) => ReaderTaskEither<R, E, B>
+) => <Q, D>(ma: ReaderTaskEither<Q, D, A>) => ReaderTaskEither<Q & R, D | E, A> = (f) =>
+  chainW((a) =>
+    pipe(
+      f(a),
+      map(() => a)
+    )
+  )
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -494,13 +510,7 @@ export const chain: <R, E, A, B>(
  */
 export const chainFirst: <R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
-) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = (f) =>
-  chain((a) =>
-    pipe(
-      f(a),
-      map(() => a)
-    )
-  )
+) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = chainFirstW
 
 /**
  * @category Monad
