@@ -676,7 +676,7 @@ export const lefts: <E, A>(as: Array<Either<E, A>>) => Array<E> = RA.lefts as an
  * @category combinators
  * @since 2.0.0
  */
-export const sort: <A>(O: Ord<A>) => (as: Array<A>) => Array<A> = RA.sort as any
+export const sort: <B>(O: Ord<B>) => <A extends B>(as: Array<A>) => Array<A> = RA.sort as any
 
 /**
  * Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If one

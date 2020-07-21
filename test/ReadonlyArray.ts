@@ -596,6 +596,22 @@ describe('ReadonlyArray', () => {
   it('sort', () => {
     assert.deepStrictEqual(_.sort(Ord.ordNumber)([3, 2, 1]), [1, 2, 3])
     assert.strictEqual(_.sort(Ord.ordNumber)(_.empty), _.empty)
+    const byName = pipe(
+      Ord.ordString,
+      Ord.contramap((x: { readonly name: string }) => x.name)
+    )
+    assert.deepStrictEqual(
+      _.sort(byName)([
+        { name: 'b', age: 0 },
+        { name: 'a', age: 1 },
+        { name: 'c', age: 2 }
+      ]),
+      [
+        { name: 'a', age: 1 },
+        { name: 'b', age: 0 },
+        { name: 'c', age: 2 }
+      ]
+    )
   })
 
   it('zipWith', () => {

@@ -841,7 +841,7 @@ Sort the elements of an array in increasing order, creating a new array
 **Signature**
 
 ```ts
-export declare const sort: <A>(O: Ord<A>) => (as: A[]) => A[]
+export declare const sort: <B>(O: Ord<B>) => <A extends B>(as: A[]) => A[]
 ```
 
 **Example**

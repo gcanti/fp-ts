@@ -973,9 +973,8 @@ export function lefts<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<E> {
  * @category combinators
  * @since 2.5.0
  */
-export function sort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
-  return (as) => (isEmpty(as) ? as : as.slice().sort(O.compare))
-}
+export const sort = <B>(O: Ord<B>) => <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
+  isEmpty(as) ? as : as.slice().sort(O.compare)
 
 // TODO: curry and make data-last in v3
 /**
