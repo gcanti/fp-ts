@@ -53,6 +53,12 @@ describe('ReaderTaskEither', () => {
       assert.deepStrictEqual(e, E.right('aaa'))
     })
 
+    it('chainFirstW', async () => {
+      const f = (a: string) => (a.length > 2 ? _.right(a.length) : _.left('b'))
+      const e = await pipe(_.right<object, number, string>('aaa'), _.chainFirstW(f))({})()
+      assert.deepStrictEqual(e, E.right('aaa'))
+    })
+
     it('flatten', async () => {
       const e = await pipe(_.right(_.right('a')), _.flatten)({})()
       assert.deepStrictEqual(e, E.right('a'))
