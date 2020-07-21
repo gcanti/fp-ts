@@ -436,7 +436,7 @@ Added in v2.7.1
 
 ## toReadOnlyArray
 
-Transforms a foldable into an read-only array.
+Transforms a foldable into a read-only array.
 
 **Signature**
 
