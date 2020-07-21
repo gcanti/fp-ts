@@ -434,14 +434,23 @@ export const chainW = <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, 
 export const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B> = chainW
 
 /**
+ * Less strict version of [`chainFirst`](#chainFirst)
+ *
+ * @category Monad
+ * @since 2.8.0
+ */
+export const chainFirstW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>) => Either<D | E, A> = (f) => (
+  ma
+) => chain_(ma, (a) => map_(f(a), () => a))
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
  * @category Monad
  * @since 2.0.0
  */
-export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A> = (f) => (ma) =>
-  chain_(ma, (a) => map_(f(a), () => a))
+export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A> = chainFirstW
 
 /**
  * @category Monad

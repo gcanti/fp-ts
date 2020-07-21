@@ -85,6 +85,12 @@ describe('Either', () => {
       assert.deepStrictEqual(pipe(_.left<string, string>('maError'), _.chainFirst(f)), _.left('maError'))
     })
 
+    it('chainFirstW', () => {
+      const f = (s: string) => _.right<boolean, number>(s.length)
+      assert.deepStrictEqual(pipe(_.right('abc'), _.chainFirstW(f)), _.right('abc'))
+      assert.deepStrictEqual(pipe(_.left<string, string>('maError'), _.chainFirstW(f)), _.left('maError'))
+    })
+
     it('duplicate', () => {
       assert.deepStrictEqual(pipe(_.right('a'), _.duplicate), _.right(_.right('a')))
     })
