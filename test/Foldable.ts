@@ -1,9 +1,10 @@
 import * as assert from 'assert'
 import * as A from '../src/ReadonlyArray'
-import { foldM, getFoldableComposition, intercalate, traverse_ } from '../src/Foldable'
 import * as I from '../src/IO'
-import { monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
+import * as T from '../src/Tree'
+import { monoidString } from '../src/Monoid'
+import { foldM, getFoldableComposition, intercalate, traverse_, toArray } from '../src/Foldable'
 
 export const ArrayOptionURI = 'ArrayOption'
 
@@ -43,6 +44,17 @@ describe('Foldable', () => {
 
   it('intercalate', () => {
     assert.deepStrictEqual(intercalate(monoidString, A.Foldable)(',', ['a', 'b', 'c']), 'a,b,c')
+  })
+
+  it('toArray', () => {
+    // Option
+    const optionToArray = toArray(O.option)
+    assert.deepStrictEqual(optionToArray(O.some(1)), [1])
+    assert.deepStrictEqual(optionToArray(O.none), [])
+
+    // Tree
+    const treeToArray = toArray(T.tree)
+    assert.deepStrictEqual(treeToArray(T.make(1, [T.make(2, []), T.make(3, []), T.make(4, [])])), [1, 2, 3, 4])
   })
 
   it('traverse_', () => {
