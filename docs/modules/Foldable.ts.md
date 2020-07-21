@@ -33,6 +33,7 @@ Added in v2.0.0
   - [getFoldableComposition](#getfoldablecomposition)
   - [intercalate](#intercalate)
   - [toArray](#toArray)
+  - [toReadOnlyArray](#toReadOnlyArray)
   - [traverse\_](#traverse_)
 
 ---
