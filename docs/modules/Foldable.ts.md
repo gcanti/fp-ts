@@ -32,6 +32,7 @@ Added in v2.0.0
   - [foldM](#foldm)
   - [getFoldableComposition](#getfoldablecomposition)
   - [intercalate](#intercalate)
+  - [toArray](#toArray)
   - [traverse\_](#traverse_)
 
 ---
@@ -398,6 +399,40 @@ assert.strictEqual(intercalate(monoidString, tree)('|', t), 'a|b|c|d')
 ```
 
 Added in v2.0.0
+
+## toArray
+
+Transforms a foldable into an array.
+
+**Signature**
+
+```ts
+export function toArray<F extends URIS4>(F: Foldable4<F>): <S, R, E, A>(fa: Kind4<F, S, R, E, A>) => Array<A>
+export function toArray<F extends URIS3>(F: Foldable3<F>): <R, E, A>(fa: Kind3<F, R, E, A>) => Array<A>
+export function toArray<F extends URIS3, E>(F: Foldable3C<F, E>): <R, A>(fa: Kind3<F, R, E, A>) => Array<A>
+export function toArray<F extends URIS2>(F: Foldable2<F>): <E, A>(fa: Kind2<F, E, A>) => Array<A>
+export function toArray<F extends URIS2, E>(F: Foldable2C<F, E>): <A>(fa: Kind2<F, E, A>) => Array<A>
+export function toArray<F extends URIS>(F: Foldable1<F>): <A>(fa: Kind<F, A>) => Array<A>
+export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A>
+export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A> { ... }
+```
+
+**Example**
+
+```ts
+import { toArray } from 'fp-ts/lib/Foldable2v'
+import { option, some, none } from 'fp-ts/lib/Option'
+import { Tree, tree } from 'fp-ts/lib/Tree'
+
+const optionToArray = toArray(option)
+assert.deepStrictEqual(optionToArray(some(1)), [1])
+assert.deepStrictEqual(optionToArray(none), [])
+
+const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
+assert.deepStrictEqual(toArray(tree)(t), [1, 2, 3, 4])
+```
+
+Added in v2.7.1
 
 ## traverse\_
 
