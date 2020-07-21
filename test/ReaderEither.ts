@@ -50,6 +50,11 @@ describe('ReaderEither', () => {
       assert.deepStrictEqual(pipe(_.right(1), _.chainFirst(f))({}), E.right(1))
     })
 
+    it('chainFirstW', () => {
+      const f = (n: number) => _.right<unknown, boolean, number>(n * 2)
+      assert.deepStrictEqual(pipe(_.right<unknown, string, number>(1), _.chainFirstW(f))({}), E.right(1))
+    })
+
     it('flatten', () => {
       assert.deepStrictEqual(pipe(_.right(_.right('a')), _.flatten)({}), E.right('a'))
     })
