@@ -28,6 +28,7 @@ Added in v2.0.0
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
+  - [chainFirstW](#chainfirstw)
   - [chainW](#chainw)
   - [flatten](#flatten)
 - [MonadIO](#monadio)
@@ -238,6 +239,20 @@ export declare const chainFirst: <S, R, E, A, B>(
 ```
 
 Added in v2.0.0
+
+## chainFirstW
+
+Less strict version of [`chainFirst`](#chainFirst).
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <S, R, D, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, R, D, B>
+) => <Q, E>(ma: StateReaderTaskEither<S, Q, E, A>) => StateReaderTaskEither<S, Q & R, D | E, A>
+```
+
+Added in v2.8.0
 
 ## chainW
 
