@@ -11,7 +11,8 @@
 > - [Experimental]
 > - [Deprecation]
 
-**Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
+**Note**: Gaps between patch versions are faulty/broken releases.
+**Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
 # 2.7.1
@@ -23,10 +24,12 @@ high state of flux, you're at risk of it changing without notice.
 - **Polish**
   - `Array`
     - relax `sort` signature (@gcanti)
+    - relax `sortBy` signature (@gcanti)
   - `Map`
     - export `mapWithIndex` (@gcanti)
   - `ReadonlyArray`
     - relax `sort` signature (@gcanti)
+    - relax `sortBy` signature (@gcanti)
   - `ReadonlyMap`
     - export `mapWithIndex` (@gcanti)
 
