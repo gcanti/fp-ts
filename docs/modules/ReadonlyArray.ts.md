@@ -863,7 +863,7 @@ etc...
 **Signature**
 
 ```ts
-export declare function sortBy<A>(ords: ReadonlyArray<Ord<A>>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare function sortBy<B>(ords: ReadonlyArray<Ord<B>>): <A extends B>(as: ReadonlyArray<A>) => ReadonlyArray<A>
 ```
 
 **Example**
