@@ -6,7 +6,6 @@ import { constant } from './function'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid } from './Monoid'
-import { getMonoid } from './ReadonlyArray'
 
 /**
  * @category type classes
@@ -296,9 +295,8 @@ export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M, fm: HK
   }
 }
 
-// tslint:disable: readonly-array
 /**
- * Transforms a foldable into an array.
+ * Transforms a `Foldable` into a read-only array.
  *
  * @example
  * import { toArray } from 'fp-ts/lib/Foldable'
@@ -307,49 +305,22 @@ export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M, fm: HK
  * const t = make(1, [make(2, []), make(3, []), make(4, [])])
  * assert.deepStrictEqual(toArray(tree)(t), [1, 2, 3, 4])
  *
- * @since 2.7.1
+ * @since 2.8.0
  */
-export function toArray<F extends URIS4>(F: Foldable4<F>): <S, R, E, A>(fa: Kind4<F, S, R, E, A>) => Array<A>
-export function toArray<F extends URIS3>(F: Foldable3<F>): <R, E, A>(fa: Kind3<F, R, E, A>) => Array<A>
-export function toArray<F extends URIS3, E>(F: Foldable3C<F, E>): <R, A>(fa: Kind3<F, R, E, A>) => Array<A>
-export function toArray<F extends URIS2>(F: Foldable2<F>): <E, A>(fa: Kind2<F, E, A>) => Array<A>
-export function toArray<F extends URIS2, E>(F: Foldable2C<F, E>): <A>(fa: Kind2<F, E, A>) => Array<A>
-export function toArray<F extends URIS>(F: Foldable1<F>): <A>(fa: Kind<F, A>) => Array<A>
-export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A>
-export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A> {
+export function toArray<F extends URIS4>(F: Foldable4<F>): <S, R, E, A>(fa: Kind4<F, S, R, E, A>) => ReadonlyArray<A>
+export function toArray<F extends URIS3>(F: Foldable3<F>): <R, E, A>(fa: Kind3<F, R, E, A>) => ReadonlyArray<A>
+export function toArray<F extends URIS3, E>(F: Foldable3C<F, E>): <R, A>(fa: Kind3<F, R, E, A>) => ReadonlyArray<A>
+export function toArray<F extends URIS2>(F: Foldable2<F>): <E, A>(fa: Kind2<F, E, A>) => ReadonlyArray<A>
+export function toArray<F extends URIS2, E>(F: Foldable2C<F, E>): <A>(fa: Kind2<F, E, A>) => ReadonlyArray<A>
+export function toArray<F extends URIS>(F: Foldable1<F>): <A>(fa: Kind<F, A>) => ReadonlyArray<A>
+export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => ReadonlyArray<A>
+export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => ReadonlyArray<A> {
   return <A>(fa: HKT<F, A>) =>
-    F.reduce<A, Array<A>>(fa, [], (acc, a) => {
+    // tslint:disable-next-line: readonly-array
+    F.reduce(fa, [], (acc: Array<A>, a) => {
       acc.push(a)
       return acc
     })
-}
-// tslint:enable: readonly-array
-
-/**
- * Transforms a foldable into a read-only array.
- *
- * @example
- * import { toReadOnlyArray } from 'fp-ts/lib/Foldable'
- * import { tree, make } from 'fp-ts/lib/Tree'
- *
- * const t = make(1, [make(2, []), make(3, []), make(4, [])])
- * assert.deepStrictEqual(toReadOnlyArray(tree)(t), [1, 2, 3, 4])
- *
- * @since 2.7.1
- */
-export function toReadOnlyArray<F extends URIS4>(
-  F: Foldable4<F>
-): <S, R, E, A>(fa: Kind4<F, S, R, E, A>) => ReadonlyArray<A>
-export function toReadOnlyArray<F extends URIS3>(F: Foldable3<F>): <R, E, A>(fa: Kind3<F, R, E, A>) => ReadonlyArray<A>
-export function toReadOnlyArray<F extends URIS3, E>(
-  F: Foldable3C<F, E>
-): <R, A>(fa: Kind3<F, R, E, A>) => ReadonlyArray<A>
-export function toReadOnlyArray<F extends URIS2>(F: Foldable2<F>): <E, A>(fa: Kind2<F, E, A>) => ReadonlyArray<A>
-export function toReadOnlyArray<F extends URIS2, E>(F: Foldable2C<F, E>): <A>(fa: Kind2<F, E, A>) => ReadonlyArray<A>
-export function toReadOnlyArray<F extends URIS>(F: Foldable1<F>): <A>(fa: Kind<F, A>) => ReadonlyArray<A>
-export function toReadOnlyArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => ReadonlyArray<A>
-export function toReadOnlyArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => ReadonlyArray<A> {
-  return <A>(fa: HKT<F, A>) => F.foldMap(getMonoid<A>())(fa, (a) => [a])
 }
 
 // TODO: remove in v3
