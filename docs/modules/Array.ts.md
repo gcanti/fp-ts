@@ -863,7 +863,7 @@ etc...
 **Signature**
 
 ```ts
-export declare const sortBy: <A>(ords: Ord<A>[]) => (as: A[]) => A[]
+export declare const sortBy: <B>(ords: Ord<B>[]) => <A extends B>(as: A[]) => A[]
 ```
 
 **Example**

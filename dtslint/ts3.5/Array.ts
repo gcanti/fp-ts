@@ -1,6 +1,7 @@
 import * as _ from '../../src/Array'
 import { pipe } from '../../src/pipeable'
 import { eqNumber } from '../../src/Eq'
+import { Ord } from '../../src/Ord'
 
 declare const us: Array<unknown>
 declare const ns: Array<number>
@@ -133,3 +134,31 @@ _.zip(['a', 'b']) // $ExpectType <A>(as: A[]) => [A, string][]
 
 _.cons(0, [1, 2]) // $ExpectType NonEmptyArray<number>
 _.cons(0) // $ExpectType (tail: number[]) => NonEmptyArray<number>
+
+//
+// sort
+//
+
+declare const ord1: Ord<{ readonly a: string }>
+interface X1 {
+  readonly a: string
+  readonly b: number
+}
+declare const x1s: Array<X1>
+
+_.sort(ord1)(x1s) // $ExpectType X1[]
+
+//
+// sortBy
+//
+
+declare const ord2: Ord<X1>
+declare const ord3: Ord<X1>
+interface X2 {
+  readonly a: string
+  readonly b: number
+  readonly c: boolean
+}
+declare const x2s: Array<X2>
+
+_.sortBy([ord2, ord3])(x2s) // $ExpectType X2[]

@@ -801,7 +801,7 @@ export const uniq: <A>(E: Eq<A>) => (as: Array<A>) => Array<A> = RA.uniq as any
  * @category combinators
  * @since 2.0.0
  */
-export const sortBy: <A>(ords: Array<Ord<A>>) => (as: Array<A>) => Array<A> = RA.sortBy as any
+export const sortBy: <B>(ords: Array<Ord<B>>) => <A extends B>(as: Array<A>) => Array<A> = RA.sortBy as any
 
 /**
  * A useful recursion pattern for processing an array to produce a new array, often used for "chopping" up the input
