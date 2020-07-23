@@ -59,7 +59,7 @@ Added in v2.0.0
 - [Traversable](#traversable)
   - [sequence](#sequence)
   - [traverse](#traverse)
-- [Whitherable](#whitherable)
+- [Witherable](#witherable)
   - [wilt](#wilt)
   - [wither](#wither)
 - [combinators](#combinators)
@@ -96,7 +96,7 @@ Added in v2.0.0
   - [Traversable](#traversable-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [Witherable](#witherable)
+  - [Witherable](#witherable-1)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getEq](#geteq)
@@ -427,7 +427,7 @@ export declare const traverse: PipeableTraverse1<'Option'>
 
 Added in v2.6.3
 
-# Whitherable
+# Witherable
 
 ## wilt
 

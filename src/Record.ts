@@ -329,13 +329,13 @@ export function sequence<F>(F: Applicative<F>): <A>(ta: Record<string, HKT<F, A>
 }
 
 /**
- * @category Whitherable
+ * @category Witherable
  * @since 2.6.5
  */
 export const wither: PipeableWither1<URI> = RR.wither as any
 
 /**
- * @category Whitherable
+ * @category Witherable
  * @since 2.6.5
  */
 export const wilt: PipeableWilt1<URI> = RR.wilt as any
