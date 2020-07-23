@@ -24,7 +24,7 @@ Added in v2.5.0
   - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
-- [Whitherable](#whitherable)
+- [Witherable](#witherable)
   - [wilt](#wilt)
   - [wither](#wither)
 - [combinators](#combinators)
@@ -52,7 +52,7 @@ Added in v2.5.0
   - [TraversableWithIndex](#traversablewithindex)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [Witherable](#witherable)
+  - [Witherable](#witherable-1)
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
@@ -200,7 +200,7 @@ export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Rea
 
 Added in v2.5.0
 
-# Whitherable
+# Witherable
 
 ## wilt
 

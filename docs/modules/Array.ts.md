@@ -59,7 +59,7 @@ Added in v2.0.0
   - [traverseWithIndex](#traversewithindex)
 - [Unfoldable](#unfoldable)
   - [unfold](#unfold)
-- [Whitherable](#whitherable)
+- [Witherable](#witherable)
   - [wilt](#wilt)
   - [wither](#wither)
 - [combinators](#combinators)
@@ -124,7 +124,7 @@ Added in v2.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [Unfoldable](#unfoldable-1)
-  - [Witherable](#witherable)
+  - [Witherable](#witherable-1)
   - [array](#array)
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
@@ -545,7 +545,7 @@ export declare const unfold: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => A[]
 
 Added in v2.6.6
 
-# Whitherable
+# Witherable
 
 ## wilt
 
