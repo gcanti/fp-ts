@@ -15,6 +15,24 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.8.0
+
+- **New Feature**
+  - `Either`
+    - add `chainFirstW`, #1273 (@leemhenson)
+  - `Foldable`
+    - add `toArray`, #1272 (@newswim)
+  - `IOEither`
+    - add `chainFirstW`, #1273 (@leemhenson)
+  - `ReaderEither`
+    - add `chainFirstW`, #1273 (@leemhenson)
+  - `ReaderTaskEither`
+    - add `chainFirstW`, #1273 (@leemhenson)
+  - `StateReaderTaskEither`
+    - add `chainFirstW`, #1273 (@leemhenson)
+  - `TaskEither`
+    - add `chainFirstW`, #1273 (@leemhenson)
+
 # 2.7.1
 
 - **Bug Fix**
