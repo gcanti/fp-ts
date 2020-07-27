@@ -147,6 +147,7 @@ interface X1 {
 declare const x1s: Array<X1>
 
 _.sort(ord1)(x1s) // $ExpectType X1[]
+pipe(x1s, _.sort(ord1)) // $ExpectType X1[]
 
 //
 // sortBy
@@ -162,3 +163,4 @@ interface X2 {
 declare const x2s: Array<X2>
 
 _.sortBy([ord2, ord3])(x2s) // $ExpectType X2[]
+pipe(x2s, _.sortBy([ord2, ord3])) // $ExpectType X2[]

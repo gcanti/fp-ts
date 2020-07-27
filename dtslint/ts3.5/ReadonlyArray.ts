@@ -138,6 +138,7 @@ interface X1 {
 declare const x1s: ReadonlyArray<X1>
 
 _.sort(ord1)(x1s) // $ExpectType ReadonlyArray<X1>
+pipe(x1s, _.sort(ord1)) // $ExpectType ReadonlyArray<X1>
 
 //
 // sortBy
@@ -153,3 +154,4 @@ interface X2 {
 declare const x2s: ReadonlyArray<X2>
 
 _.sortBy([ord2, ord3])(x2s) // $ExpectType ReadonlyArray<X2>
+pipe(x2s, _.sortBy([ord2, ord3])) // $ExpectType ReadonlyArray<X2>
