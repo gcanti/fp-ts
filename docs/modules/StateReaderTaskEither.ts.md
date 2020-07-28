@@ -85,6 +85,9 @@ Added in v2.0.0
 - [model](#model)
   - [StateReaderTaskEither (interface)](#statereadertaskeither-interface)
 - [utils](#utils)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [bindW](#bindw)
   - [evalState](#evalstate)
   - [execState](#execstate)
   - [run](#run)
@@ -821,6 +824,48 @@ export interface StateReaderTaskEither<S, R, E, A> {
 Added in v2.0.0
 
 # utils
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, S, R, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => StateReaderTaskEither<S, R, E, B>
+) => (
+  fa: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <S, R, E, A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, { [K in N]: A }>
+```
+
+Added in v2.8.0
+
+## bindW
+
+**Signature**
+
+```ts
+export declare const bindW: <N extends string, A, S, Q, D, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => StateReaderTaskEither<S, Q, D, B>
+) => <R, E>(
+  fa: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, Q & R, D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
 
 ## evalState
 

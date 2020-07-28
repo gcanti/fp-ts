@@ -328,3 +328,40 @@ export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<U
   left: left_,
   right: right_
 }
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const bindTo = <N extends string>(name: N) => <R, A>(fa: Reader<R, A>): Reader<R, { [K in N]: A }> =>
+  F.pipe(
+    fa,
+    map((a) => F.bind_({}, name, a))
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const bindW = <N extends string, A, Q, B>(name: Exclude<N, keyof A>, f: (a: A) => Reader<Q, B>) => <R>(
+  fa: Reader<R, A>
+): Reader<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
+  F.pipe(
+    fa,
+    chainW((a) =>
+      F.pipe(
+        f(a),
+        map((b) => F.bind_(a, name, b))
+      )
+    )
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const bind: <N extends string, A, R, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Reader<R, B>
+) => (fa: Reader<R, A>) => Reader<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW

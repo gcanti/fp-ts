@@ -71,6 +71,10 @@ Added in v2.0.0
   - [readerEither](#readereither)
 - [model](#model)
   - [ReaderEither (interface)](#readereither-interface)
+- [utils](#utils)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [bindW](#bindw)
 
 ---
 
@@ -654,3 +658,45 @@ export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
 ```
 
 Added in v2.0.0
+
+# utils
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, R, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderEither<R, E, B>
+) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in N]: A }>
+```
+
+Added in v2.8.0
+
+## bindW
+
+**Signature**
+
+```ts
+export declare const bindW: <N extends string, A, Q, D, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderEither<Q, D, B>
+) => <R, E>(
+  fa: ReaderEither<R, E, A>
+) => ReaderEither<Q & R, D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0

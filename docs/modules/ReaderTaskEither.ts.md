@@ -93,6 +93,9 @@ Added in v2.0.0
 - [model](#model)
   - [ReaderTaskEither (interface)](#readertaskeither-interface)
 - [utils](#utils)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [bindW](#bindw)
   - [bracket](#bracket)
   - [run](#run)
 
@@ -898,6 +901,46 @@ export interface ReaderTaskEither<R, E, A> {
 Added in v2.0.0
 
 # utils
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, R, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderTaskEither<R, E, B>
+) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, { [K in N]: A }>
+```
+
+Added in v2.8.0
+
+## bindW
+
+**Signature**
+
+```ts
+export declare const bindW: <N extends string, A, Q, D, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderTaskEither<Q, D, B>
+) => <R, E>(
+  fa: ReaderTaskEither<R, E, A>
+) => ReaderTaskEither<Q & R, D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
 
 ## bracket
 

@@ -10,7 +10,7 @@ import { apComposition, Apply1 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { Filterable2C, getFilterableComposition } from './Filterable'
-import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { flow, identity, Lazy, pipe, Predicate, Refinement, bind_ } from './function'
 import { Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
@@ -806,3 +806,40 @@ export const bracket = <E, A, B>(
       )
     )
   )
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const bindTo = <N extends string>(name: N) => <E, A>(fa: TaskEither<E, A>): TaskEither<E, { [K in N]: A }> =>
+  pipe(
+    fa,
+    map((a) => bind_({}, name, a))
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const bindW = <N extends string, A, D, B>(name: Exclude<N, keyof A>, f: (a: A) => TaskEither<D, B>) => <E>(
+  fa: TaskEither<E, A>
+): TaskEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
+  pipe(
+    fa,
+    chainW((a) =>
+      pipe(
+        f(a),
+        map((b) => bind_(a, name, b))
+      )
+    )
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const bind: <N extends string, A, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => TaskEither<E, B>
+) => (fa: TaskEither<E, A>) => TaskEither<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW

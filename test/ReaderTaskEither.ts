@@ -415,4 +415,15 @@ describe('ReaderTaskEither', () => {
     const x = await pipe(_.right('a'), _.chainTaskEitherK(f))(undefined)()
     assert.deepStrictEqual(x, E.right(1))
   })
+
+  it('do notation', async () => {
+    assert.deepStrictEqual(
+      await pipe(
+        _.right<void, string, number>(1),
+        _.bindTo('a'),
+        _.bind('b', () => _.right('b'))
+      )(undefined)(),
+      E.right({ a: 1, b: 'b' })
+    )
+  })
 })

@@ -111,6 +111,8 @@ Added in v2.0.0
   - [Option (type alias)](#option-type-alias)
   - [Some (interface)](#some-interface)
 - [utils](#utils)
+  - [bind](#bind)
+  - [bindTo](#bindto)
   - [elem](#elem)
   - [exists](#exists)
   - [getRefinement](#getrefinement)
@@ -1211,6 +1213,29 @@ export interface Some<A> {
 Added in v2.0.0
 
 # utils
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Option<B>
+) => (fa: Option<A>) => Option<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(name: N) => <A>(fa: Option<A>) => Option<{ [K in N]: A }>
+```
+
+Added in v2.8.0
 
 ## elem
 

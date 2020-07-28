@@ -19,6 +19,25 @@ high state of flux, you're at risk of it changing without notice.
 
 - **New Feature**
   - expose `fp-ts` modules without lib/es6 prefix, #1241 (@StefanoMagrassi)
+  - add "do notation" to all monadic data types (@gcanti)
+    - `Array`
+    - `Either`
+    - `Identity`
+    - `IO`
+    - `IOEither`
+    - `NonEmptyArray`
+    - `Option`
+    - `Reader`
+    - `ReaderEither`
+    - `ReaderTask`
+    - `ReaderTaskEither`
+    - `ReadonlyArray`
+    - `ReadonlyNonEmptyArray`
+    - `State`
+    - `StateReaderTaskEither`
+    - `Task`
+    - `TaskEither`
+    - `Tree`
   - `Either`
     - add `chainFirstW`, #1273 (@leemhenson)
     - add `getFilterable` (@gcanti)

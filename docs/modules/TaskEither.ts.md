@@ -86,6 +86,9 @@ Added in v2.0.0
 - [model](#model)
   - [TaskEither (interface)](#taskeither-interface)
 - [utils](#utils)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [bindW](#bindw)
   - [bracket](#bracket)
   - [taskify](#taskify)
 
@@ -841,6 +844,44 @@ export interface TaskEither<E, A> extends Task<Either<E, A>> {}
 Added in v2.0.0
 
 # utils
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => TaskEither<E, B>
+) => (fa: TaskEither<E, A>) => TaskEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <E, A>(fa: TaskEither<E, A>) => TaskEither<E, { [K in N]: A }>
+```
+
+Added in v2.8.0
+
+## bindW
+
+**Signature**
+
+```ts
+export declare const bindW: <N extends string, A, D, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => TaskEither<D, B>
+) => <E>(fa: TaskEither<E, A>) => TaskEither<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
 
 ## bracket
 

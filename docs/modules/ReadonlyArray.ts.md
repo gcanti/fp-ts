@@ -127,6 +127,8 @@ Added in v2.5.0
   - [unsafeUpdateAt](#unsafeupdateat)
 - [utils](#utils)
   - [Spanned (interface)](#spanned-interface)
+  - [bind](#bind)
+  - [bindTo](#bindto)
   - [chainWithIndex](#chainwithindex)
   - [chunksOf](#chunksof)
   - [comprehension](#comprehension)
@@ -1556,6 +1558,29 @@ export interface Spanned<I, R> {
 ```
 
 Added in v2.5.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => readonly B[]
+) => (fa: readonly A[]) => readonly { [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(name: N) => <A>(fa: readonly A[]) => readonly { [K in N]: A }[]
+```
+
+Added in v2.8.0
 
 ## chainWithIndex
 

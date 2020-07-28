@@ -111,4 +111,15 @@ describe('Reader', () => {
     const f = (e: Env) => e.count + 1
     assert.deepStrictEqual(_.asks(f)(e), 1)
   })
+
+  it('do notation', () => {
+    assert.deepStrictEqual(
+      pipe(
+        _.of(1),
+        _.bindTo('a'),
+        _.bind('b', () => _.of('b'))
+      )(undefined),
+      { a: 1, b: 'b' }
+    )
+  })
 })

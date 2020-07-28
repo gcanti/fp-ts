@@ -50,6 +50,9 @@ Added in v2.3.0
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
 - [utils](#utils)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [bindW](#bindw)
   - [run](#run)
 
 ---
@@ -384,6 +387,44 @@ export interface ReaderTask<R, A> {
 Added in v2.3.0
 
 # utils
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, R, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderTask<R, B>
+) => (fa: ReaderTask<R, A>) => ReaderTask<R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <R, A>(fa: ReaderTask<R, A>) => ReaderTask<R, { [K in N]: A }>
+```
+
+Added in v2.8.0
+
+## bindW
+
+**Signature**
+
+```ts
+export declare const bindW: <N extends string, A, Q, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderTask<Q, B>
+) => <R>(fa: ReaderTask<R, A>) => ReaderTask<Q & R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
 
 ## run
 

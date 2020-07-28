@@ -6,7 +6,7 @@ import { Applicative3, Applicative3C } from './Applicative'
 import { apComposition, Apply1 } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
-import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { flow, identity, Lazy, pipe, Predicate, Refinement, bind_ } from './function'
 import { Functor3 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
@@ -783,3 +783,47 @@ export function bracket<R, E, A, B>(
       (a, e) => release(a, e)(r)
     )
 }
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const bindTo = <N extends string>(name: N) => <R, E, A>(
+  fa: ReaderTaskEither<R, E, A>
+): ReaderTaskEither<R, E, { [K in N]: A }> =>
+  pipe(
+    fa,
+    map((a) => bind_({}, name, a))
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const bindW = <N extends string, A, Q, D, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderTaskEither<Q, D, B>
+) => <R, E>(
+  fa: ReaderTaskEither<R, E, A>
+): ReaderTaskEither<Q & R, E | D, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
+  pipe(
+    fa,
+    chainW((a) =>
+      pipe(
+        f(a),
+        map((b) => bind_(a, name, b))
+      )
+    )
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const bind: <N extends string, A, R, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderTaskEither<R, E, B>
+) => (
+  fa: ReaderTaskEither<R, E, A>
+) => ReaderTaskEither<R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW

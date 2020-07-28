@@ -6,7 +6,7 @@ import { Applicative3, Applicative3C } from './Applicative'
 import { apComposition } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
-import { flow, identity, pipe, Predicate, Refinement } from './function'
+import { flow, identity, pipe, Predicate, Refinement, bind_ } from './function'
 import { Functor3 } from './Functor'
 import { Monad3, Monad3C } from './Monad'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
@@ -550,3 +550,45 @@ export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThro
   alt: alt_,
   throwError: left
 }
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const bindTo = <N extends string>(name: N) => <R, E, A>(
+  fa: ReaderEither<R, E, A>
+): ReaderEither<R, E, { [K in N]: A }> =>
+  pipe(
+    fa,
+    map((a) => bind_({}, name, a))
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const bindW = <N extends string, A, Q, D, B>(name: Exclude<N, keyof A>, f: (a: A) => ReaderEither<Q, D, B>) => <
+  R,
+  E
+>(
+  fa: ReaderEither<R, E, A>
+): ReaderEither<Q & R, E | D, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
+  pipe(
+    fa,
+    chainW((a) =>
+      pipe(
+        f(a),
+        map((b) => bind_(a, name, b))
+      )
+    )
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const bind: <N extends string, A, R, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderEither<R, E, B>
+) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW

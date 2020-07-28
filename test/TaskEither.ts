@@ -418,4 +418,15 @@ describe('TaskEither', () => {
     const isNumber = (u: string | number): u is number => typeof u === 'number'
     assert.deepStrictEqual(await _.fromPredicate(isNumber, () => 'not a number')(4)(), E.right(4))
   })
+
+  it('do notation', async () => {
+    assert.deepStrictEqual(
+      await pipe(
+        _.right<string, number>(1),
+        _.bindTo('a'),
+        _.bind('b', () => _.right('b'))
+      )(),
+      E.right({ a: 1, b: 'b' })
+    )
+  })
 })

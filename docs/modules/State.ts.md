@@ -39,6 +39,8 @@ Added in v2.0.0
 - [model](#model)
   - [State (interface)](#state-interface)
 - [utils](#utils)
+  - [bind](#bind)
+  - [bindTo](#bindto)
   - [evalState](#evalstate)
   - [execState](#execstate)
 
@@ -273,6 +275,29 @@ export interface State<S, A> {
 Added in v2.0.0
 
 # utils
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, S, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => State<S, B>
+) => (fa: State<S, A>) => State<S, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(name: N) => <S, A>(fa: State<S, A>) => State<S, { [K in N]: A }>
+```
+
+Added in v2.8.0
 
 ## evalState
 

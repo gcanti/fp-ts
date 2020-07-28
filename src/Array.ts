@@ -1566,3 +1566,20 @@ export const unsafeDeleteAt: <A>(i: number, as: Array<A>) => Array<A> = RA.unsaf
  * @since 2.0.0
  */
 export const empty: Array<never> = []
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const bindTo: <N extends string>(name: N) => <A>(fa: Array<A>) => Array<{ [K in N]: A }> = RA.bindTo as any
+
+/**
+ * @since 2.8.0
+ */
+export const bind: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Array<B>
+) => (fa: Array<A>) => Array<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }> = RA.bind as any

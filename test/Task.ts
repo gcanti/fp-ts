@@ -121,4 +121,15 @@ describe('Task', () => {
     const f = (s: string) => I.of(s.length)
     assert.deepStrictEqual(await pipe(_.of('a'), _.chainIOK(f))(), 1)
   })
+
+  it('do notation', async () => {
+    assert.deepStrictEqual(
+      await pipe(
+        _.of(1),
+        _.bindTo('a'),
+        _.bind('b', () => _.of('b'))
+      )(),
+      { a: 1, b: 'b' }
+    )
+  })
 })
