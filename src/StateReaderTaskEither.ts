@@ -4,7 +4,7 @@
 import { Alt4 } from './Alt'
 import { Bifunctor4 } from './Bifunctor'
 import { Either } from './Either'
-import { identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { identity, Lazy, pipe, Predicate, Refinement, bind_ } from './function'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad4 } from './Monad'
@@ -724,3 +724,47 @@ export const execState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S
     fsa(s),
     RTE.map(([_, s]) => s)
   )
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const bindTo = <N extends string>(name: N) => <S, R, E, A>(
+  fa: StateReaderTaskEither<S, R, E, A>
+): StateReaderTaskEither<S, R, E, { [K in N]: A }> =>
+  pipe(
+    fa,
+    map((a) => bind_({}, name, a))
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const bindW = <N extends string, A, S, Q, D, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => StateReaderTaskEither<S, Q, D, B>
+) => <R, E>(
+  fa: StateReaderTaskEither<S, R, E, A>
+): StateReaderTaskEither<S, Q & R, E | D, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
+  pipe(
+    fa,
+    chainW((a) =>
+      pipe(
+        f(a),
+        map((b) => bind_(a, name, b))
+      )
+    )
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const bind: <N extends string, A, S, R, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => StateReaderTaskEither<S, R, E, B>
+) => (
+  fa: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW

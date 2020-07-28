@@ -213,4 +213,15 @@ describe('ReaderEither', () => {
     assert.deepStrictEqual(pipe(_.right('a'), _.chainEitherK(f))({}), E.right(1))
     assert.deepStrictEqual(pipe(_.right('aa'), _.chainEitherK(f))({}), E.left('b'))
   })
+
+  it('do notation', () => {
+    assert.deepStrictEqual(
+      pipe(
+        _.right<void, string, number>(1),
+        _.bindTo('a'),
+        _.bind('b', () => _.right('b'))
+      )(undefined),
+      E.right({ a: 1, b: 'b' })
+    )
+  })
 })

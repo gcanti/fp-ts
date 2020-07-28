@@ -322,4 +322,15 @@ describe('StateReaderTaskEither', () => {
     const double = (n: number) => n * 2
     assert.deepStrictEqual(await _.gets(double)(1)({})(), E.right([2, 1]))
   })
+
+  it('do notation', async () => {
+    assert.deepStrictEqual(
+      await pipe(
+        _.right<void, void, string, number>(1),
+        _.bindTo('a'),
+        _.bind('b', () => _.right('b'))
+      )(undefined)(undefined)(),
+      E.right([{ a: 1, b: 'b' }, undefined])
+    )
+  })
 })

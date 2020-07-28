@@ -44,3 +44,15 @@ const W = _.getWitherable(monoidAll)
 
 W.filter(_.right<boolean, string | number>(1), isString) // $ExpectType Either<boolean, string>
 W.partition(_.right<boolean, string | number>(1), isString) // $ExpectType Separated<Either<boolean, string | number>, Either<boolean, string>>
+
+//
+// do notation
+//
+
+// $ExpectType Either<string | number, { a: number; b: string; c: boolean; }>
+pipe(
+  _.right<string, number>(1),
+  _.bindTo('a'),
+  _.bind('b', () => _.right('b')),
+  _.bindW('c', () => _.right<number, boolean>(true))
+)

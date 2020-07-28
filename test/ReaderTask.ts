@@ -150,4 +150,15 @@ describe('ReaderTask', () => {
   it('applicativeTaskEitherPar', async () => {
     await assertPar(_.ApplicativePar, { fromTask: _.fromTask }, (fa) => fa(null)())
   })
+
+  it('do notation', async () => {
+    assert.deepStrictEqual(
+      await pipe(
+        _.of(1),
+        _.bindTo('a'),
+        _.bind('b', () => _.of('b'))
+      )(undefined)(),
+      { a: 1, b: 'b' }
+    )
+  })
 })

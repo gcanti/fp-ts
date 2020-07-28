@@ -51,3 +51,15 @@ pipe(
 declare function apiForTaskify(path: string, callback: (err: Error | null | undefined, result?: string) => void): void
 
 _.taskify(apiForTaskify) // $ExpectType (a: string) => TaskEither<Error, string>
+
+//
+// do notation
+//
+
+// $ExpectType TaskEither<string | number, { a: number; b: string; c: boolean; }>
+pipe(
+  _.right<string, number>(1),
+  _.bindTo('a'),
+  _.bind('b', () => _.right('b')),
+  _.bindW('c', () => _.right<number, boolean>(true))
+)

@@ -65,4 +65,15 @@ describe('State', () => {
     const double = (n: number) => n * 2
     assert.deepStrictEqual(_.gets(double)(1), [2, 1])
   })
+
+  it('do notation', () => {
+    assert.deepStrictEqual(
+      pipe(
+        _.of(1),
+        _.bindTo('a'),
+        _.bind('b', () => _.of('b'))
+      )(undefined),
+      [{ a: 1, b: 'b' }, undefined]
+    )
+  })
 })

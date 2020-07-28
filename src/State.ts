@@ -1,7 +1,7 @@
 /**
  * @since 2.0.0
  */
-import { identity, pipe } from './function'
+import { identity, pipe, bind_ } from './function'
 import { Functor2 } from './Functor'
 import { Monad2 } from './Monad'
 import { Applicative2 } from './Applicative'
@@ -241,3 +241,32 @@ export const evalState: <S, A>(ma: State<S, A>, s: S) => A = (ma, s) => ma(s)[0]
  * @since 2.0.0
  */
 export const execState: <S, A>(ma: State<S, A>, s: S) => S = (ma, s) => ma(s)[1]
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const bindTo = <N extends string>(name: N) => <S, A>(fa: State<S, A>): State<S, { [K in N]: A }> =>
+  pipe(
+    fa,
+    map((a) => bind_({}, name, a))
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const bind = <N extends string, A, S, B>(name: Exclude<N, keyof A>, f: (a: A) => State<S, B>) => (
+  fa: State<S, A>
+): State<S, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
+  pipe(
+    fa,
+    chain((a) =>
+      pipe(
+        f(a),
+        map((b) => bind_(a, name, b))
+      )
+    )
+  )

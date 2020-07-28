@@ -448,4 +448,15 @@ describe('Option', () => {
   it('throwError', () => {
     assert.deepStrictEqual(_.throwError(undefined), _.none)
   })
+
+  it('do notation', () => {
+    assert.deepStrictEqual(
+      pipe(
+        _.some(1),
+        _.bindTo('a'),
+        _.bind('b', () => _.some('b'))
+      ),
+      _.some({ a: 1, b: 'b' })
+    )
+  })
 })

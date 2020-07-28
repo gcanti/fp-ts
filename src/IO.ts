@@ -13,7 +13,7 @@
  */
 import { Applicative1 } from './Applicative'
 import { ChainRec1 } from './ChainRec'
-import { identity } from './function'
+import { identity, pipe, bind_ } from './function'
 import { Functor1 } from './Functor'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
@@ -240,3 +240,32 @@ export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
   fromIO,
   chainRec: chainRec_
 }
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const bindTo = <N extends string>(name: N) => <A>(fa: IO<A>): IO<{ [K in N]: A }> =>
+  pipe(
+    fa,
+    map((a) => bind_({}, name, a))
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const bind = <N extends string, A, B>(name: Exclude<N, keyof A>, f: (a: A) => IO<B>) => (
+  fa: IO<A>
+): IO<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
+  pipe(
+    fa,
+    chain((a) =>
+      pipe(
+        f(a),
+        map((b) => bind_(a, name, b))
+      )
+    )
+  )

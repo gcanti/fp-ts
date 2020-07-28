@@ -11,7 +11,7 @@
  * @since 2.0.0
  */
 import { Applicative1 } from './Applicative'
-import { identity } from './function'
+import { identity, pipe, bind_ } from './function'
 import { IO } from './IO'
 import { Monad1 } from './Monad'
 import { MonadTask1 } from './MonadTask'
@@ -360,3 +360,32 @@ export const taskSeq: typeof task = {
  * @since 2.0.0
  */
 export const never: Task<never> = () => new Promise((_) => undefined)
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const bindTo = <N extends string>(name: N) => <A>(fa: Task<A>): Task<{ [K in N]: A }> =>
+  pipe(
+    fa,
+    map((a) => bind_({}, name, a))
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const bind = <N extends string, A, B>(name: Exclude<N, keyof A>, f: (a: A) => Task<B>) => (
+  fa: Task<A>
+): Task<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
+  pipe(
+    fa,
+    chain((a) =>
+      pipe(
+        f(a),
+        map((b) => bind_(a, name, b))
+      )
+    )
+  )
