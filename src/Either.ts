@@ -109,7 +109,7 @@ export const right = <E = never, A = never>(a: A): Either<E, A> => ({ _tag: 'Rig
  * the provided default as a `Left`
  *
  * @example
- * import { fromNullable, left, right } from 'fp-ts/lib/Either'
+ * import { fromNullable, left, right } from 'fp-ts/Either'
  *
  * const parse = fromNullable('nully')
  *
@@ -128,7 +128,7 @@ export function fromNullable<E>(e: E): <A>(a: A) => Either<E, NonNullable<A>> {
  * Constructs a new `Either` from a function that might throw
  *
  * @example
- * import { Either, left, right, tryCatch } from 'fp-ts/lib/Either'
+ * import { Either, left, right, tryCatch } from 'fp-ts/Either'
  *
  * const unsafeHead = <A>(as: Array<A>): A => {
  *   if (as.length > 0) {
@@ -180,7 +180,7 @@ export interface JsonArray extends ReadonlyArray<Json> {}
  * Converts a JavaScript Object Notation (JSON) string into an object.
  *
  * @example
- * import { parseJSON, toError, right, left } from 'fp-ts/lib/Either'
+ * import { parseJSON, toError, right, left } from 'fp-ts/Either'
  *
  * assert.deepStrictEqual(parseJSON('{"a":1}', toError), right({ a: 1 }))
  * assert.deepStrictEqual(parseJSON('{"a":}', toError), left(new SyntaxError('Unexpected token } in JSON at position 5')))
@@ -197,8 +197,8 @@ export function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either
  * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
  *
  * @example
- * import * as E from 'fp-ts/lib/Either'
- * import { pipe } from 'fp-ts/lib/function'
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(E.stringifyJSON({ a: 1 }, E.toError), E.right('{"a":1}'))
  * const circular: any = { ref: null }
@@ -243,8 +243,8 @@ export const fromPredicate: {
  * if the value is a `Right` the inner value is applied to the second function.
  *
  * @example
- * import { fold, left, right } from 'fp-ts/lib/Either'
- * import { pipe } from 'fp-ts/lib/function'
+ * import { fold, left, right } from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
  *
  * function onLeft(errors: Array<string>): string {
  *   return `Errors: ${errors.join(', ')}`
@@ -579,8 +579,8 @@ export function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> {
  * concatenated using the provided `Semigroup`
  *
  * @example
- * import { getSemigroup, left, right } from 'fp-ts/lib/Either'
- * import { semigroupSum } from 'fp-ts/lib/Semigroup'
+ * import { getSemigroup, left, right } from 'fp-ts/Either'
+ * import { semigroupSum } from 'fp-ts/Semigroup'
  *
  * const S = getSemigroup<string, number>(semigroupSum)
  * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
@@ -602,8 +602,8 @@ export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> {
  * are concatenated using the provided `Semigroup`
  *
  * @example
- * import { getApplySemigroup, left, right } from 'fp-ts/lib/Either'
- * import { semigroupSum } from 'fp-ts/lib/Semigroup'
+ * import { getApplySemigroup, left, right } from 'fp-ts/Either'
+ * import { semigroupSum } from 'fp-ts/Semigroup'
  *
  * const S = getApplySemigroup<string, number>(semigroupSum)
  * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
@@ -986,7 +986,7 @@ export function elem<A>(E: Eq<A>): <E>(a: A, ma: Either<E, A>) => boolean {
  * Returns `false` if `Left` or returns the result of the application of the given predicate to the `Right` value.
  *
  * @example
- * import { exists, left, right } from 'fp-ts/lib/Either'
+ * import { exists, left, right } from 'fp-ts/Either'
  *
  * const gt2 = exists((n: number) => n > 2)
  *

@@ -195,9 +195,9 @@ export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, E> 
  * Like `Functor`, `Applicative`s compose. If `F` and `G` have `Applicative` instances, then so does `F<G<_>>`
  *
  * @example
- * import { getApplicativeComposition } from 'fp-ts/lib/Applicative'
- * import { option, Option, some } from 'fp-ts/lib/Option'
- * import { task, Task } from 'fp-ts/lib/Task'
+ * import { getApplicativeComposition } from 'fp-ts/Applicative'
+ * import { option, Option, some } from 'fp-ts/Option'
+ * import { task, Task } from 'fp-ts/Task'
  *
  * // an Applicative instance for Task<Option<A>>
  * const A = getApplicativeComposition(task, option)

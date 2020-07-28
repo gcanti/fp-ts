@@ -49,7 +49,7 @@ export declare function getDualMonoid<A>(M: Monoid<A>): Monoid<A>
 **Example**
 
 ```ts
-import { getDualMonoid, monoidString } from 'fp-ts/lib/Monoid'
+import { getDualMonoid, monoidString } from 'fp-ts/Monoid'
 
 assert.deepStrictEqual(getDualMonoid(monoidString).concat('a', 'b'), 'ba')
 ```
@@ -125,7 +125,7 @@ export declare function getTupleMonoid<T extends ReadonlyArray<Monoid<any>>>(
 **Example**
 
 ```ts
-import { getTupleMonoid, monoidString, monoidSum, monoidAll } from 'fp-ts/lib/Monoid'
+import { getTupleMonoid, monoidString, monoidSum, monoidAll } from 'fp-ts/Monoid'
 
 const M1 = getTupleMonoid(monoidString, monoidSum)
 assert.deepStrictEqual(M1.concat(['a', 1], ['b', 2]), ['ab', 3])

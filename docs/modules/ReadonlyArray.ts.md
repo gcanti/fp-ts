@@ -511,7 +511,7 @@ export declare function flatten<A>(mma: ReadonlyArray<ReadonlyArray<A>>): Readon
 **Example**
 
 ```ts
-import { flatten } from 'fp-ts/lib/ReadonlyArray'
+import { flatten } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
 ```
@@ -605,8 +605,8 @@ export declare const chop: <A, B>(
 **Example**
 
 ```ts
-import { Eq, eqNumber } from 'fp-ts/lib/Eq'
-import { chop, spanLeft } from 'fp-ts/lib/ReadonlyArray'
+import { Eq, eqNumber } from 'fp-ts/Eq'
+import { chop, spanLeft } from 'fp-ts/ReadonlyArray'
 
 const group = <A>(S: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
   return chop((as) => {
@@ -638,9 +638,9 @@ export declare function difference<A>(
 **Example**
 
 ```ts
-import { difference } from 'fp-ts/lib/ReadonlyArray'
-import { eqNumber } from 'fp-ts/lib/Eq'
-import { pipe } from 'fp-ts/lib/function'
+import { difference } from 'fp-ts/ReadonlyArray'
+import { eqNumber } from 'fp-ts/Eq'
+import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe([1, 2], difference(eqNumber)([2, 3])), [1])
 ```
@@ -660,7 +660,7 @@ export declare function dropLeft(n: number): <A>(as: ReadonlyArray<A>) => Readon
 **Example**
 
 ```ts
-import { dropLeft } from 'fp-ts/lib/ReadonlyArray'
+import { dropLeft } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(dropLeft(2)([1, 2, 3]), [3])
 ```
@@ -680,7 +680,7 @@ export declare function dropLeftWhile<A>(predicate: Predicate<A>): (as: Readonly
 **Example**
 
 ```ts
-import { dropLeftWhile } from 'fp-ts/lib/ReadonlyArray'
+import { dropLeftWhile } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(dropLeftWhile((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), [2, 4, 5])
 ```
@@ -700,7 +700,7 @@ export declare function dropRight(n: number): <A>(as: ReadonlyArray<A>) => Reado
 **Example**
 
 ```ts
-import { dropRight } from 'fp-ts/lib/ReadonlyArray'
+import { dropRight } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(dropRight(2)([1, 2, 3, 4, 5]), [1, 2, 3])
 ```
@@ -726,9 +726,9 @@ export declare function intersection<A>(
 **Example**
 
 ```ts
-import { intersection } from 'fp-ts/lib/ReadonlyArray'
-import { eqNumber } from 'fp-ts/lib/Eq'
-import { pipe } from 'fp-ts/lib/function'
+import { intersection } from 'fp-ts/ReadonlyArray'
+import { eqNumber } from 'fp-ts/Eq'
+import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe([1, 2], intersection(eqNumber)([2, 3])), [2])
 ```
@@ -748,7 +748,7 @@ export declare function reverse<A>(as: ReadonlyArray<A>): ReadonlyArray<A>
 **Example**
 
 ```ts
-import { reverse } from 'fp-ts/lib/ReadonlyArray'
+import { reverse } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(reverse([1, 2, 3]), [3, 2, 1])
 ```
@@ -768,8 +768,8 @@ export declare function rights<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyA
 **Example**
 
 ```ts
-import { rights } from 'fp-ts/lib/ReadonlyArray'
-import { right, left } from 'fp-ts/lib/Either'
+import { rights } from 'fp-ts/ReadonlyArray'
+import { right, left } from 'fp-ts/Either'
 
 assert.deepStrictEqual(rights([right(1), left('foo'), right(2)]), [1, 2])
 ```
@@ -789,7 +789,7 @@ export declare function rotate(n: number): <A>(as: ReadonlyArray<A>) => Readonly
 **Example**
 
 ```ts
-import { rotate } from 'fp-ts/lib/ReadonlyArray'
+import { rotate } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
 ```
@@ -801,7 +801,7 @@ Added in v2.5.0
 Same as `reduce` but it carries over the intermediate steps
 
 ```ts
-import { scanLeft } from 'fp-ts/lib/ReadonlyArray'
+import { scanLeft } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(scanLeft(10, (b, a: number) => b - a)([1, 2, 3]), [10, 9, 7, 4])
 ```
@@ -827,7 +827,7 @@ export declare function scanRight<A, B>(b: B, f: (a: A, b: B) => B): (as: Readon
 **Example**
 
 ```ts
-import { scanRight } from 'fp-ts/lib/ReadonlyArray'
+import { scanRight } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(scanRight(10, (a: number, b) => b - a)([1, 2, 3]), [4, 5, 7, 10])
 ```
@@ -847,8 +847,8 @@ export declare const sort: <B>(O: Ord<B>) => <A extends B>(as: readonly A[]) => 
 **Example**
 
 ```ts
-import { sort } from 'fp-ts/lib/ReadonlyArray'
-import { ordNumber } from 'fp-ts/lib/Ord'
+import { sort } from 'fp-ts/ReadonlyArray'
+import { ordNumber } from 'fp-ts/Ord'
 
 assert.deepStrictEqual(sort(ordNumber)([3, 2, 1]), [1, 2, 3])
 ```
@@ -869,8 +869,8 @@ export declare function sortBy<B>(ords: ReadonlyArray<Ord<B>>): <A extends B>(as
 **Example**
 
 ```ts
-import { sortBy } from 'fp-ts/lib/ReadonlyArray'
-import { ord, ordString, ordNumber } from 'fp-ts/lib/Ord'
+import { sortBy } from 'fp-ts/ReadonlyArray'
+import { ord, ordString, ordNumber } from 'fp-ts/Ord'
 
 interface Person {
   name: string
@@ -911,7 +911,7 @@ export declare function takeLeft(n: number): <A>(as: ReadonlyArray<A>) => Readon
 **Example**
 
 ```ts
-import { takeLeft } from 'fp-ts/lib/ReadonlyArray'
+import { takeLeft } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(takeLeft(2)([1, 2, 3]), [1, 2])
 ```
@@ -934,7 +934,7 @@ export declare function takeLeftWhile<A>(predicate: Predicate<A>): (as: Readonly
 **Example**
 
 ```ts
-import { takeLeftWhile } from 'fp-ts/lib/ReadonlyArray'
+import { takeLeftWhile } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(takeLeftWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), [2, 4])
 ```
@@ -959,9 +959,9 @@ export declare function union<A>(
 **Example**
 
 ```ts
-import { union } from 'fp-ts/lib/ReadonlyArray'
-import { eqNumber } from 'fp-ts/lib/Eq'
-import { pipe } from 'fp-ts/lib/function'
+import { union } from 'fp-ts/ReadonlyArray'
+import { eqNumber } from 'fp-ts/Eq'
+import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe([1, 2], union(eqNumber)([2, 3])), [1, 2, 3])
 ```
@@ -981,8 +981,8 @@ export declare function uniq<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArr
 **Example**
 
 ```ts
-import { uniq } from 'fp-ts/lib/ReadonlyArray'
-import { eqNumber } from 'fp-ts/lib/Eq'
+import { uniq } from 'fp-ts/ReadonlyArray'
+import { eqNumber } from 'fp-ts/Eq'
 
 assert.deepStrictEqual(uniq(eqNumber)([1, 2, 1]), [1, 2])
 ```
@@ -1004,8 +1004,8 @@ export declare function zip<A, B>(as: ReadonlyArray<A>, bs: ReadonlyArray<B>): R
 **Example**
 
 ```ts
-import { zip } from 'fp-ts/lib/ReadonlyArray'
-import { pipe } from 'fp-ts/lib/function'
+import { zip } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe([1, 2, 3], zip(['a', 'b', 'c', 'd'])), [
   [1, 'a'],
@@ -1034,7 +1034,7 @@ export declare function zipWith<A, B, C>(
 **Example**
 
 ```ts
-import { zipWith } from 'fp-ts/lib/ReadonlyArray'
+import { zipWith } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(
   zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n),
@@ -1060,8 +1060,8 @@ export declare function cons<A>(head: A, tail: ReadonlyArray<A>): ReadonlyNonEmp
 **Example**
 
 ```ts
-import { cons } from 'fp-ts/lib/ReadonlyArray'
-import { pipe } from 'fp-ts/lib/function'
+import { cons } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe([1, 2, 3], cons(0)), [0, 1, 2, 3])
 ```
@@ -1091,7 +1091,7 @@ export declare function makeBy<A>(n: number, f: (i: number) => A): ReadonlyArray
 **Example**
 
 ```ts
-import { makeBy } from 'fp-ts/lib/ReadonlyArray'
+import { makeBy } from 'fp-ts/ReadonlyArray'
 
 const double = (n: number): number => n * 2
 assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
@@ -1112,7 +1112,7 @@ export declare function range(start: number, end: number): ReadonlyArray<number>
 **Example**
 
 ```ts
-import { range } from 'fp-ts/lib/ReadonlyArray'
+import { range } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
 ```
@@ -1132,7 +1132,7 @@ export declare function replicate<A>(n: number, a: A): ReadonlyArray<A>
 **Example**
 
 ```ts
-import { replicate } from 'fp-ts/lib/ReadonlyArray'
+import { replicate } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(replicate(3, 'a'), ['a', 'a', 'a'])
 ```
@@ -1152,7 +1152,7 @@ export declare function snoc<A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmpt
 **Example**
 
 ```ts
-import { snoc } from 'fp-ts/lib/ReadonlyArray'
+import { snoc } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
 ```
@@ -1177,7 +1177,7 @@ export declare function foldLeft<A, B>(
 **Example**
 
 ```ts
-import { foldLeft } from 'fp-ts/lib/ReadonlyArray'
+import { foldLeft } from 'fp-ts/ReadonlyArray'
 
 const len: <A>(as: ReadonlyArray<A>) => number = foldLeft(
   () => 0,
@@ -1424,8 +1424,8 @@ export declare function getEq<A>(E: Eq<A>): Eq<ReadonlyArray<A>>
 **Example**
 
 ```ts
-import { eqString } from 'fp-ts/lib/Eq'
-import { getEq } from 'fp-ts/lib/ReadonlyArray'
+import { eqString } from 'fp-ts/Eq'
+import { getEq } from 'fp-ts/ReadonlyArray'
 
 const E = getEq(eqString)
 assert.strictEqual(E.equals(['a', 'b'], ['a', 'b']), true)
@@ -1447,7 +1447,7 @@ export declare function getMonoid<A = never>(): Monoid<ReadonlyArray<A>>
 **Example**
 
 ```ts
-import { getMonoid } from 'fp-ts/lib/ReadonlyArray'
+import { getMonoid } from 'fp-ts/ReadonlyArray'
 
 const M = getMonoid<number>()
 assert.deepStrictEqual(M.concat([1, 2], [3, 4]), [1, 2, 3, 4])
@@ -1471,8 +1471,8 @@ export declare function getOrd<A>(O: Ord<A>): Ord<ReadonlyArray<A>>
 **Example**
 
 ```ts
-import { getOrd } from 'fp-ts/lib/ReadonlyArray'
-import { ordString } from 'fp-ts/lib/Ord'
+import { getOrd } from 'fp-ts/ReadonlyArray'
+import { ordString } from 'fp-ts/Ord'
 
 const O = getOrd(ordString)
 assert.strictEqual(O.compare(['b'], ['a']), 1)
@@ -1588,7 +1588,7 @@ export declare function chunksOf(n: number): <A>(as: ReadonlyArray<A>) => Readon
 **Example**
 
 ```ts
-import { chunksOf } from 'fp-ts/lib/ReadonlyArray'
+import { chunksOf } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
 ```
@@ -1636,8 +1636,8 @@ export declare function comprehension<A, R>(
 **Example**
 
 ```ts
-import { comprehension } from 'fp-ts/lib/ReadonlyArray'
-import { tuple } from 'fp-ts/lib/function'
+import { comprehension } from 'fp-ts/ReadonlyArray'
+import { tuple } from 'fp-ts/function'
 
 assert.deepStrictEqual(
   comprehension(
@@ -1672,8 +1672,8 @@ export declare function deleteAt(i: number): <A>(as: ReadonlyArray<A>) => Option
 **Example**
 
 ```ts
-import { deleteAt } from 'fp-ts/lib/ReadonlyArray'
-import { some, none } from 'fp-ts/lib/Option'
+import { deleteAt } from 'fp-ts/ReadonlyArray'
+import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(deleteAt(0)([1, 2, 3]), some([2, 3]))
 assert.deepStrictEqual(deleteAt(1)([]), none)
@@ -1701,9 +1701,9 @@ export declare function elem<A>(
 **Example**
 
 ```ts
-import { elem } from 'fp-ts/lib/ReadonlyArray'
-import { eqNumber } from 'fp-ts/lib/Eq'
-import { pipe } from 'fp-ts/lib/function'
+import { elem } from 'fp-ts/ReadonlyArray'
+import { eqNumber } from 'fp-ts/Eq'
+import { pipe } from 'fp-ts/function'
 
 assert.strictEqual(pipe([1, 2, 3], elem(eqNumber)(2)), true)
 assert.strictEqual(pipe([1, 2, 3], elem(eqNumber)(0)), false)
@@ -1737,8 +1737,8 @@ export declare function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArra
 **Example**
 
 ```ts
-import { findFirst } from 'fp-ts/lib/ReadonlyArray'
-import { some } from 'fp-ts/lib/Option'
+import { findFirst } from 'fp-ts/ReadonlyArray'
+import { some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(
   findFirst((x: { a: number; b: number }) => x.a === 1)([
@@ -1764,8 +1764,8 @@ export declare function findFirstMap<A, B>(f: (a: A) => Option<B>): (as: Readonl
 **Example**
 
 ```ts
-import { findFirstMap } from 'fp-ts/lib/ReadonlyArray'
-import { some, none } from 'fp-ts/lib/Option'
+import { findFirstMap } from 'fp-ts/ReadonlyArray'
+import { some, none } from 'fp-ts/Option'
 
 interface Person {
   name: string
@@ -1793,8 +1793,8 @@ export declare function findIndex<A>(predicate: Predicate<A>): (as: ReadonlyArra
 **Example**
 
 ```ts
-import { findIndex } from 'fp-ts/lib/ReadonlyArray'
-import { some, none } from 'fp-ts/lib/Option'
+import { findIndex } from 'fp-ts/ReadonlyArray'
+import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(findIndex((n: number) => n === 2)([1, 2, 3]), some(1))
 assert.deepStrictEqual(findIndex((n: number) => n === 2)([]), none)
@@ -1816,8 +1816,8 @@ export declare function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray
 **Example**
 
 ```ts
-import { findLast } from 'fp-ts/lib/ReadonlyArray'
-import { some } from 'fp-ts/lib/Option'
+import { findLast } from 'fp-ts/ReadonlyArray'
+import { some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(
   findLast((x: { a: number; b: number }) => x.a === 1)([
@@ -1843,8 +1843,8 @@ export declare function findLastIndex<A>(predicate: Predicate<A>): (as: Readonly
 **Example**
 
 ```ts
-import { findLastIndex } from 'fp-ts/lib/ReadonlyArray'
-import { some, none } from 'fp-ts/lib/Option'
+import { findLastIndex } from 'fp-ts/ReadonlyArray'
+import { some, none } from 'fp-ts/Option'
 
 interface X {
   a: number
@@ -1873,8 +1873,8 @@ export declare function findLastMap<A, B>(f: (a: A) => Option<B>): (as: Readonly
 **Example**
 
 ```ts
-import { findLastMap } from 'fp-ts/lib/ReadonlyArray'
-import { some, none } from 'fp-ts/lib/Option'
+import { findLastMap } from 'fp-ts/ReadonlyArray'
+import { some, none } from 'fp-ts/Option'
 
 interface Person {
   name: string
@@ -1902,8 +1902,8 @@ export declare function head<A>(as: ReadonlyArray<A>): Option<A>
 **Example**
 
 ```ts
-import { head } from 'fp-ts/lib/ReadonlyArray'
-import { some, none } from 'fp-ts/lib/Option'
+import { head } from 'fp-ts/ReadonlyArray'
+import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(head([1, 2, 3]), some(1))
 assert.deepStrictEqual(head([]), none)
@@ -1924,8 +1924,8 @@ export declare function init<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>>
 **Example**
 
 ```ts
-import { init } from 'fp-ts/lib/ReadonlyArray'
-import { some, none } from 'fp-ts/lib/Option'
+import { init } from 'fp-ts/ReadonlyArray'
+import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(init([1, 2, 3]), some([1, 2]))
 assert.deepStrictEqual(init([]), none)
@@ -1946,8 +1946,8 @@ export declare function insertAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => 
 **Example**
 
 ```ts
-import { insertAt } from 'fp-ts/lib/ReadonlyArray'
-import { some } from 'fp-ts/lib/Option'
+import { insertAt } from 'fp-ts/ReadonlyArray'
+import { some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(insertAt(2, 5)([1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
 ```
@@ -1967,7 +1967,7 @@ export declare function isEmpty<A>(as: ReadonlyArray<A>): boolean
 **Example**
 
 ```ts
-import { isEmpty } from 'fp-ts/lib/ReadonlyArray'
+import { isEmpty } from 'fp-ts/ReadonlyArray'
 
 assert.strictEqual(isEmpty([]), true)
 ```
@@ -1999,8 +1999,8 @@ export declare function last<A>(as: ReadonlyArray<A>): Option<A>
 **Example**
 
 ```ts
-import { last } from 'fp-ts/lib/ReadonlyArray'
-import { some, none } from 'fp-ts/lib/Option'
+import { last } from 'fp-ts/ReadonlyArray'
+import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(last([1, 2, 3]), some(3))
 assert.deepStrictEqual(last([]), none)
@@ -2021,8 +2021,8 @@ export declare function lefts<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyAr
 **Example**
 
 ```ts
-import { lefts } from 'fp-ts/lib/ReadonlyArray'
-import { left, right } from 'fp-ts/lib/Either'
+import { lefts } from 'fp-ts/ReadonlyArray'
+import { left, right } from 'fp-ts/Either'
 
 assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
 ```
@@ -2043,9 +2043,9 @@ export declare function lookup<A>(i: number, as: ReadonlyArray<A>): Option<A>
 **Example**
 
 ```ts
-import { lookup } from 'fp-ts/lib/ReadonlyArray'
-import { some, none } from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/function'
+import { lookup } from 'fp-ts/ReadonlyArray'
+import { some, none } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe([1, 2, 3], lookup(1)), some(2))
 assert.deepStrictEqual(pipe([1, 2, 3], lookup(3)), none)
@@ -2067,8 +2067,8 @@ export declare function modifyAt<A>(i: number, f: (a: A) => A): (as: ReadonlyArr
 **Example**
 
 ```ts
-import { modifyAt } from 'fp-ts/lib/ReadonlyArray'
-import { some, none } from 'fp-ts/lib/Option'
+import { modifyAt } from 'fp-ts/ReadonlyArray'
+import { some, none } from 'fp-ts/Option'
 
 const double = (x: number): number => x * 2
 assert.deepStrictEqual(modifyAt(1, double)([1, 2, 3]), some([1, 4, 3]))
@@ -2094,7 +2094,7 @@ export declare function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray
 **Example**
 
 ```ts
-import { spanLeft } from 'fp-ts/lib/ReadonlyArray'
+import { spanLeft } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(spanLeft((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
 ```
@@ -2114,7 +2114,7 @@ export declare function splitAt(n: number): <A>(as: ReadonlyArray<A>) => readonl
 **Example**
 
 ```ts
-import { splitAt } from 'fp-ts/lib/ReadonlyArray'
+import { splitAt } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
   [1, 2],
@@ -2137,8 +2137,8 @@ export declare function tail<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>>
 **Example**
 
 ```ts
-import { tail } from 'fp-ts/lib/ReadonlyArray'
-import { some, none } from 'fp-ts/lib/Option'
+import { tail } from 'fp-ts/ReadonlyArray'
+import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(tail([1, 2, 3]), some([2, 3]))
 assert.deepStrictEqual(tail([]), none)
@@ -2160,7 +2160,7 @@ export declare function takeRight(n: number): <A>(as: ReadonlyArray<A>) => Reado
 **Example**
 
 ```ts
-import { takeRight } from 'fp-ts/lib/ReadonlyArray'
+import { takeRight } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
 ```
@@ -2180,7 +2180,7 @@ export declare function unzip<A, B>(as: ReadonlyArray<readonly [A, B]>): readonl
 **Example**
 
 ```ts
-import { unzip } from 'fp-ts/lib/ReadonlyArray'
+import { unzip } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(
   unzip([
@@ -2210,8 +2210,8 @@ export declare function updateAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => 
 **Example**
 
 ```ts
-import { updateAt } from 'fp-ts/lib/ReadonlyArray'
-import { some, none } from 'fp-ts/lib/Option'
+import { updateAt } from 'fp-ts/ReadonlyArray'
+import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(updateAt(1, 1)([1, 2, 3]), some([1, 1, 3]))
 assert.deepStrictEqual(updateAt(1, 1)([]), none)

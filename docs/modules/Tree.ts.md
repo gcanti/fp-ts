@@ -339,7 +339,7 @@ export declare function fold<A, B>(f: (a: A, bs: Array<B>) => B): (tree: Tree<A>
 **Example**
 
 ```ts
-import { fold, make } from 'fp-ts/lib/Tree'
+import { fold, make } from 'fp-ts/Tree'
 
 const t = make(1, [make(2), make(3)])
 
@@ -521,7 +521,7 @@ export declare function drawTree(tree: Tree<string>): string
 **Example**
 
 ```ts
-import { make, drawTree, tree } from 'fp-ts/lib/Tree'
+import { make, drawTree, tree } from 'fp-ts/Tree'
 
 const fa = make('a', [tree.of('b'), tree.of('c'), make('d', [tree.of('e'), tree.of('f')])])
 

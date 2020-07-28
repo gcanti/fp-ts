@@ -10,9 +10,9 @@ import { Lazy } from './function'
  * If `value` is false, `onFalse()` is returned, otherwise `onTrue()`.
  *
  * @example
- * import { some, map } from 'fp-ts/lib/Option'
- * import { pipe } from 'fp-ts/lib/function'
- * import { fold } from 'fp-ts/lib/boolean'
+ * import { some, map } from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
+ * import { fold } from 'fp-ts/boolean'
  *
  * assert.deepStrictEqual(
  *  pipe(

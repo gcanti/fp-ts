@@ -49,8 +49,8 @@ export const fromIO: <A>(ma: IO<A>) => Task<A> = (ma) => () => Promise.resolve(m
  * Creates a task that will complete after a time delay
  *
  * @example
- * import { sequenceT } from 'fp-ts/lib/Apply'
- * import * as T from 'fp-ts/lib/Task'
+ * import { sequenceT } from 'fp-ts/Apply'
+ * import * as T from 'fp-ts/Task'
  *
  * async function test() {
  *   const log: Array<string> = []
@@ -213,8 +213,8 @@ declare module './HKT' {
  * Lift a semigroup into 'Task', the inner values are concatenated using the provided `Semigroup`.
  *
  * @example
- * import * as T from 'fp-ts/lib/Task'
- * import { semigroupString } from 'fp-ts/lib/Semigroup'
+ * import * as T from 'fp-ts/Task'
+ * import { semigroupString } from 'fp-ts/Semigroup'
  *
  * async function test() {
  *   const S = T.getSemigroup(semigroupString)
@@ -253,7 +253,7 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>> {
  * Note: uses `Promise.race` internally.
  *
  * @example
- * import * as T from 'fp-ts/lib/Task'
+ * import * as T from 'fp-ts/Task'
  *
  * async function test() {
  *   const S = T.getRaceMonoid<string>()

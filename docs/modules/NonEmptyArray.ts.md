@@ -355,8 +355,8 @@ export declare function group<A>(
 **Example**
 
 ```ts
-import { cons, group } from 'fp-ts/lib/NonEmptyArray'
-import { ordNumber } from 'fp-ts/lib/Ord'
+import { cons, group } from 'fp-ts/NonEmptyArray'
+import { ordNumber } from 'fp-ts/Ord'
 
 assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [cons(1, []), cons(2, []), cons(1, [1])])
 ```
@@ -376,8 +376,8 @@ export declare const groupSort: <A>(O: Ord<A>) => (as: A[]) => NonEmptyArray<A>[
 **Example**
 
 ```ts
-import { cons, groupSort } from 'fp-ts/lib/NonEmptyArray'
-import { ordNumber } from 'fp-ts/lib/Ord'
+import { cons, groupSort } from 'fp-ts/NonEmptyArray'
+import { ordNumber } from 'fp-ts/Ord'
 
 assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [cons(1, [1, 1]), cons(2, [])])
 ```
@@ -457,7 +457,7 @@ export declare const cons: <A>(head: A, tail: A[]) => NonEmptyArray<A>
 **Example**
 
 ```ts
-import { cons } from 'fp-ts/lib/NonEmptyArray'
+import { cons } from 'fp-ts/NonEmptyArray'
 
 assert.deepStrictEqual(cons(1, [2, 3, 4]), [1, 2, 3, 4])
 ```
@@ -490,7 +490,7 @@ export declare const groupBy: <A>(f: (a: A) => string) => (as: A[]) => Record<st
 **Example**
 
 ```ts
-import { cons, groupBy } from 'fp-ts/lib/NonEmptyArray'
+import { cons, groupBy } from 'fp-ts/NonEmptyArray'
 
 assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['foo', 'bar', 'foobar']), {
   '3': cons('foo', ['bar']),
@@ -513,7 +513,7 @@ export declare const snoc: <A>(init: A[], end: A) => NonEmptyArray<A>
 **Example**
 
 ```ts
-import { snoc } from 'fp-ts/lib/NonEmptyArray'
+import { snoc } from 'fp-ts/NonEmptyArray'
 
 assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
 ```
@@ -653,8 +653,8 @@ export declare const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>>
 **Example**
 
 ```ts
-import { getEq, cons } from 'fp-ts/lib/NonEmptyArray'
-import { eqNumber } from 'fp-ts/lib/Eq'
+import { getEq, cons } from 'fp-ts/NonEmptyArray'
+import { eqNumber } from 'fp-ts/Eq'
 
 const E = getEq(eqNumber)
 assert.strictEqual(E.equals(cons(1, [2]), [1, 2]), true)
@@ -771,7 +771,7 @@ export declare const init: <A>(nea: NonEmptyArray<A>) => A[]
 **Example**
 
 ```ts
-import { init } from 'fp-ts/lib/NonEmptyArray'
+import { init } from 'fp-ts/NonEmptyArray'
 
 assert.deepStrictEqual(init([1, 2, 3]), [1, 2])
 assert.deepStrictEqual(init([1]), [])

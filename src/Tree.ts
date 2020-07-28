@@ -105,7 +105,7 @@ export function drawForest(forest: Forest<string>): string {
  * Neat 2-dimensional drawing of a tree
  *
  * @example
- * import { make, drawTree, tree } from 'fp-ts/lib/Tree'
+ * import { make, drawTree, tree } from 'fp-ts/Tree'
  *
  * const fa = make('a', [
  *   tree.of('b'),
@@ -232,7 +232,7 @@ export function elem<A>(E: Eq<A>): (a: A, fa: Tree<A>) => boolean {
  * This is also known as the catamorphism on trees.
  *
  * @example
- * import { fold, make } from 'fp-ts/lib/Tree'
+ * import { fold, make } from 'fp-ts/Tree'
  *
  * const t = make(1, [make(2), make(3)])
  *
