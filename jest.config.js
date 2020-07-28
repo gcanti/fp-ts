@@ -25,5 +25,5 @@ module.exports = {
       statements: 100
     }
   },
-  modulePathIgnorePatterns: ['util']
+  modulePathIgnorePatterns: ['util', 'smoke-tests']
 }
