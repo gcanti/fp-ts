@@ -94,6 +94,7 @@ Added in v2.0.0
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getEq](#geteq)
+  - [getFilterable](#getfilterable)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [getValidation](#getvalidation)
@@ -851,6 +852,18 @@ export declare function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>>
 ```
 
 Added in v2.0.0
+
+## getFilterable
+
+Builds a `Filterable` instance for `Either` given `Monoid` for the left side
+
+**Signature**
+
+```ts
+export declare function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E>
+```
+
+Added in v3.0.0
 
 ## getSemigroup
 

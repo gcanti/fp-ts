@@ -21,6 +21,7 @@ high state of flux, you're at risk of it changing without notice.
   - expose `fp-ts` modules without lib/es6 prefix, #1241 (@StefanoMagrassi)
   - `Either`
     - add `chainFirstW`, #1273 (@leemhenson)
+    - add `getFilterable` (@gcanti)
   - `Foldable`
     - add `toArray`, #1272 (@newswim)
   - `IOEither`
