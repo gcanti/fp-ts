@@ -73,6 +73,16 @@ describe('TaskEither', () => {
     )
   })
 
+  it('chainFirstW', async () => {
+    assert.deepStrictEqual(
+      await pipe(
+        _.right<number, string>('foo'),
+        _.chainFirstW((a) => (a.length > 2 ? _.right(a.length) : _.left('foo')))
+      )(),
+      E.right('foo')
+    )
+  })
+
   it('flatten', async () => {
     assert.deepStrictEqual(await pipe(_.right(_.right('a')), _.flatten)(), E.right('a'))
   })

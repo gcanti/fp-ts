@@ -26,6 +26,7 @@ Added in v2.0.0
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
+  - [chainFirstW](#chainfirstw)
   - [chainW](#chainw)
   - [flatten](#flatten)
 - [MonadThrow](#monadthrow)
@@ -205,6 +206,20 @@ export declare const chainFirst: <R, E, A, B>(
 ```
 
 Added in v2.0.0
+
+## chainFirstW
+
+Less strict version of [`chainFirst`](#chainFirst)
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <R, D, A, B>(
+  f: (a: A) => ReaderEither<R, D, B>
+) => <Q, E>(ma: ReaderEither<Q, E, A>) => ReaderEither<Q & R, D | E, A>
+```
+
+Added in v2.8.0
 
 ## chainW
 

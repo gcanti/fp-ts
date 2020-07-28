@@ -31,6 +31,7 @@ Added in v2.0.0
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
+  - [chainFirstW](#chainfirstw)
   - [chainW](#chainw)
   - [flatten](#flatten)
 - [MonadIO](#monadio)
@@ -260,6 +261,20 @@ export declare const chainFirst: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma
 ```
 
 Added in v2.0.0
+
+## chainFirstW
+
+Less strict version of [`chainFirst`](#chainFirst).
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <E, A, B>(
+  f: (a: A) => TaskEither<E, B>
+) => <D>(ma: TaskEither<D, A>) => TaskEither<E | D, A>
+```
+
+Added in v2.8.0
 
 ## chainW
 
