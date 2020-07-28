@@ -18,6 +18,7 @@ high state of flux, you're at risk of it changing without notice.
 # 2.8.0
 
 - **New Feature**
+  - expose `fp-ts` modules without lib/es6 prefix, #1241 (@StefanoMagrassi)
   - `Either`
     - add `chainFirstW`, #1273 (@leemhenson)
   - `Foldable`
