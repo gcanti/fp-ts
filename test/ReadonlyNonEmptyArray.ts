@@ -345,4 +345,15 @@ describe('ReadonlyNonEmptyArray', () => {
     assert.deepStrictEqual(f(['a']), 'a')
     assert.deepStrictEqual(f(['a', 'bb']), 'abb')
   })
+
+  it('do notation', () => {
+    assert.deepStrictEqual(
+      pipe(
+        _.of(1),
+        _.bindTo('a'),
+        _.bind('b', () => _.of('b'))
+      ),
+      [{ a: 1, b: 'b' }]
+    )
+  })
 })

@@ -109,6 +109,9 @@ Added in v2.0.0
   - [Json (type alias)](#json-type-alias)
   - [JsonArray (interface)](#jsonarray-interface)
   - [JsonRecord (interface)](#jsonrecord-interface)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [bindW](#bindw)
   - [elem](#elem)
   - [exists](#exists)
   - [toError](#toerror)
@@ -1025,6 +1028,42 @@ export interface JsonRecord {
 ```
 
 Added in v2.6.7
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Either<E, B>
+) => (fa: Either<E, A>) => Either<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(name: N) => <E, A>(fa: Either<E, A>) => Either<E, { [K in N]: A }>
+```
+
+Added in v2.8.0
+
+## bindW
+
+**Signature**
+
+```ts
+export declare const bindW: <N extends string, A, D, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Either<D, B>
+) => <E>(fa: Either<E, A>) => Either<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
 
 ## elem
 

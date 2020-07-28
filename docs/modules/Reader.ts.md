@@ -49,6 +49,10 @@ Added in v2.0.0
   - [reader](#reader)
 - [model](#model)
   - [Reader (interface)](#reader-interface)
+- [utils](#utils)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [bindW](#bindw)
 
 ---
 
@@ -362,3 +366,41 @@ export interface Reader<R, A> {
 ```
 
 Added in v2.0.0
+
+# utils
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, R, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Reader<R, B>
+) => (fa: Reader<R, A>) => Reader<R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(name: N) => <R, A>(fa: Reader<R, A>) => Reader<R, { [K in N]: A }>
+```
+
+Added in v2.8.0
+
+## bindW
+
+**Signature**
+
+```ts
+export declare const bindW: <N extends string, A, Q, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Reader<Q, B>
+) => <R>(fa: Reader<R, A>) => Reader<Q & R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0

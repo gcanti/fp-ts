@@ -32,3 +32,15 @@ pipe(
   _.right<string, string>('a'),
   _.chainEitherKW(() => E.right<number, number>(1))
 )
+
+//
+// do notation
+//
+
+// $ExpectType IOEither<string | number, { a: number; b: string; c: boolean; }>
+pipe(
+  _.right<string, number>(1),
+  _.bindTo('a'),
+  _.bind('b', () => _.right('b')),
+  _.bindW('c', () => _.right<number, boolean>(true))
+)

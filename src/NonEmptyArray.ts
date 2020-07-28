@@ -664,3 +664,22 @@ export const nonEmptyArray: Monad1<URI> &
   traverseWithIndex: traverseWithIndex_,
   alt: alt_
 }
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const bindTo: <N extends string>(
+  name: N
+) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<{ [K in N]: A }> = RNEA.bindTo as any
+
+/**
+ * @since 2.8.0
+ */
+export const bind: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => NonEmptyArray<B>
+) => (fa: NonEmptyArray<A>) => NonEmptyArray<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }> = RNEA.bind as any

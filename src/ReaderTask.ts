@@ -1,7 +1,7 @@
 /**
  * @since 2.3.0
  */
-import { identity, flow, pipe } from './function'
+import { identity, flow, pipe, bind_ } from './function'
 import { IO } from './IO'
 import { Monad2 } from './Monad'
 import { MonadTask2 } from './MonadTask'
@@ -342,3 +342,40 @@ export const readerTaskSeq: typeof readerTask = {
 export function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A> {
   return ma(r)()
 }
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const bindTo = <N extends string>(name: N) => <R, A>(fa: ReaderTask<R, A>): ReaderTask<R, { [K in N]: A }> =>
+  pipe(
+    fa,
+    map((a) => bind_({}, name, a))
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const bindW = <N extends string, A, Q, B>(name: Exclude<N, keyof A>, f: (a: A) => ReaderTask<Q, B>) => <R>(
+  fa: ReaderTask<R, A>
+): ReaderTask<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
+  pipe(
+    fa,
+    chainW((a) =>
+      pipe(
+        f(a),
+        map((b) => bind_(a, name, b))
+      )
+    )
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const bind: <N extends string, A, R, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderTask<R, B>
+) => (fa: ReaderTask<R, A>) => ReaderTask<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW

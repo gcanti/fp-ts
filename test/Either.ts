@@ -572,4 +572,15 @@ describe('Either', () => {
     assert.deepStrictEqual(gt2(_.right(1)), false)
     assert.deepStrictEqual(gt2(_.right(3)), true)
   })
+
+  it('do notation', () => {
+    assert.deepStrictEqual(
+      pipe(
+        _.right<string, number>(1),
+        _.bindTo('a'),
+        _.bind('b', () => _.right('b'))
+      ),
+      _.right({ a: 1, b: 'b' })
+    )
+  })
 })

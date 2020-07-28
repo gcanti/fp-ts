@@ -330,4 +330,15 @@ describe('IOEither', () => {
     const x = pipe(_.right('a'), _.chainEitherK(f))()
     assert.deepStrictEqual(x, E.right(1))
   })
+
+  it('do notation', () => {
+    assert.deepStrictEqual(
+      pipe(
+        _.right<string, number>(1),
+        _.bindTo('a'),
+        _.bind('b', () => _.right('b'))
+      )(),
+      E.right({ a: 1, b: 'b' })
+    )
+  })
 })

@@ -49,6 +49,9 @@ Added in v2.0.0
   - [io](#io)
 - [model](#model)
   - [IO (interface)](#io-interface)
+- [utils](#utils)
+  - [bind](#bind)
+  - [bindTo](#bindto)
 
 ---
 
@@ -279,3 +282,28 @@ export interface IO<A> {
 ```
 
 Added in v2.0.0
+
+# utils
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => IO<B>
+) => (fa: IO<A>) => IO<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(name: N) => <A>(fa: IO<A>) => IO<{ [K in N]: A }>
+```
+
+Added in v2.8.0

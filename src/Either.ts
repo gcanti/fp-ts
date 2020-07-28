@@ -21,7 +21,7 @@ import { Separated } from './Compactable'
 import { Eq } from './Eq'
 import { Extend2 } from './Extend'
 import { Foldable2 } from './Foldable'
-import { identity, Lazy, Predicate, Refinement } from './function'
+import { identity, Lazy, Predicate, Refinement, pipe, bind_ } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2, Monad2C } from './Monad'
@@ -1022,3 +1022,40 @@ export function elem<A>(E: Eq<A>): <E>(a: A, ma: Either<E, A>) => boolean {
 export function exists<A>(predicate: Predicate<A>): <E>(ma: Either<E, A>) => boolean {
   return (ma) => (isLeft(ma) ? false : predicate(ma.right))
 }
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const bindTo = <N extends string>(name: N) => <E, A>(fa: Either<E, A>): Either<E, { [K in N]: A }> =>
+  pipe(
+    fa,
+    map((a) => bind_({}, name, a))
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const bindW = <N extends string, A, D, B>(name: Exclude<N, keyof A>, f: (a: A) => Either<D, B>) => <E>(
+  fa: Either<E, A>
+): Either<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
+  pipe(
+    fa,
+    chainW((a) =>
+      pipe(
+        f(a),
+        map((b) => bind_(a, name, b))
+      )
+    )
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const bind: <N extends string, A, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Either<E, B>
+) => (fa: Either<E, A>) => Either<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW
