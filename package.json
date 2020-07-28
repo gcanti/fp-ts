@@ -21,7 +21,9 @@
     "doctoc": "doctoc README.md docs/introduction/code-conventions.md --title \"**Table of contents**\"",
     "mocha": "mocha -r ts-node/register test/*.ts",
     "dtslint": "dtslint dtslint",
-    "docs": "docs-ts"
+    "docs": "docs-ts",
+    "prerelease": "npm run build",
+    "release": "ts-node scripts/release"
   },
   "repository": {
     "type": "git",
