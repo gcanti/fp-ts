@@ -1,8 +1,6 @@
 *.log
 node_modules
 /dist
-lib
-es6
 dev
 .idea
 coverage

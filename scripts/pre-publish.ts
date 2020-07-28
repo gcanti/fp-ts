@@ -1,6 +1,6 @@
-import { left } from '../src/ReaderTaskEither'
-import { Program, run } from './libs/program'
+import { left } from '../src/TaskEither'
+import { run } from './run'
 
-const main: Program<{}, void> = left(new Error('"npm publish" can not be directly run; please use "npm run release"\n'))
+const main = left(new Error('"npm publish" can not be run from root'))
 
-run(main({}))
+run(main)
