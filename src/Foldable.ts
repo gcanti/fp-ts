@@ -295,6 +295,7 @@ export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M, fm: HK
   }
 }
 
+// TODO: remove in v3
 /**
  * Transforms a `Foldable` into a read-only array.
  *
