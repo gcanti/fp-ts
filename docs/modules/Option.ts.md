@@ -135,8 +135,8 @@ export declare const alt: <A>(that: Lazy<Option<A>>) => (fa: Option<A>) => Optio
 **Example**
 
 ```ts
-import * as O from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/function'
+import * as O from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(
   pipe(
@@ -464,8 +464,8 @@ export declare function mapNullable<A, B>(f: (a: A) => B | null | undefined): (m
 **Example**
 
 ```ts
-import { some, none, fromNullable, mapNullable } from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/function'
+import { some, none, fromNullable, mapNullable } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
 
 interface Employee {
   company?: {
@@ -530,7 +530,7 @@ export declare function fromNullable<A>(a: A): Option<NonNullable<A>>
 **Example**
 
 ```ts
-import { none, some, fromNullable } from 'fp-ts/lib/Option'
+import { none, some, fromNullable } from 'fp-ts/Option'
 
 assert.deepStrictEqual(fromNullable(undefined), none)
 assert.deepStrictEqual(fromNullable(null), none)
@@ -553,7 +553,7 @@ export declare function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Opt
 **Example**
 
 ```ts
-import { none, some, fromPredicate } from 'fp-ts/lib/Option'
+import { none, some, fromPredicate } from 'fp-ts/Option'
 
 const getOption = fromPredicate((n: number) => n >= 0)
 
@@ -621,7 +621,7 @@ export declare function tryCatch<A>(f: Lazy<A>): Option<A>
 **Example**
 
 ```ts
-import { none, some, tryCatch } from 'fp-ts/lib/Option'
+import { none, some, tryCatch } from 'fp-ts/Option'
 
 assert.deepStrictEqual(
   tryCatch(() => {
@@ -653,8 +653,8 @@ export declare function fold<A, B>(onNone: Lazy<B>, onSome: (a: A) => B): (ma: O
 **Example**
 
 ```ts
-import { some, none, fold } from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/function'
+import { some, none, fold } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
 
 assert.strictEqual(
   pipe(
@@ -694,8 +694,8 @@ export declare const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A
 **Example**
 
 ```ts
-import { some, none, getOrElse } from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/function'
+import { some, none, getOrElse } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
 
 assert.strictEqual(
   pipe(
@@ -740,8 +740,8 @@ export declare function toNullable<A>(ma: Option<A>): A | null
 **Example**
 
 ```ts
-import { some, none, toNullable } from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/function'
+import { some, none, toNullable } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
 
 assert.strictEqual(pipe(some(1), toNullable), 1)
 assert.strictEqual(pipe(none, toNullable), null)
@@ -762,8 +762,8 @@ export declare function toUndefined<A>(ma: Option<A>): A | undefined
 **Example**
 
 ```ts
-import { some, none, toUndefined } from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/function'
+import { some, none, toUndefined } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
 
 assert.strictEqual(pipe(some(1), toUndefined), 1)
 assert.strictEqual(pipe(none, toUndefined), undefined)
@@ -786,7 +786,7 @@ export declare const isNone: <A>(fa: Option<A>) => fa is None
 **Example**
 
 ```ts
-import { some, none, isNone } from 'fp-ts/lib/Option'
+import { some, none, isNone } from 'fp-ts/Option'
 
 assert.strictEqual(isNone(some(1)), false)
 assert.strictEqual(isNone(none), true)
@@ -807,7 +807,7 @@ export declare const isSome: <A>(fa: Option<A>) => fa is Some<A>
 **Example**
 
 ```ts
-import { some, none, isSome } from 'fp-ts/lib/Option'
+import { some, none, isSome } from 'fp-ts/Option'
 
 assert.strictEqual(isSome(some(1)), true)
 assert.strictEqual(isSome(none), false)
@@ -987,8 +987,8 @@ export declare function getApplySemigroup<A>(S: Semigroup<A>): Semigroup<Option<
 **Example**
 
 ```ts
-import { getApplySemigroup, some, none } from 'fp-ts/lib/Option'
-import { semigroupSum } from 'fp-ts/lib/Semigroup'
+import { getApplySemigroup, some, none } from 'fp-ts/Option'
+import { semigroupSum } from 'fp-ts/Semigroup'
 
 const S = getApplySemigroup(semigroupSum)
 assert.deepStrictEqual(S.concat(none, none), none)
@@ -1010,8 +1010,8 @@ export declare function getEq<A>(E: Eq<A>): Eq<Option<A>>
 **Example**
 
 ```ts
-import { none, some, getEq } from 'fp-ts/lib/Option'
-import { eqNumber } from 'fp-ts/lib/Eq'
+import { none, some, getEq } from 'fp-ts/Option'
+import { eqNumber } from 'fp-ts/Eq'
 
 const E = getEq(eqNumber)
 assert.strictEqual(E.equals(none, none), true)
@@ -1043,7 +1043,7 @@ export declare function getFirstMonoid<A = never>(): Monoid<Option<A>>
 **Example**
 
 ```ts
-import { getFirstMonoid, some, none } from 'fp-ts/lib/Option'
+import { getFirstMonoid, some, none } from 'fp-ts/Option'
 
 const M = getFirstMonoid<number>()
 assert.deepStrictEqual(M.concat(none, none), none)
@@ -1074,7 +1074,7 @@ export declare function getLastMonoid<A = never>(): Monoid<Option<A>>
 **Example**
 
 ```ts
-import { getLastMonoid, some, none } from 'fp-ts/lib/Option'
+import { getLastMonoid, some, none } from 'fp-ts/Option'
 
 const M = getLastMonoid<number>()
 assert.deepStrictEqual(M.concat(none, none), none)
@@ -1106,8 +1106,8 @@ export declare function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>>
 **Example**
 
 ```ts
-import { getMonoid, some, none } from 'fp-ts/lib/Option'
-import { semigroupSum } from 'fp-ts/lib/Semigroup'
+import { getMonoid, some, none } from 'fp-ts/Option'
+import { semigroupSum } from 'fp-ts/Semigroup'
 
 const M = getMonoid(semigroupSum)
 assert.deepStrictEqual(M.concat(none, none), none)
@@ -1135,8 +1135,8 @@ export declare function getOrd<A>(O: Ord<A>): Ord<Option<A>>
 **Example**
 
 ```ts
-import { none, some, getOrd } from 'fp-ts/lib/Option'
-import { ordNumber } from 'fp-ts/lib/Ord'
+import { none, some, getOrd } from 'fp-ts/Option'
+import { ordNumber } from 'fp-ts/Ord'
 
 const O = getOrd(ordNumber)
 assert.strictEqual(O.compare(none, none), 0)
@@ -1225,8 +1225,8 @@ export declare function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean
 **Example**
 
 ```ts
-import { some, none, elem } from 'fp-ts/lib/Option'
-import { eqNumber } from 'fp-ts/lib/Eq'
+import { some, none, elem } from 'fp-ts/Option'
+import { eqNumber } from 'fp-ts/Eq'
 
 assert.strictEqual(elem(eqNumber)(1, some(1)), true)
 assert.strictEqual(elem(eqNumber)(2, some(1)), false)
@@ -1248,8 +1248,8 @@ export declare function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => b
 **Example**
 
 ```ts
-import { some, none, exists } from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/function'
+import { some, none, exists } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
 
 assert.strictEqual(
   pipe(
@@ -1282,7 +1282,7 @@ Returns a `Refinement` (i.e. a custom type guard) from a `Option` returning func
 This function ensures that a custom type guard definition is type-safe.
 
 ```ts
-import { some, none, getRefinement } from 'fp-ts/lib/Option'
+import { some, none, getRefinement } from 'fp-ts/Option'
 
 type A = { type: 'A' }
 type B = { type: 'B' }

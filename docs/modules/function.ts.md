@@ -67,7 +67,7 @@ export interface FunctionN<A extends ReadonlyArray<unknown>, B> {
 **Example**
 
 ```ts
-import { FunctionN } from 'fp-ts/lib/function'
+import { FunctionN } from 'fp-ts/function'
 
 export const sum: FunctionN<[number, number], number> = (a, b) => a + b
 ```
@@ -289,7 +289,7 @@ export declare function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F, G,
 **Example**
 
 ```ts
-import { flow } from 'fp-ts/lib/function'
+import { flow } from 'fp-ts/function'
 
 const len = (s: string): number => s.length
 const double = (n: number): number => n * 2
@@ -412,7 +412,7 @@ export declare function pipe<A, B, C, D, E, F, G, H, I, J>(
 **Example**
 
 ```ts
-import { pipe } from 'fp-ts/lib/function'
+import { pipe } from 'fp-ts/function'
 
 const len = (s: string): number => s.length
 const double = (n: number): number => n * 2
@@ -449,7 +449,7 @@ export declare function tupled<A extends ReadonlyArray<unknown>, B>(f: (...a: A)
 **Example**
 
 ```ts
-import { tupled } from 'fp-ts/lib/function'
+import { tupled } from 'fp-ts/function'
 
 const add = tupled((x: number, y: number): number => x + y)
 

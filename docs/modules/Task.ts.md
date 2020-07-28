@@ -198,8 +198,8 @@ export declare function delay(millis: number): <A>(ma: Task<A>) => Task<A>
 **Example**
 
 ```ts
-import { sequenceT } from 'fp-ts/lib/Apply'
-import * as T from 'fp-ts/lib/Task'
+import { sequenceT } from 'fp-ts/Apply'
+import * as T from 'fp-ts/Task'
 
 async function test() {
   const log: Array<string> = []
@@ -321,7 +321,7 @@ export declare function getRaceMonoid<A = never>(): Monoid<Task<A>>
 **Example**
 
 ```ts
-import * as T from 'fp-ts/lib/Task'
+import * as T from 'fp-ts/Task'
 
 async function test() {
   const S = T.getRaceMonoid<string>()
@@ -348,8 +348,8 @@ export declare function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>>
 **Example**
 
 ```ts
-import * as T from 'fp-ts/lib/Task'
-import { semigroupString } from 'fp-ts/lib/Semigroup'
+import * as T from 'fp-ts/Task'
+import { semigroupString } from 'fp-ts/Semigroup'
 
 async function test() {
   const S = T.getSemigroup(semigroupString)

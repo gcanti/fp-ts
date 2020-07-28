@@ -163,10 +163,10 @@ export interface FoldableComposition22C<F extends URIS2, G extends URIS2, E> {
  * Returns the composition of two foldables
  *
  * @example
- * import { getFoldableComposition } from 'fp-ts/lib/Foldable'
- * import { array } from 'fp-ts/lib/Array'
- * import { option, some, none } from 'fp-ts/lib/Option'
- * import { monoidString } from 'fp-ts/lib/Monoid'
+ * import { getFoldableComposition } from 'fp-ts/Foldable'
+ * import { array } from 'fp-ts/Array'
+ * import { option, some, none } from 'fp-ts/Option'
+ * import { monoidString } from 'fp-ts/Monoid'
  *
  * const F = getFoldableComposition(array, option)
  * assert.strictEqual(F.reduce([some('a'), some('b'), some('c')], '', monoidString.concat), 'abc')
@@ -222,9 +222,9 @@ export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): Fo
  * Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
  *
  * @example
- * import { foldM } from 'fp-ts/lib/Foldable'
- * import { option, some } from 'fp-ts/lib/Option'
- * import { make, tree } from 'fp-ts/lib/Tree'
+ * import { foldM } from 'fp-ts/Foldable'
+ * import { option, some } from 'fp-ts/Option'
+ * import { make, tree } from 'fp-ts/Tree'
  *
  * const t = make(1, [make(2, []), make(3, []), make(4, [])])
  * assert.deepStrictEqual(foldM(option, tree)(t, 0, (b, a) => (a > 2 ? some(b + a) : some(b))), some(7))
@@ -266,9 +266,9 @@ export function foldM<M, F>(
  * Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator
  *
  * @example
- * import { intercalate } from 'fp-ts/lib/Foldable'
- * import { monoidString } from 'fp-ts/lib/Monoid'
- * import { make, tree } from 'fp-ts/lib/Tree'
+ * import { intercalate } from 'fp-ts/Foldable'
+ * import { monoidString } from 'fp-ts/Monoid'
+ * import { make, tree } from 'fp-ts/Tree'
  *
  * const t = make('a', [make('b', []), make('c', []), make('d', [])])
  * assert.strictEqual(intercalate(monoidString, tree)('|', t), 'a|b|c|d')
@@ -300,8 +300,8 @@ export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M, fm: HK
  * Transforms a `Foldable` into a read-only array.
  *
  * @example
- * import { toArray } from 'fp-ts/lib/Foldable'
- * import { tree, make } from 'fp-ts/lib/Tree'
+ * import { toArray } from 'fp-ts/Foldable'
+ * import { tree, make } from 'fp-ts/Tree'
  *
  * const t = make(1, [make(2, []), make(3, []), make(4, [])])
  * assert.deepStrictEqual(toArray(tree)(t), [1, 2, 3, 4])
@@ -330,9 +330,9 @@ export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => ReadonlyArray<
  * final result.
  *
  * @example
- * import { array } from 'fp-ts/lib/Array'
- * import { traverse_ } from 'fp-ts/lib/Foldable'
- * import { io } from 'fp-ts/lib/IO'
+ * import { array } from 'fp-ts/Array'
+ * import { traverse_ } from 'fp-ts/Foldable'
+ * import { io } from 'fp-ts/IO'
  *
  * let log = ''
  * const append = (s: string) => () => (log += s)

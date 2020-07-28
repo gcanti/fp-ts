@@ -362,7 +362,7 @@ export declare const collect: <K extends string, A, B>(f: (k: K, a: A) => B) => 
 **Example**
 
 ```ts
-import { collect } from 'fp-ts/lib/Record'
+import { collect } from 'fp-ts/Record'
 
 const x: { a: string; b: boolean } = { a: 'foo', b: false }
 assert.deepStrictEqual(collect((key, val) => ({ key: key, value: val }))(x), [
@@ -517,10 +517,10 @@ export declare function fromFoldableMap<F, B>(
 **Example**
 
 ```ts
-import { getLastSemigroup } from 'fp-ts/lib/Semigroup'
-import { array, zip } from 'fp-ts/lib/Array'
-import { identity } from 'fp-ts/lib/function'
-import { fromFoldableMap } from 'fp-ts/lib/Record'
+import { getLastSemigroup } from 'fp-ts/Semigroup'
+import { array, zip } from 'fp-ts/Array'
+import { identity } from 'fp-ts/function'
+import { fromFoldableMap } from 'fp-ts/Record'
 
 // like lodash `zipObject` or ramda `zipObj`
 export const zipObject = <K extends string, A>(keys: Array<K>, values: Array<A>): Record<K, A> =>
@@ -574,8 +574,8 @@ export declare function getMonoid<K extends string, A>(S: Semigroup<A>): Monoid<
 **Example**
 
 ```ts
-import { semigroupSum } from 'fp-ts/lib/Semigroup'
-import { getMonoid } from 'fp-ts/lib/Record'
+import { semigroupSum } from 'fp-ts/Semigroup'
+import { getMonoid } from 'fp-ts/Record'
 
 const M = getMonoid(semigroupSum)
 assert.deepStrictEqual(M.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })

@@ -34,7 +34,7 @@ export interface Endomorphism<A> {
 
 /**
  * @example
- * import { FunctionN } from 'fp-ts/lib/function'
+ * import { FunctionN } from 'fp-ts/function'
  *
  * export const sum: FunctionN<[number, number], number> = (a, b) => a + b
  *
@@ -131,7 +131,7 @@ export function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C {
  * See also [`pipe`](#pipe).
  *
  * @example
- * import { flow } from 'fp-ts/lib/function'
+ * import { flow } from 'fp-ts/function'
  *
  * const len = (s: string): number => s.length
  * const double = (n: number): number => n * 2
@@ -282,7 +282,7 @@ export function absurd<A>(_: never): A {
  * Creates a tupled version of this function: instead of `n` arguments, it accepts a single tuple argument.
  *
  * @example
- * import { tupled } from 'fp-ts/lib/function'
+ * import { tupled } from 'fp-ts/function'
  *
  * const add = tupled((x: number, y: number): number => x + y)
  *
@@ -309,7 +309,7 @@ export function untupled<A extends ReadonlyArray<unknown>, B>(f: (a: A) => B): (
  * See also [`flow`](#flow).
  *
  * @example
- * import { pipe } from 'fp-ts/lib/function'
+ * import { pipe } from 'fp-ts/function'
  *
  * const len = (s: string): number => s.length
  * const double = (n: number): number => n * 2

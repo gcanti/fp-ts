@@ -191,8 +191,8 @@ export declare function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<
 **Example**
 
 ```ts
-import { fromOptions, left, right, both } from 'fp-ts/lib/These'
-import { none, some } from 'fp-ts/lib/Option'
+import { fromOptions, left, right, both } from 'fp-ts/These'
+import { none, some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(fromOptions(none, none), none)
 assert.deepStrictEqual(fromOptions(some('a'), none), some(left('a')))
@@ -223,8 +223,8 @@ export declare function leftOrBoth<E>(e: E): <A>(ma: Option<A>) => These<E, A>
 **Example**
 
 ```ts
-import { leftOrBoth, left, both } from 'fp-ts/lib/These'
-import { none, some } from 'fp-ts/lib/Option'
+import { leftOrBoth, left, both } from 'fp-ts/These'
+import { none, some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(leftOrBoth('a')(none), left('a'))
 assert.deepStrictEqual(leftOrBoth('a')(some(1)), both('a', 1))
@@ -253,8 +253,8 @@ export declare function rightOrBoth<A>(a: A): <E>(me: Option<E>) => These<E, A>
 **Example**
 
 ```ts
-import { rightOrBoth, right, both } from 'fp-ts/lib/These'
-import { none, some } from 'fp-ts/lib/Option'
+import { rightOrBoth, right, both } from 'fp-ts/These'
+import { none, some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(rightOrBoth(1)(none), right(1))
 assert.deepStrictEqual(rightOrBoth(1)(some('a')), both('a', 1))
@@ -291,8 +291,8 @@ export declare function getLeft<E, A>(fa: These<E, A>): Option<E>
 **Example**
 
 ```ts
-import { getLeft, left, right, both } from 'fp-ts/lib/These'
-import { none, some } from 'fp-ts/lib/Option'
+import { getLeft, left, right, both } from 'fp-ts/These'
+import { none, some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(getLeft(left('a')), some('a'))
 assert.deepStrictEqual(getLeft(right(1)), none)
@@ -314,8 +314,8 @@ export declare function getLeftOnly<E, A>(fa: These<E, A>): Option<E>
 **Example**
 
 ```ts
-import { getLeftOnly, left, right, both } from 'fp-ts/lib/These'
-import { none, some } from 'fp-ts/lib/Option'
+import { getLeftOnly, left, right, both } from 'fp-ts/These'
+import { none, some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(getLeftOnly(left('a')), some('a'))
 assert.deepStrictEqual(getLeftOnly(right(1)), none)
@@ -337,8 +337,8 @@ export declare function getRight<E, A>(fa: These<E, A>): Option<A>
 **Example**
 
 ```ts
-import { getRight, left, right, both } from 'fp-ts/lib/These'
-import { none, some } from 'fp-ts/lib/Option'
+import { getRight, left, right, both } from 'fp-ts/These'
+import { none, some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(getRight(left('a')), none)
 assert.deepStrictEqual(getRight(right(1)), some(1))
@@ -360,8 +360,8 @@ export declare function getRightOnly<E, A>(fa: These<E, A>): Option<A>
 **Example**
 
 ```ts
-import { getRightOnly, left, right, both } from 'fp-ts/lib/These'
-import { none, some } from 'fp-ts/lib/Option'
+import { getRightOnly, left, right, both } from 'fp-ts/These'
+import { none, some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(getRightOnly(left('a')), none)
 assert.deepStrictEqual(getRightOnly(right(1)), some(1))
@@ -381,7 +381,7 @@ export declare function toTuple<E, A>(e: E, a: A): (fa: These<E, A>) => [E, A]
 **Example**
 
 ```ts
-import { toTuple, left, right, both } from 'fp-ts/lib/These'
+import { toTuple, left, right, both } from 'fp-ts/These'
 
 assert.deepStrictEqual(toTuple('a', 1)(left('b')), ['b', 1])
 assert.deepStrictEqual(toTuple('a', 1)(right(2)), ['a', 2])

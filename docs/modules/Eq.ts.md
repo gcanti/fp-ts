@@ -195,7 +195,7 @@ export declare function getTupleEq<T extends ReadonlyArray<Eq<any>>>(
 **Example**
 
 ```ts
-import { getTupleEq, eqString, eqNumber, eqBoolean } from 'fp-ts/lib/Eq'
+import { getTupleEq, eqString, eqNumber, eqBoolean } from 'fp-ts/Eq'
 
 const E = getTupleEq(eqString, eqNumber, eqBoolean)
 assert.strictEqual(E.equals(['a', 1, true], ['a', 1, true]), true)

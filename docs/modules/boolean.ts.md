@@ -34,9 +34,9 @@ export declare function fold<A>(onFalse: Lazy<A>, onTrue: Lazy<A>): (value: bool
 **Example**
 
 ```ts
-import { some, map } from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/function'
-import { fold } from 'fp-ts/lib/boolean'
+import { some, map } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
+import { fold } from 'fp-ts/boolean'
 
 assert.deepStrictEqual(
   pipe(

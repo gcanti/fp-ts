@@ -43,7 +43,7 @@ export const getShow: <A>(S: Show<A>) => Show<Array<A>> = RA.getShow
  * Returns a `Monoid` for `Array<A>`
  *
  * @example
- * import { getMonoid } from 'fp-ts/lib/Array'
+ * import { getMonoid } from 'fp-ts/Array'
  *
  * const M = getMonoid<number>()
  * assert.deepStrictEqual(M.concat([1, 2], [3, 4]), [1, 2, 3, 4])
@@ -59,8 +59,8 @@ export const getMonoid: <A = never>() => Monoid<Array<A>> = RA.getMonoid as any
  * different lengths, the result is non equality.
  *
  * @example
- * import { eqString } from 'fp-ts/lib/Eq'
- * import { getEq } from 'fp-ts/lib/Array'
+ * import { eqString } from 'fp-ts/Eq'
+ * import { getEq } from 'fp-ts/Array'
  *
  * const E = getEq(eqString)
  * assert.strictEqual(E.equals(['a', 'b'], ['a', 'b']), true)
@@ -78,8 +78,8 @@ export const getEq: <A>(E: Eq<A>) => Eq<Array<A>> = RA.getEq
  * the same length, the result is equality.
  *
  * @example
- * import { getOrd } from 'fp-ts/lib/Array'
- * import { ordString } from 'fp-ts/lib/Ord'
+ * import { getOrd } from 'fp-ts/Array'
+ * import { ordString } from 'fp-ts/Ord'
  *
  * const O = getOrd(ordString)
  * assert.strictEqual(O.compare(['b'], ['a']), 1)
@@ -99,7 +99,7 @@ export const getOrd: <A>(O: Ord<A>) => Ord<Array<A>> = RA.getOrd
  * Return a list of length `n` with element `i` initialized with `f(i)`
  *
  * @example
- * import { makeBy } from 'fp-ts/lib/Array'
+ * import { makeBy } from 'fp-ts/Array'
  *
  * const double = (n: number): number => n * 2
  * assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
@@ -113,7 +113,7 @@ export const makeBy: <A>(n: number, f: (i: number) => A) => Array<A> = RA.makeBy
  * Create an array containing a range of integers, including both endpoints
  *
  * @example
- * import { range } from 'fp-ts/lib/Array'
+ * import { range } from 'fp-ts/Array'
  *
  * assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
  *
@@ -126,7 +126,7 @@ export const range: (start: number, end: number) => Array<number> = RA.range as 
  * Create an array containing a value repeated the specified number of times
  *
  * @example
- * import { replicate } from 'fp-ts/lib/Array'
+ * import { replicate } from 'fp-ts/Array'
  *
  * assert.deepStrictEqual(replicate(3, 'a'), ['a', 'a', 'a'])
  *
@@ -139,7 +139,7 @@ export const replicate: <A>(n: number, a: A) => Array<A> = RA.replicate as any
  * Removes one level of nesting
  *
  * @example
- * import { flatten } from 'fp-ts/lib/Array'
+ * import { flatten } from 'fp-ts/Array'
  *
  * assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
  *
@@ -152,7 +152,7 @@ export const flatten: <A>(mma: Array<Array<A>>) => Array<A> = RA.flatten as any
  * Break an array into its first element and remaining elements
  *
  * @example
- * import { foldLeft } from 'fp-ts/lib/Array'
+ * import { foldLeft } from 'fp-ts/Array'
  *
  * const len: <A>(as: Array<A>) => number = foldLeft(() => 0, (_, tail) => 1 + len(tail))
  * assert.strictEqual(len([1, 2, 3]), 3)
@@ -180,7 +180,7 @@ export const foldRight: <A, B>(
  * Same as `reduce` but it carries over the intermediate steps
  *
  * ```ts
- * import { scanLeft } from 'fp-ts/lib/Array'
+ * import { scanLeft } from 'fp-ts/Array'
  *
  * assert.deepStrictEqual(scanLeft(10, (b, a: number) => b - a)([1, 2, 3]), [10, 9, 7, 4])
  * ```
@@ -193,7 +193,7 @@ export const scanLeft: <A, B>(b: B, f: (b: B, a: A) => B) => (as: Array<A>) => A
  * Fold an array from the right, keeping all intermediate results instead of only the final result
  *
  * @example
- * import { scanRight } from 'fp-ts/lib/Array'
+ * import { scanRight } from 'fp-ts/Array'
  *
  * assert.deepStrictEqual(scanRight(10, (a: number, b) => b - a)([1, 2, 3]), [4, 5, 7, 10])
  *
@@ -206,7 +206,7 @@ export const scanRight: <A, B>(b: B, f: (a: A, b: B) => B) => (as: Array<A>) => 
  * Test whether an array is empty
  *
  * @example
- * import { isEmpty } from 'fp-ts/lib/Array'
+ * import { isEmpty } from 'fp-ts/Array'
  *
  * assert.strictEqual(isEmpty([]), true)
  *
@@ -234,9 +234,9 @@ export const isOutOfBound: <A>(i: number, as: Array<A>) => boolean = RA.isOutOfB
  * This function provides a safe way to read a value at a particular index from an array
  *
  * @example
- * import { lookup } from 'fp-ts/lib/Array'
- * import { some, none } from 'fp-ts/lib/Option'
- * import { pipe } from 'fp-ts/lib/function'
+ * import { lookup } from 'fp-ts/Array'
+ * import { some, none } from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(pipe([1, 2, 3], lookup(1)), some(2))
  * assert.deepStrictEqual(pipe([1, 2, 3], lookup(3)), none)
@@ -253,8 +253,8 @@ export const lookup: {
  * Attaches an element to the front of an array, creating a new non empty array
  *
  * @example
- * import { cons } from 'fp-ts/lib/Array'
- * import { pipe } from 'fp-ts/lib/function'
+ * import { cons } from 'fp-ts/Array'
+ * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(pipe([1, 2, 3], cons(0)), [0, 1, 2, 3])
  *
@@ -271,7 +271,7 @@ export const cons: {
  * Append an element to the end of an array, creating a new non empty array
  *
  * @example
- * import { snoc } from 'fp-ts/lib/Array'
+ * import { snoc } from 'fp-ts/Array'
  *
  * assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
  *
@@ -284,8 +284,8 @@ export const snoc: <A>(init: Array<A>, end: A) => NonEmptyArray<A> = RA.snoc as 
  * Get the first element in an array, or `None` if the array is empty
  *
  * @example
- * import { head } from 'fp-ts/lib/Array'
- * import { some, none } from 'fp-ts/lib/Option'
+ * import { head } from 'fp-ts/Array'
+ * import { some, none } from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(head([1, 2, 3]), some(1))
  * assert.deepStrictEqual(head([]), none)
@@ -298,8 +298,8 @@ export const head: <A>(as: Array<A>) => Option<A> = RA.head
  * Get the last element in an array, or `None` if the array is empty
  *
  * @example
- * import { last } from 'fp-ts/lib/Array'
- * import { some, none } from 'fp-ts/lib/Option'
+ * import { last } from 'fp-ts/Array'
+ * import { some, none } from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(last([1, 2, 3]), some(3))
  * assert.deepStrictEqual(last([]), none)
@@ -313,8 +313,8 @@ export const last: <A>(as: Array<A>) => Option<A> = RA.last
  * Get all but the first element of an array, creating a new array, or `None` if the array is empty
  *
  * @example
- * import { tail } from 'fp-ts/lib/Array'
- * import { some, none } from 'fp-ts/lib/Option'
+ * import { tail } from 'fp-ts/Array'
+ * import { some, none } from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(tail([1, 2, 3]), some([2, 3]))
  * assert.deepStrictEqual(tail([]), none)
@@ -328,8 +328,8 @@ export const tail: <A>(as: Array<A>) => Option<Array<A>> = RA.tail as any
  * Get all but the last element of an array, creating a new array, or `None` if the array is empty
  *
  * @example
- * import { init } from 'fp-ts/lib/Array'
- * import { some, none } from 'fp-ts/lib/Option'
+ * import { init } from 'fp-ts/Array'
+ * import { some, none } from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(init([1, 2, 3]), some([1, 2]))
  * assert.deepStrictEqual(init([]), none)
@@ -344,7 +344,7 @@ export const init: <A>(as: Array<A>) => Option<Array<A>> = RA.init as any
  * `n` must be a natural number
  *
  * @example
- * import { takeLeft } from 'fp-ts/lib/Array'
+ * import { takeLeft } from 'fp-ts/Array'
  *
  * assert.deepStrictEqual(takeLeft(2)([1, 2, 3]), [1, 2])
  *
@@ -358,7 +358,7 @@ export const takeLeft: (n: number) => <A>(as: Array<A>) => Array<A> = RA.takeLef
  * `n` must be a natural number
  *
  * @example
- * import { takeRight } from 'fp-ts/lib/Array'
+ * import { takeRight } from 'fp-ts/Array'
  *
  * assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
  *
@@ -371,7 +371,7 @@ export const takeRight: (n: number) => <A>(as: Array<A>) => Array<A> = RA.takeRi
  * Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
  *
  * @example
- * import { takeLeftWhile } from 'fp-ts/lib/Array'
+ * import { takeLeftWhile } from 'fp-ts/Array'
  *
  * assert.deepStrictEqual(takeLeftWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), [2, 4])
  *
@@ -391,7 +391,7 @@ export function takeLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Arr
  * 2. the remaining elements
  *
  * @example
- * import { spanLeft } from 'fp-ts/lib/Array'
+ * import { spanLeft } from 'fp-ts/Array'
  *
  * assert.deepStrictEqual(spanLeft((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
  *
@@ -411,7 +411,7 @@ export function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => { init: 
  * Drop a number of elements from the start of an array, creating a new array
  *
  * @example
- * import { dropLeft } from 'fp-ts/lib/Array'
+ * import { dropLeft } from 'fp-ts/Array'
  *
  * assert.deepStrictEqual(dropLeft(2)([1, 2, 3]), [3])
  *
@@ -424,7 +424,7 @@ export const dropLeft: (n: number) => <A>(as: Array<A>) => Array<A> = RA.dropLef
  * Drop a number of elements from the end of an array, creating a new array
  *
  * @example
- * import { dropRight } from 'fp-ts/lib/Array'
+ * import { dropRight } from 'fp-ts/Array'
  *
  * assert.deepStrictEqual(dropRight(2)([1, 2, 3, 4, 5]), [1, 2, 3])
  *
@@ -437,7 +437,7 @@ export const dropRight: (n: number) => <A>(as: Array<A>) => Array<A> = RA.dropRi
  * Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new array
  *
  * @example
- * import { dropLeftWhile } from 'fp-ts/lib/Array'
+ * import { dropLeftWhile } from 'fp-ts/Array'
  *
  * assert.deepStrictEqual(dropLeftWhile((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), [2, 4, 5])
  *
@@ -450,8 +450,8 @@ export const dropLeftWhile: <A>(predicate: Predicate<A>) => (as: Array<A>) => Ar
  * Find the first index for which a predicate holds
  *
  * @example
- * import { findIndex } from 'fp-ts/lib/Array'
- * import { some, none } from 'fp-ts/lib/Option'
+ * import { findIndex } from 'fp-ts/Array'
+ * import { some, none } from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(findIndex((n: number) => n === 2)([1, 2, 3]), some(1))
  * assert.deepStrictEqual(findIndex((n: number) => n === 2)([]), none)
@@ -464,8 +464,8 @@ export const findIndex: <A>(predicate: Predicate<A>) => (as: Array<A>) => Option
  * Find the first element which satisfies a predicate (or a refinement) function
  *
  * @example
- * import { findFirst } from 'fp-ts/lib/Array'
- * import { some } from 'fp-ts/lib/Option'
+ * import { findFirst } from 'fp-ts/Array'
+ * import { some } from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(findFirst((x: { a: number, b: number }) => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]), some({ a: 1, b: 1 }))
  *
@@ -482,8 +482,8 @@ export function findFirst<A>(predicate: Predicate<A>): (as: Array<A>) => Option<
  * Find the first element returned by an option based selector function
  *
  * @example
- * import { findFirstMap } from 'fp-ts/lib/Array'
- * import { some, none } from 'fp-ts/lib/Option'
+ * import { findFirstMap } from 'fp-ts/Array'
+ * import { some, none } from 'fp-ts/Option'
  *
  * interface Person {
  *   name: string
@@ -504,8 +504,8 @@ export const findFirstMap: <A, B>(f: (a: A) => Option<B>) => (as: Array<A>) => O
  * Find the last element which satisfies a predicate function
  *
  * @example
- * import { findLast } from 'fp-ts/lib/Array'
- * import { some } from 'fp-ts/lib/Option'
+ * import { findLast } from 'fp-ts/Array'
+ * import { some } from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(findLast((x: { a: number, b: number }) => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]), some({ a: 1, b: 2 }))
  *
@@ -522,8 +522,8 @@ export function findLast<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A
  * Find the last element returned by an option based selector function
  *
  * @example
- * import { findLastMap } from 'fp-ts/lib/Array'
- * import { some, none } from 'fp-ts/lib/Option'
+ * import { findLastMap } from 'fp-ts/Array'
+ * import { some, none } from 'fp-ts/Option'
  *
  * interface Person {
  *   name: string
@@ -544,8 +544,8 @@ export const findLastMap: <A, B>(f: (a: A) => Option<B>) => (as: Array<A>) => Op
  * Returns the index of the last element of the list which matches the predicate
  *
  * @example
- * import { findLastIndex } from 'fp-ts/lib/Array'
- * import { some, none } from 'fp-ts/lib/Option'
+ * import { findLastIndex } from 'fp-ts/Array'
+ * import { some, none } from 'fp-ts/Option'
  *
  * interface X {
  *   a: number
@@ -570,8 +570,8 @@ export const copy: <A>(as: Array<A>) => Array<A> = RA.toArray
  * Insert an element at the specified index, creating a new array, or returning `None` if the index is out of bounds
  *
  * @example
- * import { insertAt } from 'fp-ts/lib/Array'
- * import { some } from 'fp-ts/lib/Option'
+ * import { insertAt } from 'fp-ts/Array'
+ * import { some } from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(insertAt(2, 5)([1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
  *
@@ -583,8 +583,8 @@ export const insertAt: <A>(i: number, a: A) => (as: Array<A>) => Option<Array<A>
  * Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
  *
  * @example
- * import { updateAt } from 'fp-ts/lib/Array'
- * import { some, none } from 'fp-ts/lib/Option'
+ * import { updateAt } from 'fp-ts/Array'
+ * import { some, none } from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(updateAt(1, 1)([1, 2, 3]), some([1, 1, 3]))
  * assert.deepStrictEqual(updateAt(1, 1)([]), none)
@@ -597,8 +597,8 @@ export const updateAt: <A>(i: number, a: A) => (as: Array<A>) => Option<Array<A>
  * Delete the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
  *
  * @example
- * import { deleteAt } from 'fp-ts/lib/Array'
- * import { some, none } from 'fp-ts/lib/Option'
+ * import { deleteAt } from 'fp-ts/Array'
+ * import { some, none } from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(deleteAt(0)([1, 2, 3]), some([2, 3]))
  * assert.deepStrictEqual(deleteAt(1)([]), none)
@@ -612,8 +612,8 @@ export const deleteAt: (i: number) => <A>(as: Array<A>) => Option<Array<A>> = RA
  * of bounds
  *
  * @example
- * import { modifyAt } from 'fp-ts/lib/Array'
- * import { some, none } from 'fp-ts/lib/Option'
+ * import { modifyAt } from 'fp-ts/Array'
+ * import { some, none } from 'fp-ts/Option'
  *
  * const double = (x: number): number => x * 2
  * assert.deepStrictEqual(modifyAt(1, double)([1, 2, 3]), some([1, 4, 3]))
@@ -627,7 +627,7 @@ export const modifyAt: <A>(i: number, f: (a: A) => A) => (as: Array<A>) => Optio
  * Reverse an array, creating a new array
  *
  * @example
- * import { reverse } from 'fp-ts/lib/Array'
+ * import { reverse } from 'fp-ts/Array'
  *
  * assert.deepStrictEqual(reverse([1, 2, 3]), [3, 2, 1])
  *
@@ -640,8 +640,8 @@ export const reverse: <A>(as: Array<A>) => Array<A> = RA.reverse as any
  * Extracts from an array of `Either` all the `Right` elements. All the `Right` elements are extracted in order
  *
  * @example
- * import { rights } from 'fp-ts/lib/Array'
- * import { right, left } from 'fp-ts/lib/Either'
+ * import { rights } from 'fp-ts/Array'
+ * import { right, left } from 'fp-ts/Either'
  *
  * assert.deepStrictEqual(rights([right(1), left('foo'), right(2)]), [1, 2])
  *
@@ -654,8 +654,8 @@ export const rights: <E, A>(as: Array<Either<E, A>>) => Array<A> = RA.rights as 
  * Extracts from an array of `Either` all the `Left` elements. All the `Left` elements are extracted in order
  *
  * @example
- * import { lefts } from 'fp-ts/lib/Array'
- * import { left, right } from 'fp-ts/lib/Either'
+ * import { lefts } from 'fp-ts/Array'
+ * import { left, right } from 'fp-ts/Either'
  *
  * assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
  *
@@ -668,8 +668,8 @@ export const lefts: <E, A>(as: Array<Either<E, A>>) => Array<E> = RA.lefts as an
  * Sort the elements of an array in increasing order, creating a new array
  *
  * @example
- * import { sort } from 'fp-ts/lib/Array'
- * import { ordNumber } from 'fp-ts/lib/Ord'
+ * import { sort } from 'fp-ts/Array'
+ * import { ordNumber } from 'fp-ts/Ord'
  *
  * assert.deepStrictEqual(sort(ordNumber)([3, 2, 1]), [1, 2, 3])
  *
@@ -683,7 +683,7 @@ export const sort: <B>(O: Ord<B>) => <A extends B>(as: Array<A>) => Array<A> = R
  * input array is short, excess elements of the longer array are discarded.
  *
  * @example
- * import { zipWith } from 'fp-ts/lib/Array'
+ * import { zipWith } from 'fp-ts/Array'
  *
  * assert.deepStrictEqual(zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n), ['a1', 'b2', 'c3'])
  *
@@ -698,8 +698,8 @@ export const zipWith: <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => C
  * longer array are discarded
  *
  * @example
- * import { zip } from 'fp-ts/lib/Array'
- * import { pipe } from 'fp-ts/lib/function'
+ * import { zip } from 'fp-ts/Array'
+ * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(pipe([1, 2, 3], zip(['a', 'b', 'c', 'd'])), [[1, 'a'], [2, 'b'], [3, 'c']])
  *
@@ -715,7 +715,7 @@ export const zip: {
  * The function is reverse of `zip`. Takes an array of pairs and return two corresponding arrays
  *
  * @example
- * import { unzip } from 'fp-ts/lib/Array'
+ * import { unzip } from 'fp-ts/Array'
  *
  * assert.deepStrictEqual(unzip([[1, 'a'], [2, 'b'], [3, 'c']]), [[1, 2, 3], ['a', 'b', 'c']])
  *
@@ -727,7 +727,7 @@ export const unzip: <A, B>(as: Array<[A, B]>) => [Array<A>, Array<B>] = RA.unzip
  * Rotate an array to the right by `n` steps
  *
  * @example
- * import { rotate } from 'fp-ts/lib/Array'
+ * import { rotate } from 'fp-ts/Array'
  *
  * assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
  *
@@ -743,9 +743,9 @@ export const rotate: (n: number) => <A>(as: Array<A>) => Array<A> = RA.rotate as
  * an array of type `Array<A>`.
  *
  * @example
- * import { elem } from 'fp-ts/lib/Array'
- * import { eqNumber } from 'fp-ts/lib/Eq'
- * import { pipe } from 'fp-ts/lib/function'
+ * import { elem } from 'fp-ts/Array'
+ * import { eqNumber } from 'fp-ts/Eq'
+ * import { pipe } from 'fp-ts/function'
  *
  * assert.strictEqual(pipe([1, 2, 3], elem(eqNumber)(2)), true)
  * assert.strictEqual(pipe([1, 2, 3], elem(eqNumber)(0)), false)
@@ -763,8 +763,8 @@ export const elem: <A>(
  * Remove duplicates from an array, keeping the first occurrence of an element.
  *
  * @example
- * import { uniq } from 'fp-ts/lib/Array'
- * import { eqNumber } from 'fp-ts/lib/Eq'
+ * import { uniq } from 'fp-ts/Array'
+ * import { eqNumber } from 'fp-ts/Eq'
  *
  * assert.deepStrictEqual(uniq(eqNumber)([1, 2, 1]), [1, 2])
  *
@@ -778,8 +778,8 @@ export const uniq: <A>(E: Eq<A>) => (as: Array<A>) => Array<A> = RA.uniq as any
  * etc...
  *
  * @example
- * import { sortBy } from 'fp-ts/lib/Array'
- * import { ord, ordString, ordNumber } from 'fp-ts/lib/Ord'
+ * import { sortBy } from 'fp-ts/Array'
+ * import { ord, ordString, ordNumber } from 'fp-ts/Ord'
  *
  * interface Person {
  *   name: string
@@ -809,8 +809,8 @@ export const sortBy: <B>(ords: Array<Ord<B>>) => <A extends B>(as: Array<A>) => 
  * value and the rest of the array.
  *
  * @example
- * import { Eq, eqNumber } from 'fp-ts/lib/Eq'
- * import { chop, spanLeft } from 'fp-ts/lib/Array'
+ * import { Eq, eqNumber } from 'fp-ts/Eq'
+ * import { chop, spanLeft } from 'fp-ts/Array'
  *
  * const group = <A>(S: Eq<A>): ((as: Array<A>) => Array<Array<A>>) => {
  *   return chop(as => {
@@ -829,7 +829,7 @@ export const chop: <A, B>(f: (as: NonEmptyArray<A>) => [B, Array<A>]) => (as: Ar
  * Splits an array into two pieces, the first piece has `n` elements.
  *
  * @example
- * import { splitAt } from 'fp-ts/lib/Array'
+ * import { splitAt } from 'fp-ts/Array'
  *
  * assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
  *
@@ -849,7 +849,7 @@ export const splitAt: (n: number) => <A>(as: Array<A>) => [Array<A>, Array<A>] =
  * whenever `n` evenly divides the length of `xs`.
  *
  * @example
- * import { chunksOf } from 'fp-ts/lib/Array'
+ * import { chunksOf } from 'fp-ts/Array'
  *
  * assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
  *
@@ -865,8 +865,8 @@ export const chunksOf: (n: number) => <A>(as: Array<A>) => Array<Array<A>> = RA.
  * ```
  *
  * @example
- * import { comprehension } from 'fp-ts/lib/Array'
- * import { tuple } from 'fp-ts/lib/function'
+ * import { comprehension } from 'fp-ts/Array'
+ * import { tuple } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], tuple, (a, b) => (a + b.length) % 2 === 0), [
  *   [1, 'a'],
@@ -907,9 +907,9 @@ export function comprehension<R>(
  * Creates an array of unique values, in order, from all given arrays using a `Eq` for equality comparisons
  *
  * @example
- * import { union } from 'fp-ts/lib/Array'
- * import { eqNumber } from 'fp-ts/lib/Eq'
- * import { pipe } from 'fp-ts/lib/function'
+ * import { union } from 'fp-ts/Array'
+ * import { eqNumber } from 'fp-ts/Eq'
+ * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(pipe([1, 2], union(eqNumber)([2, 3])), [1, 2, 3])
  *
@@ -929,9 +929,9 @@ export const union: <A>(
  * comparisons. The order and references of result values are determined by the first array.
  *
  * @example
- * import { intersection } from 'fp-ts/lib/Array'
- * import { eqNumber } from 'fp-ts/lib/Eq'
- * import { pipe } from 'fp-ts/lib/function'
+ * import { intersection } from 'fp-ts/Array'
+ * import { eqNumber } from 'fp-ts/Eq'
+ * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(pipe([1, 2], intersection(eqNumber)([2, 3])), [2])
  *
@@ -951,9 +951,9 @@ export const intersection: <A>(
  * comparisons. The order and references of result values are determined by the first array.
  *
  * @example
- * import { difference } from 'fp-ts/lib/Array'
- * import { eqNumber } from 'fp-ts/lib/Eq'
- * import { pipe } from 'fp-ts/lib/function'
+ * import { difference } from 'fp-ts/Array'
+ * import { eqNumber } from 'fp-ts/Eq'
+ * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(pipe([1, 2], difference(eqNumber)([2, 3])), [1])
  *

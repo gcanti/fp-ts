@@ -19,7 +19,7 @@ export interface Semigroup<A> extends Magma<A> {}
 // TODO: remove non-curried overloading in v3
 /**
  * @example
- * import * as S from 'fp-ts/lib/Semigroup'
+ * import * as S from 'fp-ts/Semigroup'
  *
  * const sum = S.fold(S.semigroupSum)(0)
  *
@@ -63,7 +63,7 @@ export function getLastSemigroup<A = never>(): Semigroup<A> {
  * Given a tuple of semigroups returns a semigroup for the tuple
  *
  * @example
- * import { getTupleSemigroup, semigroupString, semigroupSum, semigroupAll } from 'fp-ts/lib/Semigroup'
+ * import { getTupleSemigroup, semigroupString, semigroupSum, semigroupAll } from 'fp-ts/Semigroup'
  *
  * const S1 = getTupleSemigroup(semigroupString, semigroupSum)
  * assert.deepStrictEqual(S1.concat(['a', 1], ['b', 2]), ['ab', 3])
@@ -86,7 +86,7 @@ export function getTupleSemigroup<T extends ReadonlyArray<Semigroup<any>>>(
  * The dual of a `Semigroup`, obtained by swapping the arguments of `concat`.
  *
  * @example
- * import { getDualSemigroup, semigroupString } from 'fp-ts/lib/Semigroup'
+ * import { getDualSemigroup, semigroupString } from 'fp-ts/Semigroup'
  *
  * assert.deepStrictEqual(getDualSemigroup(semigroupString).concat('a', 'b'), 'ba')
  *
@@ -151,7 +151,7 @@ export function getJoinSemigroup<A>(O: Ord<A>): Semigroup<A> {
  * Returns a `Semigroup` instance for objects preserving their type
  *
  * @example
- * import { getObjectSemigroup } from 'fp-ts/lib/Semigroup'
+ * import { getObjectSemigroup } from 'fp-ts/Semigroup'
  *
  * interface Person {
  *   name: string
@@ -230,7 +230,7 @@ export const semigroupVoid: Semigroup<void> = {
  * You can glue items between and stay associative
  *
  * @example
- * import { getIntercalateSemigroup, semigroupString } from 'fp-ts/lib/Semigroup'
+ * import { getIntercalateSemigroup, semigroupString } from 'fp-ts/Semigroup'
  *
  * const S = getIntercalateSemigroup(' ')(semigroupString)
  *

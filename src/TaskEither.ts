@@ -119,8 +119,8 @@ export const fromPredicate: {
  * Note: `f` should never `throw` errors, they are not caught.
  *
  * @example
- * import { left, right } from 'fp-ts/lib/Either'
- * import { tryCatch } from 'fp-ts/lib/TaskEither'
+ * import { left, right } from 'fp-ts/Either'
+ * import { tryCatch } from 'fp-ts/TaskEither'
  *
  * tryCatch(() => Promise.resolve(1), String)().then(result => {
  *   assert.deepStrictEqual(result, right(1))
@@ -176,9 +176,9 @@ export const getOrElse: <E, A>(onLeft: (e: E) => Task<A>) => (ma: TaskEither<E, 
  * See also [alt](#alt).
  *
  * @example
- * import * as E from 'fp-ts/lib/Either'
- * import { pipe } from 'fp-ts/lib/function'
- * import * as TE from 'fp-ts/lib/TaskEither'
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ * import * as TE from 'fp-ts/TaskEither'
  *
  * async function test() {
  *   const errorHandler = TE.orElse((error: string) => TE.right(`recovering from ${error}...`))
@@ -429,9 +429,9 @@ export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither
  * See also [orElse](#orElse).
  *
  * @example
- * import * as E from 'fp-ts/lib/Either'
- * import { pipe } from 'fp-ts/lib/function'
- * import * as TE from 'fp-ts/lib/TaskEither'
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ * import * as TE from 'fp-ts/TaskEither'
  *
  * async function test() {
  *   assert.deepStrictEqual(
@@ -743,7 +743,7 @@ export const taskEitherSeq: typeof taskEither = {
  * ```
  *
  * @example
- * import { taskify } from 'fp-ts/lib/TaskEither'
+ * import { taskify } from 'fp-ts/TaskEither'
  * import * as fs from 'fs'
  *
  * // const stat: (a: string | Buffer) => TaskEither<NodeJS.ErrnoException, fs.Stats>

@@ -89,9 +89,9 @@ export declare function difference<A>(
 **Example**
 
 ```ts
-import { difference } from 'fp-ts/lib/ReadonlySet'
-import { eqNumber } from 'fp-ts/lib/Eq'
-import { pipe } from 'fp-ts/lib/function'
+import { difference } from 'fp-ts/ReadonlySet'
+import { eqNumber } from 'fp-ts/Eq'
+import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe(new Set([1, 2]), difference(eqNumber)(new Set([1, 3]))), new Set([2]))
 ```
