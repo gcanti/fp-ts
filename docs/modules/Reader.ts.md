@@ -18,6 +18,7 @@ Added in v2.0.0
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [apW](#apw)
 - [Category](#category)
   - [id](#id)
 - [Functor](#functor)
@@ -50,6 +51,8 @@ Added in v2.0.0
 - [model](#model)
   - [Reader (interface)](#reader-interface)
 - [utils](#utils)
+  - [apS](#aps)
+  - [apSW](#apsw)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
@@ -105,6 +108,18 @@ export declare const apSecond: <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>)
 ```
 
 Added in v2.0.0
+
+## apW
+
+Less strict version of [`ap`](#ap).
+
+**Signature**
+
+```ts
+export declare const apW: <Q, A>(fa: Reader<Q, A>) => <R, B>(fab: Reader<R, (a: A) => B>) => Reader<Q & R, B>
+```
+
+Added in v2.8.0
 
 # Category
 
@@ -368,6 +383,32 @@ export interface Reader<R, A> {
 Added in v2.0.0
 
 # utils
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, R, B>(
+  name: Exclude<N, keyof A>,
+  fb: Reader<R, B>
+) => (fa: Reader<R, A>) => Reader<R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## apSW
+
+**Signature**
+
+```ts
+export declare const apSW: <A, N extends string, Q, B>(
+  name: Exclude<N, keyof A>,
+  fb: Reader<Q, B>
+) => <R>(fa: Reader<R, A>) => Reader<Q & R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
 
 ## bind
 

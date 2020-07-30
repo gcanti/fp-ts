@@ -18,6 +18,7 @@ Added in v2.0.0
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [apW](#apw)
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
@@ -72,6 +73,8 @@ Added in v2.0.0
 - [model](#model)
   - [ReaderEither (interface)](#readereither-interface)
 - [utils](#utils)
+  - [apS](#aps)
+  - [apSW](#apsw)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
@@ -138,6 +141,20 @@ export declare const apSecond: <R, E, B>(
 ```
 
 Added in v2.0.0
+
+## apW
+
+Less strict version of [`ap`](#ap).
+
+**Signature**
+
+```ts
+export declare const apW: <Q, D, A>(
+  fa: ReaderEither<Q, D, A>
+) => <R, E, B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<Q & R, D | E, B>
+```
+
+Added in v2.8.0
 
 # Bifunctor
 
@@ -660,6 +677,34 @@ export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
 Added in v2.0.0
 
 # utils
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, R, E, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderEither<R, E, B>
+) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## apSW
+
+**Signature**
+
+```ts
+export declare const apSW: <A, N extends string, Q, D, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderEither<Q, D, B>
+) => <R, E>(
+  fa: ReaderEither<R, E, A>
+) => ReaderEither<Q & R, D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
 
 ## bind
 

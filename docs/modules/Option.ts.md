@@ -111,6 +111,7 @@ Added in v2.0.0
   - [Option (type alias)](#option-type-alias)
   - [Some (interface)](#some-interface)
 - [utils](#utils)
+  - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [elem](#elem)
@@ -1213,6 +1214,19 @@ export interface Some<A> {
 Added in v2.0.0
 
 # utils
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, B>(
+  name: Exclude<N, keyof A>,
+  fb: Option<B>
+) => (fa: Option<A>) => Option<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
 
 ## bind
 

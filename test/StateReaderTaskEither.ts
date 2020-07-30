@@ -333,4 +333,13 @@ describe('StateReaderTaskEither', () => {
       E.right([{ a: 1, b: 'b' }, undefined])
     )
   })
+
+  it('apS', async () => {
+    assert.deepStrictEqual(
+      await pipe(_.right<void, void, string, number>(1), _.bindTo('a'), _.apS('b', _.right('b')))(undefined)(
+        undefined
+      )(),
+      E.right([{ a: 1, b: 'b' }, undefined])
+    )
+  })
 })

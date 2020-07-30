@@ -52,6 +52,7 @@ Added in v2.0.0
 - [model](#model)
   - [Identity (type alias)](#identity-type-alias)
 - [utils](#utils)
+  - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [sequence](#sequence)
@@ -392,6 +393,19 @@ export type Identity<A> = A
 Added in v2.0.0
 
 # utils
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, B>(
+  name: Exclude<N, keyof A>,
+  fb: B
+) => (fa: A) => { [K in N | keyof A]: K extends keyof A ? A[K] : B }
+```
+
+Added in v2.8.0
 
 ## bind
 

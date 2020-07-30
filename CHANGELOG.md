@@ -19,40 +19,105 @@ high state of flux, you're at risk of it changing without notice.
 
 - **New Feature**
   - expose `fp-ts` modules without lib/es6 prefix, #1241 (@StefanoMagrassi)
-  - add "do notation" to all monadic data types (@gcanti)
-    - `Array`
-    - `Either`
-    - `Identity`
-    - `IO`
-    - `IOEither`
-    - `NonEmptyArray`
-    - `Option`
-    - `Reader`
-    - `ReaderEither`
-    - `ReaderTask`
-    - `ReaderTaskEither`
-    - `ReadonlyArray`
-    - `ReadonlyNonEmptyArray`
-    - `State`
-    - `StateReaderTaskEither`
-    - `Task`
-    - `TaskEither`
-    - `Tree`
+  - `Array`
+    - add `apS` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
   - `Either`
+    - add `apW` (@gcanti)
+    - add `apS` (@gcanti)
+    - add `apSW` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+    - add `bindW` (@gcanti)
     - add `chainFirstW`, #1273 (@leemhenson)
     - add `getFilterable` (@gcanti)
   - `Foldable`
     - add `toArray`, #1272 (@newswim)
+  - `Identity`
+    - add `apS` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+  - `IO`
+    - add `apS` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
   - `IOEither`
+    - add `apS` (@gcanti)
+    - add `apSW` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+    - add `bindW` (@gcanti)
     - add `chainFirstW`, #1273 (@leemhenson)
+  - `NonEmptyArray`
+    - add `apS` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+  - `Option`
+    - add `apS` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+  - `Reader`
+    - add `apW` (@gcanti)
+    - add `apS` (@gcanti)
+    - add `apSW` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+    - add `bindW` (@gcanti)
   - `ReaderEither`
+    - add `apS` (@gcanti)
+    - add `apSW` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+    - add `bindW` (@gcanti)
     - add `chainFirstW`, #1273 (@leemhenson)
+  - `ReaderTask`
+    - add `apS` (@gcanti)
+    - add `apSW` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+    - add `bindW` (@gcanti)
   - `ReaderTaskEither`
+    - add `apS` (@gcanti)
+    - add `apSW` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+    - add `bindW` (@gcanti)
     - add `chainFirstW`, #1273 (@leemhenson)
+  - `ReadonlyArray`
+    - add `apS` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+  - `ReadonlyNonEmptyArray`
+    - add `apS` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+  - `State`
+    - add `apS` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
   - `StateReaderTaskEither`
+    - add `apS` (@gcanti)
+    - add `apSW` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+    - add `bindW` (@gcanti)
     - add `chainFirstW`, #1273 (@leemhenson)
+  - `Task`
+    - add `apS` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
   - `TaskEither`
+    - add `apS` (@gcanti)
+    - add `apSW` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+    - add `bindW` (@gcanti)
     - add `chainFirstW`, #1273 (@leemhenson)
+  - `Tree`
+    - add `apS` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
 
 # 2.7.1
 

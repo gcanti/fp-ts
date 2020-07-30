@@ -32,6 +32,7 @@ Added in v2.0.0
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [apW](#apw)
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
@@ -109,6 +110,8 @@ Added in v2.0.0
   - [Json (type alias)](#json-type-alias)
   - [JsonArray (interface)](#jsonarray-interface)
   - [JsonRecord (interface)](#jsonrecord-interface)
+  - [apS](#aps)
+  - [apSW](#apsw)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
@@ -182,6 +185,18 @@ export declare const apSecond: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>)
 ```
 
 Added in v2.0.0
+
+## apW
+
+Less strict version of [`ap`](#ap).
+
+**Signature**
+
+```ts
+export declare const apW: <D, A>(fa: Either<D, A>) => <E, B>(fab: Either<E, (a: A) => B>) => Either<D | E, B>
+```
+
+Added in v2.8.0
 
 # Bifunctor
 
@@ -1028,6 +1043,32 @@ export interface JsonRecord {
 ```
 
 Added in v2.6.7
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, E, B>(
+  name: Exclude<N, keyof A>,
+  fb: Either<E, B>
+) => (fa: Either<E, A>) => Either<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## apSW
+
+**Signature**
+
+```ts
+export declare const apSW: <A, N extends string, D, B>(
+  name: Exclude<N, keyof A>,
+  fb: Either<D, B>
+) => <E>(fa: Either<E, A>) => Either<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
 
 ## bind
 

@@ -429,4 +429,11 @@ describe('TaskEither', () => {
       E.right({ a: 1, b: 'b' })
     )
   })
+
+  it('apS', async () => {
+    assert.deepStrictEqual(
+      await pipe(_.right<string, number>(1), _.bindTo('a'), _.apS('b', _.right('b')))(),
+      E.right({ a: 1, b: 'b' })
+    )
+  })
 })

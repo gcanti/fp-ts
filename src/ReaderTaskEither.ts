@@ -415,6 +415,16 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: ReaderTaskEither<R, E
 ) => (fa) => mapLeft_(fa, f)
 
 /**
+ * Less strict version of [`ap`](#ap).
+ *
+ * @category Apply
+ * @since 2.8.0
+ */
+export const apW = <Q, D, A>(fa: ReaderTaskEither<Q, D, A>) => <R, E, B>(
+  fab: ReaderTaskEither<R, E, (a: A) => B>
+): ReaderTaskEither<Q & R, D | E, B> => (r) => pipe(fab(r), TE.apW(fa(r)))
+
+/**
  * Apply a function to an argument under a type constructor.
  *
  * @category Apply
@@ -827,3 +837,29 @@ export const bind: <N extends string, A, R, E, B>(
 ) => (
   fa: ReaderTaskEither<R, E, A>
 ) => ReaderTaskEither<R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence S
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const apSW = <A, N extends string, Q, D, B>(name: Exclude<N, keyof A>, fb: ReaderTaskEither<Q, D, B>) => <R, E>(
+  fa: ReaderTaskEither<R, E, A>
+): ReaderTaskEither<Q & R, D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
+  pipe(
+    fa,
+    map((a) => (b: B) => bind_(a, name, b)),
+    apW(fb)
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const apS: <A, N extends string, R, E, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderTaskEither<R, E, B>
+) => (
+  fa: ReaderTaskEither<R, E, A>
+) => ReaderTaskEither<R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
