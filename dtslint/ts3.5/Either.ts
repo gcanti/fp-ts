@@ -56,3 +56,10 @@ pipe(
   _.bind('b', () => _.right('b')),
   _.bindW('c', () => _.right<number, boolean>(true))
 )
+
+//
+// pipeable sequence S
+//
+
+// $ExpectType Either<string | number, { a: number; b: string; c: boolean; }>
+pipe(_.right<string, number>(1), _.bindTo('a'), _.apS('b', _.right('b')), _.apSW('c', _.right<number, boolean>(true)))

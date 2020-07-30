@@ -90,13 +90,22 @@ const right_: Choice2<URI>['right'] = <A, B, C>(pbc: Reader<B, C>): Reader<E.Eit
 export const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B> = (f) => (fa) => (r) => f(fa(r))
 
 /**
+ * Less strict version of [`ap`](#ap).
+ *
+ * @category Apply
+ * @since 2.8.0
+ */
+export const apW: <Q, A>(fa: Reader<Q, A>) => <R, B>(fab: Reader<R, (a: A) => B>) => Reader<Q & R, B> = (fa) => (
+  fab
+) => (r) => fab(r)(fa(r))
+
+/**
  * Apply a function to an argument under a type constructor.
  *
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> = (fa) => (fab) => (r) =>
-  fab(r)(fa(r))
+export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> = apW
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -365,3 +374,27 @@ export const bind: <N extends string, A, R, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Reader<R, B>
 ) => (fa: Reader<R, A>) => Reader<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence S
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const apSW = <A, N extends string, Q, B>(name: Exclude<N, keyof A>, fb: Reader<Q, B>) => <R>(
+  fa: Reader<R, A>
+): Reader<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
+  F.pipe(
+    fa,
+    map((a) => (b: B) => F.bind_(a, name, b)),
+    apW(fb)
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const apS: <A, N extends string, R, B>(
+  name: Exclude<N, keyof A>,
+  fb: Reader<R, B>
+) => (fa: Reader<R, A>) => Reader<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW

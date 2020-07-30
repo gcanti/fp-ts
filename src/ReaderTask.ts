@@ -129,14 +129,22 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderT
   flow(fa, T.map(f))
 
 /**
+ * Less strict version of [`ap`](#ap).
+ *
+ * @category Apply
+ * @since 2.8.0
+ */
+export const apW: <Q, A>(fa: ReaderTask<Q, A>) => <R, B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<Q & R, B> = (
+  fa
+) => (fab) => (r) => pipe(fab(r), T.ap(fa(r)))
+
+/**
  * Apply a function to an argument under a type constructor.
  *
  * @category Apply
  * @since 2.3.0
  */
-export const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B> = (fa) => (
-  fab
-) => (r) => pipe(fab(r), T.ap(fa(r)))
+export const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B> = apW
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -379,3 +387,27 @@ export const bind: <N extends string, A, R, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderTask<R, B>
 ) => (fa: ReaderTask<R, A>) => ReaderTask<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence S
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const apSW = <A, N extends string, Q, B>(name: Exclude<N, keyof A>, fb: ReaderTask<Q, B>) => <R>(
+  fa: ReaderTask<R, A>
+): ReaderTask<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
+  pipe(
+    fa,
+    map((a) => (b: B) => bind_(a, name, b)),
+    apW(fb)
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const apS: <A, N extends string, R, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderTask<R, B>
+) => (fa: ReaderTask<R, A>) => ReaderTask<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW

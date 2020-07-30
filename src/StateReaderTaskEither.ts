@@ -428,6 +428,25 @@ export const mapLeft: <E, G>(
   mapLeft_(fa, f)
 
 /**
+ * Less strict version of [`ap`](#ap).
+ *
+ * @category Apply
+ * @since 2.8.0
+ */
+export const apW = <S, Q, D, A>(fa: StateReaderTaskEither<S, Q, D, A>) => <R, E, B>(
+  fab: StateReaderTaskEither<S, R, E, (a: A) => B>
+): StateReaderTaskEither<S, Q & R, D | E, B> => (s1) =>
+  pipe(
+    fab(s1),
+    RTE.chainW(([f, s2]) =>
+      pipe(
+        fa(s2),
+        RTE.map(([a, s3]) => [f(a), s3])
+      )
+    )
+  )
+
+/**
  * Apply a function to an argument under a type constructor.
  *
  * @category Apply
@@ -435,18 +454,7 @@ export const mapLeft: <E, G>(
  */
 export const ap: <S, R, E, A>(
   fa: StateReaderTaskEither<S, R, E, A>
-) => <B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B> = (fa) => (fab) => (
-  s1
-) =>
-  pipe(
-    fab(s1),
-    RTE.chain(([f, s2]) =>
-      pipe(
-        fa(s2),
-        RTE.map(([a, s3]) => [f(a), s3])
-      )
-    )
-  )
+) => <B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B> = apW
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -768,3 +776,32 @@ export const bind: <N extends string, A, S, R, E, B>(
 ) => (
   fa: StateReaderTaskEither<S, R, E, A>
 ) => StateReaderTaskEither<S, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence S
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const apSW = <A, N extends string, S, Q, D, B>(
+  name: Exclude<N, keyof A>,
+  fb: StateReaderTaskEither<S, Q, D, B>
+) => <R, E>(
+  fa: StateReaderTaskEither<S, R, E, A>
+): StateReaderTaskEither<S, Q & R, D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
+  pipe(
+    fa,
+    map((a) => (b: B) => bind_(a, name, b)),
+    apW(fb)
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const apS: <A, N extends string, S, R, E, B>(
+  name: Exclude<N, keyof A>,
+  fb: StateReaderTaskEither<S, R, E, B>
+) => (
+  fa: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW

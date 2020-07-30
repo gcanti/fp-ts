@@ -23,6 +23,7 @@ Added in v2.0.0
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [apW](#apw)
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
@@ -86,6 +87,8 @@ Added in v2.0.0
 - [model](#model)
   - [TaskEither (interface)](#taskeither-interface)
 - [utils](#utils)
+  - [apS](#aps)
+  - [apSW](#apsw)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
@@ -196,6 +199,20 @@ export declare const apSecond: <E, B>(fb: TaskEither<E, B>) => <A>(fa: TaskEithe
 ```
 
 Added in v2.0.0
+
+## apW
+
+Less strict version of [`ap`](#ap).
+
+**Signature**
+
+```ts
+export declare const apW: <D, A>(
+  fa: TaskEither<D, A>
+) => <E, B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<D | E, B>
+```
+
+Added in v2.8.0
 
 # Bifunctor
 
@@ -844,6 +861,32 @@ export interface TaskEither<E, A> extends Task<Either<E, A>> {}
 Added in v2.0.0
 
 # utils
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, E, B>(
+  name: Exclude<N, keyof A>,
+  fb: TaskEither<E, B>
+) => (fa: TaskEither<E, A>) => TaskEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## apSW
+
+**Signature**
+
+```ts
+export declare const apSW: <A, N extends string, D, B>(
+  name: Exclude<N, keyof A>,
+  fb: TaskEither<D, B>
+) => <E>(fa: TaskEither<E, A>) => TaskEither<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
 
 ## bind
 

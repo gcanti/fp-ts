@@ -459,4 +459,8 @@ describe('Option', () => {
       _.some({ a: 1, b: 'b' })
     )
   })
+
+  it('apS', () => {
+    assert.deepStrictEqual(pipe(_.some(1), _.bindTo('a'), _.apS('b', _.some('b'))), _.some({ a: 1, b: 'b' }))
+  })
 })

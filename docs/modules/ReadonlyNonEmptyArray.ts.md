@@ -75,6 +75,7 @@ Added in v2.5.0
 - [model](#model)
   - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
 - [utils](#utils)
+  - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [extract](#extract)
@@ -726,6 +727,19 @@ export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
 Added in v2.5.0
 
 # utils
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReadonlyNonEmptyArray<B>
+) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
 
 ## bind
 
