@@ -20,6 +20,7 @@ Added in v2.0.0
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [apW](#apw)
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
@@ -85,6 +86,8 @@ Added in v2.0.0
 - [model](#model)
   - [StateReaderTaskEither (interface)](#statereadertaskeither-interface)
 - [utils](#utils)
+  - [apS](#aps)
+  - [apSW](#apsw)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
@@ -166,6 +169,20 @@ export declare const apSecond: <S, R, E, B>(
 ```
 
 Added in v2.0.0
+
+## apW
+
+Less strict version of [`ap`](#ap).
+
+**Signature**
+
+```ts
+export declare const apW: <S, Q, D, A>(
+  fa: StateReaderTaskEither<S, Q, D, A>
+) => <R, E, B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, Q & R, D | E, B>
+```
+
+Added in v2.8.0
 
 # Bifunctor
 
@@ -824,6 +841,36 @@ export interface StateReaderTaskEither<S, R, E, A> {
 Added in v2.0.0
 
 # utils
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, S, R, E, B>(
+  name: Exclude<N, keyof A>,
+  fb: StateReaderTaskEither<S, R, E, B>
+) => (
+  fa: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## apSW
+
+**Signature**
+
+```ts
+export declare const apSW: <A, N extends string, S, Q, D, B>(
+  name: Exclude<N, keyof A>,
+  fb: StateReaderTaskEither<S, Q, D, B>
+) => <R, E>(
+  fa: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, Q & R, D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
 
 ## bind
 

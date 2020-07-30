@@ -135,6 +135,7 @@ Added in v2.0.0
   - [unsafeInsertAt](#unsafeinsertat)
   - [unsafeUpdateAt](#unsafeupdateat)
 - [utils](#utils)
+  - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [chainWithIndex](#chainwithindex)
@@ -1765,6 +1766,19 @@ export declare const unsafeUpdateAt: <A>(i: number, a: A, as: A[]) => A[]
 Added in v2.0.0
 
 # utils
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, B>(
+  name: Exclude<N, keyof A>,
+  fb: B[]
+) => (fa: A[]) => { [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+```
+
+Added in v2.8.0
 
 ## bind
 

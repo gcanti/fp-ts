@@ -21,6 +21,7 @@ Added in v2.0.0
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [apW](#apw)
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
@@ -77,6 +78,8 @@ Added in v2.0.0
 - [model](#model)
   - [IOEither (interface)](#ioeither-interface)
 - [utils](#utils)
+  - [apS](#aps)
+  - [apSW](#apsw)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
@@ -136,6 +139,18 @@ export declare const apSecond: <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E,
 ```
 
 Added in v2.0.0
+
+## apW
+
+Less strict version of [`ap`](#ap).
+
+**Signature**
+
+```ts
+export declare const apW: <D, A>(fa: IOEither<D, A>) => <E, B>(fab: IOEither<E, (a: A) => B>) => IOEither<D | E, B>
+```
+
+Added in v2.8.0
 
 # Bifunctor
 
@@ -657,6 +672,32 @@ export interface IOEither<E, A> extends IO<Either<E, A>> {}
 Added in v2.0.0
 
 # utils
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, E, B>(
+  name: Exclude<N, keyof A>,
+  fb: IOEither<E, B>
+) => (fa: IOEither<E, A>) => IOEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## apSW
+
+**Signature**
+
+```ts
+export declare const apSW: <A, N extends string, D, B>(
+  name: Exclude<N, keyof A>,
+  fb: IOEither<D, B>
+) => <E>(fa: IOEither<E, A>) => IOEither<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
 
 ## bind
 

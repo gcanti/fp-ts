@@ -327,7 +327,8 @@ export const filterOrElse: {
 // -------------------------------------------------------------------------------------
 
 const map_: Monad2<URI>['map'] = (ma, f) => (isLeft(ma) ? ma : right(f(ma.right)))
-const ap_: Monad2<URI>['ap'] = (mab, ma) => (isLeft(mab) ? mab : isLeft(ma) ? ma : right(mab.right(ma.right)))
+const ap_: <D, E, A, B>(fab: Either<D, (a: A) => B>, fa: Either<E, A>) => Either<D | E, B> = (mab, ma) =>
+  isLeft(mab) ? mab : isLeft(ma) ? ma : right(mab.right(ma.right))
 const chain_: <D, A, E, B>(fa: Either<D, A>, f: (a: A) => Either<E, B>) => Either<D | E, B> = (ma, f) =>
   isLeft(ma) ? ma : f(ma.right)
 const reduce_: Foldable2<URI>['reduce'] = (fa, b, f) => (isLeft(fa) ? b : f(b, fa.right))
@@ -380,13 +381,21 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A> = (f) => (fa) => mapLeft_(fa, f)
 
 /**
+ * Less strict version of [`ap`](#ap).
+ *
+ * @category Apply
+ * @since 2.8.0
+ */
+export const apW: <D, A>(fa: Either<D, A>) => <E, B>(fab: Either<E, (a: A) => B>) => Either<D | E, B> = (fa) => (fab) =>
+  ap_(fab, fa)
+
+/**
  * Apply a function to an argument under a type constructor.
  *
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B> = (fa) => (fab) =>
-  ap_(fab, fa)
+export const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B> = apW
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -1059,3 +1068,27 @@ export const bind: <N extends string, A, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Either<E, B>
 ) => (fa: Either<E, A>) => Either<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence S
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const apSW = <A, N extends string, D, B>(name: Exclude<N, keyof A>, fb: Either<D, B>) => <E>(
+  fa: Either<E, A>
+): Either<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
+  pipe(
+    fa,
+    map((a) => (b: B) => bind_(a, name, b)),
+    apW(fb)
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const apS: <A, N extends string, E, B>(
+  name: Exclude<N, keyof A>,
+  fb: Either<E, B>
+) => (fa: Either<E, A>) => Either<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW

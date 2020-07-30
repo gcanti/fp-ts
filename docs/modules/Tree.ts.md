@@ -61,6 +61,7 @@ Added in v2.0.0
   - [Forest (type alias)](#forest-type-alias)
   - [Tree (interface)](#tree-interface)
 - [utils](#utils)
+  - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [drawForest](#drawforest)
@@ -497,6 +498,19 @@ export interface Tree<A> {
 Added in v2.0.0
 
 # utils
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, B>(
+  name: Exclude<N, keyof A>,
+  fb: Tree<B>
+) => (fa: Tree<A>) => Tree<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
 
 ## bind
 

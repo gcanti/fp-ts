@@ -76,6 +76,7 @@ Added in v2.0.0
 - [model](#model)
   - [NonEmptyArray (interface)](#nonemptyarray-interface)
 - [utils](#utils)
+  - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [extract](#extract)
@@ -717,6 +718,19 @@ export interface NonEmptyArray<A> extends Array<A> {
 Added in v2.0.0
 
 # utils
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, B>(
+  name: Exclude<N, keyof A>,
+  fb: NonEmptyArray<B>
+) => (fa: NonEmptyArray<A>) => NonEmptyArray<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
 
 ## bind
 

@@ -240,14 +240,25 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: IOEithe
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) => IOEither<G, A> = (f) => I.map(E.mapLeft(f))
 
 /**
+ * Less strict version of [`ap`](#ap).
+ *
+ * @category Apply
+ * @since 2.8.0
+ */
+export const apW = <D, A>(fa: IOEither<D, A>) => <E, B>(fab: IOEither<E, (a: A) => B>): IOEither<D | E, B> =>
+  pipe(
+    fab,
+    I.map((gab) => (ga: E.Either<D, A>) => E.apW(ga)(gab)),
+    I.ap(fa)
+  )
+
+/**
  * Apply a function to an argument under a type constructor.
  *
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B> =
-  /*#__PURE__*/
-  apComposition(I.Applicative, E.Applicative)
+export const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B> = apW
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -639,3 +650,27 @@ export const bind: <N extends string, A, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IOEither<E, B>
 ) => (fa: IOEither<E, A>) => IOEither<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence S
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const apSW = <A, N extends string, D, B>(name: Exclude<N, keyof A>, fb: IOEither<D, B>) => <E>(
+  fa: IOEither<E, A>
+): IOEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
+  pipe(
+    fa,
+    map((a) => (b: B) => bind_(a, name, b)),
+    apW(fb)
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const apS: <A, N extends string, E, B>(
+  name: Exclude<N, keyof A>,
+  fb: IOEither<E, B>
+) => (fa: IOEither<E, A>) => IOEither<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW

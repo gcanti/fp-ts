@@ -127,6 +127,7 @@ Added in v2.5.0
   - [unsafeUpdateAt](#unsafeupdateat)
 - [utils](#utils)
   - [Spanned (interface)](#spanned-interface)
+  - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [chainWithIndex](#chainwithindex)
@@ -1558,6 +1559,19 @@ export interface Spanned<I, R> {
 ```
 
 Added in v2.5.0
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, B>(
+  name: Exclude<N, keyof A>,
+  fb: readonly B[]
+) => (fa: readonly A[]) => readonly { [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+```
+
+Added in v2.8.0
 
 ## bind
 

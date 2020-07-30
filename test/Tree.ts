@@ -209,4 +209,8 @@ describe('Tree', () => {
       _.make({ a: 1, b: 'b' })
     )
   })
+
+  it('apS', () => {
+    assert.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b'))), _.make({ a: 1, b: 'b' }))
+  })
 })

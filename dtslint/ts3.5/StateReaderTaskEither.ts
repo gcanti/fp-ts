@@ -66,3 +66,15 @@ pipe(
   _.bind('b', () => _.right('b')),
   _.bindW('c', () => _.right<void, { readonly b: string }, number, boolean>(true))
 )
+
+//
+// pipeable sequence S
+//
+
+// $ExpectType StateReaderTaskEither<void, { readonly b: string; } & { readonly a: number; }, string | number, { a: number; b: string; c: boolean; }>
+pipe(
+  _.right<void, { readonly a: number }, string, number>(1),
+  _.bindTo('a'),
+  _.apS('b', _.right('b')),
+  _.apSW('c', _.right<void, { readonly b: string }, number, boolean>(true))
+)

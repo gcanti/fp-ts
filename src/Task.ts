@@ -389,3 +389,19 @@ export const bind = <N extends string, A, B>(name: Exclude<N, keyof A>, f: (a: A
       )
     )
   )
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence S
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const apS = <A, N extends string, B>(name: Exclude<N, keyof A>, fb: Task<B>) => (
+  fa: Task<A>
+): Task<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
+  pipe(
+    fa,
+    map((a) => (b: B) => bind_(a, name, b)),
+    ap(fb)
+  )

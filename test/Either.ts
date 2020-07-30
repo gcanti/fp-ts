@@ -583,4 +583,11 @@ describe('Either', () => {
       _.right({ a: 1, b: 'b' })
     )
   })
+
+  it('apS', () => {
+    assert.deepStrictEqual(
+      pipe(_.right<string, number>(1), _.bindTo('a'), _.apS('b', _.right('b'))),
+      _.right({ a: 1, b: 'b' })
+    )
+  })
 })

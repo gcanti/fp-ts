@@ -39,6 +39,7 @@ Added in v2.0.0
 - [model](#model)
   - [State (interface)](#state-interface)
 - [utils](#utils)
+  - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [evalState](#evalstate)
@@ -275,6 +276,19 @@ export interface State<S, A> {
 Added in v2.0.0
 
 # utils
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, S, B>(
+  name: Exclude<N, keyof A>,
+  fb: State<S, B>
+) => (fa: State<S, A>) => State<S, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
 
 ## bind
 
