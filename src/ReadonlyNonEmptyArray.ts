@@ -166,11 +166,11 @@ export const getEq: <A>(E: Eq<A>) => Eq<ReadonlyNonEmptyArray<A>> = RA.getEq
  * @category combinators
  * @since 2.5.0
  */
-export function group<A>(
-  E: Eq<A>
+export function group<B>(
+  E: Eq<B>
 ): {
-  (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
-  (as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
+  <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+  <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
 }
 export function group<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyNonEmptyArray<A>> {
   return (as) => {
@@ -209,6 +209,12 @@ export function group<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<Read
  * @category combinators
  * @since 2.5.0
  */
+export function groupSort<B>(
+  O: Ord<B>
+): {
+  <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+  <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
+}
 export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyNonEmptyArray<A>> {
   const sortO = RA.sort(O)
   const groupO = group(O)
@@ -230,10 +236,10 @@ export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray
  * @category constructors
  * @since 2.5.0
  */
-export function groupBy<A>(
-  f: (a: A) => string
-): (as: ReadonlyArray<A>) => ReadonlyRecord<string, ReadonlyNonEmptyArray<A>> {
-  return (as) => {
+export function groupBy<B>(
+  f: (a: B) => string
+): <A extends B>(as: ReadonlyArray<A>) => ReadonlyRecord<string, ReadonlyNonEmptyArray<A>> {
+  return <A extends B>(as: ReadonlyArray<A>) => {
     const r: Record<string, NonEmptyArray<A>> = {}
     for (const a of as) {
       const k = f(a)
@@ -273,7 +279,7 @@ export function init<A>(nea: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> {
  * @category combinators
  * @since 2.5.0
  */
-export function sort<A>(O: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> {
+export function sort<B>(O: Ord<B>): <A extends B>(nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> {
   return RA.sort(O) as any
 }
 
