@@ -6,7 +6,7 @@ import { Applicative3, Applicative3C } from './Applicative'
 import { apComposition } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
-import { flow, identity, pipe, Predicate, Refinement, bind_ } from './function'
+import { flow, identity, pipe, Predicate, Refinement, bind_, bindTo_ } from './function'
 import { Functor3 } from './Functor'
 import { Monad3, Monad3C } from './Monad'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
@@ -571,30 +571,23 @@ export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThro
 /**
  * @since 2.8.0
  */
-export const bindTo = <N extends string>(name: N) => <R, E, A>(
-  fa: ReaderEither<R, E, A>
-): ReaderEither<R, E, { [K in N]: A }> =>
-  pipe(
-    fa,
-    map((a) => bind_({}, name, a))
-  )
+export const bindTo = <N extends string>(
+  name: N
+): (<R, E, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in N]: A }>) => map(bindTo_(name))
 
 /**
  * @since 2.8.0
  */
-export const bindW = <N extends string, A, Q, D, B>(name: Exclude<N, keyof A>, f: (a: A) => ReaderEither<Q, D, B>) => <
-  R,
-  E
->(
+export const bindW = <N extends string, A, Q, D, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderEither<Q, D, B>
+): (<R, E>(
   fa: ReaderEither<R, E, A>
-): ReaderEither<Q & R, E | D, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
-  pipe(
-    fa,
-    chainW((a) =>
-      pipe(
-        f(a),
-        map((b) => bind_(a, name, b))
-      )
+) => ReaderEither<Q & R, E | D, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  chainW((a) =>
+    pipe(
+      f(a),
+      map((b) => bind_(a, name, b))
     )
   )
 
@@ -613,11 +606,13 @@ export const bind: <N extends string, A, R, E, B>(
 /**
  * @since 2.8.0
  */
-export const apSW = <A, N extends string, Q, D, B>(name: Exclude<N, keyof A>, fb: ReaderEither<Q, D, B>) => <R, E>(
+export const apSW = <A, N extends string, Q, D, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderEither<Q, D, B>
+): (<R, E>(
   fa: ReaderEither<R, E, A>
-): ReaderEither<Q & R, D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
-  pipe(
-    fa,
+) => ReaderEither<Q & R, D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  flow(
     map((a) => (b: B) => bind_(a, name, b)),
     apW(fb)
   )

@@ -11,7 +11,7 @@
  * @since 2.0.0
  */
 import { Applicative1 } from './Applicative'
-import { identity, pipe, bind_ } from './function'
+import { identity, pipe, bind_, bindTo_, flow } from './function'
 import { IO } from './IO'
 import { Monad1 } from './Monad'
 import { MonadTask1 } from './MonadTask'
@@ -368,25 +368,19 @@ export const never: Task<never> = () => new Promise((_) => undefined)
 /**
  * @since 2.8.0
  */
-export const bindTo = <N extends string>(name: N) => <A>(fa: Task<A>): Task<{ [K in N]: A }> =>
-  pipe(
-    fa,
-    map((a) => bind_({}, name, a))
-  )
+export const bindTo = <N extends string>(name: N): (<A>(fa: Task<A>) => Task<{ [K in N]: A }>) => map(bindTo_(name))
 
 /**
  * @since 2.8.0
  */
-export const bind = <N extends string, A, B>(name: Exclude<N, keyof A>, f: (a: A) => Task<B>) => (
-  fa: Task<A>
-): Task<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
-  pipe(
-    fa,
-    chain((a) =>
-      pipe(
-        f(a),
-        map((b) => bind_(a, name, b))
-      )
+export const bind = <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Task<B>
+): ((fa: Task<A>) => Task<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  chain((a) =>
+    pipe(
+      f(a),
+      map((b) => bind_(a, name, b))
     )
   )
 
@@ -397,11 +391,11 @@ export const bind = <N extends string, A, B>(name: Exclude<N, keyof A>, f: (a: A
 /**
  * @since 2.8.0
  */
-export const apS = <A, N extends string, B>(name: Exclude<N, keyof A>, fb: Task<B>) => (
-  fa: Task<A>
-): Task<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
-  pipe(
-    fa,
+export const apS = <A, N extends string, B>(
+  name: Exclude<N, keyof A>,
+  fb: Task<B>
+): ((fa: Task<A>) => Task<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  flow(
     map((a) => (b: B) => bind_(a, name, b)),
     ap(fb)
   )

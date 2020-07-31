@@ -10,7 +10,7 @@ import { apComposition } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { Filterable2C, getFilterableComposition } from './Filterable'
-import { flow, identity, Lazy, pipe, Predicate, Refinement, bind_ } from './function'
+import { flow, identity, Lazy, pipe, Predicate, Refinement, bind_, bindTo_ } from './function'
 import { Functor2 } from './Functor'
 import * as I from './IO'
 import { Monad2, Monad2C } from './Monad'
@@ -621,25 +621,20 @@ export const bracket = <E, A, B>(
 /**
  * @since 2.8.0
  */
-export const bindTo = <N extends string>(name: N) => <E, A>(fa: IOEither<E, A>): IOEither<E, { [K in N]: A }> =>
-  pipe(
-    fa,
-    map((a) => bind_({}, name, a))
-  )
+export const bindTo = <N extends string>(name: N): (<E, A>(fa: IOEither<E, A>) => IOEither<E, { [K in N]: A }>) =>
+  map(bindTo_(name))
 
 /**
  * @since 2.8.0
  */
-export const bindW = <N extends string, A, D, B>(name: Exclude<N, keyof A>, f: (a: A) => IOEither<D, B>) => <E>(
-  fa: IOEither<E, A>
-): IOEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
-  pipe(
-    fa,
-    chainW((a) =>
-      pipe(
-        f(a),
-        map((b) => bind_(a, name, b))
-      )
+export const bindW = <N extends string, A, D, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => IOEither<D, B>
+): (<E>(fa: IOEither<E, A>) => IOEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  chainW((a) =>
+    pipe(
+      f(a),
+      map((b) => bind_(a, name, b))
     )
   )
 
@@ -658,11 +653,11 @@ export const bind: <N extends string, A, E, B>(
 /**
  * @since 2.8.0
  */
-export const apSW = <A, N extends string, D, B>(name: Exclude<N, keyof A>, fb: IOEither<D, B>) => <E>(
-  fa: IOEither<E, A>
-): IOEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
-  pipe(
-    fa,
+export const apSW = <A, N extends string, D, B>(
+  name: Exclude<N, keyof A>,
+  fb: IOEither<D, B>
+): (<E>(fa: IOEither<E, A>) => IOEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  flow(
     map((a) => (b: B) => bind_(a, name, b)),
     apW(fb)
   )

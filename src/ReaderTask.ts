@@ -1,7 +1,7 @@
 /**
  * @since 2.3.0
  */
-import { identity, flow, pipe, bind_ } from './function'
+import { identity, flow, pipe, bind_, bindTo_ } from './function'
 import { IO } from './IO'
 import { Monad2 } from './Monad'
 import { MonadTask2 } from './MonadTask'
@@ -358,25 +358,20 @@ export function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A> {
 /**
  * @since 2.8.0
  */
-export const bindTo = <N extends string>(name: N) => <R, A>(fa: ReaderTask<R, A>): ReaderTask<R, { [K in N]: A }> =>
-  pipe(
-    fa,
-    map((a) => bind_({}, name, a))
-  )
+export const bindTo = <N extends string>(name: N): (<R, A>(fa: ReaderTask<R, A>) => ReaderTask<R, { [K in N]: A }>) =>
+  map(bindTo_(name))
 
 /**
  * @since 2.8.0
  */
-export const bindW = <N extends string, A, Q, B>(name: Exclude<N, keyof A>, f: (a: A) => ReaderTask<Q, B>) => <R>(
-  fa: ReaderTask<R, A>
-): ReaderTask<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
-  pipe(
-    fa,
-    chainW((a) =>
-      pipe(
-        f(a),
-        map((b) => bind_(a, name, b))
-      )
+export const bindW = <N extends string, A, Q, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderTask<Q, B>
+): (<R>(fa: ReaderTask<R, A>) => ReaderTask<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  chainW((a) =>
+    pipe(
+      f(a),
+      map((b) => bind_(a, name, b))
     )
   )
 
@@ -395,11 +390,11 @@ export const bind: <N extends string, A, R, B>(
 /**
  * @since 2.8.0
  */
-export const apSW = <A, N extends string, Q, B>(name: Exclude<N, keyof A>, fb: ReaderTask<Q, B>) => <R>(
-  fa: ReaderTask<R, A>
-): ReaderTask<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
-  pipe(
-    fa,
+export const apSW = <A, N extends string, Q, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderTask<Q, B>
+): (<R>(fa: ReaderTask<R, A>) => ReaderTask<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  flow(
     map((a) => (b: B) => bind_(a, name, b)),
     apW(fb)
   )
