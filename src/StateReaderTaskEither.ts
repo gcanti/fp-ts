@@ -4,7 +4,7 @@
 import { Alt4 } from './Alt'
 import { Bifunctor4 } from './Bifunctor'
 import { Either } from './Either'
-import { identity, Lazy, pipe, Predicate, Refinement, bind_ } from './function'
+import { identity, Lazy, pipe, Predicate, Refinement, bind_, bindTo_, flow } from './function'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad4 } from './Monad'
@@ -740,13 +740,10 @@ export const execState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S
 /**
  * @since 2.8.0
  */
-export const bindTo = <N extends string>(name: N) => <S, R, E, A>(
-  fa: StateReaderTaskEither<S, R, E, A>
-): StateReaderTaskEither<S, R, E, { [K in N]: A }> =>
-  pipe(
-    fa,
-    map((a) => bind_({}, name, a))
-  )
+export const bindTo = <N extends string>(
+  name: N
+): (<S, R, E, A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, { [K in N]: A }>) =>
+  map(bindTo_(name))
 
 /**
  * @since 2.8.0
@@ -754,16 +751,13 @@ export const bindTo = <N extends string>(name: N) => <S, R, E, A>(
 export const bindW = <N extends string, A, S, Q, D, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => StateReaderTaskEither<S, Q, D, B>
-) => <R, E>(
+): (<R, E>(
   fa: StateReaderTaskEither<S, R, E, A>
-): StateReaderTaskEither<S, Q & R, E | D, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
-  pipe(
-    fa,
-    chainW((a) =>
-      pipe(
-        f(a),
-        map((b) => bind_(a, name, b))
-      )
+) => StateReaderTaskEither<S, Q & R, E | D, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  chainW((a) =>
+    pipe(
+      f(a),
+      map((b) => bind_(a, name, b))
     )
   )
 
@@ -787,11 +781,10 @@ export const bind: <N extends string, A, S, R, E, B>(
 export const apSW = <A, N extends string, S, Q, D, B>(
   name: Exclude<N, keyof A>,
   fb: StateReaderTaskEither<S, Q, D, B>
-) => <R, E>(
+): (<R, E>(
   fa: StateReaderTaskEither<S, R, E, A>
-): StateReaderTaskEither<S, Q & R, D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
-  pipe(
-    fa,
+) => StateReaderTaskEither<S, Q & R, D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  flow(
     map((a) => (b: B) => bind_(a, name, b)),
     apW(fb)
   )

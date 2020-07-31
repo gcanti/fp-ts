@@ -345,25 +345,20 @@ export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<U
 /**
  * @since 2.8.0
  */
-export const bindTo = <N extends string>(name: N) => <R, A>(fa: Reader<R, A>): Reader<R, { [K in N]: A }> =>
-  F.pipe(
-    fa,
-    map((a) => F.bind_({}, name, a))
-  )
+export const bindTo = <N extends string>(name: N): (<R, A>(fa: Reader<R, A>) => Reader<R, { [K in N]: A }>) =>
+  map(F.bindTo_(name))
 
 /**
  * @since 2.8.0
  */
-export const bindW = <N extends string, A, Q, B>(name: Exclude<N, keyof A>, f: (a: A) => Reader<Q, B>) => <R>(
-  fa: Reader<R, A>
-): Reader<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
-  F.pipe(
-    fa,
-    chainW((a) =>
-      F.pipe(
-        f(a),
-        map((b) => F.bind_(a, name, b))
-      )
+export const bindW = <N extends string, A, Q, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Reader<Q, B>
+): (<R>(fa: Reader<R, A>) => Reader<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  chainW((a) =>
+    F.pipe(
+      f(a),
+      map((b) => F.bind_(a, name, b))
     )
   )
 
@@ -382,11 +377,11 @@ export const bind: <N extends string, A, R, B>(
 /**
  * @since 2.8.0
  */
-export const apSW = <A, N extends string, Q, B>(name: Exclude<N, keyof A>, fb: Reader<Q, B>) => <R>(
-  fa: Reader<R, A>
-): Reader<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
-  F.pipe(
-    fa,
+export const apSW = <A, N extends string, Q, B>(
+  name: Exclude<N, keyof A>,
+  fb: Reader<Q, B>
+): (<R>(fa: Reader<R, A>) => Reader<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  F.flow(
     map((a) => (b: B) => F.bind_(a, name, b)),
     apW(fb)
   )

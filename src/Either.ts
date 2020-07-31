@@ -21,7 +21,7 @@ import { Separated } from './Compactable'
 import { Eq } from './Eq'
 import { Extend2 } from './Extend'
 import { Foldable2 } from './Foldable'
-import { identity, Lazy, Predicate, Refinement, pipe, bind_ } from './function'
+import { identity, Lazy, Predicate, Refinement, pipe, bind_, bindTo_, flow } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2, Monad2C } from './Monad'
@@ -1039,25 +1039,20 @@ export function exists<A>(predicate: Predicate<A>): <E>(ma: Either<E, A>) => boo
 /**
  * @since 2.8.0
  */
-export const bindTo = <N extends string>(name: N) => <E, A>(fa: Either<E, A>): Either<E, { [K in N]: A }> =>
-  pipe(
-    fa,
-    map((a) => bind_({}, name, a))
-  )
+export const bindTo = <N extends string>(name: N): (<E, A>(fa: Either<E, A>) => Either<E, { [K in N]: A }>) =>
+  map(bindTo_(name))
 
 /**
  * @since 2.8.0
  */
-export const bindW = <N extends string, A, D, B>(name: Exclude<N, keyof A>, f: (a: A) => Either<D, B>) => <E>(
-  fa: Either<E, A>
-): Either<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
-  pipe(
-    fa,
-    chainW((a) =>
-      pipe(
-        f(a),
-        map((b) => bind_(a, name, b))
-      )
+export const bindW = <N extends string, A, D, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Either<D, B>
+): (<E>(fa: Either<E, A>) => Either<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  chainW((a) =>
+    pipe(
+      f(a),
+      map((b) => bind_(a, name, b))
     )
   )
 
@@ -1076,11 +1071,11 @@ export const bind: <N extends string, A, E, B>(
 /**
  * @since 2.8.0
  */
-export const apSW = <A, N extends string, D, B>(name: Exclude<N, keyof A>, fb: Either<D, B>) => <E>(
-  fa: Either<E, A>
-): Either<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =>
-  pipe(
-    fa,
+export const apSW = <A, N extends string, D, B>(
+  name: Exclude<N, keyof A>,
+  fb: Either<D, B>
+): (<E>(fa: Either<E, A>) => Either<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  flow(
     map((a) => (b: B) => bind_(a, name, b)),
     apW(fb)
   )
