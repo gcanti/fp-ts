@@ -1,6 +1,5 @@
 import * as _ from '../../src/NonEmptyArray'
-import { ordString } from '../../src/Ord'
-import { eqString } from '../../src/Eq'
+import { Ord } from '../../src/Ord'
 import { pipe } from '../../src/pipeable'
 
 declare const as: Array<string>
@@ -29,14 +28,6 @@ _.unzip(netns) // $ExpectType [NonEmptyArray<number>, NonEmptyArray<string>]
 pipe(netns, _.unzip) // $ExpectType [NonEmptyArray<number>, NonEmptyArray<string>]
 
 //
-// sort
-//
-
-neas.sort(ordString.compare) // $ExpectType NonEmptyArray<string>
-
-_.sort(ordString)(neas) // $ExpectType NonEmptyArray<string>
-
-//
 // cons
 //
 
@@ -44,8 +35,46 @@ _.cons(1, []) // $ExpectType NonEmptyArray<1>
 _.cons(1, [2, 3]) // $ExpectType NonEmptyArray<number>
 
 //
+// sort
+//
+
+declare const ordSubX: Ord<{ readonly a: string }>
+interface X {
+  readonly a: string
+  readonly b: number
+}
+
+declare const xs: Array<X>
+declare const nexs: _.NonEmptyArray<X>
+
+_.sort(ordSubX)(nexs) // $ExpectType NonEmptyArray<X>
+pipe(nexs, _.sort(ordSubX)) // $ExpectType NonEmptyArray<X>
+
+//
 // group
 //
 
-_.group(eqString)(as) // $ExpectType NonEmptyArray<string>[]
-_.group(eqString)(neas) // $ExpectType NonEmptyArray<NonEmptyArray<string>>
+_.group(ordSubX)(xs) // $ExpectType NonEmptyArray<X>[]
+pipe(xs, _.group<X>(ordSubX)) // $ExpectType NonEmptyArray<X>[]
+_.group(ordSubX)(nexs) // $ExpectType NonEmptyArray<NonEmptyArray<X>>
+// TODO pipe(nexs, _.group<X>(ordSubX)) // $ExpectType NonEmptyArray<NonEmptyArray<X>>
+
+//
+// groupSort
+//
+
+_.groupSort(ordSubX)(xs) // $ExpectType NonEmptyArray<X>[]
+pipe(xs, _.groupSort<X>(ordSubX)) // $ExpectType NonEmptyArray<X>[]
+_.groupSort(ordSubX)(nexs) // $ExpectType NonEmptyArray<NonEmptyArray<X>>
+// TODO pipe(nexs, _.groupSort<X>(ordSubX)) // $ExpectType NonEmptyArray<NonEmptyArray<X>>
+
+//
+// groupBy
+//
+
+_.groupBy((x: { readonly a: string }) => x.a)(xs) // $ExpectType Record<string, NonEmptyArray<X>>
+// $ExpectType Record<string, NonEmptyArray<X>>
+pipe(
+  xs,
+  _.groupBy((x: { readonly a: string }) => x.a)
+)

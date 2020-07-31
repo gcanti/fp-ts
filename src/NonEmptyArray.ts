@@ -145,11 +145,11 @@ export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = RNEA.getEq
  * @category combinators
  * @since 2.0.0
  */
-export function group<A>(
-  E: Eq<A>
+export function group<B>(
+  E: Eq<B>
 ): {
-  (as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
-  (as: Array<A>): Array<NonEmptyArray<A>>
+  <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
+  <A extends B>(as: Array<A>): Array<NonEmptyArray<A>>
 }
 export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
   return RNEA.group(E) as any
@@ -167,7 +167,12 @@ export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
  * @category combinators
  * @since 2.0.0
  */
-export const groupSort: <A>(O: Ord<A>) => (as: Array<A>) => Array<NonEmptyArray<A>> = RNEA.groupSort as any
+export const groupSort: <B>(
+  O: Ord<B>
+) => {
+  <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
+  <A extends B>(as: Array<A>): Array<NonEmptyArray<A>>
+} = RNEA.groupSort as any
 
 /**
  * Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning
@@ -184,9 +189,9 @@ export const groupSort: <A>(O: Ord<A>) => (as: Array<A>) => Array<NonEmptyArray<
  * @category constructors
  * @since 2.0.0
  */
-export const groupBy: <A>(
-  f: (a: A) => string
-) => (as: Array<A>) => Record<string, NonEmptyArray<A>> = RNEA.groupBy as any
+export const groupBy: <B>(
+  f: (a: B) => string
+) => <A extends B>(as: Array<A>) => Record<string, NonEmptyArray<A>> = RNEA.groupBy as any
 
 /**
  * @since 2.0.0
@@ -210,7 +215,7 @@ export const init: <A>(nea: NonEmptyArray<A>) => Array<A> = RNEA.init as any
  * @category combinators
  * @since 2.0.0
  */
-export const sort: <A>(O: Ord<A>) => (nea: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.sort as any
+export const sort: <B>(O: Ord<B>) => <A extends B>(nea: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.sort as any
 
 /**
  * @since 2.0.0

@@ -53,6 +53,10 @@ high state of flux, you're at risk of it changing without notice.
     - add `apS` (@gcanti)
     - add `bind` (@gcanti)
     - add `bindTo` (@gcanti)
+    - relax `group` signature (@gcanti)
+    - relax `groupBy` signature (@gcanti)
+    - relax `groupSort` signature (@gcanti)
+    - relax `sort` signature (@gcanti)
   - `Option`
     - add `apS` (@gcanti)
     - add `bind` (@gcanti)
@@ -92,6 +96,10 @@ high state of flux, you're at risk of it changing without notice.
     - add `apS` (@gcanti)
     - add `bind` (@gcanti)
     - add `bindTo` (@gcanti)
+    - relax `group` signature (@gcanti)
+    - relax `groupBy` signature (@gcanti)
+    - relax `groupSort` signature (@gcanti)
+    - relax `sort` signature (@gcanti)
   - `State`
     - add `apS` (@gcanti)
     - add `bind` (@gcanti)
