@@ -344,11 +344,11 @@ Group equal, consecutive elements of an array into non empty arrays.
 **Signature**
 
 ```ts
-export declare function group<A>(
-  E: Eq<A>
+export declare function group<B>(
+  E: Eq<B>
 ): {
-  (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
-  (as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
+  <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+  <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
 }
 ```
 
@@ -370,7 +370,12 @@ Sort and then group the elements of an array into non empty arrays.
 **Signature**
 
 ```ts
-export declare function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyNonEmptyArray<A>>
+export declare function groupSort<B>(
+  O: Ord<B>
+): {
+  <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+  <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
+}
 ```
 
 **Example**
@@ -399,7 +404,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function sort<A>(O: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare function sort<B>(O: Ord<B>): <A extends B>(nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.5.0
@@ -494,9 +499,9 @@ function on each element, and grouping the results according to values returned
 **Signature**
 
 ```ts
-export declare function groupBy<A>(
-  f: (a: A) => string
-): (as: ReadonlyArray<A>) => ReadonlyRecord<string, ReadonlyNonEmptyArray<A>>
+export declare function groupBy<B>(
+  f: (a: B) => string
+): <A extends B>(as: ReadonlyArray<A>) => ReadonlyRecord<string, ReadonlyNonEmptyArray<A>>
 ```
 
 **Example**

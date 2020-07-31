@@ -347,11 +347,11 @@ Group equal, consecutive elements of an array into non empty arrays.
 **Signature**
 
 ```ts
-export declare function group<A>(
-  E: Eq<A>
+export declare function group<B>(
+  E: Eq<B>
 ): {
-  (as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
-  (as: Array<A>): Array<NonEmptyArray<A>>
+  <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
+  <A extends B>(as: Array<A>): Array<NonEmptyArray<A>>
 }
 ```
 
@@ -373,7 +373,12 @@ Sort and then group the elements of an array into non empty arrays.
 **Signature**
 
 ```ts
-export declare const groupSort: <A>(O: Ord<A>) => (as: A[]) => NonEmptyArray<A>[]
+export declare const groupSort: <B>(
+  O: Ord<B>
+) => {
+  <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
+  <A extends B>(as: A[]): NonEmptyArray<A>[]
+}
 ```
 
 **Example**
@@ -402,7 +407,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const sort: <A>(O: Ord<A>) => (nea: NonEmptyArray<A>) => NonEmptyArray<A>
+export declare const sort: <B>(O: Ord<B>) => <A extends B>(nea: NonEmptyArray<A>) => NonEmptyArray<A>
 ```
 
 Added in v2.0.0
@@ -487,7 +492,7 @@ function on each element, and grouping the results according to values returned
 **Signature**
 
 ```ts
-export declare const groupBy: <A>(f: (a: A) => string) => (as: A[]) => Record<string, NonEmptyArray<A>>
+export declare const groupBy: <B>(f: (a: B) => string) => <A extends B>(as: A[]) => Record<string, NonEmptyArray<A>>
 ```
 
 **Example**
