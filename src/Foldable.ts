@@ -158,7 +158,6 @@ export interface FoldableComposition22C<F extends URIS2, G extends URIS2, E> {
   readonly reduceRight: <FE, A, B>(fa: Kind2<F, FE, Kind2<G, E, A>>, b: B, f: (a: A, b: B) => B) => B
 }
 
-// TODO: remove in v3
 /**
  * Returns the composition of two foldables
  *
@@ -262,6 +261,7 @@ export function foldM<M, F>(
   return (fa, b, f) => F.reduce(fa, M.of(b), (mb, a) => M.chain(mb, (b) => f(b, a)))
 }
 
+// TODO: curry in v3
 /**
  * Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator
  *
@@ -295,7 +295,6 @@ export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M, fm: HK
   }
 }
 
-// TODO: remove in v3
 /**
  * Transforms a `Foldable` into a read-only array.
  *
@@ -324,7 +323,6 @@ export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => ReadonlyArray<
     })
 }
 
-// TODO: remove in v3
 /**
  * Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
  * final result.

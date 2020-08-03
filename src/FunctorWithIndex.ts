@@ -160,7 +160,6 @@ export interface FunctorWithIndexComposition22C<F extends URIS2, FI, G extends U
 
 /* tslint:enable:readonly-array */
 
-// TODO: remove in v3
 /**
  * @since 2.0.0
  */
