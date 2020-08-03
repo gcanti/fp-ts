@@ -3,10 +3,10 @@
  */
 import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C } from './Applicative'
-import { apComposition, Apply1 } from './Apply'
+import { Apply1 } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
-import { flow, identity, Lazy, pipe, Predicate, Refinement, bind_, bindTo_ } from './function'
+import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { Functor3 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
@@ -619,7 +619,14 @@ export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderTaskEither<R
  * @since 2.7.0
  */
 export function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative3C<URI, E> {
-  const ap = apComposition(R.Applicative, TE.getApplicativeTaskValidation(A, SE))
+  const AV = TE.getApplicativeTaskValidation(A, SE)
+  const ap = <EF, A>(
+    fga: R.Reader<EF, TE.TaskEither<E, A>>
+  ): (<B>(fgab: R.Reader<EF, TE.TaskEither<E, (a: A) => B>>) => R.Reader<EF, TE.TaskEither<E, B>>) =>
+    flow(
+      R.map((gab) => (ga: TE.TaskEither<E, A>) => AV.ap(gab, ga)),
+      R.ap(fga)
+    )
   return {
     URI,
     _E: undefined as any,

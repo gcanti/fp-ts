@@ -202,7 +202,6 @@ export interface FoldableWithIndexComposition22C<F extends URIS2, FI, G extends 
 
 /* tslint:enable:readonly-array */
 
-// TODO: remove in v3
 /**
  * @since 2.0.0
  */

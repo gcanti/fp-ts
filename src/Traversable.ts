@@ -348,7 +348,6 @@ export interface TraversableComposition11<F extends URIS, G extends URIS>
   readonly sequence: SequenceComposition11<F, G>
 }
 
-// TODO: remove in v3
 /**
  * Returns the composition of two traversables
  *

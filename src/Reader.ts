@@ -5,7 +5,7 @@ import { Applicative2 } from './Applicative'
 import { Category2 } from './Category'
 import { Choice2 } from './Choice'
 import * as E from './Either'
-import * as F from './function'
+import { bindTo_, bind_, flow, identity, pipe } from './function'
 import { Functor2 } from './Functor'
 import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
@@ -35,7 +35,7 @@ export interface Reader<R, A> {
  * @category constructors
  * @since 2.0.0
  */
-export const ask: <R>() => Reader<R, R> = () => F.identity
+export const ask: <R>() => Reader<R, R> = () => identity
 
 /**
  * Projects a value from the global context in a Reader
@@ -62,10 +62,12 @@ export const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q,
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad2<URI>['map'] = (fa, f) => F.pipe(fa, map(f))
-const ap_: Monad2<URI>['ap'] = (fab, fa) => F.pipe(fab, ap(fa))
 /* istanbul ignore next */
-const chain_: Monad2<URI>['chain'] = (ma, f) => F.pipe(ma, chain(f))
+const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+/* istanbul ignore next */
+const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+/* istanbul ignore next */
+const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 const compose_: <E, A, B>(ab: Reader<A, B>, la: Reader<E, A>) => Reader<E, B> = (ab, la) => (l) => ab(la(l))
 const promap_: <E, A, D, B>(fbc: Reader<E, A>, f: (d: D) => E, g: (a: A) => B) => Reader<D, B> = (mbc, f, g) => (a) =>
   g(mbc(f(a)))
@@ -114,7 +116,7 @@ export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) =>
  * @since 2.0.0
  */
 export const apFirst = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reader<R, A> =>
-  F.pipe(
+  pipe(
     fa,
     map((a) => (_: B) => a),
     ap(fb)
@@ -127,7 +129,7 @@ export const apFirst = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reader
  * @since 2.0.0
  */
 export const apSecond = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reader<R, B> =>
-  F.pipe(
+  pipe(
     fa,
     map(() => (b: B) => b),
     ap(fb)
@@ -166,7 +168,7 @@ export const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) =
  */
 export const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, A> = (f) =>
   chain((a) =>
-    F.pipe(
+    pipe(
       f(a),
       map(() => a)
     )
@@ -178,7 +180,7 @@ export const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, 
  */
 export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> =
   /*#__PURE__*/
-  chain(F.identity)
+  chain(identity)
 
 /**
  * @category Semigroupoid
@@ -199,7 +201,7 @@ export const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reade
  * @category Category
  * @since 2.0.0
  */
-export const id: Category2<URI>['id'] = () => F.identity
+export const id: Category2<URI>['id'] = () => identity
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -346,7 +348,7 @@ export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<U
  * @since 2.8.0
  */
 export const bindTo = <N extends string>(name: N): (<R, A>(fa: Reader<R, A>) => Reader<R, { [K in N]: A }>) =>
-  map(F.bindTo_(name))
+  map(bindTo_(name))
 
 /**
  * @since 2.8.0
@@ -356,9 +358,9 @@ export const bindW = <N extends string, A, Q, B>(
   f: (a: A) => Reader<Q, B>
 ): (<R>(fa: Reader<R, A>) => Reader<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
   chainW((a) =>
-    F.pipe(
+    pipe(
       f(a),
-      map((b) => F.bind_(a, name, b))
+      map((b) => bind_(a, name, b))
     )
   )
 
@@ -381,8 +383,8 @@ export const apSW = <A, N extends string, Q, B>(
   name: Exclude<N, keyof A>,
   fb: Reader<Q, B>
 ): (<R>(fa: Reader<R, A>) => Reader<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  F.flow(
-    map((a) => (b: B) => F.bind_(a, name, b)),
+  flow(
+    map((a) => (b: B) => bind_(a, name, b)),
     apW(fb)
   )
 

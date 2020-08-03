@@ -6,11 +6,11 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
-import { apComposition, Apply1 } from './Apply'
+import { Apply1 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { Filterable2C, getFilterableComposition } from './Filterable'
-import { flow, identity, Lazy, pipe, Predicate, Refinement, bind_, bindTo_ } from './function'
+import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
@@ -351,9 +351,11 @@ export const apW = <D, A>(fa: TaskEither<D, A>) => <E, B>(fab: TaskEither<E, (a:
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B> =
-  /*#__PURE__*/
-  apComposition(T.ApplicativePar, E.Applicative)
+export const ap = <E, A>(fa: TaskEither<E, A>): (<B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B>) =>
+  flow(
+    T.map((gab) => (ga: E.Either<E, A>) => pipe(gab, E.ap(ga))),
+    T.ap(fa)
+  )
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -562,7 +564,12 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>> {
  * @since 2.7.0
  */
 export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E> {
-  const ap = apComposition(A, E.getApplicativeValidation(SE))
+  const AV = E.getApplicativeValidation(SE)
+  const ap = <A>(fga: T.Task<E.Either<E, A>>) => <B>(fgab: T.Task<E.Either<E, (a: A) => B>>): T.Task<E.Either<E, B>> =>
+    A.ap(
+      A.map(fgab, (h) => (ga: E.Either<E, A>) => AV.ap(h, ga)),
+      fga
+    )
   return {
     URI,
     _E: undefined as any,
