@@ -29,8 +29,10 @@ Added in v2.0.0
 - [model](#model)
   - [Writer (interface)](#writer-interface)
 - [utils](#utils)
-  - [evalWriter](#evalwriter)
-  - [execWriter](#execwriter)
+  - [evaluate](#evaluate)
+  - [execute](#execute)
+  - [~~evalWriter~~](#evalwriter)
+  - [~~execWriter~~](#execwriter)
 
 ---
 
@@ -179,7 +181,29 @@ Added in v2.0.0
 
 # utils
 
-## evalWriter
+## evaluate
+
+**Signature**
+
+```ts
+export declare const evaluate: <W, A>(fa: Writer<W, A>) => A
+```
+
+Added in v2.8.0
+
+## execute
+
+**Signature**
+
+```ts
+export declare const execute: <W, A>(fa: Writer<W, A>) => W
+```
+
+Added in v2.8.0
+
+## ~~evalWriter~~
+
+Use `evaluate` instead
 
 **Signature**
 
@@ -189,7 +213,9 @@ export declare const evalWriter: <W, A>(fa: Writer<W, A>) => A
 
 Added in v2.0.0
 
-## execWriter
+## ~~execWriter~~
+
+Use `execute` instead
 
 **Signature**
 

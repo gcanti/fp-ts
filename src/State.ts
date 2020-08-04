@@ -226,21 +226,35 @@ export const state: Monad2<URI> = Monad
 // utils
 // -------------------------------------------------------------------------------------
 
-// TODO: curry and rename to `evaluate` in v3
 /**
- * Run a computation in the `State` monad, discarding the final state
+ * Use `evaluate` instead
  *
  * @since 2.0.0
+ * @deprecated
  */
 export const evalState: <S, A>(ma: State<S, A>, s: S) => A = (ma, s) => ma(s)[0]
 
-// TODO: curry and rename to `execute` in v3
+/**
+ * Use `execute` instead
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export const execState: <S, A>(ma: State<S, A>, s: S) => S = (ma, s) => ma(s)[1]
+
+/**
+ * Run a computation in the `State` monad, discarding the final state
+ *
+ * @since 2.8.0
+ */
+export const evaluate = <S>(s: S) => <A>(ma: State<S, A>): A => ma(s)[0]
+
 /**
  * Run a computation in the `State` monad discarding the result
  *
- * @since 2.0.0
+ * @since 2.8.0
  */
-export const execState: <S, A>(ma: State<S, A>, s: S) => S = (ma, s) => ma(s)[1]
+export const execute = <S>(s: S) => <A>(ma: State<S, A>): S => ma(s)[1]
 
 // -------------------------------------------------------------------------------------
 // do notation
