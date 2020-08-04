@@ -34,6 +34,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `getFilterable` (@gcanti)
   - `Foldable`
     - add `toArray`, #1272 (@newswim)
+    - add `reduceM` (@gcanti)
   - `Identity`
     - add `apS` (@gcanti)
     - add `bind` (@gcanti)
@@ -134,6 +135,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `evaluate` (@gcanti)
     - add `execute` (@gcanti)
 - **Deprecation**
+  - `Foldable`
+    - deprecate `foldM` in favour of `reduceM` (@gcanti)
   - `State`
     - deprecate `evalState` in favour of `evaluate` (@gcanti)
     - deprecate `execState` in favour of `execute` (@gcanti)
