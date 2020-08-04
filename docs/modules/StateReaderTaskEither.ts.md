@@ -91,9 +91,11 @@ Added in v2.0.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
-  - [evalState](#evalstate)
-  - [execState](#execstate)
+  - [evaluate](#evaluate)
+  - [execute](#execute)
   - [run](#run)
+  - [~~evalState~~](#evalstate)
+  - [~~execState~~](#execstate)
 
 ---
 
@@ -914,9 +916,47 @@ export declare const bindW: <N extends string, A, S, Q, D, B>(
 
 Added in v2.8.0
 
-## evalState
+## evaluate
 
 Run a computation in the `StateReaderTaskEither` monad, discarding the final state
+
+**Signature**
+
+```ts
+export declare const evaluate: <S>(
+  s: S
+) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>) => RTE.ReaderTaskEither<R, E, A>
+```
+
+Added in v2.8.0
+
+## execute
+
+Run a computation in the `StateReaderTaskEither` monad discarding the result
+
+**Signature**
+
+```ts
+export declare const execute: <S>(
+  s: S
+) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>) => RTE.ReaderTaskEither<R, E, S>
+```
+
+Added in v2.8.0
+
+## run
+
+**Signature**
+
+```ts
+export declare function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: R): Promise<Either<E, [A, S]>>
+```
+
+Added in v2.0.0
+
+## ~~evalState~~
+
+Use `evaluate` instead
 
 **Signature**
 
@@ -929,9 +969,9 @@ export declare const evalState: <S, R, E, A>(
 
 Added in v2.0.0
 
-## execState
+## ~~execState~~
 
-Run a computation in the `StateReaderTaskEither` monad discarding the result
+Use `execute` instead
 
 **Signature**
 
@@ -940,16 +980,6 @@ export declare const execState: <S, R, E, A>(
   ma: StateReaderTaskEither<S, R, E, A>,
   s: S
 ) => RTE.ReaderTaskEither<R, E, S>
-```
-
-Added in v2.0.0
-
-## run
-
-**Signature**
-
-```ts
-export declare function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: R): Promise<Either<E, [A, S]>>
 ```
 
 Added in v2.0.0

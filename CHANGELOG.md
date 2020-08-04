@@ -104,6 +104,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `apS` (@gcanti)
     - add `bind` (@gcanti)
     - add `bindTo` (@gcanti)
+    - add `evaluate` (@gcanti)
+    - add `execute` (@gcanti)
   - `StateReaderTaskEither`
     - add `apS` (@gcanti)
     - add `apSW` (@gcanti)
@@ -111,6 +113,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `bindTo` (@gcanti)
     - add `bindW` (@gcanti)
     - add `chainFirstW`, #1273 (@leemhenson)
+    - add `evaluate` (@gcanti)
+    - add `execute` (@gcanti)
   - `Task`
     - add `apS` (@gcanti)
     - add `bind` (@gcanti)
@@ -126,6 +130,19 @@ high state of flux, you're at risk of it changing without notice.
     - add `apS` (@gcanti)
     - add `bind` (@gcanti)
     - add `bindTo` (@gcanti)
+  - `Writer`
+    - add `evaluate` (@gcanti)
+    - add `execute` (@gcanti)
+- **Deprecation**
+  - `State`
+    - deprecate `evalState` in favour of `evaluate` (@gcanti)
+    - deprecate `execState` in favour of `execute` (@gcanti)
+  - `StateReaderTaskEither`
+    - deprecate `evalState` in favour of `evaluate` (@gcanti)
+    - deprecate `execState` in favour of `execute` (@gcanti)
+  - `Writer`
+    - deprecate `evalWriter` in favour of `evaluate` (@gcanti)
+    - deprecate `execWriter` in favour of `execute` (@gcanti)
 
 # 2.7.1
 

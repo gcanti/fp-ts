@@ -703,12 +703,13 @@ export function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: 
 }
 /* tslint:enable:readonly-array */
 
-// TODO: curry and rename to `evaluate` in v3
 /**
- * Run a computation in the `StateReaderTaskEither` monad, discarding the final state
+ * Use `evaluate` instead
  *
  * @since 2.0.0
+ * @deprecated
  */
+/* istanbul ignore next */
 export const evalState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S) => ReaderTaskEither<R, E, A> = (
   fsa,
   s
@@ -718,18 +719,41 @@ export const evalState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S
     RTE.map(([a]) => a)
   )
 
-// TODO: curry and rename to `execute` in v3
 /**
- * Run a computation in the `StateReaderTaskEither` monad discarding the result
+ * Use `execute` instead
  *
  * @since 2.0.0
+ * @deprecated
  */
+/* istanbul ignore next */
 export const execState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S) => ReaderTaskEither<R, E, S> = (
   fsa,
   s
 ) =>
   pipe(
     fsa(s),
+    RTE.map(([_, s]) => s)
+  )
+
+/**
+ * Run a computation in the `StateReaderTaskEither` monad, discarding the final state
+ *
+ * @since 2.8.0
+ */
+export const evaluate = <S>(s: S) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>): ReaderTaskEither<R, E, A> =>
+  pipe(
+    ma(s),
+    RTE.map(([a]) => a)
+  )
+
+/**
+ * Run a computation in the `StateReaderTaskEither` monad discarding the result
+ *
+ * @since 2.8.0
+ */
+export const execute = <S>(s: S) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>): ReaderTaskEither<R, E, S> =>
+  pipe(
+    ma(s),
     RTE.map(([_, s]) => s)
   )
 
