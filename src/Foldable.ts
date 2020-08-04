@@ -214,42 +214,37 @@ export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): Fo
   }
 }
 
-// TODO: rename to `reduceM` in v3
 /**
- * Similar to 'reduce', but the result is encapsulated in a monad.
- *
- * Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
- *
- * @example
- * import { foldM } from 'fp-ts/Foldable'
- * import { option, some } from 'fp-ts/Option'
- * import { make, tree } from 'fp-ts/Tree'
- *
- * const t = make(1, [make(2, []), make(3, []), make(4, [])])
- * assert.deepStrictEqual(foldM(option, tree)(t, 0, (b, a) => (a > 2 ? some(b + a) : some(b))), some(7))
+ * Use `reduceM` instead
  *
  * @since 2.0.0
+ * @deprecated
  */
 export function foldM<M extends URIS3, F extends URIS>(
   M: Monad3<M>,
   F: Foldable1<F>
 ): <R, E, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, B>
+/** @deprecated */
 export function foldM<M extends URIS3, F extends URIS, E>(
   M: Monad3C<M, E>,
   F: Foldable1<F>
 ): <R, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, B>
+/** @deprecated */
 export function foldM<M extends URIS2, F extends URIS>(
   M: Monad2<M>,
   F: Foldable1<F>
 ): <E, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind2<M, E, B>) => Kind2<M, E, B>
+/** @deprecated */
 export function foldM<M extends URIS2, F extends URIS, E>(
   M: Monad2C<M, E>,
   F: Foldable1<F>
 ): <A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind2<M, E, B>) => Kind2<M, E, B>
+/** @deprecated */
 export function foldM<M extends URIS, F extends URIS>(
   M: Monad1<M>,
   F: Foldable1<F>
 ): <A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind<M, B>) => Kind<M, B>
+/** @deprecated */
 export function foldM<M, F>(
   M: Monad<M>,
   F: Foldable<F>
@@ -259,6 +254,53 @@ export function foldM<M, F>(
   F: Foldable<F>
 ): <A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => HKT<M, B>) => HKT<M, B> {
   return (fa, b, f) => F.reduce(fa, M.of(b), (mb, a) => M.chain(mb, (b) => f(b, a)))
+}
+
+/**
+ * Similar to 'reduce', but the result is encapsulated in a monad.
+ *
+ * Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
+ *
+ * @example
+ * import { reduceM } from 'fp-ts/Foldable'
+ * import { Monad, some } from 'fp-ts/Option'
+ * import { make, Foldable } from 'fp-ts/Tree'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const t = make(1, [make(2, []), make(3, []), make(4, [])])
+ * assert.deepStrictEqual(pipe(t, reduceM(Monad, Foldable)(0, (b, a) => (a > 2 ? some(b + a) : some(b)))), some(7))
+ *
+ * @since 2.8.0
+ */
+export function reduceM<M extends URIS3, F extends URIS>(
+  M: Monad3<M>,
+  F: Foldable1<F>
+): <B, A, R, E>(b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => (fa: Kind<F, A>) => Kind3<M, R, E, B>
+export function reduceM<M extends URIS3, F extends URIS, E>(
+  M: Monad3C<M, E>,
+  F: Foldable1<F>
+): <B, A, R>(b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => (fa: Kind<F, A>) => Kind3<M, R, E, B>
+export function reduceM<M extends URIS2, F extends URIS>(
+  M: Monad2<M>,
+  F: Foldable1<F>
+): <B, A, E>(b: B, f: (b: B, a: A) => Kind2<M, E, B>) => (fa: Kind<F, A>) => Kind2<M, E, B>
+export function reduceM<M extends URIS2, F extends URIS, E>(
+  M: Monad2C<M, E>,
+  F: Foldable1<F>
+): <B, A>(b: B, f: (b: B, a: A) => Kind2<M, E, B>) => (fa: Kind<F, A>) => Kind2<M, E, B>
+export function reduceM<M extends URIS, F extends URIS>(
+  M: Monad1<M>,
+  F: Foldable1<F>
+): <B, A>(b: B, f: (b: B, a: A) => Kind<M, B>) => (fa: Kind<F, A>) => Kind<M, B>
+export function reduceM<M, F>(
+  M: Monad<M>,
+  F: Foldable<F>
+): <B, A>(b: B, f: (b: B, a: A) => HKT<M, B>) => (fa: HKT<F, A>) => HKT<M, B>
+export function reduceM<M, F>(
+  M: Monad<M>,
+  F: Foldable<F>
+): <B, A>(b: B, f: (b: B, a: A) => HKT<M, B>) => (fa: HKT<F, A>) => HKT<M, B> {
+  return (b, f) => (fa) => F.reduce(fa, M.of(b), (mb, a) => M.chain(mb, (b) => f(b, a)))
 }
 
 // TODO: curry in v3
