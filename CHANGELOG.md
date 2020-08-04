@@ -15,6 +15,11 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.8.1
+
+- **Polish**
+  - fix `HKT` typings duplication (which might break module augmentation)
+
 # 2.8.0
 
 - **New Feature**
