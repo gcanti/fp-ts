@@ -351,11 +351,7 @@ export const apW = <D, A>(fa: TaskEither<D, A>) => <E, B>(fab: TaskEither<E, (a:
  * @category Apply
  * @since 2.0.0
  */
-export const ap = <E, A>(fa: TaskEither<E, A>): (<B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B>) =>
-  flow(
-    T.map((gab) => (ga: E.Either<E, A>) => pipe(gab, E.ap(ga))),
-    T.ap(fa)
-  )
+export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B> = apW
 
 /**
  * Combine two effectful actions, keeping only the result of the first.

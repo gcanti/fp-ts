@@ -432,8 +432,7 @@ export const apW = <Q, D, A>(fa: ReaderTaskEither<Q, D, A>) => <R, E, B>(
  */
 export const ap: <R, E, A>(
   fa: ReaderTaskEither<R, E, A>
-) => <B>(fab: ReaderTaskEither<R, E, (a: A) => B>) => ReaderTaskEither<R, E, B> = (fa) => (fab) => (r) =>
-  pipe(fab(r), TE.ap(fa(r)))
+) => <B>(fab: ReaderTaskEither<R, E, (a: A) => B>) => ReaderTaskEither<R, E, B> = apW
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
