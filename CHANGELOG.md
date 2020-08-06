@@ -15,6 +15,11 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.8.2
+
+- **Internal**
+  - define all non-pipeable internal functions in terms of the corresponding pipeable versions (@gcanti)
+
 # 2.8.1
 
 - **Polish**

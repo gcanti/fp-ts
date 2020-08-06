@@ -30,16 +30,26 @@ export type Identity<A> = A
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad1<URI>['map'] = (ma, f) => f(ma)
-const ap_: Monad1<URI>['ap'] = (mab, ma) => mab(ma)
-const chain_: Monad1<URI>['chain'] = (ma, f) => f(ma)
-const reduce_: Foldable1<URI>['reduce'] = (fa, b, f) => f(b, fa)
-const foldMap_: Foldable1<URI>['foldMap'] = (_) => (fa, f) => f(fa)
-const reduceRight_: Foldable1<URI>['reduceRight'] = (fa, b, f) => f(fa, b)
+const map_: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const ap_: Monad1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const chain_: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+/* istanbul ignore next */
+const reduce_: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
+/* istanbul ignore next */
+const foldMap_: Foldable1<URI>['foldMap'] = (M) => (fa, f) => pipe(fa, foldMap(M)(f))
+/* istanbul ignore next */
+const reduceRight_: Foldable1<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
 const alt_: Alt1<URI>['alt'] = id
-const extend_: Extend1<URI>['extend'] = (wa, f) => f(wa)
-const traverse_ = <F>(F: ApplicativeHKT<F>) => <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>): HKT<F, Identity<B>> =>
-  F.map(f(ta), id)
+/* istanbul ignore next */
+const extend_: Extend1<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
+/* istanbul ignore next */
+const traverse_ = <F>(
+  F: ApplicativeHKT<F>
+): (<A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>>) => {
+  const traverseF = traverse(F)
+  return (ta, f) => pipe(ta, traverseF(f))
+}
+
 const chainRec_: ChainRec1<URI>['chainRec'] = tailRec
 
 // -------------------------------------------------------------------------------------
@@ -47,14 +57,124 @@ const chainRec_: ChainRec1<URI>['chainRec'] = tailRec
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category Functor
+ * @since 2.0.0
+ */
+export const map: <A, B>(f: (a: A) => B) => (fa: Identity<A>) => Identity<B> = (f) => (fa) => f(fa)
+
+/**
+ * Apply a function to an argument under a type constructor.
+ *
+ * @category Apply
+ * @since 2.0.0
+ */
+export const ap: <A>(fa: Identity<A>) => <B>(fab: Identity<(a: A) => B>) => Identity<B> = (fa) => (fab) => fab(fa)
+
+/**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
+ * @category Apply
+ * @since 2.0.0
+ */
+export const apFirst: <B>(fb: Identity<B>) => <A>(fa: Identity<A>) => Identity<A> = (fb) =>
+  flow(
+    map((a) => () => a),
+    ap(fb)
+  )
+
+/**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
+ * @category Apply
+ * @since 2.0.0
+ */
+export const apSecond = <B>(fb: Identity<B>): (<A>(fa: Identity<A>) => Identity<B>) =>
+  flow(
+    map(() => (b: B) => b),
+    ap(fb)
+  )
+
+/**
+ * @category Applicative
+ * @since 2.0.0
+ */
+export const of: Applicative1<URI>['of'] = id
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
+ * @category Monad
+ * @since 2.0.0
+ */
+export const chain: <A, B>(f: (a: A) => Identity<B>) => (ma: Identity<A>) => Identity<B> = (f) => (ma) => f(ma)
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * @category Monad
+ * @since 2.0.0
+ */
+export const chainFirst: <A, B>(f: (a: A) => Identity<B>) => (ma: Identity<A>) => Identity<A> = (f) =>
+  chain((a) =>
+    pipe(
+      f(a),
+      map(() => a)
+    )
+  )
+
+/**
+ * @category Extend
+ * @since 2.0.0
+ */
+export const extend: <A, B>(f: (wa: Identity<A>) => B) => (wa: Identity<A>) => Identity<B> = (f) => (wa) => f(wa)
+
+/**
+ * @category Extract
+ * @since 2.6.2
+ */
+export const extract: <A>(wa: Identity<A>) => A = id
+
+/**
+ * @category Extend
+ * @since 2.0.0
+ */
+export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> =
+  /*#__PURE__*/
+  extend(id)
+
+/**
+ * @category Monad
+ * @since 2.0.0
+ */
+export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> =
+  /*#__PURE__*/
+  chain(id)
+
+/**
+ * @category Foldable
+ * @since 2.0.0
+ */
+export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Identity<A>) => B = (b, f) => (fa) => f(b, fa)
+
+/**
+ * @category Foldable
+ * @since 2.0.0
+ */
+export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Identity<A>) => M = () => (f) => (fa) => f(fa)
+
+/**
+ * @category Foldable
+ * @since 2.0.0
+ */
+export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Identity<A>) => B = (b, f) => (fa) => f(fa, b)
+
+/**
  * @since 2.6.3
  */
 export const traverse: PipeableTraverse1<URI> = <F>(
   F: ApplicativeHKT<F>
-): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Identity<A>) => HKT<F, Identity<B>>) => {
-  const traverseF = traverse_(F)
-  return (f) => (ta) => traverseF(ta, f)
-}
+): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Identity<A>) => HKT<F, Identity<B>>) => (f) => (ta) => F.map(f(ta), id)
 
 /**
  * @since 2.6.3
@@ -73,118 +193,6 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>)
  * @since 2.0.0
  */
 export const alt: <A>(that: () => Identity<A>) => (fa: Identity<A>) => Identity<A> = (that) => (fa) => alt_(fa, that)
-
-/**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
- * @since 2.0.0
- */
-export const ap: <A>(fa: Identity<A>) => <B>(fab: Identity<(a: A) => B>) => Identity<B> = (fa) => (fab) => ap_(fab, fa)
-
-/**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * @category Apply
- * @since 2.0.0
- */
-export const apFirst: <B>(fb: Identity<B>) => <A>(fa: Identity<A>) => Identity<A> = (fb) => (fa) =>
-  ap_(
-    map_(fa, (a) => () => a),
-    fb
-  )
-
-/**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * @category Apply
- * @since 2.0.0
- */
-export const apSecond = <B>(fb: Identity<B>) => <A>(fa: Identity<A>): Identity<B> =>
-  ap_(
-    map_(fa, () => (b: B) => b),
-    fb
-  )
-
-/**
- * @category Applicative
- * @since 2.0.0
- */
-export const of: Applicative1<URI>['of'] = id
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
- * @category Monad
- * @since 2.0.0
- */
-export const chain: <A, B>(f: (a: A) => Identity<B>) => (ma: Identity<A>) => Identity<B> = (f) => (ma) => chain_(ma, f)
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * @category Monad
- * @since 2.0.0
- */
-export const chainFirst: <A, B>(f: (a: A) => Identity<B>) => (ma: Identity<A>) => Identity<A> = (f) => (ma) =>
-  chain_(ma, (a) => map_(f(a), () => a))
-
-/**
- * @category Extend
- * @since 2.0.0
- */
-export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> = (wa) => extend_(wa, id)
-
-/**
- * @category Extract
- * @since 2.6.2
- */
-export const extract: <A>(wa: Identity<A>) => A = id
-
-/**
- * @category Extend
- * @since 2.0.0
- */
-export const extend: <A, B>(f: (wa: Identity<A>) => B) => (wa: Identity<A>) => Identity<B> = (f) => (ma) =>
-  extend_(ma, f)
-
-/**
- * @category Monad
- * @since 2.0.0
- */
-export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> = (mma) => chain_(mma, id)
-
-/**
- * @category Foldable
- * @since 2.0.0
- */
-export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Identity<A>) => M = (M) => {
-  const foldMapM = foldMap_(M)
-  return (f) => (fa) => foldMapM(fa, f)
-}
-
-/**
- * @category Foldable
- * @since 2.0.0
- */
-export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Identity<A>) => B = (b, f) => (fa) => reduce_(fa, b, f)
-
-/**
- * @category Foldable
- * @since 2.0.0
- */
-export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Identity<A>) => B = (b, f) => (fa) =>
-  reduceRight_(fa, b, f)
-
-/**
- * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
- * use the type constructor `F` to represent some computational context.
- *
- * @category Functor
- * @since 2.0.0
- */
-export const map: <A, B>(f: (a: A) => B) => (fa: Identity<A>) => Identity<B> = (f) => (fa) => map_(fa, f)
 
 // -------------------------------------------------------------------------------------
 // instances

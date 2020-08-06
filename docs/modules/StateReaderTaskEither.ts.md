@@ -346,7 +346,7 @@ Added in v2.7.0
 
 ```ts
 export declare const chainEitherK: <E, A, B>(
-  f: (a: A) => Either<E, B>
+  f: (a: A) => E.Either<E, B>
 ) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
@@ -360,7 +360,7 @@ Less strict version of [`chainEitherK`](#chainEitherK).
 
 ```ts
 export declare const chainEitherKW: <E, A, B>(
-  f: (a: A) => Either<E, B>
+  f: (a: A) => E.Either<E, B>
 ) => <S, R, D>(ma: StateReaderTaskEither<S, R, D, A>) => StateReaderTaskEither<S, R, E | D, B>
 ```
 
@@ -516,7 +516,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare const fromEither: <S, R, E, A>(ma: Either<E, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const fromEither: <S, R, E, A>(ma: E.Either<E, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.0.0
@@ -617,7 +617,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function left<S, R, E = never, A = never>(e: E): StateReaderTaskEither<S, R, E, A>
+export declare const left: <S, R, E = never, A = never>(e: E) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.0.0
@@ -647,7 +647,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function leftState<S, R, E = never, A = never>(me: State<S, E>): StateReaderTaskEither<S, R, E, A>
+export declare const leftState: <S, R, E = never, A = never>(me: State<S, E>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.0.0

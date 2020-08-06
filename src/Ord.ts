@@ -14,6 +14,7 @@ import { Eq } from './Eq'
 import { Monoid } from './Monoid'
 import { monoidOrdering, Ordering } from './Ordering'
 import { Semigroup } from './Semigroup'
+import { pipe } from './function'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -235,10 +236,9 @@ export function getSemigroup<A = never>(): Semigroup<Ord<A>> {
  * @since 2.4.0
  */
 export function getMonoid<A = never>(): Monoid<Ord<A>> {
-  // tslint:disable-next-line: deprecation
-  const S = getSemigroup<A>()
   return {
-    concat: S.concat,
+    // tslint:disable-next-line: deprecation
+    concat: getSemigroup<A>().concat,
     empty: fromCompare(() => 0)
   }
 }
@@ -281,16 +281,12 @@ export function getDualOrd<A>(O: Ord<A>): Ord<A> {
   return fromCompare((x, y) => O.compare(y, x))
 }
 
-const contramap_: <A, B>(fa: Ord<A>, f: (b: B) => A) => Ord<B> = (fa, f) =>
-  fromCompare((x, y) => fa.compare(f(x), f(y)))
+// -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
 
-/**
- * @category instances
- * @since 2.0.0
- */
-export const ordDate: Ord<Date> =
-  /*#__PURE__*/
-  contramap_(ordNumber, (date) => date.valueOf())
+/* istanbul ignore next */
+const contramap_: <A, B>(fa: Ord<A>, f: (b: B) => A) => Ord<B> = (fa, f) => pipe(fa, contramap(f))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -300,7 +296,8 @@ export const ordDate: Ord<Date> =
  * @category Contravariant
  * @since 2.0.0
  */
-export const contramap: <A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B> = (f) => (fa) => contramap_(fa, f)
+export const contramap: <A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B> = (f) => (fa) =>
+  fromCompare((x, y) => fa.compare(f(x), f(y)))
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -323,6 +320,17 @@ declare module './HKT' {
     readonly [URI]: Ord<A>
   }
 }
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const ordDate: Ord<Date> =
+  /*#__PURE__*/
+  pipe(
+    ordNumber,
+    contramap((date) => date.valueOf())
+  )
 
 /**
  * @category instances

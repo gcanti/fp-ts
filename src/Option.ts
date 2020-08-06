@@ -446,10 +446,10 @@ export const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B
  * @category Apply
  * @since 2.0.0
  */
-export const apFirst: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<A> = (fb) => (fa) =>
-  ap_(
-    map_(fa, (a) => () => a),
-    fb
+export const apFirst: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<A> = (fb) =>
+  flow(
+    map((a) => () => a),
+    ap(fb)
   )
 
 /**
@@ -458,10 +458,10 @@ export const apFirst: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<A> = (f
  * @category Apply
  * @since 2.0.0
  */
-export const apSecond = <B>(fb: Option<B>) => <A>(fa: Option<A>): Option<B> =>
-  ap_(
-    map_(fa, () => (b: B) => b),
-    fb
+export const apSecond = <B>(fb: Option<B>): (<A>(fa: Option<A>) => Option<B>) =>
+  flow(
+    map(() => (b: B) => b),
+    ap(fb)
   )
 
 /**
@@ -485,14 +485,21 @@ export const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<
  * @category Monad
  * @since 2.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<A> = (f) => (ma) =>
-  chain_(ma, (a) => map_(f(a), () => a))
+export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<A> = (f) =>
+  chain((a) =>
+    pipe(
+      f(a),
+      map(() => a)
+    )
+  )
 
 /**
  * @category Monad
  * @since 2.0.0
  */
-export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = (mma) => chain_(mma, identity)
+export const flatten: <A>(mma: Option<Option<A>>) => Option<A> =
+  /*#__PURE__*/
+  chain(identity)
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -540,13 +547,21 @@ export const throwError: MonadThrow1<URI>['throwError'] = () => none
  * @category Extend
  * @since 2.0.0
  */
-export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> = (wa) => extend_(wa, identity)
+export const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Option<B> = (f) => (ma) => extend_(ma, f)
 
 /**
  * @category Extend
  * @since 2.0.0
  */
-export const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Option<B> = (f) => (ma) => extend_(ma, f)
+export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> =
+  /*#__PURE__*/
+  extend(identity)
+
+/**
+ * @category Foldable
+ * @since 2.0.0
+ */
+export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B = (b, f) => (fa) => reduce_(fa, b, f)
 
 /**
  * @category Foldable
@@ -556,12 +571,6 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>
   const foldMapM = foldMap_(M)
   return (f) => (fa) => foldMapM(fa, f)
 }
-
-/**
- * @category Foldable
- * @since 2.0.0
- */
-export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B = (b, f) => (fa) => reduce_(fa, b, f)
 
 /**
  * @category Foldable

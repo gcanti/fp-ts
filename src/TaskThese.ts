@@ -217,7 +217,7 @@ declare module './HKT' {
  * @since 2.4.0
  */
 export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<TaskThese<E, A>> {
-  return T.getSemigroup(TH.getSemigroup<E, A>(SE, SA))
+  return T.getSemigroup(TH.getSemigroup(SE, SA))
 }
 
 /**

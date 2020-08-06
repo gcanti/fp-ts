@@ -12,6 +12,7 @@
 import { Contravariant1 } from './Contravariant'
 import { Monoid } from './Monoid'
 import { ReadonlyRecord } from './ReadonlyRecord'
+import { pipe } from './function'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -40,6 +41,13 @@ export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> {
 }
 
 // -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+/* istanbul ignore next */
+const contramap_: <A, B>(fa: Eq<A>, f: (b: B) => A) => Eq<B> = (fa, f) => pipe(fa, contramap(f))
+
+// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -47,13 +55,12 @@ export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> {
  * @category Contravariant
  * @since 2.0.0
  */
-export const contramap: <A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B> = (f) => (fa) => contramap_(fa, f)
+export const contramap: <A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B> = (f) => (fa) =>
+  fromEquals((x, y) => fa.equals(f(x), f(y)))
 
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
-
-const contramap_: <A, B>(fa: Eq<A>, f: (b: B) => A) => Eq<B> = (fa, f) => fromEquals((x, y) => fa.equals(f(x), f(y)))
 
 /**
  * @category instances

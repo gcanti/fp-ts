@@ -1,7 +1,9 @@
 /**
  * @since 2.3.0
  */
-import { identity, flow, pipe, bind_, bindTo_ } from './function'
+import { Applicative2 } from './Applicative'
+import { bindTo_, bind_, flow, identity, pipe } from './function'
+import { Functor2 } from './Functor'
 import { IO } from './IO'
 import { Monad2 } from './Monad'
 import { MonadTask2 } from './MonadTask'
@@ -16,8 +18,6 @@ import * as T from './Task'
 
 import Task = T.Task
 import Reader = R.Reader
-import { Functor2 } from './Functor'
-import { Applicative2 } from './Applicative'
 
 /**
  * @category model
@@ -63,7 +63,7 @@ export const ask: <R>() => ReaderTask<R, R> = () => T.of
  * @category constructors
  * @since 2.3.0
  */
-export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> = (f) => (r) => pipe(T.of(r), T.map(f))
+export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> = (f) => flow(T.of, T.map(f))
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -114,7 +114,11 @@ export const chainTaskK: <A, B>(f: (a: A) => Task<B>) => <R>(ma: ReaderTask<R, A
 
 const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const apPar_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const apSeq_: Monad2<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
+const apSeq_: Monad2<URI>['ap'] = (fab, fa) =>
+  pipe(
+    fab,
+    chain((f) => pipe(fa, map(f)))
+  )
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
 // -------------------------------------------------------------------------------------
@@ -152,10 +156,9 @@ export const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) =
  * @category Apply
  * @since 2.3.0
  */
-export const apFirst = <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask<R, A>): ReaderTask<R, A> =>
-  pipe(
-    fa,
-    map((a) => (_: B) => a),
+export const apFirst: <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask<R, A>) => ReaderTask<R, A> = (fb) =>
+  flow(
+    map((a) => () => a),
     ap(fb)
   )
 
@@ -165,9 +168,8 @@ export const apFirst = <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask<R, A>)
  * @category Apply
  * @since 2.3.0
  */
-export const apSecond = <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask<R, A>): ReaderTask<R, B> =>
-  pipe(
-    fa,
+export const apSecond = <R, B>(fb: ReaderTask<R, B>): (<A>(fa: ReaderTask<R, A>) => ReaderTask<R, B>) =>
+  flow(
     map(() => (b: B) => b),
     ap(fb)
   )
@@ -250,7 +252,7 @@ declare module './HKT' {
  * @since 2.3.0
  */
 export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<ReaderTask<R, A>> {
-  return R.getSemigroup(T.getSemigroup<A>(S))
+  return R.getSemigroup(T.getSemigroup(S))
 }
 
 /**

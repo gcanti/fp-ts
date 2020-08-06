@@ -319,31 +319,38 @@ export function orElse<E, A, M>(onLeft: (e: E) => Either<M, A>): (ma: Either<E, 
 export const filterOrElse: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (ma: Either<E, A>) =>
-  chain_(ma, (a) => (predicate(a) ? right(a) : left(onFalse(a))))
+} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): ((ma: Either<E, A>) => Either<E, A>) =>
+  chain((a) => (predicate(a) ? right(a) : left(onFalse(a))))
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad2<URI>['map'] = (ma, f) => (isLeft(ma) ? ma : right(f(ma.right)))
-const ap_: <D, E, A, B>(fab: Either<D, (a: A) => B>, fa: Either<E, A>) => Either<D | E, B> = (mab, ma) =>
-  isLeft(mab) ? mab : isLeft(ma) ? ma : right(mab.right(ma.right))
-const chain_: <D, A, E, B>(fa: Either<D, A>, f: (a: A) => Either<E, B>) => Either<D | E, B> = (ma, f) =>
-  isLeft(ma) ? ma : f(ma.right)
-const reduce_: Foldable2<URI>['reduce'] = (fa, b, f) => (isLeft(fa) ? b : f(b, fa.right))
-const foldMap_: Foldable2<URI>['foldMap'] = (M) => (fa, f) => (isLeft(fa) ? M.empty : f(fa.right))
-const reduceRight_: Foldable2<URI>['reduceRight'] = (fa, b, f) => (isLeft(fa) ? b : f(fa.right, b))
-const traverse_ = <F>(F: ApplicativeHKT<F>) => <E, A, B>(
-  ma: Either<E, A>,
-  f: (a: A) => HKT<F, B>
-): HKT<F, Either<E, B>> => {
-  return isLeft(ma) ? F.of(left(ma.left)) : F.map<B, Either<E, B>>(f(ma.right), right)
+const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+/* istanbul ignore next */
+const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+/* istanbul ignore next */
+const reduce_: Foldable2<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
+/* istanbul ignore next */
+const foldMap_: Foldable2<URI>['foldMap'] = (M) => (fa, f) => {
+  const foldMapM = foldMap(M)
+  return pipe(fa, foldMapM(f))
 }
-const bimap_: Bifunctor2<URI>['bimap'] = (fea, f, g) => (isLeft(fea) ? left(f(fea.left)) : right(g(fea.right)))
-const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fea, f) => (isLeft(fea) ? left(f(fea.left)) : fea)
-const alt_: Alt2<URI>['alt'] = (fa, that) => (isLeft(fa) ? that() : fa)
-const extend_: Extend2<URI>['extend'] = (wa, f) => (isLeft(wa) ? wa : right(f(wa)))
+/* istanbul ignore next */
+const reduceRight_: Foldable2<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
+const traverse_ = <F>(
+  F: ApplicativeHKT<F>
+): (<E, A, B>(ta: Either<E, A>, f: (a: A) => HKT<F, B>) => HKT<F, Either<E, B>>) => {
+  const traverseF = traverse(F)
+  return (ta, f) => pipe(ta, traverseF(f))
+}
+const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
+const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
+/* istanbul ignore next */
+const alt_: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
+/* istanbul ignore next */
+const extend_: Extend2<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
 const chainRec_: ChainRec2<URI>['chainRec'] = (a, f) =>
   tailRec(f(a), (e) =>
     isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
@@ -360,7 +367,8 @@ const chainRec_: ChainRec2<URI>['chainRec'] = (a, f) =>
  * @category Functor
  * @since 2.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B> = (f) => (fa) => map_(fa, f)
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B> = (f) => (fa) =>
+  isLeft(fa) ? fa : right(f(fa.right))
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -370,7 +378,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B
  */
 export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<E, A>) => Either<G, B> = (f, g) => (
   fa
-) => bimap_(fa, f, g)
+) => (isLeft(fa) ? left(f(fa.left)) : right(g(fa.right)))
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -378,7 +386,8 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<
  * @category Bifunctor
  * @since 2.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A> = (f) => (fa) => mapLeft_(fa, f)
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A> = (f) => (fa) =>
+  isLeft(fa) ? left(f(fa.left)) : fa
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -387,7 +396,7 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<
  * @since 2.8.0
  */
 export const apW: <D, A>(fa: Either<D, A>) => <E, B>(fab: Either<E, (a: A) => B>) => Either<D | E, B> = (fa) => (fab) =>
-  ap_(fab, fa)
+  isLeft(fab) ? fab : isLeft(fa) ? fa : right(fab.right(fa.right))
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -403,10 +412,10 @@ export const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) =>
  * @category Apply
  * @since 2.0.0
  */
-export const apFirst: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, A> = (fb) => (fa) =>
-  ap_(
-    map_(fa, (a) => () => a),
-    fb
+export const apFirst: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, A> = (fb) =>
+  flow(
+    map((a) => () => a),
+    ap(fb)
   )
 
 /**
@@ -415,10 +424,10 @@ export const apFirst: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Eithe
  * @category Apply
  * @since 2.0.0
  */
-export const apSecond = <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>): Either<E, B> =>
-  ap_(
-    map_(fa, () => (b: B) => b),
-    fb
+export const apSecond = <E, B>(fb: Either<E, B>): (<A>(fa: Either<E, A>) => Either<E, B>) =>
+  flow(
+    map(() => (b: B) => b),
+    ap(fb)
   )
 
 /**
@@ -433,7 +442,8 @@ export const of: Applicative2<URI>['of'] = right
  * @category Monad
  * @since 2.6.0
  */
-export const chainW = <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>): Either<D | E, B> => chain_(ma, f)
+export const chainW = <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>): Either<D | E, B> =>
+  isLeft(ma) ? ma : f(ma.right)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -451,7 +461,16 @@ export const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) =
  */
 export const chainFirstW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>) => Either<D | E, A> = (f) => (
   ma
-) => chain_(ma, (a) => map_(f(a), () => a))
+) =>
+  pipe(
+    ma,
+    chainW((a) =>
+      pipe(
+        f(a),
+        map(() => a)
+      )
+    )
+  )
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -466,7 +485,9 @@ export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, 
  * @category Monad
  * @since 2.0.0
  */
-export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> = (mma) => chain_(mma, identity)
+export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> =
+  /*#__PURE__*/
+  chain(identity)
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -476,54 +497,51 @@ export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> = (mm
  * @since 2.0.0
  */
 export const alt: <E, A>(that: Lazy<Either<E, A>>) => (fa: Either<E, A>) => Either<E, A> = (that) => (fa) =>
-  alt_(fa, that)
+  isLeft(fa) ? that() : fa
 
 /**
  * @category Extend
  * @since 2.0.0
  */
-export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> = (wa) => extend_(wa, identity)
+export const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>) => Either<E, B> = (f) => (wa) =>
+  isLeft(wa) ? wa : right(f(wa))
 
 /**
  * @category Extend
  * @since 2.0.0
  */
-export const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>) => Either<E, B> = (f) => (ma) =>
-  extend_(ma, f)
+export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> =
+  /*#__PURE__*/
+  extend(identity)
 
 /**
  * @category Foldable
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B = (b, f) => (fa) =>
-  reduce_(fa, b, f)
+  isLeft(fa) ? b : f(b, fa.right)
 
 /**
  * @category Foldable
  * @since 2.0.0
  */
-export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M = (M) => {
-  const foldMapM = foldMap_(M)
-  return (f) => (fa) => foldMapM(fa, f)
-}
+export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M = (M) => (f) => (fa) =>
+  isLeft(fa) ? M.empty : f(fa.right)
 
 /**
  * @category Foldable
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B = (b, f) => (fa) =>
-  reduceRight_(fa, b, f)
+  isLeft(fa) ? b : f(fa.right, b)
 
 /**
  * @category Traversable
  * @since 2.6.3
  */
-export const traverse: PipeableTraverse2<URI> = <F>(
-  F: ApplicativeHKT<F>
-): (<A, B>(f: (a: A) => HKT<F, B>) => <E>(ta: Either<E, A>) => HKT<F, Either<E, B>>) => {
-  const traverseF = traverse_(F)
-  return (f) => (fa) => traverseF(fa, f)
-}
+export const traverse: PipeableTraverse2<URI> = <F>(F: ApplicativeHKT<F>) => <A, B>(f: (a: A) => HKT<F, B>) => <E>(
+  ta: Either<E, A>
+): HKT<F, Either<E, B>> => (isLeft(ta) ? F.of(left(ta.left)) : F.map<B, Either<E, B>>(f(ta.right), right))
 
 /**
  * @category Traversable

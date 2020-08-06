@@ -68,9 +68,8 @@ const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-const compose_: <E, A, B>(ab: Reader<A, B>, la: Reader<E, A>) => Reader<E, B> = (ab, la) => (l) => ab(la(l))
-const promap_: <E, A, D, B>(fbc: Reader<E, A>, f: (d: D) => E, g: (a: A) => B) => Reader<D, B> = (mbc, f, g) => (a) =>
-  g(mbc(f(a)))
+const compose_: Category2<URI>['compose'] = (bc, ab) => pipe(bc, compose(ab))
+const promap_: Profunctor2<URI>['promap'] = (fea, f, g) => pipe(fea, promap(f, g))
 const first_: Strong2<URI>['first'] = (pab) => ([a, c]) => [pab(a), c]
 const second_: Strong2<URI>['second'] = (pbc) => ([a, b]) => [a, pbc(b)]
 const left_: Choice2<URI>['left'] = <A, B, C>(pab: Reader<A, B>): Reader<E.Either<A, C>, E.Either<B, C>> =>
@@ -115,10 +114,9 @@ export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) =>
  * @category Apply
  * @since 2.0.0
  */
-export const apFirst = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reader<R, A> =>
-  pipe(
-    fa,
-    map((a) => (_: B) => a),
+export const apFirst: <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>) => Reader<R, A> = (fb) =>
+  flow(
+    map((a) => () => a),
     ap(fb)
   )
 
@@ -128,9 +126,8 @@ export const apFirst = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reader
  * @category Apply
  * @since 2.0.0
  */
-export const apSecond = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reader<R, B> =>
-  pipe(
-    fa,
+export const apSecond = <R, B>(fb: Reader<R, B>): (<A>(fa: Reader<R, A>) => Reader<R, B>) =>
+  flow(
     map(() => (b: B) => b),
     ap(fb)
   )
@@ -186,16 +183,15 @@ export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> =
  * @category Semigroupoid
  * @since 2.0.0
  */
-export const compose: <E, A>(la: Reader<E, A>) => <B>(ab: Reader<A, B>) => Reader<E, B> = (la) => (ab) =>
-  compose_(ab, la)
+export const compose: <A, B>(ab: Reader<A, B>) => <C>(bc: Reader<B, C>) => Reader<A, C> = (ab) => (bc) => flow(ab, bc)
 
 /**
  * @category Profunctor
  * @since 2.0.0
  */
 export const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reader<E, A>) => Reader<D, B> = (f, g) => (
-  fbc
-) => promap_(fbc, f, g)
+  fea
+) => (a) => g(fea(f(a)))
 
 /**
  * @category Category

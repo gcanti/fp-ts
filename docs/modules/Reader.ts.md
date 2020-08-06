@@ -216,7 +216,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const compose: <E, A>(la: Reader<E, A>) => <B>(ab: Reader<A, B>) => Reader<E, B>
+export declare const compose: <A, B>(ab: Reader<A, B>) => <C>(bc: Reader<B, C>) => Reader<A, C>
 ```
 
 Added in v2.0.0

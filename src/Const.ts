@@ -14,7 +14,7 @@ import { BooleanAlgebra } from './BooleanAlgebra'
 import { Bounded } from './Bounded'
 import { Contravariant2 } from './Contravariant'
 import { Eq } from './Eq'
-import { identity, unsafeCoerce } from './function'
+import { identity, pipe, unsafeCoerce } from './function'
 import { Functor2 } from './Functor'
 import { HeytingAlgebra } from './HeytingAlgebra'
 import { Monoid } from './Monoid'
@@ -136,10 +136,13 @@ export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> {
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const contramap_: Contravariant2<URI>['contramap'] = unsafeCoerce
-const map_: Functor2<URI>['map'] = unsafeCoerce
-const bimap_: Bifunctor2<URI>['bimap'] = (fea, f) => make(f(fea))
-const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fea, f) => make(f(fea))
+const contramap_: Contravariant2<URI>['contramap'] = (fa, f) => pipe(fa, contramap(f))
+/* istanbul ignore next */
+const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+/* istanbul ignore next */
+const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
+/* istanbul ignore next */
+const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -149,7 +152,7 @@ const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fea, f) => make(f(fea))
  * @category Contravariant
  * @since 2.0.0
  */
-export const contramap: <A, B>(f: (b: B) => A) => <E>(fa: Const<E, A>) => Const<E, B> = (f) => (fa) => contramap_(fa, f)
+export const contramap: <A, B>(f: (b: B) => A) => <E>(fa: Const<E, A>) => Const<E, B> = () => unsafeCoerce
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -158,7 +161,7 @@ export const contramap: <A, B>(f: (b: B) => A) => <E>(fa: Const<E, A>) => Const<
  * @category Functor
  * @since 2.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B> = (f) => (fa) => map_(fa, f)
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B> = () => unsafeCoerce
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -166,8 +169,8 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B> 
  * @category Bifunctor
  * @since 2.6.2
  */
-export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Const<E, A>) => Const<G, B> = (f, g) => (fa) =>
-  bimap_(fa, f, g)
+export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Const<E, A>) => Const<G, B> = (f) => (fa) =>
+  make(f(fa))
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -175,7 +178,7 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Const<E
  * @category Bifunctor
  * @since 2.6.2
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Const<E, A>) => Const<G, A> = (f) => (fa) => mapLeft_(fa, f)
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Const<E, A>) => Const<G, A> = (f) => (fa) => make(f(fa))
 
 // -------------------------------------------------------------------------------------
 // instances

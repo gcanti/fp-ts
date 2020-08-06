@@ -168,7 +168,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const compose: <E, A>(la: [A, E]) => <B>(ab: [B, A]) => [B, E]
+export declare const compose: <A, B>(ab: [B, A]) => <C>(bc: [C, B]) => [C, A]
 ```
 
 Added in v2.0.0

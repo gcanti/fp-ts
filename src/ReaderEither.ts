@@ -35,13 +35,17 @@ export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
  * @category constructors
  * @since 2.0.0
  */
-export const left: <R, E = never, A = never>(e: E) => ReaderEither<R, E, A> = flow(E.left, R.of)
+export const left: <R, E = never, A = never>(e: E) => ReaderEither<R, E, A> =
+  /*#__PURE__*/
+  flow(E.left, R.of)
 
 /**
  * @category constructors
  * @since 2.0.0
  */
-export const right: <R, E = never, A = never>(a: A) => ReaderEither<R, E, A> = flow(E.right, R.of)
+export const right: <R, E = never, A = never>(a: A) => ReaderEither<R, E, A> =
+  /*#__PURE__*/
+  flow(E.right, R.of)
 
 /**
  * @category constructors
@@ -75,8 +79,9 @@ export const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderEither<R, 
  * @category constructors
  * @since 2.0.0
  */
-export const fromEither: <R, E, A>(ma: E.Either<E, A>) => ReaderEither<R, E, A> = (ma) =>
-  E.isLeft(ma) ? left(ma.left) : right(ma.right)
+export const fromEither: <R, E, A>(ma: E.Either<E, A>) => ReaderEither<R, E, A> =
+  /*#__PURE__*/
+  E.fold(left, (a) => right(a))
 
 /**
  * @category constructors
@@ -105,7 +110,9 @@ export const fromPredicate: {
 export const fold: <R, E, A, B>(
   onLeft: (e: E) => Reader<R, B>,
   onRight: (a: A) => Reader<R, B>
-) => (ma: ReaderEither<R, E, A>) => Reader<R, B> = flow(E.fold, R.chain)
+) => (ma: ReaderEither<R, E, A>) => Reader<R, B> =
+  /*#__PURE__*/
+  flow(E.fold, R.chain)
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).
@@ -191,11 +198,8 @@ export const filterOrElse: {
     ma: ReaderEither<R, E, A>
   ) => ReaderEither<R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => <R>(ma: ReaderEither<R, E, A>) =>
-  pipe(
-    ma,
-    chain((a) => (predicate(a) ? right(a) : left(onFalse(a))))
-  )
+} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (<R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>) =>
+  chain((a) => (predicate(a) ? right(a) : left(onFalse(a))))
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -254,11 +258,10 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: ReaderEither<R, E, A>
  * @category Apply
  * @since 2.8.0
  */
-export const apW = <Q, D, A>(fa: ReaderEither<Q, D, A>) => <R, E, B>(
-  fab: ReaderEither<R, E, (a: A) => B>
-): ReaderEither<Q & R, D | E, B> =>
-  pipe(
-    fab,
+export const apW = <Q, D, A>(
+  fa: ReaderEither<Q, D, A>
+): (<R, E, B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<Q & R, D | E, B>) =>
+  flow(
     R.map((gab) => (ga: E.Either<D, A>) => E.apW(ga)(gab)),
     R.apW(fa)
   )
@@ -281,9 +284,8 @@ export const ap: <R, E, A>(
  */
 export const apFirst: <R, E, B>(
   fb: ReaderEither<R, E, B>
-) => <A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = (fb) => (fa) =>
-  pipe(
-    fa,
+) => <A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = (fb) =>
+  flow(
     map((a) => () => a),
     ap(fb)
   )
@@ -294,9 +296,10 @@ export const apFirst: <R, E, B>(
  * @category Apply
  * @since 2.0.0
  */
-export const apSecond = <R, E, B>(fb: ReaderEither<R, E, B>) => <A>(fa: ReaderEither<R, E, A>): ReaderEither<R, E, B> =>
-  pipe(
-    fa,
+export const apSecond = <R, E, B>(
+  fb: ReaderEither<R, E, B>
+): (<A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B>) =>
+  flow(
     map(() => (b: B) => b),
     ap(fb)
   )
@@ -403,7 +406,7 @@ declare module './HKT' {
  * @since 2.0.0
  */
 export function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>> {
-  return R.getSemigroup(E.getSemigroup<E, A>(S))
+  return R.getSemigroup(E.getSemigroup(S))
 }
 
 /**
@@ -414,7 +417,7 @@ export function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R
  * @since 2.0.0
  */
 export function getApplySemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>> {
-  return R.getSemigroup(E.getApplySemigroup<E, A>(S))
+  return R.getSemigroup(E.getApplySemigroup(S))
 }
 
 /**

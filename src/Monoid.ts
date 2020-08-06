@@ -175,7 +175,7 @@ export function getStructMonoid<O extends ReadonlyRecord<string, any>>(
     empty[key] = monoids[key].empty
   }
   return {
-    concat: getStructSemigroup<O>(monoids).concat,
+    concat: getStructSemigroup(monoids).concat,
     empty
   }
 }

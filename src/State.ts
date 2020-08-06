@@ -101,10 +101,9 @@ export const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => S
  * @category Apply
  * @since 2.0.0
  */
-export const apFirst = <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>): State<E, A> =>
-  pipe(
-    fa,
-    map((a) => (_: B) => a),
+export const apFirst: <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, A> = (fb) =>
+  flow(
+    map((a) => () => a),
     ap(fb)
   )
 
@@ -114,9 +113,8 @@ export const apFirst = <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>): State<E,
  * @category Apply
  * @since 2.0.0
  */
-export const apSecond = <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>): State<E, B> =>
-  pipe(
-    fa,
+export const apSecond = <E, B>(fb: State<E, B>): (<A>(fa: State<E, A>) => State<E, B>) =>
+  flow(
     map(() => (b: B) => b),
     ap(fb)
   )

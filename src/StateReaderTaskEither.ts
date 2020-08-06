@@ -2,12 +2,15 @@
  * @since 2.0.0
  */
 import { Alt4 } from './Alt'
+import { Applicative4 } from './Applicative'
 import { Bifunctor4 } from './Bifunctor'
-import { Either } from './Either'
-import { identity, Lazy, pipe, Predicate, Refinement, bind_, bindTo_, flow } from './function'
+import * as E from './Either'
+import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { Functor4 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad4 } from './Monad'
+import { MonadIO4 } from './MonadIO'
 import { MonadTask4 } from './MonadTask'
 import { MonadThrow4 } from './MonadThrow'
 import { Option } from './Option'
@@ -23,9 +26,7 @@ import { TaskEither } from './TaskEither'
 // -------------------------------------------------------------------------------------
 
 import ReaderTaskEither = RTE.ReaderTaskEither
-import { Functor4 } from './Functor'
-import { Applicative4 } from './Applicative'
-import { MonadIO4 } from './MonadIO'
+import Either = E.Either
 
 /* tslint:disable:readonly-array */
 /**
@@ -45,9 +46,7 @@ export interface StateReaderTaskEither<S, R, E, A> {
  * @category constructors
  * @since 2.0.0
  */
-export function left<S, R, E = never, A = never>(e: E): StateReaderTaskEither<S, R, E, A> {
-  return fromReaderTaskEither(RTE.left(e))
-}
+export const left: <S, R, E = never, A = never>(e: E) => StateReaderTaskEither<S, R, E, A> = (e) => () => RTE.left(e)
 
 /**
  * @category constructors
@@ -132,17 +131,16 @@ export function leftIO<S, R, E = never, A = never>(me: IO<E>): StateReaderTaskEi
  * @category constructors
  * @since 2.0.0
  */
-export const rightState: <S, R, E = never, A = never>(ma: State<S, A>) => StateReaderTaskEither<S, R, E, A> = (sa) => (
-  s
-) => RTE.right(sa(s))
+export const rightState: <S, R, E = never, A = never>(ma: State<S, A>) => StateReaderTaskEither<S, R, E, A> = (sa) =>
+  flow(sa, RTE.right)
 
 /**
  * @category constructors
  * @since 2.0.0
  */
-export function leftState<S, R, E = never, A = never>(me: State<S, E>): StateReaderTaskEither<S, R, E, A> {
-  return (s) => RTE.left(me(s)[0])
-}
+export const leftState: <S, R, E = never, A = never>(me: State<S, E>) => StateReaderTaskEither<S, R, E, A> = (me) => (
+  s
+) => RTE.left(me(s)[0])
 
 /**
  * @category constructors
@@ -195,8 +193,9 @@ export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTa
  * @category constructors
  * @since 2.0.0
  */
-export const fromEither: <S, R, E, A>(ma: Either<E, A>) => StateReaderTaskEither<S, R, E, A> = (ma) =>
-  ma._tag === 'Left' ? left(ma.left) : right(ma.right)
+export const fromEither: <S, R, E, A>(ma: Either<E, A>) => StateReaderTaskEither<S, R, E, A> =
+  /*#__PURE__*/
+  E.fold((e) => left(e), right)
 
 /**
  * @category constructors
@@ -345,13 +344,11 @@ export const filterOrElse: {
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(
     ma: StateReaderTaskEither<S, R, E, A>
   ) => StateReaderTaskEither<S, R, E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => <S, R>(
-  ma: StateReaderTaskEither<S, R, E, A>
-): StateReaderTaskEither<S, R, E, A> =>
-  pipe(
-    ma,
-    chain((a) => (predicate(a) ? right(a) : left(onFalse(a))))
-  )
+} = <E, A>(
+  predicate: Predicate<A>,
+  onFalse: (a: A) => E
+): (<S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>) =>
+  chain((a) => (predicate(a) ? right(a) : left(onFalse(a))))
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -462,12 +459,11 @@ export const ap: <S, R, E, A>(
  * @category Apply
  * @since 2.0.0
  */
-export const apFirst = <S, R, E, B>(fb: StateReaderTaskEither<S, R, E, B>) => <A>(
-  fa: StateReaderTaskEither<S, R, E, A>
-): StateReaderTaskEither<S, R, E, A> =>
-  pipe(
-    fa,
-    map((a) => (_: B) => a),
+export const apFirst: <S, R, E, B>(
+  fb: StateReaderTaskEither<S, R, E, B>
+) => <A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = (fb) =>
+  flow(
+    map((a) => () => a),
     ap(fb)
   )
 
@@ -477,11 +473,10 @@ export const apFirst = <S, R, E, B>(fb: StateReaderTaskEither<S, R, E, B>) => <A
  * @category Apply
  * @since 2.0.0
  */
-export const apSecond = <S, R, E, B>(fb: StateReaderTaskEither<S, R, E, B>) => <A>(
-  fa: StateReaderTaskEither<S, R, E, A>
-): StateReaderTaskEither<S, R, E, B> =>
-  pipe(
-    fa,
+export const apSecond = <S, R, E, B>(
+  fb: StateReaderTaskEither<S, R, E, B>
+): (<A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>) =>
+  flow(
     map(() => (b: B) => b),
     ap(fb)
   )

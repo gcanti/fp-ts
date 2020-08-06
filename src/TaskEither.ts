@@ -60,18 +60,6 @@ export const right: <E = never, A = never>(a: A) => TaskEither<E, A> =
  * @category constructors
  * @since 2.0.0
  */
-export const rightIO = <E = never, A = never>(ma: IO<A>): TaskEither<E, A> => rightTask(T.fromIO(ma))
-
-/**
- * @category constructors
- * @since 2.0.0
- */
-export const leftIO = <E = never, A = never>(me: IO<E>): TaskEither<E, A> => leftTask(T.fromIO(me))
-
-/**
- * @category constructors
- * @since 2.0.0
- */
 export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskEither<E, A> =
   /*#__PURE__*/
   T.map(E.right)
@@ -88,14 +76,31 @@ export const leftTask: <E = never, A = never>(me: Task<E>) => TaskEither<E, A> =
  * @category constructors
  * @since 2.0.0
  */
+export const rightIO: <E = never, A = never>(ma: IO<A>) => TaskEither<E, A> =
+  /*#__PURE__*/
+  flow(T.fromIO, rightTask)
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
+export const leftIO: <E = never, A = never>(me: IO<E>) => TaskEither<E, A> =
+  /*#__PURE__*/
+  flow(T.fromIO, leftTask)
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
 export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = T.fromIO
 
 /**
  * @category constructors
  * @since 2.0.0
  */
-export const fromEither: <E, A>(ma: E.Either<E, A>) => TaskEither<E, A> = (ma) =>
-  E.isLeft(ma) ? left(ma.left) : right(ma.right)
+export const fromEither: <E, A>(ma: E.Either<E, A>) => TaskEither<E, A> =
+  /*#__PURE__*/
+  E.fold(left, (a) => right(a))
 
 /**
  * @category constructors
@@ -210,11 +215,8 @@ export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> =
 export const filterOrElse: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (ma: TaskEither<E, A>) =>
-  pipe(
-    ma,
-    chain((a) => (predicate(a) ? right(a) : left(onFalse(a))))
-  )
+} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): ((ma: TaskEither<E, A>) => TaskEither<E, A>) =>
+  chain((a) => (predicate(a) ? right(a) : left(onFalse(a))))
 
 /**
  * Converts a function returning a `Promise` to one returning a `TaskEither`.
@@ -295,7 +297,12 @@ const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
 const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
 const apPar_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const apSeq_: Applicative2<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
+const apSeq_: Applicative2<URI>['ap'] = (fab, fa) =>
+  pipe(
+    fab,
+    chain((f) => pipe(fa, map(f)))
+  )
+/* istanbul ignore next */
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
 const alt_: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
@@ -338,9 +345,8 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskEither<E, A>) => Tas
  * @category Apply
  * @since 2.8.0
  */
-export const apW = <D, A>(fa: TaskEither<D, A>) => <E, B>(fab: TaskEither<E, (a: A) => B>): TaskEither<D | E, B> =>
-  pipe(
-    fab,
+export const apW = <D, A>(fa: TaskEither<D, A>): (<E, B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<D | E, B>) =>
+  flow(
     T.map((gab) => (ga: E.Either<D, A>) => E.apW(ga)(gab)),
     T.ap(fa)
   )
@@ -359,9 +365,8 @@ export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) =
  * @category Apply
  * @since 2.0.0
  */
-export const apFirst: <E, B>(fb: TaskEither<E, B>) => <A>(fa: TaskEither<E, A>) => TaskEither<E, A> = (fb) => (fa) =>
-  pipe(
-    fa,
+export const apFirst: <E, B>(fb: TaskEither<E, B>) => <A>(fa: TaskEither<E, A>) => TaskEither<E, A> = (fb) =>
+  flow(
     map((a) => () => a),
     ap(fb)
   )
@@ -372,9 +377,8 @@ export const apFirst: <E, B>(fb: TaskEither<E, B>) => <A>(fa: TaskEither<E, A>) 
  * @category Apply
  * @since 2.0.0
  */
-export const apSecond = <E, B>(fb: TaskEither<E, B>) => <A>(fa: TaskEither<E, A>): TaskEither<E, B> =>
-  pipe(
-    fa,
+export const apSecond = <E, B>(fb: TaskEither<E, B>): (<A>(fa: TaskEither<E, A>) => TaskEither<E, B>) =>
+  flow(
     map(() => (b: B) => b),
     ap(fb)
   )
@@ -530,7 +534,7 @@ declare module './HKT' {
  * @since 2.0.0
  */
 export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>> {
-  return T.getSemigroup(E.getSemigroup<E, A>(S))
+  return T.getSemigroup(E.getSemigroup(S))
 }
 
 /**
@@ -541,7 +545,7 @@ export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>>
  * @since 2.0.0
  */
 export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>> {
-  return T.getSemigroup(E.getApplySemigroup<E, A>(S))
+  return T.getSemigroup(E.getApplySemigroup(S))
 }
 
 /**

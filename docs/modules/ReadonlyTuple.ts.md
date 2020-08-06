@@ -168,7 +168,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const compose: <E, A>(la: readonly [A, E]) => <B>(ab: readonly [B, A]) => readonly [B, E]
+export declare const compose: <A, B>(ab: readonly [B, A]) => <C>(bc: readonly [C, B]) => readonly [C, A]
 ```
 
 Added in v2.5.0

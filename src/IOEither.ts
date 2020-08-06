@@ -69,6 +69,30 @@ export const leftIO: <E = never, A = never>(me: IO<E>) => IOEither<E, A> =
   I.map(E.left)
 
 /**
+ * @category constructors
+ * @since 2.0.0
+ */
+export const fromEither: <E, A>(ma: E.Either<E, A>) => IOEither<E, A> =
+  /*#__PURE__*/
+  E.fold(left, (a) => right(a))
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
+export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => IOEither<E, A> = (onNone) => (ma) =>
+  ma._tag === 'None' ? left(onNone()) : right(ma.value)
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
+export const fromPredicate: {
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => IOEither<E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A>
+} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (a: A) => (predicate(a) ? right(a) : left(onFalse(a)))
+
+/**
  * Constructs a new `IOEither` from a function that performs a side effect and might throw
  *
  * @category constructors
@@ -131,11 +155,8 @@ export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> =
 export const filterOrElse: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (ma: IOEither<E, A>) =>
-  pipe(
-    ma,
-    chain((a) => (predicate(a) ? right(a) : left(onFalse(a))))
-  )
+} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): ((ma: IOEither<E, A>) => IOEither<E, A>) =>
+  chain((a) => (predicate(a) ? right(a) : left(onFalse(a))))
 
 /**
  * @category combinators
@@ -164,29 +185,6 @@ export const chainEitherKW: <E, A, B>(f: (a: A) => Either<E, B>) => <D>(ma: IOEi
 export const chainEitherK: <E, A, B>(
   f: (a: A) => Either<E, B>
 ) => (ma: IOEither<E, A>) => IOEither<E, B> = chainEitherKW
-
-/**
- * @category constructors
- * @since 2.0.0
- */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => IOEither<E, A> = (onNone) => (ma) =>
-  ma._tag === 'None' ? left(onNone()) : right(ma.value)
-
-/**
- * @category constructors
- * @since 2.0.0
- */
-export const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => IOEither<E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (a: A) => (predicate(a) ? right(a) : left(onFalse(a)))
-
-/**
- * @category constructors
- * @since 2.0.0
- */
-export const fromEither: <E, A>(ma: E.Either<E, A>) => IOEither<E, A> = (ma) =>
-  E.isLeft(ma) ? left(ma.left) : right(ma.right)
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -225,10 +223,9 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<
  * @category Bifunctor
  * @since 2.0.0
  */
-export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: IOEither<E, A>) => IOEither<G, B> = flow(
-  E.bimap,
-  I.map
-)
+export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: IOEither<E, A>) => IOEither<G, B> =
+  /*#__PURE__*/
+  flow(E.bimap, I.map)
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -244,9 +241,8 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) => IOEit
  * @category Apply
  * @since 2.8.0
  */
-export const apW = <D, A>(fa: IOEither<D, A>) => <E, B>(fab: IOEither<E, (a: A) => B>): IOEither<D | E, B> =>
-  pipe(
-    fab,
+export const apW = <D, A>(fa: IOEither<D, A>): (<E, B>(fab: IOEither<E, (a: A) => B>) => IOEither<D | E, B>) =>
+  flow(
     I.map((gab) => (ga: E.Either<D, A>) => E.apW(ga)(gab)),
     I.ap(fa)
   )
@@ -265,9 +261,8 @@ export const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>
  * @category Apply
  * @since 2.0.0
  */
-export const apFirst: <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>) => IOEither<E, A> = (fb) => (fa) =>
-  pipe(
-    fa,
+export const apFirst: <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>) => IOEither<E, A> = (fb) =>
+  flow(
     map((a) => () => a),
     ap(fb)
   )
@@ -278,9 +273,8 @@ export const apFirst: <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>) => I
  * @category Apply
  * @since 2.0.0
  */
-export const apSecond = <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>): IOEither<E, B> =>
-  pipe(
-    fa,
+export const apSecond = <E, B>(fb: IOEither<E, B>): (<A>(fa: IOEither<E, A>) => IOEither<E, B>) =>
+  flow(
     map(() => (b: B) => b),
     ap(fb)
   )
@@ -331,7 +325,9 @@ export const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither
  * @category Monad
  * @since 2.0.0
  */
-export const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A> = chain(identity)
+export const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A> =
+  /*#__PURE__*/
+  chain(identity)
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -385,7 +381,7 @@ declare module './HKT' {
  * @since 2.0.0
  */
 export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> {
-  return I.getSemigroup(E.getSemigroup<E, A>(S))
+  return I.getSemigroup(E.getSemigroup(S))
 }
 
 /**
@@ -396,7 +392,7 @@ export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> {
  * @since 2.0.0
  */
 export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> {
-  return I.getSemigroup(E.getApplySemigroup<E, A>(S))
+  return I.getSemigroup(E.getApplySemigroup(S))
 }
 
 /**

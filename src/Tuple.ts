@@ -110,7 +110,7 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G] = RT.m
  * @category Semigroupoid
  * @since 2.0.0
  */
-export const compose: <E, A>(la: [A, E]) => <B>(ab: [B, A]) => [B, E] = RT.compose as any
+export const compose: <A, B>(ab: [B, A]) => <C>(bc: [C, B]) => [C, A] = RT.compose as any
 
 /**
  * @category Extend

@@ -74,10 +74,10 @@ export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = (fa) => 
  * @category Apply
  * @since 2.0.0
  */
-export const apFirst: <B>(fb: IO<B>) => <A>(fa: IO<A>) => IO<A> = (fb) => (fa) =>
-  ap_(
-    map_(fa, (a) => () => a),
-    fb
+export const apFirst: <B>(fb: IO<B>) => <A>(fa: IO<A>) => IO<A> = (fb) =>
+  flow(
+    map((a) => () => a),
+    ap(fb)
   )
 
 /**
@@ -86,10 +86,10 @@ export const apFirst: <B>(fb: IO<B>) => <A>(fa: IO<A>) => IO<A> = (fb) => (fa) =
  * @category Apply
  * @since 2.0.0
  */
-export const apSecond = <B>(fb: IO<B>) => <A>(fa: IO<A>): IO<B> =>
-  ap_(
-    map_(fa, () => (b: B) => b),
-    fb
+export const apSecond = <B>(fb: IO<B>): (<A>(fa: IO<A>) => IO<B>) =>
+  flow(
+    map(() => (b: B) => b),
+    ap(fb)
   )
 
 /**
@@ -111,14 +111,21 @@ export const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B> = (f) => 
  * @category Monad
  * @since 2.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<A> = (f) => (ma) =>
-  chain_(ma, (a) => map_(f(a), () => a))
+export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<A> = (f) =>
+  chain((a) =>
+    pipe(
+      f(a),
+      map(() => a)
+    )
+  )
 
 /**
  * @category Monad
  * @since 2.0.0
  */
-export const flatten: <A>(mma: IO<IO<A>>) => IO<A> = (mma) => chain_(mma, identity)
+export const flatten: <A>(mma: IO<IO<A>>) => IO<A> =
+  /*#__PURE__*/
+  chain(identity)
 
 /**
  * @category MonadIO

@@ -49,36 +49,6 @@ export interface ReaderTaskEither<R, E, A> {
  * @category constructors
  * @since 2.0.0
  */
-export function left<R, E = never, A = never>(e: E): ReaderTaskEither<R, E, A> {
-  return fromTaskEither(TE.left(e))
-}
-
-/**
- * @category constructors
- * @since 2.0.0
- */
-export const right: <R, E = never, A = never>(a: A) => ReaderTaskEither<R, E, A> = (a) => () => TE.right(a)
-
-/**
- * @category constructors
- * @since 2.0.0
- */
-export function rightTask<R, E = never, A = never>(ma: Task<A>): ReaderTaskEither<R, E, A> {
-  return fromTaskEither(TE.rightTask(ma))
-}
-
-/**
- * @category constructors
- * @since 2.0.0
- */
-export function leftTask<R, E = never, A = never>(me: Task<E>): ReaderTaskEither<R, E, A> {
-  return fromTaskEither(TE.leftTask(me))
-}
-
-/**
- * @category constructors
- * @since 2.0.0
- */
 export const fromTaskEither: <R, E, A>(ma: TaskEither<E, A>) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
   R.of
@@ -87,64 +57,92 @@ export const fromTaskEither: <R, E, A>(ma: TaskEither<E, A>) => ReaderTaskEither
  * @category constructors
  * @since 2.0.0
  */
-export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderTaskEither<R, E, A> = (ma) => (r) =>
-  TE.right(ma(r))
+export const left: <R, E = never, A = never>(e: E) => ReaderTaskEither<R, E, A> =
+  /*#__PURE__*/
+  flow(TE.left, fromTaskEither)
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
+export const right: <R, E = never, A = never>(a: A) => ReaderTaskEither<R, E, A> =
+  /*#__PURE__*/
+  flow(TE.right, fromTaskEither)
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
+export const rightTask: <R, E = never, A = never>(ma: Task<A>) => ReaderTaskEither<R, E, A> =
+  /*#__PURE__*/
+  flow(TE.rightTask, fromTaskEither)
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
+export const leftTask: <R, E = never, A = never>(me: Task<E>) => ReaderTaskEither<R, E, A> =
+  /*#__PURE__*/
+  flow(TE.leftTask, fromTaskEither)
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
+export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderTaskEither<R, E, A> = (ma) =>
+  flow(ma, TE.right)
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
+export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderTaskEither<R, E, A> = (me) =>
+  flow(me, TE.left)
 
 /**
  * @category constructors
  * @since 2.5.0
  */
-export function leftReaderTask<R, E = never, A = never>(me: ReaderTask<R, E>): ReaderTaskEither<R, E, A> {
-  return (r) => TE.leftTask(me(r))
-}
+export const rightReaderTask: <R, E = never, A = never>(ma: ReaderTask<R, A>) => ReaderTaskEither<R, E, A> = (ma) =>
+  flow(ma, TE.rightTask)
 
 /**
  * @category constructors
  * @since 2.5.0
  */
-export function rightReaderTask<R, E = never, A = never>(ma: ReaderTask<R, A>): ReaderTaskEither<R, E, A> {
-  return (r) => TE.rightTask(ma(r))
-}
+export const leftReaderTask: <R, E = never, A = never>(me: ReaderTask<R, E>) => ReaderTaskEither<R, E, A> = (me) =>
+  flow(me, TE.leftTask)
 
 /**
  * @category constructors
  * @since 2.0.0
  */
-export function leftReader<R, E = never, A = never>(me: Reader<R, E>): ReaderTaskEither<R, E, A> {
-  return (r) => TE.left(me(r))
-}
+export const fromIOEither: <R, E, A>(ma: IOEither<E, A>) => ReaderTaskEither<R, E, A> =
+  /*#__PURE__*/
+  flow(TE.fromIOEither, fromTaskEither)
 
 /**
  * @category constructors
  * @since 2.0.0
  */
-export function fromIOEither<R, E, A>(ma: IOEither<E, A>): ReaderTaskEither<R, E, A> {
-  return fromTaskEither(TE.fromIOEither(ma))
-}
+export const fromReaderEither = <R, E, A>(ma: ReaderEither<R, E, A>): ReaderTaskEither<R, E, A> =>
+  flow(ma, TE.fromEither)
 
 /**
  * @category constructors
  * @since 2.0.0
  */
-export function fromReaderEither<R, E, A>(ma: ReaderEither<R, E, A>): ReaderTaskEither<R, E, A> {
-  return (r) => TE.fromEither(ma(r))
-}
+export const rightIO: <R, E = never, A = never>(ma: IO<A>) => ReaderTaskEither<R, E, A> =
+  /*#__PURE__*/
+  flow(TE.rightIO, fromTaskEither)
 
 /**
  * @category constructors
  * @since 2.0.0
  */
-export function rightIO<R, E = never, A = never>(ma: IO<A>): ReaderTaskEither<R, E, A> {
-  return fromTaskEither(TE.rightIO(ma))
-}
-
-/**
- * @category constructors
- * @since 2.0.0
- */
-export function leftIO<R, E = never, A = never>(me: IO<E>): ReaderTaskEither<R, E, A> {
-  return fromTaskEither(TE.leftIO(me))
-}
+export const leftIO: <R, E = never, A = never>(me: IO<E>) => ReaderTaskEither<R, E, A> =
+  /*#__PURE__*/
+  flow(TE.leftIO, fromTaskEither)
 
 /**
  * @category constructors
@@ -156,15 +154,16 @@ export const ask: <R, E = never>() => ReaderTaskEither<R, E, R> = () => TE.right
  * @category constructors
  * @since 2.0.0
  */
-export const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A> = (f) => (r) =>
-  pipe(TE.right(r), TE.map(f))
+export const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A> = (f) =>
+  flow(TE.right, TE.map(f))
 
 /**
  * @category constructors
  * @since 2.0.0
  */
-export const fromEither: <R, E, A>(ma: Either<E, A>) => ReaderTaskEither<R, E, A> = (ma) =>
-  ma._tag === 'Left' ? left(ma.left) : right(ma.right)
+export const fromEither: <R, E, A>(ma: Either<E, A>) => ReaderTaskEither<R, E, A> =
+  /*#__PURE__*/
+  E.fold(left, (a) => right(a))
 
 /**
  * @category constructors
@@ -242,9 +241,7 @@ export function orElse<R, E, A, M>(
  * @category combinators
  * @since 2.0.0
  */
-export function swap<R, E, A>(ma: ReaderTaskEither<R, E, A>): ReaderTaskEither<R, A, E> {
-  return (e) => TE.swap(ma(e))
-}
+export const swap = <R, E, A>(ma: ReaderTaskEither<R, E, A>): ReaderTaskEither<R, A, E> => flow(ma, TE.swap)
 
 // TODO: remove in v3
 /**
@@ -263,11 +260,11 @@ export const filterOrElse: {
     ma: ReaderTaskEither<R, E, A>
   ) => ReaderTaskEither<R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => <R>(ma: ReaderTaskEither<R, E, A>) =>
-  pipe(
-    ma,
-    chain((a) => (predicate(a) ? right(a) : left(onFalse(a))))
-  )
+} = <E, A>(
+  predicate: Predicate<A>,
+  onFalse: (a: A) => E
+): (<R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>) =>
+  chain((a) => (predicate(a) ? right(a) : left(onFalse(a))))
 
 /**
  * @category combinators
@@ -359,24 +356,19 @@ export const chainTaskEitherK: <E, A, B>(
 
 const map_: Monad3<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const apPar_: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const apSeq_: Monad3<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
-const chain_: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-const alt_: <R, E, A>(
-  fa: ReaderTaskEither<R, E, A>,
-  that: Lazy<ReaderTaskEither<R, E, A>>
-) => ReaderTaskEither<R, E, A> = (fa, that) => (r) =>
+const apSeq_: Monad3<URI>['ap'] = (fab, fa) =>
   pipe(
-    fa(r),
-    TE.alt(() => that()(r))
+    fab,
+    chain((f) => pipe(fa, map(f)))
   )
-const bimap_: <R, E, A, G, B>(
-  fea: ReaderTaskEither<R, E, A>,
-  f: (e: E) => G,
-  g: (a: A) => B
-) => ReaderTaskEither<R, G, B> = (ma, f, g) => (e) => pipe(ma(e), TE.bimap(f, g))
-const mapLeft_: <R, E, A, G>(fea: ReaderTaskEither<R, E, A>, f: (e: E) => G) => ReaderTaskEither<R, G, A> = (ma, f) => (
-  e
-) => pipe(ma(e), TE.mapLeft(f))
+/* istanbul ignore next */
+const chain_: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+/* istanbul ignore next */
+const alt_: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
+/* istanbul ignore next */
+const bimap_: Bifunctor3<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
+/* istanbul ignore next */
+const mapLeft_: Bifunctor3<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -402,7 +394,8 @@ export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderTaskEither<R, E, A>
 export const bimap: <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
-) => <R>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, B> = (f, g) => (fa) => bimap_(fa, f, g)
+) => <R>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, B> = (f, g) => (fa) => (r) =>
+  pipe(fa(r), TE.bimap(f, g))
 
 /**
  * Map a function over the second type argument of a bifunctor.
@@ -412,7 +405,7 @@ export const bimap: <E, G, A, B>(
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A> = (
   f
-) => (fa) => mapLeft_(fa, f)
+) => (fa) => (r) => pipe(fa(r), TE.mapLeft(f))
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -442,9 +435,8 @@ export const ap: <R, E, A>(
  */
 export const apFirst: <R, E, B>(
   fb: ReaderTaskEither<R, E, B>
-) => <A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = (fb) => (fa) =>
-  pipe(
-    fa,
+) => <A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = (fb) =>
+  flow(
     map((a) => () => a),
     ap(fb)
   )
@@ -455,11 +447,10 @@ export const apFirst: <R, E, B>(
  * @category Apply
  * @since 2.0.0
  */
-export const apSecond = <R, E, B>(fb: ReaderTaskEither<R, E, B>) => <A>(
-  fa: ReaderTaskEither<R, E, A>
-): ReaderTaskEither<R, E, B> =>
-  pipe(
-    fa,
+export const apSecond = <R, E, B>(
+  fb: ReaderTaskEither<R, E, B>
+): (<A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>) =>
+  flow(
     map(() => (b: B) => b),
     ap(fb)
   )
@@ -538,7 +529,11 @@ export const flatten: <R, E, A>(mma: ReaderTaskEither<R, E, ReaderTaskEither<R, 
  */
 export const alt: <R, E, A>(
   that: () => ReaderTaskEither<R, E, A>
-) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = (that) => (fa) => alt_(fa, that)
+) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = (that) => (fa) => (r) =>
+  pipe(
+    fa(r),
+    TE.alt(() => that()(r))
+  )
 
 /**
  * @category MonadIO
@@ -588,7 +583,7 @@ declare module './HKT' {
  * @since 2.0.0
  */
 export function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>> {
-  return R.getSemigroup(TE.getSemigroup<E, A>(S))
+  return R.getSemigroup(TE.getSemigroup(S))
 }
 
 /**
@@ -599,7 +594,7 @@ export function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEith
  * @since 2.0.0
  */
 export function getApplySemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>> {
-  return R.getSemigroup(TE.getApplySemigroup<E, A>(S))
+  return R.getSemigroup(TE.getApplySemigroup(S))
 }
 
 /**
