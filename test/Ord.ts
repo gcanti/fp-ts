@@ -54,9 +54,9 @@ describe('Ord', () => {
   })
 
   it('ordBoolean', () => {
-    assert.deepStrictEqual(_.ordNumber.compare(1, 2), -1)
-    assert.deepStrictEqual(_.ordNumber.compare(2, 1), 1)
-    assert.deepStrictEqual(_.ordNumber.compare(2, 2), 0)
+    assert.deepStrictEqual(_.ordBoolean.compare(false, true), -1)
+    assert.deepStrictEqual(_.ordBoolean.compare(true, false), 1)
+    assert.deepStrictEqual(_.ordBoolean.compare(true, true), 0)
   })
 
   it('clamp', () => {
