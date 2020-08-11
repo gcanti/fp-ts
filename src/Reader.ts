@@ -43,7 +43,7 @@ export const ask: <R>() => Reader<R, R> = () => identity
  * @category constructors
  * @since 2.0.0
  */
-export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = (f) => (r) => f(r)
+export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = identity
 
 // -------------------------------------------------------------------------------------
 // combinators
