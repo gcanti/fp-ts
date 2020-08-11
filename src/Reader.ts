@@ -5,7 +5,7 @@ import { Applicative2 } from './Applicative'
 import { Category2 } from './Category'
 import { Choice2 } from './Choice'
 import * as E from './Either'
-import { bindTo_, bind_, flow, identity, pipe } from './function'
+import { bindTo_, bind_, flow, identity, pipe, constant } from './function'
 import { Functor2 } from './Functor'
 import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
@@ -136,7 +136,7 @@ export const apSecond = <R, B>(fb: Reader<R, B>): (<A>(fa: Reader<R, A>) => Read
  * @category Applicative
  * @since 2.0.0
  */
-export const of: Applicative2<URI>['of'] = (a) => () => a
+export const of: Applicative2<URI>['of'] = constant
 
 /**
  * Less strict version of [`chain`](#chain).
