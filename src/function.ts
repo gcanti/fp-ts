@@ -489,7 +489,7 @@ export function pipe<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q>(
   mn: (m: M) => N,
   no: (n: N) => O,
   op: (o: O) => P,
-  pq: (o: P) => Q
+  pq: (p: P) => Q
 ): Q
 
 export function pipe<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R>(
@@ -509,8 +509,8 @@ export function pipe<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R>(
   mn: (m: M) => N,
   no: (n: N) => O,
   op: (o: O) => P,
-  pq: (o: P) => Q,
-  qr: (o: Q) => R
+  pq: (p: P) => Q,
+  qr: (q: Q) => R
 ): R
 
 export function pipe<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S>(
@@ -530,9 +530,9 @@ export function pipe<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S>(
   mn: (m: M) => N,
   no: (n: N) => O,
   op: (o: O) => P,
-  pq: (o: P) => Q,
-  qr: (o: Q) => R,
-  rs: (o: R) => S
+  pq: (p: P) => Q,
+  qr: (q: Q) => R,
+  rs: (r: R) => S
 ): S
 
 export function pipe<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T>(
@@ -552,10 +552,10 @@ export function pipe<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T>
   mn: (m: M) => N,
   no: (n: N) => O,
   op: (o: O) => P,
-  pq: (o: P) => Q,
-  qr: (o: Q) => R,
-  rs: (o: R) => S,
-  st: (o: S) => T
+  pq: (p: P) => Q,
+  qr: (q: Q) => R,
+  rs: (r: R) => S,
+  st: (s: S) => T
 ): T
 export function pipe(
   a: unknown,
