@@ -17,6 +17,8 @@ high state of flux, you're at risk of it changing without notice.
 
 # 2.8.2
 
+- **Polish**
+  - increase the supported number of arguments of pipe function (@heka1024)
 - **Bug fix**
   - revert `groupBy` change in #1286 (@gcanti)
 - **Internal**
