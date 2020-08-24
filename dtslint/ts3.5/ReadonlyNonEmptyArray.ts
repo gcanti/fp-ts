@@ -72,9 +72,9 @@ _.groupSort(ordSubX)(nexs) // $ExpectType ReadonlyNonEmptyArray<ReadonlyNonEmpty
 // groupBy
 //
 
-_.groupBy((x: { readonly a: string }) => x.a)(xs) // $ExpectType Readonly<Record<string, ReadonlyNonEmptyArray<X>>>
+_.groupBy((x: { readonly a: string }) => x.a)(xs) // $ExpectType Readonly<Record<string, ReadonlyNonEmptyArray<{ readonly a: string; }>>>
 // $ExpectType Readonly<Record<string, ReadonlyNonEmptyArray<X>>>
 pipe(
   xs,
-  _.groupBy((x: { readonly a: string }) => x.a)
+  _.groupBy((x) => x.a)
 )

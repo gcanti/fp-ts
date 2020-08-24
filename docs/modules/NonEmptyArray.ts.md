@@ -492,7 +492,7 @@ function on each element, and grouping the results according to values returned
 **Signature**
 
 ```ts
-export declare const groupBy: <B>(f: (a: B) => string) => <A extends B>(as: A[]) => Record<string, NonEmptyArray<A>>
+export declare const groupBy: <A>(f: (a: A) => string) => (as: A[]) => Record<string, NonEmptyArray<A>>
 ```
 
 **Example**

@@ -186,9 +186,9 @@ export const groupSort: <B>(
  * @category constructors
  * @since 2.0.0
  */
-export const groupBy: <B>(
-  f: (a: B) => string
-) => <A extends B>(as: Array<A>) => Record<string, NonEmptyArray<A>> = RNEA.groupBy as any
+export const groupBy: <A>(
+  f: (a: A) => string
+) => (as: Array<A>) => Record<string, NonEmptyArray<A>> = RNEA.groupBy as any
 
 /**
  * @since 2.0.0

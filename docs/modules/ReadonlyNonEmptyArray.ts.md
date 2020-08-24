@@ -499,9 +499,9 @@ function on each element, and grouping the results according to values returned
 **Signature**
 
 ```ts
-export declare function groupBy<B>(
-  f: (a: B) => string
-): <A extends B>(as: ReadonlyArray<A>) => ReadonlyRecord<string, ReadonlyNonEmptyArray<A>>
+export declare function groupBy<A>(
+  f: (a: A) => string
+): (as: ReadonlyArray<A>) => ReadonlyRecord<string, ReadonlyNonEmptyArray<A>>
 ```
 
 **Example**

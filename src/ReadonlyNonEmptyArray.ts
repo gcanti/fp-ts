@@ -236,10 +236,10 @@ export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray
  * @category constructors
  * @since 2.5.0
  */
-export function groupBy<B>(
-  f: (a: B) => string
-): <A extends B>(as: ReadonlyArray<A>) => ReadonlyRecord<string, ReadonlyNonEmptyArray<A>> {
-  return <A extends B>(as: ReadonlyArray<A>) => {
+export function groupBy<A>(
+  f: (a: A) => string
+): (as: ReadonlyArray<A>) => ReadonlyRecord<string, ReadonlyNonEmptyArray<A>> {
+  return (as: ReadonlyArray<A>) => {
     const r: Record<string, NonEmptyArray<A>> = {}
     for (const a of as) {
       const k = f(a)
