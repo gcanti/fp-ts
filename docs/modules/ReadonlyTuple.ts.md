@@ -87,7 +87,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const duplicate: <E, A>(ma: readonly [A, E]) => readonly [readonly [A, E], E]
+export declare const duplicate: <E, A>(wa: readonly [A, E]) => readonly [readonly [A, E], E]
 ```
 
 Added in v2.5.0
@@ -97,7 +97,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const extend: <E, A, B>(f: (fa: readonly [A, E]) => B) => (wa: readonly [A, E]) => readonly [B, E]
+export declare const extend: <E, A, B>(f: (wa: readonly [A, E]) => B) => (wa: readonly [A, E]) => readonly [B, E]
 ```
 
 Added in v2.5.0
@@ -180,7 +180,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function swap<A, S>(sa: readonly [A, S]): readonly [S, A]
+export declare function swap<A, E>(ea: readonly [A, E]): readonly [E, A]
 ```
 
 Added in v2.5.0
@@ -192,7 +192,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function fst<A, S>(sa: readonly [A, S]): A
+export declare function fst<A, E>(ea: readonly [A, E]): A
 ```
 
 Added in v2.5.0
@@ -202,7 +202,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function snd<A, S>(sa: readonly [A, S]): S
+export declare function snd<A, E>(ea: readonly [A, E]): E
 ```
 
 Added in v2.5.0
@@ -294,7 +294,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function getApplicative<S>(M: Monoid<S>): Applicative2C<URI, S>
+export declare function getApplicative<M>(M: Monoid<M>): Applicative2C<URI, M>
 ```
 
 Added in v2.5.0
@@ -324,7 +324,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function getChainRec<S>(M: Monoid<S>): ChainRec2C<URI, S>
+export declare function getChainRec<M>(M: Monoid<M>): ChainRec2C<URI, M>
 ```
 
 Added in v2.5.0
@@ -334,7 +334,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function getMonad<S>(M: Monoid<S>): Monad2C<URI, S>
+export declare function getMonad<M>(M: Monoid<M>): Monad2C<URI, M>
 ```
 
 Added in v2.5.0

@@ -27,24 +27,24 @@ import { Extend2 } from './Extend'
  * @category destructors
  * @since 2.5.0
  */
-export function fst<A, S>(sa: readonly [A, S]): A {
-  return sa[0]
+export function fst<A, E>(ea: readonly [A, E]): A {
+  return ea[0]
 }
 
 /**
  * @category destructors
  * @since 2.5.0
  */
-export function snd<A, S>(sa: readonly [A, S]): S {
-  return sa[1]
+export function snd<A, E>(ea: readonly [A, E]): E {
+  return ea[1]
 }
 
 /**
  * @category combinators
  * @since 2.5.0
  */
-export function swap<A, S>(sa: readonly [A, S]): readonly [S, A] {
-  return [snd(sa), fst(sa)]
+export function swap<A, E>(ea: readonly [A, E]): readonly [E, A] {
+  return [snd(ea), fst(ea)]
 }
 
 /**
@@ -60,7 +60,7 @@ export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
   }
 }
 
-const of = <S>(M: Monoid<S>) => <A>(a: A): readonly [A, S] => {
+const of = <M>(M: Monoid<M>) => <A>(a: A): readonly [A, M] => {
   return [a, M.empty]
 }
 
@@ -68,7 +68,7 @@ const of = <S>(M: Monoid<S>) => <A>(a: A): readonly [A, S] => {
  * @category instances
  * @since 2.5.0
  */
-export function getApplicative<S>(M: Monoid<S>): Applicative2C<URI, S> {
+export function getApplicative<M>(M: Monoid<M>): Applicative2C<URI, M> {
   const A = getApply(M)
   return {
     URI,
@@ -90,9 +90,9 @@ export function getChain<S>(S: Semigroup<S>): Chain2C<URI, S> {
     _E: undefined as any,
     map: A.map,
     ap: A.ap,
-    chain: (fa, f) => {
-      const [b, s] = f(fst(fa))
-      return [b, S.concat(snd(fa), s)]
+    chain: (ma, f) => {
+      const [b, s] = f(fst(ma))
+      return [b, S.concat(snd(ma), s)]
     }
   }
 }
@@ -101,7 +101,7 @@ export function getChain<S>(S: Semigroup<S>): Chain2C<URI, S> {
  * @category instances
  * @since 2.5.0
  */
-export function getMonad<S>(M: Monoid<S>): Monad2C<URI, S> {
+export function getMonad<M>(M: Monoid<M>): Monad2C<URI, M> {
   const C = getChain(M)
   return {
     URI,
@@ -118,10 +118,10 @@ export function getMonad<S>(M: Monoid<S>): Monad2C<URI, S> {
  * @category instances
  * @since 2.5.0
  */
-export function getChainRec<S>(M: Monoid<S>): ChainRec2C<URI, S> {
-  const chainRec = <A, B>(a: A, f: (a: A) => readonly [Either<A, B>, S]): readonly [B, S] => {
-    let result: readonly [Either<A, B>, S] = f(a)
-    let acc: S = M.empty
+export function getChainRec<M>(M: Monoid<M>): ChainRec2C<URI, M> {
+  const chainRec = <A, B>(a: A, f: (a: A) => readonly [Either<A, B>, M]): readonly [B, M] => {
+    let result: readonly [Either<A, B>, M] = f(a)
+    let acc: M = M.empty
     let s: Either<A, B> = fst(result)
     while (s._tag === 'Left') {
       acc = M.concat(acc, snd(result))
@@ -212,7 +212,7 @@ export const compose: <A, B>(ab: readonly [B, A]) => <C>(bc: readonly [C, B]) =>
  * @category Extend
  * @since 2.5.0
  */
-export const extend: <E, A, B>(f: (fa: readonly [A, E]) => B) => (wa: readonly [A, E]) => readonly [B, E] = (f) => (
+export const extend: <E, A, B>(f: (wa: readonly [A, E]) => B) => (wa: readonly [A, E]) => readonly [B, E] = (f) => (
   wa
 ) => [f(wa), snd(wa)]
 
@@ -226,7 +226,7 @@ export const extract: <E, A>(wa: readonly [A, E]) => A = fst
  * @category Extend
  * @since 2.5.0
  */
-export const duplicate: <E, A>(ma: readonly [A, E]) => readonly [readonly [A, E], E] =
+export const duplicate: <E, A>(wa: readonly [A, E]) => readonly [readonly [A, E], E] =
   /*#__PURE__*/
   extend(identity)
 
@@ -269,16 +269,16 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: readonly
  */
 export const traverse: PipeableTraverse2<URI> = <F>(
   F: Applicative<F>
-): (<A, B>(f: (a: A) => HKT<F, B>) => <S>(as: readonly [A, S]) => HKT<F, readonly [B, S]>) => {
+): (<A, B>(f: (a: A) => HKT<F, B>) => <E>(as: readonly [A, E]) => HKT<F, readonly [B, E]>) => {
   return (f) => (ta) => F.map(f(fst(ta)), (b) => [b, snd(ta)])
 }
 
 /**
  * @since 2.6.3
  */
-export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <A, S>(
-  fas: readonly [HKT<F, A>, S]
-): HKT<F, readonly [A, S]> => {
+export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <A, E>(
+  fas: readonly [HKT<F, A>, E]
+): HKT<F, readonly [A, E]> => {
   return F.map(fst(fas), (a) => [a, snd(fas)])
 }
 

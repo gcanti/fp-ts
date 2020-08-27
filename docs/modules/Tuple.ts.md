@@ -87,7 +87,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const duplicate: <E, A>(ma: [A, E]) => [[A, E], E]
+export declare const duplicate: <E, A>(wa: [A, E]) => [[A, E], E]
 ```
 
 Added in v2.0.0
@@ -180,7 +180,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const swap: <A, S>(sa: [A, S]) => [S, A]
+export declare const swap: <A, E>(sa: [A, E]) => [E, A]
 ```
 
 Added in v2.0.0
@@ -192,7 +192,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fst: <A, S>(sa: [A, S]) => A
+export declare const fst: <A, E>(ea: [A, E]) => A
 ```
 
 Added in v2.0.0
@@ -202,7 +202,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const snd: <A, S>(sa: [A, S]) => S
+export declare const snd: <A, E>(ea: [A, E]) => E
 ```
 
 Added in v2.0.0
@@ -294,7 +294,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <S>(M: Monoid<S>) => Applicative2C<'Tuple', S>
+export declare const getApplicative: <M>(M: Monoid<M>) => Applicative2C<'Tuple', M>
 ```
 
 Added in v2.0.0
@@ -324,7 +324,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const getChainRec: <S>(M: Monoid<S>) => ChainRec2C<'Tuple', S>
+export declare const getChainRec: <M>(M: Monoid<M>) => ChainRec2C<'Tuple', M>
 ```
 
 Added in v2.0.0
@@ -334,7 +334,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <S>(M: Monoid<S>) => Monad2C<'Tuple', S>
+export declare const getMonad: <M>(M: Monoid<M>) => Monad2C<'Tuple', M>
 ```
 
 Added in v2.0.0
