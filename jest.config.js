@@ -1,5 +1,5 @@
 module.exports = {
-  preset: 'ts-jest',
+  preset: '@swc-node/jest',
   testEnvironment: 'node',
   collectCoverage: true,
   collectCoverageFrom: [
@@ -12,9 +12,6 @@ module.exports = {
     '!src/WriterT.ts',
     '!src/ValidationT.ts'
   ],
-  transform: {
-    '^.+\\.tsx?$': 'ts-jest'
-  },
   testRegex: 'test',
   moduleFileExtensions: ['ts', 'js'],
   coverageThreshold: {
