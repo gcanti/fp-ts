@@ -1,4 +1,8 @@
 /**
+ * ```ts
+ * interface TaskEither<E, A> extends Task<Either<E, A>> {}
+ * ```
+ *
  * `TaskEither<E, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
  * error of type `E`. If you want to represent an asynchronous computation that never fails, please see `Task`.
  *
