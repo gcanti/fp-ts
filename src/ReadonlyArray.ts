@@ -77,7 +77,7 @@ export function getShow<A>(S: Show<A>): Show<ReadonlyArray<A>> {
   }
 }
 
-const concat = <A>(x: ReadonlyArray<A>, y: ReadonlyArray<A>): ReadonlyArray<A> => {
+const concat = <A, B>(x: ReadonlyArray<A>, y: ReadonlyArray<B>): ReadonlyArray<A | B> => {
   const lenx = x.length
   if (lenx === 0) {
     return y
@@ -1555,14 +1555,23 @@ const wilt_ = <F>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * Less strict version of [`alt`](#alt).
+ *
+ * @category Alt
+ * @since 2.9.0
+ */
+export const altW: <B>(that: Lazy<ReadonlyArray<B>>) => <A>(fa: ReadonlyArray<A>) => ReadonlyArray<A | B> = (that) => (
+  fa
+) => concat(fa, that())
+
+/**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
  * @category Alt
  * @since 2.5.0
  */
-export const alt: <A>(that: Lazy<ReadonlyArray<A>>) => (fa: ReadonlyArray<A>) => ReadonlyArray<A> = (that) => (fa) =>
-  concat(fa, that())
+export const alt: <A>(that: Lazy<ReadonlyArray<A>>) => (fa: ReadonlyArray<A>) => ReadonlyArray<A> = altW
 
 /**
  * Apply a function to an argument under a type constructor.

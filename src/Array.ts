@@ -1176,6 +1176,14 @@ export const partitionMapWithIndex: <A, B, C>(
 ) => (fa: Array<A>) => Separated<Array<B>, Array<C>> = RA.partitionMapWithIndex as any
 
 /**
+ * Less strict version of [`alt`](#alt).
+ *
+ * @category Alt
+ * @since 2.9.0
+ */
+export const altW: <B>(that: Lazy<Array<B>>) => <A>(fa: Array<A>) => Array<A | B> = RA.altW as any
+
+/**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *

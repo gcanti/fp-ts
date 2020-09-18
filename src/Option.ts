@@ -393,32 +393,36 @@ const foldMap_: Foldable1<URI>['foldMap'] = (M) => {
   return (fa, f) => pipe(fa, foldMapM(f))
 }
 const reduceRight_: Foldable1<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
-const traverse_ = <F>(F: ApplicativeHKT<F>): (<A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>) => HKT<F, Option<B>>) => {
+const traverse_: Traversable1<URI>['traverse'] = <F>(
+  F: ApplicativeHKT<F>
+): (<A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>) => HKT<F, Option<B>>) => {
   const traverseF = traverse(F)
   return (ta, f) => pipe(ta, traverseF(f))
 }
 /* istanbul ignore next */
 const alt_: Alt1<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
-/* istanbul ignore next */
-const filter_ = <A>(fa: Option<A>, predicate: Predicate<A>): Option<A> => pipe(fa, filter(predicate))
+const filter_: Filterable1<URI>['filter'] = <A>(fa: Option<A>, predicate: Predicate<A>): Option<A> =>
+  pipe(fa, filter(predicate))
 /* istanbul ignore next */
 const filterMap_: Filterable1<URI>['filterMap'] = (fa, f) => pipe(fa, filterMap(f))
 /* istanbul ignore next */
 const extend_: Extend1<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
 /* istanbul ignore next */
-const partition_ = <A>(fa: Option<A>, predicate: Predicate<A>): Separated<Option<A>, Option<A>> =>
-  pipe(fa, partition(predicate))
+const partition_: Filterable1<URI>['partition'] = <A>(
+  fa: Option<A>,
+  predicate: Predicate<A>
+): Separated<Option<A>, Option<A>> => pipe(fa, partition(predicate))
 /* istanbul ignore next */
 const partitionMap_: Filterable1<URI>['partitionMap'] = (fa, f) => pipe(fa, partitionMap(f))
 /* istanbul ignore next */
-const wither_ = <F>(
+const wither_: Witherable1<URI>['wither'] = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(fa: Option<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Option<B>>) => {
   const witherF = wither(F)
   return (fa, f) => pipe(fa, witherF(f))
 }
 /* istanbul ignore next */
-const wilt_ = <F>(
+const wilt_: Witherable1<URI>['wilt'] = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B, C>(fa: Option<A>, f: (a: A) => HKT<F, Either<B, C>>) => HKT<F, Separated<Option<B>, Option<C>>>) => {
   const wiltF = wilt(F)
@@ -521,6 +525,15 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> =
   chain(identity)
 
 /**
+ * Less strict version of [`alt`](#alt).
+ *
+ * @category Alt
+ * @since 2.9.0
+ */
+export const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => Option<A | B> = (that) => (fa) =>
+  isNone(fa) ? that() : fa
+
+/**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
@@ -548,8 +561,7 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> =
  * @category Alt
  * @since 2.0.0
  */
-export const alt: <A>(that: Lazy<Option<A>>) => (fa: Option<A>) => Option<A> = (that) => (fa) =>
-  isNone(fa) ? that() : fa
+export const alt: <A>(that: Lazy<Option<A>>) => (fa: Option<A>) => Option<A> = altW
 
 /**
  * @category Alternative
@@ -591,7 +603,7 @@ export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B 
  * @category Foldable
  * @since 2.0.0
  */
-export const foldMap = <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>): M =>
+export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M = (M) => (f) => (fa) =>
   isNone(fa) ? M.empty : f(fa.value)
 
 /**
@@ -647,13 +659,12 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Opt
 export const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>
   <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>
-} = <A>(predicate: Predicate<A>) => (fa: Option<A>) => ({
-  left: pipe(
-    fa,
-    filter((a) => !predicate(a))
-  ),
-  right: pipe(fa, filter(predicate))
-})
+} = <A>(predicate: Predicate<A>) => (fa: Option<A>) => {
+  return {
+    left: filter_(fa, (a) => !predicate(a)),
+    right: filter_(fa, predicate)
+  }
+}
 
 /**
  * @category Filterable
@@ -661,16 +672,15 @@ export const partition: {
  */
 export const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: Option<A>) => Separated<Option<B>, Option<C>> = (f) => (fa) => separate(pipe(fa, map(f)))
+) => (fa: Option<A>) => Separated<Option<B>, Option<C>> = (f) => flow(map(f), separate)
 
 /**
  * @category Traversable
  * @since 2.6.3
  */
-export const traverse: PipeableTraverse1<URI> = <F>(
-  F: ApplicativeHKT<F>
-): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Option<A>) => HKT<F, Option<B>>) => (f) => (ta) =>
-  isNone(ta) ? F.of(none) : F.map(f(ta.value), some)
+export const traverse: PipeableTraverse1<URI> = <F>(F: ApplicativeHKT<F>) => <A, B>(f: (a: A) => HKT<F, B>) => (
+  ta: Option<A>
+): HKT<F, Option<B>> => (isNone(ta) ? F.of(none) : F.map(f(ta.value), some))
 
 /**
  * @category Traversable
@@ -678,18 +688,15 @@ export const traverse: PipeableTraverse1<URI> = <F>(
  */
 export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>) => <A>(
   ta: Option<HKT<F, A>>
-): HKT<F, Option<A>> => {
-  return isNone(ta) ? F.of(none) : F.map(ta.value, some)
-}
+): HKT<F, Option<A>> => (isNone(ta) ? F.of(none) : F.map(ta.value, some))
 
 /**
  * @category Witherable
  * @since 2.6.5
  */
-export const wither: PipeableWither1<URI> = <F>(
-  F: ApplicativeHKT<F>
-): (<A, B>(f: (a: A) => HKT<F, Option<B>>) => (ta: Option<A>) => HKT<F, Option<B>>) => (f) => (fa) =>
-  isNone(fa) ? F.of(none) : f(fa.value)
+export const wither: PipeableWither1<URI> = <F>(F: ApplicativeHKT<F>) => <A, B>(f: (a: A) => HKT<F, Option<B>>) => (
+  fa: Option<A>
+): HKT<F, Option<B>> => (isNone(fa) ? F.of(none) : f(fa.value))
 
 /**
  * @category Witherable
@@ -698,21 +705,15 @@ export const wither: PipeableWither1<URI> = <F>(
 export const wilt: PipeableWilt1<URI> = <F>(F: ApplicativeHKT<F>) => <A, B, C>(f: (a: A) => HKT<F, Either<B, C>>) => (
   fa: Option<A>
 ): HKT<F, Separated<Option<B>, Option<C>>> => {
-  const o = pipe(
-    fa,
-    map((a) =>
-      F.map(f(a), (e) => ({
-        left: getLeft(e),
-        right: getRight(e)
-      }))
-    )
-  )
-  return isNone(o)
+  return isNone(fa)
     ? F.of({
         left: none,
         right: none
       })
-    : o.value
+    : F.map(f(fa.value), (e) => ({
+        left: getLeft(e),
+        right: getRight(e)
+      }))
 }
 
 // -------------------------------------------------------------------------------------

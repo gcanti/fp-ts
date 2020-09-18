@@ -362,14 +362,22 @@ export const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A>
   chain(identity)
 
 /**
+ * Less strict version of [`alt`](#alt).
+ *
+ * @category Alt
+ * @since 2.9.0
+ */
+export const altW = <E2, B>(that: Lazy<IOEither<E2, B>>) => <E1, A>(fa: IOEither<E1, A>): IOEither<E1 | E2, A | B> =>
+  pipe(fa, I.chain(E.fold<E1, A, IOEither<E1 | E2, A | B>>(that, right)))
+
+/**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
  * @category Alt
  * @since 2.0.0
  */
-export const alt: <E, A>(that: Lazy<IOEither<E, A>>) => (fa: IOEither<E, A>) => IOEither<E, A> = (that) =>
-  I.chain(E.fold(that, right))
+export const alt: <E, A>(that: Lazy<IOEither<E, A>>) => (fa: IOEither<E, A>) => IOEither<E, A> = altW
 
 /**
  * @category MonadIO

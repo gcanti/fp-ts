@@ -543,6 +543,20 @@ export const flatten: <R, E, A>(mma: ReaderTaskEither<R, E, ReaderTaskEither<R, 
   chain(identity)
 
 /**
+ * Less strict version of [`alt`](#alt).
+ *
+ * @category Alt
+ * @since 2.9.0
+ */
+export const altW = <R2, E2, B>(that: () => ReaderTaskEither<R2, E2, B>) => <R1, E1, A>(
+  fa: ReaderTaskEither<R1, E1, A>
+): ReaderTaskEither<R1 & R2, E1 | E2, A | B> => (r) =>
+  pipe(
+    fa(r),
+    TE.altW(() => that()(r))
+  )
+
+/**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
@@ -551,11 +565,7 @@ export const flatten: <R, E, A>(mma: ReaderTaskEither<R, E, ReaderTaskEither<R, 
  */
 export const alt: <R, E, A>(
   that: () => ReaderTaskEither<R, E, A>
-) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = (that) => (fa) => (r) =>
-  pipe(
-    fa(r),
-    TE.alt(() => that()(r))
-  )
+) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = altW
 
 /**
  * @category MonadIO

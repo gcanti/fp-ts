@@ -26,6 +26,7 @@ Added in v2.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
+  - [altW](#altw)
 - [Applicative](#applicative)
   - [of](#of)
 - [Apply](#apply)
@@ -135,6 +136,18 @@ export declare const alt: <E, A>(that: Lazy<Either<E, A>>) => (fa: Either<E, A>)
 ```
 
 Added in v2.0.0
+
+## altW
+
+Less strict version of [`alt`](#alt).
+
+**Signature**
+
+```ts
+export declare const altW: <E2, B>(that: Lazy<Either<E2, B>>) => <E1, A>(fa: Either<E1, A>) => Either<E2 | E1, B | A>
+```
+
+Added in v2.9.0
 
 # Applicative
 

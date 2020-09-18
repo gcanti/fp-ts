@@ -483,6 +483,16 @@ export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: Reado
   fa.slice(1).reduce((s, a) => S.concat(s, f(a)), f(fa[0]))
 
 /**
+ * Less strict version of [`alt`](#alt).
+ *
+ * @category Alt
+ * @since 2.9.0
+ */
+export const altW: <B>(
+  that: Lazy<ReadonlyNonEmptyArray<B>>
+) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B> = RA.altW as any
+
+/**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *

@@ -15,6 +15,46 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.9.0
+
+- **New Feature**
+  - `Array`
+    - add `altW` (@gcanti)
+    - add `intersperse` (@marcotoniut)
+    - add `prependToAll` (@marcotoniut)
+  - `Either`
+    - add `altW` (@gcanti)
+  - `Identity`
+    - add `altW` (@gcanti)
+  - `IOEither`
+    - add `altW` (@gcanti)
+  - `NonEmptyArray`
+    - add `altW` (@gcanti)
+    - add `uncons` (@marcotoniut)
+    - add `unsnoc` (@marcotoniut)
+    - add `intersperse` (@marcotoniut)
+    - add `prependToAll` (@marcotoniut)
+  - `Option`
+    - add `altW` (@gcanti)
+  - `ReaderEither`
+    - add `altW` (@gcanti)
+  - `ReaderTaskEither`
+    - add `altW` (@gcanti)
+  - `StateReaderTaskEither`
+    - add `altW` (@gcanti)
+  - `ReadonlyArray`
+    - add `altW` (@gcanti)
+    - add `intersperse` (@marcotoniut)
+    - add `prependToAll` (@marcotoniut)
+  - `ReadonlyNonEmptyArray`
+    - add `altW` (@gcanti)
+    - add `uncons` (@marcotoniut)
+    - add `unsnoc` (@marcotoniut)
+    - add `intersperse` (@marcotoniut)
+    - add `prependToAll` (@marcotoniut)
+  - `TaskEither`
+    - add `altW` (@gcanti)
+
 # 2.8.5
 
 - **Polish**

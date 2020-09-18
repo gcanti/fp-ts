@@ -411,6 +411,16 @@ export const foldMapWithIndex: <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) 
 export const foldMap: <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) => S = RNEA.foldMap
 
 /**
+ * Less strict version of [`alt`](#alt).
+ *
+ * @category Alt
+ * @since 2.9.0
+ */
+export const altW: <B>(
+  that: Lazy<NonEmptyArray<B>>
+) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<A | B> = RNEA.altW as any
+
+/**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
