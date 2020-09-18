@@ -16,6 +16,7 @@ Added in v2.5.0
 
 - [Alt](#alt)
   - [alt](#alt)
+  - [altW](#altw)
 - [Applicative](#applicative)
   - [of](#of)
 - [Apply](#apply)
@@ -119,6 +120,20 @@ export declare const alt: <A>(
 ```
 
 Added in v2.6.2
+
+## altW
+
+Less strict version of [`alt`](#alt).
+
+**Signature**
+
+```ts
+export declare const altW: <B>(
+  that: Lazy<ReadonlyNonEmptyArray<B>>
+) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B | A>
+```
+
+Added in v2.9.0
 
 # Applicative
 

@@ -25,6 +25,7 @@ Added in v2.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
+  - [altW](#altw)
 - [Alternative](#alternative)
   - [zero](#zero)
 - [Applicative](#applicative)
@@ -158,6 +159,18 @@ assert.deepStrictEqual(
 ```
 
 Added in v2.0.0
+
+## altW
+
+Less strict version of [`alt`](#alt).
+
+**Signature**
+
+```ts
+export declare const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => Option<B | A>
+```
+
+Added in v2.9.0
 
 # Alternative
 

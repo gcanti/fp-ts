@@ -14,6 +14,7 @@ Added in v2.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
+  - [altW](#altw)
 - [Applicative](#applicative)
   - [of](#of)
 - [Apply](#apply)
@@ -120,6 +121,20 @@ export declare const alt: <R, E, A>(
 ```
 
 Added in v2.0.0
+
+## altW
+
+Less strict version of [`alt`](#alt).
+
+**Signature**
+
+```ts
+export declare const altW: <R2, E2, B>(
+  that: () => ReaderTaskEither<R2, E2, B>
+) => <R1, E1, A>(fa: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B | A>
+```
+
+Added in v2.9.0
 
 # Applicative
 

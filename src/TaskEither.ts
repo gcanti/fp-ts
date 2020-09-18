@@ -458,6 +458,16 @@ export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither
   chain(identity)
 
 /**
+ * Less strict version of [`alt`](#alt).
+ *
+ * @category Alt
+ * @since 2.9.0
+ */
+export const altW = <E2, B>(that: Lazy<TaskEither<E2, B>>) => <E1, A>(
+  fa: TaskEither<E1, A>
+): TaskEither<E1 | E2, A | B> => pipe(fa, T.chain(E.fold<E1, A, TaskEither<E1 | E2, A | B>>(that, right)))
+
+/**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
@@ -499,8 +509,7 @@ export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither
  * @category Alt
  * @since 2.0.0
  */
-export const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>) => TaskEither<E, A> = (that) =>
-  T.chain(E.fold(that, right))
+export const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>) => TaskEither<E, A> = altW
 
 /**
  * Wrap a value into the type constructor.

@@ -21,6 +21,7 @@ Added in v2.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
+  - [altW](#altw)
 - [Applicative](#applicative)
   - [of](#of)
 - [Apply](#apply)
@@ -153,6 +154,20 @@ test()
 ```
 
 Added in v2.0.0
+
+## altW
+
+Less strict version of [`alt`](#alt).
+
+**Signature**
+
+```ts
+export declare const altW: <E2, B>(
+  that: Lazy<TaskEither<E2, B>>
+) => <E1, A>(fa: TaskEither<E1, A>) => TaskEither<E2 | E1, B | A>
+```
+
+Added in v2.9.0
 
 # Applicative
 

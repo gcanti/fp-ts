@@ -524,14 +524,23 @@ export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> =
   chain(identity)
 
 /**
+ * Less strict version of [`alt`](#alt).
+ *
+ * @category Alt
+ * @since 2.9.0
+ */
+export const altW: <E2, B>(that: Lazy<Either<E2, B>>) => <E1, A>(fa: Either<E1, A>) => Either<E1 | E2, A | B> = (
+  that
+) => (fa) => (isLeft(fa) ? that() : fa)
+
+/**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
  * @category Alt
  * @since 2.0.0
  */
-export const alt: <E, A>(that: Lazy<Either<E, A>>) => (fa: Either<E, A>) => Either<E, A> = (that) => (fa) =>
-  isLeft(fa) ? that() : fa
+export const alt: <E, A>(that: Lazy<Either<E, A>>) => (fa: Either<E, A>) => Either<E, A> = altW
 
 /**
  * @category Extend
