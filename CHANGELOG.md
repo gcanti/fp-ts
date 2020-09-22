@@ -15,6 +15,13 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.8.3
+
+- **Polish**
+  - `Reader`
+    - export `Strong` instance (@urgent)
+    - export `Choice` instance (@gcanti)
+
 # 2.8.2
 
 - **Polish**
