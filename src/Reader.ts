@@ -295,7 +295,8 @@ export const Category: Category2<URI> = {
 }
 
 /**
- * @internal instances
+ * @category instances
+ * @since 2.8.3
  */
 export const Strong: Strong2<URI> = {
   URI,
