@@ -1172,7 +1172,7 @@ Break an array into its first element and remaining elements
 
 ```ts
 export declare function foldLeft<A, B>(
-  onNil: Lazy<B>,
+  onEmpty: Lazy<B>,
   onCons: (head: A, tail: ReadonlyArray<A>) => B
 ): (as: ReadonlyArray<A>) => B
 ```
@@ -1199,7 +1199,7 @@ Break an array into its initial elements and the last element
 
 ```ts
 export declare function foldRight<A, B>(
-  onNil: Lazy<B>,
+  onEmpty: Lazy<B>,
   onCons: (init: ReadonlyArray<A>, last: A) => B
 ): (as: ReadonlyArray<A>) => B
 ```

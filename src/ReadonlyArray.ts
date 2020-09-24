@@ -265,10 +265,10 @@ export function flatten<A>(mma: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<
  * @since 2.5.0
  */
 export function foldLeft<A, B>(
-  onNil: Lazy<B>,
+  onEmpty: Lazy<B>,
   onCons: (head: A, tail: ReadonlyArray<A>) => B
 ): (as: ReadonlyArray<A>) => B {
-  return (as) => (isEmpty(as) ? onNil() : onCons(as[0], as.slice(1)))
+  return (as) => (isEmpty(as) ? onEmpty() : onCons(as[0], as.slice(1)))
 }
 
 /**
@@ -278,10 +278,10 @@ export function foldLeft<A, B>(
  * @since 2.5.0
  */
 export function foldRight<A, B>(
-  onNil: Lazy<B>,
+  onEmpty: Lazy<B>,
   onCons: (init: ReadonlyArray<A>, last: A) => B
 ): (as: ReadonlyArray<A>) => B {
-  return (as) => (isEmpty(as) ? onNil() : onCons(as.slice(0, as.length - 1), as[as.length - 1]))
+  return (as) => (isEmpty(as) ? onEmpty() : onCons(as.slice(0, as.length - 1), as[as.length - 1]))
 }
 
 /**

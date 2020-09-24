@@ -1293,7 +1293,7 @@ Break an array into its first element and remaining elements
 **Signature**
 
 ```ts
-export declare const foldLeft: <A, B>(onNil: Lazy<B>, onCons: (head: A, tail: A[]) => B) => (as: A[]) => B
+export declare const foldLeft: <A, B>(onEmpty: Lazy<B>, onCons: (head: A, tail: A[]) => B) => (as: A[]) => B
 ```
 
 **Example**
@@ -1317,7 +1317,7 @@ Break an array into its initial elements and the last element
 **Signature**
 
 ```ts
-export declare const foldRight: <A, B>(onNil: Lazy<B>, onCons: (init: A[], last: A) => B) => (as: A[]) => B
+export declare const foldRight: <A, B>(onEmpty: Lazy<B>, onCons: (init: A[], last: A) => B) => (as: A[]) => B
 ```
 
 Added in v2.0.0

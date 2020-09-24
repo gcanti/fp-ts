@@ -161,7 +161,7 @@ export const flatten: <A>(mma: Array<Array<A>>) => Array<A> = RA.flatten as any
  * @since 2.0.0
  */
 export const foldLeft: <A, B>(
-  onNil: Lazy<B>,
+  onEmpty: Lazy<B>,
   onCons: (head: A, tail: Array<A>) => B
 ) => (as: Array<A>) => B = RA.foldLeft as any
 
@@ -172,7 +172,7 @@ export const foldLeft: <A, B>(
  * @since 2.0.0
  */
 export const foldRight: <A, B>(
-  onNil: Lazy<B>,
+  onEmpty: Lazy<B>,
   onCons: (init: Array<A>, last: A) => B
 ) => (as: Array<A>) => B = RA.foldRight as any
 
