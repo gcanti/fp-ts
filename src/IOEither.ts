@@ -194,6 +194,11 @@ export const chainEitherK: <E, A, B>(
 const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
 const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const apSeq_: Applicative2<URI>['ap'] = (fab, fa) =>
+  pipe(
+    fab,
+    chain((f) => pipe(fa, map(f)))
+  )
 const of = right
 /* istanbul ignore next */
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
@@ -508,14 +513,33 @@ export const Bifunctor: Bifunctor2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 2.8.4
  */
-export const Applicative: Applicative2<URI> = {
+export const ApplicativePar: Applicative2<URI> = {
   URI,
   map: map_,
   ap: ap_,
   of
 }
+
+/**
+ * @category instances
+ * @since 2.8.4
+ */
+export const ApplicativeSeq: Applicative2<URI> = {
+  URI,
+  map: map_,
+  ap: apSeq_,
+  of
+}
+
+/**
+ * Use `ApplicativePar` instead
+ *
+ * @since 2.7.0
+ * @deprecated
+ */
+export const Applicative: Applicative2<URI> = ApplicativePar
 
 /**
  * @category instances

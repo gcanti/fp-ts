@@ -15,6 +15,16 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.8.4
+
+- **Polish**
+  - `IOEither`
+    - add `ApplicativePar` instance (@gcanti)
+    - add `ApplicativeSeq` instance (@gcanti)
+- **Deprecation**
+  - `IOEither`
+    - deprecate `Applicative` in favour of `ApplicativePar` (@gcanti)
+
 # 2.8.3
 
 - **Polish**
