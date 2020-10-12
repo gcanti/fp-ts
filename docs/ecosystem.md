@@ -32,6 +32,7 @@ has_toc: false
 - [morphic-ts](https://github.com/sledorze/morphic-ts) - Code first Domain modeling with extensive pattern supports (matchers, predicates, lenses) with useful, extensible, customisable derivations (Show, Eq, io-ts, fast-check, jsonSchema, ..).
 - [graphics-ts](https://github.com/gcanti/graphics-ts) - A porting of purescript-{canvas, drawing} featuring fp-ts
 - [expressive-ts](https://github.com/IMax153/expressive-ts) - Comonadic builders for writing complex regular expressions
+- [fp-fetch](https://github.com/monstasat/fp-fetch) - Functional style, non-throwing utils for data fetching
 
 ## Bindings
 
