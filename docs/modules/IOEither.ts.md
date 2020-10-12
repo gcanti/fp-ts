@@ -59,7 +59,8 @@ Added in v2.0.0
   - [getOrElseW](#getorelsew)
 - [instances](#instances)
   - [Alt](#alt-1)
-  - [Applicative](#applicative)
+  - [ApplicativePar](#applicativepar)
+  - [ApplicativeSeq](#applicativeseq)
   - [Bifunctor](#bifunctor-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
@@ -75,6 +76,7 @@ Added in v2.0.0
   - [getIOValidation](#getiovalidation)
   - [getSemigroup](#getsemigroup)
   - [ioEither](#ioeither)
+  - [~~Applicative~~](#applicative)
 - [model](#model)
   - [IOEither (interface)](#ioeither-interface)
 - [utils](#utils)
@@ -487,15 +489,25 @@ export declare const Alt: Alt2<'IOEither'>
 
 Added in v2.7.0
 
-## Applicative
+## ApplicativePar
 
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative2<'IOEither'>
+export declare const ApplicativePar: Applicative2<'IOEither'>
 ```
 
-Added in v2.7.0
+Added in v2.8.4
+
+## ApplicativeSeq
+
+**Signature**
+
+```ts
+export declare const ApplicativeSeq: Applicative2<'IOEither'>
+```
+
+Added in v2.8.4
 
 ## Bifunctor
 
@@ -658,6 +670,18 @@ export declare const ioEither: Monad2<'IOEither'> &
 ```
 
 Added in v2.0.0
+
+## ~~Applicative~~
+
+Use `ApplicativePar` instead
+
+**Signature**
+
+```ts
+export declare const Applicative: Applicative2<'IOEither'>
+```
+
+Added in v2.7.0
 
 # model
 
