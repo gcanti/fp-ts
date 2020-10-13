@@ -440,10 +440,24 @@ Added in v2.6.3
 
 ## sequence
 
+Evaluate each monadic action in the structure from left to right, and collect the results.
+
 **Signature**
 
 ```ts
 export declare const sequence: Sequence2<'Either'>
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as E from 'fp-ts/Either'
+import * as O from 'fp-ts/Option'
+
+assert.deepStrictEqual(pipe(E.right(O.some('a')), E.sequence(O.option)), O.some(E.right('a')))
+
+assert.deepStrictEqual(pipe(E.right(O.none), E.sequence(O.option)), O.none)
 ```
 
 Added in v2.6.3
