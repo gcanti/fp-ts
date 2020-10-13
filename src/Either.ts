@@ -489,6 +489,15 @@ export const chainFirstW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either
 export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A> = chainFirstW
 
 /**
+ * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
+ *
+ * @example
+ * import * as E from 'fp-ts/Either'
+ *
+ * assert.deepStrictEqual(E.flatten(E.right(E.right('a'))), E.right('a'))
+ * assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
+ * assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
+ *
  * @category Monad
  * @since 2.0.0
  */
