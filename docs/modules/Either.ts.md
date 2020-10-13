@@ -140,10 +140,20 @@ Added in v2.0.0
 
 ## of
 
+Lift a value.
+
 **Signature**
 
 ```ts
 export declare const of: <E, A>(a: A) => Either<E, A>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+
+assert.deepStrictEqual(E.of('a'), E.right('a'))
 ```
 
 Added in v2.7.0

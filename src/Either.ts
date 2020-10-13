@@ -431,6 +431,13 @@ export const apSecond = <E, B>(fb: Either<E, B>): (<A>(fa: Either<E, A>) => Eith
   )
 
 /**
+ * Lift a value.
+ *
+ * @example
+ * import * as E from 'fp-ts/Either'
+ *
+ * assert.deepStrictEqual(E.of('a'), E.right('a'))
+ *
  * @category Applicative
  * @since 2.7.0
  */
