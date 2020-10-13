@@ -522,6 +522,25 @@ export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> =
   extend(identity)
 
 /**
+ * Left-associative fold of a structure.
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import * as E from 'fp-ts/Either'
+ *
+ * const empty = 'prefix'
+ * const concat = (a: string, b: string) => `${a}:${b}`
+ *
+ * assert.deepStrictEqual(
+ *   pipe(E.right('a'), E.reduce(empty, concat)),
+ *   'prefix:a',
+ * )
+ *
+ * assert.deepStrictEqual(
+ *   pipe(E.left('e'), E.reduce(empty, concat)),
+ *   'prefix',
+ * )
+ *
  * @category Foldable
  * @since 2.0.0
  */
