@@ -609,6 +609,24 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E
   isLeft(fa) ? b : f(fa.right, b)
 
 /**
+ * Map each element of a structure to an action, evaluate these actions from left to right, and collect the results.
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import * as A from 'fp-ts/Array'
+ * import * as E from 'fp-ts/Either'
+ * import * as O from 'fp-ts/Option'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(E.right(['a']), E.traverse(O.option)(A.head)),
+ *   O.some(E.right('a')),
+ *  )
+ *
+ * assert.deepStrictEqual(
+ *   pipe(E.right([]), E.traverse(O.option)(A.head)),
+ *   O.none,
+ * )
+ *
  * @category Traversable
  * @since 2.6.3
  */
