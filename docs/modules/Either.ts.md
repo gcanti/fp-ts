@@ -464,10 +464,25 @@ Added in v2.6.3
 
 ## traverse
 
+Map each element of a structure to an action, evaluate these actions from left to right, and collect the results.
+
 **Signature**
 
 ```ts
 export declare const traverse: PipeableTraverse2<'Either'>
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as A from 'fp-ts/Array'
+import * as E from 'fp-ts/Either'
+import * as O from 'fp-ts/Option'
+
+assert.deepStrictEqual(pipe(E.right(['a']), E.traverse(O.option)(A.head)), O.some(E.right('a')))
+
+assert.deepStrictEqual(pipe(E.right([]), E.traverse(O.option)(A.head)), O.none)
 ```
 
 Added in v2.6.3
