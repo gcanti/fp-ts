@@ -286,10 +286,26 @@ Added in v2.0.0
 
 ## reduce
 
+Left-associative fold of a structure.
+
 **Signature**
 
 ```ts
 export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as E from 'fp-ts/Either'
+
+const empty = 'prefix'
+const concat = (a: string, b: string) => `${a}:${b}`
+
+assert.deepStrictEqual(pipe(E.right('a'), E.reduce(empty, concat)), 'prefix:a')
+
+assert.deepStrictEqual(pipe(E.left('e'), E.reduce(empty, concat)), 'prefix')
 ```
 
 Added in v2.0.0
