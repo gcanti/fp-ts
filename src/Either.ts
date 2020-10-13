@@ -529,6 +529,25 @@ export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>)
   isLeft(fa) ? b : f(b, fa.right)
 
 /**
+ * Map each element of the structure to a monoid, and combine the results.
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function';
+ * import * as E from 'fp-ts/Either'
+ * import { monoidString } from 'fp-ts/Monoid'
+ *
+ * const yell = (a: string) => `${a}!`
+ *
+ * assert.deepStrictEqual(
+ *   pipe(E.right('a'), E.foldMap(monoidString)(yell)),
+ *   'a!',
+ * )
+ *
+ * assert.deepStrictEqual(
+ *   pipe(E.left('e'), E.foldMap(monoidString)(yell)),
+ *   monoidString.empty,
+ * )
+ *
  * @category Foldable
  * @since 2.0.0
  */

@@ -260,10 +260,26 @@ Added in v2.0.0
 
 ## foldMap
 
+Map each element of the structure to a monoid, and combine the results.
+
 **Signature**
 
 ```ts
 export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as E from 'fp-ts/Either'
+import { monoidString } from 'fp-ts/Monoid'
+
+const yell = (a: string) => `${a}!`
+
+assert.deepStrictEqual(pipe(E.right('a'), E.foldMap(monoidString)(yell)), 'a!')
+
+assert.deepStrictEqual(pipe(E.left('e'), E.foldMap(monoidString)(yell)), monoidString.empty)
 ```
 
 Added in v2.0.0
