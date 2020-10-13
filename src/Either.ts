@@ -574,6 +574,25 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either
   isLeft(fa) ? M.empty : f(fa.right)
 
 /**
+ * Right-associative fold of a structure.
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import * as E from 'fp-ts/Either'
+ *
+ * const empty = 'postfix'
+ * const concat = (a: string, b: string) => `${a}:${b}`
+ *
+ * assert.deepStrictEqual(
+ *   pipe(E.right('a'), E.reduceRight(empty, concat)),
+ *   'a:postfix',
+ * )
+ *
+ * assert.deepStrictEqual(
+ *   pipe(E.left('e'), E.reduceRight(empty, concat)),
+ *   'postfix',
+ * )
+ *
  * @category Foldable
  * @since 2.0.0
  */

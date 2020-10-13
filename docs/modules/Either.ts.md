@@ -312,10 +312,26 @@ Added in v2.0.0
 
 ## reduceRight
 
+Right-associative fold of a structure.
+
 **Signature**
 
 ```ts
 export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as E from 'fp-ts/Either'
+
+const empty = 'postfix'
+const concat = (a: string, b: string) => `${a}:${b}`
+
+assert.deepStrictEqual(pipe(E.right('a'), E.reduceRight(empty, concat)), 'a:postfix')
+
+assert.deepStrictEqual(pipe(E.left('e'), E.reduceRight(empty, concat)), 'postfix')
 ```
 
 Added in v2.0.0
