@@ -82,8 +82,8 @@ describe('State', () => {
         _.of(1),
         _.bindTo('a'),
         _.bind('b', () => _.of('b'))
-      )(undefined),
-      [{ a: 1, b: 'b' }, undefined]
+      )('state'),
+      [{ a: 1, b: 'b' }, 'state']
     )
   })
 
