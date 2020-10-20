@@ -190,6 +190,8 @@ export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTa
   RTE.right([f(s), s])
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category constructors
  * @since 2.0.0
  */
@@ -198,6 +200,8 @@ export const fromEither: <S, R, E, A>(ma: Either<E, A>) => StateReaderTaskEither
   E.fold((e) => left(e), right)
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category constructors
  * @since 2.0.0
  */
@@ -206,6 +210,8 @@ export const fromOption: <E>(onNone: Lazy<E>) => <S, R, A>(ma: Option<A>) => Sta
 ) => (ma) => (ma._tag === 'None' ? left(onNone()) : right(ma.value))
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category constructors
  * @since 2.4.4
  */
@@ -334,6 +340,8 @@ export const chainReaderTaskEitherK: <R, E, A, B>(
 ) => <S>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = chainReaderTaskEitherKW
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category combinators
  * @since 2.4.4
  */
@@ -390,6 +398,9 @@ const mapLeft_: <S, R, E, A, G>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+ * use the type constructor `F` to represent some computational context.
+ *
  * @category Functor
  * @since 2.0.0
  */
@@ -482,6 +493,8 @@ export const apSecond = <S, R, E, B>(
   )
 
 /**
+ * Wrap a value into the type constructor.
+ *
  * @category Applicative
  * @since 2.7.0
  */

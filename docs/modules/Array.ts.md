@@ -16,6 +16,8 @@ Added in v2.0.0
   - [alt](#alt)
 - [Alternative](#alternative)
   - [zero](#zero)
+- [Applicative](#applicative)
+  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apFirst](#apfirst)
@@ -86,9 +88,9 @@ Added in v2.0.0
   - [zip](#zip)
   - [zipWith](#zipwith)
 - [constructors](#constructors)
+  - [comprehension](#comprehension)
   - [cons](#cons)
   - [makeBy](#makeby)
-  - [of](#of)
   - [range](#range)
   - [replicate](#replicate)
   - [snoc](#snoc)
@@ -109,7 +111,7 @@ Added in v2.0.0
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Alternative](#alternative-1)
-  - [Applicative](#applicative)
+  - [Applicative](#applicative-1)
   - [Compactable](#compactable-1)
   - [Extend](#extend-1)
   - [Filterable](#filterable-1)
@@ -140,7 +142,6 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [chainWithIndex](#chainwithindex)
   - [chunksOf](#chunksof)
-  - [comprehension](#comprehension)
   - [deleteAt](#deleteat)
   - [elem](#elem)
   - [empty](#empty)
@@ -183,6 +184,20 @@ export declare const zero: <A>() => A[]
 ```
 
 Added in v2.7.0
+
+# Applicative
+
+## of
+
+Wrap a value into the type constructor.
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => A[]
+```
+
+Added in v2.0.0
 
 # Apply
 
@@ -1058,6 +1073,62 @@ Added in v2.0.0
 
 # constructors
 
+## comprehension
+
+Array comprehension
+
+```
+[ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]
+```
+
+**Signature**
+
+```ts
+export declare function comprehension<A, B, C, D, R>(
+  input: [Array<A>, Array<B>, Array<C>, Array<D>],
+  f: (a: A, b: B, c: C, d: D) => R,
+  g?: (a: A, b: B, c: C, d: D) => boolean
+): Array<R>
+export declare function comprehension<A, B, C, R>(
+  input: [Array<A>, Array<B>, Array<C>],
+  f: (a: A, b: B, c: C) => R,
+  g?: (a: A, b: B, c: C) => boolean
+): Array<R>
+export declare function comprehension<A, R>(input: [Array<A>], f: (a: A) => R, g?: (a: A) => boolean): Array<R>
+export declare function comprehension<A, B, R>(
+  input: [Array<A>, Array<B>],
+  f: (a: A, b: B) => R,
+  g?: (a: A, b: B) => boolean
+): Array<R>
+export declare function comprehension<A, R>(input: [Array<A>], f: (a: A) => boolean, g?: (a: A) => R): Array<R>
+```
+
+**Example**
+
+```ts
+import { comprehension } from 'fp-ts/Array'
+import { tuple } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  comprehension(
+    [
+      [1, 2, 3],
+      ['a', 'b'],
+    ],
+    tuple,
+    (a, b) => (a + b.length) % 2 === 0
+  ),
+  [
+    [1, 'a'],
+    [1, 'b'],
+    [3, 'a'],
+    [3, 'b'],
+  ]
+)
+```
+
+Added in v2.0.0
+
 ## cons
 
 Attaches an element to the front of an array, creating a new non empty array
@@ -1096,16 +1167,6 @@ import { makeBy } from 'fp-ts/Array'
 
 const double = (n: number): number => n * 2
 assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
-```
-
-Added in v2.0.0
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => A[]
 ```
 
 Added in v2.0.0
@@ -1837,62 +1898,6 @@ export declare const chunksOf: (n: number) => <A>(as: A[]) => A[][]
 import { chunksOf } from 'fp-ts/Array'
 
 assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
-```
-
-Added in v2.0.0
-
-## comprehension
-
-Array comprehension
-
-```
-[ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]
-```
-
-**Signature**
-
-```ts
-export declare function comprehension<A, B, C, D, R>(
-  input: [Array<A>, Array<B>, Array<C>, Array<D>],
-  f: (a: A, b: B, c: C, d: D) => R,
-  g?: (a: A, b: B, c: C, d: D) => boolean
-): Array<R>
-export declare function comprehension<A, B, C, R>(
-  input: [Array<A>, Array<B>, Array<C>],
-  f: (a: A, b: B, c: C) => R,
-  g?: (a: A, b: B, c: C) => boolean
-): Array<R>
-export declare function comprehension<A, R>(input: [Array<A>], f: (a: A) => R, g?: (a: A) => boolean): Array<R>
-export declare function comprehension<A, B, R>(
-  input: [Array<A>, Array<B>],
-  f: (a: A, b: B) => R,
-  g?: (a: A, b: B) => boolean
-): Array<R>
-export declare function comprehension<A, R>(input: [Array<A>], f: (a: A) => boolean, g?: (a: A) => R): Array<R>
-```
-
-**Example**
-
-```ts
-import { comprehension } from 'fp-ts/Array'
-import { tuple } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  comprehension(
-    [
-      [1, 2, 3],
-      ['a', 'b'],
-    ],
-    tuple,
-    (a, b) => (a + b.length) % 2 === 0
-  ),
-  [
-    [1, 'a'],
-    [1, 'b'],
-    [3, 'a'],
-    [3, 'b'],
-  ]
-)
 ```
 
 Added in v2.0.0

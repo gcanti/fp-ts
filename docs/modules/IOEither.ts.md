@@ -17,6 +17,8 @@ Added in v2.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
+- [Applicative](#applicative)
+  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apFirst](#apfirst)
@@ -103,6 +105,22 @@ export declare const alt: <E, A>(that: Lazy<IOEither<E, A>>) => (fa: IOEither<E,
 ```
 
 Added in v2.0.0
+
+# Applicative
+
+## of
+
+Wrap a value into the type constructor.
+
+Equivalent to [`right`](#right).
+
+**Signature**
+
+```ts
+export declare const of: <E, A>(a: A) => IOEither<E, A>
+```
+
+Added in v2.8.5
 
 # Apply
 
@@ -310,6 +328,8 @@ Added in v2.6.1
 
 ## filterOrElse
 
+Derivable from `MonadThrow`.
+
 **Signature**
 
 ```ts
@@ -357,6 +377,8 @@ Added in v2.0.0
 
 ## fromEither
 
+Derivable from `MonadThrow`.
+
 **Signature**
 
 ```ts
@@ -367,6 +389,8 @@ Added in v2.0.0
 
 ## fromOption
 
+Derivable from `MonadThrow`.
+
 **Signature**
 
 ```ts
@@ -376,6 +400,8 @@ export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => I
 Added in v2.0.0
 
 ## fromPredicate
+
+Derivable from `MonadThrow`.
 
 **Signature**
 

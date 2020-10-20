@@ -18,6 +18,8 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Applicative](#applicative)
+  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apFirst](#apfirst)
@@ -46,7 +48,7 @@ Added in v2.0.0
 - [destructors](#destructors)
   - [fold](#fold)
 - [instances](#instances)
-  - [Applicative](#applicative)
+  - [Applicative](#applicative-1)
   - [Comonad](#comonad)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
@@ -67,11 +69,24 @@ Added in v2.0.0
   - [drawForest](#drawforest)
   - [drawTree](#drawtree)
   - [elem](#elem)
-  - [of](#of)
   - [sequence](#sequence)
   - [traverse](#traverse)
 
 ---
+
+# Applicative
+
+## of
+
+Wrap a value into the type constructor.
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => Tree<A>
+```
+
+Added in v2.7.0
 
 # Apply
 
@@ -586,16 +601,6 @@ export declare function elem<A>(E: Eq<A>): (a: A, fa: Tree<A>) => boolean
 ```
 
 Added in v2.0.0
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => Tree<A>
-```
-
-Added in v2.7.0
 
 ## sequence
 

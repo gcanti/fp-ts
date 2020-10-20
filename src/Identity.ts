@@ -57,6 +57,9 @@ const chainRec_: ChainRec1<URI>['chainRec'] = tailRec
 // -------------------------------------------------------------------------------------
 
 /**
+ * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+ * use the type constructor `F` to represent some computational context.
+ *
  * @category Functor
  * @since 2.0.0
  */
@@ -95,6 +98,8 @@ export const apSecond = <B>(fb: Identity<B>): (<A>(fa: Identity<A>) => Identity<
   )
 
 /**
+ * Wrap a value into the type constructor.
+ *
  * @category Applicative
  * @since 2.0.0
  */

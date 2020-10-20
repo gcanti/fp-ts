@@ -120,10 +120,12 @@ export const apSecond = <E, B>(fb: State<E, B>): (<A>(fa: State<E, A>) => State<
   )
 
 /**
+ * Wrap a value into the type constructor.
+ *
  * @category Applicative
  * @since 2.0.0
  */
-export const of: <S, A>(a: A) => State<S, A> = (a) => (s) => [a, s]
+export const of: Applicative2<URI>['of'] = (a) => (s) => [a, s]
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.

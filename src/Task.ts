@@ -157,10 +157,12 @@ export const apSecond = <B>(fb: Task<B>): (<A>(fa: Task<A>) => Task<B>) =>
   )
 
 /**
+ * Wrap a value into the type constructor.
+ *
  * @category Applicative
  * @since 2.0.0
  */
-export const of: <A>(a: A) => Task<A> = (a) => () => Promise.resolve(a)
+export const of: Applicative1<URI>['of'] = (a) => () => Promise.resolve(a)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.

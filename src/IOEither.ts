@@ -69,6 +69,8 @@ export const leftIO: <E = never, A = never>(me: IO<E>) => IOEither<E, A> =
   I.map(E.left)
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category constructors
  * @since 2.0.0
  */
@@ -77,6 +79,8 @@ export const fromEither: <E, A>(ma: E.Either<E, A>) => IOEither<E, A> =
   E.fold(left, (a) => right(a))
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category constructors
  * @since 2.0.0
  */
@@ -84,6 +88,8 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => IOEither<
   ma._tag === 'None' ? left(onNone()) : right(ma.value)
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category constructors
  * @since 2.0.0
  */
@@ -149,6 +155,8 @@ export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> =
   I.map(E.swap)
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category combinators
  * @since 2.0.0
  */
@@ -199,7 +207,6 @@ const apSeq_: Applicative2<URI>['ap'] = (fab, fa) =>
     fab,
     chain((f) => pipe(fa, map(f)))
   )
-const of = right
 /* istanbul ignore next */
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
@@ -283,6 +290,16 @@ export const apSecond = <E, B>(fb: IOEither<E, B>): (<A>(fa: IOEither<E, A>) => 
     map(() => (b: B) => b),
     ap(fb)
   )
+
+/**
+ * Wrap a value into the type constructor.
+ *
+ * Equivalent to [`right`](#right).
+ *
+ * @category Applicative
+ * @since 2.8.5
+ */
+export const of: Applicative2<URI>['of'] = right
 
 /**
  * Less strict version of [`chain`](#chain).

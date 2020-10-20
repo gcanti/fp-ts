@@ -14,6 +14,8 @@ Added in v2.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
+- [Applicative](#applicative)
+  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apFirst](#apfirst)
@@ -56,7 +58,7 @@ Added in v2.0.0
   - [getOrElseW](#getorelsew)
 - [instances](#instances)
   - [Alt](#alt-1)
-  - [Applicative](#applicative)
+  - [Applicative](#applicative-1)
   - [Bifunctor](#bifunctor-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
@@ -97,6 +99,22 @@ export declare const alt: <R, E, A>(
 ```
 
 Added in v2.0.0
+
+# Applicative
+
+## of
+
+Wrap a value into the type constructor.
+
+Equivalent to [`right`](#right).
+
+**Signature**
+
+```ts
+export declare const of: <R, E, A>(a: A) => ReaderEither<R, E, A>
+```
+
+Added in v2.8.5
 
 # Apply
 
@@ -188,6 +206,9 @@ Added in v2.0.0
 # Functor
 
 ## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
 
 **Signature**
 
@@ -308,6 +329,8 @@ Added in v2.6.1
 
 ## filterOrElse
 
+Derivable from `MonadThrow`.
+
 **Signature**
 
 ```ts
@@ -389,6 +412,8 @@ Added in v2.0.0
 
 ## fromEither
 
+Derivable from `MonadThrow`.
+
 **Signature**
 
 ```ts
@@ -399,6 +424,8 @@ Added in v2.0.0
 
 ## fromOption
 
+Derivable from `MonadThrow`.
+
 **Signature**
 
 ```ts
@@ -408,6 +435,8 @@ export declare const fromOption: <E>(onNone: () => E) => <R, A>(ma: Option<A>) =
 Added in v2.0.0
 
 ## fromPredicate
+
+Derivable from `MonadThrow`.
 
 **Signature**
 

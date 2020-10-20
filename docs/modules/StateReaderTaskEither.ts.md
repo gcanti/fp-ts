@@ -120,6 +120,8 @@ Added in v2.6.2
 
 ## of
 
+Wrap a value into the type constructor.
+
 **Signature**
 
 ```ts
@@ -220,6 +222,9 @@ Added in v2.6.2
 # Functor
 
 ## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
 
 **Signature**
 
@@ -446,6 +451,8 @@ Added in v2.6.1
 
 ## filterOrElse
 
+Derivable from `MonadThrow`.
+
 **Signature**
 
 ```ts
@@ -513,6 +520,8 @@ Added in v2.4.0
 
 ## fromEither
 
+Derivable from `MonadThrow`.
+
 **Signature**
 
 ```ts
@@ -533,6 +542,8 @@ Added in v2.0.0
 
 ## fromOption
 
+Derivable from `MonadThrow`.
+
 **Signature**
 
 ```ts
@@ -542,6 +553,8 @@ export declare const fromOption: <E>(onNone: Lazy<E>) => <S, R, A>(ma: Option<A>
 Added in v2.0.0
 
 ## fromPredicate
+
+Derivable from `MonadThrow`.
 
 **Signature**
 

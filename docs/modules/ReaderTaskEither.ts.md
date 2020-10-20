@@ -125,6 +125,10 @@ Added in v2.0.0
 
 ## of
 
+Wrap a value into the type constructor.
+
+Equivalent to [`right`](#right).
+
 **Signature**
 
 ```ts
@@ -426,6 +430,8 @@ Added in v2.6.1
 
 ## filterOrElse
 
+Derivable from `MonadThrow`.
+
 **Signature**
 
 ```ts
@@ -531,6 +537,8 @@ Added in v2.0.0
 
 ## fromEither
 
+Derivable from `MonadThrow`.
+
 **Signature**
 
 ```ts
@@ -551,6 +559,8 @@ Added in v2.0.0
 
 ## fromOption
 
+Derivable from `MonadThrow`.
+
 **Signature**
 
 ```ts
@@ -560,6 +570,8 @@ export declare const fromOption: <E>(onNone: Lazy<E>) => <R, A>(ma: Option<A>) =
 Added in v2.0.0
 
 ## fromPredicate
+
+Derivable from `MonadThrow`.
 
 **Signature**
 

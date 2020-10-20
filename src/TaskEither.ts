@@ -99,6 +99,8 @@ export const leftIO: <E = never, A = never>(me: IO<E>) => TaskEither<E, A> =
 export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = T.fromIO
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category constructors
  * @since 2.0.0
  */
@@ -107,6 +109,8 @@ export const fromEither: <E, A>(ma: E.Either<E, A>) => TaskEither<E, A> =
   E.fold(left, (a) => right(a))
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category constructors
  * @since 2.0.0
  */
@@ -114,6 +118,8 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskEithe
   ma._tag === 'None' ? left(onNone()) : right(ma.value)
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category constructors
  * @since 2.0.0
  */
@@ -213,6 +219,8 @@ export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> =
   T.map(E.swap)
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category combinators
  * @since 2.0.0
  */
@@ -485,6 +493,10 @@ export const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>)
   T.chain(E.fold(that, right))
 
 /**
+ * Wrap a value into the type constructor.
+ *
+ * Equivalent to [`right`](#right).
+ *
  * @category Applicative
  * @since 2.0.0
  */

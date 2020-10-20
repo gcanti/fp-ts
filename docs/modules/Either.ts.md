@@ -140,7 +140,9 @@ Added in v2.0.0
 
 ## of
 
-Lift a value.
+Wrap a value into the type constructor.
+
+Equivalent to [`right`](#right).
 
 **Signature**
 
@@ -491,6 +493,8 @@ Added in v2.6.3
 
 ## filterOrElse
 
+Derivable from `MonadThrow`.
+
 **Signature**
 
 ```ts
@@ -550,6 +554,8 @@ Added in v2.0.0
 
 ## fromOption
 
+Derivable from `MonadThrow`.
+
 **Signature**
 
 ```ts
@@ -559,6 +565,8 @@ export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => E
 Added in v2.0.0
 
 ## fromPredicate
+
+Derivable from `MonadThrow`.
 
 **Signature**
 

@@ -56,6 +56,8 @@ export const map: <B>(E: Eq<B>) => <A>(f: (x: A) => B) => (set: Set<A>) => Set<B
 export const every: <A>(predicate: Predicate<A>) => (set: Set<A>) => boolean = RS.every
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
  * @category combinators
  * @since 2.0.0
  */
