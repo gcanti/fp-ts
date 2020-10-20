@@ -33,6 +33,7 @@ has_toc: false
 - [graphics-ts](https://github.com/gcanti/graphics-ts) - A porting of purescript-{canvas, drawing} featuring fp-ts
 - [expressive-ts](https://github.com/IMax153/expressive-ts) - Comonadic builders for writing complex regular expressions
 - [fp-fetch](https://github.com/monstasat/fp-fetch) - Functional style, non-throwing utils for data fetching
+- [fp-ts-std](https://github.com/samhh/fp-ts-std) - The missing pseudo-standard library for fp-ts.
 
 ## Bindings
 
