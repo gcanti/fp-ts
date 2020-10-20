@@ -15,6 +15,14 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.8.5
+
+- **Polish**
+  - `IOEither`
+    - export missing `of` function (@gcanti)
+  - `ReaderEither`
+    - export missing `of` function (@gcanti)
+
 # 2.8.4
 
 - **Polish**

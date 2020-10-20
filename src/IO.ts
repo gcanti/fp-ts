@@ -13,7 +13,7 @@
  */
 import { Applicative1 } from './Applicative'
 import { ChainRec1 } from './ChainRec'
-import { identity, pipe, bind_, bindTo_, flow } from './function'
+import { identity, pipe, bind_, bindTo_, flow, constant } from './function'
 import { Functor1 } from './Functor'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
@@ -93,12 +93,16 @@ export const apSecond = <B>(fb: IO<B>): (<A>(fa: IO<A>) => IO<B>) =>
   )
 
 /**
+ * Wrap a value into the type constructor.
+ *
  * @category Applicative
  * @since 2.0.0
  */
-export const of = <A>(a: A): IO<A> => () => a
+export const of: Applicative1<URI>['of'] = constant
 
 /**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
  * @category Monad
  * @since 2.0.0
  */

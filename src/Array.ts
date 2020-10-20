@@ -875,6 +875,7 @@ export const chunksOf: (n: number) => <A>(as: Array<A>) => Array<Array<A>> = RA.
  *   [3, 'b']
  * ])
  *
+ * @category constructors
  * @since 2.0.0
  */
 export function comprehension<A, B, C, D, R>(
@@ -968,10 +969,12 @@ export const difference: <A>(
 } = RA.difference as any
 
 /**
- * @category constructors
+ * Wrap a value into the type constructor.
+ *
+ * @category Applicative
  * @since 2.0.0
  */
-export const of: <A>(a: A) => Array<A> = RA.of as any
+export const of: Applicative1<URI>['of'] = RA.of as any
 
 // -------------------------------------------------------------------------------------
 // non-pipeables

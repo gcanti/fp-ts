@@ -133,6 +133,8 @@ export const apSecond = <R, B>(fb: Reader<R, B>): (<A>(fa: Reader<R, A>) => Read
   )
 
 /**
+ * Wrap a value into the type constructor.
+ *
  * @category Applicative
  * @since 2.0.0
  */

@@ -54,6 +54,10 @@ Added in v2.4.0
 
 ## of
 
+Wrap a value into the type constructor.
+
+Equivalent to [`right`](#right).
+
 **Signature**
 
 ```ts

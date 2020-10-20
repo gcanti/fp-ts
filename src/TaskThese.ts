@@ -173,6 +173,10 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => Task
   T.map(TH.mapLeft(f))
 
 /**
+ * Wrap a value into the type constructor.
+ *
+ * Equivalent to [`right`](#right).
+ *
  * @category Applicative
  * @since 2.7.0
  */

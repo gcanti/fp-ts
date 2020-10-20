@@ -158,6 +158,8 @@ export const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderTaskEither
   flow(TE.right, TE.map(f))
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category constructors
  * @since 2.0.0
  */
@@ -166,6 +168,8 @@ export const fromEither: <R, E, A>(ma: Either<E, A>) => ReaderTaskEither<R, E, A
   E.fold(left, (a) => right(a))
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category constructors
  * @since 2.0.0
  */
@@ -174,6 +178,8 @@ export const fromOption: <E>(onNone: Lazy<E>) => <R, A>(ma: Option<A>) => Reader
 ) => (ma._tag === 'None' ? left(onNone()) : right(ma.value))
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category constructors
  * @since 2.0.0
  */
@@ -252,6 +258,8 @@ export const local: <Q, R>(f: (f: Q) => R) => <E, A>(ma: ReaderTaskEither<R, E, 
   R.local
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category combinators
  * @since 2.0.0
  */
@@ -456,6 +464,10 @@ export const apSecond = <R, E, B>(
   )
 
 /**
+ * Wrap a value into the type constructor.
+ *
+ * Equivalent to [`right`](#right).
+ *
  * @category Applicative
  * @since 2.7.0
  */

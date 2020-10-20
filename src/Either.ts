@@ -220,6 +220,8 @@ export function stringifyJSON<E>(u: unknown, onError: (reason: unknown) => E): E
 }
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category constructors
  * @since 2.0.0
  */
@@ -227,6 +229,8 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Either<E,
   ma._tag === 'None' ? left(onNone()) : right(ma.value)
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category constructors
  * @since 2.0.0
  */
@@ -313,6 +317,8 @@ export function orElse<E, A, M>(onLeft: (e: E) => Either<M, A>): (ma: Either<E, 
 }
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category combinators
  * @since 2.0.0
  */
@@ -431,7 +437,9 @@ export const apSecond = <E, B>(fb: Either<E, B>): (<A>(fa: Either<E, A>) => Eith
   )
 
 /**
- * Lift a value.
+ * Wrap a value into the type constructor.
+ *
+ * Equivalent to [`right`](#right).
  *
  * @example
  * import * as E from 'fp-ts/Either'

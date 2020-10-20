@@ -53,10 +53,12 @@ Added in v2.0.0
 
 ## of
 
+Wrap a value into the type constructor.
+
 **Signature**
 
 ```ts
-export declare const of: <S, A>(a: A) => State<S, A>
+export declare const of: <E, A>(a: A) => State<E, A>
 ```
 
 Added in v2.0.0

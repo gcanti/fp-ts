@@ -330,10 +330,12 @@ export function filterWithIndex<A>(
 }
 
 /**
+ * Wrap a value into the type constructor.
+ *
  * @category Applicative
  * @since 2.5.0
  */
-export const of: <A>(a: A) => ReadonlyNonEmptyArray<A> = RA.of as any
+export const of: Applicative1<URI>['of'] = RA.of as any
 
 /**
  * @category constructors

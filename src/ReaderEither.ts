@@ -76,6 +76,8 @@ export const ask: <R, E = never>() => ReaderEither<R, E, R> = () => E.right
 export const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderEither<R, E, A> = (f) => flow(f, E.right)
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category constructors
  * @since 2.0.0
  */
@@ -84,6 +86,8 @@ export const fromEither: <R, E, A>(ma: E.Either<E, A>) => ReaderEither<R, E, A> 
   E.fold(left, (a) => right(a))
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category constructors
  * @since 2.0.0
  */
@@ -91,6 +95,8 @@ export const fromOption: <E>(onNone: () => E) => <R, A>(ma: Option<A>) => Reader
   ma._tag === 'None' ? left(onNone()) : right(ma.value)
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category constructors
  * @since 2.0.0
  */
@@ -190,6 +196,8 @@ export const chainEitherK: <E, A, B>(
 ) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = chainEitherKW
 
 /**
+ * Derivable from `MonadThrow`.
+ *
  * @category combinators
  * @since 2.0.0
  */
@@ -213,7 +221,6 @@ const bimap_: Bifunctor3<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 const mapLeft_: Bifunctor3<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
 /* istanbul ignore next */
 const ap_: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const of = right
 /* istanbul ignore next */
 const chain_: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
@@ -224,6 +231,9 @@ const alt_: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 // -------------------------------------------------------------------------------------
 
 /**
+ * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+ * use the type constructor `F` to represent some computational context.
+ *
  * @category Functor
  * @since 2.0.0
  */
@@ -303,6 +313,16 @@ export const apSecond = <R, E, B>(
     map(() => (b: B) => b),
     ap(fb)
   )
+
+/**
+ * Wrap a value into the type constructor.
+ *
+ * Equivalent to [`right`](#right).
+ *
+ * @category Applicative
+ * @since 2.8.5
+ */
+export const of: Applicative3<URI>['of'] = right
 
 /**
  * Less strict version of [`chain`](#chain).

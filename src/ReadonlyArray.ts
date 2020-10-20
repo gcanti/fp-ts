@@ -1265,6 +1265,7 @@ export function chunksOf(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<
  *   [3, 'b']
  * ])
  *
+ * @category constructors
  * @since 2.5.0
  */
 export function comprehension<A, B, C, D, R>(
@@ -1412,10 +1413,12 @@ export function difference<A>(
 }
 
 /**
+ * Wrap a value into the type constructor.
+ *
  * @category Applicative
  * @since 2.5.0
  */
-export const of = <A>(a: A): ReadonlyArray<A> => [a]
+export const of: Applicative1<URI>['of'] = (a) => [a]
 
 /**
  * @category Alternative

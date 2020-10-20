@@ -66,6 +66,8 @@ Added in v2.0.0
 
 ## of
 
+Wrap a value into the type constructor.
+
 **Signature**
 
 ```ts

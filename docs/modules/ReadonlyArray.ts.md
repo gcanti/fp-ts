@@ -85,6 +85,7 @@ Added in v2.5.0
   - [zip](#zip)
   - [zipWith](#zipwith)
 - [constructors](#constructors)
+  - [comprehension](#comprehension)
   - [cons](#cons)
   - [fromArray](#fromarray)
   - [makeBy](#makeby)
@@ -132,7 +133,6 @@ Added in v2.5.0
   - [bindTo](#bindto)
   - [chainWithIndex](#chainwithindex)
   - [chunksOf](#chunksof)
-  - [comprehension](#comprehension)
   - [deleteAt](#deleteat)
   - [elem](#elem)
   - [empty](#empty)
@@ -190,6 +190,8 @@ Added in v2.7.0
 # Applicative
 
 ## of
+
+Wrap a value into the type constructor.
 
 **Signature**
 
@@ -1049,6 +1051,70 @@ Added in v2.5.0
 
 # constructors
 
+## comprehension
+
+Array comprehension
+
+```
+[ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]
+```
+
+**Signature**
+
+```ts
+export declare function comprehension<A, B, C, D, R>(
+  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>, ReadonlyArray<D>],
+  f: (a: A, b: B, c: C, d: D) => R,
+  g?: (a: A, b: B, c: C, d: D) => boolean
+): ReadonlyArray<R>
+export declare function comprehension<A, B, C, R>(
+  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>],
+  f: (a: A, b: B, c: C) => R,
+  g?: (a: A, b: B, c: C) => boolean
+): ReadonlyArray<R>
+export declare function comprehension<A, R>(
+  input: readonly [ReadonlyArray<A>],
+  f: (a: A) => R,
+  g?: (a: A) => boolean
+): ReadonlyArray<R>
+export declare function comprehension<A, B, R>(
+  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>],
+  f: (a: A, b: B) => R,
+  g?: (a: A, b: B) => boolean
+): ReadonlyArray<R>
+export declare function comprehension<A, R>(
+  input: readonly [ReadonlyArray<A>],
+  f: (a: A) => boolean,
+  g?: (a: A) => R
+): ReadonlyArray<R>
+```
+
+**Example**
+
+```ts
+import { comprehension } from 'fp-ts/ReadonlyArray'
+import { tuple } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  comprehension(
+    [
+      [1, 2, 3],
+      ['a', 'b'],
+    ],
+    tuple,
+    (a, b) => (a + b.length) % 2 === 0
+  ),
+  [
+    [1, 'a'],
+    [1, 'b'],
+    [3, 'a'],
+    [3, 'b'],
+  ]
+)
+```
+
+Added in v2.5.0
+
 ## cons
 
 Attaches an element to the front of an array, creating a new non empty array
@@ -1630,70 +1696,6 @@ export declare function chunksOf(n: number): <A>(as: ReadonlyArray<A>) => Readon
 import { chunksOf } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
-```
-
-Added in v2.5.0
-
-## comprehension
-
-Array comprehension
-
-```
-[ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]
-```
-
-**Signature**
-
-```ts
-export declare function comprehension<A, B, C, D, R>(
-  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>, ReadonlyArray<D>],
-  f: (a: A, b: B, c: C, d: D) => R,
-  g?: (a: A, b: B, c: C, d: D) => boolean
-): ReadonlyArray<R>
-export declare function comprehension<A, B, C, R>(
-  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>],
-  f: (a: A, b: B, c: C) => R,
-  g?: (a: A, b: B, c: C) => boolean
-): ReadonlyArray<R>
-export declare function comprehension<A, R>(
-  input: readonly [ReadonlyArray<A>],
-  f: (a: A) => R,
-  g?: (a: A) => boolean
-): ReadonlyArray<R>
-export declare function comprehension<A, B, R>(
-  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>],
-  f: (a: A, b: B) => R,
-  g?: (a: A, b: B) => boolean
-): ReadonlyArray<R>
-export declare function comprehension<A, R>(
-  input: readonly [ReadonlyArray<A>],
-  f: (a: A) => boolean,
-  g?: (a: A) => R
-): ReadonlyArray<R>
-```
-
-**Example**
-
-```ts
-import { comprehension } from 'fp-ts/ReadonlyArray'
-import { tuple } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  comprehension(
-    [
-      [1, 2, 3],
-      ['a', 'b'],
-    ],
-    tuple,
-    (a, b) => (a + b.length) % 2 === 0
-  ),
-  [
-    [1, 'a'],
-    [1, 'b'],
-    [3, 'a'],
-    [3, 'b'],
-  ]
-)
 ```
 
 Added in v2.5.0

@@ -64,10 +64,12 @@ Added in v2.3.0
 
 ## of
 
+Wrap a value into the type constructor.
+
 **Signature**
 
 ```ts
-export declare const of: <R, A>(a: A) => ReaderTask<R, A>
+export declare const of: <E, A>(a: A) => ReaderTask<E, A>
 ```
 
 Added in v2.3.0
@@ -127,6 +129,9 @@ Added in v2.8.0
 # Functor
 
 ## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
 
 **Signature**
 

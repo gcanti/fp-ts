@@ -271,10 +271,12 @@ export const filterWithIndex: <A>(
 ) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> = RNEA.filterWithIndex as any
 
 /**
+ * Wrap a value into the type constructor.
+ *
  * @category Applicative
  * @since 2.0.0
  */
-export const of: <A>(a: A) => NonEmptyArray<A> = RNEA.of as any
+export const of: Applicative1<URI>['of'] = RNEA.of as any
 
 // TODO: curry in v3
 /**

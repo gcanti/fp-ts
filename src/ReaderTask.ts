@@ -126,6 +126,9 @@ const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 // -------------------------------------------------------------------------------------
 
 /**
+ * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+ * use the type constructor `F` to represent some computational context.
+ *
  * @category Functor
  * @since 2.3.0
  */
@@ -175,10 +178,12 @@ export const apSecond = <R, B>(fb: ReaderTask<R, B>): (<A>(fa: ReaderTask<R, A>)
   )
 
 /**
+ * Wrap a value into the type constructor.
+ *
  * @category Applicative
  * @since 2.3.0
  */
-export const of: <R, A>(a: A) => ReaderTask<R, A> = (a) => () => T.of(a)
+export const of: Applicative2<URI>['of'] = (a) => () => T.of(a)
 
 /**
  * Less strict version of  [`chain`](#chain).

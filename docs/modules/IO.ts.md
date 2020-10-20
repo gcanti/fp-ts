@@ -60,6 +60,8 @@ Added in v2.0.0
 
 ## of
 
+Wrap a value into the type constructor.
+
 **Signature**
 
 ```ts
@@ -124,6 +126,8 @@ Added in v2.0.0
 # Monad
 
 ## chain
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
 
 **Signature**
 
