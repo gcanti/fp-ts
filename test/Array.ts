@@ -618,6 +618,21 @@ describe('Array', () => {
     )
   })
 
+  it('prependToAll', () => {
+    assert.deepStrictEqual(_.prependToAll(0)([1, 2, 3]), [0, 1, 0, 2, 0, 3])
+    assert.deepStrictEqual(_.prependToAll(0)([]), [])
+    assert.deepStrictEqual(_.prependToAll(0)([1]), [0, 1])
+    assert.deepStrictEqual(_.prependToAll(0)([1, 2, 3, 4]), [0, 1, 0, 2, 0, 3, 0, 4])
+  })
+
+  it('intersperse', () => {
+    assert.deepStrictEqual(_.intersperse(0)([1, 2, 3]), [1, 0, 2, 0, 3])
+    assert.deepStrictEqual(_.intersperse(0)([]), [])
+    assert.deepStrictEqual(_.intersperse(0)([1]), [1])
+    assert.deepStrictEqual(_.intersperse(0)([1, 2]), [1, 0, 2])
+    assert.deepStrictEqual(_.intersperse(0)([1, 2, 3, 4]), [1, 0, 2, 0, 3, 0, 4])
+  })
+
   it('zipWith', () => {
     assert.deepStrictEqual(
       _.zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n),

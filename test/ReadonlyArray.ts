@@ -664,14 +664,14 @@ describe('ReadonlyArray', () => {
     assert.deepStrictEqual(_.flatten([[1], [2], [3]]), [1, 2, 3])
   })
 
-  describe('prependToAll', () => {
+  it('prependToAll', () => {
     assert.deepStrictEqual(_.prependToAll(0)([1, 2, 3]), [0, 1, 0, 2, 0, 3])
     assert.deepStrictEqual(_.prependToAll(0)([]), [])
     assert.deepStrictEqual(_.prependToAll(0)([1]), [0, 1])
     assert.deepStrictEqual(_.prependToAll(0)([1, 2, 3, 4]), [0, 1, 0, 2, 0, 3, 0, 4])
   })
 
-  describe('intersperse', () => {
+  it('intersperse', () => {
     assert.deepStrictEqual(_.intersperse(0)([1, 2, 3]), [1, 0, 2, 0, 3])
     assert.deepStrictEqual(_.intersperse(0)([]), [])
     assert.deepStrictEqual(_.intersperse(0)([1]), [1])

@@ -44,6 +44,8 @@ Added in v2.5.0
 - [combinators](#combinators)
   - [group](#group)
   - [groupSort](#groupsort)
+  - [intersperse](#intersperse)
+  - [prependToAll](#prependtoall)
   - [reverse](#reverse)
   - [sort](#sort)
   - [zip](#zip)
@@ -388,6 +390,46 @@ assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [cons(1, [1, 1]), con
 ```
 
 Added in v2.5.0
+
+## intersperse
+
+Places an element in between members of an array
+
+**Signature**
+
+```ts
+export declare const intersperse: <A>(e: A) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { cons, intersperse } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(intersperse(9)(cons(1, [2, 3, 4])), cons(1, [9, 2, 9, 3, 9, 4]))
+```
+
+Added in v-
+
+## prependToAll
+
+Prepend an element to every member of an array
+
+**Signature**
+
+```ts
+export declare const prependToAll: <A>(e: A) => (xs: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { cons, prependToAll } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(prependToAll(9)(cons(1, [2, 3, 4])), cons(9, [1, 9, 2, 9, 3, 9, 4]))
+```
+
+Added in v-
 
 ## reverse
 

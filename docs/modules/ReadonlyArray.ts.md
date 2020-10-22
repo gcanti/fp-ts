@@ -753,7 +753,7 @@ export declare function intersperse<A>(e: A): (as: ReadonlyArray<A>) => Readonly
 **Example**
 
 ```ts
-import { intersperse } from 'fp-ts/lib/ReadonlyArray'
+import { intersperse } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
 ```
@@ -773,7 +773,7 @@ export declare const prependToAll: <A>(e: A) => (xs: readonly A[]) => readonly A
 **Example**
 
 ```ts
-import { prependToAll } from 'fp-ts/lib/ReadonlyArray'
+import { prependToAll } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(prependToAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
 ```

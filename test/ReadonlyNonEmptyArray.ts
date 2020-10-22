@@ -172,6 +172,19 @@ describe('ReadonlyNonEmptyArray', () => {
     assert.deepStrictEqual(_.sort(Ord.ordNumber)([3, 2, 1]), [1, 2, 3])
   })
 
+  it('prependToAll', () => {
+    assert.deepStrictEqual(_.prependToAll(0)(_.cons(1, [2, 3])), _.cons(0, [1, 0, 2, 0, 3]))
+    assert.deepStrictEqual(_.prependToAll(0)(_.cons(1, [])), _.cons(0, [1]))
+    assert.deepStrictEqual(_.prependToAll(0)(_.cons(1, [2, 3, 4])), _.cons(0, [1, 0, 2, 0, 3, 0, 4]))
+  })
+
+  it('intersperse', () => {
+    assert.deepStrictEqual(_.intersperse(0)(_.cons(1, [2, 3])), _.cons(1, [0, 2, 0, 3]))
+    assert.deepStrictEqual(_.intersperse(0)(_.cons(1, [])), _.cons(1, []))
+    assert.deepStrictEqual(_.intersperse(0)(_.cons(1, [2])), _.cons(1, [0, 2]))
+    assert.deepStrictEqual(_.intersperse(0)(_.cons(1, [2, 3, 4])), _.cons(1, [0, 2, 0, 3, 0, 4]))
+  })
+
   it('reverse', () => {
     assert.deepStrictEqual(_.reverse([1, 2, 3]), [3, 2, 1])
   })

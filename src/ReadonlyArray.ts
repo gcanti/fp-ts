@@ -1053,7 +1053,7 @@ export function unzip<A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [Reado
  * Prepend an element to every member of an array
  *
  * @example
- * import { prependToAll } from 'fp-ts/lib/ReadonlyArray'
+ * import { prependToAll } from 'fp-ts/ReadonlyArray'
  *
  * assert.deepStrictEqual(prependToAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
  *
@@ -1073,7 +1073,7 @@ export const prependToAll = <A>(e: A) => (xs: ReadonlyArray<A>): ReadonlyArray<A
  * Places an element in between members of an array
  *
  * @example
- * import { intersperse } from 'fp-ts/lib/ReadonlyArray'
+ * import { intersperse } from 'fp-ts/ReadonlyArray'
  *
  * assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
  *
