@@ -1,7 +1,7 @@
 /**
  * @since 2.0.0
  */
-import { identity, pipe } from './function'
+import { identity, pipe, bind_, bindTo_, flow } from './function'
 import { Functor2 } from './Functor'
 import { Monad2 } from './Monad'
 import { Applicative2 } from './Applicative'
@@ -101,10 +101,9 @@ export const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => S
  * @category Apply
  * @since 2.0.0
  */
-export const apFirst = <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>): State<E, A> =>
-  pipe(
-    fa,
-    map((a) => (_: B) => a),
+export const apFirst: <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, A> = (fb) =>
+  flow(
+    map((a) => () => a),
     ap(fb)
   )
 
@@ -114,9 +113,8 @@ export const apFirst = <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>): State<E,
  * @category Apply
  * @since 2.0.0
  */
-export const apSecond = <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>): State<E, B> =>
-  pipe(
-    fa,
+export const apSecond = <E, B>(fb: State<E, B>): (<A>(fa: State<E, A>) => State<E, B>) =>
+  flow(
     map(() => (b: B) => b),
     ap(fb)
   )
@@ -226,18 +224,72 @@ export const state: Monad2<URI> = Monad
 // utils
 // -------------------------------------------------------------------------------------
 
-// TODO: curry and rename to `evaluate` in v3
 /**
- * Run a computation in the `State` monad, discarding the final state
+ * Use `evaluate` instead
  *
  * @since 2.0.0
+ * @deprecated
  */
 export const evalState: <S, A>(ma: State<S, A>, s: S) => A = (ma, s) => ma(s)[0]
 
-// TODO: curry and rename to `execute` in v3
+/**
+ * Use `execute` instead
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export const execState: <S, A>(ma: State<S, A>, s: S) => S = (ma, s) => ma(s)[1]
+
+/**
+ * Run a computation in the `State` monad, discarding the final state
+ *
+ * @since 2.8.0
+ */
+export const evaluate = <S>(s: S) => <A>(ma: State<S, A>): A => ma(s)[0]
+
 /**
  * Run a computation in the `State` monad discarding the result
  *
- * @since 2.0.0
+ * @since 2.8.0
  */
-export const execState: <S, A>(ma: State<S, A>, s: S) => S = (ma, s) => ma(s)[1]
+export const execute = <S>(s: S) => <A>(ma: State<S, A>): S => ma(s)[1]
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const bindTo = <N extends string>(name: N): (<S, A>(fa: State<S, A>) => State<S, { [K in N]: A }>) =>
+  map(bindTo_(name))
+
+/**
+ * @since 2.8.0
+ */
+export const bind = <N extends string, A, S, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => State<S, B>
+): ((fa: State<S, A>) => State<S, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  chain((a) =>
+    pipe(
+      f(a),
+      map((b) => bind_(a, name, b))
+    )
+  )
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence S
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const apS = <A, N extends string, S, B>(
+  name: Exclude<N, keyof A>,
+  fb: State<S, B>
+): ((fa: State<S, A>) => State<S, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  flow(
+    map((a) => (b: B) => bind_(a, name, b)),
+    ap(fb)
+  )

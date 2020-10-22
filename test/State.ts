@@ -40,12 +40,22 @@ describe('State', () => {
     })
   })
 
-  it('eval', () => {
+  it('evalState', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(_.evalState(_.of<number, string>('a'), 0), 'a')
   })
 
-  it('exec', () => {
+  it('execState', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(_.execState(_.of<number, string>('a'), 0), 0)
+  })
+
+  it('evaluate', () => {
+    assert.deepStrictEqual(pipe(_.of<number, string>('a'), _.evaluate(0)), 'a')
+  })
+
+  it('execute', () => {
+    assert.deepStrictEqual(pipe(_.of<number, string>('a'), _.execute(0)), 0)
   })
 
   it('put', () => {
@@ -64,5 +74,23 @@ describe('State', () => {
   it('gets', () => {
     const double = (n: number) => n * 2
     assert.deepStrictEqual(_.gets(double)(1), [2, 1])
+  })
+
+  it('do notation', () => {
+    assert.deepStrictEqual(
+      pipe(
+        _.of(1),
+        _.bindTo('a'),
+        _.bind('b', () => _.of('b'))
+      )('state'),
+      [{ a: 1, b: 'b' }, 'state']
+    )
+  })
+
+  it('apS', () => {
+    assert.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b')))(undefined), [
+      { a: 1, b: 'b' },
+      undefined
+    ])
   })
 })

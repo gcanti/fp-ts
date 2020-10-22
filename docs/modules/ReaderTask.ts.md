@@ -18,6 +18,7 @@ Added in v2.3.0
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [apW](#apw)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -50,6 +51,11 @@ Added in v2.3.0
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
 - [utils](#utils)
+  - [apS](#aps)
+  - [apSW](#apsw)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [bindW](#bindw)
   - [run](#run)
 
 ---
@@ -103,6 +109,20 @@ export declare const apSecond: <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTas
 ```
 
 Added in v2.3.0
+
+## apW
+
+Less strict version of [`ap`](#ap).
+
+**Signature**
+
+```ts
+export declare const apW: <Q, A>(
+  fa: ReaderTask<Q, A>
+) => <R, B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<Q & R, B>
+```
+
+Added in v2.8.0
 
 # Functor
 
@@ -384,6 +404,70 @@ export interface ReaderTask<R, A> {
 Added in v2.3.0
 
 # utils
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, R, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderTask<R, B>
+) => (fa: ReaderTask<R, A>) => ReaderTask<R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## apSW
+
+**Signature**
+
+```ts
+export declare const apSW: <A, N extends string, Q, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderTask<Q, B>
+) => <R>(fa: ReaderTask<R, A>) => ReaderTask<Q & R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, R, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderTask<R, B>
+) => (fa: ReaderTask<R, A>) => ReaderTask<R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <R, A>(fa: ReaderTask<R, A>) => ReaderTask<R, { [K in N]: A }>
+```
+
+Added in v2.8.0
+
+## bindW
+
+**Signature**
+
+```ts
+export declare const bindW: <N extends string, A, Q, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderTask<Q, B>
+) => <R>(fa: ReaderTask<R, A>) => ReaderTask<Q & R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
 
 ## run
 

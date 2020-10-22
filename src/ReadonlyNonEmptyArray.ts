@@ -11,7 +11,7 @@ import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { Lazy, Predicate, Refinement } from './function'
+import { Lazy, Predicate, Refinement, pipe, bind_, bindTo_, flow } from './function'
 import { Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { Monad1 } from './Monad'
@@ -41,7 +41,7 @@ export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
  * Append an element to the front of an array, creating a new non empty array
  *
  * @example
- * import { cons } from 'fp-ts/lib/ReadonlyNonEmptyArray'
+ * import { cons } from 'fp-ts/ReadonlyNonEmptyArray'
  *
  * assert.deepStrictEqual(cons(1, [2, 3, 4]), [1, 2, 3, 4])
  *
@@ -54,7 +54,7 @@ export const cons: <A>(head: A, tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray
  * Append an element to the end of an array, creating a new non empty array
  *
  * @example
- * import { snoc } from 'fp-ts/lib/ReadonlyNonEmptyArray'
+ * import { snoc } from 'fp-ts/ReadonlyNonEmptyArray'
  *
  * assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
  *
@@ -138,8 +138,8 @@ export function getSemigroup<A = never>(): Semigroup<ReadonlyNonEmptyArray<A>> {
 
 /**
  * @example
- * import { getEq, cons } from 'fp-ts/lib/ReadonlyNonEmptyArray'
- * import { eqNumber } from 'fp-ts/lib/Eq'
+ * import { getEq, cons } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { eqNumber } from 'fp-ts/Eq'
  *
  * const E = getEq(eqNumber)
  * assert.strictEqual(E.equals(cons(1, [2]), [1, 2]), true)
@@ -154,8 +154,8 @@ export const getEq: <A>(E: Eq<A>) => Eq<ReadonlyNonEmptyArray<A>> = RA.getEq
  * Group equal, consecutive elements of an array into non empty arrays.
  *
  * @example
- * import { cons, group } from 'fp-ts/lib/ReadonlyNonEmptyArray'
- * import { ordNumber } from 'fp-ts/lib/Ord'
+ * import { cons, group } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { ordNumber } from 'fp-ts/Ord'
  *
  * assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [
  *   cons(1, []),
@@ -166,11 +166,11 @@ export const getEq: <A>(E: Eq<A>) => Eq<ReadonlyNonEmptyArray<A>> = RA.getEq
  * @category combinators
  * @since 2.5.0
  */
-export function group<A>(
-  E: Eq<A>
+export function group<B>(
+  E: Eq<B>
 ): {
-  (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
-  (as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
+  <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+  <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
 }
 export function group<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyNonEmptyArray<A>> {
   return (as) => {
@@ -201,14 +201,20 @@ export function group<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<Read
  * Sort and then group the elements of an array into non empty arrays.
  *
  * @example
- * import { cons, groupSort } from 'fp-ts/lib/ReadonlyNonEmptyArray'
- * import { ordNumber } from 'fp-ts/lib/Ord'
+ * import { cons, groupSort } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { ordNumber } from 'fp-ts/Ord'
  *
  * assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [cons(1, [1, 1]), cons(2, [])])
  *
  * @category combinators
  * @since 2.5.0
  */
+export function groupSort<B>(
+  O: Ord<B>
+): {
+  <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+  <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
+}
 export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyNonEmptyArray<A>> {
   const sortO = RA.sort(O)
   const groupO = group(O)
@@ -220,7 +226,7 @@ export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray
  * function on each element, and grouping the results according to values returned
  *
  * @example
- * import { cons, groupBy } from 'fp-ts/lib/ReadonlyNonEmptyArray'
+ * import { cons, groupBy } from 'fp-ts/ReadonlyNonEmptyArray'
  *
  * assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['foo', 'bar', 'foobar']), {
  *   '3': cons('foo', ['bar']),
@@ -233,7 +239,7 @@ export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray
 export function groupBy<A>(
   f: (a: A) => string
 ): (as: ReadonlyArray<A>) => ReadonlyRecord<string, ReadonlyNonEmptyArray<A>> {
-  return (as) => {
+  return (as: ReadonlyArray<A>) => {
     const r: Record<string, NonEmptyArray<A>> = {}
     for (const a of as) {
       const k = f(a)
@@ -258,7 +264,7 @@ export function last<A>(nea: ReadonlyNonEmptyArray<A>): A {
  * Get all but the last element of a non empty array, creating a new array.
  *
  * @example
- * import { init } from 'fp-ts/lib/ReadonlyNonEmptyArray'
+ * import { init } from 'fp-ts/ReadonlyNonEmptyArray'
  *
  * assert.deepStrictEqual(init([1, 2, 3]), [1, 2])
  * assert.deepStrictEqual(init([1]), [])
@@ -273,7 +279,7 @@ export function init<A>(nea: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> {
  * @category combinators
  * @since 2.5.0
  */
-export function sort<A>(O: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> {
+export function sort<B>(O: Ord<B>): <A extends B>(nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> {
   return RA.sort(O) as any
 }
 
@@ -735,3 +741,44 @@ export const readonlyNonEmptyArray: Monad1<URI> &
   traverseWithIndex: traverseWithIndex_,
   alt: alt_
 }
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const bindTo = <N extends string>(
+  name: N
+): (<A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ [K in N]: A }>) => map(bindTo_(name))
+
+/**
+ * @since 2.8.0
+ */
+export const bind = <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReadonlyNonEmptyArray<B>
+): ((fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  chain((a) =>
+    pipe(
+      f(a),
+      map((b) => bind_(a, name, b))
+    )
+  )
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence S
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const apS = <A, N extends string, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReadonlyNonEmptyArray<B>
+): ((fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  flow(
+    map((a) => (b: B) => bind_(a, name, b)),
+    ap(fb)
+  )

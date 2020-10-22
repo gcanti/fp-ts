@@ -20,6 +20,7 @@ Added in v2.0.0
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [apW](#apw)
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
@@ -93,6 +94,11 @@ Added in v2.0.0
 - [model](#model)
   - [ReaderTaskEither (interface)](#readertaskeither-interface)
 - [utils](#utils)
+  - [apS](#aps)
+  - [apSW](#apsw)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [bindW](#bindw)
   - [bracket](#bracket)
   - [run](#run)
 
@@ -170,6 +176,20 @@ export declare const apSecond: <R, E, B>(
 ```
 
 Added in v2.0.0
+
+## apW
+
+Less strict version of [`ap`](#ap).
+
+**Signature**
+
+```ts
+export declare const apW: <Q, D, A>(
+  fa: ReaderTaskEither<Q, D, A>
+) => <R, E, B>(fab: ReaderTaskEither<R, E, (a: A) => B>) => ReaderTaskEither<Q & R, D | E, B>
+```
+
+Added in v2.8.0
 
 # Bifunctor
 
@@ -482,7 +502,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function swap<R, E, A>(ma: ReaderTaskEither<R, E, A>): ReaderTaskEither<R, A, E>
+export declare const swap: <R, E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, A, E>
 ```
 
 Added in v2.0.0
@@ -524,7 +544,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function fromIOEither<R, E, A>(ma: IOEither<E, A>): ReaderTaskEither<R, E, A>
+export declare const fromIOEither: <R, E, A>(ma: IOEither<E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -557,7 +577,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function fromReaderEither<R, E, A>(ma: ReaderEither<R, E, A>): ReaderTaskEither<R, E, A>
+export declare const fromReaderEither: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -577,7 +597,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function left<R, E = never, A = never>(e: E): ReaderTaskEither<R, E, A>
+export declare const left: <R, E = never, A = never>(e: E) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -587,7 +607,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function leftIO<R, E = never, A = never>(me: IO<E>): ReaderTaskEither<R, E, A>
+export declare const leftIO: <R, E = never, A = never>(me: IO<E>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -597,7 +617,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function leftReader<R, E = never, A = never>(me: Reader<R, E>): ReaderTaskEither<R, E, A>
+export declare const leftReader: <R, E = never, A = never>(me: R.Reader<R, E>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -607,7 +627,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function leftReaderTask<R, E = never, A = never>(me: ReaderTask<R, E>): ReaderTaskEither<R, E, A>
+export declare const leftReaderTask: <R, E = never, A = never>(me: RT.ReaderTask<R, E>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.5.0
@@ -617,7 +637,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function leftTask<R, E = never, A = never>(me: Task<E>): ReaderTaskEither<R, E, A>
+export declare const leftTask: <R, E = never, A = never>(me: T.Task<E>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -637,7 +657,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function rightIO<R, E = never, A = never>(ma: IO<A>): ReaderTaskEither<R, E, A>
+export declare const rightIO: <R, E = never, A = never>(ma: IO<A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -657,7 +677,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function rightReaderTask<R, E = never, A = never>(ma: ReaderTask<R, A>): ReaderTaskEither<R, E, A>
+export declare const rightReaderTask: <R, E = never, A = never>(ma: RT.ReaderTask<R, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.5.0
@@ -667,7 +687,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function rightTask<R, E = never, A = never>(ma: Task<A>): ReaderTaskEither<R, E, A>
+export declare const rightTask: <R, E = never, A = never>(ma: T.Task<A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -898,6 +918,74 @@ export interface ReaderTaskEither<R, E, A> {
 Added in v2.0.0
 
 # utils
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, R, E, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderTaskEither<R, E, B>
+) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## apSW
+
+**Signature**
+
+```ts
+export declare const apSW: <A, N extends string, Q, D, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderTaskEither<Q, D, B>
+) => <R, E>(
+  fa: ReaderTaskEither<R, E, A>
+) => ReaderTaskEither<Q & R, D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, R, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderTaskEither<R, E, B>
+) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, { [K in N]: A }>
+```
+
+Added in v2.8.0
+
+## bindW
+
+**Signature**
+
+```ts
+export declare const bindW: <N extends string, A, Q, D, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderTaskEither<Q, D, B>
+) => <R, E>(
+  fa: ReaderTaskEither<R, E, A>
+) => ReaderTaskEither<Q & R, D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
 
 ## bracket
 

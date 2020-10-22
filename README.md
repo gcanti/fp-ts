@@ -58,24 +58,6 @@ npm install fp-ts
 
 Make sure to always have a single version of `fp-ts` installed in your project. Multiple versions are known to cause `tsc` to hang during compilation. You can check the versions currently installed using `npm ls fp-ts` (make sure there's a single version and all the others are marked as `deduped`).
 
-## Consuming fp-ts
-
-Most examples will use the following import syntax:
-
-```ts
-import { Option, some, none } from 'fp-ts/lib/Option'
-```
-
-This will give you the widest support across tools, as you will be importing CommonJS modules.
-
-If you use a bundler such as webpack or Rollup that supports tree-shaking, you can take advantage of this by opting to import ECMAScript modules instead:
-
-```ts
-import { Option, some, none } from 'fp-ts/es6/Option'
-```
-
-Note that there are caveats such as some tools (e.g. Jest) not supporting ES6 module syntax natively yet.
-
 ## TypeScript compatibility
 
 **Strictness** – This library is conceived, tested and is supposed to be consumed by TypeScript with the `strict` flag turned on.

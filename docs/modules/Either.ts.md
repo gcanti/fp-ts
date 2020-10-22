@@ -32,6 +32,7 @@ Added in v2.0.0
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [apW](#apw)
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
@@ -94,6 +95,7 @@ Added in v2.0.0
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getEq](#geteq)
+  - [getFilterable](#getfilterable)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [getValidation](#getvalidation)
@@ -108,6 +110,11 @@ Added in v2.0.0
   - [Json (type alias)](#json-type-alias)
   - [JsonArray (interface)](#jsonarray-interface)
   - [JsonRecord (interface)](#jsonrecord-interface)
+  - [apS](#aps)
+  - [apSW](#apsw)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [bindW](#bindw)
   - [elem](#elem)
   - [exists](#exists)
   - [toError](#toerror)
@@ -178,6 +185,18 @@ export declare const apSecond: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>)
 ```
 
 Added in v2.0.0
+
+## apW
+
+Less strict version of [`ap`](#ap).
+
+**Signature**
+
+```ts
+export declare const apW: <D, A>(fa: Either<D, A>) => <E, B>(fab: Either<E, (a: A) => B>) => Either<D | E, B>
+```
+
+Added in v2.8.0
 
 # Bifunctor
 
@@ -420,7 +439,7 @@ export declare function fromNullable<E>(e: E): <A>(a: A) => Either<E, NonNullabl
 **Example**
 
 ```ts
-import { fromNullable, left, right } from 'fp-ts/lib/Either'
+import { fromNullable, left, right } from 'fp-ts/Either'
 
 const parse = fromNullable('nully')
 
@@ -479,7 +498,7 @@ export declare function parseJSON<E>(s: string, onError: (reason: unknown) => E)
 **Example**
 
 ```ts
-import { parseJSON, toError, right, left } from 'fp-ts/lib/Either'
+import { parseJSON, toError, right, left } from 'fp-ts/Either'
 
 assert.deepStrictEqual(parseJSON('{"a":1}', toError), right({ a: 1 }))
 assert.deepStrictEqual(parseJSON('{"a":}', toError), left(new SyntaxError('Unexpected token } in JSON at position 5')))
@@ -513,8 +532,8 @@ export declare function stringifyJSON<E>(u: unknown, onError: (reason: unknown) 
 **Example**
 
 ```ts
-import * as E from 'fp-ts/lib/Either'
-import { pipe } from 'fp-ts/lib/function'
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(E.stringifyJSON({ a: 1 }, E.toError), E.right('{"a":1}'))
 const circular: any = { ref: null }
@@ -543,7 +562,7 @@ export declare function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): 
 **Example**
 
 ```ts
-import { Either, left, right, tryCatch } from 'fp-ts/lib/Either'
+import { Either, left, right, tryCatch } from 'fp-ts/Either'
 
 const unsafeHead = <A>(as: Array<A>): A => {
   if (as.length > 0) {
@@ -582,8 +601,8 @@ export declare function fold<E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B)
 **Example**
 
 ```ts
-import { fold, left, right } from 'fp-ts/lib/Either'
-import { pipe } from 'fp-ts/lib/function'
+import { fold, left, right } from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
 
 function onLeft(errors: Array<string>): string {
   return `Errors: ${errors.join(', ')}`
@@ -830,8 +849,8 @@ export declare function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<Eith
 **Example**
 
 ```ts
-import { getApplySemigroup, left, right } from 'fp-ts/lib/Either'
-import { semigroupSum } from 'fp-ts/lib/Semigroup'
+import { getApplySemigroup, left, right } from 'fp-ts/Either'
+import { semigroupSum } from 'fp-ts/Semigroup'
 
 const S = getApplySemigroup<string, number>(semigroupSum)
 assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
@@ -852,6 +871,18 @@ export declare function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>>
 
 Added in v2.0.0
 
+## getFilterable
+
+Builds a `Filterable` instance for `Either` given `Monoid` for the left side
+
+**Signature**
+
+```ts
+export declare function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E>
+```
+
+Added in v3.0.0
+
 ## getSemigroup
 
 Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
@@ -866,8 +897,8 @@ export declare function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E,
 **Example**
 
 ```ts
-import { getSemigroup, left, right } from 'fp-ts/lib/Either'
-import { semigroupSum } from 'fp-ts/lib/Semigroup'
+import { getSemigroup, left, right } from 'fp-ts/Either'
+import { semigroupSum } from 'fp-ts/Semigroup'
 
 const S = getSemigroup<string, number>(semigroupSum)
 assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
@@ -1013,6 +1044,68 @@ export interface JsonRecord {
 
 Added in v2.6.7
 
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, E, B>(
+  name: Exclude<N, keyof A>,
+  fb: Either<E, B>
+) => (fa: Either<E, A>) => Either<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## apSW
+
+**Signature**
+
+```ts
+export declare const apSW: <A, N extends string, D, B>(
+  name: Exclude<N, keyof A>,
+  fb: Either<D, B>
+) => <E>(fa: Either<E, A>) => Either<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Either<E, B>
+) => (fa: Either<E, A>) => Either<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(name: N) => <E, A>(fa: Either<E, A>) => Either<E, { [K in N]: A }>
+```
+
+Added in v2.8.0
+
+## bindW
+
+**Signature**
+
+```ts
+export declare const bindW: <N extends string, A, D, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Either<D, B>
+) => <E>(fa: Either<E, A>) => Either<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
 ## elem
 
 **Signature**
@@ -1036,7 +1129,7 @@ export declare function exists<A>(predicate: Predicate<A>): <E>(ma: Either<E, A>
 **Example**
 
 ```ts
-import { exists, left, right } from 'fp-ts/lib/Either'
+import { exists, left, right } from 'fp-ts/Either'
 
 const gt2 = exists((n: number) => n > 2)
 

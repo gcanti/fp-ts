@@ -55,6 +55,9 @@ Added in v2.0.0
 - [model](#model)
   - [Task (interface)](#task-interface)
 - [utils](#utils)
+  - [apS](#aps)
+  - [bind](#bind)
+  - [bindTo](#bindto)
   - [never](#never)
 
 ---
@@ -198,8 +201,8 @@ export declare function delay(millis: number): <A>(ma: Task<A>) => Task<A>
 **Example**
 
 ```ts
-import { sequenceT } from 'fp-ts/lib/Apply'
-import * as T from 'fp-ts/lib/Task'
+import { sequenceT } from 'fp-ts/Apply'
+import * as T from 'fp-ts/Task'
 
 async function test() {
   const log: Array<string> = []
@@ -321,7 +324,7 @@ export declare function getRaceMonoid<A = never>(): Monoid<Task<A>>
 **Example**
 
 ```ts
-import * as T from 'fp-ts/lib/Task'
+import * as T from 'fp-ts/Task'
 
 async function test() {
   const S = T.getRaceMonoid<string>()
@@ -348,8 +351,8 @@ export declare function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>>
 **Example**
 
 ```ts
-import * as T from 'fp-ts/lib/Task'
-import { semigroupString } from 'fp-ts/lib/Semigroup'
+import * as T from 'fp-ts/Task'
+import { semigroupString } from 'fp-ts/Semigroup'
 
 async function test() {
   const S = T.getSemigroup(semigroupString)
@@ -400,6 +403,42 @@ export interface Task<A> {
 Added in v2.0.0
 
 # utils
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, B>(
+  name: Exclude<N, keyof A>,
+  fb: Task<B>
+) => (fa: Task<A>) => Task<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Task<B>
+) => (fa: Task<A>) => Task<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(name: N) => <A>(fa: Task<A>) => Task<{ [K in N]: A }>
+```
+
+Added in v2.8.0
 
 ## never
 

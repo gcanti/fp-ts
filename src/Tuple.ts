@@ -27,19 +27,19 @@ import { Extend2 } from './Extend'
  * @category destructors
  * @since 2.0.0
  */
-export const fst: <A, S>(sa: [A, S]) => A = RT.fst
+export const fst: <A, E>(ea: [A, E]) => A = RT.fst
 
 /**
  * @category destructors
  * @since 2.0.0
  */
-export const snd: <A, S>(sa: [A, S]) => S = RT.snd
+export const snd: <A, E>(ea: [A, E]) => E = RT.snd
 
 /**
  * @category combinators
  * @since 2.0.0
  */
-export const swap: <A, S>(sa: [A, S]) => [S, A] = RT.swap as any
+export const swap: <A, E>(sa: [A, E]) => [E, A] = RT.swap as any
 
 /**
  * @category instances
@@ -51,7 +51,7 @@ export const getApply: <S>(S: Semigroup<S>) => Apply2C<URI, S> = RT.getApply as 
  * @category instances
  * @since 2.0.0
  */
-export const getApplicative: <S>(M: Monoid<S>) => Applicative2C<URI, S> = RT.getApplicative as any
+export const getApplicative: <M>(M: Monoid<M>) => Applicative2C<URI, M> = RT.getApplicative as any
 
 /**
  * @category instances
@@ -63,14 +63,14 @@ export const getChain: <S>(S: Semigroup<S>) => Chain2C<URI, S> = RT.getChain as 
  * @category instances
  * @since 2.0.0
  */
-export const getMonad: <S>(M: Monoid<S>) => Monad2C<URI, S> = RT.getMonad as any
+export const getMonad: <M>(M: Monoid<M>) => Monad2C<URI, M> = RT.getMonad as any
 
 // TODO: remove in v3
 /**
  * @category instances
  * @since 2.0.0
  */
-export const getChainRec: <S>(M: Monoid<S>) => ChainRec2C<URI, S> = RT.getChainRec as any
+export const getChainRec: <M>(M: Monoid<M>) => ChainRec2C<URI, M> = RT.getChainRec as any
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -110,13 +110,13 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G] = RT.m
  * @category Semigroupoid
  * @since 2.0.0
  */
-export const compose: <E, A>(la: [A, E]) => <B>(ab: [B, A]) => [B, E] = RT.compose as any
+export const compose: <A, B>(ab: [B, A]) => <C>(bc: [C, B]) => [C, A] = RT.compose as any
 
 /**
  * @category Extend
  * @since 2.0.0
  */
-export const duplicate: <E, A>(ma: [A, E]) => [[A, E], E] = RT.duplicate as any
+export const duplicate: <E, A>(wa: [A, E]) => [[A, E], E] = RT.duplicate as any
 
 /**
  * @category Extend

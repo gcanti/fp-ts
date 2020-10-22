@@ -5,7 +5,7 @@ import { Applicative2 } from './Applicative'
 import { Category2 } from './Category'
 import { Choice2 } from './Choice'
 import * as E from './Either'
-import * as F from './function'
+import { bindTo_, bind_, flow, identity, pipe, constant } from './function'
 import { Functor2 } from './Functor'
 import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
@@ -35,7 +35,7 @@ export interface Reader<R, A> {
  * @category constructors
  * @since 2.0.0
  */
-export const ask: <R>() => Reader<R, R> = () => F.identity
+export const ask: <R>() => Reader<R, R> = () => identity
 
 /**
  * Projects a value from the global context in a Reader
@@ -43,7 +43,7 @@ export const ask: <R>() => Reader<R, R> = () => F.identity
  * @category constructors
  * @since 2.0.0
  */
-export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = (f) => (r) => f(r)
+export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = identity
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -62,13 +62,14 @@ export const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q,
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad2<URI>['map'] = (fa, f) => F.pipe(fa, map(f))
-const ap_: Monad2<URI>['ap'] = (fab, fa) => F.pipe(fab, ap(fa))
 /* istanbul ignore next */
-const chain_: Monad2<URI>['chain'] = (ma, f) => F.pipe(ma, chain(f))
-const compose_: <E, A, B>(ab: Reader<A, B>, la: Reader<E, A>) => Reader<E, B> = (ab, la) => (l) => ab(la(l))
-const promap_: <E, A, D, B>(fbc: Reader<E, A>, f: (d: D) => E, g: (a: A) => B) => Reader<D, B> = (mbc, f, g) => (a) =>
-  g(mbc(f(a)))
+const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+/* istanbul ignore next */
+const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+/* istanbul ignore next */
+const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+const compose_: Category2<URI>['compose'] = (bc, ab) => pipe(bc, compose(ab))
+const promap_: Profunctor2<URI>['promap'] = (fea, f, g) => pipe(fea, promap(f, g))
 const first_: Strong2<URI>['first'] = (pab) => ([a, c]) => [pab(a), c]
 const second_: Strong2<URI>['second'] = (pbc) => ([a, b]) => [a, pbc(b)]
 const left_: Choice2<URI>['left'] = <A, B, C>(pab: Reader<A, B>): Reader<E.Either<A, C>, E.Either<B, C>> =>
@@ -90,13 +91,22 @@ const right_: Choice2<URI>['right'] = <A, B, C>(pbc: Reader<B, C>): Reader<E.Eit
 export const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B> = (f) => (fa) => (r) => f(fa(r))
 
 /**
+ * Less strict version of [`ap`](#ap).
+ *
+ * @category Apply
+ * @since 2.8.0
+ */
+export const apW: <Q, A>(fa: Reader<Q, A>) => <R, B>(fab: Reader<R, (a: A) => B>) => Reader<Q & R, B> = (fa) => (
+  fab
+) => (r) => fab(r)(fa(r))
+
+/**
  * Apply a function to an argument under a type constructor.
  *
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> = (fa) => (fab) => (r) =>
-  fab(r)(fa(r))
+export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> = apW
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -104,10 +114,9 @@ export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) =>
  * @category Apply
  * @since 2.0.0
  */
-export const apFirst = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reader<R, A> =>
-  F.pipe(
-    fa,
-    map((a) => (_: B) => a),
+export const apFirst: <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>) => Reader<R, A> = (fb) =>
+  flow(
+    map((a) => () => a),
     ap(fb)
   )
 
@@ -117,9 +126,8 @@ export const apFirst = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reader
  * @category Apply
  * @since 2.0.0
  */
-export const apSecond = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reader<R, B> =>
-  F.pipe(
-    fa,
+export const apSecond = <R, B>(fb: Reader<R, B>): (<A>(fa: Reader<R, A>) => Reader<R, B>) =>
+  flow(
     map(() => (b: B) => b),
     ap(fb)
   )
@@ -128,7 +136,7 @@ export const apSecond = <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>): Reade
  * @category Applicative
  * @since 2.0.0
  */
-export const of: Applicative2<URI>['of'] = (a) => () => a
+export const of: Applicative2<URI>['of'] = constant
 
 /**
  * Less strict version of [`chain`](#chain).
@@ -157,7 +165,7 @@ export const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) =
  */
 export const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, A> = (f) =>
   chain((a) =>
-    F.pipe(
+    pipe(
       f(a),
       map(() => a)
     )
@@ -169,28 +177,27 @@ export const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, 
  */
 export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> =
   /*#__PURE__*/
-  chain(F.identity)
+  chain(identity)
 
 /**
  * @category Semigroupoid
  * @since 2.0.0
  */
-export const compose: <E, A>(la: Reader<E, A>) => <B>(ab: Reader<A, B>) => Reader<E, B> = (la) => (ab) =>
-  compose_(ab, la)
+export const compose: <A, B>(ab: Reader<A, B>) => <C>(bc: Reader<B, C>) => Reader<A, C> = (ab) => (bc) => flow(ab, bc)
 
 /**
  * @category Profunctor
  * @since 2.0.0
  */
 export const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reader<E, A>) => Reader<D, B> = (f, g) => (
-  fbc
-) => promap_(fbc, f, g)
+  fea
+) => (a) => g(fea(f(a)))
 
 /**
  * @category Category
  * @since 2.0.0
  */
-export const id: Category2<URI>['id'] = () => F.identity
+export const id: Category2<URI>['id'] = () => identity
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -288,7 +295,8 @@ export const Category: Category2<URI> = {
 }
 
 /**
- * @internal instances
+ * @category instances
+ * @since 2.8.3
  */
 export const Strong: Strong2<URI> = {
   URI,
@@ -299,7 +307,8 @@ export const Strong: Strong2<URI> = {
 }
 
 /**
- * @internal instances
+ * @category instances
+ * @since 2.8.3
  */
 export const Choice: Choice2<URI> = {
   URI,
@@ -328,3 +337,59 @@ export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<U
   left: left_,
   right: right_
 }
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const bindTo = <N extends string>(name: N): (<R, A>(fa: Reader<R, A>) => Reader<R, { [K in N]: A }>) =>
+  map(bindTo_(name))
+
+/**
+ * @since 2.8.0
+ */
+export const bindW = <N extends string, A, Q, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Reader<Q, B>
+): (<R>(fa: Reader<R, A>) => Reader<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  chainW((a) =>
+    pipe(
+      f(a),
+      map((b) => bind_(a, name, b))
+    )
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const bind: <N extends string, A, R, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Reader<R, B>
+) => (fa: Reader<R, A>) => Reader<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence S
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const apSW = <A, N extends string, Q, B>(
+  name: Exclude<N, keyof A>,
+  fb: Reader<Q, B>
+): (<R>(fa: Reader<R, A>) => Reader<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  flow(
+    map((a) => (b: B) => bind_(a, name, b)),
+    apW(fb)
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const apS: <A, N extends string, R, B>(
+  name: Exclude<N, keyof A>,
+  fb: Reader<R, B>
+) => (fa: Reader<R, A>) => Reader<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW

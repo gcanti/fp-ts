@@ -136,10 +136,10 @@ export declare function getMonoid<A = never>(): Monoid<Ord<A>>
 **Example**
 
 ```ts
-import { sort } from 'fp-ts/lib/Array'
-import { contramap, getDualOrd, getMonoid, ordBoolean, ordNumber, ordString } from 'fp-ts/lib/Ord'
-import { pipe } from 'fp-ts/lib/function'
-import { fold } from 'fp-ts/lib/Monoid'
+import { sort } from 'fp-ts/Array'
+import { contramap, getDualOrd, getMonoid, ordBoolean, ordNumber, ordString } from 'fp-ts/Ord'
+import { pipe } from 'fp-ts/function'
+import { fold } from 'fp-ts/Monoid'
 
 interface User {
   id: number
@@ -208,7 +208,7 @@ export declare function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
 **Example**
 
 ```ts
-import { getTupleOrd, ordString, ordNumber, ordBoolean } from 'fp-ts/lib/Ord'
+import { getTupleOrd, ordString, ordNumber, ordBoolean } from 'fp-ts/Ord'
 
 const O = getTupleOrd(ordString, ordNumber, ordBoolean)
 assert.strictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)

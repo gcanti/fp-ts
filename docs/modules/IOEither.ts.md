@@ -21,6 +21,7 @@ Added in v2.0.0
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [apW](#apw)
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
@@ -58,7 +59,8 @@ Added in v2.0.0
   - [getOrElseW](#getorelsew)
 - [instances](#instances)
   - [Alt](#alt-1)
-  - [Applicative](#applicative)
+  - [ApplicativePar](#applicativepar)
+  - [ApplicativeSeq](#applicativeseq)
   - [Bifunctor](#bifunctor-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
@@ -74,9 +76,15 @@ Added in v2.0.0
   - [getIOValidation](#getiovalidation)
   - [getSemigroup](#getsemigroup)
   - [ioEither](#ioeither)
+  - [~~Applicative~~](#applicative)
 - [model](#model)
   - [IOEither (interface)](#ioeither-interface)
 - [utils](#utils)
+  - [apS](#aps)
+  - [apSW](#apsw)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [bindW](#bindw)
   - [bracket](#bracket)
 
 ---
@@ -133,6 +141,18 @@ export declare const apSecond: <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E,
 ```
 
 Added in v2.0.0
+
+## apW
+
+Less strict version of [`ap`](#ap).
+
+**Signature**
+
+```ts
+export declare const apW: <D, A>(fa: IOEither<D, A>) => <E, B>(fab: IOEither<E, (a: A) => B>) => IOEither<D | E, B>
+```
+
+Added in v2.8.0
 
 # Bifunctor
 
@@ -469,15 +489,25 @@ export declare const Alt: Alt2<'IOEither'>
 
 Added in v2.7.0
 
-## Applicative
+## ApplicativePar
 
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative2<'IOEither'>
+export declare const ApplicativePar: Applicative2<'IOEither'>
 ```
 
-Added in v2.7.0
+Added in v2.8.4
+
+## ApplicativeSeq
+
+**Signature**
+
+```ts
+export declare const ApplicativeSeq: Applicative2<'IOEither'>
+```
+
+Added in v2.8.4
 
 ## Bifunctor
 
@@ -641,6 +671,18 @@ export declare const ioEither: Monad2<'IOEither'> &
 
 Added in v2.0.0
 
+## ~~Applicative~~
+
+Use `ApplicativePar` instead
+
+**Signature**
+
+```ts
+export declare const Applicative: Applicative2<'IOEither'>
+```
+
+Added in v2.7.0
+
 # model
 
 ## IOEither (interface)
@@ -654,6 +696,68 @@ export interface IOEither<E, A> extends IO<Either<E, A>> {}
 Added in v2.0.0
 
 # utils
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, E, B>(
+  name: Exclude<N, keyof A>,
+  fb: IOEither<E, B>
+) => (fa: IOEither<E, A>) => IOEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## apSW
+
+**Signature**
+
+```ts
+export declare const apSW: <A, N extends string, D, B>(
+  name: Exclude<N, keyof A>,
+  fb: IOEither<D, B>
+) => <E>(fa: IOEither<E, A>) => IOEither<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => IOEither<E, B>
+) => (fa: IOEither<E, A>) => IOEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(name: N) => <E, A>(fa: IOEither<E, A>) => IOEither<E, { [K in N]: A }>
+```
+
+Added in v2.8.0
+
+## bindW
+
+**Signature**
+
+```ts
+export declare const bindW: <N extends string, A, D, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => IOEither<D, B>
+) => <E>(fa: IOEither<E, A>) => IOEither<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
 
 ## bracket
 

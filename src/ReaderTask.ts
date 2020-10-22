@@ -1,7 +1,9 @@
 /**
  * @since 2.3.0
  */
-import { identity, flow, pipe } from './function'
+import { Applicative2 } from './Applicative'
+import { bindTo_, bind_, flow, identity, pipe } from './function'
+import { Functor2 } from './Functor'
 import { IO } from './IO'
 import { Monad2 } from './Monad'
 import { MonadTask2 } from './MonadTask'
@@ -16,8 +18,6 @@ import * as T from './Task'
 
 import Task = T.Task
 import Reader = R.Reader
-import { Functor2 } from './Functor'
-import { Applicative2 } from './Applicative'
 
 /**
  * @category model
@@ -63,7 +63,7 @@ export const ask: <R>() => ReaderTask<R, R> = () => T.of
  * @category constructors
  * @since 2.3.0
  */
-export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> = (f) => (r) => pipe(T.of(r), T.map(f))
+export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> = (f) => flow(T.of, T.map(f))
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -114,7 +114,11 @@ export const chainTaskK: <A, B>(f: (a: A) => Task<B>) => <R>(ma: ReaderTask<R, A
 
 const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const apPar_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const apSeq_: Monad2<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
+const apSeq_: Monad2<URI>['ap'] = (fab, fa) =>
+  pipe(
+    fab,
+    chain((f) => pipe(fa, map(f)))
+  )
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
 // -------------------------------------------------------------------------------------
@@ -129,14 +133,22 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderT
   flow(fa, T.map(f))
 
 /**
+ * Less strict version of [`ap`](#ap).
+ *
+ * @category Apply
+ * @since 2.8.0
+ */
+export const apW: <Q, A>(fa: ReaderTask<Q, A>) => <R, B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<Q & R, B> = (
+  fa
+) => (fab) => (r) => pipe(fab(r), T.ap(fa(r)))
+
+/**
  * Apply a function to an argument under a type constructor.
  *
  * @category Apply
  * @since 2.3.0
  */
-export const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B> = (fa) => (
-  fab
-) => (r) => pipe(fab(r), T.ap(fa(r)))
+export const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B> = apW
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -144,10 +156,9 @@ export const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) =
  * @category Apply
  * @since 2.3.0
  */
-export const apFirst = <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask<R, A>): ReaderTask<R, A> =>
-  pipe(
-    fa,
-    map((a) => (_: B) => a),
+export const apFirst: <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask<R, A>) => ReaderTask<R, A> = (fb) =>
+  flow(
+    map((a) => () => a),
     ap(fb)
   )
 
@@ -157,9 +168,8 @@ export const apFirst = <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask<R, A>)
  * @category Apply
  * @since 2.3.0
  */
-export const apSecond = <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask<R, A>): ReaderTask<R, B> =>
-  pipe(
-    fa,
+export const apSecond = <R, B>(fb: ReaderTask<R, B>): (<A>(fa: ReaderTask<R, A>) => ReaderTask<R, B>) =>
+  flow(
     map(() => (b: B) => b),
     ap(fb)
   )
@@ -242,7 +252,7 @@ declare module './HKT' {
  * @since 2.3.0
  */
 export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<ReaderTask<R, A>> {
-  return R.getSemigroup(T.getSemigroup<A>(S))
+  return R.getSemigroup(T.getSemigroup(S))
 }
 
 /**
@@ -342,3 +352,59 @@ export const readerTaskSeq: typeof readerTask = {
 export function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A> {
   return ma(r)()
 }
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const bindTo = <N extends string>(name: N): (<R, A>(fa: ReaderTask<R, A>) => ReaderTask<R, { [K in N]: A }>) =>
+  map(bindTo_(name))
+
+/**
+ * @since 2.8.0
+ */
+export const bindW = <N extends string, A, Q, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderTask<Q, B>
+): (<R>(fa: ReaderTask<R, A>) => ReaderTask<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  chainW((a) =>
+    pipe(
+      f(a),
+      map((b) => bind_(a, name, b))
+    )
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const bind: <N extends string, A, R, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderTask<R, B>
+) => (fa: ReaderTask<R, A>) => ReaderTask<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence S
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const apSW = <A, N extends string, Q, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderTask<Q, B>
+): (<R>(fa: ReaderTask<R, A>) => ReaderTask<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  flow(
+    map((a) => (b: B) => bind_(a, name, b)),
+    apW(fb)
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const apS: <A, N extends string, R, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderTask<R, B>
+) => (fa: ReaderTask<R, A>) => ReaderTask<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW

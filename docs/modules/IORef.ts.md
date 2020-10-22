@@ -51,8 +51,8 @@ export declare class IORef<A> {
 **Example**
 
 ```ts
-import { io } from 'fp-ts/lib/IO'
-import { newIORef } from 'fp-ts/lib/IORef'
+import { io } from 'fp-ts/IO'
+import { newIORef } from 'fp-ts/IORef'
 
 assert.strictEqual(io.chain(newIORef(1), (ref) => io.chain(ref.write(2), () => ref.read))(), 2)
 ```

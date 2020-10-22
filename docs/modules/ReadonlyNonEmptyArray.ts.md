@@ -75,6 +75,9 @@ Added in v2.5.0
 - [model](#model)
   - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
 - [utils](#utils)
+  - [apS](#aps)
+  - [bind](#bind)
+  - [bindTo](#bindto)
   - [extract](#extract)
   - [filter](#filter)
   - [filterWithIndex](#filterwithindex)
@@ -341,19 +344,19 @@ Group equal, consecutive elements of an array into non empty arrays.
 **Signature**
 
 ```ts
-export declare function group<A>(
-  E: Eq<A>
+export declare function group<B>(
+  E: Eq<B>
 ): {
-  (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
-  (as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
+  <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+  <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
 }
 ```
 
 **Example**
 
 ```ts
-import { cons, group } from 'fp-ts/lib/ReadonlyNonEmptyArray'
-import { ordNumber } from 'fp-ts/lib/Ord'
+import { cons, group } from 'fp-ts/ReadonlyNonEmptyArray'
+import { ordNumber } from 'fp-ts/Ord'
 
 assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [cons(1, []), cons(2, []), cons(1, [1])])
 ```
@@ -367,14 +370,19 @@ Sort and then group the elements of an array into non empty arrays.
 **Signature**
 
 ```ts
-export declare function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyNonEmptyArray<A>>
+export declare function groupSort<B>(
+  O: Ord<B>
+): {
+  <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+  <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
+}
 ```
 
 **Example**
 
 ```ts
-import { cons, groupSort } from 'fp-ts/lib/ReadonlyNonEmptyArray'
-import { ordNumber } from 'fp-ts/lib/Ord'
+import { cons, groupSort } from 'fp-ts/ReadonlyNonEmptyArray'
+import { ordNumber } from 'fp-ts/Ord'
 
 assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [cons(1, [1, 1]), cons(2, [])])
 ```
@@ -396,7 +404,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function sort<A>(O: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare function sort<B>(O: Ord<B>): <A extends B>(nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.5.0
@@ -454,7 +462,7 @@ export declare const cons: <A>(head: A, tail: readonly A[]) => ReadonlyNonEmptyA
 **Example**
 
 ```ts
-import { cons } from 'fp-ts/lib/ReadonlyNonEmptyArray'
+import { cons } from 'fp-ts/ReadonlyNonEmptyArray'
 
 assert.deepStrictEqual(cons(1, [2, 3, 4]), [1, 2, 3, 4])
 ```
@@ -499,7 +507,7 @@ export declare function groupBy<A>(
 **Example**
 
 ```ts
-import { cons, groupBy } from 'fp-ts/lib/ReadonlyNonEmptyArray'
+import { cons, groupBy } from 'fp-ts/ReadonlyNonEmptyArray'
 
 assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['foo', 'bar', 'foobar']), {
   '3': cons('foo', ['bar']),
@@ -522,7 +530,7 @@ export declare const snoc: <A>(init: readonly A[], end: A) => ReadonlyNonEmptyAr
 **Example**
 
 ```ts
-import { snoc } from 'fp-ts/lib/ReadonlyNonEmptyArray'
+import { snoc } from 'fp-ts/ReadonlyNonEmptyArray'
 
 assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
 ```
@@ -662,8 +670,8 @@ export declare const getEq: <A>(E: Eq<A>) => Eq<ReadonlyNonEmptyArray<A>>
 **Example**
 
 ```ts
-import { getEq, cons } from 'fp-ts/lib/ReadonlyNonEmptyArray'
-import { eqNumber } from 'fp-ts/lib/Eq'
+import { getEq, cons } from 'fp-ts/ReadonlyNonEmptyArray'
+import { eqNumber } from 'fp-ts/Eq'
 
 const E = getEq(eqNumber)
 assert.strictEqual(E.equals(cons(1, [2]), [1, 2]), true)
@@ -724,6 +732,44 @@ export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
 Added in v2.5.0
 
 # utils
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReadonlyNonEmptyArray<B>
+) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReadonlyNonEmptyArray<B>
+) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ [K in N]: A }>
+```
+
+Added in v2.8.0
 
 ## extract
 
@@ -795,7 +841,7 @@ export declare function init<A>(nea: ReadonlyNonEmptyArray<A>): ReadonlyArray<A>
 **Example**
 
 ```ts
-import { init } from 'fp-ts/lib/ReadonlyNonEmptyArray'
+import { init } from 'fp-ts/ReadonlyNonEmptyArray'
 
 assert.deepStrictEqual(init([1, 2, 3]), [1, 2])
 assert.deepStrictEqual(init([1]), [])

@@ -52,6 +52,9 @@ Added in v2.0.0
 - [model](#model)
   - [Identity (type alias)](#identity-type-alias)
 - [utils](#utils)
+  - [apS](#aps)
+  - [bind](#bind)
+  - [bindTo](#bindto)
   - [sequence](#sequence)
   - [traverse](#traverse)
 
@@ -191,9 +194,6 @@ Added in v2.0.0
 # Functor
 
 ## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
 
 **Signature**
 
@@ -390,6 +390,42 @@ export type Identity<A> = A
 Added in v2.0.0
 
 # utils
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, B>(
+  name: Exclude<N, keyof A>,
+  fb: B
+) => (fa: A) => { [K in N | keyof A]: K extends keyof A ? A[K] : B }
+```
+
+Added in v2.8.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: A) => { [K in N | keyof A]: K extends keyof A ? A[K] : B }
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(name: N) => <A>(fa: A) => { [K in N]: A }
+```
+
+Added in v2.8.0
 
 ## sequence
 

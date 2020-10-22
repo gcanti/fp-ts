@@ -216,7 +216,6 @@ export interface CompactableComposition23C<F extends URIS2, G extends URIS3, E> 
   ) => Separated<Kind2<F, FE, Kind3<G, R, E, A>>, Kind2<F, FE, Kind3<G, R, E, B>>>
 }
 
-// TODO: remove in v3
 /**
  * @since 2.0.0
  */

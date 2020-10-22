@@ -4,6 +4,7 @@
 import { Comonad2C } from './Comonad'
 import { Functor2 } from './Functor'
 import { Monoid } from './Monoid'
+import { pipe } from './function'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -84,7 +85,8 @@ export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Functor2<URI>['map'] = (wa, f) => (p) => f(wa(p))
+/* istanbul ignore next */
+const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -97,7 +99,7 @@ const map_: Functor2<URI>['map'] = (wa, f) => (p) => f(wa(p))
  * @category Functor
  * @since 2.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: Traced<E, A>) => Traced<E, B> = (f) => (fa) => map_(fa, f)
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: Traced<E, A>) => Traced<E, B> = (f) => (fa) => (p) => f(fa(p))
 
 // -------------------------------------------------------------------------------------
 // instances

@@ -11,7 +11,7 @@
  * @since 2.0.0
  */
 import { Applicative1 } from './Applicative'
-import { identity } from './function'
+import { identity, pipe, bind_, bindTo_, flow } from './function'
 import { IO } from './IO'
 import { Monad1 } from './Monad'
 import { MonadTask1 } from './MonadTask'
@@ -49,8 +49,8 @@ export const fromIO: <A>(ma: IO<A>) => Task<A> = (ma) => () => Promise.resolve(m
  * Creates a task that will complete after a time delay
  *
  * @example
- * import { sequenceT } from 'fp-ts/lib/Apply'
- * import * as T from 'fp-ts/lib/Task'
+ * import { sequenceT } from 'fp-ts/Apply'
+ * import * as T from 'fp-ts/Task'
  *
  * async function test() {
  *   const log: Array<string> = []
@@ -101,10 +101,14 @@ export function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> {
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad1<URI>['map'] = (ma, f) => () => ma().then(f)
-const apPar_: Monad1<URI>['ap'] = (mab, ma) => () => Promise.all([mab(), ma()]).then(([f, a]) => f(a))
-const apSeq_: Monad1<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
-const chain_: Monad1<URI>['chain'] = (ma, f) => () => ma().then((a) => f(a)())
+const map_: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const apPar_: Monad1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const apSeq_: Monad1<URI>['ap'] = (fab, fa) =>
+  pipe(
+    fab,
+    chain((f) => pipe(fa, map(f)))
+  )
+const chain_: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -117,7 +121,7 @@ const chain_: Monad1<URI>['chain'] = (ma, f) => () => ma().then((a) => f(a)())
  * @category Functor
  * @since 2.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (fa) => map_(fa, f)
+export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (fa) => () => fa().then(f)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -125,7 +129,8 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (f
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (fa) => (fab) => apPar_(fab, fa)
+export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (fa) => (fab) => () =>
+  Promise.all([fab(), fa()]).then(([f, a]) => f(a))
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -133,10 +138,10 @@ export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (f
  * @category Apply
  * @since 2.0.0
  */
-export const apFirst: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<A> = (fb) => (fa) =>
-  apPar_(
-    map_(fa, (a) => () => a),
-    fb
+export const apFirst: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<A> = (fb) =>
+  flow(
+    map((a) => () => a),
+    ap(fb)
   )
 
 /**
@@ -145,10 +150,10 @@ export const apFirst: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<A> = (fb) => 
  * @category Apply
  * @since 2.0.0
  */
-export const apSecond: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<B> = (fb) => (fa) =>
-  apPar_(
-    map_(fa, () => (b) => b),
-    fb
+export const apSecond = <B>(fb: Task<B>): (<A>(fa: Task<A>) => Task<B>) =>
+  flow(
+    map(() => (b: B) => b),
+    ap(fb)
   )
 
 /**
@@ -163,7 +168,8 @@ export const of: <A>(a: A) => Task<A> = (a) => () => Promise.resolve(a)
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (f) => (ma) => chain_(ma, f)
+export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (f) => (ma) => () =>
+  ma().then((a) => f(a)())
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -172,14 +178,21 @@ export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (
  * @category Monad
  * @since 2.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<A> = (f) => (ma) =>
-  chain_(ma, (a) => map_(f(a), () => a))
+export const chainFirst: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<A> = (f) =>
+  chain((a) =>
+    pipe(
+      f(a),
+      map(() => a)
+    )
+  )
 
 /**
  * @category Monad
  * @since 2.0.0
  */
-export const flatten: <A>(mma: Task<Task<A>>) => Task<A> = (mma) => chain_(mma, identity)
+export const flatten: <A>(mma: Task<Task<A>>) => Task<A> =
+  /*#__PURE__*/
+  chain(identity)
 
 /**
  * @category MonadTask
@@ -213,8 +226,8 @@ declare module './HKT' {
  * Lift a semigroup into 'Task', the inner values are concatenated using the provided `Semigroup`.
  *
  * @example
- * import * as T from 'fp-ts/lib/Task'
- * import { semigroupString } from 'fp-ts/lib/Semigroup'
+ * import * as T from 'fp-ts/Task'
+ * import { semigroupString } from 'fp-ts/Semigroup'
  *
  * async function test() {
  *   const S = T.getSemigroup(semigroupString)
@@ -253,7 +266,7 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>> {
  * Note: uses `Promise.race` internally.
  *
  * @example
- * import * as T from 'fp-ts/lib/Task'
+ * import * as T from 'fp-ts/Task'
  *
  * async function test() {
  *   const S = T.getRaceMonoid<string>()
@@ -360,3 +373,42 @@ export const taskSeq: typeof task = {
  * @since 2.0.0
  */
 export const never: Task<never> = () => new Promise((_) => undefined)
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const bindTo = <N extends string>(name: N): (<A>(fa: Task<A>) => Task<{ [K in N]: A }>) => map(bindTo_(name))
+
+/**
+ * @since 2.8.0
+ */
+export const bind = <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Task<B>
+): ((fa: Task<A>) => Task<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  chain((a) =>
+    pipe(
+      f(a),
+      map((b) => bind_(a, name, b))
+    )
+  )
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence S
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const apS = <A, N extends string, B>(
+  name: Exclude<N, keyof A>,
+  fb: Task<B>
+): ((fa: Task<A>) => Task<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  flow(
+    map((a) => (b: B) => bind_(a, name, b)),
+    ap(fb)
+  )

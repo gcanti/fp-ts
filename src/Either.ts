@@ -21,7 +21,7 @@ import { Separated } from './Compactable'
 import { Eq } from './Eq'
 import { Extend2 } from './Extend'
 import { Foldable2 } from './Foldable'
-import { identity, Lazy, Predicate, Refinement } from './function'
+import { identity, Lazy, Predicate, Refinement, pipe, bind_, bindTo_, flow } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2, Monad2C } from './Monad'
@@ -32,6 +32,7 @@ import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { PipeableTraverse2, Traversable2 } from './Traversable'
 import { Witherable2C } from './Witherable'
+import { Filterable2C } from './Filterable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -109,7 +110,7 @@ export const right = <E = never, A = never>(a: A): Either<E, A> => ({ _tag: 'Rig
  * the provided default as a `Left`
  *
  * @example
- * import { fromNullable, left, right } from 'fp-ts/lib/Either'
+ * import { fromNullable, left, right } from 'fp-ts/Either'
  *
  * const parse = fromNullable('nully')
  *
@@ -128,7 +129,7 @@ export function fromNullable<E>(e: E): <A>(a: A) => Either<E, NonNullable<A>> {
  * Constructs a new `Either` from a function that might throw
  *
  * @example
- * import { Either, left, right, tryCatch } from 'fp-ts/lib/Either'
+ * import { Either, left, right, tryCatch } from 'fp-ts/Either'
  *
  * const unsafeHead = <A>(as: Array<A>): A => {
  *   if (as.length > 0) {
@@ -180,7 +181,7 @@ export interface JsonArray extends ReadonlyArray<Json> {}
  * Converts a JavaScript Object Notation (JSON) string into an object.
  *
  * @example
- * import { parseJSON, toError, right, left } from 'fp-ts/lib/Either'
+ * import { parseJSON, toError, right, left } from 'fp-ts/Either'
  *
  * assert.deepStrictEqual(parseJSON('{"a":1}', toError), right({ a: 1 }))
  * assert.deepStrictEqual(parseJSON('{"a":}', toError), left(new SyntaxError('Unexpected token } in JSON at position 5')))
@@ -197,8 +198,8 @@ export function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either
  * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
  *
  * @example
- * import * as E from 'fp-ts/lib/Either'
- * import { pipe } from 'fp-ts/lib/function'
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(E.stringifyJSON({ a: 1 }, E.toError), E.right('{"a":1}'))
  * const circular: any = { ref: null }
@@ -243,8 +244,8 @@ export const fromPredicate: {
  * if the value is a `Right` the inner value is applied to the second function.
  *
  * @example
- * import { fold, left, right } from 'fp-ts/lib/Either'
- * import { pipe } from 'fp-ts/lib/function'
+ * import { fold, left, right } from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
  *
  * function onLeft(errors: Array<string>): string {
  *   return `Errors: ${errors.join(', ')}`
@@ -318,30 +319,38 @@ export function orElse<E, A, M>(onLeft: (e: E) => Either<M, A>): (ma: Either<E, 
 export const filterOrElse: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (ma: Either<E, A>) =>
-  chain_(ma, (a) => (predicate(a) ? right(a) : left(onFalse(a))))
+} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): ((ma: Either<E, A>) => Either<E, A>) =>
+  chain((a) => (predicate(a) ? right(a) : left(onFalse(a))))
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad2<URI>['map'] = (ma, f) => (isLeft(ma) ? ma : right(f(ma.right)))
-const ap_: Monad2<URI>['ap'] = (mab, ma) => (isLeft(mab) ? mab : isLeft(ma) ? ma : right(mab.right(ma.right)))
-const chain_: <D, A, E, B>(fa: Either<D, A>, f: (a: A) => Either<E, B>) => Either<D | E, B> = (ma, f) =>
-  isLeft(ma) ? ma : f(ma.right)
-const reduce_: Foldable2<URI>['reduce'] = (fa, b, f) => (isLeft(fa) ? b : f(b, fa.right))
-const foldMap_: Foldable2<URI>['foldMap'] = (M) => (fa, f) => (isLeft(fa) ? M.empty : f(fa.right))
-const reduceRight_: Foldable2<URI>['reduceRight'] = (fa, b, f) => (isLeft(fa) ? b : f(fa.right, b))
-const traverse_ = <F>(F: ApplicativeHKT<F>) => <E, A, B>(
-  ma: Either<E, A>,
-  f: (a: A) => HKT<F, B>
-): HKT<F, Either<E, B>> => {
-  return isLeft(ma) ? F.of(left(ma.left)) : F.map<B, Either<E, B>>(f(ma.right), right)
+const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+/* istanbul ignore next */
+const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+/* istanbul ignore next */
+const reduce_: Foldable2<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
+/* istanbul ignore next */
+const foldMap_: Foldable2<URI>['foldMap'] = (M) => (fa, f) => {
+  const foldMapM = foldMap(M)
+  return pipe(fa, foldMapM(f))
 }
-const bimap_: Bifunctor2<URI>['bimap'] = (fea, f, g) => (isLeft(fea) ? left(f(fea.left)) : right(g(fea.right)))
-const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fea, f) => (isLeft(fea) ? left(f(fea.left)) : fea)
-const alt_: Alt2<URI>['alt'] = (fa, that) => (isLeft(fa) ? that() : fa)
-const extend_: Extend2<URI>['extend'] = (wa, f) => (isLeft(wa) ? wa : right(f(wa)))
+/* istanbul ignore next */
+const reduceRight_: Foldable2<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
+const traverse_ = <F>(
+  F: ApplicativeHKT<F>
+): (<E, A, B>(ta: Either<E, A>, f: (a: A) => HKT<F, B>) => HKT<F, Either<E, B>>) => {
+  const traverseF = traverse(F)
+  return (ta, f) => pipe(ta, traverseF(f))
+}
+const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
+const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
+/* istanbul ignore next */
+const alt_: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
+/* istanbul ignore next */
+const extend_: Extend2<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
 const chainRec_: ChainRec2<URI>['chainRec'] = (a, f) =>
   tailRec(f(a), (e) =>
     isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
@@ -358,7 +367,8 @@ const chainRec_: ChainRec2<URI>['chainRec'] = (a, f) =>
  * @category Functor
  * @since 2.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B> = (f) => (fa) => map_(fa, f)
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B> = (f) => (fa) =>
+  isLeft(fa) ? fa : right(f(fa.right))
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -368,7 +378,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B
  */
 export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<E, A>) => Either<G, B> = (f, g) => (
   fa
-) => bimap_(fa, f, g)
+) => (isLeft(fa) ? left(f(fa.left)) : right(g(fa.right)))
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -376,7 +386,17 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<
  * @category Bifunctor
  * @since 2.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A> = (f) => (fa) => mapLeft_(fa, f)
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A> = (f) => (fa) =>
+  isLeft(fa) ? left(f(fa.left)) : fa
+
+/**
+ * Less strict version of [`ap`](#ap).
+ *
+ * @category Apply
+ * @since 2.8.0
+ */
+export const apW: <D, A>(fa: Either<D, A>) => <E, B>(fab: Either<E, (a: A) => B>) => Either<D | E, B> = (fa) => (fab) =>
+  isLeft(fab) ? fab : isLeft(fa) ? fa : right(fab.right(fa.right))
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -384,8 +404,7 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B> = (fa) => (fab) =>
-  ap_(fab, fa)
+export const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B> = apW
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -393,10 +412,10 @@ export const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) =>
  * @category Apply
  * @since 2.0.0
  */
-export const apFirst: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, A> = (fb) => (fa) =>
-  ap_(
-    map_(fa, (a) => () => a),
-    fb
+export const apFirst: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, A> = (fb) =>
+  flow(
+    map((a) => () => a),
+    ap(fb)
   )
 
 /**
@@ -405,10 +424,10 @@ export const apFirst: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Eithe
  * @category Apply
  * @since 2.0.0
  */
-export const apSecond = <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>): Either<E, B> =>
-  ap_(
-    map_(fa, () => (b: B) => b),
-    fb
+export const apSecond = <E, B>(fb: Either<E, B>): (<A>(fa: Either<E, A>) => Either<E, B>) =>
+  flow(
+    map(() => (b: B) => b),
+    ap(fb)
   )
 
 /**
@@ -423,7 +442,8 @@ export const of: Applicative2<URI>['of'] = right
  * @category Monad
  * @since 2.6.0
  */
-export const chainW = <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>): Either<D | E, B> => chain_(ma, f)
+export const chainW = <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>): Either<D | E, B> =>
+  isLeft(ma) ? ma : f(ma.right)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -441,7 +461,16 @@ export const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) =
  */
 export const chainFirstW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>) => Either<D | E, A> = (f) => (
   ma
-) => chain_(ma, (a) => map_(f(a), () => a))
+) =>
+  pipe(
+    ma,
+    chainW((a) =>
+      pipe(
+        f(a),
+        map(() => a)
+      )
+    )
+  )
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -456,7 +485,9 @@ export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, 
  * @category Monad
  * @since 2.0.0
  */
-export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> = (mma) => chain_(mma, identity)
+export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> =
+  /*#__PURE__*/
+  chain(identity)
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -466,54 +497,51 @@ export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> = (mm
  * @since 2.0.0
  */
 export const alt: <E, A>(that: Lazy<Either<E, A>>) => (fa: Either<E, A>) => Either<E, A> = (that) => (fa) =>
-  alt_(fa, that)
+  isLeft(fa) ? that() : fa
 
 /**
  * @category Extend
  * @since 2.0.0
  */
-export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> = (wa) => extend_(wa, identity)
+export const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>) => Either<E, B> = (f) => (wa) =>
+  isLeft(wa) ? wa : right(f(wa))
 
 /**
  * @category Extend
  * @since 2.0.0
  */
-export const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>) => Either<E, B> = (f) => (ma) =>
-  extend_(ma, f)
+export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> =
+  /*#__PURE__*/
+  extend(identity)
 
 /**
  * @category Foldable
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B = (b, f) => (fa) =>
-  reduce_(fa, b, f)
+  isLeft(fa) ? b : f(b, fa.right)
 
 /**
  * @category Foldable
  * @since 2.0.0
  */
-export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M = (M) => {
-  const foldMapM = foldMap_(M)
-  return (f) => (fa) => foldMapM(fa, f)
-}
+export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M = (M) => (f) => (fa) =>
+  isLeft(fa) ? M.empty : f(fa.right)
 
 /**
  * @category Foldable
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B = (b, f) => (fa) =>
-  reduceRight_(fa, b, f)
+  isLeft(fa) ? b : f(fa.right, b)
 
 /**
  * @category Traversable
  * @since 2.6.3
  */
-export const traverse: PipeableTraverse2<URI> = <F>(
-  F: ApplicativeHKT<F>
-): (<A, B>(f: (a: A) => HKT<F, B>) => <E>(ta: Either<E, A>) => HKT<F, Either<E, B>>) => {
-  const traverseF = traverse_(F)
-  return (f) => (fa) => traverseF(fa, f)
-}
+export const traverse: PipeableTraverse2<URI> = <F>(F: ApplicativeHKT<F>) => <A, B>(f: (a: A) => HKT<F, B>) => <E>(
+  ta: Either<E, A>
+): HKT<F, Either<E, B>> => (isLeft(ta) ? F.of(left(ta.left)) : F.map<B, Either<E, B>>(f(ta.right), right))
 
 /**
  * @category Traversable
@@ -579,8 +607,8 @@ export function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> {
  * concatenated using the provided `Semigroup`
  *
  * @example
- * import { getSemigroup, left, right } from 'fp-ts/lib/Either'
- * import { semigroupSum } from 'fp-ts/lib/Semigroup'
+ * import { getSemigroup, left, right } from 'fp-ts/Either'
+ * import { semigroupSum } from 'fp-ts/Semigroup'
  *
  * const S = getSemigroup<string, number>(semigroupSum)
  * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
@@ -602,8 +630,8 @@ export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> {
  * are concatenated using the provided `Semigroup`
  *
  * @example
- * import { getApplySemigroup, left, right } from 'fp-ts/lib/Either'
- * import { semigroupSum } from 'fp-ts/lib/Semigroup'
+ * import { getApplySemigroup, left, right } from 'fp-ts/Either'
+ * import { semigroupSum } from 'fp-ts/Semigroup'
  *
  * const S = getApplySemigroup<string, number>(semigroupSum)
  * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
@@ -632,16 +660,16 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<Either<E, A>> {
 }
 
 /**
- * Builds `Witherable` instance for `Either` given `Monoid` for the left side
+ * Builds a `Filterable` instance for `Either` given `Monoid` for the left side
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
-export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
+export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
   const empty = left(M.empty)
 
   const compact = <A>(ma: Either<E, Option<A>>): Either<E, A> => {
-    return isLeft(ma) ? ma : ma.right._tag === 'None' ? left(M.empty) : right(ma.right.value)
+    return isLeft(ma) ? ma : ma.right._tag === 'None' ? empty : right(ma.right.value)
   }
 
   const separate = <A, B>(ma: Either<E, Either<A, B>>): Separated<Either<E, A>, Either<E, B>> => {
@@ -676,28 +704,11 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
       return ma
     }
     const ob = f(ma.right)
-    return ob._tag === 'None' ? left(M.empty) : right(ob.value)
+    return ob._tag === 'None' ? empty : right(ob.value)
   }
 
   const filter = <A>(ma: Either<E, A>, predicate: Predicate<A>): Either<E, A> =>
-    isLeft(ma) ? ma : predicate(ma.right) ? ma : left(M.empty)
-
-  const wither = <F>(
-    F: ApplicativeHKT<F>
-  ): (<A, B>(ma: Either<E, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Either<E, B>>) => {
-    const traverseF = traverse_(F)
-    return (ma, f) => F.map(traverseF(ma, f), compact)
-  }
-
-  const wilt = <F>(
-    F: ApplicativeHKT<F>
-  ): (<A, B, C>(
-    ma: Either<E, A>,
-    f: (a: A) => HKT<F, Either<B, C>>
-  ) => HKT<F, Separated<Either<E, B>, Either<E, C>>>) => {
-    const traverseF = traverse_(F)
-    return (ma, f) => F.map(traverseF(ma, f), separate)
-  }
+    isLeft(ma) ? ma : predicate(ma.right) ? ma : empty
 
   return {
     URI,
@@ -708,7 +719,46 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
     filter,
     filterMap,
     partition,
-    partitionMap,
+    partitionMap
+  }
+}
+
+/**
+ * Builds `Witherable` instance for `Either` given `Monoid` for the left side
+ *
+ * @category instances
+ * @since 2.0.0
+ */
+export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
+  const F_ = getFilterable(M)
+
+  const wither = <F>(
+    F: ApplicativeHKT<F>
+  ): (<A, B>(ma: Either<E, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Either<E, B>>) => {
+    const traverseF = traverse_(F)
+    return (ma, f) => F.map(traverseF(ma, f), F_.compact)
+  }
+
+  const wilt = <F>(
+    F: ApplicativeHKT<F>
+  ): (<A, B, C>(
+    ma: Either<E, A>,
+    f: (a: A) => HKT<F, Either<B, C>>
+  ) => HKT<F, Separated<Either<E, B>, Either<E, C>>>) => {
+    const traverseF = traverse_(F)
+    return (ma, f) => F.map(traverseF(ma, f), F_.separate)
+  }
+
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
+    compact: F_.compact,
+    separate: F_.separate,
+    filter: F_.filter,
+    filterMap: F_.filterMap,
+    partition: F_.partition,
+    partitionMap: F_.partitionMap,
     traverse: traverse_,
     sequence,
     reduce: reduce_,
@@ -920,7 +970,6 @@ export const MonadThrow: MonadThrow2<URI> = {
   throwError: throwError
 }
 
-// TODO: remove in v3
 /**
  * @category instances
  * @since 2.0.0
@@ -986,7 +1035,7 @@ export function elem<A>(E: Eq<A>): <E>(a: A, ma: Either<E, A>) => boolean {
  * Returns `false` if `Left` or returns the result of the application of the given predicate to the `Right` value.
  *
  * @example
- * import { exists, left, right } from 'fp-ts/lib/Either'
+ * import { exists, left, right } from 'fp-ts/Either'
  *
  * const gt2 = exists((n: number) => n > 2)
  *
@@ -999,3 +1048,59 @@ export function elem<A>(E: Eq<A>): <E>(a: A, ma: Either<E, A>) => boolean {
 export function exists<A>(predicate: Predicate<A>): <E>(ma: Either<E, A>) => boolean {
   return (ma) => (isLeft(ma) ? false : predicate(ma.right))
 }
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const bindTo = <N extends string>(name: N): (<E, A>(fa: Either<E, A>) => Either<E, { [K in N]: A }>) =>
+  map(bindTo_(name))
+
+/**
+ * @since 2.8.0
+ */
+export const bindW = <N extends string, A, D, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Either<D, B>
+): (<E>(fa: Either<E, A>) => Either<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  chainW((a) =>
+    pipe(
+      f(a),
+      map((b) => bind_(a, name, b))
+    )
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const bind: <N extends string, A, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Either<E, B>
+) => (fa: Either<E, A>) => Either<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence S
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const apSW = <A, N extends string, D, B>(
+  name: Exclude<N, keyof A>,
+  fb: Either<D, B>
+): (<E>(fa: Either<E, A>) => Either<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  flow(
+    map((a) => (b: B) => bind_(a, name, b)),
+    apW(fb)
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const apS: <A, N extends string, E, B>(
+  name: Exclude<N, keyof A>,
+  fb: Either<E, B>
+) => (fa: Either<E, A>) => Either<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW

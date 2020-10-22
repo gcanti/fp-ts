@@ -11,8 +11,8 @@
  * Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
  *
  * @example
- * import * as O from 'fp-ts/lib/Option'
- * import { pipe } from 'fp-ts/lib/function'
+ * import * as O from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
  *
  * const f = (a: string) => (b: number) => (c: boolean) => a + String(b) + (c ? 'true' : 'false')
  * const fa: O.Option<string> = O.some('s')
@@ -126,8 +126,8 @@ function getTupleConstructor(len: number): (a: unknown) => any {
  * Tuple sequencing, i.e., take a tuple of monadic actions and does them from left-to-right, returning the resulting tuple.
  *
  * @example
- * import { sequenceT } from 'fp-ts/lib/Apply'
- * import { option, some, none } from 'fp-ts/lib/Option'
+ * import { sequenceT } from 'fp-ts/Apply'
+ * import { option, some, none } from 'fp-ts/Option'
  *
  * const sequenceTOption = sequenceT(option)
  * assert.deepStrictEqual(sequenceTOption(some(1)), some([1]))
@@ -230,8 +230,8 @@ function getRecordConstructor(keys: ReadonlyArray<string>) {
  * Like `Apply.sequenceT` but works with structs instead of tuples.
  *
  * @example
- * import { either, right, left } from 'fp-ts/lib/Either'
- * import { sequenceS } from 'fp-ts/lib/Apply'
+ * import { either, right, left } from 'fp-ts/Either'
+ * import { sequenceS } from 'fp-ts/Apply'
  *
  * const ado = sequenceS(either)
  *
@@ -300,49 +300,3 @@ export function sequenceS<F>(F: Apply<F>): (r: Record<string, HKT<F, any>>) => H
   }
 }
 /* tslint:enable:readonly-array */
-
-/**
- * @internal
- */
-export function apComposition<F extends URIS2, G extends URIS2>(
-  F: Apply2<F>,
-  G: Apply2<G>
-): <EF, EG, A>(
-  fga: Kind2<F, EF, Kind2<G, EG, A>>
-) => <B>(fgab: Kind2<F, EF, Kind2<G, EG, (a: A) => B>>) => Kind2<F, EF, Kind2<G, EG, B>>
-export function apComposition<F extends URIS2, G extends URIS2, EG>(
-  F: Apply2<F>,
-  G: Apply2C<G, EG>
-): <EF, A>(
-  fga: Kind2<F, EF, Kind2<G, EG, A>>
-) => <B>(fgab: Kind2<F, EF, Kind2<G, EG, (a: A) => B>>) => Kind2<F, EF, Kind2<G, EG, B>>
-export function apComposition<F extends URIS, G extends URIS2>(
-  F: Apply1<F>,
-  G: Apply2<G>
-): <E, A>(fga: Kind<F, Kind2<G, E, A>>) => <B>(fgab: Kind<F, Kind2<G, E, (a: A) => B>>) => Kind<F, Kind2<G, E, B>>
-export function apComposition<F extends URIS, G extends URIS2, E>(
-  F: Apply1<F>,
-  G: Apply2C<G, E>
-): <A>(fga: Kind<F, Kind2<G, E, A>>) => <B>(fgab: Kind<F, Kind2<G, E, (a: A) => B>>) => Kind<F, Kind2<G, E, B>>
-export function apComposition<F extends URIS, G extends URIS>(
-  F: Apply1<F>,
-  G: Apply1<G>
-): <A>(fga: Kind<F, Kind<G, A>>) => <B>(fgab: Kind<F, Kind<G, (a: A) => B>>) => Kind<F, Kind<G, B>>
-export function apComposition<F, G extends URIS2>(
-  F: Apply<F>,
-  G: Apply2<G>
-): <E, A>(fga: HKT<F, Kind2<G, E, A>>) => <B>(fgab: HKT<F, Kind2<G, E, (a: A) => B>>) => HKT<F, Kind2<G, E, B>>
-export function apComposition<F, G>(
-  F: Apply<F>,
-  G: Apply<G>
-): <A>(fga: HKT<F, HKT<G, A>>) => <B>(fgab: HKT<F, HKT<G, (a: A) => B>>) => HKT<F, HKT<G, B>>
-export function apComposition<F, G>(
-  F: Apply<F>,
-  G: Apply<G>
-): <A>(fga: HKT<F, HKT<G, A>>) => <B>(fgab: HKT<F, HKT<G, (a: A) => B>>) => HKT<F, HKT<G, B>> {
-  return <A>(fga: HKT<F, HKT<G, A>>) => <B>(fgab: HKT<F, HKT<G, (a: A) => B>>): HKT<F, HKT<G, B>> =>
-    F.ap(
-      F.map(fgab, (h) => (ga: HKT<G, A>) => G.ap<A, B>(h, ga)),
-      fga
-    )
-}

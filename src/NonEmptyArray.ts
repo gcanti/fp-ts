@@ -38,12 +38,11 @@ export interface NonEmptyArray<A> extends Array<A> {
 }
 /* tslint:enable:readonly-keyword */
 
-// TODO: remove in v3
 /**
  * Append an element to the front of an array, creating a new non empty array
  *
  * @example
- * import { cons } from 'fp-ts/lib/NonEmptyArray'
+ * import { cons } from 'fp-ts/NonEmptyArray'
  *
  * assert.deepStrictEqual(cons(1, [2, 3, 4]), [1, 2, 3, 4])
  *
@@ -52,12 +51,11 @@ export interface NonEmptyArray<A> extends Array<A> {
  */
 export const cons: <A>(head: A, tail: Array<A>) => NonEmptyArray<A> = RNEA.cons as any
 
-// TODO: remove in v3
 /**
  * Append an element to the end of an array, creating a new non empty array
  *
  * @example
- * import { snoc } from 'fp-ts/lib/NonEmptyArray'
+ * import { snoc } from 'fp-ts/NonEmptyArray'
  *
  * assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
  *
@@ -74,7 +72,6 @@ export const snoc: <A>(init: Array<A>, end: A) => NonEmptyArray<A> = RNEA.snoc a
  */
 export const fromArray: <A>(as: Array<A>) => Option<NonEmptyArray<A>> = RNEA.fromArray as any
 
-// TODO: remove in v3
 /**
  * @category instances
  * @since 2.0.0
@@ -117,8 +114,8 @@ export const getSemigroup: <A = never>() => Semigroup<NonEmptyArray<A>> = RNEA.g
 
 /**
  * @example
- * import { getEq, cons } from 'fp-ts/lib/NonEmptyArray'
- * import { eqNumber } from 'fp-ts/lib/Eq'
+ * import { getEq, cons } from 'fp-ts/NonEmptyArray'
+ * import { eqNumber } from 'fp-ts/Eq'
  *
  * const E = getEq(eqNumber)
  * assert.strictEqual(E.equals(cons(1, [2]), [1, 2]), true)
@@ -133,8 +130,8 @@ export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = RNEA.getEq
  * Group equal, consecutive elements of an array into non empty arrays.
  *
  * @example
- * import { cons, group } from 'fp-ts/lib/NonEmptyArray'
- * import { ordNumber } from 'fp-ts/lib/Ord'
+ * import { cons, group } from 'fp-ts/NonEmptyArray'
+ * import { ordNumber } from 'fp-ts/Ord'
  *
  * assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [
  *   cons(1, []),
@@ -145,11 +142,11 @@ export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = RNEA.getEq
  * @category combinators
  * @since 2.0.0
  */
-export function group<A>(
-  E: Eq<A>
+export function group<B>(
+  E: Eq<B>
 ): {
-  (as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
-  (as: Array<A>): Array<NonEmptyArray<A>>
+  <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
+  <A extends B>(as: Array<A>): Array<NonEmptyArray<A>>
 }
 export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
   return RNEA.group(E) as any
@@ -159,22 +156,27 @@ export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
  * Sort and then group the elements of an array into non empty arrays.
  *
  * @example
- * import { cons, groupSort } from 'fp-ts/lib/NonEmptyArray'
- * import { ordNumber } from 'fp-ts/lib/Ord'
+ * import { cons, groupSort } from 'fp-ts/NonEmptyArray'
+ * import { ordNumber } from 'fp-ts/Ord'
  *
  * assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [cons(1, [1, 1]), cons(2, [])])
  *
  * @category combinators
  * @since 2.0.0
  */
-export const groupSort: <A>(O: Ord<A>) => (as: Array<A>) => Array<NonEmptyArray<A>> = RNEA.groupSort as any
+export const groupSort: <B>(
+  O: Ord<B>
+) => {
+  <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
+  <A extends B>(as: Array<A>): Array<NonEmptyArray<A>>
+} = RNEA.groupSort as any
 
 /**
  * Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning
  * function on each element, and grouping the results according to values returned
  *
  * @example
- * import { cons, groupBy } from 'fp-ts/lib/NonEmptyArray'
+ * import { cons, groupBy } from 'fp-ts/NonEmptyArray'
  *
  * assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['foo', 'bar', 'foobar']), {
  *   '3': cons('foo', ['bar']),
@@ -197,7 +199,7 @@ export const last: <A>(nea: NonEmptyArray<A>) => A = RNEA.last
  * Get all but the last element of a non empty array, creating a new array.
  *
  * @example
- * import { init } from 'fp-ts/lib/NonEmptyArray'
+ * import { init } from 'fp-ts/NonEmptyArray'
  *
  * assert.deepStrictEqual(init([1, 2, 3]), [1, 2])
  * assert.deepStrictEqual(init([1]), [])
@@ -210,7 +212,7 @@ export const init: <A>(nea: NonEmptyArray<A>) => Array<A> = RNEA.init as any
  * @category combinators
  * @since 2.0.0
  */
-export const sort: <A>(O: Ord<A>) => (nea: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.sort as any
+export const sort: <B>(O: Ord<B>) => <A extends B>(nea: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.sort as any
 
 /**
  * @since 2.0.0
@@ -664,3 +666,34 @@ export const nonEmptyArray: Monad1<URI> &
   traverseWithIndex: traverseWithIndex_,
   alt: alt_
 }
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const bindTo: <N extends string>(
+  name: N
+) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<{ [K in N]: A }> = RNEA.bindTo as any
+
+/**
+ * @since 2.8.0
+ */
+export const bind: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => NonEmptyArray<B>
+) => (fa: NonEmptyArray<A>) => NonEmptyArray<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }> = RNEA.bind as any
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence S
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const apS: <A, N extends string, B>(
+  name: Exclude<N, keyof A>,
+  fb: NonEmptyArray<B>
+) => (fa: NonEmptyArray<A>) => NonEmptyArray<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }> = RNEA.apS as any

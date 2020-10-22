@@ -15,23 +15,168 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.8.4
+
+- **Polish**
+  - `IOEither`
+    - add `ApplicativePar` instance (@gcanti)
+    - add `ApplicativeSeq` instance (@gcanti)
+- **Deprecation**
+  - `IOEither`
+    - deprecate `Applicative` in favour of `ApplicativePar` (@gcanti)
+
+# 2.8.3
+
+- **Polish**
+  - `Reader`
+    - export `Strong` instance (@urgent)
+    - export `Choice` instance (@gcanti)
+
+# 2.8.2
+
+- **Polish**
+  - increase the supported number of arguments of pipe function (@heka1024)
+- **Bug fix**
+  - revert `groupBy` change in #1286 (@gcanti)
+- **Internal**
+  - define all non-pipeable internal functions in terms of the corresponding pipeable versions (@gcanti)
+
+# 2.8.1
+
+- **Polish**
+  - fix `HKT` typings duplication (which might break module augmentation)
+
 # 2.8.0
 
 - **New Feature**
+  - expose `fp-ts` modules without lib/es6 prefix, #1241 (@StefanoMagrassi)
+  - `Array`
+    - add `apS` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
   - `Either`
+    - add `apW` (@gcanti)
+    - add `apS` (@gcanti)
+    - add `apSW` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+    - add `bindW` (@gcanti)
     - add `chainFirstW`, #1273 (@leemhenson)
+    - add `getFilterable` (@gcanti)
   - `Foldable`
     - add `toArray`, #1272 (@newswim)
+    - add `reduceM` (@gcanti)
+  - `Identity`
+    - add `apS` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+  - `IO`
+    - add `apS` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
   - `IOEither`
+    - add `apS` (@gcanti)
+    - add `apSW` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+    - add `bindW` (@gcanti)
     - add `chainFirstW`, #1273 (@leemhenson)
+  - `NonEmptyArray`
+    - add `apS` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+    - relax `group` signature (@gcanti)
+    - relax `groupBy` signature (@gcanti)
+    - relax `groupSort` signature (@gcanti)
+    - relax `sort` signature (@gcanti)
+  - `Option`
+    - add `apS` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+  - `Reader`
+    - add `apW` (@gcanti)
+    - add `apS` (@gcanti)
+    - add `apSW` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+    - add `bindW` (@gcanti)
   - `ReaderEither`
+    - add `apS` (@gcanti)
+    - add `apSW` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+    - add `bindW` (@gcanti)
     - add `chainFirstW`, #1273 (@leemhenson)
+  - `ReaderTask`
+    - add `apS` (@gcanti)
+    - add `apSW` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+    - add `bindW` (@gcanti)
   - `ReaderTaskEither`
+    - add `apS` (@gcanti)
+    - add `apSW` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+    - add `bindW` (@gcanti)
     - add `chainFirstW`, #1273 (@leemhenson)
+  - `ReadonlyArray`
+    - add `apS` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+  - `ReadonlyNonEmptyArray`
+    - add `apS` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+    - relax `group` signature (@gcanti)
+    - relax `groupBy` signature (@gcanti)
+    - relax `groupSort` signature (@gcanti)
+    - relax `sort` signature (@gcanti)
+  - `State`
+    - add `apS` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+    - add `evaluate` (@gcanti)
+    - add `execute` (@gcanti)
   - `StateReaderTaskEither`
+    - add `apS` (@gcanti)
+    - add `apSW` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+    - add `bindW` (@gcanti)
     - add `chainFirstW`, #1273 (@leemhenson)
+    - add `evaluate` (@gcanti)
+    - add `execute` (@gcanti)
+  - `Task`
+    - add `apS` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
   - `TaskEither`
+    - add `apS` (@gcanti)
+    - add `apSW` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+    - add `bindW` (@gcanti)
     - add `chainFirstW`, #1273 (@leemhenson)
+  - `Tree`
+    - add `apS` (@gcanti)
+    - add `bind` (@gcanti)
+    - add `bindTo` (@gcanti)
+  - `Writer`
+    - add `evaluate` (@gcanti)
+    - add `execute` (@gcanti)
+- **Deprecation**
+  - `Foldable`
+    - deprecate `foldM` in favour of `reduceM` (@gcanti)
+  - `State`
+    - deprecate `evalState` in favour of `evaluate` (@gcanti)
+    - deprecate `execState` in favour of `execute` (@gcanti)
+  - `StateReaderTaskEither`
+    - deprecate `evalState` in favour of `evaluate` (@gcanti)
+    - deprecate `execState` in favour of `execute` (@gcanti)
+  - `Writer`
+    - deprecate `evalWriter` in favour of `evaluate` (@gcanti)
+    - deprecate `execWriter` in favour of `execute` (@gcanti)
 
 # 2.7.1
 

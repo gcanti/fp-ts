@@ -29,11 +29,12 @@ Added in v2.0.0
   - [FoldableComposition22 (interface)](#foldablecomposition22-interface)
   - [FoldableComposition22C (interface)](#foldablecomposition22c-interface)
   - [FoldableComposition2C1 (interface)](#foldablecomposition2c1-interface)
-  - [foldM](#foldm)
   - [getFoldableComposition](#getfoldablecomposition)
   - [intercalate](#intercalate)
+  - [reduceM](#reducem)
   - [toArray](#toarray)
   - [traverse\_](#traverse_)
+  - [~~foldM~~](#foldm)
 
 ---
 
@@ -260,57 +261,6 @@ export interface FoldableComposition2C1<F extends URIS2, G extends URIS, E> {
 
 Added in v2.0.0
 
-## foldM
-
-Similar to 'reduce', but the result is encapsulated in a monad.
-
-Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
-
-**Signature**
-
-```ts
-export declare function foldM<M extends URIS3, F extends URIS>(
-  M: Monad3<M>,
-  F: Foldable1<F>
-): <R, E, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, B>
-export declare function foldM<M extends URIS3, F extends URIS, E>(
-  M: Monad3C<M, E>,
-  F: Foldable1<F>
-): <R, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, B>
-export declare function foldM<M extends URIS2, F extends URIS>(
-  M: Monad2<M>,
-  F: Foldable1<F>
-): <E, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind2<M, E, B>) => Kind2<M, E, B>
-export declare function foldM<M extends URIS2, F extends URIS, E>(
-  M: Monad2C<M, E>,
-  F: Foldable1<F>
-): <A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind2<M, E, B>) => Kind2<M, E, B>
-export declare function foldM<M extends URIS, F extends URIS>(
-  M: Monad1<M>,
-  F: Foldable1<F>
-): <A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind<M, B>) => Kind<M, B>
-export declare function foldM<M, F>(
-  M: Monad<M>,
-  F: Foldable<F>
-): <A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => HKT<M, B>) => HKT<M, B>
-```
-
-**Example**
-
-```ts
-import { foldM } from 'fp-ts/lib/Foldable'
-import { option, some } from 'fp-ts/lib/Option'
-import { make, tree } from 'fp-ts/lib/Tree'
-
-const t = make(1, [make(2, []), make(3, []), make(4, [])])
-assert.deepStrictEqual(
-  foldM(option, tree)(t, 0, (b, a) => (a > 2 ? some(b + a) : some(b))),
-  some(7)
-)
-```
-
-Added in v2.0.0
-
 ## getFoldableComposition
 
 Returns the composition of two foldables
@@ -352,10 +302,10 @@ export declare function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable
 **Example**
 
 ```ts
-import { getFoldableComposition } from 'fp-ts/lib/Foldable'
-import { array } from 'fp-ts/lib/Array'
-import { option, some, none } from 'fp-ts/lib/Option'
-import { monoidString } from 'fp-ts/lib/Monoid'
+import { getFoldableComposition } from 'fp-ts/Foldable'
+import { array } from 'fp-ts/Array'
+import { option, some, none } from 'fp-ts/Option'
+import { monoidString } from 'fp-ts/Monoid'
 
 const F = getFoldableComposition(array, option)
 assert.strictEqual(F.reduce([some('a'), some('b'), some('c')], '', monoidString.concat), 'abc')
@@ -390,15 +340,70 @@ export declare function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M
 **Example**
 
 ```ts
-import { intercalate } from 'fp-ts/lib/Foldable'
-import { monoidString } from 'fp-ts/lib/Monoid'
-import { make, tree } from 'fp-ts/lib/Tree'
+import { intercalate } from 'fp-ts/Foldable'
+import { monoidString } from 'fp-ts/Monoid'
+import { make, tree } from 'fp-ts/Tree'
 
 const t = make('a', [make('b', []), make('c', []), make('d', [])])
 assert.strictEqual(intercalate(monoidString, tree)('|', t), 'a|b|c|d')
 ```
 
 Added in v2.0.0
+
+## reduceM
+
+Similar to 'reduce', but the result is encapsulated in a monad.
+
+Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
+
+**Signature**
+
+```ts
+export declare function reduceM<M extends URIS3, F extends URIS>(
+  M: Monad3<M>,
+  F: Foldable1<F>
+): <B, A, R, E>(b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => (fa: Kind<F, A>) => Kind3<M, R, E, B>
+export declare function reduceM<M extends URIS3, F extends URIS, E>(
+  M: Monad3C<M, E>,
+  F: Foldable1<F>
+): <B, A, R>(b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => (fa: Kind<F, A>) => Kind3<M, R, E, B>
+export declare function reduceM<M extends URIS2, F extends URIS>(
+  M: Monad2<M>,
+  F: Foldable1<F>
+): <B, A, E>(b: B, f: (b: B, a: A) => Kind2<M, E, B>) => (fa: Kind<F, A>) => Kind2<M, E, B>
+export declare function reduceM<M extends URIS2, F extends URIS, E>(
+  M: Monad2C<M, E>,
+  F: Foldable1<F>
+): <B, A>(b: B, f: (b: B, a: A) => Kind2<M, E, B>) => (fa: Kind<F, A>) => Kind2<M, E, B>
+export declare function reduceM<M extends URIS, F extends URIS>(
+  M: Monad1<M>,
+  F: Foldable1<F>
+): <B, A>(b: B, f: (b: B, a: A) => Kind<M, B>) => (fa: Kind<F, A>) => Kind<M, B>
+export declare function reduceM<M, F>(
+  M: Monad<M>,
+  F: Foldable<F>
+): <B, A>(b: B, f: (b: B, a: A) => HKT<M, B>) => (fa: HKT<F, A>) => HKT<M, B>
+```
+
+**Example**
+
+```ts
+import { reduceM } from 'fp-ts/Foldable'
+import { Monad, some } from 'fp-ts/Option'
+import { make, Foldable } from 'fp-ts/Tree'
+import { pipe } from 'fp-ts/function'
+
+const t = make(1, [make(2, []), make(3, []), make(4, [])])
+assert.deepStrictEqual(
+  pipe(
+    t,
+    reduceM(Monad, Foldable)(0, (b, a) => (a > 2 ? some(b + a) : some(b)))
+  ),
+  some(7)
+)
+```
+
+Added in v2.8.0
 
 ## toArray
 
@@ -423,8 +428,8 @@ export declare function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Readon
 **Example**
 
 ```ts
-import { toArray } from 'fp-ts/lib/Foldable'
-import { tree, make } from 'fp-ts/lib/Tree'
+import { toArray } from 'fp-ts/Foldable'
+import { tree, make } from 'fp-ts/Tree'
 
 const t = make(1, [make(2, []), make(3, []), make(4, [])])
 assert.deepStrictEqual(toArray(tree)(t), [1, 2, 3, 4])
@@ -465,14 +470,49 @@ export declare function traverse_<M, F>(
 **Example**
 
 ```ts
-import { array } from 'fp-ts/lib/Array'
-import { traverse_ } from 'fp-ts/lib/Foldable'
-import { io } from 'fp-ts/lib/IO'
+import { array } from 'fp-ts/Array'
+import { traverse_ } from 'fp-ts/Foldable'
+import { io } from 'fp-ts/IO'
 
 let log = ''
 const append = (s: string) => () => (log += s)
 traverse_(io, array)(['a', 'b', 'c'], append)()
 assert.strictEqual(log, 'abc')
+```
+
+Added in v2.0.0
+
+## ~~foldM~~
+
+Use `reduceM` instead
+
+**Signature**
+
+```ts
+export declare function foldM<M extends URIS3, F extends URIS>(
+  M: Monad3<M>,
+  F: Foldable1<F>
+): <R, E, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, B>
+export declare function foldM<M extends URIS3, F extends URIS, E>(
+  M: Monad3C<M, E>,
+  F: Foldable1<F>
+): <R, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, B>
+export declare function foldM<M extends URIS2, F extends URIS>(
+  M: Monad2<M>,
+  F: Foldable1<F>
+): <E, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind2<M, E, B>) => Kind2<M, E, B>
+export declare function foldM<M extends URIS2, F extends URIS, E>(
+  M: Monad2C<M, E>,
+  F: Foldable1<F>
+): <A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind2<M, E, B>) => Kind2<M, E, B>
+export declare function foldM<M extends URIS, F extends URIS>(
+  M: Monad1<M>,
+  F: Foldable1<F>
+): <A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind<M, B>) => Kind<M, B>
+export declare function foldM<M, F>(
+  M: Monad<M>,
+  F: Foldable<F>
+): <A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => HKT<M, B>) => HKT<M, B>
 ```
 
 Added in v2.0.0

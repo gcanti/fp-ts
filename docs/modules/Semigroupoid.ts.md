@@ -31,7 +31,7 @@ Added in v2.0.0
 ```ts
 export interface Semigroupoid<F> {
   readonly URI: F
-  readonly compose: <E, A, B>(ab: HKT2<F, A, B>, la: HKT2<F, E, A>) => HKT2<F, E, B>
+  readonly compose: <A, B, C>(bc: HKT2<F, B, C>, ab: HKT2<F, A, B>) => HKT2<F, A, C>
 }
 ```
 
@@ -44,7 +44,7 @@ Added in v2.0.0
 ```ts
 export interface Semigroupoid2<F extends URIS2> {
   readonly URI: F
-  readonly compose: <E, A, B>(ab: Kind2<F, A, B>, la: Kind2<F, E, A>) => Kind2<F, E, B>
+  readonly compose: <A, B, C>(ab: Kind2<F, B, C>, la: Kind2<F, A, B>) => Kind2<F, A, C>
 }
 ```
 
@@ -55,10 +55,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Semigroupoid2C<F extends URIS2, E> {
+export interface Semigroupoid2C<F extends URIS2, A> {
   readonly URI: F
-  readonly _E: E
-  readonly compose: <A, B>(ab: Kind2<F, A, B>, la: Kind2<F, E, A>) => Kind2<F, E, B>
+  readonly _E: A
+  readonly compose: <B, C>(ab: Kind2<F, B, C>, la: Kind2<F, A, B>) => Kind2<F, A, C>
 }
 ```
 
@@ -71,7 +71,7 @@ Added in v2.0.0
 ```ts
 export interface Semigroupoid3<F extends URIS3> {
   readonly URI: F
-  readonly compose: <R, E, A, B>(ab: Kind3<F, R, A, B>, la: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+  readonly compose: <R, A, B, C>(ab: Kind3<F, R, B, C>, la: Kind3<F, R, A, B>) => Kind3<F, R, A, C>
 }
 ```
 
@@ -82,10 +82,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Semigroupoid3C<F extends URIS3, E> {
+export interface Semigroupoid3C<F extends URIS3, A> {
   readonly URI: F
-  readonly _E: E
-  readonly compose: <R, A, B>(ab: Kind3<F, R, A, B>, la: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+  readonly _E: A
+  readonly compose: <R, B, C>(ab: Kind3<F, R, B, C>, la: Kind3<F, R, A, B>) => Kind3<F, R, A, C>
 }
 ```
 
@@ -98,7 +98,7 @@ Added in v2.2.0
 ```ts
 export interface Semigroupoid4<F extends URIS4> {
   readonly URI: F
-  readonly compose: <S, R, E, A, B>(ab: Kind4<F, S, R, A, B>, la: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
+  readonly compose: <S, R, A, B, C>(ab: Kind4<F, S, R, B, C>, la: Kind4<F, S, R, A, B>) => Kind4<F, S, R, A, C>
 }
 ```
 

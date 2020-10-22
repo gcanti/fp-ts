@@ -39,8 +39,13 @@ Added in v2.0.0
 - [model](#model)
   - [State (interface)](#state-interface)
 - [utils](#utils)
-  - [evalState](#evalstate)
-  - [execState](#execstate)
+  - [apS](#aps)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [evaluate](#evaluate)
+  - [execute](#execute)
+  - [~~evalState~~](#evalstate)
+  - [~~execState~~](#execstate)
 
 ---
 
@@ -274,9 +279,69 @@ Added in v2.0.0
 
 # utils
 
-## evalState
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, S, B>(
+  name: Exclude<N, keyof A>,
+  fb: State<S, B>
+) => (fa: State<S, A>) => State<S, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, S, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => State<S, B>
+) => (fa: State<S, A>) => State<S, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(name: N) => <S, A>(fa: State<S, A>) => State<S, { [K in N]: A }>
+```
+
+Added in v2.8.0
+
+## evaluate
 
 Run a computation in the `State` monad, discarding the final state
+
+**Signature**
+
+```ts
+export declare const evaluate: <S>(s: S) => <A>(ma: State<S, A>) => A
+```
+
+Added in v2.8.0
+
+## execute
+
+Run a computation in the `State` monad discarding the result
+
+**Signature**
+
+```ts
+export declare const execute: <S>(s: S) => <A>(ma: State<S, A>) => S
+```
+
+Added in v2.8.0
+
+## ~~evalState~~
+
+Use `evaluate` instead
 
 **Signature**
 
@@ -286,9 +351,9 @@ export declare const evalState: <S, A>(ma: State<S, A>, s: S) => A
 
 Added in v2.0.0
 
-## execState
+## ~~execState~~
 
-Run a computation in the `State` monad discarding the result
+Use `execute` instead
 
 **Signature**
 

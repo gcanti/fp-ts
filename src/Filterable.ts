@@ -444,7 +444,6 @@ export interface FilterableComposition23C<F extends URIS2, G extends URIS3, E>
   ) => Kind2<F, FE, Kind3<G, R, E, A>>
 }
 
-// TODO: remove in v3
 /**
  * @since 2.0.0
  */

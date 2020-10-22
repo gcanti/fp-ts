@@ -9,7 +9,7 @@ import { ChainRec2C } from './ChainRec'
 import { Comonad2 } from './Comonad'
 import { Either } from './Either'
 import { Foldable2 } from './Foldable'
-import { identity } from './function'
+import { identity, pipe } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
@@ -27,24 +27,24 @@ import { Extend2 } from './Extend'
  * @category destructors
  * @since 2.5.0
  */
-export function fst<A, S>(sa: readonly [A, S]): A {
-  return sa[0]
+export function fst<A, E>(ea: readonly [A, E]): A {
+  return ea[0]
 }
 
 /**
  * @category destructors
  * @since 2.5.0
  */
-export function snd<A, S>(sa: readonly [A, S]): S {
-  return sa[1]
+export function snd<A, E>(ea: readonly [A, E]): E {
+  return ea[1]
 }
 
 /**
  * @category combinators
  * @since 2.5.0
  */
-export function swap<A, S>(sa: readonly [A, S]): readonly [S, A] {
-  return [snd(sa), fst(sa)]
+export function swap<A, E>(ea: readonly [A, E]): readonly [E, A] {
+  return [snd(ea), fst(ea)]
 }
 
 /**
@@ -60,7 +60,7 @@ export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
   }
 }
 
-const of = <S>(M: Monoid<S>) => <A>(a: A): readonly [A, S] => {
+const of = <M>(M: Monoid<M>) => <A>(a: A): readonly [A, M] => {
   return [a, M.empty]
 }
 
@@ -68,7 +68,7 @@ const of = <S>(M: Monoid<S>) => <A>(a: A): readonly [A, S] => {
  * @category instances
  * @since 2.5.0
  */
-export function getApplicative<S>(M: Monoid<S>): Applicative2C<URI, S> {
+export function getApplicative<M>(M: Monoid<M>): Applicative2C<URI, M> {
   const A = getApply(M)
   return {
     URI,
@@ -90,9 +90,9 @@ export function getChain<S>(S: Semigroup<S>): Chain2C<URI, S> {
     _E: undefined as any,
     map: A.map,
     ap: A.ap,
-    chain: (fa, f) => {
-      const [b, s] = f(fst(fa))
-      return [b, S.concat(snd(fa), s)]
+    chain: (ma, f) => {
+      const [b, s] = f(fst(ma))
+      return [b, S.concat(snd(ma), s)]
     }
   }
 }
@@ -101,7 +101,7 @@ export function getChain<S>(S: Semigroup<S>): Chain2C<URI, S> {
  * @category instances
  * @since 2.5.0
  */
-export function getMonad<S>(M: Monoid<S>): Monad2C<URI, S> {
+export function getMonad<M>(M: Monoid<M>): Monad2C<URI, M> {
   const C = getChain(M)
   return {
     URI,
@@ -118,10 +118,10 @@ export function getMonad<S>(M: Monoid<S>): Monad2C<URI, S> {
  * @category instances
  * @since 2.5.0
  */
-export function getChainRec<S>(M: Monoid<S>): ChainRec2C<URI, S> {
-  const chainRec = <A, B>(a: A, f: (a: A) => readonly [Either<A, B>, S]): readonly [B, S] => {
-    let result: readonly [Either<A, B>, S] = f(a)
-    let acc: S = M.empty
+export function getChainRec<M>(M: Monoid<M>): ChainRec2C<URI, M> {
+  const chainRec = <A, B>(a: A, f: (a: A) => readonly [Either<A, B>, M]): readonly [B, M] => {
+    let result: readonly [Either<A, B>, M] = f(a)
+    let acc: M = M.empty
     let s: Either<A, B> = fst(result)
     while (s._tag === 'Left') {
       acc = M.concat(acc, snd(result))
@@ -146,19 +146,31 @@ export function getChainRec<S>(M: Monoid<S>): ChainRec2C<URI, S> {
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const compose_: Semigroupoid2<URI>['compose'] = (ba, ae) => [fst(ba), snd(ae)]
-const map_: Functor2<URI>['map'] = (ae, f) => [f(fst(ae)), snd(ae)]
-const bimap_: Bifunctor2<URI>['bimap'] = (fea, f, g) => [g(fst(fea)), f(snd(fea))]
-const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fea, f) => [fst(fea), f(snd(fea))]
-const extend_: Extend2<URI>['extend'] = (ae, f) => [f(ae), snd(ae)]
-const reduce_: Foldable2<URI>['reduce'] = (ae, b, f) => f(b, fst(ae))
-const foldMap_: Foldable2<URI>['foldMap'] = (_) => (ae, f) => f(fst(ae))
-const reduceRight_: Foldable2<URI>['reduceRight'] = (ae, b, f) => f(fst(ae), b)
-const traverse_ = <F>(F: Applicative<F>) => <A, S, B>(
-  as: readonly [A, S],
-  f: (a: A) => HKT<F, B>
-): HKT<F, readonly [B, S]> => {
-  return F.map(f(fst(as)), (b) => [b, snd(as)])
+/* istanbul ignore next */
+const compose_: Semigroupoid2<URI>['compose'] = (bc, ab) => pipe(bc, compose(ab))
+/* istanbul ignore next */
+const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+/* istanbul ignore next */
+const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
+/* istanbul ignore next */
+const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
+/* istanbul ignore next */
+const extend_: Extend2<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
+/* istanbul ignore next */
+const reduce_: Foldable2<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
+/* istanbul ignore next */
+const foldMap_: Foldable2<URI>['foldMap'] = (M) => {
+  const foldMapM = foldMap(M)
+  return (fa, f) => pipe(fa, foldMapM(f))
+}
+/* istanbul ignore next */
+const reduceRight_: Foldable2<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
+/* istanbul ignore next */
+const traverse_ = <F>(
+  F: Applicative<F>
+): (<A, S, B>(ta: readonly [A, S], f: (a: A) => HKT<F, B>) => HKT<F, readonly [B, S]>) => {
+  const traverseF = traverse(F)
+  return (ta, f) => pipe(ta, traverseF(f))
 }
 
 // -------------------------------------------------------------------------------------
@@ -174,7 +186,7 @@ const traverse_ = <F>(F: Applicative<F>) => <A, S, B>(
 export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: readonly [A, E]) => readonly [B, G] = (
   f,
   g
-) => (fa) => bimap_(fa, f, g)
+) => (fa) => [g(fst(fa)), f(snd(fa))]
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -182,29 +194,27 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: readonl
  * @category Bifunctor
  * @since 2.5.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: readonly [A, E]) => readonly [A, G] = (f) => (fa) =>
-  mapLeft_(fa, f)
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: readonly [A, E]) => readonly [A, G] = (f) => (fa) => [
+  fst(fa),
+  f(snd(fa))
+]
 
 /**
  * @category Semigroupoid
  * @since 2.5.0
  */
-export const compose: <E, A>(la: readonly [A, E]) => <B>(ab: readonly [B, A]) => readonly [B, E] = (la) => (ab) =>
-  compose_(ab, la)
+export const compose: <A, B>(ab: readonly [B, A]) => <C>(bc: readonly [C, B]) => readonly [C, A] = (ab) => (bc) => [
+  fst(bc),
+  snd(ab)
+]
 
 /**
  * @category Extend
  * @since 2.5.0
  */
-export const duplicate: <E, A>(ma: readonly [A, E]) => readonly [readonly [A, E], E] = (ma) => extend_(ma, identity)
-
-/**
- * @category Extend
- * @since 2.5.0
- */
-export const extend: <E, A, B>(f: (fa: readonly [A, E]) => B) => (wa: readonly [A, E]) => readonly [B, E] = (f) => (
-  ma
-) => extend_(ma, f)
+export const extend: <E, A, B>(f: (wa: readonly [A, E]) => B) => (wa: readonly [A, E]) => readonly [B, E] = (f) => (
+  wa
+) => [f(wa), snd(wa)]
 
 /**
  * @category Extract
@@ -213,13 +223,12 @@ export const extend: <E, A, B>(f: (fa: readonly [A, E]) => B) => (wa: readonly [
 export const extract: <E, A>(wa: readonly [A, E]) => A = fst
 
 /**
- * @category Foldable
+ * @category Extend
  * @since 2.5.0
  */
-export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: readonly [A, E]) => M = (M) => {
-  const foldMapM = foldMap_(M)
-  return (f) => (fa) => foldMapM(fa, f)
-}
+export const duplicate: <E, A>(wa: readonly [A, E]) => readonly [readonly [A, E], E] =
+  /*#__PURE__*/
+  extend(identity)
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -228,37 +237,48 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: readon
  * @category Functor
  * @since 2.5.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly [B, E] = (f) => (fa) => map_(fa, f)
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly [B, E] = (f) => (fa) => [
+  f(fst(fa)),
+  snd(fa)
+]
 
 /**
  * @category Foldable
  * @since 2.5.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: readonly [A, E]) => B = (b, f) => (fa) =>
-  reduce_(fa, b, f)
+  f(b, fst(fa))
+
+/**
+ * @category Foldable
+ * @since 2.5.0
+ */
+export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: readonly [A, E]) => M = () => {
+  return (f) => (fa) => f(fst(fa))
+}
 
 /**
  * @category Foldable
  * @since 2.5.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: readonly [A, E]) => B = (b, f) => (fa) =>
-  reduceRight_(fa, b, f)
+  f(fst(fa), b)
 
 /**
  * @since 2.6.3
  */
 export const traverse: PipeableTraverse2<URI> = <F>(
   F: Applicative<F>
-): (<A, B>(f: (a: A) => HKT<F, B>) => <S>(as: readonly [A, S]) => HKT<F, readonly [B, S]>) => {
-  return (f) => (ta) => traverse_(F)(ta, f)
+): (<A, B>(f: (a: A) => HKT<F, B>) => <E>(as: readonly [A, E]) => HKT<F, readonly [B, E]>) => {
+  return (f) => (ta) => F.map(f(fst(ta)), (b) => [b, snd(ta)])
 }
 
 /**
  * @since 2.6.3
  */
-export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <A, S>(
-  fas: readonly [HKT<F, A>, S]
-): HKT<F, readonly [A, S]> => {
+export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <A, E>(
+  fas: readonly [HKT<F, A>, E]
+): HKT<F, readonly [A, E]> => {
   return F.map(fst(fas), (a) => [a, snd(fas)])
 }
 

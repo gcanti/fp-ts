@@ -21,7 +21,7 @@ import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
-import { identity, Lazy, Predicate, Refinement } from './function'
+import { identity, Lazy, Predicate, Refinement, pipe, bind_, bindTo_, flow } from './function'
 import { Functor1 } from './Functor'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
@@ -68,7 +68,7 @@ export type Option<A> = None | Some<A>
  * Returns `true` if the option is an instance of `Some`, `false` otherwise
  *
  * @example
- * import { some, none, isSome } from 'fp-ts/lib/Option'
+ * import { some, none, isSome } from 'fp-ts/Option'
  *
  * assert.strictEqual(isSome(some(1)), true)
  * assert.strictEqual(isSome(none), false)
@@ -82,7 +82,7 @@ export const isSome = <A>(fa: Option<A>): fa is Some<A> => fa._tag === 'Some'
  * Returns `true` if the option is `None`, `false` otherwise
  *
  * @example
- * import { some, none, isNone } from 'fp-ts/lib/Option'
+ * import { some, none, isNone } from 'fp-ts/Option'
  *
  * assert.strictEqual(isNone(some(1)), false)
  * assert.strictEqual(isNone(none), true)
@@ -113,7 +113,7 @@ export const some = <A>(a: A): Option<A> => ({ _tag: 'Some', value: a })
  * returns the value wrapped in a `Some`
  *
  * @example
- * import { none, some, fromNullable } from 'fp-ts/lib/Option'
+ * import { none, some, fromNullable } from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(fromNullable(undefined), none)
  * assert.deepStrictEqual(fromNullable(null), none)
@@ -130,7 +130,7 @@ export function fromNullable<A>(a: A): Option<NonNullable<A>> {
  * Returns a smart constructor based on the given predicate
  *
  * @example
- * import { none, some, fromPredicate } from 'fp-ts/lib/Option'
+ * import { none, some, fromPredicate } from 'fp-ts/Option'
  *
  * const getOption = fromPredicate((n: number) => n >= 0)
  *
@@ -151,7 +151,7 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
  * `Some`
  *
  * @example
- * import { none, some, tryCatch } from 'fp-ts/lib/Option'
+ * import { none, some, tryCatch } from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(
  *   tryCatch(() => {
@@ -207,8 +207,8 @@ export const fromEither: <E, A>(ma: Either<E, A>) => Option<A> = (ma) => (ma._ta
  * returned, otherwise the function is applied to the value inside the `Some` and the result is returned.
  *
  * @example
- * import { some, none, fold } from 'fp-ts/lib/Option'
- * import { pipe } from 'fp-ts/lib/function'
+ * import { some, none, fold } from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
  *
  * assert.strictEqual(
  *   pipe(
@@ -237,8 +237,8 @@ export function fold<A, B>(onNone: Lazy<B>, onSome: (a: A) => B): (ma: Option<A>
  * Extracts the value out of the structure, if it exists. Otherwise returns `null`.
  *
  * @example
- * import { some, none, toNullable } from 'fp-ts/lib/Option'
- * import { pipe } from 'fp-ts/lib/function'
+ * import { some, none, toNullable } from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
  *
  * assert.strictEqual(
  *   pipe(
@@ -266,8 +266,8 @@ export function toNullable<A>(ma: Option<A>): A | null {
  * Extracts the value out of the structure, if it exists. Otherwise returns `undefined`.
  *
  * @example
- * import { some, none, toUndefined } from 'fp-ts/lib/Option'
- * import { pipe } from 'fp-ts/lib/function'
+ * import { some, none, toUndefined } from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
  *
  * assert.strictEqual(
  *   pipe(
@@ -303,8 +303,8 @@ export const getOrElseW = <B>(onNone: Lazy<B>) => <A>(ma: Option<A>): A | B => (
  * Extracts the value out of the structure, if it exists. Otherwise returns the given default value
  *
  * @example
- * import { some, none, getOrElse } from 'fp-ts/lib/Option'
- * import { pipe } from 'fp-ts/lib/function'
+ * import { some, none, getOrElse } from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
  *
  * assert.strictEqual(
  *   pipe(
@@ -334,8 +334,8 @@ export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElse
  * This is `chain` + `fromNullable`, useful when working with optional values
  *
  * @example
- * import { some, none, fromNullable, mapNullable } from 'fp-ts/lib/Option'
- * import { pipe } from 'fp-ts/lib/function'
+ * import { some, none, fromNullable, mapNullable } from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
  *
  * interface Employee {
  *   company?: {
@@ -446,10 +446,10 @@ export const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B
  * @category Apply
  * @since 2.0.0
  */
-export const apFirst: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<A> = (fb) => (fa) =>
-  ap_(
-    map_(fa, (a) => () => a),
-    fb
+export const apFirst: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<A> = (fb) =>
+  flow(
+    map((a) => () => a),
+    ap(fb)
   )
 
 /**
@@ -458,10 +458,10 @@ export const apFirst: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<A> = (f
  * @category Apply
  * @since 2.0.0
  */
-export const apSecond = <B>(fb: Option<B>) => <A>(fa: Option<A>): Option<B> =>
-  ap_(
-    map_(fa, () => (b: B) => b),
-    fb
+export const apSecond = <B>(fb: Option<B>): (<A>(fa: Option<A>) => Option<B>) =>
+  flow(
+    map(() => (b: B) => b),
+    ap(fb)
   )
 
 /**
@@ -485,14 +485,21 @@ export const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<
  * @category Monad
  * @since 2.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<A> = (f) => (ma) =>
-  chain_(ma, (a) => map_(f(a), () => a))
+export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<A> = (f) =>
+  chain((a) =>
+    pipe(
+      f(a),
+      map(() => a)
+    )
+  )
 
 /**
  * @category Monad
  * @since 2.0.0
  */
-export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = (mma) => chain_(mma, identity)
+export const flatten: <A>(mma: Option<Option<A>>) => Option<A> =
+  /*#__PURE__*/
+  chain(identity)
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -501,8 +508,8 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = (mma) => chain_
  * In case of `Option` returns the left-most non-`None` value.
  *
  * @example
- * import * as O from 'fp-ts/lib/Option'
- * import { pipe } from 'fp-ts/lib/function'
+ * import * as O from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(
  *   pipe(
@@ -540,13 +547,21 @@ export const throwError: MonadThrow1<URI>['throwError'] = () => none
  * @category Extend
  * @since 2.0.0
  */
-export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> = (wa) => extend_(wa, identity)
+export const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Option<B> = (f) => (ma) => extend_(ma, f)
 
 /**
  * @category Extend
  * @since 2.0.0
  */
-export const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Option<B> = (f) => (ma) => extend_(ma, f)
+export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> =
+  /*#__PURE__*/
+  extend(identity)
+
+/**
+ * @category Foldable
+ * @since 2.0.0
+ */
+export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B = (b, f) => (fa) => reduce_(fa, b, f)
 
 /**
  * @category Foldable
@@ -556,12 +571,6 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>
   const foldMapM = foldMap_(M)
   return (f) => (fa) => foldMapM(fa, f)
 }
-
-/**
- * @category Foldable
- * @since 2.0.0
- */
-export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B = (b, f) => (fa) => reduce_(fa, b, f)
 
 /**
  * @category Foldable
@@ -700,8 +709,8 @@ export function getShow<A>(S: Show<A>): Show<Option<A>> {
 
 /**
  * @example
- * import { none, some, getEq } from 'fp-ts/lib/Option'
- * import { eqNumber } from 'fp-ts/lib/Eq'
+ * import { none, some, getEq } from 'fp-ts/Option'
+ * import { eqNumber } from 'fp-ts/Eq'
  *
  * const E = getEq(eqNumber)
  * assert.strictEqual(E.equals(none, none), true)
@@ -727,8 +736,8 @@ export function getEq<A>(E: Eq<A>): Eq<Option<A>> {
  *
  *
  * @example
- * import { none, some, getOrd } from 'fp-ts/lib/Option'
- * import { ordNumber } from 'fp-ts/lib/Ord'
+ * import { none, some, getOrd } from 'fp-ts/Option'
+ * import { ordNumber } from 'fp-ts/Ord'
  *
  * const O = getOrd(ordNumber)
  * assert.strictEqual(O.compare(none, none), 0)
@@ -758,8 +767,8 @@ export function getOrd<A>(O: Ord<A>): Ord<Option<A>> {
  * | some(a) | some(b) | some(concat(a, b)) |
  *
  * @example
- * import { getApplySemigroup, some, none } from 'fp-ts/lib/Option'
- * import { semigroupSum } from 'fp-ts/lib/Semigroup'
+ * import { getApplySemigroup, some, none } from 'fp-ts/Option'
+ * import { semigroupSum } from 'fp-ts/Semigroup'
  *
  * const S = getApplySemigroup(semigroupSum)
  * assert.deepStrictEqual(S.concat(none, none), none)
@@ -798,7 +807,7 @@ export function getApplyMonoid<A>(M: Monoid<A>): Monoid<Option<A>> {
  * | some(a) | some(b) | some(a)      |
  *
  * @example
- * import { getFirstMonoid, some, none } from 'fp-ts/lib/Option'
+ * import { getFirstMonoid, some, none } from 'fp-ts/Option'
  *
  * const M = getFirstMonoid<number>()
  * assert.deepStrictEqual(M.concat(none, none), none)
@@ -827,7 +836,7 @@ export function getFirstMonoid<A = never>(): Monoid<Option<A>> {
  * | some(a) | some(b) | some(b)      |
  *
  * @example
- * import { getLastMonoid, some, none } from 'fp-ts/lib/Option'
+ * import { getLastMonoid, some, none } from 'fp-ts/Option'
  *
  * const M = getLastMonoid<number>()
  * assert.deepStrictEqual(M.concat(none, none), none)
@@ -857,8 +866,8 @@ export function getLastMonoid<A = never>(): Monoid<Option<A>> {
  * | some(a) | some(b) | some(concat(a, b)) |
  *
  * @example
- * import { getMonoid, some, none } from 'fp-ts/lib/Option'
- * import { semigroupSum } from 'fp-ts/lib/Semigroup'
+ * import { getMonoid, some, none } from 'fp-ts/Option'
+ * import { semigroupSum } from 'fp-ts/Semigroup'
  *
  * const M = getMonoid(semigroupSum)
  * assert.deepStrictEqual(M.concat(none, none), none)
@@ -1069,8 +1078,8 @@ export const option: Monad1<URI> &
  * Returns `true` if `ma` contains `a`
  *
  * @example
- * import { some, none, elem } from 'fp-ts/lib/Option'
- * import { eqNumber } from 'fp-ts/lib/Eq'
+ * import { some, none, elem } from 'fp-ts/Option'
+ * import { eqNumber } from 'fp-ts/Eq'
  *
  * assert.strictEqual(elem(eqNumber)(1, some(1)), true)
  * assert.strictEqual(elem(eqNumber)(2, some(1)), false)
@@ -1086,8 +1095,8 @@ export function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean {
  * Returns `true` if the predicate is satisfied by the wrapped value
  *
  * @example
- * import { some, none, exists } from 'fp-ts/lib/Option'
- * import { pipe } from 'fp-ts/lib/function'
+ * import { some, none, exists } from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
  *
  * assert.strictEqual(
  *   pipe(
@@ -1122,7 +1131,7 @@ export function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => boolean {
  * This function ensures that a custom type guard definition is type-safe.
  *
  * ```ts
- * import { some, none, getRefinement } from 'fp-ts/lib/Option'
+ * import { some, none, getRefinement } from 'fp-ts/Option'
  *
  * type A = { type: 'A' }
  * type B = { type: 'B' }
@@ -1137,3 +1146,42 @@ export function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => boolean {
 export function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> {
   return (a: A): a is B => isSome(getOption(a))
 }
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const bindTo = <N extends string>(name: N): (<A>(fa: Option<A>) => Option<{ [K in N]: A }>) => map(bindTo_(name))
+
+/**
+ * @since 2.8.0
+ */
+export const bind = <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Option<B>
+): ((fa: Option<A>) => Option<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  chain((a) =>
+    pipe(
+      f(a),
+      map((b) => bind_(a, name, b))
+    )
+  )
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence S
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const apS = <A, N extends string, B>(
+  name: Exclude<N, keyof A>,
+  fb: Option<B>
+): ((fa: Option<A>) => Option<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  flow(
+    map((a) => (b: B) => bind_(a, name, b)),
+    ap(fb)
+  )

@@ -18,6 +18,7 @@ Added in v2.0.0
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [apW](#apw)
 - [Category](#category)
   - [id](#id)
 - [Functor](#functor)
@@ -39,9 +40,11 @@ Added in v2.0.0
 - [instances](#instances)
   - [Applicative](#applicative-1)
   - [Category](#category-1)
+  - [Choice](#choice)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Profunctor](#profunctor-1)
+  - [Strong](#strong)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
@@ -49,6 +52,12 @@ Added in v2.0.0
   - [reader](#reader)
 - [model](#model)
   - [Reader (interface)](#reader-interface)
+- [utils](#utils)
+  - [apS](#aps)
+  - [apSW](#apsw)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [bindW](#bindw)
 
 ---
 
@@ -101,6 +110,18 @@ export declare const apSecond: <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>)
 ```
 
 Added in v2.0.0
+
+## apW
+
+Less strict version of [`ap`](#ap).
+
+**Signature**
+
+```ts
+export declare const apW: <Q, A>(fa: Reader<Q, A>) => <R, B>(fab: Reader<R, (a: A) => B>) => Reader<Q & R, B>
+```
+
+Added in v2.8.0
 
 # Category
 
@@ -197,7 +218,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const compose: <E, A>(la: Reader<E, A>) => <B>(ab: Reader<A, B>) => Reader<E, B>
+export declare const compose: <A, B>(ab: Reader<A, B>) => <C>(bc: Reader<B, C>) => Reader<A, C>
 ```
 
 Added in v2.0.0
@@ -265,6 +286,16 @@ export declare const Category: Category2<'Reader'>
 
 Added in v2.7.0
 
+## Choice
+
+**Signature**
+
+```ts
+export declare const Choice: Choice2<'Reader'>
+```
+
+Added in v2.8.3
+
 ## Functor
 
 **Signature**
@@ -294,6 +325,16 @@ export declare const Profunctor: Profunctor2<'Reader'>
 ```
 
 Added in v2.7.0
+
+## Strong
+
+**Signature**
+
+```ts
+export declare const Strong: Strong2<'Reader'>
+```
+
+Added in v2.8.3
 
 ## URI
 
@@ -362,3 +403,67 @@ export interface Reader<R, A> {
 ```
 
 Added in v2.0.0
+
+# utils
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, R, B>(
+  name: Exclude<N, keyof A>,
+  fb: Reader<R, B>
+) => (fa: Reader<R, A>) => Reader<R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## apSW
+
+**Signature**
+
+```ts
+export declare const apSW: <A, N extends string, Q, B>(
+  name: Exclude<N, keyof A>,
+  fb: Reader<Q, B>
+) => <R>(fa: Reader<R, A>) => Reader<Q & R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, R, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Reader<R, B>
+) => (fa: Reader<R, A>) => Reader<R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(name: N) => <R, A>(fa: Reader<R, A>) => Reader<R, { [K in N]: A }>
+```
+
+Added in v2.8.0
+
+## bindW
+
+**Signature**
+
+```ts
+export declare const bindW: <N extends string, A, Q, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Reader<Q, B>
+) => <R>(fa: Reader<R, A>) => Reader<Q & R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0

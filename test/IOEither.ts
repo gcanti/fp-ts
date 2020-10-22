@@ -58,6 +58,36 @@ describe('IOEither', () => {
       assert.deepStrictEqual(pipe(_.right(double), _.ap(_.right(1)))(), E.right(2))
     })
 
+    it('ApplicativePar', () => {
+      // tslint:disable-next-line: readonly-array
+      const log: Array<string> = []
+      const x = sequenceT(_.ApplicativePar)(
+        _.rightIO<string, number>(() => log.push('a')),
+        _.leftIO(() => {
+          log.push('b')
+          return 'error'
+        }),
+        _.rightIO(() => log.push('c'))
+      )()
+      assert.deepStrictEqual(x, E.left('error'))
+      assert.deepStrictEqual(log, ['a', 'b', 'c'])
+    })
+
+    it('ApplicativeSeq', () => {
+      // tslint:disable-next-line: readonly-array
+      const log: Array<string> = []
+      const x = sequenceT(_.ApplicativeSeq)(
+        _.rightIO<string, number>(() => log.push('a')),
+        _.leftIO(() => {
+          log.push('b')
+          return 'error'
+        }),
+        _.rightIO(() => log.push('c'))
+      )()
+      assert.deepStrictEqual(x, E.left('error'))
+      assert.deepStrictEqual(log, ['a', 'b'])
+    })
+
     it('apFirst', () => {
       assert.deepStrictEqual(pipe(_.right('a'), _.apFirst(_.right('b')))(), E.right('a'))
     })
@@ -329,5 +359,23 @@ describe('IOEither', () => {
     const f = (s: string) => E.right(s.length)
     const x = pipe(_.right('a'), _.chainEitherK(f))()
     assert.deepStrictEqual(x, E.right(1))
+  })
+
+  it('do notation', () => {
+    assert.deepStrictEqual(
+      pipe(
+        _.right<string, number>(1),
+        _.bindTo('a'),
+        _.bind('b', () => _.right('b'))
+      )(),
+      E.right({ a: 1, b: 'b' })
+    )
+  })
+
+  it('apS', () => {
+    assert.deepStrictEqual(
+      pipe(_.right<string, number>(1), _.bindTo('a'), _.apS('b', _.right('b')))(),
+      E.right({ a: 1, b: 'b' })
+    )
   })
 })

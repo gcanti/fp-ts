@@ -120,4 +120,19 @@ describe('Identity', () => {
     const S = _.getShow(showString)
     assert.deepStrictEqual(S.show('a'), `"a"`)
   })
+
+  it('do notation', () => {
+    assert.deepStrictEqual(
+      pipe(
+        _.of(1),
+        _.bindTo('a'),
+        _.bind('b', () => _.of('b'))
+      ),
+      { a: 1, b: 'b' }
+    )
+  })
+
+  it('apS', () => {
+    assert.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b'))), { a: 1, b: 'b' })
+  })
 })

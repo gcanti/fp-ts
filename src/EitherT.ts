@@ -2,7 +2,6 @@
  * @since 2.0.0
  */
 import { ApplicativeComposition12, ApplicativeComposition22, ApplicativeCompositionHKT2 } from './Applicative'
-import { apComposition } from './Apply'
 import * as E from './Either'
 import { flow, Lazy, pipe } from './function'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
@@ -100,7 +99,13 @@ export function getEitherM<M extends URIS2>(M: Monad2<M>): EitherM2<M>
 export function getEitherM<M extends URIS>(M: Monad1<M>): EitherM1<M>
 export function getEitherM<M>(M: Monad<M>): EitherM<M>
 export function getEitherM<M>(M: Monad<M>): EitherM<M> {
-  const ap = apComposition(M, E.Applicative)
+  const ap = <E, A>(fga: HKT<M, E.Either<E, A>>) => <B>(
+    fgab: HKT<M, E.Either<E, (a: A) => B>>
+  ): HKT<M, E.Either<E, B>> =>
+    M.ap(
+      M.map(fgab, (h) => (ga: E.Either<E, A>) => pipe(h, E.ap(ga))),
+      fga
+    )
   const of = flow(E.right, M.of)
 
   return {

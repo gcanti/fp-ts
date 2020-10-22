@@ -2,7 +2,7 @@
  * @since 2.0.0
  */
 import { Comonad2 } from './Comonad'
-import { Endomorphism, identity } from './function'
+import { Endomorphism, identity, pipe } from './function'
 import { Functor as FunctorHKT, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Extend2 } from './Extend'
@@ -76,14 +76,10 @@ export function experiment<F>(F: FunctorHKT<F>): <S>(f: (s: S) => HKT<F, S>) => 
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Functor2<URI>['map'] = (wa, f) => ({
-  peek: (s) => f(wa.peek(s)),
-  pos: wa.pos
-})
-const extend_: Extend2<URI>['extend'] = (wa, f) => ({
-  peek: (s) => f({ peek: wa.peek, pos: s }),
-  pos: wa.pos
-})
+/* istanbul ignore next */
+const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+/* istanbul ignore next */
+const extend_: Extend2<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -93,7 +89,10 @@ const extend_: Extend2<URI>['extend'] = (wa, f) => ({
  * @category Extend
  * @since 2.0.0
  */
-export const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>> = (wa) => extend_(wa, identity)
+export const extend: <E, A, B>(f: (wa: Store<E, A>) => B) => (wa: Store<E, A>) => Store<E, B> = (f) => (wa) => ({
+  peek: (s) => f({ peek: wa.peek, pos: s }),
+  pos: wa.pos
+})
 
 /**
  * @category Extract
@@ -105,8 +104,9 @@ export const extract: <E, A>(wa: Store<E, A>) => A = (wa) => wa.peek(wa.pos)
  * @category Extend
  * @since 2.0.0
  */
-export const extend: <E, A, B>(f: (wa: Store<E, A>) => B) => (wa: Store<E, A>) => Store<E, B> = (f) => (wa) =>
-  extend_(wa, f)
+export const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>> =
+  /*#__PURE__*/
+  extend(identity)
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -115,7 +115,10 @@ export const extend: <E, A, B>(f: (wa: Store<E, A>) => B) => (wa: Store<E, A>) =
  * @category Functor
  * @since 2.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B> = (f) => (fa) => map_(fa, f)
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B> = (f) => (fa) => ({
+  peek: (s) => f(fa.peek(s)),
+  pos: fa.pos
+})
 
 // -------------------------------------------------------------------------------------
 // instances

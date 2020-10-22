@@ -6,6 +6,10 @@ parent: Modules
 
 ## TaskEither overview
 
+```ts
+interface TaskEither<E, A> extends Task<Either<E, A>> {}
+```
+
 `TaskEither<E, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
 error of type `E`. If you want to represent an asynchronous computation that never fails, please see `Task`.
 
@@ -23,6 +27,7 @@ Added in v2.0.0
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [apW](#apw)
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
@@ -86,6 +91,11 @@ Added in v2.0.0
 - [model](#model)
   - [TaskEither (interface)](#taskeither-interface)
 - [utils](#utils)
+  - [apS](#aps)
+  - [apSW](#apsw)
+  - [bind](#bind)
+  - [bindTo](#bindto)
+  - [bindW](#bindw)
   - [bracket](#bracket)
   - [taskify](#taskify)
 
@@ -111,9 +121,9 @@ export declare const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEithe
 **Example**
 
 ```ts
-import * as E from 'fp-ts/lib/Either'
-import { pipe } from 'fp-ts/lib/function'
-import * as TE from 'fp-ts/lib/TaskEither'
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import * as TE from 'fp-ts/TaskEither'
 
 async function test() {
   assert.deepStrictEqual(
@@ -193,6 +203,20 @@ export declare const apSecond: <E, B>(fb: TaskEither<E, B>) => <A>(fa: TaskEithe
 ```
 
 Added in v2.0.0
+
+## apW
+
+Less strict version of [`ap`](#ap).
+
+**Signature**
+
+```ts
+export declare const apW: <D, A>(
+  fa: TaskEither<D, A>
+) => <E, B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<D | E, B>
+```
+
+Added in v2.8.0
 
 # Bifunctor
 
@@ -438,9 +462,9 @@ export declare const orElse: <E, A, M>(onLeft: (e: E) => TaskEither<M, A>) => (m
 **Example**
 
 ```ts
-import * as E from 'fp-ts/lib/Either'
-import { pipe } from 'fp-ts/lib/function'
-import * as TE from 'fp-ts/lib/TaskEither'
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import * as TE from 'fp-ts/TaskEither'
 
 async function test() {
   const errorHandler = TE.orElse((error: string) => TE.right(`recovering from ${error}...`))
@@ -598,8 +622,8 @@ export declare function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason:
 **Example**
 
 ```ts
-import { left, right } from 'fp-ts/lib/Either'
-import { tryCatch } from 'fp-ts/lib/TaskEither'
+import { left, right } from 'fp-ts/Either'
+import { tryCatch } from 'fp-ts/TaskEither'
 
 tryCatch(() => Promise.resolve(1), String)().then((result) => {
   assert.deepStrictEqual(result, right(1))
@@ -842,6 +866,70 @@ Added in v2.0.0
 
 # utils
 
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, E, B>(
+  name: Exclude<N, keyof A>,
+  fb: TaskEither<E, B>
+) => (fa: TaskEither<E, A>) => TaskEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## apSW
+
+**Signature**
+
+```ts
+export declare const apSW: <A, N extends string, D, B>(
+  name: Exclude<N, keyof A>,
+  fb: TaskEither<D, B>
+) => <E>(fa: TaskEither<E, A>) => TaskEither<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => TaskEither<E, B>
+) => (fa: TaskEither<E, A>) => TaskEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(
+  name: N
+) => <E, A>(fa: TaskEither<E, A>) => TaskEither<E, { [K in N]: A }>
+```
+
+Added in v2.8.0
+
+## bindW
+
+**Signature**
+
+```ts
+export declare const bindW: <N extends string, A, D, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => TaskEither<D, B>
+) => <E>(fa: TaskEither<E, A>) => TaskEither<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
 ## bracket
 
 Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
@@ -903,7 +991,7 @@ export declare function taskify<A, B, C, D, E, L, R>(
 **Example**
 
 ```ts
-import { taskify } from 'fp-ts/lib/TaskEither'
+import { taskify } from 'fp-ts/TaskEither'
 import * as fs from 'fs'
 
 // const stat: (a: string | Buffer) => TaskEither<NodeJS.ErrnoException, fs.Stats>

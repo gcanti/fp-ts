@@ -24,7 +24,7 @@ _.flow(A.snoc, A.head)
 // tupled
 //
 
-_.tupled(A.insertAt) // $ExpectType <A>(a: [number, A]) => (as: A[]) => Option<A[]>
+_.tupled(A.insertAt)([0, 'a']) // $ExpectType (as: string[]) => Option<string[]>
 
 //
 // untupled

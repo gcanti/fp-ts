@@ -1,4 +1,8 @@
 /**
+ * ```ts
+ * interface TaskEither<E, A> extends Task<Either<E, A>> {}
+ * ```
+ *
  * `TaskEither<E, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
  * error of type `E`. If you want to represent an asynchronous computation that never fails, please see `Task`.
  *
@@ -6,11 +10,11 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
-import { apComposition, Apply1 } from './Apply'
+import { Apply1 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { Filterable2C, getFilterableComposition } from './Filterable'
-import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
@@ -60,18 +64,6 @@ export const right: <E = never, A = never>(a: A) => TaskEither<E, A> =
  * @category constructors
  * @since 2.0.0
  */
-export const rightIO = <E = never, A = never>(ma: IO<A>): TaskEither<E, A> => rightTask(T.fromIO(ma))
-
-/**
- * @category constructors
- * @since 2.0.0
- */
-export const leftIO = <E = never, A = never>(me: IO<E>): TaskEither<E, A> => leftTask(T.fromIO(me))
-
-/**
- * @category constructors
- * @since 2.0.0
- */
 export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskEither<E, A> =
   /*#__PURE__*/
   T.map(E.right)
@@ -88,14 +80,31 @@ export const leftTask: <E = never, A = never>(me: Task<E>) => TaskEither<E, A> =
  * @category constructors
  * @since 2.0.0
  */
+export const rightIO: <E = never, A = never>(ma: IO<A>) => TaskEither<E, A> =
+  /*#__PURE__*/
+  flow(T.fromIO, rightTask)
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
+export const leftIO: <E = never, A = never>(me: IO<E>) => TaskEither<E, A> =
+  /*#__PURE__*/
+  flow(T.fromIO, leftTask)
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
 export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = T.fromIO
 
 /**
  * @category constructors
  * @since 2.0.0
  */
-export const fromEither: <E, A>(ma: E.Either<E, A>) => TaskEither<E, A> = (ma) =>
-  E.isLeft(ma) ? left(ma.left) : right(ma.right)
+export const fromEither: <E, A>(ma: E.Either<E, A>) => TaskEither<E, A> =
+  /*#__PURE__*/
+  E.fold(left, (a) => right(a))
 
 /**
  * @category constructors
@@ -119,8 +128,8 @@ export const fromPredicate: {
  * Note: `f` should never `throw` errors, they are not caught.
  *
  * @example
- * import { left, right } from 'fp-ts/lib/Either'
- * import { tryCatch } from 'fp-ts/lib/TaskEither'
+ * import { left, right } from 'fp-ts/Either'
+ * import { tryCatch } from 'fp-ts/TaskEither'
  *
  * tryCatch(() => Promise.resolve(1), String)().then(result => {
  *   assert.deepStrictEqual(result, right(1))
@@ -176,9 +185,9 @@ export const getOrElse: <E, A>(onLeft: (e: E) => Task<A>) => (ma: TaskEither<E, 
  * See also [alt](#alt).
  *
  * @example
- * import * as E from 'fp-ts/lib/Either'
- * import { pipe } from 'fp-ts/lib/function'
- * import * as TE from 'fp-ts/lib/TaskEither'
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ * import * as TE from 'fp-ts/TaskEither'
  *
  * async function test() {
  *   const errorHandler = TE.orElse((error: string) => TE.right(`recovering from ${error}...`))
@@ -210,11 +219,8 @@ export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> =
 export const filterOrElse: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (ma: TaskEither<E, A>) =>
-  pipe(
-    ma,
-    chain((a) => (predicate(a) ? right(a) : left(onFalse(a))))
-  )
+} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): ((ma: TaskEither<E, A>) => TaskEither<E, A>) =>
+  chain((a) => (predicate(a) ? right(a) : left(onFalse(a))))
 
 /**
  * Converts a function returning a `Promise` to one returning a `TaskEither`.
@@ -295,7 +301,12 @@ const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
 const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
 const apPar_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const apSeq_: Applicative2<URI>['ap'] = (fab, fa) => chain_(fab, (f) => map_(fa, f))
+const apSeq_: Applicative2<URI>['ap'] = (fab, fa) =>
+  pipe(
+    fab,
+    chain((f) => pipe(fa, map(f)))
+  )
+/* istanbul ignore next */
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
 const alt_: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
@@ -333,14 +344,24 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskEither<E, A>) => Tas
   T.map(E.mapLeft(f))
 
 /**
+ * Less strict version of [`ap`](#ap).
+ *
+ * @category Apply
+ * @since 2.8.0
+ */
+export const apW = <D, A>(fa: TaskEither<D, A>): (<E, B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<D | E, B>) =>
+  flow(
+    T.map((gab) => (ga: E.Either<D, A>) => E.apW(ga)(gab)),
+    T.ap(fa)
+  )
+
+/**
  * Apply a function to an argument under a type constructor.
  *
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B> =
-  /*#__PURE__*/
-  apComposition(T.ApplicativePar, E.Applicative)
+export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B> = apW
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -348,9 +369,8 @@ export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) =
  * @category Apply
  * @since 2.0.0
  */
-export const apFirst: <E, B>(fb: TaskEither<E, B>) => <A>(fa: TaskEither<E, A>) => TaskEither<E, A> = (fb) => (fa) =>
-  pipe(
-    fa,
+export const apFirst: <E, B>(fb: TaskEither<E, B>) => <A>(fa: TaskEither<E, A>) => TaskEither<E, A> = (fb) =>
+  flow(
     map((a) => () => a),
     ap(fb)
   )
@@ -361,9 +381,8 @@ export const apFirst: <E, B>(fb: TaskEither<E, B>) => <A>(fa: TaskEither<E, A>) 
  * @category Apply
  * @since 2.0.0
  */
-export const apSecond = <E, B>(fb: TaskEither<E, B>) => <A>(fa: TaskEither<E, A>): TaskEither<E, B> =>
-  pipe(
-    fa,
+export const apSecond = <E, B>(fb: TaskEither<E, B>): (<A>(fa: TaskEither<E, A>) => TaskEither<E, B>) =>
+  flow(
     map(() => (b: B) => b),
     ap(fb)
   )
@@ -429,9 +448,9 @@ export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither
  * See also [orElse](#orElse).
  *
  * @example
- * import * as E from 'fp-ts/lib/Either'
- * import { pipe } from 'fp-ts/lib/function'
- * import * as TE from 'fp-ts/lib/TaskEither'
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ * import * as TE from 'fp-ts/TaskEither'
  *
  * async function test() {
  *   assert.deepStrictEqual(
@@ -519,7 +538,7 @@ declare module './HKT' {
  * @since 2.0.0
  */
 export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>> {
-  return T.getSemigroup(E.getSemigroup<E, A>(S))
+  return T.getSemigroup(E.getSemigroup(S))
 }
 
 /**
@@ -530,7 +549,7 @@ export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>>
  * @since 2.0.0
  */
 export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>> {
-  return T.getSemigroup(E.getApplySemigroup<E, A>(S))
+  return T.getSemigroup(E.getApplySemigroup(S))
 }
 
 /**
@@ -549,7 +568,12 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>> {
  * @since 2.7.0
  */
 export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E> {
-  const ap = apComposition(A, E.getApplicativeValidation(SE))
+  const AV = E.getApplicativeValidation(SE)
+  const ap = <A>(fga: T.Task<E.Either<E, A>>) => <B>(fgab: T.Task<E.Either<E, (a: A) => B>>): T.Task<E.Either<E, B>> =>
+    A.ap(
+      A.map(fgab, (h) => (ga: E.Either<E, A>) => AV.ap(h, ga)),
+      fga
+    )
   return {
     URI,
     _E: undefined as any,
@@ -743,7 +767,7 @@ export const taskEitherSeq: typeof taskEither = {
  * ```
  *
  * @example
- * import { taskify } from 'fp-ts/lib/TaskEither'
+ * import { taskify } from 'fp-ts/TaskEither'
  * import * as fs from 'fs'
  *
  * // const stat: (a: string | Buffer) => TaskEither<NodeJS.ErrnoException, fs.Stats>
@@ -806,3 +830,59 @@ export const bracket = <E, A, B>(
       )
     )
   )
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const bindTo = <N extends string>(name: N): (<E, A>(fa: TaskEither<E, A>) => TaskEither<E, { [K in N]: A }>) =>
+  map(bindTo_(name))
+
+/**
+ * @since 2.8.0
+ */
+export const bindW = <N extends string, A, D, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => TaskEither<D, B>
+): (<E>(fa: TaskEither<E, A>) => TaskEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  chainW((a) =>
+    pipe(
+      f(a),
+      map((b) => bind_(a, name, b))
+    )
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const bind: <N extends string, A, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => TaskEither<E, B>
+) => (fa: TaskEither<E, A>) => TaskEither<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence S
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.8.0
+ */
+export const apSW = <A, N extends string, D, B>(
+  name: Exclude<N, keyof A>,
+  fb: TaskEither<D, B>
+): (<E>(fa: TaskEither<E, A>) => TaskEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  flow(
+    map((a) => (b: B) => bind_(a, name, b)),
+    apW(fb)
+  )
+
+/**
+ * @since 2.8.0
+ */
+export const apS: <A, N extends string, E, B>(
+  name: Exclude<N, keyof A>,
+  fb: TaskEither<E, B>
+) => (fa: TaskEither<E, A>) => TaskEither<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
