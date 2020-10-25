@@ -352,7 +352,14 @@ describe('Either', () => {
           // tslint:disable-next-line: no-string-throw
           throw 'string error'
         }, _.toError),
-        _.left(new Error('string error'))
+        _.left(new Error('"string error"'))
+      )
+
+      assert.deepStrictEqual(
+        _.tryCatch(() => {
+          throw { ECODE: 1 }
+        }, _.toError),
+        _.left(new Error('{"ECODE":1}'))
       )
     })
   })
