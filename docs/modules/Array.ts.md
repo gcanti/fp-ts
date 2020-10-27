@@ -20,13 +20,10 @@ Added in v2.0.0
   - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
 - [Extend](#extend)
-  - [duplicate](#duplicate)
   - [extend](#extend)
 - [Filterable](#filterable)
   - [filter](#filter)
@@ -52,8 +49,6 @@ Added in v2.0.0
   - [mapWithIndex](#mapwithindex)
 - [Monad](#monad)
   - [chain](#chain)
-  - [chainFirst](#chainfirst)
-  - [flatten](#flatten)
 - [Traversable](#traversable)
   - [sequence](#sequence)
   - [traverse](#traverse)
@@ -65,12 +60,17 @@ Added in v2.0.0
   - [wilt](#wilt)
   - [wither](#wither)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
   - [chop](#chop)
   - [copy](#copy)
   - [difference](#difference)
   - [dropLeft](#dropleft)
   - [dropLeftWhile](#dropleftwhile)
   - [dropRight](#dropright)
+  - [duplicate](#duplicate)
+  - [flatten](#flatten)
   - [intersection](#intersection)
   - [lefts](#lefts)
   - [reverse](#reverse)
@@ -213,30 +213,6 @@ export declare const ap: <A>(fa: A[]) => <B>(fab: ((a: A) => B)[]) => B[]
 
 Added in v2.0.0
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(fb: B[]) => <A>(fa: A[]) => A[]
-```
-
-Added in v2.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(fb: B[]) => <A>(fa: A[]) => B[]
-```
-
-Added in v2.0.0
-
 # Compactable
 
 ## compact
@@ -260,16 +236,6 @@ export declare const separate: <A, B>(fa: Either<A, B>[]) => Separated<A[], B[]>
 Added in v2.0.0
 
 # Extend
-
-## duplicate
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(wa: A[]) => A[][]
-```
-
-Added in v2.0.0
 
 ## extend
 
@@ -484,39 +450,6 @@ export declare const chain: <A, B>(f: (a: A) => B[]) => (ma: A[]) => B[]
 
 Added in v2.0.0
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => B[]) => (ma: A[]) => A[]
-```
-
-Added in v2.0.0
-
-## flatten
-
-Removes one level of nesting
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: A[][]) => A[]
-```
-
-**Example**
-
-```ts
-import { flatten } from 'fp-ts/Array'
-
-assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
-```
-
-Added in v2.0.0
-
 # Traversable
 
 ## sequence
@@ -586,6 +519,49 @@ export declare const wither: PipeableWither1<'Array'>
 Added in v2.6.5
 
 # combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(fb: B[]) => <A>(fa: A[]) => A[]
+```
+
+Added in v2.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(fb: B[]) => <A>(fa: A[]) => B[]
+```
+
+Added in v2.0.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => B[]) => (ma: A[]) => A[]
+```
+
+Added in v2.0.0
 
 ## chop
 
@@ -705,6 +681,40 @@ export declare const dropRight: (n: number) => <A>(as: A[]) => A[]
 import { dropRight } from 'fp-ts/Array'
 
 assert.deepStrictEqual(dropRight(2)([1, 2, 3, 4, 5]), [1, 2, 3])
+```
+
+Added in v2.0.0
+
+## duplicate
+
+Derivable from `Extend`.
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(wa: A[]) => A[][]
+```
+
+Added in v2.0.0
+
+## flatten
+
+Removes one level of nesting.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: A[][]) => A[]
+```
+
+**Example**
+
+```ts
+import { flatten } from 'fp-ts/Array'
+
+assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
 ```
 
 Added in v2.0.0

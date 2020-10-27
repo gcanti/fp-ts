@@ -378,7 +378,9 @@ export const ap: <A>(fa: NonEmptyArray<A>) => <B>(fab: NonEmptyArray<(a: A) => B
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category Apply
+ * Derivable from `Apply`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const apFirst: <B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.apFirst as any
@@ -386,7 +388,9 @@ export const apFirst: <B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => 
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category Apply
+ * Derivable from `Apply`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const apSecond: <B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<B> = RNEA.apSecond as any
@@ -405,7 +409,9 @@ export const chain: <A, B>(
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const chainFirst: <A, B>(
@@ -413,7 +419,9 @@ export const chainFirst: <A, B>(
 ) => (ma: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.chainFirst as any
 
 /**
- * @category Extend
+ * Derivable from `Extend`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const duplicate: <A>(ma: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>> = RNEA.duplicate as any
@@ -427,7 +435,9 @@ export const extend: <A, B>(
 ) => (ma: NonEmptyArray<A>) => NonEmptyArray<B> = RNEA.extend as any
 
 /**
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const flatten: <A>(mma: NonEmptyArray<NonEmptyArray<A>>) => NonEmptyArray<A> = RNEA.flatten as any

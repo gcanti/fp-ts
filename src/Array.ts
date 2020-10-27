@@ -136,14 +136,16 @@ export const range: (start: number, end: number) => Array<number> = RA.range as 
 export const replicate: <A>(n: number, a: A) => Array<A> = RA.replicate as any
 
 /**
- * Removes one level of nesting
+ * Removes one level of nesting.
+ *
+ * Derivable from `Monad`.
  *
  * @example
  * import { flatten } from 'fp-ts/Array'
  *
  * assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
  *
- * @category Monad
+ * @category combinators
  * @since 2.0.0
  */
 export const flatten: <A>(mma: Array<Array<A>>) => Array<A> = RA.flatten as any
@@ -1035,7 +1037,9 @@ export const ap: <A>(fa: Array<A>) => <B>(fab: Array<(a: A) => B>) => Array<B> =
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category Apply
+ * Derivable from `Apply`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const apFirst: <B>(fb: Array<B>) => <A>(fa: Array<A>) => Array<A> = RA.apFirst as any
@@ -1043,7 +1047,9 @@ export const apFirst: <B>(fb: Array<B>) => <A>(fa: Array<A>) => Array<A> = RA.ap
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category Apply
+ * Derivable from `Apply`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const apSecond: <B>(fb: Array<B>) => <A>(fa: Array<A>) => Array<B> = RA.apSecond as any
@@ -1067,7 +1073,9 @@ export const chainWithIndex: <A, B>(
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => Array<B>) => (ma: Array<A>) => Array<A> = RA.chainFirst as any
@@ -1174,7 +1182,9 @@ export const filterWithIndex: {
 export const extend: <A, B>(f: (fa: Array<A>) => B) => (wa: Array<A>) => Array<B> = RA.extend as any
 
 /**
- * @category Extend
+ * Derivable from `Extend`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const duplicate: <A>(wa: Array<A>) => Array<Array<A>> = RA.duplicate as any

@@ -113,7 +113,9 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G] = RT.m
 export const compose: <A, B>(ab: [B, A]) => <C>(bc: [C, B]) => [C, A] = RT.compose as any
 
 /**
- * @category Extend
+ * Derivable from `Extend`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const duplicate: <E, A>(wa: [A, E]) => [[A, E], E] = RT.duplicate as any

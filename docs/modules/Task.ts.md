@@ -25,19 +25,19 @@ Added in v2.0.0
   - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
-  - [chainFirst](#chainfirst)
-  - [flatten](#flatten)
 - [MonadTask](#monadtask)
   - [fromTask](#fromtask)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
   - [chainIOK](#chainiok)
   - [delay](#delay)
+  - [flatten](#flatten)
   - [fromIOK](#fromiok)
 - [constructors](#constructors)
   - [fromIO](#fromio)
@@ -90,30 +90,6 @@ export declare const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task
 
 Added in v2.0.0
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<A>
-```
-
-Added in v2.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<B>
-```
-
-Added in v2.0.0
-
 # Functor
 
 ## map
@@ -143,29 +119,6 @@ export declare const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Tas
 
 Added in v2.0.0
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<A>
-```
-
-Added in v2.0.0
-
-## flatten
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: Task<Task<A>>) => Task<A>
-```
-
-Added in v2.0.0
-
 # MonadTask
 
 ## fromTask
@@ -179,6 +132,49 @@ export declare const fromTask: <A>(fa: Task<A>) => Task<A>
 Added in v2.7.0
 
 # combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<A>
+```
+
+Added in v2.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<B>
+```
+
+Added in v2.0.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<A>
+```
+
+Added in v2.0.0
 
 ## chainIOK
 
@@ -221,6 +217,18 @@ async function test() {
 }
 
 test()
+```
+
+Added in v2.0.0
+
+## flatten
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: Task<Task<A>>) => Task<A>
 ```
 
 Added in v2.0.0

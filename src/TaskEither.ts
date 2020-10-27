@@ -374,7 +374,9 @@ export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) =
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category Apply
+ * Derivable from `Apply`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const apFirst: <E, B>(fb: TaskEither<E, B>) => <A>(fa: TaskEither<E, A>) => TaskEither<E, A> = (fb) =>
@@ -386,7 +388,9 @@ export const apFirst: <E, B>(fb: TaskEither<E, B>) => <A>(fa: TaskEither<E, A>) 
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category Apply
+ * Derivable from `Apply`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const apSecond = <E, B>(fb: TaskEither<E, B>): (<A>(fa: TaskEither<E, A>) => TaskEither<E, B>) =>
@@ -415,7 +419,9 @@ export const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<
 /**
  * Less strict version of [`chainFirst`](#chainFirst).
  *
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.8.0
  */
 export const chainFirstW: <E, A, B>(
@@ -432,7 +438,9 @@ export const chainFirstW: <E, A, B>(
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const chainFirst: <E, A, B>(
@@ -440,7 +448,9 @@ export const chainFirst: <E, A, B>(
 ) => (ma: TaskEither<E, A>) => TaskEither<E, A> = chainFirstW
 
 /**
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither<E, A> =
@@ -820,6 +830,8 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
  * whether the body action throws (\*) or returns.
  *
  * (\*) i.e. returns a `Left`
+ *
+ * Derivable from `MonadThrow`.
  *
  * @since 2.0.0
  */

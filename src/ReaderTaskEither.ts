@@ -438,7 +438,9 @@ export const ap: <R, E, A>(
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category Apply
+ * Derivable from `Apply`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const apFirst: <R, E, B>(
@@ -452,7 +454,9 @@ export const apFirst: <R, E, B>(
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category Apply
+ * Derivable from `Apply`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const apSecond = <R, E, B>(
@@ -500,7 +504,9 @@ export const chain: <R, E, A, B>(
 /**
  * Less strict version of [`chainFirst`](#chainFirst).
  *
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.8.0
  */
 export const chainFirstW: <R, E, A, B>(
@@ -517,7 +523,9 @@ export const chainFirstW: <R, E, A, B>(
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const chainFirst: <R, E, A, B>(
@@ -525,7 +533,9 @@ export const chainFirst: <R, E, A, B>(
 ) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = chainFirstW
 
 /**
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const flatten: <R, E, A>(mma: ReaderTaskEither<R, E, ReaderTaskEither<R, E, A>>) => ReaderTaskEither<R, E, A> =
@@ -791,6 +801,8 @@ export function run<R, E, A>(ma: ReaderTaskEither<R, E, A>, r: R): Promise<Eithe
  * whether the body action throws (\*) or returns.
  *
  * (\*) i.e. returns a `Left`
+ *
+ * Derivable from `MonadThrow`.
  *
  * @since 2.0.4
  */

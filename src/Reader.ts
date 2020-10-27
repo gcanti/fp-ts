@@ -111,7 +111,9 @@ export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) =>
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category Apply
+ * Derivable from `Apply`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const apFirst: <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>) => Reader<R, A> = (fb) =>
@@ -123,7 +125,9 @@ export const apFirst: <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>) => Reade
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category Apply
+ * Derivable from `Apply`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const apSecond = <R, B>(fb: Reader<R, B>): (<A>(fa: Reader<R, A>) => Reader<R, B>) =>
@@ -162,7 +166,9 @@ export const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) =
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, A> = (f) =>
@@ -174,7 +180,9 @@ export const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, 
   )
 
 /**
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> =

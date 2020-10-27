@@ -20,10 +20,7 @@ Added in v2.5.0
   - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
 - [Extend](#extend)
-  - [duplicate](#duplicate)
   - [extend](#extend)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
@@ -39,9 +36,12 @@ Added in v2.5.0
   - [mapWithIndex](#mapwithindex)
 - [Monad](#monad)
   - [chain](#chain)
-  - [chainFirst](#chainfirst)
-  - [flatten](#flatten)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
+  - [duplicate](#duplicate)
+  - [flatten](#flatten)
   - [group](#group)
   - [groupSort](#groupsort)
   - [reverse](#reverse)
@@ -143,45 +143,7 @@ export declare const ap: <A>(
 
 Added in v2.5.0
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(
-  fb: ReadonlyNonEmptyArray<B>
-) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
-```
-
-Added in v2.5.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(
-  fb: ReadonlyNonEmptyArray<B>
-) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
-```
-
-Added in v2.5.0
-
 # Extend
-
-## duplicate
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
-```
-
-Added in v2.5.0
 
 ## extend
 
@@ -312,10 +274,46 @@ export declare const chain: <A, B>(
 
 Added in v2.5.0
 
+# combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(
+  fb: ReadonlyNonEmptyArray<B>
+) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.5.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(
+  fb: ReadonlyNonEmptyArray<B>
+) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+```
+
+Added in v2.5.0
+
 ## chainFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
+
+Derivable from `Monad`.
 
 **Signature**
 
@@ -327,7 +325,21 @@ export declare const chainFirst: <A, B>(
 
 Added in v2.5.0
 
+## duplicate
+
+Derivable from `Extend`.
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.5.0
+
 ## flatten
+
+Derivable from `Monad`.
 
 **Signature**
 
@@ -336,8 +348,6 @@ export declare const flatten: <A>(mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArr
 ```
 
 Added in v2.5.0
-
-# combinators
 
 ## group
 

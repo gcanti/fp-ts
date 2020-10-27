@@ -223,7 +223,9 @@ export const extend: <E, A, B>(f: (wa: readonly [A, E]) => B) => (wa: readonly [
 export const extract: <E, A>(wa: readonly [A, E]) => A = fst
 
 /**
- * @category Extend
+ * Derivable from `Extend`.
+ *
+ * @category combinators
  * @since 2.5.0
  */
 export const duplicate: <E, A>(wa: readonly [A, E]) => readonly [readonly [A, E], E] =

@@ -76,7 +76,9 @@ export const ap: <A>(fa: Identity<A>) => <B>(fab: Identity<(a: A) => B>) => Iden
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category Apply
+ * Derivable from `Apply`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const apFirst: <B>(fb: Identity<B>) => <A>(fa: Identity<A>) => Identity<A> = (fb) =>
@@ -88,7 +90,9 @@ export const apFirst: <B>(fb: Identity<B>) => <A>(fa: Identity<A>) => Identity<A
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category Apply
+ * Derivable from `Apply`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const apSecond = <B>(fb: Identity<B>): (<A>(fa: Identity<A>) => Identity<B>) =>
@@ -117,7 +121,9 @@ export const chain: <A, B>(f: (a: A) => Identity<B>) => (ma: Identity<A>) => Ide
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => Identity<B>) => (ma: Identity<A>) => Identity<A> = (f) =>
@@ -141,7 +147,9 @@ export const extend: <A, B>(f: (wa: Identity<A>) => B) => (wa: Identity<A>) => I
 export const extract: <A>(wa: Identity<A>) => A = id
 
 /**
- * @category Extend
+ * Derivable from `Extend`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> =
@@ -149,7 +157,9 @@ export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> =
   extend(id)
 
 /**
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> =

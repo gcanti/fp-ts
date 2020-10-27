@@ -16,7 +16,6 @@ Added in v2.0.0
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
 - [Extend](#extend)
-  - [duplicate](#duplicate)
   - [extend](#extend)
 - [Extract](#extract)
   - [extract](#extract)
@@ -29,6 +28,7 @@ Added in v2.0.0
 - [Semigroupoid](#semigroupoid)
   - [compose](#compose)
 - [combinators](#combinators)
+  - [duplicate](#duplicate)
   - [swap](#swap)
 - [destructors](#destructors)
   - [fst](#fst)
@@ -81,16 +81,6 @@ export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G
 Added in v2.0.0
 
 # Extend
-
-## duplicate
-
-**Signature**
-
-```ts
-export declare const duplicate: <E, A>(wa: [A, E]) => [[A, E], E]
-```
-
-Added in v2.0.0
 
 ## extend
 
@@ -174,6 +164,18 @@ export declare const compose: <A, B>(ab: [B, A]) => <C>(bc: [C, B]) => [C, A]
 Added in v2.0.0
 
 # combinators
+
+## duplicate
+
+Derivable from `Extend`.
+
+**Signature**
+
+```ts
+export declare const duplicate: <E, A>(wa: [A, E]) => [[A, E], E]
+```
+
+Added in v2.0.0
 
 ## swap
 

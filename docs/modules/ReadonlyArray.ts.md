@@ -20,13 +20,10 @@ Added in v2.5.0
   - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
 - [Extend](#extend)
-  - [duplicate](#duplicate)
   - [extend](#extend)
 - [Filterable](#filterable)
   - [filter](#filter)
@@ -52,8 +49,6 @@ Added in v2.5.0
   - [mapWithIndex](#mapwithindex)
 - [Monad](#monad)
   - [chain](#chain)
-  - [chainFirst](#chainfirst)
-  - [flatten](#flatten)
 - [Traversable](#traversable)
   - [sequence](#sequence)
   - [traverse](#traverse)
@@ -65,11 +60,16 @@ Added in v2.5.0
   - [wilt](#wilt)
   - [wither](#wither)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
   - [chop](#chop)
   - [difference](#difference)
   - [dropLeft](#dropleft)
   - [dropLeftWhile](#dropleftwhile)
   - [dropRight](#dropright)
+  - [duplicate](#duplicate)
+  - [flatten](#flatten)
   - [intersection](#intersection)
   - [reverse](#reverse)
   - [rights](#rights)
@@ -215,30 +215,6 @@ export declare const ap: <A>(fa: readonly A[]) => <B>(fab: readonly ((a: A) => B
 
 Added in v2.5.0
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(fb: readonly B[]) => <A>(fa: readonly A[]) => readonly A[]
-```
-
-Added in v2.5.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(fb: readonly B[]) => <A>(fa: readonly A[]) => readonly B[]
-```
-
-Added in v2.5.0
-
 # Compactable
 
 ## compact
@@ -262,16 +238,6 @@ export declare const separate: <A, B>(fa: readonly Either<A, B>[]) => Separated<
 Added in v2.5.0
 
 # Extend
-
-## duplicate
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(wa: readonly A[]) => readonly (readonly A[])[]
-```
-
-Added in v2.5.0
 
 ## extend
 
@@ -490,39 +456,6 @@ export declare const chain: <A, B>(f: (a: A) => readonly B[]) => (ma: readonly A
 
 Added in v2.5.0
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => readonly B[]) => (ma: readonly A[]) => readonly A[]
-```
-
-Added in v2.5.0
-
-## flatten
-
-Removes one level of nesting
-
-**Signature**
-
-```ts
-export declare function flatten<A>(mma: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<A>
-```
-
-**Example**
-
-```ts
-import { flatten } from 'fp-ts/ReadonlyArray'
-
-assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
-```
-
-Added in v2.5.0
-
 # Traversable
 
 ## sequence
@@ -592,6 +525,49 @@ export declare const wither: PipeableWither1<'ReadonlyArray'>
 Added in v2.6.5
 
 # combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(fb: readonly B[]) => <A>(fa: readonly A[]) => readonly A[]
+```
+
+Added in v2.5.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(fb: readonly B[]) => <A>(fa: readonly A[]) => readonly B[]
+```
+
+Added in v2.5.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => readonly B[]) => (ma: readonly A[]) => readonly A[]
+```
+
+Added in v2.5.0
 
 ## chop
 
@@ -708,6 +684,40 @@ export declare function dropRight(n: number): <A>(as: ReadonlyArray<A>) => Reado
 import { dropRight } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(dropRight(2)([1, 2, 3, 4, 5]), [1, 2, 3])
+```
+
+Added in v2.5.0
+
+## duplicate
+
+Derivable from `Extend`.
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(wa: readonly A[]) => readonly (readonly A[])[]
+```
+
+Added in v2.5.0
+
+## flatten
+
+Removes one level of nesting
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare function flatten<A>(mma: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<A>
+```
+
+**Example**
+
+```ts
+import { flatten } from 'fp-ts/ReadonlyArray'
+
+assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
 ```
 
 Added in v2.5.0

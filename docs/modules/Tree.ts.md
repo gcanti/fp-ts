@@ -22,10 +22,7 @@ Added in v2.0.0
   - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
 - [Extend](#extend)
-  - [duplicate](#duplicate)
   - [extend](#extend)
 - [Extract](#extract)
   - [extract](#extract)
@@ -37,7 +34,11 @@ Added in v2.0.0
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
+- [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [duplicate](#duplicate)
   - [flatten](#flatten)
 - [constructors](#constructors)
   - [make](#make)
@@ -102,41 +103,7 @@ export declare const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree
 
 Added in v2.0.0
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<A>
-```
-
-Added in v2.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<B>
-```
-
-Added in v2.0.0
-
 # Extend
-
-## duplicate
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>>
-```
-
-Added in v2.0.0
 
 ## extend
 
@@ -221,10 +188,42 @@ export declare const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tre
 
 Added in v2.0.0
 
+# combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<A>
+```
+
+Added in v2.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<B>
+```
+
+Added in v2.0.0
+
 ## chainFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
+
+Derivable from `Monad`.
 
 **Signature**
 
@@ -234,7 +233,21 @@ export declare const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) =
 
 Added in v2.0.0
 
+## duplicate
+
+Derivable from `Extend`.
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>>
+```
+
+Added in v2.0.0
+
 ## flatten
+
+Derivable from `Monad`.
 
 **Signature**
 

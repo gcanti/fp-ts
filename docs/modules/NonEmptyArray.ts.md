@@ -20,10 +20,7 @@ Added in v2.0.0
   - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
 - [Extend](#extend)
-  - [duplicate](#duplicate)
   - [extend](#extend)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
@@ -39,11 +36,14 @@ Added in v2.0.0
   - [mapWithIndex](#mapwithindex)
 - [Monad](#monad)
   - [chain](#chain)
-  - [chainFirst](#chainfirst)
-  - [flatten](#flatten)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
   - [copy](#copy)
+  - [duplicate](#duplicate)
   - [filter](#filter)
+  - [flatten](#flatten)
   - [group](#group)
   - [groupSort](#groupsort)
   - [reverse](#reverse)
@@ -141,41 +141,7 @@ export declare const ap: <A>(fa: NonEmptyArray<A>) => <B>(fab: NonEmptyArray<(a:
 
 Added in v2.0.0
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<A>
-```
-
-Added in v2.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<B>
-```
-
-Added in v2.0.0
-
 # Extend
-
-## duplicate
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(ma: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>>
-```
-
-Added in v2.0.0
 
 ## extend
 
@@ -294,10 +260,42 @@ export declare const chain: <A, B>(f: (a: A) => NonEmptyArray<B>) => (ma: NonEmp
 
 Added in v2.0.0
 
+# combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+Added in v2.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<B>
+```
+
+Added in v2.0.0
+
 ## chainFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
+
+Derivable from `Monad`.
 
 **Signature**
 
@@ -307,24 +305,24 @@ export declare const chainFirst: <A, B>(f: (a: A) => NonEmptyArray<B>) => (ma: N
 
 Added in v2.0.0
 
-## flatten
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: NonEmptyArray<NonEmptyArray<A>>) => NonEmptyArray<A>
-```
-
-Added in v2.0.0
-
-# combinators
-
 ## copy
 
 **Signature**
 
 ```ts
 export declare function copy<A>(nea: NonEmptyArray<A>): NonEmptyArray<A>
+```
+
+Added in v2.0.0
+
+## duplicate
+
+Derivable from `Extend`.
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(ma: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>>
 ```
 
 Added in v2.0.0
@@ -338,6 +336,18 @@ export declare function filter<A, B extends A>(
   refinement: Refinement<A, B>
 ): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
 export declare function filter<A>(predicate: Predicate<A>): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+```
+
+Added in v2.0.0
+
+## flatten
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: NonEmptyArray<NonEmptyArray<A>>) => NonEmptyArray<A>
 ```
 
 Added in v2.0.0

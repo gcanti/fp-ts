@@ -300,7 +300,9 @@ export const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = (f
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category Apply
+ * Derivable from `Apply`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const apFirst: <B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<A> = (fb) =>
@@ -312,7 +314,9 @@ export const apFirst: <B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<A> = (fb) =>
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category Apply
+ * Derivable from `Apply`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const apSecond = <B>(fb: Tree<B>): (<A>(fa: Tree<A>) => Tree<B>) =>
@@ -340,7 +344,9 @@ export const chain = <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>): Tree<B> => {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<A> = (f) =>
@@ -361,7 +367,9 @@ export const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B> =
 })
 
 /**
- * @category Extend
+ * Derivable from `Extend`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>> =
@@ -369,7 +377,9 @@ export const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>> =
   extend(identity)
 
 /**
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A> =

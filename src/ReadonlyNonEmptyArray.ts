@@ -443,7 +443,9 @@ export const ap: <A>(
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category Apply
+ * Derivable from `Apply`.
+ *
+ * @category combinators
  * @since 2.5.0
  */
 export const apFirst: <B>(
@@ -453,7 +455,9 @@ export const apFirst: <B>(
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category Apply
+ * Derivable from `Apply`.
+ *
+ * @category combinators
  * @since 2.5.0
  */
 export const apSecond: <B>(
@@ -474,7 +478,9 @@ export const chain: <A, B>(
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.5.0
  */
 export const chainFirst: <A, B>(
@@ -482,7 +488,9 @@ export const chainFirst: <A, B>(
 ) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.chainFirst as any
 
 /**
- * @category Extend
+ * Derivable from `Extend`.
+ *
+ * @category combinators
  * @since 2.5.0
  */
 export const duplicate: <A>(
@@ -498,7 +506,9 @@ export const extend: <A, B>(
 ) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = RA.extend as any
 
 /**
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.5.0
  */
 export const flatten: <A>(
