@@ -18,8 +18,6 @@ Added in v2.0.0
   - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
   - [apW](#apw)
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
@@ -28,16 +26,18 @@ Added in v2.0.0
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
-  - [chainFirst](#chainfirst)
-  - [chainFirstW](#chainfirstw)
   - [chainW](#chainw)
-  - [flatten](#flatten)
 - [MonadThrow](#monadthrow)
   - [throwError](#throwerror)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
+  - [chainFirst](#chainfirst)
+  - [chainFirstW](#chainfirstw)
   - [filterOrElse](#filterorelse)
+  - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [local](#local)
   - [orElse](#orelse)
@@ -132,34 +132,6 @@ export declare const ap: <R, E, A>(
 
 Added in v2.0.0
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <R, E, B>(
-  fb: ReaderEither<R, E, B>
-) => <A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
-```
-
-Added in v2.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <R, E, B>(
-  fb: ReaderEither<R, E, B>
-) => <A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
-```
-
-Added in v2.0.0
-
 ## apW
 
 Less strict version of [`ap`](#ap).
@@ -234,35 +206,6 @@ export declare const chain: <R, E, A, B>(
 
 Added in v2.0.0
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <R, E, A, B>(
-  f: (a: A) => ReaderEither<R, E, B>
-) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
-```
-
-Added in v2.0.0
-
-## chainFirstW
-
-Less strict version of [`chainFirst`](#chainFirst)
-
-**Signature**
-
-```ts
-export declare const chainFirstW: <R, D, A, B>(
-  f: (a: A) => ReaderEither<R, D, B>
-) => <Q, E>(ma: ReaderEither<Q, E, A>) => ReaderEither<Q & R, D | E, A>
-```
-
-Added in v2.8.0
-
 ## chainW
 
 Less strict version of [`chain`](#chain).
@@ -277,16 +220,6 @@ export declare const chainW: <R, E, A, B>(
 
 Added in v2.6.0
 
-## flatten
-
-**Signature**
-
-```ts
-export declare const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) => ReaderEither<R, E, A>
-```
-
-Added in v2.0.0
-
 # MonadThrow
 
 ## throwError
@@ -300,6 +233,38 @@ export declare const throwError: <R, E, A>(e: E) => ReaderEither<R, E, A>
 Added in v2.7.0
 
 # combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <R, E, B>(
+  fb: ReaderEither<R, E, B>
+) => <A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+```
+
+Added in v2.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <R, E, B>(
+  fb: ReaderEither<R, E, B>
+) => <A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+```
+
+Added in v2.0.0
 
 ## chainEitherK
 
@@ -327,6 +292,39 @@ export declare const chainEitherKW: <E, A, B>(
 
 Added in v2.6.1
 
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <R, E, A, B>(
+  f: (a: A) => ReaderEither<R, E, B>
+) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+```
+
+Added in v2.0.0
+
+## chainFirstW
+
+Less strict version of [`chainFirst`](#chainFirst)
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <R, D, A, B>(
+  f: (a: A) => ReaderEither<R, D, B>
+) => <Q, E>(ma: ReaderEither<Q, E, A>) => ReaderEither<Q & R, D | E, A>
+```
+
+Added in v2.8.0
+
 ## filterOrElse
 
 Derivable from `MonadThrow`.
@@ -340,6 +338,18 @@ export declare const filterOrElse: {
   ) => ReaderEither<R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 }
+```
+
+Added in v2.0.0
+
+## flatten
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0

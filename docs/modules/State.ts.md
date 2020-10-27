@@ -16,12 +16,13 @@ Added in v2.0.0
   - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
+- [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
 - [constructors](#constructors)
@@ -77,30 +78,6 @@ export declare const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => 
 
 Added in v2.0.0
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, A>
-```
-
-Added in v2.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, B>
-```
-
-Added in v2.0.0
-
 # Functor
 
 ## map
@@ -130,10 +107,42 @@ export declare const chain: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E,
 
 Added in v2.0.0
 
+# combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, A>
+```
+
+Added in v2.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, B>
+```
+
+Added in v2.0.0
+
 ## chainFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
+
+Derivable from `Monad`.
 
 **Signature**
 
@@ -144,6 +153,8 @@ export declare const chainFirst: <E, A, B>(f: (a: A) => State<E, B>) => (ma: Sta
 Added in v2.0.0
 
 ## flatten
+
+Derivable from `Monad`.
 
 **Signature**
 

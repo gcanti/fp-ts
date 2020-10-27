@@ -18,10 +18,7 @@ Added in v2.0.0
   - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
 - [Extend](#extend)
-  - [duplicate](#duplicate)
   - [extend](#extend)
 - [Extract](#extract)
   - [extract](#extract)
@@ -33,7 +30,11 @@ Added in v2.0.0
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
+- [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [duplicate](#duplicate)
   - [flatten](#flatten)
 - [instances](#instances)
   - [Alt](#alt-1)
@@ -103,41 +104,7 @@ export declare const ap: <A>(fa: A) => <B>(fab: (a: A) => B) => B
 
 Added in v2.0.0
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(fb: B) => <A>(fa: A) => A
-```
-
-Added in v2.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(fb: B) => <A>(fa: A) => B
-```
-
-Added in v2.0.0
-
 # Extend
-
-## duplicate
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(ma: A) => A
-```
-
-Added in v2.0.0
 
 ## extend
 
@@ -222,10 +189,42 @@ export declare const chain: <A, B>(f: (a: A) => B) => (ma: A) => B
 
 Added in v2.0.0
 
+# combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(fb: B) => <A>(fa: A) => A
+```
+
+Added in v2.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(fb: B) => <A>(fa: A) => B
+```
+
+Added in v2.0.0
+
 ## chainFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
+
+Derivable from `Monad`.
 
 **Signature**
 
@@ -235,7 +234,21 @@ export declare const chainFirst: <A, B>(f: (a: A) => B) => (ma: A) => A
 
 Added in v2.0.0
 
+## duplicate
+
+Derivable from `Extend`.
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(ma: A) => A
+```
+
+Added in v2.0.0
+
 ## flatten
+
+Derivable from `Monad`.
 
 **Signature**
 

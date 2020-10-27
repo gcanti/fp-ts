@@ -30,14 +30,11 @@ Added in v2.0.0
   - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
   - [apW](#apw)
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
 - [Extend](#extend)
-  - [duplicate](#duplicate)
   - [extend](#extend)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
@@ -47,17 +44,20 @@ Added in v2.0.0
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
-  - [chainFirst](#chainfirst)
-  - [chainFirstW](#chainfirstw)
   - [chainW](#chainw)
-  - [flatten](#flatten)
 - [MonadThrow](#monadthrow)
   - [throwError](#throwerror)
 - [Traversable](#traversable)
   - [sequence](#sequence)
   - [traverse](#traverse)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
+  - [chainFirstW](#chainfirstw)
+  - [duplicate](#duplicate)
   - [filterOrElse](#filterorelse)
+  - [flatten](#flatten)
   - [orElse](#orelse)
   - [swap](#swap)
 - [constructors](#constructors)
@@ -174,30 +174,6 @@ export declare const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) =
 
 Added in v2.0.0
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, A>
-```
-
-Added in v2.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, B>
-```
-
-Added in v2.0.0
-
 ## apW
 
 Less strict version of [`ap`](#ap).
@@ -237,16 +213,6 @@ export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) =>
 Added in v2.0.0
 
 # Extend
-
-## duplicate
-
-**Signature**
-
-```ts
-export declare const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>>
-```
-
-Added in v2.0.0
 
 ## extend
 
@@ -367,31 +333,6 @@ export declare const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<
 
 Added in v2.0.0
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A>
-```
-
-Added in v2.0.0
-
-## chainFirstW
-
-Less strict version of [`chainFirst`](#chainFirst)
-
-**Signature**
-
-```ts
-export declare const chainFirstW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>) => Either<D | E, A>
-```
-
-Added in v2.8.0
-
 ## chainW
 
 Less strict version of [`chain`](#chain).
@@ -403,28 +344,6 @@ export declare const chainW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Eit
 ```
 
 Added in v2.6.0
-
-## flatten
-
-The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
-
-**Signature**
-
-```ts
-export declare const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-
-assert.deepStrictEqual(E.flatten(E.right(E.right('a'))), E.right('a'))
-assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
-assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
-```
-
-Added in v2.0.0
 
 # MonadThrow
 
@@ -491,6 +410,75 @@ Added in v2.6.3
 
 # combinators
 
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, A>
+```
+
+Added in v2.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, B>
+```
+
+Added in v2.0.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A>
+```
+
+Added in v2.0.0
+
+## chainFirstW
+
+Less strict version of [`chainFirst`](#chainFirst)
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>) => Either<D | E, A>
+```
+
+Added in v2.8.0
+
+## duplicate
+
+Derivable from `Extend`.
+
+**Signature**
+
+```ts
+export declare const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>>
+```
+
+Added in v2.0.0
+
 ## filterOrElse
 
 Derivable from `MonadThrow`.
@@ -502,6 +490,30 @@ export declare const filterOrElse: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
 }
+```
+
+Added in v2.0.0
+
+## flatten
+
+The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+
+assert.deepStrictEqual(E.flatten(E.right(E.right('a'))), E.right('a'))
+assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
+assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
 ```
 
 Added in v2.0.0

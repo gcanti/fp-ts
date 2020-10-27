@@ -289,7 +289,9 @@ export const ap: <R, E, A>(
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category Apply
+ * Derivable from `Apply`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const apFirst: <R, E, B>(
@@ -303,7 +305,9 @@ export const apFirst: <R, E, B>(
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category Apply
+ * Derivable from `Apply`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const apSecond = <R, E, B>(
@@ -347,7 +351,9 @@ export const chain: <R, E, A, B>(
 /**
  * Less strict version of [`chainFirst`](#chainFirst)
  *
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.8.0
  */
 export const chainFirstW: <R, D, A, B>(
@@ -364,7 +370,9 @@ export const chainFirstW: <R, D, A, B>(
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const chainFirst: <R, E, A, B>(
@@ -372,7 +380,9 @@ export const chainFirst: <R, E, A, B>(
 ) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = chainFirstW
 
 /**
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) => ReaderEither<R, E, A> =

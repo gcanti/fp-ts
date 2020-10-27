@@ -31,13 +31,10 @@ Added in v2.0.0
   - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
 - [Extend](#extend)
-  - [duplicate](#duplicate)
   - [extend](#extend)
 - [Filterable](#filterable)
   - [filter](#filter)
@@ -52,8 +49,6 @@ Added in v2.0.0
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
-  - [chainFirst](#chainfirst)
-  - [flatten](#flatten)
 - [MonadThrow](#monadthrow)
   - [throwError](#throwerror)
 - [Traversable](#traversable)
@@ -63,6 +58,11 @@ Added in v2.0.0
   - [wilt](#wilt)
   - [wither](#wither)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
+  - [duplicate](#duplicate)
+  - [flatten](#flatten)
   - [mapNullable](#mapnullable)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
@@ -199,30 +199,6 @@ export declare const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => 
 
 Added in v2.0.0
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<A>
-```
-
-Added in v2.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<B>
-```
-
-Added in v2.0.0
-
 # Compactable
 
 ## compact
@@ -246,16 +222,6 @@ export declare const separate: <A, B>(ma: Option<Either<A, B>>) => Separated<Opt
 Added in v2.0.0
 
 # Extend
-
-## duplicate
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(ma: Option<A>) => Option<Option<A>>
-```
-
-Added in v2.0.0
 
 ## extend
 
@@ -378,29 +344,6 @@ export declare const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) =>
 
 Added in v2.0.0
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<A>
-```
-
-Added in v2.0.0
-
-## flatten
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
-```
-
-Added in v2.0.0
-
 # MonadThrow
 
 ## throwError
@@ -458,6 +401,73 @@ export declare const wither: PipeableWither1<'Option'>
 Added in v2.6.5
 
 # combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<A>
+```
+
+Added in v2.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<B>
+```
+
+Added in v2.0.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<A>
+```
+
+Added in v2.0.0
+
+## duplicate
+
+Derivable from `Extend`.
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(ma: Option<A>) => Option<Option<A>>
+```
+
+Added in v2.0.0
+
+## flatten
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
+```
+
+Added in v2.0.0
 
 ## mapNullable
 

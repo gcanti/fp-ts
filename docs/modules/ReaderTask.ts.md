@@ -16,19 +16,19 @@ Added in v2.3.0
   - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
   - [apW](#apw)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
-  - [chainFirst](#chainfirst)
   - [chainW](#chainw)
-  - [flatten](#flatten)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
   - [chainIOK](#chainiok)
   - [chainTaskK](#chaintaskk)
+  - [flatten](#flatten)
   - [fromIOK](#fromiok)
   - [fromTaskK](#fromtaskk)
   - [local](#local)
@@ -88,30 +88,6 @@ export declare const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, 
 
 Added in v2.3.0
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v2.3.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask<R, A>) => ReaderTask<R, B>
-```
-
-Added in v2.3.0
-
 ## apW
 
 Less strict version of [`ap`](#ap).
@@ -155,19 +131,6 @@ export declare const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: Rea
 
 Added in v2.3.0
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v2.3.0
-
 ## chainW
 
 Less strict version of [`chain`](#chain).
@@ -182,17 +145,50 @@ export declare const chainW: <R, A, B>(
 
 Added in v2.6.7
 
-## flatten
+# combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
 
 **Signature**
 
 ```ts
-export declare const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => ReaderTask<R, A>
+export declare const apFirst: <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
 
-# combinators
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <R, B>(fb: ReaderTask<R, B>) => <A>(fa: ReaderTask<R, A>) => ReaderTask<R, B>
+```
+
+Added in v2.3.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v2.3.0
 
 ## chainIOK
 
@@ -213,6 +209,18 @@ export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(ma: Reade
 ```
 
 Added in v2.4.0
+
+## flatten
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => ReaderTask<R, A>
+```
+
+Added in v2.3.0
 
 ## fromIOK
 

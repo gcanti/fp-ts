@@ -18,8 +18,6 @@ Added in v2.0.0
   - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
   - [apW](#apw)
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
@@ -28,10 +26,7 @@ Added in v2.0.0
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
-  - [chainFirst](#chainfirst)
-  - [chainFirstW](#chainfirstw)
   - [chainW](#chainw)
-  - [flatten](#flatten)
 - [MonadIO](#monadio)
   - [fromIO](#fromio)
 - [MonadTask](#monadtask)
@@ -39,8 +34,12 @@ Added in v2.0.0
 - [MonadThrow](#monadthrow)
   - [throwError](#throwerror)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
+  - [chainFirst](#chainfirst)
+  - [chainFirstW](#chainfirstw)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
   - [chainReaderTaskEitherK](#chainreadertaskeitherk)
@@ -48,6 +47,7 @@ Added in v2.0.0
   - [chainTaskEitherK](#chaintaskeitherk)
   - [chainTaskEitherKW](#chaintaskeitherkw)
   - [filterOrElse](#filterorelse)
+  - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
   - [fromReaderTaskEitherK](#fromreadertaskeitherk)
@@ -146,34 +146,6 @@ export declare const ap: <S, R, E, A>(
 
 Added in v2.0.0
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <S, R, E, B>(
-  fb: StateReaderTaskEither<S, R, E, B>
-) => <A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v2.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <S, R, E, B>(
-  fb: StateReaderTaskEither<S, R, E, B>
-) => <A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v2.0.0
-
 ## apW
 
 Less strict version of [`ap`](#ap).
@@ -252,35 +224,6 @@ export declare const chain: <S, R, E, A, B>(
 
 Added in v2.0.0
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <S, R, E, A, B>(
-  f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v2.0.0
-
-## chainFirstW
-
-Less strict version of [`chainFirst`](#chainFirst).
-
-**Signature**
-
-```ts
-export declare const chainFirstW: <S, R, D, A, B>(
-  f: (a: A) => StateReaderTaskEither<S, R, D, B>
-) => <Q, E>(ma: StateReaderTaskEither<S, Q, E, A>) => StateReaderTaskEither<S, Q & R, D | E, A>
-```
-
-Added in v2.8.0
-
 ## chainW
 
 Less strict version of [`chain`](#chain).
@@ -294,18 +237,6 @@ export declare const chainW: <S, R, E, A, B>(
 ```
 
 Added in v2.6.0
-
-## flatten
-
-**Signature**
-
-```ts
-export declare const flatten: <S, R, E, A>(
-  mma: StateReaderTaskEither<S, R, E, StateReaderTaskEither<S, R, E, A>>
-) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v2.0.0
 
 # MonadIO
 
@@ -345,6 +276,38 @@ Added in v2.7.0
 
 # combinators
 
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <S, R, E, B>(
+  fb: StateReaderTaskEither<S, R, E, B>
+) => <A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <S, R, E, B>(
+  fb: StateReaderTaskEither<S, R, E, B>
+) => <A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v2.0.0
+
 ## chainEitherK
 
 **Signature**
@@ -370,6 +333,39 @@ export declare const chainEitherKW: <E, A, B>(
 ```
 
 Added in v2.6.1
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <S, R, E, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, R, E, B>
+) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.0.0
+
+## chainFirstW
+
+Less strict version of [`chainFirst`](#chainFirst).
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <S, R, D, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, R, D, B>
+) => <Q, E>(ma: StateReaderTaskEither<S, Q, E, A>) => StateReaderTaskEither<S, Q & R, D | E, A>
+```
+
+Added in v2.8.0
 
 ## chainIOEitherK
 
@@ -467,6 +463,20 @@ export declare const filterOrElse: {
 ```
 
 Added in v2.4.4
+
+## flatten
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <S, R, E, A>(
+  mma: StateReaderTaskEither<S, R, E, StateReaderTaskEither<S, R, E, A>>
+) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.0.0
 
 ## fromEitherK
 

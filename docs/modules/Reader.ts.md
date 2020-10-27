@@ -16,8 +16,6 @@ Added in v2.0.0
   - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
   - [apW](#apw)
 - [Category](#category)
   - [id](#id)
@@ -25,14 +23,16 @@ Added in v2.0.0
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
-  - [chainFirst](#chainfirst)
   - [chainW](#chainw)
-  - [flatten](#flatten)
 - [Profunctor](#profunctor)
   - [promap](#promap)
 - [Semigroupoid](#semigroupoid)
   - [compose](#compose)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
+  - [flatten](#flatten)
   - [local](#local)
 - [constructors](#constructors)
   - [ask](#ask)
@@ -85,30 +85,6 @@ Apply a function to an argument under a type constructor.
 
 ```ts
 export declare const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B>
-```
-
-Added in v2.0.0
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const apFirst: <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>) => Reader<R, A>
-```
-
-Added in v2.0.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-**Signature**
-
-```ts
-export declare const apSecond: <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>) => Reader<R, B>
 ```
 
 Added in v2.0.0
@@ -166,19 +142,6 @@ export declare const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<
 
 Added in v2.0.0
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, A>
-```
-
-Added in v2.0.0
-
 ## chainW
 
 Less strict version of [`chain`](#chain).
@@ -190,16 +153,6 @@ export declare const chainW: <R, A, B>(f: (a: A) => Reader<R, B>) => <Q>(ma: Rea
 ```
 
 Added in v2.6.0
-
-## flatten
-
-**Signature**
-
-```ts
-export declare const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A>
-```
-
-Added in v2.0.0
 
 # Profunctor
 
@@ -226,6 +179,61 @@ export declare const compose: <A, B>(ab: Reader<A, B>) => <C>(bc: Reader<B, C>) 
 Added in v2.0.0
 
 # combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>) => Reader<R, A>
+```
+
+Added in v2.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>) => Reader<R, B>
+```
+
+Added in v2.0.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, A>
+```
+
+Added in v2.0.0
+
+## flatten
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A>
+```
+
+Added in v2.0.0
 
 ## local
 

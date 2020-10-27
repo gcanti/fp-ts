@@ -98,7 +98,9 @@ export const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => S
 /**
  * Combine two effectful actions, keeping only the result of the first.
  *
- * @category Apply
+ * Derivable from `Apply`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const apFirst: <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, A> = (fb) =>
@@ -110,7 +112,9 @@ export const apFirst: <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E
 /**
  * Combine two effectful actions, keeping only the result of the second.
  *
- * @category Apply
+ * Derivable from `Apply`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const apSecond = <E, B>(fb: State<E, B>): (<A>(fa: State<E, A>) => State<E, B>) =>
@@ -142,7 +146,9 @@ export const chain: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => 
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const chainFirst: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, A> = (f) =>
@@ -154,7 +160,9 @@ export const chainFirst: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>
   )
 
 /**
- * @category Monad
+ * Derivable from `Monad`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A> =

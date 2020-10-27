@@ -101,7 +101,9 @@ export const extend: <E, A, B>(f: (wa: Store<E, A>) => B) => (wa: Store<E, A>) =
 export const extract: <E, A>(wa: Store<E, A>) => A = (wa) => wa.peek(wa.pos)
 
 /**
- * @category Extend
+ * Derivable from `Extend`.
+ *
+ * @category combinators
  * @since 2.0.0
  */
 export const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>> =

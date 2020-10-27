@@ -13,12 +13,13 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [Extend](#extend)
-  - [duplicate](#duplicate)
   - [extend](#extend)
 - [Extract](#extract)
   - [extract](#extract)
 - [Functor](#functor)
   - [map](#map)
+- [combinators](#combinators)
+  - [duplicate](#duplicate)
 - [instances](#instances)
   - [Comonad](#comonad)
   - [Functor](#functor-1)
@@ -36,16 +37,6 @@ Added in v2.0.0
 ---
 
 # Extend
-
-## duplicate
-
-**Signature**
-
-```ts
-export declare const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>>
-```
-
-Added in v2.0.0
 
 ## extend
 
@@ -80,6 +71,20 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B>
+```
+
+Added in v2.0.0
+
+# combinators
+
+## duplicate
+
+Derivable from `Extend`.
+
+**Signature**
+
+```ts
+export declare const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>>
 ```
 
 Added in v2.0.0
