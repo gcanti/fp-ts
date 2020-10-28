@@ -361,6 +361,13 @@ describe('Either', () => {
         }, _.toError),
         _.left(new Error('{"ECODE":1}'))
       )
+
+      assert.deepStrictEqual(
+        _.tryCatch(() => {
+          throw BigInt(Number.MAX_SAFE_INTEGER)
+        }, _.toError),
+        _.left(new Error('9007199254740991'))
+      )
     })
   })
 
