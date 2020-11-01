@@ -91,7 +91,7 @@ export function fromArray<A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>> {
  * assert.deepStrictEqual(uncons(cons(1, [2, 3, 4])), [1, [2, 3, 4]])
  *
  * @category destructors
- * @since -
+ * @since 2.9.0
  */
 export function uncons<A>(nea: ReadonlyNonEmptyArray<A>): readonly [A, ReadonlyArray<A>] {
   return [nea[0], nea.slice(1)]
@@ -106,7 +106,7 @@ export function uncons<A>(nea: ReadonlyNonEmptyArray<A>): readonly [A, ReadonlyA
  * assert.deepStrictEqual(unsnoc(snoc([1, 2, 3], 4)), [[1, 2, 3], 4])
  *
  * @category destructors
- * @since -
+ * @since 2.9.0
  */
 export function unsnoc<A>(nea: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArray<A>, A] {
   const l = nea.length - 1

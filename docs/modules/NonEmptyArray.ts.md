@@ -551,7 +551,7 @@ import { cons, uncons } from 'fp-ts/NonEmptyArray'
 assert.deepStrictEqual(uncons(cons(1, [2, 3, 4])), [1, [2, 3, 4]])
 ```
 
-Added in v-
+Added in v2.9.0
 
 ## unsnoc
 
@@ -571,7 +571,7 @@ import { snoc, unsnoc } from 'fp-ts/NonEmptyArray'
 assert.deepStrictEqual(unsnoc(snoc([1, 2, 3], 4)), [[1, 2, 3], 4])
 ```
 
-Added in v-
+Added in v2.9.0
 
 # instances
 

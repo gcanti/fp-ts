@@ -81,7 +81,7 @@ export const fromArray: <A>(as: Array<A>) => Option<NonEmptyArray<A>> = RNEA.fro
  * assert.deepStrictEqual(uncons(cons(1, [2, 3, 4])), [1, [2, 3, 4]])
  *
  * @category destructors
- * @since -
+ * @since 2.9.0
  */
 export const uncons: <A>(nea: NonEmptyArray<A>) => readonly [A, Array<A>] = RNEA.uncons as any
 
@@ -94,7 +94,7 @@ export const uncons: <A>(nea: NonEmptyArray<A>) => readonly [A, Array<A>] = RNEA
  * assert.deepStrictEqual(unsnoc(snoc([1, 2, 3], 4)), [[1, 2, 3], 4])
  *
  * @category destructors
- * @since -
+ * @since 2.9.0
  */
 export const unsnoc: <A>(nea: NonEmptyArray<A>) => readonly [Array<A>, A] = RNEA.unsnoc as any
 
