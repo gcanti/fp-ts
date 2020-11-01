@@ -732,7 +732,7 @@ export const unzip: <A, B>(as: Array<[A, B]>) => [Array<A>, Array<B>] = RA.unzip
  * assert.deepStrictEqual(prependToAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
  *
  * @category combinators
- * @since -
+ * @since 2.9.0
  */
 export const prependToAll: <A>(e: A) => (xs: Array<A>) => Array<A> = RA.prependToAll as any
 
@@ -745,7 +745,7 @@ export const prependToAll: <A>(e: A) => (xs: Array<A>) => Array<A> = RA.prependT
  * assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
  *
  * @category combinators
- * @since -
+ * @since 2.9.0
  */
 export const intersperse: <A>(e: A) => (as: Array<A>) => Array<A> = RA.intersperse as any
 

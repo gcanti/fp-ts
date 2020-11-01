@@ -387,7 +387,7 @@ export const unzip: <A, B>(
  * assert.deepStrictEqual(prependToAll(9)(cons(1, [2, 3, 4])), cons(9, [1, 9, 2, 9, 3, 9, 4]))
  *
  * @category combinators
- * @since -
+ * @since 2.9.0
  */
 export const prependToAll: <A>(
   e: A
@@ -402,7 +402,7 @@ export const prependToAll: <A>(
  * assert.deepStrictEqual(intersperse(9)(cons(1, [2, 3, 4])), cons(1, [9, 2, 9, 3, 9, 4]))
  *
  * @category combinators
- * @since -
+ * @since 2.9.0
  */
 export const intersperse: <A>(
   e: A

@@ -325,7 +325,7 @@ export const unzip: <A, B>(as: NonEmptyArray<[A, B]>) => [NonEmptyArray<A>, NonE
  * assert.deepStrictEqual(prependToAll(9)(cons(1, [2, 3, 4])), cons(9, [1, 9, 2, 9, 3, 9, 4]))
  *
  * @category combinators
- * @since -
+ * @since 2.9.0
  */
 export const prependToAll: <A>(e: A) => (xs: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.prependToAll as any
 
@@ -338,7 +338,7 @@ export const prependToAll: <A>(e: A) => (xs: NonEmptyArray<A>) => NonEmptyArray<
  * assert.deepStrictEqual(intersperse(9)(cons(1, [2, 3, 4])), cons(1, [9, 2, 9, 3, 9, 4]))
  *
  * @category combinators
- * @since -
+ * @since 2.9.0
  */
 export const intersperse: <A>(e: A) => (as: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.intersperse as any
 

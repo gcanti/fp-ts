@@ -1058,7 +1058,7 @@ export function unzip<A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [Reado
  * assert.deepStrictEqual(prependToAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
  *
  * @category combinators
- * @since -
+ * @since 2.9.0
  */
 export const prependToAll = <A>(e: A) => (xs: ReadonlyArray<A>): ReadonlyArray<A> => {
   // tslint:disable-next-line: readonly-array
@@ -1078,7 +1078,7 @@ export const prependToAll = <A>(e: A) => (xs: ReadonlyArray<A>): ReadonlyArray<A
  * assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
  *
  * @category combinators
- * @since -
+ * @since 2.9.0
  */
 export function intersperse<A>(e: A): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
   return (as) => {

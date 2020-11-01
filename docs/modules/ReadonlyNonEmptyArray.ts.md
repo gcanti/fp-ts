@@ -409,7 +409,7 @@ import { cons, intersperse } from 'fp-ts/ReadonlyNonEmptyArray'
 assert.deepStrictEqual(intersperse(9)(cons(1, [2, 3, 4])), cons(1, [9, 2, 9, 3, 9, 4]))
 ```
 
-Added in v-
+Added in v2.9.0
 
 ## prependToAll
 
@@ -429,7 +429,7 @@ import { cons, prependToAll } from 'fp-ts/ReadonlyNonEmptyArray'
 assert.deepStrictEqual(prependToAll(9)(cons(1, [2, 3, 4])), cons(9, [1, 9, 2, 9, 3, 9, 4]))
 ```
 
-Added in v-
+Added in v2.9.0
 
 ## reverse
 

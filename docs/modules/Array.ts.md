@@ -737,7 +737,7 @@ import { intersperse } from 'fp-ts/Array'
 assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
 ```
 
-Added in v-
+Added in v2.9.0
 
 ## lefts
 
@@ -778,7 +778,7 @@ import { prependToAll } from 'fp-ts/Array'
 assert.deepStrictEqual(prependToAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
 ```
 
-Added in v-
+Added in v2.9.0
 
 ## reverse
 
