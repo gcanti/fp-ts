@@ -1,5 +1,6 @@
 import * as assert from 'assert'
 import { sequenceT } from '../src/Apply'
+import * as A from '../src/Array'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
 import * as I from '../src/IO'
@@ -399,5 +400,129 @@ describe('ReaderTaskEither', () => {
       await pipe(_.right<void, string, number>(1), _.bindTo('a'), _.apS('b', _.right('b')))(undefined)(),
       E.right({ a: 1, b: 'b' })
     )
+  })
+
+  describe('array utils', () => {
+    it('sequenceArray', async () => {
+      const arr = A.range(0, 10)
+      assert.deepStrictEqual(await pipe(arr, A.map(_.of), _.sequenceArray)(undefined)(), E.right(arr))
+      assert.deepStrictEqual(
+        await pipe(
+          arr,
+          A.map(
+            _.fromPredicate(
+              (x) => x < 5,
+              () => 'Error'
+            )
+          ),
+          _.sequenceArray
+        )(undefined)(),
+        E.left('Error')
+      )
+    })
+
+    it('traverseArray', async () => {
+      const arr = A.range(0, 10)
+      assert.deepStrictEqual(await pipe(arr, _.traverseArray(_.of))(undefined)(), E.right(arr))
+      assert.deepStrictEqual(
+        await pipe(
+          arr,
+          _.traverseArray(
+            _.fromPredicate(
+              (x) => x < 5,
+              () => 'Error'
+            )
+          )
+        )(undefined)(),
+        E.left('Error')
+      )
+    })
+
+    it('traverseArrayWithIndex', async () => {
+      const arr = A.replicate(3, 1)
+      assert.deepStrictEqual(
+        await pipe(
+          arr,
+          _.traverseArrayWithIndex((index, _data) => _.of(index))
+        )(undefined)(),
+        E.right([0, 1, 2])
+      )
+      assert.deepStrictEqual(
+        await pipe(
+          arr,
+          _.traverseArrayWithIndex((index, _data) =>
+            pipe(
+              index,
+              _.fromPredicate(
+                (x) => x < 1,
+                () => 'Error'
+              )
+            )
+          )
+        )(undefined)(),
+        E.left('Error')
+      )
+    })
+
+    it('sequenceSeqArray', async () => {
+      const arr = A.range(0, 10)
+      assert.deepStrictEqual(await pipe(arr, A.map(_.of), _.sequenceSeqArray)(undefined)(), E.right(arr))
+      assert.deepStrictEqual(
+        await pipe(
+          arr,
+          A.map(
+            _.fromPredicate(
+              (x) => x < 5,
+              () => 'Error'
+            )
+          ),
+          _.sequenceArray
+        )(undefined)(),
+        E.left('Error')
+      )
+    })
+
+    it('traverseArray', async () => {
+      const arr = A.range(0, 10)
+      assert.deepStrictEqual(await pipe(arr, _.traverseSeqArray(_.of))(undefined)(), E.right(arr))
+      assert.deepStrictEqual(
+        await pipe(
+          arr,
+          _.traverseSeqArray(
+            _.fromPredicate(
+              (x) => x < 5,
+              () => 'Error'
+            )
+          )
+        )(undefined)(),
+        E.left('Error')
+      )
+    })
+
+    it('traverseSeqArrayWithIndex', async () => {
+      const arr = A.replicate(3, 1)
+      assert.deepStrictEqual(
+        await pipe(
+          arr,
+          _.traverseSeqArrayWithIndex((index, _data) => _.of(index))
+        )(undefined)(),
+        E.right([0, 1, 2])
+      )
+      assert.deepStrictEqual(
+        await pipe(
+          arr,
+          _.traverseSeqArrayWithIndex((index, _data) =>
+            pipe(
+              index,
+              _.fromPredicate(
+                (x) => x < 1,
+                () => 'Error'
+              )
+            )
+          )
+        )(undefined)(),
+        E.left('Error')
+      )
+    })
   })
 })

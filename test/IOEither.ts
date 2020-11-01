@@ -1,10 +1,10 @@
 import * as assert from 'assert'
 import { sequenceT } from '../src/Apply'
-import { getMonoid } from '../src/Array'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as _ from '../src/IOEither'
+import * as A from '../src/Array'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
 import { pipeable } from '../src/pipeable'
@@ -333,7 +333,7 @@ describe('IOEither', () => {
   })
 
   describe('getFilterable', () => {
-    const F_ = _.getFilterable(getMonoid<string>())
+    const F_ = _.getFilterable(A.getMonoid<string>())
     const { filter } = pipeable(F_)
 
     it('filter', async () => {
@@ -377,5 +377,64 @@ describe('IOEither', () => {
       pipe(_.right<string, number>(1), _.bindTo('a'), _.apS('b', _.right('b')))(),
       E.right({ a: 1, b: 'b' })
     )
+  })
+
+  describe('array utils', () => {
+    it('sequenceArray', () => {
+      const arr = A.range(0, 10)
+      assert.deepStrictEqual(pipe(arr, A.map(_.of), _.sequenceArray)(), E.right(arr))
+    })
+
+    it('traverseArray', () => {
+      const arr = A.range(0, 10)
+      assert.deepStrictEqual(pipe(arr, _.traverseArray(_.of))(), E.right(arr))
+    })
+
+    it('traverseArrayWithIndex', () => {
+      const arr = A.replicate(3, 1)
+      assert.deepStrictEqual(
+        pipe(
+          arr,
+          _.traverseArrayWithIndex((index, _data) => _.of(index))
+        )(),
+        E.right([0, 1, 2])
+      )
+    })
+
+    it('sequenceSeqArray', () => {
+      const arr = A.range(0, 10)
+      assert.deepStrictEqual(pipe(arr, A.map(_.of), _.sequenceSeqArray)(), E.right(arr))
+    })
+
+    it('traverseSeqArray', () => {
+      const arr = A.range(0, 10)
+      assert.deepStrictEqual(pipe(arr, _.traverseSeqArray(_.of))(), E.right(arr))
+    })
+
+    it('traverseSeqArrayWithIndex', () => {
+      const arr = A.replicate(3, 1)
+      assert.deepStrictEqual(
+        pipe(
+          arr,
+          _.traverseSeqArrayWithIndex((index, _data) =>
+            pipe(
+              index,
+              _.fromPredicate(
+                (index) => index < 1,
+                () => 'ERROR'
+              )
+            )
+          )
+        )(),
+        E.left('ERROR')
+      )
+      assert.deepStrictEqual(
+        pipe(
+          arr,
+          _.traverseSeqArrayWithIndex((index, _data) => _.of(index))
+        )(),
+        E.right([0, 1, 2])
+      )
+    })
   })
 })

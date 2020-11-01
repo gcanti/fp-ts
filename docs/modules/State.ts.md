@@ -45,6 +45,9 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [evaluate](#evaluate)
   - [execute](#execute)
+  - [sequenceArray](#sequencearray)
+  - [traverseArray](#traversearray)
+  - [traverseArrayWithIndex](#traversearraywithindex)
   - [~~evalState~~](#evalstate)
   - [~~execState~~](#execstate)
 
@@ -351,6 +354,68 @@ export declare const execute: <S>(s: S) => <A>(ma: State<S, A>) => S
 ```
 
 Added in v2.8.0
+
+## sequenceArray
+
+This function has the same behavior of `A.sequence(S.State)` but it's stack safe and optimized
+
+**Signature**
+
+```ts
+export declare const sequenceArray: <S, A>(arr: readonly State<S, A>[]) => State<S, readonly A[]>
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { sequenceArray, State } from 'fp-ts/State'
+import { pipe, tuple } from 'fp-ts/function'
+
+const add = (n: number): State<number, number> => (s: number) => tuple(n, n + s)
+const arr = RA.range(0, 100)
+
+assert.deepStrictEqual(pipe(arr, RA.map(add), sequenceArray)(0), [arr, arr.reduce((p, c) => p + c, 0)])
+```
+
+Added in v2.9
+
+## traverseArray
+
+This function has the same behavior of `A.traverse(S.State)` but it's stack safe and optimized
+
+**Signature**
+
+```ts
+export declare const traverseArray: <A, S, B>(f: (a: A) => State<S, B>) => (arr: readonly A[]) => State<S, readonly B[]>
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { traverseArray, State } from 'fp-ts/State'
+import { pipe, tuple } from 'fp-ts/function'
+
+const add = (n: number): State<number, number> => (s: number) => tuple(n, n + s)
+const arr = RA.range(0, 100)
+
+assert.deepStrictEqual(pipe(arr, traverseArray(add))(0), [arr, arr.reduce((p, c) => p + c, 0)])
+```
+
+Added in v2.9
+
+## traverseArrayWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <A, S, B>(
+  f: (index: number, a: A) => State<S, B>
+) => (arr: readonly A[]) => State<S, readonly B[]>
+```
+
+Added in v2.9.0
 
 ## ~~evalState~~
 

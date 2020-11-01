@@ -919,3 +919,136 @@ export const apS: <A, N extends string, E, B>(
   name: Exclude<N, keyof A>,
   fb: TaskEither<E, B>
 ) => (fa: TaskEither<E, A>) => TaskEither<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+
+// -------------------------------------------------------------------------------------
+// array utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.9.0
+ */
+export const traverseArrayWithIndex: <A, B, E>(
+  f: (index: number, a: A) => TaskEither<E, B>
+) => (arr: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => (arr) =>
+  pipe(arr, T.traverseArrayWithIndex(f), T.map(E.sequenceArray))
+
+/**
+ * this function have the same behavior of `A.traverse(TE.taskEither)` but it's stack safe and perform better
+ *
+ * *this function run all tasks in parallel and does not bail out, for sequential version use `traverseSeqArray`*
+ *
+ * @example
+ *
+ * import * as TE from 'fp-ts/TaskEither'
+ * import * as A from 'fp-ts/Array'
+ * import { right } from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const PostRepo = {
+ *  findById : (id: number) => TE.of({id, title: ''})
+ * }
+ *
+ * const findAllPosts = (ids:number[]) => pipe(ids, TE.traverseArray(PostRepo.findById))
+ *
+ * async function test() {
+ *   const ids = A.range(0, 10)
+ *
+ *   assert.deepStrictEqual(
+ *     await findAllPosts(ids)(),
+ *     right(
+ *       pipe(
+ *         ids,
+ *         A.map((id) => ({ id, title: ''}))
+ *       )
+ *     )
+ *   )
+ * }
+ *
+ * test()
+ *
+ * @since 2.9.0
+ */
+export const traverseArray: <A, B, E>(
+  f: (a: A) => TaskEither<E, B>
+) => (arr: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+
+/**
+ * this function have the same behavior of `A.sequence(TE.taskEither)` but it's stack safe and perform better
+ *
+ * *this function run all tasks in parallel and does not bail out, for sequential version use `sequenceSeqArray`*
+ *
+ * @example
+ *
+ * import * as TE from 'fp-ts/TaskEither'
+ * import * as A from 'fp-ts/Array'
+ * import { right } from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const PostRepo = {
+ *  findById : (id: number) => TE.of({id, title: ''})
+ * }
+ *
+ * const findAllPosts = (ids:number[]) => pipe(ids, A.map(PostRepo.findById), TE.sequenceArray)
+ *
+ * async function test() {
+ *   const ids = A.range(0, 10)
+ *
+ *   assert.deepStrictEqual(
+ *     await findAllPosts(ids)(),
+ *     right(
+ *       pipe(
+ *         ids,
+ *         A.map((id) => ({ id, title: ''}))
+ *       )
+ *     )
+ *   )
+ * }
+ *
+ * test()
+ *
+ * @since 2.9.0
+ */
+export const sequenceArray: <A, E>(
+  arr: ReadonlyArray<TaskEither<E, A>>
+) => TaskEither<E, ReadonlyArray<A>> = traverseArray(identity)
+
+/**
+ * @since 2.9.0
+ */
+export const traverseSeqArrayWithIndex: <A, B, E>(
+  f: (index: number, a: A) => TaskEither<E, B>
+) => (arr: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => (arr) => async () => {
+  // tslint:disable-next-line: readonly-array
+  const result = []
+  for (let i = 0; i < arr.length; i++) {
+    const e = await f(i, arr[i])()
+    if (E.isLeft(e)) {
+      return e
+    }
+    result.push(e.right)
+  }
+
+  return E.right(result)
+}
+
+/**
+ * this function have the same behavior of `A.traverse(TE.taskEitherSeq)` but it's stack safe and perform better
+ *
+ * *this function run all tasks in sequential order and bails out on left side of either, for parallel version use `traverseArray`*
+ *
+ * @since 2.9.0
+ */
+export const traverseSeqArray: <A, B, E>(
+  f: (a: A) => TaskEither<E, B>
+) => (arr: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => traverseSeqArrayWithIndex((_, a) => f(a))
+
+/**
+ * this function have the same behavior of `A.sequence(TE.taskEitherSeq)` but it's stack safe and perform better
+ *
+ * *this function run all tasks in sequential order and bails out on left side of either, for parallel version use `sequenceArray`*
+ *
+ * @since 2.9.0
+ */
+export const sequenceSeqArray: <A, E>(
+  arr: ReadonlyArray<TaskEither<E, A>>
+) => TaskEither<E, ReadonlyArray<A>> = traverseSeqArray(identity)

@@ -298,3 +298,54 @@ export const apS = <A, N extends string, B>(
     map((a) => (b: B) => bind_(a, name, b)),
     ap(fb)
   )
+
+// -------------------------------------------------------------------------------------
+// array utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.9.0
+ */
+export const traverseArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => IO<B>
+) => (arr: ReadonlyArray<A>) => IO<ReadonlyArray<B>> = (f) => (arr) => () => arr.map((a, i) => f(i, a)())
+
+/**
+ * runs an action for every element in array, and accumulates the results IO in the array.
+ *
+ * this function have the same behavior of `A.traverse(IO.io)` but it's stack safe
+ *
+ * ```ts
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import { traverseArray, IO } from 'fp-ts/IO'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const log: <A>(x: A) => IO<void> = (x) => () => console.log(x)
+ *
+ * pipe(RA.range(0, 100), traverseArray(log))() // it now prints 0 to 100
+ * ```
+ *
+ * @since 2.9.0
+ */
+export const traverseArray: <A, B>(f: (a: A) => IO<B>) => (arr: ReadonlyArray<A>) => IO<ReadonlyArray<B>> = (f) =>
+  traverseArrayWithIndex((_, a) => f(a))
+
+/**
+ * transform Array of IO to IO of Array
+ *
+ * this function have the same behavior of `A.sequence(IO.io)` but it's stack safe
+ *
+ * ```ts
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import { sequenceArray, IO } from 'fp-ts/IO'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const log: <A>(x: A) => IO<void> = (x) => () => console.log(x)
+ *
+ * pipe(RA.range(0, 100), RA.map(log), sequenceA)() // it now prints 0 to 100
+ * ```
+ *
+ *
+ * @since 2.9.0
+ */
+export const sequenceArray: <A>(arr: ReadonlyArray<IO<A>>) => IO<ReadonlyArray<A>> = traverseArray(identity)

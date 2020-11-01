@@ -120,7 +120,10 @@ Added in v2.0.0
   - [bindW](#bindw)
   - [elem](#elem)
   - [exists](#exists)
+  - [sequenceArray](#sequencearray)
   - [toError](#toerror)
+  - [traverseArray](#traversearray)
+  - [traverseArrayWithIndex](#traversearraywithindex)
 
 ---
 
@@ -1415,6 +1418,31 @@ assert.strictEqual(gt2(right(3)), true)
 
 Added in v2.0.0
 
+## sequenceArray
+
+convert an array of either to an either of array
+this function have the same behavior of `A.sequence(E.either)` but it's optimized and perform better
+
+**Signature**
+
+```ts
+export declare const sequenceArray: <E, A>(arr: readonly Either<E, A>[]) => Either<E, readonly A[]>
+```
+
+**Example**
+
+```ts
+import { sequenceArray, left, right } from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import * as A from 'fp-ts/Array'
+
+const arr = A.range(0, 10)
+assert.deepStrictEqual(pipe(arr, A.map(right), sequenceArray), right(arr))
+assert.deepStrictEqual(pipe(arr, A.map(right), A.cons(left('Error')), sequenceArray), left('Error'))
+```
+
+Added in v2.9.0
+
 ## toError
 
 Default value for the `onError` argument of `tryCatch`
@@ -1426,3 +1454,59 @@ export declare function toError(e: unknown): Error
 ```
 
 Added in v2.0.0
+
+## traverseArray
+
+map an array using provided function to Either then transform to Either of the array
+this function have the same behavior of `A.traverse(E.either)` but it's optimized and perform better
+
+**Signature**
+
+```ts
+export declare const traverseArray: <E, A, B>(
+  f: (a: A) => Either<E, B>
+) => (arr: readonly A[]) => Either<E, readonly B[]>
+```
+
+**Example**
+
+```ts
+import { traverseArray, left, right, fromPredicate } from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import * as A from 'fp-ts/Array'
+
+const arr = A.range(0, 10)
+assert.deepStrictEqual(
+  pipe(
+    arr,
+    traverseArray((x) => right(x))
+  ),
+  right(arr)
+)
+assert.deepStrictEqual(
+  pipe(
+    arr,
+    traverseArray(
+      fromPredicate(
+        (x) => x > 5,
+        () => 'a'
+      )
+    )
+  ),
+  left('a')
+)
+```
+
+Added in v2.9.0
+
+## traverseArrayWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <E, A, B>(
+  f: (index: number, a: A) => Either<E, B>
+) => (arr: readonly A[]) => Either<E, readonly B[]>
+```
+
+Added in v2.9.0

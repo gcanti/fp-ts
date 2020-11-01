@@ -3,6 +3,7 @@ import { pipe } from '../src/function'
 import * as I from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import * as R from '../src/Reader'
+import * as A from '../src/Array'
 import * as _ from '../src/ReaderTask'
 import { semigroupString } from '../src/Semigroup'
 import * as T from '../src/Task'
@@ -150,5 +151,27 @@ describe('ReaderTask', () => {
 
   it('apS', async () => {
     assert.deepStrictEqual(await pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b')))(undefined)(), { a: 1, b: 'b' })
+  })
+
+  describe('array utils', () => {
+    it('sequenceArray', async () => {
+      const arr = A.range(0, 10)
+      assert.deepStrictEqual(await pipe(arr, A.map(_.of), _.sequenceArray)(undefined)(), arr)
+    })
+    it('traverseArray', async () => {
+      const arr = A.range(0, 10)
+      assert.deepStrictEqual(await pipe(arr, _.traverseArray(_.of))(undefined)(), arr)
+    })
+
+    it('traverseArrayWithIndex', async () => {
+      const arr = A.replicate(3, 1)
+      assert.deepStrictEqual(
+        await pipe(
+          arr,
+          _.traverseArrayWithIndex((index, _data) => _.of(index))
+        )(undefined)(),
+        [0, 1, 2]
+      )
+    })
   })
 })

@@ -54,6 +54,9 @@ Added in v2.0.0
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
+  - [sequenceArray](#sequencearray)
+  - [traverseArray](#traversearray)
+  - [traverseArrayWithIndex](#traversearraywithindex)
 
 ---
 
@@ -336,3 +339,63 @@ export declare const bindTo: <N extends string>(name: N) => <A>(fa: IO<A>) => IO
 ```
 
 Added in v2.8.0
+
+## sequenceArray
+
+transform Array of IO to IO of Array
+
+this function have the same behavior of `A.sequence(IO.io)` but it's stack safe
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { sequenceArray, IO } from 'fp-ts/IO'
+import { pipe } from 'fp-ts/function'
+
+const log: <A>(x: A) => IO<void> = (x) => () => console.log(x)
+
+pipe(RA.range(0, 100), RA.map(log), sequenceA)() // it now prints 0 to 100
+```
+
+**Signature**
+
+```ts
+export declare const sequenceArray: <A>(arr: readonly IO<A>[]) => IO<readonly A[]>
+```
+
+Added in v2.9.0
+
+## traverseArray
+
+runs an action for every element in array, and accumulates the results IO in the array.
+
+this function have the same behavior of `A.traverse(IO.io)` but it's stack safe
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { traverseArray, IO } from 'fp-ts/IO'
+import { pipe } from 'fp-ts/function'
+
+const log: <A>(x: A) => IO<void> = (x) => () => console.log(x)
+
+pipe(RA.range(0, 100), traverseArray(log))() // it now prints 0 to 100
+```
+
+**Signature**
+
+```ts
+export declare const traverseArray: <A, B>(f: (a: A) => IO<B>) => (arr: readonly A[]) => IO<readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseArrayWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => IO<B>
+) => (arr: readonly A[]) => IO<readonly B[]>
+```
+
+Added in v2.9.0

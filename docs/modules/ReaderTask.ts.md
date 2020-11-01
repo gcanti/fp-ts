@@ -57,6 +57,9 @@ Added in v2.3.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [run](#run)
+  - [sequenceArray](#sequencearray)
+  - [traverseArray](#traversearray)
+  - [traverseArrayWithIndex](#traversearraywithindex)
 
 ---
 
@@ -491,3 +494,37 @@ export declare function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A>
 ```
 
 Added in v2.4.0
+
+## sequenceArray
+
+**Signature**
+
+```ts
+export declare const sequenceArray: <R, A>(arr: readonly ReaderTask<R, A>[]) => ReaderTask<R, readonly A[]>
+```
+
+Added in v2.9.0
+
+## traverseArray
+
+**Signature**
+
+```ts
+export declare const traverseArray: <R, A, B>(
+  f: (a: A) => ReaderTask<R, B>
+) => (arr: readonly A[]) => ReaderTask<R, readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseArrayWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <R, A, B>(
+  f: (index: number, a: A) => ReaderTask<R, B>
+) => (arr: readonly A[]) => ReaderTask<R, readonly B[]>
+```
+
+Added in v2.9.0

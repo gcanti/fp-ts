@@ -303,3 +303,64 @@ export const apS = <A, N extends string, S, B>(
     map((a) => (b: B) => bind_(a, name, b)),
     ap(fb)
   )
+
+// -------------------------------------------------------------------------------------
+// array utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.9.0
+ */
+export const traverseArrayWithIndex: <A, S, B>(
+  f: (index: number, a: A) => State<S, B>
+) => (arr: ReadonlyArray<A>) => State<S, ReadonlyArray<B>> = (f) => (arr) => (s) => {
+  let lastState = s
+  // tslint:disable-next-line: readonly-array
+  const values = []
+
+  for (let i = 0; i < arr.length; i++) {
+    const [newValue, newState] = f(i, arr[i])(lastState)
+    values.push(newValue)
+    lastState = newState
+  }
+
+  return [values, lastState]
+}
+
+/**
+ * This function has the same behavior of `A.traverse(S.State)` but it's stack safe and optimized
+ *
+ * @example
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import { traverseArray, State } from 'fp-ts/State'
+ * import { pipe, tuple } from 'fp-ts/function'
+ *
+ * const add = (n: number): State<number, number> => (s: number) => tuple(n, n + s)
+ * const arr = RA.range(0, 100)
+ *
+ * assert.deepStrictEqual(pipe(arr, traverseArray(add))(0), [arr, arr.reduce((p, c) => p + c, 0)])
+ *
+ * @since 2.9
+ */
+export const traverseArray: <A, S, B>(
+  f: (a: A) => State<S, B>
+) => (arr: ReadonlyArray<A>) => State<S, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+
+/**
+ * This function has the same behavior of `A.sequence(S.State)` but it's stack safe and optimized
+ *
+ * @example
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import { sequenceArray, State } from 'fp-ts/State'
+ * import { pipe, tuple } from 'fp-ts/function'
+ *
+ * const add = (n: number): State<number, number> => (s: number) => tuple(n, n + s)
+ * const arr = RA.range(0, 100)
+ *
+ * assert.deepStrictEqual(pipe(arr, RA.map(add), sequenceArray)(0), [arr, arr.reduce((p, c) => p + c, 0)])
+ *
+ * @since 2.9
+ */
+export const sequenceArray: <S, A>(arr: ReadonlyArray<State<S, A>>) => State<S, ReadonlyArray<A>> = traverseArray(
+  identity
+)

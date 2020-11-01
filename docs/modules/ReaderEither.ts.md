@@ -81,6 +81,9 @@ Added in v2.0.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
+  - [sequenceArray](#sequencearray)
+  - [traverseArray](#traversearray)
+  - [traverseArrayWithIndex](#traversearraywithindex)
 
 ---
 
@@ -799,3 +802,37 @@ export declare const bindW: <N extends string, A, Q, D, B>(
 ```
 
 Added in v2.8.0
+
+## sequenceArray
+
+**Signature**
+
+```ts
+export declare const sequenceArray: <R, E, A>(arr: readonly ReaderEither<R, E, A>[]) => ReaderEither<R, E, readonly A[]>
+```
+
+Added in v2.9.0
+
+## traverseArray
+
+**Signature**
+
+```ts
+export declare const traverseArray: <R, E, A, B>(
+  f: (a: A) => ReaderEither<R, E, B>
+) => (arr: readonly A[]) => ReaderEither<R, E, readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseArrayWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <R, E, A, B>(
+  f: (index: number, a: A) => ReaderEither<R, E, B>
+) => (arr: readonly A[]) => ReaderEither<R, E, readonly B[]>
+```
+
+Added in v2.9.0

@@ -1370,3 +1370,83 @@ export const apS: <A, N extends string, E, B>(
   name: Exclude<N, keyof A>,
   fb: Either<E, B>
 ) => (fa: Either<E, A>) => Either<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+
+// -------------------------------------------------------------------------------------
+// array utils
+// -------------------------------------------------------------------------------------
+
+/**
+ *
+ * @since 2.9.0
+ */
+export const traverseArrayWithIndex = <E, A, B>(f: (index: number, a: A) => Either<E, B>) => (
+  arr: ReadonlyArray<A>
+): Either<E, ReadonlyArray<B>> => {
+  // tslint:disable-next-line: readonly-array
+  const result = []
+  for (let i = 0; i < arr.length; i++) {
+    const e = f(i, arr[i])
+    if (e._tag === 'Left') {
+      return e
+    }
+    result.push(e.right)
+  }
+  return right(result)
+}
+
+/**
+ * map an array using provided function to Either then transform to Either of the array
+ * this function have the same behavior of `A.traverse(E.either)` but it's optimized and perform better
+ *
+ * @example
+ *
+ *
+ * import { traverseArray, left, right, fromPredicate } from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ * import * as A from 'fp-ts/Array'
+ *
+ * const arr = A.range(0, 10)
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     arr,
+ *     traverseArray((x) => right(x))
+ *   ),
+ *   right(arr)
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     arr,
+ *     traverseArray(
+ *       fromPredicate(
+ *         (x) => x > 5,
+ *         () => 'a'
+ *       )
+ *     )
+ *   ),
+ *   left('a')
+ * )
+ * @since 2.9.0
+ */
+export const traverseArray: <E, A, B>(
+  f: (a: A) => Either<E, B>
+) => (arr: ReadonlyArray<A>) => Either<E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+
+/**
+ * convert an array of either to an either of array
+ * this function have the same behavior of `A.sequence(E.either)` but it's optimized and perform better
+ *
+ * @example
+ *
+ * import { sequenceArray, left, right } from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ * import * as A from 'fp-ts/Array'
+ *
+ * const arr = A.range(0, 10)
+ * assert.deepStrictEqual(pipe(arr, A.map(right), sequenceArray), right(arr))
+ * assert.deepStrictEqual(pipe(arr, A.map(right), A.cons(left('Error')), sequenceArray), left('Error'))
+ *
+ * @since 2.9.0
+ */
+export const sequenceArray: <E, A>(arr: ReadonlyArray<Either<E, A>>) => Either<E, ReadonlyArray<A>> = traverseArray(
+  identity
+)

@@ -3,6 +3,7 @@ import * as _ from '../src/Reader'
 import { semigroupSum } from '../src/Semigroup'
 import { monoidSum } from '../src/Monoid'
 import { pipe } from '../src/function'
+import * as RA from '../src/ReadonlyArray'
 
 interface Env {
   readonly count: number
@@ -125,5 +126,28 @@ describe('Reader', () => {
 
   it('apS', () => {
     assert.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b')))(undefined), { a: 1, b: 'b' })
+  })
+
+  describe('array utils', () => {
+    it('sequenceArray', () => {
+      const arr = RA.range(0, 10)
+      assert.deepStrictEqual(pipe(arr, RA.map(_.of), _.sequenceArray)(undefined), arr)
+    })
+
+    it('traverseArray', () => {
+      const arr = RA.range(0, 10)
+      assert.deepStrictEqual(pipe(arr, _.traverseArray(_.of))(undefined), arr)
+    })
+
+    it('traverseArrayWithIndex', () => {
+      const arr = RA.range(0, 10)
+      assert.deepStrictEqual(
+        pipe(
+          arr,
+          _.traverseArrayWithIndex((index, _data) => _.of(index))
+        )(undefined),
+        arr
+      )
+    })
   })
 })

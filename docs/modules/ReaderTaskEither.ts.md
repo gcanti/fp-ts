@@ -102,6 +102,12 @@ Added in v2.0.0
   - [bindW](#bindw)
   - [bracket](#bracket)
   - [run](#run)
+  - [sequenceArray](#sequencearray)
+  - [sequenceSeqArray](#sequenceseqarray)
+  - [traverseArray](#traversearray)
+  - [traverseArrayWithIndex](#traversearraywithindex)
+  - [traverseSeqArray](#traverseseqarray)
+  - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
 
 ---
 
@@ -1054,3 +1060,75 @@ export declare function run<R, E, A>(ma: ReaderTaskEither<R, E, A>, r: R): Promi
 ```
 
 Added in v2.0.0
+
+## sequenceArray
+
+**Signature**
+
+```ts
+export declare const sequenceArray: <R, E, A>(
+  arr: readonly ReaderTaskEither<R, E, A>[]
+) => ReaderTaskEither<R, E, readonly A[]>
+```
+
+Added in v2.9.0
+
+## sequenceSeqArray
+
+**Signature**
+
+```ts
+export declare const sequenceSeqArray: <R, E, A>(
+  arr: readonly ReaderTaskEither<R, E, A>[]
+) => ReaderTaskEither<R, E, readonly A[]>
+```
+
+Added in v2.9.0
+
+## traverseArray
+
+**Signature**
+
+```ts
+export declare const traverseArray: <R, E, A, B>(
+  f: (a: A) => ReaderTaskEither<R, E, B>
+) => (arr: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseArrayWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <R, E, A, B>(
+  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
+) => (arr: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseSeqArray
+
+**Signature**
+
+```ts
+export declare const traverseSeqArray: <R, E, A, B>(
+  f: (a: A) => ReaderTaskEither<R, E, B>
+) => (arr: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseSeqArrayWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseSeqArrayWithIndex: <R, E, A, B>(
+  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
+) => (arr: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
+```
+
+Added in v2.9.0

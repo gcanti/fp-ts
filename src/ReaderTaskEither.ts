@@ -893,3 +893,64 @@ export const apS: <A, N extends string, R, E, B>(
 ) => (
   fa: ReaderTaskEither<R, E, A>
 ) => ReaderTaskEither<R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+
+// -------------------------------------------------------------------------------------
+// array utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.9.0
+ */
+export const traverseArrayWithIndex: <R, E, A, B>(
+  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
+) => (arr: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) => (arr) => (r) => () =>
+  Promise.all(arr.map((x, i) => f(i, x)(r)())).then(E.sequenceArray)
+
+/**
+ * @since 2.9.0
+ */
+export const traverseArray: <R, E, A, B>(
+  f: (a: A) => ReaderTaskEither<R, E, B>
+) => (arr: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+
+/**
+ * @since 2.9.0
+ */
+export const sequenceArray: <R, E, A>(
+  arr: ReadonlyArray<ReaderTaskEither<R, E, A>>
+) => ReaderTaskEither<R, E, ReadonlyArray<A>> = traverseArray(identity)
+
+/**
+ * @since 2.9.0
+ */
+export const traverseSeqArrayWithIndex: <R, E, A, B>(
+  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
+) => (arr: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) => (arr) => (r) => async () => {
+  // tslint:disable-next-line: readonly-array
+  const result = []
+
+  for (let i = 0; i < arr.length; i++) {
+    const b = await f(i, arr[i])(r)()
+    if (E.isLeft(b)) {
+      return b
+    }
+    result.push(b.right)
+  }
+
+  return E.right(result)
+}
+
+/**
+ * @since 2.9.0
+ */
+export const traverseSeqArray: <R, E, A, B>(
+  f: (a: A) => ReaderTaskEither<R, E, B>
+) => (arr: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) =>
+  traverseSeqArrayWithIndex((_, a) => f(a))
+
+/**
+ * @since 2.9.0
+ */
+export const sequenceSeqArray: <R, E, A>(
+  arr: ReadonlyArray<ReaderTaskEither<R, E, A>>
+) => ReaderTaskEither<R, E, ReadonlyArray<A>> = traverseSeqArray(identity)
