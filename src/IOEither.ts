@@ -732,3 +732,62 @@ export const apS: <A, N extends string, E, B>(
   name: Exclude<N, keyof A>,
   fb: IOEither<E, B>
 ) => (fa: IOEither<E, A>) => IOEither<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+
+// -------------------------------------------------------------------------------------
+// array utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.9.0
+ */
+export const traverseArrayWithIndex: <A, E, B>(
+  f: (index: number, a: A) => IOEither<E, B>
+) => (arr: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) =>
+  flow(I.traverseArrayWithIndex(f), I.map(E.sequenceArray))
+
+/**
+ * @since 2.9.0
+ */
+export const traverseArray: <A, E, B>(
+  f: (a: A) => IOEither<E, B>
+) => (arr: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+
+/**
+ *
+ * @since 2.9.0
+ */
+export const sequenceArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEither<E, ReadonlyArray<A>> = traverseArray(
+  identity
+)
+
+/**
+ * @since 2.9.0
+ */
+export const traverseSeqArrayWithIndex: <A, E, B>(
+  f: (index: number, a: A) => IOEither<E, B>
+) => (arr: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) => (arr) => () => {
+  // tslint:disable-next-line: readonly-array
+  const result = []
+  for (let i = 0; i < arr.length; i++) {
+    const b = f(i, arr[i])()
+    if (E.isLeft(b)) {
+      return b
+    }
+    result.push(b.right)
+  }
+  return E.right(result)
+}
+
+/**
+ * @since 2.9.0
+ */
+export const traverseSeqArray: <A, E, B>(
+  f: (a: A) => IOEither<E, B>
+) => (arr: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) => traverseSeqArrayWithIndex((_, a) => f(a))
+
+/**
+ * @since 2.9.0
+ */
+export const sequenceSeqArray: <E, A>(
+  arr: ReadonlyArray<IOEither<E, A>>
+) => IOEither<E, ReadonlyArray<A>> = traverseSeqArray(identity)

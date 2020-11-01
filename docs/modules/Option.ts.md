@@ -120,6 +120,9 @@ Added in v2.0.0
   - [elem](#elem)
   - [exists](#exists)
   - [getRefinement](#getrefinement)
+  - [sequenceArray](#sequencearray)
+  - [traverseArray](#traversearray)
+  - [traverseArrayWithIndex](#traversearraywithindex)
 
 ---
 
@@ -1438,3 +1441,67 @@ export declare function getRefinement<A, B extends A>(getOption: (a: A) => Optio
 ```
 
 Added in v2.0.0
+
+## sequenceArray
+
+get an array of option and convert it to option of array
+
+this function have the same behavior of `A.sequence(O.option)` but it's optimized and perform better
+
+**Signature**
+
+```ts
+export declare const sequenceArray: <A>(arr: readonly Option<A>[]) => Option<readonly A[]>
+```
+
+**Example**
+
+```ts
+import * as A from 'fp-ts/Array'
+import { sequenceArray, some, none, fromPredicate } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
+
+const arr = A.range(0, 10)
+assert.deepStrictEqual(pipe(arr, A.map(some), sequenceArray), some(arr))
+assert.deepStrictEqual(pipe(arr, A.map(fromPredicate((x) => x > 8)), sequenceArray), none)
+```
+
+Added in v2.9.0
+
+## traverseArray
+
+Runs an action for every element in array and accumulates the results in option
+
+this function have the same behavior of `A.sequence(O.option)` but it's optimized and perform better
+
+**Signature**
+
+```ts
+export declare const traverseArray: <A, B>(f: (a: A) => Option<B>) => (arr: readonly A[]) => Option<readonly B[]>
+```
+
+**Example**
+
+```ts
+import * as A from 'fp-ts/Array'
+import { traverseArray, some, fromPredicate, none } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
+
+const arr = A.range(0, 10)
+assert.deepStrictEqual(pipe(arr, traverseArray(some)), some(arr))
+assert.deepStrictEqual(pipe(arr, traverseArray(fromPredicate((x) => x > 5))), none)
+```
+
+Added in v2.9.0
+
+## traverseArrayWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => Option<B>
+) => (arr: readonly A[]) => Option<readonly B[]>
+```
+
+Added in v2.9.0

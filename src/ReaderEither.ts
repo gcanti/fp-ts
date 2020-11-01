@@ -674,3 +674,29 @@ export const apS: <A, N extends string, R, E, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderEither<R, E, B>
 ) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+
+// -------------------------------------------------------------------------------------
+// array utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.9.0
+ */
+export const traverseArrayWithIndex: <R, E, A, B>(
+  f: (index: number, a: A) => ReaderEither<R, E, B>
+) => (arr: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>> = (f) =>
+  flow(R.traverseArrayWithIndex(f), R.map(E.sequenceArray))
+
+/**
+ * @since 2.9.0
+ */
+export const traverseArray: <R, E, A, B>(
+  f: (a: A) => ReaderEither<R, E, B>
+) => (arr: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+
+/**
+ * @since 2.9.0
+ */
+export const sequenceArray: <R, E, A>(
+  arr: ReadonlyArray<ReaderEither<R, E, A>>
+) => ReaderEither<R, E, ReadonlyArray<A>> = traverseArray(identity)

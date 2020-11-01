@@ -59,6 +59,12 @@ Added in v2.0.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [never](#never)
+  - [sequenceArray](#sequencearray)
+  - [sequenceSeqArray](#sequenceseqarray)
+  - [traverseArray](#traversearray)
+  - [traverseArrayWithIndex](#traversearraywithindex)
+  - [traverseSeqArray](#traverseseqarray)
+  - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
 
 ---
 
@@ -461,3 +467,120 @@ export declare const never: Task<never>
 ```
 
 Added in v2.0.0
+
+## sequenceArray
+
+this function works like `Promise.all` it will get an array of tasks and return a task of array.
+
+this function have the same behavior of `A.sequence(T.task)` but it's stack safe.
+
+> **This function run all task in parallel for sequential use `sequenceSeqArray` **
+
+**Signature**
+
+```ts
+export declare const sequenceArray: <A>(arr: readonly Task<A>[]) => Task<readonly A[]>
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+import { of, sequenceArray } from 'fp-ts/Task'
+
+async function test() {
+  const arr = RA.range(1, 10)
+  assert.deepStrictEqual(await pipe(arr, RA.map(of), sequenceArray)(), arr)
+}
+
+test()
+```
+
+Added in v2.9.0
+
+## sequenceSeqArray
+
+run tasks in array sequential and give a task of array
+
+this function have the same behavior of `A.sequence(T.taskSeq)` but it's stack safe.
+
+> **This function run all task sequentially for parallel use `sequenceArray` **
+
+**Signature**
+
+```ts
+export declare const sequenceSeqArray: <A>(arr: readonly Task<A>[]) => Task<readonly A[]>
+```
+
+Added in v2.9.0
+
+## traverseArray
+
+this function map array to task using provided function and transform it to a task of array.
+
+this function have the same behavior of `A.traverse(T.task)` but it's stack safe.
+
+> **This function run all task in parallel for sequential use `traverseSeqArray` **
+
+**Signature**
+
+```ts
+export declare const traverseArray: <A, B>(f: (a: A) => Task<B>) => (arr: readonly A[]) => Task<readonly B[]>
+```
+
+**Example**
+
+```ts
+import { range } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+import { of, traverseArray } from 'fp-ts/Task'
+async function test() {
+  const arr = range(0, 10)
+  assert.deepStrictEqual(await pipe(arr, traverseArray(of))(), arr)
+}
+
+test()
+```
+
+Added in v2.9.0
+
+## traverseArrayWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => Task<B>
+) => (arr: readonly A[]) => Task<readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseSeqArray
+
+runs an action for every element in array then run task sequential, and accumulates the results in the array.
+
+this function have the same behavior of `A.traverse(T.taskSeq)` but it's stack safe.
+
+> **This function run all task sequentially for parallel use `traverseArray` **
+
+**Signature**
+
+```ts
+export declare const traverseSeqArray: <A, B>(f: (a: A) => Task<B>) => (arr: readonly A[]) => Task<readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseSeqArrayWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseSeqArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => Task<B>
+) => (arr: readonly A[]) => Task<readonly B[]>
+```
+
+Added in v2.9.0

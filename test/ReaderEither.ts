@@ -4,6 +4,7 @@ import * as E from '../src/Either'
 import { pipe } from '../src/function'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
+import * as A from '../src/Array'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderEither'
 import { semigroupSum } from '../src/Semigroup'
@@ -230,5 +231,28 @@ describe('ReaderEither', () => {
       pipe(_.right<void, string, number>(1), _.bindTo('a'), _.apS('b', _.right('b')))(undefined),
       E.right({ a: 1, b: 'b' })
     )
+  })
+
+  describe('array utils', () => {
+    it('sequenceArray', () => {
+      const arr = A.range(1, 10)
+      assert.deepStrictEqual(pipe(arr, A.map(_.of), _.sequenceArray)({}), E.right(arr))
+    })
+
+    it('traverseArray', () => {
+      const arr = A.range(1, 10)
+      assert.deepStrictEqual(pipe(arr, _.traverseArray(_.of))({}), E.right(arr))
+    })
+
+    it('traverseArrayWithIndex', () => {
+      const arr = A.replicate(3, 1)
+      assert.deepStrictEqual(
+        pipe(
+          arr,
+          _.traverseArrayWithIndex((index, _data) => _.of(index))
+        )({}),
+        E.right([0, 1, 2])
+      )
+    })
   })
 })

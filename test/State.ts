@@ -1,4 +1,5 @@
 import * as assert from 'assert'
+import * as RA from '../src/ReadonlyArray'
 import { pipe, tuple } from '../src/function'
 import * as _ from '../src/State'
 
@@ -92,5 +93,30 @@ describe('State', () => {
       { a: 1, b: 'b' },
       undefined
     ])
+  })
+
+  describe('array utils', () => {
+    it('sequenceArray', () => {
+      const add = (n: number) => (s: number) => tuple(n, n + s)
+      const arr = RA.range(0, 10)
+      assert.deepStrictEqual(pipe(arr, RA.map(add), _.sequenceArray)(0), [arr, arr.reduce((p, c) => p + c, 0)])
+    })
+
+    it('traverseArray', () => {
+      const add = (n: number) => (s: number) => tuple(n, n + s)
+      const arr = RA.range(0, 10)
+      assert.deepStrictEqual(pipe(arr, _.traverseArray(add))(0), [arr, arr.reduce((p, c) => p + c, 0)])
+    })
+    it('traverseArrayWithIndex', () => {
+      const add = (n: number) => (s: number) => tuple(n, n + s)
+      const arr = RA.range(0, 10)
+      assert.deepStrictEqual(
+        pipe(
+          arr,
+          _.traverseArrayWithIndex((_i, data) => add(data))
+        )(0),
+        [arr, arr.reduce((p, c) => p + c, 0)]
+      )
+    })
   })
 })

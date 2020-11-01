@@ -3,7 +3,7 @@ import * as E from '../src/Either'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import * as O from '../src/Option'
-import { pipe } from '../src/function'
+import { pipe, tuple } from '../src/function'
 import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
 import * as RTE from '../src/ReaderTaskEither'
@@ -330,5 +330,56 @@ describe('StateReaderTaskEither', () => {
       )(),
       E.right([{ a: 1, b: 'b' }, undefined])
     )
+  })
+
+  describe('array utils', () => {
+    it('sequenceArray', async () => {
+      const add = (n: number) => (s: number) => (_r: {}) => () => Promise.resolve(E.right(tuple(n, n + s)))
+      const arr = A.range(0, 10)
+
+      assert.deepStrictEqual(
+        await pipe(arr, A.map(add), _.sequenceArray)(0)({})(),
+        E.right([arr, arr.reduce((p, c) => p + c, 0)])
+      )
+    })
+
+    it('traverseArray', async () => {
+      const add = (n: number) => (s: number) => (_r: {}) => () => Promise.resolve(E.right(tuple(n, n + s)))
+      const arr = A.range(0, 10)
+
+      assert.deepStrictEqual(
+        await pipe(arr, _.traverseArray(add))(0)({})(),
+        E.right([arr, arr.reduce((p, c) => p + c, 0)])
+      )
+    })
+
+    it('traverseArrayWithIndex', async () => {
+      const add = (n: number) => _.rightState((s: number) => tuple(n, n + s))
+      const arr = A.range(0, 10)
+
+      assert.deepStrictEqual(
+        await pipe(
+          arr,
+          _.traverseArrayWithIndex((_index, a) =>
+            pipe(
+              a,
+              _.fromPredicate(
+                (a) => a > 5,
+                () => 'ERROR'
+              )
+            )
+          )
+        )(0)({})(),
+        E.left('ERROR')
+      )
+
+      assert.deepStrictEqual(
+        await pipe(
+          arr,
+          _.traverseArrayWithIndex((_, a) => add(a))
+        )(0)({})(),
+        E.right([arr, arr.reduce((p, c) => p + c, 0)])
+      )
+    })
   })
 })

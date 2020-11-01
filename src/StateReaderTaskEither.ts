@@ -850,3 +850,47 @@ export const apS: <A, N extends string, S, R, E, B>(
 ) => (
   fa: StateReaderTaskEither<S, R, E, A>
 ) => StateReaderTaskEither<S, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+
+// -------------------------------------------------------------------------------------
+// array utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.9.0
+ */
+export const traverseArrayWithIndex: <S, R, E, A, B>(
+  f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
+) => (arr: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>> = (f) => (arr) => (s) => (
+  r
+) => async () => {
+  let lastState = s
+  // tslint:disable-next-line: readonly-array
+  const result = []
+  for (let i = 0; i < arr.length; i++) {
+    const b = await f(i, arr[i])(lastState)(r)()
+
+    if (E.isLeft(b)) {
+      return b
+    }
+    const [newValue, newState] = b.right
+    result.push(newValue)
+    lastState = newState
+  }
+
+  return E.right([result, lastState])
+}
+
+/**
+ * @since 2.9.0
+ */
+export const traverseArray: <S, R, E, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, R, E, B>
+) => (arr: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>> = (f) =>
+  traverseArrayWithIndex((_, a) => f(a))
+
+/**
+ * @since 2.9.0
+ */
+export const sequenceArray: <S, R, E, A>(
+  arr: ReadonlyArray<StateReaderTaskEither<S, R, E, A>>
+) => StateReaderTaskEither<S, R, E, ReadonlyArray<A>> = traverseArray(identity)

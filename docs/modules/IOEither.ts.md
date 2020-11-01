@@ -89,6 +89,12 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
+  - [sequenceArray](#sequencearray)
+  - [sequenceSeqArray](#sequenceseqarray)
+  - [traverseArray](#traversearray)
+  - [traverseArrayWithIndex](#traversearraywithindex)
+  - [traverseSeqArray](#traverseseqarray)
+  - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
 
 ---
 
@@ -830,3 +836,71 @@ export declare const bracket: <E, A, B>(
 ```
 
 Added in v2.0.0
+
+## sequenceArray
+
+**Signature**
+
+```ts
+export declare const sequenceArray: <E, A>(arr: readonly IOEither<E, A>[]) => IOEither<E, readonly A[]>
+```
+
+Added in v2.9.0
+
+## sequenceSeqArray
+
+**Signature**
+
+```ts
+export declare const sequenceSeqArray: <E, A>(arr: readonly IOEither<E, A>[]) => IOEither<E, readonly A[]>
+```
+
+Added in v2.9.0
+
+## traverseArray
+
+**Signature**
+
+```ts
+export declare const traverseArray: <A, E, B>(
+  f: (a: A) => IOEither<E, B>
+) => (arr: readonly A[]) => IOEither<E, readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseArrayWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <A, E, B>(
+  f: (index: number, a: A) => IOEither<E, B>
+) => (arr: readonly A[]) => IOEither<E, readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseSeqArray
+
+**Signature**
+
+```ts
+export declare const traverseSeqArray: <A, E, B>(
+  f: (a: A) => IOEither<E, B>
+) => (arr: readonly A[]) => IOEither<E, readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseSeqArrayWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseSeqArrayWithIndex: <A, E, B>(
+  f: (index: number, a: A) => IOEither<E, B>
+) => (arr: readonly A[]) => IOEither<E, readonly B[]>
+```
+
+Added in v2.9.0

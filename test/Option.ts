@@ -469,4 +469,32 @@ describe('Option', () => {
     assert.deepStrictEqual(f(1), _.some(1))
     assert.deepStrictEqual(f(-1), _.none)
   })
+  // -------------------------------------------------------------------------------------
+  // array utils
+  // -------------------------------------------------------------------------------------
+
+  it('sequenceArray', () => {
+    const arr = A.range(0, 10)
+    assert.deepStrictEqual(pipe(arr, A.map(_.some), _.sequenceArray), _.some(arr))
+
+    assert.deepStrictEqual(pipe(arr, A.map(_.fromPredicate((x) => x > 5)), _.sequenceArray), _.none)
+  })
+
+  it('traverseArray', () => {
+    const arr = A.range(0, 10)
+    assert.deepStrictEqual(pipe(arr, _.traverseArray(_.some)), _.some(arr))
+    assert.deepStrictEqual(pipe(arr, _.traverseArray(_.fromPredicate((x) => x > 5))), _.none)
+  })
+
+  it('traverseArrayWithIndex', () => {
+    const arr = A.range(0, 10)
+    assert.deepStrictEqual(
+      pipe(
+        arr,
+        _.traverseArrayWithIndex((index, _data) => _.some(index))
+      ),
+      _.some(arr)
+    )
+    assert.deepStrictEqual(pipe(arr, _.traverseArrayWithIndex(_.fromPredicate((x) => x > 5))), _.none)
+  })
 })

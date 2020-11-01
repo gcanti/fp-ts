@@ -3,6 +3,7 @@ import * as I from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import { pipe } from '../src/function'
 import * as _ from '../src/Task'
+import * as RA from '../src/ReadonlyArray'
 import { assertSeq, assertPar } from './util'
 
 const delayReject = <A>(n: number, a: A): _.Task<A> => () =>
@@ -135,5 +136,49 @@ describe('Task', () => {
 
   it('apS', async () => {
     assert.deepStrictEqual(await pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b')))(), { a: 1, b: 'b' })
+  })
+
+  describe('array utils', () => {
+    it('sequenceArray', async () => {
+      const arr = RA.range(0, 10)
+      assert.deepStrictEqual(await pipe(arr, RA.map(_.of), _.sequenceArray)(), arr)
+    })
+
+    it('traverseArray', async () => {
+      const arr = RA.range(0, 10)
+      assert.deepStrictEqual(await pipe(arr, _.traverseArray(_.of))(), arr)
+    })
+
+    it('traverseArrayWithIndex', async () => {
+      const arr = RA.range(0, 10)
+      assert.deepStrictEqual(
+        await pipe(
+          arr,
+          _.traverseArrayWithIndex((index, _data) => _.of(index))
+        )(),
+        arr
+      )
+    })
+
+    it('sequenceSeqArray', async () => {
+      const arr = RA.range(0, 10)
+      assert.deepStrictEqual(await pipe(arr, RA.map(_.of), _.sequenceSeqArray)(), arr)
+    })
+
+    it('traverseSeqArray', async () => {
+      const arr = RA.range(0, 10)
+      assert.deepStrictEqual(await pipe(arr, _.traverseSeqArray(_.of))(), arr)
+    })
+
+    it('traverseSeqArrayWithIndex', async () => {
+      const arr = RA.range(0, 10)
+      assert.deepStrictEqual(
+        await pipe(
+          arr,
+          _.traverseSeqArrayWithIndex((index, _data) => _.of(index))
+        )(),
+        arr
+      )
+    })
   })
 })

@@ -1280,3 +1280,66 @@ export const apS = <A, N extends string, B>(
     map((a) => (b: B) => bind_(a, name, b)),
     ap(fb)
   )
+
+// -------------------------------------------------------------------------------------
+// array utils
+// -------------------------------------------------------------------------------------
+
+/**
+ *
+ * @since 2.9.0
+ */
+export const traverseArrayWithIndex = <A, B>(f: (index: number, a: A) => Option<B>) => (
+  arr: ReadonlyArray<A>
+): Option<ReadonlyArray<B>> => {
+  // tslint:disable-next-line: readonly-array
+  const result = []
+  for (let i = 0; i < arr.length; i++) {
+    const b = f(i, arr[i])
+    if (isNone(b)) {
+      return none
+    }
+    result.push(b.value)
+  }
+  return some(result)
+}
+
+/**
+ * Runs an action for every element in array and accumulates the results in option
+ *
+ * this function have the same behavior of `A.sequence(O.option)` but it's optimized and perform better
+ *
+ * @example
+ *
+ * import * as A from 'fp-ts/Array'
+ * import { traverseArray, some, fromPredicate, none } from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const arr = A.range(0, 10)
+ * assert.deepStrictEqual(pipe(arr, traverseArray(some)), some(arr))
+ * assert.deepStrictEqual(pipe(arr, traverseArray(fromPredicate((x) => x > 5))), none)
+ *
+ * @since 2.9.0
+ */
+export const traverseArray: <A, B>(f: (a: A) => Option<B>) => (arr: ReadonlyArray<A>) => Option<ReadonlyArray<B>> = (
+  f
+) => traverseArrayWithIndex((_, a) => f(a))
+
+/**
+ * get an array of option and convert it to option of array
+ *
+ * this function have the same behavior of `A.sequence(O.option)` but it's optimized and perform better
+ *
+ * @example
+ *
+ * import * as A from 'fp-ts/Array'
+ * import { sequenceArray, some, none, fromPredicate } from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const arr = A.range(0, 10)
+ * assert.deepStrictEqual(pipe(arr, A.map(some), sequenceArray), some(arr))
+ * assert.deepStrictEqual(pipe(arr, A.map(fromPredicate(x => x > 8)), sequenceArray), none)
+ *
+ * @since 2.9.0
+ */
+export const sequenceArray: <A>(arr: ReadonlyArray<Option<A>>) => Option<ReadonlyArray<A>> = traverseArray(identity)

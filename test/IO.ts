@@ -2,6 +2,7 @@ import * as assert from 'assert'
 import * as _ from '../src/IO'
 import { semigroupSum } from '../src/Semigroup'
 import { monoidSum } from '../src/Monoid'
+import * as RA from '../src/ReadonlyArray'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
 
@@ -77,5 +78,28 @@ describe('IO', () => {
 
   it('apS', () => {
     assert.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b')))(), { a: 1, b: 'b' })
+  })
+
+  describe('array utils', () => {
+    it('sequenceArray', () => {
+      const arr = RA.range(0, 100)
+      assert.deepStrictEqual(pipe(arr, RA.map(_.of), _.sequenceArray)(), arr)
+    })
+
+    it('traverseArray', () => {
+      const arr = RA.range(0, 100)
+      assert.deepStrictEqual(pipe(arr, _.traverseArray(_.of))(), arr)
+    })
+
+    it('traverseArrayWithIndex', () => {
+      const arr = RA.range(0, 100)
+      assert.deepStrictEqual(
+        pipe(
+          arr,
+          _.traverseArrayWithIndex((index, _data) => _.of(index))
+        )(),
+        arr
+      )
+    })
   })
 })

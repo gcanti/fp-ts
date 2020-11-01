@@ -421,3 +421,29 @@ export const apS: <A, N extends string, R, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTask<R, B>
 ) => (fa: ReaderTask<R, A>) => ReaderTask<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+
+// -------------------------------------------------------------------------------------
+// array utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.9.0
+ */
+export const traverseArrayWithIndex: <R, A, B>(
+  f: (index: number, a: A) => ReaderTask<R, B>
+) => (arr: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>> = (f) =>
+  flow(R.traverseArrayWithIndex(f), R.map(T.sequenceArray))
+
+/**
+ * @since 2.9.0
+ */
+export const traverseArray: <R, A, B>(
+  f: (a: A) => ReaderTask<R, B>
+) => (arr: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+
+/**
+ * @since 2.9.0
+ */
+export const sequenceArray: <R, A>(
+  arr: ReadonlyArray<ReaderTask<R, A>>
+) => ReaderTask<R, ReadonlyArray<A>> = traverseArray(identity)

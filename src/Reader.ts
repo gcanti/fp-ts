@@ -403,3 +403,53 @@ export const apS: <A, N extends string, R, B>(
   name: Exclude<N, keyof A>,
   fb: Reader<R, B>
 ) => (fa: Reader<R, A>) => Reader<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+
+// -------------------------------------------------------------------------------------
+// array utils
+// -------------------------------------------------------------------------------------
+
+/**
+ *
+ * @since 2.9.0
+ */
+export const traverseArrayWithIndex: <R, A, B>(
+  f: (index: number, a: A) => Reader<R, B>
+) => (arr: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>> = (f) => (arr) => (r) => arr.map((x, i) => f(i, x)(r))
+
+/**
+ * this function have the same behavior of `A.traverse(R.reader)` but it's stack safe and optimized
+ *
+ * @example
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import { traverseArray, Reader } from 'fp-ts/Reader'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const add: (x: number) => Reader<{value:number}, number> = x => config => x + config.value
+ * const arr = RA.range(0, 100)
+ *
+ * assert.deepStrictEqual(pipe(arr, traverseArray(add))({value: 3}), pipe(arr, RA.map(x => x + 3)))
+ *
+ * @since 2.9.0
+ */
+export const traverseArray: <R, A, B>(
+  f: (a: A) => Reader<R, B>
+) => (arr: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+
+/**
+ * this function have the same behavior of `A.sequence(R.reader)` but it's stack safe and optimized
+ *
+ * @example
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import { sequenceArray, Reader } from 'fp-ts/Reader'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const add: (x: number) => Reader<{value:number}, number> = x => config => x + config.value
+ * const arr = RA.range(0, 100)
+ *
+ * assert.deepStrictEqual(pipe(arr, RA.map(add), sequenceArray)({value: 3}), pipe(arr, RA.map(x => x + 3)))
+ *
+ * @since 2.9.0
+ */
+export const sequenceArray: <R, A>(arr: ReadonlyArray<Reader<R, A>>) => Reader<R, ReadonlyArray<A>> = traverseArray(
+  identity
+)
