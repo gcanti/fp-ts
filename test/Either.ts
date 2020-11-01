@@ -670,4 +670,58 @@ describe('Either', () => {
     assert.deepStrictEqual(f(_.right(-1)), _.left('error'))
     assert.deepStrictEqual(f(_.left('a')), _.left('a'))
   })
+
+  describe('array utils', () => {
+    it('sequenceArray', () => {
+      const arr = A.range(0, 10)
+      assert.deepStrictEqual(pipe(arr, A.map(_.right), _.sequenceArray), _.right(arr))
+      assert.deepStrictEqual(pipe(arr, A.map(_.right), A.cons(_.left('a')), _.sequenceArray), _.left('a'))
+    })
+
+    it('traverseArrayWithIndex', () => {
+      const arr = A.range(0, 10)
+      assert.deepStrictEqual(
+        pipe(
+          arr,
+          _.traverseArrayWithIndex((index, _data) => _.right(index))
+        ),
+        _.right(arr)
+      )
+      assert.deepStrictEqual(
+        pipe(
+          arr,
+          _.traverseArray(
+            _.fromPredicate(
+              (x) => x > 5,
+              () => 'a'
+            )
+          )
+        ),
+        _.left('a')
+      )
+    })
+
+    it('traverseArray', () => {
+      const arr = A.range(0, 10)
+      assert.deepStrictEqual(
+        pipe(
+          arr,
+          _.traverseArray((x) => _.right(x))
+        ),
+        _.right(arr)
+      )
+      assert.deepStrictEqual(
+        pipe(
+          arr,
+          _.traverseArray(
+            _.fromPredicate(
+              (x) => x > 5,
+              () => 'a'
+            )
+          )
+        ),
+        _.left('a')
+      )
+    })
+  })
 })
