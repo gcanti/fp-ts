@@ -71,6 +71,8 @@ Added in v2.5.0
   - [duplicate](#duplicate)
   - [flatten](#flatten)
   - [intersection](#intersection)
+  - [intersperse](#intersperse)
+  - [prependToAll](#prependtoall)
   - [reverse](#reverse)
   - [rights](#rights)
   - [rotate](#rotate)
@@ -749,6 +751,46 @@ assert.deepStrictEqual(pipe([1, 2], intersection(eqNumber)([2, 3])), [2])
 ```
 
 Added in v2.5.0
+
+## intersperse
+
+Places an element in between members of an array
+
+**Signature**
+
+```ts
+export declare function intersperse<A>(e: A): (as: ReadonlyArray<A>) => ReadonlyArray<A>
+```
+
+**Example**
+
+```ts
+import { intersperse } from 'fp-ts/ReadonlyArray'
+
+assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
+```
+
+Added in v2.9.0
+
+## prependToAll
+
+Prepend an element to every member of an array
+
+**Signature**
+
+```ts
+export declare const prependToAll: <A>(e: A) => (xs: readonly A[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import { prependToAll } from 'fp-ts/ReadonlyArray'
+
+assert.deepStrictEqual(prependToAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
+```
+
+Added in v2.9.0
 
 ## reverse
 

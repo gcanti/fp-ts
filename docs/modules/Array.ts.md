@@ -72,7 +72,9 @@ Added in v2.0.0
   - [duplicate](#duplicate)
   - [flatten](#flatten)
   - [intersection](#intersection)
+  - [intersperse](#intersperse)
   - [lefts](#lefts)
+  - [prependToAll](#prependtoall)
   - [reverse](#reverse)
   - [rights](#rights)
   - [rotate](#rotate)
@@ -742,6 +744,26 @@ assert.deepStrictEqual(pipe([1, 2], intersection(eqNumber)([2, 3])), [2])
 
 Added in v2.0.0
 
+## intersperse
+
+Places an element in between members of an array
+
+**Signature**
+
+```ts
+export declare const intersperse: <A>(e: A) => (as: A[]) => A[]
+```
+
+**Example**
+
+```ts
+import { intersperse } from 'fp-ts/Array'
+
+assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
+```
+
+Added in v2.9.0
+
 ## lefts
 
 Extracts from an array of `Either` all the `Left` elements. All the `Left` elements are extracted in order
@@ -762,6 +784,26 @@ assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
 ```
 
 Added in v2.0.0
+
+## prependToAll
+
+Prepend an element to every member of an array
+
+**Signature**
+
+```ts
+export declare const prependToAll: <A>(e: A) => (xs: A[]) => A[]
+```
+
+**Example**
+
+```ts
+import { prependToAll } from 'fp-ts/Array'
+
+assert.deepStrictEqual(prependToAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
+```
+
+Added in v2.9.0
 
 ## reverse
 

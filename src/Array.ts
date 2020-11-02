@@ -726,6 +726,32 @@ export const zip: {
 export const unzip: <A, B>(as: Array<[A, B]>) => [Array<A>, Array<B>] = RA.unzip as any
 
 /**
+ * Prepend an element to every member of an array
+ *
+ * @example
+ * import { prependToAll } from 'fp-ts/Array'
+ *
+ * assert.deepStrictEqual(prependToAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
+ *
+ * @category combinators
+ * @since 2.9.0
+ */
+export const prependToAll: <A>(e: A) => (xs: Array<A>) => Array<A> = RA.prependToAll as any
+
+/**
+ * Places an element in between members of an array
+ *
+ * @example
+ * import { intersperse } from 'fp-ts/Array'
+ *
+ * assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
+ *
+ * @category combinators
+ * @since 2.9.0
+ */
+export const intersperse: <A>(e: A) => (as: Array<A>) => Array<A> = RA.intersperse as any
+
+/**
  * Rotate an array to the right by `n` steps
  *
  * @example

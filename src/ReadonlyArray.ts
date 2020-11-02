@@ -1052,6 +1052,47 @@ export function unzip<A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [Reado
 }
 
 /**
+ * Prepend an element to every member of an array
+ *
+ * @example
+ * import { prependToAll } from 'fp-ts/ReadonlyArray'
+ *
+ * assert.deepStrictEqual(prependToAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
+ *
+ * @category combinators
+ * @since 2.9.0
+ */
+export const prependToAll = <A>(e: A) => (xs: ReadonlyArray<A>): ReadonlyArray<A> => {
+  // tslint:disable-next-line: readonly-array
+  const ys: Array<A> = []
+  for (const x of xs) {
+    ys.push(e, x)
+  }
+  return ys
+}
+
+/**
+ * Places an element in between members of an array
+ *
+ * @example
+ * import { intersperse } from 'fp-ts/ReadonlyArray'
+ *
+ * assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
+ *
+ * @category combinators
+ * @since 2.9.0
+ */
+export function intersperse<A>(e: A): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
+  return (as) => {
+    const length = as.length
+    if (length === 0) {
+      return as
+    }
+    return cons(as[0], prependToAll(e)(as.slice(1, as.length)))
+  }
+}
+
+/**
  * Rotate an array to the right by `n` steps
  *
  * @example

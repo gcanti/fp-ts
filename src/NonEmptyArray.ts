@@ -318,6 +318,32 @@ export const zip: {
  */
 export const unzip: <A, B>(as: NonEmptyArray<[A, B]>) => [NonEmptyArray<A>, NonEmptyArray<B>] = RNEA.unzip as any
 
+/**
+ * Prepend an element to every member of an array
+ *
+ * @example
+ * import { cons, prependToAll } from 'fp-ts/NonEmptyArray'
+ *
+ * assert.deepStrictEqual(prependToAll(9)(cons(1, [2, 3, 4])), cons(9, [1, 9, 2, 9, 3, 9, 4]))
+ *
+ * @category combinators
+ * @since 2.9.0
+ */
+export const prependToAll: <A>(e: A) => (xs: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.prependToAll as any
+
+/**
+ * Places an element in between members of an array
+ *
+ * @example
+ * import { cons, intersperse } from 'fp-ts/NonEmptyArray'
+ *
+ * assert.deepStrictEqual(intersperse(9)(cons(1, [2, 3, 4])), cons(1, [9, 2, 9, 3, 9, 4]))
+ *
+ * @category combinators
+ * @since 2.9.0
+ */
+export const intersperse: <A>(e: A) => (as: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.intersperse as any
+
 // -------------------------------------------------------------------------------------
 // non-pipeables
 // -------------------------------------------------------------------------------------

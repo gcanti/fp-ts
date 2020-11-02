@@ -380,6 +380,36 @@ export const unzip: <A, B>(
   as: ReadonlyNonEmptyArray<readonly [A, B]>
 ) => readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>] = RA.unzip as any
 
+/**
+ * Prepend an element to every member of an array
+ *
+ * @example
+ * import { cons, prependToAll } from 'fp-ts/ReadonlyNonEmptyArray'
+ *
+ * assert.deepStrictEqual(prependToAll(9)(cons(1, [2, 3, 4])), cons(9, [1, 9, 2, 9, 3, 9, 4]))
+ *
+ * @category combinators
+ * @since 2.9.0
+ */
+export const prependToAll: <A>(
+  e: A
+) => (xs: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.prependToAll as any
+
+/**
+ * Places an element in between members of an array
+ *
+ * @example
+ * import { cons, intersperse } from 'fp-ts/ReadonlyNonEmptyArray'
+ *
+ * assert.deepStrictEqual(intersperse(9)(cons(1, [2, 3, 4])), cons(1, [9, 2, 9, 3, 9, 4]))
+ *
+ * @category combinators
+ * @since 2.9.0
+ */
+export const intersperse: <A>(
+  e: A
+) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.intersperse as any
+
 // -------------------------------------------------------------------------------------
 // non-pipeables
 // -------------------------------------------------------------------------------------
