@@ -308,6 +308,16 @@ describe('ReadonlyNonEmptyArray', () => {
     assert.deepStrictEqual(_.snoc([1, 2, 3], 4), [1, 2, 3, 4])
   })
 
+  it('uncons', () => {
+    assert.deepStrictEqual(_.uncons(_.cons(0, [])), [0, []])
+    assert.deepStrictEqual(_.uncons(_.cons(1, [2, 3, 4])), [1, [2, 3, 4]])
+  })
+
+  it('unsnoc', () => {
+    assert.deepStrictEqual(_.unsnoc(_.snoc([], 0)), [[], 0])
+    assert.deepStrictEqual(_.unsnoc(_.snoc([1, 2, 3], 4)), [[1, 2, 3], 4])
+  })
+
   it('getShow', () => {
     const S = _.getShow(showString)
     assert.deepStrictEqual(S.show(['a']), `["a"]`)

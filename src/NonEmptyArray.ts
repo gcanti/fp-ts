@@ -73,6 +73,32 @@ export const snoc: <A>(init: Array<A>, end: A) => NonEmptyArray<A> = RNEA.snoc a
 export const fromArray: <A>(as: Array<A>) => Option<NonEmptyArray<A>> = RNEA.fromArray as any
 
 /**
+ * Produces a couple of the first element of the array, and a new array of the remaining elements, if any
+ *
+ * @example
+ * import { cons, uncons } from 'fp-ts/NonEmptyArray'
+ *
+ * assert.deepStrictEqual(uncons(cons(1, [2, 3, 4])), [1, [2, 3, 4]])
+ *
+ * @category destructors
+ * @since 2.9.0
+ */
+export const uncons: <A>(nea: NonEmptyArray<A>) => readonly [A, Array<A>] = RNEA.uncons as any
+
+/**
+ * Produces a couple of a copy of the array without its last element, and that last element
+ *
+ * @example
+ * import { snoc, unsnoc } from 'fp-ts/NonEmptyArray'
+ *
+ * assert.deepStrictEqual(unsnoc(snoc([1, 2, 3], 4)), [[1, 2, 3], 4])
+ *
+ * @category destructors
+ * @since 2.9.0
+ */
+export const unsnoc: <A>(nea: NonEmptyArray<A>) => readonly [Array<A>, A] = RNEA.unsnoc as any
+
+/**
  * @category instances
  * @since 2.0.0
  */

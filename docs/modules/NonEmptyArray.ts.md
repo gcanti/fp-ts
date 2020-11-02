@@ -58,6 +58,9 @@ Added in v2.0.0
   - [fromArray](#fromarray)
   - [groupBy](#groupby)
   - [snoc](#snoc)
+- [destructors](#destructors)
+  - [uncons](#uncons)
+  - [unsnoc](#unsnoc)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative-1)
@@ -581,6 +584,48 @@ assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
 ```
 
 Added in v2.0.0
+
+# destructors
+
+## uncons
+
+Produces a couple of the first element of the array, and a new array of the remaining elements, if any
+
+**Signature**
+
+```ts
+export declare const uncons: <A>(nea: NonEmptyArray<A>) => readonly [A, A[]]
+```
+
+**Example**
+
+```ts
+import { cons, uncons } from 'fp-ts/NonEmptyArray'
+
+assert.deepStrictEqual(uncons(cons(1, [2, 3, 4])), [1, [2, 3, 4]])
+```
+
+Added in v2.9.0
+
+## unsnoc
+
+Produces a couple of a copy of the array without its last element, and that last element
+
+**Signature**
+
+```ts
+export declare const unsnoc: <A>(nea: NonEmptyArray<A>) => readonly [A[], A]
+```
+
+**Example**
+
+```ts
+import { snoc, unsnoc } from 'fp-ts/NonEmptyArray'
+
+assert.deepStrictEqual(unsnoc(snoc([1, 2, 3], 4)), [[1, 2, 3], 4])
+```
+
+Added in v2.9.0
 
 # instances
 

@@ -83,6 +83,37 @@ export function fromArray<A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>> {
 }
 
 /**
+ * Produces a couple of the first element of the array, and a new array of the remaining elements, if any
+ *
+ * @example
+ * import { cons, uncons } from 'fp-ts/ReadonlyNonEmptyArray'
+ *
+ * assert.deepStrictEqual(uncons(cons(1, [2, 3, 4])), [1, [2, 3, 4]])
+ *
+ * @category destructors
+ * @since 2.9.0
+ */
+export function uncons<A>(nea: ReadonlyNonEmptyArray<A>): readonly [A, ReadonlyArray<A>] {
+  return [nea[0], nea.slice(1)]
+}
+
+/**
+ * Produces a couple of a copy of the array without its last element, and that last element
+ *
+ * @example
+ * import { snoc, unsnoc } from 'fp-ts/ReadonlyNonEmptyArray'
+ *
+ * assert.deepStrictEqual(unsnoc(snoc([1, 2, 3], 4)), [[1, 2, 3], 4])
+ *
+ * @category destructors
+ * @since 2.9.0
+ */
+export function unsnoc<A>(nea: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArray<A>, A] {
+  const l = nea.length - 1
+  return [nea.slice(0, l), nea[l]]
+}
+
+/**
  * @category instances
  * @since 2.5.0
  */
