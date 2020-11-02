@@ -62,9 +62,11 @@ Added in v2.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [chainNullableK](#chainnullablek)
   - [duplicate](#duplicate)
   - [flatten](#flatten)
-  - [mapNullable](#mapnullable)
+  - [fromNullableK](#fromnullablek)
+  - [~~mapNullable~~](#mapnullable)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
   - [fromNullable](#fromnullable)
@@ -458,6 +460,59 @@ export declare const chainFirst: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A
 
 Added in v2.0.0
 
+## chainNullableK
+
+This is `chain` + `fromNullable`, useful when working with optional values
+
+**Signature**
+
+```ts
+export declare function chainNullableK<A, B>(f: (a: A) => B | null | undefined): (ma: Option<A>) => Option<B>
+```
+
+**Example**
+
+```ts
+import { some, none, fromNullable, chainNullableK } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
+
+interface Employee {
+  company?: {
+    address?: {
+      street?: {
+        name?: string
+      }
+    }
+  }
+}
+
+const employee1: Employee = { company: { address: { street: { name: 'high street' } } } }
+
+assert.deepStrictEqual(
+  pipe(
+    fromNullable(employee1.company),
+    chainNullableK((company) => company.address),
+    chainNullableK((address) => address.street),
+    chainNullableK((street) => street.name)
+  ),
+  some('high street')
+)
+
+const employee2: Employee = { company: { address: { street: {} } } }
+
+assert.deepStrictEqual(
+  pipe(
+    fromNullable(employee2.company),
+    chainNullableK((company) => company.address),
+    chainNullableK((address) => address.street),
+    chainNullableK((street) => street.name)
+  ),
+  none
+)
+```
+
+Added in v2.9.0
+
 ## duplicate
 
 Derivable from `Extend`.
@@ -482,55 +537,24 @@ export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
 
 Added in v2.0.0
 
-## mapNullable
-
-This is `chain` + `fromNullable`, useful when working with optional values
+## fromNullableK
 
 **Signature**
 
 ```ts
-export declare function mapNullable<A, B>(f: (a: A) => B | null | undefined): (ma: Option<A>) => Option<B>
+export declare function fromNullableK<A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+): (...a: A) => Option<NonNullable<B>>
 ```
 
-**Example**
+Added in v2.9.0
+
+## ~~mapNullable~~
+
+**Signature**
 
 ```ts
-import { some, none, fromNullable, mapNullable } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-interface Employee {
-  company?: {
-    address?: {
-      street?: {
-        name?: string
-      }
-    }
-  }
-}
-
-const employee1: Employee = { company: { address: { street: { name: 'high street' } } } }
-
-assert.deepStrictEqual(
-  pipe(
-    fromNullable(employee1.company),
-    mapNullable((company) => company.address),
-    mapNullable((address) => address.street),
-    mapNullable((street) => street.name)
-  ),
-  some('high street')
-)
-
-const employee2: Employee = { company: { address: { street: {} } } }
-
-assert.deepStrictEqual(
-  pipe(
-    fromNullable(employee2.company),
-    mapNullable((company) => company.address),
-    mapNullable((address) => address.street),
-    mapNullable((street) => street.name)
-  ),
-  none
-)
+export declare const mapNullable: typeof chainNullableK
 ```
 
 Added in v2.0.0

@@ -56,9 +56,11 @@ Added in v2.0.0
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [chainFirstW](#chainfirstw)
+  - [chainNullableK](#chainnullablek)
   - [duplicate](#duplicate)
   - [filterOrElse](#filterorelse)
   - [flatten](#flatten)
+  - [fromNullableK](#fromnullablek)
   - [orElse](#orelse)
   - [swap](#swap)
 - [constructors](#constructors)
@@ -480,6 +482,18 @@ export declare const chainFirstW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma
 
 Added in v2.8.0
 
+## chainNullableK
+
+**Signature**
+
+```ts
+export declare function chainNullableK<E>(
+  e: E
+): <A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>
+```
+
+Added in v2.9.0
+
 ## duplicate
 
 Derivable from `Extend`.
@@ -530,6 +544,18 @@ assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
 ```
 
 Added in v2.0.0
+
+## fromNullableK
+
+**Signature**
+
+```ts
+export declare function fromNullableK<E>(
+  e: E
+): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B | null | undefined) => (...a: A) => Either<E, NonNullable<B>>
+```
+
+Added in v2.9.0
 
 ## orElse
 

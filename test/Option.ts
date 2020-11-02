@@ -282,7 +282,7 @@ describe('Option', () => {
     assert.deepStrictEqual(OS.compare(_.some('b'), _.some('a')), 1)
   })
 
-  it('mapNullable', () => {
+  it('chainNullableK', () => {
     interface X {
       readonly a?: {
         readonly b?: {
@@ -298,27 +298,27 @@ describe('Option', () => {
     assert.deepStrictEqual(
       pipe(
         _.fromNullable(x1.a),
-        _.mapNullable((x) => x.b),
-        _.mapNullable((x) => x.c),
-        _.mapNullable((x) => x.d)
+        _.chainNullableK((x) => x.b),
+        _.chainNullableK((x) => x.c),
+        _.chainNullableK((x) => x.d)
       ),
       _.none
     )
     assert.deepStrictEqual(
       pipe(
         _.fromNullable(x2.a),
-        _.mapNullable((x) => x.b),
-        _.mapNullable((x) => x.c),
-        _.mapNullable((x) => x.d)
+        _.chainNullableK((x) => x.b),
+        _.chainNullableK((x) => x.c),
+        _.chainNullableK((x) => x.d)
       ),
       _.none
     )
     assert.deepStrictEqual(
       pipe(
         _.fromNullable(x3.a),
-        _.mapNullable((x) => x.b),
-        _.mapNullable((x) => x.c),
-        _.mapNullable((x) => x.d)
+        _.chainNullableK((x) => x.b),
+        _.chainNullableK((x) => x.c),
+        _.chainNullableK((x) => x.d)
       ),
       _.some(1)
     )
@@ -462,5 +462,11 @@ describe('Option', () => {
 
   it('apS', () => {
     assert.deepStrictEqual(pipe(_.some(1), _.bindTo('a'), _.apS('b', _.some('b'))), _.some({ a: 1, b: 'b' }))
+  })
+
+  it('fromNullableK', () => {
+    const f = _.fromNullableK((n: number) => (n > 0 ? n : null))
+    assert.deepStrictEqual(f(1), _.some(1))
+    assert.deepStrictEqual(f(-1), _.none)
   })
 })
