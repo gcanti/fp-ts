@@ -24,6 +24,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `prependToAll` (@marcotoniut)
   - `Either`
     - add `altW` (@gcanti)
+    - add `fromNullableK` (@gcanti)
+    - add `chainNullableK` (@gcanti)
   - `Identity`
     - add `altW` (@gcanti)
   - `IOEither`
@@ -36,6 +38,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `prependToAll` (@marcotoniut)
   - `Option`
     - add `altW` (@gcanti)
+    - add `fromNullableK` (@gcanti)
+    - add `chainNullableK` (@gcanti)
   - `ReaderEither`
     - add `altW` (@gcanti)
   - `ReaderTaskEither`
@@ -54,6 +58,9 @@ high state of flux, you're at risk of it changing without notice.
     - add `prependToAll` (@marcotoniut)
   - `TaskEither`
     - add `altW` (@gcanti)
+- **Deprecation**
+  - `Option`
+    - deprecate `mapNullable` in favour of `chainNullableK` (@gcanti)
 
 # 2.8.5
 

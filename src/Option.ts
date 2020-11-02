@@ -333,10 +333,27 @@ export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElse
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category combinators
+ * @since 2.9.0
+ */
+export function fromNullableK<A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+): (...a: A) => Option<NonNullable<B>> {
+  return (...a) => fromNullable(f(...a))
+}
+
+/**
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export const mapNullable = chainNullableK
+
+/**
  * This is `chain` + `fromNullable`, useful when working with optional values
  *
  * @example
- * import { some, none, fromNullable, mapNullable } from 'fp-ts/Option'
+ * import { some, none, fromNullable, chainNullableK } from 'fp-ts/Option'
  * import { pipe } from 'fp-ts/function'
  *
  * interface Employee {
@@ -354,9 +371,9 @@ export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElse
  * assert.deepStrictEqual(
  *   pipe(
  *     fromNullable(employee1.company),
- *     mapNullable(company => company.address),
- *     mapNullable(address => address.street),
- *     mapNullable(street => street.name)
+ *     chainNullableK(company => company.address),
+ *     chainNullableK(address => address.street),
+ *     chainNullableK(street => street.name)
  *   ),
  *   some('high street')
  * )
@@ -366,17 +383,17 @@ export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElse
  * assert.deepStrictEqual(
  *   pipe(
  *     fromNullable(employee2.company),
- *     mapNullable(company => company.address),
- *     mapNullable(address => address.street),
- *     mapNullable(street => street.name)
+ *     chainNullableK(company => company.address),
+ *     chainNullableK(address => address.street),
+ *     chainNullableK(street => street.name)
  *   ),
  *   none
  * )
  *
  * @category combinators
- * @since 2.0.0
+ * @since 2.9.0
  */
-export function mapNullable<A, B>(f: (a: A) => B | null | undefined): (ma: Option<A>) => Option<B> {
+export function chainNullableK<A, B>(f: (a: A) => B | null | undefined): (ma: Option<A>) => Option<B> {
   return (ma) => (isNone(ma) ? none : fromNullable(f(ma.value)))
 }
 

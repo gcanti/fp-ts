@@ -302,6 +302,30 @@ export const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: Either<E, A>) => A =
 
 /**
  * @category combinators
+ * @since 2.9.0
+ */
+export function fromNullableK<E>(
+  e: E
+): <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => Either<E, NonNullable<B>> {
+  const from = fromNullable(e)
+  return (f) => (...a) => from(f(...a))
+}
+
+/**
+ * @category combinators
+ * @since 2.9.0
+ */
+export function chainNullableK<E>(
+  e: E
+): <A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>> {
+  const from = fromNullableK(e)
+  return (f) => chain(from(f))
+}
+
+/**
+ * @category combinators
  * @since 2.0.0
  */
 export function swap<E, A>(ma: Either<E, A>): Either<A, E> {
