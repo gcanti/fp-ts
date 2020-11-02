@@ -542,30 +542,12 @@ Added in v2.0.0
 
 ## fromNullableK
 
-Returns a _smart constructor_ from a function that returns a nullable value.
-
 **Signature**
 
 ```ts
 export declare function fromNullableK<A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
 ): (...a: A) => Option<NonNullable<B>>
-```
-
-**Example**
-
-```ts
-import { fromNullableK, none, some } from 'fp-ts/Option'
-
-const f = (s: string): number | undefined => {
-  const n = parseFloat(s)
-  return isNaN(n) ? undefined : n
-}
-
-const g = fromNullableK(f)
-
-assert.deepStrictEqual(g('1'), some(1))
-assert.deepStrictEqual(g('a'), none)
 ```
 
 Added in v2.9.0
