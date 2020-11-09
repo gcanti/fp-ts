@@ -283,12 +283,12 @@ export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Eithe
 import { pipe } from 'fp-ts/function'
 import * as E from 'fp-ts/Either'
 
-const empty = 'prefix'
+const startWith = 'prefix'
 const concat = (a: string, b: string) => `${a}:${b}`
 
-assert.deepStrictEqual(pipe(E.right('a'), E.reduce(empty, concat)), 'prefix:a')
+assert.deepStrictEqual(pipe(E.right('a'), E.reduce(startWith, concat)), 'prefix:a')
 
-assert.deepStrictEqual(pipe(E.left('e'), E.reduce(empty, concat)), 'prefix')
+assert.deepStrictEqual(pipe(E.left('e'), E.reduce(startWith, concat)), 'prefix')
 ```
 
 Added in v2.0.0
@@ -309,12 +309,12 @@ export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: 
 import { pipe } from 'fp-ts/function'
 import * as E from 'fp-ts/Either'
 
-const empty = 'postfix'
+const startWith = 'postfix'
 const concat = (a: string, b: string) => `${a}:${b}`
 
-assert.deepStrictEqual(pipe(E.right('a'), E.reduceRight(empty, concat)), 'a:postfix')
+assert.deepStrictEqual(pipe(E.right('a'), E.reduceRight(startWith, concat)), 'a:postfix')
 
-assert.deepStrictEqual(pipe(E.left('e'), E.reduceRight(empty, concat)), 'postfix')
+assert.deepStrictEqual(pipe(E.left('e'), E.reduceRight(startWith, concat)), 'postfix')
 ```
 
 Added in v2.0.0
@@ -519,6 +519,44 @@ export declare const filterOrElse: {
 }
 ```
 
+**Example**
+
+```ts
+import { filterOrElse, left, right } from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    right(1),
+    filterOrElse(
+      (n) => n > 0,
+      () => 'error'
+    )
+  ),
+  right(1)
+)
+assert.deepStrictEqual(
+  pipe(
+    right(-1),
+    filterOrElse(
+      (n) => n > 0,
+      () => 'error'
+    )
+  ),
+  left('error')
+)
+assert.deepStrictEqual(
+  pipe(
+    left('a'),
+    filterOrElse(
+      (n) => n > 0,
+      () => 'error'
+    )
+  ),
+  left('a')
+)
+```
+
 Added in v2.0.0
 
 ## flatten
@@ -559,6 +597,8 @@ Added in v2.9.0
 
 ## orElse
 
+Useful for recovering from errors.
+
 **Signature**
 
 ```ts
@@ -568,6 +608,8 @@ export declare function orElse<E, A, M>(onLeft: (e: E) => Either<M, A>): (ma: Ei
 Added in v2.0.0
 
 ## swap
+
+Returns a `Right` if is a `Left` (and vice versa).
 
 **Signature**
 
@@ -582,7 +624,7 @@ Added in v2.0.0
 ## fromNullable
 
 Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
-the provided default as a `Left`
+the provided default as a `Left`.
 
 **Signature**
 
@@ -613,6 +655,29 @@ Derivable from `MonadThrow`.
 export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Either<E, A>
 ```
 
+**Example**
+
+```ts
+import { fromOption, left, right } from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import { none, some } from 'fp-ts/Option'
+
+assert.deepStrictEqual(
+  pipe(
+    some(1),
+    fromOption(() => 'error')
+  ),
+  right(1)
+)
+assert.deepStrictEqual(
+  pipe(
+    none,
+    fromOption(() => 'error')
+  ),
+  left('error')
+)
+```
+
 Added in v2.0.0
 
 ## fromPredicate
@@ -628,12 +693,40 @@ export declare const fromPredicate: {
 }
 ```
 
+**Example**
+
+```ts
+import { fromPredicate, left, right } from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    1,
+    fromPredicate(
+      (n) => n > 0,
+      () => 'error'
+    )
+  ),
+  right(1)
+)
+assert.deepStrictEqual(
+  pipe(
+    -1,
+    fromPredicate(
+      (n) => n > 0,
+      () => 'error'
+    )
+  ),
+  left('error')
+)
+```
+
 Added in v2.0.0
 
 ## left
 
 Constructs a new `Either` holding a `Left` value. This usually represents a failure, due to the right-bias of this
-structure
+structure.
 
 **Signature**
 
@@ -667,7 +760,7 @@ Added in v2.0.0
 ## right
 
 Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
-of this structure
+of this structure.
 
 **Signature**
 
@@ -709,7 +802,7 @@ Added in v2.0.0
 
 ## tryCatch
 
-Constructs a new `Either` from a function that might throw
+Constructs a new `Either` from a function that might throw.
 
 **Signature**
 
@@ -778,10 +871,34 @@ Added in v2.0.0
 
 ## getOrElse
 
+Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
+
 **Signature**
 
 ```ts
 export declare const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: Either<E, A>) => A
+```
+
+**Example**
+
+```ts
+import { getOrElse, left, right } from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    right(1),
+    getOrElse(() => 0)
+  ),
+  1
+)
+assert.deepStrictEqual(
+  pipe(
+    left('error'),
+    getOrElse(() => 0)
+  ),
+  0
+)
 ```
 
 Added in v2.0.0
@@ -802,7 +919,7 @@ Added in v2.6.0
 
 ## isLeft
 
-Returns `true` if the either is an instance of `Left`, `false` otherwise
+Returns `true` if the either is an instance of `Left`, `false` otherwise.
 
 **Signature**
 
@@ -814,7 +931,7 @@ Added in v2.0.0
 
 ## isRight
 
-Returns `true` if the either is an instance of `Right`, `false` otherwise
+Returns `true` if the either is an instance of `Right`, `false` otherwise.
 
 **Signature**
 

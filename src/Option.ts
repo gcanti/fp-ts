@@ -65,7 +65,7 @@ export type Option<A> = None | Some<A>
 // -------------------------------------------------------------------------------------
 
 /**
- * Returns `true` if the option is an instance of `Some`, `false` otherwise
+ * Returns `true` if the option is an instance of `Some`, `false` otherwise.
  *
  * @example
  * import { some, none, isSome } from 'fp-ts/Option'
@@ -79,7 +79,7 @@ export type Option<A> = None | Some<A>
 export const isSome = <A>(fa: Option<A>): fa is Some<A> => fa._tag === 'Some'
 
 /**
- * Returns `true` if the option is `None`, `false` otherwise
+ * Returns `true` if the option is `None`, `false` otherwise.
  *
  * @example
  * import { some, none, isNone } from 'fp-ts/Option'
@@ -97,12 +97,16 @@ export const isNone = <A>(fa: Option<A>): fa is None => fa._tag === 'None'
 // -------------------------------------------------------------------------------------
 
 /**
+ * `None` doesn't have a constructor, instead you can use it directly as a value. Represents a missing value.
+ *
  * @category constructors
  * @since 2.0.0
  */
 export const none: Option<never> = { _tag: 'None' }
 
 /**
+ * Constructs a `Some`. Represents an optional value that exists.
+ *
  * @category constructors
  * @since 2.0.0
  */
@@ -110,7 +114,7 @@ export const some = <A>(a: A): Option<A> => ({ _tag: 'Some', value: a })
 
 /**
  * Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
- * returns the value wrapped in a `Some`
+ * returns the value wrapped in a `Some`.
  *
  * @example
  * import { none, some, fromNullable } from 'fp-ts/Option'
@@ -127,7 +131,7 @@ export function fromNullable<A>(a: A): Option<NonNullable<A>> {
 }
 
 /**
- * Returns a smart constructor based on the given predicate
+ * Returns a *smart constructor* based on the given predicate.
  *
  * @example
  * import { none, some, fromPredicate } from 'fp-ts/Option'
@@ -147,8 +151,8 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
 }
 
 /**
- * Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in
- * `Some`
+ * Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
+ * `Some`.
  *
  * @example
  * import { none, some, tryCatch } from 'fp-ts/Option'
@@ -173,7 +177,14 @@ export function tryCatch<A>(f: Lazy<A>): Option<A> {
 }
 
 /**
- * Returns an `E` value if possible
+ * Returns the `Left` value of an `Either` if possible.
+ *
+ * @example
+ * import { getLeft, none, some } from 'fp-ts/Option'
+ * import { right, left } from 'fp-ts/Either'
+ *
+ * assert.deepStrictEqual(getLeft(right(1)), none)
+ * assert.deepStrictEqual(getLeft(left('a')), some('a'))
  *
  * @category constructors
  * @since 2.0.0
@@ -183,7 +194,14 @@ export function getLeft<E, A>(ma: Either<E, A>): Option<E> {
 }
 
 /**
- * Returns an `A` value if possible
+ * Returns the `Right` value of an `Either` if possible.
+ *
+ * @example
+ * import { getRight, none, some } from 'fp-ts/Option'
+ * import { right, left } from 'fp-ts/Either'
+ *
+ * assert.deepStrictEqual(getRight(right(1)), some(1))
+ * assert.deepStrictEqual(getRight(left('a')), none)
  *
  * @category constructors
  * @since 2.0.0
@@ -193,19 +211,23 @@ export function getRight<E, A>(ma: Either<E, A>): Option<A> {
 }
 
 /**
+ * Transforms an `Either` to an `Option` discarding the error.
+ *
+ * Alias of [getRight](#getRight)
+ *
  * Derivable from `MonadThrow`.
  *
  * @category constructors
  * @since 2.0.0
  */
-export const fromEither: <E, A>(ma: Either<E, A>) => Option<A> = (ma) => (ma._tag === 'Left' ? none : some(ma.right))
+export const fromEither: <E, A>(ma: Either<E, A>) => Option<A> = getRight
 
 // -------------------------------------------------------------------------------------
 // destructors
 // -------------------------------------------------------------------------------------
 
 /**
- * Takes a default value, a function, and an `Option` value, if the `Option` value is `None` the default value is
+ * Takes a (lazy) default value, a function, and an `Option` value, if the `Option` value is `None` the default value is
  * returned, otherwise the function is applied to the value inside the `Some` and the result is returned.
  *
  * @example
@@ -333,6 +355,21 @@ export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElse
 // -------------------------------------------------------------------------------------
 
 /**
+ * Returns a *smart constructor* from a function that returns a nullable value.
+ *
+ * @example
+ * import { fromNullableK, none, some } from 'fp-ts/Option'
+ *
+ * const f = (s: string): number | undefined => {
+ *   const n = parseFloat(s)
+ *   return isNaN(n) ? undefined : n
+ * }
+ *
+ * const g = fromNullableK(f)
+ *
+ * assert.deepStrictEqual(g('1'), some(1))
+ * assert.deepStrictEqual(g('a'), none)
+ *
  * @category combinators
  * @since 2.9.0
  */
@@ -350,7 +387,7 @@ export function fromNullableK<A extends ReadonlyArray<unknown>, B>(
 export const mapNullable = chainNullableK
 
 /**
- * This is `chain` + `fromNullable`, useful when working with optional values
+ * This is `chain` + `fromNullable`, useful when working with optional values.
  *
  * @example
  * import { some, none, fromNullable, chainNullableK } from 'fp-ts/Option'

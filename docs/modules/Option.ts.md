@@ -462,7 +462,7 @@ Added in v2.0.0
 
 ## chainNullableK
 
-This is `chain` + `fromNullable`, useful when working with optional values
+This is `chain` + `fromNullable`, useful when working with optional values.
 
 **Signature**
 
@@ -539,12 +539,30 @@ Added in v2.0.0
 
 ## fromNullableK
 
+Returns a _smart constructor_ from a function that returns a nullable value.
+
 **Signature**
 
 ```ts
 export declare function fromNullableK<A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
 ): (...a: A) => Option<NonNullable<B>>
+```
+
+**Example**
+
+```ts
+import { fromNullableK, none, some } from 'fp-ts/Option'
+
+const f = (s: string): number | undefined => {
+  const n = parseFloat(s)
+  return isNaN(n) ? undefined : n
+}
+
+const g = fromNullableK(f)
+
+assert.deepStrictEqual(g('1'), some(1))
+assert.deepStrictEqual(g('a'), none)
 ```
 
 Added in v2.9.0
@@ -563,6 +581,10 @@ Added in v2.0.0
 
 ## fromEither
 
+Transforms an `Either` to an `Option` discarding the error.
+
+Alias of [getRight](#getRight)
+
 Derivable from `MonadThrow`.
 
 **Signature**
@@ -576,7 +598,7 @@ Added in v2.0.0
 ## fromNullable
 
 Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
-returns the value wrapped in a `Some`
+returns the value wrapped in a `Some`.
 
 **Signature**
 
@@ -598,7 +620,7 @@ Added in v2.0.0
 
 ## fromPredicate
 
-Returns a smart constructor based on the given predicate
+Returns a _smart constructor_ based on the given predicate.
 
 **Signature**
 
@@ -622,7 +644,7 @@ Added in v2.0.0
 
 ## getLeft
 
-Returns an `E` value if possible
+Returns the `Left` value of an `Either` if possible.
 
 **Signature**
 
@@ -630,11 +652,21 @@ Returns an `E` value if possible
 export declare function getLeft<E, A>(ma: Either<E, A>): Option<E>
 ```
 
+**Example**
+
+```ts
+import { getLeft, none, some } from 'fp-ts/Option'
+import { right, left } from 'fp-ts/Either'
+
+assert.deepStrictEqual(getLeft(right(1)), none)
+assert.deepStrictEqual(getLeft(left('a')), some('a'))
+```
+
 Added in v2.0.0
 
 ## getRight
 
-Returns an `A` value if possible
+Returns the `Right` value of an `Either` if possible.
 
 **Signature**
 
@@ -642,9 +674,21 @@ Returns an `A` value if possible
 export declare function getRight<E, A>(ma: Either<E, A>): Option<A>
 ```
 
+**Example**
+
+```ts
+import { getRight, none, some } from 'fp-ts/Option'
+import { right, left } from 'fp-ts/Either'
+
+assert.deepStrictEqual(getRight(right(1)), some(1))
+assert.deepStrictEqual(getRight(left('a')), none)
+```
+
 Added in v2.0.0
 
 ## none
+
+`None` doesn't have a constructor, instead you can use it directly as a value. Represents a missing value.
 
 **Signature**
 
@@ -656,6 +700,8 @@ Added in v2.0.0
 
 ## some
 
+Constructs a `Some`. Represents an optional value that exists.
+
 **Signature**
 
 ```ts
@@ -666,8 +712,8 @@ Added in v2.0.0
 
 ## tryCatch
 
-Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in
-`Some`
+Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
+`Some`.
 
 **Signature**
 
@@ -698,7 +744,7 @@ Added in v2.0.0
 
 ## fold
 
-Takes a default value, a function, and an `Option` value, if the `Option` value is `None` the default value is
+Takes a (lazy) default value, a function, and an `Option` value, if the `Option` value is `None` the default value is
 returned, otherwise the function is applied to the value inside the `Some` and the result is returned.
 
 **Signature**
@@ -832,7 +878,7 @@ Added in v2.0.0
 
 ## isNone
 
-Returns `true` if the option is `None`, `false` otherwise
+Returns `true` if the option is `None`, `false` otherwise.
 
 **Signature**
 
@@ -853,7 +899,7 @@ Added in v2.0.0
 
 ## isSome
 
-Returns `true` if the option is an instance of `Some`, `false` otherwise
+Returns `true` if the option is an instance of `Some`, `false` otherwise.
 
 **Signature**
 

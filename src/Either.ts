@@ -67,7 +67,7 @@ export type Either<E, A> = Left<E> | Right<A>
 // -------------------------------------------------------------------------------------
 
 /**
- * Returns `true` if the either is an instance of `Left`, `false` otherwise
+ * Returns `true` if the either is an instance of `Left`, `false` otherwise.
  *
  * @category guards
  * @since 2.0.0
@@ -75,7 +75,7 @@ export type Either<E, A> = Left<E> | Right<A>
 export const isLeft = <E, A>(ma: Either<E, A>): ma is Left<E> => ma._tag === 'Left'
 
 /**
- * Returns `true` if the either is an instance of `Right`, `false` otherwise
+ * Returns `true` if the either is an instance of `Right`, `false` otherwise.
  *
  * @category guards
  * @since 2.0.0
@@ -88,7 +88,7 @@ export const isRight = <E, A>(ma: Either<E, A>): ma is Right<A> => ma._tag === '
 
 /**
  * Constructs a new `Either` holding a `Left` value. This usually represents a failure, due to the right-bias of this
- * structure
+ * structure.
  *
  * @category constructors
  * @since 2.0.0
@@ -97,7 +97,7 @@ export const left = <E = never, A = never>(e: E): Either<E, A> => ({ _tag: 'Left
 
 /**
  * Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
- * of this structure
+ * of this structure.
  *
  * @category constructors
  * @since 2.0.0
@@ -107,7 +107,7 @@ export const right = <E = never, A = never>(a: A): Either<E, A> => ({ _tag: 'Rig
 // TODO: make lazy in v3
 /**
  * Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
- * the provided default as a `Left`
+ * the provided default as a `Left`.
  *
  * @example
  * import { fromNullable, left, right } from 'fp-ts/Either'
@@ -126,7 +126,7 @@ export function fromNullable<E>(e: E): <A>(a: A) => Either<E, NonNullable<A>> {
 
 // TODO: `onError => Lazy<A> => Either` in v3
 /**
- * Constructs a new `Either` from a function that might throw
+ * Constructs a new `Either` from a function that might throw.
  *
  * @example
  * import { Either, left, right, tryCatch } from 'fp-ts/Either'
@@ -222,6 +222,26 @@ export function stringifyJSON<E>(u: unknown, onError: (reason: unknown) => E): E
 /**
  * Derivable from `MonadThrow`.
  *
+ * @example
+ * import { fromOption, left, right } from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ * import { none, some } from 'fp-ts/Option'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     some(1),
+ *     fromOption(() => 'error')
+ *   ),
+ *   right(1)
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     none,
+ *     fromOption(() => 'error')
+ *   ),
+ *   left('error')
+ * )
+ *
  * @category constructors
  * @since 2.0.0
  */
@@ -230,6 +250,31 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Either<E,
 
 /**
  * Derivable from `MonadThrow`.
+ *
+ * @example
+ * import { fromPredicate, left, right } from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     1,
+ *     fromPredicate(
+ *       (n) => n > 0,
+ *       () => 'error'
+ *     )
+ *   ),
+ *   right(1)
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     -1,
+ *     fromPredicate(
+ *       (n) => n > 0,
+ *       () => 'error'
+ *     )
+ *   ),
+ *   left('error')
+ * )
  *
  * @category constructors
  * @since 2.0.0
@@ -291,6 +336,27 @@ export const getOrElseW = <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>): 
   isLeft(ma) ? onLeft(ma.left) : ma.right
 
 /**
+ * Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
+ *
+ * @example
+ * import { getOrElse, left, right } from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     right(1),
+ *     getOrElse(() => 0)
+ *   ),
+ *   1
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     left('error'),
+ *     getOrElse(() => 0)
+ *   ),
+ *   0
+ * )
+ *
  * @category destructors
  * @since 2.0.0
  */
@@ -325,6 +391,8 @@ export function chainNullableK<E>(
 }
 
 /**
+ * Returns a `Right` if is a `Left` (and vice versa).
+ *
  * @category combinators
  * @since 2.0.0
  */
@@ -333,6 +401,8 @@ export function swap<E, A>(ma: Either<E, A>): Either<A, E> {
 }
 
 /**
+ * Useful for recovering from errors.
+ *
  * @category combinators
  * @since 2.0.0
  */
@@ -342,6 +412,41 @@ export function orElse<E, A, M>(onLeft: (e: E) => Either<M, A>): (ma: Either<E, 
 
 /**
  * Derivable from `MonadThrow`.
+ *
+ * @example
+ * import { filterOrElse, left, right } from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     right(1),
+ *     filterOrElse(
+ *       (n) => n > 0,
+ *       () => 'error'
+ *     )
+ *   ),
+ *   right(1)
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     right(-1),
+ *     filterOrElse(
+ *       (n) => n > 0,
+ *       () => 'error'
+ *     )
+ *   ),
+ *   left('error')
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     left('a'),
+ *     filterOrElse(
+ *       (n) => n > 0,
+ *       () => 'error'
+ *     )
+ *   ),
+ *   left('a')
+ * )
  *
  * @category combinators
  * @since 2.0.0
@@ -590,16 +695,16 @@ export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> =
  * import { pipe } from 'fp-ts/function'
  * import * as E from 'fp-ts/Either'
  *
- * const empty = 'prefix'
+ * const startWith = 'prefix'
  * const concat = (a: string, b: string) => `${a}:${b}`
  *
  * assert.deepStrictEqual(
- *   pipe(E.right('a'), E.reduce(empty, concat)),
+ *   pipe(E.right('a'), E.reduce(startWith, concat)),
  *   'prefix:a',
  * )
  *
  * assert.deepStrictEqual(
- *   pipe(E.left('e'), E.reduce(empty, concat)),
+ *   pipe(E.left('e'), E.reduce(startWith, concat)),
  *   'prefix',
  * )
  *
@@ -642,16 +747,16 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either
  * import { pipe } from 'fp-ts/function'
  * import * as E from 'fp-ts/Either'
  *
- * const empty = 'postfix'
+ * const startWith = 'postfix'
  * const concat = (a: string, b: string) => `${a}:${b}`
  *
  * assert.deepStrictEqual(
- *   pipe(E.right('a'), E.reduceRight(empty, concat)),
+ *   pipe(E.right('a'), E.reduceRight(startWith, concat)),
  *   'a:postfix',
  * )
  *
  * assert.deepStrictEqual(
- *   pipe(E.left('e'), E.reduceRight(empty, concat)),
+ *   pipe(E.left('e'), E.reduceRight(startWith, concat)),
  *   'postfix',
  * )
  *
