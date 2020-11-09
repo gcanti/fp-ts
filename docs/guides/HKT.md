@@ -137,7 +137,7 @@ Let's see how to type `lift`
 import { HKT } from 'fp-ts/lib/HKT'
 
 export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B> {
-  return f => fa => F.map(fa, f)
+  return (f) => (fa) => F.map(fa, f)
 }
 ```
 
@@ -172,7 +172,7 @@ const doubleIdentity = lift(identity)(double)
 With the following error
 
 ```
-Argument of type 'Functor2<"Either">' is not assignable to parameter of type 'Functor<"Either">'
+Argument of type 'Functor1<"Identity">' is not assignable to parameter of type 'Functor<"Identity">'
 ```
 
 We need to add some overloading, one for each kind we want to support
@@ -184,7 +184,7 @@ export function lift<F extends URIS2>(
 export function lift<F extends URIS>(F: Functor1<F>): <A, B>(f: (a: A) => B) => (fa: Kind<F, A>) => Kind<F, B>
 export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
 export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B> {
-  return f => fa => F.map(fa, f)
+  return (f) => (fa) => F.map(fa, f)
 }
 ```
 
