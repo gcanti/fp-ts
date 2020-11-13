@@ -6,6 +6,7 @@ import { Alternative1 } from './Alternative'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_ } from './Apply'
 import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
+import { ChainRec1 } from './ChainRec'
 import { Compactable1 } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
@@ -1273,6 +1274,10 @@ const _wilt: Witherable1<URI>['wilt'] = <F>(
   const wiltF = wilt(F)
   return (fa, f) => pipe(fa, wiltF(f))
 }
+/* istanbul ignore next */
+const _chainRecDepthFirst: ChainRec1<URI>['chainRec'] = RA.ChainRecDepthFirst.chainRec as any
+/* istanbul ignore next */
+const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = RA.ChainRecBreadthFirst.chainRec as any
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -1992,6 +1997,31 @@ export const Witherable: Witherable1<URI> = {
   sequence,
   wither: _wither,
   wilt: _wilt
+}
+
+/**
+ * Exposing depth first recursion by default
+ * @category instances
+ * @since 2.10.0
+ */
+export const ChainRecDepthFirst: ChainRec1<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  chain: _chain,
+  chainRec: _chainRecDepthFirst
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const ChainRecBreadthFirst: ChainRec1<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  chain: _chain,
+  chainRec: _chainRecBreadthFirst
 }
 
 /**
