@@ -23,7 +23,7 @@ import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
-import { isSome, none, Option, some } from './Option'
+import * as O from './Option'
 import { fromCompare, getMonoid as getOrdMonoid, Ord, ordNumber } from './Ord'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Show } from './Show'
@@ -31,6 +31,8 @@ import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
 import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
+
+import Option = O.Option
 
 // -------------------------------------------------------------------------------------
 // model
@@ -385,7 +387,7 @@ export function isOutOfBound<A>(i: number, as: ReadonlyArray<A>): boolean {
 export function lookup(i: number): <A>(as: ReadonlyArray<A>) => Option<A>
 export function lookup<A>(i: number, as: ReadonlyArray<A>): Option<A>
 export function lookup<A>(i: number, as?: ReadonlyArray<A>): Option<A> | (<A>(as: ReadonlyArray<A>) => Option<A>) {
-  return as === undefined ? (as) => lookup(i, as) : isOutOfBound(i, as) ? none : some(as[i])
+  return as === undefined ? (as) => lookup(i, as) : isOutOfBound(i, as) ? O.none : O.some(as[i])
 }
 
 // TODO: remove non-curried overloading in v3
@@ -454,7 +456,7 @@ export function snoc<A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A
  * @since 2.5.0
  */
 export function head<A>(as: ReadonlyArray<A>): Option<A> {
-  return isEmpty(as) ? none : some(as[0])
+  return isEmpty(as) ? O.none : O.some(as[0])
 }
 
 /**
@@ -486,7 +488,7 @@ export function last<A>(as: ReadonlyArray<A>): Option<A> {
  * @since 2.5.0
  */
 export function tail<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> {
-  return isEmpty(as) ? none : some(as.slice(1))
+  return isEmpty(as) ? O.none : O.some(as.slice(1))
 }
 
 /**
@@ -503,7 +505,7 @@ export function tail<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> {
  */
 export function init<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> {
   const len = as.length
-  return len === 0 ? none : some(as.slice(0, len - 1))
+  return len === 0 ? O.none : O.some(as.slice(0, len - 1))
 }
 
 /**
@@ -680,10 +682,10 @@ export function findIndex<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) =>
     const len = as.length
     for (let i = 0; i < len; i++) {
       if (predicate(as[i])) {
-        return some(i)
+        return O.some(i)
       }
     }
-    return none
+    return O.none
   }
 }
 
@@ -705,10 +707,10 @@ export function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) =>
     const len = as.length
     for (let i = 0; i < len; i++) {
       if (predicate(as[i])) {
-        return some(as[i])
+        return O.some(as[i])
       }
     }
-    return none
+    return O.none
   }
 }
 
@@ -736,11 +738,11 @@ export function findFirstMap<A, B>(f: (a: A) => Option<B>): (as: ReadonlyArray<A
     const len = as.length
     for (let i = 0; i < len; i++) {
       const v = f(as[i])
-      if (isSome(v)) {
+      if (O.isSome(v)) {
         return v
       }
     }
-    return none
+    return O.none
   }
 }
 
@@ -762,10 +764,10 @@ export function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => 
     const len = as.length
     for (let i = len - 1; i >= 0; i--) {
       if (predicate(as[i])) {
-        return some(as[i])
+        return O.some(as[i])
       }
     }
-    return none
+    return O.none
   }
 }
 
@@ -793,11 +795,11 @@ export function findLastMap<A, B>(f: (a: A) => Option<B>): (as: ReadonlyArray<A>
     const len = as.length
     for (let i = len - 1; i >= 0; i--) {
       const v = f(as[i])
-      if (isSome(v)) {
+      if (O.isSome(v)) {
         return v
       }
     }
-    return none
+    return O.none
   }
 }
 
@@ -824,10 +826,10 @@ export function findLastIndex<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>
     const len = as.length
     for (let i = len - 1; i >= 0; i--) {
       if (predicate(as[i])) {
-        return some(i)
+        return O.some(i)
       }
     }
-    return none
+    return O.none
   }
 }
 
@@ -843,7 +845,7 @@ export function findLastIndex<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>
  * @since 2.5.0
  */
 export function insertAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>> {
-  return (as) => (i < 0 || i > as.length ? none : some(unsafeInsertAt(i, a, as)))
+  return (as) => (i < 0 || i > as.length ? O.none : O.some(unsafeInsertAt(i, a, as)))
 }
 
 /**
@@ -859,7 +861,7 @@ export function insertAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<R
  * @since 2.5.0
  */
 export function updateAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>> {
-  return (as) => (isOutOfBound(i, as) ? none : some(unsafeUpdateAt(i, a, as)))
+  return (as) => (isOutOfBound(i, as) ? O.none : O.some(unsafeUpdateAt(i, a, as)))
 }
 
 /**
@@ -875,7 +877,7 @@ export function updateAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<R
  * @since 2.5.0
  */
 export function deleteAt(i: number): <A>(as: ReadonlyArray<A>) => Option<ReadonlyArray<A>> {
-  return (as) => (isOutOfBound(i, as) ? none : some(unsafeDeleteAt(i, as)))
+  return (as) => (isOutOfBound(i, as) ? O.none : O.some(unsafeDeleteAt(i, as)))
 }
 
 /**
@@ -893,7 +895,7 @@ export function deleteAt(i: number): <A>(as: ReadonlyArray<A>) => Option<Readonl
  * @since 2.5.0
  */
 export function modifyAt<A>(i: number, f: (a: A) => A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>> {
-  return (as) => (isOutOfBound(i, as) ? none : some(unsafeUpdateAt(i, f(as[i]), as)))
+  return (as) => (isOutOfBound(i, as) ? O.none : O.some(unsafeUpdateAt(i, f(as[i]), as)))
 }
 
 /**
@@ -1727,7 +1729,7 @@ export const filterMapWithIndex = <A, B>(f: (i: number, a: A) => Option<B>) => (
   const result: Array<B> = []
   for (let i = 0; i < fa.length; i++) {
     const optionB = f(i, fa[i])
-    if (isSome(optionB)) {
+    if (O.isSome(optionB)) {
       result.push(optionB.value)
     }
   }
@@ -1980,7 +1982,7 @@ export const unfold = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): Readon
   let bb: B = b
   while (true) {
     const mt = f(bb)
-    if (isSome(mt)) {
+    if (O.isSome(mt)) {
       const [a, b] = mt.value
       ret.push(a)
       bb = b
@@ -2317,6 +2319,38 @@ export function unsafeDeleteAt<A>(i: number, as: ReadonlyArray<A>): ReadonlyArra
  * @since 2.5.0
  */
 export const empty: ReadonlyArray<never> = []
+
+/**
+ * Check if a predicate holds true for every array member.
+ *
+ * @example
+ * import { every } from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const isPositive = (n: number): boolean => n > 0
+ *
+ * assert.deepStrictEqual(pipe([1, 2, 3], every(isPositive)), true)
+ * assert.deepStrictEqual(pipe([1, 2, -3], every(isPositive)), false)
+ *
+ * @since 2.9.0
+ */
+export const every = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): boolean => as.every(predicate)
+
+/**
+ * Check if a predicate holds true for any array member.
+ *
+ * @example
+ * import { some } from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const isPositive = (n: number): boolean => n > 0
+ *
+ * assert.deepStrictEqual(pipe([-1, -2, 3], some(isPositive)), true)
+ * assert.deepStrictEqual(pipe([-1, -2, -3], some(isPositive)), false)
+ *
+ * @since 2.9.0
+ */
+export const some = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): boolean => as.some(predicate)
 
 // -------------------------------------------------------------------------------------
 // do notation

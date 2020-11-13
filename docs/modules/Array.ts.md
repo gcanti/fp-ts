@@ -148,6 +148,7 @@ Added in v2.0.0
   - [deleteAt](#deleteat)
   - [elem](#elem)
   - [empty](#empty)
+  - [every](#every)
   - [findIndex](#findindex)
   - [findLastIndex](#findlastindex)
   - [insertAt](#insertat)
@@ -155,6 +156,7 @@ Added in v2.0.0
   - [isOutOfBound](#isoutofbound)
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
+  - [some](#some)
   - [splitAt](#splitat)
   - [unzip](#unzip)
   - [updateAt](#updateat)
@@ -2026,6 +2028,16 @@ export declare const empty: never[]
 
 Added in v2.0.0
 
+## every
+
+**Signature**
+
+```ts
+export declare const every: <A>(predicate: Predicate<A>) => (as: A[]) => boolean
+```
+
+Added in v2.9.0
+
 ## findIndex
 
 Find the first index for which a predicate holds
@@ -2177,6 +2189,16 @@ assert.deepStrictEqual(modifyAt(1, double)([]), none)
 ```
 
 Added in v2.0.0
+
+## some
+
+**Signature**
+
+```ts
+export declare const some: <A>(predicate: Predicate<A>) => (as: A[]) => boolean
+```
+
+Added in v2.9.0
 
 ## splitAt
 

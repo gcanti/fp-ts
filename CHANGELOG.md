@@ -22,6 +22,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `altW` (@gcanti)
     - add `intersperse` (@marcotoniut)
     - add `prependToAll` (@marcotoniut)
+    - add `every` (@gcanti)
+    - add `some` (@gcanti)
   - `Either`
     - add `altW` (@gcanti)
     - add `fromNullableK` (@gcanti)
@@ -50,6 +52,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `altW` (@gcanti)
     - add `intersperse` (@marcotoniut)
     - add `prependToAll` (@marcotoniut)
+    - add `every` (@gcanti)
+    - add `some` (@gcanti)
   - `ReadonlyNonEmptyArray`
     - add `altW` (@gcanti)
     - add `uncons` (@marcotoniut)

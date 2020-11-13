@@ -1614,6 +1614,16 @@ export const unsafeDeleteAt: <A>(i: number, as: Array<A>) => Array<A> = RA.unsaf
  */
 export const empty: Array<never> = []
 
+/**
+ * @since 2.9.0
+ */
+export const every: <A>(predicate: Predicate<A>) => (as: Array<A>) => boolean = RA.every
+
+/**
+ * @since 2.9.0
+ */
+export const some: <A>(predicate: Predicate<A>) => (as: Array<A>) => boolean = RA.some
+
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------

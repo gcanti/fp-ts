@@ -139,6 +139,7 @@ Added in v2.5.0
   - [deleteAt](#deleteat)
   - [elem](#elem)
   - [empty](#empty)
+  - [every](#every)
   - [findFirst](#findfirst)
   - [findFirstMap](#findfirstmap)
   - [findIndex](#findindex)
@@ -154,6 +155,7 @@ Added in v2.5.0
   - [lefts](#lefts)
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
+  - [some](#some)
   - [spanLeft](#spanleft)
   - [splitAt](#splitat)
   - [tail](#tail)
@@ -237,7 +239,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(fa: readonly Option<A>[]) => readonly A[]
+export declare const compact: <A>(fa: readonly O.Option<A>[]) => readonly A[]
 ```
 
 Added in v2.5.0
@@ -284,7 +286,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
+export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => (fa: readonly A[]) => readonly B[]
 ```
 
 Added in v2.5.0
@@ -321,7 +323,9 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
+export declare const filterMapWithIndex: <A, B>(
+  f: (i: number, a: A) => O.Option<B>
+) => (fa: readonly A[]) => readonly B[]
 ```
 
 Added in v2.5.0
@@ -512,7 +516,7 @@ Added in v2.6.3
 **Signature**
 
 ```ts
-export declare const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => readonly A[]
+export declare const unfold: <A, B>(b: B, f: (b: B) => O.Option<readonly [A, B]>) => readonly A[]
 ```
 
 Added in v2.6.6
@@ -1829,6 +1833,30 @@ export declare const empty: readonly never[]
 
 Added in v2.5.0
 
+## every
+
+Check if a predicate holds true for every array member.
+
+**Signature**
+
+```ts
+export declare const every: <A>(predicate: Predicate<A>) => (as: readonly A[]) => boolean
+```
+
+**Example**
+
+```ts
+import { every } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+const isPositive = (n: number): boolean => n > 0
+
+assert.deepStrictEqual(pipe([1, 2, 3], every(isPositive)), true)
+assert.deepStrictEqual(pipe([1, 2, -3], every(isPositive)), false)
+```
+
+Added in v2.9.0
+
 ## findFirst
 
 Find the first element which satisfies a predicate (or a refinement) function
@@ -2182,6 +2210,30 @@ assert.deepStrictEqual(modifyAt(1, double)([]), none)
 ```
 
 Added in v2.5.0
+
+## some
+
+Check if a predicate holds true for any array member.
+
+**Signature**
+
+```ts
+export declare const some: <A>(predicate: Predicate<A>) => (as: readonly A[]) => boolean
+```
+
+**Example**
+
+```ts
+import { some } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+const isPositive = (n: number): boolean => n > 0
+
+assert.deepStrictEqual(pipe([-1, -2, 3], some(isPositive)), true)
+assert.deepStrictEqual(pipe([-1, -2, -3], some(isPositive)), false)
+```
+
+Added in v2.9.0
 
 ## spanLeft
 

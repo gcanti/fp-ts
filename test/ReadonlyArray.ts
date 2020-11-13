@@ -3,7 +3,7 @@ import * as fc from 'fast-check'
 import { isDeepStrictEqual } from 'util'
 import * as E from '../src/Either'
 import * as Eq from '../src/Eq'
-import { identity, pipe, tuple } from '../src/function'
+import { identity, pipe, Predicate, tuple } from '../src/function'
 import * as M from '../src/Monoid'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
@@ -1001,5 +1001,17 @@ describe('ReadonlyArray', () => {
 
   it('apS', () => {
     assert.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b'))), [{ a: 1, b: 'b' }])
+  })
+
+  it('every', () => {
+    const isPositive: Predicate<number> = (n) => n > 0
+    assert.deepStrictEqual(pipe([1, 2, 3], _.every(isPositive)), true)
+    assert.deepStrictEqual(pipe([1, 2, -3], _.every(isPositive)), false)
+  })
+
+  it('some', () => {
+    const isPositive: Predicate<number> = (n) => n > 0
+    assert.deepStrictEqual(pipe([-1, -2, 3], _.some(isPositive)), true)
+    assert.deepStrictEqual(pipe([-1, -2, -3], _.some(isPositive)), false)
   })
 })
