@@ -1220,4 +1220,135 @@ describe('ReadonlyArray', () => {
     U.deepStrictEqual(_.size([]), 0)
     U.deepStrictEqual(_.size(['a']), 1)
   })
+
+  describe('chainRec', () => {
+    it('depth-first', () => {
+      const chainRec = _.ChainRecDepthFirst.chainRec
+      assert.deepStrictEqual(
+        chainRec(1, () => []),
+        []
+      )
+      assert.deepStrictEqual(
+        chainRec(1, () => [E.right('foo')]),
+        ['foo']
+      )
+      assert.deepStrictEqual(
+        chainRec(1, (a) => {
+          if (a < 5) {
+            return [E.right(a), E.left(a + 1)]
+          } else {
+            return [E.right(a)]
+          }
+        }),
+        [1, 2, 3, 4, 5]
+      )
+      assert.deepStrictEqual(
+        chainRec(1, (a) => {
+          if (a < 5) {
+            return [E.left(a + 1), E.right(a)]
+          } else {
+            return [E.right(a)]
+          }
+        }),
+        [5, 4, 3, 2, 1]
+      )
+      assert.deepStrictEqual(
+        chainRec(1, (a) => {
+          if (a < 5) {
+            return a % 2 === 0 ? [E.right(a), E.left(a + 1)] : [E.left(a + 1), E.right(a)]
+          } else {
+            return [E.right(a)]
+          }
+        }),
+        [2, 4, 5, 3, 1]
+      )
+      assert.deepStrictEqual(
+        chainRec(0, (a) => {
+          if (a === 0) {
+            return [E.right(a), E.left(a - 1), E.left(a + 1)]
+          } else if (0 < a && a < 5) {
+            return [E.right(a), E.left(a + 1)]
+          } else if (-5 < a && a < 0) {
+            return [E.right(a), E.left(a - 1)]
+          } else {
+            return [E.right(a)]
+          }
+        }),
+        [0, -1, -2, -3, -4, -5, 1, 2, 3, 4, 5]
+      )
+      assert.deepStrictEqual(
+        chainRec(0, (a) => {
+          if (a === 0) {
+            return [E.left(a - 1), E.right(a), E.left(a + 1)]
+          } else if (0 < a && a < 5) {
+            return [E.right(a), E.left(a + 1)]
+          } else if (-5 < a && a < 0) {
+            return [E.left(a - 1), E.right(a)]
+          } else {
+            return [E.right(a)]
+          }
+        }),
+        [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]
+      )
+    })
+    it('breadth-first', () => {
+      const chainRec = _.ChainRecBreadthFirst.chainRec
+      assert.deepStrictEqual(
+        chainRec(1, () => []),
+        []
+      )
+      assert.deepStrictEqual(
+        chainRec(1, () => [E.right('foo')]),
+        ['foo']
+      )
+      assert.deepStrictEqual(
+        chainRec(1, (a) => {
+          if (a < 5) {
+            return [E.right(a), E.left(a + 1)]
+          } else {
+            return [E.right(a)]
+          }
+        }),
+        [1, 2, 3, 4, 5]
+      )
+      assert.deepStrictEqual(
+        chainRec(1, (a) => {
+          if (a < 5) {
+            return [E.left(a + 1), E.right(a)]
+          } else {
+            return [E.right(a)]
+          }
+        }),
+        [1, 2, 3, 4, 5]
+      )
+      assert.deepStrictEqual(
+        chainRec(0, (a) => {
+          if (a === 0) {
+            return [E.right(a), E.left(a - 1), E.left(a + 1)]
+          } else if (0 < a && a < 5) {
+            return [E.right(a), E.left(a + 1)]
+          } else if (-5 < a && a < 0) {
+            return [E.right(a), E.left(a - 1)]
+          } else {
+            return [E.right(a)]
+          }
+        }),
+        [0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5]
+      )
+      assert.deepStrictEqual(
+        chainRec(0, (a) => {
+          if (a === 0) {
+            return [E.left(a - 1), E.right(a), E.left(a + 1)]
+          } else if (0 < a && a < 5) {
+            return [E.right(a), E.left(a + 1)]
+          } else if (-5 < a && a < 0) {
+            return [E.left(a - 1), E.right(a)]
+          } else {
+            return [E.right(a)]
+          }
+        }),
+        [0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5]
+      )
+    })
+  })
 })
