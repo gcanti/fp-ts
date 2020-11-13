@@ -15,6 +15,11 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.8.6
+
+- **Bug Fix**
+  - fix #1350 (@gcanti)
+
 # 2.8.5
 
 - **Polish**
