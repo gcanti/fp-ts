@@ -6,6 +6,7 @@ import { Alternative1 } from './Alternative'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_ } from './Apply'
 import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
+import { ChainRec1 } from './ChainRec'
 import { Compactable1 } from './Compactable'
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
@@ -1337,6 +1338,54 @@ const _wilt: Witherable1<URI>['wilt'] = <F>(
   const wiltF = wilt(F)
   return (fa, f) => pipe(fa, wiltF(f))
 }
+const _chainRecDepthFirst: ChainRec1<URI>['chainRec'] = <A, B>(
+  a: A,
+  f: (a: A) => ReadonlyArray<Either<A, B>>
+): ReadonlyArray<B> => {
+  // tslint:disable-next-line: readonly-array
+  const todo: Array<Either<A, B>> = [...f(a)]
+  // tslint:disable-next-line: readonly-array
+  const result: Array<B> = []
+
+  while (todo.length > 0) {
+    const e = todo.shift()!
+    if (e._tag === 'Left') {
+      todo.unshift(...f(e.left))
+    } else {
+      result.push(e.right)
+    }
+  }
+
+  return result
+}
+const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = <A, B>(
+  a: A,
+  f: (a: A) => ReadonlyArray<Either<A, B>>
+): ReadonlyArray<B> => {
+  const initial = f(a)
+  // tslint:disable-next-line: readonly-array
+  const todo: Array<Either<A, B>> = []
+  // tslint:disable-next-line: readonly-array
+  const result: Array<B> = []
+
+  function go(e: Either<A, B>): void {
+    if (e._tag === 'Left') {
+      f(e.left).forEach((v) => todo.push(v))
+    } else {
+      result.push(e.right)
+    }
+  }
+
+  for (const e of initial) {
+    go(e)
+  }
+
+  while (todo.length > 0) {
+    go(todo.shift()!)
+  }
+
+  return result
+}
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -2082,6 +2131,31 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
   traverse: _traverse,
   sequence,
   traverseWithIndex: _traverseWithIndex
+}
+
+/**
+ * Exposing depth first recursion by default
+ * @category instances
+ * @since 2.10.0
+ */
+export const ChainRecDepthFirst: ChainRec1<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  chain: _chain,
+  chainRec: _chainRecDepthFirst
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const ChainRecBreadthFirst: ChainRec1<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  chain: _chain,
+  chainRec: _chainRecBreadthFirst
 }
 
 /**
