@@ -124,60 +124,60 @@ Added in v2.0.0
 
 ## constFalse
 
-A thunk that returns always `false`
+A thunk that returns always `false`.
 
 **Signature**
 
 ```ts
-export declare const constFalse: () => boolean
+export declare const constFalse: Lazy<boolean>
 ```
 
 Added in v2.0.0
 
 ## constNull
 
-A thunk that returns always `null`
+A thunk that returns always `null`.
 
 **Signature**
 
 ```ts
-export declare const constNull: () => null
+export declare const constNull: Lazy<null>
 ```
 
 Added in v2.0.0
 
 ## constTrue
 
-A thunk that returns always `true`
+A thunk that returns always `true`.
 
 **Signature**
 
 ```ts
-export declare const constTrue: () => boolean
+export declare const constTrue: Lazy<boolean>
 ```
 
 Added in v2.0.0
 
 ## constUndefined
 
-A thunk that returns always `undefined`
+A thunk that returns always `undefined`.
 
 **Signature**
 
 ```ts
-export declare const constUndefined: () => undefined
+export declare const constUndefined: Lazy<undefined>
 ```
 
 Added in v2.0.0
 
 ## constVoid
 
-A thunk that returns always `void`
+A thunk that returns always `void`.
 
 **Signature**
 
 ```ts
-export declare const constVoid: () => void
+export declare const constVoid: Lazy<void>
 ```
 
 Added in v2.0.0
