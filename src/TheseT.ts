@@ -162,7 +162,7 @@ export function getTheseM<M>(M: Monad<M>): TheseM<M> {
               f(a),
               fold(
                 (e2) => left(E.concat(e1, e2)),
-                right,
+                (b) => both(e1, b),
                 (e2, b) => both(E.concat(e1, e2), b)
               )
             )

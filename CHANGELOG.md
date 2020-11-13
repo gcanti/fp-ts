@@ -66,6 +66,11 @@ high state of flux, you're at risk of it changing without notice.
   - `Option`
     - deprecate `mapNullable` in favour of `chainNullableK` (@gcanti)
 
+# 2.8.6
+
+- **Bug Fix**
+  - fix #1350 (@gcanti)
+
 # 2.8.5
 
 - **Polish**

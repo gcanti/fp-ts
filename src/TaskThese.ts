@@ -267,7 +267,7 @@ export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI
               T.map(
                 TH.fold(
                   (e2) => TH.left(SE.concat(e1, e2)),
-                  TH.right,
+                  (b) => TH.both(e1, b),
                   (e2, b) => TH.both(SE.concat(e1, e2), b)
                 )
               )

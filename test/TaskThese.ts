@@ -72,15 +72,15 @@ describe('TaskThese', () => {
     })
 
     it('chain', async () => {
-      const f = (n: number) => (n > 2 ? _.both(`c`, n + 1) : n > 1 ? _.right(n * 2) : _.left(`b`))
+      const f = (n: number) => (n > 2 ? _.both(`c`, n * 3) : n > 1 ? _.right(n * 2) : _.left(`b`))
       assert.deepStrictEqual(await M.chain(_.right(1), f)(), TH.left('b'))
       assert.deepStrictEqual(await M.chain(_.right(2), f)(), TH.right(4))
 
       assert.deepStrictEqual(await M.chain(_.left('a'), f)(), TH.left('a'))
 
       assert.deepStrictEqual(await M.chain(_.both('a', 1), f)(), TH.left('ab'))
-      assert.deepStrictEqual(await M.chain(_.both('a', 2), f)(), TH.right(4))
-      assert.deepStrictEqual(await M.chain(_.both('a', 3), f)(), TH.both('ac', 4))
+      assert.deepStrictEqual(await M.chain(_.both('a', 2), f)(), TH.both('a', 4))
+      assert.deepStrictEqual(await M.chain(_.both('a', 3), f)(), TH.both('ac', 9))
     })
   })
 
