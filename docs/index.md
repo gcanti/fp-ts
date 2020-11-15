@@ -29,7 +29,7 @@ Data types are the practical part of `fp-ts`: you can instantiate them with your
 
 Many functions in `fp-ts` use [ad hoc polymorphism](https://en.wikipedia.org/wiki/Ad_hoc_polymorphism), meaning that they have a single implementation that can deal with arguments of different types. To make this work, it is often necessary to provide a data type _instance_ that provides functionality that is specific to the data type.
 
-**Note**. Data types are not stack safe and there is no trampolining implementation.
+**Note**. Data types are not stack safe and there is no trampolining implementation. But for traversing and sequencing lists there is a stack safe and optimized version in each data types.
 
 ## Type Classes
 

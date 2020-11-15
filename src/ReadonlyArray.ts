@@ -1909,6 +1909,7 @@ export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B)
 ) => (fa) => fa.reduceRight((b, a, i) => f(i, a, b), b)
 
 /**
+ * **for optimized and stack safe version check the data types `traverseArray` function**
  * @category Traversable
  * @since 2.6.3
  */
@@ -1920,6 +1921,7 @@ export const traverse: PipeableTraverse1<URI> = <F>(
 }
 
 /**
+ * **for optimized and stack safe version check the data types `sequenceArray` function**
  * @category Traversable
  * @since 2.6.3
  */
@@ -1935,6 +1937,7 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>)
 }
 
 /**
+ * **for optimized and stack safe version check the data types `traverseArrayWithIndex` function**
  * @category TraversableWithIndex
  * @since 2.6.3
  */
