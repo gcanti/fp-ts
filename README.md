@@ -18,6 +18,9 @@ Functional programming in TypeScript
   <a href="https://www.npmjs.com/package/fp-ts">
     <img src="https://img.shields.io/npm/dm/fp-ts.svg" alt="npm downloads" height="20">
   </a>
+  <a href="https://gitpod.io/from-referrer/">
+    <img src="https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod" alt="Gitpod Ready-to-Code" height="20">
+  </a>
 </p>
 
 # Typed functional programming in TypeScript
