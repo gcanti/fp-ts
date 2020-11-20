@@ -7,7 +7,7 @@ import { pipe } from '../../src/function'
 for an array with size 1000
 A.sequence(IO.io) x 20,063 ops/sec ±2.88% (84 runs sampled)
 IO.sequenceArray x 31,780,061 ops/sec ±4.52% (85 runs sampled)
-Fastest is IO.sequenceA
+Fastest is IO.sequenceArray
 */
 
 const suite = new Benchmark.Suite()

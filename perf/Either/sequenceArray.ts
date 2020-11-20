@@ -7,7 +7,7 @@ import { pipe } from '../../src/function'
 for an array with size 1000
 A.sequence(E.either) x 311 ops/sec ±9.97% (59 runs sampled)
 E.sequenceArray x 92,649 ops/sec ±9.29% (66 runs sampled)
-Fastest is E.sequenceA
+Fastest is E.sequenceArray
 */
 
 const suite = new Benchmark.Suite()
