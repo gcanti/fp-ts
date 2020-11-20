@@ -438,7 +438,7 @@ describe('TaskEither', () => {
   })
 
   describe('array utils', () => {
-    it('sequenceA', async () => {
+    it('sequenceArray', async () => {
       const arr = A.range(0, 10)
       assert.deepStrictEqual(await pipe(arr, A.map(_.of), _.sequenceArray)(), E.right(arr))
       assert.deepStrictEqual(
@@ -456,7 +456,7 @@ describe('TaskEither', () => {
       )
     })
 
-    it('traverseA', async () => {
+    it('traverseArray', async () => {
       const arr = A.range(0, 10)
       assert.deepStrictEqual(await pipe(arr, _.traverseArray(_.of))(), E.right(arr))
       assert.deepStrictEqual(
@@ -472,7 +472,8 @@ describe('TaskEither', () => {
         E.left('a')
       )
     })
-    it('sequenceSeqA', async () => {
+
+    it('sequenceSeqArray', async () => {
       const arr = A.range(0, 10)
       assert.deepStrictEqual(await pipe(arr, A.map(_.of), _.sequenceSeqArray)(), E.right(arr))
       assert.deepStrictEqual(
@@ -490,7 +491,7 @@ describe('TaskEither', () => {
       )
     })
 
-    it('traverseSeqA', async () => {
+    it('traverseSeqArray', async () => {
       const arr = A.range(0, 10)
       assert.deepStrictEqual(await pipe(arr, _.traverseSeqArray(_.of))(), E.right(arr))
       assert.deepStrictEqual(
