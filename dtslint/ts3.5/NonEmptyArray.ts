@@ -1,6 +1,6 @@
 import * as _ from '../../src/NonEmptyArray'
 import { Ord } from '../../src/Ord'
-import { pipe } from '../../src/pipeable'
+import { pipe } from '../../src/function'
 
 declare const as: Array<string>
 declare const neas: _.NonEmptyArray<string>
@@ -77,4 +77,15 @@ _.groupBy((x: { readonly a: string }) => x.a)(xs) // $ExpectType Record<string, 
 pipe(
   xs,
   _.groupBy((x) => x.a)
+)
+
+//
+// Do
+//
+
+// $ExpectType NonEmptyArray<{ a: number; b: string; }>
+pipe(
+  _.Do,
+  _.bind('a', () => _.of(1)),
+  _.bind('b', () => _.of('b'))
 )

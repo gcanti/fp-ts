@@ -110,6 +110,7 @@ Added in v2.0.0
   - [Left (interface)](#left-interface)
   - [Right (interface)](#right-interface)
 - [utils](#utils)
+  - [Do](#do)
   - [Json (type alias)](#json-type-alias)
   - [JsonArray (interface)](#jsonarray-interface)
   - [JsonRecord (interface)](#jsonrecord-interface)
@@ -1287,6 +1288,16 @@ export interface Right<A> {
 Added in v2.0.0
 
 # utils
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: Either<never, {}>
+```
+
+Added in v2.9.0
 
 ## Json (type alias)
 

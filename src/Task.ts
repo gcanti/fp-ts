@@ -389,6 +389,11 @@ export const never: Task<never> = () => new Promise((_) => undefined)
 // -------------------------------------------------------------------------------------
 
 /**
+ * @since 2.9.0
+ */
+export const Do: Task<{}> = of({})
+
+/**
  * @since 2.8.0
  */
 export const bindTo = <N extends string>(name: N): (<A>(fa: Task<A>) => Task<{ [K in N]: A }>) => map(bindTo_(name))

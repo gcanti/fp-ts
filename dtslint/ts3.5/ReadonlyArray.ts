@@ -1,5 +1,5 @@
 import * as _ from '../../src/ReadonlyArray'
-import { pipe } from '../../src/pipeable'
+import { pipe } from '../../src/function'
 import { eqNumber } from '../../src/Eq'
 import { Ord } from '../../src/Ord'
 
@@ -155,3 +155,14 @@ declare const x2s: ReadonlyArray<X2>
 
 _.sortBy([ord2, ord3])(x2s) // $ExpectType ReadonlyArray<X2>
 pipe(x2s, _.sortBy([ord2, ord3])) // $ExpectType ReadonlyArray<X2>
+
+//
+// Do
+//
+
+// $ExpectType readonly { a: number; b: string; }[]
+pipe(
+  _.Do,
+  _.bind('a', () => _.of(1)),
+  _.bind('b', () => _.of('b'))
+)

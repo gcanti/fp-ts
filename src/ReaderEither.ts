@@ -619,6 +619,11 @@ export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThro
 // -------------------------------------------------------------------------------------
 
 /**
+ * @since 2.9.0
+ */
+export const Do: ReaderEither<unknown, never, {}> = of({})
+
+/**
  * @since 2.8.0
  */
 export const bindTo = <N extends string>(

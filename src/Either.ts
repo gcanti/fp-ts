@@ -1320,6 +1320,11 @@ export function exists<A>(predicate: Predicate<A>): <E>(ma: Either<E, A>) => boo
 // -------------------------------------------------------------------------------------
 
 /**
+ * @since 2.9.0
+ */
+export const Do: Either<never, {}> = of({})
+
+/**
  * @since 2.8.0
  */
 export const bindTo = <N extends string>(name: N): (<E, A>(fa: Either<E, A>) => Either<E, { [K in N]: A }>) =>

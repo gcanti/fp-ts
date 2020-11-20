@@ -55,6 +55,7 @@ Added in v2.0.0
 - [model](#model)
   - [Task (interface)](#task-interface)
 - [utils](#utils)
+  - [Do](#do)
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
@@ -419,6 +420,16 @@ export interface Task<A> {
 Added in v2.0.0
 
 # utils
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: Task<{}>
+```
+
+Added in v2.9.0
 
 ## apS
 

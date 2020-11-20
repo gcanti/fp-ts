@@ -371,6 +371,11 @@ export function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A> {
 // -------------------------------------------------------------------------------------
 
 /**
+ * @since 2.9.0
+ */
+export const Do: ReaderTask<unknown, {}> = of({})
+
+/**
  * @since 2.8.0
  */
 export const bindTo = <N extends string>(name: N): (<R, A>(fa: ReaderTask<R, A>) => ReaderTask<R, { [K in N]: A }>) =>

@@ -82,6 +82,7 @@ Added in v2.0.0
 - [model](#model)
   - [NonEmptyArray (interface)](#nonemptyarray-interface)
 - [utils](#utils)
+  - [Do](#do)
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
@@ -835,6 +836,16 @@ export interface NonEmptyArray<A> extends Array<A> {
 Added in v2.0.0
 
 # utils
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: NonEmptyArray<{}>
+```
+
+Added in v2.9.0
 
 ## apS
 

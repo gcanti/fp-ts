@@ -51,6 +51,7 @@ Added in v2.0.0
 - [model](#model)
   - [IO (interface)](#io-interface)
 - [utils](#utils)
+  - [Do](#do)
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
@@ -303,6 +304,16 @@ export interface IO<A> {
 Added in v2.0.0
 
 # utils
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: IO<{}>
+```
+
+Added in v2.9.0
 
 ## apS
 

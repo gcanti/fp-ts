@@ -130,6 +130,7 @@ Added in v2.5.0
   - [unsafeInsertAt](#unsafeinsertat)
   - [unsafeUpdateAt](#unsafeupdateat)
 - [utils](#utils)
+  - [Do](#do)
   - [Spanned (interface)](#spanned-interface)
   - [apS](#aps)
   - [bind](#bind)
@@ -1689,6 +1690,16 @@ export declare function unsafeUpdateAt<A>(i: number, a: A, as: ReadonlyArray<A>)
 Added in v2.5.0
 
 # utils
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: readonly {}[]
+```
+
+Added in v2.9.0
 
 ## Spanned (interface)
 

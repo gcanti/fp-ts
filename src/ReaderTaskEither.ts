@@ -834,6 +834,11 @@ export function bracket<R, E, A, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * @since 2.9.0
+ */
+export const Do: ReaderTaskEither<unknown, never, {}> = of({})
+
+/**
  * @since 2.8.0
  */
 export const bindTo = <N extends string>(

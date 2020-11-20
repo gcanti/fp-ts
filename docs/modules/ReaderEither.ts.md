@@ -76,6 +76,7 @@ Added in v2.0.0
 - [model](#model)
   - [ReaderEither (interface)](#readereither-interface)
 - [utils](#utils)
+  - [Do](#do)
   - [apS](#aps)
   - [apSW](#apsw)
   - [bind](#bind)
@@ -734,6 +735,16 @@ export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
 Added in v2.0.0
 
 # utils
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: ReaderEither<unknown, never, {}>
+```
+
+Added in v2.9.0
 
 ## apS
 

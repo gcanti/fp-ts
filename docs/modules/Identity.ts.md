@@ -54,6 +54,7 @@ Added in v2.0.0
 - [model](#model)
   - [Identity (type alias)](#identity-type-alias)
 - [utils](#utils)
+  - [Do](#do)
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
@@ -421,6 +422,16 @@ export type Identity<A> = A
 Added in v2.0.0
 
 # utils
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: {}
+```
+
+Added in v2.9.0
 
 ## apS
 

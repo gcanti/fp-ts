@@ -3,7 +3,7 @@ import * as RT from '../../src/ReaderTask'
 import * as E from '../../src/Either'
 import * as TE from '../../src/TaskEither'
 import * as IOE from '../../src/IOEither'
-import { pipe } from '../../src/pipeable'
+import { pipe } from '../../src/function'
 
 //
 // getOrElseW
@@ -77,4 +77,15 @@ pipe(
   _.bindTo('a'),
   _.apS('b', _.right('b')),
   _.apSW('c', _.right<{ readonly b: string }, number, boolean>(true))
+)
+
+//
+// Do
+//
+
+// $ExpectType ReaderTaskEither<unknown, string, { a: number; b: string; }>
+pipe(
+  _.Do,
+  _.bind('a', () => _.of<unknown, string, number>(1)),
+  _.bind('b', () => _.of<unknown, string, string>('b'))
 )

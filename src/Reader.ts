@@ -385,6 +385,11 @@ export const bind: <N extends string, A, R, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * @since 2.9.0
+ */
+export const Do: Reader<unknown, {}> = of({})
+
+/**
  * @since 2.8.0
  */
 export const apSW = <A, N extends string, Q, B>(

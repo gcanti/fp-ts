@@ -64,6 +64,7 @@ Added in v2.0.0
   - [Forest (type alias)](#forest-type-alias)
   - [Tree (interface)](#tree-interface)
 - [utils](#utils)
+  - [Do](#do)
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
@@ -526,6 +527,16 @@ export interface Tree<A> {
 Added in v2.0.0
 
 # utils
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: Tree<{}>
+```
+
+Added in v2.9.0
 
 ## apS
 

@@ -140,6 +140,7 @@ Added in v2.0.0
   - [unsafeInsertAt](#unsafeinsertat)
   - [unsafeUpdateAt](#unsafeupdateat)
 - [utils](#utils)
+  - [Do](#do)
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
@@ -1902,6 +1903,16 @@ export declare const unsafeUpdateAt: <A>(i: number, a: A, as: A[]) => A[]
 Added in v2.0.0
 
 # utils
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: {}[]
+```
+
+Added in v2.9.0
 
 ## apS
 

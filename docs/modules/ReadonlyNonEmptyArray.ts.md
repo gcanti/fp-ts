@@ -81,6 +81,7 @@ Added in v2.5.0
 - [model](#model)
   - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
 - [utils](#utils)
+  - [Do](#do)
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
@@ -846,6 +847,16 @@ export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
 Added in v2.5.0
 
 # utils
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: ReadonlyNonEmptyArray<{}>
+```
+
+Added in v2.9.0
 
 ## apS
 

@@ -95,6 +95,7 @@ Added in v2.0.0
 - [model](#model)
   - [ReaderTaskEither (interface)](#readertaskeither-interface)
 - [utils](#utils)
+  - [Do](#do)
   - [apS](#aps)
   - [apSW](#apsw)
   - [bind](#bind)
@@ -961,6 +962,16 @@ export interface ReaderTaskEither<R, E, A> {
 Added in v2.0.0
 
 # utils
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: ReaderTaskEither<unknown, never, {}>
+```
+
+Added in v2.9.0
 
 ## apS
 

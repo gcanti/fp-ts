@@ -682,6 +682,11 @@ export const bracket = <E, A, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * @since 2.9.0
+ */
+export const Do: IOEither<never, {}> = of({})
+
+/**
  * @since 2.8.0
  */
 export const bindTo = <N extends string>(name: N): (<E, A>(fa: IOEither<E, A>) => IOEither<E, { [K in N]: A }>) =>

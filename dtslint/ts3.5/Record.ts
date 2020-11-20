@@ -1,6 +1,5 @@
-import { pipe } from '../../src/pipeable'
+import { pipe, identity } from '../../src/function'
 import * as _ from '../../src/Record'
-import { identity } from '../../src/function'
 import * as O from '../../src/Option'
 import * as A from '../../src/Array'
 import * as E from '../../src/Either'

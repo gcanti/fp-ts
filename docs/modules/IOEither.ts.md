@@ -83,6 +83,7 @@ Added in v2.0.0
 - [model](#model)
   - [IOEither (interface)](#ioeither-interface)
 - [utils](#utils)
+  - [Do](#do)
   - [apS](#aps)
   - [apSW](#apsw)
   - [bind](#bind)
@@ -753,6 +754,16 @@ export interface IOEither<E, A> extends IO<Either<E, A>> {}
 Added in v2.0.0
 
 # utils
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: IOEither<never, {}>
+```
+
+Added in v2.9.0
 
 ## apS
 

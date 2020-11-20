@@ -114,6 +114,7 @@ Added in v2.0.0
   - [Option (type alias)](#option-type-alias)
   - [Some (interface)](#some-interface)
 - [utils](#utils)
+  - [Do](#do)
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
@@ -1317,6 +1318,16 @@ export interface Some<A> {
 Added in v2.0.0
 
 # utils
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: Option<{}>
+```
+
+Added in v2.9.0
 
 ## apS
 

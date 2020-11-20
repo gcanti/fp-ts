@@ -51,6 +51,7 @@ Added in v2.3.0
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
 - [utils](#utils)
+  - [Do](#do)
   - [apS](#aps)
   - [apSW](#apsw)
   - [bind](#bind)
@@ -420,6 +421,16 @@ export interface ReaderTask<R, A> {
 Added in v2.3.0
 
 # utils
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: ReaderTask<unknown, {}>
+```
+
+Added in v2.9.0
 
 ## apS
 

@@ -3,7 +3,7 @@ import * as E from '../../src/Either'
 import * as TE from '../../src/TaskEither'
 import * as RTE from '../../src/ReaderTaskEither'
 import * as IOE from '../../src/IOEither'
-import { pipe } from '../../src/pipeable'
+import { pipe } from '../../src/function'
 
 //
 // chainW

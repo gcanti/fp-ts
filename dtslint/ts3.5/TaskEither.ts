@@ -2,7 +2,7 @@ import * as _ from '../../src/TaskEither'
 import * as T from '../../src/Task'
 import * as E from '../../src/Either'
 import * as IOE from '../../src/IOEither'
-import { pipe } from '../../src/pipeable'
+import { pipe } from '../../src/function'
 
 //
 // getOrElseW
@@ -70,3 +70,14 @@ pipe(
 
 // $ExpectType TaskEither<string | number, { a: number; b: string; c: boolean; }>
 pipe(_.right<string, number>(1), _.bindTo('a'), _.apS('b', _.right('b')), _.apSW('c', _.right<number, boolean>(true)))
+
+//
+// Do
+//
+
+// $ExpectType TaskEither<string, { a: number; b: string; }>
+pipe(
+  _.Do,
+  _.bind('a', () => _.of<string, number>(1)),
+  _.bind('b', () => _.of<string, string>('b'))
+)

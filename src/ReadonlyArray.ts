@@ -2359,6 +2359,11 @@ export const some = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): bool
 // -------------------------------------------------------------------------------------
 
 /**
+ * @since 2.9.0
+ */
+export const Do: ReadonlyArray<{}> = of({})
+
+/**
  * @since 2.8.0
  */
 export const bindTo = <N extends string>(name: N): (<A>(fa: ReadonlyArray<A>) => ReadonlyArray<{ [K in N]: A }>) =>

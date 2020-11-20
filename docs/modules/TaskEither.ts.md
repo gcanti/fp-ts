@@ -92,6 +92,7 @@ Added in v2.0.0
 - [model](#model)
   - [TaskEither (interface)](#taskeither-interface)
 - [utils](#utils)
+  - [Do](#do)
   - [apS](#aps)
   - [apSW](#apsw)
   - [bind](#bind)
@@ -908,6 +909,16 @@ export interface TaskEither<E, A> extends Task<Either<E, A>> {}
 Added in v2.0.0
 
 # utils
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: TaskEither<never, {}>
+```
+
+Added in v2.9.0
 
 ## apS
 

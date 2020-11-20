@@ -1632,6 +1632,11 @@ export const some: <A>(predicate: Predicate<A>) => (as: Array<A>) => boolean = R
 // -------------------------------------------------------------------------------------
 
 /**
+ * @since 2.9.0
+ */
+export const Do: Array<{}> = of({})
+
+/**
  * @since 2.8.0
  */
 export const bindTo: <N extends string>(name: N) => <A>(fa: Array<A>) => Array<{ [K in N]: A }> = RA.bindTo as any

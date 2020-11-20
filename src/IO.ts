@@ -265,6 +265,11 @@ export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
+ * @since 2.9.0
+ */
+export const Do: IO<{}> = of({})
+
+/**
  * @since 2.8.0
  */
 export const bindTo = <N extends string>(name: N): (<A>(fa: IO<A>) => IO<{ [K in N]: A }>) => map(bindTo_(name))

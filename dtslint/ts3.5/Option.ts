@@ -1,6 +1,5 @@
 import * as _ from '../../src/Option'
-import { pipe } from '../../src/pipeable'
-import { flow } from '../../src/function'
+import { pipe, flow } from '../../src/function'
 
 //
 // getOrElseW
@@ -49,3 +48,14 @@ declare function isString(x: unknown): x is string
 
 _.option.filter(_.some<string | number>('a'), isString) // $ExpectType Option<string>
 _.option.partition(_.some<string | number>('a'), isString) // $ExpectType Separated<Option<string | number>, Option<string>>
+
+//
+// Do
+//
+
+// $ExpectType Option<{ a: number; b: string; }>
+pipe(
+  _.Do,
+  _.bind('a', () => _.of(1)),
+  _.bind('b', () => _.of('b'))
+)

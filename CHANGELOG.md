@@ -25,6 +25,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `prependToAll` (@marcotoniut)
     - add `every` (@gcanti)
     - add `some` (@gcanti)
+    - add `Do` (@gcanti)
   - `Either`
     - add `altW` (@gcanti)
     - add `fromNullableK` (@gcanti)
@@ -32,12 +33,15 @@ high state of flux, you're at risk of it changing without notice.
     - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
     - add `traverseArray` (@mohaalak @iamomiid)
     - add `sequenceArray` (@mohaalak @iamomiid)
+    - add `Do` (@gcanti)
   - `Identity`
     - add `altW` (@gcanti)
+    - add `Do` (@gcanti)
   - `IO`
     - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
     - add `traverseArray` (@mohaalak @iamomiid)
     - add `sequenceArray` (@mohaalak @iamomiid)
+    - add `Do` (@gcanti)
   - `IOEither`
     - add `altW` (@gcanti)
     - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
@@ -46,12 +50,14 @@ high state of flux, you're at risk of it changing without notice.
     - add `traverseSeqArrayWithIndex` (@mohaalak @iamomiid)
     - add `traverseSeqArray` (@mohaalak @iamomiid)
     - add `sequenceSeqArray` (@mohaalak @iamomiid)
+    - add `Do` (@gcanti)
   - `NonEmptyArray`
     - add `altW` (@gcanti)
     - add `uncons` (@marcotoniut)
     - add `unsnoc` (@marcotoniut)
     - add `intersperse` (@marcotoniut)
     - add `prependToAll` (@marcotoniut)
+    - add `Do` (@gcanti)
   - `Option`
     - add `altW` (@gcanti)
     - add `fromNullableK` (@gcanti)
@@ -59,15 +65,18 @@ high state of flux, you're at risk of it changing without notice.
     - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
     - add `traverseArray` (@mohaalak @iamomiid)
     - add `sequenceArray` (@mohaalak @iamomiid)
+    - add `Do` (@gcanti)
   - `Reader`
     - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
     - add `traverseArray` (@mohaalak @iamomiid)
     - add `sequenceArray` (@mohaalak @iamomiid)
+    - add `Do` (@gcanti)
   - `ReaderEither`
     - add `altW` (@gcanti)
     - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
     - add `traverseArray` (@mohaalak @iamomiid)
     - add `sequenceArray` (@mohaalak @iamomiid)
+    - add `Do` (@gcanti)
   - `ReaderTask`
     - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
     - add `traverseArray` (@mohaalak @iamomiid)
@@ -75,6 +84,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `traverseSeqArrayWithIndex` (@mohaalak @iamomiid)
     - add `traverseSeqArray` (@mohaalak @iamomiid)
     - add `sequenceSeqArray` (@mohaalak @iamomiid)
+    - add `Do` (@gcanti)
   - `ReaderTaskEither`
     - add `altW` (@gcanti)
     - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
@@ -83,24 +93,27 @@ high state of flux, you're at risk of it changing without notice.
     - add `traverseSeqArrayWithIndex` (@mohaalak @iamomiid)
     - add `traverseSeqArray` (@mohaalak @iamomiid)
     - add `sequenceSeqArray` (@mohaalak @iamomiid)
-  - `StateReaderTaskEither`
-    - add `altW` (@gcanti)
-    - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
-    - add `traverseArray` (@mohaalak @iamomiid)
-    - add `sequenceArray` (@mohaalak @iamomiid)
+    - add `Do` (@gcanti)
   - `ReadonlyArray`
     - add `altW` (@gcanti)
     - add `intersperse` (@marcotoniut)
     - add `prependToAll` (@marcotoniut)
     - add `every` (@gcanti)
     - add `some` (@gcanti)
+    - add `Do` (@gcanti)
   - `ReadonlyNonEmptyArray`
     - add `altW` (@gcanti)
     - add `uncons` (@marcotoniut)
     - add `unsnoc` (@marcotoniut)
     - add `intersperse` (@marcotoniut)
     - add `prependToAll` (@marcotoniut)
+    - add `Do` (@gcanti)
   - `State`
+    - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
+    - add `traverseArray` (@mohaalak @iamomiid)
+    - add `sequenceArray` (@mohaalak @iamomiid)
+  - `StateReaderTaskEither`
+    - add `altW` (@gcanti)
     - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
     - add `traverseArray` (@mohaalak @iamomiid)
     - add `sequenceArray` (@mohaalak @iamomiid)
@@ -111,6 +124,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `traverseSeqArrayWithIndex` (@mohaalak @iamomiid)
     - add `traverseSeqArray` (@mohaalak @iamomiid)
     - add `sequenceSeqArray` (@mohaalak @iamomiid)
+    - add `Do` (@gcanti)
   - `TaskEither`
     - add `altW` (@gcanti)
     - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
@@ -119,6 +133,9 @@ high state of flux, you're at risk of it changing without notice.
     - add `traverseSeqArrayWithIndex` (@mohaalak @iamomiid)
     - add `traverseSeqArray` (@mohaalak @iamomiid)
     - add `sequenceSeqArray` (@mohaalak @iamomiid)
+    - add `Do` (@gcanti)
+  - `Tree`
+    - add `Do` (@gcanti)
 
 - **Deprecation**
   - `Option`

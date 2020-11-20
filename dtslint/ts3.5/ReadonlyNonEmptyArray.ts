@@ -1,5 +1,5 @@
 import * as _ from '../../src/ReadonlyNonEmptyArray'
-import { pipe } from '../../src/pipeable'
+import { pipe } from '../../src/function'
 import { Ord } from '../../src/Ord'
 
 declare const ras: ReadonlyArray<string>
@@ -77,4 +77,15 @@ _.groupBy((x: { readonly a: string }) => x.a)(xs) // $ExpectType Readonly<Record
 pipe(
   xs,
   _.groupBy((x) => x.a)
+)
+
+//
+// Do
+//
+
+// $ExpectType ReadonlyNonEmptyArray<{ a: number; b: string; }>
+pipe(
+  _.Do,
+  _.bind('a', () => _.of(1)),
+  _.bind('b', () => _.of('b'))
 )
