@@ -658,17 +658,4 @@ describe('Either', () => {
       )
     })
   })
-
-  it('fromNullableK', () => {
-    const f = _.fromNullableK('error')((n: number) => (n > 0 ? n : null))
-    assert.deepStrictEqual(f(1), _.right(1))
-    assert.deepStrictEqual(f(-1), _.left('error'))
-  })
-
-  it('chainNullableK', () => {
-    const f = _.chainNullableK('error')((n: number) => (n > 0 ? n : null))
-    assert.deepStrictEqual(f(_.right(1)), _.right(1))
-    assert.deepStrictEqual(f(_.right(-1)), _.left('error'))
-    assert.deepStrictEqual(f(_.left('a')), _.left('a'))
-  })
 })

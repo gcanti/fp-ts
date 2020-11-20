@@ -498,10 +498,4 @@ describe('Option', () => {
     )
     assert.deepStrictEqual(pipe(arr, _.traverseArrayWithIndex(_.fromPredicate((x) => x > 5))), _.none)
   })
-
-  it('fromNullableK', () => {
-    const f = _.fromNullableK((n: number) => (n > 0 ? n : null))
-    assert.deepStrictEqual(f(1), _.some(1))
-    assert.deepStrictEqual(f(-1), _.none)
-  })
 })

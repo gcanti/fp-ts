@@ -18,6 +18,7 @@ high state of flux, you're at risk of it changing without notice.
 # 2.9.0
 
 - **New Feature**
+
   - `Array`
     - add `altW` (@gcanti)
     - add `intersperse` (@marcotoniut)
@@ -28,10 +29,23 @@ high state of flux, you're at risk of it changing without notice.
     - add `altW` (@gcanti)
     - add `fromNullableK` (@gcanti)
     - add `chainNullableK` (@gcanti)
+    - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
+    - add `traverseArray` (@mohaalak @iamomiid)
+    - add `sequenceArray` (@mohaalak @iamomiid)
   - `Identity`
     - add `altW` (@gcanti)
+  - `IO`
+    - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
+    - add `traverseArray` (@mohaalak @iamomiid)
+    - add `sequenceArray` (@mohaalak @iamomiid)
   - `IOEither`
     - add `altW` (@gcanti)
+    - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
+    - add `traverseArray` (@mohaalak @iamomiid)
+    - add `sequenceArray` (@mohaalak @iamomiid)
+    - add `traverseSeqArrayWithIndex` (@mohaalak @iamomiid)
+    - add `traverseSeqArray` (@mohaalak @iamomiid)
+    - add `sequenceSeqArray` (@mohaalak @iamomiid)
   - `NonEmptyArray`
     - add `altW` (@gcanti)
     - add `uncons` (@marcotoniut)
@@ -42,12 +56,38 @@ high state of flux, you're at risk of it changing without notice.
     - add `altW` (@gcanti)
     - add `fromNullableK` (@gcanti)
     - add `chainNullableK` (@gcanti)
+    - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
+    - add `traverseArray` (@mohaalak @iamomiid)
+    - add `sequenceArray` (@mohaalak @iamomiid)
+  - `Reader`
+    - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
+    - add `traverseArray` (@mohaalak @iamomiid)
+    - add `sequenceArray` (@mohaalak @iamomiid)
   - `ReaderEither`
     - add `altW` (@gcanti)
+    - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
+    - add `traverseArray` (@mohaalak @iamomiid)
+    - add `sequenceArray` (@mohaalak @iamomiid)
+  - `ReaderTask`
+    - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
+    - add `traverseArray` (@mohaalak @iamomiid)
+    - add `sequenceArray` (@mohaalak @iamomiid)
+    - add `traverseSeqArrayWithIndex` (@mohaalak @iamomiid)
+    - add `traverseSeqArray` (@mohaalak @iamomiid)
+    - add `sequenceSeqArray` (@mohaalak @iamomiid)
   - `ReaderTaskEither`
     - add `altW` (@gcanti)
+    - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
+    - add `traverseArray` (@mohaalak @iamomiid)
+    - add `sequenceArray` (@mohaalak @iamomiid)
+    - add `traverseSeqArrayWithIndex` (@mohaalak @iamomiid)
+    - add `traverseSeqArray` (@mohaalak @iamomiid)
+    - add `sequenceSeqArray` (@mohaalak @iamomiid)
   - `StateReaderTaskEither`
     - add `altW` (@gcanti)
+    - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
+    - add `traverseArray` (@mohaalak @iamomiid)
+    - add `sequenceArray` (@mohaalak @iamomiid)
   - `ReadonlyArray`
     - add `altW` (@gcanti)
     - add `intersperse` (@marcotoniut)
@@ -60,8 +100,26 @@ high state of flux, you're at risk of it changing without notice.
     - add `unsnoc` (@marcotoniut)
     - add `intersperse` (@marcotoniut)
     - add `prependToAll` (@marcotoniut)
+  - `State`
+    - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
+    - add `traverseArray` (@mohaalak @iamomiid)
+    - add `sequenceArray` (@mohaalak @iamomiid)
+  - `Task`
+    - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
+    - add `traverseArray` (@mohaalak @iamomiid)
+    - add `sequenceArray` (@mohaalak @iamomiid)
+    - add `traverseSeqArrayWithIndex` (@mohaalak @iamomiid)
+    - add `traverseSeqArray` (@mohaalak @iamomiid)
+    - add `sequenceSeqArray` (@mohaalak @iamomiid)
   - `TaskEither`
     - add `altW` (@gcanti)
+    - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
+    - add `traverseArray` (@mohaalak @iamomiid)
+    - add `sequenceArray` (@mohaalak @iamomiid)
+    - add `traverseSeqArrayWithIndex` (@mohaalak @iamomiid)
+    - add `traverseSeqArray` (@mohaalak @iamomiid)
+    - add `sequenceSeqArray` (@mohaalak @iamomiid)
+
 - **Deprecation**
   - `Option`
     - deprecate `mapNullable` in favour of `chainNullableK` (@gcanti)
