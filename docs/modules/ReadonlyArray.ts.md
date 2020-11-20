@@ -880,16 +880,18 @@ Added in v2.5.0
 
 Same as `reduce` but it carries over the intermediate steps
 
-```ts
-import { scanLeft } from 'fp-ts/ReadonlyArray'
-
-assert.deepStrictEqual(scanLeft(10, (b, a: number) => b - a)([1, 2, 3]), [10, 9, 7, 4])
-```
-
 **Signature**
 
 ```ts
 export declare function scanLeft<A, B>(b: B, f: (b: B, a: A) => B): (as: ReadonlyArray<A>) => ReadonlyArray<B>
+```
+
+**Example**
+
+```ts
+import { scanLeft } from 'fp-ts/ReadonlyArray'
+
+assert.deepStrictEqual(scanLeft(10, (b, a: number) => b - a)([1, 2, 3]), [10, 9, 7, 4])
 ```
 
 Added in v2.5.0

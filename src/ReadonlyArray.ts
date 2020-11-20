@@ -291,11 +291,10 @@ export function foldRight<A, B>(
 /**
  * Same as `reduce` but it carries over the intermediate steps
  *
- * ```ts
+ * @example
  * import { scanLeft } from 'fp-ts/ReadonlyArray'
  *
  * assert.deepStrictEqual(scanLeft(10, (b, a: number) => b - a)([1, 2, 3]), [10, 9, 7, 4])
- * ```
  *
  * @category combinators
  * @since 2.5.0

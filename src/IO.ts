@@ -315,15 +315,16 @@ export const traverseArrayWithIndex: <A, B>(
  *
  * this function have the same behavior of `A.traverse(IO.io)` but it's stack safe
  *
- * ```ts
+ * @example
  * import * as RA from 'fp-ts/ReadonlyArray'
  * import { traverseArray, IO } from 'fp-ts/IO'
  * import { pipe } from 'fp-ts/function'
  *
- * const log: <A>(x: A) => IO<void> = (x) => () => console.log(x)
+ * const logger: Array<unknown> = []
+ * const log: <A>(a: A) => IO<void> = (a) => () => { logger.push(a) }
  *
- * pipe(RA.range(0, 100), traverseArray(log))() // it now prints 0 to 100
- * ```
+ * pipe(RA.range(0, 100), traverseArray(log))()
+ * assert.deepStrictEqual(logger, RA.range(0, 100))
  *
  * @since 2.9.0
  */
@@ -335,16 +336,16 @@ export const traverseArray: <A, B>(f: (a: A) => IO<B>) => (arr: ReadonlyArray<A>
  *
  * this function have the same behavior of `A.sequence(IO.io)` but it's stack safe
  *
- * ```ts
+ * @example
  * import * as RA from 'fp-ts/ReadonlyArray'
  * import { sequenceArray, IO } from 'fp-ts/IO'
  * import { pipe } from 'fp-ts/function'
  *
- * const log: <A>(x: A) => IO<void> = (x) => () => console.log(x)
+ * const logger: Array<unknown> = []
+ * const log: <A>(a: A) => IO<void> = (a) => () => { logger.push(a) }
  *
- * pipe(RA.range(0, 100), RA.map(log), sequenceA)() // it now prints 0 to 100
- * ```
- *
+ * pipe(RA.range(0, 100), RA.map(log), sequenceArray)()
+ * assert.deepStrictEqual(logger, RA.range(0, 100))
  *
  * @since 2.9.0
  */
