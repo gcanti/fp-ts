@@ -378,7 +378,7 @@ const arr = RA.range(0, 100)
 assert.deepStrictEqual(pipe(arr, RA.map(add), sequenceArray)(0), [arr, arr.reduce((p, c) => p + c, 0)])
 ```
 
-Added in v2.9
+Added in v2.9.0
 
 ## traverseArray
 
@@ -403,7 +403,7 @@ const arr = RA.range(0, 100)
 assert.deepStrictEqual(pipe(arr, traverseArray(add))(0), [arr, arr.reduce((p, c) => p + c, 0)])
 ```
 
-Added in v2.9
+Added in v2.9.0
 
 ## traverseArrayWithIndex
 

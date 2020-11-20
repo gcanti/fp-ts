@@ -340,7 +340,7 @@ export const traverseArrayWithIndex: <A, S, B>(
  *
  * assert.deepStrictEqual(pipe(arr, traverseArray(add))(0), [arr, arr.reduce((p, c) => p + c, 0)])
  *
- * @since 2.9
+ * @since 2.9.0
  */
 export const traverseArray: <A, S, B>(
   f: (a: A) => State<S, B>
@@ -359,7 +359,7 @@ export const traverseArray: <A, S, B>(
  *
  * assert.deepStrictEqual(pipe(arr, RA.map(add), sequenceArray)(0), [arr, arr.reduce((p, c) => p + c, 0)])
  *
- * @since 2.9
+ * @since 2.9.0
  */
 export const sequenceArray: <S, A>(arr: ReadonlyArray<State<S, A>>) => State<S, ReadonlyArray<A>> = traverseArray(
   identity
