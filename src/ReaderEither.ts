@@ -196,6 +196,24 @@ export const chainEitherK: <E, A, B>(
 ) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = chainEitherKW
 
 /**
+ * Less strict version of [`filterOrElse`](#filterOrElse).
+ *
+ * @since 2.9.0
+ */
+export const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
+    ma: ReaderEither<R, E1, A>
+  ) => ReaderEither<R, E1 | E2, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1>(
+    ma: ReaderEither<R, E1, A>
+  ) => ReaderEither<R, E1 | E2, A>
+} = <A, E2>(
+  predicate: Predicate<A>,
+  onFalse: (a: A) => E2
+): (<R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, A>) =>
+  chainW((a) => (predicate(a) ? right(a) : left(onFalse(a))))
+
+/**
  * Derivable from `MonadThrow`.
  *
  * @category combinators
@@ -206,8 +224,7 @@ export const filterOrElse: {
     ma: ReaderEither<R, E, A>
   ) => ReaderEither<R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (<R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>) =>
-  chain((a) => (predicate(a) ? right(a) : left(onFalse(a))))
+} = filterOrElseW
 
 // -------------------------------------------------------------------------------------
 // non-pipeables

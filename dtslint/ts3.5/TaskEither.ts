@@ -81,3 +81,16 @@ pipe(
   _.bind('a', () => _.of<string, number>(1)),
   _.bind('b', () => _.of<string, string>('b'))
 )
+
+//
+// filterOrElseW
+//
+
+// $ExpectType TaskEither<"a" | "b", number>
+pipe(
+  _.left<'a', number>('a'),
+  _.filterOrElseW(
+    (result) => result > 0,
+    () => 'b' as const
+  )
+)

@@ -78,3 +78,16 @@ pipe(
   _.apS('b', _.right('b')),
   _.apSW('c', _.right<void, { readonly b: string }, number, boolean>(true))
 )
+
+//
+// filterOrElseW
+//
+
+// $ExpectType StateReaderTaskEither<{ d: Date; }, { c: boolean; }, "a" | "b", number>
+pipe(
+  _.left<{ d: Date }, { c: boolean }, 'a', number>('a'),
+  _.filterOrElseW(
+    (result) => result > 0,
+    () => 'b' as const
+  )
+)

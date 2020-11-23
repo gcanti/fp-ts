@@ -219,6 +219,19 @@ export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> =
   T.map(E.swap)
 
 /**
+ * Less strict version of [`filterOrElse`](#filterOrElse).
+ *
+ * @since 2.9.0
+ */
+export const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
+    ma: TaskEither<E1, A>
+  ) => TaskEither<E1 | E2, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A>
+} = <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): (<E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A>) =>
+  chainW((a) => (predicate(a) ? right(a) : left(onFalse(a))))
+
+/**
  * Derivable from `MonadThrow`.
  *
  * @category combinators
@@ -227,8 +240,7 @@ export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> =
 export const filterOrElse: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): ((ma: TaskEither<E, A>) => TaskEither<E, A>) =>
-  chain((a) => (predicate(a) ? right(a) : left(onFalse(a))))
+} = filterOrElseW
 
 /**
  * Converts a function returning a `Promise` to one returning a `TaskEither`.

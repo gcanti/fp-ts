@@ -89,3 +89,16 @@ pipe(
   _.bind('a', () => _.of<unknown, string, number>(1)),
   _.bind('b', () => _.of<unknown, string, string>('b'))
 )
+
+//
+// filterOrElseW
+//
+
+// $ExpectType ReaderTaskEither<{ c: boolean; }, "a" | "b", number>
+pipe(
+  _.left<{ c: boolean }, 'a', number>('a'),
+  _.filterOrElseW(
+    (result) => result > 0,
+    () => 'b' as const
+  )
+)

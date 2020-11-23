@@ -82,6 +82,7 @@ Added in v2.0.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
+  - [filterOrElseW](#filterorelsew)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -813,6 +814,25 @@ export declare const bindW: <N extends string, A, Q, D, B>(
 ```
 
 Added in v2.8.0
+
+## filterOrElseW
+
+Less strict version of [`filterOrElse`](#filterOrElse).
+
+**Signature**
+
+```ts
+export declare const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
+    ma: ReaderEither<R, E1, A>
+  ) => ReaderEither<R, E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1>(
+    ma: ReaderEither<R, E1, A>
+  ) => ReaderEither<R, E2 | E1, A>
+}
+```
+
+Added in v2.9.0
 
 ## sequenceArray
 
