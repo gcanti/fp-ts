@@ -711,10 +711,9 @@ export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & 
 
 // TODO: remove in v3
 /**
- * Like `stateReaderTaskEither` but `ap` is sequential
- *
  * @category instances
  * @since 2.0.0
+ * @deprecated
  */
 export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
   URI,

@@ -83,7 +83,7 @@ Added in v2.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [stateReaderTaskEither](#statereadertaskeither)
-  - [stateReaderTaskEitherSeq](#statereadertaskeitherseq)
+  - [~~stateReaderTaskEitherSeq~~](#statereadertaskeitherseq)
 - [model](#model)
   - [StateReaderTaskEither (interface)](#statereadertaskeither-interface)
 - [utils](#utils)
@@ -854,9 +854,7 @@ export declare const stateReaderTaskEither: Monad4<'StateReaderTaskEither'> &
 
 Added in v2.0.0
 
-## stateReaderTaskEitherSeq
-
-Like `stateReaderTaskEither` but `ap` is sequential
+## ~~stateReaderTaskEitherSeq~~
 
 **Signature**
 

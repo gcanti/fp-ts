@@ -146,6 +146,8 @@ high state of flux, you're at risk of it changing without notice.
 - **Deprecation**
   - `Option`
     - deprecate `mapNullable` in favour of `chainNullableK` (@gcanti)
+  - `StateReaderTaskEither`
+    - deprecate `stateReaderTaskEitherSeq` because is useless, `stateReaderTaskEither` is already sequential (@gcanti)
 
 # 2.8.6
 
