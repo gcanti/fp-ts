@@ -94,6 +94,7 @@ Added in v2.0.0
   - [bindW](#bindw)
   - [evaluate](#evaluate)
   - [execute](#execute)
+  - [filterOrElseW](#filterorelsew)
   - [run](#run)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
@@ -984,6 +985,25 @@ export declare const execute: <S>(
 ```
 
 Added in v2.8.0
+
+## filterOrElseW
+
+Less strict version of [`filterOrElse`](#filterOrElse).
+
+**Signature**
+
+```ts
+export declare const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <S, R, E1>(
+    ma: StateReaderTaskEither<S, R, E1, A>
+  ) => StateReaderTaskEither<S, R, E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <S, R, E1>(
+    ma: StateReaderTaskEither<S, R, E1, A>
+  ) => StateReaderTaskEither<S, R, E2 | E1, A>
+}
+```
+
+Added in v2.9.0
 
 ## run
 

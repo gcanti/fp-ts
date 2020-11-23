@@ -34,6 +34,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `traverseArray` (@mohaalak @iamomiid)
     - add `sequenceArray` (@mohaalak @iamomiid)
     - add `Do` (@gcanti)
+    - add `filterOrElseW` (@gcanti)
   - `Identity`
     - add `altW` (@gcanti)
     - add `Do` (@gcanti)
@@ -51,6 +52,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `traverseSeqArray` (@mohaalak @iamomiid)
     - add `sequenceSeqArray` (@mohaalak @iamomiid)
     - add `Do` (@gcanti)
+    - add `filterOrElseW` (@gcanti)
   - `NonEmptyArray`
     - add `altW` (@gcanti)
     - add `uncons` (@marcotoniut)
@@ -77,6 +79,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `traverseArray` (@mohaalak @iamomiid)
     - add `sequenceArray` (@mohaalak @iamomiid)
     - add `Do` (@gcanti)
+    - add `filterOrElseW` (@gcanti)
   - `ReaderTask`
     - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
     - add `traverseArray` (@mohaalak @iamomiid)
@@ -94,6 +97,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `traverseSeqArray` (@mohaalak @iamomiid)
     - add `sequenceSeqArray` (@mohaalak @iamomiid)
     - add `Do` (@gcanti)
+    - add `filterOrElseW` (@gcanti)
   - `ReadonlyArray`
     - add `altW` (@gcanti)
     - add `intersperse` (@marcotoniut)
@@ -117,6 +121,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
     - add `traverseArray` (@mohaalak @iamomiid)
     - add `sequenceArray` (@mohaalak @iamomiid)
+    - add `filterOrElseW` (@gcanti)
   - `Task`
     - add `traverseArrayWithIndex` (@mohaalak @iamomiid)
     - add `traverseArray` (@mohaalak @iamomiid)
@@ -134,6 +139,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `traverseSeqArray` (@mohaalak @iamomiid)
     - add `sequenceSeqArray` (@mohaalak @iamomiid)
     - add `Do` (@gcanti)
+    - add `filterOrElseW` (@gcanti)
   - `Tree`
     - add `Do` (@gcanti)
 

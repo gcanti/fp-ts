@@ -411,6 +411,19 @@ export function orElse<E, A, M>(onLeft: (e: E) => Either<M, A>): (ma: Either<E, 
 }
 
 /**
+ * Less strict version of [`filterOrElse`](#filterOrElse).
+ *
+ * @since 2.9.0
+ */
+export const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
+    ma: Either<E1, A>
+  ) => Either<E1 | E2, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: Either<E1, A>) => Either<E1 | E2, A>
+} = <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): (<E1>(ma: Either<E1, A>) => Either<E1 | E2, A>) =>
+  chainW((a) => (predicate(a) ? right(a) : left(onFalse(a))))
+
+/**
  * Derivable from `MonadThrow`.
  *
  * @example
@@ -454,8 +467,7 @@ export function orElse<E, A, M>(onLeft: (e: E) => Either<M, A>): (ma: Either<E, 
 export const filterOrElse: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): ((ma: Either<E, A>) => Either<E, A>) =>
-  chain((a) => (predicate(a) ? right(a) : left(onFalse(a))))
+} = filterOrElseW
 
 // -------------------------------------------------------------------------------------
 // non-pipeables

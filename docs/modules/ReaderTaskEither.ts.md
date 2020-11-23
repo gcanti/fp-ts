@@ -102,6 +102,7 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
+  - [filterOrElseW](#filterorelsew)
   - [run](#run)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
@@ -1061,6 +1062,25 @@ export declare function bracket<R, E, A, B>(
 ```
 
 Added in v2.0.4
+
+## filterOrElseW
+
+Less strict version of [`filterOrElse`](#filterOrElse).
+
+**Signature**
+
+```ts
+export declare const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
+    ma: ReaderTaskEither<R, E1, A>
+  ) => ReaderTaskEither<R, E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1>(
+    ma: ReaderTaskEither<R, E1, A>
+  ) => ReaderTaskEither<R, E2 | E1, A>
+}
+```
+
+Added in v2.9.0
 
 ## run
 

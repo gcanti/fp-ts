@@ -155,6 +155,19 @@ export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> =
   I.map(E.swap)
 
 /**
+ * Less strict version of [`filterOrElse`](#filterOrElse).
+ *
+ * @since 2.9.0
+ */
+export const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
+    ma: IOEither<E1, A>
+  ) => IOEither<E1 | E2, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A>
+} = <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): (<E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A>) =>
+  chainW((a) => (predicate(a) ? right(a) : left(onFalse(a))))
+
+/**
  * Derivable from `MonadThrow`.
  *
  * @category combinators
@@ -163,8 +176,7 @@ export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> =
 export const filterOrElse: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): ((ma: IOEither<E, A>) => IOEither<E, A>) =>
-  chain((a) => (predicate(a) ? right(a) : left(onFalse(a))))
+} = filterOrElseW
 
 /**
  * @category combinators
