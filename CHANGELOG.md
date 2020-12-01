@@ -15,6 +15,13 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.9.1
+
+- **Polish**
+  - `Array` / `ReadonlyArray`
+    - `sort`: return the input when length <= 1, closes #1357 (@gcanti)
+    - `uniq`: return the input when length <= 1 (@gcanti)
+
 # 2.9.0
 
 - **New Feature**

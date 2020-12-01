@@ -614,6 +614,8 @@ describe('ReadonlyArray', () => {
       ]
     )
     assert.strictEqual(_.sort(Ord.ordNumber)(_.empty), _.empty)
+    const as: ReadonlyArray<number> = [1]
+    assert.strictEqual(_.sort(Ord.ordNumber)(as), as)
   })
 
   it('zipWith', () => {
@@ -749,7 +751,6 @@ describe('ReadonlyArray', () => {
     assert.deepStrictEqual(_.uniq(eqA)([arrA, arrC]), [arrA, arrC])
     assert.deepStrictEqual(_.uniq(eqA)([arrC, arrA]), [arrC, arrA])
     assert.deepStrictEqual(_.uniq(Eq.eqBoolean)([true, false, true, false]), [true, false])
-    assert.deepStrictEqual(_.uniq(Eq.eqNumber)([]), [])
     assert.deepStrictEqual(_.uniq(Eq.eqNumber)([-0, -0]), [-0])
     assert.deepStrictEqual(_.uniq(Eq.eqNumber)([0, -0]), [0])
     assert.deepStrictEqual(_.uniq(Eq.eqNumber)([1]), [1])
@@ -760,6 +761,10 @@ describe('ReadonlyArray', () => {
     assert.deepStrictEqual(_.uniq(Eq.eqNumber)([1, 2, 3, 4, 5, 1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
     assert.deepStrictEqual(_.uniq(Eq.eqString)(['a', 'b', 'a']), ['a', 'b'])
     assert.deepStrictEqual(_.uniq(Eq.eqString)(['a', 'b', 'A']), ['a', 'b', 'A'])
+
+    assert.strictEqual(_.uniq(Eq.eqNumber)(_.empty), _.empty)
+    const as: ReadonlyArray<number> = [1]
+    assert.strictEqual(_.uniq(Ord.ordNumber)(as), as)
   })
 
   it('sortBy', () => {

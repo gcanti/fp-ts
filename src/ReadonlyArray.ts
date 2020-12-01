@@ -977,7 +977,7 @@ export function lefts<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<E> {
  * @since 2.5.0
  */
 export const sort = <B>(O: Ord<B>) => <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
-  isEmpty(as) ? as : as.slice().sort(O.compare)
+  as.length <= 1 ? as : as.slice().sort(O.compare)
 
 // TODO: curry and make data-last in v3
 /**
@@ -1172,9 +1172,12 @@ export function elem<A>(E: Eq<A>): (a: A, as?: ReadonlyArray<A>) => boolean | ((
 export function uniq<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
   const elemS = elem(E)
   return (as) => {
+    const len = as.length
+    if (len <= 1) {
+      return as
+    }
     // tslint:disable-next-line: readonly-array
     const r: Array<A> = []
-    const len = as.length
     let i = 0
     for (; i < len; i++) {
       const a = as[i]
