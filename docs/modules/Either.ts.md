@@ -101,7 +101,6 @@ Added in v2.0.0
   - [getFilterable](#getfilterable)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
-  - [getValidation](#getvalidation)
   - [getValidationMonoid](#getvalidationmonoid)
   - [getValidationSemigroup](#getvalidationsemigroup)
   - [getWitherable](#getwitherable)
@@ -1195,25 +1194,6 @@ Added in v2.0.0
 
 ```ts
 export declare function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>>
-```
-
-Added in v2.0.0
-
-## getValidation
-
-**Signature**
-
-```ts
-export declare function getValidation<E>(
-  SE: Semigroup<E>
-): Monad2C<URI, E> &
-  Foldable2<URI> &
-  Traversable2<URI> &
-  Bifunctor2<URI> &
-  Alt2C<URI, E> &
-  Extend2<URI> &
-  ChainRec2C<URI, E> &
-  MonadThrow2C<URI, E>
 ```
 
 Added in v2.0.0

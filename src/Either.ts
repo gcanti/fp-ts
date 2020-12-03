@@ -16,23 +16,23 @@
 import { Alt2, Alt2C } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative2, Applicative2C } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
-import { ChainRec2, ChainRec2C, tailRec } from './ChainRec'
+import { ChainRec2, tailRec } from './ChainRec'
 import { Separated } from './Compactable'
 import { Eq } from './Eq'
 import { Extend2 } from './Extend'
+import { Filterable2C } from './Filterable'
 import { Foldable2 } from './Foldable'
-import { identity, Lazy, Predicate, Refinement, pipe, bind_, bindTo_, flow } from './function'
+import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
-import { Monad2, Monad2C } from './Monad'
-import { MonadThrow2, MonadThrow2C } from './MonadThrow'
+import { Monad2 } from './Monad'
+import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { PipeableTraverse2, Traversable2 } from './Traversable'
 import { Witherable2C } from './Witherable'
-import { Filterable2C } from './Filterable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -122,7 +122,6 @@ export const right = <E = never, A = never>(a: A): Either<E, A> => ({ _tag: 'Rig
 export const fromNullable = <E>(e: Lazy<E>) => <A>(a: A): Either<E, NonNullable<A>> =>
   a == null ? left(e()) : right(a as NonNullable<A>)
 
-// TODO: `onError => Lazy<A> => Either` in v3
 /**
  * Constructs a new `Either` from a function that might throw.
  *
@@ -1082,44 +1081,6 @@ export function getAltValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
       const ea = that()
       return isLeft(ea) ? left(SE.concat(me.left, ea.left)) : ea
     }
-  }
-}
-
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getValidation<E>(
-  SE: Semigroup<E>
-): Monad2C<URI, E> &
-  Foldable2<URI> &
-  Traversable2<URI> &
-  Bifunctor2<URI> &
-  Alt2C<URI, E> &
-  Extend2<URI> &
-  ChainRec2C<URI, E> &
-  MonadThrow2C<URI, E> {
-  const applicativeValidation = getApplicativeValidation(SE)
-  const altValidation = getAltValidation(SE)
-  return {
-    URI,
-    _E: undefined as any,
-    map: map_,
-    of,
-    chain: chain_,
-    bimap: bimap_,
-    mapLeft: mapLeft_,
-    reduce: reduce_,
-    foldMap: foldMap_,
-    reduceRight: reduceRight_,
-    extend: extend_,
-    traverse: traverse_,
-    sequence,
-    chainRec: chainRec_,
-    throwError,
-    ap: applicativeValidation.ap,
-    alt: altValidation.alt
   }
 }
 

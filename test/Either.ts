@@ -527,8 +527,6 @@ describe('Either', () => {
   it('getApplicativeValidation', () => {
     const A = _.getApplicativeValidation(monoidString)
     assert.deepStrictEqual(sequenceT(A)(_.left('a'), _.left('b')), _.left('ab'))
-    const AV = _.getValidation(monoidString)
-    assert.deepStrictEqual(sequenceT(AV)(_.left('a'), _.left('b')), _.left('ab'))
   })
 
   it('getAltValidation', () => {
@@ -544,11 +542,6 @@ describe('Either', () => {
     assert.deepStrictEqual(
       A.alt(_.left('a'), () => _.right(2)),
       _.right(2)
-    )
-    const AV = _.getValidation(monoidString)
-    assert.deepStrictEqual(
-      AV.alt(_.left('a'), () => _.left('b')),
-      _.left('ab')
     )
   })
 

@@ -37,6 +37,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `fromNullable` lazy (@gcanti)
     - make `fromNullableK` lazy (@gcanti)
     - make `chainNullableK` lazy (@gcanti)
+    - remove `getValidation`, use `getApplicativeValidation` and `getAltValidation` instead (@gcanti)
 
 # 2.9.1
 

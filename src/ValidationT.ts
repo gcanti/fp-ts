@@ -7,7 +7,7 @@ import {
   ApplicativeComposition22C,
   getApplicativeComposition
 } from './Applicative'
-import { Either, getValidation, isLeft, isRight, left, URI } from './Either'
+import { Either, getApplicativeValidation, isLeft, isRight, left, URI } from './Either'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
 import { Semigroup } from './Semigroup'
@@ -64,7 +64,7 @@ export function getValidationM<E, M extends URIS2>(S: Semigroup<E>, M: Monad2<M>
 export function getValidationM<E, M extends URIS>(S: Semigroup<E>, M: Monad1<M>): ValidationM1<M, E>
 export function getValidationM<E, M>(S: Semigroup<E>, M: Monad<M>): ValidationM<M, E>
 export function getValidationM<E, M>(S: Semigroup<E>, M: Monad<M>): ValidationM<M, E> {
-  const A = getApplicativeComposition(M, getValidation(S))
+  const A = getApplicativeComposition(M, getApplicativeValidation(S))
 
   return {
     map: A.map,
