@@ -18,13 +18,14 @@ high state of flux, you're at risk of it changing without notice.
 # 3.0.0-rc1
 
 - **Breaking Change**
-  - bump minimum typescript version(4.1.x+) (@gcanti)
+  - bump minimum typescript version (4.1.x+) (@gcanti)
   - remove mutable modules
     - `Array` (@gcanti)
     - `Map` (@gcanti)
     - `NonEmptyArray` (@gcanti)
     - `Record` (@gcanti)
     - `Set` (@gcanti)
+    - `Tuple` (@gcanti)
   - `State`
     - make `State` definition immutable (@gcanti)
   - `StateReaderTaskEither`

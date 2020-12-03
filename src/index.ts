@@ -91,7 +91,6 @@ import * as traced from './Traced'
 import * as traversable from './Traversable'
 import * as traversableWithIndex from './TraversableWithIndex'
 import * as tree from './Tree'
-import * as tuple from './Tuple'
 import * as unfoldable from './Unfoldable'
 import * as validationT from './ValidationT'
 import * as witherable from './Witherable'
@@ -454,10 +453,6 @@ export {
    * @since 2.0.0
    */
   tree,
-  /**
-   * @since 2.0.0
-   */
-  tuple,
   /**
    * @since 2.0.0
    */
