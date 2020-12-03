@@ -492,13 +492,12 @@ export const traverseSeqArrayWithIndex: <A, B>(
   f: (index: number, a: A) => Task<B>
 ) => (arr: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (f) => (arr) => async () => {
   // tslint:disable-next-line: readonly-array
-  const result = []
+  const out = []
   for (let i = 0; i < arr.length; i++) {
     const r = await f(i, arr[i])()
-    result.push(r)
+    out.push(r)
   }
-
-  return result
+  return out
 }
 
 /**

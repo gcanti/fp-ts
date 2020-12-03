@@ -10,15 +10,13 @@ import { pipe } from './function'
 // model
 // -------------------------------------------------------------------------------------
 
-// tslint:disable:readonly-array
 /**
  * @category model
  * @since 2.0.0
  */
 export interface Writer<W, A> {
-  (): [A, W]
+  (): readonly [A, W]
 }
-// tslint:enable:readonly-array
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -32,45 +30,40 @@ export interface Writer<W, A> {
  */
 export const tell: <W>(w: W) => Writer<W, void> = (w) => () => [undefined, w]
 
-// tslint:disable:readonly-array
 /**
  * Modifies the result to include the changes to the accumulator
  *
  * @category combinators
  * @since 2.0.0
  */
-export const listen: <W, A>(fa: Writer<W, A>) => Writer<W, [A, W]> = (fa) => () => {
+export const listen: <W, A>(fa: Writer<W, A>) => Writer<W, readonly [A, W]> = (fa) => () => {
   const [a, w] = fa()
   return [[a, w], w]
 }
 
-// tslint:enable:readonly-array
-
-// tslint:disable:readonly-array
 /**
  * Applies the returned function to the accumulator
  *
  * @category combinators
  * @since 2.0.0
  */
-export const pass: <W, A>(fa: Writer<W, [A, (w: W) => W]>) => Writer<W, A> = (fa) => () => {
+export const pass: <W, A>(fa: Writer<W, readonly [A, (w: W) => W]>) => Writer<W, A> = (fa) => () => {
   const [[a, f], w] = fa()
   return [a, f(w)]
 }
-// tslint:enable:readonly-array
 
-// tslint:disable:readonly-array
 /**
  * Projects a value from modifications made to the accumulator during an action
  *
  * @category combinators
  * @since 2.0.0
  */
-export const listens: <W, B>(f: (w: W) => B) => <A>(fa: Writer<W, A>) => Writer<W, [A, B]> = (f) => (fa) => () => {
+export const listens: <W, B>(f: (w: W) => B) => <A>(fa: Writer<W, A>) => Writer<W, readonly [A, B]> = (f) => (
+  fa
+) => () => {
   const [a, w] = fa()
   return [[a, f(w)], w]
 }
-// tslint:enable:readonly-array
 
 /**
  * Modify the final accumulator value by applying a function

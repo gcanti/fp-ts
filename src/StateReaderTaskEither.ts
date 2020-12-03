@@ -28,7 +28,6 @@ import { TaskEither } from './TaskEither'
 import ReaderTaskEither = RTE.ReaderTaskEither
 import Either = E.Either
 
-/* tslint:disable:readonly-array */
 /**
  * @category model
  * @since 2.0.0
@@ -36,7 +35,6 @@ import Either = E.Either
 export interface StateReaderTaskEither<S, R, E, A> {
   (s: S): ReaderTaskEither<R, E, readonly [A, S]>
 }
-/* tslint:enable:readonly-array */
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -734,7 +732,6 @@ export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
 // -------------------------------------------------------------------------------------
 
 // TODO: remove in v3
-/* tslint:disable:readonly-array */
 /**
  * @since 2.0.0
  */
@@ -746,7 +743,6 @@ export function run<S, R, E, A>(
 ): Promise<Either<E, readonly [A, S]>> {
   return ma(s)(r)()
 }
-/* tslint:enable:readonly-array */
 
 /**
  * Use `evaluate` instead
@@ -882,19 +878,17 @@ export const traverseArrayWithIndex: <S, R, E, A, B>(
 ) => async () => {
   let lastState = s
   // tslint:disable-next-line: readonly-array
-  const result = []
+  const out = []
   for (let i = 0; i < arr.length; i++) {
     const b = await f(i, arr[i])(lastState)(r)()
-
     if (E.isLeft(b)) {
       return b
     }
     const [newValue, newState] = b.right
-    result.push(newValue)
+    out.push(newValue)
     lastState = newState
   }
-
-  return E.right([result, lastState])
+  return E.right([out, lastState])
 }
 
 /**

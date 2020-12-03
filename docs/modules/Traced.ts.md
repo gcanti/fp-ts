@@ -132,7 +132,7 @@ Get the current position
 **Signature**
 
 ```ts
-export declare function listen<P, A>(wa: Traced<P, A>): Traced<P, [A, P]>
+export declare function listen<P, A>(wa: Traced<P, A>): Traced<P, readonly [A, P]>
 ```
 
 Added in v2.0.0
@@ -144,7 +144,7 @@ Get a value which depends on the current position
 **Signature**
 
 ```ts
-export declare function listens<P, B>(f: (p: P) => B): <A>(wa: Traced<P, A>) => Traced<P, [A, B]>
+export declare function listens<P, B>(f: (p: P) => B): <A>(wa: Traced<P, A>) => Traced<P, readonly [A, B]>
 ```
 
 Added in v2.0.0

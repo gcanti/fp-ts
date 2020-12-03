@@ -150,9 +150,9 @@ Added in v2.0.0
 
 ```ts
 export interface FoldableWithIndexComposition<F, FI, G, GI> extends FoldableComposition<F, G> {
-  readonly reduceWithIndex: <A, B>(fga: HKT<F, HKT<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fga: HKT<F, HKT<G, A>>, f: (i: [FI, GI], a: A) => M) => M
-  readonly reduceRightWithIndex: <A, B>(fga: HKT<F, HKT<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
+  readonly reduceWithIndex: <A, B>(fga: HKT<F, HKT<G, A>>, b: B, f: (i: readonly [FI, GI], b: B, a: A) => B) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fga: HKT<F, HKT<G, A>>, f: (i: readonly [FI, GI], a: A) => M) => M
+  readonly reduceRightWithIndex: <A, B>(fga: HKT<F, HKT<G, A>>, b: B, f: (i: readonly [FI, GI], a: A, b: B) => B) => B
 }
 ```
 
@@ -165,9 +165,11 @@ Added in v2.0.0
 ```ts
 export interface FoldableWithIndexComposition11<F extends URIS, FI, G extends URIS, GI>
   extends FoldableComposition11<F, G> {
-  readonly reduceWithIndex: <A, B>(fga: Kind<F, Kind<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fga: Kind<F, Kind<G, A>>, f: (i: [FI, GI], a: A) => M) => M
-  readonly reduceRightWithIndex: <A, B>(fga: Kind<F, Kind<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
+  readonly reduceWithIndex: <A, B>(fga: Kind<F, Kind<G, A>>, b: B, f: (i: readonly [FI, GI], b: B, a: A) => B) => B
+  readonly foldMapWithIndex: <M>(
+    M: Monoid<M>
+  ) => <A>(fga: Kind<F, Kind<G, A>>, f: (i: readonly [FI, GI], a: A) => M) => M
+  readonly reduceRightWithIndex: <A, B>(fga: Kind<F, Kind<G, A>>, b: B, f: (i: readonly [FI, GI], a: A, b: B) => B) => B
 }
 ```
 
@@ -180,9 +182,19 @@ Added in v2.0.0
 ```ts
 export interface FoldableWithIndexComposition12<F extends URIS, FI, G extends URIS2, GI>
   extends FoldableComposition12<F, G> {
-  readonly reduceWithIndex: <E, A, B>(fga: Kind<F, Kind2<G, E, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <E, A>(fga: Kind<F, Kind2<G, E, A>>, f: (i: [FI, GI], a: A) => M) => M
-  readonly reduceRightWithIndex: <E, A, B>(fga: Kind<F, Kind2<G, E, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
+  readonly reduceWithIndex: <E, A, B>(
+    fga: Kind<F, Kind2<G, E, A>>,
+    b: B,
+    f: (i: readonly [FI, GI], b: B, a: A) => B
+  ) => B
+  readonly foldMapWithIndex: <M>(
+    M: Monoid<M>
+  ) => <E, A>(fga: Kind<F, Kind2<G, E, A>>, f: (i: readonly [FI, GI], a: A) => M) => M
+  readonly reduceRightWithIndex: <E, A, B>(
+    fga: Kind<F, Kind2<G, E, A>>,
+    b: B,
+    f: (i: readonly [FI, GI], a: A, b: B) => B
+  ) => B
 }
 ```
 
@@ -195,9 +207,15 @@ Added in v2.0.0
 ```ts
 export interface FoldableWithIndexComposition12C<F extends URIS, FI, G extends URIS2, GI, E>
   extends FoldableComposition12C<F, G, E> {
-  readonly reduceWithIndex: <A, B>(fga: Kind<F, Kind2<G, E, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fga: Kind<F, Kind2<G, E, A>>, f: (i: [FI, GI], a: A) => M) => M
-  readonly reduceRightWithIndex: <A, B>(fga: Kind<F, Kind2<G, E, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
+  readonly reduceWithIndex: <A, B>(fga: Kind<F, Kind2<G, E, A>>, b: B, f: (i: readonly [FI, GI], b: B, a: A) => B) => B
+  readonly foldMapWithIndex: <M>(
+    M: Monoid<M>
+  ) => <A>(fga: Kind<F, Kind2<G, E, A>>, f: (i: readonly [FI, GI], a: A) => M) => M
+  readonly reduceRightWithIndex: <A, B>(
+    fga: Kind<F, Kind2<G, E, A>>,
+    b: B,
+    f: (i: readonly [FI, GI], a: A, b: B) => B
+  ) => B
 }
 ```
 
@@ -210,11 +228,19 @@ Added in v2.0.0
 ```ts
 export interface FoldableWithIndexComposition21<F extends URIS2, FI, G extends URIS, GI>
   extends FoldableComposition21<F, G> {
-  readonly reduceWithIndex: <FE, A, B>(fga: Kind2<F, FE, Kind<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
+  readonly reduceWithIndex: <FE, A, B>(
+    fga: Kind2<F, FE, Kind<G, A>>,
+    b: B,
+    f: (i: readonly [FI, GI], b: B, a: A) => B
+  ) => B
   readonly foldMapWithIndex: <M>(
     M: Monoid<M>
-  ) => <FE, A>(fga: Kind2<F, FE, Kind<G, A>>, f: (i: [FI, GI], a: A) => M) => M
-  readonly reduceRightWithIndex: <FE, A, B>(fga: Kind2<F, FE, Kind<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
+  ) => <FE, A>(fga: Kind2<F, FE, Kind<G, A>>, f: (i: readonly [FI, GI], a: A) => M) => M
+  readonly reduceRightWithIndex: <FE, A, B>(
+    fga: Kind2<F, FE, Kind<G, A>>,
+    b: B,
+    f: (i: readonly [FI, GI], a: A, b: B) => B
+  ) => B
 }
 ```
 
@@ -230,15 +256,15 @@ export interface FoldableWithIndexComposition22<F extends URIS2, FI, G extends U
   readonly reduceWithIndex: <FE, GE, A, B>(
     fga: Kind2<F, FE, Kind2<G, GE, A>>,
     b: B,
-    f: (i: [FI, GI], b: B, a: A) => B
+    f: (i: readonly [FI, GI], b: B, a: A) => B
   ) => B
   readonly foldMapWithIndex: <M>(
     M: Monoid<M>
-  ) => <FE, GE, A>(fga: Kind2<F, FE, Kind2<G, GE, A>>, f: (i: [FI, GI], a: A) => M) => M
+  ) => <FE, GE, A>(fga: Kind2<F, FE, Kind2<G, GE, A>>, f: (i: readonly [FI, GI], a: A) => M) => M
   readonly reduceRightWithIndex: <FE, GE, A, B>(
     fga: Kind2<F, FE, Kind2<G, GE, A>>,
     b: B,
-    f: (i: [FI, GI], a: A, b: B) => B
+    f: (i: readonly [FI, GI], a: A, b: B) => B
   ) => B
 }
 ```
@@ -252,14 +278,18 @@ Added in v2.0.0
 ```ts
 export interface FoldableWithIndexComposition22C<F extends URIS2, FI, G extends URIS2, GI, E>
   extends FoldableComposition22C<F, G, E> {
-  readonly reduceWithIndex: <FE, A, B>(fga: Kind2<F, FE, Kind2<G, E, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
+  readonly reduceWithIndex: <FE, A, B>(
+    fga: Kind2<F, FE, Kind2<G, E, A>>,
+    b: B,
+    f: (i: readonly [FI, GI], b: B, a: A) => B
+  ) => B
   readonly foldMapWithIndex: <M>(
     M: Monoid<M>
-  ) => <FE, A>(fga: Kind2<F, FE, Kind2<G, E, A>>, f: (i: [FI, GI], a: A) => M) => M
+  ) => <FE, A>(fga: Kind2<F, FE, Kind2<G, E, A>>, f: (i: readonly [FI, GI], a: A) => M) => M
   readonly reduceRightWithIndex: <FE, A, B>(
     fga: Kind2<F, FE, Kind2<G, E, A>>,
     b: B,
-    f: (i: [FI, GI], a: A, b: B) => B
+    f: (i: readonly [FI, GI], a: A, b: B) => B
   ) => B
 }
 ```
@@ -273,9 +303,15 @@ Added in v2.0.0
 ```ts
 export interface FoldableWithIndexComposition2C1<F extends URIS2, FI, G extends URIS, GI, FE>
   extends FoldableComposition2C1<F, G, FE> {
-  readonly reduceWithIndex: <A, B>(fga: Kind2<F, FE, Kind<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fga: Kind2<F, FE, Kind<G, A>>, f: (i: [FI, GI], a: A) => M) => M
-  readonly reduceRightWithIndex: <A, B>(fga: Kind2<F, FE, Kind<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
+  readonly reduceWithIndex: <A, B>(fga: Kind2<F, FE, Kind<G, A>>, b: B, f: (i: readonly [FI, GI], b: B, a: A) => B) => B
+  readonly foldMapWithIndex: <M>(
+    M: Monoid<M>
+  ) => <A>(fga: Kind2<F, FE, Kind<G, A>>, f: (i: readonly [FI, GI], a: A) => M) => M
+  readonly reduceRightWithIndex: <A, B>(
+    fga: Kind2<F, FE, Kind<G, A>>,
+    b: B,
+    f: (i: readonly [FI, GI], a: A, b: B) => B
+  ) => B
 }
 ```
 

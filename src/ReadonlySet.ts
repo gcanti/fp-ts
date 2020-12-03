@@ -58,9 +58,9 @@ export const empty: ReadonlySet<never> = new Set()
 export function toReadonlyArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => ReadonlyArray<A> {
   return (x) => {
     // tslint:disable-next-line: readonly-array
-    const r: Array<A> = []
-    x.forEach((e) => r.push(e))
-    return r.sort(O.compare)
+    const out: Array<A> = []
+    x.forEach((e) => out.push(e))
+    return out.sort(O.compare)
   }
 }
 

@@ -946,17 +946,16 @@ export const traverseSeqArrayWithIndex: <R, E, A, B>(
   f: (index: number, a: A) => ReaderTaskEither<R, E, B>
 ) => (arr: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) => (arr) => (r) => async () => {
   // tslint:disable-next-line: readonly-array
-  const result = []
-
+  const out = []
   for (let i = 0; i < arr.length; i++) {
     const b = await f(i, arr[i])(r)()
     if (E.isLeft(b)) {
       return b
     }
-    result.push(b.right)
+    out.push(b.right)
   }
 
-  return E.right(result)
+  return E.right(out)
 }
 
 /**

@@ -784,15 +784,15 @@ export const traverseSeqArrayWithIndex: <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
 ) => (arr: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) => (arr) => () => {
   // tslint:disable-next-line: readonly-array
-  const result = []
+  const out = []
   for (let i = 0; i < arr.length; i++) {
     const b = f(i, arr[i])()
     if (E.isLeft(b)) {
       return b
     }
-    result.push(b.right)
+    out.push(b.right)
   }
-  return E.right(result)
+  return E.right(out)
 }
 
 /**

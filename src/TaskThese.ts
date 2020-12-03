@@ -109,15 +109,13 @@ export const fold: <E, B, A>(
   flow(TH.fold, T.chain)
 
 // TODO: make lazy in v3
-/* tslint:disable:readonly-array */
 /**
  * @category destructors
  * @since 2.4.0
  */
-export const toTuple: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => Task<[E, A]> =
+export const toTuple: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => Task<readonly [E, A]> =
   /*#__PURE__*/
   flow(TH.toTuple, T.map)
-/* tslint:enable:readonly-array */
 
 // -------------------------------------------------------------------------------------
 // combinators

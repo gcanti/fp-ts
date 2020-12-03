@@ -315,13 +315,11 @@ export const traverseArrayWithIndex: <A, S, B>(
   let lastState = s
   // tslint:disable-next-line: readonly-array
   const values = []
-
   for (let i = 0; i < arr.length; i++) {
     const [newValue, newState] = f(i, arr[i])(lastState)
     values.push(newValue)
     lastState = newState
   }
-
   return [values, lastState]
 }
 

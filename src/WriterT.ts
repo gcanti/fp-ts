@@ -7,14 +7,12 @@ import { Monoid } from './Monoid'
 
 // TODO: remove module in v3
 
-// tslint:disable:readonly-array
-
 /**
  * @category model
  * @since 2.4.0
  */
 export interface WriterT<M, W, A> {
-  (): HKT<M, [A, W]>
+  (): HKT<M, readonly [A, W]>
 }
 
 /**
@@ -25,9 +23,9 @@ export interface WriterM<M> {
   readonly evalWriter: <W, A>(fa: WriterT<M, W, A>) => HKT<M, A>
   readonly execWriter: <W, A>(fa: WriterT<M, W, A>) => HKT<M, W>
   readonly tell: <W>(w: W) => WriterT<M, W, void>
-  readonly listen: <W, A>(fa: WriterT<M, W, A>) => WriterT<M, W, [A, W]>
-  readonly pass: <W, A>(fa: WriterT<M, W, [A, (w: W) => W]>) => WriterT<M, W, A>
-  readonly listens: <W, A, B>(fa: WriterT<M, W, A>, f: (w: W) => B) => WriterT<M, W, [A, B]>
+  readonly listen: <W, A>(fa: WriterT<M, W, A>) => WriterT<M, W, readonly [A, W]>
+  readonly pass: <W, A>(fa: WriterT<M, W, readonly [A, (w: W) => W]>) => WriterT<M, W, A>
+  readonly listens: <W, A, B>(fa: WriterT<M, W, A>, f: (w: W) => B) => WriterT<M, W, readonly [A, B]>
   readonly censor: <W, A>(fa: WriterT<M, W, A>, f: (w: W) => W) => WriterT<M, W, A>
   readonly getMonad: <W>(
     M: Monoid<W>
@@ -45,7 +43,7 @@ export interface WriterM<M> {
  * @since 2.4.0
  */
 export interface WriterT1<M extends URIS, W, A> {
-  (): Kind<M, [A, W]>
+  (): Kind<M, readonly [A, W]>
 }
 
 /**
@@ -56,9 +54,9 @@ export interface WriterM1<M extends URIS> {
   readonly evalWriter: <W, A>(fa: WriterT1<M, W, A>) => Kind<M, A>
   readonly execWriter: <W, A>(fa: WriterT1<M, W, A>) => Kind<M, W>
   readonly tell: <W>(w: W) => WriterT1<M, W, void>
-  readonly listen: <W, A>(fa: WriterT1<M, W, A>) => WriterT1<M, W, [A, W]>
-  readonly pass: <W, A>(fa: WriterT1<M, W, [A, (w: W) => W]>) => WriterT1<M, W, A>
-  readonly listens: <W, A, B>(fa: WriterT1<M, W, A>, f: (w: W) => B) => WriterT1<M, W, [A, B]>
+  readonly listen: <W, A>(fa: WriterT1<M, W, A>) => WriterT1<M, W, readonly [A, W]>
+  readonly pass: <W, A>(fa: WriterT1<M, W, readonly [A, (w: W) => W]>) => WriterT1<M, W, A>
+  readonly listens: <W, A, B>(fa: WriterT1<M, W, A>, f: (w: W) => B) => WriterT1<M, W, readonly [A, B]>
   readonly censor: <W, A>(fa: WriterT1<M, W, A>, f: (w: W) => W) => WriterT1<M, W, A>
   readonly getMonad: <W>(
     M: Monoid<W>
@@ -76,7 +74,7 @@ export interface WriterM1<M extends URIS> {
  * @since 2.4.0
  */
 export interface WriterT2<M extends URIS2, E, W, A> {
-  (): Kind2<M, E, [A, W]>
+  (): Kind2<M, E, readonly [A, W]>
 }
 
 /**
@@ -87,9 +85,9 @@ export interface WriterM2<M extends URIS2> {
   readonly evalWriter: <E, W, A>(fa: WriterT2<M, E, W, A>) => Kind2<M, E, A>
   readonly execWriter: <E, W, A>(fa: WriterT2<M, E, W, A>) => Kind2<M, E, W>
   readonly tell: <E, W>(w: W) => WriterT2<M, E, W, void>
-  readonly listen: <E, W, A>(fa: WriterT2<M, E, W, A>) => WriterT2<M, E, W, [A, W]>
-  readonly pass: <E, W, A>(fa: WriterT2<M, E, W, [A, (w: W) => W]>) => WriterT2<M, E, W, A>
-  readonly listens: <E, W, A, B>(fa: WriterT2<M, E, W, A>, f: (w: W) => B) => WriterT2<M, E, W, [A, B]>
+  readonly listen: <E, W, A>(fa: WriterT2<M, E, W, A>) => WriterT2<M, E, W, readonly [A, W]>
+  readonly pass: <E, W, A>(fa: WriterT2<M, E, W, readonly [A, (w: W) => W]>) => WriterT2<M, E, W, A>
+  readonly listens: <E, W, A, B>(fa: WriterT2<M, E, W, A>, f: (w: W) => B) => WriterT2<M, E, W, readonly [A, B]>
   readonly censor: <E, W, A>(fa: WriterT2<M, E, W, A>, f: (w: W) => W) => WriterT2<M, E, W, A>
   readonly getMonad: <W>(
     M: Monoid<W>
@@ -110,9 +108,9 @@ export interface WriterM2C<M extends URIS2, E> {
   readonly evalWriter: <W, A>(fa: WriterT2<M, E, W, A>) => Kind2<M, E, A>
   readonly execWriter: <W, A>(fa: WriterT2<M, E, W, A>) => Kind2<M, E, W>
   readonly tell: <W>(w: W) => WriterT2<M, E, W, void>
-  readonly listen: <W, A>(fa: WriterT2<M, E, W, A>) => WriterT2<M, E, W, [A, W]>
-  readonly pass: <W, A>(fa: WriterT2<M, E, W, [A, (w: W) => W]>) => WriterT2<M, E, W, A>
-  readonly listens: <W, A, B>(fa: WriterT2<M, E, W, A>, f: (w: W) => B) => WriterT2<M, E, W, [A, B]>
+  readonly listen: <W, A>(fa: WriterT2<M, E, W, A>) => WriterT2<M, E, W, readonly [A, W]>
+  readonly pass: <W, A>(fa: WriterT2<M, E, W, readonly [A, (w: W) => W]>) => WriterT2<M, E, W, A>
+  readonly listens: <W, A, B>(fa: WriterT2<M, E, W, A>, f: (w: W) => B) => WriterT2<M, E, W, readonly [A, B]>
   readonly censor: <W, A>(fa: WriterT2<M, E, W, A>, f: (w: W) => W) => WriterT2<M, E, W, A>
   readonly getMonad: <W>(
     M: Monoid<W>
@@ -129,7 +127,7 @@ export interface WriterM2C<M extends URIS2, E> {
  * @since 2.4.0
  */
 export interface WriterT3<M extends URIS3, R, E, W, A> {
-  (): Kind3<M, R, E, [A, W]>
+  (): Kind3<M, R, E, readonly [A, W]>
 }
 
 /**
@@ -140,9 +138,12 @@ export interface WriterM3<M extends URIS3> {
   readonly evalWriter: <R, E, W, A>(fa: WriterT3<M, R, E, W, A>) => Kind3<M, R, E, A>
   readonly execWriter: <R, E, W, A>(fa: WriterT3<M, R, E, W, A>) => Kind3<M, R, E, W>
   readonly tell: <R, E, W>(w: W) => WriterT3<M, R, E, W, void>
-  readonly listen: <R, E, W, A>(fa: WriterT3<M, R, E, W, A>) => WriterT3<M, R, E, W, [A, W]>
-  readonly pass: <R, E, W, A>(fa: WriterT3<M, R, E, W, [A, (w: W) => W]>) => WriterT3<M, R, E, W, A>
-  readonly listens: <R, E, W, A, B>(fa: WriterT3<M, R, E, W, A>, f: (w: W) => B) => WriterT3<M, R, E, W, [A, B]>
+  readonly listen: <R, E, W, A>(fa: WriterT3<M, R, E, W, A>) => WriterT3<M, R, E, W, readonly [A, W]>
+  readonly pass: <R, E, W, A>(fa: WriterT3<M, R, E, W, readonly [A, (w: W) => W]>) => WriterT3<M, R, E, W, A>
+  readonly listens: <R, E, W, A, B>(
+    fa: WriterT3<M, R, E, W, A>,
+    f: (w: W) => B
+  ) => WriterT3<M, R, E, W, readonly [A, B]>
   readonly censor: <R, E, W, A>(fa: WriterT3<M, R, E, W, A>, f: (w: W) => W) => WriterT3<M, R, E, W, A>
   readonly getMonad: <W>(
     M: Monoid<W>

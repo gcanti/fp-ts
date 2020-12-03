@@ -225,7 +225,6 @@ export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<UR
 }
 
 // TODO: make lazy in v3
-/* tslint:disable:readonly-array */
 /**
  * @example
  * import { toTuple, left, right, both } from 'fp-ts/These'
@@ -237,10 +236,9 @@ export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<UR
  * @category destructors
  * @since 2.0.0
  */
-export function toTuple<E, A>(e: E, a: A): (fa: These<E, A>) => [E, A] {
+export function toTuple<E, A>(e: E, a: A): (fa: These<E, A>) => readonly [E, A] {
   return (fa) => (isLeft(fa) ? [fa.left, a] : isRight(fa) ? [e, fa.right] : [fa.left, fa.right])
 }
-/* tslint:enable:readonly-array */
 
 /**
  * Returns an `E` value if possible

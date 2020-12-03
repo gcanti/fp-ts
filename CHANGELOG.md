@@ -26,12 +26,12 @@ high state of flux, you're at risk of it changing without notice.
     - `Record` (@gcanti)
     - `Set` (@gcanti)
     - `Tuple` (@gcanti)
-  - `State`
-    - make `State` definition immutable (@gcanti)
-  - `StateReaderTaskEither`
-    - make `StateReaderTaskEither` definition immutable (@gcanti)
-  - `Tree`
-    - make `Forest` immutable (@gcanti)
+  - switch to readonly arrays / tuples everywhere
+    - Some examples:
+      - make `State` definition immutable (@gcanti)
+      - make `StateReaderTaskEither` definition immutable (@gcanti)
+      - (`Tree`) make `Forest` immutable (@gcanti)
+      - make `Writer` definition immutable (@gcanti)
 
 # 2.9.1
 

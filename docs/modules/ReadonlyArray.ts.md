@@ -1355,7 +1355,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function toArray<A>(ras: ReadonlyArray<A>): Array<A>
+export declare function toArray<A>(as: ReadonlyArray<A>): Array<A>
 ```
 
 Added in v2.5.0

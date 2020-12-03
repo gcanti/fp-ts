@@ -209,7 +209,7 @@ export function group<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<Read
       return RA.empty
     }
     // tslint:disable-next-line: readonly-array
-    const r: Array<ReadonlyNonEmptyArray<A>> = []
+    const out: Array<ReadonlyNonEmptyArray<A>> = []
     let head: A = as[0]
     // tslint:disable-next-line: readonly-array
     let nea: [A, ...Array<A>] = [head]
@@ -218,13 +218,13 @@ export function group<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<Read
       if (E.equals(x, head)) {
         nea.push(x)
       } else {
-        r.push(nea)
+        out.push(nea)
         head = x
         nea = [head]
       }
     }
-    r.push(nea)
-    return r
+    out.push(nea)
+    return out
   }
 }
 
@@ -272,16 +272,16 @@ export function groupBy<A>(
 ): (as: ReadonlyArray<A>) => ReadonlyRecord<string, ReadonlyNonEmptyArray<A>> {
   return (as: ReadonlyArray<A>) => {
     // tslint:disable-next-line: readonly-array
-    const r: Record<string, [A, ...Array<A>]> = {}
+    const out: Record<string, [A, ...Array<A>]> = {}
     for (const a of as) {
       const k = f(a)
-      if (r.hasOwnProperty(k)) {
-        r[k].push(a)
+      if (out.hasOwnProperty(k)) {
+        out[k].push(a)
       } else {
-        r[k] = [a]
+        out[k] = [a]
       }
     }
-    return r
+    return out
   }
 }
 

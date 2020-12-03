@@ -1400,15 +1400,15 @@ export const traverseArrayWithIndex = <E, A, B>(f: (index: number, a: A) => Eith
   arr: ReadonlyArray<A>
 ): Either<E, ReadonlyArray<B>> => {
   // tslint:disable-next-line: readonly-array
-  const result = []
+  const out: Array<B> = []
   for (let i = 0; i < arr.length; i++) {
     const e = f(i, arr[i])
     if (e._tag === 'Left') {
       return e
     }
-    result.push(e.right)
+    out.push(e.right)
   }
-  return right(result)
+  return right(out)
 }
 
 /**

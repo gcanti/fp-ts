@@ -35,7 +35,7 @@ import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
 import Option = O.Option
 
 // -------------------------------------------------------------------------------------
-// model
+// constructors
 // -------------------------------------------------------------------------------------
 
 /**
@@ -44,30 +44,25 @@ import Option = O.Option
  */
 // tslint:disable-next-line: readonly-array
 export function fromArray<A>(as: Array<A>): ReadonlyArray<A> {
-  const l = as.length
-  if (l === 0) {
-    return empty
-  }
-  const ras = Array(l)
-  for (let i = 0; i < l; i++) {
-    ras[i] = as[i]
-  }
-  return ras
+  return as.length === 0 ? empty : as.slice()
 }
+
+// -------------------------------------------------------------------------------------
+// destructors
+// -------------------------------------------------------------------------------------
 
 /**
  * @category destructors
  * @since 2.5.0
  */
 // tslint:disable-next-line: readonly-array
-export function toArray<A>(ras: ReadonlyArray<A>): Array<A> {
-  const l = ras.length
-  const as = Array(l)
-  for (let i = 0; i < l; i++) {
-    as[i] = ras[i]
-  }
-  return as
+export function toArray<A>(as: ReadonlyArray<A>): Array<A> {
+  return as.slice()
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances
@@ -187,11 +182,11 @@ export function getOrd<A>(O: Ord<A>): Ord<ReadonlyArray<A>> {
  */
 export function makeBy<A>(n: number, f: (i: number) => A): ReadonlyArray<A> {
   // tslint:disable-next-line: readonly-array
-  const r: Array<A> = []
+  const out: Array<A> = []
   for (let i = 0; i < n; i++) {
-    r.push(f(i))
+    out.push(f(i))
   }
-  return r
+  return out
 }
 
 /**
@@ -301,14 +296,14 @@ export function foldRight<A, B>(
  */
 export function scanLeft<A, B>(b: B, f: (b: B, a: A) => B): (as: ReadonlyArray<A>) => ReadonlyArray<B> {
   return (as) => {
-    const l = as.length
+    const len = as.length
     // tslint:disable-next-line: readonly-array
-    const r: Array<B> = new Array(l + 1)
-    r[0] = b
-    for (let i = 0; i < l; i++) {
-      r[i + 1] = f(r[i], as[i])
+    const out: Array<B> = new Array(len + 1)
+    out[0] = b
+    for (let i = 0; i < len; i++) {
+      out[i + 1] = f(out[i], as[i])
     }
-    return r
+    return out
   }
 }
 
@@ -325,14 +320,14 @@ export function scanLeft<A, B>(b: B, f: (b: B, a: A) => B): (as: ReadonlyArray<A
  */
 export function scanRight<A, B>(b: B, f: (a: A, b: B) => B): (as: ReadonlyArray<A>) => ReadonlyArray<B> {
   return (as) => {
-    const l = as.length
+    const len = as.length
     // tslint:disable-next-line: readonly-array
-    const r: Array<B> = new Array(l + 1)
-    r[l] = b
-    for (let i = l - 1; i >= 0; i--) {
-      r[i] = f(as[i], r[i + 1])
+    const out: Array<B> = new Array(len + 1)
+    out[len] = b
+    for (let i = len - 1; i >= 0; i--) {
+      out[i] = f(as[i], out[i + 1])
     }
-    return r
+    return out
   }
 }
 
@@ -928,16 +923,16 @@ export function reverse<A>(as: ReadonlyArray<A>): ReadonlyArray<A> {
  * @since 2.5.0
  */
 export function rights<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<A> {
-  // tslint:disable-next-line: readonly-array
-  const r: Array<A> = []
   const len = as.length
+  // tslint:disable-next-line: readonly-array
+  const out: Array<A> = []
   for (let i = 0; i < len; i++) {
     const a = as[i]
     if (a._tag === 'Right') {
-      r.push(a.right)
+      out.push(a.right)
     }
   }
-  return r
+  return out
 }
 
 /**
@@ -953,15 +948,15 @@ export function rights<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<A> 
  */
 export function lefts<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<E> {
   // tslint:disable-next-line: readonly-array
-  const r: Array<E> = []
+  const out: Array<E> = []
   const len = as.length
   for (let i = 0; i < len; i++) {
     const a = as[i]
     if (a._tag === 'Left') {
-      r.push(a.left)
+      out.push(a.left)
     }
   }
-  return r
+  return out
 }
 
 /**
@@ -994,12 +989,12 @@ export const sort = <B>(O: Ord<B>) => <A extends B>(as: ReadonlyArray<A>): Reado
  */
 export function zipWith<A, B, C>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>, f: (a: A, b: B) => C): ReadonlyArray<C> {
   // tslint:disable-next-line: readonly-array
-  const fc: Array<C> = []
+  const out: Array<C> = []
   const len = Math.min(fa.length, fb.length)
   for (let i = 0; i < len; i++) {
-    fc[i] = f(fa[i], fb[i])
+    out[i] = f(fa[i], fb[i])
   }
-  return fc
+  return out
 }
 
 // TODO: remove non-curried overloading in v3
@@ -1065,11 +1060,11 @@ export function unzip<A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [Reado
  */
 export const prependToAll = <A>(e: A) => (xs: ReadonlyArray<A>): ReadonlyArray<A> => {
   // tslint:disable-next-line: readonly-array
-  const ys: Array<A> = []
+  const out: Array<A> = []
   for (const x of xs) {
-    ys.push(e, x)
+    out.push(e, x)
   }
-  return ys
+  return out
 }
 
 /**
@@ -1177,15 +1172,15 @@ export function uniq<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
       return as
     }
     // tslint:disable-next-line: readonly-array
-    const r: Array<A> = []
+    const out: Array<A> = []
     let i = 0
     for (; i < len; i++) {
       const a = as[i]
-      if (!elemS(a, r)) {
-        r.push(a)
+      if (!elemS(a, out)) {
+        out.push(a)
       }
     }
-    return len === r.length ? as : r
+    return len === out.length ? as : out
   }
 }
 
@@ -1246,14 +1241,14 @@ export const chop = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, Rea
   as: ReadonlyArray<A>
 ): ReadonlyArray<B> => {
   // tslint:disable-next-line: readonly-array
-  const result: Array<B> = []
+  const out: Array<B> = []
   let cs: ReadonlyArray<A> = as
   while (isNonEmpty(cs)) {
     const [b, c] = f(cs)
-    result.push(b)
+    out.push(b)
     cs = c
   }
-  return result
+  return out
 }
 
 /**
@@ -1728,14 +1723,14 @@ export const filterMapWithIndex = <A, B>(f: (i: number, a: A) => Option<B>) => (
   fa: ReadonlyArray<A>
 ): ReadonlyArray<B> => {
   // tslint:disable-next-line: readonly-array
-  const result: Array<B> = []
+  const out: Array<B> = []
   for (let i = 0; i < fa.length; i++) {
     const optionB = f(i, fa[i])
     if (O.isSome(optionB)) {
-      result.push(optionB.value)
+      out.push(optionB.value)
     }
   }
-  return result
+  return out
 }
 
 /**
@@ -1983,19 +1978,19 @@ export const wilt: PipeableWilt1<URI> = <F>(
  */
 export const unfold = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): ReadonlyArray<A> => {
   // tslint:disable-next-line: readonly-array
-  const ret: Array<A> = []
+  const out: Array<A> = []
   let bb: B = b
   while (true) {
     const mt = f(bb)
     if (O.isSome(mt)) {
       const [a, b] = mt.value
-      ret.push(a)
+      out.push(a)
       bb = b
     } else {
       break
     }
   }
-  return ret
+  return out
 }
 
 // -------------------------------------------------------------------------------------

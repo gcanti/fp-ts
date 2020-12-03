@@ -7,7 +7,6 @@ import { State } from './State'
 
 // TODO: remove module in v3
 
-/* tslint:disable:readonly-array */
 /**
  * @category model
  * @since 2.0.0
@@ -15,7 +14,6 @@ import { State } from './State'
 export interface StateT<M, S, A> {
   (s: S): HKT<M, readonly [A, S]>
 }
-/* tslint:enable:readonly-array */
 
 /**
  * @since 2.0.0
@@ -35,15 +33,13 @@ export interface StateM<M> {
   readonly execState: <S, A>(ma: StateT<M, S, A>, s: S) => HKT<M, S>
 }
 
-/* tslint:disable:readonly-array */
 /**
  * @category model
  * @since 2.0.0
  */
 export interface StateT1<M extends URIS, S, A> {
-  (s: S): Kind<M, [A, S]>
+  (s: S): Kind<M, readonly [A, S]>
 }
-/* tslint:enable:readonly-array */
 
 /**
  * @since 2.0.0
@@ -63,15 +59,13 @@ export interface StateM1<M extends URIS> {
   readonly execState: <S, A>(ma: StateT1<M, S, A>, s: S) => Kind<M, S>
 }
 
-/* tslint:disable:readonly-array */
 /**
  * @category model
  * @since 2.0.0
  */
 export interface StateT2<M extends URIS2, S, E, A> {
-  (s: S): Kind2<M, E, [A, S]>
+  (s: S): Kind2<M, E, readonly [A, S]>
 }
-/* tslint:enable:readonly-array */
 
 /**
  * @since 2.0.0
@@ -109,14 +103,12 @@ export interface StateM2C<M extends URIS2, E> {
   readonly execState: <S, A>(ma: StateT2<M, S, E, A>, s: S) => Kind2<M, E, S>
 }
 
-/* tslint:disable:readonly-array */
 /**
  * @since 2.0.0
  */
 export interface StateT3<M extends URIS3, S, R, E, A> {
-  (s: S): Kind3<M, R, E, [A, S]>
+  (s: S): Kind3<M, R, E, readonly [A, S]>
 }
-/* tslint:enable:readonly-array */
 
 /**
  * @since 2.0.0

@@ -277,7 +277,7 @@ Build a tree from a seed value
 **Signature**
 
 ```ts
-export declare function unfoldForest<A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Forest<A>
+export declare function unfoldForest<A, B>(bs: ReadonlyArray<B>, f: (b: B) => readonly [A, ReadonlyArray<B>]): Forest<A>
 ```
 
 Added in v2.0.0
@@ -291,22 +291,28 @@ Monadic forest builder, in depth-first order
 ```ts
 export declare function unfoldForestM<M extends URIS3>(
   M: Monad3<M>
-): <R, E, A, B>(bs: Array<B>, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Forest<A>>
+): <R, E, A, B>(
+  bs: ReadonlyArray<B>,
+  f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>
+) => Kind3<M, R, E, Forest<A>>
 export declare function unfoldForestM<M extends URIS3, E>(
   M: Monad3C<M, E>
-): <R, A, B>(bs: Array<B>, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Forest<A>>
+): <R, A, B>(
+  bs: ReadonlyArray<B>,
+  f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>
+) => Kind3<M, R, E, Forest<A>>
 export declare function unfoldForestM<M extends URIS2>(
   M: Monad2<M>
-): <R, E, B>(bs: Array<B>, f: (b: B) => Kind2<M, R, [E, Array<B>]>) => Kind2<M, R, Forest<E>>
+): <R, A, B>(bs: ReadonlyArray<B>, f: (b: B) => Kind2<M, R, readonly [A, ReadonlyArray<B>]>) => Kind2<M, R, Forest<A>>
 export declare function unfoldForestM<M extends URIS2, E>(
   M: Monad2C<M, E>
-): <A, B>(bs: Array<B>, f: (b: B) => Kind2<M, E, [A, Array<B>]>) => Kind2<M, E, Forest<A>>
+): <A, B>(bs: ReadonlyArray<B>, f: (b: B) => Kind2<M, E, readonly [A, ReadonlyArray<B>]>) => Kind2<M, E, Forest<A>>
 export declare function unfoldForestM<M extends URIS>(
   M: Monad1<M>
-): <A, B>(bs: Array<B>, f: (b: B) => Kind<M, [A, Array<B>]>) => Kind<M, Forest<A>>
+): <A, B>(bs: ReadonlyArray<B>, f: (b: B) => Kind<M, readonly [A, ReadonlyArray<B>]>) => Kind<M, Forest<A>>
 export declare function unfoldForestM<M>(
   M: MonadHKT<M>
-): <A, B>(bs: Array<B>, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Forest<A>>
+): <A, B>(bs: ReadonlyArray<B>, f: (b: B) => HKT<M, readonly [A, ReadonlyArray<B>]>) => HKT<M, Forest<A>>
 ```
 
 Added in v2.0.0
@@ -318,7 +324,7 @@ Build a tree from a seed value
 **Signature**
 
 ```ts
-export declare function unfoldTree<A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A>
+export declare function unfoldTree<A, B>(b: B, f: (b: B) => readonly [A, ReadonlyArray<B>]): Tree<A>
 ```
 
 Added in v2.0.0
@@ -332,22 +338,22 @@ Monadic tree builder, in depth-first order
 ```ts
 export declare function unfoldTreeM<M extends URIS3>(
   M: Monad3<M>
-): <R, E, A, B>(b: B, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Tree<A>>
+): <R, E, A, B>(b: B, f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>) => Kind3<M, R, E, Tree<A>>
 export declare function unfoldTreeM<M extends URIS3, E>(
   M: Monad3C<M, E>
-): <R, A, B>(b: B, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Tree<A>>
+): <R, A, B>(b: B, f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>) => Kind3<M, R, E, Tree<A>>
 export declare function unfoldTreeM<M extends URIS2>(
   M: Monad2<M>
-): <E, A, B>(b: B, f: (b: B) => Kind2<M, E, [A, Array<B>]>) => Kind2<M, E, Tree<A>>
+): <E, A, B>(b: B, f: (b: B) => Kind2<M, E, readonly [A, ReadonlyArray<B>]>) => Kind2<M, E, Tree<A>>
 export declare function unfoldTreeM<M extends URIS2, E>(
   M: Monad2C<M, E>
-): <A, B>(b: B, f: (b: B) => Kind2<M, E, [A, Array<B>]>) => Kind2<M, E, Tree<A>>
+): <A, B>(b: B, f: (b: B) => Kind2<M, E, readonly [A, ReadonlyArray<B>]>) => Kind2<M, E, Tree<A>>
 export declare function unfoldTreeM<M extends URIS>(
   M: Monad1<M>
-): <A, B>(b: B, f: (b: B) => Kind<M, [A, Array<B>]>) => Kind<M, Tree<A>>
+): <A, B>(b: B, f: (b: B) => Kind<M, readonly [A, ReadonlyArray<B>]>) => Kind<M, Tree<A>>
 export declare function unfoldTreeM<M>(
   M: MonadHKT<M>
-): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>>
+): <A, B>(b: B, f: (b: B) => HKT<M, readonly [A, ReadonlyArray<B>]>) => HKT<M, Tree<A>>
 ```
 
 Added in v2.0.0
@@ -365,26 +371,45 @@ This is also known as the catamorphism on trees.
 **Signature**
 
 ```ts
-export declare function fold<A, B>(f: (a: A, bs: Array<B>) => B): (tree: Tree<A>) => B
+export declare function fold<A, B>(f: (a: A, bs: ReadonlyArray<B>) => B): (tree: Tree<A>) => B
 ```
 
 **Example**
 
 ```ts
 import { fold, make } from 'fp-ts/Tree'
+import { pipe } from 'fp-ts/function'
 
 const t = make(1, [make(2), make(3)])
 
-const sum = (as: Array<number>) => as.reduce((a, acc) => a + acc, 0)
+const sum = (as: ReadonlyArray<number>) => as.reduce((a, acc) => a + acc, 0)
 
 // Sum the values in a tree:
-assert.deepStrictEqual(fold((a: number, bs: Array<number>) => a + sum(bs))(t), 6)
+assert.deepStrictEqual(
+  pipe(
+    t,
+    fold((a, bs) => a + sum(bs))
+  ),
+  6
+)
 
 // Find the maximum value in the tree:
-assert.deepStrictEqual(fold((a: number, bs: Array<number>) => bs.reduce((b, acc) => Math.max(b, acc), a))(t), 3)
+assert.deepStrictEqual(
+  pipe(
+    t,
+    fold((a, bs) => bs.reduce((b, acc) => Math.max(b, acc), a))
+  ),
+  3
+)
 
 // Count the number of leaves in the tree:
-assert.deepStrictEqual(fold((_: number, bs: Array<number>) => (bs.length === 0 ? 1 : sum(bs)))(t), 2)
+assert.deepStrictEqual(
+  pipe(
+    t,
+    fold((_, bs) => (bs.length === 0 ? 1 : sum(bs)))
+  ),
+  2
+)
 ```
 
 Added in v2.6.0

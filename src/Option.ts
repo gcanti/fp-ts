@@ -1298,15 +1298,15 @@ export const traverseArrayWithIndex = <A, B>(f: (index: number, a: A) => Option<
   arr: ReadonlyArray<A>
 ): Option<ReadonlyArray<B>> => {
   // tslint:disable-next-line: readonly-array
-  const result = []
+  const out = []
   for (let i = 0; i < arr.length; i++) {
     const b = f(i, arr[i])
     if (isNone(b)) {
       return none
     }
-    result.push(b.value)
+    out.push(b.value)
   }
-  return some(result)
+  return some(out)
 }
 
 /**
