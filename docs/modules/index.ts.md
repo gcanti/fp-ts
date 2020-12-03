@@ -87,7 +87,6 @@ Added in v2.0.0
   - [semigroup](#semigroup)
   - [semigroupoid](#semigroupoid)
   - [semiring](#semiring)
-  - [set](#set)
   - [show](#show)
   - [state](#state)
   - [stateReaderTaskEither](#statereadertaskeither)
@@ -850,16 +849,6 @@ Added in v2.0.0
 
 ```ts
 export declare const semiring: typeof semiring
-```
-
-Added in v2.0.0
-
-## set
-
-**Signature**
-
-```ts
-export declare const set: typeof set
 ```
 
 Added in v2.0.0

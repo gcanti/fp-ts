@@ -24,6 +24,7 @@ high state of flux, you're at risk of it changing without notice.
     - `Map` (@gcanti)
     - `NonEmptyArray` (@gcanti)
     - `Record` (@gcanti)
+    - `Set` (@gcanti)
   - `State`
     - make `State` definition immutable (@gcanti)
   - `StateReaderTaskEither`

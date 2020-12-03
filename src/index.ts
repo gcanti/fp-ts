@@ -76,7 +76,6 @@ import * as ring from './Ring'
 import * as semigroup from './Semigroup'
 import * as semigroupoid from './Semigroupoid'
 import * as semiring from './Semiring'
-import * as set from './Set'
 import * as show from './Show'
 import * as state from './State'
 import * as stateReaderTaskEither from './StateReaderTaskEither'
@@ -391,10 +390,6 @@ export {
    * @since 2.0.0
    */
   semiring,
-  /**
-   * @since 2.0.0
-   */
-  set,
   /**
    * @since 2.0.0
    */
