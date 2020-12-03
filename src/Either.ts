@@ -104,15 +104,14 @@ export const left = <E = never, A = never>(e: E): Either<E, A> => ({ _tag: 'Left
  */
 export const right = <E = never, A = never>(a: A): Either<E, A> => ({ _tag: 'Right', right: a })
 
-// TODO: make lazy in v3
 /**
- * Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
+ * Takes a lazy default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
  * the provided default as a `Left`.
  *
  * @example
  * import { fromNullable, left, right } from 'fp-ts/Either'
  *
- * const parse = fromNullable('nully')
+ * const parse = fromNullable(() => 'nully')
  *
  * assert.deepStrictEqual(parse(1), right(1))
  * assert.deepStrictEqual(parse(null), left('nully'))
@@ -120,9 +119,8 @@ export const right = <E = never, A = never>(a: A): Either<E, A> => ({ _tag: 'Rig
  * @category constructors
  * @since 2.0.0
  */
-export function fromNullable<E>(e: E): <A>(a: A) => Either<E, NonNullable<A>> {
-  return <A>(a: A) => (a == null ? left(e) : right(a as NonNullable<A>))
-}
+export const fromNullable = <E>(e: Lazy<E>) => <A>(a: A): Either<E, NonNullable<A>> =>
+  a == null ? left(e()) : right(a as NonNullable<A>)
 
 // TODO: `onError => Lazy<A> => Either` in v3
 /**
@@ -371,7 +369,7 @@ export const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: Either<E, A>) => A =
  * @since 2.9.0
  */
 export function fromNullableK<E>(
-  e: E
+  e: Lazy<E>
 ): <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
 ) => (...a: A) => Either<E, NonNullable<B>> {
@@ -384,7 +382,7 @@ export function fromNullableK<E>(
  * @since 2.9.0
  */
 export function chainNullableK<E>(
-  e: E
+  e: Lazy<E>
 ): <A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>> {
   const from = fromNullableK(e)
   return (f) => chain(from(f))

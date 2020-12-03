@@ -493,7 +493,7 @@ Added in v2.8.0
 
 ```ts
 export declare function chainNullableK<E>(
-  e: E
+  e: Lazy<E>
 ): <A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>
 ```
 
@@ -594,7 +594,7 @@ Added in v2.0.0
 
 ```ts
 export declare function fromNullableK<E>(
-  e: E
+  e: Lazy<E>
 ): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B | null | undefined) => (...a: A) => Either<E, NonNullable<B>>
 ```
 
@@ -628,13 +628,13 @@ Added in v2.0.0
 
 ## fromNullable
 
-Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
+Takes a lazy default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
 the provided default as a `Left`.
 
 **Signature**
 
 ```ts
-export declare function fromNullable<E>(e: E): <A>(a: A) => Either<E, NonNullable<A>>
+export declare const fromNullable: <E>(e: Lazy<E>) => <A>(a: A) => Either<E, NonNullable<A>>
 ```
 
 **Example**
@@ -642,7 +642,7 @@ export declare function fromNullable<E>(e: E): <A>(a: A) => Either<E, NonNullabl
 ```ts
 import { fromNullable, left, right } from 'fp-ts/Either'
 
-const parse = fromNullable('nully')
+const parse = fromNullable(() => 'nully')
 
 assert.deepStrictEqual(parse(1), right(1))
 assert.deepStrictEqual(parse(null), left('nully'))

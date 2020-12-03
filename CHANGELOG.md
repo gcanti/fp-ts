@@ -33,6 +33,10 @@ high state of flux, you're at risk of it changing without notice.
       - make `StateReaderTaskEither` definition immutable
       - (`Tree`) make `Forest` immutable
       - make `Writer` definition immutable
+  - `Either`
+    - make `fromNullable` lazy (@gcanti)
+    - make `fromNullableK` lazy (@gcanti)
+    - make `chainNullableK` lazy (@gcanti)
 
 # 2.9.1
 

@@ -32,7 +32,10 @@ interface D {
 declare const f: <K extends keyof D>(key: K) => D[K]
 
 // $ExpectType Either<string, number>
-flow(f, _.fromNullable('error'))('foo')
+flow(
+  f,
+  _.fromNullable(() => 'error')
+)('foo')
 
 //
 // Witherable overlodings
