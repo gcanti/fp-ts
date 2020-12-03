@@ -278,6 +278,7 @@ export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI
   }
 }
 
+// TODO rename in v3
 /**
  * @category instances
  * @since 2.7.0
@@ -287,6 +288,7 @@ export const functorTaskThese: Functor2<URI> = {
   map: map_
 }
 
+// TODO rename in v3
 /**
  * @category instances
  * @since 2.7.0
@@ -297,7 +299,7 @@ export const bifunctorTaskThese: Bifunctor2<URI> = {
   mapLeft: mapLeft_
 }
 
-// TODO: remove in v3
+// TODO: remove mega instance in v3
 /**
  * @category instances
  * @since 2.4.0

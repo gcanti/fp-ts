@@ -898,7 +898,7 @@ export const Filterable: Filterable2<URI> = {
   partitionMap: partitionMap_
 }
 
-// TODO: remove in v3
+// TODO: remove mega instance in v3
 /**
  * @category instances
  * @since 2.5.0

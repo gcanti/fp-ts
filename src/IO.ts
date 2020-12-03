@@ -245,7 +245,7 @@ export const ChainRec: ChainRec1<URI> = {
   chainRec: chainRec_
 }
 
-// TODO: remove in v3
+// TODO: remove mega instance in v3
 /**
  * @category instances
  * @since 2.0.0

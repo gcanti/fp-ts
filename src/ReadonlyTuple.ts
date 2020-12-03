@@ -370,7 +370,7 @@ export const Traversable: Traversable2<URI> = {
   sequence
 }
 
-// TODO: remove in v3
+// TODO: remove mega instance in v3
 /**
  * @category instances
  * @since 2.5.0

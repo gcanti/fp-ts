@@ -1223,7 +1223,7 @@ export const Witherable: Witherable1<URI> = {
   wilt: wilt_
 }
 
-// TODO: remove in v3
+// TODO: remove mega instance in v3
 /**
  * @category instances
  * @since 2.5.0

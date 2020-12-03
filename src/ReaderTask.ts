@@ -321,7 +321,7 @@ export const Monad: Monad2<URI> = {
   chain: chain_
 }
 
-// TODO: remove in v3
+// TODO: remove mega instance in v3
 /**
  * @category instances
  * @since 2.3.0
@@ -336,7 +336,7 @@ export const readerTask: MonadTask2<URI> = {
   fromTask
 }
 
-// TODO: remove in v3
+// TODO: remove mega instance in v3
 /**
  * Like `readerTask` but `ap` is sequential
  *

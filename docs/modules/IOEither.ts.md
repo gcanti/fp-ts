@@ -76,7 +76,6 @@ Added in v2.0.0
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getFilterable](#getfilterable)
-  - [getIOValidation](#getiovalidation)
   - [getSemigroup](#getsemigroup)
   - [ioEither](#ioeither)
 - [model](#model)
@@ -689,18 +688,6 @@ export declare function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E>
 ```
 
 Added in v2.1.0
-
-## getIOValidation
-
-**Signature**
-
-```ts
-export declare function getIOValidation<E>(
-  SE: Semigroup<E>
-): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadIO2C<URI, E> & MonadThrow2C<URI, E>
-```
-
-Added in v2.0.0
 
 ## getSemigroup
 

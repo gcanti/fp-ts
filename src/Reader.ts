@@ -328,7 +328,7 @@ export const Choice: Choice2<URI> = {
   right: right_
 }
 
-// TODO: remove in v3
+// TODO: remove mega instance in v3
 /**
  * @category instances
  * @since 2.0.0

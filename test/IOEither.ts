@@ -321,15 +321,11 @@ describe('IOEither', () => {
     const A = _.getApplicativeIOValidation(monoidString)
     assert.deepStrictEqual(sequenceT(A)(_.left('a'), _.left('b'))(), E.left('ab'))
     assert.deepStrictEqual(sequenceT(A)(_.left('a'), _.right(1))(), E.left('a'))
-    const AV = _.getIOValidation(monoidString)
-    assert.deepStrictEqual(sequenceT(AV)(_.left('a'), _.left('b'))(), E.left('ab'))
   })
 
   it('getAltIOValidation', () => {
     const A = _.getAltIOValidation(monoidString)
     assert.deepStrictEqual(A.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
-    const AV = _.getIOValidation(monoidString)
-    assert.deepStrictEqual(AV.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
   })
 
   describe('getFilterable', () => {

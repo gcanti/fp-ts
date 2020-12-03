@@ -748,7 +748,7 @@ export const Alt: Alt2<URI> = {
   alt: alt_
 }
 
-// TODO: remove in v3
+// TODO: remove mega instance in v3
 /**
  * @category instances
  * @since 2.0.0
@@ -767,7 +767,7 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<
   throwError
 }
 
-// TODO: remove in v3
+// TODO: remove mega instance in v3
 /**
  * Like `TaskEither` but `ap` is sequential
  *

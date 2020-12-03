@@ -767,7 +767,7 @@ export const Alt: Alt3<URI> = {
   alt: alt_
 }
 
-// TODO: remove in v3
+// TODO: remove mega instance in v3
 /**
  * @category instances
  * @since 2.0.0
@@ -786,7 +786,7 @@ export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & Monad
   throwError
 }
 
-// TODO: remove in v3
+// TODO: remove mega instance in v3
 /**
  * Like `readerTaskEither` but `ap` is sequential
  *

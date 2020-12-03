@@ -12,9 +12,9 @@ import { Filterable2C, getFilterableComposition } from './Filterable'
 import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { Functor2 } from './Functor'
 import * as I from './IO'
-import { Monad2, Monad2C } from './Monad'
-import { MonadIO2, MonadIO2C } from './MonadIO'
-import { MonadThrow2, MonadThrow2C } from './MonadThrow'
+import { Monad2 } from './Monad'
+import { MonadIO2 } from './MonadIO'
+import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
@@ -493,31 +493,6 @@ export function getAltIOValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
   }
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getIOValidation<E>(
-  SE: Semigroup<E>
-): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadIO2C<URI, E> & MonadThrow2C<URI, E> {
-  const applicativeIOValidation = getApplicativeIOValidation(SE)
-  const altIOValidation = getAltIOValidation(SE)
-  return {
-    URI,
-    _E: undefined as any,
-    map: map_,
-    ap: applicativeIOValidation.ap,
-    of,
-    chain: chain_,
-    bimap: bimap_,
-    mapLeft: mapLeft_,
-    alt: altIOValidation.alt,
-    fromIO,
-    throwError
-  }
-}
-
 /**
  * @category instances
  * @since 2.1.0
@@ -628,7 +603,7 @@ export const MonadThrow: MonadThrow2<URI> = {
   throwError
 }
 
-// TODO: remove in v3
+// TODO: remove mega instance in v3
 /**
  * @category instances
  * @since 2.0.0
