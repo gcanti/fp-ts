@@ -236,7 +236,6 @@ export function getFunctionMonoid<M>(M: Monoid<M>): <A = never>() => Monoid<(a: 
   })
 }
 
-// TODO: swap execution order in v3
 /**
  * Endomorphism form a monoid where the `empty` value is the identity function.
  *
@@ -245,7 +244,7 @@ export function getFunctionMonoid<M>(M: Monoid<M>): <A = never>() => Monoid<(a: 
  */
 export function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<A>> {
   return {
-    concat: (x, y) => (a) => x(y(a)),
+    concat: (x, y) => (a) => y(x(a)),
     empty: identity
   }
 }

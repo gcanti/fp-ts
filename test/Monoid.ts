@@ -47,9 +47,9 @@ describe('Monoid', () => {
 
   it('getEndomorphismMonoid', () => {
     const M = getEndomorphismMonoid<number>()
-    const double = (n: number) => n * 2
     const inc = (n: number) => n + 1
-    const f = M.concat(double, inc)
+    const double = (n: number) => n * 2
+    const f = M.concat(inc, double)
     assert.deepStrictEqual(f(3), 8)
   })
 
