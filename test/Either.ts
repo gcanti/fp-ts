@@ -291,20 +291,21 @@ describe('Either', () => {
   })
 
   it('parseJSON', () => {
-    assert.deepStrictEqual(_.parseJSON('{"a":1}', _.toError), _.right({ a: 1 }))
+    assert.deepStrictEqual(pipe('{"a":1}', _.parseJSON(_.toError)), _.right({ a: 1 }))
     assert.deepStrictEqual(
-      _.parseJSON('{"a":}', _.toError),
+      pipe('{"a":}', _.parseJSON(_.toError)),
       _.left(new SyntaxError('Unexpected token } in JSON at position 5'))
     )
   })
 
   it('stringifyJSON', () => {
-    assert.deepStrictEqual(_.stringifyJSON({ a: 1 }, _.toError), _.right('{"a":1}'))
+    assert.deepStrictEqual(pipe({ a: 1 }, _.stringifyJSON(_.toError)), _.right('{"a":1}'))
     const circular: any = { ref: null }
     circular.ref = circular
     assert.deepStrictEqual(
       pipe(
-        _.stringifyJSON(circular, _.toError),
+        circular,
+        _.stringifyJSON(_.toError),
         _.mapLeft((e) => e.message.includes('Converting circular structure to JSON'))
       ),
       _.left(true)
@@ -314,7 +315,7 @@ describe('Either', () => {
       readonly age: number
     }
     const person: Person = { name: 'Giulio', age: 45 }
-    assert.deepStrictEqual(_.stringifyJSON(person, _.toError), _.right('{"name":"Giulio","age":45}'))
+    assert.deepStrictEqual(pipe(person, _.stringifyJSON(_.toError)), _.right('{"name":"Giulio","age":45}'))
   })
 
   describe('lifting functions', () => {

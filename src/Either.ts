@@ -173,24 +173,22 @@ export interface JsonRecord {
  */
 export interface JsonArray extends ReadonlyArray<Json> {}
 
-// TODO curry in v3
 /**
  * Converts a JavaScript Object Notation (JSON) string into an object.
  *
  * @example
- * import { parseJSON, toError, right, left } from 'fp-ts/Either'
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(parseJSON('{"a":1}', toError), right({ a: 1 }))
- * assert.deepStrictEqual(parseJSON('{"a":}', toError), left(new SyntaxError('Unexpected token } in JSON at position 5')))
+ * assert.deepStrictEqual(pipe('{"a":1}', E.parseJSON(E.toError)), E.right({ a: 1 }))
+ * assert.deepStrictEqual(pipe('{"a":}', E.parseJSON(E.toError)), E.left(new SyntaxError('Unexpected token } in JSON at position 5')))
  *
  * @category constructors
  * @since 2.0.0
  */
-export function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either<E, Json> {
-  return tryCatch(() => JSON.parse(s), onError)
-}
+export const parseJSON = <E>(onError: (reason: unknown) => E) => (s: string): Either<E, Json> =>
+  tryCatch(() => JSON.parse(s), onError)
 
-// TODO curry in v3
 /**
  * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
  *
@@ -198,12 +196,13 @@ export function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either
  * import * as E from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(E.stringifyJSON({ a: 1 }, E.toError), E.right('{"a":1}'))
+ * assert.deepStrictEqual(pipe({ a: 1 }, E.stringifyJSON(E.toError)), E.right('{"a":1}'))
  * const circular: any = { ref: null }
  * circular.ref = circular
  * assert.deepStrictEqual(
  *   pipe(
- *     E.stringifyJSON(circular, E.toError),
+ *     circular,
+ *     E.stringifyJSON(E.toError),
  *     E.mapLeft(e => e.message.includes('Converting circular structure to JSON'))
  *   ),
  *   E.left(true)
@@ -212,9 +211,8 @@ export function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either
  * @category constructors
  * @since 2.0.0
  */
-export function stringifyJSON<E>(u: unknown, onError: (reason: unknown) => E): Either<E, string> {
-  return tryCatch(() => JSON.stringify(u), onError)
-}
+export const stringifyJSON = <E>(onError: (reason: unknown) => E) => (u: unknown): Either<E, string> =>
+  tryCatch(() => JSON.stringify(u), onError)
 
 /**
  * Derivable from `MonadThrow`.

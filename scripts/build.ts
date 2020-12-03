@@ -15,7 +15,7 @@ const PKG = 'package.json'
 export const copyPackageJson: Build<void> = (C) =>
   pipe(
     C.readFile(PKG),
-    TE.chain((s) => TE.fromEither(E.parseJSON(s, E.toError))),
+    TE.chain((s) => TE.fromEither(E.parseJSON(E.toError)(s))),
     TE.map((v) => {
       const clone = Object.assign({}, v as any)
 
