@@ -83,7 +83,6 @@ Added in v2.0.0
   - [readonlyRecord](#readonlyrecord)
   - [readonlySet](#readonlyset)
   - [readonlyTuple](#readonlytuple)
-  - [record](#record)
   - [ring](#ring)
   - [semigroup](#semigroup)
   - [semigroupoid](#semigroupoid)
@@ -814,16 +813,6 @@ export declare const readonlyTuple: typeof readonlyTuple
 ```
 
 Added in v2.5.0
-
-## record
-
-**Signature**
-
-```ts
-export declare const record: typeof record
-```
-
-Added in v2.0.0
 
 ## ring
 

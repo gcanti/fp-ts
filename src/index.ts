@@ -72,7 +72,6 @@ import * as readonlyNonEmptyArray from './ReadonlyNonEmptyArray'
 import * as readonlyRecord from './ReadonlyRecord'
 import * as readonlySet from './ReadonlySet'
 import * as readonlyTuple from './ReadonlyTuple'
-import * as record from './Record'
 import * as ring from './Ring'
 import * as semigroup from './Semigroup'
 import * as semigroupoid from './Semigroupoid'
@@ -376,10 +375,6 @@ export {
    * @since 2.3.0
    */
   readerTask,
-  /**
-   * @since 2.0.0
-   */
-  record,
   /**
    * @since 2.0.0
    */
