@@ -59,7 +59,6 @@ Added in v2.0.0
   - [joinSemilattice](#joinsemilattice)
   - [lattice](#lattice)
   - [magma](#magma)
-  - [map](#map)
   - [meetSemilattice](#meetsemilattice)
   - [monad](#monad)
   - [monadIO](#monadio)
@@ -573,16 +572,6 @@ Added in v2.0.0
 
 ```ts
 export declare const magma: typeof magma
-```
-
-Added in v2.0.0
-
-## map
-
-**Signature**
-
-```ts
-export declare const map: typeof map
 ```
 
 Added in v2.0.0

@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 68
+nav_order: 67
 parent: Modules
 ---
 

@@ -48,7 +48,6 @@ import * as ioRef from './IORef'
 import * as joinSemilattice from './JoinSemilattice'
 import * as lattice from './Lattice'
 import * as magma from './Magma'
-import * as map from './Map'
 import * as meetSemilattice from './MeetSemilattice'
 import * as monad from './Monad'
 import * as monadIO from './MonadIO'
@@ -282,10 +281,6 @@ export {
    * @since 2.0.0
    */
   magma,
-  /**
-   * @since 2.0.0
-   */
-  map,
   /**
    * @since 2.0.0
    */

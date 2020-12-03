@@ -21,6 +21,7 @@ high state of flux, you're at risk of it changing without notice.
   - bump minimum typescript version(4.1.x+) (@gcanti)
   - remove mutable modules
     - `Array` (@gcanti)
+    - `Map` (@gcanti)
   - `State`
     - make `State` definition immutable (@gcanti)
   - `StateReaderTaskEither`
