@@ -54,7 +54,6 @@ import * as monadIO from './MonadIO'
 import * as monadTask from './MonadTask'
 import * as monadThrow from './MonadThrow'
 import * as monoid from './Monoid'
-import * as nonEmptyArray from './NonEmptyArray'
 import * as option from './Option'
 import * as optionT from './OptionT'
 import * as ord from './Ord'
@@ -305,10 +304,6 @@ export {
    * @since 2.0.0
    */
   monoid,
-  /**
-   * @since 2.0.0
-   */
-  nonEmptyArray,
   /**
    * @since 2.0.0
    */

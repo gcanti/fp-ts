@@ -22,6 +22,7 @@ high state of flux, you're at risk of it changing without notice.
   - remove mutable modules
     - `Array` (@gcanti)
     - `Map` (@gcanti)
+    - `NonEmptyArray` (@gcanti)
   - `State`
     - make `State` definition immutable (@gcanti)
   - `StateReaderTaskEither`

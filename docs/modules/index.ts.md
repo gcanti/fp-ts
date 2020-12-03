@@ -65,7 +65,6 @@ Added in v2.0.0
   - [monadTask](#monadtask)
   - [monadThrow](#monadthrow)
   - [monoid](#monoid)
-  - [nonEmptyArray](#nonemptyarray)
   - [option](#option)
   - [optionT](#optiont)
   - [ord](#ord)
@@ -632,16 +631,6 @@ Added in v2.0.0
 
 ```ts
 export declare const monoid: typeof monoid
-```
-
-Added in v2.0.0
-
-## nonEmptyArray
-
-**Signature**
-
-```ts
-export declare const nonEmptyArray: typeof nonEmptyArray
 ```
 
 Added in v2.0.0
