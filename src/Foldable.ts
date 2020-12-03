@@ -261,7 +261,6 @@ export function reduceM<M, F>(
   return (b, f) => (fa) => F.reduce(fa, M.of(b), (mb, a) => M.chain(mb, (b) => f(b, a)))
 }
 
-// TODO: curry in v3
 /**
  * Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator
  *
@@ -269,26 +268,30 @@ export function reduceM<M, F>(
  * import { intercalate } from 'fp-ts/Foldable'
  * import { monoidString } from 'fp-ts/Monoid'
  * import { make, tree } from 'fp-ts/Tree'
+ * import { pipe } from 'fp-ts/function'
  *
  * const t = make('a', [make('b', []), make('c', []), make('d', [])])
- * assert.strictEqual(intercalate(monoidString, tree)('|', t), 'a|b|c|d')
+ * assert.strictEqual(pipe(t, intercalate(monoidString, tree)('|')), 'a|b|c|d')
  *
  * @since 2.0.0
  */
 export function intercalate<M, F extends URIS3>(
   M: Monoid<M>,
   F: Foldable3<F>
-): <R, E>(sep: M, fm: Kind3<F, R, E, M>) => M
-export function intercalate<M, F extends URIS2>(M: Monoid<M>, F: Foldable2<F>): <E>(sep: M, fm: Kind2<F, E, M>) => M
-export function intercalate<M, F extends URIS2, E>(M: Monoid<M>, F: Foldable2C<F, E>): (sep: M, fm: Kind2<F, E, M>) => M
-export function intercalate<M, F extends URIS>(M: Monoid<M>, F: Foldable1<F>): (sep: M, fm: Kind<F, M>) => M
-export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M, fm: HKT<F, M>) => M
-export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M, fm: HKT<F, M>) => M {
+): <R, E>(sep: M) => (fm: Kind3<F, R, E, M>) => M
+export function intercalate<M, F extends URIS2>(M: Monoid<M>, F: Foldable2<F>): <E>(sep: M) => (fm: Kind2<F, E, M>) => M
+export function intercalate<M, F extends URIS2, E>(
+  M: Monoid<M>,
+  F: Foldable2C<F, E>
+): (sep: M) => (fm: Kind2<F, E, M>) => M
+export function intercalate<M, F extends URIS>(M: Monoid<M>, F: Foldable1<F>): (sep: M) => (fm: Kind<F, M>) => M
+export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M) => (fm: HKT<F, M>) => M
+export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M) => (fm: HKT<F, M>) => M {
   interface Acc<M> {
     readonly init: boolean
     readonly acc: M
   }
-  return (sep, fm) => {
+  return (sep) => (fm) => {
     const go = ({ init, acc }: Acc<M>, x: M): Acc<M> =>
       init ? { init: false, acc: x } : { init: false, acc: M.concat(M.concat(acc, sep), x) }
     return F.reduce(fm, { init: true, acc: M.empty }, go).acc

@@ -323,17 +323,17 @@ Fold a data structure, accumulating values in some `Monoid`, combining adjacent 
 export declare function intercalate<M, F extends URIS3>(
   M: Monoid<M>,
   F: Foldable3<F>
-): <R, E>(sep: M, fm: Kind3<F, R, E, M>) => M
+): <R, E>(sep: M) => (fm: Kind3<F, R, E, M>) => M
 export declare function intercalate<M, F extends URIS2>(
   M: Monoid<M>,
   F: Foldable2<F>
-): <E>(sep: M, fm: Kind2<F, E, M>) => M
+): <E>(sep: M) => (fm: Kind2<F, E, M>) => M
 export declare function intercalate<M, F extends URIS2, E>(
   M: Monoid<M>,
   F: Foldable2C<F, E>
-): (sep: M, fm: Kind2<F, E, M>) => M
-export declare function intercalate<M, F extends URIS>(M: Monoid<M>, F: Foldable1<F>): (sep: M, fm: Kind<F, M>) => M
-export declare function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M, fm: HKT<F, M>) => M
+): (sep: M) => (fm: Kind2<F, E, M>) => M
+export declare function intercalate<M, F extends URIS>(M: Monoid<M>, F: Foldable1<F>): (sep: M) => (fm: Kind<F, M>) => M
+export declare function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M) => (fm: HKT<F, M>) => M
 ```
 
 **Example**
@@ -342,9 +342,10 @@ export declare function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M
 import { intercalate } from 'fp-ts/Foldable'
 import { monoidString } from 'fp-ts/Monoid'
 import { make, tree } from 'fp-ts/Tree'
+import { pipe } from 'fp-ts/function'
 
 const t = make('a', [make('b', []), make('c', []), make('d', [])])
-assert.strictEqual(intercalate(monoidString, tree)('|', t), 'a|b|c|d')
+assert.strictEqual(pipe(t, intercalate(monoidString, tree)('|')), 'a|b|c|d')
 ```
 
 Added in v2.0.0

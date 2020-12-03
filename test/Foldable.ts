@@ -44,7 +44,7 @@ describe('Foldable', () => {
   })
 
   it('intercalate', () => {
-    assert.deepStrictEqual(_.intercalate(monoidString, A.Foldable)(',', ['a', 'b', 'c']), 'a,b,c')
+    assert.deepStrictEqual(pipe(['a', 'b', 'c'], _.intercalate(monoidString, A.Foldable)(',')), 'a,b,c')
   })
 
   it('toArray', () => {

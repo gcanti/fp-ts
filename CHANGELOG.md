@@ -40,6 +40,8 @@ high state of flux, you're at risk of it changing without notice.
     - remove `getValidation`, use `getApplicativeValidation` and `getAltValidation` instead (@gcanti)
     - make `parseJSON` pipeable (@gcanti)
     - make `stringifyJSON` pipeable (@gcanti)
+  - `Foldable`
+    - make `intercalate` pipeable (@gcanti)
 
 # 2.9.1
 

@@ -230,7 +230,7 @@ export const Bifunctor: Bifunctor2<URI> = {
   mapLeft: mapLeft_
 }
 
-// TODO: remove in v3
+// TODO: remove mega instance in v3
 /**
  * @category instances
  * @since 2.0.0
