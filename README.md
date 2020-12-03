@@ -64,6 +64,7 @@ Make sure to always have a single version of `fp-ts` installed in your project. 
 
 | `fp-ts` version | required `typescript` version |
 | --------------- | ----------------------------- |
+| 3.0.x+          | 4.1+                          |
 | 2.0.x+          | 3.5+                          |
 | 1.15.x+         | 3.1+                          |
 | <= 1.14.4       | 2.8+ (\*)                     |
