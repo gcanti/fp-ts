@@ -1,6 +1,6 @@
 ---
 title: Ord.ts
-nav_order: 59
+nav_order: 58
 parent: Modules
 ---
 
@@ -136,7 +136,7 @@ export declare function getMonoid<A = never>(): Monoid<Ord<A>>
 **Example**
 
 ```ts
-import { sort } from 'fp-ts/Array'
+import { sort } from 'fp-ts/ReadonlyArray'
 import { contramap, getDualOrd, getMonoid, ordBoolean, ordNumber, ordString } from 'fp-ts/Ord'
 import { pipe } from 'fp-ts/function'
 import { fold } from 'fp-ts/Monoid'

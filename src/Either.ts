@@ -783,7 +783,7 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E
  *
  * @example
  * import { pipe } from 'fp-ts/function'
- * import * as A from 'fp-ts/Array'
+ * import * as A from 'fp-ts/ReadonlyArray'
  * import * as E from 'fp-ts/Either'
  * import * as O from 'fp-ts/Option'
  *
@@ -1420,7 +1420,7 @@ export const traverseArrayWithIndex = <E, A, B>(f: (index: number, a: A) => Eith
  *
  * import { traverseArray, left, right, fromPredicate } from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
- * import * as A from 'fp-ts/Array'
+ * import * as A from 'fp-ts/ReadonlyArray'
  *
  * const arr = A.range(0, 10)
  * assert.deepStrictEqual(
@@ -1456,7 +1456,7 @@ export const traverseArray: <E, A, B>(
  *
  * import { sequenceArray, left, right } from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
- * import * as A from 'fp-ts/Array'
+ * import * as A from 'fp-ts/ReadonlyArray'
  *
  * const arr = A.range(0, 10)
  * assert.deepStrictEqual(pipe(arr, A.map(right), sequenceArray), right(arr))

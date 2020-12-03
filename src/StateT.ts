@@ -13,7 +13,7 @@ import { State } from './State'
  * @since 2.0.0
  */
 export interface StateT<M, S, A> {
-  (s: S): HKT<M, [A, S]>
+  (s: S): HKT<M, readonly [A, S]>
 }
 /* tslint:enable:readonly-array */
 

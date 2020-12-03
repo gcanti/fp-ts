@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { getMonoid } from '../src/Array'
+import { getMonoid } from '../src/ReadonlyArray'
 import { left, right } from '../src/Either'
 import { identity, pipe } from '../src/function'
 import { monoidString } from '../src/Monoid'

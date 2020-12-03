@@ -8,7 +8,7 @@
  * @since 2.0.0
  */
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import * as A from './Array'
+import * as A from './ReadonlyArray'
 import { Comonad1 } from './Comonad'
 import { Eq, fromEquals } from './Eq'
 import { Foldable1 } from './Foldable'
@@ -31,7 +31,7 @@ import { Extend1 } from './Extend'
  * @category model
  * @since 2.0.0
  */
-export type Forest<A> = Array<Tree<A>>
+export type Forest<A> = ReadonlyArray<Tree<A>>
 
 /**
  * @category model
@@ -73,7 +73,7 @@ export function getShow<A>(S: Show<A>): Show<Tree<A>> {
  * @since 2.0.0
  */
 export function getEq<A>(E: Eq<A>): Eq<Tree<A>> {
-  let SA: Eq<Array<Tree<A>>>
+  let SA: Eq<ReadonlyArray<Tree<A>>>
   const R: Eq<Tree<A>> = fromEquals((x, y) => E.equals(x.value, y.value) && SA.equals(x.forest, y.forest))
   SA = A.getEq(R)
   return R

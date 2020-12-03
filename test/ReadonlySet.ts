@@ -5,7 +5,7 @@ import * as _ from '../src/ReadonlySet'
 import * as Eq from '../src/Eq'
 import { none, some as optionSome } from '../src/Option'
 import { showString } from '../src/Show'
-import { getMonoid } from '../src/Array'
+import { getMonoid } from '../src/ReadonlyArray'
 import { pipe } from '../src/function'
 
 const gte2 = (n: number) => n >= 2

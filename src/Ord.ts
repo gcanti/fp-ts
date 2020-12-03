@@ -178,7 +178,7 @@ export function getSemigroup<A = never>(): Semigroup<Ord<A>> {
  * - its `empty` value is an `Ord` that always considers compared elements equal
  *
  * @example
- * import { sort } from 'fp-ts/Array'
+ * import { sort } from 'fp-ts/ReadonlyArray'
  * import { contramap, getDualOrd, getMonoid, ordBoolean, ordNumber, ordString } from 'fp-ts/Ord'
  * import { pipe } from 'fp-ts/function'
  * import { fold } from 'fp-ts/Monoid'

@@ -1,6 +1,6 @@
 ---
 title: Traversable.ts
-nav_order: 93
+nav_order: 92
 parent: Modules
 ---
 
@@ -518,19 +518,19 @@ export declare function getTraversableComposition<F, G>(
 **Example**
 
 ```ts
-import { array } from 'fp-ts/Array'
+import * as A from 'fp-ts/ReadonlyArray'
 import { io } from 'fp-ts/IO'
-import { none, option, some } from 'fp-ts/Option'
+import * as O from 'fp-ts/Option'
 import { getTraversableComposition } from 'fp-ts/Traversable'
 
-const T = getTraversableComposition(array, option)
+const T = getTraversableComposition(A.Traversable, O.Traversable)
 const state: Record<string, number | undefined> = {
   a: 1,
   b: 2,
 }
 const read = (s: string) => () => state[s]
-const x = T.sequence(io)([some(read('a')), none, some(read('b')), some(read('c'))])
-assert.deepStrictEqual(x(), [some(1), none, some(2), some(undefined)])
+const x = T.sequence(io)([O.some(read('a')), O.none, O.some(read('b')), O.some(read('c'))])
+assert.deepStrictEqual(x(), [O.some(1), O.none, O.some(2), O.some(undefined)])
 ```
 
 Added in v2.0.0

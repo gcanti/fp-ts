@@ -1,6 +1,6 @@
 ---
 title: StateReaderTaskEither.ts
-nav_order: 83
+nav_order: 82
 parent: Modules
 ---
 
@@ -876,7 +876,7 @@ Added in v2.0.0
 
 ```ts
 export interface StateReaderTaskEither<S, R, E, A> {
-  (s: S): ReaderTaskEither<R, E, [A, S]>
+  (s: S): ReaderTaskEither<R, E, readonly [A, S]>
 }
 ```
 
@@ -1008,7 +1008,11 @@ Added in v2.9.0
 **Signature**
 
 ```ts
-export declare function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: R): Promise<Either<E, [A, S]>>
+export declare function run<S, R, E, A>(
+  ma: StateReaderTaskEither<S, R, E, A>,
+  s: S,
+  r: R
+): Promise<Either<E, readonly [A, S]>>
 ```
 
 Added in v2.0.0

@@ -15,6 +15,19 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 3.0.0-rc1
+
+- **Breaking Change**
+  - bump minimum typescript version(4.1.x+) (@gcanti)
+  - remove mutable modules
+    - `Array` (@gcanti)
+  - `State`
+    - make `State` definition immutable (@gcanti)
+  - `StateReaderTaskEither`
+    - make `StateReaderTaskEither` definition immutable (@gcanti)
+  - `Tree`
+    - make `Forest` immutable (@gcanti)
+
 # 2.9.1
 
 - **Polish**

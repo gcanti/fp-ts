@@ -13,7 +13,7 @@ sequenceS (6) x 1,126,226 ops/sec ±3.36% (84 runs sampled)
 
 const suite = new Benchmark.Suite()
 
-const sequenceS = A.sequenceS(E.applicativeEither)
+const sequenceS = A.sequenceS(E.Applicative)
 
 suite
   .add('sequenceS (1)', function () {

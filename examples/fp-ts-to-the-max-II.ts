@@ -15,16 +15,16 @@ import { sequenceS } from '../src/Apply'
 //
 
 interface Program<F extends URIS> extends Monad1<F> {
-  finish: <A>(a: A) => Kind<F, A>
+  readonly finish: <A>(a: A) => Kind<F, A>
 }
 
 interface Console<F extends URIS> {
-  putStrLn: (message: string) => Kind<F, void>
-  getStrLn: Kind<F, string>
+  readonly putStrLn: (message: string) => Kind<F, void>
+  readonly getStrLn: Kind<F, string>
 }
 
 interface Random<F extends URIS> {
-  nextInt: (upper: number) => Kind<F, number>
+  readonly nextInt: (upper: number) => Kind<F, number>
 }
 
 interface Main<F extends URIS> extends Program<F>, Console<F>, Random<F> {}
@@ -145,17 +145,21 @@ export const mainTask = main({
 // tests
 //
 
-import { dropLeft, snoc } from '../src/Array'
+import { dropLeft, snoc } from '../src/ReadonlyArray'
 
 class TestData {
-  constructor(readonly input: Array<string>, readonly output: Array<string>, readonly nums: Array<number>) {}
-  putStrLn(message: string): [void, TestData] {
+  constructor(
+    readonly input: ReadonlyArray<string>,
+    readonly output: ReadonlyArray<string>,
+    readonly nums: ReadonlyArray<number>
+  ) {}
+  putStrLn(message: string): readonly [void, TestData] {
     return [undefined, new TestData(this.input, snoc(this.output, message), this.nums)]
   }
-  getStrLn(): [string, TestData] {
+  getStrLn(): readonly [string, TestData] {
     return [this.input[0], new TestData(dropLeft(1)(this.input), this.output, this.nums)]
   }
-  nextInt(_upper: number): [number, TestData] {
+  nextInt(_upper: number): readonly [number, TestData] {
     return [this.nums[0], new TestData(this.input, this.output, dropLeft(1)(this.nums))]
   }
 }
@@ -166,7 +170,7 @@ type URI = typeof URI
 
 declare module '../src/HKT' {
   interface URItoKind<A> {
-    Test: Test<A>
+    readonly Test: Test<A>
   }
 }
 

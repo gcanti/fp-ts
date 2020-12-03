@@ -428,13 +428,13 @@ export function fromFoldable<F, A>(M: Magma<A>, F: FoldableHKT<F>): (fka: HKT<F,
  *
  * @example
  * import { getLastSemigroup } from 'fp-ts/Semigroup'
- * import { array, zip } from 'fp-ts/Array'
+ * import * as A from 'fp-ts/ReadonlyArray'
  * import { identity } from 'fp-ts/function'
  * import { fromFoldableMap } from 'fp-ts/Record'
  *
  * // like lodash `zipObject` or ramda `zipObj`
  * export const zipObject = <K extends string, A>(keys: Array<K>, values: Array<A>): Record<K, A> =>
- *   fromFoldableMap(getLastSemigroup<A>(), array)(zip(keys, values), identity)
+ *   fromFoldableMap(getLastSemigroup<A>(), A.Foldable)(A.zip(keys, values), identity)
  *
  * assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
  *
@@ -450,7 +450,7 @@ export function fromFoldable<F, A>(M: Magma<A>, F: FoldableHKT<F>): (fka: HKT<F,
  *   { id: 'id1', name: 'name3' }
  * ]
  *
- * assert.deepStrictEqual(fromFoldableMap(getLastSemigroup<User>(), array)(users, user => [user.id, user]), {
+ * assert.deepStrictEqual(fromFoldableMap(getLastSemigroup<User>(), A.Foldable)(users, user => [user.id, user]), {
  *   id1: { id: 'id1', name: 'name3' },
  *   id2: { id: 'id2', name: 'name2' }
  * })
@@ -460,23 +460,23 @@ export function fromFoldable<F, A>(M: Magma<A>, F: FoldableHKT<F>): (fka: HKT<F,
 export function fromFoldableMap<F extends URIS3, B>(
   M: Magma<B>,
   F: Foldable3<F>
-): <R, E, A, K extends string>(fa: Kind3<F, R, E, A>, f: (a: A) => [K, B]) => Record<K, B>
+): <R, E, A, K extends string>(fa: Kind3<F, R, E, A>, f: (a: A) => readonly [K, B]) => Record<K, B>
 export function fromFoldableMap<F extends URIS2, B>(
   M: Magma<B>,
   F: Foldable2<F>
-): <E, A, K extends string>(fa: Kind2<F, E, A>, f: (a: A) => [K, B]) => Record<K, B>
+): <E, A, K extends string>(fa: Kind2<F, E, A>, f: (a: A) => readonly [K, B]) => Record<K, B>
 export function fromFoldableMap<F extends URIS, B>(
   M: Magma<B>,
   F: Foldable1<F>
-): <A, K extends string>(fa: Kind<F, A>, f: (a: A) => [K, B]) => Record<K, B>
+): <A, K extends string>(fa: Kind<F, A>, f: (a: A) => readonly [K, B]) => Record<K, B>
 export function fromFoldableMap<F, B>(
   M: Magma<B>,
   F: FoldableHKT<F>
-): <A, K extends string>(fa: HKT<F, A>, f: (a: A) => [K, B]) => Record<K, B>
+): <A, K extends string>(fa: HKT<F, A>, f: (a: A) => readonly [K, B]) => Record<K, B>
 export function fromFoldableMap<F, B>(
   M: Magma<B>,
   F: FoldableHKT<F>
-): <A>(fa: HKT<F, A>, f: (a: A) => [string, B]) => Record<string, B> {
+): <A>(fa: HKT<F, A>, f: (a: A) => readonly [string, B]) => Record<string, B> {
   return RR.fromFoldableMap(M, F)
 }
 

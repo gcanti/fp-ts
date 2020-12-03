@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 57
+nav_order: 56
 parent: Modules
 ---
 
@@ -1468,7 +1468,7 @@ export declare const sequenceArray: <A>(arr: readonly Option<A>[]) => Option<rea
 **Example**
 
 ```ts
-import * as A from 'fp-ts/Array'
+import * as A from 'fp-ts/ReadonlyArray'
 import { sequenceArray, some, none, fromPredicate } from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
 
@@ -1494,7 +1494,7 @@ export declare const traverseArray: <A, B>(f: (a: A) => Option<B>) => (arr: read
 **Example**
 
 ```ts
-import * as A from 'fp-ts/Array'
+import * as A from 'fp-ts/ReadonlyArray'
 import { traverseArray, some, fromPredicate, none } from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
 

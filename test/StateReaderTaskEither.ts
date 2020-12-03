@@ -11,7 +11,7 @@ import { State } from '../src/State'
 import * as _ from '../src/StateReaderTaskEither'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
-import * as A from '../src/Array'
+import * as A from '../src/ReadonlyArray'
 import { assertSeq } from './util'
 
 const state: unknown = {}

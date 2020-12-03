@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 41
+nav_order: 40
 parent: Modules
 ---
 
@@ -17,7 +17,6 @@ Added in v2.0.0
   - [alternative](#alternative)
   - [applicative](#applicative)
   - [apply](#apply)
-  - [array](#array)
   - [bifunctor](#bifunctor)
   - [boolean](#boolean)
   - [booleanAlgebra](#booleanalgebra)
@@ -154,16 +153,6 @@ Added in v2.0.0
 
 ```ts
 export declare const apply: typeof apply
-```
-
-Added in v2.0.0
-
-## array
-
-**Signature**
-
-```ts
-export declare const array: typeof array
 ```
 
 Added in v2.0.0

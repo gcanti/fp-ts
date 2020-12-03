@@ -1,5 +1,5 @@
 import * as Benchmark from 'benchmark'
-import * as A from '../../src/Array'
+import * as A from '../../src/ReadonlyArray'
 import * as IO from '../../src/IO'
 import { pipe } from '../../src/function'
 

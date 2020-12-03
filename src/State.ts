@@ -10,15 +10,13 @@ import { Applicative2 } from './Applicative'
 // model
 // -------------------------------------------------------------------------------------
 
-/* tslint:disable:readonly-array */
 /**
  * @category model
  * @since 2.0.0
  */
 export interface State<S, A> {
-  (s: S): [A, S]
+  (s: S): readonly [A, S]
 }
-/* tslint:enable:readonly-array */
 
 // -------------------------------------------------------------------------------------
 // constructors

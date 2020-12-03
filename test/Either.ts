@@ -8,7 +8,7 @@ import { semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
 import * as T from '../src/Task'
 import { sequenceT } from '../src/Apply'
-import * as A from '../src/Array'
+import * as A from '../src/ReadonlyArray'
 
 describe('Either', () => {
   describe('pipeables', () => {

@@ -13,7 +13,7 @@ sequenceT (6) x 1,899,460 ops/sec ±2.75% (84 runs sampled)
 
 const suite = new Benchmark.Suite()
 
-const sequenceT = A.sequenceT(E.applicativeEither)
+const sequenceT = A.sequenceT(E.Applicative)
 
 suite
   .add('sequenceT (1)', function () {

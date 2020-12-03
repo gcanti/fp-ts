@@ -34,7 +34,7 @@ import Either = E.Either
  * @since 2.0.0
  */
 export interface StateReaderTaskEither<S, R, E, A> {
-  (s: S): ReaderTaskEither<R, E, [A, S]>
+  (s: S): ReaderTaskEither<R, E, readonly [A, S]>
 }
 /* tslint:enable:readonly-array */
 
@@ -739,7 +739,11 @@ export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
  * @since 2.0.0
  */
 /* istanbul ignore next */
-export function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: R): Promise<Either<E, [A, S]>> {
+export function run<S, R, E, A>(
+  ma: StateReaderTaskEither<S, R, E, A>,
+  s: S,
+  r: R
+): Promise<Either<E, readonly [A, S]>> {
   return ma(s)(r)()
 }
 /* tslint:enable:readonly-array */

@@ -1,7 +1,7 @@
 import { pipe, identity } from '../../src/function'
 import * as _ from '../../src/ReadonlyRecord'
 import * as O from '../../src/Option'
-import * as A from '../../src/Array'
+import * as A from '../../src/ReadonlyArray'
 import * as E from '../../src/Either'
 import { monoidString } from '../../src/Monoid'
 import { eqNumber } from '../../src/Eq'
@@ -149,8 +149,8 @@ _.filterWithIndex((_k: 'a' | 'b', n: number) => n > 2)(r1) // $ExpectType Readon
 declare const arr1: Array<[string, number]>
 declare const arr2: Array<['a' | 'b', number]>
 
-_.fromFoldable(getFirstSemigroup<number>(), A.array)(arr1) // $ExpectType Readonly<Record<string, number>>
-_.fromFoldable(getFirstSemigroup<number>(), A.array)(arr2) // $ExpectType Readonly<Record<"a" | "b", number>>
+_.fromFoldable(getFirstSemigroup<number>(), A.Foldable)(arr1) // $ExpectType Readonly<Record<string, number>>
+_.fromFoldable(getFirstSemigroup<number>(), A.Foldable)(arr2) // $ExpectType Readonly<Record<"a" | "b", number>>
 
 type Keys = 'key1' | 'key2'
 _.getMonoid(semigroupSum) // $ExpectType Monoid<Readonly<Record<string, number>>>
@@ -159,8 +159,8 @@ _.getMonoid<Keys, number>(semigroupSum) // $ExpectType Monoid<Readonly<Record<Ke
 _.getEq<Keys, number>(eqNumber) // $ExpectType Eq<Readonly<Record<Keys, number>>>
 _.getEq(eqNumber) // $ExpectType Eq<Readonly<Record<string, number>>>
 
-_.toUnfoldable(A.array)({ a: 1 }) // $ExpectType (readonly ["a", number])[]
-_.toUnfoldable(A.array)({ a: 1, b: 2 }) // $ExpectType (readonly ["a" | "b", number])[]
+_.toUnfoldable(A.Unfoldable)({ a: 1 }) // $ExpectType readonly (readonly ["a", number])[]
+_.toUnfoldable(A.Unfoldable)({ a: 1, b: 2 }) // $ExpectType readonly (readonly ["a" | "b", number])[]
 
 declare const fromFoldableF1: Foldable<'Test'>
 declare const fromFoldableInput1: HKT<'Test', ['a' | 'b', number]>

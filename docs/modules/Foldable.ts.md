@@ -1,6 +1,6 @@
 ---
 title: Foldable.ts
-nav_order: 32
+nav_order: 31
 parent: Modules
 ---
 
@@ -303,13 +303,13 @@ export declare function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable
 
 ```ts
 import { getFoldableComposition } from 'fp-ts/Foldable'
-import { array } from 'fp-ts/Array'
-import { option, some, none } from 'fp-ts/Option'
+import * as A from 'fp-ts/ReadonlyArray'
+import * as O from 'fp-ts/Option'
 import { monoidString } from 'fp-ts/Monoid'
 
-const F = getFoldableComposition(array, option)
-assert.strictEqual(F.reduce([some('a'), some('b'), some('c')], '', monoidString.concat), 'abc')
-assert.strictEqual(F.reduce([some('a'), none, some('c')], '', monoidString.concat), 'ac')
+const F = getFoldableComposition(A.Foldable, O.Foldable)
+assert.strictEqual(F.reduce([O.some('a'), O.some('b'), O.some('c')], '', monoidString.concat), 'abc')
+assert.strictEqual(F.reduce([O.some('a'), O.none, O.some('c')], '', monoidString.concat), 'ac')
 ```
 
 Added in v2.0.0
@@ -470,13 +470,13 @@ export declare function traverse_<M, F>(
 **Example**
 
 ```ts
-import { array } from 'fp-ts/Array'
+import * as A from 'fp-ts/ReadonlyArray'
 import { traverse_ } from 'fp-ts/Foldable'
-import { io } from 'fp-ts/IO'
+import * as IO from 'fp-ts/IO'
 
 let log = ''
 const append = (s: string) => () => (log += s)
-traverse_(io, array)(['a', 'b', 'c'], append)()
+traverse_(IO.Applicative, A.Foldable)(['a', 'b', 'c'], append)()
 assert.strictEqual(log, 'abc')
 ```
 

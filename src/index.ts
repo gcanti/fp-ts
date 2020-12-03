@@ -6,7 +6,6 @@ import * as alt from './Alt'
 import * as alternative from './Alternative'
 import * as applicative from './Applicative'
 import * as apply from './Apply'
-import * as array from './Array'
 import * as bifunctor from './Bifunctor'
 import * as boolean from './boolean'
 import * as booleanAlgebra from './BooleanAlgebra'
@@ -119,10 +118,6 @@ export {
    * @since 2.0.0
    */
   apply,
-  /**
-   * @since 2.0.0
-   */
-  array,
   /**
    * @since 2.0.0
    */

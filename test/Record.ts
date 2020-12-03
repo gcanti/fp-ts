@@ -5,7 +5,7 @@ import { identity, pipe } from '../src/function'
 import * as IO from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
-import * as A from '../src/Array'
+import * as A from '../src/ReadonlyArray'
 import * as _ from '../src/Record'
 import { getFirstSemigroup, getLastSemigroup, semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
@@ -369,8 +369,7 @@ describe('ReadonlyRecord', () => {
   })
 
   it('fromFoldableMap', () => {
-    // tslint:disable-next-line: readonly-array
-    const zipObject = <K extends string, A>(keys: Array<K>, values: Array<A>): Record<K, A> =>
+    const zipObject = <K extends string, A>(keys: ReadonlyArray<K>, values: ReadonlyArray<A>): Record<K, A> =>
       _.fromFoldableMap(getLastSemigroup<A>(), A.Foldable)(A.zip(keys, values), identity)
 
     assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })

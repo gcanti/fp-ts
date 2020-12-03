@@ -1316,7 +1316,7 @@ export const traverseArrayWithIndex = <A, B>(f: (index: number, a: A) => Option<
  *
  * @example
  *
- * import * as A from 'fp-ts/Array'
+ * import * as A from 'fp-ts/ReadonlyArray'
  * import { traverseArray, some, fromPredicate, none } from 'fp-ts/Option'
  * import { pipe } from 'fp-ts/function'
  *
@@ -1337,7 +1337,7 @@ export const traverseArray: <A, B>(f: (a: A) => Option<B>) => (arr: ReadonlyArra
  *
  * @example
  *
- * import * as A from 'fp-ts/Array'
+ * import * as A from 'fp-ts/ReadonlyArray'
  * import { sequenceArray, some, none, fromPredicate } from 'fp-ts/Option'
  * import { pipe } from 'fp-ts/function'
  *

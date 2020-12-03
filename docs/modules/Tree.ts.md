@@ -1,6 +1,6 @@
 ---
 title: Tree.ts
-nav_order: 95
+nav_order: 94
 parent: Modules
 ---
 
@@ -508,7 +508,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export type Forest<A> = Array<Tree<A>>
+export type Forest<A> = ReadonlyArray<Tree<A>>
 ```
 
 Added in v2.0.0

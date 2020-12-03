@@ -1,22 +1,20 @@
 import * as Benchmark from 'benchmark'
-import { copy } from '../../src/Array'
+import { getMonoid, empty } from '../../src/ReadonlyArray'
 
 const suite = new Benchmark.Suite()
 
-const as = [1, 2, 3]
+const M = getMonoid<number>()
+const as: ReadonlyArray<number> = [1, 2, 3]
 
 suite
-  .add('copy (native)', function() {
-    as.slice()
+  .add('concat', function () {
+    M.concat(as, empty)
   })
-  .add('copy (Array)', function() {
-    copy(as)
-  })
-  .on('cycle', function(event: any) {
+  .on('cycle', function (event: any) {
     // tslint:disable-next-line: no-console
     console.log(String(event.target))
   })
-  .on('complete', function(this: any) {
+  .on('complete', function (this: any) {
     // tslint:disable-next-line: no-console
     console.log('Fastest is ' + this.filter('fastest').map('name'))
   })

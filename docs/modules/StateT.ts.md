@@ -1,6 +1,6 @@
 ---
 title: StateT.ts
-nav_order: 84
+nav_order: 83
 parent: Modules
 ---
 
@@ -36,7 +36,7 @@ Added in v2.0.0
 
 ```ts
 export interface StateT<M, S, A> {
-  (s: S): HKT<M, [A, S]>
+  (s: S): HKT<M, readonly [A, S]>
 }
 ```
 

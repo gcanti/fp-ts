@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import { sequenceT } from '../src/Apply'
-import * as A from '../src/Array'
+import * as A from '../src/ReadonlyArray'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
 import * as I from '../src/IO'
