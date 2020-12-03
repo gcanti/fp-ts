@@ -83,7 +83,6 @@ Added in v2.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [stateReaderTaskEither](#statereadertaskeither)
-  - [~~stateReaderTaskEitherSeq~~](#statereadertaskeitherseq)
 - [model](#model)
   - [StateReaderTaskEither (interface)](#statereadertaskeither-interface)
 - [utils](#utils)
@@ -99,8 +98,6 @@ Added in v2.0.0
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
-  - [~~evalState~~](#evalstate)
-  - [~~execState~~](#execstate)
 
 ---
 
@@ -854,20 +851,6 @@ export declare const stateReaderTaskEither: Monad4<'StateReaderTaskEither'> &
 
 Added in v2.0.0
 
-## ~~stateReaderTaskEitherSeq~~
-
-**Signature**
-
-```ts
-export declare const stateReaderTaskEitherSeq: Monad4<'StateReaderTaskEither'> &
-  Bifunctor4<'StateReaderTaskEither'> &
-  Alt4<'StateReaderTaskEither'> &
-  MonadTask4<'StateReaderTaskEither'> &
-  MonadThrow4<'StateReaderTaskEither'>
-```
-
-Added in v2.0.0
-
 # model
 
 ## StateReaderTaskEither (interface)
@@ -1052,33 +1035,3 @@ export declare const traverseArrayWithIndex: <S, R, E, A, B>(
 ```
 
 Added in v2.9.0
-
-## ~~evalState~~
-
-Use `evaluate` instead
-
-**Signature**
-
-```ts
-export declare const evalState: <S, R, E, A>(
-  ma: StateReaderTaskEither<S, R, E, A>,
-  s: S
-) => RTE.ReaderTaskEither<R, E, A>
-```
-
-Added in v2.0.0
-
-## ~~execState~~
-
-Use `execute` instead
-
-**Signature**
-
-```ts
-export declare const execState: <S, R, E, A>(
-  ma: StateReaderTaskEither<S, R, E, A>,
-  s: S
-) => RTE.ReaderTaskEither<R, E, S>
-```
-
-Added in v2.0.0

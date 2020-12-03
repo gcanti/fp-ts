@@ -15,7 +15,6 @@ Added in v2.0.0
 - [instances](#instances)
   - [eqOrdering](#eqordering)
   - [monoidOrdering](#monoidordering)
-  - [~~semigroupOrdering~~](#semigroupordering)
 - [model](#model)
   - [Ordering (type alias)](#ordering-type-alias)
 - [utils](#utils)
@@ -45,18 +44,6 @@ export declare const monoidOrdering: Monoid<Ordering>
 ```
 
 Added in v2.4.0
-
-## ~~semigroupOrdering~~
-
-Use `monoidOrdering` instead
-
-**Signature**
-
-```ts
-export declare const semigroupOrdering: Semigroup<Ordering>
-```
-
-Added in v2.0.0
 
 # model
 

@@ -41,16 +41,6 @@ describe('State', () => {
     })
   })
 
-  it('evalState', () => {
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(_.evalState(_.of<number, string>('a'), 0), 'a')
-  })
-
-  it('execState', () => {
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(_.execState(_.of<number, string>('a'), 0), 0)
-  })
-
   it('evaluate', () => {
     assert.deepStrictEqual(pipe(_.of<number, string>('a'), _.evaluate(0)), 'a')
   })

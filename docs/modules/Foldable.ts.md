@@ -34,7 +34,6 @@ Added in v2.0.0
   - [reduceM](#reducem)
   - [toArray](#toarray)
   - [traverse\_](#traverse_)
-  - [~~foldM~~](#foldm)
 
 ---
 
@@ -478,41 +477,6 @@ let log = ''
 const append = (s: string) => () => (log += s)
 traverse_(IO.Applicative, A.Foldable)(['a', 'b', 'c'], append)()
 assert.strictEqual(log, 'abc')
-```
-
-Added in v2.0.0
-
-## ~~foldM~~
-
-Use `reduceM` instead
-
-**Signature**
-
-```ts
-export declare function foldM<M extends URIS3, F extends URIS>(
-  M: Monad3<M>,
-  F: Foldable1<F>
-): <R, E, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, B>
-export declare function foldM<M extends URIS3, F extends URIS, E>(
-  M: Monad3C<M, E>,
-  F: Foldable1<F>
-): <R, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, B>
-export declare function foldM<M extends URIS2, F extends URIS>(
-  M: Monad2<M>,
-  F: Foldable1<F>
-): <E, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind2<M, E, B>) => Kind2<M, E, B>
-export declare function foldM<M extends URIS2, F extends URIS, E>(
-  M: Monad2C<M, E>,
-  F: Foldable1<F>
-): <A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind2<M, E, B>) => Kind2<M, E, B>
-export declare function foldM<M extends URIS, F extends URIS>(
-  M: Monad1<M>,
-  F: Foldable1<F>
-): <A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind<M, B>) => Kind<M, B>
-export declare function foldM<M, F>(
-  M: Monad<M>,
-  F: Foldable<F>
-): <A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => HKT<M, B>) => HKT<M, B>
 ```
 
 Added in v2.0.0

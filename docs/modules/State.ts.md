@@ -48,8 +48,6 @@ Added in v2.0.0
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
-  - [~~evalState~~](#evalstate)
-  - [~~execState~~](#execstate)
 
 ---
 
@@ -416,27 +414,3 @@ export declare const traverseArrayWithIndex: <A, S, B>(
 ```
 
 Added in v2.9.0
-
-## ~~evalState~~
-
-Use `evaluate` instead
-
-**Signature**
-
-```ts
-export declare const evalState: <S, A>(ma: State<S, A>, s: S) => A
-```
-
-Added in v2.0.0
-
-## ~~execState~~
-
-Use `execute` instead
-
-**Signature**
-
-```ts
-export declare const execState: <S, A>(ma: State<S, A>, s: S) => S
-```
-
-Added in v2.0.0

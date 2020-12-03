@@ -233,22 +233,6 @@ export const state: Monad2<URI> = Monad
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `evaluate` instead
- *
- * @since 2.0.0
- * @deprecated
- */
-export const evalState: <S, A>(ma: State<S, A>, s: S) => A = (ma, s) => ma(s)[0]
-
-/**
- * Use `execute` instead
- *
- * @since 2.0.0
- * @deprecated
- */
-export const execState: <S, A>(ma: State<S, A>, s: S) => S = (ma, s) => ma(s)[1]
-
-/**
  * Run a computation in the `State` monad, discarding the final state
  *
  * @since 2.8.0

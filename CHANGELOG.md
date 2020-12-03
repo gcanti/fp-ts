@@ -19,19 +19,20 @@ high state of flux, you're at risk of it changing without notice.
 
 - **Breaking Change**
   - bump minimum typescript version (4.1.x+) (@gcanti)
-  - remove mutable modules
-    - `Array` (@gcanti)
-    - `Map` (@gcanti)
-    - `NonEmptyArray` (@gcanti)
-    - `Record` (@gcanti)
-    - `Set` (@gcanti)
-    - `Tuple` (@gcanti)
-  - switch to readonly arrays / tuples everywhere
+  - remove deprecated APIs (@gcanti)
+  - remove mutable modules (@gcanti)
+    - `Array`
+    - `Map`
+    - `NonEmptyArray`
+    - `Record`
+    - `Set`
+    - `Tuple`
+  - switch to readonly arrays / tuples everywhere (@gcanti)
     - Some examples:
-      - make `State` definition immutable (@gcanti)
-      - make `StateReaderTaskEither` definition immutable (@gcanti)
-      - (`Tree`) make `Forest` immutable (@gcanti)
-      - make `Writer` definition immutable (@gcanti)
+      - make `State` definition immutable
+      - make `StateReaderTaskEither` definition immutable
+      - (`Tree`) make `Forest` immutable
+      - make `Writer` definition immutable
 
 # 2.9.1
 

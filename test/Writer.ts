@@ -12,22 +12,6 @@ describe('Writer', () => {
     })
   })
 
-  it('evalWriter', () => {
-    assert.deepStrictEqual(
-      // tslint:disable-next-line: deprecation
-      _.evalWriter(() => [1, 'a']),
-      1
-    )
-  })
-
-  it('execWriter', () => {
-    assert.deepStrictEqual(
-      // tslint:disable-next-line: deprecation
-      _.execWriter(() => [1, 'a']),
-      'a'
-    )
-  })
-
   it('evaluate', () => {
     assert.deepStrictEqual(pipe((() => [1, 'a']) as _.Writer<string, number>, _.evaluate), 1)
   })

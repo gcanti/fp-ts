@@ -65,24 +65,6 @@ describe('Foldable', () => {
     assert.deepStrictEqual(log, 'abc')
   })
 
-  it('foldM', () => {
-    assert.deepStrictEqual(
-      // tslint:disable-next-line: deprecation
-      _.foldM(O.Monad, A.Foldable)([], 1, () => O.none),
-      O.some(1)
-    )
-    assert.deepStrictEqual(
-      // tslint:disable-next-line: deprecation
-      _.foldM(O.Monad, A.Foldable)([2], 1, () => O.none),
-      O.none
-    )
-    assert.deepStrictEqual(
-      // tslint:disable-next-line: deprecation
-      _.foldM(O.Monad, A.Foldable)([2], 1, (b, a) => O.some(b + a)),
-      O.some(3)
-    )
-  })
-
   it('reduceM', () => {
     assert.deepStrictEqual(
       pipe(

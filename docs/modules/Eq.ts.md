@@ -39,8 +39,6 @@ Added in v2.0.0
   - [getTupleEq](#gettupleeq)
 - [type classes](#type-classes)
   - [Eq (interface)](#eq-interface)
-- [utils](#utils)
-  - [~~strictEqual~~](#strictequal)
 
 ---
 
@@ -216,20 +214,6 @@ Added in v2.0.0
 export interface Eq<A> {
   readonly equals: (x: A, y: A) => boolean
 }
-```
-
-Added in v2.0.0
-
-# utils
-
-## ~~strictEqual~~
-
-Use `eqStrict` instead
-
-**Signature**
-
-```ts
-export declare function strictEqual<A>(a: A, b: A): boolean
 ```
 
 Added in v2.0.0

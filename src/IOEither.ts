@@ -581,15 +581,6 @@ export const ApplicativeSeq: Applicative2<URI> = {
 }
 
 /**
- * Use `ApplicativePar` instead
- *
- * @since 2.7.0
- * @category instances
- * @deprecated
- */
-export const Applicative: Applicative2<URI> = ApplicativePar
-
-/**
  * @category instances
  * @since 2.7.0
  */

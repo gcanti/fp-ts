@@ -85,18 +85,7 @@ declare module './HKT' {
  * @since 2.5.0
  */
 export const eqStrict: Eq<unknown> = {
-  // tslint:disable-next-line: deprecation
-  equals: strictEqual
-}
-
-/**
- * Use `eqStrict` instead
- *
- * @since 2.0.0
- * @deprecated
- */
-export function strictEqual<A>(a: A, b: A): boolean {
-  return a === b
+  equals: (a, b) => a === b
 }
 
 /**

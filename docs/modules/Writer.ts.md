@@ -31,8 +31,6 @@ Added in v2.0.0
 - [utils](#utils)
   - [evaluate](#evaluate)
   - [execute](#execute)
-  - [~~evalWriter~~](#evalwriter)
-  - [~~execWriter~~](#execwriter)
 
 ---
 
@@ -200,27 +198,3 @@ export declare const execute: <W, A>(fa: Writer<W, A>) => W
 ```
 
 Added in v2.8.0
-
-## ~~evalWriter~~
-
-Use `evaluate` instead
-
-**Signature**
-
-```ts
-export declare const evalWriter: <W, A>(fa: Writer<W, A>) => A
-```
-
-Added in v2.0.0
-
-## ~~execWriter~~
-
-Use `execute` instead
-
-**Signature**
-
-```ts
-export declare const execWriter: <W, A>(fa: Writer<W, A>) => W
-```
-
-Added in v2.0.0

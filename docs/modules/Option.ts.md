@@ -66,7 +66,6 @@ Added in v2.0.0
   - [duplicate](#duplicate)
   - [flatten](#flatten)
   - [fromNullableK](#fromnullablek)
-  - [~~mapNullable~~](#mapnullable)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
   - [fromNullable](#fromnullable)
@@ -570,16 +569,6 @@ assert.deepStrictEqual(g('a'), none)
 ```
 
 Added in v2.9.0
-
-## ~~mapNullable~~
-
-**Signature**
-
-```ts
-export declare const mapNullable: typeof chainNullableK
-```
-
-Added in v2.0.0
 
 # constructors
 

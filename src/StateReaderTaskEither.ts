@@ -707,26 +707,6 @@ export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & 
   throwError
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- * @deprecated
- */
-export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
-  URI,
-  map: map_,
-  of,
-  ap: ap_,
-  chain: chain_,
-  bimap: bimap_,
-  mapLeft: mapLeft_,
-  alt: alt_,
-  fromIO,
-  fromTask,
-  throwError
-}
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -743,38 +723,6 @@ export function run<S, R, E, A>(
 ): Promise<Either<E, readonly [A, S]>> {
   return ma(s)(r)()
 }
-
-/**
- * Use `evaluate` instead
- *
- * @since 2.0.0
- * @deprecated
- */
-/* istanbul ignore next */
-export const evalState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S) => ReaderTaskEither<R, E, A> = (
-  fsa,
-  s
-) =>
-  pipe(
-    fsa(s),
-    RTE.map(([a]) => a)
-  )
-
-/**
- * Use `execute` instead
- *
- * @since 2.0.0
- * @deprecated
- */
-/* istanbul ignore next */
-export const execState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S) => ReaderTaskEither<R, E, S> = (
-  fsa,
-  s
-) =>
-  pipe(
-    fsa(s),
-    RTE.map(([_, s]) => s)
-  )
 
 /**
  * Run a computation in the `StateReaderTaskEither` monad, discarding the final state

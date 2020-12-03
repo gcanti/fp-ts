@@ -380,13 +380,6 @@ export function fromNullableK<A extends ReadonlyArray<unknown>, B>(
 }
 
 /**
- * @category combinators
- * @since 2.0.0
- * @deprecated
- */
-export const mapNullable = chainNullableK
-
-/**
  * This is `chain` + `fromNullable`, useful when working with optional values.
  *
  * @example
