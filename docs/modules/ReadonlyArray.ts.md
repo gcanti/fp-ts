@@ -783,15 +783,16 @@ Places an element in between members of an array
 **Signature**
 
 ```ts
-export declare function intersperse<A>(e: A): (as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const intersperse: <A>(a: A) => (as: readonly A[]) => readonly A[]
 ```
 
 **Example**
 
 ```ts
 import { intersperse } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
+assert.deepStrictEqual(pipe([1, 2, 3, 4], intersperse(9)), [1, 9, 2, 9, 3, 9, 4])
 ```
 
 Added in v2.9.0
@@ -803,7 +804,7 @@ Prepend an element to every member of an array
 **Signature**
 
 ```ts
-export declare const prependToAll: <A>(e: A) => (xs: readonly A[]) => readonly A[]
+export declare const prependToAll: <A>(a: A) => (as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -1200,8 +1201,7 @@ Attaches an element to the front of an array, creating a new non empty array
 **Signature**
 
 ```ts
-export declare function cons<A>(head: A): (tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
-export declare function cons<A>(head: A, tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
+export declare const cons: <A>(head: A) => (tail: readonly A[]) => ReadonlyNonEmptyArray<A>
 ```
 
 **Example**

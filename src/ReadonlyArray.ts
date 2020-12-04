@@ -380,7 +380,6 @@ export function isOutOfBound<A>(i: number, as: ReadonlyArray<A>): boolean {
 export const lookup = (i: number) => <A>(as: ReadonlyArray<A>): Option<A> =>
   isOutOfBound(i, as) ? O.none : O.some(as[i])
 
-// TODO: remove non-curried overloading in v3
 /**
  * Attaches an element to the front of an array, creating a new non empty array
  *
@@ -393,15 +392,7 @@ export const lookup = (i: number) => <A>(as: ReadonlyArray<A>): Option<A> =>
  * @category constructors
  * @since 2.5.0
  */
-export function cons<A>(head: A): (tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
-export function cons<A>(head: A, tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
-export function cons<A>(
-  head: A,
-  tail?: ReadonlyArray<A>
-): ReadonlyNonEmptyArray<A> | ((tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>) {
-  if (tail === undefined) {
-    return (tail) => cons(head, tail)
-  }
+export const cons = <A>(head: A) => (tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => {
   const len = tail.length
   const r = Array(len + 1)
   for (let i = 0; i < len; i++) {
@@ -1054,11 +1045,11 @@ export function unzip<A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [Reado
  * @category combinators
  * @since 2.9.0
  */
-export const prependToAll = <A>(e: A) => (xs: ReadonlyArray<A>): ReadonlyArray<A> => {
+export const prependToAll = <A>(a: A) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
   // tslint:disable-next-line: readonly-array
   const out: Array<A> = []
-  for (const x of xs) {
-    out.push(e, x)
+  for (const e of as) {
+    out.push(a, e)
   }
   return out
 }
@@ -1068,20 +1059,16 @@ export const prependToAll = <A>(e: A) => (xs: ReadonlyArray<A>): ReadonlyArray<A
  *
  * @example
  * import { intersperse } from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
+ * assert.deepStrictEqual(pipe([1, 2, 3, 4], intersperse(9)), [1, 9, 2, 9, 3, 9, 4])
  *
  * @category combinators
  * @since 2.9.0
  */
-export function intersperse<A>(e: A): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
-  return (as) => {
-    const length = as.length
-    if (length === 0) {
-      return as
-    }
-    return cons(as[0], prependToAll(e)(as.slice(1, as.length)))
-  }
+export const intersperse = <A>(a: A) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
+  const len = as.length
+  return len === 0 ? as : cons(as[0])(prependToAll(a)(as.slice(1, len)))
 }
 
 /**

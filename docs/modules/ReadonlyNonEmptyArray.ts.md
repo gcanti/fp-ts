@@ -388,10 +388,10 @@ export declare function group<B>(
 **Example**
 
 ```ts
-import { cons, group } from 'fp-ts/ReadonlyNonEmptyArray'
+import { group } from 'fp-ts/ReadonlyNonEmptyArray'
 import { ordNumber } from 'fp-ts/Ord'
 
-assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [cons(1, []), cons(2, []), cons(1, [1])])
+assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [[1], [2], [1, 1]])
 ```
 
 Added in v2.5.0
@@ -414,10 +414,10 @@ export declare function groupSort<B>(
 **Example**
 
 ```ts
-import { cons, groupSort } from 'fp-ts/ReadonlyNonEmptyArray'
+import { groupSort } from 'fp-ts/ReadonlyNonEmptyArray'
 import { ordNumber } from 'fp-ts/Ord'
 
-assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [cons(1, [1, 1]), cons(2, [])])
+assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [[1, 1, 1], [2]])
 ```
 
 Added in v2.5.0
@@ -429,15 +429,16 @@ Places an element in between members of an array
 **Signature**
 
 ```ts
-export declare const intersperse: <A>(e: A) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare const intersperse: <A>(a: A) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 **Example**
 
 ```ts
-import { cons, intersperse } from 'fp-ts/ReadonlyNonEmptyArray'
+import { intersperse } from 'fp-ts/ReadonlyNonEmptyArray'
+import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(intersperse(9)(cons(1, [2, 3, 4])), cons(1, [9, 2, 9, 3, 9, 4]))
+assert.deepStrictEqual(pipe([1, 2, 3, 4], intersperse(9)), [1, 9, 2, 9, 3, 9, 4])
 ```
 
 Added in v2.9.0
@@ -449,15 +450,16 @@ Prepend an element to every member of an array
 **Signature**
 
 ```ts
-export declare const prependToAll: <A>(e: A) => (xs: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare const prependToAll: <A>(a: A) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 **Example**
 
 ```ts
-import { cons, prependToAll } from 'fp-ts/ReadonlyNonEmptyArray'
+import { prependToAll } from 'fp-ts/ReadonlyNonEmptyArray'
+import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(prependToAll(9)(cons(1, [2, 3, 4])), cons(9, [1, 9, 2, 9, 3, 9, 4]))
+assert.deepStrictEqual(pipe([1, 2, 3, 4], prependToAll(9)), [9, 1, 9, 2, 9, 3, 9, 4])
 ```
 
 Added in v2.9.0
@@ -529,15 +531,16 @@ Append an element to the front of an array, creating a new non empty array
 **Signature**
 
 ```ts
-export declare const cons: <A>(head: A, tail: readonly A[]) => ReadonlyNonEmptyArray<A>
+export declare const cons: <A>(head: A) => (tail: readonly A[]) => ReadonlyNonEmptyArray<A>
 ```
 
 **Example**
 
 ```ts
 import { cons } from 'fp-ts/ReadonlyNonEmptyArray'
+import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(cons(1, [2, 3, 4]), [1, 2, 3, 4])
+assert.deepStrictEqual(pipe([2, 3, 4], cons(1)), [1, 2, 3, 4])
 ```
 
 Added in v2.5.0
@@ -580,11 +583,11 @@ export declare function groupBy<A>(
 **Example**
 
 ```ts
-import { cons, groupBy } from 'fp-ts/ReadonlyNonEmptyArray'
+import { groupBy } from 'fp-ts/ReadonlyNonEmptyArray'
 
 assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['foo', 'bar', 'foobar']), {
-  '3': cons('foo', ['bar']),
-  '6': cons('foobar', []),
+  '3': ['foo', 'bar'],
+  '6': ['foobar'],
 })
 ```
 
@@ -625,9 +628,9 @@ export declare function uncons<A>(nea: ReadonlyNonEmptyArray<A>): readonly [A, R
 **Example**
 
 ```ts
-import { cons, uncons } from 'fp-ts/ReadonlyNonEmptyArray'
+import { uncons } from 'fp-ts/ReadonlyNonEmptyArray'
 
-assert.deepStrictEqual(uncons(cons(1, [2, 3, 4])), [1, [2, 3, 4]])
+assert.deepStrictEqual(uncons([1, 2, 3, 4]), [1, [2, 3, 4]])
 ```
 
 Added in v2.9.0
@@ -780,17 +783,6 @@ Added in v2.5.0
 
 ```ts
 export declare const getEq: <A>(E: Eq<A>) => Eq<ReadonlyNonEmptyArray<A>>
-```
-
-**Example**
-
-```ts
-import { getEq, cons } from 'fp-ts/ReadonlyNonEmptyArray'
-import { eqNumber } from 'fp-ts/Eq'
-
-const E = getEq(eqNumber)
-assert.strictEqual(E.equals(cons(1, [2]), [1, 2]), true)
-assert.strictEqual(E.equals(cons(1, [2]), [1, 3]), false)
 ```
 
 Added in v2.5.0

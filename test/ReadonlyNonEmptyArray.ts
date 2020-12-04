@@ -173,16 +173,16 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('prependToAll', () => {
-    assert.deepStrictEqual(_.prependToAll(0)(_.cons(1, [2, 3])), _.cons(0, [1, 0, 2, 0, 3]))
-    assert.deepStrictEqual(_.prependToAll(0)(_.cons(1, [])), _.cons(0, [1]))
-    assert.deepStrictEqual(_.prependToAll(0)(_.cons(1, [2, 3, 4])), _.cons(0, [1, 0, 2, 0, 3, 0, 4]))
+    assert.deepStrictEqual(_.prependToAll(0)([1, 2, 3]), [0, 1, 0, 2, 0, 3])
+    assert.deepStrictEqual(_.prependToAll(0)([1]), [0, 1])
+    assert.deepStrictEqual(_.prependToAll(0)([1, 2, 3, 4]), [0, 1, 0, 2, 0, 3, 0, 4])
   })
 
   it('intersperse', () => {
-    assert.deepStrictEqual(_.intersperse(0)(_.cons(1, [2, 3])), _.cons(1, [0, 2, 0, 3]))
-    assert.deepStrictEqual(_.intersperse(0)(_.cons(1, [])), _.cons(1, []))
-    assert.deepStrictEqual(_.intersperse(0)(_.cons(1, [2])), _.cons(1, [0, 2]))
-    assert.deepStrictEqual(_.intersperse(0)(_.cons(1, [2, 3, 4])), _.cons(1, [0, 2, 0, 3, 0, 4]))
+    assert.deepStrictEqual(_.intersperse(0)([1, 2, 3]), [1, 0, 2, 0, 3])
+    assert.deepStrictEqual(_.intersperse(0)([1]), [1])
+    assert.deepStrictEqual(_.intersperse(0)([1, 2]), [1, 0, 2])
+    assert.deepStrictEqual(_.intersperse(0)([1, 2, 3, 4]), [1, 0, 2, 0, 3, 0, 4])
   })
 
   it('reverse', () => {
@@ -239,8 +239,8 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('modifyAt', () => {
     const double = (n: number): number => n * 2
-    assert.deepStrictEqual(_.modifyAt(1, double)(_.cons(1, [])), O.none)
-    assert.deepStrictEqual(_.modifyAt(1, double)(_.cons(1, [2])), O.some(_.cons(1, [4])))
+    assert.deepStrictEqual(_.modifyAt(1, double)([1]), O.none)
+    assert.deepStrictEqual(_.modifyAt(1, double)([1, 2]), O.some([1, 4]))
   })
 
   it('filter', () => {
@@ -301,7 +301,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('cons', () => {
-    assert.deepStrictEqual(_.cons(1, [2, 3, 4]), [1, 2, 3, 4])
+    assert.deepStrictEqual(_.cons(1)([2, 3, 4]), [1, 2, 3, 4])
   })
 
   it('snoc', () => {
@@ -309,8 +309,8 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('uncons', () => {
-    assert.deepStrictEqual(_.uncons(_.cons(0, [])), [0, []])
-    assert.deepStrictEqual(_.uncons(_.cons(1, [2, 3, 4])), [1, [2, 3, 4]])
+    assert.deepStrictEqual(_.uncons([0]), [0, []])
+    assert.deepStrictEqual(_.uncons([1, 2, 3, 4]), [1, [2, 3, 4]])
   })
 
   it('unsnoc', () => {

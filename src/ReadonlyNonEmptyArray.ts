@@ -41,13 +41,14 @@ export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
  *
  * @example
  * import { cons } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(cons(1, [2, 3, 4]), [1, 2, 3, 4])
+ * assert.deepStrictEqual(pipe([2, 3, 4], cons(1)), [1, 2, 3, 4])
  *
  * @category constructors
  * @since 2.5.0
  */
-export const cons: <A>(head: A, tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A> = RA.cons
+export const cons: <A>(head: A) => (tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A> = RA.cons
 
 /**
  * Append an element to the end of an array, creating a new non empty array
@@ -85,9 +86,9 @@ export function fromArray<A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>> {
  * Produces a couple of the first element of the array, and a new array of the remaining elements, if any
  *
  * @example
- * import { cons, uncons } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { uncons } from 'fp-ts/ReadonlyNonEmptyArray'
  *
- * assert.deepStrictEqual(uncons(cons(1, [2, 3, 4])), [1, [2, 3, 4]])
+ * assert.deepStrictEqual(uncons([1, 2, 3, 4]), [1, [2, 3, 4]])
  *
  * @category destructors
  * @since 2.9.0
@@ -167,14 +168,6 @@ export function getSemigroup<A = never>(): Semigroup<ReadonlyNonEmptyArray<A>> {
 }
 
 /**
- * @example
- * import { getEq, cons } from 'fp-ts/ReadonlyNonEmptyArray'
- * import { eqNumber } from 'fp-ts/Eq'
- *
- * const E = getEq(eqNumber)
- * assert.strictEqual(E.equals(cons(1, [2]), [1, 2]), true)
- * assert.strictEqual(E.equals(cons(1, [2]), [1, 3]), false)
- *
  * @category instances
  * @since 2.5.0
  */
@@ -184,13 +177,13 @@ export const getEq: <A>(E: Eq<A>) => Eq<ReadonlyNonEmptyArray<A>> = RA.getEq
  * Group equal, consecutive elements of an array into non empty arrays.
  *
  * @example
- * import { cons, group } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { group } from 'fp-ts/ReadonlyNonEmptyArray'
  * import { ordNumber } from 'fp-ts/Ord'
  *
  * assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [
- *   cons(1, []),
- *   cons(2, []),
- *   cons(1, [1])
+ *   [1],
+ *   [2],
+ *   [1, 1]
  * ])
  *
  * @category combinators
@@ -232,10 +225,10 @@ export function group<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<Read
  * Sort and then group the elements of an array into non empty arrays.
  *
  * @example
- * import { cons, groupSort } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { groupSort } from 'fp-ts/ReadonlyNonEmptyArray'
  * import { ordNumber } from 'fp-ts/Ord'
  *
- * assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [cons(1, [1, 1]), cons(2, [])])
+ * assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [[1, 1, 1], [2]])
  *
  * @category combinators
  * @since 2.5.0
@@ -257,11 +250,11 @@ export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray
  * function on each element, and grouping the results according to values returned
  *
  * @example
- * import { cons, groupBy } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { groupBy } from 'fp-ts/ReadonlyNonEmptyArray'
  *
  * assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['foo', 'bar', 'foobar']), {
- *   '3': cons('foo', ['bar']),
- *   '6': cons('foobar', [])
+ *   '3': ['foo', 'bar'],
+ *   '6': ['foobar']
  * })
  *
  * @category constructors
@@ -416,30 +409,32 @@ export const unzip: <A, B>(
  * Prepend an element to every member of an array
  *
  * @example
- * import { cons, prependToAll } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { prependToAll } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(prependToAll(9)(cons(1, [2, 3, 4])), cons(9, [1, 9, 2, 9, 3, 9, 4]))
+ * assert.deepStrictEqual(pipe([1, 2, 3, 4], prependToAll(9)), [9, 1, 9, 2, 9, 3, 9, 4])
  *
  * @category combinators
  * @since 2.9.0
  */
 export const prependToAll: <A>(
-  e: A
-) => (xs: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.prependToAll as any
+  a: A
+) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.prependToAll as any
 
 /**
  * Places an element in between members of an array
  *
  * @example
- * import { cons, intersperse } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { intersperse } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(intersperse(9)(cons(1, [2, 3, 4])), cons(1, [9, 2, 9, 3, 9, 4]))
+ * assert.deepStrictEqual(pipe([1, 2, 3, 4], intersperse(9)), [1, 9, 2, 9, 3, 9, 4])
  *
  * @category combinators
  * @since 2.9.0
  */
 export const intersperse: <A>(
-  e: A
+  a: A
 ) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.intersperse as any
 
 // -------------------------------------------------------------------------------------

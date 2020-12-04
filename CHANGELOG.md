@@ -58,6 +58,9 @@ high state of flux, you're at risk of it changing without notice.
     - remove `run` (@gcanti)
   - `ReadonlyArray`
     - make `lookup` pipeable (@gcanti)
+    - make `cons` pipeable (@gcanti)
+  - `ReadonlyNonEmptyArray`
+    - make `cons` pipeable (@gcanti)
 
 # 2.9.1
 
