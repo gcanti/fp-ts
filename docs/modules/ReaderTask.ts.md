@@ -56,7 +56,6 @@ Added in v2.3.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
-  - [run](#run)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -484,16 +483,6 @@ export declare const bindW: <N extends string, A, Q, B>(
 ```
 
 Added in v2.8.0
-
-## run
-
-**Signature**
-
-```ts
-export declare function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A>
-```
-
-Added in v2.4.0
 
 ## sequenceArray
 
