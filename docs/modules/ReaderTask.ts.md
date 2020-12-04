@@ -31,7 +31,6 @@ Added in v2.3.0
   - [flatten](#flatten)
   - [fromIOK](#fromiok)
   - [fromTaskK](#fromtaskk)
-  - [local](#local)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -249,16 +248,6 @@ export declare function fromTaskK<A extends ReadonlyArray<unknown>, B>(
 ```
 
 Added in v2.4.0
-
-## local
-
-**Signature**
-
-```ts
-export declare const local: <Q, R>(f: (f: Q) => R) => <A>(ma: ReaderTask<R, A>) => ReaderTask<Q, A>
-```
-
-Added in v2.3.0
 
 # constructors
 

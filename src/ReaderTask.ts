@@ -69,13 +69,6 @@ export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> = (f) => f
 // combinators
 // -------------------------------------------------------------------------------------
 
-// TODO: remove in v3
-/**
- * @category combinators
- * @since 2.3.0
- */
-export const local: <Q, R>(f: (f: Q) => R) => <A>(ma: ReaderTask<R, A>) => ReaderTask<Q, A> = R.local
-
 /**
  * @category combinators
  * @since 2.4.0

@@ -79,17 +79,6 @@ describe('ReaderTask', () => {
   // combinators
   // -------------------------------------------------------------------------------------
 
-  it('local', async () => {
-    const len = (s: string): number => s.length
-    assert.deepStrictEqual(
-      await pipe(
-        _.asks((n: number) => n + 1),
-        _.local(len)
-      )('aaa')(),
-      4
-    )
-  })
-
   it('chainIOK', async () => {
     const f = (s: string) => I.of(s.length)
     assert.deepStrictEqual(await pipe(_.of('a'), _.chainIOK(f))(undefined)(), 1)
