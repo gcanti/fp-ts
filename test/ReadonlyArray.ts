@@ -379,8 +379,8 @@ describe('ReadonlyArray', () => {
 
   it('snoc', () => {
     const as: ReadonlyArray<number> = [1, 2, 3]
-    assert.deepStrictEqual(_.snoc(as, 4), [1, 2, 3, 4])
-    assert.deepStrictEqual(_.snoc([[1]], [2]), [[1], [2]])
+    assert.deepStrictEqual(pipe(as, _.snoc(4)), [1, 2, 3, 4])
+    assert.deepStrictEqual(pipe([[1]], _.snoc([2])), [[1], [2]])
   })
 
   it('head', () => {

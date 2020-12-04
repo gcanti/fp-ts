@@ -600,15 +600,16 @@ Append an element to the end of an array, creating a new non empty array
 **Signature**
 
 ```ts
-export declare const snoc: <A>(init: readonly A[], end: A) => ReadonlyNonEmptyArray<A>
+export declare const snoc: <A>(end: A) => (init: readonly A[]) => ReadonlyNonEmptyArray<A>
 ```
 
 **Example**
 
 ```ts
 import { snoc } from 'fp-ts/ReadonlyNonEmptyArray'
+import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
+assert.deepStrictEqual(pipe([1, 2, 3], snoc(4)), [1, 2, 3, 4])
 ```
 
 Added in v2.5.0
@@ -648,9 +649,9 @@ export declare function unsnoc<A>(nea: ReadonlyNonEmptyArray<A>): readonly [Read
 **Example**
 
 ```ts
-import { snoc, unsnoc } from 'fp-ts/ReadonlyNonEmptyArray'
+import { unsnoc } from 'fp-ts/ReadonlyNonEmptyArray'
 
-assert.deepStrictEqual(unsnoc(snoc([1, 2, 3], 4)), [[1, 2, 3], 4])
+assert.deepStrictEqual(unsnoc([1, 2, 3, 4]), [[1, 2, 3], 4])
 ```
 
 Added in v2.9.0

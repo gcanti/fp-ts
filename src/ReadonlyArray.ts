@@ -402,19 +402,19 @@ export const cons = <A>(head: A) => (tail: ReadonlyArray<A>): ReadonlyNonEmptyAr
   return (r as unknown) as ReadonlyNonEmptyArray<A>
 }
 
-// TODO: curry and make data-last in v3
 /**
  * Append an element to the end of an array, creating a new non empty array
  *
  * @example
  * import { snoc } from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
+ * assert.deepStrictEqual(pipe([1, 2, 3], snoc(4)), [1, 2, 3, 4])
  *
  * @category constructors
  * @since 2.5.0
  */
-export function snoc<A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A> {
+export const snoc = <A>(end: A) => (init: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => {
   const len = init.length
   const r = Array(len + 1)
   for (let i = 0; i < len; i++) {
@@ -1327,7 +1327,7 @@ export function comprehension<R>(
     if (input.length === 0) {
       return g(...scope) ? [f(...scope)] : empty
     } else {
-      return chain_(input[0], (x) => go(snoc(scope, x), input.slice(1)))
+      return chain_(input[0], (x) => go(snoc(x)(scope), input.slice(1)))
     }
   }
   return go(empty, input)
@@ -1910,7 +1910,7 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>)
 ): HKT<F, ReadonlyArray<A>> => {
   return reduce_(ta, F.of(zero()), (fas, fa) =>
     F.ap(
-      F.map(fas, (as) => (a: A) => snoc(as, a)),
+      F.map(fas, (as) => (a: A) => snoc(a)(as)),
       fa
     )
   )
@@ -1926,7 +1926,7 @@ export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = <F>(F:
 ): ((ta: ReadonlyArray<A>) => HKT<F, ReadonlyArray<B>>) =>
   reduceWithIndex(F.of(zero()), (i, fbs, a) =>
     F.ap(
-      F.map(fbs, (bs) => (b: B) => snoc(bs, b)),
+      F.map(fbs, (bs) => (b: B) => snoc(b)(bs)),
       f(i, a)
     )
   )

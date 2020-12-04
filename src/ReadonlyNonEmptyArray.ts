@@ -55,13 +55,14 @@ export const cons: <A>(head: A) => (tail: ReadonlyArray<A>) => ReadonlyNonEmptyA
  *
  * @example
  * import { snoc } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
+ * assert.deepStrictEqual(pipe([1, 2, 3], snoc(4)), [1, 2, 3, 4])
  *
  * @category constructors
  * @since 2.5.0
  */
-export const snoc: <A>(init: ReadonlyArray<A>, end: A) => ReadonlyNonEmptyArray<A> = RA.snoc
+export const snoc: <A>(end: A) => (init: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A> = RA.snoc
 
 /**
  * Builds a `ReadonlyNonEmptyArray` from an array returning `none` if `as` is an empty array
@@ -101,9 +102,9 @@ export function uncons<A>(nea: ReadonlyNonEmptyArray<A>): readonly [A, ReadonlyA
  * Produces a couple of a copy of the array without its last element, and that last element
  *
  * @example
- * import { snoc, unsnoc } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { unsnoc } from 'fp-ts/ReadonlyNonEmptyArray'
  *
- * assert.deepStrictEqual(unsnoc(snoc([1, 2, 3], 4)), [[1, 2, 3], 4])
+ * assert.deepStrictEqual(unsnoc([1, 2, 3, 4]), [[1, 2, 3], 4])
  *
  * @category destructors
  * @since 2.9.0

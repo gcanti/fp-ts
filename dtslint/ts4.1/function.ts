@@ -6,7 +6,8 @@ import * as A from '../../src/ReadonlyArray'
 //
 
 // should handle generics
-_.flip(A.snoc) // $ExpectType <A>(b: A, a: readonly A[]) => ReadonlyNonEmptyArray<A>
+declare function snoc<A>(init: ReadonlyArray<A>, end: A): ReadonlyArray<A>
+_.flip(snoc) // $ExpectType <A>(b: A, a: readonly A[]) => ReadonlyArray<A>
 
 //
 // tuple
@@ -18,7 +19,7 @@ _.tuple(1, 'a') // $ExpectType [number, string]
 _.tuple(1, 'a', true) // $ExpectType [number, string, boolean]
 
 // $ExpectType <A>(init: readonly A[], end: A) => Option<A>
-_.flow(A.snoc, A.head)
+_.flow(snoc, A.head)
 
 //
 // tupled
