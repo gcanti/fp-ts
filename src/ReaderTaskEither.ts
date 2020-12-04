@@ -249,14 +249,6 @@ export function orElse<R, E, A, M>(
  */
 export const swap = <R, E, A>(ma: ReaderTaskEither<R, E, A>): ReaderTaskEither<R, A, E> => flow(ma, TE.swap)
 
-// TODO: remove in v3
-/**
- * @category combinators
- * @since 2.0.0
- */
-export const local: <Q, R>(f: (f: Q) => R) => <E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<Q, E, A> =
-  R.local
-
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
  *

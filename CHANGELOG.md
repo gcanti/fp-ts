@@ -52,6 +52,8 @@ high state of flux, you're at risk of it changing without notice.
   - `ReaderTask`
     - remove `local`, use `Reader`'s `local` instead (@gcanti)
     - remove `run` (@gcanti)
+  - `ReaderTaskEither`
+    - remove `local`, use `Reader`'s `local` instead (@gcanti)
 
 # 2.9.1
 

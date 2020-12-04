@@ -163,17 +163,6 @@ describe('ReaderTaskEither', () => {
     return assert.deepStrictEqual(await _.asks((s: string) => s.length)('foo')(), E.right(3))
   })
 
-  it('local', async () => {
-    const len = (s: string): number => s.length
-    assert.deepStrictEqual(
-      await pipe(
-        _.asks((n: number) => n + 1),
-        _.local(len)
-      )('aaa')(),
-      E.right(4)
-    )
-  })
-
   it('leftTask', async () => {
     assert.deepStrictEqual(await _.leftTask(T.of(1))({})(), E.left(1))
   })
