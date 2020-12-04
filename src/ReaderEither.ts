@@ -158,15 +158,6 @@ export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E>
   /*#__PURE__*/
   R.map(E.swap)
 
-// TODO: remove in v3
-/**
- * @category combinators
- * @since 2.0.0
- */
-export function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<Q, E, A> {
-  return (ma) => (q) => ma(f(q))
-}
-
 /**
  * @category combinators
  * @since 2.4.0

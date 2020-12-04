@@ -40,7 +40,6 @@ Added in v2.0.0
   - [filterOrElse](#filterorelse)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
-  - [local](#local)
   - [orElse](#orelse)
   - [swap](#swap)
 - [constructors](#constructors)
@@ -385,16 +384,6 @@ export declare function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
 ```
 
 Added in v2.4.0
-
-## local
-
-**Signature**
-
-```ts
-export declare function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<Q, E, A>
-```
-
-Added in v2.0.0
 
 ## orElse
 

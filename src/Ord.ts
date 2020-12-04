@@ -63,7 +63,6 @@ export const ordBoolean: Ord<boolean> = {
   compare
 }
 
-// TODO: curry in v3
 /**
  * Test whether one value is _strictly less than_ another
  *
@@ -73,7 +72,6 @@ export function lt<A>(O: Ord<A>): (x: A, y: A) => boolean {
   return (x, y) => O.compare(x, y) === -1
 }
 
-// TODO: curry in v3
 /**
  * Test whether one value is _strictly greater than_ another
  *
@@ -83,7 +81,6 @@ export function gt<A>(O: Ord<A>): (x: A, y: A) => boolean {
   return (x, y) => O.compare(x, y) === 1
 }
 
-// TODO: curry in v3
 /**
  * Test whether one value is _non-strictly less than_ another
  *
@@ -93,7 +90,6 @@ export function leq<A>(O: Ord<A>): (x: A, y: A) => boolean {
   return (x, y) => O.compare(x, y) !== 1
 }
 
-// TODO: curry in v3
 /**
  * Test whether one value is _non-strictly greater than_ another
  *
@@ -103,7 +99,6 @@ export function geq<A>(O: Ord<A>): (x: A, y: A) => boolean {
   return (x, y) => O.compare(x, y) !== -1
 }
 
-// TODO: curry in v3
 /**
  * Take the minimum of two values. If they are considered equal, the first argument is chosen
  *
@@ -113,7 +108,6 @@ export function min<A>(O: Ord<A>): (x: A, y: A) => A {
   return (x, y) => (O.compare(x, y) === 1 ? y : x)
 }
 
-// TODO: curry in v3
 /**
  * Take the maximum of two values. If they are considered equal, the first argument is chosen
  *
@@ -326,7 +320,7 @@ export const Contravariant: Contravariant1<URI> = {
   contramap: contramap_
 }
 
-// TODO: remove in v3
+// TODO: remove mega instance in v3
 /**
  * @category instances
  * @since 2.0.0
