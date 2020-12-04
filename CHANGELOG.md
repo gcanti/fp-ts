@@ -55,6 +55,7 @@ high state of flux, you're at risk of it changing without notice.
   - `ReaderTaskEither`
     - remove `local`, use `Reader`'s `local` instead (@gcanti)
     - remove `getReaderTaskValidation`, use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead (@gcanti)
+    - remove `run` (@gcanti)
 
 # 2.9.1
 

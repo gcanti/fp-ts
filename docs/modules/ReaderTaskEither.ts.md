@@ -101,7 +101,6 @@ Added in v2.0.0
   - [bindW](#bindw)
   - [bracket](#bracket)
   - [filterOrElseW](#filterorelsew)
-  - [run](#run)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
   - [traverseArray](#traversearray)
@@ -1057,16 +1056,6 @@ export declare const filterOrElseW: {
 ```
 
 Added in v2.9.0
-
-## run
-
-**Signature**
-
-```ts
-export declare function run<R, E, A>(ma: ReaderTaskEither<R, E, A>, r: R): Promise<Either<E, A>>
-```
-
-Added in v2.0.0
 
 ## sequenceArray
 
