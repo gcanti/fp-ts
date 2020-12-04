@@ -10,10 +10,10 @@ import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement } fro
 import { Functor3 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { Monad3, Monad3C } from './Monad'
+import { Monad3 } from './Monad'
 import { MonadIO3 } from './MonadIO'
-import { MonadTask3, MonadTask3C } from './MonadTask'
-import { MonadThrow3, MonadThrow3C } from './MonadThrow'
+import { MonadTask3 } from './MonadTask'
+import { MonadThrow3 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import * as R from './Reader'
@@ -679,32 +679,6 @@ export function getAltReaderTaskValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
     _E: undefined as any,
     map: map_,
     alt: (me, that) => (r) => A.alt(me(r), () => that()(r))
-  }
-}
-
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.3.0
- */
-export function getReaderTaskValidation<E>(
-  SE: Semigroup<E>
-): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadTask3C<URI, E> & MonadThrow3C<URI, E> {
-  const applicativeReaderTaskValidation = getApplicativeReaderTaskValidation(T.ApplicativePar, SE)
-  const altReaderTaskValidation = getAltReaderTaskValidation(SE)
-  return {
-    URI,
-    _E: undefined as any,
-    map: map_,
-    of,
-    chain: chain_,
-    bimap: bimap_,
-    mapLeft: mapLeft_,
-    ap: applicativeReaderTaskValidation.ap,
-    alt: altReaderTaskValidation.alt,
-    fromIO,
-    fromTask,
-    throwError
   }
 }
 

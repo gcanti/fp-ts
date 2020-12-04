@@ -87,7 +87,6 @@ Added in v2.0.0
   - [getApplicativeReaderTaskValidation](#getapplicativereadertaskvalidation)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
-  - [getReaderTaskValidation](#getreadertaskvalidation)
   - [getSemigroup](#getsemigroup)
   - [readerTaskEither](#readertaskeither)
   - [readerTaskEitherSeq](#readertaskeitherseq)
@@ -881,18 +880,6 @@ export declare function getApplySemigroup<R, E, A>(S: Semigroup<A>): Semigroup<R
 ```
 
 Added in v2.0.0
-
-## getReaderTaskValidation
-
-**Signature**
-
-```ts
-export declare function getReaderTaskValidation<E>(
-  SE: Semigroup<E>
-): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadTask3C<URI, E> & MonadThrow3C<URI, E>
-```
-
-Added in v2.3.0
 
 ## getSemigroup
 
