@@ -2189,8 +2189,7 @@ This function provides a safe way to read a value at a particular index from an 
 **Signature**
 
 ```ts
-export declare function lookup(i: number): <A>(as: ReadonlyArray<A>) => Option<A>
-export declare function lookup<A>(i: number, as: ReadonlyArray<A>): Option<A>
+export declare const lookup: (i: number) => <A>(as: readonly A[]) => O.Option<A>
 ```
 
 **Example**

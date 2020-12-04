@@ -56,6 +56,8 @@ high state of flux, you're at risk of it changing without notice.
     - remove `local`, use `Reader`'s `local` instead (@gcanti)
     - remove `getReaderTaskValidation`, use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead (@gcanti)
     - remove `run` (@gcanti)
+  - `ReadonlyArray`
+    - make `lookup` pipeable (@gcanti)
 
 # 2.9.1
 

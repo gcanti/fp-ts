@@ -43,8 +43,6 @@ describe('ReadonlyArray', () => {
     })
 
     it('lookup', () => {
-      assert.deepStrictEqual(_.lookup(0, [1, 2, 3]), O.some(1))
-      assert.deepStrictEqual(_.lookup(3, [1, 2, 3]), O.none)
       assert.deepStrictEqual(pipe([1, 2, 3], _.lookup(0)), O.some(1))
       assert.deepStrictEqual(pipe([1, 2, 3], _.lookup(3)), O.none)
     })

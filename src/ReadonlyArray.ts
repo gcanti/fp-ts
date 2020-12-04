@@ -364,7 +364,6 @@ export function isOutOfBound<A>(i: number, as: ReadonlyArray<A>): boolean {
   return i < 0 || i >= as.length
 }
 
-// TODO: remove non-curried overloading in v3
 /**
  * This function provides a safe way to read a value at a particular index from an array
  *
@@ -378,11 +377,8 @@ export function isOutOfBound<A>(i: number, as: ReadonlyArray<A>): boolean {
  *
  * @since 2.5.0
  */
-export function lookup(i: number): <A>(as: ReadonlyArray<A>) => Option<A>
-export function lookup<A>(i: number, as: ReadonlyArray<A>): Option<A>
-export function lookup<A>(i: number, as?: ReadonlyArray<A>): Option<A> | (<A>(as: ReadonlyArray<A>) => Option<A>) {
-  return as === undefined ? (as) => lookup(i, as) : isOutOfBound(i, as) ? O.none : O.some(as[i])
-}
+export const lookup = (i: number) => <A>(as: ReadonlyArray<A>): Option<A> =>
+  isOutOfBound(i, as) ? O.none : O.some(as[i])
 
 // TODO: remove non-curried overloading in v3
 /**
@@ -466,7 +462,7 @@ export function head<A>(as: ReadonlyArray<A>): Option<A> {
  * @since 2.5.0
  */
 export function last<A>(as: ReadonlyArray<A>): Option<A> {
-  return lookup(as.length - 1, as)
+  return lookup(as.length - 1)(as)
 }
 
 /**
