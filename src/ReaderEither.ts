@@ -7,8 +7,8 @@ import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import { bindTo_, bind_, flow, identity, pipe, Predicate, Refinement } from './function'
 import { Functor3 } from './Functor'
-import { Monad3, Monad3C } from './Monad'
-import { MonadThrow3, MonadThrow3C } from './MonadThrow'
+import { Monad3 } from './Monad'
+import { MonadThrow3 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import * as R from './Reader'
@@ -513,30 +513,6 @@ export function getAltReaderValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
     _E: undefined as any,
     map: map_,
     alt: (me, that) => (r) => A.alt(me(r), () => that()(r))
-  }
-}
-
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.3.0
- */
-export function getReaderValidation<E>(
-  SE: Semigroup<E>
-): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadThrow3C<URI, E> {
-  const applicativeReaderValidation = getApplicativeReaderValidation(SE)
-  const altReaderValidation = getAltReaderValidation(SE)
-  return {
-    URI,
-    _E: undefined as any,
-    map: map_,
-    ap: applicativeReaderValidation.ap,
-    of,
-    chain: chain_,
-    bimap: bimap_,
-    mapLeft: mapLeft_,
-    alt: altReaderValidation.alt,
-    throwError
   }
 }
 

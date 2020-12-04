@@ -48,6 +48,7 @@ high state of flux, you're at risk of it changing without notice.
     - swap execution order in `getEndomorphismMonoid` (@gcanti)
   - `ReaderEither`
     - remove `local`, use `Reader`'s `local` instead (@gcanti)
+    - remove `getReaderValidation`, use `getApplicativeReaderValidation` and `getAltReaderValidation` instead (@gcanti)
 
 # 2.9.1
 

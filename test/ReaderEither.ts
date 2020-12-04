@@ -191,15 +191,11 @@ describe('ReaderEither', () => {
   it('getApplicativeReaderValidation', () => {
     const A = _.getApplicativeReaderValidation(monoidString)
     assert.deepStrictEqual(Apply.sequenceT(A)(_.left('a'), _.left('b'))(null), E.left('ab'))
-    const AV = _.getReaderValidation(monoidString)
-    assert.deepStrictEqual(Apply.sequenceT(AV)(_.left('a'), _.left('b'))(null), E.left('ab'))
   })
 
   it('getAltReaderValidation', () => {
     const A = _.getAltReaderValidation(monoidString)
     assert.deepStrictEqual(A.alt(_.left('a'), () => _.left('b'))(null), E.left('ab'))
-    const AV = _.getReaderValidation(monoidString)
-    assert.deepStrictEqual(AV.alt(_.left('a'), () => _.left('b'))(null), E.left('ab'))
   })
 
   it('chainEitherK', () => {
