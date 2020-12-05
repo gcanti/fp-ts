@@ -1312,9 +1312,8 @@ export function comprehension<R>(
   return go(empty, input)
 }
 
-// TODO: remove non-curried overloading in v3
 /**
- * Creates an array of unique values, in order, from all given arrays using a `Eq` for equality comparisons
+ * Creates an array of unique values, in order, from all given arrays using a `Eq` for equality comparisons.
  *
  * @example
  * import { union } from 'fp-ts/ReadonlyArray'
@@ -1326,26 +1325,13 @@ export function comprehension<R>(
  * @category combinators
  * @since 2.5.0
  */
-export function union<A>(
-  E: Eq<A>
-): {
-  (xs: ReadonlyArray<A>): (ys: ReadonlyArray<A>) => ReadonlyArray<A>
-  (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>): ReadonlyArray<A>
-}
-export function union<A>(
-  E: Eq<A>
-): (xs: ReadonlyArray<A>, ys?: ReadonlyArray<A>) => ReadonlyArray<A> | ((ys: ReadonlyArray<A>) => ReadonlyArray<A>) {
+export function union<A>(E: Eq<A>): (ys: ReadonlyArray<A>) => (xs: ReadonlyArray<A>) => ReadonlyArray<A> {
   const elemE = elem(E)
-  return (xs, ys?) => {
-    if (ys === undefined) {
-      const unionE = union(E)
-      return (ys) => unionE(ys, xs)
-    }
-    return concat(
+  return (ys) => (xs) =>
+    concat(
       xs,
       ys.filter((a) => !elemE(a)(xs))
     )
-  }
 }
 
 // TODO: remove non-curried overloading in v3

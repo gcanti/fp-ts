@@ -920,9 +920,6 @@ describe('ReadonlyArray', () => {
   })
 
   it('union', () => {
-    assert.deepStrictEqual(_.union(Eq.eqNumber)([1, 2], [3, 4]), [1, 2, 3, 4])
-    assert.deepStrictEqual(_.union(Eq.eqNumber)([1, 2], [2, 3]), [1, 2, 3])
-    assert.deepStrictEqual(_.union(Eq.eqNumber)([1, 2], [1, 2]), [1, 2])
     assert.deepStrictEqual(pipe([1, 2], _.union(Eq.eqNumber)([3, 4])), [1, 2, 3, 4])
     assert.deepStrictEqual(pipe([1, 2], _.union(Eq.eqNumber)([2, 3])), [1, 2, 3])
     assert.deepStrictEqual(pipe([1, 2], _.union(Eq.eqNumber)([1, 2])), [1, 2])

@@ -1027,17 +1027,12 @@ Added in v2.5.0
 
 ## union
 
-Creates an array of unique values, in order, from all given arrays using a `Eq` for equality comparisons
+Creates an array of unique values, in order, from all given arrays using a `Eq` for equality comparisons.
 
 **Signature**
 
 ```ts
-export declare function union<A>(
-  E: Eq<A>
-): {
-  (xs: ReadonlyArray<A>): (ys: ReadonlyArray<A>) => ReadonlyArray<A>
-  (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>): ReadonlyArray<A>
-}
+export declare function union<A>(E: Eq<A>): (ys: ReadonlyArray<A>) => (xs: ReadonlyArray<A>) => ReadonlyArray<A>
 ```
 
 **Example**

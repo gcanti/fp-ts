@@ -111,8 +111,7 @@ _.intersection(eqNumber)([3, 4]) // $ExpectType (ys: readonly number[]) => reado
 // union
 //
 
-_.union(eqNumber)([1, 2], [3, 4]) // $ExpectType readonly number[]
-_.union(eqNumber)([3, 4]) // $ExpectType (ys: readonly number[]) => readonly number[]
+pipe([1, 2], _.union(eqNumber)([3, 4])) // $ExpectType readonly number[]
 
 //
 // zip
