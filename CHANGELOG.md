@@ -64,6 +64,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `zip` pipeable (@gcanti)
     - make `elem` pipeable (@gcanti)
     - make `union` pipeable (@gcanti)
+    - make `intersection` pipeable (@gcanti)
   - `ReadonlyNonEmptyArray`
     - make `cons` pipeable (@gcanti)
     - make `snoc` pipeable (@gcanti)

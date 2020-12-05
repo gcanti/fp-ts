@@ -1334,7 +1334,6 @@ export function union<A>(E: Eq<A>): (ys: ReadonlyArray<A>) => (xs: ReadonlyArray
     )
 }
 
-// TODO: remove non-curried overloading in v3
 /**
  * Creates an array of unique values that are included in all given arrays using a `Eq` for equality
  * comparisons. The order and references of result values are determined by the first array.
@@ -1349,23 +1348,9 @@ export function union<A>(E: Eq<A>): (ys: ReadonlyArray<A>) => (xs: ReadonlyArray
  * @category combinators
  * @since 2.5.0
  */
-export function intersection<A>(
-  E: Eq<A>
-): {
-  (xs: ReadonlyArray<A>): (ys: ReadonlyArray<A>) => ReadonlyArray<A>
-  (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>): ReadonlyArray<A>
-}
-export function intersection<A>(
-  E: Eq<A>
-): (xs: ReadonlyArray<A>, ys?: ReadonlyArray<A>) => ReadonlyArray<A> | ((ys: ReadonlyArray<A>) => ReadonlyArray<A>) {
+export function intersection<A>(E: Eq<A>): (ys: ReadonlyArray<A>) => (xs: ReadonlyArray<A>) => ReadonlyArray<A> {
   const elemE = elem(E)
-  return (xs, ys?) => {
-    if (ys === undefined) {
-      const intersectionE = intersection(E)
-      return (ys) => intersectionE(ys, xs)
-    }
-    return xs.filter((a) => elemE(a)(ys))
-  }
+  return (ys) => (xs) => xs.filter((a) => elemE(a)(ys))
 }
 
 // TODO: remove non-curried overloading in v3

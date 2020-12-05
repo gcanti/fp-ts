@@ -104,8 +104,7 @@ _.difference(eqNumber)([3, 4]) // $ExpectType (ys: readonly number[]) => readonl
 // intersection
 //
 
-_.intersection(eqNumber)([1, 2], [3, 4]) // $ExpectType readonly number[]
-_.intersection(eqNumber)([3, 4]) // $ExpectType (ys: readonly number[]) => readonly number[]
+pipe([1, 2], _.intersection(eqNumber)([3, 4])) // $ExpectType readonly number[]
 
 //
 // union
