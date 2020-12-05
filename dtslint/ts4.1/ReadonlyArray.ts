@@ -91,8 +91,7 @@ _.lookup(0) // $ExpectType <A>(as: readonly A[]) => Option<A>
 // elem
 //
 
-_.elem(eqNumber)(1, [1, 2, 3]) // $ExpectType boolean
-_.elem(eqNumber)(1) // $ExpectType (as: readonly number[]) => boolean
+pipe([1, 2, 3], _.elem(eqNumber)(1)) // $ExpectType boolean
 
 //
 // difference

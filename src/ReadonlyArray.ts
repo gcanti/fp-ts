@@ -1087,7 +1087,6 @@ export function rotate(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
   }
 }
 
-// TODO: remove non-curried overloading in v3
 /**
  * Test if a value is a member of an array. Takes a `Eq<A>` as a single
  * argument which returns the function to use to search for a value of type `A` in
@@ -1103,28 +1102,16 @@ export function rotate(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
  *
  * @since 2.5.0
  */
-export function elem<A>(
-  E: Eq<A>
-): {
-  (a: A): (as: ReadonlyArray<A>) => boolean
-  (a: A, as: ReadonlyArray<A>): boolean
-}
-export function elem<A>(E: Eq<A>): (a: A, as?: ReadonlyArray<A>) => boolean | ((as: ReadonlyArray<A>) => boolean) {
-  return (a, as?) => {
-    if (as === undefined) {
-      const elemE = elem(E)
-      return (as) => elemE(a, as)
+export const elem = <A>(E: Eq<A>) => (a: A) => (as: ReadonlyArray<A>): boolean => {
+  const predicate = (element: A) => E.equals(element, a)
+  let i = 0
+  const len = as.length
+  for (; i < len; i++) {
+    if (predicate(as[i])) {
+      return true
     }
-    const predicate = (element: A) => E.equals(element, a)
-    let i = 0
-    const len = as.length
-    for (; i < len; i++) {
-      if (predicate(as[i])) {
-        return true
-      }
-    }
-    return false
   }
+  return false
 }
 
 /**
@@ -1151,7 +1138,7 @@ export function uniq<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
     let i = 0
     for (; i < len; i++) {
       const a = as[i]
-      if (!elemS(a, out)) {
+      if (!elemS(a)(out)) {
         out.push(a)
       }
     }
@@ -1356,7 +1343,7 @@ export function union<A>(
     }
     return concat(
       xs,
-      ys.filter((a) => !elemE(a, xs))
+      ys.filter((a) => !elemE(a)(xs))
     )
   }
 }
@@ -1391,7 +1378,7 @@ export function intersection<A>(
       const intersectionE = intersection(E)
       return (ys) => intersectionE(ys, xs)
     }
-    return xs.filter((a) => elemE(a, ys))
+    return xs.filter((a) => elemE(a)(ys))
   }
 }
 
@@ -1425,7 +1412,7 @@ export function difference<A>(
       const differenceE = difference(E)
       return (ys) => differenceE(ys, xs)
     }
-    return xs.filter((a) => !elemE(a, ys))
+    return xs.filter((a) => !elemE(a)(ys))
   }
 }
 

@@ -1819,12 +1819,7 @@ an array of type `ReadonlyArray<A>`.
 **Signature**
 
 ```ts
-export declare function elem<A>(
-  E: Eq<A>
-): {
-  (a: A): (as: ReadonlyArray<A>) => boolean
-  (a: A, as: ReadonlyArray<A>): boolean
-}
+export declare const elem: <A>(E: Eq<A>) => (a: A) => (as: readonly A[]) => boolean
 ```
 
 **Example**

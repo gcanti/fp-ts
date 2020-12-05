@@ -48,8 +48,6 @@ describe('ReadonlyArray', () => {
     })
 
     it('elem', () => {
-      assert.deepStrictEqual(_.elem(Eq.eqNumber)(2, [1, 2, 3]), true)
-      assert.deepStrictEqual(_.elem(Eq.eqNumber)(0, [1, 2, 3]), false)
       assert.deepStrictEqual(pipe([1, 2, 3], _.elem(Eq.eqNumber)(2)), true)
       assert.deepStrictEqual(pipe([1, 2, 3], _.elem(Eq.eqNumber)(0)), false)
     })
