@@ -1353,7 +1353,6 @@ export function intersection<A>(E: Eq<A>): (ys: ReadonlyArray<A>) => (xs: Readon
   return (ys) => (xs) => xs.filter((a) => elemE(a)(ys))
 }
 
-// TODO: remove non-curried overloading in v3
 /**
  * Creates an array of array values not included in the other given array using a `Eq` for equality
  * comparisons. The order and references of result values are determined by the first array.
@@ -1368,23 +1367,9 @@ export function intersection<A>(E: Eq<A>): (ys: ReadonlyArray<A>) => (xs: Readon
  * @category combinators
  * @since 2.5.0
  */
-export function difference<A>(
-  E: Eq<A>
-): {
-  (xs: ReadonlyArray<A>): (ys: ReadonlyArray<A>) => ReadonlyArray<A>
-  (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>): ReadonlyArray<A>
-}
-export function difference<A>(
-  E: Eq<A>
-): (xs: ReadonlyArray<A>, ys?: ReadonlyArray<A>) => ReadonlyArray<A> | ((ys: ReadonlyArray<A>) => ReadonlyArray<A>) {
+export function difference<A>(E: Eq<A>): (ys: ReadonlyArray<A>) => (xs: ReadonlyArray<A>) => ReadonlyArray<A> {
   const elemE = elem(E)
-  return (xs, ys?) => {
-    if (ys === undefined) {
-      const differenceE = difference(E)
-      return (ys) => differenceE(ys, xs)
-    }
-    return xs.filter((a) => !elemE(a)(ys))
-  }
+  return (ys) => (xs) => xs.filter((a) => !elemE(a)(ys))
 }
 
 /**
@@ -2157,7 +2142,7 @@ export const Witherable: Witherable1<URI> = {
   wilt: wilt_
 }
 
-// TODO: remove in v3
+// TODO: remove mega instance in v3
 /**
  * @category instances
  * @since 2.5.0

@@ -634,12 +634,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export declare function difference<A>(
-  E: Eq<A>
-): {
-  (xs: ReadonlyArray<A>): (ys: ReadonlyArray<A>) => ReadonlyArray<A>
-  (xs: ReadonlyArray<A>, ys: ReadonlyArray<A>): ReadonlyArray<A>
-}
+export declare function difference<A>(E: Eq<A>): (ys: ReadonlyArray<A>) => (xs: ReadonlyArray<A>) => ReadonlyArray<A>
 ```
 
 **Example**
