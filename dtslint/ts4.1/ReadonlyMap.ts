@@ -1,5 +1,6 @@
 import * as _ from '../../src/ReadonlyMap'
 import { eqString, eqNumber } from '../../src/Eq'
+import { pipe } from '../../src/function'
 
 //
 // FilterableWithIndex overloadings
@@ -16,8 +17,7 @@ FWI.partitionWithIndex(_.empty as ReadonlyMap<'a' | 'b', string | number>, isStr
 // member
 //
 
-_.member(eqString)('a', new Map()) // $ExpectType boolean
-_.member(eqString)('a') // $ExpectType <A>(m: ReadonlyMap<string, A>) => boolean
+pipe(new Map(), _.member(eqString)('a')) // $ExpectType boolean
 
 //
 // elem

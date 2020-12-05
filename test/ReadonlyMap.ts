@@ -175,16 +175,10 @@ describe('ReadonlyMap', () => {
       [{ id: 'b' }, 2]
     ])
     const memberS = _.member(eqUser)
-    assert.deepStrictEqual(memberS({ id: 'a' }, x), true)
-    assert.deepStrictEqual(memberS({ id: 'c' }, x), false)
     assert.deepStrictEqual(memberS({ id: 'a' })(x), true)
     assert.deepStrictEqual(memberS({ id: 'c' })(x), false)
 
     const member = _.member(eqKey)
-    assert.deepStrictEqual(member({ id: 1 }, repo), true)
-    assert.deepStrictEqual(member({ id: 2 }, repo), true)
-    assert.deepStrictEqual(member({ id: 4 }, repo), true)
-    assert.deepStrictEqual(member({ id: 3 }, repo), false)
     assert.deepStrictEqual(member({ id: 1 })(repo), true)
     assert.deepStrictEqual(member({ id: 2 })(repo), true)
     assert.deepStrictEqual(member({ id: 4 })(repo), true)
