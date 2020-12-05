@@ -11,8 +11,7 @@ declare const rnetns: _.ReadonlyNonEmptyArray<[number, string]>
 // zip
 //
 
-_.zip(rnens, rneas) // $ExpectType ReadonlyNonEmptyArray<readonly [number, string]>
-_.zip(rneas) // $ExpectType <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [A, string]>
+pipe(rnens, _.zip(rneas)) // $ExpectType ReadonlyNonEmptyArray<readonly [number, string]>
 
 //
 // zipWith

@@ -1081,8 +1081,7 @@ longer array are discarded
 **Signature**
 
 ```ts
-export declare function zip<B>(bs: ReadonlyArray<B>): <A>(as: ReadonlyArray<A>) => ReadonlyArray<readonly [A, B]>
-export declare function zip<A, B>(as: ReadonlyArray<A>, bs: ReadonlyArray<B>): ReadonlyArray<readonly [A, B]>
+export declare const zip: <B>(bs: readonly B[]) => <A>(as: readonly A[]) => readonly (readonly [A, B])[]
 ```
 
 **Example**
@@ -2346,7 +2345,7 @@ Added in v2.5.0
 
 ## unzip
 
-The function is reverse of `zip`. Takes an array of pairs and return two corresponding arrays
+This function is the inverse of `zip`. Takes an array of pairs and return two corresponding arrays.
 
 **Signature**
 

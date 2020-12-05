@@ -61,10 +61,12 @@ high state of flux, you're at risk of it changing without notice.
     - make `cons` pipeable (@gcanti)
     - make `snoc` pipeable (@gcanti)
     - make `zipWith` pipeable (@gcanti)
+    - make `zip` pipeable (@gcanti)
   - `ReadonlyNonEmptyArray`
     - make `cons` pipeable (@gcanti)
     - make `snoc` pipeable (@gcanti)
     - make `zipWith` pipeable (@gcanti)
+    - make `zip` pipeable (@gcanti)
 
 # 2.9.1
 

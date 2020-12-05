@@ -489,10 +489,9 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const zip: {
-  <B>(bs: ReadonlyNonEmptyArray<B>): <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [A, B]>
-  <A, B>(as: ReadonlyNonEmptyArray<A>, bs: ReadonlyNonEmptyArray<B>): ReadonlyNonEmptyArray<readonly [A, B]>
-}
+export declare const zip: <B>(
+  bs: ReadonlyNonEmptyArray<B>
+) => <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [A, B]>
 ```
 
 Added in v2.5.1

@@ -986,7 +986,6 @@ export const zipWith = <A, B, C>(fb: ReadonlyArray<B>, f: (a: A, b: B) => C) => 
   return out
 }
 
-// TODO: remove non-curried overloading in v3
 /**
  * Takes two arrays and returns an array of corresponding pairs. If one input array is short, excess elements of the
  * longer array are discarded
@@ -1000,23 +999,11 @@ export const zipWith = <A, B, C>(fb: ReadonlyArray<B>, f: (a: A, b: B) => C) => 
  * @category combinators
  * @since 2.5.0
  */
-export function zip<B>(bs: ReadonlyArray<B>): <A>(as: ReadonlyArray<A>) => ReadonlyArray<readonly [A, B]>
-export function zip<A, B>(as: ReadonlyArray<A>, bs: ReadonlyArray<B>): ReadonlyArray<readonly [A, B]>
-export function zip<A, B>(
-  as: ReadonlyArray<A>,
-  bs?: ReadonlyArray<B>
-): ReadonlyArray<readonly [A, B]> | ((bs: ReadonlyArray<B>) => ReadonlyArray<readonly [B, A]>) {
-  if (bs === undefined) {
-    return (bs) => zip(bs, as)
-  }
-  return pipe(
-    as,
-    zipWith(bs, (a, b) => [a, b])
-  )
-}
+export const zip: <B>(bs: ReadonlyArray<B>) => <A>(as: ReadonlyArray<A>) => ReadonlyArray<readonly [A, B]> = (bs) =>
+  zipWith(bs, (a, b) => [a, b])
 
 /**
- * The function is reverse of `zip`. Takes an array of pairs and return two corresponding arrays
+ * This function is the inverse of `zip`. Takes an array of pairs and return two corresponding arrays.
  *
  * @example
  * import { unzip } from 'fp-ts/ReadonlyArray'

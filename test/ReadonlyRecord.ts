@@ -368,7 +368,7 @@ describe('ReadonlyRecord', () => {
 
   it('fromFoldableMap', () => {
     const zipObject = <K extends string, A>(keys: ReadonlyArray<K>, values: ReadonlyArray<A>): _.ReadonlyRecord<K, A> =>
-      _.fromFoldableMap(getLastSemigroup<A>(), A.Foldable)(A.zip(keys, values), identity)
+      _.fromFoldableMap(getLastSemigroup<A>(), A.Foldable)(pipe(keys, A.zip(values)), identity)
 
     assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
 

@@ -12,7 +12,7 @@ declare const rtns: ReadonlyArray<readonly [number, string]>
 // zip
 //
 
-_.zip(rns, rss) // $ExpectType readonly (readonly [number, string])[]
+pipe(rns, _.zip(rss)) // $ExpectType readonly (readonly [number, string])[]
 
 //
 // zipWith
@@ -119,8 +119,7 @@ _.union(eqNumber)([3, 4]) // $ExpectType (ys: readonly number[]) => readonly num
 // zip
 //
 
-_.zip([1, 2], ['a', 'b']) // $ExpectType readonly (readonly [number, string])[]
-_.zip(['a', 'b']) // $ExpectType <A>(as: readonly A[]) => readonly (readonly [A, string])[]
+pipe([1, 2], _.zip(['a', 'b'])) // $ExpectType readonly (readonly [number, string])[]
 
 //
 // cons
