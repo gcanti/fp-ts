@@ -616,7 +616,10 @@ describe('ReadonlyArray', () => {
 
   it('zipWith', () => {
     assert.deepStrictEqual(
-      _.zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n),
+      pipe(
+        [1, 2, 3],
+        _.zipWith(['a', 'b', 'c', 'd'], (n, s) => s + n)
+      ),
       ['a1', 'b2', 'c3']
     )
   })

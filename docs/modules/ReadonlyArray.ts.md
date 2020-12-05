@@ -1108,20 +1108,20 @@ input array is short, excess elements of the longer array are discarded.
 **Signature**
 
 ```ts
-export declare function zipWith<A, B, C>(
-  fa: ReadonlyArray<A>,
-  fb: ReadonlyArray<B>,
-  f: (a: A, b: B) => C
-): ReadonlyArray<C>
+export declare const zipWith: <A, B, C>(fb: readonly B[], f: (a: A, b: B) => C) => (fa: readonly A[]) => readonly C[]
 ```
 
 **Example**
 
 ```ts
 import { zipWith } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(
-  zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n),
+  pipe(
+    [1, 2, 3],
+    zipWith(['a', 'b', 'c', 'd'], (n, s) => s + n)
+  ),
   ['a1', 'b2', 'c3']
 )
 ```

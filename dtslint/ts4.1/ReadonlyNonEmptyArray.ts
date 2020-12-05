@@ -18,7 +18,11 @@ _.zip(rneas) // $ExpectType <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmpt
 // zipWith
 //
 
-_.zipWith(rnens, rneas, (n, s) => [n, s] as const) // $ExpectType ReadonlyNonEmptyArray<readonly [number, string]>
+// $ExpectType ReadonlyNonEmptyArray<readonly [number, string]>
+pipe(
+  rnens,
+  _.zipWith(rneas, (n, s) => [n, s] as const)
+)
 
 //
 // unzip

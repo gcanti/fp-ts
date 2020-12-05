@@ -503,10 +503,9 @@ Added in v2.5.1
 
 ```ts
 export declare const zipWith: <A, B, C>(
-  fa: ReadonlyNonEmptyArray<A>,
-  fb: ReadonlyNonEmptyArray<B>,
+  bs: ReadonlyNonEmptyArray<B>,
   f: (a: A, b: B) => C
-) => ReadonlyNonEmptyArray<C>
+) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<C>
 ```
 
 Added in v2.5.1

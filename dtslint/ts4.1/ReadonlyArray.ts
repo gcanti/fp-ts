@@ -18,7 +18,11 @@ _.zip(rns, rss) // $ExpectType readonly (readonly [number, string])[]
 // zipWith
 //
 
-_.zipWith(rns, rss, (n, s) => [n, s] as const) // $ExpectType readonly (readonly [number, string])[]
+// $ExpectType readonly (readonly [number, string])[]
+pipe(
+  rns,
+  _.zipWith(rss, (n, s) => [n, s] as const)
+)
 
 //
 // unzip

@@ -961,20 +961,22 @@ export function lefts<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<E> {
 export const sort = <B>(O: Ord<B>) => <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
   as.length <= 1 ? as : as.slice().sort(O.compare)
 
-// TODO: curry and make data-last in v3
 /**
  * Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If one
  * input array is short, excess elements of the longer array are discarded.
  *
  * @example
  * import { zipWith } from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n), ['a1', 'b2', 'c3'])
+ * assert.deepStrictEqual(pipe([1, 2, 3], zipWith(['a', 'b', 'c', 'd'], (n, s) => s + n)), ['a1', 'b2', 'c3'])
  *
  * @category combinators
  * @since 2.5.0
  */
-export function zipWith<A, B, C>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>, f: (a: A, b: B) => C): ReadonlyArray<C> {
+export const zipWith = <A, B, C>(fb: ReadonlyArray<B>, f: (a: A, b: B) => C) => (
+  fa: ReadonlyArray<A>
+): ReadonlyArray<C> => {
   // tslint:disable-next-line: readonly-array
   const out: Array<C> = []
   const len = Math.min(fa.length, fb.length)
@@ -1007,7 +1009,10 @@ export function zip<A, B>(
   if (bs === undefined) {
     return (bs) => zip(bs, as)
   }
-  return zipWith(as, bs, (a, b) => [a, b])
+  return pipe(
+    as,
+    zipWith(bs, (a, b) => [a, b])
+  )
 }
 
 /**

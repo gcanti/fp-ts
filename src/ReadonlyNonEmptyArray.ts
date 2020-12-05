@@ -385,10 +385,9 @@ export function fold<A>(S: Semigroup<A>): (fa: ReadonlyNonEmptyArray<A>) => A {
  * @since 2.5.1
  */
 export const zipWith: <A, B, C>(
-  fa: ReadonlyNonEmptyArray<A>,
-  fb: ReadonlyNonEmptyArray<B>,
+  bs: ReadonlyNonEmptyArray<B>,
   f: (a: A, b: B) => C
-) => ReadonlyNonEmptyArray<C> = RA.zipWith as any
+) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<C> = RA.zipWith as any
 
 /**
  * @category combinators
