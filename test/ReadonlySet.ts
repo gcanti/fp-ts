@@ -91,8 +91,6 @@ describe('ReadonlySet', () => {
   })
 
   it('union', () => {
-    assert.deepStrictEqual(_.union(Eq.eqNumber)(new Set([1, 2]), new Set([1, 3])), new Set([1, 2, 3]))
-
     assert.deepStrictEqual(pipe(new Set([1, 2]), _.union(Eq.eqNumber)(new Set([1, 3]))), new Set([1, 2, 3]))
   })
 

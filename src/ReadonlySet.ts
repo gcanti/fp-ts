@@ -220,28 +220,15 @@ export function elem<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => boolean {
   }
 }
 
-// TODO: remove non-curried overloading in v3
 /**
  * Form the union of two sets
  *
  * @category combinators
  * @since 2.5.0
  */
-export function union<A>(
-  E: Eq<A>
-): {
-  (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
-  (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
-}
-export function union<A>(
-  E: Eq<A>
-): (me: ReadonlySet<A>, that?: ReadonlySet<A>) => ReadonlySet<A> | ((me: ReadonlySet<A>) => ReadonlySet<A>) {
+export function union<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => ReadonlySet<A> {
   const elemE = elem(E)
-  return (me, that?) => {
-    if (that === undefined) {
-      const unionE = union(E)
-      return (that) => unionE(me, that)
-    }
+  return (that) => (me) => {
     if (me === empty) {
       return that
     }
@@ -366,7 +353,7 @@ export function difference<A>(
  */
 export function getUnionMonoid<A>(E: Eq<A>): Monoid<ReadonlySet<A>> {
   return {
-    concat: union(E),
+    concat: (x, y) => union(E)(y)(x),
     empty
   }
 }

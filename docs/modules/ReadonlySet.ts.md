@@ -179,12 +179,7 @@ Form the union of two sets
 **Signature**
 
 ```ts
-export declare function union<A>(
-  E: Eq<A>
-): {
-  (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
-  (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
-}
+export declare function union<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
 Added in v2.5.0

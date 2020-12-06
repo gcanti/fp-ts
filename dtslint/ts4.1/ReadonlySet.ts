@@ -20,8 +20,7 @@ pipe(me, _.elem(eqNumber)(1)) // $ExpectType boolean
 // union
 //
 
-_.union(eqNumber)(me, me) // $ExpectType ReadonlySet<number>
-_.union(eqNumber)(me) // $ExpectType (me: ReadonlySet<number>) => ReadonlySet<number>
+pipe(me, _.union(eqNumber)(me)) // $ExpectType ReadonlySet<number>
 
 //
 // intersection
