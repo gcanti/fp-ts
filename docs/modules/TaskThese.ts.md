@@ -37,10 +37,10 @@ Added in v2.4.0
   - [fold](#fold)
   - [toTuple](#totuple)
 - [instances](#instances)
+  - [Bifunctor](#bifunctor-1)
+  - [Functor](#functor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [bifunctorTaskThese](#bifunctortaskthese)
-  - [functorTaskThese](#functortaskthese)
   - [getApplicative](#getapplicative)
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
@@ -251,6 +251,26 @@ Added in v2.4.0
 
 # instances
 
+## Bifunctor
+
+**Signature**
+
+```ts
+export declare const Bifunctor: Bifunctor2<'TaskThese'>
+```
+
+Added in v3.0.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor2<'TaskThese'>
+```
+
+Added in v3.0.0
+
 ## URI
 
 **Signature**
@@ -271,26 +291,6 @@ export type URI = typeof URI
 
 Added in v2.4.0
 
-## bifunctorTaskThese
-
-**Signature**
-
-```ts
-export declare const bifunctorTaskThese: Bifunctor2<'TaskThese'>
-```
-
-Added in v2.7.0
-
-## functorTaskThese
-
-**Signature**
-
-```ts
-export declare const functorTaskThese: Functor2<'TaskThese'>
-```
-
-Added in v2.7.0
-
 ## getApplicative
 
 **Signature**
@@ -306,7 +306,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI, E>
+export declare function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E>
 ```
 
 Added in v2.4.0

@@ -10,7 +10,7 @@ import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2C } from './Monad'
 import { MonadIO2 } from './MonadIO'
-import { MonadTask2, MonadTask2C } from './MonadTask'
+import { MonadTask2 } from './MonadTask'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
 import * as TH from './These'
@@ -241,12 +241,11 @@ export function getApplicative<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicati
   }
 }
 
-// TODO: remove in v3 in favour of a non-constrained Monad / MonadTask instance
 /**
  * @category instances
  * @since 2.4.0
  */
-export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI, E> {
+export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> {
   const A = getApplicative(T.ApplicativePar, SE)
   return {
     URI,
@@ -271,28 +270,24 @@ export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI
             )
           )
         )
-      ),
-    fromIO,
-    fromTask
+      )
   }
 }
 
-// TODO rename in v3
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
-export const functorTaskThese: Functor2<URI> = {
+export const Functor: Functor2<URI> = {
   URI,
   map: map_
 }
 
-// TODO rename in v3
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
-export const bifunctorTaskThese: Bifunctor2<URI> = {
+export const Bifunctor: Bifunctor2<URI> = {
   URI,
   bimap: bimap_,
   mapLeft: mapLeft_
