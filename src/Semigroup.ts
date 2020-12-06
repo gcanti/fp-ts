@@ -48,7 +48,6 @@ import { ReadonlyRecord } from './ReadonlyRecord'
  */
 export interface Semigroup<A> extends Magma<A> {}
 
-// TODO: remove non-curried overloading in v3
 /**
  * Given a sequence of `as`, concat them and return the total.
  *
@@ -64,21 +63,8 @@ export interface Semigroup<A> extends Magma<A> {}
  *
  * @since 2.0.0
  */
-export function fold<A>(
-  S: Semigroup<A>
-): {
-  (startWith: A): (as: ReadonlyArray<A>) => A
-  (startWith: A, as: ReadonlyArray<A>): A
-}
-export function fold<A>(S: Semigroup<A>): (startWith: A, as?: ReadonlyArray<A>) => A | ((as: ReadonlyArray<A>) => A) {
-  return (startWith, as?) => {
-    if (as === undefined) {
-      const foldS = fold(S)
-      return (as) => foldS(startWith, as)
-    }
-    return as.reduce(S.concat, startWith)
-  }
-}
+export const fold = <A>(S: Semigroup<A>) => (startWith: A) => (as: ReadonlyArray<A>): A =>
+  as.reduce(S.concat, startWith)
 
 /**
  * Always return the first argument.

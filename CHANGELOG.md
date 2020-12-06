@@ -88,6 +88,8 @@ high state of flux, you're at risk of it changing without notice.
     - make `union` pipeable (@gcanti)
     - make `intersection` pipeable (@gcanti)
     - make `difference` pipeable (@gcanti)
+  - `Semigroup`
+    - make `fold` curried (@gcanti)
 
 # 2.9.1
 

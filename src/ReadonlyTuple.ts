@@ -113,7 +113,6 @@ export function getMonad<M>(M: Monoid<M>): Monad2C<URI, M> {
   }
 }
 
-// TODO: remove in v3
 /**
  * @category instances
  * @since 2.5.0

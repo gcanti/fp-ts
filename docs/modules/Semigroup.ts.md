@@ -455,12 +455,7 @@ If `as` is empty, return the provided `startWith` value.
 **Signature**
 
 ```ts
-export declare function fold<A>(
-  S: Semigroup<A>
-): {
-  (startWith: A): (as: ReadonlyArray<A>) => A
-  (startWith: A, as: ReadonlyArray<A>): A
-}
+export declare const fold: <A>(S: Semigroup<A>) => (startWith: A) => (as: readonly A[]) => A
 ```
 
 **Example**

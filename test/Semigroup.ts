@@ -12,7 +12,6 @@ describe('Semigroup', () => {
   })
 
   it('fold', () => {
-    assert.deepStrictEqual(_.fold(monoidString)('', ['a', 'b', 'c']), 'abc')
     assert.deepStrictEqual(_.fold(monoidString)('')(['a', 'b', 'c']), 'abc')
   })
 
