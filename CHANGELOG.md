@@ -101,6 +101,8 @@ high state of flux, you're at risk of it changing without notice.
     - make `leftOrBoth` and `rightOrBoth` lazy (@gcanti)
   - `Traced`
     - make `tracks` curried (@gcanti)
+  - `Tree`
+    - make `elem` curried (@gcanti)
 
 # 2.9.1
 

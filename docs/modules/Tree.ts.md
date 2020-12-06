@@ -646,7 +646,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function elem<A>(E: Eq<A>): (a: A, fa: Tree<A>) => boolean
+export declare const elem: <A>(E: Eq<A>) => (a: A) => (fa: Tree<A>) => boolean
 ```
 
 Added in v2.0.0

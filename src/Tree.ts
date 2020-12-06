@@ -218,17 +218,11 @@ export function unfoldForestM<M>(
     )
 }
 
-// TODO: curry in v3
 /**
  * @since 2.0.0
  */
-export function elem<A>(E: Eq<A>): (a: A, fa: Tree<A>) => boolean {
-  const go = (a: A, fa: Tree<A>): boolean => {
-    if (E.equals(a, fa.value)) {
-      return true
-    }
-    return fa.forest.some((tree) => go(a, tree))
-  }
+export const elem = <A>(E: Eq<A>) => (a: A): ((fa: Tree<A>) => boolean) => {
+  const go = (fa: Tree<A>): boolean => (E.equals(a, fa.value) ? true : fa.forest.some(go))
   return go
 }
 
