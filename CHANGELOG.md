@@ -80,6 +80,7 @@ high state of flux, you're at risk of it changing without notice.
   - `ReadonlyRecord`
     - rename `hasOwnProperty` to `has` (@gcanti)
     - make `isSubrecord` pipeable (@gcanti)
+    - make `lookup` pipeable (@gcanti)
 
 # 2.9.1
 

@@ -235,8 +235,9 @@ export function pop<K extends string>(
 ) => Option<readonly [A, ReadonlyRecord<string extends K ? string : Exclude<KS, K>, A>]>
 export function pop(k: string): <A>(r: ReadonlyRecord<string, A>) => Option<readonly [A, ReadonlyRecord<string, A>]> {
   const deleteAtk = deleteAt(k)
+  const lookupk = lookup(k)
   return (r) => {
-    const oa = lookup(k, r)
+    const oa = lookupk(r)
     return isNone(oa) ? none : optionSome([oa.value, deleteAtk(r)])
   }
 }
@@ -308,23 +309,13 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>>
   }
 }
 
-// TODO: remove non-curried overloading in v3
 /**
  * Lookup the value for a key in a record
  *
  * @since 2.5.0
  */
-export function lookup(k: string): <A>(r: ReadonlyRecord<string, A>) => Option<A>
-export function lookup<A>(k: string, r: ReadonlyRecord<string, A>): Option<A>
-export function lookup<A>(
-  k: string,
-  r?: ReadonlyRecord<string, A>
-): Option<A> | ((r: ReadonlyRecord<string, A>) => Option<A>) {
-  if (r === undefined) {
-    return (r) => lookup(k, r)
-  }
-  return _hasOwnProperty.call(r, k) ? optionSome(r[k]) : none
-}
+export const lookup = (k: string) => <A>(r: ReadonlyRecord<string, A>): Option<A> =>
+  _hasOwnProperty.call(r, k) ? optionSome(r[k]) : none
 
 /**
  * @since 2.5.0

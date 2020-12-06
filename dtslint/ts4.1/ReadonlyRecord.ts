@@ -176,8 +176,7 @@ pipe(recordString, _.isSubrecord(eqNumber)(recordString)) // $ExpectType boolean
 // lookup
 //
 
-_.lookup('a', recordString) // $ExpectType Option<number>
-_.lookup('a') // $ExpectType <A>(r: Readonly<Record<string, A>>) => Option<A>
+pipe(recordString, _.lookup('a')) // $ExpectType Option<number>
 
 //
 // elem

@@ -245,10 +245,6 @@ describe('ReadonlyRecord', () => {
   })
 
   it('lookup', () => {
-    assert.deepStrictEqual(_.lookup('a', { a: 1 }), O.some(1))
-    assert.deepStrictEqual(_.lookup('b', { a: 1 }), O.none)
-    assert.deepStrictEqual(_.lookup('b', noPrototype), O.none)
-
     assert.deepStrictEqual(_.lookup('a')({ a: 1 }), O.some(1))
     assert.deepStrictEqual(_.lookup('b')({ a: 1 }), O.none)
     assert.deepStrictEqual(_.lookup('b')(noPrototype), O.none)
