@@ -301,7 +301,6 @@ export function partitionMap<B, C>(
   }
 }
 
-// TODO: remove non-curried overloading in v3
 /**
  * Form the set difference (`x` - `y`)
  *
@@ -315,23 +314,9 @@ export function partitionMap<B, C>(
  * @category combinators
  * @since 2.5.0
  */
-export function difference<A>(
-  E: Eq<A>
-): {
-  (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
-  (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
-}
-export function difference<A>(
-  E: Eq<A>
-): (me: ReadonlySet<A>, that?: ReadonlySet<A>) => ReadonlySet<A> | ((me: ReadonlySet<A>) => ReadonlySet<A>) {
+export function difference<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => ReadonlySet<A> {
   const elemE = elem(E)
-  return (me, that?) => {
-    if (that === undefined) {
-      const differenceE = difference(E)
-      return (that) => differenceE(that, me)
-    }
-    return filter((a: A) => !elemE(a)(that))(me)
-  }
+  return (that) => filter((a: A) => !elemE(a)(that))
 }
 
 /**

@@ -87,6 +87,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `elem` pipeable (@gcanti)
     - make `union` pipeable (@gcanti)
     - make `intersection` pipeable (@gcanti)
+    - make `difference` pipeable (@gcanti)
 
 # 2.9.1
 

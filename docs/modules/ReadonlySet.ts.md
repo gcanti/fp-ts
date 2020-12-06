@@ -78,12 +78,7 @@ Form the set difference (`x` - `y`)
 **Signature**
 
 ```ts
-export declare function difference<A>(
-  E: Eq<A>
-): {
-  (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
-  (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
-}
+export declare function difference<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
 **Example**

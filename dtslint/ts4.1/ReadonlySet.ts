@@ -32,5 +32,4 @@ pipe(me, _.intersection(eqNumber)(me)) // $ExpectType ReadonlySet<number>
 // difference
 //
 
-_.difference(eqNumber)(me, me) // $ExpectType ReadonlySet<number>
-_.difference(eqNumber)(me) // $ExpectType (me: ReadonlySet<number>) => ReadonlySet<number>
+pipe(me, _.difference(eqNumber)(me)) // $ExpectType ReadonlySet<number>
