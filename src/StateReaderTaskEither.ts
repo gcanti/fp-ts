@@ -711,19 +711,6 @@ export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & 
 // utils
 // -------------------------------------------------------------------------------------
 
-// TODO: remove in v3
-/**
- * @since 2.0.0
- */
-/* istanbul ignore next */
-export function run<S, R, E, A>(
-  ma: StateReaderTaskEither<S, R, E, A>,
-  s: S,
-  r: R
-): Promise<Either<E, readonly [A, S]>> {
-  return ma(s)(r)()
-}
-
 /**
  * Run a computation in the `StateReaderTaskEither` monad, discarding the final state
  *
