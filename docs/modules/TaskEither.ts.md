@@ -86,7 +86,6 @@ Added in v2.0.0
   - [getApplySemigroup](#getapplysemigroup)
   - [getFilterable](#getfilterable)
   - [getSemigroup](#getsemigroup)
-  - [getTaskValidation](#gettaskvalidation)
   - [taskEither](#taskeither)
   - [taskEitherSeq](#taskeitherseq)
 - [model](#model)
@@ -851,18 +850,6 @@ concatenated using the provided `Semigroup`
 
 ```ts
 export declare function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>>
-```
-
-Added in v2.0.0
-
-## getTaskValidation
-
-**Signature**
-
-```ts
-export declare function getTaskValidation<E>(
-  SE: Semigroup<E>
-): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadTask2C<URI, E> & MonadThrow2C<URI, E>
 ```
 
 Added in v2.0.0

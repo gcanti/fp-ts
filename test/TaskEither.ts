@@ -107,32 +107,13 @@ describe('TaskEither', () => {
   it('getApplicativeTaskValidation', async () => {
     const A = _.getApplicativeTaskValidation(T.ApplicativePar, semigroupString)
     assert.deepStrictEqual(await sequenceT(A)(_.left('a'), _.left('b'))(), E.left('ab'))
-    const AV = _.getTaskValidation(semigroupString)
-    assert.deepStrictEqual(await sequenceT(AV)(_.left('a'), _.left('b'))(), E.left('ab'))
   })
 
   it('getAltTaskValidation', async () => {
     const A = _.getAltTaskValidation(semigroupString)
     assert.deepStrictEqual(await A.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
-    const AV = _.getTaskValidation(semigroupString)
-    assert.deepStrictEqual(await AV.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
-  })
-
-  describe('getTaskValidation', () => {
-    const TV = _.getTaskValidation(semigroupString)
-
-    it('ap', async () => {
-      const fab = _.left('a')
-      const fa = _.left('b')
-      assert.deepStrictEqual(await TV.ap(fab, fa)(), E.left('ab'))
-    })
-
-    it('alt', async () => {
-      assert.deepStrictEqual(await TV.alt(_.right(1), () => _.right(2))(), E.right(1))
-      assert.deepStrictEqual(await TV.alt(_.left('a'), () => _.right(2))(), E.right(2))
-      assert.deepStrictEqual(await TV.alt(_.right(1), () => _.left('b'))(), E.right(1))
-      assert.deepStrictEqual(await TV.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
-    })
+    assert.deepStrictEqual(await A.alt(_.right(1), () => _.left('b'))(), E.right(1))
+    assert.deepStrictEqual(await A.alt(_.left('a'), () => _.right(2))(), E.right(2))
   })
 
   describe('getFilterable', () => {

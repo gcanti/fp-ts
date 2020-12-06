@@ -92,6 +92,8 @@ high state of flux, you're at risk of it changing without notice.
     - make `fold` curried (@gcanti)
   - `StateReaderTaskEither`
     - remove `run` (@gcanti)
+  - `TaskEither`
+    - remove `getTaskValidation`, use `getApplicativeTaskValidation` and `getAltTaskValidation` instead (@gcanti)
 
 # 2.9.1
 
