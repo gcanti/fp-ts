@@ -548,9 +548,6 @@ export const Foldable: Foldable1<URI> = {
 export const Traversable: Traversable1<URI> = {
   URI,
   map: map_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
   traverse: traverse_,
   sequence
 }

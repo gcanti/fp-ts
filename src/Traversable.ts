@@ -36,16 +36,6 @@ import {
   Applicative4
 } from './Applicative'
 import {
-  Foldable,
-  Foldable1,
-  Foldable2,
-  Foldable2C,
-  Foldable3,
-  FoldableComposition,
-  FoldableComposition11,
-  getFoldableComposition
-} from './Foldable'
-import {
   Functor,
   Functor1,
   Functor2,
@@ -61,7 +51,7 @@ import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT
  * @category type classes
  * @since 2.0.0
  */
-export interface Traversable<T> extends Functor<T>, Foldable<T> {
+export interface Traversable<T> extends Functor<T> {
   /**
    * Runs an action for every element in a data structure and accumulates the results
    */
@@ -73,7 +63,7 @@ export interface Traversable<T> extends Functor<T>, Foldable<T> {
  * @category type classes
  * @since 2.0.0
  */
-export interface Traversable1<T extends URIS> extends Functor1<T>, Foldable1<T> {
+export interface Traversable1<T extends URIS> extends Functor1<T> {
   readonly traverse: Traverse1<T>
   readonly sequence: Sequence1<T>
 }
@@ -82,7 +72,7 @@ export interface Traversable1<T extends URIS> extends Functor1<T>, Foldable1<T> 
  * @category type classes
  * @since 2.0.0
  */
-export interface Traversable2<T extends URIS2> extends Functor2<T>, Foldable2<T> {
+export interface Traversable2<T extends URIS2> extends Functor2<T> {
   readonly traverse: Traverse2<T>
   readonly sequence: Sequence2<T>
 }
@@ -91,16 +81,16 @@ export interface Traversable2<T extends URIS2> extends Functor2<T>, Foldable2<T>
  * @category type classes
  * @since 2.0.0
  */
-export interface Traversable2C<T extends URIS2, TL> extends Functor2C<T, TL>, Foldable2C<T, TL> {
-  readonly traverse: Traverse2C<T, TL>
-  readonly sequence: Sequence2C<T, TL>
+export interface Traversable2C<T extends URIS2, E> extends Functor2C<T, E> {
+  readonly traverse: Traverse2C<T, E>
+  readonly sequence: Sequence2C<T, E>
 }
 
 /**
  * @category type classes
  * @since 2.0.0
  */
-export interface Traversable3<T extends URIS3> extends Functor3<T>, Foldable3<T> {
+export interface Traversable3<T extends URIS3> extends Functor3<T> {
   readonly traverse: Traverse3<T>
   readonly sequence: Sequence3<T>
 }
@@ -291,7 +281,7 @@ export interface Sequence3<T extends URIS3> {
 /**
  * @since 2.0.0
  */
-export interface TraversableComposition<F, G> extends FoldableComposition<F, G>, FunctorComposition<F, G> {
+export interface TraversableComposition<F, G> extends FunctorComposition<F, G> {
   readonly traverse: <H>(
     H: Applicative<H>
   ) => <A, B>(fga: HKT<F, HKT<G, A>>, f: (a: A) => HKT<H, B>) => HKT<H, HKT<F, HKT<G, B>>>
@@ -341,9 +331,7 @@ export interface SequenceComposition11<F extends URIS, G extends URIS> {
 /**
  * @since 2.0.0
  */
-export interface TraversableComposition11<F extends URIS, G extends URIS>
-  extends FoldableComposition11<F, G>,
-    FunctorComposition11<F, G> {
+export interface TraversableComposition11<F extends URIS, G extends URIS> extends FunctorComposition11<F, G> {
   readonly traverse: TraverseComposition11<F, G>
   readonly sequence: SequenceComposition11<F, G>
 }
@@ -374,12 +362,8 @@ export function getTraversableComposition<F extends URIS, G extends URIS>(
 ): TraversableComposition11<F, G>
 export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G>
 export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G> {
-  const FC = getFoldableComposition(F, G)
   return {
     map: getFunctorComposition(F, G).map,
-    reduce: FC.reduce,
-    foldMap: FC.foldMap,
-    reduceRight: FC.reduceRight,
     traverse: (H) => {
       const traverseF = F.traverse(H)
       const traverseG = G.traverse(H)

@@ -71,7 +71,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Traversable<T> extends Functor<T>, Foldable<T> {
+export interface Traversable<T> extends Functor<T> {
   /**
    * Runs an action for every element in a data structure and accumulates the results
    */
@@ -87,7 +87,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Traversable1<T extends URIS> extends Functor1<T>, Foldable1<T> {
+export interface Traversable1<T extends URIS> extends Functor1<T> {
   readonly traverse: Traverse1<T>
   readonly sequence: Sequence1<T>
 }
@@ -100,7 +100,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Traversable2<T extends URIS2> extends Functor2<T>, Foldable2<T> {
+export interface Traversable2<T extends URIS2> extends Functor2<T> {
   readonly traverse: Traverse2<T>
   readonly sequence: Sequence2<T>
 }
@@ -113,9 +113,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Traversable2C<T extends URIS2, TL> extends Functor2C<T, TL>, Foldable2C<T, TL> {
-  readonly traverse: Traverse2C<T, TL>
-  readonly sequence: Sequence2C<T, TL>
+export interface Traversable2C<T extends URIS2, E> extends Functor2C<T, E> {
+  readonly traverse: Traverse2C<T, E>
+  readonly sequence: Sequence2C<T, E>
 }
 ```
 
@@ -126,7 +126,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Traversable3<T extends URIS3> extends Functor3<T>, Foldable3<T> {
+export interface Traversable3<T extends URIS3> extends Functor3<T> {
   readonly traverse: Traverse3<T>
   readonly sequence: Sequence3<T>
 }
@@ -309,7 +309,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface TraversableComposition<F, G> extends FoldableComposition<F, G>, FunctorComposition<F, G> {
+export interface TraversableComposition<F, G> extends FunctorComposition<F, G> {
   readonly traverse: <H>(
     H: Applicative<H>
   ) => <A, B>(fga: HKT<F, HKT<G, A>>, f: (a: A) => HKT<H, B>) => HKT<H, HKT<F, HKT<G, B>>>
@@ -324,9 +324,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface TraversableComposition11<F extends URIS, G extends URIS>
-  extends FoldableComposition11<F, G>,
-    FunctorComposition11<F, G> {
+export interface TraversableComposition11<F extends URIS, G extends URIS> extends FunctorComposition11<F, G> {
   readonly traverse: TraverseComposition11<F, G>
   readonly sequence: SequenceComposition11<F, G>
 }

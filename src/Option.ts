@@ -1081,9 +1081,6 @@ export const Filterable: Filterable1<URI> = {
 export const Traversable: Traversable1<URI> = {
   URI,
   map: map_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
   traverse: traverse_,
   sequence
 }
@@ -1095,9 +1092,6 @@ export const Traversable: Traversable1<URI> = {
 export const Witherable: Witherable1<URI> = {
   URI,
   map: map_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
   traverse: traverse_,
   sequence,
   compact,
