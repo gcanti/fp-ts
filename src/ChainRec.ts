@@ -1,7 +1,6 @@
 /**
  * @since 2.0.0
  */
-import { Chain, Chain1, Chain2, Chain2C, Chain3 } from './Chain'
 import { Either } from './Either'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 
@@ -11,7 +10,8 @@ import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
  * @category type classes
  * @since 2.0.0
  */
-export interface ChainRec<F> extends Chain<F> {
+export interface ChainRec<F> {
+  readonly URI: F
   readonly chainRec: <A, B>(a: A, f: (a: A) => HKT<F, Either<A, B>>) => HKT<F, B>
 }
 
@@ -19,7 +19,8 @@ export interface ChainRec<F> extends Chain<F> {
  * @category type classes
  * @since 2.0.0
  */
-export interface ChainRec1<F extends URIS> extends Chain1<F> {
+export interface ChainRec1<F extends URIS> {
+  readonly URI: F
   readonly chainRec: <A, B>(a: A, f: (a: A) => Kind<F, Either<A, B>>) => Kind<F, B>
 }
 
@@ -27,7 +28,8 @@ export interface ChainRec1<F extends URIS> extends Chain1<F> {
  * @category type classes
  * @since 2.0.0
  */
-export interface ChainRec2<F extends URIS2> extends Chain2<F> {
+export interface ChainRec2<F extends URIS2> {
+  readonly URI: F
   readonly chainRec: <E, A, B>(a: A, f: (a: A) => Kind2<F, E, Either<A, B>>) => Kind2<F, E, B>
 }
 
@@ -35,7 +37,9 @@ export interface ChainRec2<F extends URIS2> extends Chain2<F> {
  * @category type classes
  * @since 2.0.0
  */
-export interface ChainRec2C<F extends URIS2, E> extends Chain2C<F, E> {
+export interface ChainRec2C<F extends URIS2, E> {
+  readonly URI: F
+  readonly _E: E
   readonly chainRec: <A, B>(a: A, f: (a: A) => Kind2<F, E, Either<A, B>>) => Kind2<F, E, B>
 }
 
@@ -43,7 +47,8 @@ export interface ChainRec2C<F extends URIS2, E> extends Chain2C<F, E> {
  * @category type classes
  * @since 2.0.0
  */
-export interface ChainRec3<F extends URIS3> extends Chain3<F> {
+export interface ChainRec3<F extends URIS3> {
+  readonly URI: F
   readonly chainRec: <R, E, A, B>(a: A, f: (a: A) => Kind3<F, R, E, Either<A, B>>) => Kind3<F, R, E, B>
 }
 

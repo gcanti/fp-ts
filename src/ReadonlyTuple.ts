@@ -4,7 +4,6 @@
 import { Applicative, Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
-import { Chain2C } from './Chain'
 import { ChainRec2C } from './ChainRec'
 import { Comonad2 } from './Comonad'
 import { Either } from './Either'
@@ -83,8 +82,8 @@ export function getApplicative<M>(M: Monoid<M>): Applicative2C<URI, M> {
  * @category instances
  * @since 2.5.0
  */
-export function getChain<S>(S: Semigroup<S>): Chain2C<URI, S> {
-  const A = getApply(S)
+export function getMonad<M>(M: Monoid<M>): Monad2C<URI, M> {
+  const A = getApply(M)
   return {
     URI,
     _E: undefined as any,
@@ -92,23 +91,8 @@ export function getChain<S>(S: Semigroup<S>): Chain2C<URI, S> {
     ap: A.ap,
     chain: (ma, f) => {
       const [b, s] = f(fst(ma))
-      return [b, S.concat(snd(ma), s)]
-    }
-  }
-}
-
-/**
- * @category instances
- * @since 2.5.0
- */
-export function getMonad<M>(M: Monoid<M>): Monad2C<URI, M> {
-  const C = getChain(M)
-  return {
-    URI,
-    _E: undefined as any,
-    map: C.map,
-    ap: C.ap,
-    chain: C.chain,
+      return [b, M.concat(snd(ma), s)]
+    },
     of: of(M)
   }
 }
@@ -130,13 +114,9 @@ export function getChainRec<M>(M: Monoid<M>): ChainRec2C<URI, M> {
     return [s.right, M.concat(acc, snd(result))]
   }
 
-  const C = getChain(M)
   return {
     URI,
     _E: undefined as any,
-    map: C.map,
-    ap: C.ap,
-    chain: C.chain,
     chainRec
   }
 }

@@ -1,6 +1,6 @@
 ---
 title: IOEither.ts
-nav_order: 43
+nav_order: 42
 parent: Modules
 ---
 

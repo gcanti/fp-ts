@@ -21,6 +21,7 @@ high state of flux, you're at risk of it changing without notice.
   - bump minimum typescript version (4.1.x+) (@gcanti)
   - remove deprecated APIs (@gcanti)
   - remove `pipeable` module (@gcanti)
+  - remove `Chain` module (@gcanti)
   - remove mutable modules (@gcanti)
     - `Array`
     - `Map`
@@ -34,6 +35,8 @@ high state of flux, you're at risk of it changing without notice.
       - make `StateReaderTaskEither` definition immutable
       - (`Tree`) make `Forest` immutable
       - make `Writer` definition immutable
+  - `ChainRec`
+    - drop `Chain` dependency (@gcanti)
   - `Either`
     - make `fromNullable` lazy (@gcanti)
     - make `fromNullableK` lazy (@gcanti)
@@ -89,6 +92,8 @@ high state of flux, you're at risk of it changing without notice.
     - make `union` pipeable (@gcanti)
     - make `intersection` pipeable (@gcanti)
     - make `difference` pipeable (@gcanti)
+  - `ReadonlyTuple`
+    - remove `getChain` (@gcanti)
   - `Semigroup`
     - make `fold` curried (@gcanti)
   - `StateReaderTaskEither`

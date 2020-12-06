@@ -239,9 +239,6 @@ export const MonadIO: MonadIO1<URI> = {
  */
 export const ChainRec: ChainRec1<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
-  chain: chain_,
   chainRec: chainRec_
 }
 

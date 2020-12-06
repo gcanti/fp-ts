@@ -1,6 +1,6 @@
 ---
 title: TheseT.ts
-nav_order: 85
+nav_order: 84
 parent: Modules
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: ChainRec.ts
-nav_order: 15
+nav_order: 14
 parent: Modules
 ---
 
@@ -30,7 +30,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface ChainRec<F> extends Chain<F> {
+export interface ChainRec<F> {
+  readonly URI: F
   readonly chainRec: <A, B>(a: A, f: (a: A) => HKT<F, Either<A, B>>) => HKT<F, B>
 }
 ```
@@ -42,7 +43,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface ChainRec1<F extends URIS> extends Chain1<F> {
+export interface ChainRec1<F extends URIS> {
+  readonly URI: F
   readonly chainRec: <A, B>(a: A, f: (a: A) => Kind<F, Either<A, B>>) => Kind<F, B>
 }
 ```
@@ -54,7 +56,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface ChainRec2<F extends URIS2> extends Chain2<F> {
+export interface ChainRec2<F extends URIS2> {
+  readonly URI: F
   readonly chainRec: <E, A, B>(a: A, f: (a: A) => Kind2<F, E, Either<A, B>>) => Kind2<F, E, B>
 }
 ```
@@ -66,7 +69,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface ChainRec2C<F extends URIS2, E> extends Chain2C<F, E> {
+export interface ChainRec2C<F extends URIS2, E> {
+  readonly URI: F
+  readonly _E: E
   readonly chainRec: <A, B>(a: A, f: (a: A) => Kind2<F, E, Either<A, B>>) => Kind2<F, E, B>
 }
 ```
@@ -78,7 +83,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface ChainRec3<F extends URIS3> extends Chain3<F> {
+export interface ChainRec3<F extends URIS3> {
+  readonly URI: F
   readonly chainRec: <R, E, A, B>(a: A, f: (a: A) => Kind3<F, R, E, Either<A, B>>) => Kind3<F, R, E, B>
 }
 ```

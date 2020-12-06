@@ -1188,9 +1188,6 @@ export const Extend: Extend2<URI> = {
  */
 export const ChainRec: ChainRec2<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
-  chain: chain_,
   chainRec: chainRec_
 }
 

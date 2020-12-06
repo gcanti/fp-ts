@@ -1,6 +1,6 @@
 ---
 title: Monad.ts
-nav_order: 49
+nav_order: 48
 parent: Modules
 ---
 
@@ -42,7 +42,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Monad<F> extends Applicative<F>, Chain<F> {}
+export interface Monad<F> extends Applicative<F> {
+  readonly chain: <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<F, B>) => HKT<F, B>
+}
 ```
 
 Added in v2.0.0
@@ -52,7 +54,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Monad1<F extends URIS> extends Applicative1<F>, Chain1<F> {}
+export interface Monad1<M extends URIS> extends Applicative1<M> {
+  readonly chain: <A, B>(fa: Kind<M, A>, f: (a: A) => Kind<M, B>) => Kind<M, B>
+}
 ```
 
 Added in v2.0.0
@@ -62,7 +66,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Monad2<M extends URIS2> extends Applicative2<M>, Chain2<M> {}
+export interface Monad2<M extends URIS2> extends Applicative2<M> {
+  readonly chain: <E, A, B>(fa: Kind2<M, E, A>, f: (a: A) => Kind2<M, E, B>) => Kind2<M, E, B>
+}
 ```
 
 Added in v2.0.0
@@ -72,7 +78,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Monad2C<M extends URIS2, L> extends Applicative2C<M, L>, Chain2C<M, L> {}
+export interface Monad2C<M extends URIS2, E> extends Applicative2C<M, E> {
+  readonly chain: <A, B>(fa: Kind2<M, E, A>, f: (a: A) => Kind2<M, E, B>) => Kind2<M, E, B>
+}
 ```
 
 Added in v2.0.0
@@ -82,7 +90,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Monad3<M extends URIS3> extends Applicative3<M>, Chain3<M> {}
+export interface Monad3<M extends URIS3> extends Applicative3<M> {
+  readonly chain: <R, E, A, B>(fa: Kind3<M, R, E, A>, f: (a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, B>
+}
 ```
 
 Added in v2.0.0
@@ -92,7 +102,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Monad3C<M extends URIS3, E> extends Applicative3C<M, E>, Chain3C<M, E> {}
+export interface Monad3C<M extends URIS3, E> extends Applicative3C<M, E> {
+  readonly chain: <R, A, B>(fa: Kind3<M, R, E, A>, f: (a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, B>
+}
 ```
 
 Added in v2.2.0
@@ -102,7 +114,9 @@ Added in v2.2.0
 **Signature**
 
 ```ts
-export interface Monad4<M extends URIS4> extends Applicative4<M>, Chain4<M> {}
+export interface Monad4<M extends URIS4> extends Applicative4<M> {
+  readonly chain: <S, R, E, A, B>(fa: Kind4<M, S, R, E, A>, f: (a: A) => Kind4<M, S, R, E, B>) => Kind4<M, S, R, E, B>
+}
 ```
 
 Added in v2.0.0
