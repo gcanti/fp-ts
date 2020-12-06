@@ -50,6 +50,8 @@ high state of flux, you're at risk of it changing without notice.
     - remove `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead (@gcanti)
   - `MonadIO`
     - drop `Monad` dependency (@gcanti)
+  - `MonadThrow`
+    - drop `Monad` dependency (@gcanti)
   - `Monoid`
     - swap execution order in `getEndomorphismMonoid` (@gcanti)
   - `ReaderEither`

@@ -9,13 +9,13 @@
  * @since 2.0.0
  */
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad4, Monad3C } from './Monad'
 
 /**
  * @category type classes
  * @since 2.0.0
  */
-export interface MonadThrow<M> extends Monad<M> {
+export interface MonadThrow<M> {
+  readonly URI: M
   readonly throwError: <E, A>(e: E) => HKT<M, A>
 }
 
@@ -23,7 +23,8 @@ export interface MonadThrow<M> extends Monad<M> {
  * @category type classes
  * @since 2.0.0
  */
-export interface MonadThrow1<M extends URIS> extends Monad1<M> {
+export interface MonadThrow1<M extends URIS> {
+  readonly URI: M
   readonly throwError: <E, A>(e: E) => Kind<M, A>
 }
 
@@ -31,7 +32,8 @@ export interface MonadThrow1<M extends URIS> extends Monad1<M> {
  * @category type classes
  * @since 2.0.0
  */
-export interface MonadThrow2<M extends URIS2> extends Monad2<M> {
+export interface MonadThrow2<M extends URIS2> {
+  readonly URI: M
   readonly throwError: <E, A>(e: E) => Kind2<M, E, A>
 }
 
@@ -39,7 +41,9 @@ export interface MonadThrow2<M extends URIS2> extends Monad2<M> {
  * @category type classes
  * @since 2.0.0
  */
-export interface MonadThrow2C<M extends URIS2, E> extends Monad2C<M, E> {
+export interface MonadThrow2C<M extends URIS2, E> {
+  readonly URI: M
+  readonly _E: E
   readonly throwError: <A>(e: E) => Kind2<M, E, A>
 }
 
@@ -47,7 +51,8 @@ export interface MonadThrow2C<M extends URIS2, E> extends Monad2C<M, E> {
  * @category type classes
  * @since 2.0.0
  */
-export interface MonadThrow3<M extends URIS3> extends Monad3<M> {
+export interface MonadThrow3<M extends URIS3> {
+  readonly URI: M
   readonly throwError: <R, E, A>(e: E) => Kind3<M, R, E, A>
 }
 
@@ -55,7 +60,9 @@ export interface MonadThrow3<M extends URIS3> extends Monad3<M> {
  * @category type classes
  * @since 2.2.0
  */
-export interface MonadThrow3C<M extends URIS3, E> extends Monad3C<M, E> {
+export interface MonadThrow3C<M extends URIS3, E> {
+  readonly URI: M
+  readonly _E: E
   readonly throwError: <R, A>(e: E) => Kind3<M, R, E, A>
 }
 
@@ -63,6 +70,7 @@ export interface MonadThrow3C<M extends URIS3, E> extends Monad3C<M, E> {
  * @category type classes
  * @since 2.0.0
  */
-export interface MonadThrow4<M extends URIS4> extends Monad4<M> {
+export interface MonadThrow4<M extends URIS4> {
+  readonly URI: M
   readonly throwError: <S, R, E, A>(e: E) => Kind4<M, S, R, E, A>
 }

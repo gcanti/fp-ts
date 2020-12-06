@@ -592,10 +592,6 @@ export const MonadIO: MonadIO2<URI> = {
  */
 export const MonadThrow: MonadThrow2<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
-  of,
-  chain: chain_,
   throwError
 }
 

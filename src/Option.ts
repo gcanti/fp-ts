@@ -1116,10 +1116,6 @@ export const Witherable: Witherable1<URI> = {
  */
 export const MonadThrow: MonadThrow1<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
-  of,
-  chain: chain_,
   throwError
 }
 

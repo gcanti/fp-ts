@@ -574,10 +574,6 @@ export const Alt: Alt3<URI> = {
  */
 export const MonadThrow: MonadThrow3<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
-  of,
-  chain: chain_,
   throwError
 }
 
