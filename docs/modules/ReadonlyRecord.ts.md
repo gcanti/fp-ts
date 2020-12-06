@@ -68,7 +68,7 @@ Added in v2.5.0
   - [foldMapWithIndex](#foldmapwithindex)
   - [fromFoldable](#fromfoldable)
   - [fromFoldableMap](#fromfoldablemap)
-  - [hasOwnProperty (function)](#hasownproperty-function)
+  - [has](#has)
   - [isEmpty](#isempty)
   - [isSubrecord](#issubrecord)
   - [keys](#keys)
@@ -729,12 +729,12 @@ assert.deepStrictEqual(
 
 Added in v2.5.0
 
-## hasOwnProperty (function)
+## has
 
 **Signature**
 
 ```ts
-export declare function hasOwnProperty<K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K
+export declare function has<K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K
 ```
 
 Added in v2.5.0

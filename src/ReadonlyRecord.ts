@@ -159,13 +159,11 @@ export function insertAt<A>(k: string, a: A): (r: ReadonlyRecord<string, A>) => 
 
 const _hasOwnProperty = Object.prototype.hasOwnProperty
 
-// TODO: rename in v3 to avoid #1249
 /**
  * @since 2.5.0
  */
-export function hasOwnProperty<K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K
-export function hasOwnProperty<K extends string>(this: any, k: string, r?: ReadonlyRecord<K, unknown>): k is K {
-  return _hasOwnProperty.call(r === undefined ? this : r, k)
+export function has<K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K {
+  return _hasOwnProperty.call(r, k)
 }
 
 /**
@@ -196,7 +194,7 @@ export function updateAt<A>(
   a: A
 ): <K extends string>(r: ReadonlyRecord<K, A>) => Option<ReadonlyRecord<K, A>> {
   return <K extends string>(r: ReadonlyRecord<K, A>) => {
-    if (!hasOwnProperty(k, r)) {
+    if (!has(k, r)) {
       return none
     }
     if (r[k] === a) {
@@ -216,7 +214,7 @@ export function modifyAt<A>(
   f: (a: A) => A
 ): <K extends string>(r: ReadonlyRecord<K, A>) => Option<ReadonlyRecord<K, A>> {
   return <K extends string>(r: ReadonlyRecord<K, A>) => {
-    if (!hasOwnProperty(k, r)) {
+    if (!has(k, r)) {
       return none
     }
     const out: Record<K, A> = Object.assign({}, r)

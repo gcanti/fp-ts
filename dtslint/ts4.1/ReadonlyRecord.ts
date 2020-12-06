@@ -20,16 +20,16 @@ const l1 = { a: 1 }
 declare const keyString: string
 
 //
-// hasOwnProperty
+// has
 //
 
-if (_.hasOwnProperty(keyString, d1)) {
+if (_.has(keyString, d1)) {
   keyString // $ExpectType string
 }
-if (_.hasOwnProperty(keyString, recordString)) {
+if (_.has(keyString, recordString)) {
   keyString // $ExpectType string
 }
-if (_.hasOwnProperty(keyString, r1)) {
+if (_.has(keyString, r1)) {
   keyString // $ExpectType "a" | "b"
 }
 

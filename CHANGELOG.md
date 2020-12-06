@@ -77,6 +77,8 @@ high state of flux, you're at risk of it changing without notice.
     - make `snoc` pipeable (@gcanti)
     - make `zipWith` pipeable (@gcanti)
     - make `zip` pipeable (@gcanti)
+  - `ReadonlyRecord`
+    - rename `hasOwnProperty` to `has` (@gcanti)
 
 # 2.9.1
 
