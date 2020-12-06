@@ -807,24 +807,11 @@ export function some<A>(predicate: (a: A) => boolean): (r: ReadonlyRecord<string
   }
 }
 
-// TODO: remove non-curried overloading in v3
 /**
  * @since 2.5.0
  */
-export function elem<A>(
-  E: Eq<A>
-): {
-  (a: A): (fa: ReadonlyRecord<string, A>) => boolean
-  (a: A, fa: ReadonlyRecord<string, A>): boolean
-}
-export function elem<A>(
-  E: Eq<A>
-): (a: A, fa?: ReadonlyRecord<string, A>) => boolean | ((fa: ReadonlyRecord<string, A>) => boolean) {
-  return (a, fa?) => {
-    if (fa === undefined) {
-      const elemE = elem(E)
-      return (fa) => elemE(a, fa)
-    }
+export function elem<A>(E: Eq<A>): (a: A) => (fa: ReadonlyRecord<string, A>) => boolean {
+  return (a) => (fa) => {
     for (const k in fa) {
       if (E.equals(fa[k], a)) {
         return true

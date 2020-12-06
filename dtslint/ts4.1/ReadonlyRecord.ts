@@ -182,5 +182,4 @@ pipe(recordString, _.lookup('a')) // $ExpectType Option<number>
 // elem
 //
 
-_.elem(eqNumber)(1, recordString) // $ExpectType boolean
-_.elem(eqNumber)(1) // $ExpectType (fa: Readonly<Record<string, number>>) => boolean
+pipe(recordString, _.elem(eqNumber)(1)) // $ExpectType boolean

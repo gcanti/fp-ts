@@ -355,9 +355,6 @@ describe('ReadonlyRecord', () => {
   })
 
   it('elem', () => {
-    assert.deepStrictEqual(_.elem(eqNumber)(1, { a: 1, b: 2 }), true)
-    assert.deepStrictEqual(_.elem(eqNumber)(3, { a: 1, b: 2 }), false)
-
     assert.deepStrictEqual(_.elem(eqNumber)(1)({ a: 1, b: 2 }), true)
     assert.deepStrictEqual(_.elem(eqNumber)(3)({ a: 1, b: 2 }), false)
   })
