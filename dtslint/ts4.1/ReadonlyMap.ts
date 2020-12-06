@@ -23,8 +23,7 @@ pipe(new Map(), _.member(eqString)('a')) // $ExpectType boolean
 // elem
 //
 
-_.elem(eqString)('a', new Map()) // $ExpectType boolean
-_.elem(eqString)('a') // $ExpectType <K>(m: ReadonlyMap<K, string>) => boolean
+pipe(new Map(), _.elem(eqString)('a')) // $ExpectType boolean
 
 //
 // lookup

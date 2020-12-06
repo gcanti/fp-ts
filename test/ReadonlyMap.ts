@@ -191,8 +191,6 @@ describe('ReadonlyMap', () => {
       ['b', 2]
     ])
     const elemS = _.elem(eqNumber)
-    assert.deepStrictEqual(elemS(2, x), true)
-    assert.deepStrictEqual(elemS(3, x), false)
     assert.deepStrictEqual(elemS(2)(x), true)
     assert.deepStrictEqual(elemS(3)(x), false)
 
