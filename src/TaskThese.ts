@@ -4,7 +4,7 @@
 import { Applicative2, Applicative2C } from './Applicative'
 import { Apply1 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
-import { flow, pipe } from './function'
+import { flow, Lazy, pipe } from './function'
 import { Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
@@ -108,12 +108,11 @@ export const fold: <E, B, A>(
   /*#__PURE__*/
   flow(TH.fold, T.chain)
 
-// TODO: make lazy in v3
 /**
  * @category destructors
  * @since 2.4.0
  */
-export const toTuple: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => Task<readonly [E, A]> =
+export const toTuple: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) => Task<readonly [E, A]> =
   /*#__PURE__*/
   flow(TH.toTuple, T.map)
 

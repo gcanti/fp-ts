@@ -94,6 +94,10 @@ high state of flux, you're at risk of it changing without notice.
     - remove `run` (@gcanti)
   - `TaskEither`
     - remove `getTaskValidation`, use `getApplicativeTaskValidation` and `getAltTaskValidation` instead (@gcanti)
+  - `TaskThese`
+    - make `toTuple` lazy (@gcanti)
+  - `These`
+    - make `toTuple` lazy (@gcanti)
 
 # 2.9.1
 

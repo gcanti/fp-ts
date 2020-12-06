@@ -33,7 +33,7 @@ import { isNone, none, Option, some } from './Option'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { PipeableTraverse2, Traversable2 } from './Traversable'
-import { pipe } from './function'
+import { Lazy, pipe } from './function'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -224,20 +224,20 @@ export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<UR
   }
 }
 
-// TODO: make lazy in v3
 /**
  * @example
  * import { toTuple, left, right, both } from 'fp-ts/These'
  *
- * assert.deepStrictEqual(toTuple('a', 1)(left('b')), ['b', 1])
- * assert.deepStrictEqual(toTuple('a', 1)(right(2)), ['a', 2])
- * assert.deepStrictEqual(toTuple('a', 1)(both('b', 2)), ['b', 2])
+ * const f = toTuple(() => 'a', () => 1)
+ * assert.deepStrictEqual(f(left('b')), ['b', 1])
+ * assert.deepStrictEqual(f(right(2)), ['a', 2])
+ * assert.deepStrictEqual(f(both('b', 2)), ['b', 2])
  *
  * @category destructors
  * @since 2.0.0
  */
-export function toTuple<E, A>(e: E, a: A): (fa: These<E, A>) => readonly [E, A] {
-  return (fa) => (isLeft(fa) ? [fa.left, a] : isRight(fa) ? [e, fa.right] : [fa.left, fa.right])
+export function toTuple<E, A>(e: Lazy<E>, a: Lazy<A>): (fa: These<E, A>) => readonly [E, A] {
+  return (fa) => (isLeft(fa) ? [fa.left, a()] : isRight(fa) ? [e(), fa.right] : [fa.left, fa.right])
 }
 
 /**

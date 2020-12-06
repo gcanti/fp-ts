@@ -149,7 +149,14 @@ export function getTheseM<M>(M: Monad<M>): TheseM<M> {
     left: leftT,
     right: of,
     both: (e, a) => M.of(both(e, a)),
-    toTuple: (fa, e, a) => M.map(fa, toTuple(e, a)),
+    toTuple: (fa, e, a) =>
+      M.map(
+        fa,
+        toTuple(
+          () => e,
+          () => a
+        )
+      ),
     getMonad: <E>(E: Semigroup<E>) => {
       function chain<A, B>(fa: TheseT<M, E, A>, f: (a: A) => TheseT<M, E, B>): TheseT<M, E, B> {
         return M.chain(

@@ -244,7 +244,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare const toTuple: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => T.Task<readonly [E, A]>
+export declare const toTuple: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) => T.Task<readonly [E, A]>
 ```
 
 Added in v2.4.0

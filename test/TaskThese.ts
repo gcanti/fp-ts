@@ -145,7 +145,10 @@ describe('TaskThese', () => {
   })
 
   it('toTuple', async () => {
-    const f = _.toTuple('b', 2)
+    const f = _.toTuple(
+      () => 'b',
+      () => 2
+    )
     assert.deepStrictEqual(await f(_.right(1))(), ['b', 1])
     assert.deepStrictEqual(await f(_.left('a'))(), ['a', 2])
     assert.deepStrictEqual(await f(_.both('a', 1))(), ['a', 1])

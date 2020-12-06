@@ -159,9 +159,13 @@ describe('These', () => {
   })
 
   it('toTuple', () => {
-    assert.deepStrictEqual(pipe(_.left('b'), _.toTuple('a', 1)), ['b', 1])
-    assert.deepStrictEqual(pipe(_.right(2), _.toTuple('a', 1)), ['a', 2])
-    assert.deepStrictEqual(pipe(_.both('b', 2), _.toTuple('a', 1)), ['b', 2])
+    const f = _.toTuple(
+      () => 'a',
+      () => 1
+    )
+    assert.deepStrictEqual(pipe(_.left('b'), f), ['b', 1])
+    assert.deepStrictEqual(pipe(_.right(2), f), ['a', 2])
+    assert.deepStrictEqual(pipe(_.both('b', 2), f), ['b', 2])
   })
 
   it('getLeft', () => {
