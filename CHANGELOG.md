@@ -86,6 +86,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `isSubset` pipeable (@gcanti)
     - make `elem` pipeable (@gcanti)
     - make `union` pipeable (@gcanti)
+    - make `intersection` pipeable (@gcanti)
 
 # 2.9.1
 

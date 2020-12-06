@@ -245,28 +245,15 @@ export function union<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySet<A
   }
 }
 
-// TODO: remove non-curried overloading in v3
 /**
  * The set of elements which are in both the first and second set
  *
  * @category combinators
  * @since 2.5.0
  */
-export function intersection<A>(
-  E: Eq<A>
-): {
-  (that: ReadonlySet<A>): (me: ReadonlySet<A>) => ReadonlySet<A>
-  (me: ReadonlySet<A>, that: ReadonlySet<A>): ReadonlySet<A>
-}
-export function intersection<A>(
-  E: Eq<A>
-): (me: ReadonlySet<A>, that?: ReadonlySet<A>) => ReadonlySet<A> | ((that: ReadonlySet<A>) => ReadonlySet<A>) {
+export function intersection<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => ReadonlySet<A> {
   const elemE = elem(E)
-  return (me, that?) => {
-    if (that === undefined) {
-      const intersectionE = intersection(E)
-      return (that) => intersectionE(that, me)
-    }
+  return (that) => (me) => {
     if (me === empty || that === empty) {
       return empty
     }
@@ -364,7 +351,7 @@ export function getUnionMonoid<A>(E: Eq<A>): Monoid<ReadonlySet<A>> {
  */
 export function getIntersectionSemigroup<A>(E: Eq<A>): Semigroup<ReadonlySet<A>> {
   return {
-    concat: intersection(E)
+    concat: (x, y) => intersection(E)(y)(x)
   }
 }
 

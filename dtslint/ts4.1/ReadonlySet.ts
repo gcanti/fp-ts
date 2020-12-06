@@ -26,8 +26,7 @@ pipe(me, _.union(eqNumber)(me)) // $ExpectType ReadonlySet<number>
 // intersection
 //
 
-_.intersection(eqNumber)(me, me) // $ExpectType ReadonlySet<number>
-_.intersection(eqNumber)(me) // $ExpectType (me: ReadonlySet<number>) => ReadonlySet<number>
+pipe(me, _.intersection(eqNumber)(me)) // $ExpectType ReadonlySet<number>
 
 //
 // difference
