@@ -583,10 +583,6 @@ export const Alt: Alt2<URI> = {
  */
 export const MonadIO: MonadIO2<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
-  of,
-  chain: chain_,
   fromIO: fromIO
 }
 

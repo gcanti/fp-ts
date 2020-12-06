@@ -41,12 +41,11 @@ Added in v2.3.0
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
   - [Functor](#functor-1)
+  - [MonadTask](#monadtask)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
-  - [readerTask](#readertask)
-  - [readerTaskSeq](#readertaskseq)
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
 - [utils](#utils)
@@ -332,6 +331,16 @@ export declare const Functor: Functor2<'ReaderTask'>
 
 Added in v2.7.0
 
+## MonadTask
+
+**Signature**
+
+```ts
+export declare const MonadTask: MonadTask2<'ReaderTask'>
+```
+
+Added in v3.0.0
+
 ## URI
 
 **Signature**
@@ -368,28 +377,6 @@ Added in v2.3.0
 
 ```ts
 export declare function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<ReaderTask<R, A>>
-```
-
-Added in v2.3.0
-
-## readerTask
-
-**Signature**
-
-```ts
-export declare const readerTask: MonadTask2<'ReaderTask'>
-```
-
-Added in v2.3.0
-
-## readerTaskSeq
-
-Like `readerTask` but `ap` is sequential
-
-**Signature**
-
-```ts
-export declare const readerTaskSeq: MonadTask2<'ReaderTask'>
 ```
 
 Added in v2.3.0

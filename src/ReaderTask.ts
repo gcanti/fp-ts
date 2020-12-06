@@ -112,6 +112,7 @@ const apSeq_: Monad2<URI>['ap'] = (fab, fa) =>
     fab,
     chain((f) => pipe(fa, map(f)))
   )
+/* istanbul ignore next */
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
 // -------------------------------------------------------------------------------------
@@ -314,34 +315,12 @@ export const Monad: Monad2<URI> = {
   chain: chain_
 }
 
-// TODO: remove mega instance in v3
 /**
  * @category instances
- * @since 2.3.0
+ * @since 3.0.0
  */
-export const readerTask: MonadTask2<URI> = {
+export const MonadTask: MonadTask2<URI> = {
   URI,
-  map: map_,
-  of,
-  ap: apPar_,
-  chain: chain_,
-  fromIO,
-  fromTask
-}
-
-// TODO: remove mega instance in v3
-/**
- * Like `readerTask` but `ap` is sequential
- *
- * @category instances
- * @since 2.3.0
- */
-export const readerTaskSeq: typeof readerTask = {
-  URI,
-  map: map_,
-  of,
-  ap: apSeq_,
-  chain: chain_,
   fromIO,
   fromTask
 }

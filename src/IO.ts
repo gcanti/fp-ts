@@ -226,10 +226,6 @@ export const Monad: Monad1<URI> = {
  */
 export const MonadIO: MonadIO1<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
-  of,
-  chain: chain_,
   fromIO
 }
 

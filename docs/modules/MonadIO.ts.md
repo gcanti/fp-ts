@@ -32,7 +32,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface MonadIO<M> extends Monad<M> {
+export interface MonadIO<M> {
+  readonly URI: M
   readonly fromIO: <A>(fa: IO<A>) => HKT<M, A>
 }
 ```
@@ -44,7 +45,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface MonadIO1<M extends URIS> extends Monad1<M> {
+export interface MonadIO1<M extends URIS> {
+  readonly URI: M
   readonly fromIO: <A>(fa: IO<A>) => Kind<M, A>
 }
 ```
@@ -56,7 +58,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface MonadIO2<M extends URIS2> extends Monad2<M> {
+export interface MonadIO2<M extends URIS2> {
+  readonly URI: M
   readonly fromIO: <E, A>(fa: IO<A>) => Kind2<M, E, A>
 }
 ```
@@ -68,7 +71,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface MonadIO2C<M extends URIS2, E> extends Monad2C<M, E> {
+export interface MonadIO2C<M extends URIS2, E> {
+  readonly URI: M
+  readonly _E: E
   readonly fromIO: <A>(fa: IO<A>) => Kind2<M, E, A>
 }
 ```
@@ -80,7 +85,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface MonadIO3<M extends URIS3> extends Monad3<M> {
+export interface MonadIO3<M extends URIS3> {
+  readonly URI: M
   readonly fromIO: <R, E, A>(fa: IO<A>) => Kind3<M, R, E, A>
 }
 ```
@@ -92,7 +98,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface MonadIO3C<M extends URIS3, E> extends Monad3C<M, E> {
+export interface MonadIO3C<M extends URIS3, E> {
+  readonly URI: M
+  readonly _E: E
   readonly fromIO: <R, A>(fa: IO<A>) => Kind3<M, R, E, A>
 }
 ```
@@ -104,7 +112,8 @@ Added in v2.2.0
 **Signature**
 
 ```ts
-export interface MonadIO4<M extends URIS4> extends Monad4<M> {
+export interface MonadIO4<M extends URIS4> {
+  readonly URI: M
   readonly fromIO: <S, R, E, A>(fa: IO<A>) => Kind4<M, S, R, E, A>
 }
 ```
