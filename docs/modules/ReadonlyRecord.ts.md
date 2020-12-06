@@ -760,10 +760,7 @@ Test whether one record contains all of the keys and values contained in another
 ```ts
 export declare function isSubrecord<A>(
   E: Eq<A>
-): {
-  (that: ReadonlyRecord<string, A>): (me: ReadonlyRecord<string, A>) => boolean
-  (me: ReadonlyRecord<string, A>, that: ReadonlyRecord<string, A>): boolean
-}
+): (that: ReadonlyRecord<string, A>) => (me: ReadonlyRecord<string, A>) => boolean
 ```
 
 Added in v2.5.0

@@ -241,7 +241,6 @@ export function pop(k: string): <A>(r: ReadonlyRecord<string, A>) => Option<read
   }
 }
 
-// TODO: remove non-curried overloading in v3
 /**
  * Test whether one record contains all of the keys and values contained in another record
  *
@@ -249,21 +248,8 @@ export function pop(k: string): <A>(r: ReadonlyRecord<string, A>) => Option<read
  */
 export function isSubrecord<A>(
   E: Eq<A>
-): {
-  (that: ReadonlyRecord<string, A>): (me: ReadonlyRecord<string, A>) => boolean
-  (me: ReadonlyRecord<string, A>, that: ReadonlyRecord<string, A>): boolean
-}
-export function isSubrecord<A>(
-  E: Eq<A>
-): (
-  me: ReadonlyRecord<string, A>,
-  that?: ReadonlyRecord<string, A>
-) => boolean | ((me: ReadonlyRecord<string, A>) => boolean) {
-  return (me, that?) => {
-    if (that === undefined) {
-      const isSubrecordE = isSubrecord(E)
-      return (that) => isSubrecordE(that, me)
-    }
+): (that: ReadonlyRecord<string, A>) => (me: ReadonlyRecord<string, A>) => boolean {
+  return (that) => (me) => {
     for (const k in me) {
       if (!_hasOwnProperty.call(that, k) || !E.equals(me[k], that[k])) {
         return false

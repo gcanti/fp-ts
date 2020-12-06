@@ -79,6 +79,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `zip` pipeable (@gcanti)
   - `ReadonlyRecord`
     - rename `hasOwnProperty` to `has` (@gcanti)
+    - make `isSubrecord` pipeable (@gcanti)
 
 # 2.9.1
 
