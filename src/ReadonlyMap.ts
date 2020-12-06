@@ -331,29 +331,14 @@ export function lookup<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) => Opti
   }
 }
 
-// TODO: remove non-curried overloading in v3
 /**
- * Test whether or not one `Map` contains all of the keys and values contained in another `Map`
+ * Test whether or not one `Map` contains all of the keys and values contained in another `Map`.
  *
  * @since 2.5.0
  */
-export function isSubmap<K, A>(
-  SK: Eq<K>,
-  SA: Eq<A>
-): {
-  (that: ReadonlyMap<K, A>): (me: ReadonlyMap<K, A>) => boolean
-  (me: ReadonlyMap<K, A>, that: ReadonlyMap<K, A>): boolean
-}
-export function isSubmap<K, A>(
-  SK: Eq<K>,
-  SA: Eq<A>
-): (me: ReadonlyMap<K, A>, that?: ReadonlyMap<K, A>) => boolean | ((me: ReadonlyMap<K, A>) => boolean) {
+export function isSubmap<K, A>(SK: Eq<K>, SA: Eq<A>): (that: ReadonlyMap<K, A>) => (me: ReadonlyMap<K, A>) => boolean {
   const lookupWithKeyS = lookupWithKey(SK)
-  return (me: ReadonlyMap<K, A>, that?: ReadonlyMap<K, A>) => {
-    if (that === undefined) {
-      const isSubmapSKSA = isSubmap(SK, SA)
-      return (that) => isSubmapSKSA(that, me)
-    }
+  return (that) => (me) => {
     const entries = me.entries()
     let e: Next<readonly [K, A]>
     // tslint:disable-next-line: strict-boolean-expressions
@@ -378,8 +363,8 @@ export const empty: ReadonlyMap<never, never> = new Map<never, never>()
  * @since 2.5.0
  */
 export function getEq<K, A>(SK: Eq<K>, SA: Eq<A>): Eq<ReadonlyMap<K, A>> {
-  const isSubmap_ = isSubmap(SK, SA)
-  return fromEquals((x, y) => isSubmap_(x, y) && isSubmap_(y, x))
+  const isSubmapSKSA = isSubmap(SK, SA)
+  return fromEquals((x, y) => isSubmapSKSA(x)(y) && isSubmapSKSA(y)(x))
 }
 
 /**

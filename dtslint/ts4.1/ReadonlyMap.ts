@@ -41,5 +41,4 @@ pipe(new Map([['a', 1]]), _.lookupWithKey(eqString)('a')) // $ExpectType Option<
 // isSubmap
 //
 
-_.isSubmap(eqString, eqNumber)(new Map([['a', 1]]), new Map([['a', 1]])) // $ExpectType boolean
-_.isSubmap(eqString, eqNumber)(new Map([['a', 1]])) // $ExpectType (me: ReadonlyMap<string, number>) => boolean
+pipe(new Map([['a', 1]]), _.isSubmap(eqString, eqNumber)(new Map([['a', 1]]))) // $ExpectType boolean
