@@ -345,12 +345,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function isSubset<A>(
-  E: Eq<A>
-): {
-  (that: ReadonlySet<A>): (me: ReadonlySet<A>) => boolean
-  (me: ReadonlySet<A>, that: ReadonlySet<A>): boolean
-}
+export declare function isSubset<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => boolean
 ```
 
 Added in v2.5.0

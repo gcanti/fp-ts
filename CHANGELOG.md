@@ -82,6 +82,8 @@ high state of flux, you're at risk of it changing without notice.
     - make `isSubrecord` pipeable (@gcanti)
     - make `lookup` pipeable (@gcanti)
     - make `elem` pipeable (@gcanti)
+  - `ReadonlySet`
+    - make `isSubset` pipeable (@gcanti)
 
 # 2.9.1
 

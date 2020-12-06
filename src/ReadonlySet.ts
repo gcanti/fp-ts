@@ -70,7 +70,7 @@ export function toReadonlyArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => Readonly
  */
 export function getEq<A>(E: Eq<A>): Eq<ReadonlySet<A>> {
   const subsetE = isSubset(E)
-  return fromEquals((x, y) => subsetE(x, y) && subsetE(y, x))
+  return fromEquals((x, y) => subsetE(x)(y) && subsetE(y)(x))
 }
 
 interface Next<A> {
@@ -140,29 +140,14 @@ export function chain<B>(E: Eq<B>): <A>(f: (x: A) => ReadonlySet<B>) => (set: Re
   }
 }
 
-// TODO: remove non-curried overloading in v3
 /**
  * `true` if and only if every element in the first set is an element of the second set
  *
  * @since 2.5.0
  */
-export function isSubset<A>(
-  E: Eq<A>
-): {
-  (that: ReadonlySet<A>): (me: ReadonlySet<A>) => boolean
-  (me: ReadonlySet<A>, that: ReadonlySet<A>): boolean
-}
-export function isSubset<A>(
-  E: Eq<A>
-): (me: ReadonlySet<A>, that?: ReadonlySet<A>) => boolean | ((me: ReadonlySet<A>) => boolean) {
+export function isSubset<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => boolean {
   const elemE = elem(E)
-  return (me, that?) => {
-    if (that === undefined) {
-      const isSubsetE = isSubset(E)
-      return (that) => isSubsetE(that, me)
-    }
-    return every((a: A) => elemE(a, that))(me)
-  }
+  return (that) => every((a: A) => elemE(a, that))
 }
 
 /**

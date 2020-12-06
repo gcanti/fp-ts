@@ -1,5 +1,6 @@
 import * as _ from '../../src/ReadonlySet'
 import { eqNumber } from '../../src/Eq'
+import { pipe } from '../../src/function'
 
 declare const me: ReadonlySet<number>
 
@@ -7,8 +8,7 @@ declare const me: ReadonlySet<number>
 // isSubset
 //
 
-_.isSubset(eqNumber)(me, me) // $ExpectType boolean
-_.isSubset(eqNumber)(me) // $ExpectType (me: ReadonlySet<number>) => boolean
+pipe(me, _.isSubset(eqNumber)(me)) // $ExpectType boolean
 
 //
 // elem
