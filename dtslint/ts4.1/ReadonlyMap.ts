@@ -36,8 +36,7 @@ _.lookup(eqString)('a') // $ExpectType <A>(m: ReadonlyMap<string, A>) => Option<
 // lookupWithKey
 //
 
-_.lookupWithKey(eqString)('a', new Map([['a', 1]])) // $ExpectType Option<readonly [string, number]>
-_.lookupWithKey(eqString)('a') // $ExpectType <A>(m: ReadonlyMap<string, A>) => Option<readonly [string, A]>
+pipe(new Map([['a', 1]]), _.lookupWithKey(eqString)('a')) // $ExpectType Option<readonly [string, number]>
 
 //
 // isSubmap

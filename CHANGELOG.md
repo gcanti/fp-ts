@@ -69,6 +69,7 @@ high state of flux, you're at risk of it changing without notice.
   - `ReadonlyMap`
     - make `member` pipeable (@gcanti)
     - make `elem` pipeable (@gcanti)
+    - make `lookupWithKey` pipeable (@gcanti)
   - `ReadonlyNonEmptyArray`
     - make `cons` pipeable (@gcanti)
     - make `snoc` pipeable (@gcanti)
