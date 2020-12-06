@@ -217,7 +217,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function leftOrBoth<E>(e: E): <A>(ma: Option<A>) => These<E, A>
+export declare function leftOrBoth<E>(e: Lazy<E>): <A>(ma: Option<A>) => These<E, A>
 ```
 
 **Example**
@@ -226,8 +226,8 @@ export declare function leftOrBoth<E>(e: E): <A>(ma: Option<A>) => These<E, A>
 import { leftOrBoth, left, both } from 'fp-ts/These'
 import { none, some } from 'fp-ts/Option'
 
-assert.deepStrictEqual(leftOrBoth('a')(none), left('a'))
-assert.deepStrictEqual(leftOrBoth('a')(some(1)), both('a', 1))
+assert.deepStrictEqual(leftOrBoth(() => 'a')(none), left('a'))
+assert.deepStrictEqual(leftOrBoth(() => 'a')(some(1)), both('a', 1))
 ```
 
 Added in v2.0.0
@@ -247,7 +247,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function rightOrBoth<A>(a: A): <E>(me: Option<E>) => These<E, A>
+export declare function rightOrBoth<A>(a: Lazy<A>): <E>(me: Option<E>) => These<E, A>
 ```
 
 **Example**
@@ -256,8 +256,8 @@ export declare function rightOrBoth<A>(a: A): <E>(me: Option<E>) => These<E, A>
 import { rightOrBoth, right, both } from 'fp-ts/These'
 import { none, some } from 'fp-ts/Option'
 
-assert.deepStrictEqual(rightOrBoth(1)(none), right(1))
-assert.deepStrictEqual(rightOrBoth(1)(some('a')), both('a', 1))
+assert.deepStrictEqual(rightOrBoth(() => 1)(none), right(1))
+assert.deepStrictEqual(rightOrBoth(() => 1)(some('a')), both('a', 1))
 ```
 
 Added in v2.0.0

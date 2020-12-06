@@ -306,36 +306,34 @@ export function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A> {
   return fa._tag === 'Both'
 }
 
-// TODO: make lazy in v3
 /**
  * @example
  * import { leftOrBoth, left, both } from 'fp-ts/These'
  * import { none, some } from 'fp-ts/Option'
  *
- * assert.deepStrictEqual(leftOrBoth('a')(none), left('a'))
- * assert.deepStrictEqual(leftOrBoth('a')(some(1)), both('a', 1))
+ * assert.deepStrictEqual(leftOrBoth(() => 'a')(none), left('a'))
+ * assert.deepStrictEqual(leftOrBoth(() => 'a')(some(1)), both('a', 1))
  *
  * @category constructors
  * @since 2.0.0
  */
-export function leftOrBoth<E>(e: E): <A>(ma: Option<A>) => These<E, A> {
-  return (ma) => (isNone(ma) ? left(e) : both(e, ma.value))
+export function leftOrBoth<E>(e: Lazy<E>): <A>(ma: Option<A>) => These<E, A> {
+  return (ma) => (isNone(ma) ? left(e()) : both(e(), ma.value))
 }
 
-// TODO: make lazy in v3
 /**
  * @example
  * import { rightOrBoth, right, both } from 'fp-ts/These'
  * import { none, some } from 'fp-ts/Option'
  *
- * assert.deepStrictEqual(rightOrBoth(1)(none), right(1))
- * assert.deepStrictEqual(rightOrBoth(1)(some('a')), both('a', 1))
+ * assert.deepStrictEqual(rightOrBoth(() => 1)(none), right(1))
+ * assert.deepStrictEqual(rightOrBoth(() => 1)(some('a')), both('a', 1))
  *
  * @category constructors
  * @since 2.0.0
  */
-export function rightOrBoth<A>(a: A): <E>(me: Option<E>) => These<E, A> {
-  return (me) => (isNone(me) ? right(a) : both(me.value, a))
+export function rightOrBoth<A>(a: Lazy<A>): <E>(me: Option<E>) => These<E, A> {
+  return (me) => (isNone(me) ? right(a()) : both(me.value, a()))
 }
 
 /**

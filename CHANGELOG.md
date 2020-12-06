@@ -98,6 +98,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `toTuple` lazy (@gcanti)
   - `These`
     - make `toTuple` lazy (@gcanti)
+    - make `leftOrBoth` and `rightOrBoth` lazy (@gcanti)
 
 # 2.9.1
 
