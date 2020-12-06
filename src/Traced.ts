@@ -18,15 +18,12 @@ export interface Traced<P, A> {
   (p: P): A
 }
 
-// TODO: curry in v3
 /**
  * Extracts a value at a relative position which depends on the current value.
  *
  * @since 2.0.0
  */
-export function tracks<P, A>(M: Monoid<P>, f: (a: A) => P): (wa: Traced<P, A>) => A {
-  return (wa) => wa(f(wa(M.empty)))
-}
+export const tracks = <P>(M: Monoid<P>) => <A>(f: (a: A) => P) => (wa: Traced<P, A>): A => wa(f(wa(M.empty)))
 
 /**
  * Get the current position

@@ -156,7 +156,7 @@ Extracts a value at a relative position which depends on the current value.
 **Signature**
 
 ```ts
-export declare function tracks<P, A>(M: Monoid<P>, f: (a: A) => P): (wa: Traced<P, A>) => A
+export declare const tracks: <P>(M: Monoid<P>) => <A>(f: (a: A) => P) => (wa: Traced<P, A>) => A
 ```
 
 Added in v2.0.0

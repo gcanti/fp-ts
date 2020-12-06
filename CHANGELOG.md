@@ -99,6 +99,8 @@ high state of flux, you're at risk of it changing without notice.
   - `These`
     - make `toTuple` lazy (@gcanti)
     - make `leftOrBoth` and `rightOrBoth` lazy (@gcanti)
+  - `Traced`
+    - make `tracks` curried (@gcanti)
 
 # 2.9.1
 
