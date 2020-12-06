@@ -84,6 +84,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `elem` pipeable (@gcanti)
   - `ReadonlySet`
     - make `isSubset` pipeable (@gcanti)
+    - make `elem` pipeable (@gcanti)
 
 # 2.9.1
 

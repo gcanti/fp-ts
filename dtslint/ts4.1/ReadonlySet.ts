@@ -14,8 +14,7 @@ pipe(me, _.isSubset(eqNumber)(me)) // $ExpectType boolean
 // elem
 //
 
-_.elem(eqNumber)(1, me) // $ExpectType boolean
-_.elem(eqNumber)(1) // $ExpectType (set: ReadonlySet<number>) => boolean
+pipe(me, _.elem(eqNumber)(1)) // $ExpectType boolean
 
 //
 // union

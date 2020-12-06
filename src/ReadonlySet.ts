@@ -106,7 +106,7 @@ export function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: ReadonlySet<A>) =
     const r = new Set<B>()
     set.forEach((e) => {
       const v = f(e)
-      if (!elemE(v, r)) {
+      if (!elemE(v)(r)) {
         r.add(v)
       }
     })
@@ -131,7 +131,7 @@ export function chain<B>(E: Eq<B>): <A>(f: (x: A) => ReadonlySet<B>) => (set: Re
     const r = new Set<B>()
     set.forEach((e) => {
       f(e).forEach((e) => {
-        if (!elemE(e, r)) {
+        if (!elemE(e)(r)) {
           r.add(e)
         }
       })
@@ -147,7 +147,7 @@ export function chain<B>(E: Eq<B>): <A>(f: (x: A) => ReadonlySet<B>) => (set: Re
  */
 export function isSubset<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => boolean {
   const elemE = elem(E)
-  return (that) => every((a: A) => elemE(a, that))
+  return (that) => every((a) => elemE(a)(that))
 }
 
 /**
@@ -202,24 +202,13 @@ export function partition<A>(
   }
 }
 
-// TODO: remove non-curried overloading in v3
 /**
  * Test if a value is a member of a set
  *
  * @since 2.5.0
  */
-export function elem<A>(
-  E: Eq<A>
-): {
-  (a: A): (set: ReadonlySet<A>) => boolean
-  (a: A, set: ReadonlySet<A>): boolean
-}
-export function elem<A>(E: Eq<A>): (a: A, set?: ReadonlySet<A>) => boolean | ((set: ReadonlySet<A>) => boolean) {
-  return (a, set?) => {
-    if (set === undefined) {
-      const elemE = elem(E)
-      return (set) => elemE(a, set)
-    }
+export function elem<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => boolean {
+  return (a) => (set) => {
     const values = set.values()
     let e: Next<A>
     let found = false
@@ -261,7 +250,7 @@ export function union<A>(
     }
     const r = new Set(me)
     that.forEach((e) => {
-      if (!elemE(e, r)) {
+      if (!elemE(e)(r)) {
         r.add(e)
       }
     })
@@ -296,7 +285,7 @@ export function intersection<A>(
     }
     const r = new Set<A>()
     me.forEach((e) => {
-      if (elemE(e, that)) {
+      if (elemE(e)(that)) {
         r.add(e)
       }
     })
@@ -323,12 +312,12 @@ export function partitionMap<B, C>(
       const v = f(e.value)
       switch (v._tag) {
         case 'Left':
-          if (!hasB(v.left, left)) {
+          if (!hasB(v.left)(left)) {
             left.add(v.left)
           }
           break
         case 'Right':
-          if (!hasC(v.right, right)) {
+          if (!hasC(v.right)(right)) {
             right.add(v.right)
           }
           break
@@ -367,7 +356,7 @@ export function difference<A>(
       const differenceE = difference(E)
       return (that) => differenceE(that, me)
     }
-    return filter((a: A) => !elemE(a, that))(me)
+    return filter((a: A) => !elemE(a)(that))(me)
   }
 }
 
@@ -460,7 +449,7 @@ export function fromArray<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlySet<A>
     const has = elem(E)
     for (let i = 0; i < len; i++) {
       const a = as[i]
-      if (!has(a, r)) {
+      if (!has(a)(r)) {
         r.add(a)
       }
     }
@@ -491,12 +480,12 @@ export function separate<E, A>(
     fa.forEach((e) => {
       switch (e._tag) {
         case 'Left':
-          if (!elemEE(e.left, left)) {
+          if (!elemEE(e.left)(left)) {
             left.add(e.left)
           }
           break
         case 'Right':
-          if (!elemEA(e.right, right)) {
+          if (!elemEA(e.right)(right)) {
             right.add(e.right)
           }
           break
@@ -516,7 +505,7 @@ export function filterMap<B>(E: Eq<B>): <A>(f: (a: A) => Option<B>) => (fa: Read
     const r: Set<B> = new Set()
     fa.forEach((a) => {
       const ob = f(a)
-      if (ob._tag === 'Some' && !elemE(ob.value, r)) {
+      if (ob._tag === 'Some' && !elemE(ob.value)(r)) {
         r.add(ob.value)
       }
     })
