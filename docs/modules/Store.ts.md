@@ -1,6 +1,6 @@
 ---
 title: Store.ts
-nav_order: 80
+nav_order: 79
 parent: Modules
 ---
 

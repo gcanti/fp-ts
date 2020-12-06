@@ -1397,19 +1397,24 @@ const chain_: <A, B>(fa: ReadonlyArray<A>, f: (a: A) => ReadonlyArray<B>) => Rea
   pipe(ma, chain(f))
 const filter_: Filter1<URI> = <A>(fa: ReadonlyArray<A>, predicate: Predicate<A>) => pipe(fa, filter(predicate))
 const filterMap_: Filterable1<URI>['filterMap'] = (fa, f) => pipe(fa, filterMap(f))
+/* istanbul ignore next */
 const partitionWithIndex_: PartitionWithIndex1<URI, number> = <A>(
   fa: ReadonlyArray<A>,
   predicateWithIndex: (i: number, a: A) => boolean
 ): Separated<ReadonlyArray<A>, ReadonlyArray<A>> => pipe(fa, partitionWithIndex(predicateWithIndex))
+/* istanbul ignore next */
 const partition_: Partition1<URI> = <A>(
   fa: ReadonlyArray<A>,
   predicate: Predicate<A>
 ): Separated<ReadonlyArray<A>, ReadonlyArray<A>> => pipe(fa, partition(predicate))
+/* istanbul ignore next */
 const partitionMap_: Filterable1<URI>['partitionMap'] = (fa, f) => pipe(fa, partitionMap(f))
+/* istanbul ignore next */
 const partitionMapWithIndex_ = <A, B, C>(
   fa: ReadonlyArray<A>,
   f: (i: number, a: A) => Either<B, C>
 ): Separated<ReadonlyArray<B>, ReadonlyArray<C>> => pipe(fa, partitionMapWithIndex(f))
+/* istanbul ignore next */
 const alt_: Alt1<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 const reduce_: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
 const foldMap_: Foldable1<URI>['foldMap'] = (M) => {
@@ -1429,12 +1434,15 @@ const foldMapWithIndex_: FoldableWithIndex1<URI, number>['foldMapWithIndex'] = (
   fa.reduce((b, a, i) => M.concat(b, f(i, a)), M.empty)
 const reduceRightWithIndex_: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] = (fa, b, f) =>
   pipe(fa, reduceRightWithIndex(b, f))
+/* istanbul ignore next */
 const filterMapWithIndex_ = <A, B>(fa: ReadonlyArray<A>, f: (i: number, a: A) => Option<B>): ReadonlyArray<B> =>
   pipe(fa, filterMapWithIndex(f))
+/* istanbul ignore next */
 const filterWithIndex_ = <A>(
   fa: ReadonlyArray<A>,
   predicateWithIndex: (i: number, a: A) => boolean
 ): ReadonlyArray<A> => pipe(fa, filterWithIndex(predicateWithIndex))
+/* istanbul ignore next */
 const extend_: Extend1<URI>['extend'] = (fa, f) => pipe(fa, extend(f))
 const traverse_ = <F>(
   F: ApplicativeHKT<F>

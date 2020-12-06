@@ -2,12 +2,11 @@ import * as assert from 'assert'
 import { sequenceT } from '../src/Apply'
 import * as A from '../src/ReadonlyArray'
 import * as E from '../src/Either'
-import { pipe } from '../src/function'
+import { pipe, Predicate } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
-import { pipeable } from '../src/pipeable'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskEither'
@@ -118,7 +117,10 @@ describe('TaskEither', () => {
 
   describe('getFilterable', () => {
     const F_ = _.getFilterable(A.getMonoid<string>())
-    const { filter } = pipeable(F_)
+    const filter: <A>(
+      predicate: Predicate<A>
+    ) => (fa: _.TaskEither<ReadonlyArray<string>, A>) => _.TaskEither<ReadonlyArray<string>, A> = (predicate) => (fa) =>
+      F_.filter(fa, predicate)
 
     it('filter', async () => {
       assert.deepStrictEqual(

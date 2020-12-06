@@ -20,6 +20,7 @@ high state of flux, you're at risk of it changing without notice.
 - **Breaking Change**
   - bump minimum typescript version (4.1.x+) (@gcanti)
   - remove deprecated APIs (@gcanti)
+  - remove `pipeable` module (@gcanti)
   - remove mutable modules (@gcanti)
     - `Array`
     - `Map`

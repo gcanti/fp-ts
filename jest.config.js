@@ -4,7 +4,6 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: [
     'src/**/*.ts',
-    '!src/pipeable.ts',
     '!src/EitherT.ts',
     '!src/ReaderT.ts',
     '!src/StateT.ts',

@@ -69,7 +69,6 @@ Added in v2.0.0
   - [optionT](#optiont)
   - [ord](#ord)
   - [ordering](#ordering)
-  - [pipeable](#pipeable)
   - [profunctor](#profunctor)
   - [random](#random)
   - [reader](#reader)
@@ -668,16 +667,6 @@ Added in v2.0.0
 
 ```ts
 export declare const ordering: typeof ordering
-```
-
-Added in v2.0.0
-
-## pipeable
-
-**Signature**
-
-```ts
-export declare const pipeable: typeof pipeable
 ```
 
 Added in v2.0.0

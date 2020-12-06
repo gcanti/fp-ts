@@ -136,6 +136,7 @@ export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> {
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
+/* istanbul ignore next */
 const contramap_: Contravariant2<URI>['contramap'] = (fa, f) => pipe(fa, contramap(f))
 /* istanbul ignore next */
 const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
