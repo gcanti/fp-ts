@@ -29,8 +29,7 @@ pipe(new Map(), _.elem(eqString)('a')) // $ExpectType boolean
 // lookup
 //
 
-_.lookup(eqString)('a', new Map([['a', 1]])) // $ExpectType Option<number>
-_.lookup(eqString)('a') // $ExpectType <A>(m: ReadonlyMap<string, A>) => Option<A>
+pipe(new Map([['a', 1]]), _.lookup(eqString)('a')) // $ExpectType Option<number>
 
 //
 // lookupWithKey

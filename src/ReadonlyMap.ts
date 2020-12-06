@@ -87,7 +87,10 @@ export function isEmpty<K, A>(d: ReadonlyMap<K, A>): boolean {
  */
 export function member<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) => boolean {
   const lookupE = lookup(E)
-  return (k) => (m) => O.isSome(lookupE(k, m))
+  return (k) => {
+    const lookupEk = lookupE(k)
+    return (m) => O.isSome(lookupEk(m))
+  }
 }
 
 interface Next<A> {
@@ -279,10 +282,11 @@ export function pop<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) => Option<
   const lookupE = lookup(E)
   const deleteAtE = deleteAt(E)
   return (k) => {
+    const lookupEk = lookupE(k)
     const deleteAtEk = deleteAtE(k)
     return (m) =>
       pipe(
-        lookupE(k, m),
+        lookupEk(m),
         O.map((a) => [a, deleteAtEk(m)])
       )
   }
@@ -309,32 +313,21 @@ export function lookupWithKey<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) 
   }
 }
 
-// TODO: remove non-curried overloading in v3
 /**
  * Lookup the value for a key in a `Map`.
  *
  * @since 2.5.0
  */
-export function lookup<K>(
-  E: Eq<K>
-): {
-  (k: K): <A>(m: ReadonlyMap<K, A>) => Option<A>
-  <A>(k: K, m: ReadonlyMap<K, A>): Option<A>
-}
-export function lookup<K>(
-  E: Eq<K>
-): <A>(k: K, m?: ReadonlyMap<K, A>) => Option<A> | ((m: ReadonlyMap<K, A>) => Option<A>) {
+export function lookup<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) => Option<A> {
   const lookupWithKeyE = lookupWithKey(E)
-  return (k, m?) => {
-    if (m === undefined) {
-      const lookupE = lookup(E)
-      return (m) => lookupE(k, m)
+  return (k) => {
+    const lookupWithKeyEk = lookupWithKeyE(k)
+    return (m) => {
+      return pipe(
+        lookupWithKeyEk(m),
+        O.map(([_, a]) => a)
+      )
     }
-    const lookupWithKeyEk = lookupWithKeyE(k) // TODO move to proper place when lookup will be pipeable
-    return pipe(
-      lookupWithKeyEk(m),
-      O.map(([_, a]) => a)
-    )
   }
 }
 
