@@ -813,7 +813,8 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const readonlyNonEmptyArray: Monad1<'ReadonlyNonEmptyArray'> &
+export declare const readonlyNonEmptyArray: Apply1<'ReadonlyNonEmptyArray'> &
+  Monad1<'ReadonlyNonEmptyArray'> &
   Comonad1<'ReadonlyNonEmptyArray'> &
   Traversable1<'ReadonlyNonEmptyArray'> &
   TraversableWithIndex1<'ReadonlyNonEmptyArray', number> &

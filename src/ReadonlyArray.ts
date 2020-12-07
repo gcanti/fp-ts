@@ -4,6 +4,7 @@
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
+import { Apply1 } from './Apply'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
@@ -1392,7 +1393,7 @@ export const zero: Alternative1<URI>['zero'] = () => empty
 
 const map_: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = (fa, f) => pipe(fa, mapWithIndex(f))
-const ap_: Monad1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const ap_: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const chain_: <A, B>(fa: ReadonlyArray<A>, f: (a: A) => ReadonlyArray<B>) => ReadonlyArray<B> = (ma, f) =>
   pipe(ma, chain(f))
 const filter_: Filter1<URI> = <A>(fa: ReadonlyArray<A>, predicate: Predicate<A>) => pipe(fa, filter(predicate))
@@ -1978,7 +1979,6 @@ export const Applicative: Applicative1<URI> = {
 export const Monad: Monad1<URI> = {
   URI,
   map: map_,
-  ap: ap_,
   of,
   chain: chain_
 }

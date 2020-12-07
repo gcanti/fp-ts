@@ -102,9 +102,15 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getValidationM<E, M extends URIS2>(S: Semigroup<E>, M: Monad2<M>): ValidationM2<M, E>
-export declare function getValidationM<E, M extends URIS>(S: Semigroup<E>, M: Monad1<M>): ValidationM1<M, E>
-export declare function getValidationM<E, M>(S: Semigroup<E>, M: Monad<M>): ValidationM<M, E>
+export declare function getValidationM<E, M extends URIS2>(
+  S: Semigroup<E>,
+  M: Monad2<M> & Applicative2<M>
+): ValidationM2<M, E>
+export declare function getValidationM<E, M extends URIS>(
+  S: Semigroup<E>,
+  M: Monad1<M> & Applicative1<M>
+): ValidationM1<M, E>
+export declare function getValidationM<E, M>(S: Semigroup<E>, M: Monad<M> & Applicative<M>): ValidationM<M, E>
 ```
 
 Added in v2.0.0

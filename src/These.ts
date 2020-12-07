@@ -212,13 +212,11 @@ export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<UR
       : both(SE.concat(ma.left, fb.left), fb.right)
   }
 
-  const applicative = getApplicative(SE)
   return {
     URI,
     _E: undefined as any,
     map: map_,
     of: right,
-    ap: applicative.ap,
     chain,
     throwError: left
   }

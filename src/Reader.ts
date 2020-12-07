@@ -2,6 +2,7 @@
  * @since 2.0.0
  */
 import { Applicative2 } from './Applicative'
+import { Apply2 } from './Apply'
 import { Category2 } from './Category'
 import { Choice2 } from './Choice'
 import * as E from './Either'
@@ -65,7 +66,7 @@ export const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q,
 /* istanbul ignore next */
 const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
-const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const ap_: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 const compose_: Category2<URI>['compose'] = (bc, ab) => pipe(bc, compose(ab))
@@ -280,7 +281,6 @@ export const Monad: Monad2<URI> = {
   URI,
   map: map_,
   of,
-  ap: ap_,
   chain: chain_
 }
 
@@ -333,7 +333,12 @@ export const Choice: Choice2<URI> = {
  * @category instances
  * @since 2.0.0
  */
-export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = {
+export const reader: Applicative2<URI> &
+  Monad2<URI> &
+  Profunctor2<URI> &
+  Category2<URI> &
+  Strong2<URI> &
+  Choice2<URI> = {
   URI,
   map: map_,
   of,

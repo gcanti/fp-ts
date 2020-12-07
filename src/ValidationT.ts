@@ -2,16 +2,19 @@
  * @since 2.0.0
  */
 import {
-  ApplicativeCompositionHKT2C,
+  Applicative,
+  Applicative1,
+  Applicative2,
   ApplicativeComposition12C,
   ApplicativeComposition22C,
+  ApplicativeCompositionHKT2C,
   getApplicativeComposition
 } from './Applicative'
 import { Either, getApplicativeValidation, isLeft, isRight, left, URI } from './Either'
+import { Lazy } from './function'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
 import { Semigroup } from './Semigroup'
-import { Lazy } from './function'
 
 // TODO: remove module in v3
 
@@ -60,10 +63,10 @@ export interface ValidationM2<M extends URIS2, E> extends ApplicativeComposition
 /**
  * @since 2.0.0
  */
-export function getValidationM<E, M extends URIS2>(S: Semigroup<E>, M: Monad2<M>): ValidationM2<M, E>
-export function getValidationM<E, M extends URIS>(S: Semigroup<E>, M: Monad1<M>): ValidationM1<M, E>
-export function getValidationM<E, M>(S: Semigroup<E>, M: Monad<M>): ValidationM<M, E>
-export function getValidationM<E, M>(S: Semigroup<E>, M: Monad<M>): ValidationM<M, E> {
+export function getValidationM<E, M extends URIS2>(S: Semigroup<E>, M: Monad2<M> & Applicative2<M>): ValidationM2<M, E>
+export function getValidationM<E, M extends URIS>(S: Semigroup<E>, M: Monad1<M> & Applicative1<M>): ValidationM1<M, E>
+export function getValidationM<E, M>(S: Semigroup<E>, M: Monad<M> & Applicative<M>): ValidationM<M, E>
+export function getValidationM<E, M>(S: Semigroup<E>, M: Monad<M> & Applicative<M>): ValidationM<M, E> {
   const A = getApplicativeComposition(M, getApplicativeValidation(S))
 
   return {

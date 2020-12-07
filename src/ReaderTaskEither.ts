@@ -3,7 +3,7 @@
  */
 import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C } from './Applicative'
-import { Apply1 } from './Apply'
+import { Apply1, Apply3 } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
@@ -369,8 +369,8 @@ export const chainTaskEitherK: <E, A, B>(
 // -------------------------------------------------------------------------------------
 
 const map_: Monad3<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const apPar_: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const apSeq_: Monad3<URI>['ap'] = (fab, fa) =>
+const apPar_: Apply3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const apSeq_: Apply3<URI>['ap'] = (fab, fa) =>
   pipe(
     fab,
     chain((f) => pipe(fa, map(f)))
@@ -738,7 +738,12 @@ export const Alt: Alt3<URI> = {
  * @category instances
  * @since 2.0.0
  */
-export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadTask3<URI> & MonadThrow3<URI> = {
+export const readerTaskEither: Applicative3<URI> &
+  Monad3<URI> &
+  Bifunctor3<URI> &
+  Alt3<URI> &
+  MonadTask3<URI> &
+  MonadThrow3<URI> = {
   URI,
   map: map_,
   of,

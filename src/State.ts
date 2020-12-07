@@ -5,6 +5,7 @@ import { identity, pipe, bind_, bindTo_, flow } from './function'
 import { Functor2 } from './Functor'
 import { Monad2 } from './Monad'
 import { Applicative2 } from './Applicative'
+import { Apply2 } from './Apply'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -61,7 +62,7 @@ export const gets: <S, A>(f: (s: S) => A) => State<S, A> = (f) => (s) => [f(s), 
 /* istanbul ignore next */
 const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
-const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const ap_: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
@@ -216,7 +217,6 @@ export const Applicative: Applicative2<URI> = {
 export const Monad: Monad2<URI> = {
   URI,
   map: map_,
-  ap: ap_,
   of,
   chain: chain_
 }

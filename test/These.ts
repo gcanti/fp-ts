@@ -95,7 +95,7 @@ describe('These', () => {
   })
 
   it('ap', () => {
-    const M = _.getMonad(semigroupString)
+    const M = _.getApplicative(semigroupString)
     const sequenceT = Apply.sequenceT(M)
     assert.deepStrictEqual(sequenceT(_.right(1), _.right(2)), _.right([1, 2]))
     assert.deepStrictEqual(sequenceT(_.right(1), _.left('b')), _.left('b'))

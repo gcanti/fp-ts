@@ -10,7 +10,7 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
-import { Apply1 } from './Apply'
+import { Apply1, Apply2 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C, getCompactableComposition } from './Compactable'
 import * as E from './Either'
@@ -321,7 +321,7 @@ const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
 const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-const apPar_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const apPar_: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const apSeq_: Applicative2<URI>['ap'] = (fab, fa) =>
   pipe(
     fab,
@@ -738,7 +738,12 @@ export const Alt: Alt2<URI> = {
  * @category instances
  * @since 2.0.0
  */
-export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<URI> & MonadThrow2<URI> = {
+export const taskEither: Apply2<URI> &
+  Monad2<URI> &
+  Bifunctor2<URI> &
+  Alt2<URI> &
+  MonadTask2<URI> &
+  MonadThrow2<URI> = {
   URI,
   bimap: bimap_,
   mapLeft: mapLeft_,

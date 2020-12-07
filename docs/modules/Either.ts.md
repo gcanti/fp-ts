@@ -1078,7 +1078,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const either: Monad2<'Either'> &
+export declare const either: Applicative2<'Either'> &
+  Monad2<'Either'> &
   Foldable2<'Either'> &
   Traversable2<'Either'> &
   Bifunctor2<'Either'> &

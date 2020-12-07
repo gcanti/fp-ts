@@ -72,7 +72,7 @@ export function getApplicative<M>(M: Monoid<M>): Applicative2C<URI, M> {
   return {
     URI,
     _E: undefined as any,
-    map: A.map,
+    map: map_,
     ap: A.ap,
     of: of(M)
   }
@@ -83,12 +83,10 @@ export function getApplicative<M>(M: Monoid<M>): Applicative2C<URI, M> {
  * @since 2.5.0
  */
 export function getMonad<M>(M: Monoid<M>): Monad2C<URI, M> {
-  const A = getApply(M)
   return {
     URI,
     _E: undefined as any,
-    map: A.map,
-    ap: A.ap,
+    map: map_,
     chain: (ma, f) => {
       const [b, s] = f(fst(ma))
       return [b, M.concat(snd(ma), s)]

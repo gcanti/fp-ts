@@ -3,6 +3,7 @@
  */
 import { Alt1 } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
+import { Apply1 } from './Apply'
 import { ChainRec1, tailRec } from './ChainRec'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
@@ -30,8 +31,11 @@ export type Identity<A> = A
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
+/* istanbul ignore next */
 const map_: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const ap_: Monad1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+/* istanbul ignore next */
+const ap_: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+/* istanbul ignore next */
 const chain_: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
 const reduce_: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
@@ -279,7 +283,6 @@ export const Applicative: Applicative1<URI> = {
 export const Monad: Monad1<URI> = {
   URI,
   map: map_,
-  ap: ap_,
   of,
   chain: chain_
 }
@@ -341,7 +344,13 @@ export const ChainRec: ChainRec1<URI> = {
  * @category instances
  * @since 2.0.0
  */
-export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI> = {
+export const identity: Applicative1<URI> &
+  Monad1<URI> &
+  Foldable1<URI> &
+  Traversable1<URI> &
+  Alt1<URI> &
+  Comonad1<URI> &
+  ChainRec1<URI> = {
   URI,
   map: map_,
   ap: ap_,

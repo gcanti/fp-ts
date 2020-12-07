@@ -3,6 +3,7 @@
  */
 import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C } from './Applicative'
+import { Apply3 } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import { bindTo_, bind_, flow, identity, pipe, Predicate, Refinement } from './function'
@@ -228,7 +229,7 @@ const bimap_: Bifunctor3<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
 const mapLeft_: Bifunctor3<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
 /* istanbul ignore next */
-const ap_: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const ap_: Apply3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
 const chain_: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
@@ -543,7 +544,6 @@ export const Applicative: Applicative3<URI> = {
 export const Monad: Monad3<URI> = {
   URI,
   map: map_,
-  ap: ap_,
   of,
   chain: chain_
 }
@@ -582,7 +582,7 @@ export const MonadThrow: MonadThrow3<URI> = {
  * @category instances
  * @since 2.0.0
  */
-export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThrow3<URI> = {
+export const readerEither: Applicative3<URI> & Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThrow3<URI> = {
   URI,
   bimap: bimap_,
   mapLeft: mapLeft_,

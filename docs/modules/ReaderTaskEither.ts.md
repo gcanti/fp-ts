@@ -898,7 +898,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const readerTaskEither: Monad3<'ReaderTaskEither'> &
+export declare const readerTaskEither: Applicative3<'ReaderTaskEither'> &
+  Monad3<'ReaderTaskEither'> &
   Bifunctor3<'ReaderTaskEither'> &
   Alt3<'ReaderTaskEither'> &
   MonadTask3<'ReaderTaskEither'> &
@@ -914,7 +915,8 @@ Like `readerTaskEither` but `ap` is sequential
 **Signature**
 
 ```ts
-export declare const readerTaskEitherSeq: Monad3<'ReaderTaskEither'> &
+export declare const readerTaskEitherSeq: Applicative3<'ReaderTaskEither'> &
+  Monad3<'ReaderTaskEither'> &
   Bifunctor3<'ReaderTaskEither'> &
   Alt3<'ReaderTaskEither'> &
   MonadTask3<'ReaderTaskEither'> &

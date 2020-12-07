@@ -705,7 +705,6 @@ export const Applicative: Applicative1<URI> = {
 export const Monad: Monad1<URI> = {
   URI,
   map: map_,
-  ap: ap_,
   of,
   chain: chain_
 }
@@ -778,7 +777,8 @@ export const Comonad: Comonad1<URI> = {
  * @category instances
  * @since 2.5.0
  */
-export const readonlyNonEmptyArray: Monad1<URI> &
+export const readonlyNonEmptyArray: Apply1<URI> &
+  Monad1<URI> &
   Comonad1<URI> &
   Traversable1<URI> &
   TraversableWithIndex1<URI, number> &

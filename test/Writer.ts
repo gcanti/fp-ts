@@ -55,7 +55,7 @@ describe('Writer', () => {
   })
 
   describe('getMonad', () => {
-    const M = _.getMonad(monoidString)
+    const M = _.getApplicative(monoidString)
 
     it('of', () => {
       assert.deepStrictEqual(M.of(1)(), [1, ''])
@@ -65,6 +65,14 @@ describe('Writer', () => {
       const fab: _.Writer<string, (n: number) => number> = () => [(n: number) => n * 2, 'a']
       const fa: _.Writer<string, number> = () => [1, 'b']
       assert.deepStrictEqual(M.ap(fab, fa)(), [2, 'ab'])
+    })
+  })
+
+  describe('getMonad', () => {
+    const M = _.getMonad(monoidString)
+
+    it('of', () => {
+      assert.deepStrictEqual(M.of(1)(), [1, ''])
     })
 
     it('chain', () => {

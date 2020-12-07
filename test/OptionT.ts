@@ -3,7 +3,7 @@ import * as O from '../src/Option'
 import { getOptionM } from '../src/OptionT'
 import * as T from '../src/Task'
 
-const MT = getOptionM(T.Monad)
+const MT = getOptionM({ ...T.Monad, ...T.ApplicativePar })
 
 describe('OptionT', () => {
   it('map', () => {

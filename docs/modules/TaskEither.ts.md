@@ -870,7 +870,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const taskEither: Monad2<'TaskEither'> &
+export declare const taskEither: Apply2<'TaskEither'> &
+  Monad2<'TaskEither'> &
   Bifunctor2<'TaskEither'> &
   Alt2<'TaskEither'> &
   MonadTask2<'TaskEither'> &
@@ -886,7 +887,8 @@ Like `TaskEither` but `ap` is sequential
 **Signature**
 
 ```ts
-export declare const taskEitherSeq: Monad2<'TaskEither'> &
+export declare const taskEitherSeq: Apply2<'TaskEither'> &
+  Monad2<'TaskEither'> &
   Bifunctor2<'TaskEither'> &
   Alt2<'TaskEither'> &
   MonadTask2<'TaskEither'> &

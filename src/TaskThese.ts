@@ -246,12 +246,10 @@ export function getApplicative<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicati
  * @since 2.4.0
  */
 export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> {
-  const A = getApplicative(T.ApplicativePar, SE)
   return {
     URI,
     _E: undefined as any,
     map: map_,
-    ap: A.ap,
     of,
     chain: (ma, f) =>
       pipe(

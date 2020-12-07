@@ -5,6 +5,7 @@ import { Functor2 } from './Functor'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
 import { pipe } from './function'
+import { Applicative2C } from './Applicative'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -123,9 +124,9 @@ declare module './HKT' {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
-export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
+export function getApplicative<W>(M: Monoid<W>): Applicative2C<URI, W> {
   return {
     URI,
     _E: undefined as any,
@@ -135,6 +136,19 @@ export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
       const [a, w2] = fa()
       return [f(a), M.concat(w1, w2)]
     },
+    of: (a) => () => [a, M.empty]
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
+  return {
+    URI,
+    _E: undefined as any,
+    map: map_,
     of: (a) => () => [a, M.empty],
     chain: (fa, f) => () => {
       const [a, w1] = fa()

@@ -1,7 +1,6 @@
 import * as assert from 'assert'
 import * as Eq from '../src/Eq'
 import { identity, pipe } from '../src/function'
-import * as I from '../src/Identity'
 import * as O from '../src/Option'
 import { monoidString } from '../src/Monoid'
 import { showString } from '../src/Show'
@@ -159,12 +158,6 @@ describe('Tree', () => {
 
   it('unfoldTree', () => {
     const fa = _.unfoldTree(1, (b) => [b, b < 3 ? [b + 1, b + 2] : []])
-    const expected = _.make(1, [_.make(2, [_.make(3), _.make(4)]), _.make(3)])
-    assert.deepStrictEqual(fa, expected)
-  })
-
-  it('unfoldTreeM', () => {
-    const fa = _.unfoldTreeM(I.Monad)(1, (b) => [b, b < 3 ? [b + 1, b + 2] : []])
     const expected = _.make(1, [_.make(2, [_.make(3), _.make(4)]), _.make(3)])
     assert.deepStrictEqual(fa, expected)
   })

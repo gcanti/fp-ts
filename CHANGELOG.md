@@ -55,6 +55,8 @@ high state of flux, you're at risk of it changing without notice.
     - drop `Foldable` dependency (@gcanti)
   - `IOEither`
     - remove `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead (@gcanti)
+  - `Monad`
+    - drop `Applicative` dependency (@gcanti)
   - `MonadIO`
     - drop `Monad` dependency (@gcanti)
   - `MonadThrow`
@@ -124,6 +126,8 @@ high state of flux, you're at risk of it changing without notice.
     - drop `Traversable` dependency (@gcanti)
   - `Tree`
     - make `elem` curried (@gcanti)
+    - remove `unfoldTreeM` (@gcanti)
+    - remove `unfoldForestM` (@gcanti)
   - `Witherable`
     - drop `Traversable` and `Filterable` dependencies (@gcanti)
 
@@ -139,6 +143,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `getTraversableWithIndex` (@gcanti)
   - `TaskEither`
     - add `getCompactable` (@gcanti)
+  - `Writer`
+    - add `getApplicative` (@gcanti)
 
 # 2.9.1
 

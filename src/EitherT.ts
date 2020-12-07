@@ -1,9 +1,16 @@
 /**
  * @since 2.0.0
  */
-import { ApplicativeComposition12, ApplicativeComposition22, ApplicativeCompositionHKT2 } from './Applicative'
+import {
+  Applicative,
+  Applicative1,
+  Applicative2,
+  ApplicativeComposition12,
+  ApplicativeComposition22,
+  ApplicativeCompositionHKT2
+} from './Applicative'
 import * as E from './Either'
-import { flow, Lazy, pipe } from './function'
+import { Lazy, pipe } from './function'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
 
@@ -95,10 +102,10 @@ export interface EitherM2<M extends URIS2> extends ApplicativeComposition22<M, U
 /**
  * @since 2.0.0
  */
-export function getEitherM<M extends URIS2>(M: Monad2<M>): EitherM2<M>
-export function getEitherM<M extends URIS>(M: Monad1<M>): EitherM1<M>
-export function getEitherM<M>(M: Monad<M>): EitherM<M>
-export function getEitherM<M>(M: Monad<M>): EitherM<M> {
+export function getEitherM<M extends URIS2>(M: Monad2<M> & Applicative2<M>): EitherM2<M>
+export function getEitherM<M extends URIS>(M: Monad1<M> & Applicative1<M>): EitherM1<M>
+export function getEitherM<M>(M: Monad<M> & Applicative<M>): EitherM<M>
+export function getEitherM<M>(M: Monad<M> & Applicative<M>): EitherM<M> {
   const ap = <E, A>(fga: HKT<M, E.Either<E, A>>) => <B>(
     fgab: HKT<M, E.Either<E, (a: A) => B>>
   ): HKT<M, E.Either<E, B>> =>
@@ -106,7 +113,7 @@ export function getEitherM<M>(M: Monad<M>): EitherM<M> {
       M.map(fgab, (h) => (ga: E.Either<E, A>) => pipe(h, E.ap(ga))),
       fga
     )
-  const of = flow(E.right, M.of)
+  const of = <E, A>(a: A): HKT<M, E.Either<E, A>> => M.of(E.right(a))
 
   return {
     map: (fa, f) => M.map(fa, E.map(f)),
@@ -117,7 +124,11 @@ export function getEitherM<M>(M: Monad<M>): EitherM<M> {
     bimap: (ma, f, g) => M.map(ma, (e) => pipe(e, E.bimap(f, g))),
     mapLeft: (ma, f) => M.map(ma, (e) => pipe(e, E.mapLeft(f))),
     fold: (ma, onLeft, onRight) => M.chain(ma, E.fold(onLeft, onRight)),
-    getOrElse: (ma, onLeft) => M.chain(ma, E.fold(onLeft, M.of)),
+    getOrElse: (ma, onLeft) =>
+      M.chain(
+        ma,
+        E.fold(onLeft, (a) => M.of(a))
+      ),
     orElse: (ma, f) =>
       M.chain(
         ma,

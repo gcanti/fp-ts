@@ -718,7 +718,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const ioEither: Monad2<'IOEither'> &
+export declare const ioEither: Applicative2<'IOEither'> &
+  Monad2<'IOEither'> &
   Bifunctor2<'IOEither'> &
   Alt2<'IOEither'> &
   MonadIO2<'IOEither'> &

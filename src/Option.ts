@@ -15,6 +15,7 @@
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
+import { Apply1 } from './Apply'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
@@ -432,7 +433,7 @@ export function chainNullableK<A, B>(f: (a: A) => B | null | undefined): (ma: Op
 // -------------------------------------------------------------------------------------
 
 const map_: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const ap_: Monad1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const ap_: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const chain_: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 const reduce_: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
 const foldMap_: Foldable1<URI>['foldMap'] = (M) => {
@@ -1000,7 +1001,6 @@ export const Applicative: Applicative1<URI> = {
 export const Monad: Monad1<URI> = {
   URI,
   map: map_,
-  ap: ap_,
   of,
   chain: chain_
 }

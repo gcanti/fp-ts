@@ -691,7 +691,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const readerEither: Monad3<'ReaderEither'> &
+export declare const readerEither: Applicative3<'ReaderEither'> &
+  Monad3<'ReaderEither'> &
   Bifunctor3<'ReaderEither'> &
   Alt3<'ReaderEither'> &
   MonadThrow3<'ReaderEither'>

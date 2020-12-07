@@ -12,6 +12,7 @@
  * @since 2.0.0
  */
 import { Applicative1 } from './Applicative'
+import { Apply1 } from './Apply'
 import { ChainRec1 } from './ChainRec'
 import { identity, pipe, bind_, bindTo_, flow, constant } from './function'
 import { Functor1 } from './Functor'
@@ -37,7 +38,7 @@ export interface IO<A> {
 // -------------------------------------------------------------------------------------
 
 const map_: Monad1<URI>['map'] = (ma, f) => () => f(ma())
-const ap_: Monad1<URI>['ap'] = (mab, ma) => () => mab()(ma())
+const ap_: Apply1<URI>['ap'] = (mab, ma) => () => mab()(ma())
 const chain_: Monad1<URI>['chain'] = (ma, f) => () => f(ma())()
 const chainRec_: ChainRec1<URI>['chainRec'] = (a, f) => () => {
   let e = f(a)()
@@ -215,7 +216,6 @@ export const Applicative: Applicative1<URI> = {
 export const Monad: Monad1<URI> = {
   URI,
   map: map_,
-  ap: ap_,
   of,
   chain: chain_
 }
@@ -243,7 +243,7 @@ export const ChainRec: ChainRec1<URI> = {
  * @category instances
  * @since 2.0.0
  */
-export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
+export const io: Applicative1<URI> & Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
   URI,
   map: map_,
   of,

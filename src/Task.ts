@@ -18,6 +18,7 @@ import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Functor1 } from './Functor'
+import { Apply1 } from './Apply'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -102,8 +103,8 @@ export function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> {
 // -------------------------------------------------------------------------------------
 
 const map_: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const apPar_: Monad1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const apSeq_: Monad1<URI>['ap'] = (fab, fa) =>
+const apPar_: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const apSeq_: Apply1<URI>['ap'] = (fab, fa) =>
   pipe(
     fab,
     chain((f) => pipe(fa, map(f)))
@@ -337,7 +338,6 @@ export const Monad: Monad1<URI> = {
   URI,
   map: map_,
   of,
-  ap: apPar_,
   chain: chain_
 }
 
@@ -346,7 +346,7 @@ export const Monad: Monad1<URI> = {
  * @category instances
  * @since 2.0.0
  */
-export const task: Monad1<URI> & MonadTask1<URI> = {
+export const task: Apply1<URI> & Monad1<URI> & MonadTask1<URI> = {
   URI,
   map: map_,
   of,

@@ -140,9 +140,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getEitherM<M extends URIS2>(M: Monad2<M>): EitherM2<M>
-export declare function getEitherM<M extends URIS>(M: Monad1<M>): EitherM1<M>
-export declare function getEitherM<M>(M: Monad<M>): EitherM<M>
+export declare function getEitherM<M extends URIS2>(M: Monad2<M> & Applicative2<M>): EitherM2<M>
+export declare function getEitherM<M extends URIS>(M: Monad1<M> & Applicative1<M>): EitherM1<M>
+export declare function getEitherM<M>(M: Monad<M> & Applicative<M>): EitherM<M>
 ```
 
 Added in v2.0.0

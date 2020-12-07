@@ -1,6 +1,7 @@
 /**
  * @since 2.0.0
  */
+import { Applicative3, Applicative2, Applicative2C, Applicative1, Applicative } from './Applicative'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3 } from './Monad'
 import { Reader } from './Reader'
@@ -122,12 +123,12 @@ export interface ReaderM3<M extends URIS3> {
 /**
  * @since 2.0.0
  */
-export function getReaderM<M extends URIS3>(M: Monad3<M>): ReaderM3<M>
-export function getReaderM<M extends URIS2>(M: Monad2<M>): ReaderM2<M>
-export function getReaderM<M extends URIS2, E>(M: Monad2C<M, E>): ReaderM2C<M, E>
-export function getReaderM<M extends URIS>(M: Monad1<M>): ReaderM1<M>
-export function getReaderM<M>(M: Monad<M>): ReaderM<M>
-export function getReaderM<M>(M: Monad<M>): ReaderM<M> {
+export function getReaderM<M extends URIS3>(M: Monad3<M> & Applicative3<M>): ReaderM3<M>
+export function getReaderM<M extends URIS2>(M: Monad2<M> & Applicative2<M>): ReaderM2<M>
+export function getReaderM<M extends URIS2, E>(M: Monad2C<M, E> & Applicative2C<M, E>): ReaderM2C<M, E>
+export function getReaderM<M extends URIS>(M: Monad1<M> & Applicative1<M>): ReaderM1<M>
+export function getReaderM<M>(M: Monad<M> & Applicative<M>): ReaderM<M>
+export function getReaderM<M>(M: Monad<M> & Applicative<M>): ReaderM<M> {
   return {
     map: (ma, f) => (r) => M.map(ma(r), f),
     of: (a) => () => M.of(a),

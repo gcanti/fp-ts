@@ -388,7 +388,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const task: Monad1<'Task'> & MonadTask1<'Task'>
+export declare const task: Apply1<'Task'> & Monad1<'Task'> & MonadTask1<'Task'>
 ```
 
 Added in v2.0.0
@@ -400,7 +400,7 @@ Like `task` but `ap` is sequential
 **Signature**
 
 ```ts
-export declare const taskSeq: Monad1<'Task'> & MonadTask1<'Task'>
+export declare const taskSeq: Apply1<'Task'> & Monad1<'Task'> & MonadTask1<'Task'>
 ```
 
 Added in v2.0.0

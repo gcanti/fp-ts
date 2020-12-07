@@ -3,6 +3,7 @@
  */
 import { Alt4 } from './Alt'
 import { Applicative4 } from './Applicative'
+import { Apply4 } from './Apply'
 import { Bifunctor4 } from './Bifunctor'
 import * as E from './Either'
 import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
@@ -377,7 +378,7 @@ export const filterOrElse: {
 /* istanbul ignore next */
 const map_: Monad4<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
-const ap_: Monad4<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const ap_: Apply4<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
 const chain_: Monad4<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
@@ -693,7 +694,12 @@ export const Alt: Alt4<URI> = {
  * @category instances
  * @since 2.0.0
  */
-export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & MonadTask4<URI> & MonadThrow4<URI> = {
+export const stateReaderTaskEither: Apply4<URI> &
+  Monad4<URI> &
+  Bifunctor4<URI> &
+  Alt4<URI> &
+  MonadTask4<URI> &
+  MonadThrow4<URI> = {
   URI,
   map: map_,
   of,

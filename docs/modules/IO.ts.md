@@ -284,7 +284,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const io: Monad1<'IO'> & MonadIO1<'IO'> & ChainRec1<'IO'>
+export declare const io: Applicative1<'IO'> & Monad1<'IO'> & MonadIO1<'IO'> & ChainRec1<'IO'>
 ```
 
 Added in v2.0.0

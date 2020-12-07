@@ -6,6 +6,7 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
+import { Apply2 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C, getCompactableComposition } from './Compactable'
 import * as E from './Either'
@@ -214,7 +215,7 @@ export const chainEitherK: <E, A, B>(
 /* istanbul ignore next */
 const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
-const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const ap_: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const apSeq_: Applicative2<URI>['ap'] = (fab, fa) =>
   pipe(
     fab,
@@ -573,7 +574,6 @@ export const ApplicativeSeq: Applicative2<URI> = {
 export const Monad: Monad2<URI> = {
   URI,
   map: map_,
-  ap: ap_,
   of,
   chain: chain_
 }
@@ -611,7 +611,12 @@ export const MonadThrow: MonadThrow2<URI> = {
  * @category instances
  * @since 2.0.0
  */
-export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadThrow2<URI> = {
+export const ioEither: Applicative2<URI> &
+  Monad2<URI> &
+  Bifunctor2<URI> &
+  Alt2<URI> &
+  MonadIO2<URI> &
+  MonadThrow2<URI> = {
   URI,
   bimap: bimap_,
   mapLeft: mapLeft_,

@@ -32,7 +32,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface OptionT<M, A> extends HKT<M, Option<A>> {}
+export interface OptionT<M, A> extends HKT<M, O.Option<A>> {}
 ```
 
 Added in v2.0.0
@@ -42,7 +42,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export type OptionT1<M extends URIS, A> = Kind<M, Option<A>>
+export type OptionT1<M extends URIS, A> = Kind<M, O.Option<A>>
 ```
 
 Added in v2.0.0
@@ -52,7 +52,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export type OptionT2<M extends URIS2, E, A> = Kind2<M, E, Option<A>>
+export type OptionT2<M extends URIS2, E, A> = Kind2<M, E, O.Option<A>>
 ```
 
 Added in v2.0.0
@@ -64,7 +64,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface OptionM<M> extends ApplicativeCompositionHKT1<M, URI> {
+export interface OptionM<M> extends ApplicativeCompositionHKT1<M, O.URI> {
   readonly chain: <A, B>(ma: OptionT<M, A>, f: (a: A) => OptionT<M, B>) => OptionT<M, B>
   readonly alt: <A>(fa: OptionT<M, A>, that: Lazy<OptionT<M, A>>) => OptionT<M, A>
   readonly fold: <A, R>(ma: OptionT<M, A>, onNone: Lazy<HKT<M, R>>, onSome: (a: A) => HKT<M, R>) => HKT<M, R>
@@ -81,7 +81,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface OptionM1<M extends URIS> extends ApplicativeComposition11<M, URI> {
+export interface OptionM1<M extends URIS> extends ApplicativeComposition11<M, O.URI> {
   readonly chain: <A, B>(ma: OptionT1<M, A>, f: (a: A) => OptionT1<M, B>) => OptionT1<M, B>
   readonly alt: <A>(fa: OptionT1<M, A>, that: Lazy<OptionT1<M, A>>) => OptionT1<M, A>
   readonly fold: <A, R>(ma: OptionT1<M, A>, onNone: Lazy<Kind<M, R>>, onSome: (a: A) => Kind<M, R>) => Kind<M, R>
@@ -98,7 +98,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface OptionM2<M extends URIS2> extends ApplicativeComposition21<M, URI> {
+export interface OptionM2<M extends URIS2> extends ApplicativeComposition21<M, O.URI> {
   readonly chain: <E, A, B>(ma: OptionT2<M, E, A>, f: (a: A) => OptionT2<M, E, B>) => OptionT2<M, E, B>
   readonly alt: <E, A>(fa: OptionT2<M, E, A>, that: Lazy<OptionT2<M, E, A>>) => OptionT2<M, E, A>
   readonly fold: <E, A, R>(
@@ -119,7 +119,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface OptionM2C<M extends URIS2, E> extends ApplicativeComposition2C1<M, URI, E> {
+export interface OptionM2C<M extends URIS2, E> extends ApplicativeComposition2C1<M, O.URI, E> {
   readonly chain: <A, B>(ma: OptionT2<M, E, A>, f: (a: A) => OptionT2<M, E, B>) => OptionT2<M, E, B>
   readonly alt: <A>(fa: OptionT2<M, E, A>, that: Lazy<OptionT2<M, E, A>>) => OptionT2<M, E, A>
   readonly fold: <A, R>(
@@ -140,10 +140,10 @@ Added in v2.2.0
 **Signature**
 
 ```ts
-export declare function getOptionM<M extends URIS2>(M: Monad2<M>): OptionM2<M>
-export declare function getOptionM<M extends URIS2, E>(M: Monad2C<M, E>): OptionM2C<M, E>
-export declare function getOptionM<M extends URIS>(M: Monad1<M>): OptionM1<M>
-export declare function getOptionM<M>(M: Monad<M>): OptionM<M>
+export declare function getOptionM<M extends URIS2>(M: Monad2<M> & Applicative2<M>): OptionM2<M>
+export declare function getOptionM<M extends URIS2, E>(M: Monad2C<M, E> & Applicative2C<M, E>): OptionM2C<M, E>
+export declare function getOptionM<M extends URIS>(M: Monad1<M> & Applicative1<M>): OptionM1<M>
+export declare function getOptionM<M>(M: Monad<M> & Applicative<M>): OptionM<M>
 ```
 
 Added in v2.0.0

@@ -24,6 +24,7 @@ Added in v2.0.0
   - [Functor](#functor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [getApplicative](#getapplicative)
   - [getMonad](#getmonad)
   - [writer](#writer)
 - [model](#model)
@@ -142,6 +143,16 @@ export type URI = typeof URI
 ```
 
 Added in v2.0.0
+
+## getApplicative
+
+**Signature**
+
+```ts
+export declare function getApplicative<W>(M: Monoid<W>): Applicative2C<URI, W>
+```
+
+Added in v3.0.0
 
 ## getMonad
 

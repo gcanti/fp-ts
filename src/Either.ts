@@ -15,6 +15,7 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative2, Applicative2C } from './Applicative'
+import { Apply2 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, tailRec } from './ChainRec'
 import { Compactable2C, Separated } from './Compactable'
@@ -469,7 +470,7 @@ export const filterOrElse: {
 // -------------------------------------------------------------------------------------
 
 const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const ap_: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
@@ -1124,7 +1125,6 @@ export const Applicative: Applicative2<URI> = {
 export const Monad: Monad2<URI> = {
   URI,
   map: map_,
-  ap: ap_,
   of,
   chain: chain_
 }
@@ -1214,7 +1214,8 @@ export function getValidationMonoid<E, A>(SE: Semigroup<E>, SA: Monoid<A>): Mono
  * @category instances
  * @since 2.0.0
  */
-export const either: Monad2<URI> &
+export const either: Applicative2<URI> &
+  Monad2<URI> &
   Foldable2<URI> &
   Traversable2<URI> &
   Bifunctor2<URI> &

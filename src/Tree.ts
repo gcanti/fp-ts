@@ -8,18 +8,19 @@
  * @since 2.0.0
  */
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import * as A from './ReadonlyArray'
+import { Apply1 } from './Apply'
 import { Comonad1 } from './Comonad'
 import { Eq, fromEquals } from './Eq'
+import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
-import { identity, pipe, bind_, bindTo_, flow } from './function'
+import { bindTo_, bind_, flow, identity, pipe } from './function'
 import { Functor1 } from './Functor'
-import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
-import { Monad as MonadHKT, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
+import { HKT } from './HKT'
+import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
+import * as A from './ReadonlyArray'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
-import { Extend1 } from './Extend'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -147,78 +148,6 @@ export function unfoldForest<A, B>(bs: ReadonlyArray<B>, f: (b: B) => readonly [
 }
 
 /**
- * Monadic tree builder, in depth-first order
- *
- * @category constructors
- * @since 2.0.0
- */
-export function unfoldTreeM<M extends URIS3>(
-  M: Monad3<M>
-): <R, E, A, B>(b: B, f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>) => Kind3<M, R, E, Tree<A>>
-export function unfoldTreeM<M extends URIS3, E>(
-  M: Monad3C<M, E>
-): <R, A, B>(b: B, f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>) => Kind3<M, R, E, Tree<A>>
-export function unfoldTreeM<M extends URIS2>(
-  M: Monad2<M>
-): <E, A, B>(b: B, f: (b: B) => Kind2<M, E, readonly [A, ReadonlyArray<B>]>) => Kind2<M, E, Tree<A>>
-export function unfoldTreeM<M extends URIS2, E>(
-  M: Monad2C<M, E>
-): <A, B>(b: B, f: (b: B) => Kind2<M, E, readonly [A, ReadonlyArray<B>]>) => Kind2<M, E, Tree<A>>
-export function unfoldTreeM<M extends URIS>(
-  M: Monad1<M>
-): <A, B>(b: B, f: (b: B) => Kind<M, readonly [A, ReadonlyArray<B>]>) => Kind<M, Tree<A>>
-export function unfoldTreeM<M>(
-  M: MonadHKT<M>
-): <A, B>(b: B, f: (b: B) => HKT<M, readonly [A, ReadonlyArray<B>]>) => HKT<M, Tree<A>>
-export function unfoldTreeM<M>(
-  M: MonadHKT<M>
-): <A, B>(b: B, f: (b: B) => HKT<M, readonly [A, ReadonlyArray<B>]>) => HKT<M, Tree<A>> {
-  const unfoldForestMM = unfoldForestM(M)
-  return (b, f) => M.chain(f(b), ([a, bs]) => M.chain(unfoldForestMM(bs, f), (ts) => M.of({ value: a, forest: ts })))
-}
-
-/**
- * Monadic forest builder, in depth-first order
- *
- * @category constructors
- * @since 2.0.0
- */
-export function unfoldForestM<M extends URIS3>(
-  M: Monad3<M>
-): <R, E, A, B>(
-  bs: ReadonlyArray<B>,
-  f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>
-) => Kind3<M, R, E, Forest<A>>
-export function unfoldForestM<M extends URIS3, E>(
-  M: Monad3C<M, E>
-): <R, A, B>(
-  bs: ReadonlyArray<B>,
-  f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>
-) => Kind3<M, R, E, Forest<A>>
-export function unfoldForestM<M extends URIS2>(
-  M: Monad2<M>
-): <R, A, B>(bs: ReadonlyArray<B>, f: (b: B) => Kind2<M, R, readonly [A, ReadonlyArray<B>]>) => Kind2<M, R, Forest<A>>
-export function unfoldForestM<M extends URIS2, E>(
-  M: Monad2C<M, E>
-): <A, B>(bs: ReadonlyArray<B>, f: (b: B) => Kind2<M, E, readonly [A, ReadonlyArray<B>]>) => Kind2<M, E, Forest<A>>
-export function unfoldForestM<M extends URIS>(
-  M: Monad1<M>
-): <A, B>(bs: ReadonlyArray<B>, f: (b: B) => Kind<M, readonly [A, ReadonlyArray<B>]>) => Kind<M, Forest<A>>
-export function unfoldForestM<M>(
-  M: MonadHKT<M>
-): <A, B>(bs: ReadonlyArray<B>, f: (b: B) => HKT<M, readonly [A, ReadonlyArray<B>]>) => HKT<M, Forest<A>>
-export function unfoldForestM<M>(
-  M: MonadHKT<M>
-): <A, B>(bs: ReadonlyArray<B>, f: (b: B) => HKT<M, readonly [A, ReadonlyArray<B>]>) => HKT<M, Forest<A>> {
-  const traverseM = A.traverse(M)
-  return (bs, f) =>
-    pipe(
-      bs,
-      traverseM((b) => unfoldTreeM(M)(b, f))
-    )
-}
-
-/**
  * @since 2.0.0
  */
 export const elem = <A>(E: Eq<A>) => (a: A): ((fa: Tree<A>) => boolean) => {
@@ -264,7 +193,7 @@ export function fold<A, B>(f: (a: A, bs: ReadonlyArray<B>) => B): (tree: Tree<A>
 
 /* istanbul ignore next */
 const map_: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const ap_: Monad1<URI>['ap'] = (fab, fa) =>
+const ap_: Apply1<URI>['ap'] = (fab, fa) =>
   pipe(
     fab,
     chain((f) => pipe(fa, map(f)))
@@ -525,7 +454,6 @@ export const Applicative: Applicative1<URI> = {
 export const Monad: Monad1<URI> = {
   URI,
   map: map_,
-  ap: ap_,
   of,
   chain: chain_
 }
@@ -568,7 +496,7 @@ export const Comonad: Comonad1<URI> = {
  * @category instances
  * @since 2.0.0
  */
-export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
+export const tree: Applicative1<URI> & Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
   URI,
   map: map_,
   of,

@@ -841,7 +841,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const stateReaderTaskEither: Monad4<'StateReaderTaskEither'> &
+export declare const stateReaderTaskEither: Apply4<'StateReaderTaskEither'> &
+  Monad4<'StateReaderTaskEither'> &
   Bifunctor4<'StateReaderTaskEither'> &
   Alt4<'StateReaderTaskEither'> &
   MonadTask4<'StateReaderTaskEither'> &

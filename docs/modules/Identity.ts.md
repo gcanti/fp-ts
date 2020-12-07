@@ -399,7 +399,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const identity: Monad1<'Identity'> &
+export declare const identity: Applicative1<'Identity'> &
+  Monad1<'Identity'> &
   Foldable1<'Identity'> &
   Traversable1<'Identity'> &
   Alt1<'Identity'> &
