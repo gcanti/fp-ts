@@ -12,6 +12,7 @@ import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
 import { Apply1 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
+import { Compactable2C, getCompactableComposition } from './Compactable'
 import * as E from './Either'
 import { Filterable2C, getFilterableComposition } from './Filterable'
 import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
@@ -652,18 +653,28 @@ export function getAltTaskValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
 
 /**
  * @category instances
+ * @since 3.0.0
+ */
+export function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E> {
+  const C = getCompactableComposition(T.Functor, { ...E.getCompactable(M), ...E.Functor })
+  return {
+    URI,
+    _E: undefined as any,
+    compact: C.compact,
+    separate: C.separate
+  }
+}
+
+/**
+ * @category instances
  * @since 2.1.0
  */
 export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
-  const W = E.getWitherable(M)
-  const F = getFilterableComposition(T.Monad, W)
+  const F = getFilterableComposition(T.Functor, E.getFilterable(M))
 
   return {
     URI,
     _E: undefined as any,
-    map: map_,
-    compact: F.compact,
-    separate: F.separate,
     filter: F.filter,
     filterMap: F.filterMap,
     partition: F.partition,

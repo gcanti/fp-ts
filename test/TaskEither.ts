@@ -115,6 +115,14 @@ describe('TaskEither', () => {
     assert.deepStrictEqual(await A.alt(_.left('a'), () => _.right(2))(), E.right(2))
   })
 
+  describe('getCompactable', () => {
+    const C = _.getCompactable(monoidString)
+
+    it('compact', async () => {
+      assert.deepStrictEqual(await C.compact(_.right(some(1)))(), E.right(1))
+    })
+  })
+
   describe('getFilterable', () => {
     const F_ = _.getFilterable(A.getMonoid<string>())
     const filter: <A>(

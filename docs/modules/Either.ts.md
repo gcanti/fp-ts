@@ -97,6 +97,7 @@ Added in v2.0.0
   - [getApplicativeValidation](#getapplicativevalidation)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
+  - [getCompactable](#getcompactable)
   - [getEq](#geteq)
   - [getFilterable](#getfilterable)
   - [getSemigroup](#getsemigroup)
@@ -1145,6 +1146,18 @@ assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
 
 Added in v2.0.0
 
+## getCompactable
+
+Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
+
+**Signature**
+
+```ts
+export declare function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E>
+```
+
+Added in v3.0.0
+
 ## getEq
 
 **Signature**
@@ -1157,7 +1170,7 @@ Added in v2.0.0
 
 ## getFilterable
 
-Builds a `Filterable` instance for `Either` given `Monoid` for the left side
+Builds a `Filterable` instance for `Either` given `Monoid` for the left side.
 
 **Signature**
 

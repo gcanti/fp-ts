@@ -693,8 +693,6 @@ export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, 
     _E: undefined as any,
     map: map_,
     mapWithIndex: mapWithIndex_,
-    compact,
-    separate,
     filter: filter_,
     filterMap: filterMap_,
     partition: partition_,
@@ -781,8 +779,6 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
     URI,
     _E: undefined as any,
     map: map_,
-    compact,
-    separate,
     filter: filter_,
     filterMap: filterMap_,
     partition: partition_,
@@ -843,9 +839,6 @@ export const Compactable: Compactable2<URI> = {
  */
 export const Filterable: Filterable2<URI> = {
   URI,
-  map: map_,
-  compact,
-  separate,
   filter: filter_,
   filterMap: filterMap_,
   partition: partition_,
@@ -859,9 +852,6 @@ export const Filterable: Filterable2<URI> = {
  */
 export const readonlyMap: Filterable2<URI> = {
   URI,
-  map: map_,
-  compact,
-  separate,
   filter: filter_,
   filterMap: filterMap_,
   partition: partition_,

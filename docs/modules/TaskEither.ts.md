@@ -84,6 +84,7 @@ Added in v2.0.0
   - [getApplicativeTaskValidation](#getapplicativetaskvalidation)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
+  - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
   - [getSemigroup](#getsemigroup)
   - [taskEither](#taskeither)
@@ -830,6 +831,16 @@ export declare function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<Task
 ```
 
 Added in v2.0.0
+
+## getCompactable
+
+**Signature**
+
+```ts
+export declare function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E>
+```
+
+Added in v3.0.0
 
 ## getFilterable
 

@@ -132,8 +132,6 @@ _.traverse(O.option)((n: number) => O.some(n))(r1) // $ExpectType Option<Readonl
 _.sequence(O.option)(do1) // $ExpectType Option<Readonly<Record<string, number>>>
 _.sequence(O.option)(ro1) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
 
-_.readonlyRecord.compact(do1) // $ExpectType Readonly<Record<string, number>>
-
 _.partitionMapWithIndex((_k: string, n: number): E.Either<string, number> => E.right(n))(d1) // $ExpectType Separated<Readonly<Record<string, string>>, Readonly<Record<string, number>>>
 _.partitionMapWithIndex((_k: 'a' | 'b', n: number): E.Either<string, number> => E.right(n))(r1) // $ExpectType Separated<Readonly<Record<string, string>>, Readonly<Record<string, number>>>
 

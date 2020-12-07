@@ -44,6 +44,8 @@ high state of flux, you're at risk of it changing without notice.
     - remove `getValidation`, use `getApplicativeValidation` and `getAltValidation` instead (@gcanti)
     - make `parseJSON` pipeable (@gcanti)
     - make `stringifyJSON` pipeable (@gcanti)
+  - `Filterable`
+    - drop `Functor` and `Compactable` dependencies (@gcanti)
   - `Foldable`
     - make `intercalate` pipeable (@gcanti)
   - `IOEither`
@@ -115,6 +117,13 @@ high state of flux, you're at risk of it changing without notice.
     - drop `Foldable` dependency (@gcanti)
   - `Tree`
     - make `elem` curried (@gcanti)
+- **New Feature**
+  - `Either`
+    - add `getCompactable` (@gcanti)
+  - `IOEither`
+    - add `getCompactable` (@gcanti)
+  - `TaskEither`
+    - add `getCompactable` (@gcanti)
 
 # 2.9.1
 

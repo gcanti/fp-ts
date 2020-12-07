@@ -17,7 +17,7 @@ import { Alt2, Alt2C } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative2, Applicative2C } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, tailRec } from './ChainRec'
-import { Separated } from './Compactable'
+import { Compactable2C, Separated } from './Compactable'
 import { Eq } from './Eq'
 import { Extend2 } from './Extend'
 import { Filterable2C } from './Filterable'
@@ -935,12 +935,12 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<Either<E, A>> {
 }
 
 /**
- * Builds a `Filterable` instance for `Either` given `Monoid` for the left side
+ * Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
  *
  * @category instances
  * @since 3.0.0
  */
-export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
+export function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E> {
   const empty = left(M.empty)
 
   const compact = <A>(ma: Either<E, Option<A>>): Either<E, A> => {
@@ -954,6 +954,23 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
       ? { left: right(ma.right.left), right: empty }
       : { left: empty, right: right(ma.right.right) }
   }
+
+  return {
+    URI,
+    _E: undefined as any,
+    compact,
+    separate
+  }
+}
+
+/**
+ * Builds a `Filterable` instance for `Either` given `Monoid` for the left side.
+ *
+ * @category instances
+ * @since 3.0.0
+ */
+export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
+  const empty = left(M.empty)
 
   const partitionMap = <A, B, C>(
     ma: Either<E, A>,
@@ -988,9 +1005,6 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
   return {
     URI,
     _E: undefined as any,
-    map: map_,
-    compact,
-    separate,
     filter,
     filterMap,
     partition,
@@ -1005,13 +1019,14 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
  * @since 2.0.0
  */
 export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
+  const C_ = getCompactable(M)
   const F_ = getFilterable(M)
 
   const wither = <F>(
     F: ApplicativeHKT<F>
   ): (<A, B>(ma: Either<E, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Either<E, B>>) => {
     const traverseF = traverse_(F)
-    return (ma, f) => F.map(traverseF(ma, f), F_.compact)
+    return (ma, f) => F.map(traverseF(ma, f), C_.compact)
   }
 
   const wilt = <F>(
@@ -1021,15 +1036,13 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
     f: (a: A) => HKT<F, Either<B, C>>
   ) => HKT<F, Separated<Either<E, B>, Either<E, C>>>) => {
     const traverseF = traverse_(F)
-    return (ma, f) => F.map(traverseF(ma, f), F_.separate)
+    return (ma, f) => F.map(traverseF(ma, f), C_.separate)
   }
 
   return {
     URI,
     _E: undefined as any,
     map: map_,
-    compact: F_.compact,
-    separate: F_.separate,
     filter: F_.filter,
     filterMap: F_.filterMap,
     partition: F_.partition,

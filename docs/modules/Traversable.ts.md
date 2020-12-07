@@ -19,18 +19,6 @@ The `traverse` and `sequence` functions should be compatible in the following se
 
 where `A` is an `Applicative` instance
 
-`Traversable` instances should also be compatible with the corresponding `Foldable` instances, in the following sense:
-
-```ts
-import { getApplicative, make } from 'fp-ts/Const'
-
-const A = getApplicative(M)
-
-foldMap(M)(xs, f) = traverse(A)(xs, (a) => make(f(a)))
-```
-
-where `M` is a `Monoid` instance
-
 Added in v2.0.0
 
 ---

@@ -327,6 +327,14 @@ describe('IOEither', () => {
     assert.deepStrictEqual(A.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
   })
 
+  describe('getCompactable', () => {
+    const C = _.getCompactable(monoidString)
+
+    it('compact', () => {
+      assert.deepStrictEqual(C.compact(_.right(some(1)))(), E.right(1))
+    })
+  })
+
   describe('getFilterable', () => {
     const F_ = _.getFilterable(A.getMonoid<string>())
     const filter: <A>(
@@ -334,7 +342,7 @@ describe('IOEither', () => {
     ) => (fa: _.IOEither<ReadonlyArray<string>, A>) => _.IOEither<ReadonlyArray<string>, A> = (predicate) => (fa) =>
       F_.filter(fa, predicate)
 
-    it('filter', async () => {
+    it('filter', () => {
       const r1 = pipe(
         _.right(1),
         filter((n) => n > 0)

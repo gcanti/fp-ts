@@ -1065,9 +1065,6 @@ export const Compactable: Compactable1<URI> = {
  */
 export const Filterable: Filterable1<URI> = {
   URI,
-  map: map_,
-  compact,
-  separate,
   filter: filter_,
   filterMap: filterMap_,
   partition: partition_,
@@ -1094,8 +1091,6 @@ export const Witherable: Witherable1<URI> = {
   map: map_,
   traverse: traverse_,
   sequence,
-  compact,
-  separate,
   filter: filter_,
   filterMap: filterMap_,
   partition: partition_,
@@ -1137,8 +1132,6 @@ export const option: Monad1<URI> &
   zero,
   alt: alt_,
   extend: extend_,
-  compact,
-  separate,
   filter: filter_,
   filterMap: filterMap_,
   partition: partition_,

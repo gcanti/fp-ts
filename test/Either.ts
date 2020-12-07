@@ -395,27 +395,30 @@ describe('Either', () => {
     })
   })
 
-  describe('getWitherable', () => {
-    const W = _.getWitherable(monoidString)
-    const p = (n: number) => n > 2
-
+  describe('getCompactable', () => {
+    const C = _.getCompactable(monoidString)
     it('compact', () => {
-      assert.deepStrictEqual(W.compact(_.left('1')), _.left('1'))
-      assert.deepStrictEqual(W.compact(_.right(O.none)), _.left(monoidString.empty))
-      assert.deepStrictEqual(W.compact(_.right(O.some(123))), _.right(123))
+      assert.deepStrictEqual(C.compact(_.left('1')), _.left('1'))
+      assert.deepStrictEqual(C.compact(_.right(O.none)), _.left(monoidString.empty))
+      assert.deepStrictEqual(C.compact(_.right(O.some(123))), _.right(123))
     })
 
     it('separate', () => {
-      assert.deepStrictEqual(W.separate(_.left('123')), { left: _.left('123'), right: _.left('123') })
-      assert.deepStrictEqual(W.separate(_.right(_.left('123'))), {
+      assert.deepStrictEqual(C.separate(_.left('123')), { left: _.left('123'), right: _.left('123') })
+      assert.deepStrictEqual(C.separate(_.right(_.left('123'))), {
         left: _.right('123'),
         right: _.left(monoidString.empty)
       })
-      assert.deepStrictEqual(W.separate(_.right(_.right('123'))), {
+      assert.deepStrictEqual(C.separate(_.right(_.right('123'))), {
         left: _.left(monoidString.empty),
         right: _.right('123')
       })
     })
+  })
+
+  describe('getWitherable', () => {
+    const W = _.getWitherable(monoidString)
+    const p = (n: number) => n > 2
 
     it('partition', () => {
       assert.deepStrictEqual(W.partition(_.left('123'), p), {

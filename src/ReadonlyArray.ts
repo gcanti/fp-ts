@@ -2041,9 +2041,6 @@ export const Compactable: Compactable1<URI> = {
  */
 export const Filterable: Filterable1<URI> = {
   URI,
-  map: map_,
-  compact,
-  separate,
   filter: filter_,
   filterMap: filterMap_,
   partition: partition_,
@@ -2058,8 +2055,6 @@ export const FilterableWithIndex: FilterableWithIndex1<URI, number> = {
   URI,
   map: map_,
   mapWithIndex: mapWithIndex_,
-  compact,
-  separate,
   filter: filter_,
   filterMap: filterMap_,
   partition: partition_,
@@ -2132,8 +2127,6 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
 export const Witherable: Witherable1<URI> = {
   URI,
   map: map_,
-  compact,
-  separate,
   filter: filter_,
   filterMap: filterMap_,
   partition: partition_,
@@ -2159,8 +2152,6 @@ export const readonlyArray: FunctorWithIndex1<URI, number> &
   TraversableWithIndex1<URI, number> &
   Witherable1<URI> = {
   URI,
-  compact,
-  separate,
   map: map_,
   ap: ap_,
   of,

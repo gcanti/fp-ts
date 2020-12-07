@@ -8,8 +8,6 @@ parent: Modules
 
 `Filterable` represents data structures which can be _partitioned_/_filtered_.
 
-Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Filterable.purs
-
 Added in v2.0.0
 
 ---
@@ -59,7 +57,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Filterable<F> extends Functor<F>, Compactable<F> {
+export interface Filterable<F> {
+  readonly URI: F
   /**
    * Partition a data structure based on an either predicate.
    */
@@ -86,7 +85,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Filterable1<F extends URIS> extends Functor1<F>, Compactable1<F> {
+export interface Filterable1<F extends URIS> {
+  readonly URI: F
   readonly partitionMap: <A, B, C>(fa: Kind<F, A>, f: (a: A) => Either<B, C>) => Separated<Kind<F, B>, Kind<F, C>>
   readonly partition: Partition1<F>
   readonly filterMap: <A, B>(fa: Kind<F, A>, f: (a: A) => Option<B>) => Kind<F, B>
@@ -101,7 +101,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Filterable2<F extends URIS2> extends Functor2<F>, Compactable2<F> {
+export interface Filterable2<F extends URIS2> {
+  readonly URI: F
   readonly partitionMap: <E, A, B, C>(
     fa: Kind2<F, E, A>,
     f: (a: A) => Either<B, C>
@@ -119,7 +120,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Filterable2C<F extends URIS2, E> extends Functor2C<F, E>, Compactable2C<F, E> {
+export interface Filterable2C<F extends URIS2, E> {
+  readonly URI: F
+  readonly _E: E
   readonly partitionMap: <A, B, C>(
     fa: Kind2<F, E, A>,
     f: (a: A) => Either<B, C>
@@ -137,7 +140,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Filterable3<F extends URIS3> extends Functor3<F>, Compactable3<F> {
+export interface Filterable3<F extends URIS3> {
+  readonly URI: F
   readonly partitionMap: <R, E, A, B, C>(
     fa: Kind3<F, R, E, A>,
     f: (a: A) => Either<B, C>
@@ -155,7 +159,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Filterable3C<F extends URIS3, E> extends Functor3C<F, E>, Compactable3C<F, E> {
+export interface Filterable3C<F extends URIS3, E> {
+  readonly URI: F
+  readonly _E: E
   readonly partitionMap: <R, A, B, C>(
     fa: Kind3<F, R, E, A>,
     f: (a: A) => Either<B, C>
@@ -173,7 +179,8 @@ Added in v2.2.0
 **Signature**
 
 ```ts
-export interface Filterable4<F extends URIS4> extends Functor4<F>, Compactable4<F> {
+export interface Filterable4<F extends URIS4> {
+  readonly URI: F
   readonly partitionMap: <S, R, E, A, B, C>(
     fa: Kind4<F, S, R, E, A>,
     f: (a: A) => Either<B, C>
@@ -284,7 +291,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FilterableComposition<F, G> extends FunctorComposition<F, G>, CompactableComposition<F, G> {
+export interface FilterableComposition<F, G> {
   readonly partitionMap: <A, B, C>(
     fa: HKT<F, HKT<G, A>>,
     f: (a: A) => Either<B, C>
@@ -305,9 +312,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FilterableComposition11<F extends URIS, G extends URIS>
-  extends FunctorComposition11<F, G>,
-    CompactableComposition11<F, G> {
+export interface FilterableComposition11<F extends URIS, G extends URIS> {
   readonly partitionMap: <A, B, C>(
     fa: Kind<F, Kind<G, A>>,
     f: (a: A) => Either<B, C>
@@ -328,9 +333,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FilterableComposition12<F extends URIS, G extends URIS2>
-  extends FunctorComposition12<F, G>,
-    CompactableComposition12<F, G> {
+export interface FilterableComposition12<F extends URIS, G extends URIS2> {
   readonly partitionMap: <E, A, B, C>(
     fa: Kind<F, Kind2<G, E, A>>,
     f: (a: A) => Either<B, C>
@@ -351,9 +354,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FilterableComposition12C<F extends URIS, G extends URIS2, E>
-  extends FunctorComposition12C<F, G, E>,
-    CompactableComposition12C<F, G, E> {
+export interface FilterableComposition12C<F extends URIS, G extends URIS2, E> {
   readonly partitionMap: <A, B, C>(
     fa: Kind<F, Kind2<G, E, A>>,
     f: (a: A) => Either<B, C>
@@ -374,9 +375,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FilterableComposition21<F extends URIS2, G extends URIS>
-  extends FunctorComposition21<F, G>,
-    CompactableComposition21<F, G> {
+export interface FilterableComposition21<F extends URIS2, G extends URIS> {
   readonly partitionMap: <E, A, B, C>(
     fa: Kind2<F, E, Kind<G, A>>,
     f: (a: A) => Either<B, C>
@@ -397,9 +396,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FilterableComposition22<F extends URIS2, G extends URIS2>
-  extends FunctorComposition22<F, G>,
-    CompactableComposition22<F, G> {
+export interface FilterableComposition22<F extends URIS2, G extends URIS2> {
   readonly partitionMap: <FE, GE, A, B, C>(
     fa: Kind2<F, FE, Kind2<G, GE, A>>,
     f: (a: A) => Either<B, C>
@@ -426,9 +423,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FilterableComposition22C<F extends URIS2, G extends URIS2, E>
-  extends FunctorComposition22<F, G>,
-    CompactableComposition22<F, G> {
+export interface FilterableComposition22C<F extends URIS2, G extends URIS2, E> {
   readonly partitionMap: <FE, A, B, C>(
     fa: Kind2<F, FE, Kind2<G, E, A>>,
     f: (a: A) => Either<B, C>
@@ -452,9 +447,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FilterableComposition23C<F extends URIS2, G extends URIS3, E>
-  extends FunctorComposition23<F, G>,
-    CompactableComposition23<F, G> {
+export interface FilterableComposition23C<F extends URIS2, G extends URIS3, E> {
   readonly partitionMap: <R, FE, A, B, C>(
     fa: Kind2<F, FE, Kind3<G, R, E, A>>,
     f: (a: A) => Either<B, C>
@@ -481,9 +474,7 @@ Added in v2.2.0
 **Signature**
 
 ```ts
-export interface FilterableComposition2C1<F extends URIS2, G extends URIS, E>
-  extends FunctorComposition21<F, G>,
-    CompactableComposition21<F, G> {
+export interface FilterableComposition2C1<F extends URIS2, G extends URIS, E> {
   readonly partitionMap: <A, B, C>(
     fa: Kind2<F, E, Kind<G, A>>,
     f: (a: A) => Either<B, C>
