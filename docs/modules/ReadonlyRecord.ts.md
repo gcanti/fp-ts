@@ -524,6 +524,7 @@ Added in v2.5.0
 
 ```ts
 export declare const readonlyRecord: FunctorWithIndex1<'ReadonlyRecord', string> &
+  Foldable1<'ReadonlyRecord'> &
   FoldableWithIndex1<'ReadonlyRecord', string> &
   FilterableWithIndex1<'ReadonlyRecord', string> &
   TraversableWithIndex1<'ReadonlyRecord', string> &

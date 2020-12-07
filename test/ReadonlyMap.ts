@@ -745,14 +745,14 @@ describe('ReadonlyMap', () => {
     })
   })
 
-  describe('getFoldableWithIndex', () => {
-    const FWI = _.getFoldableWithIndex(ordUser)
+  describe('getFoldable', () => {
+    const W = _.getFoldable(ordUser)
     it('reduce', () => {
       const d1 = new Map<User, string>([
         [{ id: 'k1' }, 'a'],
         [{ id: 'k2' }, 'b']
       ])
-      const reduceO = FWI.reduce
+      const reduceO = W.reduce
       assert.deepStrictEqual(
         reduceO(d1, '', (b, a) => b + a),
         'ab'
@@ -768,7 +768,7 @@ describe('ReadonlyMap', () => {
     })
 
     it('foldMap', () => {
-      const foldMapOM = FWI.foldMap(monoidString)
+      const foldMapOM = W.foldMap(monoidString)
       const m = new Map<User, string>([
         [{ id: 'a' }, 'a'],
         [{ id: 'a' }, 'b']
@@ -777,7 +777,7 @@ describe('ReadonlyMap', () => {
     })
 
     it('reduceRight', () => {
-      const reduceRightO = FWI.reduceRight
+      const reduceRightO = W.reduceRight
       const m = new Map<User, string>([
         [{ id: 'a' }, 'a'],
         [{ id: 'b' }, 'b']
@@ -786,7 +786,10 @@ describe('ReadonlyMap', () => {
       const f = (a: string, acc: string) => acc + a
       assert.deepStrictEqual(reduceRightO(m, init, f), 'ba')
     })
+  })
 
+  describe('getFoldableWithIndex', () => {
+    const FWI = _.getFoldableWithIndex(ordUser)
     it('reduceWithIndex', () => {
       const d1 = new Map<User, string>([
         [{ id: 'k1' }, 'a'],

@@ -7,7 +7,7 @@ import { Either, isLeft } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Filterable2, Filterable2C } from './Filterable'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
-import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
+import { Foldable, Foldable1, Foldable2, Foldable2C, Foldable3 } from './Foldable'
 import { FoldableWithIndex2C } from './FoldableWithIndex'
 import { pipe, Predicate, Refinement } from './function'
 import { Functor2 } from './Functor'
@@ -718,6 +718,24 @@ export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, 
  * @category instances
  * @since 3.0.0
  */
+export function getFoldable<K>(O: Ord<K>): Foldable2C<URI, K> {
+  const FWI = getFoldableWithIndex(O)
+  return {
+    URI,
+    _E: undefined as any,
+    reduce: (fa, b, f) => FWI.reduceWithIndex(fa, b, (_, b, a) => f(b, a)),
+    foldMap: (M) => {
+      const foldMapWithIndexM = FWI.foldMapWithIndex(M)
+      return (fa, f) => foldMapWithIndexM(fa, (_, a) => f(a))
+    },
+    reduceRight: (fa, b, f) => FWI.reduceRightWithIndex(fa, b, (_, a, b) => f(a, b))
+  }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
 export function getFoldableWithIndex<K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K> {
   const keysO = keys(O)
 
@@ -757,12 +775,6 @@ export function getFoldableWithIndex<K>(O: Ord<K>): FoldableWithIndex2C<URI, K, 
   return {
     URI,
     _E: undefined as any,
-    reduce: (fa, b, f) => reduceWithIndex(fa, b, (_, b, a) => f(b, a)),
-    foldMap: (M) => {
-      const foldMapWithIndexM = foldMapWithIndex(M)
-      return (fa, f) => foldMapWithIndexM(fa, (_, a) => f(a))
-    },
-    reduceRight: (fa, b, f) => reduceRightWithIndex(fa, b, (_, a, b) => f(a, b)),
     reduceWithIndex,
     foldMapWithIndex,
     reduceRightWithIndex

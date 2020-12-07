@@ -50,6 +50,8 @@ high state of flux, you're at risk of it changing without notice.
     - drop `Filterable` dependency (@gcanti)
   - `Foldable`
     - make `intercalate` pipeable (@gcanti)
+  - `FoldableWithIndex`
+    - drop `Foldable` dependency (@gcanti)
   - `IOEither`
     - remove `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead (@gcanti)
   - `MonadIO`
@@ -128,6 +130,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `getCompactable` (@gcanti)
   - `ReadonlyMap`
     - add `getFilterable` (@gcanti)
+    - add `getFoldable` (@gcanti)
     - add `getFoldableWithIndex` (@gcanti)
     - add `getTraversableWithIndex` (@gcanti)
   - `TaskEither`

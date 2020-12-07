@@ -44,6 +44,7 @@ Added in v2.5.0
   - [getEq](#geteq)
   - [getFilterable](#getfilterable)
   - [getFilterableWithIndex](#getfilterablewithindex)
+  - [getFoldable](#getfoldable)
   - [getFoldableWithIndex](#getfoldablewithindex)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
@@ -377,6 +378,16 @@ export declare function getFilterableWithIndex<K = never>(): FilterableWithIndex
 ```
 
 Added in v2.5.0
+
+## getFoldable
+
+**Signature**
+
+```ts
+export declare function getFoldable<K>(O: Ord<K>): Foldable2C<URI, K>
+```
+
+Added in v3.0.0
 
 ## getFoldableWithIndex
 

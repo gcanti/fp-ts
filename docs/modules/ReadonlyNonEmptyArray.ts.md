@@ -818,6 +818,7 @@ export declare const readonlyNonEmptyArray: Monad1<'ReadonlyNonEmptyArray'> &
   Traversable1<'ReadonlyNonEmptyArray'> &
   TraversableWithIndex1<'ReadonlyNonEmptyArray', number> &
   FunctorWithIndex1<'ReadonlyNonEmptyArray', number> &
+  Foldable1<'ReadonlyNonEmptyArray'> &
   FoldableWithIndex1<'ReadonlyNonEmptyArray', number> &
   Alt1<'ReadonlyNonEmptyArray'>
 ```

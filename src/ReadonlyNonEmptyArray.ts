@@ -727,9 +727,6 @@ export const Foldable: Foldable1<URI> = {
  */
 export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
   URI,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
   reduceWithIndex: reduceWithIndex_,
   foldMapWithIndex: foldMapWithIndex_,
   reduceRightWithIndex: reduceRightWithIndex_
@@ -786,6 +783,7 @@ export const readonlyNonEmptyArray: Monad1<URI> &
   Traversable1<URI> &
   TraversableWithIndex1<URI, number> &
   FunctorWithIndex1<URI, number> &
+  Foldable1<URI> &
   FoldableWithIndex1<URI, number> &
   Alt1<URI> = {
   URI,

@@ -1077,9 +1077,6 @@ export const Foldable: Foldable1<URI> = {
  */
 export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
   URI,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
   reduceWithIndex: reduceWithIndex_,
   foldMapWithIndex: foldMapWithIndex_,
   reduceRightWithIndex: reduceRightWithIndex_
@@ -1162,6 +1159,7 @@ export const Witherable: Witherable1<URI> = {
  * @since 2.5.0
  */
 export const readonlyRecord: FunctorWithIndex1<URI, string> &
+  Foldable1<URI> &
   FoldableWithIndex1<URI, string> &
   FilterableWithIndex1<URI, string> &
   TraversableWithIndex1<URI, string> &
