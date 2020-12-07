@@ -18,6 +18,7 @@ import * as O from './Option'
 import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
+import { Traversable2C } from './Traversable'
 import { TraversableWithIndex2C } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable2C } from './Witherable'
@@ -814,9 +815,9 @@ export function getTraversableWithIndex<K>(O: Ord<K>): TraversableWithIndex2C<UR
 
 /**
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
-export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> {
+export function getTraversable<K>(O: Ord<K>): Traversable2C<URI, K> {
   const TWI = getTraversableWithIndex(O)
 
   const traverse = <F>(
@@ -835,25 +836,34 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> {
     URI,
     _E: undefined as any,
     map: map_,
-    filter: filter_,
-    filterMap: filterMap_,
-    partition: partition_,
-    partitionMap: partitionMap_,
     traverse,
-    sequence,
+    sequence
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> {
+  const T = getTraversable(O)
+
+  return {
+    URI,
+    _E: undefined as any,
     wilt: <F>(
       F: Applicative<F>
     ): (<A, B, C>(
       wa: ReadonlyMap<K, A>,
       f: (a: A) => HKT<F, Either<B, C>>
     ) => HKT<F, Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>>) => {
-      const traverseF = traverse(F)
+      const traverseF = T.traverse(F)
       return (wa, f) => F.map(traverseF(wa, f), separate)
     },
     wither: <F>(
       F: Applicative<F>
     ): (<A, B>(wa: ReadonlyMap<K, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, ReadonlyMap<K, B>>) => {
-      const traverseF = traverse(F)
+      const traverseF = T.traverse(F)
       return (wa, f) => F.map(traverseF(wa, f), compact)
     }
   }

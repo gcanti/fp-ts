@@ -528,6 +528,8 @@ export declare const readonlyRecord: FunctorWithIndex1<'ReadonlyRecord', string>
   FoldableWithIndex1<'ReadonlyRecord', string> &
   FilterableWithIndex1<'ReadonlyRecord', string> &
   TraversableWithIndex1<'ReadonlyRecord', string> &
+  Traversable1<'ReadonlyRecord'> &
+  Filterable1<'ReadonlyRecord'> &
   Witherable1<'ReadonlyRecord'>
 ```
 

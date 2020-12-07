@@ -2107,13 +2107,6 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
  */
 export const Witherable: Witherable1<URI> = {
   URI,
-  map: map_,
-  filter: filter_,
-  filterMap: filterMap_,
-  partition: partition_,
-  partitionMap: partitionMap_,
-  traverse: traverse_,
-  sequence,
   wither: wither_,
   wilt: wilt_
 }
@@ -2132,6 +2125,8 @@ export const readonlyArray: FunctorWithIndex1<URI, number> &
   Foldable1<URI> &
   FoldableWithIndex1<URI, number> &
   TraversableWithIndex1<URI, number> &
+  Filterable1<URI> &
+  Traversable1<URI> &
   Witherable1<URI> = {
   URI,
   map: map_,

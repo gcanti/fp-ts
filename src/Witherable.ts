@@ -1,31 +1,21 @@
 /**
  * `Witherable` represents data structures which can be _partitioned_ with effects in some `Applicative` functor.
  *
- * Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Witherable.purs
- *
  * @since 2.0.0
  */
+import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
+import { Separated } from './Compactable'
+import { Either } from './Either'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Option } from './Option'
-import { Traversable, Traversable1, Traversable2, Traversable2C, Traversable3 } from './Traversable'
-import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
-import { Filterable, Filterable1, Filterable2, Filterable2C, Filterable3 } from './Filterable'
-import { Either } from './Either'
-import { Separated } from './Compactable'
 
 /**
  * @category type classes
  * @since 2.0.0
  */
-export interface Witherable<T> extends Traversable<T>, Filterable<T> {
-  /**
-   * Partition a structure with effects
-   */
+export interface Witherable<T> {
+  readonly URI: T
   readonly wilt: Wilt<T>
-
-  /**
-   * Filter a structure  with effects
-   */
   readonly wither: Wither<T>
 }
 
@@ -33,7 +23,8 @@ export interface Witherable<T> extends Traversable<T>, Filterable<T> {
  * @category type classes
  * @since 2.0.0
  */
-export interface Witherable1<T extends URIS> extends Traversable1<T>, Filterable1<T> {
+export interface Witherable1<T extends URIS> {
+  readonly URI: T
   readonly wilt: Wilt1<T>
   readonly wither: Wither1<T>
 }
@@ -42,7 +33,8 @@ export interface Witherable1<T extends URIS> extends Traversable1<T>, Filterable
  * @category type classes
  * @since 2.0.0
  */
-export interface Witherable2<T extends URIS2> extends Traversable2<T>, Filterable2<T> {
+export interface Witherable2<T extends URIS2> {
+  readonly URI: T
   readonly wilt: Wilt2<T>
   readonly wither: Wither2<T>
 }
@@ -51,16 +43,19 @@ export interface Witherable2<T extends URIS2> extends Traversable2<T>, Filterabl
  * @category type classes
  * @since 2.0.0
  */
-export interface Witherable2C<T extends URIS2, TL> extends Traversable2C<T, TL>, Filterable2C<T, TL> {
-  readonly wilt: Wilt2C<T, TL>
-  readonly wither: Wither2C<T, TL>
+export interface Witherable2C<T extends URIS2, E> {
+  readonly URI: T
+  readonly _E: E
+  readonly wilt: Wilt2C<T, E>
+  readonly wither: Wither2C<T, E>
 }
 
 /**
  * @category type classes
  * @since 2.0.0
  */
-export interface Witherable3<T extends URIS3> extends Traversable3<T>, Filterable3<T> {
+export interface Witherable3<T extends URIS3> {
+  readonly URI: T
   readonly wilt: Wilt3<T>
   readonly wither: Wither3<T>
 }

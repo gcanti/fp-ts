@@ -416,20 +416,20 @@ describe('Either', () => {
     })
   })
 
-  describe('getWitherable', () => {
-    const W = _.getWitherable(monoidString)
+  describe('getFilterable', () => {
+    const F = _.getFilterable(monoidString)
     const p = (n: number) => n > 2
 
     it('partition', () => {
-      assert.deepStrictEqual(W.partition(_.left('123'), p), {
+      assert.deepStrictEqual(F.partition(_.left('123'), p), {
         left: _.left('123'),
         right: _.left('123')
       })
-      assert.deepStrictEqual(W.partition(_.right(1), p), {
+      assert.deepStrictEqual(F.partition(_.right(1), p), {
         left: _.right(1),
         right: _.left(monoidString.empty)
       })
-      assert.deepStrictEqual(W.partition(_.right(3), p), {
+      assert.deepStrictEqual(F.partition(_.right(3), p), {
         left: _.left(monoidString.empty),
         right: _.right(3)
       })
@@ -437,32 +437,37 @@ describe('Either', () => {
 
     it('partitionMap', () => {
       const f = (n: number) => (p(n) ? _.right(n + 1) : _.left(n - 1))
-      assert.deepStrictEqual(W.partitionMap(_.left('123'), f), {
+      assert.deepStrictEqual(F.partitionMap(_.left('123'), f), {
         left: _.left('123'),
         right: _.left('123')
       })
-      assert.deepStrictEqual(W.partitionMap(_.right(1), f), {
+      assert.deepStrictEqual(F.partitionMap(_.right(1), f), {
         left: _.right(0),
         right: _.left(monoidString.empty)
       })
-      assert.deepStrictEqual(W.partitionMap(_.right(3), f), {
+      assert.deepStrictEqual(F.partitionMap(_.right(3), f), {
         left: _.left(monoidString.empty),
         right: _.right(4)
       })
     })
 
     it('filter', () => {
-      assert.deepStrictEqual(W.filter(_.left('123'), p), _.left('123'))
-      assert.deepStrictEqual(W.filter(_.right(1), p), _.left(monoidString.empty))
-      assert.deepStrictEqual(W.filter(_.right(3), p), _.right(3))
+      assert.deepStrictEqual(F.filter(_.left('123'), p), _.left('123'))
+      assert.deepStrictEqual(F.filter(_.right(1), p), _.left(monoidString.empty))
+      assert.deepStrictEqual(F.filter(_.right(3), p), _.right(3))
     })
 
     it('filterMap', () => {
       const f = (n: number) => (p(n) ? O.some(n + 1) : O.none)
-      assert.deepStrictEqual(W.filterMap(_.left('123'), f), _.left('123'))
-      assert.deepStrictEqual(W.filterMap(_.right(1), f), _.left(monoidString.empty))
-      assert.deepStrictEqual(W.filterMap(_.right(3), f), _.right(4))
+      assert.deepStrictEqual(F.filterMap(_.left('123'), f), _.left('123'))
+      assert.deepStrictEqual(F.filterMap(_.right(1), f), _.left(monoidString.empty))
+      assert.deepStrictEqual(F.filterMap(_.right(3), f), _.right(4))
     })
+  })
+
+  describe('getWitherable', () => {
+    const W = _.getWitherable(monoidString)
+    const p = (n: number) => n > 2
 
     it('wither', async () => {
       const wither = W.wither(T.ApplicativePar)

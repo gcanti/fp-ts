@@ -885,11 +885,10 @@ describe('ReadonlyMap', () => {
     })
   })
 
-  describe('getWitherable', () => {
-    const W = _.getWitherable(ordUser)
-
+  describe('getTraversable', () => {
+    const T = _.getTraversable(ordUser)
     it('traverse', () => {
-      const traverse = W.traverse(O.Applicative)
+      const traverse = T.traverse(O.Applicative)
       const x = new Map([
         [{ id: 'k1' }, 1],
         [{ id: 'k2' }, 2]
@@ -905,7 +904,7 @@ describe('ReadonlyMap', () => {
     })
 
     it('sequence', () => {
-      const sequence = W.sequence(O.Applicative)
+      const sequence = T.sequence(O.Applicative)
       assert.deepStrictEqual(
         sequence(
           new Map([
@@ -930,6 +929,10 @@ describe('ReadonlyMap', () => {
         O.none
       )
     })
+  })
+
+  describe('getWitherable', () => {
+    const W = _.getWitherable(ordUser)
 
     it('wither', async () => {
       const wither = W.wither(T.ApplicativePar)

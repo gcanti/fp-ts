@@ -1020,7 +1020,6 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
  */
 export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
   const C_ = getCompactable(M)
-  const F_ = getFilterable(M)
 
   const wither = <F>(
     F: ApplicativeHKT<F>
@@ -1042,13 +1041,6 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
   return {
     URI,
     _E: undefined as any,
-    map: map_,
-    filter: F_.filter,
-    filterMap: F_.filterMap,
-    partition: F_.partition,
-    partitionMap: F_.partitionMap,
-    traverse: traverse_,
-    sequence,
     wither,
     wilt
   }

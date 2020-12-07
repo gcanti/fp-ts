@@ -18,6 +18,7 @@ high state of flux, you're at risk of it changing without notice.
 # 3.0.0-rc1
 
 - **Breaking Change**
+
   - bump minimum typescript version (4.1.x+) (@gcanti)
   - remove deprecated APIs (@gcanti)
   - remove `pipeable` module (@gcanti)
@@ -123,6 +124,9 @@ high state of flux, you're at risk of it changing without notice.
     - drop `Traversable` dependency (@gcanti)
   - `Tree`
     - make `elem` curried (@gcanti)
+  - `Witherable`
+    - drop `Traversable` and `Filterable` dependencies (@gcanti)
+
 - **New Feature**
   - `Either`
     - add `getCompactable` (@gcanti)

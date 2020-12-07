@@ -1263,6 +1263,8 @@ export declare const option: Monad1<'Option'> &
   Foldable1<'Option'> &
   Alternative1<'Option'> &
   Extend1<'Option'> &
+  Traversable1<'Option'> &
+  Filterable1<'Option'> &
   Witherable1<'Option'> &
   MonadThrow1<'Option'>
 ```

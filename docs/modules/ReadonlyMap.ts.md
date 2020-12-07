@@ -48,6 +48,7 @@ Added in v2.5.0
   - [getFoldableWithIndex](#getfoldablewithindex)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
+  - [getTraversable](#gettraversable)
   - [getTraversableWithIndex](#gettraversablewithindex)
   - [getWitherable](#getwitherable)
   - [readonlyMap](#readonlymap)
@@ -420,6 +421,16 @@ export declare function getShow<K, A>(SK: Show<K>, SA: Show<A>): Show<ReadonlyMa
 ```
 
 Added in v2.5.0
+
+## getTraversable
+
+**Signature**
+
+```ts
+export declare function getTraversable<K>(O: Ord<K>): Traversable2C<URI, K>
+```
+
+Added in v3.0.0
 
 ## getTraversableWithIndex
 

@@ -1088,13 +1088,6 @@ export const Traversable: Traversable1<URI> = {
  */
 export const Witherable: Witherable1<URI> = {
   URI,
-  map: map_,
-  traverse: traverse_,
-  sequence,
-  filter: filter_,
-  filterMap: filterMap_,
-  partition: partition_,
-  partitionMap: partitionMap_,
   wither: wither_,
   wilt: wilt_
 }
@@ -1117,6 +1110,8 @@ export const option: Monad1<URI> &
   Foldable1<URI> &
   Alternative1<URI> &
   Extend1<URI> &
+  Traversable1<URI> &
+  Filterable1<URI> &
   Witherable1<URI> &
   MonadThrow1<URI> = {
   URI,
