@@ -5,7 +5,7 @@ import { Applicative } from './Applicative'
 import { Compactable2, Separated } from './Compactable'
 import { Either, isLeft } from './Either'
 import { Eq, fromEquals } from './Eq'
-import { Filterable2 } from './Filterable'
+import { Filterable2, Filterable2C } from './Filterable'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { pipe, Predicate, Refinement } from './function'
@@ -685,18 +685,27 @@ declare module './HKT' {
 
 /**
  * @category instances
+ * @since 3.0.0
+ */
+export function getFilterable<K = never>(): Filterable2C<URI, K> {
+  return {
+    URI,
+    _E: undefined as any,
+    partitionMap: partitionMap_,
+    partition: partition_,
+    filterMap: filterMap_,
+    filter: filter_
+  }
+}
+
+/**
+ * @category instances
  * @since 2.5.0
  */
 export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, K, K> {
   return {
     URI,
     _E: undefined as any,
-    map: map_,
-    mapWithIndex: mapWithIndex_,
-    filter: filter_,
-    filterMap: filterMap_,
-    partition: partition_,
-    partitionMap: partitionMap_,
     partitionMapWithIndex: partitionMapWithIndex_,
     partitionWithIndex: partitionWithIndex_,
     filterMapWithIndex: filterMapWithIndex_,

@@ -42,6 +42,7 @@ Added in v2.5.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
+  - [getFilterable](#getfilterable)
   - [getFilterableWithIndex](#getfilterablewithindex)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
@@ -354,6 +355,16 @@ export declare function getEq<K, A>(SK: Eq<K>, SA: Eq<A>): Eq<ReadonlyMap<K, A>>
 ```
 
 Added in v2.5.0
+
+## getFilterable
+
+**Signature**
+
+```ts
+export declare function getFilterable<K = never>(): Filterable2C<URI, K>
+```
+
+Added in v3.0.0
 
 ## getFilterableWithIndex
 

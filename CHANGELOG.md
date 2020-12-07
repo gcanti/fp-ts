@@ -46,6 +46,8 @@ high state of flux, you're at risk of it changing without notice.
     - make `stringifyJSON` pipeable (@gcanti)
   - `Filterable`
     - drop `Functor` and `Compactable` dependencies (@gcanti)
+  - `FilterableWithIndex`
+    - drop `Filterable` dependency (@gcanti)
   - `Foldable`
     - make `intercalate` pipeable (@gcanti)
   - `IOEither`
@@ -122,6 +124,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `getCompactable` (@gcanti)
   - `IOEither`
     - add `getCompactable` (@gcanti)
+  - `ReadonlyMap`
+    - add `getFilterable` (@gcanti)
   - `TaskEither`
     - add `getCompactable` (@gcanti)
 

@@ -2053,12 +2053,6 @@ export const Filterable: Filterable1<URI> = {
  */
 export const FilterableWithIndex: FilterableWithIndex1<URI, number> = {
   URI,
-  map: map_,
-  mapWithIndex: mapWithIndex_,
-  filter: filter_,
-  filterMap: filterMap_,
-  partition: partition_,
-  partitionMap: partitionMap_,
   partitionMapWithIndex: partitionMapWithIndex_,
   partitionWithIndex: partitionWithIndex_,
   filterMapWithIndex: filterMapWithIndex_,

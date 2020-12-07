@@ -18,7 +18,6 @@ Added in v2.0.0
   - [FilterableWithIndex2 (interface)](#filterablewithindex2-interface)
   - [FilterableWithIndex2C (interface)](#filterablewithindex2c-interface)
   - [FilterableWithIndex3 (interface)](#filterablewithindex3-interface)
-  - [FilterableWithIndex3C (interface)](#filterablewithindex3c-interface)
   - [FilterableWithIndex4 (interface)](#filterablewithindex4-interface)
 - [utils](#utils)
   - [FilterWithIndex (interface)](#filterwithindex-interface)
@@ -26,14 +25,12 @@ Added in v2.0.0
   - [FilterWithIndex2 (interface)](#filterwithindex2-interface)
   - [FilterWithIndex2C (interface)](#filterwithindex2c-interface)
   - [FilterWithIndex3 (interface)](#filterwithindex3-interface)
-  - [FilterWithIndex3C (interface)](#filterwithindex3c-interface)
   - [FilterWithIndex4 (interface)](#filterwithindex4-interface)
   - [PartitionWithIndex (interface)](#partitionwithindex-interface)
   - [PartitionWithIndex1 (interface)](#partitionwithindex1-interface)
   - [PartitionWithIndex2 (interface)](#partitionwithindex2-interface)
   - [PartitionWithIndex2C (interface)](#partitionwithindex2c-interface)
   - [PartitionWithIndex3 (interface)](#partitionwithindex3-interface)
-  - [PartitionWithIndex3C (interface)](#partitionwithindex3c-interface)
   - [PartitionWithIndex4 (interface)](#partitionwithindex4-interface)
   - [PredicateWithIndex (type alias)](#predicatewithindex-type-alias)
   - [RefinementWithIndex (type alias)](#refinementwithindex-type-alias)
@@ -47,7 +44,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FilterableWithIndex<F, I> extends FunctorWithIndex<F, I>, Filterable<F> {
+export interface FilterableWithIndex<F, I> {
+  readonly URI: F
   readonly partitionMapWithIndex: <A, B, C>(
     fa: HKT<F, A>,
     f: (i: I, a: A) => Either<B, C>
@@ -65,7 +63,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FilterableWithIndex1<F extends URIS, I> extends FunctorWithIndex1<F, I>, Filterable1<F> {
+export interface FilterableWithIndex1<F extends URIS, I> {
+  readonly URI: F
   readonly partitionMapWithIndex: <A, B, C>(
     fa: Kind<F, A>,
     f: (i: I, a: A) => Either<B, C>
@@ -83,7 +82,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FilterableWithIndex2<F extends URIS2, I> extends FunctorWithIndex2<F, I>, Filterable2<F> {
+export interface FilterableWithIndex2<F extends URIS2, I> {
+  readonly URI: F
   readonly partitionMapWithIndex: <E, A, B, C>(
     fa: Kind2<F, E, A>,
     f: (i: I, a: A) => Either<B, C>
@@ -101,7 +101,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FilterableWithIndex2C<F extends URIS2, I, E> extends FunctorWithIndex2C<F, I, E>, Filterable2C<F, E> {
+export interface FilterableWithIndex2C<F extends URIS2, I, E> {
+  readonly URI: F
+  readonly _E: E
   readonly partitionMapWithIndex: <A, B, C>(
     fa: Kind2<F, E, A>,
     f: (i: I, a: A) => Either<B, C>
@@ -119,7 +121,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FilterableWithIndex3<F extends URIS3, I> extends FunctorWithIndex3<F, I>, Filterable3<F> {
+export interface FilterableWithIndex3<F extends URIS3, I> {
+  readonly URI: F
   readonly partitionMapWithIndex: <R, E, A, B, C>(
     fa: Kind3<F, R, E, A>,
     f: (i: I, a: A) => Either<B, C>
@@ -132,30 +135,13 @@ export interface FilterableWithIndex3<F extends URIS3, I> extends FunctorWithInd
 
 Added in v2.0.0
 
-## FilterableWithIndex3C (interface)
-
-**Signature**
-
-```ts
-export interface FilterableWithIndex3C<F extends URIS3, I, E> extends FunctorWithIndex3C<F, I, E>, Filterable3C<F, E> {
-  readonly partitionMapWithIndex: <R, A, B, C>(
-    fa: Kind3<F, R, E, A>,
-    f: (i: I, a: A) => Either<B, C>
-  ) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, C>>
-  readonly partitionWithIndex: PartitionWithIndex3C<F, I, E>
-  readonly filterMapWithIndex: <R, A, B>(fa: Kind3<F, R, E, A>, f: (i: I, a: A) => Option<B>) => Kind3<F, R, E, B>
-  readonly filterWithIndex: FilterWithIndex3C<F, I, E>
-}
-```
-
-Added in v2.2.0
-
 ## FilterableWithIndex4 (interface)
 
 **Signature**
 
 ```ts
-export interface FilterableWithIndex4<F extends URIS4, I> extends FunctorWithIndex4<F, I>, Filterable4<F> {
+export interface FilterableWithIndex4<F extends URIS4, I> {
+  readonly URI: F
   readonly partitionMapWithIndex: <S, R, E, A, B, C>(
     fa: Kind4<F, S, R, E, A>,
     f: (i: I, a: A) => Either<B, C>
@@ -237,19 +223,6 @@ export interface FilterWithIndex3<F extends URIS3, I> {
 ```
 
 Added in v2.0.0
-
-## FilterWithIndex3C (interface)
-
-**Signature**
-
-```ts
-export interface FilterWithIndex3C<F extends URIS3, I, E> {
-  <R, A, B extends A>(fa: Kind3<F, R, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Kind3<F, R, E, B>
-  <R, A>(fa: Kind3<F, R, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Kind3<F, R, E, A>
-}
-```
-
-Added in v2.2.0
 
 ## FilterWithIndex4 (interface)
 
@@ -346,25 +319,6 @@ export interface PartitionWithIndex3<F extends URIS3, I> {
 ```
 
 Added in v2.0.0
-
-## PartitionWithIndex3C (interface)
-
-**Signature**
-
-```ts
-export interface PartitionWithIndex3C<F extends URIS3, I, E> {
-  <R, A, B extends A>(fa: Kind3<F, R, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Separated<
-    Kind3<F, R, E, A>,
-    Kind3<F, R, E, B>
-  >
-  <R, A>(fa: Kind3<F, R, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Separated<
-    Kind3<F, R, E, A>,
-    Kind3<F, R, E, A>
-  >
-}
-```
-
-Added in v2.2.0
 
 ## PartitionWithIndex4 (interface)
 

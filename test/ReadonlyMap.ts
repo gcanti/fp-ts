@@ -955,6 +955,23 @@ describe('ReadonlyMap', () => {
     })
   })
 
+  describe('getFilterable', () => {
+    const F = _.getFilterable<string>()
+
+    it('filter', () => {
+      assert.deepStrictEqual(
+        F.filter(
+          new Map([
+            ['a', 1],
+            ['b', 2]
+          ]),
+          (n) => n > 1
+        ),
+        new Map([['b', 2]])
+      )
+    })
+  })
+
   describe('getFilterableWithIndex', () => {
     it('partitionMapWithIndex', () => {
       const partitionMapWithIndex = _.getFilterableWithIndex<string>().partitionMapWithIndex

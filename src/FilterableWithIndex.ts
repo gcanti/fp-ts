@@ -3,25 +3,7 @@
  */
 import { Separated } from './Compactable'
 import { Either } from './Either'
-import {
-  Filterable,
-  Filterable1,
-  Filterable2,
-  Filterable2C,
-  Filterable3,
-  Filterable4,
-  Filterable3C
-} from './Filterable'
-import {
-  FunctorWithIndex,
-  FunctorWithIndex1,
-  FunctorWithIndex2,
-  FunctorWithIndex2C,
-  FunctorWithIndex3,
-  FunctorWithIndex4,
-  FunctorWithIndex3C
-} from './FunctorWithIndex'
-import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'
+import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Option } from './Option'
 
 /**
@@ -54,7 +36,8 @@ export interface PartitionWithIndex<F, I> {
  * @category type classes
  * @since 2.0.0
  */
-export interface FilterableWithIndex<F, I> extends FunctorWithIndex<F, I>, Filterable<F> {
+export interface FilterableWithIndex<F, I> {
+  readonly URI: F
   readonly partitionMapWithIndex: <A, B, C>(
     fa: HKT<F, A>,
     f: (i: I, a: A) => Either<B, C>
@@ -84,7 +67,8 @@ export interface PartitionWithIndex1<F extends URIS, I> {
  * @category type classes
  * @since 2.0.0
  */
-export interface FilterableWithIndex1<F extends URIS, I> extends FunctorWithIndex1<F, I>, Filterable1<F> {
+export interface FilterableWithIndex1<F extends URIS, I> {
+  readonly URI: F
   readonly partitionMapWithIndex: <A, B, C>(
     fa: Kind<F, A>,
     f: (i: I, a: A) => Either<B, C>
@@ -117,7 +101,8 @@ export interface PartitionWithIndex2<F extends URIS2, I> {
  * @category type classes
  * @since 2.0.0
  */
-export interface FilterableWithIndex2<F extends URIS2, I> extends FunctorWithIndex2<F, I>, Filterable2<F> {
+export interface FilterableWithIndex2<F extends URIS2, I> {
+  readonly URI: F
   readonly partitionMapWithIndex: <E, A, B, C>(
     fa: Kind2<F, E, A>,
     f: (i: I, a: A) => Either<B, C>
@@ -150,7 +135,9 @@ export interface PartitionWithIndex2C<F extends URIS2, I, E> {
  * @category type classes
  * @since 2.0.0
  */
-export interface FilterableWithIndex2C<F extends URIS2, I, E> extends FunctorWithIndex2C<F, I, E>, Filterable2C<F, E> {
+export interface FilterableWithIndex2C<F extends URIS2, I, E> {
+  readonly URI: F
+  readonly _E: E
   readonly partitionMapWithIndex: <A, B, C>(
     fa: Kind2<F, E, A>,
     f: (i: I, a: A) => Either<B, C>
@@ -169,28 +156,6 @@ export interface FilterWithIndex3<F extends URIS3, I> {
 }
 
 /**
- * @since 2.2.0
- */
-export interface FilterWithIndex3C<F extends URIS3, I, E> {
-  <R, A, B extends A>(fa: Kind3<F, R, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Kind3<F, R, E, B>
-  <R, A>(fa: Kind3<F, R, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Kind3<F, R, E, A>
-}
-
-/**
- * @category type classes
- * @since 2.2.0
- */
-export interface FilterableWithIndex3C<F extends URIS3, I, E> extends FunctorWithIndex3C<F, I, E>, Filterable3C<F, E> {
-  readonly partitionMapWithIndex: <R, A, B, C>(
-    fa: Kind3<F, R, E, A>,
-    f: (i: I, a: A) => Either<B, C>
-  ) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, C>>
-  readonly partitionWithIndex: PartitionWithIndex3C<F, I, E>
-  readonly filterMapWithIndex: <R, A, B>(fa: Kind3<F, R, E, A>, f: (i: I, a: A) => Option<B>) => Kind3<F, R, E, B>
-  readonly filterWithIndex: FilterWithIndex3C<F, I, E>
-}
-
-/**
  * @since 2.0.0
  */
 export interface PartitionWithIndex3<F extends URIS3, I> {
@@ -205,24 +170,11 @@ export interface PartitionWithIndex3<F extends URIS3, I> {
 }
 
 /**
- * @since 2.2.0
- */
-export interface PartitionWithIndex3C<F extends URIS3, I, E> {
-  <R, A, B extends A>(fa: Kind3<F, R, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Separated<
-    Kind3<F, R, E, A>,
-    Kind3<F, R, E, B>
-  >
-  <R, A>(fa: Kind3<F, R, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Separated<
-    Kind3<F, R, E, A>,
-    Kind3<F, R, E, A>
-  >
-}
-
-/**
  * @category type classes
  * @since 2.0.0
  */
-export interface FilterableWithIndex3<F extends URIS3, I> extends FunctorWithIndex3<F, I>, Filterable3<F> {
+export interface FilterableWithIndex3<F extends URIS3, I> {
+  readonly URI: F
   readonly partitionMapWithIndex: <R, E, A, B, C>(
     fa: Kind3<F, R, E, A>,
     f: (i: I, a: A) => Either<B, C>
@@ -264,7 +216,8 @@ export interface PartitionWithIndex4<F extends URIS4, I> {
  * @category type classes
  * @since 2.0.0
  */
-export interface FilterableWithIndex4<F extends URIS4, I> extends FunctorWithIndex4<F, I>, Filterable4<F> {
+export interface FilterableWithIndex4<F extends URIS4, I> {
+  readonly URI: F
   readonly partitionMapWithIndex: <S, R, E, A, B, C>(
     fa: Kind4<F, S, R, E, A>,
     f: (i: I, a: A) => Either<B, C>
