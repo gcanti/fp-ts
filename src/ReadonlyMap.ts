@@ -8,6 +8,7 @@ import { Eq, fromEquals } from './Eq'
 import { Filterable2, Filterable2C } from './Filterable'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
+import { FoldableWithIndex2C } from './FoldableWithIndex'
 import { pipe, Predicate, Refinement } from './function'
 import { Functor2 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
@@ -715,9 +716,9 @@ export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, 
 
 /**
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
-export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableWithIndex2C<URI, K, K> {
+export function getFoldableWithIndex<K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K> {
   const keysO = keys(O)
 
   const reduceWithIndex = <A, B>(fa: ReadonlyMap<K, A>, b: B, f: (k: K, b: B, a: A) => B): B => {
@@ -753,6 +754,27 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
     return out
   }
 
+  return {
+    URI,
+    _E: undefined as any,
+    reduce: (fa, b, f) => reduceWithIndex(fa, b, (_, b, a) => f(b, a)),
+    foldMap: (M) => {
+      const foldMapWithIndexM = foldMapWithIndex(M)
+      return (fa, f) => foldMapWithIndexM(fa, (_, a) => f(a))
+    },
+    reduceRight: (fa, b, f) => reduceRightWithIndex(fa, b, (_, a, b) => f(a, b)),
+    reduceWithIndex,
+    foldMapWithIndex,
+    reduceRightWithIndex
+  }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export function getTraversableWithIndex<K>(O: Ord<K>): TraversableWithIndex2C<URI, K, K> {
+  const keysO = keys(O)
   const traverseWithIndex = <F>(
     F: Applicative<F>
   ): (<A, B>(ta: ReadonlyMap<K, A>, f: (k: K, a: A) => HKT<F, B>) => HKT<F, ReadonlyMap<K, B>>) => {
@@ -771,16 +793,29 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
       return fm
     }
   }
+  return {
+    URI,
+    _E: undefined as any,
+    traverseWithIndex
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> {
+  const TWI = getTraversableWithIndex(O)
 
   const traverse = <F>(
     F: Applicative<F>
   ): (<A, B>(ta: ReadonlyMap<K, A>, f: (a: A) => HKT<F, B>) => HKT<F, ReadonlyMap<K, B>>) => {
-    const traverseWithIndexF = traverseWithIndex(F)
+    const traverseWithIndexF = TWI.traverseWithIndex(F)
     return (ta, f) => traverseWithIndexF(ta, (_, a) => f(a))
   }
 
   const sequence = <F>(F: Applicative<F>): (<A>(ta: ReadonlyMap<K, HKT<F, A>>) => HKT<F, ReadonlyMap<K, A>>) => {
-    const traverseWithIndexF = traverseWithIndex(F)
+    const traverseWithIndexF = TWI.traverseWithIndex(F)
     return (ta) => traverseWithIndexF(ta, (_, a) => a)
   }
 
@@ -792,19 +827,8 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
     filterMap: filterMap_,
     partition: partition_,
     partitionMap: partitionMap_,
-    reduce: (fa, b, f) => reduceWithIndex(fa, b, (_, b, a) => f(b, a)),
-    foldMap: (M) => {
-      const foldMapWithIndexM = foldMapWithIndex(M)
-      return (fa, f) => foldMapWithIndexM(fa, (_, a) => f(a))
-    },
-    reduceRight: (fa, b, f) => reduceRightWithIndex(fa, b, (_, a, b) => f(a, b)),
     traverse,
     sequence,
-    mapWithIndex: mapWithIndex_,
-    reduceWithIndex,
-    foldMapWithIndex,
-    reduceRightWithIndex,
-    traverseWithIndex,
     wilt: <F>(
       F: Applicative<F>
     ): (<A, B, C>(

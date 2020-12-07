@@ -44,8 +44,10 @@ Added in v2.5.0
   - [getEq](#geteq)
   - [getFilterable](#getfilterable)
   - [getFilterableWithIndex](#getfilterablewithindex)
+  - [getFoldableWithIndex](#getfoldablewithindex)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
+  - [getTraversableWithIndex](#gettraversablewithindex)
   - [getWitherable](#getwitherable)
   - [readonlyMap](#readonlymap)
 - [utils](#utils)
@@ -376,6 +378,16 @@ export declare function getFilterableWithIndex<K = never>(): FilterableWithIndex
 
 Added in v2.5.0
 
+## getFoldableWithIndex
+
+**Signature**
+
+```ts
+export declare function getFoldableWithIndex<K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K>
+```
+
+Added in v3.0.0
+
 ## getMonoid
 
 Gets `Monoid` instance for Maps given `Semigroup` instance for their values
@@ -398,12 +410,22 @@ export declare function getShow<K, A>(SK: Show<K>, SA: Show<A>): Show<ReadonlyMa
 
 Added in v2.5.0
 
+## getTraversableWithIndex
+
+**Signature**
+
+```ts
+export declare function getTraversableWithIndex<K>(O: Ord<K>): TraversableWithIndex2C<URI, K, K>
+```
+
+Added in v3.0.0
+
 ## getWitherable
 
 **Signature**
 
 ```ts
-export declare function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableWithIndex2C<URI, K, K>
+export declare function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K>
 ```
 
 Added in v2.5.0

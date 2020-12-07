@@ -117,6 +117,8 @@ high state of flux, you're at risk of it changing without notice.
     - make `tracks` curried (@gcanti)
   - `Traversable`
     - drop `Foldable` dependency (@gcanti)
+  - `TraversableWithIndex`
+    - drop `Traversable` dependency (@gcanti)
   - `Tree`
     - make `elem` curried (@gcanti)
 - **New Feature**
@@ -126,6 +128,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `getCompactable` (@gcanti)
   - `ReadonlyMap`
     - add `getFilterable` (@gcanti)
+    - add `getFoldableWithIndex` (@gcanti)
+    - add `getTraversableWithIndex` (@gcanti)
   - `TaskEither`
     - add `getCompactable` (@gcanti)
 

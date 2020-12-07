@@ -6,25 +6,6 @@ parent: Modules
 
 ## TraversableWithIndex overview
 
-A `Traversable` with an additional index.
-A `TraversableWithIndex` instance must be compatible with its `Traversable` instance
-
-```ts
-traverse(F)(ta, f) = traverseWithIndex(F)(ta, (_, a) => f(a))
-```
-
-with its `FoldableWithIndex` instance
-
-```ts
-foldMapWithIndex(M)(ta, f) = traverseWithIndex(getApplicative(M))(ta, (i, a) => new Const(f(i, a))).value
-```
-
-and with its `FunctorWithIndex` instance
-
-```purescript
-mapWithIndex(ta, f) = traverseWithIndex(identity)(ta, (i, a) => new Identity(f(i, a))).value
-```
-
 Added in v2.0.0
 
 ---
@@ -101,7 +82,8 @@ Added in v2.6.3
 **Signature**
 
 ```ts
-export interface TraversableWithIndex<T, I> extends FunctorWithIndex<T, I>, FoldableWithIndex<T, I>, Traversable<T> {
+export interface TraversableWithIndex<T, I> {
+  readonly URI: T
   readonly traverseWithIndex: TraverseWithIndex<T, I>
 }
 ```
@@ -113,10 +95,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface TraversableWithIndex1<T extends URIS, I>
-  extends FunctorWithIndex1<T, I>,
-    FoldableWithIndex1<T, I>,
-    Traversable1<T> {
+export interface TraversableWithIndex1<T extends URIS, I> {
+  readonly URI: T
   readonly traverseWithIndex: TraverseWithIndex1<T, I>
 }
 ```
@@ -128,10 +108,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface TraversableWithIndex2<T extends URIS2, I>
-  extends FunctorWithIndex2<T, I>,
-    FoldableWithIndex2<T, I>,
-    Traversable2<T> {
+export interface TraversableWithIndex2<T extends URIS2, I> {
+  readonly URI: T
   readonly traverseWithIndex: TraverseWithIndex2<T, I>
 }
 ```
@@ -143,10 +121,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface TraversableWithIndex2C<T extends URIS2, I, E>
-  extends FunctorWithIndex2C<T, I, E>,
-    FoldableWithIndex2C<T, I, E>,
-    Traversable2C<T, E> {
+export interface TraversableWithIndex2C<T extends URIS2, I, E> {
+  readonly URI: T
+  readonly _E: E
   readonly traverseWithIndex: TraverseWithIndex2C<T, I, E>
 }
 ```

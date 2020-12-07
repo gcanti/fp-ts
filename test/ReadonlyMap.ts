@@ -745,33 +745,14 @@ describe('ReadonlyMap', () => {
     })
   })
 
-  describe('getWitherable', () => {
-    const W = _.getWitherable(ordUser)
-
-    it('traverseWithIndex should sort the keys', () => {
-      const W = _.getWitherable(Ord.ordString)
-      // tslint:disable-next-line: readonly-array
-      const log: Array<string> = []
-      const append = (message: string): IO.IO<void> => () => {
-        log.push(message)
-      }
-
-      W.traverseWithIndex(IO.Applicative)(
-        new Map([
-          ['b', append('b')],
-          ['a', append('a')]
-        ]),
-        (_, io) => io
-      )()
-      assert.deepStrictEqual(log, ['a', 'b'])
-    })
-
+  describe('getFoldableWithIndex', () => {
+    const FWI = _.getFoldableWithIndex(ordUser)
     it('reduce', () => {
       const d1 = new Map<User, string>([
         [{ id: 'k1' }, 'a'],
         [{ id: 'k2' }, 'b']
       ])
-      const reduceO = W.reduce
+      const reduceO = FWI.reduce
       assert.deepStrictEqual(
         reduceO(d1, '', (b, a) => b + a),
         'ab'
@@ -787,7 +768,7 @@ describe('ReadonlyMap', () => {
     })
 
     it('foldMap', () => {
-      const foldMapOM = W.foldMap(monoidString)
+      const foldMapOM = FWI.foldMap(monoidString)
       const m = new Map<User, string>([
         [{ id: 'a' }, 'a'],
         [{ id: 'a' }, 'b']
@@ -796,7 +777,7 @@ describe('ReadonlyMap', () => {
     })
 
     it('reduceRight', () => {
-      const reduceRightO = W.reduceRight
+      const reduceRightO = FWI.reduceRight
       const m = new Map<User, string>([
         [{ id: 'a' }, 'a'],
         [{ id: 'b' }, 'b']
@@ -811,7 +792,7 @@ describe('ReadonlyMap', () => {
         [{ id: 'k1' }, 'a'],
         [{ id: 'k2' }, 'b']
       ])
-      const reduceWithIndexO = W.reduceWithIndex
+      const reduceWithIndexO = FWI.reduceWithIndex
       assert.deepStrictEqual(
         reduceWithIndexO(d1, '', (k, b, a) => b + k.id + a),
         'k1ak2b'
@@ -827,7 +808,7 @@ describe('ReadonlyMap', () => {
     })
 
     it('foldMapWithIndex', () => {
-      const foldMapWithIndexOM = W.foldMapWithIndex(monoidString)
+      const foldMapWithIndexOM = FWI.foldMapWithIndex(monoidString)
       const m = new Map<User, string>([
         [{ id: 'k1' }, 'a'],
         [{ id: 'k2' }, 'b']
@@ -839,7 +820,7 @@ describe('ReadonlyMap', () => {
     })
 
     it('reduceRightWithIndex', () => {
-      const reduceRightWithIndexO = W.reduceRightWithIndex
+      const reduceRightWithIndexO = FWI.reduceRightWithIndex
       const m = new Map<User, string>([
         [{ id: 'k1' }, 'a'],
         [{ id: 'k2' }, 'b']
@@ -849,6 +830,60 @@ describe('ReadonlyMap', () => {
         'k2bk1a'
       )
     })
+  })
+
+  describe('getTraversableWithIndex', () => {
+    it('traverseWithIndex', () => {
+      const TWI = _.getTraversableWithIndex(ordUser)
+      const traverseWithIndex = TWI.traverseWithIndex(O.Applicative)
+      assert.deepStrictEqual(
+        traverseWithIndex(
+          new Map([
+            [{ id: 'k1' }, 1],
+            [{ id: 'k2' }, 2]
+          ]),
+          (k, n): O.Option<number> => (!ordUser.equals(k, { id: 'k1' }) ? O.some(n) : O.none)
+        ),
+        O.none
+      )
+      assert.deepStrictEqual(
+        traverseWithIndex(
+          new Map([
+            [{ id: 'k1' }, 2],
+            [{ id: 'k2' }, 3]
+          ]),
+          (k, n): O.Option<number> => (!ordUser.equals(k, { id: 'k3' }) ? O.some(n) : O.none)
+        ),
+        O.some(
+          new Map([
+            [{ id: 'k1' }, 2],
+            [{ id: 'k2' }, 3]
+          ])
+        )
+      )
+    })
+
+    it('traverseWithIndex should sort the keys', () => {
+      const TWI = _.getTraversableWithIndex(Ord.ordString)
+      // tslint:disable-next-line: readonly-array
+      const log: Array<string> = []
+      const append = (message: string): IO.IO<void> => () => {
+        log.push(message)
+      }
+
+      TWI.traverseWithIndex(IO.Applicative)(
+        new Map([
+          ['b', append('b')],
+          ['a', append('a')]
+        ]),
+        (_, io) => io
+      )()
+      assert.deepStrictEqual(log, ['a', 'b'])
+    })
+  })
+
+  describe('getWitherable', () => {
+    const W = _.getWitherable(ordUser)
 
     it('traverse', () => {
       const traverse = W.traverse(O.Applicative)
@@ -890,35 +925,6 @@ describe('ReadonlyMap', () => {
           ])
         ),
         O.none
-      )
-    })
-
-    it('traverseWithIndex', () => {
-      const traverseWithIndex = W.traverseWithIndex(O.Applicative)
-      assert.deepStrictEqual(
-        traverseWithIndex(
-          new Map([
-            [{ id: 'k1' }, 1],
-            [{ id: 'k2' }, 2]
-          ]),
-          (k, n): O.Option<number> => (!ordUser.equals(k, { id: 'k1' }) ? O.some(n) : O.none)
-        ),
-        O.none
-      )
-      assert.deepStrictEqual(
-        traverseWithIndex(
-          new Map([
-            [{ id: 'k1' }, 2],
-            [{ id: 'k2' }, 3]
-          ]),
-          (k, n): O.Option<number> => (!ordUser.equals(k, { id: 'k3' }) ? O.some(n) : O.none)
-        ),
-        O.some(
-          new Map([
-            [{ id: 'k1' }, 2],
-            [{ id: 'k2' }, 3]
-          ])
-        )
       )
     })
 

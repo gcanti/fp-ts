@@ -815,6 +815,7 @@ Added in v2.5.0
 ```ts
 export declare const readonlyNonEmptyArray: Monad1<'ReadonlyNonEmptyArray'> &
   Comonad1<'ReadonlyNonEmptyArray'> &
+  Traversable1<'ReadonlyNonEmptyArray'> &
   TraversableWithIndex1<'ReadonlyNonEmptyArray', number> &
   FunctorWithIndex1<'ReadonlyNonEmptyArray', number> &
   FoldableWithIndex1<'ReadonlyNonEmptyArray', number> &
