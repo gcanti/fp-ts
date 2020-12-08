@@ -195,19 +195,19 @@ export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, E> 
  *
  * @example
  * import { getApplicativeComposition } from 'fp-ts/Applicative'
- * import { option, Option, some } from 'fp-ts/Option'
- * import { task, Task } from 'fp-ts/Task'
+ * import * as O from 'fp-ts/Option'
+ * import * as T from 'fp-ts/Task'
  *
  * // an Applicative instance for Task<Option<A>>
- * const A = getApplicativeComposition(task, option)
+ * const A = getApplicativeComposition(T.ApplicativePar, O.Applicative)
  *
- * const x: Task<Option<number>> = task.of(some(1))
- * const y: Task<Option<number>> = task.of(some(2))
+ * const x: T.Task<O.Option<number>> = T.of(O.some(1))
+ * const y: T.Task<O.Option<number>> = T.of(O.some(2))
  *
  * const sum = (a: number) => (b: number): number => a + b
  *
  * A.ap(A.map(x, sum), y)()
- *   .then(result => assert.deepStrictEqual(result, some(3)))
+ *   .then(result => assert.deepStrictEqual(result, O.some(3)))
  *
  * @since 2.0.0
  */

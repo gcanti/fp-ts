@@ -339,34 +339,6 @@ export const ChainRec: ChainRec1<URI> = {
   chainRec: chainRec_
 }
 
-// TODO: remove mega instance in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const identity: Applicative1<URI> &
-  Monad1<URI> &
-  Foldable1<URI> &
-  Traversable1<URI> &
-  Alt1<URI> &
-  Comonad1<URI> &
-  ChainRec1<URI> = {
-  URI,
-  map: map_,
-  ap: ap_,
-  of,
-  chain: chain_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
-  sequence,
-  alt: alt_,
-  extract,
-  extend: extend_,
-  chainRec: chainRec_
-}
-
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------

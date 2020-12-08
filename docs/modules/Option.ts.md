@@ -107,7 +107,6 @@ Added in v2.0.0
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getShow](#getshow)
-  - [option](#option)
 - [model](#model)
   - [None (interface)](#none-interface)
   - [Option (type alias)](#option-type-alias)
@@ -1250,23 +1249,6 @@ Added in v2.0.0
 
 ```ts
 export declare function getShow<A>(S: Show<A>): Show<Option<A>>
-```
-
-Added in v2.0.0
-
-## option
-
-**Signature**
-
-```ts
-export declare const option: Monad1<'Option'> &
-  Foldable1<'Option'> &
-  Alternative1<'Option'> &
-  Extend1<'Option'> &
-  Traversable1<'Option'> &
-  Filterable1<'Option'> &
-  Witherable1<'Option'> &
-  MonadThrow1<'Option'>
 ```
 
 Added in v2.0.0

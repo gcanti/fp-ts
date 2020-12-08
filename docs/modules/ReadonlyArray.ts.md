@@ -124,7 +124,6 @@ Added in v2.5.0
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getShow](#getshow)
-  - [readonlyArray](#readonlyarray)
 - [unsafe](#unsafe)
   - [unsafeDeleteAt](#unsafedeleteat)
   - [unsafeInsertAt](#unsafeinsertat)
@@ -944,14 +943,21 @@ export declare function sortBy<B>(ords: ReadonlyArray<Ord<B>>): <A extends B>(as
 
 ```ts
 import { sortBy } from 'fp-ts/ReadonlyArray'
-import { ord, ordString, ordNumber } from 'fp-ts/Ord'
+import { contramap, ordString, ordNumber } from 'fp-ts/Ord'
+import { pipe } from 'fp-ts/function'
 
 interface Person {
   name: string
   age: number
 }
-const byName = ord.contramap(ordString, (p: Person) => p.name)
-const byAge = ord.contramap(ordNumber, (p: Person) => p.age)
+const byName = pipe(
+  ordString,
+  contramap((p: Person) => p.name)
+)
+const byAge = pipe(
+  ordNumber,
+  contramap((p: Person) => p.age)
+)
 
 const sortByNameByAge = sortBy([byName, byAge])
 
@@ -1620,27 +1626,6 @@ Added in v2.5.0
 
 ```ts
 export declare function getShow<A>(S: Show<A>): Show<ReadonlyArray<A>>
-```
-
-Added in v2.5.0
-
-## readonlyArray
-
-**Signature**
-
-```ts
-export declare const readonlyArray: FunctorWithIndex1<'ReadonlyArray', number> &
-  Monad1<'ReadonlyArray'> &
-  Unfoldable1<'ReadonlyArray'> &
-  Alternative1<'ReadonlyArray'> &
-  Extend1<'ReadonlyArray'> &
-  FilterableWithIndex1<'ReadonlyArray', number> &
-  Foldable1<'ReadonlyArray'> &
-  FoldableWithIndex1<'ReadonlyArray', number> &
-  TraversableWithIndex1<'ReadonlyArray', number> &
-  Filterable1<'ReadonlyArray'> &
-  Traversable1<'ReadonlyArray'> &
-  Witherable1<'ReadonlyArray'>
 ```
 
 Added in v2.5.0

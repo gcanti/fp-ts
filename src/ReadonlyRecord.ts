@@ -721,13 +721,13 @@ export function fromFoldable<F, A>(
  *
  * @example
  * import { getLastSemigroup } from 'fp-ts/Semigroup'
- * import { readonlyArray, zip } from 'fp-ts/ReadonlyArray'
+ * import { Foldable, zip } from 'fp-ts/ReadonlyArray'
  * import { identity, pipe } from 'fp-ts/function'
  * import { ReadonlyRecord, fromFoldableMap } from 'fp-ts/ReadonlyRecord'
  *
  * // like lodash `zipObject` or ramda `zipObj`
  * export const zipObject = <K extends string, A>(keys: ReadonlyArray<K>, values: ReadonlyArray<A>): ReadonlyRecord<K, A> =>
- *   fromFoldableMap(getLastSemigroup<A>(), readonlyArray)(pipe(keys, zip(values)), identity)
+ *   fromFoldableMap(getLastSemigroup<A>(), Foldable)(pipe(keys, zip(values)), identity)
  *
  * assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
  *
@@ -743,7 +743,7 @@ export function fromFoldable<F, A>(
  *   { id: 'id1', name: 'name3' }
  * ]
  *
- * assert.deepStrictEqual(fromFoldableMap(getLastSemigroup<User>(), readonlyArray)(users, user => [user.id, user]), {
+ * assert.deepStrictEqual(fromFoldableMap(getLastSemigroup<User>(), Foldable)(users, user => [user.id, user]), {
  *   id1: { id: 'id1', name: 'name3' },
  *   id2: { id: 'id2', name: 'name2' }
  * })
@@ -1142,43 +1142,6 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
  */
 export const Witherable: Witherable1<URI> = {
   URI,
-  wither: wither_,
-  wilt: wilt_
-}
-
-// TODO: remove mega instance in v3
-/**
- * @category instances
- * @since 2.5.0
- */
-export const readonlyRecord: FunctorWithIndex1<URI, string> &
-  Foldable1<URI> &
-  FoldableWithIndex1<URI, string> &
-  FilterableWithIndex1<URI, string> &
-  TraversableWithIndex1<URI, string> &
-  Traversable1<URI> &
-  Filterable1<URI> &
-  Witherable1<URI> = {
-  URI,
-  map: map_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
-  sequence,
-  filter: filter_,
-  filterMap: filterMap_,
-  partition: partition_,
-  partitionMap: partitionMap_,
-  mapWithIndex: mapWithIndex_,
-  reduceWithIndex: reduceWithIndex_,
-  foldMapWithIndex: foldMapWithIndex_,
-  reduceRightWithIndex: reduceRightWithIndex_,
-  filterMapWithIndex: filterMapWithIndex_,
-  filterWithIndex: filterWithIndex_,
-  partitionMapWithIndex: partitionMapWithIndex_,
-  partitionWithIndex: partitionWithIndex_,
-  traverseWithIndex: traverseWithIndex_,
   wither: wither_,
   wilt: wilt_
 }

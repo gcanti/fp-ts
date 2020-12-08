@@ -77,7 +77,6 @@ Added in v2.5.0
   - [getEq](#geteq)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
-  - [readonlyNonEmptyArray](#readonlynonemptyarray)
 - [model](#model)
   - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
 - [utils](#utils)
@@ -804,24 +803,6 @@ Added in v2.5.0
 
 ```ts
 export declare const getShow: <A>(S: Show<A>) => Show<ReadonlyNonEmptyArray<A>>
-```
-
-Added in v2.5.0
-
-## readonlyNonEmptyArray
-
-**Signature**
-
-```ts
-export declare const readonlyNonEmptyArray: Apply1<'ReadonlyNonEmptyArray'> &
-  Monad1<'ReadonlyNonEmptyArray'> &
-  Comonad1<'ReadonlyNonEmptyArray'> &
-  Traversable1<'ReadonlyNonEmptyArray'> &
-  TraversableWithIndex1<'ReadonlyNonEmptyArray', number> &
-  FunctorWithIndex1<'ReadonlyNonEmptyArray', number> &
-  Foldable1<'ReadonlyNonEmptyArray'> &
-  FoldableWithIndex1<'ReadonlyNonEmptyArray', number> &
-  Alt1<'ReadonlyNonEmptyArray'>
 ```
 
 Added in v2.5.0

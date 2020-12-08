@@ -92,7 +92,6 @@ Added in v2.0.0
   - [Traversable](#traversable-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [either](#either)
   - [getAltValidation](#getaltvalidation)
   - [getApplicativeValidation](#getapplicativevalidation)
   - [getApplyMonoid](#getapplymonoid)
@@ -396,9 +395,9 @@ import { pipe } from 'fp-ts/function'
 import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 
-assert.deepStrictEqual(pipe(E.right(O.some('a')), E.sequence(O.option)), O.some(E.right('a')))
+assert.deepStrictEqual(pipe(E.right(O.some('a')), E.sequence(O.Applicative)), O.some(E.right('a')))
 
-assert.deepStrictEqual(pipe(E.right(O.none), E.sequence(O.option)), O.none)
+assert.deepStrictEqual(pipe(E.right(O.none), E.sequence(O.Applicative)), O.none)
 ```
 
 Added in v2.6.3
@@ -421,9 +420,9 @@ import * as A from 'fp-ts/ReadonlyArray'
 import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 
-assert.deepStrictEqual(pipe(E.right(['a']), E.traverse(O.option)(A.head)), O.some(E.right('a')))
+assert.deepStrictEqual(pipe(E.right(['a']), E.traverse(O.Applicative)(A.head)), O.some(E.right('a')))
 
-assert.deepStrictEqual(pipe(E.right([]), E.traverse(O.option)(A.head)), O.none)
+assert.deepStrictEqual(pipe(E.right([]), E.traverse(O.Applicative)(A.head)), O.none)
 ```
 
 Added in v2.6.3
@@ -1069,24 +1068,6 @@ Added in v2.0.0
 
 ```ts
 export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-## either
-
-**Signature**
-
-```ts
-export declare const either: Applicative2<'Either'> &
-  Monad2<'Either'> &
-  Foldable2<'Either'> &
-  Traversable2<'Either'> &
-  Bifunctor2<'Either'> &
-  Alt2<'Either'> &
-  Extend2<'Either'> &
-  ChainRec2<'Either'> &
-  MonadThrow2<'Either'>
 ```
 
 Added in v2.0.0

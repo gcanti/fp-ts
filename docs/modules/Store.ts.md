@@ -25,7 +25,6 @@ Added in v2.0.0
   - [Functor](#functor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [store](#store)
 - [model](#model)
   - [Store (interface)](#store-interface)
 - [utils](#utils)
@@ -127,16 +126,6 @@ Added in v2.0.0
 
 ```ts
 export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-## store
-
-**Signature**
-
-```ts
-export declare const store: Comonad2<'Store'>
 ```
 
 Added in v2.0.0

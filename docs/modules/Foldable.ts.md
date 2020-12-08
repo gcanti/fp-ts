@@ -341,11 +341,11 @@ export declare function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M
 ```ts
 import { intercalate } from 'fp-ts/Foldable'
 import { monoidString } from 'fp-ts/Monoid'
-import { make, tree } from 'fp-ts/Tree'
+import { make, Foldable } from 'fp-ts/Tree'
 import { pipe } from 'fp-ts/function'
 
 const t = make('a', [make('b', []), make('c', []), make('d', [])])
-assert.strictEqual(pipe(t, intercalate(monoidString, tree)('|')), 'a|b|c|d')
+assert.strictEqual(pipe(t, intercalate(monoidString, Foldable)('|')), 'a|b|c|d')
 ```
 
 Added in v2.0.0
@@ -429,10 +429,10 @@ export declare function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Readon
 
 ```ts
 import { toArray } from 'fp-ts/Foldable'
-import { tree, make } from 'fp-ts/Tree'
+import { Foldable, make } from 'fp-ts/Tree'
 
 const t = make(1, [make(2, []), make(3, []), make(4, [])])
-assert.deepStrictEqual(toArray(tree)(t), [1, 2, 3, 4])
+assert.deepStrictEqual(toArray(Foldable)(t), [1, 2, 3, 4])
 ```
 
 Added in v2.8.0

@@ -36,7 +36,6 @@ Added in v2.0.0
   - [Monad](#monad-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [state](#state)
 - [model](#model)
   - [State (interface)](#state-interface)
 - [utils](#utils)
@@ -263,16 +262,6 @@ Added in v2.0.0
 
 ```ts
 export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-## state
-
-**Signature**
-
-```ts
-export declare const state: Monad2<'State'>
 ```
 
 Added in v2.0.0

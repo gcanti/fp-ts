@@ -505,7 +505,7 @@ export declare function getTraversableComposition<F, G>(
 
 ```ts
 import * as A from 'fp-ts/ReadonlyArray'
-import { io } from 'fp-ts/IO'
+import { Applicative } from 'fp-ts/IO'
 import * as O from 'fp-ts/Option'
 import { getTraversableComposition } from 'fp-ts/Traversable'
 
@@ -515,7 +515,7 @@ const state: Record<string, number | undefined> = {
   b: 2,
 }
 const read = (s: string) => () => state[s]
-const x = T.sequence(io)([O.some(read('a')), O.none, O.some(read('b')), O.some(read('c'))])
+const x = T.sequence(Applicative)([O.some(read('a')), O.none, O.some(read('b')), O.some(read('c'))])
 assert.deepStrictEqual(x(), [O.some(1), O.none, O.some(2), O.some(undefined)])
 ```
 

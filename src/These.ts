@@ -553,20 +553,3 @@ export const Traversable: Traversable2<URI> = {
   traverse: traverse_,
   sequence
 }
-
-// TODO: remove mega instance in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI> = {
-  URI,
-  map: map_,
-  bimap: bimap_,
-  mapLeft: mapLeft_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
-  sequence
-}

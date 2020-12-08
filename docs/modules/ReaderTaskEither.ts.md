@@ -81,6 +81,9 @@ Added in v2.0.0
   - [ApplicativeSeq](#applicativeseq)
   - [Bifunctor](#bifunctor-1)
   - [Functor](#functor-1)
+  - [Monad](#monad-1)
+  - [MonadTask](#monadtask-1)
+  - [MonadThrow](#monadthrow-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getAltReaderTaskValidation](#getaltreadertaskvalidation)
@@ -88,8 +91,6 @@ Added in v2.0.0
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getSemigroup](#getsemigroup)
-  - [readerTaskEither](#readertaskeither)
-  - [readerTaskEitherSeq](#readertaskeitherseq)
 - [model](#model)
   - [ReaderTaskEither (interface)](#readertaskeither-interface)
 - [utils](#utils)
@@ -817,6 +818,36 @@ export declare const Functor: Functor3<'ReaderTaskEither'>
 
 Added in v2.7.0
 
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad3<'ReaderTaskEither'>
+```
+
+Added in v3.0.0
+
+## MonadTask
+
+**Signature**
+
+```ts
+export declare const MonadTask: MonadTask3<'ReaderTaskEither'>
+```
+
+Added in v3.0.0
+
+## MonadThrow
+
+**Signature**
+
+```ts
+export declare const MonadThrow: MonadThrow3<'ReaderTaskEither'>
+```
+
+Added in v3.0.0
+
 ## URI
 
 **Signature**
@@ -889,38 +920,6 @@ concatenated using the provided `Semigroup`
 
 ```ts
 export declare function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>>
-```
-
-Added in v2.0.0
-
-## readerTaskEither
-
-**Signature**
-
-```ts
-export declare const readerTaskEither: Applicative3<'ReaderTaskEither'> &
-  Monad3<'ReaderTaskEither'> &
-  Bifunctor3<'ReaderTaskEither'> &
-  Alt3<'ReaderTaskEither'> &
-  MonadTask3<'ReaderTaskEither'> &
-  MonadThrow3<'ReaderTaskEither'>
-```
-
-Added in v2.0.0
-
-## readerTaskEitherSeq
-
-Like `readerTaskEither` but `ap` is sequential
-
-**Signature**
-
-```ts
-export declare const readerTaskEitherSeq: Applicative3<'ReaderTaskEither'> &
-  Monad3<'ReaderTaskEither'> &
-  Bifunctor3<'ReaderTaskEither'> &
-  Alt3<'ReaderTaskEither'> &
-  MonadTask3<'ReaderTaskEither'> &
-  MonadThrow3<'ReaderTaskEither'>
 ```
 
 Added in v2.0.0

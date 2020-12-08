@@ -329,7 +329,7 @@ export interface TraversableComposition11<F extends URIS, G extends URIS> extend
  *
  * @example
  * import * as A from 'fp-ts/ReadonlyArray'
- * import { io } from 'fp-ts/IO'
+ * import { Applicative } from 'fp-ts/IO'
  * import * as O from 'fp-ts/Option'
  * import { getTraversableComposition } from 'fp-ts/Traversable'
  *
@@ -339,7 +339,7 @@ export interface TraversableComposition11<F extends URIS, G extends URIS> extend
  *   b: 2
  * }
  * const read = (s: string) => () => state[s]
- * const x = T.sequence(io)([O.some(read('a')), O.none, O.some(read('b')), O.some(read('c'))])
+ * const x = T.sequence(Applicative)([O.some(read('a')), O.none, O.some(read('b')), O.some(read('c'))])
  * assert.deepStrictEqual(x(), [O.some(1), O.none, O.some(2), O.some(undefined)])
  *
  * @since 2.0.0
@@ -366,6 +366,7 @@ export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversabl
 }
 
 //
+// TODO remove in v3
 // pipeable `Traverse`
 //
 

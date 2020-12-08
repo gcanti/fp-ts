@@ -9,4 +9,4 @@ import * as R from '../../src/Reader'
 
 const applicativeValidation = E.getApplicativeValidation(S.semigroupString)
 
-_.getApplicativeComposition(R.reader, applicativeValidation).map // $ExpectType <FE, A, B>(fa: Reader<FE, Either<string, A>>, f: (a: A) => B) => Reader<FE, Either<string, B>>
+_.getApplicativeComposition(R.Applicative, applicativeValidation).map // $ExpectType <FE, A, B>(fa: Reader<FE, Either<string, A>>, f: (a: A) => B) => Reader<FE, Either<string, B>>

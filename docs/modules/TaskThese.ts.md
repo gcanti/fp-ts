@@ -44,7 +44,6 @@ Added in v2.4.0
   - [getApplicative](#getapplicative)
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
-  - [taskThese](#taskthese)
 - [model](#model)
   - [TaskThese (interface)](#taskthese-interface)
 
@@ -317,16 +316,6 @@ Added in v2.4.0
 
 ```ts
 export declare function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<TaskThese<E, A>>
-```
-
-Added in v2.4.0
-
-## taskThese
-
-**Signature**
-
-```ts
-export declare const taskThese: Functor2<'TaskThese'> & Bifunctor2<'TaskThese'>
 ```
 
 Added in v2.4.0

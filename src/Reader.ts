@@ -328,31 +328,6 @@ export const Choice: Choice2<URI> = {
   right: right_
 }
 
-// TODO: remove mega instance in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const reader: Applicative2<URI> &
-  Monad2<URI> &
-  Profunctor2<URI> &
-  Category2<URI> &
-  Strong2<URI> &
-  Choice2<URI> = {
-  URI,
-  map: map_,
-  of,
-  ap: ap_,
-  chain: chain_,
-  promap: promap_,
-  compose: compose_,
-  id,
-  first: first_,
-  second: second_,
-  left: left_,
-  right: right_
-}
-
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------

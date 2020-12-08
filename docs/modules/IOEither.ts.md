@@ -78,7 +78,6 @@ Added in v2.0.0
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
   - [getSemigroup](#getsemigroup)
-  - [ioEither](#ioeither)
 - [model](#model)
   - [IOEither (interface)](#ioeither-interface)
 - [utils](#utils)
@@ -709,21 +708,6 @@ concatenated using the provided `Semigroup`
 
 ```ts
 export declare function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>>
-```
-
-Added in v2.0.0
-
-## ioEither
-
-**Signature**
-
-```ts
-export declare const ioEither: Applicative2<'IOEither'> &
-  Monad2<'IOEither'> &
-  Bifunctor2<'IOEither'> &
-  Alt2<'IOEither'> &
-  MonadIO2<'IOEither'> &
-  MonadThrow2<'IOEither'>
 ```
 
 Added in v2.0.0

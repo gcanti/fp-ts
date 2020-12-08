@@ -733,48 +733,33 @@ export const Alt: Alt2<URI> = {
   alt: alt_
 }
 
-// TODO: remove mega instance in v3
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
-export const taskEither: Apply2<URI> &
-  Monad2<URI> &
-  Bifunctor2<URI> &
-  Alt2<URI> &
-  MonadTask2<URI> &
-  MonadThrow2<URI> = {
+export const Monad: Monad2<URI> = {
   URI,
-  bimap: bimap_,
-  mapLeft: mapLeft_,
   map: map_,
   of,
-  ap: apPar_,
-  chain: chain_,
-  alt: alt_,
-  fromIO,
-  fromTask,
-  throwError
+  chain: chain_
 }
 
-// TODO: remove mega instance in v3
 /**
- * Like `TaskEither` but `ap` is sequential
- *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
-export const taskEitherSeq: typeof taskEither = {
+export const MonadTask: MonadTask2<URI> = {
   URI,
-  bimap: bimap_,
-  mapLeft: mapLeft_,
-  map: map_,
-  of,
-  ap: apSeq_,
-  chain: chain_,
-  alt: alt_,
   fromIO,
-  fromTask,
+  fromTask
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const MonadThrow: MonadThrow2<URI> = {
+  URI,
   throwError
 }
 

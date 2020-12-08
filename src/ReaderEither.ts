@@ -577,23 +577,6 @@ export const MonadThrow: MonadThrow3<URI> = {
   throwError
 }
 
-// TODO: remove mega instance in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const readerEither: Applicative3<URI> & Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThrow3<URI> = {
-  URI,
-  bimap: bimap_,
-  mapLeft: mapLeft_,
-  map: map_,
-  of,
-  ap: ap_,
-  chain: chain_,
-  alt: alt_,
-  throwError: left
-}
-
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------

@@ -715,6 +715,36 @@ export const ApplicativeSeq: Applicative3<URI> = {
 
 /**
  * @category instances
+ * @since 3.0.0
+ */
+export const Monad: Monad3<URI> = {
+  URI,
+  map: map_,
+  of,
+  chain: chain_
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const MonadTask: MonadTask3<URI> = {
+  URI,
+  fromIO,
+  fromTask
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const MonadThrow: MonadThrow3<URI> = {
+  URI,
+  throwError
+}
+
+/**
+ * @category instances
  * @since 2.7.0
  */
 export const Bifunctor: Bifunctor3<URI> = {
@@ -731,51 +761,6 @@ export const Alt: Alt3<URI> = {
   URI,
   map: map_,
   alt: alt_
-}
-
-// TODO: remove mega instance in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const readerTaskEither: Applicative3<URI> &
-  Monad3<URI> &
-  Bifunctor3<URI> &
-  Alt3<URI> &
-  MonadTask3<URI> &
-  MonadThrow3<URI> = {
-  URI,
-  map: map_,
-  of,
-  ap: apPar_,
-  chain: chain_,
-  alt: alt_,
-  bimap: bimap_,
-  mapLeft: mapLeft_,
-  fromIO,
-  fromTask,
-  throwError
-}
-
-// TODO: remove mega instance in v3
-/**
- * Like `readerTaskEither` but `ap` is sequential
- *
- * @category instances
- * @since 2.0.0
- */
-export const readerTaskEitherSeq: typeof readerTaskEither = {
-  URI,
-  map: map_,
-  of,
-  ap: apSeq_,
-  chain: chain_,
-  alt: alt_,
-  bimap: bimap_,
-  mapLeft: mapLeft_,
-  fromIO,
-  fromTask,
-  throwError
 }
 
 // -------------------------------------------------------------------------------------

@@ -50,7 +50,6 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
   - [getShow](#getshow)
-  - [identity](#identity)
 - [model](#model)
   - [Identity (type alias)](#identity-type-alias)
 - [utils](#utils)
@@ -390,22 +389,6 @@ Added in v2.0.0
 
 ```ts
 export declare const getShow: <A>(S: Show<A>) => Show<A>
-```
-
-Added in v2.0.0
-
-## identity
-
-**Signature**
-
-```ts
-export declare const identity: Applicative1<'Identity'> &
-  Monad1<'Identity'> &
-  Foldable1<'Identity'> &
-  Traversable1<'Identity'> &
-  Alt1<'Identity'> &
-  Comonad1<'Identity'> &
-  ChainRec1<'Identity'>
 ```
 
 Added in v2.0.0

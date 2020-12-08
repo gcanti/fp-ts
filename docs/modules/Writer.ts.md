@@ -26,7 +26,6 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
   - [getMonad](#getmonad)
-  - [writer](#writer)
 - [model](#model)
   - [Writer (interface)](#writer-interface)
 - [utils](#utils)
@@ -160,16 +159,6 @@ Added in v3.0.0
 
 ```ts
 export declare function getMonad<W>(M: Monoid<W>): Monad2C<URI, W>
-```
-
-Added in v2.0.0
-
-## writer
-
-**Signature**
-
-```ts
-export declare const writer: Functor2<'Writer'>
 ```
 
 Added in v2.0.0

@@ -167,13 +167,6 @@ export const Functor: Functor2<URI> = {
   map: map_
 }
 
-// TODO: remove mega instance in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const writer: Functor2<URI> = Functor
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------

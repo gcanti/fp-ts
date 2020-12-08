@@ -19,7 +19,6 @@ Added in v2.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getComonad](#getcomonad)
-  - [traced](#traced)
 - [model](#model)
   - [Traced (interface)](#traced-interface)
 - [utils](#utils)
@@ -83,16 +82,6 @@ Added in v2.0.0
 
 ```ts
 export declare function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P>
-```
-
-Added in v2.0.0
-
-## traced
-
-**Signature**
-
-```ts
-export declare const traced: Functor2<'Traced'>
 ```
 
 Added in v2.0.0

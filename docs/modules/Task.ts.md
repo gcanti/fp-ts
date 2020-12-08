@@ -45,13 +45,13 @@ Added in v2.0.0
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
   - [Functor](#functor-1)
+  - [Monad](#monad-1)
+  - [MonadTask](#monadtask-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getRaceMonoid](#getracemonoid)
   - [getSemigroup](#getsemigroup)
-  - [task](#task)
-  - [taskSeq](#taskseq)
 - [model](#model)
   - [Task (interface)](#task-interface)
 - [utils](#utils)
@@ -219,7 +219,7 @@ async function test() {
   const fb = append('b')
   const fc = T.delay(10)(append('c'))
   const fd = append('d')
-  await sequenceT(T.task)(fa, fb, fc, fd)()
+  await sequenceT(T.ApplicativePar)(fa, fb, fc, fd)()
   assert.deepStrictEqual(log, ['a', 'b', 'd', 'c'])
 }
 
@@ -293,6 +293,26 @@ export declare const Functor: Functor1<'Task'>
 ```
 
 Added in v2.7.0
+
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad1<'Task'>
+```
+
+Added in v3.0.0
+
+## MonadTask
+
+**Signature**
+
+```ts
+export declare const MonadTask: MonadTask1<'Task'>
+```
+
+Added in v3.0.0
 
 ## URI
 
@@ -379,28 +399,6 @@ async function test() {
 }
 
 test()
-```
-
-Added in v2.0.0
-
-## task
-
-**Signature**
-
-```ts
-export declare const task: Apply1<'Task'> & Monad1<'Task'> & MonadTask1<'Task'>
-```
-
-Added in v2.0.0
-
-## taskSeq
-
-Like `task` but `ap` is sequential
-
-**Signature**
-
-```ts
-export declare const taskSeq: Apply1<'Task'> & Monad1<'Task'> & MonadTask1<'Task'>
 ```
 
 Added in v2.0.0

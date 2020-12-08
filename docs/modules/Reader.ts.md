@@ -49,7 +49,6 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
-  - [reader](#reader)
 - [model](#model)
   - [Reader (interface)](#reader-interface)
 - [utils](#utils)
@@ -386,21 +385,6 @@ Added in v2.0.0
 
 ```ts
 export declare function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R, A>>
-```
-
-Added in v2.0.0
-
-## reader
-
-**Signature**
-
-```ts
-export declare const reader: Applicative2<'Reader'> &
-  Monad2<'Reader'> &
-  Profunctor2<'Reader'> &
-  Category2<'Reader'> &
-  Strong2<'Reader'> &
-  Choice2<'Reader'>
 ```
 
 Added in v2.0.0

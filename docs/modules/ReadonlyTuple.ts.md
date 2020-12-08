@@ -46,7 +46,6 @@ Added in v2.5.0
   - [getApply](#getapply)
   - [getChainRec](#getchainrec)
   - [getMonad](#getmonad)
-  - [readonlyTuple](#readonlytuple)
 - [utils](#utils)
   - [sequence](#sequence)
   - [traverse](#traverse)
@@ -326,20 +325,6 @@ Added in v2.5.0
 
 ```ts
 export declare function getMonad<M>(M: Monoid<M>): Monad2C<URI, M>
-```
-
-Added in v2.5.0
-
-## readonlyTuple
-
-**Signature**
-
-```ts
-export declare const readonlyTuple: Semigroupoid2<'ReadonlyTuple'> &
-  Bifunctor2<'ReadonlyTuple'> &
-  Comonad2<'ReadonlyTuple'> &
-  Foldable2<'ReadonlyTuple'> &
-  Traversable2<'ReadonlyTuple'>
 ```
 
 Added in v2.5.0

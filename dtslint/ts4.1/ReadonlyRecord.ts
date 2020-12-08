@@ -123,14 +123,14 @@ _.reduceRightWithIndex('', (k: 'a' | 'b', _n, _b) => k)(r1) // $ExpectType strin
 
 _.singleton('a', 1) // $ExpectType Readonly<Record<"a", number>>
 
-_.traverseWithIndex(O.option)((_k, n: number) => O.some(n))(d1) // $ExpectType Option<Readonly<Record<string, number>>>
-_.traverseWithIndex(O.option)((_k: 'a' | 'b', n: number) => O.some(n))(r1) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
+_.traverseWithIndex(O.Applicative)((_k, n: number) => O.some(n))(d1) // $ExpectType Option<Readonly<Record<string, number>>>
+_.traverseWithIndex(O.Applicative)((_k: 'a' | 'b', n: number) => O.some(n))(r1) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
 
-_.traverse(O.option)((n: number) => O.some(n))(d1) // $ExpectType Option<Readonly<Record<string, number>>>
-_.traverse(O.option)((n: number) => O.some(n))(r1) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
+_.traverse(O.Applicative)((n: number) => O.some(n))(d1) // $ExpectType Option<Readonly<Record<string, number>>>
+_.traverse(O.Applicative)((n: number) => O.some(n))(r1) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
 
-_.sequence(O.option)(do1) // $ExpectType Option<Readonly<Record<string, number>>>
-_.sequence(O.option)(ro1) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
+_.sequence(O.Applicative)(do1) // $ExpectType Option<Readonly<Record<string, number>>>
+_.sequence(O.Applicative)(ro1) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
 
 _.partitionMapWithIndex((_k: string, n: number): E.Either<string, number> => E.right(n))(d1) // $ExpectType Separated<Readonly<Record<string, string>>, Readonly<Record<string, number>>>
 _.partitionMapWithIndex((_k: 'a' | 'b', n: number): E.Either<string, number> => E.right(n))(r1) // $ExpectType Separated<Readonly<Record<string, string>>, Readonly<Record<string, number>>>

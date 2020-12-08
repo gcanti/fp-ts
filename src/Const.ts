@@ -230,16 +230,3 @@ export const Bifunctor: Bifunctor2<URI> = {
   bimap: bimap_,
   mapLeft: mapLeft_
 }
-
-// TODO: remove mega instance in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const const_: Functor2<URI> & Contravariant2<URI> & Bifunctor2<URI> = {
-  URI,
-  map: map_,
-  contramap: contramap_,
-  bimap: bimap_,
-  mapLeft: mapLeft_
-}

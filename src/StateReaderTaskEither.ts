@@ -689,27 +689,33 @@ export const Alt: Alt4<URI> = {
   alt: alt_
 }
 
-// TODO: remove mega instance in v3
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
-export const stateReaderTaskEither: Apply4<URI> &
-  Monad4<URI> &
-  Bifunctor4<URI> &
-  Alt4<URI> &
-  MonadTask4<URI> &
-  MonadThrow4<URI> = {
+export const Monad: Monad4<URI> = {
   URI,
   map: map_,
   of,
-  ap: ap_,
-  chain: chain_,
-  bimap: bimap_,
-  mapLeft: mapLeft_,
-  alt: alt_,
+  chain: chain_
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const MonadTask: MonadTask4<URI> = {
+  URI,
   fromIO,
-  fromTask,
+  fromTask
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const MonadThrow: MonadThrow4<URI> = {
+  URI,
   throwError
 }
 

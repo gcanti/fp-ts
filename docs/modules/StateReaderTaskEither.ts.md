@@ -80,9 +80,11 @@ Added in v2.0.0
   - [Applicative](#applicative-1)
   - [Bifunctor](#bifunctor-1)
   - [Functor](#functor-1)
+  - [Monad](#monad-1)
+  - [MonadTask](#monadtask-1)
+  - [MonadThrow](#monadthrow-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [stateReaderTaskEither](#statereadertaskeither)
 - [model](#model)
   - [StateReaderTaskEither (interface)](#statereadertaskeither-interface)
 - [utils](#utils)
@@ -816,6 +818,36 @@ export declare const Functor: Functor4<'StateReaderTaskEither'>
 
 Added in v2.7.0
 
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad4<'StateReaderTaskEither'>
+```
+
+Added in v3.0.0
+
+## MonadTask
+
+**Signature**
+
+```ts
+export declare const MonadTask: MonadTask4<'StateReaderTaskEither'>
+```
+
+Added in v3.0.0
+
+## MonadThrow
+
+**Signature**
+
+```ts
+export declare const MonadThrow: MonadThrow4<'StateReaderTaskEither'>
+```
+
+Added in v3.0.0
+
 ## URI
 
 **Signature**
@@ -832,21 +864,6 @@ Added in v2.0.0
 
 ```ts
 export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-## stateReaderTaskEither
-
-**Signature**
-
-```ts
-export declare const stateReaderTaskEither: Apply4<'StateReaderTaskEither'> &
-  Monad4<'StateReaderTaskEither'> &
-  Bifunctor4<'StateReaderTaskEither'> &
-  Alt4<'StateReaderTaskEither'> &
-  MonadTask4<'StateReaderTaskEither'> &
-  MonadThrow4<'StateReaderTaskEither'>
 ```
 
 Added in v2.0.0

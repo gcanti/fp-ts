@@ -238,21 +238,6 @@ export const ChainRec: ChainRec1<URI> = {
   chainRec: chainRec_
 }
 
-// TODO: remove mega instance in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const io: Applicative1<URI> & Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
-  URI,
-  map: map_,
-  of,
-  ap: ap_,
-  chain: chain_,
-  fromIO,
-  chainRec: chainRec_
-}
-
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------

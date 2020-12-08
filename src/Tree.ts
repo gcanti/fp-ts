@@ -104,12 +104,12 @@ export function drawForest(forest: Forest<string>): string {
  * Neat 2-dimensional drawing of a tree
  *
  * @example
- * import { make, drawTree, tree } from 'fp-ts/Tree'
+ * import { make, drawTree } from 'fp-ts/Tree'
  *
  * const fa = make('a', [
- *   tree.of('b'),
- *   tree.of('c'),
- *   make('d', [tree.of('e'), tree.of('f')])
+ *   make('b'),
+ *   make('c'),
+ *   make('d', [make('e'), make('f')])
  * ])
  *
  * assert.strictEqual(drawTree(fa), `a
@@ -489,26 +489,6 @@ export const Comonad: Comonad1<URI> = {
   map: map_,
   extend: extend_,
   extract
-}
-
-// TODO: remove mega instance in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const tree: Applicative1<URI> & Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
-  URI,
-  map: map_,
-  of,
-  ap: ap_,
-  chain: chain_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
-  sequence,
-  extract,
-  extend: extend_
 }
 
 // -------------------------------------------------------------------------------------

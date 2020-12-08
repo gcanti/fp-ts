@@ -78,6 +78,9 @@ Added in v2.0.0
   - [ApplicativeSeq](#applicativeseq)
   - [Bifunctor](#bifunctor-1)
   - [Functor](#functor-1)
+  - [Monad](#monad-1)
+  - [MonadTask](#monadtask-1)
+  - [MonadThrow](#monadthrow)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getAltTaskValidation](#getalttaskvalidation)
@@ -87,8 +90,6 @@ Added in v2.0.0
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
   - [getSemigroup](#getsemigroup)
-  - [taskEither](#taskeither)
-  - [taskEitherSeq](#taskeitherseq)
 - [model](#model)
   - [TaskEither (interface)](#taskeither-interface)
 - [utils](#utils)
@@ -769,6 +770,36 @@ export declare const Functor: Functor2<'TaskEither'>
 
 Added in v2.7.0
 
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad2<'TaskEither'>
+```
+
+Added in v3.0.0
+
+## MonadTask
+
+**Signature**
+
+```ts
+export declare const MonadTask: MonadTask2<'TaskEither'>
+```
+
+Added in v3.0.0
+
+## MonadThrow
+
+**Signature**
+
+```ts
+export declare const MonadThrow: MonadThrow2<'TaskEither'>
+```
+
+Added in v3.0.0
+
 ## URI
 
 **Signature**
@@ -861,38 +892,6 @@ concatenated using the provided `Semigroup`
 
 ```ts
 export declare function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>>
-```
-
-Added in v2.0.0
-
-## taskEither
-
-**Signature**
-
-```ts
-export declare const taskEither: Apply2<'TaskEither'> &
-  Monad2<'TaskEither'> &
-  Bifunctor2<'TaskEither'> &
-  Alt2<'TaskEither'> &
-  MonadTask2<'TaskEither'> &
-  MonadThrow2<'TaskEither'>
-```
-
-Added in v2.0.0
-
-## taskEitherSeq
-
-Like `TaskEither` but `ap` is sequential
-
-**Signature**
-
-```ts
-export declare const taskEitherSeq: Apply2<'TaskEither'> &
-  Monad2<'TaskEither'> &
-  Bifunctor2<'TaskEither'> &
-  Alt2<'TaskEither'> &
-  MonadTask2<'TaskEither'> &
-  MonadThrow2<'TaskEither'>
 ```
 
 Added in v2.0.0

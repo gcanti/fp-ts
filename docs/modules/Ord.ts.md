@@ -32,7 +32,6 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getTupleOrd](#gettupleord)
-  - [ord](#ord)
   - [ordBoolean](#ordboolean)
   - [ordDate](#orddate)
   - [ordNumber](#ordnumber)
@@ -213,16 +212,6 @@ const O = getTupleOrd(ordString, ordNumber, ordBoolean)
 assert.strictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
 assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
 assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
-```
-
-Added in v2.0.0
-
-## ord
-
-**Signature**
-
-```ts
-export declare const ord: Contravariant1<'Ord'>
 ```
 
 Added in v2.0.0

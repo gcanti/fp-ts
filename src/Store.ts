@@ -163,10 +163,3 @@ export const Comonad: Comonad2<URI> = {
   extend: extend_,
   extract
 }
-
-// TODO: remove mega instance in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const store: Comonad2<URI> = Comonad

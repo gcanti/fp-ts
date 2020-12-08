@@ -606,29 +606,6 @@ export const MonadThrow: MonadThrow2<URI> = {
   throwError
 }
 
-// TODO: remove mega instance in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const ioEither: Applicative2<URI> &
-  Monad2<URI> &
-  Bifunctor2<URI> &
-  Alt2<URI> &
-  MonadIO2<URI> &
-  MonadThrow2<URI> = {
-  URI,
-  bimap: bimap_,
-  mapLeft: mapLeft_,
-  map: map_,
-  of,
-  ap: ap_,
-  chain: chain_,
-  alt: alt_,
-  fromIO,
-  throwError
-}
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------

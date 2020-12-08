@@ -4,17 +4,16 @@ import * as O from '../src/Option'
 import { randomInt } from '../src/Random'
 import * as T from '../src/Task'
 import { createInterface } from 'readline'
-import { State, state } from '../src/State'
+import * as S from '../src/State'
 import { Monad1 } from '../src/Monad'
-import { flow } from '../src/function'
-import { pipe, pipeable } from '../src/pipeable'
+import { flow, pipe } from '../src/function'
 import { sequenceS } from '../src/Apply'
 
 //
 // type classes
 //
 
-interface Program<F extends URIS> extends Monad1<F> {
+interface Program<F extends URIS> extends Monad1<F>, Applicative1<F> {
   readonly finish: <A>(a: A) => Kind<F, A>
 }
 
@@ -34,7 +33,8 @@ interface Main<F extends URIS> extends Program<F>, Console<F>, Random<F> {}
 //
 
 const programTask: Program<T.URI> = {
-  ...T.task,
+  ...T.Monad,
+  ...T.ApplicativePar,
   finish: T.of
 }
 
@@ -77,19 +77,12 @@ function main<F extends URIS>(F: Main<F>): Kind<F, void> {
   // run `n` tasks in parallel
   const ado = sequenceS(F)
 
-  const { chain, chainFirst } = pipeable(F)
-
   // ask something and get the answer
-  const ask = (question: string): Kind<F, string> =>
-    pipe(
-      F.putStrLn(question),
-      chain(() => F.getStrLn)
-    )
+  const ask = (question: string): Kind<F, string> => pipe(F.putStrLn(question), (x) => F.chain(x, () => F.getStrLn))
 
   const shouldContinue = (name: string): Kind<F, boolean> => {
-    return pipe(
-      ask(`Do you want to continue, ${name} (y/n)?`),
-      chain((answer) => {
+    return pipe(ask(`Do you want to continue, ${name} (y/n)?`), (x) =>
+      F.chain(x, (answer) => {
         switch (answer.toLowerCase()) {
           case 'y':
             return F.of<boolean>(true)
@@ -108,27 +101,28 @@ function main<F extends URIS>(F: Main<F>): Kind<F, void> {
         secret: F.nextInt(5),
         guess: ask(`Dear ${name}, please guess a number from 1 to 5`)
       }),
-      chain(({ secret, guess }) =>
-        pipe(
-          parse(guess),
-          O.fold(
-            () => F.putStrLn('You did not enter an integer!'),
-            (x) =>
-              x === secret
-                ? F.putStrLn(`You guessed right, ${name}!`)
-                : F.putStrLn(`You guessed wrong, ${name}! The number was: ${secret}`)
+      (x) =>
+        F.chain(x, ({ secret, guess }) =>
+          pipe(
+            parse(guess),
+            O.fold(
+              () => F.putStrLn('You did not enter an integer!'),
+              (x) =>
+                x === secret
+                  ? F.putStrLn(`You guessed right, ${name}!`)
+                  : F.putStrLn(`You guessed wrong, ${name}! The number was: ${secret}`)
+            )
           )
-        )
-      ),
-      chain(() => shouldContinue(name)),
-      chain((b) => (b ? gameLoop(name) : F.of<void>(undefined)))
+        ),
+      (x) => F.chain(x, () => shouldContinue(name)),
+      (x) => F.chain(x, (b) => (b ? gameLoop(name) : F.of<void>(undefined)))
     )
   }
 
   return pipe(
     ask('What is your name?'),
-    chainFirst((name) => F.putStrLn(`Hello, ${name} welcome to the game!`)),
-    chain(gameLoop)
+    (x) => F.chain(x, (name) => F.map(F.putStrLn(`Hello, ${name} welcome to the game!`), () => name)),
+    (x) => F.chain(x, gameLoop)
   )
 }
 
@@ -154,7 +148,7 @@ class TestData {
     readonly nums: ReadonlyArray<number>
   ) {}
   putStrLn(message: string): readonly [void, TestData] {
-    return [undefined, new TestData(this.input, snoc(this.output, message), this.nums)]
+    return [undefined, new TestData(this.input, snoc(message)(this.output), this.nums)]
   }
   getStrLn(): readonly [string, TestData] {
     return [this.input[0], new TestData(dropLeft(1)(this.input), this.output, this.nums)]
@@ -174,16 +168,16 @@ declare module '../src/HKT' {
   }
 }
 
-interface Test<A> extends State<TestData, A> {}
+interface Test<A> extends S.State<TestData, A> {}
 
 const of = <A>(a: A): Test<A> => (data) => [a, data]
 
 const programTest: Program<URI> = {
   URI,
-  map: state.map,
-  of: state.of,
-  ap: state.ap,
-  chain: state.chain,
+  map: (fa, f) => pipe(fa, S.map(f)),
+  of: S.of,
+  ap: (fab, fa) => pipe(fab, S.ap(fa)),
+  chain: (ma, f) => pipe(ma, S.chain(f)),
   finish: of
 }
 
@@ -207,6 +201,7 @@ const mainTestTask = main({
 const testExample = new TestData(['Giulio', '1', 'n'], [], [1])
 
 import * as assert from 'assert'
+import { Applicative1 } from '../src/Applicative'
 
 assert.deepStrictEqual(mainTestTask(testExample), [
   undefined,

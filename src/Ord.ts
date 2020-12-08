@@ -319,10 +319,3 @@ export const Contravariant: Contravariant1<URI> = {
   URI,
   contramap: contramap_
 }
-
-// TODO: remove mega instance in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const ord: Contravariant1<URI> = Contravariant

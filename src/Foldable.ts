@@ -267,11 +267,11 @@ export function reduceM<M, F>(
  * @example
  * import { intercalate } from 'fp-ts/Foldable'
  * import { monoidString } from 'fp-ts/Monoid'
- * import { make, tree } from 'fp-ts/Tree'
+ * import { make, Foldable } from 'fp-ts/Tree'
  * import { pipe } from 'fp-ts/function'
  *
  * const t = make('a', [make('b', []), make('c', []), make('d', [])])
- * assert.strictEqual(pipe(t, intercalate(monoidString, tree)('|')), 'a|b|c|d')
+ * assert.strictEqual(pipe(t, intercalate(monoidString, Foldable)('|')), 'a|b|c|d')
  *
  * @since 2.0.0
  */
@@ -303,10 +303,10 @@ export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M) => (fm
  *
  * @example
  * import { toArray } from 'fp-ts/Foldable'
- * import { tree, make } from 'fp-ts/Tree'
+ * import { Foldable, make } from 'fp-ts/Tree'
  *
  * const t = make(1, [make(2, []), make(3, []), make(4, [])])
- * assert.deepStrictEqual(toArray(tree)(t), [1, 2, 3, 4])
+ * assert.deepStrictEqual(toArray(Foldable)(t), [1, 2, 3, 4])
  *
  * @since 2.8.0
  */

@@ -1101,41 +1101,6 @@ export const MonadThrow: MonadThrow1<URI> = {
   throwError
 }
 
-// TODO: remove mega instance in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const option: Monad1<URI> &
-  Foldable1<URI> &
-  Alternative1<URI> &
-  Extend1<URI> &
-  Traversable1<URI> &
-  Filterable1<URI> &
-  Witherable1<URI> &
-  MonadThrow1<URI> = {
-  URI,
-  map: map_,
-  of,
-  ap: ap_,
-  chain: chain_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
-  sequence,
-  zero,
-  alt: alt_,
-  extend: extend_,
-  filter: filter_,
-  filterMap: filterMap_,
-  partition: partition_,
-  partitionMap: partitionMap_,
-  wither: wither_,
-  wilt: wilt_,
-  throwError
-}
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------

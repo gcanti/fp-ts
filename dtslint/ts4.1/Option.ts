@@ -46,8 +46,8 @@ flow(f, _.fromNullable)('foo')
 
 declare function isString(x: unknown): x is string
 
-_.option.filter(_.some<string | number>('a'), isString) // $ExpectType Option<string>
-_.option.partition(_.some<string | number>('a'), isString) // $ExpectType Separated<Option<string | number>, Option<string>>
+pipe(_.some<string | number>('a'), _.filter(isString)) // $ExpectType Option<string>
+pipe(_.some<string | number>('a'), _.partition(isString)) // $ExpectType Separated<Option<unknown>, Option<string>>
 
 //
 // Do

@@ -221,13 +221,6 @@ export const Monad: Monad2<URI> = {
   chain: chain_
 }
 
-// TODO: remove mega instance in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const state: Monad2<URI> = Monad
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------

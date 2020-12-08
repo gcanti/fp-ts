@@ -47,7 +47,6 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
-  - [io](#io)
 - [model](#model)
   - [IO (interface)](#io-interface)
 - [utils](#utils)
@@ -275,16 +274,6 @@ Added in v2.0.0
 
 ```ts
 export declare function getSemigroup<A>(S: Semigroup<A>): Semigroup<IO<A>>
-```
-
-Added in v2.0.0
-
-## io
-
-**Signature**
-
-```ts
-export declare const io: Applicative1<'IO'> & Monad1<'IO'> & MonadIO1<'IO'> & ChainRec1<'IO'>
 ```
 
 Added in v2.0.0

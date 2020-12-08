@@ -70,7 +70,6 @@ Added in v2.0.0
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
   - [getSemigroup](#getsemigroup)
-  - [readerEither](#readereither)
 - [model](#model)
   - [ReaderEither (interface)](#readereither-interface)
 - [utils](#utils)
@@ -682,20 +681,6 @@ concatenated using the provided `Semigroup`
 
 ```ts
 export declare function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>>
-```
-
-Added in v2.0.0
-
-## readerEither
-
-**Signature**
-
-```ts
-export declare const readerEither: Applicative3<'ReaderEither'> &
-  Monad3<'ReaderEither'> &
-  Bifunctor3<'ReaderEither'> &
-  Alt3<'ReaderEither'> &
-  MonadThrow3<'ReaderEither'>
 ```
 
 Added in v2.0.0

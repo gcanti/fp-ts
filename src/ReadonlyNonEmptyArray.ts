@@ -772,40 +772,6 @@ export const Comonad: Comonad1<URI> = {
   extract
 }
 
-// TODO: remove mega instance in v3
-/**
- * @category instances
- * @since 2.5.0
- */
-export const readonlyNonEmptyArray: Apply1<URI> &
-  Monad1<URI> &
-  Comonad1<URI> &
-  Traversable1<URI> &
-  TraversableWithIndex1<URI, number> &
-  FunctorWithIndex1<URI, number> &
-  Foldable1<URI> &
-  FoldableWithIndex1<URI, number> &
-  Alt1<URI> = {
-  URI,
-  of,
-  map: map_,
-  mapWithIndex: mapWithIndex_,
-  ap: ap_,
-  chain: chain_,
-  extend: extend_,
-  extract: extract,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
-  sequence,
-  reduceWithIndex: reduceWithIndex_,
-  foldMapWithIndex: foldMapWithIndex_,
-  reduceRightWithIndex: reduceRightWithIndex_,
-  traverseWithIndex: traverseWithIndex_,
-  alt: alt_
-}
-
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------

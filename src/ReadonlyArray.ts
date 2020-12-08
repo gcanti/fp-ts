@@ -1153,14 +1153,15 @@ export function uniq<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
  *
  * @example
  * import { sortBy } from 'fp-ts/ReadonlyArray'
- * import { ord, ordString, ordNumber } from 'fp-ts/Ord'
+ * import { contramap, ordString, ordNumber } from 'fp-ts/Ord'
+ * import { pipe } from 'fp-ts/function'
  *
  * interface Person {
  *   name: string
  *   age: number
  * }
- * const byName = ord.contramap(ordString, (p: Person) => p.name)
- * const byAge = ord.contramap(ordNumber, (p: Person) => p.age)
+ * const byName = pipe(ordString, contramap((p: Person) => p.name))
+ * const byAge = pipe(ordNumber, contramap((p: Person) => p.age))
  *
  * const sortByNameByAge = sortBy([byName, byAge])
  *
@@ -2107,54 +2108,6 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
  */
 export const Witherable: Witherable1<URI> = {
   URI,
-  wither: wither_,
-  wilt: wilt_
-}
-
-// TODO: remove mega instance in v3
-/**
- * @category instances
- * @since 2.5.0
- */
-export const readonlyArray: FunctorWithIndex1<URI, number> &
-  Monad1<URI> &
-  Unfoldable1<URI> &
-  Alternative1<URI> &
-  Extend1<URI> &
-  FilterableWithIndex1<URI, number> &
-  Foldable1<URI> &
-  FoldableWithIndex1<URI, number> &
-  TraversableWithIndex1<URI, number> &
-  Filterable1<URI> &
-  Traversable1<URI> &
-  Witherable1<URI> = {
-  URI,
-  map: map_,
-  ap: ap_,
-  of,
-  chain: chain_,
-  filter: filter_,
-  filterMap: filterMap_,
-  partition: partition_,
-  partitionMap: partitionMap_,
-  mapWithIndex: mapWithIndex_,
-  partitionMapWithIndex: partitionMapWithIndex_,
-  partitionWithIndex: partitionWithIndex_,
-  filterMapWithIndex: filterMapWithIndex_,
-  filterWithIndex: filterWithIndex_,
-  alt: alt_,
-  zero,
-  unfold,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
-  sequence,
-  reduceWithIndex: reduceWithIndex_,
-  foldMapWithIndex: foldMapWithIndex_,
-  reduceRightWithIndex: reduceRightWithIndex_,
-  traverseWithIndex: traverseWithIndex_,
-  extend: extend_,
   wither: wither_,
   wilt: wilt_
 }

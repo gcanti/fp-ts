@@ -71,7 +71,6 @@ Added in v2.0.0
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
-  - [these](#these)
 - [model](#model)
   - [Both (interface)](#both-interface)
   - [These (type alias)](#these-type-alias)
@@ -540,16 +539,6 @@ Added in v2.0.0
 
 ```ts
 export declare function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>>
-```
-
-Added in v2.0.0
-
-## these
-
-**Signature**
-
-```ts
-export declare const these: Functor2<'These'> & Bifunctor2<'These'> & Foldable2<'These'> & Traversable2<'These'>
 ```
 
 Added in v2.0.0

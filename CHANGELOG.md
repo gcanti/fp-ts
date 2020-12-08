@@ -38,6 +38,8 @@ high state of flux, you're at risk of it changing without notice.
       - make `Writer` definition immutable
   - `ChainRec`
     - drop `Chain` dependency (@gcanti)
+  - `Const`
+    - remove `const_` (@gcanti)
   - `Either`
     - make `fromNullable` lazy (@gcanti)
     - make `fromNullableK` lazy (@gcanti)
@@ -45,6 +47,9 @@ high state of flux, you're at risk of it changing without notice.
     - remove `getValidation`, use `getApplicativeValidation` and `getAltValidation` instead (@gcanti)
     - make `parseJSON` pipeable (@gcanti)
     - make `stringifyJSON` pipeable (@gcanti)
+    - remove `either` (@gcanti)
+  - `Eq`
+    - remove `eq` (@gcanti)
   - `Filterable`
     - drop `Functor` and `Compactable` dependencies (@gcanti)
   - `FilterableWithIndex`
@@ -53,8 +58,13 @@ high state of flux, you're at risk of it changing without notice.
     - make `intercalate` pipeable (@gcanti)
   - `FoldableWithIndex`
     - drop `Foldable` dependency (@gcanti)
+  - `Identity`
+    - remove `identity` (@gcanti)
+  - `IO`
+    - remove `io` (@gcanti)
   - `IOEither`
     - remove `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead (@gcanti)
+    - remove `ioEither` (@gcanti)
   - `Monad`
     - drop `Applicative` dependency (@gcanti)
   - `MonadIO`
@@ -63,9 +73,16 @@ high state of flux, you're at risk of it changing without notice.
     - drop `Monad` dependency (@gcanti)
   - `Monoid`
     - swap execution order in `getEndomorphismMonoid` (@gcanti)
+  - `Option`
+    - remove `option` (@gcanti)
+  - `Ord`
+    - remove `ord` (@gcanti)
+  - `Reader`
+    - remove `reader` (@gcanti)
   - `ReaderEither`
     - remove `local`, use `Reader`'s `local` instead (@gcanti)
     - remove `getReaderValidation`, use `getApplicativeReaderValidation` and `getAltReaderValidation` instead (@gcanti)
+    - remove `readerEither` (@gcanti)
   - `ReaderTask`
     - remove `local`, use `Reader`'s `local` instead (@gcanti)
     - remove `run` (@gcanti)
@@ -73,6 +90,8 @@ high state of flux, you're at risk of it changing without notice.
     - remove `local`, use `Reader`'s `local` instead (@gcanti)
     - remove `getReaderTaskValidation`, use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead (@gcanti)
     - remove `run` (@gcanti)
+    - remove `readerTaskEither` (@gcanti)
+    - remove `readerTaskEitherSeq` (@gcanti)
   - `ReadonlyArray`
     - make `lookup` pipeable (@gcanti)
     - make `cons` pipeable (@gcanti)
@@ -83,22 +102,26 @@ high state of flux, you're at risk of it changing without notice.
     - make `union` pipeable (@gcanti)
     - make `intersection` pipeable (@gcanti)
     - make `difference` pipeable (@gcanti)
+    - remove `readonlyArray` (@gcanti)
   - `ReadonlyMap`
     - make `member` pipeable (@gcanti)
     - make `elem` pipeable (@gcanti)
     - make `lookupWithKey` pipeable (@gcanti)
     - make `lookup` pipeable (@gcanti)
     - make `isSubmap` pipeable (@gcanti)
+    - remove `readonlyMap` (@gcanti)
   - `ReadonlyNonEmptyArray`
     - make `cons` pipeable (@gcanti)
     - make `snoc` pipeable (@gcanti)
     - make `zipWith` pipeable (@gcanti)
     - make `zip` pipeable (@gcanti)
+    - remove `readonlyNonEmptyArray` (@gcanti)
   - `ReadonlyRecord`
     - rename `hasOwnProperty` to `has` (@gcanti)
     - make `isSubrecord` pipeable (@gcanti)
     - make `lookup` pipeable (@gcanti)
     - make `elem` pipeable (@gcanti)
+    - remove `readonlyRecord` (@gcanti)
   - `ReadonlySet`
     - make `isSubset` pipeable (@gcanti)
     - make `elem` pipeable (@gcanti)
@@ -107,19 +130,33 @@ high state of flux, you're at risk of it changing without notice.
     - make `difference` pipeable (@gcanti)
   - `ReadonlyTuple`
     - remove `getChain` (@gcanti)
+    - remove `readonlyTuple` (@gcanti)
   - `Semigroup`
     - make `fold` curried (@gcanti)
+  - `State`
+    - remove `state` (@gcanti)
   - `StateReaderTaskEither`
     - remove `run` (@gcanti)
+    - remove `stateReaderTaskEither` (@gcanti)
+  - `Store`
+    - remove `store` (@gcanti)
+  - `Task`
+    - remove `task` (@gcanti)
+    - remove `taskSeq` (@gcanti)
   - `TaskEither`
     - remove `getTaskValidation`, use `getApplicativeTaskValidation` and `getAltTaskValidation` instead (@gcanti)
+    - remove `taskEither` (@gcanti)
+    - remove `taskEitherSeq` (@gcanti)
   - `TaskThese`
     - make `toTuple` lazy (@gcanti)
+    - remove `taskThese` (@gcanti)
   - `These`
     - make `toTuple` lazy (@gcanti)
     - make `leftOrBoth` and `rightOrBoth` lazy (@gcanti)
+    - remove `these` (@gcanti)
   - `Traced`
     - make `tracks` curried (@gcanti)
+    - remove `traced` (@gcanti)
   - `Traversable`
     - drop `Foldable` dependency (@gcanti)
   - `TraversableWithIndex`
@@ -128,8 +165,11 @@ high state of flux, you're at risk of it changing without notice.
     - make `elem` curried (@gcanti)
     - remove `unfoldTreeM` (@gcanti)
     - remove `unfoldForestM` (@gcanti)
+    - remove `tree` (@gcanti)
   - `Witherable`
     - drop `Traversable` and `Filterable` dependencies (@gcanti)
+  - `Writer`
+    - remove `writer` (@gcanti)
 
 - **New Feature**
   - `Either`
@@ -139,14 +179,28 @@ high state of flux, you're at risk of it changing without notice.
     - add `getCompactable` (@gcanti)
   - `ReaderTask`
     - add `MonadTask` (@gcanti)
+  - `ReaderTaskEither`
+    - add `Monad` (@gcanti)
+    - add `MonadTask` (@gcanti)
+    - add `MonadThrow` (@gcanti)
   - `ReadonlyMap`
     - add `getFilterable` (@gcanti)
     - add `getFoldable` (@gcanti)
     - add `getFoldableWithIndex` (@gcanti)
     - add `getTraversable` (@gcanti)
     - add `getTraversableWithIndex` (@gcanti)
+  - `StateReaderTaskEither`
+    - add `Monad` (@gcanti)
+    - add `MonadTask` (@gcanti)
+    - add `MonadThrow` (@gcanti)
+  - `Task`
+    - add `Monad` (@gcanti)
+    - add `MonadTask` (@gcanti)
   - `TaskEither`
     - add `getCompactable` (@gcanti)
+    - add `Monad` (@gcanti)
+    - add `MonadTask` (@gcanti)
+    - add `MonadThrow` (@gcanti)
   - `TaskThese`
     - add `Functor` (@gcanti)
     - add `Bifunctor` (@gcanti)

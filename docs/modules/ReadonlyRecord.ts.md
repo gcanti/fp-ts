@@ -56,7 +56,6 @@ Added in v2.5.0
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
-  - [readonlyRecord](#readonlyrecord)
 - [model](#model)
   - [ReadonlyRecord (type alias)](#readonlyrecord-type-alias)
 - [utils](#utils)
@@ -518,23 +517,6 @@ export declare function getShow<A>(S: Show<A>): Show<ReadonlyRecord<string, A>>
 
 Added in v2.5.0
 
-## readonlyRecord
-
-**Signature**
-
-```ts
-export declare const readonlyRecord: FunctorWithIndex1<'ReadonlyRecord', string> &
-  Foldable1<'ReadonlyRecord'> &
-  FoldableWithIndex1<'ReadonlyRecord', string> &
-  FilterableWithIndex1<'ReadonlyRecord', string> &
-  TraversableWithIndex1<'ReadonlyRecord', string> &
-  Traversable1<'ReadonlyRecord'> &
-  Filterable1<'ReadonlyRecord'> &
-  Witherable1<'ReadonlyRecord'>
-```
-
-Added in v2.5.0
-
 # model
 
 ## ReadonlyRecord (type alias)
@@ -692,7 +674,7 @@ export declare function fromFoldableMap<F, B>(
 
 ```ts
 import { getLastSemigroup } from 'fp-ts/Semigroup'
-import { readonlyArray, zip } from 'fp-ts/ReadonlyArray'
+import { Foldable, zip } from 'fp-ts/ReadonlyArray'
 import { identity, pipe } from 'fp-ts/function'
 import { ReadonlyRecord, fromFoldableMap } from 'fp-ts/ReadonlyRecord'
 
@@ -700,7 +682,7 @@ import { ReadonlyRecord, fromFoldableMap } from 'fp-ts/ReadonlyRecord'
 export const zipObject = <K extends string, A>(
   keys: ReadonlyArray<K>,
   values: ReadonlyArray<A>
-): ReadonlyRecord<K, A> => fromFoldableMap(getLastSemigroup<A>(), readonlyArray)(pipe(keys, zip(values)), identity)
+): ReadonlyRecord<K, A> => fromFoldableMap(getLastSemigroup<A>(), Foldable)(pipe(keys, zip(values)), identity)
 
 assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
 
@@ -717,7 +699,7 @@ const users: ReadonlyArray<User> = [
 ]
 
 assert.deepStrictEqual(
-  fromFoldableMap(getLastSemigroup<User>(), readonlyArray)(users, (user) => [user.id, user]),
+  fromFoldableMap(getLastSemigroup<User>(), Foldable)(users, (user) => [user.id, user]),
   {
     id1: { id: 'id1', name: 'name3' },
     id2: { id: 'id2', name: 'name2' },

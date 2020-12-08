@@ -786,12 +786,12 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E
  * import * as O from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(
- *   pipe(E.right(['a']), E.traverse(O.option)(A.head)),
+ *   pipe(E.right(['a']), E.traverse(O.Applicative)(A.head)),
  *   O.some(E.right('a')),
  *  )
  *
  * assert.deepStrictEqual(
- *   pipe(E.right([]), E.traverse(O.option)(A.head)),
+ *   pipe(E.right([]), E.traverse(O.Applicative)(A.head)),
  *   O.none,
  * )
  *
@@ -811,12 +811,12 @@ export const traverse: PipeableTraverse2<URI> = <F>(F: ApplicativeHKT<F>) => <A,
  * import * as O from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(
- *   pipe(E.right(O.some('a')), E.sequence(O.option)),
+ *   pipe(E.right(O.some('a')), E.sequence(O.Applicative)),
  *   O.some(E.right('a')),
  *  )
  *
  * assert.deepStrictEqual(
- *   pipe(E.right(O.none), E.sequence(O.option)),
+ *   pipe(E.right(O.none), E.sequence(O.Applicative)),
  *   O.none
  * )
  *
@@ -1208,37 +1208,6 @@ export function getValidationMonoid<E, A>(SE: Semigroup<E>, SA: Monoid<A>): Mono
     concat: getValidationSemigroup(SE, SA).concat,
     empty: right(SA.empty)
   }
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export const either: Applicative2<URI> &
-  Monad2<URI> &
-  Foldable2<URI> &
-  Traversable2<URI> &
-  Bifunctor2<URI> &
-  Alt2<URI> &
-  Extend2<URI> &
-  ChainRec2<URI> &
-  MonadThrow2<URI> = {
-  URI,
-  map: map_,
-  of,
-  ap: ap_,
-  chain: chain_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
-  sequence,
-  bimap: bimap_,
-  mapLeft: mapLeft_,
-  alt: alt_,
-  extend: extend_,
-  chainRec: chainRec_,
-  throwError: throwError
 }
 
 // -------------------------------------------------------------------------------------

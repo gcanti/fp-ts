@@ -899,16 +899,3 @@ export const Filterable: Filterable2<URI> = {
   partition: partition_,
   partitionMap: partitionMap_
 }
-
-// TODO: remove mega instance in v3
-/**
- * @category instances
- * @since 2.5.0
- */
-export const readonlyMap: Filterable2<URI> = {
-  URI,
-  filter: filter_,
-  filterMap: filterMap_,
-  partition: partition_,
-  partitionMap: partitionMap_
-}

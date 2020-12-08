@@ -51,7 +51,6 @@ Added in v2.5.0
   - [getTraversable](#gettraversable)
   - [getTraversableWithIndex](#gettraversablewithindex)
   - [getWitherable](#getwitherable)
-  - [readonlyMap](#readonlymap)
 - [utils](#utils)
   - [collect](#collect)
   - [elem](#elem)
@@ -448,16 +447,6 @@ Added in v3.0.0
 
 ```ts
 export declare function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K>
-```
-
-Added in v2.5.0
-
-## readonlyMap
-
-**Signature**
-
-```ts
-export declare const readonlyMap: Filterable2<'ReadonlyMap'>
 ```
 
 Added in v2.5.0

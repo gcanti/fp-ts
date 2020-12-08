@@ -63,7 +63,7 @@ export const fromIO: <A>(ma: IO<A>) => Task<A> = (ma) => () => Promise.resolve(m
  *   const fb = append('b')
  *   const fc = T.delay(10)(append('c'))
  *   const fd = append('d')
- *   await sequenceT(T.task)(fa, fb, fc, fd)()
+ *   await sequenceT(T.ApplicativePar)(fa, fb, fc, fd)()
  *   assert.deepStrictEqual(log, ['a', 'b', 'd', 'c'])
  * }
  *
@@ -330,9 +330,8 @@ export const ApplicativeSeq: Applicative1<URI> = {
 }
 
 /**
- * Used in TaskEither.getTaskValidation
- *
- * @internal
+ * @category instances
+ * @since 3.0.0
  */
 export const Monad: Monad1<URI> = {
   URI,
@@ -341,34 +340,12 @@ export const Monad: Monad1<URI> = {
   chain: chain_
 }
 
-// TODO: remove mega instance in v3
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
-export const task: Apply1<URI> & Monad1<URI> & MonadTask1<URI> = {
+export const MonadTask: MonadTask1<URI> = {
   URI,
-  map: map_,
-  of,
-  ap: apPar_,
-  chain: chain_,
-  fromIO,
-  fromTask
-}
-
-// TODO: remove mega instance in v3
-/**
- * Like `task` but `ap` is sequential
- *
- * @category instances
- * @since 2.0.0
- */
-export const taskSeq: typeof task = {
-  URI,
-  map: map_,
-  of,
-  ap: apSeq_,
-  chain: chain_,
   fromIO,
   fromTask
 }
