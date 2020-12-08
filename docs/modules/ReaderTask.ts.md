@@ -49,15 +49,19 @@ Added in v2.3.0
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
   - [apSW](#apsw)
+  - [apT](#apt)
+  - [apTW](#aptw)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
+  - [tupled](#tupled)
 
 ---
 
@@ -397,6 +401,16 @@ Added in v2.3.0
 
 # utils
 
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: ReaderTask<unknown, readonly []>
+```
+
+Added in v3.0.0
+
 ## Do
 
 **Signature**
@@ -432,6 +446,30 @@ export declare const apSW: <A, N extends string, Q, B>(
 ```
 
 Added in v2.8.0
+
+## apT
+
+**Signature**
+
+```ts
+export declare const apT: <R, B>(
+  fb: ReaderTask<R, B>
+) => <A extends readonly unknown[]>(fas: ReaderTask<R, A>) => ReaderTask<R, readonly [any, B]>
+```
+
+Added in v3.0.0
+
+## apTW
+
+**Signature**
+
+```ts
+export declare const apTW: <R2, B>(
+  fb: ReaderTask<R2, B>
+) => <R1, A extends readonly unknown[]>(fas: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [any, B]>
+```
+
+Added in v3.0.0
 
 ## bind
 
@@ -504,3 +542,13 @@ export declare const traverseArrayWithIndex: <R, A, B>(
 ```
 
 Added in v2.9.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <R, A>(a: ReaderTask<R, A>) => ReaderTask<R, readonly [A]>
+```
+
+Added in v3.0.0

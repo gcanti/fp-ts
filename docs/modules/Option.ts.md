@@ -112,8 +112,10 @@ Added in v2.0.0
   - [Option (type alias)](#option-type-alias)
   - [Some (interface)](#some-interface)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
+  - [apT](#apt)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [elem](#elem)
@@ -122,6 +124,7 @@ Added in v2.0.0
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
+  - [tupled](#tupled)
 
 ---
 
@@ -1292,6 +1295,16 @@ Added in v2.0.0
 
 # utils
 
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: Option<readonly []>
+```
+
+Added in v3.0.0
+
 ## Do
 
 **Signature**
@@ -1314,6 +1327,18 @@ export declare const apS: <A, N extends string, B>(
 ```
 
 Added in v2.8.0
+
+## apT
+
+**Signature**
+
+```ts
+export declare const apT: <B>(
+  fb: Option<B>
+) => <A extends readonly unknown[]>(fas: Option<A>) => Option<readonly [any, B]>
+```
+
+Added in v3.0.0
 
 ## bind
 
@@ -1489,3 +1514,13 @@ export declare const traverseArrayWithIndex: <A, B>(
 ```
 
 Added in v2.9.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <A>(a: Option<A>) => Option<readonly [A]>
+```
+
+Added in v3.0.0

@@ -1,7 +1,7 @@
 /**
  * @since 2.0.0
  */
-import { identity, pipe, bind_, bindTo_, flow } from './function'
+import { identity, pipe, bind_, bindTo_, flow, tuple } from './function'
 import { Functor2 } from './Functor'
 import { Monad2 } from './Monad'
 import { Applicative2 } from './Applicative'
@@ -276,6 +276,27 @@ export const apS = <A, N extends string, S, B>(
 ): ((fa: State<S, A>) => State<S, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
   flow(
     map((a) => (b: B) => bind_(a, name, b)),
+    ap(fb)
+  )
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const tupled: <S, A>(a: State<S, A>) => State<S, readonly [A]> = map(tuple)
+
+/**
+ * @since 3.0.0
+ */
+export const apT = <S, B>(fb: State<S, B>) => <A extends ReadonlyArray<unknown>>(
+  fas: State<S, A>
+): State<S, readonly [...A, B]> =>
+  pipe(
+    fas,
+    map((a) => (b: B): readonly [...A, B] => [...a, b]),
     ap(fb)
   )
 

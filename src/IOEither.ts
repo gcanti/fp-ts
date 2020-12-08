@@ -11,7 +11,7 @@ import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C, getCompactableComposition } from './Compactable'
 import * as E from './Either'
 import { Filterable2C, getFilterableComposition } from './Filterable'
-import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { Functor2 } from './Functor'
 import * as I from './IO'
 import { Monad2 } from './Monad'
@@ -700,6 +700,39 @@ export const apS: <A, N extends string, E, B>(
   name: Exclude<N, keyof A>,
   fb: IOEither<E, B>
 ) => (fa: IOEither<E, A>) => IOEither<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const ApT: IOEither<never, readonly []> = of([])
+
+/**
+ * @since 3.0.0
+ */
+export const tupled: <E, A>(a: IOEither<E, A>) => IOEither<E, readonly [A]> = map(tuple)
+
+/**
+ * @since 3.0.0
+ */
+export const apTW = <E2, B>(fb: IOEither<E2, B>) => <E1, A extends ReadonlyArray<unknown>>(
+  fas: IOEither<E1, A>
+): IOEither<E1 | E2, readonly [...A, B]> =>
+  pipe(
+    fas,
+    map((a) => (b: B): readonly [...A, B] => [...a, b]),
+    apW(fb)
+  )
+
+/**
+ * @since 3.0.0
+ */
+export const apT: <E, B>(
+  fb: IOEither<E, B>
+) => <A extends ReadonlyArray<unknown>>(fas: IOEither<E, A>) => IOEither<E, readonly [...A, B]> = apTW
 
 // -------------------------------------------------------------------------------------
 // array utils

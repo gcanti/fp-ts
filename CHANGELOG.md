@@ -177,35 +177,60 @@ high state of flux, you're at risk of it changing without notice.
   - `Either`
     - add `getCompactable` (@gcanti)
     - add `getFilterable` (@gcanti)
+    - add pipeable sequence T (@gcanti)
+  - `Identity`
+    - add pipeable sequence T (@gcanti)
+  - `IO`
+    - add pipeable sequence T (@gcanti)
   - `IOEither`
     - add `getCompactable` (@gcanti)
+    - add pipeable sequence T (@gcanti)
+  - `Option`
+    - add pipeable sequence T (@gcanti)
+  - `Reader`
+    - add pipeable sequence T (@gcanti)
+  - `ReaderEither`
+    - add pipeable sequence T (@gcanti)
   - `ReaderTask`
     - add `MonadTask` (@gcanti)
+    - add pipeable sequence T (@gcanti)
   - `ReaderTaskEither`
     - add `Monad` (@gcanti)
     - add `MonadTask` (@gcanti)
     - add `MonadThrow` (@gcanti)
+    - add pipeable sequence T (@gcanti)
+  - `ReadonlyArray`
+    - add pipeable sequence T (@gcanti)
   - `ReadonlyMap`
     - add `getFilterable` (@gcanti)
     - add `getFoldable` (@gcanti)
     - add `getFoldableWithIndex` (@gcanti)
     - add `getTraversable` (@gcanti)
     - add `getTraversableWithIndex` (@gcanti)
+  - `ReadonlyNonEmptyArray`
+    - add pipeable sequence T (@gcanti)
+  - `State`
+    - add pipeable sequence T (@gcanti)
   - `StateReaderTaskEither`
     - add `Monad` (@gcanti)
     - add `MonadTask` (@gcanti)
     - add `MonadThrow` (@gcanti)
+    - add pipeable sequence T (@gcanti)
   - `Task`
     - add `Monad` (@gcanti)
     - add `MonadTask` (@gcanti)
+    - add pipeable sequence T (@gcanti)
   - `TaskEither`
     - add `getCompactable` (@gcanti)
     - add `Monad` (@gcanti)
     - add `MonadTask` (@gcanti)
     - add `MonadThrow` (@gcanti)
+    - add pipeable sequence T (@gcanti)
   - `TaskThese`
     - add `Functor` (@gcanti)
     - add `Bifunctor` (@gcanti)
+  - `Tree`
+    - add pipeable sequence T (@gcanti)
   - `Writer`
     - add `getApplicative` (@gcanti)
 

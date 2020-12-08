@@ -93,9 +93,12 @@ Added in v2.0.0
 - [model](#model)
   - [TaskEither (interface)](#taskeither-interface)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
   - [apSW](#apsw)
+  - [apT](#apt)
+  - [apTW](#aptw)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
@@ -108,6 +111,7 @@ Added in v2.0.0
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseSeqArray](#traverseseqarray)
   - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
+  - [tupled](#tupled)
 
 ---
 
@@ -910,6 +914,16 @@ Added in v2.0.0
 
 # utils
 
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: TaskEither<never, readonly []>
+```
+
+Added in v3.0.0
+
 ## Do
 
 **Signature**
@@ -945,6 +959,30 @@ export declare const apSW: <A, N extends string, D, B>(
 ```
 
 Added in v2.8.0
+
+## apT
+
+**Signature**
+
+```ts
+export declare const apT: <E, B>(
+  fb: TaskEither<E, B>
+) => <A extends readonly unknown[]>(fas: TaskEither<E, A>) => TaskEither<E, readonly [any, B]>
+```
+
+Added in v3.0.0
+
+## apTW
+
+**Signature**
+
+```ts
+export declare const apTW: <E2, B>(
+  fb: TaskEither<E2, B>
+) => <E1, A extends readonly unknown[]>(fas: TaskEither<E1, A>) => TaskEither<E2 | E1, readonly [any, B]>
+```
+
+Added in v3.0.0
 
 ## bind
 
@@ -1024,7 +1062,7 @@ Added in v2.9.0
 
 ## sequenceArray
 
-this function have the same behavior of `A.sequence(TE.taskEither)` but it's stack safe and perform better
+this function have the same behavior of `A.sequence(taskEither)` but it's stack safe and perform better
 
 _this function run all tasks in parallel and does not bail out, for sequential version use `sequenceSeqArray`_
 
@@ -1069,7 +1107,7 @@ Added in v2.9.0
 
 ## sequenceSeqArray
 
-this function have the same behavior of `A.sequence(TE.taskEitherSeq)` but it's stack safe and perform better
+this function have the same behavior of `A.sequence(taskEitherSeq)` but it's stack safe and perform better
 
 _this function run all tasks in sequential order and bails out on left side of either, for parallel version use `sequenceArray`_
 
@@ -1135,7 +1173,7 @@ Added in v2.0.0
 
 ## traverseArray
 
-this function have the same behavior of `A.traverse(TE.taskEither)` but it's stack safe and perform better
+this function have the same behavior of `A.traverse(taskEither)` but it's stack safe and perform better
 
 _this function run all tasks in parallel and does not bail out, for sequential version use `traverseSeqArray`_
 
@@ -1194,7 +1232,7 @@ Added in v2.9.0
 
 ## traverseSeqArray
 
-this function have the same behavior of `A.traverse(TE.taskEitherSeq)` but it's stack safe and perform better
+this function have the same behavior of `A.traverse(taskEitherSeq)` but it's stack safe and perform better
 
 _this function run all tasks in sequential order and bails out on left side of either, for parallel version use `traverseArray`_
 
@@ -1219,3 +1257,13 @@ export declare const traverseSeqArrayWithIndex: <A, B, E>(
 ```
 
 Added in v2.9.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <E, A>(a: TaskEither<E, A>) => TaskEither<E, readonly [A]>
+```
+
+Added in v3.0.0

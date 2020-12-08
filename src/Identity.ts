@@ -9,7 +9,7 @@ import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
-import { identity as id, pipe, bind_, bindTo_, flow } from './function'
+import { identity as id, pipe, bind_, bindTo_, flow, tuple } from './function'
 import { Functor1 } from './Functor'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
@@ -381,5 +381,31 @@ export const apS = <A, N extends string, B>(
 ): ((fa: Identity<A>) => Identity<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
   flow(
     map((a) => (b: B) => bind_(a, name, b)),
+    ap(fb)
+  )
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const ApT: Identity<readonly []> = of([])
+
+/**
+ * @since 3.0.0
+ */
+export const tupled: <A>(a: Identity<A>) => Identity<readonly [A]> = map(tuple)
+
+/**
+ * @since 3.0.0
+ */
+export const apT = <B>(fb: Identity<B>) => <A extends ReadonlyArray<unknown>>(
+  fas: Identity<A>
+): Identity<readonly [...A, B]> =>
+  pipe(
+    fas,
+    map((a) => (b: B): readonly [...A, B] => [...a, b]),
     ap(fb)
   )

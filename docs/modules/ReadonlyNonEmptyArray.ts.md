@@ -80,8 +80,10 @@ Added in v2.5.0
 - [model](#model)
   - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
+  - [apT](#apt)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [extract](#extract)
@@ -99,6 +101,7 @@ Added in v2.5.0
   - [tail](#tail)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
+  - [tupled](#tupled)
   - [unzip](#unzip)
   - [updateAt](#updateat)
 
@@ -823,6 +826,16 @@ Added in v2.5.0
 
 # utils
 
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: ReadonlyNonEmptyArray<readonly []>
+```
+
+Added in v3.0.0
+
 ## Do
 
 **Signature**
@@ -845,6 +858,18 @@ export declare const apS: <A, N extends string, B>(
 ```
 
 Added in v2.8.0
+
+## apT
+
+**Signature**
+
+```ts
+export declare const apT: <B>(
+  fb: ReadonlyNonEmptyArray<B>
+) => <A extends readonly unknown[]>(fas: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [any, B]>
+```
+
+Added in v3.0.0
 
 ## bind
 
@@ -1044,6 +1069,16 @@ export declare const traverseWithIndex: PipeableTraverseWithIndex1<'ReadonlyNonE
 ```
 
 Added in v2.6.3
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <A>(a: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [A]>
+```
+
+Added in v3.0.0
 
 ## unzip
 

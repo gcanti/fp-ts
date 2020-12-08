@@ -73,9 +73,12 @@ Added in v2.0.0
 - [model](#model)
   - [ReaderEither (interface)](#readereither-interface)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
   - [apSW](#apsw)
+  - [apT](#apt)
+  - [apTW](#aptw)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
@@ -83,6 +86,7 @@ Added in v2.0.0
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
+  - [tupled](#tupled)
 
 ---
 
@@ -699,6 +703,16 @@ Added in v2.0.0
 
 # utils
 
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: ReaderEither<unknown, never, readonly []>
+```
+
+Added in v3.0.0
+
 ## Do
 
 **Signature**
@@ -736,6 +750,32 @@ export declare const apSW: <A, N extends string, Q, D, B>(
 ```
 
 Added in v2.8.0
+
+## apT
+
+**Signature**
+
+```ts
+export declare const apT: <R, E, B>(
+  fb: ReaderEither<R, E, B>
+) => <A extends readonly unknown[]>(fas: ReaderEither<R, E, A>) => ReaderEither<R, E, readonly [any, B]>
+```
+
+Added in v3.0.0
+
+## apTW
+
+**Signature**
+
+```ts
+export declare const apTW: <R2, E2, B>(
+  fb: ReaderEither<R2, E2, B>
+) => <R1, E1, A extends readonly unknown[]>(
+  fas: ReaderEither<R1, E1, A>
+) => ReaderEither<R1 & R2, E2 | E1, readonly [any, B]>
+```
+
+Added in v3.0.0
 
 ## bind
 
@@ -829,3 +869,13 @@ export declare const traverseArrayWithIndex: <R, E, A, B>(
 ```
 
 Added in v2.9.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <R, E, A>(a: ReaderEither<R, E, A>) => ReaderEither<R, E, readonly [A]>
+```
+
+Added in v3.0.0

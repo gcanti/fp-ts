@@ -596,6 +596,10 @@ describe('Either', () => {
     )
   })
 
+  it('apT', () => {
+    assert.deepStrictEqual(pipe(_.right<string, number>(1), _.tupled, _.apT(_.right('b'))), _.right([1, 'b']))
+  })
+
   it('fromNullableK', () => {
     const f = _.fromNullableK(() => 'error')((n: number) => (n > 0 ? n : null))
     assert.deepStrictEqual(f(1), _.right(1))

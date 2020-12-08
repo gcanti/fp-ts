@@ -332,6 +332,13 @@ describe('StateReaderTaskEither', () => {
     )
   })
 
+  it('apT', async () => {
+    assert.deepStrictEqual(
+      await pipe(_.right<{}, {}, string, number>(1), _.tupled, _.apT(_.right('b')))({})({})(),
+      E.right([[1, 'b'], {}])
+    )
+  })
+
   describe('array utils', () => {
     it('sequenceArray', async () => {
       const add = (n: number) => (s: number) => (_r: {}) => () => Promise.resolve(E.right(tuple(n, n + s)))

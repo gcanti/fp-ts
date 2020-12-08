@@ -53,12 +53,15 @@ Added in v2.0.0
 - [model](#model)
   - [Identity (type alias)](#identity-type-alias)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
+  - [apT](#apt)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [sequence](#sequence)
   - [traverse](#traverse)
+  - [tupled](#tupled)
 
 ---
 
@@ -407,6 +410,16 @@ Added in v2.0.0
 
 # utils
 
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: readonly []
+```
+
+Added in v3.0.0
+
 ## Do
 
 **Signature**
@@ -429,6 +442,16 @@ export declare const apS: <A, N extends string, B>(
 ```
 
 Added in v2.8.0
+
+## apT
+
+**Signature**
+
+```ts
+export declare const apT: <B>(fb: B) => <A extends readonly unknown[]>(fas: A) => readonly [any, B]
+```
+
+Added in v3.0.0
 
 ## bind
 
@@ -472,3 +495,13 @@ export declare const traverse: PipeableTraverse1<'Identity'>
 ```
 
 Added in v2.6.3
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <A>(a: A) => readonly [A]
+```
+
+Added in v3.0.0

@@ -464,6 +464,10 @@ describe('Option', () => {
     assert.deepStrictEqual(pipe(_.some(1), _.bindTo('a'), _.apS('b', _.some('b'))), _.some({ a: 1, b: 'b' }))
   })
 
+  it('apT', () => {
+    assert.deepStrictEqual(pipe(_.some(1), _.tupled, _.apT(_.some('b'))), _.some([1, 'b']))
+  })
+
   it('fromNullableK', () => {
     const f = _.fromNullableK((n: number) => (n > 0 ? n : null))
     assert.deepStrictEqual(f(1), _.some(1))

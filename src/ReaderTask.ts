@@ -3,7 +3,7 @@
  */
 import { Applicative2 } from './Applicative'
 import { Apply2 } from './Apply'
-import { bindTo_, bind_, flow, identity, pipe } from './function'
+import { bindTo_, bind_, flow, identity, pipe, tuple } from './function'
 import { Functor2 } from './Functor'
 import { IO } from './IO'
 import { Monad2 } from './Monad'
@@ -385,6 +385,39 @@ export const apS: <A, N extends string, R, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTask<R, B>
 ) => (fa: ReaderTask<R, A>) => ReaderTask<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const ApT: ReaderTask<unknown, readonly []> = of([])
+
+/**
+ * @since 3.0.0
+ */
+export const tupled: <R, A>(a: ReaderTask<R, A>) => ReaderTask<R, readonly [A]> = map(tuple)
+
+/**
+ * @since 3.0.0
+ */
+export const apTW = <R2, B>(fb: ReaderTask<R2, B>) => <R1, A extends ReadonlyArray<unknown>>(
+  fas: ReaderTask<R1, A>
+): ReaderTask<R1 & R2, readonly [...A, B]> =>
+  pipe(
+    fas,
+    map((a) => (b: B): readonly [...A, B] => [...a, b]),
+    apW(fb)
+  )
+
+/**
+ * @since 3.0.0
+ */
+export const apT: <R, B>(
+  fb: ReaderTask<R, B>
+) => <A extends ReadonlyArray<unknown>>(fas: ReaderTask<R, A>) => ReaderTask<R, readonly [...A, B]> = apTW
 
 // -------------------------------------------------------------------------------------
 // array utils

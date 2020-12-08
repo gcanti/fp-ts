@@ -129,9 +129,11 @@ Added in v2.5.0
   - [unsafeInsertAt](#unsafeinsertat)
   - [unsafeUpdateAt](#unsafeupdateat)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [Spanned (interface)](#spanned-interface)
   - [apS](#aps)
+  - [apT](#apt)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [chainWithIndex](#chainwithindex)
@@ -160,6 +162,7 @@ Added in v2.5.0
   - [splitAt](#splitat)
   - [tail](#tail)
   - [takeRight](#takeright)
+  - [tupled](#tupled)
   - [unzip](#unzip)
   - [updateAt](#updateat)
 
@@ -1664,6 +1667,16 @@ Added in v2.5.0
 
 # utils
 
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: readonly (readonly [])[]
+```
+
+Added in v3.0.0
+
 ## Do
 
 **Signature**
@@ -1699,6 +1712,18 @@ export declare const apS: <A, N extends string, B>(
 ```
 
 Added in v2.8.0
+
+## apT
+
+**Signature**
+
+```ts
+export declare const apT: <B>(
+  fb: readonly B[]
+) => <A extends readonly unknown[]>(fas: readonly A[]) => readonly (readonly [any, B])[]
+```
+
+Added in v3.0.0
 
 ## bind
 
@@ -2310,6 +2335,16 @@ assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
 ```
 
 Added in v2.5.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <A>(a: readonly A[]) => readonly (readonly [A])[]
+```
+
+Added in v3.0.0
 
 ## unzip
 

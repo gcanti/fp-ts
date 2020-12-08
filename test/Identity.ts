@@ -135,4 +135,8 @@ describe('Identity', () => {
   it('apS', () => {
     assert.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b'))), { a: 1, b: 'b' })
   })
+
+  it('apT', () => {
+    assert.deepStrictEqual(pipe(_.of(1), _.tupled, _.apT(_.of('b'))), [1, 'b'])
+  })
 })

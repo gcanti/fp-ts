@@ -50,13 +50,16 @@ Added in v2.0.0
 - [model](#model)
   - [IO (interface)](#io-interface)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
+  - [apT](#apt)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
+  - [tupled](#tupled)
 
 ---
 
@@ -294,6 +297,16 @@ Added in v2.0.0
 
 # utils
 
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: IO<readonly []>
+```
+
+Added in v3.0.0
+
 ## Do
 
 **Signature**
@@ -316,6 +329,16 @@ export declare const apS: <A, N extends string, B>(
 ```
 
 Added in v2.8.0
+
+## apT
+
+**Signature**
+
+```ts
+export declare const apT: <B>(fb: IO<B>) => <A extends readonly unknown[]>(fas: IO<A>) => IO<readonly [any, B]>
+```
+
+Added in v3.0.0
 
 ## bind
 
@@ -411,3 +434,13 @@ export declare const traverseArrayWithIndex: <A, B>(
 ```
 
 Added in v2.9.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <A>(a: IO<A>) => IO<readonly [A]>
+```
+
+Added in v3.0.0

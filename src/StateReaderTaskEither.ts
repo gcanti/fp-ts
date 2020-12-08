@@ -6,7 +6,7 @@ import { Applicative4 } from './Applicative'
 import { Apply4 } from './Apply'
 import { Bifunctor4 } from './Bifunctor'
 import * as E from './Either'
-import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { Functor4 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
@@ -810,6 +810,42 @@ export const apS: <A, N extends string, S, R, E, B>(
 ) => (
   fa: StateReaderTaskEither<S, R, E, A>
 ) => StateReaderTaskEither<S, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const tupled: <S, R, E, A>(
+  a: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, readonly [A]> = map(tuple)
+
+/**
+ * @since 3.0.0
+ */
+export const apTW = <S, R2, E2, B>(fb: StateReaderTaskEither<S, R2, E2, B>) => <
+  R1,
+  E1,
+  A extends ReadonlyArray<unknown>
+>(
+  fas: StateReaderTaskEither<S, R1, E1, A>
+): StateReaderTaskEither<S, R1 & R2, E1 | E2, readonly [...A, B]> =>
+  pipe(
+    fas,
+    map((a) => (b: B): readonly [...A, B] => [...a, b]),
+    apW(fb)
+  )
+
+/**
+ * @since 3.0.0
+ */
+export const apT: <S, R, E, B>(
+  fb: StateReaderTaskEither<S, R, E, B>
+) => <A extends ReadonlyArray<unknown>>(
+  fas: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, readonly [...A, B]> = apTW
 
 // -------------------------------------------------------------------------------------
 // array utils

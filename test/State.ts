@@ -85,6 +85,10 @@ describe('State', () => {
     ])
   })
 
+  it('apT', () => {
+    assert.deepStrictEqual(pipe(_.of(1), _.tupled, _.apT(_.of('b')))({}), [[1, 'b'], {}])
+  })
+
   describe('array utils', () => {
     it('sequenceArray', () => {
       const add = (n: number) => (s: number) => tuple(n, n + s)

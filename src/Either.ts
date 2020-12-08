@@ -23,7 +23,7 @@ import { Eq } from './Eq'
 import { Extend2 } from './Extend'
 import { Filterable2C } from './Filterable'
 import { Foldable2 } from './Foldable'
-import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2 } from './Monad'
@@ -1309,6 +1309,39 @@ export const apS: <A, N extends string, E, B>(
   name: Exclude<N, keyof A>,
   fb: Either<E, B>
 ) => (fa: Either<E, A>) => Either<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const ApT: Either<never, readonly []> = of([])
+
+/**
+ * @since 3.0.0
+ */
+export const tupled: <E, A>(a: Either<E, A>) => Either<E, readonly [A]> = map(tuple)
+
+/**
+ * @since 3.0.0
+ */
+export const apTW = <E2, B>(fb: Either<E2, B>) => <E1, A extends ReadonlyArray<unknown>>(
+  fas: Either<E1, A>
+): Either<E1 | E2, readonly [...A, B]> =>
+  pipe(
+    fas,
+    map((a) => (b: B): readonly [...A, B] => [...a, b]),
+    apW(fb)
+  )
+
+/**
+ * @since 3.0.0
+ */
+export const apT: <E, B>(
+  fb: Either<E, B>
+) => <A extends ReadonlyArray<unknown>>(fas: Either<E, A>) => Either<E, readonly [...A, B]> = apTW
 
 // -------------------------------------------------------------------------------------
 // array utils

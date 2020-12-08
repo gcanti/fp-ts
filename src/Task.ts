@@ -11,7 +11,7 @@
  * @since 2.0.0
  */
 import { Applicative1 } from './Applicative'
-import { identity, pipe, bind_, bindTo_, flow } from './function'
+import { identity, pipe, bind_, bindTo_, flow, tuple } from './function'
 import { IO } from './IO'
 import { Monad1 } from './Monad'
 import { MonadTask1 } from './MonadTask'
@@ -402,6 +402,30 @@ export const apS = <A, N extends string, B>(
 ): ((fa: Task<A>) => Task<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
   flow(
     map((a) => (b: B) => bind_(a, name, b)),
+    ap(fb)
+  )
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const ApT: Task<readonly []> = of([])
+
+/**
+ * @since 3.0.0
+ */
+export const tupled: <A>(a: Task<A>) => Task<readonly [A]> = map(tuple)
+
+/**
+ * @since 3.0.0
+ */
+export const apT = <B>(fb: Task<B>) => <A extends ReadonlyArray<unknown>>(fas: Task<A>): Task<readonly [...A, B]> =>
+  pipe(
+    fas,
+    map((a) => (b: B): readonly [...A, B] => [...a, b]),
     ap(fb)
   )
 

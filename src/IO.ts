@@ -14,7 +14,7 @@
 import { Applicative1 } from './Applicative'
 import { Apply1 } from './Apply'
 import { ChainRec1 } from './ChainRec'
-import { identity, pipe, bind_, bindTo_, flow, constant } from './function'
+import { identity, pipe, bind_, bindTo_, flow, constant, tuple } from './function'
 import { Functor1 } from './Functor'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
@@ -279,6 +279,30 @@ export const apS = <A, N extends string, B>(
 ): ((fa: IO<A>) => IO<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
   flow(
     map((a) => (b: B) => bind_(a, name, b)),
+    ap(fb)
+  )
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const ApT: IO<readonly []> = of([])
+
+/**
+ * @since 3.0.0
+ */
+export const tupled: <A>(a: IO<A>) => IO<readonly [A]> = map(tuple)
+
+/**
+ * @since 3.0.0
+ */
+export const apT = <B>(fb: IO<B>) => <A extends ReadonlyArray<unknown>>(fas: IO<A>): IO<readonly [...A, B]> =>
+  pipe(
+    fas,
+    map((a) => (b: B): readonly [...A, B] => [...a, b]),
     ap(fb)
   )
 

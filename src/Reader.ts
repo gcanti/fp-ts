@@ -6,7 +6,7 @@ import { Apply2 } from './Apply'
 import { Category2 } from './Category'
 import { Choice2 } from './Choice'
 import * as E from './Either'
-import { bindTo_, bind_, flow, identity, pipe, constant } from './function'
+import { bindTo_, bind_, flow, identity, pipe, constant, tuple } from './function'
 import { Functor2 } from './Functor'
 import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
@@ -388,6 +388,39 @@ export const apS: <A, N extends string, R, B>(
   name: Exclude<N, keyof A>,
   fb: Reader<R, B>
 ) => (fa: Reader<R, A>) => Reader<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const ApT: Reader<unknown, readonly []> = of([])
+
+/**
+ * @since 3.0.0
+ */
+export const tupled: <R, A>(a: Reader<R, A>) => Reader<R, readonly [A]> = map(tuple)
+
+/**
+ * @since 3.0.0
+ */
+export const apTW = <R2, B>(fb: Reader<R2, B>) => <R1, A extends ReadonlyArray<unknown>>(
+  fas: Reader<R1, A>
+): Reader<R1 & R2, readonly [...A, B]> =>
+  pipe(
+    fas,
+    map((a) => (b: B): readonly [...A, B] => [...a, b]),
+    apW(fb)
+  )
+
+/**
+ * @since 3.0.0
+ */
+export const apT: <R, B>(
+  fb: Reader<R, B>
+) => <A extends ReadonlyArray<unknown>>(fas: Reader<R, A>) => Reader<R, readonly [...A, B]> = apTW
 
 // -------------------------------------------------------------------------------------
 // array utils

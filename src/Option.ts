@@ -22,7 +22,7 @@ import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
-import { identity, Lazy, Predicate, Refinement, pipe, bind_, bindTo_, flow } from './function'
+import { identity, Lazy, Predicate, Refinement, pipe, bind_, bindTo_, flow, tuple } from './function'
 import { Functor1 } from './Functor'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
@@ -1219,6 +1219,32 @@ export const apS = <A, N extends string, B>(
 ): ((fa: Option<A>) => Option<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
   flow(
     map((a) => (b: B) => bind_(a, name, b)),
+    ap(fb)
+  )
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const ApT: Option<readonly []> = of([])
+
+/**
+ * @since 3.0.0
+ */
+export const tupled: <A>(a: Option<A>) => Option<readonly [A]> = map(tuple)
+
+/**
+ * @since 3.0.0
+ */
+export const apT = <B>(fb: Option<B>) => <A extends ReadonlyArray<unknown>>(
+  fas: Option<A>
+): Option<readonly [...A, B]> =>
+  pipe(
+    fas,
+    map((a) => (b: B): readonly [...A, B] => [...a, b]),
     ap(fb)
   )
 

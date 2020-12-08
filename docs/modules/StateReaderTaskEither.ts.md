@@ -90,6 +90,8 @@ Added in v2.0.0
 - [utils](#utils)
   - [apS](#aps)
   - [apSW](#apsw)
+  - [apT](#apt)
+  - [apTW](#aptw)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
@@ -99,6 +101,7 @@ Added in v2.0.0
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
+  - [tupled](#tupled)
 
 ---
 
@@ -914,6 +917,34 @@ export declare const apSW: <A, N extends string, S, Q, D, B>(
 
 Added in v2.8.0
 
+## apT
+
+**Signature**
+
+```ts
+export declare const apT: <S, R, E, B>(
+  fb: StateReaderTaskEither<S, R, E, B>
+) => <A extends readonly unknown[]>(
+  fas: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, readonly [any, B]>
+```
+
+Added in v3.0.0
+
+## apTW
+
+**Signature**
+
+```ts
+export declare const apTW: <S, R2, E2, B>(
+  fb: StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1, A extends readonly unknown[]>(
+  fas: StateReaderTaskEither<S, R1, E1, A>
+) => StateReaderTaskEither<S, R1 & R2, E2 | E1, readonly [any, B]>
+```
+
+Added in v3.0.0
+
 ## bind
 
 **Signature**
@@ -1038,3 +1069,15 @@ export declare const traverseArrayWithIndex: <S, R, E, A, B>(
 ```
 
 Added in v2.9.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <S, R, E, A>(
+  a: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, readonly [A]>
+```
+
+Added in v3.0.0

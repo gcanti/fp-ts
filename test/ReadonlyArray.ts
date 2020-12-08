@@ -991,6 +991,10 @@ describe('ReadonlyArray', () => {
     assert.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b'))), [{ a: 1, b: 'b' }])
   })
 
+  it('apT', () => {
+    assert.deepStrictEqual(pipe(_.of(1), _.tupled, _.apT(_.of('b'))), [[1, 'b']])
+  })
+
   it('every', () => {
     const isPositive: Predicate<number> = (n) => n > 0
     assert.deepStrictEqual(pipe([1, 2, 3], _.every(isPositive)), true)

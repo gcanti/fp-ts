@@ -61,8 +61,10 @@ Added in v2.0.0
   - [Forest (type alias)](#forest-type-alias)
   - [Tree (interface)](#tree-interface)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
+  - [apT](#apt)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [drawForest](#drawforest)
@@ -70,6 +72,7 @@ Added in v2.0.0
   - [elem](#elem)
   - [sequence](#sequence)
   - [traverse](#traverse)
+  - [tupled](#tupled)
 
 ---
 
@@ -476,6 +479,16 @@ Added in v2.0.0
 
 # utils
 
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: Tree<readonly []>
+```
+
+Added in v3.0.0
+
 ## Do
 
 **Signature**
@@ -498,6 +511,16 @@ export declare const apS: <A, N extends string, B>(
 ```
 
 Added in v2.8.0
+
+## apT
+
+**Signature**
+
+```ts
+export declare const apT: <B>(fb: Tree<B>) => <A extends readonly unknown[]>(fas: Tree<A>) => Tree<readonly [any, B]>
+```
+
+Added in v3.0.0
 
 ## bind
 
@@ -593,3 +616,13 @@ export declare const traverse: PipeableTraverse1<'Tree'>
 ```
 
 Added in v2.6.3
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <A>(a: Tree<A>) => Tree<readonly [A]>
+```
+
+Added in v3.0.0

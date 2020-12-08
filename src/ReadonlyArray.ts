@@ -18,7 +18,7 @@ import {
 } from './FilterableWithIndex'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { identity, Lazy, Predicate, Refinement, pipe, bind_, bindTo_, flow } from './function'
+import { identity, Lazy, Predicate, Refinement, pipe, bind_, bindTo_, flow, tuple } from './function'
 import { Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
@@ -2235,5 +2235,31 @@ export const apS = <A, N extends string, B>(
 ): ((fa: ReadonlyArray<A>) => ReadonlyArray<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
   flow(
     map((a) => (b: B) => bind_(a, name, b)),
+    ap(fb)
+  )
+
+// -------------------------------------------------------------------------------------
+// pipeable sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const ApT: ReadonlyArray<readonly []> = of([])
+
+/**
+ * @since 3.0.0
+ */
+export const tupled: <A>(a: ReadonlyArray<A>) => ReadonlyArray<readonly [A]> = map(tuple)
+
+/**
+ * @since 3.0.0
+ */
+export const apT = <B>(fb: ReadonlyArray<B>) => <A extends ReadonlyArray<unknown>>(
+  fas: ReadonlyArray<A>
+): ReadonlyArray<readonly [...A, B]> =>
+  pipe(
+    fas,
+    map((a) => (b: B): readonly [...A, B] => [...a, b]),
     ap(fb)
   )

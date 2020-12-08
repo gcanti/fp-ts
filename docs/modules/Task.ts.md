@@ -55,8 +55,10 @@ Added in v2.0.0
 - [model](#model)
   - [Task (interface)](#task-interface)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
+  - [apT](#apt)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [never](#never)
@@ -66,6 +68,7 @@ Added in v2.0.0
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseSeqArray](#traverseseqarray)
   - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
+  - [tupled](#tupled)
 
 ---
 
@@ -419,6 +422,16 @@ Added in v2.0.0
 
 # utils
 
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: Task<readonly []>
+```
+
+Added in v3.0.0
+
 ## Do
 
 **Signature**
@@ -441,6 +454,16 @@ export declare const apS: <A, N extends string, B>(
 ```
 
 Added in v2.8.0
+
+## apT
+
+**Signature**
+
+```ts
+export declare const apT: <B>(fb: Task<B>) => <A extends readonly unknown[]>(fas: Task<A>) => Task<readonly [any, B]>
+```
+
+Added in v3.0.0
 
 ## bind
 
@@ -593,3 +616,13 @@ export declare const traverseSeqArrayWithIndex: <A, B>(
 ```
 
 Added in v2.9.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <A>(a: Task<A>) => Task<readonly [A]>
+```
+
+Added in v3.0.0

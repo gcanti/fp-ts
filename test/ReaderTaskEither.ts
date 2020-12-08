@@ -387,6 +387,13 @@ describe('ReaderTaskEither', () => {
     )
   })
 
+  it('apT', async () => {
+    assert.deepStrictEqual(
+      await pipe(_.right<{}, string, number>(1), _.tupled, _.apT(_.right('b')))({})(),
+      E.right([1, 'b'])
+    )
+  })
+
   describe('array utils', () => {
     it('sequenceArray', async () => {
       const arr = A.range(0, 10)

@@ -141,6 +141,10 @@ describe('ReaderTask', () => {
     assert.deepStrictEqual(await pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b')))(undefined)(), { a: 1, b: 'b' })
   })
 
+  it('apT', async () => {
+    assert.deepStrictEqual(await pipe(_.of(1), _.tupled, _.apT(_.of('b')))({})(), [1, 'b'])
+  })
+
   describe('array utils', () => {
     it('sequenceArray', async () => {
       const arr = A.range(0, 10)

@@ -94,9 +94,12 @@ Added in v2.0.0
 - [model](#model)
   - [ReaderTaskEither (interface)](#readertaskeither-interface)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
   - [apSW](#apsw)
+  - [apT](#apt)
+  - [apTW](#aptw)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
@@ -108,6 +111,7 @@ Added in v2.0.0
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseSeqArray](#traverseseqarray)
   - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
+  - [tupled](#tupled)
 
 ---
 
@@ -940,6 +944,16 @@ Added in v2.0.0
 
 # utils
 
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: ReaderTaskEither<unknown, never, readonly []>
+```
+
+Added in v3.0.0
+
 ## Do
 
 **Signature**
@@ -977,6 +991,32 @@ export declare const apSW: <A, N extends string, Q, D, B>(
 ```
 
 Added in v2.8.0
+
+## apT
+
+**Signature**
+
+```ts
+export declare const apT: <R, E, B>(
+  fb: ReaderTaskEither<R, E, B>
+) => <A extends readonly unknown[]>(fas: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, readonly [any, B]>
+```
+
+Added in v3.0.0
+
+## apTW
+
+**Signature**
+
+```ts
+export declare const apTW: <R2, E2, B>(
+  fb: ReaderTaskEither<R2, E2, B>
+) => <R1, E1, A extends readonly unknown[]>(
+  fas: ReaderTaskEither<R1, E1, A>
+) => ReaderTaskEither<R1 & R2, E2 | E1, readonly [any, B]>
+```
+
+Added in v3.0.0
 
 ## bind
 
@@ -1129,3 +1169,13 @@ export declare const traverseSeqArrayWithIndex: <R, E, A, B>(
 ```
 
 Added in v2.9.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <R, E, A>(a: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, readonly [A]>
+```
+
+Added in v3.0.0

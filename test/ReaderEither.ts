@@ -222,6 +222,10 @@ describe('ReaderEither', () => {
     )
   })
 
+  it('apT', () => {
+    assert.deepStrictEqual(pipe(_.right<{}, string, number>(1), _.tupled, _.apT(_.right('b')))({}), E.right([1, 'b']))
+  })
+
   describe('array utils', () => {
     it('sequenceArray', () => {
       const arr = A.range(1, 10)

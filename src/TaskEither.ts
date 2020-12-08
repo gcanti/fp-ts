@@ -15,7 +15,7 @@ import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C, getCompactableComposition } from './Compactable'
 import * as E from './Either'
 import { Filterable2C, getFilterableComposition } from './Filterable'
-import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
@@ -913,6 +913,39 @@ export const apS: <A, N extends string, E, B>(
 ) => (fa: TaskEither<E, A>) => TaskEither<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
 
 // -------------------------------------------------------------------------------------
+// pipeable sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const ApT: TaskEither<never, readonly []> = of([])
+
+/**
+ * @since 3.0.0
+ */
+export const tupled: <E, A>(a: TaskEither<E, A>) => TaskEither<E, readonly [A]> = map(tuple)
+
+/**
+ * @since 3.0.0
+ */
+export const apTW = <E2, B>(fb: TaskEither<E2, B>) => <E1, A extends ReadonlyArray<unknown>>(
+  fas: TaskEither<E1, A>
+): TaskEither<E1 | E2, readonly [...A, B]> =>
+  pipe(
+    fas,
+    map((a) => (b: B): readonly [...A, B] => [...a, b]),
+    apW(fb)
+  )
+
+/**
+ * @since 3.0.0
+ */
+export const apT: <E, B>(
+  fb: TaskEither<E, B>
+) => <A extends ReadonlyArray<unknown>>(fas: TaskEither<E, A>) => TaskEither<E, readonly [...A, B]> = apTW
+
+// -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------
 
@@ -925,7 +958,7 @@ export const traverseArrayWithIndex: <A, B, E>(
   pipe(arr, T.traverseArrayWithIndex(f), T.map(E.sequenceArray))
 
 /**
- * this function have the same behavior of `A.traverse(TE.taskEither)` but it's stack safe and perform better
+ * this function have the same behavior of `A.traverse(taskEither)` but it's stack safe and perform better
  *
  * *this function run all tasks in parallel and does not bail out, for sequential version use `traverseSeqArray`*
  *
@@ -965,7 +998,7 @@ export const traverseArray: <A, B, E>(
 ) => (arr: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
- * this function have the same behavior of `A.sequence(TE.taskEither)` but it's stack safe and perform better
+ * this function have the same behavior of `A.sequence(taskEither)` but it's stack safe and perform better
  *
  * *this function run all tasks in parallel and does not bail out, for sequential version use `sequenceSeqArray`*
  *
@@ -1023,7 +1056,7 @@ export const traverseSeqArrayWithIndex: <A, B, E>(
 }
 
 /**
- * this function have the same behavior of `A.traverse(TE.taskEitherSeq)` but it's stack safe and perform better
+ * this function have the same behavior of `A.traverse(taskEitherSeq)` but it's stack safe and perform better
  *
  * *this function run all tasks in sequential order and bails out on left side of either, for parallel version use `traverseArray`*
  *
@@ -1034,7 +1067,7 @@ export const traverseSeqArray: <A, B, E>(
 ) => (arr: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => traverseSeqArrayWithIndex((_, a) => f(a))
 
 /**
- * this function have the same behavior of `A.sequence(TE.taskEitherSeq)` but it's stack safe and perform better
+ * this function have the same behavior of `A.sequence(taskEitherSeq)` but it's stack safe and perform better
  *
  * *this function run all tasks in sequential order and bails out on left side of either, for parallel version use `sequenceArray`*
  *

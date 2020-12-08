@@ -40,6 +40,7 @@ Added in v2.0.0
   - [State (interface)](#state-interface)
 - [utils](#utils)
   - [apS](#aps)
+  - [apT](#apt)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [evaluate](#evaluate)
@@ -47,6 +48,7 @@ Added in v2.0.0
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
+  - [tupled](#tupled)
 
 ---
 
@@ -295,6 +297,18 @@ export declare const apS: <A, N extends string, S, B>(
 
 Added in v2.8.0
 
+## apT
+
+**Signature**
+
+```ts
+export declare const apT: <S, B>(
+  fb: State<S, B>
+) => <A extends readonly unknown[]>(fas: State<S, A>) => State<S, readonly [any, B]>
+```
+
+Added in v3.0.0
+
 ## bind
 
 **Signature**
@@ -403,3 +417,13 @@ export declare const traverseArrayWithIndex: <A, S, B>(
 ```
 
 Added in v2.9.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <S, A>(a: State<S, A>) => State<S, readonly [A]>
+```
+
+Added in v3.0.0
