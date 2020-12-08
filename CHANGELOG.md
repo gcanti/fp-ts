@@ -36,6 +36,8 @@ high state of flux, you're at risk of it changing without notice.
       - make `StateReaderTaskEither` definition immutable
       - (`Tree`) make `Forest` immutable
       - make `Writer` definition immutable
+  - `Apply`
+    - remove `sequenceS`, use data type `apS` instead (@gcanti)
   - `ChainRec`
     - drop `Chain` dependency (@gcanti)
   - `Const`

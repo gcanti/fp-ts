@@ -1,5 +1,4 @@
 import { createInterface } from 'readline'
-import { sequenceS } from '../src/Apply'
 import { log } from '../src/Console'
 import { flow, pipe } from '../src/function'
 import * as O from '../src/Option'
@@ -63,15 +62,11 @@ function shouldContinue(name: string): T.Task<boolean> {
   )
 }
 
-// run `n` tasks in parallel
-const ado = sequenceS(T.ApplicativePar)
-
 function gameLoop(name: string): T.Task<void> {
   return pipe(
-    ado({
-      secret: random,
-      guess: ask(`Dear ${name}, please guess a number from 1 to 5`)
-    }),
+    T.Do,
+    T.bind('secret', () => random),
+    T.bind('guess', () => ask(`Dear ${name}, please guess a number from 1 to 5`)),
     T.chain(({ secret, guess }) =>
       pipe(
         parse(guess),

@@ -7,7 +7,6 @@ import { createInterface } from 'readline'
 import * as S from '../src/State'
 import { Monad1 } from '../src/Monad'
 import { flow, pipe } from '../src/function'
-import { sequenceS } from '../src/Apply'
 
 //
 // type classes
@@ -74,9 +73,6 @@ function parse(s: string): O.Option<number> {
 }
 
 function main<F extends URIS>(F: Main<F>): Kind<F, void> {
-  // run `n` tasks in parallel
-  const ado = sequenceS(F)
-
   // ask something and get the answer
   const ask = (question: string): Kind<F, string> => pipe(F.putStrLn(question), (x) => F.chain(x, () => F.getStrLn))
 
@@ -97,10 +93,11 @@ function main<F extends URIS>(F: Main<F>): Kind<F, void> {
 
   const gameLoop = (name: string): Kind<F, void> => {
     return pipe(
-      ado({
-        secret: F.nextInt(5),
-        guess: ask(`Dear ${name}, please guess a number from 1 to 5`)
-      }),
+      F.nextInt(5),
+      (x) =>
+        F.chain(x, (secret) =>
+          pipe(ask(`Dear ${name}, please guess a number from 1 to 5`), (y) => F.map(y, (guess) => ({ secret, guess })))
+        ),
       (x) =>
         F.chain(x, ({ secret, guess }) =>
           pipe(

@@ -58,7 +58,6 @@ Added in v2.0.0
   - [Apply3C (interface)](#apply3c-interface)
   - [Apply4 (interface)](#apply4-interface)
 - [utils](#utils)
-  - [sequenceS](#sequences)
   - [sequenceT](#sequencet)
 
 ---
@@ -150,76 +149,6 @@ export interface Apply4<F extends URIS4> extends Functor4<F> {
 Added in v2.0.0
 
 # utils
-
-## sequenceS
-
-Like `Apply.sequenceT` but works with structs instead of tuples.
-
-**Signature**
-
-```ts
-export declare function sequenceS<F extends URIS4>(
-  F: Apply4<F>
-): <S, R, E, NER extends Record<string, Kind4<F, S, R, E, any>>>(
-  r: EnforceNonEmptyRecord<NER> & Record<string, Kind4<F, S, R, E, any>>
-) => Kind4<F, S, R, E, { [K in keyof NER]: [NER[K]] extends [Kind4<F, any, any, any, infer A>] ? A : never }>
-export declare function sequenceS<F extends URIS3>(
-  F: Apply3<F>
-): <R, E, NER extends Record<string, Kind3<F, R, E, any>>>(
-  r: EnforceNonEmptyRecord<NER> & Record<string, Kind3<F, R, E, any>>
-) => Kind3<F, R, E, { [K in keyof NER]: [NER[K]] extends [Kind3<F, any, any, infer A>] ? A : never }>
-export declare function sequenceS<F extends URIS3, E>(
-  F: Apply3C<F, E>
-): <R, NER extends Record<string, Kind3<F, R, E, any>>>(
-  r: EnforceNonEmptyRecord<NER> & Record<string, Kind3<F, R, E, any>>
-) => Kind3<F, R, E, { [K in keyof NER]: [NER[K]] extends [Kind3<F, any, any, infer A>] ? A : never }>
-export declare function sequenceS<F extends URIS2>(
-  F: Apply2<F>
-): <E, NER extends Record<string, Kind2<F, E, any>>>(
-  r: EnforceNonEmptyRecord<NER> & Record<string, Kind2<F, E, any>>
-) => Kind2<F, E, { [K in keyof NER]: [NER[K]] extends [Kind2<F, any, infer A>] ? A : never }>
-export declare function sequenceS<F extends URIS2, E>(
-  F: Apply2C<F, E>
-): <NER extends Record<string, Kind2<F, E, any>>>(
-  r: EnforceNonEmptyRecord<NER>
-) => Kind2<F, E, { [K in keyof NER]: [NER[K]] extends [Kind2<F, any, infer A>] ? A : never }>
-export declare function sequenceS<F extends URIS>(
-  F: Apply1<F>
-): <NER extends Record<string, Kind<F, any>>>(
-  r: EnforceNonEmptyRecord<NER>
-) => Kind<F, { [K in keyof NER]: [NER[K]] extends [Kind<F, infer A>] ? A : never }>
-export declare function sequenceS<F>(
-  F: Apply<F>
-): <NER extends Record<string, HKT<F, any>>>(
-  r: EnforceNonEmptyRecord<NER>
-) => HKT<F, { [K in keyof NER]: [NER[K]] extends [HKT<F, infer A>] ? A : never }>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import { sequenceS } from 'fp-ts/Apply'
-
-const ado = sequenceS(E.Applicative)
-
-assert.deepStrictEqual(
-  ado({
-    a: E.right(1),
-    b: E.right(true),
-  }),
-  E.right({ a: 1, b: true })
-)
-assert.deepStrictEqual(
-  ado({
-    a: E.right(1),
-    b: E.left('error'),
-  }),
-  E.left('error')
-)
-```
-
-Added in v2.0.0
 
 ## sequenceT
 
