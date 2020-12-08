@@ -134,15 +134,22 @@ high state of flux, you're at risk of it changing without notice.
 - **New Feature**
   - `Either`
     - add `getCompactable` (@gcanti)
+    - add `getFilterable` (@gcanti)
   - `IOEither`
     - add `getCompactable` (@gcanti)
+  - `ReaderTask`
+    - add `MonadTask` (@gcanti)
   - `ReadonlyMap`
     - add `getFilterable` (@gcanti)
     - add `getFoldable` (@gcanti)
     - add `getFoldableWithIndex` (@gcanti)
+    - add `getTraversable` (@gcanti)
     - add `getTraversableWithIndex` (@gcanti)
   - `TaskEither`
     - add `getCompactable` (@gcanti)
+  - `TaskThese`
+    - add `Functor` (@gcanti)
+    - add `Bifunctor` (@gcanti)
   - `Writer`
     - add `getApplicative` (@gcanti)
 
