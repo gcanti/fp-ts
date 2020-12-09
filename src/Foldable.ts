@@ -2,7 +2,7 @@
  * @since 2.0.0
  */
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3 } from './Applicative'
-import { constant } from './function'
+import { constant, pipe } from './function'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid } from './Monoid'
@@ -236,7 +236,7 @@ export function traverse_<M, F>(
   M: Applicative<M>,
   F: Foldable<F>
 ): <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<M, B>) => HKT<M, void> {
-  const applyFirst = <B>(mu: HKT<M, void>, mb: HKT<M, B>): HKT<M, void> => M.ap(M.map(mu, constant), mb)
+  const applyFirst = <B>(mu: HKT<M, void>, mb: HKT<M, B>): HKT<M, void> => M.ap(pipe(mu, M.map(constant)), mb)
   const mu: HKT<M, void> = M.of(undefined)
   return (fa, f) => F.reduce(fa, mu, (mu, a) => applyFirst(mu, f(a)))
 }

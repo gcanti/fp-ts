@@ -69,15 +69,17 @@ export function experiment<F extends URIS>(
 ): <S>(f: (s: S) => Kind<F, S>) => <A>(wa: Store<S, A>) => Kind<F, A>
 export function experiment<F>(F: FunctorHKT<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A>
 export function experiment<F>(F: FunctorHKT<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A> {
-  return (f) => (wa) => F.map(f(wa.pos), (s) => wa.peek(s))
+  return (f) => (wa) =>
+    pipe(
+      f(wa.pos),
+      F.map((s) => wa.peek(s))
+    )
 }
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-/* istanbul ignore next */
-const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
 const extend_: Extend2<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
 
@@ -150,7 +152,7 @@ declare module './HKT' {
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map
 }
 
 /**
@@ -159,7 +161,7 @@ export const Functor: Functor2<URI> = {
  */
 export const Comonad: Comonad2<URI> = {
   URI,
-  map: map_,
+  map,
   extend: extend_,
   extract
 }

@@ -222,7 +222,7 @@ describe('IOEither', () => {
     })
     const c = _.rightIO(() => log.push('c'))
     const A = _.ApplicativePar
-    const x = A.ap(A.ap(A.map(a, tuple), b), c)()
+    const x = A.ap(A.ap(pipe(a, A.map(tuple)), b), c)()
     assert.deepStrictEqual(x, E.left('error'))
     assert.deepStrictEqual(log, ['a', 'b', 'c'])
   })
@@ -238,7 +238,7 @@ describe('IOEither', () => {
     })
     const c = _.rightIO(() => log.push('c'))
     const A = _.ApplicativeSeq
-    const x = A.ap(A.ap(A.map(a, tuple), b), c)()
+    const x = A.ap(A.ap(pipe(a, A.map(tuple)), b), c)()
     assert.deepStrictEqual(x, E.left('error'))
     assert.deepStrictEqual(log, ['a', 'b'])
   })
@@ -320,8 +320,8 @@ describe('IOEither', () => {
   it('getApplicativeIOValidation', () => {
     const A = _.getApplicativeIOValidation(monoidString)
     const tuple = <A>(a: A) => <B>(b: B): readonly [A, B] => [a, b]
-    assert.deepStrictEqual(A.ap(A.map(_.left('a'), tuple), _.left('b'))(), E.left('ab'))
-    assert.deepStrictEqual(A.ap(A.map(_.left('a'), tuple), _.right(1))(), E.left('a'))
+    assert.deepStrictEqual(A.ap(pipe(_.left('a'), A.map(tuple)), _.left('b'))(), E.left('ab'))
+    assert.deepStrictEqual(A.ap(pipe(_.left('a'), A.map(tuple)), _.right(1))(), E.left('a'))
   })
 
   it('getAltIOValidation', () => {

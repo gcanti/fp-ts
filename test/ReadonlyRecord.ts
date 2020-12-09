@@ -21,7 +21,6 @@ describe('ReadonlyRecord', () => {
       const double = (n: number): number => n * 2
       assert.deepStrictEqual(pipe({ k1: 1, k2: 2 }, _.map(double)), { k1: 2, k2: 4 })
       assert.deepStrictEqual(pipe({ a: 1, b: 2 }, _.map(double)), { a: 2, b: 4 })
-      assert.deepStrictEqual(_.Functor.map({ a: 1, b: 2 }, double), { a: 2, b: 4 })
     })
 
     it('reduce', () => {

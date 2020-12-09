@@ -1392,7 +1392,6 @@ export const zero: Alternative1<URI>['zero'] = () => empty
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
 const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = (fa, f) => pipe(fa, mapWithIndex(f))
 /* istanbul ignore next */
@@ -1863,7 +1862,10 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>)
 ): HKT<F, ReadonlyArray<A>> => {
   return reduce_(ta, F.of(zero()), (fas, fa) =>
     F.ap(
-      F.map(fas, (as) => (a: A) => snoc(a)(as)),
+      pipe(
+        fas,
+        F.map((as) => (a: A) => snoc(a)(as))
+      ),
       fa
     )
   )
@@ -1879,7 +1881,10 @@ export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = <F>(F:
 ): ((ta: ReadonlyArray<A>) => HKT<F, ReadonlyArray<B>>) =>
   reduceWithIndex(F.of(zero()), (i, fbs, a) =>
     F.ap(
-      F.map(fbs, (bs) => (b: B) => snoc(b)(bs)),
+      pipe(
+        fbs,
+        F.map((bs) => (b: B) => snoc(b)(bs))
+      ),
       f(i, a)
     )
   )
@@ -1892,7 +1897,7 @@ export const wither: PipeableWither1<URI> = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(f: (a: A) => HKT<F, Option<B>>) => (fa: ReadonlyArray<A>) => HKT<F, ReadonlyArray<B>>) => {
   const traverseF = traverse(F)
-  return (f) => (fa) => F.map(pipe(fa, traverseF(f)), compact)
+  return (f) => flow(traverseF(f), F.map(compact))
 }
 
 /**
@@ -1905,7 +1910,7 @@ export const wilt: PipeableWilt1<URI> = <F>(
   f: (a: A) => HKT<F, Either<B, C>>
 ) => (fa: ReadonlyArray<A>) => HKT<F, Separated<ReadonlyArray<B>, ReadonlyArray<C>>>) => {
   const traverseF = traverse(F)
-  return (f) => (fa) => F.map(pipe(fa, traverseF(f)), separate)
+  return (f) => flow(traverseF(f), F.map(separate))
 }
 
 /**
@@ -1957,7 +1962,7 @@ declare module './HKT' {
  */
 export const Functor: Functor1<URI> = {
   URI,
-  map: map_
+  map
 }
 
 /**
@@ -1966,7 +1971,7 @@ export const Functor: Functor1<URI> = {
  */
 export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
   URI,
-  map: map_,
+  map,
   mapWithIndex: mapWithIndex_
 }
 
@@ -1976,7 +1981,7 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
  */
 export const Applicative: Applicative1<URI> = {
   URI,
-  map: map_,
+  map,
   ap: ap_,
   of
 }
@@ -1987,7 +1992,7 @@ export const Applicative: Applicative1<URI> = {
  */
 export const Monad: Monad1<URI> = {
   URI,
-  map: map_,
+  map,
   of,
   chain: chain_
 }
@@ -2007,7 +2012,7 @@ export const Unfoldable: Unfoldable1<URI> = {
  */
 export const Alt: Alt1<URI> = {
   URI,
-  map: map_,
+  map,
   alt: alt_
 }
 
@@ -2017,7 +2022,7 @@ export const Alt: Alt1<URI> = {
  */
 export const Alternative: Alternative1<URI> = {
   URI,
-  map: map_,
+  map,
   alt: alt_,
   zero
 }
@@ -2028,7 +2033,7 @@ export const Alternative: Alternative1<URI> = {
  */
 export const Extend: Extend1<URI> = {
   URI,
-  map: map_,
+  map,
   extend: extend_
 }
 
@@ -2094,7 +2099,7 @@ export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
  */
 export const Traversable: Traversable1<URI> = {
   URI,
-  map: map_,
+  map,
   traverse: traverse_,
   sequence
 }

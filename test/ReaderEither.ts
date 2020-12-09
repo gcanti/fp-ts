@@ -190,7 +190,7 @@ describe('ReaderEither', () => {
   it('getApplicativeReaderValidation', () => {
     const A = _.getApplicativeReaderValidation(monoidString)
     const tuple = <A>(a: A) => <B>(b: B): readonly [A, B] => [a, b]
-    assert.deepStrictEqual(A.ap(A.map(_.left('a'), tuple), _.left('b'))(null), E.left('ab'))
+    assert.deepStrictEqual(A.ap(pipe(_.left('a'), A.map(tuple)), _.left('b'))(null), E.left('ab'))
   })
 
   it('getAltReaderValidation', () => {

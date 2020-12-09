@@ -32,8 +32,6 @@ export type Identity<A> = A
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const map_: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
-/* istanbul ignore next */
 const ap_: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
 const chain_: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
@@ -194,16 +192,14 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Identity<A>
  */
 export const traverse: PipeableTraverse1<URI> = <F>(
   F: ApplicativeHKT<F>
-): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Identity<A>) => HKT<F, Identity<B>>) => (f) => (ta) => F.map(f(ta), id)
+): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Identity<A>) => HKT<F, Identity<B>>) => (f) => (ta) => pipe(f(ta), F.map(id))
 
 /**
  * @since 2.6.3
  */
-export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>) => <A>(
-  ta: Identity<HKT<F, A>>
-): HKT<F, Identity<A>> => {
-  return F.map(ta, id)
-}
+export const sequence: Traversable1<URI>['sequence'] = <F>(
+  F: ApplicativeHKT<F>
+): (<A>(ta: Identity<HKT<F, A>>) => HKT<F, Identity<A>>) => F.map(id)
 
 /**
  * Less strict version of [`alt`](#alt).
@@ -262,7 +258,7 @@ export const getEq: <A>(E: Eq<A>) => Eq<Identity<A>> = id
  */
 export const Functor: Functor1<URI> = {
   URI,
-  map: map_
+  map
 }
 
 /**
@@ -271,7 +267,7 @@ export const Functor: Functor1<URI> = {
  */
 export const Applicative: Applicative1<URI> = {
   URI,
-  map: map_,
+  map,
   ap: ap_,
   of
 }
@@ -282,7 +278,7 @@ export const Applicative: Applicative1<URI> = {
  */
 export const Monad: Monad1<URI> = {
   URI,
-  map: map_,
+  map,
   of,
   chain: chain_
 }
@@ -304,7 +300,7 @@ export const Foldable: Foldable1<URI> = {
  */
 export const Traversable: Traversable1<URI> = {
   URI,
-  map: map_,
+  map,
   traverse: traverse_,
   sequence
 }
@@ -315,7 +311,7 @@ export const Traversable: Traversable1<URI> = {
  */
 export const Alt: Alt1<URI> = {
   URI,
-  map: map_,
+  map,
   alt: alt_
 }
 
@@ -325,7 +321,7 @@ export const Alt: Alt1<URI> = {
  */
 export const Comonad: Comonad1<URI> = {
   URI,
-  map: map_,
+  map,
   extend: extend_,
   extract
 }

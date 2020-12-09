@@ -97,7 +97,10 @@ describe('These', () => {
     const A = _.getApplicative(semigroupString)
     const f = <A, B>(fa: _.These<string, A>, fb: _.These<string, B>): _.These<string, readonly [A, B]> =>
       A.ap(
-        A.map(fa, (a: A) => (b: B) => [a, b]),
+        pipe(
+          fa,
+          A.map((a: A) => (b: B) => [a, b])
+        ),
         fb
       )
 

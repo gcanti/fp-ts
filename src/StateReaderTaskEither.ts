@@ -376,8 +376,6 @@ export const filterOrElse: {
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const map_: Monad4<URI>['map'] = (fa, f) => pipe(fa, map(f))
-/* istanbul ignore next */
 const ap_: Apply4<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
 const chain_: Monad4<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
@@ -655,7 +653,7 @@ declare module './HKT' {
  */
 export const Functor: Functor4<URI> = {
   URI,
-  map: map_
+  map
 }
 
 /**
@@ -664,7 +662,7 @@ export const Functor: Functor4<URI> = {
  */
 export const Applicative: Applicative4<URI> = {
   URI,
-  map: map_,
+  map,
   ap: ap_,
   of
 }
@@ -685,7 +683,7 @@ export const Bifunctor: Bifunctor4<URI> = {
  */
 export const Alt: Alt4<URI> = {
   URI,
-  map: map_,
+  map,
   alt: alt_
 }
 
@@ -695,7 +693,7 @@ export const Alt: Alt4<URI> = {
  */
 export const Monad: Monad4<URI> = {
   URI,
-  map: map_,
+  map,
   of,
   chain: chain_
 }

@@ -1,6 +1,6 @@
 ---
 title: Foldable.ts
-nav_order: 29
+nav_order: 28
 parent: Modules
 ---
 

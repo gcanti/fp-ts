@@ -53,7 +53,7 @@ export function swap<A, E>(ea: readonly [A, E]): readonly [E, A] {
 export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
   return {
     URI,
-    map: map_,
+    map,
     ap: (fab, fa) => [fst(fab)(fst(fa)), S.concat(snd(fab), snd(fa))]
   }
 }
@@ -70,7 +70,7 @@ export function getApplicative<M>(M: Monoid<M>): Applicative2C<URI, M> {
   const A = getApply(M)
   return {
     URI,
-    map: map_,
+    map,
     ap: A.ap,
     of: of(M)
   }
@@ -83,7 +83,7 @@ export function getApplicative<M>(M: Monoid<M>): Applicative2C<URI, M> {
 export function getMonad<M>(M: Monoid<M>): Monad2C<URI, M> {
   return {
     URI,
-    map: map_,
+    map,
     chain: (ma, f) => {
       const [b, s] = f(fst(ma))
       return [b, M.concat(snd(ma), s)]
@@ -121,8 +121,6 @@ export function getChainRec<M>(M: Monoid<M>): ChainRec2C<URI, M> {
 
 /* istanbul ignore next */
 const compose_: Semigroupoid2<URI>['compose'] = (bc, ab) => pipe(bc, compose(ab))
-/* istanbul ignore next */
-const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
 const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
@@ -245,7 +243,11 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: readonly
 export const traverse: PipeableTraverse2<URI> = <F>(
   F: Applicative<F>
 ): (<A, B>(f: (a: A) => HKT<F, B>) => <E>(as: readonly [A, E]) => HKT<F, readonly [B, E]>) => {
-  return (f) => (ta) => F.map(f(fst(ta)), (b) => [b, snd(ta)])
+  return (f) => (ta) =>
+    pipe(
+      f(fst(ta)),
+      F.map((b) => [b, snd(ta)])
+    )
 }
 
 /**
@@ -254,7 +256,10 @@ export const traverse: PipeableTraverse2<URI> = <F>(
 export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <A, E>(
   fas: readonly [HKT<F, A>, E]
 ): HKT<F, readonly [A, E]> => {
-  return F.map(fst(fas), (a) => [a, snd(fas)])
+  return pipe(
+    fst(fas),
+    F.map((a) => [a, snd(fas)])
+  )
 }
 
 // -------------------------------------------------------------------------------------
@@ -285,7 +290,7 @@ declare module './HKT' {
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map
 }
 
 /**
@@ -313,7 +318,7 @@ export const Semigroupoid: Semigroupoid2<URI> = {
  */
 export const Comonad: Comonad2<URI> = {
   URI,
-  map: map_,
+  map,
   extend: extend_,
   extract
 }
@@ -335,7 +340,7 @@ export const Foldable: Foldable2<URI> = {
  */
 export const Traversable: Traversable2<URI> = {
   URI,
-  map: map_,
+  map,
   traverse: traverse_,
   sequence
 }

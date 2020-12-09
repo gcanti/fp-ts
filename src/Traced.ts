@@ -4,7 +4,6 @@
 import { Comonad2C } from './Comonad'
 import { Functor2 } from './Functor'
 import { Monoid } from './Monoid'
-import { pipe } from './function'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -67,18 +66,11 @@ export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
 
   return {
     URI,
-    map: map_,
+    map,
     extend,
     extract
   }
 }
-
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
-/* istanbul ignore next */
-const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -121,5 +113,5 @@ declare module './HKT' {
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map
 }

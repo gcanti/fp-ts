@@ -106,7 +106,6 @@ export const chainTaskK: <A, B>(f: (a: A) => Task<B>) => <R>(ma: ReaderTask<R, A
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const apPar_: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const apSeq_: Apply2<URI>['ap'] = (fab, fa) =>
   pipe(
@@ -280,7 +279,7 @@ export function getMonoid<R, A>(M: Monoid<A>): Monoid<ReaderTask<R, A>> {
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map
 }
 
 /**
@@ -289,7 +288,7 @@ export const Functor: Functor2<URI> = {
  */
 export const ApplicativePar: Applicative2<URI> = {
   URI,
-  map: map_,
+  map,
   ap: apPar_,
   of
 }
@@ -300,7 +299,7 @@ export const ApplicativePar: Applicative2<URI> = {
  */
 export const ApplicativeSeq: Applicative2<URI> = {
   URI,
-  map: map_,
+  map,
   ap: apSeq_,
   of
 }
@@ -310,7 +309,7 @@ export const ApplicativeSeq: Applicative2<URI> = {
  */
 export const Monad: Monad2<URI> = {
   URI,
-  map: map_,
+  map,
   of,
   chain: chain_
 }

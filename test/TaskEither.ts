@@ -105,7 +105,7 @@ describe('TaskEither', () => {
   it('getApplicativeTaskValidation', async () => {
     const A = _.getApplicativeTaskValidation(T.ApplicativePar, semigroupString)
     const tuple = <A>(a: A) => <B>(b: B): readonly [A, B] => [a, b]
-    assert.deepStrictEqual(await A.ap(A.map(_.left('a'), tuple), _.left('b'))(), E.left('ab'))
+    assert.deepStrictEqual(await A.ap(pipe(_.left('a'), A.map(tuple)), _.left('b'))(), E.left('ab'))
   })
 
   it('getAltTaskValidation', async () => {

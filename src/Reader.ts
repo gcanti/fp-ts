@@ -4,15 +4,12 @@
 import { Applicative2 } from './Applicative'
 import { Apply2 } from './Apply'
 import { Category2 } from './Category'
-import { Choice2 } from './Choice'
-import * as E from './Either'
 import { bindTo_, bind_, flow, identity, pipe, constant, tuple } from './function'
 import { Functor2 } from './Functor'
 import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Profunctor2 } from './Profunctor'
 import { Semigroup } from './Semigroup'
-import { Strong2 } from './Strong'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -64,19 +61,13 @@ export const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q,
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
-/* istanbul ignore next */
 const ap_: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+/* istanbul ignore next */
 const compose_: Category2<URI>['compose'] = (bc, ab) => pipe(bc, compose(ab))
+/* istanbul ignore next */
 const promap_: Profunctor2<URI>['promap'] = (fea, f, g) => pipe(fea, promap(f, g))
-const first_: Strong2<URI>['first'] = (pab) => ([a, c]) => [pab(a), c]
-const second_: Strong2<URI>['second'] = (pbc) => ([a, b]) => [a, pbc(b)]
-const left_: Choice2<URI>['left'] = <A, B, C>(pab: Reader<A, B>): Reader<E.Either<A, C>, E.Either<B, C>> =>
-  E.fold<A, C, E.Either<B, C>>((a) => E.left(pab(a)), E.right)
-const right_: Choice2<URI>['right'] = <A, B, C>(pbc: Reader<B, C>): Reader<E.Either<A, B>, E.Either<A, C>> =>
-  E.fold<A, B, E.Either<A, C>>(E.left, (b) => E.right(pbc(b)))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -259,7 +250,7 @@ export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> {
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map
 }
 
 /**
@@ -268,7 +259,7 @@ export const Functor: Functor2<URI> = {
  */
 export const Applicative: Applicative2<URI> = {
   URI,
-  map: map_,
+  map,
   ap: ap_,
   of
 }
@@ -279,7 +270,7 @@ export const Applicative: Applicative2<URI> = {
  */
 export const Monad: Monad2<URI> = {
   URI,
-  map: map_,
+  map,
   of,
   chain: chain_
 }
@@ -290,7 +281,7 @@ export const Monad: Monad2<URI> = {
  */
 export const Profunctor: Profunctor2<URI> = {
   URI,
-  map: map_,
+  map,
   promap: promap_
 }
 
@@ -302,30 +293,6 @@ export const Category: Category2<URI> = {
   URI,
   compose: compose_,
   id
-}
-
-/**
- * @category instances
- * @since 2.8.3
- */
-export const Strong: Strong2<URI> = {
-  URI,
-  map: map_,
-  promap: promap_,
-  first: first_,
-  second: second_
-}
-
-/**
- * @category instances
- * @since 2.8.3
- */
-export const Choice: Choice2<URI> = {
-  URI,
-  map: map_,
-  promap: promap_,
-  left: left_,
-  right: right_
 }
 
 // -------------------------------------------------------------------------------------

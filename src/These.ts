@@ -168,7 +168,7 @@ export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
 export function getApplicative<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
   return {
     URI,
-    map: map_,
+    map,
     of: right,
     ap: (fab, fa) =>
       isLeft(fab)
@@ -213,7 +213,7 @@ export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<UR
 
   return {
     URI,
-    map: map_,
+    map,
     of: right,
     chain,
     throwError: left
@@ -397,7 +397,6 @@ export function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
 const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
@@ -478,7 +477,14 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E,
 export const traverse: PipeableTraverse2<URI> = <F>(
   F: Applicative<F>
 ): (<A, B>(f: (a: A) => HKT<F, B>) => <E>(ta: These<E, A>) => HKT<F, These<E, B>>) => (f) => (ta) =>
-  isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(f(ta.right), right) : F.map(f(ta.right), (b) => both(ta.left, b))
+  isLeft(ta)
+    ? F.of(ta)
+    : isRight(ta)
+    ? pipe(f(ta.right), F.map(right))
+    : pipe(
+        f(ta.right),
+        F.map((b) => both(ta.left, b))
+      )
 
 /**
  * @since 2.6.3
@@ -486,7 +492,14 @@ export const traverse: PipeableTraverse2<URI> = <F>(
 export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <E, A>(
   ta: These<E, HKT<F, A>>
 ): HKT<F, These<E, A>> => {
-  return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(ta.right, right) : F.map(ta.right, (b) => both(ta.left, b))
+  return isLeft(ta)
+    ? F.of(ta)
+    : isRight(ta)
+    ? pipe(ta.right, F.map(right))
+    : pipe(
+        ta.right,
+        F.map((b) => both(ta.left, b))
+      )
 }
 
 // -------------------------------------------------------------------------------------
@@ -517,7 +530,7 @@ declare module './HKT' {
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map
 }
 
 /**
@@ -547,7 +560,7 @@ export const Foldable: Foldable2<URI> = {
  */
 export const Traversable: Traversable2<URI> = {
   URI,
-  map: map_,
+  map,
   traverse: traverse_,
   sequence
 }

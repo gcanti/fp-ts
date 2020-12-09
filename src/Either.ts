@@ -470,8 +470,6 @@ export const filterOrElse: {
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
-/* istanbul ignore next */
 const ap_: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
@@ -802,7 +800,7 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E
  */
 export const traverse: PipeableTraverse2<URI> = <F>(F: ApplicativeHKT<F>) => <A, B>(f: (a: A) => HKT<F, B>) => <E>(
   ta: Either<E, A>
-): HKT<F, Either<E, B>> => (isLeft(ta) ? F.of(left(ta.left)) : F.map<B, Either<E, B>>(f(ta.right), right))
+): HKT<F, Either<E, B>> => (isLeft(ta) ? F.of(left(ta.left)) : pipe(f(ta.right), F.map(right)))
 
 /**
  * Evaluate each monadic action in the structure from left to right, and collect the results.
@@ -827,9 +825,7 @@ export const traverse: PipeableTraverse2<URI> = <F>(F: ApplicativeHKT<F>) => <A,
  */
 export const sequence: Traversable2<URI>['sequence'] = <F>(F: ApplicativeHKT<F>) => <E, A>(
   ma: Either<E, HKT<F, A>>
-): HKT<F, Either<E, A>> => {
-  return isLeft(ma) ? F.of(left(ma.left)) : F.map<A, Either<E, A>>(ma.right, right)
-}
+): HKT<F, Either<E, A>> => (isLeft(ma) ? F.of(left(ma.left)) : pipe(ma.right, F.map(right)))
 
 /**
  * @category MonadThrow
@@ -1020,13 +1016,13 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
  * @since 2.0.0
  */
 export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
-  const C_ = getCompactable(M)
+  const C = getCompactable(M)
 
   const wither = <F>(
     F: ApplicativeHKT<F>
   ): (<A, B>(ma: Either<E, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Either<E, B>>) => {
     const traverseF = traverse_(F)
-    return (ma, f) => F.map(traverseF(ma, f), C_.compact)
+    return (ma, f) => pipe(traverseF(ma, f), F.map(C.compact))
   }
 
   const wilt = <F>(
@@ -1036,7 +1032,7 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
     f: (a: A) => HKT<F, Either<B, C>>
   ) => HKT<F, Separated<Either<E, B>, Either<E, C>>>) => {
     const traverseF = traverse_(F)
-    return (ma, f) => F.map(traverseF(ma, f), C_.separate)
+    return (ma, f) => pipe(traverseF(ma, f), F.map(C.separate))
   }
 
   return {
@@ -1053,7 +1049,7 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
 export function getApplicativeValidation<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
   return {
     URI,
-    map: map_,
+    map,
     ap: (fab, fa) =>
       isLeft(fab)
         ? isLeft(fa)
@@ -1073,7 +1069,7 @@ export function getApplicativeValidation<E>(SE: Semigroup<E>): Applicative2C<URI
 export function getAltValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
   return {
     URI,
-    map: map_,
+    map,
     alt: (me, that) => {
       if (isRight(me)) {
         return me
@@ -1101,7 +1097,7 @@ export function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>)
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map
 }
 
 /**
@@ -1110,7 +1106,7 @@ export const Functor: Functor2<URI> = {
  */
 export const Applicative: Applicative2<URI> = {
   URI,
-  map: map_,
+  map,
   ap: ap_,
   of
 }
@@ -1121,7 +1117,7 @@ export const Applicative: Applicative2<URI> = {
  */
 export const Monad: Monad2<URI> = {
   URI,
-  map: map_,
+  map,
   of,
   chain: chain_
 }
@@ -1143,7 +1139,7 @@ export const Foldable: Foldable2<URI> = {
  */
 export const Traversable: Traversable2<URI> = {
   URI,
-  map: map_,
+  map,
   traverse: traverse_,
   sequence
 }
@@ -1164,7 +1160,7 @@ export const Bifunctor: Bifunctor2<URI> = {
  */
 export const Alt: Alt2<URI> = {
   URI,
-  map: map_,
+  map,
   alt: alt_
 }
 
@@ -1174,7 +1170,7 @@ export const Alt: Alt2<URI> = {
  */
 export const Extend: Extend2<URI> = {
   URI,
-  map: map_,
+  map,
   extend: extend_
 }
 

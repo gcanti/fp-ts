@@ -1,6 +1,6 @@
 ---
 title: Reader.ts
-nav_order: 57
+nav_order: 56
 parent: Modules
 ---
 
@@ -40,11 +40,9 @@ Added in v2.0.0
 - [instances](#instances)
   - [Applicative](#applicative-1)
   - [Category](#category-1)
-  - [Choice](#choice)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Profunctor](#profunctor-1)
-  - [Strong](#strong)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
@@ -303,16 +301,6 @@ export declare const Category: Category2<'Reader'>
 
 Added in v2.7.0
 
-## Choice
-
-**Signature**
-
-```ts
-export declare const Choice: Choice2<'Reader'>
-```
-
-Added in v2.8.3
-
 ## Functor
 
 **Signature**
@@ -342,16 +330,6 @@ export declare const Profunctor: Profunctor2<'Reader'>
 ```
 
 Added in v2.7.0
-
-## Strong
-
-**Signature**
-
-```ts
-export declare const Strong: Strong2<'Reader'>
-```
-
-Added in v2.8.3
 
 ## URI
 

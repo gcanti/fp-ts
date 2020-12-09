@@ -102,7 +102,6 @@ export function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> {
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const apPar_: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const apSeq_: Apply1<URI>['ap'] = (fab, fa) =>
   pipe(
@@ -305,7 +304,7 @@ export function getRaceMonoid<A = never>(): Monoid<Task<A>> {
  */
 export const Functor: Functor1<URI> = {
   URI,
-  map: map_
+  map
 }
 
 /**
@@ -314,7 +313,7 @@ export const Functor: Functor1<URI> = {
  */
 export const ApplicativePar: Applicative1<URI> = {
   URI,
-  map: map_,
+  map,
   ap: apPar_,
   of
 }
@@ -325,7 +324,7 @@ export const ApplicativePar: Applicative1<URI> = {
  */
 export const ApplicativeSeq: Applicative1<URI> = {
   URI,
-  map: map_,
+  map,
   ap: apSeq_,
   of
 }
@@ -336,7 +335,7 @@ export const ApplicativeSeq: Applicative1<URI> = {
  */
 export const Monad: Monad1<URI> = {
   URI,
-  map: map_,
+  map,
   of,
   chain: chain_
 }

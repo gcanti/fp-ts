@@ -96,7 +96,10 @@ function main<F extends URIS>(F: Main<F>): Kind<F, void> {
       F.nextInt(5),
       (x) =>
         F.chain(x, (secret) =>
-          pipe(ask(`Dear ${name}, please guess a number from 1 to 5`), (y) => F.map(y, (guess) => ({ secret, guess })))
+          pipe(
+            ask(`Dear ${name}, please guess a number from 1 to 5`),
+            F.map((guess) => ({ secret, guess }))
+          )
         ),
       (x) =>
         F.chain(x, ({ secret, guess }) =>
@@ -118,7 +121,13 @@ function main<F extends URIS>(F: Main<F>): Kind<F, void> {
 
   return pipe(
     ask('What is your name?'),
-    (x) => F.chain(x, (name) => F.map(F.putStrLn(`Hello, ${name} welcome to the game!`), () => name)),
+    (x) =>
+      F.chain(x, (name) =>
+        pipe(
+          F.putStrLn(`Hello, ${name} welcome to the game!`),
+          F.map(() => name)
+        )
+      ),
     (x) => F.chain(x, gameLoop)
   )
 }
@@ -171,7 +180,7 @@ const of = <A>(a: A): Test<A> => (data) => [a, data]
 
 const programTest: Program<URI> = {
   URI,
-  map: (fa, f) => pipe(fa, S.map(f)),
+  map: S.map,
   of: S.of,
   ap: (fab, fa) => pipe(fab, S.ap(fa)),
   chain: (ma, f) => pipe(ma, S.chain(f)),

@@ -1,11 +1,10 @@
 /**
  * @since 2.0.0
  */
+import { Applicative2C } from './Applicative'
 import { Functor2 } from './Functor'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
-import { pipe } from './function'
-import { Applicative2C } from './Applicative'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -78,13 +77,6 @@ export const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A
 }
 
 // -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
-/* istanbul ignore next */
-const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
-
-// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -129,7 +121,7 @@ declare module './HKT' {
 export function getApplicative<W>(M: Monoid<W>): Applicative2C<URI, W> {
   return {
     URI,
-    map: map_,
+    map,
     ap: (fab, fa) => () => {
       const [f, w1] = fab()
       const [a, w2] = fa()
@@ -146,7 +138,7 @@ export function getApplicative<W>(M: Monoid<W>): Applicative2C<URI, W> {
 export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
   return {
     URI,
-    map: map_,
+    map,
     of: (a) => () => [a, M.empty],
     chain: (fa, f) => () => {
       const [a, w1] = fa()
@@ -162,7 +154,7 @@ export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map
 }
 
 // -------------------------------------------------------------------------------------

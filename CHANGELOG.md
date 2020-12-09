@@ -24,6 +24,8 @@ high state of flux, you're at risk of it changing without notice.
   - remove `pipeable` module (@gcanti)
   - remove monad transformers (@gcanti)
   - remove `Chain` module (@gcanti)
+  - remove `Choice` module (@gcanti)
+  - remove `Strong` module (@gcanti)
   - remove mutable modules (@gcanti)
     - `Array`
     - `Map`
@@ -73,6 +75,7 @@ high state of flux, you're at risk of it changing without notice.
     - drop `Foldable` dependency (@gcanti)
     - remove `getFoldableWithIndexComposition` (@gcanti)
   - `Functor`
+    - make type class members pipeables (@gcanti)
     - remove `getFunctorComposition` (@gcanti)
   - `FunctorWithIndex`
     - remove `getFunctorWithIndexComposition` (@gcanti)

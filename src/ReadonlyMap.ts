@@ -552,7 +552,6 @@ const filterWithIndex_ = <K, A>(fa: ReadonlyMap<K, A>, p: (k: K, a: A) => boolea
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Functor2<URI>['map'] = (fa, f) => mapWithIndex_(fa, (_, a) => f(a))
 const filter_ = <K, A>(fa: ReadonlyMap<K, A>, p: Predicate<A>): ReadonlyMap<K, A> =>
   filterWithIndex_(fa, (_, a) => p(a))
 const filterMap_: Filterable2<URI>['filterMap'] = (fa, f) => filterMapWithIndex_(fa, (_, a) => f(a))
@@ -608,7 +607,8 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => <K>(fa: ReadonlyMap<K,
  * @category Functor
  * @since 2.5.0
  */
-export const map: <A, B>(f: (a: A) => B) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> = (f) => (fa) => map_(fa, f)
+export const map: <A, B>(f: (a: A) => B) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> = (f) => (fa) =>
+  mapWithIndex_(fa, (_, a) => f(a))
 
 /**
  * @category FunctorWithIndex
@@ -795,7 +795,10 @@ export function getTraversableWithIndex<K>(O: Ord<K>): TraversableWithIndex2C<UR
         const key = ks[i]
         const a = ta.get(key)!
         fm = F.ap(
-          F.map(fm, (m) => (b: B) => new Map(m).set(key, b)),
+          pipe(
+            fm,
+            F.map((m) => (b: B) => new Map(m).set(key, b))
+          ),
           f(key, a)
         )
       }
@@ -829,7 +832,7 @@ export function getTraversable<K>(O: Ord<K>): Traversable2C<URI, K> {
 
   return {
     URI,
-    map: map_,
+    map,
     traverse,
     sequence
   }
@@ -851,13 +854,13 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> {
       f: (a: A) => HKT<F, Either<B, C>>
     ) => HKT<F, Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>>) => {
       const traverseF = T.traverse(F)
-      return (wa, f) => F.map(traverseF(wa, f), separate)
+      return (wa, f) => pipe(traverseF(wa, f), F.map(separate))
     },
     wither: <F>(
       F: Applicative<F>
     ): (<A, B>(wa: ReadonlyMap<K, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, ReadonlyMap<K, B>>) => {
       const traverseF = T.traverse(F)
-      return (wa, f) => F.map(traverseF(wa, f), compact)
+      return (wa, f) => pipe(traverseF(wa, f), F.map(compact))
     }
   }
 }
@@ -868,7 +871,7 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> {
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map
 }
 
 /**

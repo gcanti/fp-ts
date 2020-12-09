@@ -37,7 +37,6 @@ export interface IO<A> {
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad1<URI>['map'] = (ma, f) => () => f(ma())
 const ap_: Apply1<URI>['ap'] = (mab, ma) => () => mab()(ma())
 const chain_: Monad1<URI>['chain'] = (ma, f) => () => f(ma())()
 const chainRec_: ChainRec1<URI>['chainRec'] = (a, f) => () => {
@@ -59,7 +58,7 @@ const chainRec_: ChainRec1<URI>['chainRec'] = (a, f) => () => {
  * @category Functor
  * @since 2.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) => map_(fa, f)
+export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) => () => f(fa())
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -195,7 +194,7 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> {
  */
 export const Functor: Functor1<URI> = {
   URI,
-  map: map_
+  map
 }
 
 /**
@@ -204,7 +203,7 @@ export const Functor: Functor1<URI> = {
  */
 export const Applicative: Applicative1<URI> = {
   URI,
-  map: map_,
+  map,
   ap: ap_,
   of
 }
@@ -215,7 +214,7 @@ export const Applicative: Applicative1<URI> = {
  */
 export const Monad: Monad1<URI> = {
   URI,
-  map: map_,
+  map,
   of,
   chain: chain_
 }

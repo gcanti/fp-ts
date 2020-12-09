@@ -16,7 +16,6 @@ import * as boundedLattice from './BoundedLattice'
 import * as boundedMeetSemilattice from './BoundedMeetSemilattice'
 import * as category from './Category'
 import * as chainRec from './ChainRec'
-import * as choice from './Choice'
 import * as comonad from './Comonad'
 import * as compactable from './Compactable'
 import * as console from './Console'
@@ -75,7 +74,6 @@ import * as show from './Show'
 import * as state from './State'
 import * as stateReaderTaskEither from './StateReaderTaskEither'
 import * as store from './Store'
-import * as strong from './Strong'
 import * as task from './Task'
 import * as taskEither from './TaskEither'
 import * as taskThese from './TaskThese'
@@ -144,10 +142,6 @@ export {
    * @since 2.0.0
    */
   chainRec,
-  /**
-   * @since 2.0.0
-   */
-  choice,
   /**
    * @since 2.0.0
    */
@@ -380,10 +374,6 @@ export {
    * @since 2.0.0
    */
   store,
-  /**
-   * @since 2.0.0
-   */
-  strong,
   /**
    * @since 2.0.0
    */

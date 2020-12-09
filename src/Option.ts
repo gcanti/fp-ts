@@ -432,7 +432,6 @@ export function chainNullableK<A, B>(f: (a: A) => B | null | undefined): (ma: Op
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const ap_: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const chain_: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 const reduce_: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
@@ -731,7 +730,7 @@ export const partitionMap: <A, B, C>(
  */
 export const traverse: PipeableTraverse1<URI> = <F>(F: ApplicativeHKT<F>) => <A, B>(f: (a: A) => HKT<F, B>) => (
   ta: Option<A>
-): HKT<F, Option<B>> => (isNone(ta) ? F.of(none) : F.map(f(ta.value), some))
+): HKT<F, Option<B>> => (isNone(ta) ? F.of(none) : pipe(f(ta.value), F.map(some)))
 
 /**
  * @category Traversable
@@ -739,7 +738,7 @@ export const traverse: PipeableTraverse1<URI> = <F>(F: ApplicativeHKT<F>) => <A,
  */
 export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>) => <A>(
   ta: Option<HKT<F, A>>
-): HKT<F, Option<A>> => (isNone(ta) ? F.of(none) : F.map(ta.value, some))
+): HKT<F, Option<A>> => (isNone(ta) ? F.of(none) : pipe(ta.value, F.map(some)))
 
 /**
  * @category Witherable
@@ -761,10 +760,13 @@ export const wilt: PipeableWilt1<URI> = <F>(F: ApplicativeHKT<F>) => <A, B, C>(f
         left: none,
         right: none
       })
-    : F.map(f(fa.value), (e) => ({
-        left: getLeft(e),
-        right: getRight(e)
-      }))
+    : pipe(
+        f(fa.value),
+        F.map((e) => ({
+          left: getLeft(e),
+          right: getRight(e)
+        }))
+      )
 }
 
 // -------------------------------------------------------------------------------------
@@ -983,7 +985,7 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>> {
  */
 export const Functor: Functor1<URI> = {
   URI,
-  map: map_
+  map
 }
 
 /**
@@ -992,7 +994,7 @@ export const Functor: Functor1<URI> = {
  */
 export const Applicative: Applicative1<URI> = {
   URI,
-  map: map_,
+  map,
   ap: ap_,
   of
 }
@@ -1003,7 +1005,7 @@ export const Applicative: Applicative1<URI> = {
  */
 export const Monad: Monad1<URI> = {
   URI,
-  map: map_,
+  map,
   of,
   chain: chain_
 }
@@ -1025,7 +1027,7 @@ export const Foldable: Foldable1<URI> = {
  */
 export const Alt: Alt1<URI> = {
   URI,
-  map: map_,
+  map,
   alt: alt_
 }
 
@@ -1035,7 +1037,7 @@ export const Alt: Alt1<URI> = {
  */
 export const Alternative: Alternative1<URI> = {
   URI,
-  map: map_,
+  map,
   alt: alt_,
   zero
 }
@@ -1046,7 +1048,7 @@ export const Alternative: Alternative1<URI> = {
  */
 export const Extend: Extend1<URI> = {
   URI,
-  map: map_,
+  map,
   extend: extend_
 }
 
@@ -1078,7 +1080,7 @@ export const Filterable: Filterable1<URI> = {
  */
 export const Traversable: Traversable1<URI> = {
   URI,
-  map: map_,
+  map,
   traverse: traverse_,
   sequence
 }

@@ -368,7 +368,6 @@ export const chainTaskEitherK: <E, A, B>(
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad3<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const apPar_: Apply3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const apSeq_: Apply3<URI>['ap'] = (fab, fa) =>
   pipe(
@@ -661,7 +660,7 @@ export function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, SE: Semi
     )
   return {
     URI,
-    map: map_,
+    map,
     ap: (fab, fa) => pipe(fab, ap(fa)),
     of
   }
@@ -675,7 +674,7 @@ export function getAltReaderTaskValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
   const A = TE.getAltTaskValidation(SE)
   return {
     URI,
-    map: map_,
+    map,
     alt: (me, that) => (r) => A.alt(me(r), () => that()(r))
   }
 }
@@ -686,7 +685,7 @@ export function getAltReaderTaskValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
  */
 export const Functor: Functor3<URI> = {
   URI,
-  map: map_
+  map
 }
 
 /**
@@ -695,7 +694,7 @@ export const Functor: Functor3<URI> = {
  */
 export const ApplicativePar: Applicative3<URI> = {
   URI,
-  map: map_,
+  map,
   ap: apPar_,
   of
 }
@@ -706,7 +705,7 @@ export const ApplicativePar: Applicative3<URI> = {
  */
 export const ApplicativeSeq: Applicative3<URI> = {
   URI,
-  map: map_,
+  map,
   ap: apSeq_,
   of
 }
@@ -717,7 +716,7 @@ export const ApplicativeSeq: Applicative3<URI> = {
  */
 export const Monad: Monad3<URI> = {
   URI,
-  map: map_,
+  map,
   of,
   chain: chain_
 }
@@ -757,7 +756,7 @@ export const Bifunctor: Bifunctor3<URI> = {
  */
 export const Alt: Alt3<URI> = {
   URI,
-  map: map_,
+  map,
   alt: alt_
 }
 

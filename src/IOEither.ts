@@ -213,8 +213,6 @@ export const chainEitherK: <E, A, B>(
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
-/* istanbul ignore next */
 const ap_: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const apSeq_: Applicative2<URI>['ap'] = (fab, fa) =>
   pipe(
@@ -474,7 +472,7 @@ export function getApplicativeIOValidation<E>(SE: Semigroup<E>): Applicative2C<U
 
   return {
     URI,
-    map: map_,
+    map,
     ap: (fab, fa) => pipe(fab, ap(fa)),
     of
   }
@@ -488,7 +486,7 @@ export function getAltIOValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
   const A = E.getAltValidation(SE)
   return {
     URI,
-    map: map_,
+    map,
     alt: (me, that) => () => A.alt(me(), () => that()())
   }
 }
@@ -572,7 +570,7 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map
 }
 
 /**
@@ -591,7 +589,7 @@ export const Bifunctor: Bifunctor2<URI> = {
  */
 export const ApplicativePar: Applicative2<URI> = {
   URI,
-  map: map_,
+  map,
   ap: ap_,
   of
 }
@@ -602,7 +600,7 @@ export const ApplicativePar: Applicative2<URI> = {
  */
 export const ApplicativeSeq: Applicative2<URI> = {
   URI,
-  map: map_,
+  map,
   ap: apSeq_,
   of
 }
@@ -613,7 +611,7 @@ export const ApplicativeSeq: Applicative2<URI> = {
  */
 export const Monad: Monad2<URI> = {
   URI,
-  map: map_,
+  map,
   of,
   chain: chain_
 }
@@ -624,7 +622,7 @@ export const Monad: Monad2<URI> = {
  */
 export const Alt: Alt2<URI> = {
   URI,
-  map: map_,
+  map,
   alt: alt_
 }
 

@@ -70,9 +70,9 @@ describe('TaskThese', () => {
     const M = _.getMonad(monoidString)
     it('map', async () => {
       const f = (n: number): number => n * 2
-      assert.deepStrictEqual(await M.map(_.right(1), f)(), TH.right(2))
-      assert.deepStrictEqual(await M.map(_.left('a'), f)(), TH.left('a'))
-      assert.deepStrictEqual(await M.map(_.both('a', 1), f)(), TH.both('a', 2))
+      assert.deepStrictEqual(await pipe(_.right(1), M.map(f))(), TH.right(2))
+      assert.deepStrictEqual(await pipe(_.left('a'), M.map(f))(), TH.left('a'))
+      assert.deepStrictEqual(await pipe(_.both('a', 1), M.map(f))(), TH.both('a', 2))
     })
 
     it('chain', async () => {

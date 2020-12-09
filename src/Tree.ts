@@ -191,8 +191,6 @@ export function fold<A, B>(f: (a: A, bs: ReadonlyArray<B>) => B): (tree: Tree<A>
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-/* istanbul ignore next */
-const map_: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const ap_: Apply1<URI>['ap'] = (fab, fa) =>
   pipe(
     fab,
@@ -378,10 +376,13 @@ export const traverse: PipeableTraverse1<URI> = <F>(
   const traverseF = A.traverse(F)
   const out = <A, B>(f: (a: A) => HKT<F, B>) => (ta: Tree<A>): HKT<F, Tree<B>> =>
     F.ap(
-      F.map(f(ta.value), (value: B) => (forest: Forest<B>) => ({
-        value,
-        forest
-      })),
+      pipe(
+        f(ta.value),
+        F.map((value: B) => (forest: Forest<B>) => ({
+          value,
+          forest
+        }))
+      ),
       pipe(ta.forest, traverseF(out(f)))
     )
   return out
@@ -433,7 +434,7 @@ declare module './HKT' {
  */
 export const Functor: Functor1<URI> = {
   URI,
-  map: map_
+  map
 }
 
 /**
@@ -442,7 +443,7 @@ export const Functor: Functor1<URI> = {
  */
 export const Applicative: Applicative1<URI> = {
   URI,
-  map: map_,
+  map,
   ap: ap_,
   of
 }
@@ -453,7 +454,7 @@ export const Applicative: Applicative1<URI> = {
  */
 export const Monad: Monad1<URI> = {
   URI,
-  map: map_,
+  map,
   of,
   chain: chain_
 }
@@ -475,7 +476,7 @@ export const Foldable: Foldable1<URI> = {
  */
 export const Traversable: Traversable1<URI> = {
   URI,
-  map: map_,
+  map,
   traverse: traverse_,
   sequence
 }
@@ -486,7 +487,7 @@ export const Traversable: Traversable1<URI> = {
  */
 export const Comonad: Comonad1<URI> = {
   URI,
-  map: map_,
+  map,
   extend: extend_,
   extract
 }

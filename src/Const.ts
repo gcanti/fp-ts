@@ -111,7 +111,7 @@ export const getBooleanAlgebra: <E, A>(H: BooleanAlgebra<E>) => BooleanAlgebra<C
 export function getApply<E>(S: Semigroup<E>): Apply2C<URI, E> {
   return {
     URI,
-    map: map_,
+    map,
     ap: (fab, fa) => make(S.concat(fab, fa))
   }
 }
@@ -136,8 +136,6 @@ export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> {
 
 /* istanbul ignore next */
 const contramap_: Contravariant2<URI>['contramap'] = (fa, f) => pipe(fa, contramap(f))
-/* istanbul ignore next */
-const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
 const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
@@ -207,7 +205,7 @@ declare module './HKT' {
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map
 }
 
 /**
