@@ -436,10 +436,12 @@ const map_: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const ap_: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const chain_: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 const reduce_: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
+/* istanbul ignore next */
 const foldMap_: Foldable1<URI>['foldMap'] = (M) => {
   const foldMapM = foldMap(M)
   return (fa, f) => pipe(fa, foldMapM(f))
 }
+/* istanbul ignore next */
 const reduceRight_: Foldable1<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
 /* istanbul ignore next */
 const traverse_: Traversable1<URI>['traverse'] = <F>(

@@ -1423,10 +1423,12 @@ const partitionMapWithIndex_ = <A, B, C>(
 /* istanbul ignore next */
 const alt_: Alt1<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 const reduce_: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
+/* istanbul ignore next */
 const foldMap_: Foldable1<URI>['foldMap'] = (M) => {
   const foldMapM = foldMap(M)
   return (fa, f) => pipe(fa, foldMapM(f))
 }
+/* istanbul ignore next */
 const reduceRight_: Foldable1<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
 const reduceWithIndex_: FoldableWithIndex1<URI, number>['reduceWithIndex'] = (fa, b, f) => {
   const l = fa.length

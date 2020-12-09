@@ -12,37 +12,6 @@ export const ArrayOptionURI = 'ArrayOption'
 export type ArrayOptionURI = typeof ArrayOptionURI
 
 describe('Foldable', () => {
-  it('getFoldableComposition', () => {
-    const F = _.getFoldableComposition(A.Foldable, O.Foldable)
-    // reduce
-    assert.deepStrictEqual(F.reduce([O.some('a'), O.some('b'), O.some('c')], '', monoidString.concat), 'abc')
-    assert.deepStrictEqual(F.reduce([O.none, O.some('b'), O.none], '', monoidString.concat), 'b')
-    assert.deepStrictEqual(F.reduce([O.none, O.none, O.none], '', monoidString.concat), '')
-    assert.deepStrictEqual(F.reduce([], '', monoidString.concat), '')
-    // foldMap
-    assert.deepStrictEqual(
-      F.foldMap(monoidString)([O.some('a'), O.some('b'), O.some('c')], (a) => a),
-      'abc'
-    )
-    assert.deepStrictEqual(
-      F.foldMap(monoidString)([O.none, O.some('b'), O.none], (a) => a),
-      'b'
-    )
-    assert.deepStrictEqual(
-      F.foldMap(monoidString)([O.none, O.none, O.none], (a) => a),
-      ''
-    )
-    assert.deepStrictEqual(
-      F.foldMap(monoidString)([], (a: string) => a),
-      ''
-    )
-    // reduceRight
-    assert.deepStrictEqual(F.reduceRight([O.some('a'), O.some('b'), O.some('c')], '', monoidString.concat), 'abc')
-    assert.deepStrictEqual(F.reduceRight([O.none, O.some('b'), O.none], '', monoidString.concat), 'b')
-    assert.deepStrictEqual(F.reduceRight([O.none, O.none, O.none], '', monoidString.concat), '')
-    assert.deepStrictEqual(F.reduceRight([], '', monoidString.concat), '')
-  })
-
   it('intercalate', () => {
     assert.deepStrictEqual(pipe(['a', 'b', 'c'], _.intercalate(monoidString, A.Foldable)(',')), 'a,b,c')
   })
