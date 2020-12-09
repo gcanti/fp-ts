@@ -1033,8 +1033,6 @@ export const Alt: Alt1<URI> = {
 export const Alternative: Alternative1<URI> = {
   URI,
   map: map_,
-  ap: ap_,
-  of,
   alt: alt_,
   zero
 }

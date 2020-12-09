@@ -38,6 +38,9 @@ high state of flux, you're at risk of it changing without notice.
       - make `Writer` definition immutable
   - `Apply`
     - remove `sequenceS`, use data type `apS` instead (@gcanti)
+    - remove `sequenceTS`, use data type `apT` instead (@gcanti)
+  - `Alternative`
+    - remove `Applicative` dependency (@gcanti)
   - `ChainRec`
     - drop `Chain` dependency (@gcanti)
   - `Const`

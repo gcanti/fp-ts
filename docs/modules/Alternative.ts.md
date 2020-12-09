@@ -41,7 +41,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Alternative<F> extends Applicative<F>, Alt<F> {
+export interface Alternative<F> extends Alt<F> {
   readonly zero: <A>() => HKT<F, A>
 }
 ```
@@ -53,7 +53,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Alternative1<F extends URIS> extends Applicative1<F>, Alt1<F> {
+export interface Alternative1<F extends URIS> extends Alt1<F> {
   readonly zero: <A>() => Kind<F, A>
 }
 ```
@@ -65,7 +65,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Alternative2<F extends URIS2> extends Applicative2<F>, Alt2<F> {
+export interface Alternative2<F extends URIS2> extends Alt2<F> {
   readonly zero: <E, A>() => Kind2<F, E, A>
 }
 ```
@@ -77,7 +77,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Alternative2C<F extends URIS2, E> extends Applicative2C<F, E>, Alt2C<F, E> {
+export interface Alternative2C<F extends URIS2, E> extends Alt2C<F, E> {
   readonly zero: <A>() => Kind2<F, E, A>
 }
 ```
@@ -89,7 +89,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Alternative3<F extends URIS3> extends Applicative3<F>, Alt3<F> {
+export interface Alternative3<F extends URIS3> extends Alt3<F> {
   readonly zero: <R, E, A>() => Kind3<F, R, E, A>
 }
 ```
