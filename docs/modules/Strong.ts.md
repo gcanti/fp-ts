@@ -1,6 +1,6 @@
 ---
 title: Strong.ts
-nav_order: 79
+nav_order: 75
 parent: Modules
 ---
 

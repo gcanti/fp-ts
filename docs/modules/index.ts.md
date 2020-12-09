@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 39
+nav_order: 38
 parent: Modules
 ---
 
@@ -36,7 +36,6 @@ Added in v2.0.0
   - [date](#date)
   - [distributiveLattice](#distributivelattice)
   - [either](#either)
-  - [eitherT](#eithert)
   - [eq](#eq)
   - [extend](#extend)
   - [field](#field)
@@ -65,14 +64,12 @@ Added in v2.0.0
   - [monadThrow](#monadthrow)
   - [monoid](#monoid)
   - [option](#option)
-  - [optionT](#optiont)
   - [ord](#ord)
   - [ordering](#ordering)
   - [profunctor](#profunctor)
   - [random](#random)
   - [reader](#reader)
   - [readerEither](#readereither)
-  - [readerT](#readert)
   - [readerTask](#readertask)
   - [readerTaskEither](#readertaskeither)
   - [readonlyArray](#readonlyarray)
@@ -88,23 +85,19 @@ Added in v2.0.0
   - [show](#show)
   - [state](#state)
   - [stateReaderTaskEither](#statereadertaskeither)
-  - [stateT](#statet)
   - [store](#store)
   - [strong](#strong)
   - [task](#task)
   - [taskEither](#taskeither)
   - [taskThese](#taskthese)
   - [these](#these)
-  - [theseT](#theset)
   - [traced](#traced)
   - [traversable](#traversable)
   - [traversableWithIndex](#traversablewithindex)
   - [tree](#tree)
   - [unfoldable](#unfoldable)
-  - [validationT](#validationt)
   - [witherable](#witherable)
   - [writer](#writer)
-  - [writerT](#writert)
 
 ---
 
@@ -336,16 +329,6 @@ Added in v2.0.0
 
 ```ts
 export declare const either: typeof either
-```
-
-Added in v2.0.0
-
-## eitherT
-
-**Signature**
-
-```ts
-export declare const eitherT: typeof eitherT
 ```
 
 Added in v2.0.0
@@ -630,16 +613,6 @@ export declare const option: typeof option
 
 Added in v2.0.0
 
-## optionT
-
-**Signature**
-
-```ts
-export declare const optionT: typeof optionT
-```
-
-Added in v2.0.0
-
 ## ord
 
 **Signature**
@@ -696,16 +669,6 @@ Added in v2.0.0
 
 ```ts
 export declare const readerEither: typeof readerEither
-```
-
-Added in v2.0.0
-
-## readerT
-
-**Signature**
-
-```ts
-export declare const readerT: typeof readerT
 ```
 
 Added in v2.0.0
@@ -860,16 +823,6 @@ export declare const stateReaderTaskEither: typeof stateReaderTaskEither
 
 Added in v2.0.0
 
-## stateT
-
-**Signature**
-
-```ts
-export declare const stateT: typeof stateT
-```
-
-Added in v2.0.0
-
 ## store
 
 **Signature**
@@ -930,16 +883,6 @@ export declare const these: typeof these
 
 Added in v2.0.0
 
-## theseT
-
-**Signature**
-
-```ts
-export declare const theseT: typeof theseT
-```
-
-Added in v2.4.0
-
 ## traced
 
 **Signature**
@@ -990,16 +933,6 @@ export declare const unfoldable: typeof unfoldable
 
 Added in v2.0.0
 
-## validationT
-
-**Signature**
-
-```ts
-export declare const validationT: typeof validationT
-```
-
-Added in v2.0.0
-
 ## witherable
 
 **Signature**
@@ -1019,13 +952,3 @@ export declare const writer: typeof writer
 ```
 
 Added in v2.0.0
-
-## writerT
-
-**Signature**
-
-```ts
-export declare const writerT: typeof writerT
-```
-
-Added in v2.4.0

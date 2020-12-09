@@ -1,6 +1,6 @@
 ---
 title: Lattice.ts
-nav_order: 45
+nav_order: 44
 parent: Modules
 ---
 

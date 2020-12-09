@@ -1,6 +1,6 @@
 ---
 title: FunctorWithIndex.ts
-nav_order: 34
+nav_order: 33
 parent: Modules
 ---
 

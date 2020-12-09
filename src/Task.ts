@@ -109,6 +109,7 @@ const apSeq_: Apply1<URI>['ap'] = (fab, fa) =>
     fab,
     chain((f) => pipe(fa, map(f)))
   )
+/* istanbul ignore next */
 const chain_: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
 // -------------------------------------------------------------------------------------

@@ -20,5 +20,6 @@ describe('Applicative', () => {
       O.none,
       O.none
     ])
+    assert.deepStrictEqual(arrayOption.of(1), [O.some(1)])
   })
 })
