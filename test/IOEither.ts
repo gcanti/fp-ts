@@ -335,6 +335,18 @@ describe('IOEither', () => {
     it('compact', () => {
       assert.deepStrictEqual(C.compact(_.right(some(1)))(), E.right(1))
     })
+
+    it('separate', () => {
+      const s1 = C.separate(_.left('a'))
+      assert.deepStrictEqual(s1.left(), E.left('a'))
+      assert.deepStrictEqual(s1.right(), E.left('a'))
+      const s2 = C.separate(_.right(E.left('a')))
+      assert.deepStrictEqual(s2.left(), E.right('a'))
+      assert.deepStrictEqual(s2.right(), E.left(''))
+      const s3 = C.separate(_.right(E.right(1)))
+      assert.deepStrictEqual(s3.left(), E.left(''))
+      assert.deepStrictEqual(s3.right(), E.right(1))
+    })
   })
 
   describe('getFilterable', () => {

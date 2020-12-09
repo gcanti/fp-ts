@@ -47,6 +47,8 @@ high state of flux, you're at risk of it changing without notice.
     - remove `Applicative` dependency (@gcanti)
   - `ChainRec`
     - drop `Chain` dependency (@gcanti)
+  - `Compactable`
+    - remove `getCompactableComposition` (@gcanti)
   - `Const`
     - remove `const_` (@gcanti)
   - `Either`

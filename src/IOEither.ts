@@ -8,7 +8,7 @@ import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
 import { Apply2 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
-import { Compactable2C, getCompactableComposition } from './Compactable'
+import { Compactable2C } from './Compactable'
 import * as E from './Either'
 import { Filterable2C } from './Filterable'
 import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
@@ -498,11 +498,36 @@ export function getAltIOValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
  * @since 3.0.0
  */
 export function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E> {
-  const C = getCompactableComposition<I.URI, E.URI, E>(I.Functor, { ...E.getCompactable(M), ...E.Functor })
+  const C = E.getCompactable(M)
   return {
     URI,
-    compact: C.compact,
-    separate: C.separate
+    compact: I.map(C.compact),
+    separate: (fe) => ({
+      left: pipe(
+        fe,
+        I.map(
+          E.fold(
+            E.left,
+            E.fold(
+              (a) => E.right(a),
+              () => E.left(M.empty)
+            )
+          )
+        )
+      ),
+      right: pipe(
+        fe,
+        I.map(
+          E.fold(
+            E.left,
+            E.fold(
+              () => E.left(M.empty),
+              (b) => E.right(b)
+            )
+          )
+        )
+      )
+    })
   }
 }
 

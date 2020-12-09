@@ -1399,7 +1399,7 @@ const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = (fa, f) =>
 const ap_: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const chain_: <A, B>(fa: ReadonlyArray<A>, f: (a: A) => ReadonlyArray<B>) => ReadonlyArray<B> = (ma, f) =>
   pipe(ma, chain(f))
-  /* istanbul ignore next */
+/* istanbul ignore next */
 const filter_: Filter1<URI> = <A>(fa: ReadonlyArray<A>, predicate: Predicate<A>) => pipe(fa, filter(predicate))
 /* istanbul ignore next */
 const filterMap_: Filterable1<URI>['filterMap'] = (fa, f) => pipe(fa, filterMap(f))

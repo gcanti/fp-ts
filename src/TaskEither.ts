@@ -12,7 +12,7 @@ import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
 import { Apply1, Apply2 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
-import { Compactable2C, getCompactableComposition } from './Compactable'
+import { Compactable2C } from './Compactable'
 import * as E from './Either'
 import { Filterable2C } from './Filterable'
 import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
@@ -24,7 +24,7 @@ import { MonadIO2 } from './MonadIO'
 import { MonadTask2 } from './MonadTask'
 import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
-import { Option, getLeft, getRight } from './Option'
+import { getLeft, getRight, Option } from './Option'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
 
@@ -654,11 +654,36 @@ export function getAltTaskValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
  * @since 3.0.0
  */
 export function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E> {
-  const C = getCompactableComposition<T.URI, E.URI, E>(T.Functor, { ...E.getCompactable(M), ...E.Functor })
+  const C = E.getCompactable(M)
   return {
     URI,
-    compact: C.compact,
-    separate: C.separate
+    compact: T.map(C.compact),
+    separate: (fe) => ({
+      left: pipe(
+        fe,
+        T.map(
+          E.fold(
+            E.left,
+            E.fold(
+              (a) => E.right(a),
+              () => E.left(M.empty)
+            )
+          )
+        )
+      ),
+      right: pipe(
+        fe,
+        T.map(
+          E.fold(
+            E.left,
+            E.fold(
+              () => E.left(M.empty),
+              (b) => E.right(b)
+            )
+          )
+        )
+      )
+    })
   }
 }
 
