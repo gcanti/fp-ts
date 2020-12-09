@@ -1446,6 +1446,7 @@ const filterWithIndex_ = <A>(
 ): ReadonlyArray<A> => pipe(fa, filterWithIndex(predicateWithIndex))
 /* istanbul ignore next */
 const extend_: Extend1<URI>['extend'] = (fa, f) => pipe(fa, extend(f))
+/* istanbul ignore next */
 const traverse_ = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(ta: ReadonlyArray<A>, f: (a: A) => HKT<F, B>) => HKT<F, ReadonlyArray<B>>) => {

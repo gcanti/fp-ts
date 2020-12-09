@@ -441,6 +441,7 @@ const foldMap_: Foldable1<URI>['foldMap'] = (M) => {
   return (fa, f) => pipe(fa, foldMapM(f))
 }
 const reduceRight_: Foldable1<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
+/* istanbul ignore next */
 const traverse_: Traversable1<URI>['traverse'] = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>) => HKT<F, Option<B>>) => {

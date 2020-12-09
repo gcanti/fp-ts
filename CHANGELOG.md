@@ -165,6 +165,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `traced` (@gcanti)
   - `Traversable`
     - drop `Foldable` dependency (@gcanti)
+    - remove `getTraversableComposition` (@gcanti)
   - `TraversableWithIndex`
     - drop `Traversable` dependency (@gcanti)
   - `Tree`
