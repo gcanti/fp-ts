@@ -39,7 +39,6 @@ export interface MonadIO2<M extends URIS2> {
  */
 export interface MonadIO2C<M extends URIS2, E> {
   readonly URI: M
-  readonly _E: E
   readonly fromIO: <A>(fa: IO<A>) => Kind2<M, E, A>
 }
 
@@ -58,7 +57,6 @@ export interface MonadIO3<M extends URIS3> {
  */
 export interface MonadIO3C<M extends URIS3, E> {
   readonly URI: M
-  readonly _E: E
   readonly fromIO: <R, A>(fa: IO<A>) => Kind3<M, R, E, A>
 }
 

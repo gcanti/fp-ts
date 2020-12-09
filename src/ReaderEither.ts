@@ -496,7 +496,6 @@ export function getApplicativeReaderValidation<E>(SE: Semigroup<E>): Applicative
     )
   return {
     URI,
-    _E: undefined as any,
     map: map_,
     ap: (fab, fa) => pipe(fab, ap(fa)),
     of
@@ -511,7 +510,6 @@ export function getAltReaderValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
   const A = E.getAltValidation(SE)
   return {
     URI,
-    _E: undefined as any,
     map: map_,
     alt: (me, that) => (r) => A.alt(me(r), () => that()(r))
   }

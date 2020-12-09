@@ -39,7 +39,6 @@ export interface ChainRec2<F extends URIS2> {
  */
 export interface ChainRec2C<F extends URIS2, E> {
   readonly URI: F
-  readonly _E: E
   readonly chainRec: <A, B>(a: A, f: (a: A) => Kind2<F, E, Either<A, B>>) => Kind2<F, E, B>
 }
 

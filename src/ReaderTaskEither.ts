@@ -661,7 +661,6 @@ export function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, SE: Semi
     )
   return {
     URI,
-    _E: undefined as any,
     map: map_,
     ap: (fab, fa) => pipe(fab, ap(fa)),
     of
@@ -676,7 +675,6 @@ export function getAltReaderTaskValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
   const A = TE.getAltTaskValidation(SE)
   return {
     URI,
-    _E: undefined as any,
     map: map_,
     alt: (me, that) => (r) => A.alt(me(r), () => that()(r))
   }

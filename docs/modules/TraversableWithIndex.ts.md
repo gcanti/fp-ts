@@ -123,7 +123,6 @@ Added in v2.0.0
 ```ts
 export interface TraversableWithIndex2C<T extends URIS2, I, E> {
   readonly URI: T
-  readonly _E: E
   readonly traverseWithIndex: TraverseWithIndex2C<T, I, E>
 }
 ```

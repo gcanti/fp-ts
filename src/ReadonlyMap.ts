@@ -692,7 +692,6 @@ declare module './HKT' {
 export function getFilterable<K = never>(): Filterable2C<URI, K> {
   return {
     URI,
-    _E: undefined as any,
     partitionMap: partitionMap_,
     partition: partition_,
     filterMap: filterMap_,
@@ -707,7 +706,6 @@ export function getFilterable<K = never>(): Filterable2C<URI, K> {
 export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, K, K> {
   return {
     URI,
-    _E: undefined as any,
     partitionMapWithIndex: partitionMapWithIndex_,
     partitionWithIndex: partitionWithIndex_,
     filterMapWithIndex: filterMapWithIndex_,
@@ -723,7 +721,6 @@ export function getFoldable<K>(O: Ord<K>): Foldable2C<URI, K> {
   const FWI = getFoldableWithIndex(O)
   return {
     URI,
-    _E: undefined as any,
     reduce: (fa, b, f) => FWI.reduceWithIndex(fa, b, (_, b, a) => f(b, a)),
     foldMap: (M) => {
       const foldMapWithIndexM = FWI.foldMapWithIndex(M)
@@ -775,7 +772,6 @@ export function getFoldableWithIndex<K>(O: Ord<K>): FoldableWithIndex2C<URI, K, 
 
   return {
     URI,
-    _E: undefined as any,
     reduceWithIndex,
     foldMapWithIndex,
     reduceRightWithIndex
@@ -808,7 +804,6 @@ export function getTraversableWithIndex<K>(O: Ord<K>): TraversableWithIndex2C<UR
   }
   return {
     URI,
-    _E: undefined as any,
     traverseWithIndex
   }
 }
@@ -834,7 +829,6 @@ export function getTraversable<K>(O: Ord<K>): Traversable2C<URI, K> {
 
   return {
     URI,
-    _E: undefined as any,
     map: map_,
     traverse,
     sequence
@@ -850,7 +844,6 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> {
 
   return {
     URI,
-    _E: undefined as any,
     wilt: <F>(
       F: Applicative<F>
     ): (<A, B, C>(

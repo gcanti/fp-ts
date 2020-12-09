@@ -129,7 +129,6 @@ declare module './HKT' {
 export function getApplicative<W>(M: Monoid<W>): Applicative2C<URI, W> {
   return {
     URI,
-    _E: undefined as any,
     map: map_,
     ap: (fab, fa) => () => {
       const [f, w1] = fab()
@@ -147,7 +146,6 @@ export function getApplicative<W>(M: Monoid<W>): Applicative2C<URI, W> {
 export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
   return {
     URI,
-    _E: undefined as any,
     map: map_,
     of: (a) => () => [a, M.empty],
     chain: (fa, f) => () => {

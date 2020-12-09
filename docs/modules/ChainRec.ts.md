@@ -71,7 +71,6 @@ Added in v2.0.0
 ```ts
 export interface ChainRec2C<F extends URIS2, E> {
   readonly URI: F
-  readonly _E: E
   readonly chainRec: <A, B>(a: A, f: (a: A) => Kind2<F, E, Either<A, B>>) => Kind2<F, E, B>
 }
 ```

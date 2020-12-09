@@ -103,7 +103,6 @@ Added in v2.0.0
 ```ts
 export interface FilterableWithIndex2C<F extends URIS2, I, E> {
   readonly URI: F
-  readonly _E: E
   readonly partitionMapWithIndex: <A, B, C>(
     fa: Kind2<F, E, A>,
     f: (i: I, a: A) => Either<B, C>

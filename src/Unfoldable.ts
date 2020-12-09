@@ -39,7 +39,6 @@ export interface Unfoldable2<F extends URIS2> {
  */
 export interface Unfoldable2C<F extends URIS2, E> {
   readonly URI: F
-  readonly _E: E
   readonly unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => Kind2<F, E, A>
 }
 

@@ -620,7 +620,6 @@ export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<
     )
   return {
     URI,
-    _E: undefined as any,
     map: map_,
     ap: (fab, fa) => pipe(fab, ap(fa)),
     of
@@ -634,7 +633,6 @@ export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<
 export function getAltTaskValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
   return {
     URI,
-    _E: undefined as any,
     map: map_,
     alt: (me, that) =>
       pipe(
@@ -656,10 +654,9 @@ export function getAltTaskValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
  * @since 3.0.0
  */
 export function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E> {
-  const C = getCompactableComposition(T.Functor, { ...E.getCompactable(M), ...E.Functor })
+  const C = getCompactableComposition<T.URI, E.URI, E>(T.Functor, { ...E.getCompactable(M), ...E.Functor })
   return {
     URI,
-    _E: undefined as any,
     compact: C.compact,
     separate: C.separate
   }
@@ -674,7 +671,6 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
 
   return {
     URI,
-    _E: undefined as any,
     filter: F.filter,
     filterMap: F.filterMap,
     partition: F.partition,

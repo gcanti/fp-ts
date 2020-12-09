@@ -234,7 +234,6 @@ export function getApplicative<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicati
     )
   return {
     URI,
-    _E: undefined as any,
     map: map_,
     ap: (fab, fa) => pipe(fab, ap(fa)),
     of
@@ -248,7 +247,6 @@ export function getApplicative<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicati
 export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> {
   return {
     URI,
-    _E: undefined as any,
     map: map_,
     of,
     chain: (ma, f) =>

@@ -43,7 +43,6 @@ export interface MonadThrow2<M extends URIS2> {
  */
 export interface MonadThrow2C<M extends URIS2, E> {
   readonly URI: M
-  readonly _E: E
   readonly throwError: <A>(e: E) => Kind2<M, E, A>
 }
 
@@ -62,7 +61,6 @@ export interface MonadThrow3<M extends URIS3> {
  */
 export interface MonadThrow3C<M extends URIS3, E> {
   readonly URI: M
-  readonly _E: E
   readonly throwError: <R, A>(e: E) => Kind3<M, R, E, A>
 }
 

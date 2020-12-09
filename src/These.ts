@@ -168,7 +168,6 @@ export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
 export function getApplicative<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
   return {
     URI,
-    _E: undefined as any,
     map: map_,
     of: right,
     ap: (fab, fa) =>
@@ -214,7 +213,6 @@ export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<UR
 
   return {
     URI,
-    _E: undefined as any,
     map: map_,
     of: right,
     chain,

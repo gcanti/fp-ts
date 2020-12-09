@@ -36,6 +36,7 @@ high state of flux, you're at risk of it changing without notice.
       - make `StateReaderTaskEither` definition immutable
       - (`Tree`) make `Forest` immutable
       - make `Writer` definition immutable
+  - remove legacy `readonly _E: E` from type class members
   - `Apply`
     - remove `sequenceS`, use data type `apS` instead (@gcanti)
     - remove `sequenceTS`, use data type `apT` instead (@gcanti)

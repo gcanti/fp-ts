@@ -71,7 +71,6 @@ Added in v2.0.0
 ```ts
 export interface Unfoldable2C<F extends URIS2, E> {
   readonly URI: F
-  readonly _E: E
   readonly unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => Kind2<F, E, A>
 }
 ```

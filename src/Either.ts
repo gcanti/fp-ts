@@ -960,7 +960,6 @@ export function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E> {
 
   return {
     URI,
-    _E: undefined as any,
     compact,
     separate
   }
@@ -1007,7 +1006,6 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
 
   return {
     URI,
-    _E: undefined as any,
     filter,
     filterMap,
     partition,
@@ -1043,7 +1041,6 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
 
   return {
     URI,
-    _E: undefined as any,
     wither,
     wilt
   }
@@ -1056,7 +1053,6 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
 export function getApplicativeValidation<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
   return {
     URI,
-    _E: undefined as any,
     map: map_,
     ap: (fab, fa) =>
       isLeft(fab)
@@ -1077,7 +1073,6 @@ export function getApplicativeValidation<E>(SE: Semigroup<E>): Applicative2C<URI
 export function getAltValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
   return {
     URI,
-    _E: undefined as any,
     map: map_,
     alt: (me, that) => {
       if (isRight(me)) {

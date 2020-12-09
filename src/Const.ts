@@ -111,7 +111,6 @@ export const getBooleanAlgebra: <E, A>(H: BooleanAlgebra<E>) => BooleanAlgebra<C
 export function getApply<E>(S: Semigroup<E>): Apply2C<URI, E> {
   return {
     URI,
-    _E: undefined as any,
     map: map_,
     ap: (fab, fa) => make(S.concat(fab, fa))
   }
@@ -125,7 +124,6 @@ export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> {
   const A = getApply(M)
   return {
     URI,
-    _E: undefined as any,
     map: A.map,
     ap: A.ap,
     of: () => make(M.empty)

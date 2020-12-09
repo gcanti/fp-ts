@@ -83,7 +83,6 @@ export interface TheseM<M> {
   readonly getMonad: <E>(
     S: Semigroup<E>
   ) => {
-    readonly _E: E
     readonly map: <A, B>(ma: TheseT<M, E, A>, f: (a: A) => B) => TheseT<M, E, B>
     readonly of: <A>(a: A) => TheseT<M, E, A>
     readonly ap: <A, B>(mab: TheseT<M, E, (a: A) => B>, ma: TheseT<M, E, A>) => TheseT<M, E, B>
@@ -119,7 +118,6 @@ export interface TheseM1<M extends URIS> {
   readonly getMonad: <E>(
     S: Semigroup<E>
   ) => {
-    readonly _E: E
     readonly map: <A, B>(ma: TheseT1<M, E, A>, f: (a: A) => B) => TheseT1<M, E, B>
     readonly of: <A>(a: A) => TheseT1<M, E, A>
     readonly ap: <A, B>(mab: TheseT1<M, E, (a: A) => B>, ma: TheseT1<M, E, A>) => TheseT1<M, E, B>
@@ -155,7 +153,6 @@ export interface TheseM2<M extends URIS2> {
   readonly getMonad: <E>(
     S: Semigroup<E>
   ) => {
-    readonly _E: E
     readonly map: <R, A, B>(ma: TheseT2<M, R, E, A>, f: (a: A) => B) => TheseT2<M, R, E, B>
     readonly of: <R, A>(a: A) => TheseT2<M, R, E, A>
     readonly ap: <R, A, B>(mab: TheseT2<M, R, E, (a: A) => B>, ma: TheseT2<M, R, E, A>) => TheseT2<M, R, E, B>

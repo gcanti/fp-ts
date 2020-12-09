@@ -95,7 +95,6 @@ Added in v2.0.0
 ```ts
 export interface Compactable2C<F extends URIS2, E> {
   readonly URI: F
-  readonly _E: E
   readonly compact: <A>(fa: Kind2<F, E, Option<A>>) => Kind2<F, E, A>
   readonly separate: <A, B>(fa: Kind2<F, E, Either<A, B>>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
 }
@@ -338,7 +337,7 @@ export declare function getCompactableComposition<F extends URIS2, G extends URI
 export declare function getCompactableComposition<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Compactable2C<G, E> & Functor2C<G, E>
-): CompactableComposition12<F, G>
+): CompactableComposition12C<F, G, E>
 export declare function getCompactableComposition<F extends URIS, G extends URIS2>(
   F: Functor1<F>,
   G: Compactable2<G> & Functor2<G>

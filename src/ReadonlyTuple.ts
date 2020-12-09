@@ -53,7 +53,6 @@ export function swap<A, E>(ea: readonly [A, E]): readonly [E, A] {
 export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
   return {
     URI,
-    _E: undefined as any,
     map: map_,
     ap: (fab, fa) => [fst(fab)(fst(fa)), S.concat(snd(fab), snd(fa))]
   }
@@ -71,7 +70,6 @@ export function getApplicative<M>(M: Monoid<M>): Applicative2C<URI, M> {
   const A = getApply(M)
   return {
     URI,
-    _E: undefined as any,
     map: map_,
     ap: A.ap,
     of: of(M)
@@ -85,7 +83,6 @@ export function getApplicative<M>(M: Monoid<M>): Applicative2C<URI, M> {
 export function getMonad<M>(M: Monoid<M>): Monad2C<URI, M> {
   return {
     URI,
-    _E: undefined as any,
     map: map_,
     chain: (ma, f) => {
       const [b, s] = f(fst(ma))
@@ -114,7 +111,6 @@ export function getChainRec<M>(M: Monoid<M>): ChainRec2C<URI, M> {
 
   return {
     URI,
-    _E: undefined as any,
     chainRec
   }
 }

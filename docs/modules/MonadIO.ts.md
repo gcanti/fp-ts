@@ -73,7 +73,6 @@ Added in v2.0.0
 ```ts
 export interface MonadIO2C<M extends URIS2, E> {
   readonly URI: M
-  readonly _E: E
   readonly fromIO: <A>(fa: IO<A>) => Kind2<M, E, A>
 }
 ```
@@ -100,7 +99,6 @@ Added in v2.0.0
 ```ts
 export interface MonadIO3C<M extends URIS3, E> {
   readonly URI: M
-  readonly _E: E
   readonly fromIO: <R, A>(fa: IO<A>) => Kind3<M, R, E, A>
 }
 ```

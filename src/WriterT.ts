@@ -30,7 +30,6 @@ export interface WriterM<M> {
   readonly getMonad: <W>(
     M: Monoid<W>
   ) => {
-    readonly _E: W
     readonly map: <A, B>(ma: WriterT<M, W, A>, f: (a: A) => B) => WriterT<M, W, B>
     readonly of: <A>(a: A) => WriterT<M, W, A>
     readonly ap: <A, B>(mab: WriterT<M, W, (a: A) => B>, ma: WriterT<M, W, A>) => WriterT<M, W, B>
@@ -61,7 +60,6 @@ export interface WriterM1<M extends URIS> {
   readonly getMonad: <W>(
     M: Monoid<W>
   ) => {
-    readonly _E: W
     readonly map: <A, B>(ma: WriterT1<M, W, A>, f: (a: A) => B) => WriterT1<M, W, B>
     readonly of: <A>(a: A) => WriterT1<M, W, A>
     readonly ap: <A, B>(mab: WriterT1<M, W, (a: A) => B>, ma: WriterT1<M, W, A>) => WriterT1<M, W, B>
@@ -92,7 +90,6 @@ export interface WriterM2<M extends URIS2> {
   readonly getMonad: <W>(
     M: Monoid<W>
   ) => {
-    readonly _E: W
     readonly map: <E, A, B>(ma: WriterT2<M, E, W, A>, f: (a: A) => B) => WriterT2<M, E, W, B>
     readonly of: <E, A>(a: A) => WriterT2<M, E, W, A>
     readonly ap: <E, A, B>(mab: WriterT2<M, E, W, (a: A) => B>, ma: WriterT2<M, E, W, A>) => WriterT2<M, E, W, B>
@@ -115,7 +112,6 @@ export interface WriterM2C<M extends URIS2, E> {
   readonly getMonad: <W>(
     M: Monoid<W>
   ) => {
-    readonly _E: W
     readonly map: <A, B>(ma: WriterT2<M, E, W, A>, f: (a: A) => B) => WriterT2<M, E, W, B>
     readonly of: <A>(a: A) => WriterT2<M, E, W, A>
     readonly ap: <A, B>(mab: WriterT2<M, E, W, (a: A) => B>, ma: WriterT2<M, E, W, A>) => WriterT2<M, E, W, B>
@@ -148,7 +144,6 @@ export interface WriterM3<M extends URIS3> {
   readonly getMonad: <W>(
     M: Monoid<W>
   ) => {
-    readonly _E: W
     readonly map: <R, E, A, B>(ma: WriterT3<M, R, E, W, A>, f: (a: A) => B) => WriterT3<M, R, E, W, B>
     readonly of: <R, E, A>(a: A) => WriterT3<M, R, E, W, A>
     readonly ap: <R, E, A, B>(
@@ -184,7 +179,6 @@ export function getWriterM<M>(M: Monad<M>): WriterM<M> {
     censor: (fa, f) => () => M.map(fa(), ([a, w]) => [a, f(w)]),
     getMonad: (W) => {
       return {
-        _E: undefined as any,
         map,
         of: (a) => () => M.of([a, W.empty]),
         ap: (mab, ma) => () => M.chain(mab(), ([f, w1]) => M.map(ma(), ([a, w2]) => [f(a), W.concat(w1, w2)])),

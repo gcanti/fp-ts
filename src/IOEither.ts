@@ -474,7 +474,6 @@ export function getApplicativeIOValidation<E>(SE: Semigroup<E>): Applicative2C<U
 
   return {
     URI,
-    _E: undefined as any,
     map: map_,
     ap: (fab, fa) => pipe(fab, ap(fa)),
     of
@@ -489,7 +488,6 @@ export function getAltIOValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
   const A = E.getAltValidation(SE)
   return {
     URI,
-    _E: undefined as any,
     map: map_,
     alt: (me, that) => () => A.alt(me(), () => that()())
   }
@@ -500,10 +498,9 @@ export function getAltIOValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
  * @since 3.0.0
  */
 export function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E> {
-  const C = getCompactableComposition(I.Functor, { ...E.getCompactable(M), ...E.Functor })
+  const C = getCompactableComposition<I.URI, E.URI, E>(I.Functor, { ...E.getCompactable(M), ...E.Functor })
   return {
     URI,
-    _E: undefined as any,
     compact: C.compact,
     separate: C.separate
   }
@@ -518,7 +515,6 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
 
   return {
     URI,
-    _E: undefined as any,
     filter: F.filter,
     filterMap: F.filterMap,
     partition: F.partition,

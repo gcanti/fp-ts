@@ -78,7 +78,6 @@ Added in v2.0.0
 ```ts
 export interface MonadThrow2C<M extends URIS2, E> {
   readonly URI: M
-  readonly _E: E
   readonly throwError: <A>(e: E) => Kind2<M, E, A>
 }
 ```
@@ -105,7 +104,6 @@ Added in v2.0.0
 ```ts
 export interface MonadThrow3C<M extends URIS3, E> {
   readonly URI: M
-  readonly _E: E
   readonly throwError: <R, A>(e: E) => Kind3<M, R, E, A>
 }
 ```

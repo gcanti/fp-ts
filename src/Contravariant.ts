@@ -36,7 +36,6 @@ export interface Contravariant2<F extends URIS2> {
  */
 export interface Contravariant2C<F extends URIS2, E> {
   readonly URI: F
-  readonly _E: E
   readonly contramap: <A, B>(fa: Kind2<F, E, A>, f: (b: B) => A) => Kind2<F, E, B>
 }
 

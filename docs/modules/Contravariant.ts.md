@@ -71,7 +71,6 @@ Added in v2.0.0
 ```ts
 export interface Contravariant2C<F extends URIS2, E> {
   readonly URI: F
-  readonly _E: E
   readonly contramap: <A, B>(fa: Kind2<F, E, A>, f: (b: B) => A) => Kind2<F, E, B>
 }
 ```

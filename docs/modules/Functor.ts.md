@@ -96,7 +96,6 @@ Added in v2.0.0
 ```ts
 export interface Functor2C<F extends URIS2, E> {
   readonly URI: F
-  readonly _E: E
   readonly map: <A, B>(fa: Kind2<F, E, A>, f: (a: A) => B) => Kind2<F, E, B>
 }
 ```
@@ -123,7 +122,6 @@ Added in v2.0.0
 ```ts
 export interface Functor3C<F extends URIS3, E> {
   readonly URI: F
-  readonly _E: E
   readonly map: <R, A, B>(fa: Kind3<F, R, E, A>, f: (a: A) => B) => Kind3<F, R, E, B>
 }
 ```
