@@ -469,6 +469,7 @@ export const filterOrElse: {
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
+/* istanbul ignore next */
 const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
 const ap_: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))

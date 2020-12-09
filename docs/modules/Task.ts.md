@@ -209,7 +209,7 @@ export declare function delay(millis: number): <A>(ma: Task<A>) => Task<A>
 **Example**
 
 ```ts
-import { sequenceT } from 'fp-ts/Apply'
+import { pipe } from 'fp-ts/function'
 import * as T from 'fp-ts/Task'
 
 async function test() {
@@ -222,7 +222,7 @@ async function test() {
   const fb = append('b')
   const fc = T.delay(10)(append('c'))
   const fd = append('d')
-  await sequenceT(T.ApplicativePar)(fa, fb, fc, fd)()
+  await pipe(T.ApT, T.apT(fa), T.apT(fb), T.apT(fc), T.apT(fd))()
   assert.deepStrictEqual(log, ['a', 'b', 'd', 'c'])
 }
 

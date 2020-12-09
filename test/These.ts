@@ -6,7 +6,6 @@ import * as O from '../src/Option'
 import { semigroupString } from '../src/Semigroup'
 import { showString } from '../src/Show'
 import * as _ from '../src/These'
-import * as Apply from '../src/Apply'
 
 describe('These', () => {
   describe('pipeables', () => {
@@ -95,17 +94,22 @@ describe('These', () => {
   })
 
   it('ap', () => {
-    const M = _.getApplicative(semigroupString)
-    const sequenceT = Apply.sequenceT(M)
-    assert.deepStrictEqual(sequenceT(_.right(1), _.right(2)), _.right([1, 2]))
-    assert.deepStrictEqual(sequenceT(_.right(1), _.left('b')), _.left('b'))
-    assert.deepStrictEqual(sequenceT(_.right(1), _.both('b', 2)), _.both('b', [1, 2]))
-    assert.deepStrictEqual(sequenceT(_.left('a'), _.right(2)), _.left('a'))
-    assert.deepStrictEqual(sequenceT(_.left('a'), _.left('b')), _.left('ab'))
-    assert.deepStrictEqual(sequenceT(_.left('a'), _.both('b', 2)), _.left('ab'))
-    assert.deepStrictEqual(sequenceT(_.both('a', 1), _.right(2)), _.both('a', [1, 2]))
-    assert.deepStrictEqual(sequenceT(_.both('a', 1), _.left('b')), _.left('ab'))
-    assert.deepStrictEqual(sequenceT(_.both('a', 1), _.both('b', 2)), _.both('ab', [1, 2]))
+    const A = _.getApplicative(semigroupString)
+    const f = <A, B>(fa: _.These<string, A>, fb: _.These<string, B>): _.These<string, readonly [A, B]> =>
+      A.ap(
+        A.map(fa, (a: A) => (b: B) => [a, b]),
+        fb
+      )
+
+    assert.deepStrictEqual(f(_.right(1), _.right(2)), _.right([1, 2]))
+    assert.deepStrictEqual(f(_.right(1), _.left('b')), _.left('b'))
+    assert.deepStrictEqual(f(_.right(1), _.both('b', 2)), _.both('b', [1, 2]))
+    assert.deepStrictEqual(f(_.left('a'), _.right(2)), _.left('a'))
+    assert.deepStrictEqual(f(_.left('a'), _.left('b')), _.left('ab'))
+    assert.deepStrictEqual(f(_.left('a'), _.both('b', 2)), _.left('ab'))
+    assert.deepStrictEqual(f(_.both('a', 1), _.right(2)), _.both('a', [1, 2]))
+    assert.deepStrictEqual(f(_.both('a', 1), _.left('b')), _.left('ab'))
+    assert.deepStrictEqual(f(_.both('a', 1), _.both('b', 2)), _.both('ab', [1, 2]))
   })
 
   it('chain', () => {

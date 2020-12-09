@@ -1,5 +1,4 @@
 import * as assert from 'assert'
-import { sequenceT } from '../src/Apply'
 import * as E from '../src/Either'
 import { pipe, Predicate } from '../src/function'
 import * as I from '../src/IO'
@@ -55,36 +54,6 @@ describe('IOEither', () => {
     it('ap', () => {
       const double = (n: number): number => n * 2
       assert.deepStrictEqual(pipe(_.right(double), _.ap(_.right(1)))(), E.right(2))
-    })
-
-    it('ApplicativePar', () => {
-      // tslint:disable-next-line: readonly-array
-      const log: Array<string> = []
-      const x = sequenceT(_.ApplicativePar)(
-        _.rightIO<string, number>(() => log.push('a')),
-        _.leftIO(() => {
-          log.push('b')
-          return 'error'
-        }),
-        _.rightIO(() => log.push('c'))
-      )()
-      assert.deepStrictEqual(x, E.left('error'))
-      assert.deepStrictEqual(log, ['a', 'b', 'c'])
-    })
-
-    it('ApplicativeSeq', () => {
-      // tslint:disable-next-line: readonly-array
-      const log: Array<string> = []
-      const x = sequenceT(_.ApplicativeSeq)(
-        _.rightIO<string, number>(() => log.push('a')),
-        _.leftIO(() => {
-          log.push('b')
-          return 'error'
-        }),
-        _.rightIO(() => log.push('c'))
-      )()
-      assert.deepStrictEqual(x, E.left('error'))
-      assert.deepStrictEqual(log, ['a', 'b'])
     })
 
     it('apFirst', () => {
@@ -242,6 +211,38 @@ describe('IOEither', () => {
     )
   })
 
+  it('ApplicativePar', () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<string> = []
+    const tuple = <A>(a: A) => <B>(b: B) => <C>(c: C): readonly [A, B, C] => [a, b, c]
+    const a = _.rightIO<string, number>(() => log.push('a'))
+    const b = _.leftIO(() => {
+      log.push('b')
+      return 'error'
+    })
+    const c = _.rightIO(() => log.push('c'))
+    const A = _.ApplicativePar
+    const x = A.ap(A.ap(A.map(a, tuple), b), c)()
+    assert.deepStrictEqual(x, E.left('error'))
+    assert.deepStrictEqual(log, ['a', 'b', 'c'])
+  })
+
+  it('ApplicativeSeq', () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<string> = []
+    const tuple = <A>(a: A) => <B>(b: B) => <C>(c: C): readonly [A, B, C] => [a, b, c]
+    const a = _.rightIO<string, number>(() => log.push('a'))
+    const b = _.leftIO(() => {
+      log.push('b')
+      return 'error'
+    })
+    const c = _.rightIO(() => log.push('c'))
+    const A = _.ApplicativeSeq
+    const x = A.ap(A.ap(A.map(a, tuple), b), c)()
+    assert.deepStrictEqual(x, E.left('error'))
+    assert.deepStrictEqual(log, ['a', 'b'])
+  })
+
   describe('getSemigroup', () => {
     it('concat', () => {
       const S = _.getSemigroup<string, number>(semigroupSum)
@@ -318,8 +319,9 @@ describe('IOEither', () => {
 
   it('getApplicativeIOValidation', () => {
     const A = _.getApplicativeIOValidation(monoidString)
-    assert.deepStrictEqual(sequenceT(A)(_.left('a'), _.left('b'))(), E.left('ab'))
-    assert.deepStrictEqual(sequenceT(A)(_.left('a'), _.right(1))(), E.left('a'))
+    const tuple = <A>(a: A) => <B>(b: B): readonly [A, B] => [a, b]
+    assert.deepStrictEqual(A.ap(A.map(_.left('a'), tuple), _.left('b'))(), E.left('ab'))
+    assert.deepStrictEqual(A.ap(A.map(_.left('a'), tuple), _.right(1))(), E.left('a'))
   })
 
   it('getAltIOValidation', () => {

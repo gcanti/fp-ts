@@ -7,7 +7,6 @@ import * as O from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
 import * as T from '../src/Task'
-import { sequenceT } from '../src/Apply'
 import * as A from '../src/ReadonlyArray'
 
 describe('Either', () => {
@@ -535,9 +534,19 @@ describe('Either', () => {
 
   it('getApplicativeValidation', () => {
     const A = _.getApplicativeValidation(monoidString)
-    assert.deepStrictEqual(sequenceT(A)(_.left('a'), _.left('b')), _.left('ab'))
-    assert.deepStrictEqual(sequenceT(A)(_.right(1), _.left('b')), _.left('b'))
-    assert.deepStrictEqual(sequenceT(A)(_.right(1), _.right(2)), _.right([1, 2]))
+
+    const apT = <B>(fb: _.Either<string, B>) => <A extends ReadonlyArray<unknown>>(
+      fas: _.Either<string, A>
+    ): _.Either<string, readonly [...A, B]> =>
+      pipe(
+        fas,
+        _.map((a) => (b: B): readonly [...A, B] => [...a, b]),
+        (x) => A.ap(x, fb)
+      )
+
+    assert.deepStrictEqual(pipe(_.left('a'), apT(_.left('b'))), _.left('ab'))
+    assert.deepStrictEqual(pipe(_.right([1]), apT(_.left('b'))), _.left('b'))
+    assert.deepStrictEqual(pipe(_.right([1]), apT(_.right(2))), _.right([1, 2]))
   })
 
   it('getAltValidation', () => {

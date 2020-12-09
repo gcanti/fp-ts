@@ -57,8 +57,6 @@ Added in v2.0.0
   - [Apply3 (interface)](#apply3-interface)
   - [Apply3C (interface)](#apply3c-interface)
   - [Apply4 (interface)](#apply4-interface)
-- [utils](#utils)
-  - [sequenceT](#sequencet)
 
 ---
 
@@ -144,66 +142,6 @@ Added in v2.2.0
 export interface Apply4<F extends URIS4> extends Functor4<F> {
   readonly ap: <S, R, E, A, B>(fab: Kind4<F, S, R, E, (a: A) => B>, fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
 }
-```
-
-Added in v2.0.0
-
-# utils
-
-## sequenceT
-
-Tuple sequencing, i.e., take a tuple of monadic actions and does them from left-to-right, returning the resulting tuple.
-
-**Signature**
-
-```ts
-export declare function sequenceT<F extends URIS4>(
-  F: Apply4<F>
-): <S, R, E, T extends Array<Kind4<F, S, R, E, any>>>(
-  ...t: T & { readonly 0: Kind4<F, S, R, E, any> }
-) => Kind4<F, S, R, E, { [K in keyof T]: [T[K]] extends [Kind4<F, S, R, E, infer A>] ? A : never }>
-export declare function sequenceT<F extends URIS3>(
-  F: Apply3<F>
-): <R, E, T extends Array<Kind3<F, R, E, any>>>(
-  ...t: T & { readonly 0: Kind3<F, R, E, any> }
-) => Kind3<F, R, E, { [K in keyof T]: [T[K]] extends [Kind3<F, R, E, infer A>] ? A : never }>
-export declare function sequenceT<F extends URIS3, E>(
-  F: Apply3C<F, E>
-): <R, T extends Array<Kind3<F, R, E, any>>>(
-  ...t: T & { readonly 0: Kind3<F, R, E, any> }
-) => Kind3<F, R, E, { [K in keyof T]: [T[K]] extends [Kind3<F, R, E, infer A>] ? A : never }>
-export declare function sequenceT<F extends URIS2>(
-  F: Apply2<F>
-): <E, T extends Array<Kind2<F, E, any>>>(
-  ...t: T & { readonly 0: Kind2<F, E, any> }
-) => Kind2<F, E, { [K in keyof T]: [T[K]] extends [Kind2<F, E, infer A>] ? A : never }>
-export declare function sequenceT<F extends URIS2, E>(
-  F: Apply2C<F, E>
-): <T extends Array<Kind2<F, E, any>>>(
-  ...t: T & { readonly 0: Kind2<F, E, any> }
-) => Kind2<F, E, { [K in keyof T]: [T[K]] extends [Kind2<F, E, infer A>] ? A : never }>
-export declare function sequenceT<F extends URIS>(
-  F: Apply1<F>
-): <T extends Array<Kind<F, any>>>(
-  ...t: T & { readonly 0: Kind<F, any> }
-) => Kind<F, { [K in keyof T]: [T[K]] extends [Kind<F, infer A>] ? A : never }>
-export declare function sequenceT<F>(
-  F: Apply<F>
-): <T extends Array<HKT<F, any>>>(
-  ...t: T & { readonly 0: HKT<F, any> }
-) => HKT<F, { [K in keyof T]: [T[K]] extends [HKT<F, infer A>] ? A : never }>
-```
-
-**Example**
-
-```ts
-import { sequenceT } from 'fp-ts/Apply'
-import * as O from 'fp-ts/Option'
-
-const sequenceTOption = sequenceT(O.Applicative)
-assert.deepStrictEqual(sequenceTOption(O.some(1)), O.some([1]))
-assert.deepStrictEqual(sequenceTOption(O.some(1), O.some('2')), O.some([1, '2']))
-assert.deepStrictEqual(sequenceTOption(O.some(1), O.some('2'), O.none), O.none)
 ```
 
 Added in v2.0.0

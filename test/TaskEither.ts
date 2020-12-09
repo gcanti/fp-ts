@@ -1,12 +1,11 @@
 import * as assert from 'assert'
-import { sequenceT } from '../src/Apply'
-import * as A from '../src/ReadonlyArray'
 import * as E from '../src/Either'
 import { pipe, Predicate } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
+import * as A from '../src/ReadonlyArray'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskEither'
@@ -105,7 +104,8 @@ describe('TaskEither', () => {
 
   it('getApplicativeTaskValidation', async () => {
     const A = _.getApplicativeTaskValidation(T.ApplicativePar, semigroupString)
-    assert.deepStrictEqual(await sequenceT(A)(_.left('a'), _.left('b'))(), E.left('ab'))
+    const tuple = <A>(a: A) => <B>(b: B): readonly [A, B] => [a, b]
+    assert.deepStrictEqual(await A.ap(A.map(_.left('a'), tuple), _.left('b'))(), E.left('ab'))
   })
 
   it('getAltTaskValidation', async () => {

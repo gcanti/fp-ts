@@ -50,7 +50,7 @@ export const fromIO: <A>(ma: IO<A>) => Task<A> = (ma) => () => Promise.resolve(m
  * Creates a task that will complete after a time delay
  *
  * @example
- * import { sequenceT } from 'fp-ts/Apply'
+ * import { pipe } from 'fp-ts/function'
  * import * as T from 'fp-ts/Task'
  *
  * async function test() {
@@ -63,7 +63,7 @@ export const fromIO: <A>(ma: IO<A>) => Task<A> = (ma) => () => Promise.resolve(m
  *   const fb = append('b')
  *   const fc = T.delay(10)(append('c'))
  *   const fd = append('d')
- *   await sequenceT(T.ApplicativePar)(fa, fb, fc, fd)()
+ *   await pipe(T.ApT, T.apT(fa), T.apT(fb), T.apT(fc), T.apT(fd))()
  *   assert.deepStrictEqual(log, ['a', 'b', 'd', 'c'])
  * }
  *

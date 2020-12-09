@@ -1,6 +1,5 @@
 import * as assert from 'assert'
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative4 } from '../src/Applicative'
-import { sequenceT } from '../src/Apply'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from '../src/HKT'
 import * as T from '../src/Task'
 
@@ -60,7 +59,8 @@ export const assertParSeq = (expected: ReadonlyArray<string>): AssertParSeq => a
   const log: Array<string> = []
   const a = MT.fromTask(T.delay(100)(T.fromIO(() => log.push('a'))))
   const b = MT.fromTask(T.fromIO(() => log.push('b')))
-  const ab = sequenceT(F)(a, b)
+  const tuple = <A>(a: A) => <B>(b: B): readonly [A, B] => [a, b]
+  const ab = F.ap(F.map(a, tuple), b)
   await run(ab)
   assert.deepStrictEqual(log, expected)
 }

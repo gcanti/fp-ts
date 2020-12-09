@@ -1,12 +1,11 @@
 import * as assert from 'assert'
-import * as Apply from '../src/Apply'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
-import * as A from '../src/ReadonlyArray'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderEither'
+import * as A from '../src/ReadonlyArray'
 import { semigroupSum } from '../src/Semigroup'
 
 describe('ReaderEither', () => {
@@ -190,7 +189,8 @@ describe('ReaderEither', () => {
 
   it('getApplicativeReaderValidation', () => {
     const A = _.getApplicativeReaderValidation(monoidString)
-    assert.deepStrictEqual(Apply.sequenceT(A)(_.left('a'), _.left('b'))(null), E.left('ab'))
+    const tuple = <A>(a: A) => <B>(b: B): readonly [A, B] => [a, b]
+    assert.deepStrictEqual(A.ap(A.map(_.left('a'), tuple), _.left('b'))(null), E.left('ab'))
   })
 
   it('getAltReaderValidation', () => {

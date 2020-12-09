@@ -1,6 +1,4 @@
 import * as assert from 'assert'
-import { sequenceT } from '../src/Apply'
-import * as A from '../src/ReadonlyArray'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
 import * as I from '../src/IO'
@@ -11,6 +9,7 @@ import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
 import * as RT from '../src/ReaderTask'
 import * as _ from '../src/ReaderTaskEither'
+import * as A from '../src/ReadonlyArray'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
@@ -280,7 +279,8 @@ describe('ReaderTaskEither', () => {
 
   it('getApplicativeReaderTaskValidation', async () => {
     const A = _.getApplicativeReaderTaskValidation(T.ApplicativePar, semigroupString)
-    assert.deepStrictEqual(await sequenceT(A)(_.left('a'), _.left('b'))(null)(), E.left('ab'))
+    const tuple = <A>(a: A) => <B>(b: B): readonly [A, B] => [a, b]
+    assert.deepStrictEqual(await A.ap(A.map(_.left('a'), tuple), _.left('b'))(null)(), E.left('ab'))
   })
 
   it('getAltReaderTaskValidation', async () => {
