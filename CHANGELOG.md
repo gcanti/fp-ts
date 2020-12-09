@@ -70,6 +70,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `intercalate` pipeable (@gcanti)
   - `FoldableWithIndex`
     - drop `Foldable` dependency (@gcanti)
+    - remove `getFoldableWithIndexComposition` (@gcanti)
   - `Functor`
     - remove `getFunctorComposition` (@gcanti)
   - `FunctorWithIndex`

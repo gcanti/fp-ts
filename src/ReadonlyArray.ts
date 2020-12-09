@@ -1438,6 +1438,7 @@ const reduceWithIndex_: FoldableWithIndex1<URI, number>['reduceWithIndex'] = (fa
 }
 const foldMapWithIndex_: FoldableWithIndex1<URI, number>['foldMapWithIndex'] = (M) => (fa, f) =>
   fa.reduce((b, a, i) => M.concat(b, f(i, a)), M.empty)
+/* istanbul ignore next */
 const reduceRightWithIndex_: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] = (fa, b, f) =>
   pipe(fa, reduceRightWithIndex(b, f))
 /* istanbul ignore next */
