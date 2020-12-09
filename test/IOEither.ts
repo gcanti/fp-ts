@@ -1,11 +1,11 @@
 import * as assert from 'assert'
 import * as E from '../src/Either'
-import { pipe, Predicate } from '../src/function'
+import { pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as _ from '../src/IOEither'
-import * as A from '../src/ReadonlyArray'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
+import * as A from '../src/ReadonlyArray'
 import { semigroupSum } from '../src/Semigroup'
 
 describe('IOEither', () => {
@@ -338,28 +338,18 @@ describe('IOEither', () => {
   })
 
   describe('getFilterable', () => {
-    const F_ = _.getFilterable(A.getMonoid<string>())
-    const filter: <A>(
-      predicate: Predicate<A>
-    ) => (fa: _.IOEither<ReadonlyArray<string>, A>) => _.IOEither<ReadonlyArray<string>, A> = (predicate) => (fa) =>
-      F_.filter(fa, predicate)
+    const F = _.getFilterable(A.getMonoid<string>())
 
-    it('filter', () => {
-      const r1 = pipe(
-        _.right(1),
-        filter((n) => n > 0)
-      )
-      assert.deepStrictEqual(r1(), _.right(1)())
-      const r2 = pipe(
-        _.right(-1),
-        filter((n) => n > 0)
-      )
-      assert.deepStrictEqual(r2(), _.left([])())
-      const r3 = pipe(
-        _.left(['a']),
-        filter((n) => n > 0)
-      )
-      assert.deepStrictEqual(r3(), _.left(['a'])())
+    it('partition', () => {
+      const { left, right } = F.partition(_.of('a'), (s) => s.length > 2)
+      assert.deepStrictEqual(left(), E.right('a'))
+      assert.deepStrictEqual(right(), E.left([]))
+    })
+
+    it('partitionMap', () => {
+      const { left, right } = F.partitionMap(_.of('a'), (s) => (s.length > 2 ? E.right(s.length) : E.left(false)))
+      assert.deepStrictEqual(left(), E.right(false))
+      assert.deepStrictEqual(right(), E.left([]))
     })
   })
 

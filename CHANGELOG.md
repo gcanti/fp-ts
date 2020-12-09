@@ -61,6 +61,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `eq` (@gcanti)
   - `Filterable`
     - drop `Functor` and `Compactable` dependencies (@gcanti)
+    - remove `getFilterableComposition` (@gcanti)
   - `FilterableWithIndex`
     - drop `Filterable` dependency (@gcanti)
   - `Foldable`
