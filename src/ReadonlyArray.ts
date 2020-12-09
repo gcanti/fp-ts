@@ -1393,6 +1393,7 @@ export const zero: Alternative1<URI>['zero'] = () => empty
 // -------------------------------------------------------------------------------------
 
 const map_: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
+/* istanbul ignore next */
 const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = (fa, f) => pipe(fa, mapWithIndex(f))
 /* istanbul ignore next */
 const ap_: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
