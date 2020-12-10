@@ -31,8 +31,6 @@ export type Identity<A> = A
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const chain_: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-/* istanbul ignore next */
 const reduce_: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
 /* istanbul ignore next */
 const foldMap_: Foldable1<URI>['foldMap'] = (M) => (fa, f) => pipe(fa, foldMap(M)(f))
@@ -277,7 +275,7 @@ export const Monad: Monad1<URI> = {
   URI,
   map,
   of,
-  chain: chain_
+  chain
 }
 
 /**

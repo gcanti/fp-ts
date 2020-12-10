@@ -191,8 +191,6 @@ export function fold<A, B>(f: (a: A, bs: ReadonlyArray<B>) => B): (tree: Tree<A>
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const chain_ = <A, B>(ma: Tree<A>, f: (a: A) => Tree<B>): Tree<B> => pipe(ma, chain(f))
-/* istanbul ignore next */
 const reduce_ = <A, B>(fa: Tree<A>, b: B, f: (b: B, a: A) => B): B => pipe(fa, reduce(b, f))
 /* istanbul ignore next */
 const foldMap_: Foldable1<URI>['foldMap'] = (M) => {
@@ -208,10 +206,6 @@ const traverse_ = <F>(F: ApplicativeHKT<F>): (<A, B>(ta: Tree<A>, f: (a: A) => H
   const traverseF = traverse(F)
   return (ta, f) => pipe(ta, traverseF(f))
 }
-
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -448,7 +442,7 @@ export const Monad: Monad1<URI> = {
   URI,
   map,
   of,
-  chain: chain_
+  chain
 }
 
 /**

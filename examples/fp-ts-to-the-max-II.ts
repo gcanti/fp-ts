@@ -74,11 +74,16 @@ function parse(s: string): O.Option<number> {
 
 function main<F extends URIS>(F: Main<F>): Kind<F, void> {
   // ask something and get the answer
-  const ask = (question: string): Kind<F, string> => pipe(F.putStrLn(question), (x) => F.chain(x, () => F.getStrLn))
+  const ask = (question: string): Kind<F, string> =>
+    pipe(
+      F.putStrLn(question),
+      F.chain(() => F.getStrLn)
+    )
 
   const shouldContinue = (name: string): Kind<F, boolean> => {
-    return pipe(ask(`Do you want to continue, ${name} (y/n)?`), (x) =>
-      F.chain(x, (answer) => {
+    return pipe(
+      ask(`Do you want to continue, ${name} (y/n)?`),
+      F.chain((answer) => {
         switch (answer.toLowerCase()) {
           case 'y':
             return F.of<boolean>(true)
@@ -94,41 +99,38 @@ function main<F extends URIS>(F: Main<F>): Kind<F, void> {
   const gameLoop = (name: string): Kind<F, void> => {
     return pipe(
       F.nextInt(5),
-      (x) =>
-        F.chain(x, (secret) =>
-          pipe(
-            ask(`Dear ${name}, please guess a number from 1 to 5`),
-            F.map((guess) => ({ secret, guess }))
+      F.chain((secret) =>
+        pipe(
+          ask(`Dear ${name}, please guess a number from 1 to 5`),
+          F.map((guess) => ({ secret, guess }))
+        )
+      ),
+      F.chain(({ secret, guess }) =>
+        pipe(
+          parse(guess),
+          O.fold(
+            () => F.putStrLn('You did not enter an integer!'),
+            (x) =>
+              x === secret
+                ? F.putStrLn(`You guessed right, ${name}!`)
+                : F.putStrLn(`You guessed wrong, ${name}! The number was: ${secret}`)
           )
-        ),
-      (x) =>
-        F.chain(x, ({ secret, guess }) =>
-          pipe(
-            parse(guess),
-            O.fold(
-              () => F.putStrLn('You did not enter an integer!'),
-              (x) =>
-                x === secret
-                  ? F.putStrLn(`You guessed right, ${name}!`)
-                  : F.putStrLn(`You guessed wrong, ${name}! The number was: ${secret}`)
-            )
-          )
-        ),
-      (x) => F.chain(x, () => shouldContinue(name)),
-      (x) => F.chain(x, (b) => (b ? gameLoop(name) : F.of<void>(undefined)))
+        )
+      ),
+      F.chain(() => shouldContinue(name)),
+      F.chain((b) => (b ? gameLoop(name) : F.of<void>(undefined)))
     )
   }
 
   return pipe(
     ask('What is your name?'),
-    (x) =>
-      F.chain(x, (name) =>
-        pipe(
-          F.putStrLn(`Hello, ${name} welcome to the game!`),
-          F.map(() => name)
-        )
-      ),
-    (x) => F.chain(x, gameLoop)
+    F.chain((name) =>
+      pipe(
+        F.putStrLn(`Hello, ${name} welcome to the game!`),
+        F.map(() => name)
+      )
+    ),
+    F.chain(gameLoop)
   )
 }
 
@@ -183,7 +185,7 @@ const programTest: Program<URI> = {
   map: S.map,
   of: S.of,
   ap: S.ap,
-  chain: (ma, f) => pipe(ma, S.chain(f)),
+  chain: S.chain,
   finish: of
 }
 

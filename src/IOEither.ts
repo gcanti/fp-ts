@@ -212,8 +212,6 @@ export const chainEitherK: <E, A, B>(
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-/* istanbul ignore next */
 const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
 const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
@@ -605,7 +603,7 @@ export const Monad: Monad2<URI> = {
   URI,
   map,
   of,
-  chain: chain_
+  chain
 }
 
 /**

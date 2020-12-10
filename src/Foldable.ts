@@ -128,7 +128,13 @@ export function reduceM<M, F>(
   M: Monad<M>,
   F: Foldable<F>
 ): <B, A>(b: B, f: (b: B, a: A) => HKT<M, B>) => (fa: HKT<F, A>) => HKT<M, B> {
-  return (b, f) => (fa) => F.reduce(fa, M.of(b), (mb, a) => M.chain(mb, (b) => f(b, a)))
+  return (b, f) => (fa) =>
+    F.reduce(fa, M.of(b), (mb, a) =>
+      pipe(
+        mb,
+        M.chain((b) => f(b, a))
+      )
+    )
 }
 
 /**

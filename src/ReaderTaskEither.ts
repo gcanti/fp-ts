@@ -369,17 +369,11 @@ export const chainTaskEitherK: <E, A, B>(
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const chain_: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-/* istanbul ignore next */
 const alt_: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 /* istanbul ignore next */
 const bimap_: Bifunctor3<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
 const mapLeft_: Bifunctor3<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -712,7 +706,7 @@ export const Monad: Monad3<URI> = {
   URI,
   map,
   of,
-  chain: chain_
+  chain
 }
 
 /**

@@ -469,8 +469,6 @@ export const filterOrElse: {
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-/* istanbul ignore next */
 const reduce_: Foldable2<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
 /* istanbul ignore next */
 const foldMap_: Foldable2<URI>['foldMap'] = (M) => (fa, f) => {
@@ -1116,7 +1114,7 @@ export const Monad: Monad2<URI> = {
   URI,
   map,
   of,
-  chain: chain_
+  chain
 }
 
 /**

@@ -116,13 +116,13 @@ describe('These', () => {
   it('chain', () => {
     const M = _.getMonad(monoidString)
     const f = (n: number) => (n >= 2 ? (n <= 5 ? _.right(n * 2) : _.both('bar', n)) : _.left('bar'))
-    assert.deepStrictEqual(M.chain(_.left('foo'), f), _.left('foo'))
-    assert.deepStrictEqual(M.chain(_.right(2), f), _.right(4))
-    assert.deepStrictEqual(M.chain(_.right(1), f), _.left('bar'))
-    assert.deepStrictEqual(M.chain(_.right(6), f), _.both('bar', 6))
-    assert.deepStrictEqual(M.chain(_.both('foo', 2), f), _.both('foo', 4))
-    assert.deepStrictEqual(M.chain(_.both('foo', 1), f), _.left('foobar'))
-    assert.deepStrictEqual(M.chain(_.both('foo', 6), f), _.both('foobar', 6))
+    assert.deepStrictEqual(pipe(_.left('foo'), M.chain(f)), _.left('foo'))
+    assert.deepStrictEqual(pipe(_.right(2), M.chain(f)), _.right(4))
+    assert.deepStrictEqual(pipe(_.right(1), M.chain(f)), _.left('bar'))
+    assert.deepStrictEqual(pipe(_.right(6), M.chain(f)), _.both('bar', 6))
+    assert.deepStrictEqual(pipe(_.both('foo', 2), M.chain(f)), _.both('foo', 4))
+    assert.deepStrictEqual(pipe(_.both('foo', 1), M.chain(f)), _.left('foobar'))
+    assert.deepStrictEqual(pipe(_.both('foo', 6), M.chain(f)), _.both('foobar', 6))
   })
 
   it('getEq', () => {

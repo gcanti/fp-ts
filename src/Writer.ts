@@ -140,8 +140,8 @@ export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
     URI,
     map,
     of: (a) => () => [a, M.empty],
-    chain: (fa, f) => () => {
-      const [a, w1] = fa()
+    chain: (f) => (ma) => () => {
+      const [a, w1] = ma()
       const [b, w2] = f(a)()
       return [b, M.concat(w1, w2)]
     }

@@ -94,9 +94,12 @@ describe('ReadonlyTuple', () => {
   })
 
   it('getMonad', () => {
-    const monad = _.getMonad(monoidString)
+    const M = _.getMonad(monoidString)
     assert.deepStrictEqual(
-      monad.chain([1, 'a'], (a) => [a * 2, 'b']),
+      pipe(
+        [1, 'a'] as const,
+        M.chain((a) => [a * 2, 'b'])
+      ),
       [2, 'ab']
     )
   })

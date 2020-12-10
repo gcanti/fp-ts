@@ -375,8 +375,6 @@ export const filterOrElse: {
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const chain_: Monad4<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-/* istanbul ignore next */
 const alt_: <S, R, E, A>(
   fa: StateReaderTaskEither<S, R, E, A>,
   that: Lazy<StateReaderTaskEither<S, R, E, A>>
@@ -400,10 +398,6 @@ const mapLeft_: <S, R, E, A, G>(
   fea: StateReaderTaskEither<S, R, E, A>,
   f: (e: E) => G
 ) => StateReaderTaskEither<S, R, G, A> = (fea, f) => (s) => pipe(fea(s), RTE.mapLeft(f))
-
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -692,7 +686,7 @@ export const Monad: Monad4<URI> = {
   URI,
   map,
   of,
-  chain: chain_
+  chain
 }
 
 /**

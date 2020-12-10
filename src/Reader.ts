@@ -60,15 +60,9 @@ export const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q,
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-/* istanbul ignore next */
 const compose_: Category2<URI>['compose'] = (bc, ab) => pipe(bc, compose(ab))
 /* istanbul ignore next */
 const promap_: Profunctor2<URI>['promap'] = (fea, f, g) => pipe(fea, promap(f, g))
-
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -269,7 +263,7 @@ export const Monad: Monad2<URI> = {
   URI,
   map,
   of,
-  chain: chain_
+  chain
 }
 
 /**

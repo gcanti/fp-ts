@@ -36,7 +36,6 @@ export interface IO<A> {
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const chain_: Monad1<URI>['chain'] = (ma, f) => () => f(ma())()
 const chainRec_: ChainRec1<URI>['chainRec'] = (a, f) => () => {
   let e = f(a)()
   while (e._tag === 'Left') {
@@ -108,7 +107,7 @@ export const of: Applicative1<URI>['of'] = constant
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B> = (f) => (ma) => chain_(ma, f)
+export const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B> = (f) => (ma) => () => f(ma())()
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -214,7 +213,7 @@ export const Monad: Monad1<URI> = {
   URI,
   map,
   of,
-  chain: chain_
+  chain
 }
 
 /**

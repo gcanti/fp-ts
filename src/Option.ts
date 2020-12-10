@@ -431,7 +431,6 @@ export function chainNullableK<A, B>(f: (a: A) => B | null | undefined): (ma: Op
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const chain_: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 const reduce_: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
 /* istanbul ignore next */
 const foldMap_: Foldable1<URI>['foldMap'] = (M) => {
@@ -1005,7 +1004,7 @@ export const Monad: Monad1<URI> = {
   URI,
   map,
   of,
-  chain: chain_
+  chain
 }
 
 /**

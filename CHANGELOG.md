@@ -89,6 +89,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `ioEither` (@gcanti)
   - `Monad`
     - drop `Applicative` dependency (@gcanti)
+    - make type class members pipeables (@gcanti)
   - `MonadIO`
     - drop `Monad` dependency (@gcanti)
   - `MonadThrow`

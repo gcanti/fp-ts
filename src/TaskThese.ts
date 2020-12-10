@@ -249,7 +249,7 @@ export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> {
     URI,
     map,
     of,
-    chain: (ma, f) =>
+    chain: (f) => (ma) =>
       pipe(
         ma,
         T.chain(

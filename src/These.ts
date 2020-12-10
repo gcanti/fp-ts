@@ -196,7 +196,7 @@ export function getApplicative<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
  * @since 2.0.0
  */
 export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI, E> {
-  const chain = <A, B>(ma: These<E, A>, f: (a: A) => These<E, B>): These<E, B> => {
+  const chain = <A, B>(f: (a: A) => These<E, B>) => (ma: These<E, A>): These<E, B> => {
     if (isLeft(ma)) {
       return ma
     }

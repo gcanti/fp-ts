@@ -54,17 +54,6 @@ export const modify: <S>(f: (s: S) => S) => State<S, void> = (f) => (s) => [unde
  */
 export const gets: <S, A>(f: (s: S) => A) => State<S, A> = (f) => (s) => [f(s), s]
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
-/* istanbul ignore next */
-const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
-
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
@@ -213,7 +202,7 @@ export const Monad: Monad2<URI> = {
   URI,
   map,
   of,
-  chain: chain_
+  chain
 }
 
 // -------------------------------------------------------------------------------------
