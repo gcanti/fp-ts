@@ -58,7 +58,7 @@ Added in v2.0.0
 ```ts
 export interface ChainRec2<F extends URIS2> {
   readonly URI: F
-  readonly chainRec: <E, A, B>(a: A, f: (a: A) => Kind2<F, E, Either<A, B>>) => Kind2<F, E, B>
+  readonly chainRec: <A, E, B>(a: A, f: (a: A) => Kind2<F, E, Either<A, B>>) => Kind2<F, E, B>
 }
 ```
 
@@ -84,7 +84,7 @@ Added in v2.0.0
 ```ts
 export interface ChainRec3<F extends URIS3> {
   readonly URI: F
-  readonly chainRec: <R, E, A, B>(a: A, f: (a: A) => Kind3<F, R, E, Either<A, B>>) => Kind3<F, R, E, B>
+  readonly chainRec: <A, R, E, B>(a: A, f: (a: A) => Kind3<F, R, E, Either<A, B>>) => Kind3<F, R, E, B>
 }
 ```
 
