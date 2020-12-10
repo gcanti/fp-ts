@@ -1,11 +1,10 @@
 import * as assert from 'assert'
-import * as A from '../src/ReadonlyArray'
-import * as I from '../src/IO'
-import * as O from '../src/Option'
-import * as T from '../src/Tree'
-import { monoidString } from '../src/Monoid'
 import * as _ from '../src/Foldable'
 import { pipe } from '../src/function'
+import { monoidString } from '../src/Monoid'
+import * as O from '../src/Option'
+import * as A from '../src/ReadonlyArray'
+import * as T from '../src/Tree'
 
 export const ArrayOptionURI = 'ArrayOption'
 
@@ -18,20 +17,16 @@ describe('Foldable', () => {
 
   it('toArray', () => {
     // Option
-    const optionToArray = _.toArray(O.Foldable)
-    assert.deepStrictEqual(optionToArray(O.some(1)), [1])
-    assert.deepStrictEqual(optionToArray(O.none), [])
+    assert.deepStrictEqual(_.toArray(O.Foldable)(O.some(1)), [1])
+    assert.deepStrictEqual(_.toArray(O.Foldable)(O.none), [])
 
     // Tree
-    const treeToArray = _.toArray(T.Foldable)
-    assert.deepStrictEqual(treeToArray(T.make(1, [T.make(2, []), T.make(3, []), T.make(4, [])])), [1, 2, 3, 4])
-  })
-
-  it('traverse_', () => {
-    let log = ''
-    const append = (s: String) => () => (log += s)
-    _.traverse_(I.Applicative, A.Foldable)(['a', 'b', 'c'], append)()
-    assert.deepStrictEqual(log, 'abc')
+    assert.deepStrictEqual(_.toArray(T.Foldable)(T.make(1, [T.make(2, []), T.make(3, []), T.make(4, [])])), [
+      1,
+      2,
+      3,
+      4
+    ])
   })
 
   it('reduceM', () => {

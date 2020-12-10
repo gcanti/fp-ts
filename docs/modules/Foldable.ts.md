@@ -24,7 +24,6 @@ Added in v2.0.0
   - [intercalate](#intercalate)
   - [reduceM](#reducem)
   - [toArray](#toarray)
-  - [traverse\_](#traverse_)
 
 ---
 
@@ -260,48 +259,3 @@ assert.deepStrictEqual(toArray(Foldable)(t), [1, 2, 3, 4])
 ```
 
 Added in v2.8.0
-
-## traverse\_
-
-Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
-final result.
-
-**Signature**
-
-```ts
-export declare function traverse_<M extends URIS3, F extends URIS>(
-  M: Applicative3<M>,
-  F: Foldable1<F>
-): <R, E, A, B>(fa: Kind<F, A>, f: (a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, void>
-export declare function traverse_<M extends URIS2, F extends URIS>(
-  M: Applicative2<M>,
-  F: Foldable1<F>
-): <E, A, B>(fa: Kind<F, A>, f: (a: A) => Kind2<M, E, B>) => Kind2<M, E, void>
-export declare function traverse_<M extends URIS2, F extends URIS, E>(
-  M: Applicative2C<M, E>,
-  F: Foldable1<F>
-): <A, B>(fa: Kind<F, A>, f: (a: A) => Kind2<M, E, B>) => Kind2<M, E, void>
-export declare function traverse_<M extends URIS, F extends URIS>(
-  M: Applicative1<M>,
-  F: Foldable1<F>
-): <A, B>(fa: Kind<F, A>, f: (a: A) => Kind<M, B>) => Kind<M, void>
-export declare function traverse_<M, F>(
-  M: Applicative<M>,
-  F: Foldable<F>
-): <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<M, B>) => HKT<M, void>
-```
-
-**Example**
-
-```ts
-import * as A from 'fp-ts/ReadonlyArray'
-import { traverse_ } from 'fp-ts/Foldable'
-import * as IO from 'fp-ts/IO'
-
-let log = ''
-const append = (s: string) => () => (log += s)
-traverse_(IO.Applicative, A.Foldable)(['a', 'b', 'c'], append)()
-assert.strictEqual(log, 'abc')
-```
-
-Added in v2.0.0

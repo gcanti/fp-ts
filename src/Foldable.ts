@@ -1,9 +1,8 @@
 /**
  * @since 2.0.0
  */
-import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3 } from './Applicative'
-import { constant, pipe } from './function'
-import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'
+import { pipe } from './function'
+import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid } from './Monoid'
 
@@ -200,49 +199,4 @@ export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => ReadonlyArray<
       acc.push(a)
       return acc
     })
-}
-
-/**
- * Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
- * final result.
- *
- * @example
- * import * as A from 'fp-ts/ReadonlyArray'
- * import { traverse_ } from 'fp-ts/Foldable'
- * import * as IO from 'fp-ts/IO'
- *
- * let log = ''
- * const append = (s: string) => () => (log += s)
- * traverse_(IO.Applicative, A.Foldable)(['a', 'b', 'c'], append)()
- * assert.strictEqual(log, 'abc')
- *
- * @since 2.0.0
- */
-export function traverse_<M extends URIS3, F extends URIS>(
-  M: Applicative3<M>,
-  F: Foldable1<F>
-): <R, E, A, B>(fa: Kind<F, A>, f: (a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, void>
-export function traverse_<M extends URIS2, F extends URIS>(
-  M: Applicative2<M>,
-  F: Foldable1<F>
-): <E, A, B>(fa: Kind<F, A>, f: (a: A) => Kind2<M, E, B>) => Kind2<M, E, void>
-export function traverse_<M extends URIS2, F extends URIS, E>(
-  M: Applicative2C<M, E>,
-  F: Foldable1<F>
-): <A, B>(fa: Kind<F, A>, f: (a: A) => Kind2<M, E, B>) => Kind2<M, E, void>
-export function traverse_<M extends URIS, F extends URIS>(
-  M: Applicative1<M>,
-  F: Foldable1<F>
-): <A, B>(fa: Kind<F, A>, f: (a: A) => Kind<M, B>) => Kind<M, void>
-export function traverse_<M, F>(
-  M: Applicative<M>,
-  F: Foldable<F>
-): <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<M, B>) => HKT<M, void>
-export function traverse_<M, F>(
-  M: Applicative<M>,
-  F: Foldable<F>
-): <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<M, B>) => HKT<M, void> {
-  const applyFirst = <B>(mu: HKT<M, void>, mb: HKT<M, B>): HKT<M, void> => pipe(mu, M.map(constant), M.ap(mb))
-  const mu: HKT<M, void> = M.of(undefined)
-  return (fa, f) => F.reduce(fa, mu, (mu, a) => applyFirst(mu, f(a)))
 }
