@@ -1010,8 +1010,8 @@ describe('ReadonlyMap', () => {
       const a0 = new Map<string, number>([['a', 0]])
       const b4 = new Map<string, number>([['b', 4]])
       const f = (_: string, n: number) => (p(n) ? right(n + 1) : left(n - 1))
-      assert.deepStrictEqual(partitionMapWithIndex(emptyMap, f), { left: emptyMap, right: emptyMap })
-      assert.deepStrictEqual(partitionMapWithIndex(a1b3, f), {
+      assert.deepStrictEqual(pipe(emptyMap, partitionMapWithIndex(f)), { left: emptyMap, right: emptyMap })
+      assert.deepStrictEqual(pipe(a1b3, partitionMapWithIndex(f)), {
         left: a0,
         right: b4
       })
@@ -1027,8 +1027,8 @@ describe('ReadonlyMap', () => {
       const a1 = new Map<string, number>([['a', 1]])
       const b3 = new Map<string, number>([['b', 3]])
       const f = (_: string, n: number) => p(n)
-      assert.deepStrictEqual(partitionWithIndex(emptyMap, f), { left: emptyMap, right: emptyMap })
-      assert.deepStrictEqual(partitionWithIndex(a1b3, f), {
+      assert.deepStrictEqual(pipe(emptyMap, partitionWithIndex(f)), { left: emptyMap, right: emptyMap })
+      assert.deepStrictEqual(pipe(a1b3, partitionWithIndex(f)), {
         left: a1,
         right: b3
       })
@@ -1043,8 +1043,8 @@ describe('ReadonlyMap', () => {
       ])
       const b4 = new Map<string, number>([['b', 4]])
       const f = (_: string, n: number) => (p(n) ? O.some(n + 1) : O.none)
-      assert.deepStrictEqual(filterMapWithIndex(emptyMap, f), emptyMap)
-      assert.deepStrictEqual(filterMapWithIndex(a1b3, f), b4)
+      assert.deepStrictEqual(pipe(emptyMap, filterMapWithIndex(f)), emptyMap)
+      assert.deepStrictEqual(pipe(a1b3, filterMapWithIndex(f)), b4)
     })
 
     it('filterWithIndex', () => {
@@ -1055,17 +1055,16 @@ describe('ReadonlyMap', () => {
       ])
       const b3 = new Map<string, number>([['b', 3]])
       const f = (_: string, n: number) => p(n)
-      assert.deepStrictEqual(filterWithIndex(a1b3, f), b3)
+      assert.deepStrictEqual(pipe(a1b3, filterWithIndex(f)), b3)
 
       // refinements
-      const filterWithIndexStr = _.getFilterableWithIndex<string>().filterWithIndex
       const isNumber = (_: string, u: string | number): u is number => typeof u === 'number'
       const y = new Map<string, string | number>([
         ['a', 1],
         ['b', 'foo']
       ])
       const a1 = new Map<string, number>([['a', 1]])
-      const actual = filterWithIndexStr(y, isNumber)
+      const actual = pipe(y, filterWithIndex(isNumber))
       assert.deepStrictEqual(actual, a1)
     })
   })

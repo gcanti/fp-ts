@@ -76,6 +76,7 @@ high state of flux, you're at risk of it changing without notice.
     - make type class members pipeables (@gcanti)
   - `FilterableWithIndex`
     - drop `Filterable` dependency (@gcanti)
+    - make type class members pipeables (@gcanti)
   - `Foldable`
     - make `intercalate` pipeable (@gcanti)
     - remove `getFoldableComposition` (@gcanti)

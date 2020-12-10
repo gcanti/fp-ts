@@ -837,20 +837,6 @@ const traverse_ = <F>(
   return (ta, f) => pipe(ta, traverseF(f))
 }
 /* istanbul ignore next */
-const partitionMapWithIndex_ = <A, B, C>(
-  fa: ReadonlyRecord<string, A>,
-  f: (key: string, a: A) => Either<B, C>
-): Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>> => pipe(fa, partitionMapWithIndex(f))
-/* istanbul ignore next */
-const partitionWithIndex_ = <A>(fa: ReadonlyRecord<string, A>, predicateWithIndex: PredicateWithIndex<string, A>) =>
-  pipe(fa, partitionWithIndex(predicateWithIndex))
-/* istanbul ignore next */
-const filterMapWithIndex_ = <A, B>(fa: ReadonlyRecord<string, A>, f: (key: string, a: A) => Option<B>) =>
-  pipe(fa, filterMapWithIndex(f))
-/* istanbul ignore next */
-const filterWithIndex_ = <A>(fa: ReadonlyRecord<string, A>, predicateWithIndex: PredicateWithIndex<string, A>) =>
-  pipe(fa, filterWithIndex(predicateWithIndex))
-/* istanbul ignore next */
 const traverseWithIndex_ = <F>(
   F: Applicative<F>
 ): (<A, B>(ta: ReadonlyRecord<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, ReadonlyRecord<string, B>>) => {
@@ -1065,10 +1051,10 @@ export const Filterable: Filterable1<URI> = {
  */
 export const FilterableWithIndex: FilterableWithIndex1<URI, string> = {
   URI,
-  filterMapWithIndex: filterMapWithIndex_,
-  filterWithIndex: filterWithIndex_,
-  partitionMapWithIndex: partitionMapWithIndex_,
-  partitionWithIndex: partitionWithIndex_
+  filterMapWithIndex,
+  filterWithIndex,
+  partitionMapWithIndex,
+  partitionWithIndex
 }
 
 /**

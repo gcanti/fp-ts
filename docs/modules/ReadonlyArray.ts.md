@@ -332,10 +332,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const filterWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: readonly A[]) => readonly B[]
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: readonly A[]) => readonly A[]
-}
+export declare const filterWithIndex: FilterWithIndex1<'ReadonlyArray', number>
 ```
 
 Added in v2.5.0
@@ -357,12 +354,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const partitionWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (
-    fa: readonly A[]
-  ) => Separated<readonly A[], readonly B[]>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: readonly A[]) => Separated<readonly A[], readonly A[]>
-}
+export declare const partitionWithIndex: PartitionWithIndex1<'ReadonlyArray', number>
 ```
 
 Added in v2.5.0

@@ -9,12 +9,7 @@ import { Either } from './Either'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
-import {
-  FilterableWithIndex1,
-  PartitionWithIndex1,
-  PredicateWithIndex,
-  RefinementWithIndex
-} from './FilterableWithIndex'
+import { FilterableWithIndex1, PredicateWithIndex } from './FilterableWithIndex'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
@@ -1394,24 +1389,6 @@ export const zero: Alternative1<URI>['zero'] = () => empty
 const chain_: <A, B>(fa: ReadonlyArray<A>, f: (a: A) => ReadonlyArray<B>) => ReadonlyArray<B> = (ma, f) =>
   pipe(ma, chain(f))
 /* istanbul ignore next */
-const partitionWithIndex_: PartitionWithIndex1<URI, number> = <A>(
-  fa: ReadonlyArray<A>,
-  predicateWithIndex: (i: number, a: A) => boolean
-): Separated<ReadonlyArray<A>, ReadonlyArray<A>> => pipe(fa, partitionWithIndex(predicateWithIndex))
-/* istanbul ignore next */
-const partitionMapWithIndex_ = <A, B, C>(
-  fa: ReadonlyArray<A>,
-  f: (i: number, a: A) => Either<B, C>
-): Separated<ReadonlyArray<B>, ReadonlyArray<C>> => pipe(fa, partitionMapWithIndex(f))
-/* istanbul ignore next */
-const filterMapWithIndex_ = <A, B>(fa: ReadonlyArray<A>, f: (i: number, a: A) => Option<B>): ReadonlyArray<B> =>
-  pipe(fa, filterMapWithIndex(f))
-/* istanbul ignore next */
-const filterWithIndex_ = <A>(
-  fa: ReadonlyArray<A>,
-  predicateWithIndex: (i: number, a: A) => boolean
-): ReadonlyArray<A> => pipe(fa, filterWithIndex(predicateWithIndex))
-/* istanbul ignore next */
 const extend_: Extend1<URI>['extend'] = (fa, f) => pipe(fa, extend(f))
 /* istanbul ignore next */
 const traverse_ = <F>(
@@ -1611,9 +1588,9 @@ export const filter: Filterable1<URI>['filter'] = <A>(predicate: Predicate<A>) =
  * @category FilterableWithIndex
  * @since 2.5.0
  */
-export const filterMapWithIndex = <A, B>(f: (i: number, a: A) => Option<B>) => (
-  fa: ReadonlyArray<A>
-): ReadonlyArray<B> => {
+export const filterMapWithIndex: FilterableWithIndex1<URI, number>['filterMapWithIndex'] = <A, B>(
+  f: (i: number, a: A) => Option<B>
+) => (fa: ReadonlyArray<A>): ReadonlyArray<B> => {
   // tslint:disable-next-line: readonly-array
   const out: Array<B> = []
   for (let i = 0; i < fa.length; i++) {
@@ -1652,16 +1629,9 @@ export const partition: Filterable1<URI>['partition'] = <A>(
  * @category FilterableWithIndex
  * @since 2.5.0
  */
-export const partitionWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (
-    fa: ReadonlyArray<A>
-  ) => Separated<ReadonlyArray<A>, ReadonlyArray<B>>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (
-    fa: ReadonlyArray<A>
-  ) => Separated<ReadonlyArray<A>, ReadonlyArray<A>>
-} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => (
-  fa: ReadonlyArray<A>
-): Separated<ReadonlyArray<A>, ReadonlyArray<A>> => {
+export const partitionWithIndex: FilterableWithIndex1<URI, number>['partitionWithIndex'] = <A>(
+  predicateWithIndex: PredicateWithIndex<number, A>
+) => (fa: ReadonlyArray<A>): Separated<ReadonlyArray<A>, ReadonlyArray<A>> => {
   // tslint:disable-next-line: readonly-array
   const left: Array<A> = []
   // tslint:disable-next-line: readonly-array
@@ -1690,9 +1660,9 @@ export const partitionMap: Filterable1<URI>['partitionMap'] = (f) => partitionMa
  * @category FilterableWithIndex
  * @since 2.5.0
  */
-export const partitionMapWithIndex = <A, B, C>(f: (i: number, a: A) => Either<B, C>) => (
-  fa: ReadonlyArray<A>
-): Separated<ReadonlyArray<B>, ReadonlyArray<C>> => {
+export const partitionMapWithIndex: FilterableWithIndex1<URI, number>['partitionMapWithIndex'] = <A, B, C>(
+  f: (i: number, a: A) => Either<B, C>
+) => (fa: ReadonlyArray<A>): Separated<ReadonlyArray<B>, ReadonlyArray<C>> => {
   // tslint:disable-next-line: readonly-array
   const left: Array<B> = []
   // tslint:disable-next-line: readonly-array
@@ -1715,11 +1685,9 @@ export const partitionMapWithIndex = <A, B, C>(f: (i: number, a: A) => Either<B,
  * @category FilterableWithIndex
  * @since 2.5.0
  */
-export const filterWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: ReadonlyArray<A>) => ReadonlyArray<B>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: ReadonlyArray<A>) => ReadonlyArray<A>
-} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => (fa: ReadonlyArray<A>): ReadonlyArray<A> =>
-  fa.filter((a, i) => predicateWithIndex(i, a))
+export const filterWithIndex: FilterableWithIndex1<URI, number>['filterWithIndex'] = <A>(
+  predicateWithIndex: PredicateWithIndex<number, A>
+) => (fa: ReadonlyArray<A>): ReadonlyArray<A> => fa.filter((a, i) => predicateWithIndex(i, a))
 
 /**
  * @category Extend
@@ -2018,10 +1986,10 @@ export const Filterable: Filterable1<URI> = {
  */
 export const FilterableWithIndex: FilterableWithIndex1<URI, number> = {
   URI,
-  partitionMapWithIndex: partitionMapWithIndex_,
-  partitionWithIndex: partitionWithIndex_,
-  filterMapWithIndex: filterMapWithIndex_,
-  filterWithIndex: filterWithIndex_
+  partitionMapWithIndex,
+  partitionWithIndex,
+  filterMapWithIndex,
+  filterWithIndex
 }
 
 /**
