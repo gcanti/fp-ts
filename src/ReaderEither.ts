@@ -225,8 +225,6 @@ export const filterOrElse: {
 const bimap_: Bifunctor3<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
 const mapLeft_: Bifunctor3<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-/* istanbul ignore next */
-const alt_: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -504,7 +502,11 @@ export function getAltReaderValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
   return {
     URI,
     map,
-    alt: (me, that) => (r) => A.alt(me(r), () => that()(r))
+    alt: (that) => (me) => (r) =>
+      pipe(
+        me(r),
+        A.alt(() => that()(r))
+      )
   }
 }
 
@@ -556,7 +558,7 @@ export const Bifunctor: Bifunctor3<URI> = {
 export const Alt: Alt3<URI> = {
   URI,
   map,
-  alt: alt_
+  alt
 }
 
 /**

@@ -552,15 +552,24 @@ describe('Either', () => {
   it('getAltValidation', () => {
     const A = _.getAltValidation(monoidString)
     assert.deepStrictEqual(
-      A.alt(_.left('a'), () => _.left('b')),
+      pipe(
+        _.left('a'),
+        A.alt(() => _.left('b'))
+      ),
       _.left('ab')
     )
     assert.deepStrictEqual(
-      A.alt(_.right(1), () => _.left('b')),
+      pipe(
+        _.right(1),
+        A.alt(() => _.left('b'))
+      ),
       _.right(1)
     )
     assert.deepStrictEqual(
-      A.alt(_.left('a'), () => _.right(2)),
+      pipe(
+        _.left('a'),
+        A.alt(() => _.right(2))
+      ),
       _.right(2)
     )
   })

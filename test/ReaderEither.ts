@@ -195,7 +195,13 @@ describe('ReaderEither', () => {
 
   it('getAltReaderValidation', () => {
     const A = _.getAltReaderValidation(monoidString)
-    assert.deepStrictEqual(A.alt(_.left('a'), () => _.left('b'))(null), E.left('ab'))
+    assert.deepStrictEqual(
+      pipe(
+        _.left('a'),
+        A.alt(() => _.left('b'))
+      )(null),
+      E.left('ab')
+    )
   })
 
   it('chainEitherK', () => {

@@ -1416,8 +1416,6 @@ const partitionMapWithIndex_ = <A, B, C>(
   fa: ReadonlyArray<A>,
   f: (i: number, a: A) => Either<B, C>
 ): Separated<ReadonlyArray<B>, ReadonlyArray<C>> => pipe(fa, partitionMapWithIndex(f))
-/* istanbul ignore next */
-const alt_: Alt1<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 const reduce_: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
 /* istanbul ignore next */
 const foldMap_: Foldable1<URI>['foldMap'] = (M) => {
@@ -2006,7 +2004,7 @@ export const Unfoldable: Unfoldable1<URI> = {
 export const Alt: Alt1<URI> = {
   URI,
   map,
-  alt: alt_
+  alt
 }
 
 /**
@@ -2016,7 +2014,7 @@ export const Alt: Alt1<URI> = {
 export const Alternative: Alternative1<URI> = {
   URI,
   map,
-  alt: alt_,
+  alt,
   zero
 }
 

@@ -285,7 +285,13 @@ describe('ReaderTaskEither', () => {
 
   it('getAltReaderTaskValidation', async () => {
     const A = _.getAltReaderTaskValidation(semigroupString)
-    assert.deepStrictEqual(await A.alt(_.left('a'), () => _.left('b'))(null)(), E.left('ab'))
+    assert.deepStrictEqual(
+      await pipe(
+        _.left('a'),
+        A.alt(() => _.left('b'))
+      )(null)(),
+      E.left('ab')
+    )
   })
 
   describe('bracket', () => {

@@ -320,8 +320,6 @@ export const chainIOEitherK: <E, A, B>(
 const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
 const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-/* istanbul ignore next */
-const alt_: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -622,7 +620,7 @@ export function getAltTaskValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
   return {
     URI,
     map,
-    alt: (me, that) =>
+    alt: (that) => (me) =>
       pipe(
         me,
         T.chain((e1) =>
@@ -758,7 +756,7 @@ export const Bifunctor: Bifunctor2<URI> = {
 export const Alt: Alt2<URI> = {
   URI,
   map,
-  alt: alt_
+  alt
 }
 
 /**

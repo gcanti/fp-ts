@@ -110,9 +110,27 @@ describe('TaskEither', () => {
 
   it('getAltTaskValidation', async () => {
     const A = _.getAltTaskValidation(semigroupString)
-    assert.deepStrictEqual(await A.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
-    assert.deepStrictEqual(await A.alt(_.right(1), () => _.left('b'))(), E.right(1))
-    assert.deepStrictEqual(await A.alt(_.left('a'), () => _.right(2))(), E.right(2))
+    assert.deepStrictEqual(
+      await pipe(
+        _.left('a'),
+        A.alt(() => _.left('b'))
+      )(),
+      E.left('ab')
+    )
+    assert.deepStrictEqual(
+      await pipe(
+        _.right(1),
+        A.alt(() => _.left('b'))
+      )(),
+      E.right(1)
+    )
+    assert.deepStrictEqual(
+      await pipe(
+        _.left('a'),
+        A.alt(() => _.right(2))
+      )(),
+      E.right(2)
+    )
   })
 
   describe('getCompactable', () => {

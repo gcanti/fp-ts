@@ -374,16 +374,6 @@ export const filterOrElse: {
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-/* istanbul ignore next */
-const alt_: <S, R, E, A>(
-  fa: StateReaderTaskEither<S, R, E, A>,
-  that: Lazy<StateReaderTaskEither<S, R, E, A>>
-) => StateReaderTaskEither<S, R, E, A> = (fa, that) => (s) =>
-  pipe(
-    fa(s),
-    RTE.alt(() => that()(s))
-  )
-
 const bimap_: <S, R, E, A, G, B>(
   fea: StateReaderTaskEither<S, R, E, A>,
   f: (e: E) => G,
@@ -675,7 +665,7 @@ export const Bifunctor: Bifunctor4<URI> = {
 export const Alt: Alt4<URI> = {
   URI,
   map,
-  alt: alt_
+  alt
 }
 
 /**

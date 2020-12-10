@@ -5,8 +5,8 @@
  *
  * `Alt` instances are required to satisfy the following laws:
  *
- * 1. Associativity: `A.alt(A.alt(fa, ga), ha) <-> A.alt(fa, A.alt(ga, ha))`
- * 2. Distributivity: `A.map(A.alt(fa, ga), ab) <-> A.alt(A.map(fa, ab), A.map(ga, ab))`
+ * 1. Associativity: `pipe(pipe(fa1, A.alt(() => fa2)), A.alt(() => fa3)) <-> pipe(fa1, A.alt(() => pipe(fa2, A.alt(() => fa3))))`
+ * 2. Distributivity: `pipe(pipe(fa1, A.alt(() => fa2)), A.map(ab)) <-> pipe(pipe(fa1, A.map(ab)), A.alt(() => pipe(fa2, A.map(ab))))`
  *
  * @since 2.0.0
  */
@@ -19,7 +19,7 @@ import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT
  * @since 2.0.0
  */
 export interface Alt<F> extends Functor<F> {
-  readonly alt: <A>(fa: HKT<F, A>, that: Lazy<HKT<F, A>>) => HKT<F, A>
+  readonly alt: <A>(that: Lazy<HKT<F, A>>) => (me: HKT<F, A>) => HKT<F, A>
 }
 
 /**
@@ -27,7 +27,7 @@ export interface Alt<F> extends Functor<F> {
  * @since 2.0.0
  */
 export interface Alt1<F extends URIS> extends Functor1<F> {
-  readonly alt: <A>(fa: Kind<F, A>, that: Lazy<Kind<F, A>>) => Kind<F, A>
+  readonly alt: <A>(that: Lazy<Kind<F, A>>) => (me: Kind<F, A>) => Kind<F, A>
 }
 
 /**
@@ -35,7 +35,7 @@ export interface Alt1<F extends URIS> extends Functor1<F> {
  * @since 2.0.0
  */
 export interface Alt2<F extends URIS2> extends Functor2<F> {
-  readonly alt: <E, A>(fa: Kind2<F, E, A>, that: Lazy<Kind2<F, E, A>>) => Kind2<F, E, A>
+  readonly alt: <E, A>(that: Lazy<Kind2<F, E, A>>) => (me: Kind2<F, E, A>) => Kind2<F, E, A>
 }
 
 /**
@@ -43,7 +43,7 @@ export interface Alt2<F extends URIS2> extends Functor2<F> {
  * @since 2.0.0
  */
 export interface Alt2C<F extends URIS2, E> extends Functor2C<F, E> {
-  readonly alt: <A>(fa: Kind2<F, E, A>, that: Lazy<Kind2<F, E, A>>) => Kind2<F, E, A>
+  readonly alt: <A>(that: Lazy<Kind2<F, E, A>>) => (me: Kind2<F, E, A>) => Kind2<F, E, A>
 }
 
 /**
@@ -51,7 +51,7 @@ export interface Alt2C<F extends URIS2, E> extends Functor2C<F, E> {
  * @since 2.0.0
  */
 export interface Alt3<F extends URIS3> extends Functor3<F> {
-  readonly alt: <R, E, A>(fa: Kind3<F, R, E, A>, that: Lazy<Kind3<F, R, E, A>>) => Kind3<F, R, E, A>
+  readonly alt: <R, E, A>(that: Lazy<Kind3<F, R, E, A>>) => (me: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
 }
 
 /**
@@ -59,7 +59,7 @@ export interface Alt3<F extends URIS3> extends Functor3<F> {
  * @since 2.2.0
  */
 export interface Alt3C<F extends URIS3, E> extends Functor3C<F, E> {
-  readonly alt: <R, A>(fa: Kind3<F, R, E, A>, that: Lazy<Kind3<F, R, E, A>>) => Kind3<F, R, E, A>
+  readonly alt: <R, A>(that: Lazy<Kind3<F, R, E, A>>) => (me: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
 }
 
 /**
@@ -67,5 +67,5 @@ export interface Alt3C<F extends URIS3, E> extends Functor3C<F, E> {
  * @since 2.0.0
  */
 export interface Alt4<F extends URIS4> extends Functor4<F> {
-  readonly alt: <S, R, E, A>(fa: Kind4<F, S, R, E, A>, that: Lazy<Kind4<F, S, R, E, A>>) => Kind4<F, S, R, E, A>
+  readonly alt: <S, R, E, A>(that: Lazy<Kind4<F, S, R, E, A>>) => (me: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
 }

@@ -37,8 +37,6 @@ const foldMap_: Foldable1<URI>['foldMap'] = (M) => (fa, f) => pipe(fa, foldMap(M
 /* istanbul ignore next */
 const reduceRight_: Foldable1<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
 /* istanbul ignore next */
-const alt_: Alt1<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
-/* istanbul ignore next */
 const extend_: Extend1<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
 /* istanbul ignore next */
 const traverse_ = <F>(
@@ -307,7 +305,7 @@ export const Traversable: Traversable1<URI> = {
 export const Alt: Alt1<URI> = {
   URI,
   map,
-  alt: alt_
+  alt
 }
 
 /**

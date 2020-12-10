@@ -324,7 +324,13 @@ describe('IOEither', () => {
 
   it('getAltIOValidation', () => {
     const A = _.getAltIOValidation(monoidString)
-    assert.deepStrictEqual(A.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
+    assert.deepStrictEqual(
+      pipe(
+        _.left('a'),
+        A.alt(() => _.left('b'))
+      )(),
+      E.left('ab')
+    )
   })
 
   describe('getCompactable', () => {

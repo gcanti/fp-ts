@@ -40,6 +40,8 @@ high state of flux, you're at risk of it changing without notice.
       - (`Tree`) make `Forest` immutable
       - make `Writer` definition immutable
   - remove legacy `readonly _E: E` from type class members
+  - `Alt`
+    - make type class members pipeables (@gcanti)
   - `Applicative`
     - remove `getApplicativeComposition` (@gcanti)
   - `Apply`

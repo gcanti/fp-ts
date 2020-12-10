@@ -446,8 +446,6 @@ const traverse_: Traversable1<URI>['traverse'] = <F>(
   const traverseF = traverse(F)
   return (ta, f) => pipe(ta, traverseF(f))
 }
-/* istanbul ignore next */
-const alt_: Alt1<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 const filter_: Filterable1<URI>['filter'] = <A>(fa: Option<A>, predicate: Predicate<A>): Option<A> =>
   pipe(fa, filter(predicate))
 /* istanbul ignore next */
@@ -1025,7 +1023,7 @@ export const Foldable: Foldable1<URI> = {
 export const Alt: Alt1<URI> = {
   URI,
   map,
-  alt: alt_
+  alt
 }
 
 /**
@@ -1035,7 +1033,7 @@ export const Alt: Alt1<URI> = {
 export const Alternative: Alternative1<URI> = {
   URI,
   map,
-  alt: alt_,
+  alt,
   zero
 }
 
