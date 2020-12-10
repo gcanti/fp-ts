@@ -671,29 +671,32 @@ export function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E> {
 export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
   const F = E.getFilterable(M)
 
-  const filter = <A>(fa: TaskEither<E, A>, predicate: Predicate<A>): TaskEither<E, A> =>
-    pipe(
-      fa,
-      T.map((ga) => F.filter(ga, predicate))
-    )
-  const filterMap = <A, B>(fa: TaskEither<E, A>, f: (a: A) => Option<B>) =>
-    pipe(
-      fa,
-      T.map((ga) => F.filterMap(ga, f))
-    )
+  const filter: <A>(predicate: Predicate<A>) => (fa: TaskEither<E, A>) => TaskEither<E, A> = (predicate) =>
+    T.map(F.filter(predicate))
+  const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: TaskEither<E, A>) => TaskEither<E, B> = (f) =>
+    T.map(F.filterMap(f))
 
   return {
     URI,
     filter,
     filterMap,
-    partition: <A>(fa: TaskEither<E, A>, predicate: Predicate<A>) => {
-      const left = filter(fa, (a) => !predicate(a))
-      const right = filter(fa, predicate)
+    partition: <A>(predicate: Predicate<A>) => (fa: TaskEither<E, A>) => {
+      const left = pipe(
+        fa,
+        filter((a) => !predicate(a))
+      )
+      const right = pipe(fa, filter(predicate))
       return { left, right }
     },
-    partitionMap: (fa, f) => {
-      const left = filterMap(fa, (a) => getLeft(f(a)))
-      const right = filterMap(fa, (a) => getRight(f(a)))
+    partitionMap: (f) => (fa) => {
+      const left = pipe(
+        fa,
+        filterMap((a) => getLeft(f(a)))
+      )
+      const right = pipe(
+        fa,
+        filterMap((a) => getRight(f(a)))
+      )
       return { left, right }
     }
   }

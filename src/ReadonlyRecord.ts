@@ -9,7 +9,7 @@ import { Filterable1 } from './Filterable'
 import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from './FilterableWithIndex'
 import { Foldable as FoldableHKT, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { identity, Predicate, Refinement, pipe, flow } from './function'
+import { flow, identity, pipe, Predicate } from './function'
 import { Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
@@ -837,18 +837,6 @@ const traverse_ = <F>(
   return (ta, f) => pipe(ta, traverseF(f))
 }
 /* istanbul ignore next */
-const filter_ = <A>(fa: ReadonlyRecord<string, A>, predicate: Predicate<A>): ReadonlyRecord<string, A> =>
-  pipe(fa, filter(predicate))
-/* istanbul ignore next */
-const filterMap_: Filterable1<URI>['filterMap'] = (fa, f) => pipe(fa, filterMap(f))
-/* istanbul ignore next */
-const partition_ = <A>(
-  fa: ReadonlyRecord<string, A>,
-  predicate: Predicate<A>
-): Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>> => pipe(fa, partition(predicate))
-/* istanbul ignore next */
-const partitionMap_: Filterable1<URI>['partitionMap'] = (fa, f) => pipe(fa, partitionMap(f))
-/* istanbul ignore next */
 const partitionMapWithIndex_ = <A, B, C>(
   fa: ReadonlyRecord<string, A>,
   f: (key: string, a: A) => Either<B, C>
@@ -895,32 +883,21 @@ const wilt_ = <F>(
  * @category Filterable
  * @since 2.5.0
  */
-export const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>>
-  <A>(predicate: Predicate<A>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
-} = <A>(predicate: Predicate<A>): ((fa: Readonly<Record<string, A>>) => Readonly<Record<string, A>>) =>
-  filterWithIndex((_, a) => predicate(a))
+export const filter: Filterable1<URI>['filter'] = <A>(
+  predicate: Predicate<A>
+): ((fa: Readonly<Record<string, A>>) => Readonly<Record<string, A>>) => filterWithIndex((_, a) => predicate(a))
 
 /**
  * @category Filterable
  * @since 2.5.0
  */
-export const filterMap: <A, B>(
-  f: (a: A) => Option<B>
-) => (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>> = (f) => filterMapWithIndex((_, a) => f(a))
+export const filterMap: Filterable1<URI>['filterMap'] = (f) => filterMapWithIndex((_, a) => f(a))
 
 /**
  * @category Filterable
  * @since 2.5.0
  */
-export const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (
-    fa: Readonly<Record<string, A>>
-  ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>>
-  <A>(predicate: Predicate<A>): (
-    fa: Readonly<Record<string, A>>
-  ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, A>>>
-} = <A>(
+export const partition: Filterable1<URI>['partition'] = <A>(
   predicate: Predicate<A>
 ): ((fa: Readonly<Record<string, A>>) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, A>>>) =>
   partitionWithIndex((_, a) => predicate(a))
@@ -929,10 +906,7 @@ export const partition: {
  * @category Filterable
  * @since 2.5.0
  */
-export const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
-) => (fa: Readonly<Record<string, A>>) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>> = (f) =>
-  partitionMapWithIndex((_, a) => f(a))
+export const partitionMap: Filterable1<URI>['partitionMap'] = (f) => partitionMapWithIndex((_, a) => f(a))
 
 /**
  * @category Foldable
@@ -1079,10 +1053,10 @@ export const Compactable: Compactable1<URI> = {
  */
 export const Filterable: Filterable1<URI> = {
   URI,
-  filter: filter_,
-  filterMap: filterMap_,
-  partition: partition_,
-  partitionMap: partitionMap_
+  filter,
+  filterMap,
+  partition,
+  partitionMap
 }
 
 /**

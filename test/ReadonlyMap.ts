@@ -987,12 +987,12 @@ describe('ReadonlyMap', () => {
 
     it('filter', () => {
       assert.deepStrictEqual(
-        F.filter(
+        pipe(
           new Map([
             ['a', 1],
             ['b', 2]
           ]),
-          (n) => n > 1
+          F.filter((n) => n > 1)
         ),
         new Map([['b', 2]])
       )

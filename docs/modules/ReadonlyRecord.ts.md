@@ -118,10 +118,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>>
-  <A>(predicate: Predicate<A>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
-}
+export declare const filter: Filter1<'ReadonlyRecord'>
 ```
 
 Added in v2.5.0
@@ -143,14 +140,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (
-    fa: Readonly<Record<string, A>>
-  ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>>
-  <A>(predicate: Predicate<A>): (
-    fa: Readonly<Record<string, A>>
-  ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, A>>>
-}
+export declare const partition: Partition1<'ReadonlyRecord'>
 ```
 
 Added in v2.5.0

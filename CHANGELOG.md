@@ -73,6 +73,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Filterable`
     - drop `Functor` and `Compactable` dependencies (@gcanti)
     - remove `getFilterableComposition` (@gcanti)
+    - make type class members pipeables (@gcanti)
   - `FilterableWithIndex`
     - drop `Filterable` dependency (@gcanti)
   - `Foldable`

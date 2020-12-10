@@ -44,8 +44,8 @@ flow(
 declare function isString(x: unknown): x is string
 const W = _.getFilterable(monoidAll)
 
-W.filter(_.right<boolean, string | number>(1), isString) // $ExpectType Either<boolean, string>
-W.partition(_.right<boolean, string | number>(1), isString) // $ExpectType Separated<Either<boolean, string | number>, Either<boolean, string>>
+pipe(_.right<boolean, string | number>(1), W.filter(isString)) // $ExpectType Either<boolean, string>
+pipe(_.right<boolean, string | number>(1), W.partition(isString)) // $ExpectType Separated<Either<boolean, unknown>, Either<boolean, string>>
 
 //
 // do notation

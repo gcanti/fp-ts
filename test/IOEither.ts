@@ -357,13 +357,19 @@ describe('IOEither', () => {
     const F = _.getFilterable(A.getMonoid<string>())
 
     it('partition', () => {
-      const { left, right } = F.partition(_.of('a'), (s) => s.length > 2)
+      const { left, right } = pipe(
+        _.of<ReadonlyArray<string>, string>('a'),
+        F.partition((s) => s.length > 2)
+      )
       assert.deepStrictEqual(left(), E.right('a'))
       assert.deepStrictEqual(right(), E.left([]))
     })
 
     it('partitionMap', () => {
-      const { left, right } = F.partitionMap(_.of('a'), (s) => (s.length > 2 ? E.right(s.length) : E.left(false)))
+      const { left, right } = pipe(
+        _.of<ReadonlyArray<string>, string>('a'),
+        F.partitionMap((s) => (s.length > 2 ? E.right(s.length) : E.left(false)))
+      )
       assert.deepStrictEqual(left(), E.right(false))
       assert.deepStrictEqual(right(), E.left([]))
     })

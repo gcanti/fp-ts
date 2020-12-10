@@ -438,19 +438,8 @@ const traverse_: Traversable1<URI>['traverse'] = <F>(
   const traverseF = traverse(F)
   return (ta, f) => pipe(ta, traverseF(f))
 }
-const filter_: Filterable1<URI>['filter'] = <A>(fa: Option<A>, predicate: Predicate<A>): Option<A> =>
-  pipe(fa, filter(predicate))
-/* istanbul ignore next */
-const filterMap_: Filterable1<URI>['filterMap'] = (fa, f) => pipe(fa, filterMap(f))
 /* istanbul ignore next */
 const extend_: Extend1<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
-/* istanbul ignore next */
-const partition_: Filterable1<URI>['partition'] = <A>(
-  fa: Option<A>,
-  predicate: Predicate<A>
-): Separated<Option<A>, Option<A>> => pipe(fa, partition(predicate))
-/* istanbul ignore next */
-const partitionMap_: Filterable1<URI>['partitionMap'] = (fa, f) => pipe(fa, partitionMap(f))
 /* istanbul ignore next */
 const wither_: Witherable1<URI>['wither'] = <F>(
   F: ApplicativeHKT<F>
@@ -677,29 +666,26 @@ export const separate: <A, B>(ma: Option<Either<A, B>>) => Separated<Option<A>, 
  * @category Filterable
  * @since 2.0.0
  */
-export const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Option<B>
-  <A>(predicate: Predicate<A>): (fa: Option<A>) => Option<A>
-} = <A>(predicate: Predicate<A>) => (fa: Option<A>) => (isNone(fa) ? none : predicate(fa.value) ? fa : none)
+export const filter: Filterable1<URI>['filter'] = <A>(predicate: Predicate<A>) => (fa: Option<A>) =>
+  isNone(fa) ? none : predicate(fa.value) ? fa : none
 
 /**
  * @category Filterable
  * @since 2.0.0
  */
-export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B> = (f) => (fa) =>
-  isNone(fa) ? none : f(fa.value)
+export const filterMap: Filterable1<URI>['filterMap'] = (f) => (fa) => (isNone(fa) ? none : f(fa.value))
 
 /**
  * @category Filterable
  * @since 2.0.0
  */
-export const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>
-  <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>
-} = <A>(predicate: Predicate<A>) => (fa: Option<A>) => {
+export const partition: Filterable1<URI>['partition'] = <A>(predicate: Predicate<A>) => (fa: Option<A>) => {
   return {
-    left: filter_(fa, (a) => !predicate(a)),
-    right: filter_(fa, predicate)
+    left: pipe(
+      fa,
+      filter((a) => !predicate(a))
+    ),
+    right: pipe(fa, filter(predicate))
   }
 }
 
@@ -707,9 +693,7 @@ export const partition: {
  * @category Filterable
  * @since 2.0.0
  */
-export const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
-) => (fa: Option<A>) => Separated<Option<B>, Option<C>> = (f) => flow(map(f), separate)
+export const partitionMap: Filterable1<URI>['partitionMap'] = (f) => flow(map(f), separate)
 
 /**
  * @category Traversable
@@ -1055,10 +1039,10 @@ export const Compactable: Compactable1<URI> = {
  */
 export const Filterable: Filterable1<URI> = {
   URI,
-  filter: filter_,
-  filterMap: filterMap_,
-  partition: partition_,
-  partitionMap: partitionMap_
+  filter,
+  filterMap,
+  partition,
+  partitionMap
 }
 
 /**

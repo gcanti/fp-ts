@@ -276,10 +276,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: readonly A[]) => readonly B[]
-  <A>(predicate: Predicate<A>): (fa: readonly A[]) => readonly A[]
-}
+export declare const filter: Filter1<'ReadonlyArray'>
 ```
 
 Added in v2.5.0
@@ -299,10 +296,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: readonly A[]) => Separated<readonly A[], readonly B[]>
-  <A>(predicate: Predicate<A>): (fa: readonly A[]) => Separated<readonly A[], readonly A[]>
-}
+export declare const partition: Partition1<'ReadonlyArray'>
 ```
 
 Added in v2.5.0

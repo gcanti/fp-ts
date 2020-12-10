@@ -9,7 +9,7 @@ import { Filterable2, Filterable2C } from './Filterable'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable2C, Foldable3 } from './Foldable'
 import { FoldableWithIndex2C } from './FoldableWithIndex'
-import { pipe, Predicate, Refinement } from './function'
+import { pipe, Predicate } from './function'
 import { Functor2 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Magma } from './Magma'
@@ -551,23 +551,6 @@ const filterWithIndex_ = <K, A>(fa: ReadonlyMap<K, A>, p: (k: K, a: A) => boolea
   return m
 }
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
-const filter_ = <K, A>(fa: ReadonlyMap<K, A>, p: Predicate<A>): ReadonlyMap<K, A> =>
-  filterWithIndex_(fa, (_, a) => p(a))
-const filterMap_: Filterable2<URI>['filterMap'] = (fa, f) => filterMapWithIndex_(fa, (_, a) => f(a))
-const partition_ = <K, A>(
-  fa: ReadonlyMap<K, A>,
-  predicate: Predicate<A>
-): Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>> => partitionWithIndex_(fa, (_, a) => predicate(a))
-const partitionMap_: Filterable2<URI>['partitionMap'] = (fa, f) => partitionMapWithIndex_(fa, (_, a) => f(a))
-
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
-
 /**
  * @category Compactable
  * @since 2.5.0
@@ -590,18 +573,14 @@ export const compact = <K, A>(fa: ReadonlyMap<K, Option<A>>): ReadonlyMap<K, A> 
  * @category Filterable
  * @since 2.5.0
  */
-export const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
-  <A>(predicate: Predicate<A>): <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
-} = <A>(predicate: Predicate<A>) => <K>(fa: ReadonlyMap<K, A>) => filter_(fa, predicate)
+export const filter: Filterable2<URI>['filter'] = <A>(predicate: Predicate<A>) => <K>(fa: ReadonlyMap<K, A>) =>
+  filterWithIndex_(fa, (_, a) => predicate(a))
 
 /**
  * @category Filterable
  * @since 2.5.0
  */
-export const filterMap: <A, B>(f: (a: A) => Option<B>) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> = (f) => (
-  fa
-) => filterMap_(fa, f)
+export const filterMap: Filterable2<URI>['filterMap'] = (f) => (fa) => filterMapWithIndex_(fa, (_, a) => f(a))
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -625,20 +604,14 @@ export const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (fa: ReadonlyMap<K
  * @category Filterable
  * @since 2.5.0
  */
-export const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): <K>(
-    fa: ReadonlyMap<K, A>
-  ) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>>
-  <A>(predicate: Predicate<A>): <K>(fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
-} = <A>(predicate: Predicate<A>) => <K>(fa: ReadonlyMap<K, A>) => partition_(fa, predicate)
+export const partition: Filterable2<URI>['partition'] = <A>(predicate: Predicate<A>) => <K>(fa: ReadonlyMap<K, A>) =>
+  partitionWithIndex_(fa, (_, a) => predicate(a))
 
 /**
  * @category Filterable
  * @since 2.5.0
  */
-export const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
-) => <K>(fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>> = (f) => (fa) => partitionMap_(fa, f)
+export const partitionMap: Filterable2<URI>['partitionMap'] = (f) => (fa) => partitionMapWithIndex_(fa, (_, a) => f(a))
 
 /**
  * @category Compactable
@@ -695,10 +668,10 @@ declare module './HKT' {
 export function getFilterable<K = never>(): Filterable2C<URI, K> {
   return {
     URI,
-    partitionMap: partitionMap_,
-    partition: partition_,
-    filterMap: filterMap_,
-    filter: filter_
+    partitionMap,
+    partition,
+    filterMap,
+    filter
   }
 }
 
@@ -891,8 +864,8 @@ export const Compactable: Compactable2<URI> = {
  */
 export const Filterable: Filterable2<URI> = {
   URI,
-  filter: filter_,
-  filterMap: filterMap_,
-  partition: partition_,
-  partitionMap: partitionMap_
+  filter,
+  filterMap,
+  partition,
+  partitionMap
 }

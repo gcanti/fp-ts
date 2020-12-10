@@ -8,7 +8,7 @@ import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
-import { Filter1, Filterable1, Partition1 } from './Filterable'
+import { Filterable1 } from './Filterable'
 import {
   FilterableWithIndex1,
   PartitionWithIndex1,
@@ -1394,21 +1394,10 @@ export const zero: Alternative1<URI>['zero'] = () => empty
 const chain_: <A, B>(fa: ReadonlyArray<A>, f: (a: A) => ReadonlyArray<B>) => ReadonlyArray<B> = (ma, f) =>
   pipe(ma, chain(f))
 /* istanbul ignore next */
-const filter_: Filter1<URI> = <A>(fa: ReadonlyArray<A>, predicate: Predicate<A>) => pipe(fa, filter(predicate))
-/* istanbul ignore next */
-const filterMap_: Filterable1<URI>['filterMap'] = (fa, f) => pipe(fa, filterMap(f))
-/* istanbul ignore next */
 const partitionWithIndex_: PartitionWithIndex1<URI, number> = <A>(
   fa: ReadonlyArray<A>,
   predicateWithIndex: (i: number, a: A) => boolean
 ): Separated<ReadonlyArray<A>, ReadonlyArray<A>> => pipe(fa, partitionWithIndex(predicateWithIndex))
-/* istanbul ignore next */
-const partition_: Partition1<URI> = <A>(
-  fa: ReadonlyArray<A>,
-  predicate: Predicate<A>
-): Separated<ReadonlyArray<A>, ReadonlyArray<A>> => pipe(fa, partition(predicate))
-/* istanbul ignore next */
-const partitionMap_: Filterable1<URI>['partitionMap'] = (fa, f) => pipe(fa, partitionMap(f))
 /* istanbul ignore next */
 const partitionMapWithIndex_ = <A, B, C>(
   fa: ReadonlyArray<A>,
@@ -1615,10 +1604,8 @@ export const separate = <A, B>(fa: ReadonlyArray<Either<A, B>>): Separated<Reado
  * @category Filterable
  * @since 2.5.0
  */
-export const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: ReadonlyArray<A>) => ReadonlyArray<B>
-  <A>(predicate: Predicate<A>): (fa: ReadonlyArray<A>) => ReadonlyArray<A>
-} = <A>(predicate: Predicate<A>) => (fa: ReadonlyArray<A>) => fa.filter(predicate)
+export const filter: Filterable1<URI>['filter'] = <A>(predicate: Predicate<A>) => (fa: ReadonlyArray<A>) =>
+  fa.filter(predicate)
 
 /**
  * @category FilterableWithIndex
@@ -1642,8 +1629,7 @@ export const filterMapWithIndex = <A, B>(f: (i: number, a: A) => Option<B>) => (
  * @category Filterable
  * @since 2.5.0
  */
-export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: ReadonlyArray<A>) => ReadonlyArray<B> = (f) =>
-  filterMapWithIndex((_, a) => f(a))
+export const filterMap: Filterable1<URI>['filterMap'] = (f) => filterMapWithIndex((_, a) => f(a))
 
 /**
  * @category Compactable
@@ -1657,12 +1643,9 @@ export const compact: <A>(fa: ReadonlyArray<Option<A>>) => ReadonlyArray<A> =
  * @category Filterable
  * @since 2.5.0
  */
-export const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (
-    fa: ReadonlyArray<A>
-  ) => Separated<ReadonlyArray<A>, ReadonlyArray<B>>
-  <A>(predicate: Predicate<A>): (fa: ReadonlyArray<A>) => Separated<ReadonlyArray<A>, ReadonlyArray<A>>
-} = <A>(predicate: Predicate<A>): ((fa: ReadonlyArray<A>) => Separated<ReadonlyArray<A>, ReadonlyArray<A>>) =>
+export const partition: Filterable1<URI>['partition'] = <A>(
+  predicate: Predicate<A>
+): ((fa: ReadonlyArray<A>) => Separated<ReadonlyArray<A>, ReadonlyArray<A>>) =>
   partitionWithIndex((_, a) => predicate(a))
 
 /**
@@ -1701,10 +1684,7 @@ export const partitionWithIndex: {
  * @category Filterable
  * @since 2.5.0
  */
-export const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
-) => (fa: ReadonlyArray<A>) => Separated<ReadonlyArray<B>, ReadonlyArray<C>> = (f) =>
-  partitionMapWithIndex((_, a) => f(a))
+export const partitionMap: Filterable1<URI>['partitionMap'] = (f) => partitionMapWithIndex((_, a) => f(a))
 
 /**
  * @category FilterableWithIndex
@@ -2026,10 +2006,10 @@ export const Compactable: Compactable1<URI> = {
  */
 export const Filterable: Filterable1<URI> = {
   URI,
-  filter: filter_,
-  filterMap: filterMap_,
-  partition: partition_,
-  partitionMap: partitionMap_
+  filter,
+  filterMap,
+  partition,
+  partitionMap
 }
 
 /**

@@ -420,15 +420,15 @@ describe('Either', () => {
     const p = (n: number) => n > 2
 
     it('partition', () => {
-      assert.deepStrictEqual(F.partition(_.left('123'), p), {
+      assert.deepStrictEqual(pipe(_.left('123'), F.partition(p)), {
         left: _.left('123'),
         right: _.left('123')
       })
-      assert.deepStrictEqual(F.partition(_.right(1), p), {
+      assert.deepStrictEqual(pipe(_.right(1), F.partition(p)), {
         left: _.right(1),
         right: _.left(monoidString.empty)
       })
-      assert.deepStrictEqual(F.partition(_.right(3), p), {
+      assert.deepStrictEqual(pipe(_.right(3), F.partition(p)), {
         left: _.left(monoidString.empty),
         right: _.right(3)
       })
@@ -436,31 +436,31 @@ describe('Either', () => {
 
     it('partitionMap', () => {
       const f = (n: number) => (p(n) ? _.right(n + 1) : _.left(n - 1))
-      assert.deepStrictEqual(F.partitionMap(_.left('123'), f), {
+      assert.deepStrictEqual(pipe(_.left('123'), F.partitionMap(f)), {
         left: _.left('123'),
         right: _.left('123')
       })
-      assert.deepStrictEqual(F.partitionMap(_.right(1), f), {
+      assert.deepStrictEqual(pipe(_.right(1), F.partitionMap(f)), {
         left: _.right(0),
         right: _.left(monoidString.empty)
       })
-      assert.deepStrictEqual(F.partitionMap(_.right(3), f), {
+      assert.deepStrictEqual(pipe(_.right(3), F.partitionMap(f)), {
         left: _.left(monoidString.empty),
         right: _.right(4)
       })
     })
 
     it('filter', () => {
-      assert.deepStrictEqual(F.filter(_.left('123'), p), _.left('123'))
-      assert.deepStrictEqual(F.filter(_.right(1), p), _.left(monoidString.empty))
-      assert.deepStrictEqual(F.filter(_.right(3), p), _.right(3))
+      assert.deepStrictEqual(pipe(_.left('123'), F.filter(p)), _.left('123'))
+      assert.deepStrictEqual(pipe(_.right(1), F.filter(p)), _.left(monoidString.empty))
+      assert.deepStrictEqual(pipe(_.right(3), F.filter(p)), _.right(3))
     })
 
     it('filterMap', () => {
       const f = (n: number) => (p(n) ? O.some(n + 1) : O.none)
-      assert.deepStrictEqual(F.filterMap(_.left('123'), f), _.left('123'))
-      assert.deepStrictEqual(F.filterMap(_.right(1), f), _.left(monoidString.empty))
-      assert.deepStrictEqual(F.filterMap(_.right(3), f), _.right(4))
+      assert.deepStrictEqual(pipe(_.left('123'), F.filterMap(f)), _.left('123'))
+      assert.deepStrictEqual(pipe(_.right(1), F.filterMap(f)), _.left(monoidString.empty))
+      assert.deepStrictEqual(pipe(_.right(3), F.filterMap(f)), _.right(4))
     })
   })
 
