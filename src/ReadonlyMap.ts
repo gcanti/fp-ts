@@ -724,12 +724,12 @@ export function getFoldable<K>(O: Ord<K>): Foldable2C<URI, K> {
   const FWI = getFoldableWithIndex(O)
   return {
     URI,
-    reduce: (b, f) => (fa) => FWI.reduceWithIndex(fa, b, (_, b, a) => f(b, a)),
+    reduce: (b, f) => FWI.reduceWithIndex(b, (_, b, a) => f(b, a)),
     foldMap: (M) => {
       const foldMapWithIndexM = FWI.foldMapWithIndex(M)
-      return (f) => (fa) => foldMapWithIndexM(fa, (_, a) => f(a))
+      return (f) => foldMapWithIndexM((_, a) => f(a))
     },
-    reduceRight: (b, f) => (fa) => FWI.reduceRightWithIndex(fa, b, (_, a, b) => f(a, b))
+    reduceRight: (b, f) => FWI.reduceRightWithIndex(b, (_, a, b) => f(a, b))
   }
 }
 
@@ -740,7 +740,7 @@ export function getFoldable<K>(O: Ord<K>): Foldable2C<URI, K> {
 export function getFoldableWithIndex<K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K> {
   const keysO = keys(O)
 
-  const reduceWithIndex = <A, B>(fa: ReadonlyMap<K, A>, b: B, f: (k: K, b: B, a: A) => B): B => {
+  const reduceWithIndex = <B, A>(b: B, f: (k: K, b: B, a: A) => B) => (fa: ReadonlyMap<K, A>): B => {
     let out: B = b
     const ks = keysO(fa)
     const len = ks.length
@@ -751,7 +751,7 @@ export function getFoldableWithIndex<K>(O: Ord<K>): FoldableWithIndex2C<URI, K, 
     return out
   }
 
-  const foldMapWithIndex = <M>(M: Monoid<M>) => <A>(fa: ReadonlyMap<K, A>, f: (k: K, a: A) => M): M => {
+  const foldMapWithIndex = <M>(M: Monoid<M>) => <A>(f: (k: K, a: A) => M) => (fa: ReadonlyMap<K, A>): M => {
     let out: M = M.empty
     const ks = keysO(fa)
     const len = ks.length
@@ -762,7 +762,7 @@ export function getFoldableWithIndex<K>(O: Ord<K>): FoldableWithIndex2C<URI, K, 
     return out
   }
 
-  const reduceRightWithIndex = <A, B>(fa: ReadonlyMap<K, A>, b: B, f: (k: K, a: A, b: B) => B): B => {
+  const reduceRightWithIndex = <B, A>(b: B, f: (k: K, a: A, b: B) => B) => (fa: ReadonlyMap<K, A>): B => {
     let out: B = b
     const ks = keysO(fa)
     const len = ks.length

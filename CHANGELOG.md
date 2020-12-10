@@ -81,6 +81,7 @@ high state of flux, you're at risk of it changing without notice.
   - `FoldableWithIndex`
     - drop `Foldable` dependency (@gcanti)
     - remove `getFoldableWithIndexComposition` (@gcanti)
+    - make type class members pipeables (@gcanti)
   - `Functor`
     - make type class members pipeables (@gcanti)
     - remove `getFunctorComposition` (@gcanti)

@@ -1416,19 +1416,6 @@ const partitionMapWithIndex_ = <A, B, C>(
   fa: ReadonlyArray<A>,
   f: (i: number, a: A) => Either<B, C>
 ): Separated<ReadonlyArray<B>, ReadonlyArray<C>> => pipe(fa, partitionMapWithIndex(f))
-const reduceWithIndex_: FoldableWithIndex1<URI, number>['reduceWithIndex'] = (fa, b, f) => {
-  const l = fa.length
-  let r = b
-  for (let i = 0; i < l; i++) {
-    r = f(i, r, fa[i])
-  }
-  return r
-}
-const foldMapWithIndex_: FoldableWithIndex1<URI, number>['foldMapWithIndex'] = (M) => (fa, f) =>
-  fa.reduce((b, a, i) => M.concat(b, f(i, a)), M.empty)
-/* istanbul ignore next */
-const reduceRightWithIndex_: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] = (fa, b, f) =>
-  pipe(fa, reduceRightWithIndex(b, f))
 /* istanbul ignore next */
 const filterMapWithIndex_ = <A, B>(fa: ReadonlyArray<A>, f: (i: number, a: A) => Option<B>): ReadonlyArray<B> =>
   pipe(fa, filterMapWithIndex(f))
@@ -1782,10 +1769,7 @@ export const duplicate: <A>(wa: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray
  */
 export const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: ReadonlyArray<A>) => M = (
   M
-) => {
-  const foldMapWithIndexM = foldMapWithIndex_(M)
-  return (f) => (fa) => foldMapWithIndexM(fa, f)
-}
+) => (f) => (fa) => fa.reduce((b, a, i) => M.concat(b, f(i, a)), M.empty)
 
 /**
  * @category Foldable
@@ -1809,7 +1793,14 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: ReadonlyA
  */
 export const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: ReadonlyArray<A>) => B = (b, f) => (
   fa
-) => reduceWithIndex_(fa, b, f)
+) => {
+  const len = fa.length
+  let r = b
+  for (let i = 0; i < len; i++) {
+    r = f(i, r, fa[i])
+  }
+  return r
+}
 
 /**
  * @category Foldable
@@ -2074,9 +2065,9 @@ export const Foldable: Foldable1<URI> = {
  */
 export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
   URI,
-  reduceWithIndex: reduceWithIndex_,
-  foldMapWithIndex: foldMapWithIndex_,
-  reduceRightWithIndex: reduceRightWithIndex_
+  reduceWithIndex,
+  foldMapWithIndex,
+  reduceRightWithIndex
 }
 
 /**

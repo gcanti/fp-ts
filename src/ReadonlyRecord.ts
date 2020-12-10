@@ -851,17 +851,6 @@ const partition_ = <A>(
 /* istanbul ignore next */
 const partitionMap_: Filterable1<URI>['partitionMap'] = (fa, f) => pipe(fa, partitionMap(f))
 /* istanbul ignore next */
-const reduceWithIndex_: FoldableWithIndex1<URI, string>['reduceWithIndex'] = (fa, b, f) =>
-  pipe(fa, reduceWithIndex(b, f))
-/* istanbul ignore next */
-const foldMapWithIndex_: FoldableWithIndex1<URI, string>['foldMapWithIndex'] = (M) => {
-  const foldMapWithIndexM = foldMapWithIndex(M)
-  return (fa, f) => pipe(fa, foldMapWithIndexM(f))
-}
-/* istanbul ignore next */
-const reduceRightWithIndex_: FoldableWithIndex1<URI, string>['reduceRightWithIndex'] = (fa, b, f) =>
-  pipe(fa, reduceRightWithIndex(b, f))
-/* istanbul ignore next */
 const partitionMapWithIndex_ = <A, B, C>(
   fa: ReadonlyRecord<string, A>,
   f: (key: string, a: A) => Either<B, C>
@@ -1071,9 +1060,9 @@ export const Foldable: Foldable1<URI> = {
  */
 export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
   URI,
-  reduceWithIndex: reduceWithIndex_,
-  foldMapWithIndex: foldMapWithIndex_,
-  reduceRightWithIndex: reduceRightWithIndex_
+  reduceWithIndex,
+  foldMapWithIndex,
+  reduceRightWithIndex
 }
 
 /**
