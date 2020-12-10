@@ -1,11 +1,10 @@
 /**
  * @since 2.0.0
  */
-import { identity, pipe, bind_, bindTo_, flow, tuple } from './function'
+import { Applicative2 } from './Applicative'
+import { bindTo_, bind_, flow, identity, pipe, tuple } from './function'
 import { Functor2 } from './Functor'
 import { Monad2 } from './Monad'
-import { Applicative2 } from './Applicative'
-import { Apply2 } from './Apply'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -59,8 +58,6 @@ export const gets: <S, A>(f: (s: S) => A) => State<S, A> = (f) => (s) => [f(s), 
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-/* istanbul ignore next */
-const ap_: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
@@ -204,7 +201,7 @@ export const Functor: Functor2<URI> = {
 export const Applicative: Applicative2<URI> = {
   URI,
   map,
-  ap: ap_,
+  ap,
   of
 }
 

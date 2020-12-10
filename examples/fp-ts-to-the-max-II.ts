@@ -182,7 +182,7 @@ const programTest: Program<URI> = {
   URI,
   map: S.map,
   of: S.of,
-  ap: (fab, fa) => pipe(fab, S.ap(fa)),
+  ap: S.ap,
   chain: (ma, f) => pipe(ma, S.chain(f)),
   finish: of
 }

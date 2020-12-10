@@ -216,14 +216,13 @@ describe('IOEither', () => {
     const log: Array<string> = []
     const tuple = <A>(a: A) => <B>(b: B) => <C>(c: C): readonly [A, B, C] => [a, b, c]
     const a = _.rightIO<string, number>(() => log.push('a'))
-    const b = _.leftIO(() => {
+    const b = _.leftIO<string, number>(() => {
       log.push('b')
       return 'error'
     })
-    const c = _.rightIO(() => log.push('c'))
+    const c = _.rightIO<string, number>(() => log.push('c'))
     const A = _.ApplicativePar
-    const x = A.ap(A.ap(pipe(a, A.map(tuple)), b), c)()
-    assert.deepStrictEqual(x, E.left('error'))
+    assert.deepStrictEqual(pipe(a, A.map(tuple), A.ap(b), A.ap(c))(), E.left('error'))
     assert.deepStrictEqual(log, ['a', 'b', 'c'])
   })
 
@@ -232,14 +231,13 @@ describe('IOEither', () => {
     const log: Array<string> = []
     const tuple = <A>(a: A) => <B>(b: B) => <C>(c: C): readonly [A, B, C] => [a, b, c]
     const a = _.rightIO<string, number>(() => log.push('a'))
-    const b = _.leftIO(() => {
+    const b = _.leftIO<string, number>(() => {
       log.push('b')
       return 'error'
     })
-    const c = _.rightIO(() => log.push('c'))
+    const c = _.rightIO<string, number>(() => log.push('c'))
     const A = _.ApplicativeSeq
-    const x = A.ap(A.ap(pipe(a, A.map(tuple)), b), c)()
-    assert.deepStrictEqual(x, E.left('error'))
+    assert.deepStrictEqual(pipe(a, A.map(tuple), A.ap(b), A.ap(c))(), E.left('error'))
     assert.deepStrictEqual(log, ['a', 'b'])
   })
 
@@ -320,8 +318,8 @@ describe('IOEither', () => {
   it('getApplicativeIOValidation', () => {
     const A = _.getApplicativeIOValidation(monoidString)
     const tuple = <A>(a: A) => <B>(b: B): readonly [A, B] => [a, b]
-    assert.deepStrictEqual(A.ap(pipe(_.left('a'), A.map(tuple)), _.left('b'))(), E.left('ab'))
-    assert.deepStrictEqual(A.ap(pipe(_.left('a'), A.map(tuple)), _.right(1))(), E.left('a'))
+    assert.deepStrictEqual(pipe(_.left('a'), A.map(tuple), A.ap(_.left('b')))(), E.left('ab'))
+    assert.deepStrictEqual(pipe(_.left('a'), A.map(tuple), A.ap(_.right(1)))(), E.left('a'))
   })
 
   it('getAltIOValidation', () => {

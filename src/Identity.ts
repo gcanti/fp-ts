@@ -3,13 +3,12 @@
  */
 import { Alt1 } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { Apply1 } from './Apply'
 import { ChainRec1, tailRec } from './ChainRec'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
-import { identity as id, pipe, bind_, bindTo_, flow, tuple } from './function'
+import { bindTo_, bind_, flow, identity as id, pipe, tuple } from './function'
 import { Functor1 } from './Functor'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
@@ -31,8 +30,6 @@ export type Identity<A> = A
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-/* istanbul ignore next */
-const ap_: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
 const chain_: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
@@ -268,7 +265,7 @@ export const Functor: Functor1<URI> = {
 export const Applicative: Applicative1<URI> = {
   URI,
   map,
-  ap: ap_,
+  ap,
   of
 }
 

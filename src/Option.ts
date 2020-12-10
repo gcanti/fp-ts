@@ -15,14 +15,13 @@
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { Apply1 } from './Apply'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
-import { identity, Lazy, Predicate, Refinement, pipe, bind_, bindTo_, flow, tuple } from './function'
+import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { Functor1 } from './Functor'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
@@ -432,7 +431,6 @@ export function chainNullableK<A, B>(f: (a: A) => B | null | undefined): (ma: Op
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const ap_: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const chain_: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 const reduce_: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
 /* istanbul ignore next */
@@ -995,7 +993,7 @@ export const Functor: Functor1<URI> = {
 export const Applicative: Applicative1<URI> = {
   URI,
   map,
-  ap: ap_,
+  ap,
   of
 }
 

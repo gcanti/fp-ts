@@ -54,7 +54,7 @@ export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
   return {
     URI,
     map,
-    ap: (fab, fa) => [fst(fab)(fst(fa)), S.concat(snd(fab), snd(fa))]
+    ap: (fa) => (fab) => [fst(fab)(fst(fa)), S.concat(snd(fab), snd(fa))]
   }
 }
 

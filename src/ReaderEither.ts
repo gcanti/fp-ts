@@ -3,7 +3,6 @@
  */
 import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C } from './Applicative'
-import { Apply3 } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import { bindTo_, bind_, flow, identity, pipe, Predicate, Refinement, tuple } from './function'
@@ -226,8 +225,6 @@ export const filterOrElse: {
 const bimap_: Bifunctor3<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
 const mapLeft_: Bifunctor3<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-/* istanbul ignore next */
-const ap_: Apply3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
 const chain_: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
@@ -489,13 +486,13 @@ export function getApplicativeReaderValidation<E>(SE: Semigroup<E>): Applicative
     fga: R.Reader<EF, E.Either<E, A>>
   ): (<B>(fgab: R.Reader<EF, E.Either<E, (a: A) => B>>) => R.Reader<EF, E.Either<E, B>>) =>
     flow(
-      R.map((gab) => (ga: E.Either<E, A>) => AV.ap(gab, ga)),
+      R.map((gab) => (ga: E.Either<E, A>) => pipe(gab, AV.ap(ga))),
       R.ap(fga)
     )
   return {
     URI,
     map,
-    ap: (fab, fa) => pipe(fab, ap(fa)),
+    ap,
     of
   }
 }
@@ -529,7 +526,7 @@ export const Functor: Functor3<URI> = {
 export const Applicative: Applicative3<URI> = {
   URI,
   map,
-  ap: ap_,
+  ap,
   of
 }
 

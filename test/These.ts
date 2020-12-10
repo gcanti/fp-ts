@@ -96,12 +96,10 @@ describe('These', () => {
   it('ap', () => {
     const A = _.getApplicative(semigroupString)
     const f = <A, B>(fa: _.These<string, A>, fb: _.These<string, B>): _.These<string, readonly [A, B]> =>
-      A.ap(
-        pipe(
-          fa,
-          A.map((a: A) => (b: B) => [a, b])
-        ),
-        fb
+      pipe(
+        fa,
+        A.map((a: A) => (b: B): readonly [A, B] => [a, b]),
+        A.ap(fb)
       )
 
     assert.deepStrictEqual(f(_.right(1), _.right(2)), _.right([1, 2]))

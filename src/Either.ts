@@ -15,7 +15,6 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative2, Applicative2C } from './Applicative'
-import { Apply2 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, tailRec } from './ChainRec'
 import { Compactable2C, Separated } from './Compactable'
@@ -469,8 +468,6 @@ export const filterOrElse: {
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-/* istanbul ignore next */
-const ap_: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
@@ -1050,7 +1047,7 @@ export function getApplicativeValidation<E>(SE: Semigroup<E>): Applicative2C<URI
   return {
     URI,
     map,
-    ap: (fab, fa) =>
+    ap: (fa) => (fab) =>
       isLeft(fab)
         ? isLeft(fa)
           ? left(SE.concat(fab.left, fa.left))
@@ -1107,7 +1104,7 @@ export const Functor: Functor2<URI> = {
 export const Applicative: Applicative2<URI> = {
   URI,
   map,
-  ap: ap_,
+  ap,
   of
 }
 

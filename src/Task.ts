@@ -11,14 +11,13 @@
  * @since 2.0.0
  */
 import { Applicative1 } from './Applicative'
-import { identity, pipe, bind_, bindTo_, flow, tuple } from './function'
+import { bindTo_, bind_, flow, identity, pipe, tuple } from './function'
+import { Functor1 } from './Functor'
 import { IO } from './IO'
 import { Monad1 } from './Monad'
 import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { Functor1 } from './Functor'
-import { Apply1 } from './Apply'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -102,12 +101,6 @@ export function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> {
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const apPar_: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const apSeq_: Apply1<URI>['ap'] = (fab, fa) =>
-  pipe(
-    fab,
-    chain((f) => pipe(fa, map(f)))
-  )
 /* istanbul ignore next */
 const chain_: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
@@ -314,7 +307,7 @@ export const Functor: Functor1<URI> = {
 export const ApplicativePar: Applicative1<URI> = {
   URI,
   map,
-  ap: apPar_,
+  ap,
   of
 }
 
@@ -325,7 +318,7 @@ export const ApplicativePar: Applicative1<URI> = {
 export const ApplicativeSeq: Applicative1<URI> = {
   URI,
   map,
-  ap: apSeq_,
+  ap: (fa) => chain((f) => pipe(fa, map(f))),
   of
 }
 

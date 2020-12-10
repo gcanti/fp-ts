@@ -122,7 +122,7 @@ export function getApplicative<W>(M: Monoid<W>): Applicative2C<URI, W> {
   return {
     URI,
     map,
-    ap: (fab, fa) => () => {
+    ap: (fa) => (fab) => () => {
       const [f, w1] = fab()
       const [a, w2] = fa()
       return [f(a), M.concat(w1, w2)]

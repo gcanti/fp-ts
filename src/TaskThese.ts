@@ -227,17 +227,15 @@ export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
 export function getApplicative<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E> {
   const AV = TH.getApplicative(SE)
   const ap = <A>(fga: T.Task<TH.These<E, A>>) => <B>(fgab: T.Task<TH.These<E, (a: A) => B>>): T.Task<TH.These<E, B>> =>
-    A.ap(
-      pipe(
-        fgab,
-        A.map((h) => (ga: TH.These<E, A>) => AV.ap(h, ga))
-      ),
-      fga
+    pipe(
+      fgab,
+      A.map((h) => (ga: TH.These<E, A>) => pipe(h, AV.ap(ga))),
+      A.ap(fga)
     )
   return {
     URI,
     map,
-    ap: (fab, fa) => pipe(fab, ap(fa)),
+    ap,
     of
   }
 }

@@ -2,7 +2,6 @@
  * @since 2.3.0
  */
 import { Applicative2 } from './Applicative'
-import { Apply2 } from './Apply'
 import { bindTo_, bind_, flow, identity, pipe, tuple } from './function'
 import { Functor2 } from './Functor'
 import { IO } from './IO'
@@ -106,12 +105,6 @@ export const chainTaskK: <A, B>(f: (a: A) => Task<B>) => <R>(ma: ReaderTask<R, A
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const apPar_: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const apSeq_: Apply2<URI>['ap'] = (fab, fa) =>
-  pipe(
-    fab,
-    chain((f) => pipe(fa, map(f)))
-  )
 /* istanbul ignore next */
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
@@ -289,7 +282,7 @@ export const Functor: Functor2<URI> = {
 export const ApplicativePar: Applicative2<URI> = {
   URI,
   map,
-  ap: apPar_,
+  ap,
   of
 }
 
@@ -300,7 +293,7 @@ export const ApplicativePar: Applicative2<URI> = {
 export const ApplicativeSeq: Applicative2<URI> = {
   URI,
   map,
-  ap: apSeq_,
+  ap: (fa) => chain((f) => pipe(fa, map(f))),
   of
 }
 

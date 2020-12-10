@@ -10,7 +10,7 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
-import { Apply1, Apply2 } from './Apply'
+import { Apply1 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C } from './Compactable'
 import * as E from './Either'
@@ -320,12 +320,6 @@ export const chainIOEitherK: <E, A, B>(
 const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
 const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-const apPar_: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const apSeq_: Applicative2<URI>['ap'] = (fab, fa) =>
-  pipe(
-    fab,
-    chain((f) => pipe(fa, map(f)))
-  )
 /* istanbul ignore next */
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
@@ -613,17 +607,15 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>> {
 export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E> {
   const AV = E.getApplicativeValidation(SE)
   const ap = <A>(fga: T.Task<E.Either<E, A>>) => <B>(fgab: T.Task<E.Either<E, (a: A) => B>>): T.Task<E.Either<E, B>> =>
-    A.ap(
-      pipe(
-        fgab,
-        A.map((h) => (ga: E.Either<E, A>) => AV.ap(h, ga))
-      ),
-      fga
+    pipe(
+      fgab,
+      A.map((h) => (ga: E.Either<E, A>) => pipe(h, AV.ap(ga))),
+      A.ap(fga)
     )
   return {
     URI,
     map,
-    ap: (fab, fa) => pipe(fab, ap(fa)),
+    ap,
     of
   }
 }
@@ -740,7 +732,7 @@ export const Functor: Functor2<URI> = {
 export const ApplicativePar: Applicative2<URI> = {
   URI,
   map,
-  ap: apPar_,
+  ap,
   of
 }
 
@@ -751,7 +743,7 @@ export const ApplicativePar: Applicative2<URI> = {
 export const ApplicativeSeq: Applicative2<URI> = {
   URI,
   map,
-  ap: apSeq_,
+  ap: (fa) => chain((f) => pipe(fa, map(f))),
   of
 }
 

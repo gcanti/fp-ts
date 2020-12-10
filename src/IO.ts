@@ -12,9 +12,8 @@
  * @since 2.0.0
  */
 import { Applicative1 } from './Applicative'
-import { Apply1 } from './Apply'
 import { ChainRec1 } from './ChainRec'
-import { identity, pipe, bind_, bindTo_, flow, constant, tuple } from './function'
+import { bindTo_, bind_, constant, flow, identity, pipe, tuple } from './function'
 import { Functor1 } from './Functor'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
@@ -37,7 +36,6 @@ export interface IO<A> {
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const ap_: Apply1<URI>['ap'] = (mab, ma) => () => mab()(ma())
 const chain_: Monad1<URI>['chain'] = (ma, f) => () => f(ma())()
 const chainRec_: ChainRec1<URI>['chainRec'] = (a, f) => () => {
   let e = f(a)()
@@ -66,7 +64,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) =
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = (fa) => (fab) => ap_(fab, fa)
+export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = (fa) => (fab) => () => fab()(fa())
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -204,7 +202,7 @@ export const Functor: Functor1<URI> = {
 export const Applicative: Applicative1<URI> = {
   URI,
   map,
-  ap: ap_,
+  ap,
   of
 }
 

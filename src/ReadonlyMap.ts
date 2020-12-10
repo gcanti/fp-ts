@@ -794,12 +794,10 @@ export function getTraversableWithIndex<K>(O: Ord<K>): TraversableWithIndex2C<UR
       for (let i = 0; i < len; i++) {
         const key = ks[i]
         const a = ta.get(key)!
-        fm = F.ap(
-          pipe(
-            fm,
-            F.map((m) => (b: B) => new Map(m).set(key, b))
-          ),
-          f(key, a)
+        fm = pipe(
+          fm,
+          F.map((m) => (b: B) => new Map(m).set(key, b)),
+          F.ap(f(key, a))
         )
       }
       return fm

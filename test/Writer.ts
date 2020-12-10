@@ -64,7 +64,7 @@ describe('Writer', () => {
     it('ap', () => {
       const fab: _.Writer<string, (n: number) => number> = () => [(n: number) => n * 2, 'a']
       const fa: _.Writer<string, number> = () => [1, 'b']
-      assert.deepStrictEqual(M.ap(fab, fa)(), [2, 'ab'])
+      assert.deepStrictEqual(pipe(fab, M.ap(fa))(), [2, 'ab'])
     })
   })
 

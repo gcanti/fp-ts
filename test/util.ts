@@ -61,7 +61,7 @@ export const assertParSeq = (expected: ReadonlyArray<string>): AssertParSeq => a
   const a = MT.fromTask(T.delay(100)(T.fromIO(() => log.push('a'))))
   const b = MT.fromTask(T.fromIO(() => log.push('b')))
   const tuple = <A>(a: A) => <B>(b: B): readonly [A, B] => [a, b]
-  const ab = F.ap(pipe(a, F.map(tuple)), b)
+  const ab = pipe(a, F.map(tuple), F.ap(b))
   await run(ab)
   assert.deepStrictEqual(log, expected)
 }

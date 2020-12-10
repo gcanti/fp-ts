@@ -4,7 +4,6 @@
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { Apply1 } from './Apply'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
@@ -18,7 +17,7 @@ import {
 } from './FilterableWithIndex'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { identity, Lazy, Predicate, Refinement, pipe, bind_, bindTo_, flow, tuple } from './function'
+import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
@@ -1394,8 +1393,6 @@ export const zero: Alternative1<URI>['zero'] = () => empty
 
 /* istanbul ignore next */
 const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = (fa, f) => pipe(fa, mapWithIndex(f))
-/* istanbul ignore next */
-const ap_: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const chain_: <A, B>(fa: ReadonlyArray<A>, f: (a: A) => ReadonlyArray<B>) => ReadonlyArray<B> = (ma, f) =>
   pipe(ma, chain(f))
 /* istanbul ignore next */
@@ -1861,12 +1858,10 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>)
   ta: ReadonlyArray<HKT<F, A>>
 ): HKT<F, ReadonlyArray<A>> => {
   return reduce_(ta, F.of(zero()), (fas, fa) =>
-    F.ap(
-      pipe(
-        fas,
-        F.map((as) => (a: A) => snoc(a)(as))
-      ),
-      fa
+    pipe(
+      fas,
+      F.map((as) => (a: A) => snoc(a)(as)),
+      F.ap(fa)
     )
   )
 }
@@ -1880,12 +1875,10 @@ export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = <F>(F:
   f: (i: number, a: A) => HKT<F, B>
 ): ((ta: ReadonlyArray<A>) => HKT<F, ReadonlyArray<B>>) =>
   reduceWithIndex(F.of(zero()), (i, fbs, a) =>
-    F.ap(
-      pipe(
-        fbs,
-        F.map((bs) => (b: B) => snoc(b)(bs))
-      ),
-      f(i, a)
+    pipe(
+      fbs,
+      F.map((bs) => (b: B) => snoc(b)(bs)),
+      F.ap(f(i, a))
     )
   )
 
@@ -1982,7 +1975,7 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
 export const Applicative: Applicative1<URI> = {
   URI,
   map,
-  ap: ap_,
+  ap,
   of
 }
 

@@ -3,7 +3,7 @@
  */
 import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C } from './Applicative'
-import { Apply1, Apply3 } from './Apply'
+import { Apply1 } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
@@ -368,12 +368,6 @@ export const chainTaskEitherK: <E, A, B>(
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const apPar_: Apply3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const apSeq_: Apply3<URI>['ap'] = (fab, fa) =>
-  pipe(
-    fab,
-    chain((f) => pipe(fa, map(f)))
-  )
 /* istanbul ignore next */
 const chain_: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
@@ -655,13 +649,13 @@ export function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, SE: Semi
     fga: R.Reader<EF, TE.TaskEither<E, A>>
   ): (<B>(fgab: R.Reader<EF, TE.TaskEither<E, (a: A) => B>>) => R.Reader<EF, TE.TaskEither<E, B>>) =>
     flow(
-      R.map((gab) => (ga: TE.TaskEither<E, A>) => AV.ap(gab, ga)),
+      R.map((gab) => (ga: TE.TaskEither<E, A>) => pipe(gab, AV.ap(ga))),
       R.ap(fga)
     )
   return {
     URI,
     map,
-    ap: (fab, fa) => pipe(fab, ap(fa)),
+    ap,
     of
   }
 }
@@ -695,7 +689,7 @@ export const Functor: Functor3<URI> = {
 export const ApplicativePar: Applicative3<URI> = {
   URI,
   map,
-  ap: apPar_,
+  ap,
   of
 }
 
@@ -706,7 +700,7 @@ export const ApplicativePar: Applicative3<URI> = {
 export const ApplicativeSeq: Applicative3<URI> = {
   URI,
   map,
-  ap: apSeq_,
+  ap: (fa) => chain((f) => pipe(fa, map(f))),
   of
 }
 

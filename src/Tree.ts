@@ -8,7 +8,6 @@
  * @since 2.0.0
  */
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { Apply1 } from './Apply'
 import { Comonad1 } from './Comonad'
 import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
@@ -191,11 +190,6 @@ export function fold<A, B>(f: (a: A, bs: ReadonlyArray<B>) => B): (tree: Tree<A>
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const ap_: Apply1<URI>['ap'] = (fab, fa) =>
-  pipe(
-    fab,
-    chain((f) => pipe(fa, map(f)))
-  )
 /* istanbul ignore next */
 const chain_ = <A, B>(ma: Tree<A>, f: (a: A) => Tree<B>): Tree<B> => pipe(ma, chain(f))
 /* istanbul ignore next */
@@ -225,7 +219,7 @@ const traverse_ = <F>(F: ApplicativeHKT<F>): (<A, B>(ta: Tree<A>, f: (a: A) => H
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = (fa) => (fab) => ap_(fab, fa)
+export const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = (fa) => chain((f) => pipe(fa, map(f)))
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -375,15 +369,13 @@ export const traverse: PipeableTraverse1<URI> = <F>(
 ): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Tree<A>) => HKT<F, Tree<B>>) => {
   const traverseF = A.traverse(F)
   const out = <A, B>(f: (a: A) => HKT<F, B>) => (ta: Tree<A>): HKT<F, Tree<B>> =>
-    F.ap(
-      pipe(
-        f(ta.value),
-        F.map((value: B) => (forest: Forest<B>) => ({
-          value,
-          forest
-        }))
-      ),
-      pipe(ta.forest, traverseF(out(f)))
+    pipe(
+      f(ta.value),
+      F.map((value: B) => (forest: Forest<B>) => ({
+        value,
+        forest
+      })),
+      F.ap(pipe(ta.forest, traverseF(out(f))))
     )
   return out
 }
@@ -444,7 +436,7 @@ export const Functor: Functor1<URI> = {
 export const Applicative: Applicative1<URI> = {
   URI,
   map,
-  ap: ap_,
+  ap,
   of
 }
 

@@ -3,7 +3,6 @@
  */
 import { Alt4 } from './Alt'
 import { Applicative4 } from './Applicative'
-import { Apply4 } from './Apply'
 import { Bifunctor4 } from './Bifunctor'
 import * as E from './Either'
 import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
@@ -376,8 +375,6 @@ export const filterOrElse: {
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const ap_: Apply4<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-/* istanbul ignore next */
 const chain_: Monad4<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
 const alt_: <S, R, E, A>(
@@ -663,7 +660,7 @@ export const Functor: Functor4<URI> = {
 export const Applicative: Applicative4<URI> = {
   URI,
   map,
-  ap: ap_,
+  ap,
   of
 }
 

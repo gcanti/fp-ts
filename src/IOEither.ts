@@ -6,7 +6,6 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
-import { Apply2 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C } from './Compactable'
 import * as E from './Either'
@@ -212,13 +211,6 @@ export const chainEitherK: <E, A, B>(
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-/* istanbul ignore next */
-const ap_: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const apSeq_: Applicative2<URI>['ap'] = (fab, fa) =>
-  pipe(
-    fab,
-    chain((f) => pipe(fa, map(f)))
-  )
 /* istanbul ignore next */
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
@@ -466,14 +458,14 @@ export function getApplicativeIOValidation<E>(SE: Semigroup<E>): Applicative2C<U
   const AV = E.getApplicativeValidation(SE)
   const ap = <A>(fga: I.IO<E.Either<E, A>>): (<B>(fgab: I.IO<E.Either<E, (a: A) => B>>) => I.IO<E.Either<E, B>>) =>
     flow(
-      I.map((gab) => (ga: E.Either<E, A>) => AV.ap(gab, ga)),
+      I.map((gab) => (ga: E.Either<E, A>) => pipe(gab, AV.ap(ga))),
       I.ap(fga)
     )
 
   return {
     URI,
     map,
-    ap: (fab, fa) => pipe(fab, ap(fa)),
+    ap,
     of
   }
 }
@@ -590,7 +582,7 @@ export const Bifunctor: Bifunctor2<URI> = {
 export const ApplicativePar: Applicative2<URI> = {
   URI,
   map,
-  ap: ap_,
+  ap,
   of
 }
 
@@ -601,7 +593,7 @@ export const ApplicativePar: Applicative2<URI> = {
 export const ApplicativeSeq: Applicative2<URI> = {
   URI,
   map,
-  ap: apSeq_,
+  ap: (fa) => chain((f) => pipe(fa, map(f))),
   of
 }
 

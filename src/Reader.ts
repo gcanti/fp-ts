@@ -2,9 +2,8 @@
  * @since 2.0.0
  */
 import { Applicative2 } from './Applicative'
-import { Apply2 } from './Apply'
 import { Category2 } from './Category'
-import { bindTo_, bind_, flow, identity, pipe, constant, tuple } from './function'
+import { bindTo_, bind_, constant, flow, identity, pipe, tuple } from './function'
 import { Functor2 } from './Functor'
 import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
@@ -60,8 +59,6 @@ export const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q,
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-/* istanbul ignore next */
-const ap_: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
 const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
@@ -260,7 +257,7 @@ export const Functor: Functor2<URI> = {
 export const Applicative: Applicative2<URI> = {
   URI,
   map,
-  ap: ap_,
+  ap,
   of
 }
 

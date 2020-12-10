@@ -541,7 +541,7 @@ describe('Either', () => {
       pipe(
         fas,
         _.map((a) => (b: B): readonly [...A, B] => [...a, b]),
-        (x) => A.ap(x, fb)
+        A.ap(fb)
       )
 
     assert.deepStrictEqual(pipe(_.left('a'), apT(_.left('b'))), _.left('ab'))
