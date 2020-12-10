@@ -48,6 +48,8 @@ high state of flux, you're at risk of it changing without notice.
     - remove `sequenceS`, use data type `apS` instead (@gcanti)
     - remove `sequenceTS`, use data type `apT` instead (@gcanti)
     - make type class members pipeables (@gcanti)
+  - `Bifunctor`
+    - make type class members pipeables (@gcanti)
   - `Alternative`
     - remove `Applicative` dependency (@gcanti)
   - `ChainRec`

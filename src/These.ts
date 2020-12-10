@@ -398,10 +398,6 @@ export function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
-/* istanbul ignore next */
-const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-/* istanbul ignore next */
 const reduce_: Foldable2<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
 /* istanbul ignore next */
 const foldMap_: Foldable2<URI>['foldMap'] = (M) => {
@@ -539,8 +535,8 @@ export const Functor: Functor2<URI> = {
  */
 export const Bifunctor: Bifunctor2<URI> = {
   URI,
-  bimap: bimap_,
-  mapLeft: mapLeft_
+  bimap,
+  mapLeft
 }
 
 /**

@@ -370,25 +370,6 @@ export const filterOrElse: {
   ) => StateReaderTaskEither<S, R, E, A>
 } = filterOrElseW
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
-const bimap_: <S, R, E, A, G, B>(
-  fea: StateReaderTaskEither<S, R, E, A>,
-  f: (e: E) => G,
-  g: (a: A) => B
-) => StateReaderTaskEither<S, R, G, B> = (fea, f, g) => (s) =>
-  pipe(
-    fea(s),
-    RTE.bimap(f, ([a, s]) => [g(a), s])
-  )
-
-const mapLeft_: <S, R, E, A, G>(
-  fea: StateReaderTaskEither<S, R, E, A>,
-  f: (e: E) => G
-) => StateReaderTaskEither<S, R, G, A> = (fea, f) => (s) => pipe(fea(s), RTE.mapLeft(f))
-
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
@@ -413,8 +394,11 @@ export const map: <A, B>(
 export const bimap: <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
-) => <S, R>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, B> = (f, g) => (fa) =>
-  bimap_(fa, f, g)
+) => <S, R>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, B> = (f, g) => (fea) => (s) =>
+  pipe(
+    fea(s),
+    RTE.bimap(f, ([a, s]) => [g(a), s])
+  )
 
 /**
  * Map a function over the third type argument of a bifunctor.
@@ -424,8 +408,8 @@ export const bimap: <E, G, A, B>(
  */
 export const mapLeft: <E, G>(
   f: (e: E) => G
-) => <S, R, A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, A> = (f) => (fa) =>
-  mapLeft_(fa, f)
+) => <S, R, A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, A> = (f) => (fea) => (s) =>
+  pipe(fea(s), RTE.mapLeft(f))
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -654,8 +638,8 @@ export const Applicative: Applicative4<URI> = {
  */
 export const Bifunctor: Bifunctor4<URI> = {
   URI,
-  bimap: bimap_,
-  mapLeft: mapLeft_
+  bimap,
+  mapLeft
 }
 
 /**

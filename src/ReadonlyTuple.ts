@@ -122,10 +122,6 @@ export function getChainRec<M>(M: Monoid<M>): ChainRec2C<URI, M> {
 /* istanbul ignore next */
 const compose_: Semigroupoid2<URI>['compose'] = (bc, ab) => pipe(bc, compose(ab))
 /* istanbul ignore next */
-const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
-/* istanbul ignore next */
-const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-/* istanbul ignore next */
 const extend_: Extend2<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
 /* istanbul ignore next */
 const reduce_: Foldable2<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
@@ -299,8 +295,8 @@ export const Functor: Functor2<URI> = {
  */
 export const Bifunctor: Bifunctor2<URI> = {
   URI,
-  bimap: bimap_,
-  mapLeft: mapLeft_
+  bimap,
+  mapLeft
 }
 
 /**
