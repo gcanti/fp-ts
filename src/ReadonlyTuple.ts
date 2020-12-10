@@ -124,15 +124,6 @@ const compose_: Semigroupoid2<URI>['compose'] = (bc, ab) => pipe(bc, compose(ab)
 /* istanbul ignore next */
 const extend_: Extend2<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
 /* istanbul ignore next */
-const reduce_: Foldable2<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
-/* istanbul ignore next */
-const foldMap_: Foldable2<URI>['foldMap'] = (M) => {
-  const foldMapM = foldMap(M)
-  return (fa, f) => pipe(fa, foldMapM(f))
-}
-/* istanbul ignore next */
-const reduceRight_: Foldable2<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
-/* istanbul ignore next */
 const traverse_ = <F>(
   F: Applicative<F>
 ): (<A, S, B>(ta: readonly [A, S], f: (a: A) => HKT<F, B>) => HKT<F, readonly [B, S]>) => {
@@ -325,9 +316,9 @@ export const Comonad: Comonad2<URI> = {
  */
 export const Foldable: Foldable2<URI> = {
   URI,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_
+  reduce,
+  foldMap,
+  reduceRight
 }
 
 /**

@@ -431,14 +431,6 @@ export function chainNullableK<A, B>(f: (a: A) => B | null | undefined): (ma: Op
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const reduce_: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
-/* istanbul ignore next */
-const foldMap_: Foldable1<URI>['foldMap'] = (M) => {
-  const foldMapM = foldMap(M)
-  return (fa, f) => pipe(fa, foldMapM(f))
-}
-/* istanbul ignore next */
-const reduceRight_: Foldable1<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
 /* istanbul ignore next */
 const traverse_: Traversable1<URI>['traverse'] = <F>(
   F: ApplicativeHKT<F>
@@ -1011,9 +1003,9 @@ export const Monad: Monad1<URI> = {
  */
 export const Foldable: Foldable1<URI> = {
   URI,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_
+  reduce,
+  foldMap,
+  reduceRight
 }
 
 /**

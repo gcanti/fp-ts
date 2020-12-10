@@ -468,15 +468,6 @@ export const filterOrElse: {
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-/* istanbul ignore next */
-const reduce_: Foldable2<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
-/* istanbul ignore next */
-const foldMap_: Foldable2<URI>['foldMap'] = (M) => (fa, f) => {
-  const foldMapM = foldMap(M)
-  return pipe(fa, foldMapM(f))
-}
-/* istanbul ignore next */
-const reduceRight_: Foldable2<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
 const traverse_ = <F>(
   F: ApplicativeHKT<F>
 ): (<E, A, B>(ta: Either<E, A>, f: (a: A) => HKT<F, B>) => HKT<F, Either<E, B>>) => {
@@ -1117,9 +1108,9 @@ export const Monad: Monad2<URI> = {
  */
 export const Foldable: Foldable2<URI> = {
   URI,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_
+  reduce,
+  foldMap,
+  reduceRight
 }
 
 /**

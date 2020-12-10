@@ -398,15 +398,6 @@ export function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const reduce_: Foldable2<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
-/* istanbul ignore next */
-const foldMap_: Foldable2<URI>['foldMap'] = (M) => {
-  const foldMapM = foldMap(M)
-  return (fa, f) => pipe(fa, foldMapM(f))
-}
-/* istanbul ignore next */
-const reduceRight_: Foldable2<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
-/* istanbul ignore next */
 const traverse_ = <F>(
   F: Applicative<F>
 ): (<E, A, B>(ta: These<E, A>, f: (a: A) => HKT<F, B>) => HKT<F, These<E, B>>) => {
@@ -545,9 +536,9 @@ export const Bifunctor: Bifunctor2<URI> = {
  */
 export const Foldable: Foldable2<URI> = {
   URI,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_
+  reduce,
+  foldMap,
+  reduceRight
 }
 
 /**

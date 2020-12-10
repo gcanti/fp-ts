@@ -1416,14 +1416,6 @@ const partitionMapWithIndex_ = <A, B, C>(
   fa: ReadonlyArray<A>,
   f: (i: number, a: A) => Either<B, C>
 ): Separated<ReadonlyArray<B>, ReadonlyArray<C>> => pipe(fa, partitionMapWithIndex(f))
-const reduce_: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
-/* istanbul ignore next */
-const foldMap_: Foldable1<URI>['foldMap'] = (M) => {
-  const foldMapM = foldMap(M)
-  return (fa, f) => pipe(fa, foldMapM(f))
-}
-/* istanbul ignore next */
-const reduceRight_: Foldable1<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
 const reduceWithIndex_: FoldableWithIndex1<URI, number>['reduceWithIndex'] = (fa, b, f) => {
   const l = fa.length
   let r = b
@@ -1855,11 +1847,14 @@ export const traverse: PipeableTraverse1<URI> = <F>(
 export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>) => <A>(
   ta: ReadonlyArray<HKT<F, A>>
 ): HKT<F, ReadonlyArray<A>> => {
-  return reduce_(ta, F.of(zero()), (fas, fa) =>
-    pipe(
-      fas,
-      F.map((as) => (a: A) => snoc(a)(as)),
-      F.ap(fa)
+  return pipe(
+    ta,
+    reduce(F.of(zero()), (fas, fa) =>
+      pipe(
+        fas,
+        F.map((as) => (a: A) => snoc(a)(as)),
+        F.ap(fa)
+      )
     )
   )
 }
@@ -2068,9 +2063,9 @@ export const FilterableWithIndex: FilterableWithIndex1<URI, number> = {
  */
 export const Foldable: Foldable1<URI> = {
   URI,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_
+  reduce,
+  foldMap,
+  reduceRight
 }
 
 /**

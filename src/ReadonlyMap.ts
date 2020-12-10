@@ -448,15 +448,18 @@ export function fromFoldable<F, K, A>(
 ): (fka: HKT<F, readonly [K, A]>) => ReadonlyMap<K, A> {
   return (fka: HKT<F, readonly [K, A]>) => {
     const lookupWithKeyE = lookupWithKey(E)
-    return F.reduce<readonly [K, A], Map<K, A>>(fka, new Map<K, A>(), (b, [k, a]) => {
-      const oka = lookupWithKeyE(k)(b)
-      if (O.isSome(oka)) {
-        b.set(oka.value[0], M.concat(oka.value[1], a))
-      } else {
-        b.set(k, a)
-      }
-      return b
-    })
+    return pipe(
+      fka,
+      F.reduce<Map<K, A>, readonly [K, A]>(new Map<K, A>(), (b, [k, a]) => {
+        const oka = lookupWithKeyE(k)(b)
+        if (O.isSome(oka)) {
+          b.set(oka.value[0], M.concat(oka.value[1], a))
+        } else {
+          b.set(k, a)
+        }
+        return b
+      })
+    )
   }
 }
 
@@ -721,12 +724,12 @@ export function getFoldable<K>(O: Ord<K>): Foldable2C<URI, K> {
   const FWI = getFoldableWithIndex(O)
   return {
     URI,
-    reduce: (fa, b, f) => FWI.reduceWithIndex(fa, b, (_, b, a) => f(b, a)),
+    reduce: (b, f) => (fa) => FWI.reduceWithIndex(fa, b, (_, b, a) => f(b, a)),
     foldMap: (M) => {
       const foldMapWithIndexM = FWI.foldMapWithIndex(M)
-      return (fa, f) => foldMapWithIndexM(fa, (_, a) => f(a))
+      return (f) => (fa) => foldMapWithIndexM(fa, (_, a) => f(a))
     },
-    reduceRight: (fa, b, f) => FWI.reduceRightWithIndex(fa, b, (_, a, b) => f(a, b))
+    reduceRight: (b, f) => (fa) => FWI.reduceRightWithIndex(fa, b, (_, a, b) => f(a, b))
   }
 }
 

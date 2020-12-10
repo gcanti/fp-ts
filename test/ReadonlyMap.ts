@@ -746,45 +746,55 @@ describe('ReadonlyMap', () => {
   })
 
   describe('getFoldable', () => {
-    const W = _.getFoldable(ordUser)
+    const F = _.getFoldable(ordUser)
     it('reduce', () => {
-      const d1 = new Map<User, string>([
-        [{ id: 'k1' }, 'a'],
-        [{ id: 'k2' }, 'b']
-      ])
-      const reduceO = W.reduce
       assert.deepStrictEqual(
-        reduceO(d1, '', (b, a) => b + a),
+        pipe(
+          new Map<User, string>([
+            [{ id: 'k1' }, 'a'],
+            [{ id: 'k2' }, 'b']
+          ]),
+          F.reduce('', (b, a) => b + a)
+        ),
         'ab'
       )
-      const d2 = new Map<User, string>([
-        [{ id: 'k2' }, 'b'],
-        [{ id: 'k1' }, 'a']
-      ])
       assert.deepStrictEqual(
-        reduceO(d2, '', (b, a) => b + a),
+        pipe(
+          new Map<User, string>([
+            [{ id: 'k2' }, 'b'],
+            [{ id: 'k1' }, 'a']
+          ]),
+          F.reduce('', (b, a) => b + a)
+        ),
         'ab'
       )
     })
 
     it('foldMap', () => {
-      const foldMapOM = W.foldMap(monoidString)
-      const m = new Map<User, string>([
-        [{ id: 'a' }, 'a'],
-        [{ id: 'a' }, 'b']
-      ])
-      assert.deepStrictEqual(foldMapOM(m, identity), 'ab')
+      assert.deepStrictEqual(
+        pipe(
+          new Map<User, string>([
+            [{ id: 'a' }, 'a'],
+            [{ id: 'a' }, 'b']
+          ]),
+          F.foldMap(monoidString)(identity)
+        ),
+        'ab'
+      )
     })
 
     it('reduceRight', () => {
-      const reduceRightO = W.reduceRight
-      const m = new Map<User, string>([
-        [{ id: 'a' }, 'a'],
-        [{ id: 'b' }, 'b']
-      ])
-      const init = ''
       const f = (a: string, acc: string) => acc + a
-      assert.deepStrictEqual(reduceRightO(m, init, f), 'ba')
+      assert.deepStrictEqual(
+        pipe(
+          new Map<User, string>([
+            [{ id: 'a' }, 'a'],
+            [{ id: 'b' }, 'b']
+          ]),
+          F.reduceRight('', f)
+        ),
+        'ba'
+      )
     })
   })
 

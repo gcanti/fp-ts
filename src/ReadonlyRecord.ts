@@ -772,11 +772,14 @@ export function fromFoldableMap<F, B>(
   F: FoldableHKT<F>
 ): <A>(fa: HKT<F, A>, f: (a: A) => readonly [string, B]) => ReadonlyRecord<string, B> {
   return <A>(ta: HKT<F, A>, f: (a: A) => readonly [string, B]) => {
-    return F.reduce<A, Record<string, B>>(ta, {}, (r, a) => {
-      const [k, b] = f(a)
-      r[k] = _hasOwnProperty.call(r, k) ? M.concat(r[k], b) : b
-      return r
-    })
+    return pipe(
+      ta,
+      F.reduce<Record<string, B>, A>({}, (r, a) => {
+        const [k, b] = f(a)
+        r[k] = _hasOwnProperty.call(r, k) ? M.concat(r[k], b) : b
+        return r
+      })
+    )
   }
 }
 
@@ -828,15 +831,6 @@ export function elem<A>(E: Eq<A>): (a: A) => (fa: ReadonlyRecord<string, A>) => 
 
 /* istanbul ignore next */
 const mapWithIndex_: FunctorWithIndex1<URI, string>['mapWithIndex'] = (fa, f) => pipe(fa, mapWithIndex(f))
-/* istanbul ignore next */
-const reduce_: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
-/* istanbul ignore next */
-const foldMap_: Foldable1<URI>['foldMap'] = (M) => {
-  const foldMapM = foldMap(M)
-  return (fa, f) => pipe(fa, foldMapM(f))
-}
-/* istanbul ignore next */
-const reduceRight_: Foldable1<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
 /* istanbul ignore next */
 const traverse_ = <F>(
   F: Applicative<F>
@@ -1066,9 +1060,9 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, string> = {
  */
 export const Foldable: Foldable1<URI> = {
   URI,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_
+  reduce,
+  foldMap,
+  reduceRight
 }
 
 /**
