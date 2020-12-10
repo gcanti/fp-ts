@@ -83,7 +83,7 @@ Added in v2.6.2
 **Signature**
 
 ```ts
-export declare const contramap: <A, B>(f: (b: B) => A) => <E>(fa: Const<E, A>) => Const<E, B>
+export declare const contramap: <B, A>(f: (b: B) => A) => <E>(fa: Const<E, A>) => Const<E, B>
 ```
 
 Added in v2.0.0

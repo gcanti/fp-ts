@@ -58,6 +58,8 @@ high state of flux, you're at risk of it changing without notice.
     - remove `getCompactableComposition` (@gcanti)
   - `Const`
     - remove `const_` (@gcanti)
+  - `Contravariant`
+    - make type class members pipeables (@gcanti)
   - `Either`
     - make `fromNullable` lazy (@gcanti)
     - make `fromNullableK` lazy (@gcanti)

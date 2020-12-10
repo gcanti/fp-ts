@@ -260,23 +260,11 @@ export function getDualOrd<A>(O: Ord<A>): Ord<A> {
   return fromCompare((x, y) => O.compare(y, x))
 }
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
-/* istanbul ignore next */
-const contramap_: <A, B>(fa: Ord<A>, f: (b: B) => A) => Ord<B> = (fa, f) => pipe(fa, contramap(f))
-
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
-
 /**
  * @category Contravariant
  * @since 2.0.0
  */
-export const contramap: <A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B> = (f) => (fa) =>
-  fromCompare((x, y) => fa.compare(f(x), f(y)))
+export const contramap: Contravariant1<URI>['contramap'] = (f) => (fa) => fromCompare((x, y) => fa.compare(f(x), f(y)))
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -317,5 +305,5 @@ export const ordDate: Ord<Date> =
  */
 export const Contravariant: Contravariant1<URI> = {
   URI,
-  contramap: contramap_
+  contramap
 }

@@ -14,7 +14,7 @@ import { BooleanAlgebra } from './BooleanAlgebra'
 import { Bounded } from './Bounded'
 import { Contravariant2 } from './Contravariant'
 import { Eq } from './Eq'
-import { identity, pipe, unsafeCoerce } from './function'
+import { identity, unsafeCoerce } from './function'
 import { Functor2 } from './Functor'
 import { HeytingAlgebra } from './HeytingAlgebra'
 import { Monoid } from './Monoid'
@@ -130,22 +130,11 @@ export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> {
   }
 }
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
-/* istanbul ignore next */
-const contramap_: Contravariant2<URI>['contramap'] = (fa, f) => pipe(fa, contramap(f))
-
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
-
 /**
  * @category Contravariant
  * @since 2.0.0
  */
-export const contramap: <A, B>(f: (b: B) => A) => <E>(fa: Const<E, A>) => Const<E, B> = () => unsafeCoerce
+export const contramap: Contravariant2<URI>['contramap'] = () => unsafeCoerce
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -210,7 +199,7 @@ export const Functor: Functor2<URI> = {
  */
 export const Contravariant: Contravariant2<URI> = {
   URI,
-  contramap: contramap_
+  contramap
 }
 
 /**
