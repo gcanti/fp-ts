@@ -1391,8 +1391,6 @@ export const zero: Alternative1<URI>['zero'] = () => empty
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-/* istanbul ignore next */
-const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = (fa, f) => pipe(fa, mapWithIndex(f))
 const chain_: <A, B>(fa: ReadonlyArray<A>, f: (a: A) => ReadonlyArray<B>) => ReadonlyArray<B> = (ma, f) =>
   pipe(ma, chain(f))
 /* istanbul ignore next */
@@ -1589,9 +1587,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyAr
  * @category FunctorWithIndex
  * @since 2.5.0
  */
-export const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (
-  fa
-) => fa.map((a, i) => f(i, a))
+export const mapWithIndex: FunctorWithIndex1<URI, number>['mapWithIndex'] = (f) => (fa) => fa.map((a, i) => f(i, a))
 
 /**
  * @category Compactable
@@ -1949,7 +1945,7 @@ export const Functor: Functor1<URI> = {
 export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
   URI,
   map,
-  mapWithIndex: mapWithIndex_
+  mapWithIndex
 }
 
 /**

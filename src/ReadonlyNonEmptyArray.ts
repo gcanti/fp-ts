@@ -440,8 +440,6 @@ export const intersperse: <A>(
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Functor1<URI>['map'] = RA.Functor.map as any
-const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = RA.FunctorWithIndex.mapWithIndex as any
 const ap_: Apply1<URI>['ap'] = RA.Applicative.ap as any
 const chain_: Monad1<URI>['chain'] = RA.Monad.chain as any
 const extend_: Extend1<URI>['extend'] = RA.Extend.extend as any
@@ -594,9 +592,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => Re
  * @category FunctorWithIndex
  * @since 2.5.0
  */
-export const mapWithIndex: <A, B>(
-  f: (i: number, a: A) => B
-) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = RA.mapWithIndex as any
+export const mapWithIndex: FunctorWithIndex1<URI, number>['mapWithIndex'] = RA.mapWithIndex as any
 
 /**
  * @category Foldable
@@ -674,7 +670,7 @@ declare module './HKT' {
  */
 export const Functor: Functor1<URI> = {
   URI,
-  map: map_
+  map
 }
 
 /**
@@ -683,8 +679,8 @@ export const Functor: Functor1<URI> = {
  */
 export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
   URI,
-  map: map_,
-  mapWithIndex: mapWithIndex_
+  map,
+  mapWithIndex
 }
 
 /**
@@ -693,7 +689,7 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
  */
 export const Applicative: Applicative1<URI> = {
   URI,
-  map: map_,
+  map,
   ap: ap_,
   of
 }
@@ -704,7 +700,7 @@ export const Applicative: Applicative1<URI> = {
  */
 export const Monad: Monad1<URI> = {
   URI,
-  map: map_,
+  map,
   of,
   chain: chain_
 }
@@ -737,7 +733,7 @@ export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
  */
 export const Traversable: Traversable1<URI> = {
   URI,
-  map: map_,
+  map,
   traverse: traverse_,
   sequence
 }
@@ -757,7 +753,7 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
  */
 export const Alt: Alt1<URI> = {
   URI,
-  map: map_,
+  map,
   alt: alt_
 }
 
@@ -767,7 +763,7 @@ export const Alt: Alt1<URI> = {
  */
 export const Comonad: Comonad1<URI> = {
   URI,
-  map: map_,
+  map,
   extend: extend_,
   extract
 }

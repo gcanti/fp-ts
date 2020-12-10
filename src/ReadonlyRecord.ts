@@ -830,8 +830,6 @@ export function elem<A>(E: Eq<A>): (a: A) => (fa: ReadonlyRecord<string, A>) => 
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const mapWithIndex_: FunctorWithIndex1<URI, string>['mapWithIndex'] = (fa, f) => pipe(fa, mapWithIndex(f))
-/* istanbul ignore next */
 const traverse_ = <F>(
   F: Applicative<F>
 ): (<A, B>(ta: ReadonlyRecord<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, ReadonlyRecord<string, B>>) => {
@@ -1040,7 +1038,7 @@ export const Functor: Functor1<URI> = {
 export const FunctorWithIndex: FunctorWithIndex1<URI, string> = {
   URI,
   map,
-  mapWithIndex: mapWithIndex_
+  mapWithIndex
 }
 
 /**

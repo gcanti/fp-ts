@@ -41,7 +41,7 @@ Added in v2.0.0
 
 ```ts
 export interface FunctorWithIndex<F, I> extends Functor<F> {
-  readonly mapWithIndex: <A, B>(fa: HKT<F, A>, f: (i: I, a: A) => B) => HKT<F, B>
+  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
 }
 ```
 
@@ -53,7 +53,7 @@ Added in v2.0.0
 
 ```ts
 export interface FunctorWithIndex1<F extends URIS, I> extends Functor1<F> {
-  readonly mapWithIndex: <A, B>(fa: Kind<F, A>, f: (i: I, a: A) => B) => Kind<F, B>
+  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => (fa: Kind<F, A>) => Kind<F, B>
 }
 ```
 
@@ -65,7 +65,7 @@ Added in v2.0.0
 
 ```ts
 export interface FunctorWithIndex2<F extends URIS2, I> extends Functor2<F> {
-  readonly mapWithIndex: <E, A, B>(fa: Kind2<F, E, A>, f: (i: I, a: A) => B) => Kind2<F, E, B>
+  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 ```
 
@@ -77,7 +77,7 @@ Added in v2.0.0
 
 ```ts
 export interface FunctorWithIndex2C<F extends URIS2, I, E> extends Functor2C<F, E> {
-  readonly mapWithIndex: <A, B>(fa: Kind2<F, E, A>, f: (i: I, a: A) => B) => Kind2<F, E, B>
+  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 ```
 
@@ -89,7 +89,7 @@ Added in v2.0.0
 
 ```ts
 export interface FunctorWithIndex3<F extends URIS3, I> extends Functor3<F> {
-  readonly mapWithIndex: <R, E, A, B>(fa: Kind3<F, R, E, A>, f: (i: I, a: A) => B) => Kind3<F, R, E, B>
+  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
 }
 ```
 
@@ -101,7 +101,7 @@ Added in v2.0.0
 
 ```ts
 export interface FunctorWithIndex3C<F extends URIS3, I, E> extends Functor3C<F, E> {
-  readonly mapWithIndex: <R, A, B>(fa: Kind3<F, R, E, A>, f: (i: I, a: A) => B) => Kind3<F, R, E, B>
+  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
 }
 ```
 
@@ -113,7 +113,7 @@ Added in v2.2.0
 
 ```ts
 export interface FunctorWithIndex4<F extends URIS4, I> extends Functor4<F> {
-  readonly mapWithIndex: <S, R, E, A, B>(fa: Kind4<F, S, R, E, A>, f: (i: I, a: A) => B) => Kind4<F, S, R, E, B>
+  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
 }
 ```
 
