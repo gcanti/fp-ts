@@ -214,6 +214,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `tree` (@gcanti)
   - `Witherable`
     - drop `Traversable` and `Filterable` dependencies (@gcanti)
+    - make type class members pipeables (@gcanti)
   - `Writer`
     - remove `writer` (@gcanti)
 

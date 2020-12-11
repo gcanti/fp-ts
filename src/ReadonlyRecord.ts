@@ -21,7 +21,7 @@ import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
-import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
+import { Witherable1 } from './Witherable'
 
 /**
  * @category model
@@ -550,7 +550,7 @@ export function sequence<F>(
  * @category Witherable
  * @since 2.6.5
  */
-export const wither: PipeableWither1<URI> = <F>(
+export const wither: Witherable1<URI>['wither'] = <F>(
   F: Applicative<F>
 ): (<A, B>(f: (a: A) => HKT<F, Option<B>>) => (fa: ReadonlyRecord<string, A>) => HKT<F, ReadonlyRecord<string, B>>) => {
   const traverseF = traverse(F)
@@ -561,7 +561,7 @@ export const wither: PipeableWither1<URI> = <F>(
  * @category Witherable
  * @since 2.6.5
  */
-export const wilt: PipeableWilt1<URI> = <F>(
+export const wilt: Witherable1<URI>['wilt'] = <F>(
   F: Applicative<F>
 ): (<A, B, C>(
   f: (a: A) => HKT<F, Either<B, C>>
@@ -825,28 +825,6 @@ export function elem<A>(E: Eq<A>): (a: A) => (fa: ReadonlyRecord<string, A>) => 
   }
 }
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
-/* istanbul ignore next */
-const wither_ = <F>(
-  F: Applicative<F>
-): (<A, B>(fa: ReadonlyRecord<string, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, ReadonlyRecord<string, B>>) => {
-  const witherF = wither(F)
-  return (fa, f) => pipe(fa, witherF(f))
-}
-/* istanbul ignore next */
-const wilt_ = <F>(
-  F: Applicative<F>
-): (<A, B, C>(
-  fa: ReadonlyRecord<string, A>,
-  f: (a: A) => HKT<F, Either<B, C>>
-) => HKT<F, Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>>>) => {
-  const wiltF = wilt(F)
-  return (fa, f) => pipe(fa, wiltF(f))
-}
-
 /**
  * @category Filterable
  * @since 2.5.0
@@ -1065,6 +1043,6 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
  */
 export const Witherable: Witherable1<URI> = {
   URI,
-  wither: wither_,
-  wilt: wilt_
+  wither,
+  wilt
 }

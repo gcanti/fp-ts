@@ -399,7 +399,7 @@ Added in v2.6.3
 **Signature**
 
 ```ts
-export declare const wilt: PipeableWilt1<'Option'>
+export declare const wilt: Wilt1<'Option'>
 ```
 
 Added in v2.6.5
@@ -409,7 +409,7 @@ Added in v2.6.5
 **Signature**
 
 ```ts
-export declare const wither: PipeableWither1<'Option'>
+export declare const wither: Wither1<'Option'>
 ```
 
 Added in v2.6.5

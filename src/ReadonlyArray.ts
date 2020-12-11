@@ -25,7 +25,7 @@ import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
-import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
+import { Witherable1 } from './Witherable'
 
 import Option = O.Option
 
@@ -1384,28 +1384,6 @@ export const of: Applicative1<URI>['of'] = (a) => [a]
  */
 export const zero: Alternative1<URI>['zero'] = () => empty
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
-/* istanbul ignore next */
-const wither_ = <F>(
-  F: ApplicativeHKT<F>
-): (<A, B>(ta: ReadonlyArray<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, ReadonlyArray<B>>) => {
-  const witherF = wither(F)
-  return (fa, f) => pipe(fa, witherF(f))
-}
-/* istanbul ignore next */
-const wilt_ = <F>(
-  F: ApplicativeHKT<F>
-): (<A, B, C>(
-  fa: ReadonlyArray<A>,
-  f: (a: A) => HKT<F, Either<B, C>>
-) => HKT<F, Separated<ReadonlyArray<B>, ReadonlyArray<C>>>) => {
-  const wiltF = wilt(F)
-  return (fa, f) => pipe(fa, wiltF(f))
-}
-
 /**
  * Less strict version of [`alt`](#alt).
  *
@@ -1794,7 +1772,7 @@ export const traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWith
  * @category Witherable
  * @since 2.6.5
  */
-export const wither: PipeableWither1<URI> = <F>(
+export const wither: Witherable1<URI>['wither'] = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(f: (a: A) => HKT<F, Option<B>>) => (fa: ReadonlyArray<A>) => HKT<F, ReadonlyArray<B>>) => {
   const traverseF = traverse(F)
@@ -1805,7 +1783,7 @@ export const wither: PipeableWither1<URI> = <F>(
  * @category Witherable
  * @since 2.6.5
  */
-export const wilt: PipeableWilt1<URI> = <F>(
+export const wilt: Witherable1<URI>['wilt'] = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B, C>(
   f: (a: A) => HKT<F, Either<B, C>>
@@ -2020,8 +1998,8 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
  */
 export const Witherable: Witherable1<URI> = {
   URI,
-  wither: wither_,
-  wilt: wilt_
+  wither,
+  wilt
 }
 
 // -------------------------------------------------------------------------------------

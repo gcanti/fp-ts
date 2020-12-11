@@ -447,23 +447,23 @@ describe('Either', () => {
     it('wither', async () => {
       const wither = W.wither(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
-      assert.deepStrictEqual(await wither(_.left('foo'), f)(), _.left('foo'))
-      assert.deepStrictEqual(await wither(_.right(1), f)(), _.left(monoidString.empty))
-      assert.deepStrictEqual(await wither(_.right(3), f)(), _.right(4))
+      assert.deepStrictEqual(await pipe(_.left('foo'), wither(f))(), _.left('foo'))
+      assert.deepStrictEqual(await pipe(_.right(1), wither(f))(), _.left(monoidString.empty))
+      assert.deepStrictEqual(await pipe(_.right(3), wither(f))(), _.right(4))
     })
 
     it('wilt', async () => {
       const wilt = W.wilt(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? _.right(n + 1) : _.left(n - 1))
-      assert.deepStrictEqual(await wilt(_.left('foo'), f)(), {
+      assert.deepStrictEqual(await pipe(_.left('foo'), wilt(f))(), {
         left: _.left('foo'),
         right: _.left('foo')
       })
-      assert.deepStrictEqual(await wilt(_.right(1), f)(), {
+      assert.deepStrictEqual(await pipe(_.right(1), wilt(f))(), {
         left: _.right(0),
         right: _.left(monoidString.empty)
       })
-      assert.deepStrictEqual(await wilt(_.right(3), f)(), {
+      assert.deepStrictEqual(await pipe(_.right(3), wilt(f))(), {
         left: _.left(monoidString.empty),
         right: _.right(4)
       })

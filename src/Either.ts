@@ -973,19 +973,18 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
 
   const wither = <F>(
     F: ApplicativeHKT<F>
-  ): (<A, B>(ma: Either<E, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Either<E, B>>) => {
+  ): (<A, B>(f: (a: A) => HKT<F, Option<B>>) => (ma: Either<E, A>) => HKT<F, Either<E, B>>) => {
     const traverseF = traverse(F)
-    return (ma, f) => pipe(ma, traverseF(f), F.map(C.compact))
+    return (f) => (ma) => pipe(ma, traverseF(f), F.map(C.compact))
   }
 
   const wilt = <F>(
     F: ApplicativeHKT<F>
   ): (<A, B, C>(
-    ma: Either<E, A>,
     f: (a: A) => HKT<F, Either<B, C>>
-  ) => HKT<F, Separated<Either<E, B>, Either<E, C>>>) => {
+  ) => (ma: Either<E, A>) => HKT<F, Separated<Either<E, B>, Either<E, C>>>) => {
     const traverseF = traverse(F)
-    return (ma, f) => pipe(ma, traverseF(f), F.map(C.separate))
+    return (f) => (ma) => pipe(ma, traverseF(f), F.map(C.separate))
   }
 
   return {

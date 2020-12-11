@@ -958,14 +958,14 @@ describe('ReadonlyMap', () => {
     it('wither', async () => {
       const wither = W.wither(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
-      assert.deepStrictEqual(await wither(_.empty, f)(), _.empty)
+      assert.deepStrictEqual(await pipe(_.empty, wither(f))(), _.empty)
       assert.deepStrictEqual(
-        await wither(
+        await pipe(
           new Map([
             [{ id: 'a' }, 1],
             [{ id: 'b' }, 3]
           ]),
-          f
+          wither(f)
         )(),
         new Map([[{ id: 'b' }, 4]])
       )
@@ -974,14 +974,14 @@ describe('ReadonlyMap', () => {
     it('wilt', async () => {
       const wilt = W.wilt(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? right(n + 1) : left(n - 1))
-      assert.deepStrictEqual(await wilt(_.empty, f)(), { left: _.empty, right: _.empty })
+      assert.deepStrictEqual(await pipe(_.empty, wilt(f))(), { left: _.empty, right: _.empty })
       assert.deepStrictEqual(
-        await wilt(
+        await pipe(
           new Map([
             [{ id: 'a' }, 1],
             [{ id: 'b' }, 3]
           ]),
-          f
+          wilt(f)
         )(),
         { left: new Map([[{ id: 'a' }, 0]]), right: new Map([[{ id: 'b' }, 4]]) }
       )

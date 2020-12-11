@@ -523,7 +523,7 @@ Added in v2.6.6
 **Signature**
 
 ```ts
-export declare const wilt: PipeableWilt1<'ReadonlyArray'>
+export declare const wilt: Wilt1<'ReadonlyArray'>
 ```
 
 Added in v2.6.5
@@ -533,7 +533,7 @@ Added in v2.6.5
 **Signature**
 
 ```ts
-export declare const wither: PipeableWither1<'ReadonlyArray'>
+export declare const wither: Wither1<'ReadonlyArray'>
 ```
 
 Added in v2.6.5

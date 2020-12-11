@@ -31,7 +31,7 @@ import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
-import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
+import { Witherable1 } from './Witherable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -427,25 +427,6 @@ export function chainNullableK<A, B>(f: (a: A) => B | null | undefined): (ma: Op
   return (ma) => (isNone(ma) ? none : fromNullable(f(ma.value)))
 }
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
-/* istanbul ignore next */
-const wither_: Witherable1<URI>['wither'] = <F>(
-  F: ApplicativeHKT<F>
-): (<A, B>(fa: Option<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Option<B>>) => {
-  const witherF = wither(F)
-  return (fa, f) => pipe(fa, witherF(f))
-}
-/* istanbul ignore next */
-const wilt_: Witherable1<URI>['wilt'] = <F>(
-  F: ApplicativeHKT<F>
-): (<A, B, C>(fa: Option<A>, f: (a: A) => HKT<F, Either<B, C>>) => HKT<F, Separated<Option<B>, Option<C>>>) => {
-  const wiltF = wilt(F)
-  return (fa, f) => pipe(fa, wiltF(f))
-}
-
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
@@ -701,17 +682,17 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>)
  * @category Witherable
  * @since 2.6.5
  */
-export const wither: PipeableWither1<URI> = <F>(F: ApplicativeHKT<F>) => <A, B>(f: (a: A) => HKT<F, Option<B>>) => (
-  fa: Option<A>
-): HKT<F, Option<B>> => (isNone(fa) ? F.of(none) : f(fa.value))
+export const wither: Witherable1<URI>['wither'] = <F>(F: ApplicativeHKT<F>) => <A, B>(
+  f: (a: A) => HKT<F, Option<B>>
+) => (fa: Option<A>): HKT<F, Option<B>> => (isNone(fa) ? F.of(none) : f(fa.value))
 
 /**
  * @category Witherable
  * @since 2.6.5
  */
-export const wilt: PipeableWilt1<URI> = <F>(F: ApplicativeHKT<F>) => <A, B, C>(f: (a: A) => HKT<F, Either<B, C>>) => (
-  fa: Option<A>
-): HKT<F, Separated<Option<B>, Option<C>>> => {
+export const wilt: Witherable1<URI>['wilt'] = <F>(F: ApplicativeHKT<F>) => <A, B, C>(
+  f: (a: A) => HKT<F, Either<B, C>>
+) => (fa: Option<A>): HKT<F, Separated<Option<B>, Option<C>>> => {
   return isNone(fa)
     ? F.of({
         left: none,
@@ -1048,8 +1029,8 @@ export const Traversable: Traversable1<URI> = {
  */
 export const Witherable: Witherable1<URI> = {
   URI,
-  wither: wither_,
-  wilt: wilt_
+  wither,
+  wilt
 }
 
 /**

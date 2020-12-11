@@ -9,7 +9,7 @@ import { Filterable2, Filterable2C } from './Filterable'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable2C, Foldable3 } from './Foldable'
 import { FoldableWithIndex2C } from './FoldableWithIndex'
-import { pipe, Predicate } from './function'
+import { flow, pipe, Predicate } from './function'
 import { Functor2 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Magma } from './Magma'
@@ -827,17 +827,16 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> {
     wilt: <F>(
       F: Applicative<F>
     ): (<A, B, C>(
-      wa: ReadonlyMap<K, A>,
       f: (a: A) => HKT<F, Either<B, C>>
-    ) => HKT<F, Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>>) => {
+    ) => (wa: ReadonlyMap<K, A>) => HKT<F, Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>>) => {
       const traverseF = T.traverse(F)
-      return (wa, f) => pipe(wa, traverseF(f), F.map(separate))
+      return (f) => flow(traverseF(f), F.map(separate))
     },
     wither: <F>(
       F: Applicative<F>
-    ): (<A, B>(wa: ReadonlyMap<K, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, ReadonlyMap<K, B>>) => {
+    ): (<A, B>(f: (a: A) => HKT<F, Option<B>>) => (wa: ReadonlyMap<K, A>) => HKT<F, ReadonlyMap<K, B>>) => {
       const traverseF = T.traverse(F)
-      return (wa, f) => pipe(wa, traverseF(f), F.map(compact))
+      return (f) => flow(traverseF(f), F.map(compact))
     }
   }
 }

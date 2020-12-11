@@ -196,7 +196,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const wilt: PipeableWilt1<'ReadonlyRecord'>
+export declare const wilt: Wilt1<'ReadonlyRecord'>
 ```
 
 Added in v2.6.5
@@ -206,7 +206,7 @@ Added in v2.6.5
 **Signature**
 
 ```ts
-export declare const wither: PipeableWither1<'ReadonlyRecord'>
+export declare const wither: Wither1<'ReadonlyRecord'>
 ```
 
 Added in v2.6.5
