@@ -51,7 +51,6 @@ Added in v2.0.0
   - [invariant](#invariant)
   - [io](#io)
   - [ioEither](#ioeither)
-  - [ioRef](#ioref)
   - [joinSemilattice](#joinsemilattice)
   - [lattice](#lattice)
   - [magma](#magma)
@@ -476,16 +475,6 @@ Added in v2.0.0
 
 ```ts
 export declare const ioEither: typeof ioEither
-```
-
-Added in v2.0.0
-
-## ioRef
-
-**Signature**
-
-```ts
-export declare const ioRef: typeof ioRef
 ```
 
 Added in v2.0.0
