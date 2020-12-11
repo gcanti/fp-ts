@@ -56,19 +56,11 @@ export function censor<P>(f: (p: P) => P): <A>(wa: Traced<P, A>) => Traced<P, A>
  * @since 2.0.0
  */
 export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
-  function extend<A, B>(wa: Traced<P, A>, f: (wa: Traced<P, A>) => B): Traced<P, B> {
-    return (p1) => f((p2) => wa(monoid.concat(p1, p2)))
-  }
-
-  function extract<A>(wa: Traced<P, A>): A {
-    return wa(monoid.empty)
-  }
-
   return {
     URI,
     map,
-    extend,
-    extract
+    extend: (f) => (wa) => (p1) => f((p2) => wa(monoid.concat(p1, p2))),
+    extract: (wa) => wa(monoid.empty)
   }
 }
 

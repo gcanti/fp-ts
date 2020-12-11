@@ -1389,8 +1389,6 @@ export const zero: Alternative1<URI>['zero'] = () => empty
 const chain_: <A, B>(fa: ReadonlyArray<A>, f: (a: A) => ReadonlyArray<B>) => ReadonlyArray<B> = (ma, f) =>
   pipe(ma, chain(f))
 /* istanbul ignore next */
-const extend_: Extend1<URI>['extend'] = (fa, f) => pipe(fa, extend(f))
-/* istanbul ignore next */
 const traverse_ = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(ta: ReadonlyArray<A>, f: (a: A) => HKT<F, B>) => HKT<F, ReadonlyArray<B>>) => {
@@ -1692,9 +1690,7 @@ export const filterWithIndex: FilterableWithIndex1<URI, number>['filterWithIndex
  * @category Extend
  * @since 2.5.0
  */
-export const extend: <A, B>(f: (fa: ReadonlyArray<A>) => B) => (wa: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (
-  wa
-) => wa.map((_, i, as) => f(as.slice(i)))
+export const extend: Extend1<URI>['extend'] = (f) => (wa) => wa.map((_, i, as) => f(as.slice(i)))
 
 /**
  * Derivable from `Extend`.
@@ -1954,7 +1950,7 @@ export const Alternative: Alternative1<URI> = {
 export const Extend: Extend1<URI> = {
   URI,
   map,
-  extend: extend_
+  extend
 }
 
 /**

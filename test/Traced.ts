@@ -63,7 +63,7 @@ describe('Traced', () => {
       projectGitHub: false,
       projectTravis: false
     })
-    assert.deepStrictEqual(C.extract(C.extend(wa, hasLibraryB)), {
+    assert.deepStrictEqual(C.extract(pipe(wa, C.extend(hasLibraryB))), {
       projectName: 'myproject',
       projectHasLibrary: true,
       projectGitHub: false,
@@ -73,13 +73,13 @@ describe('Traced', () => {
 
   it('tracks', () => {
     const travisB = _.tracks(M)((project: Project): Settings => ({ ...M.empty, settingsTravis: project.projectGitHub }))
-    assert.deepStrictEqual(C.extract(C.extend(buildProject('travis'), travisB)), {
+    assert.deepStrictEqual(C.extract(pipe(buildProject('travis'), C.extend(travisB))), {
       projectName: 'travis',
       projectHasLibrary: false,
       projectGitHub: false,
       projectTravis: false
     })
-    assert.deepStrictEqual(C.extract(C.extend(C.extend(buildProject('github-travis'), gitHubB), travisB)), {
+    assert.deepStrictEqual(C.extract(pipe(buildProject('github-travis'), C.extend(gitHubB), C.extend(travisB))), {
       projectName: 'github-travis',
       projectHasLibrary: false,
       projectGitHub: true,

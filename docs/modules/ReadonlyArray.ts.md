@@ -264,7 +264,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const extend: <A, B>(f: (fa: readonly A[]) => B) => (wa: readonly A[]) => readonly B[]
+export declare const extend: <A, B>(f: (wa: readonly A[]) => B) => (wa: readonly A[]) => readonly B[]
 ```
 
 Added in v2.5.0

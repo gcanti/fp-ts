@@ -563,9 +563,7 @@ export const duplicate: <A>(
  * @category Extend
  * @since 2.5.0
  */
-export const extend: <A, B>(
-  f: (fa: ReadonlyNonEmptyArray<A>) => B
-) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = RA.extend as any
+export const extend: Extend1<URI>['extend'] = RA.extend as any
 
 /**
  * Derivable from `Monad`.

@@ -70,6 +70,8 @@ high state of flux, you're at risk of it changing without notice.
     - remove `either` (@gcanti)
   - `Eq`
     - remove `eq` (@gcanti)
+  - `Extend`
+    - make type class members pipeables (@gcanti)
   - `Filterable`
     - drop `Functor` and `Compactable` dependencies (@gcanti)
     - remove `getFilterableComposition` (@gcanti)

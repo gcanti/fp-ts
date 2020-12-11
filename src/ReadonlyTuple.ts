@@ -120,8 +120,6 @@ export function getChainRec<M>(M: Monoid<M>): ChainRec2C<URI, M> {
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const extend_: Extend2<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
-/* istanbul ignore next */
 const traverse_ = <F>(
   F: Applicative<F>
 ): (<A, S, B>(ta: readonly [A, S], f: (a: A) => HKT<F, B>) => HKT<F, readonly [B, S]>) => {
@@ -168,9 +166,7 @@ export const compose: <A, B>(ab: readonly [B, A]) => <C>(bc: readonly [C, B]) =>
  * @category Extend
  * @since 2.5.0
  */
-export const extend: <E, A, B>(f: (wa: readonly [A, E]) => B) => (wa: readonly [A, E]) => readonly [B, E] = (f) => (
-  wa
-) => [f(wa), snd(wa)]
+export const extend: Extend2<URI>['extend'] = (f) => (wa) => [f(wa), snd(wa)]
 
 /**
  * @category Extract
@@ -304,7 +300,7 @@ export const Semigroupoid: Semigroupoid2<URI> = {
 export const Comonad: Comonad2<URI> = {
   URI,
   map,
-  extend: extend_,
+  extend,
   extract
 }
 

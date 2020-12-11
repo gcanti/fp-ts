@@ -191,8 +191,6 @@ export function fold<A, B>(f: (a: A, bs: ReadonlyArray<B>) => B): (tree: Tree<A>
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const extend_: Extend1<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
-/* istanbul ignore next */
 const traverse_ = <F>(F: ApplicativeHKT<F>): (<A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>) => HKT<F, Tree<B>>) => {
   const traverseF = traverse(F)
   return (ta, f) => pipe(ta, traverseF(f))
@@ -270,7 +268,7 @@ export const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (first: Tree<A>) => Tre
  * @category Extend
  * @since 2.0.0
  */
-export const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B> = (f) => (wa) => ({
+export const extend: Extend1<URI>['extend'] = (f) => (wa) => ({
   value: f(wa),
   forest: wa.forest.map(extend(f))
 })
@@ -465,7 +463,7 @@ export const Traversable: Traversable1<URI> = {
 export const Comonad: Comonad1<URI> = {
   URI,
   map,
-  extend: extend_,
+  extend,
   extract
 }
 

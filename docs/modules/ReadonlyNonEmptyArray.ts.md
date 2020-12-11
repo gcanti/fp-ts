@@ -174,8 +174,8 @@ Added in v2.5.0
 
 ```ts
 export declare const extend: <A, B>(
-  f: (fa: ReadonlyNonEmptyArray<A>) => B
-) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+  f: (wa: ReadonlyNonEmptyArray<A>) => B
+) => (wa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
 ```
 
 Added in v2.5.0

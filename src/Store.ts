@@ -76,22 +76,11 @@ export function experiment<F>(F: FunctorHKT<F>): <S>(f: (s: S) => HKT<F, S>) => 
     )
 }
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
-/* istanbul ignore next */
-const extend_: Extend2<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
-
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
-
 /**
  * @category Extend
  * @since 2.0.0
  */
-export const extend: <E, A, B>(f: (wa: Store<E, A>) => B) => (wa: Store<E, A>) => Store<E, B> = (f) => (wa) => ({
+export const extend: Extend2<URI>['extend'] = (f) => (wa) => ({
   peek: (s) => f({ peek: wa.peek, pos: s }),
   pos: wa.pos
 })
@@ -162,6 +151,6 @@ export const Functor: Functor2<URI> = {
 export const Comonad: Comonad2<URI> = {
   URI,
   map,
-  extend: extend_,
+  extend,
   extract
 }

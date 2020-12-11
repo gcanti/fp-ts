@@ -31,8 +31,6 @@ export type Identity<A> = A
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const extend_: Extend1<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
-/* istanbul ignore next */
 const traverse_ = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>>) => {
@@ -128,7 +126,7 @@ export const chainFirst: <A, B>(f: (a: A) => Identity<B>) => (first: Identity<A>
  * @category Extend
  * @since 2.0.0
  */
-export const extend: <A, B>(f: (wa: Identity<A>) => B) => (wa: Identity<A>) => Identity<B> = (f) => (wa) => f(wa)
+export const extend: Extend1<URI>['extend'] = (f) => (wa) => f(wa)
 
 /**
  * @category Extract
@@ -309,7 +307,7 @@ export const Alt: Alt1<URI> = {
 export const Comonad: Comonad1<URI> = {
   URI,
   map,
-  extend: extend_,
+  extend,
   extract
 }
 

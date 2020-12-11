@@ -439,8 +439,6 @@ const traverse_: Traversable1<URI>['traverse'] = <F>(
   return (ta, f) => pipe(ta, traverseF(f))
 }
 /* istanbul ignore next */
-const extend_: Extend1<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
-/* istanbul ignore next */
 const wither_: Witherable1<URI>['wither'] = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(fa: Option<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Option<B>>) => {
@@ -605,8 +603,7 @@ export const throwError: MonadThrow1<URI>['throwError'] = () => none
  * @category Extend
  * @since 2.0.0
  */
-export const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Option<B> = (f) => (wa) =>
-  isNone(wa) ? none : some(f(wa))
+export const extend: Extend1<URI>['extend'] = (f) => (wa) => (isNone(wa) ? none : some(f(wa)))
 
 /**
  * Derivable from `Extend`.
@@ -1020,7 +1017,7 @@ export const Alternative: Alternative1<URI> = {
 export const Extend: Extend1<URI> = {
   URI,
   map,
-  extend: extend_
+  extend
 }
 
 /**

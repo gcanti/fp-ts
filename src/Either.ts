@@ -474,8 +474,6 @@ const traverse_ = <F>(
   const traverseF = traverse(F)
   return (ta, f) => pipe(ta, traverseF(f))
 }
-/* istanbul ignore next */
-const extend_: Extend2<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
 const chainRec_: ChainRec2<URI>['chainRec'] = (a, f) =>
   tailRec(f(a), (e) =>
     isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
@@ -660,8 +658,7 @@ export const alt: Alt2<URI>['alt'] = altW
  * @category Extend
  * @since 2.0.0
  */
-export const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>) => Either<E, B> = (f) => (wa) =>
-  isLeft(wa) ? wa : right(f(wa))
+export const extend: Extend2<URI>['extend'] = (f) => (wa) => (isLeft(wa) ? wa : right(f(wa)))
 
 /**
  * Derivable from `Extend`.
@@ -1145,7 +1142,7 @@ export const Alt: Alt2<URI> = {
 export const Extend: Extend2<URI> = {
   URI,
   map,
-  extend: extend_
+  extend
 }
 
 /**
