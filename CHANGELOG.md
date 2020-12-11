@@ -168,6 +168,8 @@ high state of flux, you're at risk of it changing without notice.
     - remove `readonlyTuple` (@gcanti)
   - `Semigroup`
     - make `fold` curried (@gcanti)
+  - `Semigroupoid`
+    - make type class members pipeables (@gcanti)
   - `State`
     - remove `state` (@gcanti)
   - `StateReaderTaskEither`

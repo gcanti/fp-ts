@@ -60,8 +60,6 @@ export const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q,
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const compose_: Category2<URI>['compose'] = (bc, ab) => pipe(bc, compose(ab))
-/* istanbul ignore next */
 const promap_: Profunctor2<URI>['promap'] = (fea, f, g) => pipe(fea, promap(f, g))
 
 /**
@@ -282,7 +280,7 @@ export const Profunctor: Profunctor2<URI> = {
  */
 export const Category: Category2<URI> = {
   URI,
-  compose: compose_,
+  compose,
   id
 }
 

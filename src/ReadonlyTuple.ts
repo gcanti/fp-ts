@@ -120,8 +120,6 @@ export function getChainRec<M>(M: Monoid<M>): ChainRec2C<URI, M> {
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const compose_: Semigroupoid2<URI>['compose'] = (bc, ab) => pipe(bc, compose(ab))
-/* istanbul ignore next */
 const extend_: Extend2<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
 /* istanbul ignore next */
 const traverse_ = <F>(
@@ -296,7 +294,7 @@ export const Bifunctor: Bifunctor2<URI> = {
  */
 export const Semigroupoid: Semigroupoid2<URI> = {
   URI,
-  compose: compose_
+  compose
 }
 
 /**
