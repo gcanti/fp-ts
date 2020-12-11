@@ -4,9 +4,8 @@
 import { Applicative, Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
-import { ChainRec2C } from './ChainRec'
 import { Comonad2 } from './Comonad'
-import { Either } from './Either'
+import { Extend2 } from './Extend'
 import { Foldable2 } from './Foldable'
 import { identity, pipe } from './function'
 import { Functor2 } from './Functor'
@@ -16,7 +15,6 @@ import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
 import { PipeableTraverse2, Traversable2 } from './Traversable'
-import { Extend2 } from './Extend'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -89,29 +87,6 @@ export function getMonad<M>(M: Monoid<M>): Monad2C<URI, M> {
       return [b, M.concat(snd(ma), s)]
     },
     of: of(M)
-  }
-}
-
-/**
- * @category instances
- * @since 2.5.0
- */
-export function getChainRec<M>(M: Monoid<M>): ChainRec2C<URI, M> {
-  const chainRec = <A, B>(a: A, f: (a: A) => readonly [Either<A, B>, M]): readonly [B, M] => {
-    let result: readonly [Either<A, B>, M] = f(a)
-    let acc: M = M.empty
-    let s: Either<A, B> = fst(result)
-    while (s._tag === 'Left') {
-      acc = M.concat(acc, snd(result))
-      result = f(s.left)
-      s = fst(result)
-    }
-    return [s.right, M.concat(acc, snd(result))]
-  }
-
-  return {
-    URI,
-    chainRec
   }
 }
 

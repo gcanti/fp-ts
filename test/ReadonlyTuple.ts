@@ -1,6 +1,4 @@
 import * as assert from 'assert'
-import { getMonoid } from '../src/ReadonlyArray'
-import { left, right } from '../src/Either'
 import { identity, pipe } from '../src/function'
 import { monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
@@ -102,16 +100,5 @@ describe('ReadonlyTuple', () => {
       ),
       [2, 'ab']
     )
-  })
-
-  it('chainRec', () => {
-    const { chainRec } = _.getChainRec(getMonoid<number>())
-    function seqReq(upper: number): readonly [number, ReadonlyArray<number>] {
-      return chainRec(1, (init) => [init >= upper ? right(init) : left(init + 1), [init]])
-    }
-    const xs = _.snd(seqReq(10000))
-    assert.deepStrictEqual(xs.length, 10000)
-    assert.deepStrictEqual(xs[0], 1)
-    assert.deepStrictEqual(xs[xs.length - 1], 10000)
   })
 })

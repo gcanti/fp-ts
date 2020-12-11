@@ -1,6 +1,6 @@
 ---
 title: IO.ts
-nav_order: 39
+nav_order: 38
 parent: Modules
 ---
 
@@ -39,7 +39,6 @@ Added in v2.0.0
   - [flatten](#flatten)
 - [instances](#instances)
   - [Applicative](#applicative-1)
-  - [ChainRec](#chainrec)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadIO](#monadio-1)
@@ -197,16 +196,6 @@ Added in v2.0.0
 
 ```ts
 export declare const Applicative: Applicative1<'IO'>
-```
-
-Added in v2.7.0
-
-## ChainRec
-
-**Signature**
-
-```ts
-export declare const ChainRec: ChainRec1<'IO'>
 ```
 
 Added in v2.7.0

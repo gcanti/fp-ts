@@ -1,6 +1,6 @@
 ---
 title: Functor.ts
-nav_order: 31
+nav_order: 30
 parent: Modules
 ---
 

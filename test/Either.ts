@@ -370,30 +370,6 @@ describe('Either', () => {
     })
   })
 
-  describe('ChainRec', () => {
-    it('chainRec', () => {
-      const chainRec = _.ChainRec.chainRec
-      assert.deepStrictEqual(
-        chainRec(1, () => _.left('foo')),
-        _.left('foo')
-      )
-      assert.deepStrictEqual(
-        chainRec(1, () => _.right(_.right(1))),
-        _.right(1)
-      )
-      assert.deepStrictEqual(
-        chainRec(1, (a) => {
-          if (a < 5) {
-            return _.right(_.left(a + 1))
-          } else {
-            return _.right(_.right(a))
-          }
-        }),
-        _.right(5)
-      )
-    })
-  })
-
   describe('getCompactable', () => {
     const C = _.getCompactable(monoidString)
     it('compact', () => {

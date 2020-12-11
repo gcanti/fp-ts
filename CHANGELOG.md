@@ -26,6 +26,7 @@ high state of flux, you're at risk of it changing without notice.
   - remove `Chain` module (@gcanti)
   - remove `Choice` module (@gcanti)
   - remove `Strong` module (@gcanti)
+  - remove `ChainRec` module (@gcanti)
   - remove mutable modules (@gcanti)
     - `Array`
     - `Map`

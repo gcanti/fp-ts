@@ -1,6 +1,6 @@
 ---
 title: ReadonlyTuple.ts
-nav_order: 65
+nav_order: 64
 parent: Modules
 ---
 
@@ -44,7 +44,6 @@ Added in v2.5.0
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
-  - [getChainRec](#getchainrec)
   - [getMonad](#getmonad)
 - [utils](#utils)
   - [sequence](#sequence)
@@ -305,16 +304,6 @@ Added in v2.5.0
 
 ```ts
 export declare function getApply<S>(S: Semigroup<S>): Apply2C<URI, S>
-```
-
-Added in v2.5.0
-
-## getChainRec
-
-**Signature**
-
-```ts
-export declare function getChainRec<M>(M: Monoid<M>): ChainRec2C<URI, M>
 ```
 
 Added in v2.5.0

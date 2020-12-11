@@ -1,6 +1,6 @@
 ---
 title: Either.ts
-nav_order: 22
+nav_order: 21
 parent: Modules
 ---
 
@@ -83,7 +83,6 @@ Added in v2.0.0
   - [Alt](#alt-1)
   - [Applicative](#applicative-1)
   - [Bifunctor](#bifunctor-1)
-  - [ChainRec](#chainrec)
   - [Extend](#extend-1)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
@@ -984,16 +983,6 @@ Added in v2.7.0
 
 ```ts
 export declare const Bifunctor: Bifunctor2<'Either'>
-```
-
-Added in v2.7.0
-
-## ChainRec
-
-**Signature**
-
-```ts
-export declare const ChainRec: ChainRec2<'Either'>
 ```
 
 Added in v2.7.0

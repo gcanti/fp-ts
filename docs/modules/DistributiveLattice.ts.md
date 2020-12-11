@@ -1,6 +1,6 @@
 ---
 title: DistributiveLattice.ts
-nav_order: 21
+nav_order: 20
 parent: Modules
 ---
 

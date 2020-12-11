@@ -1,10 +1,9 @@
 import * as assert from 'assert'
-import { left, right } from '../src/Either'
+import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import * as _ from '../src/Identity'
 import { monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
-import { eqNumber } from '../src/Eq'
 import { showString } from '../src/Show'
 
 describe('Identity', () => {
@@ -108,12 +107,6 @@ describe('Identity', () => {
     assert.deepStrictEqual(S.equals(1, 1), true)
     assert.deepStrictEqual(S.equals(1, 2), false)
     assert.deepStrictEqual(S.equals(2, 1), false)
-  })
-
-  it('ChainRec', () => {
-    const x = _.ChainRec.chainRec<number, number>(0, (a) => (a < 10 ? left(a + 1) : right(a)))
-    const expected = 10
-    assert.deepStrictEqual(x, expected)
   })
 
   it('getShow', () => {

@@ -1,6 +1,6 @@
 ---
 title: Semiring.ts
-nav_order: 69
+nav_order: 68
 parent: Modules
 ---
 

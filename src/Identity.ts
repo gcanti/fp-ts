@@ -3,7 +3,6 @@
  */
 import { Alt1 } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { ChainRec1, tailRec } from './ChainRec'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
@@ -37,8 +36,6 @@ const traverse_ = <F>(
   const traverseF = traverse(F)
   return (ta, f) => pipe(ta, traverseF(f))
 }
-
-const chainRec_: ChainRec1<URI>['chainRec'] = tailRec
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -309,15 +306,6 @@ export const Comonad: Comonad1<URI> = {
   map,
   extend,
   extract
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const ChainRec: ChainRec1<URI> = {
-  URI,
-  chainRec: chainRec_
 }
 
 // -------------------------------------------------------------------------------------

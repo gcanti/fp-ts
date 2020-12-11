@@ -1,6 +1,6 @@
 ---
 title: Extend.ts
-nav_order: 24
+nav_order: 23
 parent: Modules
 ---
 

@@ -1,10 +1,9 @@
 import * as assert from 'assert'
+import { pipe } from '../src/function'
 import * as _ from '../src/IO'
-import { semigroupSum } from '../src/Semigroup'
 import { monoidSum } from '../src/Monoid'
 import * as RA from '../src/ReadonlyArray'
-import * as E from '../src/Either'
-import { pipe } from '../src/function'
+import { semigroupSum } from '../src/Semigroup'
 
 describe('IO', () => {
   describe('pipeables', () => {
@@ -58,11 +57,6 @@ describe('IO', () => {
     assert.deepStrictEqual(M.concat(append('a'), M.empty)(), 1)
     assert.deepStrictEqual(M.concat(M.empty, append('b'))(), 2)
     assert.deepStrictEqual(log, ['a', 'b'])
-  })
-
-  it('chainRec', () => {
-    const f = (n: number) => (n < 15000 ? _.of(E.left(n + 1)) : _.of(E.right('ok ' + n)))
-    assert.deepStrictEqual(_.ChainRec.chainRec(0, f)(), 'ok 15000')
   })
 
   it('do notation', () => {

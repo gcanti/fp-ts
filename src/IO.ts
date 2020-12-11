@@ -12,7 +12,6 @@
  * @since 2.0.0
  */
 import { Applicative1 } from './Applicative'
-import { ChainRec1 } from './ChainRec'
 import { bindTo_, bind_, constant, flow, identity, pipe, tuple } from './function'
 import { Functor1 } from './Functor'
 import { Monad1 } from './Monad'
@@ -31,22 +30,6 @@ import { Semigroup } from './Semigroup'
 export interface IO<A> {
   (): A
 }
-
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
-const chainRec_: ChainRec1<URI>['chainRec'] = (a, f) => () => {
-  let e = f(a)()
-  while (e._tag === 'Left') {
-    e = f(e.left)()
-  }
-  return e.right
-}
-
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -223,15 +206,6 @@ export const Monad: Monad1<URI> = {
 export const MonadIO: MonadIO1<URI> = {
   URI,
   fromIO
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const ChainRec: ChainRec1<URI> = {
-  URI,
-  chainRec: chainRec_
 }
 
 // -------------------------------------------------------------------------------------
