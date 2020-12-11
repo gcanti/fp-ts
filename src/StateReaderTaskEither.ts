@@ -448,12 +448,12 @@ export const ap: <S, R, E, A>(
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst: <S, R, E, B>(
-  fb: StateReaderTaskEither<S, R, E, B>
-) => <A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = (fb) =>
+export const apFirst = <S, R, E, B>(
+  second: StateReaderTaskEither<S, R, E, B>
+): (<A>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>) =>
   flow(
     map((a) => () => a),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -465,11 +465,11 @@ export const apFirst: <S, R, E, B>(
  * @since 2.0.0
  */
 export const apSecond = <S, R, E, B>(
-  fb: StateReaderTaskEither<S, R, E, B>
-): (<A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>) =>
+  second: StateReaderTaskEither<S, R, E, B>
+): (<A>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>) =>
   flow(
     map(() => (b: B) => b),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -514,7 +514,7 @@ export const chain: <S, R, E, A, B>(
  */
 export const chainFirstW: <S, R, D, A, B>(
   f: (a: A) => StateReaderTaskEither<S, R, D, B>
-) => <Q, E>(ma: StateReaderTaskEither<S, Q, E, A>) => StateReaderTaskEither<S, Q & R, D | E, A> = (f) =>
+) => <Q, E>(first: StateReaderTaskEither<S, Q, E, A>) => StateReaderTaskEither<S, Q & R, D | E, A> = (f) =>
   chainW((a) =>
     pipe(
       f(a),
@@ -533,7 +533,7 @@ export const chainFirstW: <S, R, D, A, B>(
  */
 export const chainFirst: <S, R, E, A, B>(
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = chainFirstW
+) => (first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = chainFirstW
 
 /**
  * Derivable from `Monad`.
@@ -553,12 +553,12 @@ export const flatten: <S, R, E, A>(
  * @category Alt
  * @since 2.9.0
  */
-export const altW = <S, R2, E2, B>(that: () => StateReaderTaskEither<S, R2, E2, B>) => <R1, E1, A>(
-  fa: StateReaderTaskEither<S, R1, E1, A>
+export const altW = <S, R2, E2, B>(second: () => StateReaderTaskEither<S, R2, E2, B>) => <R1, E1, A>(
+  first: StateReaderTaskEither<S, R1, E1, A>
 ): StateReaderTaskEither<S, R1 & R2, E1 | E2, A | B> => (r) =>
   pipe(
-    fa(r),
-    RTE.altW(() => that()(r))
+    first(r),
+    RTE.altW(() => second()(r))
   )
 
 /**
@@ -568,9 +568,7 @@ export const altW = <S, R2, E2, B>(that: () => StateReaderTaskEither<S, R2, E2, 
  * @category Alt
  * @since 2.6.2
  */
-export const alt: <S, R, E, A>(
-  that: Lazy<StateReaderTaskEither<S, R, E, A>>
-) => (fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = altW
+export const alt: Alt4<URI>['alt'] = altW
 
 /**
  * @category MonadIO

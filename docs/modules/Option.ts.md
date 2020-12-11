@@ -140,7 +140,7 @@ In case of `Option` returns the left-most non-`None` value.
 **Signature**
 
 ```ts
-export declare const alt: <A>(that: Lazy<Option<A>>) => (fa: Option<A>) => Option<A>
+export declare const alt: <A>(second: Lazy<Option<A>>) => (first: Option<A>) => Option<A>
 ```
 
 **Example**
@@ -174,7 +174,7 @@ Less strict version of [`alt`](#alt).
 **Signature**
 
 ```ts
-export declare const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => Option<B | A>
+export declare const altW: <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>) => Option<B | A>
 ```
 
 Added in v2.9.0
@@ -425,7 +425,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<A>
+export declare const apFirst: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<A>
 ```
 
 Added in v2.0.0
@@ -439,7 +439,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<B>
+export declare const apSecond: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<B>
 ```
 
 Added in v2.0.0
@@ -454,7 +454,7 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<A>
+export declare const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A>
 ```
 
 Added in v2.0.0

@@ -482,8 +482,8 @@ export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: Reado
  * @since 2.9.0
  */
 export const altW: <B>(
-  that: Lazy<ReadonlyNonEmptyArray<B>>
-) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B> = RA.altW as any
+  second: Lazy<ReadonlyNonEmptyArray<B>>
+) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B> = RA.altW as any
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -492,9 +492,7 @@ export const altW: <B>(
  * @category Alt
  * @since 2.6.2
  */
-export const alt: <A>(
-  that: Lazy<ReadonlyNonEmptyArray<A>>
-) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.alt as any
+export const alt: Alt1<URI>['alt'] = RA.alt as any
 
 /**
  * @category Apply
@@ -513,8 +511,8 @@ export const ap: <A>(
  * @since 2.5.0
  */
 export const apFirst: <B>(
-  fb: ReadonlyNonEmptyArray<B>
-) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.apFirst as any
+  second: ReadonlyNonEmptyArray<B>
+) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.apFirst as any
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -525,8 +523,8 @@ export const apFirst: <B>(
  * @since 2.5.0
  */
 export const apSecond: <B>(
-  fb: ReadonlyNonEmptyArray<B>
-) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = RA.apSecond as any
+  second: ReadonlyNonEmptyArray<B>
+) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = RA.apSecond as any
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -549,7 +547,7 @@ export const chain: <A, B>(
  */
 export const chainFirst: <A, B>(
   f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.chainFirst as any
+) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.chainFirst as any
 
 /**
  * Derivable from `Extend`.

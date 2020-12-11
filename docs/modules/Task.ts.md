@@ -152,7 +152,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<A>
+export declare const apFirst: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<A>
 ```
 
 Added in v2.0.0
@@ -166,7 +166,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<B>
+export declare const apSecond: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<B>
 ```
 
 Added in v2.0.0
@@ -181,7 +181,7 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<A>
+export declare const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A>
 ```
 
 Added in v2.0.0

@@ -73,10 +73,10 @@ export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = (fa) => 
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst: <B>(fb: IO<B>) => <A>(fa: IO<A>) => IO<A> = (fb) =>
+export const apFirst = <B>(second: IO<B>): (<A>(first: IO<A>) => IO<A>) =>
   flow(
     map((a) => () => a),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -87,10 +87,10 @@ export const apFirst: <B>(fb: IO<B>) => <A>(fa: IO<A>) => IO<A> = (fb) =>
  * @category combinators
  * @since 2.0.0
  */
-export const apSecond = <B>(fb: IO<B>): (<A>(fa: IO<A>) => IO<B>) =>
+export const apSecond = <B>(second: IO<B>): (<A>(first: IO<A>) => IO<B>) =>
   flow(
     map(() => (b: B) => b),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -118,7 +118,7 @@ export const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B> = (f) => 
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<A> = (f) =>
+export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A> = (f) =>
   chain((a) =>
     pipe(
       f(a),

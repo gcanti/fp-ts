@@ -126,8 +126,8 @@ types of kind `* -> *`.
 
 ```ts
 export declare const alt: <R, E, A>(
-  that: () => ReaderTaskEither<R, E, A>
-) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+  second: Lazy<ReaderTaskEither<R, E, A>>
+) => (first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -140,8 +140,8 @@ Less strict version of [`alt`](#alt).
 
 ```ts
 export declare const altW: <R2, E2, B>(
-  that: () => ReaderTaskEither<R2, E2, B>
-) => <R1, E1, A>(fa: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B | A>
+  second: () => ReaderTaskEither<R2, E2, B>
+) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B | A>
 ```
 
 Added in v2.9.0
@@ -316,8 +316,8 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apFirst: <R, E, B>(
-  fb: ReaderTaskEither<R, E, B>
-) => <A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+  second: ReaderTaskEither<R, E, B>
+) => <A>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -332,8 +332,8 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apSecond: <R, E, B>(
-  fb: ReaderTaskEither<R, E, B>
-) => <A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+  second: ReaderTaskEither<R, E, B>
+) => <A>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v2.0.0
@@ -376,7 +376,7 @@ Derivable from `Monad`.
 ```ts
 export declare const chainFirst: <R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
-) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+) => (first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -392,7 +392,7 @@ Derivable from `Monad`.
 ```ts
 export declare const chainFirstW: <R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
-) => <Q, D>(ma: ReaderTaskEither<Q, D, A>) => ReaderTaskEither<Q & R, E | D, A>
+) => <Q, D>(first: ReaderTaskEither<Q, D, A>) => ReaderTaskEither<Q & R, E | D, A>
 ```
 
 Added in v2.8.0

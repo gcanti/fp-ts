@@ -101,8 +101,8 @@ types of kind `* -> *`.
 
 ```ts
 export declare const alt: <R, E, A>(
-  that: () => ReaderEither<R, E, A>
-) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+  second: Lazy<ReaderEither<R, E, A>>
+) => (first: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -115,8 +115,8 @@ Less strict version of [`alt`](#alt).
 
 ```ts
 export declare const altW: <R2, E2, B>(
-  that: () => ReaderEither<R2, E2, B>
-) => <R1, E1, A>(fa: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B | A>
+  second: () => ReaderEither<R2, E2, B>
+) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B | A>
 ```
 
 Added in v2.9.0
@@ -265,8 +265,8 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apFirst: <R, E, B>(
-  fb: ReaderEither<R, E, B>
-) => <A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+  second: ReaderEither<R, E, B>
+) => <A>(first: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -281,8 +281,8 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apSecond: <R, E, B>(
-  fb: ReaderEither<R, E, B>
-) => <A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+  second: ReaderEither<R, E, B>
+) => <A>(first: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
 ```
 
 Added in v2.0.0
@@ -325,7 +325,7 @@ Derivable from `Monad`.
 ```ts
 export declare const chainFirst: <R, E, A, B>(
   f: (a: A) => ReaderEither<R, E, B>
-) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+) => (first: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -341,7 +341,7 @@ Derivable from `Monad`.
 ```ts
 export declare const chainFirstW: <R, D, A, B>(
   f: (a: A) => ReaderEither<R, D, B>
-) => <Q, E>(ma: ReaderEither<Q, E, A>) => ReaderEither<Q & R, D | E, A>
+) => <Q, E>(first: ReaderEither<Q, E, A>) => ReaderEither<Q & R, D | E, A>
 ```
 
 Added in v2.8.0

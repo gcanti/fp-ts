@@ -214,10 +214,10 @@ export const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = (f
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst: <B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<A> = (fb) =>
+export const apFirst = <B>(second: Tree<B>): (<A>(first: Tree<A>) => Tree<A>) =>
   flow(
     map((a) => () => a),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -228,10 +228,10 @@ export const apFirst: <B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<A> = (fb) =>
  * @category combinators
  * @since 2.0.0
  */
-export const apSecond = <B>(fb: Tree<B>): (<A>(fa: Tree<A>) => Tree<B>) =>
+export const apSecond = <B>(second: Tree<B>): (<A>(first: Tree<A>) => Tree<B>) =>
   flow(
     map(() => (b: B) => b),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -258,7 +258,7 @@ export const chain = <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>): Tree<B> => {
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<A> = (f) =>
+export const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (first: Tree<A>) => Tree<A> = (f) =>
   chain((a) =>
     pipe(
       f(a),

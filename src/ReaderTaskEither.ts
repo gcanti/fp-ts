@@ -425,12 +425,12 @@ export const ap: <R, E, A>(
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst: <R, E, B>(
-  fb: ReaderTaskEither<R, E, B>
-) => <A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = (fb) =>
+export const apFirst = <R, E, B>(
+  second: ReaderTaskEither<R, E, B>
+): (<A>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>) =>
   flow(
     map((a) => () => a),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -442,11 +442,11 @@ export const apFirst: <R, E, B>(
  * @since 2.0.0
  */
 export const apSecond = <R, E, B>(
-  fb: ReaderTaskEither<R, E, B>
-): (<A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>) =>
+  second: ReaderTaskEither<R, E, B>
+): (<A>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>) =>
   flow(
     map(() => (b: B) => b),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -493,7 +493,7 @@ export const chain: <R, E, A, B>(
  */
 export const chainFirstW: <R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
-) => <Q, D>(ma: ReaderTaskEither<Q, D, A>) => ReaderTaskEither<Q & R, D | E, A> = (f) =>
+) => <Q, D>(first: ReaderTaskEither<Q, D, A>) => ReaderTaskEither<Q & R, D | E, A> = (f) =>
   chainW((a) =>
     pipe(
       f(a),
@@ -512,7 +512,7 @@ export const chainFirstW: <R, E, A, B>(
  */
 export const chainFirst: <R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
-) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = chainFirstW
+) => (first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = chainFirstW
 
 /**
  * Derivable from `Monad`.
@@ -530,12 +530,12 @@ export const flatten: <R, E, A>(mma: ReaderTaskEither<R, E, ReaderTaskEither<R, 
  * @category Alt
  * @since 2.9.0
  */
-export const altW = <R2, E2, B>(that: () => ReaderTaskEither<R2, E2, B>) => <R1, E1, A>(
-  fa: ReaderTaskEither<R1, E1, A>
+export const altW = <R2, E2, B>(second: () => ReaderTaskEither<R2, E2, B>) => <R1, E1, A>(
+  first: ReaderTaskEither<R1, E1, A>
 ): ReaderTaskEither<R1 & R2, E1 | E2, A | B> => (r) =>
   pipe(
-    fa(r),
-    TE.altW(() => that()(r))
+    first(r),
+    TE.altW(() => second()(r))
   )
 
 /**
@@ -545,9 +545,7 @@ export const altW = <R2, E2, B>(that: () => ReaderTaskEither<R2, E2, B>) => <R1,
  * @category Alt
  * @since 2.0.0
  */
-export const alt: <R, E, A>(
-  that: () => ReaderTaskEither<R, E, A>
-) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = altW
+export const alt: Alt3<URI>['alt'] = altW
 
 /**
  * @category MonadIO

@@ -486,10 +486,10 @@ export const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<A> = (fb) =>
+export const apFirst = <B>(second: Option<B>): (<A>(first: Option<A>) => Option<A>) =>
   flow(
     map((a) => () => a),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -500,10 +500,10 @@ export const apFirst: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<A> = (f
  * @category combinators
  * @since 2.0.0
  */
-export const apSecond = <B>(fb: Option<B>): (<A>(fa: Option<A>) => Option<B>) =>
+export const apSecond = <B>(second: Option<B>): (<A>(first: Option<A>) => Option<B>) =>
   flow(
     map(() => (b: B) => b),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -532,7 +532,7 @@ export const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<A> = (f) =>
+export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A> = (f) =>
   chain((a) =>
     pipe(
       f(a),
@@ -556,8 +556,8 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> =
  * @category Alt
  * @since 2.9.0
  */
-export const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => Option<A | B> = (that) => (fa) =>
-  isNone(fa) ? that() : fa
+export const altW = <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>): Option<A | B> =>
+  isNone(first) ? second() : first
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -587,7 +587,7 @@ export const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => Option<A 
  * @category Alt
  * @since 2.0.0
  */
-export const alt: <A>(that: Lazy<Option<A>>) => (fa: Option<A>) => Option<A> = altW
+export const alt: Alt1<URI>['alt'] = altW
 
 /**
  * @category Alternative

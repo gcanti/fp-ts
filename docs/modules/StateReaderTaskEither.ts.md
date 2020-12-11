@@ -116,8 +116,8 @@ types of kind `* -> *`.
 
 ```ts
 export declare const alt: <S, R, E, A>(
-  that: Lazy<StateReaderTaskEither<S, R, E, A>>
-) => (fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+  second: Lazy<StateReaderTaskEither<S, R, E, A>>
+) => (first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.6.2
@@ -130,8 +130,8 @@ Less strict version of [`alt`](#alt).
 
 ```ts
 export declare const altW: <S, R2, E2, B>(
-  that: () => StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1, A>(fa: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B | A>
+  second: () => StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1, A>(first: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B | A>
 ```
 
 Added in v2.9.0
@@ -306,8 +306,8 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apFirst: <S, R, E, B>(
-  fb: StateReaderTaskEither<S, R, E, B>
-) => <A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+  second: StateReaderTaskEither<S, R, E, B>
+) => <A>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.0.0
@@ -322,8 +322,8 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apSecond: <S, R, E, B>(
-  fb: StateReaderTaskEither<S, R, E, B>
-) => <A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+  second: StateReaderTaskEither<S, R, E, B>
+) => <A>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.0.0
@@ -366,7 +366,7 @@ Derivable from `Monad`.
 ```ts
 export declare const chainFirst: <S, R, E, A, B>(
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+) => (first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.0.0
@@ -382,7 +382,7 @@ Derivable from `Monad`.
 ```ts
 export declare const chainFirstW: <S, R, D, A, B>(
   f: (a: A) => StateReaderTaskEither<S, R, D, B>
-) => <Q, E>(ma: StateReaderTaskEither<S, Q, E, A>) => StateReaderTaskEither<S, Q & R, D | E, A>
+) => <Q, E>(first: StateReaderTaskEither<S, Q, E, A>) => StateReaderTaskEither<S, Q & R, D | E, A>
 ```
 
 Added in v2.8.0

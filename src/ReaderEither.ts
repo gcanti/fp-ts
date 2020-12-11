@@ -281,12 +281,12 @@ export const ap: <R, E, A>(
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst: <R, E, B>(
-  fb: ReaderEither<R, E, B>
-) => <A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = (fb) =>
+export const apFirst = <R, E, B>(
+  second: ReaderEither<R, E, B>
+): (<A>(first: ReaderEither<R, E, A>) => ReaderEither<R, E, A>) =>
   flow(
     map((a) => () => a),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -298,11 +298,11 @@ export const apFirst: <R, E, B>(
  * @since 2.0.0
  */
 export const apSecond = <R, E, B>(
-  fb: ReaderEither<R, E, B>
-): (<A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B>) =>
+  second: ReaderEither<R, E, B>
+): (<A>(first: ReaderEither<R, E, A>) => ReaderEither<R, E, B>) =>
   flow(
     map(() => (b: B) => b),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -345,7 +345,7 @@ export const chain: <R, E, A, B>(
  */
 export const chainFirstW: <R, D, A, B>(
   f: (a: A) => ReaderEither<R, D, B>
-) => <Q, E>(ma: ReaderEither<Q, E, A>) => ReaderEither<Q & R, D | E, A> = (f) =>
+) => <Q, E>(first: ReaderEither<Q, E, A>) => ReaderEither<Q & R, D | E, A> = (f) =>
   chainW((a) =>
     pipe(
       f(a),
@@ -364,7 +364,7 @@ export const chainFirstW: <R, D, A, B>(
  */
 export const chainFirst: <R, E, A, B>(
   f: (a: A) => ReaderEither<R, E, B>
-) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = chainFirstW
+) => (first: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = chainFirstW
 
 /**
  * Derivable from `Monad`.
@@ -382,10 +382,10 @@ export const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) 
  * @category Alt
  * @since 2.9.0
  */
-export const altW = <R2, E2, B>(that: () => ReaderEither<R2, E2, B>) => <R1, E1, A>(
-  fa: ReaderEither<R1, E1, A>
+export const altW = <R2, E2, B>(second: () => ReaderEither<R2, E2, B>) => <R1, E1, A>(
+  first: ReaderEither<R1, E1, A>
 ): ReaderEither<R1 & R2, E1 | E2, A | B> =>
-  pipe(fa, R.chain(E.fold<E1, A, ReaderEither<R1 & R2, E1 | E2, A | B>>(that, right)))
+  pipe(first, R.chain(E.fold<E1, A, ReaderEither<R1 & R2, E1 | E2, A | B>>(second, right)))
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -394,9 +394,7 @@ export const altW = <R2, E2, B>(that: () => ReaderEither<R2, E2, B>) => <R1, E1,
  * @category Alt
  * @since 2.0.0
  */
-export const alt: <R, E, A>(
-  that: () => ReaderEither<R, E, A>
-) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = altW
+export const alt: Alt3<URI>['alt'] = altW
 
 /**
  * @category MonadThrow

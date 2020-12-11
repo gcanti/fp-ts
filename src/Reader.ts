@@ -99,10 +99,10 @@ export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) =>
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst: <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>) => Reader<R, A> = (fb) =>
+export const apFirst = <R, B>(second: Reader<R, B>): (<A>(first: Reader<R, A>) => Reader<R, A>) =>
   flow(
     map((a) => () => a),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -113,10 +113,10 @@ export const apFirst: <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>) => Reade
  * @category combinators
  * @since 2.0.0
  */
-export const apSecond = <R, B>(fb: Reader<R, B>): (<A>(fa: Reader<R, A>) => Reader<R, B>) =>
+export const apSecond = <R, B>(second: Reader<R, B>): (<A>(first: Reader<R, A>) => Reader<R, B>) =>
   flow(
     map(() => (b: B) => b),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -154,7 +154,7 @@ export const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) =
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, A> = (f) =>
+export const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<R, A>) => Reader<R, A> = (f) =>
   chain((a) =>
     pipe(
       f(a),

@@ -118,8 +118,8 @@ types of kind `* -> *`.
 
 ```ts
 export declare const alt: <A>(
-  that: Lazy<ReadonlyNonEmptyArray<A>>
-) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+  second: Lazy<ReadonlyNonEmptyArray<A>>
+) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.6.2
@@ -132,8 +132,8 @@ Less strict version of [`alt`](#alt).
 
 ```ts
 export declare const altW: <B>(
-  that: Lazy<ReadonlyNonEmptyArray<B>>
-) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B | A>
+  second: Lazy<ReadonlyNonEmptyArray<B>>
+) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B | A>
 ```
 
 Added in v2.9.0
@@ -309,8 +309,8 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apFirst: <B>(
-  fb: ReadonlyNonEmptyArray<B>
-) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+  second: ReadonlyNonEmptyArray<B>
+) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.5.0
@@ -325,8 +325,8 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apSecond: <B>(
-  fb: ReadonlyNonEmptyArray<B>
-) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+  second: ReadonlyNonEmptyArray<B>
+) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
 ```
 
 Added in v2.5.0
@@ -343,7 +343,7 @@ Derivable from `Monad`.
 ```ts
 export declare const chainFirst: <A, B>(
   f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.5.0

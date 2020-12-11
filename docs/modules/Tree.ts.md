@@ -200,7 +200,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<A>
+export declare const apFirst: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<A>
 ```
 
 Added in v2.0.0
@@ -214,7 +214,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <B>(fb: Tree<B>) => <A>(fa: Tree<A>) => Tree<B>
+export declare const apSecond: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<B>
 ```
 
 Added in v2.0.0
@@ -229,7 +229,7 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<A>
+export declare const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (first: Tree<A>) => Tree<A>
 ```
 
 Added in v2.0.0

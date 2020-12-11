@@ -194,7 +194,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>) => Reader<R, A>
+export declare const apFirst: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) => Reader<R, A>
 ```
 
 Added in v2.0.0
@@ -208,7 +208,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>) => Reader<R, B>
+export declare const apSecond: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) => Reader<R, B>
 ```
 
 Added in v2.0.0
@@ -223,7 +223,7 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, A>
+export declare const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<R, A>) => Reader<R, A>
 ```
 
 Added in v2.0.0

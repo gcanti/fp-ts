@@ -112,7 +112,7 @@ types of kind `* -> *`.
 **Signature**
 
 ```ts
-export declare const alt: <E, A>(that: Lazy<IOEither<E, A>>) => (fa: IOEither<E, A>) => IOEither<E, A>
+export declare const alt: <E, A>(second: Lazy<IOEither<E, A>>) => (first: IOEither<E, A>) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -125,8 +125,8 @@ Less strict version of [`alt`](#alt).
 
 ```ts
 export declare const altW: <E2, B>(
-  that: Lazy<IOEither<E2, B>>
-) => <E1, A>(fa: IOEither<E1, A>) => IOEither<E2 | E1, B | A>
+  second: Lazy<IOEither<E2, B>>
+) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2 | E1, B | A>
 ```
 
 Added in v2.9.0
@@ -275,7 +275,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>) => IOEither<E, A>
+export declare const apFirst: <E, B>(second: IOEither<E, B>) => <A>(first: IOEither<E, A>) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -289,7 +289,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>) => IOEither<E, B>
+export declare const apSecond: <E, B>(second: IOEither<E, B>) => <A>(first: IOEither<E, A>) => IOEither<E, B>
 ```
 
 Added in v2.0.0
@@ -328,7 +328,7 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, A>
+export declare const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (first: IOEither<E, A>) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -344,7 +344,7 @@ Derivable from `Monad`.
 ```ts
 export declare const chainFirstW: <D, A, B>(
   f: (a: A) => IOEither<D, B>
-) => <E>(ma: IOEither<E, A>) => IOEither<D | E, A>
+) => <E>(first: IOEither<E, A>) => IOEither<D | E, A>
 ```
 
 Added in v2.8.0

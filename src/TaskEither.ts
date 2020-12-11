@@ -368,10 +368,10 @@ export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) =
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst: <E, B>(fb: TaskEither<E, B>) => <A>(fa: TaskEither<E, A>) => TaskEither<E, A> = (fb) =>
+export const apFirst = <E, B>(second: TaskEither<E, B>): (<A>(first: TaskEither<E, A>) => TaskEither<E, A>) =>
   flow(
     map((a) => () => a),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -382,10 +382,10 @@ export const apFirst: <E, B>(fb: TaskEither<E, B>) => <A>(fa: TaskEither<E, A>) 
  * @category combinators
  * @since 2.0.0
  */
-export const apSecond = <E, B>(fb: TaskEither<E, B>): (<A>(fa: TaskEither<E, A>) => TaskEither<E, B>) =>
+export const apSecond = <E, B>(second: TaskEither<E, B>): (<A>(first: TaskEither<E, A>) => TaskEither<E, B>) =>
   flow(
     map(() => (b: B) => b),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -415,7 +415,7 @@ export const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<
  */
 export const chainFirstW: <E, A, B>(
   f: (a: A) => TaskEither<E, B>
-) => <D>(ma: TaskEither<D, A>) => TaskEither<D | E, A> = (f) =>
+) => <D>(first: TaskEither<D, A>) => TaskEither<D | E, A> = (f) =>
   chainW((a) =>
     pipe(
       f(a),
@@ -434,7 +434,7 @@ export const chainFirstW: <E, A, B>(
  */
 export const chainFirst: <E, A, B>(
   f: (a: A) => TaskEither<E, B>
-) => (ma: TaskEither<E, A>) => TaskEither<E, A> = chainFirstW
+) => (first: TaskEither<E, A>) => TaskEither<E, A> = chainFirstW
 
 /**
  * Derivable from `Monad`.
@@ -452,9 +452,9 @@ export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither
  * @category Alt
  * @since 2.9.0
  */
-export const altW = <E2, B>(that: Lazy<TaskEither<E2, B>>) => <E1, A>(
-  fa: TaskEither<E1, A>
-): TaskEither<E1 | E2, A | B> => pipe(fa, T.chain(E.fold<E1, A, TaskEither<E1 | E2, A | B>>(that, right)))
+export const altW = <E2, B>(second: Lazy<TaskEither<E2, B>>) => <E1, A>(
+  first: TaskEither<E1, A>
+): TaskEither<E1 | E2, A | B> => pipe(first, T.chain(E.fold<E1, A, TaskEither<E1 | E2, A | B>>(second, right)))
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -498,7 +498,7 @@ export const altW = <E2, B>(that: Lazy<TaskEither<E2, B>>) => <E1, A>(
  * @category Alt
  * @since 2.0.0
  */
-export const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>) => TaskEither<E, A> = altW
+export const alt: Alt2<URI>['alt'] = altW
 
 /**
  * Wrap a value into the type constructor.

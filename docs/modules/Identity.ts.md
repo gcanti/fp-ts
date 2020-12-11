@@ -75,7 +75,7 @@ types of kind `* -> *`.
 **Signature**
 
 ```ts
-export declare const alt: <A>(that: () => A) => (fa: A) => A
+export declare const alt: <A>(second: Lazy<A>) => (first: A) => A
 ```
 
 Added in v2.0.0
@@ -87,7 +87,7 @@ Less strict version of [`alt`](#alt).
 **Signature**
 
 ```ts
-export declare const altW: <B>(that: () => B) => <A>(fa: A) => B | A
+export declare const altW: <B>(second: () => B) => <A>(first: A) => B | A
 ```
 
 Added in v2.9.0
@@ -216,7 +216,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <B>(fb: B) => <A>(fa: A) => A
+export declare const apFirst: <B>(second: B) => <A>(first: A) => A
 ```
 
 Added in v2.0.0
@@ -230,7 +230,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <B>(fb: B) => <A>(fa: A) => B
+export declare const apSecond: <B>(second: B) => <A>(first: A) => B
 ```
 
 Added in v2.0.0
@@ -245,7 +245,7 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, B>(f: (a: A) => B) => (ma: A) => A
+export declare const chainFirst: <A, B>(f: (a: A) => B) => (first: A) => A
 ```
 
 Added in v2.0.0

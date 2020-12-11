@@ -142,7 +142,7 @@ types of kind `* -> *`.
 **Signature**
 
 ```ts
-export declare const alt: <E, A>(that: Lazy<Either<E, A>>) => (fa: Either<E, A>) => Either<E, A>
+export declare const alt: <E, A>(second: Lazy<Either<E, A>>) => (first: Either<E, A>) => Either<E, A>
 ```
 
 Added in v2.0.0
@@ -154,7 +154,9 @@ Less strict version of [`alt`](#alt).
 **Signature**
 
 ```ts
-export declare const altW: <E2, B>(that: Lazy<Either<E2, B>>) => <E1, A>(fa: Either<E1, A>) => Either<E2 | E1, B | A>
+export declare const altW: <E2, B>(
+  second: Lazy<Either<E2, B>>
+) => <E1, A>(first: Either<E1, A>) => Either<E2 | E1, B | A>
 ```
 
 Added in v2.9.0
@@ -442,7 +444,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, A>
+export declare const apFirst: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) => Either<E, A>
 ```
 
 Added in v2.0.0
@@ -456,7 +458,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, B>
+export declare const apSecond: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) => Either<E, B>
 ```
 
 Added in v2.0.0
@@ -471,7 +473,7 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A>
+export declare const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (first: Either<E, A>) => Either<E, A>
 ```
 
 Added in v2.0.0
@@ -485,7 +487,7 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirstW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>) => Either<D | E, A>
+export declare const chainFirstW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(first: Either<E, A>) => Either<D | E, A>
 ```
 
 Added in v2.8.0

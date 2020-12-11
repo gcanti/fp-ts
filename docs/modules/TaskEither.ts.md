@@ -129,7 +129,7 @@ See also [orElse](#orElse).
 **Signature**
 
 ```ts
-export declare const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>) => TaskEither<E, A>
+export declare const alt: <E, A>(second: Lazy<TaskEither<E, A>>) => (first: TaskEither<E, A>) => TaskEither<E, A>
 ```
 
 **Example**
@@ -176,8 +176,8 @@ Less strict version of [`alt`](#alt).
 
 ```ts
 export declare const altW: <E2, B>(
-  that: Lazy<TaskEither<E2, B>>
-) => <E1, A>(fa: TaskEither<E1, A>) => TaskEither<E2 | E1, B | A>
+  second: Lazy<TaskEither<E2, B>>
+) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, B | A>
 ```
 
 Added in v2.9.0
@@ -340,7 +340,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <E, B>(fb: TaskEither<E, B>) => <A>(fa: TaskEither<E, A>) => TaskEither<E, A>
+export declare const apFirst: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither<E, A>) => TaskEither<E, A>
 ```
 
 Added in v2.0.0
@@ -354,7 +354,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <E, B>(fb: TaskEither<E, B>) => <A>(fa: TaskEither<E, A>) => TaskEither<E, B>
+export declare const apSecond: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither<E, A>) => TaskEither<E, B>
 ```
 
 Added in v2.0.0
@@ -393,7 +393,9 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, A>
+export declare const chainFirst: <E, A, B>(
+  f: (a: A) => TaskEither<E, B>
+) => (first: TaskEither<E, A>) => TaskEither<E, A>
 ```
 
 Added in v2.0.0
@@ -409,7 +411,7 @@ Derivable from `Monad`.
 ```ts
 export declare const chainFirstW: <E, A, B>(
   f: (a: A) => TaskEither<E, B>
-) => <D>(ma: TaskEither<D, A>) => TaskEither<E | D, A>
+) => <D>(first: TaskEither<D, A>) => TaskEither<E | D, A>
 ```
 
 Added in v2.8.0

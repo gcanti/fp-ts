@@ -539,10 +539,10 @@ export const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) =>
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, A> = (fb) =>
+export const apFirst = <E, B>(second: Either<E, B>): (<A>(first: Either<E, A>) => Either<E, A>) =>
   flow(
     map((a) => () => a),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -553,10 +553,10 @@ export const apFirst: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Eithe
  * @category combinators
  * @since 2.0.0
  */
-export const apSecond = <E, B>(fb: Either<E, B>): (<A>(fa: Either<E, A>) => Either<E, B>) =>
+export const apSecond = <E, B>(second: Either<E, B>): (<A>(first: Either<E, A>) => Either<E, B>) =>
   flow(
     map(() => (b: B) => b),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -599,16 +599,11 @@ export const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) =
  * @category combinators
  * @since 2.8.0
  */
-export const chainFirstW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>) => Either<D | E, A> = (f) => (
-  ma
-) =>
-  pipe(
-    ma,
-    chainW((a) =>
-      pipe(
-        f(a),
-        map(() => a)
-      )
+export const chainFirstW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(first: Either<E, A>) => Either<D | E, A> = (f) =>
+  chainW((a) =>
+    pipe(
+      f(a),
+      map(() => a)
     )
   )
 
@@ -621,7 +616,7 @@ export const chainFirstW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A> = chainFirstW
+export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (first: Either<E, A>) => Either<E, A> = chainFirstW
 
 /**
  * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
@@ -648,7 +643,7 @@ export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> =
  * @category Alt
  * @since 2.9.0
  */
-export const altW: <E2, B>(that: Lazy<Either<E2, B>>) => <E1, A>(fa: Either<E1, A>) => Either<E1 | E2, A | B> = (
+export const altW: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<E1, A>) => Either<E1 | E2, A | B> = (
   that
 ) => (fa) => (isLeft(fa) ? that() : fa)
 
@@ -659,7 +654,7 @@ export const altW: <E2, B>(that: Lazy<Either<E2, B>>) => <E1, A>(fa: Either<E1, 
  * @category Alt
  * @since 2.0.0
  */
-export const alt: <E, A>(that: Lazy<Either<E, A>>) => (fa: Either<E, A>) => Either<E, A> = altW
+export const alt: Alt2<URI>['alt'] = altW
 
 /**
  * @category Extend

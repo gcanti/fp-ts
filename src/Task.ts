@@ -123,10 +123,10 @@ export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (f
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<A> = (fb) =>
+export const apFirst = <B>(second: Task<B>): (<A>(first: Task<A>) => Task<A>) =>
   flow(
     map((a) => () => a),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -137,10 +137,10 @@ export const apFirst: <B>(fb: Task<B>) => <A>(fa: Task<A>) => Task<A> = (fb) =>
  * @category combinators
  * @since 2.0.0
  */
-export const apSecond = <B>(fb: Task<B>): (<A>(fa: Task<A>) => Task<B>) =>
+export const apSecond = <B>(second: Task<B>): (<A>(first: Task<A>) => Task<B>) =>
   flow(
     map(() => (b: B) => b),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -169,7 +169,7 @@ export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<A> = (f) =>
+export const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A> = (f) =>
   chain((a) =>
     pipe(
       f(a),

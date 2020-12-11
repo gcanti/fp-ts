@@ -143,7 +143,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <B>(fb: IO<B>) => <A>(fa: IO<A>) => IO<A>
+export declare const apFirst: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<A>
 ```
 
 Added in v2.0.0
@@ -157,7 +157,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <B>(fb: IO<B>) => <A>(fa: IO<A>) => IO<B>
+export declare const apSecond: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<B>
 ```
 
 Added in v2.0.0
@@ -172,7 +172,7 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<A>
+export declare const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A>
 ```
 
 Added in v2.0.0

@@ -71,10 +71,10 @@ export const ap: <A>(fa: Identity<A>) => <B>(fab: Identity<(a: A) => B>) => Iden
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst: <B>(fb: Identity<B>) => <A>(fa: Identity<A>) => Identity<A> = (fb) =>
+export const apFirst = <B>(second: Identity<B>): (<A>(first: Identity<A>) => Identity<A>) =>
   flow(
     map((a) => () => a),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -85,10 +85,10 @@ export const apFirst: <B>(fb: Identity<B>) => <A>(fa: Identity<A>) => Identity<A
  * @category combinators
  * @since 2.0.0
  */
-export const apSecond = <B>(fb: Identity<B>): (<A>(fa: Identity<A>) => Identity<B>) =>
+export const apSecond = <B>(second: Identity<B>): (<A>(first: Identity<A>) => Identity<B>) =>
   flow(
     map(() => (b: B) => b),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -116,7 +116,7 @@ export const chain: <A, B>(f: (a: A) => Identity<B>) => (ma: Identity<A>) => Ide
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => Identity<B>) => (ma: Identity<A>) => Identity<A> = (f) =>
+export const chainFirst: <A, B>(f: (a: A) => Identity<B>) => (first: Identity<A>) => Identity<A> = (f) =>
   chain((a) =>
     pipe(
       f(a),
@@ -194,7 +194,7 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(
  * @category Alt
  * @since 2.9.0
  */
-export const altW: <B>(that: () => Identity<B>) => <A>(fa: Identity<A>) => Identity<A | B> = () => id
+export const altW: <B>(second: () => Identity<B>) => <A>(first: Identity<A>) => Identity<A | B> = () => id
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -203,7 +203,7 @@ export const altW: <B>(that: () => Identity<B>) => <A>(fa: Identity<A>) => Ident
  * @category Alt
  * @since 2.0.0
  */
-export const alt: <A>(that: () => Identity<A>) => (fa: Identity<A>) => Identity<A> = altW
+export const alt: Alt1<URI>['alt'] = altW
 
 // -------------------------------------------------------------------------------------
 // instances

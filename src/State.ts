@@ -86,10 +86,10 @@ export const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => S
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst: <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, A> = (fb) =>
+export const apFirst = <E, B>(second: State<E, B>): (<A>(first: State<E, A>) => State<E, A>) =>
   flow(
     map((a) => () => a),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -100,10 +100,10 @@ export const apFirst: <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E
  * @category combinators
  * @since 2.0.0
  */
-export const apSecond = <E, B>(fb: State<E, B>): (<A>(fa: State<E, A>) => State<E, B>) =>
+export const apSecond = <E, B>(second: State<E, B>): (<A>(first: State<E, A>) => State<E, B>) =>
   flow(
     map(() => (b: B) => b),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -134,7 +134,7 @@ export const chain: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => 
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, A> = (f) =>
+export const chainFirst: <E, A, B>(f: (a: A) => State<E, B>) => (first: State<E, A>) => State<E, A> = (f) =>
   chain((a) =>
     pipe(
       f(a),

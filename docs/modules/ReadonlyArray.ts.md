@@ -178,7 +178,7 @@ types of kind `* -> *`.
 **Signature**
 
 ```ts
-export declare const alt: <A>(that: Lazy<readonly A[]>) => (fa: readonly A[]) => readonly A[]
+export declare const alt: <A>(second: Lazy<readonly A[]>) => (first: readonly A[]) => readonly A[]
 ```
 
 Added in v2.5.0
@@ -190,7 +190,7 @@ Less strict version of [`alt`](#alt).
 **Signature**
 
 ```ts
-export declare const altW: <B>(that: Lazy<readonly B[]>) => <A>(fa: readonly A[]) => readonly (B | A)[]
+export declare const altW: <B>(second: Lazy<readonly B[]>) => <A>(first: readonly A[]) => readonly (B | A)[]
 ```
 
 Added in v2.9.0
@@ -549,7 +549,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <B>(fb: readonly B[]) => <A>(fa: readonly A[]) => readonly A[]
+export declare const apFirst: <B>(second: readonly B[]) => <A>(first: readonly A[]) => readonly A[]
 ```
 
 Added in v2.5.0
@@ -563,7 +563,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <B>(fb: readonly B[]) => <A>(fa: readonly A[]) => readonly B[]
+export declare const apSecond: <B>(second: readonly B[]) => <A>(first: readonly A[]) => readonly B[]
 ```
 
 Added in v2.5.0
@@ -578,7 +578,7 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, B>(f: (a: A) => readonly B[]) => (ma: readonly A[]) => readonly A[]
+export declare const chainFirst: <A, B>(f: (a: A) => readonly B[]) => (first: readonly A[]) => readonly A[]
 ```
 
 Added in v2.5.0

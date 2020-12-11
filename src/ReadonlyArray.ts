@@ -1432,9 +1432,8 @@ const wilt_ = <F>(
  * @category Alt
  * @since 2.9.0
  */
-export const altW: <B>(that: Lazy<ReadonlyArray<B>>) => <A>(fa: ReadonlyArray<A>) => ReadonlyArray<A | B> = (that) => (
-  fa
-) => concat(fa, that())
+export const altW = <B>(second: Lazy<ReadonlyArray<B>>) => <A>(first: ReadonlyArray<A>): ReadonlyArray<A | B> =>
+  concat(first, second())
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -1443,7 +1442,7 @@ export const altW: <B>(that: Lazy<ReadonlyArray<B>>) => <A>(fa: ReadonlyArray<A>
  * @category Alt
  * @since 2.5.0
  */
-export const alt: <A>(that: Lazy<ReadonlyArray<A>>) => (fa: ReadonlyArray<A>) => ReadonlyArray<A> = altW
+export const alt: Alt1<URI>['alt'] = altW
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -1462,10 +1461,10 @@ export const ap: <A>(fa: ReadonlyArray<A>) => <B>(fab: ReadonlyArray<(a: A) => B
  * @category combinators
  * @since 2.5.0
  */
-export const apFirst: <B>(fb: ReadonlyArray<B>) => <A>(fa: ReadonlyArray<A>) => ReadonlyArray<A> = (fb) =>
+export const apFirst = <B>(second: ReadonlyArray<B>): (<A>(first: ReadonlyArray<A>) => ReadonlyArray<A>) =>
   flow(
     map((a) => () => a),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -1476,10 +1475,10 @@ export const apFirst: <B>(fb: ReadonlyArray<B>) => <A>(fa: ReadonlyArray<A>) => 
  * @category combinators
  * @since 2.5.0
  */
-export const apSecond = <B>(fb: ReadonlyArray<B>): (<A>(fa: ReadonlyArray<A>) => ReadonlyArray<B>) =>
+export const apSecond = <B>(second: ReadonlyArray<B>): (<A>(first: ReadonlyArray<A>) => ReadonlyArray<B>) =>
   flow(
     map(() => (b: B) => b),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -1531,7 +1530,7 @@ export const chainWithIndex: <A, B>(
  * @category combinators
  * @since 2.5.0
  */
-export const chainFirst: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<A>) => ReadonlyArray<A> = (f) =>
+export const chainFirst: <A, B>(f: (a: A) => ReadonlyArray<B>) => (first: ReadonlyArray<A>) => ReadonlyArray<A> = (f) =>
   chain((a) =>
     pipe(
       f(a),

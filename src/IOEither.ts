@@ -262,10 +262,10 @@ export const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst: <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>) => IOEither<E, A> = (fb) =>
+export const apFirst = <E, B>(second: IOEither<E, B>): (<A>(first: IOEither<E, A>) => IOEither<E, A>) =>
   flow(
     map((a) => () => a),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -276,10 +276,10 @@ export const apFirst: <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>) => I
  * @category combinators
  * @since 2.0.0
  */
-export const apSecond = <E, B>(fb: IOEither<E, B>): (<A>(fa: IOEither<E, A>) => IOEither<E, B>) =>
+export const apSecond = <E, B>(second: IOEither<E, B>): (<A>(first: IOEither<E, A>) => IOEither<E, B>) =>
   flow(
     map(() => (b: B) => b),
-    ap(fb)
+    ap(second)
   )
 
 /**
@@ -317,7 +317,7 @@ export const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A
  * @category combinators
  * @since 2.8.0
  */
-export const chainFirstW: <D, A, B>(f: (a: A) => IOEither<D, B>) => <E>(ma: IOEither<E, A>) => IOEither<D | E, A> = (
+export const chainFirstW: <D, A, B>(f: (a: A) => IOEither<D, B>) => <E>(first: IOEither<E, A>) => IOEither<D | E, A> = (
   f
 ) =>
   chainW((a) =>
@@ -336,7 +336,9 @@ export const chainFirstW: <D, A, B>(f: (a: A) => IOEither<D, B>) => <E>(ma: IOEi
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, A> = chainFirstW
+export const chainFirst: <E, A, B>(
+  f: (a: A) => IOEither<E, B>
+) => (first: IOEither<E, A>) => IOEither<E, A> = chainFirstW
 
 /**
  * Derivable from `Monad`.
@@ -354,8 +356,9 @@ export const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A>
  * @category Alt
  * @since 2.9.0
  */
-export const altW = <E2, B>(that: Lazy<IOEither<E2, B>>) => <E1, A>(fa: IOEither<E1, A>): IOEither<E1 | E2, A | B> =>
-  pipe(fa, I.chain(E.fold<E1, A, IOEither<E1 | E2, A | B>>(that, right)))
+export const altW = <E2, B>(second: Lazy<IOEither<E2, B>>) => <E1, A>(
+  first: IOEither<E1, A>
+): IOEither<E1 | E2, A | B> => pipe(first, I.chain(E.fold<E1, A, IOEither<E1 | E2, A | B>>(second, right)))
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -364,7 +367,7 @@ export const altW = <E2, B>(that: Lazy<IOEither<E2, B>>) => <E1, A>(fa: IOEither
  * @category Alt
  * @since 2.0.0
  */
-export const alt: <E, A>(that: Lazy<IOEither<E, A>>) => (fa: IOEither<E, A>) => IOEither<E, A> = altW
+export const alt: Alt2<URI>['alt'] = altW
 
 /**
  * @category MonadIO
