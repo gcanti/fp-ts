@@ -32,7 +32,7 @@ import { Monoid } from './Monoid'
 import { isNone, none, Option, some } from './Option'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
-import { PipeableTraverse2, Traversable2 } from './Traversable'
+import { Traversable2 } from './Traversable'
 import { Lazy, pipe } from './function'
 
 // -------------------------------------------------------------------------------------
@@ -393,22 +393,6 @@ export function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
     : some(both(fe.value, fa.value))
 }
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
-/* istanbul ignore next */
-const traverse_ = <F>(
-  F: Applicative<F>
-): (<E, A, B>(ta: These<E, A>, f: (a: A) => HKT<F, B>) => HKT<F, These<E, B>>) => {
-  const traverseF = traverse(F)
-  return (ta, f) => pipe(ta, traverseF(f))
-}
-
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
-
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
  *
@@ -461,7 +445,7 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E,
 /**
  * @since 2.6.3
  */
-export const traverse: PipeableTraverse2<URI> = <F>(
+export const traverse: Traversable2<URI>['traverse'] = <F>(
   F: Applicative<F>
 ): (<A, B>(f: (a: A) => HKT<F, B>) => <E>(ta: These<E, A>) => HKT<F, These<E, B>>) => (f) => (ta) =>
   isLeft(ta)
@@ -548,6 +532,6 @@ export const Foldable: Foldable2<URI> = {
 export const Traversable: Traversable2<URI> = {
   URI,
   map,
-  traverse: traverse_,
+  traverse,
   sequence
 }

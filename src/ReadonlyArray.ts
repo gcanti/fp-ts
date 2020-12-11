@@ -22,7 +22,7 @@ import * as O from './Option'
 import { fromCompare, getMonoid as getOrdMonoid, Ord, ordNumber } from './Ord'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Show } from './Show'
-import { PipeableTraverse1, Traversable1 } from './Traversable'
+import { Traversable1 } from './Traversable'
 import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
 import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
@@ -1298,13 +1298,15 @@ export function comprehension<R>(
   f: (...xs: ReadonlyArray<any>) => R,
   g: (...xs: ReadonlyArray<any>) => boolean = () => true
 ): ReadonlyArray<R> {
-  const go = (scope: ReadonlyArray<any>, input: ReadonlyArray<ReadonlyArray<any>>): ReadonlyArray<R> => {
-    if (input.length === 0) {
-      return g(...scope) ? [f(...scope)] : empty
-    } else {
-      return chain_(input[0], (x) => go(snoc(x)(scope), input.slice(1)))
-    }
-  }
+  const go = (scope: ReadonlyArray<any>, input: ReadonlyArray<ReadonlyArray<any>>): ReadonlyArray<R> =>
+    input.length === 0
+      ? g(...scope)
+        ? [f(...scope)]
+        : empty
+      : pipe(
+          input[0],
+          chain((x) => go(snoc(x)(scope), input.slice(1)))
+        )
   return go(empty, input)
 }
 
@@ -1386,15 +1388,6 @@ export const zero: Alternative1<URI>['zero'] = () => empty
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const chain_: <A, B>(fa: ReadonlyArray<A>, f: (a: A) => ReadonlyArray<B>) => ReadonlyArray<B> = (ma, f) =>
-  pipe(ma, chain(f))
-/* istanbul ignore next */
-const traverse_ = <F>(
-  F: ApplicativeHKT<F>
-): (<A, B>(ta: ReadonlyArray<A>, f: (a: A) => HKT<F, B>) => HKT<F, ReadonlyArray<B>>) => {
-  const traverseF = traverse(F)
-  return (ta, f) => pipe(ta, traverseF(f))
-}
 /* istanbul ignore next */
 const traverseWithIndex_ = <F>(
   F: ApplicativeHKT<F>
@@ -1419,10 +1412,6 @@ const wilt_ = <F>(
   const wiltF = wilt(F)
   return (fa, f) => pipe(fa, wiltF(f))
 }
-
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
 
 /**
  * Less strict version of [`alt`](#alt).
@@ -1762,7 +1751,7 @@ export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B)
  * @category Traversable
  * @since 2.6.3
  */
-export const traverse: PipeableTraverse1<URI> = <F>(
+export const traverse: Traversable1<URI>['traverse'] = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: ReadonlyArray<A>) => HKT<F, ReadonlyArray<B>>) => {
   const traverseWithIndexF = traverseWithIndex(F)
@@ -2016,7 +2005,7 @@ export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
 export const Traversable: Traversable1<URI> = {
   URI,
   map,
-  traverse: traverse_,
+  traverse,
   sequence
 }
 

@@ -128,10 +128,6 @@ export const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E> =
   /*#__PURE__*/
   T.map(TH.swap)
 
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
-
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.

@@ -30,7 +30,7 @@ import { Monoid } from './Monoid'
 import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
-import { PipeableTraverse1, Traversable1 } from './Traversable'
+import { Traversable1 } from './Traversable'
 import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
 
 // -------------------------------------------------------------------------------------
@@ -432,13 +432,6 @@ export function chainNullableK<A, B>(f: (a: A) => B | null | undefined): (ma: Op
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const traverse_: Traversable1<URI>['traverse'] = <F>(
-  F: ApplicativeHKT<F>
-): (<A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>) => HKT<F, Option<B>>) => {
-  const traverseF = traverse(F)
-  return (ta, f) => pipe(ta, traverseF(f))
-}
-/* istanbul ignore next */
 const wither_: Witherable1<URI>['wither'] = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(fa: Option<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Option<B>>) => {
@@ -452,10 +445,6 @@ const wilt_: Witherable1<URI>['wilt'] = <F>(
   const wiltF = wilt(F)
   return (fa, f) => pipe(fa, wiltF(f))
 }
-
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -696,7 +685,7 @@ export const partitionMap: Filterable1<URI>['partitionMap'] = (f) => flow(map(f)
  * @category Traversable
  * @since 2.6.3
  */
-export const traverse: PipeableTraverse1<URI> = <F>(F: ApplicativeHKT<F>) => <A, B>(f: (a: A) => HKT<F, B>) => (
+export const traverse: Traversable1<URI>['traverse'] = <F>(F: ApplicativeHKT<F>) => <A, B>(f: (a: A) => HKT<F, B>) => (
   ta: Option<A>
 ): HKT<F, Option<B>> => (isNone(ta) ? F.of(none) : pipe(f(ta.value), F.map(some)))
 
@@ -1049,7 +1038,7 @@ export const Filterable: Filterable1<URI> = {
 export const Traversable: Traversable1<URI> = {
   URI,
   map,
-  traverse: traverse_,
+  traverse,
   sequence
 }
 

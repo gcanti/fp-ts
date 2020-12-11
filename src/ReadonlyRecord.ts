@@ -830,13 +830,6 @@ export function elem<A>(E: Eq<A>): (a: A) => (fa: ReadonlyRecord<string, A>) => 
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const traverse_ = <F>(
-  F: Applicative<F>
-): (<A, B>(ta: ReadonlyRecord<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, ReadonlyRecord<string, B>>) => {
-  const traverseF = traverse(F)
-  return (ta, f) => pipe(ta, traverseF(f))
-}
-/* istanbul ignore next */
 const traverseWithIndex_ = <F>(
   F: Applicative<F>
 ): (<A, B>(ta: ReadonlyRecord<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, ReadonlyRecord<string, B>>) => {
@@ -860,10 +853,6 @@ const wilt_ = <F>(
   const wiltF = wilt(F)
   return (fa, f) => pipe(fa, wiltF(f))
 }
-
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
 
 /**
  * @category Filterable
@@ -1064,7 +1053,7 @@ export const FilterableWithIndex: FilterableWithIndex1<URI, string> = {
 export const Traversable: Traversable1<URI> = {
   URI,
   map,
-  traverse: traverse_,
+  traverse,
   sequence
 }
 

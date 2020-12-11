@@ -13,7 +13,7 @@ import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { Show } from './Show'
-import { PipeableTraverse1, Traversable1 } from './Traversable'
+import { Traversable1 } from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -24,22 +24,6 @@ import { PipeableTraverse1, Traversable1 } from './Traversable'
  * @since 2.0.0
  */
 export type Identity<A> = A
-
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
-/* istanbul ignore next */
-const traverse_ = <F>(
-  F: ApplicativeHKT<F>
-): (<A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>>) => {
-  const traverseF = traverse(F)
-  return (ta, f) => pipe(ta, traverseF(f))
-}
-
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -172,7 +156,7 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Identity<A>
 /**
  * @since 2.6.3
  */
-export const traverse: PipeableTraverse1<URI> = <F>(
+export const traverse: Traversable1<URI>['traverse'] = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Identity<A>) => HKT<F, Identity<B>>) => (f) => (ta) => pipe(f(ta), F.map(id))
 
@@ -283,7 +267,7 @@ export const Foldable: Foldable1<URI> = {
 export const Traversable: Traversable1<URI> = {
   URI,
   map,
-  traverse: traverse_,
+  traverse,
   sequence
 }
 

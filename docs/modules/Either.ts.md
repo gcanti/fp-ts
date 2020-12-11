@@ -414,7 +414,7 @@ Map each element of a structure to an action, evaluate these actions from left t
 **Signature**
 
 ```ts
-export declare const traverse: PipeableTraverse2<'Either'>
+export declare const traverse: Traverse2<'Either'>
 ```
 
 **Example**

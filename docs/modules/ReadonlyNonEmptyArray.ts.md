@@ -1055,7 +1055,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const traverse: PipeableTraverse1<'ReadonlyNonEmptyArray'>
+export declare const traverse: Traverse1<'ReadonlyNonEmptyArray'>
 ```
 
 Added in v2.6.3

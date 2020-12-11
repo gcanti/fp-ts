@@ -203,6 +203,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Traversable`
     - drop `Foldable` dependency (@gcanti)
     - remove `getTraversableComposition` (@gcanti)
+    - make type class members pipeables (@gcanti)
   - `TraversableWithIndex`
     - drop `Traversable` dependency (@gcanti)
   - `Tree`

@@ -485,7 +485,7 @@ Added in v2.6.3
 **Signature**
 
 ```ts
-export declare const traverse: PipeableTraverse1<'ReadonlyArray'>
+export declare const traverse: Traverse1<'ReadonlyArray'>
 ```
 
 Added in v2.6.3

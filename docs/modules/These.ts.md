@@ -586,7 +586,7 @@ Added in v2.6.3
 **Signature**
 
 ```ts
-export declare const traverse: PipeableTraverse2<'These'>
+export declare const traverse: Traverse2<'These'>
 ```
 
 Added in v2.6.3

@@ -5,13 +5,12 @@
  */
 import { Alt1 } from './Alt'
 import { Applicative1 } from './Applicative'
-import { Apply1 } from './Apply'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { Lazy, Predicate, Refinement, pipe, bind_, bindTo_, flow, tuple } from './function'
+import { bindTo_, bind_, flow, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { Monad1 } from './Monad'
@@ -21,7 +20,7 @@ import * as RA from './ReadonlyArray'
 import { ReadonlyRecord } from './ReadonlyRecord'
 import { getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
 import { Show } from './Show'
-import { PipeableTraverse1, Traversable1 } from './Traversable'
+import { Traversable1 } from './Traversable'
 import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
 
 // -------------------------------------------------------------------------------------
@@ -440,25 +439,8 @@ export const intersperse: <A>(
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const ap_: Apply1<URI>['ap'] = RA.Applicative.ap as any
-const chain_: Monad1<URI>['chain'] = RA.Monad.chain as any
-const extend_: Extend1<URI>['extend'] = RA.Extend.extend as any
-const reduce_: Foldable1<URI>['reduce'] = RA.Foldable.reduce as any
-const foldMap_: Foldable1<URI>['foldMap'] = RA.Foldable.foldMap as any
-const reduceRight_: Foldable1<URI>['reduceRight'] = RA.Foldable.reduceRight as any
-const traverse_: Traversable1<URI>['traverse'] = RA.Traversable.traverse as any
-const alt_: Alt1<URI>['alt'] = RA.Alt.alt as any
-const reduceWithIndex_: FoldableWithIndex1<URI, number>['reduceWithIndex'] = RA.FoldableWithIndex.reduceWithIndex as any
-const foldMapWithIndex_: FoldableWithIndex1<URI, number>['foldMapWithIndex'] = RA.FoldableWithIndex
-  .foldMapWithIndex as any
-const reduceRightWithIndex_: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] = RA.FoldableWithIndex
-  .reduceRightWithIndex as any
 const traverseWithIndex_: TraversableWithIndex1<URI, number>['traverseWithIndex'] = RA.TraversableWithIndex
   .traverseWithIndex as any
-
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
 
 /**
  * @category FoldableWithIndex
@@ -621,7 +603,7 @@ export const reduceRightWithIndex: <A, B>(
 /**
  * @since 2.6.3
  */
-export const traverse: PipeableTraverse1<URI> = RA.traverse as any
+export const traverse: Traversable1<URI>['traverse'] = RA.traverse as any
 
 /**
  * @since 2.6.3
@@ -686,7 +668,7 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
 export const Applicative: Applicative1<URI> = {
   URI,
   map,
-  ap: ap_,
+  ap,
   of
 }
 
@@ -698,7 +680,7 @@ export const Monad: Monad1<URI> = {
   URI,
   map,
   of,
-  chain: chain_
+  chain
 }
 
 /**
@@ -707,9 +689,9 @@ export const Monad: Monad1<URI> = {
  */
 export const Foldable: Foldable1<URI> = {
   URI,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_
+  reduce,
+  foldMap,
+  reduceRight
 }
 
 /**
@@ -718,9 +700,9 @@ export const Foldable: Foldable1<URI> = {
  */
 export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
   URI,
-  reduceWithIndex: reduceWithIndex_,
-  foldMapWithIndex: foldMapWithIndex_,
-  reduceRightWithIndex: reduceRightWithIndex_
+  reduceWithIndex,
+  foldMapWithIndex,
+  reduceRightWithIndex
 }
 
 /**
@@ -730,7 +712,7 @@ export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
 export const Traversable: Traversable1<URI> = {
   URI,
   map,
-  traverse: traverse_,
+  traverse,
   sequence
 }
 
@@ -750,7 +732,7 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
 export const Alt: Alt1<URI> = {
   URI,
   map,
-  alt: alt_
+  alt
 }
 
 /**
@@ -760,7 +742,7 @@ export const Alt: Alt1<URI> = {
 export const Comonad: Comonad1<URI> = {
   URI,
   map,
-  extend: extend_,
+  extend,
   extract
 }
 

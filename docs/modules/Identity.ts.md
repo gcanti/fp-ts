@@ -480,7 +480,7 @@ Added in v2.6.3
 **Signature**
 
 ```ts
-export declare const traverse: PipeableTraverse1<'Identity'>
+export declare const traverse: Traverse1<'Identity'>
 ```
 
 Added in v2.6.3

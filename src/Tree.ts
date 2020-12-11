@@ -19,7 +19,7 @@ import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import * as A from './ReadonlyArray'
 import { Show } from './Show'
-import { PipeableTraverse1, Traversable1 } from './Traversable'
+import { Traversable1 } from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -186,16 +186,6 @@ export function fold<A, B>(f: (a: A, bs: ReadonlyArray<B>) => B): (tree: Tree<A>
   return go
 }
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
-/* istanbul ignore next */
-const traverse_ = <F>(F: ApplicativeHKT<F>): (<A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>) => HKT<F, Tree<B>>) => {
-  const traverseF = traverse(F)
-  return (ta, f) => pipe(ta, traverseF(f))
-}
-
 /**
  * Apply a function to an argument under a type constructor.
  *
@@ -347,7 +337,7 @@ export const extract: <A>(wa: Tree<A>) => A = (wa) => wa.value
 /**
  * @since 2.6.3
  */
-export const traverse: PipeableTraverse1<URI> = <F>(
+export const traverse: Traversable1<URI>['traverse'] = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Tree<A>) => HKT<F, Tree<B>>) => {
   const traverseF = A.traverse(F)
@@ -452,7 +442,7 @@ export const Foldable: Foldable1<URI> = {
 export const Traversable: Traversable1<URI> = {
   URI,
   map,
-  traverse: traverse_,
+  traverse,
   sequence
 }
 

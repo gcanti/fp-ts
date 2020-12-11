@@ -909,11 +909,17 @@ describe('ReadonlyMap', () => {
         [{ id: 'k2' }, 2]
       ])
       assert.deepStrictEqual(
-        traverse(x, (n) => (n <= 2 ? O.some(n) : O.none)),
+        pipe(
+          x,
+          traverse((n) => (n <= 2 ? O.some(n) : O.none))
+        ),
         O.some(x)
       )
       assert.deepStrictEqual(
-        traverse(x, (n) => (n >= 2 ? O.some(n) : O.none)),
+        pipe(
+          x,
+          traverse((n) => (n >= 2 ? O.some(n) : O.none))
+        ),
         O.none
       )
     })

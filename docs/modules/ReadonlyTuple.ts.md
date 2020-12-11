@@ -335,7 +335,7 @@ Added in v2.6.3
 **Signature**
 
 ```ts
-export declare const traverse: PipeableTraverse2<'ReadonlyTuple'>
+export declare const traverse: Traverse2<'ReadonlyTuple'>
 ```
 
 Added in v2.6.3

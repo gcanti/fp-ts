@@ -14,7 +14,7 @@ import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
-import { PipeableTraverse2, Traversable2 } from './Traversable'
+import { Traversable2 } from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -89,22 +89,6 @@ export function getMonad<M>(M: Monoid<M>): Monad2C<URI, M> {
     of: of(M)
   }
 }
-
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
-/* istanbul ignore next */
-const traverse_ = <F>(
-  F: Applicative<F>
-): (<A, S, B>(ta: readonly [A, S], f: (a: A) => HKT<F, B>) => HKT<F, readonly [B, S]>) => {
-  const traverseF = traverse(F)
-  return (ta, f) => pipe(ta, traverseF(f))
-}
-
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -196,7 +180,7 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: readonly
 /**
  * @since 2.6.3
  */
-export const traverse: PipeableTraverse2<URI> = <F>(
+export const traverse: Traversable2<URI>['traverse'] = <F>(
   F: Applicative<F>
 ): (<A, B>(f: (a: A) => HKT<F, B>) => <E>(as: readonly [A, E]) => HKT<F, readonly [B, E]>) => {
   return (f) => (ta) =>
@@ -297,6 +281,6 @@ export const Foldable: Foldable2<URI> = {
 export const Traversable: Traversable2<URI> = {
   URI,
   map,
-  traverse: traverse_,
+  traverse,
   sequence
 }
