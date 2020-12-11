@@ -31,8 +31,8 @@ Added in v2.0.0
 ```ts
 export interface Profunctor<F> {
   readonly URI: F
-  readonly map: <E, A, B>(fa: HKT2<F, E, A>, f: (a: A) => B) => HKT<F, B>
-  readonly promap: <E, A, D, B>(fea: HKT2<F, E, A>, f: (d: D) => E, g: (a: A) => B) => HKT2<F, D, B>
+  readonly map: <A, B>(f: (a: A) => B) => <E>(fea: HKT2<F, E, A>) => HKT<F, B>
+  readonly promap: <D, E, A, B>(f: (d: D) => E, g: (a: A) => B) => (fea: HKT2<F, E, A>) => HKT2<F, D, B>
 }
 ```
 
@@ -44,7 +44,7 @@ Added in v2.0.0
 
 ```ts
 export interface Profunctor2<F extends URIS2> extends Functor2<F> {
-  readonly promap: <E, A, D, B>(fea: Kind2<F, E, A>, f: (d: D) => E, g: (a: A) => B) => Kind2<F, D, B>
+  readonly promap: <D, E, A, B>(f: (d: D) => E, g: (a: A) => B) => (fea: Kind2<F, E, A>) => Kind2<F, D, B>
 }
 ```
 
@@ -56,7 +56,7 @@ Added in v2.0.0
 
 ```ts
 export interface Profunctor2C<F extends URIS2, E> extends Functor2C<F, E> {
-  readonly promap: <A, D, B>(fea: Kind2<F, E, A>, f: (d: D) => E, g: (a: A) => B) => Kind2<F, D, B>
+  readonly promap: <D, A, B>(f: (d: D) => E, g: (a: A) => B) => (fea: Kind2<F, E, A>) => Kind2<F, D, B>
 }
 ```
 
@@ -68,7 +68,7 @@ Added in v2.0.0
 
 ```ts
 export interface Profunctor3<F extends URIS3> extends Functor3<F> {
-  readonly promap: <R, E, A, D, B>(fea: Kind3<F, R, E, A>, f: (d: D) => E, g: (a: A) => B) => Kind3<F, R, D, B>
+  readonly promap: <D, E, A, B>(f: (d: D) => E, g: (a: A) => B) => <R>(fea: Kind3<F, R, E, A>) => Kind3<F, R, D, B>
 }
 ```
 
@@ -80,7 +80,7 @@ Added in v2.0.0
 
 ```ts
 export interface Profunctor3C<F extends URIS3, E> extends Functor3C<F, E> {
-  readonly promap: <R, A, D, B>(fea: Kind3<F, R, E, A>, f: (d: D) => E, g: (a: A) => B) => Kind3<F, R, D, B>
+  readonly promap: <D, A, B>(f: (d: D) => E, g: (a: A) => B) => <R>(fea: Kind3<F, R, E, A>) => Kind3<F, R, D, B>
 }
 ```
 
@@ -92,7 +92,10 @@ Added in v2.2.0
 
 ```ts
 export interface Profunctor4<F extends URIS4> extends Functor4<F> {
-  readonly promap: <S, R, E, A, D, B>(fea: Kind4<F, S, R, E, A>, f: (d: D) => E, g: (a: A) => B) => Kind4<F, S, R, D, B>
+  readonly promap: <D, E, A, B>(
+    f: (d: D) => E,
+    g: (a: A) => B
+  ) => <S, R>(fea: Kind4<F, S, R, E, A>) => Kind4<F, S, R, D, B>
 }
 ```
 

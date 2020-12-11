@@ -55,13 +55,6 @@ export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = identity
  */
 export const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q, A> = (f) => (ma) => (q) => ma(f(q))
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
-/* istanbul ignore next */
-const promap_: Profunctor2<URI>['promap'] = (fea, f, g) => pipe(fea, promap(f, g))
-
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
@@ -271,7 +264,7 @@ export const Monad: Monad2<URI> = {
 export const Profunctor: Profunctor2<URI> = {
   URI,
   map,
-  promap: promap_
+  promap
 }
 
 /**
