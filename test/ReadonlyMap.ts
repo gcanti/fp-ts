@@ -855,22 +855,22 @@ describe('ReadonlyMap', () => {
       const TWI = _.getTraversableWithIndex(ordUser)
       const traverseWithIndex = TWI.traverseWithIndex(O.Applicative)
       assert.deepStrictEqual(
-        traverseWithIndex(
+        pipe(
           new Map([
             [{ id: 'k1' }, 1],
             [{ id: 'k2' }, 2]
           ]),
-          (k, n): O.Option<number> => (!ordUser.equals(k, { id: 'k1' }) ? O.some(n) : O.none)
+          traverseWithIndex((k, n): O.Option<number> => (!ordUser.equals(k, { id: 'k1' }) ? O.some(n) : O.none))
         ),
         O.none
       )
       assert.deepStrictEqual(
-        traverseWithIndex(
+        pipe(
           new Map([
             [{ id: 'k1' }, 2],
             [{ id: 'k2' }, 3]
           ]),
-          (k, n): O.Option<number> => (!ordUser.equals(k, { id: 'k3' }) ? O.some(n) : O.none)
+          traverseWithIndex((k, n): O.Option<number> => (!ordUser.equals(k, { id: 'k3' }) ? O.some(n) : O.none))
         ),
         O.some(
           new Map([
@@ -889,12 +889,12 @@ describe('ReadonlyMap', () => {
         log.push(message)
       }
 
-      TWI.traverseWithIndex(IO.Applicative)(
+      pipe(
         new Map([
           ['b', append('b')],
           ['a', append('a')]
         ]),
-        (_, io) => io
+        TWI.traverseWithIndex(IO.Applicative)((_, io) => io)
       )()
       assert.deepStrictEqual(log, ['a', 'b'])
     })

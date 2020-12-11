@@ -499,7 +499,7 @@ Added in v2.6.3
 **Signature**
 
 ```ts
-export declare const traverseWithIndex: PipeableTraverseWithIndex1<'ReadonlyArray', number>
+export declare const traverseWithIndex: TraverseWithIndex1<'ReadonlyArray', number>
 ```
 
 Added in v2.6.3

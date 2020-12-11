@@ -766,8 +766,8 @@ export function getTraversableWithIndex<K>(O: Ord<K>): TraversableWithIndex2C<UR
   const keysO = keys(O)
   const traverseWithIndex = <F>(
     F: Applicative<F>
-  ): (<A, B>(ta: ReadonlyMap<K, A>, f: (k: K, a: A) => HKT<F, B>) => HKT<F, ReadonlyMap<K, B>>) => {
-    return <A, B>(ta: ReadonlyMap<K, A>, f: (k: K, a: A) => HKT<F, B>) => {
+  ): (<A, B>(f: (k: K, a: A) => HKT<F, B>) => (ta: ReadonlyMap<K, A>) => HKT<F, ReadonlyMap<K, B>>) => {
+    return <A, B>(f: (k: K, a: A) => HKT<F, B>) => (ta: ReadonlyMap<K, A>) => {
       let fm: HKT<F, ReadonlyMap<K, B>> = F.of(empty)
       const ks = keysO(ta)
       const len = ks.length
@@ -800,12 +800,11 @@ export function getTraversable<K>(O: Ord<K>): Traversable2C<URI, K> {
     F: Applicative<F>
   ): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: ReadonlyMap<K, A>) => HKT<F, ReadonlyMap<K, B>>) => {
     const traverseWithIndexF = TWI.traverseWithIndex(F)
-    return (f) => (ta) => traverseWithIndexF(ta, (_, a) => f(a))
+    return (f) => traverseWithIndexF((_, a) => f(a))
   }
 
   const sequence = <F>(F: Applicative<F>): (<A>(ta: ReadonlyMap<K, HKT<F, A>>) => HKT<F, ReadonlyMap<K, A>>) => {
-    const traverseWithIndexF = TWI.traverseWithIndex(F)
-    return (ta) => traverseWithIndexF(ta, (_, a) => a)
+    return TWI.traverseWithIndex(F)((_, a) => a)
   }
 
   return {

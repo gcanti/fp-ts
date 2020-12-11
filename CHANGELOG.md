@@ -206,6 +206,7 @@ high state of flux, you're at risk of it changing without notice.
     - make type class members pipeables (@gcanti)
   - `TraversableWithIndex`
     - drop `Traversable` dependency (@gcanti)
+    - make type class members pipeables (@gcanti)
   - `Tree`
     - make `elem` curried (@gcanti)
     - remove `unfoldTreeM` (@gcanti)

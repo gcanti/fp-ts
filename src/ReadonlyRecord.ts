@@ -830,13 +830,6 @@ export function elem<A>(E: Eq<A>): (a: A) => (fa: ReadonlyRecord<string, A>) => 
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const traverseWithIndex_ = <F>(
-  F: Applicative<F>
-): (<A, B>(ta: ReadonlyRecord<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, ReadonlyRecord<string, B>>) => {
-  const traverseWithIndexF = traverseWithIndex(F)
-  return (ta, f) => pipe(ta, traverseWithIndexF(f))
-}
-/* istanbul ignore next */
 const wither_ = <F>(
   F: Applicative<F>
 ): (<A, B>(fa: ReadonlyRecord<string, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, ReadonlyRecord<string, B>>) => {
@@ -1063,7 +1056,7 @@ export const Traversable: Traversable1<URI> = {
  */
 export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
   URI,
-  traverseWithIndex: traverseWithIndex_
+  traverseWithIndex
 }
 
 /**

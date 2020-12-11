@@ -23,7 +23,7 @@ import { fromCompare, getMonoid as getOrdMonoid, Ord, ordNumber } from './Ord'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
-import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
+import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
 import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
 
@@ -1389,13 +1389,6 @@ export const zero: Alternative1<URI>['zero'] = () => empty
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const traverseWithIndex_ = <F>(
-  F: ApplicativeHKT<F>
-): (<A, B>(ta: ReadonlyArray<A>, f: (i: number, a: A) => HKT<F, B>) => HKT<F, ReadonlyArray<B>>) => {
-  const traverseWithIndexF = traverseWithIndex(F)
-  return (ta, f) => pipe(ta, traverseWithIndexF(f))
-}
-/* istanbul ignore next */
 const wither_ = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(ta: ReadonlyArray<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, ReadonlyArray<B>>) => {
@@ -1783,7 +1776,10 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>)
  * @category TraversableWithIndex
  * @since 2.6.3
  */
-export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = <F>(F: ApplicativeHKT<F>) => <A, B>(
+export const traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'] = <F>(F: ApplicativeHKT<F>) => <
+  A,
+  B
+>(
   f: (i: number, a: A) => HKT<F, B>
 ): ((ta: ReadonlyArray<A>) => HKT<F, ReadonlyArray<B>>) =>
   reduceWithIndex(F.of(zero()), (i, fbs, a) =>
@@ -2015,7 +2011,7 @@ export const Traversable: Traversable1<URI> = {
  */
 export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
   URI,
-  traverseWithIndex: traverseWithIndex_
+  traverseWithIndex
 }
 
 /**

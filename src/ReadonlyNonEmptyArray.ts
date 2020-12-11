@@ -21,7 +21,7 @@ import { ReadonlyRecord } from './ReadonlyRecord'
 import { getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
-import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
+import { TraversableWithIndex1 } from './TraversableWithIndex'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -613,7 +613,7 @@ export const sequence: Traversable1<URI>['sequence'] = RA.sequence as any
 /**
  * @since 2.6.3
  */
-export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = RA.traverseWithIndex as any
+export const traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'] = RA.traverseWithIndex as any
 
 /**
  * @since 2.6.3
