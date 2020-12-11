@@ -41,3 +41,7 @@ has_toc: false
 - [fp-ts-fluture](https://github.com/gcanti/fp-ts-fluture) - fp-ts bindings for [Fluture](https://github.com/fluture-js/Fluture)
 - [fp-ts-most](https://github.com/joshburgess/fp-ts-most) - fp-ts bindings for [@most/core](https://github.com/cujojs/most)
 - [fp-ts-ixjs](https://github.com/werk85/fp-ts-ixjs) - fp-ts bindings for [IxJS](https://github.com/ReactiveX/IxJS)
+
+## Plugins
+
+- [fastify-funky](https://github.com/fastify/fastify-funky) - plugin that adds support for returning fp-ts Either and Task entities as handler execution results for [fastify](https://github.com/fastify/fastify) web framework
