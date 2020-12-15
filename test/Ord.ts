@@ -91,15 +91,17 @@ describe('Ord', () => {
   })
 
   it('leq', () => {
-    assert.deepStrictEqual(_.leq(_.ordNumber)(0, 1), true)
-    assert.deepStrictEqual(_.leq(_.ordNumber)(1, 1), true)
-    assert.deepStrictEqual(_.leq(_.ordNumber)(2, 1), false)
+    const f = _.leq(_.ordNumber)
+    assert.deepStrictEqual(pipe(0, f(1)), true)
+    assert.deepStrictEqual(pipe(1, f(1)), true)
+    assert.deepStrictEqual(pipe(2, f(1)), false)
   })
 
   it('geq', () => {
-    assert.deepStrictEqual(_.geq(_.ordNumber)(0, 1), false)
-    assert.deepStrictEqual(_.geq(_.ordNumber)(1, 1), true)
-    assert.deepStrictEqual(_.geq(_.ordNumber)(2, 1), true)
+    const f = _.geq(_.ordNumber)
+    assert.deepStrictEqual(pipe(0, f(1)), false)
+    assert.deepStrictEqual(pipe(1, f(1)), true)
+    assert.deepStrictEqual(pipe(2, f(1)), true)
   })
 
   it('fromCompare', () => {

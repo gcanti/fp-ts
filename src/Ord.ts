@@ -13,7 +13,7 @@ import { Contravariant1 } from './Contravariant'
 import { Eq, eqStrict } from './Eq'
 import { Monoid } from './Monoid'
 import { monoidOrdering, Ordering } from './Ordering'
-import { flow, pipe } from './function'
+import { Endomorphism, flow, pipe, Predicate } from './function'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -63,61 +63,49 @@ export const ordBoolean: Ord<boolean> = {
  *
  * @since 2.0.0
  */
-export function lt<A>(O: Ord<A>): (first: A, second: A) => boolean {
-  return (first, second) => O.compare(second)(first) === -1
-}
+export const lt = <A>(O: Ord<A>) => (second: A) => (first: A): boolean => O.compare(second)(first) === -1
 
 /**
  * Test whether one value is _strictly greater than_ another
  *
  * @since 2.0.0
  */
-export function gt<A>(O: Ord<A>): (first: A, second: A) => boolean {
-  return (first, second) => O.compare(second)(first) === 1
-}
+export const gt = <A>(O: Ord<A>) => (second: A) => (first: A): boolean => O.compare(second)(first) === 1
 
 /**
  * Test whether one value is _non-strictly less than_ another
  *
  * @since 2.0.0
  */
-export function leq<A>(O: Ord<A>): (first: A, second: A) => boolean {
-  return (first, second) => O.compare(second)(first) !== 1
-}
+export const leq = <A>(O: Ord<A>) => (second: A) => (first: A): boolean => O.compare(second)(first) !== 1
 
 /**
  * Test whether one value is _non-strictly greater than_ another
  *
  * @since 2.0.0
  */
-export function geq<A>(O: Ord<A>): (first: A, second: A) => boolean {
-  return (first, second) => O.compare(second)(first) !== -1
-}
+export const geq = <A>(O: Ord<A>) => (second: A) => (first: A): boolean => O.compare(second)(first) !== -1
 
 /**
  * Take the minimum of two values. If they are considered equal, the first argument is chosen
  *
  * @since 2.0.0
  */
-export function min<A>(O: Ord<A>): (second: A) => (first: A) => A {
-  return (second) => (first) => (O.compare(second)(first) === 1 ? second : first)
-}
+export const min = <A>(O: Ord<A>) => (second: A) => (first: A): A => (O.compare(second)(first) === 1 ? second : first)
 
 /**
  * Take the maximum of two values. If they are considered equal, the first argument is chosen
  *
  * @since 2.0.0
  */
-export function max<A>(O: Ord<A>): (second: A) => (first: A) => A {
-  return (second) => (first) => (O.compare(second)(first) === -1 ? second : first)
-}
+export const max = <A>(O: Ord<A>) => (second: A) => (first: A): A => (O.compare(second)(first) === -1 ? second : first)
 
 /**
  * Clamp a value between a minimum and a maximum
  *
  * @since 2.0.0
  */
-export function clamp<A>(O: Ord<A>): (low: A, hi: A) => (a: A) => A {
+export function clamp<A>(O: Ord<A>): (low: A, hi: A) => Endomorphism<A> {
   const minO = min(O)
   const maxO = max(O)
   return (low, hi) => flow(minO(hi), maxO(low))
@@ -128,10 +116,10 @@ export function clamp<A>(O: Ord<A>): (low: A, hi: A) => (a: A) => A {
  *
  * @since 2.0.0
  */
-export function between<A>(O: Ord<A>): (low: A, hi: A) => (a: A) => boolean {
-  const lessThanO = lt(O)
-  const greaterThanO = gt(O)
-  return (low, hi) => (a) => (lessThanO(a, low) || greaterThanO(a, hi) ? false : true)
+export function between<A>(O: Ord<A>): (low: A, hi: A) => Predicate<A> {
+  const ltO = lt(O)
+  const gtO = gt(O)
+  return (low, hi) => (a) => (ltO(low)(a) || gtO(hi)(a) ? false : true)
 }
 
 /**
@@ -232,13 +220,13 @@ export function getMonoid<A = never>(): Monoid<Ord<A>> {
  * Given a tuple of `Ord`s returns an `Ord` for the tuple
  *
  * @example
- * import { getTupleOrd, ordString, ordNumber, ordBoolean } from 'fp-ts/Ord'
+ * import * as O from 'fp-ts/Ord'
  * import { pipe } from 'fp-ts/function'
  *
- * const O = getTupleOrd(ordString, ordNumber, ordBoolean)
- * assert.strictEqual(pipe(['a', 1, true], O.compare(['b', 2, true])), -1)
- * assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 2, true])), -1)
- * assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 1, false])), 1)
+ * const O1 = O.getTupleOrd(O.ordString, O.ordNumber, O.ordBoolean)
+ * assert.strictEqual(pipe(['a', 1, true], O1.compare(['b', 2, true])), -1)
+ * assert.strictEqual(pipe(['a', 1, true], O1.compare(['a', 2, true])), -1)
+ * assert.strictEqual(pipe(['a', 1, true], O1.compare(['a', 1, false])), 1)
  *
  * @category instances
  * @since 2.0.0
@@ -263,9 +251,7 @@ export function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
  * @category combinators
  * @since 2.0.0
  */
-export function getDualOrd<A>(O: Ord<A>): Ord<A> {
-  return fromCompare((second) => (first) => O.compare(first)(second))
-}
+export const getDualOrd = <A>(O: Ord<A>): Ord<A> => fromCompare((second) => (first) => O.compare(first)(second))
 
 /**
  * @category Contravariant

@@ -124,8 +124,12 @@ high state of flux, you're at risk of it changing without notice.
   - `Ord`
     - remove `ord` (@gcanti)
     - make type class members pipeables (@gcanti)
-    - make `min` pipeable
-    - make `max` pipeable
+    - make `min` pipeable (@gcanti)
+    - make `max` pipeable (@gcanti)
+    - make `lt` pipeable (@gcanti)
+    - make `gt` pipeable (@gcanti)
+    - make `leq` pipeable (@gcanti)
+    - make `geq` pipeable (@gcanti)
   - `Profunctor`
     - make type class members pipeables (@gcanti)
   - `Reader`

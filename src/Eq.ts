@@ -142,10 +142,6 @@ export const eqDate: Eq<Date> = {
   equals: (second) => (first) => first.valueOf() === second.valueOf()
 }
 
-const empty: Eq<unknown> = {
-  equals: () => () => true
-}
-
 /**
  * @category instances
  * @since 2.6.0
@@ -153,7 +149,9 @@ const empty: Eq<unknown> = {
 export function getMonoid<A>(): Monoid<Eq<A>> {
   return {
     concat: (second) => (first) => fromEquals((b) => (a) => first.equals(b)(a) && second.equals(b)(a)),
-    empty
+    empty: {
+      equals: () => () => true
+    }
   }
 }
 
