@@ -101,6 +101,8 @@ high state of flux, you're at risk of it changing without notice.
     - make type class members pipeables (@gcanti)
   - `Identity`
     - remove `identity` (@gcanti)
+  - `Invariant`
+    - make type class members pipeables (@gcanti)
   - `IO`
     - remove `io` (@gcanti)
   - `IOEither`
