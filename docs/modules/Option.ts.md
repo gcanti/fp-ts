@@ -1369,18 +1369,19 @@ Returns `true` if `ma` contains `a`
 **Signature**
 
 ```ts
-export declare function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean
+export declare const elem: <A>(E: Eq<A>) => (a: A) => (ma: Option<A>) => boolean
 ```
 
 **Example**
 
 ```ts
-import { some, none, elem } from 'fp-ts/Option'
+import * as O from 'fp-ts/Option'
 import { eqNumber } from 'fp-ts/Eq'
+import { pipe } from 'fp-ts/function'
 
-assert.strictEqual(elem(eqNumber)(1, some(1)), true)
-assert.strictEqual(elem(eqNumber)(2, some(1)), false)
-assert.strictEqual(elem(eqNumber)(1, none), false)
+assert.strictEqual(pipe(O.some(1), O.elem(eqNumber)(1)), true)
+assert.strictEqual(pipe(O.some(1), O.elem(eqNumber)(2)), false)
+assert.strictEqual(pipe(O.none, O.elem(eqNumber)(1)), false)
 ```
 
 Added in v2.0.0

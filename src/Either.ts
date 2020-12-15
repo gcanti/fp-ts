@@ -316,9 +316,8 @@ export const fromPredicate: {
  * @category destructors
  * @since 2.0.0
  */
-export function fold<E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B): (ma: Either<E, A>) => B {
-  return (ma) => (isLeft(ma) ? onLeft(ma.left) : onRight(ma.right))
-}
+export const fold = <E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>): B =>
+  isLeft(ma) ? onLeft(ma.left) : onRight(ma.right)
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).
@@ -390,9 +389,7 @@ export function chainNullableK<E>(
  * @category combinators
  * @since 2.0.0
  */
-export function swap<E, A>(ma: Either<E, A>): Either<A, E> {
-  return isLeft(ma) ? right(ma.left) : left(ma.right)
-}
+export const swap = <E, A>(ma: Either<E, A>): Either<A, E> => (isLeft(ma) ? right(ma.left) : left(ma.right))
 
 /**
  * Useful for recovering from errors.
@@ -400,9 +397,8 @@ export function swap<E, A>(ma: Either<E, A>): Either<A, E> {
  * @category combinators
  * @since 2.0.0
  */
-export function orElse<E, A, M>(onLeft: (e: E) => Either<M, A>): (ma: Either<E, A>) => Either<M, A> {
-  return (ma) => (isLeft(ma) ? onLeft(ma.left) : ma)
-}
+export const orElse = <E, A, M>(onLeft: (e: E) => Either<M, A>) => (ma: Either<E, A>): Either<M, A> =>
+  isLeft(ma) ? onLeft(ma.left) : ma
 
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
@@ -470,8 +466,7 @@ export const filterOrElse: {
  * @category Functor
  * @since 2.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B> = (f) => (fa) =>
-  isLeft(fa) ? fa : right(f(fa.right))
+export const map: Functor2<URI>['map'] = (f) => (fa) => (isLeft(fa) ? fa : right(f(fa.right)))
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -479,9 +474,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B
  * @category Bifunctor
  * @since 2.0.0
  */
-export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<E, A>) => Either<G, B> = (f, g) => (
-  fa
-) => (isLeft(fa) ? left(f(fa.left)) : right(g(fa.right)))
+export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => (fa) => (isLeft(fa) ? left(f(fa.left)) : right(g(fa.right)))
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -489,8 +482,7 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<
  * @category Bifunctor
  * @since 2.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A> = (f) => (fa) =>
-  isLeft(fa) ? left(f(fa.left)) : fa
+export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => (isLeft(fa) ? left(f(fa.left)) : fa)
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -507,7 +499,7 @@ export const apW: <D, A>(fa: Either<D, A>) => <E, B>(fab: Either<E, (a: A) => B>
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B> = apW
+export const ap: Applicative2<URI>['ap'] = apW
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -567,7 +559,7 @@ export const chainW = <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, 
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B> = chainW
+export const chain: Monad2<URI>['chain'] = chainW
 
 /**
  * Less strict version of [`chainFirst`](#chainFirst)
@@ -673,8 +665,7 @@ export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> =
  * @category Foldable
  * @since 2.0.0
  */
-export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B = (b, f) => (fa) =>
-  isLeft(fa) ? b : f(b, fa.right)
+export const reduce: Foldable2<URI>['reduce'] = (b, f) => (fa) => (isLeft(fa) ? b : f(b, fa.right))
 
 /**
  * Map each element of the structure to a monoid, and combine the results.
@@ -699,8 +690,7 @@ export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>)
  * @category Foldable
  * @since 2.0.0
  */
-export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M = (M) => (f) => (fa) =>
-  isLeft(fa) ? M.empty : f(fa.right)
+export const foldMap: Foldable2<URI>['foldMap'] = (M) => (f) => (fa) => (isLeft(fa) ? M.empty : f(fa.right))
 
 /**
  * Right-associative fold of a structure.
@@ -725,8 +715,7 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either
  * @category Foldable
  * @since 2.0.0
  */
-export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B = (b, f) => (fa) =>
-  isLeft(fa) ? b : f(fa.right, b)
+export const reduceRight: Foldable2<URI>['reduceRight'] = (b, f) => (fa) => (isLeft(fa) ? b : f(fa.right, b))
 
 /**
  * Map each element of a structure to an action, evaluate these actions from left to right, and collect the results.
@@ -1027,12 +1016,12 @@ export function getAltValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
   return {
     URI,
     map,
-    alt: (that) => (me) => {
-      if (isRight(me)) {
-        return me
+    alt: (second) => (first) => {
+      if (isRight(first)) {
+        return first
       }
-      const ea = that()
-      return isLeft(ea) ? left(SE.concat(ea.left)(me.left)) : ea
+      const ea = second()
+      return isLeft(ea) ? left(SE.concat(ea.left)(first.left)) : ea
     }
   }
 }
@@ -1173,9 +1162,8 @@ export function toError(e: unknown): Error {
 /**
  * @since 2.0.0
  */
-export function elem<A>(E: Eq<A>): <E>(a: A, ma: Either<E, A>) => boolean {
-  return (a, ma) => (isLeft(ma) ? false : E.equals(ma.right)(a))
-}
+export const elem = <A>(E: Eq<A>) => (a: A) => <E>(ma: Either<E, A>): boolean =>
+  isLeft(ma) ? false : E.equals(ma.right)(a)
 
 /**
  * Returns `false` if `Left` or returns the result of the application of the given predicate to the `Right` value.

@@ -1055,18 +1055,17 @@ export const MonadThrow: MonadThrow1<URI> = {
  * Returns `true` if `ma` contains `a`
  *
  * @example
- * import { some, none, elem } from 'fp-ts/Option'
+ * import * as O from 'fp-ts/Option'
  * import { eqNumber } from 'fp-ts/Eq'
+ * import { pipe } from 'fp-ts/function'
  *
- * assert.strictEqual(elem(eqNumber)(1, some(1)), true)
- * assert.strictEqual(elem(eqNumber)(2, some(1)), false)
- * assert.strictEqual(elem(eqNumber)(1, none), false)
+ * assert.strictEqual(pipe(O.some(1), O.elem(eqNumber)(1)), true)
+ * assert.strictEqual(pipe(O.some(1), O.elem(eqNumber)(2)), false)
+ * assert.strictEqual(pipe(O.none, O.elem(eqNumber)(1)), false)
  *
  * @since 2.0.0
  */
-export function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean {
-  return (a, ma) => (isNone(ma) ? false : E.equals(ma.value)(a))
-}
+export const elem = <A>(E: Eq<A>) => (a: A) => (ma: Option<A>): boolean => (isNone(ma) ? false : E.equals(ma.value)(a))
 
 /**
  * Returns `true` if the predicate is satisfied by the wrapped value

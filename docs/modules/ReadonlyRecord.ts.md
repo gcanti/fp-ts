@@ -553,7 +553,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function elem<A>(E: Eq<A>): (a: A) => (fa: ReadonlyRecord<string, A>) => boolean
+export declare const elem: <A>(E: Eq<A>) => (a: A) => (fa: Readonly<Record<string, A>>) => boolean
 ```
 
 Added in v2.5.0

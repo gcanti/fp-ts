@@ -25,6 +25,4 @@ import { Lazy } from './function'
  * @category destructors
  * @since 2.2.0
  */
-export function fold<A>(onFalse: Lazy<A>, onTrue: Lazy<A>): (value: boolean) => A {
-  return (value) => (value ? onTrue() : onFalse())
-}
+export const fold = <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boolean): A => (value ? onTrue() : onFalse())

@@ -143,7 +143,7 @@ export const contramap: Contravariant2<URI>['contramap'] = () => unsafeCoerce
  * @category Functor
  * @since 2.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B> = () => unsafeCoerce
+export const map: Functor2<URI>['map'] = () => unsafeCoerce
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -151,8 +151,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B> 
  * @category Bifunctor
  * @since 2.6.2
  */
-export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Const<E, A>) => Const<G, B> = (f) => (fa) =>
-  make(f(fa))
+export const bimap: Bifunctor2<URI>['bimap'] = (f) => (fa) => make(f(fa))
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -160,7 +159,7 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Const<E
  * @category Bifunctor
  * @since 2.6.2
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Const<E, A>) => Const<G, A> = (f) => (fa) => make(f(fa))
+export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => make(f(fa))
 
 // -------------------------------------------------------------------------------------
 // instances

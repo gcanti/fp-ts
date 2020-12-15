@@ -207,19 +207,17 @@ export function partition<A>(
  *
  * @since 2.5.0
  */
-export function elem<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => boolean {
-  return (a) => {
-    const predicate = E.equals(a)
-    return (set) => {
-      const values = set.values()
-      let e: Next<A>
-      let found = false
-      // tslint:disable-next-line: strict-boolean-expressions
-      while (!found && !(e = values.next()).done) {
-        found = predicate(e.value)
-      }
-      return found
+export const elem = <A>(E: Eq<A>) => (a: A): ((set: ReadonlySet<A>) => boolean) => {
+  const predicate = E.equals(a)
+  return (set) => {
+    const values = set.values()
+    let e: Next<A>
+    let found = false
+    // tslint:disable-next-line: strict-boolean-expressions
+    while (!found && !(e = values.next()).done) {
+      found = predicate(e.value)
     }
+    return found
   }
 }
 

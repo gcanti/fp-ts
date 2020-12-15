@@ -219,7 +219,7 @@ Map a pair of functions over the two type arguments of the bifunctor.
 **Signature**
 
 ```ts
-export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<E, A>) => Either<G, B>
+export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Either<E, A>) => Either<G, B>
 ```
 
 Added in v2.0.0
@@ -231,7 +231,7 @@ Map a function over the first type argument of a bifunctor.
 **Signature**
 
 ```ts
-export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A>
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: Either<E, A>) => Either<G, A>
 ```
 
 Added in v2.0.0
@@ -283,7 +283,7 @@ Left-associative fold of a structure.
 **Signature**
 
 ```ts
-export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B
 ```
 
 **Example**
@@ -309,7 +309,7 @@ Right-associative fold of a structure.
 **Signature**
 
 ```ts
-export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B
 ```
 
 **Example**
@@ -352,7 +352,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B>
+export declare const chain: <A, E, B>(f: (a: A) => Either<E, B>) => (fa: Either<E, A>) => Either<E, B>
 ```
 
 Added in v2.0.0
@@ -611,7 +611,7 @@ Useful for recovering from errors.
 **Signature**
 
 ```ts
-export declare function orElse<E, A, M>(onLeft: (e: E) => Either<M, A>): (ma: Either<E, A>) => Either<M, A>
+export declare const orElse: <E, A, M>(onLeft: (e: E) => Either<M, A>) => (ma: Either<E, A>) => Either<M, A>
 ```
 
 Added in v2.0.0
@@ -623,7 +623,7 @@ Returns a `Right` if is a `Left` (and vice versa).
 **Signature**
 
 ```ts
-export declare function swap<E, A>(ma: Either<E, A>): Either<A, E>
+export declare const swap: <E, A>(ma: Either<E, A>) => Either<A, E>
 ```
 
 Added in v2.0.0
@@ -860,7 +860,7 @@ if the value is a `Right` the inner value is applied to the second function.
 **Signature**
 
 ```ts
-export declare function fold<E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B): (ma: Either<E, A>) => B
+export declare const fold: <E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B
 ```
 
 **Example**
@@ -1412,7 +1412,7 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare function elem<A>(E: Eq<A>): <E>(a: A, ma: Either<E, A>) => boolean
+export declare const elem: <A>(E: Eq<A>) => (a: A) => <E>(ma: Either<E, A>) => boolean
 ```
 
 Added in v2.0.0

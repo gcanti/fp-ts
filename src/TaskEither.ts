@@ -611,14 +611,14 @@ export function getAltTaskValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
   return {
     URI,
     map,
-    alt: (that) => (me) =>
+    alt: (second) => (first) =>
       pipe(
-        me,
+        first,
         T.chain((e1) =>
           E.isRight(e1)
             ? T.of(e1)
             : pipe(
-                that(),
+                second(),
                 T.map((e2) => (E.isLeft(e2) ? E.left(SE.concat(e2.left)(e1.left)) : e2))
               )
         )

@@ -464,7 +464,7 @@ Test whether or not a value is a member of a map
 **Signature**
 
 ```ts
-export declare function elem<A>(E: Eq<A>): (a: A) => <K>(m: ReadonlyMap<K, A>) => boolean
+export declare const elem: <A>(E: Eq<A>) => (a: A) => <K>(m: ReadonlyMap<K, A>) => boolean
 ```
 
 Added in v2.5.0

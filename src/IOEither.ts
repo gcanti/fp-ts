@@ -465,10 +465,10 @@ export function getAltIOValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
   return {
     URI,
     map,
-    alt: (that) => (me) => () =>
+    alt: (second) => (first) => () =>
       pipe(
-        me(),
-        A.alt(() => that()())
+        first(),
+        A.alt(() => second()())
       )
   }
 }

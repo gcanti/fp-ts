@@ -487,10 +487,10 @@ export function getAltReaderValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
   return {
     URI,
     map,
-    alt: (that) => (me) => (r) =>
+    alt: (second) => (first) => (r) =>
       pipe(
-        me(r),
-        A.alt(() => that()(r))
+        first(r),
+        A.alt(() => second()(r))
       )
   }
 }

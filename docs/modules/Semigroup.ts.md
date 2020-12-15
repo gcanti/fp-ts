@@ -133,7 +133,7 @@ You can glue items between and stay associative.
 **Signature**
 
 ```ts
-export declare function getIntercalateSemigroup<A>(a: A): (S: Semigroup<A>) => Semigroup<A>
+export declare function getIntercalateSemigroup<A>(a: A): Endomorphism<Semigroup<A>>
 ```
 
 **Example**

@@ -105,21 +105,19 @@ interface Next<A> {
  *
  * @since 2.5.0
  */
-export function elem<A>(E: Eq<A>): (a: A) => <K>(m: ReadonlyMap<K, A>) => boolean {
-  return (a) => {
-    const predicate = E.equals(a)
-    return (m) => {
-      const values = m.values()
-      let e: Next<A>
-      // tslint:disable-next-line: strict-boolean-expressions
-      while (!(e = values.next()).done) {
-        const v = e.value
-        if (predicate(v)) {
-          return true
-        }
+export const elem = <A>(E: Eq<A>) => (a: A): (<K>(m: ReadonlyMap<K, A>) => boolean) => {
+  const predicate = E.equals(a)
+  return (m) => {
+    const values = m.values()
+    let e: Next<A>
+    // tslint:disable-next-line: strict-boolean-expressions
+    while (!(e = values.next()).done) {
+      const v = e.value
+      if (predicate(v)) {
+        return true
       }
-      return false
     }
+    return false
   }
 }
 

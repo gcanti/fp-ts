@@ -815,17 +815,15 @@ export function some<A>(predicate: (a: A) => boolean): (r: ReadonlyRecord<string
 /**
  * @since 2.5.0
  */
-export function elem<A>(E: Eq<A>): (a: A) => (fa: ReadonlyRecord<string, A>) => boolean {
-  return (a) => {
-    const predicate = E.equals(a)
-    return (fa) => {
-      for (const k in fa) {
-        if (predicate(fa[k])) {
-          return true
-        }
+export const elem = <A>(E: Eq<A>) => (a: A): ((fa: ReadonlyRecord<string, A>) => boolean) => {
+  const predicate = E.equals(a)
+  return (fa) => {
+    for (const k in fa) {
+      if (predicate(fa[k])) {
+        return true
       }
-      return false
     }
+    return false
   }
 }
 

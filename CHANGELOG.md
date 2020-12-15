@@ -70,6 +70,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `parseJSON` pipeable (@gcanti)
     - make `stringifyJSON` pipeable (@gcanti)
     - remove `either` (@gcanti)
+    - make `elem` pipeable (@gcanti)
   - `Eq`
     - remove `eq` (@gcanti)
     - make type class members pipeables (@gcanti)
@@ -125,6 +126,7 @@ high state of flux, you're at risk of it changing without notice.
     - swap execution order in `getEndomorphismMonoid` (@gcanti)
   - `Option`
     - remove `option` (@gcanti)
+    - make `elem` pipeable (@gcanti)
   - `Ord`
     - remove `ord` (@gcanti)
     - make type class members pipeables (@gcanti)

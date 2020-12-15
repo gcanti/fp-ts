@@ -283,7 +283,7 @@ Test if a value is a member of a set
 **Signature**
 
 ```ts
-export declare function elem<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => boolean
+export declare const elem: <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>) => boolean
 ```
 
 Added in v2.5.0

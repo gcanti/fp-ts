@@ -15,6 +15,7 @@
  *
  * @since 2.0.0
  */
+import { Endomorphism } from './function'
 import { Magma } from './Magma'
 import { max, min, Ord } from './Ord'
 import { ReadonlyRecord } from './ReadonlyRecord'
@@ -354,7 +355,7 @@ export const semigroupVoid: Semigroup<void> = {
  * @category instances
  * @since 2.5.0
  */
-export function getIntercalateSemigroup<A>(a: A): (S: Semigroup<A>) => Semigroup<A> {
+export function getIntercalateSemigroup<A>(a: A): Endomorphism<Semigroup<A>> {
   return (S) => ({
     concat: (second) => (first) => S.concat(S.concat(second)(a))(first)
   })
