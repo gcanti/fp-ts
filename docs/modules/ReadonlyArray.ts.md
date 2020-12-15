@@ -1600,11 +1600,12 @@ export declare function getOrd<A>(O: Ord<A>): Ord<ReadonlyArray<A>>
 ```ts
 import { getOrd } from 'fp-ts/ReadonlyArray'
 import { ordString } from 'fp-ts/Ord'
+import { pipe } from 'fp-ts/function'
 
 const O = getOrd(ordString)
-assert.strictEqual(O.compare(['b'], ['a']), 1)
-assert.strictEqual(O.compare(['a'], ['a']), 0)
-assert.strictEqual(O.compare(['a'], ['b']), -1)
+assert.strictEqual(pipe(['b'], O.compare(['a'])), 1)
+assert.strictEqual(pipe(['a'], O.compare(['a'])), 0)
+assert.strictEqual(pipe(['a'], O.compare(['b'])), -1)
 ```
 
 Added in v2.5.0

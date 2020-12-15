@@ -10,9 +10,9 @@ The `Ord` type class represents types which support comparisons with a _total or
 
 Instances should satisfy the laws of total orderings:
 
-1. Reflexivity: `S.compare(a, a) <= 0`
-2. Antisymmetry: if `S.compare(a, b) <= 0` and `S.compare(b, a) <= 0` then `a <-> b`
-3. Transitivity: if `S.compare(a, b) <= 0` and `S.compare(b, c) <= 0` then `S.compare(a, c) <= 0`
+1. Reflexivity: `S.compare(a)(a) <= 0`
+2. Antisymmetry: if `S.compare(b)(a) <= 0` and `S.compare(a)(b) <= 0` then `a <-> b`
+3. Transitivity: if `S.compare(b)(a) <= 0` and `S.compare(c)(b) <= 0` then `S.compare(c)(a) <= 0`
 
 Added in v2.0.0
 
@@ -207,11 +207,12 @@ export declare function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
 
 ```ts
 import { getTupleOrd, ordString, ordNumber, ordBoolean } from 'fp-ts/Ord'
+import { pipe } from 'fp-ts/function'
 
 const O = getTupleOrd(ordString, ordNumber, ordBoolean)
-assert.strictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
-assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
-assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
+assert.strictEqual(pipe(['a', 1, true], O.compare(['b', 2, true])), -1)
+assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 2, true])), -1)
+assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 1, false])), 1)
 ```
 
 Added in v2.0.0
@@ -264,7 +265,7 @@ Added in v2.0.0
 
 ```ts
 export interface Ord<A> extends Eq<A> {
-  readonly compare: (x: A, y: A) => Ordering
+  readonly compare: (second: A) => (first: A) => Ordering
 }
 ```
 
@@ -279,7 +280,7 @@ Test whether a value is between a minimum and a maximum (inclusive)
 **Signature**
 
 ```ts
-export declare function between<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => boolean
+export declare function between<A>(O: Ord<A>): (low: A, hi: A) => (a: A) => boolean
 ```
 
 Added in v2.0.0
@@ -291,7 +292,7 @@ Clamp a value between a minimum and a maximum
 **Signature**
 
 ```ts
-export declare function clamp<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => A
+export declare function clamp<A>(O: Ord<A>): (low: A, hi: A) => (a: A) => A
 ```
 
 Added in v2.0.0
@@ -303,7 +304,7 @@ Test whether one value is _non-strictly greater than_ another
 **Signature**
 
 ```ts
-export declare function geq<A>(O: Ord<A>): (x: A, y: A) => boolean
+export declare function geq<A>(O: Ord<A>): (first: A, second: A) => boolean
 ```
 
 Added in v2.0.0
@@ -315,7 +316,7 @@ Test whether one value is _strictly greater than_ another
 **Signature**
 
 ```ts
-export declare function gt<A>(O: Ord<A>): (x: A, y: A) => boolean
+export declare function gt<A>(O: Ord<A>): (first: A, second: A) => boolean
 ```
 
 Added in v2.0.0
@@ -327,7 +328,7 @@ Test whether one value is _non-strictly less than_ another
 **Signature**
 
 ```ts
-export declare function leq<A>(O: Ord<A>): (x: A, y: A) => boolean
+export declare function leq<A>(O: Ord<A>): (first: A, second: A) => boolean
 ```
 
 Added in v2.0.0
@@ -339,7 +340,7 @@ Test whether one value is _strictly less than_ another
 **Signature**
 
 ```ts
-export declare function lt<A>(O: Ord<A>): (x: A, y: A) => boolean
+export declare function lt<A>(O: Ord<A>): (first: A, second: A) => boolean
 ```
 
 Added in v2.0.0
@@ -351,7 +352,7 @@ Take the maximum of two values. If they are considered equal, the first argument
 **Signature**
 
 ```ts
-export declare function max<A>(O: Ord<A>): (x: A, y: A) => A
+export declare function max<A>(O: Ord<A>): (first: A, second: A) => A
 ```
 
 Added in v2.0.0
@@ -363,7 +364,7 @@ Take the minimum of two values. If they are considered equal, the first argument
 **Signature**
 
 ```ts
-export declare function min<A>(O: Ord<A>): (x: A, y: A) => A
+export declare function min<A>(O: Ord<A>): (first: A, second: A) => A
 ```
 
 Added in v2.0.0

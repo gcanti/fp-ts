@@ -7,9 +7,9 @@ import { pipe } from '../src/function'
 describe('Ord', () => {
   it('getTupleOrd', () => {
     const O = _.getTupleOrd(_.ordString, _.ordNumber, _.ordBoolean)
-    assert.deepStrictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
-    assert.deepStrictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
-    assert.deepStrictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
+    assert.deepStrictEqual(pipe(['a', 1, true], O.compare(['b', 2, true])), -1)
+    assert.deepStrictEqual(pipe(['a', 1, true], O.compare(['a', 2, true])), -1)
+    assert.deepStrictEqual(pipe(['a', 1, true], O.compare(['a', 1, false])), 1)
   })
 
   it('getMonoid', () => {
@@ -48,15 +48,15 @@ describe('Ord', () => {
   })
 
   it('ordNumber', () => {
-    assert.deepStrictEqual(_.ordNumber.compare(1, 2), -1)
-    assert.deepStrictEqual(_.ordNumber.compare(2, 1), 1)
-    assert.deepStrictEqual(_.ordNumber.compare(2, 2), 0)
+    assert.deepStrictEqual(pipe(1, _.ordNumber.compare(2)), -1)
+    assert.deepStrictEqual(pipe(2, _.ordNumber.compare(1)), 1)
+    assert.deepStrictEqual(pipe(2, _.ordNumber.compare(2)), 0)
   })
 
   it('ordBoolean', () => {
-    assert.deepStrictEqual(_.ordBoolean.compare(false, true), -1)
-    assert.deepStrictEqual(_.ordBoolean.compare(true, false), 1)
-    assert.deepStrictEqual(_.ordBoolean.compare(true, true), 0)
+    assert.deepStrictEqual(pipe(false, _.ordBoolean.compare(true)), -1)
+    assert.deepStrictEqual(pipe(true, _.ordBoolean.compare(false)), 1)
+    assert.deepStrictEqual(pipe(true, _.ordBoolean.compare(true)), 0)
   })
 
   it('clamp', () => {
@@ -79,15 +79,15 @@ describe('Ord', () => {
 
   it('getDualOrd', () => {
     const O = _.getDualOrd(_.ordNumber)
-    assert.deepStrictEqual(O.compare(1, 2), 1)
-    assert.deepStrictEqual(O.compare(2, 1), -1)
-    assert.deepStrictEqual(O.compare(2, 2), 0)
+    assert.deepStrictEqual(pipe(1, O.compare(2)), 1)
+    assert.deepStrictEqual(pipe(2, O.compare(1)), -1)
+    assert.deepStrictEqual(pipe(2, O.compare(2)), 0)
   })
 
   it('ordDate', () => {
-    assert.deepStrictEqual(_.ordDate.compare(new Date(0), new Date(0)), 0)
-    assert.deepStrictEqual(_.ordDate.compare(new Date(0), new Date(1)), -1)
-    assert.deepStrictEqual(_.ordDate.compare(new Date(1), new Date(0)), 1)
+    assert.deepStrictEqual(pipe(new Date(0), _.ordDate.compare(new Date(0))), 0)
+    assert.deepStrictEqual(pipe(new Date(0), _.ordDate.compare(new Date(1))), -1)
+    assert.deepStrictEqual(pipe(new Date(1), _.ordDate.compare(new Date(0))), 1)
   })
 
   it('leq', () => {
@@ -110,9 +110,12 @@ describe('Ord', () => {
       readonly x: number
     }
     let nbCall = 0
-    const O2 = _.fromCompare<A>((a, b) => {
-      nbCall += 1
-      return _.ordNumber.compare(a.x, b.x)
+    const O2 = _.fromCompare<A>((second) => {
+      const f = _.ordNumber.compare(second.x)
+      return (first) => {
+        nbCall += 1
+        return f(first.x)
+      }
     })
     const a1 = { x: 1 }
     const a2 = { x: 1 }
@@ -120,9 +123,9 @@ describe('Ord', () => {
     assert.deepStrictEqual(nbCall, 0)
     assert.deepStrictEqual(O2.equals(a1)(a2), true)
     assert.deepStrictEqual(nbCall, 1)
-    assert.deepStrictEqual(O2.compare(a1, a1), 0)
+    assert.deepStrictEqual(pipe(a1, O2.compare(a1)), 0)
     assert.deepStrictEqual(nbCall, 1)
-    assert.deepStrictEqual(O2.compare(a1, a2), 0)
+    assert.deepStrictEqual(pipe(a1, O2.compare(a2)), 0)
     assert.deepStrictEqual(nbCall, 2)
   })
 })

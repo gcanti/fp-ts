@@ -265,12 +265,12 @@ describe('Option', () => {
 
   it('getOrd', () => {
     const OS = _.getOrd(ordString)
-    assert.deepStrictEqual(OS.compare(_.none, _.none), 0)
-    assert.deepStrictEqual(OS.compare(_.some('a'), _.none), 1)
-    assert.deepStrictEqual(OS.compare(_.none, _.some('a')), -1)
-    assert.deepStrictEqual(OS.compare(_.some('a'), _.some('a')), 0)
-    assert.deepStrictEqual(OS.compare(_.some('a'), _.some('b')), -1)
-    assert.deepStrictEqual(OS.compare(_.some('b'), _.some('a')), 1)
+    assert.deepStrictEqual(pipe(_.none, OS.compare(_.none)), 0)
+    assert.deepStrictEqual(pipe(_.some('a'), OS.compare(_.none)), 1)
+    assert.deepStrictEqual(pipe(_.none, OS.compare(_.some('a'))), -1)
+    assert.deepStrictEqual(pipe(_.some('a'), OS.compare(_.some('a'))), 0)
+    assert.deepStrictEqual(pipe(_.some('a'), OS.compare(_.some('b'))), -1)
+    assert.deepStrictEqual(pipe(_.some('b'), OS.compare(_.some('a'))), 1)
   })
 
   it('chainNullableK', () => {

@@ -1229,13 +1229,14 @@ export declare function getOrd<A>(O: Ord<A>): Ord<Option<A>>
 ```ts
 import { none, some, getOrd } from 'fp-ts/Option'
 import { ordNumber } from 'fp-ts/Ord'
+import { pipe } from 'fp-ts/function'
 
 const O = getOrd(ordNumber)
-assert.strictEqual(O.compare(none, none), 0)
-assert.strictEqual(O.compare(none, some(1)), -1)
-assert.strictEqual(O.compare(some(1), none), 1)
-assert.strictEqual(O.compare(some(1), some(2)), -1)
-assert.strictEqual(O.compare(some(1), some(1)), 0)
+assert.strictEqual(pipe(none, O.compare(none)), 0)
+assert.strictEqual(pipe(none, O.compare(some(1))), -1)
+assert.strictEqual(pipe(some(1), O.compare(none)), 1)
+assert.strictEqual(pipe(some(1), O.compare(some(2))), -1)
+assert.strictEqual(pipe(some(1), O.compare(some(1))), 0)
 ```
 
 Added in v2.0.0

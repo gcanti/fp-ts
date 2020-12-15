@@ -35,7 +35,10 @@ interface Value {
 
 const eqKey: Eq<Key> = fromEquals((second) => (first) => first.id % 3 === second.id % 3)
 
-const ordKey = Ord.fromCompare<Key>((x, y) => Ord.ordNumber.compare(x.id % 3, y.id % 3))
+const ordKey = Ord.fromCompare<Key>((second) => {
+  const f = Ord.ordNumber.compare(second.id % 3)
+  return (first) => f(first.id % 3)
+})
 
 const eqValue: Eq<Value> = fromEquals((second) => (first) => first.value % 3 === second.value % 3)
 
@@ -211,7 +214,10 @@ describe('ReadonlyMap', () => {
       [{ id: 'a' }, 1]
     ])
     const ks = _.keys(ordUser)(m)
-    assert.deepStrictEqual(ks, Array.from(m.keys()).sort(ordUser.compare))
+    assert.deepStrictEqual(
+      ks,
+      Array.from(m.keys()).sort((first, second) => ordUser.compare(second)(first))
+    )
     assert.deepStrictEqual(ks, [{ id: 'a' }, { id: 'b' }])
 
     assert.deepStrictEqual(
@@ -240,7 +246,10 @@ describe('ReadonlyMap', () => {
       [1, { id: 'a' }]
     ])
     const vals = _.values(ordUser)(m)
-    assert.deepStrictEqual(vals, Array.from(m.values()).sort(ordUser.compare))
+    assert.deepStrictEqual(
+      vals,
+      Array.from(m.values()).sort((first, second) => ordUser.compare(second)(first))
+    )
     assert.deepStrictEqual(vals, [{ id: 'a' }, { id: 'b' }])
   })
 

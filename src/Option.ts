@@ -27,7 +27,7 @@ import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { MonadThrow1 } from './MonadThrow'
 import { Monoid } from './Monoid'
-import { Ord } from './Ord'
+import { fromCompare, Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
@@ -770,22 +770,22 @@ export function getEq<A>(E: Eq<A>): Eq<Option<A>> {
  * @example
  * import { none, some, getOrd } from 'fp-ts/Option'
  * import { ordNumber } from 'fp-ts/Ord'
+ * import { pipe } from 'fp-ts/function'
  *
  * const O = getOrd(ordNumber)
- * assert.strictEqual(O.compare(none, none), 0)
- * assert.strictEqual(O.compare(none, some(1)), -1)
- * assert.strictEqual(O.compare(some(1), none), 1)
- * assert.strictEqual(O.compare(some(1), some(2)), -1)
- * assert.strictEqual(O.compare(some(1), some(1)), 0)
+ * assert.strictEqual(pipe(none, O.compare(none)), 0)
+ * assert.strictEqual(pipe(none, O.compare(some(1))), -1)
+ * assert.strictEqual(pipe(some(1), O.compare(none)), 1)
+ * assert.strictEqual(pipe(some(1), O.compare(some(2))), -1)
+ * assert.strictEqual(pipe(some(1), O.compare(some(1))), 0)
  *
  * @category instances
  * @since 2.0.0
  */
 export function getOrd<A>(O: Ord<A>): Ord<Option<A>> {
-  return {
-    equals: getEq(O).equals,
-    compare: (x, y) => (x === y ? 0 : isSome(x) ? (isSome(y) ? O.compare(x.value, y.value) : 1) : -1)
-  }
+  return fromCompare((second) => (first) =>
+    isSome(first) ? (isSome(second) ? O.compare(second.value)(first.value) : 1) : -1
+  )
 }
 
 /**

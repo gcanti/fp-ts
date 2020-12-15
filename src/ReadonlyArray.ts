@@ -138,28 +138,29 @@ export function getEq<A>(E: Eq<A>): Eq<ReadonlyArray<A>> {
  * @example
  * import { getOrd } from 'fp-ts/ReadonlyArray'
  * import { ordString } from 'fp-ts/Ord'
+ * import { pipe } from 'fp-ts/function'
  *
  * const O = getOrd(ordString)
- * assert.strictEqual(O.compare(['b'], ['a']), 1)
- * assert.strictEqual(O.compare(['a'], ['a']), 0)
- * assert.strictEqual(O.compare(['a'], ['b']), -1)
+ * assert.strictEqual(pipe(['b'], O.compare(['a'])), 1)
+ * assert.strictEqual(pipe(['a'], O.compare(['a'])), 0)
+ * assert.strictEqual(pipe(['a'], O.compare(['b'])), -1)
  *
  *
  * @category instances
  * @since 2.5.0
  */
 export function getOrd<A>(O: Ord<A>): Ord<ReadonlyArray<A>> {
-  return fromCompare((a, b) => {
-    const aLen = a.length
-    const bLen = b.length
+  return fromCompare((second) => (first) => {
+    const aLen = first.length
+    const bLen = second.length
     const len = Math.min(aLen, bLen)
     for (let i = 0; i < len; i++) {
-      const ordering = O.compare(a[i], b[i])
+      const ordering = O.compare(second[i])(first[i])
       if (ordering !== 0) {
         return ordering
       }
     }
-    return ordNumber.compare(aLen, bLen)
+    return ordNumber.compare(bLen)(aLen)
   })
 }
 
@@ -954,7 +955,7 @@ export function lefts<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<E> {
  * @since 2.5.0
  */
 export const sort = <B>(O: Ord<B>) => <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
-  as.length <= 1 ? as : as.slice().sort(O.compare)
+  as.length <= 1 ? as : as.slice().sort((first, second) => O.compare(second)(first))
 
 /**
  * Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If one

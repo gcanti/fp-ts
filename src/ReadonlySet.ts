@@ -60,7 +60,7 @@ export function toReadonlyArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => Readonly
     // tslint:disable-next-line: readonly-array
     const out: Array<A> = []
     x.forEach((e) => out.push(e))
-    return out.sort(O.compare)
+    return out.sort((first, second) => O.compare(second)(first))
   }
 }
 

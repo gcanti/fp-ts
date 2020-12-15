@@ -117,6 +117,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `option` (@gcanti)
   - `Ord`
     - remove `ord` (@gcanti)
+    - make type class members pipeables (@gcanti)
   - `Profunctor`
     - make type class members pipeables (@gcanti)
   - `Reader`

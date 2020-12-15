@@ -334,28 +334,28 @@ describe('ReadonlyArray', () => {
 
   it('getOrd', () => {
     const O = _.getOrd(Ord.ordString)
-    assert.deepStrictEqual(O.compare([], []), 0, '[] ]')
-    assert.deepStrictEqual(O.compare(['a'], ['a']), 0, '[a], [a]')
+    assert.deepStrictEqual(pipe([], O.compare([])), 0)
+    assert.deepStrictEqual(pipe(['a'], O.compare(['a'])), 0)
 
-    assert.deepStrictEqual(O.compare(['b'], ['a']), 1, '[b], [a]')
-    assert.deepStrictEqual(O.compare(['a'], ['b']), -1, '[a], [b]')
+    assert.deepStrictEqual(pipe(['b'], O.compare(['a'])), 1)
+    assert.deepStrictEqual(pipe(['a'], O.compare(['b'])), -1)
 
-    assert.deepStrictEqual(O.compare(['a'], []), 1, '[a] []')
-    assert.deepStrictEqual(O.compare([], ['a']), -1, '[], [a]')
-    assert.deepStrictEqual(O.compare(['a', 'a'], ['a']), 1, '[a, a], [a]')
-    assert.deepStrictEqual(O.compare(['a', 'a'], ['b']), -1, '[a, a], [a]')
+    assert.deepStrictEqual(pipe(['a'], O.compare([])), 1)
+    assert.deepStrictEqual(pipe([], O.compare(['a'])), -1)
+    assert.deepStrictEqual(pipe(['a', 'a'], O.compare(['a'])), 1)
+    assert.deepStrictEqual(pipe(['a', 'a'], O.compare(['b'])), -1)
 
-    assert.deepStrictEqual(O.compare(['a', 'a'], ['a', 'a']), 0, '[a, a], [a, a]')
-    assert.deepStrictEqual(O.compare(['a', 'b'], ['a', 'b']), 0, '[a, b], [a, b]')
+    assert.deepStrictEqual(pipe(['a', 'a'], O.compare(['a', 'a'])), 0)
+    assert.deepStrictEqual(pipe(['a', 'b'], O.compare(['a', 'b'])), 0)
 
-    assert.deepStrictEqual(O.compare(['a', 'a'], ['a', 'b']), -1, '[a, a], [a, b]')
-    assert.deepStrictEqual(O.compare(['a', 'b'], ['a', 'a']), 1, '[a, b], [a, a]')
+    assert.deepStrictEqual(pipe(['a', 'a'], O.compare(['a', 'b'])), -1)
+    assert.deepStrictEqual(pipe(['a', 'b'], O.compare(['a', 'a'])), 1)
 
-    assert.deepStrictEqual(O.compare(['a', 'b'], ['b', 'a']), -1, '[a, b], [b, a]')
-    assert.deepStrictEqual(O.compare(['b', 'a'], ['a', 'a']), 1, '[b, a], [a, a]')
-    assert.deepStrictEqual(O.compare(['b', 'a'], ['a', 'b']), 1, '[b, b], [a, a]')
-    assert.deepStrictEqual(O.compare(['b', 'b'], ['b', 'a']), 1, '[b, b], [b, a]')
-    assert.deepStrictEqual(O.compare(['b', 'a'], ['b', 'b']), -1, '[b, a], [b, b]')
+    assert.deepStrictEqual(pipe(['a', 'b'], O.compare(['b', 'a'])), -1)
+    assert.deepStrictEqual(pipe(['b', 'a'], O.compare(['a', 'a'])), 1)
+    assert.deepStrictEqual(pipe(['b', 'a'], O.compare(['a', 'b'])), 1)
+    assert.deepStrictEqual(pipe(['b', 'b'], O.compare(['b', 'a'])), 1)
+    assert.deepStrictEqual(pipe(['b', 'a'], O.compare(['b', 'b'])), -1)
   })
 
   it('isEmpty', () => {

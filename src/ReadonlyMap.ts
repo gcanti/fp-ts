@@ -129,7 +129,7 @@ export function elem<A>(E: Eq<A>): (a: A) => <K>(m: ReadonlyMap<K, A>) => boolea
  * @since 2.5.0
  */
 export function keys<K>(O: Ord<K>): <A>(m: ReadonlyMap<K, A>) => ReadonlyArray<K> {
-  return (m) => Array.from(m.keys()).sort(O.compare)
+  return (m) => Array.from(m.keys()).sort((first, second) => O.compare(second)(first))
 }
 
 /**
@@ -138,7 +138,7 @@ export function keys<K>(O: Ord<K>): <A>(m: ReadonlyMap<K, A>) => ReadonlyArray<K
  * @since 2.5.0
  */
 export function values<A>(O: Ord<A>): <K>(m: ReadonlyMap<K, A>) => ReadonlyArray<A> {
-  return (m) => Array.from(m.values()).sort(O.compare)
+  return (m) => Array.from(m.values()).sort((first, second) => O.compare(second)(first))
 }
 
 /**
