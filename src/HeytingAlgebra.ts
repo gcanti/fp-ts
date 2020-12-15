@@ -28,6 +28,6 @@ import { BoundedDistributiveLattice } from './BoundedDistributiveLattice'
  * @since 2.0.0
  */
 export interface HeytingAlgebra<A> extends BoundedDistributiveLattice<A> {
-  readonly implies: (x: A, y: A) => A
-  readonly not: (x: A) => A
+  readonly implies: (second: A) => (first: A) => A
+  readonly not: (a: A) => A
 }

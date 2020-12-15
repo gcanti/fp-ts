@@ -27,7 +27,7 @@ export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = {
   join: (second) => (first) => first || second,
   zero: false,
   one: true,
-  implies: (x, y) => !x || y,
+  implies: (second) => (first) => !first || second,
   not: (x) => !x
 }
 
@@ -40,7 +40,7 @@ export const booleanAlgebraVoid: BooleanAlgebra<void> = {
   join: () => () => undefined,
   zero: undefined,
   one: undefined,
-  implies: () => undefined,
+  implies: () => () => undefined,
   not: () => undefined
 }
 
@@ -54,7 +54,7 @@ export function getFunctionBooleanAlgebra<B>(B: BooleanAlgebra<B>): <A = never>(
     join: (second) => (first) => (a) => B.join(second(a))(first(a)),
     zero: () => B.zero,
     one: () => B.one,
-    implies: (x, y) => (a) => B.implies(x(a), y(a)),
+    implies: (second) => (first) => (a) => B.implies(second(a))(first(a)),
     not: (x) => (a) => B.not(x(a))
   })
 }
@@ -71,7 +71,7 @@ export function getDualBooleanAlgebra<A>(B: BooleanAlgebra<A>): BooleanAlgebra<A
     join: B.meet,
     zero: B.one,
     one: B.zero,
-    implies: (x, y) => B.join(y)(B.not(x)),
+    implies: (second) => (first) => B.join(second)(B.not(first)),
     not: B.not
   }
 }

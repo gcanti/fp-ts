@@ -97,6 +97,8 @@ high state of flux, you're at risk of it changing without notice.
   - `FunctorWithIndex`
     - remove `getFunctorWithIndexComposition` (@gcanti)
     - make type class members pipeables (@gcanti)
+  - `HeytingAlgebra`
+    - make type class members pipeables (@gcanti)
   - `Identity`
     - remove `identity` (@gcanti)
   - `IO`

@@ -10,10 +10,10 @@ import { pipe } from '../src/function'
 describe('BooleanAlgebra', () => {
   it('booleanAlgebraBoolean', () => {
     const BA = booleanAlgebraBoolean
-    assert.deepStrictEqual(BA.implies(true, true), true)
-    assert.deepStrictEqual(BA.implies(true, false), false)
-    assert.deepStrictEqual(BA.implies(false, true), true)
-    assert.deepStrictEqual(BA.implies(false, false), true)
+    assert.deepStrictEqual(pipe(true, BA.implies(true)), true)
+    assert.deepStrictEqual(pipe(true, BA.implies(false)), false)
+    assert.deepStrictEqual(pipe(false, BA.implies(true)), true)
+    assert.deepStrictEqual(pipe(false, BA.implies(false)), true)
 
     assert.deepStrictEqual(pipe(true, BA.join(true)), true)
     assert.deepStrictEqual(pipe(true, BA.join(false)), true)
@@ -32,7 +32,7 @@ describe('BooleanAlgebra', () => {
 
   it('booleanAlgebraVoid', () => {
     const BA = booleanAlgebraVoid
-    assert.deepStrictEqual(BA.implies(undefined, undefined), undefined)
+    assert.deepStrictEqual(pipe(undefined, BA.implies(undefined)), undefined)
 
     assert.deepStrictEqual(pipe(undefined, BA.join(undefined)), undefined)
 
@@ -48,8 +48,8 @@ describe('BooleanAlgebra', () => {
     const BA = getFunctionBooleanAlgebra(booleanAlgebraBoolean)<number>()
     const f = (n: number) => n >= 0
     const g = (n: number) => n < 2
-    assert.deepStrictEqual(BA.implies(f, g)(1), true)
-    assert.deepStrictEqual(BA.implies(f, g)(-1), true)
+    assert.deepStrictEqual(pipe(f, BA.implies(g))(1), true)
+    assert.deepStrictEqual(pipe(f, BA.implies(g))(-1), true)
 
     assert.deepStrictEqual(pipe(f, BA.join(g))(1), true)
     assert.deepStrictEqual(pipe(f, BA.join(g))(-1), true)
@@ -68,10 +68,10 @@ describe('BooleanAlgebra', () => {
 
   it('getDualBooleanAlgebra', () => {
     const BA = getDualBooleanAlgebra(booleanAlgebraBoolean)
-    assert.deepStrictEqual(BA.implies(true, true), true)
-    assert.deepStrictEqual(BA.implies(true, false), false)
-    assert.deepStrictEqual(BA.implies(false, true), true)
-    assert.deepStrictEqual(BA.implies(false, false), true)
+    assert.deepStrictEqual(pipe(true, BA.implies(true)), true)
+    assert.deepStrictEqual(pipe(true, BA.implies(false)), false)
+    assert.deepStrictEqual(pipe(false, BA.implies(true)), true)
+    assert.deepStrictEqual(pipe(false, BA.implies(false)), true)
 
     assert.deepStrictEqual(pipe(true, BA.join(true)), true)
     assert.deepStrictEqual(pipe(true, BA.join(false)), false)
