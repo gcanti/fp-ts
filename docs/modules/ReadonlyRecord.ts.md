@@ -765,7 +765,7 @@ Added in v2.5.0
 ```ts
 export declare function modifyAt<A>(
   k: string,
-  f: (a: A) => A
+  f: Endomorphism<A>
 ): <K extends string>(r: ReadonlyRecord<K, A>) => Option<ReadonlyRecord<K, A>>
 ```
 

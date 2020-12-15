@@ -1024,7 +1024,7 @@ Added in v2.5.0
 ```ts
 export declare function modifyAt<A>(
   i: number,
-  f: (a: A) => A
+  f: Endomorphism<A>
 ): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
 ```
 

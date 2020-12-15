@@ -9,6 +9,7 @@
  *
  * @since 2.0.0
  */
+import { Endomorphism } from './function'
 import { Semiring, getFunctionSemiring } from './Semiring'
 
 /**
@@ -39,7 +40,7 @@ export function getFunctionRing<A, B>(ring: Ring<B>): Ring<(a: A) => B> {
  *
  * @since 2.0.0
  */
-export function negate<A>(ring: Ring<A>): (a: A) => A {
+export function negate<A>(ring: Ring<A>): Endomorphism<A> {
   return (a) => ring.sub(ring.zero, a)
 }
 

@@ -10,7 +10,7 @@ import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { bindTo_, bind_, flow, Lazy, pipe, Predicate, Refinement, tuple } from './function'
+import { bindTo_, bind_, Endomorphism, flow, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { Monad1 } from './Monad'
@@ -327,7 +327,7 @@ export function updateAt<A>(i: number, a: A): (nea: ReadonlyNonEmptyArray<A>) =>
  */
 export function modifyAt<A>(
   i: number,
-  f: (a: A) => A
+  f: Endomorphism<A>
 ): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> {
   return RA.modifyAt(i, f) as any
 }

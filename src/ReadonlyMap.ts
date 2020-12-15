@@ -9,7 +9,7 @@ import { Filterable2, Filterable2C } from './Filterable'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable2C, Foldable3 } from './Foldable'
 import { FoldableWithIndex2C } from './FoldableWithIndex'
-import { flow, pipe, Predicate } from './function'
+import { Endomorphism, flow, pipe, Predicate } from './function'
 import { Functor2 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Magma } from './Magma'
@@ -262,7 +262,7 @@ export function updateAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: ReadonlyMap<K, A>)
  */
 export function modifyAt<K>(
   E: Eq<K>
-): <A>(k: K, f: (a: A) => A) => (m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>> {
+): <A>(k: K, f: Endomorphism<A>) => (m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>> {
   const lookupWithKeyE = lookupWithKey(E)
   return (k, f) => {
     const lookupWithKeyEk = lookupWithKeyE(k)

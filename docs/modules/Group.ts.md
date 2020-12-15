@@ -29,7 +29,7 @@ Added in v2.0.0
 
 ```ts
 export interface Group<A> extends Monoid<A> {
-  readonly inverse: (a: A) => A
+  readonly inverse: Endomorphism<A>
 }
 ```
 

@@ -93,7 +93,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function negate<A>(ring: Ring<A>): (a: A) => A
+export declare function negate<A>(ring: Ring<A>): Endomorphism<A>
 ```
 
 Added in v2.0.0

@@ -562,7 +562,7 @@ Added in v2.5.0
 ```ts
 export declare function modifyAt<K>(
   E: Eq<K>
-): <A>(k: K, f: (a: A) => A) => (m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>>
+): <A>(k: K, f: Endomorphism<A>) => (m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>>
 ```
 
 Added in v2.5.0

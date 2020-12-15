@@ -2194,7 +2194,7 @@ of bounds
 **Signature**
 
 ```ts
-export declare function modifyAt<A>(i: number, f: (a: A) => A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>
+export declare function modifyAt<A>(i: number, f: Endomorphism<A>): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>
 ```
 
 **Example**

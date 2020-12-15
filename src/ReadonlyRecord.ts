@@ -9,7 +9,7 @@ import { Filterable1 } from './Filterable'
 import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from './FilterableWithIndex'
 import { Foldable as FoldableHKT, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { flow, identity, pipe, Predicate } from './function'
+import { Endomorphism, flow, identity, pipe, Predicate } from './function'
 import { Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
@@ -211,7 +211,7 @@ export function updateAt<A>(
  */
 export function modifyAt<A>(
   k: string,
-  f: (a: A) => A
+  f: Endomorphism<A>
 ): <K extends string>(r: ReadonlyRecord<K, A>) => Option<ReadonlyRecord<K, A>> {
   return <K extends string>(r: ReadonlyRecord<K, A>) => {
     if (!has(k, r)) {

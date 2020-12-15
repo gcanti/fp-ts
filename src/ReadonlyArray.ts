@@ -12,7 +12,7 @@ import { Filterable1 } from './Filterable'
 import { FilterableWithIndex1, PredicateWithIndex } from './FilterableWithIndex'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
+import { bindTo_, bind_, Endomorphism, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
@@ -872,7 +872,7 @@ export function deleteAt(i: number): <A>(as: ReadonlyArray<A>) => Option<Readonl
  *
  * @since 2.5.0
  */
-export function modifyAt<A>(i: number, f: (a: A) => A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>> {
+export function modifyAt<A>(i: number, f: Endomorphism<A>): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>> {
   return (as) => (isOutOfBound(i, as) ? O.none : O.some(unsafeUpdateAt(i, f(as[i]), as)))
 }
 
