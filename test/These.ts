@@ -127,17 +127,17 @@ describe('These', () => {
 
   it('getEq', () => {
     const { equals } = _.getEq(eqNumber, eqNumber)
-    assert.deepStrictEqual(equals(_.left(2), _.left(2)), true)
-    assert.deepStrictEqual(equals(_.left(2), _.left(3)), false)
-    assert.deepStrictEqual(equals(_.left(3), _.left(2)), false)
-    assert.deepStrictEqual(equals(_.left(2), _.right(2)), false)
-    assert.deepStrictEqual(equals(_.left(2), _.both(2, 2)), false)
-    assert.deepStrictEqual(equals(_.right(2), _.right(2)), true)
-    assert.deepStrictEqual(equals(_.right(2), _.right(3)), false)
-    assert.deepStrictEqual(equals(_.right(3), _.right(2)), false)
-    assert.deepStrictEqual(equals(_.right(2), _.both(2, 2)), false)
-    assert.deepStrictEqual(equals(_.both(2, 2), _.both(2, 2)), true)
-    assert.deepStrictEqual(equals(_.both(2, 3), _.both(3, 2)), false)
+    assert.deepStrictEqual(equals(_.left(2))(_.left(2)), true)
+    assert.deepStrictEqual(equals(_.left(2))(_.left(3)), false)
+    assert.deepStrictEqual(equals(_.left(3))(_.left(2)), false)
+    assert.deepStrictEqual(equals(_.left(2))(_.right(2)), false)
+    assert.deepStrictEqual(equals(_.left(2))(_.both(2, 2)), false)
+    assert.deepStrictEqual(equals(_.right(2))(_.right(2)), true)
+    assert.deepStrictEqual(equals(_.right(2))(_.right(3)), false)
+    assert.deepStrictEqual(equals(_.right(3))(_.right(2)), false)
+    assert.deepStrictEqual(equals(_.right(2))(_.both(2, 2)), false)
+    assert.deepStrictEqual(equals(_.both(2, 2))(_.both(2, 2)), true)
+    assert.deepStrictEqual(equals(_.both(2, 3))(_.both(3, 2)), false)
   })
 
   it('getSemigroup', () => {

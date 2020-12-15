@@ -208,7 +208,7 @@ export function group<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<Read
     let nea: [A, ...Array<A>] = [head]
     for (let i = 1; i < len; i++) {
       const x = as[i]
-      if (E.equals(x, head)) {
+      if (E.equals(head)(x)) {
         nea.push(x)
       } else {
         out.push(nea)

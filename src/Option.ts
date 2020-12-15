@@ -17,7 +17,7 @@ import { Alternative1 } from './Alternative'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
-import { Eq } from './Eq'
+import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
@@ -745,19 +745,19 @@ export function getShow<A>(S: Show<A>): Show<Option<A>> {
  * import { eqNumber } from 'fp-ts/Eq'
  *
  * const E = getEq(eqNumber)
- * assert.strictEqual(E.equals(none, none), true)
- * assert.strictEqual(E.equals(none, some(1)), false)
- * assert.strictEqual(E.equals(some(1), none), false)
- * assert.strictEqual(E.equals(some(1), some(2)), false)
- * assert.strictEqual(E.equals(some(1), some(1)), true)
+ * assert.strictEqual(E.equals(none)(none), true)
+ * assert.strictEqual(E.equals(none)(some(1)), false)
+ * assert.strictEqual(E.equals(some(1))(none), false)
+ * assert.strictEqual(E.equals(some(1))(some(2)), false)
+ * assert.strictEqual(E.equals(some(1))(some(1)), true)
  *
  * @category instances
  * @since 2.0.0
  */
 export function getEq<A>(E: Eq<A>): Eq<Option<A>> {
-  return {
-    equals: (x, y) => x === y || (isNone(x) ? isNone(y) : isNone(y) ? false : E.equals(x.value, y.value))
-  }
+  return fromEquals((second) => (first) =>
+    isNone(first) ? isNone(second) : isNone(second) ? false : E.equals(second.value)(first.value)
+  )
 }
 /**
  * The `Ord` instance allows `Option` values to be compared with
@@ -1060,7 +1060,7 @@ export const MonadThrow: MonadThrow1<URI> = {
  * @since 2.0.0
  */
 export function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean {
-  return (a, ma) => (isNone(ma) ? false : E.equals(a, ma.value))
+  return (a, ma) => (isNone(ma) ? false : E.equals(ma.value)(a))
 }
 
 /**

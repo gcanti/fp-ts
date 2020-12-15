@@ -1,7 +1,7 @@
 /**
  * @since 2.0.0
  */
-import { Eq } from './Eq'
+import { Eq, eqStrict } from './Eq'
 import { Monoid } from './Monoid'
 
 /**
@@ -22,7 +22,7 @@ export function sign(n: number): Ordering {
  * @since 2.0.0
  */
 export const eqOrdering: Eq<Ordering> = {
-  equals: (x, y) => x === y
+  equals: eqStrict.equals
 }
 
 /**

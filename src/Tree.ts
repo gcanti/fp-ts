@@ -72,7 +72,9 @@ export function getShow<A>(S: Show<A>): Show<Tree<A>> {
  */
 export function getEq<A>(E: Eq<A>): Eq<Tree<A>> {
   let SA: Eq<ReadonlyArray<Tree<A>>>
-  const R: Eq<Tree<A>> = fromEquals((x, y) => E.equals(x.value, y.value) && SA.equals(x.forest, y.forest))
+  const R: Eq<Tree<A>> = fromEquals((second) => (first) =>
+    E.equals(second.value)(first.value) && SA.equals(second.forest)(first.forest)
+  )
   SA = A.getEq(R)
   return R
 }
@@ -150,7 +152,8 @@ export function unfoldForest<A, B>(bs: ReadonlyArray<B>, f: (b: B) => readonly [
  * @since 2.0.0
  */
 export const elem = <A>(E: Eq<A>) => (a: A): ((fa: Tree<A>) => boolean) => {
-  const go = (fa: Tree<A>): boolean => (E.equals(a, fa.value) ? true : fa.forest.some(go))
+  const predicate = E.equals(a)
+  const go = (fa: Tree<A>): boolean => predicate(fa.value) || fa.forest.some(go)
   return go
 }
 

@@ -14,9 +14,7 @@ interface Foo {
   readonly x: string
 }
 const foo = (x: string): Foo => ({ x })
-const fooEq: Eq.Eq<Foo> = {
-  equals: (a: Foo, b: Foo) => a.x === b.x
-}
+const fooEq: Eq.Eq<Foo> = Eq.fromEquals((second: Foo) => (first: Foo) => first.x === second.x)
 
 describe('ReadonlySet', () => {
   it('toReadonlyArray', () => {
@@ -27,9 +25,9 @@ describe('ReadonlySet', () => {
 
   it('getEq', () => {
     const S = _.getEq(Eq.eqNumber)
-    assert.deepStrictEqual(S.equals(new Set([1, 2, 3]), new Set([1, 2, 3])), true)
-    assert.deepStrictEqual(S.equals(new Set([1, 2, 3]), new Set([1, 2])), false)
-    assert.deepStrictEqual(S.equals(new Set([1, 2]), new Set([1, 2, 3])), false)
+    assert.deepStrictEqual(S.equals(new Set([1, 2, 3]))(new Set([1, 2, 3])), true)
+    assert.deepStrictEqual(S.equals(new Set([1, 2, 3]))(new Set([1, 2])), false)
+    assert.deepStrictEqual(S.equals(new Set([1, 2]))(new Set([1, 2, 3])), false)
   })
 
   it('some', () => {

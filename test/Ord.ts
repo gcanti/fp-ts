@@ -104,8 +104,8 @@ describe('Ord', () => {
 
   it('fromCompare', () => {
     const O1 = _.fromCompare(_.ordNumber.compare)
-    assert.deepStrictEqual(O1.equals(0, 1), false)
-    assert.deepStrictEqual(O1.equals(1, 1), true)
+    assert.deepStrictEqual(O1.equals(0)(1), false)
+    assert.deepStrictEqual(O1.equals(1)(1), true)
     interface A {
       readonly x: number
     }
@@ -116,9 +116,9 @@ describe('Ord', () => {
     })
     const a1 = { x: 1 }
     const a2 = { x: 1 }
-    assert.deepStrictEqual(O2.equals(a1, a1), true)
+    assert.deepStrictEqual(O2.equals(a1)(a1), true)
     assert.deepStrictEqual(nbCall, 0)
-    assert.deepStrictEqual(O2.equals(a1, a2), true)
+    assert.deepStrictEqual(O2.equals(a1)(a2), true)
     assert.deepStrictEqual(nbCall, 1)
     assert.deepStrictEqual(O2.compare(a1, a1), 0)
     assert.deepStrictEqual(nbCall, 1)

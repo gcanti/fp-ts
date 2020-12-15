@@ -104,9 +104,9 @@ describe('Identity', () => {
 
   it('getEq', () => {
     const S = _.getEq(eqNumber)
-    assert.deepStrictEqual(S.equals(1, 1), true)
-    assert.deepStrictEqual(S.equals(1, 2), false)
-    assert.deepStrictEqual(S.equals(2, 1), false)
+    assert.deepStrictEqual(S.equals(1)(1), true)
+    assert.deepStrictEqual(S.equals(1)(2), false)
+    assert.deepStrictEqual(S.equals(2)(1), false)
   })
 
   it('getShow', () => {

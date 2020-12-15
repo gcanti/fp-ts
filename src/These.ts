@@ -125,12 +125,12 @@ export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>> {
  * @since 2.0.0
  */
 export function getEq<E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>> {
-  return fromEquals((x, y) =>
-    isLeft(x)
-      ? isLeft(y) && EE.equals(x.left, y.left)
-      : isRight(x)
-      ? isRight(y) && EA.equals(x.right, y.right)
-      : isBoth(y) && EE.equals(x.left, y.left) && EA.equals(x.right, y.right)
+  return fromEquals((second) => (first) =>
+    isLeft(first)
+      ? isLeft(second) && EE.equals(second.left)(first.left)
+      : isRight(first)
+      ? isRight(second) && EA.equals(second.right)(first.right)
+      : isBoth(second) && EE.equals(second.left)(first.left) && EA.equals(second.right)(first.right)
   )
 }
 

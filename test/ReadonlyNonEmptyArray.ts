@@ -141,8 +141,8 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('getEq', () => {
     const S = _.getEq(eqNumber)
-    assert.deepStrictEqual(S.equals([1], [1]), true)
-    assert.deepStrictEqual(S.equals([1], [1, 2]), false)
+    assert.deepStrictEqual(S.equals([1])([1]), true)
+    assert.deepStrictEqual(S.equals([1])([1, 2]), false)
   })
 
   it('group', () => {

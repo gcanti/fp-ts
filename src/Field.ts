@@ -37,8 +37,8 @@ export const fieldNumber: Field<number> = {
  * @since 2.0.0
  */
 export function gcd<A>(E: Eq<A>, field: Field<A>): (x: A, y: A) => A {
-  const zero = field.zero
-  const f = (x: A, y: A): A => (E.equals(y, zero) ? x : f(y, field.mod(x, y)))
+  const predicate = E.equals(field.zero)
+  const f = (x: A, y: A): A => (predicate(y) ? x : f(y, field.mod(x, y)))
   return f
 }
 
@@ -49,6 +49,7 @@ export function gcd<A>(E: Eq<A>, field: Field<A>): (x: A, y: A) => A {
  */
 export function lcm<A>(E: Eq<A>, F: Field<A>): (x: A, y: A) => A {
   const zero = F.zero
+  const predicate = E.equals(zero)
   const gcdSF = gcd(E, F)
-  return (x, y) => (E.equals(x, zero) || E.equals(y, zero) ? zero : F.div(F.mul(x, y), gcdSF(x, y)))
+  return (x, y) => (predicate(x) || predicate(y) ? zero : F.div(F.mul(x, y), gcdSF(x, y)))
 }

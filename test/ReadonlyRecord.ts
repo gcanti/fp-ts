@@ -237,10 +237,10 @@ describe('ReadonlyRecord', () => {
   })
 
   it('getEq', () => {
-    assert.deepStrictEqual(_.getEq(eqNumber).equals({ a: 1 }, { a: 1 }), true)
-    assert.deepStrictEqual(_.getEq(eqNumber).equals({ a: 1 }, { a: 2 }), false)
-    assert.deepStrictEqual(_.getEq(eqNumber).equals({ a: 1 }, { b: 1 }), false)
-    assert.deepStrictEqual(_.getEq(eqNumber).equals(noPrototype, { b: 1 }), false)
+    assert.deepStrictEqual(_.getEq(eqNumber).equals({ a: 1 })({ a: 1 }), true)
+    assert.deepStrictEqual(_.getEq(eqNumber).equals({ a: 1 })({ a: 2 }), false)
+    assert.deepStrictEqual(_.getEq(eqNumber).equals({ a: 1 })({ b: 1 }), false)
+    assert.deepStrictEqual(_.getEq(eqNumber).equals(noPrototype)({ b: 1 }), false)
   })
 
   it('lookup', () => {

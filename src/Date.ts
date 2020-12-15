@@ -24,7 +24,7 @@ export const now: IO<number> = () => new Date().getTime()
  * @since 2.6.0
  */
 export const eqDate: Eq<Date> = {
-  equals: (x, y) => x.getDate() === y.getDate()
+  equals: (second) => (first) => first.getDate() === second.getDate()
 }
 
 /**
@@ -32,7 +32,7 @@ export const eqDate: Eq<Date> = {
  * @since 2.6.0
  */
 export const eqMonth: Eq<Date> = {
-  equals: (x, y) => x.getMonth() === y.getMonth()
+  equals: (second) => (first) => first.getMonth() === second.getMonth()
 }
 
 /**
@@ -40,5 +40,5 @@ export const eqMonth: Eq<Date> = {
  * @since 2.6.0
  */
 export const eqYear: Eq<Date> = {
-  equals: (x, y) => x.getFullYear() === y.getFullYear()
+  equals: (second) => (first) => first.getFullYear() === second.getFullYear()
 }

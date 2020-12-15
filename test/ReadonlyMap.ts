@@ -33,11 +33,11 @@ interface Value {
   readonly value: number
 }
 
-const eqKey: Eq<Key> = fromEquals((x, y) => x.id % 3 === y.id % 3)
+const eqKey: Eq<Key> = fromEquals((second) => (first) => first.id % 3 === second.id % 3)
 
 const ordKey = Ord.fromCompare<Key>((x, y) => Ord.ordNumber.compare(x.id % 3, y.id % 3))
 
-const eqValue: Eq<Value> = fromEquals((x, y) => x.value % 3 === y.value % 3)
+const eqValue: Eq<Value> = fromEquals((second) => (first) => first.value % 3 === second.value % 3)
 
 const semigroupValue = getStructSemigroup({ value: semigroupSum })
 
@@ -613,24 +613,23 @@ describe('ReadonlyMap', () => {
     const a2 = new Map<User, number>([[{ id: 'a' }, 2]])
     const b1 = new Map<User, number>([[{ id: 'b' }, 1]])
     const S = _.getEq(eqUser, eqNumber)
-    assert.deepStrictEqual(S.equals(a1, a1), true)
-    assert.deepStrictEqual(S.equals(a1, a1_), true)
-    assert.deepStrictEqual(S.equals(a1_, a1), true)
-    assert.deepStrictEqual(S.equals(a1, a2), false)
-    assert.deepStrictEqual(S.equals(a2, a1), false)
-    assert.deepStrictEqual(S.equals(a1, b1), false)
-    assert.deepStrictEqual(S.equals(b1, a1), false)
+    assert.deepStrictEqual(S.equals(a1)(a1), true)
+    assert.deepStrictEqual(S.equals(a1)(a1_), true)
+    assert.deepStrictEqual(S.equals(a1_)(a1), true)
+    assert.deepStrictEqual(S.equals(a1)(a2), false)
+    assert.deepStrictEqual(S.equals(a2)(a1), false)
+    assert.deepStrictEqual(S.equals(a1)(b1), false)
+    assert.deepStrictEqual(S.equals(b1)(a1), false)
 
     const equals = _.getEq(eqKey, eqValue).equals
-    assert.deepStrictEqual(equals(repo, repo), true)
+    assert.deepStrictEqual(equals(repo)(repo), true)
     assert.deepStrictEqual(
       equals(
         new Map([
           [{ id: 1 }, { value: 1 }],
           [{ id: 2 }, { value: 2 }]
-        ]),
-        repo
-      ),
+        ])
+      )(repo),
       true
     )
     assert.deepStrictEqual(
@@ -638,9 +637,8 @@ describe('ReadonlyMap', () => {
         new Map([
           [{ id: 1 }, { value: 2 }],
           [{ id: 2 }, { value: 2 }]
-        ]),
-        repo
-      ),
+        ])
+      )(repo),
       false
     )
     assert.deepStrictEqual(
@@ -648,9 +646,8 @@ describe('ReadonlyMap', () => {
         new Map([
           [{ id: 1 }, { value: 4 }],
           [{ id: 2 }, { value: 2 }]
-        ]),
-        repo
-      ),
+        ])
+      )(repo),
       true
     )
     assert.deepStrictEqual(
@@ -658,9 +655,8 @@ describe('ReadonlyMap', () => {
         new Map([
           [{ id: 4 }, { value: 1 }],
           [{ id: 2 }, { value: 2 }]
-        ]),
-        repo
-      ),
+        ])
+      )(repo),
       true
     )
     assert.deepStrictEqual(
@@ -668,9 +664,8 @@ describe('ReadonlyMap', () => {
         new Map([
           [{ id: 3 }, { value: 3 }],
           [{ id: 2 }, { value: 2 }]
-        ]),
-        repo
-      ),
+        ])
+      )(repo),
       false
     )
   })
@@ -860,7 +855,7 @@ describe('ReadonlyMap', () => {
             [{ id: 'k1' }, 1],
             [{ id: 'k2' }, 2]
           ]),
-          traverseWithIndex((k, n): O.Option<number> => (!ordUser.equals(k, { id: 'k1' }) ? O.some(n) : O.none))
+          traverseWithIndex((k, n): O.Option<number> => (!ordUser.equals(k)({ id: 'k1' }) ? O.some(n) : O.none))
         ),
         O.none
       )
@@ -870,7 +865,7 @@ describe('ReadonlyMap', () => {
             [{ id: 'k1' }, 2],
             [{ id: 'k2' }, 3]
           ]),
-          traverseWithIndex((k, n): O.Option<number> => (!ordUser.equals(k, { id: 'k3' }) ? O.some(n) : O.none))
+          traverseWithIndex((k, n): O.Option<number> => (!ordUser.equals(k)({ id: 'k3' }) ? O.some(n) : O.none))
         ),
         O.some(
           new Map([

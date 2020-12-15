@@ -72,6 +72,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `either` (@gcanti)
   - `Eq`
     - remove `eq` (@gcanti)
+    - make type class members pipeables (@gcanti)
   - `Extend`
     - make type class members pipeables (@gcanti)
   - `Filterable`

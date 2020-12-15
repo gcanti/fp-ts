@@ -41,8 +41,8 @@ describe('Const', () => {
 
   it('getEq', () => {
     const S = _.getEq(eqNumber)
-    assert.deepStrictEqual(S.equals(_.make(1), _.make(1)), true)
-    assert.deepStrictEqual(S.equals(_.make(1), _.make(2)), false)
+    assert.deepStrictEqual(S.equals(_.make(1))(_.make(1)), true)
+    assert.deepStrictEqual(S.equals(_.make(1))(_.make(2)), false)
   })
 
   it('getApplicative', () => {

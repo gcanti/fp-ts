@@ -322,14 +322,14 @@ describe('ReadonlyArray', () => {
 
   it('getEq', () => {
     const O = _.getEq(Ord.ordString)
-    assert.deepStrictEqual(O.equals([], []), true, '[] ]')
-    assert.deepStrictEqual(O.equals(['a'], ['a']), true, '[a], [a]')
-    assert.deepStrictEqual(O.equals(['a', 'b'], ['a', 'b']), true, '[a, b], [a, b]')
-    assert.deepStrictEqual(O.equals(['a'], []), false, '[a] []')
-    assert.deepStrictEqual(O.equals([], ['a']), false, '[], [a]')
-    assert.deepStrictEqual(O.equals(['a'], ['b']), false, '[a], [b]')
-    assert.deepStrictEqual(O.equals(['a', 'b'], ['b', 'a']), false, '[a, b], [b, a]')
-    assert.deepStrictEqual(O.equals(['a', 'a'], ['a']), false, '[a, a], [a]')
+    assert.deepStrictEqual(O.equals([])([]), true)
+    assert.deepStrictEqual(O.equals(['a'])(['a']), true)
+    assert.deepStrictEqual(O.equals(['a', 'b'])(['a', 'b']), true)
+    assert.deepStrictEqual(O.equals(['a'])([]), false)
+    assert.deepStrictEqual(O.equals([])(['a']), false)
+    assert.deepStrictEqual(O.equals(['a'])(['b']), false)
+    assert.deepStrictEqual(O.equals(['a', 'b'])(['b', 'a']), false)
+    assert.deepStrictEqual(O.equals(['a', 'a'])(['a']), false)
   })
 
   it('getOrd', () => {
@@ -800,7 +800,7 @@ describe('ReadonlyArray', () => {
   it('chop', () => {
     const group = <A>(E: Eq.Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
       return _.chop((as) => {
-        const { init, rest } = _.spanLeft((a: A) => E.equals(a, as[0]))(as)
+        const { init, rest } = _.spanLeft(E.equals(as[0]))(as)
         return [init, rest]
       })
     }

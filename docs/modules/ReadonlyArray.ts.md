@@ -605,7 +605,7 @@ import { chop, spanLeft } from 'fp-ts/ReadonlyArray'
 
 const group = <A>(S: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
   return chop((as) => {
-    const { init, rest } = spanLeft((a: A) => S.equals(a, as[0]))(as)
+    const { init, rest } = spanLeft(S.equals(as[0]))(as)
     return [init, rest]
   })
 }
@@ -1555,8 +1555,8 @@ import { eqString } from 'fp-ts/Eq'
 import { getEq } from 'fp-ts/ReadonlyArray'
 
 const E = getEq(eqString)
-assert.strictEqual(E.equals(['a', 'b'], ['a', 'b']), true)
-assert.strictEqual(E.equals(['a'], []), false)
+assert.strictEqual(E.equals(['a', 'b'])(['a', 'b']), true)
+assert.strictEqual(E.equals(['a'])([]), false)
 ```
 
 Added in v2.5.0

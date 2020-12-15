@@ -9,15 +9,15 @@ describe('Ordering', () => {
   })
 
   it('eqOrdering', () => {
-    assert.deepStrictEqual(eqOrdering.equals(-1, -1), true)
-    assert.deepStrictEqual(eqOrdering.equals(-1, 0), false)
-    assert.deepStrictEqual(eqOrdering.equals(-1, 1), false)
-    assert.deepStrictEqual(eqOrdering.equals(0, -1), false)
-    assert.deepStrictEqual(eqOrdering.equals(0, 0), true)
-    assert.deepStrictEqual(eqOrdering.equals(0, 1), false)
-    assert.deepStrictEqual(eqOrdering.equals(1, -1), false)
-    assert.deepStrictEqual(eqOrdering.equals(1, 0), false)
-    assert.deepStrictEqual(eqOrdering.equals(1, 1), true)
+    assert.deepStrictEqual(eqOrdering.equals(-1)(-1), true)
+    assert.deepStrictEqual(eqOrdering.equals(-1)(0), false)
+    assert.deepStrictEqual(eqOrdering.equals(-1)(1), false)
+    assert.deepStrictEqual(eqOrdering.equals(0)(-1), false)
+    assert.deepStrictEqual(eqOrdering.equals(0)(0), true)
+    assert.deepStrictEqual(eqOrdering.equals(0)(1), false)
+    assert.deepStrictEqual(eqOrdering.equals(1)(-1), false)
+    assert.deepStrictEqual(eqOrdering.equals(1)(0), false)
+    assert.deepStrictEqual(eqOrdering.equals(1)(1), true)
   })
 
   it('monoidOrdering', () => {

@@ -6,7 +6,7 @@ import { Alternative1 } from './Alternative'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
-import { Eq } from './Eq'
+import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { FilterableWithIndex1, PredicateWithIndex } from './FilterableWithIndex'
@@ -117,16 +117,16 @@ export function getMonoid<A = never>(): Monoid<ReadonlyArray<A>> {
  * import { getEq } from 'fp-ts/ReadonlyArray'
  *
  * const E = getEq(eqString)
- * assert.strictEqual(E.equals(['a', 'b'], ['a', 'b']), true)
- * assert.strictEqual(E.equals(['a'], []), false)
+ * assert.strictEqual(E.equals(['a', 'b'])(['a', 'b']), true)
+ * assert.strictEqual(E.equals(['a'])([]), false)
  *
  * @category instances
  * @since 2.5.0
  */
 export function getEq<A>(E: Eq<A>): Eq<ReadonlyArray<A>> {
-  return {
-    equals: (xs, ys) => xs === ys || (xs.length === ys.length && xs.every((x, i) => E.equals(x, ys[i])))
-  }
+  return fromEquals((second) => (first) =>
+    first.length === second.length && first.every((x, i) => E.equals(second[i])(x))
+  )
 }
 
 /**
@@ -1098,7 +1098,7 @@ export function rotate(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
  * @since 2.5.0
  */
 export const elem = <A>(E: Eq<A>) => (a: A) => (as: ReadonlyArray<A>): boolean => {
-  const predicate = (element: A) => E.equals(element, a)
+  const predicate = E.equals(a)
   let i = 0
   const len = as.length
   for (; i < len; i++) {
@@ -1186,7 +1186,7 @@ export function sortBy<B>(ords: ReadonlyArray<Ord<B>>): <A extends B>(as: Readon
  *
  * const group = <A>(S: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
  *   return chop(as => {
- *     const { init, rest } = spanLeft((a: A) => S.equals(a, as[0]))(as)
+ *     const { init, rest } = spanLeft(S.equals(as[0]))(as)
  *     return [init, rest]
  *   })
  * }

@@ -70,7 +70,7 @@ export function toReadonlyArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => Readonly
  */
 export function getEq<A>(E: Eq<A>): Eq<ReadonlySet<A>> {
   const subsetE = isSubset(E)
-  return fromEquals((x, y) => subsetE(x)(y) && subsetE(y)(x))
+  return fromEquals((second) => (first) => subsetE(first)(second) && subsetE(second)(first))
 }
 
 interface Next<A> {
@@ -208,15 +208,18 @@ export function partition<A>(
  * @since 2.5.0
  */
 export function elem<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => boolean {
-  return (a) => (set) => {
-    const values = set.values()
-    let e: Next<A>
-    let found = false
-    // tslint:disable-next-line: strict-boolean-expressions
-    while (!found && !(e = values.next()).done) {
-      found = E.equals(a, e.value)
+  return (a) => {
+    const predicate = E.equals(a)
+    return (set) => {
+      const values = set.values()
+      let e: Next<A>
+      let found = false
+      // tslint:disable-next-line: strict-boolean-expressions
+      while (!found && !(e = values.next()).done) {
+        found = predicate(e.value)
+      }
+      return found
     }
-    return found
   }
 }
 
@@ -392,7 +395,7 @@ export function insert<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => Readonly
  * @since 2.5.0
  */
 export function remove<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A> {
-  return (a) => (set) => filter((ax: A) => !E.equals(a, ax))(set)
+  return (a) => filter(not(E.equals(a)))
 }
 
 /**

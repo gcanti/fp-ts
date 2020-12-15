@@ -17,7 +17,7 @@ import { Alt2, Alt2C } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative2, Applicative2C } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C, Separated } from './Compactable'
-import { Eq } from './Eq'
+import { Eq, fromEquals } from './Eq'
 import { Extend2 } from './Extend'
 import { Filterable2C } from './Filterable'
 import { Foldable2 } from './Foldable'
@@ -824,10 +824,11 @@ export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>> {
  * @since 2.0.0
  */
 export function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> {
-  return {
-    equals: (x, y) =>
-      x === y || (isLeft(x) ? isLeft(y) && EL.equals(x.left, y.left) : isRight(y) && EA.equals(x.right, y.right))
-  }
+  return fromEquals((second) => (first) =>
+    isLeft(first)
+      ? isLeft(second) && EL.equals(second.left)(first.left)
+      : isRight(second) && EA.equals(second.right)(first.right)
+  )
 }
 
 /**
@@ -1163,7 +1164,7 @@ export function toError(e: unknown): Error {
  * @since 2.0.0
  */
 export function elem<A>(E: Eq<A>): <E>(a: A, ma: Either<E, A>) => boolean {
-  return (a, ma) => (isLeft(ma) ? false : E.equals(a, ma.right))
+  return (a, ma) => (isLeft(ma) ? false : E.equals(ma.right)(a))
 }
 
 /**

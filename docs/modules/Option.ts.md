@@ -1106,11 +1106,11 @@ import { none, some, getEq } from 'fp-ts/Option'
 import { eqNumber } from 'fp-ts/Eq'
 
 const E = getEq(eqNumber)
-assert.strictEqual(E.equals(none, none), true)
-assert.strictEqual(E.equals(none, some(1)), false)
-assert.strictEqual(E.equals(some(1), none), false)
-assert.strictEqual(E.equals(some(1), some(2)), false)
-assert.strictEqual(E.equals(some(1), some(1)), true)
+assert.strictEqual(E.equals(none)(none), true)
+assert.strictEqual(E.equals(none)(some(1)), false)
+assert.strictEqual(E.equals(some(1))(none), false)
+assert.strictEqual(E.equals(some(1))(some(2)), false)
+assert.strictEqual(E.equals(some(1))(some(1)), true)
 ```
 
 Added in v2.0.0

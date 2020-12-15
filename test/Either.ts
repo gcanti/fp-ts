@@ -361,12 +361,12 @@ describe('Either', () => {
   describe('getEq', () => {
     it('equals', () => {
       const equals = _.getEq(eqString, eqNumber).equals
-      assert.deepStrictEqual(equals(_.right(1), _.right(1)), true)
-      assert.deepStrictEqual(equals(_.right(1), _.right(2)), false)
-      assert.deepStrictEqual(equals(_.right(1), _.left('foo')), false)
-      assert.deepStrictEqual(equals(_.left('foo'), _.left('foo')), true)
-      assert.deepStrictEqual(equals(_.left('foo'), _.left('bar')), false)
-      assert.deepStrictEqual(equals(_.left('foo'), _.right(1)), false)
+      assert.deepStrictEqual(equals(_.right(1))(_.right(1)), true)
+      assert.deepStrictEqual(equals(_.right(1))(_.right(2)), false)
+      assert.deepStrictEqual(equals(_.right(1))(_.left('foo')), false)
+      assert.deepStrictEqual(equals(_.left('foo'))(_.left('foo')), true)
+      assert.deepStrictEqual(equals(_.left('foo'))(_.left('bar')), false)
+      assert.deepStrictEqual(equals(_.left('foo'))(_.right(1)), false)
     })
   })
 

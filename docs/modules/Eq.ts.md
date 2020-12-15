@@ -10,9 +10,9 @@ The `Eq` type class represents types which support decidable equality.
 
 Instances must satisfy the following laws:
 
-1. Reflexivity: `E.equals(a, a) === true`
-2. Symmetry: `E.equals(a, b) === E.equals(b, a)`
-3. Transitivity: if `E.equals(a, b) === true` and `E.equals(b, c) === true`, then `E.equals(a, c) === true`
+1. Reflexivity: `equals(a)(a) === true`
+2. Symmetry: `equals(b)(a) === equals(a)(b)`
+3. Transitivity: if `equals(b)(a) === true` and `equals(c)(b) === true`, then `equals(c)(a) === true`
 
 Added in v2.0.0
 
@@ -60,7 +60,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A>
+export declare function fromEquals<A>(equals: Eq<A>['equals']): Eq<A>
 ```
 
 Added in v2.0.0
@@ -185,10 +185,10 @@ export declare function getTupleEq<T extends ReadonlyArray<Eq<any>>>(
 import { getTupleEq, eqString, eqNumber, eqBoolean } from 'fp-ts/Eq'
 
 const E = getTupleEq(eqString, eqNumber, eqBoolean)
-assert.strictEqual(E.equals(['a', 1, true], ['a', 1, true]), true)
-assert.strictEqual(E.equals(['a', 1, true], ['b', 1, true]), false)
-assert.strictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
-assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
+assert.strictEqual(E.equals(['a', 1, true])(['a', 1, true]), true)
+assert.strictEqual(E.equals(['a', 1, true])(['b', 1, true]), false)
+assert.strictEqual(E.equals(['a', 1, true])(['a', 2, true]), false)
+assert.strictEqual(E.equals(['a', 1, true])(['a', 1, false]), false)
 ```
 
 Added in v2.0.0
@@ -201,7 +201,7 @@ Added in v2.0.0
 
 ```ts
 export interface Eq<A> {
-  readonly equals: (x: A, y: A) => boolean
+  readonly equals: (second: A) => (first: A) => boolean
 }
 ```
 

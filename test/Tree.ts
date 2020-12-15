@@ -151,9 +151,9 @@ describe('Tree', () => {
     const x = _.make(1, [_.make(2)])
     const y = _.make(2, [_.make(2)])
     const z = _.make(1, [_.make(1)])
-    assert.deepStrictEqual(S.equals(x, x), true)
-    assert.deepStrictEqual(S.equals(x, y), false)
-    assert.deepStrictEqual(S.equals(x, z), false)
+    assert.deepStrictEqual(S.equals(x)(x), true)
+    assert.deepStrictEqual(S.equals(x)(y), false)
+    assert.deepStrictEqual(S.equals(x)(z), false)
   })
 
   it('unfoldTree', () => {

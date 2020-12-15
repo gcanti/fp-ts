@@ -252,7 +252,7 @@ export function isSubrecord<A>(
 ): (that: ReadonlyRecord<string, A>) => (me: ReadonlyRecord<string, A>) => boolean {
   return (that) => (me) => {
     for (const k in me) {
-      if (!_hasOwnProperty.call(that, k) || !E.equals(me[k], that[k])) {
+      if (!_hasOwnProperty.call(that, k) || !E.equals(that[k])(me[k])) {
         return false
       }
     }
@@ -267,7 +267,7 @@ export function isSubrecord<A>(
 export function getEq<K extends string, A>(E: Eq<A>): Eq<ReadonlyRecord<K, A>>
 export function getEq<A>(E: Eq<A>): Eq<ReadonlyRecord<string, A>> {
   const isSubrecordE = isSubrecord(E)
-  return fromEquals((x, y) => isSubrecordE(x)(y) && isSubrecordE(y)(x))
+  return fromEquals((second) => (first) => isSubrecordE(first)(second) && isSubrecordE(second)(first))
 }
 
 /**
@@ -815,13 +815,16 @@ export function some<A>(predicate: (a: A) => boolean): (r: ReadonlyRecord<string
  * @since 2.5.0
  */
 export function elem<A>(E: Eq<A>): (a: A) => (fa: ReadonlyRecord<string, A>) => boolean {
-  return (a) => (fa) => {
-    for (const k in fa) {
-      if (E.equals(fa[k], a)) {
-        return true
+  return (a) => {
+    const predicate = E.equals(a)
+    return (fa) => {
+      for (const k in fa) {
+        if (predicate(fa[k])) {
+          return true
+        }
       }
+      return false
     }
-    return false
   }
 }
 

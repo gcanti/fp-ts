@@ -81,7 +81,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A>
+export declare function fromCompare<A>(compare: Ord<A>['compare']): Ord<A>
 ```
 
 Added in v2.0.0

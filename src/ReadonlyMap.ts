@@ -106,17 +106,20 @@ interface Next<A> {
  * @since 2.5.0
  */
 export function elem<A>(E: Eq<A>): (a: A) => <K>(m: ReadonlyMap<K, A>) => boolean {
-  return (a) => (m) => {
-    const values = m.values()
-    let e: Next<A>
-    // tslint:disable-next-line: strict-boolean-expressions
-    while (!(e = values.next()).done) {
-      const v = e.value
-      if (E.equals(a, v)) {
-        return true
+  return (a) => {
+    const predicate = E.equals(a)
+    return (m) => {
+      const values = m.values()
+      let e: Next<A>
+      // tslint:disable-next-line: strict-boolean-expressions
+      while (!(e = values.next()).done) {
+        const v = e.value
+        if (predicate(v)) {
+          return true
+        }
       }
+      return false
     }
-    return false
   }
 }
 
@@ -301,17 +304,20 @@ export function pop<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) => Option<
  * @since 2.5.0
  */
 export function lookupWithKey<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) => Option<readonly [K, A]> {
-  return (k: K) => <A>(m: ReadonlyMap<K, A>) => {
-    const entries = m.entries()
-    let e: Next<readonly [K, A]>
-    // tslint:disable-next-line: strict-boolean-expressions
-    while (!(e = entries.next()).done) {
-      const [ka, a] = e.value
-      if (E.equals(ka, k)) {
-        return O.some([ka, a])
+  return (k: K) => {
+    const predicate = E.equals(k)
+    return <A>(m: ReadonlyMap<K, A>) => {
+      const entries = m.entries()
+      let e: Next<readonly [K, A]>
+      // tslint:disable-next-line: strict-boolean-expressions
+      while (!(e = entries.next()).done) {
+        const [ka, a] = e.value
+        if (predicate(ka)) {
+          return O.some([ka, a])
+        }
       }
+      return O.none
     }
-    return O.none
   }
 }
 
@@ -347,7 +353,7 @@ export function isSubmap<K, A>(SK: Eq<K>, SA: Eq<A>): (that: ReadonlyMap<K, A>) 
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
       const oka = lookupWithKeyS(k)(that)
-      if (O.isNone(oka) || !SK.equals(k, oka.value[0]) || !SA.equals(a, oka.value[1])) {
+      if (O.isNone(oka) || !SK.equals(oka.value[0])(k) || !SA.equals(oka.value[1])(a)) {
         return false
       }
     }
@@ -366,7 +372,7 @@ export const empty: ReadonlyMap<never, never> = new Map<never, never>()
  */
 export function getEq<K, A>(SK: Eq<K>, SA: Eq<A>): Eq<ReadonlyMap<K, A>> {
   const isSubmapSKSA = isSubmap(SK, SA)
-  return fromEquals((x, y) => isSubmapSKSA(x)(y) && isSubmapSKSA(y)(x))
+  return fromEquals((second) => (first) => isSubmapSKSA(first)(second) && isSubmapSKSA(second)(first))
 }
 
 /**

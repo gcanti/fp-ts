@@ -10,7 +10,7 @@
  * @since 2.0.0
  */
 import { Contravariant1 } from './Contravariant'
-import { Eq } from './Eq'
+import { Eq, eqStrict } from './Eq'
 import { Monoid } from './Monoid'
 import { monoidOrdering, Ordering } from './Ordering'
 import { pipe } from './function'
@@ -32,16 +32,12 @@ function compare(x: any, y: any): Ordering {
   return x < y ? -1 : x > y ? 1 : 0
 }
 
-function strictEqual<A>(a: A, b: A): boolean {
-  return a === b
-}
-
 /**
  * @category instances
  * @since 2.0.0
  */
 export const ordString: Ord<string> = {
-  equals: strictEqual,
+  equals: eqStrict.equals,
   compare
 }
 
@@ -50,7 +46,7 @@ export const ordString: Ord<string> = {
  * @since 2.0.0
  */
 export const ordNumber: Ord<number> = {
-  equals: strictEqual,
+  equals: eqStrict.equals,
   compare
 }
 
@@ -59,7 +55,7 @@ export const ordNumber: Ord<number> = {
  * @since 2.0.0
  */
 export const ordBoolean: Ord<boolean> = {
-  equals: strictEqual,
+  equals: eqStrict.equals,
   compare
 }
 
@@ -143,10 +139,10 @@ export function between<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => boolean {
  * @category constructors
  * @since 2.0.0
  */
-export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> {
-  const optimizedCompare = (x: A, y: A): Ordering => (x === y ? 0 : compare(x, y))
+export function fromCompare<A>(compare: Ord<A>['compare']): Ord<A> {
+  const optimizedCompare = (first: A, second: A): Ordering => (first === second ? 0 : compare(first, second))
   return {
-    equals: (x, y) => optimizedCompare(x, y) === 0,
+    equals: (second) => (first) => optimizedCompare(first, second) === 0,
     compare: optimizedCompare
   }
 }

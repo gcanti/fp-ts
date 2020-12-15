@@ -3,13 +3,14 @@
  *
  * Instances must satisfy the following laws:
  *
- * 1. Reflexivity: `E.equals(a, a) === true`
- * 2. Symmetry: `E.equals(a, b) === E.equals(b, a)`
- * 3. Transitivity: if `E.equals(a, b) === true` and `E.equals(b, c) === true`, then `E.equals(a, c) === true`
+ * 1. Reflexivity: `equals(a)(a) === true`
+ * 2. Symmetry: `equals(b)(a) === equals(a)(b)`
+ * 3. Transitivity: if `equals(b)(a) === true` and `equals(c)(b) === true`, then `equals(c)(a) === true`
  *
  * @since 2.0.0
  */
 import { Contravariant1 } from './Contravariant'
+import { flow } from './function'
 import { Monoid } from './Monoid'
 import { ReadonlyRecord } from './ReadonlyRecord'
 
@@ -22,7 +23,7 @@ import { ReadonlyRecord } from './ReadonlyRecord'
  * @since 2.0.0
  */
 export interface Eq<A> {
-  readonly equals: (x: A, y: A) => boolean
+  readonly equals: (second: A) => (first: A) => boolean
 }
 
 // -------------------------------------------------------------------------------------
@@ -33,9 +34,12 @@ export interface Eq<A> {
  * @category constructors
  * @since 2.0.0
  */
-export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> {
+export function fromEquals<A>(equals: Eq<A>['equals']): Eq<A> {
   return {
-    equals: (x, y) => x === y || equals(x, y)
+    equals: (second) => {
+      const predicate = equals(second)
+      return (first) => first === second || predicate(first)
+    }
   }
 }
 
@@ -43,7 +47,8 @@ export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> {
  * @category Contravariant
  * @since 2.0.0
  */
-export const contramap: Contravariant1<URI>['contramap'] = (f) => (fa) => fromEquals((x, y) => fa.equals(f(x), f(y)))
+export const contramap: Contravariant1<URI>['contramap'] = (f) => (fa) =>
+  fromEquals((second) => flow(f, fa.equals(f(second))))
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -72,7 +77,7 @@ declare module './HKT' {
  * @since 2.5.0
  */
 export const eqStrict: Eq<unknown> = {
-  equals: (a, b) => a === b
+  equals: (second) => (first) => first === second
 }
 
 /**
@@ -98,9 +103,9 @@ export const eqBoolean: Eq<boolean> = eqStrict
  * @since 2.0.0
  */
 export function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> {
-  return fromEquals((x, y) => {
+  return fromEquals((second) => (first) => {
     for (const k in eqs) {
-      if (!eqs[k].equals(x[k], y[k])) {
+      if (!eqs[k].equals(second[k])(first[k])) {
         return false
       }
     }
@@ -115,10 +120,10 @@ export function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in 
  * import { getTupleEq, eqString, eqNumber, eqBoolean } from 'fp-ts/Eq'
  *
  * const E = getTupleEq(eqString, eqNumber, eqBoolean)
- * assert.strictEqual(E.equals(['a', 1, true], ['a', 1, true]), true)
- * assert.strictEqual(E.equals(['a', 1, true], ['b', 1, true]), false)
- * assert.strictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
- * assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
+ * assert.strictEqual(E.equals(['a', 1, true])(['a', 1, true]), true)
+ * assert.strictEqual(E.equals(['a', 1, true])(['b', 1, true]), false)
+ * assert.strictEqual(E.equals(['a', 1, true])(['a', 2, true]), false)
+ * assert.strictEqual(E.equals(['a', 1, true])(['a', 1, false]), false)
  *
  * @category instances
  * @since 2.0.0
@@ -126,7 +131,7 @@ export function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in 
 export function getTupleEq<T extends ReadonlyArray<Eq<any>>>(
   ...eqs: T
 ): Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }> {
-  return fromEquals((x, y) => eqs.every((E, i) => E.equals(x[i], y[i])))
+  return fromEquals((second) => (first) => eqs.every((E, i) => E.equals(second[i])(first[i])))
 }
 
 /**
@@ -134,11 +139,11 @@ export function getTupleEq<T extends ReadonlyArray<Eq<any>>>(
  * @since 2.0.0
  */
 export const eqDate: Eq<Date> = {
-  equals: (x, y) => x.valueOf() === y.valueOf()
+  equals: (second) => (first) => first.valueOf() === second.valueOf()
 }
 
 const empty: Eq<unknown> = {
-  equals: () => true
+  equals: () => () => true
 }
 
 /**
@@ -147,7 +152,7 @@ const empty: Eq<unknown> = {
  */
 export function getMonoid<A>(): Monoid<Eq<A>> {
   return {
-    concat: (x, y) => fromEquals((a, b) => x.equals(a, b) && y.equals(a, b)),
+    concat: (first, second) => fromEquals((b) => (a) => first.equals(b)(a) && second.equals(b)(a)),
     empty
   }
 }

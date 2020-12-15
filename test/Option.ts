@@ -253,23 +253,14 @@ describe('Option', () => {
     )
   })
 
-  it('equals', () => {
-    const { equals } = _.getEq(eqNumber)
-    assert.deepStrictEqual(equals(_.none, _.none), true)
-    assert.deepStrictEqual(equals(_.none, _.some(1)), false)
-    assert.deepStrictEqual(equals(_.some(1), _.none), false)
-    assert.deepStrictEqual(equals(_.some(2), _.some(1)), false)
-    assert.deepStrictEqual(equals(_.some(1), _.some(2)), false)
-    assert.deepStrictEqual(equals(_.some(2), _.some(2)), true)
-  })
-
   it('getEq', () => {
-    const S = _.getEq(ordString)
-    assert.deepStrictEqual(S.equals(_.none, _.none), true)
-    assert.deepStrictEqual(S.equals(_.some('a'), _.none), false)
-    assert.deepStrictEqual(S.equals(_.none, _.some('a')), false)
-    assert.deepStrictEqual(S.equals(_.some('a'), _.some('a')), true)
-    assert.deepStrictEqual(S.equals(_.some('a'), _.some('b')), false)
+    const { equals } = _.getEq(eqNumber)
+    assert.deepStrictEqual(equals(_.none)(_.none), true)
+    assert.deepStrictEqual(equals(_.none)(_.some(1)), false)
+    assert.deepStrictEqual(equals(_.some(1))(_.none), false)
+    assert.deepStrictEqual(equals(_.some(2))(_.some(1)), false)
+    assert.deepStrictEqual(equals(_.some(1))(_.some(2)), false)
+    assert.deepStrictEqual(equals(_.some(2))(_.some(2)), true)
   })
 
   it('getOrd', () => {
