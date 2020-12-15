@@ -5,6 +5,7 @@ import {
   getFunctionBooleanAlgebra,
   getDualBooleanAlgebra
 } from '../src/BooleanAlgebra'
+import { pipe } from '../src/function'
 
 describe('BooleanAlgebra', () => {
   it('booleanAlgebraBoolean', () => {
@@ -14,13 +15,13 @@ describe('BooleanAlgebra', () => {
     assert.deepStrictEqual(BA.implies(false, true), true)
     assert.deepStrictEqual(BA.implies(false, false), true)
 
-    assert.deepStrictEqual(BA.join(true, true), true)
-    assert.deepStrictEqual(BA.join(true, false), true)
-    assert.deepStrictEqual(BA.join(false, true), true)
-    assert.deepStrictEqual(BA.join(false, false), false)
+    assert.deepStrictEqual(pipe(true, BA.join(true)), true)
+    assert.deepStrictEqual(pipe(true, BA.join(false)), true)
+    assert.deepStrictEqual(pipe(false, BA.join(true)), true)
+    assert.deepStrictEqual(pipe(false, BA.join(false)), false)
 
-    assert.deepStrictEqual(BA.meet(true, true), true)
-    assert.deepStrictEqual(BA.meet(true, false), false)
+    assert.deepStrictEqual(pipe(true, BA.meet(true)), true)
+    assert.deepStrictEqual(pipe(true, BA.meet(false)), false)
 
     assert.deepStrictEqual(BA.not(true), false)
     assert.deepStrictEqual(BA.not(false), true)
@@ -33,9 +34,9 @@ describe('BooleanAlgebra', () => {
     const BA = booleanAlgebraVoid
     assert.deepStrictEqual(BA.implies(undefined, undefined), undefined)
 
-    assert.deepStrictEqual(BA.join(undefined, undefined), undefined)
+    assert.deepStrictEqual(pipe(undefined, BA.join(undefined)), undefined)
 
-    assert.deepStrictEqual(BA.meet(undefined, undefined), undefined)
+    assert.deepStrictEqual(pipe(undefined, BA.meet(undefined)), undefined)
 
     assert.deepStrictEqual(BA.not(undefined), undefined)
 
@@ -50,11 +51,11 @@ describe('BooleanAlgebra', () => {
     assert.deepStrictEqual(BA.implies(f, g)(1), true)
     assert.deepStrictEqual(BA.implies(f, g)(-1), true)
 
-    assert.deepStrictEqual(BA.join(f, g)(1), true)
-    assert.deepStrictEqual(BA.join(f, g)(-1), true)
+    assert.deepStrictEqual(pipe(f, BA.join(g))(1), true)
+    assert.deepStrictEqual(pipe(f, BA.join(g))(-1), true)
 
-    assert.deepStrictEqual(BA.meet(f, g)(1), true)
-    assert.deepStrictEqual(BA.meet(f, g)(-1), false)
+    assert.deepStrictEqual(pipe(f, BA.meet(g))(1), true)
+    assert.deepStrictEqual(pipe(f, BA.meet(g))(-1), false)
 
     assert.deepStrictEqual(BA.not(f)(1), false)
     assert.deepStrictEqual(BA.not(f)(-1), true)
@@ -72,13 +73,13 @@ describe('BooleanAlgebra', () => {
     assert.deepStrictEqual(BA.implies(false, true), true)
     assert.deepStrictEqual(BA.implies(false, false), true)
 
-    assert.deepStrictEqual(BA.join(true, true), true)
-    assert.deepStrictEqual(BA.join(true, false), false)
-    assert.deepStrictEqual(BA.join(false, true), false)
-    assert.deepStrictEqual(BA.join(false, false), false)
+    assert.deepStrictEqual(pipe(true, BA.join(true)), true)
+    assert.deepStrictEqual(pipe(true, BA.join(false)), false)
+    assert.deepStrictEqual(pipe(false, BA.join(true)), false)
+    assert.deepStrictEqual(pipe(false, BA.join(false)), false)
 
-    assert.deepStrictEqual(BA.meet(true, true), true)
-    assert.deepStrictEqual(BA.meet(true, false), true)
+    assert.deepStrictEqual(pipe(true, BA.meet(true)), true)
+    assert.deepStrictEqual(pipe(true, BA.meet(false)), true)
 
     assert.deepStrictEqual(BA.not(true), false)
     assert.deepStrictEqual(BA.not(false), true)

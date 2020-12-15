@@ -256,20 +256,20 @@ describe('ReaderTaskEither', () => {
   describe('getSemigroup', () => {
     it('concat', async () => {
       const S = _.getSemigroup(semigroupSum)
-      assert.deepStrictEqual(await S.concat(_.left('a'), _.left('b'))({})(), E.left('a'))
-      assert.deepStrictEqual(await S.concat(_.left('a'), _.right(2))({})(), E.right(2))
-      assert.deepStrictEqual(await S.concat(_.right(1), _.left('b'))({})(), E.right(1))
-      assert.deepStrictEqual(await S.concat(_.right(1), _.right(2))({})(), E.right(3))
+      assert.deepStrictEqual(await pipe(_.left('a'), S.concat(_.left('b')))({})(), E.left('a'))
+      assert.deepStrictEqual(await pipe(_.left('a'), S.concat(_.right(2)))({})(), E.right(2))
+      assert.deepStrictEqual(await pipe(_.right(1), S.concat(_.left('b')))({})(), E.right(1))
+      assert.deepStrictEqual(await pipe(_.right(1), S.concat(_.right(2)))({})(), E.right(3))
     })
   })
 
   it('getApplyMonoid', async () => {
     const M = _.getApplyMonoid(monoidSum)
 
-    assert.deepStrictEqual(await M.concat(_.right(1), _.right(2))({})(), E.right(3))
-    assert.deepStrictEqual(await M.concat(_.right(1), _.left('b'))({})(), E.left('b'))
-    assert.deepStrictEqual(await M.concat(_.right(1), M.empty)({})(), E.right(1))
-    assert.deepStrictEqual(await M.concat(M.empty, _.right(1))({})(), E.right(1))
+    assert.deepStrictEqual(await pipe(_.right(1), M.concat(_.right(2)))({})(), E.right(3))
+    assert.deepStrictEqual(await pipe(_.right(1), M.concat(_.left('b')))({})(), E.left('b'))
+    assert.deepStrictEqual(await pipe(_.right(1), M.concat(M.empty))({})(), E.right(1))
+    assert.deepStrictEqual(await pipe(M.empty, M.concat(_.right(1)))({})(), E.right(1))
   })
 
   it('fromReaderEither', async () => {

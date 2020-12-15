@@ -135,8 +135,8 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('getSemigroup', () => {
     const S = _.getSemigroup<number>()
-    assert.deepStrictEqual(S.concat([1], [2]), [1, 2])
-    assert.deepStrictEqual(S.concat([1, 2], [3, 4]), [1, 2, 3, 4])
+    assert.deepStrictEqual(pipe([1], S.concat([2])), [1, 2])
+    assert.deepStrictEqual(pipe([1, 2], S.concat([3, 4])), [1, 2, 3, 4])
   })
 
   it('getEq', () => {

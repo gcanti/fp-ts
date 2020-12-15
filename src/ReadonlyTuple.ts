@@ -52,7 +52,7 @@ export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
   return {
     URI,
     map,
-    ap: (fa) => (fab) => [fst(fab)(fst(fa)), S.concat(snd(fab), snd(fa))]
+    ap: (fa) => (fab) => [fst(fab)(fst(fa)), S.concat(snd(fa))(snd(fab))]
   }
 }
 
@@ -84,7 +84,7 @@ export function getMonad<M>(M: Monoid<M>): Monad2C<URI, M> {
     map,
     chain: (f) => (ma) => {
       const [b, s] = f(fst(ma))
-      return [b, M.concat(snd(ma), s)]
+      return [b, M.concat(s)(snd(ma))]
     },
     of: of(M)
   }

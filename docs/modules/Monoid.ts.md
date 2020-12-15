@@ -80,9 +80,11 @@ export declare function getDualMonoid<A>(M: Monoid<A>): Monoid<A>
 **Example**
 
 ```ts
-import { getDualMonoid, monoidString } from 'fp-ts/Monoid'
+import * as M from 'fp-ts/Monoid'
+import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(getDualMonoid(monoidString).concat('a', 'b'), 'ba')
+const M1 = M.getDualMonoid(M.monoidString)
+assert.deepStrictEqual(pipe('a', M1.concat('b')), 'ba')
 ```
 
 Added in v2.0.0
@@ -114,7 +116,7 @@ export declare function getFunctionMonoid<M>(M: Monoid<M>): <A = never>() => Mon
 **Example**
 
 ```ts
-import { Predicate } from 'fp-ts/function'
+import { Predicate, pipe } from 'fp-ts/function'
 import * as M from 'fp-ts/Monoid'
 
 const f: Predicate<number> = (n) => n <= 2
@@ -122,13 +124,13 @@ const g: Predicate<number> = (n) => n >= 0
 
 const M1 = M.getFunctionMonoid(M.monoidAll)<number>()
 
-assert.deepStrictEqual(M1.concat(f, g)(1), true)
-assert.deepStrictEqual(M1.concat(f, g)(3), false)
+assert.deepStrictEqual(pipe(f, M1.concat(g))(1), true)
+assert.deepStrictEqual(pipe(f, M1.concat(g))(3), false)
 
 const M2 = M.getFunctionMonoid(M.monoidAny)<number>()
 
-assert.deepStrictEqual(M2.concat(f, g)(1), true)
-assert.deepStrictEqual(M2.concat(f, g)(3), true)
+assert.deepStrictEqual(pipe(f, M2.concat(g))(1), true)
+assert.deepStrictEqual(pipe(f, M2.concat(g))(3), true)
 ```
 
 Added in v2.0.0
@@ -150,10 +152,11 @@ export declare function getJoinMonoid<A>(B: Bounded<A>): Monoid<A>
 ```ts
 import * as B from 'fp-ts/Bounded'
 import * as M from 'fp-ts/Monoid'
+import { pipe } from 'fp-ts/function'
 
 const M1 = M.getJoinMonoid(B.boundedNumber)
 
-assert.deepStrictEqual(M1.concat(1, 2), 2)
+assert.deepStrictEqual(pipe(1, M1.concat(2)), 2)
 ```
 
 Added in v2.0.0
@@ -175,10 +178,11 @@ export declare function getMeetMonoid<A>(B: Bounded<A>): Monoid<A>
 ```ts
 import * as B from 'fp-ts/Bounded'
 import * as M from 'fp-ts/Monoid'
+import { pipe } from 'fp-ts/function'
 
 const M1 = M.getMeetMonoid(B.boundedNumber)
 
-assert.deepStrictEqual(M1.concat(1, 2), 1)
+assert.deepStrictEqual(pipe(1, M1.concat(2)), 1)
 ```
 
 Added in v2.0.0
@@ -199,6 +203,7 @@ export declare function getStructMonoid<O extends ReadonlyRecord<string, any>>(
 
 ```ts
 import * as M from 'fp-ts/Monoid'
+import { pipe } from 'fp-ts/function'
 
 interface Point {
   readonly x: number
@@ -210,7 +215,7 @@ const monoidPoint = M.getStructMonoid<Point>({
   y: M.monoidSum,
 })
 
-assert.deepStrictEqual(monoidPoint.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
+assert.deepStrictEqual(pipe({ x: 1, y: 2 }, monoidPoint.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
 ```
 
 Added in v2.0.0
@@ -230,13 +235,14 @@ export declare function getTupleMonoid<T extends ReadonlyArray<Monoid<any>>>(
 **Example**
 
 ```ts
-import { getTupleMonoid, monoidString, monoidSum, monoidAll } from 'fp-ts/Monoid'
+import * as M from 'fp-ts/Monoid'
+import { pipe } from 'fp-ts/function'
 
-const M1 = getTupleMonoid(monoidString, monoidSum)
-assert.deepStrictEqual(M1.concat(['a', 1], ['b', 2]), ['ab', 3])
+const M1 = M.getTupleMonoid(M.monoidString, M.monoidSum)
+assert.deepStrictEqual(pipe(['a', 1], M1.concat(['b', 2])), ['ab', 3])
 
-const M2 = getTupleMonoid(monoidString, monoidSum, monoidAll)
-assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
+const M2 = M.getTupleMonoid(M.monoidString, M.monoidSum, M.monoidAll)
+assert.deepStrictEqual(pipe(['a', 1, true], M2.concat(['b', 2, false])), ['ab', 3, false])
 ```
 
 Added in v2.0.0
@@ -256,10 +262,11 @@ export declare const monoidAll: Monoid<boolean>
 **Example**
 
 ```ts
-import * as M from 'fp-ts/Monoid'
+import { monoidAll } from 'fp-ts/Monoid'
+import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(M.monoidAll.concat(true, true), true)
-assert.deepStrictEqual(M.monoidAll.concat(true, false), false)
+assert.deepStrictEqual(pipe(true, monoidAll.concat(true)), true)
+assert.deepStrictEqual(pipe(true, monoidAll.concat(false)), false)
 ```
 
 Added in v2.0.0
@@ -279,11 +286,12 @@ export declare const monoidAny: Monoid<boolean>
 **Example**
 
 ```ts
-import * as M from 'fp-ts/Monoid'
+import { monoidAny } from 'fp-ts/Monoid'
+import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(M.monoidAny.concat(true, true), true)
-assert.deepStrictEqual(M.monoidAny.concat(true, false), true)
-assert.deepStrictEqual(M.monoidAny.concat(false, false), false)
+assert.deepStrictEqual(pipe(true, monoidAny.concat(true)), true)
+assert.deepStrictEqual(pipe(true, monoidAny.concat(false)), true)
+assert.deepStrictEqual(pipe(false, monoidAny.concat(false)), false)
 ```
 
 Added in v2.0.0
@@ -303,9 +311,10 @@ export declare const monoidProduct: Monoid<number>
 **Example**
 
 ```ts
-import * as M from 'fp-ts/Monoid'
+import { monoidProduct } from 'fp-ts/Monoid'
+import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(M.monoidProduct.concat(2, 3), 6)
+assert.deepStrictEqual(pipe(2, monoidProduct.concat(3)), 6)
 ```
 
 Added in v2.0.0
@@ -325,9 +334,10 @@ export declare const monoidString: Monoid<string>
 **Example**
 
 ```ts
-import * as M from 'fp-ts/Monoid'
+import { monoidString } from 'fp-ts/Monoid'
+import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(M.monoidString.concat('a', 'b'), 'ab')
+assert.deepStrictEqual(pipe('a', monoidString.concat('b')), 'ab')
 ```
 
 Added in v2.0.0
@@ -347,9 +357,10 @@ export declare const monoidSum: Monoid<number>
 **Example**
 
 ```ts
-import * as M from 'fp-ts/Monoid'
+import { monoidSum } from 'fp-ts/Monoid'
+import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(M.monoidSum.concat(2, 3), 5)
+assert.deepStrictEqual(pipe(2, monoidSum.concat(3)), 5)
 ```
 
 Added in v2.0.0

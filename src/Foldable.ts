@@ -168,7 +168,7 @@ export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M) => (fm
   }
   return (sep) => (fm) => {
     const go = ({ init, acc }: Acc<M>, x: M): Acc<M> =>
-      init ? { init: false, acc: x } : { init: false, acc: M.concat(M.concat(acc, sep), x) }
+      init ? { init: false, acc: x } : { init: false, acc: M.concat(x)(M.concat(sep)(acc)) }
     return pipe(fm, F.reduce({ init: true, acc: M.empty }, go)).acc
   }
 }

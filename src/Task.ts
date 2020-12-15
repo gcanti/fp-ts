@@ -221,12 +221,13 @@ declare module './HKT' {
  * @example
  * import * as T from 'fp-ts/Task'
  * import { semigroupString } from 'fp-ts/Semigroup'
+ * import { pipe } from 'fp-ts/function'
  *
  * async function test() {
  *   const S = T.getSemigroup(semigroupString)
  *   const fa = T.of('a')
  *   const fb = T.of('b')
- *   assert.deepStrictEqual(await S.concat(fa, fb)(), 'ab')
+ *   assert.deepStrictEqual(await pipe(fa, S.concat(fb))(), 'ab')
  * }
  *
  * test()
@@ -236,7 +237,7 @@ declare module './HKT' {
  */
 export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>> {
   return {
-    concat: (x, y) => () => x().then((rx) => y().then((ry) => S.concat(rx, ry)))
+    concat: (second) => (first) => () => first().then((rx) => second().then((ry) => S.concat(ry)(rx)))
   }
 }
 
@@ -260,12 +261,13 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>> {
  *
  * @example
  * import * as T from 'fp-ts/Task'
+ * import { pipe } from 'fp-ts/function'
  *
  * async function test() {
  *   const S = T.getRaceMonoid<string>()
  *   const fa = T.delay(20)(T.of('a'))
  *   const fb = T.delay(10)(T.of('b'))
- *   assert.deepStrictEqual(await S.concat(fa, fb)(), 'b')
+ *   assert.deepStrictEqual(await pipe(fa, S.concat(fb))(), 'b')
  * }
  *
  * test()
@@ -275,7 +277,7 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>> {
  */
 export function getRaceMonoid<A = never>(): Monoid<Task<A>> {
   return {
-    concat: (x, y) => () => Promise.race([x(), y()]),
+    concat: (second) => (first) => () => Promise.race([first(), second()]),
     empty: never
   }
 }

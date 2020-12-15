@@ -316,12 +316,12 @@ describe('Option', () => {
   })
 
   it('getMonoid', () => {
-    const { concat } = _.getMonoid(semigroupString)
-    assert.deepStrictEqual(concat(_.none, _.none), _.none)
-    assert.deepStrictEqual(concat(_.none, _.some('a')), _.some('a'))
-    assert.deepStrictEqual(concat(_.some('a'), _.none), _.some('a'))
-    assert.deepStrictEqual(concat(_.some('b'), _.some('a')), _.some('ba'))
-    assert.deepStrictEqual(concat(_.some('a'), _.some('b')), _.some('ab'))
+    const M = _.getMonoid(semigroupString)
+    assert.deepStrictEqual(pipe(_.none, M.concat(_.none)), _.none)
+    assert.deepStrictEqual(pipe(_.none, M.concat(_.some('a'))), _.some('a'))
+    assert.deepStrictEqual(pipe(_.some('a'), M.concat(_.none)), _.some('a'))
+    assert.deepStrictEqual(pipe(_.some('b'), M.concat(_.some('a'))), _.some('ba'))
+    assert.deepStrictEqual(pipe(_.some('a'), M.concat(_.some('b'))), _.some('ab'))
   })
 
   it('fromNullable', () => {
@@ -343,34 +343,34 @@ describe('Option', () => {
 
   it('getApplySemigroup', () => {
     const S = _.getApplySemigroup(semigroupSum)
-    assert.deepStrictEqual(S.concat(_.none, _.none), _.none)
-    assert.deepStrictEqual(S.concat(_.some(1), _.none), _.none)
-    assert.deepStrictEqual(S.concat(_.none, _.some(1)), _.none)
-    assert.deepStrictEqual(S.concat(_.some(1), _.some(2)), _.some(3))
+    assert.deepStrictEqual(pipe(_.none, S.concat(_.none)), _.none)
+    assert.deepStrictEqual(pipe(_.some(1), S.concat(_.none)), _.none)
+    assert.deepStrictEqual(pipe(_.none, S.concat(_.some(1))), _.none)
+    assert.deepStrictEqual(pipe(_.some(1), S.concat(_.some(2))), _.some(3))
   })
 
   it('getApplyMonoid', () => {
     const M = _.getApplyMonoid(monoidSum)
-    assert.deepStrictEqual(M.concat(M.empty, _.none), _.none)
-    assert.deepStrictEqual(M.concat(_.none, M.empty), _.none)
-    assert.deepStrictEqual(M.concat(M.empty, _.some(1)), _.some(1))
-    assert.deepStrictEqual(M.concat(_.some(1), M.empty), _.some(1))
+    assert.deepStrictEqual(pipe(M.empty, M.concat(_.none)), _.none)
+    assert.deepStrictEqual(pipe(_.none, M.concat(M.empty)), _.none)
+    assert.deepStrictEqual(pipe(M.empty, M.concat(_.some(1))), _.some(1))
+    assert.deepStrictEqual(pipe(_.some(1), M.concat(M.empty)), _.some(1))
   })
 
   it('getFirstMonoid', () => {
     const M = _.getFirstMonoid<number>()
-    assert.deepStrictEqual(M.concat(_.none, _.none), _.none)
-    assert.deepStrictEqual(M.concat(_.some(1), _.none), _.some(1))
-    assert.deepStrictEqual(M.concat(_.none, _.some(1)), _.some(1))
-    assert.deepStrictEqual(M.concat(_.some(1), _.some(2)), _.some(1))
+    assert.deepStrictEqual(pipe(_.none, M.concat(_.none)), _.none)
+    assert.deepStrictEqual(pipe(_.some(1), M.concat(_.none)), _.some(1))
+    assert.deepStrictEqual(pipe(_.none, M.concat(_.some(1))), _.some(1))
+    assert.deepStrictEqual(pipe(_.some(1), M.concat(_.some(2))), _.some(1))
   })
 
   it('getLastMonoid', () => {
     const M = _.getLastMonoid<number>()
-    assert.deepStrictEqual(M.concat(_.none, _.none), _.none)
-    assert.deepStrictEqual(M.concat(_.some(1), _.none), _.some(1))
-    assert.deepStrictEqual(M.concat(_.none, _.some(1)), _.some(1))
-    assert.deepStrictEqual(M.concat(_.some(1), _.some(2)), _.some(2))
+    assert.deepStrictEqual(pipe(_.none, M.concat(_.none)), _.none)
+    assert.deepStrictEqual(pipe(_.some(1), M.concat(_.none)), _.some(1))
+    assert.deepStrictEqual(pipe(_.none, M.concat(_.some(1))), _.some(1))
+    assert.deepStrictEqual(pipe(_.some(1), M.concat(_.some(2))), _.some(2))
   })
 
   it('elem', () => {

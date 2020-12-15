@@ -144,7 +144,7 @@ export const reverse: <A>(nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArra
  */
 export function min<A>(ord: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
   const S = getMeetSemigroup(ord)
-  return (nea) => nea.reduce(S.concat)
+  return (nea) => nea.reduce((a, acc) => S.concat(acc)(a))
 }
 
 /**
@@ -152,7 +152,7 @@ export function min<A>(ord: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
  */
 export function max<A>(ord: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
   const S = getJoinSemigroup(ord)
-  return (nea) => nea.reduce(S.concat)
+  return (nea) => nea.reduce((a, acc) => S.concat(acc)(a))
 }
 
 /**
@@ -163,7 +163,7 @@ export function max<A>(ord: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
  */
 export function getSemigroup<A = never>(): Semigroup<ReadonlyNonEmptyArray<A>> {
   return {
-    concat: concat
+    concat: (second) => (first) => concat(first, second)
   }
 }
 
@@ -376,7 +376,7 @@ export function concat<A>(fx: ReadonlyArray<A>, fy: ReadonlyArray<A>): ReadonlyA
  * @since 2.5.0
  */
 export function fold<A>(S: Semigroup<A>): (fa: ReadonlyNonEmptyArray<A>) => A {
-  return (fa) => fa.reduce(S.concat)
+  return (fa) => fa.reduce((a, acc) => S.concat(acc)(a))
 }
 
 /**
@@ -448,14 +448,14 @@ const traverseWithIndex_: TraversableWithIndex1<URI, number>['traverseWithIndex'
  */
 export const foldMapWithIndex = <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (
   fa: ReadonlyNonEmptyArray<A>
-) => fa.slice(1).reduce((s, a, i) => S.concat(s, f(i + 1, a)), f(0, fa[0]))
+) => fa.slice(1).reduce((s, a, i) => S.concat(f(i + 1, a))(s), f(0, fa[0]))
 
 /**
  * @category Foldable
  * @since 2.5.0
  */
 export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: ReadonlyNonEmptyArray<A>) =>
-  fa.slice(1).reduce((s, a) => S.concat(s, f(a)), f(fa[0]))
+  fa.slice(1).reduce((s, a) => S.concat(f(a))(s), f(fa[0]))
 
 /**
  * Less strict version of [`alt`](#alt).

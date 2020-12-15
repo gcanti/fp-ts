@@ -315,9 +315,9 @@ describe('ReadonlyArray', () => {
 
   it('getMonoid', () => {
     const M = _.getMonoid<number>()
-    assert.deepStrictEqual(M.concat([1, 2], [3, 4]), [1, 2, 3, 4])
-    assert.deepStrictEqual(M.concat([1, 2], M.empty), [1, 2])
-    assert.deepStrictEqual(M.concat(M.empty, [1, 2]), [1, 2])
+    assert.deepStrictEqual(pipe([1, 2], M.concat([3, 4])), [1, 2, 3, 4])
+    assert.deepStrictEqual(pipe([1, 2], M.concat(M.empty)), [1, 2])
+    assert.deepStrictEqual(pipe(M.empty, M.concat([1, 2])), [1, 2])
   })
 
   it('getEq', () => {

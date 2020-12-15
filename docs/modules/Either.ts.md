@@ -1113,12 +1113,13 @@ export declare function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<Eith
 ```ts
 import { getApplySemigroup, left, right } from 'fp-ts/Either'
 import { semigroupSum } from 'fp-ts/Semigroup'
+import { pipe } from 'fp-ts/function'
 
 const S = getApplySemigroup<string, number>(semigroupSum)
-assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
-assert.deepStrictEqual(S.concat(left('a'), right(2)), left('a'))
-assert.deepStrictEqual(S.concat(right(1), left('b')), left('b'))
-assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
+assert.deepStrictEqual(pipe(left('a'), S.concat(left('b'))), left('a'))
+assert.deepStrictEqual(pipe(left('a'), S.concat(right(2))), left('a'))
+assert.deepStrictEqual(pipe(right(1), S.concat(left('b'))), left('b'))
+assert.deepStrictEqual(pipe(right(1), S.concat(right(2))), right(3))
 ```
 
 Added in v2.0.0
@@ -1173,12 +1174,13 @@ export declare function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E,
 ```ts
 import { getSemigroup, left, right } from 'fp-ts/Either'
 import { semigroupSum } from 'fp-ts/Semigroup'
+import { pipe } from 'fp-ts/function'
 
 const S = getSemigroup<string, number>(semigroupSum)
-assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
-assert.deepStrictEqual(S.concat(left('a'), right(2)), right(2))
-assert.deepStrictEqual(S.concat(right(1), left('b')), right(1))
-assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
+assert.deepStrictEqual(pipe(left('a'), S.concat(left('b'))), left('a'))
+assert.deepStrictEqual(pipe(left('a'), S.concat(right(2))), right(2))
+assert.deepStrictEqual(pipe(right(1), S.concat(left('b'))), right(1))
+assert.deepStrictEqual(pipe(right(1), S.concat(right(2))), right(3))
 ```
 
 Added in v2.0.0

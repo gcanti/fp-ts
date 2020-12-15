@@ -13,7 +13,7 @@ import { Contravariant1 } from './Contravariant'
 import { Eq, eqStrict } from './Eq'
 import { Monoid } from './Monoid'
 import { monoidOrdering, Ordering } from './Ordering'
-import { pipe } from './function'
+import { flow, pipe } from './function'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -99,8 +99,8 @@ export function geq<A>(O: Ord<A>): (first: A, second: A) => boolean {
  *
  * @since 2.0.0
  */
-export function min<A>(O: Ord<A>): (first: A, second: A) => A {
-  return (first, second) => (O.compare(second)(first) === 1 ? second : first)
+export function min<A>(O: Ord<A>): (second: A) => (first: A) => A {
+  return (second) => (first) => (O.compare(second)(first) === 1 ? second : first)
 }
 
 /**
@@ -108,8 +108,8 @@ export function min<A>(O: Ord<A>): (first: A, second: A) => A {
  *
  * @since 2.0.0
  */
-export function max<A>(O: Ord<A>): (first: A, second: A) => A {
-  return (first, second) => (O.compare(second)(first) === -1 ? second : first)
+export function max<A>(O: Ord<A>): (second: A) => (first: A) => A {
+  return (second) => (first) => (O.compare(second)(first) === -1 ? second : first)
 }
 
 /**
@@ -120,7 +120,7 @@ export function max<A>(O: Ord<A>): (first: A, second: A) => A {
 export function clamp<A>(O: Ord<A>): (low: A, hi: A) => (a: A) => A {
   const minO = min(O)
   const maxO = max(O)
-  return (low, hi) => (a) => maxO(minO(a, hi), low)
+  return (low, hi) => flow(minO(hi), maxO(low))
 }
 
 /**
@@ -218,11 +218,11 @@ export function fromCompare<A>(compare: Ord<A>['compare']): Ord<A> {
  */
 export function getMonoid<A = never>(): Monoid<Ord<A>> {
   return {
-    concat: (x, y) =>
+    concat: (y) => (x) =>
       fromCompare((second) => {
         const fx = x.compare(second)
         const fy = y.compare(second)
-        return (first) => monoidOrdering.concat(fx(first), fy(first))
+        return (first) => monoidOrdering.concat(fy(first))(fx(first))
       }),
     empty: fromCompare(() => () => 0)
   }

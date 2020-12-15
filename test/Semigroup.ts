@@ -1,4 +1,5 @@
 import * as assert from 'assert'
+import { pipe } from '../src/function'
 import { monoidString } from '../src/Monoid'
 import { ordNumber } from '../src/Ord'
 import * as _ from '../src/Semigroup'
@@ -6,9 +7,9 @@ import * as _ from '../src/Semigroup'
 describe('Semigroup', () => {
   it('getTupleSemigroup', () => {
     const S1 = _.getTupleSemigroup(_.semigroupString, _.semigroupSum)
-    assert.deepStrictEqual(S1.concat(['a', 1], ['b', 2]), ['ab', 3])
+    assert.deepStrictEqual(pipe(['a', 1], S1.concat(['b', 2])), ['ab', 3])
     const S2 = _.getTupleSemigroup(_.semigroupString, _.semigroupSum, _.semigroupAll)
-    assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
+    assert.deepStrictEqual(pipe(['a', 1, true], S2.concat(['b', 2, false])), ['ab', 3, false])
   })
 
   it('fold', () => {
@@ -16,11 +17,13 @@ describe('Semigroup', () => {
   })
 
   it('getMeetSemigroup', () => {
-    assert.deepStrictEqual(_.getMeetSemigroup(ordNumber).concat(1, 2), 1)
+    const S = _.getMeetSemigroup(ordNumber)
+    assert.deepStrictEqual(pipe(1, S.concat(2)), 1)
   })
 
   it('getJoinSemigroup', () => {
-    assert.deepStrictEqual(_.getJoinSemigroup(ordNumber).concat(1, 2), 2)
+    const S = _.getJoinSemigroup(ordNumber)
+    assert.deepStrictEqual(pipe(1, S.concat(2)), 2)
   })
 
   it('getObjectSemigroup', () => {
@@ -36,32 +39,35 @@ describe('Semigroup', () => {
       bar: '123'
     }
     const S = _.getObjectSemigroup<T>()
-    const result = S.concat(foo, bar)
+    const result = pipe(foo, S.concat(bar))
     const expected = Object.assign({}, foo, bar)
     assert.deepStrictEqual(result.foo, expected.foo)
     assert.deepStrictEqual(result.bar, expected.bar)
   })
 
   it('semigroupProduct', () => {
-    assert.deepStrictEqual(_.semigroupProduct.concat(2, 3), 6)
+    const S = _.semigroupProduct
+    assert.deepStrictEqual(pipe(2, S.concat(3)), 6)
   })
 
   it('getFirstSemigroup', () => {
-    assert.deepStrictEqual(_.getFirstSemigroup<number>().concat(1, 2), 1)
+    const S = _.getFirstSemigroup<number>()
+    assert.deepStrictEqual(pipe(1, S.concat(2)), 1)
   })
 
   it('semigroupVoid', () => {
-    assert.deepStrictEqual(_.semigroupVoid.concat(undefined, undefined), undefined)
+    const S = _.semigroupVoid
+    assert.deepStrictEqual(pipe(undefined, S.concat(undefined)), undefined)
   })
 
   it('getDualSemigroup', () => {
     const S = _.getDualSemigroup(_.semigroupString)
-    assert.deepStrictEqual(S.concat('a', 'b'), 'ba')
+    assert.deepStrictEqual(pipe('a', S.concat('b')), 'ba')
   })
 
   it('getIntercalateSemigroup', () => {
     const S = _.getIntercalateSemigroup(' ')(_.semigroupString)
-    assert.strictEqual(S.concat('a', 'b'), 'a b')
-    assert.strictEqual(S.concat(S.concat('a', 'b'), 'c'), S.concat('a', S.concat('b', 'c')))
+    assert.strictEqual(pipe('a', S.concat('b')), 'a b')
+    assert.strictEqual(pipe('a', S.concat('b'), S.concat('c')), 'a b c')
   })
 })

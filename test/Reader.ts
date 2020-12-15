@@ -93,13 +93,13 @@ describe('Reader', () => {
 
   it('getSemigroup', () => {
     const S = _.getSemigroup(semigroupSum)
-    assert.deepStrictEqual(S.concat(_.of(1), _.of(2))({}), 3)
+    assert.deepStrictEqual(pipe(_.of(1), S.concat(_.of(2)))({}), 3)
   })
 
   it('getMonoid', () => {
     const M = _.getMonoid(monoidSum)
-    assert.deepStrictEqual(M.concat(_.of(1), M.empty)({}), 1)
-    assert.deepStrictEqual(M.concat(M.empty, _.of(1))({}), 1)
+    assert.deepStrictEqual(pipe(_.of(1), M.concat(M.empty))({}), 1)
+    assert.deepStrictEqual(pipe(M.empty, M.concat(_.of(1)))({}), 1)
   })
 
   it('ask', () => {

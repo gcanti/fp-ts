@@ -19,9 +19,9 @@ import { pipe } from '../src/function'
 describe('Monoid', () => {
   it('getTupleMonoid', () => {
     const M1 = getTupleMonoid(monoidString, monoidSum)
-    assert.deepStrictEqual(M1.concat(['a', 1], ['b', 2]), ['ab', 3])
+    assert.deepStrictEqual(pipe(['a', 1], M1.concat(['b', 2])), ['ab', 3])
     const M2 = getTupleMonoid(monoidString, monoidSum, monoidAll)
-    assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
+    assert.deepStrictEqual(pipe(['a', 1, true], M2.concat(['b', 2, false])), ['ab', 3, false])
   })
 
   it('fold', () => {
@@ -49,7 +49,7 @@ describe('Monoid', () => {
     const M = getEndomorphismMonoid<number>()
     const inc = (n: number) => n + 1
     const double = (n: number) => n * 2
-    const f = M.concat(inc, double)
+    const f = pipe(inc, M.concat(double))
     assert.deepStrictEqual(f(3), 8)
   })
 
@@ -69,8 +69,8 @@ describe('Monoid', () => {
 
   it('getDualMonoid', () => {
     const M = getDualMonoid(monoidString)
-    assert.deepStrictEqual(M.concat('a', 'b'), 'ba')
-    assert.deepStrictEqual(M.concat('a', M.empty), 'a')
-    assert.deepStrictEqual(M.concat(M.empty, 'a'), 'a')
+    assert.deepStrictEqual(pipe('a', M.concat('b')), 'ba')
+    assert.deepStrictEqual(pipe('a', M.concat(M.empty)), 'a')
+    assert.deepStrictEqual(pipe(M.empty, M.concat('a')), 'a')
   })
 })

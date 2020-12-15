@@ -45,7 +45,7 @@ describe('IO', () => {
     // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): _.IO<number> => () => log.push(message)
-    assert.deepStrictEqual(S.concat(append('a'), append('b'))(), 3)
+    assert.deepStrictEqual(pipe(append('a'), S.concat(append('b')))(), 3)
     assert.deepStrictEqual(log, ['a', 'b'])
   })
 
@@ -54,8 +54,8 @@ describe('IO', () => {
     // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): _.IO<number> => () => log.push(message)
-    assert.deepStrictEqual(M.concat(append('a'), M.empty)(), 1)
-    assert.deepStrictEqual(M.concat(M.empty, append('b'))(), 2)
+    assert.deepStrictEqual(pipe(append('a'), M.concat(M.empty))(), 1)
+    assert.deepStrictEqual(pipe(M.empty, M.concat(append('b')))(), 2)
     assert.deepStrictEqual(log, ['a', 'b'])
   })
 

@@ -59,7 +59,7 @@ export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
   return {
     URI,
     map,
-    extend: (f) => (wa) => (p1) => f((p2) => wa(monoid.concat(p1, p2))),
+    extend: (f) => (wa) => (p1) => f((p2) => wa(monoid.concat(p2)(p1))),
     extract: (wa) => wa(monoid.empty)
   }
 }

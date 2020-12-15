@@ -30,7 +30,7 @@ export const eqOrdering: Eq<Ordering> = {
  * @since 2.4.0
  */
 export const monoidOrdering: Monoid<Ordering> = {
-  concat: (x, y) => (x !== 0 ? x : y),
+  concat: (second) => (first) => (first !== 0 ? first : second),
   empty: 0
 }
 

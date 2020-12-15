@@ -1081,12 +1081,13 @@ export declare function getApplySemigroup<A>(S: Semigroup<A>): Semigroup<Option<
 ```ts
 import { getApplySemigroup, some, none } from 'fp-ts/Option'
 import { semigroupSum } from 'fp-ts/Semigroup'
+import { pipe } from 'fp-ts/function'
 
 const S = getApplySemigroup(semigroupSum)
-assert.deepStrictEqual(S.concat(none, none), none)
-assert.deepStrictEqual(S.concat(some(1), none), none)
-assert.deepStrictEqual(S.concat(none, some(1)), none)
-assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
+assert.deepStrictEqual(pipe(none, S.concat(none)), none)
+assert.deepStrictEqual(pipe(some(1), S.concat(none)), none)
+assert.deepStrictEqual(pipe(none, S.concat(some(1))), none)
+assert.deepStrictEqual(pipe(some(1), S.concat(some(2))), some(3))
 ```
 
 Added in v2.0.0
@@ -1136,12 +1137,13 @@ export declare function getFirstMonoid<A = never>(): Monoid<Option<A>>
 
 ```ts
 import { getFirstMonoid, some, none } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
 
 const M = getFirstMonoid<number>()
-assert.deepStrictEqual(M.concat(none, none), none)
-assert.deepStrictEqual(M.concat(some(1), none), some(1))
-assert.deepStrictEqual(M.concat(none, some(1)), some(1))
-assert.deepStrictEqual(M.concat(some(1), some(2)), some(1))
+assert.deepStrictEqual(pipe(none, M.concat(none)), none)
+assert.deepStrictEqual(pipe(some(1), M.concat(none)), some(1))
+assert.deepStrictEqual(pipe(none, M.concat(some(1))), some(1))
+assert.deepStrictEqual(pipe(some(1), M.concat(some(2))), some(1))
 ```
 
 Added in v2.0.0
@@ -1167,12 +1169,13 @@ export declare function getLastMonoid<A = never>(): Monoid<Option<A>>
 
 ```ts
 import { getLastMonoid, some, none } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
 
 const M = getLastMonoid<number>()
-assert.deepStrictEqual(M.concat(none, none), none)
-assert.deepStrictEqual(M.concat(some(1), none), some(1))
-assert.deepStrictEqual(M.concat(none, some(1)), some(1))
-assert.deepStrictEqual(M.concat(some(1), some(2)), some(2))
+assert.deepStrictEqual(pipe(none, M.concat(none)), none)
+assert.deepStrictEqual(pipe(some(1), M.concat(none)), some(1))
+assert.deepStrictEqual(pipe(none, M.concat(some(1))), some(1))
+assert.deepStrictEqual(pipe(some(1), M.concat(some(2))), some(2))
 ```
 
 Added in v2.0.0
@@ -1200,12 +1203,13 @@ export declare function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>>
 ```ts
 import { getMonoid, some, none } from 'fp-ts/Option'
 import { semigroupSum } from 'fp-ts/Semigroup'
+import { pipe } from 'fp-ts/function'
 
 const M = getMonoid(semigroupSum)
-assert.deepStrictEqual(M.concat(none, none), none)
-assert.deepStrictEqual(M.concat(some(1), none), some(1))
-assert.deepStrictEqual(M.concat(none, some(1)), some(1))
-assert.deepStrictEqual(M.concat(some(1), some(2)), some(3))
+assert.deepStrictEqual(pipe(none, M.concat(none)), none)
+assert.deepStrictEqual(pipe(some(1), M.concat(none)), some(1))
+assert.deepStrictEqual(pipe(none, M.concat(some(1))), some(1))
+assert.deepStrictEqual(pipe(some(1), M.concat(some(2))), some(3))
 ```
 
 Added in v2.0.0

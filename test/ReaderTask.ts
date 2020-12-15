@@ -104,14 +104,14 @@ describe('ReaderTask', () => {
 
   it('getSemigroup', async () => {
     const M = _.getSemigroup(semigroupString)
-    assert.deepStrictEqual(await M.concat(_.of('a'), _.of('b'))({})(), 'ab')
+    assert.deepStrictEqual(await pipe(_.of('a'), M.concat(_.of('b')))({})(), 'ab')
   })
 
   it('getMonoid', async () => {
     const M = _.getMonoid(monoidString)
-    assert.deepStrictEqual(await M.concat(_.of('a'), M.empty)({})(), 'a')
-    assert.deepStrictEqual(await M.concat(M.empty, _.of('b'))({})(), 'b')
-    assert.deepStrictEqual(await M.concat(_.of('a'), _.of('b'))({})(), 'ab')
+    assert.deepStrictEqual(await pipe(_.of('a'), M.concat(M.empty))({})(), 'a')
+    assert.deepStrictEqual(await pipe(M.empty, M.concat(_.of('b')))({})(), 'b')
+    assert.deepStrictEqual(await pipe(_.of('a'), M.concat(_.of('b')))({})(), 'ab')
   })
 
   it('applicativeTaskEitherSeq', async () => {

@@ -1,4 +1,5 @@
 import * as assert from 'assert'
+import { pipe } from '../src/function'
 import { sign, eqOrdering, monoidOrdering, invert } from '../src/Ordering'
 
 describe('Ordering', () => {
@@ -22,23 +23,23 @@ describe('Ordering', () => {
 
   it('monoidOrdering', () => {
     // concat
-    assert.deepStrictEqual(monoidOrdering.concat(-1, -1), -1)
-    assert.deepStrictEqual(monoidOrdering.concat(-1, 0), -1)
-    assert.deepStrictEqual(monoidOrdering.concat(-1, 1), -1)
-    assert.deepStrictEqual(monoidOrdering.concat(0, -1), -1)
-    assert.deepStrictEqual(monoidOrdering.concat(0, 0), 0)
-    assert.deepStrictEqual(monoidOrdering.concat(0, 1), 1)
-    assert.deepStrictEqual(monoidOrdering.concat(1, -1), 1)
-    assert.deepStrictEqual(monoidOrdering.concat(1, 0), 1)
-    assert.deepStrictEqual(monoidOrdering.concat(1, 1), 1)
+    assert.deepStrictEqual(pipe(-1, monoidOrdering.concat(-1)), -1)
+    assert.deepStrictEqual(pipe(-1, monoidOrdering.concat(0)), -1)
+    assert.deepStrictEqual(pipe(-1, monoidOrdering.concat(1)), -1)
+    assert.deepStrictEqual(pipe(0, monoidOrdering.concat(-1)), -1)
+    assert.deepStrictEqual(pipe(0, monoidOrdering.concat(0)), 0)
+    assert.deepStrictEqual(pipe(0, monoidOrdering.concat(1)), 1)
+    assert.deepStrictEqual(pipe(1, monoidOrdering.concat(-1)), 1)
+    assert.deepStrictEqual(pipe(1, monoidOrdering.concat(0)), 1)
+    assert.deepStrictEqual(pipe(1, monoidOrdering.concat(1)), 1)
 
     // empty
-    assert.deepStrictEqual(monoidOrdering.concat(1, monoidOrdering.empty), 1)
-    assert.deepStrictEqual(monoidOrdering.concat(monoidOrdering.empty, 1), 1)
-    assert.deepStrictEqual(monoidOrdering.concat(-1, monoidOrdering.empty), -1)
-    assert.deepStrictEqual(monoidOrdering.concat(monoidOrdering.empty, -1), -1)
-    assert.deepStrictEqual(monoidOrdering.concat(0, monoidOrdering.empty), 0)
-    assert.deepStrictEqual(monoidOrdering.concat(monoidOrdering.empty, 0), 0)
+    assert.deepStrictEqual(pipe(1, monoidOrdering.concat(monoidOrdering.empty)), 1)
+    assert.deepStrictEqual(pipe(monoidOrdering.empty, monoidOrdering.concat(1)), 1)
+    assert.deepStrictEqual(pipe(-1, monoidOrdering.concat(monoidOrdering.empty)), -1)
+    assert.deepStrictEqual(pipe(monoidOrdering.empty, monoidOrdering.concat(-1)), -1)
+    assert.deepStrictEqual(pipe(0, monoidOrdering.concat(monoidOrdering.empty)), 0)
+    assert.deepStrictEqual(pipe(monoidOrdering.empty, monoidOrdering.concat(0)), 0)
   })
 
   it('invert', () => {

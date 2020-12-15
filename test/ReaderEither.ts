@@ -141,42 +141,19 @@ describe('ReaderEither', () => {
   describe('getSemigroup', () => {
     it('concat', () => {
       const S = _.getSemigroup(semigroupSum)
-      const e1 = S.concat(_.left('a'), _.left('b'))({})
-      assert.deepStrictEqual(e1, E.left('a'))
-
-      const e2 = S.concat(_.left('a'), _.right(2))({})
-      assert.deepStrictEqual(e2, E.right(2))
-
-      const e3 = S.concat(_.right(1), _.left('b'))({})
-      assert.deepStrictEqual(e3, E.right(1))
-
-      const e4 = S.concat(_.right(1), _.right(2))({})
-      assert.deepStrictEqual(e4, E.right(3))
+      assert.deepStrictEqual(pipe(_.left('a'), S.concat(_.left('b')))({}), E.left('a'))
+      assert.deepStrictEqual(pipe(_.left('a'), S.concat(_.right(2)))({}), E.right(2))
+      assert.deepStrictEqual(pipe(_.right(1), S.concat(_.left('b')))({}), E.right(1))
+      assert.deepStrictEqual(pipe(_.right(1), S.concat(_.right(2)))({}), E.right(3))
     })
   })
 
   describe('getApplyMonoid', () => {
     const M = _.getApplyMonoid(monoidString)
-
-    it('concat (right)', () => {
-      const x = M.concat(_.right('a'), _.right('b'))({})
-      return assert.deepStrictEqual(x, E.right('ab'))
-    })
-
-    it('concat (left)', () => {
-      const x = M.concat(_.right('a'), _.left('b'))({})
-      return assert.deepStrictEqual(x, E.left('b'))
-    })
-
-    it('empty (right)', () => {
-      const x = M.concat(_.right('a'), M.empty)({})
-      return assert.deepStrictEqual(x, E.right('a'))
-    })
-
-    it('empty (left)', () => {
-      const x = M.concat(M.empty, _.right('a'))({})
-      return assert.deepStrictEqual(x, E.right('a'))
-    })
+    assert.deepStrictEqual(pipe(_.right('a'), M.concat(_.right('b')))({}), E.right('ab'))
+    assert.deepStrictEqual(pipe(_.right('a'), M.concat(_.left('b')))({}), E.left('b'))
+    assert.deepStrictEqual(pipe(_.right('a'), M.concat(M.empty))({}), E.right('a'))
+    assert.deepStrictEqual(pipe(M.empty, M.concat(_.right('a')))({}), E.right('a'))
   })
 
   it('ask', () => {

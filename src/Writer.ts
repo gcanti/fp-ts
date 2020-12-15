@@ -121,7 +121,7 @@ export function getApplicative<W>(M: Monoid<W>): Applicative2C<URI, W> {
     ap: (fa) => (fab) => () => {
       const [f, w1] = fab()
       const [a, w2] = fa()
-      return [f(a), M.concat(w1, w2)]
+      return [f(a), M.concat(w2)(w1)]
     },
     of: (a) => () => [a, M.empty]
   }
@@ -139,7 +139,7 @@ export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
     chain: (f) => (ma) => () => {
       const [a, w1] = ma()
       const [b, w2] = f(a)()
-      return [b, M.concat(w1, w2)]
+      return [b, M.concat(w2)(w1)]
     }
   }
 }

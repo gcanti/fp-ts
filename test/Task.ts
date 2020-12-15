@@ -78,20 +78,20 @@ describe('Task', () => {
     const M = _.getRaceMonoid<number>()
 
     it('concat', async () => {
-      assert.deepStrictEqual(await M.concat(delay(10, 1), delay(10, 2))(), 1)
+      assert.deepStrictEqual(await pipe(delay(10, 1), M.concat(delay(10, 2)))(), 1)
     })
 
     it('empty (right)', async () => {
-      assert.deepStrictEqual(await M.concat(delay(10, 1), M.empty)(), 1)
+      assert.deepStrictEqual(await pipe(delay(10, 1), M.concat(M.empty))(), 1)
     })
 
     it('empty (left)', async () => {
-      assert.deepStrictEqual(await M.concat(M.empty, delay(10, 1))(), 1)
+      assert.deepStrictEqual(await pipe(M.empty, M.concat(delay(10, 1)))(), 1)
     })
 
     it('concat (rejected)', async () => {
       try {
-        await M.concat(delayReject(10, 1), delayReject(10, 2))()
+        await pipe(delayReject(10, 1), M.concat(delayReject(10, 2)))()
       } catch (actual) {
         return assert.deepStrictEqual(actual, 1)
       }
@@ -102,15 +102,15 @@ describe('Task', () => {
     const M = _.getMonoid(monoidString)
 
     it('concat', async () => {
-      assert.deepStrictEqual(await M.concat(delay(10, 'a'), delay(10, 'b'))(), 'ab')
+      assert.deepStrictEqual(await pipe(delay(10, 'a'), M.concat(delay(10, 'b')))(), 'ab')
     })
 
     it('empty (right)', async () => {
-      assert.deepStrictEqual(await M.concat(delay(10, 'a'), M.empty)(), 'a')
+      assert.deepStrictEqual(await pipe(delay(10, 'a'), M.concat(M.empty))(), 'a')
     })
 
     it('empty (left)', async () => {
-      assert.deepStrictEqual(await M.concat(M.empty, delay(10, 'a'))(), 'a')
+      assert.deepStrictEqual(await pipe(M.empty, M.concat(delay(10, 'a')))(), 'a')
     })
   })
 

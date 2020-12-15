@@ -384,22 +384,22 @@ export function getEq<K, A>(SK: Eq<K>, SA: Eq<A>): Eq<ReadonlyMap<K, A>> {
 export function getMonoid<K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap<K, A>> {
   const lookupWithKeyS = lookupWithKey(SK)
   return {
-    concat: (mx, my) => {
-      if (mx === empty) {
-        return my
+    concat: (second) => (first) => {
+      if (first === empty) {
+        return second
       }
-      if (my === empty) {
-        return mx
+      if (second === empty) {
+        return first
       }
-      const r = new Map(mx)
-      const entries = my.entries()
+      const r = new Map(first)
+      const entries = second.entries()
       let e: Next<readonly [K, A]>
       // tslint:disable-next-line: strict-boolean-expressions
       while (!(e = entries.next()).done) {
         const [k, a] = e.value
-        const oka = lookupWithKeyS(k)(mx)
+        const oka = lookupWithKeyS(k)(first)
         if (O.isSome(oka)) {
-          r.set(oka.value[0], SA.concat(oka.value[1], a))
+          r.set(oka.value[0], SA.concat(a)(oka.value[1]))
         } else {
           r.set(k, a)
         }
@@ -459,7 +459,7 @@ export function fromFoldable<F, K, A>(
       F.reduce<Map<K, A>, readonly [K, A]>(new Map<K, A>(), (b, [k, a]) => {
         const oka = lookupWithKeyE(k)(b)
         if (O.isSome(oka)) {
-          b.set(oka.value[0], M.concat(oka.value[1], a))
+          b.set(oka.value[0], M.concat(a)(oka.value[1]))
         } else {
           b.set(k, a)
         }
@@ -740,7 +740,7 @@ export function getFoldableWithIndex<K>(O: Ord<K>): FoldableWithIndex2C<URI, K, 
     const len = ks.length
     for (let i = 0; i < len; i++) {
       const k = ks[i]
-      out = M.concat(out, f(k, fa.get(k)!))
+      out = M.concat(f(k, fa.get(k)!))(out)
     }
     return out
   }

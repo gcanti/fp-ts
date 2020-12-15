@@ -33,7 +33,7 @@ See [Semigroup](https://gcanti.github.io/fp-ts/modules/Semigroup.ts.html) for so
 
 ```ts
 export interface Magma<A> {
-  readonly concat: (x: A, y: A) => A
+  readonly concat: (second: A) => (first: A) => A
 }
 ```
 

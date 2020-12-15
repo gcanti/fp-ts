@@ -49,12 +49,12 @@ describe('TaskThese', () => {
 
   it('getSemigroup', async () => {
     const S = _.getSemigroup(monoidString, monoidSum)
-    assert.deepStrictEqual(await S.concat(_.right(1), _.right(2))(), TH.right(3))
-    assert.deepStrictEqual(await S.concat(_.right(1), _.left('a'))(), TH.both('a', 1))
-    assert.deepStrictEqual(await S.concat(_.left('a'), _.left('b'))(), TH.left('ab'))
-    assert.deepStrictEqual(await S.concat(_.right(1), _.both('a', 2))(), TH.both('a', 3))
-    assert.deepStrictEqual(await S.concat(_.left('a'), _.both('b', 2))(), TH.both('ab', 2))
-    assert.deepStrictEqual(await S.concat(_.both('a', 1), _.both('b', 2))(), TH.both('ab', 3))
+    assert.deepStrictEqual(await pipe(_.right(1), S.concat(_.right(2)))(), TH.right(3))
+    assert.deepStrictEqual(await pipe(_.right(1), S.concat(_.left('a')))(), TH.both('a', 1))
+    assert.deepStrictEqual(await pipe(_.left('a'), S.concat(_.left('b')))(), TH.left('ab'))
+    assert.deepStrictEqual(await pipe(_.right(1), S.concat(_.both('a', 2)))(), TH.both('a', 3))
+    assert.deepStrictEqual(await pipe(_.left('a'), S.concat(_.both('b', 2)))(), TH.both('ab', 2))
+    assert.deepStrictEqual(await pipe(_.both('a', 1), S.concat(_.both('b', 2)))(), TH.both('ab', 3))
   })
 
   describe('getMonad', () => {

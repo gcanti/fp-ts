@@ -694,13 +694,13 @@ describe('ReadonlyMap', () => {
       [{ id: 'k3' }, 4]
     ])
     const M1 = _.getMonoid(eqUser, semigroupSum)
-    assert.deepStrictEqual(M1.concat(d1, d2), expected)
-    assert.deepStrictEqual(M1.concat(d1, M1.empty), d1)
-    assert.deepStrictEqual(M1.concat(M1.empty, d2), d2)
+    assert.deepStrictEqual(pipe(d1, M1.concat(d2)), expected)
+    assert.deepStrictEqual(pipe(d1, M1.concat(M1.empty)), d1)
+    assert.deepStrictEqual(pipe(M1.empty, M1.concat(d2)), d2)
 
     const M2 = _.getMonoid(eqKey, semigroupValue)
     assert.deepStrictEqual(
-      M2.concat(repo, new Map([[{ id: 3 }, { value: 3 }]])),
+      pipe(repo, M2.concat(new Map([[{ id: 3 }, { value: 3 }]]))),
       new Map([
         [{ id: 1 }, { value: 1 }],
         [{ id: 2 }, { value: 2 }],
@@ -708,14 +708,14 @@ describe('ReadonlyMap', () => {
       ])
     )
     assert.deepStrictEqual(
-      M2.concat(repo, new Map([[{ id: 1 }, { value: 2 }]])),
+      pipe(repo, M2.concat(new Map([[{ id: 1 }, { value: 2 }]]))),
       new Map([
         [{ id: 1 }, { value: 3 }],
         [{ id: 2 }, { value: 2 }]
       ])
     )
     assert.deepStrictEqual(
-      M2.concat(repo, new Map([[{ id: 4 }, { value: 2 }]])),
+      pipe(repo, M2.concat(new Map([[{ id: 4 }, { value: 2 }]]))),
       new Map([
         [{ id: 1 }, { value: 3 }],
         [{ id: 2 }, { value: 2 }]

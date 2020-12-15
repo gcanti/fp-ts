@@ -328,7 +328,7 @@ export function difference<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: Readonly
  */
 export function getUnionMonoid<A>(E: Eq<A>): Monoid<ReadonlySet<A>> {
   return {
-    concat: (x, y) => union(E)(y)(x),
+    concat: union(E),
     empty
   }
 }
@@ -339,7 +339,7 @@ export function getUnionMonoid<A>(E: Eq<A>): Monoid<ReadonlySet<A>> {
  */
 export function getIntersectionSemigroup<A>(E: Eq<A>): Semigroup<ReadonlySet<A>> {
   return {
-    concat: (x, y) => intersection(E)(y)(x)
+    concat: intersection(E)
   }
 }
 
@@ -356,7 +356,7 @@ export function reduce<A>(O: Ord<A>): <B>(b: B, f: (b: B, a: A) => B) => (fa: Re
  */
 export function foldMap<A, M>(O: Ord<A>, M: Monoid<M>): (f: (a: A) => M) => (fa: ReadonlySet<A>) => M {
   const toArrayO = toReadonlyArray(O)
-  return (f) => (fa) => toArrayO(fa).reduce((b, a) => M.concat(b, f(a)), M.empty)
+  return (f) => (fa) => toArrayO(fa).reduce((b, a) => M.concat(f(a))(b), M.empty)
 }
 
 /**

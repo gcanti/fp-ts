@@ -128,16 +128,16 @@ describe('ReadonlySet', () => {
 
   it('getUnionMonoid', () => {
     const M = _.getUnionMonoid(Eq.eqNumber)
-    assert.deepStrictEqual(M.concat(new Set([1, 2]), new Set([1, 3])), new Set([1, 2, 3]))
-    assert.deepStrictEqual(M.concat(new Set([1, 2]), M.empty), new Set([1, 2]))
-    assert.deepStrictEqual(M.concat(M.empty, new Set([1, 3])), new Set([1, 3]))
+    assert.deepStrictEqual(pipe(new Set([1, 2]), M.concat(new Set([1, 3]))), new Set([1, 2, 3]))
+    assert.deepStrictEqual(pipe(new Set([1, 2]), M.concat(M.empty)), new Set([1, 2]))
+    assert.deepStrictEqual(pipe(M.empty, M.concat(new Set([1, 3]))), new Set([1, 3]))
   })
 
   it('getIntersectionSemigroup', () => {
     const S = _.getIntersectionSemigroup(Eq.eqNumber)
-    assert.deepStrictEqual(S.concat(new Set([1, 2]), new Set([1, 3])), new Set([1]))
-    assert.deepStrictEqual(S.concat(new Set([1, 2]), _.empty), _.empty)
-    assert.deepStrictEqual(S.concat(_.empty, new Set([1, 3])), _.empty)
+    assert.deepStrictEqual(pipe(new Set([1, 2]), S.concat(new Set([1, 3]))), new Set([1]))
+    assert.deepStrictEqual(pipe(new Set([1, 2]), S.concat(_.empty)), _.empty)
+    assert.deepStrictEqual(pipe(_.empty, S.concat(new Set([1, 3]))), _.empty)
   })
 
   it('difference', () => {

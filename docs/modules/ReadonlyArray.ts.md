@@ -1575,9 +1575,10 @@ export declare function getMonoid<A = never>(): Monoid<ReadonlyArray<A>>
 
 ```ts
 import { getMonoid } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
 
 const M = getMonoid<number>()
-assert.deepStrictEqual(M.concat([1, 2], [3, 4]), [1, 2, 3, 4])
+assert.deepStrictEqual(pipe([1, 2], M.concat([3, 4])), [1, 2, 3, 4])
 ```
 
 Added in v2.5.0

@@ -244,20 +244,20 @@ describe('IOEither', () => {
   describe('getSemigroup', () => {
     it('concat', () => {
       const S = _.getSemigroup<string, number>(semigroupSum)
-      assert.deepStrictEqual(S.concat(_.leftIO(I.of('a')), _.leftIO(I.of('b')))(), E.left('a'))
-      assert.deepStrictEqual(S.concat(_.leftIO(I.of('a')), _.rightIO(I.of(2)))(), E.right(2))
-      assert.deepStrictEqual(S.concat(_.rightIO(I.of(1)), _.leftIO(I.of('b')))(), E.right(1))
-      assert.deepStrictEqual(S.concat(_.rightIO(I.of(1)), _.rightIO(I.of(2)))(), E.right(3))
+      assert.deepStrictEqual(pipe(_.leftIO(I.of('a')), S.concat(_.leftIO(I.of('b'))))(), E.left('a'))
+      assert.deepStrictEqual(pipe(_.leftIO(I.of('a')), S.concat(_.rightIO(I.of(2))))(), E.right(2))
+      assert.deepStrictEqual(pipe(_.rightIO(I.of(1)), S.concat(_.leftIO(I.of('b'))))(), E.right(1))
+      assert.deepStrictEqual(pipe(_.rightIO(I.of(1)), S.concat(_.rightIO(I.of(2))))(), E.right(3))
     })
   })
 
   describe('getApplyMonoid', () => {
     it('concat', () => {
       const M = _.getApplyMonoid(monoidString)
-      assert.deepStrictEqual(M.concat(_.rightIO(I.of('a')), _.rightIO(I.of('b')))(), E.right('ab'))
-      assert.deepStrictEqual(M.concat(_.rightIO(I.of('a')), _.leftIO(I.of('b')))(), E.left('b'))
-      assert.deepStrictEqual(M.concat(_.rightIO(I.of('a')), M.empty)(), E.right('a'))
-      assert.deepStrictEqual(M.concat(M.empty, _.rightIO(I.of('a')))(), E.right('a'))
+      assert.deepStrictEqual(pipe(_.rightIO(I.of('a')), M.concat(_.rightIO(I.of('b'))))(), E.right('ab'))
+      assert.deepStrictEqual(pipe(_.rightIO(I.of('a')), M.concat(_.leftIO(I.of('b'))))(), E.left('b'))
+      assert.deepStrictEqual(pipe(_.rightIO(I.of('a')), M.concat(M.empty))(), E.right('a'))
+      assert.deepStrictEqual(pipe(M.empty, M.concat(_.rightIO(I.of('a'))))(), E.right('a'))
     })
   })
 

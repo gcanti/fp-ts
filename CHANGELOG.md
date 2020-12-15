@@ -104,6 +104,12 @@ high state of flux, you're at risk of it changing without notice.
   - `IOEither`
     - remove `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead (@gcanti)
     - remove `ioEither` (@gcanti)
+  - `JoinSemilattice`
+    - make type class members pipeables (@gcanti)
+  - `Magma`
+    - make type class members pipeables (@gcanti)
+  - `MeetSemilattice`
+    - make type class members pipeables (@gcanti)
   - `Monad`
     - drop `Applicative` dependency (@gcanti)
     - make type class members pipeables (@gcanti)
@@ -118,6 +124,8 @@ high state of flux, you're at risk of it changing without notice.
   - `Ord`
     - remove `ord` (@gcanti)
     - make type class members pipeables (@gcanti)
+    - make `min` pipeable
+    - make `max` pipeable
   - `Profunctor`
     - make type class members pipeables (@gcanti)
   - `Reader`
@@ -176,6 +184,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `readonlyTuple` (@gcanti)
   - `Semigroup`
     - make `fold` curried (@gcanti)
+    - make type class members pipeables (@gcanti)
   - `Semigroupoid`
     - make type class members pipeables (@gcanti)
   - `State`

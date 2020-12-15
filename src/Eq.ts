@@ -152,7 +152,7 @@ const empty: Eq<unknown> = {
  */
 export function getMonoid<A>(): Monoid<Eq<A>> {
   return {
-    concat: (first, second) => fromEquals((b) => (a) => first.equals(b)(a) && second.equals(b)(a)),
+    concat: (second) => (first) => fromEquals((b) => (a) => first.equals(b)(a) && second.equals(b)(a)),
     empty
   }
 }

@@ -276,9 +276,10 @@ export function getEq<A>(E: Eq<A>): Eq<ReadonlyRecord<string, A>> {
  * @example
  * import { semigroupSum } from 'fp-ts/Semigroup'
  * import { getMonoid } from 'fp-ts/ReadonlyRecord'
+ * import { pipe } from 'fp-ts/function'
  *
  * const M = getMonoid(semigroupSum)
- * assert.deepStrictEqual(M.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
+ * assert.deepStrictEqual(pipe({ foo: 123 }, M.concat({ foo: 456 })), { foo: 579 })
  *
  * @category instances
  * @since 2.5.0
@@ -286,22 +287,22 @@ export function getEq<A>(E: Eq<A>): Eq<ReadonlyRecord<string, A>> {
 export function getMonoid<K extends string, A>(S: Semigroup<A>): Monoid<ReadonlyRecord<K, A>>
 export function getMonoid<A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>> {
   return {
-    concat: (x, y) => {
-      if (x === empty) {
-        return y
+    concat: (second) => (first) => {
+      if (first === empty) {
+        return second
       }
-      if (y === empty) {
-        return x
+      if (second === empty) {
+        return first
       }
-      const keys = Object.keys(y)
+      const keys = Object.keys(second)
       const len = keys.length
       if (len === 0) {
-        return x
+        return first
       }
-      const r: Record<string, A> = Object.assign({}, x)
+      const r: Record<string, A> = Object.assign({}, first)
       for (let i = 0; i < len; i++) {
         const k = keys[i]
-        r[k] = _hasOwnProperty.call(x, k) ? S.concat(x[k], y[k]) : y[k]
+        r[k] = _hasOwnProperty.call(first, k) ? S.concat(second[k])(first[k]) : second[k]
       }
       return r
     },
@@ -390,7 +391,7 @@ export function foldMapWithIndex<M>(
     const len = ks.length
     for (let i = 0; i < len; i++) {
       const k = ks[i]
-      out = M.concat(out, f(k, fa[k]))
+      out = M.concat(f(k, fa[k]))(out)
     }
     return out
   }
@@ -776,7 +777,7 @@ export function fromFoldableMap<F, B>(
       ta,
       F.reduce<Record<string, B>, A>({}, (r, a) => {
         const [k, b] = f(a)
-        r[k] = _hasOwnProperty.call(r, k) ? M.concat(r[k], b) : b
+        r[k] = _hasOwnProperty.call(r, k) ? M.concat(b)(r[k]) : b
         return r
       })
     )

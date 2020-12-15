@@ -211,7 +211,7 @@ declare module './HKT' {
  */
 export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R, A>> {
   return {
-    concat: (x, y) => (e) => S.concat(x(e), y(e))
+    concat: (second) => (first) => (e) => S.concat(second(e))(first(e))
   }
 }
 

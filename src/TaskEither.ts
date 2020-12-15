@@ -619,7 +619,7 @@ export function getAltTaskValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
             ? T.of(e1)
             : pipe(
                 that(),
-                T.map((e2) => (E.isLeft(e2) ? E.left(SE.concat(e1.left, e2.left)) : e2))
+                T.map((e2) => (E.isLeft(e2) ? E.left(SE.concat(e2.left)(e1.left)) : e2))
               )
         )
       )

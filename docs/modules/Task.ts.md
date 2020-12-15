@@ -365,12 +365,13 @@ export declare function getRaceMonoid<A = never>(): Monoid<Task<A>>
 
 ```ts
 import * as T from 'fp-ts/Task'
+import { pipe } from 'fp-ts/function'
 
 async function test() {
   const S = T.getRaceMonoid<string>()
   const fa = T.delay(20)(T.of('a'))
   const fb = T.delay(10)(T.of('b'))
-  assert.deepStrictEqual(await S.concat(fa, fb)(), 'b')
+  assert.deepStrictEqual(await pipe(fa, S.concat(fb))(), 'b')
 }
 
 test()
@@ -393,12 +394,13 @@ export declare function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>>
 ```ts
 import * as T from 'fp-ts/Task'
 import { semigroupString } from 'fp-ts/Semigroup'
+import { pipe } from 'fp-ts/function'
 
 async function test() {
   const S = T.getSemigroup(semigroupString)
   const fa = T.of('a')
   const fb = T.of('b')
-  assert.deepStrictEqual(await S.concat(fa, fb)(), 'ab')
+  assert.deepStrictEqual(await pipe(fa, S.concat(fb))(), 'ab')
 }
 
 test()

@@ -352,7 +352,7 @@ Take the maximum of two values. If they are considered equal, the first argument
 **Signature**
 
 ```ts
-export declare function max<A>(O: Ord<A>): (first: A, second: A) => A
+export declare function max<A>(O: Ord<A>): (second: A) => (first: A) => A
 ```
 
 Added in v2.0.0
@@ -364,7 +364,7 @@ Take the minimum of two values. If they are considered equal, the first argument
 **Signature**
 
 ```ts
-export declare function min<A>(O: Ord<A>): (first: A, second: A) => A
+export declare function min<A>(O: Ord<A>): (second: A) => (first: A) => A
 ```
 
 Added in v2.0.0

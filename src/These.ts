@@ -140,24 +140,24 @@ export function getEq<E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>> {
  */
 export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<These<E, A>> {
   return {
-    concat: (x, y) =>
-      isLeft(x)
-        ? isLeft(y)
-          ? left(SE.concat(x.left, y.left))
-          : isRight(y)
-          ? both(x.left, y.right)
-          : both(SE.concat(x.left, y.left), y.right)
-        : isRight(x)
-        ? isLeft(y)
-          ? both(y.left, x.right)
-          : isRight(y)
-          ? right(SA.concat(x.right, y.right))
-          : both(y.left, SA.concat(x.right, y.right))
-        : isLeft(y)
-        ? both(SE.concat(x.left, y.left), x.right)
-        : isRight(y)
-        ? both(x.left, SA.concat(x.right, y.right))
-        : both(SE.concat(x.left, y.left), SA.concat(x.right, y.right))
+    concat: (second) => (first) =>
+      isLeft(first)
+        ? isLeft(second)
+          ? left(SE.concat(second.left)(first.left))
+          : isRight(second)
+          ? both(first.left, second.right)
+          : both(SE.concat(second.left)(first.left), second.right)
+        : isRight(first)
+        ? isLeft(second)
+          ? both(second.left, first.right)
+          : isRight(second)
+          ? right(SA.concat(second.right)(first.right))
+          : both(second.left, SA.concat(second.right)(first.right))
+        : isLeft(second)
+        ? both(SE.concat(second.left)(first.left), first.right)
+        : isRight(second)
+        ? both(first.left, SA.concat(second.right)(first.right))
+        : both(SE.concat(second.left)(first.left), SA.concat(second.right)(first.right))
   }
 }
 
@@ -173,10 +173,10 @@ export function getApplicative<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
     ap: (fa) => (fab) =>
       isLeft(fab)
         ? isLeft(fa)
-          ? left(SE.concat(fab.left, fa.left))
+          ? left(SE.concat(fa.left)(fab.left))
           : isRight(fa)
           ? left(fab.left)
-          : left(SE.concat(fab.left, fa.left))
+          : left(SE.concat(fa.left)(fab.left))
         : isRight(fab)
         ? isLeft(fa)
           ? left(fa.left)
@@ -184,10 +184,10 @@ export function getApplicative<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
           ? right(fab.right(fa.right))
           : both(fa.left, fab.right(fa.right))
         : isLeft(fa)
-        ? left(SE.concat(fab.left, fa.left))
+        ? left(SE.concat(fa.left)(fab.left))
         : isRight(fa)
         ? both(fab.left, fab.right(fa.right))
-        : both(SE.concat(fab.left, fa.left), fab.right(fa.right))
+        : both(SE.concat(fa.left)(fab.left), fab.right(fa.right))
   }
 }
 
@@ -205,10 +205,10 @@ export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<UR
     }
     const fb = f(ma.right)
     return isLeft(fb)
-      ? left(SE.concat(ma.left, fb.left))
+      ? left(SE.concat(fb.left)(ma.left))
       : isRight(fb)
       ? both(ma.left, fb.right)
-      : both(SE.concat(ma.left, fb.left), fb.right)
+      : both(SE.concat(fb.left)(ma.left), fb.right)
   }
 
   return {

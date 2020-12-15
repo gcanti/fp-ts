@@ -236,7 +236,7 @@ export const chain = <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>): Tree<B> => {
   const concat = A.getMonoid<Tree<B>>().concat
   return {
     value,
-    forest: concat(forest, ma.forest.map(chain(f)))
+    forest: concat(ma.forest.map(chain(f)))(forest)
   }
 }
 
@@ -316,7 +316,7 @@ export const reduce = <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>): B => 
  * @since 2.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Tree<A>) => M = (M) => (f) =>
-  reduce(M.empty, (acc, a) => M.concat(acc, f(a)))
+  reduce(M.empty, (acc, a) => M.concat(f(a))(acc))
 
 /**
  * @category Foldable

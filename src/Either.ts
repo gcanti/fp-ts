@@ -838,19 +838,21 @@ export function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> {
  * @example
  * import { getSemigroup, left, right } from 'fp-ts/Either'
  * import { semigroupSum } from 'fp-ts/Semigroup'
+ * import { pipe } from 'fp-ts/function'
  *
  * const S = getSemigroup<string, number>(semigroupSum)
- * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
- * assert.deepStrictEqual(S.concat(left('a'), right(2)), right(2))
- * assert.deepStrictEqual(S.concat(right(1), left('b')), right(1))
- * assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
+ * assert.deepStrictEqual(pipe(left('a'), S.concat(left('b'))), left('a'))
+ * assert.deepStrictEqual(pipe(left('a'), S.concat(right(2))), right(2))
+ * assert.deepStrictEqual(pipe(right(1), S.concat(left('b'))), right(1))
+ * assert.deepStrictEqual(pipe(right(1), S.concat(right(2))), right(3))
  *
  * @category instances
  * @since 2.0.0
  */
 export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> {
   return {
-    concat: (x, y) => (isLeft(y) ? x : isLeft(x) ? y : right(S.concat(x.right, y.right)))
+    concat: (second) => (first) =>
+      isLeft(second) ? first : isLeft(first) ? second : right(S.concat(second.right)(first.right))
   }
 }
 
@@ -861,19 +863,21 @@ export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> {
  * @example
  * import { getApplySemigroup, left, right } from 'fp-ts/Either'
  * import { semigroupSum } from 'fp-ts/Semigroup'
+ * import { pipe } from 'fp-ts/function'
  *
  * const S = getApplySemigroup<string, number>(semigroupSum)
- * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
- * assert.deepStrictEqual(S.concat(left('a'), right(2)), left('a'))
- * assert.deepStrictEqual(S.concat(right(1), left('b')), left('b'))
- * assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
+ * assert.deepStrictEqual(pipe(left('a'), S.concat(left('b'))), left('a'))
+ * assert.deepStrictEqual(pipe(left('a'), S.concat(right(2))), left('a'))
+ * assert.deepStrictEqual(pipe(right(1), S.concat(left('b'))), left('b'))
+ * assert.deepStrictEqual(pipe(right(1), S.concat(right(2))), right(3))
  *
  * @category instances
  * @since 2.0.0
  */
 export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> {
   return {
-    concat: (x, y) => (isLeft(x) ? x : isLeft(y) ? y : right(S.concat(x.right, y.right)))
+    concat: (second) => (first) =>
+      isLeft(first) ? first : isLeft(second) ? second : right(S.concat(second.right)(first.right))
   }
 }
 
@@ -1006,7 +1010,7 @@ export function getApplicativeValidation<E>(SE: Semigroup<E>): Applicative2C<URI
     ap: (fa) => (fab) =>
       isLeft(fab)
         ? isLeft(fa)
-          ? left(SE.concat(fab.left, fa.left))
+          ? left(SE.concat(fa.left)(fab.left))
           : fab
         : isLeft(fa)
         ? fa
@@ -1028,7 +1032,7 @@ export function getAltValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
         return me
       }
       const ea = that()
-      return isLeft(ea) ? left(SE.concat(me.left, ea.left)) : ea
+      return isLeft(ea) ? left(SE.concat(ea.left)(me.left)) : ea
     }
   }
 }
@@ -1039,8 +1043,14 @@ export function getAltValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
  */
 export function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<Either<E, A>> {
   return {
-    concat: (x, y) =>
-      isLeft(x) ? (isLeft(y) ? left(SE.concat(x.left, y.left)) : x) : isLeft(y) ? y : right(SA.concat(x.right, y.right))
+    concat: (second) => (first) =>
+      isLeft(first)
+        ? isLeft(second)
+          ? left(SE.concat(second.left)(first.left))
+          : first
+        : isLeft(second)
+        ? second
+        : right(SA.concat(second.right)(first.right))
   }
 }
 

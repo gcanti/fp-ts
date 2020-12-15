@@ -23,8 +23,8 @@ export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
  * @since 2.0.0
  */
 export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = {
-  meet: (x, y) => x && y,
-  join: (x, y) => x || y,
+  meet: (second) => (first) => first && second,
+  join: (second) => (first) => first || second,
   zero: false,
   one: true,
   implies: (x, y) => !x || y,
@@ -36,8 +36,8 @@ export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = {
  * @since 2.0.0
  */
 export const booleanAlgebraVoid: BooleanAlgebra<void> = {
-  meet: () => undefined,
-  join: () => undefined,
+  meet: () => () => undefined,
+  join: () => () => undefined,
   zero: undefined,
   one: undefined,
   implies: () => undefined,
@@ -50,8 +50,8 @@ export const booleanAlgebraVoid: BooleanAlgebra<void> = {
  */
 export function getFunctionBooleanAlgebra<B>(B: BooleanAlgebra<B>): <A = never>() => BooleanAlgebra<(a: A) => B> {
   return () => ({
-    meet: (x, y) => (a) => B.meet(x(a), y(a)),
-    join: (x, y) => (a) => B.join(x(a), y(a)),
+    meet: (second) => (first) => (a) => B.meet(second(a))(first(a)),
+    join: (second) => (first) => (a) => B.join(second(a))(first(a)),
     zero: () => B.zero,
     one: () => B.one,
     implies: (x, y) => (a) => B.implies(x(a), y(a)),
@@ -67,11 +67,11 @@ export function getFunctionBooleanAlgebra<B>(B: BooleanAlgebra<B>): <A = never>(
  */
 export function getDualBooleanAlgebra<A>(B: BooleanAlgebra<A>): BooleanAlgebra<A> {
   return {
-    meet: (x, y) => B.join(x, y),
-    join: (x, y) => B.meet(x, y),
+    meet: B.join,
+    join: B.meet,
     zero: B.one,
     one: B.zero,
-    implies: (x, y) => B.join(B.not(x), y),
+    implies: (x, y) => B.join(y)(B.not(x)),
     not: B.not
   }
 }

@@ -69,21 +69,21 @@ export function getShow<A>(S: Show<A>): Show<ReadonlyArray<A>> {
   }
 }
 
-const concat = <A, B>(x: ReadonlyArray<A>, y: ReadonlyArray<B>): ReadonlyArray<A | B> => {
-  const lenx = x.length
+const concat = <A, B>(first: ReadonlyArray<A>, second: ReadonlyArray<B>): ReadonlyArray<A | B> => {
+  const lenx = first.length
   if (lenx === 0) {
-    return y
+    return second
   }
-  const leny = y.length
+  const leny = second.length
   if (leny === 0) {
-    return x
+    return first
   }
   const r = Array(lenx + leny)
   for (let i = 0; i < lenx; i++) {
-    r[i] = x[i]
+    r[i] = first[i]
   }
   for (let i = 0; i < leny; i++) {
-    r[i + lenx] = y[i]
+    r[i + lenx] = second[i]
   }
   return r
 }
@@ -93,16 +93,17 @@ const concat = <A, B>(x: ReadonlyArray<A>, y: ReadonlyArray<B>): ReadonlyArray<A
  *
  * @example
  * import { getMonoid } from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
  *
  * const M = getMonoid<number>()
- * assert.deepStrictEqual(M.concat([1, 2], [3, 4]), [1, 2, 3, 4])
+ * assert.deepStrictEqual(pipe([1, 2], M.concat([3, 4])), [1, 2, 3, 4])
  *
  * @category instances
  * @since 2.5.0
  */
 export function getMonoid<A = never>(): Monoid<ReadonlyArray<A>> {
   return {
-    concat,
+    concat: (second) => (first) => concat(first, second),
     empty
   }
 }
@@ -1173,7 +1174,7 @@ export function uniq<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
  */
 export function sortBy<B>(ords: ReadonlyArray<Ord<B>>): <A extends B>(as: ReadonlyArray<A>) => ReadonlyArray<A> {
   const M = getOrdMonoid<B>()
-  return sort(ords.reduce(M.concat, M.empty))
+  return sort(ords.reduce((a, acc) => M.concat(acc)(a), M.empty))
 }
 
 /**
@@ -1669,7 +1670,7 @@ export const duplicate: <A>(wa: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray
  */
 export const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: ReadonlyArray<A>) => M = (
   M
-) => (f) => (fa) => fa.reduce((b, a, i) => M.concat(b, f(i, a)), M.empty)
+) => (f) => (fa) => fa.reduce((b, a, i) => M.concat(f(i, a))(b), M.empty)
 
 /**
  * @category Foldable

@@ -141,16 +141,16 @@ describe('These', () => {
   })
 
   it('getSemigroup', () => {
-    const { concat } = _.getSemigroup(monoidString, monoidSum)
-    assert.deepStrictEqual(concat(_.left('a'), _.left('b')), _.left('ab'))
-    assert.deepStrictEqual(concat(_.left('a'), _.right(2)), _.both('a', 2))
-    assert.deepStrictEqual(concat(_.right(2), _.left('a')), _.both('a', 2))
-    assert.deepStrictEqual(concat(_.left('a'), _.both('b', 2)), _.both('ab', 2))
-    assert.deepStrictEqual(concat(_.both('b', 2), _.left('a')), _.both('ba', 2))
-    assert.deepStrictEqual(concat(_.right(3), _.right(2)), _.right(5))
-    assert.deepStrictEqual(concat(_.right(3), _.both('b', 2)), _.both('b', 5))
-    assert.deepStrictEqual(concat(_.both('b', 2), _.right(3)), _.both('b', 5))
-    assert.deepStrictEqual(concat(_.both('a', 3), _.both('b', 2)), _.both('ab', 5))
+    const S = _.getSemigroup(monoidString, monoidSum)
+    assert.deepStrictEqual(pipe(_.left('a'), S.concat(_.left('b'))), _.left('ab'))
+    assert.deepStrictEqual(pipe(_.left('a'), S.concat(_.right(2))), _.both('a', 2))
+    assert.deepStrictEqual(pipe(_.right(2), S.concat(_.left('a'))), _.both('a', 2))
+    assert.deepStrictEqual(pipe(_.left('a'), S.concat(_.both('b', 2))), _.both('ab', 2))
+    assert.deepStrictEqual(pipe(_.both('b', 2), S.concat(_.left('a'))), _.both('ba', 2))
+    assert.deepStrictEqual(pipe(_.right(3), S.concat(_.right(2))), _.right(5))
+    assert.deepStrictEqual(pipe(_.right(3), S.concat(_.both('b', 2))), _.both('b', 5))
+    assert.deepStrictEqual(pipe(_.both('b', 2), S.concat(_.right(3))), _.both('b', 5))
+    assert.deepStrictEqual(pipe(_.both('a', 3), S.concat(_.both('b', 2))), _.both('ab', 5))
   })
 
   it('fold', () => {

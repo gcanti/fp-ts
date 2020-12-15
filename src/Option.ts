@@ -801,19 +801,20 @@ export function getOrd<A>(O: Ord<A>): Ord<Option<A>> {
  * @example
  * import { getApplySemigroup, some, none } from 'fp-ts/Option'
  * import { semigroupSum } from 'fp-ts/Semigroup'
+ * import { pipe } from 'fp-ts/function'
  *
  * const S = getApplySemigroup(semigroupSum)
- * assert.deepStrictEqual(S.concat(none, none), none)
- * assert.deepStrictEqual(S.concat(some(1), none), none)
- * assert.deepStrictEqual(S.concat(none, some(1)), none)
- * assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
+ * assert.deepStrictEqual(pipe(none, S.concat(none)), none)
+ * assert.deepStrictEqual(pipe(some(1), S.concat(none)), none)
+ * assert.deepStrictEqual(pipe(none, S.concat(some(1))), none)
+ * assert.deepStrictEqual(pipe(some(1), S.concat(some(2))), some(3))
  *
  * @category instances
  * @since 2.0.0
  */
 export function getApplySemigroup<A>(S: Semigroup<A>): Semigroup<Option<A>> {
   return {
-    concat: (x, y) => (isSome(x) && isSome(y) ? some(S.concat(x.value, y.value)) : none)
+    concat: (second) => (first) => (isSome(first) && isSome(second) ? some(S.concat(second.value)(first.value)) : none)
   }
 }
 
@@ -840,19 +841,20 @@ export function getApplyMonoid<A>(M: Monoid<A>): Monoid<Option<A>> {
  *
  * @example
  * import { getFirstMonoid, some, none } from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
  *
  * const M = getFirstMonoid<number>()
- * assert.deepStrictEqual(M.concat(none, none), none)
- * assert.deepStrictEqual(M.concat(some(1), none), some(1))
- * assert.deepStrictEqual(M.concat(none, some(1)), some(1))
- * assert.deepStrictEqual(M.concat(some(1), some(2)), some(1))
+ * assert.deepStrictEqual(pipe(none, M.concat(none)), none)
+ * assert.deepStrictEqual(pipe(some(1), M.concat(none)), some(1))
+ * assert.deepStrictEqual(pipe(none, M.concat(some(1))), some(1))
+ * assert.deepStrictEqual(pipe(some(1), M.concat(some(2))), some(1))
  *
  * @category instances
  * @since 2.0.0
  */
 export function getFirstMonoid<A = never>(): Monoid<Option<A>> {
   return {
-    concat: (x, y) => (isNone(x) ? y : x),
+    concat: (second) => (first) => (isNone(first) ? second : first),
     empty: none
   }
 }
@@ -869,19 +871,20 @@ export function getFirstMonoid<A = never>(): Monoid<Option<A>> {
  *
  * @example
  * import { getLastMonoid, some, none } from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
  *
  * const M = getLastMonoid<number>()
- * assert.deepStrictEqual(M.concat(none, none), none)
- * assert.deepStrictEqual(M.concat(some(1), none), some(1))
- * assert.deepStrictEqual(M.concat(none, some(1)), some(1))
- * assert.deepStrictEqual(M.concat(some(1), some(2)), some(2))
+ * assert.deepStrictEqual(pipe(none, M.concat(none)), none)
+ * assert.deepStrictEqual(pipe(some(1), M.concat(none)), some(1))
+ * assert.deepStrictEqual(pipe(none, M.concat(some(1))), some(1))
+ * assert.deepStrictEqual(pipe(some(1), M.concat(some(2))), some(2))
  *
  * @category instances
  * @since 2.0.0
  */
 export function getLastMonoid<A = never>(): Monoid<Option<A>> {
   return {
-    concat: (x, y) => (isNone(y) ? x : y),
+    concat: (second) => (first) => (isNone(second) ? first : second),
     empty: none
   }
 }
@@ -900,19 +903,21 @@ export function getLastMonoid<A = never>(): Monoid<Option<A>> {
  * @example
  * import { getMonoid, some, none } from 'fp-ts/Option'
  * import { semigroupSum } from 'fp-ts/Semigroup'
+ * import { pipe } from 'fp-ts/function'
  *
  * const M = getMonoid(semigroupSum)
- * assert.deepStrictEqual(M.concat(none, none), none)
- * assert.deepStrictEqual(M.concat(some(1), none), some(1))
- * assert.deepStrictEqual(M.concat(none, some(1)), some(1))
- * assert.deepStrictEqual(M.concat(some(1), some(2)), some(3))
+ * assert.deepStrictEqual(pipe(none, M.concat(none)), none)
+ * assert.deepStrictEqual(pipe(some(1), M.concat(none)), some(1))
+ * assert.deepStrictEqual(pipe(none, M.concat(some(1))), some(1))
+ * assert.deepStrictEqual(pipe(some(1), M.concat(some(2))), some(3))
  *
  * @category instances
  * @since 2.0.0
  */
 export function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>> {
   return {
-    concat: (x, y) => (isNone(x) ? y : isNone(y) ? x : some(S.concat(x.value, y.value))),
+    concat: (second) => (first) =>
+      isNone(first) ? second : isNone(second) ? first : some(S.concat(second.value)(first.value)),
     empty: none
   }
 }
