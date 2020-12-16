@@ -104,7 +104,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, B>
+export declare const chain: <A, E, B>(f: (a: A) => State<E, B>) => (fa: State<E, A>) => State<E, B>
 ```
 
 Added in v2.0.0

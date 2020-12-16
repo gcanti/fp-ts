@@ -244,7 +244,7 @@ export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
  */
 export const chainEitherKW = <E, A, B>(f: (a: A) => Either<E, B>) => <S, R, D>(
   ma: StateReaderTaskEither<S, R, D, A>
-): StateReaderTaskEither<S, R, D | E, B> => pipe(ma, chainW<S, R, E, A, B>(fromEitherK(f)))
+): StateReaderTaskEither<S, R, D | E, B> => pipe(ma, chainW<A, S, R, E, B>(fromEitherK(f)))
 
 /**
  * @category combinators
@@ -272,7 +272,7 @@ export function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
  */
 export const chainIOEitherKW = <E, A, B>(f: (a: A) => IOEither<E, B>) => <S, R, D>(
   ma: StateReaderTaskEither<S, R, D, A>
-): StateReaderTaskEither<S, R, D | E, B> => pipe(ma, chainW<S, R, E, A, B>(fromIOEitherK(f)))
+): StateReaderTaskEither<S, R, D | E, B> => pipe(ma, chainW<A, S, R, E, B>(fromIOEitherK(f)))
 
 /**
  * @category combinators
@@ -300,7 +300,7 @@ export function fromTaskEitherK<E, A extends ReadonlyArray<unknown>, B>(
  */
 export const chainTaskEitherKW = <E, A, B>(f: (a: A) => TaskEither<E, B>) => <S, R, D>(
   ma: StateReaderTaskEither<S, R, D, A>
-): StateReaderTaskEither<S, R, D | E, B> => pipe(ma, chainW<S, R, E, A, B>(fromTaskEitherK(f)))
+): StateReaderTaskEither<S, R, D | E, B> => pipe(ma, chainW<A, S, R, E, B>(fromTaskEitherK(f)))
 
 /**
  * @category combinators
@@ -328,7 +328,7 @@ export function fromReaderTaskEitherK<R, E, A extends ReadonlyArray<unknown>, B>
  */
 export const chainReaderTaskEitherKW = <R, E, A, B>(f: (a: A) => ReaderTaskEither<R, E, B>) => <S, D>(
   ma: StateReaderTaskEither<S, R, D, A>
-): StateReaderTaskEither<S, R, D | E, B> => pipe(ma, chainW<S, R, E, A, B>(fromReaderTaskEitherK(f)))
+): StateReaderTaskEither<S, R, D | E, B> => pipe(ma, chainW<A, S, R, E, B>(fromReaderTaskEitherK(f)))
 
 /**
  * @category combinators
@@ -447,9 +447,11 @@ export const of: Applicative4<URI>['of'] = right
  * @category Monad
  * @since 2.6.0
  */
-export const chainW: <S, R, E, A, B>(
-  f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => <Q, D>(ma: StateReaderTaskEither<S, Q, D, A>) => StateReaderTaskEither<S, Q & R, D | E, B> = (f) => (ma) => (s1) =>
+export const chainW: <A, S, R2, E2, B>(
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(ma: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> = (f) => (
+  ma
+) => (s1) =>
   pipe(
     ma(s1),
     RTE.chainW(([a, s2]) => f(a)(s2))
@@ -461,9 +463,7 @@ export const chainW: <S, R, E, A, B>(
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <S, R, E, A, B>(
-  f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = chainW
+export const chain: Monad4<URI>['chain'] = chainW
 
 /**
  * Derivable from `Monad`.

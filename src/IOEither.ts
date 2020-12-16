@@ -272,8 +272,8 @@ export const of: Applicative2<URI>['of'] = right
  * @category Monad
  * @since 2.6.0
  */
-export const chainW = <D, A, B>(f: (a: A) => IOEither<D, B>) => <E>(ma: IOEither<E, A>): IOEither<D | E, B> =>
-  pipe(ma, I.chain(E.fold<E, A, IOEither<D | E, B>>(left, f)))
+export const chainW = <A, E2, B>(f: (a: A) => IOEither<E2, B>) => <E1>(ma: IOEither<E1, A>): IOEither<E1 | E2, B> =>
+  pipe(ma, I.chain(E.fold<E1, A, IOEither<E1 | E2, B>>(left, f)))
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -281,7 +281,7 @@ export const chainW = <D, A, B>(f: (a: A) => IOEither<D, B>) => <E>(ma: IOEither
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B> = chainW
+export const chain: Monad2<URI>['chain'] = chainW
 
 /**
  * Derivable from `Monad`.

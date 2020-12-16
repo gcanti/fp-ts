@@ -365,7 +365,7 @@ Less strict version of [`chain`](#chain).
 **Signature**
 
 ```ts
-export declare const chainW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>) => Either<D | E, B>
+export declare const chainW: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, B>
 ```
 
 Added in v2.6.0

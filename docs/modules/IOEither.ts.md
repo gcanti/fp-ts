@@ -226,7 +226,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B>
+export declare const chain: <A, E, B>(f: (a: A) => IOEither<E, B>) => (fa: IOEither<E, A>) => IOEither<E, B>
 ```
 
 Added in v2.0.0
@@ -238,7 +238,9 @@ Less strict version of [`chain`](#chain).
 **Signature**
 
 ```ts
-export declare const chainW: <D, A, B>(f: (a: A) => IOEither<D, B>) => <E>(ma: IOEither<E, A>) => IOEither<D | E, B>
+export declare const chainW: <A, E2, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
 ```
 
 Added in v2.6.0

@@ -114,7 +114,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B>
+export declare const chain: <A, B>(f: (a: A) => IO<B>) => (fa: IO<A>) => IO<B>
 ```
 
 Added in v2.0.0

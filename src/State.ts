@@ -93,7 +93,7 @@ export const of: Applicative2<URI>['of'] = (a) => (s) => [a, s]
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, B> = (f) => (ma) => (s1) => {
+export const chain: Monad2<URI>['chain'] = (f) => (ma) => (s1) => {
   const [a, s2] = ma(s1)
   return f(a)(s2)
 }

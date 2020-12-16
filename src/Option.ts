@@ -461,8 +461,7 @@ export const of: Applicative1<URI>['of'] = some
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B> = (f) => (ma) =>
-  isNone(ma) ? none : f(ma.value)
+export const chain: Monad1<URI>['chain'] = (f) => (ma) => (isNone(ma) ? none : f(ma.value))
 
 /**
  * Derivable from `Monad`.

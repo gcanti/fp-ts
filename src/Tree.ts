@@ -204,7 +204,7 @@ export const ap: Applicative1<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f))
  * @category Monad
  * @since 2.0.0
  */
-export const chain = <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>): Tree<B> => {
+export const chain: Monad1<URI>['chain'] = <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => {
   const { value, forest } = f(ma.value)
   const concat = A.getMonoid<Tree<B>>().concat
   return {

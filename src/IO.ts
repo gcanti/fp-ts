@@ -63,7 +63,7 @@ export const of: Applicative1<URI>['of'] = constant
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B> = (f) => (ma) => () => f(ma())()
+export const chain: Monad1<URI>['chain'] = (f) => (ma) => () => f(ma())()
 
 /**
  * Derivable from `Monad`.

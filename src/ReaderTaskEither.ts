@@ -423,9 +423,9 @@ export const of: Applicative3<URI>['of'] = right
  * @category Monad
  * @since 2.6.0
  */
-export const chainW: <R, E, A, B>(
-  f: (a: A) => ReaderTaskEither<R, E, B>
-) => <Q, D>(ma: ReaderTaskEither<Q, D, A>) => ReaderTaskEither<Q & R, D | E, B> = (f) => (fa) => (r) =>
+export const chainW: <A, R2, E2, B>(
+  f: (a: A) => ReaderTaskEither<R2, E2, B>
+) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = (f) => (fa) => (r) =>
   pipe(
     fa(r),
     TE.chainW((a) => f(a)(r))
@@ -437,9 +437,7 @@ export const chainW: <R, E, A, B>(
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <R, E, A, B>(
-  f: (a: A) => ReaderTaskEither<R, E, B>
-) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainW
+export const chain: Monad3<URI>['chain'] = chainW
 
 /**
  * Derivable from `Monad`.

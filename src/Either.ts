@@ -524,7 +524,7 @@ export const of: Applicative2<URI>['of'] = right
  * @category Monad
  * @since 2.6.0
  */
-export const chainW = <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>): Either<D | E, B> =>
+export const chainW = <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>): Either<E1 | E2, B> =>
   isLeft(ma) ? ma : f(ma.right)
 
 /**

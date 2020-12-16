@@ -277,7 +277,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
+export declare const chain: <A, E, B>(f: (a: A) => TaskEither<E, B>) => (fa: TaskEither<E, A>) => TaskEither<E, B>
 ```
 
 Added in v2.0.0
@@ -289,9 +289,9 @@ Less strict version of [`chain`](#chain).
 **Signature**
 
 ```ts
-export declare const chainW: <E, A, B>(
-  f: (a: A) => TaskEither<E, B>
-) => <D>(ma: TaskEither<D, A>) => TaskEither<E | D, B>
+export declare const chainW: <A, E2, B>(
+  f: (a: A) => TaskEither<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 
 Added in v2.6.0

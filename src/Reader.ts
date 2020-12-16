@@ -97,7 +97,7 @@ export const of: Applicative2<URI>['of'] = constant
  * @category Monad
  * @since 2.6.0
  */
-export const chainW: <R, A, B>(f: (a: A) => Reader<R, B>) => <Q>(ma: Reader<Q, A>) => Reader<Q & R, B> = (f) => (
+export const chainW: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B> = (f) => (
   fa
 ) => (r) => f(fa(r))(r)
 
@@ -107,7 +107,7 @@ export const chainW: <R, A, B>(f: (a: A) => Reader<R, B>) => <Q>(ma: Reader<Q, A
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B> = chainW
+export const chain: Monad2<URI>['chain'] = chainW
 
 /**
  * Derivable from `Monad`.

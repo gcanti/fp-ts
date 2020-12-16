@@ -238,9 +238,9 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <S, R, E, A, B>(
+export declare const chain: <A, S, R, E, B>(
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+) => (fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.0.0
@@ -252,9 +252,9 @@ Less strict version of [`chain`](#chain).
 **Signature**
 
 ```ts
-export declare const chainW: <S, R, E, A, B>(
-  f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => <Q, D>(ma: StateReaderTaskEither<S, Q, D, A>) => StateReaderTaskEither<S, Q & R, E | D, B>
+export declare const chainW: <A, S, R2, E2, B>(
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(ma: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
 ```
 
 Added in v2.6.0

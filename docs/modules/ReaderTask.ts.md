@@ -132,7 +132,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B>
+export declare const chain: <A, E, B>(f: (a: A) => ReaderTask<E, B>) => (fa: ReaderTask<E, A>) => ReaderTask<E, B>
 ```
 
 Added in v2.3.0
@@ -144,9 +144,9 @@ Less strict version of [`chain`](#chain).
 **Signature**
 
 ```ts
-export declare const chainW: <R, A, B>(
-  f: (a: A) => ReaderTask<R, B>
-) => <Q>(ma: ReaderTask<Q, A>) => ReaderTask<Q & R, B>
+export declare const chainW: <A, R2, B>(
+  f: (a: A) => ReaderTask<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
 ```
 
 Added in v2.6.7

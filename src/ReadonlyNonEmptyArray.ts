@@ -460,9 +460,7 @@ export const of: Applicative1<URI>['of'] = RA.of as any
  * @category Monad
  * @since 2.5.0
  */
-export const chain: <A, B>(
-  f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = RA.chain as any
+export const chain: Monad1<URI>['chain'] = RA.chain as any
 
 /**
  * Derivable from `Extend`.

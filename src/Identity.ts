@@ -57,7 +57,7 @@ export const of: Applicative1<URI>['of'] = id
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <A, B>(f: (a: A) => Identity<B>) => (ma: Identity<A>) => Identity<B> = (f) => (ma) => f(ma)
+export const chain: Monad1<URI>['chain'] = (f) => (ma) => f(ma)
 
 /**
  * @category Extend

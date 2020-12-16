@@ -367,8 +367,9 @@ export const ap: Applicative2<URI>['ap'] = apW
  * @category Monad
  * @since 2.6.0
  */
-export const chainW = <E, A, B>(f: (a: A) => TaskEither<E, B>) => <D>(ma: TaskEither<D, A>): TaskEither<D | E, B> =>
-  pipe(ma, T.chain(E.fold<D, A, TaskEither<D | E, B>>(left, f)))
+export const chainW = <A, E2, B>(f: (a: A) => TaskEither<E2, B>) => <E1>(
+  ma: TaskEither<E1, A>
+): TaskEither<E1 | E2, B> => pipe(ma, T.chain(E.fold<E1, A, TaskEither<E1 | E2, B>>(left, f)))
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -376,7 +377,7 @@ export const chainW = <E, A, B>(f: (a: A) => TaskEither<E, B>) => <D>(ma: TaskEi
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> = chainW
+export const chain: Monad2<URI>['chain'] = chainW
 
 /**
  * Derivable from `Monad`.

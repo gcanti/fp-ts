@@ -129,8 +129,7 @@ export const of: Applicative1<URI>['of'] = (a) => () => Promise.resolve(a)
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (f) => (ma) => () =>
-  ma().then((a) => f(a)())
+export const chain: Monad1<URI>['chain'] = (f) => (ma) => () => ma().then((a) => f(a)())
 
 /**
  * Derivable from `Monad`.

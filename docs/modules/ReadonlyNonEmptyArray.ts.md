@@ -293,7 +293,7 @@ Composes computations in sequence, using the return value of one computation to 
 ```ts
 export declare const chain: <A, B>(
   f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
 ```
 
 Added in v2.5.0

@@ -284,9 +284,9 @@ export const of: Applicative3<URI>['of'] = right
  * @category Monad
  * @since 2.6.0
  */
-export const chainW = <R, E, A, B>(f: (a: A) => ReaderEither<R, E, B>) => <Q, D>(
-  ma: ReaderEither<Q, D, A>
-): ReaderEither<Q & R, D | E, B> => pipe(ma, R.chain(E.fold<D, A, ReaderEither<Q & R, D | E, B>>(left, f)))
+export const chainW = <A, R2, E2, B>(f: (a: A) => ReaderEither<R2, E2, B>) => <R1, E1>(
+  ma: ReaderEither<R1, E1, A>
+): ReaderEither<R1 & R2, E1 | E2, B> => pipe(ma, R.chain(E.fold<E1, A, ReaderEither<R1 & R2, E1 | E2, B>>(left, f)))
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -294,9 +294,7 @@ export const chainW = <R, E, A, B>(f: (a: A) => ReaderEither<R, E, B>) => <Q, D>
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <R, E, A, B>(
-  f: (a: A) => ReaderEither<R, E, B>
-) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = chainW
+export const chain: Monad3<URI>['chain'] = chainW
 
 /**
  * Derivable from `Monad`.
