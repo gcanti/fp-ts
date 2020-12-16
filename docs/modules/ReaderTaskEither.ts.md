@@ -752,7 +752,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <R, E, A>(
+export declare const getOrElse: <E, R, A>(
   onLeft: (e: E) => RT.ReaderTask<R, A>
 ) => (ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, A>
 ```
@@ -766,9 +766,9 @@ Less strict version of [`getOrElse`](#getOrElse).
 **Signature**
 
 ```ts
-export declare const getOrElseW: <R, E, B>(
-  onLeft: (e: E) => RT.ReaderTask<R, B>
-) => <Q, A>(ma: ReaderTaskEither<Q, E, A>) => RT.ReaderTask<Q & R, B | A>
+export declare const getOrElseW: <E, R2, B>(
+  onLeft: (e: E) => RT.ReaderTask<R2, B>
+) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => RT.ReaderTask<R1 & R2, B | A>
 ```
 
 Added in v2.6.0

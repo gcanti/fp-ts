@@ -216,16 +216,16 @@ export function fold<R, E, A, B>(
  * @category destructors
  * @since 2.6.0
  */
-export const getOrElseW = <R, E, B>(
-  onLeft: (e: E) => ReaderTask<R, B>
-): (<Q, A>(ma: ReaderTaskEither<Q, E, A>) => ReaderTask<Q & R, A | B>) => (ma) => (r) =>
+export const getOrElseW = <E, R2, B>(
+  onLeft: (e: E) => ReaderTask<R2, B>
+): (<R1, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2, A | B>) => (ma) => (r) =>
   TE.getOrElseW((e: E) => onLeft(e)(r))(ma(r))
 
 /**
  * @category destructors
  * @since 2.0.0
  */
-export const getOrElse: <R, E, A>(
+export const getOrElse: <E, R, A>(
   onLeft: (e: E) => ReaderTask<R, A>
 ) => (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, A> = getOrElseW
 

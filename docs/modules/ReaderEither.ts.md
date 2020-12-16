@@ -545,9 +545,9 @@ Less strict version of [`getOrElse`](#getOrElse).
 **Signature**
 
 ```ts
-export declare const getOrElseW: <R, E, B>(
-  onLeft: (e: E) => R.Reader<R, B>
-) => <Q, A>(ma: ReaderEither<Q, E, A>) => R.Reader<Q & R, B | A>
+export declare const getOrElseW: <E, R2, B>(
+  onLeft: (e: E) => R.Reader<R2, B>
+) => <R1, A>(ma: ReaderEither<R1, E, A>) => R.Reader<R1 & R2, B | A>
 ```
 
 Added in v2.6.0

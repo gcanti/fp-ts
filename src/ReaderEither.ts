@@ -127,9 +127,9 @@ export const fold: <R, E, A, B>(
  * @category destructors
  * @since 2.6.0
  */
-export const getOrElseW = <R, E, B>(onLeft: (e: E) => Reader<R, B>) => <Q, A>(
-  ma: ReaderEither<Q, E, A>
-): Reader<Q & R, A | B> => pipe(ma, R.chain(E.fold<E, A, R.Reader<Q & R, A | B>>(onLeft, R.of)))
+export const getOrElseW = <E, R2, B>(onLeft: (e: E) => Reader<R2, B>) => <R1, A>(
+  ma: ReaderEither<R1, E, A>
+): Reader<R1 & R2, A | B> => pipe(ma, R.chain(E.fold<E, A, R.Reader<R1 & R2, A | B>>(onLeft, R.of)))
 
 /**
  * @category destructors
