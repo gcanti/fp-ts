@@ -147,9 +147,9 @@ export const getOrElse: <E, R, A>(
  * @category combinators
  * @since 2.0.0
  */
-export const orElse: <E, R, M, A>(
-  onLeft: (e: E) => ReaderEither<R, M, A>
-) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, M, A> = (f) => R.chain(E.fold(f, right))
+export const orElse: <E1, R, E2, A>(
+  onLeft: (e: E1) => ReaderEither<R, E2, A>
+) => (ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A> = (f) => R.chain(E.fold(f, right))
 
 /**
  * @category combinators

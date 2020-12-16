@@ -545,7 +545,7 @@ Useful for recovering from errors.
 **Signature**
 
 ```ts
-export declare const orElse: <E, A, M>(onLeft: (e: E) => Either<M, A>) => (ma: Either<E, A>) => Either<M, A>
+export declare const orElse: <E1, E2, A>(onLeft: (e: E1) => Either<E2, A>) => (ma: Either<E1, A>) => Either<E2, A>
 ```
 
 Added in v2.0.0

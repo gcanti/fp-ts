@@ -207,9 +207,9 @@ export const getOrElse: <E, A>(onLeft: (e: E) => Task<A>) => (ma: TaskEither<E, 
  * @category combinators
  * @since 2.0.0
  */
-export const orElse: <E, A, M>(onLeft: (e: E) => TaskEither<M, A>) => (ma: TaskEither<E, A>) => TaskEither<M, A> = (
-  f
-) => T.chain(E.fold(f, right))
+export const orElse: <E1, E2, A>(
+  onLeft: (e: E1) => TaskEither<E2, A>
+) => (ma: TaskEither<E1, A>) => TaskEither<E2, A> = (f) => T.chain(E.fold(f, right))
 
 /**
  * @category combinators

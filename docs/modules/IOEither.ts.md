@@ -339,7 +339,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare const orElse: <E, A, M>(onLeft: (e: E) => IOEither<M, A>) => (ma: IOEither<E, A>) => IOEither<M, A>
+export declare const orElse: <E1, E2, A>(onLeft: (e: E1) => IOEither<E2, A>) => (ma: IOEither<E1, A>) => IOEither<E2, A>
 ```
 
 Added in v2.0.0

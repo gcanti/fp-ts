@@ -398,7 +398,7 @@ export const swap = <E, A>(ma: Either<E, A>): Either<A, E> => (isLeft(ma) ? righ
  * @category combinators
  * @since 2.0.0
  */
-export const orElse = <E, A, M>(onLeft: (e: E) => Either<M, A>) => (ma: Either<E, A>): Either<M, A> =>
+export const orElse = <E1, E2, A>(onLeft: (e: E1) => Either<E2, A>) => (ma: Either<E1, A>): Either<E2, A> =>
   isLeft(ma) ? onLeft(ma.left) : ma
 
 /**

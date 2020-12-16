@@ -459,9 +459,9 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare function orElse<R, E, A, M>(
-  onLeft: (e: E) => ReaderTaskEither<R, M, A>
-): (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, M, A>
+export declare const orElse: <E1, R, E2, A>(
+  onLeft: (e: E1) => ReaderTaskEither<R, E2, A>
+) => (ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2, A>
 ```
 
 Added in v2.0.0

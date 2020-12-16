@@ -237,11 +237,9 @@ export const getOrElse: <R, E, A>(
  * @category combinators
  * @since 2.0.0
  */
-export function orElse<R, E, A, M>(
-  onLeft: (e: E) => ReaderTaskEither<R, M, A>
-): (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, M, A> {
-  return (ma) => (r) => TE.orElse<E, A, M>((e) => onLeft(e)(r))(ma(r))
-}
+export const orElse = <E1, R, E2, A>(onLeft: (e: E1) => ReaderTaskEither<R, E2, A>) => (
+  ma: ReaderTaskEither<R, E1, A>
+): ReaderTaskEither<R, E2, A> => (r) => TE.orElse<E1, E2, A>((e) => onLeft(e)(r))(ma(r))
 
 /**
  * @category combinators

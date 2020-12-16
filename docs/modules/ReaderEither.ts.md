@@ -330,9 +330,9 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare const orElse: <E, R, M, A>(
-  onLeft: (e: E) => ReaderEither<R, M, A>
-) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, M, A>
+export declare const orElse: <E1, R, E2, A>(
+  onLeft: (e: E1) => ReaderEither<R, E2, A>
+) => (ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A>
 ```
 
 Added in v2.0.0

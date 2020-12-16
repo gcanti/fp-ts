@@ -444,7 +444,9 @@ See also [alt](#alt).
 **Signature**
 
 ```ts
-export declare const orElse: <E, A, M>(onLeft: (e: E) => TaskEither<M, A>) => (ma: TaskEither<E, A>) => TaskEither<M, A>
+export declare const orElse: <E1, E2, A>(
+  onLeft: (e: E1) => TaskEither<E2, A>
+) => (ma: TaskEither<E1, A>) => TaskEither<E2, A>
 ```
 
 **Example**
