@@ -35,7 +35,6 @@ Added in v2.0.0
 - [Monad](#monad)
   - [chain](#chain)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [duplicate](#duplicate)
@@ -44,6 +43,8 @@ Added in v2.0.0
   - [make](#make)
   - [unfoldForest](#unfoldforest)
   - [unfoldTree](#unfoldtree)
+- [derivable combinators](#derivable-combinators)
+  - [apFirst](#apfirst)
 - [destructors](#destructors)
   - [fold](#fold)
 - [instances](#instances)
@@ -191,20 +192,6 @@ Added in v2.0.0
 
 # combinators
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<A>
-```
-
-Added in v2.0.0
-
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -290,6 +277,22 @@ Build a tree from a seed value
 
 ```ts
 export declare function unfoldTree<A, B>(b: B, f: (b: B) => readonly [A, ReadonlyArray<B>]): Tree<A>
+```
+
+Added in v2.0.0
+
+# derivable combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<A>
 ```
 
 Added in v2.0.0

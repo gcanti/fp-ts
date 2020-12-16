@@ -32,7 +32,6 @@ Added in v2.0.0
 - [MonadTask](#monadtask)
   - [fromTask](#fromtask)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [chainIOK](#chainiok)
@@ -41,6 +40,8 @@ Added in v2.0.0
   - [fromIOK](#fromiok)
 - [constructors](#constructors)
   - [fromIO](#fromio)
+- [derivable combinators](#derivable-combinators)
+  - [apFirst](#apfirst)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -142,20 +143,6 @@ export declare const fromTask: <A>(fa: Task<A>) => Task<A>
 Added in v2.7.0
 
 # combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<A>
-```
-
-Added in v2.0.0
 
 ## apSecond
 
@@ -261,6 +248,22 @@ Added in v2.4.0
 
 ```ts
 export declare const fromIO: <A>(ma: IO<A>) => Task<A>
+```
+
+Added in v2.0.0
+
+# derivable combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<A>
 ```
 
 Added in v2.0.0

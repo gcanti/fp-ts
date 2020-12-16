@@ -4,6 +4,7 @@
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
+import { apFirst_ } from './Apply'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
@@ -1347,20 +1348,6 @@ export const alt: Alt1<URI>['alt'] = altW
 export const ap: Applicative1<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
 
 /**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.5.0
- */
-export const apFirst = <B>(second: ReadonlyArray<B>): (<A>(first: ReadonlyArray<A>) => ReadonlyArray<A>) =>
-  flow(
-    map((a) => () => a),
-    ap(second)
-  )
-
-/**
  * Combine two effectful actions, keeping only the result of the second.
  *
  * Derivable from `Apply`.
@@ -1791,6 +1778,18 @@ export const Applicative: Applicative1<URI> = {
   ap,
   of
 }
+
+/**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category derivable combinators
+ * @since 2.5.0
+ */
+export const apFirst: <B>(second: ReadonlyArray<B>) => <A>(first: ReadonlyArray<A>) => ReadonlyArray<A> =
+  /*#__PURE__*/
+  apFirst_(Applicative)
 
 /**
  * @category instances

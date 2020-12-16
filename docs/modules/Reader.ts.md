@@ -29,7 +29,6 @@ Added in v2.0.0
 - [Semigroupoid](#semigroupoid)
   - [compose](#compose)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
@@ -37,6 +36,8 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
+- [derivable combinators](#derivable-combinators)
+  - [apFirst](#apfirst)
 - [instances](#instances)
   - [Applicative](#applicative-1)
   - [Category](#category-1)
@@ -185,20 +186,6 @@ Added in v2.0.0
 
 # combinators
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) => Reader<R, A>
-```
-
-Added in v2.0.0
-
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -275,6 +262,22 @@ Projects a value from the global context in a Reader
 
 ```ts
 export declare const asks: <R, A>(f: (r: R) => A) => Reader<R, A>
+```
+
+Added in v2.0.0
+
+# derivable combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) => Reader<R, A>
 ```
 
 Added in v2.0.0

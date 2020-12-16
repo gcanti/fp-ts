@@ -38,7 +38,6 @@ Added in v2.5.0
 - [Monad](#monad)
   - [chain](#chain)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [duplicate](#duplicate)
@@ -58,6 +57,8 @@ Added in v2.5.0
   - [fromReadonlyArray](#fromreadonlyarray)
   - [groupBy](#groupby)
   - [snoc](#snoc)
+- [derivable combinators](#derivable-combinators)
+  - [apFirst](#apfirst)
 - [destructors](#destructors)
   - [uncons](#uncons)
   - [unsnoc](#unsnoc)
@@ -298,22 +299,6 @@ export declare const chain: <A, B>(
 Added in v2.5.0
 
 # combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(
-  second: ReadonlyNonEmptyArray<B>
-) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
-```
-
-Added in v2.5.0
 
 ## apSecond
 
@@ -610,6 +595,24 @@ import { snoc } from 'fp-ts/ReadonlyNonEmptyArray'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe([1, 2, 3], snoc(4)), [1, 2, 3, 4])
+```
+
+Added in v2.5.0
+
+# derivable combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(
+  second: ReadonlyNonEmptyArray<B>
+) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.5.0

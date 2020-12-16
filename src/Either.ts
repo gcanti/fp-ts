@@ -15,6 +15,7 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative2, Applicative2C } from './Applicative'
+import { apFirst_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C, Separated } from './Compactable'
 import { Eq, fromEquals } from './Eq'
@@ -500,20 +501,6 @@ export const apW: <D, A>(fa: Either<D, A>) => <E, B>(fab: Either<E, (a: A) => B>
  * @since 2.0.0
  */
 export const ap: Applicative2<URI>['ap'] = apW
-
-/**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apFirst = <E, B>(second: Either<E, B>): (<A>(first: Either<E, A>) => Either<E, A>) =>
-  flow(
-    map((a) => () => a),
-    ap(second)
-  )
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -1062,6 +1049,18 @@ export const Applicative: Applicative2<URI> = {
   ap,
   of
 }
+
+/**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category derivable combinators
+ * @since 2.0.0
+ */
+export const apFirst: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) => Either<E, A> =
+  /*#__PURE__*/
+  apFirst_(Applicative)
 
 /**
  * @category instances

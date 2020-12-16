@@ -23,7 +23,6 @@ Added in v2.3.0
   - [chain](#chain)
   - [chainW](#chainw)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [chainIOK](#chainiok)
@@ -37,6 +36,8 @@ Added in v2.3.0
   - [fromIO](#fromio)
   - [fromReader](#fromreader)
   - [fromTask](#fromtask)
+- [derivable combinators](#derivable-combinators)
+  - [apFirst](#apfirst)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -151,20 +152,6 @@ export declare const chainW: <R, A, B>(
 Added in v2.6.7
 
 # combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v2.3.0
 
 ## apSecond
 
@@ -301,6 +288,22 @@ Added in v2.3.0
 
 ```ts
 export declare const fromTask: <R, A>(ma: T.Task<A>) => ReaderTask<R, A>
+```
+
+Added in v2.3.0
+
+# derivable combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0

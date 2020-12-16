@@ -61,7 +61,6 @@ Added in v2.5.0
   - [wilt](#wilt)
   - [wither](#wither)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [chop](#chop)
@@ -95,6 +94,8 @@ Added in v2.5.0
   - [range](#range)
   - [replicate](#replicate)
   - [snoc](#snoc)
+- [derivable combinators](#derivable-combinators)
+  - [apFirst](#apfirst)
 - [destructors](#destructors)
   - [foldLeft](#foldleft)
   - [foldRight](#foldright)
@@ -539,20 +540,6 @@ export declare const wither: Wither1<'ReadonlyArray'>
 Added in v2.6.5
 
 # combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: readonly B[]) => <A>(first: readonly A[]) => readonly A[]
-```
-
-Added in v2.5.0
 
 ## apSecond
 
@@ -1282,6 +1269,22 @@ import { snoc } from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe([1, 2, 3], snoc(4)), [1, 2, 3, 4])
+```
+
+Added in v2.5.0
+
+# derivable combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(second: readonly B[]) => <A>(first: readonly A[]) => readonly A[]
 ```
 
 Added in v2.5.0

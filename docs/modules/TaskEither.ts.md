@@ -41,7 +41,6 @@ Added in v2.0.0
   - [fromTask](#fromtask)
   - [throwError](#throwerror)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -68,6 +67,8 @@ Added in v2.0.0
   - [rightIO](#rightio)
   - [rightTask](#righttask)
   - [tryCatch](#trycatch)
+- [derivable combinators](#derivable-combinators)
+  - [apFirst](#apfirst)
 - [destructors](#destructors)
   - [fold](#fold)
   - [getOrElse](#getorelse)
@@ -330,20 +331,6 @@ export declare const throwError: <E, A>(e: E) => TaskEither<E, A>
 Added in v2.7.0
 
 # combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v2.0.0
 
 ## apSecond
 
@@ -683,6 +670,22 @@ tryCatch(() => Promise.resolve(1), String)().then((result) => {
 tryCatch(() => Promise.reject('error'), String)().then((result) => {
   assert.deepStrictEqual(result, left('error'))
 })
+```
+
+Added in v2.0.0
+
+# derivable combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither<E, A>) => TaskEither<E, A>
 ```
 
 Added in v2.0.0

@@ -36,7 +36,6 @@ Added in v2.0.0
 - [MonadThrow](#monadthrow)
   - [throwError](#throwerror)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -56,6 +55,8 @@ Added in v2.0.0
   - [right](#right)
   - [rightIO](#rightio)
   - [tryCatch](#trycatch)
+- [derivable combinators](#derivable-combinators)
+  - [apFirst](#apfirst)
 - [destructors](#destructors)
   - [fold](#fold)
   - [getOrElse](#getorelse)
@@ -265,20 +266,6 @@ export declare const throwError: <E, A>(e: E) => IOEither<E, A>
 Added in v2.7.0
 
 # combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <E, B>(second: IOEither<E, B>) => <A>(first: IOEither<E, A>) => IOEither<E, A>
-```
-
-Added in v2.0.0
 
 ## apSecond
 
@@ -497,6 +484,22 @@ Constructs a new `IOEither` from a function that performs a side effect and migh
 
 ```ts
 export declare function tryCatch<E, A>(f: Lazy<A>, onError: (reason: unknown) => E): IOEither<E, A>
+```
+
+Added in v2.0.0
+
+# derivable combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <E, B>(second: IOEither<E, B>) => <A>(first: IOEither<E, A>) => IOEither<E, A>
 ```
 
 Added in v2.0.0

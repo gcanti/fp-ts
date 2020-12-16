@@ -12,6 +12,7 @@
  * @since 2.0.0
  */
 import { Applicative1 } from './Applicative'
+import { apFirst_ } from './Apply'
 import { bindTo_, bind_, constant, flow, identity, pipe, tuple } from './function'
 import { Functor1 } from './Functor'
 import { Monad1 } from './Monad'
@@ -47,20 +48,6 @@ export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) =
  * @since 2.0.0
  */
 export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = (fa) => (fab) => () => fab()(fa())
-
-/**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apFirst = <B>(second: IO<B>): (<A>(first: IO<A>) => IO<A>) =>
-  flow(
-    map((a) => () => a),
-    ap(second)
-  )
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -191,6 +178,18 @@ export const Applicative: Applicative1<URI> = {
   ap,
   of
 }
+
+/**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category derivable combinators
+ * @since 2.0.0
+ */
+export const apFirst: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<A> =
+  /*#__PURE__*/
+  apFirst_(Applicative)
 
 /**
  * @category instances

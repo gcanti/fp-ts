@@ -33,10 +33,11 @@ Added in v2.0.0
 - [MonadIO](#monadio)
   - [fromIO](#fromio)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
+- [derivable combinators](#derivable-combinators)
+  - [apFirst](#apfirst)
 - [instances](#instances)
   - [Applicative](#applicative-1)
   - [Functor](#functor-1)
@@ -133,20 +134,6 @@ Added in v2.7.0
 
 # combinators
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<A>
-```
-
-Added in v2.0.0
-
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -184,6 +171,22 @@ Derivable from `Monad`.
 
 ```ts
 export declare const flatten: <A>(mma: IO<IO<A>>) => IO<A>
+```
+
+Added in v2.0.0
+
+# derivable combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<A>
 ```
 
 Added in v2.0.0

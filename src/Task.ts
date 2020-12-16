@@ -11,6 +11,7 @@
  * @since 2.0.0
  */
 import { Applicative1 } from './Applicative'
+import { apFirst_ } from './Apply'
 import { bindTo_, bind_, flow, identity, pipe, tuple } from './function'
 import { Functor1 } from './Functor'
 import { IO } from './IO'
@@ -114,20 +115,6 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (f
  */
 export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (fa) => (fab) => () =>
   Promise.all([fab(), fa()]).then(([f, a]) => f(a))
-
-/**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apFirst = <B>(second: Task<B>): (<A>(first: Task<A>) => Task<A>) =>
-  flow(
-    map((a) => () => a),
-    ap(second)
-  )
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -301,6 +288,18 @@ export const ApplicativePar: Applicative1<URI> = {
   ap,
   of
 }
+
+/**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category derivable combinators
+ * @since 2.0.0
+ */
+export const apFirst: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<A> =
+  /*#__PURE__*/
+  apFirst_(ApplicativePar)
 
 /**
  * @category instances

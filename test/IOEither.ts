@@ -56,10 +56,6 @@ describe('IOEither', () => {
       assert.deepStrictEqual(pipe(_.right(double), _.ap(_.right(1)))(), E.right(2))
     })
 
-    it('apFirst', () => {
-      assert.deepStrictEqual(pipe(_.right('a'), _.apFirst(_.right('b')))(), E.right('a'))
-    })
-
     it('apSecond', () => {
       assert.deepStrictEqual(pipe(_.right('a'), _.apSecond(_.right('b')))(), E.right('b'))
     })

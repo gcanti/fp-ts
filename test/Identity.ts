@@ -19,10 +19,6 @@ describe('Identity', () => {
       assert.deepStrictEqual(pipe(fab, _.ap(1)), 2)
     })
 
-    it('apFirst', () => {
-      assert.deepStrictEqual(pipe('a', _.apFirst('b')), 'a')
-    })
-
     it('apSecond', () => {
       assert.deepStrictEqual(pipe('a', _.apSecond('b')), 'b')
     })

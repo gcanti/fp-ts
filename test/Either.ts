@@ -65,10 +65,6 @@ describe('Either', () => {
       assert.deepStrictEqual(pipe(_.left('mabError'), _.ap(_.left('maError'))), _.left('mabError'))
     })
 
-    it('apFirst', () => {
-      assert.deepStrictEqual(pipe(_.right('a'), _.apFirst(_.right(1))), _.right('a'))
-    })
-
     it('apSecond', () => {
       assert.deepStrictEqual(pipe(_.right('a'), _.apSecond(_.right(1))), _.right(1))
     })

@@ -3,6 +3,7 @@
  */
 import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C } from './Applicative'
+import { apFirst_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import { bindTo_, bind_, flow, identity, pipe, Predicate, Refinement, tuple } from './function'
@@ -274,22 +275,6 @@ export const ap: <R, E, A>(
 ) => <B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B> = apW
 
 /**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apFirst = <R, E, B>(
-  second: ReaderEither<R, E, B>
-): (<A>(first: ReaderEither<R, E, A>) => ReaderEither<R, E, A>) =>
-  flow(
-    map((a) => () => a),
-    ap(second)
-  )
-
-/**
  * Combine two effectful actions, keeping only the result of the second.
  *
  * Derivable from `Apply`.
@@ -514,6 +499,20 @@ export const Applicative: Applicative3<URI> = {
   ap,
   of
 }
+
+/**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category derivable combinators
+ * @since 2.0.0
+ */
+export const apFirst: <R, E, B>(
+  second: ReaderEither<R, E, B>
+) => <A>(first: ReaderEither<R, E, A>) => ReaderEither<R, E, A> =
+  /*#__PURE__*/
+  apFirst_(Applicative)
 
 /**
  * @category instances

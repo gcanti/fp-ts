@@ -59,7 +59,6 @@ Added in v2.0.0
   - [wilt](#wilt)
   - [wither](#wither)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [chainNullableK](#chainnullablek)
@@ -75,6 +74,8 @@ Added in v2.0.0
   - [none](#none)
   - [some](#some)
   - [tryCatch](#trycatch)
+- [derivable combinators](#derivable-combinators)
+  - [apFirst](#apfirst)
 - [destructors](#destructors)
   - [fold](#fold)
   - [getOrElse](#getorelse)
@@ -416,20 +417,6 @@ Added in v2.6.5
 
 # combinators
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<A>
-```
-
-Added in v2.0.0
-
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -725,6 +712,22 @@ assert.deepStrictEqual(
   tryCatch(() => 1),
   some(1)
 )
+```
+
+Added in v2.0.0
+
+# derivable combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<A>
 ```
 
 Added in v2.0.0

@@ -32,11 +32,12 @@ Added in v2.0.0
 - [Monad](#monad)
   - [chain](#chain)
 - [combinators](#combinators)
-  - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [duplicate](#duplicate)
   - [flatten](#flatten)
+- [derivable combinators](#derivable-combinators)
+  - [apFirst](#apfirst)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative-1)
@@ -206,20 +207,6 @@ Added in v2.0.0
 
 # combinators
 
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: B) => <A>(first: A) => A
-```
-
-Added in v2.0.0
-
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -269,6 +256,22 @@ Derivable from `Monad`.
 
 ```ts
 export declare const flatten: <A>(mma: A) => A
+```
+
+Added in v2.0.0
+
+# derivable combinators
+
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(second: B) => <A>(first: A) => A
 ```
 
 Added in v2.0.0

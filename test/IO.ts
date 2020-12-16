@@ -17,10 +17,6 @@ describe('IO', () => {
       assert.deepStrictEqual(pipe(_.of(double), _.ap(_.of(1)))(), 2)
     })
 
-    it('apFirst', () => {
-      assert.deepStrictEqual(pipe(_.of('a'), _.apFirst(_.of('b')))(), 'a')
-    })
-
     it('apSecond', () => {
       assert.deepStrictEqual(pipe(_.of('a'), _.apSecond(_.of('b')))(), 'b')
     })

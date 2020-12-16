@@ -8,6 +8,7 @@
  * @since 2.0.0
  */
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
+import { apFirst_ } from './Apply'
 import { Comonad1 } from './Comonad'
 import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
@@ -196,20 +197,6 @@ export function fold<A, B>(f: (a: A, bs: ReadonlyArray<B>) => B): (tree: Tree<A>
  * @since 2.0.0
  */
 export const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = (fa) => chain((f) => pipe(fa, map(f)))
-
-/**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apFirst = <B>(second: Tree<B>): (<A>(first: Tree<A>) => Tree<A>) =>
-  flow(
-    map((a) => () => a),
-    ap(second)
-  )
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -415,6 +402,18 @@ export const Applicative: Applicative1<URI> = {
   ap,
   of
 }
+
+/**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category derivable combinators
+ * @since 2.0.0
+ */
+export const apFirst: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<A> =
+  /*#__PURE__*/
+  apFirst_(Applicative)
 
 /**
  * @category instances
