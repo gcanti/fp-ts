@@ -96,10 +96,7 @@ export function getMonad<M>(M: Monoid<M>): Monad2C<URI, M> {
  * @category Bifunctor
  * @since 2.5.0
  */
-export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: readonly [A, E]) => readonly [B, G] = (
-  f,
-  g
-) => (fa) => [g(fst(fa)), f(snd(fa))]
+export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => (fa) => [g(fst(fa)), f(snd(fa))]
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -107,10 +104,7 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: readonl
  * @category Bifunctor
  * @since 2.5.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: readonly [A, E]) => readonly [A, G] = (f) => (fa) => [
-  fst(fa),
-  f(snd(fa))
-]
+export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => [fst(fa), f(snd(fa))]
 
 /**
  * @category Semigroupoid

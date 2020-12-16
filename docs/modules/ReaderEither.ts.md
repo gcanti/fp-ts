@@ -180,7 +180,7 @@ Map a pair of functions over the two last type arguments of the bifunctor.
 export declare const bimap: <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
-) => <R>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, B>
+) => <R>(fea: ReaderEither<R, E, A>) => ReaderEither<R, G, B>
 ```
 
 Added in v2.0.0
@@ -192,7 +192,7 @@ Map a function over the second type argument of a bifunctor.
 **Signature**
 
 ```ts
-export declare const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, A>
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fea: ReaderEither<R, E, A>) => ReaderEither<R, G, A>
 ```
 
 Added in v2.0.0

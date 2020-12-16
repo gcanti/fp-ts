@@ -327,7 +327,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEit
  * @category Bifunctor
  * @since 2.0.0
  */
-export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskEither<E, A>) => TaskEither<G, B> =
+export const bimap: Bifunctor2<URI>['bimap'] =
   /*#__PURE__*/
   flow(E.bimap, T.map)
 
@@ -337,8 +337,7 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskEit
  * @category Bifunctor
  * @since 2.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskEither<E, A>) => TaskEither<G, A> = (f) =>
-  T.map(E.mapLeft(f))
+export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => T.map(E.mapLeft(f))
 
 /**
  * Less strict version of [`ap`](#ap).

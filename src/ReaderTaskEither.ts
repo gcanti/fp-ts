@@ -381,11 +381,7 @@ export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderTaskEither<R, E, A>
  * @category Bifunctor
  * @since 2.0.0
  */
-export const bimap: <E, G, A, B>(
-  f: (e: E) => G,
-  g: (a: A) => B
-) => <R>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, B> = (f, g) => (fa) => (r) =>
-  pipe(fa(r), TE.bimap(f, g))
+export const bimap: Bifunctor3<URI>['bimap'] = (f, g) => (fa) => (r) => pipe(fa(r), TE.bimap(f, g))
 
 /**
  * Map a function over the second type argument of a bifunctor.
@@ -393,9 +389,7 @@ export const bimap: <E, G, A, B>(
  * @category Bifunctor
  * @since 2.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A> = (
-  f
-) => (fa) => (r) => pipe(fa(r), TE.mapLeft(f))
+export const mapLeft: Bifunctor3<URI>['mapLeft'] = (f) => (fa) => (r) => pipe(fa(r), TE.mapLeft(f))
 
 /**
  * Less strict version of [`ap`](#ap).

@@ -143,8 +143,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThes
  * @category Bifunctor
  * @since 2.4.0
  */
-export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskThese<E, A>) => TaskThese<G, B> = (f, g) =>
-  T.map(TH.bimap(f, g))
+export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => T.map(TH.bimap(f, g))
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -152,8 +151,7 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskThe
  * @category Bifunctor
  * @since 2.4.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => TaskThese<G, A> = (f) =>
-  T.map(TH.mapLeft(f))
+export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => T.map(TH.mapLeft(f))
 
 /**
  * Wrap a value into the type constructor.

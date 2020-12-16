@@ -399,7 +399,7 @@ export function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
  * @category Bifunctor
  * @since 2.0.0
  */
-export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: These<E, A>) => These<G, B> = (f, g) => (fa) =>
+export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => (fa) =>
   isLeft(fa) ? left(f(fa.left)) : isRight(fa) ? right(g(fa.right)) : both(f(fa.left), g(fa.right))
 
 /**
@@ -408,7 +408,7 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: These<E
  * @category Bifunctor
  * @since 2.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: These<E, A>) => These<G, A> = (f) => (fa) =>
+export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) =>
   isLeft(fa) ? left(f(fa.left)) : isBoth(fa) ? both(f(fa.left), fa.right) : fa
 
 /**

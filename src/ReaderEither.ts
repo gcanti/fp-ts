@@ -234,10 +234,7 @@ export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) =>
  * @category Bifunctor
  * @since 2.0.0
  */
-export const bimap: <E, G, A, B>(
-  f: (e: E) => G,
-  g: (a: A) => B
-) => <R>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, B> =
+export const bimap: Bifunctor3<URI>['bimap'] =
   /*#__PURE__*/
   flow(E.bimap, R.map)
 
@@ -247,8 +244,7 @@ export const bimap: <E, G, A, B>(
  * @category Bifunctor
  * @since 2.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, A> = (f) =>
-  R.map(E.mapLeft(f))
+export const mapLeft: Bifunctor3<URI>['mapLeft'] = (f) => (fa) => (r) => pipe(fa(r), E.mapLeft(f))
 
 /**
  * Less strict version of [`ap`](#ap).
