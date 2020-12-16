@@ -114,7 +114,7 @@ export const fromPredicate: {
  * @category destructors
  * @since 2.0.0
  */
-export const fold: <R, E, A, B>(
+export const fold: <E, R, B, A>(
   onLeft: (e: E) => Reader<R, B>,
   onRight: (a: A) => Reader<R, B>
 ) => (ma: ReaderEither<R, E, A>) => Reader<R, B> =
@@ -129,7 +129,7 @@ export const fold: <R, E, A, B>(
  */
 export const getOrElseW = <E, R2, B>(onLeft: (e: E) => Reader<R2, B>) => <R1, A>(
   ma: ReaderEither<R1, E, A>
-): Reader<R1 & R2, A | B> => pipe(ma, R.chain(E.fold<E, A, R.Reader<R1 & R2, A | B>>(onLeft, R.of)))
+): Reader<R1 & R2, A | B> => pipe(ma, R.chain(E.fold<E, R.Reader<R1 & R2, A | B>, A>(onLeft, R.of)))
 
 /**
  * @category destructors
@@ -286,7 +286,7 @@ export const of: Applicative3<URI>['of'] = right
  */
 export const chainW = <A, R2, E2, B>(f: (a: A) => ReaderEither<R2, E2, B>) => <R1, E1>(
   ma: ReaderEither<R1, E1, A>
-): ReaderEither<R1 & R2, E1 | E2, B> => pipe(ma, R.chain(E.fold<E1, A, ReaderEither<R1 & R2, E1 | E2, B>>(left, f)))
+): ReaderEither<R1 & R2, E1 | E2, B> => pipe(ma, R.chain(E.fold<E1, ReaderEither<R1 & R2, E1 | E2, B>, A>(left, f)))
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -315,7 +315,7 @@ export const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) 
 export const altW = <R2, E2, B>(second: () => ReaderEither<R2, E2, B>) => <R1, E1, A>(
   first: ReaderEither<R1, E1, A>
 ): ReaderEither<R1 & R2, E1 | E2, A | B> =>
-  pipe(first, R.chain(E.fold<E1, A, ReaderEither<R1 & R2, E1 | E2, A | B>>(second, right)))
+  pipe(first, R.chain(E.fold<E1, ReaderEither<R1 & R2, E1 | E2, A | B>, A>(second, right)))
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to

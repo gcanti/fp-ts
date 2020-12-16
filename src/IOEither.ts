@@ -118,7 +118,7 @@ export function tryCatch<E, A>(f: Lazy<A>, onError: (reason: unknown) => E): IOE
  * @category destructors
  * @since 2.0.0
  */
-export const fold: <E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>) => (ma: IOEither<E, A>) => IO<B> =
+export const fold: <E, B, A>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>) => (ma: IOEither<E, A>) => IO<B> =
   /*#__PURE__*/
   flow(E.fold, I.chain)
 
@@ -129,7 +129,7 @@ export const fold: <E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>) 
  * @since 2.6.0
  */
 export const getOrElseW = <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>): IO<A | B> =>
-  pipe(ma, I.chain(E.fold<E, A, I.IO<A | B>>(onLeft, I.of)))
+  pipe(ma, I.chain(E.fold<E, I.IO<A | B>, A>(onLeft, I.of)))
 
 /**
  * @category destructors
@@ -273,7 +273,7 @@ export const of: Applicative2<URI>['of'] = right
  * @since 2.6.0
  */
 export const chainW = <A, E2, B>(f: (a: A) => IOEither<E2, B>) => <E1>(ma: IOEither<E1, A>): IOEither<E1 | E2, B> =>
-  pipe(ma, I.chain(E.fold<E1, A, IOEither<E1 | E2, B>>(left, f)))
+  pipe(ma, I.chain(E.fold<E1, IOEither<E1 | E2, B>, A>(left, f)))
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -301,7 +301,7 @@ export const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A>
  */
 export const altW = <E2, B>(second: Lazy<IOEither<E2, B>>) => <E1, A>(
   first: IOEither<E1, A>
-): IOEither<E1 | E2, A | B> => pipe(first, I.chain(E.fold<E1, A, IOEither<E1 | E2, A | B>>(second, right)))
+): IOEither<E1 | E2, A | B> => pipe(first, I.chain(E.fold<E1, IOEither<E1 | E2, A | B>, A>(second, right)))
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to

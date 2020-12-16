@@ -317,7 +317,7 @@ export const fromPredicate: {
  * @category destructors
  * @since 2.0.0
  */
-export const fold = <E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>): B =>
+export const fold = <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>): B =>
   isLeft(ma) ? onLeft(ma.left) : onRight(ma.right)
 
 /**

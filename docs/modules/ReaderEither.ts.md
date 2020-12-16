@@ -518,7 +518,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fold: <R, E, A, B>(
+export declare const fold: <E, R, B, A>(
   onLeft: (e: E) => R.Reader<R, B>,
   onRight: (a: A) => R.Reader<R, B>
 ) => (ma: ReaderEither<R, E, A>) => R.Reader<R, B>

@@ -83,20 +83,16 @@ export function both<E, A>(left: E, right: A): These<E, A> {
  * @category destructors
  * @since 2.0.0
  */
-export function fold<E, A, B>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => B,
-  onBoth: (e: E, a: A) => B
-): (fa: These<E, A>) => B {
-  return (fa) => {
-    switch (fa._tag) {
-      case 'Left':
-        return onLeft(fa.left)
-      case 'Right':
-        return onRight(fa.right)
-      case 'Both':
-        return onBoth(fa.left, fa.right)
-    }
+export const fold = <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B, onBoth: (e: E, a: A) => B) => (
+  fa: These<E, A>
+): B => {
+  switch (fa._tag) {
+    case 'Left':
+      return onLeft(fa.left)
+    case 'Right':
+      return onRight(fa.right)
+    case 'Both':
+      return onBoth(fa.left, fa.right)
   }
 }
 

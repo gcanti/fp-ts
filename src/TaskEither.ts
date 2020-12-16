@@ -160,7 +160,7 @@ export function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown
  * @category destructors
  * @since 2.0.0
  */
-export const fold: <E, A, B>(
+export const fold: <E, B, A>(
   onLeft: (e: E) => Task<B>,
   onRight: (a: A) => Task<B>
 ) => (ma: TaskEither<E, A>) => Task<B> =
@@ -174,7 +174,7 @@ export const fold: <E, A, B>(
  * @since 2.6.0
  */
 export const getOrElseW = <E, B>(onLeft: (e: E) => Task<B>) => <A>(ma: TaskEither<E, A>): Task<A | B> =>
-  pipe(ma, T.chain(E.fold<E, A, T.Task<A | B>>(onLeft, T.of)))
+  pipe(ma, T.chain(E.fold<E, T.Task<A | B>, A>(onLeft, T.of)))
 
 /**
  * @category destructors
@@ -369,7 +369,7 @@ export const ap: Applicative2<URI>['ap'] = apW
  */
 export const chainW = <A, E2, B>(f: (a: A) => TaskEither<E2, B>) => <E1>(
   ma: TaskEither<E1, A>
-): TaskEither<E1 | E2, B> => pipe(ma, T.chain(E.fold<E1, A, TaskEither<E1 | E2, B>>(left, f)))
+): TaskEither<E1 | E2, B> => pipe(ma, T.chain(E.fold<E1, TaskEither<E1 | E2, B>, A>(left, f)))
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -397,7 +397,7 @@ export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither
  */
 export const altW = <E2, B>(second: Lazy<TaskEither<E2, B>>) => <E1, A>(
   first: TaskEither<E1, A>
-): TaskEither<E1 | E2, A | B> => pipe(first, T.chain(E.fold<E1, A, TaskEither<E1 | E2, A | B>>(second, right)))
+): TaskEither<E1 | E2, A | B> => pipe(first, T.chain(E.fold<E1, TaskEither<E1 | E2, A | B>, A>(second, right)))
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to

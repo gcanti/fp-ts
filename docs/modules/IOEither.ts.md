@@ -513,7 +513,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fold: <E, A, B>(
+export declare const fold: <E, B, A>(
   onLeft: (e: E) => I.IO<B>,
   onRight: (a: A) => I.IO<B>
 ) => (ma: IOEither<E, A>) => I.IO<B>

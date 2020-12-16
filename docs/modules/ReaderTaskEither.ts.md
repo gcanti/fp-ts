@@ -739,10 +739,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function fold<R, E, A, B>(
-  onLeft: (e: E) => ReaderTask<R, B>,
-  onRight: (a: A) => ReaderTask<R, B>
-): (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B>
+export declare const fold: <E, R, B, A>(
+  onLeft: (e: E) => RT.ReaderTask<R, B>,
+  onRight: (a: A) => RT.ReaderTask<R, B>
+) => (ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, B>
 ```
 
 Added in v2.0.0

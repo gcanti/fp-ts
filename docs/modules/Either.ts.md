@@ -863,7 +863,7 @@ if the value is a `Right` the inner value is applied to the second function.
 **Signature**
 
 ```ts
-export declare const fold: <E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B
+export declare const fold: <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B
 ```
 
 **Example**

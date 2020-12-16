@@ -268,11 +268,11 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function fold<E, A, B>(
+export declare const fold: <E, B, A>(
   onLeft: (e: E) => B,
   onRight: (a: A) => B,
   onBoth: (e: E, a: A) => B
-): (fa: These<E, A>) => B
+) => (fa: These<E, A>) => B
 ```
 
 Added in v2.0.0

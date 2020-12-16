@@ -196,19 +196,16 @@ export const fromPredicate: {
  * @category destructors
  * @since 2.0.0
  */
-export function fold<R, E, A, B>(
-  onLeft: (e: E) => ReaderTask<R, B>,
-  onRight: (a: A) => ReaderTask<R, B>
-): (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B> {
-  return (ma) => (r) =>
-    pipe(
-      ma(r),
-      TE.fold(
-        (e) => onLeft(e)(r),
-        (a) => onRight(a)(r)
-      )
+export const fold = <E, R, B, A>(onLeft: (e: E) => ReaderTask<R, B>, onRight: (a: A) => ReaderTask<R, B>) => (
+  ma: ReaderTaskEither<R, E, A>
+): ReaderTask<R, B> => (r) =>
+  pipe(
+    ma(r),
+    TE.fold(
+      (e) => onLeft(e)(r),
+      (a) => onRight(a)(r)
     )
-}
+  )
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).
