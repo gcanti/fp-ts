@@ -163,7 +163,7 @@ export const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<
 /**
  * Derivable from `Monad`.
  *
- * @category combinators
+ * @category derivable combinators
  * @since 2.3.0
  */
 export const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => ReaderTask<R, A> =

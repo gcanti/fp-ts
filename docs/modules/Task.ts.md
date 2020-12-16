@@ -34,7 +34,6 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [chainIOK](#chainiok)
   - [delay](#delay)
-  - [flatten](#flatten)
   - [fromIOK](#fromiok)
 - [constructors](#constructors)
   - [fromIO](#fromio)
@@ -42,6 +41,7 @@ Added in v2.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [flatten](#flatten)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -189,18 +189,6 @@ test()
 
 Added in v2.0.0
 
-## flatten
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: Task<Task<A>>) => Task<A>
-```
-
-Added in v2.0.0
-
 ## fromIOK
 
 **Signature**
@@ -264,6 +252,18 @@ Derivable from `Monad`.
 
 ```ts
 export declare const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A>
+```
+
+Added in v2.0.0
+
+## flatten
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: Task<Task<A>>) => Task<A>
 ```
 
 Added in v2.0.0

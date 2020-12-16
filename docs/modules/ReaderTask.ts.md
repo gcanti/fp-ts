@@ -25,7 +25,6 @@ Added in v2.3.0
 - [combinators](#combinators)
   - [chainIOK](#chainiok)
   - [chainTaskK](#chaintaskk)
-  - [flatten](#flatten)
   - [fromIOK](#fromiok)
   - [fromTaskK](#fromtaskk)
 - [constructors](#constructors)
@@ -38,6 +37,7 @@ Added in v2.3.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [flatten](#flatten)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -173,18 +173,6 @@ export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(ma: Reade
 
 Added in v2.4.0
 
-## flatten
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => ReaderTask<R, A>
-```
-
-Added in v2.3.0
-
 ## fromIOK
 
 **Signature**
@@ -304,6 +292,18 @@ Derivable from `Monad`.
 export declare const chainFirst: <A, R, B>(
   f: (a: A) => ReaderTask<R, B>
 ) => (first: ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v2.3.0
+
+## flatten
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0

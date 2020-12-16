@@ -485,7 +485,7 @@ export const extend: Extend1<URI>['extend'] = RA.extend as any
 /**
  * Derivable from `Monad`.
  *
- * @category combinators
+ * @category derivable combinators
  * @since 2.5.0
  */
 export const flatten: <A>(

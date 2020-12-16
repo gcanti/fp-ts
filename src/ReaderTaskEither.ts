@@ -454,7 +454,7 @@ export const chain: <R, E, A, B>(
 /**
  * Derivable from `Monad`.
  *
- * @category combinators
+ * @category derivable combinators
  * @since 2.0.0
  */
 export const flatten: <R, E, A>(mma: ReaderTaskEither<R, E, ReaderTaskEither<R, E, A>>) => ReaderTaskEither<R, E, A> =

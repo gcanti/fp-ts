@@ -380,7 +380,7 @@ export const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<
 /**
  * Derivable from `Monad`.
  *
- * @category combinators
+ * @category derivable combinators
  * @since 2.0.0
  */
 export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither<E, A> =

@@ -45,7 +45,6 @@ Added in v2.0.0
   - [chainTaskEitherK](#chaintaskeitherk)
   - [chainTaskEitherKW](#chaintaskeitherkw)
   - [filterOrElse](#filterorelse)
-  - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
   - [fromReaderTaskEitherK](#fromreadertaskeitherk)
@@ -76,6 +75,7 @@ Added in v2.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [flatten](#flatten)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative-1)
@@ -434,20 +434,6 @@ export declare const filterOrElse: {
 
 Added in v2.4.4
 
-## flatten
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const flatten: <S, R, E, A>(
-  mma: StateReaderTaskEither<S, R, E, StateReaderTaskEither<S, R, E, A>>
-) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v2.0.0
-
 ## fromEitherK
 
 **Signature**
@@ -776,6 +762,20 @@ Derivable from `Monad`.
 export declare const chainFirst: <A, S, R, E, B>(
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
 ) => (first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.0.0
+
+## flatten
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <S, R, E, A>(
+  mma: StateReaderTaskEither<S, R, E, StateReaderTaskEither<S, R, E, A>>
+) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.0.0

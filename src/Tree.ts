@@ -235,7 +235,7 @@ export const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>> =
 /**
  * Derivable from `Monad`.
  *
- * @category combinators
+ * @category derivable combinators
  * @since 2.0.0
  */
 export const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A> =

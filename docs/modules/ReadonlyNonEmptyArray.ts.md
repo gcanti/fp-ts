@@ -39,7 +39,6 @@ Added in v2.5.0
   - [chain](#chain)
 - [combinators](#combinators)
   - [duplicate](#duplicate)
-  - [flatten](#flatten)
   - [group](#group)
   - [groupSort](#groupsort)
   - [intersperse](#intersperse)
@@ -59,6 +58,7 @@ Added in v2.5.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [flatten](#flatten)
 - [destructors](#destructors)
   - [uncons](#uncons)
   - [unsnoc](#unsnoc)
@@ -308,18 +308,6 @@ Derivable from `Extend`.
 
 ```ts
 export declare const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
-```
-
-Added in v2.5.0
-
-## flatten
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.5.0
@@ -613,6 +601,18 @@ Derivable from `Monad`.
 export declare const chainFirst: <A, B>(
   f: (a: A) => ReadonlyNonEmptyArray<B>
 ) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.5.0
+
+## flatten
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.5.0

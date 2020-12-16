@@ -20,8 +20,6 @@ Added in v2.0.0
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
-- [combinators](#combinators)
-  - [flatten](#flatten)
 - [constructors](#constructors)
   - [get](#get)
   - [gets](#gets)
@@ -31,6 +29,7 @@ Added in v2.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [flatten](#flatten)
 - [instances](#instances)
   - [Applicative](#applicative-1)
   - [Functor](#functor-1)
@@ -106,20 +105,6 @@ Composes computations in sequence, using the return value of one computation to 
 
 ```ts
 export declare const chain: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, B>
-```
-
-Added in v2.0.0
-
-# combinators
-
-## flatten
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A>
 ```
 
 Added in v2.0.0
@@ -215,6 +200,18 @@ Derivable from `Monad`.
 
 ```ts
 export declare const chainFirst: <A, S, B>(f: (a: A) => State<S, B>) => (first: State<S, A>) => State<S, A>
+```
+
+Added in v2.0.0
+
+## flatten
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A>
 ```
 
 Added in v2.0.0

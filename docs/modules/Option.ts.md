@@ -61,7 +61,6 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [chainNullableK](#chainnullablek)
   - [duplicate](#duplicate)
-  - [flatten](#flatten)
   - [fromNullableK](#fromnullablek)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
@@ -76,6 +75,7 @@ Added in v2.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [flatten](#flatten)
 - [destructors](#destructors)
   - [fold](#fold)
   - [getOrElse](#getorelse)
@@ -482,18 +482,6 @@ export declare const duplicate: <A>(ma: Option<A>) => Option<Option<A>>
 
 Added in v2.0.0
 
-## flatten
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
-```
-
-Added in v2.0.0
-
 ## fromNullableK
 
 Returns a _smart constructor_ from a function that returns a nullable value.
@@ -728,6 +716,18 @@ Derivable from `Monad`.
 
 ```ts
 export declare const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A>
+```
+
+Added in v2.0.0
+
+## flatten
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
 ```
 
 Added in v2.0.0

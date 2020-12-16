@@ -56,7 +56,6 @@ Added in v2.0.0
   - [chainNullableK](#chainnullablek)
   - [duplicate](#duplicate)
   - [filterOrElse](#filterorelse)
-  - [flatten](#flatten)
   - [fromNullableK](#fromnullablek)
   - [orElse](#orelse)
   - [swap](#swap)
@@ -73,6 +72,7 @@ Added in v2.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [flatten](#flatten)
 - [destructors](#destructors)
   - [fold](#fold)
   - [getOrElse](#getorelse)
@@ -526,30 +526,6 @@ assert.deepStrictEqual(
 
 Added in v2.0.0
 
-## flatten
-
-The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-
-assert.deepStrictEqual(E.flatten(E.right(E.right('a'))), E.right('a'))
-assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
-assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
-```
-
-Added in v2.0.0
-
 ## fromNullableK
 
 **Signature**
@@ -849,6 +825,30 @@ Derivable from `Monad`.
 
 ```ts
 export declare const chainFirst: <A, E, B>(f: (a: A) => Either<E, B>) => (first: Either<E, A>) => Either<E, A>
+```
+
+Added in v2.0.0
+
+## flatten
+
+The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+
+assert.deepStrictEqual(E.flatten(E.right(E.right('a'))), E.right('a'))
+assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
+assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
 ```
 
 Added in v2.0.0

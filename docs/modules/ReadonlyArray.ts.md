@@ -67,7 +67,6 @@ Added in v2.5.0
   - [dropLeftWhile](#dropleftwhile)
   - [dropRight](#dropright)
   - [duplicate](#duplicate)
-  - [flatten](#flatten)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
   - [prependToAll](#prependtoall)
@@ -96,6 +95,7 @@ Added in v2.5.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [flatten](#flatten)
 - [destructors](#destructors)
   - [foldLeft](#foldleft)
   - [foldRight](#foldright)
@@ -663,28 +663,6 @@ Derivable from `Extend`.
 
 ```ts
 export declare const duplicate: <A>(wa: readonly A[]) => readonly (readonly A[])[]
-```
-
-Added in v2.5.0
-
-## flatten
-
-Removes one level of nesting
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: readonly (readonly A[])[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import { flatten } from 'fp-ts/ReadonlyArray'
-
-assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
 ```
 
 Added in v2.5.0
@@ -1285,6 +1263,28 @@ Derivable from `Monad`.
 
 ```ts
 export declare const chainFirst: <A, B>(f: (a: A) => readonly B[]) => (first: readonly A[]) => readonly A[]
+```
+
+Added in v2.5.0
+
+## flatten
+
+Removes one level of nesting
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: readonly (readonly A[])[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import { flatten } from 'fp-ts/ReadonlyArray'
+
+assert.deepStrictEqual(flatten([[1], [2, 3], [4]]), [1, 2, 3, 4])
 ```
 
 Added in v2.5.0

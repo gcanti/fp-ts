@@ -33,11 +33,11 @@ Added in v2.0.0
   - [chain](#chain)
 - [combinators](#combinators)
   - [duplicate](#duplicate)
-  - [flatten](#flatten)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [flatten](#flatten)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative-1)
@@ -219,18 +219,6 @@ export declare const duplicate: <A>(ma: A) => A
 
 Added in v2.0.0
 
-## flatten
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: A) => A
-```
-
-Added in v2.0.0
-
 # derivable combinators
 
 ## apFirst
@@ -272,6 +260,18 @@ Derivable from `Monad`.
 
 ```ts
 export declare const chainFirst: <A, B>(f: (a: A) => B) => (first: A) => A
+```
+
+Added in v2.0.0
+
+## flatten
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: A) => A
 ```
 
 Added in v2.0.0

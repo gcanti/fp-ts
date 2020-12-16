@@ -202,38 +202,6 @@ export const range = (start: number, end: number): ReadonlyArray<number> => make
 export const replicate = <A>(n: number, a: A): ReadonlyArray<A> => makeBy(n, () => a)
 
 /**
- * Removes one level of nesting
- *
- * Derivable from `Monad`.
- *
- * @example
- * import { flatten } from 'fp-ts/ReadonlyArray'
- *
- * assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
- *
- * @category combinators
- * @since 2.5.0
- */
-export const flatten = <A>(mma: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<A> => {
-  let rLen = 0
-  const len = mma.length
-  for (let i = 0; i < len; i++) {
-    rLen += mma[i].length
-  }
-  const r = Array(rLen)
-  let start = 0
-  for (let i = 0; i < len; i++) {
-    const arr = mma[i]
-    const l = arr.length
-    for (let j = 0; j < l; j++) {
-      r[j + start] = arr[j]
-    }
-    start += l
-  }
-  return r
-}
-
-/**
  * Break an array into its first element and remaining elements
  *
  * @example
@@ -1358,6 +1326,23 @@ export const chain: Monad1<URI>['chain'] = (f) => (ma) =>
     ma,
     chainWithIndex((_, a) => f(a))
   )
+
+/**
+ * Removes one level of nesting
+ *
+ * Derivable from `Monad`.
+ *
+ * @example
+ * import { flatten } from 'fp-ts/ReadonlyArray'
+ *
+ * assert.deepStrictEqual(flatten([[1], [2, 3], [4]]), [1, 2, 3, 4])
+ *
+ * @category derivable combinators
+ * @since 2.5.0
+ */
+export const flatten: <A>(mma: ReadonlyArray<ReadonlyArray<A>>) => ReadonlyArray<A> =
+  /*#__PURE__*/
+  chain(identity)
 
 /**
  * @since 2.7.0

@@ -36,7 +36,6 @@ Added in v2.0.0
   - [chain](#chain)
 - [combinators](#combinators)
   - [duplicate](#duplicate)
-  - [flatten](#flatten)
 - [constructors](#constructors)
   - [make](#make)
   - [unfoldForest](#unfoldforest)
@@ -45,6 +44,7 @@ Added in v2.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [flatten](#flatten)
 - [destructors](#destructors)
   - [fold](#fold)
 - [instances](#instances)
@@ -204,18 +204,6 @@ export declare const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>>
 
 Added in v2.0.0
 
-## flatten
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A>
-```
-
-Added in v2.0.0
-
 # constructors
 
 ## make
@@ -293,6 +281,18 @@ Derivable from `Monad`.
 
 ```ts
 export declare const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (first: Tree<A>) => Tree<A>
+```
+
+Added in v2.0.0
+
+## flatten
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A>
 ```
 
 Added in v2.0.0

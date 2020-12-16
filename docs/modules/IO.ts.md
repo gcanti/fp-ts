@@ -32,12 +32,11 @@ Added in v2.0.0
   - [chain](#chain)
 - [MonadIO](#monadio)
   - [fromIO](#fromio)
-- [combinators](#combinators)
-  - [flatten](#flatten)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [flatten](#flatten)
 - [instances](#instances)
   - [Applicative](#applicative-1)
   - [Functor](#functor-1)
@@ -132,20 +131,6 @@ export declare const fromIO: <A>(fa: IO<A>) => IO<A>
 
 Added in v2.7.0
 
-# combinators
-
-## flatten
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: IO<IO<A>>) => IO<A>
-```
-
-Added in v2.0.0
-
 # derivable combinators
 
 ## apFirst
@@ -187,6 +172,18 @@ Derivable from `Monad`.
 
 ```ts
 export declare const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A>
+```
+
+Added in v2.0.0
+
+## flatten
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: IO<IO<A>>) => IO<A>
 ```
 
 Added in v2.0.0

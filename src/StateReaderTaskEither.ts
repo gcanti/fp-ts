@@ -476,7 +476,7 @@ export const chain: <S, R, E, A, B>(
 /**
  * Derivable from `Monad`.
  *
- * @category combinators
+ * @category derivable combinators
  * @since 2.0.0
  */
 export const flatten: <S, R, E, A>(

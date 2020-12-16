@@ -40,7 +40,6 @@ Added in v2.0.0
   - [chainEitherKW](#chaineitherkw)
   - [chainFirstW](#chainfirstw)
   - [filterOrElse](#filterorelse)
-  - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [orElse](#orelse)
   - [swap](#swap)
@@ -57,6 +56,7 @@ Added in v2.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [flatten](#flatten)
 - [destructors](#destructors)
   - [fold](#fold)
   - [getOrElse](#getorelse)
@@ -320,18 +320,6 @@ export declare const filterOrElse: {
 
 Added in v2.0.0
 
-## flatten
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A>
-```
-
-Added in v2.0.0
-
 ## fromEitherK
 
 **Signature**
@@ -498,6 +486,18 @@ Derivable from `Monad`.
 
 ```ts
 export declare const chainFirst: <A, E, B>(f: (a: A) => IOEither<E, B>) => (first: IOEither<E, A>) => IOEither<E, A>
+```
+
+Added in v2.0.0
+
+## flatten
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A>
 ```
 
 Added in v2.0.0

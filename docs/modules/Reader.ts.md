@@ -29,7 +29,6 @@ Added in v2.0.0
 - [Semigroupoid](#semigroupoid)
   - [compose](#compose)
 - [combinators](#combinators)
-  - [flatten](#flatten)
   - [local](#local)
 - [constructors](#constructors)
   - [ask](#ask)
@@ -38,6 +37,7 @@ Added in v2.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [flatten](#flatten)
 - [instances](#instances)
   - [Applicative](#applicative-1)
   - [Category](#category-1)
@@ -186,18 +186,6 @@ Added in v2.0.0
 
 # combinators
 
-## flatten
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A>
-```
-
-Added in v2.0.0
-
 ## local
 
 Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
@@ -278,6 +266,18 @@ Derivable from `Monad`.
 
 ```ts
 export declare const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<R, A>) => Reader<R, A>
+```
+
+Added in v2.0.0
+
+## flatten
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A>
 ```
 
 Added in v2.0.0

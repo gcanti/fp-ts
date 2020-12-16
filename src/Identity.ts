@@ -84,7 +84,7 @@ export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> =
 /**
  * Derivable from `Monad`.
  *
- * @category combinators
+ * @category derivable combinators
  * @since 2.0.0
  */
 export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> =

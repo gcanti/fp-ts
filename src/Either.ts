@@ -546,7 +546,7 @@ export const chain: Monad2<URI>['chain'] = chainW
  * assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
  * assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
  *
- * @category combinators
+ * @category derivable combinators
  * @since 2.0.0
  */
 export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> =
