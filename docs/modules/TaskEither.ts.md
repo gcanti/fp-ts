@@ -43,7 +43,6 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
-  - [chainFirst](#chainfirst)
   - [chainFirstW](#chainfirstw)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
@@ -69,6 +68,7 @@ Added in v2.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
 - [destructors](#destructors)
   - [fold](#fold)
   - [getOrElse](#getorelse)
@@ -356,35 +356,16 @@ export declare const chainEitherKW: <E, A, B>(
 
 Added in v2.6.1
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <E, A, B>(
-  f: (a: A) => TaskEither<E, B>
-) => (first: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v2.0.0
-
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainFirst).
 
-Derivable from `Monad`.
-
 **Signature**
 
 ```ts
-export declare const chainFirstW: <E, A, B>(
-  f: (a: A) => TaskEither<E, B>
-) => <D>(first: TaskEither<D, A>) => TaskEither<E | D, A>
+export declare const chainFirstW: <A, E2, B>(
+  f: (a: A) => TaskEither<E2, B>
+) => <E1>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
 ```
 
 Added in v2.8.0
@@ -686,6 +667,23 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apSecond: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v2.0.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, E, B>(
+  f: (a: A) => TaskEither<E, B>
+) => (first: TaskEither<E, A>) => TaskEither<E, A>
 ```
 
 Added in v2.0.0

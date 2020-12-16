@@ -11,6 +11,7 @@
  *
  * @since 2.0.0
  */
+import { pipe } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
@@ -77,4 +78,36 @@ export interface Monad4<M extends URIS4> extends Functor4<M> {
   readonly chain: <A, S, R, E, B>(
     f: (a: A) => Kind4<M, S, R, E, B>
   ) => (fa: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, B>
+}
+
+/**
+ * @since 3.0.0
+ */
+export function chainFirst_<M extends URIS4>(
+  M: Monad4<M>
+): <S, R, E, A, B>(f: (a: A) => Kind4<M, S, R, E, B>) => (first: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, A>
+export function chainFirst_<M extends URIS3>(
+  M: Monad3<M>
+): <R, E, A, B>(f: (a: A) => Kind3<M, R, E, B>) => (first: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+export function chainFirst_<M extends URIS3, E>(
+  M: Monad3C<M, E>
+): <R, A, B>(f: (a: A) => Kind3<M, R, E, B>) => (first: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+export function chainFirst_<M extends URIS2>(
+  M: Monad2<M>
+): <E, A, B>(f: (a: A) => Kind2<M, E, B>) => (first: Kind2<M, E, A>) => Kind2<M, E, A>
+export function chainFirst_<M extends URIS2, E>(
+  M: Monad2C<M, E>
+): <A, B>(f: (a: A) => Kind2<M, E, B>) => (first: Kind2<M, E, A>) => Kind2<M, E, A>
+export function chainFirst_<M extends URIS>(
+  M: Monad1<M>
+): <A, B>(f: (a: A) => Kind<M, B>) => (first: Kind<M, A>) => Kind<M, A>
+export function chainFirst_<M>(M: Monad<M>): <A, B>(f: (a: A) => HKT<M, B>) => (first: HKT<M, A>) => HKT<M, A>
+export function chainFirst_<M>(M: Monad<M>): <A, B>(f: (a: A) => HKT<M, B>) => (first: HKT<M, A>) => HKT<M, A> {
+  return (f) =>
+    M.chain((a) =>
+      pipe(
+        f(a),
+        M.map(() => a)
+      )
+    )
 }

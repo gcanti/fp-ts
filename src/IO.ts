@@ -15,7 +15,7 @@ import { Applicative1 } from './Applicative'
 import { apFirst_, apSecond_ } from './Apply'
 import { bindTo_, bind_, constant, flow, identity, pipe, tuple } from './function'
 import { Functor1 } from './Functor'
-import { Monad1 } from './Monad'
+import { chainFirst_, Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
@@ -64,23 +64,6 @@ export const of: Applicative1<URI>['of'] = constant
  * @since 2.0.0
  */
 export const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B> = (f) => (ma) => () => f(ma())()
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Monad`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A> = (f) =>
-  chain((a) =>
-    pipe(
-      f(a),
-      map(() => a)
-    )
-  )
 
 /**
  * Derivable from `Monad`.
@@ -199,6 +182,19 @@ export const Monad: Monad1<URI> = {
   of,
   chain
 }
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * Derivable from `Monad`.
+ *
+ * @category derivable combinators
+ * @since 2.0.0
+ */
+export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A> =
+  /*#__PURE__*/
+  chainFirst_(Monad)
 
 /**
  * @category instances

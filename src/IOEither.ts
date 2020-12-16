@@ -14,7 +14,7 @@ import { Filterable2C } from './Filterable'
 import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { Functor2 } from './Functor'
 import * as I from './IO'
-import { Monad2 } from './Monad'
+import { chainFirst_, Monad2 } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
@@ -281,37 +281,6 @@ export const chainW = <D, A, B>(f: (a: A) => IOEither<D, B>) => <E>(ma: IOEither
  * @since 2.0.0
  */
 export const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B> = chainW
-
-/**
- * Less strict version of [`chainFirst`](#chainFirst).
- *
- * Derivable from `Monad`.
- *
- * @category combinators
- * @since 2.8.0
- */
-export const chainFirstW: <D, A, B>(f: (a: A) => IOEither<D, B>) => <E>(first: IOEither<E, A>) => IOEither<D | E, A> = (
-  f
-) =>
-  chainW((a) =>
-    pipe(
-      f(a),
-      map(() => a)
-    )
-  )
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Monad`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const chainFirst: <E, A, B>(
-  f: (a: A) => IOEither<E, B>
-) => (first: IOEither<E, A>) => IOEither<E, A> = chainFirstW
 
 /**
  * Derivable from `Monad`.
@@ -597,6 +566,31 @@ export const Monad: Monad2<URI> = {
   of,
   chain
 }
+
+/**
+ * Less strict version of [`chainFirst`](#chainFirst).
+ *
+ * @category combinators
+ * @since 2.8.0
+ */
+export const chainFirstW: <A, E2, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(first: IOEither<E1, A>) => IOEither<E1 | E2, A> =
+  /*#__PURE__*/
+  chainFirst_(Monad) as any
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * Derivable from `Monad`.
+ *
+ * @category derivable combinators
+ * @since 2.0.0
+ */
+export const chainFirst: <A, E, B>(
+  f: (a: A) => IOEither<E, B>
+) => (first: IOEither<E, A>) => IOEither<E, A> = chainFirstW
 
 /**
  * @category instances

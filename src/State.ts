@@ -5,7 +5,7 @@ import { Applicative2 } from './Applicative'
 import { apFirst_, apSecond_ } from './Apply'
 import { bindTo_, bind_, flow, identity, pipe, tuple } from './function'
 import { Functor2 } from './Functor'
-import { Monad2 } from './Monad'
+import { chainFirst_, Monad2 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -99,23 +99,6 @@ export const chain: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => 
 }
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Monad`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const chainFirst: <E, A, B>(f: (a: A) => State<E, B>) => (first: State<E, A>) => State<E, A> = (f) =>
-  chain((a) =>
-    pipe(
-      f(a),
-      map(() => a)
-    )
-  )
-
-/**
  * Derivable from `Monad`.
  *
  * @category combinators
@@ -175,7 +158,7 @@ export const Applicative: Applicative2<URI> = {
  * @category derivable combinators
  * @since 2.0.0
  */
-export const apFirst: <E, B>(second: State<E, B>) => <A>(first: State<E, A>) => State<E, A> =
+export const apFirst: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, A> =
   /*#__PURE__*/
   apFirst_(Applicative)
 
@@ -187,7 +170,7 @@ export const apFirst: <E, B>(second: State<E, B>) => <A>(first: State<E, A>) => 
  * @category derivable combinators
  * @since 2.0.0
  */
-export const apSecond: <E, B>(second: State<E, B>) => <A>(first: State<E, A>) => State<E, B> =
+export const apSecond: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, B> =
   /*#__PURE__*/
   apSecond_(Applicative)
 
@@ -201,6 +184,19 @@ export const Monad: Monad2<URI> = {
   of,
   chain
 }
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * Derivable from `Monad`.
+ *
+ * @category derivable combinators
+ * @since 2.0.0
+ */
+export const chainFirst: <A, S, B>(f: (a: A) => State<S, B>) => (first: State<S, A>) => State<S, A> =
+  /*#__PURE__*/
+  chainFirst_(Monad)
 
 // -------------------------------------------------------------------------------------
 // utils

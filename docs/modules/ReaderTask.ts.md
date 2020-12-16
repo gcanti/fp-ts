@@ -23,7 +23,6 @@ Added in v2.3.0
   - [chain](#chain)
   - [chainW](#chainw)
 - [combinators](#combinators)
-  - [chainFirst](#chainfirst)
   - [chainIOK](#chainiok)
   - [chainTaskK](#chaintaskk)
   - [flatten](#flatten)
@@ -38,6 +37,7 @@ Added in v2.3.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -152,23 +152,6 @@ export declare const chainW: <R, A, B>(
 Added in v2.6.7
 
 # combinators
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, R, B>(
-  f: (a: A) => ReaderTask<R, B>
-) => (first: ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v2.3.0
 
 ## chainIOK
 
@@ -304,6 +287,23 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apSecond: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<R, A>) => ReaderTask<R, B>
+```
+
+Added in v2.3.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, R, B>(
+  f: (a: A) => ReaderTask<R, B>
+) => (first: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0

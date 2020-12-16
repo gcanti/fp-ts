@@ -37,7 +37,6 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
-  - [chainFirst](#chainfirst)
   - [chainFirstW](#chainfirstw)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
@@ -76,6 +75,7 @@ Added in v2.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative-1)
@@ -323,33 +323,14 @@ export declare const chainEitherKW: <E, A, B>(
 
 Added in v2.6.1
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <S, R, E, A, B>(
-  f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v2.0.0
-
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainFirst).
 
-Derivable from `Monad`.
-
 **Signature**
 
 ```ts
-export declare const chainFirstW: <S, R, D, A, B>(
+export declare const chainFirstW: <A, S, R, D, B>(
   f: (a: A) => StateReaderTaskEither<S, R, D, B>
 ) => <Q, E>(first: StateReaderTaskEither<S, Q, E, A>) => StateReaderTaskEither<S, Q & R, D | E, A>
 ```
@@ -778,6 +759,23 @@ Derivable from `Apply`.
 export declare const apSecond: <S, R, E, B>(
   second: StateReaderTaskEither<S, R, E, B>
 ) => <A>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v2.0.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, S, R, E, B>(
+  f: (a: A) => StateReaderTaskEither<S, R, E, B>
+) => (first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.0.0

@@ -59,7 +59,6 @@ Added in v2.0.0
   - [wilt](#wilt)
   - [wither](#wither)
 - [combinators](#combinators)
-  - [chainFirst](#chainfirst)
   - [chainNullableK](#chainnullablek)
   - [duplicate](#duplicate)
   - [flatten](#flatten)
@@ -76,6 +75,7 @@ Added in v2.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
 - [destructors](#destructors)
   - [fold](#fold)
   - [getOrElse](#getorelse)
@@ -417,21 +417,6 @@ Added in v2.6.5
 
 # combinators
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A>
-```
-
-Added in v2.0.0
-
 ## chainNullableK
 
 This is `chain` + `fromNullable`, useful when working with optional values.
@@ -728,6 +713,21 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apSecond: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<B>
+```
+
+Added in v2.0.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A>
 ```
 
 Added in v2.0.0

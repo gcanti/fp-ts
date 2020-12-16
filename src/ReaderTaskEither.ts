@@ -10,7 +10,7 @@ import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tupl
 import { Functor3 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { Monad3 } from './Monad'
+import { chainFirst_, Monad3 } from './Monad'
 import { MonadIO3 } from './MonadIO'
 import { MonadTask3 } from './MonadTask'
 import { MonadThrow3 } from './MonadThrow'
@@ -452,37 +452,6 @@ export const chain: <R, E, A, B>(
 ) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainW
 
 /**
- * Less strict version of [`chainFirst`](#chainFirst).
- *
- * Derivable from `Monad`.
- *
- * @category combinators
- * @since 2.8.0
- */
-export const chainFirstW: <R, E, A, B>(
-  f: (a: A) => ReaderTaskEither<R, E, B>
-) => <Q, D>(first: ReaderTaskEither<Q, D, A>) => ReaderTaskEither<Q & R, D | E, A> = (f) =>
-  chainW((a) =>
-    pipe(
-      f(a),
-      map(() => a)
-    )
-  )
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Monad`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const chainFirst: <R, E, A, B>(
-  f: (a: A) => ReaderTaskEither<R, E, B>
-) => (first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = chainFirstW
-
-/**
  * Derivable from `Monad`.
  *
  * @category combinators
@@ -695,6 +664,33 @@ export const Monad: Monad3<URI> = {
   of,
   chain
 }
+
+/**
+ * Less strict version of [`chainFirst`](#chainFirst).
+ *
+ * Derivable from `Monad`.
+ *
+ * @category combinators
+ * @since 2.8.0
+ */
+export const chainFirstW: <A, R2, E2, B>(
+  f: (a: A) => ReaderTaskEither<R2, E2, B>
+) => <R1, E1>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> =
+  /*#__PURE__*/
+  chainFirst_(Monad) as any
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * Derivable from `Monad`.
+ *
+ * @category derivable combinators
+ * @since 2.0.0
+ */
+export const chainFirst: <A, R, E, B>(
+  f: (a: A) => ReaderTaskEither<R, E, B>
+) => (first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = chainFirstW
 
 /**
  * @category instances

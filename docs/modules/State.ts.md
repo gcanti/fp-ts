@@ -21,7 +21,6 @@ Added in v2.0.0
 - [Monad](#monad)
   - [chain](#chain)
 - [combinators](#combinators)
-  - [chainFirst](#chainfirst)
   - [flatten](#flatten)
 - [constructors](#constructors)
   - [get](#get)
@@ -31,6 +30,7 @@ Added in v2.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
 - [instances](#instances)
   - [Applicative](#applicative-1)
   - [Functor](#functor-1)
@@ -112,21 +112,6 @@ Added in v2.0.0
 
 # combinators
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <E, A, B>(f: (a: A) => State<E, B>) => (first: State<E, A>) => State<E, A>
-```
-
-Added in v2.0.0
-
 ## flatten
 
 Derivable from `Monad`.
@@ -200,7 +185,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <E, B>(second: State<E, B>) => <A>(first: State<E, A>) => State<E, A>
+export declare const apFirst: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, A>
 ```
 
 Added in v2.0.0
@@ -214,7 +199,22 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <E, B>(second: State<E, B>) => <A>(first: State<E, A>) => State<E, B>
+export declare const apSecond: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, B>
+```
+
+Added in v2.0.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, S, B>(f: (a: A) => State<S, B>) => (first: State<S, A>) => State<S, A>
 ```
 
 Added in v2.0.0

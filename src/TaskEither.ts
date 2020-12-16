@@ -19,7 +19,7 @@ import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tupl
 import { Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { Monad2 } from './Monad'
+import { chainFirst_, Monad2 } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { MonadTask2 } from './MonadTask'
 import { MonadThrow2 } from './MonadThrow'
@@ -378,37 +378,6 @@ export const chainW = <E, A, B>(f: (a: A) => TaskEither<E, B>) => <D>(ma: TaskEi
 export const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> = chainW
 
 /**
- * Less strict version of [`chainFirst`](#chainFirst).
- *
- * Derivable from `Monad`.
- *
- * @category combinators
- * @since 2.8.0
- */
-export const chainFirstW: <E, A, B>(
-  f: (a: A) => TaskEither<E, B>
-) => <D>(first: TaskEither<D, A>) => TaskEither<D | E, A> = (f) =>
-  chainW((a) =>
-    pipe(
-      f(a),
-      map(() => a)
-    )
-  )
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Monad`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const chainFirst: <E, A, B>(
-  f: (a: A) => TaskEither<E, B>
-) => (first: TaskEither<E, A>) => TaskEither<E, A> = chainFirstW
-
-/**
  * Derivable from `Monad`.
  *
  * @category combinators
@@ -759,6 +728,31 @@ export const Monad: Monad2<URI> = {
   of,
   chain
 }
+
+/**
+ * Less strict version of [`chainFirst`](#chainFirst).
+ *
+ * @category combinators
+ * @since 2.8.0
+ */
+export const chainFirstW: <A, E2, B>(
+  f: (a: A) => TaskEither<E2, B>
+) => <E1>(first: TaskEither<E1, A>) => TaskEither<E1 | E2, A> =
+  /*#__PURE__*/
+  chainFirst_(Monad) as any
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * Derivable from `Monad`.
+ *
+ * @category derivable combinators
+ * @since 2.0.0
+ */
+export const chainFirst: <A, E, B>(
+  f: (a: A) => TaskEither<E, B>
+) => (first: TaskEither<E, A>) => TaskEither<E, A> = chainFirstW
 
 /**
  * @category instances

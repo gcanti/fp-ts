@@ -6,7 +6,7 @@ import { apFirst_, apSecond_ } from './Apply'
 import { Category2 } from './Category'
 import { bindTo_, bind_, constant, flow, identity, pipe, tuple } from './function'
 import { Functor2 } from './Functor'
-import { Monad2 } from './Monad'
+import { chainFirst_, Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Profunctor2 } from './Profunctor'
 import { Semigroup } from './Semigroup'
@@ -108,23 +108,6 @@ export const chainW: <R, A, B>(f: (a: A) => Reader<R, B>) => <Q>(ma: Reader<Q, A
  * @since 2.0.0
  */
 export const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B> = chainW
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Monad`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<R, A>) => Reader<R, A> = (f) =>
-  chain((a) =>
-    pipe(
-      f(a),
-      map(() => a)
-    )
-  )
 
 /**
  * Derivable from `Monad`.
@@ -253,6 +236,19 @@ export const Monad: Monad2<URI> = {
   of,
   chain
 }
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * Derivable from `Monad`.
+ *
+ * @category derivable combinators
+ * @since 2.0.0
+ */
+export const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<R, A>) => Reader<R, A> =
+  /*#__PURE__*/
+  chainFirst_(Monad)
 
 /**
  * @category instances

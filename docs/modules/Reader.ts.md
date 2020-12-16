@@ -29,7 +29,6 @@ Added in v2.0.0
 - [Semigroupoid](#semigroupoid)
   - [compose](#compose)
 - [combinators](#combinators)
-  - [chainFirst](#chainfirst)
   - [flatten](#flatten)
   - [local](#local)
 - [constructors](#constructors)
@@ -38,6 +37,7 @@ Added in v2.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
 - [instances](#instances)
   - [Applicative](#applicative-1)
   - [Category](#category-1)
@@ -186,21 +186,6 @@ Added in v2.0.0
 
 # combinators
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<R, A>) => Reader<R, A>
-```
-
-Added in v2.0.0
-
 ## flatten
 
 Derivable from `Monad`.
@@ -278,6 +263,21 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apSecond: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) => Reader<R, B>
+```
+
+Added in v2.0.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<R, A>) => Reader<R, A>
 ```
 
 Added in v2.0.0

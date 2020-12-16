@@ -33,7 +33,6 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
-  - [chainFirst](#chainfirst)
   - [chainFirstW](#chainfirstw)
   - [filterOrElse](#filterorelse)
   - [flatten](#flatten)
@@ -53,6 +52,7 @@ Added in v2.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
 - [destructors](#destructors)
   - [fold](#fold)
   - [getOrElse](#getorelse)
@@ -282,35 +282,16 @@ export declare const chainEitherKW: <E, A, B>(
 
 Added in v2.6.1
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <R, E, A, B>(
-  f: (a: A) => ReaderEither<R, E, B>
-) => (first: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
-```
-
-Added in v2.0.0
-
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainFirst)
 
-Derivable from `Monad`.
-
 **Signature**
 
 ```ts
-export declare const chainFirstW: <R, D, A, B>(
-  f: (a: A) => ReaderEither<R, D, B>
-) => <Q, E>(first: ReaderEither<Q, E, A>) => ReaderEither<Q & R, D | E, A>
+export declare const chainFirstW: <A, R2, E2, B>(
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
 ```
 
 Added in v2.8.0
@@ -509,6 +490,23 @@ Derivable from `Apply`.
 export declare const apSecond: <R, E, B>(
   second: ReaderEither<R, E, B>
 ) => <A>(first: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+```
+
+Added in v2.0.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, R, E, B>(
+  f: (a: A) => ReaderEither<R, E, B>
+) => (first: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0

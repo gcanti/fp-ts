@@ -52,7 +52,6 @@ Added in v2.0.0
   - [sequence](#sequence)
   - [traverse](#traverse)
 - [combinators](#combinators)
-  - [chainFirst](#chainfirst)
   - [chainFirstW](#chainfirstw)
   - [chainNullableK](#chainnullablek)
   - [duplicate](#duplicate)
@@ -73,6 +72,7 @@ Added in v2.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
 - [destructors](#destructors)
   - [fold](#fold)
   - [getOrElse](#getorelse)
@@ -435,31 +435,16 @@ Added in v2.6.3
 
 # combinators
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (first: Either<E, A>) => Either<E, A>
-```
-
-Added in v2.0.0
-
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainFirst)
 
-Derivable from `Monad`.
-
 **Signature**
 
 ```ts
-export declare const chainFirstW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(first: Either<E, A>) => Either<D | E, A>
+export declare const chainFirstW: <A, E2, B>(
+  f: (a: A) => Either<E2, B>
+) => <E1>(first: Either<E1, A>) => Either<E2 | E1, A>
 ```
 
 Added in v2.8.0
@@ -849,6 +834,21 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apSecond: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) => Either<E, B>
+```
+
+Added in v2.0.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, E, B>(f: (a: A) => Either<E, B>) => (first: Either<E, A>) => Either<E, A>
 ```
 
 Added in v2.0.0

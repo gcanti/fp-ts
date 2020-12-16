@@ -467,19 +467,6 @@ export const chain: <A, B>(
 ) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = RA.chain as any
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Monad`.
- *
- * @category combinators
- * @since 2.5.0
- */
-export const chainFirst: <A, B>(
-  f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.chainFirst as any
-
-/**
  * Derivable from `Extend`.
  *
  * @category combinators
@@ -654,6 +641,19 @@ export const Monad: Monad1<URI> = {
   of,
   chain
 }
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * Derivable from `Monad`.
+ *
+ * @category derivable combinators
+ * @since 2.5.0
+ */
+export const chainFirst: <A, B>(
+  f: (a: A) => ReadonlyNonEmptyArray<B>
+) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.chainFirst as any
 
 /**
  * @category instances

@@ -30,6 +30,8 @@ Added in v2.0.0
   - [Monad3 (interface)](#monad3-interface)
   - [Monad3C (interface)](#monad3c-interface)
   - [Monad4 (interface)](#monad4-interface)
+- [utils](#utils)
+  - [chainFirst\_](#chainfirst_)
 
 ---
 
@@ -127,3 +129,33 @@ export interface Monad4<M extends URIS4> extends Functor4<M> {
 ```
 
 Added in v2.0.0
+
+# utils
+
+## chainFirst\_
+
+**Signature**
+
+```ts
+export declare function chainFirst_<M extends URIS4>(
+  M: Monad4<M>
+): <S, R, E, A, B>(f: (a: A) => Kind4<M, S, R, E, B>) => (first: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, A>
+export declare function chainFirst_<M extends URIS3>(
+  M: Monad3<M>
+): <R, E, A, B>(f: (a: A) => Kind3<M, R, E, B>) => (first: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+export declare function chainFirst_<M extends URIS3, E>(
+  M: Monad3C<M, E>
+): <R, A, B>(f: (a: A) => Kind3<M, R, E, B>) => (first: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+export declare function chainFirst_<M extends URIS2>(
+  M: Monad2<M>
+): <E, A, B>(f: (a: A) => Kind2<M, E, B>) => (first: Kind2<M, E, A>) => Kind2<M, E, A>
+export declare function chainFirst_<M extends URIS2, E>(
+  M: Monad2C<M, E>
+): <A, B>(f: (a: A) => Kind2<M, E, B>) => (first: Kind2<M, E, A>) => Kind2<M, E, A>
+export declare function chainFirst_<M extends URIS>(
+  M: Monad1<M>
+): <A, B>(f: (a: A) => Kind<M, B>) => (first: Kind<M, A>) => Kind<M, A>
+export declare function chainFirst_<M>(M: Monad<M>): <A, B>(f: (a: A) => HKT<M, B>) => (first: HKT<M, A>) => HKT<M, A>
+```
+
+Added in v3.0.0

@@ -61,7 +61,6 @@ Added in v2.5.0
   - [wilt](#wilt)
   - [wither](#wither)
 - [combinators](#combinators)
-  - [chainFirst](#chainfirst)
   - [chop](#chop)
   - [difference](#difference)
   - [dropLeft](#dropleft)
@@ -96,6 +95,7 @@ Added in v2.5.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
 - [destructors](#destructors)
   - [foldLeft](#foldleft)
   - [foldRight](#foldright)
@@ -540,21 +540,6 @@ export declare const wither: Wither1<'ReadonlyArray'>
 Added in v2.6.5
 
 # combinators
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => readonly B[]) => (first: readonly A[]) => readonly A[]
-```
-
-Added in v2.5.0
 
 ## chop
 
@@ -1285,6 +1270,21 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apSecond: <B>(second: readonly B[]) => <A>(first: readonly A[]) => readonly B[]
+```
+
+Added in v2.5.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => readonly B[]) => (first: readonly A[]) => readonly A[]
 ```
 
 Added in v2.5.0

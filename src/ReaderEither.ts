@@ -8,7 +8,7 @@ import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import { bindTo_, bind_, flow, identity, pipe, Predicate, Refinement, tuple } from './function'
 import { Functor3 } from './Functor'
-import { Monad3 } from './Monad'
+import { chainFirst_, Monad3 } from './Monad'
 import { MonadThrow3 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
@@ -305,37 +305,6 @@ export const chain: <R, E, A, B>(
 ) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = chainW
 
 /**
- * Less strict version of [`chainFirst`](#chainFirst)
- *
- * Derivable from `Monad`.
- *
- * @category combinators
- * @since 2.8.0
- */
-export const chainFirstW: <R, D, A, B>(
-  f: (a: A) => ReaderEither<R, D, B>
-) => <Q, E>(first: ReaderEither<Q, E, A>) => ReaderEither<Q & R, D | E, A> = (f) =>
-  chainW((a) =>
-    pipe(
-      f(a),
-      map(() => a)
-    )
-  )
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Monad`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const chainFirst: <R, E, A, B>(
-  f: (a: A) => ReaderEither<R, E, B>
-) => (first: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = chainFirstW
-
-/**
  * Derivable from `Monad`.
  *
  * @category combinators
@@ -522,6 +491,31 @@ export const Monad: Monad3<URI> = {
   of,
   chain
 }
+
+/**
+ * Less strict version of [`chainFirst`](#chainFirst)
+ *
+ * @category combinators
+ * @since 2.8.0
+ */
+export const chainFirstW: <A, R2, E2, B>(
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> =
+  /*#__PURE__*/
+  chainFirst_(Monad) as any
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * Derivable from `Monad`.
+ *
+ * @category derivable combinators
+ * @since 2.0.0
+ */
+export const chainFirst: <A, R, E, B>(
+  f: (a: A) => ReaderEither<R, E, B>
+) => (first: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = chainFirstW
 
 /**
  * @category instances

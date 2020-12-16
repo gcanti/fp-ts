@@ -15,7 +15,7 @@ import { apFirst_, apSecond_ } from './Apply'
 import { bindTo_, bind_, flow, identity, pipe, tuple } from './function'
 import { Functor1 } from './Functor'
 import { IO } from './IO'
-import { Monad1 } from './Monad'
+import { chainFirst_, Monad1 } from './Monad'
 import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
@@ -132,23 +132,6 @@ export const of: Applicative1<URI>['of'] = (a) => () => Promise.resolve(a)
  */
 export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (f) => (ma) => () =>
   ma().then((a) => f(a)())
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Monad`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A> = (f) =>
-  chain((a) =>
-    pipe(
-      f(a),
-      map(() => a)
-    )
-  )
 
 /**
  * Derivable from `Monad`.
@@ -320,6 +303,19 @@ export const Monad: Monad1<URI> = {
   of,
   chain
 }
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * Derivable from `Monad`.
+ *
+ * @category derivable combinators
+ * @since 2.0.0
+ */
+export const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A> =
+  /*#__PURE__*/
+  chainFirst_(Monad)
 
 /**
  * @category instances

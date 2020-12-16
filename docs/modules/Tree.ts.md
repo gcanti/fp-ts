@@ -35,7 +35,6 @@ Added in v2.0.0
 - [Monad](#monad)
   - [chain](#chain)
 - [combinators](#combinators)
-  - [chainFirst](#chainfirst)
   - [duplicate](#duplicate)
   - [flatten](#flatten)
 - [constructors](#constructors)
@@ -45,6 +44,7 @@ Added in v2.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
 - [destructors](#destructors)
   - [fold](#fold)
 - [instances](#instances)
@@ -192,21 +192,6 @@ Added in v2.0.0
 
 # combinators
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (first: Tree<A>) => Tree<A>
-```
-
-Added in v2.0.0
-
 ## duplicate
 
 Derivable from `Extend`.
@@ -293,6 +278,21 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apSecond: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<B>
+```
+
+Added in v2.0.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (first: Tree<A>) => Tree<A>
 ```
 
 Added in v2.0.0

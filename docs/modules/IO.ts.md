@@ -33,11 +33,11 @@ Added in v2.0.0
 - [MonadIO](#monadio)
   - [fromIO](#fromio)
 - [combinators](#combinators)
-  - [chainFirst](#chainfirst)
   - [flatten](#flatten)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
 - [instances](#instances)
   - [Applicative](#applicative-1)
   - [Functor](#functor-1)
@@ -134,21 +134,6 @@ Added in v2.7.0
 
 # combinators
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A>
-```
-
-Added in v2.0.0
-
 ## flatten
 
 Derivable from `Monad`.
@@ -187,6 +172,21 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apSecond: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<B>
+```
+
+Added in v2.0.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A>
 ```
 
 Added in v2.0.0

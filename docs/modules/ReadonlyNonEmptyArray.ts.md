@@ -38,7 +38,6 @@ Added in v2.5.0
 - [Monad](#monad)
   - [chain](#chain)
 - [combinators](#combinators)
-  - [chainFirst](#chainfirst)
   - [duplicate](#duplicate)
   - [flatten](#flatten)
   - [group](#group)
@@ -59,6 +58,7 @@ Added in v2.5.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
 - [destructors](#destructors)
   - [uncons](#uncons)
   - [unsnoc](#unsnoc)
@@ -299,23 +299,6 @@ export declare const chain: <A, B>(
 Added in v2.5.0
 
 # combinators
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(
-  f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
-```
-
-Added in v2.5.0
 
 ## duplicate
 
@@ -613,6 +596,23 @@ Derivable from `Apply`.
 export declare const apSecond: <B>(
   second: ReadonlyNonEmptyArray<B>
 ) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+```
+
+Added in v2.5.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(
+  f: (a: A) => ReadonlyNonEmptyArray<B>
+) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.5.0

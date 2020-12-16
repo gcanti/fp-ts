@@ -32,7 +32,6 @@ Added in v2.0.0
 - [MonadTask](#monadtask)
   - [fromTask](#fromtask)
 - [combinators](#combinators)
-  - [chainFirst](#chainfirst)
   - [chainIOK](#chainiok)
   - [delay](#delay)
   - [flatten](#flatten)
@@ -42,6 +41,7 @@ Added in v2.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -143,21 +143,6 @@ export declare const fromTask: <A>(fa: Task<A>) => Task<A>
 Added in v2.7.0
 
 # combinators
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A>
-```
-
-Added in v2.0.0
 
 ## chainIOK
 
@@ -264,6 +249,21 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apSecond: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<B>
+```
+
+Added in v2.0.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A>
 ```
 
 Added in v2.0.0

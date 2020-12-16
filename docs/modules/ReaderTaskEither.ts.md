@@ -37,7 +37,6 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
-  - [chainFirst](#chainfirst)
   - [chainFirstW](#chainfirstw)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
@@ -72,6 +71,7 @@ Added in v2.0.0
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
 - [destructors](#destructors)
   - [fold](#fold)
   - [getOrElse](#getorelse)
@@ -333,23 +333,6 @@ export declare const chainEitherKW: <E, A, B>(
 
 Added in v2.6.1
 
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Monad`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <R, E, A, B>(
-  f: (a: A) => ReaderTaskEither<R, E, B>
-) => (first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v2.0.0
-
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainFirst).
@@ -359,9 +342,9 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirstW: <R, E, A, B>(
-  f: (a: A) => ReaderTaskEither<R, E, B>
-) => <Q, D>(first: ReaderTaskEither<Q, D, A>) => ReaderTaskEither<Q & R, E | D, A>
+export declare const chainFirstW: <A, R2, E2, B>(
+  f: (a: A) => ReaderTaskEither<R2, E2, B>
+) => <R1, E1>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
 ```
 
 Added in v2.8.0
@@ -728,6 +711,23 @@ Derivable from `Apply`.
 export declare const apSecond: <R, E, B>(
   second: ReaderTaskEither<R, E, B>
 ) => <A>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.0.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Monad`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, R, E, B>(
+  f: (a: A) => ReaderTaskEither<R, E, B>
+) => (first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
