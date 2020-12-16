@@ -52,7 +52,6 @@ Added in v2.0.0
   - [sequence](#sequence)
   - [traverse](#traverse)
 - [combinators](#combinators)
-  - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [chainFirstW](#chainfirstw)
   - [chainNullableK](#chainnullablek)
@@ -73,6 +72,7 @@ Added in v2.0.0
   - [tryCatch](#trycatch)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
 - [destructors](#destructors)
   - [fold](#fold)
   - [getOrElse](#getorelse)
@@ -434,20 +434,6 @@ assert.deepStrictEqual(pipe(E.right([]), E.traverse(O.Applicative)(A.head)), O.n
 Added in v2.6.3
 
 # combinators
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) => Either<E, B>
-```
-
-Added in v2.0.0
 
 ## chainFirst
 
@@ -849,6 +835,20 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apFirst: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) => Either<E, A>
+```
+
+Added in v2.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) => Either<E, B>
 ```
 
 Added in v2.0.0

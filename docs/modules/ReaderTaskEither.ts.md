@@ -35,7 +35,6 @@ Added in v2.0.0
 - [MonadThrow](#monadthrow)
   - [throwError](#throwerror)
 - [combinators](#combinators)
-  - [apSecond](#apsecond)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
@@ -72,6 +71,7 @@ Added in v2.0.0
   - [rightTask](#righttask)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
 - [destructors](#destructors)
   - [fold](#fold)
   - [getOrElse](#getorelse)
@@ -306,22 +306,6 @@ export declare const throwError: <R, E, A>(e: E) => ReaderTaskEither<R, E, A>
 Added in v2.0.0
 
 # combinators
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <R, E, B>(
-  second: ReaderTaskEither<R, E, B>
-) => <A>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
-```
-
-Added in v2.0.0
 
 ## chainEitherK
 
@@ -728,6 +712,22 @@ Derivable from `Apply`.
 export declare const apFirst: <R, E, B>(
   second: ReaderTaskEither<R, E, B>
 ) => <A>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <R, E, B>(
+  second: ReaderTaskEither<R, E, B>
+) => <A>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v2.0.0

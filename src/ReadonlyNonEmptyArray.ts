@@ -457,18 +457,6 @@ export const ap: <A>(
 export const of: Applicative1<URI>['of'] = RA.of as any
 
 /**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.5.0
- */
-export const apSecond: <B>(
-  second: ReadonlyNonEmptyArray<B>
-) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = RA.apSecond as any
-
-/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad
@@ -643,6 +631,18 @@ export const Applicative: Applicative1<URI> = {
 export const apFirst: <B>(
   second: ReadonlyNonEmptyArray<B>
 ) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.apFirst as any
+
+/**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category derivable combinators
+ * @since 2.5.0
+ */
+export const apSecond: <B>(
+  second: ReadonlyNonEmptyArray<B>
+) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = RA.apSecond as any
 
 /**
  * @category instances

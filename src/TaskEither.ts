@@ -10,7 +10,7 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
-import { apFirst_, Apply1 } from './Apply'
+import { apFirst_, Apply1, apSecond_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C } from './Compactable'
 import * as E from './Either'
@@ -361,20 +361,6 @@ export const apW = <D, A>(fa: TaskEither<D, A>): (<E, B>(fab: TaskEither<E, (a: 
 export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B> = apW
 
 /**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apSecond = <E, B>(second: TaskEither<E, B>): (<A>(first: TaskEither<E, A>) => TaskEither<E, B>) =>
-  flow(
-    map(() => (b: B) => b),
-    ap(second)
-  )
-
-/**
  * Less strict version of [`chain`](#chain).
  *
  * @category Monad
@@ -719,6 +705,18 @@ export const ApplicativePar: Applicative2<URI> = {
 export const apFirst: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither<E, A>) => TaskEither<E, A> =
   /*#__PURE__*/
   apFirst_(ApplicativePar)
+
+/**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category derivable combinators
+ * @since 2.0.0
+ */
+export const apSecond: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither<E, A>) => TaskEither<E, B> =
+  /*#__PURE__*/
+  apSecond_(ApplicativePar)
 
 /**
  * @category instances

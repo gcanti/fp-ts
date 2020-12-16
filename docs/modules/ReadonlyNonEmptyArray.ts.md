@@ -38,7 +38,6 @@ Added in v2.5.0
 - [Monad](#monad)
   - [chain](#chain)
 - [combinators](#combinators)
-  - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [duplicate](#duplicate)
   - [flatten](#flatten)
@@ -59,6 +58,7 @@ Added in v2.5.0
   - [snoc](#snoc)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
 - [destructors](#destructors)
   - [uncons](#uncons)
   - [unsnoc](#unsnoc)
@@ -299,22 +299,6 @@ export declare const chain: <A, B>(
 Added in v2.5.0
 
 # combinators
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(
-  second: ReadonlyNonEmptyArray<B>
-) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
-```
-
-Added in v2.5.0
 
 ## chainFirst
 
@@ -613,6 +597,22 @@ Derivable from `Apply`.
 export declare const apFirst: <B>(
   second: ReadonlyNonEmptyArray<B>
 ) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.5.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(
+  second: ReadonlyNonEmptyArray<B>
+) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
 ```
 
 Added in v2.5.0

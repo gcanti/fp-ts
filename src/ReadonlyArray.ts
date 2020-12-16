@@ -4,7 +4,7 @@
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { apFirst_ } from './Apply'
+import { apFirst_, apSecond_ } from './Apply'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
@@ -1348,20 +1348,6 @@ export const alt: Alt1<URI>['alt'] = altW
 export const ap: Applicative1<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
 
 /**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.5.0
- */
-export const apSecond = <B>(second: ReadonlyArray<B>): (<A>(first: ReadonlyArray<A>) => ReadonlyArray<B>) =>
-  flow(
-    map(() => (b: B) => b),
-    ap(second)
-  )
-
-/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad
@@ -1790,6 +1776,18 @@ export const Applicative: Applicative1<URI> = {
 export const apFirst: <B>(second: ReadonlyArray<B>) => <A>(first: ReadonlyArray<A>) => ReadonlyArray<A> =
   /*#__PURE__*/
   apFirst_(Applicative)
+
+/**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category derivable combinators
+ * @since 2.5.0
+ */
+export const apSecond: <B>(second: ReadonlyArray<B>) => <A>(first: ReadonlyArray<A>) => ReadonlyArray<B> =
+  /*#__PURE__*/
+  apSecond_(Applicative)
 
 /**
  * @category instances

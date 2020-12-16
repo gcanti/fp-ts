@@ -6,7 +6,7 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
-import { apFirst_ } from './Apply'
+import { apFirst_, apSecond_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C } from './Compactable'
 import * as E from './Either'
@@ -254,20 +254,6 @@ export const apW = <D, A>(fa: IOEither<D, A>): (<E, B>(fab: IOEither<E, (a: A) =
  * @since 2.0.0
  */
 export const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B> = apW
-
-/**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apSecond = <E, B>(second: IOEither<E, B>): (<A>(first: IOEither<E, A>) => IOEither<E, B>) =>
-  flow(
-    map(() => (b: B) => b),
-    ap(second)
-  )
 
 /**
  * Wrap a value into the type constructor.
@@ -588,6 +574,18 @@ export const ApplicativeSeq: Applicative2<URI> = {
 export const apFirst: <E, B>(second: IOEither<E, B>) => <A>(first: IOEither<E, A>) => IOEither<E, A> =
   /*#__PURE__*/
   apFirst_(ApplicativePar)
+
+/**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category derivable combinators
+ * @since 2.0.0
+ */
+export const apSecond: <E, B>(second: IOEither<E, B>) => <A>(first: IOEither<E, A>) => IOEither<E, B> =
+  /*#__PURE__*/
+  apSecond_(ApplicativePar)
 
 /**
  * @category instances

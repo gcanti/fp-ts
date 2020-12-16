@@ -31,7 +31,6 @@ Added in v2.0.0
 - [MonadThrow](#monadthrow)
   - [throwError](#throwerror)
 - [combinators](#combinators)
-  - [apSecond](#apsecond)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
@@ -53,6 +52,7 @@ Added in v2.0.0
   - [rightReader](#rightreader)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
 - [destructors](#destructors)
   - [fold](#fold)
   - [getOrElse](#getorelse)
@@ -255,22 +255,6 @@ export declare const throwError: <R, E, A>(e: E) => ReaderEither<R, E, A>
 Added in v2.7.0
 
 # combinators
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <R, E, B>(
-  second: ReaderEither<R, E, B>
-) => <A>(first: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
-```
-
-Added in v2.0.0
 
 ## chainEitherK
 
@@ -509,6 +493,22 @@ Derivable from `Apply`.
 export declare const apFirst: <R, E, B>(
   second: ReaderEither<R, E, B>
 ) => <A>(first: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+```
+
+Added in v2.0.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <R, E, B>(
+  second: ReaderEither<R, E, B>
+) => <A>(first: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
 ```
 
 Added in v2.0.0

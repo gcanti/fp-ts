@@ -61,7 +61,6 @@ Added in v2.5.0
   - [wilt](#wilt)
   - [wither](#wither)
 - [combinators](#combinators)
-  - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [chop](#chop)
   - [difference](#difference)
@@ -96,6 +95,7 @@ Added in v2.5.0
   - [snoc](#snoc)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
 - [destructors](#destructors)
   - [foldLeft](#foldleft)
   - [foldRight](#foldright)
@@ -540,20 +540,6 @@ export declare const wither: Wither1<'ReadonlyArray'>
 Added in v2.6.5
 
 # combinators
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(second: readonly B[]) => <A>(first: readonly A[]) => readonly B[]
-```
-
-Added in v2.5.0
 
 ## chainFirst
 
@@ -1285,6 +1271,20 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apFirst: <B>(second: readonly B[]) => <A>(first: readonly A[]) => readonly A[]
+```
+
+Added in v2.5.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(second: readonly B[]) => <A>(first: readonly A[]) => readonly B[]
 ```
 
 Added in v2.5.0

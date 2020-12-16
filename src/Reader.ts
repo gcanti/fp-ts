@@ -2,7 +2,7 @@
  * @since 2.0.0
  */
 import { Applicative2 } from './Applicative'
-import { apFirst_ } from './Apply'
+import { apFirst_, apSecond_ } from './Apply'
 import { Category2 } from './Category'
 import { bindTo_, bind_, constant, flow, identity, pipe, tuple } from './function'
 import { Functor2 } from './Functor'
@@ -82,20 +82,6 @@ export const apW: <Q, A>(fa: Reader<Q, A>) => <R, B>(fab: Reader<R, (a: A) => B>
  * @since 2.0.0
  */
 export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> = apW
-
-/**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apSecond = <R, B>(second: Reader<R, B>): (<A>(first: Reader<R, A>) => Reader<R, B>) =>
-  flow(
-    map(() => (b: B) => b),
-    ap(second)
-  )
 
 /**
  * Wrap a value into the type constructor.
@@ -244,6 +230,18 @@ export const Applicative: Applicative2<URI> = {
 export const apFirst: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) => Reader<R, A> =
   /*#__PURE__*/
   apFirst_(Applicative)
+
+/**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category derivable combinators
+ * @since 2.0.0
+ */
+export const apSecond: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) => Reader<R, B> =
+  /*#__PURE__*/
+  apSecond_(Applicative)
 
 /**
  * @category instances

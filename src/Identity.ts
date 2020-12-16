@@ -3,7 +3,7 @@
  */
 import { Alt1 } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { apFirst_ } from './Apply'
+import { apFirst_, apSecond_ } from './Apply'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
@@ -42,20 +42,6 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Identity<A>) => Identity<B> = (
  * @since 2.0.0
  */
 export const ap: <A>(fa: Identity<A>) => <B>(fab: Identity<(a: A) => B>) => Identity<B> = (fa) => (fab) => fab(fa)
-
-/**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apSecond = <B>(second: Identity<B>): (<A>(first: Identity<A>) => Identity<B>) =>
-  flow(
-    map(() => (b: B) => b),
-    ap(second)
-  )
 
 /**
  * Wrap a value into the type constructor.
@@ -236,6 +222,18 @@ export const Applicative: Applicative1<URI> = {
 export const apFirst: <B>(second: Identity<B>) => <A>(first: Identity<A>) => Identity<A> =
   /*#__PURE__*/
   apFirst_(Applicative)
+
+/**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category derivable combinators
+ * @since 2.0.0
+ */
+export const apSecond: <B>(second: Identity<B>) => <A>(first: Identity<A>) => Identity<B> =
+  /*#__PURE__*/
+  apSecond_(Applicative)
 
 /**
  * @category instances

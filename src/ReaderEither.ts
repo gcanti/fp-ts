@@ -3,7 +3,7 @@
  */
 import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C } from './Applicative'
-import { apFirst_ } from './Apply'
+import { apFirst_, apSecond_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import { bindTo_, bind_, flow, identity, pipe, Predicate, Refinement, tuple } from './function'
@@ -275,22 +275,6 @@ export const ap: <R, E, A>(
 ) => <B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B> = apW
 
 /**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apSecond = <R, E, B>(
-  second: ReaderEither<R, E, B>
-): (<A>(first: ReaderEither<R, E, A>) => ReaderEither<R, E, B>) =>
-  flow(
-    map(() => (b: B) => b),
-    ap(second)
-  )
-
-/**
  * Wrap a value into the type constructor.
  *
  * Equivalent to [`right`](#right).
@@ -513,6 +497,20 @@ export const apFirst: <R, E, B>(
 ) => <A>(first: ReaderEither<R, E, A>) => ReaderEither<R, E, A> =
   /*#__PURE__*/
   apFirst_(Applicative)
+
+/**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category derivable combinators
+ * @since 2.0.0
+ */
+export const apSecond: <R, E, B>(
+  second: ReaderEither<R, E, B>
+) => <A>(first: ReaderEither<R, E, A>) => ReaderEither<R, E, B> =
+  /*#__PURE__*/
+  apSecond_(Applicative)
 
 /**
  * @category instances
