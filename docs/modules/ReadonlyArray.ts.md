@@ -376,7 +376,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: readonly A[]) => B
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: readonly A[]) => B
 ```
 
 Added in v2.5.0
@@ -386,7 +386,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: readonly A[]) => B
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: readonly A[]) => B
 ```
 
 Added in v2.5.0
@@ -408,7 +408,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: readonly A[]) => B
+export declare const reduceRightWithIndex: <B, A>(b: B, f: (i: number, a: A, b: B) => B) => (fa: readonly A[]) => B
 ```
 
 Added in v2.5.0
@@ -418,7 +418,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: readonly A[]) => B
+export declare const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (fa: readonly A[]) => B
 ```
 
 Added in v2.5.0
@@ -459,7 +459,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <A, B>(f: (a: A) => readonly B[]) => (ma: readonly A[]) => readonly B[]
+export declare const chain: <A, B>(f: (a: A) => readonly B[]) => (fa: readonly A[]) => readonly B[]
 ```
 
 Added in v2.5.0
@@ -644,7 +644,7 @@ Drop a number of elements from the start of an array, creating a new array
 **Signature**
 
 ```ts
-export declare function dropLeft(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const dropLeft: (n: number) => <A>(as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -664,7 +664,7 @@ Remove the longest initial subarray for which all element satisfy the specified 
 **Signature**
 
 ```ts
-export declare function dropLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const dropLeftWhile: <A>(predicate: Predicate<A>) => (as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -684,7 +684,7 @@ Drop a number of elements from the end of an array, creating a new array
 **Signature**
 
 ```ts
-export declare function dropRight(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const dropRight: (n: number) => <A>(as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -718,7 +718,7 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare function flatten<A>(mma: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<A>
+export declare const flatten: <A>(mma: readonly (readonly A[])[]) => readonly A[]
 ```
 
 **Example**
@@ -802,7 +802,7 @@ Reverse an array, creating a new array
 **Signature**
 
 ```ts
-export declare function reverse<A>(as: ReadonlyArray<A>): ReadonlyArray<A>
+export declare const reverse: <A>(as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -822,7 +822,7 @@ Extracts from an array of `Either` all the `Right` elements. All the `Right` ele
 **Signature**
 
 ```ts
-export declare function rights<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<A>
+export declare const rights: <E, A>(as: readonly Either<E, A>[]) => readonly A[]
 ```
 
 **Example**
@@ -843,7 +843,7 @@ Rotate an array to the right by `n` steps
 **Signature**
 
 ```ts
-export declare function rotate(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const rotate: (n: number) => <A>(as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -863,7 +863,7 @@ Same as `reduce` but it carries over the intermediate steps
 **Signature**
 
 ```ts
-export declare function scanLeft<A, B>(b: B, f: (b: B, a: A) => B): (as: ReadonlyArray<A>) => ReadonlyArray<B>
+export declare const scanLeft: <A, B>(b: B, f: (b: B, a: A) => B) => (as: readonly A[]) => readonly B[]
 ```
 
 **Example**
@@ -883,7 +883,7 @@ Fold an array from the right, keeping all intermediate results instead of only t
 **Signature**
 
 ```ts
-export declare function scanRight<A, B>(b: B, f: (a: A, b: B) => B): (as: ReadonlyArray<A>) => ReadonlyArray<B>
+export declare const scanRight: <A, B>(b: B, f: (a: A, b: B) => B) => (as: readonly A[]) => readonly B[]
 ```
 
 **Example**
@@ -974,7 +974,7 @@ Keep only a number of elements from the start of an array, creating a new array.
 **Signature**
 
 ```ts
-export declare function takeLeft(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const takeLeft: (n: number) => <A>(as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -1199,7 +1199,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function fromArray<A>(as: Array<A>): ReadonlyArray<A>
+export declare const fromArray: <A>(as: A[]) => readonly A[]
 ```
 
 Added in v2.5.0
@@ -1211,7 +1211,7 @@ Return a list of length `n` with element `i` initialized with `f(i)`
 **Signature**
 
 ```ts
-export declare function makeBy<A>(n: number, f: (i: number) => A): ReadonlyArray<A>
+export declare const makeBy: <A>(n: number, f: (n: number) => A) => readonly A[]
 ```
 
 **Example**
@@ -1232,7 +1232,7 @@ Create an array containing a range of integers, including both endpoints
 **Signature**
 
 ```ts
-export declare function range(start: number, end: number): ReadonlyArray<number>
+export declare const range: (start: number, end: number) => readonly number[]
 ```
 
 **Example**
@@ -1252,7 +1252,7 @@ Create an array containing a value repeated the specified number of times
 **Signature**
 
 ```ts
-export declare function replicate<A>(n: number, a: A): ReadonlyArray<A>
+export declare const replicate: <A>(n: number, a: A) => readonly A[]
 ```
 
 **Example**
@@ -1295,10 +1295,10 @@ Break an array into its first element and remaining elements
 **Signature**
 
 ```ts
-export declare function foldLeft<A, B>(
+export declare const foldLeft: <A, B>(
   onEmpty: Lazy<B>,
-  onCons: (head: A, tail: ReadonlyArray<A>) => B
-): (as: ReadonlyArray<A>) => B
+  onCons: (head: A, tail: readonly A[]) => B
+) => (as: readonly A[]) => B
 ```
 
 **Example**
@@ -1322,10 +1322,10 @@ Break an array into its initial elements and the last element
 **Signature**
 
 ```ts
-export declare function foldRight<A, B>(
+export declare const foldRight: <A, B>(
   onEmpty: Lazy<B>,
-  onCons: (init: ReadonlyArray<A>, last: A) => B
-): (as: ReadonlyArray<A>) => B
+  onCons: (init: readonly A[], last: A) => B
+) => (as: readonly A[]) => B
 ```
 
 Added in v2.5.0
@@ -1335,7 +1335,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function toArray<A>(as: ReadonlyArray<A>): Array<A>
+export declare const toArray: <A>(as: readonly A[]) => A[]
 ```
 
 Added in v2.5.0
@@ -1349,7 +1349,7 @@ Test whether an array is non empty narrowing down the type to `NonEmptyReadonlyA
 **Signature**
 
 ```ts
-export declare function isNonEmpty<A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A>
+export declare const isNonEmpty: <A>(as: readonly A[]) => as is ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.5.0
@@ -1545,7 +1545,7 @@ different lengths, the result is non equality.
 **Signature**
 
 ```ts
-export declare function getEq<A>(E: Eq<A>): Eq<ReadonlyArray<A>>
+export declare const getEq: <A>(E: Eq<A>) => Eq<readonly A[]>
 ```
 
 **Example**
@@ -1568,7 +1568,7 @@ Returns a `Monoid` for `ReadonlyArray<A>`
 **Signature**
 
 ```ts
-export declare function getMonoid<A = never>(): Monoid<ReadonlyArray<A>>
+export declare const getMonoid: <A = never>() => Monoid<readonly A[]>
 ```
 
 **Example**
@@ -1593,7 +1593,7 @@ the same length, the result is equality.
 **Signature**
 
 ```ts
-export declare function getOrd<A>(O: Ord<A>): Ord<ReadonlyArray<A>>
+export declare const getOrd: <A>(O: Ord<A>) => Ord<readonly A[]>
 ```
 
 **Example**
@@ -1616,7 +1616,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function getShow<A>(S: Show<A>): Show<ReadonlyArray<A>>
+export declare const getShow: <A>(S: Show<A>) => Show<readonly A[]>
 ```
 
 Added in v2.5.0
@@ -1781,7 +1781,7 @@ Delete the element at the specified index, creating a new array, or returning `N
 **Signature**
 
 ```ts
-export declare function deleteAt(i: number): <A>(as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>
+export declare const deleteAt: (i: number) => <A>(as: readonly A[]) => O.Option<readonly A[]>
 ```
 
 **Example**
@@ -1892,7 +1892,7 @@ Find the first element returned by an option based selector function
 **Signature**
 
 ```ts
-export declare function findFirstMap<A, B>(f: (a: A) => Option<B>): (as: ReadonlyArray<A>) => Option<B>
+export declare const findFirstMap: <A, B>(f: (a: A) => O.Option<B>) => (as: readonly A[]) => O.Option<B>
 ```
 
 **Example**
@@ -1921,7 +1921,7 @@ Find the first index for which a predicate holds
 **Signature**
 
 ```ts
-export declare function findIndex<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<number>
+export declare const findIndex: <A>(predicate: Predicate<A>) => (as: readonly A[]) => O.Option<number>
 ```
 
 **Example**
@@ -1971,7 +1971,7 @@ Returns the index of the last element of the list which matches the predicate
 **Signature**
 
 ```ts
-export declare function findLastIndex<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<number>
+export declare const findLastIndex: <A>(predicate: Predicate<A>) => (as: readonly A[]) => O.Option<number>
 ```
 
 **Example**
@@ -2001,7 +2001,7 @@ Find the last element returned by an option based selector function
 **Signature**
 
 ```ts
-export declare function findLastMap<A, B>(f: (a: A) => Option<B>): (as: ReadonlyArray<A>) => Option<B>
+export declare const findLastMap: <A, B>(f: (a: A) => O.Option<B>) => (as: readonly A[]) => O.Option<B>
 ```
 
 **Example**
@@ -2030,7 +2030,7 @@ Get the first element in an array, or `None` if the array is empty
 **Signature**
 
 ```ts
-export declare function head<A>(as: ReadonlyArray<A>): Option<A>
+export declare const head: <A>(as: readonly A[]) => O.Option<A>
 ```
 
 **Example**
@@ -2052,7 +2052,7 @@ Get all but the last element of an array, creating a new array, or `None` if the
 **Signature**
 
 ```ts
-export declare function init<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>>
+export declare const init: <A>(as: readonly A[]) => O.Option<readonly A[]>
 ```
 
 **Example**
@@ -2074,7 +2074,7 @@ Insert an element at the specified index, creating a new array, or returning `No
 **Signature**
 
 ```ts
-export declare function insertAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>
+export declare const insertAt: <A>(i: number, a: A) => (as: readonly A[]) => O.Option<readonly A[]>
 ```
 
 **Example**
@@ -2095,7 +2095,7 @@ Test whether an array is empty
 **Signature**
 
 ```ts
-export declare function isEmpty<A>(as: ReadonlyArray<A>): boolean
+export declare const isEmpty: <A>(as: readonly A[]) => boolean
 ```
 
 **Example**
@@ -2115,7 +2115,7 @@ Test whether an array contains a particular index
 **Signature**
 
 ```ts
-export declare function isOutOfBound<A>(i: number, as: ReadonlyArray<A>): boolean
+export declare const isOutOfBound: <A>(i: number, as: readonly A[]) => boolean
 ```
 
 Added in v2.5.0
@@ -2127,7 +2127,7 @@ Get the last element in an array, or `None` if the array is empty
 **Signature**
 
 ```ts
-export declare function last<A>(as: ReadonlyArray<A>): Option<A>
+export declare const last: <A>(as: readonly A[]) => O.Option<A>
 ```
 
 **Example**
@@ -2149,7 +2149,7 @@ Extracts from an array of `Either` all the `Left` elements. All the `Left` eleme
 **Signature**
 
 ```ts
-export declare function lefts<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<E>
+export declare const lefts: <E, A>(as: readonly Either<E, A>[]) => readonly E[]
 ```
 
 **Example**
@@ -2194,7 +2194,7 @@ of bounds
 **Signature**
 
 ```ts
-export declare function modifyAt<A>(i: number, f: Endomorphism<A>): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>
+export declare const modifyAt: <A>(i: number, f: Endomorphism<A>) => (as: readonly A[]) => O.Option<readonly A[]>
 ```
 
 **Example**
@@ -2265,7 +2265,7 @@ Splits an array into two pieces, the first piece has `n` elements.
 **Signature**
 
 ```ts
-export declare function splitAt(n: number): <A>(as: ReadonlyArray<A>) => readonly [ReadonlyArray<A>, ReadonlyArray<A>]
+export declare const splitAt: (n: number) => <A>(as: readonly A[]) => readonly [readonly A[], readonly A[]]
 ```
 
 **Example**
@@ -2288,7 +2288,7 @@ Get all but the first element of an array, creating a new array, or `None` if th
 **Signature**
 
 ```ts
-export declare function tail<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>>
+export declare const tail: <A>(as: readonly A[]) => O.Option<readonly A[]>
 ```
 
 **Example**
@@ -2311,7 +2311,7 @@ Keep only a number of elements from the end of an array, creating a new array.
 **Signature**
 
 ```ts
-export declare function takeRight(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const takeRight: (n: number) => <A>(as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -2341,7 +2341,7 @@ This function is the inverse of `zip`. Takes an array of pairs and return two co
 **Signature**
 
 ```ts
-export declare function unzip<A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [ReadonlyArray<A>, ReadonlyArray<B>]
+export declare const unzip: <A, B>(as: readonly (readonly [A, B])[]) => readonly [readonly A[], readonly B[]]
 ```
 
 **Example**
@@ -2371,7 +2371,7 @@ Change the element at the specified index, creating a new array, or returning `N
 **Signature**
 
 ```ts
-export declare function updateAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>
+export declare const updateAt: <A>(i: number, a: A) => (as: readonly A[]) => O.Option<readonly A[]>
 ```
 
 **Example**

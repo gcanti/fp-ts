@@ -6,7 +6,7 @@ parent: Modules
 
 ## ReadonlyNonEmptyArray overview
 
-Data structure which represents non-empty arrays
+Data structure which represents readonly non-empty arrays.
 
 Added in v2.5.0
 
@@ -481,7 +481,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function sort<B>(O: Ord<B>): <A extends B>(nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare const sort: <B>(O: Ord<B>) => <A extends B>(nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.5.0
@@ -550,19 +550,19 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function fromArray<A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>>
+export declare const fromArray: <A>(as: A[]) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
 
 ## fromReadonlyArray
 
-Builds a `ReadonlyNonEmptyArray` from an array returning `none` if `as` is an empty array
+Builds a `ReadonlyNonEmptyArray` from an array returning `none` if `as` is an empty array.
 
 **Signature**
 
 ```ts
-export declare function fromReadonlyArray<A>(as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>>
+export declare const fromReadonlyArray: <A>(as: readonly A[]) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
@@ -575,9 +575,9 @@ function on each element, and grouping the results according to values returned
 **Signature**
 
 ```ts
-export declare function groupBy<A>(
+export declare const groupBy: <A>(
   f: (a: A) => string
-): (as: ReadonlyArray<A>) => ReadonlyRecord<string, ReadonlyNonEmptyArray<A>>
+) => (as: readonly A[]) => Readonly<Record<string, ReadonlyNonEmptyArray<A>>>
 ```
 
 **Example**
@@ -623,7 +623,7 @@ Produces a couple of the first element of the array, and a new array of the rema
 **Signature**
 
 ```ts
-export declare function uncons<A>(nea: ReadonlyNonEmptyArray<A>): readonly [A, ReadonlyArray<A>]
+export declare const uncons: <A>(nea: ReadonlyNonEmptyArray<A>) => readonly [A, readonly A[]]
 ```
 
 **Example**
@@ -643,7 +643,7 @@ Produces a couple of a copy of the array without its last element, and that last
 **Signature**
 
 ```ts
-export declare function unsnoc<A>(nea: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArray<A>, A]
+export declare const unsnoc: <A>(nea: ReadonlyNonEmptyArray<A>) => readonly [readonly A[], A]
 ```
 
 **Example**
@@ -795,7 +795,7 @@ Builds a `Semigroup` instance for `ReadonlyNonEmptyArray`
 **Signature**
 
 ```ts
-export declare function getSemigroup<A = never>(): Semigroup<ReadonlyNonEmptyArray<A>>
+export declare const getSemigroup: <A = never>() => Semigroup<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
@@ -926,9 +926,9 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function filterWithIndex<A>(
+export declare const filterWithIndex: <A>(
   predicate: (i: number, a: A) => boolean
-): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
+) => (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
@@ -938,7 +938,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function fold<A>(S: Semigroup<A>): (fa: ReadonlyNonEmptyArray<A>) => A
+export declare const fold: <A>(S: Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v2.5.0
@@ -948,7 +948,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function head<A>(nea: ReadonlyNonEmptyArray<A>): A
+export declare const head: <A>(nea: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v2.5.0
@@ -960,7 +960,7 @@ Get all but the last element of a non empty array, creating a new array.
 **Signature**
 
 ```ts
-export declare function init<A>(nea: ReadonlyNonEmptyArray<A>): ReadonlyArray<A>
+export declare const init: <A>(nea: ReadonlyNonEmptyArray<A>) => readonly A[]
 ```
 
 **Example**
@@ -979,10 +979,10 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function insertAt<A>(
+export declare const insertAt: <A>(
   i: number,
   a: A
-): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
+) => (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
@@ -992,7 +992,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function last<A>(nea: ReadonlyNonEmptyArray<A>): A
+export declare const last: <A>(nea: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v2.5.0
@@ -1002,7 +1002,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function max<A>(ord: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A
+export declare function max<A>(O: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v2.5.0
@@ -1012,7 +1012,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function min<A>(ord: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A
+export declare function min<A>(O: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v2.5.0
@@ -1022,10 +1022,10 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function modifyAt<A>(
+export declare const modifyAt: <A>(
   i: number,
   f: Endomorphism<A>
-): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
+) => (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
@@ -1045,7 +1045,7 @@ Added in v2.6.3
 **Signature**
 
 ```ts
-export declare function tail<A>(nea: ReadonlyNonEmptyArray<A>): ReadonlyArray<A>
+export declare const tail: <A>(nea: ReadonlyNonEmptyArray<A>) => readonly A[]
 ```
 
 Added in v2.5.0
@@ -1097,10 +1097,10 @@ Added in v2.5.1
 **Signature**
 
 ```ts
-export declare function updateAt<A>(
+export declare const updateAt: <A>(
   i: number,
   a: A
-): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
+) => (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0

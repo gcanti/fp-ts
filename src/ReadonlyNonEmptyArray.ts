@@ -1,5 +1,5 @@
 /**
- * Data structure which represents non-empty arrays
+ * Data structure which represents readonly non-empty arrays.
  *
  * @since 2.5.0
  */
@@ -64,23 +64,20 @@ export const cons: <A>(head: A) => (tail: ReadonlyArray<A>) => ReadonlyNonEmptyA
 export const snoc: <A>(end: A) => (init: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A> = RA.snoc
 
 /**
- * Builds a `ReadonlyNonEmptyArray` from an array returning `none` if `as` is an empty array
+ * Builds a `ReadonlyNonEmptyArray` from an array returning `none` if `as` is an empty array.
  *
  * @category constructors
  * @since 2.5.0
  */
-export function fromReadonlyArray<A>(as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> {
-  return RA.isNonEmpty(as) ? some(as) : none
-}
+export const fromReadonlyArray = <A>(as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
+  RA.isNonEmpty(as) ? some(as) : none
 
 /**
  * @category constructors
  * @since 2.5.0
  */
 // tslint:disable-next-line: readonly-array
-export function fromArray<A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>> {
-  return fromReadonlyArray(RA.fromArray(as))
-}
+export const fromArray = <A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>> => fromReadonlyArray(RA.fromArray(as))
 
 /**
  * Produces a couple of the first element of the array, and a new array of the remaining elements, if any
@@ -93,9 +90,7 @@ export function fromArray<A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>> {
  * @category destructors
  * @since 2.9.0
  */
-export function uncons<A>(nea: ReadonlyNonEmptyArray<A>): readonly [A, ReadonlyArray<A>] {
-  return [nea[0], nea.slice(1)]
-}
+export const uncons = <A>(nea: ReadonlyNonEmptyArray<A>): readonly [A, ReadonlyArray<A>] => [nea[0], nea.slice(1)]
 
 /**
  * Produces a couple of a copy of the array without its last element, and that last element
@@ -108,9 +103,9 @@ export function uncons<A>(nea: ReadonlyNonEmptyArray<A>): readonly [A, ReadonlyA
  * @category destructors
  * @since 2.9.0
  */
-export function unsnoc<A>(nea: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArray<A>, A] {
-  const l = nea.length - 1
-  return [nea.slice(0, l), nea[l]]
+export const unsnoc = <A>(nea: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArray<A>, A] => {
+  const len = nea.length - 1
+  return [nea.slice(0, len), nea[len]]
 }
 
 /**
@@ -122,16 +117,12 @@ export const getShow: <A>(S: Show<A>) => Show<ReadonlyNonEmptyArray<A>> = RA.get
 /**
  * @since 2.5.0
  */
-export function head<A>(nea: ReadonlyNonEmptyArray<A>): A {
-  return nea[0]
-}
+export const head = <A>(nea: ReadonlyNonEmptyArray<A>): A => nea[0]
 
 /**
  * @since 2.5.0
  */
-export function tail<A>(nea: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> {
-  return nea.slice(1)
-}
+export const tail = <A>(nea: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> => nea.slice(1)
 
 /**
  * @category combinators
@@ -142,16 +133,16 @@ export const reverse: <A>(nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArra
 /**
  * @since 2.5.0
  */
-export function min<A>(ord: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
-  const S = getMeetSemigroup(ord)
+export function min<A>(O: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
+  const S = getMeetSemigroup(O)
   return (nea) => nea.reduce((a, acc) => S.concat(acc)(a))
 }
 
 /**
  * @since 2.5.0
  */
-export function max<A>(ord: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
-  const S = getJoinSemigroup(ord)
+export function max<A>(O: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
+  const S = getJoinSemigroup(O)
   return (nea) => nea.reduce((a, acc) => S.concat(acc)(a))
 }
 
@@ -161,11 +152,9 @@ export function max<A>(ord: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
  * @category instances
  * @since 2.5.0
  */
-export function getSemigroup<A = never>(): Semigroup<ReadonlyNonEmptyArray<A>> {
-  return {
-    concat: (second) => (first) => concat(first, second)
-  }
-}
+export const getSemigroup = <A = never>(): Semigroup<ReadonlyNonEmptyArray<A>> => ({
+  concat: (second) => (first) => concat(first, second)
+})
 
 /**
  * @category instances
@@ -260,30 +249,26 @@ export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray
  * @category constructors
  * @since 2.5.0
  */
-export function groupBy<A>(
-  f: (a: A) => string
-): (as: ReadonlyArray<A>) => ReadonlyRecord<string, ReadonlyNonEmptyArray<A>> {
-  return (as: ReadonlyArray<A>) => {
-    // tslint:disable-next-line: readonly-array
-    const out: Record<string, [A, ...Array<A>]> = {}
-    for (const a of as) {
-      const k = f(a)
-      if (out.hasOwnProperty(k)) {
-        out[k].push(a)
-      } else {
-        out[k] = [a]
-      }
+export const groupBy = <A>(f: (a: A) => string) => (
+  as: ReadonlyArray<A>
+): ReadonlyRecord<string, ReadonlyNonEmptyArray<A>> => {
+  // tslint:disable-next-line: readonly-array
+  const out: Record<string, [A, ...Array<A>]> = {}
+  for (const a of as) {
+    const k = f(a)
+    if (out.hasOwnProperty(k)) {
+      out[k].push(a)
+    } else {
+      out[k] = [a]
     }
-    return out
   }
+  return out
 }
 
 /**
  * @since 2.5.0
  */
-export function last<A>(nea: ReadonlyNonEmptyArray<A>): A {
-  return nea[nea.length - 1]
-}
+export const last = <A>(nea: ReadonlyNonEmptyArray<A>): A => nea[nea.length - 1]
 
 /**
  * Get all but the last element of a non empty array, creating a new array.
@@ -296,41 +281,39 @@ export function last<A>(nea: ReadonlyNonEmptyArray<A>): A {
  *
  * @since 2.5.0
  */
-export function init<A>(nea: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> {
-  return nea.slice(0, -1)
-}
+export const init = <A>(nea: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> => nea.slice(0, -1)
 
 /**
  * @category combinators
  * @since 2.5.0
  */
-export function sort<B>(O: Ord<B>): <A extends B>(nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> {
-  return RA.sort(O) as any
-}
+export const sort: <B>(
+  O: Ord<B>
+) => <A extends B>(nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.sort as any
 
 /**
  * @since 2.5.0
  */
-export function insertAt<A>(i: number, a: A): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> {
-  return RA.insertAt(i, a) as any
-}
+export const insertAt: <A>(
+  i: number,
+  a: A
+) => (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> = RA.insertAt as any
 
 /**
  * @since 2.5.0
  */
-export function updateAt<A>(i: number, a: A): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> {
-  return RA.updateAt(i, a) as any
-}
+export const updateAt: <A>(
+  i: number,
+  a: A
+) => (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> = RA.updateAt as any
 
 /**
  * @since 2.5.0
  */
-export function modifyAt<A>(
+export const modifyAt: <A>(
   i: number,
   f: Endomorphism<A>
-): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> {
-  return RA.modifyAt(i, f) as any
-}
+) => (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> = RA.modifyAt as any
 
 /**
  * @since 2.5.0
@@ -348,19 +331,9 @@ export function filter<A>(
 /**
  * @since 2.5.0
  */
-export function filterWithIndex<A>(
-  predicate: (i: number, a: A) => boolean
-): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> {
-  return (nea) => fromReadonlyArray(nea.filter((a, i) => predicate(i, a)))
-}
-
-/**
- * Wrap a value into the type constructor.
- *
- * @category Applicative
- * @since 2.5.0
- */
-export const of: Applicative1<URI>['of'] = RA.of as any
+export const filterWithIndex = <A>(predicate: (i: number, a: A) => boolean) => (
+  nea: ReadonlyNonEmptyArray<A>
+): Option<ReadonlyNonEmptyArray<A>> => fromReadonlyArray(nea.filter((a, i) => predicate(i, a)))
 
 /**
  * @category constructors
@@ -375,9 +348,7 @@ export function concat<A>(fx: ReadonlyArray<A>, fy: ReadonlyArray<A>): ReadonlyA
 /**
  * @since 2.5.0
  */
-export function fold<A>(S: Semigroup<A>): (fa: ReadonlyNonEmptyArray<A>) => A {
-  return (fa) => fa.reduce((a, acc) => S.concat(acc)(a))
-}
+export const fold = <A>(S: Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>): A => fa.reduce((a, acc) => S.concat(acc)(a))
 
 /**
  * @category combinators
@@ -435,13 +406,6 @@ export const intersperse: <A>(
   a: A
 ) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.intersperse as any
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
-const traverseWithIndex_: TraversableWithIndex1<URI, number>['traverseWithIndex'] = RA.TraversableWithIndex
-  .traverseWithIndex as any
-
 /**
  * @category FoldableWithIndex
  * @since 2.5.0
@@ -483,6 +447,14 @@ export const alt: Alt1<URI>['alt'] = RA.alt as any
 export const ap: <A>(
   fa: ReadonlyNonEmptyArray<A>
 ) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B> = RA.ap as any
+
+/**
+ * Wrap a value into the type constructor.
+ *
+ * @category Applicative
+ * @since 2.5.0
+ */
+export const of: Applicative1<URI>['of'] = RA.of as any
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -722,7 +694,7 @@ export const Traversable: Traversable1<URI> = {
  */
 export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
   URI,
-  traverseWithIndex: traverseWithIndex_
+  traverseWithIndex
 }
 
 /**
