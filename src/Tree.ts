@@ -196,7 +196,7 @@ export function fold<A, B>(f: (a: A, bs: ReadonlyArray<B>) => B): (tree: Tree<A>
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = (fa) => chain((f) => pipe(fa, map(f)))
+export const ap: Applicative1<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.

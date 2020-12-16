@@ -444,7 +444,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B> = (f) =
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B> = (fa) => (fab) =>
+export const ap: Applicative1<URI>['ap'] = (fa) => (fab) =>
   isNone(fab) ? none : isNone(fa) ? none : some(fab.value(fa.value))
 
 /**

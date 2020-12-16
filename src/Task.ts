@@ -113,8 +113,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (f
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (fa) => (fab) => () =>
-  Promise.all([fab(), fa()]).then(([f, a]) => f(a))
+export const ap: Applicative1<URI>['ap'] = (fa) => (fab) => () => Promise.all([fab(), fa()]).then(([f, a]) => f(a))
 
 /**
  * Wrap a value into the type constructor.

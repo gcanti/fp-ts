@@ -418,9 +418,9 @@ export const mapLeft: <E, G>(
  * @category Apply
  * @since 2.8.0
  */
-export const apW = <S, Q, D, A>(fa: StateReaderTaskEither<S, Q, D, A>) => <R, E, B>(
-  fab: StateReaderTaskEither<S, R, E, (a: A) => B>
-): StateReaderTaskEither<S, Q & R, D | E, B> => (s1) =>
+export const apW = <S, R2, E2, A>(fa: StateReaderTaskEither<S, R2, E2, A>) => <R1, E1, B>(
+  fab: StateReaderTaskEither<S, R1, E1, (a: A) => B>
+): StateReaderTaskEither<S, R1 & R2, E1 | E2, B> => (s1) =>
   pipe(
     fab(s1),
     RTE.chainW(([f, s2]) =>
@@ -437,9 +437,7 @@ export const apW = <S, Q, D, A>(fa: StateReaderTaskEither<S, Q, D, A>) => <R, E,
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <S, R, E, A>(
-  fa: StateReaderTaskEither<S, R, E, A>
-) => <B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B> = apW
+export const ap: Applicative4<URI>['ap'] = apW
 
 /**
  * Wrap a value into the type constructor.

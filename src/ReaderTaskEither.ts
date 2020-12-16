@@ -403,9 +403,9 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: ReaderTaskEither<R, E
  * @category Apply
  * @since 2.8.0
  */
-export const apW = <Q, D, A>(fa: ReaderTaskEither<Q, D, A>) => <R, E, B>(
-  fab: ReaderTaskEither<R, E, (a: A) => B>
-): ReaderTaskEither<Q & R, D | E, B> => (r) => pipe(fab(r), TE.apW(fa(r)))
+export const apW = <R2, E2, A>(fa: ReaderTaskEither<R2, E2, A>) => <R1, E1, B>(
+  fab: ReaderTaskEither<R1, E1, (a: A) => B>
+): ReaderTaskEither<R1 & R2, E1 | E2, B> => (r) => pipe(fab(r), TE.apW(fa(r)))
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -413,9 +413,7 @@ export const apW = <Q, D, A>(fa: ReaderTaskEither<Q, D, A>) => <R, E, B>(
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <R, E, A>(
-  fa: ReaderTaskEither<R, E, A>
-) => <B>(fab: ReaderTaskEither<R, E, (a: A) => B>) => ReaderTaskEither<R, E, B> = apW
+export const ap: Applicative3<URI>['ap'] = apW
 
 /**
  * Wrap a value into the type constructor.

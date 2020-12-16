@@ -161,9 +161,9 @@ Less strict version of [`ap`](#ap).
 **Signature**
 
 ```ts
-export declare const apW: <Q, D, A>(
-  fa: ReaderEither<Q, D, A>
-) => <R, E, B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<Q & R, D | E, B>
+export declare const apW: <R2, E2, A>(
+  fa: ReaderEither<R2, E2, A>
+) => <R1, E1, B>(fab: ReaderEither<R1, E1, (a: A) => B>) => ReaderEither<R1 & R2, E2 | E1, B>
 ```
 
 Added in v2.8.0

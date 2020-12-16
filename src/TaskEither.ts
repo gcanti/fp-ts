@@ -346,9 +346,11 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskEither<E, A>) => Tas
  * @category Apply
  * @since 2.8.0
  */
-export const apW = <D, A>(fa: TaskEither<D, A>): (<E, B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<D | E, B>) =>
+export const apW = <E2, A>(
+  fa: TaskEither<E2, A>
+): (<E1, B>(fab: TaskEither<E1, (a: A) => B>) => TaskEither<E1 | E2, B>) =>
   flow(
-    T.map((gab) => (ga: E.Either<D, A>) => E.apW(ga)(gab)),
+    T.map((gab) => (ga: E.Either<E2, A>) => E.apW(ga)(gab)),
     T.ap(fa)
   )
 
@@ -358,7 +360,7 @@ export const apW = <D, A>(fa: TaskEither<D, A>): (<E, B>(fab: TaskEither<E, (a: 
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B> = apW
+export const ap: Applicative2<URI>['ap'] = apW
 
 /**
  * Less strict version of [`chain`](#chain).

@@ -220,9 +220,9 @@ Less strict version of [`ap`](#ap).
 **Signature**
 
 ```ts
-export declare const apW: <D, A>(
-  fa: TaskEither<D, A>
-) => <E, B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<D | E, B>
+export declare const apW: <E2, A>(
+  fa: TaskEither<E2, A>
+) => <E1, B>(fab: TaskEither<E1, (a: A) => B>) => TaskEither<E2 | E1, B>
 ```
 
 Added in v2.8.0

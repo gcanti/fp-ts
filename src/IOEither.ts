@@ -241,9 +241,9 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) => IOEit
  * @category Apply
  * @since 2.8.0
  */
-export const apW = <D, A>(fa: IOEither<D, A>): (<E, B>(fab: IOEither<E, (a: A) => B>) => IOEither<D | E, B>) =>
+export const apW = <E2, A>(fa: IOEither<E2, A>): (<E1, B>(fab: IOEither<E1, (a: A) => B>) => IOEither<E1 | E2, B>) =>
   flow(
-    I.map((gab) => (ga: E.Either<D, A>) => E.apW(ga)(gab)),
+    I.map((gab) => (ga: E.Either<E2, A>) => E.apW(ga)(gab)),
     I.ap(fa)
   )
 
@@ -253,7 +253,7 @@ export const apW = <D, A>(fa: IOEither<D, A>): (<E, B>(fab: IOEither<E, (a: A) =
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B> = apW
+export const ap: Applicative2<URI>['ap'] = apW
 
 /**
  * Wrap a value into the type constructor.

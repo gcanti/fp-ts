@@ -41,7 +41,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Identity<A>) => Identity<B> = (
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <A>(fa: Identity<A>) => <B>(fab: Identity<(a: A) => B>) => Identity<B> = (fa) => (fab) => fab(fa)
+export const ap: Applicative1<URI>['ap'] = (fa) => (fab) => fab(fa)
 
 /**
  * Wrap a value into the type constructor.

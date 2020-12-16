@@ -71,7 +71,7 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B
  * @category Apply
  * @since 2.8.0
  */
-export const apW: <Q, A>(fa: Reader<Q, A>) => <R, B>(fab: Reader<R, (a: A) => B>) => Reader<Q & R, B> = (fa) => (
+export const apW: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) => B>) => Reader<R1 & R2, B> = (fa) => (
   fab
 ) => (r) => fab(r)(fa(r))
 
@@ -81,7 +81,7 @@ export const apW: <Q, A>(fa: Reader<Q, A>) => <R, B>(fab: Reader<R, (a: A) => B>
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> = apW
+export const ap: Applicative2<URI>['ap'] = apW
 
 /**
  * Wrap a value into the type constructor.

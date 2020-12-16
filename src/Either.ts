@@ -491,8 +491,9 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => (isLeft(fa) ? 
  * @category Apply
  * @since 2.8.0
  */
-export const apW: <D, A>(fa: Either<D, A>) => <E, B>(fab: Either<E, (a: A) => B>) => Either<D | E, B> = (fa) => (fab) =>
-  isLeft(fab) ? fab : isLeft(fa) ? fa : right(fab.right(fa.right))
+export const apW: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E1 | E2, B> = (fa) => (
+  fab
+) => (isLeft(fab) ? fab : isLeft(fa) ? fa : right(fab.right(fa.right)))
 
 /**
  * Apply a function to an argument under a type constructor.

@@ -73,7 +73,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: State<E, A>) => State<E, B> 
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => State<E, B> = (fa) => (fab) => (s1) => {
+export const ap: Applicative2<URI>['ap'] = (fa) => (fab) => (s1) => {
   const [f, s2] = fab(s1)
   const [a, s3] = fa(s2)
   return [f(a), s3]

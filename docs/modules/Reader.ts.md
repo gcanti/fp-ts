@@ -90,7 +90,7 @@ Apply a function to an argument under a type constructor.
 **Signature**
 
 ```ts
-export declare const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B>
+export declare const ap: <E, A>(fa: Reader<E, A>) => <B>(fab: Reader<E, (a: A) => B>) => Reader<E, B>
 ```
 
 Added in v2.0.0
@@ -102,7 +102,7 @@ Less strict version of [`ap`](#ap).
 **Signature**
 
 ```ts
-export declare const apW: <Q, A>(fa: Reader<Q, A>) => <R, B>(fab: Reader<R, (a: A) => B>) => Reader<Q & R, B>
+export declare const apW: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) => B>) => Reader<R1 & R2, B>
 ```
 
 Added in v2.8.0

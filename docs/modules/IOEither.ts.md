@@ -169,7 +169,9 @@ Less strict version of [`ap`](#ap).
 **Signature**
 
 ```ts
-export declare const apW: <D, A>(fa: IOEither<D, A>) => <E, B>(fab: IOEither<E, (a: A) => B>) => IOEither<D | E, B>
+export declare const apW: <E2, A>(
+  fa: IOEither<E2, A>
+) => <E1, B>(fab: IOEither<E1, (a: A) => B>) => IOEither<E2 | E1, B>
 ```
 
 Added in v2.8.0

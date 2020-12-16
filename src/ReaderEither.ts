@@ -256,11 +256,11 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: ReaderEither<R, E, A>
  * @category Apply
  * @since 2.8.0
  */
-export const apW = <Q, D, A>(
-  fa: ReaderEither<Q, D, A>
-): (<R, E, B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<Q & R, D | E, B>) =>
+export const apW = <R2, E2, A>(
+  fa: ReaderEither<R2, E2, A>
+): (<R1, E1, B>(fab: ReaderEither<R1, E1, (a: A) => B>) => ReaderEither<R1 & R2, E1 | E2, B>) =>
   flow(
-    R.map((gab) => (ga: E.Either<D, A>) => E.apW(ga)(gab)),
+    R.map((gab) => (ga: E.Either<E2, A>) => E.apW(ga)(gab)),
     R.apW(fa)
   )
 
@@ -270,9 +270,7 @@ export const apW = <Q, D, A>(
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <R, E, A>(
-  fa: ReaderEither<R, E, A>
-) => <B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B> = apW
+export const ap: Applicative3<URI>['ap'] = apW
 
 /**
  * Wrap a value into the type constructor.

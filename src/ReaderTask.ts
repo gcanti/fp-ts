@@ -118,9 +118,10 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderT
  * @category Apply
  * @since 2.8.0
  */
-export const apW: <Q, A>(fa: ReaderTask<Q, A>) => <R, B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<Q & R, B> = (
-  fa
-) => (fab) => (r) => pipe(fab(r), T.ap(fa(r)))
+export const apW: <R2, A>(
+  fa: ReaderTask<R2, A>
+) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B> = (fa) => (fab) => (r) =>
+  pipe(fab(r), T.ap(fa(r)))
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -128,7 +129,7 @@ export const apW: <Q, A>(fa: ReaderTask<Q, A>) => <R, B>(fab: ReaderTask<R, (a: 
  * @category Apply
  * @since 2.3.0
  */
-export const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B> = apW
+export const ap: Applicative2<URI>['ap'] = apW
 
 /**
  * Wrap a value into the type constructor.

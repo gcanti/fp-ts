@@ -444,9 +444,7 @@ export const alt: Alt1<URI>['alt'] = RA.alt as any
  * @category Apply
  * @since 2.5.0
  */
-export const ap: <A>(
-  fa: ReadonlyNonEmptyArray<A>
-) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B> = RA.ap as any
+export const ap: Applicative1<URI>['ap'] = RA.ap as any
 
 /**
  * Wrap a value into the type constructor.
