@@ -10,7 +10,7 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
-import { apFirst_, Apply1, apSecond_, apS_ } from './Apply'
+import { apFirst_, Apply1, apSecond_, apS_, apT_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C } from './Compactable'
 import * as E from './Either'
@@ -936,14 +936,11 @@ export const tupled: <E, A>(a: TaskEither<E, A>) => TaskEither<E, readonly [A]> 
 /**
  * @since 3.0.0
  */
-export const apTW = <E2, B>(fb: TaskEither<E2, B>) => <E1, A extends ReadonlyArray<unknown>>(
-  fas: TaskEither<E1, A>
-): TaskEither<E1 | E2, readonly [...A, B]> =>
-  pipe(
-    fas,
-    map((a) => (b: B): readonly [...A, B] => [...a, b]),
-    apW(fb)
-  )
+export const apTW: <E2, B>(
+  fb: TaskEither<E2, B>
+) => <E1, A extends ReadonlyArray<unknown>>(fas: TaskEither<E1, A>) => TaskEither<E1 | E2, readonly [...A, B]> =
+  /*#__PURE__*/
+  apT_(ApplicativePar) as any
 
 /**
  * @since 3.0.0

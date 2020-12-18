@@ -11,7 +11,7 @@
  * @since 3.0.0
  */
 import { Applicative1 } from './Applicative'
-import { apFirst_, apSecond_, apS_ } from './Apply'
+import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
 import { identity, pipe, tuple } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { IO } from './IO'
@@ -393,12 +393,9 @@ export const tupled: <A>(a: Task<A>) => Task<readonly [A]> = map(tuple)
 /**
  * @since 3.0.0
  */
-export const apT = <B>(fb: Task<B>) => <A extends ReadonlyArray<unknown>>(fas: Task<A>): Task<readonly [...A, B]> =>
-  pipe(
-    fas,
-    map((a) => (b: B): readonly [...A, B] => [...a, b]),
-    ap(fb)
-  )
+export const apT: <B>(fb: Task<B>) => <A extends ReadonlyArray<unknown>>(fas: Task<A>) => Task<readonly [...A, B]> =
+  /*#__PURE__*/
+  apT_(ApplicativePar)
 
 // -------------------------------------------------------------------------------------
 // array utils

@@ -3,7 +3,7 @@
  */
 import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C } from './Applicative'
-import { apFirst_, apSecond_, apS_ } from './Apply'
+import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import { flow, identity, pipe, Predicate, Refinement, tuple } from './function'
@@ -617,14 +617,13 @@ export const tupled: <R, E, A>(a: ReaderEither<R, E, A>) => ReaderEither<R, E, r
 /**
  * @since 3.0.0
  */
-export const apTW = <R2, E2, B>(fb: ReaderEither<R2, E2, B>) => <R1, E1, A extends ReadonlyArray<unknown>>(
+export const apTW: <R2, E2, B>(
+  fb: ReaderEither<R2, E2, B>
+) => <R1, E1, A extends ReadonlyArray<unknown>>(
   fas: ReaderEither<R1, E1, A>
-): ReaderEither<R1 & R2, E1 | E2, readonly [...A, B]> =>
-  pipe(
-    fas,
-    map((a) => (b: B): readonly [...A, B] => [...a, b]),
-    apW(fb)
-  )
+) => ReaderEither<R1 & R2, E1 | E2, readonly [...A, B]> =
+  /*#__PURE__*/
+  apT_(Applicative) as any
 
 /**
  * @since 3.0.0

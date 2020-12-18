@@ -3,7 +3,7 @@
  */
 import { Alt4 } from './Alt'
 import { Applicative4 } from './Applicative'
-import { apFirst_, apSecond_, apS_ } from './Apply'
+import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
 import { Bifunctor4 } from './Bifunctor'
 import * as E from './Either'
 import { flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
@@ -764,18 +764,13 @@ export const tupled: <S, R, E, A>(
 /**
  * @since 3.0.0
  */
-export const apTW = <S, R2, E2, B>(fb: StateReaderTaskEither<S, R2, E2, B>) => <
-  R1,
-  E1,
-  A extends ReadonlyArray<unknown>
->(
+export const apTW: <S, R2, E2, B>(
+  fb: StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1, A extends ReadonlyArray<unknown>>(
   fas: StateReaderTaskEither<S, R1, E1, A>
-): StateReaderTaskEither<S, R1 & R2, E1 | E2, readonly [...A, B]> =>
-  pipe(
-    fas,
-    map((a) => (b: B): readonly [...A, B] => [...a, b]),
-    apW(fb)
-  )
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, readonly [...A, B]> =
+  /*#__PURE__*/
+  apT_(Applicative) as any
 
 /**
  * @since 3.0.0

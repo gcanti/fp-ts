@@ -2,9 +2,9 @@
  * @since 3.0.0
  */
 import { Applicative2 } from './Applicative'
-import { apFirst_, apSecond_, apS_ } from './Apply'
+import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
 import { Category2 } from './Category'
-import { constant, flow, identity, pipe, tuple } from './function'
+import { constant, flow, identity, tuple } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { bind_, chainFirst_, Monad2 } from './Monad'
 import { Monoid } from './Monoid'
@@ -343,14 +343,11 @@ export const tupled: <R, A>(a: Reader<R, A>) => Reader<R, readonly [A]> = map(tu
 /**
  * @since 3.0.0
  */
-export const apTW = <R2, B>(fb: Reader<R2, B>) => <R1, A extends ReadonlyArray<unknown>>(
-  fas: Reader<R1, A>
-): Reader<R1 & R2, readonly [...A, B]> =>
-  pipe(
-    fas,
-    map((a) => (b: B): readonly [...A, B] => [...a, b]),
-    apW(fb)
-  )
+export const apTW: <R2, B>(
+  fb: Reader<R2, B>
+) => <R1, A extends ReadonlyArray<unknown>>(fas: Reader<R1, A>) => Reader<R1 & R2, readonly [...A, B]> =
+  /*#__PURE__*/
+  apT_(Applicative) as any
 
 /**
  * @since 3.0.0

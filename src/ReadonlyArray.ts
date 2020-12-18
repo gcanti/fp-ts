@@ -4,7 +4,7 @@
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { apFirst_, apSecond_, apS_ } from './Apply'
+import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
@@ -2045,11 +2045,8 @@ export const tupled: <A>(a: ReadonlyArray<A>) => ReadonlyArray<readonly [A]> = m
 /**
  * @since 3.0.0
  */
-export const apT = <B>(fb: ReadonlyArray<B>) => <A extends ReadonlyArray<unknown>>(
-  fas: ReadonlyArray<A>
-): ReadonlyArray<readonly [...A, B]> =>
-  pipe(
-    fas,
-    map((a) => (b: B): readonly [...A, B] => [...a, b]),
-    ap(fb)
-  )
+export const apT: <B>(
+  fb: ReadonlyArray<B>
+) => <A extends ReadonlyArray<unknown>>(fas: ReadonlyArray<A>) => ReadonlyArray<readonly [...A, B]> =
+  /*#__PURE__*/
+  apT_(Applicative)

@@ -3,7 +3,7 @@
  */
 import { Alt1 } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { apFirst_, apSecond_, apS_ } from './Apply'
+import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
@@ -342,11 +342,8 @@ export const tupled: <A>(a: Identity<A>) => Identity<readonly [A]> = map(tuple)
 /**
  * @since 3.0.0
  */
-export const apT = <B>(fb: Identity<B>) => <A extends ReadonlyArray<unknown>>(
-  fas: Identity<A>
-): Identity<readonly [...A, B]> =>
-  pipe(
-    fas,
-    map((a) => (b: B): readonly [...A, B] => [...a, b]),
-    ap(fb)
-  )
+export const apT: <B>(
+  fb: Identity<B>
+) => <A extends ReadonlyArray<unknown>>(fas: Identity<A>) => Identity<readonly [...A, B]> =
+  /*#__PURE__*/
+  apT_(Applicative)

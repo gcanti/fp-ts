@@ -15,7 +15,7 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative2, Applicative2C } from './Applicative'
-import { apFirst_, apSecond_, apS_ } from './Apply'
+import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C, Separated } from './Compactable'
 import { Eq, fromEquals } from './Eq'
@@ -1248,14 +1248,11 @@ export const tupled: <E, A>(a: Either<E, A>) => Either<E, readonly [A]> = map(tu
 /**
  * @since 3.0.0
  */
-export const apTW = <E2, B>(fb: Either<E2, B>) => <E1, A extends ReadonlyArray<unknown>>(
-  fas: Either<E1, A>
-): Either<E1 | E2, readonly [...A, B]> =>
-  pipe(
-    fas,
-    map((a) => (b: B): readonly [...A, B] => [...a, b]),
-    apW(fb)
-  )
+export const apTW: <E2, B>(
+  fb: Either<E2, B>
+) => <E1, A extends ReadonlyArray<unknown>>(fas: Either<E1, A>) => Either<E1 | E2, readonly [...A, B]> =
+  /*#__PURE__*/
+  apT_(Applicative) as any
 
 /**
  * @since 3.0.0

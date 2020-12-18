@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import { Applicative2 } from './Applicative'
-import { apFirst_, apSecond_, apS_ } from './Apply'
+import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
 import { flow, identity, pipe, tuple } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { IO } from './IO'
@@ -373,14 +373,11 @@ export const tupled: <R, A>(a: ReaderTask<R, A>) => ReaderTask<R, readonly [A]> 
 /**
  * @since 3.0.0
  */
-export const apTW = <R2, B>(fb: ReaderTask<R2, B>) => <R1, A extends ReadonlyArray<unknown>>(
-  fas: ReaderTask<R1, A>
-): ReaderTask<R1 & R2, readonly [...A, B]> =>
-  pipe(
-    fas,
-    map((a) => (b: B): readonly [...A, B] => [...a, b]),
-    apW(fb)
-  )
+export const apTW: <R2, B>(
+  fb: ReaderTask<R2, B>
+) => <R1, A extends ReadonlyArray<unknown>>(fas: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]> =
+  /*#__PURE__*/
+  apT_(ApplicativePar) as any
 
 /**
  * @since 3.0.0

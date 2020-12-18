@@ -2,8 +2,8 @@
  * @since 3.0.0
  */
 import { Applicative2 } from './Applicative'
-import { apFirst_, apSecond_, apS_ } from './Apply'
-import { identity, pipe, tuple } from './function'
+import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
+import { identity, tuple } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { bind_, chainFirst_, Monad2 } from './Monad'
 
@@ -263,14 +263,11 @@ export const tupled: <S, A>(a: State<S, A>) => State<S, readonly [A]> = map(tupl
 /**
  * @since 3.0.0
  */
-export const apT = <S, B>(fb: State<S, B>) => <A extends ReadonlyArray<unknown>>(
-  fas: State<S, A>
-): State<S, readonly [...A, B]> =>
-  pipe(
-    fas,
-    map((a) => (b: B): readonly [...A, B] => [...a, b]),
-    ap(fb)
-  )
+export const apT: <S, B>(
+  fb: State<S, B>
+) => <A extends ReadonlyArray<unknown>>(fas: State<S, A>) => State<S, readonly [...A, B]> =
+  /*#__PURE__*/
+  apT_(Applicative)
 
 // -------------------------------------------------------------------------------------
 // array utils

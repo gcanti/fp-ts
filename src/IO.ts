@@ -12,8 +12,8 @@
  * @since 3.0.0
  */
 import { Applicative1 } from './Applicative'
-import { apFirst_, apSecond_, apS_ } from './Apply'
-import { constant, identity, pipe, tuple } from './function'
+import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
+import { constant, identity, tuple } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { bind_, chainFirst_, Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
@@ -262,12 +262,9 @@ export const tupled: <A>(a: IO<A>) => IO<readonly [A]> = map(tuple)
 /**
  * @since 3.0.0
  */
-export const apT = <B>(fb: IO<B>) => <A extends ReadonlyArray<unknown>>(fas: IO<A>): IO<readonly [...A, B]> =>
-  pipe(
-    fas,
-    map((a) => (b: B): readonly [...A, B] => [...a, b]),
-    ap(fb)
-  )
+export const apT: <B>(fb: IO<B>) => <A extends ReadonlyArray<unknown>>(fas: IO<A>) => IO<readonly [...A, B]> =
+  /*#__PURE__*/
+  apT_(Applicative)
 
 // -------------------------------------------------------------------------------------
 // array utils

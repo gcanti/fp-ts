@@ -252,6 +252,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `apFirst_` (@gcanti)
     - add `apSecond_` (@gcanti)
     - add `apS_` (@gcanti)
+    - add `apT_` (@gcanti)
   - `Either`
     - add `getCompactable` (@gcanti)
     - add `getFilterable` (@gcanti)

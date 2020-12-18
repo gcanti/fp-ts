@@ -5,13 +5,13 @@
  */
 import { Alt1 } from './Alt'
 import { Applicative1 } from './Applicative'
-import { apS_ } from './Apply'
+import { apS_, apT_ } from './Apply'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { Endomorphism, Lazy, pipe, Predicate, Refinement, tuple } from './function'
+import { Endomorphism, Lazy, Predicate, Refinement, tuple } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { bind_, Monad1 } from './Monad'
@@ -774,11 +774,8 @@ export const tupled: <A>(a: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<r
 /**
  * @since 3.0.0
  */
-export const apT = <B>(fb: ReadonlyNonEmptyArray<B>) => <A extends ReadonlyArray<unknown>>(
-  fas: ReadonlyNonEmptyArray<A>
-): ReadonlyNonEmptyArray<readonly [...A, B]> =>
-  pipe(
-    fas,
-    map((a) => (b: B): readonly [...A, B] => [...a, b]),
-    ap(fb)
-  )
+export const apT: <B>(
+  fb: ReadonlyNonEmptyArray<B>
+) => <A extends ReadonlyArray<unknown>>(fas: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [...A, B]> =
+  /*#__PURE__*/
+  apT_(Applicative)

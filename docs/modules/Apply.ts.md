@@ -31,6 +31,7 @@ Added in v3.0.0
   - [apFirst\_](#apfirst_)
   - [apS\_](#aps_)
   - [apSecond\_](#apsecond_)
+  - [apT\_](#apt_)
 
 ---
 
@@ -227,6 +228,44 @@ export declare function apSecond_<F extends URIS>(
   A: Apply1<F>
 ): <B>(second: Kind<F, B>) => <A>(first: Kind<F, A>) => Kind<F, B>
 export declare function apSecond_<F>(A: Apply<F>): <B>(second: HKT<F, B>) => <A>(first: HKT<F, A>) => HKT<F, B>
+```
+
+Added in v3.0.0
+
+## apT\_
+
+**Signature**
+
+```ts
+export declare function apT_<F extends URIS4>(
+  F: Apply4<F>
+): <S, R, E, B>(
+  fb: Kind4<F, S, R, E, B>
+) => <A extends ReadonlyArray<unknown>>(fas: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, readonly [...A, B]>
+export declare function apT_<F extends URIS3>(
+  F: Apply3<F>
+): <R, E, B>(
+  fb: Kind3<F, R, E, B>
+) => <A extends ReadonlyArray<unknown>>(fas: Kind3<F, R, E, A>) => Kind3<F, R, E, readonly [...A, B]>
+export declare function apT_<F extends URIS3, E>(
+  F: Apply3C<F, E>
+): <R, B>(
+  fb: Kind3<F, R, E, B>
+) => <A extends ReadonlyArray<unknown>>(fas: Kind3<F, R, E, A>) => Kind3<F, R, E, readonly [...A, B]>
+export declare function apT_<F extends URIS2>(
+  F: Apply2<F>
+): <E, B>(
+  fb: Kind2<F, E, B>
+) => <A extends ReadonlyArray<unknown>>(fas: Kind2<F, E, A>) => Kind2<F, E, readonly [...A, B]>
+export declare function apT_<F extends URIS2, E>(
+  F: Apply2C<F, E>
+): <B>(fb: Kind2<F, E, B>) => <A extends ReadonlyArray<unknown>>(fas: Kind2<F, E, A>) => Kind2<F, E, readonly [...A, B]>
+export declare function apT_<F extends URIS>(
+  F: Apply1<F>
+): <B>(fb: Kind<F, B>) => <A extends ReadonlyArray<unknown>>(fas: Kind<F, A>) => Kind<F, readonly [...A, B]>
+export declare function apT_<F>(
+  F: Apply<F>
+): <B>(fb: HKT<F, B>) => <A extends ReadonlyArray<unknown>>(fas: HKT<F, A>) => HKT<F, readonly [...A, B]>
 ```
 
 Added in v3.0.0
