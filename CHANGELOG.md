@@ -310,6 +310,10 @@ high state of flux, you're at risk of it changing without notice.
   - `TaskThese`
     - add `Functor` (@gcanti)
     - add `Bifunctor` (@gcanti)
+  - `These`
+    - add `MonadThrow` instance (@gcanti)
+    - add `of` (@gcanti)
+    - add `throwError` (@gcanti)
   - `Tree`
     - add pipeable sequence T (@gcanti)
   - `Writer`

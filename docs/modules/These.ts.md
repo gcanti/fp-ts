@@ -30,6 +30,8 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Applicative](#applicative)
+  - [of](#of)
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
@@ -39,6 +41,8 @@ Added in v3.0.0
   - [reduceRight](#reduceright)
 - [Functor](#functor)
   - [map](#map)
+- [MonadThrow](#monadthrow)
+  - [throwError](#throwerror)
 - [combinators](#combinators)
   - [swap](#swap)
 - [constructors](#constructors)
@@ -63,6 +67,7 @@ Added in v3.0.0
   - [Bifunctor](#bifunctor-1)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
+  - [MonadThrow](#monadthrow-1)
   - [Traversable](#traversable)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -79,6 +84,18 @@ Added in v3.0.0
   - [traverse](#traverse)
 
 ---
+
+# Applicative
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <E, A>(a: A) => These<E, A>
+```
+
+Added in v3.0.0
 
 # Bifunctor
 
@@ -149,6 +166,18 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B>
+```
+
+Added in v3.0.0
+
+# MonadThrow
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <E, A>(e: E) => These<E, A>
 ```
 
 Added in v3.0.0
@@ -463,6 +492,16 @@ export declare const Functor: Functor2<'These'>
 
 Added in v3.0.0
 
+## MonadThrow
+
+**Signature**
+
+```ts
+export declare const MonadThrow: MonadThrow2<'These'>
+```
+
+Added in v3.0.0
+
 ## Traversable
 
 **Signature**
@@ -518,7 +557,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI, E>
+export declare function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E>
 ```
 
 Added in v3.0.0

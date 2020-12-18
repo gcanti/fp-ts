@@ -19,7 +19,7 @@
  *
  * @since 3.0.0
  */
-import { Applicative, Applicative2C } from './Applicative'
+import { Applicative, Applicative2, Applicative2C } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
@@ -27,7 +27,7 @@ import { Foldable2 } from './Foldable'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
-import { MonadThrow2C } from './MonadThrow'
+import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { isNone, none, Option, some } from './Option'
 import { Semigroup } from './Semigroup'
@@ -101,121 +101,6 @@ export const fold = <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B, onBoth:
  * @since 3.0.0
  */
 export const swap: <E, A>(fa: These<E, A>) => These<A, E> = fold(right, left, (e, a) => both(a, e))
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>> {
-  return {
-    show: fold(
-      (l) => `left(${SE.show(l)})`,
-      (a) => `right(${SA.show(a)})`,
-      (l, a) => `both(${SE.show(l)}, ${SA.show(a)})`
-    )
-  }
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export function getEq<E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>> {
-  return fromEquals((second) => (first) =>
-    isLeft(first)
-      ? isLeft(second) && EE.equals(second.left)(first.left)
-      : isRight(first)
-      ? isRight(second) && EA.equals(second.right)(first.right)
-      : isBoth(second) && EE.equals(second.left)(first.left) && EA.equals(second.right)(first.right)
-  )
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<These<E, A>> {
-  return {
-    concat: (second) => (first) =>
-      isLeft(first)
-        ? isLeft(second)
-          ? left(SE.concat(second.left)(first.left))
-          : isRight(second)
-          ? both(first.left, second.right)
-          : both(SE.concat(second.left)(first.left), second.right)
-        : isRight(first)
-        ? isLeft(second)
-          ? both(second.left, first.right)
-          : isRight(second)
-          ? right(SA.concat(second.right)(first.right))
-          : both(second.left, SA.concat(second.right)(first.right))
-        : isLeft(second)
-        ? both(SE.concat(second.left)(first.left), first.right)
-        : isRight(second)
-        ? both(first.left, SA.concat(second.right)(first.right))
-        : both(SE.concat(second.left)(first.left), SA.concat(second.right)(first.right))
-  }
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export function getApplicative<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
-  return {
-    URI,
-    map,
-    of: right,
-    ap: (fa) => (fab) =>
-      isLeft(fab)
-        ? isLeft(fa)
-          ? left(SE.concat(fa.left)(fab.left))
-          : isRight(fa)
-          ? left(fab.left)
-          : left(SE.concat(fa.left)(fab.left))
-        : isRight(fab)
-        ? isLeft(fa)
-          ? left(fa.left)
-          : isRight(fa)
-          ? right(fab.right(fa.right))
-          : both(fa.left, fab.right(fa.right))
-        : isLeft(fa)
-        ? left(SE.concat(fa.left)(fab.left))
-        : isRight(fa)
-        ? both(fab.left, fab.right(fa.right))
-        : both(SE.concat(fa.left)(fab.left), fab.right(fa.right))
-  }
-}
-
-// TODO: remove MonadThrow2C<URI, E>
-/**
- * @category instances
- * @since 3.0.0
- */
-export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI, E> {
-  const chain = <A, B>(f: (a: A) => These<E, B>) => (ma: These<E, A>): These<E, B> => {
-    if (isLeft(ma)) {
-      return ma
-    }
-    if (isRight(ma)) {
-      return f(ma.right)
-    }
-    const fb = f(ma.right)
-    return isLeft(fb)
-      ? left(SE.concat(fb.left)(ma.left))
-      : isRight(fb)
-      ? both(ma.left, fb.right)
-      : both(SE.concat(fb.left)(ma.left), fb.right)
-  }
-
-  return {
-    URI,
-    map,
-    of: right,
-    chain,
-    throwError: left
-  }
-}
 
 /**
  * @example
@@ -470,6 +355,18 @@ export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) =>
       )
 }
 
+/**
+ * @category MonadThrow
+ * @since 3.0.0
+ */
+export const throwError: MonadThrow2<URI>['throwError'] = left
+
+/**
+ * @category Applicative
+ * @since 3.0.0
+ */
+export const of: Applicative2<URI>['of'] = right
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -496,9 +393,131 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
+export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>> {
+  return {
+    show: fold(
+      (l) => `left(${SE.show(l)})`,
+      (a) => `right(${SA.show(a)})`,
+      (l, a) => `both(${SE.show(l)}, ${SA.show(a)})`
+    )
+  }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export function getEq<E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>> {
+  return fromEquals((second) => (first) =>
+    isLeft(first)
+      ? isLeft(second) && EE.equals(second.left)(first.left)
+      : isRight(first)
+      ? isRight(second) && EA.equals(second.right)(first.right)
+      : isBoth(second) && EE.equals(second.left)(first.left) && EA.equals(second.right)(first.right)
+  )
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<These<E, A>> {
+  return {
+    concat: (second) => (first) =>
+      isLeft(first)
+        ? isLeft(second)
+          ? left(SE.concat(second.left)(first.left))
+          : isRight(second)
+          ? both(first.left, second.right)
+          : both(SE.concat(second.left)(first.left), second.right)
+        : isRight(first)
+        ? isLeft(second)
+          ? both(second.left, first.right)
+          : isRight(second)
+          ? right(SA.concat(second.right)(first.right))
+          : both(second.left, SA.concat(second.right)(first.right))
+        : isLeft(second)
+        ? both(SE.concat(second.left)(first.left), first.right)
+        : isRight(second)
+        ? both(first.left, SA.concat(second.right)(first.right))
+        : both(SE.concat(second.left)(first.left), SA.concat(second.right)(first.right))
+  }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
 export const Functor: Functor2<URI> = {
   URI,
   map
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export function getApplicative<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
+  return {
+    URI,
+    map,
+    of: right,
+    ap: (fa) => (fab) =>
+      isLeft(fab)
+        ? isLeft(fa)
+          ? left(SE.concat(fa.left)(fab.left))
+          : isRight(fa)
+          ? left(fab.left)
+          : left(SE.concat(fa.left)(fab.left))
+        : isRight(fab)
+        ? isLeft(fa)
+          ? left(fa.left)
+          : isRight(fa)
+          ? right(fab.right(fa.right))
+          : both(fa.left, fab.right(fa.right))
+        : isLeft(fa)
+        ? left(SE.concat(fa.left)(fab.left))
+        : isRight(fa)
+        ? both(fab.left, fab.right(fa.right))
+        : both(SE.concat(fa.left)(fab.left), fab.right(fa.right))
+  }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> {
+  const chain = <A, B>(f: (a: A) => These<E, B>) => (ma: These<E, A>): These<E, B> => {
+    if (isLeft(ma)) {
+      return ma
+    }
+    if (isRight(ma)) {
+      return f(ma.right)
+    }
+    const fb = f(ma.right)
+    return isLeft(fb)
+      ? left(SE.concat(fb.left)(ma.left))
+      : isRight(fb)
+      ? both(ma.left, fb.right)
+      : both(SE.concat(fb.left)(ma.left), fb.right)
+  }
+
+  return {
+    URI,
+    map,
+    of,
+    chain
+  }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const MonadThrow: MonadThrow2<URI> = {
+  URI,
+  throwError
 }
 
 /**
