@@ -2,9 +2,9 @@
  * @since 3.0.0
  */
 import { Applicative2 } from './Applicative'
-import { apFirst_, apSecond_ } from './Apply'
+import { apFirst_, apSecond_, apS_ } from './Apply'
 import { Category2 } from './Category'
-import { bind__, constant, flow, identity, pipe, tuple } from './function'
+import { constant, flow, identity, pipe, tuple } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { bind_, chainFirst_, Monad2 } from './Monad'
 import { Monoid } from './Monoid'
@@ -284,10 +284,10 @@ export const bindTo: <N extends string>(name: N) => <R, A>(fa: Reader<R, A>) => 
 /**
  * @since 3.0.0
  */
-export const bindW: <N extends string, A, Q, B>(
+export const bindW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => Reader<Q, B>
-) => <R>(fa: Reader<R, A>) => Reader<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  f: (a: A) => Reader<R2, B>
+) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/
   bind_(Monad) as any
 
@@ -311,14 +311,12 @@ export const Do: Reader<unknown, {}> = of({})
 /**
  * @since 3.0.0
  */
-export const apSW = <A, N extends string, Q, B>(
+export const apSW: <A, N extends string, R2, B>(
   name: Exclude<N, keyof A>,
-  fb: Reader<Q, B>
-): (<R>(fa: Reader<R, A>) => Reader<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  flow(
-    map((a) => (b: B) => bind__(a, name, b)),
-    apW(fb)
-  )
+  fb: Reader<R2, B>
+) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  apS_(Applicative) as any
 
 /**
  * @since 3.0.0

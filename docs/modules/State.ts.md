@@ -289,7 +289,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <A, N extends string, S, B>(
+export declare const apS: <N extends string, A, S, B>(
   name: Exclude<N, keyof A>,
   fb: State<S, B>
 ) => (fa: State<S, A>) => State<S, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>

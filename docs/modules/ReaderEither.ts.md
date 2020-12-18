@@ -275,9 +275,9 @@ Less strict version of [`chainEitherK`](#chainEitherK).
 **Signature**
 
 ```ts
-export declare const chainEitherKW: <E, A, B>(
-  f: (a: A) => E.Either<E, B>
-) => <R, D>(ma: ReaderEither<R, D, A>) => ReaderEither<R, E | D, B>
+export declare const chainEitherKW: <A, E2, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -401,8 +401,8 @@ Derivable from `MonadThrow`.
 
 ```ts
 export declare const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => ReaderEither<U, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => ReaderEither<U, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>
 }
 ```
 
@@ -742,12 +742,12 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apSW: <A, N extends string, Q, D, B>(
+export declare const apSW: <A, N extends string, R2, E2, B>(
   name: Exclude<N, keyof A>,
-  fb: ReaderEither<Q, D, B>
-) => <R, E>(
-  fa: ReaderEither<R, E, A>
-) => ReaderEither<Q & R, D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: ReaderEither<R2, E2, B>
+) => <R1, E1>(
+  fa: ReaderEither<R1, E1, A>
+) => ReaderEither<R1 & R2, E2 | E1, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -808,12 +808,12 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindW: <N extends string, A, Q, D, B>(
+export declare const bindW: <N extends string, A, R2, E2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderEither<Q, D, B>
-) => <R, E>(
-  fa: ReaderEither<R, E, A>
-) => ReaderEither<Q & R, D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(
+  fa: ReaderEither<R1, E1, A>
+) => ReaderEither<R1 & R2, E2 | E1, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

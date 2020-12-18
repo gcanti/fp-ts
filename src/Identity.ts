@@ -3,12 +3,12 @@
  */
 import { Alt1 } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { apFirst_, apSecond_ } from './Apply'
+import { apFirst_, apSecond_, apS_ } from './Apply'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
-import { bind__, flow, identity as id, pipe, tuple } from './function'
+import { identity as id, pipe, tuple } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { HKT } from './HKT'
 import { bind_, chainFirst_, Monad1 } from './Monad'
@@ -318,14 +318,12 @@ export const bind: <N extends string, A, B>(
 /**
  * @since 3.0.0
  */
-export const apS = <A, N extends string, B>(
+export const apS: <A, N extends string, B>(
   name: Exclude<N, keyof A>,
-  fb: Identity<B>
-): ((fa: Identity<A>) => Identity<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  flow(
-    map((a) => (b: B) => bind__(a, name, b)),
-    ap(fb)
-  )
+  fb: B
+) => (fa: A) => { [K in N | keyof A]: K extends keyof A ? A[K] : B } =
+  /*#__PURE__*/
+  apS_(Applicative)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence T

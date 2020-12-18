@@ -5,12 +5,13 @@
  */
 import { Alt1 } from './Alt'
 import { Applicative1 } from './Applicative'
+import { apS_ } from './Apply'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { bind__, Endomorphism, flow, Lazy, pipe, Predicate, Refinement, tuple } from './function'
+import { Endomorphism, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { bind_, Monad1 } from './Monad'
@@ -749,14 +750,12 @@ export const bind: <N extends string, A, B>(
 /**
  * @since 3.0.0
  */
-export const apS = <A, N extends string, B>(
+export const apS: <A, N extends string, B>(
   name: Exclude<N, keyof A>,
   fb: ReadonlyNonEmptyArray<B>
-): ((fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  flow(
-    map((a) => (b: B) => bind__(a, name, b)),
-    ap(fb)
-  )
+) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  apS_(Applicative)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence T

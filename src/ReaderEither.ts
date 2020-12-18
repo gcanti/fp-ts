@@ -3,10 +3,10 @@
  */
 import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C } from './Applicative'
-import { apFirst_, apSecond_ } from './Apply'
+import { apFirst_, apSecond_, apS_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
-import { bind__, flow, identity, pipe, Predicate, Refinement, tuple } from './function'
+import { flow, identity, pipe, Predicate, Refinement, tuple } from './function'
 import { bindTo_, Functor3 } from './Functor'
 import { bind_, chainFirst_, Monad3 } from './Monad'
 import { MonadThrow3 } from './MonadThrow'
@@ -102,9 +102,9 @@ export const fromOption: <E>(onNone: () => E) => <R, A>(ma: Option<A>) => Reader
  * @since 3.0.0
  */
 export const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => ReaderEither<U, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (a: A) => (predicate(a) ? right(a) : left(onFalse(a)))
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => ReaderEither<U, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>
+} = <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E) => (a: A) => (predicate(a) ? right(a) : left(onFalse(a)))
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -175,9 +175,9 @@ export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainEitherKW: <E, A, B>(
-  f: (a: A) => Either<E, B>
-) => <R, D>(ma: ReaderEither<R, D, A>) => ReaderEither<R, D | E, B> = (f) => chainW(fromEitherK(f))
+export const chainEitherKW: <A, E2, B>(
+  f: (a: A) => Either<E2, B>
+) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, B> = (f) => chainW(fromEitherK(f))
 
 /**
  * @category combinators
@@ -559,12 +559,12 @@ export const bindTo: <N extends string>(
 /**
  * @since 3.0.0
  */
-export const bindW: <N extends string, A, Q, D, B>(
+export const bindW: <N extends string, A, R2, E2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderEither<Q, D, B>
-) => <R, E>(
-  fa: ReaderEither<R, E, A>
-) => ReaderEither<Q & R, E | D, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(
+  fa: ReaderEither<R1, E1, A>
+) => ReaderEither<R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/
   bind_(Monad) as any
 
@@ -583,16 +583,14 @@ export const bind: <N extends string, A, R, E, B>(
 /**
  * @since 3.0.0
  */
-export const apSW = <A, N extends string, Q, D, B>(
+export const apSW: <A, N extends string, R2, E2, B>(
   name: Exclude<N, keyof A>,
-  fb: ReaderEither<Q, D, B>
-): (<R, E>(
-  fa: ReaderEither<R, E, A>
-) => ReaderEither<Q & R, D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  flow(
-    map((a) => (b: B) => bind__(a, name, b)),
-    apW(fb)
-  )
+  fb: ReaderEither<R2, E2, B>
+) => <R1, E1>(
+  fa: ReaderEither<R1, E1, A>
+) => ReaderEither<R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  apS_(Applicative) as any
 
 /**
  * @since 3.0.0

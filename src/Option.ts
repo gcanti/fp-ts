@@ -15,14 +15,14 @@
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { apFirst_, apSecond_ } from './Apply'
+import { apFirst_, apSecond_, apS_ } from './Apply'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
-import { bind__, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
+import { flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { HKT } from './HKT'
 import { bind_, chainFirst_, Monad1 } from './Monad'
@@ -1148,14 +1148,12 @@ export const bind: <N extends string, A, B>(
 /**
  * @since 3.0.0
  */
-export const apS = <A, N extends string, B>(
+export const apS: <A, N extends string, B>(
   name: Exclude<N, keyof A>,
   fb: Option<B>
-): ((fa: Option<A>) => Option<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  flow(
-    map((a) => (b: B) => bind__(a, name, b)),
-    ap(fb)
-  )
+) => (fa: Option<A>) => Option<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  apS_(Applicative)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence T

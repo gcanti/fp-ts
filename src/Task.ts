@@ -11,8 +11,8 @@
  * @since 3.0.0
  */
 import { Applicative1 } from './Applicative'
-import { apFirst_, apSecond_ } from './Apply'
-import { bind__, flow, identity, pipe, tuple } from './function'
+import { apFirst_, apSecond_, apS_ } from './Apply'
+import { identity, pipe, tuple } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { IO } from './IO'
 import { bind_, chainFirst_, Monad1 } from './Monad'
@@ -369,14 +369,12 @@ export const bind: <N extends string, A, B>(
 /**
  * @since 3.0.0
  */
-export const apS = <A, N extends string, B>(
+export const apS: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: Task<B>
-): ((fa: Task<A>) => Task<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  flow(
-    map((a) => (b: B) => bind__(a, name, b)),
-    ap(fb)
-  )
+) => (fa: Task<A>) => Task<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  apS_(ApplicativePar)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence T

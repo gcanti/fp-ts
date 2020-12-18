@@ -288,9 +288,9 @@ Less strict version of [`chainEitherK`](#chainEitherK).
 **Signature**
 
 ```ts
-export declare const chainEitherKW: <E, A, B>(
-  f: (a: A) => E.Either<E, B>
-) => <D>(ma: IOEither<D, A>) => IOEither<E | D, B>
+export declare const chainEitherKW: <A, E2, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -390,8 +390,8 @@ Derivable from `MonadThrow`.
 
 ```ts
 export declare const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => IOEither<E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => IOEither<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A>
 }
 ```
 
@@ -773,10 +773,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apSW: <A, N extends string, D, B>(
+export declare const apSW: <A, N extends string, E2, B>(
   name: Exclude<N, keyof A>,
-  fb: IOEither<D, B>
-) => <E>(fa: IOEither<E, A>) => IOEither<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: IOEither<E2, B>
+) => <E1>(fa: IOEither<E1, A>) => IOEither<E2 | E1, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -833,10 +833,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindW: <N extends string, A, D, B>(
+export declare const bindW: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => IOEither<D, B>
-) => <E>(fa: IOEither<E, A>) => IOEither<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(fa: IOEither<E1, A>) => IOEither<E2 | E1, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

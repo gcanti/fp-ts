@@ -631,8 +631,8 @@ Derivable from `MonadThrow`.
 
 ```ts
 export declare const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Either<E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Either<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A>
 }
 ```
 
@@ -1342,10 +1342,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apSW: <A, N extends string, D, B>(
+export declare const apSW: <A, N extends string, E2, B>(
   name: Exclude<N, keyof A>,
-  fb: Either<D, B>
-) => <E>(fa: Either<E, A>) => Either<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: Either<E2, B>
+) => <E1>(fa: Either<E1, A>) => Either<E2 | E1, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1402,10 +1402,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindW: <N extends string, A, D, B>(
+export declare const bindW: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => Either<D, B>
-) => <E>(fa: Either<E, A>) => Either<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: (a: A) => Either<E2, B>
+) => <E1>(fa: Either<E1, A>) => Either<E2 | E1, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

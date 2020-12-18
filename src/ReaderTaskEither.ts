@@ -3,10 +3,10 @@
  */
 import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C } from './Applicative'
-import { apFirst_, Apply1, apSecond_ } from './Apply'
+import { apFirst_, Apply1, apSecond_, apS_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
-import { bind__, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
+import { flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { bindTo_, Functor3 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
@@ -184,9 +184,9 @@ export const fromOption: <E>(onNone: Lazy<E>) => <R, A>(ma: Option<A>) => Reader
  * @since 3.0.0
  */
 export const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => ReaderTaskEither<U, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderTaskEither<R, E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (a: A) => (predicate(a) ? right(a) : left(onFalse(a)))
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => ReaderTaskEither<U, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderTaskEither<R, E, A>
+} = <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E) => (a: A) => (predicate(a) ? right(a) : left(onFalse(a)))
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -291,9 +291,9 @@ export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainEitherKW: <E, A, B>(
-  f: (a: A) => Either<E, B>
-) => <R, D>(ma: ReaderTaskEither<R, D, A>) => ReaderTaskEither<R, D | E, B> = (f) => chainW(fromEitherK(f))
+export const chainEitherKW: <A, E2, B>(
+  f: (a: A) => Either<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => chainW(fromEitherK(f))
 
 /**
  * @category combinators
@@ -319,9 +319,9 @@ export function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainIOEitherKW: <E, A, B>(
-  f: (a: A) => IOEither<E, B>
-) => <R, D>(ma: ReaderTaskEither<R, D, A>) => ReaderTaskEither<R, D | E, B> = (f) => chainW(fromIOEitherK(f))
+export const chainIOEitherKW: <A, E2, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => chainW(fromIOEitherK(f))
 
 /**
  * @category combinators
@@ -347,9 +347,9 @@ export function fromTaskEitherK<E, A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainTaskEitherKW: <E, A, B>(
-  f: (a: A) => TaskEither<E, B>
-) => <R, D>(ma: ReaderTaskEither<R, D, A>) => ReaderTaskEither<R, D | E, B> = (f) => chainW(fromTaskEitherK(f))
+export const chainTaskEitherKW: <A, E2, B>(
+  f: (a: A) => TaskEither<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => chainW(fromTaskEitherK(f))
 
 /**
  * @category combinators
@@ -764,12 +764,12 @@ export const bindTo: <N extends string>(
 /**
  * @since 3.0.0
  */
-export const bindW: <N extends string, A, Q, D, B>(
+export const bindW: <N extends string, A, R2, E2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderTaskEither<Q, D, B>
-) => <R, E>(
-  fa: ReaderTaskEither<R, E, A>
-) => ReaderTaskEither<Q & R, E | D, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  f: (a: A) => ReaderTaskEither<R2, E2, B>
+) => <R1, E1>(
+  fa: ReaderTaskEither<R1, E1, A>
+) => ReaderTaskEither<R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/
   bind_(Monad) as any
 
@@ -790,16 +790,14 @@ export const bind: <N extends string, A, R, E, B>(
 /**
  * @since 3.0.0
  */
-export const apSW = <A, N extends string, Q, D, B>(
+export const apSW: <A, N extends string, R2, E2, B>(
   name: Exclude<N, keyof A>,
-  fb: ReaderTaskEither<Q, D, B>
-): (<R, E>(
-  fa: ReaderTaskEither<R, E, A>
-) => ReaderTaskEither<Q & R, D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  flow(
-    map((a) => (b: B) => bind__(a, name, b)),
-    apW(fb)
-  )
+  fb: ReaderTaskEither<R2, E2, B>
+) => <R1, E1>(
+  fa: ReaderTaskEither<R1, E1, A>
+) => ReaderTaskEither<R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  apS_(ApplicativePar) as any
 
 /**
  * @since 3.0.0

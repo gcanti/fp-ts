@@ -59,7 +59,7 @@ pipe(
 // do notation
 //
 
-// $ExpectType StateReaderTaskEither<void, { readonly b: string; } & { readonly a: number; }, string | number, { a: number; b: string; c: boolean; }>
+// $ExpectType StateReaderTaskEither<void, { readonly a: number; } & { readonly b: string; }, string | number, { a: number; b: string; c: boolean; }>
 pipe(
   _.right<void, { readonly a: number }, string, number>(1),
   _.bindTo('a'),
@@ -71,7 +71,7 @@ pipe(
 // pipeable sequence S
 //
 
-// $ExpectType StateReaderTaskEither<void, { readonly b: string; } & { readonly a: number; }, string | number, { a: number; b: string; c: boolean; }>
+// $ExpectType StateReaderTaskEither<void, { readonly a: number; } & { readonly b: string; }, string | number, { a: number; b: string; c: boolean; }>
 pipe(
   _.right<void, { readonly a: number }, string, number>(1),
   _.bindTo('a'),

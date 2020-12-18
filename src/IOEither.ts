@@ -6,12 +6,12 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
-import { apFirst_, apSecond_ } from './Apply'
+import { apFirst_, apSecond_, apS_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C } from './Compactable'
 import * as E from './Either'
 import { Filterable2C } from './Filterable'
-import { bind__, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
+import { flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import * as I from './IO'
 import { bind_, chainFirst_, Monad2 } from './Monad'
@@ -96,9 +96,9 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => IOEither<
  * @since 3.0.0
  */
 export const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => IOEither<E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (a: A) => (predicate(a) ? right(a) : left(onFalse(a)))
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => IOEither<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A>
+} = <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E) => (a: A) => (predicate(a) ? right(a) : left(onFalse(a)))
 
 /**
  * Constructs a new `IOEither` from a function that performs a side effect and might throw
@@ -197,9 +197,9 @@ export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainEitherKW: <E, A, B>(f: (a: A) => Either<E, B>) => <D>(ma: IOEither<D, A>) => IOEither<D | E, B> = (
-  f
-) => chainW(fromEitherK(f))
+export const chainEitherKW: <A, E2, B>(
+  f: (a: A) => Either<E2, B>
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = (f) => chainW(fromEitherK(f))
 
 /**
  * @category combinators
@@ -674,10 +674,10 @@ export const bindTo: <N extends string>(name: N) => <E, A>(fa: IOEither<E, A>) =
 /**
  * @since 3.0.0
  */
-export const bindW: <N extends string, A, D, B>(
+export const bindW: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => IOEither<D, B>
-) => <E>(fa: IOEither<E, A>) => IOEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(fa: IOEither<E1, A>) => IOEither<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
   /*#__PURE__*/
   bind_(Monad) as any
 
@@ -696,14 +696,12 @@ export const bind: <N extends string, A, E, B>(
 /**
  * @since 3.0.0
  */
-export const apSW = <A, N extends string, D, B>(
+export const apSW: <A, N extends string, E2, B>(
   name: Exclude<N, keyof A>,
-  fb: IOEither<D, B>
-): (<E>(fa: IOEither<E, A>) => IOEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  flow(
-    map((a) => (b: B) => bind__(a, name, b)),
-    apW(fb)
-  )
+  fb: IOEither<E2, B>
+) => <E1>(fa: IOEither<E1, A>) => IOEither<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  apS_(ApplicativePar) as any
 
 /**
  * @since 3.0.0

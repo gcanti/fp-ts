@@ -619,12 +619,3 @@ export function pipe(
  * @since 3.0.0
  */
 export const hole: <T>() => T = absurd as any
-
-/**
- * @internal
- */
-export const bind__ = <A, N extends string, B>(
-  a: A,
-  name: Exclude<N, keyof A>,
-  b: B
-): { [K in keyof A | N]: K extends keyof A ? A[K] : B } => Object.assign({}, a, { [name]: b }) as any

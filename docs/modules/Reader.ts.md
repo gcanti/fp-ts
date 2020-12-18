@@ -428,10 +428,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apSW: <A, N extends string, Q, B>(
+export declare const apSW: <A, N extends string, R2, B>(
   name: Exclude<N, keyof A>,
-  fb: Reader<Q, B>
-) => <R>(fa: Reader<R, A>) => Reader<Q & R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: Reader<R2, B>
+) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -488,10 +488,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindW: <N extends string, A, Q, B>(
+export declare const bindW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => Reader<Q, B>
-) => <R>(fa: Reader<R, A>) => Reader<Q & R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: (a: A) => Reader<R2, B>
+) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
