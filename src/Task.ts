@@ -12,10 +12,10 @@
  */
 import { Applicative1 } from './Applicative'
 import { apFirst_, apSecond_ } from './Apply'
-import { bind_, flow, identity, pipe, tuple } from './function'
+import { bind__, flow, identity, pipe, tuple } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { IO } from './IO'
-import { chainFirst_, Monad1 } from './Monad'
+import { bind_, chainFirst_, Monad1 } from './Monad'
 import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
@@ -355,16 +355,12 @@ export const bindTo: <N extends string>(name: N) => <A>(fa: Task<A>) => Task<{ [
 /**
  * @since 3.0.0
  */
-export const bind = <N extends string, A, B>(
+export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Task<B>
-): ((fa: Task<A>) => Task<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  chain((a) =>
-    pipe(
-      f(a),
-      map((b) => bind_(a, name, b))
-    )
-  )
+) => (fa: Task<A>) => Task<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  bind_(Monad)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -378,7 +374,7 @@ export const apS = <A, N extends string, B>(
   fb: Task<B>
 ): ((fa: Task<A>) => Task<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
   flow(
-    map((a) => (b: B) => bind_(a, name, b)),
+    map((a) => (b: B) => bind__(a, name, b)),
     ap(fb)
   )
 

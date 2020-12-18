@@ -22,10 +22,10 @@ import { Eq, fromEquals } from './Eq'
 import { Extend2 } from './Extend'
 import { Filterable2C } from './Filterable'
 import { Foldable2 } from './Foldable'
-import { bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
+import { bind__, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { HKT } from './HKT'
-import { chainFirst_, Monad2 } from './Monad'
+import { bind_, chainFirst_, Monad2 } from './Monad'
 import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
@@ -1194,16 +1194,12 @@ export const bindTo: <N extends string>(name: N) => <E, A>(fa: Either<E, A>) => 
 /**
  * @since 3.0.0
  */
-export const bindW = <N extends string, A, D, B>(
+export const bindW: <N extends string, A, D, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Either<D, B>
-): (<E>(fa: Either<E, A>) => Either<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  chainW((a) =>
-    pipe(
-      f(a),
-      map((b) => bind_(a, name, b))
-    )
-  )
+) => <E>(fa: Either<E, A>) => Either<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  bind_(Monad) as any
 
 /**
  * @since 3.0.0
@@ -1225,7 +1221,7 @@ export const apSW = <A, N extends string, D, B>(
   fb: Either<D, B>
 ): (<E>(fa: Either<E, A>) => Either<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
   flow(
-    map((a) => (b: B) => bind_(a, name, b)),
+    map((a) => (b: B) => bind__(a, name, b)),
     apW(fb)
   )
 

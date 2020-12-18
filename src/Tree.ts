@@ -13,10 +13,10 @@ import { Comonad1 } from './Comonad'
 import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
-import { bind_, flow, identity, pipe, tuple } from './function'
+import { bind__, flow, identity, pipe, tuple } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { HKT } from './HKT'
-import { chainFirst_, Monad1 } from './Monad'
+import { bind_, chainFirst_, Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import * as A from './ReadonlyArray'
 import { Show } from './Show'
@@ -472,16 +472,12 @@ export const bindTo: <N extends string>(name: N) => <A>(fa: Tree<A>) => Tree<{ [
 /**
  * @since 3.0.0
  */
-export const bind = <N extends string, A, B>(
+export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Tree<B>
-): ((fa: Tree<A>) => Tree<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  chain((a) =>
-    pipe(
-      f(a),
-      map((b) => bind_(a, name, b))
-    )
-  )
+) => (fa: Tree<A>) => Tree<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  bind_(Monad)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -495,7 +491,7 @@ export const apS = <A, N extends string, B>(
   fb: Tree<B>
 ): ((fa: Tree<A>) => Tree<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
   flow(
-    map((a) => (b: B) => bind_(a, name, b)),
+    map((a) => (b: B) => bind__(a, name, b)),
     ap(fb)
   )
 

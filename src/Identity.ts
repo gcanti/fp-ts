@@ -8,10 +8,10 @@ import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
-import { bind_, flow, identity as id, pipe, tuple } from './function'
+import { bind__, flow, identity as id, pipe, tuple } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { HKT } from './HKT'
-import { chainFirst_, Monad1 } from './Monad'
+import { bind_, chainFirst_, Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
@@ -304,16 +304,12 @@ export const bindTo: <N extends string>(name: N) => <A>(fa: A) => { [K in N]: A 
 /**
  * @since 3.0.0
  */
-export const bind = <N extends string, A, B>(
+export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => Identity<B>
-): ((fa: Identity<A>) => Identity<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  chain((a) =>
-    pipe(
-      f(a),
-      map((b) => bind_(a, name, b))
-    )
-  )
+  f: (a: A) => B
+) => (fa: A) => { [K in N | keyof A]: K extends keyof A ? A[K] : B } =
+  /*#__PURE__*/
+  bind_(Monad)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -327,7 +323,7 @@ export const apS = <A, N extends string, B>(
   fb: Identity<B>
 ): ((fa: Identity<A>) => Identity<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
   flow(
-    map((a) => (b: B) => bind_(a, name, b)),
+    map((a) => (b: B) => bind__(a, name, b)),
     ap(fb)
   )
 

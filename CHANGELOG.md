@@ -266,6 +266,7 @@ high state of flux, you're at risk of it changing without notice.
     - add pipeable sequence T (@gcanti)
   - `Monad`
     - add `chainFirst_` (@gcanti)
+    - add `bind_` (@gcanti)
   - `Option`
     - add pipeable sequence T (@gcanti)
   - `Reader`

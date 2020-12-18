@@ -623,7 +623,7 @@ export const hole: <T>() => T = absurd as any
 /**
  * @internal
  */
-export const bind_ = <A, N extends string, B>(
+export const bind__ = <A, N extends string, B>(
   a: A,
   name: Exclude<N, keyof A>,
   b: B

@@ -6,11 +6,11 @@ import { Applicative3, Applicative3C } from './Applicative'
 import { apFirst_, Apply1, apSecond_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
-import { bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
+import { bind__, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { bindTo_, Functor3 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { chainFirst_, Monad3 } from './Monad'
+import { bind_, chainFirst_, Monad3 } from './Monad'
 import { MonadIO3 } from './MonadIO'
 import { MonadTask3 } from './MonadTask'
 import { MonadThrow3 } from './MonadThrow'
@@ -764,18 +764,14 @@ export const bindTo: <N extends string>(
 /**
  * @since 3.0.0
  */
-export const bindW = <N extends string, A, Q, D, B>(
+export const bindW: <N extends string, A, Q, D, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderTaskEither<Q, D, B>
-): (<R, E>(
+) => <R, E>(
   fa: ReaderTaskEither<R, E, A>
-) => ReaderTaskEither<Q & R, E | D, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  chainW((a) =>
-    pipe(
-      f(a),
-      map((b) => bind_(a, name, b))
-    )
-  )
+) => ReaderTaskEither<Q & R, E | D, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  bind_(Monad) as any
 
 /**
  * @since 3.0.0
@@ -801,7 +797,7 @@ export const apSW = <A, N extends string, Q, D, B>(
   fa: ReaderTaskEither<R, E, A>
 ) => ReaderTaskEither<Q & R, D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
   flow(
-    map((a) => (b: B) => bind_(a, name, b)),
+    map((a) => (b: B) => bind__(a, name, b)),
     apW(fb)
   )
 

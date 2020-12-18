@@ -22,10 +22,10 @@ import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
-import { bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
+import { bind__, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { HKT } from './HKT'
-import { chainFirst_, Monad1 } from './Monad'
+import { bind_, chainFirst_, Monad1 } from './Monad'
 import { MonadThrow1 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { fromCompare, Ord } from './Ord'
@@ -1134,16 +1134,12 @@ export const bindTo: <N extends string>(name: N) => <A>(fa: Option<A>) => Option
 /**
  * @since 3.0.0
  */
-export const bind = <N extends string, A, B>(
+export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Option<B>
-): ((fa: Option<A>) => Option<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  chain((a) =>
-    pipe(
-      f(a),
-      map((b) => bind_(a, name, b))
-    )
-  )
+) => (fa: Option<A>) => Option<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  bind_(Monad)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -1157,7 +1153,7 @@ export const apS = <A, N extends string, B>(
   fb: Option<B>
 ): ((fa: Option<A>) => Option<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
   flow(
-    map((a) => (b: B) => bind_(a, name, b)),
+    map((a) => (b: B) => bind__(a, name, b)),
     ap(fb)
   )
 

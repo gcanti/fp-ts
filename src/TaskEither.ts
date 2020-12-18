@@ -15,11 +15,11 @@ import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C } from './Compactable'
 import * as E from './Either'
 import { Filterable2C } from './Filterable'
-import { bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
+import { bind__, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { chainFirst_, Monad2 } from './Monad'
+import { bind_, chainFirst_, Monad2 } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { MonadTask2 } from './MonadTask'
 import { MonadThrow2 } from './MonadThrow'
@@ -882,16 +882,12 @@ export const bindTo: <N extends string>(name: N) => <E, A>(fa: TaskEither<E, A>)
 /**
  * @since 3.0.0
  */
-export const bindW = <N extends string, A, D, B>(
+export const bindW: <N extends string, A, D, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => TaskEither<D, B>
-): (<E>(fa: TaskEither<E, A>) => TaskEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  chainW((a) =>
-    pipe(
-      f(a),
-      map((b) => bind_(a, name, b))
-    )
-  )
+) => <E>(fa: TaskEither<E, A>) => TaskEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  bind_(Monad) as any
 
 /**
  * @since 3.0.0
@@ -913,7 +909,7 @@ export const apSW = <A, N extends string, D, B>(
   fb: TaskEither<D, B>
 ): (<E>(fa: TaskEither<E, A>) => TaskEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
   flow(
-    map((a) => (b: B) => bind_(a, name, b)),
+    map((a) => (b: B) => bind__(a, name, b)),
     apW(fb)
   )
 

@@ -111,3 +111,63 @@ export function chainFirst_<M>(M: Monad<M>): <A, B>(f: (a: A) => HKT<M, B>) => (
       )
     )
 }
+
+/**
+ * @since 3.0.0
+ */
+export function bind_<M extends URIS4>(
+  M: Monad4<M>
+): <N extends string, A, S, R, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Kind4<M, S, R, E, B>
+) => (fa: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export function bind_<M extends URIS3>(
+  M: Monad3<M>
+): <N extends string, A, R, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Kind3<M, R, E, B>
+) => (fa: Kind3<M, R, E, A>) => Kind3<M, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export function bind_<M extends URIS3, E>(
+  M: Monad3C<M, E>
+): <N extends string, A, R, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Kind3<M, R, E, B>
+) => (fa: Kind3<M, R, E, A>) => Kind3<M, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export function bind_<M extends URIS2>(
+  M: Monad2<M>
+): <N extends string, A, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Kind2<M, E, B>
+) => (fa: Kind2<M, E, A>) => Kind2<M, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export function bind_<M extends URIS2, E>(
+  M: Monad2C<M, E>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Kind2<M, E, B>
+) => (fa: Kind2<M, E, A>) => Kind2<M, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export function bind_<M extends URIS>(
+  M: Monad1<M>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Kind<M, B>
+) => (fa: Kind<M, A>) => Kind<M, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export function bind_<M>(
+  M: Monad<M>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => HKT<M, B>
+) => (fa: HKT<M, A>) => HKT<M, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export function bind_<M>(
+  M: Monad<M>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => HKT<M, B>
+) => (fa: HKT<M, A>) => HKT<M, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> {
+  return (name, f) =>
+    M.chain((a) =>
+      pipe(
+        f(a),
+        M.map((b) => Object.assign({}, a, { [name]: b }) as any)
+      )
+    )
+}

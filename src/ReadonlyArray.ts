@@ -13,11 +13,11 @@ import { Filterable1 } from './Filterable'
 import { FilterableWithIndex1, PredicateWithIndex } from './FilterableWithIndex'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { bind_, Endomorphism, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
+import { bind__, Endomorphism, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
-import { chainFirst_, Monad1 } from './Monad'
+import { bind_, chainFirst_, Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import * as O from './Option'
 import { fromCompare, getMonoid as getOrdMonoid, Ord, ordNumber } from './Ord'
@@ -2007,16 +2007,12 @@ export const bindTo: <N extends string>(name: N) => <A>(fa: ReadonlyArray<A>) =>
 /**
  * @since 3.0.0
  */
-export const bind = <N extends string, A, B>(
+export const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReadonlyArray<B>
-): ((fa: ReadonlyArray<A>) => ReadonlyArray<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  chain((a) =>
-    pipe(
-      f(a),
-      map((b) => bind_(a, name, b))
-    )
-  )
+) => (fa: ReadonlyArray<A>) => ReadonlyArray<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  bind_(Monad)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -2030,7 +2026,7 @@ export const apS = <A, N extends string, B>(
   fb: ReadonlyArray<B>
 ): ((fa: ReadonlyArray<A>) => ReadonlyArray<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
   flow(
-    map((a) => (b: B) => bind_(a, name, b)),
+    map((a) => (b: B) => bind__(a, name, b)),
     ap(fb)
   )
 
