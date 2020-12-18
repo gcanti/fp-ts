@@ -45,8 +45,8 @@ Added in v2.0.0
 ```ts
 export interface Field<A> extends Ring<A> {
   readonly degree: (a: A) => number
-  readonly div: (x: A, y: A) => A
-  readonly mod: (x: A, y: A) => A
+  readonly div: (second: A) => (first: A) => A
+  readonly mod: (second: A) => (first: A) => A
 }
 ```
 

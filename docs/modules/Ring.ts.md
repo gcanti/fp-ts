@@ -37,7 +37,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getFunctionRing<A, B>(ring: Ring<B>): Ring<(a: A) => B>
+export declare const getFunctionRing: <A, B>(ring: Ring<B>) => Ring<(a: A) => B>
 ```
 
 Added in v2.0.0
@@ -49,9 +49,9 @@ Given a tuple of `Ring`s returns a `Ring` for the tuple
 **Signature**
 
 ```ts
-export declare function getTupleRing<T extends ReadonlyArray<Ring<any>>>(
+export declare const getTupleRing: <T extends readonly Ring<any>[]>(
   ...rings: T
-): Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }>
+) => Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }>
 ```
 
 **Example**
@@ -59,12 +59,13 @@ export declare function getTupleRing<T extends ReadonlyArray<Ring<any>>>(
 ```ts
 import { getTupleRing } from 'fp-ts/Ring'
 import { fieldNumber } from 'fp-ts/Field'
+import { pipe } from 'fp-ts/function'
 
 const R = getTupleRing(fieldNumber, fieldNumber, fieldNumber)
-assert.deepStrictEqual(R.add([1, 2, 3], [4, 5, 6]), [5, 7, 9])
-assert.deepStrictEqual(R.mul([1, 2, 3], [4, 5, 6]), [4, 10, 18])
+assert.deepStrictEqual(pipe([1, 2, 3], R.add([4, 5, 6])), [5, 7, 9])
+assert.deepStrictEqual(pipe([1, 2, 3], R.mul([4, 5, 6])), [4, 10, 18])
 assert.deepStrictEqual(R.one, [1, 1, 1])
-assert.deepStrictEqual(R.sub([1, 2, 3], [4, 5, 6]), [-3, -3, -3])
+assert.deepStrictEqual(pipe([1, 2, 3], R.sub([4, 5, 6])), [-3, -3, -3])
 assert.deepStrictEqual(R.zero, [0, 0, 0])
 ```
 
@@ -78,7 +79,7 @@ Added in v2.0.0
 
 ```ts
 export interface Ring<A> extends Semiring<A> {
-  readonly sub: (x: A, y: A) => A
+  readonly sub: (second: A) => (first: A) => A
 }
 ```
 
@@ -93,7 +94,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function negate<A>(ring: Ring<A>): Endomorphism<A>
+export declare const negate: <A>(ring: Ring<A>) => Endomorphism<A>
 ```
 
 Added in v2.0.0

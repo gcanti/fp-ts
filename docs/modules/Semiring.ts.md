@@ -46,7 +46,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getFunctionSemiring<A, B>(S: Semiring<B>): Semiring<(a: A) => B>
+export declare const getFunctionSemiring: <A, B>(S: Semiring<B>) => Semiring<(a: A) => B>
 ```
 
 Added in v2.0.0
@@ -59,9 +59,9 @@ Added in v2.0.0
 
 ```ts
 export interface Semiring<A> {
-  readonly add: (x: A, y: A) => A
+  readonly add: (second: A) => (first: A) => A
   readonly zero: A
-  readonly mul: (x: A, y: A) => A
+  readonly mul: (second: A) => (first: A) => A
   readonly one: A
 }
 ```

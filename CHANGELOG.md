@@ -76,6 +76,8 @@ high state of flux, you're at risk of it changing without notice.
     - make type class members pipeables (@gcanti)
   - `Extend`
     - make type class members pipeables (@gcanti)
+  - `Field`
+    - make type class members pipeables (@gcanti)
   - `Filterable`
     - drop `Functor` and `Compactable` dependencies (@gcanti)
     - remove `getFilterableComposition` (@gcanti)
@@ -192,10 +194,14 @@ high state of flux, you're at risk of it changing without notice.
   - `ReadonlyTuple`
     - remove `getChain` (@gcanti)
     - remove `readonlyTuple` (@gcanti)
+  - `Ring`
+    - make type class members pipeables (@gcanti)
   - `Semigroup`
     - make `fold` curried (@gcanti)
     - make type class members pipeables (@gcanti)
   - `Semigroupoid`
+    - make type class members pipeables (@gcanti)
+  - `Semiring`
     - make type class members pipeables (@gcanti)
   - `State`
     - remove `state` (@gcanti)

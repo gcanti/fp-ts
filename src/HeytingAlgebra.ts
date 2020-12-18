@@ -22,6 +22,7 @@
  * @since 2.0.0
  */
 import { BoundedDistributiveLattice } from './BoundedDistributiveLattice'
+import { Endomorphism } from './function'
 
 /**
  * @category type classes
@@ -29,5 +30,5 @@ import { BoundedDistributiveLattice } from './BoundedDistributiveLattice'
  */
 export interface HeytingAlgebra<A> extends BoundedDistributiveLattice<A> {
   readonly implies: (second: A) => (first: A) => A
-  readonly not: (a: A) => A
+  readonly not: Endomorphism<A>
 }

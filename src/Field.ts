@@ -12,8 +12,8 @@ import { Eq } from './Eq'
  */
 export interface Field<A> extends Ring<A> {
   readonly degree: (a: A) => number
-  readonly div: (x: A, y: A) => A
-  readonly mod: (x: A, y: A) => A
+  readonly div: (second: A) => (first: A) => A
+  readonly mod: (second: A) => (first: A) => A
 }
 
 /**
@@ -21,16 +21,17 @@ export interface Field<A> extends Ring<A> {
  * @since 2.0.0
  */
 export const fieldNumber: Field<number> = {
-  add: (x, y) => x + y,
+  add: (second) => (first) => first + second,
   zero: 0,
-  mul: (x, y) => x * y,
+  mul: (second) => (first) => first * second,
   one: 1,
-  sub: (x, y) => x - y,
+  sub: (second) => (first) => first - second,
   degree: (_) => 1,
-  div: (x, y) => x / y,
-  mod: (x, y) => x % y
+  div: (second) => (first) => first / second,
+  mod: (second) => (first) => first % second
 }
 
+// TODO: make piapeable
 /**
  * The *greatest common divisor* of two values
  *
@@ -38,10 +39,11 @@ export const fieldNumber: Field<number> = {
  */
 export function gcd<A>(E: Eq<A>, field: Field<A>): (x: A, y: A) => A {
   const predicate = E.equals(field.zero)
-  const f = (x: A, y: A): A => (predicate(y) ? x : f(y, field.mod(x, y)))
+  const f = (x: A, y: A): A => (predicate(y) ? x : f(y, field.mod(y)(x)))
   return f
 }
 
+// TODO: make piapeable
 /**
  * The *least common multiple* of two values
  *
@@ -51,5 +53,5 @@ export function lcm<A>(E: Eq<A>, F: Field<A>): (x: A, y: A) => A {
   const zero = F.zero
   const predicate = E.equals(zero)
   const gcdSF = gcd(E, F)
-  return (x, y) => (predicate(x) || predicate(y) ? zero : F.div(F.mul(x, y), gcdSF(x, y)))
+  return (x, y) => (predicate(x) || predicate(y) ? zero : F.div(gcdSF(x, y))(F.mul(y)(x)))
 }

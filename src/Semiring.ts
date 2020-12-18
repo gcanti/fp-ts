@@ -27,9 +27,9 @@
  * @since 2.0.0
  */
 export interface Semiring<A> {
-  readonly add: (x: A, y: A) => A
+  readonly add: (second: A) => (first: A) => A
   readonly zero: A
-  readonly mul: (x: A, y: A) => A
+  readonly mul: (second: A) => (first: A) => A
   readonly one: A
 }
 
@@ -37,11 +37,9 @@ export interface Semiring<A> {
  * @category instances
  * @since 2.0.0
  */
-export function getFunctionSemiring<A, B>(S: Semiring<B>): Semiring<(a: A) => B> {
-  return {
-    add: (f, g) => (x) => S.add(f(x), g(x)),
-    zero: () => S.zero,
-    mul: (f, g) => (x) => S.mul(f(x), g(x)),
-    one: () => S.one
-  }
-}
+export const getFunctionSemiring = <A, B>(S: Semiring<B>): Semiring<(a: A) => B> => ({
+  add: (second) => (first) => (x) => S.add(second(x))(first(x)),
+  zero: () => S.zero,
+  mul: (second) => (first) => (x) => S.mul(second(x))(first(x)),
+  one: () => S.one
+})

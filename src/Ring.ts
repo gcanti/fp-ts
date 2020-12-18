@@ -17,21 +17,21 @@ import { Semiring, getFunctionSemiring } from './Semiring'
  * @since 2.0.0
  */
 export interface Ring<A> extends Semiring<A> {
-  readonly sub: (x: A, y: A) => A
+  readonly sub: (second: A) => (first: A) => A
 }
 
 /**
  * @category instances
  * @since 2.0.0
  */
-export function getFunctionRing<A, B>(ring: Ring<B>): Ring<(a: A) => B> {
+export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => {
   const S = getFunctionSemiring<A, B>(ring)
   return {
     add: S.add,
     mul: S.mul,
     one: S.one,
     zero: S.zero,
-    sub: (f, g) => (x) => ring.sub(f(x), g(x))
+    sub: (second) => (first) => (x) => ring.sub(second(x))(first(x))
   }
 }
 
@@ -40,9 +40,7 @@ export function getFunctionRing<A, B>(ring: Ring<B>): Ring<(a: A) => B> {
  *
  * @since 2.0.0
  */
-export function negate<A>(ring: Ring<A>): Endomorphism<A> {
-  return (a) => ring.sub(ring.zero, a)
-}
+export const negate = <A>(ring: Ring<A>): Endomorphism<A> => (a) => ring.sub(a)(ring.zero)
 
 /**
  * Given a tuple of `Ring`s returns a `Ring` for the tuple
@@ -50,25 +48,25 @@ export function negate<A>(ring: Ring<A>): Endomorphism<A> {
  * @example
  * import { getTupleRing } from 'fp-ts/Ring'
  * import { fieldNumber } from 'fp-ts/Field'
+ * import { pipe } from 'fp-ts/function'
  *
  * const R = getTupleRing(fieldNumber, fieldNumber, fieldNumber)
- * assert.deepStrictEqual(R.add([1, 2, 3], [4, 5, 6]), [5, 7, 9])
- * assert.deepStrictEqual(R.mul([1, 2, 3], [4, 5, 6]), [4, 10, 18])
+ * assert.deepStrictEqual(pipe([1, 2, 3], R.add([4, 5, 6])), [5, 7, 9])
+ * assert.deepStrictEqual(pipe([1, 2, 3], R.mul([4, 5, 6])), [4, 10, 18])
  * assert.deepStrictEqual(R.one, [1, 1, 1])
- * assert.deepStrictEqual(R.sub([1, 2, 3], [4, 5, 6]), [-3, -3, -3])
+ * assert.deepStrictEqual(pipe([1, 2, 3], R.sub([4, 5, 6])), [-3, -3, -3])
  * assert.deepStrictEqual(R.zero, [0, 0, 0])
  *
  * @category instances
  * @since 2.0.0
  */
-export function getTupleRing<T extends ReadonlyArray<Ring<any>>>(
+export const getTupleRing = <T extends ReadonlyArray<Ring<any>>>(
   ...rings: T
-): Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }> {
-  return {
-    add: (x: any, y: any) => rings.map((R, i) => R.add(x[i], y[i])),
+): Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }> =>
+  ({
+    add: (second: any) => (first: any) => rings.map((R, i) => R.add(second[i])(first[i])),
     zero: rings.map((R) => R.zero),
-    mul: (x: any, y: any) => rings.map((R, i) => R.mul(x[i], y[i])),
+    mul: (second: any) => (first: any) => rings.map((R, i) => R.mul(second[i])(first[i])),
     one: rings.map((R) => R.one),
-    sub: (x: any, y: any) => rings.map((R, i) => R.sub(x[i], y[i]))
-  } as any
-}
+    sub: (second: any) => (first: any) => rings.map((R, i) => R.sub(second[i])(first[i]))
+  } as any)
