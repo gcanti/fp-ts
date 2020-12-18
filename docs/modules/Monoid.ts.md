@@ -37,7 +37,7 @@ const monoidString: Monoid<string> = {
 
 _Adapted from https://typelevel.org/cats_
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -87,7 +87,7 @@ const M1 = M.getDualMonoid(M.monoidString)
 assert.deepStrictEqual(pipe('a', M1.concat('b')), 'ba')
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # instances
 
@@ -101,7 +101,7 @@ Endomorphism form a monoid where the `empty` value is the identity function.
 export declare function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getFunctionMonoid
 
@@ -133,7 +133,7 @@ assert.deepStrictEqual(pipe(f, M2.concat(g))(1), true)
 assert.deepStrictEqual(pipe(f, M2.concat(g))(3), true)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getJoinMonoid
 
@@ -159,7 +159,7 @@ const M1 = M.getJoinMonoid(B.boundedNumber)
 assert.deepStrictEqual(pipe(1, M1.concat(2)), 2)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getMeetMonoid
 
@@ -185,7 +185,7 @@ const M1 = M.getMeetMonoid(B.boundedNumber)
 assert.deepStrictEqual(pipe(1, M1.concat(2)), 1)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getStructMonoid
 
@@ -218,7 +218,7 @@ const monoidPoint = M.getStructMonoid<Point>({
 assert.deepStrictEqual(pipe({ x: 1, y: 2 }, monoidPoint.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getTupleMonoid
 
@@ -245,7 +245,7 @@ const M2 = M.getTupleMonoid(M.monoidString, M.monoidSum, M.monoidAll)
 assert.deepStrictEqual(pipe(['a', 1, true], M2.concat(['b', 2, false])), ['ab', 3, false])
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## monoidAll
 
@@ -269,7 +269,7 @@ assert.deepStrictEqual(pipe(true, monoidAll.concat(true)), true)
 assert.deepStrictEqual(pipe(true, monoidAll.concat(false)), false)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## monoidAny
 
@@ -294,7 +294,7 @@ assert.deepStrictEqual(pipe(true, monoidAny.concat(false)), true)
 assert.deepStrictEqual(pipe(false, monoidAny.concat(false)), false)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## monoidProduct
 
@@ -317,7 +317,7 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(pipe(2, monoidProduct.concat(3)), 6)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## monoidString
 
@@ -340,7 +340,7 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(pipe('a', monoidString.concat('b')), 'ab')
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## monoidSum
 
@@ -363,7 +363,7 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(pipe(2, monoidSum.concat(3)), 5)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## monoidVoid
 
@@ -373,7 +373,7 @@ Added in v2.0.0
 export declare const monoidVoid: Monoid<void>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # type classes
 
@@ -387,7 +387,7 @@ export interface Monoid<A> extends S.Semigroup<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -412,4 +412,4 @@ assert.deepStrictEqual(M.fold(M.monoidSum)([1, 2, 3]), 6)
 assert.deepStrictEqual(M.fold(M.monoidSum)([]), 0)
 ```
 
-Added in v2.0.0
+Added in v3.0.0

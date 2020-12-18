@@ -1,7 +1,7 @@
 /**
  * Data structure which represents readonly non-empty arrays.
  *
- * @since 2.5.0
+ * @since 3.0.0
  */
 import { Alt1 } from './Alt'
 import { Applicative1 } from './Applicative'
@@ -29,7 +29,7 @@ import { TraversableWithIndex1 } from './TraversableWithIndex'
 
 /**
  * @category model
- * @since 2.5.0
+ * @since 3.0.0
  */
 export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
   readonly 0: A
@@ -45,7 +45,7 @@ export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
  * assert.deepStrictEqual(pipe([2, 3, 4], cons(1)), [1, 2, 3, 4])
  *
  * @category constructors
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const cons: <A>(head: A) => (tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A> = RA.cons
 
@@ -59,7 +59,7 @@ export const cons: <A>(head: A) => (tail: ReadonlyArray<A>) => ReadonlyNonEmptyA
  * assert.deepStrictEqual(pipe([1, 2, 3], snoc(4)), [1, 2, 3, 4])
  *
  * @category constructors
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const snoc: <A>(end: A) => (init: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A> = RA.snoc
 
@@ -67,14 +67,14 @@ export const snoc: <A>(end: A) => (init: ReadonlyArray<A>) => ReadonlyNonEmptyAr
  * Builds a `ReadonlyNonEmptyArray` from an array returning `none` if `as` is an empty array.
  *
  * @category constructors
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const fromReadonlyArray = <A>(as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
   RA.isNonEmpty(as) ? some(as) : none
 
 /**
  * @category constructors
- * @since 2.5.0
+ * @since 3.0.0
  */
 // tslint:disable-next-line: readonly-array
 export const fromArray = <A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>> => fromReadonlyArray(RA.fromArray(as))
@@ -88,7 +88,7 @@ export const fromArray = <A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>> => 
  * assert.deepStrictEqual(uncons([1, 2, 3, 4]), [1, [2, 3, 4]])
  *
  * @category destructors
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const uncons = <A>(nea: ReadonlyNonEmptyArray<A>): readonly [A, ReadonlyArray<A>] => [nea[0], nea.slice(1)]
 
@@ -101,7 +101,7 @@ export const uncons = <A>(nea: ReadonlyNonEmptyArray<A>): readonly [A, ReadonlyA
  * assert.deepStrictEqual(unsnoc([1, 2, 3, 4]), [[1, 2, 3], 4])
  *
  * @category destructors
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const unsnoc = <A>(nea: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArray<A>, A] => {
   const len = nea.length - 1
@@ -110,28 +110,28 @@ export const unsnoc = <A>(nea: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArra
 
 /**
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const getShow: <A>(S: Show<A>) => Show<ReadonlyNonEmptyArray<A>> = RA.getShow
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const head = <A>(nea: ReadonlyNonEmptyArray<A>): A => nea[0]
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const tail = <A>(nea: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> => nea.slice(1)
 
 /**
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const reverse: <A>(nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.reverse as any
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function min<A>(O: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
   const S = getMeetSemigroup(O)
@@ -139,7 +139,7 @@ export function min<A>(O: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function max<A>(O: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
   const S = getJoinSemigroup(O)
@@ -150,7 +150,7 @@ export function max<A>(O: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
  * Builds a `Semigroup` instance for `ReadonlyNonEmptyArray`
  *
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const getSemigroup = <A = never>(): Semigroup<ReadonlyNonEmptyArray<A>> => ({
   concat: (second) => (first) => concat(first, second)
@@ -158,7 +158,7 @@ export const getSemigroup = <A = never>(): Semigroup<ReadonlyNonEmptyArray<A>> =
 
 /**
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const getEq: <A>(E: Eq<A>) => Eq<ReadonlyNonEmptyArray<A>> = RA.getEq
 
@@ -176,7 +176,7 @@ export const getEq: <A>(E: Eq<A>) => Eq<ReadonlyNonEmptyArray<A>> = RA.getEq
  * ])
  *
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function group<B>(
   E: Eq<B>
@@ -220,7 +220,7 @@ export function group<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<Read
  * assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [[1, 1, 1], [2]])
  *
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function groupSort<B>(
   O: Ord<B>
@@ -247,7 +247,7 @@ export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray
  * })
  *
  * @category constructors
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const groupBy = <A>(f: (a: A) => string) => (
   as: ReadonlyArray<A>
@@ -266,7 +266,7 @@ export const groupBy = <A>(f: (a: A) => string) => (
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const last = <A>(nea: ReadonlyNonEmptyArray<A>): A => nea[nea.length - 1]
 
@@ -279,20 +279,20 @@ export const last = <A>(nea: ReadonlyNonEmptyArray<A>): A => nea[nea.length - 1]
  * assert.deepStrictEqual(init([1, 2, 3]), [1, 2])
  * assert.deepStrictEqual(init([1]), [])
  *
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const init = <A>(nea: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> => nea.slice(0, -1)
 
 /**
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const sort: <B>(
   O: Ord<B>
 ) => <A extends B>(nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.sort as any
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const insertAt: <A>(
   i: number,
@@ -300,7 +300,7 @@ export const insertAt: <A>(
 ) => (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> = RA.insertAt as any
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const updateAt: <A>(
   i: number,
@@ -308,7 +308,7 @@ export const updateAt: <A>(
 ) => (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> = RA.updateAt as any
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const modifyAt: <A>(
   i: number,
@@ -316,7 +316,7 @@ export const modifyAt: <A>(
 ) => (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> = RA.modifyAt as any
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function filter<A, B extends A>(
   refinement: Refinement<A, B>
@@ -329,7 +329,7 @@ export function filter<A>(
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const filterWithIndex = <A>(predicate: (i: number, a: A) => boolean) => (
   nea: ReadonlyNonEmptyArray<A>
@@ -337,7 +337,7 @@ export const filterWithIndex = <A>(predicate: (i: number, a: A) => boolean) => (
 
 /**
  * @category constructors
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function concat<A>(fx: ReadonlyArray<A>, fy: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A>
 export function concat<A>(fx: ReadonlyNonEmptyArray<A>, fy: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
@@ -346,13 +346,13 @@ export function concat<A>(fx: ReadonlyArray<A>, fy: ReadonlyArray<A>): ReadonlyA
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const fold = <A>(S: Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>): A => fa.reduce((a, acc) => S.concat(acc)(a))
 
 /**
  * @category combinators
- * @since 2.5.1
+ * @since 3.0.0
  */
 export const zipWith: <A, B, C>(
   bs: ReadonlyNonEmptyArray<B>,
@@ -361,14 +361,14 @@ export const zipWith: <A, B, C>(
 
 /**
  * @category combinators
- * @since 2.5.1
+ * @since 3.0.0
  */
 export const zip: <B>(
   bs: ReadonlyNonEmptyArray<B>
 ) => <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [A, B]> = RA.zip as any
 
 /**
- * @since 2.5.1
+ * @since 3.0.0
  */
 export const unzip: <A, B>(
   as: ReadonlyNonEmptyArray<readonly [A, B]>
@@ -384,7 +384,7 @@ export const unzip: <A, B>(
  * assert.deepStrictEqual(pipe([1, 2, 3, 4], prependToAll(9)), [9, 1, 9, 2, 9, 3, 9, 4])
  *
  * @category combinators
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const prependToAll: <A>(
   a: A
@@ -400,7 +400,7 @@ export const prependToAll: <A>(
  * assert.deepStrictEqual(pipe([1, 2, 3, 4], intersperse(9)), [1, 9, 2, 9, 3, 9, 4])
  *
  * @category combinators
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const intersperse: <A>(
   a: A
@@ -408,7 +408,7 @@ export const intersperse: <A>(
 
 /**
  * @category FoldableWithIndex
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const foldMapWithIndex = <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (
   fa: ReadonlyNonEmptyArray<A>
@@ -416,7 +416,7 @@ export const foldMapWithIndex = <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A)
 
 /**
  * @category Foldable
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: ReadonlyNonEmptyArray<A>) =>
   fa.slice(1).reduce((s, a) => S.concat(f(a))(s), f(fa[0]))
@@ -425,7 +425,7 @@ export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: Reado
  * Less strict version of [`alt`](#alt).
  *
  * @category Alt
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const altW: <B>(
   second: Lazy<ReadonlyNonEmptyArray<B>>
@@ -436,13 +436,13 @@ export const altW: <B>(
  * types of kind `* -> *`.
  *
  * @category Alt
- * @since 2.6.2
+ * @since 3.0.0
  */
 export const alt: Alt1<URI>['alt'] = RA.alt as any
 
 /**
  * @category Apply
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const ap: Applicative1<URI>['ap'] = RA.ap as any
 
@@ -450,7 +450,7 @@ export const ap: Applicative1<URI>['ap'] = RA.ap as any
  * Wrap a value into the type constructor.
  *
  * @category Applicative
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const of: Applicative1<URI>['of'] = RA.of as any
 
@@ -458,7 +458,7 @@ export const of: Applicative1<URI>['of'] = RA.of as any
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const chain: Monad1<URI>['chain'] = RA.chain as any
 
@@ -466,7 +466,7 @@ export const chain: Monad1<URI>['chain'] = RA.chain as any
  * Derivable from `Extend`.
  *
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const duplicate: <A>(
   ma: ReadonlyNonEmptyArray<A>
@@ -474,7 +474,7 @@ export const duplicate: <A>(
 
 /**
  * @category Extend
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const extend: Extend1<URI>['extend'] = RA.extend as any
 
@@ -482,7 +482,7 @@ export const extend: Extend1<URI>['extend'] = RA.extend as any
  * Derivable from `Monad`.
  *
  * @category derivable combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const flatten: <A>(
   mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
@@ -493,38 +493,38 @@ export const flatten: <A>(
  * use the type constructor `F` to represent some computational context.
  *
  * @category Functor
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = RA.map as any
 
 /**
  * @category FunctorWithIndex
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const mapWithIndex: FunctorWithIndex1<URI, number>['mapWithIndex'] = RA.mapWithIndex as any
 
 /**
  * @category Foldable
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => B = RA.reduce
 
 /**
  * @category FoldableWithIndex
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => B =
   RA.reduceWithIndex
 
 /**
  * @category Foldable
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyNonEmptyArray<A>) => B = RA.reduceRight
 
 /**
  * @category FoldableWithIndex
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const reduceRightWithIndex: <A, B>(
   b: B,
@@ -532,22 +532,22 @@ export const reduceRightWithIndex: <A, B>(
 ) => (fa: ReadonlyNonEmptyArray<A>) => B = RA.reduceRightWithIndex
 
 /**
- * @since 2.6.3
+ * @since 3.0.0
  */
 export const traverse: Traversable1<URI>['traverse'] = RA.traverse as any
 
 /**
- * @since 2.6.3
+ * @since 3.0.0
  */
 export const sequence: Traversable1<URI>['sequence'] = RA.sequence as any
 
 /**
- * @since 2.6.3
+ * @since 3.0.0
  */
 export const traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'] = RA.traverseWithIndex as any
 
 /**
- * @since 2.6.3
+ * @since 3.0.0
  */
 export const extract: Comonad1<URI>['extract'] = head
 
@@ -557,13 +557,13 @@ export const extract: Comonad1<URI>['extract'] = head
 
 /**
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const URI = 'ReadonlyNonEmptyArray'
 
 /**
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
 export type URI = typeof URI
 
@@ -575,7 +575,7 @@ declare module './HKT' {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Functor: Functor1<URI> = {
   URI,
@@ -584,7 +584,7 @@ export const Functor: Functor1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
   URI,
@@ -594,7 +594,7 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Applicative: Applicative1<URI> = {
   URI,
@@ -609,7 +609,7 @@ export const Applicative: Applicative1<URI> = {
  * Derivable from `Apply`.
  *
  * @category derivable combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const apFirst: <B>(
   second: ReadonlyNonEmptyArray<B>
@@ -621,7 +621,7 @@ export const apFirst: <B>(
  * Derivable from `Apply`.
  *
  * @category derivable combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const apSecond: <B>(
   second: ReadonlyNonEmptyArray<B>
@@ -629,7 +629,7 @@ export const apSecond: <B>(
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Monad: Monad1<URI> = {
   URI,
@@ -645,7 +645,7 @@ export const Monad: Monad1<URI> = {
  * Derivable from `Monad`.
  *
  * @category derivable combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const chainFirst: <A, B>(
   f: (a: A) => ReadonlyNonEmptyArray<B>
@@ -653,7 +653,7 @@ export const chainFirst: <A, B>(
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Foldable: Foldable1<URI> = {
   URI,
@@ -664,7 +664,7 @@ export const Foldable: Foldable1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
   URI,
@@ -675,7 +675,7 @@ export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Traversable: Traversable1<URI> = {
   URI,
@@ -686,7 +686,7 @@ export const Traversable: Traversable1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
   URI,
@@ -695,7 +695,7 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Alt: Alt1<URI> = {
   URI,
@@ -705,7 +705,7 @@ export const Alt: Alt1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Comonad: Comonad1<URI> = {
   URI,
@@ -719,19 +719,19 @@ export const Comonad: Comonad1<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const Do: ReadonlyNonEmptyArray<{}> = of({})
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bindTo = <N extends string>(
   name: N
 ): (<A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ [K in N]: A }>) => map(bindTo_(name))
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bind = <N extends string, A, B>(
   name: Exclude<N, keyof A>,
@@ -749,7 +749,7 @@ export const bind = <N extends string, A, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const apS = <A, N extends string, B>(
   name: Exclude<N, keyof A>,

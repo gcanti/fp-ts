@@ -16,7 +16,7 @@ Instances must satisfy the following laws:
 1. Identity: `F.map(identity) <-> identity`
 2. Composition: `F.map(flow(ab, bc)) <-> flow(F.map(ab), F.map(bc))`
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -46,7 +46,7 @@ export interface Functor<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Functor1 (interface)
 
@@ -59,7 +59,7 @@ export interface Functor1<F extends URIS> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Functor2 (interface)
 
@@ -72,7 +72,7 @@ export interface Functor2<F extends URIS2> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Functor2C (interface)
 
@@ -85,7 +85,7 @@ export interface Functor2C<F extends URIS2, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Functor3 (interface)
 
@@ -98,7 +98,7 @@ export interface Functor3<F extends URIS3> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Functor3C (interface)
 
@@ -111,7 +111,7 @@ export interface Functor3C<F extends URIS3, E> {
 }
 ```
 
-Added in v2.2.0
+Added in v3.0.0
 
 ## Functor4 (interface)
 
@@ -124,4 +124,4 @@ export interface Functor4<F extends URIS4> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

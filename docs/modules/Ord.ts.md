@@ -14,7 +14,7 @@ Instances should satisfy the laws of total orderings:
 2. Antisymmetry: if `S.compare(b)(a) <= 0` and `S.compare(a)(b) <= 0` then `a <-> b`
 3. Transitivity: if `S.compare(b)(a) <= 0` and `S.compare(c)(b) <= 0` then `S.compare(c)(a) <= 0`
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -60,7 +60,7 @@ Added in v2.0.0
 export declare const contramap: <B, A>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # combinators
 
@@ -72,7 +72,7 @@ Added in v2.0.0
 export declare const getDualOrd: <A>(O: Ord<A>) => Ord<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # constructors
 
@@ -84,7 +84,7 @@ Added in v2.0.0
 export declare function fromCompare<A>(compare: Ord<A>['compare']): Ord<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # instances
 
@@ -96,7 +96,7 @@ Added in v2.0.0
 export declare const Contravariant: Contravariant1<'Ord'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## URI
 
@@ -106,7 +106,7 @@ Added in v2.7.0
 export declare const URI: 'Ord'
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -116,7 +116,7 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getMonoid
 
@@ -189,7 +189,7 @@ assert.deepStrictEqual(sort(O2)(users), [
 ])
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## getTupleOrd
 
@@ -215,7 +215,7 @@ assert.strictEqual(pipe(['a', 1, true], O1.compare(['a', 2, true])), -1)
 assert.strictEqual(pipe(['a', 1, true], O1.compare(['a', 1, false])), 1)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## ordBoolean
 
@@ -225,7 +225,7 @@ Added in v2.0.0
 export declare const ordBoolean: Ord<boolean>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## ordDate
 
@@ -235,7 +235,7 @@ Added in v2.0.0
 export declare const ordDate: Ord<Date>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## ordNumber
 
@@ -245,7 +245,7 @@ Added in v2.0.0
 export declare const ordNumber: Ord<number>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## ordString
 
@@ -255,7 +255,7 @@ Added in v2.0.0
 export declare const ordString: Ord<string>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # type classes
 
@@ -269,7 +269,7 @@ export interface Ord<A> extends Eq<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -283,7 +283,7 @@ Test whether a value is between a minimum and a maximum (inclusive)
 export declare function between<A>(O: Ord<A>): (low: A, hi: A) => Predicate<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## clamp
 
@@ -295,7 +295,7 @@ Clamp a value between a minimum and a maximum
 export declare function clamp<A>(O: Ord<A>): (low: A, hi: A) => Endomorphism<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## geq
 
@@ -307,7 +307,7 @@ Test whether one value is _non-strictly greater than_ another
 export declare const geq: <A>(O: Ord<A>) => (second: A) => (first: A) => boolean
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## gt
 
@@ -319,7 +319,7 @@ Test whether one value is _strictly greater than_ another
 export declare const gt: <A>(O: Ord<A>) => (second: A) => (first: A) => boolean
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## leq
 
@@ -331,7 +331,7 @@ Test whether one value is _non-strictly less than_ another
 export declare const leq: <A>(O: Ord<A>) => (second: A) => (first: A) => boolean
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## lt
 
@@ -343,7 +343,7 @@ Test whether one value is _strictly less than_ another
 export declare const lt: <A>(O: Ord<A>) => (second: A) => (first: A) => boolean
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## max
 
@@ -355,7 +355,7 @@ Take the maximum of two values. If they are considered equal, the first argument
 export declare const max: <A>(O: Ord<A>) => (second: A) => (first: A) => A
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## min
 
@@ -367,4 +367,4 @@ Take the minimum of two values. If they are considered equal, the first argument
 export declare const min: <A>(O: Ord<A>) => (second: A) => (first: A) => A
 ```
 
-Added in v2.0.0
+Added in v3.0.0

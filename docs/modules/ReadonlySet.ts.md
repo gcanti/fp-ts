@@ -6,7 +6,7 @@ parent: Modules
 
 ## ReadonlySet overview
 
-Added in v2.5.0
+Added in v3.0.0
 
 ---
 
@@ -59,7 +59,7 @@ Added in v2.5.0
 export declare function chain<B>(E: Eq<B>): <A>(f: (x: A) => ReadonlySet<B>) => (set: ReadonlySet<A>) => ReadonlySet<B>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## compact
 
@@ -69,7 +69,7 @@ Added in v2.5.0
 export declare function compact<A>(E: Eq<A>): (fa: ReadonlySet<Option<A>>) => ReadonlySet<A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## difference
 
@@ -91,7 +91,7 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(pipe(new Set([1, 2]), difference(eqNumber)(new Set([1, 3]))), new Set([2]))
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## filter
 
@@ -102,7 +102,7 @@ export declare function filter<A, B extends A>(refinement: Refinement<A, B>): (s
 export declare function filter<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## filterMap
 
@@ -112,7 +112,7 @@ Added in v2.5.0
 export declare function filterMap<B>(E: Eq<B>): <A>(f: (a: A) => Option<B>) => (fa: ReadonlySet<A>) => ReadonlySet<B>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## insert
 
@@ -124,7 +124,7 @@ Insert a value into a set
 export declare function insert<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## intersection
 
@@ -136,7 +136,7 @@ The set of elements which are in both the first and second set
 export declare function intersection<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## map
 
@@ -148,7 +148,7 @@ Projects a Set through a function
 export declare function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: ReadonlySet<A>) => ReadonlySet<B>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## remove
 
@@ -160,7 +160,7 @@ Delete a value from a set
 export declare function remove<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## union
 
@@ -172,7 +172,7 @@ Form the union of two sets
 export declare function union<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # constructors
 
@@ -186,7 +186,7 @@ Create a set from an array
 export declare function fromArray<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlySet<A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## fromSet
 
@@ -196,7 +196,7 @@ Added in v2.5.0
 export declare function fromSet<A>(s: Set<A>): ReadonlySet<A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## singleton
 
@@ -208,7 +208,7 @@ Create a set with one element
 export declare function singleton<A>(a: A): ReadonlySet<A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # destructors
 
@@ -220,7 +220,7 @@ Added in v2.5.0
 export declare function toReadonlyArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => ReadonlyArray<A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## toSet
 
@@ -230,7 +230,7 @@ Added in v2.5.0
 export declare function toSet<A>(s: ReadonlySet<A>): Set<A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # instances
 
@@ -242,7 +242,7 @@ Added in v2.5.0
 export declare function getEq<A>(E: Eq<A>): Eq<ReadonlySet<A>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## getIntersectionSemigroup
 
@@ -252,7 +252,7 @@ Added in v2.5.0
 export declare function getIntersectionSemigroup<A>(E: Eq<A>): Semigroup<ReadonlySet<A>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## getShow
 
@@ -262,7 +262,7 @@ Added in v2.5.0
 export declare function getShow<A>(S: Show<A>): Show<ReadonlySet<A>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## getUnionMonoid
 
@@ -272,7 +272,7 @@ Added in v2.5.0
 export declare function getUnionMonoid<A>(E: Eq<A>): Monoid<ReadonlySet<A>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # utils
 
@@ -286,7 +286,7 @@ Test if a value is a member of a set
 export declare const elem: <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>) => boolean
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## empty
 
@@ -296,7 +296,7 @@ Added in v2.5.0
 export declare const empty: ReadonlySet<never>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## every
 
@@ -306,7 +306,7 @@ Added in v2.5.0
 export declare function every<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => boolean
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## foldMap
 
@@ -316,7 +316,7 @@ Added in v2.5.0
 export declare function foldMap<A, M>(O: Ord<A>, M: Monoid<M>): (f: (a: A) => M) => (fa: ReadonlySet<A>) => M
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## isSubset
 
@@ -328,7 +328,7 @@ Added in v2.5.0
 export declare function isSubset<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => boolean
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## partition
 
@@ -343,7 +343,7 @@ export declare function partition<A>(
 ): (set: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<A>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## partitionMap
 
@@ -356,7 +356,7 @@ export declare function partitionMap<B, C>(
 ): <A>(f: (a: A) => Either<B, C>) => (set: ReadonlySet<A>) => Separated<ReadonlySet<B>, ReadonlySet<C>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## reduce
 
@@ -366,7 +366,7 @@ Added in v2.5.0
 export declare function reduce<A>(O: Ord<A>): <B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlySet<A>) => B
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## separate
 
@@ -379,7 +379,7 @@ export declare function separate<E, A>(
 ): (fa: ReadonlySet<Either<E, A>>) => Separated<ReadonlySet<E>, ReadonlySet<A>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## some
 
@@ -389,4 +389,4 @@ Added in v2.5.0
 export declare function some<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => boolean
 ```
 
-Added in v2.5.0
+Added in v3.0.0

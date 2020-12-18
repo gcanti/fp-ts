@@ -13,7 +13,7 @@ The `Apply` class provides the `ap` which is used to apply a function to an argu
 
 Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -45,7 +45,7 @@ export interface Apply<F> extends Functor<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Apply1 (interface)
 
@@ -57,7 +57,7 @@ export interface Apply1<F extends URIS> extends Functor1<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Apply2 (interface)
 
@@ -69,7 +69,7 @@ export interface Apply2<F extends URIS2> extends Functor2<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Apply2C (interface)
 
@@ -81,7 +81,7 @@ export interface Apply2C<F extends URIS2, E> extends Functor2C<F, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Apply3 (interface)
 
@@ -93,7 +93,7 @@ export interface Apply3<F extends URIS3> extends Functor3<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Apply3C (interface)
 
@@ -105,7 +105,7 @@ export interface Apply3C<F extends URIS3, E> extends Functor3C<F, E> {
 }
 ```
 
-Added in v2.2.0
+Added in v3.0.0
 
 ## Apply4 (interface)
 
@@ -119,7 +119,7 @@ export interface Apply4<F extends URIS4> extends Functor4<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 

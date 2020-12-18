@@ -16,7 +16,7 @@ Instances must satisfy the following laws in addition to the `Functor`:
 
 Note. `Functor`'s `map` can be derived: `A.map = f => A.chain(flow(f, A.of))`
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -48,7 +48,7 @@ export interface Monad<M> extends Functor<M> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Monad1 (interface)
 
@@ -61,7 +61,7 @@ export interface Monad1<M extends URIS> extends Functor1<M> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Monad2 (interface)
 
@@ -74,7 +74,7 @@ export interface Monad2<M extends URIS2> extends Functor2<M> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Monad2C (interface)
 
@@ -87,7 +87,7 @@ export interface Monad2C<M extends URIS2, E> extends Functor2C<M, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Monad3 (interface)
 
@@ -100,7 +100,7 @@ export interface Monad3<M extends URIS3> extends Functor3<M> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Monad3C (interface)
 
@@ -113,7 +113,7 @@ export interface Monad3C<M extends URIS3, E> extends Functor3C<M, E> {
 }
 ```
 
-Added in v2.2.0
+Added in v3.0.0
 
 ## Monad4 (interface)
 
@@ -128,7 +128,7 @@ export interface Monad4<M extends URIS4> extends Functor4<M> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 

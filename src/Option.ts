@@ -10,7 +10,7 @@
  * An option could be looked at as a collection or foldable structure with either one or zero elements.
  * Another way to look at `Option` is: it represents the effect of a possibly failing computation.
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
@@ -40,7 +40,7 @@ import { Witherable1 } from './Witherable'
 
 /**
  * @category model
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface None {
   readonly _tag: 'None'
@@ -48,7 +48,7 @@ export interface None {
 
 /**
  * @category model
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Some<A> {
   readonly _tag: 'Some'
@@ -57,7 +57,7 @@ export interface Some<A> {
 
 /**
  * @category model
- * @since 2.0.0
+ * @since 3.0.0
  */
 export type Option<A> = None | Some<A>
 
@@ -75,7 +75,7 @@ export type Option<A> = None | Some<A>
  * assert.strictEqual(isSome(none), false)
  *
  * @category guards
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const isSome = <A>(fa: Option<A>): fa is Some<A> => fa._tag === 'Some'
 
@@ -89,7 +89,7 @@ export const isSome = <A>(fa: Option<A>): fa is Some<A> => fa._tag === 'Some'
  * assert.strictEqual(isNone(none), true)
  *
  * @category guards
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const isNone = <A>(fa: Option<A>): fa is None => fa._tag === 'None'
 
@@ -101,7 +101,7 @@ export const isNone = <A>(fa: Option<A>): fa is None => fa._tag === 'None'
  * `None` doesn't have a constructor, instead you can use it directly as a value. Represents a missing value.
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const none: Option<never> = { _tag: 'None' }
 
@@ -109,7 +109,7 @@ export const none: Option<never> = { _tag: 'None' }
  * Constructs a `Some`. Represents an optional value that exists.
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const some = <A>(a: A): Option<A> => ({ _tag: 'Some', value: a })
 
@@ -125,7 +125,7 @@ export const some = <A>(a: A): Option<A> => ({ _tag: 'Some', value: a })
  * assert.deepStrictEqual(fromNullable(1), some(1))
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function fromNullable<A>(a: A): Option<NonNullable<A>> {
   return a == null ? none : some(a as NonNullable<A>)
@@ -143,7 +143,7 @@ export function fromNullable<A>(a: A): Option<NonNullable<A>> {
  * assert.deepStrictEqual(getOption(1), some(1))
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
 export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A>
@@ -167,7 +167,7 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
  * assert.deepStrictEqual(tryCatch(() => 1), some(1))
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function tryCatch<A>(f: Lazy<A>): Option<A> {
   try {
@@ -188,7 +188,7 @@ export function tryCatch<A>(f: Lazy<A>): Option<A> {
  * assert.deepStrictEqual(getLeft(left('a')), some('a'))
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getLeft<E, A>(ma: Either<E, A>): Option<E> {
   return ma._tag === 'Right' ? none : some(ma.left)
@@ -205,7 +205,7 @@ export function getLeft<E, A>(ma: Either<E, A>): Option<E> {
  * assert.deepStrictEqual(getRight(left('a')), none)
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getRight<E, A>(ma: Either<E, A>): Option<A> {
   return ma._tag === 'Left' ? none : some(ma.right)
@@ -219,7 +219,7 @@ export function getRight<E, A>(ma: Either<E, A>): Option<A> {
  * Derivable from `MonadThrow`.
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const fromEither: <E, A>(ma: Either<E, A>) => Option<A> = getRight
 
@@ -252,7 +252,7 @@ export const fromEither: <E, A>(ma: Either<E, A>) => Option<A> = getRight
  * )
  *
  * @category destructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function fold<A, B>(onNone: Lazy<B>, onSome: (a: A) => B): (ma: Option<A>) => B {
   return (ma) => (isNone(ma) ? onNone() : onSome(ma.value))
@@ -281,7 +281,7 @@ export function fold<A, B>(onNone: Lazy<B>, onSome: (a: A) => B): (ma: Option<A>
  * )
  *
  * @category destructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function toNullable<A>(ma: Option<A>): A | null {
   return isNone(ma) ? null : ma.value
@@ -310,7 +310,7 @@ export function toNullable<A>(ma: Option<A>): A | null {
  * )
  *
  * @category destructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function toUndefined<A>(ma: Option<A>): A | undefined {
   return isNone(ma) ? undefined : ma.value
@@ -320,7 +320,7 @@ export function toUndefined<A>(ma: Option<A>): A | undefined {
  * Less strict version of [`getOrElse`](#getOrElse).
  *
  * @category destructors
- * @since 2.6.0
+ * @since 3.0.0
  */
 export const getOrElseW = <B>(onNone: Lazy<B>) => <A>(ma: Option<A>): A | B => (isNone(ma) ? onNone() : ma.value)
 
@@ -347,7 +347,7 @@ export const getOrElseW = <B>(onNone: Lazy<B>) => <A>(ma: Option<A>): A | B => (
  * )
  *
  * @category destructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElseW
 
@@ -372,7 +372,7 @@ export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElse
  * assert.deepStrictEqual(g('a'), none)
  *
  * @category combinators
- * @since 2.9.0
+ * @since 3.0.0
  */
 export function fromNullableK<A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
@@ -422,7 +422,7 @@ export function fromNullableK<A extends ReadonlyArray<unknown>, B>(
  * )
  *
  * @category combinators
- * @since 2.9.0
+ * @since 3.0.0
  */
 export function chainNullableK<A, B>(f: (a: A) => B | null | undefined): (ma: Option<A>) => Option<B> {
   return (ma) => (isNone(ma) ? none : fromNullable(f(ma.value)))
@@ -433,7 +433,7 @@ export function chainNullableK<A, B>(f: (a: A) => B | null | undefined): (ma: Op
  * use the type constructor `F` to represent some computational context.
  *
  * @category Functor
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B> = (f) => (fa) =>
   isNone(fa) ? none : some(f(fa.value))
@@ -442,7 +442,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B> = (f) =
  * Apply a function to an argument under a type constructor.
  *
  * @category Apply
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const ap: Applicative1<URI>['ap'] = (fa) => (fab) =>
   isNone(fab) ? none : isNone(fa) ? none : some(fab.value(fa.value))
@@ -451,7 +451,7 @@ export const ap: Applicative1<URI>['ap'] = (fa) => (fab) =>
  * Wrap a value into the type constructor.
  *
  * @category Applicative
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const of: Applicative1<URI>['of'] = some
 
@@ -459,7 +459,7 @@ export const of: Applicative1<URI>['of'] = some
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const chain: Monad1<URI>['chain'] = (f) => (ma) => (isNone(ma) ? none : f(ma.value))
 
@@ -467,7 +467,7 @@ export const chain: Monad1<URI>['chain'] = (f) => (ma) => (isNone(ma) ? none : f
  * Derivable from `Monad`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const flatten: <A>(mma: Option<Option<A>>) => Option<A> =
   /*#__PURE__*/
@@ -477,7 +477,7 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> =
  * Less strict version of [`alt`](#alt).
  *
  * @category Alt
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const altW = <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>): Option<A | B> =>
   isNone(first) ? second() : first
@@ -508,25 +508,25 @@ export const altW = <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>): Optio
  * )
  *
  * @category Alt
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const alt: Alt1<URI>['alt'] = altW
 
 /**
  * @category Alternative
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const zero: Alternative1<URI>['zero'] = () => none
 
 /**
  * @category MonadThrow
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const throwError: MonadThrow1<URI>['throwError'] = () => none
 
 /**
  * @category Extend
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const extend: Extend1<URI>['extend'] = (f) => (wa) => (isNone(wa) ? none : some(f(wa)))
 
@@ -534,7 +534,7 @@ export const extend: Extend1<URI>['extend'] = (f) => (wa) => (isNone(wa) ? none 
  * Derivable from `Extend`.
  *
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> =
   /*#__PURE__*/
@@ -542,28 +542,28 @@ export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> =
 
 /**
  * @category Foldable
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B = (b, f) => (fa) =>
   isNone(fa) ? b : f(b, fa.value)
 
 /**
  * @category Foldable
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M = (M) => (f) => (fa) =>
   isNone(fa) ? M.empty : f(fa.value)
 
 /**
  * @category Foldable
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B = (b, f) => (fa) =>
   isNone(fa) ? b : f(fa.value, b)
 
 /**
  * @category Compactable
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const compact: <A>(fa: Option<Option<A>>) => Option<A> = flatten
 
@@ -571,7 +571,7 @@ const defaultSeparate = { left: none, right: none }
 
 /**
  * @category Compactable
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const separate: <A, B>(ma: Option<Either<A, B>>) => Separated<Option<A>, Option<B>> = (ma) => {
   const o = pipe(
@@ -586,20 +586,20 @@ export const separate: <A, B>(ma: Option<Either<A, B>>) => Separated<Option<A>, 
 
 /**
  * @category Filterable
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const filter: Filterable1<URI>['filter'] = <A>(predicate: Predicate<A>) => (fa: Option<A>) =>
   isNone(fa) ? none : predicate(fa.value) ? fa : none
 
 /**
  * @category Filterable
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const filterMap: Filterable1<URI>['filterMap'] = (f) => (fa) => (isNone(fa) ? none : f(fa.value))
 
 /**
  * @category Filterable
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const partition: Filterable1<URI>['partition'] = <A>(predicate: Predicate<A>) => (fa: Option<A>) => {
   return {
@@ -613,13 +613,13 @@ export const partition: Filterable1<URI>['partition'] = <A>(predicate: Predicate
 
 /**
  * @category Filterable
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const partitionMap: Filterable1<URI>['partitionMap'] = (f) => flow(map(f), separate)
 
 /**
  * @category Traversable
- * @since 2.6.3
+ * @since 3.0.0
  */
 export const traverse: Traversable1<URI>['traverse'] = <F>(F: ApplicativeHKT<F>) => <A, B>(f: (a: A) => HKT<F, B>) => (
   ta: Option<A>
@@ -627,7 +627,7 @@ export const traverse: Traversable1<URI>['traverse'] = <F>(F: ApplicativeHKT<F>)
 
 /**
  * @category Traversable
- * @since 2.6.3
+ * @since 3.0.0
  */
 export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>) => <A>(
   ta: Option<HKT<F, A>>
@@ -635,7 +635,7 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>)
 
 /**
  * @category Witherable
- * @since 2.6.5
+ * @since 3.0.0
  */
 export const wither: Witherable1<URI>['wither'] = <F>(F: ApplicativeHKT<F>) => <A, B>(
   f: (a: A) => HKT<F, Option<B>>
@@ -643,7 +643,7 @@ export const wither: Witherable1<URI>['wither'] = <F>(F: ApplicativeHKT<F>) => <
 
 /**
  * @category Witherable
- * @since 2.6.5
+ * @since 3.0.0
  */
 export const wilt: Witherable1<URI>['wilt'] = <F>(F: ApplicativeHKT<F>) => <A, B, C>(
   f: (a: A) => HKT<F, Either<B, C>>
@@ -668,13 +668,13 @@ export const wilt: Witherable1<URI>['wilt'] = <F>(F: ApplicativeHKT<F>) => <A, B
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const URI = 'Option'
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export type URI = typeof URI
 
@@ -686,7 +686,7 @@ declare module './HKT' {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getShow<A>(S: Show<A>): Show<Option<A>> {
   return {
@@ -707,7 +707,7 @@ export function getShow<A>(S: Show<A>): Show<Option<A>> {
  * assert.strictEqual(E.equals(some(1))(some(1)), true)
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getEq<A>(E: Eq<A>): Eq<Option<A>> {
   return fromEquals((second) => (first) =>
@@ -735,7 +735,7 @@ export function getEq<A>(E: Eq<A>): Eq<Option<A>> {
  * assert.strictEqual(pipe(some(1), O.compare(some(1))), 0)
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getOrd<A>(O: Ord<A>): Ord<Option<A>> {
   return fromCompare((second) => (first) =>
@@ -765,7 +765,7 @@ export function getOrd<A>(O: Ord<A>): Ord<Option<A>> {
  * assert.deepStrictEqual(pipe(some(1), S.concat(some(2))), some(3))
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getApplySemigroup<A>(S: Semigroup<A>): Semigroup<Option<A>> {
   return {
@@ -775,7 +775,7 @@ export function getApplySemigroup<A>(S: Semigroup<A>): Semigroup<Option<A>> {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getApplyMonoid<A>(M: Monoid<A>): Monoid<Option<A>> {
   return {
@@ -805,7 +805,7 @@ export function getApplyMonoid<A>(M: Monoid<A>): Monoid<Option<A>> {
  * assert.deepStrictEqual(pipe(some(1), M.concat(some(2))), some(1))
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getFirstMonoid<A = never>(): Monoid<Option<A>> {
   return {
@@ -835,7 +835,7 @@ export function getFirstMonoid<A = never>(): Monoid<Option<A>> {
  * assert.deepStrictEqual(pipe(some(1), M.concat(some(2))), some(2))
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getLastMonoid<A = never>(): Monoid<Option<A>> {
   return {
@@ -867,7 +867,7 @@ export function getLastMonoid<A = never>(): Monoid<Option<A>> {
  * assert.deepStrictEqual(pipe(some(1), M.concat(some(2))), some(3))
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>> {
   return {
@@ -879,7 +879,7 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>> {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Functor: Functor1<URI> = {
   URI,
@@ -888,7 +888,7 @@ export const Functor: Functor1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Applicative: Applicative1<URI> = {
   URI,
@@ -903,7 +903,7 @@ export const Applicative: Applicative1<URI> = {
  * Derivable from `Apply`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const apFirst: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<A> =
   /*#__PURE__*/
@@ -915,7 +915,7 @@ export const apFirst: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<
  * Derivable from `Apply`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const apSecond: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<B> =
   /*#__PURE__*/
@@ -923,7 +923,7 @@ export const apSecond: <B>(second: Option<B>) => <A>(first: Option<A>) => Option
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Monad: Monad1<URI> = {
   URI,
@@ -939,7 +939,7 @@ export const Monad: Monad1<URI> = {
  * Derivable from `Monad`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A> =
   /*#__PURE__*/
@@ -947,7 +947,7 @@ export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) =>
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Foldable: Foldable1<URI> = {
   URI,
@@ -958,7 +958,7 @@ export const Foldable: Foldable1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Alt: Alt1<URI> = {
   URI,
@@ -968,7 +968,7 @@ export const Alt: Alt1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Alternative: Alternative1<URI> = {
   URI,
@@ -979,7 +979,7 @@ export const Alternative: Alternative1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Extend: Extend1<URI> = {
   URI,
@@ -989,7 +989,7 @@ export const Extend: Extend1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Compactable: Compactable1<URI> = {
   URI,
@@ -999,7 +999,7 @@ export const Compactable: Compactable1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Filterable: Filterable1<URI> = {
   URI,
@@ -1011,7 +1011,7 @@ export const Filterable: Filterable1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Traversable: Traversable1<URI> = {
   URI,
@@ -1022,7 +1022,7 @@ export const Traversable: Traversable1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Witherable: Witherable1<URI> = {
   URI,
@@ -1032,7 +1032,7 @@ export const Witherable: Witherable1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const MonadThrow: MonadThrow1<URI> = {
   URI,
@@ -1055,7 +1055,7 @@ export const MonadThrow: MonadThrow1<URI> = {
  * assert.strictEqual(pipe(O.some(1), O.elem(eqNumber)(2)), false)
  * assert.strictEqual(pipe(O.none, O.elem(eqNumber)(1)), false)
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const elem = <A>(E: Eq<A>) => (a: A) => (ma: Option<A>): boolean => (isNone(ma) ? false : E.equals(ma.value)(a))
 
@@ -1088,7 +1088,7 @@ export const elem = <A>(E: Eq<A>) => (a: A) => (ma: Option<A>): boolean => (isNo
  *   false
  * )
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => boolean {
   return (ma) => (isNone(ma) ? false : predicate(ma.value))
@@ -1109,7 +1109,7 @@ export function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => boolean {
  * const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none)) // static error: Type '"B"' is not assignable to type '"A"'
  * ```
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> {
   return (a: A): a is B => isSome(getOption(a))
@@ -1120,17 +1120,17 @@ export function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): R
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const Do: Option<{}> = of({})
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bindTo = <N extends string>(name: N): (<A>(fa: Option<A>) => Option<{ [K in N]: A }>) => map(bindTo_(name))
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bind = <N extends string, A, B>(
   name: Exclude<N, keyof A>,
@@ -1148,7 +1148,7 @@ export const bind = <N extends string, A, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const apS = <A, N extends string, B>(
   name: Exclude<N, keyof A>,
@@ -1191,7 +1191,7 @@ export const apT = <B>(fb: Option<B>) => <A extends ReadonlyArray<unknown>>(
 
 /**
  *
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const traverseArrayWithIndex = <A, B>(f: (index: number, a: A) => Option<B>) => (
   arr: ReadonlyArray<A>
@@ -1223,7 +1223,7 @@ export const traverseArrayWithIndex = <A, B>(f: (index: number, a: A) => Option<
  * assert.deepStrictEqual(pipe(arr, traverseArray(some)), some(arr))
  * assert.deepStrictEqual(pipe(arr, traverseArray(fromPredicate((x) => x > 5))), none)
  *
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const traverseArray: <A, B>(f: (a: A) => Option<B>) => (arr: ReadonlyArray<A>) => Option<ReadonlyArray<B>> = (
   f
@@ -1244,6 +1244,6 @@ export const traverseArray: <A, B>(f: (a: A) => Option<B>) => (arr: ReadonlyArra
  * assert.deepStrictEqual(pipe(arr, A.map(some), sequenceArray), some(arr))
  * assert.deepStrictEqual(pipe(arr, A.map(fromPredicate(x => x > 8)), sequenceArray), none)
  *
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const sequenceArray: <A>(arr: ReadonlyArray<Option<A>>) => Option<ReadonlyArray<A>> = traverseArray(identity)

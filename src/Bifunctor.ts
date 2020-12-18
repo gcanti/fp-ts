@@ -1,11 +1,11 @@
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { HKT2, Kind2, Kind3, URIS2, URIS3, URIS4, Kind4 } from './HKT'
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Bifunctor<F> {
   readonly URI: F
@@ -15,7 +15,7 @@ export interface Bifunctor<F> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Bifunctor2<F extends URIS2> {
   readonly URI: F
@@ -25,7 +25,7 @@ export interface Bifunctor2<F extends URIS2> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Bifunctor2C<F extends URIS2, E> {
   readonly URI: F
@@ -35,7 +35,7 @@ export interface Bifunctor2C<F extends URIS2, E> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Bifunctor3<F extends URIS3> {
   readonly URI: F
@@ -45,7 +45,7 @@ export interface Bifunctor3<F extends URIS3> {
 
 /**
  * @category type classes
- * @since 2.2.0
+ * @since 3.0.0
  */
 export interface Bifunctor3C<F extends URIS3, E> {
   readonly URI: F
@@ -55,7 +55,7 @@ export interface Bifunctor3C<F extends URIS3, E> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Bifunctor4<F extends URIS4> {
   readonly URI: F

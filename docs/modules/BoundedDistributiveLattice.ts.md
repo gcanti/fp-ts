@@ -8,7 +8,7 @@ parent: Modules
 
 A `BoundedDistributiveLattice` is a lattice that is both bounded and distributive
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -33,7 +33,7 @@ export declare function getMinMaxBoundedDistributiveLattice<A>(
 ): (min: A, max: A) => BoundedDistributiveLattice<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # type classes
 
@@ -45,4 +45,4 @@ Added in v2.0.0
 export interface BoundedDistributiveLattice<A> extends BoundedLattice<A>, DistributiveLattice<A> {}
 ```
 
-Added in v2.0.0
+Added in v3.0.0

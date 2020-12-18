@@ -6,13 +6,13 @@
  *
  * - Left zero: `M.chain(M.throwError(e), f) = M.throwError(e)`
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface MonadThrow<M> {
   readonly URI: M
@@ -21,7 +21,7 @@ export interface MonadThrow<M> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface MonadThrow1<M extends URIS> {
   readonly URI: M
@@ -30,7 +30,7 @@ export interface MonadThrow1<M extends URIS> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface MonadThrow2<M extends URIS2> {
   readonly URI: M
@@ -39,7 +39,7 @@ export interface MonadThrow2<M extends URIS2> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface MonadThrow2C<M extends URIS2, E> {
   readonly URI: M
@@ -48,7 +48,7 @@ export interface MonadThrow2C<M extends URIS2, E> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface MonadThrow3<M extends URIS3> {
   readonly URI: M
@@ -57,7 +57,7 @@ export interface MonadThrow3<M extends URIS3> {
 
 /**
  * @category type classes
- * @since 2.2.0
+ * @since 3.0.0
  */
 export interface MonadThrow3C<M extends URIS3, E> {
   readonly URI: M
@@ -66,7 +66,7 @@ export interface MonadThrow3C<M extends URIS3, E> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface MonadThrow4<M extends URIS4> {
   readonly URI: M

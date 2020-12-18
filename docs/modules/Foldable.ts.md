@@ -6,7 +6,7 @@ parent: Modules
 
 ## Foldable overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -42,7 +42,7 @@ export interface Foldable<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Foldable1 (interface)
 
@@ -57,7 +57,7 @@ export interface Foldable1<F extends URIS> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Foldable2 (interface)
 
@@ -72,7 +72,7 @@ export interface Foldable2<F extends URIS2> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Foldable2C (interface)
 
@@ -87,7 +87,7 @@ export interface Foldable2C<F extends URIS2, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Foldable3 (interface)
 
@@ -102,7 +102,7 @@ export interface Foldable3<F extends URIS3> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Foldable3C (interface)
 
@@ -117,7 +117,7 @@ export interface Foldable3C<F extends URIS3, E> {
 }
 ```
 
-Added in v2.2.0
+Added in v3.0.0
 
 ## Foldable4 (interface)
 
@@ -132,7 +132,7 @@ export interface Foldable4<F extends URIS4> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -171,7 +171,7 @@ const t = make('a', [make('b', []), make('c', []), make('d', [])])
 assert.strictEqual(pipe(t, intercalate(monoidString, Foldable)('|')), 'a|b|c|d')
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## reduceM
 
@@ -226,7 +226,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## toArray
 
@@ -258,4 +258,4 @@ const t = make(1, [make(2, []), make(3, []), make(4, [])])
 assert.deepStrictEqual(toArray(Foldable)(t), [1, 2, 3, 4])
 ```
 
-Added in v2.8.0
+Added in v3.0.0

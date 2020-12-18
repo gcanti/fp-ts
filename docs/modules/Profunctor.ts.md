@@ -6,7 +6,7 @@ parent: Modules
 
 ## Profunctor overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -36,7 +36,7 @@ export interface Profunctor<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Profunctor2 (interface)
 
@@ -48,7 +48,7 @@ export interface Profunctor2<F extends URIS2> extends Functor2<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Profunctor2C (interface)
 
@@ -60,7 +60,7 @@ export interface Profunctor2C<F extends URIS2, E> extends Functor2C<F, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Profunctor3 (interface)
 
@@ -72,7 +72,7 @@ export interface Profunctor3<F extends URIS3> extends Functor3<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Profunctor3C (interface)
 
@@ -84,7 +84,7 @@ export interface Profunctor3C<F extends URIS3, E> extends Functor3C<F, E> {
 }
 ```
 
-Added in v2.2.0
+Added in v3.0.0
 
 ## Profunctor4 (interface)
 
@@ -99,4 +99,4 @@ export interface Profunctor4<F extends URIS4> extends Functor4<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

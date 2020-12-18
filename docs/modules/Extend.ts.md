@@ -6,7 +6,7 @@ parent: Modules
 
 ## Extend overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -35,7 +35,7 @@ export interface Extend<W> extends Functor<W> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Extend1 (interface)
 
@@ -47,7 +47,7 @@ export interface Extend1<W extends URIS> extends Functor1<W> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Extend2 (interface)
 
@@ -59,7 +59,7 @@ export interface Extend2<W extends URIS2> extends Functor2<W> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Extend2C (interface)
 
@@ -71,7 +71,7 @@ export interface Extend2C<W extends URIS2, E> extends Functor2C<W, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Extend3 (interface)
 
@@ -83,7 +83,7 @@ export interface Extend3<W extends URIS3> extends Functor3<W> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Extend3C (interface)
 
@@ -95,7 +95,7 @@ export interface Extend3C<W extends URIS3, E> extends Functor3C<W, E> {
 }
 ```
 
-Added in v2.2.0
+Added in v3.0.0
 
 ## Extend4 (interface)
 
@@ -109,4 +109,4 @@ export interface Extend4<W extends URIS4> extends Functor4<W> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

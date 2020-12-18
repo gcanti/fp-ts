@@ -1,11 +1,11 @@
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Invariant<F> {
   readonly URI: F
@@ -14,7 +14,7 @@ export interface Invariant<F> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Invariant1<F extends URIS> {
   readonly URI: F
@@ -23,7 +23,7 @@ export interface Invariant1<F extends URIS> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Invariant2<F extends URIS2> {
   readonly URI: F
@@ -32,7 +32,7 @@ export interface Invariant2<F extends URIS2> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Invariant2C<F extends URIS2, E> {
   readonly URI: F
@@ -41,7 +41,7 @@ export interface Invariant2C<F extends URIS2, E> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Invariant3<F extends URIS3> {
   readonly URI: F
@@ -50,7 +50,7 @@ export interface Invariant3<F extends URIS3> {
 
 /**
  * @category type classes
- * @since 2.4.2
+ * @since 3.0.0
  */
 export interface Invariant3C<F extends URIS3, E> {
   readonly URI: F
@@ -59,7 +59,7 @@ export interface Invariant3C<F extends URIS3, E> {
 
 /**
  * @category type classes
- * @since 2.4.2
+ * @since 3.0.0
  */
 export interface Invariant4<F extends URIS4> {
   readonly URI: F

@@ -6,7 +6,7 @@ parent: Modules
 
 ## Bifunctor overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -36,7 +36,7 @@ export interface Bifunctor<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Bifunctor2 (interface)
 
@@ -50,7 +50,7 @@ export interface Bifunctor2<F extends URIS2> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Bifunctor2C (interface)
 
@@ -64,7 +64,7 @@ export interface Bifunctor2C<F extends URIS2, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Bifunctor3 (interface)
 
@@ -78,7 +78,7 @@ export interface Bifunctor3<F extends URIS3> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Bifunctor3C (interface)
 
@@ -92,7 +92,7 @@ export interface Bifunctor3C<F extends URIS3, E> {
 }
 ```
 
-Added in v2.2.0
+Added in v3.0.0
 
 ## Bifunctor4 (interface)
 
@@ -109,4 +109,4 @@ export interface Bifunctor4<F extends URIS4> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

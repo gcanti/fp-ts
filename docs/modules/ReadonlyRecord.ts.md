@@ -6,7 +6,7 @@ parent: Modules
 
 ## ReadonlyRecord overview
 
-Added in v2.5.0
+Added in v3.0.0
 
 ---
 
@@ -97,7 +97,7 @@ Added in v2.5.0
 export declare const compact: <A>(fa: Readonly<Record<string, Option<A>>>) => Readonly<Record<string, A>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## separate
 
@@ -109,7 +109,7 @@ export declare const separate: <A, B>(
 ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # Filterable
 
@@ -121,7 +121,7 @@ Added in v2.5.0
 export declare const filter: Filter1<'ReadonlyRecord'>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## filterMap
 
@@ -133,7 +133,7 @@ export declare const filterMap: <A, B>(
 ) => (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## partition
 
@@ -143,7 +143,7 @@ Added in v2.5.0
 export declare const partition: Partition1<'ReadonlyRecord'>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## partitionMap
 
@@ -155,7 +155,7 @@ export declare const partitionMap: <A, B, C>(
 ) => (fa: Readonly<Record<string, A>>) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # Foldable
 
@@ -167,7 +167,7 @@ Added in v2.5.0
 export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Readonly<Record<string, A>>) => M
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## reduce
 
@@ -177,7 +177,7 @@ Added in v2.5.0
 export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Readonly<Record<string, A>>) => B
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## reduceRight
 
@@ -187,7 +187,7 @@ Added in v2.5.0
 export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Readonly<Record<string, A>>) => B
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # Witherable
 
@@ -199,7 +199,7 @@ Added in v2.5.0
 export declare const wilt: Wilt1<'ReadonlyRecord'>
 ```
 
-Added in v2.6.5
+Added in v3.0.0
 
 ## wither
 
@@ -209,7 +209,7 @@ Added in v2.6.5
 export declare const wither: Wither1<'ReadonlyRecord'>
 ```
 
-Added in v2.6.5
+Added in v3.0.0
 
 # combinators
 
@@ -225,7 +225,7 @@ export declare function deleteAt<K extends string>(
 ): <KS extends string, A>(r: ReadonlyRecord<KS, A>) => ReadonlyRecord<string extends K ? string : Exclude<KS, K>, A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## filterMapWithIndex
 
@@ -237,7 +237,7 @@ export declare function filterMapWithIndex<K extends string, A, B>(
 ): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## insertAt
 
@@ -252,7 +252,7 @@ export declare function insertAt<K extends string, A>(
 ): <KS extends string>(r: ReadonlyRecord<KS, A>) => ReadonlyRecord<KS | K, A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## map
 
@@ -264,7 +264,7 @@ Map a record passing the values to the iterating function
 export declare function map<A, B>(f: (a: A) => B): <K extends string>(fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## mapWithIndex
 
@@ -278,7 +278,7 @@ export declare function mapWithIndex<K extends string, A, B>(
 ): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # constructors
 
@@ -290,7 +290,7 @@ Added in v2.5.0
 export declare function fromRecord<K extends string, A>(r: Record<K, A>): ReadonlyRecord<K, A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## singleton
 
@@ -302,7 +302,7 @@ Create a record with one key/value pair
 export declare function singleton<K extends string, A>(k: K, a: A): ReadonlyRecord<K, A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # destructors
 
@@ -314,7 +314,7 @@ Added in v2.5.0
 export declare const toReadonlyArray: <K extends string, A>(r: Readonly<Record<K, A>>) => readonly (readonly [K, A])[]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## toRecord
 
@@ -324,7 +324,7 @@ Added in v2.5.0
 export declare function toRecord<K extends string, A>(r: ReadonlyRecord<K, A>): Record<K, A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## toUnfoldable
 
@@ -341,7 +341,7 @@ export declare function toUnfoldable<F>(
 ): <K extends string, A>(r: ReadonlyRecord<K, A>) => HKT<F, readonly [K, A]>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # instances
 
@@ -353,7 +353,7 @@ Added in v2.5.0
 export declare const Compactable: Compactable1<'ReadonlyRecord'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Filterable
 
@@ -363,7 +363,7 @@ Added in v2.7.0
 export declare const Filterable: Filterable1<'ReadonlyRecord'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## FilterableWithIndex
 
@@ -373,7 +373,7 @@ Added in v2.7.0
 export declare const FilterableWithIndex: FilterableWithIndex1<'ReadonlyRecord', string>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Foldable
 
@@ -383,7 +383,7 @@ Added in v2.7.0
 export declare const Foldable: Foldable1<'ReadonlyRecord'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## FoldableWithIndex
 
@@ -393,7 +393,7 @@ Added in v2.7.0
 export declare const FoldableWithIndex: FoldableWithIndex1<'ReadonlyRecord', string>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Functor
 
@@ -403,7 +403,7 @@ Added in v2.7.0
 export declare const Functor: Functor1<'ReadonlyRecord'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## FunctorWithIndex
 
@@ -413,7 +413,7 @@ Added in v2.7.0
 export declare const FunctorWithIndex: FunctorWithIndex1<'ReadonlyRecord', string>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Traversable
 
@@ -423,7 +423,7 @@ Added in v2.7.0
 export declare const Traversable: Traversable1<'ReadonlyRecord'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## TraversableWithIndex
 
@@ -433,7 +433,7 @@ Added in v2.7.0
 export declare const TraversableWithIndex: TraversableWithIndex1<'ReadonlyRecord', string>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## URI
 
@@ -443,7 +443,7 @@ Added in v2.7.0
 export declare const URI: 'ReadonlyRecord'
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -453,7 +453,7 @@ Added in v2.5.0
 export type URI = typeof URI
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## Witherable
 
@@ -463,7 +463,7 @@ Added in v2.5.0
 export declare const Witherable: Witherable1<'ReadonlyRecord'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## getEq
 
@@ -473,7 +473,7 @@ Added in v2.7.0
 export declare function getEq<K extends string, A>(E: Eq<A>): Eq<ReadonlyRecord<K, A>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## getMonoid
 
@@ -496,7 +496,7 @@ const M = getMonoid(semigroupSum)
 assert.deepStrictEqual(pipe({ foo: 123 }, M.concat({ foo: 456 })), { foo: 579 })
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## getShow
 
@@ -506,7 +506,7 @@ Added in v2.5.0
 export declare function getShow<A>(S: Show<A>): Show<ReadonlyRecord<string, A>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # model
 
@@ -518,7 +518,7 @@ Added in v2.5.0
 export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # utils
 
@@ -546,7 +546,7 @@ assert.deepStrictEqual(collect((key, val) => ({ key: key, value: val }))(x), [
 ])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## elem
 
@@ -556,7 +556,7 @@ Added in v2.5.0
 export declare const elem: <A>(E: Eq<A>) => (a: A) => (fa: Readonly<Record<string, A>>) => boolean
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## empty
 
@@ -566,7 +566,7 @@ Added in v2.5.0
 export declare const empty: Readonly<Record<string, never>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## every
 
@@ -576,7 +576,7 @@ Added in v2.5.0
 export declare function every<A>(predicate: Predicate<A>): (r: ReadonlyRecord<string, A>) => boolean
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## filterWithIndex
 
@@ -591,7 +591,7 @@ export declare function filterWithIndex<K extends string, A>(
 ): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## foldMapWithIndex
 
@@ -603,7 +603,7 @@ export declare function foldMapWithIndex<M>(
 ): <K extends string, A>(f: (k: K, a: A) => M) => (fa: ReadonlyRecord<K, A>) => M
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## fromFoldable
 
@@ -631,7 +631,7 @@ export declare function fromFoldable<F, A>(
 ): <K extends string>(fka: HKT<F, readonly [K, A]>) => ReadonlyRecord<K, A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## fromFoldableMap
 
@@ -698,7 +698,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## has
 
@@ -708,7 +708,7 @@ Added in v2.5.0
 export declare function has<K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## isEmpty
 
@@ -720,7 +720,7 @@ Test whether a record is empty
 export declare function isEmpty(r: ReadonlyRecord<string, unknown>): boolean
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## isSubrecord
 
@@ -734,7 +734,7 @@ export declare function isSubrecord<A>(
 ): (that: ReadonlyRecord<string, A>) => (me: ReadonlyRecord<string, A>) => boolean
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## keys
 
@@ -744,7 +744,7 @@ Added in v2.5.0
 export declare function keys<K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyArray<K>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## lookup
 
@@ -756,7 +756,7 @@ Lookup the value for a key in a record
 export declare const lookup: (k: string) => <A>(r: Readonly<Record<string, A>>) => Option<A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## modifyAt
 
@@ -769,7 +769,7 @@ export declare function modifyAt<A>(
 ): <K extends string>(r: ReadonlyRecord<K, A>) => Option<ReadonlyRecord<K, A>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## partitionMapWithIndex
 
@@ -781,7 +781,7 @@ export declare function partitionMapWithIndex<K extends string, A, B, C>(
 ): (fa: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## partitionWithIndex
 
@@ -796,7 +796,7 @@ export declare function partitionWithIndex<K extends string, A>(
 ): (fa: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## pop
 
@@ -812,7 +812,7 @@ export declare function pop<K extends string>(
 ) => Option<readonly [A, ReadonlyRecord<string extends K ? string : Exclude<KS, K>, A>]>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## reduceRightWithIndex
 
@@ -825,7 +825,7 @@ export declare function reduceRightWithIndex<K extends string, A, B>(
 ): (fa: ReadonlyRecord<K, A>) => B
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## reduceWithIndex
 
@@ -838,7 +838,7 @@ export declare function reduceWithIndex<K extends string, A, B>(
 ): (fa: ReadonlyRecord<K, A>) => B
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## sequence
 
@@ -865,7 +865,7 @@ export declare function sequence<F>(
 ): <K extends string, A>(ta: ReadonlyRecord<K, HKT<F, A>>) => HKT<F, ReadonlyRecord<K, A>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## size
 
@@ -877,7 +877,7 @@ Calculate the number of key/value pairs in a record
 export declare function size(r: ReadonlyRecord<string, unknown>): number
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## some
 
@@ -887,7 +887,7 @@ Added in v2.5.0
 export declare function some<A>(predicate: (a: A) => boolean): (r: ReadonlyRecord<string, A>) => boolean
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## traverse
 
@@ -922,7 +922,7 @@ export declare function traverse<F>(
 ): <A, B>(f: (a: A) => HKT<F, B>) => <K extends string>(ta: ReadonlyRecord<K, A>) => HKT<F, ReadonlyRecord<K, B>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## traverseWithIndex
 
@@ -959,7 +959,7 @@ export declare function traverseWithIndex<F>(
 ): <K extends string, A, B>(f: (k: K, a: A) => HKT<F, B>) => (ta: ReadonlyRecord<K, A>) => HKT<F, ReadonlyRecord<K, B>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## updateAt
 
@@ -972,4 +972,4 @@ export declare function updateAt<A>(
 ): <K extends string>(r: ReadonlyRecord<K, A>) => Option<ReadonlyRecord<K, A>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0

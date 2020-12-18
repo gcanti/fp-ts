@@ -15,7 +15,7 @@ foldMap(M)(fa, f) = foldMapWithIndex(M)(fa, (_, a) => f(a))
 reduceRight(fa, b, f) = reduceRightWithIndex(fa, b, (_, a, b) => f(a, b))
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -47,7 +47,7 @@ export interface FoldableWithIndex<F, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## FoldableWithIndex1 (interface)
 
@@ -62,7 +62,7 @@ export interface FoldableWithIndex1<F extends URIS, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## FoldableWithIndex2 (interface)
 
@@ -77,7 +77,7 @@ export interface FoldableWithIndex2<F extends URIS2, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## FoldableWithIndex2C (interface)
 
@@ -92,7 +92,7 @@ export interface FoldableWithIndex2C<F extends URIS2, I, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## FoldableWithIndex3 (interface)
 
@@ -107,7 +107,7 @@ export interface FoldableWithIndex3<F extends URIS3, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## FoldableWithIndex3C (interface)
 
@@ -122,7 +122,7 @@ export interface FoldableWithIndex3C<F extends URIS3, I, E> {
 }
 ```
 
-Added in v2.2.0
+Added in v3.0.0
 
 ## FoldableWithIndex4 (interface)
 
@@ -137,4 +137,4 @@ export interface FoldableWithIndex4<F extends URIS4, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

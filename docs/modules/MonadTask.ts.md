@@ -8,7 +8,7 @@ parent: Modules
 
 Lift a computation from the `Task` monad
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -37,7 +37,7 @@ export interface MonadTask<M> extends MonadIO<M> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## MonadTask1 (interface)
 
@@ -49,7 +49,7 @@ export interface MonadTask1<M extends URIS> extends MonadIO1<M> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## MonadTask2 (interface)
 
@@ -61,7 +61,7 @@ export interface MonadTask2<M extends URIS2> extends MonadIO2<M> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## MonadTask2C (interface)
 
@@ -73,7 +73,7 @@ export interface MonadTask2C<M extends URIS2, E> extends MonadIO2C<M, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## MonadTask3 (interface)
 
@@ -85,7 +85,7 @@ export interface MonadTask3<M extends URIS3> extends MonadIO3<M> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## MonadTask3C (interface)
 
@@ -97,7 +97,7 @@ export interface MonadTask3C<M extends URIS3, E> extends MonadIO3C<M, E> {
 }
 ```
 
-Added in v2.2.0
+Added in v3.0.0
 
 ## MonadTask4 (interface)
 
@@ -109,4 +109,4 @@ export interface MonadTask4<M extends URIS4> extends MonadIO4<M> {
 }
 ```
 
-Added in v2.4.4
+Added in v3.0.0

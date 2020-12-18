@@ -7,7 +7,7 @@
  * 2. Antisymmetry: if `S.compare(b)(a) <= 0` and `S.compare(a)(b) <= 0` then `a <-> b`
  * 3. Transitivity: if `S.compare(b)(a) <= 0` and `S.compare(c)(b) <= 0` then `S.compare(c)(a) <= 0`
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Contravariant1 } from './Contravariant'
 import { Eq, eqStrict } from './Eq'
@@ -21,7 +21,7 @@ import { Endomorphism, flow, pipe, Predicate } from './function'
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Ord<A> extends Eq<A> {
   readonly compare: (second: A) => (first: A) => Ordering
@@ -33,7 +33,7 @@ const compare = (second: string | number | boolean) => (first: string | number |
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const ordString: Ord<string> = {
   equals: eqStrict.equals,
@@ -42,7 +42,7 @@ export const ordString: Ord<string> = {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const ordNumber: Ord<number> = {
   equals: eqStrict.equals,
@@ -51,7 +51,7 @@ export const ordNumber: Ord<number> = {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const ordBoolean: Ord<boolean> = {
   equals: eqStrict.equals,
@@ -61,49 +61,49 @@ export const ordBoolean: Ord<boolean> = {
 /**
  * Test whether one value is _strictly less than_ another
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const lt = <A>(O: Ord<A>) => (second: A) => (first: A): boolean => O.compare(second)(first) === -1
 
 /**
  * Test whether one value is _strictly greater than_ another
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const gt = <A>(O: Ord<A>) => (second: A) => (first: A): boolean => O.compare(second)(first) === 1
 
 /**
  * Test whether one value is _non-strictly less than_ another
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const leq = <A>(O: Ord<A>) => (second: A) => (first: A): boolean => O.compare(second)(first) !== 1
 
 /**
  * Test whether one value is _non-strictly greater than_ another
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const geq = <A>(O: Ord<A>) => (second: A) => (first: A): boolean => O.compare(second)(first) !== -1
 
 /**
  * Take the minimum of two values. If they are considered equal, the first argument is chosen
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const min = <A>(O: Ord<A>) => (second: A) => (first: A): A => (O.compare(second)(first) === 1 ? second : first)
 
 /**
  * Take the maximum of two values. If they are considered equal, the first argument is chosen
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const max = <A>(O: Ord<A>) => (second: A) => (first: A): A => (O.compare(second)(first) === -1 ? second : first)
 
 /**
  * Clamp a value between a minimum and a maximum
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function clamp<A>(O: Ord<A>): (low: A, hi: A) => Endomorphism<A> {
   const minO = min(O)
@@ -114,7 +114,7 @@ export function clamp<A>(O: Ord<A>): (low: A, hi: A) => Endomorphism<A> {
 /**
  * Test whether a value is between a minimum and a maximum (inclusive)
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function between<A>(O: Ord<A>): (low: A, hi: A) => Predicate<A> {
   const ltO = lt(O)
@@ -124,7 +124,7 @@ export function between<A>(O: Ord<A>): (low: A, hi: A) => Predicate<A> {
 
 /**
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function fromCompare<A>(compare: Ord<A>['compare']): Ord<A> {
   const optimizedCompare: Ord<A>['compare'] = (second) => {
@@ -202,7 +202,7 @@ export function fromCompare<A>(compare: Ord<A>['compare']): Ord<A> {
  * ])
  *
  * @category instances
- * @since 2.4.0
+ * @since 3.0.0
  */
 export function getMonoid<A = never>(): Monoid<Ord<A>> {
   return {
@@ -229,7 +229,7 @@ export function getMonoid<A = never>(): Monoid<Ord<A>> {
  * assert.strictEqual(pipe(['a', 1, true], O1.compare(['a', 1, false])), 1)
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
   ...ords: T
@@ -249,13 +249,13 @@ export function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
 
 /**
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const getDualOrd = <A>(O: Ord<A>): Ord<A> => fromCompare((second) => (first) => O.compare(first)(second))
 
 /**
  * @category Contravariant
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const contramap: Contravariant1<URI>['contramap'] = (f) => (fa) =>
   fromCompare((second) => (first) => fa.compare(f(second))(f(first)))
@@ -266,13 +266,13 @@ export const contramap: Contravariant1<URI>['contramap'] = (f) => (fa) =>
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const URI = 'Ord'
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export type URI = typeof URI
 
@@ -284,7 +284,7 @@ declare module './HKT' {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const ordDate: Ord<Date> =
   /*#__PURE__*/
@@ -295,7 +295,7 @@ export const ordDate: Ord<Date> =
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Contravariant: Contravariant1<URI> = {
   URI,

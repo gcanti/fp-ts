@@ -8,12 +8,12 @@
  * - Commutativity: `a ∨ b <-> b ∨ a`
  * - Idempotency:   `a ∨ a <-> a`
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface JoinSemilattice<A> {
   readonly join: (second: A) => (first: A) => A

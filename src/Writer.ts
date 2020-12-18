@@ -1,5 +1,5 @@
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Applicative2C } from './Applicative'
 import { Functor2 } from './Functor'
@@ -12,7 +12,7 @@ import { Monoid } from './Monoid'
 
 /**
  * @category model
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Writer<W, A> {
   (): readonly [A, W]
@@ -26,7 +26,7 @@ export interface Writer<W, A> {
  * Appends a value to the accumulator
  *
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const tell: <W>(w: W) => Writer<W, void> = (w) => () => [undefined, w]
 
@@ -34,7 +34,7 @@ export const tell: <W>(w: W) => Writer<W, void> = (w) => () => [undefined, w]
  * Modifies the result to include the changes to the accumulator
  *
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const listen: <W, A>(fa: Writer<W, A>) => Writer<W, readonly [A, W]> = (fa) => () => {
   const [a, w] = fa()
@@ -45,7 +45,7 @@ export const listen: <W, A>(fa: Writer<W, A>) => Writer<W, readonly [A, W]> = (f
  * Applies the returned function to the accumulator
  *
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const pass: <W, A>(fa: Writer<W, readonly [A, (w: W) => W]>) => Writer<W, A> = (fa) => () => {
   const [[a, f], w] = fa()
@@ -56,7 +56,7 @@ export const pass: <W, A>(fa: Writer<W, readonly [A, (w: W) => W]>) => Writer<W,
  * Projects a value from modifications made to the accumulator during an action
  *
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const listens: <W, B>(f: (w: W) => B) => <A>(fa: Writer<W, A>) => Writer<W, readonly [A, B]> = (f) => (
   fa
@@ -69,7 +69,7 @@ export const listens: <W, B>(f: (w: W) => B) => <A>(fa: Writer<W, A>) => Writer<
  * Modify the final accumulator value by applying a function
  *
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A> = (f) => (fa) => () => {
   const [a, w] = fa()
@@ -81,7 +81,7 @@ export const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A
  * use the type constructor `F` to represent some computational context.
  *
  * @category Functor
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B> = (f) => (fa) => () => {
   const [a, w] = fa()
@@ -94,13 +94,13 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const URI = 'Writer'
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export type URI = typeof URI
 
@@ -129,7 +129,7 @@ export function getApplicative<W>(M: Monoid<W>): Applicative2C<URI, W> {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
   return {
@@ -146,7 +146,7 @@ export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
   URI,
@@ -158,11 +158,11 @@ export const Functor: Functor2<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const evaluate: <W, A>(fa: Writer<W, A>) => A = (fa) => fa()[0]
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const execute: <W, A>(fa: Writer<W, A>) => W = (fa) => fa()[1]

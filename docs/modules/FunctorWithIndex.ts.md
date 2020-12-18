@@ -16,7 +16,7 @@ Instances must satisfy the following laws:
 1. Identity: `F.mapWithIndex(fa, (_i, a) => a) <-> fa`
 2. Composition: `F.mapWithIndex(fa, (_i, a) => bc(ab(a))) <-> F.mapWithIndex(F.mapWithIndex(fa, ab), bc)`
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -45,7 +45,7 @@ export interface FunctorWithIndex<F, I> extends Functor<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## FunctorWithIndex1 (interface)
 
@@ -57,7 +57,7 @@ export interface FunctorWithIndex1<F extends URIS, I> extends Functor1<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## FunctorWithIndex2 (interface)
 
@@ -69,7 +69,7 @@ export interface FunctorWithIndex2<F extends URIS2, I> extends Functor2<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## FunctorWithIndex2C (interface)
 
@@ -81,7 +81,7 @@ export interface FunctorWithIndex2C<F extends URIS2, I, E> extends Functor2C<F, 
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## FunctorWithIndex3 (interface)
 
@@ -93,7 +93,7 @@ export interface FunctorWithIndex3<F extends URIS3, I> extends Functor3<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## FunctorWithIndex3C (interface)
 
@@ -105,7 +105,7 @@ export interface FunctorWithIndex3C<F extends URIS3, I, E> extends Functor3C<F, 
 }
 ```
 
-Added in v2.2.0
+Added in v3.0.0
 
 ## FunctorWithIndex4 (interface)
 
@@ -117,4 +117,4 @@ export interface FunctorWithIndex4<F extends URIS4, I> extends Functor4<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

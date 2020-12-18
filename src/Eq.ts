@@ -7,7 +7,7 @@
  * 2. Symmetry: `equals(b)(a) === equals(a)(b)`
  * 3. Transitivity: if `equals(b)(a) === true` and `equals(c)(b) === true`, then `equals(c)(a) === true`
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Contravariant1 } from './Contravariant'
 import { flow } from './function'
@@ -20,7 +20,7 @@ import { ReadonlyRecord } from './ReadonlyRecord'
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Eq<A> {
   readonly equals: (second: A) => (first: A) => boolean
@@ -32,7 +32,7 @@ export interface Eq<A> {
 
 /**
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function fromEquals<A>(equals: Eq<A>['equals']): Eq<A> {
   return {
@@ -45,7 +45,7 @@ export function fromEquals<A>(equals: Eq<A>['equals']): Eq<A> {
 
 /**
  * @category Contravariant
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const contramap: Contravariant1<URI>['contramap'] = (f) => (fa) =>
   fromEquals((second) => flow(f, fa.equals(f(second))))
@@ -56,13 +56,13 @@ export const contramap: Contravariant1<URI>['contramap'] = (f) => (fa) =>
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const URI = 'Eq'
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export type URI = typeof URI
 
@@ -74,7 +74,7 @@ declare module './HKT' {
 
 /**
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const eqStrict: Eq<unknown> = {
   equals: (second) => (first) => first === second
@@ -82,25 +82,25 @@ export const eqStrict: Eq<unknown> = {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const eqString: Eq<string> = eqStrict
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const eqNumber: Eq<number> = eqStrict
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const eqBoolean: Eq<boolean> = eqStrict
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> {
   return fromEquals((second) => (first) => {
@@ -126,7 +126,7 @@ export function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in 
  * assert.strictEqual(E.equals(['a', 1, true])(['a', 1, false]), false)
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getTupleEq<T extends ReadonlyArray<Eq<any>>>(
   ...eqs: T
@@ -136,7 +136,7 @@ export function getTupleEq<T extends ReadonlyArray<Eq<any>>>(
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const eqDate: Eq<Date> = {
   equals: (second) => (first) => first.valueOf() === second.valueOf()
@@ -144,7 +144,7 @@ export const eqDate: Eq<Date> = {
 
 /**
  * @category instances
- * @since 2.6.0
+ * @since 3.0.0
  */
 export function getMonoid<A>(): Monoid<Eq<A>> {
   return {
@@ -157,7 +157,7 @@ export function getMonoid<A>(): Monoid<Eq<A>> {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Contravariant: Contravariant1<URI> = {
   URI,

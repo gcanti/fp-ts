@@ -6,7 +6,7 @@ parent: Modules
 
 ## Writer overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -47,7 +47,7 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # combinators
 
@@ -61,7 +61,7 @@ Modify the final accumulator value by applying a function
 export declare const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## listen
 
@@ -73,7 +73,7 @@ Modifies the result to include the changes to the accumulator
 export declare const listen: <W, A>(fa: Writer<W, A>) => Writer<W, readonly [A, W]>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## listens
 
@@ -85,7 +85,7 @@ Projects a value from modifications made to the accumulator during an action
 export declare const listens: <W, B>(f: (w: W) => B) => <A>(fa: Writer<W, A>) => Writer<W, readonly [A, B]>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## pass
 
@@ -97,7 +97,7 @@ Applies the returned function to the accumulator
 export declare const pass: <W, A>(fa: Writer<W, readonly [A, (w: W) => W]>) => Writer<W, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## tell
 
@@ -109,7 +109,7 @@ Appends a value to the accumulator
 export declare const tell: <W>(w: W) => Writer<W, void>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # instances
 
@@ -121,7 +121,7 @@ Added in v2.0.0
 export declare const Functor: Functor2<'Writer'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## URI
 
@@ -131,7 +131,7 @@ Added in v2.7.0
 export declare const URI: 'Writer'
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -141,7 +141,7 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getApplicative
 
@@ -161,7 +161,7 @@ Added in v3.0.0
 export declare function getMonad<W>(M: Monoid<W>): Monad2C<URI, W>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # model
 
@@ -175,7 +175,7 @@ export interface Writer<W, A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -187,7 +187,7 @@ Added in v2.0.0
 export declare const evaluate: <W, A>(fa: Writer<W, A>) => A
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## execute
 
@@ -197,4 +197,4 @@ Added in v2.8.0
 export declare const execute: <W, A>(fa: Writer<W, A>) => W
 ```
 
-Added in v2.8.0
+Added in v3.0.0

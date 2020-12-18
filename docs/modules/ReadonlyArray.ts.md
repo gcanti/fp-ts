@@ -6,7 +6,7 @@ parent: Modules
 
 ## ReadonlyArray overview
 
-Added in v2.5.0
+Added in v3.0.0
 
 ---
 
@@ -182,7 +182,7 @@ types of kind `* -> *`.
 export declare const alt: <A>(second: Lazy<readonly A[]>) => (first: readonly A[]) => readonly A[]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## altW
 
@@ -194,7 +194,7 @@ Less strict version of [`alt`](#alt).
 export declare const altW: <B>(second: Lazy<readonly B[]>) => <A>(first: readonly A[]) => readonly (B | A)[]
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 # Alternative
 
@@ -206,7 +206,7 @@ Added in v2.9.0
 export declare const zero: <A>() => readonly A[]
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 # Applicative
 
@@ -220,7 +220,7 @@ Wrap a value into the type constructor.
 export declare const of: <A>(a: A) => readonly A[]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # Apply
 
@@ -234,7 +234,7 @@ Apply a function to an argument under a type constructor.
 export declare const ap: <A>(fa: readonly A[]) => <B>(fab: readonly ((a: A) => B)[]) => readonly B[]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # Compactable
 
@@ -246,7 +246,7 @@ Added in v2.5.0
 export declare const compact: <A>(fa: readonly O.Option<A>[]) => readonly A[]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## separate
 
@@ -256,7 +256,7 @@ Added in v2.5.0
 export declare const separate: <A, B>(fa: readonly Either<A, B>[]) => Separated<readonly A[], readonly B[]>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # Extend
 
@@ -268,7 +268,7 @@ Added in v2.5.0
 export declare const extend: <A, B>(f: (wa: readonly A[]) => B) => (wa: readonly A[]) => readonly B[]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # Filterable
 
@@ -280,7 +280,7 @@ Added in v2.5.0
 export declare const filter: Filter1<'ReadonlyArray'>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## filterMap
 
@@ -290,7 +290,7 @@ Added in v2.5.0
 export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => (fa: readonly A[]) => readonly B[]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## partition
 
@@ -300,7 +300,7 @@ Added in v2.5.0
 export declare const partition: Partition1<'ReadonlyArray'>
 ```
 
-Added in v2.5.0
+Added in v3.0.00
 
 ## partitionMap
 
@@ -312,7 +312,7 @@ export declare const partitionMap: <A, B, C>(
 ) => (fa: readonly A[]) => Separated<readonly B[], readonly C[]>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # FilterableWithIndex
 
@@ -326,7 +326,7 @@ export declare const filterMapWithIndex: <A, B>(
 ) => (fa: readonly A[]) => readonly B[]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## filterWithIndex
 
@@ -336,7 +336,7 @@ Added in v2.5.0
 export declare const filterWithIndex: FilterWithIndex1<'ReadonlyArray', number>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## partitionMapWithIndex
 
@@ -348,7 +348,7 @@ export declare const partitionMapWithIndex: <A, B, C>(
 ) => (fa: readonly A[]) => Separated<readonly B[], readonly C[]>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## partitionWithIndex
 
@@ -358,7 +358,7 @@ Added in v2.5.0
 export declare const partitionWithIndex: PartitionWithIndex1<'ReadonlyArray', number>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # Foldable
 
@@ -370,7 +370,7 @@ Added in v2.5.0
 export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: readonly A[]) => M
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## reduce
 
@@ -380,7 +380,7 @@ Added in v2.5.0
 export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: readonly A[]) => B
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## reduceRight
 
@@ -390,7 +390,7 @@ Added in v2.5.0
 export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: readonly A[]) => B
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # FoldableWithIndex
 
@@ -402,7 +402,7 @@ Added in v2.5.0
 export declare const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: readonly A[]) => M
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## reduceRightWithIndex
 
@@ -412,7 +412,7 @@ Added in v2.5.0
 export declare const reduceRightWithIndex: <B, A>(b: B, f: (i: number, a: A, b: B) => B) => (fa: readonly A[]) => B
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## reduceWithIndex
 
@@ -422,7 +422,7 @@ Added in v2.5.0
 export declare const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (fa: readonly A[]) => B
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # Functor
 
@@ -437,7 +437,7 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(f: (a: A) => B) => (fa: readonly A[]) => readonly B[]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # FunctorWithIndex
 
@@ -449,7 +449,7 @@ Added in v2.5.0
 export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: readonly A[]) => readonly B[]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # Monad
 
@@ -463,7 +463,7 @@ Composes computations in sequence, using the return value of one computation to 
 export declare const chain: <A, B>(f: (a: A) => readonly B[]) => (fa: readonly A[]) => readonly B[]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # Traversable
 
@@ -477,7 +477,7 @@ Added in v2.5.0
 export declare const sequence: Sequence1<'ReadonlyArray'>
 ```
 
-Added in v2.6.3
+Added in v3.0.0
 
 ## traverse
 
@@ -489,7 +489,7 @@ Added in v2.6.3
 export declare const traverse: Traverse1<'ReadonlyArray'>
 ```
 
-Added in v2.6.3
+Added in v3.0.0
 
 # TraversableWithIndex
 
@@ -503,7 +503,7 @@ Added in v2.6.3
 export declare const traverseWithIndex: TraverseWithIndex1<'ReadonlyArray', number>
 ```
 
-Added in v2.6.3
+Added in v3.0.0
 
 # Unfoldable
 
@@ -515,7 +515,7 @@ Added in v2.6.3
 export declare const unfold: <A, B>(b: B, f: (b: B) => O.Option<readonly [A, B]>) => readonly A[]
 ```
 
-Added in v2.6.6
+Added in v3.0.0
 
 # Witherable
 
@@ -527,7 +527,7 @@ Added in v2.6.6
 export declare const wilt: Wilt1<'ReadonlyArray'>
 ```
 
-Added in v2.6.5
+Added in v3.0.0
 
 ## wither
 
@@ -537,7 +537,7 @@ Added in v2.6.5
 export declare const wither: Wither1<'ReadonlyArray'>
 ```
 
-Added in v2.6.5
+Added in v3.0.0
 
 # combinators
 
@@ -570,7 +570,7 @@ const group = <A>(S: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyAr
 assert.deepStrictEqual(group(eqNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## difference
 
@@ -593,7 +593,7 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(pipe([1, 2], difference(eqNumber)([2, 3])), [1])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## dropLeft
 
@@ -613,7 +613,7 @@ import { dropLeft } from 'fp-ts/ReadonlyArray'
 assert.deepStrictEqual(dropLeft(2)([1, 2, 3]), [3])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## dropLeftWhile
 
@@ -633,7 +633,7 @@ import { dropLeftWhile } from 'fp-ts/ReadonlyArray'
 assert.deepStrictEqual(dropLeftWhile((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), [2, 4, 5])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## dropRight
 
@@ -653,7 +653,7 @@ import { dropRight } from 'fp-ts/ReadonlyArray'
 assert.deepStrictEqual(dropRight(2)([1, 2, 3, 4, 5]), [1, 2, 3])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## duplicate
 
@@ -665,7 +665,7 @@ Derivable from `Extend`.
 export declare const duplicate: <A>(wa: readonly A[]) => readonly (readonly A[])[]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## intersection
 
@@ -688,7 +688,7 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(pipe([1, 2], intersection(eqNumber)([2, 3])), [2])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## intersperse
 
@@ -709,7 +709,7 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(pipe([1, 2, 3, 4], intersperse(9)), [1, 9, 2, 9, 3, 9, 4])
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## prependToAll
 
@@ -729,7 +729,7 @@ import { prependToAll } from 'fp-ts/ReadonlyArray'
 assert.deepStrictEqual(prependToAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## reverse
 
@@ -749,7 +749,7 @@ import { reverse } from 'fp-ts/ReadonlyArray'
 assert.deepStrictEqual(reverse([1, 2, 3]), [3, 2, 1])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## rights
 
@@ -770,7 +770,7 @@ import { right, left } from 'fp-ts/Either'
 assert.deepStrictEqual(rights([right(1), left('foo'), right(2)]), [1, 2])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## rotate
 
@@ -790,7 +790,7 @@ import { rotate } from 'fp-ts/ReadonlyArray'
 assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## scanLeft
 
@@ -810,7 +810,7 @@ import { scanLeft } from 'fp-ts/ReadonlyArray'
 assert.deepStrictEqual(scanLeft(10, (b, a: number) => b - a)([1, 2, 3]), [10, 9, 7, 4])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## scanRight
 
@@ -830,7 +830,7 @@ import { scanRight } from 'fp-ts/ReadonlyArray'
 assert.deepStrictEqual(scanRight(10, (a: number, b) => b - a)([1, 2, 3]), [4, 5, 7, 10])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## sort
 
@@ -851,7 +851,7 @@ import { ordNumber } from 'fp-ts/Ord'
 assert.deepStrictEqual(sort(ordNumber)([3, 2, 1]), [1, 2, 3])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## sortBy
 
@@ -900,7 +900,7 @@ assert.deepStrictEqual(sortByNameByAge(persons), [
 ])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## takeLeft
 
@@ -921,7 +921,7 @@ import { takeLeft } from 'fp-ts/ReadonlyArray'
 assert.deepStrictEqual(takeLeft(2)([1, 2, 3]), [1, 2])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## takeLeftWhile
 
@@ -944,7 +944,7 @@ import { takeLeftWhile } from 'fp-ts/ReadonlyArray'
 assert.deepStrictEqual(takeLeftWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), [2, 4])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## union
 
@@ -966,7 +966,7 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(pipe([1, 2], union(eqNumber)([2, 3])), [1, 2, 3])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## uniq
 
@@ -987,7 +987,7 @@ import { eqNumber } from 'fp-ts/Eq'
 assert.deepStrictEqual(uniq(eqNumber)([1, 2, 1]), [1, 2])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## zip
 
@@ -1013,7 +1013,7 @@ assert.deepStrictEqual(pipe([1, 2, 3], zip(['a', 'b', 'c', 'd'])), [
 ])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## zipWith
 
@@ -1041,7 +1041,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # constructors
 
@@ -1107,7 +1107,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## cons
 
@@ -1128,7 +1128,7 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(pipe([1, 2, 3], cons(0)), [0, 1, 2, 3])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## fromArray
 
@@ -1138,7 +1138,7 @@ Added in v2.5.0
 export declare const fromArray: <A>(as: A[]) => readonly A[]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## makeBy
 
@@ -1159,7 +1159,7 @@ const double = (n: number): number => n * 2
 assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## range
 
@@ -1179,7 +1179,7 @@ import { range } from 'fp-ts/ReadonlyArray'
 assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## replicate
 
@@ -1199,7 +1199,7 @@ import { replicate } from 'fp-ts/ReadonlyArray'
 assert.deepStrictEqual(replicate(3, 'a'), ['a', 'a', 'a'])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## snoc
 
@@ -1220,7 +1220,7 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(pipe([1, 2, 3], snoc(4)), [1, 2, 3, 4])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # derivable combinators
 
@@ -1236,7 +1236,7 @@ Derivable from `Apply`.
 export declare const apFirst: <B>(second: readonly B[]) => <A>(first: readonly A[]) => readonly A[]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## apSecond
 
@@ -1250,7 +1250,7 @@ Derivable from `Apply`.
 export declare const apSecond: <B>(second: readonly B[]) => <A>(first: readonly A[]) => readonly B[]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## chainFirst
 
@@ -1265,7 +1265,7 @@ Derivable from `Monad`.
 export declare const chainFirst: <A, B>(f: (a: A) => readonly B[]) => (first: readonly A[]) => readonly A[]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## flatten
 
@@ -1287,7 +1287,7 @@ import { flatten } from 'fp-ts/ReadonlyArray'
 assert.deepStrictEqual(flatten([[1], [2, 3], [4]]), [1, 2, 3, 4])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # destructors
 
@@ -1316,7 +1316,7 @@ const len: <A>(as: ReadonlyArray<A>) => number = foldLeft(
 assert.strictEqual(len([1, 2, 3]), 3)
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## foldRight
 
@@ -1331,7 +1331,7 @@ export declare const foldRight: <A, B>(
 ) => (as: readonly A[]) => B
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## toArray
 
@@ -1341,7 +1341,7 @@ Added in v2.5.0
 export declare const toArray: <A>(as: readonly A[]) => A[]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # guards
 
@@ -1355,7 +1355,7 @@ Test whether an array is non empty narrowing down the type to `NonEmptyReadonlyA
 export declare const isNonEmpty: <A>(as: readonly A[]) => as is ReadonlyNonEmptyArray<A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # instances
 
@@ -1367,7 +1367,7 @@ Added in v2.5.0
 export declare const Alt: Alt1<'ReadonlyArray'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Alternative
 
@@ -1377,7 +1377,7 @@ Added in v2.7.0
 export declare const Alternative: Alternative1<'ReadonlyArray'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Applicative
 
@@ -1387,7 +1387,7 @@ Added in v2.7.0
 export declare const Applicative: Applicative1<'ReadonlyArray'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Compactable
 
@@ -1397,7 +1397,7 @@ Added in v2.7.0
 export declare const Compactable: Compactable1<'ReadonlyArray'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Extend
 
@@ -1407,7 +1407,7 @@ Added in v2.7.0
 export declare const Extend: Extend1<'ReadonlyArray'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Filterable
 
@@ -1417,7 +1417,7 @@ Added in v2.7.0
 export declare const Filterable: Filterable1<'ReadonlyArray'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## FilterableWithIndex
 
@@ -1427,7 +1427,7 @@ Added in v2.7.0
 export declare const FilterableWithIndex: FilterableWithIndex1<'ReadonlyArray', number>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Foldable
 
@@ -1437,7 +1437,7 @@ Added in v2.7.0
 export declare const Foldable: Foldable1<'ReadonlyArray'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## FoldableWithIndex
 
@@ -1447,7 +1447,7 @@ Added in v2.7.0
 export declare const FoldableWithIndex: FoldableWithIndex1<'ReadonlyArray', number>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Functor
 
@@ -1457,7 +1457,7 @@ Added in v2.7.0
 export declare const Functor: Functor1<'ReadonlyArray'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## FunctorWithIndex
 
@@ -1467,7 +1467,7 @@ Added in v2.7.0
 export declare const FunctorWithIndex: FunctorWithIndex1<'ReadonlyArray', number>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Monad
 
@@ -1477,7 +1477,7 @@ Added in v2.7.0
 export declare const Monad: Monad1<'ReadonlyArray'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Traversable
 
@@ -1487,7 +1487,7 @@ Added in v2.7.0
 export declare const Traversable: Traversable1<'ReadonlyArray'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## TraversableWithIndex
 
@@ -1497,7 +1497,7 @@ Added in v2.7.0
 export declare const TraversableWithIndex: TraversableWithIndex1<'ReadonlyArray', number>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## URI
 
@@ -1507,7 +1507,7 @@ Added in v2.7.0
 export declare const URI: 'ReadonlyArray'
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -1517,7 +1517,7 @@ Added in v2.5.0
 export type URI = typeof URI
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## Unfoldable
 
@@ -1527,7 +1527,7 @@ Added in v2.5.0
 export declare const Unfoldable: Unfoldable1<'ReadonlyArray'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Witherable
 
@@ -1537,7 +1537,7 @@ Added in v2.7.0
 export declare const Witherable: Witherable1<'ReadonlyArray'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## getEq
 
@@ -1562,7 +1562,7 @@ assert.strictEqual(E.equals(['a', 'b'])(['a', 'b']), true)
 assert.strictEqual(E.equals(['a'])([]), false)
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## getMonoid
 
@@ -1584,7 +1584,7 @@ const M = getMonoid<number>()
 assert.deepStrictEqual(pipe([1, 2], M.concat([3, 4])), [1, 2, 3, 4])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## getOrd
 
@@ -1612,7 +1612,7 @@ assert.strictEqual(pipe(['a'], O.compare(['a'])), 0)
 assert.strictEqual(pipe(['a'], O.compare(['b'])), -1)
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## getShow
 
@@ -1622,7 +1622,7 @@ Added in v2.5.0
 export declare const getShow: <A>(S: Show<A>) => Show<readonly A[]>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # unsafe
 
@@ -1634,7 +1634,7 @@ Added in v2.5.0
 export declare function unsafeDeleteAt<A>(i: number, as: ReadonlyArray<A>): ReadonlyArray<A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## unsafeInsertAt
 
@@ -1644,7 +1644,7 @@ Added in v2.5.0
 export declare function unsafeInsertAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## unsafeUpdateAt
 
@@ -1654,7 +1654,7 @@ Added in v2.5.0
 export declare function unsafeUpdateAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # utils
 
@@ -1676,7 +1676,7 @@ Added in v3.0.0
 export declare const Do: readonly {}[]
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## Spanned (interface)
 
@@ -1689,7 +1689,7 @@ export interface Spanned<I, R> {
 }
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## apS
 
@@ -1702,7 +1702,7 @@ export declare const apS: <A, N extends string, B>(
 ) => (fa: readonly A[]) => readonly { [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## apT
 
@@ -1727,7 +1727,7 @@ export declare const bind: <N extends string, A, B>(
 ) => (fa: readonly A[]) => readonly { [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## bindTo
 
@@ -1737,7 +1737,7 @@ Added in v2.8.0
 export declare const bindTo: <N extends string>(name: N) => <A>(fa: readonly A[]) => readonly { [K in N]: A }[]
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## chainWithIndex
 
@@ -1747,7 +1747,7 @@ Added in v2.8.0
 export declare const chainWithIndex: <A, B>(f: (i: number, a: A) => readonly B[]) => (ma: readonly A[]) => readonly B[]
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## chunksOf
 
@@ -1775,7 +1775,7 @@ import { chunksOf } from 'fp-ts/ReadonlyArray'
 assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## deleteAt
 
@@ -1797,7 +1797,7 @@ assert.deepStrictEqual(deleteAt(0)([1, 2, 3]), some([2, 3]))
 assert.deepStrictEqual(deleteAt(1)([]), none)
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## elem
 
@@ -1822,7 +1822,7 @@ assert.strictEqual(pipe([1, 2, 3], elem(eqNumber)(2)), true)
 assert.strictEqual(pipe([1, 2, 3], elem(eqNumber)(0)), false)
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## empty
 
@@ -1834,7 +1834,7 @@ An empty array
 export declare const empty: readonly never[]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## every
 
@@ -1858,7 +1858,7 @@ assert.deepStrictEqual(pipe([1, 2, 3], every(isPositive)), true)
 assert.deepStrictEqual(pipe([1, 2, -3], every(isPositive)), false)
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## findFirst
 
@@ -1886,7 +1886,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## findFirstMap
 
@@ -1915,7 +1915,7 @@ const persons: ReadonlyArray<Person> = [{ name: 'John' }, { name: 'Mary', age: 4
 assert.deepStrictEqual(findFirstMap((p: Person) => (p.age === undefined ? none : some(p.name)))(persons), some('Mary'))
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## findIndex
 
@@ -1937,7 +1937,7 @@ assert.deepStrictEqual(findIndex((n: number) => n === 2)([1, 2, 3]), some(1))
 assert.deepStrictEqual(findIndex((n: number) => n === 2)([]), none)
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## findLast
 
@@ -1965,7 +1965,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## findLastIndex
 
@@ -1995,7 +1995,7 @@ assert.deepStrictEqual(findLastIndex((x: { a: number }) => x.a === 1)(xs), some(
 assert.deepStrictEqual(findLastIndex((x: { a: number }) => x.a === 4)(xs), none)
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## findLastMap
 
@@ -2024,7 +2024,7 @@ const persons: ReadonlyArray<Person> = [{ name: 'John' }, { name: 'Mary', age: 4
 assert.deepStrictEqual(findLastMap((p: Person) => (p.age === undefined ? none : some(p.name)))(persons), some('Joey'))
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## head
 
@@ -2046,7 +2046,7 @@ assert.deepStrictEqual(head([1, 2, 3]), some(1))
 assert.deepStrictEqual(head([]), none)
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## init
 
@@ -2068,7 +2068,7 @@ assert.deepStrictEqual(init([1, 2, 3]), some([1, 2]))
 assert.deepStrictEqual(init([]), none)
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## insertAt
 
@@ -2089,7 +2089,7 @@ import { some } from 'fp-ts/Option'
 assert.deepStrictEqual(insertAt(2, 5)([1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## isEmpty
 
@@ -2109,7 +2109,7 @@ import { isEmpty } from 'fp-ts/ReadonlyArray'
 assert.strictEqual(isEmpty([]), true)
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## isOutOfBound
 
@@ -2121,7 +2121,7 @@ Test whether an array contains a particular index
 export declare const isOutOfBound: <A>(i: number, as: readonly A[]) => boolean
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## last
 
@@ -2143,7 +2143,7 @@ assert.deepStrictEqual(last([1, 2, 3]), some(3))
 assert.deepStrictEqual(last([]), none)
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## lefts
 
@@ -2164,7 +2164,7 @@ import { left, right } from 'fp-ts/Either'
 assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## lookup
 
@@ -2187,7 +2187,7 @@ assert.deepStrictEqual(pipe([1, 2, 3], lookup(1)), some(2))
 assert.deepStrictEqual(pipe([1, 2, 3], lookup(3)), none)
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## modifyAt
 
@@ -2211,7 +2211,7 @@ assert.deepStrictEqual(modifyAt(1, double)([1, 2, 3]), some([1, 4, 3]))
 assert.deepStrictEqual(modifyAt(1, double)([]), none)
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## some
 
@@ -2235,7 +2235,7 @@ assert.deepStrictEqual(pipe([-1, -2, 3], some(isPositive)), true)
 assert.deepStrictEqual(pipe([-1, -2, -3], some(isPositive)), false)
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## spanLeft
 
@@ -2259,7 +2259,7 @@ import { spanLeft } from 'fp-ts/ReadonlyArray'
 assert.deepStrictEqual(spanLeft((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## splitAt
 
@@ -2282,7 +2282,7 @@ assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
 ])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## tail
 
@@ -2304,7 +2304,7 @@ assert.deepStrictEqual(tail([1, 2, 3]), some([2, 3]))
 assert.deepStrictEqual(tail([]), none)
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## takeRight
 
@@ -2325,7 +2325,7 @@ import { takeRight } from 'fp-ts/ReadonlyArray'
 assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## tupled
 
@@ -2365,7 +2365,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## updateAt
 
@@ -2387,4 +2387,4 @@ assert.deepStrictEqual(updateAt(1, 1)([1, 2, 3]), some([1, 1, 3]))
 assert.deepStrictEqual(updateAt(1, 1)([]), none)
 ```
 
-Added in v2.5.0
+Added in v3.0.0

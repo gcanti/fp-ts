@@ -6,7 +6,7 @@ parent: Modules
 
 ## Date overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -35,7 +35,7 @@ Returns the current `Date`
 export declare const create: IO<Date>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # instances
 
@@ -47,7 +47,7 @@ Added in v2.0.0
 export declare const eqDate: Eq<Date>
 ```
 
-Added in v2.6.0
+Added in v3.0.0
 
 ## eqMonth
 
@@ -57,7 +57,7 @@ Added in v2.6.0
 export declare const eqMonth: Eq<Date>
 ```
 
-Added in v2.6.0
+Added in v3.0.0
 
 ## eqYear
 
@@ -67,7 +67,7 @@ Added in v2.6.0
 export declare const eqYear: Eq<Date>
 ```
 
-Added in v2.6.0
+Added in v3.0.0
 
 # utils
 
@@ -81,4 +81,4 @@ Returns the number of milliseconds elapsed since January 1, 1970, 00:00:00 UTC
 export declare const now: IO<number>
 ```
 
-Added in v2.0.0
+Added in v3.0.0

@@ -15,7 +15,7 @@ A `JoinSemilattice` must satisfy the following laws:
 - Commutativity: `a ∨ b <-> b ∨ a`
 - Idempotency: `a ∨ a <-> a`
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -38,4 +38,4 @@ export interface JoinSemilattice<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

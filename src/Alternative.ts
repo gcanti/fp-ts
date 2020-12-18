@@ -12,14 +12,14 @@
  * 4. Distributivity: `A.ap(A.alt(fab, gab), fa) <-> A.alt(A.ap(fab, fa), A.ap(gab, fa))`
  * 5. Annihilation: `A.ap(zero, fa) <-> zero`
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Alt, Alt1, Alt2, Alt2C, Alt3 } from './Alt'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Alternative<F> extends Alt<F> {
   readonly zero: <A>() => HKT<F, A>
@@ -27,7 +27,7 @@ export interface Alternative<F> extends Alt<F> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Alternative1<F extends URIS> extends Alt1<F> {
   readonly zero: <A>() => Kind<F, A>
@@ -35,7 +35,7 @@ export interface Alternative1<F extends URIS> extends Alt1<F> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Alternative2<F extends URIS2> extends Alt2<F> {
   readonly zero: <E, A>() => Kind2<F, E, A>
@@ -43,7 +43,7 @@ export interface Alternative2<F extends URIS2> extends Alt2<F> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Alternative2C<F extends URIS2, E> extends Alt2C<F, E> {
   readonly zero: <A>() => Kind2<F, E, A>
@@ -51,7 +51,7 @@ export interface Alternative2C<F extends URIS2, E> extends Alt2C<F, E> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Alternative3<F extends URIS3> extends Alt3<F> {
   readonly zero: <R, E, A>() => Kind3<F, R, E, A>

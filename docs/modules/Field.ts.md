@@ -8,7 +8,7 @@ parent: Modules
 
 Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Field.purs
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -34,7 +34,7 @@ Added in v2.0.0
 export declare const fieldNumber: Field<number>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # type classes
 
@@ -50,7 +50,7 @@ export interface Field<A> extends Ring<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -64,7 +64,7 @@ The _greatest common divisor_ of two values.
 export declare function gcd<A>(E: Eq<A>, field: Field<A>): (second: A) => (first: A) => A
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## lcm
 
@@ -76,4 +76,4 @@ The _least common multiple_ of two values.
 export declare function lcm<A>(E: Eq<A>, F: Field<A>): (second: A) => (first: A) => A
 ```
 
-Added in v2.0.0
+Added in v3.0.0

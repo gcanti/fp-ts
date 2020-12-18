@@ -6,7 +6,7 @@ parent: Modules
 
 ## Contravariant overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -36,7 +36,7 @@ export interface Contravariant<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Contravariant1 (interface)
 
@@ -49,7 +49,7 @@ export interface Contravariant1<F extends URIS> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Contravariant2 (interface)
 
@@ -62,7 +62,7 @@ export interface Contravariant2<F extends URIS2> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Contravariant2C (interface)
 
@@ -75,7 +75,7 @@ export interface Contravariant2C<F extends URIS2, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Contravariant3 (interface)
 
@@ -88,7 +88,7 @@ export interface Contravariant3<F extends URIS3> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Contravariant3C (interface)
 
@@ -101,7 +101,7 @@ export interface Contravariant3C<F extends URIS3, E> {
 }
 ```
 
-Added in v2.2.0
+Added in v3.0.0
 
 ## Contravariant4 (interface)
 
@@ -114,4 +114,4 @@ export interface Contravariant4<F extends URIS4> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

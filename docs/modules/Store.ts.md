@@ -6,7 +6,7 @@ parent: Modules
 
 ## Store overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -45,7 +45,7 @@ Added in v2.0.0
 export declare const extend: <E, A, B>(f: (wa: Store<E, A>) => B) => (wa: Store<E, A>) => Store<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Extract
 
@@ -57,7 +57,7 @@ Added in v2.0.0
 export declare const extract: <E, A>(wa: Store<E, A>) => A
 ```
 
-Added in v2.6.2
+Added in v3.0.0
 
 # Functor
 
@@ -72,7 +72,7 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # combinators
 
@@ -86,7 +86,7 @@ Derivable from `Extend`.
 export declare const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # instances
 
@@ -98,7 +98,7 @@ Added in v2.0.0
 export declare const Comonad: Comonad2<'Store'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Functor
 
@@ -108,7 +108,7 @@ Added in v2.7.0
 export declare const Functor: Functor2<'Store'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## URI
 
@@ -118,7 +118,7 @@ Added in v2.7.0
 export declare const URI: 'Store'
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -128,7 +128,7 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # model
 
@@ -143,7 +143,7 @@ export interface Store<S, A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -174,7 +174,7 @@ export declare function experiment<F>(
 ): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## peeks
 
@@ -186,7 +186,7 @@ Extract a value from a position which depends on the current position
 export declare function peeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => A
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## seek
 
@@ -198,7 +198,7 @@ Reposition the focus at the specified position
 export declare function seek<S>(s: S): <A>(wa: Store<S, A>) => Store<S, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## seeks
 
@@ -210,4 +210,4 @@ Reposition the focus at the specified position, which depends on the current pos
 export declare function seeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => Store<S, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0

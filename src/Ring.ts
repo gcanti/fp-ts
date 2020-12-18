@@ -7,14 +7,14 @@
  *
  * Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Ring.purs
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Endomorphism } from './function'
 import { Semiring, getFunctionSemiring } from './Semiring'
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Ring<A> extends Semiring<A> {
   readonly sub: (second: A) => (first: A) => A
@@ -22,7 +22,7 @@ export interface Ring<A> extends Semiring<A> {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => {
   const S = getFunctionSemiring<A, B>(ring)
@@ -38,7 +38,7 @@ export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => {
 /**
  * `negate x` can be used as a shorthand for `zero - x`
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const negate = <A>(ring: Ring<A>): Endomorphism<A> => (a) => ring.sub(a)(ring.zero)
 
@@ -58,7 +58,7 @@ export const negate = <A>(ring: Ring<A>): Endomorphism<A> => (a) => ring.sub(a)(
  * assert.deepStrictEqual(R.zero, [0, 0, 0])
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const getTupleRing = <T extends ReadonlyArray<Ring<any>>>(
   ...rings: T

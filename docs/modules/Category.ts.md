@@ -6,7 +6,7 @@ parent: Modules
 
 ## Category overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -32,7 +32,7 @@ export interface Category<F> extends Semigroupoid<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Category2 (interface)
 
@@ -44,7 +44,7 @@ export interface Category2<F extends URIS2> extends Semigroupoid2<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Category3 (interface)
 
@@ -56,7 +56,7 @@ export interface Category3<F extends URIS3> extends Semigroupoid3<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Category4 (interface)
 
@@ -68,4 +68,4 @@ export interface Category4<F extends URIS4> extends Semigroupoid4<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

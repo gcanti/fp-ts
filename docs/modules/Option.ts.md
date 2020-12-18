@@ -17,7 +17,7 @@ instance of `None`.
 An option could be looked at as a collection or foldable structure with either one or zero elements.
 Another way to look at `Option` is: it represents the effect of a possibly failing computation.
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -166,7 +166,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## altW
 
@@ -178,7 +178,7 @@ Less strict version of [`alt`](#alt).
 export declare const altW: <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>) => Option<B | A>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 # Alternative
 
@@ -190,7 +190,7 @@ Added in v2.9.0
 export declare const zero: <A>() => Option<A>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 # Applicative
 
@@ -204,7 +204,7 @@ Wrap a value into the type constructor.
 export declare const of: <A>(a: A) => Option<A>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 # Apply
 
@@ -218,7 +218,7 @@ Apply a function to an argument under a type constructor.
 export declare const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Compactable
 
@@ -230,7 +230,7 @@ Added in v2.0.0
 export declare const compact: <A>(fa: Option<Option<A>>) => Option<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## separate
 
@@ -240,7 +240,7 @@ Added in v2.0.0
 export declare const separate: <A, B>(ma: Option<Either<A, B>>) => Separated<Option<A>, Option<B>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Extend
 
@@ -252,7 +252,7 @@ Added in v2.0.0
 export declare const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Option<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Filterable
 
@@ -264,7 +264,7 @@ Added in v2.0.0
 export declare const filter: Filter1<'Option'>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## filterMap
 
@@ -274,7 +274,7 @@ Added in v2.0.0
 export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## partition
 
@@ -284,7 +284,7 @@ Added in v2.0.0
 export declare const partition: Partition1<'Option'>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## partitionMap
 
@@ -296,7 +296,7 @@ export declare const partitionMap: <A, B, C>(
 ) => (fa: Option<A>) => Separated<Option<B>, Option<C>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Foldable
 
@@ -308,7 +308,7 @@ Added in v2.0.0
 export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## reduce
 
@@ -318,7 +318,7 @@ Added in v2.0.0
 export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## reduceRight
 
@@ -328,7 +328,7 @@ Added in v2.0.0
 export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Functor
 
@@ -343,7 +343,7 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Monad
 
@@ -357,7 +357,7 @@ Composes computations in sequence, using the return value of one computation to 
 export declare const chain: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # MonadThrow
 
@@ -369,7 +369,7 @@ Added in v2.0.0
 export declare const throwError: <E, A>(e: E) => Option<A>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 # Traversable
 
@@ -381,7 +381,7 @@ Added in v2.7.0
 export declare const sequence: Sequence1<'Option'>
 ```
 
-Added in v2.6.3
+Added in v3.0.0
 
 ## traverse
 
@@ -391,7 +391,7 @@ Added in v2.6.3
 export declare const traverse: Traverse1<'Option'>
 ```
 
-Added in v2.6.3
+Added in v3.0.0
 
 # Witherable
 
@@ -403,7 +403,7 @@ Added in v2.6.3
 export declare const wilt: Wilt1<'Option'>
 ```
 
-Added in v2.6.5
+Added in v3.0.0
 
 ## wither
 
@@ -413,7 +413,7 @@ Added in v2.6.5
 export declare const wither: Wither1<'Option'>
 ```
 
-Added in v2.6.5
+Added in v3.0.0
 
 # combinators
 
@@ -468,7 +468,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## duplicate
 
@@ -480,7 +480,7 @@ Derivable from `Extend`.
 export declare const duplicate: <A>(ma: Option<A>) => Option<Option<A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## fromNullableK
 
@@ -510,7 +510,7 @@ assert.deepStrictEqual(g('1'), some(1))
 assert.deepStrictEqual(g('a'), none)
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 # constructors
 
@@ -528,7 +528,7 @@ Derivable from `MonadThrow`.
 export declare const fromEither: <E, A>(ma: Either<E, A>) => Option<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## fromNullable
 
@@ -551,7 +551,7 @@ assert.deepStrictEqual(fromNullable(null), none)
 assert.deepStrictEqual(fromNullable(1), some(1))
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## fromPredicate
 
@@ -575,7 +575,7 @@ assert.deepStrictEqual(getOption(-1), none)
 assert.deepStrictEqual(getOption(1), some(1))
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getLeft
 
@@ -597,7 +597,7 @@ assert.deepStrictEqual(getLeft(right(1)), none)
 assert.deepStrictEqual(getLeft(left('a')), some('a'))
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getRight
 
@@ -619,7 +619,7 @@ assert.deepStrictEqual(getRight(right(1)), some(1))
 assert.deepStrictEqual(getRight(left('a')), none)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## none
 
@@ -631,7 +631,7 @@ Added in v2.0.0
 export declare const none: Option<never>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## some
 
@@ -643,7 +643,7 @@ Constructs a `Some`. Represents an optional value that exists.
 export declare const some: <A>(a: A) => Option<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## tryCatch
 
@@ -673,7 +673,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # derivable combinators
 
@@ -689,7 +689,7 @@ Derivable from `Apply`.
 export declare const apFirst: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## apSecond
 
@@ -703,7 +703,7 @@ Derivable from `Apply`.
 export declare const apSecond: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## chainFirst
 
@@ -718,7 +718,7 @@ Derivable from `Monad`.
 export declare const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## flatten
 
@@ -730,7 +730,7 @@ Derivable from `Monad`.
 export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # destructors
 
@@ -774,7 +774,7 @@ assert.strictEqual(
 )
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getOrElse
 
@@ -808,7 +808,7 @@ assert.strictEqual(
 )
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getOrElseW
 
@@ -820,7 +820,7 @@ Less strict version of [`getOrElse`](#getOrElse).
 export declare const getOrElseW: <B>(onNone: Lazy<B>) => <A>(ma: Option<A>) => B | A
 ```
 
-Added in v2.6.0
+Added in v3.0.0
 
 ## toNullable
 
@@ -842,7 +842,7 @@ assert.strictEqual(pipe(some(1), toNullable), 1)
 assert.strictEqual(pipe(none, toNullable), null)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## toUndefined
 
@@ -864,7 +864,7 @@ assert.strictEqual(pipe(some(1), toUndefined), 1)
 assert.strictEqual(pipe(none, toUndefined), undefined)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # guards
 
@@ -887,7 +887,7 @@ assert.strictEqual(isNone(some(1)), false)
 assert.strictEqual(isNone(none), true)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## isSome
 
@@ -908,7 +908,7 @@ assert.strictEqual(isSome(some(1)), true)
 assert.strictEqual(isSome(none), false)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # instances
 
@@ -920,7 +920,7 @@ Added in v2.0.0
 export declare const Alt: Alt1<'Option'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Alternative
 
@@ -930,7 +930,7 @@ Added in v2.7.0
 export declare const Alternative: Alternative1<'Option'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Applicative
 
@@ -940,7 +940,7 @@ Added in v2.7.0
 export declare const Applicative: Applicative1<'Option'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Compactable
 
@@ -950,7 +950,7 @@ Added in v2.7.0
 export declare const Compactable: Compactable1<'Option'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Extend
 
@@ -960,7 +960,7 @@ Added in v2.7.0
 export declare const Extend: Extend1<'Option'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Filterable
 
@@ -970,7 +970,7 @@ Added in v2.7.0
 export declare const Filterable: Filterable1<'Option'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Foldable
 
@@ -980,7 +980,7 @@ Added in v2.7.0
 export declare const Foldable: Foldable1<'Option'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Functor
 
@@ -990,7 +990,7 @@ Added in v2.7.0
 export declare const Functor: Functor1<'Option'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Monad
 
@@ -1000,7 +1000,7 @@ Added in v2.7.0
 export declare const Monad: Monad1<'Option'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## MonadThrow
 
@@ -1010,7 +1010,7 @@ Added in v2.7.0
 export declare const MonadThrow: MonadThrow1<'Option'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Traversable
 
@@ -1020,7 +1020,7 @@ Added in v2.7.0
 export declare const Traversable: Traversable1<'Option'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## URI
 
@@ -1030,7 +1030,7 @@ Added in v2.7.0
 export declare const URI: 'Option'
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -1040,7 +1040,7 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Witherable
 
@@ -1050,7 +1050,7 @@ Added in v2.0.0
 export declare const Witherable: Witherable1<'Option'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## getApplyMonoid
 
@@ -1060,7 +1060,7 @@ Added in v2.7.0
 export declare function getApplyMonoid<A>(M: Monoid<A>): Monoid<Option<A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getApplySemigroup
 
@@ -1093,7 +1093,7 @@ assert.deepStrictEqual(pipe(none, S.concat(some(1))), none)
 assert.deepStrictEqual(pipe(some(1), S.concat(some(2))), some(3))
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getEq
 
@@ -1117,7 +1117,7 @@ assert.strictEqual(E.equals(some(1))(some(2)), false)
 assert.strictEqual(E.equals(some(1))(some(1)), true)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getFirstMonoid
 
@@ -1149,7 +1149,7 @@ assert.deepStrictEqual(pipe(none, M.concat(some(1))), some(1))
 assert.deepStrictEqual(pipe(some(1), M.concat(some(2))), some(1))
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getLastMonoid
 
@@ -1181,7 +1181,7 @@ assert.deepStrictEqual(pipe(none, M.concat(some(1))), some(1))
 assert.deepStrictEqual(pipe(some(1), M.concat(some(2))), some(2))
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getMonoid
 
@@ -1215,7 +1215,7 @@ assert.deepStrictEqual(pipe(none, M.concat(some(1))), some(1))
 assert.deepStrictEqual(pipe(some(1), M.concat(some(2))), some(3))
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getOrd
 
@@ -1246,7 +1246,7 @@ assert.strictEqual(pipe(some(1), O.compare(some(2))), -1)
 assert.strictEqual(pipe(some(1), O.compare(some(1))), 0)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getShow
 
@@ -1256,7 +1256,7 @@ Added in v2.0.0
 export declare function getShow<A>(S: Show<A>): Show<Option<A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # model
 
@@ -1270,7 +1270,7 @@ export interface None {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Option (type alias)
 
@@ -1280,7 +1280,7 @@ Added in v2.0.0
 export type Option<A> = None | Some<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Some (interface)
 
@@ -1293,7 +1293,7 @@ export interface Some<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -1315,7 +1315,7 @@ Added in v3.0.0
 export declare const Do: Option<{}>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## apS
 
@@ -1328,7 +1328,7 @@ export declare const apS: <A, N extends string, B>(
 ) => (fa: Option<A>) => Option<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## apT
 
@@ -1353,7 +1353,7 @@ export declare const bind: <N extends string, A, B>(
 ) => (fa: Option<A>) => Option<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## bindTo
 
@@ -1363,7 +1363,7 @@ Added in v2.8.0
 export declare const bindTo: <N extends string>(name: N) => <A>(fa: Option<A>) => Option<{ [K in N]: A }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## elem
 
@@ -1387,7 +1387,7 @@ assert.strictEqual(pipe(O.some(1), O.elem(eqNumber)(2)), false)
 assert.strictEqual(pipe(O.none, O.elem(eqNumber)(1)), false)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## exists
 
@@ -1428,7 +1428,7 @@ assert.strictEqual(
 )
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getRefinement
 
@@ -1452,7 +1452,7 @@ const isA = getRefinement<C, A>((c) => (c.type === 'B' ? some(c) : none)) // sta
 export declare function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## sequenceArray
 
@@ -1478,7 +1478,7 @@ assert.deepStrictEqual(pipe(arr, A.map(some), sequenceArray), some(arr))
 assert.deepStrictEqual(pipe(arr, A.map(fromPredicate((x) => x > 8)), sequenceArray), none)
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseArray
 
@@ -1504,7 +1504,7 @@ assert.deepStrictEqual(pipe(arr, traverseArray(some)), some(arr))
 assert.deepStrictEqual(pipe(arr, traverseArray(fromPredicate((x) => x > 5))), none)
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseArrayWithIndex
 
@@ -1516,7 +1516,7 @@ export declare const traverseArrayWithIndex: <A, B>(
 ) => (arr: readonly A[]) => Option<readonly B[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## tupled
 

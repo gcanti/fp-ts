@@ -4,7 +4,7 @@
  * See [Semigroup](https://gcanti.github.io/fp-ts/modules/Semigroup.ts.html) for some instances.
  *
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Magma<A> {
   readonly concat: (second: A) => (first: A) => A

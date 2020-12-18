@@ -6,7 +6,7 @@ parent: Modules
 
 ## Invariant overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -36,7 +36,7 @@ export interface Invariant<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Invariant1 (interface)
 
@@ -49,7 +49,7 @@ export interface Invariant1<F extends URIS> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Invariant2 (interface)
 
@@ -62,7 +62,7 @@ export interface Invariant2<F extends URIS2> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Invariant2C (interface)
 
@@ -75,7 +75,7 @@ export interface Invariant2C<F extends URIS2, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Invariant3 (interface)
 
@@ -88,7 +88,7 @@ export interface Invariant3<F extends URIS3> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Invariant3C (interface)
 
@@ -101,7 +101,7 @@ export interface Invariant3C<F extends URIS3, E> {
 }
 ```
 
-Added in v2.4.2
+Added in v3.0.0
 
 ## Invariant4 (interface)
 
@@ -114,4 +114,4 @@ export interface Invariant4<F extends URIS4> {
 }
 ```
 
-Added in v2.4.2
+Added in v3.0.0

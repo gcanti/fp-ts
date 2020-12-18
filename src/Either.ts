@@ -11,7 +11,7 @@
  * `None` is replaced with a `Left` which can contain useful information. `Right` takes the place of `Some`. Convention
  * dictates that `Left` is used for failure and `Right` is used for success.
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative2, Applicative2C } from './Applicative'
@@ -40,7 +40,7 @@ import { Witherable2C } from './Witherable'
 
 /**
  * @category model
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Left<E> {
   readonly _tag: 'Left'
@@ -49,7 +49,7 @@ export interface Left<E> {
 
 /**
  * @category model
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Right<A> {
   readonly _tag: 'Right'
@@ -58,7 +58,7 @@ export interface Right<A> {
 
 /**
  * @category model
- * @since 2.0.0
+ * @since 3.0.0
  */
 export type Either<E, A> = Left<E> | Right<A>
 
@@ -70,7 +70,7 @@ export type Either<E, A> = Left<E> | Right<A>
  * Returns `true` if the either is an instance of `Left`, `false` otherwise.
  *
  * @category guards
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const isLeft = <E, A>(ma: Either<E, A>): ma is Left<E> => ma._tag === 'Left'
 
@@ -78,7 +78,7 @@ export const isLeft = <E, A>(ma: Either<E, A>): ma is Left<E> => ma._tag === 'Le
  * Returns `true` if the either is an instance of `Right`, `false` otherwise.
  *
  * @category guards
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const isRight = <E, A>(ma: Either<E, A>): ma is Right<A> => ma._tag === 'Right'
 
@@ -91,7 +91,7 @@ export const isRight = <E, A>(ma: Either<E, A>): ma is Right<A> => ma._tag === '
  * structure.
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const left = <E = never, A = never>(e: E): Either<E, A> => ({ _tag: 'Left', left: e })
 
@@ -100,7 +100,7 @@ export const left = <E = never, A = never>(e: E): Either<E, A> => ({ _tag: 'Left
  * of this structure.
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const right = <E = never, A = never>(a: A): Either<E, A> => ({ _tag: 'Right', right: a })
 
@@ -117,7 +117,7 @@ export const right = <E = never, A = never>(a: A): Either<E, A> => ({ _tag: 'Rig
  * assert.deepStrictEqual(parse(null), left('nully'))
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const fromNullable = <E>(e: Lazy<E>) => <A>(a: A): Either<E, NonNullable<A>> =>
   a == null ? left(e()) : right(a as NonNullable<A>)
@@ -144,7 +144,7 @@ export const fromNullable = <E>(e: Lazy<E>) => <A>(a: A): Either<E, NonNullable<
  * assert.deepStrictEqual(head([1, 2, 3]), right(1))
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): Either<E, A> {
   try {
@@ -157,19 +157,19 @@ export function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): Either<E
 /**
  * Copied from https://github.com/Microsoft/TypeScript/issues/1897#issuecomment-338650717
  *
- * @since 2.6.7
+ * @since 3.0.0
  */
 export type Json = boolean | number | string | null | JsonArray | JsonRecord
 
 /**
- * @since 2.6.7
+ * @since 3.0.0
  */
 export interface JsonRecord {
   readonly [key: string]: Json
 }
 
 /**
- * @since 2.6.7
+ * @since 3.0.0
  */
 export interface JsonArray extends ReadonlyArray<Json> {}
 
@@ -184,7 +184,7 @@ export interface JsonArray extends ReadonlyArray<Json> {}
  * assert.deepStrictEqual(pipe('{"a":}', E.parseJSON(E.toError)), E.left(new SyntaxError('Unexpected token } in JSON at position 5')))
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const parseJSON = <E>(onError: (reason: unknown) => E) => (s: string): Either<E, Json> =>
   tryCatch(() => JSON.parse(s), onError)
@@ -209,7 +209,7 @@ export const parseJSON = <E>(onError: (reason: unknown) => E) => (s: string): Ei
  * )
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const stringifyJSON = <E>(onError: (reason: unknown) => E) => (u: unknown): Either<E, string> =>
   tryCatch(() => JSON.stringify(u), onError)
@@ -238,7 +238,7 @@ export const stringifyJSON = <E>(onError: (reason: unknown) => E) => (u: unknown
  * )
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Either<E, A> = (onNone) => (ma) =>
   ma._tag === 'None' ? left(onNone()) : right(ma.value)
@@ -272,7 +272,7 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Either<E,
  * )
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const fromPredicate: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Either<E, B>
@@ -315,7 +315,7 @@ export const fromPredicate: {
  * )
  *
  * @category destructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const fold = <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>): B =>
   isLeft(ma) ? onLeft(ma.left) : onRight(ma.right)
@@ -324,7 +324,7 @@ export const fold = <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma:
  * Less strict version of [`getOrElse`](#getOrElse).
  *
  * @category destructors
- * @since 2.6.0
+ * @since 3.0.0
  */
 export const getOrElseW = <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>): A | B =>
   isLeft(ma) ? onLeft(ma.left) : ma.right
@@ -352,7 +352,7 @@ export const getOrElseW = <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>): 
  * )
  *
  * @category destructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: Either<E, A>) => A = getOrElseW
 
@@ -362,7 +362,7 @@ export const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: Either<E, A>) => A =
 
 /**
  * @category combinators
- * @since 2.9.0
+ * @since 3.0.0
  */
 export function fromNullableK<E>(
   e: Lazy<E>
@@ -375,7 +375,7 @@ export function fromNullableK<E>(
 
 /**
  * @category combinators
- * @since 2.9.0
+ * @since 3.0.0
  */
 export function chainNullableK<E>(
   e: Lazy<E>
@@ -388,7 +388,7 @@ export function chainNullableK<E>(
  * Returns a `Right` if is a `Left` (and vice versa).
  *
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const swap = <E, A>(ma: Either<E, A>): Either<A, E> => (isLeft(ma) ? right(ma.left) : left(ma.right))
 
@@ -396,7 +396,7 @@ export const swap = <E, A>(ma: Either<E, A>): Either<A, E> => (isLeft(ma) ? righ
  * Useful for recovering from errors.
  *
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const orElse = <E1, E2, A>(onLeft: (e: E1) => Either<E2, A>) => (ma: Either<E1, A>): Either<E2, A> =>
   isLeft(ma) ? onLeft(ma.left) : ma
@@ -404,7 +404,7 @@ export const orElse = <E1, E2, A>(onLeft: (e: E1) => Either<E2, A>) => (ma: Eith
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
  *
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
@@ -453,7 +453,7 @@ export const filterOrElseW: {
  * )
  *
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const filterOrElse: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
@@ -465,7 +465,7 @@ export const filterOrElse: {
  * use the type constructor `F` to represent some computational context.
  *
  * @category Functor
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const map: Functor2<URI>['map'] = (f) => (fa) => (isLeft(fa) ? fa : right(f(fa.right)))
 
@@ -473,7 +473,7 @@ export const map: Functor2<URI>['map'] = (f) => (fa) => (isLeft(fa) ? fa : right
  * Map a pair of functions over the two type arguments of the bifunctor.
  *
  * @category Bifunctor
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => (fa) => (isLeft(fa) ? left(f(fa.left)) : right(g(fa.right)))
 
@@ -481,7 +481,7 @@ export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => (fa) => (isLeft(fa) ? l
  * Map a function over the first type argument of a bifunctor.
  *
  * @category Bifunctor
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => (isLeft(fa) ? left(f(fa.left)) : fa)
 
@@ -489,7 +489,7 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => (isLeft(fa) ? 
  * Less strict version of [`ap`](#ap).
  *
  * @category Apply
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const apW: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E1 | E2, B> = (fa) => (
   fab
@@ -499,7 +499,7 @@ export const apW: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) =
  * Apply a function to an argument under a type constructor.
  *
  * @category Apply
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const ap: Applicative2<URI>['ap'] = apW
 
@@ -514,7 +514,7 @@ export const ap: Applicative2<URI>['ap'] = apW
  * assert.deepStrictEqual(E.of('a'), E.right('a'))
  *
  * @category Applicative
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const of: Applicative2<URI>['of'] = right
 
@@ -522,7 +522,7 @@ export const of: Applicative2<URI>['of'] = right
  * Less strict version of [`chain`](#chain).
  *
  * @category Monad
- * @since 2.6.0
+ * @since 3.0.0
  */
 export const chainW = <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>): Either<E1 | E2, B> =>
   isLeft(ma) ? ma : f(ma.right)
@@ -531,7 +531,7 @@ export const chainW = <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const chain: Monad2<URI>['chain'] = chainW
 
@@ -548,7 +548,7 @@ export const chain: Monad2<URI>['chain'] = chainW
  * assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> =
   /*#__PURE__*/
@@ -558,7 +558,7 @@ export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> =
  * Less strict version of [`alt`](#alt).
  *
  * @category Alt
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const altW: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<E1, A>) => Either<E1 | E2, A | B> = (
   that
@@ -569,13 +569,13 @@ export const altW: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either
  * types of kind `* -> *`.
  *
  * @category Alt
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const alt: Alt2<URI>['alt'] = altW
 
 /**
  * @category Extend
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const extend: Extend2<URI>['extend'] = (f) => (wa) => (isLeft(wa) ? wa : right(f(wa)))
 
@@ -583,7 +583,7 @@ export const extend: Extend2<URI>['extend'] = (f) => (wa) => (isLeft(wa) ? wa : 
  * Derivable from `Extend`.
  *
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> =
   /*#__PURE__*/
@@ -610,7 +610,7 @@ export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> =
  * )
  *
  * @category Foldable
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const reduce: Foldable2<URI>['reduce'] = (b, f) => (fa) => (isLeft(fa) ? b : f(b, fa.right))
 
@@ -635,7 +635,7 @@ export const reduce: Foldable2<URI>['reduce'] = (b, f) => (fa) => (isLeft(fa) ? 
  * )
  *
  * @category Foldable
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const foldMap: Foldable2<URI>['foldMap'] = (M) => (f) => (fa) => (isLeft(fa) ? M.empty : f(fa.right))
 
@@ -660,7 +660,7 @@ export const foldMap: Foldable2<URI>['foldMap'] = (M) => (f) => (fa) => (isLeft(
  * )
  *
  * @category Foldable
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const reduceRight: Foldable2<URI>['reduceRight'] = (b, f) => (fa) => (isLeft(fa) ? b : f(fa.right, b))
 
@@ -684,7 +684,7 @@ export const reduceRight: Foldable2<URI>['reduceRight'] = (b, f) => (fa) => (isL
  * )
  *
  * @category Traversable
- * @since 2.6.3
+ * @since 3.0.0
  */
 export const traverse: Traversable2<URI>['traverse'] = <F>(F: ApplicativeHKT<F>) => <A, B>(f: (a: A) => HKT<F, B>) => <
   E
@@ -711,7 +711,7 @@ export const traverse: Traversable2<URI>['traverse'] = <F>(F: ApplicativeHKT<F>)
  * )
  *
  * @category Traversable
- * @since 2.6.3
+ * @since 3.0.0
  */
 export const sequence: Traversable2<URI>['sequence'] = <F>(F: ApplicativeHKT<F>) => <E, A>(
   ma: Either<E, HKT<F, A>>
@@ -719,7 +719,7 @@ export const sequence: Traversable2<URI>['sequence'] = <F>(F: ApplicativeHKT<F>)
 
 /**
  * @category MonadThrow
- * @since 2.6.3
+ * @since 3.0.0
  */
 export const throwError: MonadThrow2<URI>['throwError'] = left
 
@@ -729,13 +729,13 @@ export const throwError: MonadThrow2<URI>['throwError'] = left
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const URI = 'Either'
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export type URI = typeof URI
 
@@ -747,7 +747,7 @@ declare module './HKT' {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>> {
   return {
@@ -757,7 +757,7 @@ export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>> {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> {
   return fromEquals((second) => (first) =>
@@ -783,7 +783,7 @@ export function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> {
  * assert.deepStrictEqual(pipe(right(1), S.concat(right(2))), right(3))
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> {
   return {
@@ -808,7 +808,7 @@ export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> {
  * assert.deepStrictEqual(pipe(right(1), S.concat(right(2))), right(3))
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> {
   return {
@@ -819,7 +819,7 @@ export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<Either<E, A>> {
   return {
@@ -907,7 +907,7 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
  * Builds `Witherable` instance for `Either` given `Monoid` for the left side
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
   const C = getCompactable(M)
@@ -937,7 +937,7 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export function getApplicativeValidation<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
   return {
@@ -957,7 +957,7 @@ export function getApplicativeValidation<E>(SE: Semigroup<E>): Applicative2C<URI
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export function getAltValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
   return {
@@ -975,7 +975,7 @@ export function getAltValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<Either<E, A>> {
   return {
@@ -992,7 +992,7 @@ export function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>)
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
   URI,
@@ -1001,7 +1001,7 @@ export const Functor: Functor2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Applicative: Applicative2<URI> = {
   URI,
@@ -1016,7 +1016,7 @@ export const Applicative: Applicative2<URI> = {
  * Derivable from `Apply`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const apFirst: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) => Either<E, A> =
   /*#__PURE__*/
@@ -1028,7 +1028,7 @@ export const apFirst: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) =
  * Derivable from `Apply`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const apSecond: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) => Either<E, B> =
   /*#__PURE__*/
@@ -1036,7 +1036,7 @@ export const apSecond: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) 
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Monad: Monad2<URI> = {
   URI,
@@ -1049,7 +1049,7 @@ export const Monad: Monad2<URI> = {
  * Less strict version of [`chainFirst`](#chainFirst)
  *
  * @category combinators
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const chainFirstW: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(first: Either<E1, A>) => Either<E1 | E2, A> =
   /*#__PURE__*/
@@ -1062,13 +1062,13 @@ export const chainFirstW: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(first: 
  * Derivable from `Monad`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const chainFirst: <A, E, B>(f: (a: A) => Either<E, B>) => (first: Either<E, A>) => Either<E, A> = chainFirstW
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Foldable: Foldable2<URI> = {
   URI,
@@ -1079,7 +1079,7 @@ export const Foldable: Foldable2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Traversable: Traversable2<URI> = {
   URI,
@@ -1090,7 +1090,7 @@ export const Traversable: Traversable2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Bifunctor: Bifunctor2<URI> = {
   URI,
@@ -1100,7 +1100,7 @@ export const Bifunctor: Bifunctor2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Alt: Alt2<URI> = {
   URI,
@@ -1110,7 +1110,7 @@ export const Alt: Alt2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Extend: Extend2<URI> = {
   URI,
@@ -1120,7 +1120,7 @@ export const Extend: Extend2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const MonadThrow: MonadThrow2<URI> = {
   URI,
@@ -1129,7 +1129,7 @@ export const MonadThrow: MonadThrow2<URI> = {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getValidationMonoid<E, A>(SE: Semigroup<E>, SA: Monoid<A>): Monoid<Either<E, A>> {
   return {
@@ -1145,14 +1145,14 @@ export function getValidationMonoid<E, A>(SE: Semigroup<E>, SA: Monoid<A>): Mono
 /**
  * Default value for the `onError` argument of `tryCatch`
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function toError(e: unknown): Error {
   return e instanceof Error ? e : new Error(String(e))
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const elem = <A>(E: Eq<A>) => (a: A) => <E>(ma: Either<E, A>): boolean =>
   isLeft(ma) ? false : E.equals(ma.right)(a)
@@ -1169,7 +1169,7 @@ export const elem = <A>(E: Eq<A>) => (a: A) => <E>(ma: Either<E, A>): boolean =>
  * assert.strictEqual(gt2(right(1)), false)
  * assert.strictEqual(gt2(right(3)), true)
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function exists<A>(predicate: Predicate<A>): <E>(ma: Either<E, A>) => boolean {
   return (ma) => (isLeft(ma) ? false : predicate(ma.right))
@@ -1180,18 +1180,18 @@ export function exists<A>(predicate: Predicate<A>): <E>(ma: Either<E, A>) => boo
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const Do: Either<never, {}> = of({})
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bindTo = <N extends string>(name: N): (<E, A>(fa: Either<E, A>) => Either<E, { [K in N]: A }>) =>
   map(bindTo_(name))
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bindW = <N extends string, A, D, B>(
   name: Exclude<N, keyof A>,
@@ -1205,7 +1205,7 @@ export const bindW = <N extends string, A, D, B>(
   )
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bind: <N extends string, A, E, B>(
   name: Exclude<N, keyof A>,
@@ -1217,7 +1217,7 @@ export const bind: <N extends string, A, E, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const apSW = <A, N extends string, D, B>(
   name: Exclude<N, keyof A>,
@@ -1229,7 +1229,7 @@ export const apSW = <A, N extends string, D, B>(
   )
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const apS: <A, N extends string, E, B>(
   name: Exclude<N, keyof A>,
@@ -1275,7 +1275,7 @@ export const apT: <E, B>(
 
 /**
  *
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const traverseArrayWithIndex = <E, A, B>(f: (index: number, a: A) => Either<E, B>) => (
   arr: ReadonlyArray<A>
@@ -1323,7 +1323,7 @@ export const traverseArrayWithIndex = <E, A, B>(f: (index: number, a: A) => Eith
  *   ),
  *   left('a')
  * )
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const traverseArray: <E, A, B>(
   f: (a: A) => Either<E, B>
@@ -1343,7 +1343,7 @@ export const traverseArray: <E, A, B>(
  * assert.deepStrictEqual(pipe(arr, A.map(right), sequenceArray), right(arr))
  * assert.deepStrictEqual(pipe(arr, A.map(right), A.cons(left('Error')), sequenceArray), left('Error'))
  *
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const sequenceArray: <E, A>(arr: ReadonlyArray<Either<E, A>>) => Either<E, ReadonlyArray<A>> = traverseArray(
   identity

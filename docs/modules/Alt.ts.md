@@ -15,7 +15,7 @@ that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than
 1. Associativity: `pipe(pipe(fa1, A.alt(() => fa2)), A.alt(() => fa3)) <-> pipe(fa1, A.alt(() => pipe(fa2, A.alt(() => fa3))))`
 2. Distributivity: `pipe(pipe(fa1, A.alt(() => fa2)), A.map(ab)) <-> pipe(pipe(fa1, A.map(ab)), A.alt(() => pipe(fa2, A.map(ab))))`
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -44,7 +44,7 @@ export interface Alt<F> extends Functor<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Alt1 (interface)
 
@@ -56,7 +56,7 @@ export interface Alt1<F extends URIS> extends Functor1<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Alt2 (interface)
 
@@ -68,7 +68,7 @@ export interface Alt2<F extends URIS2> extends Functor2<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Alt2C (interface)
 
@@ -80,7 +80,7 @@ export interface Alt2C<F extends URIS2, E> extends Functor2C<F, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Alt3 (interface)
 
@@ -92,7 +92,7 @@ export interface Alt3<F extends URIS3> extends Functor3<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Alt3C (interface)
 
@@ -104,7 +104,7 @@ export interface Alt3C<F extends URIS3, E> extends Functor3C<F, E> {
 }
 ```
 
-Added in v2.2.0
+Added in v3.0.0
 
 ## Alt4 (interface)
 
@@ -118,4 +118,4 @@ export interface Alt4<F extends URIS4> extends Functor4<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

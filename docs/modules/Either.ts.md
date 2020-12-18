@@ -18,7 +18,7 @@ A common use of `Either` is as an alternative to `Option` for dealing with possi
 `None` is replaced with a `Left` which can contain useful information. `Right` takes the place of `Some`. Convention
 dictates that `Left` is used for failure and `Right` is used for success.
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -145,7 +145,7 @@ types of kind `* -> *`.
 export declare const alt: <E, A>(second: Lazy<Either<E, A>>) => (first: Either<E, A>) => Either<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## altW
 
@@ -159,7 +159,7 @@ export declare const altW: <E2, B>(
 ) => <E1, A>(first: Either<E1, A>) => Either<E2 | E1, B | A>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 # Applicative
 
@@ -183,7 +183,7 @@ import * as E from 'fp-ts/Either'
 assert.deepStrictEqual(E.of('a'), E.right('a'))
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 # Apply
 
@@ -197,7 +197,7 @@ Apply a function to an argument under a type constructor.
 export declare const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## apW
 
@@ -209,7 +209,7 @@ Less strict version of [`ap`](#ap).
 export declare const apW: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E2 | E1, B>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 # Bifunctor
 
@@ -223,7 +223,7 @@ Map a pair of functions over the two type arguments of the bifunctor.
 export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Either<E, A>) => Either<G, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## mapLeft
 
@@ -235,7 +235,7 @@ Map a function over the first type argument of a bifunctor.
 export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: Either<E, A>) => Either<G, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Extend
 
@@ -247,7 +247,7 @@ Added in v2.0.0
 export declare const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>) => Either<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Foldable
 
@@ -275,7 +275,7 @@ assert.deepStrictEqual(pipe(E.right('a'), E.foldMap(monoidString)(yell)), 'a!')
 assert.deepStrictEqual(pipe(E.left('e'), E.foldMap(monoidString)(yell)), monoidString.empty)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## reduce
 
@@ -301,7 +301,7 @@ assert.deepStrictEqual(pipe(E.right('a'), E.reduce(startWith, concat)), 'prefix:
 assert.deepStrictEqual(pipe(E.left('e'), E.reduce(startWith, concat)), 'prefix')
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## reduceRight
 
@@ -327,7 +327,7 @@ assert.deepStrictEqual(pipe(E.right('a'), E.reduceRight(startWith, concat)), 'a:
 assert.deepStrictEqual(pipe(E.left('e'), E.reduceRight(startWith, concat)), 'postfix')
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Functor
 
@@ -342,7 +342,7 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Monad
 
@@ -356,7 +356,7 @@ Composes computations in sequence, using the return value of one computation to 
 export declare const chain: <A, E, B>(f: (a: A) => Either<E, B>) => (fa: Either<E, A>) => Either<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## chainW
 
@@ -368,7 +368,7 @@ Less strict version of [`chain`](#chain).
 export declare const chainW: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, B>
 ```
 
-Added in v2.6.0
+Added in v3.0.0
 
 # MonadThrow
 
@@ -380,7 +380,7 @@ Added in v2.6.0
 export declare const throwError: <E, A>(e: E) => Either<E, A>
 ```
 
-Added in v2.6.3
+Added in v3.0.0
 
 # Traversable
 
@@ -406,7 +406,7 @@ assert.deepStrictEqual(pipe(E.right(O.some('a')), E.sequence(O.Applicative)), O.
 assert.deepStrictEqual(pipe(E.right(O.none), E.sequence(O.Applicative)), O.none)
 ```
 
-Added in v2.6.3
+Added in v3.0.0
 
 ## traverse
 
@@ -431,7 +431,7 @@ assert.deepStrictEqual(pipe(E.right(['a']), E.traverse(O.Applicative)(A.head)), 
 assert.deepStrictEqual(pipe(E.right([]), E.traverse(O.Applicative)(A.head)), O.none)
 ```
 
-Added in v2.6.3
+Added in v3.0.0
 
 # combinators
 
@@ -447,7 +447,7 @@ export declare const chainFirstW: <A, E2, B>(
 ) => <E1>(first: Either<E1, A>) => Either<E2 | E1, A>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## chainNullableK
 
@@ -459,7 +459,7 @@ export declare function chainNullableK<E>(
 ): <A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## duplicate
 
@@ -471,7 +471,7 @@ Derivable from `Extend`.
 export declare const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## filterOrElse
 
@@ -524,7 +524,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## fromNullableK
 
@@ -536,7 +536,7 @@ export declare function fromNullableK<E>(
 ): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B | null | undefined) => (...a: A) => Either<E, NonNullable<B>>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## orElse
 
@@ -548,7 +548,7 @@ Useful for recovering from errors.
 export declare const orElse: <E1, E2, A>(onLeft: (e: E1) => Either<E2, A>) => (ma: Either<E1, A>) => Either<E2, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## swap
 
@@ -560,7 +560,7 @@ Returns a `Right` if is a `Left` (and vice versa).
 export declare const swap: <E, A>(ma: Either<E, A>) => Either<A, E>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # constructors
 
@@ -586,7 +586,7 @@ assert.deepStrictEqual(parse(1), right(1))
 assert.deepStrictEqual(parse(null), left('nully'))
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## fromOption
 
@@ -621,7 +621,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## fromPredicate
 
@@ -664,7 +664,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## left
 
@@ -677,7 +677,7 @@ structure.
 export declare const left: <E = never, A = never>(e: E) => Either<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## parseJSON
 
@@ -702,7 +702,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## right
 
@@ -715,7 +715,7 @@ of this structure.
 export declare const right: <E = never, A = never>(a: A) => Either<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## stringifyJSON
 
@@ -746,7 +746,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## tryCatch
 
@@ -782,7 +782,7 @@ assert.deepStrictEqual(head([]), left(new Error('empty array')))
 assert.deepStrictEqual(head([1, 2, 3]), right(1))
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # derivable combinators
 
@@ -798,7 +798,7 @@ Derivable from `Apply`.
 export declare const apFirst: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) => Either<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## apSecond
 
@@ -812,7 +812,7 @@ Derivable from `Apply`.
 export declare const apSecond: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) => Either<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## chainFirst
 
@@ -827,7 +827,7 @@ Derivable from `Monad`.
 export declare const chainFirst: <A, E, B>(f: (a: A) => Either<E, B>) => (first: Either<E, A>) => Either<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## flatten
 
@@ -851,7 +851,7 @@ assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
 assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # destructors
 
@@ -884,7 +884,7 @@ assert.strictEqual(pipe(right(1), fold(onLeft, onRight)), 'Ok: 1')
 assert.strictEqual(pipe(left(['error 1', 'error 2']), fold(onLeft, onRight)), 'Errors: error 1, error 2')
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getOrElse
 
@@ -918,7 +918,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getOrElseW
 
@@ -930,7 +930,7 @@ Less strict version of [`getOrElse`](#getOrElse).
 export declare const getOrElseW: <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>) => B | A
 ```
 
-Added in v2.6.0
+Added in v3.0.0
 
 # guards
 
@@ -944,7 +944,7 @@ Returns `true` if the either is an instance of `Left`, `false` otherwise.
 export declare const isLeft: <E, A>(ma: Either<E, A>) => ma is Left<E>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## isRight
 
@@ -956,7 +956,7 @@ Returns `true` if the either is an instance of `Right`, `false` otherwise.
 export declare const isRight: <E, A>(ma: Either<E, A>) => ma is Right<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # instances
 
@@ -968,7 +968,7 @@ Added in v2.0.0
 export declare const Alt: Alt2<'Either'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Applicative
 
@@ -978,7 +978,7 @@ Added in v2.7.0
 export declare const Applicative: Applicative2<'Either'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Bifunctor
 
@@ -988,7 +988,7 @@ Added in v2.7.0
 export declare const Bifunctor: Bifunctor2<'Either'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Extend
 
@@ -998,7 +998,7 @@ Added in v2.7.0
 export declare const Extend: Extend2<'Either'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Foldable
 
@@ -1008,7 +1008,7 @@ Added in v2.7.0
 export declare const Foldable: Foldable2<'Either'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Functor
 
@@ -1018,7 +1018,7 @@ Added in v2.7.0
 export declare const Functor: Functor2<'Either'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Monad
 
@@ -1028,7 +1028,7 @@ Added in v2.7.0
 export declare const Monad: Monad2<'Either'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## MonadThrow
 
@@ -1038,7 +1038,7 @@ Added in v2.7.0
 export declare const MonadThrow: MonadThrow2<'Either'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Traversable
 
@@ -1048,7 +1048,7 @@ Added in v2.7.0
 export declare const Traversable: Traversable2<'Either'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## URI
 
@@ -1058,7 +1058,7 @@ Added in v2.7.0
 export declare const URI: 'Either'
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -1068,7 +1068,7 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getAltValidation
 
@@ -1078,7 +1078,7 @@ Added in v2.0.0
 export declare function getAltValidation<E>(SE: Semigroup<E>): Alt2C<URI, E>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## getApplicativeValidation
 
@@ -1088,7 +1088,7 @@ Added in v2.7.0
 export declare function getApplicativeValidation<E>(SE: Semigroup<E>): Applicative2C<URI, E>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## getApplyMonoid
 
@@ -1098,7 +1098,7 @@ Added in v2.7.0
 export declare function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<Either<E, A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getApplySemigroup
 
@@ -1125,7 +1125,7 @@ assert.deepStrictEqual(pipe(right(1), S.concat(left('b'))), left('b'))
 assert.deepStrictEqual(pipe(right(1), S.concat(right(2))), right(3))
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getCompactable
 
@@ -1147,7 +1147,7 @@ Added in v3.0.0
 export declare function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getFilterable
 
@@ -1186,7 +1186,7 @@ assert.deepStrictEqual(pipe(right(1), S.concat(left('b'))), right(1))
 assert.deepStrictEqual(pipe(right(1), S.concat(right(2))), right(3))
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getShow
 
@@ -1196,7 +1196,7 @@ Added in v2.0.0
 export declare function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getValidationMonoid
 
@@ -1206,7 +1206,7 @@ Added in v2.0.0
 export declare function getValidationMonoid<E, A>(SE: Semigroup<E>, SA: Monoid<A>): Monoid<Either<E, A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getValidationSemigroup
 
@@ -1216,7 +1216,7 @@ Added in v2.0.0
 export declare function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<Either<E, A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getWitherable
 
@@ -1228,7 +1228,7 @@ Builds `Witherable` instance for `Either` given `Monoid` for the left side
 export declare function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # model
 
@@ -1240,7 +1240,7 @@ Added in v2.0.0
 export type Either<E, A> = Left<E> | Right<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Left (interface)
 
@@ -1253,7 +1253,7 @@ export interface Left<E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Right (interface)
 
@@ -1266,7 +1266,7 @@ export interface Right<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -1288,7 +1288,7 @@ Added in v3.0.0
 export declare const Do: Either<never, {}>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## Json (type alias)
 
@@ -1300,7 +1300,7 @@ Copied from https://github.com/Microsoft/TypeScript/issues/1897#issuecomment-338
 export type Json = boolean | number | string | null | JsonArray | JsonRecord
 ```
 
-Added in v2.6.7
+Added in v3.0.0
 
 ## JsonArray (interface)
 
@@ -1310,7 +1310,7 @@ Added in v2.6.7
 export interface JsonArray extends ReadonlyArray<Json> {}
 ```
 
-Added in v2.6.7
+Added in v3.0.0
 
 ## JsonRecord (interface)
 
@@ -1322,7 +1322,7 @@ export interface JsonRecord {
 }
 ```
 
-Added in v2.6.7
+Added in v3.0.0
 
 ## apS
 
@@ -1335,7 +1335,7 @@ export declare const apS: <A, N extends string, E, B>(
 ) => (fa: Either<E, A>) => Either<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## apSW
 
@@ -1348,7 +1348,7 @@ export declare const apSW: <A, N extends string, D, B>(
 ) => <E>(fa: Either<E, A>) => Either<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## apT
 
@@ -1385,7 +1385,7 @@ export declare const bind: <N extends string, A, E, B>(
 ) => (fa: Either<E, A>) => Either<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## bindTo
 
@@ -1395,7 +1395,7 @@ Added in v2.8.0
 export declare const bindTo: <N extends string>(name: N) => <E, A>(fa: Either<E, A>) => Either<E, { [K in N]: A }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## bindW
 
@@ -1408,7 +1408,7 @@ export declare const bindW: <N extends string, A, D, B>(
 ) => <E>(fa: Either<E, A>) => Either<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## elem
 
@@ -1418,7 +1418,7 @@ Added in v2.8.0
 export declare const elem: <A>(E: Eq<A>) => (a: A) => <E>(ma: Either<E, A>) => boolean
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## exists
 
@@ -1442,7 +1442,7 @@ assert.strictEqual(gt2(right(1)), false)
 assert.strictEqual(gt2(right(3)), true)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## filterOrElseW
 
@@ -1459,7 +1459,7 @@ export declare const filterOrElseW: {
 }
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## sequenceArray
 
@@ -1484,7 +1484,7 @@ assert.deepStrictEqual(pipe(arr, A.map(right), sequenceArray), right(arr))
 assert.deepStrictEqual(pipe(arr, A.map(right), A.cons(left('Error')), sequenceArray), left('Error'))
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## toError
 
@@ -1496,7 +1496,7 @@ Default value for the `onError` argument of `tryCatch`
 export declare function toError(e: unknown): Error
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## traverseArray
 
@@ -1540,7 +1540,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseArrayWithIndex
 
@@ -1552,7 +1552,7 @@ export declare const traverseArrayWithIndex: <E, A, B>(
 ) => (arr: readonly A[]) => Either<E, readonly B[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## tupled
 

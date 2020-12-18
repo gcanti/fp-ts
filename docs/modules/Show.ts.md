@@ -6,7 +6,7 @@ parent: Modules
 
 ## Show overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -35,7 +35,7 @@ export declare function getStructShow<O extends ReadonlyRecord<string, any>>(
 ): Show<O>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getTupleShow
 
@@ -47,7 +47,7 @@ export declare function getTupleShow<T extends ReadonlyArray<Show<any>>>(
 ): Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## showBoolean
 
@@ -57,7 +57,7 @@ Added in v2.0.0
 export declare const showBoolean: Show<boolean>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## showNumber
 
@@ -67,7 +67,7 @@ Added in v2.0.0
 export declare const showNumber: Show<number>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## showString
 
@@ -77,7 +77,7 @@ Added in v2.0.0
 export declare const showString: Show<string>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # type classes
 
@@ -98,4 +98,4 @@ export interface Show<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

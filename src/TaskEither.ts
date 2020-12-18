@@ -6,7 +6,7 @@
  * `TaskEither<E, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
  * error of type `E`. If you want to represent an asynchronous computation that never fails, please see `Task`.
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
@@ -37,7 +37,7 @@ import Task = T.Task
 
 /**
  * @category model
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface TaskEither<E, A> extends Task<Either<E, A>> {}
 
@@ -47,7 +47,7 @@ export interface TaskEither<E, A> extends Task<Either<E, A>> {}
 
 /**
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const left: <E = never, A = never>(e: E) => TaskEither<E, A> =
   /*#__PURE__*/
@@ -55,7 +55,7 @@ export const left: <E = never, A = never>(e: E) => TaskEither<E, A> =
 
 /**
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const right: <E = never, A = never>(a: A) => TaskEither<E, A> =
   /*#__PURE__*/
@@ -63,7 +63,7 @@ export const right: <E = never, A = never>(a: A) => TaskEither<E, A> =
 
 /**
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskEither<E, A> =
   /*#__PURE__*/
@@ -71,7 +71,7 @@ export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskEither<E, A> 
 
 /**
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const leftTask: <E = never, A = never>(me: Task<E>) => TaskEither<E, A> =
   /*#__PURE__*/
@@ -79,7 +79,7 @@ export const leftTask: <E = never, A = never>(me: Task<E>) => TaskEither<E, A> =
 
 /**
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const rightIO: <E = never, A = never>(ma: IO<A>) => TaskEither<E, A> =
   /*#__PURE__*/
@@ -87,7 +87,7 @@ export const rightIO: <E = never, A = never>(ma: IO<A>) => TaskEither<E, A> =
 
 /**
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const leftIO: <E = never, A = never>(me: IO<E>) => TaskEither<E, A> =
   /*#__PURE__*/
@@ -95,7 +95,7 @@ export const leftIO: <E = never, A = never>(me: IO<E>) => TaskEither<E, A> =
 
 /**
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = T.fromIO
 
@@ -103,7 +103,7 @@ export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = T.fr
  * Derivable from `MonadThrow`.
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const fromEither: <E, A>(ma: E.Either<E, A>) => TaskEither<E, A> =
   /*#__PURE__*/
@@ -113,7 +113,7 @@ export const fromEither: <E, A>(ma: E.Either<E, A>) => TaskEither<E, A> =
  * Derivable from `MonadThrow`.
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskEither<E, A> = (onNone) => (ma) =>
   ma._tag === 'None' ? left(onNone()) : right(ma.value)
@@ -122,7 +122,7 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskEithe
  * Derivable from `MonadThrow`.
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const fromPredicate: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskEither<E, B>
@@ -146,7 +146,7 @@ export const fromPredicate: {
  * })
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> {
   return () => f().then(E.right, (reason) => E.left(onRejected(reason)))
@@ -158,7 +158,7 @@ export function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown
 
 /**
  * @category destructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const fold: <E, B, A>(
   onLeft: (e: E) => Task<B>,
@@ -171,14 +171,14 @@ export const fold: <E, B, A>(
  * Less strict version of [`getOrElse`](#getOrElse).
  *
  * @category destructors
- * @since 2.6.0
+ * @since 3.0.0
  */
 export const getOrElseW = <E, B>(onLeft: (e: E) => Task<B>) => <A>(ma: TaskEither<E, A>): Task<A | B> =>
   pipe(ma, T.chain(E.fold<E, T.Task<A | B>, A>(onLeft, T.of)))
 
 /**
  * @category destructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const getOrElse: <E, A>(onLeft: (e: E) => Task<A>) => (ma: TaskEither<E, A>) => Task<A> = getOrElseW
 
@@ -205,7 +205,7 @@ export const getOrElse: <E, A>(onLeft: (e: E) => Task<A>) => (ma: TaskEither<E, 
  * test()
  *
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const orElse: <E1, E2, A>(
   onLeft: (e: E1) => TaskEither<E2, A>
@@ -213,7 +213,7 @@ export const orElse: <E1, E2, A>(
 
 /**
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> =
   /*#__PURE__*/
@@ -222,7 +222,7 @@ export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> =
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
  *
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
@@ -236,7 +236,7 @@ export const filterOrElseW: {
  * Derivable from `MonadThrow`.
  *
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const filterOrElse: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>
@@ -247,7 +247,7 @@ export const filterOrElse: {
  * Converts a function returning a `Promise` to one returning a `TaskEither`.
  *
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function tryCatchK<E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Promise<B>,
@@ -258,7 +258,7 @@ export function tryCatchK<E, A extends ReadonlyArray<unknown>, B>(
 
 /**
  * @category combinators
- * @since 2.4.0
+ * @since 3.0.0
  */
 export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Either<E, B>
@@ -268,7 +268,7 @@ export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
 
 /**
  * @category combinators
- * @since 2.4.0
+ * @since 3.0.0
  */
 export function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => IOEither<E, B>
@@ -280,7 +280,7 @@ export function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
  * Less strict version of [`chainEitherK`](#chainEitherK).
  *
  * @category combinators
- * @since 2.6.1
+ * @since 3.0.0
  */
 export const chainEitherKW: <E, A, B>(
   f: (a: A) => Either<E, B>
@@ -288,7 +288,7 @@ export const chainEitherKW: <E, A, B>(
 
 /**
  * @category combinators
- * @since 2.4.0
+ * @since 3.0.0
  */
 export const chainEitherK: <E, A, B>(
   f: (a: A) => Either<E, B>
@@ -298,7 +298,7 @@ export const chainEitherK: <E, A, B>(
  * Less strict version of [`chainIOEitherK`](#chainIOEitherK).
  *
  * @category combinators
- * @since 2.6.1
+ * @since 3.0.0
  */
 export const chainIOEitherKW: <E, A, B>(
   f: (a: A) => IOEither<E, B>
@@ -306,7 +306,7 @@ export const chainIOEitherKW: <E, A, B>(
 
 /**
  * @category combinators
- * @since 2.4.0
+ * @since 3.0.0
  */
 export const chainIOEitherK: <E, A, B>(
   f: (a: A) => IOEither<E, B>
@@ -317,7 +317,7 @@ export const chainIOEitherK: <E, A, B>(
  * use the type constructor `F` to represent some computational context.
  *
  * @category Functor
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEither<E, B> = (f) => T.map(E.map(f))
 
@@ -325,7 +325,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEit
  * Map a pair of functions over the two type arguments of the bifunctor.
  *
  * @category Bifunctor
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const bimap: Bifunctor2<URI>['bimap'] =
   /*#__PURE__*/
@@ -335,7 +335,7 @@ export const bimap: Bifunctor2<URI>['bimap'] =
  * Map a function over the first type argument of a bifunctor.
  *
  * @category Bifunctor
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => T.map(E.mapLeft(f))
 
@@ -343,7 +343,7 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => T.map(E.mapLeft(f))
  * Less strict version of [`ap`](#ap).
  *
  * @category Apply
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const apW = <E2, A>(
   fa: TaskEither<E2, A>
@@ -357,7 +357,7 @@ export const apW = <E2, A>(
  * Apply a function to an argument under a type constructor.
  *
  * @category Apply
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const ap: Applicative2<URI>['ap'] = apW
 
@@ -365,7 +365,7 @@ export const ap: Applicative2<URI>['ap'] = apW
  * Less strict version of [`chain`](#chain).
  *
  * @category Monad
- * @since 2.6.0
+ * @since 3.0.0
  */
 export const chainW = <A, E2, B>(f: (a: A) => TaskEither<E2, B>) => <E1>(
   ma: TaskEither<E1, A>
@@ -375,7 +375,7 @@ export const chainW = <A, E2, B>(f: (a: A) => TaskEither<E2, B>) => <E1>(
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const chain: Monad2<URI>['chain'] = chainW
 
@@ -383,7 +383,7 @@ export const chain: Monad2<URI>['chain'] = chainW
  * Derivable from `Monad`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither<E, A> =
   /*#__PURE__*/
@@ -393,7 +393,7 @@ export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither
  * Less strict version of [`alt`](#alt).
  *
  * @category Alt
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const altW = <E2, B>(second: Lazy<TaskEither<E2, B>>) => <E1, A>(
   first: TaskEither<E1, A>
@@ -439,7 +439,7 @@ export const altW = <E2, B>(second: Lazy<TaskEither<E2, B>>) => <E1, A>(
  * test()
  *
  * @category Alt
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const alt: Alt2<URI>['alt'] = altW
 
@@ -449,25 +449,25 @@ export const alt: Alt2<URI>['alt'] = altW
  * Equivalent to [`right`](#right).
  *
  * @category Applicative
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const of: Applicative2<URI>['of'] = right
 
 /**
  * @category MonadIO
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const fromIO: MonadIO2<URI>['fromIO'] = rightIO
 
 /**
  * @category MonadTask
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const fromTask: MonadTask2<URI>['fromTask'] = rightTask
 
 /**
  * @category MonadTask
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const throwError: MonadThrow2<URI>['throwError'] = left
 
@@ -477,13 +477,13 @@ export const throwError: MonadThrow2<URI>['throwError'] = left
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const URI = 'TaskEither'
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export type URI = typeof URI
 
@@ -498,7 +498,7 @@ declare module './HKT' {
  * concatenated using the provided `Semigroup`
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>> {
   return T.getSemigroup(E.getSemigroup(S))
@@ -509,7 +509,7 @@ export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>>
  * are concatenated using the provided `Semigroup`
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>> {
   return T.getSemigroup(E.getApplySemigroup(S))
@@ -517,7 +517,7 @@ export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>> {
   return {
@@ -528,7 +528,7 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>> {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E> {
   const AV = E.getApplicativeValidation(SE)
@@ -548,7 +548,7 @@ export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export function getAltTaskValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
   return {
@@ -609,7 +609,7 @@ export function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E> {
 
 /**
  * @category instances
- * @since 2.1.0
+ * @since 3.0.0
  */
 export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
   const F = E.getFilterable(M)
@@ -647,7 +647,7 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
   URI,
@@ -656,7 +656,7 @@ export const Functor: Functor2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const ApplicativePar: Applicative2<URI> = {
   URI,
@@ -671,7 +671,7 @@ export const ApplicativePar: Applicative2<URI> = {
  * Derivable from `Apply`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const apFirst: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither<E, A>) => TaskEither<E, A> =
   /*#__PURE__*/
@@ -683,7 +683,7 @@ export const apFirst: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither<
  * Derivable from `Apply`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const apSecond: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither<E, A>) => TaskEither<E, B> =
   /*#__PURE__*/
@@ -691,7 +691,7 @@ export const apSecond: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const ApplicativeSeq: Applicative2<URI> = {
   URI,
@@ -702,7 +702,7 @@ export const ApplicativeSeq: Applicative2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Bifunctor: Bifunctor2<URI> = {
   URI,
@@ -712,7 +712,7 @@ export const Bifunctor: Bifunctor2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Alt: Alt2<URI> = {
   URI,
@@ -735,7 +735,7 @@ export const Monad: Monad2<URI> = {
  * Less strict version of [`chainFirst`](#chainFirst).
  *
  * @category combinators
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const chainFirstW: <A, E2, B>(
   f: (a: A) => TaskEither<E2, B>
@@ -750,7 +750,7 @@ export const chainFirstW: <A, E2, B>(
  * Derivable from `Monad`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const chainFirst: <A, E, B>(
   f: (a: A) => TaskEither<E, B>
@@ -804,7 +804,7 @@ export const MonadThrow: MonadThrow2<URI> = {
  * const stat = taskify(fs.stat)
  * assert.strictEqual(stat.length, 0)
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function taskify<L, R>(f: (cb: (e: L | null | undefined, r?: R) => void) => void): () => TaskEither<L, R>
 export function taskify<A, L, R>(
@@ -841,7 +841,7 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
  *
  * Derivable from `MonadThrow`.
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const bracket = <E, A, B>(
   acquire: TaskEither<E, A>,
@@ -868,18 +868,18 @@ export const bracket = <E, A, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const Do: TaskEither<never, {}> = of({})
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bindTo = <N extends string>(name: N): (<E, A>(fa: TaskEither<E, A>) => TaskEither<E, { [K in N]: A }>) =>
   map(bindTo_(name))
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bindW = <N extends string, A, D, B>(
   name: Exclude<N, keyof A>,
@@ -893,7 +893,7 @@ export const bindW = <N extends string, A, D, B>(
   )
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bind: <N extends string, A, E, B>(
   name: Exclude<N, keyof A>,
@@ -905,7 +905,7 @@ export const bind: <N extends string, A, E, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const apSW = <A, N extends string, D, B>(
   name: Exclude<N, keyof A>,
@@ -917,7 +917,7 @@ export const apSW = <A, N extends string, D, B>(
   )
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const apS: <A, N extends string, E, B>(
   name: Exclude<N, keyof A>,
@@ -962,7 +962,7 @@ export const apT: <E, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const traverseArrayWithIndex: <A, B, E>(
   f: (index: number, a: A) => TaskEither<E, B>
@@ -1003,7 +1003,7 @@ export const traverseArrayWithIndex: <A, B, E>(
  *
  * test()
  *
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const traverseArray: <A, B, E>(
   f: (a: A) => TaskEither<E, B>
@@ -1043,14 +1043,14 @@ export const traverseArray: <A, B, E>(
  *
  * test()
  *
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const sequenceArray: <A, E>(
   arr: ReadonlyArray<TaskEither<E, A>>
 ) => TaskEither<E, ReadonlyArray<A>> = traverseArray(identity)
 
 /**
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const traverseSeqArrayWithIndex: <A, B, E>(
   f: (index: number, a: A) => TaskEither<E, B>
@@ -1072,7 +1072,7 @@ export const traverseSeqArrayWithIndex: <A, B, E>(
  *
  * *this function run all tasks in sequential order and bails out on left side of either, for parallel version use `traverseArray`*
  *
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const traverseSeqArray: <A, B, E>(
   f: (a: A) => TaskEither<E, B>
@@ -1083,7 +1083,7 @@ export const traverseSeqArray: <A, B, E>(
  *
  * *this function run all tasks in sequential order and bails out on left side of either, for parallel version use `sequenceArray`*
  *
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const sequenceSeqArray: <A, E>(
   arr: ReadonlyArray<TaskEither<E, A>>

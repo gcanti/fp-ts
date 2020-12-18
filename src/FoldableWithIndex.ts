@@ -8,14 +8,14 @@
  * reduceRight(fa, b, f) = reduceRightWithIndex(fa, b, (_, a, b) => f(a, b))
  * ```
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Monoid } from './Monoid'
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface FoldableWithIndex<F, I> {
   readonly URI: F
@@ -26,7 +26,7 @@ export interface FoldableWithIndex<F, I> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface FoldableWithIndex1<F extends URIS, I> {
   readonly URI: F
@@ -37,7 +37,7 @@ export interface FoldableWithIndex1<F extends URIS, I> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface FoldableWithIndex2<F extends URIS2, I> {
   readonly URI: F
@@ -48,7 +48,7 @@ export interface FoldableWithIndex2<F extends URIS2, I> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface FoldableWithIndex2C<F extends URIS2, I, E> {
   readonly URI: F
@@ -59,7 +59,7 @@ export interface FoldableWithIndex2C<F extends URIS2, I, E> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface FoldableWithIndex3<F extends URIS3, I> {
   readonly URI: F
@@ -70,7 +70,7 @@ export interface FoldableWithIndex3<F extends URIS3, I> {
 
 /**
  * @category type classes
- * @since 2.2.0
+ * @since 3.0.0
  */
 export interface FoldableWithIndex3C<F extends URIS3, I, E> {
   readonly URI: F
@@ -81,7 +81,7 @@ export interface FoldableWithIndex3C<F extends URIS3, I, E> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface FoldableWithIndex4<F extends URIS4, I> {
   readonly URI: F

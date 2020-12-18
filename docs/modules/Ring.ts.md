@@ -14,7 +14,7 @@ Instances must satisfy the following law in addition to the `Semiring` laws:
 
 Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Ring.purs
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -40,7 +40,7 @@ Added in v2.0.0
 export declare const getFunctionRing: <A, B>(ring: Ring<B>) => Ring<(a: A) => B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getTupleRing
 
@@ -69,7 +69,7 @@ assert.deepStrictEqual(pipe([1, 2, 3], R.sub([4, 5, 6])), [-3, -3, -3])
 assert.deepStrictEqual(R.zero, [0, 0, 0])
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # type classes
 
@@ -83,7 +83,7 @@ export interface Ring<A> extends Semiring<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -97,4 +97,4 @@ Added in v2.0.0
 export declare const negate: <A>(ring: Ring<A>) => Endomorphism<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0

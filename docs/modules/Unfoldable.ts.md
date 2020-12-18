@@ -8,7 +8,7 @@ parent: Modules
 
 This class identifies data structures which can be _unfolded_, generalizing `unfold` on arrays.
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -36,7 +36,7 @@ export interface Unfoldable<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Unfoldable1 (interface)
 
@@ -49,7 +49,7 @@ export interface Unfoldable1<F extends URIS> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Unfoldable2 (interface)
 
@@ -62,7 +62,7 @@ export interface Unfoldable2<F extends URIS2> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Unfoldable2C (interface)
 
@@ -75,7 +75,7 @@ export interface Unfoldable2C<F extends URIS2, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Unfoldable3 (interface)
 
@@ -88,4 +88,4 @@ export interface Unfoldable3<F extends URIS3> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

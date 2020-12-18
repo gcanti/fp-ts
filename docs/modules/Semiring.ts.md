@@ -26,7 +26,7 @@ Instances must satisfy the following laws:
 for arithmetic overflows, and the presence of `NaN` and `Infinity` values. The behaviour is
 unspecified in these cases.
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -49,7 +49,7 @@ Added in v2.0.0
 export declare const getFunctionSemiring: <A, B>(S: Semiring<B>) => Semiring<(a: A) => B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # type classes
 
@@ -66,4 +66,4 @@ export interface Semiring<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

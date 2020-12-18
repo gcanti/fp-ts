@@ -6,7 +6,7 @@ parent: Modules
 
 ## Console overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -30,7 +30,7 @@ Added in v2.0.0
 export declare function error(s: unknown): IO<void>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## info
 
@@ -40,7 +40,7 @@ Added in v2.0.0
 export declare function info(s: unknown): IO<void>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## log
 
@@ -50,7 +50,7 @@ Added in v2.0.0
 export declare function log(s: unknown): IO<void>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## warn
 
@@ -60,4 +60,4 @@ Added in v2.0.0
 export declare function warn(s: unknown): IO<void>
 ```
 
-Added in v2.0.0
+Added in v3.0.0

@@ -1,5 +1,5 @@
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 import { Applicative, Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
@@ -22,7 +22,7 @@ import { Traversable2 } from './Traversable'
 
 /**
  * @category destructors
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function fst<A, E>(ea: readonly [A, E]): A {
   return ea[0]
@@ -30,7 +30,7 @@ export function fst<A, E>(ea: readonly [A, E]): A {
 
 /**
  * @category destructors
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function snd<A, E>(ea: readonly [A, E]): E {
   return ea[1]
@@ -38,7 +38,7 @@ export function snd<A, E>(ea: readonly [A, E]): E {
 
 /**
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function swap<A, E>(ea: readonly [A, E]): readonly [E, A] {
   return [snd(ea), fst(ea)]
@@ -46,7 +46,7 @@ export function swap<A, E>(ea: readonly [A, E]): readonly [E, A] {
 
 /**
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
   return {
@@ -62,7 +62,7 @@ const of = <M>(M: Monoid<M>) => <A>(a: A): readonly [A, M] => {
 
 /**
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function getApplicative<M>(M: Monoid<M>): Applicative2C<URI, M> {
   const A = getApply(M)
@@ -76,7 +76,7 @@ export function getApplicative<M>(M: Monoid<M>): Applicative2C<URI, M> {
 
 /**
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function getMonad<M>(M: Monoid<M>): Monad2C<URI, M> {
   return {
@@ -94,7 +94,7 @@ export function getMonad<M>(M: Monoid<M>): Monad2C<URI, M> {
  * Map a pair of functions over the two type arguments of the bifunctor.
  *
  * @category Bifunctor
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => (fa) => [g(fst(fa)), f(snd(fa))]
 
@@ -102,13 +102,13 @@ export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => (fa) => [g(fst(fa)), f(
  * Map a function over the first type argument of a bifunctor.
  *
  * @category Bifunctor
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => [fst(fa), f(snd(fa))]
 
 /**
  * @category Semigroupoid
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const compose: <A, B>(ab: readonly [B, A]) => <C>(bc: readonly [C, B]) => readonly [C, A] = (ab) => (bc) => [
   fst(bc),
@@ -117,13 +117,13 @@ export const compose: <A, B>(ab: readonly [B, A]) => <C>(bc: readonly [C, B]) =>
 
 /**
  * @category Extend
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const extend: Extend2<URI>['extend'] = (f) => (wa) => [f(wa), snd(wa)]
 
 /**
  * @category Extract
- * @since 2.6.2
+ * @since 3.0.0
  */
 export const extract: <E, A>(wa: readonly [A, E]) => A = fst
 
@@ -131,7 +131,7 @@ export const extract: <E, A>(wa: readonly [A, E]) => A = fst
  * Derivable from `Extend`.
  *
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const duplicate: <E, A>(wa: readonly [A, E]) => readonly [readonly [A, E], E] =
   /*#__PURE__*/
@@ -142,7 +142,7 @@ export const duplicate: <E, A>(wa: readonly [A, E]) => readonly [readonly [A, E]
  * use the type constructor `F` to represent some computational context.
  *
  * @category Functor
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly [B, E] = (f) => (fa) => [
   f(fst(fa)),
@@ -151,14 +151,14 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly
 
 /**
  * @category Foldable
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: readonly [A, E]) => B = (b, f) => (fa) =>
   f(b, fst(fa))
 
 /**
  * @category Foldable
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: readonly [A, E]) => M = () => {
   return (f) => (fa) => f(fst(fa))
@@ -166,13 +166,13 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: readon
 
 /**
  * @category Foldable
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: readonly [A, E]) => B = (b, f) => (fa) =>
   f(fst(fa), b)
 
 /**
- * @since 2.6.3
+ * @since 3.0.0
  */
 export const traverse: Traversable2<URI>['traverse'] = <F>(
   F: Applicative<F>
@@ -185,7 +185,7 @@ export const traverse: Traversable2<URI>['traverse'] = <F>(
 }
 
 /**
- * @since 2.6.3
+ * @since 3.0.0
  */
 export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <A, E>(
   fas: readonly [HKT<F, A>, E]
@@ -202,13 +202,13 @@ export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) =>
 
 /**
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const URI = 'ReadonlyTuple'
 
 /**
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
 export type URI = typeof URI
 
@@ -220,7 +220,7 @@ declare module './HKT' {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
   URI,
@@ -229,7 +229,7 @@ export const Functor: Functor2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Bifunctor: Bifunctor2<URI> = {
   URI,
@@ -239,7 +239,7 @@ export const Bifunctor: Bifunctor2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Semigroupoid: Semigroupoid2<URI> = {
   URI,
@@ -248,7 +248,7 @@ export const Semigroupoid: Semigroupoid2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Comonad: Comonad2<URI> = {
   URI,
@@ -259,7 +259,7 @@ export const Comonad: Comonad2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Foldable: Foldable2<URI> = {
   URI,
@@ -270,7 +270,7 @@ export const Foldable: Foldable2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Traversable: Traversable2<URI> = {
   URI,

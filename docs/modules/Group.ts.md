@@ -10,7 +10,7 @@ A `Group` is a `Monoid` with inverses. Instances must satisfy the following law 
 
 - Inverse: `concat(inverse(a), a) <-> empty = concat(a, inverse(a))`
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -33,4 +33,4 @@ export interface Group<A> extends Monoid<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

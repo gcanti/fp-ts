@@ -1,5 +1,5 @@
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Separated } from './Compactable'
 import { Either } from './Either'
@@ -7,17 +7,17 @@ import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT
 import { Option } from './Option'
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export type RefinementWithIndex<I, A, B extends A> = (i: I, a: A) => a is B
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export type PredicateWithIndex<I, A> = (i: I, a: A) => boolean
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface FilterWithIndex<F, I> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (fa: HKT<F, A>) => HKT<F, B>
@@ -25,7 +25,7 @@ export interface FilterWithIndex<F, I> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface PartitionWithIndex<F, I> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (
@@ -36,7 +36,7 @@ export interface PartitionWithIndex<F, I> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface FilterableWithIndex<F, I> {
   readonly URI: F
@@ -49,7 +49,7 @@ export interface FilterableWithIndex<F, I> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface FilterWithIndex1<F extends URIS, I> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (fa: Kind<F, A>) => Kind<F, B>
@@ -57,7 +57,7 @@ export interface FilterWithIndex1<F extends URIS, I> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface PartitionWithIndex1<F extends URIS, I> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (
@@ -68,7 +68,7 @@ export interface PartitionWithIndex1<F extends URIS, I> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface FilterableWithIndex1<F extends URIS, I> {
   readonly URI: F
@@ -81,7 +81,7 @@ export interface FilterableWithIndex1<F extends URIS, I> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface FilterWithIndex2<F extends URIS2, I> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
@@ -89,7 +89,7 @@ export interface FilterWithIndex2<F extends URIS2, I> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface PartitionWithIndex2<F extends URIS2, I> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <E>(
@@ -102,7 +102,7 @@ export interface PartitionWithIndex2<F extends URIS2, I> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface FilterableWithIndex2<F extends URIS2, I> {
   readonly URI: F
@@ -115,7 +115,7 @@ export interface FilterableWithIndex2<F extends URIS2, I> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface FilterWithIndex2C<F extends URIS2, I, E> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (fa: Kind2<F, E, A>) => Kind2<F, E, B>
@@ -123,7 +123,7 @@ export interface FilterWithIndex2C<F extends URIS2, I, E> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface PartitionWithIndex2C<F extends URIS2, I, E> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (
@@ -134,7 +134,7 @@ export interface PartitionWithIndex2C<F extends URIS2, I, E> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface FilterableWithIndex2C<F extends URIS2, I, E> {
   readonly URI: F
@@ -147,7 +147,7 @@ export interface FilterableWithIndex2C<F extends URIS2, I, E> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface FilterWithIndex3<F extends URIS3, I> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <R, E>(
@@ -157,7 +157,7 @@ export interface FilterWithIndex3<F extends URIS3, I> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface PartitionWithIndex3<F extends URIS3, I> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <R, E>(
@@ -170,7 +170,7 @@ export interface PartitionWithIndex3<F extends URIS3, I> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface FilterableWithIndex3<F extends URIS3, I> {
   readonly URI: F
@@ -185,7 +185,7 @@ export interface FilterableWithIndex3<F extends URIS3, I> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface FilterWithIndex4<F extends URIS4, I> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <S, R, E>(
@@ -195,7 +195,7 @@ export interface FilterWithIndex4<F extends URIS4, I> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface PartitionWithIndex4<F extends URIS4, I> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <S, R, E>(
@@ -208,7 +208,7 @@ export interface PartitionWithIndex4<F extends URIS4, I> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface FilterableWithIndex4<F extends URIS4, I> {
   readonly URI: F

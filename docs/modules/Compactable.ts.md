@@ -8,7 +8,7 @@ parent: Modules
 
 `Compactable` represents data structures which can be _compacted_/_filtered_.
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -47,7 +47,7 @@ export interface Compactable<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Compactable1 (interface)
 
@@ -61,7 +61,7 @@ export interface Compactable1<F extends URIS> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Compactable2 (interface)
 
@@ -75,7 +75,7 @@ export interface Compactable2<F extends URIS2> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Compactable2C (interface)
 
@@ -89,7 +89,7 @@ export interface Compactable2C<F extends URIS2, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Compactable3 (interface)
 
@@ -103,7 +103,7 @@ export interface Compactable3<F extends URIS3> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Compactable3C (interface)
 
@@ -117,7 +117,7 @@ export interface Compactable3C<F extends URIS3, E> {
 }
 ```
 
-Added in v2.2.0
+Added in v3.0.0
 
 ## Compactable4 (interface)
 
@@ -133,7 +133,7 @@ export interface Compactable4<F extends URIS4> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -150,4 +150,4 @@ export interface Separated<A, B> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

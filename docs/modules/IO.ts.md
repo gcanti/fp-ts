@@ -16,7 +16,7 @@ interface IO<A> {
 type `A` and **never fails**. If you want to represent a synchronous computation that may fail, please see
 `IOEither`.
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -74,7 +74,7 @@ Wrap a value into the type constructor.
 export declare const of: <A>(a: A) => IO<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Apply
 
@@ -88,7 +88,7 @@ Apply a function to an argument under a type constructor.
 export declare const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Functor
 
@@ -103,7 +103,7 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Monad
 
@@ -117,7 +117,7 @@ Composes computations in sequence, using the return value of one computation to 
 export declare const chain: <A, B>(f: (a: A) => IO<B>) => (fa: IO<A>) => IO<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # MonadIO
 
@@ -129,7 +129,7 @@ Added in v2.0.0
 export declare const fromIO: <A>(fa: IO<A>) => IO<A>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 # derivable combinators
 
@@ -145,7 +145,7 @@ Derivable from `Apply`.
 export declare const apFirst: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## apSecond
 
@@ -159,7 +159,7 @@ Derivable from `Apply`.
 export declare const apSecond: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## chainFirst
 
@@ -174,7 +174,7 @@ Derivable from `Monad`.
 export declare const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## flatten
 
@@ -186,7 +186,7 @@ Derivable from `Monad`.
 export declare const flatten: <A>(mma: IO<IO<A>>) => IO<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # instances
 
@@ -198,7 +198,7 @@ Added in v2.0.0
 export declare const Applicative: Applicative1<'IO'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Functor
 
@@ -208,7 +208,7 @@ Added in v2.7.0
 export declare const Functor: Functor1<'IO'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Monad
 
@@ -218,7 +218,7 @@ Added in v2.7.0
 export declare const Monad: Monad1<'IO'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## MonadIO
 
@@ -228,7 +228,7 @@ Added in v2.7.0
 export declare const MonadIO: MonadIO1<'IO'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## URI
 
@@ -238,7 +238,7 @@ Added in v2.7.0
 export declare const URI: 'IO'
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -248,7 +248,7 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getMonoid
 
@@ -258,7 +258,7 @@ Added in v2.0.0
 export declare function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getSemigroup
 
@@ -268,7 +268,7 @@ Added in v2.0.0
 export declare function getSemigroup<A>(S: Semigroup<A>): Semigroup<IO<A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # model
 
@@ -282,7 +282,7 @@ export interface IO<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -304,7 +304,7 @@ Added in v3.0.0
 export declare const Do: IO<{}>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## apS
 
@@ -317,7 +317,7 @@ export declare const apS: <A, N extends string, B>(
 ) => (fa: IO<A>) => IO<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## apT
 
@@ -340,7 +340,7 @@ export declare const bind: <N extends string, A, B>(
 ) => (fa: IO<A>) => IO<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## bindTo
 
@@ -350,7 +350,7 @@ Added in v2.8.0
 export declare const bindTo: <N extends string>(name: N) => <A>(fa: IO<A>) => IO<{ [K in N]: A }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## sequenceArray
 
@@ -380,7 +380,7 @@ pipe(RA.range(0, 100), RA.map(log), sequenceArray)()
 assert.deepStrictEqual(logger, RA.range(0, 100))
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseArray
 
@@ -410,7 +410,7 @@ pipe(RA.range(0, 100), traverseArray(log))()
 assert.deepStrictEqual(logger, RA.range(0, 100))
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseArrayWithIndex
 
@@ -422,7 +422,7 @@ export declare const traverseArrayWithIndex: <A, B>(
 ) => (arr: readonly A[]) => IO<readonly B[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## tupled
 

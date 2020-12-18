@@ -1,5 +1,5 @@
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 import { Either } from './Either'
 import { Monoid } from './Monoid'
@@ -13,7 +13,7 @@ import { Show } from './Show'
 
 /**
  * @category constructors
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function fromSet<A>(s: Set<A>): ReadonlySet<A> {
   return new Set(s)
@@ -21,7 +21,7 @@ export function fromSet<A>(s: Set<A>): ReadonlySet<A> {
 
 /**
  * @category destructors
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function toSet<A>(s: ReadonlySet<A>): Set<A> {
   return new Set(s)
@@ -29,7 +29,7 @@ export function toSet<A>(s: ReadonlySet<A>): Set<A> {
 
 /**
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function getShow<A>(S: Show<A>): Show<ReadonlySet<A>> {
   return {
@@ -47,13 +47,13 @@ export function getShow<A>(S: Show<A>): Show<ReadonlySet<A>> {
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const empty: ReadonlySet<never> = new Set()
 
 /**
  * @category destructors
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function toReadonlyArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => ReadonlyArray<A> {
   return (x) => {
@@ -66,7 +66,7 @@ export function toReadonlyArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => Readonly
 
 /**
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function getEq<A>(E: Eq<A>): Eq<ReadonlySet<A>> {
   const subsetE = isSubset(E)
@@ -79,7 +79,7 @@ interface Next<A> {
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function some<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => boolean {
   return (set) => {
@@ -98,7 +98,7 @@ export function some<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => boole
  * Projects a Set through a function
  *
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: ReadonlySet<A>) => ReadonlySet<B> {
   const elemE = elem(E)
@@ -115,7 +115,7 @@ export function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: ReadonlySet<A>) =
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function every<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => boolean {
   return not(some(not(predicate)))
@@ -123,7 +123,7 @@ export function every<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => bool
 
 /**
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function chain<B>(E: Eq<B>): <A>(f: (x: A) => ReadonlySet<B>) => (set: ReadonlySet<A>) => ReadonlySet<B> {
   const elemE = elem(E)
@@ -143,7 +143,7 @@ export function chain<B>(E: Eq<B>): <A>(f: (x: A) => ReadonlySet<B>) => (set: Re
 /**
  * `true` if and only if every element in the first set is an element of the second set
  *
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function isSubset<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => boolean {
   const elemE = elem(E)
@@ -152,7 +152,7 @@ export function isSubset<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySe
 
 /**
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function filter<A, B extends A>(refinement: Refinement<A, B>): (set: ReadonlySet<A>) => ReadonlySet<B>
 export function filter<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => ReadonlySet<A>
@@ -173,7 +173,7 @@ export function filter<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => Rea
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function partition<A, B extends A>(
   refinement: Refinement<A, B>
@@ -205,7 +205,7 @@ export function partition<A>(
 /**
  * Test if a value is a member of a set
  *
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const elem = <A>(E: Eq<A>) => (a: A): ((set: ReadonlySet<A>) => boolean) => {
   const predicate = E.equals(a)
@@ -225,7 +225,7 @@ export const elem = <A>(E: Eq<A>) => (a: A): ((set: ReadonlySet<A>) => boolean) 
  * Form the union of two sets
  *
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function union<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => ReadonlySet<A> {
   const elemE = elem(E)
@@ -250,7 +250,7 @@ export function union<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySet<A
  * The set of elements which are in both the first and second set
  *
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function intersection<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => ReadonlySet<A> {
   const elemE = elem(E)
@@ -269,7 +269,7 @@ export function intersection<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: Readon
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function partitionMap<B, C>(
   EB: Eq<B>,
@@ -313,7 +313,7 @@ export function partitionMap<B, C>(
  * assert.deepStrictEqual(pipe(new Set([1, 2]), difference(eqNumber)(new Set([1, 3]))), new Set([2]))
  *
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function difference<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => ReadonlySet<A> {
   const elemE = elem(E)
@@ -322,7 +322,7 @@ export function difference<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: Readonly
 
 /**
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function getUnionMonoid<A>(E: Eq<A>): Monoid<ReadonlySet<A>> {
   return {
@@ -333,7 +333,7 @@ export function getUnionMonoid<A>(E: Eq<A>): Monoid<ReadonlySet<A>> {
 
 /**
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function getIntersectionSemigroup<A>(E: Eq<A>): Semigroup<ReadonlySet<A>> {
   return {
@@ -342,7 +342,7 @@ export function getIntersectionSemigroup<A>(E: Eq<A>): Semigroup<ReadonlySet<A>>
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function reduce<A>(O: Ord<A>): <B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlySet<A>) => B {
   const toArrayO = toReadonlyArray(O)
@@ -350,7 +350,7 @@ export function reduce<A>(O: Ord<A>): <B>(b: B, f: (b: B, a: A) => B) => (fa: Re
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function foldMap<A, M>(O: Ord<A>, M: Monoid<M>): (f: (a: A) => M) => (fa: ReadonlySet<A>) => M {
   const toArrayO = toReadonlyArray(O)
@@ -361,7 +361,7 @@ export function foldMap<A, M>(O: Ord<A>, M: Monoid<M>): (f: (a: A) => M) => (fa:
  * Create a set with one element
  *
  * @category constructors
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function singleton<A>(a: A): ReadonlySet<A> {
   return new Set([a])
@@ -371,7 +371,7 @@ export function singleton<A>(a: A): ReadonlySet<A> {
  * Insert a value into a set
  *
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function insert<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A> {
   const elemE = elem(E)
@@ -390,7 +390,7 @@ export function insert<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => Readonly
  * Delete a value from a set
  *
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function remove<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A> {
   return (a) => filter(not(E.equals(a)))
@@ -400,7 +400,7 @@ export function remove<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => Readonly
  * Create a set from an array
  *
  * @category constructors
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function fromArray<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlySet<A> {
   return (as) => {
@@ -419,14 +419,14 @@ export function fromArray<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlySet<A>
 
 /**
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function compact<A>(E: Eq<A>): (fa: ReadonlySet<Option<A>>) => ReadonlySet<A> {
   return filterMap(E)(identity)
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function separate<E, A>(
   EE: Eq<E>,
@@ -457,7 +457,7 @@ export function separate<E, A>(
 
 /**
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function filterMap<B>(E: Eq<B>): <A>(f: (a: A) => Option<B>) => (fa: ReadonlySet<A>) => ReadonlySet<B> {
   const elemE = elem(E)

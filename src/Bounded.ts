@@ -5,13 +5,13 @@
  *
  * - Bounded: `bottom <= a <= top`
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Ord, ordNumber } from './Ord'
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Bounded<A> extends Ord<A> {
   readonly top: A
@@ -20,7 +20,7 @@ export interface Bounded<A> extends Ord<A> {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const boundedNumber: Bounded<number> = {
   equals: ordNumber.equals,

@@ -20,7 +20,7 @@ Associativity means the following equality must hold for any choice of `x`, `y`,
 pipe(x, concat(pipe(y, concat(z)))) = pipe(x, concat(y), concat(z))
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -71,7 +71,7 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(pipe('a', S.getDualSemigroup(S.semigroupString).concat('b')), 'ba')
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getFirstSemigroup
 
@@ -92,7 +92,7 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(pipe(1, S.getFirstSemigroup<number>().concat(2)), 1)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getFunctionSemigroup
 
@@ -124,7 +124,7 @@ assert.deepStrictEqual(pipe(f, S2.concat(g))(1), true)
 assert.deepStrictEqual(pipe(f, S2.concat(g))(3), true)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getIntercalateSemigroup
 
@@ -148,7 +148,7 @@ assert.strictEqual(pipe('a', S1.concat('b')), 'a b')
 assert.strictEqual(pipe('a', S1.concat('b'), S1.concat('c')), 'a b c')
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## getJoinSemigroup
 
@@ -172,7 +172,7 @@ const S1 = S.getJoinSemigroup(O.ordNumber)
 assert.deepStrictEqual(pipe(1, S1.concat(2)), 2)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getLastSemigroup
 
@@ -193,7 +193,7 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(pipe(1, S.getLastSemigroup<number>().concat(2)), 2)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getMeetSemigroup
 
@@ -217,7 +217,7 @@ const S1 = S.getMeetSemigroup(O.ordNumber)
 assert.deepStrictEqual(pipe(1, S1.concat(2)), 1)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getObjectSemigroup
 
@@ -244,7 +244,7 @@ const S1 = S.getObjectSemigroup<Person>()
 assert.deepStrictEqual(pipe({ name: 'name', age: 23 }, S1.concat({ name: 'name', age: 24 })), { name: 'name', age: 24 })
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getStructSemigroup
 
@@ -277,7 +277,7 @@ const semigroupPoint = S.getStructSemigroup<Point>({
 assert.deepStrictEqual(pipe({ x: 1, y: 2 }, semigroupPoint.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getTupleSemigroup
 
@@ -304,7 +304,7 @@ const S2 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum, S.semigroupAll
 assert.deepStrictEqual(pipe(['a', 1, true], S2.concat(['b', 2, false])), ['ab', 3, false])
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## semigroupAll
 
@@ -326,7 +326,7 @@ assert.deepStrictEqual(pipe(true, S.semigroupAll.concat(true)), true)
 assert.deepStrictEqual(pipe(true, S.semigroupAll.concat(false)), false)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## semigroupAny
 
@@ -349,7 +349,7 @@ assert.deepStrictEqual(pipe(true, S.semigroupAny.concat(false)), true)
 assert.deepStrictEqual(pipe(false, S.semigroupAny.concat(false)), false)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## semigroupProduct
 
@@ -370,7 +370,7 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(pipe(2, S.semigroupProduct.concat(3)), 6)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## semigroupString
 
@@ -391,7 +391,7 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(pipe('a', S.semigroupString.concat('b')), 'ab')
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## semigroupSum
 
@@ -412,7 +412,7 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(pipe(2, S.semigroupSum.concat(3)), 5)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## semigroupVoid
 
@@ -422,7 +422,7 @@ Added in v2.0.0
 export declare const semigroupVoid: Semigroup<void>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # type classes
 
@@ -434,7 +434,7 @@ Added in v2.0.0
 export interface Semigroup<A> extends Magma<A> {}
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -461,4 +461,4 @@ assert.deepStrictEqual(sum([1, 2, 3]), 6)
 assert.deepStrictEqual(sum([]), 0)
 ```
 
-Added in v2.0.0
+Added in v3.0.0

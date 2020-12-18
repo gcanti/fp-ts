@@ -22,7 +22,7 @@ Instances must satisfy the following laws in addition to the `Apply` laws:
 
 Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -51,7 +51,7 @@ export interface Applicative<F> extends Apply<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Applicative1 (interface)
 
@@ -63,7 +63,7 @@ export interface Applicative1<F extends URIS> extends Apply1<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Applicative2 (interface)
 
@@ -75,7 +75,7 @@ export interface Applicative2<F extends URIS2> extends Apply2<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Applicative2C (interface)
 
@@ -87,7 +87,7 @@ export interface Applicative2C<F extends URIS2, E> extends Apply2C<F, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Applicative3 (interface)
 
@@ -99,7 +99,7 @@ export interface Applicative3<F extends URIS3> extends Apply3<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Applicative3C (interface)
 
@@ -111,7 +111,7 @@ export interface Applicative3C<F extends URIS3, E> extends Apply3C<F, E> {
 }
 ```
 
-Added in v2.2.0
+Added in v3.0.0
 
 ## Applicative4 (interface)
 
@@ -123,4 +123,4 @@ export interface Applicative4<F extends URIS4> extends Apply4<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

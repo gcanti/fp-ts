@@ -1,11 +1,11 @@
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface TraversableWithIndex<T, I> {
   readonly URI: T
@@ -13,7 +13,7 @@ export interface TraversableWithIndex<T, I> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface TraversableWithIndex1<T extends URIS, I> {
   readonly URI: T
@@ -21,7 +21,7 @@ export interface TraversableWithIndex1<T extends URIS, I> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface TraversableWithIndex2<T extends URIS2, I> {
   readonly URI: T
@@ -29,7 +29,7 @@ export interface TraversableWithIndex2<T extends URIS2, I> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface TraversableWithIndex2C<T extends URIS2, I, E> {
   readonly URI: T
@@ -37,7 +37,7 @@ export interface TraversableWithIndex2C<T extends URIS2, I, E> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface TraverseWithIndex<T, I> {
   <F extends URIS3>(F: Applicative3<F>): <A, R, E, B>(
@@ -57,7 +57,7 @@ export interface TraverseWithIndex<T, I> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface TraverseWithIndex1<T extends URIS, I> {
   <F extends URIS3>(F: Applicative3<F>): <A, R, E, B>(
@@ -77,7 +77,7 @@ export interface TraverseWithIndex1<T extends URIS, I> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface TraverseWithIndex2<T extends URIS2, I> {
   <F extends URIS3>(F: Applicative3<F>): <A, R, FE, B>(
@@ -96,7 +96,7 @@ export interface TraverseWithIndex2<T extends URIS2, I> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface TraverseWithIndex2C<T extends URIS2, I, E> {
   <F extends URIS3>(F: Applicative3<F>): <A, R, FE, B>(

@@ -1,7 +1,7 @@
 /**
  * `Witherable` represents data structures which can be _partitioned_ with effects in some `Applicative` functor.
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import { Separated } from './Compactable'
@@ -11,7 +11,7 @@ import { Option } from './Option'
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Witherable<T> {
   readonly URI: T
@@ -21,7 +21,7 @@ export interface Witherable<T> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Witherable1<T extends URIS> {
   readonly URI: T
@@ -31,7 +31,7 @@ export interface Witherable1<T extends URIS> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Witherable2<T extends URIS2> {
   readonly URI: T
@@ -41,7 +41,7 @@ export interface Witherable2<T extends URIS2> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Witherable2C<T extends URIS2, E> {
   readonly URI: T
@@ -51,7 +51,7 @@ export interface Witherable2C<T extends URIS2, E> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Witherable3<T extends URIS3> {
   readonly URI: T
@@ -60,7 +60,7 @@ export interface Witherable3<T extends URIS3> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Wither<W> {
   <F extends URIS3>(F: Applicative3<F>): <A, R, E, B>(
@@ -80,7 +80,7 @@ export interface Wither<W> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Wither1<W extends URIS> {
   <F extends URIS3>(F: Applicative3<F>): <A, R, E, B>(
@@ -102,7 +102,7 @@ export interface Wither1<W extends URIS> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Wither2<W extends URIS2> {
   <F extends URIS3>(F: Applicative3<F>): <A, R, FE, B>(
@@ -121,7 +121,7 @@ export interface Wither2<W extends URIS2> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Wither2C<W extends URIS2, E> {
   <F extends URIS3>(F: Applicative3<F>): <A, R, FE, B>(
@@ -140,7 +140,7 @@ export interface Wither2C<W extends URIS2, E> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Wither3<W extends URIS3> {
   <F extends URIS3>(F: Applicative3<F>): <A, FR, FE, B>(
@@ -161,7 +161,7 @@ export interface Wither3<W extends URIS3> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Wilt<W> {
   <F extends URIS3>(F: Applicative3<F>): <A, R, E, B, C>(
@@ -185,7 +185,7 @@ export interface Wilt<W> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Wilt1<W extends URIS> {
   <F extends URIS3>(F: Applicative3<F>): <A, R, E, B, C>(
@@ -209,7 +209,7 @@ export interface Wilt1<W extends URIS> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Wilt2<W extends URIS2> {
   <F extends URIS3>(F: Applicative3<F>): <A, R, FE, B, C>(
@@ -230,7 +230,7 @@ export interface Wilt2<W extends URIS2> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Wilt2C<W extends URIS2, E> {
   <F extends URIS3>(F: Applicative3<F>): <A, R, FE, B, C>(
@@ -251,7 +251,7 @@ export interface Wilt2C<W extends URIS2, E> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Wilt3<W extends URIS3> {
   <F extends URIS3>(F: Applicative3<F>): <A, FR, FE, B, C>(

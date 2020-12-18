@@ -8,7 +8,7 @@
  * `Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
  * If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Applicative1 } from './Applicative'
 import { apFirst_, apSecond_ } from './Apply'
@@ -26,7 +26,7 @@ import { Semigroup } from './Semigroup'
 
 /**
  * @category model
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Task<A> {
   (): Promise<A>
@@ -38,7 +38,7 @@ export interface Task<A> {
 
 /**
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const fromIO: <A>(ma: IO<A>) => Task<A> = (ma) => () => Promise.resolve(ma())
 
@@ -70,7 +70,7 @@ export const fromIO: <A>(ma: IO<A>) => Task<A> = (ma) => () => Promise.resolve(m
  * test()
  *
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function delay(millis: number): <A>(ma: Task<A>) => Task<A> {
   return (ma) => () =>
@@ -84,7 +84,7 @@ export function delay(millis: number): <A>(ma: Task<A>) => Task<A> {
 
 /**
  * @category combinators
- * @since 2.4.0
+ * @since 3.0.0
  */
 export function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): (...a: A) => Task<B> {
   return (...a) => fromIO(f(...a))
@@ -92,7 +92,7 @@ export function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<
 
 /**
  * @category combinators
- * @since 2.4.0
+ * @since 3.0.0
  */
 export function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> {
   return chain(fromIOK(f))
@@ -103,7 +103,7 @@ export function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> {
  * use the type constructor `F` to represent some computational context.
  *
  * @category Functor
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (fa) => () => fa().then(f)
 
@@ -111,7 +111,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (f
  * Apply a function to an argument under a type constructor.
  *
  * @category Apply
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const ap: Applicative1<URI>['ap'] = (fa) => (fab) => () => Promise.all([fab(), fa()]).then(([f, a]) => f(a))
 
@@ -119,7 +119,7 @@ export const ap: Applicative1<URI>['ap'] = (fa) => (fab) => () => Promise.all([f
  * Wrap a value into the type constructor.
  *
  * @category Applicative
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const of: Applicative1<URI>['of'] = (a) => () => Promise.resolve(a)
 
@@ -127,7 +127,7 @@ export const of: Applicative1<URI>['of'] = (a) => () => Promise.resolve(a)
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const chain: Monad1<URI>['chain'] = (f) => (ma) => () => ma().then((a) => f(a)())
 
@@ -135,7 +135,7 @@ export const chain: Monad1<URI>['chain'] = (f) => (ma) => () => ma().then((a) =>
  * Derivable from `Monad`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const flatten: <A>(mma: Task<Task<A>>) => Task<A> =
   /*#__PURE__*/
@@ -143,7 +143,7 @@ export const flatten: <A>(mma: Task<Task<A>>) => Task<A> =
 
 /**
  * @category MonadTask
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const fromTask: MonadTask1<URI>['fromTask'] = identity
 
@@ -153,13 +153,13 @@ export const fromTask: MonadTask1<URI>['fromTask'] = identity
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const URI = 'Task'
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export type URI = typeof URI
 
@@ -187,7 +187,7 @@ declare module './HKT' {
  * test()
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>> {
   return {
@@ -199,7 +199,7 @@ export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>> {
  * Lift a monoid into 'Task', the inner values are concatenated using the provided `Monoid`.
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>> {
   return {
@@ -227,7 +227,7 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>> {
  * test()
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getRaceMonoid<A = never>(): Monoid<Task<A>> {
   return {
@@ -238,7 +238,7 @@ export function getRaceMonoid<A = never>(): Monoid<Task<A>> {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Functor: Functor1<URI> = {
   URI,
@@ -247,7 +247,7 @@ export const Functor: Functor1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const ApplicativePar: Applicative1<URI> = {
   URI,
@@ -262,7 +262,7 @@ export const ApplicativePar: Applicative1<URI> = {
  * Derivable from `Apply`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const apFirst: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<A> =
   /*#__PURE__*/
@@ -274,7 +274,7 @@ export const apFirst: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<A> =
  * Derivable from `Apply`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const apSecond: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<B> =
   /*#__PURE__*/
@@ -282,7 +282,7 @@ export const apSecond: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<B> =
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const ApplicativeSeq: Applicative1<URI> = {
   URI,
@@ -309,7 +309,7 @@ export const Monad: Monad1<URI> = {
  * Derivable from `Monad`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A> =
   /*#__PURE__*/
@@ -332,7 +332,7 @@ export const MonadTask: MonadTask1<URI> = {
 /**
  * A `Task` that never completes.
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const never: Task<never> = () => new Promise((_) => undefined)
 
@@ -341,17 +341,17 @@ export const never: Task<never> = () => new Promise((_) => undefined)
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const Do: Task<{}> = of({})
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bindTo = <N extends string>(name: N): (<A>(fa: Task<A>) => Task<{ [K in N]: A }>) => map(bindTo_(name))
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bind = <N extends string, A, B>(
   name: Exclude<N, keyof A>,
@@ -369,7 +369,7 @@ export const bind = <N extends string, A, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const apS = <A, N extends string, B>(
   name: Exclude<N, keyof A>,
@@ -409,7 +409,7 @@ export const apT = <B>(fb: Task<B>) => <A extends ReadonlyArray<unknown>>(fas: T
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const traverseArrayWithIndex: <A, B>(
   f: (index: number, a: A) => Task<B>
@@ -433,7 +433,7 @@ export const traverseArrayWithIndex: <A, B>(
  *
  * test()
  *
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const traverseArray: <A, B>(f: (a: A) => Task<B>) => (arr: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (f) =>
   traverseArrayWithIndex((_, a) => f(a))
@@ -457,12 +457,12 @@ export const traverseArray: <A, B>(f: (a: A) => Task<B>) => (arr: ReadonlyArray<
  *
  * test()
  *
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const sequenceArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> = (arr) => () =>
   Promise.all(arr.map((x) => x()))
 /**
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const traverseSeqArrayWithIndex: <A, B>(
   f: (index: number, a: A) => Task<B>
@@ -484,7 +484,7 @@ export const traverseSeqArrayWithIndex: <A, B>(
  * > **This function run all task sequentially for parallel use `traverseArray` **
  *
  *
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const traverseSeqArray: <A, B>(f: (a: A) => Task<B>) => (arr: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (
   f
@@ -497,6 +497,6 @@ export const traverseSeqArray: <A, B>(f: (a: A) => Task<B>) => (arr: ReadonlyArr
  *
  * > **This function run all task sequentially for parallel use `sequenceArray` **
  *
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const sequenceSeqArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> = traverseSeqArray(identity)

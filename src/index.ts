@@ -1,5 +1,5 @@
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 
 import * as alt from './Alt'
@@ -85,327 +85,327 @@ import * as witherable from './Witherable'
 import * as writer from './Writer'
 export {
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   alt,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   alternative,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   applicative,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   apply,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   bifunctor,
   /**
-   * @since 2.2.0
+   * @since 3.0.0
    */
   boolean,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   booleanAlgebra,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   bounded,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   boundedDistributiveLattice,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   boundedJoinSemilattice,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   boundedLattice,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   boundedMeetSemilattice,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   category,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   comonad,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   compactable,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   console,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   const_ as const,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   contravariant,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   date,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   distributiveLattice,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   either,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   extend,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   field,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   filterable,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   filterableWithIndex,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   foldable,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   foldableWithIndex,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   function_ as function,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   functor,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   functorWithIndex,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   group,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   heytingAlgebra,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   hkt,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   identity,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   invariant,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   io,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   ioEither,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   joinSemilattice,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   lattice,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   magma,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   meetSemilattice,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   monad,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   monadIO,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   monadTask,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   monadThrow,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   monoid,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   option,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   ord,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   ordering,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   profunctor,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   random,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   reader,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   readerEither,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   readerTaskEither,
   /**
-   * @since 2.5.0
+   * @since 3.0.0
    */
   readonlyArray,
   /**
-   * @since 2.5.0
+   * @since 3.0.0
    */
   readonlyMap,
   /**
-   * @since 2.5.0
+   * @since 3.0.0
    */
   readonlyNonEmptyArray,
   /**
-   * @since 2.5.0
+   * @since 3.0.0
    */
   readonlyRecord,
   /**
-   * @since 2.5.0
+   * @since 3.0.0
    */
   readonlySet,
   /**
-   * @since 2.5.0
+   * @since 3.0.0
    */
   readonlyTuple,
   /**
-   * @since 2.3.0
+   * @since 3.0.0
    */
   readerTask,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   ring,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   semigroup,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   semigroupoid,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   semiring,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   eq,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   show,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   state,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   stateReaderTaskEither,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   store,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   task,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   taskEither,
   /**
-   * @since 2.4.0
+   * @since 3.0.0
    */
   taskThese,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   these,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   traced,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   traversable,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   traversableWithIndex,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   tree,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   unfoldable,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   witherable,
   /**
-   * @since 2.0.0
+   * @since 3.0.0
    */
   writer
 }

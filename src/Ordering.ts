@@ -1,17 +1,17 @@
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Eq, eqStrict } from './Eq'
 import { Monoid } from './Monoid'
 
 /**
  * @category model
- * @since 2.0.0
+ * @since 3.0.0
  */
 export type Ordering = -1 | 0 | 1
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function sign(n: number): Ordering {
   return n <= -1 ? -1 : n >= 1 ? 1 : 0
@@ -19,7 +19,7 @@ export function sign(n: number): Ordering {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const eqOrdering: Eq<Ordering> = {
   equals: eqStrict.equals
@@ -27,7 +27,7 @@ export const eqOrdering: Eq<Ordering> = {
 
 /**
  * @category instances
- * @since 2.4.0
+ * @since 3.0.0
  */
 export const monoidOrdering: Monoid<Ordering> = {
   concat: (second) => (first) => (first !== 0 ? first : second),
@@ -35,7 +35,7 @@ export const monoidOrdering: Monoid<Ordering> = {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function invert(O: Ordering): Ordering {
   switch (O) {

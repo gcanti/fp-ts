@@ -12,7 +12,7 @@ Instances should satisfy the following law in addition to the `Ord` laws:
 
 - Bounded: `bottom <= a <= top`
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -35,7 +35,7 @@ Added in v2.0.0
 export declare const boundedNumber: Bounded<number>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # type classes
 
@@ -50,4 +50,4 @@ export interface Bounded<A> extends Ord<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

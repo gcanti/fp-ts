@@ -6,7 +6,7 @@ parent: Modules
 
 ## ReaderTaskEither overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -131,7 +131,7 @@ export declare const alt: <R, E, A>(
 ) => (first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## altW
 
@@ -145,7 +145,7 @@ export declare const altW: <R2, E2, B>(
 ) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B | A>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 # Applicative
 
@@ -161,7 +161,7 @@ Equivalent to [`right`](#right).
 export declare const of: <R, E, A>(a: A) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 # Apply
 
@@ -177,7 +177,7 @@ export declare const ap: <R, E, A>(
 ) => <B>(fab: ReaderTaskEither<R, E, (a: A) => B>) => ReaderTaskEither<R, E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## apW
 
@@ -191,7 +191,7 @@ export declare const apW: <R2, E2, A>(
 ) => <R1, E1, B>(fab: ReaderTaskEither<R1, E1, (a: A) => B>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 # Bifunctor
 
@@ -208,7 +208,7 @@ export declare const bimap: <E, G, A, B>(
 ) => <R>(fea: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## mapLeft
 
@@ -222,7 +222,7 @@ export declare const mapLeft: <E, G>(
 ) => <R, A>(fea: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Functor
 
@@ -237,7 +237,7 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Monad
 
@@ -253,7 +253,7 @@ export declare const chain: <A, R, E, B>(
 ) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## chainW
 
@@ -267,7 +267,7 @@ export declare const chainW: <A, R2, E2, B>(
 ) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
 ```
 
-Added in v2.6.0
+Added in v3.0.0
 
 # MonadIO
 
@@ -279,7 +279,7 @@ Added in v2.6.0
 export declare const fromIO: <R, E, A>(fa: IO<A>) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # MonadTask
 
@@ -291,7 +291,7 @@ Added in v2.0.0
 export declare const fromTask: <R, E, A>(fa: T.Task<A>) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # MonadThrow
 
@@ -303,7 +303,7 @@ Added in v2.0.0
 export declare const throwError: <R, E, A>(e: E) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # combinators
 
@@ -317,7 +317,7 @@ export declare const chainEitherK: <E, A, B>(
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## chainEitherKW
 
@@ -331,7 +331,7 @@ export declare const chainEitherKW: <E, A, B>(
 ) => <R, D>(ma: ReaderTaskEither<R, D, A>) => ReaderTaskEither<R, E | D, B>
 ```
 
-Added in v2.6.1
+Added in v3.0.0
 
 ## chainFirstW
 
@@ -347,7 +347,7 @@ export declare const chainFirstW: <A, R2, E2, B>(
 ) => <R1, E1>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## chainIOEitherK
 
@@ -359,7 +359,7 @@ export declare const chainIOEitherK: <E, A, B>(
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## chainIOEitherKW
 
@@ -373,7 +373,7 @@ export declare const chainIOEitherKW: <E, A, B>(
 ) => <R, D>(ma: ReaderTaskEither<R, D, A>) => ReaderTaskEither<R, E | D, B>
 ```
 
-Added in v2.6.1
+Added in v3.0.0
 
 ## chainTaskEitherK
 
@@ -385,7 +385,7 @@ export declare const chainTaskEitherK: <E, A, B>(
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## chainTaskEitherKW
 
@@ -399,7 +399,7 @@ export declare const chainTaskEitherKW: <E, A, B>(
 ) => <R, D>(ma: ReaderTaskEither<R, D, A>) => ReaderTaskEither<R, E | D, B>
 ```
 
-Added in v2.6.1
+Added in v3.0.0
 
 ## filterOrElse
 
@@ -416,7 +416,7 @@ export declare const filterOrElse: {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## fromEitherK
 
@@ -428,7 +428,7 @@ export declare function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
 ): <R>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## fromIOEitherK
 
@@ -440,7 +440,7 @@ export declare function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
 ): <R>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## fromTaskEitherK
 
@@ -452,7 +452,7 @@ export declare function fromTaskEitherK<E, A extends ReadonlyArray<unknown>, B>(
 ): <R>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## orElse
 
@@ -464,7 +464,7 @@ export declare const orElse: <E1, R, E2, A>(
 ) => (ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## swap
 
@@ -474,7 +474,7 @@ Added in v2.0.0
 export declare const swap: <R, E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, A, E>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # constructors
 
@@ -486,7 +486,7 @@ Added in v2.0.0
 export declare const ask: <R, E = never>() => ReaderTaskEither<R, E, R>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## asks
 
@@ -496,7 +496,7 @@ Added in v2.0.0
 export declare const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## fromEither
 
@@ -508,7 +508,7 @@ Derivable from `MonadThrow`.
 export declare const fromEither: <R, E, A>(ma: E.Either<E, A>) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## fromIOEither
 
@@ -518,7 +518,7 @@ Added in v2.0.0
 export declare const fromIOEither: <R, E, A>(ma: IOEither<E, A>) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## fromOption
 
@@ -530,7 +530,7 @@ Derivable from `MonadThrow`.
 export declare const fromOption: <E>(onNone: Lazy<E>) => <R, A>(ma: Option<A>) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## fromPredicate
 
@@ -545,7 +545,7 @@ export declare const fromPredicate: {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## fromReaderEither
 
@@ -555,7 +555,7 @@ Added in v2.0.0
 export declare const fromReaderEither: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## fromTaskEither
 
@@ -565,7 +565,7 @@ Added in v2.0.0
 export declare const fromTaskEither: <R, E, A>(ma: TE.TaskEither<E, A>) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## left
 
@@ -575,7 +575,7 @@ Added in v2.0.0
 export declare const left: <R, E = never, A = never>(e: E) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## leftIO
 
@@ -585,7 +585,7 @@ Added in v2.0.0
 export declare const leftIO: <R, E = never, A = never>(me: IO<E>) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## leftReader
 
@@ -595,7 +595,7 @@ Added in v2.0.0
 export declare const leftReader: <R, E = never, A = never>(me: R.Reader<R, E>) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## leftReaderTask
 
@@ -605,7 +605,7 @@ Added in v2.0.0
 export declare const leftReaderTask: <R, E = never, A = never>(me: RT.ReaderTask<R, E>) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## leftTask
 
@@ -615,7 +615,7 @@ Added in v2.5.0
 export declare const leftTask: <R, E = never, A = never>(me: T.Task<E>) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## right
 
@@ -625,7 +625,7 @@ Added in v2.0.0
 export declare const right: <R, E = never, A = never>(a: A) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## rightIO
 
@@ -635,7 +635,7 @@ Added in v2.0.0
 export declare const rightIO: <R, E = never, A = never>(ma: IO<A>) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## rightReader
 
@@ -645,7 +645,7 @@ Added in v2.0.0
 export declare const rightReader: <R, E = never, A = never>(ma: R.Reader<R, A>) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## rightReaderTask
 
@@ -655,7 +655,7 @@ Added in v2.0.0
 export declare const rightReaderTask: <R, E = never, A = never>(ma: RT.ReaderTask<R, A>) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## rightTask
 
@@ -665,7 +665,7 @@ Added in v2.5.0
 export declare const rightTask: <R, E = never, A = never>(ma: T.Task<A>) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # derivable combinators
 
@@ -683,7 +683,7 @@ export declare const apFirst: <R, E, B>(
 ) => <A>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## apSecond
 
@@ -699,7 +699,7 @@ export declare const apSecond: <R, E, B>(
 ) => <A>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## chainFirst
 
@@ -716,7 +716,7 @@ export declare const chainFirst: <A, R, E, B>(
 ) => (first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## flatten
 
@@ -730,7 +730,7 @@ export declare const flatten: <R, E, A>(
 ) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # destructors
 
@@ -745,7 +745,7 @@ export declare const fold: <E, R, B, A>(
 ) => (ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getOrElse
 
@@ -757,7 +757,7 @@ export declare const getOrElse: <E, R, A>(
 ) => (ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getOrElseW
 
@@ -771,7 +771,7 @@ export declare const getOrElseW: <E, R2, B>(
 ) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => RT.ReaderTask<R1 & R2, B | A>
 ```
 
-Added in v2.6.0
+Added in v3.0.0
 
 # instances
 
@@ -783,7 +783,7 @@ Added in v2.6.0
 export declare const Alt: Alt3<'ReaderTaskEither'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## ApplicativePar
 
@@ -793,7 +793,7 @@ Added in v2.7.0
 export declare const ApplicativePar: Applicative3<'ReaderTaskEither'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## ApplicativeSeq
 
@@ -803,7 +803,7 @@ Added in v2.7.0
 export declare const ApplicativeSeq: Applicative3<'ReaderTaskEither'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Bifunctor
 
@@ -813,7 +813,7 @@ Added in v2.7.0
 export declare const Bifunctor: Bifunctor3<'ReaderTaskEither'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Functor
 
@@ -823,7 +823,7 @@ Added in v2.7.0
 export declare const Functor: Functor3<'ReaderTaskEither'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Monad
 
@@ -863,7 +863,7 @@ Added in v3.0.0
 export declare const URI: 'ReaderTaskEither'
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -873,7 +873,7 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getAltReaderTaskValidation
 
@@ -883,7 +883,7 @@ Added in v2.0.0
 export declare function getAltReaderTaskValidation<E>(SE: Semigroup<E>): Alt3C<URI, E>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## getApplicativeReaderTaskValidation
 
@@ -893,7 +893,7 @@ Added in v2.7.0
 export declare function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative3C<URI, E>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## getApplyMonoid
 
@@ -903,7 +903,7 @@ Added in v2.7.0
 export declare function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderTaskEither<R, E, A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getApplySemigroup
 
@@ -916,7 +916,7 @@ are concatenated using the provided `Semigroup`
 export declare function getApplySemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getSemigroup
 
@@ -929,7 +929,7 @@ concatenated using the provided `Semigroup`
 export declare function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # model
 
@@ -943,7 +943,7 @@ export interface ReaderTaskEither<R, E, A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -965,7 +965,7 @@ Added in v3.0.0
 export declare const Do: ReaderTaskEither<unknown, never, {}>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## apS
 
@@ -978,7 +978,7 @@ export declare const apS: <A, N extends string, R, E, B>(
 ) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## apSW
 
@@ -993,7 +993,7 @@ export declare const apSW: <A, N extends string, Q, D, B>(
 ) => ReaderTaskEither<Q & R, D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## apT
 
@@ -1032,7 +1032,7 @@ export declare const bind: <N extends string, A, R, E, B>(
 ) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## bindTo
 
@@ -1044,7 +1044,7 @@ export declare const bindTo: <N extends string>(
 ) => <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, { [K in N]: A }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## bindW
 
@@ -1059,7 +1059,7 @@ export declare const bindW: <N extends string, A, Q, D, B>(
 ) => ReaderTaskEither<Q & R, D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## bracket
 
@@ -1080,7 +1080,7 @@ export declare function bracket<R, E, A, B>(
 ): ReaderTaskEither<R, E, B>
 ```
 
-Added in v2.0.4
+Added in v3.0.0
 
 ## filterOrElseW
 
@@ -1099,7 +1099,7 @@ export declare const filterOrElseW: {
 }
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## sequenceArray
 
@@ -1111,7 +1111,7 @@ export declare const sequenceArray: <R, E, A>(
 ) => ReaderTaskEither<R, E, readonly A[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## sequenceSeqArray
 
@@ -1123,7 +1123,7 @@ export declare const sequenceSeqArray: <R, E, A>(
 ) => ReaderTaskEither<R, E, readonly A[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseArray
 
@@ -1135,7 +1135,7 @@ export declare const traverseArray: <R, E, A, B>(
 ) => (arr: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseArrayWithIndex
 
@@ -1147,7 +1147,7 @@ export declare const traverseArrayWithIndex: <R, E, A, B>(
 ) => (arr: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseSeqArray
 
@@ -1159,7 +1159,7 @@ export declare const traverseSeqArray: <R, E, A, B>(
 ) => (arr: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseSeqArrayWithIndex
 
@@ -1171,7 +1171,7 @@ export declare const traverseSeqArrayWithIndex: <R, E, A, B>(
 ) => (arr: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## tupled
 

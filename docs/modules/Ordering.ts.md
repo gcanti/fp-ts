@@ -6,7 +6,7 @@ parent: Modules
 
 ## Ordering overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -33,7 +33,7 @@ Added in v2.0.0
 export declare const eqOrdering: Eq<Ordering>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## monoidOrdering
 
@@ -43,7 +43,7 @@ Added in v2.0.0
 export declare const monoidOrdering: Monoid<Ordering>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 # model
 
@@ -55,7 +55,7 @@ Added in v2.4.0
 export type Ordering = -1 | 0 | 1
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -67,7 +67,7 @@ Added in v2.0.0
 export declare function invert(O: Ordering): Ordering
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## sign
 
@@ -77,4 +77,4 @@ Added in v2.0.0
 export declare function sign(n: number): Ordering
 ```
 
-Added in v2.0.0
+Added in v3.0.0

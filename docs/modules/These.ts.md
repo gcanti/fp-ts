@@ -24,7 +24,7 @@ both `E` and `A` kind of data at the same time. This is particularly useful when
 
 Adapted from https://github.com/purescript-contrib/purescript-these
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -92,7 +92,7 @@ Map a pair of functions over the two type arguments of the bifunctor.
 export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: These<E, A>) => These<G, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## mapLeft
 
@@ -104,7 +104,7 @@ Map a function over the first type argument of a bifunctor.
 export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: These<E, A>) => These<G, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Foldable
 
@@ -116,7 +116,7 @@ Added in v2.0.0
 export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<E, A>) => M
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## reduce
 
@@ -126,7 +126,7 @@ Added in v2.0.0
 export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) => B
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## reduceRight
 
@@ -136,7 +136,7 @@ Added in v2.0.0
 export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Functor
 
@@ -151,7 +151,7 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # combinators
 
@@ -163,7 +163,7 @@ Added in v2.0.0
 export declare const swap: <E, A>(fa: These<E, A>) => These<A, E>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 # constructors
 
@@ -175,7 +175,7 @@ Added in v2.4.0
 export declare function both<E, A>(left: E, right: A): These<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## fromOptions
 
@@ -199,7 +199,7 @@ assert.deepStrictEqual(fromOptions(none, some(1)), some(right(1)))
 assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## left
 
@@ -209,7 +209,7 @@ Added in v2.0.0
 export declare function left<E = never, A = never>(left: E): These<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## leftOrBoth
 
@@ -229,7 +229,7 @@ assert.deepStrictEqual(leftOrBoth(() => 'a')(none), left('a'))
 assert.deepStrictEqual(leftOrBoth(() => 'a')(some(1)), both('a', 1))
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## right
 
@@ -239,7 +239,7 @@ Added in v2.0.0
 export declare function right<E = never, A = never>(right: A): These<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## rightOrBoth
 
@@ -259,7 +259,7 @@ assert.deepStrictEqual(rightOrBoth(() => 1)(none), right(1))
 assert.deepStrictEqual(rightOrBoth(() => 1)(some('a')), both('a', 1))
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # destructors
 
@@ -275,7 +275,7 @@ export declare const fold: <E, B, A>(
 ) => (fa: These<E, A>) => B
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getLeft
 
@@ -298,7 +298,7 @@ assert.deepStrictEqual(getLeft(right(1)), none)
 assert.deepStrictEqual(getLeft(both('a', 1)), some('a'))
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getLeftOnly
 
@@ -321,7 +321,7 @@ assert.deepStrictEqual(getLeftOnly(right(1)), none)
 assert.deepStrictEqual(getLeftOnly(both('a', 1)), none)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getRight
 
@@ -344,7 +344,7 @@ assert.deepStrictEqual(getRight(right(1)), some(1))
 assert.deepStrictEqual(getRight(both('a', 1)), some(1))
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getRightOnly
 
@@ -367,7 +367,7 @@ assert.deepStrictEqual(getRightOnly(right(1)), some(1))
 assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## toTuple
 
@@ -391,7 +391,7 @@ assert.deepStrictEqual(f(right(2)), ['a', 2])
 assert.deepStrictEqual(f(both('b', 2)), ['b', 2])
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # guards
 
@@ -405,7 +405,7 @@ Returns `true` if the these is an instance of `Both`, `false` otherwise
 export declare function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## isLeft
 
@@ -417,7 +417,7 @@ Returns `true` if the these is an instance of `Left`, `false` otherwise
 export declare function isLeft<E, A>(fa: These<E, A>): fa is Left<E>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## isRight
 
@@ -429,7 +429,7 @@ Returns `true` if the these is an instance of `Right`, `false` otherwise
 export declare function isRight<E, A>(fa: These<E, A>): fa is Right<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # instances
 
@@ -441,7 +441,7 @@ Added in v2.0.0
 export declare const Bifunctor: Bifunctor2<'These'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Foldable
 
@@ -451,7 +451,7 @@ Added in v2.7.0
 export declare const Foldable: Foldable2<'These'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Functor
 
@@ -461,7 +461,7 @@ Added in v2.7.0
 export declare const Functor: Functor2<'These'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Traversable
 
@@ -471,7 +471,7 @@ Added in v2.7.0
 export declare const Traversable: Traversable2<'These'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## URI
 
@@ -481,7 +481,7 @@ Added in v2.7.0
 export declare const URI: 'These'
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -491,7 +491,7 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getApplicative
 
@@ -501,7 +501,7 @@ Added in v2.0.0
 export declare function getApplicative<E>(SE: Semigroup<E>): Applicative2C<URI, E>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## getEq
 
@@ -511,7 +511,7 @@ Added in v2.7.0
 export declare function getEq<E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getMonad
 
@@ -521,7 +521,7 @@ Added in v2.0.0
 export declare function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI, E>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getSemigroup
 
@@ -531,7 +531,7 @@ Added in v2.0.0
 export declare function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<These<E, A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getShow
 
@@ -541,7 +541,7 @@ Added in v2.0.0
 export declare function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # model
 
@@ -557,7 +557,7 @@ export interface Both<E, A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## These (type alias)
 
@@ -567,7 +567,7 @@ Added in v2.0.0
 export type These<E, A> = Either<E, A> | Both<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -579,7 +579,7 @@ Added in v2.0.0
 export declare const sequence: Sequence2<'These'>
 ```
 
-Added in v2.6.3
+Added in v3.0.0
 
 ## traverse
 
@@ -589,4 +589,4 @@ Added in v2.6.3
 export declare const traverse: Traverse2<'These'>
 ```
 
-Added in v2.6.3
+Added in v3.0.0

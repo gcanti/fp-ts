@@ -19,14 +19,14 @@
  * - Complemented
  *   - `¬a <-> a → 0`
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { BoundedDistributiveLattice } from './BoundedDistributiveLattice'
 import { Endomorphism } from './function'
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface HeytingAlgebra<A> extends BoundedDistributiveLattice<A> {
   readonly implies: (second: A) => (first: A) => A

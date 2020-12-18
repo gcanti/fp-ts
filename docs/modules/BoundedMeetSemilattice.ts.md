@@ -10,7 +10,7 @@ A `BoundedMeetSemilattice` must satisfy the following laws in addition to `MeetS
 
 - `a ∧ 1 <-> a`
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -33,4 +33,4 @@ export interface BoundedMeetSemilattice<A> extends MeetSemilattice<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

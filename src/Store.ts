@@ -1,5 +1,5 @@
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Comonad2 } from './Comonad'
 import { Endomorphism, identity, pipe } from './function'
@@ -13,7 +13,7 @@ import { Extend2 } from './Extend'
 
 /**
  * @category model
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Store<S, A> {
   readonly peek: (s: S) => A
@@ -23,7 +23,7 @@ export interface Store<S, A> {
 /**
  * Reposition the focus at the specified position
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function seek<S>(s: S): <A>(wa: Store<S, A>) => Store<S, A> {
   return (wa) => ({ peek: wa.peek, pos: s })
@@ -32,7 +32,7 @@ export function seek<S>(s: S): <A>(wa: Store<S, A>) => Store<S, A> {
 /**
  * Reposition the focus at the specified position, which depends on the current position
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function seeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => Store<S, A> {
   return (wa) => ({ peek: wa.peek, pos: f(wa.pos) })
@@ -41,7 +41,7 @@ export function seeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => Store<S, A
 /**
  * Extract a value from a position which depends on the current position
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function peeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => A {
   return (wa) => wa.peek(f(wa.pos))
@@ -50,7 +50,7 @@ export function peeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => A {
 /**
  * Extract a collection of values from positions which depend on the current position
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function experiment<F extends URIS3>(
   F: Functor3<F>
@@ -78,7 +78,7 @@ export function experiment<F>(F: FunctorHKT<F>): <S>(f: (s: S) => HKT<F, S>) => 
 
 /**
  * @category Extend
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const extend: Extend2<URI>['extend'] = (f) => (wa) => ({
   peek: (s) => f({ peek: wa.peek, pos: s }),
@@ -87,7 +87,7 @@ export const extend: Extend2<URI>['extend'] = (f) => (wa) => ({
 
 /**
  * @category Extract
- * @since 2.6.2
+ * @since 3.0.0
  */
 export const extract: <E, A>(wa: Store<E, A>) => A = (wa) => wa.peek(wa.pos)
 
@@ -95,7 +95,7 @@ export const extract: <E, A>(wa: Store<E, A>) => A = (wa) => wa.peek(wa.pos)
  * Derivable from `Extend`.
  *
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>> =
   /*#__PURE__*/
@@ -106,7 +106,7 @@ export const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>> =
  * use the type constructor `F` to represent some computational context.
  *
  * @category Functor
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B> = (f) => (fa) => ({
   peek: (s) => f(fa.peek(s)),
@@ -119,13 +119,13 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B> 
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const URI = 'Store'
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export type URI = typeof URI
 
@@ -137,7 +137,7 @@ declare module './HKT' {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
   URI,
@@ -146,7 +146,7 @@ export const Functor: Functor2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Comonad: Comonad2<URI> = {
   URI,

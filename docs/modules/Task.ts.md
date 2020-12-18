@@ -15,7 +15,7 @@ interface Task<A> {
 `Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
 If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -85,7 +85,7 @@ Wrap a value into the type constructor.
 export declare const of: <A>(a: A) => Task<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Apply
 
@@ -99,7 +99,7 @@ Apply a function to an argument under a type constructor.
 export declare const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Functor
 
@@ -114,7 +114,7 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Monad
 
@@ -128,7 +128,7 @@ Composes computations in sequence, using the return value of one computation to 
 export declare const chain: <A, B>(f: (a: A) => Task<B>) => (fa: Task<A>) => Task<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # MonadTask
 
@@ -140,7 +140,7 @@ Added in v2.0.0
 export declare const fromTask: <A>(fa: Task<A>) => Task<A>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 # combinators
 
@@ -152,7 +152,7 @@ Added in v2.7.0
 export declare function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## delay
 
@@ -187,7 +187,7 @@ async function test() {
 test()
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## fromIOK
 
@@ -197,7 +197,7 @@ Added in v2.0.0
 export declare function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): (...a: A) => Task<B>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 # constructors
 
@@ -209,7 +209,7 @@ Added in v2.4.0
 export declare const fromIO: <A>(ma: IO<A>) => Task<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # derivable combinators
 
@@ -225,7 +225,7 @@ Derivable from `Apply`.
 export declare const apFirst: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## apSecond
 
@@ -239,7 +239,7 @@ Derivable from `Apply`.
 export declare const apSecond: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## chainFirst
 
@@ -254,7 +254,7 @@ Derivable from `Monad`.
 export declare const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## flatten
 
@@ -266,7 +266,7 @@ Derivable from `Monad`.
 export declare const flatten: <A>(mma: Task<Task<A>>) => Task<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # instances
 
@@ -278,7 +278,7 @@ Added in v2.0.0
 export declare const ApplicativePar: Applicative1<'Task'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## ApplicativeSeq
 
@@ -288,7 +288,7 @@ Added in v2.7.0
 export declare const ApplicativeSeq: Applicative1<'Task'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Functor
 
@@ -298,7 +298,7 @@ Added in v2.7.0
 export declare const Functor: Functor1<'Task'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Monad
 
@@ -328,7 +328,7 @@ Added in v3.0.0
 export declare const URI: 'Task'
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -338,7 +338,7 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getMonoid
 
@@ -350,7 +350,7 @@ Lift a monoid into 'Task', the inner values are concatenated using the provided 
 export declare function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getRaceMonoid
 
@@ -380,7 +380,7 @@ async function test() {
 test()
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getSemigroup
 
@@ -409,7 +409,7 @@ async function test() {
 test()
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # model
 
@@ -423,7 +423,7 @@ export interface Task<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -445,7 +445,7 @@ Added in v3.0.0
 export declare const Do: Task<{}>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## apS
 
@@ -458,7 +458,7 @@ export declare const apS: <A, N extends string, B>(
 ) => (fa: Task<A>) => Task<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## apT
 
@@ -481,7 +481,7 @@ export declare const bind: <N extends string, A, B>(
 ) => (fa: Task<A>) => Task<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## bindTo
 
@@ -491,7 +491,7 @@ Added in v2.8.0
 export declare const bindTo: <N extends string>(name: N) => <A>(fa: Task<A>) => Task<{ [K in N]: A }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## never
 
@@ -503,7 +503,7 @@ A `Task` that never completes.
 export declare const never: Task<never>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## sequenceArray
 
@@ -534,7 +534,7 @@ async function test() {
 test()
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## sequenceSeqArray
 
@@ -550,7 +550,7 @@ this function have the same behavior of `A.sequence(T.taskSeq)` but it's stack s
 export declare const sequenceSeqArray: <A>(arr: readonly Task<A>[]) => Task<readonly A[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseArray
 
@@ -580,7 +580,7 @@ async function test() {
 test()
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseArrayWithIndex
 
@@ -592,7 +592,7 @@ export declare const traverseArrayWithIndex: <A, B>(
 ) => (arr: readonly A[]) => Task<readonly B[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseSeqArray
 
@@ -608,7 +608,7 @@ this function have the same behavior of `A.traverse(T.taskSeq)` but it's stack s
 export declare const traverseSeqArray: <A, B>(f: (a: A) => Task<B>) => (arr: readonly A[]) => Task<readonly B[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseSeqArrayWithIndex
 
@@ -620,7 +620,7 @@ export declare const traverseSeqArrayWithIndex: <A, B>(
 ) => (arr: readonly A[]) => Task<readonly B[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## tupled
 

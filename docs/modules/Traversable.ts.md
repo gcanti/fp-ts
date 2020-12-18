@@ -19,7 +19,7 @@ The `traverse` and `sequence` functions should be compatible in the following se
 
 where `A` is an `Applicative` instance
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -61,7 +61,7 @@ export interface Traversable<T> extends Functor<T> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Traversable1 (interface)
 
@@ -74,7 +74,7 @@ export interface Traversable1<T extends URIS> extends Functor1<T> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Traversable2 (interface)
 
@@ -87,7 +87,7 @@ export interface Traversable2<T extends URIS2> extends Functor2<T> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Traversable2C (interface)
 
@@ -100,7 +100,7 @@ export interface Traversable2C<T extends URIS2, E> extends Functor2C<T, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Traversable3 (interface)
 
@@ -113,7 +113,7 @@ export interface Traversable3<T extends URIS3> extends Functor3<T> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -132,7 +132,7 @@ export interface Sequence<T> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Sequence1 (interface)
 
@@ -152,7 +152,7 @@ export interface Sequence1<T extends URIS> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Sequence2 (interface)
 
@@ -172,7 +172,7 @@ export interface Sequence2<T extends URIS2> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Sequence2C (interface)
 
@@ -190,7 +190,7 @@ export interface Sequence2C<T extends URIS2, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Sequence3 (interface)
 
@@ -212,7 +212,7 @@ export interface Sequence3<T extends URIS3> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Traverse (interface)
 
@@ -237,7 +237,7 @@ export interface Traverse<T> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Traverse1 (interface)
 
@@ -262,7 +262,7 @@ export interface Traverse1<T extends URIS> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Traverse2 (interface)
 
@@ -286,7 +286,7 @@ export interface Traverse2<T extends URIS2> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Traverse2C (interface)
 
@@ -310,7 +310,7 @@ export interface Traverse2C<T extends URIS2, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Traverse3 (interface)
 
@@ -334,4 +334,4 @@ export interface Traverse3<T extends URIS3> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

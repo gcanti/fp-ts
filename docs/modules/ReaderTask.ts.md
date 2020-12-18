@@ -6,7 +6,7 @@ parent: Modules
 
 ## ReaderTask overview
 
-Added in v2.3.0
+Added in v3.0.0
 
 ---
 
@@ -78,7 +78,7 @@ Wrap a value into the type constructor.
 export declare const of: <E, A>(a: A) => ReaderTask<E, A>
 ```
 
-Added in v2.3.0
+Added in v3.0.0
 
 # Apply
 
@@ -92,7 +92,7 @@ Apply a function to an argument under a type constructor.
 export declare const ap: <E, A>(fa: ReaderTask<E, A>) => <B>(fab: ReaderTask<E, (a: A) => B>) => ReaderTask<E, B>
 ```
 
-Added in v2.3.0
+Added in v3.0.0
 
 ## apW
 
@@ -106,7 +106,7 @@ export declare const apW: <R2, A>(
 ) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 # Functor
 
@@ -121,7 +121,7 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
-Added in v2.3.0
+Added in v3.0.0
 
 # Monad
 
@@ -135,7 +135,7 @@ Composes computations in sequence, using the return value of one computation to 
 export declare const chain: <A, E, B>(f: (a: A) => ReaderTask<E, B>) => (fa: ReaderTask<E, A>) => ReaderTask<E, B>
 ```
 
-Added in v2.3.0
+Added in v3.0.0
 
 ## chainW
 
@@ -149,7 +149,7 @@ export declare const chainW: <A, R2, B>(
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
 ```
 
-Added in v2.6.7
+Added in v3.0.0
 
 # combinators
 
@@ -161,7 +161,7 @@ Added in v2.6.7
 export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## chainTaskK
 
@@ -171,7 +171,7 @@ Added in v2.4.0
 export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## fromIOK
 
@@ -183,7 +183,7 @@ export declare function fromIOK<A extends ReadonlyArray<unknown>, B>(
 ): <R>(...a: A) => ReaderTask<R, B>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## fromTaskK
 
@@ -195,7 +195,7 @@ export declare function fromTaskK<A extends ReadonlyArray<unknown>, B>(
 ): <R>(...a: A) => ReaderTask<R, B>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 # constructors
 
@@ -207,7 +207,7 @@ Added in v2.4.0
 export declare const ask: <R>() => ReaderTask<R, R>
 ```
 
-Added in v2.3.0
+Added in v3.0.0
 
 ## asks
 
@@ -217,7 +217,7 @@ Added in v2.3.0
 export declare const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A>
 ```
 
-Added in v2.3.0
+Added in v3.0.0
 
 ## fromIO
 
@@ -227,7 +227,7 @@ Added in v2.3.0
 export declare const fromIO: <R, A>(ma: IO<A>) => ReaderTask<R, A>
 ```
 
-Added in v2.3.0
+Added in v3.0.0
 
 ## fromReader
 
@@ -237,7 +237,7 @@ Added in v2.3.0
 export declare const fromReader: <R, A = never>(ma: R.Reader<R, A>) => ReaderTask<R, A>
 ```
 
-Added in v2.3.0
+Added in v3.0.0
 
 ## fromTask
 
@@ -247,7 +247,7 @@ Added in v2.3.0
 export declare const fromTask: <R, A>(ma: T.Task<A>) => ReaderTask<R, A>
 ```
 
-Added in v2.3.0
+Added in v3.0.0
 
 # derivable combinators
 
@@ -263,7 +263,7 @@ Derivable from `Apply`.
 export declare const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
-Added in v2.3.0
+Added in v3.0.0
 
 ## apSecond
 
@@ -277,7 +277,7 @@ Derivable from `Apply`.
 export declare const apSecond: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
-Added in v2.3.0
+Added in v3.0.0
 
 ## chainFirst
 
@@ -294,7 +294,7 @@ export declare const chainFirst: <A, R, B>(
 ) => (first: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
-Added in v2.3.0
+Added in v3.0.0
 
 ## flatten
 
@@ -306,7 +306,7 @@ Derivable from `Monad`.
 export declare const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => ReaderTask<R, A>
 ```
 
-Added in v2.3.0
+Added in v3.0.0
 
 # instances
 
@@ -318,7 +318,7 @@ Added in v2.3.0
 export declare const ApplicativePar: Applicative2<'ReaderTask'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## ApplicativeSeq
 
@@ -328,7 +328,7 @@ Added in v2.7.0
 export declare const ApplicativeSeq: Applicative2<'ReaderTask'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Functor
 
@@ -338,7 +338,7 @@ Added in v2.7.0
 export declare const Functor: Functor2<'ReaderTask'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## MonadTask
 
@@ -358,7 +358,7 @@ Added in v3.0.0
 export declare const URI: 'ReaderTask'
 ```
 
-Added in v2.3.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -368,7 +368,7 @@ Added in v2.3.0
 export type URI = typeof URI
 ```
 
-Added in v2.3.0
+Added in v3.0.0
 
 ## getMonoid
 
@@ -378,7 +378,7 @@ Added in v2.3.0
 export declare function getMonoid<R, A>(M: Monoid<A>): Monoid<ReaderTask<R, A>>
 ```
 
-Added in v2.3.0
+Added in v3.0.0
 
 ## getSemigroup
 
@@ -388,7 +388,7 @@ Added in v2.3.0
 export declare function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<ReaderTask<R, A>>
 ```
 
-Added in v2.3.0
+Added in v3.0.0
 
 # model
 
@@ -402,7 +402,7 @@ export interface ReaderTask<R, A> {
 }
 ```
 
-Added in v2.3.0
+Added in v3.0.0
 
 # utils
 
@@ -424,7 +424,7 @@ Added in v3.0.0
 export declare const Do: ReaderTask<unknown, {}>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## apS
 
@@ -437,7 +437,7 @@ export declare const apS: <A, N extends string, R, B>(
 ) => (fa: ReaderTask<R, A>) => ReaderTask<R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## apSW
 
@@ -450,7 +450,7 @@ export declare const apSW: <A, N extends string, Q, B>(
 ) => <R>(fa: ReaderTask<R, A>) => ReaderTask<Q & R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## apT
 
@@ -487,7 +487,7 @@ export declare const bind: <N extends string, A, R, B>(
 ) => (fa: ReaderTask<R, A>) => ReaderTask<R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## bindTo
 
@@ -499,7 +499,7 @@ export declare const bindTo: <N extends string>(
 ) => <R, A>(fa: ReaderTask<R, A>) => ReaderTask<R, { [K in N]: A }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## bindW
 
@@ -512,7 +512,7 @@ export declare const bindW: <N extends string, A, Q, B>(
 ) => <R>(fa: ReaderTask<R, A>) => ReaderTask<Q & R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## sequenceArray
 
@@ -522,7 +522,7 @@ Added in v2.8.0
 export declare const sequenceArray: <R, A>(arr: readonly ReaderTask<R, A>[]) => ReaderTask<R, readonly A[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseArray
 
@@ -534,7 +534,7 @@ export declare const traverseArray: <R, A, B>(
 ) => (arr: readonly A[]) => ReaderTask<R, readonly B[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseArrayWithIndex
 
@@ -546,7 +546,7 @@ export declare const traverseArrayWithIndex: <R, A, B>(
 ) => (arr: readonly A[]) => ReaderTask<R, readonly B[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## tupled
 

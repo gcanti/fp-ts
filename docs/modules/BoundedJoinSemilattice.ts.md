@@ -10,7 +10,7 @@ A `BoundedJoinSemilattice` must satisfy the following laws in addition to `JoinS
 
 - `a ∨ 0 <-> a`
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -33,4 +33,4 @@ export interface BoundedJoinSemilattice<A> extends JoinSemilattice<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

@@ -1,5 +1,5 @@
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { ReadonlyRecord } from './ReadonlyRecord'
 
@@ -12,7 +12,7 @@ import { ReadonlyRecord } from './ReadonlyRecord'
  * value as the expression `x`.
  *
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Show<A> {
   readonly show: (a: A) => string
@@ -20,7 +20,7 @@ export interface Show<A> {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const showString: Show<string> = {
   show: (a) => JSON.stringify(a)
@@ -28,7 +28,7 @@ export const showString: Show<string> = {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const showNumber: Show<number> = {
   show: (a) => JSON.stringify(a)
@@ -36,7 +36,7 @@ export const showNumber: Show<number> = {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const showBoolean: Show<boolean> = {
   show: (a) => JSON.stringify(a)
@@ -44,7 +44,7 @@ export const showBoolean: Show<boolean> = {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getStructShow<O extends ReadonlyRecord<string, any>>(shows: { [K in keyof O]: Show<O[K]> }): Show<O> {
   return {
@@ -57,7 +57,7 @@ export function getStructShow<O extends ReadonlyRecord<string, any>>(shows: { [K
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getTupleShow<T extends ReadonlyArray<Show<any>>>(
   ...shows: T

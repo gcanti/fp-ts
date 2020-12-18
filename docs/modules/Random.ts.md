@@ -6,7 +6,7 @@ parent: Modules
 
 ## Random overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -33,7 +33,7 @@ Returns a random number between 0 (inclusive) and 1 (exclusive). This is a direc
 export declare const random: IO<number>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## randomBool
 
@@ -45,7 +45,7 @@ Returns a random boolean value with an equal chance of being `true` or `false`
 export declare const randomBool: IO<boolean>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## randomInt
 
@@ -59,7 +59,7 @@ distributed in the closed interval `[low, high]`. It is unspecified what happens
 export declare function randomInt(low: number, high: number): IO<number>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## randomRange
 
@@ -72,4 +72,4 @@ happens if `maximum < minimum`.
 export declare function randomRange(min: number, max: number): IO<number>
 ```
 
-Added in v2.0.0
+Added in v3.0.0

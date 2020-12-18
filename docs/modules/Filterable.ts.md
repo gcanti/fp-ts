@@ -8,7 +8,7 @@ parent: Modules
 
 `Filterable` represents data structures which can be _partitioned_/_filtered_.
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -56,7 +56,7 @@ export interface Filterable<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Filterable1 (interface)
 
@@ -72,7 +72,7 @@ export interface Filterable1<F extends URIS> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Filterable2 (interface)
 
@@ -90,7 +90,7 @@ export interface Filterable2<F extends URIS2> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Filterable2C (interface)
 
@@ -108,7 +108,7 @@ export interface Filterable2C<F extends URIS2, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Filterable3 (interface)
 
@@ -126,7 +126,7 @@ export interface Filterable3<F extends URIS3> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Filterable3C (interface)
 
@@ -144,7 +144,7 @@ export interface Filterable3C<F extends URIS3, E> {
 }
 ```
 
-Added in v2.2.0
+Added in v3.0.0
 
 ## Filterable4 (interface)
 
@@ -162,7 +162,7 @@ export interface Filterable4<F extends URIS4> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -177,7 +177,7 @@ export interface Filter<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Filter1 (interface)
 
@@ -190,7 +190,7 @@ export interface Filter1<F extends URIS> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Filter2 (interface)
 
@@ -203,7 +203,7 @@ export interface Filter2<F extends URIS2> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Filter2C (interface)
 
@@ -216,7 +216,7 @@ export interface Filter2C<F extends URIS2, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Filter3 (interface)
 
@@ -229,7 +229,7 @@ export interface Filter3<F extends URIS3> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Filter3C (interface)
 
@@ -242,7 +242,7 @@ export interface Filter3C<F extends URIS3, E> {
 }
 ```
 
-Added in v2.2.0
+Added in v3.0.0
 
 ## Filter4 (interface)
 
@@ -255,7 +255,7 @@ export interface Filter4<F extends URIS4> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Partition (interface)
 
@@ -268,7 +268,7 @@ export interface Partition<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Partition1 (interface)
 
@@ -281,7 +281,7 @@ export interface Partition1<F extends URIS> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Partition2 (interface)
 
@@ -294,7 +294,7 @@ export interface Partition2<F extends URIS2> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Partition2C (interface)
 
@@ -307,7 +307,7 @@ export interface Partition2C<F extends URIS2, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Partition3 (interface)
 
@@ -322,7 +322,7 @@ export interface Partition3<F extends URIS3> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Partition3C (interface)
 
@@ -337,7 +337,7 @@ export interface Partition3C<F extends URIS3, E> {
 }
 ```
 
-Added in v2.2.0
+Added in v3.0.0
 
 ## Partition4 (interface)
 
@@ -354,4 +354,4 @@ export interface Partition4<F extends URIS4> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

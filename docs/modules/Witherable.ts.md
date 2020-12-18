@@ -8,7 +8,7 @@ parent: Modules
 
 `Witherable` represents data structures which can be _partitioned_ with effects in some `Applicative` functor.
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -48,7 +48,7 @@ export interface Witherable<T> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Witherable1 (interface)
 
@@ -62,7 +62,7 @@ export interface Witherable1<T extends URIS> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Witherable2 (interface)
 
@@ -76,7 +76,7 @@ export interface Witherable2<T extends URIS2> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Witherable2C (interface)
 
@@ -90,7 +90,7 @@ export interface Witherable2C<T extends URIS2, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Witherable3 (interface)
 
@@ -104,7 +104,7 @@ export interface Witherable3<T extends URIS3> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -135,7 +135,7 @@ export interface Wilt<W> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Wilt1 (interface)
 
@@ -164,7 +164,7 @@ export interface Wilt1<W extends URIS> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Wilt2 (interface)
 
@@ -190,7 +190,7 @@ export interface Wilt2<W extends URIS2> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Wilt2C (interface)
 
@@ -216,7 +216,7 @@ export interface Wilt2C<W extends URIS2, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Wilt3 (interface)
 
@@ -242,7 +242,7 @@ export interface Wilt3<W extends URIS3> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Wither (interface)
 
@@ -267,7 +267,7 @@ export interface Wither<W> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Wither1 (interface)
 
@@ -294,7 +294,7 @@ export interface Wither1<W extends URIS> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Wither2 (interface)
 
@@ -318,7 +318,7 @@ export interface Wither2<W extends URIS2> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Wither2C (interface)
 
@@ -342,7 +342,7 @@ export interface Wither2C<W extends URIS2, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Wither3 (interface)
 
@@ -368,4 +368,4 @@ export interface Wither3<W extends URIS3> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

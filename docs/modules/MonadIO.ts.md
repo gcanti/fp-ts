@@ -8,7 +8,7 @@ parent: Modules
 
 Lift a computation from the `IO` monad
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -38,7 +38,7 @@ export interface MonadIO<M> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## MonadIO1 (interface)
 
@@ -51,7 +51,7 @@ export interface MonadIO1<M extends URIS> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## MonadIO2 (interface)
 
@@ -64,7 +64,7 @@ export interface MonadIO2<M extends URIS2> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## MonadIO2C (interface)
 
@@ -77,7 +77,7 @@ export interface MonadIO2C<M extends URIS2, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## MonadIO3 (interface)
 
@@ -90,7 +90,7 @@ export interface MonadIO3<M extends URIS3> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## MonadIO3C (interface)
 
@@ -103,7 +103,7 @@ export interface MonadIO3C<M extends URIS3, E> {
 }
 ```
 
-Added in v2.2.0
+Added in v3.0.0
 
 ## MonadIO4 (interface)
 
@@ -116,4 +116,4 @@ export interface MonadIO4<M extends URIS4> {
 }
 ```
 
-Added in v2.4.4
+Added in v3.0.0

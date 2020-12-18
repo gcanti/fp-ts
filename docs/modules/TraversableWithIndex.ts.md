@@ -6,7 +6,7 @@ parent: Modules
 
 ## TraversableWithIndex overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -37,7 +37,7 @@ export interface TraversableWithIndex<T, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## TraversableWithIndex1 (interface)
 
@@ -50,7 +50,7 @@ export interface TraversableWithIndex1<T extends URIS, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## TraversableWithIndex2 (interface)
 
@@ -63,7 +63,7 @@ export interface TraversableWithIndex2<T extends URIS2, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## TraversableWithIndex2C (interface)
 
@@ -76,7 +76,7 @@ export interface TraversableWithIndex2C<T extends URIS2, I, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## TraverseWithIndex (interface)
 
@@ -101,7 +101,7 @@ export interface TraverseWithIndex<T, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## TraverseWithIndex1 (interface)
 
@@ -126,7 +126,7 @@ export interface TraverseWithIndex1<T extends URIS, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## TraverseWithIndex2 (interface)
 
@@ -150,7 +150,7 @@ export interface TraverseWithIndex2<T extends URIS2, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## TraverseWithIndex2C (interface)
 
@@ -177,4 +177,4 @@ export interface TraverseWithIndex2C<T extends URIS2, I, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

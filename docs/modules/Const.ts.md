@@ -12,7 +12,7 @@ That is, `Const<E, A>` is isomorphic to `E` for any `A`.
 `Const` has some useful instances. For example, the `Applicative` instance allows us to collect results using a `Monoid`
 while ignoring return values.
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -62,7 +62,7 @@ Map a pair of functions over the two type arguments of the bifunctor.
 export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Const<E, A>) => Const<G, B>
 ```
 
-Added in v2.6.2
+Added in v3.0.0
 
 ## mapLeft
 
@@ -74,7 +74,7 @@ Map a function over the first type argument of a bifunctor.
 export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: Const<E, A>) => Const<G, A>
 ```
 
-Added in v2.6.2
+Added in v3.0.0
 
 # Contravariant
 
@@ -86,7 +86,7 @@ Added in v2.6.2
 export declare const contramap: <B, A>(f: (b: B) => A) => <E>(fa: Const<E, A>) => Const<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Functor
 
@@ -101,7 +101,7 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # constructors
 
@@ -113,7 +113,7 @@ Added in v2.0.0
 export declare const make: <E, A = never>(e: E) => Const<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # instances
 
@@ -125,7 +125,7 @@ Added in v2.0.0
 export declare const Bifunctor: Bifunctor2<'Const'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Contravariant
 
@@ -135,7 +135,7 @@ Added in v2.7.0
 export declare const Contravariant: Contravariant2<'Const'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Functor
 
@@ -145,7 +145,7 @@ Added in v2.7.0
 export declare const Functor: Functor2<'Const'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## URI
 
@@ -155,7 +155,7 @@ Added in v2.7.0
 export declare const URI: 'Const'
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -165,7 +165,7 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getApplicative
 
@@ -175,7 +175,7 @@ Added in v2.0.0
 export declare function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getApply
 
@@ -185,7 +185,7 @@ Added in v2.0.0
 export declare function getApply<E>(S: Semigroup<E>): Apply2C<URI, E>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getBooleanAlgebra
 
@@ -195,7 +195,7 @@ Added in v2.0.0
 export declare const getBooleanAlgebra: <E, A>(H: BooleanAlgebra<E>) => BooleanAlgebra<Const<E, A>>
 ```
 
-Added in v2.6.0
+Added in v3.0.0
 
 ## getBounded
 
@@ -205,7 +205,7 @@ Added in v2.6.0
 export declare const getBounded: <E, A>(B: Bounded<E>) => Bounded<Const<E, A>>
 ```
 
-Added in v2.6.0
+Added in v3.0.0
 
 ## getEq
 
@@ -215,7 +215,7 @@ Added in v2.6.0
 export declare const getEq: <E, A>(E: Eq<E>) => Eq<Const<E, A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getHeytingAlgebra
 
@@ -225,7 +225,7 @@ Added in v2.0.0
 export declare const getHeytingAlgebra: <E, A>(H: HeytingAlgebra<E>) => HeytingAlgebra<Const<E, A>>
 ```
 
-Added in v2.6.0
+Added in v3.0.0
 
 ## getMonoid
 
@@ -235,7 +235,7 @@ Added in v2.6.0
 export declare const getMonoid: <E, A>(M: Monoid<E>) => Monoid<Const<E, A>>
 ```
 
-Added in v2.6.0
+Added in v3.0.0
 
 ## getOrd
 
@@ -245,7 +245,7 @@ Added in v2.6.0
 export declare const getOrd: <E, A>(O: Ord<E>) => Ord<Const<E, A>>
 ```
 
-Added in v2.6.0
+Added in v3.0.0
 
 ## getRing
 
@@ -255,7 +255,7 @@ Added in v2.6.0
 export declare const getRing: <E, A>(S: Ring<E>) => Ring<Const<E, A>>
 ```
 
-Added in v2.6.0
+Added in v3.0.0
 
 ## getSemigroup
 
@@ -265,7 +265,7 @@ Added in v2.6.0
 export declare const getSemigroup: <E, A>(S: Semigroup<E>) => Semigroup<Const<E, A>>
 ```
 
-Added in v2.6.0
+Added in v3.0.0
 
 ## getSemiring
 
@@ -275,7 +275,7 @@ Added in v2.6.0
 export declare const getSemiring: <E, A>(S: Semiring<E>) => Semiring<Const<E, A>>
 ```
 
-Added in v2.6.0
+Added in v3.0.0
 
 ## getShow
 
@@ -285,7 +285,7 @@ Added in v2.6.0
 export declare function getShow<E, A>(S: Show<E>): Show<Const<E, A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # model
 
@@ -297,4 +297,4 @@ Added in v2.0.0
 export type Const<E, A> = E & { readonly _A: A }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

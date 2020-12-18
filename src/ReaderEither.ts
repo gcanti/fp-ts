@@ -1,5 +1,5 @@
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C } from './Applicative'
@@ -24,7 +24,7 @@ import Reader = R.Reader
 
 /**
  * @category model
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
 
@@ -34,7 +34,7 @@ export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
 
 /**
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const left: <R, E = never, A = never>(e: E) => ReaderEither<R, E, A> =
   /*#__PURE__*/
@@ -42,7 +42,7 @@ export const left: <R, E = never, A = never>(e: E) => ReaderEither<R, E, A> =
 
 /**
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const right: <R, E = never, A = never>(a: A) => ReaderEither<R, E, A> =
   /*#__PURE__*/
@@ -50,7 +50,7 @@ export const right: <R, E = never, A = never>(a: A) => ReaderEither<R, E, A> =
 
 /**
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderEither<R, E, A> =
   /*#__PURE__*/
@@ -58,7 +58,7 @@ export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderE
 
 /**
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderEither<R, E, A> =
   /*#__PURE__*/
@@ -66,13 +66,13 @@ export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderEi
 
 /**
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const ask: <R, E = never>() => ReaderEither<R, E, R> = () => E.right
 
 /**
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderEither<R, E, A> = (f) => flow(f, E.right)
 
@@ -80,7 +80,7 @@ export const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderEither<R, 
  * Derivable from `MonadThrow`.
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const fromEither: <R, E, A>(ma: E.Either<E, A>) => ReaderEither<R, E, A> =
   /*#__PURE__*/
@@ -90,7 +90,7 @@ export const fromEither: <R, E, A>(ma: E.Either<E, A>) => ReaderEither<R, E, A> 
  * Derivable from `MonadThrow`.
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const fromOption: <E>(onNone: () => E) => <R, A>(ma: Option<A>) => ReaderEither<R, E, A> = (onNone) => (ma) =>
   ma._tag === 'None' ? left(onNone()) : right(ma.value)
@@ -99,7 +99,7 @@ export const fromOption: <E>(onNone: () => E) => <R, A>(ma: Option<A>) => Reader
  * Derivable from `MonadThrow`.
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const fromPredicate: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => ReaderEither<U, E, B>
@@ -112,7 +112,7 @@ export const fromPredicate: {
 
 /**
  * @category destructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const fold: <E, R, B, A>(
   onLeft: (e: E) => Reader<R, B>,
@@ -125,7 +125,7 @@ export const fold: <E, R, B, A>(
  * Less strict version of [`getOrElse`](#getOrElse).
  *
  * @category destructors
- * @since 2.6.0
+ * @since 3.0.0
  */
 export const getOrElseW = <E, R2, B>(onLeft: (e: E) => Reader<R2, B>) => <R1, A>(
   ma: ReaderEither<R1, E, A>
@@ -133,7 +133,7 @@ export const getOrElseW = <E, R2, B>(onLeft: (e: E) => Reader<R2, B>) => <R1, A>
 
 /**
  * @category destructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const getOrElse: <E, R, A>(
   onLeft: (e: E) => Reader<R, A>
@@ -145,7 +145,7 @@ export const getOrElse: <E, R, A>(
 
 /**
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const orElse: <E1, R, E2, A>(
   onLeft: (e: E1) => ReaderEither<R, E2, A>
@@ -153,7 +153,7 @@ export const orElse: <E1, R, E2, A>(
 
 /**
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E> =
   /*#__PURE__*/
@@ -161,7 +161,7 @@ export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E>
 
 /**
  * @category combinators
- * @since 2.4.0
+ * @since 3.0.0
  */
 export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Either<E, B>
@@ -173,7 +173,7 @@ export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
  * Less strict version of [`chainEitherK`](#chainEitherK).
  *
  * @category combinators
- * @since 2.6.1
+ * @since 3.0.0
  */
 export const chainEitherKW: <E, A, B>(
   f: (a: A) => Either<E, B>
@@ -181,7 +181,7 @@ export const chainEitherKW: <E, A, B>(
 
 /**
  * @category combinators
- * @since 2.4.0
+ * @since 3.0.0
  */
 export const chainEitherK: <E, A, B>(
   f: (a: A) => Either<E, B>
@@ -190,7 +190,7 @@ export const chainEitherK: <E, A, B>(
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
  *
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
@@ -209,7 +209,7 @@ export const filterOrElseW: {
  * Derivable from `MonadThrow`.
  *
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const filterOrElse: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
@@ -223,7 +223,7 @@ export const filterOrElse: {
  * use the type constructor `F` to represent some computational context.
  *
  * @category Functor
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = (f) =>
   R.map(E.map(f))
@@ -232,7 +232,7 @@ export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) =>
  * Map a pair of functions over the two last type arguments of the bifunctor.
  *
  * @category Bifunctor
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const bimap: Bifunctor3<URI>['bimap'] =
   /*#__PURE__*/
@@ -242,7 +242,7 @@ export const bimap: Bifunctor3<URI>['bimap'] =
  * Map a function over the second type argument of a bifunctor.
  *
  * @category Bifunctor
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const mapLeft: Bifunctor3<URI>['mapLeft'] = (f) => (fa) => (r) => pipe(fa(r), E.mapLeft(f))
 
@@ -250,7 +250,7 @@ export const mapLeft: Bifunctor3<URI>['mapLeft'] = (f) => (fa) => (r) => pipe(fa
  * Less strict version of [`ap`](#ap).
  *
  * @category Apply
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const apW = <R2, E2, A>(
   fa: ReaderEither<R2, E2, A>
@@ -264,7 +264,7 @@ export const apW = <R2, E2, A>(
  * Apply a function to an argument under a type constructor.
  *
  * @category Apply
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const ap: Applicative3<URI>['ap'] = apW
 
@@ -274,7 +274,7 @@ export const ap: Applicative3<URI>['ap'] = apW
  * Equivalent to [`right`](#right).
  *
  * @category Applicative
- * @since 2.8.5
+ * @since 3.0.0
  */
 export const of: Applicative3<URI>['of'] = right
 
@@ -282,7 +282,7 @@ export const of: Applicative3<URI>['of'] = right
  * Less strict version of [`chain`](#chain).
  *
  * @category Monad
- * @since 2.6.0
+ * @since 3.0.0
  */
 export const chainW = <A, R2, E2, B>(f: (a: A) => ReaderEither<R2, E2, B>) => <R1, E1>(
   ma: ReaderEither<R1, E1, A>
@@ -292,7 +292,7 @@ export const chainW = <A, R2, E2, B>(f: (a: A) => ReaderEither<R2, E2, B>) => <R
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const chain: Monad3<URI>['chain'] = chainW
 
@@ -300,7 +300,7 @@ export const chain: Monad3<URI>['chain'] = chainW
  * Derivable from `Monad`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) => ReaderEither<R, E, A> =
   /*#__PURE__*/
@@ -310,7 +310,7 @@ export const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) 
  * Less strict version of [`alt`](#alt).
  *
  * @category Alt
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const altW = <R2, E2, B>(second: () => ReaderEither<R2, E2, B>) => <R1, E1, A>(
   first: ReaderEither<R1, E1, A>
@@ -322,13 +322,13 @@ export const altW = <R2, E2, B>(second: () => ReaderEither<R2, E2, B>) => <R1, E
  * types of kind `* -> *`.
  *
  * @category Alt
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const alt: Alt3<URI>['alt'] = altW
 
 /**
  * @category MonadThrow
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const throwError: MonadThrow3<URI>['throwError'] = left
 
@@ -338,13 +338,13 @@ export const throwError: MonadThrow3<URI>['throwError'] = left
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const URI = 'ReaderEither'
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export type URI = typeof URI
 
@@ -359,7 +359,7 @@ declare module './HKT' {
  * concatenated using the provided `Semigroup`
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>> {
   return R.getSemigroup(E.getSemigroup(S))
@@ -370,7 +370,7 @@ export function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R
  * are concatenated using the provided `Semigroup`
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getApplySemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>> {
   return R.getSemigroup(E.getApplySemigroup(S))
@@ -378,7 +378,7 @@ export function getApplySemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEit
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderEither<R, E, A>> {
   return {
@@ -389,7 +389,7 @@ export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderEither<R, E,
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export function getApplicativeReaderValidation<E>(SE: Semigroup<E>): Applicative3C<URI, E> {
   const AV = E.getApplicativeValidation(SE)
@@ -410,7 +410,7 @@ export function getApplicativeReaderValidation<E>(SE: Semigroup<E>): Applicative
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export function getAltReaderValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
   const A = E.getAltValidation(SE)
@@ -427,7 +427,7 @@ export function getAltReaderValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Functor: Functor3<URI> = {
   URI,
@@ -436,7 +436,7 @@ export const Functor: Functor3<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Applicative: Applicative3<URI> = {
   URI,
@@ -451,7 +451,7 @@ export const Applicative: Applicative3<URI> = {
  * Derivable from `Apply`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const apFirst: <R, E, B>(
   second: ReaderEither<R, E, B>
@@ -465,7 +465,7 @@ export const apFirst: <R, E, B>(
  * Derivable from `Apply`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const apSecond: <R, E, B>(
   second: ReaderEither<R, E, B>
@@ -475,7 +475,7 @@ export const apSecond: <R, E, B>(
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Monad: Monad3<URI> = {
   URI,
@@ -488,7 +488,7 @@ export const Monad: Monad3<URI> = {
  * Less strict version of [`chainFirst`](#chainFirst)
  *
  * @category combinators
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const chainFirstW: <A, R2, E2, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
@@ -503,7 +503,7 @@ export const chainFirstW: <A, R2, E2, B>(
  * Derivable from `Monad`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const chainFirst: <A, R, E, B>(
   f: (a: A) => ReaderEither<R, E, B>
@@ -511,7 +511,7 @@ export const chainFirst: <A, R, E, B>(
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Bifunctor: Bifunctor3<URI> = {
   URI,
@@ -521,7 +521,7 @@ export const Bifunctor: Bifunctor3<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Alt: Alt3<URI> = {
   URI,
@@ -531,7 +531,7 @@ export const Alt: Alt3<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const MonadThrow: MonadThrow3<URI> = {
   URI,
@@ -543,19 +543,19 @@ export const MonadThrow: MonadThrow3<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const Do: ReaderEither<unknown, never, {}> = of({})
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bindTo = <N extends string>(
   name: N
 ): (<R, E, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in N]: A }>) => map(bindTo_(name))
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bindW = <N extends string, A, Q, D, B>(
   name: Exclude<N, keyof A>,
@@ -571,7 +571,7 @@ export const bindW = <N extends string, A, Q, D, B>(
   )
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bind: <N extends string, A, R, E, B>(
   name: Exclude<N, keyof A>,
@@ -583,7 +583,7 @@ export const bind: <N extends string, A, R, E, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const apSW = <A, N extends string, Q, D, B>(
   name: Exclude<N, keyof A>,
@@ -597,7 +597,7 @@ export const apSW = <A, N extends string, Q, D, B>(
   )
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const apS: <A, N extends string, R, E, B>(
   name: Exclude<N, keyof A>,
@@ -642,7 +642,7 @@ export const apT: <R, E, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const traverseArrayWithIndex: <R, E, A, B>(
   f: (index: number, a: A) => ReaderEither<R, E, B>
@@ -650,14 +650,14 @@ export const traverseArrayWithIndex: <R, E, A, B>(
   flow(R.traverseArrayWithIndex(f), R.map(E.sequenceArray))
 
 /**
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const traverseArray: <R, E, A, B>(
   f: (a: A) => ReaderEither<R, E, B>
 ) => (arr: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const sequenceArray: <R, E, A>(
   arr: ReadonlyArray<ReaderEither<R, E, A>>

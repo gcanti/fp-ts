@@ -9,7 +9,7 @@
  * type `A` and **never fails**. If you want to represent a synchronous computation that may fail, please see
  * `IOEither`.
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Applicative1 } from './Applicative'
 import { apFirst_, apSecond_ } from './Apply'
@@ -26,7 +26,7 @@ import { Semigroup } from './Semigroup'
 
 /**
  * @category model
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface IO<A> {
   (): A
@@ -37,7 +37,7 @@ export interface IO<A> {
  * use the type constructor `F` to represent some computational context.
  *
  * @category Functor
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) => () => f(fa())
 
@@ -45,7 +45,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) =
  * Apply a function to an argument under a type constructor.
  *
  * @category Apply
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const ap: Applicative1<URI>['ap'] = (fa) => (fab) => () => fab()(fa())
 
@@ -53,7 +53,7 @@ export const ap: Applicative1<URI>['ap'] = (fa) => (fab) => () => fab()(fa())
  * Wrap a value into the type constructor.
  *
  * @category Applicative
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const of: Applicative1<URI>['of'] = constant
 
@@ -61,7 +61,7 @@ export const of: Applicative1<URI>['of'] = constant
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const chain: Monad1<URI>['chain'] = (f) => (ma) => () => f(ma())()
 
@@ -69,7 +69,7 @@ export const chain: Monad1<URI>['chain'] = (f) => (ma) => () => f(ma())()
  * Derivable from `Monad`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const flatten: <A>(mma: IO<IO<A>>) => IO<A> =
   /*#__PURE__*/
@@ -77,7 +77,7 @@ export const flatten: <A>(mma: IO<IO<A>>) => IO<A> =
 
 /**
  * @category MonadIO
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const fromIO: MonadIO1<URI>['fromIO'] = identity
 
@@ -87,13 +87,13 @@ export const fromIO: MonadIO1<URI>['fromIO'] = identity
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const URI = 'IO'
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export type URI = typeof URI
 
@@ -105,7 +105,7 @@ declare module './HKT' {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getSemigroup<A>(S: Semigroup<A>): Semigroup<IO<A>> {
   return {
@@ -119,7 +119,7 @@ export function getSemigroup<A>(S: Semigroup<A>): Semigroup<IO<A>> {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> {
   return {
@@ -130,7 +130,7 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Functor: Functor1<URI> = {
   URI,
@@ -139,7 +139,7 @@ export const Functor: Functor1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Applicative: Applicative1<URI> = {
   URI,
@@ -154,7 +154,7 @@ export const Applicative: Applicative1<URI> = {
  * Derivable from `Apply`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const apFirst: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<A> =
   /*#__PURE__*/
@@ -166,7 +166,7 @@ export const apFirst: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<A> =
  * Derivable from `Apply`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const apSecond: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<B> =
   /*#__PURE__*/
@@ -174,7 +174,7 @@ export const apSecond: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<B> =
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Monad: Monad1<URI> = {
   URI,
@@ -190,7 +190,7 @@ export const Monad: Monad1<URI> = {
  * Derivable from `Monad`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A> =
   /*#__PURE__*/
@@ -198,7 +198,7 @@ export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A> =
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const MonadIO: MonadIO1<URI> = {
   URI,
@@ -210,17 +210,17 @@ export const MonadIO: MonadIO1<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const Do: IO<{}> = of({})
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bindTo = <N extends string>(name: N): (<A>(fa: IO<A>) => IO<{ [K in N]: A }>) => map(bindTo_(name))
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bind = <N extends string, A, B>(
   name: Exclude<N, keyof A>,
@@ -238,7 +238,7 @@ export const bind = <N extends string, A, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const apS = <A, N extends string, B>(
   name: Exclude<N, keyof A>,
@@ -278,7 +278,7 @@ export const apT = <B>(fb: IO<B>) => <A extends ReadonlyArray<unknown>>(fas: IO<
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const traverseArrayWithIndex: <A, B>(
   f: (index: number, a: A) => IO<B>
@@ -300,7 +300,7 @@ export const traverseArrayWithIndex: <A, B>(
  * pipe(RA.range(0, 100), traverseArray(log))()
  * assert.deepStrictEqual(logger, RA.range(0, 100))
  *
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const traverseArray: <A, B>(f: (a: A) => IO<B>) => (arr: ReadonlyArray<A>) => IO<ReadonlyArray<B>> = (f) =>
   traverseArrayWithIndex((_, a) => f(a))
@@ -321,6 +321,6 @@ export const traverseArray: <A, B>(f: (a: A) => IO<B>) => (arr: ReadonlyArray<A>
  * pipe(RA.range(0, 100), RA.map(log), sequenceArray)()
  * assert.deepStrictEqual(logger, RA.range(0, 100))
  *
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const sequenceArray: <A>(arr: ReadonlyArray<IO<A>>) => IO<ReadonlyArray<A>> = traverseArray(identity)

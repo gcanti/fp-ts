@@ -10,7 +10,7 @@ A `Magma` is a pair `(A, concat)` in which `A` is a non-empty set and `concat` i
 
 See [Semigroup](https://gcanti.github.io/fp-ts/modules/Semigroup.ts.html) for some instances.
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -37,4 +37,4 @@ export interface Magma<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

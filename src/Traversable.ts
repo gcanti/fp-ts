@@ -12,7 +12,7 @@
  *
  * where `A` is an `Applicative` instance
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import {
   Applicative,
@@ -28,7 +28,7 @@ import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Traversable<T> extends Functor<T> {
   /**
@@ -40,7 +40,7 @@ export interface Traversable<T> extends Functor<T> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Traversable1<T extends URIS> extends Functor1<T> {
   readonly traverse: Traverse1<T>
@@ -49,7 +49,7 @@ export interface Traversable1<T extends URIS> extends Functor1<T> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Traversable2<T extends URIS2> extends Functor2<T> {
   readonly traverse: Traverse2<T>
@@ -58,7 +58,7 @@ export interface Traversable2<T extends URIS2> extends Functor2<T> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Traversable2C<T extends URIS2, E> extends Functor2C<T, E> {
   readonly traverse: Traverse2C<T, E>
@@ -67,7 +67,7 @@ export interface Traversable2C<T extends URIS2, E> extends Functor2C<T, E> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Traversable3<T extends URIS3> extends Functor3<T> {
   readonly traverse: Traverse3<T>
@@ -75,7 +75,7 @@ export interface Traversable3<T extends URIS3> extends Functor3<T> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Traverse<T> {
   <F extends URIS3>(F: Applicative3<F>): <A, R, E, B>(
@@ -95,7 +95,7 @@ export interface Traverse<T> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Traverse1<T extends URIS> {
   <F extends URIS3>(F: Applicative3<F>): <A, R, E, B>(
@@ -115,7 +115,7 @@ export interface Traverse1<T extends URIS> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Traverse2<T extends URIS2> {
   <F extends URIS3>(F: Applicative3<F>): <A, R, FE, B>(
@@ -134,7 +134,7 @@ export interface Traverse2<T extends URIS2> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Traverse2C<T extends URIS2, E> {
   <F extends URIS3>(F: Applicative3<F>): <A, R, FE, B>(
@@ -153,7 +153,7 @@ export interface Traverse2C<T extends URIS2, E> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Traverse3<T extends URIS3> {
   <F extends URIS3>(F: Applicative3<F>): <A, FR, FE, B>(
@@ -172,7 +172,7 @@ export interface Traverse3<T extends URIS3> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Sequence<T> {
   <F extends URIS3>(F: Applicative3<F>): <R, E, A>(ta: HKT<T, Kind3<F, R, E, A>>) => Kind3<F, R, E, HKT<T, A>>
@@ -184,7 +184,7 @@ export interface Sequence<T> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Sequence1<T extends URIS> {
   <F extends URIS4>(F: Applicative4<F>): <S, R, E, A>(
@@ -199,7 +199,7 @@ export interface Sequence1<T extends URIS> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Sequence2<T extends URIS2> {
   <F extends URIS3>(F: Applicative3<F>): <TE, R, FE, A>(
@@ -214,7 +214,7 @@ export interface Sequence2<T extends URIS2> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Sequence2C<T extends URIS2, E> {
   <F extends URIS3>(F: Applicative3<F>): <R, FE, A>(
@@ -227,7 +227,7 @@ export interface Sequence2C<T extends URIS2, E> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Sequence3<T extends URIS3> {
   <F extends URIS3>(F: Applicative3<F>): <TR, TE, FR, FE, A>(

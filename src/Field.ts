@@ -1,14 +1,14 @@
 /**
  * Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Field.purs
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Ring } from './Ring'
 import { Eq } from './Eq'
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Field<A> extends Ring<A> {
   readonly degree: (a: A) => number
@@ -18,7 +18,7 @@ export interface Field<A> extends Ring<A> {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const fieldNumber: Field<number> = {
   add: (second) => (first) => first + second,
@@ -34,7 +34,7 @@ export const fieldNumber: Field<number> = {
 /**
  * The *greatest common divisor* of two values.
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function gcd<A>(E: Eq<A>, field: Field<A>): (second: A) => (first: A) => A {
   const predicate = E.equals(field.zero)
@@ -45,7 +45,7 @@ export function gcd<A>(E: Eq<A>, field: Field<A>): (second: A) => (first: A) => 
 /**
  * The *least common multiple* of two values.
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function lcm<A>(E: Eq<A>, F: Field<A>): (second: A) => (first: A) => A {
   const zero = F.zero

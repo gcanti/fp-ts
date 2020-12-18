@@ -6,7 +6,7 @@ parent: Modules
 
 ## Identity overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -78,7 +78,7 @@ types of kind `* -> *`.
 export declare const alt: <A>(second: Lazy<A>) => (first: A) => A
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## altW
 
@@ -90,7 +90,7 @@ Less strict version of [`alt`](#alt).
 export declare const altW: <B>(second: () => B) => <A>(first: A) => B | A
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 # Applicative
 
@@ -104,7 +104,7 @@ Wrap a value into the type constructor.
 export declare const of: <A>(a: A) => A
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Apply
 
@@ -118,7 +118,7 @@ Apply a function to an argument under a type constructor.
 export declare const ap: <A>(fa: A) => <B>(fab: (a: A) => B) => B
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Extend
 
@@ -130,7 +130,7 @@ Added in v2.0.0
 export declare const extend: <A, B>(f: (wa: A) => B) => (wa: A) => B
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Extract
 
@@ -142,7 +142,7 @@ Added in v2.0.0
 export declare const extract: <A>(wa: A) => A
 ```
 
-Added in v2.6.2
+Added in v3.0.0
 
 # Foldable
 
@@ -154,7 +154,7 @@ Added in v2.6.2
 export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: A) => M
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## reduce
 
@@ -164,7 +164,7 @@ Added in v2.0.0
 export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: A) => B
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## reduceRight
 
@@ -174,7 +174,7 @@ Added in v2.0.0
 export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: A) => B
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Functor
 
@@ -189,7 +189,7 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(f: (a: A) => B) => (fa: A) => B
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Monad
 
@@ -203,7 +203,7 @@ Composes computations in sequence, using the return value of one computation to 
 export declare const chain: <A, B>(f: (a: A) => B) => (fa: A) => B
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # combinators
 
@@ -217,7 +217,7 @@ Derivable from `Extend`.
 export declare const duplicate: <A>(ma: A) => A
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # derivable combinators
 
@@ -233,7 +233,7 @@ Derivable from `Apply`.
 export declare const apFirst: <B>(second: B) => <A>(first: A) => A
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## apSecond
 
@@ -247,7 +247,7 @@ Derivable from `Apply`.
 export declare const apSecond: <B>(second: B) => <A>(first: A) => B
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## chainFirst
 
@@ -262,7 +262,7 @@ Derivable from `Monad`.
 export declare const chainFirst: <A, B>(f: (a: A) => B) => (first: A) => A
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## flatten
 
@@ -274,7 +274,7 @@ Derivable from `Monad`.
 export declare const flatten: <A>(mma: A) => A
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # instances
 
@@ -286,7 +286,7 @@ Added in v2.0.0
 export declare const Alt: Alt1<'Identity'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Applicative
 
@@ -296,7 +296,7 @@ Added in v2.7.0
 export declare const Applicative: Applicative1<'Identity'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Comonad
 
@@ -306,7 +306,7 @@ Added in v2.7.0
 export declare const Comonad: Comonad1<'Identity'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Foldable
 
@@ -316,7 +316,7 @@ Added in v2.7.0
 export declare const Foldable: Foldable1<'Identity'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Functor
 
@@ -326,7 +326,7 @@ Added in v2.7.0
 export declare const Functor: Functor1<'Identity'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Monad
 
@@ -336,7 +336,7 @@ Added in v2.7.0
 export declare const Monad: Monad1<'Identity'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Traversable
 
@@ -346,7 +346,7 @@ Added in v2.7.0
 export declare const Traversable: Traversable1<'Identity'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## URI
 
@@ -356,7 +356,7 @@ Added in v2.7.0
 export declare const URI: 'Identity'
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -366,7 +366,7 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getEq
 
@@ -376,7 +376,7 @@ Added in v2.0.0
 export declare const getEq: <A>(E: Eq<A>) => Eq<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getShow
 
@@ -386,7 +386,7 @@ Added in v2.0.0
 export declare const getShow: <A>(S: Show<A>) => Show<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # model
 
@@ -398,7 +398,7 @@ Added in v2.0.0
 export type Identity<A> = A
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -420,7 +420,7 @@ Added in v3.0.0
 export declare const Do: {}
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## apS
 
@@ -433,7 +433,7 @@ export declare const apS: <A, N extends string, B>(
 ) => (fa: A) => { [K in N | keyof A]: K extends keyof A ? A[K] : B }
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## apT
 
@@ -456,7 +456,7 @@ export declare const bind: <N extends string, A, B>(
 ) => (fa: A) => { [K in N | keyof A]: K extends keyof A ? A[K] : B }
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## bindTo
 
@@ -466,7 +466,7 @@ Added in v2.8.0
 export declare const bindTo: <N extends string>(name: N) => <A>(fa: A) => { [K in N]: A }
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## sequence
 
@@ -476,7 +476,7 @@ Added in v2.8.0
 export declare const sequence: Sequence1<'Identity'>
 ```
 
-Added in v2.6.3
+Added in v3.0.0
 
 ## traverse
 
@@ -486,7 +486,7 @@ Added in v2.6.3
 export declare const traverse: Traverse1<'Identity'>
 ```
 
-Added in v2.6.3
+Added in v3.0.0
 
 ## tupled
 

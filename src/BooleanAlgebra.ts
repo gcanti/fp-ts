@@ -8,19 +8,19 @@
  *
  * Boolean algebras generalize classical logic: one is equivalent to "true" and zero is equivalent to "false".
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { HeytingAlgebra } from './HeytingAlgebra'
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = {
   meet: (second) => (first) => first && second,
@@ -33,7 +33,7 @@ export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const booleanAlgebraVoid: BooleanAlgebra<void> = {
   meet: () => () => undefined,
@@ -46,7 +46,7 @@ export const booleanAlgebraVoid: BooleanAlgebra<void> = {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getFunctionBooleanAlgebra<B>(B: BooleanAlgebra<B>): <A = never>() => BooleanAlgebra<(a: A) => B> {
   return () => ({
@@ -63,7 +63,7 @@ export function getFunctionBooleanAlgebra<B>(B: BooleanAlgebra<B>): <A = never>(
  * Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
  *
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getDualBooleanAlgebra<A>(B: BooleanAlgebra<A>): BooleanAlgebra<A> {
   return {

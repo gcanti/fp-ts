@@ -13,7 +13,7 @@ interface TaskEither<E, A> extends Task<Either<E, A>> {}
 `TaskEither<E, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
 error of type `E`. If you want to represent an asynchronous computation that never fails, please see `Task`.
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -167,7 +167,7 @@ async function test() {
 test()
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## altW
 
@@ -181,7 +181,7 @@ export declare const altW: <E2, B>(
 ) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, B | A>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 # Applicative
 
@@ -197,7 +197,7 @@ Equivalent to [`right`](#right).
 export declare const of: <E, A>(a: A) => TaskEither<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Apply
 
@@ -211,7 +211,7 @@ Apply a function to an argument under a type constructor.
 export declare const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## apW
 
@@ -225,7 +225,7 @@ export declare const apW: <E2, A>(
 ) => <E1, B>(fab: TaskEither<E1, (a: A) => B>) => TaskEither<E2 | E1, B>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 # Bifunctor
 
@@ -239,7 +239,7 @@ Map a pair of functions over the two type arguments of the bifunctor.
 export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: TaskEither<E, A>) => TaskEither<G, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## mapLeft
 
@@ -251,7 +251,7 @@ Map a function over the first type argument of a bifunctor.
 export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: TaskEither<E, A>) => TaskEither<G, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Functor
 
@@ -266,7 +266,7 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEither<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Monad
 
@@ -280,7 +280,7 @@ Composes computations in sequence, using the return value of one computation to 
 export declare const chain: <A, E, B>(f: (a: A) => TaskEither<E, B>) => (fa: TaskEither<E, A>) => TaskEither<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## chainW
 
@@ -294,7 +294,7 @@ export declare const chainW: <A, E2, B>(
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 
-Added in v2.6.0
+Added in v3.0.0
 
 # MonadIO
 
@@ -306,7 +306,7 @@ Added in v2.6.0
 export declare const fromIO: <E, A>(fa: IO<A>) => TaskEither<E, A>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 # MonadTask
 
@@ -318,7 +318,7 @@ Added in v2.7.0
 export declare const fromTask: <E, A>(fa: T.Task<A>) => TaskEither<E, A>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## throwError
 
@@ -328,7 +328,7 @@ Added in v2.7.0
 export declare const throwError: <E, A>(e: E) => TaskEither<E, A>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 # combinators
 
@@ -340,7 +340,7 @@ Added in v2.7.0
 export declare const chainEitherK: <E, A, B>(f: (a: A) => E.Either<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## chainEitherKW
 
@@ -354,7 +354,7 @@ export declare const chainEitherKW: <E, A, B>(
 ) => <D>(ma: TaskEither<D, A>) => TaskEither<E | D, B>
 ```
 
-Added in v2.6.1
+Added in v3.0.0
 
 ## chainFirstW
 
@@ -368,7 +368,7 @@ export declare const chainFirstW: <A, E2, B>(
 ) => <E1>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## chainIOEitherK
 
@@ -380,7 +380,7 @@ export declare const chainIOEitherK: <E, A, B>(
 ) => (ma: TaskEither<E, A>) => TaskEither<E, B>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## chainIOEitherKW
 
@@ -394,7 +394,7 @@ export declare const chainIOEitherKW: <E, A, B>(
 ) => <D>(ma: TaskEither<D, A>) => TaskEither<E | D, B>
 ```
 
-Added in v2.6.1
+Added in v3.0.0
 
 ## filterOrElse
 
@@ -409,7 +409,7 @@ export declare const filterOrElse: {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## fromEitherK
 
@@ -421,7 +421,7 @@ export declare function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
 ): (...a: A) => TaskEither<E, B>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## fromIOEitherK
 
@@ -433,7 +433,7 @@ export declare function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
 ): (...a: A) => TaskEither<E, B>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## orElse
 
@@ -465,7 +465,7 @@ async function test() {
 test()
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## swap
 
@@ -475,7 +475,7 @@ Added in v2.0.0
 export declare const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## tryCatchK
 
@@ -490,7 +490,7 @@ export declare function tryCatchK<E, A extends ReadonlyArray<unknown>, B>(
 ): (...a: A) => TaskEither<E, B>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # constructors
 
@@ -504,7 +504,7 @@ Derivable from `MonadThrow`.
 export declare const fromEither: <E, A>(ma: E.Either<E, A>) => TaskEither<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## fromIOEither
 
@@ -514,7 +514,7 @@ Added in v2.0.0
 export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## fromOption
 
@@ -526,7 +526,7 @@ Derivable from `MonadThrow`.
 export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskEither<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## fromPredicate
 
@@ -541,7 +541,7 @@ export declare const fromPredicate: {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## left
 
@@ -551,7 +551,7 @@ Added in v2.0.0
 export declare const left: <E = never, A = never>(e: E) => TaskEither<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## leftIO
 
@@ -561,7 +561,7 @@ Added in v2.0.0
 export declare const leftIO: <E = never, A = never>(me: IO<E>) => TaskEither<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## leftTask
 
@@ -571,7 +571,7 @@ Added in v2.0.0
 export declare const leftTask: <E = never, A = never>(me: T.Task<E>) => TaskEither<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## right
 
@@ -581,7 +581,7 @@ Added in v2.0.0
 export declare const right: <E = never, A = never>(a: A) => TaskEither<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## rightIO
 
@@ -591,7 +591,7 @@ Added in v2.0.0
 export declare const rightIO: <E = never, A = never>(ma: IO<A>) => TaskEither<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## rightTask
 
@@ -601,7 +601,7 @@ Added in v2.0.0
 export declare const rightTask: <E = never, A = never>(ma: T.Task<A>) => TaskEither<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## tryCatch
 
@@ -629,7 +629,7 @@ tryCatch(() => Promise.reject('error'), String)().then((result) => {
 })
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # derivable combinators
 
@@ -645,7 +645,7 @@ Derivable from `Apply`.
 export declare const apFirst: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither<E, A>) => TaskEither<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## apSecond
 
@@ -659,7 +659,7 @@ Derivable from `Apply`.
 export declare const apSecond: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither<E, A>) => TaskEither<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## chainFirst
 
@@ -676,7 +676,7 @@ export declare const chainFirst: <A, E, B>(
 ) => (first: TaskEither<E, A>) => TaskEither<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## flatten
 
@@ -688,7 +688,7 @@ Derivable from `Monad`.
 export declare const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # destructors
 
@@ -703,7 +703,7 @@ export declare const fold: <E, B, A>(
 ) => (ma: TaskEither<E, A>) => T.Task<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getOrElse
 
@@ -713,7 +713,7 @@ Added in v2.0.0
 export declare const getOrElse: <E, A>(onLeft: (e: E) => T.Task<A>) => (ma: TaskEither<E, A>) => T.Task<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getOrElseW
 
@@ -725,7 +725,7 @@ Less strict version of [`getOrElse`](#getOrElse).
 export declare const getOrElseW: <E, B>(onLeft: (e: E) => T.Task<B>) => <A>(ma: TaskEither<E, A>) => T.Task<B | A>
 ```
 
-Added in v2.6.0
+Added in v3.0.0
 
 # instances
 
@@ -737,7 +737,7 @@ Added in v2.6.0
 export declare const Alt: Alt2<'TaskEither'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## ApplicativePar
 
@@ -747,7 +747,7 @@ Added in v2.7.0
 export declare const ApplicativePar: Applicative2<'TaskEither'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## ApplicativeSeq
 
@@ -757,7 +757,7 @@ Added in v2.7.0
 export declare const ApplicativeSeq: Applicative2<'TaskEither'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Bifunctor
 
@@ -767,7 +767,7 @@ Added in v2.7.0
 export declare const Bifunctor: Bifunctor2<'TaskEither'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Functor
 
@@ -777,7 +777,7 @@ Added in v2.7.0
 export declare const Functor: Functor2<'TaskEither'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Monad
 
@@ -817,7 +817,7 @@ Added in v3.0.0
 export declare const URI: 'TaskEither'
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -827,7 +827,7 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getAltTaskValidation
 
@@ -837,7 +837,7 @@ Added in v2.0.0
 export declare function getAltTaskValidation<E>(SE: Semigroup<E>): Alt2C<URI, E>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## getApplicativeTaskValidation
 
@@ -847,7 +847,7 @@ Added in v2.7.0
 export declare function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## getApplyMonoid
 
@@ -857,7 +857,7 @@ Added in v2.7.0
 export declare function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getApplySemigroup
 
@@ -870,7 +870,7 @@ are concatenated using the provided `Semigroup`
 export declare function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getCompactable
 
@@ -890,7 +890,7 @@ Added in v3.0.0
 export declare function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E>
 ```
 
-Added in v2.1.0
+Added in v3.0.0
 
 ## getSemigroup
 
@@ -903,7 +903,7 @@ concatenated using the provided `Semigroup`
 export declare function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # model
 
@@ -915,7 +915,7 @@ Added in v2.0.0
 export interface TaskEither<E, A> extends Task<Either<E, A>> {}
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -937,7 +937,7 @@ Added in v3.0.0
 export declare const Do: TaskEither<never, {}>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## apS
 
@@ -950,7 +950,7 @@ export declare const apS: <A, N extends string, E, B>(
 ) => (fa: TaskEither<E, A>) => TaskEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## apSW
 
@@ -963,7 +963,7 @@ export declare const apSW: <A, N extends string, D, B>(
 ) => <E>(fa: TaskEither<E, A>) => TaskEither<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## apT
 
@@ -1000,7 +1000,7 @@ export declare const bind: <N extends string, A, E, B>(
 ) => (fa: TaskEither<E, A>) => TaskEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## bindTo
 
@@ -1012,7 +1012,7 @@ export declare const bindTo: <N extends string>(
 ) => <E, A>(fa: TaskEither<E, A>) => TaskEither<E, { [K in N]: A }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## bindW
 
@@ -1025,7 +1025,7 @@ export declare const bindW: <N extends string, A, D, B>(
 ) => <E>(fa: TaskEither<E, A>) => TaskEither<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## bracket
 
@@ -1046,7 +1046,7 @@ export declare const bracket: <E, A, B>(
 ) => TaskEither<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## filterOrElseW
 
@@ -1063,7 +1063,7 @@ export declare const filterOrElseW: {
 }
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## sequenceArray
 
@@ -1108,7 +1108,7 @@ async function test() {
 test()
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## sequenceSeqArray
 
@@ -1122,7 +1122,7 @@ _this function run all tasks in sequential order and bails out on left side of e
 export declare const sequenceSeqArray: <A, E>(arr: readonly TaskEither<E, A>[]) => TaskEither<E, readonly A[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## taskify
 
@@ -1174,7 +1174,7 @@ const stat = taskify(fs.stat)
 assert.strictEqual(stat.length, 0)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## traverseArray
 
@@ -1221,7 +1221,7 @@ async function test() {
 test()
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseArrayWithIndex
 
@@ -1233,7 +1233,7 @@ export declare const traverseArrayWithIndex: <A, B, E>(
 ) => (arr: readonly A[]) => TaskEither<E, readonly B[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseSeqArray
 
@@ -1249,7 +1249,7 @@ export declare const traverseSeqArray: <A, B, E>(
 ) => (arr: readonly A[]) => TaskEither<E, readonly B[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseSeqArrayWithIndex
 
@@ -1261,7 +1261,7 @@ export declare const traverseSeqArrayWithIndex: <A, B, E>(
 ) => (arr: readonly A[]) => TaskEither<E, readonly B[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## tupled
 

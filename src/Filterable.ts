@@ -1,7 +1,7 @@
 /**
  * `Filterable` represents data structures which can be _partitioned_/_filtered_.
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Separated } from './Compactable'
 import { Either } from './Either'
@@ -10,7 +10,7 @@ import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT
 import { Option } from './Option'
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Filter<F> {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: HKT<F, A>) => HKT<F, B>
@@ -18,7 +18,7 @@ export interface Filter<F> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Partition<F> {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, B>>
@@ -27,7 +27,7 @@ export interface Partition<F> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Filterable<F> {
   readonly URI: F
@@ -38,7 +38,7 @@ export interface Filterable<F> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Filter1<F extends URIS> {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind<F, A>) => Kind<F, B>
@@ -46,7 +46,7 @@ export interface Filter1<F extends URIS> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Partition1<F extends URIS> {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind<F, A>) => Separated<Kind<F, A>, Kind<F, B>>
@@ -55,7 +55,7 @@ export interface Partition1<F extends URIS> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Filterable1<F extends URIS> {
   readonly URI: F
@@ -66,7 +66,7 @@ export interface Filterable1<F extends URIS> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Filter2<F extends URIS2> {
   <A, B extends A>(refinement: Refinement<A, B>): <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
@@ -74,7 +74,7 @@ export interface Filter2<F extends URIS2> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Partition2<F extends URIS2> {
   <A, B extends A>(refinement: Refinement<A, B>): <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
@@ -83,7 +83,7 @@ export interface Partition2<F extends URIS2> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Filterable2<F extends URIS2> {
   readonly URI: F
@@ -96,7 +96,7 @@ export interface Filterable2<F extends URIS2> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Filter2C<F extends URIS2, E> {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind2<F, E, A>) => Kind2<F, E, B>
@@ -104,7 +104,7 @@ export interface Filter2C<F extends URIS2, E> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Partition2C<F extends URIS2, E> {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
@@ -113,7 +113,7 @@ export interface Partition2C<F extends URIS2, E> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Filterable2C<F extends URIS2, E> {
   readonly URI: F
@@ -126,7 +126,7 @@ export interface Filterable2C<F extends URIS2, E> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Filter3<F extends URIS3> {
   <A, B extends A>(refinement: Refinement<A, B>): <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
@@ -134,7 +134,7 @@ export interface Filter3<F extends URIS3> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Partition3<F extends URIS3> {
   <A, B extends A>(refinement: Refinement<A, B>): <R, E>(
@@ -145,7 +145,7 @@ export interface Partition3<F extends URIS3> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Filterable3<F extends URIS3> {
   readonly URI: F
@@ -158,7 +158,7 @@ export interface Filterable3<F extends URIS3> {
 }
 
 /**
- * @since 2.2.0
+ * @since 3.0.0
  */
 export interface Filter3C<F extends URIS3, E> {
   <A, B extends A>(refinement: Refinement<A, B>): <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
@@ -166,7 +166,7 @@ export interface Filter3C<F extends URIS3, E> {
 }
 
 /**
- * @since 2.2.0
+ * @since 3.0.0
  */
 export interface Partition3C<F extends URIS3, E> {
   <A, B extends A>(refinement: Refinement<A, B>): <R>(
@@ -177,7 +177,7 @@ export interface Partition3C<F extends URIS3, E> {
 
 /**
  * @category type classes
- * @since 2.2.0
+ * @since 3.0.0
  */
 export interface Filterable3C<F extends URIS3, E> {
   readonly URI: F
@@ -190,7 +190,7 @@ export interface Filterable3C<F extends URIS3, E> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Filter4<F extends URIS4> {
   <A, B extends A>(refinement: Refinement<A, B>): <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
@@ -198,7 +198,7 @@ export interface Filter4<F extends URIS4> {
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Partition4<F extends URIS4> {
   <A, B extends A>(refinement: Refinement<A, B>): <S, R, E>(
@@ -211,7 +211,7 @@ export interface Partition4<F extends URIS4> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Filterable4<F extends URIS4> {
   readonly URI: F

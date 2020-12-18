@@ -30,7 +30,7 @@
  *
  * *Adapted from https://typelevel.org/cats*
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Bounded } from './Bounded'
 import { Endomorphism, flow, identity } from './function'
@@ -39,7 +39,7 @@ import * as S from './Semigroup'
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Monoid<A> extends S.Semigroup<A> {
   readonly empty: A
@@ -58,7 +58,7 @@ export interface Monoid<A> extends S.Semigroup<A> {
  * assert.deepStrictEqual(pipe(true, monoidAll.concat(false)), false)
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const monoidAll: Monoid<boolean> = {
   concat: S.semigroupAll.concat,
@@ -79,7 +79,7 @@ export const monoidAll: Monoid<boolean> = {
  * assert.deepStrictEqual(pipe(false, monoidAny.concat(false)), false)
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const monoidAny: Monoid<boolean> = {
   concat: S.semigroupAny.concat,
@@ -98,7 +98,7 @@ export const monoidAny: Monoid<boolean> = {
  * assert.deepStrictEqual(pipe(2, monoidSum.concat(3)), 5)
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const monoidSum: Monoid<number> = {
   concat: S.semigroupSum.concat,
@@ -117,7 +117,7 @@ export const monoidSum: Monoid<number> = {
  * assert.deepStrictEqual(pipe(2, monoidProduct.concat(3)), 6)
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const monoidProduct: Monoid<number> = {
   concat: S.semigroupProduct.concat,
@@ -136,7 +136,7 @@ export const monoidProduct: Monoid<number> = {
  * assert.deepStrictEqual(pipe('a', monoidString.concat('b')), 'ab')
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const monoidString: Monoid<string> = {
   concat: S.semigroupString.concat,
@@ -145,7 +145,7 @@ export const monoidString: Monoid<string> = {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const monoidVoid: Monoid<void> = {
   concat: S.semigroupVoid.concat,
@@ -163,7 +163,7 @@ export const monoidVoid: Monoid<void> = {
  * assert.deepStrictEqual(M.fold(M.monoidSum)([1, 2, 3]), 6)
  * assert.deepStrictEqual(M.fold(M.monoidSum)([]), 0)
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function fold<A>(M: Monoid<A>): (as: ReadonlyArray<A>) => A {
   return S.fold(M)(M.empty)
@@ -183,7 +183,7 @@ export function fold<A>(M: Monoid<A>): (as: ReadonlyArray<A>) => A {
  * assert.deepStrictEqual(pipe(['a', 1, true], M2.concat(['b', 2, false])), ['ab', 3, false])
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getTupleMonoid<T extends ReadonlyArray<Monoid<any>>>(
   ...monoids: T
@@ -205,7 +205,7 @@ export function getTupleMonoid<T extends ReadonlyArray<Monoid<any>>>(
  * assert.deepStrictEqual(pipe('a', M1.concat('b')), 'ba')
  *
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getDualMonoid<A>(M: Monoid<A>): Monoid<A> {
   return {
@@ -235,7 +235,7 @@ export function getDualMonoid<A>(M: Monoid<A>): Monoid<A> {
  * assert.deepStrictEqual(pipe(f, M2.concat(g))(3), true)
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getFunctionMonoid<M>(M: Monoid<M>): <A = never>() => Monoid<(a: A) => M> {
   return () => ({
@@ -248,7 +248,7 @@ export function getFunctionMonoid<M>(M: Monoid<M>): <A = never>() => Monoid<(a: 
  * Endomorphism form a monoid where the `empty` value is the identity function.
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<A>> {
   return {
@@ -277,7 +277,7 @@ export function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<A>> {
  * assert.deepStrictEqual(pipe({ x: 1, y: 2 }, monoidPoint.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getStructMonoid<O extends ReadonlyRecord<string, any>>(
   monoids: { [K in keyof O]: Monoid<O[K]> }
@@ -307,7 +307,7 @@ export function getStructMonoid<O extends ReadonlyRecord<string, any>>(
  * assert.deepStrictEqual(pipe(1, M1.concat(2)), 1)
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getMeetMonoid<A>(B: Bounded<A>): Monoid<A> {
   return {
@@ -331,7 +331,7 @@ export function getMeetMonoid<A>(B: Bounded<A>): Monoid<A> {
  * assert.deepStrictEqual(pipe(1, M1.concat(2)), 2)
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getJoinMonoid<A>(B: Bounded<A>): Monoid<A> {
   return {

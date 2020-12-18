@@ -1,5 +1,5 @@
 /**
- * @since 2.2.0
+ * @since 3.0.0
  */
 
 import { Lazy } from './function'
@@ -23,6 +23,6 @@ import { Lazy } from './function'
  * )
  *
  * @category destructors
- * @since 2.2.0
+ * @since 3.0.0
  */
 export const fold = <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boolean): A => (value ? onTrue() : onFalse())

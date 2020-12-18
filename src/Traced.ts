@@ -1,5 +1,5 @@
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Comonad2C } from './Comonad'
 import { Functor2 } from './Functor'
@@ -11,7 +11,7 @@ import { Monoid } from './Monoid'
 
 /**
  * @category model
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Traced<P, A> {
   (p: P): A
@@ -20,14 +20,14 @@ export interface Traced<P, A> {
 /**
  * Extracts a value at a relative position which depends on the current value.
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const tracks = <P>(M: Monoid<P>) => <A>(f: (a: A) => P) => (wa: Traced<P, A>): A => wa(f(wa(M.empty)))
 
 /**
  * Get the current position
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function listen<P, A>(wa: Traced<P, A>): Traced<P, readonly [A, P]> {
   return (e) => [wa(e), e]
@@ -36,7 +36,7 @@ export function listen<P, A>(wa: Traced<P, A>): Traced<P, readonly [A, P]> {
 /**
  * Get a value which depends on the current position
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function listens<P, B>(f: (p: P) => B): <A>(wa: Traced<P, A>) => Traced<P, readonly [A, B]> {
   return (wa) => (e) => [wa(e), f(e)]
@@ -45,7 +45,7 @@ export function listens<P, B>(f: (p: P) => B): <A>(wa: Traced<P, A>) => Traced<P
 /**
  * Apply a function to the current position
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function censor<P>(f: (p: P) => P): <A>(wa: Traced<P, A>) => Traced<P, A> {
   return (wa) => (e) => wa(f(e))
@@ -53,7 +53,7 @@ export function censor<P>(f: (p: P) => P): <A>(wa: Traced<P, A>) => Traced<P, A>
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
   return {
@@ -69,7 +69,7 @@ export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
  * use the type constructor `F` to represent some computational context.
  *
  * @category Functor
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: Traced<E, A>) => Traced<E, B> = (f) => (fa) => (p) => f(fa(p))
 
@@ -79,13 +79,13 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: Traced<E, A>) => Traced<E, B
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const URI = 'Traced'
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export type URI = typeof URI
 
@@ -97,7 +97,7 @@ declare module './HKT' {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
   URI,

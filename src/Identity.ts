@@ -1,5 +1,5 @@
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Alt1 } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
@@ -22,7 +22,7 @@ import { Traversable1 } from './Traversable'
 
 /**
  * @category model
- * @since 2.0.0
+ * @since 3.0.0
  */
 export type Identity<A> = A
 
@@ -31,7 +31,7 @@ export type Identity<A> = A
  * use the type constructor `F` to represent some computational context.
  *
  * @category Functor
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => (fa: Identity<A>) => Identity<B> = (f) => (fa) => f(fa)
 
@@ -39,7 +39,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Identity<A>) => Identity<B> = (
  * Apply a function to an argument under a type constructor.
  *
  * @category Apply
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const ap: Applicative1<URI>['ap'] = (fa) => (fab) => fab(fa)
 
@@ -47,7 +47,7 @@ export const ap: Applicative1<URI>['ap'] = (fa) => (fab) => fab(fa)
  * Wrap a value into the type constructor.
  *
  * @category Applicative
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const of: Applicative1<URI>['of'] = id
 
@@ -55,19 +55,19 @@ export const of: Applicative1<URI>['of'] = id
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const chain: Monad1<URI>['chain'] = (f) => (ma) => f(ma)
 
 /**
  * @category Extend
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const extend: Extend1<URI>['extend'] = (f) => (wa) => f(wa)
 
 /**
  * @category Extract
- * @since 2.6.2
+ * @since 3.0.0
  */
 export const extract: <A>(wa: Identity<A>) => A = id
 
@@ -75,7 +75,7 @@ export const extract: <A>(wa: Identity<A>) => A = id
  * Derivable from `Extend`.
  *
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> =
   /*#__PURE__*/
@@ -85,7 +85,7 @@ export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> =
  * Derivable from `Monad`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> =
   /*#__PURE__*/
@@ -93,31 +93,31 @@ export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> =
 
 /**
  * @category Foldable
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Identity<A>) => B = (b, f) => (fa) => f(b, fa)
 
 /**
  * @category Foldable
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Identity<A>) => M = () => (f) => (fa) => f(fa)
 
 /**
  * @category Foldable
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Identity<A>) => B = (b, f) => (fa) => f(fa, b)
 
 /**
- * @since 2.6.3
+ * @since 3.0.0
  */
 export const traverse: Traversable1<URI>['traverse'] = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Identity<A>) => HKT<F, Identity<B>>) => (f) => (ta) => pipe(f(ta), F.map(id))
 
 /**
- * @since 2.6.3
+ * @since 3.0.0
  */
 export const sequence: Traversable1<URI>['sequence'] = <F>(
   F: ApplicativeHKT<F>
@@ -127,7 +127,7 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(
  * Less strict version of [`alt`](#alt).
  *
  * @category Alt
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const altW: <B>(second: () => Identity<B>) => <A>(first: Identity<A>) => Identity<A | B> = () => id
 
@@ -136,7 +136,7 @@ export const altW: <B>(second: () => Identity<B>) => <A>(first: Identity<A>) => 
  * types of kind `* -> *`.
  *
  * @category Alt
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const alt: Alt1<URI>['alt'] = altW
 
@@ -146,13 +146,13 @@ export const alt: Alt1<URI>['alt'] = altW
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const URI = 'Identity'
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export type URI = typeof URI
 
@@ -164,19 +164,19 @@ declare module './HKT' {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const getShow: <A>(S: Show<A>) => Show<Identity<A>> = id
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const getEq: <A>(E: Eq<A>) => Eq<Identity<A>> = id
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Functor: Functor1<URI> = {
   URI,
@@ -185,7 +185,7 @@ export const Functor: Functor1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Applicative: Applicative1<URI> = {
   URI,
@@ -200,7 +200,7 @@ export const Applicative: Applicative1<URI> = {
  * Derivable from `Apply`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const apFirst: <B>(second: Identity<B>) => <A>(first: Identity<A>) => Identity<A> =
   /*#__PURE__*/
@@ -212,7 +212,7 @@ export const apFirst: <B>(second: Identity<B>) => <A>(first: Identity<A>) => Ide
  * Derivable from `Apply`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const apSecond: <B>(second: Identity<B>) => <A>(first: Identity<A>) => Identity<B> =
   /*#__PURE__*/
@@ -220,7 +220,7 @@ export const apSecond: <B>(second: Identity<B>) => <A>(first: Identity<A>) => Id
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Monad: Monad1<URI> = {
   URI,
@@ -236,7 +236,7 @@ export const Monad: Monad1<URI> = {
  * Derivable from `Monad`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const chainFirst: <A, B>(f: (a: A) => Identity<B>) => (first: Identity<A>) => Identity<A> =
   /*#__PURE__*/
@@ -244,7 +244,7 @@ export const chainFirst: <A, B>(f: (a: A) => Identity<B>) => (first: Identity<A>
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Foldable: Foldable1<URI> = {
   URI,
@@ -255,7 +255,7 @@ export const Foldable: Foldable1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Traversable: Traversable1<URI> = {
   URI,
@@ -266,7 +266,7 @@ export const Traversable: Traversable1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Alt: Alt1<URI> = {
   URI,
@@ -276,7 +276,7 @@ export const Alt: Alt1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Comonad: Comonad1<URI> = {
   URI,
@@ -290,18 +290,18 @@ export const Comonad: Comonad1<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const Do: Identity<{}> = of({})
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bindTo = <N extends string>(name: N): (<A>(fa: Identity<A>) => Identity<{ [K in N]: A }>) =>
   map(bindTo_(name))
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bind = <N extends string, A, B>(
   name: Exclude<N, keyof A>,
@@ -319,7 +319,7 @@ export const bind = <N extends string, A, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const apS = <A, N extends string, B>(
   name: Exclude<N, keyof A>,

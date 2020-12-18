@@ -1,5 +1,5 @@
 /**
- * @since 2.3.0
+ * @since 3.0.0
  */
 import { Applicative2 } from './Applicative'
 import { apFirst_, apSecond_ } from './Apply'
@@ -22,7 +22,7 @@ import Reader = R.Reader
 
 /**
  * @category model
- * @since 2.3.0
+ * @since 3.0.0
  */
 export interface ReaderTask<R, A> {
   (r: R): Task<A>
@@ -34,7 +34,7 @@ export interface ReaderTask<R, A> {
 
 /**
  * @category constructors
- * @since 2.3.0
+ * @since 3.0.0
  */
 export const fromTask: <R, A>(ma: Task<A>) => ReaderTask<R, A> =
   /*#__PURE__*/
@@ -42,13 +42,13 @@ export const fromTask: <R, A>(ma: Task<A>) => ReaderTask<R, A> =
 
 /**
  * @category constructors
- * @since 2.3.0
+ * @since 3.0.0
  */
 export const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A> = (ma) => flow(ma, T.of)
 
 /**
  * @category constructors
- * @since 2.3.0
+ * @since 3.0.0
  */
 export const fromIO: <R, A>(ma: IO<A>) => ReaderTask<R, A> =
   /*#__PURE__*/
@@ -56,13 +56,13 @@ export const fromIO: <R, A>(ma: IO<A>) => ReaderTask<R, A> =
 
 /**
  * @category constructors
- * @since 2.3.0
+ * @since 3.0.0
  */
 export const ask: <R>() => ReaderTask<R, R> = () => T.of
 
 /**
  * @category constructors
- * @since 2.3.0
+ * @since 3.0.0
  */
 export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> = (f) => flow(T.of, T.map(f))
 
@@ -72,7 +72,7 @@ export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> = (f) => f
 
 /**
  * @category combinators
- * @since 2.4.0
+ * @since 3.0.0
  */
 export function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): <R>(...a: A) => ReaderTask<R, B> {
   return (...a) => fromIO(f(...a))
@@ -80,14 +80,14 @@ export function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<
 
 /**
  * @category combinators
- * @since 2.4.0
+ * @since 3.0.0
  */
 export const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> = (f) =>
   chain((a) => fromIO(f(a)))
 
 /**
  * @category combinators
- * @since 2.4.0
+ * @since 3.0.0
  */
 export function fromTaskK<A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Task<B>
@@ -97,7 +97,7 @@ export function fromTaskK<A extends ReadonlyArray<unknown>, B>(
 
 /**
  * @category combinators
- * @since 2.4.0
+ * @since 3.0.0
  */
 export const chainTaskK: <A, B>(f: (a: A) => Task<B>) => <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> = (f) =>
   chain((a) => fromTask(f(a)))
@@ -107,7 +107,7 @@ export const chainTaskK: <A, B>(f: (a: A) => Task<B>) => <R>(ma: ReaderTask<R, A
  * use the type constructor `F` to represent some computational context.
  *
  * @category Functor
- * @since 2.3.0
+ * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B> = (f) => (fa) =>
   flow(fa, T.map(f))
@@ -116,7 +116,7 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderT
  * Less strict version of [`ap`](#ap).
  *
  * @category Apply
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const apW: <R2, A>(
   fa: ReaderTask<R2, A>
@@ -127,7 +127,7 @@ export const apW: <R2, A>(
  * Apply a function to an argument under a type constructor.
  *
  * @category Apply
- * @since 2.3.0
+ * @since 3.0.0
  */
 export const ap: Applicative2<URI>['ap'] = apW
 
@@ -135,7 +135,7 @@ export const ap: Applicative2<URI>['ap'] = apW
  * Wrap a value into the type constructor.
  *
  * @category Applicative
- * @since 2.3.0
+ * @since 3.0.0
  */
 export const of: Applicative2<URI>['of'] = (a) => () => T.of(a)
 
@@ -143,7 +143,7 @@ export const of: Applicative2<URI>['of'] = (a) => () => T.of(a)
  * Less strict version of  [`chain`](#chain).
  *
  * @category Monad
- * @since 2.6.7
+ * @since 3.0.0
  */
 export const chainW: <A, R2, B>(
   f: (a: A) => ReaderTask<R2, B>
@@ -157,7 +157,7 @@ export const chainW: <A, R2, B>(
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad
- * @since 2.3.0
+ * @since 3.0.0
  */
 export const chain: Monad2<URI>['chain'] = chainW
 
@@ -165,7 +165,7 @@ export const chain: Monad2<URI>['chain'] = chainW
  * Derivable from `Monad`.
  *
  * @category derivable combinators
- * @since 2.3.0
+ * @since 3.0.0
  */
 export const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => ReaderTask<R, A> =
   /*#__PURE__*/
@@ -177,13 +177,13 @@ export const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => ReaderTask
 
 /**
  * @category instances
- * @since 2.3.0
+ * @since 3.0.0
  */
 export const URI = 'ReaderTask'
 
 /**
  * @category instances
- * @since 2.3.0
+ * @since 3.0.0
  */
 export type URI = typeof URI
 
@@ -195,7 +195,7 @@ declare module './HKT' {
 
 /**
  * @category instances
- * @since 2.3.0
+ * @since 3.0.0
  */
 export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<ReaderTask<R, A>> {
   return R.getSemigroup(T.getSemigroup(S))
@@ -203,7 +203,7 @@ export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<ReaderTask<R, A>>
 
 /**
  * @category instances
- * @since 2.3.0
+ * @since 3.0.0
  */
 export function getMonoid<R, A>(M: Monoid<A>): Monoid<ReaderTask<R, A>> {
   return {
@@ -214,7 +214,7 @@ export function getMonoid<R, A>(M: Monoid<A>): Monoid<ReaderTask<R, A>> {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
   URI,
@@ -223,7 +223,7 @@ export const Functor: Functor2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const ApplicativePar: Applicative2<URI> = {
   URI,
@@ -238,7 +238,7 @@ export const ApplicativePar: Applicative2<URI> = {
  * Derivable from `Apply`.
  *
  * @category derivable combinators
- * @since 2.3.0
+ * @since 3.0.0
  */
 export const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<R, A>) => ReaderTask<R, A> =
   /*#__PURE__*/
@@ -250,7 +250,7 @@ export const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<
  * Derivable from `Apply`.
  *
  * @category derivable combinators
- * @since 2.3.0
+ * @since 3.0.0
  */
 export const apSecond: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
   /*#__PURE__*/
@@ -258,7 +258,7 @@ export const apSecond: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const ApplicativeSeq: Applicative2<URI> = {
   URI,
@@ -284,7 +284,7 @@ export const Monad: Monad2<URI> = {
  * Derivable from `Monad`.
  *
  * @category derivable combinators
- * @since 2.3.0
+ * @since 3.0.0
  */
 export const chainFirst: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (first: ReaderTask<R, A>) => ReaderTask<R, A> =
   /*#__PURE__*/
@@ -305,18 +305,18 @@ export const MonadTask: MonadTask2<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const Do: ReaderTask<unknown, {}> = of({})
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bindTo = <N extends string>(name: N): (<R, A>(fa: ReaderTask<R, A>) => ReaderTask<R, { [K in N]: A }>) =>
   map(bindTo_(name))
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bindW = <N extends string, A, Q, B>(
   name: Exclude<N, keyof A>,
@@ -330,7 +330,7 @@ export const bindW = <N extends string, A, Q, B>(
   )
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bind: <N extends string, A, R, B>(
   name: Exclude<N, keyof A>,
@@ -342,7 +342,7 @@ export const bind: <N extends string, A, R, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const apSW = <A, N extends string, Q, B>(
   name: Exclude<N, keyof A>,
@@ -354,7 +354,7 @@ export const apSW = <A, N extends string, Q, B>(
   )
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const apS: <A, N extends string, R, B>(
   name: Exclude<N, keyof A>,
@@ -399,7 +399,7 @@ export const apT: <R, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const traverseArrayWithIndex: <R, A, B>(
   f: (index: number, a: A) => ReaderTask<R, B>
@@ -407,14 +407,14 @@ export const traverseArrayWithIndex: <R, A, B>(
   flow(R.traverseArrayWithIndex(f), R.map(T.sequenceArray))
 
 /**
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const traverseArray: <R, A, B>(
   f: (a: A) => ReaderTask<R, B>
 ) => (arr: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const sequenceArray: <R, A>(
   arr: ReadonlyArray<ReaderTask<R, A>>

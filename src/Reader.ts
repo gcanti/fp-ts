@@ -1,5 +1,5 @@
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Applicative2 } from './Applicative'
 import { apFirst_, apSecond_ } from './Apply'
@@ -17,7 +17,7 @@ import { Semigroup } from './Semigroup'
 
 /**
  * @category model
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Reader<R, A> {
   (r: R): A
@@ -31,7 +31,7 @@ export interface Reader<R, A> {
  * Reads the current context
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const ask: <R>() => Reader<R, R> = () => identity
 
@@ -39,7 +39,7 @@ export const ask: <R>() => Reader<R, R> = () => identity
  * Projects a value from the global context in a Reader
  *
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = identity
 
@@ -52,7 +52,7 @@ export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = identity
  * `contramap`).
  *
  * @category combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q, A> = (f) => (ma) => (q) => ma(f(q))
 
@@ -61,7 +61,7 @@ export const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q,
  * use the type constructor `F` to represent some computational context.
  *
  * @category Functor
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B> = (f) => (fa) => (r) => f(fa(r))
 
@@ -69,7 +69,7 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B
  * Less strict version of [`ap`](#ap).
  *
  * @category Apply
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const apW: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) => B>) => Reader<R1 & R2, B> = (fa) => (
   fab
@@ -79,7 +79,7 @@ export const apW: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) =
  * Apply a function to an argument under a type constructor.
  *
  * @category Apply
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const ap: Applicative2<URI>['ap'] = apW
 
@@ -87,7 +87,7 @@ export const ap: Applicative2<URI>['ap'] = apW
  * Wrap a value into the type constructor.
  *
  * @category Applicative
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const of: Applicative2<URI>['of'] = constant
 
@@ -95,7 +95,7 @@ export const of: Applicative2<URI>['of'] = constant
  * Less strict version of [`chain`](#chain).
  *
  * @category Monad
- * @since 2.6.0
+ * @since 3.0.0
  */
 export const chainW: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B> = (f) => (
   fa
@@ -105,7 +105,7 @@ export const chainW: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const chain: Monad2<URI>['chain'] = chainW
 
@@ -113,7 +113,7 @@ export const chain: Monad2<URI>['chain'] = chainW
  * Derivable from `Monad`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> =
   /*#__PURE__*/
@@ -121,13 +121,13 @@ export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> =
 
 /**
  * @category Semigroupoid
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const compose: <A, B>(ab: Reader<A, B>) => <C>(bc: Reader<B, C>) => Reader<A, C> = (ab) => (bc) => flow(ab, bc)
 
 /**
  * @category Profunctor
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reader<E, A>) => Reader<D, B> = (f, g) => (
   fea
@@ -135,7 +135,7 @@ export const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reade
 
 /**
  * @category Category
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const id: Category2<URI>['id'] = () => identity
 
@@ -145,13 +145,13 @@ export const id: Category2<URI>['id'] = () => identity
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const URI = 'Reader'
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export type URI = typeof URI
 
@@ -163,7 +163,7 @@ declare module './HKT' {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R, A>> {
   return {
@@ -173,7 +173,7 @@ export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R, A>> {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> {
   return {
@@ -184,7 +184,7 @@ export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
   URI,
@@ -193,7 +193,7 @@ export const Functor: Functor2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Applicative: Applicative2<URI> = {
   URI,
@@ -208,7 +208,7 @@ export const Applicative: Applicative2<URI> = {
  * Derivable from `Apply`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const apFirst: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) => Reader<R, A> =
   /*#__PURE__*/
@@ -220,7 +220,7 @@ export const apFirst: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) =
  * Derivable from `Apply`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const apSecond: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) => Reader<R, B> =
   /*#__PURE__*/
@@ -228,7 +228,7 @@ export const apSecond: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) 
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Monad: Monad2<URI> = {
   URI,
@@ -244,7 +244,7 @@ export const Monad: Monad2<URI> = {
  * Derivable from `Monad`.
  *
  * @category derivable combinators
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<R, A>) => Reader<R, A> =
   /*#__PURE__*/
@@ -252,7 +252,7 @@ export const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Profunctor: Profunctor2<URI> = {
   URI,
@@ -262,7 +262,7 @@ export const Profunctor: Profunctor2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Category: Category2<URI> = {
   URI,
@@ -275,13 +275,13 @@ export const Category: Category2<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bindTo = <N extends string>(name: N): (<R, A>(fa: Reader<R, A>) => Reader<R, { [K in N]: A }>) =>
   map(bindTo_(name))
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bindW = <N extends string, A, Q, B>(
   name: Exclude<N, keyof A>,
@@ -295,7 +295,7 @@ export const bindW = <N extends string, A, Q, B>(
   )
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const bind: <N extends string, A, R, B>(
   name: Exclude<N, keyof A>,
@@ -307,12 +307,12 @@ export const bind: <N extends string, A, R, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const Do: Reader<unknown, {}> = of({})
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const apSW = <A, N extends string, Q, B>(
   name: Exclude<N, keyof A>,
@@ -324,7 +324,7 @@ export const apSW = <A, N extends string, Q, B>(
   )
 
 /**
- * @since 2.8.0
+ * @since 3.0.0
  */
 export const apS: <A, N extends string, R, B>(
   name: Exclude<N, keyof A>,
@@ -370,7 +370,7 @@ export const apT: <R, B>(
 
 /**
  *
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const traverseArrayWithIndex: <R, A, B>(
   f: (index: number, a: A) => Reader<R, B>
@@ -389,7 +389,7 @@ export const traverseArrayWithIndex: <R, A, B>(
  *
  * assert.deepStrictEqual(pipe(arr, traverseArray(add))({value: 3}), pipe(arr, RA.map(x => x + 3)))
  *
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const traverseArray: <R, A, B>(
   f: (a: A) => Reader<R, B>
@@ -408,7 +408,7 @@ export const traverseArray: <R, A, B>(
  *
  * assert.deepStrictEqual(pipe(arr, RA.map(add), sequenceArray)({value: 3}), pipe(arr, RA.map(x => x + 3)))
  *
- * @since 2.9.0
+ * @since 3.0.0
  */
 export const sequenceArray: <R, A>(arr: ReadonlyArray<Reader<R, A>>) => Reader<R, ReadonlyArray<A>> = traverseArray(
   identity

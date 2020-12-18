@@ -6,7 +6,7 @@ parent: Modules
 
 ## boolean overview
 
-Added in v2.2.0
+Added in v3.0.0
 
 ---
 
@@ -52,4 +52,4 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.2.0
+Added in v3.0.0

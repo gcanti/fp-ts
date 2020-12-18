@@ -13,7 +13,7 @@ Laws:
 
 - Left zero: `M.chain(M.throwError(e), f) = M.throwError(e)`
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -43,7 +43,7 @@ export interface MonadThrow<M> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## MonadThrow1 (interface)
 
@@ -56,7 +56,7 @@ export interface MonadThrow1<M extends URIS> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## MonadThrow2 (interface)
 
@@ -69,7 +69,7 @@ export interface MonadThrow2<M extends URIS2> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## MonadThrow2C (interface)
 
@@ -82,7 +82,7 @@ export interface MonadThrow2C<M extends URIS2, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## MonadThrow3 (interface)
 
@@ -95,7 +95,7 @@ export interface MonadThrow3<M extends URIS3> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## MonadThrow3C (interface)
 
@@ -108,7 +108,7 @@ export interface MonadThrow3C<M extends URIS3, E> {
 }
 ```
 
-Added in v2.2.0
+Added in v3.0.0
 
 ## MonadThrow4 (interface)
 
@@ -121,4 +121,4 @@ export interface MonadThrow4<M extends URIS4> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

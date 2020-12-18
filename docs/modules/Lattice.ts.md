@@ -11,7 +11,7 @@ A `Lattice` must satisfy the following in addition to `JoinSemilattice` and `Mee
 - Absorbtion law for meet: `a ∧ (a ∨ b) <-> a`
 - Absorbtion law for join: `a ∨ (a ∧ b) <-> a`
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -32,4 +32,4 @@ Added in v2.0.0
 export interface Lattice<A> extends JoinSemilattice<A>, MeetSemilattice<A> {}
 ```
 
-Added in v2.0.0
+Added in v3.0.0

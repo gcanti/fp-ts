@@ -248,6 +248,9 @@ high state of flux, you're at risk of it changing without notice.
     - remove `writer` (@gcanti)
 
 - **New Feature**
+  - `Apply`
+    - add `apFirst_` (@gcanti)
+    - add `apSecond_` (@gcanti)
   - `Either`
     - add `getCompactable` (@gcanti)
     - add `getFilterable` (@gcanti)
@@ -259,6 +262,8 @@ high state of flux, you're at risk of it changing without notice.
   - `IOEither`
     - add `getCompactable` (@gcanti)
     - add pipeable sequence T (@gcanti)
+  - `Monad`
+    - add `chainFirst_` (@gcanti)
   - `Option`
     - add pipeable sequence T (@gcanti)
   - `Reader`

@@ -3,14 +3,14 @@
  *
  * - Inverse: `concat(inverse(a), a) <-> empty = concat(a, inverse(a))`
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Endomorphism } from './function'
 import { Monoid } from './Monoid'
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Group<A> extends Monoid<A> {
   readonly inverse: Endomorphism<A>

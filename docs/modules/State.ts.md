@@ -6,7 +6,7 @@ parent: Modules
 
 ## State overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -64,7 +64,7 @@ Wrap a value into the type constructor.
 export declare const of: <E, A>(a: A) => State<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Apply
 
@@ -78,7 +78,7 @@ Apply a function to an argument under a type constructor.
 export declare const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => State<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Functor
 
@@ -93,7 +93,7 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: State<E, A>) => State<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Monad
 
@@ -107,7 +107,7 @@ Composes computations in sequence, using the return value of one computation to 
 export declare const chain: <A, E, B>(f: (a: A) => State<E, B>) => (fa: State<E, A>) => State<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # constructors
 
@@ -121,7 +121,7 @@ Get the current state
 export declare const get: <S>() => State<S, S>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## gets
 
@@ -133,7 +133,7 @@ Get a value which depends on the current state
 export declare const gets: <S, A>(f: (s: S) => A) => State<S, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## modify
 
@@ -145,7 +145,7 @@ Modify the state by applying a function to the current state
 export declare const modify: <S>(f: (s: S) => S) => State<S, void>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## put
 
@@ -157,7 +157,7 @@ Set the state
 export declare const put: <S>(s: S) => State<S, void>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # derivable combinators
 
@@ -173,7 +173,7 @@ Derivable from `Apply`.
 export declare const apFirst: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## apSecond
 
@@ -187,7 +187,7 @@ Derivable from `Apply`.
 export declare const apSecond: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## chainFirst
 
@@ -202,7 +202,7 @@ Derivable from `Monad`.
 export declare const chainFirst: <A, S, B>(f: (a: A) => State<S, B>) => (first: State<S, A>) => State<S, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## flatten
 
@@ -214,7 +214,7 @@ Derivable from `Monad`.
 export declare const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # instances
 
@@ -226,7 +226,7 @@ Added in v2.0.0
 export declare const Applicative: Applicative2<'State'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Functor
 
@@ -236,7 +236,7 @@ Added in v2.7.0
 export declare const Functor: Functor2<'State'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Monad
 
@@ -246,7 +246,7 @@ Added in v2.7.0
 export declare const Monad: Monad2<'State'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## URI
 
@@ -256,7 +256,7 @@ Added in v2.7.0
 export declare const URI: 'State'
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -266,7 +266,7 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # model
 
@@ -280,7 +280,7 @@ export interface State<S, A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -295,7 +295,7 @@ export declare const apS: <A, N extends string, S, B>(
 ) => (fa: State<S, A>) => State<S, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## apT
 
@@ -320,7 +320,7 @@ export declare const bind: <N extends string, A, S, B>(
 ) => (fa: State<S, A>) => State<S, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## bindTo
 
@@ -330,7 +330,7 @@ Added in v2.8.0
 export declare const bindTo: <N extends string>(name: N) => <S, A>(fa: State<S, A>) => State<S, { [K in N]: A }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## evaluate
 
@@ -342,7 +342,7 @@ Run a computation in the `State` monad, discarding the final state
 export declare const evaluate: <S>(s: S) => <A>(ma: State<S, A>) => A
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## execute
 
@@ -354,7 +354,7 @@ Run a computation in the `State` monad discarding the result
 export declare const execute: <S>(s: S) => <A>(ma: State<S, A>) => S
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## sequenceArray
 
@@ -379,7 +379,7 @@ const arr = RA.range(0, 100)
 assert.deepStrictEqual(pipe(arr, RA.map(add), sequenceArray)(0), [arr, arr.reduce((p, c) => p + c, 0)])
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseArray
 
@@ -404,7 +404,7 @@ const arr = RA.range(0, 100)
 assert.deepStrictEqual(pipe(arr, traverseArray(add))(0), [arr, arr.reduce((p, c) => p + c, 0)])
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseArrayWithIndex
 
@@ -416,7 +416,7 @@ export declare const traverseArrayWithIndex: <A, S, B>(
 ) => (arr: readonly A[]) => State<S, readonly B[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## tupled
 

@@ -6,7 +6,7 @@ parent: Modules
 
 ## Traced overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -42,7 +42,7 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Traced<E, A>) => Traced<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # instances
 
@@ -54,7 +54,7 @@ Added in v2.0.0
 export declare const Functor: Functor2<'Traced'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## URI
 
@@ -64,7 +64,7 @@ Added in v2.7.0
 export declare const URI: 'Traced'
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -74,7 +74,7 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getComonad
 
@@ -84,7 +84,7 @@ Added in v2.0.0
 export declare function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # model
 
@@ -98,7 +98,7 @@ export interface Traced<P, A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -112,7 +112,7 @@ Apply a function to the current position
 export declare function censor<P>(f: (p: P) => P): <A>(wa: Traced<P, A>) => Traced<P, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## listen
 
@@ -124,7 +124,7 @@ Get the current position
 export declare function listen<P, A>(wa: Traced<P, A>): Traced<P, readonly [A, P]>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## listens
 
@@ -136,7 +136,7 @@ Get a value which depends on the current position
 export declare function listens<P, B>(f: (p: P) => B): <A>(wa: Traced<P, A>) => Traced<P, readonly [A, B]>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## tracks
 
@@ -148,4 +148,4 @@ Extracts a value at a relative position which depends on the current value.
 export declare const tracks: <P>(M: Monoid<P>) => <A>(f: (a: A) => P) => (wa: Traced<P, A>) => A
 ```
 
-Added in v2.0.0
+Added in v3.0.0

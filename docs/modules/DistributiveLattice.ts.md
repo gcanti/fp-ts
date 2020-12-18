@@ -11,7 +11,7 @@ A `DistributiveLattice` must satisfy the following laws in addition to `Lattice`
 - Distributivity for meet: `a ∨ (b ∧ c) <-> (a ∨ b) ∧ (a ∨ c)`
 - Distributivity for join: `a ∧ (b ∨ c) <-> (a ∧ b) ∨ (a ∧ c)`
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -34,7 +34,7 @@ Added in v2.0.0
 export declare function getMinMaxDistributiveLattice<A>(O: Ord<A>): DistributiveLattice<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # type classes
 
@@ -46,4 +46,4 @@ Added in v2.0.0
 export interface DistributiveLattice<A> extends Lattice<A> {}
 ```
 
-Added in v2.0.0
+Added in v3.0.0

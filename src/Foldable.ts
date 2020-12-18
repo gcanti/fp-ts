@@ -1,5 +1,5 @@
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { pipe } from './function'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
@@ -8,7 +8,7 @@ import { Monoid } from './Monoid'
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Foldable<F> {
   readonly URI: F
@@ -19,7 +19,7 @@ export interface Foldable<F> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Foldable1<F extends URIS> {
   readonly URI: F
@@ -30,7 +30,7 @@ export interface Foldable1<F extends URIS> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Foldable2<F extends URIS2> {
   readonly URI: F
@@ -41,7 +41,7 @@ export interface Foldable2<F extends URIS2> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Foldable2C<F extends URIS2, E> {
   readonly URI: F
@@ -52,7 +52,7 @@ export interface Foldable2C<F extends URIS2, E> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Foldable3<F extends URIS3> {
   readonly URI: F
@@ -63,7 +63,7 @@ export interface Foldable3<F extends URIS3> {
 
 /**
  * @category type classes
- * @since 2.2.0
+ * @since 3.0.0
  */
 export interface Foldable3C<F extends URIS3, E> {
   readonly URI: F
@@ -74,7 +74,7 @@ export interface Foldable3C<F extends URIS3, E> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Foldable4<F extends URIS4> {
   readonly URI: F
@@ -97,7 +97,7 @@ export interface Foldable4<F extends URIS4> {
  * const t = make(1, [make(2, []), make(3, []), make(4, [])])
  * assert.deepStrictEqual(pipe(t, reduceM(Monad, Foldable)(0, (b, a) => (a > 2 ? some(b + a) : some(b)))), some(7))
  *
- * @since 2.8.0
+ * @since 3.0.0
  */
 export function reduceM<M extends URIS3, F extends URIS>(
   M: Monad3<M>,
@@ -148,7 +148,7 @@ export function reduceM<M, F>(
  * const t = make('a', [make('b', []), make('c', []), make('d', [])])
  * assert.strictEqual(pipe(t, intercalate(monoidString, Foldable)('|')), 'a|b|c|d')
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function intercalate<M, F extends URIS3>(
   M: Monoid<M>,
@@ -183,7 +183,7 @@ export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M) => (fm
  * const t = make(1, [make(2, []), make(3, []), make(4, [])])
  * assert.deepStrictEqual(toArray(Foldable)(t), [1, 2, 3, 4])
  *
- * @since 2.8.0
+ * @since 3.0.0
  */
 export function toArray<F extends URIS4>(F: Foldable4<F>): <S, R, E, A>(fa: Kind4<F, S, R, E, A>) => ReadonlyArray<A>
 export function toArray<F extends URIS3>(F: Foldable3<F>): <R, E, A>(fa: Kind3<F, R, E, A>) => ReadonlyArray<A>

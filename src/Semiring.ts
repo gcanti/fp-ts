@@ -19,12 +19,12 @@
  * for arithmetic overflows, and the presence of `NaN` and `Infinity` values. The behaviour is
  * unspecified in these cases.
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Semiring<A> {
   readonly add: (second: A) => (first: A) => A
@@ -35,7 +35,7 @@ export interface Semiring<A> {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const getFunctionSemiring = <A, B>(S: Semiring<B>): Semiring<(a: A) => B> => ({
   add: (second) => (first) => (x) => S.add(second(x))(first(x)),

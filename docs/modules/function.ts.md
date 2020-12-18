@@ -6,7 +6,7 @@ parent: Modules
 
 ## function overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -52,7 +52,7 @@ export interface Endomorphism<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## FunctionN (interface)
 
@@ -72,7 +72,7 @@ import { FunctionN } from 'fp-ts/function'
 export const sum: FunctionN<[number, number], number> = (a, b) => a + b
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Lazy (interface)
 
@@ -86,7 +86,7 @@ export interface Lazy<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Predicate (interface)
 
@@ -98,7 +98,7 @@ export interface Predicate<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Refinement (interface)
 
@@ -110,7 +110,7 @@ export interface Refinement<A, B extends A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## absurd
 
@@ -120,7 +120,7 @@ Added in v2.0.0
 export declare function absurd<A>(_: never): A
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## constFalse
 
@@ -132,7 +132,7 @@ A thunk that returns always `false`.
 export declare const constFalse: Lazy<boolean>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## constNull
 
@@ -144,7 +144,7 @@ A thunk that returns always `null`.
 export declare const constNull: Lazy<null>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## constTrue
 
@@ -156,7 +156,7 @@ A thunk that returns always `true`.
 export declare const constTrue: Lazy<boolean>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## constUndefined
 
@@ -168,7 +168,7 @@ A thunk that returns always `undefined`.
 export declare const constUndefined: Lazy<undefined>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## constVoid
 
@@ -180,7 +180,7 @@ A thunk that returns always `void`.
 export declare const constVoid: Lazy<void>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## constant
 
@@ -190,7 +190,7 @@ Added in v2.0.0
 export declare function constant<A>(a: A): Lazy<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## decrement
 
@@ -200,7 +200,7 @@ Added in v2.0.0
 export declare function decrement(n: number): number
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## flip
 
@@ -212,7 +212,7 @@ Flips the order of the arguments of a function of two arguments.
 export declare function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## flow
 
@@ -299,7 +299,7 @@ const f = flow(len, double)
 assert.strictEqual(f('aaa'), 6)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## hole
 
@@ -311,7 +311,7 @@ Type hole simulation
 export declare const hole: <T>() => T
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## identity
 
@@ -321,7 +321,7 @@ Added in v2.7.0
 export declare function identity<A>(a: A): A
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## increment
 
@@ -331,7 +331,7 @@ Added in v2.0.0
 export declare function increment(n: number): number
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## not
 
@@ -341,7 +341,7 @@ Added in v2.0.0
 export declare function not<A>(predicate: Predicate<A>): Predicate<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## pipe
 
@@ -599,7 +599,7 @@ assert.strictEqual(double(len('aaa')), 6)
 assert.strictEqual(pipe('aaa', len, double), 6)
 ```
 
-Added in v2.6.3
+Added in v3.0.0
 
 ## tuple
 
@@ -609,7 +609,7 @@ Added in v2.6.3
 export declare function tuple<T extends ReadonlyArray<any>>(...t: T): T
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## tupled
 
@@ -631,7 +631,7 @@ const add = tupled((x: number, y: number): number => x + y)
 assert.strictEqual(add([1, 2]), 3)
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## unsafeCoerce
 
@@ -641,7 +641,7 @@ Added in v2.4.0
 export declare const unsafeCoerce: <A, B>(a: A) => B
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## untupled
 
@@ -653,4 +653,4 @@ Inverse function of `tupled`
 export declare function untupled<A extends ReadonlyArray<unknown>, B>(f: (a: A) => B): (...a: A) => B
 ```
 
-Added in v2.4.0
+Added in v3.0.0

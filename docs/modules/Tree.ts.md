@@ -12,7 +12,7 @@ Multi-way trees (aka rose trees) and forests, where a forest is
 type Forest<A> = Array<Tree<A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -89,7 +89,7 @@ Wrap a value into the type constructor.
 export declare const of: <A>(a: A) => Tree<A>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 # Apply
 
@@ -103,7 +103,7 @@ Apply a function to an argument under a type constructor.
 export declare const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Extend
 
@@ -115,7 +115,7 @@ Added in v2.0.0
 export declare const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Extract
 
@@ -127,7 +127,7 @@ Added in v2.0.0
 export declare const extract: <A>(wa: Tree<A>) => A
 ```
 
-Added in v2.6.2
+Added in v3.0.0
 
 # Foldable
 
@@ -139,7 +139,7 @@ Added in v2.6.2
 export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Tree<A>) => M
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## reduce
 
@@ -149,7 +149,7 @@ Added in v2.0.0
 export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>) => B
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## reduceRight
 
@@ -159,7 +159,7 @@ Added in v2.0.0
 export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>) => B
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Functor
 
@@ -174,7 +174,7 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Monad
 
@@ -188,7 +188,7 @@ Composes computations in sequence, using the return value of one computation to 
 export declare const chain: <A, B>(f: (a: A) => Tree<B>) => (fa: Tree<A>) => Tree<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # combinators
 
@@ -202,7 +202,7 @@ Derivable from `Extend`.
 export declare const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # constructors
 
@@ -214,7 +214,7 @@ Added in v2.0.0
 export declare function make<A>(value: A, forest: Forest<A> = A.empty): Tree<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## unfoldForest
 
@@ -226,7 +226,7 @@ Build a tree from a seed value
 export declare function unfoldForest<A, B>(bs: ReadonlyArray<B>, f: (b: B) => readonly [A, ReadonlyArray<B>]): Forest<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## unfoldTree
 
@@ -238,7 +238,7 @@ Build a tree from a seed value
 export declare function unfoldTree<A, B>(b: B, f: (b: B) => readonly [A, ReadonlyArray<B>]): Tree<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # derivable combinators
 
@@ -254,7 +254,7 @@ Derivable from `Apply`.
 export declare const apFirst: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## apSecond
 
@@ -268,7 +268,7 @@ Derivable from `Apply`.
 export declare const apSecond: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## chainFirst
 
@@ -283,7 +283,7 @@ Derivable from `Monad`.
 export declare const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (first: Tree<A>) => Tree<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## flatten
 
@@ -295,7 +295,7 @@ Derivable from `Monad`.
 export declare const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # destructors
 
@@ -351,7 +351,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.6.0
+Added in v3.0.0
 
 # instances
 
@@ -363,7 +363,7 @@ Added in v2.6.0
 export declare const Applicative: Applicative1<'Tree'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Comonad
 
@@ -373,7 +373,7 @@ Added in v2.7.0
 export declare const Comonad: Comonad1<'Tree'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Foldable
 
@@ -383,7 +383,7 @@ Added in v2.7.0
 export declare const Foldable: Foldable1<'Tree'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Functor
 
@@ -393,7 +393,7 @@ Added in v2.7.0
 export declare const Functor: Functor1<'Tree'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Monad
 
@@ -403,7 +403,7 @@ Added in v2.7.0
 export declare const Monad: Monad1<'Tree'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Traversable
 
@@ -413,7 +413,7 @@ Added in v2.7.0
 export declare const Traversable: Traversable1<'Tree'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## URI
 
@@ -423,7 +423,7 @@ Added in v2.7.0
 export declare const URI: 'Tree'
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -433,7 +433,7 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getEq
 
@@ -443,7 +443,7 @@ Added in v2.0.0
 export declare function getEq<A>(E: Eq<A>): Eq<Tree<A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getShow
 
@@ -453,7 +453,7 @@ Added in v2.0.0
 export declare function getShow<A>(S: Show<A>): Show<Tree<A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # model
 
@@ -465,7 +465,7 @@ Added in v2.0.0
 export type Forest<A> = ReadonlyArray<Tree<A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Tree (interface)
 
@@ -478,7 +478,7 @@ export interface Tree<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -500,7 +500,7 @@ Added in v3.0.0
 export declare const Do: Tree<{}>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## apS
 
@@ -513,7 +513,7 @@ export declare const apS: <A, N extends string, B>(
 ) => (fa: Tree<A>) => Tree<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## apT
 
@@ -536,7 +536,7 @@ export declare const bind: <N extends string, A, B>(
 ) => (fa: Tree<A>) => Tree<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## bindTo
 
@@ -546,7 +546,7 @@ Added in v2.8.0
 export declare const bindTo: <N extends string>(name: N) => <A>(fa: Tree<A>) => Tree<{ [K in N]: A }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## drawForest
 
@@ -558,7 +558,7 @@ Neat 2-dimensional drawing of a forest
 export declare function drawForest(forest: Forest<string>): string
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## drawTree
 
@@ -588,7 +588,7 @@ assert.strictEqual(
 )
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## elem
 
@@ -598,7 +598,7 @@ Added in v2.0.0
 export declare const elem: <A>(E: Eq<A>) => (a: A) => (fa: Tree<A>) => boolean
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## sequence
 
@@ -608,7 +608,7 @@ Added in v2.0.0
 export declare const sequence: Sequence1<'Tree'>
 ```
 
-Added in v2.6.3
+Added in v3.0.0
 
 ## traverse
 
@@ -618,7 +618,7 @@ Added in v2.6.3
 export declare const traverse: Traverse1<'Tree'>
 ```
 
-Added in v2.6.3
+Added in v3.0.0
 
 ## tupled
 

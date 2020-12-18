@@ -6,7 +6,7 @@ parent: Modules
 
 ## TaskThese overview
 
-Added in v2.4.0
+Added in v3.0.0
 
 ---
 
@@ -63,7 +63,7 @@ Equivalent to [`right`](#right).
 export declare const of: <E, A>(a: A) => TaskThese<E, A>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 # Bifunctor
 
@@ -77,7 +77,7 @@ Map a pair of functions over the two type arguments of the bifunctor.
 export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: TaskThese<E, A>) => TaskThese<G, B>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## mapLeft
 
@@ -89,7 +89,7 @@ Map a function over the first type argument of a bifunctor.
 export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: TaskThese<E, A>) => TaskThese<G, A>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 # Functor
 
@@ -104,7 +104,7 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThese<E, B>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 # MonadIO
 
@@ -116,7 +116,7 @@ Added in v2.4.0
 export declare const fromIO: <E, A>(fa: IO<A>) => TaskThese<E, A>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## fromTask
 
@@ -126,7 +126,7 @@ Added in v2.7.0
 export declare const fromTask: <E, A>(fa: T.Task<A>) => TaskThese<E, A>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 # combinators
 
@@ -138,7 +138,7 @@ Added in v2.7.0
 export declare const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 # constructors
 
@@ -150,7 +150,7 @@ Added in v2.4.0
 export declare const both: <E, A>(e: E, a: A) => TaskThese<E, A>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## fromIOEither
 
@@ -160,7 +160,7 @@ Added in v2.4.0
 export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## left
 
@@ -170,7 +170,7 @@ Added in v2.4.0
 export declare const left: <E = never, A = never>(e: E) => TaskThese<E, A>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## leftIO
 
@@ -180,7 +180,7 @@ Added in v2.4.0
 export declare const leftIO: <E = never, A = never>(me: IO<E>) => TaskThese<E, A>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## leftTask
 
@@ -190,7 +190,7 @@ Added in v2.4.0
 export declare const leftTask: <E = never, A = never>(me: T.Task<E>) => TaskThese<E, A>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## right
 
@@ -200,7 +200,7 @@ Added in v2.4.0
 export declare const right: <E = never, A = never>(a: A) => TaskThese<E, A>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## rightIO
 
@@ -210,7 +210,7 @@ Added in v2.4.0
 export declare const rightIO: <E = never, A = never>(ma: IO<A>) => TaskThese<E, A>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## rightTask
 
@@ -220,7 +220,7 @@ Added in v2.4.0
 export declare const rightTask: <E = never, A = never>(ma: T.Task<A>) => TaskThese<E, A>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 # destructors
 
@@ -236,7 +236,7 @@ export declare const fold: <E, B, A>(
 ) => (fa: TaskThese<E, A>) => T.Task<B>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## toTuple
 
@@ -246,7 +246,7 @@ Added in v2.4.0
 export declare const toTuple: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) => T.Task<readonly [E, A]>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 # instances
 
@@ -278,7 +278,7 @@ Added in v3.0.0
 export declare const URI: 'TaskThese'
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -288,7 +288,7 @@ Added in v2.4.0
 export type URI = typeof URI
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## getApplicative
 
@@ -298,7 +298,7 @@ Added in v2.4.0
 export declare function getApplicative<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## getMonad
 
@@ -308,7 +308,7 @@ Added in v2.7.0
 export declare function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## getSemigroup
 
@@ -318,7 +318,7 @@ Added in v2.4.0
 export declare function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<TaskThese<E, A>>
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 # model
 
@@ -330,4 +330,4 @@ Added in v2.4.0
 export interface TaskThese<E, A> extends Task<These<E, A>> {}
 ```
 
-Added in v2.4.0
+Added in v3.0.0

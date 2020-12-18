@@ -6,7 +6,7 @@ parent: Modules
 
 ## Semigroupoid overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -35,7 +35,7 @@ export interface Semigroupoid<F> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Semigroupoid2 (interface)
 
@@ -48,7 +48,7 @@ export interface Semigroupoid2<F extends URIS2> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Semigroupoid2C (interface)
 
@@ -61,7 +61,7 @@ export interface Semigroupoid2C<F extends URIS2, A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Semigroupoid3 (interface)
 
@@ -74,7 +74,7 @@ export interface Semigroupoid3<F extends URIS3> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Semigroupoid3C (interface)
 
@@ -87,7 +87,7 @@ export interface Semigroupoid3C<F extends URIS3, A> {
 }
 ```
 
-Added in v2.2.0
+Added in v3.0.0
 
 ## Semigroupoid4 (interface)
 
@@ -100,4 +100,4 @@ export interface Semigroupoid4<F extends URIS4> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

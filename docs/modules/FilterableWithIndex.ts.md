@@ -6,7 +6,7 @@ parent: Modules
 
 ## FilterableWithIndex overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -55,7 +55,7 @@ export interface FilterableWithIndex<F, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## FilterableWithIndex1 (interface)
 
@@ -73,7 +73,7 @@ export interface FilterableWithIndex1<F extends URIS, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## FilterableWithIndex2 (interface)
 
@@ -91,7 +91,7 @@ export interface FilterableWithIndex2<F extends URIS2, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## FilterableWithIndex2C (interface)
 
@@ -109,7 +109,7 @@ export interface FilterableWithIndex2C<F extends URIS2, I, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## FilterableWithIndex3 (interface)
 
@@ -129,7 +129,7 @@ export interface FilterableWithIndex3<F extends URIS3, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## FilterableWithIndex4 (interface)
 
@@ -149,7 +149,7 @@ export interface FilterableWithIndex4<F extends URIS4, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -164,7 +164,7 @@ export interface FilterWithIndex<F, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## FilterWithIndex1 (interface)
 
@@ -177,7 +177,7 @@ export interface FilterWithIndex1<F extends URIS, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## FilterWithIndex2 (interface)
 
@@ -190,7 +190,7 @@ export interface FilterWithIndex2<F extends URIS2, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## FilterWithIndex2C (interface)
 
@@ -203,7 +203,7 @@ export interface FilterWithIndex2C<F extends URIS2, I, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## FilterWithIndex3 (interface)
 
@@ -218,7 +218,7 @@ export interface FilterWithIndex3<F extends URIS3, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## FilterWithIndex4 (interface)
 
@@ -233,7 +233,7 @@ export interface FilterWithIndex4<F extends URIS4, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## PartitionWithIndex (interface)
 
@@ -248,7 +248,7 @@ export interface PartitionWithIndex<F, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## PartitionWithIndex1 (interface)
 
@@ -263,7 +263,7 @@ export interface PartitionWithIndex1<F extends URIS, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## PartitionWithIndex2 (interface)
 
@@ -280,7 +280,7 @@ export interface PartitionWithIndex2<F extends URIS2, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## PartitionWithIndex2C (interface)
 
@@ -295,7 +295,7 @@ export interface PartitionWithIndex2C<F extends URIS2, I, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## PartitionWithIndex3 (interface)
 
@@ -312,7 +312,7 @@ export interface PartitionWithIndex3<F extends URIS3, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## PartitionWithIndex4 (interface)
 
@@ -329,7 +329,7 @@ export interface PartitionWithIndex4<F extends URIS4, I> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## PredicateWithIndex (type alias)
 
@@ -339,7 +339,7 @@ Added in v2.0.0
 export type PredicateWithIndex<I, A> = (i: I, a: A) => boolean
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## RefinementWithIndex (type alias)
 
@@ -349,4 +349,4 @@ Added in v2.0.0
 export type RefinementWithIndex<I, A, B extends A> = (i: I, a: A) => a is B
 ```
 
-Added in v2.0.0
+Added in v3.0.0

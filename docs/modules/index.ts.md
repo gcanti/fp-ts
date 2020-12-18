@@ -6,7 +6,7 @@ parent: Modules
 
 ## index overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -107,7 +107,7 @@ Added in v2.0.0
 export declare const alt: typeof alt
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## alternative
 
@@ -117,7 +117,7 @@ Added in v2.0.0
 export declare const alternative: typeof alternative
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## applicative
 
@@ -127,7 +127,7 @@ Added in v2.0.0
 export declare const applicative: typeof applicative
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## apply
 
@@ -137,7 +137,7 @@ Added in v2.0.0
 export declare const apply: typeof apply
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## bifunctor
 
@@ -147,7 +147,7 @@ Added in v2.0.0
 export declare const bifunctor: typeof bifunctor
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## boolean
 
@@ -157,7 +157,7 @@ Added in v2.0.0
 export declare const boolean: typeof boolean
 ```
 
-Added in v2.2.0
+Added in v3.0.0
 
 ## booleanAlgebra
 
@@ -167,7 +167,7 @@ Added in v2.2.0
 export declare const booleanAlgebra: typeof booleanAlgebra
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## bounded
 
@@ -177,7 +177,7 @@ Added in v2.0.0
 export declare const bounded: typeof bounded
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## boundedDistributiveLattice
 
@@ -187,7 +187,7 @@ Added in v2.0.0
 export declare const boundedDistributiveLattice: typeof boundedDistributiveLattice
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## boundedJoinSemilattice
 
@@ -197,7 +197,7 @@ Added in v2.0.0
 export declare const boundedJoinSemilattice: typeof boundedJoinSemilattice
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## boundedLattice
 
@@ -207,7 +207,7 @@ Added in v2.0.0
 export declare const boundedLattice: typeof boundedLattice
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## boundedMeetSemilattice
 
@@ -217,7 +217,7 @@ Added in v2.0.0
 export declare const boundedMeetSemilattice: typeof boundedMeetSemilattice
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## category
 
@@ -227,7 +227,7 @@ Added in v2.0.0
 export declare const category: typeof category
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## comonad
 
@@ -237,7 +237,7 @@ Added in v2.0.0
 export declare const comonad: typeof comonad
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## compactable
 
@@ -247,7 +247,7 @@ Added in v2.0.0
 export declare const compactable: typeof compactable
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## console
 
@@ -257,7 +257,7 @@ Added in v2.0.0
 export declare const console: typeof console
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## const
 
@@ -267,7 +267,7 @@ Added in v2.0.0
 export declare const const: typeof const_
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## contravariant
 
@@ -277,7 +277,7 @@ Added in v2.0.0
 export declare const contravariant: typeof contravariant
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## date
 
@@ -287,7 +287,7 @@ Added in v2.0.0
 export declare const date: typeof date
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## distributiveLattice
 
@@ -297,7 +297,7 @@ Added in v2.0.0
 export declare const distributiveLattice: typeof distributiveLattice
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## either
 
@@ -307,7 +307,7 @@ Added in v2.0.0
 export declare const either: typeof either
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## eq
 
@@ -317,7 +317,7 @@ Added in v2.0.0
 export declare const eq: typeof eq
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## extend
 
@@ -327,7 +327,7 @@ Added in v2.0.0
 export declare const extend: typeof extend
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## field
 
@@ -337,7 +337,7 @@ Added in v2.0.0
 export declare const field: typeof field
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## filterable
 
@@ -347,7 +347,7 @@ Added in v2.0.0
 export declare const filterable: typeof filterable
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## filterableWithIndex
 
@@ -357,7 +357,7 @@ Added in v2.0.0
 export declare const filterableWithIndex: typeof filterableWithIndex
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## foldable
 
@@ -367,7 +367,7 @@ Added in v2.0.0
 export declare const foldable: typeof foldable
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## foldableWithIndex
 
@@ -377,7 +377,7 @@ Added in v2.0.0
 export declare const foldableWithIndex: typeof foldableWithIndex
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## function
 
@@ -387,7 +387,7 @@ Added in v2.0.0
 export declare const function: typeof function_
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## functor
 
@@ -397,7 +397,7 @@ Added in v2.0.0
 export declare const functor: typeof functor
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## functorWithIndex
 
@@ -407,7 +407,7 @@ Added in v2.0.0
 export declare const functorWithIndex: typeof functorWithIndex
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## group
 
@@ -417,7 +417,7 @@ Added in v2.0.0
 export declare const group: typeof group
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## heytingAlgebra
 
@@ -427,7 +427,7 @@ Added in v2.0.0
 export declare const heytingAlgebra: typeof heytingAlgebra
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## hkt
 
@@ -437,7 +437,7 @@ Added in v2.0.0
 export declare const hkt: typeof hkt
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## identity
 
@@ -447,7 +447,7 @@ Added in v2.0.0
 export declare const identity: typeof identity
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## invariant
 
@@ -457,7 +457,7 @@ Added in v2.0.0
 export declare const invariant: typeof invariant
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## io
 
@@ -467,7 +467,7 @@ Added in v2.0.0
 export declare const io: typeof io
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## ioEither
 
@@ -477,7 +477,7 @@ Added in v2.0.0
 export declare const ioEither: typeof ioEither
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## joinSemilattice
 
@@ -487,7 +487,7 @@ Added in v2.0.0
 export declare const joinSemilattice: typeof joinSemilattice
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## lattice
 
@@ -497,7 +497,7 @@ Added in v2.0.0
 export declare const lattice: typeof lattice
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## magma
 
@@ -507,7 +507,7 @@ Added in v2.0.0
 export declare const magma: typeof magma
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## meetSemilattice
 
@@ -517,7 +517,7 @@ Added in v2.0.0
 export declare const meetSemilattice: typeof meetSemilattice
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## monad
 
@@ -527,7 +527,7 @@ Added in v2.0.0
 export declare const monad: typeof monad
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## monadIO
 
@@ -537,7 +537,7 @@ Added in v2.0.0
 export declare const monadIO: typeof monadIO
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## monadTask
 
@@ -547,7 +547,7 @@ Added in v2.0.0
 export declare const monadTask: typeof monadTask
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## monadThrow
 
@@ -557,7 +557,7 @@ Added in v2.0.0
 export declare const monadThrow: typeof monadThrow
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## monoid
 
@@ -567,7 +567,7 @@ Added in v2.0.0
 export declare const monoid: typeof monoid
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## option
 
@@ -577,7 +577,7 @@ Added in v2.0.0
 export declare const option: typeof option
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## ord
 
@@ -587,7 +587,7 @@ Added in v2.0.0
 export declare const ord: typeof ord
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## ordering
 
@@ -597,7 +597,7 @@ Added in v2.0.0
 export declare const ordering: typeof ordering
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## profunctor
 
@@ -607,7 +607,7 @@ Added in v2.0.0
 export declare const profunctor: typeof profunctor
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## random
 
@@ -617,7 +617,7 @@ Added in v2.0.0
 export declare const random: typeof random
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## reader
 
@@ -627,7 +627,7 @@ Added in v2.0.0
 export declare const reader: typeof reader
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## readerEither
 
@@ -637,7 +637,7 @@ Added in v2.0.0
 export declare const readerEither: typeof readerEither
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## readerTask
 
@@ -647,7 +647,7 @@ Added in v2.0.0
 export declare const readerTask: typeof readerTask
 ```
 
-Added in v2.3.0
+Added in v3.0.0
 
 ## readerTaskEither
 
@@ -657,7 +657,7 @@ Added in v2.3.0
 export declare const readerTaskEither: typeof readerTaskEither
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## readonlyArray
 
@@ -667,7 +667,7 @@ Added in v2.0.0
 export declare const readonlyArray: typeof readonlyArray
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## readonlyMap
 
@@ -677,7 +677,7 @@ Added in v2.5.0
 export declare const readonlyMap: typeof readonlyMap
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## readonlyNonEmptyArray
 
@@ -687,7 +687,7 @@ Added in v2.5.0
 export declare const readonlyNonEmptyArray: typeof readonlyNonEmptyArray
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## readonlyRecord
 
@@ -697,7 +697,7 @@ Added in v2.5.0
 export declare const readonlyRecord: typeof readonlyRecord
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## readonlySet
 
@@ -707,7 +707,7 @@ Added in v2.5.0
 export declare const readonlySet: typeof readonlySet
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## readonlyTuple
 
@@ -717,7 +717,7 @@ Added in v2.5.0
 export declare const readonlyTuple: typeof readonlyTuple
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## ring
 
@@ -727,7 +727,7 @@ Added in v2.5.0
 export declare const ring: typeof ring
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## semigroup
 
@@ -737,7 +737,7 @@ Added in v2.0.0
 export declare const semigroup: typeof semigroup
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## semigroupoid
 
@@ -747,7 +747,7 @@ Added in v2.0.0
 export declare const semigroupoid: typeof semigroupoid
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## semiring
 
@@ -757,7 +757,7 @@ Added in v2.0.0
 export declare const semiring: typeof semiring
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## show
 
@@ -767,7 +767,7 @@ Added in v2.0.0
 export declare const show: typeof show
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## state
 
@@ -777,7 +777,7 @@ Added in v2.0.0
 export declare const state: typeof state
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## stateReaderTaskEither
 
@@ -787,7 +787,7 @@ Added in v2.0.0
 export declare const stateReaderTaskEither: typeof stateReaderTaskEither
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## store
 
@@ -797,7 +797,7 @@ Added in v2.0.0
 export declare const store: typeof store
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## task
 
@@ -807,7 +807,7 @@ Added in v2.0.0
 export declare const task: typeof task
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## taskEither
 
@@ -817,7 +817,7 @@ Added in v2.0.0
 export declare const taskEither: typeof taskEither
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## taskThese
 
@@ -827,7 +827,7 @@ Added in v2.0.0
 export declare const taskThese: typeof taskThese
 ```
 
-Added in v2.4.0
+Added in v3.0.0
 
 ## these
 
@@ -837,7 +837,7 @@ Added in v2.4.0
 export declare const these: typeof these
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## traced
 
@@ -847,7 +847,7 @@ Added in v2.0.0
 export declare const traced: typeof traced
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## traversable
 
@@ -857,7 +857,7 @@ Added in v2.0.0
 export declare const traversable: typeof traversable
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## traversableWithIndex
 
@@ -867,7 +867,7 @@ Added in v2.0.0
 export declare const traversableWithIndex: typeof traversableWithIndex
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## tree
 
@@ -877,7 +877,7 @@ Added in v2.0.0
 export declare const tree: typeof tree
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## unfoldable
 
@@ -887,7 +887,7 @@ Added in v2.0.0
 export declare const unfoldable: typeof unfoldable
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## witherable
 
@@ -897,7 +897,7 @@ Added in v2.0.0
 export declare const witherable: typeof witherable
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## writer
 
@@ -907,4 +907,4 @@ Added in v2.0.0
 export declare const writer: typeof writer
 ```
 
-Added in v2.0.0
+Added in v3.0.0

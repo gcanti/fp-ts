@@ -1,5 +1,5 @@
 /**
- * @since 2.4.0
+ * @since 3.0.0
  */
 import { Applicative2, Applicative2C } from './Applicative'
 import { Apply1 } from './Apply'
@@ -24,13 +24,13 @@ import Task = T.Task
 
 /**
  * @category model
- * @since 2.4.0
+ * @since 3.0.0
  */
 export interface TaskThese<E, A> extends Task<These<E, A>> {}
 
 /**
  * @category constructors
- * @since 2.4.0
+ * @since 3.0.0
  */
 export const left: <E = never, A = never>(e: E) => TaskThese<E, A> =
   /*#__PURE__*/
@@ -38,7 +38,7 @@ export const left: <E = never, A = never>(e: E) => TaskThese<E, A> =
 
 /**
  * @category constructors
- * @since 2.4.0
+ * @since 3.0.0
  */
 export const right: <E = never, A = never>(a: A) => TaskThese<E, A> =
   /*#__PURE__*/
@@ -46,7 +46,7 @@ export const right: <E = never, A = never>(a: A) => TaskThese<E, A> =
 
 /**
  * @category constructors
- * @since 2.4.0
+ * @since 3.0.0
  */
 export const both: <E, A>(e: E, a: A) => TaskThese<E, A> =
   /*#__PURE__*/
@@ -54,7 +54,7 @@ export const both: <E, A>(e: E, a: A) => TaskThese<E, A> =
 
 /**
  * @category constructors
- * @since 2.4.0
+ * @since 3.0.0
  */
 export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskThese<E, A> =
   /*#__PURE__*/
@@ -62,7 +62,7 @@ export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskThese<E, A> =
 
 /**
  * @category constructors
- * @since 2.4.0
+ * @since 3.0.0
  */
 export const leftTask: <E = never, A = never>(me: Task<E>) => TaskThese<E, A> =
   /*#__PURE__*/
@@ -70,7 +70,7 @@ export const leftTask: <E = never, A = never>(me: Task<E>) => TaskThese<E, A> =
 
 /**
  * @category constructors
- * @since 2.4.0
+ * @since 3.0.0
  */
 export const rightIO: <E = never, A = never>(ma: IO<A>) => TaskThese<E, A> =
   /*#__PURE__*/
@@ -78,7 +78,7 @@ export const rightIO: <E = never, A = never>(ma: IO<A>) => TaskThese<E, A> =
 
 /**
  * @category constructors
- * @since 2.4.0
+ * @since 3.0.0
  */
 export const leftIO: <E = never, A = never>(me: IO<E>) => TaskThese<E, A> =
   /*#__PURE__*/
@@ -86,7 +86,7 @@ export const leftIO: <E = never, A = never>(me: IO<E>) => TaskThese<E, A> =
 
 /**
  * @category constructors
- * @since 2.4.0
+ * @since 3.0.0
  */
 export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> =
   /*#__PURE__*/
@@ -98,7 +98,7 @@ export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> =
 
 /**
  * @category destructors
- * @since 2.4.0
+ * @since 3.0.0
  */
 export const fold: <E, B, A>(
   onLeft: (e: E) => Task<B>,
@@ -110,7 +110,7 @@ export const fold: <E, B, A>(
 
 /**
  * @category destructors
- * @since 2.4.0
+ * @since 3.0.0
  */
 export const toTuple: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) => Task<readonly [E, A]> =
   /*#__PURE__*/
@@ -122,7 +122,7 @@ export const toTuple: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) =>
 
 /**
  * @category combinators
- * @since 2.4.0
+ * @since 3.0.0
  */
 export const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E> =
   /*#__PURE__*/
@@ -133,7 +133,7 @@ export const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E> =
  * use the type constructor `F` to represent some computational context.
  *
  * @category Functor
- * @since 2.4.0
+ * @since 3.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThese<E, B> = (f) => T.map(TH.map(f))
 
@@ -141,7 +141,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThes
  * Map a pair of functions over the two type arguments of the bifunctor.
  *
  * @category Bifunctor
- * @since 2.4.0
+ * @since 3.0.0
  */
 export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => T.map(TH.bimap(f, g))
 
@@ -149,7 +149,7 @@ export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => T.map(TH.bimap(f, g))
  * Map a function over the first type argument of a bifunctor.
  *
  * @category Bifunctor
- * @since 2.4.0
+ * @since 3.0.0
  */
 export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => T.map(TH.mapLeft(f))
 
@@ -159,19 +159,19 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => T.map(TH.mapLeft(f))
  * Equivalent to [`right`](#right).
  *
  * @category Applicative
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const of: Applicative2<URI>['of'] = right
 
 /**
  * @category MonadIO
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const fromIO: MonadIO2<URI>['fromIO'] = rightIO
 
 /**
  * @category MonadIO
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const fromTask: MonadTask2<URI>['fromTask'] = rightTask
 
@@ -181,13 +181,13 @@ export const fromTask: MonadTask2<URI>['fromTask'] = rightTask
 
 /**
  * @category instances
- * @since 2.4.0
+ * @since 3.0.0
  */
 export const URI = 'TaskThese'
 
 /**
  * @category instances
- * @since 2.4.0
+ * @since 3.0.0
  */
 export type URI = typeof URI
 
@@ -199,7 +199,7 @@ declare module './HKT' {
 
 /**
  * @category instances
- * @since 2.4.0
+ * @since 3.0.0
  */
 export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<TaskThese<E, A>> {
   return T.getSemigroup(TH.getSemigroup(SE, SA))
@@ -207,7 +207,7 @@ export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export function getApplicative<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E> {
   const AV = TH.getApplicative(SE)
@@ -227,7 +227,7 @@ export function getApplicative<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicati
 
 /**
  * @category instances
- * @since 2.4.0
+ * @since 3.0.0
  */
 export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> {
   return {

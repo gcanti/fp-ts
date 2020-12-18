@@ -8,7 +8,7 @@
  * 1. Associativity: `pipe(pipe(fa1, A.alt(() => fa2)), A.alt(() => fa3)) <-> pipe(fa1, A.alt(() => pipe(fa2, A.alt(() => fa3))))`
  * 2. Distributivity: `pipe(pipe(fa1, A.alt(() => fa2)), A.map(ab)) <-> pipe(pipe(fa1, A.map(ab)), A.alt(() => pipe(fa2, A.map(ab))))`
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Lazy } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
@@ -16,7 +16,7 @@ import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Alt<F> extends Functor<F> {
   readonly alt: <A>(second: Lazy<HKT<F, A>>) => (first: HKT<F, A>) => HKT<F, A>
@@ -24,7 +24,7 @@ export interface Alt<F> extends Functor<F> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Alt1<F extends URIS> extends Functor1<F> {
   readonly alt: <A>(second: Lazy<Kind<F, A>>) => (first: Kind<F, A>) => Kind<F, A>
@@ -32,7 +32,7 @@ export interface Alt1<F extends URIS> extends Functor1<F> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Alt2<F extends URIS2> extends Functor2<F> {
   readonly alt: <E, A>(second: Lazy<Kind2<F, E, A>>) => (first: Kind2<F, E, A>) => Kind2<F, E, A>
@@ -40,7 +40,7 @@ export interface Alt2<F extends URIS2> extends Functor2<F> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Alt2C<F extends URIS2, E> extends Functor2C<F, E> {
   readonly alt: <A>(second: Lazy<Kind2<F, E, A>>) => (first: Kind2<F, E, A>) => Kind2<F, E, A>
@@ -48,7 +48,7 @@ export interface Alt2C<F extends URIS2, E> extends Functor2C<F, E> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Alt3<F extends URIS3> extends Functor3<F> {
   readonly alt: <R, E, A>(second: Lazy<Kind3<F, R, E, A>>) => (first: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
@@ -56,7 +56,7 @@ export interface Alt3<F extends URIS3> extends Functor3<F> {
 
 /**
  * @category type classes
- * @since 2.2.0
+ * @since 3.0.0
  */
 export interface Alt3C<F extends URIS3, E> extends Functor3C<F, E> {
   readonly alt: <R, A>(second: Lazy<Kind3<F, R, E, A>>) => (first: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
@@ -64,7 +64,7 @@ export interface Alt3C<F extends URIS3, E> extends Functor3C<F, E> {
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Alt4<F extends URIS4> extends Functor4<F> {
   readonly alt: <S, R, E, A>(

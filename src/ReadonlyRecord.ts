@@ -1,5 +1,5 @@
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import { Compactable1, Separated } from './Compactable'
@@ -25,13 +25,13 @@ import { Witherable1 } from './Witherable'
 
 /**
  * @category model
- * @since 2.5.0
+ * @since 3.0.0
  */
 export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
 
 /**
  * @category constructors
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function fromRecord<K extends string, A>(r: Record<K, A>): ReadonlyRecord<K, A> {
   return Object.assign({}, r)
@@ -39,7 +39,7 @@ export function fromRecord<K extends string, A>(r: Record<K, A>): ReadonlyRecord
 
 /**
  * @category destructors
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function toRecord<K extends string, A>(r: ReadonlyRecord<K, A>): Record<K, A> {
   return Object.assign({}, r)
@@ -47,7 +47,7 @@ export function toRecord<K extends string, A>(r: ReadonlyRecord<K, A>): Record<K
 
 /**
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function getShow<A>(S: Show<A>): Show<ReadonlyRecord<string, A>> {
   return {
@@ -61,7 +61,7 @@ export function getShow<A>(S: Show<A>): Show<ReadonlyRecord<string, A>> {
 /**
  * Calculate the number of key/value pairs in a record
  *
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function size(r: ReadonlyRecord<string, unknown>): number {
   return Object.keys(r).length
@@ -70,14 +70,14 @@ export function size(r: ReadonlyRecord<string, unknown>): number {
 /**
  * Test whether a record is empty
  *
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function isEmpty(r: ReadonlyRecord<string, unknown>): boolean {
   return Object.keys(r).length === 0
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function keys<K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyArray<K> {
   return (Object.keys(r) as any).sort()
@@ -95,7 +95,7 @@ export function keys<K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyA
  *   [{key: 'a', value: 'foo'}, {key: 'b', value: false}]
  * )
  *
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function collect<K extends string, A, B>(f: (k: K, a: A) => B): (r: ReadonlyRecord<K, A>) => ReadonlyArray<B> {
   return (r) => {
@@ -110,7 +110,7 @@ export function collect<K extends string, A, B>(f: (k: K, a: A) => B): (r: Reado
 
 /**
  * @category destructors
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const toReadonlyArray: <K extends string, A>(
   r: ReadonlyRecord<K, A>
@@ -120,7 +120,7 @@ export const toReadonlyArray: <K extends string, A>(
  * Unfolds a record into a list of key/value pairs
  *
  * @category destructors
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function toUnfoldable<F extends URIS>(
   U: Unfoldable1<F>
@@ -140,7 +140,7 @@ export function toUnfoldable<F>(U: Unfoldable<F>): <A>(r: ReadonlyRecord<string,
  * Insert or replace a key/value pair in a record
  *
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function insertAt<K extends string, A>(
   k: K,
@@ -160,7 +160,7 @@ export function insertAt<A>(k: string, a: A): (r: ReadonlyRecord<string, A>) => 
 const _hasOwnProperty = Object.prototype.hasOwnProperty
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function has<K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K {
   return _hasOwnProperty.call(r, k)
@@ -170,7 +170,7 @@ export function has<K extends string>(k: string, r: ReadonlyRecord<K, unknown>):
  * Delete a key and value from a map
  *
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function deleteAt<K extends string>(
   k: K
@@ -187,7 +187,7 @@ export function deleteAt(k: string): <A>(r: ReadonlyRecord<string, A>) => Readon
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function updateAt<A>(
   k: string,
@@ -207,7 +207,7 @@ export function updateAt<A>(
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function modifyAt<A>(
   k: string,
@@ -226,7 +226,7 @@ export function modifyAt<A>(
 /**
  * Delete a key and value from a map, returning the value as well as the subsequent map
  *
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function pop<K extends string>(
   k: K
@@ -245,7 +245,7 @@ export function pop(k: string): <A>(r: ReadonlyRecord<string, A>) => Option<read
 /**
  * Test whether one record contains all of the keys and values contained in another record
  *
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function isSubrecord<A>(
   E: Eq<A>
@@ -262,7 +262,7 @@ export function isSubrecord<A>(
 
 /**
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function getEq<K extends string, A>(E: Eq<A>): Eq<ReadonlyRecord<K, A>>
 export function getEq<A>(E: Eq<A>): Eq<ReadonlyRecord<string, A>> {
@@ -282,7 +282,7 @@ export function getEq<A>(E: Eq<A>): Eq<ReadonlyRecord<string, A>> {
  * assert.deepStrictEqual(pipe({ foo: 123 }, M.concat({ foo: 456 })), { foo: 579 })
  *
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function getMonoid<K extends string, A>(S: Semigroup<A>): Monoid<ReadonlyRecord<K, A>>
 export function getMonoid<A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>> {
@@ -313,13 +313,13 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>>
 /**
  * Lookup the value for a key in a record
  *
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const lookup = (k: string) => <A>(r: ReadonlyRecord<string, A>): Option<A> =>
   _hasOwnProperty.call(r, k) ? optionSome(r[k]) : none
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const empty: ReadonlyRecord<string, never> = {}
 
@@ -327,7 +327,7 @@ export const empty: ReadonlyRecord<string, never> = {}
  * Map a record passing the keys to the iterating function
  *
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function mapWithIndex<K extends string, A, B>(
   f: (k: K, a: A) => B
@@ -349,7 +349,7 @@ export function mapWithIndex<A, B>(
  * Map a record passing the values to the iterating function
  *
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function map<A, B>(f: (a: A) => B): <K extends string>(fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
 export function map<A, B>(f: (a: A) => B): (fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, B> {
@@ -357,7 +357,7 @@ export function map<A, B>(f: (a: A) => B): (fa: ReadonlyRecord<string, A>) => Re
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function reduceWithIndex<K extends string, A, B>(
   b: B,
@@ -377,7 +377,7 @@ export function reduceWithIndex<A, B>(b: B, f: (k: string, b: B, a: A) => B): (f
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function foldMapWithIndex<M>(
   M: Monoid<M>
@@ -398,7 +398,7 @@ export function foldMapWithIndex<M>(
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function reduceRightWithIndex<K extends string, A, B>(
   b: B,
@@ -424,14 +424,14 @@ export function reduceRightWithIndex<A, B>(
  * Create a record with one key/value pair
  *
  * @category constructors
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function singleton<K extends string, A>(k: K, a: A): ReadonlyRecord<K, A> {
   return { [k]: a } as any
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function traverseWithIndex<F extends URIS3>(
   F: Applicative3<F>
@@ -485,7 +485,7 @@ export function traverseWithIndex<F>(
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function traverse<F extends URIS3>(
   F: Applicative3<F>
@@ -521,7 +521,7 @@ export function traverse<F>(
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function sequence<F extends URIS3>(
   F: Applicative3<F>
@@ -549,7 +549,7 @@ export function sequence<F>(
 
 /**
  * @category Witherable
- * @since 2.6.5
+ * @since 3.0.0
  */
 export const wither: Witherable1<URI>['wither'] = <F>(
   F: Applicative<F>
@@ -560,7 +560,7 @@ export const wither: Witherable1<URI>['wither'] = <F>(
 
 /**
  * @category Witherable
- * @since 2.6.5
+ * @since 3.0.0
  */
 export const wilt: Witherable1<URI>['wilt'] = <F>(
   F: Applicative<F>
@@ -572,7 +572,7 @@ export const wilt: Witherable1<URI>['wilt'] = <F>(
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function partitionMapWithIndex<K extends string, A, B, C>(
   f: (key: K, a: A) => Either<B, C>
@@ -603,7 +603,7 @@ export function partitionMapWithIndex<A, B, C>(
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function partitionWithIndex<K extends string, A, B extends A>(
   refinementWithIndex: RefinementWithIndex<K, A, B>
@@ -635,7 +635,7 @@ export function partitionWithIndex<A>(
 
 /**
  * @category combinators
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function filterMapWithIndex<K extends string, A, B>(
   f: (key: K, a: A) => Option<B>
@@ -657,7 +657,7 @@ export function filterMapWithIndex<A, B>(
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function filterWithIndex<K extends string, A, B extends A>(
   refinementWithIndex: RefinementWithIndex<K, A, B>
@@ -689,7 +689,7 @@ export function filterWithIndex<A>(
  * Create a record from a foldable collection of key/value pairs, using the
  * specified `Magma` to combine values for duplicate keys.
  *
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function fromFoldable<F extends URIS3, A>(
   M: Magma<A>,
@@ -750,7 +750,7 @@ export function fromFoldable<F, A>(
  *   id2: { id: 'id2', name: 'name2' }
  * })
  *
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function fromFoldableMap<F extends URIS3, B>(
   M: Magma<B>,
@@ -785,7 +785,7 @@ export function fromFoldableMap<F, B>(
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function every<A>(predicate: Predicate<A>): (r: ReadonlyRecord<string, A>) => boolean {
   return (r) => {
@@ -799,7 +799,7 @@ export function every<A>(predicate: Predicate<A>): (r: ReadonlyRecord<string, A>
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function some<A>(predicate: (a: A) => boolean): (r: ReadonlyRecord<string, A>) => boolean {
   return (r) => {
@@ -813,7 +813,7 @@ export function some<A>(predicate: (a: A) => boolean): (r: ReadonlyRecord<string
 }
 
 /**
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const elem = <A>(E: Eq<A>) => (a: A): ((fa: ReadonlyRecord<string, A>) => boolean) => {
   const predicate = E.equals(a)
@@ -829,7 +829,7 @@ export const elem = <A>(E: Eq<A>) => (a: A): ((fa: ReadonlyRecord<string, A>) =>
 
 /**
  * @category Filterable
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const filter: Filterable1<URI>['filter'] = <A>(
   predicate: Predicate<A>
@@ -837,13 +837,13 @@ export const filter: Filterable1<URI>['filter'] = <A>(
 
 /**
  * @category Filterable
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const filterMap: Filterable1<URI>['filterMap'] = (f) => filterMapWithIndex((_, a) => f(a))
 
 /**
  * @category Filterable
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const partition: Filterable1<URI>['partition'] = <A>(
   predicate: Predicate<A>
@@ -852,20 +852,20 @@ export const partition: Filterable1<URI>['partition'] = <A>(
 
 /**
  * @category Filterable
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const partitionMap: Filterable1<URI>['partitionMap'] = (f) => partitionMapWithIndex((_, a) => f(a))
 
 /**
  * @category Foldable
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Readonly<Record<string, A>>) => B = (b, f) =>
   reduceWithIndex(b, (_, b, a) => f(b, a))
 
 /**
  * @category Foldable
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Readonly<Record<string, A>>) => M = (M) => {
   const foldMapWithIndexM = foldMapWithIndex(M)
@@ -874,14 +874,14 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Readonly<
 
 /**
  * @category Foldable
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Readonly<Record<string, A>>) => B = (b, f) =>
   reduceRightWithIndex(b, (_, a, b) => f(a, b))
 
 /**
  * @category Compactable
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const compact = <A>(fa: Readonly<Record<string, Option<A>>>): Readonly<Record<string, A>> => {
   const r: Record<string, A> = {}
@@ -897,7 +897,7 @@ export const compact = <A>(fa: Readonly<Record<string, Option<A>>>): Readonly<Re
 
 /**
  * @category Compactable
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const separate = <A, B>(
   fa: Readonly<Record<string, Either<A, B>>>
@@ -928,13 +928,13 @@ export const separate = <A, B>(
 
 /**
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
 export const URI = 'ReadonlyRecord'
 
 /**
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
 export type URI = typeof URI
 
@@ -946,7 +946,7 @@ declare module './HKT' {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Functor: Functor1<URI> = {
   URI,
@@ -955,7 +955,7 @@ export const Functor: Functor1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const FunctorWithIndex: FunctorWithIndex1<URI, string> = {
   URI,
@@ -965,7 +965,7 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, string> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Foldable: Foldable1<URI> = {
   URI,
@@ -976,7 +976,7 @@ export const Foldable: Foldable1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
   URI,
@@ -987,7 +987,7 @@ export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Compactable: Compactable1<URI> = {
   URI,
@@ -997,7 +997,7 @@ export const Compactable: Compactable1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Filterable: Filterable1<URI> = {
   URI,
@@ -1009,7 +1009,7 @@ export const Filterable: Filterable1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const FilterableWithIndex: FilterableWithIndex1<URI, string> = {
   URI,
@@ -1021,7 +1021,7 @@ export const FilterableWithIndex: FilterableWithIndex1<URI, string> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Traversable: Traversable1<URI> = {
   URI,
@@ -1032,7 +1032,7 @@ export const Traversable: Traversable1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
   URI,
@@ -1041,7 +1041,7 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Witherable: Witherable1<URI> = {
   URI,

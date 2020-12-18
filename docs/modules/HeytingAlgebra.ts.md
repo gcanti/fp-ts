@@ -26,7 +26,7 @@ A `HeytingAlgebra` must satisfy the following laws in addition to `BoundedDistri
 - Complemented
   - `¬a <-> a → 0`
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -50,4 +50,4 @@ export interface HeytingAlgebra<A> extends BoundedDistributiveLattice<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

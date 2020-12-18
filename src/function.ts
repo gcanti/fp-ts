@@ -1,32 +1,32 @@
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 
 /**
  * A *thunk*
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Lazy<A> {
   (): A
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Predicate<A> {
   (a: A): boolean
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Refinement<A, B extends A> {
   (a: A): a is B
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Endomorphism<A> {
   (a: A): A
@@ -38,33 +38,33 @@ export interface Endomorphism<A> {
  *
  * export const sum: FunctionN<[number, number], number> = (a, b) => a + b
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface FunctionN<A extends ReadonlyArray<unknown>, B> {
   (...args: A): B
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function identity<A>(a: A): A {
   return a
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const unsafeCoerce: <A, B>(a: A) => B = identity as any
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function not<A>(predicate: Predicate<A>): Predicate<A> {
   return (a) => !predicate(a)
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function constant<A>(a: A): Lazy<A> {
   return () => a
@@ -73,42 +73,42 @@ export function constant<A>(a: A): Lazy<A> {
 /**
  * A thunk that returns always `true`.
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const constTrue: Lazy<boolean> = constant(true)
 
 /**
  * A thunk that returns always `false`.
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const constFalse: Lazy<boolean> = constant(false)
 
 /**
  * A thunk that returns always `null`.
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const constNull: Lazy<null> = constant(null)
 
 /**
  * A thunk that returns always `undefined`.
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const constUndefined: Lazy<undefined> = constant(undefined)
 
 /**
  * A thunk that returns always `void`.
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const constVoid: Lazy<void> = constUndefined
 
 /**
  * Flips the order of the arguments of a function of two arguments.
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C {
   return (b, a) => f(a, b)
@@ -129,7 +129,7 @@ export function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C {
  *
  * assert.strictEqual(f('aaa'), 6)
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function flow<A extends ReadonlyArray<unknown>, B>(ab: (...a: A) => B): (...a: A) => B
 export function flow<A extends ReadonlyArray<unknown>, B, C>(ab: (...a: A) => B, bc: (b: B) => C): (...a: A) => C
@@ -240,28 +240,28 @@ export function flow(
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function tuple<T extends ReadonlyArray<any>>(...t: T): T {
   return t
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function increment(n: number): number {
   return n + 1
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function decrement(n: number): number {
   return n - 1
 }
 
 /**
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function absurd<A>(_: never): A {
   throw new Error('Called `absurd` function which should be uncallable')
@@ -277,7 +277,7 @@ export function absurd<A>(_: never): A {
  *
  * assert.strictEqual(add([1, 2]), 3)
  *
- * @since 2.4.0
+ * @since 3.0.0
  */
 export function tupled<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B): (a: A) => B {
   return (a) => f(...a)
@@ -286,7 +286,7 @@ export function tupled<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B): 
 /**
  * Inverse function of `tupled`
  *
- * @since 2.4.0
+ * @since 3.0.0
  */
 export function untupled<A extends ReadonlyArray<unknown>, B>(f: (a: A) => B): (...a: A) => B {
   return (...a) => f(a)
@@ -309,7 +309,7 @@ export function untupled<A extends ReadonlyArray<unknown>, B>(f: (a: A) => B): (
  * // with pipe
  * assert.strictEqual(pipe('aaa', len, double), 6)
  *
- * @since 2.6.3
+ * @since 3.0.0
  */
 export function pipe<A>(a: A): A
 export function pipe<A, B>(a: A, ab: (a: A) => B): B
@@ -616,7 +616,7 @@ export function pipe(
 /**
  * Type hole simulation
  *
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const hole: <T>() => T = absurd as any
 

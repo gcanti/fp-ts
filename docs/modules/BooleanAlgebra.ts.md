@@ -15,7 +15,7 @@ Instances should satisfy the following laws in addition to the `HeytingAlgebra` 
 
 Boolean algebras generalize classical logic: one is equivalent to "true" and zero is equivalent to "false".
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -44,7 +44,7 @@ Every boolean algebras has a dual algebra, which involves reversing one/zero as 
 export declare function getDualBooleanAlgebra<A>(B: BooleanAlgebra<A>): BooleanAlgebra<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # instances
 
@@ -56,7 +56,7 @@ Added in v2.0.0
 export declare const booleanAlgebraBoolean: BooleanAlgebra<boolean>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## booleanAlgebraVoid
 
@@ -66,7 +66,7 @@ Added in v2.0.0
 export declare const booleanAlgebraVoid: BooleanAlgebra<void>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getFunctionBooleanAlgebra
 
@@ -76,7 +76,7 @@ Added in v2.0.0
 export declare function getFunctionBooleanAlgebra<B>(B: BooleanAlgebra<B>): <A = never>() => BooleanAlgebra<(a: A) => B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # type classes
 
@@ -88,4 +88,4 @@ Added in v2.0.0
 export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
 ```
 
-Added in v2.0.0
+Added in v3.0.0

@@ -6,7 +6,7 @@ parent: Modules
 
 ## Reader overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -79,7 +79,7 @@ Wrap a value into the type constructor.
 export declare const of: <E, A>(a: A) => Reader<E, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Apply
 
@@ -93,7 +93,7 @@ Apply a function to an argument under a type constructor.
 export declare const ap: <E, A>(fa: Reader<E, A>) => <B>(fab: Reader<E, (a: A) => B>) => Reader<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## apW
 
@@ -105,7 +105,7 @@ Less strict version of [`ap`](#ap).
 export declare const apW: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) => B>) => Reader<R1 & R2, B>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 # Category
 
@@ -117,7 +117,7 @@ Added in v2.8.0
 export declare const id: <A>() => Reader<A, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Functor
 
@@ -132,7 +132,7 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Monad
 
@@ -146,7 +146,7 @@ Composes computations in sequence, using the return value of one computation to 
 export declare const chain: <A, E, B>(f: (a: A) => Reader<E, B>) => (fa: Reader<E, A>) => Reader<E, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## chainW
 
@@ -158,7 +158,7 @@ Less strict version of [`chain`](#chain).
 export declare const chainW: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B>
 ```
 
-Added in v2.6.0
+Added in v3.0.0
 
 # Profunctor
 
@@ -170,7 +170,7 @@ Added in v2.6.0
 export declare const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reader<E, A>) => Reader<D, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # Semigroupoid
 
@@ -182,7 +182,7 @@ Added in v2.0.0
 export declare const compose: <A, B>(ab: Reader<A, B>) => <C>(bc: Reader<B, C>) => Reader<A, C>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # combinators
 
@@ -197,7 +197,7 @@ Changes the value of the local context during the execution of the action `ma` (
 export declare const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # constructors
 
@@ -211,7 +211,7 @@ Reads the current context
 export declare const ask: <R>() => Reader<R, R>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## asks
 
@@ -223,7 +223,7 @@ Projects a value from the global context in a Reader
 export declare const asks: <R, A>(f: (r: R) => A) => Reader<R, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # derivable combinators
 
@@ -239,7 +239,7 @@ Derivable from `Apply`.
 export declare const apFirst: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) => Reader<R, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## apSecond
 
@@ -253,7 +253,7 @@ Derivable from `Apply`.
 export declare const apSecond: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) => Reader<R, B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## chainFirst
 
@@ -268,7 +268,7 @@ Derivable from `Monad`.
 export declare const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<R, A>) => Reader<R, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## flatten
 
@@ -280,7 +280,7 @@ Derivable from `Monad`.
 export declare const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # instances
 
@@ -292,7 +292,7 @@ Added in v2.0.0
 export declare const Applicative: Applicative2<'Reader'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Category
 
@@ -302,7 +302,7 @@ Added in v2.7.0
 export declare const Category: Category2<'Reader'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Functor
 
@@ -312,7 +312,7 @@ Added in v2.7.0
 export declare const Functor: Functor2<'Reader'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Monad
 
@@ -322,7 +322,7 @@ Added in v2.7.0
 export declare const Monad: Monad2<'Reader'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Profunctor
 
@@ -332,7 +332,7 @@ Added in v2.7.0
 export declare const Profunctor: Profunctor2<'Reader'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## URI
 
@@ -342,7 +342,7 @@ Added in v2.7.0
 export declare const URI: 'Reader'
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -352,7 +352,7 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getMonoid
 
@@ -362,7 +362,7 @@ Added in v2.0.0
 export declare function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getSemigroup
 
@@ -372,7 +372,7 @@ Added in v2.0.0
 export declare function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R, A>>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # model
 
@@ -386,7 +386,7 @@ export interface Reader<R, A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # utils
 
@@ -408,7 +408,7 @@ Added in v3.0.0
 export declare const Do: Reader<unknown, {}>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## apS
 
@@ -421,7 +421,7 @@ export declare const apS: <A, N extends string, R, B>(
 ) => (fa: Reader<R, A>) => Reader<R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## apSW
 
@@ -434,7 +434,7 @@ export declare const apSW: <A, N extends string, Q, B>(
 ) => <R>(fa: Reader<R, A>) => Reader<Q & R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## apT
 
@@ -471,7 +471,7 @@ export declare const bind: <N extends string, A, R, B>(
 ) => (fa: Reader<R, A>) => Reader<R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## bindTo
 
@@ -481,7 +481,7 @@ Added in v2.8.0
 export declare const bindTo: <N extends string>(name: N) => <R, A>(fa: Reader<R, A>) => Reader<R, { [K in N]: A }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## bindW
 
@@ -494,7 +494,7 @@ export declare const bindW: <N extends string, A, Q, B>(
 ) => <R>(fa: Reader<R, A>) => Reader<Q & R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v2.8.0
+Added in v3.0.0
 
 ## sequenceArray
 
@@ -525,7 +525,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseArray
 
@@ -558,7 +558,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## traverseArrayWithIndex
 
@@ -570,7 +570,7 @@ export declare const traverseArrayWithIndex: <R, A, B>(
 ) => (arr: readonly A[]) => Reader<R, readonly B[]>
 ```
 
-Added in v2.9.0
+Added in v3.0.0
 
 ## tupled
 

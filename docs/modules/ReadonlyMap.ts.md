@@ -6,7 +6,7 @@ parent: Modules
 
 ## ReadonlyMap overview
 
-Added in v2.5.0
+Added in v3.0.0
 
 ---
 
@@ -79,7 +79,7 @@ Added in v2.5.0
 export declare const compact: <K, A>(fa: ReadonlyMap<K, O.Option<A>>) => ReadonlyMap<K, A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## separate
 
@@ -91,7 +91,7 @@ export declare const separate: <K, A, B>(
 ) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # Filterable
 
@@ -103,7 +103,7 @@ Added in v2.5.0
 export declare const filter: Filter2<'ReadonlyMap'>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## filterMap
 
@@ -113,7 +113,7 @@ Added in v2.5.0
 export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => <E>(fa: ReadonlyMap<E, A>) => ReadonlyMap<E, B>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## partition
 
@@ -123,7 +123,7 @@ Added in v2.5.0
 export declare const partition: Partition2<'ReadonlyMap'>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## partitionMap
 
@@ -135,7 +135,7 @@ export declare const partitionMap: <A, B, C>(
 ) => <E>(fa: ReadonlyMap<E, A>) => Separated<ReadonlyMap<E, B>, ReadonlyMap<E, C>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # Functor
 
@@ -150,7 +150,7 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(f: (a: A) => B) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # FunctorWithIndex
 
@@ -162,7 +162,7 @@ Added in v2.5.0
 export declare const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
 ```
 
-Added in v2.7.1
+Added in v3.0.0
 
 # combinators
 
@@ -176,7 +176,7 @@ Delete a key and value from a map
 export declare function deleteAt<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## insertAt
 
@@ -188,7 +188,7 @@ Insert or replace a key/value pair in a map
 export declare function insertAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # constructors
 
@@ -222,7 +222,7 @@ export declare function fromFoldable<F, K, A>(
 ): (fka: HKT<F, readonly [K, A]>) => ReadonlyMap<K, A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## fromMap
 
@@ -232,7 +232,7 @@ Added in v2.5.0
 export declare function fromMap<K, A>(m: Map<K, A>): ReadonlyMap<K, A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## singleton
 
@@ -244,7 +244,7 @@ Create a map with one key/value pair
 export declare function singleton<K, A>(k: K, a: A): ReadonlyMap<K, A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # destructors
 
@@ -256,7 +256,7 @@ Added in v2.5.0
 export declare function toMap<K, A>(m: ReadonlyMap<K, A>): Map<K, A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## toReadonlyArray
 
@@ -268,7 +268,7 @@ Get a sorted of the key/value pairs contained in a map
 export declare function toReadonlyArray<K>(O: Ord<K>): <A>(m: ReadonlyMap<K, A>) => ReadonlyArray<readonly [K, A]>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## toUnfoldable
 
@@ -287,7 +287,7 @@ export declare function toUnfoldable<K, F>(
 ): <A>(d: ReadonlyMap<K, A>) => HKT<F, readonly [K, A]>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # instances
 
@@ -299,7 +299,7 @@ Added in v2.5.0
 export declare const Compactable: Compactable2<'ReadonlyMap'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Filterable
 
@@ -309,7 +309,7 @@ Added in v2.7.0
 export declare const Filterable: Filterable2<'ReadonlyMap'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Functor
 
@@ -319,7 +319,7 @@ Added in v2.7.0
 export declare const Functor: Functor2<'ReadonlyMap'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## URI
 
@@ -329,7 +329,7 @@ Added in v2.7.0
 export declare const URI: 'ReadonlyMap'
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -339,7 +339,7 @@ Added in v2.5.0
 export type URI = typeof URI
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## getEq
 
@@ -349,7 +349,7 @@ Added in v2.5.0
 export declare function getEq<K, A>(SK: Eq<K>, SA: Eq<A>): Eq<ReadonlyMap<K, A>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## getFilterable
 
@@ -369,7 +369,7 @@ Added in v3.0.0
 export declare function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, K, K>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## getFoldable
 
@@ -401,7 +401,7 @@ Gets `Monoid` instance for Maps given `Semigroup` instance for their values
 export declare function getMonoid<K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap<K, A>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## getShow
 
@@ -411,7 +411,7 @@ Added in v2.5.0
 export declare function getShow<K, A>(SK: Show<K>, SA: Show<A>): Show<ReadonlyMap<K, A>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## getTraversable
 
@@ -441,7 +441,7 @@ Added in v3.0.0
 export declare function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # utils
 
@@ -455,7 +455,7 @@ export declare function collect<K>(
 ): <A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K, A>) => ReadonlyArray<B>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## elem
 
@@ -467,7 +467,7 @@ Test whether or not a value is a member of a map
 export declare const elem: <A>(E: Eq<A>) => (a: A) => <K>(m: ReadonlyMap<K, A>) => boolean
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## empty
 
@@ -477,7 +477,7 @@ Added in v2.5.0
 export declare const empty: ReadonlyMap<never, never>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## isEmpty
 
@@ -489,7 +489,7 @@ Test whether or not a map is empty
 export declare function isEmpty<K, A>(d: ReadonlyMap<K, A>): boolean
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## isSubmap
 
@@ -504,7 +504,7 @@ export declare function isSubmap<K, A>(
 ): (that: ReadonlyMap<K, A>) => (me: ReadonlyMap<K, A>) => boolean
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## keys
 
@@ -516,7 +516,7 @@ Get a sorted array of the keys contained in a map
 export declare function keys<K>(O: Ord<K>): <A>(m: ReadonlyMap<K, A>) => ReadonlyArray<K>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## lookup
 
@@ -528,7 +528,7 @@ Lookup the value for a key in a `Map`.
 export declare function lookup<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) => Option<A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## lookupWithKey
 
@@ -541,7 +541,7 @@ If the result is a `Some`, the existing key is also returned.
 export declare function lookupWithKey<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) => Option<readonly [K, A]>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## member
 
@@ -553,7 +553,7 @@ Test whether or not a key exists in a map
 export declare function member<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) => boolean
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## modifyAt
 
@@ -565,7 +565,7 @@ export declare function modifyAt<K>(
 ): <A>(k: K, f: Endomorphism<A>) => (m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## pop
 
@@ -577,7 +577,7 @@ Delete a key and value from a map, returning the value as well as the subsequent
 export declare function pop<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) => Option<readonly [A, ReadonlyMap<K, A>]>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## size
 
@@ -589,7 +589,7 @@ Calculate the number of key/value pairs in a map
 export declare function size<K, A>(d: ReadonlyMap<K, A>): number
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## updateAt
 
@@ -599,7 +599,7 @@ Added in v2.5.0
 export declare function updateAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## values
 
@@ -611,4 +611,4 @@ Get a sorted array of the values contained in a map
 export declare function values<A>(O: Ord<A>): <K>(m: ReadonlyMap<K, A>) => ReadonlyArray<A>
 ```
 
-Added in v2.5.0
+Added in v3.0.0

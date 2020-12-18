@@ -5,7 +5,7 @@
  * `Const` has some useful instances. For example, the `Applicative` instance allows us to collect results using a `Monoid`
  * while ignoring return values.
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
@@ -30,19 +30,19 @@ import { Show } from './Show'
 
 /**
  * @category model
- * @since 2.0.0
+ * @since 3.0.0
  */
 export type Const<E, A> = E & { readonly _A: A }
 
 /**
  * @category constructors
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const make: <E, A = never>(e: E) => Const<E, A> = unsafeCoerce
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getShow<E, A>(S: Show<E>): Show<Const<E, A>> {
   return {
@@ -52,61 +52,61 @@ export function getShow<E, A>(S: Show<E>): Show<Const<E, A>> {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const getEq: <E, A>(E: Eq<E>) => Eq<Const<E, A>> = identity
 
 /**
  * @category instances
- * @since 2.6.0
+ * @since 3.0.0
  */
 export const getOrd: <E, A>(O: Ord<E>) => Ord<Const<E, A>> = identity
 
 /**
  * @category instances
- * @since 2.6.0
+ * @since 3.0.0
  */
 export const getBounded: <E, A>(B: Bounded<E>) => Bounded<Const<E, A>> = identity as any
 
 /**
  * @category instances
- * @since 2.6.0
+ * @since 3.0.0
  */
 export const getSemigroup: <E, A>(S: Semigroup<E>) => Semigroup<Const<E, A>> = identity as any
 
 /**
  * @category instances
- * @since 2.6.0
+ * @since 3.0.0
  */
 export const getMonoid: <E, A>(M: Monoid<E>) => Monoid<Const<E, A>> = identity as any
 
 /**
  * @category instances
- * @since 2.6.0
+ * @since 3.0.0
  */
 export const getSemiring: <E, A>(S: Semiring<E>) => Semiring<Const<E, A>> = identity as any
 
 /**
  * @category instances
- * @since 2.6.0
+ * @since 3.0.0
  */
 export const getRing: <E, A>(S: Ring<E>) => Ring<Const<E, A>> = identity as any
 
 /**
  * @category instances
- * @since 2.6.0
+ * @since 3.0.0
  */
 export const getHeytingAlgebra: <E, A>(H: HeytingAlgebra<E>) => HeytingAlgebra<Const<E, A>> = identity as any
 
 /**
  * @category instances
- * @since 2.6.0
+ * @since 3.0.0
  */
 export const getBooleanAlgebra: <E, A>(H: BooleanAlgebra<E>) => BooleanAlgebra<Const<E, A>> = identity as any
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getApply<E>(S: Semigroup<E>): Apply2C<URI, E> {
   return {
@@ -118,7 +118,7 @@ export function getApply<E>(S: Semigroup<E>): Apply2C<URI, E> {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> {
   const A = getApply(M)
@@ -132,7 +132,7 @@ export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> {
 
 /**
  * @category Contravariant
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const contramap: Contravariant2<URI>['contramap'] = () => unsafeCoerce
 
@@ -141,7 +141,7 @@ export const contramap: Contravariant2<URI>['contramap'] = () => unsafeCoerce
  * use the type constructor `F` to represent some computational context.
  *
  * @category Functor
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const map: Functor2<URI>['map'] = () => unsafeCoerce
 
@@ -149,7 +149,7 @@ export const map: Functor2<URI>['map'] = () => unsafeCoerce
  * Map a pair of functions over the two type arguments of the bifunctor.
  *
  * @category Bifunctor
- * @since 2.6.2
+ * @since 3.0.0
  */
 export const bimap: Bifunctor2<URI>['bimap'] = (f) => (fa) => make(f(fa))
 
@@ -157,7 +157,7 @@ export const bimap: Bifunctor2<URI>['bimap'] = (f) => (fa) => make(f(fa))
  * Map a function over the first type argument of a bifunctor.
  *
  * @category Bifunctor
- * @since 2.6.2
+ * @since 3.0.0
  */
 export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => make(f(fa))
 
@@ -167,13 +167,13 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => make(f(fa))
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const URI = 'Const'
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export type URI = typeof URI
 
@@ -185,7 +185,7 @@ declare module './HKT' {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
   URI,
@@ -194,7 +194,7 @@ export const Functor: Functor2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Contravariant: Contravariant2<URI> = {
   URI,
@@ -203,7 +203,7 @@ export const Contravariant: Contravariant2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 3.0.0
  */
 export const Bifunctor: Bifunctor2<URI> = {
   URI,

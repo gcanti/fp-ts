@@ -14,7 +14,7 @@ Instances must satisfy the following laws:
 2. Symmetry: `equals(b)(a) === equals(a)(b)`
 3. Transitivity: if `equals(b)(a) === true` and `equals(c)(b) === true`, then `equals(c)(a) === true`
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -51,7 +51,7 @@ Added in v2.0.0
 export declare const contramap: <B, A>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # constructors
 
@@ -63,7 +63,7 @@ Added in v2.0.0
 export declare function fromEquals<A>(equals: Eq<A>['equals']): Eq<A>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # instances
 
@@ -75,7 +75,7 @@ Added in v2.0.0
 export declare const Contravariant: Contravariant1<'Eq'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## URI
 
@@ -85,7 +85,7 @@ Added in v2.7.0
 export declare const URI: 'Eq'
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -95,7 +95,7 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## eqBoolean
 
@@ -105,7 +105,7 @@ Added in v2.0.0
 export declare const eqBoolean: Eq<boolean>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## eqDate
 
@@ -115,7 +115,7 @@ Added in v2.0.0
 export declare const eqDate: Eq<Date>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## eqNumber
 
@@ -125,7 +125,7 @@ Added in v2.0.0
 export declare const eqNumber: Eq<number>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## eqStrict
 
@@ -135,7 +135,7 @@ Added in v2.0.0
 export declare const eqStrict: Eq<unknown>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## eqString
 
@@ -145,7 +145,7 @@ Added in v2.5.0
 export declare const eqString: Eq<string>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getMonoid
 
@@ -155,7 +155,7 @@ Added in v2.0.0
 export declare function getMonoid<A>(): Monoid<Eq<A>>
 ```
 
-Added in v2.6.0
+Added in v3.0.0
 
 ## getStructEq
 
@@ -165,7 +165,7 @@ Added in v2.6.0
 export declare function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O>
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## getTupleEq
 
@@ -191,7 +191,7 @@ assert.strictEqual(E.equals(['a', 1, true])(['a', 2, true]), false)
 assert.strictEqual(E.equals(['a', 1, true])(['a', 1, false]), false)
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 # type classes
 
@@ -205,4 +205,4 @@ export interface Eq<A> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

@@ -6,7 +6,7 @@ parent: Modules
 
 ## Comonad overview
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -33,7 +33,7 @@ export interface Comonad<W> extends Extend<W> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Comonad1 (interface)
 
@@ -45,7 +45,7 @@ export interface Comonad1<W extends URIS> extends Extend1<W> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Comonad2 (interface)
 
@@ -57,7 +57,7 @@ export interface Comonad2<W extends URIS2> extends Extend2<W> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Comonad2C (interface)
 
@@ -69,7 +69,7 @@ export interface Comonad2C<W extends URIS2, E> extends Extend2C<W, E> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0
 
 ## Comonad3 (interface)
 
@@ -81,4 +81,4 @@ export interface Comonad3<W extends URIS3> extends Extend3<W> {
 }
 ```
 
-Added in v2.0.0
+Added in v3.0.0

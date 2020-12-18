@@ -6,7 +6,7 @@ parent: Modules
 
 ## ReadonlyTuple overview
 
-Added in v2.5.0
+Added in v3.0.0
 
 ---
 
@@ -63,7 +63,7 @@ Map a pair of functions over the two type arguments of the bifunctor.
 export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: readonly [A, E]) => readonly [B, G]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## mapLeft
 
@@ -75,7 +75,7 @@ Map a function over the first type argument of a bifunctor.
 export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: readonly [A, E]) => readonly [A, G]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # Extend
 
@@ -87,7 +87,7 @@ Added in v2.5.0
 export declare const extend: <E, A, B>(f: (wa: readonly [A, E]) => B) => (wa: readonly [A, E]) => readonly [B, E]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # Extract
 
@@ -99,7 +99,7 @@ Added in v2.5.0
 export declare const extract: <E, A>(wa: readonly [A, E]) => A
 ```
 
-Added in v2.6.2
+Added in v3.0.0
 
 # Foldable
 
@@ -111,7 +111,7 @@ Added in v2.6.2
 export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: readonly [A, E]) => M
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## reduce
 
@@ -121,7 +121,7 @@ Added in v2.5.0
 export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: readonly [A, E]) => B
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## reduceRight
 
@@ -131,7 +131,7 @@ Added in v2.5.0
 export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: readonly [A, E]) => B
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # Functor
 
@@ -146,7 +146,7 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly [B, E]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # Semigroupoid
 
@@ -158,7 +158,7 @@ Added in v2.5.0
 export declare const compose: <A, B>(ab: readonly [B, A]) => <C>(bc: readonly [C, B]) => readonly [C, A]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # combinators
 
@@ -172,7 +172,7 @@ Derivable from `Extend`.
 export declare const duplicate: <E, A>(wa: readonly [A, E]) => readonly [readonly [A, E], E]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## swap
 
@@ -182,7 +182,7 @@ Added in v2.5.0
 export declare function swap<A, E>(ea: readonly [A, E]): readonly [E, A]
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # destructors
 
@@ -194,7 +194,7 @@ Added in v2.5.0
 export declare function fst<A, E>(ea: readonly [A, E]): A
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## snd
 
@@ -204,7 +204,7 @@ Added in v2.5.0
 export declare function snd<A, E>(ea: readonly [A, E]): E
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # instances
 
@@ -216,7 +216,7 @@ Added in v2.5.0
 export declare const Bifunctor: Bifunctor2<'ReadonlyTuple'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Comonad
 
@@ -226,7 +226,7 @@ Added in v2.7.0
 export declare const Comonad: Comonad2<'ReadonlyTuple'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Foldable
 
@@ -236,7 +236,7 @@ Added in v2.7.0
 export declare const Foldable: Foldable2<'ReadonlyTuple'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Functor
 
@@ -246,7 +246,7 @@ Added in v2.7.0
 export declare const Functor: Functor2<'ReadonlyTuple'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Semigroupoid
 
@@ -256,7 +256,7 @@ Added in v2.7.0
 export declare const Semigroupoid: Semigroupoid2<'ReadonlyTuple'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## Traversable
 
@@ -266,7 +266,7 @@ Added in v2.7.0
 export declare const Traversable: Traversable2<'ReadonlyTuple'>
 ```
 
-Added in v2.7.0
+Added in v3.0.0
 
 ## URI
 
@@ -276,7 +276,7 @@ Added in v2.7.0
 export declare const URI: 'ReadonlyTuple'
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## URI (type alias)
 
@@ -286,7 +286,7 @@ Added in v2.5.0
 export type URI = typeof URI
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## getApplicative
 
@@ -296,7 +296,7 @@ Added in v2.5.0
 export declare function getApplicative<M>(M: Monoid<M>): Applicative2C<URI, M>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## getApply
 
@@ -306,7 +306,7 @@ Added in v2.5.0
 export declare function getApply<S>(S: Semigroup<S>): Apply2C<URI, S>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 ## getMonad
 
@@ -316,7 +316,7 @@ Added in v2.5.0
 export declare function getMonad<M>(M: Monoid<M>): Monad2C<URI, M>
 ```
 
-Added in v2.5.0
+Added in v3.0.0
 
 # utils
 
@@ -328,7 +328,7 @@ Added in v2.5.0
 export declare const sequence: Sequence2<'ReadonlyTuple'>
 ```
 
-Added in v2.6.3
+Added in v3.0.0
 
 ## traverse
 
@@ -338,4 +338,4 @@ Added in v2.6.3
 export declare const traverse: Traverse2<'ReadonlyTuple'>
 ```
 
-Added in v2.6.3
+Added in v3.0.0

@@ -13,7 +13,7 @@
  * pipe(x, concat(pipe(y, concat(z)))) = pipe(x, concat(y), concat(z))
  * ```
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 import { Endomorphism } from './function'
 import { Magma } from './Magma'
@@ -22,7 +22,7 @@ import { ReadonlyRecord } from './ReadonlyRecord'
 
 /**
  * @category type classes
- * @since 2.0.0
+ * @since 3.0.0
  */
 export interface Semigroup<A> extends Magma<A> {}
 
@@ -39,7 +39,7 @@ export interface Semigroup<A> extends Magma<A> {}
  * assert.deepStrictEqual(sum([1, 2, 3]), 6)
  * assert.deepStrictEqual(sum([]), 0)
  *
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const fold = <A>(S: Semigroup<A>) => (startWith: A) => (as: ReadonlyArray<A>): A =>
   as.reduce((a, acc) => S.concat(acc)(a), startWith)
@@ -54,7 +54,7 @@ export const fold = <A>(S: Semigroup<A>) => (startWith: A) => (as: ReadonlyArray
  * assert.deepStrictEqual(pipe(1, S.getFirstSemigroup<number>().concat(2)), 1)
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getFirstSemigroup<A = never>(): Semigroup<A> {
   return { concat: () => (first) => first }
@@ -70,7 +70,7 @@ export function getFirstSemigroup<A = never>(): Semigroup<A> {
  * assert.deepStrictEqual(pipe(1, S.getLastSemigroup<number>().concat(2)), 2)
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getLastSemigroup<A = never>(): Semigroup<A> {
   return { concat: (second) => () => second }
@@ -90,7 +90,7 @@ export function getLastSemigroup<A = never>(): Semigroup<A> {
  * assert.deepStrictEqual(pipe(['a', 1, true], S2.concat(['b', 2, false])), ['ab', 3, false])
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getTupleSemigroup<T extends ReadonlyArray<Semigroup<any>>>(
   ...semigroups: T
@@ -110,7 +110,7 @@ export function getTupleSemigroup<T extends ReadonlyArray<Semigroup<any>>>(
  * assert.deepStrictEqual(pipe('a', S.getDualSemigroup(S.semigroupString).concat('b')), 'ba')
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getDualSemigroup<A>(S: Semigroup<A>): Semigroup<A> {
   return {
@@ -139,7 +139,7 @@ export function getDualSemigroup<A>(S: Semigroup<A>): Semigroup<A> {
  * assert.deepStrictEqual(pipe(f, S2.concat(g))(3), true)
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getFunctionSemigroup<S>(S: Semigroup<S>): <A = never>() => Semigroup<(a: A) => S> {
   return () => ({
@@ -167,7 +167,7 @@ export function getFunctionSemigroup<S>(S: Semigroup<S>): <A = never>() => Semig
  * assert.deepStrictEqual(pipe({ x: 1, y: 2 }, semigroupPoint.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getStructSemigroup<O extends ReadonlyRecord<string, any>>(
   semigroups: { [K in keyof O]: Semigroup<O[K]> }
@@ -196,7 +196,7 @@ export function getStructSemigroup<O extends ReadonlyRecord<string, any>>(
  * assert.deepStrictEqual(pipe(1, S1.concat(2)), 1)
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getMeetSemigroup<A>(O: Ord<A>): Semigroup<A> {
   return {
@@ -217,7 +217,7 @@ export function getMeetSemigroup<A>(O: Ord<A>): Semigroup<A> {
  * assert.deepStrictEqual(pipe(1, S1.concat(2)), 2)
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getJoinSemigroup<A>(O: Ord<A>): Semigroup<A> {
   return {
@@ -241,7 +241,7 @@ export function getJoinSemigroup<A>(O: Ord<A>): Semigroup<A> {
  * assert.deepStrictEqual(pipe({ name: 'name', age: 23 }, S1.concat({ name: 'name', age: 24 })), { name: 'name', age: 24 })
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export function getObjectSemigroup<A extends object = never>(): Semigroup<A> {
   return {
@@ -260,7 +260,7 @@ export function getObjectSemigroup<A extends object = never>(): Semigroup<A> {
  * assert.deepStrictEqual(pipe(true, S.semigroupAll.concat(false)), false)
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const semigroupAll: Semigroup<boolean> = {
   concat: (second) => (first) => first && second
@@ -278,7 +278,7 @@ export const semigroupAll: Semigroup<boolean> = {
  * assert.deepStrictEqual(pipe(false, S.semigroupAny.concat(false)), false)
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const semigroupAny: Semigroup<boolean> = {
   concat: (second) => (first) => first || second
@@ -294,7 +294,7 @@ export const semigroupAny: Semigroup<boolean> = {
  * assert.deepStrictEqual(pipe(2, S.semigroupSum.concat(3)), 5)
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const semigroupSum: Semigroup<number> = {
   concat: (second) => (first) => first + second
@@ -310,7 +310,7 @@ export const semigroupSum: Semigroup<number> = {
  * assert.deepStrictEqual(pipe(2, S.semigroupProduct.concat(3)), 6)
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const semigroupProduct: Semigroup<number> = {
   concat: (second) => (first) => first * second
@@ -326,7 +326,7 @@ export const semigroupProduct: Semigroup<number> = {
  * assert.deepStrictEqual(pipe('a', S.semigroupString.concat('b')), 'ab')
  *
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const semigroupString: Semigroup<string> = {
   concat: (second) => (first) => first + second
@@ -334,7 +334,7 @@ export const semigroupString: Semigroup<string> = {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 3.0.0
  */
 export const semigroupVoid: Semigroup<void> = {
   concat: () => () => undefined
@@ -353,7 +353,7 @@ export const semigroupVoid: Semigroup<void> = {
  * assert.strictEqual(pipe('a', S1.concat('b'), S1.concat('c')), 'a b c')
  *
  * @category instances
- * @since 2.5.0
+ * @since 3.0.0
  */
 export function getIntercalateSemigroup<A>(a: A): Endomorphism<Semigroup<A>> {
   return (S) => ({

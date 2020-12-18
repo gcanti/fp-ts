@@ -11,7 +11,7 @@ A `BoundedLattice` must satisfy the following in addition to `BoundedMeetSemilat
 - Absorption law for meet: `a ∧ (a ∨ b) <-> a`
 - Absorption law for join: `a ∨ (a ∧ b) <-> a`
 
-Added in v2.0.0
+Added in v3.0.0
 
 ---
 
@@ -32,4 +32,4 @@ Added in v2.0.0
 export interface BoundedLattice<A> extends BoundedJoinSemilattice<A>, BoundedMeetSemilattice<A> {}
 ```
 
-Added in v2.0.0
+Added in v3.0.0
