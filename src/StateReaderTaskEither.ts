@@ -6,8 +6,8 @@ import { Applicative4 } from './Applicative'
 import { apFirst_, apSecond_ } from './Apply'
 import { Bifunctor4 } from './Bifunctor'
 import * as E from './Either'
-import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
-import { Functor4 } from './Functor'
+import { bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
+import { bindTo_, Functor4 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { chainFirst_, Monad4 } from './Monad'
@@ -696,10 +696,11 @@ export const execute = <S>(s: S) => <R, E, A>(ma: StateReaderTaskEither<S, R, E,
 /**
  * @since 3.0.0
  */
-export const bindTo = <N extends string>(
+export const bindTo: <N extends string>(
   name: N
-): (<S, R, E, A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, { [K in N]: A }>) =>
-  map(bindTo_(name))
+) => <S, R, E, A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, { [K in N]: A }> =
+  /*#__PURE__*/
+  bindTo_(Functor)
 
 /**
  * @since 3.0.0

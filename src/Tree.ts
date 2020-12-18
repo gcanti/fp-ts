@@ -13,8 +13,8 @@ import { Comonad1 } from './Comonad'
 import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
-import { bindTo_, bind_, flow, identity, pipe, tuple } from './function'
-import { Functor1 } from './Functor'
+import { bind_, flow, identity, pipe, tuple } from './function'
+import { bindTo_, Functor1 } from './Functor'
 import { HKT } from './HKT'
 import { chainFirst_, Monad1 } from './Monad'
 import { Monoid } from './Monoid'
@@ -465,7 +465,9 @@ export const Do: Tree<{}> = of({})
 /**
  * @since 3.0.0
  */
-export const bindTo = <N extends string>(name: N): (<A>(fa: Tree<A>) => Tree<{ [K in N]: A }>) => map(bindTo_(name))
+export const bindTo: <N extends string>(name: N) => <A>(fa: Tree<A>) => Tree<{ [K in N]: A }> =
+  /*#__PURE__*/
+  bindTo_(Functor)
 
 /**
  * @since 3.0.0

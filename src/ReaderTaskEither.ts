@@ -6,8 +6,8 @@ import { Applicative3, Applicative3C } from './Applicative'
 import { apFirst_, Apply1, apSecond_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
-import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
-import { Functor3 } from './Functor'
+import { bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
+import { bindTo_, Functor3 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { chainFirst_, Monad3 } from './Monad'
@@ -755,9 +755,11 @@ export const Do: ReaderTaskEither<unknown, never, {}> = of({})
 /**
  * @since 3.0.0
  */
-export const bindTo = <N extends string>(
+export const bindTo: <N extends string>(
   name: N
-): (<R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, { [K in N]: A }>) => map(bindTo_(name))
+) => <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, { [K in N]: A }> =
+  /*#__PURE__*/
+  bindTo_(Functor)
 
 /**
  * @since 3.0.0

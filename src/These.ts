@@ -187,6 +187,7 @@ export function getApplicative<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
   }
 }
 
+// TODO: remove MonadThrow2C<URI, E>
 /**
  * @category instances
  * @since 3.0.0

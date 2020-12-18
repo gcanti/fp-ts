@@ -3,8 +3,8 @@
  */
 import { Applicative2 } from './Applicative'
 import { apFirst_, apSecond_ } from './Apply'
-import { bindTo_, bind_, flow, identity, pipe, tuple } from './function'
-import { Functor2 } from './Functor'
+import { bind_, flow, identity, pipe, tuple } from './function'
+import { bindTo_, Functor2 } from './Functor'
 import { chainFirst_, Monad2 } from './Monad'
 
 // -------------------------------------------------------------------------------------
@@ -223,8 +223,9 @@ export const execute = <S>(s: S) => <A>(ma: State<S, A>): S => ma(s)[1]
 /**
  * @since 3.0.0
  */
-export const bindTo = <N extends string>(name: N): (<S, A>(fa: State<S, A>) => State<S, { [K in N]: A }>) =>
-  map(bindTo_(name))
+export const bindTo: <N extends string>(name: N) => <S, A>(fa: State<S, A>) => State<S, { [K in N]: A }> =
+  /*#__PURE__*/
+  bindTo_(Functor)
 
 /**
  * @since 3.0.0

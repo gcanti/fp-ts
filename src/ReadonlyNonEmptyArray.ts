@@ -10,8 +10,8 @@ import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { bindTo_, bind_, Endomorphism, flow, Lazy, pipe, Predicate, Refinement, tuple } from './function'
-import { Functor1 } from './Functor'
+import { bind_, Endomorphism, flow, Lazy, pipe, Predicate, Refinement, tuple } from './function'
+import { bindTo_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { Monad1 } from './Monad'
 import { none, Option, some } from './Option'
@@ -726,9 +726,11 @@ export const Do: ReadonlyNonEmptyArray<{}> = of({})
 /**
  * @since 3.0.0
  */
-export const bindTo = <N extends string>(
+export const bindTo: <N extends string>(
   name: N
-): (<A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ [K in N]: A }>) => map(bindTo_(name))
+) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ [K in N]: A }> =
+  /*#__PURE__*/
+  bindTo_(Functor)
 
 /**
  * @since 3.0.0

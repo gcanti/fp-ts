@@ -13,8 +13,8 @@ import { Filterable1 } from './Filterable'
 import { FilterableWithIndex1, PredicateWithIndex } from './FilterableWithIndex'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { bindTo_, bind_, Endomorphism, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
-import { Functor1 } from './Functor'
+import { bind_, Endomorphism, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
+import { bindTo_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import { chainFirst_, Monad1 } from './Monad'
@@ -2000,8 +2000,9 @@ export const Do: ReadonlyArray<{}> = of({})
 /**
  * @since 3.0.0
  */
-export const bindTo = <N extends string>(name: N): (<A>(fa: ReadonlyArray<A>) => ReadonlyArray<{ [K in N]: A }>) =>
-  map(bindTo_(name))
+export const bindTo: <N extends string>(name: N) => <A>(fa: ReadonlyArray<A>) => ReadonlyArray<{ [K in N]: A }> =
+  /*#__PURE__*/
+  bindTo_(Functor)
 
 /**
  * @since 3.0.0

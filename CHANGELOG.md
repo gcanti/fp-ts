@@ -255,6 +255,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `getCompactable` (@gcanti)
     - add `getFilterable` (@gcanti)
     - add pipeable sequence T (@gcanti)
+  - `Functor`
+    - add `bindTo_` (@gcanti)
   - `Identity`
     - add pipeable sequence T (@gcanti)
   - `IO`

@@ -22,8 +22,8 @@ import { Eq, fromEquals } from './Eq'
 import { Extend2 } from './Extend'
 import { Filterable2C } from './Filterable'
 import { Foldable2 } from './Foldable'
-import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
-import { Functor2 } from './Functor'
+import { bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
+import { bindTo_, Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { chainFirst_, Monad2 } from './Monad'
 import { MonadThrow2 } from './MonadThrow'
@@ -1187,8 +1187,9 @@ export const Do: Either<never, {}> = of({})
 /**
  * @since 3.0.0
  */
-export const bindTo = <N extends string>(name: N): (<E, A>(fa: Either<E, A>) => Either<E, { [K in N]: A }>) =>
-  map(bindTo_(name))
+export const bindTo: <N extends string>(name: N) => <E, A>(fa: Either<E, A>) => Either<E, { [K in N]: A }> =
+  /*#__PURE__*/
+  bindTo_(Functor)
 
 /**
  * @since 3.0.0

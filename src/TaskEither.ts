@@ -15,8 +15,8 @@ import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C } from './Compactable'
 import * as E from './Either'
 import { Filterable2C } from './Filterable'
-import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
-import { Functor2 } from './Functor'
+import { bind_, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
+import { bindTo_, Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { chainFirst_, Monad2 } from './Monad'
@@ -875,8 +875,9 @@ export const Do: TaskEither<never, {}> = of({})
 /**
  * @since 3.0.0
  */
-export const bindTo = <N extends string>(name: N): (<E, A>(fa: TaskEither<E, A>) => TaskEither<E, { [K in N]: A }>) =>
-  map(bindTo_(name))
+export const bindTo: <N extends string>(name: N) => <E, A>(fa: TaskEither<E, A>) => TaskEither<E, { [K in N]: A }> =
+  /*#__PURE__*/
+  bindTo_(Functor)
 
 /**
  * @since 3.0.0

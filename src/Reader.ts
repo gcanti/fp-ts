@@ -4,8 +4,8 @@
 import { Applicative2 } from './Applicative'
 import { apFirst_, apSecond_ } from './Apply'
 import { Category2 } from './Category'
-import { bindTo_, bind_, constant, flow, identity, pipe, tuple } from './function'
-import { Functor2 } from './Functor'
+import { bind_, constant, flow, identity, pipe, tuple } from './function'
+import { bindTo_, Functor2 } from './Functor'
 import { chainFirst_, Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Profunctor2 } from './Profunctor'
@@ -277,8 +277,9 @@ export const Category: Category2<URI> = {
 /**
  * @since 3.0.0
  */
-export const bindTo = <N extends string>(name: N): (<R, A>(fa: Reader<R, A>) => Reader<R, { [K in N]: A }>) =>
-  map(bindTo_(name))
+export const bindTo: <N extends string>(name: N) => <R, A>(fa: Reader<R, A>) => Reader<R, { [K in N]: A }> =
+  /*#__PURE__*/
+  bindTo_(Functor)
 
 /**
  * @since 3.0.0
