@@ -56,24 +56,24 @@ Added in v2.0.0
 
 ## gcd
 
-The _greatest common divisor_ of two values
+The _greatest common divisor_ of two values.
 
 **Signature**
 
 ```ts
-export declare function gcd<A>(E: Eq<A>, field: Field<A>): (x: A, y: A) => A
+export declare function gcd<A>(E: Eq<A>, field: Field<A>): (second: A) => (first: A) => A
 ```
 
 Added in v2.0.0
 
 ## lcm
 
-The _least common multiple_ of two values
+The _least common multiple_ of two values.
 
 **Signature**
 
 ```ts
-export declare function lcm<A>(E: Eq<A>, F: Field<A>): (x: A, y: A) => A
+export declare function lcm<A>(E: Eq<A>, F: Field<A>): (second: A) => (first: A) => A
 ```
 
 Added in v2.0.0

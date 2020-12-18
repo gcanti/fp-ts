@@ -78,6 +78,8 @@ high state of flux, you're at risk of it changing without notice.
     - make type class members pipeables (@gcanti)
   - `Field`
     - make type class members pipeables (@gcanti)
+    - make `gcd` pipeable (@gcanti)
+    - make `lcm` pipeable (@gcanti)
   - `Filterable`
     - drop `Functor` and `Compactable` dependencies (@gcanti)
     - remove `getFilterableComposition` (@gcanti)

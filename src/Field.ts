@@ -31,27 +31,26 @@ export const fieldNumber: Field<number> = {
   mod: (second) => (first) => first % second
 }
 
-// TODO: make piapeable
 /**
- * The *greatest common divisor* of two values
+ * The *greatest common divisor* of two values.
  *
  * @since 2.0.0
  */
-export function gcd<A>(E: Eq<A>, field: Field<A>): (x: A, y: A) => A {
+export function gcd<A>(E: Eq<A>, field: Field<A>): (second: A) => (first: A) => A {
   const predicate = E.equals(field.zero)
-  const f = (x: A, y: A): A => (predicate(y) ? x : f(y, field.mod(y)(x)))
+  const f = (second: A) => (first: A): A => (predicate(second) ? first : f(field.mod(second)(first))(second))
   return f
 }
 
-// TODO: make piapeable
 /**
- * The *least common multiple* of two values
+ * The *least common multiple* of two values.
  *
  * @since 2.0.0
  */
-export function lcm<A>(E: Eq<A>, F: Field<A>): (x: A, y: A) => A {
+export function lcm<A>(E: Eq<A>, F: Field<A>): (second: A) => (first: A) => A {
   const zero = F.zero
   const predicate = E.equals(zero)
   const gcdSF = gcd(E, F)
-  return (x, y) => (predicate(x) || predicate(y) ? zero : F.div(gcdSF(x, y))(F.mul(y)(x)))
+  return (second) => (first) =>
+    predicate(first) || predicate(second) ? zero : F.div(gcdSF(second)(first))(F.mul(second)(first))
 }
