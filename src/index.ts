@@ -73,6 +73,7 @@ import * as semiring from './Semiring'
 import * as show from './Show'
 import * as state from './State'
 import * as stateReaderTaskEither from './StateReaderTaskEither'
+import * as stateT from './StateT'
 import * as store from './Store'
 import * as task from './Task'
 import * as taskEither from './TaskEither'
@@ -370,6 +371,10 @@ export {
    * @since 3.0.0
    */
   stateReaderTaskEither,
+  /**
+   * @since 3.0.0
+   */
+  stateT,
   /**
    * @since 3.0.0
    */

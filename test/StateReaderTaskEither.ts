@@ -195,6 +195,12 @@ describe('StateReaderTaskEither', () => {
     assert.deepStrictEqual(e, E.right(1))
   })
 
+  it('fromState', async () => {
+    const s: State<unknown, number> = (s) => [1, s]
+    const e = await pipe(_.fromState(s), _.evaluate(state))({})()
+    assert.deepStrictEqual(e, E.right(1))
+  })
+
   it('left', async () => {
     const e = await _.left(1)({})({})()
     assert.deepStrictEqual(e, E.left(1))
