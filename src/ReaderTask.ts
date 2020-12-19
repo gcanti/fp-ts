@@ -319,20 +319,24 @@ export const bindTo: <N extends string>(name: N) => <R, A>(fa: ReaderTask<R, A>)
 /**
  * @since 3.0.0
  */
-export const bindW: <N extends string, A, R2, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderTask<R2, B>
-) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/
-  bind_(Monad) as any
-
-/**
- * @since 3.0.0
- */
 export const bind: <N extends string, A, R, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderTask<R, B>
-) => (fa: ReaderTask<R, A>) => ReaderTask<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW
+) => (fa: ReaderTask<R, A>) => ReaderTask<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  bind_(Monad)
+
+/**
+ * Less strict version of [`bind`](#bind).
+ *
+ * @since 3.0.0
+ */
+export const bindW: <N extends string, A, R2, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderTask<R2, B>
+) => <R1>(
+  fa: ReaderTask<R1, A>
+) => ReaderTask<R1 & R2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -341,20 +345,24 @@ export const bind: <N extends string, A, R, B>(
 /**
  * @since 3.0.0
  */
-export const apSW: <A, N extends string, R2, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReaderTask<R2, B>
-) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/
-  apS_(ApplicativePar) as any
-
-/**
- * @since 3.0.0
- */
 export const apS: <A, N extends string, R, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTask<R, B>
-) => (fa: ReaderTask<R, A>) => ReaderTask<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+) => (fa: ReaderTask<R, A>) => ReaderTask<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  apS_(ApplicativePar)
+
+/**
+ * Less strict version of [`apS`](#apS).
+ *
+ * @since 3.0.0
+ */
+export const apSW: <A, N extends string, R2, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderTask<R2, B>
+) => <R1>(
+  fa: ReaderTask<R1, A>
+) => ReaderTask<R1 & R2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence T
@@ -373,18 +381,22 @@ export const tupled: <R, A>(a: ReaderTask<R, A>) => ReaderTask<R, readonly [A]> 
 /**
  * @since 3.0.0
  */
-export const apTW: <R2, B>(
-  fb: ReaderTask<R2, B>
-) => <R1, A extends ReadonlyArray<unknown>>(fas: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]> =
-  /*#__PURE__*/
-  apT_(ApplicativePar) as any
-
-/**
- * @since 3.0.0
- */
 export const apT: <R, B>(
   fb: ReaderTask<R, B>
-) => <A extends ReadonlyArray<unknown>>(fas: ReaderTask<R, A>) => ReaderTask<R, readonly [...A, B]> = apTW
+) => <A extends ReadonlyArray<unknown>>(fas: ReaderTask<R, A>) => ReaderTask<R, readonly [...A, B]> =
+  /*#__PURE__*/
+  apT_(ApplicativePar)
+
+/**
+ * Less strict version of [`apT`](#apT).
+ *
+ * @since 3.0.0
+ */
+export const apTW: <R2, B>(
+  fb: ReaderTask<R2, B>
+) => <R1, A extends ReadonlyArray<unknown>>(
+  fas: ReaderTask<R1, A>
+) => ReaderTask<R1 & R2, readonly [...A, B]> = apT as any
 
 // -------------------------------------------------------------------------------------
 // array utils

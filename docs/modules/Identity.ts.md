@@ -1,6 +1,6 @@
 ---
 title: Identity.ts
-nav_order: 35
+nav_order: 36
 parent: Modules
 ---
 
@@ -200,7 +200,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <A, B>(f: (a: A) => B) => (fa: A) => B
+export declare const chain: <A, B>(f: (a: A) => B) => (ma: A) => B
 ```
 
 Added in v3.0.0

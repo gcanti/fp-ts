@@ -1,6 +1,6 @@
 ---
 title: TaskEither.ts
-nav_order: 73
+nav_order: 74
 parent: Modules
 ---
 
@@ -277,7 +277,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <A, E, B>(f: (a: A) => TaskEither<E, B>) => (fa: TaskEither<E, A>) => TaskEither<E, B>
+export declare const chain: <A, E, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
 ```
 
 Added in v3.0.0
@@ -954,6 +954,8 @@ Added in v3.0.0
 
 ## apSW
 
+Less strict version of [`apS`](#apS).
+
 **Signature**
 
 ```ts
@@ -978,6 +980,8 @@ export declare const apT: <E, B>(
 Added in v3.0.0
 
 ## apTW
+
+Less strict version of [`apT`](#apT).
 
 **Signature**
 
@@ -1015,6 +1019,8 @@ export declare const bindTo: <N extends string>(
 Added in v3.0.0
 
 ## bindW
+
+Less strict version of [`bind`](#bind).
 
 **Signature**
 

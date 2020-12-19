@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 49
+nav_order: 50
 parent: Modules
 ---
 
@@ -354,7 +354,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B>
+export declare const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B>
 ```
 
 Added in v3.0.0

@@ -1,6 +1,6 @@
 ---
 title: ReadonlyNonEmptyArray.ts
-nav_order: 60
+nav_order: 61
 parent: Modules
 ---
 
@@ -293,7 +293,7 @@ Composes computations in sequence, using the return value of one computation to 
 ```ts
 export declare const chain: <A, B>(
   f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
 ```
 
 Added in v3.0.0

@@ -1,6 +1,6 @@
 ---
 title: ReaderTask.ts
-nav_order: 56
+nav_order: 57
 parent: Modules
 ---
 
@@ -132,7 +132,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <A, E, B>(f: (a: A) => ReaderTask<E, B>) => (fa: ReaderTask<E, A>) => ReaderTask<E, B>
+export declare const chain: <A, E, B>(f: (a: A) => ReaderTask<E, B>) => (ma: ReaderTask<E, A>) => ReaderTask<E, B>
 ```
 
 Added in v3.0.0
@@ -441,6 +441,8 @@ Added in v3.0.0
 
 ## apSW
 
+Less strict version of [`apS`](#apS).
+
 **Signature**
 
 ```ts
@@ -465,6 +467,8 @@ export declare const apT: <R, B>(
 Added in v3.0.0
 
 ## apTW
+
+Less strict version of [`apT`](#apT).
 
 **Signature**
 
@@ -502,6 +506,8 @@ export declare const bindTo: <N extends string>(
 Added in v3.0.0
 
 ## bindW
+
+Less strict version of [`bind`](#bind).
 
 **Signature**
 

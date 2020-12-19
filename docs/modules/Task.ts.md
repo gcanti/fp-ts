@@ -1,6 +1,6 @@
 ---
 title: Task.ts
-nav_order: 72
+nav_order: 73
 parent: Modules
 ---
 
@@ -125,7 +125,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <A, B>(f: (a: A) => Task<B>) => (fa: Task<A>) => Task<B>
+export declare const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B>
 ```
 
 Added in v3.0.0

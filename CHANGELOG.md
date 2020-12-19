@@ -22,7 +22,7 @@ high state of flux, you're at risk of it changing without notice.
   - bump minimum typescript version (4.1.x+) (@gcanti)
   - remove deprecated APIs (@gcanti)
   - remove `pipeable` module (@gcanti)
-  - remove monad transformers (@gcanti)
+  - refactor monad transformers by splitting into functions (@gcanti)
   - remove `Chain` module (@gcanti)
   - remove `Choice` module (@gcanti)
   - remove `Strong` module (@gcanti)

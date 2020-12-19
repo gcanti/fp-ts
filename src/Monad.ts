@@ -21,7 +21,7 @@ import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT
  */
 export interface Monad<M> extends Functor<M> {
   readonly of: <A>(a: A) => HKT<M, A>
-  readonly chain: <A, B>(f: (a: A) => HKT<M, B>) => (fa: HKT<M, A>) => HKT<M, B>
+  readonly chain: <A, B>(f: (a: A) => HKT<M, B>) => (ma: HKT<M, A>) => HKT<M, B>
 }
 
 /**
@@ -30,7 +30,7 @@ export interface Monad<M> extends Functor<M> {
  */
 export interface Monad1<M extends URIS> extends Functor1<M> {
   readonly of: <A>(a: A) => Kind<M, A>
-  readonly chain: <A, B>(f: (a: A) => Kind<M, B>) => (fa: Kind<M, A>) => Kind<M, B>
+  readonly chain: <A, B>(f: (a: A) => Kind<M, B>) => (ma: Kind<M, A>) => Kind<M, B>
 }
 
 /**
@@ -39,7 +39,7 @@ export interface Monad1<M extends URIS> extends Functor1<M> {
  */
 export interface Monad2<M extends URIS2> extends Functor2<M> {
   readonly of: <E, A>(a: A) => Kind2<M, E, A>
-  readonly chain: <A, E, B>(f: (a: A) => Kind2<M, E, B>) => (fa: Kind2<M, E, A>) => Kind2<M, E, B>
+  readonly chain: <A, E, B>(f: (a: A) => Kind2<M, E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, B>
 }
 
 /**
@@ -48,7 +48,7 @@ export interface Monad2<M extends URIS2> extends Functor2<M> {
  */
 export interface Monad2C<M extends URIS2, E> extends Functor2C<M, E> {
   readonly of: <A>(a: A) => Kind2<M, E, A>
-  readonly chain: <A, B>(f: (a: A) => Kind2<M, E, B>) => (fa: Kind2<M, E, A>) => Kind2<M, E, B>
+  readonly chain: <A, B>(f: (a: A) => Kind2<M, E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, B>
 }
 
 /**
@@ -57,7 +57,7 @@ export interface Monad2C<M extends URIS2, E> extends Functor2C<M, E> {
  */
 export interface Monad3<M extends URIS3> extends Functor3<M> {
   readonly of: <R, E, A>(a: A) => Kind3<M, R, E, A>
-  readonly chain: <A, R, E, B>(f: (a: A) => Kind3<M, R, E, B>) => (fa: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
+  readonly chain: <A, R, E, B>(f: (a: A) => Kind3<M, R, E, B>) => (ma: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
 }
 
 /**
@@ -66,7 +66,7 @@ export interface Monad3<M extends URIS3> extends Functor3<M> {
  */
 export interface Monad3C<M extends URIS3, E> extends Functor3C<M, E> {
   readonly of: <R, A>(a: A) => Kind3<M, R, E, A>
-  readonly chain: <A, R, B>(f: (a: A) => Kind3<M, R, E, B>) => (fa: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
+  readonly chain: <A, R, B>(f: (a: A) => Kind3<M, R, E, B>) => (ma: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
 }
 
 /**
@@ -77,7 +77,7 @@ export interface Monad4<M extends URIS4> extends Functor4<M> {
   readonly of: <S, R, E, A>(a: A) => Kind4<M, S, R, E, A>
   readonly chain: <A, S, R, E, B>(
     f: (a: A) => Kind4<M, S, R, E, B>
-  ) => (fa: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, B>
+  ) => (ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, B>
 }
 
 /**
@@ -120,49 +120,49 @@ export function bind_<M extends URIS4>(
 ): <N extends string, A, S, R, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Kind4<M, S, R, E, B>
-) => (fa: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+) => (ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 export function bind_<M extends URIS3>(
   M: Monad3<M>
 ): <N extends string, A, R, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Kind3<M, R, E, B>
-) => (fa: Kind3<M, R, E, A>) => Kind3<M, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+) => (ma: Kind3<M, R, E, A>) => Kind3<M, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 export function bind_<M extends URIS3, E>(
   M: Monad3C<M, E>
 ): <N extends string, A, R, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Kind3<M, R, E, B>
-) => (fa: Kind3<M, R, E, A>) => Kind3<M, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+) => (ma: Kind3<M, R, E, A>) => Kind3<M, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 export function bind_<M extends URIS2>(
   M: Monad2<M>
 ): <N extends string, A, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Kind2<M, E, B>
-) => (fa: Kind2<M, E, A>) => Kind2<M, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+) => (ma: Kind2<M, E, A>) => Kind2<M, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 export function bind_<M extends URIS2, E>(
   M: Monad2C<M, E>
 ): <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Kind2<M, E, B>
-) => (fa: Kind2<M, E, A>) => Kind2<M, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+) => (ma: Kind2<M, E, A>) => Kind2<M, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 export function bind_<M extends URIS>(
   M: Monad1<M>
 ): <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Kind<M, B>
-) => (fa: Kind<M, A>) => Kind<M, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+) => (ma: Kind<M, A>) => Kind<M, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 export function bind_<M>(
   M: Monad<M>
 ): <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => HKT<M, B>
-) => (fa: HKT<M, A>) => HKT<M, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+) => (ma: HKT<M, A>) => HKT<M, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 export function bind_<M>(
   M: Monad<M>
 ): <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => HKT<M, B>
-) => (fa: HKT<M, A>) => HKT<M, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> {
+) => (ma: HKT<M, A>) => HKT<M, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> {
   return (name, f) =>
     M.chain((a) =>
       pipe(

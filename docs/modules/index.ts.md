@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 36
+nav_order: 37
 parent: Modules
 ---
 
@@ -34,6 +34,7 @@ Added in v3.0.0
   - [date](#date)
   - [distributiveLattice](#distributivelattice)
   - [either](#either)
+  - [eitherT](#eithert)
   - [eq](#eq)
   - [extend](#extend)
   - [field](#field)
@@ -305,6 +306,16 @@ Added in v3.0.0
 
 ```ts
 export declare const either: typeof either
+```
+
+Added in v3.0.0
+
+## eitherT
+
+**Signature**
+
+```ts
+export declare const eitherT: typeof eitherT
 ```
 
 Added in v3.0.0

@@ -1,6 +1,6 @@
 ---
 title: State.ts
-nav_order: 69
+nav_order: 70
 parent: Modules
 ---
 
@@ -104,7 +104,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <A, E, B>(f: (a: A) => State<E, B>) => (fa: State<E, A>) => State<E, B>
+export declare const chain: <A, E, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, B>
 ```
 
 Added in v3.0.0

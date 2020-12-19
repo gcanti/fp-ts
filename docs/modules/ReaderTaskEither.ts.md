@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskEither.ts
-nav_order: 57
+nav_order: 58
 parent: Modules
 ---
 
@@ -250,7 +250,7 @@ Composes computations in sequence, using the return value of one computation to 
 ```ts
 export declare const chain: <A, R, E, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
-) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0
@@ -336,8 +336,6 @@ Added in v3.0.0
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainFirst).
-
-Derivable from `Monad`.
 
 **Signature**
 
@@ -982,6 +980,8 @@ Added in v3.0.0
 
 ## apSW
 
+Less strict version of [`apS`](#apS).
+
 **Signature**
 
 ```ts
@@ -1008,6 +1008,8 @@ export declare const apT: <R, E, B>(
 Added in v3.0.0
 
 ## apTW
+
+Less strict version of [`apT`](#apT).
 
 **Signature**
 
@@ -1047,6 +1049,8 @@ export declare const bindTo: <N extends string>(
 Added in v3.0.0
 
 ## bindW
+
+Less strict version of [`bind`](#bind).
 
 **Signature**
 

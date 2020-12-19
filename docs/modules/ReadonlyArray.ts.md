@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 58
+nav_order: 59
 parent: Modules
 ---
 
@@ -460,7 +460,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <A, B>(f: (a: A) => readonly B[]) => (fa: readonly A[]) => readonly B[]
+export declare const chain: <A, B>(f: (a: A) => readonly B[]) => (ma: readonly A[]) => readonly B[]
 ```
 
 Added in v3.0.0

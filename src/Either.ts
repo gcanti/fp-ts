@@ -1046,16 +1046,6 @@ export const Monad: Monad2<URI> = {
 }
 
 /**
- * Less strict version of [`chainFirst`](#chainFirst)
- *
- * @category combinators
- * @since 3.0.0
- */
-export const chainFirstW: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(first: Either<E1, A>) => Either<E1 | E2, A> =
-  /*#__PURE__*/
-  chainFirst_(Monad) as any
-
-/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -1064,7 +1054,19 @@ export const chainFirstW: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(first: 
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, E, B>(f: (a: A) => Either<E, B>) => (first: Either<E, A>) => Either<E, A> = chainFirstW
+export const chainFirst: <A, E, B>(f: (a: A) => Either<E, B>) => (first: Either<E, A>) => Either<E, A> =
+  /*#__PURE__*/
+  chainFirst_(Monad)
+
+/**
+ * Less strict version of [`chainFirst`](#chainFirst)
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainFirstW: <A, E2, B>(
+  f: (a: A) => Either<E2, B>
+) => <E1>(first: Either<E1, A>) => Either<E1 | E2, A> = chainFirst as any
 
 /**
  * @category instances
@@ -1194,20 +1196,22 @@ export const bindTo: <N extends string>(name: N) => <E, A>(fa: Either<E, A>) => 
 /**
  * @since 3.0.0
  */
-export const bindW: <N extends string, A, E2, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => Either<E2, B>
-) => <E1>(fa: Either<E1, A>) => Either<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/
-  bind_(Monad) as any
-
-/**
- * @since 3.0.0
- */
 export const bind: <N extends string, A, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Either<E, B>
-) => (fa: Either<E, A>) => Either<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW
+) => (fa: Either<E, A>) => Either<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  bind_(Monad)
+
+/**
+ * Less strict version of [`bind`](#bind).
+ *
+ * @since 3.0.0
+ */
+export const bindW: <N extends string, A, E2, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Either<E2, B>
+) => <E1>(fa: Either<E1, A>) => Either<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -1216,20 +1220,22 @@ export const bind: <N extends string, A, E, B>(
 /**
  * @since 3.0.0
  */
-export const apSW: <A, N extends string, E2, B>(
-  name: Exclude<N, keyof A>,
-  fb: Either<E2, B>
-) => <E1>(fa: Either<E1, A>) => Either<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/
-  apS_(Applicative) as any
-
-/**
- * @since 3.0.0
- */
 export const apS: <A, N extends string, E, B>(
   name: Exclude<N, keyof A>,
   fb: Either<E, B>
-) => (fa: Either<E, A>) => Either<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+) => (fa: Either<E, A>) => Either<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  apS_(Applicative)
+
+/**
+ * Less strict version of [`apS`](#apS).
+ *
+ * @since 3.0.0
+ */
+export const apSW: <A, N extends string, E2, B>(
+  name: Exclude<N, keyof A>,
+  fb: Either<E2, B>
+) => <E1>(fa: Either<E1, A>) => Either<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence T
@@ -1248,18 +1254,20 @@ export const tupled: <E, A>(a: Either<E, A>) => Either<E, readonly [A]> = map(tu
 /**
  * @since 3.0.0
  */
-export const apTW: <E2, B>(
-  fb: Either<E2, B>
-) => <E1, A extends ReadonlyArray<unknown>>(fas: Either<E1, A>) => Either<E1 | E2, readonly [...A, B]> =
-  /*#__PURE__*/
-  apT_(Applicative) as any
-
-/**
- * @since 3.0.0
- */
 export const apT: <E, B>(
   fb: Either<E, B>
-) => <A extends ReadonlyArray<unknown>>(fas: Either<E, A>) => Either<E, readonly [...A, B]> = apTW
+) => <A extends ReadonlyArray<unknown>>(fas: Either<E, A>) => Either<E, readonly [...A, B]> =
+  /*#__PURE__*/
+  apT_(Applicative)
+
+/**
+ * Less strict version of [`apT`](#apT).
+ *
+ * @since 3.0.0
+ */
+export const apTW: <E2, B>(
+  fb: Either<E2, B>
+) => <E1, A extends ReadonlyArray<unknown>>(fas: Either<E1, A>) => Either<E1 | E2, readonly [...A, B]> = apT as any
 
 // -------------------------------------------------------------------------------------
 // array utils

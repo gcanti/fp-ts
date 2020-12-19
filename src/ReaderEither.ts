@@ -6,6 +6,22 @@ import { Applicative3, Applicative3C } from './Applicative'
 import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
+import {
+  alt_,
+  ap_,
+  bimap_,
+  chain_,
+  fold_,
+  getOrElse_,
+  leftF_,
+  left_,
+  mapLeft_,
+  map_,
+  orElse_,
+  rightF_,
+  right_,
+  swap_
+} from './EitherT'
 import { flow, identity, pipe, Predicate, Refinement, tuple } from './function'
 import { bindTo_, Functor3 } from './Functor'
 import { bind_, chainFirst_, Monad3 } from './Monad'
@@ -38,7 +54,7 @@ export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
  */
 export const left: <R, E = never, A = never>(e: E) => ReaderEither<R, E, A> =
   /*#__PURE__*/
-  flow(E.left, R.of)
+  left_(R.Monad)
 
 /**
  * @category constructors
@@ -46,7 +62,7 @@ export const left: <R, E = never, A = never>(e: E) => ReaderEither<R, E, A> =
  */
 export const right: <R, E = never, A = never>(a: A) => ReaderEither<R, E, A> =
   /*#__PURE__*/
-  flow(E.right, R.of)
+  right_(R.Monad)
 
 /**
  * @category constructors
@@ -54,7 +70,7 @@ export const right: <R, E = never, A = never>(a: A) => ReaderEither<R, E, A> =
  */
 export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderEither<R, E, A> =
   /*#__PURE__*/
-  R.map(E.right)
+  rightF_(R.Functor)
 
 /**
  * @category constructors
@@ -62,7 +78,7 @@ export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderE
  */
 export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderEither<R, E, A> =
   /*#__PURE__*/
-  R.map(E.left)
+  leftF_(R.Functor)
 
 /**
  * @category constructors
@@ -119,7 +135,15 @@ export const fold: <E, R, B, A>(
   onRight: (a: A) => Reader<R, B>
 ) => (ma: ReaderEither<R, E, A>) => Reader<R, B> =
   /*#__PURE__*/
-  flow(E.fold, R.chain)
+  fold_(R.Monad)
+
+/**
+ * @category destructors
+ * @since 3.0.0
+ */
+export const getOrElse: <E, R, A>(onLeft: (e: E) => Reader<R, A>) => (ma: ReaderEither<R, E, A>) => Reader<R, A> =
+  /*#__PURE__*/
+  getOrElse_(R.Monad)
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).
@@ -127,17 +151,9 @@ export const fold: <E, R, B, A>(
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElseW = <E, R2, B>(onLeft: (e: E) => Reader<R2, B>) => <R1, A>(
-  ma: ReaderEither<R1, E, A>
-): Reader<R1 & R2, A | B> => pipe(ma, R.chain(E.fold<E, R.Reader<R1 & R2, A | B>, A>(onLeft, R.of)))
-
-/**
- * @category destructors
- * @since 3.0.0
- */
-export const getOrElse: <E, R, A>(
-  onLeft: (e: E) => Reader<R, A>
-) => (ma: ReaderEither<R, E, A>) => Reader<R, A> = getOrElseW
+export const getOrElseW: <E, R2, B>(
+  onLeft: (e: E) => Reader<R2, B>
+) => <R1, A>(ma: ReaderEither<R1, E, A>) => Reader<R1 & R2, A | B> = getOrElse as any
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -149,7 +165,9 @@ export const getOrElse: <E, R, A>(
  */
 export const orElse: <E1, R, E2, A>(
   onLeft: (e: E1) => ReaderEither<R, E2, A>
-) => (ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A> = (f) => R.chain(E.fold(f, right))
+) => (ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A> =
+  /*#__PURE__*/
+  orElse_(R.Monad)
 
 /**
  * @category combinators
@@ -157,7 +175,7 @@ export const orElse: <E1, R, E2, A>(
  */
 export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E> =
   /*#__PURE__*/
-  R.map(E.swap)
+  swap_(R.Functor)
 
 /**
  * @category combinators
@@ -225,8 +243,9 @@ export const filterOrElse: {
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = (f) =>
-  R.map(E.map(f))
+export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B> =
+  /*#__PURE__*/
+  map_(R.Functor)
 
 /**
  * Map a pair of functions over the two last type arguments of the bifunctor.
@@ -236,7 +255,7 @@ export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) =>
  */
 export const bimap: Bifunctor3<URI>['bimap'] =
   /*#__PURE__*/
-  flow(E.bimap, R.map)
+  bimap_(R.Functor)
 
 /**
  * Map a function over the second type argument of a bifunctor.
@@ -244,21 +263,9 @@ export const bimap: Bifunctor3<URI>['bimap'] =
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor3<URI>['mapLeft'] = (f) => (fa) => (r) => pipe(fa(r), E.mapLeft(f))
-
-/**
- * Less strict version of [`ap`](#ap).
- *
- * @category Apply
- * @since 3.0.0
- */
-export const apW = <R2, E2, A>(
-  fa: ReaderEither<R2, E2, A>
-): (<R1, E1, B>(fab: ReaderEither<R1, E1, (a: A) => B>) => ReaderEither<R1 & R2, E1 | E2, B>) =>
-  flow(
-    R.map((gab) => (ga: E.Either<E2, A>) => E.apW(ga)(gab)),
-    R.apW(fa)
-  )
+export const mapLeft: Bifunctor3<URI>['mapLeft'] =
+  /*#__PURE__*/
+  mapLeft_(R.Functor)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -266,7 +273,19 @@ export const apW = <R2, E2, A>(
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Applicative3<URI>['ap'] = apW
+export const ap: Applicative3<URI>['ap'] =
+  /*#__PURE__*/
+  ap_(R.Applicative)
+
+/**
+ * Less strict version of [`ap`](#ap).
+ *
+ * @category Apply
+ * @since 3.0.0
+ */
+export const apW: <R2, E2, A>(
+  fa: ReaderEither<R2, E2, A>
+) => <R1, E1, B>(fab: ReaderEither<R1, E1, (a: A) => B>) => ReaderEither<R1 & R2, E1 | E2, B> = ap as any
 
 /**
  * Wrap a value into the type constructor.
@@ -279,22 +298,24 @@ export const ap: Applicative3<URI>['ap'] = apW
 export const of: Applicative3<URI>['of'] = right
 
 /**
- * Less strict version of [`chain`](#chain).
- *
- * @category Monad
- * @since 3.0.0
- */
-export const chainW = <A, R2, E2, B>(f: (a: A) => ReaderEither<R2, E2, B>) => <R1, E1>(
-  ma: ReaderEither<R1, E1, A>
-): ReaderEither<R1 & R2, E1 | E2, B> => pipe(ma, R.chain(E.fold<E1, ReaderEither<R1 & R2, E1 | E2, B>, A>(left, f)))
-
-/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad
  * @since 3.0.0
  */
-export const chain: Monad3<URI>['chain'] = chainW
+export const chain: Monad3<URI>['chain'] =
+  /*#__PURE__*/
+  chain_(R.Monad)
+
+/**
+ * Less strict version of [`chain`](#chain).
+ *
+ * @category Monad
+ * @since 3.0.0
+ */
+export const chainW: <A, R2, E2, B>(
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> = chain as any
 
 /**
  * Derivable from `Monad`.
@@ -307,24 +328,25 @@ export const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) 
   chain(identity)
 
 /**
- * Less strict version of [`alt`](#alt).
- *
- * @category Alt
- * @since 3.0.0
- */
-export const altW = <R2, E2, B>(second: () => ReaderEither<R2, E2, B>) => <R1, E1, A>(
-  first: ReaderEither<R1, E1, A>
-): ReaderEither<R1 & R2, E1 | E2, A | B> =>
-  pipe(first, R.chain(E.fold<E1, ReaderEither<R1 & R2, E1 | E2, A | B>, A>(second, right)))
-
-/**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
  * @category Alt
  * @since 3.0.0
  */
-export const alt: Alt3<URI>['alt'] = altW
+export const alt: Alt3<URI>['alt'] =
+  /*#__PURE__*/
+  alt_(R.Monad)
+
+/**
+ * Less strict version of [`alt`](#alt).
+ *
+ * @category Alt
+ * @since 3.0.0
+ */
+export const altW: <R2, E2, B>(
+  second: () => ReaderEither<R2, E2, B>
+) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A | B> = alt as any
 
 /**
  * @category MonadThrow
@@ -485,18 +507,6 @@ export const Monad: Monad3<URI> = {
 }
 
 /**
- * Less strict version of [`chainFirst`](#chainFirst)
- *
- * @category combinators
- * @since 3.0.0
- */
-export const chainFirstW: <A, R2, E2, B>(
-  f: (a: A) => ReaderEither<R2, E2, B>
-) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> =
-  /*#__PURE__*/
-  chainFirst_(Monad) as any
-
-/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -507,7 +517,19 @@ export const chainFirstW: <A, R2, E2, B>(
  */
 export const chainFirst: <A, R, E, B>(
   f: (a: A) => ReaderEither<R, E, B>
-) => (first: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = chainFirstW
+) => (first: ReaderEither<R, E, A>) => ReaderEither<R, E, A> =
+  /*#__PURE__*/
+  chainFirst_(Monad)
+
+/**
+ * Less strict version of [`chainFirst`](#chainFirst)
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainFirstW: <A, R2, E2, B>(
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = chainFirst as any
 
 /**
  * @category instances
@@ -559,22 +581,24 @@ export const bindTo: <N extends string>(
 /**
  * @since 3.0.0
  */
+export const bind: <N extends string, A, R, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => ReaderEither<R, E, B>
+) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  bind_(Monad)
+
+/**
+ * Less strict version of [`bind`](#bind).
+ *
+ * @since 3.0.0
+ */
 export const bindW: <N extends string, A, R2, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderEither<R2, E2, B>
 ) => <R1, E1>(
   fa: ReaderEither<R1, E1, A>
-) => ReaderEither<R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/
-  bind_(Monad) as any
-
-/**
- * @since 3.0.0
- */
-export const bind: <N extends string, A, R, E, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderEither<R, E, B>
-) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW
+) => ReaderEither<R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -583,22 +607,24 @@ export const bind: <N extends string, A, R, E, B>(
 /**
  * @since 3.0.0
  */
+export const apS: <A, N extends string, R, E, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderEither<R, E, B>
+) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  apS_(Applicative)
+
+/**
+ * Less strict version of [`apS`](#apS).
+ *
+ * @since 3.0.0
+ */
 export const apSW: <A, N extends string, R2, E2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderEither<R2, E2, B>
 ) => <R1, E1>(
   fa: ReaderEither<R1, E1, A>
-) => ReaderEither<R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/
-  apS_(Applicative) as any
-
-/**
- * @since 3.0.0
- */
-export const apS: <A, N extends string, R, E, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReaderEither<R, E, B>
-) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+) => ReaderEither<R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence T
@@ -617,20 +643,22 @@ export const tupled: <R, E, A>(a: ReaderEither<R, E, A>) => ReaderEither<R, E, r
 /**
  * @since 3.0.0
  */
+export const apT: <R, E, B>(
+  fb: ReaderEither<R, E, B>
+) => <A extends ReadonlyArray<unknown>>(fas: ReaderEither<R, E, A>) => ReaderEither<R, E, readonly [...A, B]> =
+  /*#__PURE__*/
+  apT_(Applicative)
+
+/**
+ * Less strict version of [`apT`](#apT).
+ *
+ * @since 3.0.0
+ */
 export const apTW: <R2, E2, B>(
   fb: ReaderEither<R2, E2, B>
 ) => <R1, E1, A extends ReadonlyArray<unknown>>(
   fas: ReaderEither<R1, E1, A>
-) => ReaderEither<R1 & R2, E1 | E2, readonly [...A, B]> =
-  /*#__PURE__*/
-  apT_(Applicative) as any
-
-/**
- * @since 3.0.0
- */
-export const apT: <R, E, B>(
-  fb: ReaderEither<R, E, B>
-) => <A extends ReadonlyArray<unknown>>(fas: ReaderEither<R, E, A>) => ReaderEither<R, E, readonly [...A, B]> = apTW
+) => ReaderEither<R1 & R2, E1 | E2, readonly [...A, B]> = apT as any
 
 // -------------------------------------------------------------------------------------
 // array utils

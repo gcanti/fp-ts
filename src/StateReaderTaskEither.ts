@@ -620,18 +620,6 @@ export const Monad: Monad4<URI> = {
 }
 
 /**
- * Less strict version of [`chainFirst`](#chainFirst).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const chainFirstW: <A, S, R2, E2, B>(
-  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1>(first: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> =
-  /*#__PURE__*/
-  chainFirst_(Monad) as any
-
-/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -642,7 +630,21 @@ export const chainFirstW: <A, S, R2, E2, B>(
  */
 export const chainFirst: <A, S, R, E, B>(
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = chainFirstW
+) => (first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> =
+  /*#__PURE__*/
+  chainFirst_(Monad)
+
+/**
+ * Less strict version of [`chainFirst`](#chainFirst).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainFirstW: <A, S, R2, E2, B>(
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(
+  first: StateReaderTaskEither<S, R1, E1, A>
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> = chainFirst as any
 
 /**
  * @category instances
@@ -705,40 +707,30 @@ export const bindTo: <N extends string>(
 /**
  * @since 3.0.0
  */
-export const bindW: <N extends string, A, S, R2, E2, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1>(
-  fa: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/
-  bind_(Monad) as any
-
-/**
- * @since 3.0.0
- */
 export const bind: <N extends string, A, S, R, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
 ) => (
   fa: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW
+) => StateReaderTaskEither<S, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  bind_(Monad)
+
+/**
+ * Less strict version of [`bind`](#bind).
+ *
+ * @since 3.0.0
+ */
+export const bindW: <N extends string, A, S, R2, E2, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(
+  fa: StateReaderTaskEither<S, R1, E1, A>
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
 // -------------------------------------------------------------------------------------
-
-/**
- * @since 3.0.0
- */
-export const apSW: <A, N extends string, S, R2, E2, B>(
-  name: Exclude<N, keyof A>,
-  fb: StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1>(
-  fa: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
-  /*#__PURE__*/
-  apS_(Applicative) as any
 
 /**
  * @since 3.0.0
@@ -748,7 +740,21 @@ export const apS: <A, N extends string, S, R, E, B>(
   fb: StateReaderTaskEither<S, R, E, B>
 ) => (
   fa: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+) => StateReaderTaskEither<S, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+  /*#__PURE__*/
+  apS_(Applicative)
+
+/**
+ * Less strict version of [`apS`](#apS).
+ *
+ * @since 3.0.0
+ */
+export const apSW: <A, N extends string, S, R2, E2, B>(
+  name: Exclude<N, keyof A>,
+  fb: StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(
+  fa: StateReaderTaskEither<S, R1, E1, A>
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence T
@@ -764,22 +770,24 @@ export const tupled: <S, R, E, A>(
 /**
  * @since 3.0.0
  */
-export const apTW: <S, R2, E2, B>(
-  fb: StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1, A extends ReadonlyArray<unknown>>(
-  fas: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, readonly [...A, B]> =
-  /*#__PURE__*/
-  apT_(Applicative) as any
-
-/**
- * @since 3.0.0
- */
 export const apT: <S, R, E, B>(
   fb: StateReaderTaskEither<S, R, E, B>
 ) => <A extends ReadonlyArray<unknown>>(
   fas: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, readonly [...A, B]> = apTW
+) => StateReaderTaskEither<S, R, E, readonly [...A, B]> =
+  /*#__PURE__*/
+  apT_(Applicative)
+
+/**
+ * Less strict version of [`apT`](#apT).
+ *
+ * @since 3.0.0
+ */
+export const apTW: <S, R2, E2, B>(
+  fb: StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1, A extends ReadonlyArray<unknown>>(
+  fas: StateReaderTaskEither<S, R1, E1, A>
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, readonly [...A, B]> = apT as any
 
 // -------------------------------------------------------------------------------------
 // array utils

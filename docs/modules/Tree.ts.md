@@ -1,6 +1,6 @@
 ---
 title: Tree.ts
-nav_order: 79
+nav_order: 80
 parent: Modules
 ---
 
@@ -185,7 +185,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <A, B>(f: (a: A) => Tree<B>) => (fa: Tree<A>) => Tree<B>
+export declare const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B>
 ```
 
 Added in v3.0.0
