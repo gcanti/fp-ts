@@ -10,6 +10,7 @@ import { bind_, chainFirst_, Monad2 } from './Monad'
 import { MonadTask2 } from './MonadTask'
 import { Monoid } from './Monoid'
 import * as R from './Reader'
+import { ap_, asks_, ask_, chain_, fromReader_, map_, of_ } from './ReaderT'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
 
@@ -36,15 +37,15 @@ export interface ReaderTask<R, A> {
  * @category constructors
  * @since 3.0.0
  */
-export const fromTask: <R, A>(ma: Task<A>) => ReaderTask<R, A> =
-  /*#__PURE__*/
-  R.of
+export const fromTask: <R, A>(ma: Task<A>) => ReaderTask<R, A> = R.of
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A> = (ma) => flow(ma, T.of)
+export const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/
+  fromReader_(T.Monad)
 
 /**
  * @category constructors
@@ -58,13 +59,17 @@ export const fromIO: <R, A>(ma: IO<A>) => ReaderTask<R, A> =
  * @category constructors
  * @since 3.0.0
  */
-export const ask: <R>() => ReaderTask<R, R> = () => T.of
+export const ask: <R>() => ReaderTask<R, R> =
+  /*#__PURE__*/
+  ask_(T.Monad)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> = (f) => flow(T.of, T.map(f))
+export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> =
+  /*#__PURE__*/
+  asks_(T.Monad)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -109,8 +114,19 @@ export const chainTaskK: <A, B>(f: (a: A) => Task<B>) => <R>(ma: ReaderTask<R, A
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B> = (f) => (fa) =>
-  flow(fa, T.map(f))
+export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B> =
+  /*#__PURE__*/
+  map_(T.Functor)
+
+/**
+ * Apply a function to an argument under a type constructor.
+ *
+ * @category Apply
+ * @since 3.0.0
+ */
+export const ap: Applicative2<URI>['ap'] =
+  /*#__PURE__*/
+  ap_(T.ApplicativePar)
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -120,16 +136,7 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderT
  */
 export const apW: <R2, A>(
   fa: ReaderTask<R2, A>
-) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B> = (fa) => (fab) => (r) =>
-  pipe(fab(r), T.ap(fa(r)))
-
-/**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
- * @since 3.0.0
- */
-export const ap: Applicative2<URI>['ap'] = apW
+) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B> = ap as any
 
 /**
  * Wrap a value into the type constructor.
@@ -137,7 +144,19 @@ export const ap: Applicative2<URI>['ap'] = apW
  * @category Applicative
  * @since 3.0.0
  */
-export const of: Applicative2<URI>['of'] = (a) => () => T.of(a)
+export const of: Applicative2<URI>['of'] =
+  /*#__PURE__*/
+  of_(T.Monad)
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
+ * @category Monad
+ * @since 3.0.0
+ */
+export const chain: Monad2<URI>['chain'] =
+  /*#__PURE__*/
+  chain_(T.Monad)
 
 /**
  * Less strict version of  [`chain`](#chain).
@@ -147,19 +166,7 @@ export const of: Applicative2<URI>['of'] = (a) => () => T.of(a)
  */
 export const chainW: <A, R2, B>(
   f: (a: A) => ReaderTask<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = (f) => (fa) => (r) =>
-  pipe(
-    fa(r),
-    T.chain((a) => f(a)(r))
-  )
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
- * @category Monad
- * @since 3.0.0
- */
-export const chain: Monad2<URI>['chain'] = chainW
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = chain as any
 
 /**
  * Derivable from `Monad`.
