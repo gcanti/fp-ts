@@ -16,7 +16,6 @@ Added in v3.0.0
 
 - [type classes](#type-classes)
   - [FromEither (interface)](#fromeither-interface)
-  - [FromEither1 (interface)](#fromeither1-interface)
   - [FromEither2 (interface)](#fromeither2-interface)
   - [FromEither2C (interface)](#fromeither2c-interface)
   - [FromEither3 (interface)](#fromeither3-interface)
@@ -38,19 +37,6 @@ Added in v3.0.0
 export interface FromEither<F> {
   readonly URI: F
   readonly fromEither: <E, A>(e: Either<E, A>) => HKT2<F, E, A>
-}
-```
-
-Added in v3.0.0
-
-## FromEither1 (interface)
-
-**Signature**
-
-```ts
-export interface FromEither1<F extends URIS> {
-  readonly URI: F
-  readonly fromEither: <E, A>(e: Either<E, A>) => Kind<F, A>
 }
 ```
 
@@ -143,9 +129,6 @@ export declare function fromOption_<F extends URIS2>(
 export declare function fromOption_<F extends URIS2, E>(
   F: FromEither2C<F, E>
 ): (onNone: Lazy<E>) => <A>(ma: Option<A>) => Kind2<F, E, A>
-export declare function fromOption_<F extends URIS>(
-  F: FromEither1<F>
-): <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Kind<F, A>
 export declare function fromOption_<F>(F: FromEither<F>): <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => HKT2<F, E, A>
 ```
 
@@ -173,12 +156,6 @@ export declare function fromPredicate_<F extends URIS2>(
 ): {
   <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, A>
-}
-export declare function fromPredicate_<F extends URIS>(
-  F: FromEither1<F>
-): {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind<F, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind<F, A>
 }
 export declare function fromPredicate_<F>(
   F: FromEither<F>

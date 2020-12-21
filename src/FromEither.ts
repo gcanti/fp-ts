@@ -5,9 +5,9 @@
  */
 
 import * as E from './Either'
-import { Option } from './Option'
 import { flow, Lazy, Predicate, Refinement } from './function'
-import { HKT2, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import { HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
+import { Option } from './Option'
 
 import Either = E.Either
 
@@ -18,15 +18,6 @@ import Either = E.Either
 export interface FromEither<F> {
   readonly URI: F
   readonly fromEither: <E, A>(e: Either<E, A>) => HKT2<F, E, A>
-}
-
-/**
- * @category type classes
- * @since 3.0.0
- */
-export interface FromEither1<F extends URIS> {
-  readonly URI: F
-  readonly fromEither: <E, A>(e: Either<E, A>) => Kind<F, A>
 }
 
 /**
@@ -92,7 +83,6 @@ export function fromOption_<F extends URIS2>(
 export function fromOption_<F extends URIS2, E>(
   F: FromEither2C<F, E>
 ): (onNone: Lazy<E>) => <A>(ma: Option<A>) => Kind2<F, E, A>
-export function fromOption_<F extends URIS>(F: FromEither1<F>): <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Kind<F, A>
 export function fromOption_<F>(F: FromEither<F>): <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => HKT2<F, E, A>
 export function fromOption_<F>(F: FromEither<F>): <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => HKT2<F, E, A> {
   return (onNone) => flow(E.fromOption(onNone), F.fromEither)
@@ -118,12 +108,6 @@ export function fromPredicate_<F extends URIS2>(
 ): {
   <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, A>
-}
-export function fromPredicate_<F extends URIS>(
-  F: FromEither1<F>
-): {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind<F, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind<F, A>
 }
 export function fromPredicate_<F>(
   F: FromEither<F>
