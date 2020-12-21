@@ -315,9 +315,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const orElse: <E1, R, E2, A>(
-  onLeft: (e: E1) => ReaderEither<R, E2, A>
-) => (ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A>
+export declare const orElse: <E1, ME, E2, A>(
+  onLeft: (e: E1) => R.Reader<ME, E.Either<E2, A>>
+) => (ma: R.Reader<ME, E.Either<E1, A>>) => R.Reader<ME, E.Either<E2, A>>
 ```
 
 Added in v3.0.0
@@ -327,7 +327,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E>
+export declare const swap: <FE, E, A>(ma: R.Reader<FE, E.Either<E, A>>) => R.Reader<FE, E.Either<A, E>>
 ```
 
 Added in v3.0.0
@@ -384,7 +384,7 @@ Derivable from `FromEither`.
 
 ```ts
 export declare const fromPredicate: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, B>
+  <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>
 }
 ```
@@ -501,10 +501,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fold: <E, R, B, A>(
-  onLeft: (e: E) => R.Reader<R, B>,
-  onRight: (a: A) => R.Reader<R, B>
-) => (ma: ReaderEither<R, E, A>) => R.Reader<R, B>
+export declare const fold: <E, ME, R, A>(
+  onLeft: (e: E) => R.Reader<ME, R>,
+  onRight: (a: A) => R.Reader<ME, R>
+) => (ma: R.Reader<ME, E.Either<E, A>>) => R.Reader<ME, R>
 ```
 
 Added in v3.0.0
@@ -514,9 +514,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, R, A>(
-  onLeft: (e: E) => R.Reader<R, A>
-) => (ma: ReaderEither<R, E, A>) => R.Reader<R, A>
+export declare const getOrElse: <E, ME, A>(
+  onLeft: (e: E) => R.Reader<ME, A>
+) => (ma: R.Reader<ME, E.Either<E, A>>) => R.Reader<ME, A>
 ```
 
 Added in v3.0.0
@@ -722,7 +722,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <A, N extends string, R, E, B>(
+export declare const apS: <N, A, R, E, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderEither<R, E, B>
 ) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -754,7 +754,7 @@ Added in v3.0.0
 ```ts
 export declare const apT: <R, E, B>(
   fb: ReaderEither<R, E, B>
-) => <A extends readonly unknown[]>(fas: ReaderEither<R, E, A>) => ReaderEither<R, E, readonly [any, B]>
+) => <A>(fas: ReaderEither<R, E, A>) => ReaderEither<R, E, readonly [any, B]>
 ```
 
 Added in v3.0.0
@@ -780,10 +780,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, R, E, B>(
+export declare const bind: <N, A, R, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderEither<R, E, B>
-) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -793,9 +793,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(
-  name: N
-) => <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in N]: A }>
 ```
 
 Added in v3.0.0

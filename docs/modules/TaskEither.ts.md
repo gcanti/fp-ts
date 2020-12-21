@@ -434,8 +434,8 @@ See also [alt](#alt).
 
 ```ts
 export declare const orElse: <E1, E2, A>(
-  onLeft: (e: E1) => TaskEither<E2, A>
-) => (ma: TaskEither<E1, A>) => TaskEither<E2, A>
+  onLeft: (e: E1) => T.Task<E.Either<E2, A>>
+) => (ma: T.Task<E.Either<E1, A>>) => T.Task<E.Either<E2, A>>
 ```
 
 **Example**
@@ -461,7 +461,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E>
+export declare const swap: <E, A>(ma: T.Task<E.Either<E, A>>) => T.Task<E.Either<A, E>>
 ```
 
 Added in v3.0.0
@@ -523,7 +523,7 @@ Derivable from `FromEither`.
 
 ```ts
 export declare const fromPredicate: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskEither<E, B>
+  <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskEither<E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskEither<E, A>
 }
 ```
@@ -684,10 +684,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fold: <E, B, A>(
-  onLeft: (e: E) => T.Task<B>,
-  onRight: (a: A) => T.Task<B>
-) => (ma: TaskEither<E, A>) => T.Task<B>
+export declare const fold: <E, R, A>(
+  onLeft: (e: E) => T.Task<R>,
+  onRight: (a: A) => T.Task<R>
+) => (ma: T.Task<E.Either<E, A>>) => T.Task<R>
 ```
 
 Added in v3.0.0
@@ -697,7 +697,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, A>(onLeft: (e: E) => T.Task<A>) => (ma: TaskEither<E, A>) => T.Task<A>
+export declare const getOrElse: <E, A>(onLeft: (e: E) => T.Task<A>) => (ma: T.Task<E.Either<E, A>>) => T.Task<A>
 ```
 
 Added in v3.0.0
@@ -951,7 +951,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <A, N extends string, E, B>(
+export declare const apS: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   fb: TaskEither<E, B>
 ) => (fa: TaskEither<E, A>) => TaskEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -979,9 +979,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <E, B>(
-  fb: TaskEither<E, B>
-) => <A extends readonly unknown[]>(fas: TaskEither<E, A>) => TaskEither<E, readonly [any, B]>
+export declare const apT: <E, B>(fb: TaskEither<E, B>) => <A>(fas: TaskEither<E, A>) => TaskEither<E, readonly [any, B]>
 ```
 
 Added in v3.0.0
@@ -1005,10 +1003,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, E, B>(
+export declare const bind: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => TaskEither<E, B>
-) => (fa: TaskEither<E, A>) => TaskEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: TaskEither<E, A>) => TaskEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1018,9 +1016,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(
-  name: N
-) => <E, A>(fa: TaskEither<E, A>) => TaskEither<E, { [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <E, A>(fa: TaskEither<E, A>) => TaskEither<E, { [K in N]: A }>
 ```
 
 Added in v3.0.0

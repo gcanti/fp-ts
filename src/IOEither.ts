@@ -113,7 +113,7 @@ export function tryCatch<E, A>(f: Lazy<A>, onError: (reason: unknown) => E): IOE
  * @category destructors
  * @since 3.0.0
  */
-export const fold: <E, B, A>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>) => (ma: IOEither<E, A>) => IO<B> =
+export const fold =
   /*#__PURE__*/
   fold_(I.Monad)
 
@@ -121,7 +121,7 @@ export const fold: <E, B, A>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>) 
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse: <E, A>(onLeft: (e: E) => IO<A>) => (ma: IOEither<E, A>) => IO<A> =
+export const getOrElse =
   /*#__PURE__*/
   getOrElse_(I.Monad)
 
@@ -141,7 +141,7 @@ export const getOrElseW: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, 
  * @category combinators
  * @since 3.0.0
  */
-export const orElse: <E1, E2, A>(onLeft: (e: E1) => IOEither<E2, A>) => (ma: IOEither<E1, A>) => IOEither<E2, A> =
+export const orElse =
   /*#__PURE__*/
   orElse_(I.Monad)
 
@@ -149,7 +149,7 @@ export const orElse: <E1, E2, A>(onLeft: (e: E1) => IOEither<E2, A>) => (ma: IOE
  * @category combinators
  * @since 3.0.0
  */
-export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> =
+export const swap =
   /*#__PURE__*/
   swap_(I.Functor)
 
@@ -548,7 +548,7 @@ export const ApplicativeSeq: Applicative2<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <E, B>(second: IOEither<E, B>) => <A>(first: IOEither<E, A>) => IOEither<E, A> =
+export const apFirst =
   /*#__PURE__*/
   apFirst_(ApplicativePar)
 
@@ -560,7 +560,7 @@ export const apFirst: <E, B>(second: IOEither<E, B>) => <A>(first: IOEither<E, A
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <E, B>(second: IOEither<E, B>) => <A>(first: IOEither<E, A>) => IOEither<E, B> =
+export const apSecond =
   /*#__PURE__*/
   apSecond_(ApplicativePar)
 
@@ -584,7 +584,7 @@ export const Monad: Monad2<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, E, B>(f: (a: A) => IOEither<E, B>) => (first: IOEither<E, A>) => IOEither<E, A> =
+export const chainFirst =
   /*#__PURE__*/
   chainFirst_(Monad)
 
@@ -632,7 +632,7 @@ export const FromEither: FromEither2<URI> = {
  * @category constructors
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => IOEither<E, A> =
+export const fromOption =
   /*#__PURE__*/
   fromOption_(FromEither)
 
@@ -642,10 +642,7 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => IOEither<
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicate: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => IOEither<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A>
-} =
+export const fromPredicate =
   /*#__PURE__*/
   fromPredicate_(FromEither)
 
@@ -693,17 +690,14 @@ export const Do: IOEither<never, {}> = of({})
 /**
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(name: N) => <E, A>(fa: IOEither<E, A>) => IOEither<E, { [K in N]: A }> =
+export const bindTo =
   /*#__PURE__*/
   bindTo_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const bind: <N extends string, A, E, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => IOEither<E, B>
-) => (fa: IOEither<E, A>) => IOEither<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+export const bind =
   /*#__PURE__*/
   bind_(Monad)
 
@@ -724,10 +718,7 @@ export const bindW: <N extends string, A, E2, B>(
 /**
  * @since 3.0.0
  */
-export const apS: <A, N extends string, E, B>(
-  name: Exclude<N, keyof A>,
-  fb: IOEither<E, B>
-) => (fa: IOEither<E, A>) => IOEither<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+export const apS =
   /*#__PURE__*/
   apS_(ApplicativePar)
 
@@ -758,9 +749,7 @@ export const tupled: <E, A>(a: IOEither<E, A>) => IOEither<E, readonly [A]> = ma
 /**
  * @since 3.0.0
  */
-export const apT: <E, B>(
-  fb: IOEither<E, B>
-) => <A extends ReadonlyArray<unknown>>(fas: IOEither<E, A>) => IOEither<E, readonly [...A, B]> =
+export const apT =
   /*#__PURE__*/
   apT_(ApplicativePar)
 

@@ -326,7 +326,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const orElse: <E1, E2, A>(onLeft: (e: E1) => IOEither<E2, A>) => (ma: IOEither<E1, A>) => IOEither<E2, A>
+export declare const orElse: <E1, E2, A>(
+  onLeft: (e: E1) => I.IO<E.Either<E2, A>>
+) => (ma: I.IO<E.Either<E1, A>>) => I.IO<E.Either<E2, A>>
 ```
 
 Added in v3.0.0
@@ -336,7 +338,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E>
+export declare const swap: <E, A>(ma: I.IO<E.Either<E, A>>) => I.IO<E.Either<A, E>>
 ```
 
 Added in v3.0.0
@@ -373,7 +375,7 @@ Derivable from `FromEither`.
 
 ```ts
 export declare const fromPredicate: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => IOEither<E, B>
+  <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => IOEither<E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A>
 }
 ```
@@ -496,10 +498,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fold: <E, B, A>(
-  onLeft: (e: E) => I.IO<B>,
-  onRight: (a: A) => I.IO<B>
-) => (ma: IOEither<E, A>) => I.IO<B>
+export declare const fold: <E, R, A>(
+  onLeft: (e: E) => I.IO<R>,
+  onRight: (a: A) => I.IO<R>
+) => (ma: I.IO<E.Either<E, A>>) => I.IO<R>
 ```
 
 Added in v3.0.0
@@ -509,7 +511,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, A>(onLeft: (e: E) => I.IO<A>) => (ma: IOEither<E, A>) => I.IO<A>
+export declare const getOrElse: <E, A>(onLeft: (e: E) => I.IO<A>) => (ma: I.IO<E.Either<E, A>>) => I.IO<A>
 ```
 
 Added in v3.0.0
@@ -753,7 +755,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <A, N extends string, E, B>(
+export declare const apS: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   fb: IOEither<E, B>
 ) => (fa: IOEither<E, A>) => IOEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -781,9 +783,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <E, B>(
-  fb: IOEither<E, B>
-) => <A extends readonly unknown[]>(fas: IOEither<E, A>) => IOEither<E, readonly [any, B]>
+export declare const apT: <E, B>(fb: IOEither<E, B>) => <A>(fas: IOEither<E, A>) => IOEither<E, readonly [any, B]>
 ```
 
 Added in v3.0.0
@@ -807,10 +807,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, E, B>(
+export declare const bind: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IOEither<E, B>
-) => (fa: IOEither<E, A>) => IOEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: IOEither<E, A>) => IOEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -820,7 +820,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(name: N) => <E, A>(fa: IOEither<E, A>) => IOEither<E, { [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <E, A>(fa: IOEither<E, A>) => IOEither<E, { [K in N]: A }>
 ```
 
 Added in v3.0.0

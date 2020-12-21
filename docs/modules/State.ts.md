@@ -171,7 +171,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, A>
+export declare const apFirst: <E, B>(second: State<E, B>) => <A>(first: State<E, A>) => State<E, A>
 ```
 
 Added in v3.0.0
@@ -185,7 +185,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, B>
+export declare const apSecond: <E, B>(second: State<E, B>) => <A>(first: State<E, A>) => State<E, B>
 ```
 
 Added in v3.0.0
@@ -200,7 +200,7 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, S, B>(f: (a: A) => State<S, B>) => (first: State<S, A>) => State<S, A>
+export declare const chainFirst: <A, E, B>(f: (a: A) => State<E, B>) => (first: State<E, A>) => State<E, A>
 ```
 
 Added in v3.0.0
@@ -300,10 +300,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N extends string, A, S, B>(
+export declare const apS: <N, A, E, B>(
   name: Exclude<N, keyof A>,
-  fb: State<S, B>
-) => (fa: State<S, A>) => State<S, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: State<E, B>
+) => (fa: State<E, A>) => State<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -313,9 +313,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <S, B>(
-  fb: State<S, B>
-) => <A extends readonly unknown[]>(fas: State<S, A>) => State<S, readonly [any, B]>
+export declare const apT: <E, B>(fb: State<E, B>) => <A>(fas: State<E, A>) => State<E, readonly [any, B]>
 ```
 
 Added in v3.0.0
@@ -325,10 +323,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, S, B>(
+export declare const bind: <N, A, E, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => State<S, B>
-) => (fa: State<S, A>) => State<S, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: (a: A) => State<E, B>
+) => (ma: State<E, A>) => State<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -338,7 +336,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(name: N) => <S, A>(fa: State<S, A>) => State<S, { [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <E, A>(fa: State<E, A>) => State<E, { [K in N]: A }>
 ```
 
 Added in v3.0.0

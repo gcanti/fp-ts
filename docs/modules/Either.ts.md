@@ -1320,7 +1320,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <A, N extends string, E, B>(
+export declare const apS: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   fb: Either<E, B>
 ) => (fa: Either<E, A>) => Either<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -1348,9 +1348,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <E, B>(
-  fb: Either<E, B>
-) => <A extends readonly unknown[]>(fas: Either<E, A>) => Either<E, readonly [any, B]>
+export declare const apT: <E, B>(fb: Either<E, B>) => <A>(fas: Either<E, A>) => Either<E, readonly [any, B]>
 ```
 
 Added in v3.0.0
@@ -1374,10 +1372,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, E, B>(
+export declare const bind: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Either<E, B>
-) => (fa: Either<E, A>) => Either<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: Either<E, A>) => Either<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1387,7 +1385,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(name: N) => <E, A>(fa: Either<E, A>) => Either<E, { [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <E, A>(fa: Either<E, A>) => Either<E, { [K in N]: A }>
 ```
 
 Added in v3.0.0

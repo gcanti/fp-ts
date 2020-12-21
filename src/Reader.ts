@@ -220,7 +220,7 @@ export const Applicative: Applicative2<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) => Reader<R, A> =
+export const apFirst =
   /*#__PURE__*/
   apFirst_(Applicative)
 
@@ -232,7 +232,7 @@ export const apFirst: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) =
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) => Reader<R, B> =
+export const apSecond =
   /*#__PURE__*/
   apSecond_(Applicative)
 
@@ -256,7 +256,7 @@ export const Monad: Monad2<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<R, A>) => Reader<R, A> =
+export const chainFirst =
   /*#__PURE__*/
   chainFirst_(Monad)
 
@@ -287,17 +287,14 @@ export const Category: Category2<URI> = {
 /**
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(name: N) => <R, A>(fa: Reader<R, A>) => Reader<R, { [K in N]: A }> =
+export const bindTo =
   /*#__PURE__*/
   bindTo_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const bind: <N extends string, A, R, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => Reader<R, B>
-) => (fa: Reader<R, A>) => Reader<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+export const bind =
   /*#__PURE__*/
   bind_(Monad)
 
@@ -323,10 +320,7 @@ export const Do: Reader<unknown, {}> = of({})
 /**
  * @since 3.0.0
  */
-export const apS: <A, N extends string, R, B>(
-  name: Exclude<N, keyof A>,
-  fb: Reader<R, B>
-) => (fa: Reader<R, A>) => Reader<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+export const apS =
   /*#__PURE__*/
   apS_(Applicative)
 
@@ -357,9 +351,7 @@ export const tupled: <R, A>(a: Reader<R, A>) => Reader<R, readonly [A]> = map(tu
 /**
  * @since 3.0.0
  */
-export const apT: <R, B>(
-  fb: Reader<R, B>
-) => <A extends ReadonlyArray<unknown>>(fas: Reader<R, A>) => Reader<R, readonly [...A, B]> =
+export const apT =
   /*#__PURE__*/
   apT_(Applicative)
 

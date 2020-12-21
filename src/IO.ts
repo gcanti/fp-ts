@@ -167,7 +167,7 @@ export const Applicative: Applicative1<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<A> =
+export const apFirst =
   /*#__PURE__*/
   apFirst_(Applicative)
 
@@ -179,7 +179,7 @@ export const apFirst: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<A> =
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <B>(second: IO<B>) => <A>(first: IO<A>) => IO<B> =
+export const apSecond =
   /*#__PURE__*/
   apSecond_(Applicative)
 
@@ -203,7 +203,7 @@ export const Monad: Monad1<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A> =
+export const chainFirst =
   /*#__PURE__*/
   chainFirst_(Monad)
 
@@ -228,17 +228,14 @@ export const Do: IO<{}> = of({})
 /**
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(name: N) => <A>(fa: IO<A>) => IO<{ [K in N]: A }> =
+export const bindTo =
   /*#__PURE__*/
   bindTo_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const bind: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => IO<B>
-) => (fa: IO<A>) => IO<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+export const bind =
   /*#__PURE__*/
   bind_(Monad)
 
@@ -249,10 +246,7 @@ export const bind: <N extends string, A, B>(
 /**
  * @since 3.0.0
  */
-export const apS: <A, N extends string, B>(
-  name: Exclude<N, keyof A>,
-  fb: IO<B>
-) => (fa: IO<A>) => IO<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+export const apS =
   /*#__PURE__*/
   apS_(Applicative)
 
@@ -273,7 +267,7 @@ export const tupled: <A>(a: IO<A>) => IO<readonly [A]> = map(tuple)
 /**
  * @since 3.0.0
  */
-export const apT: <B>(fb: IO<B>) => <A extends ReadonlyArray<unknown>>(fas: IO<A>) => IO<readonly [...A, B]> =
+export const apT =
   /*#__PURE__*/
   apT_(Applicative)
 

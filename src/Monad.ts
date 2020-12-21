@@ -78,16 +78,16 @@ export interface Monad4<M extends URIS4> extends Pointed4<M> {
  */
 export function chainFirst_<M extends URIS4>(
   M: Monad4<M>
-): <S, R, E, A, B>(f: (a: A) => Kind4<M, S, R, E, B>) => (first: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, A>
+): <A, S, R, E, B>(f: (a: A) => Kind4<M, S, R, E, B>) => (first: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, A>
 export function chainFirst_<M extends URIS3>(
   M: Monad3<M>
-): <R, E, A, B>(f: (a: A) => Kind3<M, R, E, B>) => (first: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+): <A, R, E, B>(f: (a: A) => Kind3<M, R, E, B>) => (first: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
 export function chainFirst_<M extends URIS3, E>(
   M: Monad3C<M, E>
-): <R, A, B>(f: (a: A) => Kind3<M, R, E, B>) => (first: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+): <A, R, B>(f: (a: A) => Kind3<M, R, E, B>) => (first: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
 export function chainFirst_<M extends URIS2>(
   M: Monad2<M>
-): <E, A, B>(f: (a: A) => Kind2<M, E, B>) => (first: Kind2<M, E, A>) => Kind2<M, E, A>
+): <A, E, B>(f: (a: A) => Kind2<M, E, B>) => (first: Kind2<M, E, A>) => Kind2<M, E, A>
 export function chainFirst_<M extends URIS2, E>(
   M: Monad2C<M, E>
 ): <A, B>(f: (a: A) => Kind2<M, E, B>) => (first: Kind2<M, E, A>) => Kind2<M, E, A>

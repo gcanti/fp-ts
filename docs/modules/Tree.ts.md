@@ -518,7 +518,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N extends string, A, B>(
+export declare const apS: <N, A, B>(
   name: Exclude<N, keyof A>,
   fb: Tree<B>
 ) => (fa: Tree<A>) => Tree<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -531,7 +531,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <B>(fb: Tree<B>) => <A extends readonly unknown[]>(fas: Tree<A>) => Tree<readonly [any, B]>
+export declare const apT: <B>(fb: Tree<B>) => <A>(fas: Tree<A>) => Tree<readonly [any, B]>
 ```
 
 Added in v3.0.0
@@ -541,10 +541,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, B>(
+export declare const bind: <N, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Tree<B>
-) => (fa: Tree<A>) => Tree<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: Tree<A>) => Tree<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -554,7 +554,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(name: N) => <A>(fa: Tree<A>) => Tree<{ [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <A>(fa: Tree<A>) => Tree<{ [K in N]: A }>
 ```
 
 Added in v3.0.0

@@ -4,11 +4,11 @@
 import { Applicative2 } from './Applicative'
 import { apFirst_, Apply2, apSecond_, apS_, apT_ } from './Apply'
 import { FromIO2 } from './FromIO'
+import { FromTask2 } from './FromTask'
 import { flow, identity, pipe, tuple } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { IO } from './IO'
 import { bind_, chainFirst_, Monad2 } from './Monad'
-import { FromTask2 } from './FromTask'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import * as R from './Reader'
@@ -21,7 +21,6 @@ import * as T from './Task'
 // -------------------------------------------------------------------------------------
 
 import Task = T.Task
-import Reader = R.Reader
 
 /**
  * @category model
@@ -45,7 +44,7 @@ export const fromTask: <R, A>(ma: Task<A>) => ReaderTask<R, A> = R.of
  * @category constructors
  * @since 3.0.0
  */
-export const fromReader: <R, A>(ma: Reader<R, A>) => ReaderTask<R, A> =
+export const fromReader =
   /*#__PURE__*/
   fromReader_(T.Pointed)
 
@@ -61,7 +60,7 @@ export const fromIO: FromIO2<URI>['fromIO'] =
  * @category constructors
  * @since 3.0.0
  */
-export const ask: <R>() => ReaderTask<R, R> =
+export const ask =
   /*#__PURE__*/
   ask_(T.Pointed)
 
@@ -69,7 +68,7 @@ export const ask: <R>() => ReaderTask<R, R> =
  * @category constructors
  * @since 3.0.0
  */
-export const asks: <R, A>(f: (r: R) => A) => ReaderTask<R, A> =
+export const asks =
   /*#__PURE__*/
   asks_(T.Pointed)
 
@@ -259,7 +258,7 @@ export const ApplicativePar: Applicative2<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<R, A>) => ReaderTask<R, A> =
+export const apFirst =
   /*#__PURE__*/
   apFirst_(ApplicativePar)
 
@@ -271,7 +270,7 @@ export const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<R, A>) => ReaderTask<R, B> =
+export const apSecond =
   /*#__PURE__*/
   apSecond_(ApplicativePar)
 
@@ -305,7 +304,7 @@ export const Monad: Monad2<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (first: ReaderTask<R, A>) => ReaderTask<R, A> =
+export const chainFirst =
   /*#__PURE__*/
   chainFirst_(Monad)
 
@@ -340,17 +339,14 @@ export const Do: ReaderTask<unknown, {}> = of({})
 /**
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(name: N) => <R, A>(fa: ReaderTask<R, A>) => ReaderTask<R, { [K in N]: A }> =
+export const bindTo =
   /*#__PURE__*/
   bindTo_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const bind: <N extends string, A, R, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderTask<R, B>
-) => (fa: ReaderTask<R, A>) => ReaderTask<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+export const bind =
   /*#__PURE__*/
   bind_(Monad)
 
@@ -373,10 +369,7 @@ export const bindW: <N extends string, A, R2, B>(
 /**
  * @since 3.0.0
  */
-export const apS: <A, N extends string, R, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReaderTask<R, B>
-) => (fa: ReaderTask<R, A>) => ReaderTask<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+export const apS =
   /*#__PURE__*/
   apS_(ApplicativePar)
 
@@ -409,9 +402,7 @@ export const tupled: <R, A>(a: ReaderTask<R, A>) => ReaderTask<R, readonly [A]> 
 /**
  * @since 3.0.0
  */
-export const apT: <R, B>(
-  fb: ReaderTask<R, B>
-) => <A extends ReadonlyArray<unknown>>(fas: ReaderTask<R, A>) => ReaderTask<R, readonly [...A, B]> =
+export const apT =
   /*#__PURE__*/
   apT_(ApplicativePar)
 

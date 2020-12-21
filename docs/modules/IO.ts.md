@@ -322,7 +322,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <A, N extends string, B>(
+export declare const apS: <N, A, B>(
   name: Exclude<N, keyof A>,
   fb: IO<B>
 ) => (fa: IO<A>) => IO<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -335,7 +335,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <B>(fb: IO<B>) => <A extends readonly unknown[]>(fas: IO<A>) => IO<readonly [any, B]>
+export declare const apT: <B>(fb: IO<B>) => <A>(fas: IO<A>) => IO<readonly [any, B]>
 ```
 
 Added in v3.0.0
@@ -345,10 +345,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, B>(
+export declare const bind: <N, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IO<B>
-) => (fa: IO<A>) => IO<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: IO<A>) => IO<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -358,7 +358,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(name: N) => <A>(fa: IO<A>) => IO<{ [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <A>(fa: IO<A>) => IO<{ [K in N]: A }>
 ```
 
 Added in v3.0.0

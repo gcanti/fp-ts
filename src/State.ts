@@ -169,7 +169,7 @@ export const Applicative: Applicative2<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, A> =
+export const apFirst =
   /*#__PURE__*/
   apFirst_(Applicative)
 
@@ -181,7 +181,7 @@ export const apFirst: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => 
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, B> =
+export const apSecond =
   /*#__PURE__*/
   apSecond_(Applicative)
 
@@ -205,7 +205,7 @@ export const Monad: Monad2<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, S, B>(f: (a: A) => State<S, B>) => (first: State<S, A>) => State<S, A> =
+export const chainFirst =
   /*#__PURE__*/
   chainFirst_(Monad)
 
@@ -234,17 +234,14 @@ export const execute = <S>(s: S) => <A>(ma: State<S, A>): S => ma(s)[1]
 /**
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(name: N) => <S, A>(fa: State<S, A>) => State<S, { [K in N]: A }> =
+export const bindTo =
   /*#__PURE__*/
   bindTo_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const bind: <N extends string, A, S, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => State<S, B>
-) => (fa: State<S, A>) => State<S, { [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+export const bind =
   /*#__PURE__*/
   bind_(Monad)
 
@@ -255,10 +252,7 @@ export const bind: <N extends string, A, S, B>(
 /**
  * @since 3.0.0
  */
-export const apS: <N extends string, A, S, B>(
-  name: Exclude<N, keyof A>,
-  fb: State<S, B>
-) => (fa: State<S, A>) => State<S, { [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+export const apS =
   /*#__PURE__*/
   apS_(Applicative)
 
@@ -274,9 +268,7 @@ export const tupled: <S, A>(a: State<S, A>) => State<S, readonly [A]> = map(tupl
 /**
  * @since 3.0.0
  */
-export const apT: <S, B>(
-  fb: State<S, B>
-) => <A extends ReadonlyArray<unknown>>(fas: State<S, A>) => State<S, readonly [...A, B]> =
+export const apT =
   /*#__PURE__*/
   apT_(Applicative)
 

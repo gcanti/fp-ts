@@ -734,19 +734,14 @@ export const Do: ReadonlyNonEmptyArray<{}> = of({})
 /**
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(
-  name: N
-) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ [K in N]: A }> =
+export const bindTo =
   /*#__PURE__*/
   bindTo_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const bind: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+export const bind =
   /*#__PURE__*/
   bind_(Monad)
 
@@ -757,10 +752,7 @@ export const bind: <N extends string, A, B>(
 /**
  * @since 3.0.0
  */
-export const apS: <A, N extends string, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReadonlyNonEmptyArray<B>
-) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+export const apS =
   /*#__PURE__*/
   apS_(Applicative)
 
@@ -781,8 +773,6 @@ export const tupled: <A>(a: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<r
 /**
  * @since 3.0.0
  */
-export const apT: <B>(
-  fb: ReadonlyNonEmptyArray<B>
-) => <A extends ReadonlyArray<unknown>>(fas: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [...A, B]> =
+export const apT =
   /*#__PURE__*/
   apT_(Applicative)

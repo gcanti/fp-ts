@@ -511,9 +511,7 @@ Derivable from `FromEither`.
 
 ```ts
 export declare const fromPredicate: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
-    a: A
-  ) => StateReaderTaskEither<S, R, E, B>
+  <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(a: A) => StateReaderTaskEither<S, R, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(a: A) => StateReaderTaskEither<S, R, E, A>
 }
 ```
@@ -535,9 +533,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReaderTaskEither: <S, R, E, A>(
+export declare const fromReaderTaskEither: <R, E, A, S>(
   ma: RTE.ReaderTaskEither<R, E, A>
-) => StateReaderTaskEither<S, R, E, A>
+) => StateT3<'ReaderTaskEither', S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -547,7 +545,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromState: <S, A, R, E>(sa: State<S, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const fromState: <S, A, R, E>(sa: State<S, A>) => StateT3<'ReaderTaskEither', S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -569,7 +567,7 @@ Get the current state
 **Signature**
 
 ```ts
-export declare const get: <S, R, E = never>() => StateReaderTaskEither<S, R, E, S>
+export declare const get: <S, R, E>() => StateT3<'ReaderTaskEither', S, R, E, S>
 ```
 
 Added in v3.0.0
@@ -581,7 +579,7 @@ Get a value which depends on the current state
 **Signature**
 
 ```ts
-export declare const gets: <S, A, R, E = never>(f: (s: S) => A) => StateReaderTaskEither<S, R, E, A>
+export declare const gets: <S, A, R, E>(f: (s: S) => A) => StateT3<'ReaderTaskEither', S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -643,7 +641,7 @@ Modify the state by applying a function to the current state
 **Signature**
 
 ```ts
-export declare const modify: <S, R, E = never>(f: (s: S) => S) => StateReaderTaskEither<S, R, E, void>
+export declare const modify: <S, R, E>(f: Endomorphism<S>) => StateT3<'ReaderTaskEither', S, R, E, void>
 ```
 
 Added in v3.0.0
@@ -655,7 +653,7 @@ Set the state
 **Signature**
 
 ```ts
-export declare const put: <S, R, E = never>(s: S) => StateReaderTaskEither<S, R, E, void>
+export declare const put: <S, R, E>(s: S) => StateT3<'ReaderTaskEither', S, R, E, void>
 ```
 
 Added in v3.0.0
@@ -908,7 +906,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <A, N extends string, S, R, E, B>(
+export declare const apS: <N, A, S, R, E, B>(
   name: Exclude<N, keyof A>,
   fb: StateReaderTaskEither<S, R, E, B>
 ) => (
@@ -942,9 +940,7 @@ Added in v3.0.0
 ```ts
 export declare const apT: <S, R, E, B>(
   fb: StateReaderTaskEither<S, R, E, B>
-) => <A extends readonly unknown[]>(
-  fas: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, readonly [any, B]>
+) => <A>(fas: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, readonly [any, B]>
 ```
 
 Added in v3.0.0
@@ -970,11 +966,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, S, R, E, B>(
+export declare const bind: <N, A, S, R, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
 ) => (
-  fa: StateReaderTaskEither<S, R, E, A>
+  ma: StateReaderTaskEither<S, R, E, A>
 ) => StateReaderTaskEither<S, R, E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
@@ -985,7 +981,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(
+export declare const bindTo: <N>(
   name: N
 ) => <S, R, E, A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, { [K in N]: A }>
 ```
@@ -1018,7 +1014,7 @@ Run a computation in the `StateReaderTaskEither` monad, discarding the final sta
 ```ts
 export declare const evaluate: <S>(
   s: S
-) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>) => RTE.ReaderTaskEither<R, E, A>
+) => <R, E, A>(ma: StateT3<'ReaderTaskEither', S, R, E, A>) => RTE.ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -1032,7 +1028,7 @@ Run a computation in the `StateReaderTaskEither` monad discarding the result
 ```ts
 export declare const execute: <S>(
   s: S
-) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>) => RTE.ReaderTaskEither<R, E, S>
+) => <R, E, A>(ma: StateT3<'ReaderTaskEither', S, R, E, A>) => RTE.ReaderTaskEither<R, E, S>
 ```
 
 Added in v3.0.0

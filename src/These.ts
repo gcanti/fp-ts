@@ -25,7 +25,7 @@ import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Foldable2 } from './Foldable'
 import { FromEither2, fromOption_, fromPredicate_ } from './FromEither'
-import { identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { identity, Lazy, pipe } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
@@ -530,7 +530,7 @@ export const FromEither: FromEither2<URI> = {
  * @category constructors
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => These<E, A> =
+export const fromOption =
   /*#__PURE__*/
   fromOption_(FromEither)
 
@@ -540,10 +540,7 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => These<E, 
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicate: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => These<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => These<E, A>
-} =
+export const fromPredicate =
   /*#__PURE__*/
   fromPredicate_(FromEither)
 

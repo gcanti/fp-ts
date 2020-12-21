@@ -1017,7 +1017,7 @@ export const Applicative: Applicative2<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) => Either<E, A> =
+export const apFirst =
   /*#__PURE__*/
   apFirst_(Applicative)
 
@@ -1029,7 +1029,7 @@ export const apFirst: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) =
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) => Either<E, B> =
+export const apSecond =
   /*#__PURE__*/
   apSecond_(Applicative)
 
@@ -1053,7 +1053,7 @@ export const Monad: Monad2<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, E, B>(f: (a: A) => Either<E, B>) => (first: Either<E, A>) => Either<E, A> =
+export const chainFirst =
   /*#__PURE__*/
   chainFirst_(Monad)
 
@@ -1188,17 +1188,14 @@ export const Do: Either<never, {}> = of({})
 /**
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(name: N) => <E, A>(fa: Either<E, A>) => Either<E, { [K in N]: A }> =
+export const bindTo =
   /*#__PURE__*/
   bindTo_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const bind: <N extends string, A, E, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => Either<E, B>
-) => (fa: Either<E, A>) => Either<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+export const bind =
   /*#__PURE__*/
   bind_(Monad)
 
@@ -1219,10 +1216,7 @@ export const bindW: <N extends string, A, E2, B>(
 /**
  * @since 3.0.0
  */
-export const apS: <A, N extends string, E, B>(
-  name: Exclude<N, keyof A>,
-  fb: Either<E, B>
-) => (fa: Either<E, A>) => Either<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+export const apS =
   /*#__PURE__*/
   apS_(Applicative)
 
@@ -1253,9 +1247,7 @@ export const tupled: <E, A>(a: Either<E, A>) => Either<E, readonly [A]> = map(tu
 /**
  * @since 3.0.0
  */
-export const apT: <E, B>(
-  fb: Either<E, B>
-) => <A extends ReadonlyArray<unknown>>(fas: Either<E, A>) => Either<E, readonly [...A, B]> =
+export const apT =
   /*#__PURE__*/
   apT_(Applicative)
 

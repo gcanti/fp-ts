@@ -6,14 +6,13 @@ import { Apply1 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { FromEither2, fromOption_, fromPredicate_ } from './FromEither'
-import { flow, Lazy, pipe, Predicate, Refinement } from './function'
+import { FromIO2 } from './FromIO'
+import { FromTask2 } from './FromTask'
+import { flow, Lazy, pipe } from './function'
 import { Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2C } from './Monad'
-import { FromIO2 } from './FromIO'
-import { FromTask2 } from './FromTask'
-import { Option } from './Option'
 import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
@@ -311,7 +310,7 @@ export const FromEither: FromEither2<URI> = {
  * @category constructors
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskThese<E, A> =
+export const fromOption =
   /*#__PURE__*/
   fromOption_(FromEither)
 
@@ -321,10 +320,7 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskThese
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicate: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskThese<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskThese<E, A>
-} =
+export const fromPredicate =
   /*#__PURE__*/
   fromPredicate_(FromEither)
 

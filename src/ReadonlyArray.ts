@@ -1752,7 +1752,7 @@ export const Applicative: Applicative1<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <B>(second: ReadonlyArray<B>) => <A>(first: ReadonlyArray<A>) => ReadonlyArray<A> =
+export const apFirst =
   /*#__PURE__*/
   apFirst_(Applicative)
 
@@ -1764,7 +1764,7 @@ export const apFirst: <B>(second: ReadonlyArray<B>) => <A>(first: ReadonlyArray<
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <B>(second: ReadonlyArray<B>) => <A>(first: ReadonlyArray<A>) => ReadonlyArray<B> =
+export const apSecond =
   /*#__PURE__*/
   apSecond_(Applicative)
 
@@ -1788,7 +1788,7 @@ export const Monad: Monad1<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => ReadonlyArray<B>) => (first: ReadonlyArray<A>) => ReadonlyArray<A> =
+export const chainFirst =
   /*#__PURE__*/
   chainFirst_(Monad)
 
@@ -2011,17 +2011,14 @@ export const Do: ReadonlyArray<{}> = of({})
 /**
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(name: N) => <A>(fa: ReadonlyArray<A>) => ReadonlyArray<{ [K in N]: A }> =
+export const bindTo =
   /*#__PURE__*/
   bindTo_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const bind: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => ReadonlyArray<B>
-) => (fa: ReadonlyArray<A>) => ReadonlyArray<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+export const bind =
   /*#__PURE__*/
   bind_(Monad)
 
@@ -2032,10 +2029,7 @@ export const bind: <N extends string, A, B>(
 /**
  * @since 3.0.0
  */
-export const apS: <A, N extends string, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReadonlyArray<B>
-) => (fa: ReadonlyArray<A>) => ReadonlyArray<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+export const apS =
   /*#__PURE__*/
   apS_(Applicative)
 
@@ -2056,8 +2050,6 @@ export const tupled: <A>(a: ReadonlyArray<A>) => ReadonlyArray<readonly [A]> = m
 /**
  * @since 3.0.0
  */
-export const apT: <B>(
-  fb: ReadonlyArray<B>
-) => <A extends ReadonlyArray<unknown>>(fas: ReadonlyArray<A>) => ReadonlyArray<readonly [...A, B]> =
+export const apT =
   /*#__PURE__*/
   apT_(Applicative)

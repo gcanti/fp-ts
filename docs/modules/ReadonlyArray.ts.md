@@ -1707,7 +1707,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <A, N extends string, B>(
+export declare const apS: <N, A, B>(
   name: Exclude<N, keyof A>,
   fb: readonly B[]
 ) => (fa: readonly A[]) => readonly { [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
@@ -1720,9 +1720,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <B>(
-  fb: readonly B[]
-) => <A extends readonly unknown[]>(fas: readonly A[]) => readonly (readonly [any, B])[]
+export declare const apT: <B>(fb: readonly B[]) => <A>(fas: readonly A[]) => readonly (readonly [any, B])[]
 ```
 
 Added in v3.0.0
@@ -1732,10 +1730,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, B>(
+export declare const bind: <N, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => readonly B[]
-) => (fa: readonly A[]) => readonly { [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+) => (ma: readonly A[]) => readonly { [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
 ```
 
 Added in v3.0.0
@@ -1745,7 +1743,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(name: N) => <A>(fa: readonly A[]) => readonly { [K in N]: A }[]
+export declare const bindTo: <N>(name: N) => <A>(fa: readonly A[]) => readonly { [K in N]: A }[]
 ```
 
 Added in v3.0.0

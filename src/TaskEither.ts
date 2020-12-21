@@ -155,10 +155,7 @@ export function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown
  * @category destructors
  * @since 3.0.0
  */
-export const fold: <E, B, A>(
-  onLeft: (e: E) => Task<B>,
-  onRight: (a: A) => Task<B>
-) => (ma: TaskEither<E, A>) => Task<B> =
+export const fold =
   /*#__PURE__*/
   fold_(T.Monad)
 
@@ -166,7 +163,7 @@ export const fold: <E, B, A>(
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse: <E, A>(onLeft: (e: E) => Task<A>) => (ma: TaskEither<E, A>) => Task<A> =
+export const getOrElse =
   /*#__PURE__*/
   getOrElse_(T.Monad)
 
@@ -205,7 +202,7 @@ export const getOrElseW: <E, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const orElse: <E1, E2, A>(onLeft: (e: E1) => TaskEither<E2, A>) => (ma: TaskEither<E1, A>) => TaskEither<E2, A> =
+export const orElse =
   /*#__PURE__*/
   orElse_(T.Monad)
 
@@ -213,7 +210,7 @@ export const orElse: <E1, E2, A>(onLeft: (e: E1) => TaskEither<E2, A>) => (ma: T
  * @category combinators
  * @since 3.0.0
  */
-export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> =
+export const swap =
   /*#__PURE__*/
   swap_(T.Functor)
 
@@ -679,7 +676,7 @@ export const ApplicativePar: Applicative2<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither<E, A>) => TaskEither<E, A> =
+export const apFirst =
   /*#__PURE__*/
   apFirst_(ApplicativePar)
 
@@ -691,7 +688,7 @@ export const apFirst: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither<
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither<E, A>) => TaskEither<E, B> =
+export const apSecond =
   /*#__PURE__*/
   apSecond_(ApplicativePar)
 
@@ -746,7 +743,7 @@ export const Monad: Monad2<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, E, B>(f: (a: A) => TaskEither<E, B>) => (first: TaskEither<E, A>) => TaskEither<E, A> =
+export const chainFirst =
   /*#__PURE__*/
   chainFirst_(Monad)
 
@@ -794,7 +791,7 @@ export const FromEither: FromEither2<URI> = {
  * @category constructors
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskEither<E, A> =
+export const fromOption =
   /*#__PURE__*/
   fromOption_(FromEither)
 
@@ -804,10 +801,7 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskEithe
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicate: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskEither<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskEither<E, A>
-} =
+export const fromPredicate =
   /*#__PURE__*/
   fromPredicate_(FromEither)
 
@@ -909,17 +903,14 @@ export const Do: TaskEither<never, {}> = of({})
 /**
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(name: N) => <E, A>(fa: TaskEither<E, A>) => TaskEither<E, { [K in N]: A }> =
+export const bindTo =
   /*#__PURE__*/
   bindTo_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const bind: <N extends string, A, E, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => TaskEither<E, B>
-) => (fa: TaskEither<E, A>) => TaskEither<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+export const bind =
   /*#__PURE__*/
   bind_(Monad)
 
@@ -942,10 +933,7 @@ export const bindW: <N extends string, A, E2, B>(
 /**
  * @since 3.0.0
  */
-export const apS: <A, N extends string, E, B>(
-  name: Exclude<N, keyof A>,
-  fb: TaskEither<E, B>
-) => (fa: TaskEither<E, A>) => TaskEither<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+export const apS =
   /*#__PURE__*/
   apS_(ApplicativePar)
 
@@ -978,9 +966,7 @@ export const tupled: <E, A>(a: TaskEither<E, A>) => TaskEither<E, readonly [A]> 
 /**
  * @since 3.0.0
  */
-export const apT: <E, B>(
-  fb: TaskEither<E, B>
-) => <A extends ReadonlyArray<unknown>>(fas: TaskEither<E, A>) => TaskEither<E, readonly [...A, B]> =
+export const apT =
   /*#__PURE__*/
   apT_(ApplicativePar)
 

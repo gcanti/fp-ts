@@ -904,7 +904,7 @@ export const Applicative: Applicative1<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<A> =
+export const apFirst =
   /*#__PURE__*/
   apFirst_(Applicative)
 
@@ -916,7 +916,7 @@ export const apFirst: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<B> =
+export const apSecond =
   /*#__PURE__*/
   apSecond_(Applicative)
 
@@ -940,7 +940,7 @@ export const Monad: Monad1<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A> =
+export const chainFirst =
   /*#__PURE__*/
   chainFirst_(Monad)
 
@@ -1126,17 +1126,14 @@ export const Do: Option<{}> = of({})
 /**
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(name: N) => <A>(fa: Option<A>) => Option<{ [K in N]: A }> =
+export const bindTo =
   /*#__PURE__*/
   bindTo_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const bind: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => Option<B>
-) => (fa: Option<A>) => Option<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+export const bind =
   /*#__PURE__*/
   bind_(Monad)
 
@@ -1147,10 +1144,7 @@ export const bind: <N extends string, A, B>(
 /**
  * @since 3.0.0
  */
-export const apS: <A, N extends string, B>(
-  name: Exclude<N, keyof A>,
-  fb: Option<B>
-) => (fa: Option<A>) => Option<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+export const apS =
   /*#__PURE__*/
   apS_(Applicative)
 
@@ -1171,9 +1165,7 @@ export const tupled: <A>(a: Option<A>) => Option<readonly [A]> = map(tuple)
 /**
  * @since 3.0.0
  */
-export const apT: <B>(
-  fb: Option<B>
-) => <A extends ReadonlyArray<unknown>>(fas: Option<A>) => Option<readonly [...A, B]> =
+export const apT =
   /*#__PURE__*/
   apT_(Applicative)
 

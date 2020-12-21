@@ -389,7 +389,7 @@ export const Applicative: Applicative1<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<A> =
+export const apFirst =
   /*#__PURE__*/
   apFirst_(Applicative)
 
@@ -401,7 +401,7 @@ export const apFirst: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<A> =
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<B> =
+export const apSecond =
   /*#__PURE__*/
   apSecond_(Applicative)
 
@@ -425,7 +425,7 @@ export const Monad: Monad1<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (first: Tree<A>) => Tree<A> =
+export const chainFirst =
   /*#__PURE__*/
   chainFirst_(Monad)
 
@@ -474,17 +474,14 @@ export const Do: Tree<{}> = of({})
 /**
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(name: N) => <A>(fa: Tree<A>) => Tree<{ [K in N]: A }> =
+export const bindTo =
   /*#__PURE__*/
   bindTo_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const bind: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => Tree<B>
-) => (fa: Tree<A>) => Tree<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+export const bind =
   /*#__PURE__*/
   bind_(Monad)
 
@@ -495,10 +492,7 @@ export const bind: <N extends string, A, B>(
 /**
  * @since 3.0.0
  */
-export const apS: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  fb: Tree<B>
-) => (fa: Tree<A>) => Tree<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }> =
+export const apS =
   /*#__PURE__*/
   apS_(Applicative)
 
@@ -519,6 +513,6 @@ export const tupled: <A>(a: Tree<A>) => Tree<readonly [A]> = map(tuple)
 /**
  * @since 3.0.0
  */
-export const apT: <B>(fb: Tree<B>) => <A extends ReadonlyArray<unknown>>(fas: Tree<A>) => Tree<readonly [...A, B]> =
+export const apT =
   /*#__PURE__*/
   apT_(Applicative)

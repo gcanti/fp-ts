@@ -23,11 +23,10 @@ import {
   swap_
 } from './EitherT'
 import { FromEither3, fromOption_, fromPredicate_ } from './FromEither'
-import { flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
+import { flow, identity, pipe, Predicate, Refinement, tuple } from './function'
 import { bindTo_, Functor3 } from './Functor'
 import { bind_, chainFirst_, Monad3 } from './Monad'
 import { Monoid } from './Monoid'
-import { Option } from './Option'
 import { Pointed3 } from './Pointed'
 import * as R from './Reader'
 import { Semigroup } from './Semigroup'
@@ -109,10 +108,7 @@ export const fromEither: FromEither3<URI>['fromEither'] =
  * @category destructors
  * @since 3.0.0
  */
-export const fold: <E, R, B, A>(
-  onLeft: (e: E) => Reader<R, B>,
-  onRight: (a: A) => Reader<R, B>
-) => (ma: ReaderEither<R, E, A>) => Reader<R, B> =
+export const fold =
   /*#__PURE__*/
   fold_(R.Monad)
 
@@ -120,7 +116,7 @@ export const fold: <E, R, B, A>(
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse: <E, R, A>(onLeft: (e: E) => Reader<R, A>) => (ma: ReaderEither<R, E, A>) => Reader<R, A> =
+export const getOrElse =
   /*#__PURE__*/
   getOrElse_(R.Monad)
 
@@ -142,9 +138,7 @@ export const getOrElseW: <E, R2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const orElse: <E1, R, E2, A>(
-  onLeft: (e: E1) => ReaderEither<R, E2, A>
-) => (ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A> =
+export const orElse =
   /*#__PURE__*/
   orElse_(R.Monad)
 
@@ -152,7 +146,7 @@ export const orElse: <E1, R, E2, A>(
  * @category combinators
  * @since 3.0.0
  */
-export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E> =
+export const swap =
   /*#__PURE__*/
   swap_(R.Functor)
 
@@ -456,9 +450,7 @@ export const Applicative: Applicative3<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <R, E, B>(
-  second: ReaderEither<R, E, B>
-) => <A>(first: ReaderEither<R, E, A>) => ReaderEither<R, E, A> =
+export const apFirst =
   /*#__PURE__*/
   apFirst_(Applicative)
 
@@ -470,9 +462,7 @@ export const apFirst: <R, E, B>(
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <R, E, B>(
-  second: ReaderEither<R, E, B>
-) => <A>(first: ReaderEither<R, E, A>) => ReaderEither<R, E, B> =
+export const apSecond =
   /*#__PURE__*/
   apSecond_(Applicative)
 
@@ -496,9 +486,7 @@ export const Monad: Monad3<URI> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, R, E, B>(
-  f: (a: A) => ReaderEither<R, E, B>
-) => (first: ReaderEither<R, E, A>) => ReaderEither<R, E, A> =
+export const chainFirst =
   /*#__PURE__*/
   chainFirst_(Monad)
 
@@ -547,7 +535,7 @@ export const FromEither: FromEither3<URI> = {
  * @category constructors
  * @since 3.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A, R>(ma: Option<A>) => ReaderEither<R, E, A> =
+export const fromOption =
   /*#__PURE__*/
   fromOption_(FromEither)
 
@@ -557,10 +545,7 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A, R>(ma: Option<A>) => Reader
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicate: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>
-} =
+export const fromPredicate =
   /*#__PURE__*/
   fromPredicate_(FromEither)
 
@@ -576,19 +561,14 @@ export const Do: ReaderEither<unknown, never, {}> = of({})
 /**
  * @since 3.0.0
  */
-export const bindTo: <N extends string>(
-  name: N
-) => <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in N]: A }> =
+export const bindTo =
   /*#__PURE__*/
   bindTo_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const bind: <N extends string, A, R, E, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderEither<R, E, B>
-) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+export const bind =
   /*#__PURE__*/
   bind_(Monad)
 
@@ -611,10 +591,7 @@ export const bindW: <N extends string, A, R2, E2, B>(
 /**
  * @since 3.0.0
  */
-export const apS: <A, N extends string, R, E, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReaderEither<R, E, B>
-) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> =
+export const apS =
   /*#__PURE__*/
   apS_(Applicative)
 
@@ -647,9 +624,7 @@ export const tupled: <R, E, A>(a: ReaderEither<R, E, A>) => ReaderEither<R, E, r
 /**
  * @since 3.0.0
  */
-export const apT: <R, E, B>(
-  fb: ReaderEither<R, E, B>
-) => <A extends ReadonlyArray<unknown>>(fas: ReaderEither<R, E, A>) => ReaderEither<R, E, readonly [...A, B]> =
+export const apT =
   /*#__PURE__*/
   apT_(Applicative)
 
