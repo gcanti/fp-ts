@@ -71,6 +71,7 @@ Added in v2.0.0
   - [dropLeftWhile](#dropleftwhile)
   - [dropRight](#dropright)
   - [duplicate](#duplicate)
+  - [flatZip](#flatzip)
   - [flatten](#flatten)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
@@ -721,6 +722,32 @@ export declare const duplicate: <A>(wa: A[]) => A[][]
 ```
 
 Added in v2.0.0
+
+## flatZip
+
+Merge several arrays into one by alternating elements from each array
+
+**Signature**
+
+```ts
+export declare const flatZip: <A>(aas: A[][]) => A[]
+```
+
+**Example**
+
+```ts
+import { flatZip } from 'fp-ts/Array'
+
+assert.deepStrictEqual(
+  flatZip([
+    [1, 2, 3],
+    [4, 5, 6, 7],
+  ]),
+  [1, 4, 2, 5, 3, 6, 7]
+)
+```
+
+Added in v2.10.0
 
 ## flatten
 

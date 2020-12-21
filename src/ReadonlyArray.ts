@@ -1126,6 +1126,19 @@ export function transpose<A>(xy: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray
 }
 
 /**
+ * Merge several arrays into one by alternating elements from each array
+ *
+ * @example
+ * import { flatZip } from 'fp-ts/ReadonlyArray'
+ *
+ * assert.deepStrictEqual(flatZip([[1, 2, 3], [4, 5, 6, 7]]), [1, 4, 2, 5, 3, 6, 7])
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flatZip: <A>(aas: ReadonlyArray<ReadonlyArray<A>>) => ReadonlyArray<A> = flow(transpose, flatten)
+
+/**
  * Rotate an array to the right by `n` steps
  *
  * @example

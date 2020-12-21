@@ -385,6 +385,19 @@ export const transpose: <A>(
   xy: NonEmptyArray<NonEmptyArray<A>>
 ) => NonEmptyArray<NonEmptyArray<A>> = RNEA.transpose as any
 
+/**
+ * Merge several arrays into one by alternating elements from each array
+ *
+ * @example
+ * import { flatZip } from 'fp-ts/NonEmptyArray'
+ *
+ * assert.deepStrictEqual(flatZip([[1, 2, 3], [4, 5, 6, 7]]), [1, 4, 2, 5, 3, 6, 7])
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flatZip: <A>(aas: NonEmptyArray<NonEmptyArray<A>>) => NonEmptyArray<A> = RNEA.flatZip as any
+
 // -------------------------------------------------------------------------------------
 // non-pipeables
 // -------------------------------------------------------------------------------------

@@ -42,6 +42,7 @@ Added in v2.5.0
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [duplicate](#duplicate)
+  - [flatZip](#flatzip)
   - [flatten](#flatten)
   - [group](#group)
   - [groupSort](#groupsort)
@@ -358,6 +359,32 @@ export declare const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNon
 ```
 
 Added in v2.5.0
+
+## flatZip
+
+Merge several arrays into one by alternating elements from each array
+
+**Signature**
+
+```ts
+export declare const flatZip: <A>(aas: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { flatZip } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(
+  flatZip([
+    [1, 2, 3],
+    [4, 5, 6, 7],
+  ]),
+  [1, 4, 2, 5, 3, 6, 7]
+)
+```
+
+Added in v2.10.0
 
 ## flatten
 
