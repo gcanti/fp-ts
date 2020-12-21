@@ -51,6 +51,7 @@ Added in v2.0.0
   - [prependToAll](#prependtoall)
   - [reverse](#reverse)
   - [sort](#sort)
+  - [transpose](#transpose)
   - [zip](#zip)
   - [zipWith](#zipwith)
 - [constructors](#constructors)
@@ -482,6 +483,32 @@ export declare const sort: <B>(O: Ord<B>) => <A extends B>(nea: NonEmptyArray<A>
 ```
 
 Added in v2.0.0
+
+## transpose
+
+Switches rows and columns of a two dimensional array
+
+**Signature**
+
+```ts
+export declare const transpose: <A>(xy: NonEmptyArray<NonEmptyArray<A>>) => NonEmptyArray<NonEmptyArray<A>>
+```
+
+**Example**
+
+```ts
+import { transpose } from 'fp-ts/NonEmptyArray'
+
+assert.deepStrictEqual(
+  transpose([
+    [1, 2, 3],
+    [4, 5, 6, 7],
+  ]),
+  [[1, 4], [2, 5], [3, 6], [7]]
+)
+```
+
+Added in v2.10.0
 
 ## zip
 

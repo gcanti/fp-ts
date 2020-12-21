@@ -86,6 +86,7 @@ Added in v2.0.0
   - [takeLeft](#takeleft)
   - [takeLeftWhile](#takeleftwhile)
   - [takeRight](#takeright)
+  - [transpose](#transpose)
   - [union](#union)
   - [uniq](#uniq)
   - [zip](#zip)
@@ -1053,6 +1054,32 @@ assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
 ```
 
 Added in v2.0.0
+
+## transpose
+
+Switches rows and columns of a two dimensional array
+
+**Signature**
+
+```ts
+export declare const transpose: <A>(xy: A[][]) => NonEmptyArray<A>[]
+```
+
+**Example**
+
+```ts
+import { transpose } from 'fp-ts/Array'
+
+assert.deepStrictEqual(
+  transpose([
+    [1, 2, 3],
+    [4, 5, 6, 7],
+  ]),
+  [[1, 4], [2, 5], [3, 6], [7]]
+)
+```
+
+Added in v2.10.0
 
 ## union
 

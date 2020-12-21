@@ -83,6 +83,7 @@ Added in v2.5.0
   - [sortBy](#sortby)
   - [takeLeft](#takeleft)
   - [takeLeftWhile](#takeleftwhile)
+  - [transpose](#transpose)
   - [union](#union)
   - [uniq](#uniq)
   - [zip](#zip)
@@ -1023,6 +1024,32 @@ assert.deepStrictEqual(takeLeftWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), 
 ```
 
 Added in v2.5.0
+
+## transpose
+
+Switches rows and columns of a two dimensional array
+
+**Signature**
+
+```ts
+export declare function transpose<A>(xy: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
+```
+
+**Example**
+
+```ts
+import { transpose } from 'fp-ts/ReadonlyArray'
+
+assert.deepStrictEqual(
+  transpose([
+    [1, 2, 3],
+    [4, 5, 6, 7],
+  ]),
+  [[1, 4], [2, 5], [3, 6], [7]]
+)
+```
+
+Added in v2.10.0
 
 ## union
 

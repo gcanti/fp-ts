@@ -752,6 +752,19 @@ export const prependToAll: <A>(e: A) => (xs: Array<A>) => Array<A> = RA.prependT
 export const intersperse: <A>(e: A) => (as: Array<A>) => Array<A> = RA.intersperse as any
 
 /**
+ * Switches rows and columns of a two dimensional array
+ *
+ * @example
+ * import { transpose } from 'fp-ts/Array'
+ *
+ * assert.deepStrictEqual(transpose([[1, 2, 3], [4, 5, 6, 7]]), [[1, 4], [2, 5], [3, 6], [7]])
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const transpose: <A>(xy: Array<Array<A>>) => Array<NonEmptyArray<A>> = RA.transpose as any
+
+/**
  * Rotate an array to the right by `n` steps
  *
  * @example
