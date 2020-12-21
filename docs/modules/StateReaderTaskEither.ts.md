@@ -1,6 +1,6 @@
 ---
 title: StateReaderTaskEither.ts
-nav_order: 72
+nav_order: 73
 parent: Modules
 ---
 
@@ -85,6 +85,7 @@ Added in v3.0.0
   - [Monad](#monad-1)
   - [MonadTask](#monadtask-1)
   - [MonadThrow](#monadthrow-1)
+  - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [model](#model)
@@ -859,6 +860,16 @@ Added in v3.0.0
 
 ```ts
 export declare const MonadThrow: MonadThrow4<'StateReaderTaskEither'>
+```
+
+Added in v3.0.0
+
+## Pointed
+
+**Signature**
+
+```ts
+export declare const Pointed: Pointed4<'StateReaderTaskEither'>
 ```
 
 Added in v3.0.0

@@ -28,6 +28,7 @@ import { bind_, chainFirst_, Monad3 } from './Monad'
 import { MonadThrow3 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
+import { Pointed3 } from './Pointed'
 import * as R from './Reader'
 import { Semigroup } from './Semigroup'
 
@@ -54,7 +55,7 @@ export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
  */
 export const left: <R, E = never, A = never>(e: E) => ReaderEither<R, E, A> =
   /*#__PURE__*/
-  left_(R.Monad)
+  left_(R.Pointed)
 
 /**
  * @category constructors
@@ -62,7 +63,7 @@ export const left: <R, E = never, A = never>(e: E) => ReaderEither<R, E, A> =
  */
 export const right: <R, E = never, A = never>(a: A) => ReaderEither<R, E, A> =
   /*#__PURE__*/
-  right_(R.Monad)
+  right_(R.Pointed)
 
 /**
  * @category constructors
@@ -454,6 +455,16 @@ export function getAltReaderValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
 export const Functor: Functor3<URI> = {
   URI,
   map
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: Pointed3<URI> = {
+  URI,
+  map,
+  of
 }
 
 /**

@@ -1,6 +1,6 @@
 ---
 title: ReadonlyTuple.ts
-nav_order: 65
+nav_order: 66
 parent: Modules
 ---
 
@@ -45,6 +45,7 @@ Added in v3.0.0
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getMonad](#getmonad)
+  - [getPointed](#getpointed)
 - [utils](#utils)
   - [sequence](#sequence)
   - [traverse](#traverse)
@@ -314,6 +315,16 @@ Added in v3.0.0
 
 ```ts
 export declare function getMonad<M>(M: Monoid<M>): Monad2C<URI, M>
+```
+
+Added in v3.0.0
+
+## getPointed
+
+**Signature**
+
+```ts
+export declare function getPointed<M>(M: Monoid<M>): Pointed2C<URI, M>
 ```
 
 Added in v3.0.0

@@ -17,6 +17,7 @@ import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { bind_, Monad1 } from './Monad'
 import { none, Option, some } from './Option'
 import { Ord } from './Ord'
+import { Pointed1 } from './Pointed'
 import * as RA from './ReadonlyArray'
 import { ReadonlyRecord } from './ReadonlyRecord'
 import { getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
@@ -577,6 +578,16 @@ declare module './HKT' {
 export const Functor: Functor1<URI> = {
   URI,
   map
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: Pointed1<URI> = {
+  URI,
+  map,
+  of
 }
 
 /**

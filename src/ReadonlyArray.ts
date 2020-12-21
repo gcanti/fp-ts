@@ -21,6 +21,7 @@ import { bind_, chainFirst_, Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import * as O from './Option'
 import { fromCompare, getMonoid as getOrdMonoid, Ord, ordNumber } from './Ord'
+import { Pointed1 } from './Pointed'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
@@ -1710,6 +1711,16 @@ declare module './HKT' {
 export const Functor: Functor1<URI> = {
   URI,
   map
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: Pointed1<URI> = {
+  URI,
+  map,
+  of
 }
 
 /**

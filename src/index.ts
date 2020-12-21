@@ -53,6 +53,7 @@ import * as monoid from './Monoid'
 import * as option from './Option'
 import * as ord from './Ord'
 import * as ordering from './Ordering'
+import * as pointed from './Pointed'
 import * as profunctor from './Profunctor'
 import * as random from './Random'
 import * as reader from './Reader'
@@ -287,6 +288,10 @@ export {
    * @since 3.0.0
    */
   ordering,
+  /**
+   * @since 3.0.0
+   */
+  pointed,
   /**
    * @since 3.0.0
    */

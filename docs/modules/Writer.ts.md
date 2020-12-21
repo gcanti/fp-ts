@@ -1,6 +1,6 @@
 ---
 title: Writer.ts
-nav_order: 85
+nav_order: 86
 parent: Modules
 ---
 
@@ -26,6 +26,7 @@ Added in v3.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
   - [getMonad](#getmonad)
+  - [getPointed](#getpointed)
 - [model](#model)
   - [Writer (interface)](#writer-interface)
 - [utils](#utils)
@@ -159,6 +160,16 @@ Added in v3.0.0
 
 ```ts
 export declare function getMonad<W>(M: Monoid<W>): Monad2C<URI, W>
+```
+
+Added in v3.0.0
+
+## getPointed
+
+**Signature**
+
+```ts
+export declare function getPointed<W>(M: Monoid<W>): Pointed2C<URI, W>
 ```
 
 Added in v3.0.0

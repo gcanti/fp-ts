@@ -11,6 +11,7 @@ import { IOEither } from './IOEither'
 import { Monad2C } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { MonadTask2 } from './MonadTask'
+import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
 import * as TH from './These'
@@ -262,6 +263,16 @@ export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> {
 export const Functor: Functor2<URI> = {
   URI,
   map
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: Pointed2<URI> = {
+  URI,
+  map,
+  of
 }
 
 /**

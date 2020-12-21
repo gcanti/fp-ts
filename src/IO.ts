@@ -18,6 +18,7 @@ import { bindTo_, Functor1 } from './Functor'
 import { bind_, chainFirst_, Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
+import { Pointed1 } from './Pointed'
 import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
@@ -135,6 +136,16 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> {
 export const Functor: Functor1<URI> = {
   URI,
   map
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: Pointed1<URI> = {
+  URI,
+  map,
+  of
 }
 
 /**

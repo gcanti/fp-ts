@@ -32,6 +32,7 @@ import { MonadTask3 } from './MonadTask'
 import { MonadThrow3 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
+import { Pointed3 } from './Pointed'
 import * as R from './Reader'
 import { ReaderEither } from './ReaderEither'
 import * as RT from './ReaderTask'
@@ -75,7 +76,7 @@ export const fromTaskEither: <R, E, A>(ma: TaskEither<E, A>) => ReaderTaskEither
  */
 export const left: <R, E = never, A = never>(e: E) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
-  left_(RT.Monad)
+  left_(RT.Pointed)
 
 /**
  * @category constructors
@@ -83,7 +84,7 @@ export const left: <R, E = never, A = never>(e: E) => ReaderTaskEither<R, E, A> 
  */
 export const right: <R, E = never, A = never>(a: A) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
-  right_(RT.Monad)
+  right_(RT.Pointed)
 
 /**
  * @category constructors
@@ -608,6 +609,16 @@ export function getAltReaderTaskValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
 export const Functor: Functor3<URI> = {
   URI,
   map
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: Pointed3<URI> = {
+  URI,
+  map,
+  of
 }
 
 /**

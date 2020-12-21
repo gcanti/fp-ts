@@ -6,6 +6,7 @@ import { Endomorphism, flow, pipe } from './function'
 import { Functor, Functor1, Functor2, Functor3 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad3 } from './Monad'
+import { Pointed3, Pointed2, Pointed1, Pointed } from './Pointed'
 import { State } from './State'
 
 /**
@@ -39,11 +40,11 @@ export interface StateT3<M extends URIS3, S, R, E, A> {
 /**
  * @since 3.0.0
  */
-export function of_<M extends URIS3>(M: Monad3<M>): <A, S, R, E>(a: A) => StateT3<M, S, R, E, A>
-export function of_<M extends URIS2>(M: Monad2<M>): <A, S, E>(a: A) => StateT2<M, S, E, A>
-export function of_<M extends URIS>(M: Monad1<M>): <A, S>(a: A) => StateT1<M, S, A>
-export function of_<M>(M: Monad<M>): <A, S>(a: A) => StateT<M, S, A>
-export function of_<M>(M: Monad<M>): <A, S>(a: A) => StateT<M, S, A> {
+export function of_<M extends URIS3>(M: Pointed3<M>): <A, S, R, E>(a: A) => StateT3<M, S, R, E, A>
+export function of_<M extends URIS2>(M: Pointed2<M>): <A, S, E>(a: A) => StateT2<M, S, E, A>
+export function of_<M extends URIS>(M: Pointed1<M>): <A, S>(a: A) => StateT1<M, S, A>
+export function of_<M>(M: Pointed<M>): <A, S>(a: A) => StateT<M, S, A>
+export function of_<M>(M: Pointed<M>): <A, S>(a: A) => StateT<M, S, A> {
   return (a) => (s) => M.of([a, s])
 }
 
@@ -126,55 +127,55 @@ export function chain_<M>(
 /**
  * @since 3.0.0
  */
-export function get_<M extends URIS3>(M: Monad3<M>): <S, R, E>() => StateT3<M, S, R, E, S>
-export function get_<M extends URIS2>(M: Monad2<M>): <S, E>() => StateT2<M, S, E, S>
-export function get_<M extends URIS>(M: Monad1<M>): <S>() => StateT1<M, S, S>
-export function get_<M>(M: Monad<M>): <S>() => StateT<M, S, S>
-export function get_<M>(M: Monad<M>): <S>() => StateT<M, S, S> {
+export function get_<M extends URIS3>(M: Pointed3<M>): <S, R, E>() => StateT3<M, S, R, E, S>
+export function get_<M extends URIS2>(M: Pointed2<M>): <S, E>() => StateT2<M, S, E, S>
+export function get_<M extends URIS>(M: Pointed1<M>): <S>() => StateT1<M, S, S>
+export function get_<M>(M: Pointed<M>): <S>() => StateT<M, S, S>
+export function get_<M>(M: Pointed<M>): <S>() => StateT<M, S, S> {
   return () => (s) => M.of([s, s])
 }
 
 /**
  * @since 3.0.0
  */
-export function put_<M extends URIS3>(M: Monad3<M>): <S, R, E>(s: S) => StateT3<M, S, R, E, void>
-export function put_<M extends URIS2>(M: Monad2<M>): <S, E>(s: S) => StateT2<M, S, E, void>
-export function put_<M extends URIS>(M: Monad1<M>): <S>(s: S) => StateT1<M, S, void>
-export function put_<M>(M: Monad<M>): <S>(s: S) => StateT<M, S, void>
-export function put_<M>(M: Monad<M>): <S>(s: S) => StateT<M, S, void> {
+export function put_<M extends URIS3>(M: Pointed3<M>): <S, R, E>(s: S) => StateT3<M, S, R, E, void>
+export function put_<M extends URIS2>(M: Pointed2<M>): <S, E>(s: S) => StateT2<M, S, E, void>
+export function put_<M extends URIS>(M: Pointed1<M>): <S>(s: S) => StateT1<M, S, void>
+export function put_<M>(M: Pointed<M>): <S>(s: S) => StateT<M, S, void>
+export function put_<M>(M: Pointed<M>): <S>(s: S) => StateT<M, S, void> {
   return (s) => () => M.of([undefined, s])
 }
 
 /**
  * @since 3.0.0
  */
-export function modify_<M extends URIS3>(M: Monad3<M>): <S, R, E>(f: Endomorphism<S>) => StateT3<M, S, R, E, void>
-export function modify_<M extends URIS2>(M: Monad2<M>): <S, E>(f: Endomorphism<S>) => StateT2<M, S, E, void>
-export function modify_<M extends URIS>(M: Monad1<M>): <S>(f: Endomorphism<S>) => StateT1<M, S, void>
-export function modify_<M>(M: Monad<M>): <S>(f: Endomorphism<S>) => StateT<M, S, void>
-export function modify_<M>(M: Monad<M>): <S>(f: Endomorphism<S>) => StateT<M, S, void> {
+export function modify_<M extends URIS3>(M: Pointed3<M>): <S, R, E>(f: Endomorphism<S>) => StateT3<M, S, R, E, void>
+export function modify_<M extends URIS2>(M: Pointed2<M>): <S, E>(f: Endomorphism<S>) => StateT2<M, S, E, void>
+export function modify_<M extends URIS>(M: Pointed1<M>): <S>(f: Endomorphism<S>) => StateT1<M, S, void>
+export function modify_<M>(M: Pointed<M>): <S>(f: Endomorphism<S>) => StateT<M, S, void>
+export function modify_<M>(M: Pointed<M>): <S>(f: Endomorphism<S>) => StateT<M, S, void> {
   return (f) => (s) => M.of([undefined, f(s)])
 }
 
 /**
  * @since 3.0.0
  */
-export function gets_<M extends URIS3>(M: Monad3<M>): <S, A, R, E>(f: (s: S) => A) => StateT3<M, S, R, E, A>
-export function gets_<M extends URIS2>(M: Monad2<M>): <S, A, E>(f: (s: S) => A) => StateT2<M, S, E, A>
-export function gets_<M extends URIS>(M: Monad1<M>): <S, A>(f: (s: S) => A) => StateT1<M, S, A>
-export function gets_<M>(M: Monad<M>): <S, A>(f: (s: S) => A) => StateT<M, S, A>
-export function gets_<M>(M: Monad<M>): <S, A>(f: (s: S) => A) => StateT<M, S, A> {
+export function gets_<M extends URIS3>(M: Pointed3<M>): <S, A, R, E>(f: (s: S) => A) => StateT3<M, S, R, E, A>
+export function gets_<M extends URIS2>(M: Pointed2<M>): <S, A, E>(f: (s: S) => A) => StateT2<M, S, E, A>
+export function gets_<M extends URIS>(M: Pointed1<M>): <S, A>(f: (s: S) => A) => StateT1<M, S, A>
+export function gets_<M>(M: Pointed<M>): <S, A>(f: (s: S) => A) => StateT<M, S, A>
+export function gets_<M>(M: Pointed<M>): <S, A>(f: (s: S) => A) => StateT<M, S, A> {
   return (f) => (s) => M.of([f(s), s])
 }
 
 /**
  * @since 3.0.0
  */
-export function fromState_<M extends URIS3>(M: Monad3<M>): <S, A, R, E>(sa: State<S, A>) => StateT3<M, S, R, E, A>
-export function fromState_<M extends URIS2>(M: Monad2<M>): <S, A, E>(sa: State<S, A>) => StateT2<M, S, E, A>
-export function fromState_<M extends URIS>(M: Monad1<M>): <S, A>(sa: State<S, A>) => StateT1<M, S, A>
-export function fromState_<M>(M: Monad<M>): <S, A>(sa: State<S, A>) => StateT<M, S, A>
-export function fromState_<M>(M: Monad<M>): <S, A>(sa: State<S, A>) => StateT<M, S, A> {
+export function fromState_<M extends URIS3>(M: Pointed3<M>): <S, A, R, E>(sa: State<S, A>) => StateT3<M, S, R, E, A>
+export function fromState_<M extends URIS2>(M: Pointed2<M>): <S, A, E>(sa: State<S, A>) => StateT2<M, S, E, A>
+export function fromState_<M extends URIS>(M: Pointed1<M>): <S, A>(sa: State<S, A>) => StateT1<M, S, A>
+export function fromState_<M>(M: Pointed<M>): <S, A>(sa: State<S, A>) => StateT<M, S, A>
+export function fromState_<M>(M: Pointed<M>): <S, A>(sa: State<S, A>) => StateT<M, S, A> {
   return (sa) => (s) => M.of(sa(s))
 }
 

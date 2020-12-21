@@ -30,6 +30,7 @@ import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { MonadThrow2 } from './MonadThrow'
 import { isNone, none, Option, some } from './Option'
+import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { Traversable2 } from './Traversable'
@@ -450,6 +451,16 @@ export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
 export const Functor: Functor2<URI> = {
   URI,
   map
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: Pointed2<URI> = {
+  URI,
+  map,
+  of
 }
 
 /**

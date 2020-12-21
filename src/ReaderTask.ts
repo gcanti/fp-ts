@@ -9,6 +9,7 @@ import { IO } from './IO'
 import { bind_, chainFirst_, Monad2 } from './Monad'
 import { MonadTask2 } from './MonadTask'
 import { Monoid } from './Monoid'
+import { Pointed2 } from './Pointed'
 import * as R from './Reader'
 import { ap_, asks_, ask_, chain_, fromReader_, map_, of_ } from './ReaderT'
 import { Semigroup } from './Semigroup'
@@ -45,7 +46,7 @@ export const fromTask: <R, A>(ma: Task<A>) => ReaderTask<R, A> = R.of
  */
 export const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A> =
   /*#__PURE__*/
-  fromReader_(T.Monad)
+  fromReader_(T.Pointed)
 
 /**
  * @category constructors
@@ -61,7 +62,7 @@ export const fromIO: <R, A>(ma: IO<A>) => ReaderTask<R, A> =
  */
 export const ask: <R>() => ReaderTask<R, R> =
   /*#__PURE__*/
-  ask_(T.Monad)
+  ask_(T.Pointed)
 
 /**
  * @category constructors
@@ -69,7 +70,7 @@ export const ask: <R>() => ReaderTask<R, R> =
  */
 export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> =
   /*#__PURE__*/
-  asks_(T.Monad)
+  asks_(T.Pointed)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -146,7 +147,7 @@ export const apW: <R2, A>(
  */
 export const of: Applicative2<URI>['of'] =
   /*#__PURE__*/
-  of_(T.Monad)
+  of_(T.Pointed)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -226,6 +227,16 @@ export function getMonoid<R, A>(M: Monoid<A>): Monoid<ReaderTask<R, A>> {
 export const Functor: Functor2<URI> = {
   URI,
   map
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: Pointed2<URI> = {
+  URI,
+  map,
+  of
 }
 
 /**

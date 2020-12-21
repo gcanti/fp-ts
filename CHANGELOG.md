@@ -248,6 +248,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `writer` (@gcanti)
 
 - **New Feature**
+  - add `Pointed` type class (@gcanti)
   - `Apply`
     - add `apFirst_` (@gcanti)
     - add `apSecond_` (@gcanti)

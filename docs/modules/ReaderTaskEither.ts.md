@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskEither.ts
-nav_order: 59
+nav_order: 60
 parent: Modules
 ---
 
@@ -85,6 +85,7 @@ Added in v3.0.0
   - [Monad](#monad-1)
   - [MonadTask](#monadtask-1)
   - [MonadThrow](#monadthrow-1)
+  - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getAltReaderTaskValidation](#getaltreadertaskvalidation)
@@ -849,6 +850,16 @@ Added in v3.0.0
 
 ```ts
 export declare const MonadThrow: MonadThrow3<'ReaderTaskEither'>
+```
+
+Added in v3.0.0
+
+## Pointed
+
+**Signature**
+
+```ts
+export declare const Pointed: Pointed3<'ReaderTaskEither'>
 ```
 
 Added in v3.0.0

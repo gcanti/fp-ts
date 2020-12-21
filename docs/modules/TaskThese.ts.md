@@ -1,6 +1,6 @@
 ---
 title: TaskThese.ts
-nav_order: 77
+nav_order: 78
 parent: Modules
 ---
 
@@ -39,6 +39,7 @@ Added in v3.0.0
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [Functor](#functor-1)
+  - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
@@ -266,6 +267,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: Functor2<'TaskThese'>
+```
+
+Added in v3.0.0
+
+## Pointed
+
+**Signature**
+
+```ts
+export declare const Pointed: Pointed2<'TaskThese'>
 ```
 
 Added in v3.0.0

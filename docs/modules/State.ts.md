@@ -1,6 +1,6 @@
 ---
 title: State.ts
-nav_order: 71
+nav_order: 72
 parent: Modules
 ---
 
@@ -34,6 +34,7 @@ Added in v3.0.0
   - [Applicative](#applicative-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
+  - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [model](#model)
@@ -244,6 +245,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: Monad2<'State'>
+```
+
+Added in v3.0.0
+
+## Pointed
+
+**Signature**
+
+```ts
+export declare const Pointed: Pointed2<'State'>
 ```
 
 Added in v3.0.0

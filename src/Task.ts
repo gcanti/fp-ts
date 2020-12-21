@@ -18,6 +18,7 @@ import { IO } from './IO'
 import { bind_, chainFirst_, Monad1 } from './Monad'
 import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
+import { Pointed1 } from './Pointed'
 import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
@@ -243,6 +244,16 @@ export function getRaceMonoid<A = never>(): Monoid<Task<A>> {
 export const Functor: Functor1<URI> = {
   URI,
   map
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: Pointed1<URI> = {
+  URI,
+  map,
+  of
 }
 
 /**

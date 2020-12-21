@@ -12,6 +12,7 @@ import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
+import { Pointed2C } from './Pointed'
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
 import { Traversable2 } from './Traversable'
@@ -42,52 +43,6 @@ export function snd<A, E>(ea: readonly [A, E]): E {
  */
 export function swap<A, E>(ea: readonly [A, E]): readonly [E, A] {
   return [snd(ea), fst(ea)]
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
-  return {
-    URI,
-    map,
-    ap: (fa) => (fab) => [fst(fab)(fst(fa)), S.concat(snd(fa))(snd(fab))]
-  }
-}
-
-const of = <M>(M: Monoid<M>) => <A>(a: A): readonly [A, M] => {
-  return [a, M.empty]
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export function getApplicative<M>(M: Monoid<M>): Applicative2C<URI, M> {
-  const A = getApply(M)
-  return {
-    URI,
-    map,
-    ap: A.ap,
-    of: of(M)
-  }
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export function getMonad<M>(M: Monoid<M>): Monad2C<URI, M> {
-  return {
-    URI,
-    map,
-    chain: (f) => (ma) => {
-      const [b, s] = f(fst(ma))
-      return [b, M.concat(s)(snd(ma))]
-    },
-    of: of(M)
-  }
 }
 
 /**
@@ -267,4 +222,60 @@ export const Traversable: Traversable2<URI> = {
   map,
   traverse,
   sequence
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
+  return {
+    URI,
+    map,
+    ap: (fa) => (fab) => [fst(fab)(fst(fa)), S.concat(snd(fa))(snd(fab))]
+  }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export function getPointed<M>(M: Monoid<M>): Pointed2C<URI, M> {
+  return {
+    URI,
+    map,
+    of: (a) => [a, M.empty]
+  }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export function getApplicative<M>(M: Monoid<M>): Applicative2C<URI, M> {
+  const A = getApply(M)
+  const P = getPointed(M)
+  return {
+    URI,
+    map,
+    ap: A.ap,
+    of: P.of
+  }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export function getMonad<M>(M: Monoid<M>): Monad2C<URI, M> {
+  const P = getPointed(M)
+  return {
+    URI,
+    map,
+    chain: (f) => (ma) => {
+      const [b, s] = f(fst(ma))
+      return [b, M.concat(s)(snd(ma))]
+    },
+    of: P.of
+  }
 }

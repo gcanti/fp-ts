@@ -12,15 +12,14 @@
  * @since 3.0.0
  */
 import { pipe } from './function'
-import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
+import { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
 /**
  * @category type classes
  * @since 3.0.0
  */
-export interface Monad<M> extends Functor<M> {
-  readonly of: <A>(a: A) => HKT<M, A>
+export interface Monad<M> extends Pointed<M> {
   readonly chain: <A, B>(f: (a: A) => HKT<M, B>) => (ma: HKT<M, A>) => HKT<M, B>
 }
 
@@ -28,8 +27,7 @@ export interface Monad<M> extends Functor<M> {
  * @category type classes
  * @since 3.0.0
  */
-export interface Monad1<M extends URIS> extends Functor1<M> {
-  readonly of: <A>(a: A) => Kind<M, A>
+export interface Monad1<M extends URIS> extends Pointed1<M> {
   readonly chain: <A, B>(f: (a: A) => Kind<M, B>) => (ma: Kind<M, A>) => Kind<M, B>
 }
 
@@ -37,8 +35,7 @@ export interface Monad1<M extends URIS> extends Functor1<M> {
  * @category type classes
  * @since 3.0.0
  */
-export interface Monad2<M extends URIS2> extends Functor2<M> {
-  readonly of: <E, A>(a: A) => Kind2<M, E, A>
+export interface Monad2<M extends URIS2> extends Pointed2<M> {
   readonly chain: <A, E, B>(f: (a: A) => Kind2<M, E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, B>
 }
 
@@ -46,8 +43,7 @@ export interface Monad2<M extends URIS2> extends Functor2<M> {
  * @category type classes
  * @since 3.0.0
  */
-export interface Monad2C<M extends URIS2, E> extends Functor2C<M, E> {
-  readonly of: <A>(a: A) => Kind2<M, E, A>
+export interface Monad2C<M extends URIS2, E> extends Pointed2C<M, E> {
   readonly chain: <A, B>(f: (a: A) => Kind2<M, E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, B>
 }
 
@@ -55,8 +51,7 @@ export interface Monad2C<M extends URIS2, E> extends Functor2C<M, E> {
  * @category type classes
  * @since 3.0.0
  */
-export interface Monad3<M extends URIS3> extends Functor3<M> {
-  readonly of: <R, E, A>(a: A) => Kind3<M, R, E, A>
+export interface Monad3<M extends URIS3> extends Pointed3<M> {
   readonly chain: <A, R, E, B>(f: (a: A) => Kind3<M, R, E, B>) => (ma: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
 }
 
@@ -64,8 +59,7 @@ export interface Monad3<M extends URIS3> extends Functor3<M> {
  * @category type classes
  * @since 3.0.0
  */
-export interface Monad3C<M extends URIS3, E> extends Functor3C<M, E> {
-  readonly of: <R, A>(a: A) => Kind3<M, R, E, A>
+export interface Monad3C<M extends URIS3, E> extends Pointed3C<M, E> {
   readonly chain: <A, R, B>(f: (a: A) => Kind3<M, R, E, B>) => (ma: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
 }
 
@@ -73,8 +67,7 @@ export interface Monad3C<M extends URIS3, E> extends Functor3C<M, E> {
  * @category type classes
  * @since 3.0.0
  */
-export interface Monad4<M extends URIS4> extends Functor4<M> {
-  readonly of: <S, R, E, A>(a: A) => Kind4<M, S, R, E, A>
+export interface Monad4<M extends URIS4> extends Pointed4<M> {
   readonly chain: <A, S, R, E, B>(
     f: (a: A) => Kind4<M, S, R, E, B>
   ) => (ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, B>

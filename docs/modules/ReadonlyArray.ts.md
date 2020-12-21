@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 60
+nav_order: 61
 parent: Modules
 ---
 
@@ -115,6 +115,7 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad-1)
+  - [Pointed](#pointed)
   - [Traversable](#traversable-1)
   - [TraversableWithIndex](#traversablewithindex-1)
   - [URI](#uri)
@@ -1475,6 +1476,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: Monad1<'ReadonlyArray'>
+```
+
+Added in v3.0.0
+
+## Pointed
+
+**Signature**
+
+```ts
+export declare const Pointed: Pointed1<'ReadonlyArray'>
 ```
 
 Added in v3.0.0

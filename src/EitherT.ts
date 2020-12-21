@@ -7,26 +7,29 @@ import { flow, Lazy } from './function'
 import { Functor, Functor1, Functor2 } from './Functor'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
+import { Pointed2, Pointed1, Pointed } from './Pointed'
 
 import Either = E.Either
 
 /**
  * @since 3.0.0
  */
-export function right_<M extends URIS2>(M: Monad2<M>): <FE, E = never, A = never>(a: A) => Kind2<M, FE, E.Either<E, A>>
-export function right_<M extends URIS>(M: Monad1<M>): <E = never, A = never>(a: A) => Kind<M, E.Either<E, A>>
-export function right_<M>(M: Monad<M>): <E = never, A = never>(a: A) => HKT<M, E.Either<E, A>>
-export function right_<M>(M: Monad<M>): <E = never, A = never>(a: A) => HKT<M, E.Either<E, A>> {
+export function right_<M extends URIS2>(
+  M: Pointed2<M>
+): <FE, E = never, A = never>(a: A) => Kind2<M, FE, E.Either<E, A>>
+export function right_<M extends URIS>(M: Pointed1<M>): <E = never, A = never>(a: A) => Kind<M, E.Either<E, A>>
+export function right_<M>(M: Pointed<M>): <E = never, A = never>(a: A) => HKT<M, E.Either<E, A>>
+export function right_<M>(M: Pointed<M>): <E = never, A = never>(a: A) => HKT<M, E.Either<E, A>> {
   return flow(E.right, M.of)
 }
 
 /**
  * @since 3.0.0
  */
-export function left_<M extends URIS2>(M: Monad2<M>): <FE, E = never, A = never>(e: E) => Kind2<M, FE, E.Either<E, A>>
-export function left_<M extends URIS>(M: Monad1<M>): <E = never, A = never>(e: E) => Kind<M, E.Either<E, A>>
-export function left_<M>(M: Monad<M>): <E = never, A = never>(e: E) => HKT<M, E.Either<E, A>>
-export function left_<M>(M: Monad<M>): <E = never, A = never>(e: E) => HKT<M, E.Either<E, A>> {
+export function left_<M extends URIS2>(M: Pointed2<M>): <FE, E = never, A = never>(e: E) => Kind2<M, FE, E.Either<E, A>>
+export function left_<M extends URIS>(M: Pointed1<M>): <E = never, A = never>(e: E) => Kind<M, E.Either<E, A>>
+export function left_<M>(M: Pointed<M>): <E = never, A = never>(e: E) => HKT<M, E.Either<E, A>>
+export function left_<M>(M: Pointed<M>): <E = never, A = never>(e: E) => HKT<M, E.Either<E, A>> {
   return flow(E.left, M.of)
 }
 

@@ -1,6 +1,6 @@
 ---
 title: Task.ts
-nav_order: 75
+nav_order: 76
 parent: Modules
 ---
 
@@ -48,6 +48,7 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadTask](#monadtask-1)
+  - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
@@ -316,6 +317,16 @@ Added in v3.0.0
 
 ```ts
 export declare const MonadTask: MonadTask1<'Task'>
+```
+
+Added in v3.0.0
+
+## Pointed
+
+**Signature**
+
+```ts
+export declare const Pointed: Pointed1<'Task'>
 ```
 
 Added in v3.0.0

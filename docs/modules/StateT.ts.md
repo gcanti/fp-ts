@@ -1,6 +1,6 @@
 ---
 title: StateT.ts
-nav_order: 73
+nav_order: 74
 parent: Modules
 ---
 
@@ -179,11 +179,11 @@ Added in v3.0.0
 
 ```ts
 export declare function fromState_<M extends URIS3>(
-  M: Monad3<M>
+  M: Pointed3<M>
 ): <S, A, R, E>(sa: State<S, A>) => StateT3<M, S, R, E, A>
-export declare function fromState_<M extends URIS2>(M: Monad2<M>): <S, A, E>(sa: State<S, A>) => StateT2<M, S, E, A>
-export declare function fromState_<M extends URIS>(M: Monad1<M>): <S, A>(sa: State<S, A>) => StateT1<M, S, A>
-export declare function fromState_<M>(M: Monad<M>): <S, A>(sa: State<S, A>) => StateT<M, S, A>
+export declare function fromState_<M extends URIS2>(M: Pointed2<M>): <S, A, E>(sa: State<S, A>) => StateT2<M, S, E, A>
+export declare function fromState_<M extends URIS>(M: Pointed1<M>): <S, A>(sa: State<S, A>) => StateT1<M, S, A>
+export declare function fromState_<M>(M: Pointed<M>): <S, A>(sa: State<S, A>) => StateT<M, S, A>
 ```
 
 Added in v3.0.0
@@ -193,10 +193,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function get_<M extends URIS3>(M: Monad3<M>): <S, R, E>() => StateT3<M, S, R, E, S>
-export declare function get_<M extends URIS2>(M: Monad2<M>): <S, E>() => StateT2<M, S, E, S>
-export declare function get_<M extends URIS>(M: Monad1<M>): <S>() => StateT1<M, S, S>
-export declare function get_<M>(M: Monad<M>): <S>() => StateT<M, S, S>
+export declare function get_<M extends URIS3>(M: Pointed3<M>): <S, R, E>() => StateT3<M, S, R, E, S>
+export declare function get_<M extends URIS2>(M: Pointed2<M>): <S, E>() => StateT2<M, S, E, S>
+export declare function get_<M extends URIS>(M: Pointed1<M>): <S>() => StateT1<M, S, S>
+export declare function get_<M>(M: Pointed<M>): <S>() => StateT<M, S, S>
 ```
 
 Added in v3.0.0
@@ -206,10 +206,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function gets_<M extends URIS3>(M: Monad3<M>): <S, A, R, E>(f: (s: S) => A) => StateT3<M, S, R, E, A>
-export declare function gets_<M extends URIS2>(M: Monad2<M>): <S, A, E>(f: (s: S) => A) => StateT2<M, S, E, A>
-export declare function gets_<M extends URIS>(M: Monad1<M>): <S, A>(f: (s: S) => A) => StateT1<M, S, A>
-export declare function gets_<M>(M: Monad<M>): <S, A>(f: (s: S) => A) => StateT<M, S, A>
+export declare function gets_<M extends URIS3>(M: Pointed3<M>): <S, A, R, E>(f: (s: S) => A) => StateT3<M, S, R, E, A>
+export declare function gets_<M extends URIS2>(M: Pointed2<M>): <S, A, E>(f: (s: S) => A) => StateT2<M, S, E, A>
+export declare function gets_<M extends URIS>(M: Pointed1<M>): <S, A>(f: (s: S) => A) => StateT1<M, S, A>
+export declare function gets_<M>(M: Pointed<M>): <S, A>(f: (s: S) => A) => StateT<M, S, A>
 ```
 
 Added in v3.0.0
@@ -239,11 +239,11 @@ Added in v3.0.0
 
 ```ts
 export declare function modify_<M extends URIS3>(
-  M: Monad3<M>
+  M: Pointed3<M>
 ): <S, R, E>(f: Endomorphism<S>) => StateT3<M, S, R, E, void>
-export declare function modify_<M extends URIS2>(M: Monad2<M>): <S, E>(f: Endomorphism<S>) => StateT2<M, S, E, void>
-export declare function modify_<M extends URIS>(M: Monad1<M>): <S>(f: Endomorphism<S>) => StateT1<M, S, void>
-export declare function modify_<M>(M: Monad<M>): <S>(f: Endomorphism<S>) => StateT<M, S, void>
+export declare function modify_<M extends URIS2>(M: Pointed2<M>): <S, E>(f: Endomorphism<S>) => StateT2<M, S, E, void>
+export declare function modify_<M extends URIS>(M: Pointed1<M>): <S>(f: Endomorphism<S>) => StateT1<M, S, void>
+export declare function modify_<M>(M: Pointed<M>): <S>(f: Endomorphism<S>) => StateT<M, S, void>
 ```
 
 Added in v3.0.0
@@ -253,10 +253,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function of_<M extends URIS3>(M: Monad3<M>): <A, S, R, E>(a: A) => StateT3<M, S, R, E, A>
-export declare function of_<M extends URIS2>(M: Monad2<M>): <A, S, E>(a: A) => StateT2<M, S, E, A>
-export declare function of_<M extends URIS>(M: Monad1<M>): <A, S>(a: A) => StateT1<M, S, A>
-export declare function of_<M>(M: Monad<M>): <A, S>(a: A) => StateT<M, S, A>
+export declare function of_<M extends URIS3>(M: Pointed3<M>): <A, S, R, E>(a: A) => StateT3<M, S, R, E, A>
+export declare function of_<M extends URIS2>(M: Pointed2<M>): <A, S, E>(a: A) => StateT2<M, S, E, A>
+export declare function of_<M extends URIS>(M: Pointed1<M>): <A, S>(a: A) => StateT1<M, S, A>
+export declare function of_<M>(M: Pointed<M>): <A, S>(a: A) => StateT<M, S, A>
 ```
 
 Added in v3.0.0
@@ -266,10 +266,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function put_<M extends URIS3>(M: Monad3<M>): <S, R, E>(s: S) => StateT3<M, S, R, E, void>
-export declare function put_<M extends URIS2>(M: Monad2<M>): <S, E>(s: S) => StateT2<M, S, E, void>
-export declare function put_<M extends URIS>(M: Monad1<M>): <S>(s: S) => StateT1<M, S, void>
-export declare function put_<M>(M: Monad<M>): <S>(s: S) => StateT<M, S, void>
+export declare function put_<M extends URIS3>(M: Pointed3<M>): <S, R, E>(s: S) => StateT3<M, S, R, E, void>
+export declare function put_<M extends URIS2>(M: Pointed2<M>): <S, E>(s: S) => StateT2<M, S, E, void>
+export declare function put_<M extends URIS>(M: Pointed1<M>): <S>(s: S) => StateT1<M, S, void>
+export declare function put_<M>(M: Pointed<M>): <S>(s: S) => StateT<M, S, void>
 ```
 
 Added in v3.0.0

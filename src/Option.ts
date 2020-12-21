@@ -29,6 +29,7 @@ import { bind_, chainFirst_, Monad1 } from './Monad'
 import { MonadThrow1 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { fromCompare, Ord } from './Ord'
+import { Pointed1 } from './Pointed'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
@@ -880,6 +881,16 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>> {
 export const Functor: Functor1<URI> = {
   URI,
   map
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: Pointed1<URI> = {
+  URI,
+  map,
+  of
 }
 
 /**

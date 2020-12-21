@@ -8,6 +8,7 @@ import { constant, flow, identity, tuple } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { bind_, chainFirst_, Monad2 } from './Monad'
 import { Monoid } from './Monoid'
+import { Pointed2 } from './Pointed'
 import { Profunctor2 } from './Profunctor'
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
@@ -188,6 +189,16 @@ export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> {
 export const Functor: Functor2<URI> = {
   URI,
   map
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: Pointed2<URI> = {
+  URI,
+  map,
+  of
 }
 
 /**

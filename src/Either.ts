@@ -29,6 +29,7 @@ import { bind_, chainFirst_, Monad2 } from './Monad'
 import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
+import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { Traversable2 } from './Traversable'
@@ -997,6 +998,16 @@ export function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>)
 export const Functor: Functor2<URI> = {
   URI,
   map
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: Pointed2<URI> = {
+  URI,
+  map,
+  of
 }
 
 /**

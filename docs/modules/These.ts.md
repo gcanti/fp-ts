@@ -1,6 +1,6 @@
 ---
 title: These.ts
-nav_order: 78
+nav_order: 79
 parent: Modules
 ---
 
@@ -68,6 +68,7 @@ Added in v3.0.0
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
   - [MonadThrow](#monadthrow-1)
+  - [Pointed](#pointed)
   - [Traversable](#traversable)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -498,6 +499,16 @@ Added in v3.0.0
 
 ```ts
 export declare const MonadThrow: MonadThrow2<'These'>
+```
+
+Added in v3.0.0
+
+## Pointed
+
+**Signature**
+
+```ts
+export declare const Pointed: Pointed2<'These'>
 ```
 
 Added in v3.0.0

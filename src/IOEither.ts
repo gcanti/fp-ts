@@ -35,6 +35,7 @@ import { MonadIO2 } from './MonadIO'
 import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { getLeft, getRight, Option } from './Option'
+import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
@@ -60,7 +61,7 @@ export interface IOEither<E, A> extends IO<Either<E, A>> {}
  */
 export const left: <E = never, A = never>(l: E) => IOEither<E, A> =
   /*#__PURE__*/
-  left_(I.Monad)
+  left_(I.Pointed)
 
 /**
  * @category constructors
@@ -68,7 +69,7 @@ export const left: <E = never, A = never>(l: E) => IOEither<E, A> =
  */
 export const right: <E = never, A = never>(a: A) => IOEither<E, A> =
   /*#__PURE__*/
-  right_(I.Monad)
+  right_(I.Pointed)
 
 /**
  * @category constructors
@@ -525,6 +526,16 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
 export const Functor: Functor2<URI> = {
   URI,
   map
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: Pointed2<URI> = {
+  URI,
+  map,
+  of
 }
 
 /**

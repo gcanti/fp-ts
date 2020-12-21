@@ -1,6 +1,6 @@
 ---
 title: TaskEither.ts
-nav_order: 76
+nav_order: 77
 parent: Modules
 ---
 
@@ -82,6 +82,7 @@ Added in v3.0.0
   - [Monad](#monad-1)
   - [MonadTask](#monadtask-1)
   - [MonadThrow](#monadthrow)
+  - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getAltTaskValidation](#getalttaskvalidation)
@@ -805,6 +806,16 @@ Added in v3.0.0
 
 ```ts
 export declare const MonadThrow: MonadThrow2<'TaskEither'>
+```
+
+Added in v3.0.0
+
+## Pointed
+
+**Signature**
+
+```ts
+export declare const Pointed: Pointed2<'TaskEither'>
 ```
 
 Added in v3.0.0

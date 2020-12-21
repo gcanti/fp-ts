@@ -64,6 +64,7 @@ Added in v3.0.0
   - [option](#option)
   - [ord](#ord)
   - [ordering](#ordering)
+  - [pointed](#pointed)
   - [profunctor](#profunctor)
   - [random](#random)
   - [reader](#reader)
@@ -608,6 +609,16 @@ Added in v3.0.0
 
 ```ts
 export declare const ordering: typeof ordering
+```
+
+Added in v3.0.0
+
+## pointed
+
+**Signature**
+
+```ts
+export declare const pointed: typeof pointed
 ```
 
 Added in v3.0.0

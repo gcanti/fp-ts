@@ -171,10 +171,10 @@ Added in v3.0.0
 
 ```ts
 export declare function left_<M extends URIS2>(
-  M: Monad2<M>
+  M: Pointed2<M>
 ): <FE, E = never, A = never>(e: E) => Kind2<M, FE, E.Either<E, A>>
-export declare function left_<M extends URIS>(M: Monad1<M>): <E = never, A = never>(e: E) => Kind<M, E.Either<E, A>>
-export declare function left_<M>(M: Monad<M>): <E = never, A = never>(e: E) => HKT<M, E.Either<E, A>>
+export declare function left_<M extends URIS>(M: Pointed1<M>): <E = never, A = never>(e: E) => Kind<M, E.Either<E, A>>
+export declare function left_<M>(M: Pointed<M>): <E = never, A = never>(e: E) => HKT<M, E.Either<E, A>>
 ```
 
 Added in v3.0.0
@@ -257,10 +257,10 @@ Added in v3.0.0
 
 ```ts
 export declare function right_<M extends URIS2>(
-  M: Monad2<M>
+  M: Pointed2<M>
 ): <FE, E = never, A = never>(a: A) => Kind2<M, FE, E.Either<E, A>>
-export declare function right_<M extends URIS>(M: Monad1<M>): <E = never, A = never>(a: A) => Kind<M, E.Either<E, A>>
-export declare function right_<M>(M: Monad<M>): <E = never, A = never>(a: A) => HKT<M, E.Either<E, A>>
+export declare function right_<M extends URIS>(M: Pointed1<M>): <E = never, A = never>(a: A) => Kind<M, E.Either<E, A>>
+export declare function right_<M>(M: Pointed<M>): <E = never, A = never>(a: A) => HKT<M, E.Either<E, A>>
 ```
 
 Added in v3.0.0

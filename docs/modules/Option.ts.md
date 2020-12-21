@@ -96,6 +96,7 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadThrow](#monadthrow-1)
+  - [Pointed](#pointed)
   - [Traversable](#traversable-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -1008,6 +1009,16 @@ Added in v3.0.0
 
 ```ts
 export declare const MonadThrow: MonadThrow1<'Option'>
+```
+
+Added in v3.0.0
+
+## Pointed
+
+**Signature**
+
+```ts
+export declare const Pointed: Pointed1<'Option'>
 ```
 
 Added in v3.0.0

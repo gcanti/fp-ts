@@ -17,6 +17,7 @@ import { identity, pipe, tuple } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { HKT } from './HKT'
 import { bind_, chainFirst_, Monad1 } from './Monad'
+import { Pointed1 } from './Pointed'
 import * as A from './ReadonlyArray'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
@@ -357,6 +358,16 @@ declare module './HKT' {
 export const Functor: Functor1<URI> = {
   URI,
   map
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: Pointed1<URI> = {
+  URI,
+  map,
+  of
 }
 
 /**

@@ -5,6 +5,7 @@ import { Applicative2C } from './Applicative'
 import { Functor2 } from './Functor'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
+import { Pointed2C } from './Pointed'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -114,15 +115,10 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
-export function getApplicative<W>(M: Monoid<W>): Applicative2C<URI, W> {
+export function getPointed<W>(M: Monoid<W>): Pointed2C<URI, W> {
   return {
     URI,
     map,
-    ap: (fa) => (fab) => () => {
-      const [f, w1] = fab()
-      const [a, w2] = fa()
-      return [f(a), M.concat(w2)(w1)]
-    },
     of: (a) => () => [a, M.empty]
   }
 }
@@ -131,11 +127,30 @@ export function getApplicative<W>(M: Monoid<W>): Applicative2C<URI, W> {
  * @category instances
  * @since 3.0.0
  */
-export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
+export function getApplicative<W>(M: Monoid<W>): Applicative2C<URI, W> {
+  const P = getPointed(M)
   return {
     URI,
     map,
-    of: (a) => () => [a, M.empty],
+    ap: (fa) => (fab) => () => {
+      const [f, w1] = fab()
+      const [a, w2] = fa()
+      return [f(a), M.concat(w2)(w1)]
+    },
+    of: P.of
+  }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
+  const P = getPointed(M)
+  return {
+    URI,
+    map,
+    of: P.of,
     chain: (f) => (ma) => () => {
       const [a, w1] = ma()
       const [b, w2] = f(a)()

@@ -70,6 +70,7 @@ Added in v3.0.0
   - [Monad](#monad-1)
   - [MonadIO](#monadio-1)
   - [MonadThrow](#monadthrow-1)
+  - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getAltIOValidation](#getaltiovalidation)
@@ -621,6 +622,16 @@ Added in v3.0.0
 
 ```ts
 export declare const MonadThrow: MonadThrow2<'IOEither'>
+```
+
+Added in v3.0.0
+
+## Pointed
+
+**Signature**
+
+```ts
+export declare const Pointed: Pointed2<'IOEither'>
 ```
 
 Added in v3.0.0

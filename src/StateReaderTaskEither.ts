@@ -15,6 +15,7 @@ import { MonadIO4 } from './MonadIO'
 import { MonadTask4 } from './MonadTask'
 import { MonadThrow4 } from './MonadThrow'
 import { Option } from './Option'
+import { Pointed4 } from './Pointed'
 import { Reader } from './Reader'
 import { ReaderEither } from './ReaderEither'
 import * as RTE from './ReaderTaskEither'
@@ -54,7 +55,7 @@ export const left: <S, R, E = never, A = never>(e: E) => StateReaderTaskEither<S
  */
 export const right: <S, R, E = never, A = never>(a: A) => StateReaderTaskEither<S, R, E, A> =
   /*#__PURE__*/
-  of_(RTE.Monad)
+  of_(RTE.Pointed)
 
 /**
  * @category constructors
@@ -159,7 +160,7 @@ export const fromReaderTaskEither: <S, R, E, A>(ma: ReaderTaskEither<R, E, A>) =
  */
 export const get: <S, R, E = never>() => StateReaderTaskEither<S, R, E, S> =
   /*#__PURE__*/
-  get_(RTE.Monad)
+  get_(RTE.Pointed)
 
 /**
  * Set the state
@@ -169,7 +170,7 @@ export const get: <S, R, E = never>() => StateReaderTaskEither<S, R, E, S> =
  */
 export const put: <S, R, E = never>(s: S) => StateReaderTaskEither<S, R, E, void> =
   /*#__PURE__*/
-  put_(RTE.Monad)
+  put_(RTE.Pointed)
 
 /**
  * Modify the state by applying a function to the current state
@@ -179,7 +180,7 @@ export const put: <S, R, E = never>(s: S) => StateReaderTaskEither<S, R, E, void
  */
 export const modify: <S, R, E = never>(f: (s: S) => S) => StateReaderTaskEither<S, R, E, void> =
   /*#__PURE__*/
-  modify_(RTE.Monad)
+  modify_(RTE.Pointed)
 
 /**
  * Get a value which depends on the current state
@@ -189,7 +190,7 @@ export const modify: <S, R, E = never>(f: (s: S) => S) => StateReaderTaskEither<
  */
 export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTaskEither<S, R, E, A> =
   /*#__PURE__*/
-  gets_(RTE.Monad)
+  gets_(RTE.Pointed)
 
 /**
  * @category constructors
@@ -197,7 +198,7 @@ export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTa
  */
 export const fromState: <S, A, R, E>(sa: State<S, A>) => StateReaderTaskEither<S, R, E, A> =
   /*#__PURE__*/
-  fromState_(RTE.Monad)
+  fromState_(RTE.Pointed)
 
 /**
  * Derivable from `MonadThrow`.
@@ -545,6 +546,16 @@ declare module './HKT' {
 export const Functor: Functor4<URI> = {
   URI,
   map
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Pointed: Pointed4<URI> = {
+  URI,
+  map,
+  of
 }
 
 /**

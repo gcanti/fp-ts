@@ -1,6 +1,6 @@
 ---
 title: Tree.ts
-nav_order: 82
+nav_order: 83
 parent: Modules
 ---
 
@@ -53,6 +53,7 @@ Added in v3.0.0
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
+  - [Pointed](#pointed)
   - [Traversable](#traversable)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -401,6 +402,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: Monad1<'Tree'>
+```
+
+Added in v3.0.0
+
+## Pointed
+
+**Signature**
+
+```ts
+export declare const Pointed: Pointed1<'Tree'>
 ```
 
 Added in v3.0.0
