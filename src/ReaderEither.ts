@@ -97,7 +97,7 @@ export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, E, A> = 
  * @category constructors
  * @since 3.0.0
  */
-export const fromEither: <E, A, R>(ma: E.Either<E, A>) => ReaderEither<R, E, A> =
+export const fromEither: FromEither3<URI>['fromEither'] =
   /*#__PURE__*/
   E.fold(left, (a) => right(a))
 

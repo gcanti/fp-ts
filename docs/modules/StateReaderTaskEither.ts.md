@@ -23,13 +23,13 @@ Added in v3.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
+- [FromIO](#fromio)
+  - [fromIO](#fromio)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainW](#chainw)
-- [MonadIO](#monadio)
-  - [fromIO](#fromio)
 - [MonadTask](#monadtask)
   - [fromTask](#fromtask)
 - [combinators](#combinators)
@@ -80,6 +80,7 @@ Added in v3.0.0
   - [Applicative](#applicative-1)
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
+  - [FromIO](#fromio-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadTask](#monadtask-1)
@@ -212,6 +213,18 @@ export declare const mapLeft: <E, G>(
 
 Added in v3.0.0
 
+# FromIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <S, R, E, A>(fa: IO<A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v3.0.0
+
 # Functor
 
 ## map
@@ -255,18 +268,6 @@ Less strict version of [`chain`](#chain).
 export declare const chainW: <A, S, R2, E2, B>(
   f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(ma: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
-```
-
-Added in v3.0.0
-
-# MonadIO
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <S, R, E, A>(fa: IO<A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -475,7 +476,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A, S, R>(ma: E.Either<E, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const fromEither: <E, A, S, R>(e: E.Either<E, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -812,6 +813,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromEither: FromEither4<'StateReaderTaskEither'>
+```
+
+Added in v3.0.0
+
+## FromIO
+
+**Signature**
+
+```ts
+export declare const FromIO: FromIO4<'StateReaderTaskEither'>
 ```
 
 Added in v3.0.0

@@ -28,7 +28,7 @@ import { bindTo_, Functor3 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { bind_, chainFirst_, Monad3 } from './Monad'
-import { MonadIO3 } from './MonadIO'
+import { FromIO3 } from './FromIO'
 import { MonadTask3 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
@@ -177,7 +177,7 @@ export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A
  * @category constructors
  * @since 3.0.0
  */
-export const fromEither: <E, A, R>(ma: Either<E, A>) => ReaderTaskEither<R, E, A> =
+export const fromEither: FromEither3<URI>['fromEither'] =
   /*#__PURE__*/
   E.fold(left, (a) => right(a))
 
@@ -464,10 +464,10 @@ export const altW: <R2, E2, B>(
 ) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A | B> = alt as any
 
 /**
- * @category MonadIO
+ * @category FromIO
  * @since 3.0.0
  */
-export const fromIO: MonadIO3<URI>['fromIO'] = rightIO
+export const fromIO: FromIO3<URI>['fromIO'] = rightIO
 
 /**
  * @category MonadTask
@@ -672,6 +672,15 @@ export const chainFirst: <A, R, E, B>(
 export const chainFirstW: <A, R2, E2, B>(
   f: (a: A) => ReaderTaskEither<R2, E2, B>
 ) => <R1, E1>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> = chainFirst as any
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const FromIO: FromIO3<URI> = {
+  URI,
+  fromIO
+}
 
 /**
  * @category instances

@@ -3,6 +3,7 @@
  */
 import { Applicative2 } from './Applicative'
 import { apFirst_, Apply2, apSecond_, apS_, apT_ } from './Apply'
+import { FromIO2 } from './FromIO'
 import { flow, identity, pipe, tuple } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { IO } from './IO'
@@ -49,10 +50,10 @@ export const fromReader: <R, A>(ma: Reader<R, A>) => ReaderTask<R, A> =
   fromReader_(T.Pointed)
 
 /**
- * @category constructors
+ * @category FromIO
  * @since 3.0.0
  */
-export const fromIO: <R, A>(ma: IO<A>) => ReaderTask<R, A> =
+export const fromIO: FromIO2<URI>['fromIO'] =
   /*#__PURE__*/
   flow(T.fromIO, fromTask)
 
@@ -307,6 +308,15 @@ export const Monad: Monad2<URI> = {
 export const chainFirst: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (first: ReaderTask<R, A>) => ReaderTask<R, A> =
   /*#__PURE__*/
   chainFirst_(Monad)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const FromIO: FromIO2<URI> = {
+  URI,
+  fromIO
+}
 
 /**
  * @category instances

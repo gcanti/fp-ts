@@ -1,6 +1,6 @@
 ---
 title: IO.ts
-nav_order: 40
+nav_order: 41
 parent: Modules
 ---
 
@@ -26,12 +26,12 @@ Added in v3.0.0
   - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
+- [FromIO](#fromio)
+  - [fromIO](#fromio)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
-- [MonadIO](#monadio)
-  - [fromIO](#fromio)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -39,9 +39,9 @@ Added in v3.0.0
   - [flatten](#flatten)
 - [instances](#instances)
   - [Applicative](#applicative-1)
+  - [FromIO](#fromio-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [MonadIO](#monadio-1)
   - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -91,6 +91,18 @@ export declare const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B>
 
 Added in v3.0.0
 
+# FromIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A>(fa: IO<A>) => IO<A>
+```
+
+Added in v3.0.0
+
 # Functor
 
 ## map
@@ -116,18 +128,6 @@ Composes computations in sequence, using the return value of one computation to 
 
 ```ts
 export declare const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B>
-```
-
-Added in v3.0.0
-
-# MonadIO
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(fa: IO<A>) => IO<A>
 ```
 
 Added in v3.0.0
@@ -201,6 +201,16 @@ export declare const Applicative: Applicative1<'IO'>
 
 Added in v3.0.0
 
+## FromIO
+
+**Signature**
+
+```ts
+export declare const FromIO: FromIO1<'IO'>
+```
+
+Added in v3.0.0
+
 ## Functor
 
 **Signature**
@@ -217,16 +227,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: Monad1<'IO'>
-```
-
-Added in v3.0.0
-
-## MonadIO
-
-**Signature**
-
-```ts
-export declare const MonadIO: MonadIO1<'IO'>
 ```
 
 Added in v3.0.0

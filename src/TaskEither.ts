@@ -37,7 +37,7 @@ import { bindTo_, Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { bind_, chainFirst_, Monad2 } from './Monad'
-import { MonadIO2 } from './MonadIO'
+import { FromIO2 } from './FromIO'
 import { MonadTask2 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { getLeft, getRight, Option } from './Option'
@@ -120,7 +120,7 @@ export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = T.fr
  * @category constructors
  * @since 3.0.0
  */
-export const fromEither: <E, A>(ma: E.Either<E, A>) => TaskEither<E, A> =
+export const fromEither: FromEither2<URI>['fromEither'] =
   /*#__PURE__*/
   E.fold(left, (a) => right(a))
 
@@ -459,7 +459,7 @@ export const of: Pointed2<URI>['of'] = right
  * @category MonadIO
  * @since 3.0.0
  */
-export const fromIO: MonadIO2<URI>['fromIO'] = rightIO
+export const fromIO: FromIO2<URI>['fromIO'] = rightIO
 
 /**
  * @category MonadTask
@@ -759,6 +759,15 @@ export const chainFirst: <A, E, B>(f: (a: A) => TaskEither<E, B>) => (first: Tas
 export const chainFirstW: <A, E2, B>(
   f: (a: A) => TaskEither<E2, B>
 ) => <E1>(first: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = chainFirst as any
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const FromIO: FromIO2<URI> = {
+  URI,
+  fromIO
+}
 
 /**
  * @category instances

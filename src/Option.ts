@@ -220,7 +220,7 @@ export function getRight<E, A>(ma: Either<E, A>): Option<A> {
  * @category constructors
  * @since 3.0.0
  */
-export const fromEither: <E, A>(ma: Either<E, A>) => Option<A> = getRight
+export const fromEither: FromEither1<URI>['fromEither'] = getRight
 
 // -------------------------------------------------------------------------------------
 // destructors

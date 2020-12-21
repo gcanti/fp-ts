@@ -32,7 +32,7 @@ import { flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './func
 import { bindTo_, Functor2 } from './Functor'
 import * as I from './IO'
 import { bind_, chainFirst_, Monad2 } from './Monad'
-import { MonadIO2 } from './MonadIO'
+import { FromIO2 } from './FromIO'
 import { Monoid } from './Monoid'
 import { getLeft, getRight, Option } from './Option'
 import { Pointed2 } from './Pointed'
@@ -91,7 +91,7 @@ export const leftIO: <E, A = never>(me: IO<E>) => IOEither<E, A> =
  * @category constructors
  * @since 3.0.0
  */
-export const fromEither: <E, A>(ma: E.Either<E, A>) => IOEither<E, A> =
+export const fromEither: FromEither2<URI>['fromEither'] =
   /*#__PURE__*/
   E.fold(left, (a) => right(a))
 
@@ -316,10 +316,10 @@ export const altW: <E2, B>(
 ) => <E1, A>(first: IOEither<E1, A>) => IOEither<E1 | E2, A | B> = alt as any
 
 /**
- * @category MonadIO
+ * @category FromIO
  * @since 3.0.0
  */
-export const fromIO: MonadIO2<URI>['fromIO'] = rightIO
+export const fromIO: FromIO2<URI>['fromIO'] = rightIO
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -612,7 +612,7 @@ export const Alt: Alt2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const MonadIO: MonadIO2<URI> = {
+export const FromIO: FromIO2<URI> = {
   URI,
   fromIO: fromIO
 }

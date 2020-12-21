@@ -12,7 +12,7 @@ import { bindTo_, Functor4 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { bind_, chainFirst_, Monad4 } from './Monad'
-import { MonadIO4 } from './MonadIO'
+import { FromIO4 } from './FromIO'
 import { MonadTask4 } from './MonadTask'
 import { Option } from './Option'
 import { Pointed4 } from './Pointed'
@@ -203,7 +203,7 @@ export const fromState: <S, A, R, E>(sa: State<S, A>) => StateReaderTaskEither<S
  * @category constructors
  * @since 3.0.0
  */
-export const fromEither: <E, A, S, R>(ma: Either<E, A>) => StateReaderTaskEither<S, R, E, A> =
+export const fromEither: FromEither4<URI>['fromEither'] =
   /*#__PURE__*/
   E.fold((e) => left(e), right)
 
@@ -471,10 +471,10 @@ export const altW = <S, R2, E2, B>(second: () => StateReaderTaskEither<S, R2, E2
 export const alt: Alt4<URI>['alt'] = altW
 
 /**
- * @category MonadIO
+ * @category FromIO
  * @since 3.0.0
  */
-export const fromIO: MonadIO4<URI>['fromIO'] = rightIO
+export const fromIO: FromIO4<URI>['fromIO'] = rightIO
 
 /**
  * @category MonadTask
@@ -619,6 +619,15 @@ export const chainFirstW: <A, S, R2, E2, B>(
 ) => <R1, E1>(
   first: StateReaderTaskEither<S, R1, E1, A>
 ) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> = chainFirst as any
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const FromIO: FromIO4<URI> = {
+  URI,
+  fromIO
+}
 
 /**
  * @category instances

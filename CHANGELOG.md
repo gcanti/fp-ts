@@ -29,6 +29,7 @@ high state of flux, you're at risk of it changing without notice.
   - remove `ChainRec` module (@gcanti)
   - remove `IORef` module (@gcanti)
   - replace `MonadThrow` with `FromEither` (@gcanti)
+  - replace `MonadIO` with `FromIO` (@gcanti)
   - remove mutable modules (@gcanti)
     - `Array`
     - `Map`
@@ -123,8 +124,6 @@ high state of flux, you're at risk of it changing without notice.
   - `Monad`
     - drop `Applicative` dependency (@gcanti)
     - make type class members pipeables (@gcanti)
-  - `MonadIO`
-    - drop `Monad` dependency (@gcanti)
   - `Monoid`
     - swap execution order in `getEndomorphismMonoid` (@gcanti)
   - `Option`
@@ -276,13 +275,13 @@ high state of flux, you're at risk of it changing without notice.
   - `ReaderEither`
     - add pipeable sequence T (@gcanti)
   - `ReaderTask`
-    - add `MonadTask` (@gcanti)
     - add pipeable sequence T (@gcanti)
+    - add `FromIO` (@gcanti)
   - `ReaderTaskEither`
     - add `Monad` (@gcanti)
-    - add `MonadTask` (@gcanti)
-    - add `MonadThrow` (@gcanti)
     - add pipeable sequence T (@gcanti)
+    - add `FromEither` (@gcanti)
+    - add `IO` (@gcanti)
   - `ReadonlyArray`
     - add pipeable sequence T (@gcanti)
   - `ReadonlyMap`
@@ -297,26 +296,24 @@ high state of flux, you're at risk of it changing without notice.
     - add pipeable sequence T (@gcanti)
   - `StateReaderTaskEither`
     - add `Monad` (@gcanti)
-    - add `MonadTask` (@gcanti)
-    - add `MonadThrow` (@gcanti)
+    - add `FromEither` (@gcanti)
+    - add `FromIO` (@gcanti)
     - add pipeable sequence T (@gcanti)
   - `Task`
     - add `Monad` (@gcanti)
-    - add `MonadTask` (@gcanti)
     - add pipeable sequence T (@gcanti)
   - `TaskEither`
     - add `getCompactable` (@gcanti)
     - add `Monad` (@gcanti)
-    - add `MonadTask` (@gcanti)
-    - add `MonadThrow` (@gcanti)
     - add pipeable sequence T (@gcanti)
   - `TaskThese`
     - add `Functor` (@gcanti)
     - add `Bifunctor` (@gcanti)
+    - add `FromEither` (@gcanti)
+    - add `FromIO` (@gcanti)
   - `These`
-    - add `MonadThrow` instance (@gcanti)
     - add `of` (@gcanti)
-    - add `throwError` (@gcanti)
+    - add `FromEither` (@gcanti)
   - `Tree`
     - add pipeable sequence T (@gcanti)
   - `Writer`

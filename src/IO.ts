@@ -16,7 +16,7 @@ import { apFirst_, Apply1, apSecond_, apS_, apT_ } from './Apply'
 import { constant, identity, tuple } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { bind_, chainFirst_, Monad1 } from './Monad'
-import { MonadIO1 } from './MonadIO'
+import { FromIO1 } from './FromIO'
 import { Monoid } from './Monoid'
 import { Pointed1 } from './Pointed'
 import { Semigroup } from './Semigroup'
@@ -77,10 +77,10 @@ export const flatten: <A>(mma: IO<IO<A>>) => IO<A> =
   chain(identity)
 
 /**
- * @category MonadIO
+ * @category FromIO
  * @since 3.0.0
  */
-export const fromIO: MonadIO1<URI>['fromIO'] = identity
+export const fromIO: FromIO1<URI>['fromIO'] = identity
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -211,7 +211,7 @@ export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A> =
  * @category instances
  * @since 3.0.0
  */
-export const MonadIO: MonadIO1<URI> = {
+export const FromIO: FromIO1<URI> = {
   URI,
   fromIO
 }

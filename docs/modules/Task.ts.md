@@ -25,6 +25,8 @@ Added in v3.0.0
   - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
+- [FromIO](#fromio)
+  - [fromIO](#fromio)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -35,8 +37,6 @@ Added in v3.0.0
   - [chainIOK](#chainiok)
   - [delay](#delay)
   - [fromIOK](#fromiok)
-- [constructors](#constructors)
-  - [fromIO](#fromio)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -45,6 +45,7 @@ Added in v3.0.0
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
+  - [FromIO](#fromio-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadTask](#monadtask-1)
@@ -98,6 +99,18 @@ Apply a function to an argument under a type constructor.
 
 ```ts
 export declare const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B>
+```
+
+Added in v3.0.0
+
+# FromIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A>(fa: IO<A>) => Task<A>
 ```
 
 Added in v3.0.0
@@ -200,18 +213,6 @@ export declare function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A
 
 Added in v3.0.0
 
-# constructors
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(ma: IO<A>) => Task<A>
-```
-
-Added in v3.0.0
-
 # derivable combinators
 
 ## apFirst
@@ -287,6 +288,16 @@ Added in v3.0.0
 
 ```ts
 export declare const ApplicativeSeq: Applicative1<'Task'>
+```
+
+Added in v3.0.0
+
+## FromIO
+
+**Signature**
+
+```ts
+export declare const FromIO: FromIO1<'Task'>
 ```
 
 Added in v3.0.0

@@ -17,6 +17,8 @@ Added in v3.0.0
 - [Apply](#apply)
   - [ap](#ap)
   - [apW](#apw)
+- [FromIO](#fromio)
+  - [fromIO](#fromio)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -30,7 +32,6 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
-  - [fromIO](#fromio)
   - [fromReader](#fromreader)
   - [fromTask](#fromtask)
 - [derivable combinators](#derivable-combinators)
@@ -41,6 +42,7 @@ Added in v3.0.0
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
+  - [FromIO](#fromio-1)
   - [Functor](#functor-1)
   - [MonadTask](#monadtask)
   - [Pointed](#pointed)
@@ -105,6 +107,18 @@ Less strict version of [`ap`](#ap).
 export declare const apW: <R2, A>(
   fa: ReaderTask<R2, A>
 ) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B>
+```
+
+Added in v3.0.0
+
+# FromIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <E, A>(fa: IO<A>) => ReaderTask<E, A>
 ```
 
 Added in v3.0.0
@@ -220,16 +234,6 @@ export declare const asks: <R, A>(f: (r: R) => A) => ReaderTask<R, A>
 
 Added in v3.0.0
 
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <R, A>(ma: IO<A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
-
 ## fromReader
 
 **Signature**
@@ -327,6 +331,16 @@ Added in v3.0.0
 
 ```ts
 export declare const ApplicativeSeq: Applicative2<'ReaderTask'>
+```
+
+Added in v3.0.0
+
+## FromIO
+
+**Signature**
+
+```ts
+export declare const FromIO: FromIO2<'ReaderTask'>
 ```
 
 Added in v3.0.0

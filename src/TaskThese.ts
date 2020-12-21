@@ -11,7 +11,7 @@ import { Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2C } from './Monad'
-import { MonadIO2 } from './MonadIO'
+import { FromIO2 } from './FromIO'
 import { MonadTask2 } from './MonadTask'
 import { Option } from './Option'
 import { Pointed2 } from './Pointed'
@@ -100,7 +100,7 @@ export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> =
  * @category constructors
  * @since 3.0.0
  */
-export const fromEither: <E, A>(fa: E.Either<E, A>) => TaskThese<E, A> =
+export const fromEither: FromEither2<URI>['fromEither'] =
   /*#__PURE__*/
   E.fold(left, (a) => right(a))
 
@@ -179,7 +179,7 @@ export const of: Pointed2<URI>['of'] = right
  * @category MonadIO
  * @since 3.0.0
  */
-export const fromIO: MonadIO2<URI>['fromIO'] = rightIO
+export const fromIO: FromIO2<URI>['fromIO'] = rightIO
 
 /**
  * @category MonadIO
@@ -327,3 +327,22 @@ export const fromPredicate: {
 } =
   /*#__PURE__*/
   fromPredicate_(FromEither)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const FromIO: FromIO2<URI> = {
+  URI,
+  fromIO
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const MonadTask: MonadTask2<URI> = {
+  URI,
+  fromIO,
+  fromTask
+}

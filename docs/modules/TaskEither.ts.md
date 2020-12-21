@@ -78,6 +78,7 @@ Added in v3.0.0
   - [ApplicativeSeq](#applicativeseq)
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
+  - [FromIO](#fromio)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadTask](#monadtask-1)
@@ -487,7 +488,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A>(ma: E.Either<E, A>) => TaskEither<E, A>
+export declare const fromEither: <E, A>(e: E.Either<E, A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -761,6 +762,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromEither: FromEither2<'TaskEither'>
+```
+
+Added in v3.0.0
+
+## FromIO
+
+**Signature**
+
+```ts
+export declare const FromIO: FromIO2<'TaskEither'>
 ```
 
 Added in v3.0.0

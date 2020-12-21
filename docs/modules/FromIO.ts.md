@@ -1,10 +1,10 @@
 ---
-title: MonadIO.ts
-nav_order: 47
+title: FromIO.ts
+nav_order: 31
 parent: Modules
 ---
 
-## MonadIO overview
+## FromIO overview
 
 Lift a computation from the `IO` monad
 
@@ -15,24 +15,24 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [type classes](#type-classes)
-  - [MonadIO (interface)](#monadio-interface)
-  - [MonadIO1 (interface)](#monadio1-interface)
-  - [MonadIO2 (interface)](#monadio2-interface)
-  - [MonadIO2C (interface)](#monadio2c-interface)
-  - [MonadIO3 (interface)](#monadio3-interface)
-  - [MonadIO3C (interface)](#monadio3c-interface)
-  - [MonadIO4 (interface)](#monadio4-interface)
+  - [FromIO (interface)](#fromio-interface)
+  - [FromIO1 (interface)](#fromio1-interface)
+  - [FromIO2 (interface)](#fromio2-interface)
+  - [FromIO2C (interface)](#fromio2c-interface)
+  - [FromIO3 (interface)](#fromio3-interface)
+  - [FromIO3C (interface)](#fromio3c-interface)
+  - [FromIO4 (interface)](#fromio4-interface)
 
 ---
 
 # type classes
 
-## MonadIO (interface)
+## FromIO (interface)
 
 **Signature**
 
 ```ts
-export interface MonadIO<M> {
+export interface FromIO<M> {
   readonly URI: M
   readonly fromIO: <A>(fa: IO<A>) => HKT<M, A>
 }
@@ -40,12 +40,12 @@ export interface MonadIO<M> {
 
 Added in v3.0.0
 
-## MonadIO1 (interface)
+## FromIO1 (interface)
 
 **Signature**
 
 ```ts
-export interface MonadIO1<M extends URIS> {
+export interface FromIO1<M extends URIS> {
   readonly URI: M
   readonly fromIO: <A>(fa: IO<A>) => Kind<M, A>
 }
@@ -53,12 +53,12 @@ export interface MonadIO1<M extends URIS> {
 
 Added in v3.0.0
 
-## MonadIO2 (interface)
+## FromIO2 (interface)
 
 **Signature**
 
 ```ts
-export interface MonadIO2<M extends URIS2> {
+export interface FromIO2<M extends URIS2> {
   readonly URI: M
   readonly fromIO: <E, A>(fa: IO<A>) => Kind2<M, E, A>
 }
@@ -66,12 +66,12 @@ export interface MonadIO2<M extends URIS2> {
 
 Added in v3.0.0
 
-## MonadIO2C (interface)
+## FromIO2C (interface)
 
 **Signature**
 
 ```ts
-export interface MonadIO2C<M extends URIS2, E> {
+export interface FromIO2C<M extends URIS2, E> {
   readonly URI: M
   readonly fromIO: <A>(fa: IO<A>) => Kind2<M, E, A>
 }
@@ -79,12 +79,12 @@ export interface MonadIO2C<M extends URIS2, E> {
 
 Added in v3.0.0
 
-## MonadIO3 (interface)
+## FromIO3 (interface)
 
 **Signature**
 
 ```ts
-export interface MonadIO3<M extends URIS3> {
+export interface FromIO3<M extends URIS3> {
   readonly URI: M
   readonly fromIO: <R, E, A>(fa: IO<A>) => Kind3<M, R, E, A>
 }
@@ -92,12 +92,12 @@ export interface MonadIO3<M extends URIS3> {
 
 Added in v3.0.0
 
-## MonadIO3C (interface)
+## FromIO3C (interface)
 
 **Signature**
 
 ```ts
-export interface MonadIO3C<M extends URIS3, E> {
+export interface FromIO3C<M extends URIS3, E> {
   readonly URI: M
   readonly fromIO: <R, A>(fa: IO<A>) => Kind3<M, R, E, A>
 }
@@ -105,12 +105,12 @@ export interface MonadIO3C<M extends URIS3, E> {
 
 Added in v3.0.0
 
-## MonadIO4 (interface)
+## FromIO4 (interface)
 
 **Signature**
 
 ```ts
-export interface MonadIO4<M extends URIS4> {
+export interface FromIO4<M extends URIS4> {
   readonly URI: M
   readonly fromIO: <S, R, E, A>(fa: IO<A>) => Kind4<M, S, R, E, A>
 }

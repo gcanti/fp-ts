@@ -1,6 +1,6 @@
 ---
 title: IOEither.ts
-nav_order: 41
+nav_order: 42
 parent: Modules
 ---
 
@@ -26,13 +26,13 @@ Added in v3.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
+- [FromIO](#fromio)
+  - [fromIO](#fromio)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainW](#chainw)
-- [MonadIO](#monadio)
-  - [fromIO](#fromio)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -65,9 +65,9 @@ Added in v3.0.0
   - [ApplicativeSeq](#applicativeseq)
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
+  - [FromIO](#fromio-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [MonadIO](#monadio-1)
   - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -201,6 +201,18 @@ export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: IOEither<E, A>)
 
 Added in v3.0.0
 
+# FromIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <E, A>(fa: I.IO<A>) => IOEither<E, A>
+```
+
+Added in v3.0.0
+
 # Functor
 
 ## map
@@ -240,18 +252,6 @@ Less strict version of [`chain`](#chain).
 export declare const chainW: <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
 ) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
-```
-
-Added in v3.0.0
-
-# MonadIO
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <E, A>(fa: I.IO<A>) => IOEither<E, A>
 ```
 
 Added in v3.0.0
@@ -348,7 +348,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A>(ma: E.Either<E, A>) => IOEither<E, A>
+export declare const fromEither: <E, A>(e: E.Either<E, A>) => IOEither<E, A>
 ```
 
 Added in v3.0.0
@@ -578,6 +578,16 @@ export declare const FromEither: FromEither2<'IOEither'>
 
 Added in v3.0.0
 
+## FromIO
+
+**Signature**
+
+```ts
+export declare const FromIO: FromIO2<'IOEither'>
+```
+
+Added in v3.0.0
+
 ## Functor
 
 **Signature**
@@ -594,16 +604,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: Monad2<'IOEither'>
-```
-
-Added in v3.0.0
-
-## MonadIO
-
-**Signature**
-
-```ts
-export declare const MonadIO: MonadIO2<'IOEither'>
 ```
 
 Added in v3.0.0

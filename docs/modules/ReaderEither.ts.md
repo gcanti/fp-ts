@@ -359,7 +359,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A, R>(ma: E.Either<E, A>) => ReaderEither<R, E, A>
+export declare const fromEither: <E, A, R>(e: E.Either<E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
