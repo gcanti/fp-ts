@@ -76,7 +76,7 @@ Wrap a value into the type constructor.
 **Signature**
 
 ```ts
-export declare const of: <E, A>(a: A) => ReaderTask<E, A>
+export declare const of: <A, E>(a: A) => ReaderTask<E, A>
 ```
 
 Added in v3.0.0
@@ -215,7 +215,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A>
+export declare const asks: <R, A>(f: (r: R) => A) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -235,7 +235,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: <R, A = never>(ma: R.Reader<R, A>) => ReaderTask<R, A>
+export declare const fromReader: <R, A>(ma: R.Reader<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0

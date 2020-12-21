@@ -55,7 +55,7 @@ Added in v3.0.0
 
 ```ts
 export interface Pointed2<F extends URIS2> extends Functor2<F> {
-  readonly of: <E, A>(a: A) => Kind2<F, E, A>
+  readonly of: <A, E>(a: A) => Kind2<F, E, A>
 }
 ```
 
@@ -79,7 +79,7 @@ Added in v3.0.0
 
 ```ts
 export interface Pointed3<F extends URIS3> extends Functor3<F> {
-  readonly of: <R, E, A>(a: A) => Kind3<F, R, E, A>
+  readonly of: <A, R, E>(a: A) => Kind3<F, R, E, A>
 }
 ```
 
@@ -91,7 +91,7 @@ Added in v3.0.0
 
 ```ts
 export interface Pointed3C<F extends URIS3, E> extends Functor3C<F, E> {
-  readonly of: <R, A>(a: A) => Kind3<F, R, E, A>
+  readonly of: <A, R>(a: A) => Kind3<F, R, E, A>
 }
 ```
 
@@ -103,7 +103,7 @@ Added in v3.0.0
 
 ```ts
 export interface Pointed4<F extends URIS4> extends Functor4<F> {
-  readonly of: <S, R, E, A>(a: A) => Kind4<F, S, R, E, A>
+  readonly of: <A, S, R, E>(a: A) => Kind4<F, S, R, E, A>
 }
 ```
 

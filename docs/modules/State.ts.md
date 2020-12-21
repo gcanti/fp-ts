@@ -62,7 +62,7 @@ Wrap a value into the type constructor.
 **Signature**
 
 ```ts
-export declare const of: <E, A>(a: A) => State<E, A>
+export declare const of: <A, E>(a: A) => State<E, A>
 ```
 
 Added in v3.0.0

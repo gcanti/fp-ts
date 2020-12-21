@@ -11,8 +11,8 @@ import { pipe } from '../../src/function'
 
 // $ExpectType ReaderTask<{ a: string; } & { b: number; }, string | null>
 pipe(
-  _.right<{ a: string }, string, string>('a'),
-  _.getOrElseW(() => RT.of<{ b: number }, null>(null))
+  _.right<string, { a: string }, string>('a'),
+  _.getOrElseW(() => RT.of<null, { b: number }>(null))
 )
 
 //
@@ -21,8 +21,8 @@ pipe(
 
 // $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string | number, number>
 pipe(
-  _.right<{ a: string }, string, string>('a'),
-  _.chainW(() => _.right<{ b: number }, number, number>(1))
+  _.right<string, { a: string }, string>('a'),
+  _.chainW(() => _.right<number, { b: number }, number>(1))
 )
 
 //
@@ -61,10 +61,10 @@ pipe(
 
 // $ExpectType ReaderTaskEither<{ readonly a: number; } & { readonly b: string; }, string | number, { a: number; b: string; c: boolean; }>
 pipe(
-  _.right<{ readonly a: number }, string, number>(1),
+  _.right<number, { readonly a: number }, string>(1),
   _.bindTo('a'),
   _.bind('b', () => _.right('b')),
-  _.bindW('c', () => _.right<{ readonly b: string }, number, boolean>(true))
+  _.bindW('c', () => _.right<boolean, { readonly b: string }, number>(true))
 )
 
 //
@@ -73,10 +73,10 @@ pipe(
 
 // $ExpectType ReaderTaskEither<{ readonly a: number; } & { readonly b: string; }, string | number, { a: number; b: string; c: boolean; }>
 pipe(
-  _.right<{ readonly a: number }, string, number>(1),
+  _.right<number, { readonly a: number }, string>(1),
   _.bindTo('a'),
   _.apS('b', _.right('b')),
-  _.apSW('c', _.right<{ readonly b: string }, number, boolean>(true))
+  _.apSW('c', _.right<boolean, { readonly b: string }, number>(true))
 )
 
 //
@@ -86,8 +86,8 @@ pipe(
 // $ExpectType ReaderTaskEither<unknown, string, { a: number; b: string; }>
 pipe(
   _.Do,
-  _.bind('a', () => _.of<unknown, string, number>(1)),
-  _.bind('b', () => _.of<unknown, string, string>('b'))
+  _.bind('a', () => _.right<number, unknown, string>(1)),
+  _.bind('b', () => _.right<string, unknown, string>('b'))
 )
 
 //
@@ -96,7 +96,7 @@ pipe(
 
 // $ExpectType ReaderTaskEither<{ c: boolean; }, "a" | "b", number>
 pipe(
-  _.left<{ c: boolean }, 'a', number>('a'),
+  _.left<'a', { c: boolean }, number>('a'),
   _.filterOrElseW(
     (result) => result > 0,
     () => 'b' as const

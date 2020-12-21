@@ -91,23 +91,19 @@ export function ask_<M>(M: Pointed<M>): <R>() => Reader<R, HKT<M, R>> {
 /**
  * @since 3.0.0
  */
-export function asks_<M extends URIS2>(
-  M: Pointed2<M>
-): <R, E = never, A = never>(f: (r: R) => A) => Reader<R, Kind2<M, E, A>>
-export function asks_<M extends URIS>(M: Pointed1<M>): <R, A = never>(f: (r: R) => A) => Reader<R, Kind<M, A>>
-export function asks_<M>(M: Pointed<M>): <R, A = never>(f: (r: R) => A) => Reader<R, HKT<M, A>>
-export function asks_<M>(M: Pointed<M>): <R, A = never>(f: (r: R) => A) => Reader<R, HKT<M, A>> {
+export function asks_<M extends URIS2>(M: Pointed2<M>): <R, A, E>(f: (r: R) => A) => Reader<R, Kind2<M, E, A>>
+export function asks_<M extends URIS>(M: Pointed1<M>): <R, A>(f: (r: R) => A) => Reader<R, Kind<M, A>>
+export function asks_<M>(M: Pointed<M>): <R, A>(f: (r: R) => A) => Reader<R, HKT<M, A>>
+export function asks_<M>(M: Pointed<M>): <R, A>(f: (r: R) => A) => Reader<R, HKT<M, A>> {
   return (f) => (r) => pipe(M.of(r), M.map(f))
 }
 
 /**
  * @since 3.0.0
  */
-export function fromReader_<M extends URIS2>(
-  M: Pointed2<M>
-): <R, E = never, A = never>(ma: Reader<R, A>) => Reader<R, Kind2<M, E, A>>
-export function fromReader_<M extends URIS>(M: Pointed1<M>): <R, A = never>(ma: Reader<R, A>) => Reader<R, Kind<M, A>>
-export function fromReader_<M>(M: Pointed<M>): <R, A = never>(ma: Reader<R, A>) => Reader<R, HKT<M, A>>
-export function fromReader_<M>(M: Pointed<M>): <R, A = never>(ma: Reader<R, A>) => Reader<R, HKT<M, A>> {
+export function fromReader_<M extends URIS2>(M: Pointed2<M>): <R, A, E>(ma: Reader<R, A>) => Reader<R, Kind2<M, E, A>>
+export function fromReader_<M extends URIS>(M: Pointed1<M>): <R, A>(ma: Reader<R, A>) => Reader<R, Kind<M, A>>
+export function fromReader_<M>(M: Pointed<M>): <R, A>(ma: Reader<R, A>) => Reader<R, HKT<M, A>>
+export function fromReader_<M>(M: Pointed<M>): <R, A>(ma: Reader<R, A>) => Reader<R, HKT<M, A>> {
   return (ma) => (r) => M.of(ma(r))
 }

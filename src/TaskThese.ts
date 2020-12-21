@@ -33,7 +33,7 @@ export interface TaskThese<E, A> extends Task<These<E, A>> {}
  * @category constructors
  * @since 3.0.0
  */
-export const left: <E = never, A = never>(e: E) => TaskThese<E, A> =
+export const left: <E, A = never>(e: E) => TaskThese<E, A> =
   /*#__PURE__*/
   flow(TH.left, T.of)
 
@@ -41,7 +41,7 @@ export const left: <E = never, A = never>(e: E) => TaskThese<E, A> =
  * @category constructors
  * @since 3.0.0
  */
-export const right: <E = never, A = never>(a: A) => TaskThese<E, A> =
+export const right: <A, E = never>(a: A) => TaskThese<E, A> =
   /*#__PURE__*/
   flow(TH.right, T.of)
 
@@ -57,7 +57,7 @@ export const both: <E, A>(e: E, a: A) => TaskThese<E, A> =
  * @category constructors
  * @since 3.0.0
  */
-export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskThese<E, A> =
+export const rightTask: <A, E = never>(ma: Task<A>) => TaskThese<E, A> =
   /*#__PURE__*/
   T.map(TH.right)
 
@@ -65,7 +65,7 @@ export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskThese<E, A> =
  * @category constructors
  * @since 3.0.0
  */
-export const leftTask: <E = never, A = never>(me: Task<E>) => TaskThese<E, A> =
+export const leftTask: <E, A = never>(me: Task<E>) => TaskThese<E, A> =
   /*#__PURE__*/
   T.map(TH.left)
 
@@ -73,7 +73,7 @@ export const leftTask: <E = never, A = never>(me: Task<E>) => TaskThese<E, A> =
  * @category constructors
  * @since 3.0.0
  */
-export const rightIO: <E = never, A = never>(ma: IO<A>) => TaskThese<E, A> =
+export const rightIO: <A, E = never>(ma: IO<A>) => TaskThese<E, A> =
   /*#__PURE__*/
   flow(T.fromIO, rightTask)
 
@@ -81,7 +81,7 @@ export const rightIO: <E = never, A = never>(ma: IO<A>) => TaskThese<E, A> =
  * @category constructors
  * @since 3.0.0
  */
-export const leftIO: <E = never, A = never>(me: IO<E>) => TaskThese<E, A> =
+export const leftIO: <E, A = never>(me: IO<E>) => TaskThese<E, A> =
   /*#__PURE__*/
   flow(T.fromIO, leftTask)
 

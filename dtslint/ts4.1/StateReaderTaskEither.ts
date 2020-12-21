@@ -11,8 +11,8 @@ import { pipe } from '../../src/function'
 
 // $ExpectType StateReaderTaskEither<boolean, { a: string; } & { b: number; }, string | number, number>
 pipe(
-  _.right<boolean, { a: string }, string, string>('a'),
-  _.chainW(() => _.right<boolean, { b: number }, number, number>(1))
+  _.right<string, boolean, { a: string }, string>('a'),
+  _.chainW(() => _.right<number, boolean, { b: number }, number>(1))
 )
 
 //
@@ -42,7 +42,7 @@ pipe(
 // $ExpectType StateReaderTaskEither<string, string, string | number, number>
 pipe(
   _.right<string, string, string, string>('a'),
-  _.chainReaderTaskEitherKW(() => RTE.right<string, number, number>(1))
+  _.chainReaderTaskEitherKW(() => RTE.right<number, string, number>(1))
 )
 
 //
@@ -61,10 +61,10 @@ pipe(
 
 // $ExpectType StateReaderTaskEither<void, { readonly a: number; } & { readonly b: string; }, string | number, { a: number; b: string; c: boolean; }>
 pipe(
-  _.right<void, { readonly a: number }, string, number>(1),
+  _.right<number, void, { readonly a: number }, string>(1),
   _.bindTo('a'),
   _.bind('b', () => _.right('b')),
-  _.bindW('c', () => _.right<void, { readonly b: string }, number, boolean>(true))
+  _.bindW('c', () => _.right<boolean, void, { readonly b: string }, number>(true))
 )
 
 //
@@ -73,10 +73,10 @@ pipe(
 
 // $ExpectType StateReaderTaskEither<void, { readonly a: number; } & { readonly b: string; }, string | number, { a: number; b: string; c: boolean; }>
 pipe(
-  _.right<void, { readonly a: number }, string, number>(1),
+  _.right<number, void, { readonly a: number }, string>(1),
   _.bindTo('a'),
   _.apS('b', _.right('b')),
-  _.apSW('c', _.right<void, { readonly b: string }, number, boolean>(true))
+  _.apSW('c', _.right<boolean, void, { readonly b: string }, number>(true))
 )
 
 //
@@ -85,7 +85,7 @@ pipe(
 
 // $ExpectType StateReaderTaskEither<{ d: Date; }, { c: boolean; }, "a" | "b", number>
 pipe(
-  _.left<{ d: Date }, { c: boolean }, 'a', number>('a'),
+  _.left<'a', { d: Date }, { c: boolean }, number>('a'),
   _.filterOrElseW(
     (result) => result > 0,
     () => 'b' as const

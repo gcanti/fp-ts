@@ -59,7 +59,7 @@ export type These<E, A> = Either<E, A> | Both<E, A>
  * @category constructors
  * @since 3.0.0
  */
-export function left<E = never, A = never>(left: E): These<E, A> {
+export function left<E, A = never>(left: E): These<E, A> {
   return { _tag: 'Left', left }
 }
 
@@ -67,7 +67,7 @@ export function left<E = never, A = never>(left: E): These<E, A> {
  * @category constructors
  * @since 3.0.0
  */
-export function right<E = never, A = never>(right: A): These<E, A> {
+export function right<A, E = never>(right: A): These<E, A> {
   return { _tag: 'Right', right }
 }
 

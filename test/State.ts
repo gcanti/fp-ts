@@ -42,11 +42,11 @@ describe('State', () => {
   })
 
   it('evaluate', () => {
-    assert.deepStrictEqual(pipe(_.of<number, string>('a'), _.evaluate(0)), 'a')
+    assert.deepStrictEqual(pipe(_.of<string, number>('a'), _.evaluate(0)), 'a')
   })
 
   it('execute', () => {
-    assert.deepStrictEqual(pipe(_.of<number, string>('a'), _.execute(0)), 0)
+    assert.deepStrictEqual(pipe(_.of<string, number>('a'), _.execute(0)), 0)
   })
 
   it('put', () => {

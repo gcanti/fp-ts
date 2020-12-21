@@ -74,7 +74,7 @@ describe('TaskEither', () => {
   it('chainFirstW', async () => {
     assert.deepStrictEqual(
       await pipe(
-        _.right<number, string>('foo'),
+        _.right<string, number>('foo'),
         _.chainFirstW((a) => (a.length > 2 ? _.right(a.length) : _.left('foo')))
       )(),
       E.right('foo')
@@ -158,7 +158,7 @@ describe('TaskEither', () => {
 
     it('partition', async () => {
       const { left, right } = pipe(
-        _.of<ReadonlyArray<string>, string>('a'),
+        _.of<string, ReadonlyArray<string>>('a'),
         F.partition((s) => s.length > 2)
       )
       assert.deepStrictEqual(await left(), E.right('a'))
@@ -167,7 +167,7 @@ describe('TaskEither', () => {
 
     it('partitionMap', async () => {
       const { left, right } = pipe(
-        _.of<ReadonlyArray<string>, string>('a'),
+        _.of<string, ReadonlyArray<string>>('a'),
         F.partitionMap((s) => (s.length > 2 ? E.right(s.length) : E.left(false)))
       )
       assert.deepStrictEqual(await left(), E.right(false))
@@ -433,7 +433,7 @@ describe('TaskEither', () => {
   it('do notation', async () => {
     assert.deepStrictEqual(
       await pipe(
-        _.right<string, number>(1),
+        _.right<number, string>(1),
         _.bindTo('a'),
         _.bind('b', () => _.right('b'))
       )(),
@@ -443,13 +443,13 @@ describe('TaskEither', () => {
 
   it('apS', async () => {
     assert.deepStrictEqual(
-      await pipe(_.right<string, number>(1), _.bindTo('a'), _.apS('b', _.right('b')))(),
+      await pipe(_.right<number, string>(1), _.bindTo('a'), _.apS('b', _.right('b')))(),
       E.right({ a: 1, b: 'b' })
     )
   })
 
   it('apT', async () => {
-    assert.deepStrictEqual(await pipe(_.right<string, number>(1), _.tupled, _.apT(_.right('b')))(), E.right([1, 'b']))
+    assert.deepStrictEqual(await pipe(_.right<number, string>(1), _.tupled, _.apT(_.right('b')))(), E.right([1, 'b']))
   })
 
   describe('array utils', () => {

@@ -74,7 +74,7 @@ export const fromTaskEither: <R, E, A>(ma: TaskEither<E, A>) => ReaderTaskEither
  * @category constructors
  * @since 3.0.0
  */
-export const left: <R, E = never, A = never>(e: E) => ReaderTaskEither<R, E, A> =
+export const left: <E, R, A = never>(e: E) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
   left_(RT.Pointed)
 
@@ -82,7 +82,7 @@ export const left: <R, E = never, A = never>(e: E) => ReaderTaskEither<R, E, A> 
  * @category constructors
  * @since 3.0.0
  */
-export const right: <R, E = never, A = never>(a: A) => ReaderTaskEither<R, E, A> =
+export const right: <A, R, E = never>(a: A) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
   right_(RT.Pointed)
 
@@ -90,7 +90,7 @@ export const right: <R, E = never, A = never>(a: A) => ReaderTaskEither<R, E, A>
  * @category constructors
  * @since 3.0.0
  */
-export const rightTask: <R, E = never, A = never>(ma: Task<A>) => ReaderTaskEither<R, E, A> =
+export const rightTask: <A, R, E = never>(ma: Task<A>) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
   flow(TE.rightTask, fromTaskEither)
 
@@ -98,7 +98,7 @@ export const rightTask: <R, E = never, A = never>(ma: Task<A>) => ReaderTaskEith
  * @category constructors
  * @since 3.0.0
  */
-export const leftTask: <R, E = never, A = never>(me: Task<E>) => ReaderTaskEither<R, E, A> =
+export const leftTask: <E, R, A = never>(me: Task<E>) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
   flow(TE.leftTask, fromTaskEither)
 
@@ -106,21 +106,19 @@ export const leftTask: <R, E = never, A = never>(me: Task<E>) => ReaderTaskEithe
  * @category constructors
  * @since 3.0.0
  */
-export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderTaskEither<R, E, A> = (ma) =>
-  flow(ma, TE.right)
+export const rightReader: <R, A, E = never>(ma: Reader<R, A>) => ReaderTaskEither<R, E, A> = (ma) => flow(ma, TE.right)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderTaskEither<R, E, A> = (me) =>
-  flow(me, TE.left)
+export const leftReader: <R, E, A = never>(me: Reader<R, E>) => ReaderTaskEither<R, E, A> = (me) => flow(me, TE.left)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const rightReaderTask: <R, E = never, A = never>(ma: ReaderTask<R, A>) => ReaderTaskEither<R, E, A> =
+export const rightReaderTask: <R, A, E = never>(ma: ReaderTask<R, A>) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
   rightF_(RT.Functor)
 
@@ -128,7 +126,7 @@ export const rightReaderTask: <R, E = never, A = never>(ma: ReaderTask<R, A>) =>
  * @category constructors
  * @since 3.0.0
  */
-export const leftReaderTask: <R, E = never, A = never>(me: ReaderTask<R, E>) => ReaderTaskEither<R, E, A> =
+export const leftReaderTask: <R, E, A = never>(me: ReaderTask<R, E>) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
   leftF_(RT.Functor)
 
@@ -136,7 +134,7 @@ export const leftReaderTask: <R, E = never, A = never>(me: ReaderTask<R, E>) => 
  * @category constructors
  * @since 3.0.0
  */
-export const fromIOEither: <R, E, A>(ma: IOEither<E, A>) => ReaderTaskEither<R, E, A> =
+export const fromIOEither: <E, A, R>(ma: IOEither<E, A>) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
   flow(TE.fromIOEither, fromTaskEither)
 
@@ -151,7 +149,7 @@ export const fromReaderEither = <R, E, A>(ma: ReaderEither<R, E, A>): ReaderTask
  * @category constructors
  * @since 3.0.0
  */
-export const rightIO: <R, E = never, A = never>(ma: IO<A>) => ReaderTaskEither<R, E, A> =
+export const rightIO: <A, R, E = never>(ma: IO<A>) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
   flow(TE.rightIO, fromTaskEither)
 
@@ -159,7 +157,7 @@ export const rightIO: <R, E = never, A = never>(ma: IO<A>) => ReaderTaskEither<R
  * @category constructors
  * @since 3.0.0
  */
-export const leftIO: <R, E = never, A = never>(me: IO<E>) => ReaderTaskEither<R, E, A> =
+export const leftIO: <E, R, A = never>(me: IO<E>) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
   flow(TE.leftIO, fromTaskEither)
 
@@ -173,8 +171,7 @@ export const ask: <R, E = never>() => ReaderTaskEither<R, E, R> = () => TE.right
  * @category constructors
  * @since 3.0.0
  */
-export const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A> = (f) =>
-  flow(TE.right, TE.map(f))
+export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A> = (f) => flow(TE.right, TE.map(f))
 
 /**
  * Derivable from `MonadThrow`.
@@ -182,7 +179,7 @@ export const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderTaskEither
  * @category constructors
  * @since 3.0.0
  */
-export const fromEither: <R, E, A>(ma: Either<E, A>) => ReaderTaskEither<R, E, A> =
+export const fromEither: <E, A, R>(ma: Either<E, A>) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
   E.fold(left, (a) => right(a))
 

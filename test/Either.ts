@@ -70,19 +70,19 @@ describe('Either', () => {
     })
 
     it('chain', () => {
-      const f = (s: string) => _.right<string, number>(s.length)
+      const f = (s: string): _.Either<string, number> => _.right(s.length)
       assert.deepStrictEqual(pipe(_.right('abc'), _.chain(f)), _.right(3))
       assert.deepStrictEqual(pipe(_.left<string, string>('maError'), _.chain(f)), _.left('maError'))
     })
 
     it('chainFirst', () => {
-      const f = (s: string) => _.right<string, number>(s.length)
+      const f = (s: string): _.Either<string, number> => _.right(s.length)
       assert.deepStrictEqual(pipe(_.right('abc'), _.chainFirst(f)), _.right('abc'))
       assert.deepStrictEqual(pipe(_.left<string, string>('maError'), _.chainFirst(f)), _.left('maError'))
     })
 
     it('chainFirstW', () => {
-      const f = (s: string) => _.right<boolean, number>(s.length)
+      const f = (s: string): _.Either<boolean, number> => _.right(s.length)
       assert.deepStrictEqual(pipe(_.right('abc'), _.chainFirstW(f)), _.right('abc'))
       assert.deepStrictEqual(pipe(_.left<string, string>('maError'), _.chainFirstW(f)), _.left('maError'))
     })
@@ -571,7 +571,7 @@ describe('Either', () => {
   it('do notation', () => {
     assert.deepStrictEqual(
       pipe(
-        _.right<string, number>(1),
+        _.right<number, string>(1),
         _.bindTo('a'),
         _.bind('b', () => _.right('b'))
       ),
@@ -581,13 +581,13 @@ describe('Either', () => {
 
   it('apS', () => {
     assert.deepStrictEqual(
-      pipe(_.right<string, number>(1), _.bindTo('a'), _.apS('b', _.right('b'))),
+      pipe(_.right<number, string>(1), _.bindTo('a'), _.apS('b', _.right('b'))),
       _.right({ a: 1, b: 'b' })
     )
   })
 
   it('apT', () => {
-    assert.deepStrictEqual(pipe(_.right<string, number>(1), _.tupled, _.apT(_.right('b'))), _.right([1, 'b']))
+    assert.deepStrictEqual(pipe(_.right<number, string>(1), _.tupled, _.apT(_.right('b'))), _.right([1, 'b']))
   })
 
   it('fromNullableK', () => {

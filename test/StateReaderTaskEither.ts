@@ -321,7 +321,7 @@ describe('StateReaderTaskEither', () => {
   it('do notation', async () => {
     assert.deepStrictEqual(
       await pipe(
-        _.right<void, void, string, number>(1),
+        _.right<number, void, void, string>(1),
         _.bindTo('a'),
         _.bind('b', () => _.right('b'))
       )(undefined)(undefined)(),
@@ -331,7 +331,7 @@ describe('StateReaderTaskEither', () => {
 
   it('apS', async () => {
     assert.deepStrictEqual(
-      await pipe(_.right<void, void, string, number>(1), _.bindTo('a'), _.apS('b', _.right('b')))(undefined)(
+      await pipe(_.right<number, void, void, string>(1), _.bindTo('a'), _.apS('b', _.right('b')))(undefined)(
         undefined
       )(),
       E.right([{ a: 1, b: 'b' }, undefined])
@@ -340,7 +340,7 @@ describe('StateReaderTaskEither', () => {
 
   it('apT', async () => {
     assert.deepStrictEqual(
-      await pipe(_.right<{}, {}, string, number>(1), _.tupled, _.apT(_.right('b')))({})({})(),
+      await pipe(_.right<number, {}, {}, string>(1), _.tupled, _.apT(_.right('b')))({})({})(),
       E.right([[1, 'b'], {}])
     )
   })

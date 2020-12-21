@@ -134,7 +134,7 @@ Equivalent to [`right`](#right).
 **Signature**
 
 ```ts
-export declare const of: <R, E, A>(a: A) => ReaderEither<R, E, A>
+export declare const of: <A, R, E>(a: A) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -365,7 +365,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderEither<R, E, A>
+export declare const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -377,7 +377,7 @@ Derivable from `MonadThrow`.
 **Signature**
 
 ```ts
-export declare const fromEither: <R, E, A>(ma: E.Either<E, A>) => ReaderEither<R, E, A>
+export declare const fromEither: <E, A, R>(ma: E.Either<E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -414,7 +414,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const left: <R, E = never, A = never>(e: E) => ReaderEither<R, E, A>
+export declare const left: <E, R, A = never>(e: E) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -424,7 +424,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftReader: <R, E = never, A = never>(me: R.Reader<R, E>) => ReaderEither<R, E, A>
+export declare const leftReader: <R, E, A = never>(me: R.Reader<R, E>) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -434,7 +434,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const right: <R, E = never, A = never>(a: A) => ReaderEither<R, E, A>
+export declare const right: <A, R, E = never>(a: A) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -444,7 +444,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightReader: <R, E = never, A = never>(ma: R.Reader<R, A>) => ReaderEither<R, E, A>
+export declare const rightReader: <R, A, E = never>(ma: R.Reader<R, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0

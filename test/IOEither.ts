@@ -11,10 +11,10 @@ import { semigroupSum } from '../src/Semigroup'
 describe('IOEither', () => {
   describe('pipeables', () => {
     it('alt', () => {
-      const r1 = _.right<string, number>(1)
-      const r2 = _.right<string, number>(2)
-      const l1 = _.left<string, number>('foo')
-      const l2 = _.left<string, number>('bar')
+      const r1: _.IOEither<string, number> = _.right(1)
+      const r2: _.IOEither<string, number> = _.right(2)
+      const l1: _.IOEither<string, number> = _.left('foo')
+      const l2: _.IOEither<string, number> = _.left('bar')
 
       assert.deepStrictEqual(
         pipe(
@@ -73,9 +73,9 @@ describe('IOEither', () => {
     })
 
     it('chainFirstW', () => {
-      const f = (a: string) => (a.length > 2 ? _.right(a.length) : _.left('foo'))
-      assert.deepStrictEqual(pipe(_.right<boolean, string>('foo'), _.chainFirstW(f))(), E.right('foo'))
-      assert.deepStrictEqual(pipe(_.right<boolean, string>('a'), _.chainFirstW(f))(), E.left('foo'))
+      const f = (a: string): _.IOEither<string, number> => (a.length > 2 ? _.right(a.length) : _.left('foo'))
+      assert.deepStrictEqual(pipe(_.right<string, boolean>('foo'), _.chainFirstW(f))(), E.right('foo'))
+      assert.deepStrictEqual(pipe(_.right<string, boolean>('a'), _.chainFirstW(f))(), E.left('foo'))
     })
 
     it('flatten', () => {
@@ -211,12 +211,12 @@ describe('IOEither', () => {
     // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const tuple = <A>(a: A) => <B>(b: B) => <C>(c: C): readonly [A, B, C] => [a, b, c]
-    const a = _.rightIO<string, number>(() => log.push('a'))
+    const a = _.rightIO<number, string>(() => log.push('a'))
     const b = _.leftIO<string, number>(() => {
       log.push('b')
       return 'error'
     })
-    const c = _.rightIO<string, number>(() => log.push('c'))
+    const c = _.rightIO<number, string>(() => log.push('c'))
     const A = _.ApplicativePar
     assert.deepStrictEqual(pipe(a, A.map(tuple), A.ap(b), A.ap(c))(), E.left('error'))
     assert.deepStrictEqual(log, ['a', 'b', 'c'])
@@ -226,12 +226,12 @@ describe('IOEither', () => {
     // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const tuple = <A>(a: A) => <B>(b: B) => <C>(c: C): readonly [A, B, C] => [a, b, c]
-    const a = _.rightIO<string, number>(() => log.push('a'))
+    const a = _.rightIO<number, string>(() => log.push('a'))
     const b = _.leftIO<string, number>(() => {
       log.push('b')
       return 'error'
     })
-    const c = _.rightIO<string, number>(() => log.push('c'))
+    const c = _.rightIO<number, string>(() => log.push('c'))
     const A = _.ApplicativeSeq
     assert.deepStrictEqual(pipe(a, A.map(tuple), A.ap(b), A.ap(c))(), E.left('error'))
     assert.deepStrictEqual(log, ['a', 'b'])
@@ -354,7 +354,7 @@ describe('IOEither', () => {
 
     it('partition', () => {
       const { left, right } = pipe(
-        _.of<ReadonlyArray<string>, string>('a'),
+        _.of<string, ReadonlyArray<string>>('a'),
         F.partition((s) => s.length > 2)
       )
       assert.deepStrictEqual(left(), E.right('a'))
@@ -363,7 +363,7 @@ describe('IOEither', () => {
 
     it('partitionMap', () => {
       const { left, right } = pipe(
-        _.of<ReadonlyArray<string>, string>('a'),
+        _.of<string, ReadonlyArray<string>>('a'),
         F.partitionMap((s) => (s.length > 2 ? E.right(s.length) : E.left(false)))
       )
       assert.deepStrictEqual(left(), E.right(false))
@@ -380,7 +380,7 @@ describe('IOEither', () => {
   it('do notation', () => {
     assert.deepStrictEqual(
       pipe(
-        _.right<string, number>(1),
+        _.right<number, string>(1),
         _.bindTo('a'),
         _.bind('b', () => _.right('b'))
       )(),
@@ -390,13 +390,13 @@ describe('IOEither', () => {
 
   it('apS', () => {
     assert.deepStrictEqual(
-      pipe(_.right<string, number>(1), _.bindTo('a'), _.apS('b', _.right('b')))(),
+      pipe(_.right<number, string>(1), _.bindTo('a'), _.apS('b', _.right('b')))(),
       E.right({ a: 1, b: 'b' })
     )
   })
 
   it('apT', () => {
-    assert.deepStrictEqual(pipe(_.right<string, number>(1), _.tupled, _.apT(_.right('b')))(), E.right([1, 'b']))
+    assert.deepStrictEqual(pipe(_.right<number, string>(1), _.tupled, _.apT(_.right('b')))(), E.right([1, 'b']))
   })
 
   describe('array utils', () => {

@@ -159,7 +159,7 @@ Equivalent to [`right`](#right).
 **Signature**
 
 ```ts
-export declare const of: <R, E, A>(a: A) => ReaderTaskEither<R, E, A>
+export declare const of: <A, R, E>(a: A) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -492,7 +492,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A>
+export declare const asks: <R, A, E = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -504,7 +504,7 @@ Derivable from `MonadThrow`.
 **Signature**
 
 ```ts
-export declare const fromEither: <R, E, A>(ma: E.Either<E, A>) => ReaderTaskEither<R, E, A>
+export declare const fromEither: <E, A, R>(ma: E.Either<E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -514,7 +514,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIOEither: <R, E, A>(ma: IOEither<E, A>) => ReaderTaskEither<R, E, A>
+export declare const fromIOEither: <E, A, R>(ma: IOEither<E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -571,7 +571,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const left: <R, E = never, A = never>(e: E) => ReaderTaskEither<R, E, A>
+export declare const left: <E, R, A = never>(e: E) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -581,7 +581,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftIO: <R, E = never, A = never>(me: IO<E>) => ReaderTaskEither<R, E, A>
+export declare const leftIO: <E, R, A = never>(me: IO<E>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -591,7 +591,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftReader: <R, E = never, A = never>(me: R.Reader<R, E>) => ReaderTaskEither<R, E, A>
+export declare const leftReader: <R, E, A = never>(me: R.Reader<R, E>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -601,7 +601,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftReaderTask: <R, E = never, A = never>(me: RT.ReaderTask<R, E>) => ReaderTaskEither<R, E, A>
+export declare const leftReaderTask: <R, E, A = never>(me: RT.ReaderTask<R, E>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -611,7 +611,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftTask: <R, E = never, A = never>(me: T.Task<E>) => ReaderTaskEither<R, E, A>
+export declare const leftTask: <E, R, A = never>(me: T.Task<E>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -621,7 +621,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const right: <R, E = never, A = never>(a: A) => ReaderTaskEither<R, E, A>
+export declare const right: <A, R, E = never>(a: A) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -631,7 +631,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightIO: <R, E = never, A = never>(ma: IO<A>) => ReaderTaskEither<R, E, A>
+export declare const rightIO: <A, R, E = never>(ma: IO<A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -641,7 +641,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightReader: <R, E = never, A = never>(ma: R.Reader<R, A>) => ReaderTaskEither<R, E, A>
+export declare const rightReader: <R, A, E = never>(ma: R.Reader<R, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -651,7 +651,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightReaderTask: <R, E = never, A = never>(ma: RT.ReaderTask<R, A>) => ReaderTaskEither<R, E, A>
+export declare const rightReaderTask: <R, A, E = never>(ma: RT.ReaderTask<R, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -661,7 +661,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightTask: <R, E = never, A = never>(ma: T.Task<A>) => ReaderTaskEither<R, E, A>
+export declare const rightTask: <A, R, E = never>(ma: T.Task<A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0

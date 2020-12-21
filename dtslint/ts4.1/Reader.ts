@@ -7,8 +7,8 @@ import { pipe } from '../../src/function'
 
 // $ExpectType Reader<{ a: string; } & { b: number; }, number>
 pipe(
-  _.of<{ a: string }, string>('a'),
-  _.chainW(() => _.of<{ b: number }, number>(1))
+  _.of<string, { a: string }>('a'),
+  _.chainW(() => _.of<number, { b: number }>(1))
 )
 
 //
@@ -18,6 +18,6 @@ pipe(
 // $ExpectType Reader<string, { a: number; b: string; }>
 pipe(
   _.Do,
-  _.bind('a', () => _.of<string, number>(1)),
+  _.bind('a', () => _.of<number, string>(1)),
   _.bind('b', () => _.of<string, string>('b'))
 )

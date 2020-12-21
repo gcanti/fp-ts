@@ -51,8 +51,8 @@ describe('ReaderEither', () => {
     })
 
     it('chainFirstW', () => {
-      const f = (n: number) => _.right<unknown, boolean, number>(n * 2)
-      assert.deepStrictEqual(pipe(_.right<unknown, string, number>(1), _.chainFirstW(f))({}), E.right(1))
+      const f = (n: number): _.ReaderEither<unknown, boolean, number> => _.right(n * 2)
+      assert.deepStrictEqual(pipe(_.right<number, unknown, string>(1), _.chainFirstW(f))({}), E.right(1))
     })
 
     it('flatten', () => {
@@ -190,7 +190,7 @@ describe('ReaderEither', () => {
   it('do notation', () => {
     assert.deepStrictEqual(
       pipe(
-        _.right<void, string, number>(1),
+        _.right<number, void, string>(1),
         _.bindTo('a'),
         _.bind('b', () => _.right('b'))
       )(undefined),
@@ -200,13 +200,13 @@ describe('ReaderEither', () => {
 
   it('apS', () => {
     assert.deepStrictEqual(
-      pipe(_.right<void, string, number>(1), _.bindTo('a'), _.apS('b', _.right('b')))(undefined),
+      pipe(_.right<number, void, string>(1), _.bindTo('a'), _.apS('b', _.right('b')))(undefined),
       E.right({ a: 1, b: 'b' })
     )
   })
 
   it('apT', () => {
-    assert.deepStrictEqual(pipe(_.right<{}, string, number>(1), _.tupled, _.apT(_.right('b')))({}), E.right([1, 'b']))
+    assert.deepStrictEqual(pipe(_.right<number, {}, string>(1), _.tupled, _.apT(_.right('b')))({}), E.right([1, 'b']))
   })
 
   describe('array utils', () => {

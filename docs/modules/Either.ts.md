@@ -173,7 +173,7 @@ Equivalent to [`right`](#right).
 **Signature**
 
 ```ts
-export declare const of: <E, A>(a: A) => Either<E, A>
+export declare const of: <A, E>(a: A) => Either<E, A>
 ```
 
 **Example**
@@ -675,7 +675,7 @@ structure.
 **Signature**
 
 ```ts
-export declare const left: <E = never, A = never>(e: E) => Either<E, A>
+export declare const left: <E, A = never>(e: E) => Either<E, A>
 ```
 
 Added in v3.0.0
@@ -713,7 +713,7 @@ of this structure.
 **Signature**
 
 ```ts
-export declare const right: <E = never, A = never>(a: A) => Either<E, A>
+export declare const right: <A, E = never>(a: A) => Either<E, A>
 ```
 
 Added in v3.0.0

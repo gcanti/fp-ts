@@ -47,13 +47,13 @@ export interface StateReaderTaskEither<S, R, E, A> {
  * @category constructors
  * @since 3.0.0
  */
-export const left: <S, R, E = never, A = never>(e: E) => StateReaderTaskEither<S, R, E, A> = (e) => () => RTE.left(e)
+export const left: <E, S, R, A = never>(e: E) => StateReaderTaskEither<S, R, E, A> = (e) => () => RTE.left(e)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const right: <S, R, E = never, A = never>(a: A) => StateReaderTaskEither<S, R, E, A> =
+export const right: <A, S, R, E = never>(a: A) => StateReaderTaskEither<S, R, E, A> =
   /*#__PURE__*/
   of_(RTE.Pointed)
 
@@ -61,7 +61,7 @@ export const right: <S, R, E = never, A = never>(a: A) => StateReaderTaskEither<
  * @category constructors
  * @since 3.0.0
  */
-export function rightTask<S, R, E = never, A = never>(ma: Task<A>): StateReaderTaskEither<S, R, E, A> {
+export function rightTask<A, S, R, E = never>(ma: Task<A>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.rightTask(ma))
 }
 
@@ -69,7 +69,7 @@ export function rightTask<S, R, E = never, A = never>(ma: Task<A>): StateReaderT
  * @category constructors
  * @since 3.0.0
  */
-export function leftTask<S, R, E = never, A = never>(me: Task<E>): StateReaderTaskEither<S, R, E, A> {
+export function leftTask<E, S, R, A = never>(me: Task<E>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.leftTask(me))
 }
 
@@ -77,7 +77,7 @@ export function leftTask<S, R, E = never, A = never>(me: Task<E>): StateReaderTa
  * @category constructors
  * @since 3.0.0
  */
-export function fromTaskEither<S, R, E, A>(ma: TaskEither<E, A>): StateReaderTaskEither<S, R, E, A> {
+export function fromTaskEither<E, A, S, R>(ma: TaskEither<E, A>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.fromTaskEither(ma))
 }
 
@@ -85,7 +85,7 @@ export function fromTaskEither<S, R, E, A>(ma: TaskEither<E, A>): StateReaderTas
  * @category constructors
  * @since 3.0.0
  */
-export function rightReader<S, R, E = never, A = never>(ma: Reader<R, A>): StateReaderTaskEither<S, R, E, A> {
+export function rightReader<R, A, S, E = never>(ma: Reader<R, A>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.rightReader(ma))
 }
 
@@ -93,7 +93,7 @@ export function rightReader<S, R, E = never, A = never>(ma: Reader<R, A>): State
  * @category constructors
  * @since 3.0.0
  */
-export function leftReader<S, R, E = never, A = never>(me: Reader<R, E>): StateReaderTaskEither<S, R, E, A> {
+export function leftReader<R, E, S, A = never>(me: Reader<R, E>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.leftReader(me))
 }
 
@@ -101,7 +101,7 @@ export function leftReader<S, R, E = never, A = never>(me: Reader<R, E>): StateR
  * @category constructors
  * @since 3.0.0
  */
-export function fromIOEither<S, R, E, A>(ma: IOEither<E, A>): StateReaderTaskEither<S, R, E, A> {
+export function fromIOEither<E, A, S, R>(ma: IOEither<E, A>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.fromIOEither(ma))
 }
 
@@ -109,7 +109,7 @@ export function fromIOEither<S, R, E, A>(ma: IOEither<E, A>): StateReaderTaskEit
  * @category constructors
  * @since 3.0.0
  */
-export function fromReaderEither<S, R, E, A>(ma: ReaderEither<R, E, A>): StateReaderTaskEither<S, R, E, A> {
+export function fromReaderEither<R, E, A, S>(ma: ReaderEither<R, E, A>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.fromReaderEither(ma))
 }
 
@@ -117,7 +117,7 @@ export function fromReaderEither<S, R, E, A>(ma: ReaderEither<R, E, A>): StateRe
  * @category constructors
  * @since 3.0.0
  */
-export function rightIO<S, R, E = never, A = never>(ma: IO<A>): StateReaderTaskEither<S, R, E, A> {
+export function rightIO<A, S, R, E = never>(ma: IO<A>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.rightIO(ma))
 }
 
@@ -125,7 +125,7 @@ export function rightIO<S, R, E = never, A = never>(ma: IO<A>): StateReaderTaskE
  * @category constructors
  * @since 3.0.0
  */
-export function leftIO<S, R, E = never, A = never>(me: IO<E>): StateReaderTaskEither<S, R, E, A> {
+export function leftIO<E, S, R, A = never>(me: IO<E>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.leftIO(me))
 }
 
@@ -133,16 +133,15 @@ export function leftIO<S, R, E = never, A = never>(me: IO<E>): StateReaderTaskEi
  * @category constructors
  * @since 3.0.0
  */
-export const rightState: <S, R, E = never, A = never>(ma: State<S, A>) => StateReaderTaskEither<S, R, E, A> = (sa) =>
+export const rightState: <S, A, R, E = never>(ma: State<S, A>) => StateReaderTaskEither<S, R, E, A> = (sa) =>
   flow(sa, RTE.right)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const leftState: <S, R, E = never, A = never>(me: State<S, E>) => StateReaderTaskEither<S, R, E, A> = (me) => (
-  s
-) => RTE.left(me(s)[0])
+export const leftState: <S, E, R, A = never>(me: State<S, E>) => StateReaderTaskEither<S, R, E, A> = (me) => (s) =>
+  RTE.left(me(s)[0])
 
 /**
  * @category constructors
@@ -188,7 +187,7 @@ export const modify: <S, R, E = never>(f: (s: S) => S) => StateReaderTaskEither<
  * @category constructors
  * @since 3.0.0
  */
-export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTaskEither<S, R, E, A> =
+export const gets: <S, A, R, E = never>(f: (s: S) => A) => StateReaderTaskEither<S, R, E, A> =
   /*#__PURE__*/
   gets_(RTE.Pointed)
 
@@ -206,7 +205,7 @@ export const fromState: <S, A, R, E>(sa: State<S, A>) => StateReaderTaskEither<S
  * @category constructors
  * @since 3.0.0
  */
-export const fromEither: <S, R, E, A>(ma: Either<E, A>) => StateReaderTaskEither<S, R, E, A> =
+export const fromEither: <E, A, S, R>(ma: Either<E, A>) => StateReaderTaskEither<S, R, E, A> =
   /*#__PURE__*/
   E.fold((e) => left(e), right)
 

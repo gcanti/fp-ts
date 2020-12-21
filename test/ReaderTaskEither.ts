@@ -47,8 +47,9 @@ describe('ReaderTaskEither', () => {
     })
 
     it('chainFirstW', async () => {
-      const f = (a: string) => (a.length > 2 ? _.right(a.length) : _.left('b'))
-      assert.deepStrictEqual(await pipe(_.right<object, number, string>('aaa'), _.chainFirstW(f))({})(), E.right('aaa'))
+      const f = (a: string): _.ReaderTaskEither<unknown, string, number> =>
+        a.length > 2 ? _.right(a.length) : _.left('b')
+      assert.deepStrictEqual(await pipe(_.right<string, object, number>('aaa'), _.chainFirstW(f))({})(), E.right('aaa'))
     })
 
     it('flatten', async () => {
@@ -378,7 +379,7 @@ describe('ReaderTaskEither', () => {
   it('do notation', async () => {
     assert.deepStrictEqual(
       await pipe(
-        _.right<void, string, number>(1),
+        _.right<number, void, string>(1),
         _.bindTo('a'),
         _.bind('b', () => _.right('b'))
       )(undefined)(),
@@ -388,14 +389,14 @@ describe('ReaderTaskEither', () => {
 
   it('apS', async () => {
     assert.deepStrictEqual(
-      await pipe(_.right<void, string, number>(1), _.bindTo('a'), _.apS('b', _.right('b')))(undefined)(),
+      await pipe(_.right<number, void, string>(1), _.bindTo('a'), _.apS('b', _.right('b')))(undefined)(),
       E.right({ a: 1, b: 'b' })
     )
   })
 
   it('apT', async () => {
     assert.deepStrictEqual(
-      await pipe(_.right<{}, string, number>(1), _.tupled, _.apT(_.right('b')))({})(),
+      await pipe(_.right<number, {}, string>(1), _.tupled, _.apT(_.right('b')))({})(),
       E.right([1, 'b'])
     )
   })

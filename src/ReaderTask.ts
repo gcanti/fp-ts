@@ -44,7 +44,7 @@ export const fromTask: <R, A>(ma: Task<A>) => ReaderTask<R, A> = R.of
  * @category constructors
  * @since 3.0.0
  */
-export const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A> =
+export const fromReader: <R, A>(ma: Reader<R, A>) => ReaderTask<R, A> =
   /*#__PURE__*/
   fromReader_(T.Pointed)
 
@@ -68,7 +68,7 @@ export const ask: <R>() => ReaderTask<R, R> =
  * @category constructors
  * @since 3.0.0
  */
-export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> =
+export const asks: <R, A>(f: (r: R) => A) => ReaderTask<R, A> =
   /*#__PURE__*/
   asks_(T.Pointed)
 

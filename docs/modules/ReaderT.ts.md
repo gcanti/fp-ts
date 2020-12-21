@@ -62,11 +62,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function asks_<M extends URIS2>(
-  M: Pointed2<M>
-): <R, E = never, A = never>(f: (r: R) => A) => Reader<R, Kind2<M, E, A>>
-export declare function asks_<M extends URIS>(M: Pointed1<M>): <R, A = never>(f: (r: R) => A) => Reader<R, Kind<M, A>>
-export declare function asks_<M>(M: Pointed<M>): <R, A = never>(f: (r: R) => A) => Reader<R, HKT<M, A>>
+export declare function asks_<M extends URIS2>(M: Pointed2<M>): <R, A, E>(f: (r: R) => A) => Reader<R, Kind2<M, E, A>>
+export declare function asks_<M extends URIS>(M: Pointed1<M>): <R, A>(f: (r: R) => A) => Reader<R, Kind<M, A>>
+export declare function asks_<M>(M: Pointed<M>): <R, A>(f: (r: R) => A) => Reader<R, HKT<M, A>>
 ```
 
 Added in v3.0.0
@@ -96,11 +94,9 @@ Added in v3.0.0
 ```ts
 export declare function fromReader_<M extends URIS2>(
   M: Pointed2<M>
-): <R, E = never, A = never>(ma: Reader<R, A>) => Reader<R, Kind2<M, E, A>>
-export declare function fromReader_<M extends URIS>(
-  M: Pointed1<M>
-): <R, A = never>(ma: Reader<R, A>) => Reader<R, Kind<M, A>>
-export declare function fromReader_<M>(M: Pointed<M>): <R, A = never>(ma: Reader<R, A>) => Reader<R, HKT<M, A>>
+): <R, A, E>(ma: Reader<R, A>) => Reader<R, Kind2<M, E, A>>
+export declare function fromReader_<M extends URIS>(M: Pointed1<M>): <R, A>(ma: Reader<R, A>) => Reader<R, Kind<M, A>>
+export declare function fromReader_<M>(M: Pointed<M>): <R, A>(ma: Reader<R, A>) => Reader<R, HKT<M, A>>
 ```
 
 Added in v3.0.0

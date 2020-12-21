@@ -53,7 +53,7 @@ export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
  * @category constructors
  * @since 3.0.0
  */
-export const left: <R, E = never, A = never>(e: E) => ReaderEither<R, E, A> =
+export const left: <E, R, A = never>(e: E) => ReaderEither<R, E, A> =
   /*#__PURE__*/
   left_(R.Pointed)
 
@@ -61,7 +61,7 @@ export const left: <R, E = never, A = never>(e: E) => ReaderEither<R, E, A> =
  * @category constructors
  * @since 3.0.0
  */
-export const right: <R, E = never, A = never>(a: A) => ReaderEither<R, E, A> =
+export const right: <A, R, E = never>(a: A) => ReaderEither<R, E, A> =
   /*#__PURE__*/
   right_(R.Pointed)
 
@@ -69,7 +69,7 @@ export const right: <R, E = never, A = never>(a: A) => ReaderEither<R, E, A> =
  * @category constructors
  * @since 3.0.0
  */
-export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderEither<R, E, A> =
+export const rightReader: <R, A, E = never>(ma: Reader<R, A>) => ReaderEither<R, E, A> =
   /*#__PURE__*/
   rightF_(R.Functor)
 
@@ -77,7 +77,7 @@ export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderE
  * @category constructors
  * @since 3.0.0
  */
-export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderEither<R, E, A> =
+export const leftReader: <R, E, A = never>(me: Reader<R, E>) => ReaderEither<R, E, A> =
   /*#__PURE__*/
   leftF_(R.Functor)
 
@@ -91,7 +91,7 @@ export const ask: <R, E = never>() => ReaderEither<R, E, R> = () => E.right
  * @category constructors
  * @since 3.0.0
  */
-export const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderEither<R, E, A> = (f) => flow(f, E.right)
+export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, E, A> = (f) => flow(f, E.right)
 
 /**
  * Derivable from `MonadThrow`.
@@ -99,7 +99,7 @@ export const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderEither<R, 
  * @category constructors
  * @since 3.0.0
  */
-export const fromEither: <R, E, A>(ma: E.Either<E, A>) => ReaderEither<R, E, A> =
+export const fromEither: <E, A, R>(ma: E.Either<E, A>) => ReaderEither<R, E, A> =
   /*#__PURE__*/
   E.fold(left, (a) => right(a))
 

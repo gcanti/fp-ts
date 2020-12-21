@@ -93,7 +93,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const of: <E, A>(a: A) => These<E, A>
+export declare const of: <A, E>(a: A) => These<E, A>
 ```
 
 Added in v3.0.0
@@ -236,7 +236,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function left<E = never, A = never>(left: E): These<E, A>
+export declare function left<E, A = never>(left: E): These<E, A>
 ```
 
 Added in v3.0.0
@@ -266,7 +266,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function right<E = never, A = never>(right: A): These<E, A>
+export declare function right<A, E = never>(right: A): These<E, A>
 ```
 
 Added in v3.0.0

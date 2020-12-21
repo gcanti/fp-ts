@@ -39,10 +39,10 @@ pipe(
 
 // $ExpectType IOEither<string | number, { a: number; b: string; c: boolean; }>
 pipe(
-  _.right<string, number>(1),
+  _.right<number, string>(1),
   _.bindTo('a'),
   _.bind('b', () => _.right('b')),
-  _.bindW('c', () => _.right<number, boolean>(true))
+  _.bindW('c', () => _.right<boolean, number>(true))
 )
 
 //
@@ -50,7 +50,7 @@ pipe(
 //
 
 // $ExpectType IOEither<string | number, { a: number; b: string; c: boolean; }>
-pipe(_.right<string, number>(1), _.bindTo('a'), _.apS('b', _.right('b')), _.apSW('c', _.right<number, boolean>(true)))
+pipe(_.right<number, string>(1), _.bindTo('a'), _.apS('b', _.right('b')), _.apSW('c', _.right<boolean, number>(true)))
 
 //
 // Do
@@ -59,8 +59,8 @@ pipe(_.right<string, number>(1), _.bindTo('a'), _.apS('b', _.right('b')), _.apSW
 // $ExpectType IOEither<string, { a: number; b: string; }>
 pipe(
   _.Do,
-  _.bind('a', () => _.of<string, number>(1)),
-  _.bind('b', () => _.of<string, string>('b'))
+  _.bind('a', () => _.right<number, string>(1)),
+  _.bind('b', () => _.right<string, string>('b'))
 )
 
 //

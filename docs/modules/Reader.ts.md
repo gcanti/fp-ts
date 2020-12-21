@@ -77,7 +77,7 @@ Wrap a value into the type constructor.
 **Signature**
 
 ```ts
-export declare const of: <E, A>(a: A) => Reader<E, A>
+export declare const of: <A, E>(a: A) => Reader<E, A>
 ```
 
 Added in v3.0.0

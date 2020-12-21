@@ -61,7 +61,7 @@ Equivalent to [`right`](#right).
 **Signature**
 
 ```ts
-export declare const of: <E, A>(a: A) => TaskThese<E, A>
+export declare const of: <A, E>(a: A) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -168,7 +168,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const left: <E = never, A = never>(e: E) => TaskThese<E, A>
+export declare const left: <E, A = never>(e: E) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -178,7 +178,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftIO: <E = never, A = never>(me: IO<E>) => TaskThese<E, A>
+export declare const leftIO: <E, A = never>(me: IO<E>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -188,7 +188,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftTask: <E = never, A = never>(me: T.Task<E>) => TaskThese<E, A>
+export declare const leftTask: <E, A = never>(me: T.Task<E>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -198,7 +198,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const right: <E = never, A = never>(a: A) => TaskThese<E, A>
+export declare const right: <A, E = never>(a: A) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -208,7 +208,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightIO: <E = never, A = never>(ma: IO<A>) => TaskThese<E, A>
+export declare const rightIO: <A, E = never>(ma: IO<A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -218,7 +218,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightTask: <E = never, A = never>(ma: T.Task<A>) => TaskThese<E, A>
+export declare const rightTask: <A, E = never>(ma: T.Task<A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0

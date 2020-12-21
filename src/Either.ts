@@ -94,7 +94,7 @@ export const isRight = <E, A>(ma: Either<E, A>): ma is Right<A> => ma._tag === '
  * @category constructors
  * @since 3.0.0
  */
-export const left = <E = never, A = never>(e: E): Either<E, A> => ({ _tag: 'Left', left: e })
+export const left = <E, A = never>(e: E): Either<E, A> => ({ _tag: 'Left', left: e })
 
 /**
  * Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
@@ -103,7 +103,7 @@ export const left = <E = never, A = never>(e: E): Either<E, A> => ({ _tag: 'Left
  * @category constructors
  * @since 3.0.0
  */
-export const right = <E = never, A = never>(a: A): Either<E, A> => ({ _tag: 'Right', right: a })
+export const right = <A, E = never>(a: A): Either<E, A> => ({ _tag: 'Right', right: a })
 
 /**
  * Takes a lazy default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use

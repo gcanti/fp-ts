@@ -144,7 +144,7 @@ Equivalent to [`right`](#right).
 **Signature**
 
 ```ts
-export declare const of: <E, A>(a: A) => IOEither<E, A>
+export declare const of: <A, E>(a: A) => IOEither<E, A>
 ```
 
 Added in v3.0.0
@@ -403,7 +403,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const left: <E = never, A = never>(l: E) => IOEither<E, A>
+export declare const left: <E, A = never>(e: E) => IOEither<E, A>
 ```
 
 Added in v3.0.0
@@ -413,7 +413,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftIO: <E = never, A = never>(me: I.IO<E>) => IOEither<E, A>
+export declare const leftIO: <E, A = never>(me: I.IO<E>) => IOEither<E, A>
 ```
 
 Added in v3.0.0
@@ -423,7 +423,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const right: <E = never, A = never>(a: A) => IOEither<E, A>
+export declare const right: <A, E = never>(a: A) => IOEither<E, A>
 ```
 
 Added in v3.0.0
@@ -433,7 +433,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightIO: <E = never, A = never>(ma: I.IO<A>) => IOEither<E, A>
+export declare const rightIO: <A, E = never>(ma: I.IO<A>) => IOEither<E, A>
 ```
 
 Added in v3.0.0

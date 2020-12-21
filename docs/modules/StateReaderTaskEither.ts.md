@@ -148,7 +148,7 @@ Wrap a value into the type constructor.
 **Signature**
 
 ```ts
-export declare const of: <S, R, E, A>(a: A) => StateReaderTaskEither<S, R, E, A>
+export declare const of: <A, S, R, E>(a: A) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -493,7 +493,7 @@ Derivable from `MonadThrow`.
 **Signature**
 
 ```ts
-export declare const fromEither: <S, R, E, A>(ma: E.Either<E, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const fromEither: <E, A, S, R>(ma: E.Either<E, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -503,7 +503,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromIOEither<S, R, E, A>(ma: IOEither<E, A>): StateReaderTaskEither<S, R, E, A>
+export declare function fromIOEither<E, A, S, R>(ma: IOEither<E, A>): StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -542,7 +542,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromReaderEither<S, R, E, A>(ma: ReaderEither<R, E, A>): StateReaderTaskEither<S, R, E, A>
+export declare function fromReaderEither<R, E, A, S>(ma: ReaderEither<R, E, A>): StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -574,7 +574,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromTaskEither<S, R, E, A>(ma: TaskEither<E, A>): StateReaderTaskEither<S, R, E, A>
+export declare function fromTaskEither<E, A, S, R>(ma: TaskEither<E, A>): StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -598,7 +598,7 @@ Get a value which depends on the current state
 **Signature**
 
 ```ts
-export declare const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTaskEither<S, R, E, A>
+export declare const gets: <S, A, R, E = never>(f: (s: S) => A) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -608,7 +608,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const left: <S, R, E = never, A = never>(e: E) => StateReaderTaskEither<S, R, E, A>
+export declare const left: <E, S, R, A = never>(e: E) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -618,7 +618,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function leftIO<S, R, E = never, A = never>(me: IO<E>): StateReaderTaskEither<S, R, E, A>
+export declare function leftIO<E, S, R, A = never>(me: IO<E>): StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -628,7 +628,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function leftReader<S, R, E = never, A = never>(me: Reader<R, E>): StateReaderTaskEither<S, R, E, A>
+export declare function leftReader<R, E, S, A = never>(me: Reader<R, E>): StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -638,7 +638,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftState: <S, R, E = never, A = never>(me: State<S, E>) => StateReaderTaskEither<S, R, E, A>
+export declare const leftState: <S, E, R, A = never>(me: State<S, E>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -648,7 +648,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function leftTask<S, R, E = never, A = never>(me: Task<E>): StateReaderTaskEither<S, R, E, A>
+export declare function leftTask<E, S, R, A = never>(me: Task<E>): StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -682,7 +682,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const right: <S, R, E = never, A = never>(a: A) => StateReaderTaskEither<S, R, E, A>
+export declare const right: <A, S, R, E = never>(a: A) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -692,7 +692,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function rightIO<S, R, E = never, A = never>(ma: IO<A>): StateReaderTaskEither<S, R, E, A>
+export declare function rightIO<A, S, R, E = never>(ma: IO<A>): StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -702,7 +702,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function rightReader<S, R, E = never, A = never>(ma: Reader<R, A>): StateReaderTaskEither<S, R, E, A>
+export declare function rightReader<R, A, S, E = never>(ma: Reader<R, A>): StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -712,7 +712,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightState: <S, R, E = never, A = never>(ma: State<S, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const rightState: <S, A, R, E = never>(ma: State<S, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -722,7 +722,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function rightTask<S, R, E = never, A = never>(ma: Task<A>): StateReaderTaskEither<S, R, E, A>
+export declare function rightTask<A, S, R, E = never>(ma: Task<A>): StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0

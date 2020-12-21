@@ -44,8 +44,8 @@ flow(
 declare function isString(x: unknown): x is string
 const W = _.getFilterable(monoidAll)
 
-pipe(_.right<boolean, string | number>(1), W.filter(isString)) // $ExpectType Either<boolean, string>
-pipe(_.right<boolean, string | number>(1), W.partition(isString)) // $ExpectType Separated<Either<boolean, unknown>, Either<boolean, string>>
+pipe(_.right<string | number, boolean>(1), W.filter(isString)) // $ExpectType Either<boolean, string>
+pipe(_.right<string | number, boolean>(1), W.partition(isString)) // $ExpectType Separated<Either<boolean, unknown>, Either<boolean, string>>
 
 //
 // do notation
@@ -53,10 +53,10 @@ pipe(_.right<boolean, string | number>(1), W.partition(isString)) // $ExpectType
 
 // $ExpectType Either<string | number, { a: number; b: string; c: boolean; }>
 pipe(
-  _.right<string, number>(1),
+  _.right<number, string>(1),
   _.bindTo('a'),
   _.bind('b', () => _.right('b')),
-  _.bindW('c', () => _.right<number, boolean>(true))
+  _.bindW('c', () => _.right<boolean, number>(true))
 )
 
 //
@@ -64,7 +64,7 @@ pipe(
 //
 
 // $ExpectType Either<string | number, { a: number; b: string; c: boolean; }>
-pipe(_.right<string, number>(1), _.bindTo('a'), _.apS('b', _.right('b')), _.apSW('c', _.right<number, boolean>(true)))
+pipe(_.right<number, string>(1), _.bindTo('a'), _.apS('b', _.right('b')), _.apSW('c', _.right<boolean, number>(true)))
 
 //
 // Do
@@ -73,8 +73,8 @@ pipe(_.right<string, number>(1), _.bindTo('a'), _.apS('b', _.right('b')), _.apSW
 // $ExpectType Either<string, { a: number; b: string; }>
 pipe(
   _.Do,
-  _.bind('a', () => _.of<string, number>(1)),
-  _.bind('b', () => _.of<string, string>('b'))
+  _.bind('a', () => _.right<number, string>(1)),
+  _.bind('b', () => _.right<string, string>('b'))
 )
 
 //
