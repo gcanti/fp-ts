@@ -91,6 +91,7 @@ Added in v3.0.0
   - [taskEither](#taskeither)
   - [taskThese](#taskthese)
   - [these](#these)
+  - [theseT](#theset)
   - [traced](#traced)
   - [traversable](#traversable)
   - [traversableWithIndex](#traversablewithindex)
@@ -879,6 +880,16 @@ Added in v3.0.0
 
 ```ts
 export declare const these: typeof these
+```
+
+Added in v3.0.0
+
+## theseT
+
+**Signature**
+
+```ts
+export declare const theseT: typeof theseT
 ```
 
 Added in v3.0.0

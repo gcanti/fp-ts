@@ -14,20 +14,20 @@ import Either = E.Either
 /**
  * @since 3.0.0
  */
-export function right_<M extends URIS2>(M: Pointed2<M>): <A, FE, E = never>(a: A) => Kind2<M, FE, E.Either<E, A>>
-export function right_<M extends URIS>(M: Pointed1<M>): <A, E = never>(a: A) => Kind<M, E.Either<E, A>>
-export function right_<M>(M: Pointed<M>): <A, E = never>(a: A) => HKT<M, E.Either<E, A>>
-export function right_<M>(M: Pointed<M>): <A, E = never>(a: A) => HKT<M, E.Either<E, A>> {
+export function right_<M extends URIS2>(M: Pointed2<M>): <A, FE, E = never>(a: A) => Kind2<M, FE, Either<E, A>>
+export function right_<M extends URIS>(M: Pointed1<M>): <A, E = never>(a: A) => Kind<M, Either<E, A>>
+export function right_<M>(M: Pointed<M>): <A, E = never>(a: A) => HKT<M, Either<E, A>>
+export function right_<M>(M: Pointed<M>): <A, E = never>(a: A) => HKT<M, Either<E, A>> {
   return flow(E.right, M.of)
 }
 
 /**
  * @since 3.0.0
  */
-export function left_<M extends URIS2>(M: Pointed2<M>): <E, FE, A = never>(e: E) => Kind2<M, FE, E.Either<E, A>>
-export function left_<M extends URIS>(M: Pointed1<M>): <E, A = never>(e: E) => Kind<M, E.Either<E, A>>
-export function left_<M>(M: Pointed<M>): <E, A = never>(e: E) => HKT<M, E.Either<E, A>>
-export function left_<M>(M: Pointed<M>): <E, A = never>(e: E) => HKT<M, E.Either<E, A>> {
+export function left_<M extends URIS2>(M: Pointed2<M>): <E, FE, A = never>(e: E) => Kind2<M, FE, Either<E, A>>
+export function left_<M extends URIS>(M: Pointed1<M>): <E, A = never>(e: E) => Kind<M, Either<E, A>>
+export function left_<M>(M: Pointed<M>): <E, A = never>(e: E) => HKT<M, Either<E, A>>
+export function left_<M>(M: Pointed<M>): <E, A = never>(e: E) => HKT<M, Either<E, A>> {
   return flow(E.left, M.of)
 }
 
@@ -36,10 +36,10 @@ export function left_<M>(M: Pointed<M>): <E, A = never>(e: E) => HKT<M, E.Either
  */
 export function rightF_<F extends URIS2>(
   F: Functor2<F>
-): <FE, A, E = never>(fa: Kind2<F, FE, A>) => Kind2<F, FE, E.Either<E, A>>
-export function rightF_<F extends URIS>(F: Functor1<F>): <A, E = never>(fa: Kind<F, A>) => Kind<F, E.Either<E, A>>
-export function rightF_<F>(F: Functor<F>): <A, E = never>(fa: HKT<F, A>) => HKT<F, E.Either<E, A>>
-export function rightF_<F>(F: Functor<F>): <A, E = never>(fa: HKT<F, A>) => HKT<F, E.Either<E, A>> {
+): <FE, A, E = never>(fa: Kind2<F, FE, A>) => Kind2<F, FE, Either<E, A>>
+export function rightF_<F extends URIS>(F: Functor1<F>): <A, E = never>(fa: Kind<F, A>) => Kind<F, Either<E, A>>
+export function rightF_<F>(F: Functor<F>): <A, E = never>(fa: HKT<F, A>) => HKT<F, Either<E, A>>
+export function rightF_<F>(F: Functor<F>): <A, E = never>(fa: HKT<F, A>) => HKT<F, Either<E, A>> {
   return F.map(E.right)
 }
 
@@ -48,10 +48,10 @@ export function rightF_<F>(F: Functor<F>): <A, E = never>(fa: HKT<F, A>) => HKT<
  */
 export function leftF_<F extends URIS2>(
   F: Functor2<F>
-): <FE, E, A = never>(fe: Kind2<F, FE, E>) => Kind2<F, FE, E.Either<E, A>>
-export function leftF_<F extends URIS>(F: Functor1<F>): <E, A = never>(fe: Kind<F, E>) => Kind<F, E.Either<E, A>>
-export function leftF_<F>(F: Functor<F>): <E, A = never>(fe: HKT<F, E>) => HKT<F, E.Either<E, A>>
-export function leftF_<F>(F: Functor<F>): <E, A = never>(fe: HKT<F, E>) => HKT<F, E.Either<E, A>> {
+): <FE, E, A = never>(fe: Kind2<F, FE, E>) => Kind2<F, FE, Either<E, A>>
+export function leftF_<F extends URIS>(F: Functor1<F>): <E, A = never>(fe: Kind<F, E>) => Kind<F, Either<E, A>>
+export function leftF_<F>(F: Functor<F>): <E, A = never>(fe: HKT<F, E>) => HKT<F, Either<E, A>>
+export function leftF_<F>(F: Functor<F>): <E, A = never>(fe: HKT<F, E>) => HKT<F, Either<E, A>> {
   return F.map(E.left)
 }
 
@@ -90,7 +90,7 @@ export function ap_<F>(
 ): <E, A>(fa: HKT<F, Either<E, A>>) => <B>(fab: HKT<F, Either<E, (a: A) => B>>) => HKT<F, Either<E, B>> {
   return <E, A>(fa: HKT<F, Either<E, A>>): (<B>(fab: HKT<F, Either<E, (a: A) => B>>) => HKT<F, Either<E, B>>) =>
     flow(
-      F.map((gab) => (ga: E.Either<E, A>) => E.ap(ga)(gab)),
+      F.map((gab) => (ga: Either<E, A>) => E.ap(ga)(gab)),
       F.ap(fa)
     )
 }

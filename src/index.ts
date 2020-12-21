@@ -80,6 +80,7 @@ import * as task from './Task'
 import * as taskEither from './TaskEither'
 import * as taskThese from './TaskThese'
 import * as these from './These'
+import * as theseT from './TheseT'
 import * as traced from './Traced'
 import * as traversable from './Traversable'
 import * as traversableWithIndex from './TraversableWithIndex'
@@ -400,6 +401,10 @@ export {
    * @since 3.0.0
    */
   these,
+  /**
+   * @since 3.0.0
+   */
+  theseT,
   /**
    * @since 3.0.0
    */

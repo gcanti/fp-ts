@@ -461,17 +461,17 @@ export const Pointed: Pointed2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export function getApplicative<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
+export function getApplicative<E>(S: Semigroup<E>): Applicative2C<URI, E> {
   return {
     URI,
     map,
     ap: (fa) => (fab) =>
       isLeft(fab)
         ? isLeft(fa)
-          ? left(SE.concat(fa.left)(fab.left))
+          ? left(S.concat(fa.left)(fab.left))
           : isRight(fa)
           ? left(fab.left)
-          : left(SE.concat(fa.left)(fab.left))
+          : left(S.concat(fa.left)(fab.left))
         : isRight(fab)
         ? isLeft(fa)
           ? left(fa.left)
@@ -479,10 +479,10 @@ export function getApplicative<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
           ? right(fab.right(fa.right))
           : both(fa.left, fab.right(fa.right))
         : isLeft(fa)
-        ? left(SE.concat(fa.left)(fab.left))
+        ? left(S.concat(fa.left)(fab.left))
         : isRight(fa)
         ? both(fab.left, fab.right(fa.right))
-        : both(SE.concat(fa.left)(fab.left), fab.right(fa.right)),
+        : both(S.concat(fa.left)(fab.left), fab.right(fa.right)),
     of
   }
 }

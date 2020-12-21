@@ -142,7 +142,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E>
+export declare const swap: <E, A>(ma: T.Task<TH.These<E, A>>) => T.Task<TH.These<A, E>>
 ```
 
 Added in v3.0.0
@@ -273,11 +273,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fold: <E, B, A>(
-  onLeft: (e: E) => T.Task<B>,
-  onRight: (a: A) => T.Task<B>,
-  onBoth: (e: E, a: A) => T.Task<B>
-) => (fa: TaskThese<E, A>) => T.Task<B>
+export declare const fold: <E, R, A>(
+  onLeft: (e: E) => T.Task<R>,
+  onRight: (a: A) => T.Task<R>,
+  onBoth: (e: E, a: A) => T.Task<R>
+) => (ma: T.Task<TH.These<E, A>>) => T.Task<R>
 ```
 
 Added in v3.0.0
@@ -287,7 +287,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toTuple: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) => T.Task<readonly [E, A]>
+export declare const toTuple: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: T.Task<TH.These<E, A>>) => T.Task<readonly [E, A]>
 ```
 
 Added in v3.0.0
@@ -379,7 +379,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApplicative<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E>
+export declare function getApplicative<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E>
 ```
 
 Added in v3.0.0
@@ -389,7 +389,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E>
+export declare function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E>
 ```
 
 Added in v3.0.0

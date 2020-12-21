@@ -1,7 +1,6 @@
 /**
  * @since 3.0.0
  */
-
 import { Endomorphism, flow, pipe } from './function'
 import { Functor, Functor1, Functor2, Functor3 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'

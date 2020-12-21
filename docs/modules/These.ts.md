@@ -563,7 +563,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApplicative<E>(SE: Semigroup<E>): Applicative2C<URI, E>
+export declare function getApplicative<E>(S: Semigroup<E>): Applicative2C<URI, E>
 ```
 
 Added in v3.0.0

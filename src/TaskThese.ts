@@ -8,7 +8,7 @@ import * as E from './Either'
 import { FromEither2, fromOption_, fromPredicate_ } from './FromEither'
 import { FromIO2 } from './FromIO'
 import { FromTask2 } from './FromTask'
-import { flow, Lazy, pipe } from './function'
+import { flow } from './function'
 import { Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
@@ -17,6 +17,21 @@ import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
 import * as TH from './These'
+import {
+  ap_,
+  bimap_,
+  both_,
+  chain_,
+  fold_,
+  leftF_,
+  left_,
+  mapLeft_,
+  map_,
+  rightF_,
+  right_,
+  swap_,
+  toTuple_
+} from './TheseT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -37,7 +52,7 @@ export interface TaskThese<E, A> extends Task<These<E, A>> {}
  */
 export const left: <E, A = never>(e: E) => TaskThese<E, A> =
   /*#__PURE__*/
-  flow(TH.left, T.of)
+  left_(T.Pointed)
 
 /**
  * @category constructors
@@ -45,7 +60,7 @@ export const left: <E, A = never>(e: E) => TaskThese<E, A> =
  */
 export const right: <A, E = never>(a: A) => TaskThese<E, A> =
   /*#__PURE__*/
-  flow(TH.right, T.of)
+  right_(T.Pointed)
 
 /**
  * @category constructors
@@ -53,7 +68,7 @@ export const right: <A, E = never>(a: A) => TaskThese<E, A> =
  */
 export const both: <E, A>(e: E, a: A) => TaskThese<E, A> =
   /*#__PURE__*/
-  flow(TH.both, T.of)
+  both_(T.Pointed)
 
 /**
  * @category constructors
@@ -61,7 +76,7 @@ export const both: <E, A>(e: E, a: A) => TaskThese<E, A> =
  */
 export const rightTask: <A, E = never>(ma: Task<A>) => TaskThese<E, A> =
   /*#__PURE__*/
-  T.map(TH.right)
+  rightF_(T.Functor)
 
 /**
  * @category constructors
@@ -69,7 +84,7 @@ export const rightTask: <A, E = never>(ma: Task<A>) => TaskThese<E, A> =
  */
 export const leftTask: <E, A = never>(me: Task<E>) => TaskThese<E, A> =
   /*#__PURE__*/
-  T.map(TH.left)
+  leftF_(T.Functor)
 
 /**
  * @category constructors
@@ -111,21 +126,17 @@ export const fromEither: FromEither2<URI>['fromEither'] =
  * @category destructors
  * @since 3.0.0
  */
-export const fold: <E, B, A>(
-  onLeft: (e: E) => Task<B>,
-  onRight: (a: A) => Task<B>,
-  onBoth: (e: E, a: A) => Task<B>
-) => (fa: TaskThese<E, A>) => Task<B> =
+export const fold =
   /*#__PURE__*/
-  flow(TH.fold, T.chain)
+  fold_(T.Monad)
 
 /**
  * @category destructors
  * @since 3.0.0
  */
-export const toTuple: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) => Task<readonly [E, A]> =
+export const toTuple =
   /*#__PURE__*/
-  flow(TH.toTuple, T.map)
+  toTuple_(T.Functor)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -135,9 +146,9 @@ export const toTuple: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) =>
  * @category combinators
  * @since 3.0.0
  */
-export const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E> =
+export const swap =
   /*#__PURE__*/
-  T.map(TH.swap)
+  swap_(T.Functor)
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -146,7 +157,9 @@ export const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E> =
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor2<URI>['map'] = (f) => T.map(TH.map(f))
+export const map: Functor2<URI>['map'] =
+  /*#__PURE__*/
+  map_(T.Functor)
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -154,7 +167,9 @@ export const map: Functor2<URI>['map'] = (f) => T.map(TH.map(f))
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => T.map(TH.bimap(f, g))
+export const bimap: Bifunctor2<URI>['bimap'] =
+  /*#__PURE__*/
+  bimap_(T.Functor)
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -162,7 +177,9 @@ export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => T.map(TH.bimap(f, g))
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => T.map(TH.mapLeft(f))
+export const mapLeft: Bifunctor2<URI>['mapLeft'] =
+  /*#__PURE__*/
+  mapLeft_(T.Functor)
 
 /**
  * Wrap a value into the type constructor.
@@ -220,18 +237,11 @@ export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
  * @category instances
  * @since 3.0.0
  */
-export function getApplicative<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E> {
-  const AV = TH.getApplicative(SE)
-  const ap = <A>(fga: T.Task<TH.These<E, A>>) => <B>(fgab: T.Task<TH.These<E, (a: A) => B>>): T.Task<TH.These<E, B>> =>
-    pipe(
-      fgab,
-      A.map((h) => (ga: TH.These<E, A>) => pipe(h, AV.ap(ga))),
-      A.ap(fga)
-    )
+export function getApplicative<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E> {
   return {
     URI,
     map,
-    ap,
+    ap: ap_(A, S),
     of
   }
 }
@@ -240,29 +250,12 @@ export function getApplicative<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicati
  * @category instances
  * @since 3.0.0
  */
-export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> {
+export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> {
   return {
     URI,
     map,
     of,
-    chain: (f) => (ma) =>
-      pipe(
-        ma,
-        T.chain(
-          TH.fold(left, f, (e1, a) =>
-            pipe(
-              f(a),
-              T.map(
-                TH.fold(
-                  (e2) => TH.left(SE.concat(e2)(e1)),
-                  (b) => TH.both(e1, b),
-                  (e2, b) => TH.both(SE.concat(e2)(e1), b)
-                )
-              )
-            )
-          )
-        )
-      )
+    chain: chain_(T.Monad, S)
   }
 }
 
