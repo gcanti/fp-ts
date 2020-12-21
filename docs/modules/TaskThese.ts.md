@@ -26,7 +26,10 @@ Added in v3.0.0
   - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
+  - [fromEither](#fromeither)
   - [fromIOEither](#fromioeither)
+  - [fromOption](#fromoption)
+  - [fromPredicate](#frompredicate)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftTask](#lefttask)
@@ -38,6 +41,7 @@ Added in v3.0.0
   - [toTuple](#totuple)
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
+  - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [Pointed](#pointed)
   - [URI](#uri)
@@ -153,12 +157,49 @@ export declare const both: <E, A>(e: E, a: A) => TaskThese<E, A>
 
 Added in v3.0.0
 
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: <E, A>(fa: E.Either<E, A>) => TaskThese<E, A>
+```
+
+Added in v3.0.0
+
 ## fromIOEither
 
 **Signature**
 
 ```ts
 export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A>
+```
+
+Added in v3.0.0
+
+## fromOption
+
+Derivable from `FromEither`.
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskThese<E, A>
+```
+
+Added in v3.0.0
+
+## fromPredicate
+
+Derivable from `FromEither`.
+
+**Signature**
+
+```ts
+export declare const fromPredicate: {
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskThese<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskThese<E, A>
+}
 ```
 
 Added in v3.0.0
@@ -257,6 +298,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Bifunctor: Bifunctor2<'TaskThese'>
+```
+
+Added in v3.0.0
+
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither2<'TaskThese'>
 ```
 
 Added in v3.0.0

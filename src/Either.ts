@@ -22,11 +22,11 @@ import { Eq, fromEquals } from './Eq'
 import { Extend2 } from './Extend'
 import { Filterable2C } from './Filterable'
 import { Foldable2 } from './Foldable'
+import { FromEither2 } from './FromEither'
 import { identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { bind_, chainFirst_, Monad2 } from './Monad'
-import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Pointed2 } from './Pointed'
@@ -216,8 +216,6 @@ export const stringifyJSON = <E>(onError: (reason: unknown) => E) => (u: unknown
   tryCatch(() => JSON.stringify(u), onError)
 
 /**
- * Derivable from `MonadThrow`.
- *
  * @example
  * import { fromOption, left, right } from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
@@ -245,8 +243,6 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Either<E,
   ma._tag === 'None' ? left(onNone()) : right(ma.value)
 
 /**
- * Derivable from `MonadThrow`.
- *
  * @example
  * import { fromPredicate, left, right } from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
@@ -416,8 +412,6 @@ export const filterOrElseW: {
   chainW((a) => (predicate(a) ? right(a) : left(onFalse(a))))
 
 /**
- * Derivable from `MonadThrow`.
- *
  * @example
  * import { filterOrElse, left, right } from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
@@ -717,12 +711,6 @@ export const traverse: Traversable2<URI>['traverse'] = <F>(F: ApplicativeHKT<F>)
 export const sequence: Traversable2<URI>['sequence'] = <F>(F: ApplicativeHKT<F>) => <E, A>(
   ma: Either<E, HKT<F, A>>
 ): HKT<F, Either<E, A>> => (isLeft(ma) ? F.of(left(ma.left)) : pipe(ma.right, F.map(right)))
-
-/**
- * @category MonadThrow
- * @since 3.0.0
- */
-export const throwError: MonadThrow2<URI>['throwError'] = left
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -1135,9 +1123,9 @@ export const Extend: Extend2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const MonadThrow: MonadThrow2<URI> = {
+export const FromEither: FromEither2<URI> = {
   URI,
-  throwError: throwError
+  fromEither: identity
 }
 
 /**

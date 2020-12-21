@@ -7,6 +7,7 @@ import * as _ from '../src/TaskThese'
 import * as TH from '../src/These'
 import { assertSeq, assertPar } from './util'
 import { semigroupString } from '../src/Semigroup'
+import * as E from '../src/Either'
 
 describe('TaskThese', () => {
   // -------------------------------------------------------------------------------------
@@ -156,5 +157,10 @@ describe('TaskThese', () => {
     assert.deepStrictEqual(await f(_.right(1))(), ['b', 1])
     assert.deepStrictEqual(await f(_.left('a'))(), ['a', 2])
     assert.deepStrictEqual(await f(_.both('a', 1))(), ['a', 1])
+  })
+
+  it('fromEither', async () => {
+    assert.deepStrictEqual(await _.fromEither(E.right('a'))(), E.right('a'))
+    assert.deepStrictEqual(await _.fromEither(E.left('a'))(), E.left('a'))
   })
 })

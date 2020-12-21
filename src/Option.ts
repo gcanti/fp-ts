@@ -22,11 +22,11 @@ import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
+import { FromEither1 } from './FromEither'
 import { flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { HKT } from './HKT'
 import { bind_, chainFirst_, Monad1 } from './Monad'
-import { MonadThrow1 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { fromCompare, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
@@ -216,8 +216,6 @@ export function getRight<E, A>(ma: Either<E, A>): Option<A> {
  * Transforms an `Either` to an `Option` discarding the error.
  *
  * Alias of [getRight](#getRight)
- *
- * Derivable from `MonadThrow`.
  *
  * @category constructors
  * @since 3.0.0
@@ -517,12 +515,6 @@ export const alt: Alt1<URI>['alt'] = altW
  * @since 3.0.0
  */
 export const zero: Alternative1<URI>['zero'] = () => none
-
-/**
- * @category MonadThrow
- * @since 3.0.0
- */
-export const throwError: MonadThrow1<URI>['throwError'] = () => none
 
 /**
  * @category Extend
@@ -1041,9 +1033,9 @@ export const Witherable: Witherable1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const MonadThrow: MonadThrow1<URI> = {
+export const FromEither: FromEither1<URI> = {
   URI,
-  throwError
+  fromEither
 }
 
 // -------------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 37
+nav_order: 38
 parent: Modules
 ---
 
@@ -42,6 +42,7 @@ Added in v3.0.0
   - [filterableWithIndex](#filterablewithindex)
   - [foldable](#foldable)
   - [foldableWithIndex](#foldablewithindex)
+  - [fromEither](#fromeither)
   - [function](#function)
   - [functor](#functor)
   - [functorWithIndex](#functorwithindex)
@@ -59,7 +60,6 @@ Added in v3.0.0
   - [monad](#monad)
   - [monadIO](#monadio)
   - [monadTask](#monadtask)
-  - [monadThrow](#monadthrow)
   - [monoid](#monoid)
   - [option](#option)
   - [ord](#ord)
@@ -393,6 +393,16 @@ export declare const foldableWithIndex: typeof foldableWithIndex
 
 Added in v3.0.0
 
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: typeof fromEither
+```
+
+Added in v3.0.0
+
 ## function
 
 **Signature**
@@ -559,16 +569,6 @@ Added in v3.0.0
 
 ```ts
 export declare const monadTask: typeof monadTask
-```
-
-Added in v3.0.0
-
-## monadThrow
-
-**Signature**
-
-```ts
-export declare const monadThrow: typeof monadThrow
 ```
 
 Added in v3.0.0

@@ -4,13 +4,16 @@
 import { Applicative2, Applicative2C } from './Applicative'
 import { Apply1 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
-import { flow, Lazy, pipe } from './function'
+import * as E from './Either'
+import { FromEither2, fromOption_, fromPredicate_ } from './FromEither'
+import { flow, Lazy, pipe, Predicate, Refinement } from './function'
 import { Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2C } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { MonadTask2 } from './MonadTask'
+import { Option } from './Option'
 import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
@@ -92,6 +95,14 @@ export const leftIO: <E, A = never>(me: IO<E>) => TaskThese<E, A> =
 export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> =
   /*#__PURE__*/
   T.fromIO
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromEither: <E, A>(fa: E.Either<E, A>) => TaskThese<E, A> =
+  /*#__PURE__*/
+  E.fold(left, (a) => right(a))
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -284,3 +295,35 @@ export const Bifunctor: Bifunctor2<URI> = {
   bimap,
   mapLeft
 }
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const FromEither: FromEither2<URI> = {
+  URI,
+  fromEither
+}
+
+/**
+ * Derivable from `FromEither`.
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskThese<E, A> =
+  /*#__PURE__*/
+  fromOption_(FromEither)
+
+/**
+ * Derivable from `FromEither`.
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromPredicate: {
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskThese<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskThese<E, A>
+} =
+  /*#__PURE__*/
+  fromPredicate_(FromEither)

@@ -50,8 +50,6 @@ Added in v3.0.0
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
-- [MonadThrow](#monadthrow)
-  - [throwError](#throwerror)
 - [Traversable](#traversable)
   - [sequence](#sequence)
   - [traverse](#traverse)
@@ -93,9 +91,9 @@ Added in v3.0.0
   - [Extend](#extend-1)
   - [Filterable](#filterable-1)
   - [Foldable](#foldable-1)
+  - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [MonadThrow](#monadthrow-1)
   - [Pointed](#pointed)
   - [Traversable](#traversable-1)
   - [URI](#uri)
@@ -360,18 +358,6 @@ export declare const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) =>
 
 Added in v3.0.0
 
-# MonadThrow
-
-## throwError
-
-**Signature**
-
-```ts
-export declare const throwError: <E, A>(e: E) => Option<A>
-```
-
-Added in v3.0.0
-
 # Traversable
 
 ## sequence
@@ -520,8 +506,6 @@ Added in v3.0.0
 Transforms an `Either` to an `Option` discarding the error.
 
 Alias of [getRight](#getRight)
-
-Derivable from `MonadThrow`.
 
 **Signature**
 
@@ -983,6 +967,16 @@ export declare const Foldable: Foldable1<'Option'>
 
 Added in v3.0.0
 
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither1<'Option'>
+```
+
+Added in v3.0.0
+
 ## Functor
 
 **Signature**
@@ -999,16 +993,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: Monad1<'Option'>
-```
-
-Added in v3.0.0
-
-## MonadThrow
-
-**Signature**
-
-```ts
-export declare const MonadThrow: MonadThrow1<'Option'>
 ```
 
 Added in v3.0.0

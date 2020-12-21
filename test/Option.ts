@@ -436,10 +436,6 @@ describe('Option', () => {
     assert.deepStrictEqual(_.getRight(left('err')), _.none)
   })
 
-  it('throwError', () => {
-    assert.deepStrictEqual(_.throwError(undefined), _.none)
-  })
-
   it('do notation', () => {
     assert.deepStrictEqual(
       pipe(

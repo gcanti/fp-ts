@@ -32,8 +32,6 @@ Added in v3.0.0
   - [fromIO](#fromio)
 - [MonadTask](#monadtask)
   - [fromTask](#fromtask)
-- [MonadThrow](#monadthrow)
-  - [throwError](#throwerror)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -81,10 +79,10 @@ Added in v3.0.0
   - [Alt](#alt-1)
   - [Applicative](#applicative-1)
   - [Bifunctor](#bifunctor-1)
+  - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadTask](#monadtask-1)
-  - [MonadThrow](#monadthrow-1)
   - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -285,18 +283,6 @@ export declare const fromTask: <S, R, E, A>(fa: Task<A>) => StateReaderTaskEithe
 
 Added in v3.0.0
 
-# MonadThrow
-
-## throwError
-
-**Signature**
-
-```ts
-export declare const throwError: <S, R, E, A>(e: E) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v3.0.0
-
 # combinators
 
 ## chainEitherK
@@ -419,8 +405,6 @@ Added in v3.0.0
 
 ## filterOrElse
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
@@ -488,8 +472,6 @@ Added in v3.0.0
 
 ## fromEither
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
@@ -510,19 +492,19 @@ Added in v3.0.0
 
 ## fromOption
 
-Derivable from `MonadThrow`.
+Derivable from `FromEither`.
 
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <S, R, A>(ma: Option<A>) => StateReaderTaskEither<S, R, E, A>
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A, S, R>(ma: Option<A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
 
 ## fromPredicate
 
-Derivable from `MonadThrow`.
+Derivable from `FromEither`.
 
 **Signature**
 
@@ -824,6 +806,16 @@ export declare const Bifunctor: Bifunctor4<'StateReaderTaskEither'>
 
 Added in v3.0.0
 
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither4<'StateReaderTaskEither'>
+```
+
+Added in v3.0.0
+
 ## Functor
 
 **Signature**
@@ -850,16 +842,6 @@ Added in v3.0.0
 
 ```ts
 export declare const MonadTask: MonadTask4<'StateReaderTaskEither'>
-```
-
-Added in v3.0.0
-
-## MonadThrow
-
-**Signature**
-
-```ts
-export declare const MonadThrow: MonadThrow4<'StateReaderTaskEither'>
 ```
 
 Added in v3.0.0

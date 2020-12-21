@@ -31,6 +31,7 @@ import * as filterable from './Filterable'
 import * as filterableWithIndex from './FilterableWithIndex'
 import * as foldable from './Foldable'
 import * as foldableWithIndex from './FoldableWithIndex'
+import * as fromEither from './FromEither'
 import * as function_ from './function'
 import * as functor from './Functor'
 import * as functorWithIndex from './FunctorWithIndex'
@@ -48,7 +49,6 @@ import * as meetSemilattice from './MeetSemilattice'
 import * as monad from './Monad'
 import * as monadIO from './MonadIO'
 import * as monadTask from './MonadTask'
-import * as monadThrow from './MonadThrow'
 import * as monoid from './Monoid'
 import * as option from './Option'
 import * as ord from './Ord'
@@ -203,6 +203,10 @@ export {
   /**
    * @since 3.0.0
    */
+  fromEither,
+  /**
+   * @since 3.0.0
+   */
   function_ as function,
   /**
    * @since 3.0.0
@@ -268,10 +272,6 @@ export {
    * @since 3.0.0
    */
   monadTask,
-  /**
-   * @since 3.0.0
-   */
-  monadThrow,
   /**
    * @since 3.0.0
    */

@@ -24,11 +24,11 @@ import { Bifunctor2 } from './Bifunctor'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Foldable2 } from './Foldable'
-import { Lazy, pipe } from './function'
+import { FromEither2, fromOption_, fromPredicate_ } from './FromEither'
+import { identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
-import { MonadThrow2 } from './MonadThrow'
 import { isNone, none, Option, some } from './Option'
 import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
@@ -356,12 +356,6 @@ export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) =>
 }
 
 /**
- * @category MonadThrow
- * @since 3.0.0
- */
-export const throwError: MonadThrow2<URI>['throwError'] = left
-
-/**
  * @category Applicative
  * @since 3.0.0
  */
@@ -525,10 +519,33 @@ export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> {
  * @category instances
  * @since 3.0.0
  */
-export const MonadThrow: MonadThrow2<URI> = {
+export const FromEither: FromEither2<URI> = {
   URI,
-  throwError
+  fromEither: identity
 }
+
+/**
+ * Derivable from `FromEither`.
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => These<E, A> =
+  /*#__PURE__*/
+  fromOption_(FromEither)
+
+/**
+ * Derivable from `FromEither`.
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromPredicate: {
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => These<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => These<E, A>
+} =
+  /*#__PURE__*/
+  fromPredicate_(FromEither)
 
 /**
  * @category instances

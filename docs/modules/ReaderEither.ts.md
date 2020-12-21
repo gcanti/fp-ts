@@ -28,8 +28,6 @@ Added in v3.0.0
 - [Monad](#monad)
   - [chain](#chain)
   - [chainW](#chainw)
-- [MonadThrow](#monadthrow)
-  - [throwError](#throwerror)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -61,9 +59,9 @@ Added in v3.0.0
   - [Alt](#alt-1)
   - [Applicative](#applicative-1)
   - [Bifunctor](#bifunctor-1)
+  - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [MonadThrow](#monadthrow-1)
   - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -243,18 +241,6 @@ export declare const chainW: <A, R2, E2, B>(
 
 Added in v3.0.0
 
-# MonadThrow
-
-## throwError
-
-**Signature**
-
-```ts
-export declare const throwError: <R, E, A>(e: E) => ReaderEither<R, E, A>
-```
-
-Added in v3.0.0
-
 # combinators
 
 ## chainEitherK
@@ -298,8 +284,6 @@ export declare const chainFirstW: <A, R2, E2, B>(
 Added in v3.0.0
 
 ## filterOrElse
-
-Derivable from `MonadThrow`.
 
 **Signature**
 
@@ -372,8 +356,6 @@ Added in v3.0.0
 
 ## fromEither
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
@@ -384,25 +366,25 @@ Added in v3.0.0
 
 ## fromOption
 
-Derivable from `MonadThrow`.
+Derivable from `FromEither`.
 
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: () => E) => <R, A>(ma: Option<A>) => ReaderEither<R, E, A>
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A, R>(ma: Option<A>) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
 
 ## fromPredicate
 
-Derivable from `MonadThrow`.
+Derivable from `FromEither`.
 
 **Signature**
 
 ```ts
 export declare const fromPredicate: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => ReaderEither<U, E, B>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>
 }
 ```
@@ -585,6 +567,16 @@ export declare const Bifunctor: Bifunctor3<'ReaderEither'>
 
 Added in v3.0.0
 
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither3<'ReaderEither'>
+```
+
+Added in v3.0.0
+
 ## Functor
 
 **Signature**
@@ -601,16 +593,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: Monad3<'ReaderEither'>
-```
-
-Added in v3.0.0
-
-## MonadThrow
-
-**Signature**
-
-```ts
-export declare const MonadThrow: MonadThrow3<'ReaderEither'>
 ```
 
 Added in v3.0.0

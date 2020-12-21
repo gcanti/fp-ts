@@ -46,8 +46,6 @@ Added in v3.0.0
 - [Monad](#monad)
   - [chain](#chain)
   - [chainW](#chainw)
-- [MonadThrow](#monadthrow)
-  - [throwError](#throwerror)
 - [Traversable](#traversable)
   - [sequence](#sequence)
   - [traverse](#traverse)
@@ -86,9 +84,9 @@ Added in v3.0.0
   - [Bifunctor](#bifunctor-1)
   - [Extend](#extend-1)
   - [Foldable](#foldable-1)
+  - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [MonadThrow](#monadthrow-1)
   - [Pointed](#pointed)
   - [Traversable](#traversable-1)
   - [URI](#uri)
@@ -371,18 +369,6 @@ export declare const chainW: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: 
 
 Added in v3.0.0
 
-# MonadThrow
-
-## throwError
-
-**Signature**
-
-```ts
-export declare const throwError: <E, A>(e: E) => Either<E, A>
-```
-
-Added in v3.0.0
-
 # Traversable
 
 ## sequence
@@ -475,8 +461,6 @@ export declare const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, 
 Added in v3.0.0
 
 ## filterOrElse
-
-Derivable from `MonadThrow`.
 
 **Signature**
 
@@ -591,8 +575,6 @@ Added in v3.0.0
 
 ## fromOption
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
@@ -625,8 +607,6 @@ assert.deepStrictEqual(
 Added in v3.0.0
 
 ## fromPredicate
-
-Derivable from `MonadThrow`.
 
 **Signature**
 
@@ -1011,6 +991,16 @@ export declare const Foldable: Foldable2<'Either'>
 
 Added in v3.0.0
 
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither2<'Either'>
+```
+
+Added in v3.0.0
+
 ## Functor
 
 **Signature**
@@ -1027,16 +1017,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: Monad2<'Either'>
-```
-
-Added in v3.0.0
-
-## MonadThrow
-
-**Signature**
-
-```ts
-export declare const MonadThrow: MonadThrow2<'Either'>
 ```
 
 Added in v3.0.0

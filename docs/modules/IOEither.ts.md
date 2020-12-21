@@ -1,6 +1,6 @@
 ---
 title: IOEither.ts
-nav_order: 40
+nav_order: 41
 parent: Modules
 ---
 
@@ -33,8 +33,6 @@ Added in v3.0.0
   - [chainW](#chainw)
 - [MonadIO](#monadio)
   - [fromIO](#fromio)
-- [MonadThrow](#monadthrow)
-  - [throwError](#throwerror)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -66,10 +64,10 @@ Added in v3.0.0
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
   - [Bifunctor](#bifunctor-1)
+  - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadIO](#monadio-1)
-  - [MonadThrow](#monadthrow-1)
   - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -258,18 +256,6 @@ export declare const fromIO: <E, A>(fa: I.IO<A>) => IOEither<E, A>
 
 Added in v3.0.0
 
-# MonadThrow
-
-## throwError
-
-**Signature**
-
-```ts
-export declare const throwError: <E, A>(e: E) => IOEither<E, A>
-```
-
-Added in v3.0.0
-
 # combinators
 
 ## chainEitherK
@@ -311,8 +297,6 @@ export declare const chainFirstW: <A, E2, B>(
 Added in v3.0.0
 
 ## filterOrElse
-
-Derivable from `MonadThrow`.
 
 **Signature**
 
@@ -361,8 +345,6 @@ Added in v3.0.0
 
 ## fromEither
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
@@ -373,7 +355,7 @@ Added in v3.0.0
 
 ## fromOption
 
-Derivable from `MonadThrow`.
+Derivable from `FromEither`.
 
 **Signature**
 
@@ -385,7 +367,7 @@ Added in v3.0.0
 
 ## fromPredicate
 
-Derivable from `MonadThrow`.
+Derivable from `FromEither`.
 
 **Signature**
 
@@ -586,6 +568,16 @@ export declare const Bifunctor: Bifunctor2<'IOEither'>
 
 Added in v3.0.0
 
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither2<'IOEither'>
+```
+
+Added in v3.0.0
+
 ## Functor
 
 **Signature**
@@ -612,16 +604,6 @@ Added in v3.0.0
 
 ```ts
 export declare const MonadIO: MonadIO2<'IOEither'>
-```
-
-Added in v3.0.0
-
-## MonadThrow
-
-**Signature**
-
-```ts
-export declare const MonadThrow: MonadThrow2<'IOEither'>
 ```
 
 Added in v3.0.0
@@ -864,8 +846,6 @@ Make sure that a resource is cleaned up in the event of an exception (\*). The r
 whether the body action throws (\*) or returns.
 
 (\*) i.e. returns a `Left`
-
-Derivable from `MonadThrow`.
 
 **Signature**
 

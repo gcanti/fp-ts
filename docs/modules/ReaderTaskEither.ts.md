@@ -32,8 +32,6 @@ Added in v3.0.0
   - [fromIO](#fromio)
 - [MonadTask](#monadtask)
   - [fromTask](#fromtask)
-- [MonadThrow](#monadthrow)
-  - [throwError](#throwerror)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -81,10 +79,10 @@ Added in v3.0.0
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
   - [Bifunctor](#bifunctor-1)
+  - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadTask](#monadtask-1)
-  - [MonadThrow](#monadthrow-1)
   - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -294,18 +292,6 @@ export declare const fromTask: <R, E, A>(fa: T.Task<A>) => ReaderTaskEither<R, E
 
 Added in v3.0.0
 
-# MonadThrow
-
-## throwError
-
-**Signature**
-
-```ts
-export declare const throwError: <R, E, A>(e: E) => ReaderTaskEither<R, E, A>
-```
-
-Added in v3.0.0
-
 # combinators
 
 ## chainEitherK
@@ -402,8 +388,6 @@ Added in v3.0.0
 
 ## filterOrElse
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
@@ -499,8 +483,6 @@ Added in v3.0.0
 
 ## fromEither
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
@@ -521,25 +503,25 @@ Added in v3.0.0
 
 ## fromOption
 
-Derivable from `MonadThrow`.
+Derivable from `FromEither`.
 
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <R, A>(ma: Option<A>) => ReaderTaskEither<R, E, A>
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A, R>(ma: Option<A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
 
 ## fromPredicate
 
-Derivable from `MonadThrow`.
+Derivable from `FromEither`.
 
 **Signature**
 
 ```ts
 export declare const fromPredicate: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => ReaderTaskEither<U, E, B>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => ReaderTaskEither<R, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderTaskEither<R, E, A>
 }
 ```
@@ -814,6 +796,16 @@ export declare const Bifunctor: Bifunctor3<'ReaderTaskEither'>
 
 Added in v3.0.0
 
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither3<'ReaderTaskEither'>
+```
+
+Added in v3.0.0
+
 ## Functor
 
 **Signature**
@@ -840,16 +832,6 @@ Added in v3.0.0
 
 ```ts
 export declare const MonadTask: MonadTask3<'ReaderTaskEither'>
-```
-
-Added in v3.0.0
-
-## MonadThrow
-
-**Signature**
-
-```ts
-export declare const MonadThrow: MonadThrow3<'ReaderTaskEither'>
 ```
 
 Added in v3.0.0
@@ -1083,7 +1065,7 @@ whether the body action throws (\*) or returns.
 
 (\*) i.e. returns a `Left`
 
-Derivable from `MonadThrow`.
+Derivable from `FromEither`.
 
 **Signature**
 

@@ -41,13 +41,13 @@ Added in v3.0.0
   - [reduceRight](#reduceright)
 - [Functor](#functor)
   - [map](#map)
-- [MonadThrow](#monadthrow)
-  - [throwError](#throwerror)
 - [combinators](#combinators)
   - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
+  - [fromOption](#fromoption)
   - [fromOptions](#fromoptions)
+  - [fromPredicate](#frompredicate)
   - [left](#left)
   - [leftOrBoth](#leftorboth)
   - [right](#right)
@@ -66,8 +66,8 @@ Added in v3.0.0
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [Foldable](#foldable-1)
+  - [FromEither](#fromeither)
   - [Functor](#functor-1)
-  - [MonadThrow](#monadthrow-1)
   - [Pointed](#pointed)
   - [Traversable](#traversable)
   - [URI](#uri)
@@ -171,18 +171,6 @@ export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => Thes
 
 Added in v3.0.0
 
-# MonadThrow
-
-## throwError
-
-**Signature**
-
-```ts
-export declare const throwError: <E, A>(e: E) => These<E, A>
-```
-
-Added in v3.0.0
-
 # combinators
 
 ## swap
@@ -207,6 +195,18 @@ export declare function both<E, A>(left: E, right: A): These<E, A>
 
 Added in v3.0.0
 
+## fromOption
+
+Derivable from `FromEither`.
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => These<E, A>
+```
+
+Added in v3.0.0
+
 ## fromOptions
 
 Takes a pair of `Option`s and attempts to create a `These` from them
@@ -227,6 +227,21 @@ assert.deepStrictEqual(fromOptions(none, none), none)
 assert.deepStrictEqual(fromOptions(some('a'), none), some(left('a')))
 assert.deepStrictEqual(fromOptions(none, some(1)), some(right(1)))
 assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
+```
+
+Added in v3.0.0
+
+## fromPredicate
+
+Derivable from `FromEither`.
+
+**Signature**
+
+```ts
+export declare const fromPredicate: {
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => These<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => These<E, A>
+}
 ```
 
 Added in v3.0.0
@@ -483,22 +498,22 @@ export declare const Foldable: Foldable2<'These'>
 
 Added in v3.0.0
 
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither2<'These'>
+```
+
+Added in v3.0.0
+
 ## Functor
 
 **Signature**
 
 ```ts
 export declare const Functor: Functor2<'These'>
-```
-
-Added in v3.0.0
-
-## MonadThrow
-
-**Signature**
-
-```ts
-export declare const MonadThrow: MonadThrow2<'These'>
 ```
 
 Added in v3.0.0

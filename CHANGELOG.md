@@ -28,6 +28,7 @@ high state of flux, you're at risk of it changing without notice.
   - remove `Strong` module (@gcanti)
   - remove `ChainRec` module (@gcanti)
   - remove `IORef` module (@gcanti)
+  - replace `MonadThrow` with `FromEither` (@gcanti)
   - remove mutable modules (@gcanti)
     - `Array`
     - `Map`
@@ -123,8 +124,6 @@ high state of flux, you're at risk of it changing without notice.
     - drop `Applicative` dependency (@gcanti)
     - make type class members pipeables (@gcanti)
   - `MonadIO`
-    - drop `Monad` dependency (@gcanti)
-  - `MonadThrow`
     - drop `Monad` dependency (@gcanti)
   - `Monoid`
     - swap execution order in `getEndomorphismMonoid` (@gcanti)

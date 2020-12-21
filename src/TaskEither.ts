@@ -31,6 +31,7 @@ import {
   swap_
 } from './EitherT'
 import { Filterable2C } from './Filterable'
+import { FromEither2, fromOption_, fromPredicate_ } from './FromEither'
 import { flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { IO } from './IO'
@@ -38,7 +39,6 @@ import { IOEither } from './IOEither'
 import { bind_, chainFirst_, Monad2 } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { MonadTask2 } from './MonadTask'
-import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { getLeft, getRight, Option } from './Option'
 import { Pointed2 } from './Pointed'
@@ -117,34 +117,12 @@ export const leftIO: <E, A = never>(me: IO<E>) => TaskEither<E, A> =
 export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = T.fromIO
 
 /**
- * Derivable from `MonadThrow`.
- *
  * @category constructors
  * @since 3.0.0
  */
 export const fromEither: <E, A>(ma: E.Either<E, A>) => TaskEither<E, A> =
   /*#__PURE__*/
   E.fold(left, (a) => right(a))
-
-/**
- * Derivable from `MonadThrow`.
- *
- * @category constructors
- * @since 3.0.0
- */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskEither<E, A> = (onNone) => (ma) =>
-  ma._tag === 'None' ? left(onNone()) : right(ma.value)
-
-/**
- * Derivable from `MonadThrow`.
- *
- * @category constructors
- * @since 3.0.0
- */
-export const fromPredicate: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskEither<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskEither<E, A>
-} = <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E) => (a: A) => (predicate(a) ? right(a) : left(onFalse(a)))
 
 /**
  * Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Either` instead.
@@ -253,8 +231,6 @@ export const filterOrElseW: {
   chainW((a) => (predicate(a) ? right(a) : left(onFalse(a))))
 
 /**
- * Derivable from `MonadThrow`.
- *
  * @category combinators
  * @since 3.0.0
  */
@@ -490,12 +466,6 @@ export const fromIO: MonadIO2<URI>['fromIO'] = rightIO
  * @since 3.0.0
  */
 export const fromTask: MonadTask2<URI>['fromTask'] = rightTask
-
-/**
- * @category MonadTask
- * @since 3.0.0
- */
-export const throwError: MonadThrow2<URI>['throwError'] = left
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -804,10 +774,33 @@ export const MonadTask: MonadTask2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const MonadThrow: MonadThrow2<URI> = {
+export const FromEither: FromEither2<URI> = {
   URI,
-  throwError
+  fromEither
 }
+
+/**
+ * Derivable from `FromEither`.
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskEither<E, A> =
+  /*#__PURE__*/
+  fromOption_(FromEither)
+
+/**
+ * Derivable from `FromEither`.
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromPredicate: {
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskEither<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskEither<E, A>
+} =
+  /*#__PURE__*/
+  fromPredicate_(FromEither)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -872,8 +865,6 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
  * whether the body action throws (\*) or returns.
  *
  * (\*) i.e. returns a `Left`
- *
- * Derivable from `MonadThrow`.
  *
  * @since 3.0.0
  */
