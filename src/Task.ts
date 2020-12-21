@@ -17,7 +17,7 @@ import { identity, pipe, tuple } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { IO } from './IO'
 import { bind_, chainFirst_, Monad1 } from './Monad'
-import { MonadTask1 } from './MonadTask'
+import { FromTask1 } from './FromTask'
 import { Monoid } from './Monoid'
 import { Pointed1 } from './Pointed'
 import { Semigroup } from './Semigroup'
@@ -147,7 +147,7 @@ export const flatten: <A>(mma: Task<Task<A>>) => Task<A> =
  * @category MonadTask
  * @since 3.0.0
  */
-export const fromTask: MonadTask1<URI>['fromTask'] = identity
+export const fromTask: FromTask1<URI>['fromTask'] = identity
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -340,7 +340,7 @@ export const FromIO: FromIO1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const MonadTask: MonadTask1<URI> = {
+export const FromTask: FromTask1<URI> = {
   URI,
   fromIO,
   fromTask

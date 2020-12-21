@@ -13,7 +13,7 @@ import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { bind_, chainFirst_, Monad4 } from './Monad'
 import { FromIO4 } from './FromIO'
-import { MonadTask4 } from './MonadTask'
+import { FromTask4 } from './FromTask'
 import { Option } from './Option'
 import { Pointed4 } from './Pointed'
 import { Reader } from './Reader'
@@ -480,7 +480,7 @@ export const fromIO: FromIO4<URI>['fromIO'] = rightIO
  * @category MonadTask
  * @since 3.0.0
  */
-export const fromTask: MonadTask4<URI>['fromTask'] = rightTask
+export const fromTask: FromTask4<URI>['fromTask'] = rightTask
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -633,7 +633,7 @@ export const FromIO: FromIO4<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const MonadTask: MonadTask4<URI> = {
+export const FromTask: FromTask4<URI> = {
   URI,
   fromIO,
   fromTask

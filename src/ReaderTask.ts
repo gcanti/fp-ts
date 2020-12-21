@@ -8,7 +8,7 @@ import { flow, identity, pipe, tuple } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { IO } from './IO'
 import { bind_, chainFirst_, Monad2 } from './Monad'
-import { MonadTask2 } from './MonadTask'
+import { FromTask2 } from './FromTask'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import * as R from './Reader'
@@ -322,7 +322,7 @@ export const FromIO: FromIO2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const MonadTask: MonadTask2<URI> = {
+export const FromTask: FromTask2<URI> = {
   URI,
   fromIO,
   fromTask

@@ -43,8 +43,8 @@ Added in v3.0.0
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
+  - [FromTask](#fromtask)
   - [Functor](#functor-1)
-  - [MonadTask](#monadtask)
   - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -324,22 +324,22 @@ export declare const FromIO: FromIO2<'TaskThese'>
 
 Added in v3.0.0
 
+## FromTask
+
+**Signature**
+
+```ts
+export declare const FromTask: FromTask2<'TaskThese'>
+```
+
+Added in v3.0.0
+
 ## Functor
 
 **Signature**
 
 ```ts
 export declare const Functor: Functor2<'TaskThese'>
-```
-
-Added in v3.0.0
-
-## MonadTask
-
-**Signature**
-
-```ts
-export declare const MonadTask: MonadTask2<'TaskThese'>
 ```
 
 Added in v3.0.0

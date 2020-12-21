@@ -43,8 +43,8 @@ Added in v3.0.0
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
   - [FromIO](#fromio-1)
+  - [FromTask](#fromtask)
   - [Functor](#functor-1)
-  - [MonadTask](#monadtask)
   - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -345,22 +345,22 @@ export declare const FromIO: FromIO2<'ReaderTask'>
 
 Added in v3.0.0
 
+## FromTask
+
+**Signature**
+
+```ts
+export declare const FromTask: FromTask2<'ReaderTask'>
+```
+
+Added in v3.0.0
+
 ## Functor
 
 **Signature**
 
 ```ts
 export declare const Functor: Functor2<'ReaderTask'>
-```
-
-Added in v3.0.0
-
-## MonadTask
-
-**Signature**
-
-```ts
-export declare const MonadTask: MonadTask2<'ReaderTask'>
 ```
 
 Added in v3.0.0

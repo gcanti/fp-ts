@@ -30,6 +30,7 @@ high state of flux, you're at risk of it changing without notice.
   - remove `IORef` module (@gcanti)
   - replace `MonadThrow` with `FromEither` (@gcanti)
   - replace `MonadIO` with `FromIO` (@gcanti)
+  - replace `MonadTask` with `FromTask` (@gcanti)
   - remove mutable modules (@gcanti)
     - `Array`
     - `Map`
