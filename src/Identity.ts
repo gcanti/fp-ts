@@ -3,7 +3,7 @@
  */
 import { Alt1 } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
+import { apFirst_, Apply1, apSecond_, apS_, apT_ } from './Apply'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
@@ -12,7 +12,6 @@ import { identity as id, pipe, tuple } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { HKT } from './HKT'
 import { bind_, chainFirst_, Monad1 } from './Monad'
-import { Monoid } from './Monoid'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 
@@ -33,7 +32,7 @@ export type Identity<A> = A
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => (fa: Identity<A>) => Identity<B> = (f) => (fa) => f(fa)
+export const map: Functor1<URI>['map'] = (f) => (fa) => f(fa)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -41,7 +40,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Identity<A>) => Identity<B> = (
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Applicative1<URI>['ap'] = (fa) => (fab) => fab(fa)
+export const ap: Apply1<URI>['ap'] = (fa) => (fab) => fab(fa)
 
 /**
  * Wrap a value into the type constructor.
@@ -69,7 +68,7 @@ export const extend: Extend1<URI>['extend'] = (f) => (wa) => f(wa)
  * @category Extract
  * @since 3.0.0
  */
-export const extract: <A>(wa: Identity<A>) => A = id
+export const extract: Comonad1<URI>['extract'] = id
 
 /**
  * Derivable from `Extend`.
@@ -95,19 +94,19 @@ export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> =
  * @category Foldable
  * @since 3.0.0
  */
-export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Identity<A>) => B = (b, f) => (fa) => f(b, fa)
+export const reduce: Foldable1<URI>['reduce'] = (b, f) => (fa) => f(b, fa)
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Identity<A>) => M = () => (f) => (fa) => f(fa)
+export const foldMap: Foldable1<URI>['foldMap'] = () => (f) => (fa) => f(fa)
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Identity<A>) => B = (b, f) => (fa) => f(fa, b)
+export const reduceRight: Foldable1<URI>['reduceRight'] = (b, f) => (fa) => f(fa, b)
 
 /**
  * @since 3.0.0

@@ -3,7 +3,7 @@
  */
 import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C } from './Applicative'
-import { apFirst_, Apply1, apSecond_, apS_, apT_ } from './Apply'
+import { apFirst_, Apply1, Apply3, apSecond_, apS_, apT_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import {
@@ -385,7 +385,7 @@ export const chainTaskEitherK: <E, A, B>(
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> =
+export const map: Functor3<URI>['map'] =
   /*#__PURE__*/
   map_(RT.Functor)
 
@@ -415,7 +415,7 @@ export const mapLeft: Bifunctor3<URI>['mapLeft'] =
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Applicative3<URI>['ap'] =
+export const ap: Apply3<URI>['ap'] =
   /*#__PURE__*/
   ap_(RT.ApplicativePar)
 

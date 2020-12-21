@@ -71,7 +71,7 @@ export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: Traced<E, A>) => Traced<E, B> = (f) => (fa) => (p) => f(fa(p))
+export const map: Functor2<URI>['map'] = (f) => (fa) => (p) => f(fa(p))
 
 // -------------------------------------------------------------------------------------
 // instances

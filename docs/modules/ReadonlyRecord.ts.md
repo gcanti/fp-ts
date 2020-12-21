@@ -174,7 +174,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Readonly<Record<string, A>>) => B
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Readonly<Record<string, A>>) => B
 ```
 
 Added in v3.0.0
@@ -184,7 +184,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Readonly<Record<string, A>>) => B
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Readonly<Record<string, A>>) => B
 ```
 
 Added in v3.0.0

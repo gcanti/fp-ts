@@ -15,7 +15,7 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative2, Applicative2C } from './Applicative'
-import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
+import { apFirst_, Apply2, apSecond_, apS_, apT_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C, Separated } from './Compactable'
 import { Eq, fromEquals } from './Eq'
@@ -501,7 +501,7 @@ export const apW: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) =
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Applicative2<URI>['ap'] = apW
+export const ap: Apply2<URI>['ap'] = apW
 
 /**
  * Wrap a value into the type constructor.

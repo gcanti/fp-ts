@@ -89,7 +89,7 @@ export const extend: Extend2<URI>['extend'] = (f) => (wa) => ({
  * @category Extract
  * @since 3.0.0
  */
-export const extract: <E, A>(wa: Store<E, A>) => A = (wa) => wa.peek(wa.pos)
+export const extract: Comonad2<URI>['extract'] = (wa) => wa.peek(wa.pos)
 
 /**
  * Derivable from `Extend`.
@@ -108,7 +108,7 @@ export const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>> =
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B> = (f) => (fa) => ({
+export const map: Functor2<URI>['map'] = (f) => (fa) => ({
   peek: (s) => f(fa.peek(s)),
   pos: fa.pos
 })

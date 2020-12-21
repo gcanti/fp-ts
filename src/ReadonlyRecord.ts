@@ -860,14 +860,13 @@ export const partitionMap: Filterable1<URI>['partitionMap'] = (f) => partitionMa
  * @category Foldable
  * @since 3.0.0
  */
-export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Readonly<Record<string, A>>) => B = (b, f) =>
-  reduceWithIndex(b, (_, b, a) => f(b, a))
+export const reduce: Foldable1<URI>['reduce'] = (b, f) => reduceWithIndex(b, (_, b, a) => f(b, a))
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Readonly<Record<string, A>>) => M = (M) => {
+export const foldMap: Foldable1<URI>['foldMap'] = (M) => {
   const foldMapWithIndexM = foldMapWithIndex(M)
   return (f) => foldMapWithIndexM((_, a) => f(a))
 }
@@ -876,8 +875,7 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Readonly<
  * @category Foldable
  * @since 3.0.0
  */
-export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Readonly<Record<string, A>>) => B = (b, f) =>
-  reduceRightWithIndex(b, (_, a, b) => f(a, b))
+export const reduceRight: Foldable1<URI>['reduceRight'] = (b, f) => reduceRightWithIndex(b, (_, a, b) => f(a, b))
 
 /**
  * @category Compactable

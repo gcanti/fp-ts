@@ -3,7 +3,7 @@
  */
 import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C } from './Applicative'
-import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
+import { apFirst_, Apply3, apSecond_, apS_, apT_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import {
@@ -243,7 +243,7 @@ export const filterOrElse: {
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B> =
+export const map: Functor3<URI>['map'] =
   /*#__PURE__*/
   map_(R.Functor)
 
@@ -273,7 +273,7 @@ export const mapLeft: Bifunctor3<URI>['mapLeft'] =
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Applicative3<URI>['ap'] =
+export const ap: Apply3<URI>['ap'] =
   /*#__PURE__*/
   ap_(R.Applicative)
 

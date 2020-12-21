@@ -8,7 +8,7 @@
  * @since 3.0.0
  */
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
+import { apFirst_, Apply1, apSecond_, apS_, apT_ } from './Apply'
 import { Comonad1 } from './Comonad'
 import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
@@ -17,7 +17,6 @@ import { identity, pipe, tuple } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { HKT } from './HKT'
 import { bind_, chainFirst_, Monad1 } from './Monad'
-import { Monoid } from './Monoid'
 import * as A from './ReadonlyArray'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
@@ -196,7 +195,7 @@ export function fold<A, B>(f: (a: A, bs: ReadonlyArray<B>) => B): (tree: Tree<A>
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Applicative1<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
+export const ap: Apply1<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -249,7 +248,7 @@ export const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A> =
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B> = (f) => (fa) => ({
+export const map: Functor1<URI>['map'] = (f) => (fa) => ({
   value: f(fa.value),
   forest: fa.forest.map(map(f))
 })
@@ -258,7 +257,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B> = (f) => (f
  * @category Foldable
  * @since 3.0.0
  */
-export const reduce = <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>): B => {
+export const reduce: Foldable1<URI>['reduce'] = <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>): B => {
   let r: B = f(b, fa.value)
   const len = fa.forest.length
   for (let i = 0; i < len; i++) {
@@ -271,14 +270,13 @@ export const reduce = <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>): B => 
  * @category Foldable
  * @since 3.0.0
  */
-export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Tree<A>) => M = (M) => (f) =>
-  reduce(M.empty, (acc, a) => M.concat(f(a))(acc))
+export const foldMap: Foldable1<URI>['foldMap'] = (M) => (f) => reduce(M.empty, (acc, a) => M.concat(f(a))(acc))
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const reduceRight = <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>): B => {
+export const reduceRight: Foldable1<URI>['reduceRight'] = <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>): B => {
   let r: B = b
   const len = fa.forest.length
   for (let i = len - 1; i >= 0; i--) {
@@ -291,7 +289,7 @@ export const reduceRight = <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>): 
  * @category Extract
  * @since 3.0.0
  */
-export const extract: <A>(wa: Tree<A>) => A = (wa) => wa.value
+export const extract: Comonad1<URI>['extract'] = (wa) => wa.value
 
 /**
  * @since 3.0.0

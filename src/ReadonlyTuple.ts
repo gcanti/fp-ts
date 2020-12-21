@@ -110,10 +110,7 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => [fst(fa), f(sn
  * @category Semigroupoid
  * @since 3.0.0
  */
-export const compose: <A, B>(ab: readonly [B, A]) => <C>(bc: readonly [C, B]) => readonly [C, A] = (ab) => (bc) => [
-  fst(bc),
-  snd(ab)
-]
+export const compose: Semigroupoid2<URI>['compose'] = (ab) => (bc) => [fst(bc), snd(ab)]
 
 /**
  * @category Extend
@@ -125,7 +122,7 @@ export const extend: Extend2<URI>['extend'] = (f) => (wa) => [f(wa), snd(wa)]
  * @category Extract
  * @since 3.0.0
  */
-export const extract: <E, A>(wa: readonly [A, E]) => A = fst
+export const extract: Comonad2<URI>['extract'] = fst
 
 /**
  * Derivable from `Extend`.
@@ -144,32 +141,25 @@ export const duplicate: <E, A>(wa: readonly [A, E]) => readonly [readonly [A, E]
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly [B, E] = (f) => (fa) => [
-  f(fst(fa)),
-  snd(fa)
-]
+export const map: Functor2<URI>['map'] = (f) => (fa) => [f(fst(fa)), snd(fa)]
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: readonly [A, E]) => B = (b, f) => (fa) =>
-  f(b, fst(fa))
+export const reduce: Foldable2<URI>['reduce'] = (b, f) => (fa) => f(b, fst(fa))
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: readonly [A, E]) => M = () => {
-  return (f) => (fa) => f(fst(fa))
-}
+export const foldMap: Foldable2<URI>['foldMap'] = () => (f) => (fa) => f(fst(fa))
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: readonly [A, E]) => B = (b, f) => (fa) =>
-  f(fst(fa), b)
+export const reduceRight: Foldable2<URI>['reduceRight'] = (b, f) => (fa) => f(fst(fa), b)
 
 /**
  * @since 3.0.0

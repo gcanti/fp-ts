@@ -4,7 +4,7 @@
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
+import { apFirst_, Apply1, apSecond_, apS_, apT_ } from './Apply'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
@@ -1313,7 +1313,7 @@ export const alt: Alt1<URI>['alt'] = altW
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Applicative1<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
+export const ap: Apply1<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.

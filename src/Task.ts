@@ -11,7 +11,7 @@
  * @since 3.0.0
  */
 import { Applicative1 } from './Applicative'
-import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
+import { apFirst_, Apply1, apSecond_, apS_, apT_ } from './Apply'
 import { identity, pipe, tuple } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { IO } from './IO'
@@ -105,7 +105,7 @@ export function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> {
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (fa) => () => fa().then(f)
+export const map: Functor1<URI>['map'] = (f) => (fa) => () => fa().then(f)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -113,7 +113,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (f
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Applicative1<URI>['ap'] = (fa) => (fab) => () => Promise.all([fab(), fa()]).then(([f, a]) => f(a))
+export const ap: Apply1<URI>['ap'] = (fa) => (fab) => () => Promise.all([fab(), fa()]).then(([f, a]) => f(a))
 
 /**
  * Wrap a value into the type constructor.

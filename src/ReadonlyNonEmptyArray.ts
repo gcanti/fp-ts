@@ -5,7 +5,7 @@
  */
 import { Alt1 } from './Alt'
 import { Applicative1 } from './Applicative'
-import { apS_, apT_ } from './Apply'
+import { Apply1, apS_, apT_ } from './Apply'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
@@ -445,7 +445,7 @@ export const alt: Alt1<URI>['alt'] = RA.alt as any
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Applicative1<URI>['ap'] = RA.ap as any
+export const ap: Apply1<URI>['ap'] = RA.ap as any
 
 /**
  * Wrap a value into the type constructor.
@@ -496,7 +496,7 @@ export const flatten: <A>(
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = RA.map as any
+export const map: Functor1<URI>['map'] = RA.map as any
 
 /**
  * @category FunctorWithIndex
@@ -508,29 +508,25 @@ export const mapWithIndex: FunctorWithIndex1<URI, number>['mapWithIndex'] = RA.m
  * @category Foldable
  * @since 3.0.0
  */
-export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => B = RA.reduce
+export const reduce: Foldable1<URI>['reduce'] = RA.reduce
 
 /**
  * @category FoldableWithIndex
  * @since 3.0.0
  */
-export const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => B =
-  RA.reduceWithIndex
+export const reduceWithIndex: FoldableWithIndex1<URI, number>['reduceWithIndex'] = RA.reduceWithIndex
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyNonEmptyArray<A>) => B = RA.reduceRight
+export const reduceRight: Foldable1<URI>['reduceRight'] = RA.reduceRight
 
 /**
  * @category FoldableWithIndex
  * @since 3.0.0
  */
-export const reduceRightWithIndex: <A, B>(
-  b: B,
-  f: (i: number, a: A, b: B) => B
-) => (fa: ReadonlyNonEmptyArray<A>) => B = RA.reduceRightWithIndex
+export const reduceRightWithIndex: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] = RA.reduceRightWithIndex
 
 /**
  * @since 3.0.0

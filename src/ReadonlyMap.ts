@@ -594,11 +594,10 @@ export const filterMap: Filterable2<URI>['filterMap'] = (f) => filterMapWithInde
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> = (f) => (fa) =>
-  mapWithIndex_(fa, (_, a) => f(a))
+export const map: Functor2<URI>['map'] = (f) => (fa) => mapWithIndex_(fa, (_, a) => f(a))
 
 /**
- * @category FunctorWithIndex
+ * @category combinator
  * @since 3.0.0
  */
 export const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> = (f) => (

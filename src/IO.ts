@@ -12,7 +12,7 @@
  * @since 3.0.0
  */
 import { Applicative1 } from './Applicative'
-import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
+import { apFirst_, Apply1, apSecond_, apS_, apT_ } from './Apply'
 import { constant, identity, tuple } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { bind_, chainFirst_, Monad1 } from './Monad'
@@ -39,7 +39,7 @@ export interface IO<A> {
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) => () => f(fa())
+export const map: Functor1<URI>['map'] = (f) => (fa) => () => f(fa())
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -47,7 +47,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) =
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Applicative1<URI>['ap'] = (fa) => (fab) => () => fab()(fa())
+export const ap: Apply1<URI>['ap'] = (fa) => (fab) => () => fab()(fa())
 
 /**
  * Wrap a value into the type constructor.

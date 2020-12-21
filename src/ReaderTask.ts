@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import { Applicative2 } from './Applicative'
-import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
+import { apFirst_, Apply2, apSecond_, apS_, apT_ } from './Apply'
 import { flow, identity, pipe, tuple } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { IO } from './IO'
@@ -114,7 +114,7 @@ export const chainTaskK: <A, B>(f: (a: A) => Task<B>) => <R>(ma: ReaderTask<R, A
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B> =
+export const map: Functor2<URI>['map'] =
   /*#__PURE__*/
   map_(T.Functor)
 
@@ -124,7 +124,7 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderT
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Applicative2<URI>['ap'] =
+export const ap: Apply2<URI>['ap'] =
   /*#__PURE__*/
   ap_(T.ApplicativePar)
 

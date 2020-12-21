@@ -3,7 +3,7 @@
  */
 import { Alt4 } from './Alt'
 import { Applicative4 } from './Applicative'
-import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
+import { apFirst_, Apply4, apSecond_, apS_, apT_ } from './Apply'
 import { Bifunctor4 } from './Bifunctor'
 import * as E from './Either'
 import { flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
@@ -389,9 +389,7 @@ export const filterOrElse: {
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(
-  f: (a: A) => B
-) => <S, R, E>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
+export const map: Functor4<URI>['map'] =
   /*#__PURE__*/
   map_(RTE.Functor)
 
@@ -421,7 +419,7 @@ export const mapLeft: Bifunctor4<URI>['mapLeft'] = (f) => (fea) => (s) => pipe(f
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Applicative4<URI>['ap'] =
+export const ap: Apply4<URI>['ap'] =
   /*#__PURE__*/
   ap_(RTE.Monad)
 

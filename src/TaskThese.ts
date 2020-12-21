@@ -135,7 +135,7 @@ export const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E> =
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThese<E, B> = (f) => T.map(TH.map(f))
+export const map: Functor2<URI>['map'] = (f) => T.map(TH.map(f))
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.

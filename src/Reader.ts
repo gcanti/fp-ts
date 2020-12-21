@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import { Applicative2 } from './Applicative'
-import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
+import { apFirst_, Apply2, apSecond_, apS_, apT_ } from './Apply'
 import { Category2 } from './Category'
 import { constant, flow, identity, tuple } from './function'
 import { bindTo_, Functor2 } from './Functor'
@@ -10,6 +10,7 @@ import { bind_, chainFirst_, Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Profunctor2 } from './Profunctor'
 import { Semigroup } from './Semigroup'
+import { Semigroupoid2 } from './Semigroupoid'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -63,7 +64,7 @@ export const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q,
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B> = (f) => (fa) => (r) => f(fa(r))
+export const map: Functor2<URI>['map'] = (f) => (fa) => (r) => f(fa(r))
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -81,7 +82,7 @@ export const apW: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) =
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Applicative2<URI>['ap'] = apW
+export const ap: Apply2<URI>['ap'] = apW
 
 /**
  * Wrap a value into the type constructor.
@@ -123,15 +124,13 @@ export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> =
  * @category Semigroupoid
  * @since 3.0.0
  */
-export const compose: <A, B>(ab: Reader<A, B>) => <C>(bc: Reader<B, C>) => Reader<A, C> = (ab) => (bc) => flow(ab, bc)
+export const compose: Semigroupoid2<URI>['compose'] = (ab) => (bc) => flow(ab, bc)
 
 /**
  * @category Profunctor
  * @since 3.0.0
  */
-export const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reader<E, A>) => Reader<D, B> = (f, g) => (
-  fea
-) => (a) => g(fea(f(a)))
+export const promap: Profunctor2<URI>['promap'] = (f, g) => (fea) => (a) => g(fea(f(a)))
 
 /**
  * @category Category

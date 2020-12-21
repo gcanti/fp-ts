@@ -22,7 +22,7 @@ Added in v3.0.0
   - [partitionMap](#partitionmap)
 - [Functor](#functor)
   - [map](#map)
-- [FunctorWithIndex](#functorwithindex)
+- [combinator](#combinator)
   - [mapWithIndex](#mapwithindex)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
@@ -147,12 +147,12 @@ use the type constructor `F` to represent some computational context.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: ReadonlyMap<E, A>) => ReadonlyMap<E, B>
 ```
 
 Added in v3.0.0
 
-# FunctorWithIndex
+# combinator
 
 ## mapWithIndex
 

@@ -24,16 +24,15 @@ import { Bifunctor2 } from './Bifunctor'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Foldable2 } from './Foldable'
+import { Lazy, pipe } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { MonadThrow2 } from './MonadThrow'
-import { Monoid } from './Monoid'
 import { isNone, none, Option, some } from './Option'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { Traversable2 } from './Traversable'
-import { Lazy, pipe } from './function'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -300,28 +299,28 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) =>
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B> = (f) => (fa) =>
+export const map: Functor2<URI>['map'] = (f) => (fa) =>
   isLeft(fa) ? fa : isRight(fa) ? right(f(fa.right)) : both(fa.left, f(fa.right))
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>
+export const reduce: Foldable2<URI>['reduce'] = (b, f) => (fa) =>
   isLeft(fa) ? b : isRight(fa) ? f(b, fa.right) : f(b, fa.right)
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<E, A>) => M = (M) => (f) => (fa) =>
+export const foldMap: Foldable2<URI>['foldMap'] = (M) => (f) => (fa) =>
   isLeft(fa) ? M.empty : isRight(fa) ? f(fa.right) : f(fa.right)
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>
+export const reduceRight: Foldable2<URI>['reduceRight'] = (b, f) => (fa) =>
   isLeft(fa) ? b : isRight(fa) ? f(fa.right, b) : f(fa.right, b)
 
 /**
@@ -461,7 +460,6 @@ export function getApplicative<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
   return {
     URI,
     map,
-    of: right,
     ap: (fa) => (fab) =>
       isLeft(fab)
         ? isLeft(fa)
@@ -479,7 +477,8 @@ export function getApplicative<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
         ? left(SE.concat(fa.left)(fab.left))
         : isRight(fa)
         ? both(fab.left, fab.right(fa.right))
-        : both(SE.concat(fa.left)(fab.left), fab.right(fa.right))
+        : both(SE.concat(fa.left)(fab.left), fab.right(fa.right)),
+    of
   }
 }
 

@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import { Applicative2 } from './Applicative'
-import { apFirst_, apSecond_, apS_, apT_ } from './Apply'
+import { apFirst_, Apply2, apSecond_, apS_, apT_ } from './Apply'
 import { identity, tuple } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { bind_, chainFirst_, Monad2 } from './Monad'
@@ -62,7 +62,7 @@ export const gets: <S, A>(f: (s: S) => A) => State<S, A> = (f) => (s) => [f(s), 
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: State<E, A>) => State<E, B> = (f) => (fa) => (s1) => {
+export const map: Functor2<URI>['map'] = (f) => (fa) => (s1) => {
   const [a, s2] = fa(s1)
   return [f(a), s2]
 }
@@ -73,7 +73,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: State<E, A>) => State<E, B> 
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Applicative2<URI>['ap'] = (fa) => (fab) => (s1) => {
+export const ap: Apply2<URI>['ap'] = (fa) => (fab) => (s1) => {
   const [f, s2] = fab(s1)
   const [a, s3] = fa(s2)
   return [f(a), s3]

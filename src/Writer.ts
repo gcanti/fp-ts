@@ -83,7 +83,7 @@ export const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B> = (f) => (fa) => () => {
+export const map: Functor2<URI>['map'] = (f) => (fa) => () => {
   const [a, w] = fa()
   return [f(a), w]
 }
