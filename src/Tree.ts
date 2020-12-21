@@ -324,7 +324,7 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(
  * @category Applicative
  * @since 3.0.0
  */
-export const of: Applicative1<URI>['of'] = (a) => ({
+export const of: Pointed1<URI>['of'] = (a) => ({
   value: a,
   forest: A.empty
 })

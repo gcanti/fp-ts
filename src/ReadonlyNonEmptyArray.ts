@@ -454,7 +454,7 @@ export const ap: Apply1<URI>['ap'] = RA.ap as any
  * @category Applicative
  * @since 3.0.0
  */
-export const of: Applicative1<URI>['of'] = RA.of as any
+export const of: Pointed1<URI>['of'] = RA.of as any
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.

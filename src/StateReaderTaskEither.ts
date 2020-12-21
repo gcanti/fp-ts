@@ -413,7 +413,7 @@ export const apW: <S, R2, E2, A>(
  * @category Applicative
  * @since 3.0.0
  */
-export const of: Applicative4<URI>['of'] = right
+export const of: Pointed4<URI>['of'] = right
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.

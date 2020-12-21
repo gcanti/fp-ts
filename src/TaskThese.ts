@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import { Applicative2, Applicative2C } from './Applicative'
+import { Applicative2C } from './Applicative'
 import { Apply1 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
@@ -173,7 +173,7 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => T.map(TH.mapLeft(f))
  * @category Applicative
  * @since 3.0.0
  */
-export const of: Applicative2<URI>['of'] = right
+export const of: Pointed2<URI>['of'] = right
 
 /**
  * @category MonadIO

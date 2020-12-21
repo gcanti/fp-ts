@@ -145,7 +145,7 @@ export const apW: <R2, A>(
  * @category Applicative
  * @since 3.0.0
  */
-export const of: Applicative2<URI>['of'] =
+export const of: Pointed2<URI>['of'] =
   /*#__PURE__*/
   of_(T.Pointed)
 

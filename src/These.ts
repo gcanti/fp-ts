@@ -19,7 +19,7 @@
  *
  * @since 3.0.0
  */
-import { Applicative, Applicative2, Applicative2C } from './Applicative'
+import { Applicative, Applicative2C } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
@@ -359,7 +359,7 @@ export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) =>
  * @category Applicative
  * @since 3.0.0
  */
-export const of: Applicative2<URI>['of'] = right
+export const of: Pointed2<URI>['of'] = right
 
 // -------------------------------------------------------------------------------------
 // instances

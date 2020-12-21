@@ -122,7 +122,7 @@ export const ap: Apply1<URI>['ap'] = (fa) => (fab) => () => Promise.all([fab(), 
  * @category Applicative
  * @since 3.0.0
  */
-export const of: Applicative1<URI>['of'] = (a) => () => Promise.resolve(a)
+export const of: Pointed1<URI>['of'] = (a) => () => Promise.resolve(a)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.

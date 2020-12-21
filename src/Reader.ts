@@ -91,7 +91,7 @@ export const ap: Apply2<URI>['ap'] = apW
  * @category Applicative
  * @since 3.0.0
  */
-export const of: Applicative2<URI>['of'] = constant
+export const of: Pointed2<URI>['of'] = constant
 
 /**
  * Less strict version of [`chain`](#chain).

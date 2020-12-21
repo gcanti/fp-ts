@@ -86,7 +86,7 @@ export const ap: Apply2<URI>['ap'] = (fa) => (fab) => (s1) => {
  * @category Applicative
  * @since 3.0.0
  */
-export const of: Applicative2<URI>['of'] = (a) => (s) => [a, s]
+export const of: Pointed2<URI>['of'] = (a) => (s) => [a, s]
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.

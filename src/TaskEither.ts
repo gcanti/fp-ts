@@ -453,7 +453,7 @@ export const altW: <E2, B>(
  * @category Applicative
  * @since 3.0.0
  */
-export const of: Applicative2<URI>['of'] = right
+export const of: Pointed2<URI>['of'] = right
 
 /**
  * @category MonadIO

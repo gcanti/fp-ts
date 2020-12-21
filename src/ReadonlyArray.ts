@@ -1282,7 +1282,7 @@ export function difference<A>(E: Eq<A>): (ys: ReadonlyArray<A>) => (xs: Readonly
  * @category Applicative
  * @since 3.0.0
  */
-export const of: Applicative1<URI>['of'] = (a) => [a]
+export const of: Pointed1<URI>['of'] = (a) => [a]
 
 /**
  * @category Alternative
