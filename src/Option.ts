@@ -127,9 +127,7 @@ export const some = <A>(a: A): Option<A> => ({ _tag: 'Some', value: a })
  * @category constructors
  * @since 3.0.0
  */
-export function fromNullable<A>(a: A): Option<NonNullable<A>> {
-  return a == null ? none : some(a as NonNullable<A>)
-}
+export const fromNullable = <A>(a: A): Option<NonNullable<A>> => (a == null ? none : some(a as NonNullable<A>))
 
 /**
  * Returns a *smart constructor* based on the given predicate.
@@ -169,7 +167,7 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
  * @category constructors
  * @since 3.0.0
  */
-export function tryCatch<A>(f: Lazy<A>): Option<A> {
+export const tryCatch = <A>(f: Lazy<A>): Option<A> => {
   try {
     return some(f())
   } catch (e) {
@@ -190,9 +188,7 @@ export function tryCatch<A>(f: Lazy<A>): Option<A> {
  * @category constructors
  * @since 3.0.0
  */
-export function getLeft<E, A>(ma: Either<E, A>): Option<E> {
-  return ma._tag === 'Right' ? none : some(ma.left)
-}
+export const getLeft = <E, A>(ma: Either<E, A>): Option<E> => (ma._tag === 'Right' ? none : some(ma.left))
 
 /**
  * Returns the `Right` value of an `Either` if possible.
@@ -207,9 +203,7 @@ export function getLeft<E, A>(ma: Either<E, A>): Option<E> {
  * @category constructors
  * @since 3.0.0
  */
-export function getRight<E, A>(ma: Either<E, A>): Option<A> {
-  return ma._tag === 'Left' ? none : some(ma.right)
-}
+export const getRight = <E, A>(ma: Either<E, A>): Option<A> => (ma._tag === 'Left' ? none : some(ma.right))
 
 /**
  * Transforms an `Either` to an `Option` discarding the error.
@@ -252,9 +246,8 @@ export const fromEither = getRight
  * @category destructors
  * @since 3.0.0
  */
-export function fold<A, B>(onNone: Lazy<B>, onSome: (a: A) => B): (ma: Option<A>) => B {
-  return (ma) => (isNone(ma) ? onNone() : onSome(ma.value))
-}
+export const fold = <B, A>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<A>): B =>
+  isNone(ma) ? onNone() : onSome(ma.value)
 
 /**
  * Extracts the value out of the structure, if it exists. Otherwise returns `null`.
@@ -281,9 +274,7 @@ export function fold<A, B>(onNone: Lazy<B>, onSome: (a: A) => B): (ma: Option<A>
  * @category destructors
  * @since 3.0.0
  */
-export function toNullable<A>(ma: Option<A>): A | null {
-  return isNone(ma) ? null : ma.value
-}
+export const toNullable = <A>(ma: Option<A>): A | null => (isNone(ma) ? null : ma.value)
 
 /**
  * Extracts the value out of the structure, if it exists. Otherwise returns `undefined`.
@@ -310,9 +301,7 @@ export function toNullable<A>(ma: Option<A>): A | null {
  * @category destructors
  * @since 3.0.0
  */
-export function toUndefined<A>(ma: Option<A>): A | undefined {
-  return isNone(ma) ? undefined : ma.value
-}
+export const toUndefined = <A>(ma: Option<A>): A | undefined => (isNone(ma) ? undefined : ma.value)
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).
@@ -372,11 +361,9 @@ export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElse
  * @category combinators
  * @since 3.0.0
  */
-export function fromNullableK<A extends ReadonlyArray<unknown>, B>(
+export const fromNullableK = <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-): (...a: A) => Option<NonNullable<B>> {
-  return (...a) => fromNullable(f(...a))
-}
+): ((...a: A) => Option<NonNullable<B>>) => (...a) => fromNullable(f(...a))
 
 /**
  * This is `chain` + `fromNullable`, useful when working with optional values.
@@ -422,9 +409,8 @@ export function fromNullableK<A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export function chainNullableK<A, B>(f: (a: A) => B | null | undefined): (ma: Option<A>) => Option<B> {
-  return (ma) => (isNone(ma) ? none : fromNullable(f(ma.value)))
-}
+export const chainNullableK = <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>): Option<B> =>
+  isNone(ma) ? none : fromNullable(f(ma.value))
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types

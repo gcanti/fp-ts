@@ -51,6 +51,7 @@ import * as meetSemilattice from './MeetSemilattice'
 import * as monad from './Monad'
 import * as monoid from './Monoid'
 import * as option from './Option'
+import * as optionT from './OptionT'
 import * as ord from './Ord'
 import * as ordering from './Ordering'
 import * as pointed from './Pointed'
@@ -78,6 +79,7 @@ import * as stateT from './StateT'
 import * as store from './Store'
 import * as task from './Task'
 import * as taskEither from './TaskEither'
+import * as taskOption from './TaskOption'
 import * as taskThese from './TaskThese'
 import * as these from './These'
 import * as theseT from './TheseT'
@@ -284,6 +286,10 @@ export {
   /**
    * @since 3.0.0
    */
+  optionT,
+  /**
+   * @since 3.0.0
+   */
   ord,
   /**
    * @since 3.0.0
@@ -393,6 +399,10 @@ export {
    * @since 3.0.0
    */
   taskEither,
+  /**
+   * @since 3.0.0
+   */
+  taskOption,
   /**
    * @since 3.0.0
    */

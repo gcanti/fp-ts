@@ -410,7 +410,7 @@ This is `chain` + `fromNullable`, useful when working with optional values.
 **Signature**
 
 ```ts
-export declare function chainNullableK<A, B>(f: (a: A) => B | null | undefined): (ma: Option<A>) => Option<B>
+export declare const chainNullableK: <A, B>(f: (a: A) => B) => (ma: Option<A>) => Option<B>
 ```
 
 **Example**
@@ -475,9 +475,9 @@ Returns a _smart constructor_ from a function that returns a nullable value.
 **Signature**
 
 ```ts
-export declare function fromNullableK<A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => B | null | undefined
-): (...a: A) => Option<NonNullable<B>>
+export declare const fromNullableK: <A extends readonly unknown[], B>(
+  f: (...a: A) => B
+) => (...a: A) => Option<NonNullable<B>>
 ```
 
 **Example**
@@ -509,7 +509,7 @@ Alias of [getRight](#getRight)
 **Signature**
 
 ```ts
-export declare const fromEither: typeof getRight
+export declare const fromEither: <E, A>(ma: Either<E, A>) => Option<A>
 ```
 
 Added in v3.0.0
@@ -522,7 +522,7 @@ returns the value wrapped in a `Some`.
 **Signature**
 
 ```ts
-export declare function fromNullable<A>(a: A): Option<NonNullable<A>>
+export declare const fromNullable: <A>(a: A) => Option<NonNullable<A>>
 ```
 
 **Example**
@@ -568,7 +568,7 @@ Returns the `Left` value of an `Either` if possible.
 **Signature**
 
 ```ts
-export declare function getLeft<E, A>(ma: Either<E, A>): Option<E>
+export declare const getLeft: <E, A>(ma: Either<E, A>) => Option<E>
 ```
 
 **Example**
@@ -590,7 +590,7 @@ Returns the `Right` value of an `Either` if possible.
 **Signature**
 
 ```ts
-export declare function getRight<E, A>(ma: Either<E, A>): Option<A>
+export declare const getRight: <E, A>(ma: Either<E, A>) => Option<A>
 ```
 
 **Example**
@@ -637,7 +637,7 @@ Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwi
 **Signature**
 
 ```ts
-export declare function tryCatch<A>(f: Lazy<A>): Option<A>
+export declare const tryCatch: <A>(f: Lazy<A>) => Option<A>
 ```
 
 **Example**
@@ -726,7 +726,7 @@ returned, otherwise the function is applied to the value inside the `Some` and t
 **Signature**
 
 ```ts
-export declare function fold<A, B>(onNone: Lazy<B>, onSome: (a: A) => B): (ma: Option<A>) => B
+export declare const fold: <B, A>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<A>) => B
 ```
 
 **Example**
@@ -813,7 +813,7 @@ Extracts the value out of the structure, if it exists. Otherwise returns `null`.
 **Signature**
 
 ```ts
-export declare function toNullable<A>(ma: Option<A>): A | null
+export declare const toNullable: <A>(ma: Option<A>) => A
 ```
 
 **Example**
@@ -835,7 +835,7 @@ Extracts the value out of the structure, if it exists. Otherwise returns `undefi
 **Signature**
 
 ```ts
-export declare function toUndefined<A>(ma: Option<A>): A | undefined
+export declare const toUndefined: <A>(ma: Option<A>) => A
 ```
 
 **Example**

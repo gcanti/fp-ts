@@ -114,12 +114,12 @@ describe('ReaderTask', () => {
     assert.deepStrictEqual(await pipe(_.of('a'), M.concat(_.of('b')))({})(), 'ab')
   })
 
-  it('applicativeTaskEitherSeq', async () => {
-    await assertSeq(_.ApplicativeSeq, { fromTask: _.fromTask }, (fa) => fa(null)())
+  it('ApplicativeSeq', async () => {
+    await assertSeq(_.ApplicativeSeq, _.FromTask, (fa) => fa(null)())
   })
 
-  it('applicativeTaskEitherPar', async () => {
-    await assertPar(_.ApplicativePar, { fromTask: _.fromTask }, (fa) => fa(null)())
+  it('ApplicativePar', async () => {
+    await assertPar(_.ApplicativePar, _.FromTask, (fa) => fa(null)())
   })
 
   // -------------------------------------------------------------------------------------

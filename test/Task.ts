@@ -66,12 +66,12 @@ describe('Task', () => {
   // instances
   // -------------------------------------------------------------------------------------
 
-  it('applicativeTaskSeq', async () => {
-    await assertSeq(_.ApplicativeSeq, { fromTask: _.fromTask }, (fa) => fa())
+  it('ApplicativeSeq', async () => {
+    await assertSeq(_.ApplicativeSeq, _.FromTask, (fa) => fa())
   })
 
-  it('applicativeTaskPar', async () => {
-    await assertPar(_.ApplicativePar, { fromTask: _.fromTask }, (fa) => fa())
+  it('ApplicativePar', async () => {
+    await assertPar(_.ApplicativePar, _.FromTask, (fa) => fa())
   })
 
   describe('getRaceMonoid', () => {

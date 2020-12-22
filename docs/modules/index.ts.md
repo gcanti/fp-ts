@@ -62,6 +62,7 @@ Added in v3.0.0
   - [monad](#monad)
   - [monoid](#monoid)
   - [option](#option)
+  - [optionT](#optiont)
   - [ord](#ord)
   - [ordering](#ordering)
   - [pointed](#pointed)
@@ -89,6 +90,7 @@ Added in v3.0.0
   - [store](#store)
   - [task](#task)
   - [taskEither](#taskeither)
+  - [taskOption](#taskoption)
   - [taskThese](#taskthese)
   - [these](#these)
   - [theseT](#theset)
@@ -594,6 +596,16 @@ export declare const option: typeof option
 
 Added in v3.0.0
 
+## optionT
+
+**Signature**
+
+```ts
+export declare const optionT: typeof optionT
+```
+
+Added in v3.0.0
+
 ## ord
 
 **Signature**
@@ -860,6 +872,16 @@ Added in v3.0.0
 
 ```ts
 export declare const taskEither: typeof taskEither
+```
+
+Added in v3.0.0
+
+## taskOption
+
+**Signature**
+
+```ts
+export declare const taskOption: typeof taskOption
 ```
 
 Added in v3.0.0
