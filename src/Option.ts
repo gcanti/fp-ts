@@ -547,7 +547,7 @@ const defaultSeparate = { left: none, right: none }
  * @category Compactable
  * @since 3.0.0
  */
-export const separate: <A, B>(ma: Option<Either<A, B>>) => Separated<Option<A>, Option<B>> = (ma) => {
+export const separate: Compactable1<URI>['separate'] = (ma) => {
   const o = pipe(
     ma,
     map((e) => ({

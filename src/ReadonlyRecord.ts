@@ -899,7 +899,7 @@ export const compact: Compactable1<URI>['compact'] = <A>(
  * @category Compactable
  * @since 3.0.0
  */
-export const separate = <A, B>(
+export const separate: Compactable1<URI>['separate'] = <A, B>(
   fa: Readonly<Record<string, Either<A, B>>>
 ): Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>> => {
   const left: Record<string, A> = {}

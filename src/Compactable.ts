@@ -4,9 +4,10 @@
  * @since 3.0.0
  */
 import { Either } from './Either'
-import { Functor, Functor1 } from './Functor'
+import { pipe } from './function'
+import { Functor, Functor1, Functor2, map_ } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-import { Option } from './Option'
+import { getLeft, getRight, Option } from './Option'
 
 /**
  * A `Separated` type which holds `left` and `right` parts.
@@ -100,6 +101,30 @@ export function compact_<F extends URIS, G extends URIS2, E>(
 export function compact_<F, G>(
   F: Functor<F>,
   G: Compactable<G>
+): <A>(fa: HKT<F, HKT<G, Option<A>>>) => HKT<F, HKT<G, A>>
+export function compact_<F, G>(
+  F: Functor<F>,
+  G: Compactable<G>
 ): <A>(fa: HKT<F, HKT<G, Option<A>>>) => HKT<F, HKT<G, A>> {
   return F.map(G.compact)
+}
+
+/**
+ * @since 3.0.0
+ */
+export function separate_<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Compactable2C<G, E> & Functor2<G>
+): <A, B>(fge: Kind<F, Kind2<G, E, Either<A, B>>>) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, B>>>
+export function separate_<F, G>(
+  F: Functor<F>,
+  G: Compactable<G> & Functor<G>
+): <A, B>(fge: HKT<F, HKT<G, Either<A, B>>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>> {
+  const compact = compact_(F, G)
+  const map = map_(F, G)
+  return (fge) => {
+    const left = compact(pipe(fge, map(getLeft)))
+    const right = compact(pipe(fge, map(getRight)))
+    return { left, right }
+  }
 }

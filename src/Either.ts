@@ -826,17 +826,15 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<Either<E, A>> {
 export function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E> {
   const empty = left(M.empty)
 
-  const compact = <A>(ma: Either<E, Option<A>>): Either<E, A> => {
-    return isLeft(ma) ? ma : ma.right._tag === 'None' ? empty : right(ma.right.value)
-  }
+  const compact: Compactable2C<URI, E>['compact'] = (ma) =>
+    isLeft(ma) ? ma : ma.right._tag === 'None' ? empty : right(ma.right.value)
 
-  const separate = <A, B>(ma: Either<E, Either<A, B>>): Separated<Either<E, A>, Either<E, B>> => {
-    return isLeft(ma)
+  const separate: Compactable2C<URI, E>['separate'] = (ma) =>
+    isLeft(ma)
       ? { left: ma, right: ma }
       : isLeft(ma.right)
       ? { left: right(ma.right.left), right: empty }
       : { left: empty, right: right(ma.right.right) }
-  }
 
   return {
     URI,

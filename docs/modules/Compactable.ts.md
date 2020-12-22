@@ -25,6 +25,7 @@ Added in v3.0.0
 - [utils](#utils)
   - [Separated (interface)](#separated-interface)
   - [compact\_](#compact_)
+  - [separate\_](#separate_)
 
 ---
 
@@ -156,6 +157,23 @@ export declare function compact_<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Compactable2C<G, E>
 ): <A>(fa: Kind<F, Kind2<G, E, Option<A>>>) => Kind<F, Kind2<G, E, A>>
+export declare function compact_<F, G>(
+  F: Functor<F>,
+  G: Compactable<G>
+): <A>(fa: HKT<F, HKT<G, Option<A>>>) => HKT<F, HKT<G, A>>
+```
+
+Added in v3.0.0
+
+## separate\_
+
+**Signature**
+
+```ts
+export declare function separate_<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Compactable2C<G, E> & Functor2<G>
+): <A, B>(fge: Kind<F, Kind2<G, E, Either<A, B>>>) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, B>>>
 ```
 
 Added in v3.0.0

@@ -236,7 +236,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const separate: <A, B>(ma: Option<Either<A, B>>) => Separated<Option<A>, Option<B>>
+export declare const separate: <A, B>(fa: Option<Either<A, B>>) => Separated<Option<A>, Option<B>>
 ```
 
 Added in v3.0.0
