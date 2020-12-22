@@ -18,6 +18,8 @@ import { Alternative1 } from './Alternative'
 import { FromTask1 } from './FromTask'
 import { IO } from './IO'
 import { FromIO1 } from './FromIO'
+import { Compactable1, compact_, separate_ } from './Compactable'
+import { Filterable1, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -162,6 +164,56 @@ export const altW: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>)
  * @since 3.0.0
  */
 export const zero: Alternative1<URI>['zero'] = () => none
+
+const C: Compactable1<O.URI> & Functor1<O.URI> = { ...O.Compactable, ...O.Functor }
+
+/**
+ * @category Compactable
+ * @since 3.0.0
+ */
+export const compact: Compactable1<URI>['compact'] =
+  /*#__PURE__*/
+  compact_(T.Functor, C)
+
+/**
+ * @category Compactable
+ * @since 3.0.0
+ */
+export const separate: Compactable1<URI>['separate'] =
+  /*#__PURE__*/
+  separate_(T.Functor, C)
+
+/**
+ * @category Filterable
+ * @since 3.0.0
+ */
+export const filter: Filterable1<URI>['filter'] =
+  /*#__PURE__*/
+  filter_(T.Functor, O.Filterable)
+
+/**
+ * @category Filterable
+ * @since 3.0.0
+ */
+export const filterMap: Filterable1<URI>['filterMap'] =
+  /*#__PURE__*/
+  filterMap_(T.Functor, O.Filterable)
+
+/**
+ * @category Filterable
+ * @since 3.0.0
+ */
+export const partition: Filterable1<URI>['partition'] =
+  /*#__PURE__*/
+  partition_(T.Functor, O.Filterable)
+
+/**
+ * @category Filterable
+ * @since 3.0.0
+ */
+export const partitionMap: Filterable1<URI>['partitionMap'] =
+  /*#__PURE__*/
+  partitionMap_(T.Functor, O.Filterable)
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -352,4 +404,26 @@ export const FromTask: FromTask1<URI> = {
   URI,
   fromIO,
   fromTask
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Compactable: Compactable1<URI> = {
+  URI,
+  compact,
+  separate
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Filterable: Filterable1<URI> = {
+  URI,
+  filter,
+  filterMap,
+  partition,
+  partitionMap
 }

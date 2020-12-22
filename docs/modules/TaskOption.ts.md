@@ -19,6 +19,14 @@ Added in v3.0.0
   - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
+- [Compactable](#compactable)
+  - [compact](#compact)
+  - [separate](#separate)
+- [Filterable](#filterable)
+  - [filter](#filter)
+  - [filterMap](#filtermap)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -41,6 +49,8 @@ Added in v3.0.0
   - [Alternative](#alternative-1)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
+  - [Compactable](#compactable-1)
+  - [Filterable](#filterable-1)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
   - [Funtor](#funtor)
@@ -106,6 +116,72 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <A>(fa: TaskOption<A>) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+# Compactable
+
+## compact
+
+**Signature**
+
+```ts
+export declare const compact: <A>(fa: TaskOption<O.Option<A>>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## separate
+
+**Signature**
+
+```ts
+export declare const separate: <A, B>(fa: TaskOption<Either<A, B>>) => Separated<TaskOption<A>, TaskOption<B>>
+```
+
+Added in v3.0.0
+
+# Filterable
+
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: Filter1<'TaskOption'>
+```
+
+Added in v3.0.0
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => (fa: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: Partition1<'TaskOption'>
+```
+
+Added in v3.0.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: TaskOption<A>) => Separated<TaskOption<B>, TaskOption<C>>
 ```
 
 Added in v3.0.0
@@ -295,6 +371,26 @@ Added in v3.0.0
 
 ```ts
 export declare const ApplicativeSeq: Applicative1<'TaskOption'>
+```
+
+Added in v3.0.0
+
+## Compactable
+
+**Signature**
+
+```ts
+export declare const Compactable: Compactable1<'TaskOption'>
+```
+
+Added in v3.0.0
+
+## Filterable
+
+**Signature**
+
+```ts
+export declare const Filterable: Filterable1<'TaskOption'>
 ```
 
 Added in v3.0.0

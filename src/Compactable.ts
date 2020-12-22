@@ -98,6 +98,10 @@ export function compact_<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Compactable2C<G, E>
 ): <A>(fa: Kind<F, Kind2<G, E, Option<A>>>) => Kind<F, Kind2<G, E, A>>
+export function compact_<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Compactable1<G>
+): <A>(fa: Kind<F, Kind<G, Option<A>>>) => Kind<F, Kind<G, A>>
 export function compact_<F, G>(
   F: Functor<F>,
   G: Compactable<G>
@@ -116,6 +120,10 @@ export function separate_<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Compactable2C<G, E> & Functor2<G>
 ): <A, B>(fge: Kind<F, Kind2<G, E, Either<A, B>>>) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, B>>>
+export function separate_<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Compactable1<G> & Functor1<G>
+): <A, B>(fge: Kind<F, Kind<G, Either<A, B>>>) => Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, B>>>
 export function separate_<F, G>(
   F: Functor<F>,
   G: Compactable<G> & Functor<G>

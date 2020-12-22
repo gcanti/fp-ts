@@ -369,6 +369,10 @@ export declare function filterMap_<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Filterable2C<G, E>
 ): <A, B>(f: (a: A) => Option<B>) => (fga: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, B>>
+export declare function filterMap_<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Filterable1<G>
+): <A, B>(f: (a: A) => Option<B>) => (fga: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, B>>
 export declare function filterMap_<F, G>(
   F: Functor<F>,
   G: Filterable<G>
@@ -386,6 +390,10 @@ export declare function filter_<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Filterable2C<G, E>
 ): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, A>>
+export declare function filter_<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Filterable1<G>
+): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, A>>
 export declare function filter_<F, G>(
   F: Functor<F>,
   G: Filterable<G>
@@ -405,6 +413,12 @@ export declare function partitionMap_<F extends URIS, G extends URIS2, E>(
 ): <A, B, C>(
   f: (a: A) => Either<B, C>
 ) => (fa: Kind<F, Kind2<G, E, A>>) => Separated<Kind<F, Kind2<G, E, B>>, Kind<F, Kind2<G, E, C>>>
+export declare function partitionMap_<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Filterable1<G>
+): <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: Kind<F, Kind<G, A>>) => Separated<Kind<F, Kind<G, B>>, Kind<F, Kind<G, C>>>
 export declare function partitionMap_<F, G>(
   F: Functor<F>,
   G: Filterable<G>
@@ -424,6 +438,10 @@ export declare function partition_<F extends URIS, G extends URIS2, E>(
 ): <A>(
   predicate: Predicate<A>
 ) => (fga: Kind<F, Kind2<G, E, A>>) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, A>>>
+export declare function partition_<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Filterable1<G>
+): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind<G, A>>) => Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, A>>>
 export declare function partition_<F, G>(
   F: Functor<F>,
   G: Filterable<G>
