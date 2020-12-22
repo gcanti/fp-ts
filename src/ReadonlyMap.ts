@@ -557,7 +557,7 @@ const filterWithIndex_ = <K, A>(p: (k: K, a: A) => boolean) => (fa: ReadonlyMap<
  * @category Compactable
  * @since 3.0.0
  */
-export const compact = <K, A>(fa: ReadonlyMap<K, Option<A>>): ReadonlyMap<K, A> => {
+export const compact: Compactable2<URI>['compact'] = <K, A>(fa: ReadonlyMap<K, Option<A>>): ReadonlyMap<K, A> => {
   const m = new Map<K, A>()
   const entries = fa.entries()
   let e: Next<readonly [K, Option<A>]>
@@ -624,7 +624,7 @@ export const partitionMap: Filterable2<URI>['partitionMap'] = (f) => partitionMa
  * @category Compactable
  * @since 3.0.0
  */
-export const separate = <K, A, B>(
+export const separate: Compactable2<URI>['separate'] = <K, A, B>(
   fa: ReadonlyMap<K, Either<A, B>>
 ): Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>> => {
   const left = new Map<K, A>()

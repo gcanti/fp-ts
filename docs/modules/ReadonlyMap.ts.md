@@ -76,7 +76,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <K, A>(fa: ReadonlyMap<K, O.Option<A>>) => ReadonlyMap<K, A>
+export declare const compact: <E, A>(fa: ReadonlyMap<E, O.Option<A>>) => ReadonlyMap<E, A>
 ```
 
 Added in v3.0.0
@@ -86,9 +86,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const separate: <K, A, B>(
-  fa: ReadonlyMap<K, Either<A, B>>
-) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>>
+export declare const separate: <E, A, B>(
+  fa: ReadonlyMap<E, Either<A, B>>
+) => Separated<ReadonlyMap<E, A>, ReadonlyMap<E, B>>
 ```
 
 Added in v3.0.0

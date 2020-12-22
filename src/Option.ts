@@ -539,7 +539,7 @@ export const reduceRight: Foldable1<URI>['reduceRight'] = (b, f) => (fa) => (isN
  * @category Compactable
  * @since 3.0.0
  */
-export const compact: <A>(fa: Option<Option<A>>) => Option<A> = flatten
+export const compact: Compactable1<URI>['compact'] = flatten
 
 const defaultSeparate = { left: none, right: none }
 

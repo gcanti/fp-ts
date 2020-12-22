@@ -24,6 +24,7 @@ Added in v3.0.0
   - [Compactable4 (interface)](#compactable4-interface)
 - [utils](#utils)
   - [Separated (interface)](#separated-interface)
+  - [compact\_](#compact_)
 
 ---
 
@@ -36,13 +37,7 @@ Added in v3.0.0
 ```ts
 export interface Compactable<F> {
   readonly URI: F
-  /**
-   * Compacts a data structure unwrapping inner Option
-   */
   readonly compact: <A>(fa: HKT<F, Option<A>>) => HKT<F, A>
-  /**
-   * Separates a data structure moving inner Left to the left side and inner Right to the right side of Separated
-   */
   readonly separate: <A, B>(fa: HKT<F, Either<A, B>>) => Separated<HKT<F, A>, HKT<F, B>>
 }
 ```
@@ -148,6 +143,19 @@ export interface Separated<A, B> {
   readonly left: A
   readonly right: B
 }
+```
+
+Added in v3.0.0
+
+## compact\_
+
+**Signature**
+
+```ts
+export declare function compact_<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Compactable2C<G, E>
+): <A>(fa: Kind<F, Kind2<G, E, Option<A>>>) => Kind<F, Kind2<G, E, A>>
 ```
 
 Added in v3.0.0

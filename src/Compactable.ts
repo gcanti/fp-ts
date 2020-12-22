@@ -4,6 +4,7 @@
  * @since 3.0.0
  */
 import { Either } from './Either'
+import { Functor, Functor1 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Option } from './Option'
 
@@ -23,13 +24,7 @@ export interface Separated<A, B> {
  */
 export interface Compactable<F> {
   readonly URI: F
-  /**
-   * Compacts a data structure unwrapping inner Option
-   */
   readonly compact: <A>(fa: HKT<F, Option<A>>) => HKT<F, A>
-  /**
-   * Separates a data structure moving inner Left to the left side and inner Right to the right side of Separated
-   */
   readonly separate: <A, B>(fa: HKT<F, Either<A, B>>) => Separated<HKT<F, A>, HKT<F, B>>
 }
 
@@ -93,4 +88,18 @@ export interface Compactable4<F extends URIS4> {
   readonly separate: <S, R, E, A, B>(
     fa: Kind4<F, S, R, E, Either<A, B>>
   ) => Separated<Kind4<F, S, R, E, A>, Kind4<F, S, R, E, B>>
+}
+
+/**
+ * @since 3.0.0
+ */
+export function compact_<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Compactable2C<G, E>
+): <A>(fa: Kind<F, Kind2<G, E, Option<A>>>) => Kind<F, Kind2<G, E, A>>
+export function compact_<F, G>(
+  F: Functor<F>,
+  G: Compactable<G>
+): <A>(fa: HKT<F, HKT<G, Option<A>>>) => HKT<F, HKT<G, A>> {
+  return F.map(G.compact)
 }

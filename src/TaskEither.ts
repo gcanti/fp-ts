@@ -12,7 +12,7 @@ import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
 import { apFirst_, Apply1, Apply2, apSecond_, apS_, apT_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
-import { Compactable2C } from './Compactable'
+import { Compactable2C, compact_ } from './Compactable'
 import * as E from './Either'
 import {
   alt_,
@@ -567,10 +567,9 @@ export function getAltTaskValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
  * @since 3.0.0
  */
 export function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E> {
-  const C = E.getCompactable(M)
   return {
     URI,
-    compact: T.map(C.compact),
+    compact: compact_(T.Functor, E.getCompactable(M)),
     separate: (fe) => ({
       left: pipe(
         fe,

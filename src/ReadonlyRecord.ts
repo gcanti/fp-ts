@@ -881,7 +881,9 @@ export const reduceRight: Foldable1<URI>['reduceRight'] = (b, f) => reduceRightW
  * @category Compactable
  * @since 3.0.0
  */
-export const compact = <A>(fa: Readonly<Record<string, Option<A>>>): Readonly<Record<string, A>> => {
+export const compact: Compactable1<URI>['compact'] = <A>(
+  fa: Readonly<Record<string, Option<A>>>
+): Readonly<Record<string, A>> => {
   const r: Record<string, A> = {}
   const keys = Object.keys(fa)
   for (const key of keys) {
