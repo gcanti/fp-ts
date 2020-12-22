@@ -266,6 +266,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `filter_` (@gcanti)
     - add `filterMap_` (@gcanti)
     - add `partition_` (@gcanti)
+    - add `partitionMap_` (@gcanti)
   - `Functor`
     - add `bindTo_` (@gcanti)
     - add `map_` (@gcanti)

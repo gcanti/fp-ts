@@ -8,7 +8,7 @@ import { Either } from './Either'
 import { pipe, Predicate, Refinement } from './function'
 import { Functor, Functor1 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-import { Option } from './Option'
+import { getLeft, getRight, Option } from './Option'
 
 /**
  * @since 3.0.0
@@ -284,6 +284,37 @@ export function partition_<F, G>(
       filter((a) => !predicate(a))
     )
     const right = pipe(fga, filter(predicate))
+    return { left, right }
+  }
+}
+
+/**
+ * @since 3.0.0
+ */
+export function partitionMap_<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Filterable2C<G, E>
+): <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: Kind<F, Kind2<G, E, A>>) => Separated<Kind<F, Kind2<G, E, B>>, Kind<F, Kind2<G, E, C>>>
+export function partitionMap_<F, G>(
+  F: Functor<F>,
+  G: Filterable<G>
+): <A, B, C>(f: (a: A) => Either<B, C>) => (fa: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, B>>, HKT<F, HKT<G, C>>>
+export function partitionMap_<F, G>(
+  F: Functor<F>,
+  G: Filterable<G>
+): <A, B, C>(f: (a: A) => Either<B, C>) => (fa: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, B>>, HKT<F, HKT<G, C>>> {
+  const filterMap = filterMap_(F, G)
+  return (f) => (fga) => {
+    const left = pipe(
+      fga,
+      filterMap((a) => getLeft(f(a)))
+    )
+    const right = pipe(
+      fga,
+      filterMap((a) => getRight(f(a)))
+    )
     return { left, right }
   }
 }

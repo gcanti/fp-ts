@@ -15,7 +15,7 @@ import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C, compact_, separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
-import { Filterable2C, filterMap_, filter_, partition_ } from './Filterable'
+import { Filterable2C, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
 import { FromEither2, fromOption_, fromPredicate_ } from './FromEither'
 import { FromIO2 } from './FromIO'
 import { FromTask2 } from './FromTask'
@@ -25,7 +25,6 @@ import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { bind_, chainFirst_, Monad2 } from './Monad'
 import { Monoid } from './Monoid'
-import { getLeft, getRight } from './Option'
 import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
@@ -566,25 +565,12 @@ export function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E> {
  */
 export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
   const F = E.getFilterable(M)
-
-  const filterMap = filterMap_(T.Functor, F)
-
   return {
     URI,
     filter: filter_(T.Functor, F),
-    filterMap,
+    filterMap: filterMap_(T.Functor, F),
     partition: partition_(T.Functor, F),
-    partitionMap: (f) => (fa) => {
-      const left = pipe(
-        fa,
-        filterMap((a) => getLeft(f(a)))
-      )
-      const right = pipe(
-        fa,
-        filterMap((a) => getRight(f(a)))
-      )
-      return { left, right }
-    }
+    partitionMap: partitionMap_(T.Functor, F)
   }
 }
 
