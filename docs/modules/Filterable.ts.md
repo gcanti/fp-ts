@@ -39,6 +39,7 @@ Added in v3.0.0
   - [Partition4 (interface)](#partition4-interface)
   - [filterMap\_](#filtermap_)
   - [filter\_](#filter_)
+  - [partition\_](#partition_)
 
 ---
 
@@ -388,6 +389,25 @@ export declare function filter_<F, G>(
   F: Functor<F>,
   G: Filterable<G>
 ): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, A>>
+```
+
+Added in v3.0.0
+
+## partition\_
+
+**Signature**
+
+```ts
+export declare function partition_<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Filterable2C<G, E>
+): <A>(
+  predicate: Predicate<A>
+) => (fga: Kind<F, Kind2<G, E, A>>) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, A>>>
+export declare function partition_<F, G>(
+  F: Functor<F>,
+  G: Filterable<G>
+): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, A>>>
 ```
 
 Added in v3.0.0
