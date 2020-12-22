@@ -874,6 +874,16 @@ export const Pointed: Pointed1<URI> = {
  * @category instances
  * @since 3.0.0
  */
+export const Apply: Apply1<URI> = {
+  URI,
+  map,
+  ap
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
 export const Applicative: Applicative1<URI> = {
   URI,
   map,

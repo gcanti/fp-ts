@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import { Apply, Apply1 } from './Apply'
+import { Apply, Apply1, ap_ as ap__ } from './Apply'
 import { Either } from './Either'
 import { flow, Lazy, Predicate, Refinement } from './function'
 import { Functor, Functor1, map_ as map__ } from './Functor'
@@ -142,11 +142,7 @@ export function ap_<F>(
 export function ap_<F>(
   F: Apply<F>
 ): <A>(fa: HKT<F, Option<A>>) => <B>(fab: HKT<F, Option<(a: A) => B>>) => HKT<F, Option<B>> {
-  return <A>(fa: HKT<F, Option<A>>): (<B>(fab: HKT<F, Option<(a: A) => B>>) => HKT<F, Option<B>>) =>
-    flow(
-      F.map((gab) => (ga: Option<A>) => O.ap(ga)(gab)),
-      F.ap(fa)
-    )
+  return ap__(F, O.Apply)
 }
 
 /**

@@ -32,6 +32,7 @@ Added in v3.0.0
   - [apS\_](#aps_)
   - [apSecond\_](#apsecond_)
   - [apT\_](#apt_)
+  - [ap\_](#ap_)
 
 ---
 
@@ -266,6 +267,27 @@ export declare function apT_<F extends URIS>(
 export declare function apT_<F>(
   F: Apply<F>
 ): <B>(fb: HKT<F, B>) => <A extends ReadonlyArray<unknown>>(fas: HKT<F, A>) => HKT<F, readonly [...A, B]>
+```
+
+Added in v3.0.0
+
+## ap\_
+
+**Signature**
+
+```ts
+export declare function ap_<F, G extends URIS2>(
+  F: Apply<F>,
+  G: Apply2<G>
+): <E, A>(fa: HKT<F, Kind2<G, E, A>>) => <B>(fab: HKT<F, Kind2<G, E, (a: A) => B>>) => HKT<F, Kind2<G, E, B>>
+export declare function ap_<F, G extends URIS>(
+  F: Apply<F>,
+  G: Apply1<G>
+): <A>(fa: HKT<F, Kind<G, A>>) => <B>(fab: HKT<F, Kind<G, (a: A) => B>>) => HKT<F, Kind<G, B>>
+export declare function ap_<F, G>(
+  F: Apply<F>,
+  G: Apply<G>
+): <A>(fa: HKT<F, HKT<G, A>>) => <B>(fab: HKT<F, HKT<G, (a: A) => B>>) => HKT<F, HKT<G, B>>
 ```
 
 Added in v3.0.0

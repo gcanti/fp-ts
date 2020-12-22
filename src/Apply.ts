@@ -73,6 +73,32 @@ export interface Apply4<F extends URIS4> extends Functor4<F> {
 /**
  * @since 3.0.0
  */
+export function ap_<F, G extends URIS2>(
+  F: Apply<F>,
+  G: Apply2<G>
+): <E, A>(fa: HKT<F, Kind2<G, E, A>>) => <B>(fab: HKT<F, Kind2<G, E, (a: A) => B>>) => HKT<F, Kind2<G, E, B>>
+export function ap_<F, G extends URIS>(
+  F: Apply<F>,
+  G: Apply1<G>
+): <A>(fa: HKT<F, Kind<G, A>>) => <B>(fab: HKT<F, Kind<G, (a: A) => B>>) => HKT<F, Kind<G, B>>
+export function ap_<F, G>(
+  F: Apply<F>,
+  G: Apply<G>
+): <A>(fa: HKT<F, HKT<G, A>>) => <B>(fab: HKT<F, HKT<G, (a: A) => B>>) => HKT<F, HKT<G, B>>
+export function ap_<F, G>(
+  F: Apply<F>,
+  G: Apply<G>
+): <A>(fa: HKT<F, HKT<G, A>>) => <B>(fab: HKT<F, HKT<G, (a: A) => B>>) => HKT<F, HKT<G, B>> {
+  return <A>(fa: HKT<F, HKT<G, A>>): (<B>(fab: HKT<F, HKT<G, (a: A) => B>>) => HKT<F, HKT<G, B>>) =>
+    flow(
+      F.map((gab) => (ga: HKT<G, A>) => G.ap(ga)(gab)),
+      F.ap(fa)
+    )
+}
+
+/**
+ * @since 3.0.0
+ */
 export function apFirst_<F extends URIS4>(
   A: Apply4<F>
 ): <S, R, E, B>(second: Kind4<F, S, R, E, B>) => <A>(first: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>

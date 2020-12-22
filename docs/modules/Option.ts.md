@@ -87,6 +87,7 @@ Added in v3.0.0
   - [Alt](#alt-1)
   - [Alternative](#alternative-1)
   - [Applicative](#applicative-1)
+  - [Apply](#apply-1)
   - [Compactable](#compactable-1)
   - [Extend](#extend-1)
   - [Filterable](#filterable-1)
@@ -922,6 +923,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Applicative: Applicative1<'Option'>
+```
+
+Added in v3.0.0
+
+## Apply
+
+**Signature**
+
+```ts
+export declare const Apply: Apply1<'Option'>
 ```
 
 Added in v3.0.0

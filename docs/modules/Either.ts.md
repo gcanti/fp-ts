@@ -81,6 +81,7 @@ Added in v3.0.0
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative-1)
+  - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
   - [Extend](#extend-1)
   - [Foldable](#foldable-1)
@@ -957,6 +958,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Applicative: Applicative2<'Either'>
+```
+
+Added in v3.0.0
+
+## Apply
+
+**Signature**
+
+```ts
+export declare const Apply: Apply2<'Either'>
 ```
 
 Added in v3.0.0

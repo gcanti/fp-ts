@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import { Apply, Apply1, Apply2 } from './Apply'
+import { Apply, Apply1, Apply2, ap_ as ap__ } from './Apply'
 import * as E from './Either'
 import { flow, Lazy } from './function'
 import { Functor, Functor1, Functor2, map_ as map__ } from './Functor'
@@ -88,11 +88,7 @@ export function ap_<F>(
 export function ap_<F>(
   F: Apply<F>
 ): <E, A>(fa: HKT<F, Either<E, A>>) => <B>(fab: HKT<F, Either<E, (a: A) => B>>) => HKT<F, Either<E, B>> {
-  return <E, A>(fa: HKT<F, Either<E, A>>): (<B>(fab: HKT<F, Either<E, (a: A) => B>>) => HKT<F, Either<E, B>>) =>
-    flow(
-      F.map((gab) => (ga: Either<E, A>) => E.ap(ga)(gab)),
-      F.ap(fa)
-    )
+  return ap__(F, E.Apply)
 }
 
 /**
