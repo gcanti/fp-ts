@@ -12,7 +12,7 @@ import { bind_, chainFirst_, Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import * as R from './Reader'
-import { ap_, asks_, ask_, chain_, fromReader_, map_, of_ } from './ReaderT'
+import * as RT from './ReaderT'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
 
@@ -46,7 +46,7 @@ export const fromTask: <R, A>(ma: Task<A>) => ReaderTask<R, A> = R.of
  */
 export const fromReader =
   /*#__PURE__*/
-  fromReader_(T.Pointed)
+  RT.fromReader_(T.Pointed)
 
 /**
  * @category FromIO
@@ -62,7 +62,7 @@ export const fromIO: FromIO2<URI>['fromIO'] =
  */
 export const ask =
   /*#__PURE__*/
-  ask_(T.Pointed)
+  RT.ask_(T.Pointed)
 
 /**
  * @category constructors
@@ -70,7 +70,7 @@ export const ask =
  */
 export const asks =
   /*#__PURE__*/
-  asks_(T.Pointed)
+  RT.asks_(T.Pointed)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -117,7 +117,7 @@ export const chainTaskK: <A, B>(f: (a: A) => Task<B>) => <R>(ma: ReaderTask<R, A
  */
 export const map: Functor2<URI>['map'] =
   /*#__PURE__*/
-  map_(T.Functor)
+  RT.map_(T.Functor)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -127,7 +127,7 @@ export const map: Functor2<URI>['map'] =
  */
 export const ap: Apply2<URI>['ap'] =
   /*#__PURE__*/
-  ap_(T.ApplicativePar)
+  RT.ap_(T.ApplicativePar)
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -147,7 +147,7 @@ export const apW: <R2, A>(
  */
 export const of: Pointed2<URI>['of'] =
   /*#__PURE__*/
-  of_(T.Pointed)
+  RT.of_(T.Pointed)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -157,7 +157,7 @@ export const of: Pointed2<URI>['of'] =
  */
 export const chain: Monad2<URI>['chain'] =
   /*#__PURE__*/
-  chain_(T.Monad)
+  RT.chain_(T.Monad)
 
 /**
  * Less strict version of  [`chain`](#chain).

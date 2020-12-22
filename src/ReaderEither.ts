@@ -6,22 +6,7 @@ import { Applicative3, Applicative3C } from './Applicative'
 import { apFirst_, Apply3, apSecond_, apS_, apT_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
-import {
-  alt_,
-  ap_,
-  bimap_,
-  chain_,
-  fold_,
-  getOrElse_,
-  leftF_,
-  left_,
-  mapLeft_,
-  map_,
-  orElse_,
-  rightF_,
-  right_,
-  swap_
-} from './EitherT'
+import * as ET from './EitherT'
 import { FromEither3, fromOption_, fromPredicate_ } from './FromEither'
 import { flow, identity, pipe, Predicate, Refinement, tuple } from './function'
 import { bindTo_, Functor3 } from './Functor'
@@ -54,7 +39,7 @@ export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
  */
 export const left: <E, R, A = never>(e: E) => ReaderEither<R, E, A> =
   /*#__PURE__*/
-  left_(R.Pointed)
+  ET.left_(R.Pointed)
 
 /**
  * @category constructors
@@ -62,7 +47,7 @@ export const left: <E, R, A = never>(e: E) => ReaderEither<R, E, A> =
  */
 export const right: <A, R, E = never>(a: A) => ReaderEither<R, E, A> =
   /*#__PURE__*/
-  right_(R.Pointed)
+  ET.right_(R.Pointed)
 
 /**
  * @category constructors
@@ -70,7 +55,7 @@ export const right: <A, R, E = never>(a: A) => ReaderEither<R, E, A> =
  */
 export const rightReader: <R, A, E = never>(ma: Reader<R, A>) => ReaderEither<R, E, A> =
   /*#__PURE__*/
-  rightF_(R.Functor)
+  ET.rightF_(R.Functor)
 
 /**
  * @category constructors
@@ -78,7 +63,7 @@ export const rightReader: <R, A, E = never>(ma: Reader<R, A>) => ReaderEither<R,
  */
 export const leftReader: <R, E, A = never>(me: Reader<R, E>) => ReaderEither<R, E, A> =
   /*#__PURE__*/
-  leftF_(R.Functor)
+  ET.leftF_(R.Functor)
 
 /**
  * @category constructors
@@ -110,7 +95,7 @@ export const fromEither: FromEither3<URI>['fromEither'] =
  */
 export const fold =
   /*#__PURE__*/
-  fold_(R.Monad)
+  ET.fold_(R.Monad)
 
 /**
  * @category destructors
@@ -118,7 +103,7 @@ export const fold =
  */
 export const getOrElse =
   /*#__PURE__*/
-  getOrElse_(R.Monad)
+  ET.getOrElse_(R.Monad)
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).
@@ -140,7 +125,7 @@ export const getOrElseW: <E, R2, B>(
  */
 export const orElse =
   /*#__PURE__*/
-  orElse_(R.Monad)
+  ET.orElse_(R.Monad)
 
 /**
  * @category combinators
@@ -148,7 +133,7 @@ export const orElse =
  */
 export const swap =
   /*#__PURE__*/
-  swap_(R.Functor)
+  ET.swap_(R.Functor)
 
 /**
  * @category combinators
@@ -216,7 +201,7 @@ export const filterOrElse: {
  */
 export const map: Functor3<URI>['map'] =
   /*#__PURE__*/
-  map_(R.Functor)
+  ET.map_(R.Functor)
 
 /**
  * Map a pair of functions over the two last type arguments of the bifunctor.
@@ -226,7 +211,7 @@ export const map: Functor3<URI>['map'] =
  */
 export const bimap: Bifunctor3<URI>['bimap'] =
   /*#__PURE__*/
-  bimap_(R.Functor)
+  ET.bimap_(R.Functor)
 
 /**
  * Map a function over the second type argument of a bifunctor.
@@ -236,7 +221,7 @@ export const bimap: Bifunctor3<URI>['bimap'] =
  */
 export const mapLeft: Bifunctor3<URI>['mapLeft'] =
   /*#__PURE__*/
-  mapLeft_(R.Functor)
+  ET.mapLeft_(R.Functor)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -246,7 +231,7 @@ export const mapLeft: Bifunctor3<URI>['mapLeft'] =
  */
 export const ap: Apply3<URI>['ap'] =
   /*#__PURE__*/
-  ap_(R.Applicative)
+  ET.ap_(R.Applicative)
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -276,7 +261,7 @@ export const of: Pointed3<URI>['of'] = right
  */
 export const chain: Monad3<URI>['chain'] =
   /*#__PURE__*/
-  chain_(R.Monad)
+  ET.chain_(R.Monad)
 
 /**
  * Less strict version of [`chain`](#chain).
@@ -307,7 +292,7 @@ export const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) 
  */
 export const alt: Alt3<URI>['alt'] =
   /*#__PURE__*/
-  alt_(R.Monad)
+  ET.alt_(R.Monad)
 
 /**
  * Less strict version of [`alt`](#alt).

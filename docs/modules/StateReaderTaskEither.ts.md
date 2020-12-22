@@ -535,7 +535,7 @@ Added in v3.0.0
 ```ts
 export declare const fromReaderTaskEither: <R, E, A, S>(
   ma: RTE.ReaderTaskEither<R, E, A>
-) => StateT3<'ReaderTaskEither', S, R, E, A>
+) => ST.StateT3<'ReaderTaskEither', S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -545,7 +545,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromState: <S, A, R, E>(sa: State<S, A>) => StateT3<'ReaderTaskEither', S, R, E, A>
+export declare const fromState: <S, A, R, E>(sa: State<S, A>) => ST.StateT3<'ReaderTaskEither', S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -567,7 +567,7 @@ Get the current state
 **Signature**
 
 ```ts
-export declare const get: <S, R, E>() => StateT3<'ReaderTaskEither', S, R, E, S>
+export declare const get: <S, R, E>() => ST.StateT3<'ReaderTaskEither', S, R, E, S>
 ```
 
 Added in v3.0.0
@@ -579,7 +579,7 @@ Get a value which depends on the current state
 **Signature**
 
 ```ts
-export declare const gets: <S, A, R, E>(f: (s: S) => A) => StateT3<'ReaderTaskEither', S, R, E, A>
+export declare const gets: <S, A, R, E>(f: (s: S) => A) => ST.StateT3<'ReaderTaskEither', S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -641,7 +641,7 @@ Modify the state by applying a function to the current state
 **Signature**
 
 ```ts
-export declare const modify: <S, R, E>(f: Endomorphism<S>) => StateT3<'ReaderTaskEither', S, R, E, void>
+export declare const modify: <S, R, E>(f: Endomorphism<S>) => ST.StateT3<'ReaderTaskEither', S, R, E, void>
 ```
 
 Added in v3.0.0
@@ -653,7 +653,7 @@ Set the state
 **Signature**
 
 ```ts
-export declare const put: <S, R, E>(s: S) => StateT3<'ReaderTaskEither', S, R, E, void>
+export declare const put: <S, R, E>(s: S) => ST.StateT3<'ReaderTaskEither', S, R, E, void>
 ```
 
 Added in v3.0.0
@@ -1014,7 +1014,7 @@ Run a computation in the `StateReaderTaskEither` monad, discarding the final sta
 ```ts
 export declare const evaluate: <S>(
   s: S
-) => <R, E, A>(ma: StateT3<'ReaderTaskEither', S, R, E, A>) => RTE.ReaderTaskEither<R, E, A>
+) => <R, E, A>(ma: ST.StateT3<'ReaderTaskEither', S, R, E, A>) => RTE.ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -1028,7 +1028,7 @@ Run a computation in the `StateReaderTaskEither` monad discarding the result
 ```ts
 export declare const execute: <S>(
   s: S
-) => <R, E, A>(ma: StateT3<'ReaderTaskEither', S, R, E, A>) => RTE.ReaderTaskEither<R, E, S>
+) => <R, E, A>(ma: ST.StateT3<'ReaderTaskEither', S, R, E, A>) => RTE.ReaderTaskEither<R, E, S>
 ```
 
 Added in v3.0.0

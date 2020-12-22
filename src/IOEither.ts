@@ -10,23 +10,8 @@ import { apFirst_, Apply2, apSecond_, apS_, apT_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C, compact_, separate_ } from './Compactable'
 import * as E from './Either'
-import {
-  alt_,
-  ap_,
-  bimap_,
-  chain_,
-  fold_,
-  getOrElse_,
-  leftF_,
-  left_,
-  mapLeft_,
-  map_,
-  orElse_,
-  rightF_,
-  right_,
-  swap_
-} from './EitherT'
-import { Filterable2C } from './Filterable'
+import * as ET from './EitherT'
+import { Filterable2C, filter_ } from './Filterable'
 import { FromEither2, fromOption_, fromPredicate_ } from './FromEither'
 import { flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { bindTo_, Functor2 } from './Functor'
@@ -61,7 +46,7 @@ export interface IOEither<E, A> extends IO<Either<E, A>> {}
  */
 export const left: <E, A = never>(e: E) => IOEither<E, A> =
   /*#__PURE__*/
-  left_(I.Pointed)
+  ET.left_(I.Pointed)
 
 /**
  * @category constructors
@@ -69,7 +54,7 @@ export const left: <E, A = never>(e: E) => IOEither<E, A> =
  */
 export const right: <A, E = never>(a: A) => IOEither<E, A> =
   /*#__PURE__*/
-  right_(I.Pointed)
+  ET.right_(I.Pointed)
 
 /**
  * @category constructors
@@ -77,7 +62,7 @@ export const right: <A, E = never>(a: A) => IOEither<E, A> =
  */
 export const rightIO: <A, E = never>(ma: IO<A>) => IOEither<E, A> =
   /*#__PURE__*/
-  rightF_(I.Functor)
+  ET.rightF_(I.Functor)
 
 /**
  * @category constructors
@@ -85,7 +70,7 @@ export const rightIO: <A, E = never>(ma: IO<A>) => IOEither<E, A> =
  */
 export const leftIO: <E, A = never>(me: IO<E>) => IOEither<E, A> =
   /*#__PURE__*/
-  leftF_(I.Functor)
+  ET.leftF_(I.Functor)
 
 /**
  * @category constructors
@@ -115,7 +100,7 @@ export function tryCatch<E, A>(f: Lazy<A>, onError: (reason: unknown) => E): IOE
  */
 export const fold =
   /*#__PURE__*/
-  fold_(I.Monad)
+  ET.fold_(I.Monad)
 
 /**
  * @category destructors
@@ -123,7 +108,7 @@ export const fold =
  */
 export const getOrElse =
   /*#__PURE__*/
-  getOrElse_(I.Monad)
+  ET.getOrElse_(I.Monad)
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).
@@ -143,7 +128,7 @@ export const getOrElseW: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, 
  */
 export const orElse =
   /*#__PURE__*/
-  orElse_(I.Monad)
+  ET.orElse_(I.Monad)
 
 /**
  * @category combinators
@@ -151,7 +136,7 @@ export const orElse =
  */
 export const swap =
   /*#__PURE__*/
-  swap_(I.Functor)
+  ET.swap_(I.Functor)
 
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
@@ -212,7 +197,7 @@ export const chainEitherK: <E, A, B>(
  */
 export const map: Functor2<URI>['map'] =
   /*#__PURE__*/
-  map_(I.Functor)
+  ET.map_(I.Functor)
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -222,7 +207,7 @@ export const map: Functor2<URI>['map'] =
  */
 export const bimap: Bifunctor2<URI>['bimap'] =
   /*#__PURE__*/
-  bimap_(I.Functor)
+  ET.bimap_(I.Functor)
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -232,7 +217,7 @@ export const bimap: Bifunctor2<URI>['bimap'] =
  */
 export const mapLeft: Bifunctor2<URI>['mapLeft'] =
   /*#__PURE__*/
-  mapLeft_(I.Functor)
+  ET.mapLeft_(I.Functor)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -242,7 +227,7 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] =
  */
 export const ap: Apply2<URI>['ap'] =
   /*#__PURE__*/
-  ap_(I.Applicative)
+  ET.ap_(I.Applicative)
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -272,7 +257,7 @@ export const of: Pointed2<URI>['of'] = right
  */
 export const chain: Monad2<URI>['chain'] =
   /*#__PURE__*/
-  chain_(I.Monad)
+  ET.chain_(I.Monad)
 
 /**
  * Less strict version of [`chain`](#chain).
@@ -303,7 +288,7 @@ export const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A>
  */
 export const alt: Alt2<URI>['alt'] =
   /*#__PURE__*/
-  alt_(I.Monad)
+  ET.alt_(I.Monad)
 
 /**
  * Less strict version of [`alt`](#alt).
@@ -433,8 +418,7 @@ export function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E> {
 export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
   const F = E.getFilterable(M)
 
-  const filter: <A>(predicate: Predicate<A>) => (fa: IOEither<E, A>) => IOEither<E, A> = (predicate) =>
-    I.map(F.filter(predicate))
+  const filter = filter_(I.Functor, F)
   const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: IOEither<E, A>) => IOEither<E, B> = (f) =>
     I.map(F.filterMap(f))
 

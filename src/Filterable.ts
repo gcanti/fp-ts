@@ -6,6 +6,7 @@
 import { Separated } from './Compactable'
 import { Either } from './Either'
 import { Predicate, Refinement } from './function'
+import { Functor, Functor1 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Option } from './Option'
 
@@ -221,4 +222,22 @@ export interface Filterable4<F extends URIS4> {
   readonly partition: Partition4<F>
   readonly filterMap: <A, B>(f: (a: A) => Option<B>) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
   readonly filter: Filter4<F>
+}
+
+/**
+ * @since 3.0.0
+ */
+export function filter_<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Filterable2C<G, E>
+): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, A>>
+export function filter_<F, G>(
+  F: Functor<F>,
+  G: Filterable<G>
+): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, A>>
+export function filter_<F, G>(
+  F: Functor<F>,
+  G: Filterable<G>
+): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, A>> {
+  return (predicate) => F.map(G.filter(predicate))
 }

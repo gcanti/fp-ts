@@ -19,7 +19,7 @@ import { Reader } from './Reader'
 import { ReaderEither } from './ReaderEither'
 import * as RTE from './ReaderTaskEither'
 import { State } from './State'
-import { ap_, chain_, evaluate_, execute_, fromF_, fromState_, gets_, get_, map_, modify_, of_, put_ } from './StateT'
+import * as ST from './StateT'
 import { Task } from './Task'
 import { TaskEither } from './TaskEither'
 
@@ -54,7 +54,7 @@ export const left: <E, S, R, A = never>(e: E) => StateReaderTaskEither<S, R, E, 
  */
 export const right: <A, S, R, E = never>(a: A) => StateReaderTaskEither<S, R, E, A> =
   /*#__PURE__*/
-  of_(RTE.Pointed)
+  ST.of_(RTE.Pointed)
 
 /**
  * @category constructors
@@ -148,7 +148,7 @@ export const leftState: <S, E, R, A = never>(me: State<S, E>) => StateReaderTask
  */
 export const fromReaderTaskEither =
   /*#__PURE__*/
-  fromF_(RTE.Functor)
+  ST.fromF_(RTE.Functor)
 
 /**
  * Get the current state
@@ -158,7 +158,7 @@ export const fromReaderTaskEither =
  */
 export const get =
   /*#__PURE__*/
-  get_(RTE.Pointed)
+  ST.get_(RTE.Pointed)
 
 /**
  * Set the state
@@ -168,7 +168,7 @@ export const get =
  */
 export const put =
   /*#__PURE__*/
-  put_(RTE.Pointed)
+  ST.put_(RTE.Pointed)
 
 /**
  * Modify the state by applying a function to the current state
@@ -178,7 +178,7 @@ export const put =
  */
 export const modify =
   /*#__PURE__*/
-  modify_(RTE.Pointed)
+  ST.modify_(RTE.Pointed)
 
 /**
  * Get a value which depends on the current state
@@ -188,7 +188,7 @@ export const modify =
  */
 export const gets =
   /*#__PURE__*/
-  gets_(RTE.Pointed)
+  ST.gets_(RTE.Pointed)
 
 /**
  * @category constructors
@@ -196,7 +196,7 @@ export const gets =
  */
 export const fromState =
   /*#__PURE__*/
-  fromState_(RTE.Pointed)
+  ST.fromState_(RTE.Pointed)
 
 /**
  * @category constructors
@@ -362,7 +362,7 @@ export const filterOrElse: {
  */
 export const map: Functor4<URI>['map'] =
   /*#__PURE__*/
-  map_(RTE.Functor)
+  ST.map_(RTE.Functor)
 
 /**
  * Map a pair of functions over the two last type arguments of the bifunctor.
@@ -392,7 +392,7 @@ export const mapLeft: Bifunctor4<URI>['mapLeft'] = (f) => (fea) => (s) => pipe(f
  */
 export const ap: Apply4<URI>['ap'] =
   /*#__PURE__*/
-  ap_(RTE.Monad)
+  ST.ap_(RTE.Monad)
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -422,7 +422,7 @@ export const of: Pointed4<URI>['of'] = right
  */
 export const chain: Monad4<URI>['chain'] =
   /*#__PURE__*/
-  chain_(RTE.Monad)
+  ST.chain_(RTE.Monad)
 
 /**
  * Less strict version of [`chain`](#chain).
@@ -672,7 +672,7 @@ export const fromPredicate =
  */
 export const evaluate =
   /*#__PURE__*/
-  evaluate_(RTE.Functor)
+  ST.evaluate_(RTE.Functor)
 
 /**
  * Run a computation in the `StateReaderTaskEither` monad discarding the result
@@ -681,7 +681,7 @@ export const evaluate =
  */
 export const execute =
   /*#__PURE__*/
-  execute_(RTE.Functor)
+  ST.execute_(RTE.Functor)
 
 // -------------------------------------------------------------------------------------
 // do notation

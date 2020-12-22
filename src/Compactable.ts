@@ -119,6 +119,10 @@ export function separate_<F extends URIS, G extends URIS2, E>(
 export function separate_<F, G>(
   F: Functor<F>,
   G: Compactable<G> & Functor<G>
+): <A, B>(fge: HKT<F, HKT<G, Either<A, B>>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>>
+export function separate_<F, G>(
+  F: Functor<F>,
+  G: Compactable<G> & Functor<G>
 ): <A, B>(fge: HKT<F, HKT<G, Either<A, B>>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>> {
   const compact = compact_(F, G)
   const map = map_(F, G)

@@ -7,20 +7,7 @@ import * as O from './Option'
 import Task = T.Task
 import Option = O.Option
 import { Functor1 } from './Functor'
-import {
-  alt_,
-  ap_,
-  chain_,
-  fold_,
-  fromEither_,
-  fromF_,
-  fromNullable_,
-  fromPredicate_,
-  getOrElse_,
-  map_,
-  none_,
-  some_
-} from './OptionT'
+import * as OT from './OptionT'
 import { Pointed1 } from './Pointed'
 import { identity, Lazy, pipe } from './function'
 import { apFirst_, Apply1, apSecond_ } from './Apply'
@@ -51,7 +38,7 @@ export interface TaskOption<A> extends Task<Option<A>> {}
  */
 export const some: <A>(a: A) => TaskOption<A> =
   /*#__PURE__*/
-  some_(T.Pointed)
+  OT.some_(T.Pointed)
 
 /**
  * @since 3.0.0
@@ -63,7 +50,7 @@ export const of: Pointed1<URI>['of'] = some
  */
 export const none: TaskOption<never> =
   /*#__PURE__*/
-  none_(T.Pointed)
+  OT.none_(T.Pointed)
 
 /**
  * @since 3.0.0
@@ -80,28 +67,28 @@ export const fromIO = <A>(ma: IO<A>): TaskOption<A> => fromTask(T.fromIO(ma))
  */
 export const fromTask =
   /*#__PURE__*/
-  fromF_(T.Functor)
+  OT.fromF_(T.Functor)
 
 /**
  * @since 3.0.0
  */
 export const fromNullable =
   /*#__PURE__*/
-  fromNullable_(T.Pointed)
+  OT.fromNullable_(T.Pointed)
 
 /**
  * @since 3.0.0
  */
 export const fromPredicate =
   /*#__PURE__*/
-  fromPredicate_(T.Functor)
+  OT.fromPredicate_(T.Functor)
 
 /**
  * @since 3.0.0
  */
 export const fromEither =
   /*#__PURE__*/
-  fromEither_(T.Pointed)
+  OT.fromEither_(T.Pointed)
 
 /**
  * @category constructors
@@ -126,7 +113,7 @@ export const tryCatch: <A>(f: Lazy<Promise<A>>) => TaskOption<A> = (f) => () =>
  */
 export const map: Functor1<URI>['map'] =
   /*#__PURE__*/
-  map_(T.Functor)
+  OT.map_(T.Functor)
 
 /**
  * @category Apply
@@ -134,7 +121,7 @@ export const map: Functor1<URI>['map'] =
  */
 export const ap: Apply1<URI>['ap'] =
   /*#__PURE__*/
-  ap_(T.ApplicativePar)
+  OT.ap_(T.ApplicativePar)
 
 /**
  * @category Monad
@@ -142,7 +129,7 @@ export const ap: Apply1<URI>['ap'] =
  */
 export const chain: Monad1<URI>['chain'] =
   /*#__PURE__*/
-  chain_(T.Monad)
+  OT.chain_(T.Monad)
 
 /**
  * Derivable from `Monad`.
@@ -160,7 +147,7 @@ export const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A> =
  */
 export const alt: Alt1<URI>['alt'] =
   /*#__PURE__*/
-  alt_(T.Monad)
+  OT.alt_(T.Monad)
 
 /**
  * Less strict version of [`alt`](#alt).
@@ -186,7 +173,7 @@ export const zero: Alternative1<URI>['zero'] = () => none
  */
 export const fold =
   /*#__PURE__*/
-  fold_(T.Monad)
+  OT.fold_(T.Monad)
 
 /**
  * @category destructors
@@ -194,7 +181,7 @@ export const fold =
  */
 export const getOrElse =
   /*#__PURE__*/
-  getOrElse_(T.Monad)
+  OT.getOrElse_(T.Monad)
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).

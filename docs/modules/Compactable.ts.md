@@ -174,6 +174,10 @@ export declare function separate_<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Compactable2C<G, E> & Functor2<G>
 ): <A, B>(fge: Kind<F, Kind2<G, E, Either<A, B>>>) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, B>>>
+export declare function separate_<F, G>(
+  F: Functor<F>,
+  G: Compactable<G> & Functor<G>
+): <A, B>(fge: HKT<F, HKT<G, Either<A, B>>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>>
 ```
 
 Added in v3.0.0
