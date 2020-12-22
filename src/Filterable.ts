@@ -241,3 +241,21 @@ export function filter_<F, G>(
 ): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, A>> {
   return (predicate) => F.map(G.filter(predicate))
 }
+
+/**
+ * @since 3.0.0
+ */
+export function filterMap_<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Filterable2C<G, E>
+): <A, B>(f: (a: A) => Option<B>) => (fga: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, B>>
+export function filterMap_<F, G>(
+  F: Functor<F>,
+  G: Filterable<G>
+): <A, B>(f: (a: A) => Option<B>) => (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
+export function filterMap_<F, G>(
+  F: Functor<F>,
+  G: Filterable<G>
+): <A, B>(f: (a: A) => Option<B>) => (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>> {
+  return (f) => F.map(G.filterMap(f))
+}

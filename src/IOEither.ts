@@ -11,15 +11,15 @@ import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C, compact_, separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
-import { Filterable2C, filter_ } from './Filterable'
+import { Filterable2C, filterMap_, filter_ } from './Filterable'
 import { FromEither2, fromOption_, fromPredicate_ } from './FromEither'
+import { FromIO2 } from './FromIO'
 import { flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import * as I from './IO'
 import { bind_, chainFirst_, Monad2 } from './Monad'
-import { FromIO2 } from './FromIO'
 import { Monoid } from './Monoid'
-import { getLeft, getRight, Option } from './Option'
+import { getLeft, getRight } from './Option'
 import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 
@@ -419,8 +419,7 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
   const F = E.getFilterable(M)
 
   const filter = filter_(I.Functor, F)
-  const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: IOEither<E, A>) => IOEither<E, B> = (f) =>
-    I.map(F.filterMap(f))
+  const filterMap = filterMap_(I.Functor, F)
 
   return {
     URI,

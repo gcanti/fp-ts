@@ -255,10 +255,16 @@ high state of flux, you're at risk of it changing without notice.
     - add `apS_` (@gcanti)
     - add `apT_` (@gcanti)
     - add `ap_` (@gcanti)
+  - `Compactable`
+    - add `compact_` (@gcanti)
+    - add `separate_` (@gcanti)
   - `Either`
     - add `getCompactable` (@gcanti)
     - add `getFilterable` (@gcanti)
     - add pipeable sequence T (@gcanti)
+  - `Filterable`
+    - add `filter_` (@gcanti)
+    - add `filterMap_` (@gcanti)
   - `Functor`
     - add `bindTo_` (@gcanti)
     - add `map_` (@gcanti)
