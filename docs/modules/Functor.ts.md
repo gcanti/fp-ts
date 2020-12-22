@@ -32,6 +32,7 @@ Added in v3.0.0
   - [Functor4 (interface)](#functor4-interface)
 - [utils](#utils)
   - [bindTo\_](#bindto_)
+  - [map\_](#map_)
 
 ---
 
@@ -156,6 +157,27 @@ export declare function bindTo_<F extends URIS>(
 export declare function bindTo_<F>(
   F: Functor<F>
 ): <N extends string>(name: N) => <A>(fa: HKT<F, A>) => HKT<F, { [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## map\_
+
+**Signature**
+
+```ts
+export declare function map_<F, G extends URIS2>(
+  F: Functor<F>,
+  G: Functor2<G>
+): <A, B>(f: (a: A) => B) => <E>(fa: HKT<F, Kind2<G, E, A>>) => HKT<F, Kind2<G, E, B>>
+export declare function map_<F, G extends URIS>(
+  F: Functor<F>,
+  G: Functor1<G>
+): <A, B>(f: (a: A) => B) => (fa: HKT<F, Kind<G, A>>) => HKT<F, Kind<G, B>>
+export declare function map_<F, G>(
+  F: Functor<F>,
+  G: Functor<G>
+): <A, B>(f: (a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
 ```
 
 Added in v3.0.0

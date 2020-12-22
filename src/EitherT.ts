@@ -4,7 +4,7 @@
 import { Apply, Apply1, Apply2 } from './Apply'
 import * as E from './Either'
 import { flow, Lazy } from './function'
-import { Functor, Functor1, Functor2 } from './Functor'
+import { Functor, Functor1, Functor2, map_ as map__ } from './Functor'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
 import { Pointed2, Pointed1, Pointed } from './Pointed'
@@ -68,7 +68,7 @@ export function map_<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => <E>(fa: HKT<F,
 export function map_<F>(
   F: Functor<F>
 ): <A, B>(f: (a: A) => B) => <E>(fa: HKT<F, Either<E, A>>) => HKT<F, Either<E, B>> {
-  return (f) => F.map(E.map(f))
+  return map__(F, E.Functor)
 }
 
 /**

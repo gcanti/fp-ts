@@ -4,7 +4,7 @@
 import { Apply, Apply1 } from './Apply'
 import { Either } from './Either'
 import { flow, Lazy, Predicate, Refinement } from './function'
-import { Functor, Functor1 } from './Functor'
+import { Functor, Functor1, map_ as map__ } from './Functor'
 import { HKT, Kind, URIS } from './HKT'
 import { Monad, Monad1 } from './Monad'
 import * as O from './Option'
@@ -127,7 +127,7 @@ export function map_<F extends URIS>(
 ): <A, B>(f: (a: A) => B) => (fa: Kind<F, Option<A>>) => Kind<F, Option<B>>
 export function map_<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, Option<A>>) => HKT<F, Option<B>>
 export function map_<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, Option<A>>) => HKT<F, Option<B>> {
-  return (f) => F.map(O.map(f))
+  return map__(F, O.Functor)
 }
 
 /**
