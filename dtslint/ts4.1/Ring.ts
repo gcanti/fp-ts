@@ -5,4 +5,5 @@ import { fieldNumber } from '../../src/Field'
 // getTupleRing
 //
 
-_.getTupleRing(fieldNumber, fieldNumber, fieldNumber) // $ExpectType Ring<[number, number, number]>
+// $ExpectType Ring<[number, number, number]>
+_.getTupleRing(fieldNumber, fieldNumber, fieldNumber)

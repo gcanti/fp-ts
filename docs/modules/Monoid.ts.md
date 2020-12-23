@@ -194,7 +194,7 @@ Given a struct of monoids returns a monoid for the struct.
 **Signature**
 
 ```ts
-export declare function getStructMonoid<A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<A>
+export declare const getStructMonoid: <A>(monoids: { [K in keyof A]: Monoid<A[K]> }) => Monoid<A>
 ```
 
 **Example**
@@ -225,9 +225,9 @@ Given a tuple of monoids returns a monoid for the tuple
 **Signature**
 
 ```ts
-export declare function getTupleMonoid<T extends ReadonlyArray<Monoid<any>>>(
-  ...monoids: T
-): Monoid<{ [K in keyof T]: T[K] extends S.Semigroup<infer A> ? A : never }>
+export declare const getTupleMonoid: <A extends readonly unknown[]>(
+  ...monoids: { [K in keyof A]: Monoid<A[K]> }
+) => Monoid<A>
 ```
 
 **Example**

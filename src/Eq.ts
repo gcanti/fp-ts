@@ -101,8 +101,8 @@ export const eqBoolean: Eq<boolean> = eqStrict
  * @category instances
  * @since 3.0.0
  */
-export function getStructEq<A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A> {
-  return fromEquals((second) => (first) => {
+export const getStructEq = <A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A> =>
+  fromEquals((second) => (first) => {
     for (const key in eqs) {
       if (!eqs[key].equals(second[key])(first[key])) {
         return false
@@ -110,7 +110,6 @@ export function getStructEq<A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A> {
     }
     return true
   })
-}
 
 /**
  * Given a tuple of `Eq`s returns a `Eq` for the tuple
@@ -127,11 +126,8 @@ export function getStructEq<A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A> {
  * @category instances
  * @since 3.0.0
  */
-export function getTupleEq<T extends ReadonlyArray<Eq<any>>>(
-  ...eqs: T
-): Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }> {
-  return fromEquals((second) => (first) => eqs.every((E, i) => E.equals(second[i])(first[i])))
-}
+export const getTupleEq = <A extends ReadonlyArray<unknown>>(...eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A> =>
+  fromEquals((second) => (first) => eqs.every((E, i) => E.equals(second[i])(first[i])))
 
 /**
  * @category instances

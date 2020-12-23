@@ -68,10 +68,6 @@ export function getStructShow<A>(shows: { [K in keyof A]: Show<A[K]> }): Show<A>
  * @category instances
  * @since 3.0.0
  */
-export function getTupleShow<T extends ReadonlyArray<Show<any>>>(
-  ...shows: T
-): Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }> {
-  return {
-    show: (t) => `[${t.map((a, i) => shows[i].show(a)).join(', ')}]`
-  }
-}
+export const getTupleShow = <A extends ReadonlyArray<unknown>>(...shows: { [K in keyof A]: Show<A[K]> }): Show<A> => ({
+  show: (t) => `[${t.map((a, i) => shows[i].show(a)).join(', ')}]`
+})

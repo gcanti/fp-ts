@@ -198,9 +198,7 @@ Given a tuple of `Ord`s returns an `Ord` for the tuple
 **Signature**
 
 ```ts
-export declare function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
-  ...ords: T
-): Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }>
+export declare const getTupleOrd: <A extends readonly unknown[]>(...ords: { [K in keyof A]: Ord<A[K]> }) => Ord<A>
 ```
 
 **Example**

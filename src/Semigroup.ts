@@ -76,6 +76,41 @@ export function getLastSemigroup<A = never>(): Semigroup<A> {
 }
 
 /**
+ * Given a struct of semigroups returns a semigroup for the struct.
+ *
+ * @example
+ * import * as S from 'fp-ts/Semigroup'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * interface Point {
+ *   readonly x: number
+ *   readonly y: number
+ * }
+ *
+ * const semigroupPoint = S.getStructSemigroup<Point>({
+ *   x: S.semigroupSum,
+ *   y: S.semigroupSum
+ * })
+ *
+ * assert.deepStrictEqual(pipe({ x: 1, y: 2 }, semigroupPoint.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
+ *
+ * @category instances
+ * @since 3.0.0
+ */
+export const getStructSemigroup = <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semigroup<A> => ({
+  concat: (second) => (first) => {
+    const r: A = {} as any
+    /* istanbul ignore next */
+    for (const key in semigroups) {
+      if (semigroups.hasOwnProperty(key)) {
+        r[key] = semigroups[key].concat(second[key])(first[key])
+      }
+    }
+    return r
+  }
+})
+
+/**
  * Given a tuple of semigroups returns a semigroup for the tuple.
  *
  * @example
@@ -91,13 +126,11 @@ export function getLastSemigroup<A = never>(): Semigroup<A> {
  * @category instances
  * @since 3.0.0
  */
-export function getTupleSemigroup<T extends ReadonlyArray<Semigroup<any>>>(
-  ...semigroups: T
-): Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> {
-  return {
-    concat: (second) => (first) => semigroups.map((s, i) => s.concat(second[i])(first[i])) as any
-  }
-}
+export const getTupleSemigroup = <A extends ReadonlyArray<unknown>>(
+  ...semigroups: { [K in keyof A]: Semigroup<A[K]> }
+): Semigroup<A> => ({
+  concat: (second) => (first) => semigroups.map((s, i) => s.concat(second[i])(first[i])) as any
+})
 
 /**
  * The dual of a `Semigroup`, obtained by swapping the arguments of `concat`.
@@ -144,43 +177,6 @@ export function getFunctionSemigroup<S>(S: Semigroup<S>): <A = never>() => Semig
   return () => ({
     concat: (second) => (first) => (a) => S.concat(second(a))(first(a))
   })
-}
-
-/**
- * Given a struct of semigroups returns a semigroup for the struct.
- *
- * @example
- * import * as S from 'fp-ts/Semigroup'
- * import { pipe } from 'fp-ts/function'
- *
- * interface Point {
- *   readonly x: number
- *   readonly y: number
- * }
- *
- * const semigroupPoint = S.getStructSemigroup<Point>({
- *   x: S.semigroupSum,
- *   y: S.semigroupSum
- * })
- *
- * assert.deepStrictEqual(pipe({ x: 1, y: 2 }, semigroupPoint.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
- *
- * @category instances
- * @since 3.0.0
- */
-export function getStructSemigroup<A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semigroup<A> {
-  return {
-    concat: (second) => (first) => {
-      const r: A = {} as any
-      /* istanbul ignore next */
-      for (const key in semigroups) {
-        if (semigroups.hasOwnProperty(key)) {
-          r[key] = semigroups[key].concat(second[key])(first[key])
-        }
-      }
-      return r
-    }
-  }
 }
 
 /**

@@ -162,7 +162,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getStructEq<A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A>
+export declare const getStructEq: <A>(eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<A>
 ```
 
 Added in v3.0.0
@@ -174,9 +174,7 @@ Given a tuple of `Eq`s returns a `Eq` for the tuple
 **Signature**
 
 ```ts
-export declare function getTupleEq<T extends ReadonlyArray<Eq<any>>>(
-  ...eqs: T
-): Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }>
+export declare const getTupleEq: <A extends readonly unknown[]>(...eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<A>
 ```
 
 **Example**

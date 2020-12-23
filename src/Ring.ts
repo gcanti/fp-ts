@@ -60,9 +60,7 @@ export const negate = <A>(ring: Ring<A>): Endomorphism<A> => (a) => ring.sub(a)(
  * @category instances
  * @since 3.0.0
  */
-export const getTupleRing = <T extends ReadonlyArray<Ring<any>>>(
-  ...rings: T
-): Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }> =>
+export const getTupleRing = <A extends ReadonlyArray<unknown>>(...rings: { [K in keyof A]: Ring<A[K]> }): Ring<A> =>
   ({
     add: (second: any) => (first: any) => rings.map((R, i) => R.add(second[i])(first[i])),
     zero: rings.map((R) => R.zero),

@@ -169,6 +169,42 @@ export function fold<A>(M: Monoid<A>): (as: ReadonlyArray<A>) => A {
 }
 
 /**
+ * Given a struct of monoids returns a monoid for the struct.
+ *
+ * @example
+ * import * as M from 'fp-ts/Monoid'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * interface Point {
+ *   readonly x: number
+ *   readonly y: number
+ * }
+ *
+ * const monoidPoint = M.getStructMonoid<Point>({
+ *   x: M.monoidSum,
+ *   y: M.monoidSum
+ * })
+ *
+ * assert.deepStrictEqual(pipe({ x: 1, y: 2 }, monoidPoint.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
+ *
+ * @category instances
+ * @since 3.0.0
+ */
+export const getStructMonoid = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<A> => {
+  const empty: A = {} as any
+  for (const key in monoids) {
+    /* istanbul ignore next */
+    if (monoids.hasOwnProperty(key)) {
+      empty[key] = monoids[key].empty
+    }
+  }
+  return {
+    concat: S.getStructSemigroup(monoids).concat,
+    empty
+  }
+}
+
+/**
  * Given a tuple of monoids returns a monoid for the tuple
  *
  * @example
@@ -184,14 +220,13 @@ export function fold<A>(M: Monoid<A>): (as: ReadonlyArray<A>) => A {
  * @category instances
  * @since 3.0.0
  */
-export function getTupleMonoid<T extends ReadonlyArray<Monoid<any>>>(
-  ...monoids: T
-): Monoid<{ [K in keyof T]: T[K] extends S.Semigroup<infer A> ? A : never }> {
-  return {
+export const getTupleMonoid = <A extends ReadonlyArray<unknown>>(
+  ...monoids: { [K in keyof A]: Monoid<A[K]> }
+): Monoid<A> =>
+  ({
     concat: S.getTupleSemigroup(...monoids).concat,
     empty: monoids.map((m) => m.empty)
-  } as any
-}
+  } as any)
 
 /**
  * The dual of a `Monoid`, obtained by swapping the arguments of `concat`.
@@ -253,42 +288,6 @@ export function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<A>> {
   return {
     concat: (second) => (first) => flow(first, second),
     empty: identity
-  }
-}
-
-/**
- * Given a struct of monoids returns a monoid for the struct.
- *
- * @example
- * import * as M from 'fp-ts/Monoid'
- * import { pipe } from 'fp-ts/function'
- *
- * interface Point {
- *   readonly x: number
- *   readonly y: number
- * }
- *
- * const monoidPoint = M.getStructMonoid<Point>({
- *   x: M.monoidSum,
- *   y: M.monoidSum
- * })
- *
- * assert.deepStrictEqual(pipe({ x: 1, y: 2 }, monoidPoint.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
- *
- * @category instances
- * @since 3.0.0
- */
-export function getStructMonoid<A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<A> {
-  const empty: A = {} as any
-  for (const key in monoids) {
-    /* istanbul ignore next */
-    if (monoids.hasOwnProperty(key)) {
-      empty[key] = monoids[key].empty
-    }
-  }
-  return {
-    concat: S.getStructSemigroup(monoids).concat,
-    empty
   }
 }
 

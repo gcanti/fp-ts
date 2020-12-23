@@ -49,9 +49,7 @@ Given a tuple of `Ring`s returns a `Ring` for the tuple
 **Signature**
 
 ```ts
-export declare const getTupleRing: <T extends readonly Ring<any>[]>(
-  ...rings: T
-) => Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }>
+export declare const getTupleRing: <A extends readonly unknown[]>(...rings: { [K in keyof A]: Ring<A[K]> }) => Ring<A>
 ```
 
 **Example**

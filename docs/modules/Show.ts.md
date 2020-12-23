@@ -40,9 +40,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getTupleShow<T extends ReadonlyArray<Show<any>>>(
-  ...shows: T
-): Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }>
+export declare const getTupleShow: <A extends readonly unknown[]>(...shows: { [K in keyof A]: Show<A[K]> }) => Show<A>
 ```
 
 Added in v3.0.0

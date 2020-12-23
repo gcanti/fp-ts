@@ -231,13 +231,10 @@ export function getMonoid<A = never>(): Monoid<Ord<A>> {
  * @category instances
  * @since 3.0.0
  */
-export function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
-  ...ords: T
-): Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }> {
-  const len = ords.length
-  return fromCompare((second) => (first) => {
+export const getTupleOrd = <A extends ReadonlyArray<unknown>>(...ords: { [K in keyof A]: Ord<A[K]> }): Ord<A> =>
+  fromCompare((second) => (first) => {
     let i = 0
-    for (; i < len - 1; i++) {
+    for (; i < ords.length - 1; i++) {
       const r = ords[i].compare(second[i])(first[i])
       if (r !== 0) {
         return r
@@ -245,7 +242,6 @@ export function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
     }
     return ords[i].compare(second[i])(first[i])
   })
-}
 
 /**
  * @category combinators

@@ -1,5 +1,4 @@
 import * as _ from '../../src/Show'
-import { pipe } from '../../src/function'
 
 //
 // getTupleShow
