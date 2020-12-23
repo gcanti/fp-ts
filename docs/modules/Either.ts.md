@@ -1077,7 +1077,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getAltValidation<E>(SE: Semigroup<E>): Alt2C<URI, E>
+export declare function getAltValidation<E>(S: Semigroup<E>): Alt2C<URI, E>
 ```
 
 Added in v3.0.0
@@ -1087,7 +1087,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApplicativeValidation<E>(SE: Semigroup<E>): Applicative2C<URI, E>
+export declare function getApplicativeValidation<E>(S: Semigroup<E>): Applicative2C<URI, E>
 ```
 
 Added in v3.0.0

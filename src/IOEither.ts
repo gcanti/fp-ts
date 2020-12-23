@@ -364,11 +364,11 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<IOEither<E, A>> {
  * @category instances
  * @since 3.0.0
  */
-export function getApplicativeIOValidation<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
+export function getApplicativeIOValidation<E>(S: Semigroup<E>): Applicative2C<URI, E> {
   return {
     URI,
     map,
-    ap: ap_<I.URI, E.URI, E>(I.Apply, E.getApplicativeValidation(SE)),
+    ap: ap_<I.URI, E.URI, E>(I.Apply, E.getApplicativeValidation(S)),
     of
   }
 }
@@ -377,8 +377,8 @@ export function getApplicativeIOValidation<E>(SE: Semigroup<E>): Applicative2C<U
  * @category instances
  * @since 3.0.0
  */
-export function getAltIOValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
-  const A = E.getAltValidation(SE)
+export function getAltIOValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
+  const A = E.getAltValidation(S)
   return {
     URI,
     map,

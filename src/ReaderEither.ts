@@ -363,11 +363,11 @@ export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderEither<R, E,
  * @category instances
  * @since 3.0.0
  */
-export function getApplicativeReaderValidation<E>(SE: Semigroup<E>): Applicative3C<URI, E> {
+export function getApplicativeReaderValidation<E>(S: Semigroup<E>): Applicative3C<URI, E> {
   return {
     URI,
     map,
-    ap: ap_<R.URI, E.URI, E>(R.Apply, E.getApplicativeValidation(SE)),
+    ap: ap_<R.URI, E.URI, E>(R.Apply, E.getApplicativeValidation(S)),
     of
   }
 }
@@ -376,8 +376,8 @@ export function getApplicativeReaderValidation<E>(SE: Semigroup<E>): Applicative
  * @category instances
  * @since 3.0.0
  */
-export function getAltReaderValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
-  const A = E.getAltValidation(SE)
+export function getAltReaderValidation<E>(S: Semigroup<E>): Alt3C<URI, E> {
+  const A = E.getAltValidation(S)
   return {
     URI,
     map,

@@ -507,11 +507,11 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>> {
  * @category instances
  * @since 3.0.0
  */
-export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E> {
+export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E> {
   return {
     URI,
     map,
-    ap: ap_<T.URI, E.URI, E>(A, E.getApplicativeValidation(SE)),
+    ap: ap_<T.URI, E.URI, E>(A, E.getApplicativeValidation(S)),
     of
   }
 }
@@ -520,7 +520,7 @@ export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<
  * @category instances
  * @since 3.0.0
  */
-export function getAltTaskValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
+export function getAltTaskValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
   return {
     URI,
     map,
@@ -532,7 +532,7 @@ export function getAltTaskValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
             ? T.of(e1)
             : pipe(
                 second(),
-                T.map((e2) => (E.isLeft(e2) ? E.left(SE.concat(e2.left)(e1.left)) : e2))
+                T.map((e2) => (E.isLeft(e2) ? E.left(S.concat(e2.left)(e1.left)) : e2))
               )
         )
       )

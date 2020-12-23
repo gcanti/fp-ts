@@ -643,7 +643,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getAltReaderValidation<E>(SE: Semigroup<E>): Alt3C<URI, E>
+export declare function getAltReaderValidation<E>(S: Semigroup<E>): Alt3C<URI, E>
 ```
 
 Added in v3.0.0
@@ -653,7 +653,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApplicativeReaderValidation<E>(SE: Semigroup<E>): Applicative3C<URI, E>
+export declare function getApplicativeReaderValidation<E>(S: Semigroup<E>): Applicative3C<URI, E>
 ```
 
 Added in v3.0.0

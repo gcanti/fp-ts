@@ -926,14 +926,14 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
  * @category instances
  * @since 3.0.0
  */
-export function getApplicativeValidation<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
+export function getApplicativeValidation<E>(S: Semigroup<E>): Applicative2C<URI, E> {
   return {
     URI,
     map,
     ap: (fa) => (fab) =>
       isLeft(fab)
         ? isLeft(fa)
-          ? left(SE.concat(fa.left)(fab.left))
+          ? left(S.concat(fa.left)(fab.left))
           : fab
         : isLeft(fa)
         ? fa
@@ -946,7 +946,7 @@ export function getApplicativeValidation<E>(SE: Semigroup<E>): Applicative2C<URI
  * @category instances
  * @since 3.0.0
  */
-export function getAltValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
+export function getAltValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
   return {
     URI,
     map,
@@ -955,7 +955,7 @@ export function getAltValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
         return first
       }
       const ea = second()
-      return isLeft(ea) ? left(SE.concat(ea.left)(first.left)) : ea
+      return isLeft(ea) ? left(S.concat(ea.left)(first.left)) : ea
     }
   }
 }

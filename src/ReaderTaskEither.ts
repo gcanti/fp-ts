@@ -511,11 +511,11 @@ export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderTaskEither<R
  * @category instances
  * @since 3.0.0
  */
-export function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative3C<URI, E> {
+export function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative3C<URI, E> {
   return {
     URI,
     map,
-    ap: ap_<R.URI, TE.URI, E>(R.Apply, TE.getApplicativeTaskValidation(A, SE)),
+    ap: ap_<R.URI, TE.URI, E>(R.Apply, TE.getApplicativeTaskValidation(A, S)),
     of
   }
 }
@@ -524,8 +524,8 @@ export function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, SE: Semi
  * @category instances
  * @since 3.0.0
  */
-export function getAltReaderTaskValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
-  const A = TE.getAltTaskValidation(SE)
+export function getAltReaderTaskValidation<E>(S: Semigroup<E>): Alt3C<URI, E> {
+  const A = TE.getAltTaskValidation(S)
   return {
     URI,
     map,

@@ -108,8 +108,7 @@ export function chain_<M>(
 export function chain_<M>(
   M: Monad<M>
 ): <A, E, B>(f: (a: A) => HKT<M, Either<E, B>>) => (ma: HKT<M, Either<E, A>>) => HKT<M, Either<E, B>> {
-  const left = left_(M)
-  return (f) => M.chain(E.fold(left, f))
+  return (f) => M.chain((e) => (E.isLeft(e) ? M.of(e) : f(e.right)))
 }
 
 /**
@@ -129,8 +128,7 @@ export function alt_<M>(
 export function alt_<M>(
   M: Monad<M>
 ): <E, A>(second: Lazy<HKT<M, Either<E, A>>>) => (first: HKT<M, Either<E, A>>) => HKT<M, Either<E, A>> {
-  const right = right_(M)
-  return (second) => M.chain((e) => (E.isLeft(e) ? second() : right(e.right)))
+  return (second) => M.chain((e) => (E.isLeft(e) ? second() : M.of(e)))
 }
 
 /**
@@ -225,8 +223,7 @@ export function orElse_<M>(
 export function orElse_<M>(
   M: Monad<M>
 ): <E1, E2, A>(onLeft: (e: E1) => HKT<M, Either<E2, A>>) => (ma: HKT<M, Either<E1, A>>) => HKT<M, Either<E2, A>> {
-  const right = right_(M)
-  return (onLeft) => M.chain(E.fold(onLeft, right))
+  return (onLeft) => M.chain((e) => (E.isLeft(e) ? onLeft(e.left) : M.of(e)))
 }
 
 /**
