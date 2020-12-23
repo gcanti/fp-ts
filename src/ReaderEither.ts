@@ -8,8 +8,8 @@ import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import * as ET from './EitherT'
 import { FromEither3, fromOption_, fromPredicate_ } from './FromEither'
-import { flow, identity, pipe, Predicate, Refinement, tuple } from './function'
-import { bindTo_, Functor3 } from './Functor'
+import { flow, identity, pipe, Predicate, Refinement } from './function'
+import { bindTo_, Functor3, tupled_ } from './Functor'
 import { bind_, chainFirst_, Monad3 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed3 } from './Pointed'
@@ -614,7 +614,9 @@ export const ApT: ReaderEither<unknown, never, readonly []> = of([])
 /**
  * @since 3.0.0
  */
-export const tupled: <R, E, A>(a: ReaderEither<R, E, A>) => ReaderEither<R, E, readonly [A]> = map(tuple)
+export const tupled =
+  /*#__PURE__*/
+  tupled_(Functor)
 
 /**
  * @since 3.0.0

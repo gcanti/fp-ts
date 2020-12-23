@@ -603,7 +603,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <R, A>(a: Reader<R, A>) => Reader<R, readonly [A]>
+export declare const tupled: <E, A>(a: Reader<E, A>) => Reader<E, readonly [A]>
 ```
 
 Added in v3.0.0

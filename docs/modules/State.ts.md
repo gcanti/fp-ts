@@ -443,7 +443,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <S, A>(a: State<S, A>) => State<S, readonly [A]>
+export declare const tupled: <E, A>(a: State<E, A>) => State<E, readonly [A]>
 ```
 
 Added in v3.0.0

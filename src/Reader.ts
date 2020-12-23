@@ -4,8 +4,8 @@
 import { Applicative2 } from './Applicative'
 import { apFirst_, Apply2, apSecond_, apS_, apT_ } from './Apply'
 import { Category2 } from './Category'
-import { constant, flow, identity, tuple } from './function'
-import { bindTo_, Functor2 } from './Functor'
+import { constant, flow, identity } from './function'
+import { bindTo_, Functor2, tupled_ } from './Functor'
 import { bind_, chainFirst_, Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
@@ -356,7 +356,9 @@ export const ApT: Reader<unknown, readonly []> = of([])
 /**
  * @since 3.0.0
  */
-export const tupled: <R, A>(a: Reader<R, A>) => Reader<R, readonly [A]> = map(tuple)
+export const tupled =
+  /*#__PURE__*/
+  tupled_(Functor)
 
 /**
  * @since 3.0.0

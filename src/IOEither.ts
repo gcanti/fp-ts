@@ -14,8 +14,8 @@ import * as ET from './EitherT'
 import { Filterable2C, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
 import { FromEither2, fromOption_, fromPredicate_ } from './FromEither'
 import { FromIO2 } from './FromIO'
-import { flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
-import { bindTo_, Functor2 } from './Functor'
+import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { bindTo_, Functor2, tupled_ } from './Functor'
 import * as I from './IO'
 import { bind_, chainFirst_, Monad2 } from './Monad'
 import { Monoid } from './Monoid'
@@ -702,7 +702,9 @@ export const ApT: IOEither<never, readonly []> = of([])
 /**
  * @since 3.0.0
  */
-export const tupled: <E, A>(a: IOEither<E, A>) => IOEither<E, readonly [A]> = map(tuple)
+export const tupled =
+  /*#__PURE__*/
+  tupled_(Functor)
 
 /**
  * @since 3.0.0

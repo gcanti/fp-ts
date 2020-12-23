@@ -8,8 +8,8 @@ import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
-import { identity as id, pipe, tuple } from './function'
-import { bindTo_, Functor1 } from './Functor'
+import { identity as id, pipe } from './function'
+import { bindTo_, Functor1, tupled_ } from './Functor'
 import { HKT } from './HKT'
 import { bind_, chainFirst_, Monad1 } from './Monad'
 import { Pointed1 } from './Pointed'
@@ -351,7 +351,9 @@ export const ApT: Identity<readonly []> = of([])
 /**
  * @since 3.0.0
  */
-export const tupled: <A>(a: Identity<A>) => Identity<readonly [A]> = map(tuple)
+export const tupled =
+  /*#__PURE__*/
+  tupled_(Functor)
 
 /**
  * @since 3.0.0

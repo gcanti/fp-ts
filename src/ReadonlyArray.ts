@@ -13,8 +13,8 @@ import { Filterable1 } from './Filterable'
 import { FilterableWithIndex1, PredicateWithIndex } from './FilterableWithIndex'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { Endomorphism, flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
-import { bindTo_, Functor1 } from './Functor'
+import { Endomorphism, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { bindTo_, Functor1, tupled_ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import { bind_, chainFirst_, Monad1 } from './Monad'
@@ -2055,7 +2055,9 @@ export const ApT: ReadonlyArray<readonly []> = of([])
 /**
  * @since 3.0.0
  */
-export const tupled: <A>(a: ReadonlyArray<A>) => ReadonlyArray<readonly [A]> = map(tuple)
+export const tupled =
+  /*#__PURE__*/
+  tupled_(Functor)
 
 /**
  * @since 3.0.0

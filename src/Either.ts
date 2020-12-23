@@ -23,8 +23,8 @@ import { Extend2 } from './Extend'
 import { Filterable2C } from './Filterable'
 import { Foldable2 } from './Foldable'
 import { FromEither2 } from './FromEither'
-import { identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
-import { bindTo_, Functor2 } from './Functor'
+import { identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { bindTo_, Functor2, tupled_ } from './Functor'
 import { HKT } from './HKT'
 import { bind_, chainFirst_, Monad2 } from './Monad'
 import { Monoid } from './Monoid'
@@ -1250,7 +1250,9 @@ export const ApT: Either<never, readonly []> = of([])
 /**
  * @since 3.0.0
  */
-export const tupled: <E, A>(a: Either<E, A>) => Either<E, readonly [A]> = map(tuple)
+export const tupled =
+  /*#__PURE__*/
+  tupled_(Functor)
 
 /**
  * @since 3.0.0

@@ -22,8 +22,8 @@ import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
-import { flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
-import { bindTo_, Functor1 } from './Functor'
+import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { bindTo_, Functor1, tupled_ } from './Functor'
 import { HKT } from './HKT'
 import { bind_, chainFirst_, Monad1 } from './Monad'
 import { Monoid } from './Monoid'
@@ -1146,7 +1146,9 @@ export const ApT: Option<readonly []> = of([])
 /**
  * @since 3.0.0
  */
-export const tupled: <A>(a: Option<A>) => Option<readonly [A]> = map(tuple)
+export const tupled =
+  /*#__PURE__*/
+  tupled_(Functor)
 
 /**
  * @since 3.0.0

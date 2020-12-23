@@ -5,8 +5,8 @@ import { Applicative2 } from './Applicative'
 import { apFirst_, Apply2, apSecond_, apS_, apT_ } from './Apply'
 import { FromIO2 } from './FromIO'
 import { FromTask2 } from './FromTask'
-import { flow, identity, pipe, tuple } from './function'
-import { bindTo_, Functor2 } from './Functor'
+import { flow, identity, pipe } from './function'
+import { bindTo_, Functor2, tupled_ } from './Functor'
 import { IO } from './IO'
 import { bind_, chainFirst_, Monad2 } from './Monad'
 import { Monoid } from './Monoid'
@@ -420,7 +420,9 @@ export const ApT: ReaderTask<unknown, readonly []> = of([])
 /**
  * @since 3.0.0
  */
-export const tupled: <R, A>(a: ReaderTask<R, A>) => ReaderTask<R, readonly [A]> = map(tuple)
+export const tupled =
+  /*#__PURE__*/
+  tupled_(Functor)
 
 /**
  * @since 3.0.0

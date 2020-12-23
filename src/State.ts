@@ -3,8 +3,8 @@
  */
 import { Applicative2 } from './Applicative'
 import { apFirst_, Apply2, apSecond_, apS_, apT_ } from './Apply'
-import { identity, tuple } from './function'
-import { bindTo_, Functor2 } from './Functor'
+import { identity } from './function'
+import { bindTo_, Functor2, tupled_ } from './Functor'
 import { bind_, chainFirst_, Monad2 } from './Monad'
 import { Pointed2 } from './Pointed'
 
@@ -273,7 +273,9 @@ export const apS =
 /**
  * @since 3.0.0
  */
-export const tupled: <S, A>(a: State<S, A>) => State<S, readonly [A]> = map(tuple)
+export const tupled =
+  /*#__PURE__*/
+  tupled_(Functor)
 
 /**
  * @since 3.0.0

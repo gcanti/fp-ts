@@ -9,8 +9,8 @@ import * as E from './Either'
 import { FromEither4, fromOption_, fromPredicate_ } from './FromEither'
 import { FromIO4 } from './FromIO'
 import { FromTask4 } from './FromTask'
-import { flow, identity, pipe, Predicate, Refinement, tuple } from './function'
-import { bindTo_, Functor4 } from './Functor'
+import { flow, identity, pipe, Predicate, Refinement } from './function'
+import { bindTo_, Functor4, tupled_ } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { bind_, chainFirst_, Monad4 } from './Monad'
@@ -753,9 +753,9 @@ export const apSW: <A, N extends string, S, R2, E2, B>(
 /**
  * @since 3.0.0
  */
-export const tupled: <S, R, E, A>(
-  a: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, readonly [A]> = map(tuple)
+export const tupled =
+  /*#__PURE__*/
+  tupled_(Functor)
 
 /**
  * @since 3.0.0

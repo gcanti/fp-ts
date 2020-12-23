@@ -270,6 +270,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Functor`
     - add `bindTo_` (@gcanti)
     - add `map_` (@gcanti)
+    - add `tupled_` (@gcanti)
   - `Identity`
     - add pipeable sequence T (@gcanti)
   - `IO`

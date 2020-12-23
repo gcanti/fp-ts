@@ -13,11 +13,11 @@
 import { Applicative1 } from './Applicative'
 import { apFirst_, Apply1, apSecond_, apS_, apT_ } from './Apply'
 import { FromIO1 } from './FromIO'
-import { identity, pipe, tuple } from './function'
-import { bindTo_, Functor1 } from './Functor'
+import { FromTask1 } from './FromTask'
+import { identity, pipe } from './function'
+import { bindTo_, Functor1, tupled_ } from './Functor'
 import { IO } from './IO'
 import { bind_, chainFirst_, Monad1 } from './Monad'
-import { FromTask1 } from './FromTask'
 import { Monoid } from './Monoid'
 import { Pointed1 } from './Pointed'
 import { Semigroup } from './Semigroup'
@@ -425,7 +425,9 @@ export const ApT: Task<readonly []> = of([])
 /**
  * @since 3.0.0
  */
-export const tupled: <A>(a: Task<A>) => Task<readonly [A]> = map(tuple)
+export const tupled =
+  /*#__PURE__*/
+  tupled_(Functor)
 
 /**
  * @since 3.0.0

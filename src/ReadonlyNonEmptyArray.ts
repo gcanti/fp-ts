@@ -11,8 +11,8 @@ import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { Endomorphism, Lazy, Predicate, Refinement, tuple } from './function'
-import { bindTo_, Functor1 } from './Functor'
+import { Endomorphism, Lazy, Predicate, Refinement } from './function'
+import { bindTo_, Functor1, tupled_ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { bind_, Monad1 } from './Monad'
 import { none, Option, some } from './Option'
@@ -778,7 +778,9 @@ export const ApT: ReadonlyNonEmptyArray<readonly []> = of([])
 /**
  * @since 3.0.0
  */
-export const tupled: <A>(a: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [A]> = map(tuple)
+export const tupled =
+  /*#__PURE__*/
+  tupled_(Functor)
 
 /**
  * @since 3.0.0

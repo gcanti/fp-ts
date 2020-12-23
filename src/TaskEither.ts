@@ -19,8 +19,8 @@ import { Filterable2C, filterMap_, filter_, partitionMap_, partition_ } from './
 import { FromEither2, fromOption_, fromPredicate_ } from './FromEither'
 import { FromIO2 } from './FromIO'
 import { FromTask2 } from './FromTask'
-import { flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
-import { bindTo_, Functor2 } from './Functor'
+import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { bindTo_, Functor2, tupled_ } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { bind_, chainFirst_, Monad2 } from './Monad'
@@ -919,7 +919,9 @@ export const ApT: TaskEither<never, readonly []> = of([])
 /**
  * @since 3.0.0
  */
-export const tupled: <E, A>(a: TaskEither<E, A>) => TaskEither<E, readonly [A]> = map(tuple)
+export const tupled =
+  /*#__PURE__*/
+  tupled_(Functor)
 
 /**
  * @since 3.0.0

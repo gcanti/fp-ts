@@ -13,8 +13,8 @@ import { Comonad1 } from './Comonad'
 import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
-import { identity, pipe, tuple } from './function'
-import { bindTo_, Functor1 } from './Functor'
+import { identity, pipe } from './function'
+import { bindTo_, Functor1, tupled_ } from './Functor'
 import { HKT } from './HKT'
 import { bind_, chainFirst_, Monad1 } from './Monad'
 import { Pointed1 } from './Pointed'
@@ -518,7 +518,9 @@ export const ApT: Tree<readonly []> = of([])
 /**
  * @since 3.0.0
  */
-export const tupled: <A>(a: Tree<A>) => Tree<readonly [A]> = map(tuple)
+export const tupled =
+  /*#__PURE__*/
+  tupled_(Functor)
 
 /**
  * @since 3.0.0
