@@ -73,6 +73,7 @@ Added in v3.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
+  - [getApply](#getapply)
   - [getEq](#geteq)
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
@@ -564,6 +565,16 @@ Added in v3.0.0
 
 ```ts
 export declare function getApplicative<E>(S: Semigroup<E>): Applicative2C<URI, E>
+```
+
+Added in v3.0.0
+
+## getApply
+
+**Signature**
+
+```ts
+export declare function getApply<E>(S: Semigroup<E>): Apply2C<URI, E>
 ```
 
 Added in v3.0.0

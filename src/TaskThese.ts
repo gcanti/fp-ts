@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import { Applicative2C } from './Applicative'
-import { Apply1 } from './Apply'
+import { Apply1, Apply2C } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { FromEither2, fromOption_, fromPredicate_ } from './FromEither'
@@ -231,6 +231,18 @@ declare module './HKT' {
  */
 export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<TaskThese<E, A>> {
   return T.getSemigroup(TH.getSemigroup(SE, SA))
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export function getApply<E>(A: Apply1<T.URI>, S: Semigroup<E>): Apply2C<URI, E> {
+  return {
+    URI,
+    map,
+    ap: ap_(A, S)
+  }
 }
 
 /**

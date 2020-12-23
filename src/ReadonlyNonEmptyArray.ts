@@ -604,11 +604,10 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: Applicative1<URI> = {
+export const Apply: Apply1<URI> = {
   URI,
   map,
-  ap,
-  of
+  ap
 }
 
 /**
@@ -634,6 +633,17 @@ export const apFirst: <B>(
 export const apSecond: <B>(
   second: ReadonlyNonEmptyArray<B>
 ) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = RA.apSecond as any
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Applicative: Applicative1<URI> = {
+  URI,
+  map,
+  ap,
+  of
+}
 
 /**
  * @category instances

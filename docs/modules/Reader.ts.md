@@ -40,6 +40,7 @@ Added in v3.0.0
   - [flatten](#flatten)
 - [instances](#instances)
   - [Applicative](#applicative-1)
+  - [Apply](#apply-1)
   - [Category](#category-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
@@ -291,6 +292,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Applicative: Applicative2<'Reader'>
+```
+
+Added in v3.0.0
+
+## Apply
+
+**Signature**
+
+```ts
+export declare const Apply: Apply2<'Reader'>
 ```
 
 Added in v3.0.0

@@ -42,6 +42,8 @@ Added in v3.0.0
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
+  - [ApplyPar](#applypar)
+  - [ApplySeq](#applyseq)
   - [FromIO](#fromio-1)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
@@ -331,6 +333,26 @@ Added in v3.0.0
 
 ```ts
 export declare const ApplicativeSeq: Applicative2<'ReaderTask'>
+```
+
+Added in v3.0.0
+
+## ApplyPar
+
+**Signature**
+
+```ts
+export declare const ApplyPar: Apply2<'ReaderTask'>
+```
+
+Added in v3.0.0
+
+## ApplySeq
+
+**Signature**
+
+```ts
+export declare const ApplySeq: Applicative2<'ReaderTask'>
 ```
 
 Added in v3.0.0

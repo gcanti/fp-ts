@@ -41,6 +41,7 @@ Added in v3.0.0
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative-1)
+  - [Apply](#apply-1)
   - [Comonad](#comonad)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
@@ -295,6 +296,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Applicative: Applicative1<'Identity'>
+```
+
+Added in v3.0.0
+
+## Apply
+
+**Signature**
+
+```ts
+export declare const Apply: Apply1<'Identity'>
 ```
 
 Added in v3.0.0

@@ -78,6 +78,8 @@ Added in v3.0.0
   - [Alt](#alt-1)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
+  - [ApplyPar](#applypar)
+  - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
   - [FromIO](#fromio-1)
@@ -783,6 +785,26 @@ Added in v3.0.0
 
 ```ts
 export declare const ApplicativeSeq: Applicative3<'ReaderTaskEither'>
+```
+
+Added in v3.0.0
+
+## ApplyPar
+
+**Signature**
+
+```ts
+export declare const ApplyPar: Apply3<'ReaderTaskEither'>
+```
+
+Added in v3.0.0
+
+## ApplySeq
+
+**Signature**
+
+```ts
+export declare const ApplySeq: Apply3<'ReaderTaskEither'>
 ```
 
 Added in v3.0.0

@@ -20,6 +20,7 @@
  * @since 3.0.0
  */
 import { Applicative, Applicative2C } from './Applicative'
+import { Apply2C } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
@@ -461,7 +462,7 @@ export const Pointed: Pointed2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export function getApplicative<E>(S: Semigroup<E>): Applicative2C<URI, E> {
+export function getApply<E>(S: Semigroup<E>): Apply2C<URI, E> {
   return {
     URI,
     map,
@@ -482,7 +483,20 @@ export function getApplicative<E>(S: Semigroup<E>): Applicative2C<URI, E> {
         ? left(S.concat(fa.left)(fab.left))
         : isRight(fa)
         ? both(fab.left, fab.right(fa.right))
-        : both(S.concat(fa.left)(fab.left), fab.right(fa.right)),
+        : both(S.concat(fa.left)(fab.left), fab.right(fa.right))
+  }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export function getApplicative<E>(S: Semigroup<E>): Applicative2C<URI, E> {
+  const A = getApply(S)
+  return {
+    URI,
+    map,
+    ap: A.ap,
     of
   }
 }

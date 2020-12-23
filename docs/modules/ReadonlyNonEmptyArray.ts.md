@@ -65,6 +65,7 @@ Added in v3.0.0
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative-1)
+  - [Apply](#apply-1)
   - [Comonad](#comonad)
   - [Foldable](#foldable-1)
   - [FoldableWithIndex](#foldablewithindex-1)
@@ -678,6 +679,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Applicative: Applicative1<'ReadonlyNonEmptyArray'>
+```
+
+Added in v3.0.0
+
+## Apply
+
+**Signature**
+
+```ts
+export declare const Apply: Apply1<'ReadonlyNonEmptyArray'>
 ```
 
 Added in v3.0.0

@@ -32,6 +32,7 @@ Added in v3.0.0
   - [flatten](#flatten)
 - [instances](#instances)
   - [Applicative](#applicative-1)
+  - [Apply](#apply-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Pointed](#pointed)
@@ -225,6 +226,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Applicative: Applicative2<'State'>
+```
+
+Added in v3.0.0
+
+## Apply
+
+**Signature**
+
+```ts
+export declare const Apply: Apply2<'State'>
 ```
 
 Added in v3.0.0

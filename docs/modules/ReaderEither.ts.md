@@ -58,6 +58,7 @@ Added in v3.0.0
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative-1)
+  - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
   - [Functor](#functor-1)
@@ -553,6 +554,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Applicative: Applicative3<'ReaderEither'>
+```
+
+Added in v3.0.0
+
+## Apply
+
+**Signature**
+
+```ts
+export declare const Apply: Apply3<'ReaderEither'>
 ```
 
 Added in v3.0.0

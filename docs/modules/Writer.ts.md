@@ -25,6 +25,7 @@ Added in v3.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
+  - [getApply](#getapply)
   - [getMonad](#getmonad)
   - [getPointed](#getpointed)
 - [model](#model)
@@ -150,6 +151,16 @@ Added in v3.0.0
 
 ```ts
 export declare function getApplicative<W>(M: Monoid<W>): Applicative2C<URI, W>
+```
+
+Added in v3.0.0
+
+## getApply
+
+**Signature**
+
+```ts
+export declare function getApply<W>(S: Semigroup<W>): Apply2C<URI, W>
 ```
 
 Added in v3.0.0

@@ -231,7 +231,7 @@ export const mapLeft: Bifunctor3<URI>['mapLeft'] =
  */
 export const ap: Apply3<URI>['ap'] =
   /*#__PURE__*/
-  ET.ap_(R.Applicative)
+  ET.ap_(R.Apply)
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -420,11 +420,10 @@ export const Pointed: Pointed3<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: Applicative3<URI> = {
+export const Apply: Apply3<URI> = {
   URI,
   map,
-  ap,
-  of
+  ap
 }
 
 /**
@@ -437,7 +436,7 @@ export const Applicative: Applicative3<URI> = {
  */
 export const apFirst =
   /*#__PURE__*/
-  apFirst_(Applicative)
+  apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -449,7 +448,18 @@ export const apFirst =
  */
 export const apSecond =
   /*#__PURE__*/
-  apSecond_(Applicative)
+  apSecond_(Apply)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Applicative: Applicative3<URI> = {
+  URI,
+  map,
+  ap,
+  of
+}
 
 /**
  * @category instances

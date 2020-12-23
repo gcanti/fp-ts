@@ -76,6 +76,8 @@ Added in v3.0.0
   - [Alt](#alt-1)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
+  - [ApplyPar](#applypar)
+  - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
@@ -742,6 +744,26 @@ Added in v3.0.0
 
 ```ts
 export declare const ApplicativeSeq: Applicative2<'TaskEither'>
+```
+
+Added in v3.0.0
+
+## ApplyPar
+
+**Signature**
+
+```ts
+export declare const ApplyPar: Apply2<'TaskEither'>
+```
+
+Added in v3.0.0
+
+## ApplySeq
+
+**Signature**
+
+```ts
+export declare const ApplySeq: Apply2<'TaskEither'>
 ```
 
 Added in v3.0.0

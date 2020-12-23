@@ -261,11 +261,10 @@ export const Pointed: Pointed1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativePar: Applicative1<URI> = {
+export const ApplyPar: Apply1<URI> = {
   URI,
   map,
-  ap,
-  of
+  ap
 }
 
 /**
@@ -278,7 +277,7 @@ export const ApplicativePar: Applicative1<URI> = {
  */
 export const apFirst =
   /*#__PURE__*/
-  apFirst_(ApplicativePar)
+  apFirst_(ApplyPar)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -290,7 +289,30 @@ export const apFirst =
  */
 export const apSecond =
   /*#__PURE__*/
-  apSecond_(ApplicativePar)
+  apSecond_(ApplyPar)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ApplicativePar: Applicative1<URI> = {
+  URI,
+  map,
+  ap,
+  of
+}
+
+const apSeq: Apply1<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ApplySeq: Apply1<URI> = {
+  URI,
+  map,
+  ap: apSeq
+}
 
 /**
  * @category instances
@@ -299,7 +321,7 @@ export const apSecond =
 export const ApplicativeSeq: Applicative1<URI> = {
   URI,
   map,
-  ap: (fa) => chain((f) => pipe(fa, map(f))),
+  ap: apSeq,
   of
 }
 

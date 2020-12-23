@@ -226,7 +226,7 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] =
  */
 export const ap: Apply2<URI>['ap'] =
   /*#__PURE__*/
-  ET.ap_(I.Applicative)
+  ET.ap_(I.Apply)
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -458,22 +458,10 @@ export const Bifunctor: Bifunctor2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativePar: Applicative2<URI> = {
+export const ApplyPar: Apply2<URI> = {
   URI,
   map,
-  ap,
-  of
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const ApplicativeSeq: Applicative2<URI> = {
-  URI,
-  map,
-  ap: (fa) => chain((f) => pipe(fa, map(f))),
-  of
+  ap
 }
 
 /**
@@ -486,7 +474,7 @@ export const ApplicativeSeq: Applicative2<URI> = {
  */
 export const apFirst =
   /*#__PURE__*/
-  apFirst_(ApplicativePar)
+  apFirst_(ApplyPar)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -498,7 +486,41 @@ export const apFirst =
  */
 export const apSecond =
   /*#__PURE__*/
-  apSecond_(ApplicativePar)
+  apSecond_(ApplyPar)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ApplicativePar: Applicative2<URI> = {
+  URI,
+  map,
+  ap,
+  of
+}
+
+const apSeq: Apply2<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ApplySeq: Apply2<URI> = {
+  URI,
+  map,
+  ap: apSeq
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ApplicativeSeq: Applicative2<URI> = {
+  URI,
+  map,
+  ap: apSeq,
+  of
+}
 
 /**
  * @category instances

@@ -1737,11 +1737,10 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: Applicative1<URI> = {
+export const Apply: Apply1<URI> = {
   URI,
   map,
-  ap,
-  of
+  ap
 }
 
 /**
@@ -1754,7 +1753,7 @@ export const Applicative: Applicative1<URI> = {
  */
 export const apFirst =
   /*#__PURE__*/
-  apFirst_(Applicative)
+  apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -1766,7 +1765,18 @@ export const apFirst =
  */
 export const apSecond =
   /*#__PURE__*/
-  apSecond_(Applicative)
+  apSecond_(Apply)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Applicative: Applicative1<URI> = {
+  URI,
+  map,
+  ap,
+  of
+}
 
 /**
  * @category instances

@@ -228,11 +228,11 @@ export const Traversable: Traversable2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
+export function getPointed<M>(M: Monoid<M>): Pointed2C<URI, M> {
   return {
     URI,
     map,
-    ap: (fa) => (fab) => [fst(fab)(fst(fa)), S.concat(snd(fa))(snd(fab))]
+    of: (a) => [a, M.empty]
   }
 }
 
@@ -240,11 +240,11 @@ export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
  * @category instances
  * @since 3.0.0
  */
-export function getPointed<M>(M: Monoid<M>): Pointed2C<URI, M> {
+export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
   return {
     URI,
     map,
-    of: (a) => [a, M.empty]
+    ap: (fa) => (fab) => [fst(fab)(fst(fa)), S.concat(snd(fa))(snd(fab))]
   }
 }
 

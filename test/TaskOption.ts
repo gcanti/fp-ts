@@ -76,10 +76,12 @@ describe('TaskOption', () => {
   // -------------------------------------------------------------------------------------
 
   it('ApplicativeSeq', async () => {
+    await assertSeq(_.ApplySeq, _.FromTask, (fa) => fa())
     await assertSeq(_.ApplicativeSeq, _.FromTask, (fa) => fa())
   })
 
   it('ApplicativePar', async () => {
+    await assertPar(_.ApplyPar, _.FromTask, (fa) => fa())
     await assertPar(_.ApplicativePar, _.FromTask, (fa) => fa())
   })
 

@@ -140,6 +140,7 @@ describe('StateReaderTaskEither', () => {
   // -------------------------------------------------------------------------------------
 
   it('Applicative', async () => {
+    await assertSeq(_.Apply, _.FromTask, (fa) => fa(null)(null)())
     await assertSeq(_.Applicative, _.FromTask, (fa) => fa(null)(null)())
   })
 

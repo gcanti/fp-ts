@@ -2,10 +2,12 @@
  * @since 3.0.0
  */
 import { Applicative2C } from './Applicative'
+import { Apply2C } from './Apply'
 import { Functor2 } from './Functor'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed2C } from './Pointed'
+import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -127,16 +129,29 @@ export function getPointed<W>(M: Monoid<W>): Pointed2C<URI, W> {
  * @category instances
  * @since 3.0.0
  */
-export function getApplicative<W>(M: Monoid<W>): Applicative2C<URI, W> {
-  const P = getPointed(M)
+export function getApply<W>(S: Semigroup<W>): Apply2C<URI, W> {
   return {
     URI,
     map,
     ap: (fa) => (fab) => () => {
       const [f, w1] = fab()
       const [a, w2] = fa()
-      return [f(a), M.concat(w2)(w1)]
-    },
+      return [f(a), S.concat(w2)(w1)]
+    }
+  }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export function getApplicative<W>(M: Monoid<W>): Applicative2C<URI, W> {
+  const A = getApply(M)
+  const P = getPointed(M)
+  return {
+    URI,
+    map,
+    ap: A.ap,
     of: P.of
   }
 }

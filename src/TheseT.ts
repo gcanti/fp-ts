@@ -100,7 +100,7 @@ export function ap_<F, E>(
   F: Apply<F>,
   S: Semigroup<E>
 ): <A>(fa: HKT<F, These<E, A>>) => <B>(fab: HKT<F, These<E, (a: A) => B>>) => HKT<F, These<E, B>> {
-  const A = T.getApplicative(S)
+  const A = T.getApply(S)
   return <A>(fa: HKT<F, These<E, A>>): (<B>(fab: HKT<F, These<E, (a: A) => B>>) => HKT<F, These<E, B>>) =>
     flow(
       F.map((gab) => (ga: These<E, A>) => A.ap(ga)(gab)),

@@ -49,6 +49,7 @@ Added in v3.0.0
   - [fold](#fold)
 - [instances](#instances)
   - [Applicative](#applicative-1)
+  - [Apply](#apply-1)
   - [Comonad](#comonad)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
@@ -362,6 +363,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Applicative: Applicative1<'Tree'>
+```
+
+Added in v3.0.0
+
+## Apply
+
+**Signature**
+
+```ts
+export declare const Apply: Apply1<'Tree'>
 ```
 
 Added in v3.0.0

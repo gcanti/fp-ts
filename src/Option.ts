@@ -881,17 +881,6 @@ export const Apply: Apply1<URI> = {
 }
 
 /**
- * @category instances
- * @since 3.0.0
- */
-export const Applicative: Applicative1<URI> = {
-  URI,
-  map,
-  ap,
-  of
-}
-
-/**
  * Combine two effectful actions, keeping only the result of the first.
  *
  * Derivable from `Apply`.
@@ -901,7 +890,7 @@ export const Applicative: Applicative1<URI> = {
  */
 export const apFirst =
   /*#__PURE__*/
-  apFirst_(Applicative)
+  apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -913,7 +902,18 @@ export const apFirst =
  */
 export const apSecond =
   /*#__PURE__*/
-  apSecond_(Applicative)
+  apSecond_(Apply)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Applicative: Applicative1<URI> = {
+  URI,
+  map,
+  ap,
+  of
+}
 
 /**
  * @category instances

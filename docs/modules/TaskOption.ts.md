@@ -49,6 +49,8 @@ Added in v3.0.0
   - [Alternative](#alternative-1)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
+  - [ApplyPar](#applypar)
+  - [ApplySeq](#applyseq)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
   - [FromIO](#fromio)
@@ -371,6 +373,26 @@ Added in v3.0.0
 
 ```ts
 export declare const ApplicativeSeq: Applicative1<'TaskOption'>
+```
+
+Added in v3.0.0
+
+## ApplyPar
+
+**Signature**
+
+```ts
+export declare const ApplyPar: Apply1<'TaskOption'>
+```
+
+Added in v3.0.0
+
+## ApplySeq
+
+**Signature**
+
+```ts
+export declare const ApplySeq: Apply1<'TaskOption'>
 ```
 
 Added in v3.0.0
