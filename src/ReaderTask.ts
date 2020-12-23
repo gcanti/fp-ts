@@ -464,6 +464,6 @@ export const traverseArray: <R, A, B>(
 /**
  * @since 3.0.0
  */
-export const sequenceArray: <R, A>(
-  arr: ReadonlyArray<ReaderTask<R, A>>
-) => ReaderTask<R, ReadonlyArray<A>> = traverseArray(identity)
+export const sequenceArray: <R, A>(arr: ReadonlyArray<ReaderTask<R, A>>) => ReaderTask<R, ReadonlyArray<A>> =
+  /*#__PURE__*/
+  traverseArray(identity)

@@ -1218,4 +1218,6 @@ export const traverseArray: <A, B>(f: (a: A) => Option<B>) => (arr: ReadonlyArra
  *
  * @since 3.0.0
  */
-export const sequenceArray: <A>(arr: ReadonlyArray<Option<A>>) => Option<ReadonlyArray<A>> = traverseArray(identity)
+export const sequenceArray: <A>(arr: ReadonlyArray<Option<A>>) => Option<ReadonlyArray<A>> =
+  /*#__PURE__*/
+  traverseArray(identity)

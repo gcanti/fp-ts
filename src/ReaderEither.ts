@@ -660,4 +660,6 @@ export const traverseArray: <R, E, A, B>(
  */
 export const sequenceArray: <R, E, A>(
   arr: ReadonlyArray<ReaderEither<R, E, A>>
-) => ReaderEither<R, E, ReadonlyArray<A>> = traverseArray(identity)
+) => ReaderEither<R, E, ReadonlyArray<A>> =
+  /*#__PURE__*/
+  traverseArray(identity)
