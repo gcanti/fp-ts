@@ -253,9 +253,7 @@ Given a struct of semigroups returns a semigroup for the struct.
 **Signature**
 
 ```ts
-export declare function getStructSemigroup<O extends ReadonlyRecord<string, any>>(
-  semigroups: { [K in keyof O]: Semigroup<O[K]> }
-): Semigroup<O>
+export declare function getStructSemigroup<A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semigroup<A>
 ```
 
 **Example**

@@ -162,7 +162,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O>
+export declare function getStructEq<A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A>
 ```
 
 Added in v3.0.0

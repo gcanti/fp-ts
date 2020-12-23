@@ -1,7 +1,6 @@
 /**
  * @since 3.0.0
  */
-import { ReadonlyRecord } from './ReadonlyRecord'
 
 /**
  * The `Show` type class represents those types which can be converted into
@@ -46,12 +45,22 @@ export const showBoolean: Show<boolean> = {
  * @category instances
  * @since 3.0.0
  */
-export function getStructShow<O extends ReadonlyRecord<string, any>>(shows: { [K in keyof O]: Show<O[K]> }): Show<O> {
+export function getStructShow<A>(shows: { [K in keyof A]: Show<A[K]> }): Show<A> {
   return {
-    show: (s) =>
-      `{ ${Object.keys(shows)
-        .map((k) => `${k}: ${shows[k].show(s[k])}`)
-        .join(', ')} }`
+    show: (a) => {
+      let s: string = '{'
+      for (const key in shows) {
+        /* istanbul ignore next */
+        if (shows.hasOwnProperty(key)) {
+          s += ` ${key}: ${shows[key].show(a[key])},`
+        }
+      }
+      if (s.length > 1) {
+        s = s.slice(0, -1) + ' '
+      }
+      s += '}'
+      return s
+    }
   }
 }
 

@@ -18,8 +18,9 @@ describe('Show', () => {
   })
 
   it('getStructShow', () => {
-    const S = getStructShow({ a: showString, b: showNumber })
-    assert.deepStrictEqual(S.show({ a: 'a', b: 1 }), '{ a: "a", b: 1 }')
+    assert.deepStrictEqual(getStructShow({}).show({}), '{}')
+    assert.deepStrictEqual(getStructShow({ a: showString }).show({ a: 'a' }), '{ a: "a" }')
+    assert.deepStrictEqual(getStructShow({ a: showString, b: showNumber }).show({ a: 'a', b: 1 }), '{ a: "a", b: 1 }')
   })
 
   it('getTupleShow', () => {

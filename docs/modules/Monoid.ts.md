@@ -194,9 +194,7 @@ Given a struct of monoids returns a monoid for the struct.
 **Signature**
 
 ```ts
-export declare function getStructMonoid<O extends ReadonlyRecord<string, any>>(
-  monoids: { [K in keyof O]: Monoid<O[K]> }
-): Monoid<O>
+export declare function getStructMonoid<A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<A>
 ```
 
 **Example**

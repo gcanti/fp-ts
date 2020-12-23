@@ -30,9 +30,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getStructShow<O extends ReadonlyRecord<string, any>>(
-  shows: { [K in keyof O]: Show<O[K]> }
-): Show<O>
+export declare function getStructShow<A>(shows: { [K in keyof A]: Show<A[K]> }): Show<A>
 ```
 
 Added in v3.0.0

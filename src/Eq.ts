@@ -12,7 +12,6 @@
 import { Contravariant1 } from './Contravariant'
 import { flow } from './function'
 import { Monoid } from './Monoid'
-import { ReadonlyRecord } from './ReadonlyRecord'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -102,10 +101,10 @@ export const eqBoolean: Eq<boolean> = eqStrict
  * @category instances
  * @since 3.0.0
  */
-export function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> {
+export function getStructEq<A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A> {
   return fromEquals((second) => (first) => {
-    for (const k in eqs) {
-      if (!eqs[k].equals(second[k])(first[k])) {
+    for (const key in eqs) {
+      if (!eqs[key].equals(second[key])(first[key])) {
         return false
       }
     }

@@ -34,7 +34,6 @@
  */
 import { Bounded } from './Bounded'
 import { Endomorphism, flow, identity } from './function'
-import { ReadonlyRecord } from './ReadonlyRecord'
 import * as S from './Semigroup'
 
 /**
@@ -279,12 +278,13 @@ export function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<A>> {
  * @category instances
  * @since 3.0.0
  */
-export function getStructMonoid<O extends ReadonlyRecord<string, any>>(
-  monoids: { [K in keyof O]: Monoid<O[K]> }
-): Monoid<O> {
-  const empty: any = {}
-  for (const key of Object.keys(monoids)) {
-    empty[key] = monoids[key].empty
+export function getStructMonoid<A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<A> {
+  const empty: A = {} as any
+  for (const key in monoids) {
+    /* istanbul ignore next */
+    if (monoids.hasOwnProperty(key)) {
+      empty[key] = monoids[key].empty
+    }
   }
   return {
     concat: S.getStructSemigroup(monoids).concat,

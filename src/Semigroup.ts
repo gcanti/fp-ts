@@ -18,7 +18,6 @@
 import { Endomorphism } from './function'
 import { Magma } from './Magma'
 import { max, min, Ord } from './Ord'
-import { ReadonlyRecord } from './ReadonlyRecord'
 
 /**
  * @category type classes
@@ -169,14 +168,15 @@ export function getFunctionSemigroup<S>(S: Semigroup<S>): <A = never>() => Semig
  * @category instances
  * @since 3.0.0
  */
-export function getStructSemigroup<O extends ReadonlyRecord<string, any>>(
-  semigroups: { [K in keyof O]: Semigroup<O[K]> }
-): Semigroup<O> {
+export function getStructSemigroup<A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semigroup<A> {
   return {
     concat: (second) => (first) => {
-      const r: any = {}
-      for (const key of Object.keys(semigroups)) {
-        r[key] = semigroups[key].concat(second[key])(first[key])
+      const r: A = {} as any
+      /* istanbul ignore next */
+      for (const key in semigroups) {
+        if (semigroups.hasOwnProperty(key)) {
+          r[key] = semigroups[key].concat(second[key])(first[key])
+        }
       }
       return r
     }
