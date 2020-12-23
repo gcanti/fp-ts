@@ -3,7 +3,7 @@
  */
 import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C } from './Applicative'
-import { apFirst_, Apply3, apSecond_, apS_, apT_ } from './Apply'
+import { apFirst_, Apply3, apSecond_, apS_, apT_, ap_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import * as ET from './EitherT'
@@ -364,18 +364,10 @@ export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderEither<R, E,
  * @since 3.0.0
  */
 export function getApplicativeReaderValidation<E>(SE: Semigroup<E>): Applicative3C<URI, E> {
-  const AV = E.getApplicativeValidation(SE)
-  const ap = <EF, A>(
-    fga: R.Reader<EF, E.Either<E, A>>
-  ): (<B>(fgab: R.Reader<EF, E.Either<E, (a: A) => B>>) => R.Reader<EF, E.Either<E, B>>) =>
-    flow(
-      R.map((gab) => (ga: E.Either<E, A>) => pipe(gab, AV.ap(ga))),
-      R.ap(fga)
-    )
   return {
     URI,
     map,
-    ap,
+    ap: ap_<R.URI, E.URI, E>(R.Apply, E.getApplicativeValidation(SE)),
     of
   }
 }

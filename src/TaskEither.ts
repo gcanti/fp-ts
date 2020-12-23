@@ -10,7 +10,7 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
-import { apFirst_, Apply1, Apply2, apSecond_, apS_, apT_ } from './Apply'
+import { apFirst_, Apply1, Apply2, apSecond_, apS_, apT_, ap_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C, compact_, separate_ } from './Compactable'
 import * as E from './Either'
@@ -508,17 +508,10 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>> {
  * @since 3.0.0
  */
 export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E> {
-  const AV = E.getApplicativeValidation(SE)
-  const ap = <A>(fga: T.Task<E.Either<E, A>>) => <B>(fgab: T.Task<E.Either<E, (a: A) => B>>): T.Task<E.Either<E, B>> =>
-    pipe(
-      fgab,
-      A.map((h) => (ga: E.Either<E, A>) => pipe(h, AV.ap(ga))),
-      A.ap(fga)
-    )
   return {
     URI,
     map,
-    ap,
+    ap: ap_<T.URI, E.URI, E>(A, E.getApplicativeValidation(SE)),
     of
   }
 }

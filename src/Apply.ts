@@ -73,6 +73,16 @@ export interface Apply4<F extends URIS4> extends Functor4<F> {
 /**
  * @since 3.0.0
  */
+export function ap_<F extends URIS2, G extends URIS2, E>(
+  F: Apply2<F>,
+  G: Apply2C<G, E>
+): <FE, A>(
+  fa: Kind2<F, FE, Kind2<G, E, A>>
+) => <B>(fab: Kind2<F, FE, Kind2<G, E, (a: A) => B>>) => Kind2<F, FE, Kind2<G, E, B>>
+export function ap_<F extends URIS, G extends URIS2, E>(
+  F: Apply1<F>,
+  G: Apply2C<G, E>
+): <A>(fa: Kind<F, Kind2<G, E, A>>) => <B>(fab: Kind<F, Kind2<G, E, (a: A) => B>>) => Kind<F, Kind2<G, E, B>>
 export function ap_<F, G extends URIS2>(
   F: Apply<F>,
   G: Apply2<G>
