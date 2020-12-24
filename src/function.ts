@@ -47,9 +47,7 @@ export interface FunctionN<A extends ReadonlyArray<unknown>, B> {
 /**
  * @since 3.0.0
  */
-export function identity<A>(a: A): A {
-  return a
-}
+export const identity = <A>(a: A): A => a
 
 /**
  * @since 3.0.0
@@ -59,16 +57,12 @@ export const unsafeCoerce: <A, B>(a: A) => B = identity as any
 /**
  * @since 3.0.0
  */
-export function not<A>(predicate: Predicate<A>): Predicate<A> {
-  return (a) => !predicate(a)
-}
+export const not = <A>(predicate: Predicate<A>): Predicate<A> => (a) => !predicate(a)
 
 /**
  * @since 3.0.0
  */
-export function constant<A>(a: A): Lazy<A> {
-  return () => a
-}
+export const constant = <A>(a: A): Lazy<A> => () => a
 
 /**
  * A thunk that returns always `true`.
@@ -110,9 +104,7 @@ export const constVoid: Lazy<void> = constUndefined
  *
  * @since 3.0.0
  */
-export function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C {
-  return (b, a) => f(a, b)
-}
+export const flip = <A, B, C>(f: (a: A, b: B) => C): ((b: B, a: A) => C) => (b, a) => f(a, b)
 
 /**
  * Performs left-to-right function composition. The first argument may have any arity, the remaining arguments must be unary.
@@ -242,28 +234,22 @@ export function flow(
 /**
  * @since 3.0.0
  */
-export function tuple<T extends ReadonlyArray<any>>(...t: T): T {
-  return t
-}
+export const tuple = <T extends ReadonlyArray<any>>(...t: T): T => t
 
 /**
  * @since 3.0.0
  */
-export function increment(n: number): number {
-  return n + 1
-}
+export const increment = (n: number): number => n + 1
 
 /**
  * @since 3.0.0
  */
-export function decrement(n: number): number {
-  return n - 1
-}
+export const decrement = (n: number): number => n - 1
 
 /**
  * @since 3.0.0
  */
-export function absurd<A>(_: never): A {
+export const absurd = <A>(_: never): A => {
   throw new Error('Called `absurd` function which should be uncallable')
 }
 
@@ -279,18 +265,14 @@ export function absurd<A>(_: never): A {
  *
  * @since 3.0.0
  */
-export function tupled<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B): (a: A) => B {
-  return (a) => f(...a)
-}
+export const tupled = <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B): ((a: A) => B) => (a) => f(...a)
 
 /**
  * Inverse function of `tupled`
  *
  * @since 3.0.0
  */
-export function untupled<A extends ReadonlyArray<unknown>, B>(f: (a: A) => B): (...a: A) => B {
-  return (...a) => f(a)
-}
+export const untupled = <A extends ReadonlyArray<unknown>, B>(f: (a: A) => B): ((...a: A) => B) => (...a) => f(a)
 
 /**
  * Pipes the value of an expression into a pipeline of functions.

@@ -46,7 +46,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFunctionSemiring: <A, B>(S: Semiring<B>) => Semiring<(a: A) => B>
+export declare const getFunctionSemiring: <B, A>(S: Semiring<B>) => Semiring<(a: A) => B>
 ```
 
 Added in v3.0.0

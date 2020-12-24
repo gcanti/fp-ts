@@ -407,9 +407,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Either<E, B>
-): (...a: A) => TaskEither<E, B>
+export declare const fromEitherK: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => E.Either<E, B>
+) => (...a: A) => TaskEither<E, B>
 ```
 
 Added in v3.0.0
@@ -419,9 +419,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
+export declare const fromIOEitherK: <A extends readonly unknown[], E, B>(
   f: (...a: A) => IOEither<E, B>
-): (...a: A) => TaskEither<E, B>
+) => (...a: A) => TaskEither<E, B>
 ```
 
 Added in v3.0.0
@@ -475,10 +475,10 @@ Converts a function returning a `Promise` to one returning a `TaskEither`.
 **Signature**
 
 ```ts
-export declare function tryCatchK<E, A extends ReadonlyArray<unknown>, B>(
+export declare const tryCatchK: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Promise<B>,
   onRejected: (reason: unknown) => E
-): (...a: A) => TaskEither<E, B>
+) => (...a: A) => TaskEither<E, B>
 ```
 
 Added in v3.0.0
@@ -601,7 +601,7 @@ Note: `f` should never `throw` errors, they are not caught.
 **Signature**
 
 ```ts
-export declare function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A>
+export declare const tryCatch: <A, E>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E) => TaskEither<E, A>
 ```
 
 **Example**
@@ -863,7 +863,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getAltTaskValidation<E>(S: Semigroup<E>): Alt2C<URI, E>
+export declare const getAltTaskValidation: <E>(S: Semigroup<E>) => Alt2C<'TaskEither', E>
 ```
 
 Added in v3.0.0
@@ -873,7 +873,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E>
+export declare const getApplicativeTaskValidation: <E>(
+  A: Apply1<'Task'>,
+  S: Semigroup<E>
+) => Applicative2C<'TaskEither', E>
 ```
 
 Added in v3.0.0
@@ -883,7 +886,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>>
+export declare const getApplyMonoid: <A, E>(M: Monoid<A>) => Monoid<TaskEither<E, A>>
 ```
 
 Added in v3.0.0
@@ -896,7 +899,7 @@ are concatenated using the provided `Semigroup`
 **Signature**
 
 ```ts
-export declare function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>>
+export declare const getApplySemigroup: <A, E>(S: Semigroup<A>) => Semigroup<TaskEither<E, A>>
 ```
 
 Added in v3.0.0
@@ -906,7 +909,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E>
+export declare const getCompactable: <E>(M: Monoid<E>) => Compactable2C<'TaskEither', E>
 ```
 
 Added in v3.0.0
@@ -916,7 +919,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E>
+export declare const getFilterable: <E>(M: Monoid<E>) => Filterable2C<'TaskEither', E>
 ```
 
 Added in v3.0.0
@@ -929,7 +932,7 @@ concatenated using the provided `Semigroup`
 **Signature**
 
 ```ts
-export declare function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>>
+export declare const getSemigroup: <A, E>(S: Semigroup<A>) => Semigroup<TaskEither<E, A>>
 ```
 
 Added in v3.0.0

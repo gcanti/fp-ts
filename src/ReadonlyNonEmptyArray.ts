@@ -135,7 +135,7 @@ export const reverse: <A>(nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArra
 /**
  * @since 3.0.0
  */
-export function min<A>(O: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
+export const min = <A>(O: Ord<A>): ((nea: ReadonlyNonEmptyArray<A>) => A) => {
   const S = getMeetSemigroup(O)
   return (nea) => nea.reduce((a, acc) => S.concat(acc)(a))
 }
@@ -143,7 +143,7 @@ export function min<A>(O: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
 /**
  * @since 3.0.0
  */
-export function max<A>(O: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
+export const max = <A>(O: Ord<A>): ((nea: ReadonlyNonEmptyArray<A>) => A) => {
   const S = getJoinSemigroup(O)
   return (nea) => nea.reduce((a, acc) => S.concat(acc)(a))
 }

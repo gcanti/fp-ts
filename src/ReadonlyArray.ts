@@ -1026,7 +1026,7 @@ export const elem = <A>(E: Eq<A>) => (a: A) => (as: ReadonlyArray<A>): boolean =
  * @category combinators
  * @since 3.0.0
  */
-export function uniq<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
+export const uniq = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
   const elemS = elem(E)
   return (as) => {
     const len = as.length
@@ -1075,7 +1075,7 @@ export function uniq<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
  * @category combinators
  * @since 3.0.0
  */
-export function sortBy<B>(ords: ReadonlyArray<Ord<B>>): <A extends B>(as: ReadonlyArray<A>) => ReadonlyArray<A> {
+export const sortBy = <B>(ords: ReadonlyArray<Ord<B>>): (<A extends B>(as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
   const M = getOrdMonoid<B>()
   return sort(ords.reduce((a, acc) => M.concat(acc)(a), M.empty))
 }
@@ -1148,7 +1148,7 @@ export const splitAt = (n: number) => <A>(as: ReadonlyArray<A>): readonly [Reado
  *
  * @since 3.0.0
  */
-export function chunksOf(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>> {
+export const chunksOf = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
   const f = chop(splitAt(n))
   return (as) => (isEmpty(as) ? empty : isOutOfBound(n - 1, as) ? [as] : f(as))
 }
@@ -1229,7 +1229,7 @@ export function comprehension<R>(
  * @category combinators
  * @since 3.0.0
  */
-export function union<A>(E: Eq<A>): (ys: ReadonlyArray<A>) => (xs: ReadonlyArray<A>) => ReadonlyArray<A> {
+export const union = <A>(E: Eq<A>): ((ys: ReadonlyArray<A>) => (xs: ReadonlyArray<A>) => ReadonlyArray<A>) => {
   const elemE = elem(E)
   return (ys) => (xs) =>
     concat(
@@ -1252,7 +1252,7 @@ export function union<A>(E: Eq<A>): (ys: ReadonlyArray<A>) => (xs: ReadonlyArray
  * @category combinators
  * @since 3.0.0
  */
-export function intersection<A>(E: Eq<A>): (ys: ReadonlyArray<A>) => (xs: ReadonlyArray<A>) => ReadonlyArray<A> {
+export const intersection = <A>(E: Eq<A>): ((ys: ReadonlyArray<A>) => (xs: ReadonlyArray<A>) => ReadonlyArray<A>) => {
   const elemE = elem(E)
   return (ys) => (xs) => xs.filter((a) => elemE(a)(ys))
 }
@@ -1271,7 +1271,7 @@ export function intersection<A>(E: Eq<A>): (ys: ReadonlyArray<A>) => (xs: Readon
  * @category combinators
  * @since 3.0.0
  */
-export function difference<A>(E: Eq<A>): (ys: ReadonlyArray<A>) => (xs: ReadonlyArray<A>) => ReadonlyArray<A> {
+export const difference = <A>(E: Eq<A>): ((ys: ReadonlyArray<A>) => (xs: ReadonlyArray<A>) => ReadonlyArray<A>) => {
   const elemE = elem(E)
   return (ys) => (xs) => xs.filter((a) => !elemE(a)(ys))
 }
@@ -1936,7 +1936,7 @@ export const Witherable: Witherable1<URI> = {
  * @category unsafe
  * @since 3.0.0
  */
-export function unsafeInsertAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> {
+export const unsafeInsertAt = <A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> => {
   const xs = as.slice()
   xs.splice(i, 0, a)
   return xs
@@ -1946,7 +1946,7 @@ export function unsafeInsertAt<A>(i: number, a: A, as: ReadonlyArray<A>): Readon
  * @category unsafe
  * @since 3.0.0
  */
-export function unsafeUpdateAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> {
+export const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> => {
   if (as[i] === a) {
     return as
   } else {
@@ -1960,7 +1960,7 @@ export function unsafeUpdateAt<A>(i: number, a: A, as: ReadonlyArray<A>): Readon
  * @category unsafe
  * @since 3.0.0
  */
-export function unsafeDeleteAt<A>(i: number, as: ReadonlyArray<A>): ReadonlyArray<A> {
+export const unsafeDeleteAt = <A>(i: number, as: ReadonlyArray<A>): ReadonlyArray<A> => {
   const xs = as.slice()
   xs.splice(i, 1)
   return xs

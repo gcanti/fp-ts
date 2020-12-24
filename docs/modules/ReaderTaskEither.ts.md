@@ -409,9 +409,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Either<E, B>
-): <R>(...a: A) => ReaderTaskEither<R, E, B>
+export declare const fromEitherK: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => E.Either<E, B>
+) => <R>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0
@@ -421,9 +421,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
+export declare const fromIOEitherK: <A extends readonly unknown[], E, B>(
   f: (...a: A) => IOEither<E, B>
-): <R>(...a: A) => ReaderTaskEither<R, E, B>
+) => <R>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0
@@ -433,9 +433,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromTaskEitherK<E, A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => TaskEither<E, B>
-): <R>(...a: A) => ReaderTaskEither<R, E, B>
+export declare const fromTaskEitherK: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => TE.TaskEither<E, B>
+) => <R>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0
@@ -904,7 +904,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getAltReaderTaskValidation<E>(S: Semigroup<E>): Alt3C<URI, E>
+export declare const getAltReaderTaskValidation: <E>(S: Semigroup<E>) => Alt3C<'ReaderTaskEither', E>
 ```
 
 Added in v3.0.0
@@ -914,7 +914,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative3C<URI, E>
+export declare const getApplicativeReaderTaskValidation: <E>(
+  A: Apply1<'Task'>,
+  S: Semigroup<E>
+) => Applicative3C<'ReaderTaskEither', E>
 ```
 
 Added in v3.0.0
@@ -924,7 +927,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderTaskEither<R, E, A>>
+export declare const getApplyMonoid: <A, R, E>(M: Monoid<A>) => Monoid<ReaderTaskEither<R, E, A>>
 ```
 
 Added in v3.0.0
@@ -937,7 +940,7 @@ are concatenated using the provided `Semigroup`
 **Signature**
 
 ```ts
-export declare function getApplySemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>>
+export declare const getApplySemigroup: <A, R, E>(S: Semigroup<A>) => Semigroup<ReaderTaskEither<R, E, A>>
 ```
 
 Added in v3.0.0
@@ -950,7 +953,7 @@ concatenated using the provided `Semigroup`
 **Signature**
 
 ```ts
-export declare function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>>
+export declare const getSemigroup: <A, R, E>(S: Semigroup<A>) => Semigroup<ReaderTaskEither<R, E, A>>
 ```
 
 Added in v3.0.0
@@ -1103,11 +1106,11 @@ Derivable from `FromEither`.
 **Signature**
 
 ```ts
-export declare function bracket<R, E, A, B>(
+export declare const bracket: <R, E, A, B>(
   aquire: ReaderTaskEither<R, E, A>,
   use: (a: A) => ReaderTaskEither<R, E, B>,
-  release: (a: A, e: Either<E, B>) => ReaderTaskEither<R, E, void>
-): ReaderTaskEither<R, E, B>
+  release: (a: A, e: E.Either<E, B>) => ReaderTaskEither<R, E, void>
+) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0

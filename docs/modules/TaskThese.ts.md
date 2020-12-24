@@ -380,7 +380,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApplicative<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E>
+export declare const getApplicative: <E>(A: Apply1<'Task'>, S: Semigroup<E>) => Applicative2C<'TaskThese', E>
 ```
 
 Added in v3.0.0
@@ -390,7 +390,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApply<E>(A: Apply1<T.URI>, S: Semigroup<E>): Apply2C<URI, E>
+export declare const getApply: <E>(A: Apply1<'Task'>, S: Semigroup<E>) => Apply2C<'TaskThese', E>
 ```
 
 Added in v3.0.0
@@ -400,7 +400,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E>
+export declare const getMonad: <E>(S: Semigroup<E>) => Monad2C<'TaskThese', E>
 ```
 
 Added in v3.0.0
@@ -410,7 +410,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<TaskThese<E, A>>
+export declare const getSemigroup: <E, A>(SE: Semigroup<E>, SA: Semigroup<A>) => Semigroup<TaskThese<E, A>>
 ```
 
 Added in v3.0.0

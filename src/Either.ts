@@ -753,7 +753,7 @@ export const getEq = <E, A>(EE: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> =>
  * import { semigroupSum } from 'fp-ts/Semigroup'
  * import { pipe } from 'fp-ts/function'
  *
- * const S = E.getSemigroup<string, number>(semigroupSum)
+ * const S = E.getSemigroup<number, string>(semigroupSum)
  * assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.left('b'))), E.left('a'))
  * assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.right(2))), E.right(2))
  * assert.deepStrictEqual(pipe(E.right(1), S.concat(E.left('b'))), E.right(1))
@@ -762,7 +762,7 @@ export const getEq = <E, A>(EE: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> =>
  * @category instances
  * @since 3.0.0
  */
-export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> => ({
+export const getSemigroup = <A, E>(S: Semigroup<A>): Semigroup<Either<E, A>> => ({
   concat: (second) => (first) =>
     isLeft(second) ? first : isLeft(first) ? second : right(S.concat(second.right)(first.right))
 })
@@ -776,7 +776,7 @@ export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> => 
  * import { semigroupSum } from 'fp-ts/Semigroup'
  * import { pipe } from 'fp-ts/function'
  *
- * const S = E.getApplySemigroup<string, number>(semigroupSum)
+ * const S = E.getApplySemigroup<number, string>(semigroupSum)
  * assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.left('b'))), E.left('a'))
  * assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.right(2))), E.left('a'))
  * assert.deepStrictEqual(pipe(E.right(1), S.concat(E.left('b'))), E.left('b'))
@@ -785,7 +785,7 @@ export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> => 
  * @category instances
  * @since 3.0.0
  */
-export const getApplySemigroup = <E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> => ({
+export const getApplySemigroup = <A, E>(S: Semigroup<A>): Semigroup<Either<E, A>> => ({
   concat: (second) => (first) =>
     isLeft(first) ? first : isLeft(second) ? second : right(S.concat(second.right)(first.right))
 })
@@ -794,8 +794,8 @@ export const getApplySemigroup = <E, A>(S: Semigroup<A>): Semigroup<Either<E, A>
  * @category instances
  * @since 3.0.0
  */
-export const getApplyMonoid = <E, A>(M: Monoid<A>): Monoid<Either<E, A>> => ({
-  concat: getApplySemigroup<E, A>(M).concat,
+export const getApplyMonoid = <A, E>(M: Monoid<A>): Monoid<Either<E, A>> => ({
+  concat: getApplySemigroup<A, E>(M).concat,
   empty: right(M.empty)
 })
 

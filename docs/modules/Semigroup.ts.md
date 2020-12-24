@@ -59,7 +59,7 @@ The dual of a `Semigroup`, obtained by swapping the arguments of `concat`.
 **Signature**
 
 ```ts
-export declare function getDualSemigroup<A>(S: Semigroup<A>): Semigroup<A>
+export declare const getDualSemigroup: <A>(S: Semigroup<A>) => Semigroup<A>
 ```
 
 **Example**
@@ -80,7 +80,7 @@ Always return the first argument.
 **Signature**
 
 ```ts
-export declare function getFirstSemigroup<A = never>(): Semigroup<A>
+export declare const getFirstSemigroup: <A = never>() => Semigroup<A>
 ```
 
 **Example**
@@ -101,7 +101,7 @@ Unary functions form a semigroup as long as you can provide a semigroup for the 
 **Signature**
 
 ```ts
-export declare function getFunctionSemigroup<S>(S: Semigroup<S>): <A = never>() => Semigroup<(a: A) => S>
+export declare const getFunctionSemigroup: <S>(S: Semigroup<S>) => <A = never>() => Semigroup<(a: A) => S>
 ```
 
 **Example**
@@ -133,7 +133,7 @@ You can glue items between and stay associative.
 **Signature**
 
 ```ts
-export declare function getIntercalateSemigroup<A>(a: A): Endomorphism<Semigroup<A>>
+export declare const getIntercalateSemigroup: <A>(a: A) => Endomorphism<Semigroup<A>>
 ```
 
 **Example**
@@ -157,7 +157,7 @@ Get a semigroup where `concat` will return the maximum, based on the provided or
 **Signature**
 
 ```ts
-export declare function getJoinSemigroup<A>(O: Ord<A>): Semigroup<A>
+export declare const getJoinSemigroup: <A>(O: Ord<A>) => Semigroup<A>
 ```
 
 **Example**
@@ -181,7 +181,7 @@ Always return the last argument.
 **Signature**
 
 ```ts
-export declare function getLastSemigroup<A = never>(): Semigroup<A>
+export declare const getLastSemigroup: <A = never>() => Semigroup<A>
 ```
 
 **Example**
@@ -202,7 +202,7 @@ Get a semigroup where `concat` will return the minimum, based on the provided or
 **Signature**
 
 ```ts
-export declare function getMeetSemigroup<A>(O: Ord<A>): Semigroup<A>
+export declare const getMeetSemigroup: <A>(O: Ord<A>) => Semigroup<A>
 ```
 
 **Example**
@@ -226,7 +226,7 @@ Return a semigroup for objects, preserving their type.
 **Signature**
 
 ```ts
-export declare function getObjectSemigroup<A extends object = never>(): Semigroup<A>
+export declare const getObjectSemigroup: <A extends object = never>() => Semigroup<A>
 ```
 
 **Example**

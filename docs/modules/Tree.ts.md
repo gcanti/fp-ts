@@ -213,7 +213,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function make<A>(value: A, forest: Forest<A> = A.empty): Tree<A>
+export declare const make: <A>(value: A, forest?: Forest<A>) => Tree<A>
 ```
 
 Added in v3.0.0
@@ -225,7 +225,7 @@ Build a tree from a seed value
 **Signature**
 
 ```ts
-export declare function unfoldForest<A, B>(bs: ReadonlyArray<B>, f: (b: B) => readonly [A, ReadonlyArray<B>]): Forest<A>
+export declare const unfoldForest: <B, A>(bs: readonly B[], f: (b: B) => readonly [A, readonly B[]]) => Forest<A>
 ```
 
 Added in v3.0.0
@@ -237,7 +237,7 @@ Build a tree from a seed value
 **Signature**
 
 ```ts
-export declare function unfoldTree<A, B>(b: B, f: (b: B) => readonly [A, ReadonlyArray<B>]): Tree<A>
+export declare const unfoldTree: <B, A>(b: B, f: (b: B) => readonly [A, readonly B[]]) => Tree<A>
 ```
 
 Added in v3.0.0
@@ -312,7 +312,7 @@ This is also known as the catamorphism on trees.
 **Signature**
 
 ```ts
-export declare function fold<A, B>(f: (a: A, bs: ReadonlyArray<B>) => B): (tree: Tree<A>) => B
+export declare const fold: <A, B>(f: (a: A, bs: readonly B[]) => B) => (tree: Tree<A>) => B
 ```
 
 **Example**
@@ -462,7 +462,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getEq<A>(E: Eq<A>): Eq<Tree<A>>
+export declare const getEq: <A>(E: Eq<A>) => Eq<Tree<A>>
 ```
 
 Added in v3.0.0
@@ -472,7 +472,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getShow<A>(S: Show<A>): Show<Tree<A>>
+export declare const getShow: <A>(S: Show<A>) => Show<Tree<A>>
 ```
 
 Added in v3.0.0
@@ -577,7 +577,7 @@ Neat 2-dimensional drawing of a forest
 **Signature**
 
 ```ts
-export declare function drawForest(forest: Forest<string>): string
+export declare const drawForest: (forest: Forest<string>) => string
 ```
 
 Added in v3.0.0
@@ -589,7 +589,7 @@ Neat 2-dimensional drawing of a tree
 **Signature**
 
 ```ts
-export declare function drawTree(tree: Tree<string>): string
+export declare const drawTree: (tree: Tree<string>) => string
 ```
 
 **Example**

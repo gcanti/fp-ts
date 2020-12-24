@@ -582,7 +582,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export declare function difference<A>(E: Eq<A>): (ys: ReadonlyArray<A>) => (xs: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const difference: <A>(E: Eq<A>) => (ys: readonly A[]) => (xs: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -677,7 +677,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export declare function intersection<A>(E: Eq<A>): (ys: ReadonlyArray<A>) => (xs: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const intersection: <A>(E: Eq<A>) => (ys: readonly A[]) => (xs: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -863,7 +863,7 @@ etc...
 **Signature**
 
 ```ts
-export declare function sortBy<B>(ords: ReadonlyArray<Ord<B>>): <A extends B>(as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const sortBy: <B>(ords: readonly Ord<B>[]) => <A extends B>(as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -955,7 +955,7 @@ Creates an array of unique values, in order, from all given arrays using a `Eq` 
 **Signature**
 
 ```ts
-export declare function union<A>(E: Eq<A>): (ys: ReadonlyArray<A>) => (xs: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const union: <A>(E: Eq<A>) => (ys: readonly A[]) => (xs: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -977,7 +977,7 @@ Remove duplicates from an array, keeping the first occurrence of an element.
 **Signature**
 
 ```ts
-export declare function uniq<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const uniq: <A>(E: Eq<A>) => (as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -1653,7 +1653,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function unsafeDeleteAt<A>(i: number, as: ReadonlyArray<A>): ReadonlyArray<A>
+export declare const unsafeDeleteAt: <A>(i: number, as: readonly A[]) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -1663,7 +1663,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function unsafeInsertAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A>
+export declare const unsafeInsertAt: <A>(i: number, a: A, as: readonly A[]) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -1673,7 +1673,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function unsafeUpdateAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A>
+export declare const unsafeUpdateAt: <A>(i: number, a: A, as: readonly A[]) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -1784,7 +1784,7 @@ whenever `n` evenly divides the length of `xs`.
 **Signature**
 
 ```ts
-export declare function chunksOf(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>
+export declare const chunksOf: (n: number) => <A>(as: readonly A[]) => readonly (readonly A[])[]
 ```
 
 **Example**

@@ -55,9 +55,9 @@ export const fold = <A>(S: Semigroup<A>) => (startWith: A) => (as: ReadonlyArray
  * @category instances
  * @since 3.0.0
  */
-export function getFirstSemigroup<A = never>(): Semigroup<A> {
-  return { concat: () => (first) => first }
-}
+export const getFirstSemigroup = <A = never>(): Semigroup<A> => ({
+  concat: () => (first) => first
+})
 
 /**
  * Always return the last argument.
@@ -71,9 +71,9 @@ export function getFirstSemigroup<A = never>(): Semigroup<A> {
  * @category instances
  * @since 3.0.0
  */
-export function getLastSemigroup<A = never>(): Semigroup<A> {
-  return { concat: (second) => () => second }
-}
+export const getLastSemigroup = <A = never>(): Semigroup<A> => ({
+  concat: (second) => () => second
+})
 
 /**
  * Given a struct of semigroups returns a semigroup for the struct.
@@ -144,11 +144,9 @@ export const getTupleSemigroup = <A extends ReadonlyArray<unknown>>(
  * @category instances
  * @since 3.0.0
  */
-export function getDualSemigroup<A>(S: Semigroup<A>): Semigroup<A> {
-  return {
-    concat: (second) => (first) => S.concat(first)(second)
-  }
-}
+export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => ({
+  concat: (second) => (first) => S.concat(first)(second)
+})
 
 /**
  * Unary functions form a semigroup as long as you can provide a semigroup for the codomain.
@@ -173,11 +171,9 @@ export function getDualSemigroup<A>(S: Semigroup<A>): Semigroup<A> {
  * @category instances
  * @since 3.0.0
  */
-export function getFunctionSemigroup<S>(S: Semigroup<S>): <A = never>() => Semigroup<(a: A) => S> {
-  return () => ({
-    concat: (second) => (first) => (a) => S.concat(second(a))(first(a))
-  })
-}
+export const getFunctionSemigroup = <S>(S: Semigroup<S>) => <A = never>(): Semigroup<(a: A) => S> => ({
+  concat: (second) => (first) => (a) => S.concat(second(a))(first(a))
+})
 
 /**
  * Get a semigroup where `concat` will return the minimum, based on the provided order.
@@ -194,11 +190,9 @@ export function getFunctionSemigroup<S>(S: Semigroup<S>): <A = never>() => Semig
  * @category instances
  * @since 3.0.0
  */
-export function getMeetSemigroup<A>(O: Ord<A>): Semigroup<A> {
-  return {
-    concat: min(O)
-  }
-}
+export const getMeetSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
+  concat: min(O)
+})
 
 /**
  * Get a semigroup where `concat` will return the maximum, based on the provided order.
@@ -215,11 +209,9 @@ export function getMeetSemigroup<A>(O: Ord<A>): Semigroup<A> {
  * @category instances
  * @since 3.0.0
  */
-export function getJoinSemigroup<A>(O: Ord<A>): Semigroup<A> {
-  return {
-    concat: max(O)
-  }
-}
+export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
+  concat: max(O)
+})
 
 /**
  * Return a semigroup for objects, preserving their type.
@@ -239,11 +231,9 @@ export function getJoinSemigroup<A>(O: Ord<A>): Semigroup<A> {
  * @category instances
  * @since 3.0.0
  */
-export function getObjectSemigroup<A extends object = never>(): Semigroup<A> {
-  return {
-    concat: (second) => (first) => Object.assign({}, first, second)
-  }
-}
+export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => ({
+  concat: (second) => (first) => Object.assign({}, first, second)
+})
 
 /**
  * `boolean` semigroup under conjunction.
@@ -351,8 +341,6 @@ export const semigroupVoid: Semigroup<void> = {
  * @category instances
  * @since 3.0.0
  */
-export function getIntercalateSemigroup<A>(a: A): Endomorphism<Semigroup<A>> {
-  return (S) => ({
-    concat: (second) => (first) => S.concat(S.concat(second)(a))(first)
-  })
-}
+export const getIntercalateSemigroup = <A>(a: A): Endomorphism<Semigroup<A>> => (S) => ({
+  concat: (second) => (first) => S.concat(S.concat(second)(a))(first)
+})

@@ -33,6 +33,10 @@ export interface IO<A> {
   (): A
 }
 
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
@@ -108,26 +112,22 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
-export function getSemigroup<A>(S: Semigroup<A>): Semigroup<IO<A>> {
-  return {
-    concat: (second) => (first) => () => {
-      const a1 = first()
-      const a2 = second()
-      return S.concat(a2)(a1)
-    }
+export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => ({
+  concat: (second) => (first) => () => {
+    const a1 = first()
+    const a2 = second()
+    return S.concat(a2)(a1)
   }
-}
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> {
-  return {
-    concat: getSemigroup(M).concat,
-    empty: of(M.empty)
-  }
-}
+export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => ({
+  concat: getSemigroup(M).concat,
+  empty: of(M.empty)
+})
 
 /**
  * @category instances

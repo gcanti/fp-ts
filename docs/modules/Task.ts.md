@@ -165,7 +165,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B>
+export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => (ma: Task<A>) => Task<B>
 ```
 
 Added in v3.0.0
@@ -177,7 +177,7 @@ Creates a task that will complete after a time delay
 **Signature**
 
 ```ts
-export declare function delay(millis: number): <A>(ma: Task<A>) => Task<A>
+export declare const delay: (millis: number) => <A>(ma: Task<A>) => Task<A>
 ```
 
 **Example**
@@ -210,7 +210,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): (...a: A) => Task<B>
+export declare const fromIOK: <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => (...a: A) => Task<B>
 ```
 
 Added in v3.0.0
@@ -391,7 +391,7 @@ Lift a monoid into 'Task', the inner values are concatenated using the provided 
 **Signature**
 
 ```ts
-export declare function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>>
+export declare const getMonoid: <A>(M: Monoid<A>) => Monoid<Task<A>>
 ```
 
 Added in v3.0.0
@@ -405,7 +405,7 @@ Note: uses `Promise.race` internally.
 **Signature**
 
 ```ts
-export declare function getRaceMonoid<A = never>(): Monoid<Task<A>>
+export declare const getRaceMonoid: <A = never>() => Monoid<Task<A>>
 ```
 
 **Example**
@@ -433,7 +433,7 @@ Lift a semigroup into 'Task', the inner values are concatenated using the provid
 **Signature**
 
 ```ts
-export declare function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>>
+export declare const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<Task<A>>
 ```
 
 **Example**

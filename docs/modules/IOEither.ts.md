@@ -316,9 +316,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Either<E, B>
-): (...a: A) => IOEither<E, B>
+export declare const fromEitherK: <E, A extends readonly unknown[], B>(
+  f: (...a: A) => E.Either<E, B>
+) => (...a: A) => IOEither<E, B>
 ```
 
 Added in v3.0.0
@@ -667,7 +667,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getAltIOValidation<E>(S: Semigroup<E>): Alt2C<URI, E>
+export declare const getAltIOValidation: <E>(S: Semigroup<E>) => Alt2C<'IOEither', E>
 ```
 
 Added in v3.0.0
@@ -677,7 +677,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApplicativeIOValidation<E>(S: Semigroup<E>): Applicative2C<URI, E>
+export declare const getApplicativeIOValidation: <E>(S: Semigroup<E>) => Applicative2C<'IOEither', E>
 ```
 
 Added in v3.0.0
@@ -687,7 +687,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<IOEither<E, A>>
+export declare const getApplyMonoid: <A, E>(M: Monoid<A>) => Monoid<IOEither<E, A>>
 ```
 
 Added in v3.0.0
@@ -700,7 +700,7 @@ are concatenated using the provided `Semigroup`
 **Signature**
 
 ```ts
-export declare function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>>
+export declare const getApplySemigroup: <A, E>(S: Semigroup<A>) => Semigroup<IOEither<E, A>>
 ```
 
 Added in v3.0.0
@@ -710,7 +710,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E>
+export declare const getCompactable: <E>(M: Monoid<E>) => Compactable2C<'IOEither', E>
 ```
 
 Added in v3.0.0
@@ -720,7 +720,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E>
+export declare const getFilterable: <E>(M: Monoid<E>) => Filterable2C<'IOEither', E>
 ```
 
 Added in v3.0.0
@@ -733,7 +733,7 @@ concatenated using the provided `Semigroup`
 **Signature**
 
 ```ts
-export declare function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>>
+export declare const getSemigroup: <A, E>(S: Semigroup<A>) => Semigroup<IOEither<E, A>>
 ```
 
 Added in v3.0.0

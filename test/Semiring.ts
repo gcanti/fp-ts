@@ -5,7 +5,7 @@ import { pipe } from '../src/function'
 
 describe('Semiring', () => {
   it('getFunctionSemiring', () => {
-    const S = getFunctionSemiring<string, number>(fieldNumber)
+    const S = getFunctionSemiring<number, string>(fieldNumber)
     const f1 = (s: string): number => s.length
     const f2 = (s: string): number => s.indexOf('a')
     assert.deepStrictEqual(pipe(f1, S.add(f2))('foo'), 2)

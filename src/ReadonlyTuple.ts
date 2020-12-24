@@ -25,25 +25,19 @@ import { Traversable2 } from './Traversable'
  * @category destructors
  * @since 3.0.0
  */
-export function fst<A, E>(ea: readonly [A, E]): A {
-  return ea[0]
-}
+export const fst = <A, E>(ea: readonly [A, E]): A => ea[0]
 
 /**
  * @category destructors
  * @since 3.0.0
  */
-export function snd<A, E>(ea: readonly [A, E]): E {
-  return ea[1]
-}
+export const snd = <A, E>(ea: readonly [A, E]): E => ea[1]
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export function swap<A, E>(ea: readonly [A, E]): readonly [E, A] {
-  return [snd(ea), fst(ea)]
-}
+export const swap = <A, E>(ea: readonly [A, E]): readonly [E, A] => [snd(ea), fst(ea)]
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -228,31 +222,27 @@ export const Traversable: Traversable2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export function getPointed<M>(M: Monoid<M>): Pointed2C<URI, M> {
-  return {
-    URI,
-    map,
-    of: (a) => [a, M.empty]
-  }
-}
+export const getPointed = <M>(M: Monoid<M>): Pointed2C<URI, M> => ({
+  URI,
+  map,
+  of: (a) => [a, M.empty]
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
-  return {
-    URI,
-    map,
-    ap: (fa) => (fab) => [fst(fab)(fst(fa)), S.concat(snd(fa))(snd(fab))]
-  }
-}
+export const getApply = <S>(S: Semigroup<S>): Apply2C<URI, S> => ({
+  URI,
+  map,
+  ap: (fa) => (fab) => [fst(fab)(fst(fa)), S.concat(snd(fa))(snd(fab))]
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getApplicative<M>(M: Monoid<M>): Applicative2C<URI, M> {
+export const getApplicative = <M>(M: Monoid<M>): Applicative2C<URI, M> => {
   const A = getApply(M)
   const P = getPointed(M)
   return {
@@ -267,7 +257,7 @@ export function getApplicative<M>(M: Monoid<M>): Applicative2C<URI, M> {
  * @category instances
  * @since 3.0.0
  */
-export function getMonad<M>(M: Monoid<M>): Monad2C<URI, M> {
+export const getMonad = <M>(M: Monoid<M>): Monad2C<URI, M> => {
   const P = getPointed(M)
   return {
     URI,

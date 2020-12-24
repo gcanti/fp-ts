@@ -80,9 +80,9 @@ export const asks =
  * @category combinators
  * @since 3.0.0
  */
-export function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): <R>(...a: A) => ReaderTask<R, B> {
-  return (...a) => fromIO(f(...a))
-}
+export const fromIOK = <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => IO<B>
+): (<R>(...a: A) => ReaderTask<R, B>) => (...a) => fromIO(f(...a))
 
 /**
  * @category combinators
@@ -95,11 +95,9 @@ export const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(ma: ReaderTask<R, A>) =
  * @category combinators
  * @since 3.0.0
  */
-export function fromTaskK<A extends ReadonlyArray<unknown>, B>(
+export const fromTaskK = <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Task<B>
-): <R>(...a: A) => ReaderTask<R, B> {
-  return (...a) => fromTask(f(...a))
-}
+): (<R>(...a: A) => ReaderTask<R, B>) => (...a) => fromTask(f(...a))
 
 /**
  * @category combinators
@@ -205,20 +203,16 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
-export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<ReaderTask<R, A>> {
-  return R.getSemigroup(T.getSemigroup(S))
-}
+export const getSemigroup = <A, R>(S: Semigroup<A>): Semigroup<ReaderTask<R, A>> => R.getSemigroup(T.getSemigroup(S))
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getMonoid<R, A>(M: Monoid<A>): Monoid<ReaderTask<R, A>> {
-  return {
-    concat: getSemigroup<R, A>(M).concat,
-    empty: of(M.empty)
-  }
-}
+export const getMonoid = <A, R>(M: Monoid<A>): Monoid<ReaderTask<R, A>> => ({
+  concat: getSemigroup<A, R>(M).concat,
+  empty: of(M.empty)
+})
 
 /**
  * @category instances

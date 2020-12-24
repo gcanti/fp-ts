@@ -229,47 +229,40 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
-export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<TaskThese<E, A>> {
-  return T.getSemigroup(TH.getSemigroup(SE, SA))
-}
+export const getSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<TaskThese<E, A>> =>
+  T.getSemigroup(TH.getSemigroup(SE, SA))
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getApply<E>(A: Apply1<T.URI>, S: Semigroup<E>): Apply2C<URI, E> {
-  return {
-    URI,
-    map,
-    ap: ap_(A, S)
-  }
-}
+export const getApply = <E>(A: Apply1<T.URI>, S: Semigroup<E>): Apply2C<URI, E> => ({
+  URI,
+  map,
+  ap: ap_(A, S)
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getApplicative<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E> {
-  return {
-    URI,
-    map,
-    ap: ap_(A, S),
-    of
-  }
-}
+export const getApplicative = <E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E> => ({
+  URI,
+  map,
+  ap: ap_(A, S),
+  of
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> {
-  return {
-    URI,
-    map,
-    of,
-    chain: chain_(T.Monad, S)
-  }
-}
+export const getMonad = <E>(S: Semigroup<E>): Monad2C<URI, E> => ({
+  URI,
+  map,
+  of,
+  chain: chain_(T.Monad, S)
+})
 
 /**
  * @category instances

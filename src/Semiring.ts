@@ -37,7 +37,7 @@ export interface Semiring<A> {
  * @category instances
  * @since 3.0.0
  */
-export const getFunctionSemiring = <A, B>(S: Semiring<B>): Semiring<(a: A) => B> => ({
+export const getFunctionSemiring = <B, A>(S: Semiring<B>): Semiring<(a: A) => B> => ({
   add: (second) => (first) => (x) => S.add(second(x))(first(x)),
   zero: () => S.zero,
   mul: (second) => (first) => (x) => S.mul(second(x))(first(x)),

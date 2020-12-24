@@ -41,7 +41,7 @@ Every boolean algebras has a dual algebra, which involves reversing one/zero as 
 **Signature**
 
 ```ts
-export declare const getDualBooleanAlgebra: <A>(B: BooleanAlgebra<A>) => BooleanAlgebra<A>
+export declare const getDualBooleanAlgebra: <A>(BA: BooleanAlgebra<A>) => BooleanAlgebra<A>
 ```
 
 Added in v3.0.0
@@ -73,9 +73,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFunctionBooleanAlgebra: <B>(
-  B: BooleanAlgebra<B>
-) => <A = never>() => BooleanAlgebra<(a: A) => B>
+export declare const getFunctionBooleanAlgebra: <BA>(
+  BA: BooleanAlgebra<BA>
+) => <A = never>() => BooleanAlgebra<(a: A) => BA>
 ```
 
 Added in v3.0.0

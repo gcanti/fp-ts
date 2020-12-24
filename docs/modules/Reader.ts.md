@@ -196,7 +196,7 @@ Changes the value of the local context during the execution of the action `ma` (
 **Signature**
 
 ```ts
-export declare const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q, A>
+export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>) => Reader<R2, A>
 ```
 
 Added in v3.0.0
@@ -381,7 +381,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>>
+export declare const getMonoid: <A, R>(M: Monoid<A>) => Monoid<Reader<R, A>>
 ```
 
 Added in v3.0.0
@@ -391,7 +391,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R, A>>
+export declare const getSemigroup: <A, R>(S: Semigroup<A>) => Semigroup<Reader<R, A>>
 ```
 
 Added in v3.0.0

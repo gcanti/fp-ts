@@ -33,55 +33,44 @@ export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
  * @category constructors
  * @since 3.0.0
  */
-export function fromRecord<K extends string, A>(r: Record<K, A>): ReadonlyRecord<K, A> {
-  return Object.assign({}, r)
-}
+export const fromRecord = <K extends string, A>(r: Record<K, A>): ReadonlyRecord<K, A> => Object.assign({}, r)
 
 /**
  * @category destructors
  * @since 3.0.0
  */
-export function toRecord<K extends string, A>(r: ReadonlyRecord<K, A>): Record<K, A> {
-  return Object.assign({}, r)
-}
+export const toRecord = <K extends string, A>(r: ReadonlyRecord<K, A>): Record<K, A> => Object.assign({}, r)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getShow<A>(S: Show<A>): Show<ReadonlyRecord<string, A>> {
-  return {
-    show: (r) => {
-      const elements = collect((k, a: A) => `${JSON.stringify(k)}: ${S.show(a)}`)(r).join(', ')
-      return elements === '' ? '{}' : `{ ${elements} }`
-    }
+export const getShow = <A>(S: Show<A>): Show<ReadonlyRecord<string, A>> => ({
+  show: (r) => {
+    const elements = collect((k, a: A) => `${JSON.stringify(k)}: ${S.show(a)}`)(r).join(', ')
+    return elements === '' ? '{}' : `{ ${elements} }`
   }
-}
+})
 
 /**
  * Calculate the number of key/value pairs in a record
  *
  * @since 3.0.0
  */
-export function size(r: ReadonlyRecord<string, unknown>): number {
-  return Object.keys(r).length
-}
+export const size = (r: ReadonlyRecord<string, unknown>): number => Object.keys(r).length
 
 /**
  * Test whether a record is empty
  *
  * @since 3.0.0
  */
-export function isEmpty(r: ReadonlyRecord<string, unknown>): boolean {
-  return Object.keys(r).length === 0
-}
+export const isEmpty = (r: ReadonlyRecord<string, unknown>): boolean => Object.keys(r).length === 0
 
 /**
  * @since 3.0.0
  */
-export function keys<K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyArray<K> {
-  return (Object.keys(r) as any).sort()
-}
+export const keys = <K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyArray<K> =>
+  (Object.keys(r) as any).sort()
 
 /**
  * Map a record into an array
@@ -97,15 +86,15 @@ export function keys<K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyA
  *
  * @since 3.0.0
  */
-export function collect<K extends string, A, B>(f: (k: K, a: A) => B): (r: ReadonlyRecord<K, A>) => ReadonlyArray<B> {
-  return (r) => {
-    // tslint:disable-next-line: readonly-array
-    const out: Array<B> = []
-    for (const key of keys(r)) {
-      out.push(f(key, r[key]))
-    }
-    return out
+export const collect = <K extends string, A, B>(f: (k: K, a: A) => B) => (
+  r: ReadonlyRecord<K, A>
+): ReadonlyArray<B> => {
+  // tslint:disable-next-line: readonly-array
+  const out: Array<B> = []
+  for (const key of keys(r)) {
+    out.push(f(key, r[key]))
   }
+  return out
 }
 
 /**
@@ -162,9 +151,7 @@ const _hasOwnProperty = Object.prototype.hasOwnProperty
 /**
  * @since 3.0.0
  */
-export function has<K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K {
-  return _hasOwnProperty.call(r, k)
-}
+export const has = <K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K => _hasOwnProperty.call(r, k)
 
 /**
  * Delete a key and value from a map
@@ -189,38 +176,32 @@ export function deleteAt(k: string): <A>(r: ReadonlyRecord<string, A>) => Readon
 /**
  * @since 3.0.0
  */
-export function updateAt<A>(
-  k: string,
-  a: A
-): <K extends string>(r: ReadonlyRecord<K, A>) => Option<ReadonlyRecord<K, A>> {
-  return <K extends string>(r: ReadonlyRecord<K, A>) => {
-    if (!has(k, r)) {
-      return none
-    }
-    if (r[k] === a) {
-      return optionSome(r)
-    }
-    const out: Record<K, A> = Object.assign({}, r)
-    out[k] = a
-    return optionSome(out)
+export const updateAt = <A>(k: string, a: A) => <K extends string>(
+  r: ReadonlyRecord<K, A>
+): Option<ReadonlyRecord<K, A>> => {
+  if (!has(k, r)) {
+    return none
   }
+  if (r[k] === a) {
+    return optionSome(r)
+  }
+  const out: Record<K, A> = Object.assign({}, r)
+  out[k] = a
+  return optionSome(out)
 }
 
 /**
  * @since 3.0.0
  */
-export function modifyAt<A>(
-  k: string,
-  f: Endomorphism<A>
-): <K extends string>(r: ReadonlyRecord<K, A>) => Option<ReadonlyRecord<K, A>> {
-  return <K extends string>(r: ReadonlyRecord<K, A>) => {
-    if (!has(k, r)) {
-      return none
-    }
-    const out: Record<K, A> = Object.assign({}, r)
-    out[k] = f(r[k])
-    return optionSome(out)
+export const modifyAt = <A>(k: string, f: Endomorphism<A>) => <K extends string>(
+  r: ReadonlyRecord<K, A>
+): Option<ReadonlyRecord<K, A>> => {
+  if (!has(k, r)) {
+    return none
   }
+  const out: Record<K, A> = Object.assign({}, r)
+  out[k] = f(r[k])
+  return optionSome(out)
 }
 
 /**
@@ -247,17 +228,15 @@ export function pop(k: string): <A>(r: ReadonlyRecord<string, A>) => Option<read
  *
  * @since 3.0.0
  */
-export function isSubrecord<A>(
-  E: Eq<A>
-): (that: ReadonlyRecord<string, A>) => (me: ReadonlyRecord<string, A>) => boolean {
-  return (that) => (me) => {
-    for (const k in me) {
-      if (!_hasOwnProperty.call(that, k) || !E.equals(that[k])(me[k])) {
-        return false
-      }
+export const isSubrecord = <A>(E: Eq<A>) => (second: ReadonlyRecord<string, A>) => (
+  first: ReadonlyRecord<string, A>
+): boolean => {
+  for (const k in first) {
+    if (!_hasOwnProperty.call(second, k) || !E.equals(second[k])(first[k])) {
+      return false
     }
-    return true
   }
+  return true
 }
 
 /**
@@ -426,9 +405,7 @@ export function reduceRightWithIndex<A, B>(
  * @category constructors
  * @since 3.0.0
  */
-export function singleton<K extends string, A>(k: K, a: A): ReadonlyRecord<K, A> {
-  return { [k]: a } as any
-}
+export const singleton = <K extends string, A>(k: K, a: A): ReadonlyRecord<K, A> => ({ [k]: a } as any)
 
 /**
  * @since 3.0.0
@@ -787,29 +764,25 @@ export function fromFoldableMap<F, B>(
 /**
  * @since 3.0.0
  */
-export function every<A>(predicate: Predicate<A>): (r: ReadonlyRecord<string, A>) => boolean {
-  return (r) => {
-    for (const k in r) {
-      if (!predicate(r[k])) {
-        return false
-      }
+export const every = <A>(predicate: Predicate<A>) => (r: ReadonlyRecord<string, A>): boolean => {
+  for (const k in r) {
+    if (!predicate(r[k])) {
+      return false
     }
-    return true
   }
+  return true
 }
 
 /**
  * @since 3.0.0
  */
-export function some<A>(predicate: (a: A) => boolean): (r: ReadonlyRecord<string, A>) => boolean {
-  return (r) => {
-    for (const k in r) {
-      if (predicate(r[k])) {
-        return true
-      }
+export const some = <A>(predicate: (a: A) => boolean) => (r: ReadonlyRecord<string, A>): boolean => {
+  for (const k in r) {
+    if (predicate(r[k])) {
+      return true
     }
-    return false
   }
+  return false
 }
 
 /**

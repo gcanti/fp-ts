@@ -236,7 +236,7 @@ describe('IOEither', () => {
 
   describe('getSemigroup', () => {
     it('concat', () => {
-      const S = _.getSemigroup<string, number>(semigroupSum)
+      const S = _.getSemigroup<number, string>(semigroupSum)
       assert.deepStrictEqual(pipe(_.leftIO(I.of('a')), S.concat(_.leftIO(I.of('b'))))(), E.left('a'))
       assert.deepStrictEqual(pipe(_.leftIO(I.of('a')), S.concat(_.rightIO(I.of(2))))(), E.right(2))
       assert.deepStrictEqual(pipe(_.rightIO(I.of(1)), S.concat(_.leftIO(I.of('b'))))(), E.right(1))

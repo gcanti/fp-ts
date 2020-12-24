@@ -37,7 +37,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFunctionRing: <A, B>(ring: Ring<B>) => Ring<(a: A) => B>
+export declare const getFunctionRing: <B, A>(ring: Ring<B>) => Ring<(a: A) => B>
 ```
 
 Added in v3.0.0

@@ -191,7 +191,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function both<E, A>(left: E, right: A): These<E, A>
+export declare const both: <E, A>(left: E, right: A) => These<E, A>
 ```
 
 Added in v3.0.0
@@ -215,7 +215,7 @@ Takes a pair of `Option`s and attempts to create a `These` from them
 **Signature**
 
 ```ts
-export declare function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E, A>>
+export declare const fromOptions: <E, A>(fe: Option<E>, fa: Option<A>) => Option<These<E, A>>
 ```
 
 **Example**
@@ -252,7 +252,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function left<E, A = never>(left: E): These<E, A>
+export declare const left: <E, A = never>(left: E) => These<E, A>
 ```
 
 Added in v3.0.0
@@ -262,7 +262,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function leftOrBoth<E>(e: Lazy<E>): <A>(ma: Option<A>) => These<E, A>
+export declare const leftOrBoth: <E>(e: Lazy<E>) => <A>(ma: Option<A>) => These<E, A>
 ```
 
 **Example**
@@ -282,7 +282,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function right<A, E = never>(right: A): These<E, A>
+export declare const right: <A, E = never>(right: A) => These<E, A>
 ```
 
 Added in v3.0.0
@@ -292,7 +292,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function rightOrBoth<A>(a: Lazy<A>): <E>(me: Option<E>) => These<E, A>
+export declare const rightOrBoth: <A>(a: Lazy<A>) => <E>(me: Option<E>) => These<E, A>
 ```
 
 **Example**
@@ -330,7 +330,7 @@ Returns an `E` value if possible
 **Signature**
 
 ```ts
-export declare function getLeft<E, A>(fa: These<E, A>): Option<E>
+export declare const getLeft: <E, A>(fa: These<E, A>) => Option<E>
 ```
 
 **Example**
@@ -353,7 +353,7 @@ Returns the `E` value if and only if the value is constructed with `Left`
 **Signature**
 
 ```ts
-export declare function getLeftOnly<E, A>(fa: These<E, A>): Option<E>
+export declare const getLeftOnly: <E, A>(fa: These<E, A>) => Option<E>
 ```
 
 **Example**
@@ -376,7 +376,7 @@ Returns an `A` value if possible
 **Signature**
 
 ```ts
-export declare function getRight<E, A>(fa: These<E, A>): Option<A>
+export declare const getRight: <E, A>(fa: These<E, A>) => Option<A>
 ```
 
 **Example**
@@ -399,7 +399,7 @@ Returns the `A` value if and only if the value is constructed with `Right`
 **Signature**
 
 ```ts
-export declare function getRightOnly<E, A>(fa: These<E, A>): Option<A>
+export declare const getRightOnly: <E, A>(fa: These<E, A>) => Option<A>
 ```
 
 **Example**
@@ -420,7 +420,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function toTuple<E, A>(e: Lazy<E>, a: Lazy<A>): (fa: These<E, A>) => readonly [E, A]
+export declare const toTuple: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>) => readonly [E, A]
 ```
 
 **Example**
@@ -448,7 +448,7 @@ Returns `true` if the these is an instance of `Both`, `false` otherwise
 **Signature**
 
 ```ts
-export declare function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A>
+export declare const isBoth: <E, A>(fa: These<E, A>) => fa is Both<E, A>
 ```
 
 Added in v3.0.0
@@ -460,7 +460,7 @@ Returns `true` if the these is an instance of `Left`, `false` otherwise
 **Signature**
 
 ```ts
-export declare function isLeft<E, A>(fa: These<E, A>): fa is Left<E>
+export declare const isLeft: <E, A>(fa: These<E, A>) => fa is Left<E>
 ```
 
 Added in v3.0.0
@@ -472,7 +472,7 @@ Returns `true` if the these is an instance of `Right`, `false` otherwise
 **Signature**
 
 ```ts
-export declare function isRight<E, A>(fa: These<E, A>): fa is Right<A>
+export declare const isRight: <E, A>(fa: These<E, A>) => fa is Right<A>
 ```
 
 Added in v3.0.0
@@ -564,7 +564,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApplicative<E>(S: Semigroup<E>): Applicative2C<URI, E>
+export declare const getApplicative: <E>(S: Semigroup<E>) => Applicative2C<'These', E>
 ```
 
 Added in v3.0.0
@@ -574,7 +574,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApply<E>(S: Semigroup<E>): Apply2C<URI, E>
+export declare const getApply: <E>(S: Semigroup<E>) => Apply2C<'These', E>
 ```
 
 Added in v3.0.0
@@ -584,7 +584,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getEq<E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>>
+export declare const getEq: <E, A>(EE: Eq<E>, EA: Eq<A>) => Eq<These<E, A>>
 ```
 
 Added in v3.0.0
@@ -594,7 +594,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E>
+export declare const getMonad: <E>(SE: Semigroup<E>) => Monad2C<'These', E>
 ```
 
 Added in v3.0.0
@@ -604,7 +604,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<These<E, A>>
+export declare const getSemigroup: <E, A>(SE: Semigroup<E>, SA: Semigroup<A>) => Semigroup<These<E, A>>
 ```
 
 Added in v3.0.0
@@ -614,7 +614,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>>
+export declare const getShow: <E, A>(SE: Show<E>, SA: Show<A>) => Show<These<E, A>>
 ```
 
 Added in v3.0.0

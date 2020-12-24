@@ -183,7 +183,7 @@ Extract a value from a position which depends on the current position
 **Signature**
 
 ```ts
-export declare function peeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => A
+export declare const peeks: <S>(f: Endomorphism<S>) => <A>(wa: Store<S, A>) => A
 ```
 
 Added in v3.0.0
@@ -195,7 +195,7 @@ Reposition the focus at the specified position
 **Signature**
 
 ```ts
-export declare function seek<S>(s: S): <A>(wa: Store<S, A>) => Store<S, A>
+export declare const seek: <S>(s: S) => <A>(wa: Store<S, A>) => Store<S, A>
 ```
 
 Added in v3.0.0
@@ -207,7 +207,7 @@ Reposition the focus at the specified position, which depends on the current pos
 **Signature**
 
 ```ts
-export declare function seeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => Store<S, A>
+export declare const seeks: <S>(f: Endomorphism<S>) => <A>(wa: Store<S, A>) => Store<S, A>
 ```
 
 Added in v3.0.0

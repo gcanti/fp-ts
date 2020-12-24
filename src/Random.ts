@@ -19,12 +19,11 @@ export const random: IO<number> = () => Math.random()
  *
  * @since 3.0.0
  */
-export function randomInt(low: number, high: number): IO<number> {
-  return pipe(
+export const randomInt = (low: number, high: number): IO<number> =>
+  pipe(
     random,
     map((n) => Math.floor((high - low + 1) * n + low))
   )
-}
 
 /**
  * Returns a random number between a minimum value (inclusive) and a maximum value (exclusive). It is unspecified what
@@ -32,12 +31,11 @@ export function randomInt(low: number, high: number): IO<number> {
  *
  * @since 3.0.0
  */
-export function randomRange(min: number, max: number): IO<number> {
-  return pipe(
+export const randomRange = (min: number, max: number): IO<number> =>
+  pipe(
     random,
     map((n) => (max - min) * n + min)
   )
-}
 
 /**
  * Returns a random boolean value with an equal chance of being `true` or `false`

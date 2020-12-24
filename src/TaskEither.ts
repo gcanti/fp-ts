@@ -127,9 +127,8 @@ export const fromEither: FromEither2<URI>['fromEither'] =
  * @category constructors
  * @since 3.0.0
  */
-export function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> {
-  return () => f().then(E.right, (reason) => E.left(onRejected(reason)))
-}
+export const tryCatch = <A, E>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> => () =>
+  f().then(E.right, (reason) => E.left(onRejected(reason)))
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -226,32 +225,26 @@ export const filterOrElse: {
  * @category combinators
  * @since 3.0.0
  */
-export function tryCatchK<E, A extends ReadonlyArray<unknown>, B>(
+export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Promise<B>,
   onRejected: (reason: unknown) => E
-): (...a: A) => TaskEither<E, B> {
-  return (...a) => tryCatch(() => f(...a), onRejected)
-}
+): ((...a: A) => TaskEither<E, B>) => (...a) => tryCatch(() => f(...a), onRejected)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
+export const fromEitherK = <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Either<E, B>
-): (...a: A) => TaskEither<E, B> {
-  return (...a) => fromEither(f(...a))
-}
+): ((...a: A) => TaskEither<E, B>) => (...a) => fromEither(f(...a))
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
+export const fromIOEitherK = <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => IOEither<E, B>
-): (...a: A) => TaskEither<E, B> {
-  return (...a) => fromIOEither(f(...a))
-}
+): ((...a: A) => TaskEither<E, B>) => (...a) => fromIOEither(f(...a))
 
 /**
  * Less strict version of [`chainEitherK`](#chainEitherK).
@@ -477,9 +470,7 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
-export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>> {
-  return T.getSemigroup(E.getSemigroup(S))
-}
+export const getSemigroup = <A, E>(S: Semigroup<A>): Semigroup<TaskEither<E, A>> => T.getSemigroup(E.getSemigroup(S))
 
 /**
  * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
@@ -488,62 +479,55 @@ export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>>
  * @category instances
  * @since 3.0.0
  */
-export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>> {
-  return T.getSemigroup(E.getApplySemigroup(S))
-}
+export const getApplySemigroup = <A, E>(S: Semigroup<A>): Semigroup<TaskEither<E, A>> =>
+  T.getSemigroup(E.getApplySemigroup(S))
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>> {
-  return {
-    concat: getApplySemigroup<E, A>(M).concat,
-    empty: right(M.empty)
-  }
-}
+export const getApplyMonoid = <A, E>(M: Monoid<A>): Monoid<TaskEither<E, A>> => ({
+  concat: getApplySemigroup<A, E>(M).concat,
+  empty: right(M.empty)
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E> {
-  return {
-    URI,
-    map,
-    ap: ap_<T.URI, E.URI, E>(A, E.getApplicativeValidation(S)),
-    of
-  }
-}
+export const getApplicativeTaskValidation = <E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E> => ({
+  URI,
+  map,
+  ap: ap_<T.URI, E.URI, E>(A, E.getApplicativeValidation(S)),
+  of
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getAltTaskValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
-  return {
-    URI,
-    map,
-    alt: (second) => (first) =>
-      pipe(
-        first,
-        T.chain((e1) =>
-          E.isRight(e1)
-            ? T.of(e1)
-            : pipe(
-                second(),
-                T.map((e2) => (E.isLeft(e2) ? E.left(S.concat(e2.left)(e1.left)) : e2))
-              )
-        )
+export const getAltTaskValidation = <E>(S: Semigroup<E>): Alt2C<URI, E> => ({
+  URI,
+  map,
+  alt: (second) => (first) =>
+    pipe(
+      first,
+      T.chain((e1) =>
+        E.isRight(e1)
+          ? T.of(e1)
+          : pipe(
+              second(),
+              T.map((e2) => (E.isLeft(e2) ? E.left(S.concat(e2.left)(e1.left)) : e2))
+            )
       )
-  }
-}
+    )
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E> {
+export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
   const C: Compactable2C<E.URI, E> & Functor2<E.URI> = { ...E.getCompactable(M), ...E.Functor }
   return {
     URI,
@@ -556,7 +540,7 @@ export function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E> {
  * @category instances
  * @since 3.0.0
  */
-export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
+export const getFilterable = <E>(M: Monoid<E>): Filterable2C<URI, E> => {
   const F = E.getFilterable(M)
   return {
     URI,

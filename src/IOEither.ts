@@ -161,11 +161,9 @@ export const filterOrElse: {
  * @category combinators
  * @since 3.0.0
  */
-export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
+export const fromEitherK = <E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Either<E, B>
-): (...a: A) => IOEither<E, B> {
-  return (...a) => fromEither(f(...a))
-}
+): ((...a: A) => IOEither<E, B>) => (...a) => fromEither(f(...a))
 
 /**
  * Less strict version of [`chainEitherK`](#chainEitherK).
@@ -332,9 +330,7 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
-export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> {
-  return I.getSemigroup(E.getSemigroup(S))
-}
+export const getSemigroup = <A, E>(S: Semigroup<A>): Semigroup<IOEither<E, A>> => I.getSemigroup(E.getSemigroup(S))
 
 /**
  * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
@@ -343,39 +339,34 @@ export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> {
  * @category instances
  * @since 3.0.0
  */
-export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> {
-  return I.getSemigroup(E.getApplySemigroup(S))
-}
+export const getApplySemigroup = <A, E>(S: Semigroup<A>): Semigroup<IOEither<E, A>> =>
+  I.getSemigroup(E.getApplySemigroup(S))
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<IOEither<E, A>> {
-  return {
-    concat: getApplySemigroup<E, A>(M).concat,
-    empty: right(M.empty)
-  }
-}
+export const getApplyMonoid = <A, E>(M: Monoid<A>): Monoid<IOEither<E, A>> => ({
+  concat: getApplySemigroup<A, E>(M).concat,
+  empty: right(M.empty)
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getApplicativeIOValidation<E>(S: Semigroup<E>): Applicative2C<URI, E> {
-  return {
-    URI,
-    map,
-    ap: ap_<I.URI, E.URI, E>(I.Apply, E.getApplicativeValidation(S)),
-    of
-  }
-}
+export const getApplicativeIOValidation = <E>(S: Semigroup<E>): Applicative2C<URI, E> => ({
+  URI,
+  map,
+  ap: ap_<I.URI, E.URI, E>(I.Apply, E.getApplicativeValidation(S)),
+  of
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getAltIOValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
+export const getAltIOValidation = <E>(S: Semigroup<E>): Alt2C<URI, E> => {
   const A = E.getAltValidation(S)
   return {
     URI,
@@ -392,7 +383,7 @@ export function getAltIOValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
  * @category instances
  * @since 3.0.0
  */
-export function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E> {
+export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
   const C: Compactable2C<E.URI, E> & Functor2<E.URI> = { ...E.getCompactable(M), ...E.Functor }
   return {
     URI,
@@ -405,7 +396,7 @@ export function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E> {
  * @category instances
  * @since 3.0.0
  */
-export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
+export const getFilterable = <E>(M: Monoid<E>): Filterable2C<URI, E> => {
   const F = E.getFilterable(M)
   return {
     URI,

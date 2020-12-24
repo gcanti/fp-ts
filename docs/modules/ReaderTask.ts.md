@@ -195,9 +195,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromIOK<A extends ReadonlyArray<unknown>, B>(
+export declare const fromIOK: <A extends readonly unknown[], B>(
   f: (...a: A) => IO<B>
-): <R>(...a: A) => ReaderTask<R, B>
+) => <R>(...a: A) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -207,9 +207,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromTaskK<A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Task<B>
-): <R>(...a: A) => ReaderTask<R, B>
+export declare const fromTaskK: <A extends readonly unknown[], B>(
+  f: (...a: A) => T.Task<B>
+) => <R>(...a: A) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -422,7 +422,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getMonoid<R, A>(M: Monoid<A>): Monoid<ReaderTask<R, A>>
+export declare const getMonoid: <A, R>(M: Monoid<A>) => Monoid<ReaderTask<R, A>>
 ```
 
 Added in v3.0.0
@@ -432,7 +432,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<ReaderTask<R, A>>
+export declare const getSemigroup: <A, R>(S: Semigroup<A>) => Semigroup<ReaderTask<R, A>>
 ```
 
 Added in v3.0.0

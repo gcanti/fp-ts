@@ -117,7 +117,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function absurd<A>(_: never): A
+export declare const absurd: <A>(_: never) => A
 ```
 
 Added in v3.0.0
@@ -187,7 +187,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function constant<A>(a: A): Lazy<A>
+export declare const constant: <A>(a: A) => Lazy<A>
 ```
 
 Added in v3.0.0
@@ -197,7 +197,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function decrement(n: number): number
+export declare const decrement: (n: number) => number
 ```
 
 Added in v3.0.0
@@ -209,7 +209,7 @@ Flips the order of the arguments of a function of two arguments.
 **Signature**
 
 ```ts
-export declare function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C
+export declare const flip: <A, B, C>(f: (a: A, b: B) => C) => (b: B, a: A) => C
 ```
 
 Added in v3.0.0
@@ -318,7 +318,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function identity<A>(a: A): A
+export declare const identity: <A>(a: A) => A
 ```
 
 Added in v3.0.0
@@ -328,7 +328,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function increment(n: number): number
+export declare const increment: (n: number) => number
 ```
 
 Added in v3.0.0
@@ -338,7 +338,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function not<A>(predicate: Predicate<A>): Predicate<A>
+export declare const not: <A>(predicate: Predicate<A>) => Predicate<A>
 ```
 
 Added in v3.0.0
@@ -606,7 +606,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function tuple<T extends ReadonlyArray<any>>(...t: T): T
+export declare const tuple: <T extends readonly any[]>(...t: T) => T
 ```
 
 Added in v3.0.0
@@ -618,7 +618,7 @@ Creates a tupled version of this function: instead of `n` arguments, it accepts 
 **Signature**
 
 ```ts
-export declare function tupled<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B): (a: A) => B
+export declare const tupled: <A extends readonly unknown[], B>(f: (...a: A) => B) => (a: A) => B
 ```
 
 **Example**
@@ -650,7 +650,7 @@ Inverse function of `tupled`
 **Signature**
 
 ```ts
-export declare function untupled<A extends ReadonlyArray<unknown>, B>(f: (a: A) => B): (...a: A) => B
+export declare const untupled: <A extends readonly unknown[], B>(f: (a: A) => B) => (...a: A) => B
 ```
 
 Added in v3.0.0

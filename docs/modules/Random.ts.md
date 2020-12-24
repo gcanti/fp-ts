@@ -56,7 +56,7 @@ distributed in the closed interval `[low, high]`. It is unspecified what happens
 **Signature**
 
 ```ts
-export declare function randomInt(low: number, high: number): IO<number>
+export declare const randomInt: (low: number, high: number) => IO<number>
 ```
 
 Added in v3.0.0
@@ -69,7 +69,7 @@ happens if `maximum < minimum`.
 **Signature**
 
 ```ts
-export declare function randomRange(min: number, max: number): IO<number>
+export declare const randomRange: (min: number, max: number) => IO<number>
 ```
 
 Added in v3.0.0

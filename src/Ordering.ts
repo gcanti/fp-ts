@@ -2,6 +2,7 @@
  * @since 3.0.0
  */
 import { Eq, eqStrict } from './Eq'
+import { Endomorphism } from './function'
 import { Monoid } from './Monoid'
 
 /**
@@ -13,9 +14,7 @@ export type Ordering = -1 | 0 | 1
 /**
  * @since 3.0.0
  */
-export function sign(n: number): Ordering {
-  return n <= -1 ? -1 : n >= 1 ? 1 : 0
-}
+export const sign = (n: number): Ordering => (n <= -1 ? -1 : n >= 1 ? 1 : 0)
 
 /**
  * @category instances
@@ -37,7 +36,7 @@ export const monoidOrdering: Monoid<Ordering> = {
 /**
  * @since 3.0.0
  */
-export function invert(O: Ordering): Ordering {
+export const invert: Endomorphism<Ordering> = (O) => {
   switch (O) {
     case -1:
       return 1

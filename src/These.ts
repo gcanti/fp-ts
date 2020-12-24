@@ -60,25 +60,19 @@ export type These<E, A> = Either<E, A> | Both<E, A>
  * @category constructors
  * @since 3.0.0
  */
-export function left<E, A = never>(left: E): These<E, A> {
-  return { _tag: 'Left', left }
-}
+export const left = <E, A = never>(left: E): These<E, A> => ({ _tag: 'Left', left })
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export function right<A, E = never>(right: A): These<E, A> {
-  return { _tag: 'Right', right }
-}
+export const right = <A, E = never>(right: A): These<E, A> => ({ _tag: 'Right', right })
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export function both<E, A>(left: E, right: A): These<E, A> {
-  return { _tag: 'Both', left, right }
-}
+export const both = <E, A>(left: E, right: A): These<E, A> => ({ _tag: 'Both', left, right })
 
 /**
  * @category destructors
@@ -115,9 +109,8 @@ export const swap: <E, A>(fa: These<E, A>) => These<A, E> = fold(right, left, (e
  * @category destructors
  * @since 3.0.0
  */
-export function toTuple<E, A>(e: Lazy<E>, a: Lazy<A>): (fa: These<E, A>) => readonly [E, A] {
-  return (fa) => (isLeft(fa) ? [fa.left, a()] : isRight(fa) ? [e(), fa.right] : [fa.left, fa.right])
-}
+export const toTuple = <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>): readonly [E, A] =>
+  isLeft(fa) ? [fa.left, a()] : isRight(fa) ? [e(), fa.right] : [fa.left, fa.right]
 
 /**
  * Returns an `E` value if possible
@@ -133,9 +126,8 @@ export function toTuple<E, A>(e: Lazy<E>, a: Lazy<A>): (fa: These<E, A>) => read
  * @category destructors
  * @since 3.0.0
  */
-export function getLeft<E, A>(fa: These<E, A>): Option<E> {
-  return isLeft(fa) ? some(fa.left) : isRight(fa) ? none : some(fa.left)
-}
+export const getLeft = <E, A>(fa: These<E, A>): Option<E> =>
+  isLeft(fa) ? some(fa.left) : isRight(fa) ? none : some(fa.left)
 
 /**
  * Returns an `A` value if possible
@@ -151,9 +143,8 @@ export function getLeft<E, A>(fa: These<E, A>): Option<E> {
  * @category destructors
  * @since 3.0.0
  */
-export function getRight<E, A>(fa: These<E, A>): Option<A> {
-  return isLeft(fa) ? none : isRight(fa) ? some(fa.right) : some(fa.right)
-}
+export const getRight = <E, A>(fa: These<E, A>): Option<A> =>
+  isLeft(fa) ? none : isRight(fa) ? some(fa.right) : some(fa.right)
 
 /**
  * Returns `true` if the these is an instance of `Left`, `false` otherwise
@@ -161,9 +152,7 @@ export function getRight<E, A>(fa: These<E, A>): Option<A> {
  * @category guards
  * @since 3.0.0
  */
-export function isLeft<E, A>(fa: These<E, A>): fa is Left<E> {
-  return fa._tag === 'Left'
-}
+export const isLeft = <E, A>(fa: These<E, A>): fa is Left<E> => fa._tag === 'Left'
 
 /**
  * Returns `true` if the these is an instance of `Right`, `false` otherwise
@@ -171,9 +160,7 @@ export function isLeft<E, A>(fa: These<E, A>): fa is Left<E> {
  * @category guards
  * @since 3.0.0
  */
-export function isRight<E, A>(fa: These<E, A>): fa is Right<A> {
-  return fa._tag === 'Right'
-}
+export const isRight = <E, A>(fa: These<E, A>): fa is Right<A> => fa._tag === 'Right'
 
 /**
  * Returns `true` if the these is an instance of `Both`, `false` otherwise
@@ -181,9 +168,7 @@ export function isRight<E, A>(fa: These<E, A>): fa is Right<A> {
  * @category guards
  * @since 3.0.0
  */
-export function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A> {
-  return fa._tag === 'Both'
-}
+export const isBoth = <E, A>(fa: These<E, A>): fa is Both<E, A> => fa._tag === 'Both'
 
 /**
  * @example
@@ -196,9 +181,8 @@ export function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A> {
  * @category constructors
  * @since 3.0.0
  */
-export function leftOrBoth<E>(e: Lazy<E>): <A>(ma: Option<A>) => These<E, A> {
-  return (ma) => (isNone(ma) ? left(e()) : both(e(), ma.value))
-}
+export const leftOrBoth = <E>(e: Lazy<E>) => <A>(ma: Option<A>): These<E, A> =>
+  isNone(ma) ? left(e()) : both(e(), ma.value)
 
 /**
  * @example
@@ -211,9 +195,8 @@ export function leftOrBoth<E>(e: Lazy<E>): <A>(ma: Option<A>) => These<E, A> {
  * @category constructors
  * @since 3.0.0
  */
-export function rightOrBoth<A>(a: Lazy<A>): <E>(me: Option<E>) => These<E, A> {
-  return (me) => (isNone(me) ? right(a()) : both(me.value, a()))
-}
+export const rightOrBoth = <A>(a: Lazy<A>) => <E>(me: Option<E>): These<E, A> =>
+  isNone(me) ? right(a()) : both(me.value, a())
 
 /**
  * Returns the `E` value if and only if the value is constructed with `Left`
@@ -229,9 +212,7 @@ export function rightOrBoth<A>(a: Lazy<A>): <E>(me: Option<E>) => These<E, A> {
  * @category destructors
  * @since 3.0.0
  */
-export function getLeftOnly<E, A>(fa: These<E, A>): Option<E> {
-  return isLeft(fa) ? some(fa.left) : none
-}
+export const getLeftOnly = <E, A>(fa: These<E, A>): Option<E> => (isLeft(fa) ? some(fa.left) : none)
 
 /**
  * Returns the `A` value if and only if the value is constructed with `Right`
@@ -247,9 +228,7 @@ export function getLeftOnly<E, A>(fa: These<E, A>): Option<E> {
  * @category destructors
  * @since 3.0.0
  */
-export function getRightOnly<E, A>(fa: These<E, A>): Option<A> {
-  return isRight(fa) ? some(fa.right) : none
-}
+export const getRightOnly = <E, A>(fa: These<E, A>): Option<A> => (isRight(fa) ? some(fa.right) : none)
 
 /**
  * Takes a pair of `Option`s and attempts to create a `These` from them
@@ -266,15 +245,14 @@ export function getRightOnly<E, A>(fa: These<E, A>): Option<A> {
  * @category constructors
  * @since 3.0.0
  */
-export function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E, A>> {
-  return isNone(fe)
+export const fromOptions = <E, A>(fe: Option<E>, fa: Option<A>): Option<These<E, A>> =>
+  isNone(fe)
     ? isNone(fa)
       ? none
       : some(right(fa.value))
     : isNone(fa)
     ? some(left(fe.value))
     : some(both(fe.value, fa.value))
-}
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -388,56 +366,51 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
-export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>> {
-  return {
-    show: fold(
-      (l) => `left(${SE.show(l)})`,
-      (a) => `right(${SA.show(a)})`,
-      (l, a) => `both(${SE.show(l)}, ${SA.show(a)})`
-    )
-  }
-}
+export const getShow = <E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>> => ({
+  show: fold(
+    (l) => `left(${SE.show(l)})`,
+    (a) => `right(${SA.show(a)})`,
+    (l, a) => `both(${SE.show(l)}, ${SA.show(a)})`
+  )
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getEq<E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>> {
-  return fromEquals((second) => (first) =>
+export const getEq = <E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>> =>
+  fromEquals((second) => (first) =>
     isLeft(first)
       ? isLeft(second) && EE.equals(second.left)(first.left)
       : isRight(first)
       ? isRight(second) && EA.equals(second.right)(first.right)
       : isBoth(second) && EE.equals(second.left)(first.left) && EA.equals(second.right)(first.right)
   )
-}
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<These<E, A>> {
-  return {
-    concat: (second) => (first) =>
-      isLeft(first)
-        ? isLeft(second)
-          ? left(SE.concat(second.left)(first.left))
-          : isRight(second)
-          ? both(first.left, second.right)
-          : both(SE.concat(second.left)(first.left), second.right)
-        : isRight(first)
-        ? isLeft(second)
-          ? both(second.left, first.right)
-          : isRight(second)
-          ? right(SA.concat(second.right)(first.right))
-          : both(second.left, SA.concat(second.right)(first.right))
-        : isLeft(second)
-        ? both(SE.concat(second.left)(first.left), first.right)
+export const getSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<These<E, A>> => ({
+  concat: (second) => (first) =>
+    isLeft(first)
+      ? isLeft(second)
+        ? left(SE.concat(second.left)(first.left))
         : isRight(second)
-        ? both(first.left, SA.concat(second.right)(first.right))
-        : both(SE.concat(second.left)(first.left), SA.concat(second.right)(first.right))
-  }
-}
+        ? both(first.left, second.right)
+        : both(SE.concat(second.left)(first.left), second.right)
+      : isRight(first)
+      ? isLeft(second)
+        ? both(second.left, first.right)
+        : isRight(second)
+        ? right(SA.concat(second.right)(first.right))
+        : both(second.left, SA.concat(second.right)(first.right))
+      : isLeft(second)
+      ? both(SE.concat(second.left)(first.left), first.right)
+      : isRight(second)
+      ? both(first.left, SA.concat(second.right)(first.right))
+      : both(SE.concat(second.left)(first.left), SA.concat(second.right)(first.right))
+})
 
 /**
  * @category instances
@@ -462,36 +435,34 @@ export const Pointed: Pointed2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export function getApply<E>(S: Semigroup<E>): Apply2C<URI, E> {
-  return {
-    URI,
-    map,
-    ap: (fa) => (fab) =>
-      isLeft(fab)
-        ? isLeft(fa)
-          ? left(S.concat(fa.left)(fab.left))
-          : isRight(fa)
-          ? left(fab.left)
-          : left(S.concat(fa.left)(fab.left))
-        : isRight(fab)
-        ? isLeft(fa)
-          ? left(fa.left)
-          : isRight(fa)
-          ? right(fab.right(fa.right))
-          : both(fa.left, fab.right(fa.right))
-        : isLeft(fa)
+export const getApply = <E>(S: Semigroup<E>): Apply2C<URI, E> => ({
+  URI,
+  map,
+  ap: (fa) => (fab) =>
+    isLeft(fab)
+      ? isLeft(fa)
         ? left(S.concat(fa.left)(fab.left))
         : isRight(fa)
-        ? both(fab.left, fab.right(fa.right))
-        : both(S.concat(fa.left)(fab.left), fab.right(fa.right))
-  }
-}
+        ? left(fab.left)
+        : left(S.concat(fa.left)(fab.left))
+      : isRight(fab)
+      ? isLeft(fa)
+        ? left(fa.left)
+        : isRight(fa)
+        ? right(fab.right(fa.right))
+        : both(fa.left, fab.right(fa.right))
+      : isLeft(fa)
+      ? left(S.concat(fa.left)(fab.left))
+      : isRight(fa)
+      ? both(fab.left, fab.right(fa.right))
+      : both(S.concat(fa.left)(fab.left), fab.right(fa.right))
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getApplicative<E>(S: Semigroup<E>): Applicative2C<URI, E> {
+export const getApplicative = <E>(S: Semigroup<E>): Applicative2C<URI, E> => {
   const A = getApply(S)
   return {
     URI,
@@ -505,7 +476,7 @@ export function getApplicative<E>(S: Semigroup<E>): Applicative2C<URI, E> {
  * @category instances
  * @since 3.0.0
  */
-export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> {
+export const getMonad = <E>(SE: Semigroup<E>): Monad2C<URI, E> => {
   const chain = <A, B>(f: (a: A) => These<E, B>) => (ma: These<E, A>): These<E, B> => {
     if (isLeft(ma)) {
       return ma

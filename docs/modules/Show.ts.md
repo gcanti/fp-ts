@@ -30,7 +30,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getStructShow<A>(shows: { [K in keyof A]: Show<A[K]> }): Show<A>
+export declare const getStructShow: <A>(shows: { [K in keyof A]: Show<A[K]> }) => Show<A>
 ```
 
 Added in v3.0.0

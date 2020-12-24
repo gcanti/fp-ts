@@ -150,7 +150,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApplicative<W>(M: Monoid<W>): Applicative2C<URI, W>
+export declare const getApplicative: <W>(M: Monoid<W>) => Applicative2C<'Writer', W>
 ```
 
 Added in v3.0.0
@@ -160,7 +160,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApply<W>(S: Semigroup<W>): Apply2C<URI, W>
+export declare const getApply: <W>(S: Semigroup<W>) => Apply2C<'Writer', W>
 ```
 
 Added in v3.0.0
@@ -170,7 +170,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getMonad<W>(M: Monoid<W>): Monad2C<URI, W>
+export declare const getMonad: <W>(M: Monoid<W>) => Monad2C<'Writer', W>
 ```
 
 Added in v3.0.0
@@ -180,7 +180,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getPointed<W>(M: Monoid<W>): Pointed2C<URI, W>
+export declare const getPointed: <W>(M: Monoid<W>) => Pointed2C<'Writer', W>
 ```
 
 Added in v3.0.0

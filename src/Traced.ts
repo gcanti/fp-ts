@@ -29,40 +29,35 @@ export const tracks = <P>(M: Monoid<P>) => <A>(f: (a: A) => P) => (wa: Traced<P,
  *
  * @since 3.0.0
  */
-export function listen<P, A>(wa: Traced<P, A>): Traced<P, readonly [A, P]> {
-  return (e) => [wa(e), e]
-}
+export const listen = <P, A>(wa: Traced<P, A>): Traced<P, readonly [A, P]> => (p) => [wa(p), p]
 
 /**
  * Get a value which depends on the current position
  *
  * @since 3.0.0
  */
-export function listens<P, B>(f: (p: P) => B): <A>(wa: Traced<P, A>) => Traced<P, readonly [A, B]> {
-  return (wa) => (e) => [wa(e), f(e)]
-}
+export const listens = <P, B>(f: (p: P) => B) => <A>(wa: Traced<P, A>): Traced<P, readonly [A, B]> => (p) => [
+  wa(p),
+  f(p)
+]
 
 /**
  * Apply a function to the current position
  *
  * @since 3.0.0
  */
-export function censor<P>(f: (p: P) => P): <A>(wa: Traced<P, A>) => Traced<P, A> {
-  return (wa) => (e) => wa(f(e))
-}
+export const censor = <P>(f: (p: P) => P) => <A>(wa: Traced<P, A>): Traced<P, A> => (p) => wa(f(p))
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
-  return {
-    URI,
-    map,
-    extend: (f) => (wa) => (p1) => f((p2) => wa(monoid.concat(p2)(p1))),
-    extract: (wa) => wa(monoid.empty)
-  }
-}
+export const getComonad = <P>(monoid: Monoid<P>): Comonad2C<URI, P> => ({
+  URI,
+  map,
+  extend: (f) => (wa) => (p1) => f((p2) => wa(monoid.concat(p2)(p1))),
+  extract: (wa) => wa(monoid.empty)
+})
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types

@@ -48,13 +48,15 @@ export const booleanAlgebraVoid: BooleanAlgebra<void> = {
  * @category instances
  * @since 3.0.0
  */
-export const getFunctionBooleanAlgebra = <B>(B: BooleanAlgebra<B>) => <A = never>(): BooleanAlgebra<(a: A) => B> => ({
-  meet: (second) => (first) => (a) => B.meet(second(a))(first(a)),
-  join: (second) => (first) => (a) => B.join(second(a))(first(a)),
-  zero: () => B.zero,
-  one: () => B.one,
-  implies: (second) => (first) => (a) => B.implies(second(a))(first(a)),
-  not: (x) => (a) => B.not(x(a))
+export const getFunctionBooleanAlgebra = <BA>(BA: BooleanAlgebra<BA>) => <A = never>(): BooleanAlgebra<
+  (a: A) => BA
+> => ({
+  meet: (second) => (first) => (a) => BA.meet(second(a))(first(a)),
+  join: (second) => (first) => (a) => BA.join(second(a))(first(a)),
+  zero: () => BA.zero,
+  one: () => BA.one,
+  implies: (second) => (first) => (a) => BA.implies(second(a))(first(a)),
+  not: (x) => (a) => BA.not(x(a))
 })
 
 /**
@@ -63,11 +65,11 @@ export const getFunctionBooleanAlgebra = <B>(B: BooleanAlgebra<B>) => <A = never
  * @category combinators
  * @since 3.0.0
  */
-export const getDualBooleanAlgebra = <A>(B: BooleanAlgebra<A>): BooleanAlgebra<A> => ({
-  meet: B.join,
-  join: B.meet,
-  zero: B.one,
-  one: B.zero,
-  implies: (second) => (first) => B.join(second)(B.not(first)),
-  not: B.not
+export const getDualBooleanAlgebra = <A>(BA: BooleanAlgebra<A>): BooleanAlgebra<A> => ({
+  meet: BA.join,
+  join: BA.meet,
+  zero: BA.one,
+  one: BA.zero,
+  implies: (second) => (first) => BA.join(second)(BA.not(first)),
+  not: BA.not
 })

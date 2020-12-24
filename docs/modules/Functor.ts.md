@@ -13,8 +13,8 @@ constructor `F` to represent some computational context.
 
 Instances must satisfy the following laws:
 
-1. Identity: `F.map(identity) <-> identity`
-2. Composition: `F.map(flow(ab, bc)) <-> flow(F.map(ab), F.map(bc))`
+1. Identity: `map(identity) <-> identity`
+2. Composition: `map(flow(ab, bc)) <-> flow(map(ab), map(bc))`
 
 Added in v3.0.0
 

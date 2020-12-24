@@ -287,7 +287,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromRecord<K extends string, A>(r: Record<K, A>): ReadonlyRecord<K, A>
+export declare const fromRecord: <K extends string, A>(r: Record<K, A>) => Readonly<Record<K, A>>
 ```
 
 Added in v3.0.0
@@ -299,7 +299,7 @@ Create a record with one key/value pair
 **Signature**
 
 ```ts
-export declare function singleton<K extends string, A>(k: K, a: A): ReadonlyRecord<K, A>
+export declare const singleton: <K extends string, A>(k: K, a: A) => Readonly<Record<K, A>>
 ```
 
 Added in v3.0.0
@@ -321,7 +321,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function toRecord<K extends string, A>(r: ReadonlyRecord<K, A>): Record<K, A>
+export declare const toRecord: <K extends string, A>(r: Readonly<Record<K, A>>) => Record<K, A>
 ```
 
 Added in v3.0.0
@@ -503,7 +503,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getShow<A>(S: Show<A>): Show<ReadonlyRecord<string, A>>
+export declare const getShow: <A>(S: Show<A>) => Show<Readonly<Record<string, A>>>
 ```
 
 Added in v3.0.0
@@ -529,9 +529,9 @@ Map a record into an array
 **Signature**
 
 ```ts
-export declare function collect<K extends string, A, B>(
+export declare const collect: <K extends string, A, B>(
   f: (k: K, a: A) => B
-): (r: ReadonlyRecord<K, A>) => ReadonlyArray<B>
+) => (r: Readonly<Record<K, A>>) => readonly B[]
 ```
 
 **Example**
@@ -573,7 +573,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function every<A>(predicate: Predicate<A>): (r: ReadonlyRecord<string, A>) => boolean
+export declare const every: <A>(predicate: Predicate<A>) => (r: Readonly<Record<string, A>>) => boolean
 ```
 
 Added in v3.0.0
@@ -705,7 +705,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function has<K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K
+export declare const has: <K extends string>(k: string, r: Readonly<Record<K, unknown>>) => k is K
 ```
 
 Added in v3.0.0
@@ -717,7 +717,7 @@ Test whether a record is empty
 **Signature**
 
 ```ts
-export declare function isEmpty(r: ReadonlyRecord<string, unknown>): boolean
+export declare const isEmpty: (r: Readonly<Record<string, unknown>>) => boolean
 ```
 
 Added in v3.0.0
@@ -729,9 +729,9 @@ Test whether one record contains all of the keys and values contained in another
 **Signature**
 
 ```ts
-export declare function isSubrecord<A>(
+export declare const isSubrecord: <A>(
   E: Eq<A>
-): (that: ReadonlyRecord<string, A>) => (me: ReadonlyRecord<string, A>) => boolean
+) => (second: Readonly<Record<string, A>>) => (first: Readonly<Record<string, A>>) => boolean
 ```
 
 Added in v3.0.0
@@ -741,7 +741,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function keys<K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyArray<K>
+export declare const keys: <K extends string>(r: Readonly<Record<K, unknown>>) => readonly K[]
 ```
 
 Added in v3.0.0
@@ -763,10 +763,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function modifyAt<A>(
+export declare const modifyAt: <A>(
   k: string,
   f: Endomorphism<A>
-): <K extends string>(r: ReadonlyRecord<K, A>) => Option<ReadonlyRecord<K, A>>
+) => <K extends string>(r: Readonly<Record<K, A>>) => Option<Readonly<Record<K, A>>>
 ```
 
 Added in v3.0.0
@@ -874,7 +874,7 @@ Calculate the number of key/value pairs in a record
 **Signature**
 
 ```ts
-export declare function size(r: ReadonlyRecord<string, unknown>): number
+export declare const size: (r: Readonly<Record<string, unknown>>) => number
 ```
 
 Added in v3.0.0
@@ -884,7 +884,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function some<A>(predicate: (a: A) => boolean): (r: ReadonlyRecord<string, A>) => boolean
+export declare const some: <A>(predicate: (a: A) => boolean) => (r: Readonly<Record<string, A>>) => boolean
 ```
 
 Added in v3.0.0
@@ -966,10 +966,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function updateAt<A>(
+export declare const updateAt: <A>(
   k: string,
   a: A
-): <K extends string>(r: ReadonlyRecord<K, A>) => Option<ReadonlyRecord<K, A>>
+) => <K extends string>(r: Readonly<Record<K, A>>) => Option<Readonly<Record<K, A>>>
 ```
 
 Added in v3.0.0

@@ -10,9 +10,9 @@ The `Ord` type class represents types which support comparisons with a _total or
 
 Instances should satisfy the laws of total orderings:
 
-1. Reflexivity: `S.compare(a)(a) <= 0`
-2. Antisymmetry: if `S.compare(b)(a) <= 0` and `S.compare(a)(b) <= 0` then `a <-> b`
-3. Transitivity: if `S.compare(b)(a) <= 0` and `S.compare(c)(b) <= 0` then `S.compare(c)(a) <= 0`
+1. Reflexivity: `a |> compare(a) <= 0`
+2. Antisymmetry: if `a |> compare(b) <= 0` and `b |> compare(a) <= 0` then `a <-> b`
+3. Transitivity: if `a |> compare(b) <= 0` and `b |> S.compare(c) <= 0` then `a |> compare(c) <= 0`
 
 Added in v3.0.0
 
@@ -81,7 +81,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromCompare<A>(compare: Ord<A>['compare']): Ord<A>
+export declare const fromCompare: <A>(compare: (second: A) => (first: A) => Ordering) => Ord<A>
 ```
 
 Added in v3.0.0
@@ -128,7 +128,7 @@ Returns a `Monoid` such that:
 **Signature**
 
 ```ts
-export declare function getMonoid<A = never>(): Monoid<Ord<A>>
+export declare const getMonoid: <A = never>() => Monoid<Ord<A>>
 ```
 
 **Example**
@@ -278,7 +278,7 @@ Test whether a value is between a minimum and a maximum (inclusive)
 **Signature**
 
 ```ts
-export declare function between<A>(O: Ord<A>): (low: A, hi: A) => Predicate<A>
+export declare const between: <A>(O: Ord<A>) => (low: A, hi: A) => Predicate<A>
 ```
 
 Added in v3.0.0
@@ -290,7 +290,7 @@ Clamp a value between a minimum and a maximum
 **Signature**
 
 ```ts
-export declare function clamp<A>(O: Ord<A>): (low: A, hi: A) => Endomorphism<A>
+export declare const clamp: <A>(O: Ord<A>) => (low: A, hi: A) => Endomorphism<A>
 ```
 
 Added in v3.0.0

@@ -56,7 +56,7 @@ export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = identity
  * @category combinators
  * @since 3.0.0
  */
-export const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q, A> = (f) => (ma) => (q) => ma(f(q))
+export const local = <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>): Reader<R2, A> => (r2) => ma(f(r2))
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -165,22 +165,18 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
-export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R, A>> {
-  return {
-    concat: (second) => (first) => (e) => S.concat(second(e))(first(e))
-  }
-}
+export const getSemigroup = <A, R>(S: Semigroup<A>): Semigroup<Reader<R, A>> => ({
+  concat: (second) => (first) => (e) => S.concat(second(e))(first(e))
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> {
-  return {
-    concat: getSemigroup<R, A>(M).concat,
-    empty: () => M.empty
-  }
-}
+export const getMonoid = <A, R>(M: Monoid<A>): Monoid<Reader<R, A>> => ({
+  concat: getSemigroup<A, R>(M).concat,
+  empty: () => M.empty
+})
 
 /**
  * @category instances

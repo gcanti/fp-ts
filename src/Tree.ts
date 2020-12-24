@@ -45,18 +45,16 @@ export interface Tree<A> {
  * @category constructors
  * @since 3.0.0
  */
-export function make<A>(value: A, forest: Forest<A> = A.empty): Tree<A> {
-  return {
-    value,
-    forest
-  }
-}
+export const make = <A>(value: A, forest: Forest<A> = A.empty): Tree<A> => ({
+  value,
+  forest
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getShow<A>(S: Show<A>): Show<Tree<A>> {
+export const getShow = <A>(S: Show<A>): Show<Tree<A>> => {
   const show = (t: Tree<A>): string => {
     return t.forest === A.empty || t.forest.length === 0
       ? `make(${S.show(t.value)})`
@@ -71,7 +69,7 @@ export function getShow<A>(S: Show<A>): Show<Tree<A>> {
  * @category instances
  * @since 3.0.0
  */
-export function getEq<A>(E: Eq<A>): Eq<Tree<A>> {
+export const getEq = <A>(E: Eq<A>): Eq<Tree<A>> => {
   let SA: Eq<ReadonlyArray<Tree<A>>>
   const R: Eq<Tree<A>> = fromEquals((second) => (first) =>
     E.equals(second.value)(first.value) && SA.equals(second.forest)(first.forest)
@@ -98,9 +96,7 @@ const draw = (indentation: string, forest: Forest<string>): string => {
  *
  * @since 3.0.0
  */
-export function drawForest(forest: Forest<string>): string {
-  return draw('\n', forest)
-}
+export const drawForest = (forest: Forest<string>): string => draw('\n', forest)
 
 /**
  * Neat 2-dimensional drawing of a tree
@@ -124,9 +120,7 @@ export function drawForest(forest: Forest<string>): string {
  *
  * @since 3.0.0
  */
-export function drawTree(tree: Tree<string>): string {
-  return tree.value + drawForest(tree.forest)
-}
+export const drawTree = (tree: Tree<string>): string => tree.value + drawForest(tree.forest)
 
 /**
  * Build a tree from a seed value
@@ -134,7 +128,7 @@ export function drawTree(tree: Tree<string>): string {
  * @category constructors
  * @since 3.0.0
  */
-export function unfoldTree<A, B>(b: B, f: (b: B) => readonly [A, ReadonlyArray<B>]): Tree<A> {
+export const unfoldTree = <B, A>(b: B, f: (b: B) => readonly [A, ReadonlyArray<B>]): Tree<A> => {
   const [a, bs] = f(b)
   return { value: a, forest: unfoldForest(bs, f) }
 }
@@ -145,9 +139,8 @@ export function unfoldTree<A, B>(b: B, f: (b: B) => readonly [A, ReadonlyArray<B
  * @category constructors
  * @since 3.0.0
  */
-export function unfoldForest<A, B>(bs: ReadonlyArray<B>, f: (b: B) => readonly [A, ReadonlyArray<B>]): Forest<A> {
-  return bs.map((b) => unfoldTree(b, f))
-}
+export const unfoldForest = <B, A>(bs: ReadonlyArray<B>, f: (b: B) => readonly [A, ReadonlyArray<B>]): Forest<A> =>
+  bs.map((b) => unfoldTree(b, f))
 
 /**
  * @since 3.0.0
@@ -185,7 +178,7 @@ export const elem = <A>(E: Eq<A>) => (a: A): ((fa: Tree<A>) => boolean) => {
  * @category destructors
  * @since 3.0.0
  */
-export function fold<A, B>(f: (a: A, bs: ReadonlyArray<B>) => B): (tree: Tree<A>) => B {
+export const fold = <A, B>(f: (a: A, bs: ReadonlyArray<B>) => B): ((tree: Tree<A>) => B) => {
   const go = (tree: Tree<A>): B => f(tree.value, tree.forest.map(go))
   return go
 }

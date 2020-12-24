@@ -1052,7 +1052,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApplyMonoid<A>(M: Monoid<A>): Monoid<Option<A>>
+export declare const getApplyMonoid: <A>(M: Monoid<A>) => Monoid<Option<A>>
 ```
 
 Added in v3.0.0
@@ -1071,7 +1071,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApplySemigroup<A>(S: Semigroup<A>): Semigroup<Option<A>>
+export declare const getApplySemigroup: <A>(S: Semigroup<A>) => Semigroup<Option<A>>
 ```
 
 **Example**
@@ -1095,7 +1095,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getEq<A>(E: Eq<A>): Eq<Option<A>>
+export declare const getEq: <A>(E: Eq<A>) => Eq<Option<A>>
 ```
 
 **Example**
@@ -1128,7 +1128,7 @@ Monoid returning the left-most non-`None` value
 **Signature**
 
 ```ts
-export declare function getFirstMonoid<A = never>(): Monoid<Option<A>>
+export declare const getFirstMonoid: <A = never>() => Monoid<Option<A>>
 ```
 
 **Example**
@@ -1160,7 +1160,7 @@ Monoid returning the right-most non-`None` value
 **Signature**
 
 ```ts
-export declare function getLastMonoid<A = never>(): Monoid<Option<A>>
+export declare const getLastMonoid: <A = never>() => Monoid<Option<A>>
 ```
 
 **Example**
@@ -1193,7 +1193,7 @@ concatenated using the provided `Semigroup`
 **Signature**
 
 ```ts
-export declare function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>>
+export declare const getMonoid: <A>(S: Semigroup<A>) => Monoid<Option<A>>
 ```
 
 **Example**
@@ -1223,7 +1223,7 @@ the type the `Option` contains.
 **Signature**
 
 ```ts
-export declare function getOrd<A>(O: Ord<A>): Ord<Option<A>>
+export declare const getOrd: <A>(O: Ord<A>) => Ord<Option<A>>
 ```
 
 **Example**
@@ -1248,7 +1248,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getShow<A>(S: Show<A>): Show<Option<A>>
+export declare const getShow: <A>(S: Show<A>) => Show<Option<A>>
 ```
 
 Added in v3.0.0
@@ -1389,7 +1389,7 @@ Returns `true` if the predicate is satisfied by the wrapped value
 **Signature**
 
 ```ts
-export declare function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => boolean
+export declare const exists: <A>(predicate: Predicate<A>) => (ma: Option<A>) => boolean
 ```
 
 **Example**
@@ -1442,7 +1442,7 @@ const isA = getRefinement<C, A>((c) => (c.type === 'B' ? some(c) : none)) // sta
 **Signature**
 
 ```ts
-export declare function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B>
+export declare const getRefinement: <A, B extends A>(getOption: (a: A) => Option<B>) => Refinement<A, B>
 ```
 
 Added in v3.0.0

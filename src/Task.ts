@@ -74,31 +74,26 @@ export const fromIO: FromIO1<URI>['fromIO'] = (ma) => () => Promise.resolve(ma()
  * @category combinators
  * @since 3.0.0
  */
-export function delay(millis: number): <A>(ma: Task<A>) => Task<A> {
-  return (ma) => () =>
-    new Promise((resolve) => {
-      setTimeout(() => {
-        // tslint:disable-next-line: no-floating-promises
-        ma().then(resolve)
-      }, millis)
-    })
-}
+export const delay = (millis: number) => <A>(ma: Task<A>): Task<A> => () =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      // tslint:disable-next-line: no-floating-promises
+      ma().then(resolve)
+    }, millis)
+  })
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): (...a: A) => Task<B> {
-  return (...a) => fromIO(f(...a))
-}
+export const fromIOK = <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): ((...a: A) => Task<B>) => (...a) =>
+  fromIO(f(...a))
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> {
-  return chain(fromIOK(f))
-}
+export const chainIOK = <A, B>(f: (a: A) => IO<B>): ((ma: Task<A>) => Task<B>) => chain(fromIOK(f))
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -191,11 +186,9 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
-export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>> {
-  return {
-    concat: (second) => (first) => () => first().then((rx) => second().then((ry) => S.concat(ry)(rx)))
-  }
-}
+export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Task<A>> => ({
+  concat: (second) => (first) => () => first().then((rx) => second().then((ry) => S.concat(ry)(rx)))
+})
 
 /**
  * Lift a monoid into 'Task', the inner values are concatenated using the provided `Monoid`.
@@ -203,12 +196,10 @@ export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>> {
  * @category instances
  * @since 3.0.0
  */
-export function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>> {
-  return {
-    concat: getSemigroup(M).concat,
-    empty: of(M.empty)
-  }
-}
+export const getMonoid = <A>(M: Monoid<A>): Monoid<Task<A>> => ({
+  concat: getSemigroup(M).concat,
+  empty: of(M.empty)
+})
 
 /**
  * Monoid returning the first completed task.
@@ -231,12 +222,10 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>> {
  * @category instances
  * @since 3.0.0
  */
-export function getRaceMonoid<A = never>(): Monoid<Task<A>> {
-  return {
-    concat: (second) => (first) => () => Promise.race([first(), second()]),
-    empty: never
-  }
-}
+export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => ({
+  concat: (second) => (first) => () => Promise.race([first(), second()]),
+  empty: never
+})
 
 /**
  * @category instances

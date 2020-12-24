@@ -277,7 +277,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>>
+export declare const getMonoid: <A>(M: Monoid<A>) => Monoid<IO<A>>
 ```
 
 Added in v3.0.0
@@ -287,7 +287,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getSemigroup<A>(S: Semigroup<A>): Semigroup<IO<A>>
+export declare const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<IO<A>>
 ```
 
 Added in v3.0.0

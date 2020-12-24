@@ -56,7 +56,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function chain<B>(E: Eq<B>): <A>(f: (x: A) => ReadonlySet<B>) => (set: ReadonlySet<A>) => ReadonlySet<B>
+export declare const chain: <B>(E: Eq<B>) => <A>(f: (x: A) => ReadonlySet<B>) => (set: ReadonlySet<A>) => ReadonlySet<B>
 ```
 
 Added in v3.0.0
@@ -66,7 +66,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function compact<A>(E: Eq<A>): (fa: ReadonlySet<Option<A>>) => ReadonlySet<A>
+export declare const compact: <A>(E: Eq<A>) => (fa: ReadonlySet<Option<A>>) => ReadonlySet<A>
 ```
 
 Added in v3.0.0
@@ -78,7 +78,7 @@ Form the set difference (`x` - `y`)
 **Signature**
 
 ```ts
-export declare function difference<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => ReadonlySet<A>
+export declare const difference: <A>(E: Eq<A>) => (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
 **Example**
@@ -109,7 +109,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function filterMap<B>(E: Eq<B>): <A>(f: (a: A) => Option<B>) => (fa: ReadonlySet<A>) => ReadonlySet<B>
+export declare const filterMap: <B>(E: Eq<B>) => <A>(f: (a: A) => Option<B>) => (fa: ReadonlySet<A>) => ReadonlySet<B>
 ```
 
 Added in v3.0.0
@@ -121,7 +121,7 @@ Insert a value into a set
 **Signature**
 
 ```ts
-export declare function insert<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
+export declare const insert: <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
 Added in v3.0.0
@@ -133,7 +133,9 @@ The set of elements which are in both the first and second set
 **Signature**
 
 ```ts
-export declare function intersection<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => ReadonlySet<A>
+export declare const intersection: <A>(
+  E: Eq<A>
+) => (second: ReadonlySet<A>) => (first: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
 Added in v3.0.0
@@ -145,7 +147,7 @@ Projects a Set through a function
 **Signature**
 
 ```ts
-export declare function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: ReadonlySet<A>) => ReadonlySet<B>
+export declare const map: <B>(E: Eq<B>) => <A>(f: (x: A) => B) => (set: ReadonlySet<A>) => ReadonlySet<B>
 ```
 
 Added in v3.0.0
@@ -157,7 +159,7 @@ Delete a value from a set
 **Signature**
 
 ```ts
-export declare function remove<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
+export declare const remove: <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
 Added in v3.0.0
@@ -169,7 +171,7 @@ Form the union of two sets
 **Signature**
 
 ```ts
-export declare function union<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => ReadonlySet<A>
+export declare const union: <A>(E: Eq<A>) => (second: ReadonlySet<A>) => (first: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
 Added in v3.0.0
@@ -183,7 +185,7 @@ Create a set from an array
 **Signature**
 
 ```ts
-export declare function fromArray<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlySet<A>
+export declare const fromArray: <A>(E: Eq<A>) => (as: readonly A[]) => ReadonlySet<A>
 ```
 
 Added in v3.0.0
@@ -193,7 +195,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromSet<A>(s: Set<A>): ReadonlySet<A>
+export declare const fromSet: <A>(s: Set<A>) => ReadonlySet<A>
 ```
 
 Added in v3.0.0
@@ -205,7 +207,7 @@ Create a set with one element
 **Signature**
 
 ```ts
-export declare function singleton<A>(a: A): ReadonlySet<A>
+export declare const singleton: <A>(a: A) => ReadonlySet<A>
 ```
 
 Added in v3.0.0
@@ -217,7 +219,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function toReadonlyArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => ReadonlyArray<A>
+export declare const toReadonlyArray: <A>(O: Ord<A>) => (set: ReadonlySet<A>) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -227,7 +229,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function toSet<A>(s: ReadonlySet<A>): Set<A>
+export declare const toSet: <A>(s: ReadonlySet<A>) => Set<A>
 ```
 
 Added in v3.0.0
@@ -239,7 +241,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getEq<A>(E: Eq<A>): Eq<ReadonlySet<A>>
+export declare const getEq: <A>(E: Eq<A>) => Eq<ReadonlySet<A>>
 ```
 
 Added in v3.0.0
@@ -249,7 +251,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getIntersectionSemigroup<A>(E: Eq<A>): Semigroup<ReadonlySet<A>>
+export declare const getIntersectionSemigroup: <A>(E: Eq<A>) => Semigroup<ReadonlySet<A>>
 ```
 
 Added in v3.0.0
@@ -259,7 +261,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getShow<A>(S: Show<A>): Show<ReadonlySet<A>>
+export declare const getShow: <A>(S: Show<A>) => Show<ReadonlySet<A>>
 ```
 
 Added in v3.0.0
@@ -269,7 +271,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getUnionMonoid<A>(E: Eq<A>): Monoid<ReadonlySet<A>>
+export declare const getUnionMonoid: <A>(E: Eq<A>) => Monoid<ReadonlySet<A>>
 ```
 
 Added in v3.0.0
@@ -303,7 +305,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function every<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => boolean
+export declare const every: <A>(predicate: Predicate<A>) => (set: ReadonlySet<A>) => boolean
 ```
 
 Added in v3.0.0
@@ -313,7 +315,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function foldMap<A, M>(O: Ord<A>, M: Monoid<M>): (f: (a: A) => M) => (fa: ReadonlySet<A>) => M
+export declare const foldMap: <A, M>(O: Ord<A>, M: Monoid<M>) => (f: (a: A) => M) => (fa: ReadonlySet<A>) => M
 ```
 
 Added in v3.0.0
@@ -325,7 +327,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function isSubset<A>(E: Eq<A>): (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => boolean
+export declare const isSubset: <A>(E: Eq<A>) => (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => boolean
 ```
 
 Added in v3.0.0
@@ -350,10 +352,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function partitionMap<B, C>(
+export declare const partitionMap: <B, C>(
   EB: Eq<B>,
   EC: Eq<C>
-): <A>(f: (a: A) => Either<B, C>) => (set: ReadonlySet<A>) => Separated<ReadonlySet<B>, ReadonlySet<C>>
+) => <A>(f: (a: A) => Either<B, C>) => (set: ReadonlySet<A>) => Separated<ReadonlySet<B>, ReadonlySet<C>>
 ```
 
 Added in v3.0.0
@@ -363,7 +365,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function reduce<A>(O: Ord<A>): <B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlySet<A>) => B
+export declare const reduce: <A>(O: Ord<A>) => <B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlySet<A>) => B
 ```
 
 Added in v3.0.0
@@ -373,10 +375,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function separate<E, A>(
+export declare const separate: <E, A>(
   EE: Eq<E>,
   EA: Eq<A>
-): (fa: ReadonlySet<Either<E, A>>) => Separated<ReadonlySet<E>, ReadonlySet<A>>
+) => (fa: ReadonlySet<Either<E, A>>) => Separated<ReadonlySet<E>, ReadonlySet<A>>
 ```
 
 Added in v3.0.0
@@ -386,7 +388,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function some<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => boolean
+export declare const some: <A>(predicate: Predicate<A>) => (set: ReadonlySet<A>) => boolean
 ```
 
 Added in v3.0.0

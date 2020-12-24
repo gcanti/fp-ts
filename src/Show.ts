@@ -45,24 +45,22 @@ export const showBoolean: Show<boolean> = {
  * @category instances
  * @since 3.0.0
  */
-export function getStructShow<A>(shows: { [K in keyof A]: Show<A[K]> }): Show<A> {
-  return {
-    show: (a) => {
-      let s: string = '{'
-      for (const key in shows) {
-        /* istanbul ignore next */
-        if (shows.hasOwnProperty(key)) {
-          s += ` ${key}: ${shows[key].show(a[key])},`
-        }
+export const getStructShow = <A>(shows: { [K in keyof A]: Show<A[K]> }): Show<A> => ({
+  show: (a) => {
+    let s: string = '{'
+    for (const key in shows) {
+      /* istanbul ignore next */
+      if (shows.hasOwnProperty(key)) {
+        s += ` ${key}: ${shows[key].show(a[key])},`
       }
-      if (s.length > 1) {
-        s = s.slice(0, -1) + ' '
-      }
-      s += '}'
-      return s
     }
+    if (s.length > 1) {
+      s = s.slice(0, -1) + ' '
+    }
+    s += '}'
+    return s
   }
-}
+})
 
 /**
  * @category instances

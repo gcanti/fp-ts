@@ -2,33 +2,16 @@
  * `Monoid` extends the power of `Semigroup` by providing an additional `empty` value.
  *
  * ```ts
- * interface Semigroup<A> {
- *   readonly concat: (x: A, y: A) => A
- * }
- *
  * interface Monoid<A> extends Semigroup<A> {
  *   readonly empty: A
  * }
  * ```
  *
- * This `empty` value should be an identity for the `concat` operation, which means the following equalities hold for any choice of `x`.
+ * This `empty` value should be an identity for the `concat` operation, which means the following equalities hold for any choice of `a`.
  *
  * ```ts
- * concat(x, empty) = concat(empty, x) = x
+ * a |> concat(empty) = empty |> concat(a) <-> a
  * ```
- *
- * Many types that form a `Semigroup` also form a `Monoid`, such as `number`s (with `0`) and `string`s (with `''`).
- *
- * ```ts
- * import { Monoid } from 'fp-ts/Monoid'
- *
- * const monoidString: Monoid<string> = {
- *   concat: (x, y) => x + y,
- *   empty: ''
- * }
- * ```
- *
- * *Adapted from https://typelevel.org/cats*
  *
  * @since 3.0.0
  */
@@ -164,9 +147,7 @@ export const monoidVoid: Monoid<void> = {
  *
  * @since 3.0.0
  */
-export function fold<A>(M: Monoid<A>): (as: ReadonlyArray<A>) => A {
-  return S.fold(M)(M.empty)
-}
+export const fold = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => S.fold(M)(M.empty)
 
 /**
  * Given a struct of monoids returns a monoid for the struct.
@@ -241,12 +222,10 @@ export const getTupleMonoid = <A extends ReadonlyArray<unknown>>(
  * @category combinators
  * @since 3.0.0
  */
-export function getDualMonoid<A>(M: Monoid<A>): Monoid<A> {
-  return {
-    concat: S.getDualSemigroup(M).concat,
-    empty: M.empty
-  }
-}
+export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => ({
+  concat: S.getDualSemigroup(M).concat,
+  empty: M.empty
+})
 
 /**
  * Unary functions form a monoid as long as you can provide a monoid for the codomain.
@@ -271,12 +250,10 @@ export function getDualMonoid<A>(M: Monoid<A>): Monoid<A> {
  * @category instances
  * @since 3.0.0
  */
-export function getFunctionMonoid<M>(M: Monoid<M>): <A = never>() => Monoid<(a: A) => M> {
-  return () => ({
-    concat: S.getFunctionSemigroup(M)<any>().concat,
-    empty: () => M.empty
-  })
-}
+export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M> => ({
+  concat: S.getFunctionSemigroup(M)<any>().concat,
+  empty: () => M.empty
+})
 
 /**
  * Endomorphism form a monoid where the `empty` value is the identity function.
@@ -284,12 +261,10 @@ export function getFunctionMonoid<M>(M: Monoid<M>): <A = never>() => Monoid<(a: 
  * @category instances
  * @since 3.0.0
  */
-export function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<A>> {
-  return {
-    concat: (second) => (first) => flow(first, second),
-    empty: identity
-  }
-}
+export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => ({
+  concat: (second) => (first) => flow(first, second),
+  empty: identity
+})
 
 /**
  * Get a monoid where `concat` will return the minimum, based on the provided bounded order.
@@ -308,12 +283,10 @@ export function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<A>> {
  * @category instances
  * @since 3.0.0
  */
-export function getMeetMonoid<A>(B: Bounded<A>): Monoid<A> {
-  return {
-    concat: S.getMeetSemigroup(B).concat,
-    empty: B.top
-  }
-}
+export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => ({
+  concat: S.getMeetSemigroup(B).concat,
+  empty: B.top
+})
 
 /**
  * Get a monoid where `concat` will return the maximum, based on the provided bounded order.
@@ -332,9 +305,7 @@ export function getMeetMonoid<A>(B: Bounded<A>): Monoid<A> {
  * @category instances
  * @since 3.0.0
  */
-export function getJoinMonoid<A>(B: Bounded<A>): Monoid<A> {
-  return {
-    concat: S.getJoinSemigroup(B).concat,
-    empty: B.bottom
-  }
-}
+export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => ({
+  concat: S.getJoinSemigroup(B).concat,
+  empty: B.bottom
+})

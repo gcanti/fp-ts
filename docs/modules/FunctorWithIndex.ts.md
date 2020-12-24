@@ -13,8 +13,8 @@ constructor `f` to represent some computational context.
 
 Instances must satisfy the following laws:
 
-1. Identity: `F.mapWithIndex(fa, (_i, a) => a) <-> fa`
-2. Composition: `F.mapWithIndex(fa, (_i, a) => bc(ab(a))) <-> F.mapWithIndex(F.mapWithIndex(fa, ab), bc)`
+1. Identity: `F.mapWithIndex((_i, a) => a) <-> fa`
+2. Composition: `F.mapWithIndex((_i, a) => bc(ab(a))) <-> flow(F.mapWithIndex((_i, a) => ab(a)), F.mapWithIndex((_i, b) => bc(b)))`
 
 Added in v3.0.0
 

@@ -3,11 +3,11 @@
  *
  * Instances must satisfy the following laws in addition to the `Functor`:
  *
- * 1. Associativity: `flow(M.chain(afb), M.chain(bfc)) <-> M.chain(flow(afb, M.chain(bfc)))`
- * 2. Left identity: `pipe(M.of(a), M.chain(f)) <-> f(a)`
- * 3. Right identity: `pipe(fa, M.chain(M.of)) <-> fa`
+ * 1. Associativity: `flow(chain(afb), chain(bfc)) <-> chain(flow(afb, chain(bfc)))`
+ * 2. Left identity: `of(a) |> chain(f) <-> f(a)`
+ * 3. Right identity: `fa |> chain(of) <-> fa`
  *
- * Note. `Functor`'s `map` can be derived: `A.map = f => A.chain(flow(f, A.of))`
+ * Note. `Functor`'s `map` can be derived: `map = f => chain(flow(f, of))`
  *
  * @since 3.0.0
  */

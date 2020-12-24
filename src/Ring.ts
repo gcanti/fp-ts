@@ -24,8 +24,8 @@ export interface Ring<A> extends Semiring<A> {
  * @category instances
  * @since 3.0.0
  */
-export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => {
-  const S = getFunctionSemiring<A, B>(ring)
+export const getFunctionRing = <B, A>(ring: Ring<B>): Ring<(a: A) => B> => {
+  const S = getFunctionSemiring<B, A>(ring)
   return {
     add: S.add,
     mul: S.mul,

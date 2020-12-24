@@ -117,35 +117,31 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
-export function getPointed<W>(M: Monoid<W>): Pointed2C<URI, W> {
-  return {
-    URI,
-    map,
-    of: (a) => () => [a, M.empty]
-  }
-}
+export const getPointed = <W>(M: Monoid<W>): Pointed2C<URI, W> => ({
+  URI,
+  map,
+  of: (a) => () => [a, M.empty]
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getApply<W>(S: Semigroup<W>): Apply2C<URI, W> {
-  return {
-    URI,
-    map,
-    ap: (fa) => (fab) => () => {
-      const [f, w1] = fab()
-      const [a, w2] = fa()
-      return [f(a), S.concat(w2)(w1)]
-    }
+export const getApply = <W>(S: Semigroup<W>): Apply2C<URI, W> => ({
+  URI,
+  map,
+  ap: (fa) => (fab) => () => {
+    const [f, w1] = fab()
+    const [a, w2] = fa()
+    return [f(a), S.concat(w2)(w1)]
   }
-}
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getApplicative<W>(M: Monoid<W>): Applicative2C<URI, W> {
+export const getApplicative = <W>(M: Monoid<W>): Applicative2C<URI, W> => {
   const A = getApply(M)
   const P = getPointed(M)
   return {
@@ -160,7 +156,7 @@ export function getApplicative<W>(M: Monoid<W>): Applicative2C<URI, W> {
  * @category instances
  * @since 3.0.0
  */
-export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
+export const getMonad = <W>(M: Monoid<W>): Monad2C<URI, W> => {
   const P = getPointed(M)
   return {
     URI,

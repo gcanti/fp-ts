@@ -248,11 +248,9 @@ export const filterOrElse: {
  * @category combinators
  * @since 3.0.0
  */
-export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
+export const fromEitherK = <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Either<E, B>
-): <R>(...a: A) => ReaderTaskEither<R, E, B> {
-  return (...a) => fromEither(f(...a))
-}
+): (<R>(...a: A) => ReaderTaskEither<R, E, B>) => (...a) => fromEither(f(...a))
 
 /**
  * Less strict version of [`chainEitherK`](#chainEitherK).
@@ -276,11 +274,9 @@ export const chainEitherK: <E, A, B>(
  * @category combinators
  * @since 3.0.0
  */
-export function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
+export const fromIOEitherK = <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => IOEither<E, B>
-): <R>(...a: A) => ReaderTaskEither<R, E, B> {
-  return (...a) => fromIOEither(f(...a))
-}
+): (<R>(...a: A) => ReaderTaskEither<R, E, B>) => (...a) => fromIOEither(f(...a))
 
 /**
  * Less strict version of [`chainIOEitherK`](#chainIOEitherK).
@@ -304,11 +300,9 @@ export const chainIOEitherK: <E, A, B>(
  * @category combinators
  * @since 3.0.0
  */
-export function fromTaskEitherK<E, A extends ReadonlyArray<unknown>, B>(
+export const fromTaskEitherK = <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => TaskEither<E, B>
-): <R>(...a: A) => ReaderTaskEither<R, E, B> {
-  return (...a) => fromTaskEither(f(...a))
-}
+): (<R>(...a: A) => ReaderTaskEither<R, E, B>) => (...a) => fromTaskEither(f(...a))
 
 /**
  * Less strict version of [`chainTaskEitherK`](#chainTaskEitherK).
@@ -481,9 +475,8 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
-export function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>> {
-  return R.getSemigroup(TE.getSemigroup(S))
-}
+export const getSemigroup = <A, R, E>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>> =>
+  R.getSemigroup(TE.getSemigroup(S))
 
 /**
  * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
@@ -492,39 +485,34 @@ export function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEith
  * @category instances
  * @since 3.0.0
  */
-export function getApplySemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>> {
-  return R.getSemigroup(TE.getApplySemigroup(S))
-}
+export const getApplySemigroup = <A, R, E>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>> =>
+  R.getSemigroup(TE.getApplySemigroup(S))
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderTaskEither<R, E, A>> {
-  return {
-    concat: getApplySemigroup<R, E, A>(M).concat,
-    empty: right(M.empty)
-  }
-}
+export const getApplyMonoid = <A, R, E>(M: Monoid<A>): Monoid<ReaderTaskEither<R, E, A>> => ({
+  concat: getApplySemigroup<A, R, E>(M).concat,
+  empty: right(M.empty)
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative3C<URI, E> {
-  return {
-    URI,
-    map,
-    ap: ap_<R.URI, TE.URI, E>(R.Apply, TE.getApplicativeTaskValidation(A, S)),
-    of
-  }
-}
+export const getApplicativeReaderTaskValidation = <E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative3C<URI, E> => ({
+  URI,
+  map,
+  ap: ap_<R.URI, TE.URI, E>(R.Apply, TE.getApplicativeTaskValidation(A, S)),
+  of
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getAltReaderTaskValidation<E>(S: Semigroup<E>): Alt3C<URI, E> {
+export const getAltReaderTaskValidation = <E>(S: Semigroup<E>): Alt3C<URI, E> => {
   const A = TE.getAltTaskValidation(S)
   return {
     URI,
@@ -740,18 +728,16 @@ export const Alt: Alt3<URI> = {
  *
  * @since 3.0.0
  */
-export function bracket<R, E, A, B>(
+export const bracket = <R, E, A, B>(
   aquire: ReaderTaskEither<R, E, A>,
   use: (a: A) => ReaderTaskEither<R, E, B>,
   release: (a: A, e: Either<E, B>) => ReaderTaskEither<R, E, void>
-): ReaderTaskEither<R, E, B> {
-  return (r) =>
-    TE.bracket(
-      aquire(r),
-      (a) => use(a)(r),
-      (a, e) => release(a, e)(r)
-    )
-}
+): ReaderTaskEither<R, E, B> => (r) =>
+  TE.bracket(
+    aquire(r),
+    (a) => use(a)(r),
+    (a, e) => release(a, e)(r)
+  )
 
 // -------------------------------------------------------------------------------------
 // do notation

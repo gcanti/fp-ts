@@ -1025,7 +1025,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function max<A>(O: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A
+export declare const max: <A>(O: Ord<A>) => (nea: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v3.0.0
@@ -1035,7 +1035,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function min<A>(O: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A
+export declare const min: <A>(O: Ord<A>) => (nea: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v3.0.0

@@ -662,11 +662,9 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
-export function getShow<A>(S: Show<A>): Show<Option<A>> {
-  return {
-    show: (ma) => (isNone(ma) ? 'none' : `some(${S.show(ma.value)})`)
-  }
-}
+export const getShow = <A>(S: Show<A>): Show<Option<A>> => ({
+  show: (ma) => (isNone(ma) ? 'none' : `some(${S.show(ma.value)})`)
+})
 
 /**
  * @example
@@ -683,11 +681,11 @@ export function getShow<A>(S: Show<A>): Show<Option<A>> {
  * @category instances
  * @since 3.0.0
  */
-export function getEq<A>(E: Eq<A>): Eq<Option<A>> {
-  return fromEquals((second) => (first) =>
+export const getEq = <A>(E: Eq<A>): Eq<Option<A>> =>
+  fromEquals((second) => (first) =>
     isNone(first) ? isNone(second) : isNone(second) ? false : E.equals(second.value)(first.value)
   )
-}
+
 /**
  * The `Ord` instance allows `Option` values to be compared with
  * `compare`, whenever there is an `Ord` instance for
@@ -711,11 +709,8 @@ export function getEq<A>(E: Eq<A>): Eq<Option<A>> {
  * @category instances
  * @since 3.0.0
  */
-export function getOrd<A>(O: Ord<A>): Ord<Option<A>> {
-  return fromCompare((second) => (first) =>
-    isSome(first) ? (isSome(second) ? O.compare(second.value)(first.value) : 1) : -1
-  )
-}
+export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> =>
+  fromCompare((second) => (first) => (isSome(first) ? (isSome(second) ? O.compare(second.value)(first.value) : 1) : -1))
 
 /**
  * `Apply` semigroup
@@ -741,22 +736,18 @@ export function getOrd<A>(O: Ord<A>): Ord<Option<A>> {
  * @category instances
  * @since 3.0.0
  */
-export function getApplySemigroup<A>(S: Semigroup<A>): Semigroup<Option<A>> {
-  return {
-    concat: (second) => (first) => (isSome(first) && isSome(second) ? some(S.concat(second.value)(first.value)) : none)
-  }
-}
+export const getApplySemigroup = <A>(S: Semigroup<A>): Semigroup<Option<A>> => ({
+  concat: (second) => (first) => (isSome(first) && isSome(second) ? some(S.concat(second.value)(first.value)) : none)
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getApplyMonoid<A>(M: Monoid<A>): Monoid<Option<A>> {
-  return {
-    concat: getApplySemigroup(M).concat,
-    empty: some(M.empty)
-  }
-}
+export const getApplyMonoid = <A>(M: Monoid<A>): Monoid<Option<A>> => ({
+  concat: getApplySemigroup(M).concat,
+  empty: some(M.empty)
+})
 
 /**
  * Monoid returning the left-most non-`None` value
@@ -781,12 +772,10 @@ export function getApplyMonoid<A>(M: Monoid<A>): Monoid<Option<A>> {
  * @category instances
  * @since 3.0.0
  */
-export function getFirstMonoid<A = never>(): Monoid<Option<A>> {
-  return {
-    concat: (second) => (first) => (isNone(first) ? second : first),
-    empty: none
-  }
-}
+export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => ({
+  concat: (second) => (first) => (isNone(first) ? second : first),
+  empty: none
+})
 
 /**
  * Monoid returning the right-most non-`None` value
@@ -811,12 +800,10 @@ export function getFirstMonoid<A = never>(): Monoid<Option<A>> {
  * @category instances
  * @since 3.0.0
  */
-export function getLastMonoid<A = never>(): Monoid<Option<A>> {
-  return {
-    concat: (second) => (first) => (isNone(second) ? first : second),
-    empty: none
-  }
-}
+export const getLastMonoid = <A = never>(): Monoid<Option<A>> => ({
+  concat: (second) => (first) => (isNone(second) ? first : second),
+  empty: none
+})
 
 /**
  * Monoid returning the left-most non-`None` value. If both operands are `Some`s then the inner values are
@@ -843,13 +830,11 @@ export function getLastMonoid<A = never>(): Monoid<Option<A>> {
  * @category instances
  * @since 3.0.0
  */
-export function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>> {
-  return {
-    concat: (second) => (first) =>
-      isNone(first) ? second : isNone(second) ? first : some(S.concat(second.value)(first.value)),
-    empty: none
-  }
-}
+export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => ({
+  concat: (second) => (first) =>
+    isNone(first) ? second : isNone(second) ? first : some(S.concat(second.value)(first.value)),
+  empty: none
+})
 
 /**
  * @category instances
@@ -1075,9 +1060,8 @@ export const elem = <A>(E: Eq<A>) => (a: A) => (ma: Option<A>): boolean => (isNo
  *
  * @since 3.0.0
  */
-export function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => boolean {
-  return (ma) => (isNone(ma) ? false : predicate(ma.value))
-}
+export const exists = <A>(predicate: Predicate<A>) => (ma: Option<A>): boolean =>
+  isNone(ma) ? false : predicate(ma.value)
 
 /**
  * Returns a `Refinement` (i.e. a custom type guard) from a `Option` returning function.
@@ -1096,9 +1080,8 @@ export function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => boolean {
  *
  * @since 3.0.0
  */
-export function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> {
-  return (a: A): a is B => isSome(getOption(a))
-}
+export const getRefinement = <A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> => (a: A): a is B =>
+  isSome(getOption(a))
 
 // -------------------------------------------------------------------------------------
 // do notation

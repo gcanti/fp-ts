@@ -18,7 +18,7 @@ describe('Ring', () => {
   })
 
   it('getFunctionRing', () => {
-    const R = getFunctionRing<string, number>(fieldNumber)
+    const R = getFunctionRing<number, string>(fieldNumber)
     const f1 = (s: string): number => s.length
     const f2 = (s: string): number => s.indexOf('a')
     assert.deepStrictEqual(pipe(f1, R.sub(f2))('foo'), 4)

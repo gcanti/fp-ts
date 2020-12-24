@@ -180,7 +180,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function swap<A, E>(ea: readonly [A, E]): readonly [E, A]
+export declare const swap: <A, E>(ea: readonly [A, E]) => readonly [E, A]
 ```
 
 Added in v3.0.0
@@ -192,7 +192,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fst<A, E>(ea: readonly [A, E]): A
+export declare const fst: <A, E>(ea: readonly [A, E]) => A
 ```
 
 Added in v3.0.0
@@ -202,7 +202,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function snd<A, E>(ea: readonly [A, E]): E
+export declare const snd: <A, E>(ea: readonly [A, E]) => E
 ```
 
 Added in v3.0.0
@@ -294,7 +294,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApplicative<M>(M: Monoid<M>): Applicative2C<URI, M>
+export declare const getApplicative: <M>(M: Monoid<M>) => Applicative2C<'ReadonlyTuple', M>
 ```
 
 Added in v3.0.0
@@ -304,7 +304,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApply<S>(S: Semigroup<S>): Apply2C<URI, S>
+export declare const getApply: <S>(S: Semigroup<S>) => Apply2C<'ReadonlyTuple', S>
 ```
 
 Added in v3.0.0
@@ -314,7 +314,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getMonad<M>(M: Monoid<M>): Monad2C<URI, M>
+export declare const getMonad: <M>(M: Monoid<M>) => Monad2C<'ReadonlyTuple', M>
 ```
 
 Added in v3.0.0
@@ -324,7 +324,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getPointed<M>(M: Monoid<M>): Pointed2C<URI, M>
+export declare const getPointed: <M>(M: Monoid<M>) => Pointed2C<'ReadonlyTuple', M>
 ```
 
 Added in v3.0.0

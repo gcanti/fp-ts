@@ -304,9 +304,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Either<E, B>
-): <R>(...a: A) => ReaderEither<R, E, B>
+export declare const fromEitherK: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => E.Either<E, B>
+) => <R>(...a: A) => ReaderEither<R, E, B>
 ```
 
 Added in v3.0.0
@@ -643,7 +643,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getAltReaderValidation<E>(S: Semigroup<E>): Alt3C<URI, E>
+export declare const getAltReaderValidation: <E>(S: Semigroup<E>) => Alt3C<'ReaderEither', E>
 ```
 
 Added in v3.0.0
@@ -653,7 +653,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApplicativeReaderValidation<E>(S: Semigroup<E>): Applicative3C<URI, E>
+export declare const getApplicativeReaderValidation: <E>(S: Semigroup<E>) => Applicative3C<'ReaderEither', E>
 ```
 
 Added in v3.0.0
@@ -663,7 +663,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderEither<R, E, A>>
+export declare const getApplyMonoid: <A, R, E>(M: Monoid<A>) => Monoid<ReaderEither<R, E, A>>
 ```
 
 Added in v3.0.0
@@ -676,7 +676,7 @@ are concatenated using the provided `Semigroup`
 **Signature**
 
 ```ts
-export declare function getApplySemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>>
+export declare const getApplySemigroup: <A, R, E>(S: Semigroup<A>) => Semigroup<ReaderEither<R, E, A>>
 ```
 
 Added in v3.0.0
@@ -689,7 +689,7 @@ concatenated using the provided `Semigroup`
 **Signature**
 
 ```ts
-export declare function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>>
+export declare const getSemigroup: <A, R, E>(S: Semigroup<A>) => Semigroup<ReaderEither<R, E, A>>
 ```
 
 Added in v3.0.0

@@ -81,7 +81,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P>
+export declare const getComonad: <P>(monoid: Monoid<P>) => Comonad2C<'Traced', P>
 ```
 
 Added in v3.0.0
@@ -109,7 +109,7 @@ Apply a function to the current position
 **Signature**
 
 ```ts
-export declare function censor<P>(f: (p: P) => P): <A>(wa: Traced<P, A>) => Traced<P, A>
+export declare const censor: <P>(f: (p: P) => P) => <A>(wa: Traced<P, A>) => Traced<P, A>
 ```
 
 Added in v3.0.0
@@ -121,7 +121,7 @@ Get the current position
 **Signature**
 
 ```ts
-export declare function listen<P, A>(wa: Traced<P, A>): Traced<P, readonly [A, P]>
+export declare const listen: <P, A>(wa: Traced<P, A>) => Traced<P, readonly [A, P]>
 ```
 
 Added in v3.0.0
@@ -133,7 +133,7 @@ Get a value which depends on the current position
 **Signature**
 
 ```ts
-export declare function listens<P, B>(f: (p: P) => B): <A>(wa: Traced<P, A>) => Traced<P, readonly [A, B]>
+export declare const listens: <P, B>(f: (p: P) => B) => <A>(wa: Traced<P, A>) => Traced<P, readonly [A, B]>
 ```
 
 Added in v3.0.0

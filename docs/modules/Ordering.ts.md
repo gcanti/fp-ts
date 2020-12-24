@@ -64,7 +64,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function invert(O: Ordering): Ordering
+export declare const invert: Endomorphism<Ordering>
 ```
 
 Added in v3.0.0
@@ -74,7 +74,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function sign(n: number): Ordering
+export declare const sign: (n: number) => Ordering
 ```
 
 Added in v3.0.0

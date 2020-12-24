@@ -3,9 +3,9 @@
  *
  * Instances should satisfy the laws of total orderings:
  *
- * 1. Reflexivity: `S.compare(a)(a) <= 0`
- * 2. Antisymmetry: if `S.compare(b)(a) <= 0` and `S.compare(a)(b) <= 0` then `a <-> b`
- * 3. Transitivity: if `S.compare(b)(a) <= 0` and `S.compare(c)(b) <= 0` then `S.compare(c)(a) <= 0`
+ * 1. Reflexivity: `a |> compare(a) <= 0`
+ * 2. Antisymmetry: if `a |> compare(b) <= 0` and `b |> compare(a) <= 0` then `a <-> b`
+ * 3. Transitivity: if `a |> compare(b) <= 0` and `b |> S.compare(c) <= 0` then `a |> compare(c) <= 0`
  *
  * @since 3.0.0
  */
@@ -105,7 +105,7 @@ export const max = <A>(O: Ord<A>) => (second: A) => (first: A): A => (O.compare(
  *
  * @since 3.0.0
  */
-export function clamp<A>(O: Ord<A>): (low: A, hi: A) => Endomorphism<A> {
+export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => Endomorphism<A>) => {
   const minO = min(O)
   const maxO = max(O)
   return (low, hi) => flow(minO(hi), maxO(low))
@@ -116,7 +116,7 @@ export function clamp<A>(O: Ord<A>): (low: A, hi: A) => Endomorphism<A> {
  *
  * @since 3.0.0
  */
-export function between<A>(O: Ord<A>): (low: A, hi: A) => Predicate<A> {
+export const between = <A>(O: Ord<A>): ((low: A, hi: A) => Predicate<A>) => {
   const ltO = lt(O)
   const gtO = gt(O)
   return (low, hi) => (a) => (ltO(low)(a) || gtO(hi)(a) ? false : true)
@@ -126,7 +126,7 @@ export function between<A>(O: Ord<A>): (low: A, hi: A) => Predicate<A> {
  * @category constructors
  * @since 3.0.0
  */
-export function fromCompare<A>(compare: Ord<A>['compare']): Ord<A> {
+export const fromCompare = <A>(compare: Ord<A>['compare']): Ord<A> => {
   const optimizedCompare: Ord<A>['compare'] = (second) => {
     const f = compare(second)
     return (first): Ordering => (first === second ? 0 : f(first))
@@ -204,17 +204,15 @@ export function fromCompare<A>(compare: Ord<A>['compare']): Ord<A> {
  * @category instances
  * @since 3.0.0
  */
-export function getMonoid<A = never>(): Monoid<Ord<A>> {
-  return {
-    concat: (y) => (x) =>
-      fromCompare((second) => {
-        const fx = x.compare(second)
-        const fy = y.compare(second)
-        return (first) => monoidOrdering.concat(fy(first))(fx(first))
-      }),
-    empty: fromCompare(() => () => 0)
-  }
-}
+export const getMonoid = <A = never>(): Monoid<Ord<A>> => ({
+  concat: (y) => (x) =>
+    fromCompare((second) => {
+      const fx = x.compare(second)
+      const fy = y.compare(second)
+      return (first) => monoidOrdering.concat(fy(first))(fx(first))
+    }),
+  empty: fromCompare(() => () => 0)
+})
 
 /**
  * Given a tuple of `Ord`s returns an `Ord` for the tuple

@@ -9,33 +9,16 @@ parent: Modules
 `Monoid` extends the power of `Semigroup` by providing an additional `empty` value.
 
 ```ts
-interface Semigroup<A> {
-  readonly concat: (x: A, y: A) => A
-}
-
 interface Monoid<A> extends Semigroup<A> {
   readonly empty: A
 }
 ```
 
-This `empty` value should be an identity for the `concat` operation, which means the following equalities hold for any choice of `x`.
+This `empty` value should be an identity for the `concat` operation, which means the following equalities hold for any choice of `a`.
 
 ```ts
-concat(x, empty) = concat(empty, x) = x
+a |> concat(empty) = empty |> concat(a) <-> a
 ```
-
-Many types that form a `Semigroup` also form a `Monoid`, such as `number`s (with `0`) and `string`s (with `''`).
-
-```ts
-import { Monoid } from 'fp-ts/Monoid'
-
-const monoidString: Monoid<string> = {
-  concat: (x, y) => x + y,
-  empty: '',
-}
-```
-
-_Adapted from https://typelevel.org/cats_
 
 Added in v3.0.0
 
@@ -74,7 +57,7 @@ The dual of a `Monoid`, obtained by swapping the arguments of `concat`.
 **Signature**
 
 ```ts
-export declare function getDualMonoid<A>(M: Monoid<A>): Monoid<A>
+export declare const getDualMonoid: <A>(M: Monoid<A>) => Monoid<A>
 ```
 
 **Example**
@@ -98,7 +81,7 @@ Endomorphism form a monoid where the `empty` value is the identity function.
 **Signature**
 
 ```ts
-export declare function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<A>>
+export declare const getEndomorphismMonoid: <A = never>() => Monoid<Endomorphism<A>>
 ```
 
 Added in v3.0.0
@@ -110,7 +93,7 @@ Unary functions form a monoid as long as you can provide a monoid for the codoma
 **Signature**
 
 ```ts
-export declare function getFunctionMonoid<M>(M: Monoid<M>): <A = never>() => Monoid<(a: A) => M>
+export declare const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a: A) => M>
 ```
 
 **Example**
@@ -144,7 +127,7 @@ The `empty` value is the `bottom` value.
 **Signature**
 
 ```ts
-export declare function getJoinMonoid<A>(B: Bounded<A>): Monoid<A>
+export declare const getJoinMonoid: <A>(B: Bounded<A>) => Monoid<A>
 ```
 
 **Example**
@@ -170,7 +153,7 @@ The `empty` value is the `top` value.
 **Signature**
 
 ```ts
-export declare function getMeetMonoid<A>(B: Bounded<A>): Monoid<A>
+export declare const getMeetMonoid: <A>(B: Bounded<A>) => Monoid<A>
 ```
 
 **Example**
@@ -398,7 +381,7 @@ If `as` is empty, return the monoid `empty` value.
 **Signature**
 
 ```ts
-export declare function fold<A>(M: Monoid<A>): (as: ReadonlyArray<A>) => A
+export declare const fold: <A>(M: Monoid<A>) => (as: readonly A[]) => A
 ```
 
 **Example**

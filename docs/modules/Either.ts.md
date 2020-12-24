@@ -1083,7 +1083,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<Either<E, A>>
+export declare const getApplyMonoid: <A, E>(M: Monoid<A>) => Monoid<Either<E, A>>
 ```
 
 Added in v3.0.0
@@ -1096,7 +1096,7 @@ are concatenated using the provided `Semigroup`
 **Signature**
 
 ```ts
-export declare const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<Either<E, A>>
+export declare const getApplySemigroup: <A, E>(S: Semigroup<A>) => Semigroup<Either<E, A>>
 ```
 
 **Example**
@@ -1106,7 +1106,7 @@ import * as E from 'fp-ts/Either'
 import { semigroupSum } from 'fp-ts/Semigroup'
 import { pipe } from 'fp-ts/function'
 
-const S = E.getApplySemigroup<string, number>(semigroupSum)
+const S = E.getApplySemigroup<number, string>(semigroupSum)
 assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.left('b'))), E.left('a'))
 assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.right(2))), E.left('a'))
 assert.deepStrictEqual(pipe(E.right(1), S.concat(E.left('b'))), E.left('b'))
@@ -1157,7 +1157,7 @@ concatenated using the provided `Semigroup`
 **Signature**
 
 ```ts
-export declare const getSemigroup: <E, A>(S: Semigroup<A>) => Semigroup<Either<E, A>>
+export declare const getSemigroup: <A, E>(S: Semigroup<A>) => Semigroup<Either<E, A>>
 ```
 
 **Example**
@@ -1167,7 +1167,7 @@ import * as E from 'fp-ts/Either'
 import { semigroupSum } from 'fp-ts/Semigroup'
 import { pipe } from 'fp-ts/function'
 
-const S = E.getSemigroup<string, number>(semigroupSum)
+const S = E.getSemigroup<number, string>(semigroupSum)
 assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.left('b'))), E.left('a'))
 assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.right(2))), E.right(2))
 assert.deepStrictEqual(pipe(E.right(1), S.concat(E.left('b'))), E.right(1))

@@ -16,12 +16,12 @@ import { Pointed3 } from './Pointed'
 import * as R from './Reader'
 import { Semigroup } from './Semigroup'
 
+import Either = E.Either
+import Reader = R.Reader
+
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------
-
-import Either = E.Either
-import Reader = R.Reader
 
 /**
  * @category model
@@ -139,11 +139,9 @@ export const swap =
  * @category combinators
  * @since 3.0.0
  */
-export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
+export const fromEitherK = <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Either<E, B>
-): <R>(...a: A) => ReaderEither<R, E, B> {
-  return (...a) => fromEither(f(...a))
-}
+): (<R>(...a: A) => ReaderEither<R, E, B>) => (...a) => fromEither(f(...a))
 
 /**
  * Less strict version of [`chainEitherK`](#chainEitherK).
@@ -333,9 +331,8 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
-export function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>> {
-  return R.getSemigroup(E.getSemigroup(S))
-}
+export const getSemigroup = <A, R, E>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>> =>
+  R.getSemigroup(E.getSemigroup(S))
 
 /**
  * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
@@ -344,39 +341,34 @@ export function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R
  * @category instances
  * @since 3.0.0
  */
-export function getApplySemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>> {
-  return R.getSemigroup(E.getApplySemigroup(S))
-}
+export const getApplySemigroup = <A, R, E>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>> =>
+  R.getSemigroup(E.getApplySemigroup(S))
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderEither<R, E, A>> {
-  return {
-    concat: getApplySemigroup<R, E, A>(M).concat,
-    empty: right(M.empty)
-  }
-}
+export const getApplyMonoid = <A, R, E>(M: Monoid<A>): Monoid<ReaderEither<R, E, A>> => ({
+  concat: getApplySemigroup<A, R, E>(M).concat,
+  empty: right(M.empty)
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getApplicativeReaderValidation<E>(S: Semigroup<E>): Applicative3C<URI, E> {
-  return {
-    URI,
-    map,
-    ap: ap_<R.URI, E.URI, E>(R.Apply, E.getApplicativeValidation(S)),
-    of
-  }
-}
+export const getApplicativeReaderValidation = <E>(S: Semigroup<E>): Applicative3C<URI, E> => ({
+  URI,
+  map,
+  ap: ap_<R.URI, E.URI, E>(R.Apply, E.getApplicativeValidation(S)),
+  of
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getAltReaderValidation<E>(S: Semigroup<E>): Alt3C<URI, E> {
+export const getAltReaderValidation = <E>(S: Semigroup<E>): Alt3C<URI, E> => {
   const A = E.getAltValidation(S)
   return {
     URI,

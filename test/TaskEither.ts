@@ -177,7 +177,7 @@ describe('TaskEither', () => {
 
   describe('getSemigroup', () => {
     it('concat', async () => {
-      const S = _.getSemigroup<string, number>(semigroupSum)
+      const S = _.getSemigroup<number, string>(semigroupSum)
       assert.deepStrictEqual(await pipe(_.left('a'), S.concat(_.left('b')))(), E.left('a'))
       assert.deepStrictEqual(await pipe(_.left('a'), S.concat(_.right(2)))(), E.right(2))
       assert.deepStrictEqual(await pipe(_.right(1), S.concat(_.left('b')))(), E.right(1))
