@@ -131,7 +131,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <E, A>(fa: T.Task<A>) => TaskThese<E, A>
+export declare const fromTask: <A, E>(fa: T.Task<A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0

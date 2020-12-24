@@ -290,7 +290,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <R, E, A>(fa: T.Task<A>) => ReaderTaskEither<R, E, A>
+export declare const fromTask: <A, R, E>(fa: T.Task<A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
