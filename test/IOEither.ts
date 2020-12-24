@@ -198,11 +198,11 @@ describe('IOEither', () => {
   })
 
   it('tryCatch', () => {
-    assert.deepStrictEqual(_.tryCatch(() => 1, E.toError)(), E.right(1))
+    assert.deepStrictEqual(_.tryCatch(() => 1)(), E.right(1))
     assert.deepStrictEqual(
       _.tryCatch(() => {
         throw new Error('error')
-      }, E.toError)(),
+      })(),
       E.left(new Error('error'))
     )
   })

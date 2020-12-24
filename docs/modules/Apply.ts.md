@@ -11,6 +11,10 @@ The `Apply` class provides the `ap` which is used to apply a function to an argu
 `Apply` can be used to lift functions of two or more arguments to work on values wrapped with the type constructor
 `f`.
 
+Instances must satisfy the following law in addition to the `Functor` laws:
+
+1. Associative composition: `fbc |> map(bc => ab => a => bc(ab(a))) |> ap(fab) <-> fbc |> ap(fab |> ap(fa))`
+
 Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
 
 Added in v3.0.0

@@ -28,9 +28,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getMinMaxBoundedDistributiveLattice<A>(
+export declare const getMinMaxBoundedDistributiveLattice: <A>(
   O: Ord<A>
-): (min: A, max: A) => BoundedDistributiveLattice<A>
+) => (min: A, max: A) => BoundedDistributiveLattice<A>
 ```
 
 Added in v3.0.0

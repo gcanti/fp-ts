@@ -34,21 +34,80 @@ import { Show } from './Show'
  */
 export type Const<E, A> = E & { readonly _A: A }
 
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
+
 /**
  * @category constructors
  * @since 3.0.0
  */
 export const make: <E, A = never>(e: E) => Const<E, A> = unsafeCoerce
 
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category Contravariant
+ * @since 3.0.0
+ */
+export const contramap: Contravariant2<URI>['contramap'] = () => unsafeCoerce
+
+/**
+ * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+ * use the type constructor `F` to represent some computational context.
+ *
+ * @category Functor
+ * @since 3.0.0
+ */
+export const map: Functor2<URI>['map'] = () => unsafeCoerce
+
+/**
+ * Map a pair of functions over the two type arguments of the bifunctor.
+ *
+ * @category Bifunctor
+ * @since 3.0.0
+ */
+export const bimap: Bifunctor2<URI>['bimap'] = (f) => (fa) => make(f(fa))
+
+/**
+ * Map a function over the first type argument of a bifunctor.
+ *
+ * @category Bifunctor
+ * @since 3.0.0
+ */
+export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => make(f(fa))
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getShow<E, A>(S: Show<E>): Show<Const<E, A>> {
-  return {
-    show: (c) => `make(${S.show(c)})`
+export const URI = 'Const'
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: Const<E, A>
   }
 }
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getShow = <E, A>(S: Show<E>): Show<Const<E, A>> => ({
+  show: (c) => `make(${S.show(c)})`
+})
 
 /**
  * @category instances
@@ -108,85 +167,6 @@ export const getBooleanAlgebra: <E, A>(H: BooleanAlgebra<E>) => BooleanAlgebra<C
  * @category instances
  * @since 3.0.0
  */
-export function getApply<E>(S: Semigroup<E>): Apply2C<URI, E> {
-  return {
-    URI,
-    map,
-    ap: (fa) => (fab) => make(S.concat(fa)(fab))
-  }
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> {
-  const A = getApply(M)
-  return {
-    URI,
-    map: A.map,
-    ap: A.ap,
-    of: () => make(M.empty)
-  }
-}
-
-/**
- * @category Contravariant
- * @since 3.0.0
- */
-export const contramap: Contravariant2<URI>['contramap'] = () => unsafeCoerce
-
-/**
- * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
- * use the type constructor `F` to represent some computational context.
- *
- * @category Functor
- * @since 3.0.0
- */
-export const map: Functor2<URI>['map'] = () => unsafeCoerce
-
-/**
- * Map a pair of functions over the two type arguments of the bifunctor.
- *
- * @category Bifunctor
- * @since 3.0.0
- */
-export const bimap: Bifunctor2<URI>['bimap'] = (f) => (fa) => make(f(fa))
-
-/**
- * Map a function over the first type argument of a bifunctor.
- *
- * @category Bifunctor
- * @since 3.0.0
- */
-export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => make(f(fa))
-
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const URI = 'Const'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly [URI]: Const<E, A>
-  }
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
 export const Functor: Functor2<URI> = {
   URI,
   map
@@ -209,4 +189,27 @@ export const Bifunctor: Bifunctor2<URI> = {
   URI,
   bimap,
   mapLeft
+}
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getApply = <E>(S: Semigroup<E>): Apply2C<URI, E> => ({
+  URI,
+  map,
+  ap: (fa) => (fab) => make(S.concat(fa)(fab))
+})
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getApplicative = <E>(M: Monoid<E>): Applicative2C<URI, E> => {
+  const A = getApply(M)
+  return {
+    URI,
+    map: A.map,
+    ap: A.ap,
+    of: () => make(M.empty)
+  }
 }

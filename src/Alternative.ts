@@ -4,13 +4,13 @@
  * It is similar to `Monoid`, except that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than
  * concrete types like `string` or `number`.
  *
- * `Alternative` instances should satisfy the following laws:
+ * `Alternative` instances should satisfy the following laws in addition to the `Alt` laws:
  *
- * 1. Left identity: `A.alt(zero, fa) <-> fa`
- * 2. Right identity: `A.alt(fa, zero) <-> fa`
- * 3. Annihilation: `A.map(zero, f) <-> zero`
- * 4. Distributivity: `A.ap(A.alt(fab, gab), fa) <-> A.alt(A.ap(fab, fa), A.ap(gab, fa))`
- * 5. Annihilation: `A.ap(zero, fa) <-> zero`
+ * 1. Left identity: `zero |> alt(() => fa) <-> fa`
+ * 2. Right identity: `fa |> alt(() => zero) <-> fa`
+ * 3. Annihilation1: `zero |> map(f) <-> zero`
+ * 4. Distributivity: `fab |> alt(() => gab) |> ap(fa) <-> fab |> ap(fa) |> alt(() => gab |> A.ap(fa))`
+ * 5. Annihilation2: `zero |> ap(fa) <-> zero`
  *
  * @since 3.0.0
  */

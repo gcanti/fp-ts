@@ -80,14 +80,12 @@ export const fromEither: FromEither2<URI>['fromEither'] =
   E.fold(left, (a) => right(a))
 
 /**
- * Constructs a new `IOEither` from a function that performs a side effect and might throw
+ * Constructs a new `IOEither` from a function that performs a side effect and might throw.
  *
  * @category constructors
  * @since 3.0.0
  */
-export function tryCatch<E, A>(f: Lazy<A>, onError: (reason: unknown) => E): IOEither<E, A> {
-  return () => E.tryCatch(f, onError)
-}
+export const tryCatch = <A>(f: Lazy<A>): IOEither<unknown, A> => () => E.tryCatch(f)
 
 // -------------------------------------------------------------------------------------
 // destructors

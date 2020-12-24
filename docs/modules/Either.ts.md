@@ -125,7 +125,6 @@ Added in v3.0.0
   - [exists](#exists)
   - [filterOrElseW](#filterorelsew)
   - [sequenceArray](#sequencearray)
-  - [toError](#toerror)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [tupled](#tupled)
@@ -668,7 +667,7 @@ Converts a JavaScript Object Notation (JSON) string into an object.
 **Signature**
 
 ```ts
-export declare const parseJSON: <E>(onError: (reason: unknown) => E) => (s: string) => Either<E, Json>
+export declare const parseJSON: (s: string) => Either<unknown, Json>
 ```
 
 **Example**
@@ -677,11 +676,8 @@ export declare const parseJSON: <E>(onError: (reason: unknown) => E) => (s: stri
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe('{"a":1}', E.parseJSON(E.toError)), E.right({ a: 1 }))
-assert.deepStrictEqual(
-  pipe('{"a":}', E.parseJSON(E.toError)),
-  E.left(new SyntaxError('Unexpected token } in JSON at position 5'))
-)
+assert.deepStrictEqual(pipe('{"a":1}', E.parseJSON), E.right({ a: 1 }))
+assert.deepStrictEqual(pipe('{"a":}', E.parseJSON), E.left(new SyntaxError('Unexpected token } in JSON at position 5')))
 ```
 
 Added in v3.0.0
@@ -706,7 +702,7 @@ Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
 **Signature**
 
 ```ts
-export declare const stringifyJSON: <E>(onError: (reason: unknown) => E) => (u: unknown) => Either<E, string>
+export declare const stringifyJSON: (u: unknown) => Either<unknown, string>
 ```
 
 **Example**
@@ -715,14 +711,14 @@ export declare const stringifyJSON: <E>(onError: (reason: unknown) => E) => (u: 
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe({ a: 1 }, E.stringifyJSON(E.toError)), E.right('{"a":1}'))
+assert.deepStrictEqual(pipe({ a: 1 }, E.stringifyJSON), E.right('{"a":1}'))
 const circular: any = { ref: null }
 circular.ref = circular
 assert.deepStrictEqual(
   pipe(
     circular,
-    E.stringifyJSON(E.toError),
-    E.mapLeft((e) => e.message.includes('Converting circular structure to JSON'))
+    E.stringifyJSON,
+    E.mapLeft((e) => String(e).includes('Converting circular structure to JSON'))
   ),
   E.left(true)
 )
@@ -737,13 +733,14 @@ Constructs a new `Either` from a function that might throw.
 **Signature**
 
 ```ts
-export declare function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): Either<E, A>
+export declare const tryCatch: <A>(f: Lazy<A>) => Either<unknown, A>
 ```
 
 **Example**
 
 ```ts
-import { Either, left, right, tryCatch } from 'fp-ts/Either'
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
 
 const unsafeHead = <A>(as: Array<A>): A => {
   if (as.length > 0) {
@@ -753,15 +750,15 @@ const unsafeHead = <A>(as: Array<A>): A => {
   }
 }
 
-const head = <A>(as: Array<A>): Either<Error, A> => {
-  return tryCatch(
-    () => unsafeHead(as),
-    (e) => (e instanceof Error ? e : new Error('unknown error'))
+const head = <A>(as: Array<A>): E.Either<Error, A> => {
+  return pipe(
+    E.tryCatch(() => unsafeHead(as)),
+    E.mapLeft((e) => (e instanceof Error ? e : new Error('unknown error')))
   )
 }
 
-assert.deepStrictEqual(head([]), left(new Error('empty array')))
-assert.deepStrictEqual(head([1, 2, 3]), right(1))
+assert.deepStrictEqual(head([]), E.left(new Error('empty array')))
+assert.deepStrictEqual(head([1, 2, 3]), E.right(1))
 ```
 
 Added in v3.0.0
@@ -1488,18 +1485,6 @@ import * as A from 'fp-ts/ReadonlyArray'
 const arr = A.range(0, 10)
 assert.deepStrictEqual(pipe(arr, A.map(right), sequenceArray), right(arr))
 assert.deepStrictEqual(pipe(arr, A.map(right), A.cons(left('Error')), sequenceArray), left('Error'))
-```
-
-Added in v3.0.0
-
-## toError
-
-Default value for the `onError` argument of `tryCatch`
-
-**Signature**
-
-```ts
-export declare function toError(e: unknown): Error
 ```
 
 Added in v3.0.0

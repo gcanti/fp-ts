@@ -172,7 +172,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E>
+export declare const getApplicative: <E>(M: Monoid<E>) => Applicative2C<'Const', E>
 ```
 
 Added in v3.0.0
@@ -182,7 +182,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApply<E>(S: Semigroup<E>): Apply2C<URI, E>
+export declare const getApply: <E>(S: Semigroup<E>) => Apply2C<'Const', E>
 ```
 
 Added in v3.0.0
@@ -282,7 +282,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getShow<E, A>(S: Show<E>): Show<Const<E, A>>
+export declare const getShow: <E, A>(S: Show<E>) => Show<Const<E, A>>
 ```
 
 Added in v3.0.0

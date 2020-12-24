@@ -74,6 +74,10 @@ high state of flux, you're at risk of it changing without notice.
     - make `stringifyJSON` pipeable (@gcanti)
     - remove `either` (@gcanti)
     - make `elem` pipeable (@gcanti)
+    - remove `toError` (@gcanti)
+    - remove `onError` parameter in `tryCatch` (@gcanti)
+    - remove `onError` parameter in `parseJSON` (@gcanti)
+    - remove `onError` parameter in `stringifyJSON` (@gcanti)
   - `Eq`
     - remove `eq` (@gcanti)
     - make type class members pipeables (@gcanti)
@@ -116,6 +120,7 @@ high state of flux, you're at risk of it changing without notice.
   - `IOEither`
     - remove `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead (@gcanti)
     - remove `ioEither` (@gcanti)
+    - remove `onError` parameter in `tryCatch` (@gcanti)
   - `JoinSemilattice`
     - make type class members pipeables (@gcanti)
   - `Magma`

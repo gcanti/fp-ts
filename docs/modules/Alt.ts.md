@@ -12,8 +12,8 @@ that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than
 
 `Alt` instances are required to satisfy the following laws:
 
-1. Associativity: `pipe(pipe(fa1, A.alt(() => fa2)), A.alt(() => fa3)) <-> pipe(fa1, A.alt(() => pipe(fa2, A.alt(() => fa3))))`
-2. Distributivity: `pipe(pipe(fa1, A.alt(() => fa2)), A.map(ab)) <-> pipe(pipe(fa1, A.map(ab)), A.alt(() => pipe(fa2, A.map(ab))))`
+1. Associativity: `fa1 |> alt(() => fa2) |> alt(() => fa3) <-> fa1 |> alt(() => fa2 |> alt(() => fa3))`
+2. Distributivity: `fa1 |> alt(() => fa2) |> map(ab) <-> fa1 |> map(ab) |> alt(() => fa2 |> map(ab))`
 
 Added in v3.0.0
 

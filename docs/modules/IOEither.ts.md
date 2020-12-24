@@ -426,12 +426,12 @@ Added in v3.0.0
 
 ## tryCatch
 
-Constructs a new `IOEither` from a function that performs a side effect and might throw
+Constructs a new `IOEither` from a function that performs a side effect and might throw.
 
 **Signature**
 
 ```ts
-export declare function tryCatch<E, A>(f: Lazy<A>, onError: (reason: unknown) => E): IOEither<E, A>
+export declare const tryCatch: <A>(f: Lazy<A>) => IOEither<unknown, A>
 ```
 
 Added in v3.0.0

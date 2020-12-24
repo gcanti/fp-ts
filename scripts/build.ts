@@ -12,10 +12,15 @@ interface Build<A> extends RTE.ReaderTaskEither<FileSystem, Error, A> {}
 const OUTPUT_FOLDER = 'dist'
 const PKG = 'package.json'
 
+export function toError(e: unknown): Error {
+  return e instanceof Error ? e : new Error(String(e))
+}
+
 export const copyPackageJson: Build<void> = (C) =>
   pipe(
     C.readFile(PKG),
-    TE.chain((s) => TE.fromEither(E.parseJSON(E.toError)(s))),
+    TE.chain((s) => TE.fromEither(E.parseJSON(s))),
+    TE.mapLeft(toError),
     TE.map((v) => {
       const clone = Object.assign({}, v as any)
 

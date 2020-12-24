@@ -6,27 +6,19 @@ import { IO } from './IO'
 /**
  * @since 3.0.0
  */
-export function log(s: unknown): IO<void> {
-  return () => console.log(s) // tslint:disable-line:no-console
-}
+export const log = (s: unknown): IO<void> => () => console.log(s) // tslint:disable-line:no-console
 
 /**
  * @since 3.0.0
  */
-export function warn(s: unknown): IO<void> {
-  return () => console.warn(s) // tslint:disable-line:no-console
-}
+export const warn = (s: unknown): IO<void> => () => console.warn(s) // tslint:disable-line:no-console
 
 /**
  * @since 3.0.0
  */
-export function error(s: unknown): IO<void> {
-  return () => console.error(s) // tslint:disable-line:no-console
-}
+export const error = (s: unknown): IO<void> => () => console.error(s) // tslint:disable-line:no-console
 
 /**
  * @since 3.0.0
  */
-export function info(s: unknown): IO<void> {
-  return () => console.info(s) // tslint:disable-line:no-console
-}
+export const info = (s: unknown): IO<void> => () => console.info(s) // tslint:disable-line:no-console

@@ -135,8 +135,6 @@ Added in v3.0.0
 
 ## Separated (interface)
 
-A `Separated` type which holds `left` and `right` parts.
-
 **Signature**
 
 ```ts

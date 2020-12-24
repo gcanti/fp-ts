@@ -127,7 +127,8 @@ export const fromNullable = <E>(e: Lazy<E>) => <A>(a: A): Either<E, NonNullable<
  * Constructs a new `Either` from a function that might throw.
  *
  * @example
- * import { Either, left, right, tryCatch } from 'fp-ts/Either'
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
  *
  * const unsafeHead = <A>(as: Array<A>): A => {
  *   if (as.length > 0) {
@@ -137,21 +138,24 @@ export const fromNullable = <E>(e: Lazy<E>) => <A>(a: A): Either<E, NonNullable<
  *   }
  * }
  *
- * const head = <A>(as: Array<A>): Either<Error, A> => {
- *   return tryCatch(() => unsafeHead(as), e => (e instanceof Error ? e : new Error('unknown error')))
+ * const head = <A>(as: Array<A>): E.Either<Error, A> => {
+ *   return pipe(
+ *     E.tryCatch(() => unsafeHead(as)),
+ *     E.mapLeft(e => (e instanceof Error ? e : new Error('unknown error')))
+ *   )
  * }
  *
- * assert.deepStrictEqual(head([]), left(new Error('empty array')))
- * assert.deepStrictEqual(head([1, 2, 3]), right(1))
+ * assert.deepStrictEqual(head([]), E.left(new Error('empty array')))
+ * assert.deepStrictEqual(head([1, 2, 3]), E.right(1))
  *
  * @category constructors
  * @since 3.0.0
  */
-export function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): Either<E, A> {
+export const tryCatch = <A>(f: Lazy<A>): Either<unknown, A> => {
   try {
     return right(f())
   } catch (e) {
-    return left(onError(e))
+    return left(e)
   }
 }
 
@@ -181,14 +185,13 @@ export interface JsonArray extends ReadonlyArray<Json> {}
  * import * as E from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(pipe('{"a":1}', E.parseJSON(E.toError)), E.right({ a: 1 }))
- * assert.deepStrictEqual(pipe('{"a":}', E.parseJSON(E.toError)), E.left(new SyntaxError('Unexpected token } in JSON at position 5')))
+ * assert.deepStrictEqual(pipe('{"a":1}', E.parseJSON), E.right({ a: 1 }))
+ * assert.deepStrictEqual(pipe('{"a":}', E.parseJSON), E.left(new SyntaxError('Unexpected token } in JSON at position 5')))
  *
  * @category constructors
  * @since 3.0.0
  */
-export const parseJSON = <E>(onError: (reason: unknown) => E) => (s: string): Either<E, Json> =>
-  tryCatch(() => JSON.parse(s), onError)
+export const parseJSON = (s: string): Either<unknown, Json> => tryCatch(() => JSON.parse(s))
 
 /**
  * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
@@ -197,14 +200,14 @@ export const parseJSON = <E>(onError: (reason: unknown) => E) => (s: string): Ei
  * import * as E from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(pipe({ a: 1 }, E.stringifyJSON(E.toError)), E.right('{"a":1}'))
+ * assert.deepStrictEqual(pipe({ a: 1 }, E.stringifyJSON), E.right('{"a":1}'))
  * const circular: any = { ref: null }
  * circular.ref = circular
  * assert.deepStrictEqual(
  *   pipe(
  *     circular,
- *     E.stringifyJSON(E.toError),
- *     E.mapLeft(e => e.message.includes('Converting circular structure to JSON'))
+ *     E.stringifyJSON,
+ *     E.mapLeft(e => String(e).includes('Converting circular structure to JSON'))
  *   ),
  *   E.left(true)
  * )
@@ -212,8 +215,7 @@ export const parseJSON = <E>(onError: (reason: unknown) => E) => (s: string): Ei
  * @category constructors
  * @since 3.0.0
  */
-export const stringifyJSON = <E>(onError: (reason: unknown) => E) => (u: unknown): Either<E, string> =>
-  tryCatch(() => JSON.stringify(u), onError)
+export const stringifyJSON = (u: unknown): Either<unknown, string> => tryCatch(() => JSON.stringify(u))
 
 /**
  * @example
@@ -1150,15 +1152,6 @@ export function getValidationMonoid<E, A>(SE: Semigroup<E>, SA: Monoid<A>): Mono
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
-
-/**
- * Default value for the `onError` argument of `tryCatch`
- *
- * @since 3.0.0
- */
-export function toError(e: unknown): Error {
-  return e instanceof Error ? e : new Error(String(e))
-}
 
 /**
  * @since 3.0.0

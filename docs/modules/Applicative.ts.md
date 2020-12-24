@@ -16,11 +16,11 @@ any number of function arguments.
 
 Instances must satisfy the following laws in addition to the `Apply` laws:
 
-1. Identity: `A.ap(A.of(a => a), fa) <-> fa`
-2. Homomorphism: `A.ap(A.of(ab), A.of(a)) <-> A.of(ab(a))`
-3. Interchange: `A.ap(fab, A.of(a)) <-> A.ap(A.of(ab => ab(a)), fab)`
+1. Identity: `of(identity) |> ap(fa) <-> fa`
+2. Homomorphism: `of(ab) |> ap(a) <-> of(ab(a))`
+3. Interchange: `fab |> ap(of(a)) <-> of(ab => ab(a)) |> ap(fab)`
 
-Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
+Note. `Functor`'s `map` can be derived: `map = f => fa => of(f) |> ap(fa)`
 
 Added in v3.0.0
 

@@ -48,16 +48,14 @@ export const booleanAlgebraVoid: BooleanAlgebra<void> = {
  * @category instances
  * @since 3.0.0
  */
-export function getFunctionBooleanAlgebra<B>(B: BooleanAlgebra<B>): <A = never>() => BooleanAlgebra<(a: A) => B> {
-  return () => ({
-    meet: (second) => (first) => (a) => B.meet(second(a))(first(a)),
-    join: (second) => (first) => (a) => B.join(second(a))(first(a)),
-    zero: () => B.zero,
-    one: () => B.one,
-    implies: (second) => (first) => (a) => B.implies(second(a))(first(a)),
-    not: (x) => (a) => B.not(x(a))
-  })
-}
+export const getFunctionBooleanAlgebra = <B>(B: BooleanAlgebra<B>) => <A = never>(): BooleanAlgebra<(a: A) => B> => ({
+  meet: (second) => (first) => (a) => B.meet(second(a))(first(a)),
+  join: (second) => (first) => (a) => B.join(second(a))(first(a)),
+  zero: () => B.zero,
+  one: () => B.one,
+  implies: (second) => (first) => (a) => B.implies(second(a))(first(a)),
+  not: (x) => (a) => B.not(x(a))
+})
 
 /**
  * Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
@@ -65,13 +63,11 @@ export function getFunctionBooleanAlgebra<B>(B: BooleanAlgebra<B>): <A = never>(
  * @category combinators
  * @since 3.0.0
  */
-export function getDualBooleanAlgebra<A>(B: BooleanAlgebra<A>): BooleanAlgebra<A> {
-  return {
-    meet: B.join,
-    join: B.meet,
-    zero: B.one,
-    one: B.zero,
-    implies: (second) => (first) => B.join(second)(B.not(first)),
-    not: B.not
-  }
-}
+export const getDualBooleanAlgebra = <A>(B: BooleanAlgebra<A>): BooleanAlgebra<A> => ({
+  meet: B.join,
+  join: B.meet,
+  zero: B.one,
+  one: B.zero,
+  implies: (second) => (first) => B.join(second)(B.not(first)),
+  not: B.not
+})
