@@ -729,23 +729,20 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
-export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>> {
-  return {
-    show: (ma) => (isLeft(ma) ? `left(${SE.show(ma.left)})` : `right(${SA.show(ma.right)})`)
-  }
-}
+export const getShow = <E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>> => ({
+  show: (ma) => (isLeft(ma) ? `left(${SE.show(ma.left)})` : `right(${SA.show(ma.right)})`)
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> {
-  return fromEquals((second) => (first) =>
+export const getEq = <E, A>(EE: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> =>
+  fromEquals((second) => (first) =>
     isLeft(first)
-      ? isLeft(second) && EL.equals(second.left)(first.left)
+      ? isLeft(second) && EE.equals(second.left)(first.left)
       : isRight(second) && EA.equals(second.right)(first.right)
   )
-}
 
 /**
  * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
@@ -765,12 +762,10 @@ export function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> {
  * @category instances
  * @since 3.0.0
  */
-export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> {
-  return {
-    concat: (second) => (first) =>
-      isLeft(second) ? first : isLeft(first) ? second : right(S.concat(second.right)(first.right))
-  }
-}
+export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> => ({
+  concat: (second) => (first) =>
+    isLeft(second) ? first : isLeft(first) ? second : right(S.concat(second.right)(first.right))
+})
 
 /**
  * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
@@ -790,23 +785,19 @@ export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> {
  * @category instances
  * @since 3.0.0
  */
-export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> {
-  return {
-    concat: (second) => (first) =>
-      isLeft(first) ? first : isLeft(second) ? second : right(S.concat(second.right)(first.right))
-  }
-}
+export const getApplySemigroup = <E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> => ({
+  concat: (second) => (first) =>
+    isLeft(first) ? first : isLeft(second) ? second : right(S.concat(second.right)(first.right))
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<Either<E, A>> {
-  return {
-    concat: getApplySemigroup<E, A>(M).concat,
-    empty: right(M.empty)
-  }
-}
+export const getApplyMonoid = <E, A>(M: Monoid<A>): Monoid<Either<E, A>> => ({
+  concat: getApplySemigroup<E, A>(M).concat,
+  empty: right(M.empty)
+})
 
 /**
  * Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
@@ -814,7 +805,7 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<Either<E, A>> {
  * @category instances
  * @since 3.0.0
  */
-export function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E> {
+export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
   const empty = left(M.empty)
 
   const compact: Compactable2C<URI, E>['compact'] = (ma) =>
@@ -840,7 +831,7 @@ export function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E> {
  * @category instances
  * @since 3.0.0
  */
-export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
+export const getFilterable = <E>(M: Monoid<E>): Filterable2C<URI, E> => {
   const empty = left(M.empty)
 
   const partitionMap = <A, B, C>(f: (a: A) => Either<B, C>) => (
@@ -887,7 +878,7 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
  * @category instances
  * @since 3.0.0
  */
-export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
+export const getWitherable = <E>(M: Monoid<E>): Witherable2C<URI, E> => {
   const C = getCompactable(M)
 
   const wither = <F>(
@@ -917,56 +908,53 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
  * @category instances
  * @since 3.0.0
  */
-export function getApplicativeValidation<E>(S: Semigroup<E>): Applicative2C<URI, E> {
-  return {
-    URI,
-    map,
-    ap: (fa) => (fab) =>
-      isLeft(fab)
-        ? isLeft(fa)
-          ? left(S.concat(fa.left)(fab.left))
-          : fab
-        : isLeft(fa)
-        ? fa
-        : right(fab.right(fa.right)),
-    of
-  }
-}
+export const getApplicativeValidation = <E>(S: Semigroup<E>): Applicative2C<URI, E> => ({
+  URI,
+  map,
+  ap: (fa) => (fab) =>
+    isLeft(fab) ? (isLeft(fa) ? left(S.concat(fa.left)(fab.left)) : fab) : isLeft(fa) ? fa : right(fab.right(fa.right)),
+  of
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getAltValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
-  return {
-    URI,
-    map,
-    alt: (second) => (first) => {
-      if (isRight(first)) {
-        return first
-      }
-      const ea = second()
-      return isLeft(ea) ? left(S.concat(ea.left)(first.left)) : ea
+export const getAltValidation = <E>(S: Semigroup<E>): Alt2C<URI, E> => ({
+  URI,
+  map,
+  alt: (second) => (first) => {
+    if (isRight(first)) {
+      return first
     }
+    const ea = second()
+    return isLeft(ea) ? left(S.concat(ea.left)(first.left)) : ea
   }
-}
+})
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<Either<E, A>> {
-  return {
-    concat: (second) => (first) =>
-      isLeft(first)
-        ? isLeft(second)
-          ? left(SE.concat(second.left)(first.left))
-          : first
-        : isLeft(second)
-        ? second
-        : right(SA.concat(second.right)(first.right))
-  }
-}
+export const getValidationSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<Either<E, A>> => ({
+  concat: (second) => (first) =>
+    isLeft(first)
+      ? isLeft(second)
+        ? left(SE.concat(second.left)(first.left))
+        : first
+      : isLeft(second)
+      ? second
+      : right(SA.concat(second.right)(first.right))
+})
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getValidationMonoid = <E, A>(SE: Semigroup<E>, MA: Monoid<A>): Monoid<Either<E, A>> => ({
+  concat: getValidationSemigroup(SE, MA).concat,
+  empty: right(MA.empty)
+})
 
 /**
  * @category instances
@@ -1127,17 +1115,6 @@ export const FromEither: FromEither2<URI> = {
   fromEither: identity
 }
 
-/**
- * @category instances
- * @since 3.0.0
- */
-export function getValidationMonoid<E, A>(SE: Semigroup<E>, SA: Monoid<A>): Monoid<Either<E, A>> {
-  return {
-    concat: getValidationSemigroup(SE, SA).concat,
-    empty: right(SA.empty)
-  }
-}
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -1162,9 +1139,8 @@ export const elem = <A>(E: Eq<A>) => (a: A) => <E>(ma: Either<E, A>): boolean =>
  *
  * @since 3.0.0
  */
-export function exists<A>(predicate: Predicate<A>): <E>(ma: Either<E, A>) => boolean {
-  return (ma) => (isLeft(ma) ? false : predicate(ma.right))
-}
+export const exists = <A>(predicate: Predicate<A>) => <E>(ma: Either<E, A>): boolean =>
+  isLeft(ma) ? false : predicate(ma.right)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -1327,6 +1303,6 @@ export const traverseArray: <E, A, B>(
  *
  * @since 3.0.0
  */
-export const sequenceArray: <E, A>(arr: ReadonlyArray<Either<E, A>>) => Either<E, ReadonlyArray<A>> = traverseArray(
-  identity
-)
+export const sequenceArray: <E, A>(arr: ReadonlyArray<Either<E, A>>) => Either<E, ReadonlyArray<A>> =
+  /*#__PURE__*/
+  traverseArray(identity)

@@ -1063,7 +1063,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getAltValidation<E>(S: Semigroup<E>): Alt2C<URI, E>
+export declare const getAltValidation: <E>(S: Semigroup<E>) => Alt2C<'Either', E>
 ```
 
 Added in v3.0.0
@@ -1073,7 +1073,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApplicativeValidation<E>(S: Semigroup<E>): Applicative2C<URI, E>
+export declare const getApplicativeValidation: <E>(S: Semigroup<E>) => Applicative2C<'Either', E>
 ```
 
 Added in v3.0.0
@@ -1083,7 +1083,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<Either<E, A>>
+export declare const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<Either<E, A>>
 ```
 
 Added in v3.0.0
@@ -1096,7 +1096,7 @@ are concatenated using the provided `Semigroup`
 **Signature**
 
 ```ts
-export declare function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>>
+export declare const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<Either<E, A>>
 ```
 
 **Example**
@@ -1122,7 +1122,7 @@ Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
 **Signature**
 
 ```ts
-export declare function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E>
+export declare const getCompactable: <E>(M: Monoid<E>) => Compactable2C<'Either', E>
 ```
 
 Added in v3.0.0
@@ -1132,7 +1132,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>>
+export declare const getEq: <E, A>(EE: Eq<E>, EA: Eq<A>) => Eq<Either<E, A>>
 ```
 
 Added in v3.0.0
@@ -1144,7 +1144,7 @@ Builds a `Filterable` instance for `Either` given `Monoid` for the left side.
 **Signature**
 
 ```ts
-export declare function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E>
+export declare const getFilterable: <E>(M: Monoid<E>) => Filterable2C<'Either', E>
 ```
 
 Added in v3.0.0
@@ -1157,7 +1157,7 @@ concatenated using the provided `Semigroup`
 **Signature**
 
 ```ts
-export declare function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>>
+export declare const getSemigroup: <E, A>(S: Semigroup<A>) => Semigroup<Either<E, A>>
 ```
 
 **Example**
@@ -1181,7 +1181,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>>
+export declare const getShow: <E, A>(SE: Show<E>, SA: Show<A>) => Show<Either<E, A>>
 ```
 
 Added in v3.0.0
@@ -1191,7 +1191,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getValidationMonoid<E, A>(SE: Semigroup<E>, SA: Monoid<A>): Monoid<Either<E, A>>
+export declare const getValidationMonoid: <E, A>(SE: Semigroup<E>, MA: Monoid<A>) => Monoid<Either<E, A>>
 ```
 
 Added in v3.0.0
@@ -1201,7 +1201,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<Either<E, A>>
+export declare const getValidationSemigroup: <E, A>(SE: Semigroup<E>, SA: Semigroup<A>) => Semigroup<Either<E, A>>
 ```
 
 Added in v3.0.0
@@ -1213,7 +1213,7 @@ Builds `Witherable` instance for `Either` given `Monoid` for the left side
 **Signature**
 
 ```ts
-export declare function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E>
+export declare const getWitherable: <E>(M: Monoid<E>) => Witherable2C<'Either', E>
 ```
 
 Added in v3.0.0
@@ -1419,7 +1419,7 @@ Returns `false` if `Left` or returns the result of the application of the given 
 **Signature**
 
 ```ts
-export declare function exists<A>(predicate: Predicate<A>): <E>(ma: Either<E, A>) => boolean
+export declare const exists: <A>(predicate: Predicate<A>) => <E>(ma: Either<E, A>) => boolean
 ```
 
 **Example**
