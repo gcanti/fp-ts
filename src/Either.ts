@@ -110,12 +110,12 @@ export const right = <A, E = never>(a: A): Either<E, A> => ({ _tag: 'Right', rig
  * the provided default as a `Left`.
  *
  * @example
- * import { fromNullable, left, right } from 'fp-ts/Either'
+ * import * as E from 'fp-ts/Either'
  *
- * const parse = fromNullable(() => 'nully')
+ * const parse = E.fromNullable(() => 'nully')
  *
- * assert.deepStrictEqual(parse(1), right(1))
- * assert.deepStrictEqual(parse(null), left('nully'))
+ * assert.deepStrictEqual(parse(1), E.right(1))
+ * assert.deepStrictEqual(parse(null), E.left('nully'))
  *
  * @category constructors
  * @since 3.0.0
@@ -130,7 +130,7 @@ export const fromNullable = <E>(e: Lazy<E>) => <A>(a: A): Either<E, NonNullable<
  * import * as E from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
  *
- * const unsafeHead = <A>(as: Array<A>): A => {
+ * const unsafeHead = <A>(as: ReadonlyArray<A>): A => {
  *   if (as.length > 0) {
  *     return as[0]
  *   } else {
@@ -138,12 +138,11 @@ export const fromNullable = <E>(e: Lazy<E>) => <A>(a: A): Either<E, NonNullable<
  *   }
  * }
  *
- * const head = <A>(as: Array<A>): E.Either<Error, A> => {
- *   return pipe(
+ * const head = <A>(as: ReadonlyArray<A>): E.Either<Error, A> =>
+ *   pipe(
  *     E.tryCatch(() => unsafeHead(as)),
  *     E.mapLeft(e => (e instanceof Error ? e : new Error('unknown error')))
  *   )
- * }
  *
  * assert.deepStrictEqual(head([]), E.left(new Error('empty array')))
  * assert.deepStrictEqual(head([1, 2, 3]), E.right(1))
@@ -219,23 +218,23 @@ export const stringifyJSON = (u: unknown): Either<unknown, string> => tryCatch((
 
 /**
  * @example
- * import { fromOption, left, right } from 'fp-ts/Either'
+ * import * as E from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
- * import { none, some } from 'fp-ts/Option'
+ * import * as O from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(
  *   pipe(
- *     some(1),
- *     fromOption(() => 'error')
+ *     O.some(1),
+ *     E.fromOption(() => 'error')
  *   ),
- *   right(1)
+ *   E.right(1)
  * )
  * assert.deepStrictEqual(
  *   pipe(
- *     none,
- *     fromOption(() => 'error')
+ *     O.none,
+ *     E.fromOption(() => 'error')
  *   ),
- *   left('error')
+ *   E.left('error')
  * )
  *
  * @category constructors
@@ -246,26 +245,22 @@ export const fromOption = <E>(onNone: Lazy<E>) => <A>(ma: Option<A>): Either<E, 
 
 /**
  * @example
- * import { fromPredicate, left, right } from 'fp-ts/Either'
+ * import * as E from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(
  *   pipe(
  *     1,
- *     fromPredicate(
- *       (n) => n > 0
- *     )
+ *     E.fromPredicate((n) => n > 0)
  *   ),
- *   right(1)
+ *   E.right(1)
  * )
  * assert.deepStrictEqual(
  *   pipe(
  *     -1,
- *     fromPredicate(
- *       (n) => n > 0
- *     )
+ *     E.fromPredicate((n) => n > 0)
  *   ),
- *   left(-1)
+ *   E.left(-1)
  * )
  *
  * @category constructors
@@ -285,28 +280,24 @@ export const fromPredicate: {
  * if the value is a `Right` the inner value is applied to the second function.
  *
  * @example
- * import { fold, left, right } from 'fp-ts/Either'
+ * import * as E from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
  *
- * function onLeft(errors: Array<string>): string {
- *   return `Errors: ${errors.join(', ')}`
- * }
+ * const onLeft = (errors: ReadonlyArray<string>): string => `Errors: ${errors.join(', ')}`
  *
- * function onRight(value: number): string {
- *   return `Ok: ${value}`
- * }
+ * const onRight = (value: number): string => `Ok: ${value}`
  *
  * assert.strictEqual(
  *   pipe(
- *     right(1),
- *     fold(onLeft, onRight)
+ *     E.right(1),
+ *     E.fold(onLeft, onRight)
  *   ),
  *   'Ok: 1'
  * )
  * assert.strictEqual(
  *   pipe(
- *     left(['error 1', 'error 2']),
- *     fold(onLeft, onRight)
+ *     E.left(['error 1', 'error 2']),
+ *     E.fold(onLeft, onRight)
  *   ),
  *   'Errors: error 1, error 2'
  * )
@@ -330,20 +321,20 @@ export const getOrElseW = <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>): 
  * Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
  *
  * @example
- * import { getOrElse, left, right } from 'fp-ts/Either'
+ * import * as E from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(
  *   pipe(
- *     right(1),
- *     getOrElse(() => 0)
+ *     E.right(1),
+ *     E.getOrElse(() => 0)
  *   ),
  *   1
  * )
  * assert.deepStrictEqual(
  *   pipe(
- *     left('error'),
- *     getOrElse(() => 0)
+ *     E.left('error'),
+ *     E.getOrElse(() => 0)
  *   ),
  *   0
  * )
@@ -361,11 +352,11 @@ export const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: Either<E, A>) => A =
  * @category combinators
  * @since 3.0.0
  */
-export function fromNullableK<E>(
+export const fromNullableK = <E>(
   e: Lazy<E>
-): <A extends ReadonlyArray<unknown>, B>(
+): (<A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => (...a: A) => Either<E, NonNullable<B>> {
+) => (...a: A) => Either<E, NonNullable<B>>) => {
   const from = fromNullable(e)
   return (f) => (...a) => from(f(...a))
 }
@@ -374,9 +365,9 @@ export function fromNullableK<E>(
  * @category combinators
  * @since 3.0.0
  */
-export function chainNullableK<E>(
+export const chainNullableK = <E>(
   e: Lazy<E>
-): <A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>> {
+): (<A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>) => {
   const from = fromNullableK(e)
   return (f) => chain(from(f))
 }
@@ -413,46 +404,46 @@ export const filterOrElseW: {
 
 /**
  * @example
- * import { filterOrElse, left, right } from 'fp-ts/Either'
+ * import * as E from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(
  *   pipe(
- *     right(1),
- *     filterOrElse(
+ *     E.right(1),
+ *     E.filterOrElse(
  *       (n) => n > 0,
  *       () => 'error'
  *     )
  *   ),
- *   right(1)
+ *   E.right(1)
  * )
  * assert.deepStrictEqual(
  *   pipe(
- *     right(-1),
- *     filterOrElse(
+ *     E.right(-1),
+ *     E.filterOrElse(
  *       (n) => n > 0,
  *       () => 'error'
  *     )
  *   ),
- *   left('error')
+ *   E.left('error')
  * )
  * assert.deepStrictEqual(
  *   pipe(
- *     left('a'),
- *     filterOrElse(
+ *     E.left('a'),
+ *     E.filterOrElse(
  *       (n) => n > 0,
  *       () => 'error'
  *     )
  *   ),
- *   left('a')
+ *   E.left('a')
  * )
  *
  * @category combinators
  * @since 3.0.0
  */
 export const filterOrElse: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
 } = filterOrElseW
 
 /**
@@ -761,15 +752,15 @@ export function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> {
  * concatenated using the provided `Semigroup`
  *
  * @example
- * import { getSemigroup, left, right } from 'fp-ts/Either'
+ * import * as E from 'fp-ts/Either'
  * import { semigroupSum } from 'fp-ts/Semigroup'
  * import { pipe } from 'fp-ts/function'
  *
- * const S = getSemigroup<string, number>(semigroupSum)
- * assert.deepStrictEqual(pipe(left('a'), S.concat(left('b'))), left('a'))
- * assert.deepStrictEqual(pipe(left('a'), S.concat(right(2))), right(2))
- * assert.deepStrictEqual(pipe(right(1), S.concat(left('b'))), right(1))
- * assert.deepStrictEqual(pipe(right(1), S.concat(right(2))), right(3))
+ * const S = E.getSemigroup<string, number>(semigroupSum)
+ * assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.left('b'))), E.left('a'))
+ * assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.right(2))), E.right(2))
+ * assert.deepStrictEqual(pipe(E.right(1), S.concat(E.left('b'))), E.right(1))
+ * assert.deepStrictEqual(pipe(E.right(1), S.concat(E.right(2))), E.right(3))
  *
  * @category instances
  * @since 3.0.0
@@ -786,15 +777,15 @@ export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> {
  * are concatenated using the provided `Semigroup`
  *
  * @example
- * import { getApplySemigroup, left, right } from 'fp-ts/Either'
+ * import * as E from 'fp-ts/Either'
  * import { semigroupSum } from 'fp-ts/Semigroup'
  * import { pipe } from 'fp-ts/function'
  *
- * const S = getApplySemigroup<string, number>(semigroupSum)
- * assert.deepStrictEqual(pipe(left('a'), S.concat(left('b'))), left('a'))
- * assert.deepStrictEqual(pipe(left('a'), S.concat(right(2))), left('a'))
- * assert.deepStrictEqual(pipe(right(1), S.concat(left('b'))), left('b'))
- * assert.deepStrictEqual(pipe(right(1), S.concat(right(2))), right(3))
+ * const S = E.getApplySemigroup<string, number>(semigroupSum)
+ * assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.left('b'))), E.left('a'))
+ * assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.right(2))), E.left('a'))
+ * assert.deepStrictEqual(pipe(E.right(1), S.concat(E.left('b'))), E.left('b'))
+ * assert.deepStrictEqual(pipe(E.right(1), S.concat(E.right(2))), E.right(3))
  *
  * @category instances
  * @since 3.0.0
@@ -1161,13 +1152,13 @@ export const elem = <A>(E: Eq<A>) => (a: A) => <E>(ma: Either<E, A>): boolean =>
  * Returns `false` if `Left` or returns the result of the application of the given predicate to the `Right` value.
  *
  * @example
- * import { exists, left, right } from 'fp-ts/Either'
+ * import * as E from 'fp-ts/Either'
  *
- * const gt2 = exists((n: number) => n > 2)
+ * const f = E.exists((n: number) => n > 2)
  *
- * assert.strictEqual(gt2(left('a')), false)
- * assert.strictEqual(gt2(right(1)), false)
- * assert.strictEqual(gt2(right(3)), true)
+ * assert.strictEqual(f(E.left('a')), false)
+ * assert.strictEqual(f(E.right(1)), false)
+ * assert.strictEqual(f(E.right(3)), true)
  *
  * @since 3.0.0
  */

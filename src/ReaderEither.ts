@@ -186,10 +186,10 @@ export const filterOrElseW: {
  * @since 3.0.0
  */
 export const filterOrElse: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
     ma: ReaderEither<R, E, A>
   ) => ReaderEither<R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 } = filterOrElseW
 
 /**

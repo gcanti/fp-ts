@@ -200,32 +200,32 @@ describe('Either', () => {
   })
 
   it('filterOrElse', () => {
-    const gt10 = (n: number): boolean => n > 10
+    const f = (n: number): boolean => n > 10
     assert.deepStrictEqual(
       pipe(
         _.right(12),
-        _.filterOrElse(gt10, () => -1)
+        _.filterOrElse(f, () => -1)
       ),
       _.right(12)
     )
     assert.deepStrictEqual(
       pipe(
         _.right(7),
-        _.filterOrElse(gt10, () => -1)
+        _.filterOrElse(f, () => -1)
       ),
       _.left(-1)
     )
     assert.deepStrictEqual(
       pipe(
         _.left(12),
-        _.filterOrElse(gt10, () => -1)
+        _.filterOrElse(f, () => -1)
       ),
       _.left(12)
     )
     assert.deepStrictEqual(
       pipe(
         _.right(7),
-        _.filterOrElse(gt10, (n) => `invalid ${n}`)
+        _.filterOrElse(f, (n) => `invalid ${n}`)
       ),
       _.left('invalid 7')
     )

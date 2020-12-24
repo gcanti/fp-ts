@@ -176,7 +176,7 @@ export function fromCompare<A>(compare: Ord<A>['compare']): Ord<A> {
  *
  * const M = getMonoid<User>()
  *
- * const users: Array<User> = [
+ * const users: ReadonlyArray<User> = [
  *   { id: 1, name: 'Guido', age: 47, rememberMe: false },
  *   { id: 2, name: 'Guido', age: 46, rememberMe: true },
  *   { id: 3, name: 'Giulio', age: 44, rememberMe: false },

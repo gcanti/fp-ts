@@ -345,10 +345,10 @@ export const filterOrElseW: {
  * @since 3.0.0
  */
 export const filterOrElse: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
     ma: StateReaderTaskEither<S, R, E, A>
   ) => StateReaderTaskEither<S, R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(
     ma: StateReaderTaskEither<S, R, E, A>
   ) => StateReaderTaskEither<S, R, E, A>
 } = filterOrElseW
