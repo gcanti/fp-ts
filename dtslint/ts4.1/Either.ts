@@ -89,3 +89,10 @@ pipe(
     () => 'b' as const
   )
 )
+
+//
+// fromPredicate
+//
+
+// $ExpectType (a: string | number) => Either<string | number, string>
+_.fromPredicate((u: string | number): u is string => typeof u === 'string')

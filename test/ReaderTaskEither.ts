@@ -94,15 +94,9 @@ describe('ReaderTaskEither', () => {
     })
 
     it('fromPredicate', async () => {
-      const predicate = (n: number) => n >= 2
-      const gt2 = _.fromPredicate(predicate, (n) => `Invalid number ${n}`)
-
-      const refinement = (u: string | number): u is number => typeof u === 'number'
-      const isNumber = _.fromPredicate(refinement, (u) => `Invalid number ${String(u)}`)
-
-      assert.deepStrictEqual(await gt2(3)({})(), E.right(3))
-      assert.deepStrictEqual(await gt2(1)({})(), E.left('Invalid number 1'))
-      assert.deepStrictEqual(await isNumber(4)({})(), E.right(4))
+      const f = _.fromPredicate((n: number) => n >= 2)
+      assert.deepStrictEqual(await f(3)({})(), E.right(3))
+      assert.deepStrictEqual(await f(1)({})(), E.left(1))
     })
 
     it('fromEither', async () => {
@@ -408,35 +402,15 @@ describe('ReaderTaskEither', () => {
       const arr = A.range(0, 10)
       assert.deepStrictEqual(await pipe(arr, A.map(_.of), _.sequenceArray)(undefined)(), E.right(arr))
       assert.deepStrictEqual(
-        await pipe(
-          arr,
-          A.map(
-            _.fromPredicate(
-              (x) => x < 5,
-              () => 'Error'
-            )
-          ),
-          _.sequenceArray
-        )(undefined)(),
-        E.left('Error')
+        await pipe(arr, A.map(_.fromPredicate((x) => x < 5)), _.sequenceArray)(undefined)(),
+        E.left(5)
       )
     })
 
     it('traverseArray', async () => {
       const arr = A.range(0, 10)
       assert.deepStrictEqual(await pipe(arr, _.traverseArray(_.of))(undefined)(), E.right(arr))
-      assert.deepStrictEqual(
-        await pipe(
-          arr,
-          _.traverseArray(
-            _.fromPredicate(
-              (x) => x < 5,
-              () => 'Error'
-            )
-          )
-        )(undefined)(),
-        E.left('Error')
-      )
+      assert.deepStrictEqual(await pipe(arr, _.traverseArray(_.fromPredicate((x) => x < 5)))(undefined)(), E.left(5))
     })
 
     it('traverseArrayWithIndex', async () => {
@@ -454,14 +428,11 @@ describe('ReaderTaskEither', () => {
           _.traverseArrayWithIndex((index, _data) =>
             pipe(
               index,
-              _.fromPredicate(
-                (x) => x < 1,
-                () => 'Error'
-              )
+              _.fromPredicate((x) => x < 1)
             )
           )
         )(undefined)(),
-        E.left('Error')
+        E.left(1)
       )
     })
 
@@ -469,35 +440,15 @@ describe('ReaderTaskEither', () => {
       const arr = A.range(0, 10)
       assert.deepStrictEqual(await pipe(arr, A.map(_.of), _.sequenceSeqArray)(undefined)(), E.right(arr))
       assert.deepStrictEqual(
-        await pipe(
-          arr,
-          A.map(
-            _.fromPredicate(
-              (x) => x < 5,
-              () => 'Error'
-            )
-          ),
-          _.sequenceArray
-        )(undefined)(),
-        E.left('Error')
+        await pipe(arr, A.map(_.fromPredicate((x) => x < 5)), _.sequenceArray)(undefined)(),
+        E.left(5)
       )
     })
 
-    it('traverseArray', async () => {
+    it('traverseSeqArray', async () => {
       const arr = A.range(0, 10)
       assert.deepStrictEqual(await pipe(arr, _.traverseSeqArray(_.of))(undefined)(), E.right(arr))
-      assert.deepStrictEqual(
-        await pipe(
-          arr,
-          _.traverseSeqArray(
-            _.fromPredicate(
-              (x) => x < 5,
-              () => 'Error'
-            )
-          )
-        )(undefined)(),
-        E.left('Error')
-      )
+      assert.deepStrictEqual(await pipe(arr, _.traverseSeqArray(_.fromPredicate((x) => x < 5)))(undefined)(), E.left(5))
     })
 
     it('traverseSeqArrayWithIndex', async () => {
@@ -515,14 +466,11 @@ describe('ReaderTaskEither', () => {
           _.traverseSeqArrayWithIndex((index, _data) =>
             pipe(
               index,
-              _.fromPredicate(
-                (x) => x < 1,
-                () => 'Error'
-              )
+              _.fromPredicate((x) => x < 1)
             )
           )
         )(undefined)(),
-        E.left('Error')
+        E.left(1)
       )
     })
   })

@@ -314,19 +314,9 @@ describe('Either', () => {
   })
 
   it('fromPredicate', () => {
-    const gt2 = _.fromPredicate(
-      (n: number) => n >= 2,
-      (n) => `Invalid number ${n}`
-    )
-    assert.deepStrictEqual(gt2(3), _.right(3))
-    assert.deepStrictEqual(gt2(1), _.left('Invalid number 1'))
-
-    // refinements
-    type Color = 'red' | 'blue'
-    const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
-    const from = _.fromPredicate(isColor, (s) => `invalid color ${s}`)
-    assert.deepStrictEqual(from('red'), _.right('red'))
-    assert.deepStrictEqual(from('foo'), _.left('invalid color foo'))
+    const f = _.fromPredicate((n: number) => n >= 2)
+    assert.deepStrictEqual(f(3), _.right(3))
+    assert.deepStrictEqual(f(1), _.left(1))
   })
 
   it('fromNullable', () => {
@@ -617,18 +607,7 @@ describe('Either', () => {
         ),
         _.right(arr)
       )
-      assert.deepStrictEqual(
-        pipe(
-          arr,
-          _.traverseArray(
-            _.fromPredicate(
-              (x) => x > 5,
-              () => 'a'
-            )
-          )
-        ),
-        _.left('a')
-      )
+      assert.deepStrictEqual(pipe(arr, _.traverseArray(_.fromPredicate((x) => x > 5))), _.left(0))
     })
 
     it('traverseArray', () => {
@@ -640,18 +619,7 @@ describe('Either', () => {
         ),
         _.right(arr)
       )
-      assert.deepStrictEqual(
-        pipe(
-          arr,
-          _.traverseArray(
-            _.fromPredicate(
-              (x) => x > 5,
-              () => 'a'
-            )
-          )
-        ),
-        _.left('a')
-      )
+      assert.deepStrictEqual(pipe(arr, _.traverseArray(_.fromPredicate((x) => x > 5))), _.left(0))
     })
   })
 })

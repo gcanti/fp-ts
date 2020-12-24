@@ -142,26 +142,26 @@ Added in v3.0.0
 export declare function fromPredicate_<F extends URIS4>(
   F: FromEither4<F>
 ): {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(a: A) => Kind4<F, S, R, E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(a: A) => Kind4<F, S, R, E, A>
+  <A, B extends A>(refinement: Refinement<A, B>): <S, R>(a: A) => Kind4<F, S, R, A, B>
+  <A>(predicate: Predicate<A>): <S, R>(a: A) => Kind4<F, S, R, A, A>
 }
 export declare function fromPredicate_<F extends URIS3>(
   F: FromEither3<F>
 ): {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => Kind3<F, R, E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => Kind3<F, R, E, A>
+  <A, B extends A>(refinement: Refinement<A, B>): <R>(a: A) => Kind3<F, R, A, B>
+  <A>(predicate: Predicate<A>): <R>(a: A) => Kind3<F, R, A, A>
 }
 export declare function fromPredicate_<F extends URIS2>(
   F: FromEither2<F>
 ): {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, A>
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => Kind2<F, A, B>
+  <A>(predicate: Predicate<A>): (a: A) => Kind2<F, A, A>
 }
 export declare function fromPredicate_<F>(
   F: FromEither<F>
 ): {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, A>
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => HKT2<F, A, B>
+  <A>(predicate: Predicate<A>): (a: A) => HKT2<F, A, A>
 }
 ```
 

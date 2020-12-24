@@ -612,8 +612,8 @@ Added in v3.0.0
 
 ```ts
 export declare const fromPredicate: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Either<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A>
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => Either<A, B>
+  <A>(predicate: Predicate<A>): (a: A) => Either<A, A>
 }
 ```
 
@@ -626,22 +626,16 @@ import { pipe } from 'fp-ts/function'
 assert.deepStrictEqual(
   pipe(
     1,
-    fromPredicate(
-      (n) => n > 0,
-      () => 'error'
-    )
+    fromPredicate((n) => n > 0)
   ),
   right(1)
 )
 assert.deepStrictEqual(
   pipe(
     -1,
-    fromPredicate(
-      (n) => n > 0,
-      () => 'error'
-    )
+    fromPredicate((n) => n > 0)
   ),
-  left('error')
+  left(-1)
 )
 ```
 
@@ -1478,13 +1472,13 @@ export declare const sequenceArray: <E, A>(arr: readonly Either<E, A>[]) => Eith
 **Example**
 
 ```ts
-import { sequenceArray, left, right } from 'fp-ts/Either'
+import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import * as A from 'fp-ts/ReadonlyArray'
 
 const arr = A.range(0, 10)
-assert.deepStrictEqual(pipe(arr, A.map(right), sequenceArray), right(arr))
-assert.deepStrictEqual(pipe(arr, A.map(right), A.cons(left('Error')), sequenceArray), left('Error'))
+assert.deepStrictEqual(pipe(arr, A.map(E.right), E.sequenceArray), E.right(arr))
+assert.deepStrictEqual(pipe(arr, A.map(E.right), A.cons(E.left('Error')), E.sequenceArray), E.left('Error'))
 ```
 
 Added in v3.0.0
@@ -1505,30 +1499,13 @@ export declare const traverseArray: <E, A, B>(
 **Example**
 
 ```ts
-import { traverseArray, left, right, fromPredicate } from 'fp-ts/Either'
+import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import * as A from 'fp-ts/ReadonlyArray'
 
 const arr = A.range(0, 10)
-assert.deepStrictEqual(
-  pipe(
-    arr,
-    traverseArray((x) => right(x))
-  ),
-  right(arr)
-)
-assert.deepStrictEqual(
-  pipe(
-    arr,
-    traverseArray(
-      fromPredicate(
-        (x) => x > 5,
-        () => 'a'
-      )
-    )
-  ),
-  left('a')
-)
+assert.deepStrictEqual(pipe(arr, E.traverseArray(E.right)), E.right(arr))
+assert.deepStrictEqual(pipe(arr, E.traverseArray(E.fromPredicate((x) => x > 5))), E.left(0))
 ```
 
 Added in v3.0.0

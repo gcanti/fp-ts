@@ -157,17 +157,14 @@ describe('IOEither', () => {
     })
 
     it('fromPredicate', () => {
-      const gt2 = _.fromPredicate(
-        (n: number) => n >= 2,
-        (n) => `Invalid number ${n}`
-      )
-      assert.deepStrictEqual(gt2(3)(), E.right(3))
-      assert.deepStrictEqual(gt2(1)(), E.left('Invalid number 1'))
+      const f = _.fromPredicate((n: number) => n >= 2)
+      assert.deepStrictEqual(f(3)(), E.right(3))
+      assert.deepStrictEqual(f(1)(), E.left(1))
 
       // refinements
       const isNumber = (u: string | number): u is number => typeof u === 'number'
-      const from = _.fromPredicate(isNumber, () => 'not a number')
-      assert.deepStrictEqual(from(4)(), E.right(4))
+      const g = _.fromPredicate(isNumber)
+      assert.deepStrictEqual(g(4)(), E.right(4))
     })
   })
 
@@ -439,14 +436,11 @@ describe('IOEither', () => {
           _.traverseSeqArrayWithIndex((index, _data) =>
             pipe(
               index,
-              _.fromPredicate(
-                (index) => index < 1,
-                () => 'ERROR'
-              )
+              _.fromPredicate((index) => index < 1)
             )
           )
         )(),
-        E.left('ERROR')
+        E.left(1)
       )
       assert.deepStrictEqual(
         pipe(

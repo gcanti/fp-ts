@@ -98,18 +98,9 @@ describe('StateReaderTaskEither', () => {
     })
 
     it('fromPredicate', async () => {
-      const predicate = (n: number) => n >= 2
-      const gt2 = _.fromPredicate(predicate, (n) => `Invalid number ${n}`)
-
-      const refinement = (u: string | number): u is number => typeof u === 'number'
-      const isNumber = _.fromPredicate(refinement, (u) => `Invalid number ${String(u)}`)
-
-      const e1 = await pipe(gt2(3), _.evaluate(state))({})()
-      const e2 = await pipe(gt2(1), _.evaluate(state))({})()
-      const e3 = await pipe(isNumber(4), _.evaluate(state))({})()
-      assert.deepStrictEqual(e1, E.right(3))
-      assert.deepStrictEqual(e2, E.left('Invalid number 1'))
-      assert.deepStrictEqual(e3, E.right(4))
+      const f = _.fromPredicate((n: number) => n >= 2)
+      assert.deepStrictEqual(await pipe(f(3), _.evaluate(state))({})(), E.right(3))
+      assert.deepStrictEqual(await pipe(f(1), _.evaluate(state))({})(), E.left(1))
     })
 
     it('filterOrElse', async () => {
@@ -377,14 +368,11 @@ describe('StateReaderTaskEither', () => {
           _.traverseArrayWithIndex((_index, a) =>
             pipe(
               a,
-              _.fromPredicate(
-                (a) => a > 5,
-                () => 'ERROR'
-              )
+              _.fromPredicate((a) => a > 5)
             )
           )
         )(0)({})(),
-        E.left('ERROR')
+        E.left(0)
       )
 
       assert.deepStrictEqual(

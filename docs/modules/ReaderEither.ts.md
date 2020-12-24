@@ -385,8 +385,8 @@ Derivable from `FromEither`.
 
 ```ts
 export declare const fromPredicate: {
-  <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>
+  <A, B>(refinement: Refinement<A, B>): <R>(a: A) => ReaderEither<R, A, B>
+  <A>(predicate: Predicate<A>): <R>(a: A) => ReaderEither<R, A, A>
 }
 ```
 

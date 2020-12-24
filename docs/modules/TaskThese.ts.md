@@ -200,8 +200,8 @@ Derivable from `FromEither`.
 
 ```ts
 export declare const fromPredicate: {
-  <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskThese<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskThese<E, A>
+  <A, B>(refinement: Refinement<A, B>): (a: A) => TaskThese<A, B>
+  <A>(predicate: Predicate<A>): (a: A) => TaskThese<A, A>
 }
 ```
 

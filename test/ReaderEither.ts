@@ -90,12 +90,9 @@ describe('ReaderEither', () => {
     })
 
     it('fromPredicate', () => {
-      const gt2 = _.fromPredicate(
-        (n: number) => n >= 2,
-        (n) => `Invalid number ${n}`
-      )
-      assert.deepStrictEqual(gt2(3)({}), E.right(3))
-      assert.deepStrictEqual(gt2(1)({}), E.left('Invalid number 1'))
+      const f = _.fromPredicate((n: number) => n >= 2)
+      assert.deepStrictEqual(f(3)({}), E.right(3))
+      assert.deepStrictEqual(f(1)({}), E.left(1))
     })
 
     it('filterOrElse', () => {

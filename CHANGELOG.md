@@ -78,6 +78,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `onError` parameter in `tryCatch` (@gcanti)
     - remove `onError` parameter in `parseJSON` (@gcanti)
     - remove `onError` parameter in `stringifyJSON` (@gcanti)
+    - remove `onFalse` parameter in `fromPredicate` (@gcanti)
   - `Eq`
     - remove `eq` (@gcanti)
     - make type class members pipeables (@gcanti)
@@ -121,6 +122,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead (@gcanti)
     - remove `ioEither` (@gcanti)
     - remove `onError` parameter in `tryCatch` (@gcanti)
+    - remove `onFalse` parameter in `fromPredicate` (@gcanti)
   - `JoinSemilattice`
     - make type class members pipeables (@gcanti)
   - `Magma`
@@ -152,6 +154,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `local`, use `Reader`'s `local` instead (@gcanti)
     - remove `getReaderValidation`, use `getApplicativeReaderValidation` and `getAltReaderValidation` instead (@gcanti)
     - remove `readerEither` (@gcanti)
+    - remove `onFalse` parameter in `fromPredicate` (@gcanti)
   - `ReaderTask`
     - remove `local`, use `Reader`'s `local` instead (@gcanti)
     - remove `run` (@gcanti)
@@ -161,6 +164,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `run` (@gcanti)
     - remove `readerTaskEither` (@gcanti)
     - remove `readerTaskEitherSeq` (@gcanti)
+    - remove `onFalse` parameter in `fromPredicate` (@gcanti)
   - `ReadonlyArray`
     - make `lookup` pipeable (@gcanti)
     - make `cons` pipeable (@gcanti)
@@ -214,6 +218,7 @@ high state of flux, you're at risk of it changing without notice.
   - `StateReaderTaskEither`
     - remove `run` (@gcanti)
     - remove `stateReaderTaskEither` (@gcanti)
+    - remove `onFalse` parameter in `fromPredicate` (@gcanti)
   - `Store`
     - remove `store` (@gcanti)
   - `Task`
@@ -223,13 +228,16 @@ high state of flux, you're at risk of it changing without notice.
     - remove `getTaskValidation`, use `getApplicativeTaskValidation` and `getAltTaskValidation` instead (@gcanti)
     - remove `taskEither` (@gcanti)
     - remove `taskEitherSeq` (@gcanti)
+    - remove `onFalse` parameter in `fromPredicate` (@gcanti)
   - `TaskThese`
     - make `toTuple` lazy (@gcanti)
     - remove `taskThese` (@gcanti)
+    - remove `onFalse` parameter in `fromPredicate` (@gcanti)
   - `These`
     - make `toTuple` lazy (@gcanti)
     - make `leftOrBoth` and `rightOrBoth` lazy (@gcanti)
     - remove `these` (@gcanti)
+    - remove `onFalse` parameter in `fromPredicate` (@gcanti)
   - `Traced`
     - make `tracks` curried (@gcanti)
     - remove `traced` (@gcanti)

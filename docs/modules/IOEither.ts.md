@@ -377,8 +377,8 @@ Derivable from `FromEither`.
 
 ```ts
 export declare const fromPredicate: {
-  <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => IOEither<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A>
+  <A, B>(refinement: Refinement<A, B>): (a: A) => IOEither<A, B>
+  <A>(predicate: Predicate<A>): (a: A) => IOEither<A, A>
 }
 ```
 
