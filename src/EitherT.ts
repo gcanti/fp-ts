@@ -7,7 +7,7 @@ import { flow, Lazy } from './function'
 import { Functor, Functor1, Functor2, map_ as map__ } from './Functor'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
-import { Pointed2, Pointed1, Pointed } from './Pointed'
+import { Pointed, Pointed1, Pointed2 } from './Pointed'
 
 import Either = E.Either
 

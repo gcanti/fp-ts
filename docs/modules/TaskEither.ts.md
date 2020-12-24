@@ -306,7 +306,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <E, A>(fa: IO<A>) => TaskEither<E, A>
+export declare const fromIO: <A, E>(fa: IO<A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0

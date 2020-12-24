@@ -23,6 +23,7 @@ high state of flux, you're at risk of it changing without notice.
   - remove deprecated APIs (@gcanti)
   - remove `pipeable` module (@gcanti)
   - refactor monad transformers by splitting into functions (@gcanti)
+  - remove `ValidationT` module (@gcanti)
   - remove `Chain` module (@gcanti)
   - remove `Choice` module (@gcanti)
   - remove `Strong` module (@gcanti)

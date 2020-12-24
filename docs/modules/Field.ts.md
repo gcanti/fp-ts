@@ -6,8 +6,6 @@ parent: Modules
 
 ## Field overview
 
-Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Field.purs
-
 Added in v3.0.0
 
 ---
@@ -61,7 +59,7 @@ The _greatest common divisor_ of two values.
 **Signature**
 
 ```ts
-export declare function gcd<A>(E: Eq<A>, field: Field<A>): (second: A) => (first: A) => A
+export declare const gcd: <A>(E: Eq<A>, F: Field<A>) => (second: A) => (first: A) => A
 ```
 
 Added in v3.0.0
@@ -73,7 +71,7 @@ The _least common multiple_ of two values.
 **Signature**
 
 ```ts
-export declare function lcm<A>(E: Eq<A>, F: Field<A>): (second: A) => (first: A) => A
+export declare const lcm: <A>(E: Eq<A>, F: Field<A>) => (second: A) => (first: A) => A
 ```
 
 Added in v3.0.0

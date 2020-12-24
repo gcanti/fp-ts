@@ -120,7 +120,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <E, A>(fa: IO<A>) => ReaderTask<E, A>
+export declare const fromIO: <A, E>(fa: IO<A>) => ReaderTask<E, A>
 ```
 
 Added in v3.0.0

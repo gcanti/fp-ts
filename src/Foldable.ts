@@ -153,8 +153,8 @@ export function reduceM<M, F>(
 export function intercalate<M, F extends URIS3>(
   M: Monoid<M>,
   F: Foldable3<F>
-): <R, E>(sep: M) => (fm: Kind3<F, R, E, M>) => M
-export function intercalate<M, F extends URIS2>(M: Monoid<M>, F: Foldable2<F>): <E>(sep: M) => (fm: Kind2<F, E, M>) => M
+): (sep: M) => <R, E>(fm: Kind3<F, R, E, M>) => M
+export function intercalate<M, F extends URIS2>(M: Monoid<M>, F: Foldable2<F>): (sep: M) => <E>(fm: Kind2<F, E, M>) => M
 export function intercalate<M, F extends URIS2, E>(
   M: Monoid<M>,
   F: Foldable2C<F, E>

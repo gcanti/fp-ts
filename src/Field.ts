@@ -1,6 +1,4 @@
 /**
- * Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Field.purs
- *
  * @since 3.0.0
  */
 import { Ring } from './Ring'
@@ -15,6 +13,10 @@ export interface Field<A> extends Ring<A> {
   readonly div: (second: A) => (first: A) => A
   readonly mod: (second: A) => (first: A) => A
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances
@@ -36,9 +38,9 @@ export const fieldNumber: Field<number> = {
  *
  * @since 3.0.0
  */
-export function gcd<A>(E: Eq<A>, field: Field<A>): (second: A) => (first: A) => A {
-  const predicate = E.equals(field.zero)
-  const f = (second: A) => (first: A): A => (predicate(second) ? first : f(field.mod(second)(first))(second))
+export const gcd = <A>(E: Eq<A>, F: Field<A>): ((second: A) => (first: A) => A) => {
+  const predicate = E.equals(F.zero)
+  const f = (second: A) => (first: A): A => (predicate(second) ? first : f(F.mod(second)(first))(second))
   return f
 }
 
@@ -47,7 +49,7 @@ export function gcd<A>(E: Eq<A>, field: Field<A>): (second: A) => (first: A) => 
  *
  * @since 3.0.0
  */
-export function lcm<A>(E: Eq<A>, F: Field<A>): (second: A) => (first: A) => A {
+export const lcm = <A>(E: Eq<A>, F: Field<A>): ((second: A) => (first: A) => A) => {
   const zero = F.zero
   const predicate = E.equals(zero)
   const gcdSF = gcd(E, F)

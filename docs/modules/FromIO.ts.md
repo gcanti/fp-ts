@@ -60,7 +60,7 @@ Added in v3.0.0
 ```ts
 export interface FromIO2<M extends URIS2> {
   readonly URI: M
-  readonly fromIO: <E, A>(fa: IO<A>) => Kind2<M, E, A>
+  readonly fromIO: <A, E>(fa: IO<A>) => Kind2<M, E, A>
 }
 ```
 
@@ -86,7 +86,7 @@ Added in v3.0.0
 ```ts
 export interface FromIO3<M extends URIS3> {
   readonly URI: M
-  readonly fromIO: <R, E, A>(fa: IO<A>) => Kind3<M, R, E, A>
+  readonly fromIO: <A, R, E>(fa: IO<A>) => Kind3<M, R, E, A>
 }
 ```
 
@@ -99,7 +99,7 @@ Added in v3.0.0
 ```ts
 export interface FromIO3C<M extends URIS3, E> {
   readonly URI: M
-  readonly fromIO: <R, A>(fa: IO<A>) => Kind3<M, R, E, A>
+  readonly fromIO: <A, R>(fa: IO<A>) => Kind3<M, R, E, A>
 }
 ```
 
@@ -112,7 +112,7 @@ Added in v3.0.0
 ```ts
 export interface FromIO4<M extends URIS4> {
   readonly URI: M
-  readonly fromIO: <S, R, E, A>(fa: IO<A>) => Kind4<M, S, R, E, A>
+  readonly fromIO: <A, S, R, E>(fa: IO<A>) => Kind4<M, S, R, E, A>
 }
 ```
 

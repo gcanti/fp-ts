@@ -210,7 +210,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <E, A>(fa: I.IO<A>) => IOEither<E, A>
+export declare const fromIO: <A, E>(fa: I.IO<A>) => IOEither<E, A>
 ```
 
 Added in v3.0.0

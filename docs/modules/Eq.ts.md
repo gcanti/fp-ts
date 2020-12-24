@@ -10,9 +10,9 @@ The `Eq` type class represents types which support decidable equality.
 
 Instances must satisfy the following laws:
 
-1. Reflexivity: `equals(a)(a) === true`
-2. Symmetry: `equals(b)(a) === equals(a)(b)`
-3. Transitivity: if `equals(b)(a) === true` and `equals(c)(b) === true`, then `equals(c)(a) === true`
+1. Reflexivity: `a |> equals(a) === true`
+2. Symmetry: `a |> equals(b) === b |> equals(a)`
+3. Transitivity: if `a |> equals(b) === true` and `b |> equals(c) === true`, then `a |> equals(c) === true`
 
 Added in v3.0.0
 
@@ -22,6 +22,9 @@ Added in v3.0.0
 
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
+- [combinators](#combinators)
+  - [getStructEq](#getstructeq)
+  - [getTupleEq](#gettupleeq)
 - [constructors](#constructors)
   - [fromEquals](#fromequals)
 - [instances](#instances)
@@ -34,8 +37,6 @@ Added in v3.0.0
   - [eqStrict](#eqstrict)
   - [eqString](#eqstring)
   - [getMonoid](#getmonoid)
-  - [getStructEq](#getstructeq)
-  - [getTupleEq](#gettupleeq)
 - [type classes](#type-classes)
   - [Eq (interface)](#eq-interface)
 
@@ -53,6 +54,42 @@ export declare const contramap: <B, A>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B>
 
 Added in v3.0.0
 
+# combinators
+
+## getStructEq
+
+**Signature**
+
+```ts
+export declare const getStructEq: <A>(eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<A>
+```
+
+Added in v3.0.0
+
+## getTupleEq
+
+Given a tuple of `Eq`s returns a `Eq` for the tuple
+
+**Signature**
+
+```ts
+export declare const getTupleEq: <A extends readonly unknown[]>(...eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<A>
+```
+
+**Example**
+
+```ts
+import { getTupleEq, eqString, eqNumber, eqBoolean } from 'fp-ts/Eq'
+
+const E = getTupleEq(eqString, eqNumber, eqBoolean)
+assert.strictEqual(E.equals(['a', 1, true])(['a', 1, true]), true)
+assert.strictEqual(E.equals(['a', 1, true])(['b', 1, true]), false)
+assert.strictEqual(E.equals(['a', 1, true])(['a', 2, true]), false)
+assert.strictEqual(E.equals(['a', 1, true])(['a', 1, false]), false)
+```
+
+Added in v3.0.0
+
 # constructors
 
 ## fromEquals
@@ -60,7 +97,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromEquals<A>(equals: Eq<A>['equals']): Eq<A>
+export declare const fromEquals: <A>(equals: (second: A) => (first: A) => boolean) => Eq<A>
 ```
 
 Added in v3.0.0
@@ -152,41 +189,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getMonoid<A>(): Monoid<Eq<A>>
-```
-
-Added in v3.0.0
-
-## getStructEq
-
-**Signature**
-
-```ts
-export declare const getStructEq: <A>(eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<A>
-```
-
-Added in v3.0.0
-
-## getTupleEq
-
-Given a tuple of `Eq`s returns a `Eq` for the tuple
-
-**Signature**
-
-```ts
-export declare const getTupleEq: <A extends readonly unknown[]>(...eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<A>
-```
-
-**Example**
-
-```ts
-import { getTupleEq, eqString, eqNumber, eqBoolean } from 'fp-ts/Eq'
-
-const E = getTupleEq(eqString, eqNumber, eqBoolean)
-assert.strictEqual(E.equals(['a', 1, true])(['a', 1, true]), true)
-assert.strictEqual(E.equals(['a', 1, true])(['b', 1, true]), false)
-assert.strictEqual(E.equals(['a', 1, true])(['a', 2, true]), false)
-assert.strictEqual(E.equals(['a', 1, true])(['a', 1, false]), false)
+export declare const getMonoid: <A>() => Monoid<Eq<A>>
 ```
 
 Added in v3.0.0

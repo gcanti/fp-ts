@@ -233,7 +233,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <R, E, A>(fa: IO<A>) => ReaderTaskEither<R, E, A>
+export declare const fromIO: <A, R, E>(fa: IO<A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
