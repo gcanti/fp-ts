@@ -640,8 +640,10 @@ export const findLastIndex = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<
  *
  * @since 3.0.0
  */
-export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
-  i < 0 || i > as.length ? O.none : O.some(unsafeInsertAt(i, a, as))
+export const insertAt = <A>(i: number, a: A): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>) => {
+  const insert = unsafeInsertAt(i, a)
+  return (as) => (i < 0 || i > as.length ? O.none : O.some(insert(as)))
+}
 
 /**
  * Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
@@ -786,7 +788,7 @@ export const sort = <B>(O: Ord<B>) => <A extends B>(as: ReadonlyArray<A>): Reado
  * @category combinators
  * @since 3.0.0
  */
-export const zipWith = <A, B, C>(fb: ReadonlyArray<B>, f: (a: A, b: B) => C) => (
+export const zipWith = <B, A, C>(fb: ReadonlyArray<B>, f: (a: A, b: B) => C) => (
   fa: ReadonlyArray<A>
 ): ReadonlyArray<C> => {
   // tslint:disable-next-line: readonly-array
@@ -1945,7 +1947,7 @@ export const Witherable: Witherable1<URI> = {
  * @category unsafe
  * @since 3.0.0
  */
-export const unsafeInsertAt = <A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> => {
+export const unsafeInsertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
   const xs = as.slice()
   xs.splice(i, 0, a)
   return xs

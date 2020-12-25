@@ -1025,7 +1025,7 @@ input array is short, excess elements of the longer array are discarded.
 **Signature**
 
 ```ts
-export declare const zipWith: <A, B, C>(fb: readonly B[], f: (a: A, b: B) => C) => (fa: readonly A[]) => readonly C[]
+export declare const zipWith: <B, A, C>(fb: readonly B[], f: (a: A, b: B) => C) => (fa: readonly A[]) => readonly C[]
 ```
 
 **Example**
@@ -1663,7 +1663,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const unsafeInsertAt: <A>(i: number, a: A, as: readonly A[]) => readonly A[]
+export declare const unsafeInsertAt: <A>(i: number, a: A) => (as: readonly A[]) => readonly A[]
 ```
 
 Added in v3.0.0

@@ -178,6 +178,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `intersection` pipeable (@gcanti)
     - make `difference` pipeable (@gcanti)
     - make `isOutOfBound` pipeable (@gcanti)
+    - make `unsafeInsertAt` pipeable (@gcanti)
     - remove `readonlyArray` (@gcanti)
   - `ReadonlyMap`
     - make `member` pipeable (@gcanti)
