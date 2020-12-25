@@ -677,7 +677,8 @@ export const updateAt = <A>(i: number, a: A): ((as: ReadonlyArray<A>) => Option<
  */
 export const deleteAt = (i: number): (<A>(as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>) => {
   const predicate = isOutOfBound(i)
-  return (as) => (predicate(as) ? O.none : O.some(unsafeDeleteAt(i, as)))
+  const del = unsafeDeleteAt(i)
+  return (as) => (predicate(as) ? O.none : O.some(del(as)))
 }
 
 /**
@@ -1972,7 +1973,7 @@ export const unsafeUpdateAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Re
  * @category unsafe
  * @since 3.0.0
  */
-export const unsafeDeleteAt = <A>(i: number, as: ReadonlyArray<A>): ReadonlyArray<A> => {
+export const unsafeDeleteAt = (i: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => {
   const xs = as.slice()
   xs.splice(i, 1)
   return xs

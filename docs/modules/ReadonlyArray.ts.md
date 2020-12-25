@@ -1653,7 +1653,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const unsafeDeleteAt: <A>(i: number, as: readonly A[]) => readonly A[]
+export declare const unsafeDeleteAt: (i: number) => <A>(as: readonly A[]) => readonly A[]
 ```
 
 Added in v3.0.0
