@@ -1673,7 +1673,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const unsafeUpdateAt: <A>(i: number, a: A, as: readonly A[]) => readonly A[]
+export declare const unsafeUpdateAt: <A>(i: number, a: A) => (as: readonly A[]) => readonly A[]
 ```
 
 Added in v3.0.0

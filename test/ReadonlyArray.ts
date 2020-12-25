@@ -564,7 +564,7 @@ describe('ReadonlyArray', () => {
     // should return the same reference if nothing changed
     const x = { a: 1 }
     const as: ReadonlyArray<{ readonly a: number }> = [x]
-    const result = _.unsafeUpdateAt(0, x, as)
+    const result = _.unsafeUpdateAt(0, x)(as)
     assert.deepStrictEqual(result, as)
   })
 

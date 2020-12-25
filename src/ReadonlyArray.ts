@@ -659,7 +659,8 @@ export const insertAt = <A>(i: number, a: A): ((as: ReadonlyArray<A>) => Option<
  */
 export const updateAt = <A>(i: number, a: A): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>) => {
   const predicate = isOutOfBound(i)
-  return (as) => (predicate(as) ? O.none : O.some(unsafeUpdateAt(i, a, as)))
+  const update = unsafeUpdateAt(i, a)
+  return (as) => (predicate(as) ? O.none : O.some(update(as)))
 }
 
 /**
@@ -695,7 +696,7 @@ export const deleteAt = (i: number): (<A>(as: ReadonlyArray<A>) => Option<Readon
  */
 export const modifyAt = <A>(i: number, f: Endomorphism<A>): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>) => {
   const predicate = isOutOfBound(i)
-  return (as) => (predicate(as) ? O.none : O.some(unsafeUpdateAt(i, f(as[i]), as)))
+  return (as) => (predicate(as) ? O.none : O.some(unsafeUpdateAt(i, f(as[i]))(as)))
 }
 
 /**
@@ -1957,7 +1958,7 @@ export const unsafeInsertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Re
  * @category unsafe
  * @since 3.0.0
  */
-export const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> => {
+export const unsafeUpdateAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
   if (as[i] === a) {
     return as
   } else {
