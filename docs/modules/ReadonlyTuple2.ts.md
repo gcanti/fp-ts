@@ -1,10 +1,10 @@
 ---
-title: ReadonlyTuple.ts
+title: ReadonlyTuple2.ts
 nav_order: 67
 parent: Modules
 ---
 
-## ReadonlyTuple overview
+## ReadonlyTuple2 overview
 
 Added in v3.0.0
 

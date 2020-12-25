@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import { identity, pipe } from '../src/function'
 import { monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
-import * as _ from '../src/ReadonlyTuple'
+import * as _ from '../src/ReadonlyTuple2'
 
 describe('ReadonlyTuple', () => {
   describe('pipeables', () => {

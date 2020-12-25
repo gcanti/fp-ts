@@ -78,7 +78,7 @@ Added in v3.0.0
   - [readonlyNonEmptyArray](#readonlynonemptyarray)
   - [readonlyRecord](#readonlyrecord)
   - [readonlySet](#readonlyset)
-  - [readonlyTuple](#readonlytuple)
+  - [readonlyTuple2](#readonlytuple2)
   - [ring](#ring)
   - [semigroup](#semigroup)
   - [semigroupoid](#semigroupoid)
@@ -756,12 +756,12 @@ export declare const readonlySet: typeof readonlySet
 
 Added in v3.0.0
 
-## readonlyTuple
+## readonlyTuple2
 
 **Signature**
 
 ```ts
-export declare const readonlyTuple: typeof readonlyTuple
+export declare const readonlyTuple2: typeof readonlyTuple2
 ```
 
 Added in v3.0.0

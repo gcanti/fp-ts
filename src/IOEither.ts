@@ -727,9 +727,9 @@ export const traverseArray: <A, E, B>(
  *
  * @since 3.0.0
  */
-export const sequenceArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEither<E, ReadonlyArray<A>> = traverseArray(
-  identity
-)
+export const sequenceArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEither<E, ReadonlyArray<A>> =
+  /*#__PURE__*/
+  traverseArray(identity)
 
 /**
  * @since 3.0.0
@@ -759,6 +759,6 @@ export const traverseSeqArray: <A, E, B>(
 /**
  * @since 3.0.0
  */
-export const sequenceSeqArray: <E, A>(
-  arr: ReadonlyArray<IOEither<E, A>>
-) => IOEither<E, ReadonlyArray<A>> = traverseSeqArray(identity)
+export const sequenceSeqArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEither<E, ReadonlyArray<A>> =
+  /*#__PURE__*/
+  traverseSeqArray(identity)

@@ -32,6 +32,7 @@ high state of flux, you're at risk of it changing without notice.
   - replace `MonadThrow` with `FromEither` (@gcanti)
   - replace `MonadIO` with `FromIO` (@gcanti)
   - replace `MonadTask` with `FromTask` (@gcanti)
+  - rename `ReadonlyTuple` to `ReadonlyTuple2` (@gcanti)
   - remove mutable modules (@gcanti)
     - `Array`
     - `Map`

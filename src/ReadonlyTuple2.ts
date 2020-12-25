@@ -18,7 +18,7 @@ import { Semigroupoid2 } from './Semigroupoid'
 import { Traversable2 } from './Traversable'
 
 // -------------------------------------------------------------------------------------
-// model
+// destructors
 // -------------------------------------------------------------------------------------
 
 /**
@@ -33,11 +33,19 @@ export const fst = <A, E>(ea: readonly [A, E]): A => ea[0]
  */
 export const snd = <A, E>(ea: readonly [A, E]): E => ea[1]
 
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
 /**
  * @category combinators
  * @since 3.0.0
  */
 export const swap = <A, E>(ea: readonly [A, E]): readonly [E, A] => [snd(ea), fst(ea)]
+
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.

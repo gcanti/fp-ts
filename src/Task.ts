@@ -520,4 +520,6 @@ export const traverseSeqArray: <A, B>(f: (a: A) => Task<B>) => (arr: ReadonlyArr
  *
  * @since 3.0.0
  */
-export const sequenceSeqArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> = traverseSeqArray(identity)
+export const sequenceSeqArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
+  /*#__PURE__*/
+  traverseSeqArray(identity)
