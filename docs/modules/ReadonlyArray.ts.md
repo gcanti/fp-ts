@@ -801,7 +801,7 @@ Same as `reduce` but it carries over the intermediate steps
 **Signature**
 
 ```ts
-export declare const scanLeft: <A, B>(b: B, f: (b: B, a: A) => B) => (as: readonly A[]) => readonly B[]
+export declare const scanLeft: <B, A>(b: B, f: (b: B, a: A) => B) => (as: readonly A[]) => readonly B[]
 ```
 
 **Example**
@@ -821,7 +821,7 @@ Fold an array from the right, keeping all intermediate results instead of only t
 **Signature**
 
 ```ts
-export declare const scanRight: <A, B>(b: B, f: (a: A, b: B) => B) => (as: readonly A[]) => readonly B[]
+export declare const scanRight: <B, A>(b: B, f: (a: A, b: B) => B) => (as: readonly A[]) => readonly B[]
 ```
 
 **Example**
@@ -1300,7 +1300,7 @@ Break an array into its first element and remaining elements
 **Signature**
 
 ```ts
-export declare const foldLeft: <A, B>(
+export declare const foldLeft: <B, A>(
   onEmpty: Lazy<B>,
   onCons: (head: A, tail: readonly A[]) => B
 ) => (as: readonly A[]) => B
@@ -1327,7 +1327,7 @@ Break an array into its initial elements and the last element
 **Signature**
 
 ```ts
-export declare const foldRight: <A, B>(
+export declare const foldRight: <B, A>(
   onEmpty: Lazy<B>,
   onCons: (init: readonly A[], last: A) => B
 ) => (as: readonly A[]) => B
@@ -2138,7 +2138,7 @@ Test whether an array contains a particular index
 **Signature**
 
 ```ts
-export declare const isOutOfBound: <A>(i: number, as: readonly A[]) => boolean
+export declare const isOutOfBound: <A>(i: number) => (as: readonly A[]) => boolean
 ```
 
 Added in v3.0.0

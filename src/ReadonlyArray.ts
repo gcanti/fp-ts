@@ -42,119 +42,6 @@ import Option = O.Option
 // tslint:disable-next-line: readonly-array
 export const fromArray = <A>(as: Array<A>): ReadonlyArray<A> => (isEmpty(as) ? empty : as.slice())
 
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
-
-/**
- * @category destructors
- * @since 3.0.0
- */
-// tslint:disable-next-line: readonly-array
-export const toArray = <A>(as: ReadonlyArray<A>): Array<A> => as.slice()
-
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getShow = <A>(S: Show<A>): Show<ReadonlyArray<A>> => ({
-  show: (as) => `[${as.map(S.show).join(', ')}]`
-})
-
-const concat = <A, B>(first: ReadonlyArray<A>, second: ReadonlyArray<B>): ReadonlyArray<A | B> => {
-  const lenx = first.length
-  if (lenx === 0) {
-    return second
-  }
-  const leny = second.length
-  if (leny === 0) {
-    return first
-  }
-  const r = Array(lenx + leny)
-  for (let i = 0; i < lenx; i++) {
-    r[i] = first[i]
-  }
-  for (let i = 0; i < leny; i++) {
-    r[i + lenx] = second[i]
-  }
-  return r
-}
-
-/**
- * Returns a `Monoid` for `ReadonlyArray<A>`
- *
- * @example
- * import { getMonoid } from 'fp-ts/ReadonlyArray'
- * import { pipe } from 'fp-ts/function'
- *
- * const M = getMonoid<number>()
- * assert.deepStrictEqual(pipe([1, 2], M.concat([3, 4])), [1, 2, 3, 4])
- *
- * @category instances
- * @since 3.0.0
- */
-export const getMonoid = <A = never>(): Monoid<ReadonlyArray<A>> => ({
-  concat: (second) => (first) => concat(first, second),
-  empty
-})
-
-/**
- * Derives an `Eq` over the `ReadonlyArray` of a given element type from the `Eq` of that type. The derived `Eq` defines two
- * arrays as equal if all elements of both arrays are compared equal pairwise with the given `E`. In case of arrays of
- * different lengths, the result is non equality.
- *
- * @example
- * import { eqString } from 'fp-ts/Eq'
- * import { getEq } from 'fp-ts/ReadonlyArray'
- *
- * const E = getEq(eqString)
- * assert.strictEqual(E.equals(['a', 'b'])(['a', 'b']), true)
- * assert.strictEqual(E.equals(['a'])([]), false)
- *
- * @category instances
- * @since 3.0.0
- */
-export const getEq = <A>(E: Eq<A>): Eq<ReadonlyArray<A>> =>
-  fromEquals((second) => (first) => first.length === second.length && first.every((x, i) => E.equals(second[i])(x)))
-
-/**
- * Derives an `Ord` over the `ReadonlyArray` of a given element type from the `Ord` of that type. The ordering between two such
- * arrays is equal to: the first non equal comparison of each arrays elements taken pairwise in increasing order, in
- * case of equality over all the pairwise elements; the longest array is considered the greatest, if both arrays have
- * the same length, the result is equality.
- *
- * @example
- * import { getOrd } from 'fp-ts/ReadonlyArray'
- * import { ordString } from 'fp-ts/Ord'
- * import { pipe } from 'fp-ts/function'
- *
- * const O = getOrd(ordString)
- * assert.strictEqual(pipe(['b'], O.compare(['a'])), 1)
- * assert.strictEqual(pipe(['a'], O.compare(['a'])), 0)
- * assert.strictEqual(pipe(['a'], O.compare(['b'])), -1)
- *
- *
- * @category instances
- * @since 3.0.0
- */
-export const getOrd = <A>(O: Ord<A>): Ord<ReadonlyArray<A>> =>
-  fromCompare((second) => (first) => {
-    const aLen = first.length
-    const bLen = second.length
-    const len = Math.min(aLen, bLen)
-    for (let i = 0; i < len; i++) {
-      const ordering = O.compare(second[i])(first[i])
-      if (ordering !== 0) {
-        return ordering
-      }
-    }
-    return ordNumber.compare(bLen)(aLen)
-  })
-
 /**
  * Return a list of length `n` with element `i` initialized with `f(i)`
  *
@@ -202,6 +89,17 @@ export const range = (start: number, end: number): ReadonlyArray<number> => make
  */
 export const replicate = <A>(n: number, a: A): ReadonlyArray<A> => makeBy(n, () => a)
 
+// -------------------------------------------------------------------------------------
+// destructors
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category destructors
+ * @since 3.0.0
+ */
+// tslint:disable-next-line: readonly-array
+export const toArray = <A>(as: ReadonlyArray<A>): Array<A> => as.slice()
+
 /**
  * Break an array into its first element and remaining elements
  *
@@ -214,7 +112,7 @@ export const replicate = <A>(n: number, a: A): ReadonlyArray<A> => makeBy(n, () 
  * @category destructors
  * @since 3.0.0
  */
-export const foldLeft = <A, B>(onEmpty: Lazy<B>, onCons: (head: A, tail: ReadonlyArray<A>) => B) => (
+export const foldLeft = <B, A>(onEmpty: Lazy<B>, onCons: (head: A, tail: ReadonlyArray<A>) => B) => (
   as: ReadonlyArray<A>
 ): B => (isEmpty(as) ? onEmpty() : onCons(as[0], as.slice(1)))
 
@@ -224,9 +122,13 @@ export const foldLeft = <A, B>(onEmpty: Lazy<B>, onCons: (head: A, tail: Readonl
  * @category destructors
  * @since 3.0.0
  */
-export const foldRight = <A, B>(onEmpty: Lazy<B>, onCons: (init: ReadonlyArray<A>, last: A) => B) => (
+export const foldRight = <B, A>(onEmpty: Lazy<B>, onCons: (init: ReadonlyArray<A>, last: A) => B) => (
   as: ReadonlyArray<A>
 ): B => (isEmpty(as) ? onEmpty() : onCons(as.slice(0, as.length - 1), as[as.length - 1]))
+
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
 
 /**
  * Same as `reduce` but it carries over the intermediate steps
@@ -239,7 +141,7 @@ export const foldRight = <A, B>(onEmpty: Lazy<B>, onCons: (init: ReadonlyArray<A
  * @category combinators
  * @since 3.0.0
  */
-export const scanLeft = <A, B>(b: B, f: (b: B, a: A) => B) => (as: ReadonlyArray<A>): ReadonlyArray<B> => {
+export const scanLeft = <B, A>(b: B, f: (b: B, a: A) => B) => (as: ReadonlyArray<A>): ReadonlyArray<B> => {
   const len = as.length
   // tslint:disable-next-line: readonly-array
   const out: Array<B> = new Array(len + 1)
@@ -261,7 +163,7 @@ export const scanLeft = <A, B>(b: B, f: (b: B, a: A) => B) => (as: ReadonlyArray
  * @category combinators
  * @since 3.0.0
  */
-export const scanRight = <A, B>(b: B, f: (a: A, b: B) => B) => (as: ReadonlyArray<A>): ReadonlyArray<B> => {
+export const scanRight = <B, A>(b: B, f: (a: A, b: B) => B) => (as: ReadonlyArray<A>): ReadonlyArray<B> => {
   const len = as.length
   // tslint:disable-next-line: readonly-array
   const out: Array<B> = new Array(len + 1)
@@ -297,7 +199,7 @@ export const isNonEmpty = <A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray
  *
  * @since 3.0.0
  */
-export const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i < 0 || i >= as.length
+export const isOutOfBound = <A>(i: number) => (as: ReadonlyArray<A>): boolean => i < 0 || i >= as.length
 
 /**
  * This function provides a safe way to read a value at a particular index from an array
@@ -312,8 +214,10 @@ export const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i <
  *
  * @since 3.0.0
  */
-export const lookup = (i: number) => <A>(as: ReadonlyArray<A>): Option<A> =>
-  isOutOfBound(i, as) ? O.none : O.some(as[i])
+export const lookup = (i: number): (<A>(as: ReadonlyArray<A>) => Option<A>) => {
+  const predicate = isOutOfBound(i)
+  return (as) => (predicate(as) ? O.none : O.some(as[i]))
+}
 
 /**
  * Attaches an element to the front of an array, creating a new non empty array
@@ -751,8 +655,10 @@ export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<R
  *
  * @since 3.0.0
  */
-export const updateAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
-  isOutOfBound(i, as) ? O.none : O.some(unsafeUpdateAt(i, a, as))
+export const updateAt = <A>(i: number, a: A): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>) => {
+  const predicate = isOutOfBound(i)
+  return (as) => (predicate(as) ? O.none : O.some(unsafeUpdateAt(i, a, as)))
+}
 
 /**
  * Delete the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
@@ -766,8 +672,10 @@ export const updateAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<R
  *
  * @since 3.0.0
  */
-export const deleteAt = (i: number) => <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
-  isOutOfBound(i, as) ? O.none : O.some(unsafeDeleteAt(i, as))
+export const deleteAt = (i: number): (<A>(as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>) => {
+  const predicate = isOutOfBound(i)
+  return (as) => (predicate(as) ? O.none : O.some(unsafeDeleteAt(i, as)))
+}
 
 /**
  * Apply a function to the element at the specified index, creating a new array, or returning `None` if the index is out
@@ -783,8 +691,10 @@ export const deleteAt = (i: number) => <A>(as: ReadonlyArray<A>): Option<Readonl
  *
  * @since 3.0.0
  */
-export const modifyAt = <A>(i: number, f: Endomorphism<A>) => (as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
-  isOutOfBound(i, as) ? O.none : O.some(unsafeUpdateAt(i, f(as[i]), as))
+export const modifyAt = <A>(i: number, f: Endomorphism<A>): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>) => {
+  const predicate = isOutOfBound(i)
+  return (as) => (predicate(as) ? O.none : O.some(unsafeUpdateAt(i, f(as[i]), as)))
+}
 
 /**
  * Reverse an array, creating a new array
@@ -1150,7 +1060,8 @@ export const splitAt = (n: number) => <A>(as: ReadonlyArray<A>): readonly [Reado
  */
 export const chunksOf = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
   const f = chop(splitAt(n))
-  return (as) => (isEmpty(as) ? empty : isOutOfBound(n - 1, as) ? [as] : f(as))
+  const predicate = isOutOfBound(n - 1)
+  return (as) => (isEmpty(as) ? empty : predicate(as) ? [as] : f(as))
 }
 
 /**
@@ -1703,6 +1614,104 @@ declare module './HKT' {
     readonly [URI]: ReadonlyArray<A>
   }
 }
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getShow = <A>(S: Show<A>): Show<ReadonlyArray<A>> => ({
+  show: (as) => `[${as.map(S.show).join(', ')}]`
+})
+
+const concat = <A, B>(first: ReadonlyArray<A>, second: ReadonlyArray<B>): ReadonlyArray<A | B> => {
+  const lenx = first.length
+  if (lenx === 0) {
+    return second
+  }
+  const leny = second.length
+  if (leny === 0) {
+    return first
+  }
+  const r = Array(lenx + leny)
+  for (let i = 0; i < lenx; i++) {
+    r[i] = first[i]
+  }
+  for (let i = 0; i < leny; i++) {
+    r[i + lenx] = second[i]
+  }
+  return r
+}
+
+/**
+ * Returns a `Monoid` for `ReadonlyArray<A>`
+ *
+ * @example
+ * import { getMonoid } from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const M = getMonoid<number>()
+ * assert.deepStrictEqual(pipe([1, 2], M.concat([3, 4])), [1, 2, 3, 4])
+ *
+ * @category instances
+ * @since 3.0.0
+ */
+export const getMonoid = <A = never>(): Monoid<ReadonlyArray<A>> => ({
+  concat: (second) => (first) => concat(first, second),
+  empty
+})
+
+/**
+ * Derives an `Eq` over the `ReadonlyArray` of a given element type from the `Eq` of that type. The derived `Eq` defines two
+ * arrays as equal if all elements of both arrays are compared equal pairwise with the given `E`. In case of arrays of
+ * different lengths, the result is non equality.
+ *
+ * @example
+ * import { eqString } from 'fp-ts/Eq'
+ * import { getEq } from 'fp-ts/ReadonlyArray'
+ *
+ * const E = getEq(eqString)
+ * assert.strictEqual(E.equals(['a', 'b'])(['a', 'b']), true)
+ * assert.strictEqual(E.equals(['a'])([]), false)
+ *
+ * @category instances
+ * @since 3.0.0
+ */
+export const getEq = <A>(E: Eq<A>): Eq<ReadonlyArray<A>> =>
+  fromEquals((second) => (first) => first.length === second.length && first.every((x, i) => E.equals(second[i])(x)))
+
+/**
+ * Derives an `Ord` over the `ReadonlyArray` of a given element type from the `Ord` of that type. The ordering between two such
+ * arrays is equal to: the first non equal comparison of each arrays elements taken pairwise in increasing order, in
+ * case of equality over all the pairwise elements; the longest array is considered the greatest, if both arrays have
+ * the same length, the result is equality.
+ *
+ * @example
+ * import { getOrd } from 'fp-ts/ReadonlyArray'
+ * import { ordString } from 'fp-ts/Ord'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const O = getOrd(ordString)
+ * assert.strictEqual(pipe(['b'], O.compare(['a'])), 1)
+ * assert.strictEqual(pipe(['a'], O.compare(['a'])), 0)
+ * assert.strictEqual(pipe(['a'], O.compare(['b'])), -1)
+ *
+ *
+ * @category instances
+ * @since 3.0.0
+ */
+export const getOrd = <A>(O: Ord<A>): Ord<ReadonlyArray<A>> =>
+  fromCompare((second) => (first) => {
+    const aLen = first.length
+    const bLen = second.length
+    const len = Math.min(aLen, bLen)
+    for (let i = 0; i < len; i++) {
+      const ordering = O.compare(second[i])(first[i])
+      if (ordering !== 0) {
+        return ordering
+      }
+    }
+    return ordNumber.compare(bLen)(aLen)
+  })
 
 /**
  * @category instances
