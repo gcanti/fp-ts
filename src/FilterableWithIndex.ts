@@ -138,6 +138,7 @@ export interface PartitionWithIndex2C<F extends URIS2, I, E> {
  */
 export interface FilterableWithIndex2C<F extends URIS2, I, E> {
   readonly URI: F
+  readonly _E?: E
   readonly partitionMapWithIndex: <A, B, C>(
     f: (i: I, a: A) => Either<B, C>
   ) => (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, B>, Kind2<F, E, C>>

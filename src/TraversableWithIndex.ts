@@ -33,6 +33,7 @@ export interface TraversableWithIndex2<T extends URIS2, I> {
  */
 export interface TraversableWithIndex2C<T extends URIS2, I, E> {
   readonly URI: T
+  readonly _E?: E
   readonly traverseWithIndex: TraverseWithIndex2C<T, I, E>
 }
 

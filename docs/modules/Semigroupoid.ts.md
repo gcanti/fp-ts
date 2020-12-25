@@ -15,9 +15,7 @@ Added in v3.0.0
 - [type classes](#type-classes)
   - [Semigroupoid (interface)](#semigroupoid-interface)
   - [Semigroupoid2 (interface)](#semigroupoid2-interface)
-  - [Semigroupoid2C (interface)](#semigroupoid2c-interface)
   - [Semigroupoid3 (interface)](#semigroupoid3-interface)
-  - [Semigroupoid3C (interface)](#semigroupoid3c-interface)
   - [Semigroupoid4 (interface)](#semigroupoid4-interface)
 
 ---
@@ -50,19 +48,6 @@ export interface Semigroupoid2<F extends URIS2> {
 
 Added in v3.0.0
 
-## Semigroupoid2C (interface)
-
-**Signature**
-
-```ts
-export interface Semigroupoid2C<F extends URIS2, A> {
-  readonly URI: F
-  readonly compose: <B>(ab: Kind2<F, A, B>) => <C>(bc: Kind2<F, B, C>) => Kind2<F, A, C>
-}
-```
-
-Added in v3.0.0
-
 ## Semigroupoid3 (interface)
 
 **Signature**
@@ -71,19 +56,6 @@ Added in v3.0.0
 export interface Semigroupoid3<F extends URIS3> {
   readonly URI: F
   readonly compose: <R, A, B>(ab: Kind3<F, R, A, B>) => <C>(bc: Kind3<F, R, B, C>) => Kind3<F, R, A, C>
-}
-```
-
-Added in v3.0.0
-
-## Semigroupoid3C (interface)
-
-**Signature**
-
-```ts
-export interface Semigroupoid3C<F extends URIS3, A> {
-  readonly URI: F
-  readonly compose: <R, B>(ab: Kind3<F, R, A, B>) => <C>(bc: Kind3<F, R, B, C>) => Kind3<F, R, A, C>
 }
 ```
 

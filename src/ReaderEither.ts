@@ -360,7 +360,7 @@ export const getApplyMonoid = <A, R, E>(M: Monoid<A>): Monoid<ReaderEither<R, E,
 export const getApplicativeReaderValidation = <E>(S: Semigroup<E>): Applicative3C<URI, E> => ({
   URI,
   map,
-  ap: ap_<R.URI, E.URI, E>(R.Apply, E.getApplicativeValidation(S)),
+  ap: ap_(R.Apply, E.getApplicativeValidation(S)),
   of
 })
 

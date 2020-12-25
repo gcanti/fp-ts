@@ -25,27 +25,9 @@ export interface Semigroupoid2<F extends URIS2> {
  * @category type classes
  * @since 3.0.0
  */
-export interface Semigroupoid2C<F extends URIS2, A> {
-  readonly URI: F
-  readonly compose: <B>(ab: Kind2<F, A, B>) => <C>(bc: Kind2<F, B, C>) => Kind2<F, A, C>
-}
-
-/**
- * @category type classes
- * @since 3.0.0
- */
 export interface Semigroupoid3<F extends URIS3> {
   readonly URI: F
   readonly compose: <R, A, B>(ab: Kind3<F, R, A, B>) => <C>(bc: Kind3<F, R, B, C>) => Kind3<F, R, A, C>
-}
-
-/**
- * @category type classes
- * @since 3.0.0
- */
-export interface Semigroupoid3C<F extends URIS3, A> {
-  readonly URI: F
-  readonly compose: <R, B>(ab: Kind3<F, R, A, B>) => <C>(bc: Kind3<F, R, B, C>) => Kind3<F, R, A, C>
 }
 
 /**

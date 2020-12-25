@@ -47,6 +47,7 @@ export interface Functor2<F extends URIS2> {
  */
 export interface Functor2C<F extends URIS2, E> {
   readonly URI: F
+  readonly _E?: E
   readonly map: <A, B>(f: (a: A) => B) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 
@@ -65,6 +66,7 @@ export interface Functor3<F extends URIS3> {
  */
 export interface Functor3C<F extends URIS3, E> {
   readonly URI: F
+  readonly _E?: E
   readonly map: <A, B>(f: (a: A) => B) => <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
 }
 

@@ -81,6 +81,7 @@ Added in v3.0.0
 ```ts
 export interface Foldable2C<F extends URIS2, E> {
   readonly URI: F
+  readonly _E?: E
   readonly reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Kind2<F, E, A>) => B
   readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Kind2<F, E, A>) => M
   readonly reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Kind2<F, E, A>) => B
@@ -111,6 +112,7 @@ Added in v3.0.0
 ```ts
 export interface Foldable3C<F extends URIS3, E> {
   readonly URI: F
+  readonly _E?: E
   readonly reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <R>(fa: Kind3<F, R, E, A>) => B
   readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <R>(fa: Kind3<F, R, E, A>) => M
   readonly reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <R>(fa: Kind3<F, R, E, A>) => B

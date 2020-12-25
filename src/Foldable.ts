@@ -45,6 +45,7 @@ export interface Foldable2<F extends URIS2> {
  */
 export interface Foldable2C<F extends URIS2, E> {
   readonly URI: F
+  readonly _E?: E
   readonly reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Kind2<F, E, A>) => B
   readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Kind2<F, E, A>) => M
   readonly reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Kind2<F, E, A>) => B
@@ -67,6 +68,7 @@ export interface Foldable3<F extends URIS3> {
  */
 export interface Foldable3C<F extends URIS3, E> {
   readonly URI: F
+  readonly _E?: E
   readonly reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <R>(fa: Kind3<F, R, E, A>) => B
   readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <R>(fa: Kind3<F, R, E, A>) => M
   readonly reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <R>(fa: Kind3<F, R, E, A>) => B

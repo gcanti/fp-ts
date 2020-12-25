@@ -504,7 +504,7 @@ export const getApplyMonoid = <A, R, E>(M: Monoid<A>): Monoid<ReaderTaskEither<R
 export const getApplicativeReaderTaskValidation = <E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative3C<URI, E> => ({
   URI,
   map,
-  ap: ap_<R.URI, TE.URI, E>(R.Apply, TE.getApplicativeTaskValidation(A, S)),
+  ap: ap_(R.Apply, TE.getApplicativeTaskValidation(A, S)),
   of
 })
 

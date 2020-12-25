@@ -514,7 +514,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const unfold: <A, B>(b: B, f: (b: B) => O.Option<readonly [A, B]>) => readonly A[]
+export declare const unfold: <B, A>(b: B, f: (b: B) => O.Option<readonly [A, B]>) => readonly A[]
 ```
 
 Added in v3.0.0

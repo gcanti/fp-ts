@@ -59,6 +59,7 @@ Added in v3.0.0
 ```ts
 export interface Bifunctor2C<F extends URIS2, E> {
   readonly URI: F
+  readonly _E?: E
   readonly bimap: <G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Kind2<F, E, A>) => Kind2<F, G, B>
   readonly mapLeft: <G>(f: (e: E) => G) => <A>(fea: Kind2<F, E, A>) => Kind2<F, G, A>
 }
@@ -87,6 +88,7 @@ Added in v3.0.0
 ```ts
 export interface Bifunctor3C<F extends URIS3, E> {
   readonly URI: F
+  readonly _E?: E
   readonly bimap: <G, A, B>(f: (e: E) => G, g: (a: A) => B) => <R>(fea: Kind3<F, R, E, A>) => Kind3<F, R, G, B>
   readonly mapLeft: <G>(f: (e: E) => G) => <R, A>(fea: Kind3<F, R, E, A>) => Kind3<F, R, G, A>
 }

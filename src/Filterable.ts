@@ -118,6 +118,7 @@ export interface Partition2C<F extends URIS2, E> {
  */
 export interface Filterable2C<F extends URIS2, E> {
   readonly URI: F
+  readonly _E?: E
   readonly partitionMap: <A, B, C>(
     f: (a: A) => Either<B, C>
   ) => (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, B>, Kind2<F, E, C>>
@@ -182,6 +183,7 @@ export interface Partition3C<F extends URIS3, E> {
  */
 export interface Filterable3C<F extends URIS3, E> {
   readonly URI: F
+  readonly _E?: E
   readonly partitionMap: <A, B, C>(
     f: (a: A) => Either<B, C>
   ) => <R>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, C>>

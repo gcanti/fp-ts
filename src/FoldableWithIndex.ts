@@ -53,6 +53,7 @@ export interface FoldableWithIndex2<F extends URIS2, I> {
  */
 export interface FoldableWithIndex2C<F extends URIS2, I, E> {
   readonly URI: F
+  readonly _E?: E
   readonly reduceWithIndex: <B, A>(b: B, f: (i: I, b: B, a: A) => B) => (fa: Kind2<F, E, A>) => B
   readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => (fa: Kind2<F, E, A>) => M
   readonly reduceRightWithIndex: <B, A>(b: B, f: (i: I, a: A, b: B) => B) => (fa: Kind2<F, E, A>) => B
@@ -75,6 +76,7 @@ export interface FoldableWithIndex3<F extends URIS3, I> {
  */
 export interface FoldableWithIndex3C<F extends URIS3, I, E> {
   readonly URI: F
+  readonly _E?: E
   readonly reduceWithIndex: <B, A>(b: B, f: (i: I, b: B, a: A) => B) => <R>(fa: Kind3<F, R, E, A>) => B
   readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => <R>(fa: Kind3<F, R, E, A>) => M
   readonly reduceRightWithIndex: <B, A>(b: B, f: (i: I, a: A, b: B) => B) => <R>(fa: Kind3<F, R, E, A>) => B

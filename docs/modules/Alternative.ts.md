@@ -31,6 +31,8 @@ Added in v3.0.0
   - [Alternative2 (interface)](#alternative2-interface)
   - [Alternative2C (interface)](#alternative2c-interface)
   - [Alternative3 (interface)](#alternative3-interface)
+  - [Alternative3C (interface)](#alternative3c-interface)
+  - [Alternative4 (interface)](#alternative4-interface)
 
 ---
 
@@ -91,6 +93,30 @@ Added in v3.0.0
 ```ts
 export interface Alternative3<F extends URIS3> extends Alt3<F> {
   readonly zero: <R, E, A>() => Kind3<F, R, E, A>
+}
+```
+
+Added in v3.0.0
+
+## Alternative3C (interface)
+
+**Signature**
+
+```ts
+export interface Alternative3C<F extends URIS3, E> extends Alt3C<F, E> {
+  readonly zero: <R, A>() => Kind3<F, R, E, A>
+}
+```
+
+Added in v3.0.0
+
+## Alternative4 (interface)
+
+**Signature**
+
+```ts
+export interface Alternative4<F extends URIS4> extends Alt4<F> {
+  readonly zero: <S, R, E, A>() => Kind4<F, S, R, E, A>
 }
 ```
 

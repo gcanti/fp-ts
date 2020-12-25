@@ -80,6 +80,7 @@ Added in v3.0.0
 ```ts
 export interface Compactable2C<F extends URIS2, E> {
   readonly URI: F
+  readonly _E?: E
   readonly compact: <A>(fa: Kind2<F, E, Option<A>>) => Kind2<F, E, A>
   readonly separate: <A, B>(fa: Kind2<F, E, Either<A, B>>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
 }
@@ -108,6 +109,7 @@ Added in v3.0.0
 ```ts
 export interface Compactable3C<F extends URIS3, E> {
   readonly URI: F
+  readonly _E?: E
   readonly compact: <R, A>(fa: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, A>
   readonly separate: <R, A, B>(fa: Kind3<F, R, E, Either<A, B>>) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
 }

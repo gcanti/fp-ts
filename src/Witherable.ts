@@ -45,6 +45,7 @@ export interface Witherable2<T extends URIS2> {
  */
 export interface Witherable2C<T extends URIS2, E> {
   readonly URI: T
+  readonly _E?: E
   readonly wilt: Wilt2C<T, E>
   readonly wither: Wither2C<T, E>
 }

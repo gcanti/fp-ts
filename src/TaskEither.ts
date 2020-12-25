@@ -498,7 +498,7 @@ export const getApplyMonoid = <A, E>(M: Monoid<A>): Monoid<TaskEither<E, A>> => 
 export const getApplicativeTaskValidation = <E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E> => ({
   URI,
   map,
-  ap: ap_<T.URI, E.URI, E>(A, E.getApplicativeValidation(S)),
+  ap: ap_(A, E.getApplicativeValidation(S)),
   of
 })
 
@@ -531,8 +531,8 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
   const C: Compactable2C<E.URI, E> & Functor2<E.URI> = { ...E.getCompactable(M), ...E.Functor }
   return {
     URI,
-    compact: compact_<T.URI, E.URI, E>(T.Functor, C),
-    separate: separate_<T.URI, E.URI, E>(T.Functor, C)
+    compact: compact_(T.Functor, C),
+    separate: separate_(T.Functor, C)
   }
 }
 

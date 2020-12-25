@@ -20,6 +20,8 @@ Added in v3.0.0
   - [Unfoldable2 (interface)](#unfoldable2-interface)
   - [Unfoldable2C (interface)](#unfoldable2c-interface)
   - [Unfoldable3 (interface)](#unfoldable3-interface)
+  - [Unfoldable3C (interface)](#unfoldable3c-interface)
+  - [Unfoldable4 (interface)](#unfoldable4-interface)
 
 ---
 
@@ -32,7 +34,7 @@ Added in v3.0.0
 ```ts
 export interface Unfoldable<F> {
   readonly URI: F
-  readonly unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => HKT<F, A>
+  readonly unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) => HKT<F, A>
 }
 ```
 
@@ -45,7 +47,7 @@ Added in v3.0.0
 ```ts
 export interface Unfoldable1<F extends URIS> {
   readonly URI: F
-  readonly unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => Kind<F, A>
+  readonly unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) => Kind<F, A>
 }
 ```
 
@@ -58,7 +60,7 @@ Added in v3.0.0
 ```ts
 export interface Unfoldable2<F extends URIS2> {
   readonly URI: F
-  readonly unfold: <E, A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => Kind2<F, E, A>
+  readonly unfold: <B, A, E>(b: B, f: (b: B) => Option<readonly [A, B]>) => Kind2<F, E, A>
 }
 ```
 
@@ -71,7 +73,8 @@ Added in v3.0.0
 ```ts
 export interface Unfoldable2C<F extends URIS2, E> {
   readonly URI: F
-  readonly unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => Kind2<F, E, A>
+  readonly _E?: E
+  readonly unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) => Kind2<F, E, A>
 }
 ```
 
@@ -84,7 +87,34 @@ Added in v3.0.0
 ```ts
 export interface Unfoldable3<F extends URIS3> {
   readonly URI: F
-  readonly unfold: <R, E, A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => Kind3<F, R, E, A>
+  readonly unfold: <B, A, R, E>(b: B, f: (b: B) => Option<readonly [A, B]>) => Kind3<F, R, E, A>
+}
+```
+
+Added in v3.0.0
+
+## Unfoldable3C (interface)
+
+**Signature**
+
+```ts
+export interface Unfoldable3C<F extends URIS3, E> {
+  readonly URI: F
+  readonly _E?: E
+  readonly unfold: <B, A, R>(b: B, f: (b: B) => Option<readonly [A, B]>) => Kind3<F, R, E, A>
+}
+```
+
+Added in v3.0.0
+
+## Unfoldable4 (interface)
+
+**Signature**
+
+```ts
+export interface Unfoldable4<F extends URIS4> {
+  readonly URI: F
+  readonly unfold: <B, A, S, R, E>(b: B, f: (b: B) => Option<readonly [A, B]>) => Kind4<F, S, R, E, A>
 }
 ```
 

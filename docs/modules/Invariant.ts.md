@@ -71,6 +71,7 @@ Added in v3.0.0
 ```ts
 export interface Invariant2C<F extends URIS2, E> {
   readonly URI: F
+  readonly _E?: E
   readonly imap: <A, B>(f: (a: A) => B, g: (b: B) => A) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 ```
@@ -97,6 +98,7 @@ Added in v3.0.0
 ```ts
 export interface Invariant3C<F extends URIS3, E> {
   readonly URI: F
+  readonly _E?: E
   readonly imap: <A, B>(f: (a: A) => B, g: (b: B) => A) => <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
 }
 ```
