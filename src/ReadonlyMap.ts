@@ -165,7 +165,7 @@ export const insertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>
 }
 
 /**
- * Insert or replace a key/value pair in a map.
+ * Insert or replace a key/value pair in a `ReadonlyMap`.
  *
  * @category combinators
  * @since 3.0.0

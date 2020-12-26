@@ -191,7 +191,7 @@ Added in v3.0.0
 
 ## upsertAt
 
-Insert or replace a key/value pair in a map.
+Insert or replace a key/value pair in a `ReadonlyMap`.
 
 **Signature**
 

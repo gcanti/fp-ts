@@ -225,13 +225,13 @@ describe('ReadonlyNonEmptyArray', () => {
     // should return the same reference if nothing changed
     const r1 = _.updateAt(0, a1)(arr)
     if (O.isSome(r1)) {
-      assert.deepStrictEqual(r1.value, arr)
+      assert.strictEqual(r1.value, arr)
     } else {
       assert.fail('is not a Some')
     }
     const r2 = _.updateAt(2, a3)(arr)
     if (O.isSome(r2)) {
-      assert.deepStrictEqual(r2.value, arr)
+      assert.strictEqual(r2.value, arr)
     } else {
       assert.fail('is not a Some')
     }

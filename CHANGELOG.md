@@ -211,6 +211,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `elem` pipeable (@gcanti)
     - remove `fromRecord` (@gcanti)
     - remove `toRecord` (@gcanti)
+    - rename `insertAt` to `upsertAt` and add `insertAt` (@gcanti)
     - remove `readonlyRecord` (@gcanti)
   - `ReadonlySet`
     - make `isSubset` pipeable (@gcanti)

@@ -15,13 +15,15 @@ import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
-import { isNone, isSome, none, Option, some as optionSome } from './Option'
+import * as O from './Option'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
+
+import Option = O.Option
 
 // -------------------------------------------------------------------------------------
 // model
@@ -45,14 +47,14 @@ export const getShow = <A>(S: Show<A>): Show<ReadonlyRecord<string, A>> => ({
 })
 
 /**
- * Calculate the number of key/value pairs in a record
+ * Calculate the number of key/value pairs in a `ReadonlyRecord`.
  *
  * @since 3.0.0
  */
 export const size = (r: ReadonlyRecord<string, unknown>): number => Object.keys(r).length
 
 /**
- * Test whether a record is empty
+ * Test whether a `ReadonlyRecord` is empty.
  *
  * @since 3.0.0
  */
@@ -65,7 +67,7 @@ export const keys = <K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyA
   (Object.keys(r) as any).sort()
 
 /**
- * Map a record into an array
+ * Map a `ReadonlyRecord` into an `ReadonlyArray`.
  *
  * @example
  * import {collect} from 'fp-ts/ReadonlyRecord'
@@ -98,7 +100,7 @@ export const toReadonlyArray: <K extends string, A>(r: ReadonlyRecord<K, A>) => 
   collect((k, a) => [k, a])
 
 /**
- * Unfolds a record into a list of key/value pairs
+ * Unfolds a `ReadonlyRecord` into a list of key/value pairs.
  *
  * @category destructors
  * @since 3.0.0
@@ -113,12 +115,12 @@ export function toUnfoldable<F>(U: Unfoldable<F>): <A>(r: ReadonlyRecord<string,
   return (r) => {
     const arr = toReadonlyArray(r)
     const len = arr.length
-    return U.unfold(0, (b) => (b < len ? optionSome([arr[b], b + 1]) : none))
+    return U.unfold(0, (b) => (b < len ? O.some([arr[b], b + 1]) : O.none))
   }
 }
 
 /**
- * Insert or replace a key/value pair in a record
+ * Insert an element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key already exists.
  *
  * @category combinators
  * @since 3.0.0
@@ -126,10 +128,31 @@ export function toUnfoldable<F>(U: Unfoldable<F>): <A>(r: ReadonlyRecord<string,
 export function insertAt<K extends string, A>(
   k: K,
   a: A
-): <KS extends string>(r: ReadonlyRecord<KS, A>) => ReadonlyRecord<KS | K, A>
-export function insertAt<A>(k: string, a: A): (r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A> {
+): <KS extends string>(r: ReadonlyRecord<KS, A>) => Option<ReadonlyRecord<KS | K, A>>
+export function insertAt<A>(k: string, a: A): (r: ReadonlyRecord<string, A>) => Option<ReadonlyRecord<string, A>> {
   return (r) => {
-    if (r[k] === a) {
+    if (!_hasOwnProperty.call(r, k)) {
+      const out: Record<string, A> = Object.assign({}, r)
+      out[k] = a
+      return O.some(out)
+    }
+    return O.none
+  }
+}
+
+/**
+ * Insert or replace a key/value pair in a `ReadonlyRecord`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export function upsertAt<K extends string, A>(
+  k: K,
+  a: A
+): <KS extends string>(r: ReadonlyRecord<KS, A>) => ReadonlyRecord<KS | K, A>
+export function upsertAt<A>(k: string, a: A): (r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A> {
+  return (r) => {
+    if (_hasOwnProperty.call(r, k) && r[k] === a) {
       return r
     }
     const out: Record<string, A> = Object.assign({}, r)
@@ -146,7 +169,7 @@ const _hasOwnProperty = Object.prototype.hasOwnProperty
 export const has = <K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K => _hasOwnProperty.call(r, k)
 
 /**
- * Delete a key and value from a map
+ * Delete the element at the specified key, creating a new `ReadonlyRecord`.
  *
  * @category combinators
  * @since 3.0.0
@@ -166,38 +189,42 @@ export function deleteAt(k: string): <A>(r: ReadonlyRecord<string, A>) => Readon
 }
 
 /**
+ * Change the element at the specified keys, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
+ *
  * @since 3.0.0
  */
 export const updateAt = <A>(k: string, a: A) => <K extends string>(
   r: ReadonlyRecord<K, A>
 ): Option<ReadonlyRecord<K, A>> => {
   if (!has(k, r)) {
-    return none
+    return O.none
   }
   if (r[k] === a) {
-    return optionSome(r)
+    return O.some(r)
   }
   const out: Record<K, A> = Object.assign({}, r)
   out[k] = a
-  return optionSome(out)
+  return O.some(out)
 }
 
 /**
+ * Apply a function to the element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
+ *
  * @since 3.0.0
  */
 export const modifyAt = <A>(k: string, f: Endomorphism<A>) => <K extends string>(
   r: ReadonlyRecord<K, A>
 ): Option<ReadonlyRecord<K, A>> => {
   if (!has(k, r)) {
-    return none
+    return O.none
   }
   const out: Record<K, A> = Object.assign({}, r)
   out[k] = f(r[k])
-  return optionSome(out)
+  return O.some(out)
 }
 
 /**
- * Delete a key and value from a map, returning the value as well as the subsequent map
+ * Delete a key and value from a `ReadonlyRecord`, returning the value as well as the subsequent `ReadonlyRecord`.
  *
  * @since 3.0.0
  */
@@ -211,7 +238,7 @@ export function pop(k: string): <A>(r: ReadonlyRecord<string, A>) => Option<read
   const lookupk = lookup(k)
   return (r) => {
     const oa = lookupk(r)
-    return isNone(oa) ? none : optionSome([oa.value, deleteAtk(r)])
+    return O.isNone(oa) ? O.none : O.some([oa.value, deleteAtk(r)])
   }
 }
 
@@ -287,7 +314,7 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>>
  * @since 3.0.0
  */
 export const lookup = (k: string) => <A>(r: ReadonlyRecord<string, A>): Option<A> =>
-  _hasOwnProperty.call(r, k) ? optionSome(r[k]) : none
+  _hasOwnProperty.call(r, k) ? O.some(r[k]) : O.none
 
 /**
  * @since 3.0.0
@@ -617,7 +644,7 @@ export function filterMapWithIndex<A, B>(
     const keys = Object.keys(fa)
     for (const key of keys) {
       const optionB = f(key, fa[key])
-      if (isSome(optionB)) {
+      if (O.isSome(optionB)) {
         r[key] = optionB.value
       }
     }
@@ -853,7 +880,7 @@ export const compact: Compactable1<URI>['compact'] = <A>(
   const keys = Object.keys(fa)
   for (const key of keys) {
     const optionA = fa[key]
-    if (isSome(optionA)) {
+    if (O.isSome(optionA)) {
       r[key] = optionA.value
     }
   }

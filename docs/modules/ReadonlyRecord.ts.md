@@ -33,6 +33,7 @@ Added in v3.0.0
   - [insertAt](#insertat)
   - [map](#map)
   - [mapWithIndex](#mapwithindex)
+  - [upsertAt](#upsertat)
 - [constructors](#constructors)
   - [singleton](#singleton)
 - [destructors](#destructors)
@@ -92,7 +93,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(fa: Readonly<Record<string, Option<A>>>) => Readonly<Record<string, A>>
+export declare const compact: <A>(fa: Readonly<Record<string, O.Option<A>>>) => Readonly<Record<string, A>>
 ```
 
 Added in v3.0.0
@@ -127,7 +128,7 @@ Added in v3.0.0
 
 ```ts
 export declare const filterMap: <A, B>(
-  f: (a: A) => Option<B>
+  f: (a: A) => O.Option<B>
 ) => (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>>
 ```
 
@@ -213,7 +214,7 @@ Added in v3.0.0
 
 ## deleteAt
 
-Delete a key and value from a map
+Delete the element at the specified key, creating a new `ReadonlyRecord`.
 
 **Signature**
 
@@ -239,7 +240,7 @@ Added in v3.0.0
 
 ## insertAt
 
-Insert or replace a key/value pair in a record
+Insert an element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key already exists.
 
 **Signature**
 
@@ -247,7 +248,7 @@ Insert or replace a key/value pair in a record
 export declare function insertAt<K extends string, A>(
   k: K,
   a: A
-): <KS extends string>(r: ReadonlyRecord<KS, A>) => ReadonlyRecord<KS | K, A>
+): <KS extends string>(r: ReadonlyRecord<KS, A>) => Option<ReadonlyRecord<KS | K, A>>
 ```
 
 Added in v3.0.0
@@ -274,6 +275,21 @@ Map a record passing the keys to the iterating function
 export declare function mapWithIndex<K extends string, A, B>(
   f: (k: K, a: A) => B
 ): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
+```
+
+Added in v3.0.0
+
+## upsertAt
+
+Insert or replace a key/value pair in a `ReadonlyRecord`.
+
+**Signature**
+
+```ts
+export declare function upsertAt<K extends string, A>(
+  k: K,
+  a: A
+): <KS extends string>(r: ReadonlyRecord<KS, A>) => ReadonlyRecord<KS | K, A>
 ```
 
 Added in v3.0.0
@@ -306,7 +322,7 @@ Added in v3.0.0
 
 ## toUnfoldable
 
-Unfolds a record into a list of key/value pairs
+Unfolds a `ReadonlyRecord` into a list of key/value pairs.
 
 **Signature**
 
@@ -502,7 +518,7 @@ Added in v3.0.0
 
 ## collect
 
-Map a record into an array
+Map a `ReadonlyRecord` into an `ReadonlyArray`.
 
 **Signature**
 
@@ -690,7 +706,7 @@ Added in v3.0.0
 
 ## isEmpty
 
-Test whether a record is empty
+Test whether a `ReadonlyRecord` is empty.
 
 **Signature**
 
@@ -731,12 +747,14 @@ Lookup the value for a key in a record
 **Signature**
 
 ```ts
-export declare const lookup: (k: string) => <A>(r: Readonly<Record<string, A>>) => Option<A>
+export declare const lookup: (k: string) => <A>(r: Readonly<Record<string, A>>) => O.Option<A>
 ```
 
 Added in v3.0.0
 
 ## modifyAt
+
+Apply a function to the element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
 
 **Signature**
 
@@ -744,7 +762,7 @@ Added in v3.0.0
 export declare const modifyAt: <A>(
   k: string,
   f: Endomorphism<A>
-) => <K extends string>(r: Readonly<Record<K, A>>) => Option<Readonly<Record<K, A>>>
+) => <K extends string>(r: Readonly<Record<K, A>>) => O.Option<Readonly<Record<K, A>>>
 ```
 
 Added in v3.0.0
@@ -778,7 +796,7 @@ Added in v3.0.0
 
 ## pop
 
-Delete a key and value from a map, returning the value as well as the subsequent map
+Delete a key and value from a `ReadonlyRecord`, returning the value as well as the subsequent `ReadonlyRecord`.
 
 **Signature**
 
@@ -847,7 +865,7 @@ Added in v3.0.0
 
 ## size
 
-Calculate the number of key/value pairs in a record
+Calculate the number of key/value pairs in a `ReadonlyRecord`.
 
 **Signature**
 
@@ -941,13 +959,15 @@ Added in v3.0.0
 
 ## updateAt
 
+Change the element at the specified keys, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
+
 **Signature**
 
 ```ts
 export declare const updateAt: <A>(
   k: string,
   a: A
-) => <K extends string>(r: Readonly<Record<K, A>>) => Option<Readonly<Record<K, A>>>
+) => <K extends string>(r: Readonly<Record<K, A>>) => O.Option<Readonly<Record<K, A>>>
 ```
 
 Added in v3.0.0

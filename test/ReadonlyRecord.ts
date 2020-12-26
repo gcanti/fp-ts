@@ -319,19 +319,27 @@ describe('ReadonlyRecord', () => {
   })
 
   it('insertAt', () => {
-    assert.deepStrictEqual(_.insertAt('a', 1)({}), { a: 1 })
-    assert.deepStrictEqual(_.insertAt('c', 3)({ a: 1, b: 2 }), { a: 1, b: 2, c: 3 })
+    assert.deepStrictEqual(_.insertAt('a', 1)({}), O.some({ a: 1 }))
+    assert.deepStrictEqual(_.insertAt('a', 1)({ a: 1 }), O.none)
+    assert.deepStrictEqual(_.insertAt('a', 1)({ a: 2 }), O.none)
+  })
+
+  it('upsertAt', () => {
+    assert.deepStrictEqual(_.upsertAt('a', 1)({}), { a: 1 })
+    assert.deepStrictEqual(_.upsertAt('c', 3)({ a: 1, b: 2 }), { a: 1, b: 2, c: 3 })
     // should return the same reference if the value is already there
     const x = { a: 1 }
-    assert.deepStrictEqual(_.insertAt('a', 1)(x), x)
+    assert.strictEqual(_.upsertAt('a', 1)(x), x)
+    // should create a new key when the value is `undefined`
+    assert.deepStrictEqual(_.upsertAt('a', undefined)({}), { a: undefined })
   })
 
   it('deleteAt', () => {
     assert.deepStrictEqual(_.deleteAt('a')({ a: 1, b: 2 }), { b: 2 })
     // should return the same reference if the key is missing
     const x = { a: 1 }
-    assert.deepStrictEqual(_.deleteAt('b')(x), x)
-    assert.deepStrictEqual(_.deleteAt('b')(noPrototype), noPrototype)
+    assert.strictEqual(_.deleteAt('b')(x), x)
+    assert.strictEqual(_.deleteAt('b')(noPrototype), noPrototype)
   })
 
   it('pop', () => {
