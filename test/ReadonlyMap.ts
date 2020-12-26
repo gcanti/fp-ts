@@ -1139,20 +1139,6 @@ describe('ReadonlyMap', () => {
     )
   })
 
-  it('fromMap', () => {
-    const as = new Map([[1, 'a']])
-    const bs = _.fromMap(as)
-    assert.deepStrictEqual(bs, as)
-    assert.notStrictEqual(bs, as)
-  })
-
-  it('toMap', () => {
-    const as: ReadonlyMap<number, string> = new Map([[1, 'a']])
-    const bs = _.toMap(as)
-    assert.deepStrictEqual(bs, as)
-    assert.notStrictEqual(bs, as)
-  })
-
   it('mapWithIndex', () => {
     const aa1 = new Map<User, number>([[{ id: 'aa' }, 1]])
     const aa3 = new Map<User, number>([[{ id: 'aa' }, 3]])

@@ -191,6 +191,8 @@ high state of flux, you're at risk of it changing without notice.
     - make `lookupWithKey` pipeable (@gcanti)
     - make `lookup` pipeable (@gcanti)
     - make `isSubmap` pipeable (@gcanti)
+    - remove `fromMap` (@gcanti)
+    - remove `toMap` (@gcanti)
     - remove `readonlyMap` (@gcanti)
   - `ReadonlyNonEmptyArray`
     - make `cons` pipeable (@gcanti)

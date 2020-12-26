@@ -29,10 +29,8 @@ Added in v3.0.0
   - [insertAt](#insertat)
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
-  - [fromMap](#frommap)
   - [singleton](#singleton)
 - [destructors](#destructors)
-  - [toMap](#tomap)
   - [toReadonlyArray](#toreadonlyarray)
   - [toUnfoldable](#tounfoldable)
 - [instances](#instances)
@@ -224,16 +222,6 @@ export declare function fromFoldable<F, K, A>(
 
 Added in v3.0.0
 
-## fromMap
-
-**Signature**
-
-```ts
-export declare const fromMap: <K, A>(m: Map<K, A>) => ReadonlyMap<K, A>
-```
-
-Added in v3.0.0
-
 ## singleton
 
 Create a map with one key/value pair
@@ -247,16 +235,6 @@ export declare const singleton: <K, A>(k: K, a: A) => ReadonlyMap<K, A>
 Added in v3.0.0
 
 # destructors
-
-## toMap
-
-**Signature**
-
-```ts
-export declare const toMap: <K, A>(m: ReadonlyMap<K, A>) => Map<K, A>
-```
-
-Added in v3.0.0
 
 ## toReadonlyArray
 

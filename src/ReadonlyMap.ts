@@ -30,18 +30,6 @@ import { Witherable2C } from './Witherable'
 import Option = O.Option
 
 /**
- * @category constructors
- * @since 3.0.0
- */
-export const fromMap = <K, A>(m: Map<K, A>): ReadonlyMap<K, A> => new Map(m)
-
-/**
- * @category destructors
- * @since 3.0.0
- */
-export const toMap = <K, A>(m: ReadonlyMap<K, A>): Map<K, A> => new Map(m)
-
-/**
  * @category instances
  * @since 3.0.0
  */
