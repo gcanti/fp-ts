@@ -952,25 +952,6 @@ describe('ReadonlyArray', () => {
     assert.deepStrictEqual(S.show(['a', 'b']), `["a", "b"]`)
   })
 
-  it('fromArray', () => {
-    assert.strictEqual(_.fromArray([]), _.empty)
-    // tslint:disable-next-line: readonly-array
-    const as = [1, 2, 3]
-    const bs = _.fromArray(as)
-    assert.deepStrictEqual(bs, as)
-    assert.notStrictEqual(bs, as)
-  })
-
-  it('toArray', () => {
-    assert.deepStrictEqual(_.toArray(_.empty), [])
-    assert.notStrictEqual(_.toArray(_.empty), _.empty)
-    // tslint:disable-next-line: readonly-array
-    const as = [1, 2, 3]
-    const bs = _.toArray(as)
-    assert.deepStrictEqual(bs, as)
-    assert.notStrictEqual(bs, as)
-  })
-
   it('empty', () => {
     assert.deepStrictEqual(_.empty.length, 0)
   })

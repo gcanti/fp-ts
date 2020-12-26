@@ -24,7 +24,7 @@ Added in v3.0.0
   - [remove](#remove)
   - [union](#union)
 - [constructors](#constructors)
-  - [fromArray](#fromarray)
+  - [fromReadonlyArray](#fromreadonlyarray)
   - [fromSet](#fromset)
   - [singleton](#singleton)
 - [destructors](#destructors)
@@ -178,14 +178,14 @@ Added in v3.0.0
 
 # constructors
 
-## fromArray
+## fromReadonlyArray
 
 Create a set from an array
 
 **Signature**
 
 ```ts
-export declare const fromArray: <A>(E: Eq<A>) => (as: readonly A[]) => ReadonlySet<A>
+export declare const fromReadonlyArray: <A>(E: Eq<A>) => (as: readonly A[]) => ReadonlySet<A>
 ```
 
 Added in v3.0.0

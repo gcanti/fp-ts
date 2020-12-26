@@ -278,7 +278,7 @@ Unfolds a map into a list of key/value pairs
 
 ```ts
 export declare function toUnfoldable<K, F extends URIS>(
-  ord: Ord<K>,
+  O: Ord<K>,
   U: Unfoldable1<F>
 ): <A>(d: ReadonlyMap<K, A>) => Kind<F, readonly [K, A]>
 export declare function toUnfoldable<K, F>(

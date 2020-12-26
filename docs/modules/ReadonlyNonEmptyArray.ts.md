@@ -50,7 +50,6 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [concat](#concat)
   - [cons](#cons)
-  - [fromArray](#fromarray)
   - [fromReadonlyArray](#fromreadonlyarray)
   - [groupBy](#groupby)
   - [snoc](#snoc)
@@ -483,16 +482,6 @@ import { cons } from 'fp-ts/ReadonlyNonEmptyArray'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe([2, 3, 4], cons(1)), [1, 2, 3, 4])
-```
-
-Added in v3.0.0
-
-## fromArray
-
-**Signature**
-
-```ts
-export declare const fromArray: <A>(as: A[]) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v3.0.0

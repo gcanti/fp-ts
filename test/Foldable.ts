@@ -15,13 +15,13 @@ describe('Foldable', () => {
     assert.deepStrictEqual(pipe(['a', 'b', 'c'], _.intercalate(monoidString, A.Foldable)(',')), 'a,b,c')
   })
 
-  it('toArray', () => {
+  it('toReadonlyArray', () => {
     // Option
-    assert.deepStrictEqual(_.toArray(O.Foldable)(O.some(1)), [1])
-    assert.deepStrictEqual(_.toArray(O.Foldable)(O.none), [])
+    assert.deepStrictEqual(_.toReadonlyArray(O.Foldable)(O.some(1)), [1])
+    assert.deepStrictEqual(_.toReadonlyArray(O.Foldable)(O.none), [])
 
     // Tree
-    assert.deepStrictEqual(_.toArray(T.Foldable)(T.make(1, [T.make(2, []), T.make(3, []), T.make(4, [])])), [
+    assert.deepStrictEqual(_.toReadonlyArray(T.Foldable)(T.make(1, [T.make(2, []), T.make(3, []), T.make(4, [])])), [
       1,
       2,
       3,

@@ -179,22 +179,26 @@ export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M) => (fm
  * Transforms a `Foldable` into a read-only array.
  *
  * @example
- * import { toArray } from 'fp-ts/Foldable'
+ * import { toReadonlyArray } from 'fp-ts/Foldable'
  * import { Foldable, make } from 'fp-ts/Tree'
  *
  * const t = make(1, [make(2, []), make(3, []), make(4, [])])
- * assert.deepStrictEqual(toArray(Foldable)(t), [1, 2, 3, 4])
+ * assert.deepStrictEqual(toReadonlyArray(Foldable)(t), [1, 2, 3, 4])
  *
  * @since 3.0.0
  */
-export function toArray<F extends URIS4>(F: Foldable4<F>): <S, R, E, A>(fa: Kind4<F, S, R, E, A>) => ReadonlyArray<A>
-export function toArray<F extends URIS3>(F: Foldable3<F>): <R, E, A>(fa: Kind3<F, R, E, A>) => ReadonlyArray<A>
-export function toArray<F extends URIS3, E>(F: Foldable3C<F, E>): <R, A>(fa: Kind3<F, R, E, A>) => ReadonlyArray<A>
-export function toArray<F extends URIS2>(F: Foldable2<F>): <E, A>(fa: Kind2<F, E, A>) => ReadonlyArray<A>
-export function toArray<F extends URIS2, E>(F: Foldable2C<F, E>): <A>(fa: Kind2<F, E, A>) => ReadonlyArray<A>
-export function toArray<F extends URIS>(F: Foldable1<F>): <A>(fa: Kind<F, A>) => ReadonlyArray<A>
-export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => ReadonlyArray<A>
-export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => ReadonlyArray<A> {
+export function toReadonlyArray<F extends URIS4>(
+  F: Foldable4<F>
+): <S, R, E, A>(fa: Kind4<F, S, R, E, A>) => ReadonlyArray<A>
+export function toReadonlyArray<F extends URIS3>(F: Foldable3<F>): <R, E, A>(fa: Kind3<F, R, E, A>) => ReadonlyArray<A>
+export function toReadonlyArray<F extends URIS3, E>(
+  F: Foldable3C<F, E>
+): <R, A>(fa: Kind3<F, R, E, A>) => ReadonlyArray<A>
+export function toReadonlyArray<F extends URIS2>(F: Foldable2<F>): <E, A>(fa: Kind2<F, E, A>) => ReadonlyArray<A>
+export function toReadonlyArray<F extends URIS2, E>(F: Foldable2C<F, E>): <A>(fa: Kind2<F, E, A>) => ReadonlyArray<A>
+export function toReadonlyArray<F extends URIS>(F: Foldable1<F>): <A>(fa: Kind<F, A>) => ReadonlyArray<A>
+export function toReadonlyArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => ReadonlyArray<A>
+export function toReadonlyArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => ReadonlyArray<A> {
   return <A>(fa: HKT<F, A>) =>
     pipe(
       fa,

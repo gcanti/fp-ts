@@ -36,13 +36,6 @@ import Option = O.Option
 // -------------------------------------------------------------------------------------
 
 /**
- * @category constructors
- * @since 3.0.0
- */
-// tslint:disable-next-line: readonly-array
-export const fromArray = <A>(as: Array<A>): ReadonlyArray<A> => (isEmpty(as) ? empty : as.slice())
-
-/**
  * Return a list of length `n` with element `i` initialized with `f(i)`
  *
  * @example
@@ -92,13 +85,6 @@ export const replicate = <A>(n: number, a: A): ReadonlyArray<A> => makeBy(n, () 
 // -------------------------------------------------------------------------------------
 // destructors
 // -------------------------------------------------------------------------------------
-
-/**
- * @category destructors
- * @since 3.0.0
- */
-// tslint:disable-next-line: readonly-array
-export const toArray = <A>(as: ReadonlyArray<A>): Array<A> => as.slice()
 
 /**
  * Break an array into its first element and remaining elements

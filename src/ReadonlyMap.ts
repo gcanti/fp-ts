@@ -159,7 +159,7 @@ export const toReadonlyArray = <K>(O: Ord<K>): (<A>(m: ReadonlyMap<K, A>) => Rea
  * @since 3.0.0
  */
 export function toUnfoldable<K, F extends URIS>(
-  ord: Ord<K>,
+  O: Ord<K>,
   U: Unfoldable1<F>
 ): <A>(d: ReadonlyMap<K, A>) => Kind<F, readonly [K, A]>
 export function toUnfoldable<K, F>(ord: Ord<K>, U: Unfoldable<F>): <A>(d: ReadonlyMap<K, A>) => HKT<F, readonly [K, A]>
@@ -167,9 +167,9 @@ export function toUnfoldable<K, F>(
   ord: Ord<K>,
   U: Unfoldable<F>
 ): <A>(d: ReadonlyMap<K, A>) => HKT<F, readonly [K, A]> {
-  const toArrayO = toReadonlyArray(ord)
+  const toReadonlyArrayO = toReadonlyArray(ord)
   return (d) => {
-    const arr = toArrayO(d)
+    const arr = toReadonlyArrayO(d)
     const len = arr.length
     return U.unfold(0, (b) => (b < len ? O.some([arr[b], b + 1]) : O.none))
   }

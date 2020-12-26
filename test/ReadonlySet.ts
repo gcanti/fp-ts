@@ -170,13 +170,13 @@ describe('ReadonlySet', () => {
     assert.deepStrictEqual(_.remove(Eq.eqNumber)(1)(new Set([1, 2])), new Set([2]))
   })
 
-  it('fromArray', () => {
-    assert.deepStrictEqual(_.fromArray(Eq.eqNumber)([]), new Set([]))
-    assert.deepStrictEqual(_.fromArray(Eq.eqNumber)([1]), new Set([1]))
-    assert.deepStrictEqual(_.fromArray(Eq.eqNumber)([1, 1]), new Set([1]))
-    assert.deepStrictEqual(_.fromArray(Eq.eqNumber)([1, 2]), new Set([1, 2]))
+  it('fromReadonlyArray', () => {
+    assert.deepStrictEqual(_.fromReadonlyArray(Eq.eqNumber)([]), new Set([]))
+    assert.deepStrictEqual(_.fromReadonlyArray(Eq.eqNumber)([1]), new Set([1]))
+    assert.deepStrictEqual(_.fromReadonlyArray(Eq.eqNumber)([1, 1]), new Set([1]))
+    assert.deepStrictEqual(_.fromReadonlyArray(Eq.eqNumber)([1, 2]), new Set([1, 2]))
 
-    assert.deepStrictEqual(_.fromArray(fooEq)(['a', 'a', 'b'].map(foo)), new Set(['a', 'b'].map(foo)))
+    assert.deepStrictEqual(_.fromReadonlyArray(fooEq)(['a', 'a', 'b'].map(foo)), new Set(['a', 'b'].map(foo)))
   })
 
   it('compact', () => {

@@ -101,6 +101,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `intercalate` pipeable (@gcanti)
     - remove `getFoldableComposition` (@gcanti)
     - remove `traverse_` (@gcanti)
+    - rename `toArray` to `toReadonlyArray` (@gcanti)
     - make type class members pipeables (@gcanti)
   - `FoldableWithIndex`
     - drop `Foldable` dependency (@gcanti)
@@ -181,6 +182,8 @@ high state of flux, you're at risk of it changing without notice.
     - make `unsafeInsertAt` pipeable (@gcanti)
     - make `unsafeUpdateAt` pipeable (@gcanti)
     - make `unsafeDeleteAt` pipeable (@gcanti)
+    - remove `fromArray` (@gcanti)
+    - remove `toArray` (@gcanti)
     - remove `readonlyArray` (@gcanti)
   - `ReadonlyMap`
     - make `member` pipeable (@gcanti)
@@ -194,6 +197,8 @@ high state of flux, you're at risk of it changing without notice.
     - make `snoc` pipeable (@gcanti)
     - make `zipWith` pipeable (@gcanti)
     - make `zip` pipeable (@gcanti)
+    - rename `toReadonlyArray` to `toArray` (@gcanti)
+    - rename `fromArray` (@gcanti)
     - remove `readonlyNonEmptyArray` (@gcanti)
   - `ReadonlyRecord`
     - rename `hasOwnProperty` to `has` (@gcanti)
@@ -206,6 +211,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `elem` pipeable (@gcanti)
     - make `union` pipeable (@gcanti)
     - make `intersection` pipeable (@gcanti)
+    - rename `fromArray` to `fromReadonlyArray` (@gcanti)
     - make `difference` pipeable (@gcanti)
   - `ReadonlyTuple`
     - remove `getChain` (@gcanti)

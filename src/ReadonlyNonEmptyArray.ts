@@ -75,13 +75,6 @@ export const fromReadonlyArray = <A>(as: ReadonlyArray<A>): Option<ReadonlyNonEm
   RA.isNonEmpty(as) ? some(as) : none
 
 /**
- * @category constructors
- * @since 3.0.0
- */
-// tslint:disable-next-line: readonly-array
-export const fromArray = <A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>> => fromReadonlyArray(RA.fromArray(as))
-
-/**
  * Produces a couple of the first element of the array, and a new array of the remaining elements, if any
  *
  * @example

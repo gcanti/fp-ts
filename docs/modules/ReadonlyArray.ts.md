@@ -86,7 +86,6 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [comprehension](#comprehension)
   - [cons](#cons)
-  - [fromArray](#fromarray)
   - [makeBy](#makeby)
   - [range](#range)
   - [replicate](#replicate)
@@ -99,7 +98,6 @@ Added in v3.0.0
 - [destructors](#destructors)
   - [foldLeft](#foldleft)
   - [foldRight](#foldright)
-  - [toArray](#toarray)
 - [guards](#guards)
   - [isNonEmpty](#isnonempty)
 - [instances](#instances)
@@ -1132,16 +1130,6 @@ assert.deepStrictEqual(pipe([1, 2, 3], cons(0)), [0, 1, 2, 3])
 
 Added in v3.0.0
 
-## fromArray
-
-**Signature**
-
-```ts
-export declare const fromArray: <A>(as: A[]) => readonly A[]
-```
-
-Added in v3.0.0
-
 ## makeBy
 
 Return a list of length `n` with element `i` initialized with `f(i)`
@@ -1331,16 +1319,6 @@ export declare const foldRight: <B, A>(
   onEmpty: Lazy<B>,
   onCons: (init: readonly A[], last: A) => B
 ) => (as: readonly A[]) => B
-```
-
-Added in v3.0.0
-
-## toArray
-
-**Signature**
-
-```ts
-export declare const toArray: <A>(as: readonly A[]) => A[]
 ```
 
 Added in v3.0.0

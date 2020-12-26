@@ -326,16 +326,16 @@ export const getIntersectionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>>
  * @since 3.0.0
  */
 export const reduce = <A>(O: Ord<A>): (<B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlySet<A>) => B) => {
-  const toArrayO = toReadonlyArray(O)
-  return (b, f) => (fa) => toArrayO(fa).reduce(f, b)
+  const toReadonlyArrayO = toReadonlyArray(O)
+  return (b, f) => (fa) => toReadonlyArrayO(fa).reduce(f, b)
 }
 
 /**
  * @since 3.0.0
  */
 export const foldMap = <A, M>(O: Ord<A>, M: Monoid<M>): ((f: (a: A) => M) => (fa: ReadonlySet<A>) => M) => {
-  const toArrayO = toReadonlyArray(O)
-  return (f) => (fa) => toArrayO(fa).reduce((b, a) => M.concat(f(a))(b), M.empty)
+  const toReadonlyArrayO = toReadonlyArray(O)
+  return (f) => (fa) => toReadonlyArrayO(fa).reduce((b, a) => M.concat(f(a))(b), M.empty)
 }
 
 /**
@@ -379,7 +379,7 @@ export const remove = <A>(E: Eq<A>) => (a: A): ((set: ReadonlySet<A>) => Readonl
  * @category constructors
  * @since 3.0.0
  */
-export const fromArray = <A>(E: Eq<A>) => (as: ReadonlyArray<A>): ReadonlySet<A> => {
+export const fromReadonlyArray = <A>(E: Eq<A>) => (as: ReadonlyArray<A>): ReadonlySet<A> => {
   const len = as.length
   const r = new Set<A>()
   const has = elem(E)
