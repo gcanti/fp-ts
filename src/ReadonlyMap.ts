@@ -33,7 +33,7 @@ import Option = O.Option
 export const size = <K, A>(d: ReadonlyMap<K, A>): number => d.size
 
 /**
- * Test whether or not a map is empty
+ * Test whether or not a `ReadonlyMap` is empty.
  *
  * @since 3.0.0
  */
@@ -120,7 +120,7 @@ export const toReadonlyArray = <K>(O: Ord<K>): (<A>(m: ReadonlyMap<K, A>) => Rea
   collect(O)((k, a) => [k, a] as const)
 
 /**
- * Unfolds a map into a list of key/value pairs
+ * Unfolds a `ReadonlyMap` into a list of key/value pairs
  *
  * @category destructors
  * @since 3.0.0
@@ -165,7 +165,7 @@ export const insertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>
 }
 
 /**
- * Insert or replace a key/value pair in a map
+ * Insert or replace a key/value pair in a map.
  *
  * @category combinators
  * @since 3.0.0
@@ -229,6 +229,8 @@ export const deleteAt = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => O
 }
 
 /**
+ * Change the element at the specified keys, creating a new `ReadonlyMap`, or returning `None` if the key doesn't exist.
+ *
  * @since 3.0.0
  */
 export const updateAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>>) => {
@@ -248,6 +250,8 @@ export const updateAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>
 }
 
 /**
+ * Apply a function to the element at the specified key, creating a new `ReadonlyMap`, or returning `None` if the key doesn't exist.
+ *
  * @since 3.0.0
  */
 export const modifyAt = <K>(
@@ -269,7 +273,7 @@ export const modifyAt = <K>(
 }
 
 /**
- * Lookup the value for a key in a `Map`.
+ * Lookup the value for a key in a `ReadonlyMap`.
  * If the result is a `Some`, the existing key is also returned.
  *
  * @since 3.0.0
@@ -293,7 +297,7 @@ export const lookupWithKey = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>)
 }
 
 /**
- * Lookup the value for a key in a `Map`.
+ * Lookup the value for a key in a `ReadonlyMap`.
  *
  * @since 3.0.0
  */
@@ -311,22 +315,22 @@ export const lookup = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => Opt
 }
 
 /**
- * Test whether or not one `Map` contains all of the keys and values contained in another `Map`.
+ * Test whether or not one `ReadonlyMap` contains all of the keys and values contained in another `ReadonlyMap`.
  *
  * @since 3.0.0
  */
 export const isSubmap = <K, A>(
   SK: Eq<K>,
   SA: Eq<A>
-): ((that: ReadonlyMap<K, A>) => (me: ReadonlyMap<K, A>) => boolean) => {
+): ((second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => boolean) => {
   const lookupWithKeyS = lookupWithKey(SK)
-  return (that) => (me) => {
-    const entries = me.entries()
+  return (second) => (first) => {
+    const entries = first.entries()
     let e: Next<readonly [K, A]>
     // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
-      const oka = lookupWithKeyS(k)(that)
+      const oka = lookupWithKeyS(k)(second)
       if (O.isNone(oka) || !SK.equals(oka.value[0])(k) || !SA.equals(oka.value[1])(a)) {
         return false
       }
@@ -341,7 +345,7 @@ export const isSubmap = <K, A>(
 export const empty: ReadonlyMap<never, never> = new Map<never, never>()
 
 /**
- * Create a map with one key/value pair
+ * Create a `ReadonlyMap` with one key/value pair.
  *
  * @category constructors
  * @since 3.0.0
@@ -349,7 +353,7 @@ export const empty: ReadonlyMap<never, never> = new Map<never, never>()
 export const singleton = <K, A>(k: K, a: A): ReadonlyMap<K, A> => new Map([[k, a]])
 
 /**
- * Create a map from a foldable collection of key/value pairs, using the
+ * Create a `ReadonlyMap` from a foldable collection of key/value pairs, using the
  * specified `Magma` to combine values for duplicate keys.
  *
  * @category constructors
@@ -518,7 +522,7 @@ export const filter: Filterable2<URI>['filter'] = <A>(predicate: Predicate<A>) =
 export const filterMap: Filterable2<URI>['filterMap'] = (f) => filterMapWithIndex_((_, a) => f(a))
 
 /**
- * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+ * `ReadonlyMap` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
  *
  * @category Functor

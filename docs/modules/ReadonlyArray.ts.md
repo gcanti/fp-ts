@@ -2189,8 +2189,8 @@ Added in v3.0.0
 
 ## modifyAt
 
-Apply a function to the element at the specified index, creating a new array, or returning `None` if the index is out
-of bounds
+Apply a function to the element at the specified index, creating a new `ReadonlyArray`, or returning `None` if the index is out
+of bounds.
 
 **Signature**
 
@@ -2367,7 +2367,7 @@ Added in v3.0.0
 
 ## updateAt
 
-Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
+Change the element at the specified index, creating a new `ReadonlyArray`, or returning `None` if the index is out of bounds.
 
 **Signature**
 

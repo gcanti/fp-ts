@@ -133,9 +133,9 @@ export const chain = <B>(E: Eq<B>): (<A>(f: (x: A) => ReadonlySet<B>) => (set: R
  *
  * @since 3.0.0
  */
-export const isSubset = <A>(E: Eq<A>): ((that: ReadonlySet<A>) => (me: ReadonlySet<A>) => boolean) => {
+export const isSubset = <A>(E: Eq<A>): ((second: ReadonlySet<A>) => (first: ReadonlySet<A>) => boolean) => {
   const elemE = elem(E)
-  return (that) => every((a) => elemE(a)(that))
+  return (second) => every((a) => elemE(a)(second))
 }
 
 /**
@@ -300,9 +300,9 @@ export const partitionMap = <B, C>(EB: Eq<B>, EC: Eq<C>) => <A>(f: (a: A) => Eit
  * @category combinators
  * @since 3.0.0
  */
-export const difference = <A>(E: Eq<A>): ((that: ReadonlySet<A>) => (me: ReadonlySet<A>) => ReadonlySet<A>) => {
+export const difference = <A>(E: Eq<A>): ((second: ReadonlySet<A>) => (first: ReadonlySet<A>) => ReadonlySet<A>) => {
   const elemE = elem(E)
-  return (that) => filter((a: A) => !elemE(a)(that))
+  return (second) => filter((a: A) => !elemE(a)(second))
 }
 
 /**

@@ -140,7 +140,7 @@ Added in v3.0.0
 
 ## map
 
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+`ReadonlyMap` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
 use the type constructor `F` to represent some computational context.
 
 **Signature**
@@ -191,7 +191,7 @@ Added in v3.0.0
 
 ## upsertAt
 
-Insert or replace a key/value pair in a map
+Insert or replace a key/value pair in a map.
 
 **Signature**
 
@@ -205,7 +205,7 @@ Added in v3.0.0
 
 ## fromFoldable
 
-Create a map from a foldable collection of key/value pairs, using the
+Create a `ReadonlyMap` from a foldable collection of key/value pairs, using the
 specified `Magma` to combine values for duplicate keys.
 
 **Signature**
@@ -237,7 +237,7 @@ Added in v3.0.0
 
 ## singleton
 
-Create a map with one key/value pair
+Create a `ReadonlyMap` with one key/value pair.
 
 **Signature**
 
@@ -263,7 +263,7 @@ Added in v3.0.0
 
 ## toUnfoldable
 
-Unfolds a map into a list of key/value pairs
+Unfolds a `ReadonlyMap` into a list of key/value pairs
 
 **Signature**
 
@@ -470,7 +470,7 @@ Added in v3.0.0
 
 ## isEmpty
 
-Test whether or not a map is empty
+Test whether or not a `ReadonlyMap` is empty.
 
 **Signature**
 
@@ -482,7 +482,7 @@ Added in v3.0.0
 
 ## isSubmap
 
-Test whether or not one `Map` contains all of the keys and values contained in another `Map`.
+Test whether or not one `ReadonlyMap` contains all of the keys and values contained in another `ReadonlyMap`.
 
 **Signature**
 
@@ -490,7 +490,7 @@ Test whether or not one `Map` contains all of the keys and values contained in a
 export declare const isSubmap: <K, A>(
   SK: Eq<K>,
   SA: Eq<A>
-) => (that: ReadonlyMap<K, A>) => (me: ReadonlyMap<K, A>) => boolean
+) => (second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => boolean
 ```
 
 Added in v3.0.0
@@ -509,7 +509,7 @@ Added in v3.0.0
 
 ## lookup
 
-Lookup the value for a key in a `Map`.
+Lookup the value for a key in a `ReadonlyMap`.
 
 **Signature**
 
@@ -521,7 +521,7 @@ Added in v3.0.0
 
 ## lookupWithKey
 
-Lookup the value for a key in a `Map`.
+Lookup the value for a key in a `ReadonlyMap`.
 If the result is a `Some`, the existing key is also returned.
 
 **Signature**
@@ -545,6 +545,8 @@ export declare const member: <K>(E: Eq<K>) => (k: K) => <A>(m: ReadonlyMap<K, A>
 Added in v3.0.0
 
 ## modifyAt
+
+Apply a function to the element at the specified key, creating a new `ReadonlyMap`, or returning `None` if the key doesn't exist.
 
 **Signature**
 
@@ -583,6 +585,8 @@ export declare const size: <K, A>(d: ReadonlyMap<K, A>) => number
 Added in v3.0.0
 
 ## updateAt
+
+Change the element at the specified keys, creating a new `ReadonlyMap`, or returning `None` if the key doesn't exist.
 
 **Signature**
 

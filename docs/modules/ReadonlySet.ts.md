@@ -78,7 +78,7 @@ Form the set difference (`x` - `y`)
 **Signature**
 
 ```ts
-export declare const difference: <A>(E: Eq<A>) => (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => ReadonlySet<A>
+export declare const difference: <A>(E: Eq<A>) => (second: ReadonlySet<A>) => (first: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
 **Example**
@@ -327,7 +327,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const isSubset: <A>(E: Eq<A>) => (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => boolean
+export declare const isSubset: <A>(E: Eq<A>) => (second: ReadonlySet<A>) => (first: ReadonlySet<A>) => boolean
 ```
 
 Added in v3.0.0

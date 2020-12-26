@@ -632,7 +632,7 @@ export const insertAt = <A>(i: number, a: A): ((as: ReadonlyArray<A>) => Option<
 }
 
 /**
- * Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
+ * Change the element at the specified index, creating a new `ReadonlyArray`, or returning `None` if the index is out of bounds.
  *
  * @example
  * import { updateAt } from 'fp-ts/ReadonlyArray'
@@ -668,8 +668,8 @@ export const deleteAt = (i: number): (<A>(as: ReadonlyArray<A>) => Option<Readon
 }
 
 /**
- * Apply a function to the element at the specified index, creating a new array, or returning `None` if the index is out
- * of bounds
+ * Apply a function to the element at the specified index, creating a new `ReadonlyArray`, or returning `None` if the index is out
+ * of bounds.
  *
  * @example
  * import { modifyAt } from 'fp-ts/ReadonlyArray'
