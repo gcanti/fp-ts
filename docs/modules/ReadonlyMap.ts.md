@@ -26,7 +26,7 @@ Added in v3.0.0
   - [mapWithIndex](#mapwithindex)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
-  - [insertAt](#insertat)
+  - [upsertAt](#upsertat)
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
   - [singleton](#singleton)
@@ -176,14 +176,14 @@ export declare const deleteAt: <K>(E: Eq<K>) => (k: K) => <A>(m: ReadonlyMap<K, 
 
 Added in v3.0.0
 
-## insertAt
+## upsertAt
 
 Insert or replace a key/value pair in a map
 
 **Signature**
 
 ```ts
-export declare const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+export declare const upsertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
 
 Added in v3.0.0

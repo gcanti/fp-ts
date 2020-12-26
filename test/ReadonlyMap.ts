@@ -445,7 +445,7 @@ describe('ReadonlyMap', () => {
     )
   })
 
-  it('insertAt', () => {
+  it('upsertAt', () => {
     const emptyMap = new Map<User, number>()
     const a1 = new Map<User, number>([[{ id: 'a' }, 1]])
     const a1b2 = new Map<User, number>([
@@ -461,13 +461,13 @@ describe('ReadonlyMap', () => {
       [{ id: 'b' }, 2],
       [{ id: 'c' }, 3]
     ])
-    const insertS = _.insertAt(eqUser)
+    const insertS = _.upsertAt(eqUser)
     assert.deepStrictEqual(insertS({ id: 'a' }, 1)(emptyMap), a1)
     assert.deepStrictEqual(insertS({ id: 'a' }, 1)(a1b2), a1b2)
     assert.deepStrictEqual(insertS({ id: 'a' }, 2)(a1b2), a2b2)
     assert.deepStrictEqual(insertS({ id: 'c' }, 3)(a1b2), a1b2c3)
 
-    const insert = _.insertAt(eqKey)
+    const insert = _.upsertAt(eqKey)
     assert.deepStrictEqual(insert({ id: 1 }, { value: 1 })(_.empty), new Map([[{ id: 1 }, { value: 1 }]]))
     const x = insert({ id: 1 }, value1)(repo)
     assert.deepStrictEqual(

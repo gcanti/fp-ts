@@ -23,28 +23,7 @@ import { TraversableWithIndex2C } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable2C } from './Witherable'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 import Option = O.Option
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getShow = <K, A>(SK: Show<K>, SA: Show<A>): Show<ReadonlyMap<K, A>> => ({
-  show: (m) => {
-    let elements = ''
-    m.forEach((a, k) => {
-      elements += `[${SK.show(k)}, ${SA.show(a)}], `
-    })
-    if (elements !== '') {
-      elements = elements.substring(0, elements.length - 2)
-    }
-    return `new Map([${elements}])`
-  }
-})
 
 /**
  * Calculate the number of key/value pairs in a map
@@ -169,7 +148,7 @@ export function toUnfoldable<K, F>(
  * @category combinators
  * @since 3.0.0
  */
-export const insertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
+export const upsertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
   const lookupWithKeyE = lookupWithKey(E)
   return (k, a) => {
     const lookupWithKeyEk = lookupWithKeyE(k)
@@ -341,50 +320,6 @@ export const isSubmap = <K, A>(
  * @since 3.0.0
  */
 export const empty: ReadonlyMap<never, never> = new Map<never, never>()
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getEq = <K, A>(SK: Eq<K>, SA: Eq<A>): Eq<ReadonlyMap<K, A>> => {
-  const isSubmapSKSA = isSubmap(SK, SA)
-  return fromEquals((second) => (first) => isSubmapSKSA(first)(second) && isSubmapSKSA(second)(first))
-}
-
-/**
- * Gets `Monoid` instance for Maps given `Semigroup` instance for their values
- *
- * @category instances
- * @since 3.0.0
- */
-export const getMonoid = <K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap<K, A>> => {
-  const lookupWithKeyS = lookupWithKey(SK)
-  return {
-    concat: (second) => (first) => {
-      if (first === empty) {
-        return second
-      }
-      if (second === empty) {
-        return first
-      }
-      const r = new Map(first)
-      const entries = second.entries()
-      let e: Next<readonly [K, A]>
-      // tslint:disable-next-line: strict-boolean-expressions
-      while (!(e = entries.next()).done) {
-        const [k, a] = e.value
-        const oka = lookupWithKeyS(k)(first)
-        if (O.isSome(oka)) {
-          r.set(oka.value[0], SA.concat(a)(oka.value[1]))
-        } else {
-          r.set(k, a)
-        }
-      }
-      return r
-    },
-    empty
-  }
-}
 
 /**
  * Create a map with one key/value pair
@@ -641,6 +576,67 @@ export type URI = typeof URI
 declare module './HKT' {
   interface URItoKind2<E, A> {
     readonly [URI]: ReadonlyMap<E, A>
+  }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getShow = <K, A>(SK: Show<K>, SA: Show<A>): Show<ReadonlyMap<K, A>> => ({
+  show: (m) => {
+    let elements = ''
+    m.forEach((a, k) => {
+      elements += `[${SK.show(k)}, ${SA.show(a)}], `
+    })
+    if (elements !== '') {
+      elements = elements.substring(0, elements.length - 2)
+    }
+    return `new Map([${elements}])`
+  }
+})
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getEq = <K, A>(SK: Eq<K>, SA: Eq<A>): Eq<ReadonlyMap<K, A>> => {
+  const isSubmapSKSA = isSubmap(SK, SA)
+  return fromEquals((second) => (first) => isSubmapSKSA(first)(second) && isSubmapSKSA(second)(first))
+}
+
+/**
+ * Gets `Monoid` instance for Maps given `Semigroup` instance for their values
+ *
+ * @category instances
+ * @since 3.0.0
+ */
+export const getMonoid = <K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap<K, A>> => {
+  const lookupWithKeyS = lookupWithKey(SK)
+  return {
+    concat: (second) => (first) => {
+      if (first === empty) {
+        return second
+      }
+      if (second === empty) {
+        return first
+      }
+      const r = new Map(first)
+      const entries = second.entries()
+      let e: Next<readonly [K, A]>
+      // tslint:disable-next-line: strict-boolean-expressions
+      while (!(e = entries.next()).done) {
+        const [k, a] = e.value
+        const oka = lookupWithKeyS(k)(first)
+        if (O.isSome(oka)) {
+          r.set(oka.value[0], SA.concat(a)(oka.value[1]))
+        } else {
+          r.set(k, a)
+        }
+      }
+      return r
+    },
+    empty
   }
 }
 

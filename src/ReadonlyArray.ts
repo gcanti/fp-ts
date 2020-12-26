@@ -616,7 +616,7 @@ export const findLastIndex = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<
 }
 
 /**
- * Insert an element at the specified index, creating a new array, or returning `None` if the index is out of bounds
+ * Insert an element at the specified index, creating a new `ReadonlyArray`, or returning `None` if the index is out of bounds.
  *
  * @example
  * import { insertAt } from 'fp-ts/ReadonlyArray'
