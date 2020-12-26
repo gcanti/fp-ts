@@ -59,6 +59,10 @@ Added in v3.0.0
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
 - [destructors](#destructors)
+  - [head](#head)
+  - [max](#max)
+  - [min](#min)
+  - [tail](#tail)
   - [uncons](#uncons)
   - [unsnoc](#unsnoc)
 - [instances](#instances)
@@ -92,15 +96,11 @@ Added in v3.0.0
   - [filter](#filter)
   - [filterWithIndex](#filterwithindex)
   - [fold](#fold)
-  - [head](#head)
   - [init](#init)
   - [insertAt](#insertat)
   - [last](#last)
-  - [max](#max)
-  - [min](#min)
   - [modifyAt](#modifyat)
   - [sequence](#sequence)
-  - [tail](#tail)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
   - [tupled](#tupled)
@@ -444,7 +444,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const zipWith: <A, B, C>(
+export declare const zipWith: <B, A, C>(
   bs: ReadonlyNonEmptyArray<B>,
   f: (a: A, b: B) => C
 ) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<C>
@@ -610,9 +610,49 @@ Added in v3.0.0
 
 # destructors
 
+## head
+
+**Signature**
+
+```ts
+export declare const head: <A>(nea: ReadonlyNonEmptyArray<A>) => A
+```
+
+Added in v3.0.0
+
+## max
+
+**Signature**
+
+```ts
+export declare const max: <A>(O: Ord<A>) => (nea: ReadonlyNonEmptyArray<A>) => A
+```
+
+Added in v3.0.0
+
+## min
+
+**Signature**
+
+```ts
+export declare const min: <A>(O: Ord<A>) => (nea: ReadonlyNonEmptyArray<A>) => A
+```
+
+Added in v3.0.0
+
+## tail
+
+**Signature**
+
+```ts
+export declare const tail: <A>(nea: ReadonlyNonEmptyArray<A>) => readonly A[]
+```
+
+Added in v3.0.0
+
 ## uncons
 
-Produces a couple of the first element of the array, and a new array of the remaining elements, if any
+Produces a couple of the first element of the array, and a new array of the remaining elements, if any.
 
 **Signature**
 
@@ -632,7 +672,7 @@ Added in v3.0.0
 
 ## unsnoc
 
-Produces a couple of a copy of the array without its last element, and that last element
+Produces a couple of a copy of the array without its last element, and that last element.
 
 **Signature**
 
@@ -955,16 +995,6 @@ export declare const fold: <A>(S: Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>
 
 Added in v3.0.0
 
-## head
-
-**Signature**
-
-```ts
-export declare const head: <A>(nea: ReadonlyNonEmptyArray<A>) => A
-```
-
-Added in v3.0.0
-
 ## init
 
 Get all but the last element of a non empty array, creating a new array.
@@ -1009,26 +1039,6 @@ export declare const last: <A>(nea: ReadonlyNonEmptyArray<A>) => A
 
 Added in v3.0.0
 
-## max
-
-**Signature**
-
-```ts
-export declare const max: <A>(O: Ord<A>) => (nea: ReadonlyNonEmptyArray<A>) => A
-```
-
-Added in v3.0.0
-
-## min
-
-**Signature**
-
-```ts
-export declare const min: <A>(O: Ord<A>) => (nea: ReadonlyNonEmptyArray<A>) => A
-```
-
-Added in v3.0.0
-
 ## modifyAt
 
 **Signature**
@@ -1048,16 +1058,6 @@ Added in v3.0.0
 
 ```ts
 export declare const sequence: Sequence1<'ReadonlyNonEmptyArray'>
-```
-
-Added in v3.0.0
-
-## tail
-
-**Signature**
-
-```ts
-export declare const tail: <A>(nea: ReadonlyNonEmptyArray<A>) => readonly A[]
 ```
 
 Added in v3.0.0

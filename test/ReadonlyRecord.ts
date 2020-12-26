@@ -418,18 +418,4 @@ describe('ReadonlyRecord', () => {
     assert.deepStrictEqual(_.modifyAt('b', (n: number) => n * 2)(x), O.none)
     assert.deepStrictEqual(_.modifyAt('a', (n: number) => n * 2)(x), O.some({ a: 2 }))
   })
-
-  it('fromRecord', () => {
-    const as = { a: 1, b: 2 }
-    const bs = _.fromRecord(as)
-    assert.deepStrictEqual(bs, as)
-    assert.notStrictEqual(bs, as)
-  })
-
-  it('toRecord', () => {
-    const as: _.ReadonlyRecord<string, number> = { a: 1, b: 2 }
-    const bs = _.toRecord(as)
-    assert.deepStrictEqual(bs, as)
-    assert.notStrictEqual(bs, as)
-  })
 })

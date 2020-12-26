@@ -34,11 +34,9 @@ Added in v3.0.0
   - [map](#map)
   - [mapWithIndex](#mapwithindex)
 - [constructors](#constructors)
-  - [fromRecord](#fromrecord)
   - [singleton](#singleton)
 - [destructors](#destructors)
   - [toReadonlyArray](#toreadonlyarray)
-  - [toRecord](#torecord)
   - [toUnfoldable](#tounfoldable)
 - [instances](#instances)
   - [Compactable](#compactable-1)
@@ -282,16 +280,6 @@ Added in v3.0.0
 
 # constructors
 
-## fromRecord
-
-**Signature**
-
-```ts
-export declare const fromRecord: <K extends string, A>(r: Record<K, A>) => Readonly<Record<K, A>>
-```
-
-Added in v3.0.0
-
 ## singleton
 
 Create a record with one key/value pair
@@ -312,16 +300,6 @@ Added in v3.0.0
 
 ```ts
 export declare const toReadonlyArray: <K extends string, A>(r: Readonly<Record<K, A>>) => readonly (readonly [K, A])[]
-```
-
-Added in v3.0.0
-
-## toRecord
-
-**Signature**
-
-```ts
-export declare const toRecord: <K extends string, A>(r: Readonly<Record<K, A>>) => Record<K, A>
 ```
 
 Added in v3.0.0

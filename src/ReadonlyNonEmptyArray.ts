@@ -37,6 +37,10 @@ export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
   readonly 0: A
 }
 
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
+
 /**
  * Append an element to the front of an array, creating a new non empty array
  *
@@ -74,8 +78,12 @@ export const snoc: <A>(end: A) => (init: ReadonlyArray<A>) => ReadonlyNonEmptyAr
 export const fromReadonlyArray = <A>(as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
   RA.isNonEmpty(as) ? some(as) : none
 
+// -------------------------------------------------------------------------------------
+// destructors
+// -------------------------------------------------------------------------------------
+
 /**
- * Produces a couple of the first element of the array, and a new array of the remaining elements, if any
+ * Produces a couple of the first element of the array, and a new array of the remaining elements, if any.
  *
  * @example
  * import { uncons } from 'fp-ts/ReadonlyNonEmptyArray'
@@ -88,7 +96,7 @@ export const fromReadonlyArray = <A>(as: ReadonlyArray<A>): Option<ReadonlyNonEm
 export const uncons = <A>(nea: ReadonlyNonEmptyArray<A>): readonly [A, ReadonlyArray<A>] => [nea[0], nea.slice(1)]
 
 /**
- * Produces a couple of a copy of the array without its last element, and that last element
+ * Produces a couple of a copy of the array without its last element, and that last element.
  *
  * @example
  * import { unsnoc } from 'fp-ts/ReadonlyNonEmptyArray'
@@ -104,28 +112,19 @@ export const unsnoc = <A>(nea: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArra
 }
 
 /**
- * @category instances
- * @since 3.0.0
- */
-export const getShow: <A>(S: Show<A>) => Show<ReadonlyNonEmptyArray<A>> = RA.getShow
-
-/**
+ * @category destructors
  * @since 3.0.0
  */
 export const head = <A>(nea: ReadonlyNonEmptyArray<A>): A => nea[0]
 
 /**
+ * @category destructors
  * @since 3.0.0
  */
 export const tail = <A>(nea: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> => nea.slice(1)
 
 /**
- * @category combinators
- * @since 3.0.0
- */
-export const reverse: <A>(nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.reverse as any
-
-/**
+ * @category destructors
  * @since 3.0.0
  */
 export const min = <A>(O: Ord<A>): ((nea: ReadonlyNonEmptyArray<A>) => A) => {
@@ -134,6 +133,7 @@ export const min = <A>(O: Ord<A>): ((nea: ReadonlyNonEmptyArray<A>) => A) => {
 }
 
 /**
+ * @category destructors
  * @since 3.0.0
  */
 export const max = <A>(O: Ord<A>): ((nea: ReadonlyNonEmptyArray<A>) => A) => {
@@ -141,21 +141,15 @@ export const max = <A>(O: Ord<A>): ((nea: ReadonlyNonEmptyArray<A>) => A) => {
   return (nea) => nea.reduce((a, acc) => S.concat(acc)(a))
 }
 
-/**
- * Builds a `Semigroup` instance for `ReadonlyNonEmptyArray`
- *
- * @category instances
- * @since 3.0.0
- */
-export const getSemigroup = <A = never>(): Semigroup<ReadonlyNonEmptyArray<A>> => ({
-  concat: (second) => (first) => concat(first, second)
-})
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category combinators
  * @since 3.0.0
  */
-export const getEq: <A>(E: Eq<A>) => Eq<ReadonlyNonEmptyArray<A>> = RA.getEq
+export const reverse: <A>(nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.reverse as any
 
 /**
  * Group equal, consecutive elements of an array into non empty arrays.
@@ -349,7 +343,7 @@ export const fold = <A>(S: Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>): A =>
  * @category combinators
  * @since 3.0.0
  */
-export const zipWith: <A, B, C>(
+export const zipWith: <B, A, C>(
   bs: ReadonlyNonEmptyArray<B>,
   f: (a: A, b: B) => C
 ) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<C> = RA.zipWith as any
@@ -563,6 +557,28 @@ declare module './HKT' {
     readonly [URI]: ReadonlyNonEmptyArray<A>
   }
 }
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getShow: <A>(S: Show<A>) => Show<ReadonlyNonEmptyArray<A>> = RA.getShow
+
+/**
+ * Builds a `Semigroup` instance for `ReadonlyNonEmptyArray`
+ *
+ * @category instances
+ * @since 3.0.0
+ */
+export const getSemigroup = <A = never>(): Semigroup<ReadonlyNonEmptyArray<A>> => ({
+  concat: (second) => (first) => concat(first, second)
+})
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getEq: <A>(E: Eq<A>) => Eq<ReadonlyNonEmptyArray<A>> = RA.getEq
 
 /**
  * @category instances

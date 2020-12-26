@@ -23,23 +23,15 @@ import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category model
  * @since 3.0.0
  */
 export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromRecord = <K extends string, A>(r: Record<K, A>): ReadonlyRecord<K, A> => Object.assign({}, r)
-
-/**
- * @category destructors
- * @since 3.0.0
- */
-export const toRecord = <K extends string, A>(r: ReadonlyRecord<K, A>): Record<K, A> => Object.assign({}, r)
 
 /**
  * @category instances
