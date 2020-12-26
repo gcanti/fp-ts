@@ -520,24 +520,23 @@ describe('ReadonlyMap', () => {
   })
 
   it('deleteAt', () => {
-    const a1b2 = new Map<User, number>([
+    const m1 = new Map<User, number>([
       [{ id: 'a' }, 1],
       [{ id: 'b' }, 2]
     ])
-    const a1b2_ = new Map<User, number>([
-      [{ id: 'a' }, 1],
-      [{ id: 'b' }, 2]
-    ])
-    const b2 = new Map<User, number>([[{ id: 'b' }, 2]])
     const removeS = _.deleteAt(eqUser)
-    assert.deepStrictEqual(removeS({ id: 'a' })(a1b2), b2)
-    assert.deepStrictEqual(a1b2, a1b2_)
-    assert.deepStrictEqual(removeS({ id: 'c' })(a1b2), a1b2)
+    assert.deepStrictEqual(
+      removeS({ id: 'a' })(m1),
+      O.some(
+        new Map<User, number>([[{ id: 'b' }, 2]])
+      )
+    )
+    assert.deepStrictEqual(removeS({ id: 'c' })(m1), O.none)
 
     const remove = _.deleteAt(eqKey)
-    assert.deepStrictEqual(remove({ id: 1 })(repo), new Map([[{ id: 2 }, { value: 2 }]]))
-    assert.deepStrictEqual(remove({ id: 4 })(repo), new Map([[{ id: 2 }, { value: 2 }]]))
-    assert.deepStrictEqual(remove({ id: 3 })(repo), repo)
+    assert.deepStrictEqual(remove({ id: 1 })(repo), O.some(new Map([[{ id: 2 }, { value: 2 }]])))
+    assert.deepStrictEqual(remove({ id: 4 })(repo), O.some(new Map([[{ id: 2 }, { value: 2 }]])))
+    assert.deepStrictEqual(remove({ id: 3 })(repo), O.none)
     // should not modify the source
     assert.deepStrictEqual(
       repo,

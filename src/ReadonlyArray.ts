@@ -650,7 +650,7 @@ export const updateAt = <A>(i: number, a: A): ((as: ReadonlyArray<A>) => Option<
 }
 
 /**
- * Delete the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
+ * Delete the element at the specified index, creating a new `ReadonlyArray`, or returning `None` if the index is out of bounds.
  *
  * @example
  * import { deleteAt } from 'fp-ts/ReadonlyArray'

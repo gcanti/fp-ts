@@ -1777,7 +1777,7 @@ Added in v3.0.0
 
 ## deleteAt
 
-Delete the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
+Delete the element at the specified index, creating a new `ReadonlyArray`, or returning `None` if the index is out of bounds.
 
 **Signature**
 

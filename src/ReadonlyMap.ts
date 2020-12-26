@@ -191,25 +191,41 @@ export const upsertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>
 }
 
 /**
- * Delete a key and value from a map
+ * Delete a key and value from a `ReadonlyMap`, returning the value as well as the subsequent `ReadonlyMap`.
  *
- * @category combinators
  * @since 3.0.0
  */
-export const deleteAt = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
+export const pop = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => Option<readonly [A, ReadonlyMap<K, A>]>) => {
   const lookupWithKeyE = lookupWithKey(E)
   return (k) => {
     const lookupWithKeyEk = lookupWithKeyE(k)
     return (m) => {
       const found = lookupWithKeyEk(m)
-      if (O.isSome(found)) {
-        const r = new Map(m)
-        r.delete(found.value[0])
-        return r
-      }
-      return m
+      return pipe(
+        found,
+        O.map(([k, a]) => {
+          const out = new Map(m)
+          out.delete(k)
+          return [a, out]
+        })
+      )
     }
   }
+}
+
+/**
+ * Delete the element at the specified key, creating a new `ReadonlyMap`, or returning `None` if the key doesn't exist.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const deleteAt = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>>) => {
+  const popE = pop(E)
+  return (k) =>
+    flow(
+      popE(k),
+      O.map(([_, m]) => m)
+    )
 }
 
 /**
@@ -249,25 +265,6 @@ export const modifyAt = <K>(
       r.set(found.value[0], f(found.value[1]))
       return O.some(r)
     }
-  }
-}
-
-/**
- * Delete a key and value from a map, returning the value as well as the subsequent map
- *
- * @since 3.0.0
- */
-export const pop = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => Option<readonly [A, ReadonlyMap<K, A>]>) => {
-  const lookupE = lookup(E)
-  const deleteAtE = deleteAt(E)
-  return (k) => {
-    const lookupEk = lookupE(k)
-    const deleteAtEk = deleteAtE(k)
-    return (m) =>
-      pipe(
-        lookupEk(m),
-        O.map((a) => [a, deleteAtEk(m)])
-      )
   }
 }
 

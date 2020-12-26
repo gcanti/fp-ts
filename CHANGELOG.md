@@ -194,6 +194,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `fromMap` (@gcanti)
     - remove `toMap` (@gcanti)
     - rename `insertAt` to `upsertAt` and add `insertAt` (@gcanti)
+    - change `deleteAt` signature (@gcanti)
     - remove `readonlyMap` (@gcanti)
   - `ReadonlyNonEmptyArray`
     - make `cons` pipeable (@gcanti)

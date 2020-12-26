@@ -167,12 +167,12 @@ Added in v3.0.0
 
 ## deleteAt
 
-Delete a key and value from a map
+Delete the element at the specified key, creating a new `ReadonlyMap`, or returning `None` if the key doesn't exist.
 
 **Signature**
 
 ```ts
-export declare const deleteAt: <K>(E: Eq<K>) => (k: K) => <A>(m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+export declare const deleteAt: <K>(E: Eq<K>) => (k: K) => <A>(m: ReadonlyMap<K, A>) => O.Option<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0
@@ -558,7 +558,7 @@ Added in v3.0.0
 
 ## pop
 
-Delete a key and value from a map, returning the value as well as the subsequent map
+Delete a key and value from a `ReadonlyMap`, returning the value as well as the subsequent `ReadonlyMap`.
 
 **Signature**
 
