@@ -143,6 +143,28 @@ export function toUnfoldable<K, F>(
 }
 
 /**
+ * Insert an element at the specified key, creating a new `ReadonlyMap`, or returning `None` if the key already exists.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const insertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>>) => {
+  const lookupWithKeyE = lookupWithKey(E)
+  return (k, a) => {
+    const lookupWithKeyEk = lookupWithKeyE(k)
+    return (m) => {
+      const found = lookupWithKeyEk(m)
+      if (O.isNone(found)) {
+        const out = new Map(m)
+        out.set(k, a)
+        return O.some(out)
+      }
+      return O.none
+    }
+  }
+}
+
+/**
  * Insert or replace a key/value pair in a map
  *
  * @category combinators
@@ -155,13 +177,13 @@ export const upsertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>
     return (m) => {
       const found = lookupWithKeyEk(m)
       if (O.isNone(found)) {
-        const r = new Map(m)
-        r.set(k, a)
-        return r
+        const out = new Map(m)
+        out.set(k, a)
+        return out
       } else if (found.value[1] !== a) {
-        const r = new Map(m)
-        r.set(found.value[0], a)
-        return r
+        const out = new Map(m)
+        out.set(found.value[0], a)
+        return out
       }
       return m
     }

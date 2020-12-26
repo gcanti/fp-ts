@@ -26,6 +26,7 @@ Added in v3.0.0
   - [mapWithIndex](#mapwithindex)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
+  - [insertAt](#insertat)
   - [upsertAt](#upsertat)
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
@@ -172,6 +173,18 @@ Delete a key and value from a map
 
 ```ts
 export declare const deleteAt: <K>(E: Eq<K>) => (k: K) => <A>(m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+```
+
+Added in v3.0.0
+
+## insertAt
+
+Insert an element at the specified key, creating a new `ReadonlyMap`, or returning `None` if the key already exists.
+
+**Signature**
+
+```ts
+export declare const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => O.Option<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0

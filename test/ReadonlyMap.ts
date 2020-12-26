@@ -1,5 +1,4 @@
 import * as assert from 'assert'
-import * as A from '../src/ReadonlyArray'
 import { Either, left, right } from '../src/Either'
 import { Eq, eqNumber, fromEquals } from '../src/Eq'
 import { identity, pipe, Refinement } from '../src/function'
@@ -7,6 +6,7 @@ import * as IO from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
+import * as A from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyMap'
 import { getFirstSemigroup, getLastSemigroup, getStructSemigroup, semigroupSum } from '../src/Semigroup'
 import { getStructShow, Show, showString } from '../src/Show'
@@ -445,27 +445,36 @@ describe('ReadonlyMap', () => {
     )
   })
 
+  it('insertAt', () => {
+    const insert = _.insertAt(eqUser)
+    assert.deepStrictEqual(insert({ id: 'a' }, 1)(_.empty), O.some(new Map([[{ id: 'a' }, 1]])))
+    assert.deepStrictEqual(insert({ id: 'a' }, 1)(new Map([[{ id: 'a' }, 1]])), O.none)
+  })
+
   it('upsertAt', () => {
-    const emptyMap = new Map<User, number>()
-    const a1 = new Map<User, number>([[{ id: 'a' }, 1]])
-    const a1b2 = new Map<User, number>([
+    const m1 = new Map<User, number>([
       [{ id: 'a' }, 1],
       [{ id: 'b' }, 2]
     ])
-    const a2b2 = new Map<User, number>([
+    const m2 = new Map<User, number>([
       [{ id: 'a' }, 2],
       [{ id: 'b' }, 2]
     ])
-    const a1b2c3 = new Map<User, number>([
-      [{ id: 'a' }, 1],
-      [{ id: 'b' }, 2],
-      [{ id: 'c' }, 3]
-    ])
-    const insertS = _.upsertAt(eqUser)
-    assert.deepStrictEqual(insertS({ id: 'a' }, 1)(emptyMap), a1)
-    assert.deepStrictEqual(insertS({ id: 'a' }, 1)(a1b2), a1b2)
-    assert.deepStrictEqual(insertS({ id: 'a' }, 2)(a1b2), a2b2)
-    assert.deepStrictEqual(insertS({ id: 'c' }, 3)(a1b2), a1b2c3)
+    const upsert = _.upsertAt(eqUser)
+    assert.deepStrictEqual(
+      upsert({ id: 'a' }, 1)(_.empty),
+      new Map<User, number>([[{ id: 'a' }, 1]])
+    )
+    assert.deepStrictEqual(upsert({ id: 'a' }, 1)(m1), m1)
+    assert.deepStrictEqual(upsert({ id: 'a' }, 2)(m1), m2)
+    assert.deepStrictEqual(
+      upsert({ id: 'c' }, 3)(m1),
+      new Map<User, number>([
+        [{ id: 'a' }, 1],
+        [{ id: 'b' }, 2],
+        [{ id: 'c' }, 3]
+      ])
+    )
 
     const insert = _.upsertAt(eqKey)
     assert.deepStrictEqual(insert({ id: 1 }, { value: 1 })(_.empty), new Map([[{ id: 1 }, { value: 1 }]]))

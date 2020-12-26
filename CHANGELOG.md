@@ -193,7 +193,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `isSubmap` pipeable (@gcanti)
     - remove `fromMap` (@gcanti)
     - remove `toMap` (@gcanti)
-    - rename `insertAt` to `upsertAt` (@gcanti)
+    - rename `insertAt` to `upsertAt` and add `insertAt` (@gcanti)
     - remove `readonlyMap` (@gcanti)
   - `ReadonlyNonEmptyArray`
     - make `cons` pipeable (@gcanti)
