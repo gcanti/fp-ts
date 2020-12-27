@@ -339,7 +339,7 @@ export const foldMap = <A, M>(O: Ord<A>, M: Monoid<M>): ((f: (a: A) => M) => (fa
 }
 
 /**
- * Create a set with one element
+ * Create a `ReadonlySet` from one element.
  *
  * @category constructors
  * @since 3.0.0

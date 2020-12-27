@@ -26,7 +26,7 @@ import { Witherable2C } from './Witherable'
 import Option = O.Option
 
 /**
- * Calculate the number of key/value pairs in a map
+ * Calculate the number of key/value pairs in a `ReadonlyMap`.
  *
  * @since 3.0.0
  */
@@ -40,7 +40,7 @@ export const size = <K, A>(d: ReadonlyMap<K, A>): number => d.size
 export const isEmpty = <K, A>(d: ReadonlyMap<K, A>): boolean => d.size === 0
 
 /**
- * Test whether or not a key exists in a map
+ * Test whether or not a key exists in a `ReadonlyMap`.
  *
  * @since 3.0.0
  */
@@ -58,7 +58,7 @@ interface Next<A> {
 }
 
 /**
- * Test whether or not a value is a member of a map
+ * Test whether or not a value is a member of a `ReadonlyMap`.
  *
  * @since 3.0.0
  */
@@ -79,7 +79,7 @@ export const elem = <A>(E: Eq<A>) => (a: A): (<K>(m: ReadonlyMap<K, A>) => boole
 }
 
 /**
- * Get a sorted array of the keys contained in a map
+ * Get a sorted array of the keys contained in a `ReadonlyMap`.
  *
  * @since 3.0.0
  */
@@ -87,7 +87,7 @@ export const keys = <K>(O: Ord<K>) => <A>(m: ReadonlyMap<K, A>): ReadonlyArray<K
   Array.from(m.keys()).sort((first, second) => O.compare(second)(first))
 
 /**
- * Get a sorted array of the values contained in a map
+ * Get a sorted array of the values contained in a `ReadonlyMap`.
  *
  * @since 3.0.0
  */
@@ -111,7 +111,7 @@ export const collect = <K>(O: Ord<K>): (<A, B>(f: (k: K, a: A) => B) => (m: Read
 }
 
 /**
- * Get a sorted of the key/value pairs contained in a map
+ * Get a sorted of the key/value pairs contained in a `ReadonlyMap`.
  *
  * @category destructors
  * @since 3.0.0
@@ -120,7 +120,7 @@ export const toReadonlyArray = <K>(O: Ord<K>): (<A>(m: ReadonlyMap<K, A>) => Rea
   collect(O)((k, a) => [k, a] as const)
 
 /**
- * Unfolds a `ReadonlyMap` into a list of key/value pairs
+ * Unfolds a `ReadonlyMap` into a list of key/value pairs.
  *
  * @category destructors
  * @since 3.0.0
@@ -327,12 +327,14 @@ export const isSubmap = <K, A>(
 }
 
 /**
+ * An empty `ReadonlyMap`.
+ *
  * @since 3.0.0
  */
 export const empty: ReadonlyMap<never, never> = new Map<never, never>()
 
 /**
- * Create a `ReadonlyMap` with one key/value pair.
+ * Create a `ReadonlyMap` from one key/value pair.
  *
  * @category constructors
  * @since 3.0.0

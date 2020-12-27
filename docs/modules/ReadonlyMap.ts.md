@@ -237,7 +237,7 @@ Added in v3.0.0
 
 ## singleton
 
-Create a `ReadonlyMap` with one key/value pair.
+Create a `ReadonlyMap` from one key/value pair.
 
 **Signature**
 
@@ -251,7 +251,7 @@ Added in v3.0.0
 
 ## toReadonlyArray
 
-Get a sorted of the key/value pairs contained in a map
+Get a sorted of the key/value pairs contained in a `ReadonlyMap`.
 
 **Signature**
 
@@ -263,7 +263,7 @@ Added in v3.0.0
 
 ## toUnfoldable
 
-Unfolds a `ReadonlyMap` into a list of key/value pairs
+Unfolds a `ReadonlyMap` into a list of key/value pairs.
 
 **Signature**
 
@@ -448,7 +448,7 @@ Added in v3.0.0
 
 ## elem
 
-Test whether or not a value is a member of a map
+Test whether or not a value is a member of a `ReadonlyMap`.
 
 **Signature**
 
@@ -459,6 +459,8 @@ export declare const elem: <A>(E: Eq<A>) => (a: A) => <K>(m: ReadonlyMap<K, A>) 
 Added in v3.0.0
 
 ## empty
+
+An empty `ReadonlyMap`.
 
 **Signature**
 
@@ -497,7 +499,7 @@ Added in v3.0.0
 
 ## keys
 
-Get a sorted array of the keys contained in a map
+Get a sorted array of the keys contained in a `ReadonlyMap`.
 
 **Signature**
 
@@ -534,7 +536,7 @@ Added in v3.0.0
 
 ## member
 
-Test whether or not a key exists in a map
+Test whether or not a key exists in a `ReadonlyMap`.
 
 **Signature**
 
@@ -574,7 +576,7 @@ Added in v3.0.0
 
 ## size
 
-Calculate the number of key/value pairs in a map
+Calculate the number of key/value pairs in a `ReadonlyMap`.
 
 **Signature**
 
@@ -598,7 +600,7 @@ Added in v3.0.0
 
 ## values
 
-Get a sorted array of the values contained in a map
+Get a sorted array of the values contained in a `ReadonlyMap`.
 
 **Signature**
 

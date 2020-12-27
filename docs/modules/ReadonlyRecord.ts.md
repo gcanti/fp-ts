@@ -29,10 +29,7 @@ Added in v3.0.0
   - [wither](#wither)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
-  - [filterMapWithIndex](#filtermapwithindex)
   - [insertAt](#insertat)
-  - [map](#map)
-  - [mapWithIndex](#mapwithindex)
   - [upsertAt](#upsertat)
 - [constructors](#constructors)
   - [singleton](#singleton)
@@ -62,6 +59,7 @@ Added in v3.0.0
   - [elem](#elem)
   - [empty](#empty)
   - [every](#every)
+  - [filterMapWithIndex](#filtermapwithindex)
   - [filterWithIndex](#filterwithindex)
   - [foldMapWithIndex](#foldmapwithindex)
   - [fromFoldable](#fromfoldable)
@@ -71,6 +69,8 @@ Added in v3.0.0
   - [isSubrecord](#issubrecord)
   - [keys](#keys)
   - [lookup](#lookup)
+  - [map](#map)
+  - [mapWithIndex](#mapwithindex)
   - [modifyAt](#modifyat)
   - [partitionMapWithIndex](#partitionmapwithindex)
   - [partitionWithIndex](#partitionwithindex)
@@ -226,18 +226,6 @@ export declare function deleteAt<K extends string>(
 
 Added in v3.0.0
 
-## filterMapWithIndex
-
-**Signature**
-
-```ts
-export declare function filterMapWithIndex<K extends string, A, B>(
-  f: (key: K, a: A) => Option<B>
-): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
-```
-
-Added in v3.0.0
-
 ## insertAt
 
 Insert an element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key already exists.
@@ -249,32 +237,6 @@ export declare function insertAt<K extends string, A>(
   k: K,
   a: A
 ): <KS extends string>(r: ReadonlyRecord<KS, A>) => Option<ReadonlyRecord<KS | K, A>>
-```
-
-Added in v3.0.0
-
-## map
-
-Map a record passing the values to the iterating function
-
-**Signature**
-
-```ts
-export declare function map<A, B>(f: (a: A) => B): <K extends string>(fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
-```
-
-Added in v3.0.0
-
-## mapWithIndex
-
-Map a record passing the keys to the iterating function
-
-**Signature**
-
-```ts
-export declare function mapWithIndex<K extends string, A, B>(
-  f: (k: K, a: A) => B
-): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
 ```
 
 Added in v3.0.0
@@ -298,7 +260,7 @@ Added in v3.0.0
 
 ## singleton
 
-Create a record with one key/value pair
+Create a `ReadonlyRecord` from one key/value pair.
 
 **Signature**
 
@@ -471,7 +433,7 @@ Added in v3.0.0
 
 ## getMonoid
 
-Returns a `Monoid` instance for records given a `Semigroup` instance for their values
+Returns a `Monoid` instance for `ReadonlyRecord`s given a `Semigroup` instance for their values.
 
 **Signature**
 
@@ -554,6 +516,8 @@ Added in v3.0.0
 
 ## empty
 
+An empty `ReadonlyRecord`.
+
 **Signature**
 
 ```ts
@@ -568,6 +532,18 @@ Added in v3.0.0
 
 ```ts
 export declare const every: <A>(predicate: Predicate<A>) => (r: Readonly<Record<string, A>>) => boolean
+```
+
+Added in v3.0.0
+
+## filterMapWithIndex
+
+**Signature**
+
+```ts
+export declare function filterMapWithIndex<K extends string, A, B>(
+  f: (key: K, a: A) => Option<B>
+): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
 ```
 
 Added in v3.0.0
@@ -601,7 +577,7 @@ Added in v3.0.0
 
 ## fromFoldable
 
-Create a record from a foldable collection of key/value pairs, using the
+Create a `ReadonlyRecord` from a foldable collection of key/value pairs, using the
 specified `Magma` to combine values for duplicate keys.
 
 **Signature**
@@ -629,10 +605,10 @@ Added in v3.0.0
 
 ## fromFoldableMap
 
-Create a record from a foldable collection using the specified functions to
+Create a `ReadonlyRecord` from a foldable collection using the specified functions to
 
 - map to key/value pairs
-- combine values for duplicate keys.
+- combine values for duplicate keys
 
 **Signature**
 
@@ -671,7 +647,7 @@ export const zipObject = <K extends string, A>(
 
 assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
 
-// build a record from a field
+// build a `ReadonlyRecord` from a field
 interface User {
   id: string
   name: string
@@ -696,6 +672,10 @@ Added in v3.0.0
 
 ## has
 
+Test whether or not a key exists in a `ReadonlyRecord`.
+
+Note. This function is not pipeable because is a custom type guard.
+
 **Signature**
 
 ```ts
@@ -718,7 +698,7 @@ Added in v3.0.0
 
 ## isSubrecord
 
-Test whether one record contains all of the keys and values contained in another record
+Test whether one `ReadonlyRecord` contains all of the keys and values contained in another `ReadonlyRecord`.
 
 **Signature**
 
@@ -742,12 +722,38 @@ Added in v3.0.0
 
 ## lookup
 
-Lookup the value for a key in a record
+Lookup the value for a key in a `ReadonlyRecord`.
 
 **Signature**
 
 ```ts
 export declare const lookup: (k: string) => <A>(r: Readonly<Record<string, A>>) => O.Option<A>
+```
+
+Added in v3.0.0
+
+## map
+
+Map a `ReadonlyRecord` passing the values to the iterating function.
+
+**Signature**
+
+```ts
+export declare function map<A, B>(f: (a: A) => B): <K extends string>(fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
+```
+
+Added in v3.0.0
+
+## mapWithIndex
+
+Map a `ReadonlyRecord` passing both the keys and values to the iterating function.
+
+**Signature**
+
+```ts
+export declare function mapWithIndex<K extends string, A, B>(
+  f: (k: K, a: A) => B
+): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
 ```
 
 Added in v3.0.0

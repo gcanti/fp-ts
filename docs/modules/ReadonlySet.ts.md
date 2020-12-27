@@ -202,7 +202,7 @@ Added in v3.0.0
 
 ## singleton
 
-Create a set with one element
+Create a `ReadonlySet` from one element.
 
 **Signature**
 
