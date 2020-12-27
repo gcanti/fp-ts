@@ -190,19 +190,8 @@ export const upsertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>
  * @since 3.0.0
  */
 export const updateAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>>) => {
-  const lookupWithKeyE = lookupWithKey(E)
-  return (k, a) => {
-    const lookupWithKeyEk = lookupWithKeyE(k)
-    return (m) => {
-      const found = lookupWithKeyEk(m)
-      if (O.isNone(found)) {
-        return O.none
-      }
-      const r = new Map(m)
-      r.set(found.value[0], a)
-      return O.some(r)
-    }
-  }
+  const modifyAtE = modifyAt(E)
+  return (k, a) => modifyAtE(k, () => a)
 }
 
 /**
