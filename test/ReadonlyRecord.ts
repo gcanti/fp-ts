@@ -319,27 +319,69 @@ describe('ReadonlyRecord', () => {
   })
 
   it('insertAt', () => {
-    assert.deepStrictEqual(_.insertAt('a', 1)({}), O.some({ a: 1 }))
-    assert.deepStrictEqual(_.insertAt('a', 1)({ a: 1 }), O.none)
-    assert.deepStrictEqual(_.insertAt('a', 1)({ a: 2 }), O.none)
+    assert.deepStrictEqual(pipe({}, _.insertAt('a', 1)), O.some({ a: 1 }))
+    assert.deepStrictEqual(pipe({ a: 1 }, _.insertAt('a', 1)), O.none)
+    assert.deepStrictEqual(pipe({ a: 2 }, _.insertAt('a', 1)), O.none)
   })
 
   it('upsertAt', () => {
-    assert.deepStrictEqual(_.upsertAt('a', 1)({}), { a: 1 })
-    assert.deepStrictEqual(_.upsertAt('c', 3)({ a: 1, b: 2 }), { a: 1, b: 2, c: 3 })
-    // should return the same reference if the value is already there
+    assert.deepStrictEqual(pipe({}, _.upsertAt('a', 1)), { a: 1 })
+    assert.deepStrictEqual(pipe({ a: 1, b: 2 }, _.upsertAt('c', 3)), { a: 1, b: 2, c: 3 })
+    // should return the same reference when nothing changed
     const x = { a: 1 }
-    assert.strictEqual(_.upsertAt('a', 1)(x), x)
+    assert.strictEqual(pipe(x, _.upsertAt('a', 1)), x)
     // should create a new key when the value is `undefined`
-    assert.deepStrictEqual(_.upsertAt('a', undefined)({}), { a: undefined })
+    assert.deepStrictEqual(pipe({}, _.upsertAt('a', undefined)), { a: undefined })
+  })
+
+  it('updateAt', () => {
+    const x: _.ReadonlyRecord<string, number> = { a: 1 }
+    assert.deepStrictEqual(pipe(x, _.updateAt('b', 2)), O.none)
+    assert.deepStrictEqual(pipe(x, _.updateAt('a', 2)), O.some({ a: 2 }))
+    // should return the same reference when nothing changed
+    assert.deepStrictEqual(
+      pipe(
+        x,
+        _.updateAt('a', 1),
+        O.map((y) => y === x)
+      ),
+      O.some(true)
+    )
+  })
+
+  it('modifyAt', () => {
+    const x: _.ReadonlyRecord<string, number> = { a: 1 }
+    assert.deepStrictEqual(
+      pipe(
+        x,
+        _.modifyAt('b', (n) => n * 2)
+      ),
+      O.none
+    )
+    assert.deepStrictEqual(
+      pipe(
+        x,
+        _.modifyAt('a', (n) => n * 2)
+      ),
+      O.some({ a: 2 })
+    )
+    // should return the same reference when nothing changed
+    assert.deepStrictEqual(
+      pipe(
+        x,
+        _.modifyAt('a', (n) => n),
+        O.map((y) => y === x)
+      ),
+      O.some(true)
+    )
   })
 
   it('deleteAt', () => {
-    assert.deepStrictEqual(_.deleteAt('a')({ a: 1, b: 2 }), { b: 2 })
+    assert.deepStrictEqual(pipe({ a: 1, b: 2 }, _.deleteAt('a')), { b: 2 })
     // should return the same reference if the key is missing
     const x = { a: 1 }
-    assert.strictEqual(_.deleteAt('b')(x), x)
-    assert.strictEqual(_.deleteAt('b')(noPrototype), noPrototype)
+    assert.strictEqual(pipe(x, _.deleteAt('b')), x)
+    assert.strictEqual(pipe(noPrototype, _.deleteAt('b')), noPrototype)
   })
 
   it('pop', () => {
@@ -407,23 +449,5 @@ describe('ReadonlyRecord', () => {
     const x: _.ReadonlyRecord<string, number> = { a: 1 }
     assert.deepStrictEqual(_.has('a', x), true)
     assert.deepStrictEqual(_.has('b', x), false)
-  })
-
-  it('updateAt', () => {
-    const x: _.ReadonlyRecord<string, number> = { a: 1 }
-    assert.deepStrictEqual(_.updateAt('b', 2)(x), O.none)
-    assert.deepStrictEqual(_.updateAt('a', 2)(x), O.some({ a: 2 }))
-    const r = _.updateAt('a', 1)(x)
-    if (O.isSome(r)) {
-      assert.deepStrictEqual(r.value, x)
-    } else {
-      assert.fail()
-    }
-  })
-
-  it('modifyAt', () => {
-    const x: _.ReadonlyRecord<string, number> = { a: 1 }
-    assert.deepStrictEqual(_.modifyAt('b', (n: number) => n * 2)(x), O.none)
-    assert.deepStrictEqual(_.modifyAt('a', (n: number) => n * 2)(x), O.some({ a: 2 }))
   })
 })

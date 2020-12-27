@@ -193,19 +193,10 @@ export function deleteAt(k: string): <A>(r: ReadonlyRecord<string, A>) => Readon
  *
  * @since 3.0.0
  */
-export const updateAt = <A>(k: string, a: A) => <K extends string>(
-  r: ReadonlyRecord<K, A>
-): Option<ReadonlyRecord<K, A>> => {
-  if (!has(k, r)) {
-    return O.none
-  }
-  if (r[k] === a) {
-    return O.some(r)
-  }
-  const out: Record<K, A> = Object.assign({}, r)
-  out[k] = a
-  return O.some(out)
-}
+export const updateAt = <A>(
+  k: string,
+  a: A
+): (<K extends string>(r: ReadonlyRecord<K, A>) => Option<ReadonlyRecord<K, A>>) => modifyAt(k, () => a)
 
 /**
  * Apply a function to the element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
@@ -218,8 +209,12 @@ export const modifyAt = <A>(k: string, f: Endomorphism<A>) => <K extends string>
   if (!has(k, r)) {
     return O.none
   }
+  const a = f(r[k])
+  if (a === r[k]) {
+    return O.some(r)
+  }
   const out: Record<K, A> = Object.assign({}, r)
-  out[k] = f(r[k])
+  out[k] = a
   return O.some(out)
 }
 
