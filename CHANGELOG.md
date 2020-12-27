@@ -220,6 +220,8 @@ high state of flux, you're at risk of it changing without notice.
     - make `intersection` pipeable (@gcanti)
     - rename `fromArray` to `fromReadonlyArray` (@gcanti)
     - make `difference` pipeable (@gcanti)
+    - remove `fromSet` (@gcanti)
+    - remove `toSet` (@gcanti)
   - `ReadonlyTuple`
     - remove `getChain` (@gcanti)
     - remove `readonlyTuple` (@gcanti)

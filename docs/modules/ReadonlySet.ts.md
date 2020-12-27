@@ -21,15 +21,14 @@ Added in v3.0.0
   - [insert](#insert)
   - [intersection](#intersection)
   - [map](#map)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
   - [remove](#remove)
+  - [separate](#separate)
   - [union](#union)
 - [constructors](#constructors)
   - [fromReadonlyArray](#fromreadonlyarray)
-  - [fromSet](#fromset)
   - [singleton](#singleton)
-- [destructors](#destructors)
-  - [toReadonlyArray](#toreadonlyarray)
-  - [toSet](#toset)
 - [instances](#instances)
   - [getEq](#geteq)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
@@ -41,11 +40,9 @@ Added in v3.0.0
   - [every](#every)
   - [foldMap](#foldmap)
   - [isSubset](#issubset)
-  - [partition](#partition)
-  - [partitionMap](#partitionmap)
   - [reduce](#reduce)
-  - [separate](#separate)
   - [some](#some)
+  - [toReadonlyArray](#toreadonlyarray)
 
 ---
 
@@ -73,7 +70,7 @@ Added in v3.0.0
 
 ## difference
 
-Form the set difference (`x` - `y`)
+Return the set difference (`x` - `y`).
 
 **Signature**
 
@@ -116,7 +113,7 @@ Added in v3.0.0
 
 ## insert
 
-Insert a value into a set
+Insert a value into a `ReadonlySet`.
 
 **Signature**
 
@@ -128,7 +125,7 @@ Added in v3.0.0
 
 ## intersection
 
-The set of elements which are in both the first and second set
+The `ReadonlySet` of elements which are in both the first and second `ReadonlySet`.
 
 **Signature**
 
@@ -142,7 +139,7 @@ Added in v3.0.0
 
 ## map
 
-Projects a Set through a function
+Projects a `ReadonlySet` through a function.
 
 **Signature**
 
@@ -152,9 +149,37 @@ export declare const map: <B>(E: Eq<B>) => <A>(f: (x: A) => B) => (set: Readonly
 
 Added in v3.0.0
 
+## partition
+
+**Signature**
+
+```ts
+export declare function partition<A, B extends A>(
+  refinement: Refinement<A, B>
+): (set: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<B>>
+export declare function partition<A>(
+  predicate: Predicate<A>
+): (set: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<A>>
+```
+
+Added in v3.0.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <B, C>(
+  EB: Eq<B>,
+  EC: Eq<C>
+) => <A>(f: (a: A) => Either<B, C>) => (set: ReadonlySet<A>) => Separated<ReadonlySet<B>, ReadonlySet<C>>
+```
+
+Added in v3.0.0
+
 ## remove
 
-Delete a value from a set
+Delete a value from a `ReadonlySet`.
 
 **Signature**
 
@@ -164,9 +189,22 @@ export declare const remove: <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>) =>
 
 Added in v3.0.0
 
+## separate
+
+**Signature**
+
+```ts
+export declare const separate: <E, A>(
+  EE: Eq<E>,
+  EA: Eq<A>
+) => (fa: ReadonlySet<Either<E, A>>) => Separated<ReadonlySet<E>, ReadonlySet<A>>
+```
+
+Added in v3.0.0
+
 ## union
 
-Form the union of two sets
+Return the union of two `ReadonlySet`s.
 
 **Signature**
 
@@ -180,22 +218,12 @@ Added in v3.0.0
 
 ## fromReadonlyArray
 
-Create a set from an array
+Create a `ReadonlySet` from a `ReadonlyArray`.
 
 **Signature**
 
 ```ts
 export declare const fromReadonlyArray: <A>(E: Eq<A>) => (as: readonly A[]) => ReadonlySet<A>
-```
-
-Added in v3.0.0
-
-## fromSet
-
-**Signature**
-
-```ts
-export declare const fromSet: <A>(s: Set<A>) => ReadonlySet<A>
 ```
 
 Added in v3.0.0
@@ -208,28 +236,6 @@ Create a `ReadonlySet` from one element.
 
 ```ts
 export declare const singleton: <A>(a: A) => ReadonlySet<A>
-```
-
-Added in v3.0.0
-
-# destructors
-
-## toReadonlyArray
-
-**Signature**
-
-```ts
-export declare const toReadonlyArray: <A>(O: Ord<A>) => (set: ReadonlySet<A>) => readonly A[]
-```
-
-Added in v3.0.0
-
-## toSet
-
-**Signature**
-
-```ts
-export declare const toSet: <A>(s: ReadonlySet<A>) => Set<A>
 ```
 
 Added in v3.0.0
@@ -280,7 +286,7 @@ Added in v3.0.0
 
 ## elem
 
-Test if a value is a member of a set
+Test if a value is a member of a `ReadonlySet`.
 
 **Signature**
 
@@ -291,6 +297,8 @@ export declare const elem: <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>) => b
 Added in v3.0.0
 
 ## empty
+
+An empty `ReadonlySet`.
 
 **Signature**
 
@@ -322,40 +330,12 @@ Added in v3.0.0
 
 ## isSubset
 
-`true` if and only if every element in the first set is an element of the second set
+Return `true` if and only if every element in the first `ReadonlySet` is an element of the second `ReadonlySet`.
 
 **Signature**
 
 ```ts
 export declare const isSubset: <A>(E: Eq<A>) => (second: ReadonlySet<A>) => (first: ReadonlySet<A>) => boolean
-```
-
-Added in v3.0.0
-
-## partition
-
-**Signature**
-
-```ts
-export declare function partition<A, B extends A>(
-  refinement: Refinement<A, B>
-): (set: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<B>>
-export declare function partition<A>(
-  predicate: Predicate<A>
-): (set: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<A>>
-```
-
-Added in v3.0.0
-
-## partitionMap
-
-**Signature**
-
-```ts
-export declare const partitionMap: <B, C>(
-  EB: Eq<B>,
-  EC: Eq<C>
-) => <A>(f: (a: A) => Either<B, C>) => (set: ReadonlySet<A>) => Separated<ReadonlySet<B>, ReadonlySet<C>>
 ```
 
 Added in v3.0.0
@@ -370,25 +350,22 @@ export declare const reduce: <A>(O: Ord<A>) => <B>(b: B, f: (b: B, a: A) => B) =
 
 Added in v3.0.0
 
-## separate
-
-**Signature**
-
-```ts
-export declare const separate: <E, A>(
-  EE: Eq<E>,
-  EA: Eq<A>
-) => (fa: ReadonlySet<Either<E, A>>) => Separated<ReadonlySet<E>, ReadonlySet<A>>
-```
-
-Added in v3.0.0
-
 ## some
 
 **Signature**
 
 ```ts
 export declare const some: <A>(predicate: Predicate<A>) => (set: ReadonlySet<A>) => boolean
+```
+
+Added in v3.0.0
+
+## toReadonlyArray
+
+**Signature**
+
+```ts
+export declare const toReadonlyArray: <A>(O: Ord<A>) => (set: ReadonlySet<A>) => readonly A[]
 ```
 
 Added in v3.0.0
