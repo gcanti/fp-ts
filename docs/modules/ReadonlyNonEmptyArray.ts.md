@@ -419,6 +419,8 @@ Added in v3.0.0
 
 ## sort
 
+Sort the elements of a `ReadonlyNonEmptyArray` in increasing order, creating a new `ReadonlyNonEmptyArray`.
+
 **Signature**
 
 ```ts
@@ -1018,6 +1020,8 @@ Added in v3.0.0
 
 ## insertAt
 
+Insert an element at the specified index, creating a new `ReadonlyNonEmptyArray`, or returning `None` if the index is out of bounds.
+
 **Signature**
 
 ```ts
@@ -1040,6 +1044,9 @@ export declare const last: <A>(nea: ReadonlyNonEmptyArray<A>) => A
 Added in v3.0.0
 
 ## modifyAt
+
+Apply a function to the element at the specified index, creating a new `ReadonlyNonEmptyArray`, or returning `None` if the index is out
+of bounds.
 
 **Signature**
 
@@ -1105,6 +1112,8 @@ export declare const unzip: <A, B>(
 Added in v3.0.0
 
 ## updateAt
+
+Change the element at the specified index, creating a new `ReadonlyNonEmptyArray`, or returning `None` if the index is out of bounds.
 
 **Signature**
 

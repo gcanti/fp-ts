@@ -539,9 +539,9 @@ Added in v3.0.0
 
 ## chop
 
-A useful recursion pattern for processing an array to produce a new array, often used for "chopping" up the input
-array. Typically chop is called with some function that will consume an initial prefix of the array and produce a
-value and the rest of the array.
+A useful recursion pattern for processing a `ReadonlyArray` to produce a new `ReadonlyArray`, often used for "chopping" up the input
+`ReadonlyArray`. Typically chop is called with some function that will consume an initial prefix of the `ReadonlyArray` and produce a
+value and the rest of the `ReadonlyArray`.
 
 **Signature**
 
@@ -570,8 +570,8 @@ Added in v3.0.0
 
 ## difference
 
-Creates an array of array values not included in the other given array using a `Eq` for equality
-comparisons. The order and references of result values are determined by the first array.
+Creates a `ReadonlyArray` of values not included in the other given `ReadonlyArray` using a `Eq` for equality
+comparisons. The order and references of result values are determined by the first `ReadonlyArray`.
 
 **Signature**
 
@@ -593,7 +593,7 @@ Added in v3.0.0
 
 ## dropLeft
 
-Drop a number of elements from the start of an array, creating a new array
+Drop a number of elements from the start of a `ReadonlyArray`, creating a new `ReadonlyArray`.
 
 **Signature**
 
@@ -613,7 +613,7 @@ Added in v3.0.0
 
 ## dropLeftWhile
 
-Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new array
+Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new `ReadonlyArray`.
 
 **Signature**
 
@@ -633,7 +633,7 @@ Added in v3.0.0
 
 ## dropRight
 
-Drop a number of elements from the end of an array, creating a new array
+Drop a number of elements from the end of a `ReadonlyArray`, creating a new `ReadonlyArray`.
 
 **Signature**
 
@@ -665,8 +665,8 @@ Added in v3.0.0
 
 ## intersection
 
-Creates an array of unique values that are included in all given arrays using a `Eq` for equality
-comparisons. The order and references of result values are determined by the first array.
+Creates a `ReadonlyArray` of unique values that are included in all given `ReadonlyArray`s using a `Eq` for equality
+comparisons. The order and references of result values are determined by the first `ReadonlyArray`.
 
 **Signature**
 
@@ -688,7 +688,7 @@ Added in v3.0.0
 
 ## intersperse
 
-Places an element in between members of an array
+Places an element in between members of a `ReadonlyArray`
 
 **Signature**
 
@@ -709,7 +709,7 @@ Added in v3.0.0
 
 ## prependToAll
 
-Prepend an element to every member of an array
+Prepend an element to every member of a `ReadonlyArray`
 
 **Signature**
 
@@ -729,7 +729,7 @@ Added in v3.0.0
 
 ## reverse
 
-Reverse an array, creating a new array
+Reverse a `ReadonlyArray`, creating a new `ReadonlyArray`.
 
 **Signature**
 
@@ -749,7 +749,7 @@ Added in v3.0.0
 
 ## rights
 
-Extracts from an array of `Either` all the `Right` elements. All the `Right` elements are extracted in order
+Extracts from a `ReadonlyArray` of `Either`s all the `Right` elements.
 
 **Signature**
 
@@ -770,7 +770,7 @@ Added in v3.0.0
 
 ## rotate
 
-Rotate an array to the right by `n` steps
+Rotate a `ReadonlyArray` to the right by `n` steps
 
 **Signature**
 
@@ -810,7 +810,7 @@ Added in v3.0.0
 
 ## scanRight
 
-Fold an array from the right, keeping all intermediate results instead of only the final result
+Fold a `ReadonlyArray` from the right, keeping all intermediate results instead of only the final result
 
 **Signature**
 
@@ -830,7 +830,7 @@ Added in v3.0.0
 
 ## sort
 
-Sort the elements of an array in increasing order, creating a new array
+Sort the elements of a `ReadonlyArray` in increasing order, creating a new `ReadonlyArray`.
 
 **Signature**
 
@@ -851,7 +851,7 @@ Added in v3.0.0
 
 ## sortBy
 
-Sort the elements of an array in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
+Sort the elements of a `ReadonlyArray` in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
 etc...
 
 **Signature**
@@ -900,7 +900,7 @@ Added in v3.0.0
 
 ## takeLeft
 
-Keep only a number of elements from the start of an array, creating a new array.
+Keep only a number of elements from the start of a `ReadonlyArray`, creating a new `ReadonlyArray`..
 `n` must be a natural number
 
 **Signature**
@@ -921,7 +921,7 @@ Added in v3.0.0
 
 ## takeLeftWhile
 
-Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
+Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new `ReadonlyArray`.
 
 **Signature**
 
@@ -944,7 +944,7 @@ Added in v3.0.0
 
 ## union
 
-Creates an array of unique values, in order, from all given arrays using a `Eq` for equality comparisons.
+Creates a `ReadonlyArray` of unique values, in order, from all given `ReadonlyArray`s using a `Eq` for equality comparisons.
 
 **Signature**
 
@@ -966,7 +966,7 @@ Added in v3.0.0
 
 ## uniq
 
-Remove duplicates from an array, keeping the first occurrence of an element.
+Remove duplicates from a `ReadonlyArray`, keeping the first occurrence of an element.
 
 **Signature**
 
@@ -987,8 +987,8 @@ Added in v3.0.0
 
 ## zip
 
-Takes two arrays and returns an array of corresponding pairs. If one input array is short, excess elements of the
-longer array are discarded
+Takes two `ReadonlyArray`s and returns a `ReadonlyArray` of corresponding pairs. If one input `ReadonlyArray` is short, excess elements of the
+longer `ReadonlyArray` are discarded.
 
 **Signature**
 
@@ -1013,8 +1013,8 @@ Added in v3.0.0
 
 ## zipWith
 
-Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If one
-input array is short, excess elements of the longer array are discarded.
+Apply a function to pairs of elements at the same index in two `ReadonlyArray`s, collecting the results in a new `ReadonlyArray`. If one
+input `ReadonlyArray` is short, excess elements of the longer `ReadonlyArray` are discarded.
 
 **Signature**
 
@@ -1107,7 +1107,7 @@ Added in v3.0.0
 
 ## cons
 
-Attaches an element to the front of an array, creating a new non empty array
+Attaches an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
 
 **Signature**
 
@@ -1149,7 +1149,7 @@ Added in v3.0.0
 
 ## range
 
-Create an array containing a range of integers, including both endpoints
+Create a `ReadonlyArray` containing a range of integers, including both endpoints
 
 **Signature**
 
@@ -1169,7 +1169,7 @@ Added in v3.0.0
 
 ## replicate
 
-Create an array containing a value repeated the specified number of times
+Create a `ReadonlyArray` containing a value repeated the specified number of times
 
 **Signature**
 
@@ -1189,7 +1189,7 @@ Added in v3.0.0
 
 ## snoc
 
-Append an element to the end of an array, creating a new non empty array
+Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
 
 **Signature**
 
@@ -1279,7 +1279,7 @@ Added in v3.0.0
 
 ## foldLeft
 
-Break an array into its first element and remaining elements
+Break a `ReadonlyArray` into its first element and remaining elements
 
 **Signature**
 
@@ -1306,7 +1306,7 @@ Added in v3.0.0
 
 ## foldRight
 
-Break an array into its initial elements and the last element
+Break a `ReadonlyArray` into its initial elements and the last element
 
 **Signature**
 
@@ -1323,7 +1323,7 @@ Added in v3.0.0
 
 ## isNonEmpty
 
-Test whether an array is non empty narrowing down the type to `NonEmptyReadonlyArray<A>`
+Test whether a `ReadonlyArray` is non empty narrowing down the type to `NonEmptyReadonlyArray<A>`
 
 **Signature**
 
@@ -1538,7 +1538,7 @@ Added in v3.0.0
 ## getEq
 
 Derives an `Eq` over the `ReadonlyArray` of a given element type from the `Eq` of that type. The derived `Eq` defines two
-arrays as equal if all elements of both arrays are compared equal pairwise with the given `E`. In case of arrays of
+`ReadonlyArray`s as equal if all elements of both `ReadonlyArray`s are compared equal pairwise with the given `E`. In case of `ReadonlyArray`s of
 different lengths, the result is non equality.
 
 **Signature**
@@ -1585,8 +1585,8 @@ Added in v3.0.0
 ## getOrd
 
 Derives an `Ord` over the `ReadonlyArray` of a given element type from the `Ord` of that type. The ordering between two such
-arrays is equal to: the first non equal comparison of each arrays elements taken pairwise in increasing order, in
-case of equality over all the pairwise elements; the longest array is considered the greatest, if both arrays have
+`ReadonlyArray`s is equal to: the first non equal comparison of each `ReadonlyArray`s elements taken pairwise in increasing order, in
+case of equality over all the pairwise elements; the longest `ReadonlyArray` is considered the greatest, if both `ReadonlyArray`s have
 the same length, the result is equality.
 
 **Signature**
@@ -1713,8 +1713,8 @@ Added in v3.0.0
 
 ## chunksOf
 
-Splits an array into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
-the array. Note that `chunksOf(n)([])` is `[]`, not `[[]]`. This is intentional, and is consistent with a recursive
+Splits a `ReadonlyArray` into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
+the `ReadonlyArray`. Note that `chunksOf(n)([])` is `[]`, not `[[]]`. This is intentional, and is consistent with a recursive
 definition of `chunksOf`; it satisfies the property that
 
 ```ts
@@ -1763,9 +1763,9 @@ Added in v3.0.0
 
 ## elem
 
-Test if a value is a member of an array. Takes a `Eq<A>` as a single
+Test if a value is a member of a `ReadonlyArray`. Takes a `Eq<A>` as a single
 argument which returns the function to use to search for a value of type `A` in
-an array of type `ReadonlyArray<A>`.
+a `ReadonlyArray` of type `ReadonlyArray<A>`.
 
 **Signature**
 
@@ -1788,7 +1788,7 @@ Added in v3.0.0
 
 ## empty
 
-An empty array
+An empty `ReadonlyArray`.
 
 **Signature**
 
@@ -1800,7 +1800,7 @@ Added in v3.0.0
 
 ## every
 
-Check if a predicate holds true for every array member.
+Check if a predicate holds true for every `ReadonlyArray` member.
 
 **Signature**
 
@@ -1990,7 +1990,7 @@ Added in v3.0.0
 
 ## head
 
-Get the first element in an array, or `None` if the array is empty
+Get the first element in a `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
 
 **Signature**
 
@@ -2012,7 +2012,7 @@ Added in v3.0.0
 
 ## init
 
-Get all but the last element of an array, creating a new array, or `None` if the array is empty
+Get all but the last element of a `ReadonlyArray`, creating a new `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
 
 **Signature**
 
@@ -2055,7 +2055,7 @@ Added in v3.0.0
 
 ## isEmpty
 
-Test whether an array is empty
+Test whether a `ReadonlyArray` is empty
 
 **Signature**
 
@@ -2075,7 +2075,7 @@ Added in v3.0.0
 
 ## isOutOfBound
 
-Test whether an array contains a particular index
+Test whether a `ReadonlyArray` contains a particular index
 
 **Signature**
 
@@ -2087,7 +2087,7 @@ Added in v3.0.0
 
 ## last
 
-Get the last element in an array, or `None` if the array is empty
+Get the last element in a `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
 
 **Signature**
 
@@ -2109,7 +2109,7 @@ Added in v3.0.0
 
 ## lefts
 
-Extracts from an array of `Either` all the `Left` elements. All the `Left` elements are extracted in order
+Extracts from a `ReadonlyArray` of `Either` all the `Left` elements. All the `Left` elements are extracted in order
 
 **Signature**
 
@@ -2130,7 +2130,7 @@ Added in v3.0.0
 
 ## lookup
 
-This function provides a safe way to read a value at a particular index from an array
+This function provides a safe way to read a value at a particular index from a `ReadonlyArray`
 
 **Signature**
 
@@ -2177,7 +2177,7 @@ Added in v3.0.0
 
 ## some
 
-Check if a predicate holds true for any array member.
+Check if a predicate holds true for any `ReadonlyArray` member.
 
 **Signature**
 
@@ -2201,7 +2201,7 @@ Added in v3.0.0
 
 ## spanLeft
 
-Split an array into two parts:
+Split a `ReadonlyArray` into two parts:
 
 1. the longest initial subarray for which all elements satisfy the specified predicate
 2. the remaining elements
@@ -2225,7 +2225,7 @@ Added in v3.0.0
 
 ## splitAt
 
-Splits an array into two pieces, the first piece has `n` elements.
+Splits a `ReadonlyArray` into two pieces, the first piece has `n` elements.
 
 **Signature**
 
@@ -2248,7 +2248,7 @@ Added in v3.0.0
 
 ## tail
 
-Get all but the first element of an array, creating a new array, or `None` if the array is empty
+Get all but the first element of a `ReadonlyArray`, creating a new `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
 
 **Signature**
 
@@ -2270,7 +2270,7 @@ Added in v3.0.0
 
 ## takeRight
 
-Keep only a number of elements from the end of an array, creating a new array.
+Keep only a number of elements from the end of a `ReadonlyArray`, creating a new `ReadonlyArray`..
 `n` must be a natural number
 
 **Signature**
@@ -2301,7 +2301,7 @@ Added in v3.0.0
 
 ## unzip
 
-This function is the inverse of `zip`. Takes an array of pairs and return two corresponding arrays.
+This function is the inverse of `zip`. Takes a `ReadonlyArray` of pairs and return two corresponding `ReadonlyArray`s.
 
 **Signature**
 

@@ -273,6 +273,8 @@ export const last = <A>(nea: ReadonlyNonEmptyArray<A>): A => nea[nea.length - 1]
 export const init = <A>(nea: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> => nea.slice(0, -1)
 
 /**
+ * Sort the elements of a `ReadonlyNonEmptyArray` in increasing order, creating a new `ReadonlyNonEmptyArray`.
+ *
  * @category combinators
  * @since 3.0.0
  */
@@ -281,6 +283,8 @@ export const sort: <B>(
 ) => <A extends B>(nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.sort as any
 
 /**
+ * Insert an element at the specified index, creating a new `ReadonlyNonEmptyArray`, or returning `None` if the index is out of bounds.
+ *
  * @since 3.0.0
  */
 export const insertAt: <A>(
@@ -289,6 +293,8 @@ export const insertAt: <A>(
 ) => (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> = RA.insertAt as any
 
 /**
+ * Change the element at the specified index, creating a new `ReadonlyNonEmptyArray`, or returning `None` if the index is out of bounds.
+ *
  * @since 3.0.0
  */
 export const updateAt: <A>(
@@ -297,6 +303,9 @@ export const updateAt: <A>(
 ) => (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> = RA.updateAt as any
 
 /**
+ * Apply a function to the element at the specified index, creating a new `ReadonlyNonEmptyArray`, or returning `None` if the index is out
+ * of bounds.
+ *
  * @since 3.0.0
  */
 export const modifyAt: <A>(
