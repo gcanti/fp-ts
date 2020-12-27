@@ -615,6 +615,12 @@ export const findLastIndex = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<
   return O.none
 }
 
+const unsafeInsertAt = <A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> => {
+  const xs = as.slice()
+  xs.splice(i, 0, a)
+  return xs
+}
+
 /**
  * Insert an element at the specified index, creating a new `ReadonlyArray`, or returning `None` if the index is out of bounds.
  *
@@ -626,9 +632,17 @@ export const findLastIndex = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<
  *
  * @since 3.0.0
  */
-export const insertAt = <A>(i: number, a: A): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>) => {
-  const insert = unsafeInsertAt(i, a)
-  return (as) => (i < 0 || i > as.length ? O.none : O.some(insert(as)))
+export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
+  i < 0 || i > as.length ? O.none : O.some(unsafeInsertAt(i, a, as))
+
+const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> => {
+  if (as[i] === a) {
+    return as
+  } else {
+    const xs = as.slice()
+    xs[i] = a
+    return xs
+  }
 }
 
 /**
@@ -645,8 +659,13 @@ export const insertAt = <A>(i: number, a: A): ((as: ReadonlyArray<A>) => Option<
  */
 export const updateAt = <A>(i: number, a: A): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>) => {
   const predicate = isOutOfBound(i)
-  const update = unsafeUpdateAt(i, a)
-  return (as) => (predicate(as) ? O.none : O.some(update(as)))
+  return (as) => (predicate(as) ? O.none : O.some(unsafeUpdateAt(i, a, as)))
+}
+
+const unsafeDeleteAt = <A>(i: number, as: ReadonlyArray<A>): ReadonlyArray<A> => {
+  const xs = as.slice()
+  xs.splice(i, 1)
+  return xs
 }
 
 /**
@@ -663,8 +682,7 @@ export const updateAt = <A>(i: number, a: A): ((as: ReadonlyArray<A>) => Option<
  */
 export const deleteAt = (i: number): (<A>(as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>) => {
   const predicate = isOutOfBound(i)
-  const del = unsafeDeleteAt(i)
-  return (as) => (predicate(as) ? O.none : O.some(del(as)))
+  return (as) => (predicate(as) ? O.none : O.some(unsafeDeleteAt(i, as)))
 }
 
 /**
@@ -683,7 +701,7 @@ export const deleteAt = (i: number): (<A>(as: ReadonlyArray<A>) => Option<Readon
  */
 export const modifyAt = <A>(i: number, f: Endomorphism<A>): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>) => {
   const predicate = isOutOfBound(i)
-  return (as) => (predicate(as) ? O.none : O.some(unsafeUpdateAt(i, f(as[i]))(as)))
+  return (as) => (predicate(as) ? O.none : O.some(unsafeUpdateAt(i, f(as[i]), as)))
 }
 
 /**
@@ -1925,44 +1943,6 @@ export const Witherable: Witherable1<URI> = {
   URI,
   wither,
   wilt
-}
-
-// -------------------------------------------------------------------------------------
-// unsafe
-// -------------------------------------------------------------------------------------
-
-/**
- * @category unsafe
- * @since 3.0.0
- */
-export const unsafeInsertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
-  const xs = as.slice()
-  xs.splice(i, 0, a)
-  return xs
-}
-
-/**
- * @category unsafe
- * @since 3.0.0
- */
-export const unsafeUpdateAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
-  if (as[i] === a) {
-    return as
-  } else {
-    const xs = as.slice()
-    xs[i] = a
-    return xs
-  }
-}
-
-/**
- * @category unsafe
- * @since 3.0.0
- */
-export const unsafeDeleteAt = (i: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => {
-  const xs = as.slice()
-  xs.splice(i, 1)
-  return xs
 }
 
 // -------------------------------------------------------------------------------------

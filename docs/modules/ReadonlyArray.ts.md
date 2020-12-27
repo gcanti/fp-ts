@@ -125,10 +125,6 @@ Added in v3.0.0
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getShow](#getshow)
-- [unsafe](#unsafe)
-  - [unsafeDeleteAt](#unsafedeleteat)
-  - [unsafeInsertAt](#unsafeinsertat)
-  - [unsafeUpdateAt](#unsafeupdateat)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -1620,38 +1616,6 @@ Added in v3.0.0
 
 ```ts
 export declare const getShow: <A>(S: Show<A>) => Show<readonly A[]>
-```
-
-Added in v3.0.0
-
-# unsafe
-
-## unsafeDeleteAt
-
-**Signature**
-
-```ts
-export declare const unsafeDeleteAt: (i: number) => <A>(as: readonly A[]) => readonly A[]
-```
-
-Added in v3.0.0
-
-## unsafeInsertAt
-
-**Signature**
-
-```ts
-export declare const unsafeInsertAt: <A>(i: number, a: A) => (as: readonly A[]) => readonly A[]
-```
-
-Added in v3.0.0
-
-## unsafeUpdateAt
-
-**Signature**
-
-```ts
-export declare const unsafeUpdateAt: <A>(i: number, a: A) => (as: readonly A[]) => readonly A[]
 ```
 
 Added in v3.0.0

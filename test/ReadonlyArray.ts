@@ -555,35 +555,49 @@ describe('ReadonlyArray', () => {
   })
 
   it('insertAt', () => {
-    assert.deepStrictEqual(_.insertAt(1, 1)([]), O.none)
-    assert.deepStrictEqual(_.insertAt(0, 1)([]), O.some([1]))
-    assert.deepStrictEqual(_.insertAt(2, 5)([1, 2, 3, 4]), O.some([1, 2, 5, 3, 4]))
-  })
-
-  it('unsafeUpdateAt', () => {
-    // should return the same reference if nothing changed
-    const x = { a: 1 }
-    const as: ReadonlyArray<{ readonly a: number }> = [x]
-    assert.strictEqual(_.unsafeUpdateAt(0, x)(as), as)
+    assert.deepStrictEqual(pipe([], _.insertAt(1, 1)), O.none)
+    assert.deepStrictEqual(pipe([], _.insertAt(0, 1)), O.some([1]))
+    assert.deepStrictEqual(pipe([1, 2, 3, 4], _.insertAt(2, 5)), O.some([1, 2, 5, 3, 4]))
   })
 
   it('updateAt', () => {
     const as: ReadonlyArray<number> = [1, 2, 3]
-    assert.deepStrictEqual(_.updateAt(1, 1)(as), O.some([1, 1, 3]))
-    assert.deepStrictEqual(_.updateAt(1, 1)([]), O.none)
+    assert.deepStrictEqual(pipe(as, _.updateAt(1, 1)), O.some([1, 1, 3]))
+    assert.deepStrictEqual(pipe([], _.updateAt(1, 1)), O.none)
+    // should return the same reference if nothing changed
+    assert.deepStrictEqual(
+      pipe(
+        as,
+        _.updateAt(1, 2),
+        O.map((bs) => bs === as)
+      ),
+      O.some(true)
+    )
   })
 
   it('deleteAt', () => {
     const as: ReadonlyArray<number> = [1, 2, 3]
-    assert.deepStrictEqual(_.deleteAt(0)(as), O.some([2, 3]))
-    assert.deepStrictEqual(_.deleteAt(1)([]), O.none)
+    assert.deepStrictEqual(pipe(as, _.deleteAt(0)), O.some([2, 3]))
+    assert.deepStrictEqual(pipe(as, _.deleteAt(1)), O.some([1, 3]))
+    assert.deepStrictEqual(pipe(as, _.deleteAt(2)), O.some([1, 2]))
+    assert.deepStrictEqual(pipe(as, _.deleteAt(3)), O.none)
+    assert.deepStrictEqual(pipe([], _.deleteAt(1)), O.none)
   })
 
   it('modifyAt', () => {
     const as: ReadonlyArray<number> = [1, 2, 3]
     const double = (x: number): number => x * 2
-    assert.deepStrictEqual(_.modifyAt(1, double)(as), O.some([1, 4, 3]))
-    assert.deepStrictEqual(_.modifyAt(1, double)([]), O.none)
+    assert.deepStrictEqual(pipe(as, _.modifyAt(1, double)), O.some([1, 4, 3]))
+    assert.deepStrictEqual(pipe([], _.modifyAt(1, double)), O.none)
+    // should return the same reference if nothing changed
+    assert.deepStrictEqual(
+      pipe(
+        as,
+        _.modifyAt(1, () => 2),
+        O.map((bs) => bs === as)
+      ),
+      O.some(true)
+    )
   })
 
   it('sort', () => {
