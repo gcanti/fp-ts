@@ -172,7 +172,7 @@ Delete the element at the specified key, creating a new `ReadonlyMap`, or return
 **Signature**
 
 ```ts
-export declare const deleteAt: <K>(E: Eq<K>) => (k: K) => <A>(m: ReadonlyMap<K, A>) => O.Option<ReadonlyMap<K, A>>
+export declare const deleteAt: <K>(E: Eq<K>) => (k: K) => <A>(m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
 
 Added in v3.0.0

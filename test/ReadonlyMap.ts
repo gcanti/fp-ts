@@ -447,104 +447,39 @@ describe('ReadonlyMap', () => {
 
   it('insertAt', () => {
     const insert = _.insertAt(eqUser)
-    assert.deepStrictEqual(insert({ id: 'a' }, 1)(_.empty), O.some(new Map([[{ id: 'a' }, 1]])))
-    assert.deepStrictEqual(insert({ id: 'a' }, 1)(new Map([[{ id: 'a' }, 1]])), O.none)
+    const m: ReadonlyMap<User, number> = new Map([[{ id: 'a' }, 1]])
+    assert.deepStrictEqual(pipe(_.empty, insert({ id: 'a' }, 1)), O.some(m))
+    assert.deepStrictEqual(pipe(m, insert({ id: 'a' }, 1)), O.none)
   })
 
   it('upsertAt', () => {
-    const m1 = new Map<User, number>([
-      [{ id: 'a' }, 1],
-      [{ id: 'b' }, 2]
-    ])
-    const m2 = new Map<User, number>([
-      [{ id: 'a' }, 2],
-      [{ id: 'b' }, 2]
-    ])
     const upsert = _.upsertAt(eqUser)
+    const m: ReadonlyMap<User, number> = new Map([[{ id: 'a' }, 1]])
+    assert.deepStrictEqual(pipe(_.empty, upsert({ id: 'a' }, 1)), m)
+    assert.deepStrictEqual(pipe(m, upsert({ id: 'a' }, 2)), new Map([[{ id: 'a' }, 2]]))
     assert.deepStrictEqual(
-      upsert({ id: 'a' }, 1)(_.empty),
-      new Map<User, number>([[{ id: 'a' }, 1]])
-    )
-    assert.deepStrictEqual(upsert({ id: 'a' }, 1)(m1), m1)
-    assert.deepStrictEqual(upsert({ id: 'a' }, 2)(m1), m2)
-    assert.deepStrictEqual(
-      upsert({ id: 'c' }, 3)(m1),
-      new Map<User, number>([
-        [{ id: 'a' }, 1],
-        [{ id: 'b' }, 2],
-        [{ id: 'c' }, 3]
-      ])
-    )
-
-    const insert = _.upsertAt(eqKey)
-    assert.deepStrictEqual(insert({ id: 1 }, { value: 1 })(_.empty), new Map([[{ id: 1 }, { value: 1 }]]))
-    const x = insert({ id: 1 }, value1)(repo)
-    assert.deepStrictEqual(
-      x,
-      new Map<Key, Value>([
-        [{ id: 1 }, { value: 1 }],
-        [{ id: 2 }, { value: 2 }]
-      ])
-    )
-    assert.deepStrictEqual(x.get(key1), value1)
-    assert.deepStrictEqual(
-      insert({ id: 1 }, { value: 2 })(repo),
-      new Map<Key, Value>([
-        [{ id: 1 }, { value: 2 }],
-        [{ id: 2 }, { value: 2 }]
-      ])
-    )
-    assert.deepStrictEqual(
-      insert({ id: 4 }, { value: 2 })(repo),
-      new Map<Key, Value>([
-        [{ id: 1 }, { value: 2 }],
-        [{ id: 2 }, { value: 2 }]
-      ])
-    )
-    assert.deepStrictEqual(
-      insert({ id: 3 }, { value: 3 })(repo),
-      new Map<Key, Value>([
-        [{ id: 1 }, { value: 1 }],
-        [{ id: 2 }, { value: 2 }],
-        [{ id: 3 }, { value: 3 }]
-      ])
-    )
-    // should not modify the source
-    assert.deepStrictEqual(
-      repo,
+      pipe(m, upsert({ id: 'b' }, 2)),
       new Map([
-        [{ id: 1 }, { value: 1 }],
-        [{ id: 2 }, { value: 2 }]
+        [{ id: 'a' }, 1],
+        [{ id: 'b' }, 2]
       ])
     )
+    // should return the same reference if nothing changed
+    assert.strictEqual(pipe(m, upsert({ id: 'a' }, 1)), m)
   })
 
   it('deleteAt', () => {
-    const m1 = new Map<User, number>([
+    const m = new Map<User, number>([
       [{ id: 'a' }, 1],
       [{ id: 'b' }, 2]
     ])
-    const removeS = _.deleteAt(eqUser)
+    const del = _.deleteAt(eqUser)
     assert.deepStrictEqual(
-      removeS({ id: 'a' })(m1),
-      O.some(
-        new Map<User, number>([[{ id: 'b' }, 2]])
-      )
+      pipe(m, del({ id: 'a' })),
+      new Map<User, number>([[{ id: 'b' }, 2]])
     )
-    assert.deepStrictEqual(removeS({ id: 'c' })(m1), O.none)
-
-    const remove = _.deleteAt(eqKey)
-    assert.deepStrictEqual(remove({ id: 1 })(repo), O.some(new Map([[{ id: 2 }, { value: 2 }]])))
-    assert.deepStrictEqual(remove({ id: 4 })(repo), O.some(new Map([[{ id: 2 }, { value: 2 }]])))
-    assert.deepStrictEqual(remove({ id: 3 })(repo), O.none)
-    // should not modify the source
-    assert.deepStrictEqual(
-      repo,
-      new Map([
-        [{ id: 1 }, { value: 1 }],
-        [{ id: 2 }, { value: 2 }]
-      ])
-    )
+    // should return the same reference if nothing changed
+    assert.strictEqual(pipe(m, del({ id: 'c' })), m)
   })
 
   it('pop', () => {

@@ -149,18 +149,12 @@ export function toUnfoldable<K, F>(
  * @since 3.0.0
  */
 export const insertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>>) => {
-  const lookupWithKeyE = lookupWithKey(E)
+  const memberE = member(E)
+  const upsertAtE = upsertAt(E)
   return (k, a) => {
-    const lookupWithKeyEk = lookupWithKeyE(k)
-    return (m) => {
-      const found = lookupWithKeyEk(m)
-      if (O.isNone(found)) {
-        const out = new Map(m)
-        out.set(k, a)
-        return O.some(out)
-      }
-      return O.none
-    }
+    const memberEk = memberE(k)
+    const upsertAtEka = upsertAtE(k, a)
+    return (m) => (memberEk(m) ? O.none : O.some(upsertAtEka(m)))
   }
 }
 
@@ -188,44 +182,6 @@ export const upsertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>
       return m
     }
   }
-}
-
-/**
- * Delete a key and value from a `ReadonlyMap`, returning the value as well as the subsequent `ReadonlyMap`.
- *
- * @since 3.0.0
- */
-export const pop = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => Option<readonly [A, ReadonlyMap<K, A>]>) => {
-  const lookupWithKeyE = lookupWithKey(E)
-  return (k) => {
-    const lookupWithKeyEk = lookupWithKeyE(k)
-    return (m) => {
-      const found = lookupWithKeyEk(m)
-      return pipe(
-        found,
-        O.map(([k, a]) => {
-          const out = new Map(m)
-          out.delete(k)
-          return [a, out]
-        })
-      )
-    }
-  }
-}
-
-/**
- * Delete the element at the specified key, creating a new `ReadonlyMap`, or returning `None` if the key doesn't exist.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const deleteAt = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>>) => {
-  const popE = pop(E)
-  return (k) =>
-    flow(
-      popE(k),
-      O.map(([_, m]) => m)
-    )
 }
 
 /**
@@ -268,6 +224,48 @@ export const modifyAt = <K>(
       const r = new Map(m)
       r.set(found.value[0], f(found.value[1]))
       return O.some(r)
+    }
+  }
+}
+
+/**
+ * Delete the element at the specified key, creating a new `ReadonlyMap`, or returning `None` if the key doesn't exist.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const deleteAt = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
+  const popE = pop(E)
+  return (k) => {
+    const popEk = popE(k)
+    return (m) =>
+      pipe(
+        popEk(m),
+        O.map(([_, m]) => m),
+        O.getOrElse(() => m)
+      )
+  }
+}
+
+/**
+ * Delete a key and value from a `ReadonlyMap`, returning the value as well as the subsequent `ReadonlyMap`.
+ *
+ * @since 3.0.0
+ */
+export const pop = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => Option<readonly [A, ReadonlyMap<K, A>]>) => {
+  const lookupWithKeyE = lookupWithKey(E)
+  return (k) => {
+    const lookupWithKeyEk = lookupWithKeyE(k)
+    return (m) => {
+      const found = lookupWithKeyEk(m)
+      return pipe(
+        found,
+        O.map(([k, a]) => {
+          const out = new Map(m)
+          out.delete(k)
+          return [a, out]
+        })
+      )
     }
   }
 }
