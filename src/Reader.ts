@@ -321,7 +321,9 @@ export const bindW: <N extends string, A, R2, B>(
 /**
  * @since 3.0.0
  */
-export const Do: Reader<unknown, {}> = of({})
+export const Do: Reader<unknown, {}> =
+  /*#__PURE__*/
+  of({})
 
 /**
  * @since 3.0.0

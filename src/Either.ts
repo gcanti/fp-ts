@@ -1151,7 +1151,9 @@ export const exists = <A>(predicate: Predicate<A>) => <E>(ma: Either<E, A>): boo
 /**
  * @since 3.0.0
  */
-export const Do: Either<never, {}> = of({})
+export const Do: Either<never, {}> =
+  /*#__PURE__*/
+  of({})
 
 /**
  * @since 3.0.0

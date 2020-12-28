@@ -625,7 +625,9 @@ export const bracket = <E, A, B>(
 /**
  * @since 3.0.0
  */
-export const Do: IOEither<never, {}> = of({})
+export const Do: IOEither<never, {}> =
+  /*#__PURE__*/
+  of({})
 
 /**
  * @since 3.0.0

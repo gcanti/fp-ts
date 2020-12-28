@@ -535,7 +535,9 @@ export const fromPredicate =
 /**
  * @since 3.0.0
  */
-export const Do: ReaderEither<unknown, never, {}> = of({})
+export const Do: ReaderEither<unknown, never, {}> =
+  /*#__PURE__*/
+  of({})
 
 /**
  * @since 3.0.0

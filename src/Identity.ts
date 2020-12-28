@@ -316,7 +316,9 @@ export const Comonad: Comonad1<URI> = {
 /**
  * @since 3.0.0
  */
-export const Do: Identity<{}> = of({})
+export const Do: Identity<{}> =
+  /*#__PURE__*/
+  of({})
 
 /**
  * @since 3.0.0

@@ -351,7 +351,9 @@ export const FromTask: FromTask2<URI> = {
 /**
  * @since 3.0.0
  */
-export const Do: ReaderTask<unknown, {}> = of({})
+export const Do: ReaderTask<unknown, {}> =
+  /*#__PURE__*/
+  of({})
 
 /**
  * @since 3.0.0

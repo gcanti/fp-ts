@@ -757,7 +757,9 @@ export const Comonad: Comonad1<URI> = {
 /**
  * @since 3.0.0
  */
-export const Do: ReadonlyNonEmptyArray<{}> = of({})
+export const Do: ReadonlyNonEmptyArray<{}> =
+  /*#__PURE__*/
+  of({})
 
 /**
  * @since 3.0.0

@@ -233,7 +233,9 @@ export const FromIO: FromIO1<URI> = {
 /**
  * @since 3.0.0
  */
-export const Do: IO<{}> = of({})
+export const Do: IO<{}> =
+  /*#__PURE__*/
+  of({})
 
 /**
  * @since 3.0.0

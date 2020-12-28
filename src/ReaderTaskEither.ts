@@ -746,7 +746,9 @@ export const bracket = <R, E, A, B>(
 /**
  * @since 3.0.0
  */
-export const Do: ReaderTaskEither<unknown, never, {}> = of({})
+export const Do: ReaderTaskEither<unknown, never, {}> =
+  /*#__PURE__*/
+  of({})
 
 /**
  * @since 3.0.0

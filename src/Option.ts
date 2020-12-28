@@ -1090,7 +1090,9 @@ export const getRefinement = <A, B extends A>(getOption: (a: A) => Option<B>): R
 /**
  * @since 3.0.0
  */
-export const Do: Option<{}> = of({})
+export const Do: Option<{}> =
+  /*#__PURE__*/
+  of({})
 
 /**
  * @since 3.0.0
