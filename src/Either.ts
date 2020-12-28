@@ -1120,6 +1120,8 @@ export const FromEither: FromEither2<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
+ * Tests whether a value is a member of a `Either`.
+ *
  * @since 3.0.0
  */
 export const elem = <A>(E: Eq<A>) => (a: A) => <E>(ma: Either<E, A>): boolean =>

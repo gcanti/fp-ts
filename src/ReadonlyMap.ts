@@ -209,8 +209,21 @@ export const pop = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => Option
   }
 }
 
+// -------------------------------------------------------------------------------------
+// type class members
+// -------------------------------------------------------------------------------------
+
 /**
- * @category combinator
+ * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+ * use the type constructor `F` to represent some computational context.
+ *
+ * @category Functor
+ * @since 3.0.0
+ */
+export const map: Functor2<URI>['map'] = (f) => mapWithIndex((_, a) => f(a))
+
+/**
+ * @category FunctorWithIndex
  * @since 3.0.0
  */
 export const mapWithIndex = <K, A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K, A>): ReadonlyMap<K, B> => {
@@ -224,19 +237,6 @@ export const mapWithIndex = <K, A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K
   }
   return out
 }
-
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
-/**
- * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
- * use the type constructor `F` to represent some computational context.
- *
- * @category Functor
- * @since 3.0.0
- */
-export const map: Functor2<URI>['map'] = (f) => mapWithIndex((_, a) => f(a))
 
 /**
  * @category Compactable
@@ -727,7 +727,7 @@ interface Next<A> {
 }
 
 /**
- * Test whether or not a value is a member of a `ReadonlyMap`.
+ * Tests whether a value is a member of a `ReadonlyMap`.
  *
  * @since 3.0.0
  */

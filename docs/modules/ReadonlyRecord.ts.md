@@ -20,32 +20,52 @@ Added in v3.0.0
   - [filterMap](#filtermap)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
+- [FilterableWithIndex](#filterablewithindex)
+  - [filterMapWithIndex](#filtermapwithindex)
+  - [filterWithIndex](#filterwithindex)
+  - [partitionMapWithIndex](#partitionmapwithindex)
+  - [partitionWithIndex](#partitionwithindex)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
+- [FoldableWithIndex](#foldablewithindex)
+  - [foldMapWithIndex](#foldmapwithindex)
+  - [reduceRightWithIndex](#reducerightwithindex)
+  - [reduceWithIndex](#reducewithindex)
+- [Functor](#functor)
+  - [map](#map)
+- [FunctorWithIndex](#functorwithindex)
+  - [mapWithIndex](#mapwithindex)
+- [Traversable](#traversable)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
+- [TraversableWithIndex](#traversablewithindex)
+  - [traverseWithIndex](#traversewithindex)
 - [Witherable](#witherable)
   - [wilt](#wilt)
   - [wither](#wither)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
   - [insertAt](#insertat)
+  - [modifyAt](#modifyat)
+  - [pop](#pop)
+  - [updateAt](#updateat)
   - [upsertAt](#upsertat)
 - [constructors](#constructors)
+  - [fromFoldable](#fromfoldable)
+  - [fromFoldableMap](#fromfoldablemap)
   - [singleton](#singleton)
-- [destructors](#destructors)
-  - [toReadonlyArray](#toreadonlyarray)
-  - [toUnfoldable](#tounfoldable)
 - [instances](#instances)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
-  - [FilterableWithIndex](#filterablewithindex)
+  - [FilterableWithIndex](#filterablewithindex-1)
   - [Foldable](#foldable-1)
-  - [FoldableWithIndex](#foldablewithindex)
-  - [Functor](#functor)
-  - [FunctorWithIndex](#functorwithindex)
-  - [Traversable](#traversable)
-  - [TraversableWithIndex](#traversablewithindex)
+  - [FoldableWithIndex](#foldablewithindex-1)
+  - [Functor](#functor-1)
+  - [FunctorWithIndex](#functorwithindex-1)
+  - [Traversable](#traversable-1)
+  - [TraversableWithIndex](#traversablewithindex-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [Witherable](#witherable-1)
@@ -59,30 +79,15 @@ Added in v3.0.0
   - [elem](#elem)
   - [empty](#empty)
   - [every](#every)
-  - [filterMapWithIndex](#filtermapwithindex)
-  - [filterWithIndex](#filterwithindex)
-  - [foldMapWithIndex](#foldmapwithindex)
-  - [fromFoldable](#fromfoldable)
-  - [fromFoldableMap](#fromfoldablemap)
   - [has](#has)
   - [isEmpty](#isempty)
   - [isSubrecord](#issubrecord)
   - [keys](#keys)
   - [lookup](#lookup)
-  - [map](#map)
-  - [mapWithIndex](#mapwithindex)
-  - [modifyAt](#modifyat)
-  - [partitionMapWithIndex](#partitionmapwithindex)
-  - [partitionWithIndex](#partitionwithindex)
-  - [pop](#pop)
-  - [reduceRightWithIndex](#reducerightwithindex)
-  - [reduceWithIndex](#reducewithindex)
-  - [sequence](#sequence)
   - [size](#size)
   - [some](#some)
-  - [traverse](#traverse)
-  - [traverseWithIndex](#traversewithindex)
-  - [updateAt](#updateat)
+  - [toReadonlyArray](#toreadonlyarray)
+  - [toUnfoldable](#tounfoldable)
 
 ---
 
@@ -156,6 +161,62 @@ export declare const partitionMap: <A, B, C>(
 
 Added in v3.0.0
 
+# FilterableWithIndex
+
+## filterMapWithIndex
+
+**Signature**
+
+```ts
+export declare function filterMapWithIndex<K extends string, A, B>(
+  f: (key: K, a: A) => Option<B>
+): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
+```
+
+Added in v3.0.0
+
+## filterWithIndex
+
+**Signature**
+
+```ts
+export declare function filterWithIndex<K extends string, A, B extends A>(
+  refinementWithIndex: RefinementWithIndex<K, A, B>
+): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
+export declare function filterWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
+): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, A>
+```
+
+Added in v3.0.0
+
+## partitionMapWithIndex
+
+**Signature**
+
+```ts
+export declare function partitionMapWithIndex<K extends string, A, B, C>(
+  f: (key: K, a: A) => Either<B, C>
+): (fa: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>>
+```
+
+Added in v3.0.0
+
+## partitionWithIndex
+
+**Signature**
+
+```ts
+export declare function partitionWithIndex<K extends string, A, B extends A>(
+  refinementWithIndex: RefinementWithIndex<K, A, B>
+): (fa: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
+export declare function partitionWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
+): (fa: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>
+```
+
+Added in v3.0.0
+
 # Foldable
 
 ## foldMap
@@ -184,6 +245,179 @@ Added in v3.0.0
 
 ```ts
 export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Readonly<Record<string, A>>) => B
+```
+
+Added in v3.0.0
+
+# FoldableWithIndex
+
+## foldMapWithIndex
+
+**Signature**
+
+```ts
+export declare function foldMapWithIndex<M>(
+  M: Monoid<M>
+): <K extends string, A>(f: (k: K, a: A) => M) => (fa: ReadonlyRecord<K, A>) => M
+```
+
+Added in v3.0.0
+
+## reduceRightWithIndex
+
+**Signature**
+
+```ts
+export declare function reduceRightWithIndex<K extends string, A, B>(
+  b: B,
+  f: (k: K, a: A, b: B) => B
+): (fa: ReadonlyRecord<K, A>) => B
+```
+
+Added in v3.0.0
+
+## reduceWithIndex
+
+**Signature**
+
+```ts
+export declare function reduceWithIndex<K extends string, A, B>(
+  b: B,
+  f: (k: K, b: B, a: A) => B
+): (fa: ReadonlyRecord<K, A>) => B
+```
+
+Added in v3.0.0
+
+# Functor
+
+## map
+
+Map a `ReadonlyRecord` passing the values to the iterating function.
+
+**Signature**
+
+```ts
+export declare function map<A, B>(f: (a: A) => B): <K extends string>(fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
+```
+
+Added in v3.0.0
+
+# FunctorWithIndex
+
+## mapWithIndex
+
+Map a `ReadonlyRecord` passing both the keys and values to the iterating function.
+
+**Signature**
+
+```ts
+export declare function mapWithIndex<K extends string, A, B>(
+  f: (k: K, a: A) => B
+): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
+```
+
+Added in v3.0.0
+
+# Traversable
+
+## sequence
+
+**Signature**
+
+```ts
+export declare function sequence<F extends URIS3>(
+  F: Applicative3<F>
+): <K extends string, R, E, A>(ta: ReadonlyRecord<K, Kind3<F, R, E, A>>) => Kind3<F, R, E, ReadonlyRecord<K, A>>
+export declare function sequence<F extends URIS3, E>(
+  F: Applicative3C<F, E>
+): <K extends string, R, A>(ta: ReadonlyRecord<K, Kind3<F, R, E, A>>) => Kind3<F, R, E, ReadonlyRecord<K, A>>
+export declare function sequence<F extends URIS2>(
+  F: Applicative2<F>
+): <K extends string, E, A>(ta: ReadonlyRecord<K, Kind2<F, E, A>>) => Kind2<F, E, ReadonlyRecord<K, A>>
+export declare function sequence<F extends URIS2, E>(
+  F: Applicative2C<F, E>
+): <K extends string, A>(ta: ReadonlyRecord<K, Kind2<F, E, A>>) => Kind2<F, E, ReadonlyRecord<K, A>>
+export declare function sequence<F extends URIS>(
+  F: Applicative1<F>
+): <K extends string, A>(ta: ReadonlyRecord<K, Kind<F, A>>) => Kind<F, ReadonlyRecord<K, A>>
+export declare function sequence<F>(
+  F: Applicative<F>
+): <K extends string, A>(ta: ReadonlyRecord<K, HKT<F, A>>) => HKT<F, ReadonlyRecord<K, A>>
+```
+
+Added in v3.0.0
+
+## traverse
+
+**Signature**
+
+```ts
+export declare function traverse<F extends URIS3>(
+  F: Applicative3<F>
+): <R, E, A, B>(
+  f: (a: A) => Kind3<F, R, E, B>
+) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind3<F, R, E, ReadonlyRecord<K, B>>
+export declare function traverse<F extends URIS3, E>(
+  F: Applicative3C<F, E>
+): <R, A, B>(
+  f: (a: A) => Kind3<F, R, E, B>
+) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind3<F, R, E, ReadonlyRecord<K, B>>
+export declare function traverse<F extends URIS2>(
+  F: Applicative2<F>
+): <E, A, B>(
+  f: (a: A) => Kind2<F, E, B>
+) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind2<F, E, ReadonlyRecord<K, B>>
+export declare function traverse<F extends URIS2, E>(
+  F: Applicative2C<F, E>
+): <A, B>(
+  f: (a: A) => Kind2<F, E, B>
+) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind2<F, E, ReadonlyRecord<K, B>>
+export declare function traverse<F extends URIS>(
+  F: Applicative1<F>
+): <A, B>(f: (a: A) => Kind<F, B>) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind<F, ReadonlyRecord<K, B>>
+export declare function traverse<F>(
+  F: Applicative<F>
+): <A, B>(f: (a: A) => HKT<F, B>) => <K extends string>(ta: ReadonlyRecord<K, A>) => HKT<F, ReadonlyRecord<K, B>>
+```
+
+Added in v3.0.0
+
+# TraversableWithIndex
+
+## traverseWithIndex
+
+**Signature**
+
+```ts
+export declare function traverseWithIndex<F extends URIS3>(
+  F: Applicative3<F>
+): <K extends string, R, E, A, B>(
+  f: (k: K, a: A) => Kind3<F, R, E, B>
+) => (ta: ReadonlyRecord<K, A>) => Kind3<F, R, E, ReadonlyRecord<K, B>>
+export declare function traverseWithIndex<F extends URIS3, E>(
+  F: Applicative3C<F, E>
+): <K extends string, R, A, B>(
+  f: (k: K, a: A) => Kind3<F, R, E, B>
+) => (ta: ReadonlyRecord<K, A>) => Kind3<F, R, E, ReadonlyRecord<K, B>>
+export declare function traverseWithIndex<F extends URIS2>(
+  F: Applicative2<F>
+): <K extends string, E, A, B>(
+  f: (k: K, a: A) => Kind2<F, E, B>
+) => (ta: ReadonlyRecord<K, A>) => Kind2<F, E, ReadonlyRecord<K, B>>
+export declare function traverseWithIndex<F extends URIS2, E>(
+  F: Applicative2C<F, E>
+): <K extends string, A, B>(
+  f: (k: K, a: A) => Kind2<F, E, B>
+) => (ta: ReadonlyRecord<K, A>) => Kind2<F, E, ReadonlyRecord<K, B>>
+export declare function traverseWithIndex<F extends URIS>(
+  F: Applicative1<F>
+): <K extends string, A, B>(
+  f: (k: K, a: A) => Kind<F, B>
+) => (ta: ReadonlyRecord<K, A>) => Kind<F, ReadonlyRecord<K, B>>
+export declare function traverseWithIndex<F>(
+  F: Applicative<F>
+): <K extends string, A, B>(f: (k: K, a: A) => HKT<F, B>) => (ta: ReadonlyRecord<K, A>) => HKT<F, ReadonlyRecord<K, B>>
 ```
 
 Added in v3.0.0
@@ -241,6 +475,52 @@ export declare function insertAt<K extends string, A>(
 
 Added in v3.0.0
 
+## modifyAt
+
+Apply a function to the element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
+
+**Signature**
+
+```ts
+export declare const modifyAt: <A>(
+  k: string,
+  f: Endomorphism<A>
+) => <K extends string>(r: Readonly<Record<K, A>>) => O.Option<Readonly<Record<K, A>>>
+```
+
+Added in v3.0.0
+
+## pop
+
+Delete a key and value from a `ReadonlyRecord`, returning the value as well as the subsequent `ReadonlyRecord`.
+
+**Signature**
+
+```ts
+export declare function pop<K extends string>(
+  k: K
+): <KS extends string, A>(
+  r: ReadonlyRecord<KS, A>
+) => Option<readonly [A, ReadonlyRecord<string extends K ? string : Exclude<KS, K>, A>]>
+```
+
+Added in v3.0.0
+
+## updateAt
+
+Change the element at the specified keys, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
+
+**Signature**
+
+```ts
+export declare const updateAt: <A>(
+  k: string,
+  a: A
+) => <K extends string>(r: Readonly<Record<K, A>>) => O.Option<Readonly<Record<K, A>>>
+```
+
+Added in v3.0.0
+
 ## upsertAt
 
 Insert or replace a key/value pair in a `ReadonlyRecord`.
@@ -258,6 +538,101 @@ Added in v3.0.0
 
 # constructors
 
+## fromFoldable
+
+Create a `ReadonlyRecord` from a foldable collection of key/value pairs, using the
+specified `Magma` to combine values for duplicate keys.
+
+**Signature**
+
+```ts
+export declare function fromFoldable<F extends URIS3, A>(
+  M: Magma<A>,
+  F: Foldable3<F>
+): <K extends string, R, E>(fka: Kind3<F, R, E, readonly [K, A]>) => ReadonlyRecord<K, A>
+export declare function fromFoldable<F extends URIS2, A>(
+  M: Magma<A>,
+  F: Foldable2<F>
+): <K extends string, E>(fka: Kind2<F, E, readonly [K, A]>) => ReadonlyRecord<K, A>
+export declare function fromFoldable<F extends URIS, A>(
+  M: Magma<A>,
+  F: Foldable1<F>
+): <K extends string>(fka: Kind<F, readonly [K, A]>) => ReadonlyRecord<K, A>
+export declare function fromFoldable<F, A>(
+  M: Magma<A>,
+  F: FoldableHKT<F>
+): <K extends string>(fka: HKT<F, readonly [K, A]>) => ReadonlyRecord<K, A>
+```
+
+Added in v3.0.0
+
+## fromFoldableMap
+
+Create a `ReadonlyRecord` from a foldable collection using the specified functions to
+
+- map to key/value pairs
+- combine values for duplicate keys
+
+**Signature**
+
+```ts
+export declare function fromFoldableMap<F extends URIS3, B>(
+  M: Magma<B>,
+  F: Foldable3<F>
+): <R, E, A, K extends string>(fa: Kind3<F, R, E, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
+export declare function fromFoldableMap<F extends URIS2, B>(
+  M: Magma<B>,
+  F: Foldable2<F>
+): <E, A, K extends string>(fa: Kind2<F, E, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
+export declare function fromFoldableMap<F extends URIS, B>(
+  M: Magma<B>,
+  F: Foldable1<F>
+): <A, K extends string>(fa: Kind<F, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
+export declare function fromFoldableMap<F, B>(
+  M: Magma<B>,
+  F: FoldableHKT<F>
+): <A, K extends string>(fa: HKT<F, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
+```
+
+**Example**
+
+```ts
+import { getLastSemigroup } from 'fp-ts/Semigroup'
+import { Foldable, zip } from 'fp-ts/ReadonlyArray'
+import { identity, pipe } from 'fp-ts/function'
+import { ReadonlyRecord, fromFoldableMap } from 'fp-ts/ReadonlyRecord'
+
+// like lodash `zipObject` or ramda `zipObj`
+export const zipObject = <K extends string, A>(
+  keys: ReadonlyArray<K>,
+  values: ReadonlyArray<A>
+): ReadonlyRecord<K, A> => fromFoldableMap(getLastSemigroup<A>(), Foldable)(pipe(keys, zip(values)), identity)
+
+assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
+
+// build a `ReadonlyRecord` from a field
+interface User {
+  id: string
+  name: string
+}
+
+const users: ReadonlyArray<User> = [
+  { id: 'id1', name: 'name1' },
+  { id: 'id2', name: 'name2' },
+  { id: 'id1', name: 'name3' },
+]
+
+assert.deepStrictEqual(
+  fromFoldableMap(getLastSemigroup<User>(), Foldable)(users, (user) => [user.id, user]),
+  {
+    id1: { id: 'id1', name: 'name3' },
+    id2: { id: 'id2', name: 'name2' },
+  }
+)
+```
+
+Added in v3.0.0
+
 ## singleton
 
 Create a `ReadonlyRecord` from one key/value pair.
@@ -266,35 +641,6 @@ Create a `ReadonlyRecord` from one key/value pair.
 
 ```ts
 export declare const singleton: <K extends string, A>(k: K, a: A) => Readonly<Record<K, A>>
-```
-
-Added in v3.0.0
-
-# destructors
-
-## toReadonlyArray
-
-**Signature**
-
-```ts
-export declare const toReadonlyArray: <K extends string, A>(r: Readonly<Record<K, A>>) => readonly (readonly [K, A])[]
-```
-
-Added in v3.0.0
-
-## toUnfoldable
-
-Unfolds a `ReadonlyRecord` into a list of key/value pairs.
-
-**Signature**
-
-```ts
-export declare function toUnfoldable<F extends URIS>(
-  U: Unfoldable1<F>
-): <K extends string, A>(r: ReadonlyRecord<K, A>) => Kind<F, readonly [K, A]>
-export declare function toUnfoldable<F>(
-  U: Unfoldable<F>
-): <K extends string, A>(r: ReadonlyRecord<K, A>) => HKT<F, readonly [K, A]>
 ```
 
 Added in v3.0.0
@@ -506,6 +852,8 @@ Added in v3.0.0
 
 ## elem
 
+Tests whether a value is a member of a `ReadonlyRecord`.
+
 **Signature**
 
 ```ts
@@ -532,140 +880,6 @@ Added in v3.0.0
 
 ```ts
 export declare const every: <A>(predicate: Predicate<A>) => (r: Readonly<Record<string, A>>) => boolean
-```
-
-Added in v3.0.0
-
-## filterMapWithIndex
-
-**Signature**
-
-```ts
-export declare function filterMapWithIndex<K extends string, A, B>(
-  f: (key: K, a: A) => Option<B>
-): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
-```
-
-Added in v3.0.0
-
-## filterWithIndex
-
-**Signature**
-
-```ts
-export declare function filterWithIndex<K extends string, A, B extends A>(
-  refinementWithIndex: RefinementWithIndex<K, A, B>
-): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
-export declare function filterWithIndex<K extends string, A>(
-  predicateWithIndex: PredicateWithIndex<K, A>
-): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, A>
-```
-
-Added in v3.0.0
-
-## foldMapWithIndex
-
-**Signature**
-
-```ts
-export declare function foldMapWithIndex<M>(
-  M: Monoid<M>
-): <K extends string, A>(f: (k: K, a: A) => M) => (fa: ReadonlyRecord<K, A>) => M
-```
-
-Added in v3.0.0
-
-## fromFoldable
-
-Create a `ReadonlyRecord` from a foldable collection of key/value pairs, using the
-specified `Magma` to combine values for duplicate keys.
-
-**Signature**
-
-```ts
-export declare function fromFoldable<F extends URIS3, A>(
-  M: Magma<A>,
-  F: Foldable3<F>
-): <K extends string, R, E>(fka: Kind3<F, R, E, readonly [K, A]>) => ReadonlyRecord<K, A>
-export declare function fromFoldable<F extends URIS2, A>(
-  M: Magma<A>,
-  F: Foldable2<F>
-): <K extends string, E>(fka: Kind2<F, E, readonly [K, A]>) => ReadonlyRecord<K, A>
-export declare function fromFoldable<F extends URIS, A>(
-  M: Magma<A>,
-  F: Foldable1<F>
-): <K extends string>(fka: Kind<F, readonly [K, A]>) => ReadonlyRecord<K, A>
-export declare function fromFoldable<F, A>(
-  M: Magma<A>,
-  F: FoldableHKT<F>
-): <K extends string>(fka: HKT<F, readonly [K, A]>) => ReadonlyRecord<K, A>
-```
-
-Added in v3.0.0
-
-## fromFoldableMap
-
-Create a `ReadonlyRecord` from a foldable collection using the specified functions to
-
-- map to key/value pairs
-- combine values for duplicate keys
-
-**Signature**
-
-```ts
-export declare function fromFoldableMap<F extends URIS3, B>(
-  M: Magma<B>,
-  F: Foldable3<F>
-): <R, E, A, K extends string>(fa: Kind3<F, R, E, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
-export declare function fromFoldableMap<F extends URIS2, B>(
-  M: Magma<B>,
-  F: Foldable2<F>
-): <E, A, K extends string>(fa: Kind2<F, E, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
-export declare function fromFoldableMap<F extends URIS, B>(
-  M: Magma<B>,
-  F: Foldable1<F>
-): <A, K extends string>(fa: Kind<F, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
-export declare function fromFoldableMap<F, B>(
-  M: Magma<B>,
-  F: FoldableHKT<F>
-): <A, K extends string>(fa: HKT<F, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
-```
-
-**Example**
-
-```ts
-import { getLastSemigroup } from 'fp-ts/Semigroup'
-import { Foldable, zip } from 'fp-ts/ReadonlyArray'
-import { identity, pipe } from 'fp-ts/function'
-import { ReadonlyRecord, fromFoldableMap } from 'fp-ts/ReadonlyRecord'
-
-// like lodash `zipObject` or ramda `zipObj`
-export const zipObject = <K extends string, A>(
-  keys: ReadonlyArray<K>,
-  values: ReadonlyArray<A>
-): ReadonlyRecord<K, A> => fromFoldableMap(getLastSemigroup<A>(), Foldable)(pipe(keys, zip(values)), identity)
-
-assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
-
-// build a `ReadonlyRecord` from a field
-interface User {
-  id: string
-  name: string
-}
-
-const users: ReadonlyArray<User> = [
-  { id: 'id1', name: 'name1' },
-  { id: 'id2', name: 'name2' },
-  { id: 'id1', name: 'name3' },
-]
-
-assert.deepStrictEqual(
-  fromFoldableMap(getLastSemigroup<User>(), Foldable)(users, (user) => [user.id, user]),
-  {
-    id1: { id: 'id1', name: 'name3' },
-    id2: { id: 'id2', name: 'name2' },
-  }
-)
 ```
 
 Added in v3.0.0
@@ -732,143 +946,6 @@ export declare const lookup: (k: string) => <A>(r: Readonly<Record<string, A>>) 
 
 Added in v3.0.0
 
-## map
-
-Map a `ReadonlyRecord` passing the values to the iterating function.
-
-**Signature**
-
-```ts
-export declare function map<A, B>(f: (a: A) => B): <K extends string>(fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
-```
-
-Added in v3.0.0
-
-## mapWithIndex
-
-Map a `ReadonlyRecord` passing both the keys and values to the iterating function.
-
-**Signature**
-
-```ts
-export declare function mapWithIndex<K extends string, A, B>(
-  f: (k: K, a: A) => B
-): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
-```
-
-Added in v3.0.0
-
-## modifyAt
-
-Apply a function to the element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
-
-**Signature**
-
-```ts
-export declare const modifyAt: <A>(
-  k: string,
-  f: Endomorphism<A>
-) => <K extends string>(r: Readonly<Record<K, A>>) => O.Option<Readonly<Record<K, A>>>
-```
-
-Added in v3.0.0
-
-## partitionMapWithIndex
-
-**Signature**
-
-```ts
-export declare function partitionMapWithIndex<K extends string, A, B, C>(
-  f: (key: K, a: A) => Either<B, C>
-): (fa: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>>
-```
-
-Added in v3.0.0
-
-## partitionWithIndex
-
-**Signature**
-
-```ts
-export declare function partitionWithIndex<K extends string, A, B extends A>(
-  refinementWithIndex: RefinementWithIndex<K, A, B>
-): (fa: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
-export declare function partitionWithIndex<K extends string, A>(
-  predicateWithIndex: PredicateWithIndex<K, A>
-): (fa: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>
-```
-
-Added in v3.0.0
-
-## pop
-
-Delete a key and value from a `ReadonlyRecord`, returning the value as well as the subsequent `ReadonlyRecord`.
-
-**Signature**
-
-```ts
-export declare function pop<K extends string>(
-  k: K
-): <KS extends string, A>(
-  r: ReadonlyRecord<KS, A>
-) => Option<readonly [A, ReadonlyRecord<string extends K ? string : Exclude<KS, K>, A>]>
-```
-
-Added in v3.0.0
-
-## reduceRightWithIndex
-
-**Signature**
-
-```ts
-export declare function reduceRightWithIndex<K extends string, A, B>(
-  b: B,
-  f: (k: K, a: A, b: B) => B
-): (fa: ReadonlyRecord<K, A>) => B
-```
-
-Added in v3.0.0
-
-## reduceWithIndex
-
-**Signature**
-
-```ts
-export declare function reduceWithIndex<K extends string, A, B>(
-  b: B,
-  f: (k: K, b: B, a: A) => B
-): (fa: ReadonlyRecord<K, A>) => B
-```
-
-Added in v3.0.0
-
-## sequence
-
-**Signature**
-
-```ts
-export declare function sequence<F extends URIS3>(
-  F: Applicative3<F>
-): <K extends string, R, E, A>(ta: ReadonlyRecord<K, Kind3<F, R, E, A>>) => Kind3<F, R, E, ReadonlyRecord<K, A>>
-export declare function sequence<F extends URIS3, E>(
-  F: Applicative3C<F, E>
-): <K extends string, R, A>(ta: ReadonlyRecord<K, Kind3<F, R, E, A>>) => Kind3<F, R, E, ReadonlyRecord<K, A>>
-export declare function sequence<F extends URIS2>(
-  F: Applicative2<F>
-): <K extends string, E, A>(ta: ReadonlyRecord<K, Kind2<F, E, A>>) => Kind2<F, E, ReadonlyRecord<K, A>>
-export declare function sequence<F extends URIS2, E>(
-  F: Applicative2C<F, E>
-): <K extends string, A>(ta: ReadonlyRecord<K, Kind2<F, E, A>>) => Kind2<F, E, ReadonlyRecord<K, A>>
-export declare function sequence<F extends URIS>(
-  F: Applicative1<F>
-): <K extends string, A>(ta: ReadonlyRecord<K, Kind<F, A>>) => Kind<F, ReadonlyRecord<K, A>>
-export declare function sequence<F>(
-  F: Applicative<F>
-): <K extends string, A>(ta: ReadonlyRecord<K, HKT<F, A>>) => HKT<F, ReadonlyRecord<K, A>>
-```
-
-Added in v3.0.0
-
 ## size
 
 Calculate the number of key/value pairs in a `ReadonlyRecord`.
@@ -891,89 +968,29 @@ export declare const some: <A>(predicate: (a: A) => boolean) => (r: Readonly<Rec
 
 Added in v3.0.0
 
-## traverse
+## toReadonlyArray
 
 **Signature**
 
 ```ts
-export declare function traverse<F extends URIS3>(
-  F: Applicative3<F>
-): <R, E, A, B>(
-  f: (a: A) => Kind3<F, R, E, B>
-) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind3<F, R, E, ReadonlyRecord<K, B>>
-export declare function traverse<F extends URIS3, E>(
-  F: Applicative3C<F, E>
-): <R, A, B>(
-  f: (a: A) => Kind3<F, R, E, B>
-) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind3<F, R, E, ReadonlyRecord<K, B>>
-export declare function traverse<F extends URIS2>(
-  F: Applicative2<F>
-): <E, A, B>(
-  f: (a: A) => Kind2<F, E, B>
-) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind2<F, E, ReadonlyRecord<K, B>>
-export declare function traverse<F extends URIS2, E>(
-  F: Applicative2C<F, E>
-): <A, B>(
-  f: (a: A) => Kind2<F, E, B>
-) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind2<F, E, ReadonlyRecord<K, B>>
-export declare function traverse<F extends URIS>(
-  F: Applicative1<F>
-): <A, B>(f: (a: A) => Kind<F, B>) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind<F, ReadonlyRecord<K, B>>
-export declare function traverse<F>(
-  F: Applicative<F>
-): <A, B>(f: (a: A) => HKT<F, B>) => <K extends string>(ta: ReadonlyRecord<K, A>) => HKT<F, ReadonlyRecord<K, B>>
+export declare const toReadonlyArray: <K extends string, A>(r: Readonly<Record<K, A>>) => readonly (readonly [K, A])[]
 ```
 
 Added in v3.0.0
 
-## traverseWithIndex
+## toUnfoldable
+
+Unfolds a `ReadonlyRecord` into a list of key/value pairs.
 
 **Signature**
 
 ```ts
-export declare function traverseWithIndex<F extends URIS3>(
-  F: Applicative3<F>
-): <K extends string, R, E, A, B>(
-  f: (k: K, a: A) => Kind3<F, R, E, B>
-) => (ta: ReadonlyRecord<K, A>) => Kind3<F, R, E, ReadonlyRecord<K, B>>
-export declare function traverseWithIndex<F extends URIS3, E>(
-  F: Applicative3C<F, E>
-): <K extends string, R, A, B>(
-  f: (k: K, a: A) => Kind3<F, R, E, B>
-) => (ta: ReadonlyRecord<K, A>) => Kind3<F, R, E, ReadonlyRecord<K, B>>
-export declare function traverseWithIndex<F extends URIS2>(
-  F: Applicative2<F>
-): <K extends string, E, A, B>(
-  f: (k: K, a: A) => Kind2<F, E, B>
-) => (ta: ReadonlyRecord<K, A>) => Kind2<F, E, ReadonlyRecord<K, B>>
-export declare function traverseWithIndex<F extends URIS2, E>(
-  F: Applicative2C<F, E>
-): <K extends string, A, B>(
-  f: (k: K, a: A) => Kind2<F, E, B>
-) => (ta: ReadonlyRecord<K, A>) => Kind2<F, E, ReadonlyRecord<K, B>>
-export declare function traverseWithIndex<F extends URIS>(
-  F: Applicative1<F>
-): <K extends string, A, B>(
-  f: (k: K, a: A) => Kind<F, B>
-) => (ta: ReadonlyRecord<K, A>) => Kind<F, ReadonlyRecord<K, B>>
-export declare function traverseWithIndex<F>(
-  F: Applicative<F>
-): <K extends string, A, B>(f: (k: K, a: A) => HKT<F, B>) => (ta: ReadonlyRecord<K, A>) => HKT<F, ReadonlyRecord<K, B>>
-```
-
-Added in v3.0.0
-
-## updateAt
-
-Change the element at the specified keys, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
-
-**Signature**
-
-```ts
-export declare const updateAt: <A>(
-  k: string,
-  a: A
-) => <K extends string>(r: Readonly<Record<K, A>>) => O.Option<Readonly<Record<K, A>>>
+export declare function toUnfoldable<F extends URIS>(
+  U: Unfoldable1<F>
+): <K extends string, A>(r: ReadonlyRecord<K, A>) => Kind<F, readonly [K, A]>
+export declare function toUnfoldable<F>(
+  U: Unfoldable<F>
+): <K extends string, A>(r: ReadonlyRecord<K, A>) => HKT<F, readonly [K, A]>
 ```
 
 Added in v3.0.0

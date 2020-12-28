@@ -1014,7 +1014,7 @@ export const Witherable: Witherable1<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
- * Returns `true` if `ma` contains `a`
+ * Tests whether a value is a member of a `Option`.
  *
  * @example
  * import * as O from 'fp-ts/Option'

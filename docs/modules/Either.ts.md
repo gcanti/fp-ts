@@ -1404,6 +1404,8 @@ Added in v3.0.0
 
 ## elem
 
+Tests whether a value is a member of a `Either`.
+
 **Signature**
 
 ```ts

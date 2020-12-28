@@ -1763,9 +1763,7 @@ Added in v3.0.0
 
 ## elem
 
-Test if a value is a member of a `ReadonlyArray`. Takes a `Eq<A>` as a single
-argument which returns the function to use to search for a value of type `A` in
-a `ReadonlyArray` of type `ReadonlyArray<A>`.
+Tests whether a value is a member of a `ReadonlyArray`.
 
 **Signature**
 

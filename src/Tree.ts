@@ -143,6 +143,8 @@ export const unfoldForest = <B, A>(bs: ReadonlyArray<B>, f: (b: B) => readonly [
   bs.map((b) => unfoldTree(b, f))
 
 /**
+ * Tests whether a value is a member of a `Tree`.
+ *
  * @since 3.0.0
  */
 export const elem = <A>(E: Eq<A>) => (a: A): ((fa: Tree<A>) => boolean) => {

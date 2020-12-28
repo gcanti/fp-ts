@@ -191,4 +191,4 @@ pipe(recordString, _.lookup('a')) // $ExpectType Option<number>
 // elem
 //
 
-pipe(recordString, _.elem(eqNumber)(1)) // $ExpectType boolean
+pipe(r1, _.elem(eqNumber)(1)) // $ExpectType boolean

@@ -410,7 +410,7 @@ export const isSubset = <A>(E: Eq<A>): ((second: ReadonlySet<A>) => (first: Read
 }
 
 /**
- * Test if a value is a member of a `ReadonlySet`.
+ * Tests whether a value is a member of a `ReadonlySet`.
  *
  * @since 3.0.0
  */

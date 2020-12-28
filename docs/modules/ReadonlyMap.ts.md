@@ -27,7 +27,7 @@ Added in v3.0.0
   - [partitionWithIndex](#partitionwithindex)
 - [Functor](#functor)
   - [map](#map)
-- [combinator](#combinator)
+- [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
@@ -203,7 +203,7 @@ export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: ReadonlyMap<E, A>) =
 
 Added in v3.0.0
 
-# combinator
+# FunctorWithIndex
 
 ## mapWithIndex
 
@@ -481,7 +481,7 @@ Added in v3.0.0
 
 ## elem
 
-Test whether or not a value is a member of a `ReadonlyMap`.
+Tests whether a value is a member of a `ReadonlyMap`.
 
 **Signature**
 

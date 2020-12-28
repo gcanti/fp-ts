@@ -286,7 +286,7 @@ Added in v3.0.0
 
 ## elem
 
-Test if a value is a member of a `ReadonlySet`.
+Tests whether a value is a member of a `ReadonlySet`.
 
 **Signature**
 
