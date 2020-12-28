@@ -1249,7 +1249,9 @@ export function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): R
 /**
  * @since 2.9.0
  */
-export const Do: Option<{}> = /*#__PURE__*/ of({})
+export const Do: Option<{}> =
+  /*#__PURE__*/
+  of({})
 
 /**
  * @since 2.8.0
@@ -1347,6 +1349,6 @@ export const traverseArray: <A, B>(f: (a: A) => Option<B>) => (arr: ReadonlyArra
  *
  * @since 2.9.0
  */
-export const sequenceArray: <A>(
-  arr: ReadonlyArray<Option<A>>
-) => Option<ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(identity)
+export const sequenceArray: <A>(arr: ReadonlyArray<Option<A>>) => Option<ReadonlyArray<A>> =
+  /*#__PURE__*/
+  traverseArray(identity)

@@ -696,7 +696,9 @@ export const bracket = <E, A, B>(
 /**
  * @since 2.9.0
  */
-export const Do: IOEither<never, {}> = /*#__PURE__*/ of({})
+export const Do: IOEither<never, {}> =
+  /*#__PURE__*/
+  of({})
 
 /**
  * @since 2.8.0
@@ -773,9 +775,9 @@ export const traverseArray: <A, E, B>(
  *
  * @since 2.9.0
  */
-export const sequenceArray: <E, A>(
-  arr: ReadonlyArray<IOEither<E, A>>
-) => IOEither<E, ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(identity)
+export const sequenceArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEither<E, ReadonlyArray<A>> =
+  /*#__PURE__*/
+  traverseArray(identity)
 
 /**
  * @since 2.9.0

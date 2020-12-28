@@ -590,7 +590,9 @@ export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<U
 /**
  * @since 2.9.0
  */
-export const Do: Tree<{}> = /*#__PURE__*/ of({})
+export const Do: Tree<{}> =
+  /*#__PURE__*/
+  of({})
 
 /**
  * @since 2.8.0

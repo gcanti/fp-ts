@@ -638,7 +638,9 @@ export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThro
 /**
  * @since 2.9.0
  */
-export const Do: ReaderEither<unknown, never, {}> = /*#__PURE__*/ of({})
+export const Do: ReaderEither<unknown, never, {}> =
+  /*#__PURE__*/
+  of({})
 
 /**
  * @since 2.8.0
@@ -721,4 +723,6 @@ export const traverseArray: <R, E, A, B>(
  */
 export const sequenceArray: <R, E, A>(
   arr: ReadonlyArray<ReaderEither<R, E, A>>
-) => ReaderEither<R, E, ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(identity)
+) => ReaderEither<R, E, ReadonlyArray<A>> =
+  /*#__PURE__*/
+  traverseArray(identity)
