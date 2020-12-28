@@ -935,24 +935,25 @@ describe('ReadonlyMap', () => {
     })
   })
 
-  describe('getFilterable', () => {
-    const F = _.getFilterable<string>()
-
-    it('filter', () => {
+  describe('getFilterableWithIndex', () => {
+    it('filterWithIndex', () => {
+      const filterWithIndex = _.getFilterableWithIndex<string>().filterWithIndex
       assert.deepStrictEqual(
         pipe(
-          new Map([
+          new Map<string, number>([
             ['a', 1],
-            ['b', 2]
+            ['bb', 1],
+            ['c', 2]
           ]),
-          F.filter((n) => n > 1)
+          filterWithIndex((k, a) => a + k.length > 2)
         ),
-        new Map([['b', 2]])
+        new Map<string, number>([
+          ['bb', 1],
+          ['c', 2]
+        ])
       )
     })
-  })
 
-  describe('getFilterableWithIndex', () => {
     it('partitionMapWithIndex', () => {
       const partitionMapWithIndex = _.getFilterableWithIndex<string>().partitionMapWithIndex
       const emptyMap = new Map<string, number>()
@@ -998,27 +999,6 @@ describe('ReadonlyMap', () => {
       const f = (_: string, n: number) => (p(n) ? O.some(n + 1) : O.none)
       assert.deepStrictEqual(pipe(emptyMap, filterMapWithIndex(f)), emptyMap)
       assert.deepStrictEqual(pipe(a1b3, filterMapWithIndex(f)), b4)
-    })
-
-    it('filterWithIndex', () => {
-      const filterWithIndex = _.getFilterableWithIndex<string>().filterWithIndex
-      const a1b3 = new Map<string, number>([
-        ['a', 1],
-        ['b', 3]
-      ])
-      const b3 = new Map<string, number>([['b', 3]])
-      const f = (_: string, n: number) => p(n)
-      assert.deepStrictEqual(pipe(a1b3, filterWithIndex(f)), b3)
-
-      // refinements
-      const isNumber = (_: string, u: string | number): u is number => typeof u === 'number'
-      const y = new Map<string, string | number>([
-        ['a', 1],
-        ['b', 'foo']
-      ])
-      const a1 = new Map<string, number>([['a', 1]])
-      const actual = pipe(y, filterWithIndex(isNumber))
-      assert.deepStrictEqual(actual, a1)
     })
   })
 
@@ -1082,15 +1062,18 @@ describe('ReadonlyMap', () => {
     )
   })
 
-  it('mapWithIndex', () => {
-    const aa1 = new Map<User, number>([[{ id: 'aa' }, 1]])
-    const aa3 = new Map<User, number>([[{ id: 'aa' }, 3]])
-    assert.deepStrictEqual(
-      pipe(
-        aa1,
-        _.mapWithIndex((k, a) => a + k.id.length)
-      ),
-      aa3
-    )
+  describe('getFunctorWithIndex', () => {
+    it('mapWithIndex', () => {
+      const mapWithIndex = _.getFunctorWithIndex<User>().mapWithIndex
+      const aa1 = new Map<User, number>([[{ id: 'aa' }, 1]])
+      const aa3 = new Map<User, number>([[{ id: 'aa' }, 3]])
+      assert.deepStrictEqual(
+        pipe(
+          aa1,
+          mapWithIndex((k, a) => a + k.id.length)
+        ),
+        aa3
+      )
+    })
   })
 })

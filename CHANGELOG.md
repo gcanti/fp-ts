@@ -332,7 +332,11 @@ high state of flux, you're at risk of it changing without notice.
   - `ReadonlyArray`
     - add pipeable sequence T (@gcanti)
   - `ReadonlyMap`
-    - add `getFilterable` (@gcanti)
+    - add `filterWithIndex` combinator (@gcanti)
+    - add `filterMapWithIndex` combinator (@gcanti)
+    - add `partitionWithIndex` combinator (@gcanti)
+    - add `partitionMapWithIndex` combinator (@gcanti)
+    - add `getFunctorWithIndex` (@gcanti)
     - add `getFoldable` (@gcanti)
     - add `getFoldableWithIndex` (@gcanti)
     - add `getTraversable` (@gcanti)

@@ -36,26 +36,6 @@ import Option = O.Option
 export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
 
 /**
- * Calculate the number of key/value pairs in a `ReadonlyRecord`.
- *
- * @since 3.0.0
- */
-export const size = (r: ReadonlyRecord<string, unknown>): number => Object.keys(r).length
-
-/**
- * Test whether a `ReadonlyRecord` is empty.
- *
- * @since 3.0.0
- */
-export const isEmpty = (r: ReadonlyRecord<string, unknown>): boolean => Object.keys(r).length === 0
-
-/**
- * @since 3.0.0
- */
-export const keys = <K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyArray<K> =>
-  (Object.keys(r) as any).sort()
-
-/**
  * Map a `ReadonlyRecord` into an `ReadonlyArray`.
  *
  * @example
@@ -1038,3 +1018,27 @@ export const Witherable: Witherable1<URI> = {
   wither,
   wilt
 }
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * Calculate the number of key/value pairs in a `ReadonlyRecord`.
+ *
+ * @since 3.0.0
+ */
+export const size = (r: ReadonlyRecord<string, unknown>): number => Object.keys(r).length
+
+/**
+ * Test whether a `ReadonlyRecord` is empty.
+ *
+ * @since 3.0.0
+ */
+export const isEmpty = (r: ReadonlyRecord<string, unknown>): boolean => Object.keys(r).length === 0
+
+/**
+ * @since 3.0.0
+ */
+export const keys = <K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyArray<K> =>
+  (Object.keys(r) as any).sort()

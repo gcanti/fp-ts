@@ -20,6 +20,11 @@ Added in v3.0.0
   - [filterMap](#filtermap)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
+- [FilterableWithIndex](#filterablewithindex)
+  - [filterMapWithIndex](#filtermapwithindex)
+  - [filterWithIndex](#filterwithindex)
+  - [partitionMapWithIndex](#partitionmapwithindex)
+  - [partitionWithIndex](#partitionwithindex)
 - [Functor](#functor)
   - [map](#map)
 - [combinator](#combinator)
@@ -27,13 +32,11 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
   - [insertAt](#insertat)
+  - [pop](#pop)
   - [upsertAt](#upsertat)
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
   - [singleton](#singleton)
-- [destructors](#destructors)
-  - [toReadonlyArray](#toreadonlyarray)
-  - [toUnfoldable](#tounfoldable)
 - [instances](#instances)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
@@ -41,10 +44,10 @@ Added in v3.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
-  - [getFilterable](#getfilterable)
   - [getFilterableWithIndex](#getfilterablewithindex)
   - [getFoldable](#getfoldable)
   - [getFoldableWithIndex](#getfoldablewithindex)
+  - [getFunctorWithIndex](#getfunctorwithindex)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
   - [getTraversable](#gettraversable)
@@ -61,8 +64,9 @@ Added in v3.0.0
   - [lookupWithKey](#lookupwithkey)
   - [member](#member)
   - [modifyAt](#modifyat)
-  - [pop](#pop)
   - [size](#size)
+  - [toReadonlyArray](#toreadonlyarray)
+  - [toUnfoldable](#tounfoldable)
   - [updateAt](#updateat)
   - [values](#values)
 
@@ -136,11 +140,59 @@ export declare const partitionMap: <A, B, C>(
 
 Added in v3.0.0
 
+# FilterableWithIndex
+
+## filterMapWithIndex
+
+**Signature**
+
+```ts
+export declare const filterMapWithIndex: <K, A, B>(
+  f: (k: K, a: A) => O.Option<B>
+) => (fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
+```
+
+Added in v3.0.0
+
+## filterWithIndex
+
+**Signature**
+
+```ts
+export declare const filterWithIndex: <K, A>(p: (k: K, a: A) => boolean) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+```
+
+Added in v3.0.0
+
+## partitionMapWithIndex
+
+**Signature**
+
+```ts
+export declare const partitionMapWithIndex: <K, A, B, C>(
+  f: (k: K, a: A) => Either<B, C>
+) => (fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>
+```
+
+Added in v3.0.0
+
+## partitionWithIndex
+
+**Signature**
+
+```ts
+export declare const partitionWithIndex: <K, A>(
+  p: (k: K, a: A) => boolean
+) => (fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
+```
+
+Added in v3.0.0
+
 # Functor
 
 ## map
 
-`ReadonlyMap` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
 use the type constructor `F` to represent some computational context.
 
 **Signature**
@@ -158,7 +210,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
+export declare const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
 ```
 
 Added in v3.0.0
@@ -185,6 +237,20 @@ Insert an element at the specified key, creating a new `ReadonlyMap`, or returni
 
 ```ts
 export declare const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => O.Option<ReadonlyMap<K, A>>
+```
+
+Added in v3.0.0
+
+## pop
+
+Delete a key and value from a `ReadonlyMap`, returning the value as well as the subsequent `ReadonlyMap`.
+
+**Signature**
+
+```ts
+export declare const pop: <K>(
+  E: Eq<K>
+) => (k: K) => <A>(m: ReadonlyMap<K, A>) => O.Option<readonly [A, ReadonlyMap<K, A>]>
 ```
 
 Added in v3.0.0
@@ -243,39 +309,6 @@ Create a `ReadonlyMap` from one key/value pair.
 
 ```ts
 export declare const singleton: <K, A>(k: K, a: A) => ReadonlyMap<K, A>
-```
-
-Added in v3.0.0
-
-# destructors
-
-## toReadonlyArray
-
-Get a sorted of the key/value pairs contained in a `ReadonlyMap`.
-
-**Signature**
-
-```ts
-export declare const toReadonlyArray: <K>(O: Ord<K>) => <A>(m: ReadonlyMap<K, A>) => readonly (readonly [K, A])[]
-```
-
-Added in v3.0.0
-
-## toUnfoldable
-
-Unfolds a `ReadonlyMap` into a list of key/value pairs.
-
-**Signature**
-
-```ts
-export declare function toUnfoldable<K, F extends URIS>(
-  O: Ord<K>,
-  U: Unfoldable1<F>
-): <A>(d: ReadonlyMap<K, A>) => Kind<F, readonly [K, A]>
-export declare function toUnfoldable<K, F>(
-  ord: Ord<K>,
-  U: Unfoldable<F>
-): <A>(d: ReadonlyMap<K, A>) => HKT<F, readonly [K, A]>
 ```
 
 Added in v3.0.0
@@ -342,16 +375,6 @@ export declare const getEq: <K, A>(SK: Eq<K>, SA: Eq<A>) => Eq<ReadonlyMap<K, A>
 
 Added in v3.0.0
 
-## getFilterable
-
-**Signature**
-
-```ts
-export declare const getFilterable: <K = never>() => Filterable2C<'ReadonlyMap', K>
-```
-
-Added in v3.0.0
-
 ## getFilterableWithIndex
 
 **Signature**
@@ -382,9 +405,19 @@ export declare const getFoldableWithIndex: <K>(O: Ord<K>) => FoldableWithIndex2C
 
 Added in v3.0.0
 
+## getFunctorWithIndex
+
+**Signature**
+
+```ts
+export declare const getFunctorWithIndex: <K = never>() => FunctorWithIndex2C<'ReadonlyMap', K, K>
+```
+
+Added in v3.0.0
+
 ## getMonoid
 
-Gets `Monoid` instance for Maps given `Semigroup` instance for their values
+Get a `Monoid` instance for `ReadonlyMap` given a `Semigroup` instance for its values.
 
 **Signature**
 
@@ -560,20 +593,6 @@ export declare const modifyAt: <K>(
 
 Added in v3.0.0
 
-## pop
-
-Delete a key and value from a `ReadonlyMap`, returning the value as well as the subsequent `ReadonlyMap`.
-
-**Signature**
-
-```ts
-export declare const pop: <K>(
-  E: Eq<K>
-) => (k: K) => <A>(m: ReadonlyMap<K, A>) => O.Option<readonly [A, ReadonlyMap<K, A>]>
-```
-
-Added in v3.0.0
-
 ## size
 
 Calculate the number of key/value pairs in a `ReadonlyMap`.
@@ -582,6 +601,37 @@ Calculate the number of key/value pairs in a `ReadonlyMap`.
 
 ```ts
 export declare const size: <K, A>(d: ReadonlyMap<K, A>) => number
+```
+
+Added in v3.0.0
+
+## toReadonlyArray
+
+Get a sorted `ReadonlyArray` of the key/value pairs contained in a `ReadonlyMap`.
+
+**Signature**
+
+```ts
+export declare const toReadonlyArray: <K>(O: Ord<K>) => <A>(m: ReadonlyMap<K, A>) => readonly (readonly [K, A])[]
+```
+
+Added in v3.0.0
+
+## toUnfoldable
+
+Unfolds a `ReadonlyMap` into a list of key/value pairs.
+
+**Signature**
+
+```ts
+export declare function toUnfoldable<K, F extends URIS>(
+  O: Ord<K>,
+  U: Unfoldable1<F>
+): <A>(d: ReadonlyMap<K, A>) => Kind<F, readonly [K, A]>
+export declare function toUnfoldable<K, F>(
+  O: Ord<K>,
+  U: Unfoldable<F>
+): <A>(d: ReadonlyMap<K, A>) => HKT<F, readonly [K, A]>
 ```
 
 Added in v3.0.0

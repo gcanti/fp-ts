@@ -45,7 +45,7 @@ export type Const<E, A> = E & { readonly _A: A }
 export const make: <E, A = never>(e: E) => Const<E, A> = unsafeCoerce
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// type class members
 // -------------------------------------------------------------------------------------
 
 /**

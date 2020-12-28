@@ -44,7 +44,7 @@ export const snd = <A, E>(ea: readonly [A, E]): E => ea[1]
 export const swap = <A, E>(ea: readonly [A, E]): readonly [E, A] => [snd(ea), fst(ea)]
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// type class members
 // -------------------------------------------------------------------------------------
 
 /**

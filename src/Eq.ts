@@ -77,7 +77,7 @@ export const getTupleEq = <A extends ReadonlyArray<unknown>>(...eqs: { [K in key
   fromEquals((second) => (first) => eqs.every((E, i) => E.equals(second[i])(first[i])))
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// type class members
 // -------------------------------------------------------------------------------------
 
 /**
