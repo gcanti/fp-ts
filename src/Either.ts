@@ -1334,7 +1334,7 @@ export function exists<A>(predicate: Predicate<A>): <E>(ma: Either<E, A>) => boo
 /**
  * @since 2.9.0
  */
-export const Do: Either<never, {}> = of({})
+export const Do: Either<never, {}> = /*#__PURE__*/ of({})
 
 /**
  * @since 2.8.0
@@ -1464,6 +1464,6 @@ export const traverseArray: <E, A, B>(
  *
  * @since 2.9.0
  */
-export const sequenceArray: <E, A>(arr: ReadonlyArray<Either<E, A>>) => Either<E, ReadonlyArray<A>> = traverseArray(
-  identity
-)
+export const sequenceArray: <E, A>(
+  arr: ReadonlyArray<Either<E, A>>
+) => Either<E, ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(identity)

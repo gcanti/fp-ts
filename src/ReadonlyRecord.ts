@@ -114,7 +114,7 @@ export function collect<K extends string, A, B>(f: (k: K, a: A) => B): (r: Reado
  */
 export const toReadonlyArray: <K extends string, A>(
   r: ReadonlyRecord<K, A>
-) => ReadonlyArray<readonly [K, A]> = collect((k, a) => [k, a])
+) => ReadonlyArray<readonly [K, A]> = /*#__PURE__*/ collect((k, a) => [k, a])
 
 /**
  * Unfolds a record into a list of key/value pairs

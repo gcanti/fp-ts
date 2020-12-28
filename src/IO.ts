@@ -267,7 +267,7 @@ export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
 /**
  * @since 2.9.0
  */
-export const Do: IO<{}> = of({})
+export const Do: IO<{}> = /*#__PURE__*/ of({})
 
 /**
  * @since 2.8.0
@@ -354,4 +354,6 @@ export const traverseArray: <A, B>(f: (a: A) => IO<B>) => (arr: ReadonlyArray<A>
  *
  * @since 2.9.0
  */
-export const sequenceArray: <A>(arr: ReadonlyArray<IO<A>>) => IO<ReadonlyArray<A>> = traverseArray(identity)
+export const sequenceArray: <A>(arr: ReadonlyArray<IO<A>>) => IO<ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(
+  identity
+)

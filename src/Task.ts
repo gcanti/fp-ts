@@ -391,7 +391,7 @@ export const never: Task<never> = () => new Promise((_) => undefined)
 /**
  * @since 2.9.0
  */
-export const Do: Task<{}> = of({})
+export const Do: Task<{}> = /*#__PURE__*/ of({})
 
 /**
  * @since 2.8.0
