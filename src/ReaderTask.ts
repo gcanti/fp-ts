@@ -373,7 +373,7 @@ export function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A> {
 /**
  * @since 2.9.0
  */
-export const Do: ReaderTask<unknown, {}> = of({})
+export const Do: ReaderTask<unknown, {}> = /*#__PURE__*/ of({})
 
 /**
  * @since 2.8.0
@@ -451,4 +451,4 @@ export const traverseArray: <R, A, B>(
  */
 export const sequenceArray: <R, A>(
   arr: ReadonlyArray<ReaderTask<R, A>>
-) => ReaderTask<R, ReadonlyArray<A>> = traverseArray(identity)
+) => ReaderTask<R, ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(identity)

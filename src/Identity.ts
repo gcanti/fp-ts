@@ -371,7 +371,7 @@ export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<U
 /**
  * @since 2.9.0
  */
-export const Do: Identity<{}> = of({})
+export const Do: Identity<{}> = /*#__PURE__*/ of({})
 
 /**
  * @since 2.8.0

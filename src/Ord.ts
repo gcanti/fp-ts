@@ -329,7 +329,7 @@ export const ordDate: Ord<Date> =
   /*#__PURE__*/
   pipe(
     ordNumber,
-    contramap((date) => date.valueOf())
+    /*#__PURE__*/ contramap((date) => date.valueOf())
   )
 
 /**

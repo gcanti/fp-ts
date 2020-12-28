@@ -748,7 +748,7 @@ export const nonEmptyArray: Monad1<URI> &
 /**
  * @since 2.9.0
  */
-export const Do: NonEmptyArray<{}> = of({})
+export const Do: NonEmptyArray<{}> = /*#__PURE__*/ of({})
 
 /**
  * @since 2.8.0

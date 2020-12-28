@@ -1634,7 +1634,7 @@ export const some: <A>(predicate: Predicate<A>) => (as: Array<A>) => boolean = R
 /**
  * @since 2.9.0
  */
-export const Do: Array<{}> = of({})
+export const Do: Array<{}> = /*#__PURE__*/ of({})
 
 /**
  * @since 2.8.0

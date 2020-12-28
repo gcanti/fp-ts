@@ -2364,7 +2364,7 @@ export const some = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): bool
 /**
  * @since 2.9.0
  */
-export const Do: ReadonlyArray<{}> = of({})
+export const Do: ReadonlyArray<{}> = /*#__PURE__*/ of({})
 
 /**
  * @since 2.8.0

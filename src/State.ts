@@ -361,6 +361,6 @@ export const traverseArray: <A, S, B>(
  *
  * @since 2.9.0
  */
-export const sequenceArray: <S, A>(arr: ReadonlyArray<State<S, A>>) => State<S, ReadonlyArray<A>> = traverseArray(
-  identity
-)
+export const sequenceArray: <S, A>(
+  arr: ReadonlyArray<State<S, A>>
+) => State<S, ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(identity)
