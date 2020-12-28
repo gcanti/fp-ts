@@ -721,6 +721,9 @@ export const member = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => boo
   }
 }
 
+/**
+ * @internal
+ */
 interface Next<A> {
   readonly done?: boolean
   readonly value: A

@@ -12,19 +12,23 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [combinators](#combinators)
-  - [chain](#chain)
+- [Compactable](#compactable)
   - [compact](#compact)
-  - [difference](#difference)
+  - [separate](#separate)
+- [Filterable](#filterable)
   - [filter](#filter)
   - [filterMap](#filtermap)
-  - [insert](#insert)
-  - [intersection](#intersection)
-  - [map](#map)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
+- [Functor](#functor)
+  - [map](#map)
+- [Monad](#monad)
+  - [chain](#chain)
+- [combinators](#combinators)
+  - [difference](#difference)
+  - [insert](#insert)
+  - [intersection](#intersection)
   - [remove](#remove)
-  - [separate](#separate)
   - [union](#union)
 - [constructors](#constructors)
   - [fromReadonlyArray](#fromreadonlyarray)
@@ -46,17 +50,7 @@ Added in v3.0.0
 
 ---
 
-# combinators
-
-## chain
-
-**Signature**
-
-```ts
-export declare const chain: <B>(E: Eq<B>) => <A>(f: (x: A) => ReadonlySet<B>) => (set: ReadonlySet<A>) => ReadonlySet<B>
-```
-
-Added in v3.0.0
+# Compactable
 
 ## compact
 
@@ -68,27 +62,20 @@ export declare const compact: <A>(E: Eq<A>) => (fa: ReadonlySet<Option<A>>) => R
 
 Added in v3.0.0
 
-## difference
-
-Return the set difference (`x` - `y`).
+## separate
 
 **Signature**
 
 ```ts
-export declare const difference: <A>(E: Eq<A>) => (second: ReadonlySet<A>) => (first: ReadonlySet<A>) => ReadonlySet<A>
-```
-
-**Example**
-
-```ts
-import { difference } from 'fp-ts/ReadonlySet'
-import { eqNumber } from 'fp-ts/Eq'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe(new Set([1, 2]), difference(eqNumber)(new Set([1, 3]))), new Set([2]))
+export declare const separate: <E, A>(
+  EE: Eq<E>,
+  EA: Eq<A>
+) => (fa: ReadonlySet<Either<E, A>>) => Separated<ReadonlySet<E>, ReadonlySet<A>>
 ```
 
 Added in v3.0.0
+
+# Filterable
 
 ## filter
 
@@ -107,44 +94,6 @@ Added in v3.0.0
 
 ```ts
 export declare const filterMap: <B>(E: Eq<B>) => <A>(f: (a: A) => Option<B>) => (fa: ReadonlySet<A>) => ReadonlySet<B>
-```
-
-Added in v3.0.0
-
-## insert
-
-Insert a value into a `ReadonlySet`.
-
-**Signature**
-
-```ts
-export declare const insert: <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
-```
-
-Added in v3.0.0
-
-## intersection
-
-The `ReadonlySet` of elements which are in both the first and second `ReadonlySet`.
-
-**Signature**
-
-```ts
-export declare const intersection: <A>(
-  E: Eq<A>
-) => (second: ReadonlySet<A>) => (first: ReadonlySet<A>) => ReadonlySet<A>
-```
-
-Added in v3.0.0
-
-## map
-
-Projects a `ReadonlySet` through a function.
-
-**Signature**
-
-```ts
-export declare const map: <B>(E: Eq<B>) => <A>(f: (x: A) => B) => (set: ReadonlySet<A>) => ReadonlySet<B>
 ```
 
 Added in v3.0.0
@@ -177,6 +126,82 @@ export declare const partitionMap: <B, C>(
 
 Added in v3.0.0
 
+# Functor
+
+## map
+
+Projects a `ReadonlySet` through a function.
+
+**Signature**
+
+```ts
+export declare const map: <B>(E: Eq<B>) => <A>(f: (x: A) => B) => (set: ReadonlySet<A>) => ReadonlySet<B>
+```
+
+Added in v3.0.0
+
+# Monad
+
+## chain
+
+**Signature**
+
+```ts
+export declare const chain: <B>(E: Eq<B>) => <A>(f: (x: A) => ReadonlySet<B>) => (set: ReadonlySet<A>) => ReadonlySet<B>
+```
+
+Added in v3.0.0
+
+# combinators
+
+## difference
+
+Return the set difference (`x` - `y`).
+
+**Signature**
+
+```ts
+export declare const difference: <A>(E: Eq<A>) => (second: ReadonlySet<A>) => (first: ReadonlySet<A>) => ReadonlySet<A>
+```
+
+**Example**
+
+```ts
+import { difference } from 'fp-ts/ReadonlySet'
+import { eqNumber } from 'fp-ts/Eq'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(new Set([1, 2]), difference(eqNumber)(new Set([1, 3]))), new Set([2]))
+```
+
+Added in v3.0.0
+
+## insert
+
+Insert a value into a `ReadonlySet`.
+
+**Signature**
+
+```ts
+export declare const insert: <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
+```
+
+Added in v3.0.0
+
+## intersection
+
+The `ReadonlySet` of elements which are in both the first and second `ReadonlySet`.
+
+**Signature**
+
+```ts
+export declare const intersection: <A>(
+  E: Eq<A>
+) => (second: ReadonlySet<A>) => (first: ReadonlySet<A>) => ReadonlySet<A>
+```
+
+Added in v3.0.0
+
 ## remove
 
 Delete a value from a `ReadonlySet`.
@@ -185,19 +210,6 @@ Delete a value from a `ReadonlySet`.
 
 ```ts
 export declare const remove: <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
-```
-
-Added in v3.0.0
-
-## separate
-
-**Signature**
-
-```ts
-export declare const separate: <E, A>(
-  EE: Eq<E>,
-  EA: Eq<A>
-) => (fa: ReadonlySet<Either<E, A>>) => Separated<ReadonlySet<E>, ReadonlySet<A>>
 ```
 
 Added in v3.0.0
