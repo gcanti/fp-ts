@@ -112,9 +112,9 @@ export function collect<K extends string, A, B>(f: (k: K, a: A) => B): (r: Reado
  * @category destructors
  * @since 2.5.0
  */
-export const toReadonlyArray: <K extends string, A>(
-  r: ReadonlyRecord<K, A>
-) => ReadonlyArray<readonly [K, A]> = /*#__PURE__*/ collect((k, a) => [k, a])
+export const toReadonlyArray: <K extends string, A>(r: ReadonlyRecord<K, A>) => ReadonlyArray<readonly [K, A]> =
+  /*#__PURE__*/
+  collect((k, a) => [k, a])
 
 /**
  * Unfolds a record into a list of key/value pairs

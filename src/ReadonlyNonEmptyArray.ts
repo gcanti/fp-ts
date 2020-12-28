@@ -832,7 +832,9 @@ export const readonlyNonEmptyArray: Monad1<URI> &
 /**
  * @since 2.9.0
  */
-export const Do: ReadonlyNonEmptyArray<{}> = /*#__PURE__*/ of({})
+export const Do: ReadonlyNonEmptyArray<{}> =
+  /*#__PURE__*/
+  of({})
 
 /**
  * @since 2.8.0

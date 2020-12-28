@@ -75,28 +75,36 @@ export function constant<A>(a: A): Lazy<A> {
  *
  * @since 2.0.0
  */
-export const constTrue: Lazy<boolean> = /*#__PURE__*/ constant(true)
+export const constTrue: Lazy<boolean> =
+  /*#__PURE__*/
+  constant(true)
 
 /**
  * A thunk that returns always `false`.
  *
  * @since 2.0.0
  */
-export const constFalse: Lazy<boolean> = /*#__PURE__*/ constant(false)
+export const constFalse: Lazy<boolean> =
+  /*#__PURE__*/
+  constant(false)
 
 /**
  * A thunk that returns always `null`.
  *
  * @since 2.0.0
  */
-export const constNull: Lazy<null> = /*#__PURE__*/ constant(null)
+export const constNull: Lazy<null> =
+  /*#__PURE__*/
+  constant(null)
 
 /**
  * A thunk that returns always `undefined`.
  *
  * @since 2.0.0
  */
-export const constUndefined: Lazy<undefined> = /*#__PURE__*/ constant(undefined)
+export const constUndefined: Lazy<undefined> =
+  /*#__PURE__*/
+  constant(undefined)
 
 /**
  * A thunk that returns always `void`.

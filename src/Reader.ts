@@ -387,7 +387,9 @@ export const bind: <N extends string, A, R, B>(
 /**
  * @since 2.9.0
  */
-export const Do: Reader<unknown, {}> = /*#__PURE__*/ of({})
+export const Do: Reader<unknown, {}> =
+  /*#__PURE__*/
+  of({})
 
 /**
  * @since 2.8.0
@@ -455,6 +457,6 @@ export const traverseArray: <R, A, B>(
  *
  * @since 2.9.0
  */
-export const sequenceArray: <R, A>(
-  arr: ReadonlyArray<Reader<R, A>>
-) => Reader<R, ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(identity)
+export const sequenceArray: <R, A>(arr: ReadonlyArray<Reader<R, A>>) => Reader<R, ReadonlyArray<A>> =
+  /*#__PURE__*/
+  traverseArray(identity)
