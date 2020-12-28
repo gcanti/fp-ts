@@ -15,7 +15,7 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
-# 3.0.0-rc1
+# 3.0.0-alpha.1
 
 - **Breaking Change**
 
@@ -369,6 +369,11 @@ high state of flux, you're at risk of it changing without notice.
     - add pipeable sequence T (@gcanti)
   - `Writer`
     - add `getApplicative` (@gcanti)
+
+# 2.9.2
+
+- **Polish**
+  - add more `/*#__PURE__*/` comments to improve tree shaking, #1368 (@OliverJAsh)
 
 # 2.9.1
 
