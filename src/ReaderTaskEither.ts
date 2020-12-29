@@ -976,4 +976,6 @@ export const traverseSeqArray: <R, E, A, B>(
  */
 export const sequenceSeqArray: <R, E, A>(
   arr: ReadonlyArray<ReaderTaskEither<R, E, A>>
-) => ReaderTaskEither<R, E, ReadonlyArray<A>> = traverseSeqArray(identity)
+) => ReaderTaskEither<R, E, ReadonlyArray<A>> =
+  /*#__PURE__*/
+  traverseSeqArray(identity)
