@@ -46,7 +46,7 @@ describe('Reader', () => {
     it('compose', () => {
       const double = (n: number) => n * 2
       const len = (s: string) => s.length
-      assert.deepStrictEqual(pipe(double, _.compose(len))('aaa'), 6)
+      assert.deepStrictEqual(pipe(len, _.compose(double))('aaa'), 6)
     })
 
     it('promap', () => {
@@ -81,14 +81,6 @@ describe('Reader', () => {
   it('id', () => {
     const x = _.id<number>()
     assert.deepStrictEqual(x(1), 1)
-  })
-
-  it('compose', () => {
-    const x = (s: string) => s.length
-    const y = (n: number) => n >= 2
-    const z = pipe(y, _.compose(x))
-    assert.deepStrictEqual(z('foo'), true)
-    assert.deepStrictEqual(z('a'), false)
   })
 
   it('getSemigroup', () => {

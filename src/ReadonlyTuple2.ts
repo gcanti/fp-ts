@@ -74,7 +74,7 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => [fst(fa), f(sn
  * @category Semigroupoid
  * @since 3.0.0
  */
-export const compose: Semigroupoid2<URI>['compose'] = (ab) => (bc) => [fst(bc), snd(ab)]
+export const compose: Semigroupoid2<URI>['compose'] = (bc) => (ab) => [fst(bc), snd(ab)]
 
 /**
  * @category Extend

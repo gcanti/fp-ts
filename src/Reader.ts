@@ -123,7 +123,7 @@ export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> =
  * @category Semigroupoid
  * @since 3.0.0
  */
-export const compose: Semigroupoid2<URI>['compose'] = (ab) => (bc) => flow(ab, bc)
+export const compose: Semigroupoid2<URI>['compose'] = (bc) => (ab) => flow(ab, bc)
 
 /**
  * @category Profunctor

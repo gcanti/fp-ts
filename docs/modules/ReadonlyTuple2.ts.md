@@ -162,7 +162,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compose: <A, B>(ab: ReadonlyTuple2<A, B>) => <C>(bc: ReadonlyTuple2<B, C>) => ReadonlyTuple2<A, C>
+export declare const compose: <B, C>(bc: ReadonlyTuple2<B, C>) => <A>(ab: ReadonlyTuple2<A, B>) => ReadonlyTuple2<A, C>
 ```
 
 Added in v3.0.0

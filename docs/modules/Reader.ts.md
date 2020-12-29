@@ -179,7 +179,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compose: <A, B>(ab: Reader<A, B>) => <C>(bc: Reader<B, C>) => Reader<A, C>
+export declare const compose: <B, C>(bc: Reader<B, C>) => <A>(ab: Reader<A, B>) => Reader<A, C>
 ```
 
 Added in v3.0.0

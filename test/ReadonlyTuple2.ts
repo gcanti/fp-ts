@@ -13,7 +13,7 @@ describe('ReadonlyTuple2', () => {
 
   describe('type class members', () => {
     it('compose', () => {
-      assert.deepStrictEqual(pipe([true, 2] as const, _.compose([1, 'a'])), [true, 'a'])
+      assert.deepStrictEqual(pipe([1, 'a'] as const, _.compose([true, 2])), [true, 'a'])
     })
 
     it('map', () => {
