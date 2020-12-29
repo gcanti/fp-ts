@@ -9,9 +9,6 @@ const getExportName = (name: string): string => {
   if (name === 'IOEither') {
     return 'ioEither'
   }
-  if (name === 'TaskEither') {
-    return 'taskEither'
-  }
   return name.substring(0, 1).toLowerCase() + name.substring(1)
 }
 
