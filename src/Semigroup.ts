@@ -10,7 +10,7 @@
  * Associativity means the following equality must hold for any choice of `x`, `y`, and `z`.
  *
  * ```ts
- * pipe(x, concat(pipe(y, concat(z)))) = pipe(x, concat(y), concat(z))
+ * x |> concat(y |> concat(z)) <-> x |> concat(y) |> concat(z)
  * ```
  *
  * @since 3.0.0
@@ -24,6 +24,10 @@ import { max, min, Ord } from './Ord'
  * @since 3.0.0
  */
 export interface Semigroup<A> extends Magma<A> {}
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
 
 /**
  * Given a sequence of `as`, concat them and return the total.
@@ -42,6 +46,30 @@ export interface Semigroup<A> extends Magma<A> {}
  */
 export const fold = <A>(S: Semigroup<A>) => (startWith: A) => (as: ReadonlyArray<A>): A =>
   as.reduce((a, acc) => S.concat(acc)(a), startWith)
+
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
+/**
+ * The dual of a `Semigroup`, obtained by swapping the arguments of `concat`.
+ *
+ * @example
+ * import * as S from 'fp-ts/Semigroup'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(pipe('a', S.getDualSemigroup(S.semigroupString).concat('b')), 'ba')
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => ({
+  concat: (second) => (first) => S.concat(first)(second)
+})
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * Always return the first argument.
@@ -130,22 +158,6 @@ export const getTupleSemigroup = <A extends ReadonlyArray<unknown>>(
   ...semigroups: { [K in keyof A]: Semigroup<A[K]> }
 ): Semigroup<A> => ({
   concat: (second) => (first) => semigroups.map((s, i) => s.concat(second[i])(first[i])) as any
-})
-
-/**
- * The dual of a `Semigroup`, obtained by swapping the arguments of `concat`.
- *
- * @example
- * import * as S from 'fp-ts/Semigroup'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(pipe('a', S.getDualSemigroup(S.semigroupString).concat('b')), 'ba')
- *
- * @category instances
- * @since 3.0.0
- */
-export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => ({
-  concat: (second) => (first) => S.concat(first)(second)
 })
 
 /**

@@ -17,7 +17,7 @@ interface Semigroup<A> {
 Associativity means the following equality must hold for any choice of `x`, `y`, and `z`.
 
 ```ts
-pipe(x, concat(pipe(y, concat(z)))) = pipe(x, concat(y), concat(z))
+x |> concat(y |> concat(z)) <-> x |> concat(y) |> concat(z)
 ```
 
 Added in v3.0.0
@@ -26,8 +26,9 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [instances](#instances)
+- [combinators](#combinators)
   - [getDualSemigroup](#getdualsemigroup)
+- [instances](#instances)
   - [getFirstSemigroup](#getfirstsemigroup)
   - [getFunctionSemigroup](#getfunctionsemigroup)
   - [getIntercalateSemigroup](#getintercalatesemigroup)
@@ -50,7 +51,7 @@ Added in v3.0.0
 
 ---
 
-# instances
+# combinators
 
 ## getDualSemigroup
 
@@ -72,6 +73,8 @@ assert.deepStrictEqual(pipe('a', S.getDualSemigroup(S.semigroupString).concat('b
 ```
 
 Added in v3.0.0
+
+# instances
 
 ## getFirstSemigroup
 
