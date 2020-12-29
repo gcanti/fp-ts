@@ -18,7 +18,7 @@ Added in v3.0.0
   - [extract](#extract)
 - [Functor](#functor)
   - [map](#map)
-- [combinators](#combinators)
+- [derivable combinators](#derivable-combinators)
   - [duplicate](#duplicate)
 - [instances](#instances)
   - [Comonad](#comonad)
@@ -74,7 +74,7 @@ export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Stor
 
 Added in v3.0.0
 
-# combinators
+# derivable combinators
 
 ## duplicate
 

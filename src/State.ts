@@ -56,6 +56,10 @@ export const modify: <S>(f: (s: S) => S) => State<S, void> = (f) => (s) => [unde
  */
 export const gets: <S, A>(f: (s: S) => A) => State<S, A> = (f) => (s) => [f(s), s]
 
+// -------------------------------------------------------------------------------------
+// type class members
+// -------------------------------------------------------------------------------------
+
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
@@ -81,9 +85,7 @@ export const ap: Apply2<URI>['ap'] = (fa) => (fab) => (s1) => {
 }
 
 /**
- * Wrap a value into the type constructor.
- *
- * @category Applicative
+ * @category Pointed
  * @since 3.0.0
  */
 export const of: Pointed2<URI>['of'] = (a) => (s) => [a, s]
@@ -224,14 +226,14 @@ export const chainFirst =
 // -------------------------------------------------------------------------------------
 
 /**
- * Run a computation in the `State` monad, discarding the final state
+ * Run a computation in the `State` monad, discarding the final state.
  *
  * @since 3.0.0
  */
 export const evaluate = <S>(s: S) => <A>(ma: State<S, A>): A => ma(s)[0]
 
 /**
- * Run a computation in the `State` monad discarding the result
+ * Run a computation in the `State` monad discarding the result.
  *
  * @since 3.0.0
  */
@@ -256,7 +258,7 @@ export const bind =
   bind_(Monad)
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence S
+// sequence S
 // -------------------------------------------------------------------------------------
 
 /**
@@ -267,7 +269,7 @@ export const apS =
   apS_(Applicative)
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence T
+// sequence T
 // -------------------------------------------------------------------------------------
 
 /**
@@ -289,6 +291,8 @@ export const apT =
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
  * @since 3.0.0
  */
 export const traverseArrayWithIndex: <A, S, B>(
@@ -306,7 +310,7 @@ export const traverseArrayWithIndex: <A, S, B>(
 }
 
 /**
- * This function has the same behavior of `A.traverse(S.State)` but it's stack safe and optimized
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'
@@ -325,7 +329,7 @@ export const traverseArray: <A, S, B>(
 ) => (arr: ReadonlyArray<A>) => State<S, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
- * This function has the same behavior of `A.sequence(S.State)` but it's stack safe and optimized
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'

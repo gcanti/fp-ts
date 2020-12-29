@@ -12,8 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apW](#apw)
@@ -24,6 +22,8 @@ Added in v3.0.0
 - [Monad](#monad)
   - [chain](#chain)
   - [chainW](#chainw)
+- [Pointed](#pointed)
+  - [of](#of)
 - [Profunctor](#profunctor)
   - [promap](#promap)
 - [Semigroupoid](#semigroupoid)
@@ -39,12 +39,12 @@ Added in v3.0.0
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
 - [instances](#instances)
-  - [Applicative](#applicative-1)
+  - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Category](#category-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [Profunctor](#profunctor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -68,20 +68,6 @@ Added in v3.0.0
   - [tupled](#tupled)
 
 ---
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-**Signature**
-
-```ts
-export declare const of: <A, E>(a: A) => Reader<E, A>
-```
-
-Added in v3.0.0
 
 # Apply
 
@@ -158,6 +144,18 @@ Less strict version of [`chain`](#chain).
 
 ```ts
 export declare const chainW: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B>
+```
+
+Added in v3.0.0
+
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A, E>(a: A) => Reader<E, A>
 ```
 
 Added in v3.0.0
@@ -524,7 +522,7 @@ Added in v3.0.0
 
 ## sequenceArray
 
-this function have the same behavior of `A.sequence(R.reader)` but it's stack safe and optimized
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
@@ -555,7 +553,7 @@ Added in v3.0.0
 
 ## traverseArray
 
-this function have the same behavior of `A.traverse(R.reader)` but it's stack safe and optimized
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
@@ -587,6 +585,8 @@ assert.deepStrictEqual(
 Added in v3.0.0
 
 ## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 

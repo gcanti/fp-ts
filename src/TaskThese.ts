@@ -182,23 +182,19 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] =
   mapLeft_(T.Functor)
 
 /**
- * Wrap a value into the type constructor.
- *
- * Equivalent to [`right`](#right).
- *
- * @category Applicative
+ * @category Pointed
  * @since 3.0.0
  */
 export const of: Pointed2<URI>['of'] = right
 
 /**
- * @category MonadIO
+ * @category FromIO
  * @since 3.0.0
  */
 export const fromIO: FromIO2<URI>['fromIO'] = rightIO
 
 /**
- * @category MonadIO
+ * @category FromTask
  * @since 3.0.0
  */
 export const fromTask: FromTask2<URI>['fromTask'] = rightTask

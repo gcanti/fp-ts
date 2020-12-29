@@ -22,23 +22,23 @@ Added in v3.0.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apW](#apw)
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
+- [FromIO](#fromio)
+  - [fromIO](#fromio)
+- [FromTask](#fromtask)
+  - [fromTask](#fromtask)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainW](#chainw)
-- [MonadIO](#monadio)
-  - [fromIO](#fromio)
-- [MonadTask](#monadtask)
-  - [fromTask](#fromtask)
+- [Pointed](#pointed)
+  - [of](#of)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -46,6 +46,7 @@ Added in v3.0.0
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
   - [filterOrElse](#filterorelse)
+  - [filterOrElseW](#filterorelsew)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
   - [orElse](#orelse)
@@ -80,11 +81,11 @@ Added in v3.0.0
   - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
-  - [FromIO](#fromio)
-  - [FromTask](#fromtask)
+  - [FromIO](#fromio-1)
+  - [FromTask](#fromtask-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getAltTaskValidation](#getalttaskvalidation)
@@ -107,7 +108,6 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
-  - [filterOrElseW](#filterorelsew)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
   - [taskify](#taskify)
@@ -126,7 +126,7 @@ Added in v3.0.0
 Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
 types of kind `* -> *`.
 
-In case of `TaskEither` returns `fa` if is a `Right` or the value returned by `that` otherwise.
+In case of `TaskEither` returns `first` if it is a `Right` or the value returned by `second` otherwise.
 
 See also [orElse](#orElse).
 
@@ -186,22 +186,6 @@ export declare const altW: <E2, B>(
 
 Added in v3.0.0
 
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-Equivalent to [`right`](#right).
-
-**Signature**
-
-```ts
-export declare const of: <A, E>(a: A) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
 # Apply
 
 ## ap
@@ -256,6 +240,30 @@ export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: TaskEither<E, A
 
 Added in v3.0.0
 
+# FromIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A, E>(fa: IO<A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
+# FromTask
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <A, E>(fa: T.Task<A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
 # Functor
 
 ## map
@@ -299,26 +307,14 @@ export declare const chainW: <A, E2, B>(
 
 Added in v3.0.0
 
-# MonadIO
+# Pointed
 
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A, E>(fa: IO<A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
-# MonadTask
-
-## fromTask
+## of
 
 **Signature**
 
 ```ts
-export declare const fromTask: <A, E>(fa: T.Task<A>) => TaskEither<E, A>
+export declare const of: <A, E>(a: A) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -397,6 +393,23 @@ Added in v3.0.0
 export declare const filterOrElse: {
   <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, A>
+}
+```
+
+Added in v3.0.0
+
+## filterOrElseW
+
+Less strict version of [`filterOrElse`](#filterOrElse).
+
+**Signature**
+
+```ts
+export declare const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
+    ma: TaskEither<E1, A>
+  ) => TaskEither<E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
 }
 ```
 
@@ -1080,28 +1093,9 @@ export declare const bracket: <E, A, B>(
 
 Added in v3.0.0
 
-## filterOrElseW
-
-Less strict version of [`filterOrElse`](#filterOrElse).
-
-**Signature**
-
-```ts
-export declare const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
-    ma: TaskEither<E1, A>
-  ) => TaskEither<E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
-}
-```
-
-Added in v3.0.0
-
 ## sequenceArray
 
-this function have the same behavior of `A.sequence(taskEither)` but it's stack safe and perform better
-
-_this function run all tasks in parallel and does not bail out, for sequential version use `sequenceSeqArray`_
+Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
 
 **Signature**
 
@@ -1144,9 +1138,7 @@ Added in v3.0.0
 
 ## sequenceSeqArray
 
-this function have the same behavior of `A.sequence(taskEitherSeq)` but it's stack safe and perform better
-
-_this function run all tasks in sequential order and bails out on left side of either, for parallel version use `sequenceArray`_
+Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
 
 **Signature**
 
@@ -1210,9 +1202,7 @@ Added in v3.0.0
 
 ## traverseArray
 
-this function have the same behavior of `A.traverse(taskEither)` but it's stack safe and perform better
-
-_this function run all tasks in parallel and does not bail out, for sequential version use `traverseSeqArray`_
+Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
 
 **Signature**
 
@@ -1257,6 +1247,8 @@ Added in v3.0.0
 
 ## traverseArrayWithIndex
 
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+
 **Signature**
 
 ```ts
@@ -1269,9 +1261,7 @@ Added in v3.0.0
 
 ## traverseSeqArray
 
-this function have the same behavior of `A.traverse(taskEitherSeq)` but it's stack safe and perform better
-
-_this function run all tasks in sequential order and bails out on left side of either, for parallel version use `traverseArray`_
+Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
 
 **Signature**
 
@@ -1284,6 +1274,8 @@ export declare const traverseSeqArray: <A, B, E>(
 Added in v3.0.0
 
 ## traverseSeqArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
 
 **Signature**
 

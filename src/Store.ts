@@ -20,6 +20,93 @@ export interface Store<S, A> {
   readonly pos: S
 }
 
+// -------------------------------------------------------------------------------------
+// type class members
+// -------------------------------------------------------------------------------------
+
+/**
+ * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+ * use the type constructor `F` to represent some computational context.
+ *
+ * @category Functor
+ * @since 3.0.0
+ */
+export const map: Functor2<URI>['map'] = (f) => (fa) => ({
+  peek: (s) => f(fa.peek(s)),
+  pos: fa.pos
+})
+
+/**
+ * @category Extend
+ * @since 3.0.0
+ */
+export const extend: Extend2<URI>['extend'] = (f) => (wa) => ({
+  peek: (s) => f({ peek: wa.peek, pos: s }),
+  pos: wa.pos
+})
+
+/**
+ * @category Extract
+ * @since 3.0.0
+ */
+export const extract: Comonad2<URI>['extract'] = (wa) => wa.peek(wa.pos)
+
+/**
+ * Derivable from `Extend`.
+ *
+ * @category derivable combinators
+ * @since 3.0.0
+ */
+export const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>> =
+  /*#__PURE__*/
+  extend(identity)
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const URI = 'Store'
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: Store<E, A>
+  }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Functor: Functor2<URI> = {
+  URI,
+  map
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Comonad: Comonad2<URI> = {
+  URI,
+  map,
+  extend,
+  extract
+}
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
 /**
  * Reposition the focus at the specified position
  *
@@ -68,83 +155,4 @@ export function experiment<F>(F: FunctorHKT<F>): <S>(f: (s: S) => HKT<F, S>) => 
       f(wa.pos),
       F.map((s) => wa.peek(s))
     )
-}
-
-/**
- * @category Extend
- * @since 3.0.0
- */
-export const extend: Extend2<URI>['extend'] = (f) => (wa) => ({
-  peek: (s) => f({ peek: wa.peek, pos: s }),
-  pos: wa.pos
-})
-
-/**
- * @category Extract
- * @since 3.0.0
- */
-export const extract: Comonad2<URI>['extract'] = (wa) => wa.peek(wa.pos)
-
-/**
- * Derivable from `Extend`.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>> =
-  /*#__PURE__*/
-  extend(identity)
-
-/**
- * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
- * use the type constructor `F` to represent some computational context.
- *
- * @category Functor
- * @since 3.0.0
- */
-export const map: Functor2<URI>['map'] = (f) => (fa) => ({
-  peek: (s) => f(fa.peek(s)),
-  pos: fa.pos
-})
-
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const URI = 'Store'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly [URI]: Store<E, A>
-  }
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Functor: Functor2<URI> = {
-  URI,
-  map
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Comonad: Comonad2<URI> = {
-  URI,
-  map,
-  extend,
-  extract
 }

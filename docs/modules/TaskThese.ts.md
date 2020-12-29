@@ -12,16 +12,17 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Applicative](#applicative)
-  - [of](#of)
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
+- [FromIO](#fromio)
+  - [fromIO](#fromio)
+- [FromTask](#fromtask)
+  - [fromTask](#fromtask)
 - [Functor](#functor)
   - [map](#map)
-- [MonadIO](#monadio)
-  - [fromIO](#fromio)
-  - [fromTask](#fromtask)
+- [Pointed](#pointed)
+  - [of](#of)
 - [combinators](#combinators)
   - [swap](#swap)
 - [constructors](#constructors)
@@ -42,10 +43,10 @@ Added in v3.0.0
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
-  - [FromIO](#fromio)
-  - [FromTask](#fromtask)
+  - [FromIO](#fromio-1)
+  - [FromTask](#fromtask-1)
   - [Functor](#functor-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
@@ -56,22 +57,6 @@ Added in v3.0.0
   - [TaskThese (interface)](#taskthese-interface)
 
 ---
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-Equivalent to [`right`](#right).
-
-**Signature**
-
-```ts
-export declare const of: <A, E>(a: A) => TaskThese<E, A>
-```
-
-Added in v3.0.0
 
 # Bifunctor
 
@@ -99,6 +84,30 @@ export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: TaskThese<E, A>
 
 Added in v3.0.0
 
+# FromIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A, E>(fa: IO<A>) => TaskThese<E, A>
+```
+
+Added in v3.0.0
+
+# FromTask
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <A, E>(fa: T.Task<A>) => TaskThese<E, A>
+```
+
+Added in v3.0.0
+
 # Functor
 
 ## map
@@ -114,24 +123,14 @@ export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => 
 
 Added in v3.0.0
 
-# MonadIO
+# Pointed
 
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A, E>(fa: IO<A>) => TaskThese<E, A>
-```
-
-Added in v3.0.0
-
-## fromTask
+## of
 
 **Signature**
 
 ```ts
-export declare const fromTask: <A, E>(fa: T.Task<A>) => TaskThese<E, A>
+export declare const of: <A, E>(a: A) => TaskThese<E, A>
 ```
 
 Added in v3.0.0

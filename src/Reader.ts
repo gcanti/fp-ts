@@ -86,9 +86,7 @@ export const apW: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) =
 export const ap: Apply2<URI>['ap'] = apW
 
 /**
- * Wrap a value into the type constructor.
- *
- * @category Applicative
+ * @category Pointed
  * @since 3.0.0
  */
 export const of: Pointed2<URI>['of'] = constant
@@ -315,7 +313,7 @@ export const bindW: <N extends string, A, R2, B>(
 ) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence S
+// sequence S
 // -------------------------------------------------------------------------------------
 
 /**
@@ -343,7 +341,7 @@ export const apSW: <A, N extends string, R2, B>(
 ) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence T
+// sequence T
 // -------------------------------------------------------------------------------------
 
 /**
@@ -379,6 +377,7 @@ export const apTW: <R2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
  * @since 3.0.0
  */
@@ -387,7 +386,7 @@ export const traverseArrayWithIndex: <R, A, B>(
 ) => (arr: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>> = (f) => (arr) => (r) => arr.map((x, i) => f(i, x)(r))
 
 /**
- * this function have the same behavior of `A.traverse(R.reader)` but it's stack safe and optimized
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'
@@ -406,7 +405,7 @@ export const traverseArray: <R, A, B>(
 ) => (arr: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
- * this function have the same behavior of `A.sequence(R.reader)` but it's stack safe and optimized
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'

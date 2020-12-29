@@ -12,14 +12,14 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
+- [Pointed](#pointed)
+  - [of](#of)
 - [constructors](#constructors)
   - [get](#get)
   - [gets](#gets)
@@ -31,11 +31,11 @@ Added in v3.0.0
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
 - [instances](#instances)
-  - [Applicative](#applicative-1)
+  - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [model](#model)
@@ -53,20 +53,6 @@ Added in v3.0.0
   - [tupled](#tupled)
 
 ---
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-**Signature**
-
-```ts
-export declare const of: <A, E>(a: A) => State<E, A>
-```
-
-Added in v3.0.0
 
 # Apply
 
@@ -107,6 +93,18 @@ Composes computations in sequence, using the return value of one computation to 
 
 ```ts
 export declare const chain: <A, E, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, B>
+```
+
+Added in v3.0.0
+
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A, E>(a: A) => State<E, A>
 ```
 
 Added in v3.0.0
@@ -354,7 +352,7 @@ Added in v3.0.0
 
 ## evaluate
 
-Run a computation in the `State` monad, discarding the final state
+Run a computation in the `State` monad, discarding the final state.
 
 **Signature**
 
@@ -366,7 +364,7 @@ Added in v3.0.0
 
 ## execute
 
-Run a computation in the `State` monad discarding the result
+Run a computation in the `State` monad discarding the result.
 
 **Signature**
 
@@ -378,7 +376,7 @@ Added in v3.0.0
 
 ## sequenceArray
 
-This function has the same behavior of `A.sequence(S.State)` but it's stack safe and optimized
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
@@ -403,7 +401,7 @@ Added in v3.0.0
 
 ## traverseArray
 
-This function has the same behavior of `A.traverse(S.State)` but it's stack safe and optimized
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
@@ -427,6 +425,8 @@ assert.deepStrictEqual(pipe(arr, traverseArray(add))(0), [arr, arr.reduce((p, c)
 Added in v3.0.0
 
 ## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 

@@ -28,8 +28,6 @@ Added in v3.0.0
   - [altW](#altw)
 - [Alternative](#alternative)
   - [zero](#zero)
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
 - [Compactable](#compactable)
@@ -50,6 +48,8 @@ Added in v3.0.0
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
+- [Pointed](#pointed)
+  - [of](#of)
 - [Traversable](#traversable)
   - [sequence](#sequence)
   - [traverse](#traverse)
@@ -58,7 +58,6 @@ Added in v3.0.0
   - [wither](#wither)
 - [combinators](#combinators)
   - [chainNullableK](#chainnullablek)
-  - [duplicate](#duplicate)
   - [fromNullableK](#fromnullablek)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
@@ -73,6 +72,7 @@ Added in v3.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [duplicate](#duplicate)
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [fold](#fold)
@@ -86,7 +86,7 @@ Added in v3.0.0
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Alternative](#alternative-1)
-  - [Applicative](#applicative-1)
+  - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Compactable](#compactable-1)
   - [Extend](#extend-1)
@@ -94,7 +94,7 @@ Added in v3.0.0
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [Traversable](#traversable-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -187,20 +187,6 @@ Added in v3.0.0
 
 ```ts
 export declare const zero: <A>() => Option<A>
-```
-
-Added in v3.0.0
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => Option<A>
 ```
 
 Added in v3.0.0
@@ -358,6 +344,18 @@ export declare const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) =>
 
 Added in v3.0.0
 
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => Option<A>
+```
+
+Added in v3.0.0
+
 # Traversable
 
 ## sequence
@@ -453,18 +451,6 @@ assert.deepStrictEqual(
   ),
   none
 )
-```
-
-Added in v3.0.0
-
-## duplicate
-
-Derivable from `Extend`.
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(ma: Option<A>) => Option<Option<A>>
 ```
 
 Added in v3.0.0
@@ -701,6 +687,18 @@ Derivable from `Monad`.
 
 ```ts
 export declare const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A>
+```
+
+Added in v3.0.0
+
+## duplicate
+
+Derivable from `Extend`.
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(ma: Option<A>) => Option<Option<A>>
 ```
 
 Added in v3.0.0
@@ -1449,9 +1447,7 @@ Added in v3.0.0
 
 ## sequenceArray
 
-get an array of option and convert it to option of array
-
-this function have the same behavior of `A.sequence(O.option)` but it's optimized and perform better
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
@@ -1475,9 +1471,7 @@ Added in v3.0.0
 
 ## traverseArray
 
-Runs an action for every element in array and accumulates the results in option
-
-this function have the same behavior of `A.sequence(O.option)` but it's optimized and perform better
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
@@ -1500,6 +1494,8 @@ assert.deepStrictEqual(pipe(arr, traverseArray(fromPredicate((x) => x > 5))), no
 Added in v3.0.0
 
 ## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 

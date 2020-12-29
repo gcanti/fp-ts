@@ -138,6 +138,7 @@ export const swap =
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
  *
+ * @category combinators
  * @since 3.0.0
  */
 export const filterOrElseW: {
@@ -235,11 +236,7 @@ export const apW: <E2, A>(
 ) => <E1, B>(fab: IOEither<E1, (a: A) => B>) => IOEither<E1 | E2, B> = ap as any
 
 /**
- * Wrap a value into the type constructor.
- *
- * Equivalent to [`right`](#right).
- *
- * @category Applicative
+ * @category Pointed
  * @since 3.0.0
  */
 export const of: Pointed2<URI>['of'] = right
@@ -654,7 +651,7 @@ export const bindW: <N extends string, A, E2, B>(
 ) => <E1>(fa: IOEither<E1, A>) => IOEither<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence S
+// sequence S
 // -------------------------------------------------------------------------------------
 
 /**
@@ -675,7 +672,7 @@ export const apSW: <A, N extends string, E2, B>(
 ) => <E1>(fa: IOEither<E1, A>) => IOEither<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence T
+// sequence T
 // -------------------------------------------------------------------------------------
 
 /**
@@ -711,6 +708,8 @@ export const apTW: <E2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+ *
  * @since 3.0.0
  */
 export const traverseArrayWithIndex: <A, E, B>(
@@ -719,6 +718,8 @@ export const traverseArrayWithIndex: <A, E, B>(
   flow(I.traverseArrayWithIndex(f), I.map(E.sequenceArray))
 
 /**
+ * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
+ *
  * @since 3.0.0
  */
 export const traverseArray: <A, E, B>(
@@ -726,6 +727,7 @@ export const traverseArray: <A, E, B>(
 ) => (arr: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
+ * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
  *
  * @since 3.0.0
  */
@@ -734,6 +736,8 @@ export const sequenceArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEith
   traverseArray(identity)
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+ *
  * @since 3.0.0
  */
 export const traverseSeqArrayWithIndex: <A, E, B>(
@@ -752,6 +756,8 @@ export const traverseSeqArrayWithIndex: <A, E, B>(
 }
 
 /**
+ * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+ *
  * @since 3.0.0
  */
 export const traverseSeqArray: <A, E, B>(
@@ -759,6 +765,8 @@ export const traverseSeqArray: <A, E, B>(
 ) => (arr: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) => traverseSeqArrayWithIndex((_, a) => f(a))
 
 /**
+ * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
+ *
  * @since 3.0.0
  */
 export const sequenceSeqArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEither<E, ReadonlyArray<A>> =

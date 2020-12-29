@@ -164,6 +164,7 @@ export const chainEitherK: <E, A, B>(
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
  *
+ * @category combinators
  * @since 3.0.0
  */
 export const filterOrElseW: {
@@ -242,11 +243,7 @@ export const apW: <R2, E2, A>(
 ) => <R1, E1, B>(fab: ReaderEither<R1, E1, (a: A) => B>) => ReaderEither<R1 & R2, E1 | E2, B> = ap as any
 
 /**
- * Wrap a value into the type constructor.
- *
- * Equivalent to [`right`](#right).
- *
- * @category Applicative
+ * @category Pointed
  * @since 3.0.0
  */
 export const of: Pointed3<URI>['of'] = right
@@ -566,7 +563,7 @@ export const bindW: <N extends string, A, R2, E2, B>(
 ) => ReaderEither<R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence S
+// sequence S
 // -------------------------------------------------------------------------------------
 
 /**
@@ -589,7 +586,7 @@ export const apSW: <A, N extends string, R2, E2, B>(
 ) => ReaderEither<R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence T
+// sequence T
 // -------------------------------------------------------------------------------------
 
 /**
@@ -627,6 +624,8 @@ export const apTW: <R2, E2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
  * @since 3.0.0
  */
 export const traverseArrayWithIndex: <R, E, A, B>(
@@ -635,6 +634,8 @@ export const traverseArrayWithIndex: <R, E, A, B>(
   flow(R.traverseArrayWithIndex(f), R.map(E.sequenceArray))
 
 /**
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ *
  * @since 3.0.0
  */
 export const traverseArray: <R, E, A, B>(
@@ -642,6 +643,8 @@ export const traverseArray: <R, E, A, B>(
 ) => (arr: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
+ *
  * @since 3.0.0
  */
 export const sequenceArray: <R, E, A>(

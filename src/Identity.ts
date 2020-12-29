@@ -48,9 +48,7 @@ export const map: Functor1<URI>['map'] = (f) => (fa) => f(fa)
 export const ap: Apply1<URI>['ap'] = (fa) => (fab) => fab(fa)
 
 /**
- * Wrap a value into the type constructor.
- *
- * @category Applicative
+ * @category Pointed
  * @since 3.0.0
  */
 export const of: Pointed1<URI>['of'] = id
@@ -78,7 +76,7 @@ export const extract: Comonad1<URI>['extract'] = id
 /**
  * Derivable from `Extend`.
  *
- * @category combinators
+ * @category derivable combinators
  * @since 3.0.0
  */
 export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> =
@@ -335,7 +333,7 @@ export const bind =
   bind_(Monad)
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence S
+// sequence S
 // -------------------------------------------------------------------------------------
 
 /**
@@ -346,7 +344,7 @@ export const apS =
   apS_(Applicative)
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence T
+// sequence T
 // -------------------------------------------------------------------------------------
 
 /**

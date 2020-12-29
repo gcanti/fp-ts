@@ -392,6 +392,7 @@ export const orElse = <E1, E2, A>(onLeft: (e: E1) => Either<E2, A>) => (ma: Eith
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
  *
+ * @category combinators
  * @since 3.0.0
  */
 export const filterOrElseW: {
@@ -490,16 +491,7 @@ export const apW: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) =
 export const ap: Apply2<URI>['ap'] = apW
 
 /**
- * Wrap a value into the type constructor.
- *
- * Equivalent to [`right`](#right).
- *
- * @example
- * import * as E from 'fp-ts/Either'
- *
- * assert.deepStrictEqual(E.of('a'), E.right('a'))
- *
- * @category Applicative
+ * @category Pointed
  * @since 3.0.0
  */
 export const of: Pointed2<URI>['of'] = right
@@ -568,7 +560,7 @@ export const extend: Extend2<URI>['extend'] = (f) => (wa) => (isLeft(wa) ? wa : 
 /**
  * Derivable from `Extend`.
  *
- * @category combinators
+ * @category derivable combinators
  * @since 3.0.0
  */
 export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> =
@@ -1180,7 +1172,7 @@ export const bindW: <N extends string, A, E2, B>(
 ) => <E1>(fa: Either<E1, A>) => Either<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence S
+// sequence S
 // -------------------------------------------------------------------------------------
 
 /**
@@ -1201,7 +1193,7 @@ export const apSW: <A, N extends string, E2, B>(
 ) => <E1>(fa: Either<E1, A>) => Either<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence T
+// sequence T
 // -------------------------------------------------------------------------------------
 
 /**
@@ -1237,6 +1229,7 @@ export const apTW: <E2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
  * @since 3.0.0
  */
@@ -1256,12 +1249,9 @@ export const traverseArrayWithIndex = <E, A, B>(f: (index: number, a: A) => Eith
 }
 
 /**
- * map an array using provided function to Either then transform to Either of the array
- * this function have the same behavior of `A.traverse(E.either)` but it's optimized and perform better
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
  * @example
- *
- *
  * import * as E from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
  * import * as A from 'fp-ts/ReadonlyArray'
@@ -1289,11 +1279,10 @@ export const traverseArrayWithIndex = <E, A, B>(f: (index: number, a: A) => Eith
  */
 export const traverseArray: <E, A, B>(
   f: (a: A) => Either<E, B>
-) => (arr: ReadonlyArray<A>) => Either<E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => Either<E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
- * convert an array of either to an either of array
- * this function have the same behavior of `A.sequence(E.either)` but it's optimized and perform better
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
  * @example
  *

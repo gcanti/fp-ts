@@ -28,8 +28,9 @@ Added in v3.0.0
 - [Semigroupoid](#semigroupoid)
   - [compose](#compose)
 - [combinators](#combinators)
-  - [duplicate](#duplicate)
   - [swap](#swap)
+- [derivable combinators](#derivable-combinators)
+  - [duplicate](#duplicate)
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [Comonad](#comonad)
@@ -168,6 +169,18 @@ Added in v3.0.0
 
 # combinators
 
+## swap
+
+**Signature**
+
+```ts
+export declare const swap: <A, E>(t: ReadonlyTuple2<E, A>) => ReadonlyTuple2<A, E>
+```
+
+Added in v3.0.0
+
+# derivable combinators
+
 ## duplicate
 
 Derivable from `Extend`.
@@ -176,16 +189,6 @@ Derivable from `Extend`.
 
 ```ts
 export declare const duplicate: <E, A>(t: ReadonlyTuple2<E, A>) => ReadonlyTuple2<E, ReadonlyTuple2<E, A>>
-```
-
-Added in v3.0.0
-
-## swap
-
-**Signature**
-
-```ts
-export declare const swap: <A, E>(t: ReadonlyTuple2<E, A>) => ReadonlyTuple2<A, E>
 ```
 
 Added in v3.0.0

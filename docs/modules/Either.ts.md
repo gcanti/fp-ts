@@ -27,8 +27,6 @@ Added in v3.0.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apW](#apw)
@@ -46,14 +44,16 @@ Added in v3.0.0
 - [Monad](#monad)
   - [chain](#chain)
   - [chainW](#chainw)
+- [Pointed](#pointed)
+  - [of](#of)
 - [Traversable](#traversable)
   - [sequence](#sequence)
   - [traverse](#traverse)
 - [combinators](#combinators)
   - [chainFirstW](#chainfirstw)
   - [chainNullableK](#chainnullablek)
-  - [duplicate](#duplicate)
   - [filterOrElse](#filterorelse)
+  - [filterOrElseW](#filterorelsew)
   - [fromNullableK](#fromnullablek)
   - [orElse](#orelse)
   - [swap](#swap)
@@ -70,6 +70,7 @@ Added in v3.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [duplicate](#duplicate)
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [fold](#fold)
@@ -80,7 +81,7 @@ Added in v3.0.0
   - [isRight](#isright)
 - [instances](#instances)
   - [Alt](#alt-1)
-  - [Applicative](#applicative-1)
+  - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
   - [Extend](#extend-1)
@@ -88,7 +89,7 @@ Added in v3.0.0
   - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [Traversable](#traversable-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -123,7 +124,6 @@ Added in v3.0.0
   - [bindW](#bindw)
   - [elem](#elem)
   - [exists](#exists)
-  - [filterOrElseW](#filterorelsew)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -156,30 +156,6 @@ Less strict version of [`alt`](#alt).
 export declare const altW: <E2, B>(
   second: Lazy<Either<E2, B>>
 ) => <E1, A>(first: Either<E1, A>) => Either<E2 | E1, B | A>
-```
-
-Added in v3.0.0
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-Equivalent to [`right`](#right).
-
-**Signature**
-
-```ts
-export declare const of: <A, E>(a: A) => Either<E, A>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-
-assert.deepStrictEqual(E.of('a'), E.right('a'))
 ```
 
 Added in v3.0.0
@@ -369,6 +345,18 @@ export declare const chainW: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: 
 
 Added in v3.0.0
 
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A, E>(a: A) => Either<E, A>
+```
+
+Added in v3.0.0
+
 # Traversable
 
 ## sequence
@@ -448,18 +436,6 @@ export declare const chainNullableK: <E>(
 
 Added in v3.0.0
 
-## duplicate
-
-Derivable from `Extend`.
-
-**Signature**
-
-```ts
-export declare const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>>
-```
-
-Added in v3.0.0
-
 ## filterOrElse
 
 **Signature**
@@ -507,6 +483,23 @@ assert.deepStrictEqual(
   ),
   E.left('a')
 )
+```
+
+Added in v3.0.0
+
+## filterOrElseW
+
+Less strict version of [`filterOrElse`](#filterOrElse).
+
+**Signature**
+
+```ts
+export declare const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
+    ma: Either<E1, A>
+  ) => Either<E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: Either<E1, A>) => Either<E2 | E1, A>
+}
 ```
 
 Added in v3.0.0
@@ -797,6 +790,18 @@ Derivable from `Monad`.
 
 ```ts
 export declare const chainFirst: <A, E, B>(f: (a: A) => Either<E, B>) => (first: Either<E, A>) => Either<E, A>
+```
+
+Added in v3.0.0
+
+## duplicate
+
+Derivable from `Extend`.
+
+**Signature**
+
+```ts
+export declare const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>>
 ```
 
 Added in v3.0.0
@@ -1438,27 +1443,9 @@ assert.strictEqual(f(E.right(3)), true)
 
 Added in v3.0.0
 
-## filterOrElseW
-
-Less strict version of [`filterOrElse`](#filterOrElse).
-
-**Signature**
-
-```ts
-export declare const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
-    ma: Either<E1, A>
-  ) => Either<E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: Either<E1, A>) => Either<E2 | E1, A>
-}
-```
-
-Added in v3.0.0
-
 ## sequenceArray
 
-convert an array of either to an either of array
-this function have the same behavior of `A.sequence(E.either)` but it's optimized and perform better
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
@@ -1482,15 +1469,14 @@ Added in v3.0.0
 
 ## traverseArray
 
-map an array using provided function to Either then transform to Either of the array
-this function have the same behavior of `A.traverse(E.either)` but it's optimized and perform better
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
 ```ts
 export declare const traverseArray: <E, A, B>(
   f: (a: A) => Either<E, B>
-) => (arr: readonly A[]) => Either<E, readonly B[]>
+) => (as: readonly A[]) => Either<E, readonly B[]>
 ```
 
 **Example**
@@ -1508,6 +1494,8 @@ assert.deepStrictEqual(pipe(arr, E.traverseArray(E.fromPredicate((x) => x > 5)))
 Added in v3.0.0
 
 ## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 

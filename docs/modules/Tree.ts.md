@@ -18,8 +18,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
 - [Extend](#extend)
@@ -34,8 +32,8 @@ Added in v3.0.0
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
-- [combinators](#combinators)
-  - [duplicate](#duplicate)
+- [Pointed](#pointed)
+  - [of](#of)
 - [constructors](#constructors)
   - [make](#make)
   - [unfoldForest](#unfoldforest)
@@ -44,17 +42,18 @@ Added in v3.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [duplicate](#duplicate)
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [fold](#fold)
 - [instances](#instances)
-  - [Applicative](#applicative-1)
+  - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Comonad](#comonad)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [Traversable](#traversable)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -78,20 +77,6 @@ Added in v3.0.0
   - [tupled](#tupled)
 
 ---
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => Tree<A>
-```
-
-Added in v3.0.0
 
 # Apply
 
@@ -192,16 +177,14 @@ export declare const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tre
 
 Added in v3.0.0
 
-# combinators
+# Pointed
 
-## duplicate
-
-Derivable from `Extend`.
+## of
 
 **Signature**
 
 ```ts
-export declare const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>>
+export declare const of: <A>(a: A) => Tree<A>
 ```
 
 Added in v3.0.0
@@ -283,6 +266,18 @@ Derivable from `Monad`.
 
 ```ts
 export declare const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (first: Tree<A>) => Tree<A>
+```
+
+Added in v3.0.0
+
+## duplicate
+
+Derivable from `Extend`.
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>>
 ```
 
 Added in v3.0.0

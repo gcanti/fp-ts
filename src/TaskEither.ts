@@ -200,6 +200,7 @@ export const swap =
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
  *
+ * @category combinators
  * @since 3.0.0
  */
 export const filterOrElseW: {
@@ -281,6 +282,10 @@ export const chainIOEitherKW: <A, E2, B>(
 export const chainIOEitherK: <E, A, B>(
   f: (a: A) => IOEither<E, B>
 ) => (ma: TaskEither<E, A>) => TaskEither<E, B> = chainIOEitherKW
+
+// -------------------------------------------------------------------------------------
+// type class members
+// -------------------------------------------------------------------------------------
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -367,7 +372,7 @@ export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
- * In case of `TaskEither` returns `fa` if is a `Right` or the value returned by `that` otherwise.
+ * In case of `TaskEither` returns `first` if it is a `Right` or the value returned by `second` otherwise.
  *
  * See also [orElse](#orElse).
  *
@@ -420,23 +425,19 @@ export const altW: <E2, B>(
 ) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E1 | E2, A | B> = alt as any
 
 /**
- * Wrap a value into the type constructor.
- *
- * Equivalent to [`right`](#right).
- *
- * @category Applicative
+ * @category Pointed
  * @since 3.0.0
  */
 export const of: Pointed2<URI>['of'] = right
 
 /**
- * @category MonadIO
+ * @category FromIO
  * @since 3.0.0
  */
 export const fromIO: FromIO2<URI>['fromIO'] = rightIO
 
 /**
- * @category MonadTask
+ * @category FromTask
  * @since 3.0.0
  */
 export const fromTask: FromTask2<URI>['fromTask'] = rightTask
@@ -864,7 +865,7 @@ export const bindW: <N extends string, A, E2, B>(
 ) => TaskEither<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence S
+// sequence S
 // -------------------------------------------------------------------------------------
 
 /**
@@ -887,7 +888,7 @@ export const apSW: <A, N extends string, E2, B>(
 ) => TaskEither<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence T
+// sequence T
 // -------------------------------------------------------------------------------------
 
 /**
@@ -925,6 +926,8 @@ export const apTW: <E2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+ *
  * @since 3.0.0
  */
 export const traverseArrayWithIndex: <A, B, E>(
@@ -933,9 +936,7 @@ export const traverseArrayWithIndex: <A, B, E>(
   pipe(arr, T.traverseArrayWithIndex(f), T.map(E.sequenceArray))
 
 /**
- * this function have the same behavior of `A.traverse(taskEither)` but it's stack safe and perform better
- *
- * *this function run all tasks in parallel and does not bail out, for sequential version use `traverseSeqArray`*
+ * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
  *
  * @example
  *
@@ -973,12 +974,9 @@ export const traverseArray: <A, B, E>(
 ) => (arr: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
- * this function have the same behavior of `A.sequence(taskEither)` but it's stack safe and perform better
- *
- * *this function run all tasks in parallel and does not bail out, for sequential version use `sequenceSeqArray`*
+ * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
  *
  * @example
- *
  * import * as TE from 'fp-ts/TaskEither'
  * import * as A from 'fp-ts/ReadonlyArray'
  * import { right } from 'fp-ts/Either'
@@ -1013,6 +1011,8 @@ export const sequenceArray: <A, E>(arr: ReadonlyArray<TaskEither<E, A>>) => Task
   traverseArray(identity)
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+ *
  * @since 3.0.0
  */
 export const traverseSeqArrayWithIndex: <A, B, E>(
@@ -1031,9 +1031,7 @@ export const traverseSeqArrayWithIndex: <A, B, E>(
 }
 
 /**
- * this function have the same behavior of `A.traverse(taskEitherSeq)` but it's stack safe and perform better
- *
- * *this function run all tasks in sequential order and bails out on left side of either, for parallel version use `traverseArray`*
+ * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
  *
  * @since 3.0.0
  */
@@ -1042,9 +1040,7 @@ export const traverseSeqArray: <A, B, E>(
 ) => (arr: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => traverseSeqArrayWithIndex((_, a) => f(a))
 
 /**
- * this function have the same behavior of `A.sequence(taskEitherSeq)` but it's stack safe and perform better
- *
- * *this function run all tasks in sequential order and bails out on left side of either, for parallel version use `sequenceArray`*
+ * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
  *
  * @since 3.0.0
  */

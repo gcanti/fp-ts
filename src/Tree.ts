@@ -220,7 +220,7 @@ export const extend: Extend1<URI>['extend'] = (f) => (wa) => ({
 /**
  * Derivable from `Extend`.
  *
- * @category combinators
+ * @category derivable combinators
  * @since 3.0.0
  */
 export const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>> =
@@ -314,9 +314,7 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(
 ): (<A>(ta: Tree<HKT<F, A>>) => HKT<F, Tree<A>>) => traverse(F)(identity)
 
 /**
- * Wrap a value into the type constructor.
- *
- * @category Applicative
+ * @category Pointed
  * @since 3.0.0
  */
 export const of: Pointed1<URI>['of'] = (a) => ({
@@ -493,7 +491,7 @@ export const bind =
   bind_(Monad)
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence S
+// sequence S
 // -------------------------------------------------------------------------------------
 
 /**
@@ -504,7 +502,7 @@ export const apS =
   apS_(Applicative)
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence T
+// sequence T
 // -------------------------------------------------------------------------------------
 
 /**

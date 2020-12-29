@@ -15,8 +15,6 @@ Added in v3.0.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apW](#apw)
@@ -28,11 +26,14 @@ Added in v3.0.0
 - [Monad](#monad)
   - [chain](#chain)
   - [chainW](#chainw)
+- [Pointed](#pointed)
+  - [of](#of)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirstW](#chainfirstw)
   - [filterOrElse](#filterorelse)
+  - [filterOrElseW](#filterorelsew)
   - [fromEitherK](#fromeitherk)
   - [orElse](#orelse)
   - [swap](#swap)
@@ -57,13 +58,13 @@ Added in v3.0.0
   - [getOrElseW](#getorelsew)
 - [instances](#instances)
   - [Alt](#alt-1)
-  - [Applicative](#applicative-1)
+  - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getAltReaderValidation](#getaltreadervalidation)
@@ -83,7 +84,6 @@ Added in v3.0.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
-  - [filterOrElseW](#filterorelsew)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -118,22 +118,6 @@ Less strict version of [`alt`](#alt).
 export declare const altW: <R2, E2, B>(
   second: () => ReaderEither<R2, E2, B>
 ) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B | A>
-```
-
-Added in v3.0.0
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-Equivalent to [`right`](#right).
-
-**Signature**
-
-```ts
-export declare const of: <A, R, E>(a: A) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -242,6 +226,18 @@ export declare const chainW: <A, R2, E2, B>(
 
 Added in v3.0.0
 
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A, R, E>(a: A) => ReaderEither<R, E, A>
+```
+
+Added in v3.0.0
+
 # combinators
 
 ## chainEitherK
@@ -294,6 +290,25 @@ export declare const filterOrElse: {
     ma: ReaderEither<R, E, A>
   ) => ReaderEither<R, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+}
+```
+
+Added in v3.0.0
+
+## filterOrElseW
+
+Less strict version of [`filterOrElse`](#filterOrElse).
+
+**Signature**
+
+```ts
+export declare const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
+    ma: ReaderEither<R, E1, A>
+  ) => ReaderEither<R, E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1>(
+    ma: ReaderEither<R, E1, A>
+  ) => ReaderEither<R, E2 | E1, A>
 }
 ```
 
@@ -826,26 +841,9 @@ export declare const bindW: <N extends string, A, R2, E2, B>(
 
 Added in v3.0.0
 
-## filterOrElseW
-
-Less strict version of [`filterOrElse`](#filterOrElse).
-
-**Signature**
-
-```ts
-export declare const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
-    ma: ReaderEither<R, E1, A>
-  ) => ReaderEither<R, E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1>(
-    ma: ReaderEither<R, E1, A>
-  ) => ReaderEither<R, E2 | E1, A>
-}
-```
-
-Added in v3.0.0
-
 ## sequenceArray
+
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
@@ -856,6 +854,8 @@ export declare const sequenceArray: <R, E, A>(arr: readonly ReaderEither<R, E, A
 Added in v3.0.0
 
 ## traverseArray
+
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
@@ -868,6 +868,8 @@ export declare const traverseArray: <R, E, A, B>(
 Added in v3.0.0
 
 ## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 

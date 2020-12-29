@@ -17,8 +17,6 @@ Added in v3.0.0
   - [altW](#altw)
 - [Alternative](#alternative)
   - [zero](#zero)
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
 - [Compactable](#compactable)
@@ -50,6 +48,8 @@ Added in v3.0.0
   - [mapWithIndex](#mapwithindex)
 - [Monad](#monad)
   - [chain](#chain)
+- [Pointed](#pointed)
+  - [of](#of)
 - [Traversable](#traversable)
   - [sequence](#sequence)
   - [traverse](#traverse)
@@ -66,7 +66,6 @@ Added in v3.0.0
   - [dropLeft](#dropleft)
   - [dropLeftWhile](#dropleftwhile)
   - [dropRight](#dropright)
-  - [duplicate](#duplicate)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
   - [prependToAll](#prependtoall)
@@ -94,6 +93,7 @@ Added in v3.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [duplicate](#duplicate)
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [foldLeft](#foldleft)
@@ -103,7 +103,7 @@ Added in v3.0.0
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Alternative](#alternative-1)
-  - [Applicative](#applicative-1)
+  - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Compactable](#compactable-1)
   - [Extend](#extend-1)
@@ -114,7 +114,7 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [Traversable](#traversable-1)
   - [TraversableWithIndex](#traversablewithindex-1)
   - [URI](#uri)
@@ -200,20 +200,6 @@ Added in v3.0.0
 
 ```ts
 export declare const zero: <A>() => readonly A[]
-```
-
-Added in v3.0.0
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -461,6 +447,18 @@ export declare const chain: <A, B>(f: (a: A) => readonly B[]) => (ma: readonly A
 
 Added in v3.0.0
 
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => readonly A[]
+```
+
+Added in v3.0.0
+
 # Traversable
 
 ## sequence
@@ -647,18 +645,6 @@ export declare const dropRight: (n: number) => <A>(as: readonly A[]) => readonly
 import { dropRight } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(dropRight(2)([1, 2, 3, 4, 5]), [1, 2, 3])
-```
-
-Added in v3.0.0
-
-## duplicate
-
-Derivable from `Extend`.
-
-**Signature**
-
-```ts
-export declare const duplicate: <A>(wa: readonly A[]) => readonly (readonly A[])[]
 ```
 
 Added in v3.0.0
@@ -1249,6 +1235,18 @@ Derivable from `Monad`.
 
 ```ts
 export declare const chainFirst: <A, B>(f: (a: A) => readonly B[]) => (first: readonly A[]) => readonly A[]
+```
+
+Added in v3.0.0
+
+## duplicate
+
+Derivable from `Extend`.
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(wa: readonly A[]) => readonly (readonly A[])[]
 ```
 
 Added in v3.0.0

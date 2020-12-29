@@ -218,6 +218,7 @@ export const swap =
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
  *
+ * @category combinators
  * @since 3.0.0
  */
 export const filterOrElseW: {
@@ -374,11 +375,7 @@ export const apW: <R2, E2, A>(
 ) => <R1, E1, B>(fab: ReaderTaskEither<R1, E1, (a: A) => B>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = ap as any
 
 /**
- * Wrap a value into the type constructor.
- *
- * Equivalent to [`right`](#right).
- *
- * @category Applicative
+ * @category Pointed
  * @since 3.0.0
  */
 export const of: Pointed3<URI>['of'] = right
@@ -441,7 +438,7 @@ export const altW: <R2, E2, B>(
 export const fromIO: FromIO3<URI>['fromIO'] = rightIO
 
 /**
- * @category MonadTask
+ * @category FromTask
  * @since 3.0.0
  */
 export const fromTask: FromTask3<URI>['fromTask'] = rightTask
@@ -777,7 +774,7 @@ export const bindW: <N extends string, A, R2, E2, B>(
 ) => ReaderTaskEither<R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence S
+// sequence S
 // -------------------------------------------------------------------------------------
 
 /**
@@ -800,7 +797,7 @@ export const apSW: <A, N extends string, R2, E2, B>(
 ) => ReaderTaskEither<R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence T
+// sequence T
 // -------------------------------------------------------------------------------------
 
 /**
@@ -838,6 +835,8 @@ export const apTW: <R2, E2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+ *
  * @since 3.0.0
  */
 export const traverseArrayWithIndex: <R, E, A, B>(
@@ -846,6 +845,8 @@ export const traverseArrayWithIndex: <R, E, A, B>(
   Promise.all(arr.map((x, i) => f(i, x)(r)())).then(E.sequenceArray)
 
 /**
+ * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
+ *
  * @since 3.0.0
  */
 export const traverseArray: <R, E, A, B>(
@@ -853,6 +854,8 @@ export const traverseArray: <R, E, A, B>(
 ) => (arr: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
+ * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
+ *
  * @since 3.0.0
  */
 export const sequenceArray: <R, E, A>(
@@ -862,6 +865,8 @@ export const sequenceArray: <R, E, A>(
   traverseArray(identity)
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+ *
  * @since 3.0.0
  */
 export const traverseSeqArrayWithIndex: <R, E, A, B>(
@@ -881,6 +886,8 @@ export const traverseSeqArrayWithIndex: <R, E, A, B>(
 }
 
 /**
+ * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+ *
  * @since 3.0.0
  */
 export const traverseSeqArray: <R, E, A, B>(
@@ -889,6 +896,8 @@ export const traverseSeqArray: <R, E, A, B>(
   traverseSeqArrayWithIndex((_, a) => f(a))
 
 /**
+ * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
+ *
  * @since 3.0.0
  */
 export const sequenceSeqArray: <R, E, A>(

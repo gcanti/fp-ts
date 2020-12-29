@@ -1192,9 +1192,7 @@ export const difference = <A>(E: Eq<A>): ((ys: ReadonlyArray<A>) => (xs: Readonl
 }
 
 /**
- * Wrap a value into the type constructor.
- *
- * @category Applicative
+ * @category Pointed
  * @since 3.0.0
  */
 export const of: Pointed1<URI>['of'] = (a) => [a]
@@ -1446,7 +1444,7 @@ export const extend: Extend1<URI>['extend'] = (f) => (wa) => wa.map((_, i, as) =
 /**
  * Derivable from `Extend`.
  *
- * @category combinators
+ * @category derivable combinators
  * @since 3.0.0
  */
 export const duplicate: <A>(wa: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>> =
@@ -2010,7 +2008,7 @@ export const bind =
   bind_(Monad)
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence S
+// sequence S
 // -------------------------------------------------------------------------------------
 
 /**
@@ -2021,7 +2019,7 @@ export const apS =
   apS_(Applicative)
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence T
+// sequence T
 // -------------------------------------------------------------------------------------
 
 /**

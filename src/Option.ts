@@ -431,9 +431,7 @@ export const ap: Apply1<URI>['ap'] = (fa) => (fab) =>
   isNone(fab) ? none : isNone(fa) ? none : some(fab.value(fa.value))
 
 /**
- * Wrap a value into the type constructor.
- *
- * @category Applicative
+ * @category Pointed
  * @since 3.0.0
  */
 export const of: Pointed1<URI>['of'] = some
@@ -510,7 +508,7 @@ export const extend: Extend1<URI>['extend'] = (f) => (wa) => (isNone(wa) ? none 
 /**
  * Derivable from `Extend`.
  *
- * @category combinators
+ * @category derivable combinators
  * @since 3.0.0
  */
 export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> =
@@ -1109,7 +1107,7 @@ export const bind =
   bind_(Monad)
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence S
+// sequence S
 // -------------------------------------------------------------------------------------
 
 /**
@@ -1120,7 +1118,7 @@ export const apS =
   apS_(Applicative)
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence T
+// sequence T
 // -------------------------------------------------------------------------------------
 
 /**
@@ -1147,6 +1145,7 @@ export const apT =
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
  * @since 3.0.0
  */
@@ -1166,9 +1165,7 @@ export const traverseArrayWithIndex = <A, B>(f: (index: number, a: A) => Option<
 }
 
 /**
- * Runs an action for every element in array and accumulates the results in option
- *
- * this function have the same behavior of `A.sequence(O.option)` but it's optimized and perform better
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
  * @example
  *
@@ -1187,9 +1184,7 @@ export const traverseArray: <A, B>(f: (a: A) => Option<B>) => (arr: ReadonlyArra
 ) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
- * get an array of option and convert it to option of array
- *
- * this function have the same behavior of `A.sequence(O.option)` but it's optimized and perform better
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
  * @example
  *

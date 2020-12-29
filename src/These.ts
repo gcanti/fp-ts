@@ -335,7 +335,7 @@ export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) =>
 }
 
 /**
- * @category Applicative
+ * @category Pointed
  * @since 3.0.0
  */
 export const of: Pointed2<URI>['of'] = right

@@ -12,8 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apW](#apw)
@@ -24,6 +22,8 @@ Added in v3.0.0
 - [Monad](#monad)
   - [chain](#chain)
   - [chainW](#chainw)
+- [Pointed](#pointed)
+  - [of](#of)
 - [combinators](#combinators)
   - [chainIOK](#chainiok)
   - [chainTaskK](#chaintaskk)
@@ -47,7 +47,7 @@ Added in v3.0.0
   - [FromIO](#fromio-1)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
@@ -70,20 +70,6 @@ Added in v3.0.0
   - [tupled](#tupled)
 
 ---
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-**Signature**
-
-```ts
-export declare const of: <A, E>(a: A) => ReaderTask<E, A>
-```
-
-Added in v3.0.0
 
 # Apply
 
@@ -164,6 +150,18 @@ Less strict version of [`chain`](#chain).
 export declare const chainW: <A, R2, B>(
   f: (a: A) => ReaderTask<R2, B>
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
+```
+
+Added in v3.0.0
+
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A, E>(a: A) => ReaderTask<E, A>
 ```
 
 Added in v3.0.0
@@ -565,6 +563,8 @@ Added in v3.0.0
 
 ## sequenceArray
 
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
+
 **Signature**
 
 ```ts
@@ -574,6 +574,8 @@ export declare const sequenceArray: <R, A>(arr: readonly ReaderTask<R, A>[]) => 
 Added in v3.0.0
 
 ## traverseArray
+
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
@@ -586,6 +588,8 @@ export declare const traverseArray: <R, A, B>(
 Added in v3.0.0
 
 ## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 

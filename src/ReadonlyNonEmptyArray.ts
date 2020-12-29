@@ -445,9 +445,7 @@ export const alt: Alt1<URI>['alt'] = RA.alt as any
 export const ap: Apply1<URI>['ap'] = RA.ap as any
 
 /**
- * Wrap a value into the type constructor.
- *
- * @category Applicative
+ * @category Pointed
  * @since 3.0.0
  */
 export const of: Pointed1<URI>['of'] = RA.of as any
@@ -463,7 +461,7 @@ export const chain: Monad1<URI>['chain'] = RA.chain as any
 /**
  * Derivable from `Extend`.
  *
- * @category combinators
+ * @category derivable combinators
  * @since 3.0.0
  */
 export const duplicate: <A>(
@@ -776,7 +774,7 @@ export const bind =
   bind_(Monad)
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence S
+// sequence S
 // -------------------------------------------------------------------------------------
 
 /**
@@ -787,7 +785,7 @@ export const apS =
   apS_(Applicative)
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence T
+// sequence T
 // -------------------------------------------------------------------------------------
 
 /**

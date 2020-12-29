@@ -138,9 +138,7 @@ export const apW: <R2, A>(
 ) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B> = ap as any
 
 /**
- * Wrap a value into the type constructor.
- *
- * @category Applicative
+ * @category Pointed
  * @since 3.0.0
  */
 export const of: Pointed2<URI>['of'] =
@@ -382,7 +380,7 @@ export const bindW: <N extends string, A, R2, B>(
 ) => ReaderTask<R1 & R2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence S
+// sequence S
 // -------------------------------------------------------------------------------------
 
 /**
@@ -405,7 +403,7 @@ export const apSW: <A, N extends string, R2, B>(
 ) => ReaderTask<R1 & R2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence T
+// sequence T
 // -------------------------------------------------------------------------------------
 
 /**
@@ -443,6 +441,8 @@ export const apTW: <R2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
  * @since 3.0.0
  */
 export const traverseArrayWithIndex: <R, A, B>(
@@ -451,6 +451,8 @@ export const traverseArrayWithIndex: <R, A, B>(
   flow(R.traverseArrayWithIndex(f), R.map(T.sequenceArray))
 
 /**
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ *
  * @since 3.0.0
  */
 export const traverseArray: <R, A, B>(
@@ -458,6 +460,8 @@ export const traverseArray: <R, A, B>(
 ) => (arr: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
+ *
  * @since 3.0.0
  */
 export const sequenceArray: <R, A>(arr: ReadonlyArray<ReaderTask<R, A>>) => ReaderTask<R, ReadonlyArray<A>> =

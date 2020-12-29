@@ -1,11 +1,12 @@
 /**
+ * `Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
+ *
  * ```ts
  * interface Task<A> {
  *   (): Promise<A>
  * }
  * ```
  *
- * `Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
  * If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
  *
  * @since 3.0.0
@@ -33,16 +34,6 @@ import { Semigroup } from './Semigroup'
 export interface Task<A> {
   (): Promise<A>
 }
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
-
-/**
- * @category FromIO
- * @since 3.0.0
- */
-export const fromIO: FromIO1<URI>['fromIO'] = (ma) => () => Promise.resolve(ma())
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -95,6 +86,10 @@ export const fromIOK = <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<
  */
 export const chainIOK = <A, B>(f: (a: A) => IO<B>): ((ma: Task<A>) => Task<B>) => chain(fromIOK(f))
 
+// -------------------------------------------------------------------------------------
+// type class members
+// -------------------------------------------------------------------------------------
+
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
@@ -113,9 +108,7 @@ export const map: Functor1<URI>['map'] = (f) => (fa) => () => fa().then(f)
 export const ap: Apply1<URI>['ap'] = (fa) => (fab) => () => Promise.all([fab(), fa()]).then(([f, a]) => f(a))
 
 /**
- * Wrap a value into the type constructor.
- *
- * @category Applicative
+ * @category Pointed
  * @since 3.0.0
  */
 export const of: Pointed1<URI>['of'] = (a) => () => Promise.resolve(a)
@@ -139,7 +132,13 @@ export const flatten: <A>(mma: Task<Task<A>>) => Task<A> =
   chain(identity)
 
 /**
- * @category MonadTask
+ * @category FromIO
+ * @since 3.0.0
+ */
+export const fromIO: FromIO1<URI>['fromIO'] = (ma) => () => Promise.resolve(ma())
+
+/**
+ * @category FromTask
  * @since 3.0.0
  */
 export const fromTask: FromTask1<URI>['fromTask'] = identity
@@ -394,7 +393,7 @@ export const bind =
   bind_(Monad)
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence S
+// sequence S
 // -------------------------------------------------------------------------------------
 
 /**
@@ -405,7 +404,7 @@ export const apS =
   apS_(ApplicativePar)
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence T
+// sequence T
 // -------------------------------------------------------------------------------------
 
 /**
@@ -432,6 +431,8 @@ export const apT =
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+ *
  * @since 3.0.0
  */
 export const traverseArrayWithIndex: <A, B>(
@@ -439,11 +440,7 @@ export const traverseArrayWithIndex: <A, B>(
 ) => (arr: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (f) => (arr) => () => Promise.all(arr.map((x, i) => f(i, x)()))
 
 /**
- * this function map array to task using provided function and transform it to a task of array.
- *
- * this function have the same behavior of `A.traverse(T.task)` but it's stack safe.
- *
- * > **This function run all task in parallel for sequential use `traverseSeqArray` **
+ * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
  *
  * @example
  * import { range } from 'fp-ts/ReadonlyArray'
@@ -462,11 +459,7 @@ export const traverseArray: <A, B>(f: (a: A) => Task<B>) => (arr: ReadonlyArray<
   traverseArrayWithIndex((_, a) => f(a))
 
 /**
- * this function works like `Promise.all` it will get an array of tasks and return a task of array.
- *
- * this function have the same behavior of `A.sequence(T.task)` but it's stack safe.
- *
- * > **This function run all task in parallel for sequential use `sequenceSeqArray` **
+ * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
  *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'
@@ -484,7 +477,10 @@ export const traverseArray: <A, B>(f: (a: A) => Task<B>) => (arr: ReadonlyArray<
  */
 export const sequenceArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> = (arr) => () =>
   Promise.all(arr.map((x) => x()))
+
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+ *
  * @since 3.0.0
  */
 export const traverseSeqArrayWithIndex: <A, B>(
@@ -500,12 +496,7 @@ export const traverseSeqArrayWithIndex: <A, B>(
 }
 
 /**
- * runs an action for every element in array then run task sequential, and accumulates the results in the array.
- *
- * this function have the same behavior of `A.traverse(T.taskSeq)` but it's stack safe.
- *
- * > **This function run all task sequentially for parallel use `traverseArray` **
- *
+ * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
  *
  * @since 3.0.0
  */
@@ -514,11 +505,7 @@ export const traverseSeqArray: <A, B>(f: (a: A) => Task<B>) => (arr: ReadonlyArr
 ) => traverseSeqArrayWithIndex((_, a) => f(a))
 
 /**
- * run tasks in array sequential and give a task of array
- *
- * this function have the same behavior of `A.sequence(T.taskSeq)` but it's stack safe.
- *
- * > **This function run all task sequentially for parallel use `sequenceArray` **
+ * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
  *
  * @since 3.0.0
  */

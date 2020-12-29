@@ -43,6 +43,7 @@ export const some: <A>(a: A) => TaskOption<A> =
   OT.some_(T.Pointed)
 
 /**
+ * @category Pointed
  * @since 3.0.0
  */
 export const of: Pointed1<URI>['of'] = some

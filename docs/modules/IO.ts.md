@@ -22,8 +22,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
 - [FromIO](#fromio)
@@ -32,18 +30,20 @@ Added in v3.0.0
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
+- [Pointed](#pointed)
+  - [of](#of)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
 - [instances](#instances)
-  - [Applicative](#applicative-1)
+  - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [FromIO](#fromio-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
@@ -63,20 +63,6 @@ Added in v3.0.0
   - [tupled](#tupled)
 
 ---
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => IO<A>
-```
-
-Added in v3.0.0
 
 # Apply
 
@@ -129,6 +115,18 @@ Composes computations in sequence, using the return value of one computation to 
 
 ```ts
 export declare const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B>
+```
+
+Added in v3.0.0
+
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => IO<A>
 ```
 
 Added in v3.0.0
@@ -376,9 +374,7 @@ Added in v3.0.0
 
 ## sequenceArray
 
-transform Array of IO to IO of Array
-
-this function have the same behavior of `A.sequence(IO.io)` but it's stack safe
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
@@ -406,9 +402,7 @@ Added in v3.0.0
 
 ## traverseArray
 
-runs an action for every element in array, and accumulates the results IO in the array.
-
-this function have the same behavior of `A.traverse(IO.io)` but it's stack safe
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
@@ -435,6 +429,8 @@ assert.deepStrictEqual(logger, RA.range(0, 100))
 Added in v3.0.0
 
 ## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 

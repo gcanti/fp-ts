@@ -308,6 +308,7 @@ export const chainReaderTaskEitherK: <R, E, A, B>(
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
  *
+ * @category combinators
  * @since 3.0.0
  */
 export const filterOrElseW: {
@@ -335,6 +336,10 @@ export const filterOrElse: {
     ma: StateReaderTaskEither<S, R, E, A>
   ) => StateReaderTaskEither<S, R, E, A>
 } = filterOrElseW
+
+// -------------------------------------------------------------------------------------
+// type class members
+// -------------------------------------------------------------------------------------
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -390,9 +395,7 @@ export const apW: <S, R2, E2, A>(
 ) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> = ap as any
 
 /**
- * Wrap a value into the type constructor.
- *
- * @category Applicative
+ * @category Pointed
  * @since 3.0.0
  */
 export const of: Pointed4<URI>['of'] = right
@@ -459,7 +462,7 @@ export const alt: Alt4<URI>['alt'] = altW
 export const fromIO: FromIO4<URI>['fromIO'] = rightIO
 
 /**
- * @category MonadTask
+ * @category FromTask
  * @since 3.0.0
  */
 export const fromTask: FromTask4<URI>['fromTask'] = rightTask
@@ -707,7 +710,7 @@ export const bindW: <N extends string, A, S, R2, E2, B>(
 ) => StateReaderTaskEither<S, R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence S
+// sequence S
 // -------------------------------------------------------------------------------------
 
 /**
@@ -730,7 +733,7 @@ export const apSW: <A, N extends string, S, R2, E2, B>(
 ) => StateReaderTaskEither<S, R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence T
+// sequence T
 // -------------------------------------------------------------------------------------
 
 /**
@@ -763,6 +766,8 @@ export const apTW: <S, R2, E2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
  * @since 3.0.0
  */
 export const traverseArrayWithIndex: <S, R, E, A, B>(
@@ -786,6 +791,8 @@ export const traverseArrayWithIndex: <S, R, E, A, B>(
 }
 
 /**
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ *
  * @since 3.0.0
  */
 export const traverseArray: <S, R, E, A, B>(
@@ -794,6 +801,8 @@ export const traverseArray: <S, R, E, A, B>(
   traverseArrayWithIndex((_, a) => f(a))
 
 /**
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
+ *
  * @since 3.0.0
  */
 export const sequenceArray: <S, R, E, A>(

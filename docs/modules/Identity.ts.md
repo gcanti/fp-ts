@@ -15,8 +15,6 @@ Added in v3.0.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
 - [Extend](#extend)
@@ -31,22 +29,23 @@ Added in v3.0.0
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
-- [combinators](#combinators)
-  - [duplicate](#duplicate)
+- [Pointed](#pointed)
+  - [of](#of)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [duplicate](#duplicate)
   - [flatten](#flatten)
 - [instances](#instances)
   - [Alt](#alt-1)
-  - [Applicative](#applicative-1)
+  - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Comonad](#comonad)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [Traversable](#traversable)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -90,20 +89,6 @@ Less strict version of [`alt`](#alt).
 
 ```ts
 export declare const altW: <B>(second: () => B) => <A>(first: A) => B | A
-```
-
-Added in v3.0.0
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => A
 ```
 
 Added in v3.0.0
@@ -207,16 +192,14 @@ export declare const chain: <A, B>(f: (a: A) => B) => (ma: A) => B
 
 Added in v3.0.0
 
-# combinators
+# Pointed
 
-## duplicate
-
-Derivable from `Extend`.
+## of
 
 **Signature**
 
 ```ts
-export declare const duplicate: <A>(ma: A) => A
+export declare const of: <A>(a: A) => A
 ```
 
 Added in v3.0.0
@@ -262,6 +245,18 @@ Derivable from `Monad`.
 
 ```ts
 export declare const chainFirst: <A, B>(f: (a: A) => B) => (first: A) => A
+```
+
+Added in v3.0.0
+
+## duplicate
+
+Derivable from `Extend`.
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(ma: A) => A
 ```
 
 Added in v3.0.0

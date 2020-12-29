@@ -15,8 +15,6 @@ Added in v3.0.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apW](#apw)
@@ -25,13 +23,15 @@ Added in v3.0.0
   - [mapLeft](#mapleft)
 - [FromIO](#fromio)
   - [fromIO](#fromio)
+- [FromTask](#fromtask)
+  - [fromTask](#fromtask)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainW](#chainw)
-- [MonadTask](#monadtask)
-  - [fromTask](#fromtask)
+- [Pointed](#pointed)
+  - [of](#of)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
@@ -41,6 +41,7 @@ Added in v3.0.0
   - [chainTaskEitherK](#chaintaskeitherk)
   - [chainTaskEitherKW](#chaintaskeitherkw)
   - [filterOrElse](#filterorelse)
+  - [filterOrElseW](#filterorelsew)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
   - [fromTaskEitherK](#fromtaskeitherk)
@@ -83,10 +84,10 @@ Added in v3.0.0
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
   - [FromIO](#fromio-1)
-  - [FromTask](#fromtask)
+  - [FromTask](#fromtask-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getAltReaderTaskValidation](#getaltreadertaskvalidation)
@@ -107,7 +108,6 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
-  - [filterOrElseW](#filterorelsew)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
   - [traverseArray](#traversearray)
@@ -145,22 +145,6 @@ Less strict version of [`alt`](#alt).
 export declare const altW: <R2, E2, B>(
   second: () => ReaderTaskEither<R2, E2, B>
 ) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B | A>
-```
-
-Added in v3.0.0
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-Equivalent to [`right`](#right).
-
-**Signature**
-
-```ts
-export declare const of: <A, R, E>(a: A) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -238,6 +222,18 @@ export declare const fromIO: <A, R, E>(fa: IO<A>) => ReaderTaskEither<R, E, A>
 
 Added in v3.0.0
 
+# FromTask
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <A, R, E>(fa: T.Task<A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v3.0.0
+
 # Functor
 
 ## map
@@ -283,14 +279,14 @@ export declare const chainW: <A, R2, E2, B>(
 
 Added in v3.0.0
 
-# MonadTask
+# Pointed
 
-## fromTask
+## of
 
 **Signature**
 
 ```ts
-export declare const fromTask: <A, R, E>(fa: T.Task<A>) => ReaderTaskEither<R, E, A>
+export declare const of: <A, R, E>(a: A) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -399,6 +395,25 @@ export declare const filterOrElse: {
     ma: ReaderTaskEither<R, E, A>
   ) => ReaderTaskEither<R, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+}
+```
+
+Added in v3.0.0
+
+## filterOrElseW
+
+Less strict version of [`filterOrElse`](#filterOrElse).
+
+**Signature**
+
+```ts
+export declare const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
+    ma: ReaderTaskEither<R, E1, A>
+  ) => ReaderTaskEither<R, E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1>(
+    ma: ReaderTaskEither<R, E1, A>
+  ) => ReaderTaskEither<R, E2 | E1, A>
 }
 ```
 
@@ -1115,26 +1130,9 @@ export declare const bracket: <R, E, A, B>(
 
 Added in v3.0.0
 
-## filterOrElseW
-
-Less strict version of [`filterOrElse`](#filterOrElse).
-
-**Signature**
-
-```ts
-export declare const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
-    ma: ReaderTaskEither<R, E1, A>
-  ) => ReaderTaskEither<R, E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1>(
-    ma: ReaderTaskEither<R, E1, A>
-  ) => ReaderTaskEither<R, E2 | E1, A>
-}
-```
-
-Added in v3.0.0
-
 ## sequenceArray
+
+Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
 
 **Signature**
 
@@ -1148,6 +1146,8 @@ Added in v3.0.0
 
 ## sequenceSeqArray
 
+Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
+
 **Signature**
 
 ```ts
@@ -1159,6 +1159,8 @@ export declare const sequenceSeqArray: <R, E, A>(
 Added in v3.0.0
 
 ## traverseArray
+
+Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
 
 **Signature**
 
@@ -1172,6 +1174,8 @@ Added in v3.0.0
 
 ## traverseArrayWithIndex
 
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+
 **Signature**
 
 ```ts
@@ -1184,6 +1188,8 @@ Added in v3.0.0
 
 ## traverseSeqArray
 
+Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+
 **Signature**
 
 ```ts
@@ -1195,6 +1201,8 @@ export declare const traverseSeqArray: <R, E, A, B>(
 Added in v3.0.0
 
 ## traverseSeqArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
 
 **Signature**
 

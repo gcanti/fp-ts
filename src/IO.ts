@@ -55,9 +55,7 @@ export const map: Functor1<URI>['map'] = (f) => (fa) => () => f(fa())
 export const ap: Apply1<URI>['ap'] = (fa) => (fab) => () => fab()(fa())
 
 /**
- * Wrap a value into the type constructor.
- *
- * @category Applicative
+ * @category Pointed
  * @since 3.0.0
  */
 export const of: Pointed1<URI>['of'] = constant
@@ -252,7 +250,7 @@ export const bind =
   bind_(Monad)
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence S
+// sequence S
 // -------------------------------------------------------------------------------------
 
 /**
@@ -263,7 +261,7 @@ export const apS =
   apS_(Applicative)
 
 // -------------------------------------------------------------------------------------
-// pipeable sequence T
+// sequence T
 // -------------------------------------------------------------------------------------
 
 /**
@@ -290,6 +288,8 @@ export const apT =
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
  * @since 3.0.0
  */
 export const traverseArrayWithIndex: <A, B>(
@@ -297,9 +297,7 @@ export const traverseArrayWithIndex: <A, B>(
 ) => (arr: ReadonlyArray<A>) => IO<ReadonlyArray<B>> = (f) => (arr) => () => arr.map((a, i) => f(i, a)())
 
 /**
- * runs an action for every element in array, and accumulates the results IO in the array.
- *
- * this function have the same behavior of `A.traverse(IO.io)` but it's stack safe
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'
@@ -318,9 +316,7 @@ export const traverseArray: <A, B>(f: (a: A) => IO<B>) => (arr: ReadonlyArray<A>
   traverseArrayWithIndex((_, a) => f(a))
 
 /**
- * transform Array of IO to IO of Array
- *
- * this function have the same behavior of `A.sequence(IO.io)` but it's stack safe
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'

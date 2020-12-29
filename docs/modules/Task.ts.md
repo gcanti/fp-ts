@@ -6,13 +6,14 @@ parent: Modules
 
 ## Task overview
 
+`Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
+
 ```ts
 interface Task<A> {
   (): Promise<A>
 }
 ```
 
-`Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
 If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
 
 Added in v3.0.0
@@ -21,18 +22,18 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
 - [FromIO](#fromio)
   - [fromIO](#fromio)
+- [FromTask](#fromtask)
+  - [fromTask](#fromtask)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
-- [MonadTask](#monadtask)
-  - [fromTask](#fromtask)
+- [Pointed](#pointed)
+  - [of](#of)
 - [combinators](#combinators)
   - [chainIOK](#chainiok)
   - [delay](#delay)
@@ -48,10 +49,10 @@ Added in v3.0.0
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
   - [FromIO](#fromio-1)
-  - [FromTask](#fromtask)
+  - [FromTask](#fromtask-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
@@ -77,20 +78,6 @@ Added in v3.0.0
 
 ---
 
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => Task<A>
-```
-
-Added in v3.0.0
-
 # Apply
 
 ## ap
@@ -113,6 +100,18 @@ Added in v3.0.0
 
 ```ts
 export declare const fromIO: <A>(fa: IO<A>) => Task<A>
+```
+
+Added in v3.0.0
+
+# FromTask
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <A>(fa: Task<A>) => Task<A>
 ```
 
 Added in v3.0.0
@@ -146,14 +145,14 @@ export declare const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Tas
 
 Added in v3.0.0
 
-# MonadTask
+# Pointed
 
-## fromTask
+## of
 
 **Signature**
 
 ```ts
-export declare const fromTask: <A>(fa: Task<A>) => Task<A>
+export declare const of: <A>(a: A) => Task<A>
 ```
 
 Added in v3.0.0
@@ -551,11 +550,7 @@ Added in v3.0.0
 
 ## sequenceArray
 
-this function works like `Promise.all` it will get an array of tasks and return a task of array.
-
-this function have the same behavior of `A.sequence(T.task)` but it's stack safe.
-
-> **This function run all task in parallel for sequential use `sequenceSeqArray` **
+Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
 
 **Signature**
 
@@ -582,11 +577,7 @@ Added in v3.0.0
 
 ## sequenceSeqArray
 
-run tasks in array sequential and give a task of array
-
-this function have the same behavior of `A.sequence(T.taskSeq)` but it's stack safe.
-
-> **This function run all task sequentially for parallel use `sequenceArray` **
+Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
 
 **Signature**
 
@@ -598,11 +589,7 @@ Added in v3.0.0
 
 ## traverseArray
 
-this function map array to task using provided function and transform it to a task of array.
-
-this function have the same behavior of `A.traverse(T.task)` but it's stack safe.
-
-> **This function run all task in parallel for sequential use `traverseSeqArray` **
+Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
 
 **Signature**
 
@@ -628,6 +615,8 @@ Added in v3.0.0
 
 ## traverseArrayWithIndex
 
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+
 **Signature**
 
 ```ts
@@ -640,11 +629,7 @@ Added in v3.0.0
 
 ## traverseSeqArray
 
-runs an action for every element in array then run task sequential, and accumulates the results in the array.
-
-this function have the same behavior of `A.traverse(T.taskSeq)` but it's stack safe.
-
-> **This function run all task sequentially for parallel use `traverseArray` **
+Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
 
 **Signature**
 
@@ -655,6 +640,8 @@ export declare const traverseSeqArray: <A, B>(f: (a: A) => Task<B>) => (arr: rea
 Added in v3.0.0
 
 ## traverseSeqArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
 
 **Signature**
 

@@ -31,6 +31,8 @@ Added in v3.0.0
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
+- [Pointed](#pointed)
+  - [of](#of)
 - [combinators](#combinators)
   - [fromOptionK](#fromoptionk)
 - [constructors](#constructors)
@@ -57,7 +59,7 @@ Added in v3.0.0
   - [FromTask](#fromtask)
   - [Funtor](#funtor)
   - [Monad](#monad-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [URI (type alias)](#uri-type-alias)
 - [model](#model)
   - [TaskOption (interface)](#taskoption-interface)
@@ -69,7 +71,6 @@ Added in v3.0.0
   - [fromPredicate](#frompredicate)
   - [fromTask](#fromtask)
   - [none](#none)
-  - [of](#of)
   - [some](#some)
 
 ---
@@ -211,6 +212,18 @@ Added in v3.0.0
 
 ```ts
 export declare const chain: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -560,16 +573,6 @@ Added in v3.0.0
 
 ```ts
 export declare const none: TaskOption<never>
-```
-
-Added in v3.0.0
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => TaskOption<A>
 ```
 
 Added in v3.0.0

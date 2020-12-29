@@ -17,8 +17,6 @@ Added in v3.0.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
 - [Extend](#extend)
@@ -37,8 +35,9 @@ Added in v3.0.0
   - [mapWithIndex](#mapwithindex)
 - [Monad](#monad)
   - [chain](#chain)
+- [Pointed](#pointed)
+  - [of](#of)
 - [combinators](#combinators)
-  - [duplicate](#duplicate)
   - [group](#group)
   - [groupSort](#groupsort)
   - [intersperse](#intersperse)
@@ -57,6 +56,7 @@ Added in v3.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [duplicate](#duplicate)
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [head](#head)
@@ -67,7 +67,7 @@ Added in v3.0.0
   - [unsnoc](#unsnoc)
 - [instances](#instances)
   - [Alt](#alt-1)
-  - [Applicative](#applicative-1)
+  - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Comonad](#comonad)
   - [Foldable](#foldable-1)
@@ -75,7 +75,7 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [Traversable](#traversable)
   - [TraversableWithIndex](#traversablewithindex)
   - [URI](#uri)
@@ -136,20 +136,6 @@ Less strict version of [`alt`](#alt).
 export declare const altW: <B>(
   second: Lazy<ReadonlyNonEmptyArray<B>>
 ) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B | A>
-```
-
-Added in v3.0.0
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v3.0.0
@@ -299,19 +285,19 @@ export declare const chain: <A, B>(
 
 Added in v3.0.0
 
-# combinators
+# Pointed
 
-## duplicate
-
-Derivable from `Extend`.
+## of
 
 **Signature**
 
 ```ts
-export declare const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+export declare const of: <A>(a: A) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v3.0.0
+
+# combinators
 
 ## group
 
@@ -594,6 +580,18 @@ Derivable from `Monad`.
 export declare const chainFirst: <A, B>(
   f: (a: A) => ReadonlyNonEmptyArray<B>
 ) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v3.0.0
+
+## duplicate
+
+Derivable from `Extend`.
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v3.0.0
