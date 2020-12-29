@@ -7,7 +7,6 @@ nav_order: 3
 # Migrate from PureScript/Haskell
 
 This guide shows you how to use `fp-ts` concepts if you have prior experience with [PureScript](http://www.purescript.org/) or [Haskell](https://www.haskell.org/).
-{: .fs-6 .fw-300 }
 
 ---
 
@@ -26,17 +25,18 @@ do
 TypeScript
 
 ```ts
-import { pipe } from 'fp-ts/lib/pipeable'
-import * as T from 'fp-ts/lib/Task'
+import { pipe } from 'fp-ts/function'
+import * as T from 'fp-ts/Task'
 
-declare function print(s: string): T.Task<void>
+declare const print: (s: string) => T.Task<void>
 declare const readLine: T.Task<string>
 
 pipe(
-  print('foo'),
-  T.chain((_) => print('bar')),
-  T.chain((_) => readLine),
-  T.chain(print)
+  T.Do,
+  T.chainFirst(() => print('foo')),
+  T.chainFirst(() => print('bar')),
+  T.bind('x', () => readLine),
+  T.chain(({ x }) => print(x))
 )
 ```
 
@@ -87,7 +87,7 @@ export const URI = 'Option'
 
 export type URI = typeof URI
 
-declare module 'fp-ts/lib/HKT' {
+declare module 'fp-ts/HKT' {
   interface URItoKind<A> {
     readonly [URI]: Option<A>
   }
@@ -123,12 +123,12 @@ TypeScript
 
 ```ts
 // here TypeScript also provides exhaustiveness check
-const maybe = <A, B>(whenNone: () => B, whenSome: (a: A) => B) => (fa: Option<A>): B => {
+const maybe = <A, B>(onNone: () => B, onSome: (a: A) => B) => (fa: Option<A>): B => {
   switch (fa._tag) {
     case 'None':
-      return whenNone()
+      return onNone()
     case 'Some':
-      return whenSome(fa.value)
+      return onSome(fa.value)
   }
 }
 ```
@@ -176,8 +176,8 @@ instance functorOption :: Functor Option where
 TypeScript
 
 ```ts
-import { Functor1 } from 'fp-ts/lib/Functor'
-import { pipe } from 'fp-ts/lib/pipeable'
+import { Functor1 } from 'fp-ts/Functor'
+import { pipe } from 'fp-ts/function'
 
 const functorOption: Functor1<URI> = {
   URI,
@@ -209,8 +209,8 @@ instance monoidOption :: Semigroup a => Monoid (Option a) where
 TypeScript
 
 ```ts
-import { Semigroup } from 'fp-ts/lib/Semigroup'
-import { Monoid } from 'fp-ts/lib/Monoid'
+import { Semigroup } from 'fp-ts/Semigroup'
+import { Monoid } from 'fp-ts/Monoid'
 
 //                    ↓ the constraint is implemented as an additional parameter
 function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>> {
@@ -234,29 +234,15 @@ function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>> {
 A few options:
 
 ```ts
-import { sequenceS, sequenceT } from 'fp-ts/lib/Apply'
-import * as O from 'fp-ts/lib/Option'
-import { pipe } from 'fp-ts/lib/pipeable'
+import * as T from 'fp-ts/Task'
+import { pipe } from 'fp-ts/function'
 
-const fa = O.some(1)
-const fb = O.some('foo')
-const f = (a: number) => (b: string): boolean => a + b.length > 2
+declare const fa: T.Task<number>
+declare const fb: T.Task<string>
+declare const f: (a: number) => (b: string) => boolean
 
-// 1)
-const fc1 = pipe(O.some(f), O.ap(fa), O.ap(fb))
+const result1 = pipe(fa, T.map(f), T.ap(fb))
 
-// 2)
-const fc2 = pipe(fa, O.map(f), O.ap(fb))
-
-// 3)
-const fc3 = pipe(
-  sequenceT(O.option)(fa, fb),
-  O.map(([a, b]) => f(a)(b))
-)
-
-// 4)
-const fc4 = pipe(
-  sequenceS(O.option)({ fa, fb }),
-  O.map(({ fa: a, fb: b }) => f(a)(b))
-)
+// ..or..
+const result2 = pipe(T.of(f), T.ap(fa), T.ap(fb))
 ```
