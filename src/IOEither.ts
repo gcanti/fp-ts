@@ -807,6 +807,6 @@ export const traverseSeqArray: <A, E, B>(
 /**
  * @since 2.9.0
  */
-export const sequenceSeqArray: <E, A>(
-  arr: ReadonlyArray<IOEither<E, A>>
-) => IOEither<E, ReadonlyArray<A>> = traverseSeqArray(identity)
+export const sequenceSeqArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEither<E, ReadonlyArray<A>> =
+  /*#__PURE__*/
+  traverseSeqArray(identity)
