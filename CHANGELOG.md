@@ -222,7 +222,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `difference` pipeable (@gcanti)
     - remove `fromSet` (@gcanti)
     - remove `toSet` (@gcanti)
-  - `ReadonlyTuple`
+  - `ReadonlyTuple2`
     - remove `getChain` (@gcanti)
     - remove `readonlyTuple` (@gcanti)
   - `Ring`

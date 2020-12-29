@@ -30,9 +30,6 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [duplicate](#duplicate)
   - [swap](#swap)
-- [destructors](#destructors)
-  - [fst](#fst)
-  - [snd](#snd)
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [Comonad](#comonad)
@@ -47,7 +44,10 @@ Added in v3.0.0
   - [getMonad](#getmonad)
   - [getPointed](#getpointed)
 - [utils](#utils)
+  - [ReadonlyTuple2 (type alias)](#readonlytuple2-type-alias)
+  - [fst](#fst)
   - [sequence](#sequence)
+  - [snd](#snd)
   - [traverse](#traverse)
 
 ---
@@ -61,7 +61,10 @@ Map a pair of functions over the two type arguments of the bifunctor.
 **Signature**
 
 ```ts
-export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: readonly [A, E]) => readonly [B, G]
+export declare const bimap: <E, G, A, B>(
+  f: (e: E) => G,
+  g: (a: A) => B
+) => (fea: ReadonlyTuple2<E, A>) => ReadonlyTuple2<G, B>
 ```
 
 Added in v3.0.0
@@ -73,7 +76,7 @@ Map a function over the first type argument of a bifunctor.
 **Signature**
 
 ```ts
-export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: readonly [A, E]) => readonly [A, G]
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: ReadonlyTuple2<E, A>) => ReadonlyTuple2<G, A>
 ```
 
 Added in v3.0.0
@@ -85,7 +88,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const extend: <E, A, B>(f: (wa: readonly [A, E]) => B) => (wa: readonly [A, E]) => readonly [B, E]
+export declare const extend: <E, A, B>(
+  f: (wa: ReadonlyTuple2<E, A>) => B
+) => (wa: ReadonlyTuple2<E, A>) => ReadonlyTuple2<E, B>
 ```
 
 Added in v3.0.0
@@ -97,7 +102,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const extract: <E, A>(wa: readonly [A, E]) => A
+export declare const extract: <E, A>(wa: ReadonlyTuple2<E, A>) => A
 ```
 
 Added in v3.0.0
@@ -109,7 +114,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: readonly [A, E]) => M
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: ReadonlyTuple2<E, A>) => M
 ```
 
 Added in v3.0.0
@@ -119,7 +124,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: readonly [A, E]) => B
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: ReadonlyTuple2<E, A>) => B
 ```
 
 Added in v3.0.0
@@ -129,7 +134,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: readonly [A, E]) => B
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: ReadonlyTuple2<E, A>) => B
 ```
 
 Added in v3.0.0
@@ -144,7 +149,7 @@ use the type constructor `F` to represent some computational context.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly [B, E]
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: ReadonlyTuple2<E, A>) => ReadonlyTuple2<E, B>
 ```
 
 Added in v3.0.0
@@ -156,7 +161,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compose: <A, B>(ab: readonly [B, A]) => <C>(bc: readonly [C, B]) => readonly [C, A]
+export declare const compose: <A, B>(ab: ReadonlyTuple2<A, B>) => <C>(bc: ReadonlyTuple2<B, C>) => ReadonlyTuple2<A, C>
 ```
 
 Added in v3.0.0
@@ -170,7 +175,7 @@ Derivable from `Extend`.
 **Signature**
 
 ```ts
-export declare const duplicate: <E, A>(wa: readonly [A, E]) => readonly [readonly [A, E], E]
+export declare const duplicate: <E, A>(t: ReadonlyTuple2<E, A>) => ReadonlyTuple2<E, ReadonlyTuple2<E, A>>
 ```
 
 Added in v3.0.0
@@ -180,29 +185,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <A, E>(ea: readonly [A, E]) => readonly [E, A]
-```
-
-Added in v3.0.0
-
-# destructors
-
-## fst
-
-**Signature**
-
-```ts
-export declare const fst: <A, E>(ea: readonly [A, E]) => A
-```
-
-Added in v3.0.0
-
-## snd
-
-**Signature**
-
-```ts
-export declare const snd: <A, E>(ea: readonly [A, E]) => E
+export declare const swap: <A, E>(t: ReadonlyTuple2<E, A>) => ReadonlyTuple2<A, E>
 ```
 
 Added in v3.0.0
@@ -331,12 +314,42 @@ Added in v3.0.0
 
 # utils
 
+## ReadonlyTuple2 (type alias)
+
+**Signature**
+
+```ts
+export type ReadonlyTuple2<E, A> = readonly [A, E]
+```
+
+Added in v3.0.0
+
+## fst
+
+**Signature**
+
+```ts
+export declare const fst: <A, E>(t: ReadonlyTuple2<E, A>) => A
+```
+
+Added in v3.0.0
+
 ## sequence
 
 **Signature**
 
 ```ts
 export declare const sequence: Sequence2<'ReadonlyTuple'>
+```
+
+Added in v3.0.0
+
+## snd
+
+**Signature**
+
+```ts
+export declare const snd: <A, E>(t: ReadonlyTuple2<E, A>) => E
 ```
 
 Added in v3.0.0

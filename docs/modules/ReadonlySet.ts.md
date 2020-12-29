@@ -82,8 +82,8 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function filter<A, B extends A>(refinement: Refinement<A, B>): (set: ReadonlySet<A>) => ReadonlySet<B>
-export declare function filter<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => ReadonlySet<A>
+export declare function filter<A, B extends A>(refinement: Refinement<A, B>): (s: ReadonlySet<A>) => ReadonlySet<B>
+export declare function filter<A>(predicate: Predicate<A>): (s: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
 Added in v3.0.0
@@ -105,10 +105,10 @@ Added in v3.0.0
 ```ts
 export declare function partition<A, B extends A>(
   refinement: Refinement<A, B>
-): (set: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<B>>
+): (s: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<B>>
 export declare function partition<A>(
   predicate: Predicate<A>
-): (set: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<A>>
+): (s: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<A>>
 ```
 
 Added in v3.0.0
@@ -121,7 +121,7 @@ Added in v3.0.0
 export declare const partitionMap: <B, C>(
   EB: Eq<B>,
   EC: Eq<C>
-) => <A>(f: (a: A) => Either<B, C>) => (set: ReadonlySet<A>) => Separated<ReadonlySet<B>, ReadonlySet<C>>
+) => <A>(f: (a: A) => Either<B, C>) => (s: ReadonlySet<A>) => Separated<ReadonlySet<B>, ReadonlySet<C>>
 ```
 
 Added in v3.0.0
@@ -135,7 +135,7 @@ Projects a `ReadonlySet` through a function.
 **Signature**
 
 ```ts
-export declare const map: <B>(E: Eq<B>) => <A>(f: (x: A) => B) => (set: ReadonlySet<A>) => ReadonlySet<B>
+export declare const map: <B>(E: Eq<B>) => <A>(f: (x: A) => B) => (s: ReadonlySet<A>) => ReadonlySet<B>
 ```
 
 Added in v3.0.0
@@ -147,7 +147,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chain: <B>(E: Eq<B>) => <A>(f: (x: A) => ReadonlySet<B>) => (set: ReadonlySet<A>) => ReadonlySet<B>
+export declare const chain: <B>(E: Eq<B>) => <A>(f: (x: A) => ReadonlySet<B>) => (s: ReadonlySet<A>) => ReadonlySet<B>
 ```
 
 Added in v3.0.0
@@ -183,7 +183,7 @@ Insert a value into a `ReadonlySet`.
 **Signature**
 
 ```ts
-export declare const insert: <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
+export declare const insert: <A>(E: Eq<A>) => (a: A) => (s: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
 Added in v3.0.0
@@ -209,7 +209,7 @@ Delete a value from a `ReadonlySet`.
 **Signature**
 
 ```ts
-export declare const remove: <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
+export declare const remove: <A>(E: Eq<A>) => (a: A) => (s: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
 Added in v3.0.0
@@ -303,7 +303,7 @@ Tests whether a value is a member of a `ReadonlySet`.
 **Signature**
 
 ```ts
-export declare const elem: <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>) => boolean
+export declare const elem: <A>(E: Eq<A>) => (a: A) => (s: ReadonlySet<A>) => boolean
 ```
 
 Added in v3.0.0
@@ -325,7 +325,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const every: <A>(predicate: Predicate<A>) => (set: ReadonlySet<A>) => boolean
+export declare const every: <A>(predicate: Predicate<A>) => (s: ReadonlySet<A>) => boolean
 ```
 
 Added in v3.0.0
@@ -367,7 +367,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const some: <A>(predicate: Predicate<A>) => (set: ReadonlySet<A>) => boolean
+export declare const some: <A>(predicate: Predicate<A>) => (s: ReadonlySet<A>) => boolean
 ```
 
 Added in v3.0.0
@@ -377,7 +377,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toReadonlyArray: <A>(O: Ord<A>) => (set: ReadonlySet<A>) => readonly A[]
+export declare const toReadonlyArray: <A>(O: Ord<A>) => (s: ReadonlySet<A>) => readonly A[]
 ```
 
 Added in v3.0.0

@@ -4,8 +4,14 @@ import { monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
 import * as _ from '../src/ReadonlyTuple2'
 
-describe('ReadonlyTuple', () => {
-  describe('pipeables', () => {
+describe('ReadonlyTuple2', () => {
+  describe('combinators', () => {
+    it('swap', () => {
+      assert.deepStrictEqual(_.swap([1, 'a']), ['a', 1])
+    })
+  })
+
+  describe('type class members', () => {
     it('compose', () => {
       assert.deepStrictEqual(pipe([true, 2] as const, _.compose([1, 'a'])), [true, 'a'])
     })
@@ -76,29 +82,23 @@ describe('ReadonlyTuple', () => {
     })
   })
 
-  it('swap', () => {
-    assert.deepStrictEqual(_.swap([1, 'a']), ['a', 1])
-  })
+  describe('instances', () => {
+    it('getApplicative', () => {
+      const A = _.getApplicative(monoidString)
+      const double = (n: number): number => n * 2
+      assert.deepStrictEqual(A.of(1), [1, ''])
+      assert.deepStrictEqual(pipe([double, 'a'] as const, A.ap([1, 'b'])), [2, 'ab'])
+    })
 
-  it('getApply', () => {
-    const A = _.getApply(monoidString)
-    const double = (n: number): number => n * 2
-    assert.deepStrictEqual(pipe([double, 'a'] as const, A.ap([1, 'b'])), [2, 'ab'])
-  })
-
-  it('getApplicative', () => {
-    const applicative = _.getApplicative(monoidString)
-    assert.deepStrictEqual(applicative.of(1), [1, ''])
-  })
-
-  it('getMonad', () => {
-    const M = _.getMonad(monoidString)
-    assert.deepStrictEqual(
-      pipe(
-        [1, 'a'] as const,
-        M.chain((a) => [a * 2, 'b'])
-      ),
-      [2, 'ab']
-    )
+    it('getMonad', () => {
+      const M = _.getMonad(monoidString)
+      assert.deepStrictEqual(
+        pipe(
+          [1, 'a'] as const,
+          M.chain((a) => [a * 2, 'b'])
+        ),
+        [2, 'ab']
+      )
+    })
   })
 })
