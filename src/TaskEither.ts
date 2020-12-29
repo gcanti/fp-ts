@@ -117,18 +117,17 @@ export const fromEither: FromEither2<URI>['fromEither'] =
  * import { left, right } from 'fp-ts/Either'
  * import { tryCatch } from 'fp-ts/TaskEither'
  *
- * tryCatch(() => Promise.resolve(1), String)().then(result => {
+ * tryCatch(() => Promise.resolve(1))().then(result => {
  *   assert.deepStrictEqual(result, right(1))
  * })
- * tryCatch(() => Promise.reject('error'), String)().then(result => {
+ * tryCatch(() => Promise.reject('error'))().then(result => {
  *   assert.deepStrictEqual(result, left('error'))
  * })
  *
  * @category constructors
  * @since 3.0.0
  */
-export const tryCatch = <A, E>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> => () =>
-  f().then(E.right, (reason) => E.left(onRejected(reason)))
+export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskEither<unknown, A> => () => f().then(E.right, E.left)
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -226,10 +225,9 @@ export const filterOrElse: {
  * @category combinators
  * @since 3.0.0
  */
-export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
-  f: (...a: A) => Promise<B>,
-  onRejected: (reason: unknown) => E
-): ((...a: A) => TaskEither<E, B>) => (...a) => tryCatch(() => f(...a), onRejected)
+export const tryCatchK = <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Promise<B>
+): ((...a: A) => TaskEither<unknown, B>) => (...a) => tryCatch(() => f(...a))
 
 /**
  * @category combinators

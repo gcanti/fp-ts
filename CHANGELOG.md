@@ -15,7 +15,7 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
-# 3.0.0-alpha.2
+# 3.0.0-alpha.3
 
 - **Breaking Change**
 
@@ -250,6 +250,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `taskEither` (@gcanti)
     - remove `taskEitherSeq` (@gcanti)
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
+    - remove `onRejected` parameter in `tryCatch` (@gcanti)
   - `TaskThese`
     - make `toTuple` lazy (@gcanti)
     - remove `taskThese` (@gcanti)

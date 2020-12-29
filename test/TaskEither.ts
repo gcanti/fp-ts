@@ -402,16 +402,15 @@ describe('TaskEither', () => {
   })
 
   describe('tryCatchK', () => {
-    const handleRejection = () => 'rejected'
-
     it('resolving', async () => {
-      const fOk = (n: number, s: string) => Promise.resolve(n + s.length)
-      return assert.deepStrictEqual(await _.tryCatchK(fOk, handleRejection)(2, '1')(), E.right(3))
+      return assert.deepStrictEqual(
+        await _.tryCatchK((n: number, s: string) => Promise.resolve(n + s.length))(2, '1')(),
+        E.right(3)
+      )
     })
 
     it('rejecting', async () => {
-      const fReject = () => Promise.reject()
-      return assert.deepStrictEqual(await _.tryCatchK(fReject, handleRejection)()(), E.left('rejected'))
+      return assert.deepStrictEqual(await _.tryCatchK(() => Promise.reject('rejected'))()(), E.left('rejected'))
     })
   })
 
@@ -430,20 +429,8 @@ describe('TaskEither', () => {
   })
 
   it('tryCatch', async () => {
-    assert.deepStrictEqual(
-      await _.tryCatch(
-        () => Promise.resolve(1),
-        () => 'error'
-      )(),
-      E.right(1)
-    )
-    assert.deepStrictEqual(
-      await _.tryCatch(
-        () => Promise.reject(undefined),
-        () => 'error'
-      )(),
-      E.left('error')
-    )
+    assert.deepStrictEqual(await _.tryCatch(() => Promise.resolve(1))(), E.right(1))
+    assert.deepStrictEqual(await _.tryCatch(() => Promise.reject('error'))(), E.left('error'))
   })
 
   it('fromIOEither', async () => {

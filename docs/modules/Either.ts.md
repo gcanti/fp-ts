@@ -727,23 +727,18 @@ export declare const tryCatch: <A>(f: Lazy<A>) => Either<unknown, A>
 
 ```ts
 import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
 
 const unsafeHead = <A>(as: ReadonlyArray<A>): A => {
   if (as.length > 0) {
     return as[0]
   } else {
-    throw new Error('empty array')
+    throw 'empty array'
   }
 }
 
-const head = <A>(as: ReadonlyArray<A>): E.Either<Error, A> =>
-  pipe(
-    E.tryCatch(() => unsafeHead(as)),
-    E.mapLeft((e) => (e instanceof Error ? e : new Error('unknown error')))
-  )
+const head = <A>(as: ReadonlyArray<A>): E.Either<unknown, A> => E.tryCatch(() => unsafeHead(as))
 
-assert.deepStrictEqual(head([]), E.left(new Error('empty array')))
+assert.deepStrictEqual(head([]), E.left('empty array'))
 assert.deepStrictEqual(head([1, 2, 3]), E.right(1))
 ```
 
