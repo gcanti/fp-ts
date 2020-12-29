@@ -27,6 +27,10 @@ Added in v3.0.0
   - [filterMap](#filtermap)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
+- [FromIO](#fromio)
+  - [fromIO](#fromio)
+- [FromTask](#fromtask)
+  - [fromTask](#fromtask)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -36,6 +40,12 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [fromOptionK](#fromoptionk)
 - [constructors](#constructors)
+  - [fromEither](#fromeither)
+  - [fromNullable](#fromnullable)
+  - [fromOption](#fromoption)
+  - [fromPredicate](#frompredicate)
+  - [none](#none)
+  - [some](#some)
   - [tryCatch](#trycatch)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
@@ -55,23 +65,14 @@ Added in v3.0.0
   - [ApplySeq](#applyseq)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
-  - [FromIO](#fromio)
-  - [FromTask](#fromtask)
+  - [FromIO](#fromio-1)
+  - [FromTask](#fromtask-1)
   - [Funtor](#funtor)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
   - [URI (type alias)](#uri-type-alias)
 - [model](#model)
   - [TaskOption (interface)](#taskoption-interface)
-- [utils](#utils)
-  - [fromEither](#fromeither)
-  - [fromIO](#fromio)
-  - [fromNullable](#fromnullable)
-  - [fromOption](#fromoption)
-  - [fromPredicate](#frompredicate)
-  - [fromTask](#fromtask)
-  - [none](#none)
-  - [some](#some)
 
 ---
 
@@ -189,6 +190,30 @@ export declare const partitionMap: <A, B, C>(
 
 Added in v3.0.0
 
+# FromIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A>(fa: IO<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+# FromTask
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <A>(ma: T.Task<A>) => T.Task<O.Option<A>>
+```
+
+Added in v3.0.0
+
 # Functor
 
 ## map
@@ -243,6 +268,69 @@ export declare const fromOptionK: <A extends readonly unknown[], B>(
 Added in v0.1.10
 
 # constructors
+
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: <E, A>(e: Either<E, A>) => T.Task<O.Option<A>>
+```
+
+Added in v3.0.0
+
+## fromNullable
+
+**Signature**
+
+```ts
+export declare const fromNullable: <A>(fa: T.Task<A>) => T.Task<O.Option<NonNullable<A>>>
+```
+
+Added in v3.0.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <A>(ma: O.Option<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## fromPredicate
+
+**Signature**
+
+```ts
+export declare const fromPredicate: {
+  <A, B>(refinement: Refinement<A, B>): (fa: T.Task<A>) => T.Task<O.Option<B>>
+  <A>(predicate: Predicate<A>): (fa: T.Task<A>) => T.Task<O.Option<A>>
+}
+```
+
+Added in v3.0.0
+
+## none
+
+**Signature**
+
+```ts
+export declare const none: TaskOption<never>
+```
+
+Added in v3.0.0
+
+## some
+
+**Signature**
+
+```ts
+export declare const some: <A>(a: A) => TaskOption<A>
+```
+
+Added in v3.0.0
 
 ## tryCatch
 
@@ -498,91 +586,6 @@ Added in v3.0.0
 
 ```ts
 export interface TaskOption<A> extends Task<Option<A>> {}
-```
-
-Added in v3.0.0
-
-# utils
-
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(e: Either<E, A>) => T.Task<O.Option<A>>
-```
-
-Added in v3.0.0
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(ma: IO<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## fromNullable
-
-**Signature**
-
-```ts
-export declare const fromNullable: <A>(fa: T.Task<A>) => T.Task<O.Option<NonNullable<A>>>
-```
-
-Added in v3.0.0
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <A>(ma: O.Option<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## fromPredicate
-
-**Signature**
-
-```ts
-export declare const fromPredicate: {
-  <A, B>(refinement: Refinement<A, B>): (fa: T.Task<A>) => T.Task<O.Option<B>>
-  <A>(predicate: Predicate<A>): (fa: T.Task<A>) => T.Task<O.Option<A>>
-}
-```
-
-Added in v3.0.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <A>(ma: T.Task<A>) => T.Task<O.Option<A>>
-```
-
-Added in v3.0.0
-
-## none
-
-**Signature**
-
-```ts
-export declare const none: TaskOption<never>
-```
-
-Added in v3.0.0
-
-## some
-
-**Signature**
-
-```ts
-export declare const some: <A>(a: A) => TaskOption<A>
 ```
 
 Added in v3.0.0

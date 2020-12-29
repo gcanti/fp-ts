@@ -41,6 +41,10 @@ export interface Tree<A> {
   readonly forest: Forest<A>
 }
 
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
+
 /**
  * @category constructors
  * @since 3.0.0
@@ -49,78 +53,6 @@ export const make = <A>(value: A, forest: Forest<A> = A.empty): Tree<A> => ({
   value,
   forest
 })
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getShow = <A>(S: Show<A>): Show<Tree<A>> => {
-  const show = (t: Tree<A>): string => {
-    return t.forest === A.empty || t.forest.length === 0
-      ? `make(${S.show(t.value)})`
-      : `make(${S.show(t.value)}, [${t.forest.map(show).join(', ')}])`
-  }
-  return {
-    show
-  }
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getEq = <A>(E: Eq<A>): Eq<Tree<A>> => {
-  let SA: Eq<ReadonlyArray<Tree<A>>>
-  const R: Eq<Tree<A>> = fromEquals((second) => (first) =>
-    E.equals(second.value)(first.value) && SA.equals(second.forest)(first.forest)
-  )
-  SA = A.getEq(R)
-  return R
-}
-
-const draw = (indentation: string, forest: Forest<string>): string => {
-  let r: string = ''
-  const len = forest.length
-  let tree: Tree<string>
-  for (let i = 0; i < len; i++) {
-    tree = forest[i]
-    const isLast = i === len - 1
-    r += indentation + (isLast ? '└' : '├') + '─ ' + tree.value
-    r += draw(indentation + (len > 1 && !isLast ? '│  ' : '   '), tree.forest)
-  }
-  return r
-}
-
-/**
- * Neat 2-dimensional drawing of a forest
- *
- * @since 3.0.0
- */
-export const drawForest = (forest: Forest<string>): string => draw('\n', forest)
-
-/**
- * Neat 2-dimensional drawing of a tree
- *
- * @example
- * import { make, drawTree } from 'fp-ts/Tree'
- *
- * const fa = make('a', [
- *   make('b'),
- *   make('c'),
- *   make('d', [make('e'), make('f')])
- * ])
- *
- * assert.strictEqual(drawTree(fa), `a
- * ├─ b
- * ├─ c
- * └─ d
- *    ├─ e
- *    └─ f`)
- *
- *
- * @since 3.0.0
- */
-export const drawTree = (tree: Tree<string>): string => tree.value + drawForest(tree.forest)
 
 /**
  * Build a tree from a seed value
@@ -142,16 +74,9 @@ export const unfoldTree = <B, A>(b: B, f: (b: B) => readonly [A, ReadonlyArray<B
 export const unfoldForest = <B, A>(bs: ReadonlyArray<B>, f: (b: B) => readonly [A, ReadonlyArray<B>]): Forest<A> =>
   bs.map((b) => unfoldTree(b, f))
 
-/**
- * Tests whether a value is a member of a `Tree`.
- *
- * @since 3.0.0
- */
-export const elem = <A>(E: Eq<A>) => (a: A): ((fa: Tree<A>) => boolean) => {
-  const predicate = E.equals(a)
-  const go = (fa: Tree<A>): boolean => predicate(fa.value) || fa.forest.some(go)
-  return go
-}
+// -------------------------------------------------------------------------------------
+// destructors
+// -------------------------------------------------------------------------------------
 
 /**
  * Fold a tree into a "summary" value in depth-first order.
@@ -184,6 +109,22 @@ export const fold = <A, B>(f: (a: A, bs: ReadonlyArray<B>) => B): ((tree: Tree<A
   const go = (tree: Tree<A>): B => f(tree.value, tree.forest.map(go))
   return go
 }
+
+// -------------------------------------------------------------------------------------
+// type class members
+// -------------------------------------------------------------------------------------
+
+/**
+ * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+ * use the type constructor `F` to represent some computational context.
+ *
+ * @category Functor
+ * @since 3.0.0
+ */
+export const map: Functor1<URI>['map'] = (f) => (fa) => ({
+  value: f(fa.value),
+  forest: fa.forest.map(map(f))
+})
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -236,18 +177,6 @@ export const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>> =
 export const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A> =
   /*#__PURE__*/
   chain(identity)
-
-/**
- * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
- * use the type constructor `F` to represent some computational context.
- *
- * @category Functor
- * @since 3.0.0
- */
-export const map: Functor1<URI>['map'] = (f) => (fa) => ({
-  value: f(fa.value),
-  forest: fa.forest.map(map(f))
-})
 
 /**
  * @category Foldable
@@ -342,6 +271,34 @@ declare module './HKT' {
   interface URItoKind<A> {
     readonly [URI]: Tree<A>
   }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getShow = <A>(S: Show<A>): Show<Tree<A>> => {
+  const show = (t: Tree<A>): string => {
+    return t.forest === A.empty || t.forest.length === 0
+      ? `make(${S.show(t.value)})`
+      : `make(${S.show(t.value)}, [${t.forest.map(show).join(', ')}])`
+  }
+  return {
+    show
+  }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getEq = <A>(E: Eq<A>): Eq<Tree<A>> => {
+  let SA: Eq<ReadonlyArray<Tree<A>>>
+  const R: Eq<Tree<A>> = fromEquals((second) => (first) =>
+    E.equals(second.value)(first.value) && SA.equals(second.forest)(first.forest)
+  )
+  SA = A.getEq(R)
+  return R
 }
 
 /**
@@ -464,6 +421,65 @@ export const Comonad: Comonad1<URI> = {
   extend,
   extract
 }
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * Tests whether a value is a member of a `Tree`.
+ *
+ * @since 3.0.0
+ */
+export const elem = <A>(E: Eq<A>) => (a: A): ((fa: Tree<A>) => boolean) => {
+  const predicate = E.equals(a)
+  const go = (fa: Tree<A>): boolean => predicate(fa.value) || fa.forest.some(go)
+  return go
+}
+
+const draw = (indentation: string, forest: Forest<string>): string => {
+  let r: string = ''
+  const len = forest.length
+  let tree: Tree<string>
+  for (let i = 0; i < len; i++) {
+    tree = forest[i]
+    const isLast = i === len - 1
+    r += indentation + (isLast ? '└' : '├') + '─ ' + tree.value
+    r += draw(indentation + (len > 1 && !isLast ? '│  ' : '   '), tree.forest)
+  }
+  return r
+}
+
+/**
+ * Neat 2-dimensional drawing of a forest
+ *
+ * @since 3.0.0
+ */
+export const drawForest = (forest: Forest<string>): string => draw('\n', forest)
+
+/**
+ * Neat 2-dimensional drawing of a tree
+ *
+ * @example
+ * import { make, drawTree } from 'fp-ts/Tree'
+ *
+ * const fa = make('a', [
+ *   make('b'),
+ *   make('c'),
+ *   make('d', [make('e'), make('f')])
+ * ])
+ *
+ * assert.strictEqual(drawTree(fa), `a
+ * ├─ b
+ * ├─ c
+ * └─ d
+ *    ├─ e
+ *    └─ f`)
+ *
+ *
+ * @since 3.0.0
+ */
+export const drawTree = (tree: Tree<string>): string => tree.value + drawForest(tree.forest)
 
 // -------------------------------------------------------------------------------------
 // do notation

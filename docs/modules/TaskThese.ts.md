@@ -39,7 +39,6 @@ Added in v3.0.0
   - [rightTask](#righttask)
 - [destructors](#destructors)
   - [fold](#fold)
-  - [toTuple](#totuple)
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
@@ -55,6 +54,8 @@ Added in v3.0.0
   - [getSemigroup](#getsemigroup)
 - [model](#model)
   - [TaskThese (interface)](#taskthese-interface)
+- [utils](#utils)
+  - [toTuple](#totuple)
 
 ---
 
@@ -282,16 +283,6 @@ export declare const fold: <E, R, A>(
 
 Added in v3.0.0
 
-## toTuple
-
-**Signature**
-
-```ts
-export declare const toTuple: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: T.Task<TH.These<E, A>>) => T.Task<readonly [E, A]>
-```
-
-Added in v3.0.0
-
 # instances
 
 ## Bifunctor
@@ -422,6 +413,18 @@ Added in v3.0.0
 
 ```ts
 export interface TaskThese<E, A> extends Task<These<E, A>> {}
+```
+
+Added in v3.0.0
+
+# utils
+
+## toTuple
+
+**Signature**
+
+```ts
+export declare const toTuple: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: T.Task<TH.These<E, A>>) => T.Task<readonly [E, A]>
 ```
 
 Added in v3.0.0

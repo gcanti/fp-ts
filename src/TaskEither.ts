@@ -29,12 +29,12 @@ import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
 
+import Either = E.Either
+import Task = T.Task
+
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------
-
-import Either = E.Either
-import Task = T.Task
 
 /**
  * @category model

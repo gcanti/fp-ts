@@ -11,7 +11,7 @@ import * as E from '../src/Either'
 
 describe('TaskThese', () => {
   // -------------------------------------------------------------------------------------
-  // pipeables
+  // type class members
   // -------------------------------------------------------------------------------------
 
   it('map', async () => {
@@ -38,16 +38,14 @@ describe('TaskThese', () => {
   // instances
   // -------------------------------------------------------------------------------------
 
-  describe('getApplicative', () => {
-    it('ApplicativeSeq', async () => {
-      await assertSeq(_.getApply(T.ApplySeq, semigroupString), _.FromTask, (fa) => fa())
-      await assertSeq<_.URI, string>(_.getApplicative(T.ApplySeq, semigroupString), _.FromTask, (fa) => fa())
-    })
+  it('ApplicativeSeq', async () => {
+    await assertSeq(_.getApply(T.ApplySeq, semigroupString), _.FromTask, (fa) => fa())
+    await assertSeq<_.URI, string>(_.getApplicative(T.ApplySeq, semigroupString), _.FromTask, (fa) => fa())
+  })
 
-    it('ApplicativePar', async () => {
-      await assertPar(_.getApply(T.ApplyPar, semigroupString), _.FromTask, (fa) => fa())
-      await assertPar<_.URI, string>(_.getApplicative(T.ApplyPar, semigroupString), _.FromTask, (fa) => fa())
-    })
+  it('ApplicativePar', async () => {
+    await assertPar(_.getApply(T.ApplyPar, semigroupString), _.FromTask, (fa) => fa())
+    await assertPar<_.URI, string>(_.getApplicative(T.ApplyPar, semigroupString), _.FromTask, (fa) => fa())
   })
 
   it('getSemigroup', async () => {
@@ -60,17 +58,15 @@ describe('TaskThese', () => {
     assert.deepStrictEqual(await pipe(_.both('a', 1), S.concat(_.both('b', 2)))(), TH.both('ab', 3))
   })
 
-  describe('getMonad', () => {
-    const M = _.getApplicative(T.ApplicativePar, monoidString)
-
-    it('ap', async () => {
-      const f = (n: number): number => n * 2
-      assert.deepStrictEqual(await pipe(_.right(f), M.ap(_.right(1)))(), TH.right(2))
-    })
+  it('getApplicative', async () => {
+    const A = _.getApplicative(T.ApplicativePar, monoidString)
+    const f = (n: number): number => n * 2
+    assert.deepStrictEqual(await pipe(_.right(f), A.ap(_.right(1)))(), TH.right(2))
   })
 
   describe('getMonad', () => {
     const M = _.getMonad(monoidString)
+
     it('map', async () => {
       const f = (n: number): number => n * 2
       assert.deepStrictEqual(await pipe(_.right(1), M.map(f))(), TH.right(2))
@@ -130,6 +126,11 @@ describe('TaskThese', () => {
     assert.deepStrictEqual(x, TH.left('a'))
   })
 
+  it('fromEither', async () => {
+    assert.deepStrictEqual(await _.fromEither(E.right('a'))(), E.right('a'))
+    assert.deepStrictEqual(await _.fromEither(E.left('a'))(), E.left('a'))
+  })
+
   // -------------------------------------------------------------------------------------
   // destructors
   // -------------------------------------------------------------------------------------
@@ -145,11 +146,19 @@ describe('TaskThese', () => {
     assert.deepStrictEqual(await pipe(_.both('a', 1), f)(), 'both a 1')
   })
 
+  // -------------------------------------------------------------------------------------
+  // combinators
+  // -------------------------------------------------------------------------------------
+
   it('swap', async () => {
     assert.deepStrictEqual(await _.swap(_.right(1))(), TH.left(1))
     assert.deepStrictEqual(await _.swap(_.left('a'))(), TH.right('a'))
     assert.deepStrictEqual(await _.swap(_.both('a', 1))(), TH.both(1, 'a'))
   })
+
+  // -------------------------------------------------------------------------------------
+  // utils
+  // -------------------------------------------------------------------------------------
 
   it('toTuple', async () => {
     const f = _.toTuple(
@@ -159,10 +168,5 @@ describe('TaskThese', () => {
     assert.deepStrictEqual(await f(_.right(1))(), ['b', 1])
     assert.deepStrictEqual(await f(_.left('a'))(), ['a', 2])
     assert.deepStrictEqual(await f(_.both('a', 1))(), ['a', 1])
-  })
-
-  it('fromEither', async () => {
-    assert.deepStrictEqual(await _.fromEither(E.right('a'))(), E.right('a'))
-    assert.deepStrictEqual(await _.fromEither(E.left('a'))(), E.left('a'))
   })
 })

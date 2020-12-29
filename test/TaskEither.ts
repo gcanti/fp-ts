@@ -13,7 +13,7 @@ import { assertPar, assertSeq } from './util'
 
 describe('TaskEither', () => {
   // -------------------------------------------------------------------------------------
-  // pipeables
+  // type class members
   // -------------------------------------------------------------------------------------
 
   it('alt', async () => {
@@ -294,6 +294,54 @@ describe('TaskEither', () => {
     })
   })
 
+  it('do notation', async () => {
+    assert.deepStrictEqual(
+      await pipe(
+        _.right<number, string>(1),
+        _.bindTo('a'),
+        _.bind('b', () => _.right('b'))
+      )(),
+      E.right({ a: 1, b: 'b' })
+    )
+  })
+
+  it('apS', async () => {
+    assert.deepStrictEqual(
+      await pipe(_.right<number, string>(1), _.bindTo('a'), _.apS('b', _.right('b')))(),
+      E.right({ a: 1, b: 'b' })
+    )
+  })
+
+  it('apT', async () => {
+    assert.deepStrictEqual(await pipe(_.right<number, string>(1), _.tupled, _.apT(_.right('b')))(), E.right([1, 'b']))
+  })
+
+  describe('array utils', () => {
+    it('sequenceArray', async () => {
+      const arr = A.range(0, 10)
+      assert.deepStrictEqual(await pipe(arr, A.map(_.of), _.sequenceArray)(), E.right(arr))
+      assert.deepStrictEqual(await pipe(arr, A.map(_.fromPredicate((x) => x > 5)), _.sequenceArray)(), E.left(0))
+    })
+
+    it('traverseArray', async () => {
+      const arr = A.range(0, 10)
+      assert.deepStrictEqual(await pipe(arr, _.traverseArray(_.of))(), E.right(arr))
+      assert.deepStrictEqual(await pipe(arr, _.traverseArray(_.fromPredicate((x) => x > 5)))(), E.left(0))
+    })
+
+    it('sequenceSeqArray', async () => {
+      const arr = A.range(0, 10)
+      assert.deepStrictEqual(await pipe(arr, A.map(_.of), _.sequenceSeqArray)(), E.right(arr))
+      assert.deepStrictEqual(await pipe(arr, A.map(_.fromPredicate((x) => x > 5)), _.sequenceSeqArray)(), E.left(0))
+    })
+
+    it('traverseSeqArray', async () => {
+      const arr = A.range(0, 10)
+      assert.deepStrictEqual(await pipe(arr, _.traverseSeqArray(_.of))(), E.right(arr))
+      assert.deepStrictEqual(await pipe(arr, _.traverseSeqArray(_.fromPredicate((x) => x > 5)))(), E.left(0))
+    })
+  })
+
   // -------------------------------------------------------------------------------------
   // combinators
   // -------------------------------------------------------------------------------------
@@ -424,53 +472,5 @@ describe('TaskEither', () => {
     const f = _.fromPredicate((n: number) => n >= 2)
     assert.deepStrictEqual(await f(3)(), E.right(3))
     assert.deepStrictEqual(await f(1)(), E.left(1))
-  })
-
-  it('do notation', async () => {
-    assert.deepStrictEqual(
-      await pipe(
-        _.right<number, string>(1),
-        _.bindTo('a'),
-        _.bind('b', () => _.right('b'))
-      )(),
-      E.right({ a: 1, b: 'b' })
-    )
-  })
-
-  it('apS', async () => {
-    assert.deepStrictEqual(
-      await pipe(_.right<number, string>(1), _.bindTo('a'), _.apS('b', _.right('b')))(),
-      E.right({ a: 1, b: 'b' })
-    )
-  })
-
-  it('apT', async () => {
-    assert.deepStrictEqual(await pipe(_.right<number, string>(1), _.tupled, _.apT(_.right('b')))(), E.right([1, 'b']))
-  })
-
-  describe('array utils', () => {
-    it('sequenceArray', async () => {
-      const arr = A.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, A.map(_.of), _.sequenceArray)(), E.right(arr))
-      assert.deepStrictEqual(await pipe(arr, A.map(_.fromPredicate((x) => x > 5)), _.sequenceArray)(), E.left(0))
-    })
-
-    it('traverseArray', async () => {
-      const arr = A.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, _.traverseArray(_.of))(), E.right(arr))
-      assert.deepStrictEqual(await pipe(arr, _.traverseArray(_.fromPredicate((x) => x > 5)))(), E.left(0))
-    })
-
-    it('sequenceSeqArray', async () => {
-      const arr = A.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, A.map(_.of), _.sequenceSeqArray)(), E.right(arr))
-      assert.deepStrictEqual(await pipe(arr, A.map(_.fromPredicate((x) => x > 5)), _.sequenceSeqArray)(), E.left(0))
-    })
-
-    it('traverseSeqArray', async () => {
-      const arr = A.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, _.traverseSeqArray(_.of))(), E.right(arr))
-      assert.deepStrictEqual(await pipe(arr, _.traverseSeqArray(_.fromPredicate((x) => x > 5)))(), E.left(0))
-    })
   })
 })

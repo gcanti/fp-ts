@@ -104,7 +104,7 @@ Added in v3.0.0
 
 ## censor
 
-Apply a function to the current position
+Apply a function to the current position.
 
 **Signature**
 
@@ -116,7 +116,7 @@ Added in v3.0.0
 
 ## listen
 
-Get the current position
+Get the current position.
 
 **Signature**
 
@@ -128,7 +128,7 @@ Added in v3.0.0
 
 ## listens
 
-Get a value which depends on the current position
+Get a value which depends on the current position.
 
 **Signature**
 

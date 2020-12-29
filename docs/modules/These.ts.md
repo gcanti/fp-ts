@@ -54,11 +54,6 @@ Added in v3.0.0
   - [rightOrBoth](#rightorboth)
 - [destructors](#destructors)
   - [fold](#fold)
-  - [getLeft](#getleft)
-  - [getLeftOnly](#getleftonly)
-  - [getRight](#getright)
-  - [getRightOnly](#getrightonly)
-  - [toTuple](#totuple)
 - [guards](#guards)
   - [isBoth](#isboth)
   - [isLeft](#isleft)
@@ -82,7 +77,12 @@ Added in v3.0.0
   - [Both (interface)](#both-interface)
   - [These (type alias)](#these-type-alias)
 - [utils](#utils)
+  - [getLeft](#getleft)
+  - [getLeftOnly](#getleftonly)
+  - [getRight](#getright)
+  - [getRightOnly](#getrightonly)
   - [sequence](#sequence)
+  - [toTuple](#totuple)
   - [traverse](#traverse)
 
 ---
@@ -323,122 +323,6 @@ export declare const fold: <E, B, A>(
 
 Added in v3.0.0
 
-## getLeft
-
-Returns an `E` value if possible
-
-**Signature**
-
-```ts
-export declare const getLeft: <E, A>(fa: These<E, A>) => Option<E>
-```
-
-**Example**
-
-```ts
-import { getLeft, left, right, both } from 'fp-ts/These'
-import { none, some } from 'fp-ts/Option'
-
-assert.deepStrictEqual(getLeft(left('a')), some('a'))
-assert.deepStrictEqual(getLeft(right(1)), none)
-assert.deepStrictEqual(getLeft(both('a', 1)), some('a'))
-```
-
-Added in v3.0.0
-
-## getLeftOnly
-
-Returns the `E` value if and only if the value is constructed with `Left`
-
-**Signature**
-
-```ts
-export declare const getLeftOnly: <E, A>(fa: These<E, A>) => Option<E>
-```
-
-**Example**
-
-```ts
-import { getLeftOnly, left, right, both } from 'fp-ts/These'
-import { none, some } from 'fp-ts/Option'
-
-assert.deepStrictEqual(getLeftOnly(left('a')), some('a'))
-assert.deepStrictEqual(getLeftOnly(right(1)), none)
-assert.deepStrictEqual(getLeftOnly(both('a', 1)), none)
-```
-
-Added in v3.0.0
-
-## getRight
-
-Returns an `A` value if possible
-
-**Signature**
-
-```ts
-export declare const getRight: <E, A>(fa: These<E, A>) => Option<A>
-```
-
-**Example**
-
-```ts
-import { getRight, left, right, both } from 'fp-ts/These'
-import { none, some } from 'fp-ts/Option'
-
-assert.deepStrictEqual(getRight(left('a')), none)
-assert.deepStrictEqual(getRight(right(1)), some(1))
-assert.deepStrictEqual(getRight(both('a', 1)), some(1))
-```
-
-Added in v3.0.0
-
-## getRightOnly
-
-Returns the `A` value if and only if the value is constructed with `Right`
-
-**Signature**
-
-```ts
-export declare const getRightOnly: <E, A>(fa: These<E, A>) => Option<A>
-```
-
-**Example**
-
-```ts
-import { getRightOnly, left, right, both } from 'fp-ts/These'
-import { none, some } from 'fp-ts/Option'
-
-assert.deepStrictEqual(getRightOnly(left('a')), none)
-assert.deepStrictEqual(getRightOnly(right(1)), some(1))
-assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
-```
-
-Added in v3.0.0
-
-## toTuple
-
-**Signature**
-
-```ts
-export declare const toTuple: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>) => readonly [E, A]
-```
-
-**Example**
-
-```ts
-import { toTuple, left, right, both } from 'fp-ts/These'
-
-const f = toTuple(
-  () => 'a',
-  () => 1
-)
-assert.deepStrictEqual(f(left('b')), ['b', 1])
-assert.deepStrictEqual(f(right(2)), ['a', 2])
-assert.deepStrictEqual(f(both('b', 2)), ['b', 2])
-```
-
-Added in v3.0.0
-
 # guards
 
 ## isBoth
@@ -647,12 +531,128 @@ Added in v3.0.0
 
 # utils
 
+## getLeft
+
+Returns an `E` value if possible
+
+**Signature**
+
+```ts
+export declare const getLeft: <E, A>(fa: These<E, A>) => Option<E>
+```
+
+**Example**
+
+```ts
+import { getLeft, left, right, both } from 'fp-ts/These'
+import { none, some } from 'fp-ts/Option'
+
+assert.deepStrictEqual(getLeft(left('a')), some('a'))
+assert.deepStrictEqual(getLeft(right(1)), none)
+assert.deepStrictEqual(getLeft(both('a', 1)), some('a'))
+```
+
+Added in v3.0.0
+
+## getLeftOnly
+
+Returns the `E` value if and only if the value is constructed with `Left`
+
+**Signature**
+
+```ts
+export declare const getLeftOnly: <E, A>(fa: These<E, A>) => Option<E>
+```
+
+**Example**
+
+```ts
+import { getLeftOnly, left, right, both } from 'fp-ts/These'
+import { none, some } from 'fp-ts/Option'
+
+assert.deepStrictEqual(getLeftOnly(left('a')), some('a'))
+assert.deepStrictEqual(getLeftOnly(right(1)), none)
+assert.deepStrictEqual(getLeftOnly(both('a', 1)), none)
+```
+
+Added in v3.0.0
+
+## getRight
+
+Returns an `A` value if possible
+
+**Signature**
+
+```ts
+export declare const getRight: <E, A>(fa: These<E, A>) => Option<A>
+```
+
+**Example**
+
+```ts
+import { getRight, left, right, both } from 'fp-ts/These'
+import { none, some } from 'fp-ts/Option'
+
+assert.deepStrictEqual(getRight(left('a')), none)
+assert.deepStrictEqual(getRight(right(1)), some(1))
+assert.deepStrictEqual(getRight(both('a', 1)), some(1))
+```
+
+Added in v3.0.0
+
+## getRightOnly
+
+Returns the `A` value if and only if the value is constructed with `Right`
+
+**Signature**
+
+```ts
+export declare const getRightOnly: <E, A>(fa: These<E, A>) => Option<A>
+```
+
+**Example**
+
+```ts
+import { getRightOnly, left, right, both } from 'fp-ts/These'
+import { none, some } from 'fp-ts/Option'
+
+assert.deepStrictEqual(getRightOnly(left('a')), none)
+assert.deepStrictEqual(getRightOnly(right(1)), some(1))
+assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
+```
+
+Added in v3.0.0
+
 ## sequence
 
 **Signature**
 
 ```ts
 export declare const sequence: Sequence2<'These'>
+```
+
+Added in v3.0.0
+
+## toTuple
+
+**Signature**
+
+```ts
+export declare const toTuple: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>) => readonly [E, A]
+```
+
+**Example**
+
+```ts
+import { toTuple, left, right, both } from 'fp-ts/These'
+
+const f = toTuple(
+  () => 'a',
+  () => 1
+)
+assert.deepStrictEqual(f(left('b')), ['b', 1])
+assert.deepStrictEqual(f(right(2)), ['a', 2])
+assert.deepStrictEqual(f(both('b', 2)), ['b', 2])
 ```
 
 Added in v3.0.0

@@ -48,12 +48,18 @@ const gitHubB = (wa: ProjectBuilder): Project => {
 const getProjectName = (project: Project): string => project.projectName
 
 describe('Traced', () => {
-  describe('pipeables', () => {
-    it('map', () => {
-      const wa = buildProject('myproject')
-      assert.deepStrictEqual(pipe(wa, _.map(getProjectName))(M.empty), 'myproject')
-    })
+  // -------------------------------------------------------------------------------------
+  // type class members
+  // -------------------------------------------------------------------------------------
+
+  it('map', () => {
+    const wa = buildProject('myproject')
+    assert.deepStrictEqual(pipe(wa, _.map(getProjectName))(M.empty), 'myproject')
   })
+
+  // -------------------------------------------------------------------------------------
+  // instances
+  // -------------------------------------------------------------------------------------
 
   it('getComonad', () => {
     const wa = buildProject('myproject')
@@ -70,6 +76,10 @@ describe('Traced', () => {
       projectTravis: false
     })
   })
+
+  // -------------------------------------------------------------------------------------
+  // utils
+  // -------------------------------------------------------------------------------------
 
   it('tracks', () => {
     const travisB = _.tracks(M)((project: Project): Settings => ({ ...M.empty, settingsTravis: project.projectGitHub }))

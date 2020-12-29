@@ -1,25 +1,24 @@
 /**
  * @since 3.0.0
  */
-import * as T from './Task'
+import { Alt1 } from './Alt'
+import { Alternative1 } from './Alternative'
+import { Applicative1 } from './Applicative'
+import { apFirst_, Apply1, apSecond_ } from './Apply'
+import { Compactable1, compact_, separate_ } from './Compactable'
+import { Filterable1, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
+import { FromIO1 } from './FromIO'
+import { FromTask1 } from './FromTask'
+import { identity, Lazy, pipe } from './function'
+import { Functor1 } from './Functor'
+import { chainFirst_, Monad1 } from './Monad'
 import * as O from './Option'
+import * as OT from './OptionT'
+import { Pointed1 } from './Pointed'
+import * as T from './Task'
 
 import Task = T.Task
 import Option = O.Option
-import { Functor1 } from './Functor'
-import * as OT from './OptionT'
-import { Pointed1 } from './Pointed'
-import { identity, Lazy, pipe } from './function'
-import { apFirst_, Apply1, apSecond_ } from './Apply'
-import { Applicative1 } from './Applicative'
-import { chainFirst_, Monad1 } from './Monad'
-import { Alt1 } from './Alt'
-import { Alternative1 } from './Alternative'
-import { FromTask1 } from './FromTask'
-import { IO } from './IO'
-import { FromIO1 } from './FromIO'
-import { Compactable1, compact_, separate_ } from './Compactable'
-import { Filterable1, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -36,6 +35,7 @@ export interface TaskOption<A> extends Task<Option<A>> {}
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category constructors
  * @since 3.0.0
  */
 export const some: <A>(a: A) => TaskOption<A> =
@@ -43,12 +43,7 @@ export const some: <A>(a: A) => TaskOption<A> =
   OT.some_(T.Pointed)
 
 /**
- * @category Pointed
- * @since 3.0.0
- */
-export const of: Pointed1<URI>['of'] = some
-
-/**
+ * @category constructors
  * @since 3.0.0
  */
 export const none: TaskOption<never> =
@@ -56,23 +51,13 @@ export const none: TaskOption<never> =
   OT.none_(T.Pointed)
 
 /**
+ * @category constructors
  * @since 3.0.0
  */
 export const fromOption: <A>(ma: Option<A>) => TaskOption<A> = T.of
 
 /**
- * @since 3.0.0
- */
-export const fromIO = <A>(ma: IO<A>): TaskOption<A> => fromTask(T.fromIO(ma))
-
-/**
- * @since 3.0.0
- */
-export const fromTask =
-  /*#__PURE__*/
-  OT.fromF_(T.Functor)
-
-/**
+ * @category constructors
  * @since 3.0.0
  */
 export const fromNullable =
@@ -80,6 +65,7 @@ export const fromNullable =
   OT.fromNullable_(T.Pointed)
 
 /**
+ * @category constructors
  * @since 3.0.0
  */
 export const fromPredicate =
@@ -87,6 +73,7 @@ export const fromPredicate =
   OT.fromPredicate_(T.Functor)
 
 /**
+ * @category constructors
  * @since 3.0.0
  */
 export const fromEither =
@@ -104,7 +91,47 @@ export const tryCatch: <A>(f: Lazy<Promise<A>>) => TaskOption<A> = (f) => () =>
   )
 
 // -------------------------------------------------------------------------------------
+// destructors
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category destructors
+ * @since 3.0.0
+ */
+export const fold =
+  /*#__PURE__*/
+  OT.fold_(T.Monad)
+
+/**
+ * @category destructors
+ * @since 3.0.0
+ */
+export const getOrElse =
+  /*#__PURE__*/
+  OT.getOrElse_(T.Monad)
+
+/**
+ * Less strict version of [`getOrElse`](#getOrElse).
+ *
+ * @category destructors
+ * @since 3.0.0
+ */
+export const getOrElseW: <B>(onNone: Lazy<Task<B>>) => <A>(ma: Option<A>) => A | B = getOrElse as any
+
+// -------------------------------------------------------------------------------------
 // combinators
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 0.1.10
+ */
+export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => O.Option<B>
+) => (...a: A) => TaskOption<B> = (f) => (...a) => fromOption(f(...a))
+
+// -------------------------------------------------------------------------------------
+// type class members
 // -------------------------------------------------------------------------------------
 
 /**
@@ -125,6 +152,12 @@ export const map: Functor1<URI>['map'] =
 export const ap: Apply1<URI>['ap'] =
   /*#__PURE__*/
   OT.ap_(T.ApplyPar)
+
+/**
+ * @category Pointed
+ * @since 3.0.0
+ */
+export const of: Pointed1<URI>['of'] = some
 
 /**
  * @category Monad
@@ -216,45 +249,19 @@ export const partitionMap: Filterable1<URI>['partitionMap'] =
   /*#__PURE__*/
   partitionMap_(T.Functor, O.Filterable)
 
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
-
 /**
- * @category destructors
+ * @category FromIO
  * @since 3.0.0
  */
-export const fold =
+export const fromIO: FromIO1<URI>['fromIO'] = (ma) => fromTask(T.fromIO(ma))
+
+/**
+ * @category FromTask
+ * @since 3.0.0
+ */
+export const fromTask =
   /*#__PURE__*/
-  OT.fold_(T.Monad)
-
-/**
- * @category destructors
- * @since 3.0.0
- */
-export const getOrElse =
-  /*#__PURE__*/
-  OT.getOrElse_(T.Monad)
-
-/**
- * Less strict version of [`getOrElse`](#getOrElse).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const getOrElseW: <B>(onNone: Lazy<Task<B>>) => <A>(ma: Option<A>) => A | B = getOrElse as any
-
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
-/**
- * @category combinators
- * @since 0.1.10
- */
-export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => O.Option<B>
-) => (...a: A) => TaskOption<B> = (f) => (...a) => fromOption(f(...a))
+  OT.fromF_(T.Functor)
 
 // -------------------------------------------------------------------------------------
 // instances

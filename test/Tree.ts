@@ -7,18 +7,20 @@ import { showString } from '../src/Show'
 import * as _ from '../src/Tree'
 
 describe('Tree', () => {
-  describe('pipeables', () => {
-    it('traverse', () => {
-      const fa = _.make('a', [_.make('b'), _.make('c')])
-      assert.deepStrictEqual(pipe(fa, _.traverse(O.Applicative)(O.some)), O.some(fa))
-    })
+  // -------------------------------------------------------------------------------------
+  // type class members
+  // -------------------------------------------------------------------------------------
 
-    it('sequence', () => {
-      assert.deepStrictEqual(
-        _.sequence(O.Applicative)(_.make(O.some('a'), [_.make(O.some('b')), _.make(O.some('c'))])),
-        O.some(_.make('a', [_.make('b'), _.make('c')]))
-      )
-    })
+  it('traverse', () => {
+    const fa = _.make('a', [_.make('b'), _.make('c')])
+    assert.deepStrictEqual(pipe(fa, _.traverse(O.Applicative)(O.some)), O.some(fa))
+  })
+
+  it('sequence', () => {
+    assert.deepStrictEqual(
+      _.sequence(O.Applicative)(_.make(O.some('a'), [_.make(O.some('b')), _.make(O.some('c'))])),
+      O.some(_.make('a', [_.make('b'), _.make('c')]))
+    )
   })
 
   it('map', () => {
@@ -99,6 +101,68 @@ describe('Tree', () => {
     assert.deepStrictEqual(pipe(x, _.reduceRight('', f)), 'cba')
   })
 
+  // -------------------------------------------------------------------------------------
+  // constructors
+  // -------------------------------------------------------------------------------------
+
+  it('unfoldTree', () => {
+    const fa = _.unfoldTree(1, (b) => [b, b < 3 ? [b + 1, b + 2] : []])
+    const expected = _.make(1, [_.make(2, [_.make(3), _.make(4)]), _.make(3)])
+    assert.deepStrictEqual(fa, expected)
+  })
+
+  // -------------------------------------------------------------------------------------
+  // instances
+  // -------------------------------------------------------------------------------------
+
+  it('getEq', () => {
+    const S = _.getEq(Eq.eqNumber)
+    const x = _.make(1, [_.make(2)])
+    const y = _.make(2, [_.make(2)])
+    const z = _.make(1, [_.make(1)])
+    assert.deepStrictEqual(S.equals(x)(x), true)
+    assert.deepStrictEqual(S.equals(x)(y), false)
+    assert.deepStrictEqual(S.equals(x)(z), false)
+  })
+
+  it('getShow', () => {
+    const S = _.getShow(showString)
+    const t1 = _.make('a')
+    assert.deepStrictEqual(S.show(t1), `make("a")`)
+    const t2 = _.make('a', [_.make('b'), _.make('c')])
+    assert.deepStrictEqual(S.show(t2), `make("a", [make("b"), make("c")])`)
+  })
+
+  // -------------------------------------------------------------------------------------
+  // destructors
+  // -------------------------------------------------------------------------------------
+
+  it('fold', () => {
+    const t = _.make(1, [_.make(2), _.make(3)])
+    assert.deepStrictEqual(
+      _.fold((a: number, bs: ReadonlyArray<number>) => bs.reduce((b, acc) => Math.max(b, acc), a))(t),
+      3
+    )
+  })
+
+  // -------------------------------------------------------------------------------------
+  // utils
+  // -------------------------------------------------------------------------------------
+
+  it('elem', () => {
+    interface User {
+      readonly id: number
+    }
+    const S: Eq.Eq<User> = pipe(
+      Eq.eqNumber,
+      Eq.contramap((user: User) => user.id)
+    )
+    const users = _.make({ id: 1 }, [_.make({ id: 1 }, [_.make({ id: 3 }), _.make({ id: 4 })]), _.make({ id: 2 })])
+    assert.deepStrictEqual(pipe(users, _.elem(S)({ id: 1 })), true)
+    assert.deepStrictEqual(pipe(users, _.elem(S)({ id: 4 })), true)
+    assert.deepStrictEqual(pipe(users, _.elem(S)({ id: 5 })), false)
+  })
+
   it('drawTree', () => {
     const tree = _.make('a')
     assert.deepStrictEqual(_.drawTree(tree), 'a')
@@ -143,52 +207,6 @@ describe('Tree', () => {
 │  └─ e
 │     └─ f
 └─ e`
-    )
-  })
-
-  it('getEq', () => {
-    const S = _.getEq(Eq.eqNumber)
-    const x = _.make(1, [_.make(2)])
-    const y = _.make(2, [_.make(2)])
-    const z = _.make(1, [_.make(1)])
-    assert.deepStrictEqual(S.equals(x)(x), true)
-    assert.deepStrictEqual(S.equals(x)(y), false)
-    assert.deepStrictEqual(S.equals(x)(z), false)
-  })
-
-  it('unfoldTree', () => {
-    const fa = _.unfoldTree(1, (b) => [b, b < 3 ? [b + 1, b + 2] : []])
-    const expected = _.make(1, [_.make(2, [_.make(3), _.make(4)]), _.make(3)])
-    assert.deepStrictEqual(fa, expected)
-  })
-
-  it('elem', () => {
-    interface User {
-      readonly id: number
-    }
-    const S: Eq.Eq<User> = pipe(
-      Eq.eqNumber,
-      Eq.contramap((user: User) => user.id)
-    )
-    const users = _.make({ id: 1 }, [_.make({ id: 1 }, [_.make({ id: 3 }), _.make({ id: 4 })]), _.make({ id: 2 })])
-    assert.deepStrictEqual(pipe(users, _.elem(S)({ id: 1 })), true)
-    assert.deepStrictEqual(pipe(users, _.elem(S)({ id: 4 })), true)
-    assert.deepStrictEqual(pipe(users, _.elem(S)({ id: 5 })), false)
-  })
-
-  it('getShow', () => {
-    const S = _.getShow(showString)
-    const t1 = _.make('a')
-    assert.deepStrictEqual(S.show(t1), `make("a")`)
-    const t2 = _.make('a', [_.make('b'), _.make('c')])
-    assert.deepStrictEqual(S.show(t2), `make("a", [make("b"), make("c")])`)
-  })
-
-  it('fold', () => {
-    const t = _.make(1, [_.make(2), _.make(3)])
-    assert.deepStrictEqual(
-      _.fold((a: number, bs: ReadonlyArray<number>) => bs.reduce((b, acc) => Math.max(b, acc), a))(t),
-      3
     )
   })
 

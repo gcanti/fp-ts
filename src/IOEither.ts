@@ -22,12 +22,12 @@ import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 
+import Either = E.Either
+import IO = I.IO
+
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------
-
-import Either = E.Either
-import IO = I.IO
 
 /**
  * @category model
@@ -183,6 +183,10 @@ export const chainEitherKW: <A, E2, B>(
 export const chainEitherK: <E, A, B>(
   f: (a: A) => Either<E, B>
 ) => (ma: IOEither<E, A>) => IOEither<E, B> = chainEitherKW
+
+// -------------------------------------------------------------------------------------
+// type class members
+// -------------------------------------------------------------------------------------
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types

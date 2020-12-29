@@ -19,6 +19,7 @@ Added in v3.0.0
   - [listen](#listen)
   - [listens](#listens)
   - [pass](#pass)
+- [constructors](#constructors)
   - [tell](#tell)
 - [instances](#instances)
   - [Functor](#functor-1)
@@ -100,6 +101,8 @@ export declare const pass: <W, A>(fa: Writer<W, readonly [A, (w: W) => W]>) => W
 ```
 
 Added in v3.0.0
+
+# constructors
 
 ## tell
 

@@ -7,7 +7,7 @@ import { assertPar, assertSeq } from './util'
 
 describe('TaskOption', () => {
   // -------------------------------------------------------------------------------------
-  // pipeables
+  // type class members
   // -------------------------------------------------------------------------------------
 
   it('map', async () => {
@@ -86,6 +86,28 @@ describe('TaskOption', () => {
   })
 
   // -------------------------------------------------------------------------------------
+  // constructors
+  // -------------------------------------------------------------------------------------
+
+  it('tryCatch', async () => {
+    assert.deepStrictEqual(await _.tryCatch(() => Promise.resolve(1))(), O.some(1))
+    assert.deepStrictEqual(await _.tryCatch(() => Promise.reject())(), O.none)
+  })
+
+  it('fromNullable', async () => {
+    assert.deepStrictEqual(await _.fromNullable(T.of(2))(), O.some(2))
+    assert.deepStrictEqual(await _.fromNullable(T.of(null))(), O.none)
+    assert.deepStrictEqual(await _.fromNullable(T.of(undefined))(), O.none)
+  })
+
+  it('fromPredicate', async () => {
+    const p = (n: number): boolean => n > 2
+    const f = _.fromPredicate(p)
+    assert.deepStrictEqual(await f(T.of(1))(), O.none)
+    assert.deepStrictEqual(await f(T.of(3))(), O.some(3))
+  })
+
+  // -------------------------------------------------------------------------------------
   // destructors
   // -------------------------------------------------------------------------------------
 
@@ -113,28 +135,6 @@ describe('TaskOption', () => {
       )(),
       2
     )
-  })
-
-  // -------------------------------------------------------------------------------------
-  // constructors
-  // -------------------------------------------------------------------------------------
-
-  it('tryCatch', async () => {
-    assert.deepStrictEqual(await _.tryCatch(() => Promise.resolve(1))(), O.some(1))
-    assert.deepStrictEqual(await _.tryCatch(() => Promise.reject())(), O.none)
-  })
-
-  it('fromNullable', async () => {
-    assert.deepStrictEqual(await _.fromNullable(T.of(2))(), O.some(2))
-    assert.deepStrictEqual(await _.fromNullable(T.of(null))(), O.none)
-    assert.deepStrictEqual(await _.fromNullable(T.of(undefined))(), O.none)
-  })
-
-  it('fromPredicate', async () => {
-    const p = (n: number): boolean => n > 2
-    const f = _.fromPredicate(p)
-    assert.deepStrictEqual(await f(T.of(1))(), O.none)
-    assert.deepStrictEqual(await f(T.of(3))(), O.some(3))
   })
 
   // -------------------------------------------------------------------------------------

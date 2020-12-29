@@ -130,14 +130,6 @@ export const fold =
   /*#__PURE__*/
   fold_(T.Monad)
 
-/**
- * @category destructors
- * @since 3.0.0
- */
-export const toTuple =
-  /*#__PURE__*/
-  toTuple_(T.Functor)
-
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
@@ -149,6 +141,10 @@ export const toTuple =
 export const swap =
   /*#__PURE__*/
   swap_(T.Functor)
+
+// -------------------------------------------------------------------------------------
+// type class members
+// -------------------------------------------------------------------------------------
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -336,3 +332,14 @@ export const FromTask: FromTask2<URI> = {
   fromIO,
   fromTask
 }
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const toTuple =
+  /*#__PURE__*/
+  toTuple_(T.Functor)

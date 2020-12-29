@@ -56,6 +56,10 @@ export interface Both<E, A> {
  */
 export type These<E, A> = Either<E, A> | Both<E, A>
 
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
+
 /**
  * @category constructors
  * @since 3.0.0
@@ -73,102 +77,6 @@ export const right = <A, E = never>(right: A): These<E, A> => ({ _tag: 'Right', 
  * @since 3.0.0
  */
 export const both = <E, A>(left: E, right: A): These<E, A> => ({ _tag: 'Both', left, right })
-
-/**
- * @category destructors
- * @since 3.0.0
- */
-export const fold = <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B, onBoth: (e: E, a: A) => B) => (
-  fa: These<E, A>
-): B => {
-  switch (fa._tag) {
-    case 'Left':
-      return onLeft(fa.left)
-    case 'Right':
-      return onRight(fa.right)
-    case 'Both':
-      return onBoth(fa.left, fa.right)
-  }
-}
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const swap: <E, A>(fa: These<E, A>) => These<A, E> = fold(right, left, (e, a) => both(a, e))
-
-/**
- * @example
- * import { toTuple, left, right, both } from 'fp-ts/These'
- *
- * const f = toTuple(() => 'a', () => 1)
- * assert.deepStrictEqual(f(left('b')), ['b', 1])
- * assert.deepStrictEqual(f(right(2)), ['a', 2])
- * assert.deepStrictEqual(f(both('b', 2)), ['b', 2])
- *
- * @category destructors
- * @since 3.0.0
- */
-export const toTuple = <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>): readonly [E, A] =>
-  isLeft(fa) ? [fa.left, a()] : isRight(fa) ? [e(), fa.right] : [fa.left, fa.right]
-
-/**
- * Returns an `E` value if possible
- *
- * @example
- * import { getLeft, left, right, both } from 'fp-ts/These'
- * import { none, some } from 'fp-ts/Option'
- *
- * assert.deepStrictEqual(getLeft(left('a')), some('a'))
- * assert.deepStrictEqual(getLeft(right(1)), none)
- * assert.deepStrictEqual(getLeft(both('a', 1)), some('a'))
- *
- * @category destructors
- * @since 3.0.0
- */
-export const getLeft = <E, A>(fa: These<E, A>): Option<E> =>
-  isLeft(fa) ? some(fa.left) : isRight(fa) ? none : some(fa.left)
-
-/**
- * Returns an `A` value if possible
- *
- * @example
- * import { getRight, left, right, both } from 'fp-ts/These'
- * import { none, some } from 'fp-ts/Option'
- *
- * assert.deepStrictEqual(getRight(left('a')), none)
- * assert.deepStrictEqual(getRight(right(1)), some(1))
- * assert.deepStrictEqual(getRight(both('a', 1)), some(1))
- *
- * @category destructors
- * @since 3.0.0
- */
-export const getRight = <E, A>(fa: These<E, A>): Option<A> =>
-  isLeft(fa) ? none : isRight(fa) ? some(fa.right) : some(fa.right)
-
-/**
- * Returns `true` if the these is an instance of `Left`, `false` otherwise
- *
- * @category guards
- * @since 3.0.0
- */
-export const isLeft = <E, A>(fa: These<E, A>): fa is Left<E> => fa._tag === 'Left'
-
-/**
- * Returns `true` if the these is an instance of `Right`, `false` otherwise
- *
- * @category guards
- * @since 3.0.0
- */
-export const isRight = <E, A>(fa: These<E, A>): fa is Right<A> => fa._tag === 'Right'
-
-/**
- * Returns `true` if the these is an instance of `Both`, `false` otherwise
- *
- * @category guards
- * @since 3.0.0
- */
-export const isBoth = <E, A>(fa: These<E, A>): fa is Both<E, A> => fa._tag === 'Both'
 
 /**
  * @example
@@ -199,38 +107,6 @@ export const rightOrBoth = <A>(a: Lazy<A>) => <E>(me: Option<E>): These<E, A> =>
   isNone(me) ? right(a()) : both(me.value, a())
 
 /**
- * Returns the `E` value if and only if the value is constructed with `Left`
- *
- * @example
- * import { getLeftOnly, left, right, both } from 'fp-ts/These'
- * import { none, some } from 'fp-ts/Option'
- *
- * assert.deepStrictEqual(getLeftOnly(left('a')), some('a'))
- * assert.deepStrictEqual(getLeftOnly(right(1)), none)
- * assert.deepStrictEqual(getLeftOnly(both('a', 1)), none)
- *
- * @category destructors
- * @since 3.0.0
- */
-export const getLeftOnly = <E, A>(fa: These<E, A>): Option<E> => (isLeft(fa) ? some(fa.left) : none)
-
-/**
- * Returns the `A` value if and only if the value is constructed with `Right`
- *
- * @example
- * import { getRightOnly, left, right, both } from 'fp-ts/These'
- * import { none, some } from 'fp-ts/Option'
- *
- * assert.deepStrictEqual(getRightOnly(left('a')), none)
- * assert.deepStrictEqual(getRightOnly(right(1)), some(1))
- * assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
- *
- * @category destructors
- * @since 3.0.0
- */
-export const getRightOnly = <E, A>(fa: These<E, A>): Option<A> => (isRight(fa) ? some(fa.right) : none)
-
-/**
  * Takes a pair of `Option`s and attempts to create a `These` from them
  *
  * @example
@@ -253,6 +129,69 @@ export const fromOptions = <E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
     : isNone(fa)
     ? some(left(fe.value))
     : some(both(fe.value, fa.value))
+
+// -------------------------------------------------------------------------------------
+// destructors
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category destructors
+ * @since 3.0.0
+ */
+export const fold = <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B, onBoth: (e: E, a: A) => B) => (
+  fa: These<E, A>
+): B => {
+  switch (fa._tag) {
+    case 'Left':
+      return onLeft(fa.left)
+    case 'Right':
+      return onRight(fa.right)
+    case 'Both':
+      return onBoth(fa.left, fa.right)
+  }
+}
+
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const swap: <E, A>(fa: These<E, A>) => These<A, E> = fold(right, left, (e, a) => both(a, e))
+
+// -------------------------------------------------------------------------------------
+// guards
+// -------------------------------------------------------------------------------------
+
+/**
+ * Returns `true` if the these is an instance of `Left`, `false` otherwise
+ *
+ * @category guards
+ * @since 3.0.0
+ */
+export const isLeft = <E, A>(fa: These<E, A>): fa is Left<E> => fa._tag === 'Left'
+
+/**
+ * Returns `true` if the these is an instance of `Right`, `false` otherwise
+ *
+ * @category guards
+ * @since 3.0.0
+ */
+export const isRight = <E, A>(fa: These<E, A>): fa is Right<A> => fa._tag === 'Right'
+
+/**
+ * Returns `true` if the these is an instance of `Both`, `false` otherwise
+ *
+ * @category guards
+ * @since 3.0.0
+ */
+export const isBoth = <E, A>(fa: These<E, A>): fa is Both<E, A> => fa._tag === 'Both'
+
+// -------------------------------------------------------------------------------------
+// type class members
+// -------------------------------------------------------------------------------------
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -560,3 +499,83 @@ export const Traversable: Traversable2<URI> = {
   traverse,
   sequence
 }
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @example
+ * import { toTuple, left, right, both } from 'fp-ts/These'
+ *
+ * const f = toTuple(() => 'a', () => 1)
+ * assert.deepStrictEqual(f(left('b')), ['b', 1])
+ * assert.deepStrictEqual(f(right(2)), ['a', 2])
+ * assert.deepStrictEqual(f(both('b', 2)), ['b', 2])
+ *
+ * @since 3.0.0
+ */
+export const toTuple = <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>): readonly [E, A] =>
+  isLeft(fa) ? [fa.left, a()] : isRight(fa) ? [e(), fa.right] : [fa.left, fa.right]
+
+/**
+ * Returns an `E` value if possible
+ *
+ * @example
+ * import { getLeft, left, right, both } from 'fp-ts/These'
+ * import { none, some } from 'fp-ts/Option'
+ *
+ * assert.deepStrictEqual(getLeft(left('a')), some('a'))
+ * assert.deepStrictEqual(getLeft(right(1)), none)
+ * assert.deepStrictEqual(getLeft(both('a', 1)), some('a'))
+ *
+ * @since 3.0.0
+ */
+export const getLeft = <E, A>(fa: These<E, A>): Option<E> =>
+  isLeft(fa) ? some(fa.left) : isRight(fa) ? none : some(fa.left)
+
+/**
+ * Returns an `A` value if possible
+ *
+ * @example
+ * import { getRight, left, right, both } from 'fp-ts/These'
+ * import { none, some } from 'fp-ts/Option'
+ *
+ * assert.deepStrictEqual(getRight(left('a')), none)
+ * assert.deepStrictEqual(getRight(right(1)), some(1))
+ * assert.deepStrictEqual(getRight(both('a', 1)), some(1))
+ *
+ * @since 3.0.0
+ */
+export const getRight = <E, A>(fa: These<E, A>): Option<A> =>
+  isLeft(fa) ? none : isRight(fa) ? some(fa.right) : some(fa.right)
+
+/**
+ * Returns the `E` value if and only if the value is constructed with `Left`
+ *
+ * @example
+ * import { getLeftOnly, left, right, both } from 'fp-ts/These'
+ * import { none, some } from 'fp-ts/Option'
+ *
+ * assert.deepStrictEqual(getLeftOnly(left('a')), some('a'))
+ * assert.deepStrictEqual(getLeftOnly(right(1)), none)
+ * assert.deepStrictEqual(getLeftOnly(both('a', 1)), none)
+ *
+ * @since 3.0.0
+ */
+export const getLeftOnly = <E, A>(fa: These<E, A>): Option<E> => (isLeft(fa) ? some(fa.left) : none)
+
+/**
+ * Returns the `A` value if and only if the value is constructed with `Right`
+ *
+ * @example
+ * import { getRightOnly, left, right, both } from 'fp-ts/These'
+ * import { none, some } from 'fp-ts/Option'
+ *
+ * assert.deepStrictEqual(getRightOnly(left('a')), none)
+ * assert.deepStrictEqual(getRightOnly(right(1)), some(1))
+ * assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
+ *
+ * @since 3.0.0
+ */
+export const getRightOnly = <E, A>(fa: These<E, A>): Option<A> => (isRight(fa) ? some(fa.right) : none)

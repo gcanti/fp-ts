@@ -22,16 +22,20 @@ export interface Writer<W, A> {
 }
 
 // -------------------------------------------------------------------------------------
-// combinators
+// constructors
 // -------------------------------------------------------------------------------------
 
 /**
  * Appends a value to the accumulator
  *
- * @category combinators
+ * @category constructors
  * @since 3.0.0
  */
 export const tell: <W>(w: W) => Writer<W, void> = (w) => () => [undefined, w]
+
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
 
 /**
  * Modifies the result to include the changes to the accumulator
@@ -78,6 +82,10 @@ export const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A
   const [a, w] = fa()
   return [a, f(w)]
 }
+
+// -------------------------------------------------------------------------------------
+// type class members
+// -------------------------------------------------------------------------------------
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
