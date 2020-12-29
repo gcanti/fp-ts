@@ -15,6 +15,11 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.9.3
+
+- **Polish**
+  - add more `/*#__PURE__*/` comments to improve tree shaking, #1370 (@OliverJAsh)
+
 # 2.9.2
 
 - **Polish**
