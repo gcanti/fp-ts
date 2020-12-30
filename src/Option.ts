@@ -1149,17 +1149,17 @@ export const apT =
  *
  * @since 3.0.0
  */
-export const traverseArrayWithIndex = <A, B>(f: (index: number, a: A) => Option<B>) => (
-  arr: ReadonlyArray<A>
+export const traverseReadonlyArrayWithIndex = <A, B>(f: (index: number, a: A) => Option<B>) => (
+  as: ReadonlyArray<A>
 ): Option<ReadonlyArray<B>> => {
   // tslint:disable-next-line: readonly-array
   const out = []
-  for (let i = 0; i < arr.length; i++) {
-    const b = f(i, arr[i])
-    if (isNone(b)) {
+  for (let i = 0; i < as.length; i++) {
+    const o = f(i, as[i])
+    if (isNone(o)) {
       return none
     }
-    out.push(b.value)
+    out.push(o.value)
   }
   return some(out)
 }
@@ -1167,37 +1167,17 @@ export const traverseArrayWithIndex = <A, B>(f: (index: number, a: A) => Option<
 /**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
- * @example
- *
- * import * as A from 'fp-ts/ReadonlyArray'
- * import { traverseArray, some, fromPredicate, none } from 'fp-ts/Option'
- * import { pipe } from 'fp-ts/function'
- *
- * const arr = A.range(0, 10)
- * assert.deepStrictEqual(pipe(arr, traverseArray(some)), some(arr))
- * assert.deepStrictEqual(pipe(arr, traverseArray(fromPredicate((x) => x > 5))), none)
- *
  * @since 3.0.0
  */
-export const traverseArray: <A, B>(f: (a: A) => Option<B>) => (arr: ReadonlyArray<A>) => Option<ReadonlyArray<B>> = (
-  f
-) => traverseArrayWithIndex((_, a) => f(a))
+export const traverseReadonlyArray: <A, B>(
+  f: (a: A) => Option<B>
+) => (as: ReadonlyArray<A>) => Option<ReadonlyArray<B>> = (f) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
- * @example
- *
- * import * as A from 'fp-ts/ReadonlyArray'
- * import { sequenceArray, some, none, fromPredicate } from 'fp-ts/Option'
- * import { pipe } from 'fp-ts/function'
- *
- * const arr = A.range(0, 10)
- * assert.deepStrictEqual(pipe(arr, A.map(some), sequenceArray), some(arr))
- * assert.deepStrictEqual(pipe(arr, A.map(fromPredicate(x => x > 8)), sequenceArray), none)
- *
  * @since 3.0.0
  */
-export const sequenceArray: <A>(arr: ReadonlyArray<Option<A>>) => Option<ReadonlyArray<A>> =
+export const sequenceReadonlyArray: <A>(as: ReadonlyArray<Option<A>>) => Option<ReadonlyArray<A>> =
   /*#__PURE__*/
-  traverseArray(identity)
+  traverseReadonlyArray(identity)

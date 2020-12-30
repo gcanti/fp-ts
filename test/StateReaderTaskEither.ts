@@ -338,34 +338,34 @@ describe('StateReaderTaskEither', () => {
   })
 
   describe('array utils', () => {
-    it('sequenceArray', async () => {
+    it('sequenceReadonlyArray', async () => {
       const add = (n: number) => (s: number) => (_r: {}) => () => Promise.resolve(E.right(tuple(n, n + s)))
       const arr = A.range(0, 10)
 
       assert.deepStrictEqual(
-        await pipe(arr, A.map(add), _.sequenceArray)(0)({})(),
+        await pipe(arr, A.map(add), _.sequenceReadonlyArray)(0)({})(),
         E.right([arr, arr.reduce((p, c) => p + c, 0)])
       )
     })
 
-    it('traverseArray', async () => {
+    it('traverseReadonlyArray', async () => {
       const add = (n: number) => (s: number) => (_r: {}) => () => Promise.resolve(E.right(tuple(n, n + s)))
       const arr = A.range(0, 10)
 
       assert.deepStrictEqual(
-        await pipe(arr, _.traverseArray(add))(0)({})(),
+        await pipe(arr, _.traverseReadonlyArray(add))(0)({})(),
         E.right([arr, arr.reduce((p, c) => p + c, 0)])
       )
     })
 
-    it('traverseArrayWithIndex', async () => {
+    it('traverseReadonlyArrayWithIndex', async () => {
       const add = (n: number) => _.rightState((s: number) => tuple(n, n + s))
       const arr = A.range(0, 10)
 
       assert.deepStrictEqual(
         await pipe(
           arr,
-          _.traverseArrayWithIndex((_index, a) =>
+          _.traverseReadonlyArrayWithIndex((_index, a) =>
             pipe(
               a,
               _.fromPredicate((a) => a > 5)
@@ -378,7 +378,7 @@ describe('StateReaderTaskEither', () => {
       assert.deepStrictEqual(
         await pipe(
           arr,
-          _.traverseArrayWithIndex((_, a) => add(a))
+          _.traverseReadonlyArrayWithIndex((_, a) => add(a))
         )(0)({})(),
         E.right([arr, arr.reduce((p, c) => p + c, 0)])
       )

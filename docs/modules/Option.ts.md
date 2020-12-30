@@ -121,9 +121,9 @@ Added in v3.0.0
   - [elem](#elem)
   - [exists](#exists)
   - [getRefinement](#getrefinement)
-  - [sequenceArray](#sequencearray)
-  - [traverseArray](#traversearray)
-  - [traverseArrayWithIndex](#traversearraywithindex)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [tupled](#tupled)
 
 ---
@@ -1445,64 +1445,40 @@ export declare const getRefinement: <A, B extends A>(getOption: (a: A) => Option
 
 Added in v3.0.0
 
-## sequenceArray
+## sequenceReadonlyArray
 
 Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const sequenceArray: <A>(arr: readonly Option<A>[]) => Option<readonly A[]>
-```
-
-**Example**
-
-```ts
-import * as A from 'fp-ts/ReadonlyArray'
-import { sequenceArray, some, none, fromPredicate } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-const arr = A.range(0, 10)
-assert.deepStrictEqual(pipe(arr, A.map(some), sequenceArray), some(arr))
-assert.deepStrictEqual(pipe(arr, A.map(fromPredicate((x) => x > 8)), sequenceArray), none)
+export declare const sequenceReadonlyArray: <A>(as: readonly Option<A>[]) => Option<readonly A[]>
 ```
 
 Added in v3.0.0
 
-## traverseArray
+## traverseReadonlyArray
 
 Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const traverseArray: <A, B>(f: (a: A) => Option<B>) => (arr: readonly A[]) => Option<readonly B[]>
-```
-
-**Example**
-
-```ts
-import * as A from 'fp-ts/ReadonlyArray'
-import { traverseArray, some, fromPredicate, none } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-const arr = A.range(0, 10)
-assert.deepStrictEqual(pipe(arr, traverseArray(some)), some(arr))
-assert.deepStrictEqual(pipe(arr, traverseArray(fromPredicate((x) => x > 5))), none)
+export declare const traverseReadonlyArray: <A, B>(f: (a: A) => Option<B>) => (as: readonly A[]) => Option<readonly B[]>
 ```
 
 Added in v3.0.0
 
-## traverseArrayWithIndex
+## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const traverseArrayWithIndex: <A, B>(
+export declare const traverseReadonlyArrayWithIndex: <A, B>(
   f: (index: number, a: A) => Option<B>
-) => (arr: readonly A[]) => Option<readonly B[]>
+) => (as: readonly A[]) => Option<readonly B[]>
 ```
 
 Added in v3.0.0

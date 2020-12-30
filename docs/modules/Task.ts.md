@@ -68,12 +68,12 @@ Added in v3.0.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [never](#never)
-  - [sequenceArray](#sequencearray)
-  - [sequenceSeqArray](#sequenceseqarray)
-  - [traverseArray](#traversearray)
-  - [traverseArrayWithIndex](#traversearraywithindex)
-  - [traverseSeqArray](#traverseseqarray)
-  - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [sequenceReadonlyArraySeq](#sequencereadonlyarrayseq)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArraySeq](#traversereadonlyarrayseq)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
   - [tupled](#tupled)
 
 ---
@@ -548,107 +548,78 @@ export declare const never: Task<never>
 
 Added in v3.0.0
 
-## sequenceArray
+## sequenceReadonlyArray
 
 Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
 
 **Signature**
 
 ```ts
-export declare const sequenceArray: <A>(arr: readonly Task<A>[]) => Task<readonly A[]>
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-import { of, sequenceArray } from 'fp-ts/Task'
-
-async function test() {
-  const arr = RA.range(1, 10)
-  assert.deepStrictEqual(await pipe(arr, RA.map(of), sequenceArray)(), arr)
-}
-
-test()
+export declare const sequenceReadonlyArray: <A>(as: readonly Task<A>[]) => Task<readonly A[]>
 ```
 
 Added in v3.0.0
 
-## sequenceSeqArray
+## sequenceReadonlyArraySeq
 
 Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
 
 **Signature**
 
 ```ts
-export declare const sequenceSeqArray: <A>(arr: readonly Task<A>[]) => Task<readonly A[]>
+export declare const sequenceReadonlyArraySeq: <A>(as: readonly Task<A>[]) => Task<readonly A[]>
 ```
 
 Added in v3.0.0
 
-## traverseArray
+## traverseReadonlyArray
 
 Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
 
 **Signature**
 
 ```ts
-export declare const traverseArray: <A, B>(f: (a: A) => Task<B>) => (arr: readonly A[]) => Task<readonly B[]>
-```
-
-**Example**
-
-```ts
-import { range } from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-import { of, traverseArray } from 'fp-ts/Task'
-async function test() {
-  const arr = range(0, 10)
-  assert.deepStrictEqual(await pipe(arr, traverseArray(of))(), arr)
-}
-
-test()
+export declare const traverseReadonlyArray: <A, B>(f: (a: A) => Task<B>) => (as: readonly A[]) => Task<readonly B[]>
 ```
 
 Added in v3.0.0
 
-## traverseArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
-
-**Signature**
-
-```ts
-export declare const traverseArrayWithIndex: <A, B>(
-  f: (index: number, a: A) => Task<B>
-) => (arr: readonly A[]) => Task<readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseSeqArray
+## traverseReadonlyArraySeq
 
 Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
 
 **Signature**
 
 ```ts
-export declare const traverseSeqArray: <A, B>(f: (a: A) => Task<B>) => (arr: readonly A[]) => Task<readonly B[]>
+export declare const traverseReadonlyArraySeq: <A, B>(f: (a: A) => Task<B>) => (as: readonly A[]) => Task<readonly B[]>
 ```
 
 Added in v3.0.0
 
-## traverseSeqArrayWithIndex
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => Task<B>
+) => (as: readonly A[]) => Task<readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArrayWithIndexSeq
 
 Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
 
 **Signature**
 
 ```ts
-export declare const traverseSeqArrayWithIndex: <A, B>(
+export declare const traverseReadonlyArrayWithIndexSeq: <A, B>(
   f: (index: number, a: A) => Task<B>
-) => (arr: readonly A[]) => Task<readonly B[]>
+) => (as: readonly A[]) => Task<readonly B[]>
 ```
 
 Added in v3.0.0

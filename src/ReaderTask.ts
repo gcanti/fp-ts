@@ -445,25 +445,25 @@ export const apTW: <R2, B>(
  *
  * @since 3.0.0
  */
-export const traverseArrayWithIndex: <R, A, B>(
+export const traverseReadonlyArrayWithIndex: <A, R, B>(
   f: (index: number, a: A) => ReaderTask<R, B>
-) => (arr: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>> = (f) =>
-  flow(R.traverseArrayWithIndex(f), R.map(T.sequenceArray))
+) => (as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>> = (f) =>
+  flow(R.traverseReadonlyArrayWithIndex(f), R.map(T.sequenceReadonlyArray))
 
 /**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
  * @since 3.0.0
  */
-export const traverseArray: <R, A, B>(
+export const traverseReadonlyArray: <A, R, B>(
   f: (a: A) => ReaderTask<R, B>
-) => (arr: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>> = (f) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
  * @since 3.0.0
  */
-export const sequenceArray: <R, A>(arr: ReadonlyArray<ReaderTask<R, A>>) => ReaderTask<R, ReadonlyArray<A>> =
+export const sequenceReadonlyArray: <R, A>(as: ReadonlyArray<ReaderTask<R, A>>) => ReaderTask<R, ReadonlyArray<A>> =
   /*#__PURE__*/
-  traverseArray(identity)
+  traverseReadonlyArray(identity)

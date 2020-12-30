@@ -770,24 +770,22 @@ export const apTW: <S, R2, E2, B>(
  *
  * @since 3.0.0
  */
-export const traverseArrayWithIndex: <S, R, E, A, B>(
+export const traverseReadonlyArrayWithIndex = <A, S, R, E, B>(
   f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
-) => (arr: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>> = (f) => (arr) => (s) => (
-  r
-) => async () => {
-  let lastState = s
+) => (as: ReadonlyArray<A>): StateReaderTaskEither<S, R, E, ReadonlyArray<B>> => (s) => (r) => async () => {
+  let out = s
   // tslint:disable-next-line: readonly-array
-  const out = []
-  for (let i = 0; i < arr.length; i++) {
-    const b = await f(i, arr[i])(lastState)(r)()
-    if (E.isLeft(b)) {
-      return b
+  const bs: Array<B> = []
+  for (let i = 0; i < as.length; i++) {
+    const e = await f(i, as[i])(out)(r)()
+    if (E.isLeft(e)) {
+      return e
     }
-    const [newValue, newState] = b.right
-    out.push(newValue)
-    lastState = newState
+    const [b, s2] = e.right
+    bs.push(b)
+    out = s2
   }
-  return E.right([out, lastState])
+  return E.right([bs, out])
 }
 
 /**
@@ -795,18 +793,18 @@ export const traverseArrayWithIndex: <S, R, E, A, B>(
  *
  * @since 3.0.0
  */
-export const traverseArray: <S, R, E, A, B>(
+export const traverseReadonlyArray: <A, S, R, E, B>(
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (arr: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>> = (f) =>
-  traverseArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>> = (f) =>
+  traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
  * @since 3.0.0
  */
-export const sequenceArray: <S, R, E, A>(
-  arr: ReadonlyArray<StateReaderTaskEither<S, R, E, A>>
+export const sequenceReadonlyArray: <S, R, E, A>(
+  as: ReadonlyArray<StateReaderTaskEither<S, R, E, A>>
 ) => StateReaderTaskEither<S, R, E, ReadonlyArray<A>> =
   /*#__PURE__*/
-  traverseArray(identity)
+  traverseReadonlyArray(identity)

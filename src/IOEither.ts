@@ -716,45 +716,45 @@ export const apTW: <E2, B>(
  *
  * @since 3.0.0
  */
-export const traverseArrayWithIndex: <A, E, B>(
+export const traverseReadonlyArrayWithIndex: <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
-) => (arr: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) =>
-  flow(I.traverseArrayWithIndex(f), I.map(E.sequenceArray))
+) => (as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) =>
+  flow(I.traverseReadonlyArrayWithIndex(f), I.map(E.sequenceReadonlyArray))
 
 /**
  * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
  *
  * @since 3.0.0
  */
-export const traverseArray: <A, E, B>(
+export const traverseReadonlyArray: <A, E, B>(
   f: (a: A) => IOEither<E, B>
-) => (arr: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
  *
  * @since 3.0.0
  */
-export const sequenceArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEither<E, ReadonlyArray<A>> =
+export const sequenceReadonlyArray: <E, A>(as: ReadonlyArray<IOEither<E, A>>) => IOEither<E, ReadonlyArray<A>> =
   /*#__PURE__*/
-  traverseArray(identity)
+  traverseReadonlyArray(identity)
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
  *
  * @since 3.0.0
  */
-export const traverseSeqArrayWithIndex: <A, E, B>(
-  f: (index: number, a: A) => IOEither<E, B>
-) => (arr: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) => (arr) => () => {
+export const traverseReadonlyArrayWithIndexSeq = <A, E, B>(f: (index: number, a: A) => IOEither<E, B>) => (
+  as: ReadonlyArray<A>
+): IOEither<E, ReadonlyArray<B>> => () => {
   // tslint:disable-next-line: readonly-array
   const out = []
-  for (let i = 0; i < arr.length; i++) {
-    const b = f(i, arr[i])()
-    if (E.isLeft(b)) {
-      return b
+  for (let i = 0; i < as.length; i++) {
+    const e = f(i, as[i])()
+    if (E.isLeft(e)) {
+      return e
     }
-    out.push(b.right)
+    out.push(e.right)
   }
   return E.right(out)
 }
@@ -764,15 +764,15 @@ export const traverseSeqArrayWithIndex: <A, E, B>(
  *
  * @since 3.0.0
  */
-export const traverseSeqArray: <A, E, B>(
+export const traverseReadonlyArraySeq: <A, E, B>(
   f: (a: A) => IOEither<E, B>
-) => (arr: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) => traverseSeqArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) => traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
  *
  * @since 3.0.0
  */
-export const sequenceSeqArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEither<E, ReadonlyArray<A>> =
+export const sequenceReadonlyArraySeq: <E, A>(as: ReadonlyArray<IOEither<E, A>>) => IOEither<E, ReadonlyArray<A>> =
   /*#__PURE__*/
-  traverseSeqArray(identity)
+  traverseReadonlyArraySeq(identity)

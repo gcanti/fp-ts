@@ -1532,7 +1532,7 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>)
 }
 
 /**
- * **for optimized and stack safe version check the data types `traverseArrayWithIndex` function**
+ * **for optimized and stack safe version check the data types `traverseReadonlyArrayWithIndex` function**
  * @category TraversableWithIndex
  * @since 3.0.0
  */

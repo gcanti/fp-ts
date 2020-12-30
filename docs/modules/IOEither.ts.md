@@ -94,12 +94,12 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
-  - [sequenceArray](#sequencearray)
-  - [sequenceSeqArray](#sequenceseqarray)
-  - [traverseArray](#traversearray)
-  - [traverseArrayWithIndex](#traversearraywithindex)
-  - [traverseSeqArray](#traverseseqarray)
-  - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [sequenceReadonlyArraySeq](#sequencereadonlyarrayseq)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArraySeq](#traversereadonlyarrayseq)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
   - [tupled](#tupled)
 
 ---
@@ -894,82 +894,82 @@ export declare const bracket: <E, A, B>(
 
 Added in v3.0.0
 
-## sequenceArray
+## sequenceReadonlyArray
 
 Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
 
 **Signature**
 
 ```ts
-export declare const sequenceArray: <E, A>(arr: readonly IOEither<E, A>[]) => IOEither<E, readonly A[]>
+export declare const sequenceReadonlyArray: <E, A>(as: readonly IOEither<E, A>[]) => IOEither<E, readonly A[]>
 ```
 
 Added in v3.0.0
 
-## sequenceSeqArray
+## sequenceReadonlyArraySeq
 
 Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
 
 **Signature**
 
 ```ts
-export declare const sequenceSeqArray: <E, A>(arr: readonly IOEither<E, A>[]) => IOEither<E, readonly A[]>
+export declare const sequenceReadonlyArraySeq: <E, A>(as: readonly IOEither<E, A>[]) => IOEither<E, readonly A[]>
 ```
 
 Added in v3.0.0
 
-## traverseArray
+## traverseReadonlyArray
 
 Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
 
 **Signature**
 
 ```ts
-export declare const traverseArray: <A, E, B>(
+export declare const traverseReadonlyArray: <A, E, B>(
   f: (a: A) => IOEither<E, B>
-) => (arr: readonly A[]) => IOEither<E, readonly B[]>
+) => (as: readonly A[]) => IOEither<E, readonly B[]>
 ```
 
 Added in v3.0.0
 
-## traverseArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
-
-**Signature**
-
-```ts
-export declare const traverseArrayWithIndex: <A, E, B>(
-  f: (index: number, a: A) => IOEither<E, B>
-) => (arr: readonly A[]) => IOEither<E, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseSeqArray
+## traverseReadonlyArraySeq
 
 Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
 
 **Signature**
 
 ```ts
-export declare const traverseSeqArray: <A, E, B>(
+export declare const traverseReadonlyArraySeq: <A, E, B>(
   f: (a: A) => IOEither<E, B>
-) => (arr: readonly A[]) => IOEither<E, readonly B[]>
+) => (as: readonly A[]) => IOEither<E, readonly B[]>
 ```
 
 Added in v3.0.0
 
-## traverseSeqArrayWithIndex
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, E, B>(
+  f: (index: number, a: A) => IOEither<E, B>
+) => (as: readonly A[]) => IOEither<E, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArrayWithIndexSeq
 
 Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
 
 **Signature**
 
 ```ts
-export declare const traverseSeqArrayWithIndex: <A, E, B>(
+export declare const traverseReadonlyArrayWithIndexSeq: <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
-) => (arr: readonly A[]) => IOEither<E, readonly B[]>
+) => (as: readonly A[]) => IOEither<E, readonly B[]>
 ```
 
 Added in v3.0.0

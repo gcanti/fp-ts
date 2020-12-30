@@ -75,22 +75,22 @@ describe('IO', () => {
   })
 
   describe('array utils', () => {
-    it('sequenceArray', () => {
+    it('sequenceReadonlyArray', () => {
       const arr = RA.range(0, 100)
-      assert.deepStrictEqual(pipe(arr, RA.map(_.of), _.sequenceArray)(), arr)
+      assert.deepStrictEqual(pipe(arr, RA.map(_.of), _.sequenceReadonlyArray)(), arr)
     })
 
-    it('traverseArray', () => {
+    it('traverseReadonlyArray', () => {
       const arr = RA.range(0, 100)
-      assert.deepStrictEqual(pipe(arr, _.traverseArray(_.of))(), arr)
+      assert.deepStrictEqual(pipe(arr, _.traverseReadonlyArray(_.of))(), arr)
     })
 
-    it('traverseArrayWithIndex', () => {
+    it('traverseReadonlyArrayWithIndex', () => {
       const arr = RA.range(0, 100)
       assert.deepStrictEqual(
         pipe(
           arr,
-          _.traverseArrayWithIndex((index, _data) => _.of(index))
+          _.traverseReadonlyArrayWithIndex((index, _data) => _.of(index))
         )(),
         arr
       )

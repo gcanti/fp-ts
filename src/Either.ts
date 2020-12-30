@@ -1229,14 +1229,14 @@ export const apTW: <E2, B>(
  *
  * @since 3.0.0
  */
-export const traverseArrayWithIndex = <E, A, B>(f: (index: number, a: A) => Either<E, B>) => (
-  arr: ReadonlyArray<A>
+export const traverseReadonlyArrayWithIndex = <A, E, B>(f: (index: number, a: A) => Either<E, B>) => (
+  as: ReadonlyArray<A>
 ): Either<E, ReadonlyArray<B>> => {
   // tslint:disable-next-line: readonly-array
   const out: Array<B> = []
-  for (let i = 0; i < arr.length; i++) {
-    const e = f(i, arr[i])
-    if (e._tag === 'Left') {
+  for (let i = 0; i < as.length; i++) {
+    const e = f(i, as[i])
+    if (isLeft(e)) {
       return e
     }
     out.push(e.right)
@@ -1247,51 +1247,17 @@ export const traverseArrayWithIndex = <E, A, B>(f: (index: number, a: A) => Eith
 /**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
- * @example
- * import * as E from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
- * import * as A from 'fp-ts/ReadonlyArray'
- *
- * const arr = A.range(0, 10)
- * assert.deepStrictEqual(
- *   pipe(
- *     arr,
- *     E.traverseArray(E.right)
- *   ),
- *   E.right(arr)
- * )
- * assert.deepStrictEqual(
- *   pipe(
- *     arr,
- *     E.traverseArray(
- *       E.fromPredicate(
- *         (x) => x > 5
- *       )
- *     )
- *   ),
- *   E.left(0)
- * )
  * @since 3.0.0
  */
-export const traverseArray: <E, A, B>(
+export const traverseReadonlyArray: <A, E, B>(
   f: (a: A) => Either<E, B>
-) => (as: ReadonlyArray<A>) => Either<E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => Either<E, ReadonlyArray<B>> = (f) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
- * @example
- *
- * import * as E from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
- * import * as A from 'fp-ts/ReadonlyArray'
- *
- * const arr = A.range(0, 10)
- * assert.deepStrictEqual(pipe(arr, A.map(E.right), E.sequenceArray), E.right(arr))
- * assert.deepStrictEqual(pipe(arr, A.map(E.right), A.cons(E.left('Error')), E.sequenceArray), E.left('Error'))
- *
  * @since 3.0.0
  */
-export const sequenceArray: <E, A>(arr: ReadonlyArray<Either<E, A>>) => Either<E, ReadonlyArray<A>> =
+export const sequenceReadonlyArray: <E, A>(as: ReadonlyArray<Either<E, A>>) => Either<E, ReadonlyArray<A>> =
   /*#__PURE__*/
-  traverseArray(identity)
+  traverseReadonlyArray(identity)

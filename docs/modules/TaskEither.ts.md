@@ -108,13 +108,13 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
-  - [sequenceArray](#sequencearray)
-  - [sequenceSeqArray](#sequenceseqarray)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [sequenceReadonlyArraySeq](#sequencereadonlyarrayseq)
   - [taskify](#taskify)
-  - [traverseArray](#traversearray)
-  - [traverseArrayWithIndex](#traversearraywithindex)
-  - [traverseSeqArray](#traverseseqarray)
-  - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArraySeq](#traversereadonlyarrayseq)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
   - [tupled](#tupled)
 
 ---
@@ -1092,57 +1092,26 @@ export declare const bracket: <E, A, B>(
 
 Added in v3.0.0
 
-## sequenceArray
+## sequenceReadonlyArray
 
 Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
 
 **Signature**
 
 ```ts
-export declare const sequenceArray: <A, E>(arr: readonly TaskEither<E, A>[]) => TaskEither<E, readonly A[]>
-```
-
-**Example**
-
-```ts
-import * as TE from 'fp-ts/TaskEither'
-import * as A from 'fp-ts/ReadonlyArray'
-import { right } from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-
-const PostRepo = {
-  findById: (id: number) => TE.of({ id, title: '' }),
-}
-
-const findAllPosts = (ids: ReadonlyArray<number>) => pipe(ids, A.map(PostRepo.findById), TE.sequenceArray)
-
-async function test() {
-  const ids = A.range(0, 10)
-
-  assert.deepStrictEqual(
-    await findAllPosts(ids)(),
-    right(
-      pipe(
-        ids,
-        A.map((id) => ({ id, title: '' }))
-      )
-    )
-  )
-}
-
-test()
+export declare const sequenceReadonlyArray: <E, A>(as: readonly TaskEither<E, A>[]) => TaskEither<E, readonly A[]>
 ```
 
 Added in v3.0.0
 
-## sequenceSeqArray
+## sequenceReadonlyArraySeq
 
 Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
 
 **Signature**
 
 ```ts
-export declare const sequenceSeqArray: <A, E>(arr: readonly TaskEither<E, A>[]) => TaskEither<E, readonly A[]>
+export declare const sequenceReadonlyArraySeq: <E, A>(as: readonly TaskEither<E, A>[]) => TaskEither<E, readonly A[]>
 ```
 
 Added in v3.0.0
@@ -1199,89 +1168,58 @@ assert.strictEqual(stat.length, 0)
 
 Added in v3.0.0
 
-## traverseArray
+## traverseReadonlyArray
 
 Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
 
 **Signature**
 
 ```ts
-export declare const traverseArray: <A, B, E>(
+export declare const traverseReadonlyArray: <A, E, B>(
   f: (a: A) => TaskEither<E, B>
-) => (arr: readonly A[]) => TaskEither<E, readonly B[]>
-```
-
-**Example**
-
-```ts
-import * as TE from 'fp-ts/TaskEither'
-import * as A from 'fp-ts/ReadonlyArray'
-import { right } from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-
-const PostRepo = {
-  findById: (id: number) => TE.of({ id, title: '' }),
-}
-
-const findAllPosts = (ids: ReadonlyArray<number>) => pipe(ids, TE.traverseArray(PostRepo.findById))
-
-async function test() {
-  const ids = A.range(0, 10)
-
-  assert.deepStrictEqual(
-    await findAllPosts(ids)(),
-    right(
-      pipe(
-        ids,
-        A.map((id) => ({ id, title: '' }))
-      )
-    )
-  )
-}
-
-test()
+) => (as: readonly A[]) => TaskEither<E, readonly B[]>
 ```
 
 Added in v3.0.0
 
-## traverseArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
-
-**Signature**
-
-```ts
-export declare const traverseArrayWithIndex: <A, B, E>(
-  f: (index: number, a: A) => TaskEither<E, B>
-) => (arr: readonly A[]) => TaskEither<E, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseSeqArray
+## traverseReadonlyArraySeq
 
 Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
 
 **Signature**
 
 ```ts
-export declare const traverseSeqArray: <A, B, E>(
+export declare const traverseReadonlyArraySeq: <A, E, B>(
   f: (a: A) => TaskEither<E, B>
-) => (arr: readonly A[]) => TaskEither<E, readonly B[]>
+) => (as: readonly A[]) => TaskEither<E, readonly B[]>
 ```
 
 Added in v3.0.0
 
-## traverseSeqArrayWithIndex
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, E, B>(
+  f: (index: number, a: A) => TaskEither<E, B>
+) => (as: readonly A[]) => TaskEither<E, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArrayWithIndexSeq
 
 Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
 
 **Signature**
 
 ```ts
-export declare const traverseSeqArrayWithIndex: <A, B, E>(
+export declare const traverseReadonlyArrayWithIndexSeq: <A, E, B>(
   f: (index: number, a: A) => TaskEither<E, B>
-) => (arr: readonly A[]) => TaskEither<E, readonly B[]>
+) => (as: readonly A[]) => TaskEither<E, readonly B[]>
 ```
 
 Added in v3.0.0

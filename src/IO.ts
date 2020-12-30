@@ -292,45 +292,24 @@ export const apT =
  *
  * @since 3.0.0
  */
-export const traverseArrayWithIndex: <A, B>(
-  f: (index: number, a: A) => IO<B>
-) => (arr: ReadonlyArray<A>) => IO<ReadonlyArray<B>> = (f) => (arr) => () => arr.map((a, i) => f(i, a)())
+export const traverseReadonlyArrayWithIndex = <A, B>(f: (index: number, a: A) => IO<B>) => (
+  as: ReadonlyArray<A>
+): IO<ReadonlyArray<B>> => () => as.map((a, i) => f(i, a)())
 
 /**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
- * @example
- * import * as RA from 'fp-ts/ReadonlyArray'
- * import { traverseArray, IO } from 'fp-ts/IO'
- * import { pipe } from 'fp-ts/function'
- *
- * const logger: Array<unknown> = []
- * const log: <A>(a: A) => IO<void> = (a) => () => { logger.push(a) }
- *
- * pipe(RA.range(0, 100), traverseArray(log))()
- * assert.deepStrictEqual(logger, RA.range(0, 100))
- *
  * @since 3.0.0
  */
-export const traverseArray: <A, B>(f: (a: A) => IO<B>) => (arr: ReadonlyArray<A>) => IO<ReadonlyArray<B>> = (f) =>
-  traverseArrayWithIndex((_, a) => f(a))
+export const traverseReadonlyArray: <A, B>(f: (a: A) => IO<B>) => (as: ReadonlyArray<A>) => IO<ReadonlyArray<B>> = (
+  f
+) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
- * @example
- * import * as RA from 'fp-ts/ReadonlyArray'
- * import { sequenceArray, IO } from 'fp-ts/IO'
- * import { pipe } from 'fp-ts/function'
- *
- * const logger: Array<unknown> = []
- * const log: <A>(a: A) => IO<void> = (a) => () => { logger.push(a) }
- *
- * pipe(RA.range(0, 100), RA.map(log), sequenceArray)()
- * assert.deepStrictEqual(logger, RA.range(0, 100))
- *
  * @since 3.0.0
  */
-export const sequenceArray: <A>(arr: ReadonlyArray<IO<A>>) => IO<ReadonlyArray<A>> =
+export const sequenceReadonlyArray: <A>(as: ReadonlyArray<IO<A>>) => IO<ReadonlyArray<A>> =
   /*#__PURE__*/
-  traverseArray(identity)
+  traverseReadonlyArray(identity)

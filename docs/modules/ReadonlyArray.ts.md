@@ -489,7 +489,7 @@ Added in v3.0.0
 
 ## traverseWithIndex
 
-**for optimized and stack safe version check the data types `traverseArrayWithIndex` function**
+**for optimized and stack safe version check the data types `traverseReadonlyArrayWithIndex` function**
 
 **Signature**
 

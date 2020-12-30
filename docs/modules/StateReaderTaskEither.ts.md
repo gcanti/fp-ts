@@ -101,9 +101,9 @@ Added in v3.0.0
   - [bindW](#bindw)
   - [evaluate](#evaluate)
   - [execute](#execute)
-  - [sequenceArray](#sequencearray)
-  - [traverseArray](#traversearray)
-  - [traverseArrayWithIndex](#traversearraywithindex)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [tupled](#tupled)
 
 ---
@@ -1061,44 +1061,44 @@ export declare const execute: <S>(
 
 Added in v3.0.0
 
-## sequenceArray
+## sequenceReadonlyArray
 
 Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const sequenceArray: <S, R, E, A>(
-  arr: readonly StateReaderTaskEither<S, R, E, A>[]
+export declare const sequenceReadonlyArray: <S, R, E, A>(
+  as: readonly StateReaderTaskEither<S, R, E, A>[]
 ) => StateReaderTaskEither<S, R, E, readonly A[]>
 ```
 
 Added in v3.0.0
 
-## traverseArray
+## traverseReadonlyArray
 
 Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const traverseArray: <S, R, E, A, B>(
+export declare const traverseReadonlyArray: <A, S, R, E, B>(
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (arr: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
+) => (as: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
 ```
 
 Added in v3.0.0
 
-## traverseArrayWithIndex
+## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const traverseArrayWithIndex: <S, R, E, A, B>(
+export declare const traverseReadonlyArrayWithIndex: <A, S, R, E, B>(
   f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
-) => (arr: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
+) => (as: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
 ```
 
 Added in v3.0.0

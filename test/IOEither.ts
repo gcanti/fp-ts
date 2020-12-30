@@ -405,43 +405,43 @@ describe('IOEither', () => {
   })
 
   describe('array utils', () => {
-    it('sequenceArray', () => {
+    it('sequenceReadonlyArray', () => {
       const arr = A.range(0, 10)
-      assert.deepStrictEqual(pipe(arr, A.map(_.of), _.sequenceArray)(), E.right(arr))
+      assert.deepStrictEqual(pipe(arr, A.map(_.of), _.sequenceReadonlyArray)(), E.right(arr))
     })
 
-    it('traverseArray', () => {
+    it('traverseReadonlyArray', () => {
       const arr = A.range(0, 10)
-      assert.deepStrictEqual(pipe(arr, _.traverseArray(_.of))(), E.right(arr))
+      assert.deepStrictEqual(pipe(arr, _.traverseReadonlyArray(_.of))(), E.right(arr))
     })
 
-    it('traverseArrayWithIndex', () => {
+    it('traverseReadonlyArrayWithIndex', () => {
       const arr = A.replicate(3, 1)
       assert.deepStrictEqual(
         pipe(
           arr,
-          _.traverseArrayWithIndex((index, _data) => _.of(index))
+          _.traverseReadonlyArrayWithIndex((index, _data) => _.of(index))
         )(),
         E.right([0, 1, 2])
       )
     })
 
-    it('sequenceSeqArray', () => {
+    it('sequenceReadonlyArraySeq', () => {
       const arr = A.range(0, 10)
-      assert.deepStrictEqual(pipe(arr, A.map(_.of), _.sequenceSeqArray)(), E.right(arr))
+      assert.deepStrictEqual(pipe(arr, A.map(_.of), _.sequenceReadonlyArraySeq)(), E.right(arr))
     })
 
-    it('traverseSeqArray', () => {
+    it('traverseReadonlyArraySeq', () => {
       const arr = A.range(0, 10)
-      assert.deepStrictEqual(pipe(arr, _.traverseSeqArray(_.of))(), E.right(arr))
+      assert.deepStrictEqual(pipe(arr, _.traverseReadonlyArraySeq(_.of))(), E.right(arr))
     })
 
-    it('traverseSeqArrayWithIndex', () => {
+    it('traverseReadonlyArrayWithIndexSeq', () => {
       const arr = A.replicate(3, 1)
       assert.deepStrictEqual(
         pipe(
           arr,
-          _.traverseSeqArrayWithIndex((index, _data) =>
+          _.traverseReadonlyArrayWithIndexSeq((index, _data) =>
             pipe(
               index,
               _.fromPredicate((index) => index < 1)
@@ -453,7 +453,7 @@ describe('IOEither', () => {
       assert.deepStrictEqual(
         pipe(
           arr,
-          _.traverseSeqArrayWithIndex((index, _data) => _.of(index))
+          _.traverseReadonlyArrayWithIndexSeq((index, _data) => _.of(index))
         )(),
         E.right([0, 1, 2])
       )

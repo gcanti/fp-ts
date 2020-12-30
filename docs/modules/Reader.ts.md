@@ -62,9 +62,9 @@ Added in v3.0.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
-  - [sequenceArray](#sequencearray)
-  - [traverseArray](#traversearray)
-  - [traverseArrayWithIndex](#traversearraywithindex)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [tupled](#tupled)
 
 ---
@@ -520,80 +520,42 @@ export declare const bindW: <N extends string, A, R2, B>(
 
 Added in v3.0.0
 
-## sequenceArray
+## sequenceReadonlyArray
 
 Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const sequenceArray: <R, A>(arr: readonly Reader<R, A>[]) => Reader<R, readonly A[]>
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { sequenceArray, Reader } from 'fp-ts/Reader'
-import { pipe } from 'fp-ts/function'
-
-const add: (x: number) => Reader<{ value: number }, number> = (x) => (config) => x + config.value
-const arr = RA.range(0, 100)
-
-assert.deepStrictEqual(
-  pipe(arr, RA.map(add), sequenceArray)({ value: 3 }),
-  pipe(
-    arr,
-    RA.map((x) => x + 3)
-  )
-)
+export declare const sequenceReadonlyArray: <R, A>(as: readonly Reader<R, A>[]) => Reader<R, readonly A[]>
 ```
 
 Added in v3.0.0
 
-## traverseArray
+## traverseReadonlyArray
 
 Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const traverseArray: <R, A, B>(
+export declare const traverseReadonlyArray: <A, R, B>(
   f: (a: A) => Reader<R, B>
-) => (arr: readonly A[]) => Reader<R, readonly B[]>
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { traverseArray, Reader } from 'fp-ts/Reader'
-import { pipe } from 'fp-ts/function'
-
-const add: (x: number) => Reader<{ value: number }, number> = (x) => (config) => x + config.value
-const arr = RA.range(0, 100)
-
-assert.deepStrictEqual(
-  pipe(arr, traverseArray(add))({ value: 3 }),
-  pipe(
-    arr,
-    RA.map((x) => x + 3)
-  )
-)
+) => (as: readonly A[]) => Reader<R, readonly B[]>
 ```
 
 Added in v3.0.0
 
-## traverseArrayWithIndex
+## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const traverseArrayWithIndex: <R, A, B>(
+export declare const traverseReadonlyArrayWithIndex: <A, R, B>(
   f: (index: number, a: A) => Reader<R, B>
-) => (arr: readonly A[]) => Reader<R, readonly B[]>
+) => (as: readonly A[]) => Reader<R, readonly B[]>
 ```
 
 Added in v3.0.0

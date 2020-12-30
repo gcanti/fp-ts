@@ -145,43 +145,43 @@ describe('Task', () => {
   })
 
   describe('array utils', () => {
-    it('sequenceArray', async () => {
+    it('sequenceReadonlyArray', async () => {
       const arr = RA.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, RA.map(_.of), _.sequenceArray)(), arr)
+      assert.deepStrictEqual(await pipe(arr, RA.map(_.of), _.sequenceReadonlyArray)(), arr)
     })
 
-    it('traverseArray', async () => {
+    it('traverseReadonlyArray', async () => {
       const arr = RA.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, _.traverseArray(_.of))(), arr)
+      assert.deepStrictEqual(await pipe(arr, _.traverseReadonlyArray(_.of))(), arr)
     })
 
-    it('traverseArrayWithIndex', async () => {
+    it('traverseReadonlyArrayWithIndex', async () => {
       const arr = RA.range(0, 10)
       assert.deepStrictEqual(
         await pipe(
           arr,
-          _.traverseArrayWithIndex((index, _data) => _.of(index))
+          _.traverseReadonlyArrayWithIndex((index, _data) => _.of(index))
         )(),
         arr
       )
     })
 
-    it('sequenceSeqArray', async () => {
+    it('sequenceReadonlyArraySeq', async () => {
       const arr = RA.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, RA.map(_.of), _.sequenceSeqArray)(), arr)
+      assert.deepStrictEqual(await pipe(arr, RA.map(_.of), _.sequenceReadonlyArraySeq)(), arr)
     })
 
-    it('traverseSeqArray', async () => {
+    it('traverseReadonlyArraySeq', async () => {
       const arr = RA.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, _.traverseSeqArray(_.of))(), arr)
+      assert.deepStrictEqual(await pipe(arr, _.traverseReadonlyArraySeq(_.of))(), arr)
     })
 
-    it('traverseSeqArrayWithIndex', async () => {
+    it('traverseReadonlyArrayWithIndexSeq', async () => {
       const arr = RA.range(0, 10)
       assert.deepStrictEqual(
         await pipe(
           arr,
-          _.traverseSeqArrayWithIndex((index, _data) => _.of(index))
+          _.traverseReadonlyArrayWithIndexSeq((index, _data) => _.of(index))
         )(),
         arr
       )

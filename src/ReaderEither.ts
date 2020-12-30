@@ -628,27 +628,28 @@ export const apTW: <R2, E2, B>(
  *
  * @since 3.0.0
  */
-export const traverseArrayWithIndex: <R, E, A, B>(
+export const traverseReadonlyArrayWithIndex: <A, R, E, B>(
   f: (index: number, a: A) => ReaderEither<R, E, B>
-) => (arr: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>> = (f) =>
-  flow(R.traverseArrayWithIndex(f), R.map(E.sequenceArray))
+) => (as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>> = (f) =>
+  flow(R.traverseReadonlyArrayWithIndex(f), R.map(E.sequenceReadonlyArray))
 
 /**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
  * @since 3.0.0
  */
-export const traverseArray: <R, E, A, B>(
+export const traverseReadonlyArray: <A, R, E, B>(
   f: (a: A) => ReaderEither<R, E, B>
-) => (arr: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>> = (f) =>
+  traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
  * @since 3.0.0
  */
-export const sequenceArray: <R, E, A>(
-  arr: ReadonlyArray<ReaderEither<R, E, A>>
+export const sequenceReadonlyArray: <R, E, A>(
+  as: ReadonlyArray<ReaderEither<R, E, A>>
 ) => ReaderEither<R, E, ReadonlyArray<A>> =
   /*#__PURE__*/
-  traverseArray(identity)
+  traverseReadonlyArray(identity)

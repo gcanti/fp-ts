@@ -56,24 +56,24 @@ export function fromNullable_<F>(F: Pointed<F>): <A>(fa: HKT<F, A>) => HKT<F, Op
  * @since 3.0.0
  */
 export function fromPredicate_<F extends URIS>(
-  F: Functor1<F>
+  F: Pointed1<F>
 ): {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind<F, A>) => Kind<F, Option<B>>
-  <A>(predicate: Predicate<A>): (fa: Kind<F, A>) => Kind<F, Option<A>>
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => Kind<F, Option<B>>
+  <A>(predicate: Predicate<A>): (a: A) => Kind<F, Option<A>>
 }
 export function fromPredicate_<F>(
-  F: Functor<F>
+  F: Pointed<F>
 ): {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: HKT<F, A>) => HKT<F, Option<B>>
-  <A>(predicate: Predicate<A>): (fa: HKT<F, A>) => HKT<F, Option<A>>
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => HKT<F, Option<B>>
+  <A>(predicate: Predicate<A>): (a: A) => HKT<F, Option<A>>
 }
 export function fromPredicate_<F>(
-  F: Functor<F>
+  F: Pointed<F>
 ): {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: HKT<F, A>) => HKT<F, Option<B>>
-  <A>(predicate: Predicate<A>): (fa: HKT<F, A>) => HKT<F, Option<A>>
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => HKT<F, Option<B>>
+  <A>(predicate: Predicate<A>): (a: A) => HKT<F, Option<A>>
 } {
-  return <A>(predicate: Predicate<A>) => F.map(O.fromPredicate(predicate))
+  return <A>(predicate: Predicate<A>) => (a: A) => F.of(O.fromPredicate(predicate)(a))
 }
 
 /**

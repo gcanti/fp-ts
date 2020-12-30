@@ -84,9 +84,9 @@ Added in v3.0.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
-  - [sequenceArray](#sequencearray)
-  - [traverseArray](#traversearray)
-  - [traverseArrayWithIndex](#traversearraywithindex)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [tupled](#tupled)
 
 ---
@@ -841,42 +841,44 @@ export declare const bindW: <N extends string, A, R2, E2, B>(
 
 Added in v3.0.0
 
-## sequenceArray
+## sequenceReadonlyArray
 
 Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const sequenceArray: <R, E, A>(arr: readonly ReaderEither<R, E, A>[]) => ReaderEither<R, E, readonly A[]>
+export declare const sequenceReadonlyArray: <R, E, A>(
+  as: readonly ReaderEither<R, E, A>[]
+) => ReaderEither<R, E, readonly A[]>
 ```
 
 Added in v3.0.0
 
-## traverseArray
+## traverseReadonlyArray
 
 Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const traverseArray: <R, E, A, B>(
+export declare const traverseReadonlyArray: <A, R, E, B>(
   f: (a: A) => ReaderEither<R, E, B>
-) => (arr: readonly A[]) => ReaderEither<R, E, readonly B[]>
+) => (as: readonly A[]) => ReaderEither<R, E, readonly B[]>
 ```
 
 Added in v3.0.0
 
-## traverseArrayWithIndex
+## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const traverseArrayWithIndex: <R, E, A, B>(
+export declare const traverseReadonlyArrayWithIndex: <A, R, E, B>(
   f: (index: number, a: A) => ReaderEither<R, E, B>
-) => (arr: readonly A[]) => ReaderEither<R, E, readonly B[]>
+) => (as: readonly A[]) => ReaderEither<R, E, readonly B[]>
 ```
 
 Added in v3.0.0

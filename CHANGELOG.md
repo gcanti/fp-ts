@@ -15,7 +15,7 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
-# 3.0.0-alpha.3
+# 3.0.0-alpha.4
 
 - **Breaking Change**
 
@@ -47,6 +47,12 @@ high state of flux, you're at risk of it changing without notice.
       - (`Tree`) make `Forest` immutable
       - make `Writer` definition immutable
   - make `readonly _E: E` optional in type class members
+  - rename `traverseArrayWithIndex` to `traverseReadonlyArrayWithIndex` (@gcanti)
+  - rename `traverseArray` to `traverseReadonlyArray` (@gcanti)
+  - rename `sequenceArray` to `sequenceReadonlyArray` (@gcanti)
+  - rename `traverseSeqArrayWithIndex` to `traverseReadonlyArrayWithIndexSeq` (@gcanti)
+  - rename `traverseSeqArray` to `traverseReadonlyArraySeq` (@gcanti)
+  - rename `sequenceSeqArray` to `sequenceReadonlyArraySeq` (@gcanti)
   - `Alt`
     - make type class members pipeables (@gcanti)
   - `Applicative`

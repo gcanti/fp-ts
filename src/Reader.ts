@@ -381,44 +381,24 @@ export const apTW: <R2, B>(
  *
  * @since 3.0.0
  */
-export const traverseArrayWithIndex: <R, A, B>(
-  f: (index: number, a: A) => Reader<R, B>
-) => (arr: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>> = (f) => (arr) => (r) => arr.map((x, i) => f(i, x)(r))
+export const traverseReadonlyArrayWithIndex = <A, R, B>(f: (index: number, a: A) => Reader<R, B>) => (
+  as: ReadonlyArray<A>
+): Reader<R, ReadonlyArray<B>> => (r) => as.map((a, i) => f(i, a)(r))
 
 /**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
- * @example
- * import * as RA from 'fp-ts/ReadonlyArray'
- * import { traverseArray, Reader } from 'fp-ts/Reader'
- * import { pipe } from 'fp-ts/function'
- *
- * const add: (x: number) => Reader<{value:number}, number> = x => config => x + config.value
- * const arr = RA.range(0, 100)
- *
- * assert.deepStrictEqual(pipe(arr, traverseArray(add))({value: 3}), pipe(arr, RA.map(x => x + 3)))
- *
  * @since 3.0.0
  */
-export const traverseArray: <R, A, B>(
+export const traverseReadonlyArray: <A, R, B>(
   f: (a: A) => Reader<R, B>
-) => (arr: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>> = (f) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
- * @example
- * import * as RA from 'fp-ts/ReadonlyArray'
- * import { sequenceArray, Reader } from 'fp-ts/Reader'
- * import { pipe } from 'fp-ts/function'
- *
- * const add: (x: number) => Reader<{value:number}, number> = x => config => x + config.value
- * const arr = RA.range(0, 100)
- *
- * assert.deepStrictEqual(pipe(arr, RA.map(add), sequenceArray)({value: 3}), pipe(arr, RA.map(x => x + 3)))
- *
  * @since 3.0.0
  */
-export const sequenceArray: <R, A>(arr: ReadonlyArray<Reader<R, A>>) => Reader<R, ReadonlyArray<A>> =
+export const sequenceReadonlyArray: <R, A>(as: ReadonlyArray<Reader<R, A>>) => Reader<R, ReadonlyArray<A>> =
   /*#__PURE__*/
-  traverseArray(identity)
+  traverseReadonlyArray(identity)

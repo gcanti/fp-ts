@@ -928,98 +928,40 @@ export const apTW: <E2, B>(
  *
  * @since 3.0.0
  */
-export const traverseArrayWithIndex: <A, B, E>(
-  f: (index: number, a: A) => TaskEither<E, B>
-) => (arr: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => (arr) =>
-  pipe(arr, T.traverseArrayWithIndex(f), T.map(E.sequenceArray))
+export const traverseReadonlyArrayWithIndex = <A, E, B>(f: (index: number, a: A) => TaskEither<E, B>) => (
+  as: ReadonlyArray<A>
+): TaskEither<E, ReadonlyArray<B>> => pipe(as, T.traverseReadonlyArrayWithIndex(f), T.map(E.sequenceReadonlyArray))
 
 /**
  * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
  *
- * @example
- *
- * import * as TE from 'fp-ts/TaskEither'
- * import * as A from 'fp-ts/ReadonlyArray'
- * import { right } from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
- *
- * const PostRepo = {
- *   findById: (id: number) => TE.of({id, title: ''})
- * }
- *
- * const findAllPosts = (ids: ReadonlyArray<number>) => pipe(ids, TE.traverseArray(PostRepo.findById))
- *
- * async function test() {
- *   const ids = A.range(0, 10)
- *
- *   assert.deepStrictEqual(
- *     await findAllPosts(ids)(),
- *     right(
- *       pipe(
- *         ids,
- *         A.map((id) => ({ id, title: ''}))
- *       )
- *     )
- *   )
- * }
- *
- * test()
- *
  * @since 3.0.0
  */
-export const traverseArray: <A, B, E>(
+export const traverseReadonlyArray: <A, E, B>(
   f: (a: A) => TaskEither<E, B>
-) => (arr: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
  *
- * @example
- * import * as TE from 'fp-ts/TaskEither'
- * import * as A from 'fp-ts/ReadonlyArray'
- * import { right } from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
- *
- * const PostRepo = {
- *   findById: (id: number) => TE.of({id, title: ''})
- * }
- *
- * const findAllPosts = (ids: ReadonlyArray<number>) => pipe(ids, A.map(PostRepo.findById), TE.sequenceArray)
- *
- * async function test() {
- *   const ids = A.range(0, 10)
- *
- *   assert.deepStrictEqual(
- *     await findAllPosts(ids)(),
- *     right(
- *       pipe(
- *         ids,
- *         A.map((id) => ({ id, title: ''}))
- *       )
- *     )
- *   )
- * }
- *
- * test()
- *
  * @since 3.0.0
  */
-export const sequenceArray: <A, E>(arr: ReadonlyArray<TaskEither<E, A>>) => TaskEither<E, ReadonlyArray<A>> =
+export const sequenceReadonlyArray: <E, A>(as: ReadonlyArray<TaskEither<E, A>>) => TaskEither<E, ReadonlyArray<A>> =
   /*#__PURE__*/
-  traverseArray(identity)
+  traverseReadonlyArray(identity)
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
  *
  * @since 3.0.0
  */
-export const traverseSeqArrayWithIndex: <A, B, E>(
-  f: (index: number, a: A) => TaskEither<E, B>
-) => (arr: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => (arr) => async () => {
+export const traverseReadonlyArrayWithIndexSeq = <A, E, B>(f: (index: number, a: A) => TaskEither<E, B>) => (
+  as: ReadonlyArray<A>
+): TaskEither<E, ReadonlyArray<B>> => async () => {
   // tslint:disable-next-line: readonly-array
-  const out = []
-  for (let i = 0; i < arr.length; i++) {
-    const e = await f(i, arr[i])()
+  const out: Array<B> = []
+  for (let i = 0; i < as.length; i++) {
+    const e = await f(i, as[i])()
     if (E.isLeft(e)) {
       return e
     }
@@ -1033,15 +975,16 @@ export const traverseSeqArrayWithIndex: <A, B, E>(
  *
  * @since 3.0.0
  */
-export const traverseSeqArray: <A, B, E>(
+export const traverseReadonlyArraySeq: <A, E, B>(
   f: (a: A) => TaskEither<E, B>
-) => (arr: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => traverseSeqArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) =>
+  traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
  *
  * @since 3.0.0
  */
-export const sequenceSeqArray: <A, E>(arr: ReadonlyArray<TaskEither<E, A>>) => TaskEither<E, ReadonlyArray<A>> =
+export const sequenceReadonlyArraySeq: <E, A>(as: ReadonlyArray<TaskEither<E, A>>) => TaskEither<E, ReadonlyArray<A>> =
   /*#__PURE__*/
-  traverseSeqArray(identity)
+  traverseReadonlyArraySeq(identity)

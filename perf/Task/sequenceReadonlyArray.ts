@@ -5,10 +5,10 @@ import { pipe } from '../../src/function'
 
 /*
 for an array with size 1000
-A.sequence(T.task) x 534 ops/sec ±10.52% (64 runs sampled)
-T.sequenceArray x 4,237 ops/sec ±7.82% (71 runs sampled)
+A.sequence(T.ApplicativePar) x 534 ops/sec ±10.52% (64 runs sampled)
+T.sequenceReadonlyArray x 4,237 ops/sec ±7.82% (71 runs sampled)
 Promise.all x 4,863 ops/sec ±7.57% (74 runs sampled)
-Fastest is Promise.allA
+Fastest is Promise.all
 */
 
 const suite = new Benchmark.Suite()
@@ -17,10 +17,10 @@ const arr = A.range(0, 1000)
 
 suite
   .add('A.sequence(T.task)', function () {
-    return pipe(arr, A.map(T.of), A.sequence(T.task))()
+    return pipe(arr, A.map(T.of), A.sequence(T.ApplicativePar))()
   })
-  .add('T.sequenceArray', function () {
-    return pipe(arr, A.map(T.of), T.sequenceArray)()
+  .add('T.sequenceReadonlyArray', function () {
+    return pipe(arr, A.map(T.of), T.sequenceReadonlyArray)()
   })
   .add('Promise.all', function () {
     return pipe(

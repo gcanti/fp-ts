@@ -295,54 +295,34 @@ export const apT =
  *
  * @since 3.0.0
  */
-export const traverseArrayWithIndex: <A, S, B>(
-  f: (index: number, a: A) => State<S, B>
-) => (arr: ReadonlyArray<A>) => State<S, ReadonlyArray<B>> = (f) => (arr) => (s) => {
-  let lastState = s
+export const traverseReadonlyArrayWithIndex = <A, S, B>(f: (index: number, a: A) => State<S, B>) => (
+  as: ReadonlyArray<A>
+): State<S, ReadonlyArray<B>> => (s) => {
+  let out = s
   // tslint:disable-next-line: readonly-array
-  const values = []
-  for (let i = 0; i < arr.length; i++) {
-    const [newValue, newState] = f(i, arr[i])(lastState)
-    values.push(newValue)
-    lastState = newState
+  const bs: Array<B> = []
+  for (let i = 0; i < as.length; i++) {
+    const [b, s2] = f(i, as[i])(out)
+    bs.push(b)
+    out = s2
   }
-  return [values, lastState]
+  return [bs, out]
 }
 
 /**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
- * @example
- * import * as RA from 'fp-ts/ReadonlyArray'
- * import { traverseArray, State } from 'fp-ts/State'
- * import { pipe, tuple } from 'fp-ts/function'
- *
- * const add = (n: number): State<number, number> => (s: number) => tuple(n, n + s)
- * const arr = RA.range(0, 100)
- *
- * assert.deepStrictEqual(pipe(arr, traverseArray(add))(0), [arr, arr.reduce((p, c) => p + c, 0)])
- *
  * @since 3.0.0
  */
-export const traverseArray: <A, S, B>(
+export const traverseReadonlyArray: <A, S, B>(
   f: (a: A) => State<S, B>
-) => (arr: ReadonlyArray<A>) => State<S, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => State<S, ReadonlyArray<B>> = (f) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
- * @example
- * import * as RA from 'fp-ts/ReadonlyArray'
- * import { sequenceArray, State } from 'fp-ts/State'
- * import { pipe, tuple } from 'fp-ts/function'
- *
- * const add = (n: number): State<number, number> => (s: number) => tuple(n, n + s)
- * const arr = RA.range(0, 100)
- *
- * assert.deepStrictEqual(pipe(arr, RA.map(add), sequenceArray)(0), [arr, arr.reduce((p, c) => p + c, 0)])
- *
  * @since 3.0.0
  */
-export const sequenceArray: <S, A>(arr: ReadonlyArray<State<S, A>>) => State<S, ReadonlyArray<A>> =
+export const sequenceReadonlyArray: <S, A>(as: ReadonlyArray<State<S, A>>) => State<S, ReadonlyArray<A>> =
   /*#__PURE__*/
-  traverseArray(identity)
+  traverseReadonlyArray(identity)

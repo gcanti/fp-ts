@@ -148,21 +148,21 @@ describe('ReaderTask', () => {
   })
 
   describe('array utils', () => {
-    it('sequenceArray', async () => {
+    it('sequenceReadonlyArray', async () => {
       const arr = A.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, A.map(_.of), _.sequenceArray)(undefined)(), arr)
+      assert.deepStrictEqual(await pipe(arr, A.map(_.of), _.sequenceReadonlyArray)(undefined)(), arr)
     })
-    it('traverseArray', async () => {
+    it('traverseReadonlyArray', async () => {
       const arr = A.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, _.traverseArray(_.of))(undefined)(), arr)
+      assert.deepStrictEqual(await pipe(arr, _.traverseReadonlyArray(_.of))(undefined)(), arr)
     })
 
-    it('traverseArrayWithIndex', async () => {
+    it('traverseReadonlyArrayWithIndex', async () => {
       const arr = A.replicate(3, 1)
       assert.deepStrictEqual(
         await pipe(
           arr,
-          _.traverseArrayWithIndex((index, _data) => _.of(index))
+          _.traverseReadonlyArrayWithIndex((index, _data) => _.of(index))
         )(undefined)(),
         [0, 1, 2]
       )

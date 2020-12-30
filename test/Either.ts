@@ -592,34 +592,34 @@ describe('Either', () => {
   })
 
   describe('array utils', () => {
-    it('sequenceArray', () => {
+    it('sequenceReadonlyArray', () => {
       const arr = A.range(0, 10)
-      assert.deepStrictEqual(pipe(arr, A.map(_.right), _.sequenceArray), _.right(arr))
-      assert.deepStrictEqual(pipe(arr, A.map(_.right), A.cons(_.left('a')), _.sequenceArray), _.left('a'))
+      assert.deepStrictEqual(pipe(arr, A.map(_.right), _.sequenceReadonlyArray), _.right(arr))
+      assert.deepStrictEqual(pipe(arr, A.map(_.right), A.cons(_.left('a')), _.sequenceReadonlyArray), _.left('a'))
     })
 
-    it('traverseArrayWithIndex', () => {
+    it('traverseReadonlyArrayWithIndex', () => {
       const arr = A.range(0, 10)
       assert.deepStrictEqual(
         pipe(
           arr,
-          _.traverseArrayWithIndex((index, _data) => _.right(index))
+          _.traverseReadonlyArrayWithIndex((index, _data) => _.right(index))
         ),
         _.right(arr)
       )
-      assert.deepStrictEqual(pipe(arr, _.traverseArray(_.fromPredicate((x) => x > 5))), _.left(0))
+      assert.deepStrictEqual(pipe(arr, _.traverseReadonlyArrayWithIndex(_.fromPredicate((x) => x > 5))), _.left(0))
     })
 
-    it('traverseArray', () => {
+    it('traverseReadonlyArray', () => {
       const arr = A.range(0, 10)
       assert.deepStrictEqual(
         pipe(
           arr,
-          _.traverseArray((x) => _.right(x))
+          _.traverseReadonlyArray((x) => _.right(x))
         ),
         _.right(arr)
       )
-      assert.deepStrictEqual(pipe(arr, _.traverseArray(_.fromPredicate((x) => x > 5))), _.left(0))
+      assert.deepStrictEqual(pipe(arr, _.traverseReadonlyArray(_.fromPredicate((x) => x > 5))), _.left(0))
     })
   })
 })

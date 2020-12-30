@@ -47,9 +47,9 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [evaluate](#evaluate)
   - [execute](#execute)
-  - [sequenceArray](#sequencearray)
-  - [traverseArray](#traversearray)
-  - [traverseArrayWithIndex](#traversearraywithindex)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [tupled](#tupled)
 
 ---
@@ -374,66 +374,42 @@ export declare const execute: <S>(s: S) => <A>(ma: State<S, A>) => S
 
 Added in v3.0.0
 
-## sequenceArray
+## sequenceReadonlyArray
 
 Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const sequenceArray: <S, A>(arr: readonly State<S, A>[]) => State<S, readonly A[]>
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { sequenceArray, State } from 'fp-ts/State'
-import { pipe, tuple } from 'fp-ts/function'
-
-const add = (n: number): State<number, number> => (s: number) => tuple(n, n + s)
-const arr = RA.range(0, 100)
-
-assert.deepStrictEqual(pipe(arr, RA.map(add), sequenceArray)(0), [arr, arr.reduce((p, c) => p + c, 0)])
+export declare const sequenceReadonlyArray: <S, A>(as: readonly State<S, A>[]) => State<S, readonly A[]>
 ```
 
 Added in v3.0.0
 
-## traverseArray
+## traverseReadonlyArray
 
 Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const traverseArray: <A, S, B>(f: (a: A) => State<S, B>) => (arr: readonly A[]) => State<S, readonly B[]>
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { traverseArray, State } from 'fp-ts/State'
-import { pipe, tuple } from 'fp-ts/function'
-
-const add = (n: number): State<number, number> => (s: number) => tuple(n, n + s)
-const arr = RA.range(0, 100)
-
-assert.deepStrictEqual(pipe(arr, traverseArray(add))(0), [arr, arr.reduce((p, c) => p + c, 0)])
+export declare const traverseReadonlyArray: <A, S, B>(
+  f: (a: A) => State<S, B>
+) => (as: readonly A[]) => State<S, readonly B[]>
 ```
 
 Added in v3.0.0
 
-## traverseArrayWithIndex
+## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const traverseArrayWithIndex: <A, S, B>(
+export declare const traverseReadonlyArrayWithIndex: <A, S, B>(
   f: (index: number, a: A) => State<S, B>
-) => (arr: readonly A[]) => State<S, readonly B[]>
+) => (as: readonly A[]) => State<S, readonly B[]>
 ```
 
 Added in v3.0.0

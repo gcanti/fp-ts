@@ -124,9 +124,9 @@ Added in v3.0.0
   - [bindW](#bindw)
   - [elem](#elem)
   - [exists](#exists)
-  - [sequenceArray](#sequencearray)
-  - [traverseArray](#traversearray)
-  - [traverseArrayWithIndex](#traversearraywithindex)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [tupled](#tupled)
 
 ---
@@ -1438,66 +1438,42 @@ assert.strictEqual(f(E.right(3)), true)
 
 Added in v3.0.0
 
-## sequenceArray
+## sequenceReadonlyArray
 
 Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const sequenceArray: <E, A>(arr: readonly Either<E, A>[]) => Either<E, readonly A[]>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-import * as A from 'fp-ts/ReadonlyArray'
-
-const arr = A.range(0, 10)
-assert.deepStrictEqual(pipe(arr, A.map(E.right), E.sequenceArray), E.right(arr))
-assert.deepStrictEqual(pipe(arr, A.map(E.right), A.cons(E.left('Error')), E.sequenceArray), E.left('Error'))
+export declare const sequenceReadonlyArray: <E, A>(as: readonly Either<E, A>[]) => Either<E, readonly A[]>
 ```
 
 Added in v3.0.0
 
-## traverseArray
+## traverseReadonlyArray
 
 Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const traverseArray: <E, A, B>(
+export declare const traverseReadonlyArray: <A, E, B>(
   f: (a: A) => Either<E, B>
 ) => (as: readonly A[]) => Either<E, readonly B[]>
 ```
 
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-import * as A from 'fp-ts/ReadonlyArray'
-
-const arr = A.range(0, 10)
-assert.deepStrictEqual(pipe(arr, E.traverseArray(E.right)), E.right(arr))
-assert.deepStrictEqual(pipe(arr, E.traverseArray(E.fromPredicate((x) => x > 5))), E.left(0))
-```
-
 Added in v3.0.0
 
-## traverseArrayWithIndex
+## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const traverseArrayWithIndex: <E, A, B>(
+export declare const traverseReadonlyArrayWithIndex: <A, E, B>(
   f: (index: number, a: A) => Either<E, B>
-) => (arr: readonly A[]) => Either<E, readonly B[]>
+) => (as: readonly A[]) => Either<E, readonly B[]>
 ```
 
 Added in v3.0.0

@@ -4,6 +4,7 @@ import * as _ from '../src/TaskOption'
 import * as O from '../src/Option'
 import * as T from '../src/Task'
 import { assertPar, assertSeq } from './util'
+import * as A from '../src/ReadonlyArray'
 
 describe('TaskOption', () => {
   // -------------------------------------------------------------------------------------
@@ -103,8 +104,8 @@ describe('TaskOption', () => {
   it('fromPredicate', async () => {
     const p = (n: number): boolean => n > 2
     const f = _.fromPredicate(p)
-    assert.deepStrictEqual(await f(T.of(1))(), O.none)
-    assert.deepStrictEqual(await f(T.of(3))(), O.some(3))
+    assert.deepStrictEqual(await f(1)(), O.none)
+    assert.deepStrictEqual(await f(3)(), O.some(3))
   })
 
   // -------------------------------------------------------------------------------------
@@ -146,5 +147,34 @@ describe('TaskOption', () => {
     const g = _.fromOptionK(f)
     assert.deepStrictEqual(await g('a')(), O.some(1))
     assert.deepStrictEqual(await g('')(), O.none)
+  })
+
+  describe('array utils', () => {
+    it('traverseReadonlyArray', async () => {
+      const arr = A.range(0, 10)
+      assert.deepStrictEqual(await pipe(arr, _.traverseReadonlyArray(_.of))(), O.some(arr))
+      assert.deepStrictEqual(await pipe(arr, _.traverseReadonlyArray(_.fromPredicate((x) => x > 5)))(), O.none)
+    })
+
+    it('traverseReadonlyArraySeq', async () => {
+      const arr = A.range(0, 10)
+      assert.deepStrictEqual(await pipe(arr, _.traverseReadonlyArraySeq(_.of))(), O.some(arr))
+      assert.deepStrictEqual(await pipe(arr, _.traverseReadonlyArraySeq(_.fromPredicate((x) => x > 5)))(), O.none)
+    })
+
+    it('sequenceReadonlyArray', async () => {
+      const arr = A.range(0, 10)
+      assert.deepStrictEqual(await pipe(arr, A.map(_.of), _.sequenceReadonlyArray)(), O.some(arr))
+      assert.deepStrictEqual(await pipe(arr, A.map(_.fromPredicate((x) => x > 5)), _.sequenceReadonlyArray)(), O.none)
+    })
+
+    it('sequenceReadonlyArraySeq', async () => {
+      const arr = A.range(0, 10)
+      assert.deepStrictEqual(await pipe(arr, A.map(_.of), _.sequenceReadonlyArraySeq)(), O.some(arr))
+      assert.deepStrictEqual(
+        await pipe(arr, A.map(_.fromPredicate((x) => x > 5)), _.sequenceReadonlyArraySeq)(),
+        O.none
+      )
+    })
   })
 })

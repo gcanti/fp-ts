@@ -207,22 +207,22 @@ describe('ReaderEither', () => {
   })
 
   describe('array utils', () => {
-    it('sequenceArray', () => {
+    it('sequenceReadonlyArray', () => {
       const arr = A.range(1, 10)
-      assert.deepStrictEqual(pipe(arr, A.map(_.of), _.sequenceArray)({}), E.right(arr))
+      assert.deepStrictEqual(pipe(arr, A.map(_.of), _.sequenceReadonlyArray)({}), E.right(arr))
     })
 
-    it('traverseArray', () => {
+    it('traverseReadonlyArray', () => {
       const arr = A.range(1, 10)
-      assert.deepStrictEqual(pipe(arr, _.traverseArray(_.of))({}), E.right(arr))
+      assert.deepStrictEqual(pipe(arr, _.traverseReadonlyArray(_.of))({}), E.right(arr))
     })
 
-    it('traverseArrayWithIndex', () => {
+    it('traverseReadonlyArrayWithIndex', () => {
       const arr = A.replicate(3, 1)
       assert.deepStrictEqual(
         pipe(
           arr,
-          _.traverseArrayWithIndex((index, _data) => _.of(index))
+          _.traverseReadonlyArrayWithIndex((index, _data) => _.of(index))
         )({}),
         E.right([0, 1, 2])
       )

@@ -839,47 +839,48 @@ export const apTW: <R2, E2, B>(
  *
  * @since 3.0.0
  */
-export const traverseArrayWithIndex: <R, E, A, B>(
-  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
-) => (arr: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) => (arr) => (r) => () =>
-  Promise.all(arr.map((x, i) => f(i, x)(r)())).then(E.sequenceArray)
+export const traverseReadonlyArrayWithIndex = <A, R, E, B>(f: (index: number, a: A) => ReaderTaskEither<R, E, B>) => (
+  as: ReadonlyArray<A>
+): ReaderTaskEither<R, E, ReadonlyArray<B>> => (r) => () =>
+  Promise.all(as.map((a, i) => f(i, a)(r)())).then(E.sequenceReadonlyArray)
 
 /**
  * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
  *
  * @since 3.0.0
  */
-export const traverseArray: <R, E, A, B>(
+export const traverseReadonlyArray: <A, R, E, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
-) => (arr: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) =>
+  traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
  *
  * @since 3.0.0
  */
-export const sequenceArray: <R, E, A>(
-  arr: ReadonlyArray<ReaderTaskEither<R, E, A>>
+export const sequenceReadonlyArray: <R, E, A>(
+  as: ReadonlyArray<ReaderTaskEither<R, E, A>>
 ) => ReaderTaskEither<R, E, ReadonlyArray<A>> =
   /*#__PURE__*/
-  traverseArray(identity)
+  traverseReadonlyArray(identity)
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
  *
  * @since 3.0.0
  */
-export const traverseSeqArrayWithIndex: <R, E, A, B>(
+export const traverseReadonlyArrayWithIndexSeq = <A, R, E, B>(
   f: (index: number, a: A) => ReaderTaskEither<R, E, B>
-) => (arr: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) => (arr) => (r) => async () => {
+) => (as: ReadonlyArray<A>): ReaderTaskEither<R, E, ReadonlyArray<B>> => (r) => async () => {
   // tslint:disable-next-line: readonly-array
   const out = []
-  for (let i = 0; i < arr.length; i++) {
-    const b = await f(i, arr[i])(r)()
-    if (E.isLeft(b)) {
-      return b
+  for (let i = 0; i < as.length; i++) {
+    const e = await f(i, as[i])(r)()
+    if (E.isLeft(e)) {
+      return e
     }
-    out.push(b.right)
+    out.push(e.right)
   }
 
   return E.right(out)
@@ -890,18 +891,18 @@ export const traverseSeqArrayWithIndex: <R, E, A, B>(
  *
  * @since 3.0.0
  */
-export const traverseSeqArray: <R, E, A, B>(
+export const traverseReadonlyArraySeq: <A, R, E, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
-) => (arr: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) =>
-  traverseSeqArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) =>
+  traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
  *
  * @since 3.0.0
  */
-export const sequenceSeqArray: <R, E, A>(
-  arr: ReadonlyArray<ReaderTaskEither<R, E, A>>
+export const sequenceReadonlyArraySeq: <R, E, A>(
+  as: ReadonlyArray<ReaderTaskEither<R, E, A>>
 ) => ReaderTaskEither<R, E, ReadonlyArray<A>> =
   /*#__PURE__*/
-  traverseSeqArray(identity)
+  traverseReadonlyArraySeq(identity)

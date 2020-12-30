@@ -435,61 +435,40 @@ export const apT =
  *
  * @since 3.0.0
  */
-export const traverseArrayWithIndex: <A, B>(
-  f: (index: number, a: A) => Task<B>
-) => (arr: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (f) => (arr) => () => Promise.all(arr.map((x, i) => f(i, x)()))
+export const traverseReadonlyArrayWithIndex = <A, B>(f: (index: number, a: A) => Task<B>) => (
+  as: ReadonlyArray<A>
+): Task<ReadonlyArray<B>> => () => Promise.all(as.map((a, i) => f(i, a)()))
 
 /**
  * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
  *
- * @example
- * import { range } from 'fp-ts/ReadonlyArray'
- * import { pipe } from 'fp-ts/function'
- * import { of, traverseArray } from 'fp-ts/Task'
- * async function test() {
- *   const arr = range(0, 10)
- *   assert.deepStrictEqual(await pipe(arr, traverseArray(of))(), arr)
- * }
- *
- * test()
- *
  * @since 3.0.0
  */
-export const traverseArray: <A, B>(f: (a: A) => Task<B>) => (arr: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (f) =>
-  traverseArrayWithIndex((_, a) => f(a))
+export const traverseReadonlyArray: <A, B>(f: (a: A) => Task<B>) => (as: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (
+  f
+) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
  *
- * @example
- * import * as RA from 'fp-ts/ReadonlyArray'
- * import { pipe } from 'fp-ts/function'
- * import { of, sequenceArray } from 'fp-ts/Task'
- *
- * async function test() {
- *   const arr = RA.range(1, 10)
- *   assert.deepStrictEqual(await pipe(arr, RA.map(of), sequenceArray)(), arr)
- * }
- *
- * test()
- *
  * @since 3.0.0
  */
-export const sequenceArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> = (arr) => () =>
-  Promise.all(arr.map((x) => x()))
+export const sequenceReadonlyArray: <A>(as: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
+  /*#__PURE__*/
+  traverseReadonlyArray(identity)
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
  *
  * @since 3.0.0
  */
-export const traverseSeqArrayWithIndex: <A, B>(
-  f: (index: number, a: A) => Task<B>
-) => (arr: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (f) => (arr) => async () => {
+export const traverseReadonlyArrayWithIndexSeq = <A, B>(f: (index: number, a: A) => Task<B>) => (
+  as: ReadonlyArray<A>
+): Task<ReadonlyArray<B>> => async () => {
   // tslint:disable-next-line: readonly-array
-  const out = []
-  for (let i = 0; i < arr.length; i++) {
-    const r = await f(i, arr[i])()
+  const out: Array<B> = []
+  for (let i = 0; i < as.length; i++) {
+    const r = await f(i, as[i])()
     out.push(r)
   }
   return out
@@ -500,15 +479,15 @@ export const traverseSeqArrayWithIndex: <A, B>(
  *
  * @since 3.0.0
  */
-export const traverseSeqArray: <A, B>(f: (a: A) => Task<B>) => (arr: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (
-  f
-) => traverseSeqArrayWithIndex((_, a) => f(a))
+export const traverseReadonlyArraySeq: <A, B>(
+  f: (a: A) => Task<B>
+) => (as: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (f) => traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
  *
  * @since 3.0.0
  */
-export const sequenceSeqArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
+export const sequenceReadonlyArraySeq: <A>(as: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
   /*#__PURE__*/
-  traverseSeqArray(identity)
+  traverseReadonlyArraySeq(identity)
