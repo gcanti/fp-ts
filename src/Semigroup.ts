@@ -128,11 +128,9 @@ export const getLastSemigroup = <A = never>(): Semigroup<A> => ({
 export const getStructSemigroup = <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semigroup<A> => ({
   concat: (second) => (first) => {
     const r: A = {} as any
-    /* istanbul ignore next */
+    // tslint:disable-next-line: forin
     for (const key in semigroups) {
-      if (semigroups.hasOwnProperty(key)) {
-        r[key] = semigroups[key].concat(second[key])(first[key])
-      }
+      r[key] = semigroups[key].concat(second[key])(first[key])
     }
     return r
   }

@@ -12,7 +12,7 @@
  *
  * @since 3.0.0
  */
-import { flow } from './function'
+import { flow, pipe } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
@@ -217,9 +217,9 @@ export function apS_<F>(
   name: Exclude<N, keyof A>,
   fb: HKT<F, B>
 ) => (fa: HKT<F, A>) => HKT<F, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> {
-  return (name, fb) =>
+  return <B>(name: string, fb: HKT<F, B>) =>
     flow(
-      F.map((a) => (b: any) => Object.assign({}, a, { [name]: b }) as any),
+      F.map((a) => (b: B) => Object.assign({}, a, { [name]: b }) as any),
       F.ap(fb)
     )
 }
@@ -259,9 +259,10 @@ export function apT_<F>(
 export function apT_<F>(
   F: Apply<F>
 ): <B>(fb: HKT<F, B>) => <A extends ReadonlyArray<unknown>>(fas: HKT<F, A>) => HKT<F, readonly [...A, B]> {
-  return (fb) =>
-    flow(
-      F.map((a) => (b: any) => [...a, b] as any),
+  return <B>(fb: HKT<F, B>) => <A extends ReadonlyArray<unknown>>(fas: HKT<F, A>) =>
+    pipe(
+      fas,
+      F.map((a) => (b: B): readonly [...A, B] => [...a, b]),
       F.ap(fb)
     )
 }

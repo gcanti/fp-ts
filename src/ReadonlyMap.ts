@@ -17,6 +17,7 @@ import { Magma } from './Magma'
 import { Monoid } from './Monoid'
 import * as O from './Option'
 import { Ord } from './Ord'
+import { snd } from './ReadonlyTuple2'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { Traversable2C } from './Traversable'
@@ -179,7 +180,7 @@ export const deleteAt = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => R
     return (m) =>
       pipe(
         popEk(m),
-        O.map(([_, m]) => m),
+        O.map(snd),
         O.getOrElse(() => m)
       )
   }
@@ -814,10 +815,7 @@ export const lookup = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => Opt
   return (k) => {
     const lookupWithKeyEk = lookupWithKeyE(k)
     return (m) => {
-      return pipe(
-        lookupWithKeyEk(m),
-        O.map(([_, a]) => a)
-      )
+      return pipe(lookupWithKeyEk(m), O.map(snd))
     }
   }
 }

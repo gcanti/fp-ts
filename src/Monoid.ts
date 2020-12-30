@@ -173,11 +173,9 @@ export const fold = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => S.fold(M
  */
 export const getStructMonoid = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<A> => {
   const empty: A = {} as any
+  // tslint:disable-next-line: forin
   for (const key in monoids) {
-    /* istanbul ignore next */
-    if (monoids.hasOwnProperty(key)) {
-      empty[key] = monoids[key].empty
-    }
+    empty[key] = monoids[key].empty
   }
   return {
     concat: S.getStructSemigroup(monoids).concat,

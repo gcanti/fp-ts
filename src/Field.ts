@@ -28,7 +28,7 @@ export const fieldNumber: Field<number> = {
   mul: (second) => (first) => first * second,
   one: 1,
   sub: (second) => (first) => first - second,
-  degree: (_) => 1,
+  degree: () => 1,
   div: (second) => (first) => first / second,
   mod: (second) => (first) => first % second
 }

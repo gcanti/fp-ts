@@ -293,11 +293,10 @@ export const getShow = <A>(S: Show<A>): Show<Tree<A>> => {
  * @since 3.0.0
  */
 export const getEq = <A>(E: Eq<A>): Eq<Tree<A>> => {
-  let SA: Eq<ReadonlyArray<Tree<A>>>
   const R: Eq<Tree<A>> = fromEquals((second) => (first) =>
     E.equals(second.value)(first.value) && SA.equals(second.forest)(first.forest)
   )
-  SA = A.getEq(R)
+  const SA = A.getEq(R)
   return R
 }
 
@@ -438,7 +437,7 @@ export const elem = <A>(E: Eq<A>) => (a: A): ((fa: Tree<A>) => boolean) => {
 }
 
 const draw = (indentation: string, forest: Forest<string>): string => {
-  let r: string = ''
+  let r = ''
   const len = forest.length
   let tree: Tree<string>
   for (let i = 0; i < len; i++) {

@@ -245,7 +245,7 @@ export const groupBy = <A>(f: (a: A) => string) => (
   const out: Record<string, [A, ...Array<A>]> = {}
   for (const a of as) {
     const k = f(a)
-    if (out.hasOwnProperty(k)) {
+    if (Object.prototype.hasOwnProperty.call(out, k)) {
       out[k].push(a)
     } else {
       out[k] = [a]
@@ -410,13 +410,13 @@ export const intersperse: <A>(
  */
 export const foldMapWithIndex = <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (
   fa: ReadonlyNonEmptyArray<A>
-) => fa.slice(1).reduce((s, a, i) => S.concat(f(i + 1, a))(s), f(0, fa[0]))
+): S => fa.slice(1).reduce((s, a, i) => S.concat(f(i + 1, a))(s), f(0, fa[0]))
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: ReadonlyNonEmptyArray<A>) =>
+export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: ReadonlyNonEmptyArray<A>): S =>
   fa.slice(1).reduce((s, a) => S.concat(f(a))(s), f(fa[0]))
 
 /**

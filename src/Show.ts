@@ -51,12 +51,10 @@ export const showBoolean: Show<boolean> = {
  */
 export const getStructShow = <A>(shows: { [K in keyof A]: Show<A[K]> }): Show<A> => ({
   show: (a) => {
-    let s: string = '{'
+    let s = '{'
+    // tslint:disable-next-line: forin
     for (const key in shows) {
-      /* istanbul ignore next */
-      if (shows.hasOwnProperty(key)) {
-        s += ` ${key}: ${shows[key].show(a[key])},`
-      }
+      s += ` ${key}: ${shows[key].show(a[key])},`
     }
     if (s.length > 1) {
       s = s.slice(0, -1) + ' '

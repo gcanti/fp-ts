@@ -6,6 +6,7 @@ import { Functor, Functor1, Functor2, Functor3 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad3 } from './Monad'
 import { Pointed3, Pointed2, Pointed1, Pointed } from './Pointed'
+import { snd } from './ReadonlyTuple2'
 import { State } from './State'
 
 /**
@@ -224,9 +225,5 @@ export function execute_<F extends URIS2>(
 export function execute_<F extends URIS>(F: Functor1<F>): <S>(s: S) => <A>(ma: StateT1<F, S, A>) => Kind<F, S>
 export function execute_<F>(F: Functor<F>): <S>(s: S) => <A>(ma: StateT<F, S, A>) => HKT<F, S>
 export function execute_<F>(F: Functor<F>): <S>(s: S) => <A>(ma: StateT<F, S, A>) => HKT<F, S> {
-  return (s) => (ma) =>
-    pipe(
-      ma(s),
-      F.map(([_, s]) => s)
-    )
+  return (s) => (ma) => pipe(ma(s), F.map(snd))
 }

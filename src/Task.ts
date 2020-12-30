@@ -365,7 +365,7 @@ export const FromTask: FromTask1<URI> = {
  *
  * @since 3.0.0
  */
-export const never: Task<never> = () => new Promise((_) => undefined)
+export const never: Task<never> = () => new Promise(() => undefined)
 
 // -------------------------------------------------------------------------------------
 // do notation
