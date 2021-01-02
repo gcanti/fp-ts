@@ -17,7 +17,7 @@ interface Semigroup<A> {
 Associativity means the following equality must hold for any choice of `x`, `y`, and `z`.
 
 ```ts
-x |> concat(y |> concat(z)) <-> x |> concat(y) |> concat(z)
+(x |> concat(y)) |> concat(z) <-> x |> concat(y |> concat(z))
 ```
 
 Added in v3.0.0
