@@ -8,7 +8,7 @@
   "sideEffects": false,
   "scripts": {
     "lint": "tslint -p .",
-    "eslint": "eslint \"src/**/*.ts\"",
+    "eslint": "eslint \"src/**/*.ts\" \"test/**/*.ts\" \"scripts/**/*.ts\"",
     "jest-clear-cache": "jest --clearCache",
     "prettier": "prettier --list-different \"./{src,test,examples,scripts}/**/*.ts\"",
     "fix-prettier": "prettier --write \"./{src,test,examples,scripts}/**/*.ts\"",

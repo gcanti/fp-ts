@@ -1,6 +1,7 @@
 import * as assert from 'assert'
 import * as glob from 'glob'
 import * as path from 'path'
+import * as _ from '../src'
 
 const getExportName = (name: string): string => {
   if (name === 'HKT' || name === 'IO') {
@@ -19,12 +20,12 @@ function getModuleNames(): ReadonlyArray<string> {
 describe('index', () => {
   it('check exported modules', () => {
     const moduleNames = getModuleNames()
-    const fp = require('../src')
     moduleNames.forEach((name) => {
       if (name !== 'index') {
         const exportName = getExportName(name)
         assert.deepStrictEqual(
-          fp[exportName] !== undefined,
+          // tslint:disable-next-line: strict-type-predicates
+          (_ as Record<string, unknown>)[exportName] !== undefined,
           true,
           `The "${name}" module is not exported in src/index.ts as ${exportName}`
         )

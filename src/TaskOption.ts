@@ -9,7 +9,7 @@ import { Compactable1, compact_, separate_ } from './Compactable'
 import { Filterable1, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
 import { FromIO1 } from './FromIO'
 import { FromTask1 } from './FromTask'
-import { identity, Lazy, pipe } from './function'
+import { flow, identity, Lazy, pipe } from './function'
 import { Functor1 } from './Functor'
 import { chainFirst_, Monad1 } from './Monad'
 import * as O from './Option'
@@ -467,9 +467,10 @@ export const Filterable: Filterable1<URI> = {
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArrayWithIndex = <A, B>(f: (index: number, a: A) => TaskOption<B>) => (
-  as: ReadonlyArray<A>
-): TaskOption<ReadonlyArray<B>> => pipe(as, T.traverseReadonlyArrayWithIndex(f), T.map(O.sequenceReadonlyArray))
+export const traverseReadonlyArrayWithIndex = <A, B>(
+  f: (index: number, a: A) => TaskOption<B>
+): ((as: ReadonlyArray<A>) => TaskOption<ReadonlyArray<B>>) =>
+  flow(T.traverseReadonlyArrayWithIndex(f), T.map(O.sequenceReadonlyArray))
 
 /**
  * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.

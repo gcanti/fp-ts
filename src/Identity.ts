@@ -8,7 +8,7 @@ import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
-import { identity as id, pipe } from './function'
+import { flow, identity as id } from './function'
 import { bindTo_, Functor1, tupled_ } from './Functor'
 import { HKT } from './HKT'
 import { bind_, chainFirst_, Monad1 } from './Monad'
@@ -116,7 +116,7 @@ export const reduceRight: Foldable1<URI>['reduceRight'] = (b, f) => (fa) => f(fa
  */
 export const traverse: Traversable1<URI>['traverse'] = <F>(
   F: ApplicativeHKT<F>
-): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Identity<A>) => HKT<F, Identity<B>>) => (f) => (ta) => pipe(f(ta), F.map(id))
+): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Identity<A>) => HKT<F, Identity<B>>) => (f) => flow(f, F.map(id))
 
 /**
  * @since 3.0.0

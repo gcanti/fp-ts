@@ -928,9 +928,10 @@ export const apTW: <E2, B>(
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArrayWithIndex = <A, E, B>(f: (index: number, a: A) => TaskEither<E, B>) => (
-  as: ReadonlyArray<A>
-): TaskEither<E, ReadonlyArray<B>> => pipe(as, T.traverseReadonlyArrayWithIndex(f), T.map(E.sequenceReadonlyArray))
+export const traverseReadonlyArrayWithIndex = <A, E, B>(
+  f: (index: number, a: A) => TaskEither<E, B>
+): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) =>
+  flow(T.traverseReadonlyArrayWithIndex(f), T.map(E.sequenceReadonlyArray))
 
 /**
  * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.

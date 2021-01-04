@@ -370,7 +370,7 @@ export const bimap: Bifunctor4<URI>['bimap'] = (f, g) => (fea) => (s) =>
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor4<URI>['mapLeft'] = (f) => (fea) => (s) => pipe(fea(s), RTE.mapLeft(f))
+export const mapLeft: Bifunctor4<URI>['mapLeft'] = (f) => (fea) => flow(fea, RTE.mapLeft(f))
 
 /**
  * Apply a function to an argument under a type constructor.

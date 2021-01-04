@@ -23,7 +23,7 @@ import { Extend2 } from './Extend'
 import { Filterable2C } from './Filterable'
 import { Foldable2 } from './Foldable'
 import { FromEither2 } from './FromEither'
-import { identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor2, tupled_ } from './Functor'
 import { HKT } from './HKT'
 import { bind_, chainFirst_, Monad2 } from './Monad'
@@ -873,7 +873,7 @@ export const getWitherable = <E>(M: Monoid<E>): Witherable2C<URI, E> => {
     F: ApplicativeHKT<F>
   ): (<A, B>(f: (a: A) => HKT<F, Option<B>>) => (ma: Either<E, A>) => HKT<F, Either<E, B>>) => {
     const traverseF = traverse(F)
-    return (f) => (ma) => pipe(ma, traverseF(f), F.map(C.compact))
+    return (f) => flow(traverseF(f), F.map(C.compact))
   }
 
   const wilt = <F>(
@@ -882,7 +882,7 @@ export const getWitherable = <E>(M: Monoid<E>): Witherable2C<URI, E> => {
     f: (a: A) => HKT<F, Either<B, C>>
   ) => (ma: Either<E, A>) => HKT<F, Separated<Either<E, B>, Either<E, C>>>) => {
     const traverseF = traverse(F)
-    return (f) => (ma) => pipe(ma, traverseF(f), F.map(C.separate))
+    return (f) => flow(traverseF(f), F.map(C.separate))
   }
 
   return {

@@ -95,7 +95,7 @@ export function asks_<M extends URIS2>(M: Pointed2<M>): <R, A, E>(f: (r: R) => A
 export function asks_<M extends URIS>(M: Pointed1<M>): <R, A>(f: (r: R) => A) => Reader<R, Kind<M, A>>
 export function asks_<M>(M: Pointed<M>): <R, A>(f: (r: R) => A) => Reader<R, HKT<M, A>>
 export function asks_<M>(M: Pointed<M>): <R, A>(f: (r: R) => A) => Reader<R, HKT<M, A>> {
-  return (f) => (r) => pipe(M.of(r), M.map(f))
+  return (f) => flow(M.of, M.map(f))
 }
 
 /**
@@ -105,5 +105,5 @@ export function fromReader_<M extends URIS2>(M: Pointed2<M>): <R, A, E>(ma: Read
 export function fromReader_<M extends URIS>(M: Pointed1<M>): <R, A>(ma: Reader<R, A>) => Reader<R, Kind<M, A>>
 export function fromReader_<M>(M: Pointed<M>): <R, A>(ma: Reader<R, A>) => Reader<R, HKT<M, A>>
 export function fromReader_<M>(M: Pointed<M>): <R, A>(ma: Reader<R, A>) => Reader<R, HKT<M, A>> {
-  return (ma) => (r) => M.of(ma(r))
+  return (ma) => flow(ma, M.of)
 }

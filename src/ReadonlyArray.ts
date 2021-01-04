@@ -1578,19 +1578,15 @@ export const wilt: Witherable1<URI>['wilt'] = <F>(
  * @category Unfoldable
  * @since 3.0.0
  */
-export const unfold: Unfoldable1<URI>['unfold'] = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => {
+export const unfold: Unfoldable1<URI>['unfold'] = <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) => {
   // tslint:disable-next-line: readonly-array
   const out: Array<A> = []
-  let bb: B = b
-  while (true) {
-    const mt = f(bb)
-    if (O.isSome(mt)) {
-      const [a, b] = mt.value
-      out.push(a)
-      bb = b
-    } else {
-      break
-    }
+  let next: B = b
+  let o: Option<readonly [A, B]>
+  while (O.isSome((o = f(next)))) {
+    const [a, b] = o.value
+    out.push(a)
+    next = b
   }
   return out
 }
