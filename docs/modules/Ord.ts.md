@@ -217,10 +217,21 @@ Added in v3.0.0
 
 ## ordBoolean
 
+A `boolean` order where `false` < `true`.
+
 **Signature**
 
 ```ts
 export declare const ordBoolean: Ord<boolean>
+```
+
+**Example**
+
+```ts
+import { ordBoolean } from 'fp-ts/Ord'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(true, ordBoolean.compare(false)), 1)
 ```
 
 Added in v3.0.0

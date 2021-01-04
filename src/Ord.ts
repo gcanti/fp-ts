@@ -50,6 +50,14 @@ export const ordNumber: Ord<number> = {
 }
 
 /**
+ * A `boolean` order where `false` < `true`.
+ *
+ * @example
+ * import { ordBoolean } from 'fp-ts/Ord'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(pipe(true, ordBoolean.compare(false)), 1)
+ *
  * @category instances
  * @since 3.0.0
  */
@@ -205,12 +213,8 @@ export const fromCompare = <A>(compare: Ord<A>['compare']): Ord<A> => {
  * @since 3.0.0
  */
 export const getMonoid = <A = never>(): Monoid<Ord<A>> => ({
-  concat: (y) => (x) =>
-    fromCompare((second) => {
-      const fx = x.compare(second)
-      const fy = y.compare(second)
-      return (first) => monoidOrdering.concat(fy(first))(fx(first))
-    }),
+  concat: (second) => (first) =>
+    fromCompare((a2) => (a1) => monoidOrdering.concat(second.compare(a2)(a1))(first.compare(a2)(a1))),
   empty: fromCompare(() => () => 0)
 })
 

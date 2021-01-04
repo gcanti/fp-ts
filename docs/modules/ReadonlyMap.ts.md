@@ -532,7 +532,7 @@ Added in v3.0.0
 
 ## keys
 
-Get a sorted array of the keys contained in a `ReadonlyMap`.
+Get a sorted `ReadonlyArray` of the keys contained in a `ReadonlyMap`.
 
 **Signature**
 
@@ -650,7 +650,7 @@ Added in v3.0.0
 
 ## values
 
-Get a sorted array of the values contained in a `ReadonlyMap`.
+Get a sorted `ReadonlyArray` of the values contained in a `ReadonlyMap`.
 
 **Signature**
 

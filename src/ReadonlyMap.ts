@@ -752,7 +752,7 @@ export const elem = <A>(E: Eq<A>) => (a: A): (<K>(m: ReadonlyMap<K, A>) => boole
 }
 
 /**
- * Get a sorted array of the keys contained in a `ReadonlyMap`.
+ * Get a sorted `ReadonlyArray` of the keys contained in a `ReadonlyMap`.
  *
  * @since 3.0.0
  */
@@ -760,7 +760,7 @@ export const keys = <K>(O: Ord<K>) => <A>(m: ReadonlyMap<K, A>): ReadonlyArray<K
   Array.from(m.keys()).sort((first, second) => O.compare(second)(first))
 
 /**
- * Get a sorted array of the values contained in a `ReadonlyMap`.
+ * Get a sorted `ReadonlyArray` of the values contained in a `ReadonlyMap`.
  *
  * @since 3.0.0
  */
