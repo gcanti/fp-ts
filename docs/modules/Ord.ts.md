@@ -24,6 +24,7 @@ Added in v3.0.0
   - [contramap](#contramap)
 - [combinators](#combinators)
   - [getDualOrd](#getdualord)
+  - [getTupleOrd](#gettupleord)
 - [constructors](#constructors)
   - [fromCompare](#fromcompare)
 - [instances](#instances)
@@ -31,7 +32,6 @@ Added in v3.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
-  - [getTupleOrd](#gettupleord)
   - [ordBoolean](#ordboolean)
   - [ordDate](#orddate)
   - [ordNumber](#ordnumber)
@@ -60,6 +60,34 @@ Added in v3.0.0
 export declare const contramap: <B, A>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B>
 ```
 
+**Example**
+
+```ts
+import { ordString, contramap } from 'fp-ts/Ord'
+import { sort } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+type User = {
+  readonly name: string
+  readonly age: number
+}
+
+const byName = pipe(
+  ordString,
+  contramap((user: User) => user.name)
+)
+
+const users: ReadonlyArray<User> = [
+  { name: 'b', age: 1 },
+  { name: 'a', age: 2 },
+]
+
+assert.deepStrictEqual(pipe(users, sort(byName)), [
+  { name: 'a', age: 2 },
+  { name: 'b', age: 1 },
+])
+```
+
 Added in v3.0.0
 
 # combinators
@@ -70,6 +98,40 @@ Added in v3.0.0
 
 ```ts
 export declare const getDualOrd: <A>(O: Ord<A>) => Ord<A>
+```
+
+**Example**
+
+```ts
+import { ordNumber, getDualOrd } from 'fp-ts/Ord'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(5, ordNumber.compare(6)), -1)
+assert.deepStrictEqual(pipe(5, getDualOrd(ordNumber).compare(6)), 1)
+```
+
+Added in v3.0.0
+
+## getTupleOrd
+
+Given a tuple of `Ord`s returns an `Ord` for the tuple.
+
+**Signature**
+
+```ts
+export declare const getTupleOrd: <A extends readonly unknown[]>(...ords: { [K in keyof A]: Ord<A[K]> }) => Ord<A>
+```
+
+**Example**
+
+```ts
+import * as O from 'fp-ts/Ord'
+import { pipe } from 'fp-ts/function'
+
+const O1 = O.getTupleOrd(O.ordString, O.ordNumber, O.ordBoolean)
+assert.strictEqual(pipe(['a', 1, true], O1.compare(['b', 2, true])), -1)
+assert.strictEqual(pipe(['a', 1, true], O1.compare(['a', 2, true])), -1)
+assert.strictEqual(pipe(['a', 1, true], O1.compare(['a', 1, false])), 1)
 ```
 
 Added in v3.0.0
@@ -191,30 +253,6 @@ assert.deepStrictEqual(sort(O2)(users), [
 
 Added in v3.0.0
 
-## getTupleOrd
-
-Given a tuple of `Ord`s returns an `Ord` for the tuple
-
-**Signature**
-
-```ts
-export declare const getTupleOrd: <A extends readonly unknown[]>(...ords: { [K in keyof A]: Ord<A[K]> }) => Ord<A>
-```
-
-**Example**
-
-```ts
-import * as O from 'fp-ts/Ord'
-import { pipe } from 'fp-ts/function'
-
-const O1 = O.getTupleOrd(O.ordString, O.ordNumber, O.ordBoolean)
-assert.strictEqual(pipe(['a', 1, true], O1.compare(['b', 2, true])), -1)
-assert.strictEqual(pipe(['a', 1, true], O1.compare(['a', 2, true])), -1)
-assert.strictEqual(pipe(['a', 1, true], O1.compare(['a', 1, false])), 1)
-```
-
-Added in v3.0.0
-
 ## ordBoolean
 
 A `boolean` order where `false` < `true`.
@@ -231,7 +269,7 @@ export declare const ordBoolean: Ord<boolean>
 import { ordBoolean } from 'fp-ts/Ord'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe(true, ordBoolean.compare(false)), 1)
+assert.deepStrictEqual(pipe(false, ordBoolean.compare(true)), -1)
 ```
 
 Added in v3.0.0
@@ -244,6 +282,15 @@ Added in v3.0.0
 export declare const ordDate: Ord<Date>
 ```
 
+**Example**
+
+```ts
+import { ordDate } from 'fp-ts/Ord'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(new Date(1, 1, 2020), ordDate.compare(new Date(1, 1, 2021))), -1)
+```
+
 Added in v3.0.0
 
 ## ordNumber
@@ -254,6 +301,15 @@ Added in v3.0.0
 export declare const ordNumber: Ord<number>
 ```
 
+**Example**
+
+```ts
+import { ordNumber } from 'fp-ts/Ord'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(5, ordNumber.compare(6)), -1)
+```
+
 Added in v3.0.0
 
 ## ordString
@@ -262,6 +318,15 @@ Added in v3.0.0
 
 ```ts
 export declare const ordString: Ord<string>
+```
+
+**Example**
+
+```ts
+import { ordString } from 'fp-ts/Ord'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe('a', ordString.compare('b')), -1)
 ```
 
 Added in v3.0.0
@@ -284,7 +349,7 @@ Added in v3.0.0
 
 ## between
 
-Test whether a value is between a minimum and a maximum (inclusive)
+Test whether a value is between a minimum and a maximum (inclusive).
 
 **Signature**
 
@@ -292,11 +357,23 @@ Test whether a value is between a minimum and a maximum (inclusive)
 export declare const between: <A>(O: Ord<A>) => (low: A, hi: A) => Predicate<A>
 ```
 
+**Example**
+
+```ts
+import { ordNumber, between } from 'fp-ts/Ord'
+import { pipe } from 'fp-ts/function'
+
+const f = between(ordNumber)(2, 4)
+assert.deepStrictEqual(pipe(1, f), false)
+assert.deepStrictEqual(pipe(3, f), true)
+assert.deepStrictEqual(pipe(5, f), false)
+```
+
 Added in v3.0.0
 
 ## clamp
 
-Clamp a value between a minimum and a maximum
+Clamp a value between a minimum and a maximum.
 
 **Signature**
 
@@ -304,11 +381,23 @@ Clamp a value between a minimum and a maximum
 export declare const clamp: <A>(O: Ord<A>) => (low: A, hi: A) => Endomorphism<A>
 ```
 
+**Example**
+
+```ts
+import { ordNumber, clamp } from 'fp-ts/Ord'
+import { pipe } from 'fp-ts/function'
+
+const f = clamp(ordNumber)(2, 4)
+assert.deepStrictEqual(pipe(1, f), 2)
+assert.deepStrictEqual(pipe(3, f), 3)
+assert.deepStrictEqual(pipe(5, f), 4)
+```
+
 Added in v3.0.0
 
 ## geq
 
-Test whether one value is _non-strictly greater than_ another
+Test whether one value is _non-strictly greater than_ another.
 
 **Signature**
 
@@ -316,11 +405,22 @@ Test whether one value is _non-strictly greater than_ another
 export declare const geq: <A>(O: Ord<A>) => (second: A) => (first: A) => boolean
 ```
 
+**Example**
+
+```ts
+import { ordNumber, geq } from 'fp-ts/Ord'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(5, geq(ordNumber)(4)), true)
+assert.deepStrictEqual(pipe(5, geq(ordNumber)(5)), true)
+assert.deepStrictEqual(pipe(5, geq(ordNumber)(6)), false)
+```
+
 Added in v3.0.0
 
 ## gt
 
-Test whether one value is _strictly greater than_ another
+Test whether one value is _strictly greater than_ another.
 
 **Signature**
 
@@ -328,11 +428,22 @@ Test whether one value is _strictly greater than_ another
 export declare const gt: <A>(O: Ord<A>) => (second: A) => (first: A) => boolean
 ```
 
+**Example**
+
+```ts
+import { ordNumber, gt } from 'fp-ts/Ord'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(5, gt(ordNumber)(4)), true)
+assert.deepStrictEqual(pipe(5, gt(ordNumber)(5)), false)
+assert.deepStrictEqual(pipe(5, gt(ordNumber)(6)), false)
+```
+
 Added in v3.0.0
 
 ## leq
 
-Test whether one value is _non-strictly less than_ another
+Test whether one value is _non-strictly less than_ another.
 
 **Signature**
 
@@ -340,11 +451,22 @@ Test whether one value is _non-strictly less than_ another
 export declare const leq: <A>(O: Ord<A>) => (second: A) => (first: A) => boolean
 ```
 
+**Example**
+
+```ts
+import { ordNumber, leq } from 'fp-ts/Ord'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(5, leq(ordNumber)(4)), false)
+assert.deepStrictEqual(pipe(5, leq(ordNumber)(5)), true)
+assert.deepStrictEqual(pipe(5, leq(ordNumber)(6)), true)
+```
+
 Added in v3.0.0
 
 ## lt
 
-Test whether one value is _strictly less than_ another
+Test whether one value is _strictly less than_ another.
 
 **Signature**
 
@@ -352,11 +474,22 @@ Test whether one value is _strictly less than_ another
 export declare const lt: <A>(O: Ord<A>) => (second: A) => (first: A) => boolean
 ```
 
+**Example**
+
+```ts
+import { ordNumber, lt } from 'fp-ts/Ord'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(5, lt(ordNumber)(4)), false)
+assert.deepStrictEqual(pipe(5, lt(ordNumber)(5)), false)
+assert.deepStrictEqual(pipe(5, lt(ordNumber)(6)), true)
+```
+
 Added in v3.0.0
 
 ## max
 
-Take the maximum of two values. If they are considered equal, the first argument is chosen
+Take the maximum of two values. If they are considered equal, the first argument is chosen.
 
 **Signature**
 
@@ -364,16 +497,34 @@ Take the maximum of two values. If they are considered equal, the first argument
 export declare const max: <A>(O: Ord<A>) => (second: A) => (first: A) => A
 ```
 
+**Example**
+
+```ts
+import { ordNumber, max } from 'fp-ts/Ord'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(5, max(ordNumber)(6)), 6)
+```
+
 Added in v3.0.0
 
 ## min
 
-Take the minimum of two values. If they are considered equal, the first argument is chosen
+Take the minimum of two values. If they are considered equal, the first argument is chosen.
 
 **Signature**
 
 ```ts
 export declare const min: <A>(O: Ord<A>) => (second: A) => (first: A) => A
+```
+
+**Example**
+
+```ts
+import { ordNumber, min } from 'fp-ts/Ord'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(5, min(ordNumber)(6)), 5)
 ```
 
 Added in v3.0.0
