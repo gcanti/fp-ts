@@ -248,10 +248,13 @@ export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M> => ({
-  concat: S.getFunctionSemigroup(M)<any>().concat,
-  empty: () => M.empty
-})
+export const getFunctionMonoid = <M>(M: Monoid<M>): (<A = never>() => Monoid<(a: A) => M>) => {
+  const empty = () => M.empty
+  return () => ({
+    concat: S.getFunctionSemigroup(M)<any>().concat,
+    empty
+  })
+}
 
 /**
  * Endomorphism form a monoid where the `empty` value is the identity function.

@@ -9,7 +9,7 @@ parent: Modules
 Multi-way trees (aka rose trees) and forests, where a forest is
 
 ```ts
-type Forest<A> = Array<Tree<A>>
+type Forest<A> = ReadonlyArray<Tree<A>>
 ```
 
 Added in v3.0.0
