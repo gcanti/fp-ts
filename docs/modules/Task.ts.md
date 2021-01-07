@@ -483,7 +483,7 @@ Added in v2.0.0
 
 this function works like `Promise.all` it will get an array of tasks and return a task of array.
 
-this function have the same behavior of `A.sequence(T.task)` but it's stack safe.
+this function has the same behavior of `A.sequence(T.task)` but it's stack safe.
 
 > **This function run all task in parallel for sequential use `sequenceSeqArray` **
 
@@ -514,7 +514,7 @@ Added in v2.9.0
 
 run tasks in array sequential and give a task of array
 
-this function have the same behavior of `A.sequence(T.taskSeq)` but it's stack safe.
+this function has the same behavior of `A.sequence(T.taskSeq)` but it's stack safe.
 
 > **This function run all task sequentially for parallel use `sequenceArray` **
 
@@ -530,7 +530,7 @@ Added in v2.9.0
 
 this function map array to task using provided function and transform it to a task of array.
 
-this function have the same behavior of `A.traverse(T.task)` but it's stack safe.
+this function has the same behavior of `A.traverse(T.task)` but it's stack safe.
 
 > **This function run all task in parallel for sequential use `traverseSeqArray` **
 
@@ -572,7 +572,7 @@ Added in v2.9.0
 
 runs an action for every element in array then run task sequential, and accumulates the results in the array.
 
-this function have the same behavior of `A.traverse(T.taskSeq)` but it's stack safe.
+this function has the same behavior of `A.traverse(T.taskSeq)` but it's stack safe.
 
 > **This function run all task sequentially for parallel use `traverseArray` **
 

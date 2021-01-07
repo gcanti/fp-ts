@@ -444,7 +444,7 @@ export const traverseArrayWithIndex: <A, B>(
 /**
  * this function map array to task using provided function and transform it to a task of array.
  *
- * this function have the same behavior of `A.traverse(T.task)` but it's stack safe.
+ * this function has the same behavior of `A.traverse(T.task)` but it's stack safe.
  *
  * > **This function run all task in parallel for sequential use `traverseSeqArray` **
  *
@@ -467,7 +467,7 @@ export const traverseArray: <A, B>(f: (a: A) => Task<B>) => (arr: ReadonlyArray<
 /**
  * this function works like `Promise.all` it will get an array of tasks and return a task of array.
  *
- * this function have the same behavior of `A.sequence(T.task)` but it's stack safe.
+ * this function has the same behavior of `A.sequence(T.task)` but it's stack safe.
  *
  * > **This function run all task in parallel for sequential use `sequenceSeqArray` **
  *
@@ -506,7 +506,7 @@ export const traverseSeqArrayWithIndex: <A, B>(
 /**
  * runs an action for every element in array then run task sequential, and accumulates the results in the array.
  *
- * this function have the same behavior of `A.traverse(T.taskSeq)` but it's stack safe.
+ * this function has the same behavior of `A.traverse(T.taskSeq)` but it's stack safe.
  *
  * > **This function run all task sequentially for parallel use `traverseArray` **
  *
@@ -520,7 +520,7 @@ export const traverseSeqArray: <A, B>(f: (a: A) => Task<B>) => (arr: ReadonlyArr
 /**
  * run tasks in array sequential and give a task of array
  *
- * this function have the same behavior of `A.sequence(T.taskSeq)` but it's stack safe.
+ * this function has the same behavior of `A.sequence(T.taskSeq)` but it's stack safe.
  *
  * > **This function run all task sequentially for parallel use `sequenceArray` **
  *

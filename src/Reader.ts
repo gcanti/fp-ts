@@ -424,7 +424,7 @@ export const traverseArrayWithIndex: <R, A, B>(
 ) => (arr: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>> = (f) => (arr) => (r) => arr.map((x, i) => f(i, x)(r))
 
 /**
- * this function have the same behavior of `A.traverse(R.reader)` but it's stack safe and optimized
+ * this function has the same behavior of `A.traverse(R.reader)` but it's stack safe and optimized
  *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'
@@ -443,7 +443,7 @@ export const traverseArray: <R, A, B>(
 ) => (arr: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
- * this function have the same behavior of `A.sequence(R.reader)` but it's stack safe and optimized
+ * this function has the same behavior of `A.sequence(R.reader)` but it's stack safe and optimized
  *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'
