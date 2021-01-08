@@ -15,7 +15,6 @@ import { bindTo_, Functor3, tupled_ } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { bind_, chainFirst_, Monad3 } from './Monad'
-import { Monoid } from './Monoid'
 import { Pointed3 } from './Pointed'
 import * as R from './Reader'
 import { ReaderEither } from './ReaderEither'
@@ -474,25 +473,6 @@ declare module './HKT' {
  */
 export const getSemigroup = <A, R, E>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>> =>
   R.getSemigroup(TE.getSemigroup(S))
-
-/**
- * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
- * are concatenated using the provided `Semigroup`
- *
- * @category instances
- * @since 3.0.0
- */
-export const getApplySemigroup = <A, R, E>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>> =>
-  R.getSemigroup(TE.getApplySemigroup(S))
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getApplyMonoid = <A, R, E>(M: Monoid<A>): Monoid<ReaderTaskEither<R, E, A>> => ({
-  concat: getApplySemigroup<A, R, E>(M).concat,
-  empty: right(M.empty)
-})
 
 /**
  * @category instances

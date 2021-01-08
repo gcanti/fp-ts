@@ -87,6 +87,8 @@ high state of flux, you're at risk of it changing without notice.
     - remove `onError` parameter in `parseJSON` (@gcanti)
     - remove `onError` parameter in `stringifyJSON` (@gcanti)
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
+    - remove `getApplySemigroup` (@gcanti)
+    - remove `getApplyMonoid` (@gcanti)
   - `Eq`
     - remove `eq` (@gcanti)
     - make type class members pipeables (@gcanti)
@@ -132,6 +134,8 @@ high state of flux, you're at risk of it changing without notice.
     - remove `ioEither` (@gcanti)
     - remove `onError` parameter in `tryCatch` (@gcanti)
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
+    - remove `getApplySemigroup` (@gcanti)
+    - remove `getApplyMonoid` (@gcanti)
   - `JoinSemilattice`
     - make type class members pipeables (@gcanti)
   - `Magma`
@@ -146,6 +150,8 @@ high state of flux, you're at risk of it changing without notice.
   - `Option`
     - remove `option` (@gcanti)
     - make `elem` pipeable (@gcanti)
+    - remove `getApplySemigroup` (@gcanti)
+    - remove `getApplyMonoid` (@gcanti)
   - `Ord`
     - remove `ord` (@gcanti)
     - make type class members pipeables (@gcanti)
@@ -164,6 +170,8 @@ high state of flux, you're at risk of it changing without notice.
     - remove `getReaderValidation`, use `getApplicativeReaderValidation` and `getAltReaderValidation` instead (@gcanti)
     - remove `readerEither` (@gcanti)
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
+    - remove `getApplySemigroup` (@gcanti)
+    - remove `getApplyMonoid` (@gcanti)
   - `ReaderTask`
     - remove `local`, use `Reader`'s `local` instead (@gcanti)
     - remove `run` (@gcanti)
@@ -174,6 +182,8 @@ high state of flux, you're at risk of it changing without notice.
     - remove `readerTaskEither` (@gcanti)
     - remove `readerTaskEitherSeq` (@gcanti)
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
+    - remove `getApplySemigroup` (@gcanti)
+    - remove `getApplyMonoid` (@gcanti)
   - `ReadonlyArray`
     - make `lookup` pipeable (@gcanti)
     - make `cons` pipeable (@gcanti)
@@ -257,6 +267,8 @@ high state of flux, you're at risk of it changing without notice.
     - remove `taskEitherSeq` (@gcanti)
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
     - remove `onRejected` parameter in `tryCatch` (@gcanti)
+    - remove `getApplySemigroup` (@gcanti)
+    - remove `getApplyMonoid` (@gcanti)
   - `TaskThese`
     - make `toTuple` lazy (@gcanti)
     - remove `taskThese` (@gcanti)
@@ -290,12 +302,15 @@ high state of flux, you're at risk of it changing without notice.
 - **New Feature**
   - add `Pointed` type class (@gcanti)
   - add `TaskOption` module (@gcanti)
+  - `Applicative`
+    - add `getApplicativeMonoid` (@gcanti)
   - `Apply`
     - add `apFirst_` (@gcanti)
     - add `apSecond_` (@gcanti)
     - add `apS_` (@gcanti)
     - add `apT_` (@gcanti)
     - add `ap_` (@gcanti)
+    - add `getApplySemigroup` (@gcanti)
   - `Compactable`
     - add `compact_` (@gcanti)
     - add `separate_` (@gcanti)

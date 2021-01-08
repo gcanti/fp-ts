@@ -145,14 +145,6 @@ describe('ReaderEither', () => {
     })
   })
 
-  describe('getApplyMonoid', () => {
-    const M = _.getApplyMonoid(monoidString)
-    assert.deepStrictEqual(pipe(_.right('a'), M.concat(_.right('b')))({}), E.right('ab'))
-    assert.deepStrictEqual(pipe(_.right('a'), M.concat(_.left('b')))({}), E.left('b'))
-    assert.deepStrictEqual(pipe(_.right('a'), M.concat(M.empty))({}), E.right('a'))
-    assert.deepStrictEqual(pipe(M.empty, M.concat(_.right('a')))({}), E.right('a'))
-  })
-
   it('ask', () => {
     assert.deepStrictEqual(_.ask()({}), E.right({}))
   })

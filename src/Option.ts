@@ -711,46 +711,9 @@ export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> =>
   fromCompare((second) => (first) => (isSome(first) ? (isSome(second) ? O.compare(second.value)(first.value) : 1) : -1))
 
 /**
- * `Apply` semigroup
- *
- * | x       | y       | concat(x, y)       |
- * | ------- | ------- | ------------------ |
- * | none    | none    | none               |
- * | some(a) | none    | none               |
- * | none    | some(a) | none               |
- * | some(a) | some(b) | some(concat(a, b)) |
- *
- * @example
- * import { getApplySemigroup, some, none } from 'fp-ts/Option'
- * import { semigroupSum } from 'fp-ts/Semigroup'
- * import { pipe } from 'fp-ts/function'
- *
- * const S = getApplySemigroup(semigroupSum)
- * assert.deepStrictEqual(pipe(none, S.concat(none)), none)
- * assert.deepStrictEqual(pipe(some(1), S.concat(none)), none)
- * assert.deepStrictEqual(pipe(none, S.concat(some(1))), none)
- * assert.deepStrictEqual(pipe(some(1), S.concat(some(2))), some(3))
- *
- * @category instances
- * @since 3.0.0
- */
-export const getApplySemigroup = <A>(S: Semigroup<A>): Semigroup<Option<A>> => ({
-  concat: (second) => (first) => (isSome(first) && isSome(second) ? some(S.concat(second.value)(first.value)) : none)
-})
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getApplyMonoid = <A>(M: Monoid<A>): Monoid<Option<A>> => ({
-  concat: getApplySemigroup(M).concat,
-  empty: some(M.empty)
-})
-
-/**
  * Monoid returning the left-most non-`None` value
  *
- * | x       | y       | concat(x, y) |
+ * | x       | y       | concat(y)(x) |
  * | ------- | ------- | ------------ |
  * | none    | none    | none         |
  * | some(a) | none    | some(a)      |
@@ -778,7 +741,7 @@ export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => ({
 /**
  * Monoid returning the right-most non-`None` value
  *
- * | x       | y       | concat(x, y) |
+ * | x       | y       | concat(y)(x) |
  * | ------- | ------- | ------------ |
  * | none    | none    | none         |
  * | some(a) | none    | some(a)      |
@@ -807,12 +770,12 @@ export const getLastMonoid = <A = never>(): Monoid<Option<A>> => ({
  * Monoid returning the left-most non-`None` value. If both operands are `Some`s then the inner values are
  * concatenated using the provided `Semigroup`
  *
- * | x       | y       | concat(x, y)       |
+ * | x       | y       | concat(y)(x)       |
  * | ------- | ------- | ------------------ |
  * | none    | none    | none               |
  * | some(a) | none    | some(a)            |
  * | none    | some(a) | some(a)            |
- * | some(a) | some(b) | some(concat(a, b)) |
+ * | some(a) | some(b) | some(concat(b)(a)) |
  *
  * @example
  * import { getMonoid, some, none } from 'fp-ts/Option'

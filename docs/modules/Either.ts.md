@@ -95,8 +95,6 @@ Added in v3.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getAltValidation](#getaltvalidation)
   - [getApplicativeValidation](#getapplicativevalidation)
-  - [getApplyMonoid](#getapplymonoid)
-  - [getApplySemigroup](#getapplysemigroup)
   - [getCompactable](#getcompactable)
   - [getEq](#geteq)
   - [getFilterable](#getfilterable)
@@ -1074,43 +1072,6 @@ Added in v3.0.0
 
 ```ts
 export declare const getApplicativeValidation: <E>(S: Semigroup<E>) => Applicative2C<'Either', E>
-```
-
-Added in v3.0.0
-
-## getApplyMonoid
-
-**Signature**
-
-```ts
-export declare const getApplyMonoid: <A, E>(M: Monoid<A>) => Monoid<Either<E, A>>
-```
-
-Added in v3.0.0
-
-## getApplySemigroup
-
-Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
-are concatenated using the provided `Semigroup`
-
-**Signature**
-
-```ts
-export declare const getApplySemigroup: <A, E>(S: Semigroup<A>) => Semigroup<Either<E, A>>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import { semigroupSum } from 'fp-ts/Semigroup'
-import { pipe } from 'fp-ts/function'
-
-const S = E.getApplySemigroup<number, string>(semigroupSum)
-assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.left('b'))), E.left('a'))
-assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.right(2))), E.left('a'))
-assert.deepStrictEqual(pipe(E.right(1), S.concat(E.left('b'))), E.left('b'))
-assert.deepStrictEqual(pipe(E.right(1), S.concat(E.right(2))), E.right(3))
 ```
 
 Added in v3.0.0

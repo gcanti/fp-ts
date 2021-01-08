@@ -37,6 +37,7 @@ Added in v3.0.0
   - [apSecond\_](#apsecond_)
   - [apT\_](#apt_)
   - [ap\_](#ap_)
+  - [getApplySemigroup](#getapplysemigroup)
 
 ---
 
@@ -302,6 +303,34 @@ export declare function ap_<F, G>(
   F: Apply<F>,
   G: Apply<G>
 ): <A>(fa: HKT<F, HKT<G, A>>) => <B>(fab: HKT<F, HKT<G, (a: A) => B>>) => HKT<F, HKT<G, B>>
+```
+
+Added in v3.0.0
+
+## getApplySemigroup
+
+Lift a semigroup into 'F', the inner values are concatenated using the provided `Semigroup`.
+
+**Signature**
+
+```ts
+export declare function getApplySemigroup<F extends URIS4>(
+  F: Apply4<F>
+): <A, S, R, E>(S: Semigroup<A>) => Semigroup<Kind4<F, S, R, E, A>>
+export declare function getApplySemigroup<F extends URIS3>(
+  F: Apply3<F>
+): <A, R, E>(S: Semigroup<A>) => Semigroup<Kind3<F, R, E, A>>
+export declare function getApplySemigroup<F extends URIS3, E>(
+  F: Apply3C<F, E>
+): <A, R>(S: Semigroup<A>) => Semigroup<Kind3<F, R, E, A>>
+export declare function getApplySemigroup<F extends URIS2>(
+  F: Apply2<F>
+): <A, E>(S: Semigroup<A>) => Semigroup<Kind2<F, E, A>>
+export declare function getApplySemigroup<F extends URIS2, E>(
+  F: Apply2C<F, E>
+): <A>(S: Semigroup<A>) => Semigroup<Kind2<F, E, A>>
+export declare function getApplySemigroup<F extends URIS>(F: Apply1<F>): <A>(S: Semigroup<A>) => Semigroup<Kind<F, A>>
+export declare function getApplySemigroup<F>(F: Apply<F>): <A>(S: Semigroup<A>) => Semigroup<HKT<F, A>>
 ```
 
 Added in v3.0.0

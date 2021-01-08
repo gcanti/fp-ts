@@ -76,8 +76,6 @@ Added in v3.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getAltIOValidation](#getaltiovalidation)
   - [getApplicativeIOValidation](#getapplicativeiovalidation)
-  - [getApplyMonoid](#getapplymonoid)
-  - [getApplySemigroup](#getapplysemigroup)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
   - [getSemigroup](#getsemigroup)
@@ -691,29 +689,6 @@ Added in v3.0.0
 
 ```ts
 export declare const getApplicativeIOValidation: <E>(S: Semigroup<E>) => Applicative2C<'IOEither', E>
-```
-
-Added in v3.0.0
-
-## getApplyMonoid
-
-**Signature**
-
-```ts
-export declare const getApplyMonoid: <A, E>(M: Monoid<A>) => Monoid<IOEither<E, A>>
-```
-
-Added in v3.0.0
-
-## getApplySemigroup
-
-Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
-are concatenated using the provided `Semigroup`
-
-**Signature**
-
-```ts
-export declare const getApplySemigroup: <A, E>(S: Semigroup<A>) => Semigroup<IOEither<E, A>>
 ```
 
 Added in v3.0.0

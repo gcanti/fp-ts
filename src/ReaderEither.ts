@@ -11,7 +11,6 @@ import { FromEither3, fromOption_, fromPredicate_ } from './FromEither'
 import { flow, identity, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor3, tupled_ } from './Functor'
 import { bind_, chainFirst_, Monad3 } from './Monad'
-import { Monoid } from './Monoid'
 import { Pointed3 } from './Pointed'
 import * as R from './Reader'
 import { Semigroup } from './Semigroup'
@@ -330,25 +329,6 @@ declare module './HKT' {
  */
 export const getSemigroup = <A, R, E>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>> =>
   R.getSemigroup(E.getSemigroup(S))
-
-/**
- * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
- * are concatenated using the provided `Semigroup`
- *
- * @category instances
- * @since 3.0.0
- */
-export const getApplySemigroup = <A, R, E>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>> =>
-  R.getSemigroup(E.getApplySemigroup(S))
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getApplyMonoid = <A, R, E>(M: Monoid<A>): Monoid<ReaderEither<R, E, A>> => ({
-  concat: getApplySemigroup<A, R, E>(M).concat,
-  empty: right(M.empty)
-})
 
 /**
  * @category instances

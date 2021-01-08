@@ -69,8 +69,6 @@ Added in v3.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getAltReaderValidation](#getaltreadervalidation)
   - [getApplicativeReaderValidation](#getapplicativereadervalidation)
-  - [getApplyMonoid](#getapplymonoid)
-  - [getApplySemigroup](#getapplysemigroup)
   - [getSemigroup](#getsemigroup)
 - [model](#model)
   - [ReaderEither (interface)](#readereither-interface)
@@ -669,29 +667,6 @@ Added in v3.0.0
 
 ```ts
 export declare const getApplicativeReaderValidation: <E>(S: Semigroup<E>) => Applicative3C<'ReaderEither', E>
-```
-
-Added in v3.0.0
-
-## getApplyMonoid
-
-**Signature**
-
-```ts
-export declare const getApplyMonoid: <A, R, E>(M: Monoid<A>) => Monoid<ReaderEither<R, E, A>>
-```
-
-Added in v3.0.0
-
-## getApplySemigroup
-
-Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
-are concatenated using the provided `Semigroup`
-
-**Signature**
-
-```ts
-export declare const getApplySemigroup: <A, R, E>(S: Semigroup<A>) => Semigroup<ReaderEither<R, E, A>>
 ```
 
 Added in v3.0.0

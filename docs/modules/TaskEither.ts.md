@@ -90,8 +90,6 @@ Added in v3.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getAltTaskValidation](#getalttaskvalidation)
   - [getApplicativeTaskValidation](#getapplicativetaskvalidation)
-  - [getApplyMonoid](#getapplymonoid)
-  - [getApplySemigroup](#getapplysemigroup)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
   - [getSemigroup](#getsemigroup)
@@ -889,29 +887,6 @@ export declare const getApplicativeTaskValidation: <E>(
   A: Apply1<'Task'>,
   S: Semigroup<E>
 ) => Applicative2C<'TaskEither', E>
-```
-
-Added in v3.0.0
-
-## getApplyMonoid
-
-**Signature**
-
-```ts
-export declare const getApplyMonoid: <A, E>(M: Monoid<A>) => Monoid<TaskEither<E, A>>
-```
-
-Added in v3.0.0
-
-## getApplySemigroup
-
-Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
-are concatenated using the provided `Semigroup`
-
-**Signature**
-
-```ts
-export declare const getApplySemigroup: <A, E>(S: Semigroup<A>) => Semigroup<TaskEither<E, A>>
 ```
 
 Added in v3.0.0

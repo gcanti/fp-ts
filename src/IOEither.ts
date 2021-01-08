@@ -334,25 +334,6 @@ declare module './HKT' {
 export const getSemigroup = <A, E>(S: Semigroup<A>): Semigroup<IOEither<E, A>> => I.getSemigroup(E.getSemigroup(S))
 
 /**
- * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
- * are concatenated using the provided `Semigroup`
- *
- * @category instances
- * @since 3.0.0
- */
-export const getApplySemigroup = <A, E>(S: Semigroup<A>): Semigroup<IOEither<E, A>> =>
-  I.getSemigroup(E.getApplySemigroup(S))
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getApplyMonoid = <A, E>(M: Monoid<A>): Monoid<IOEither<E, A>> => ({
-  concat: getApplySemigroup<A, E>(M).concat,
-  empty: right(M.empty)
-})
-
-/**
  * @category instances
  * @since 3.0.0
  */

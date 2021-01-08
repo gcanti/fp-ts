@@ -17,8 +17,9 @@
  *
  * @since 3.0.0
  */
-import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, Apply4 } from './Apply'
-import { URIS, URIS2, URIS3, URIS4 } from './HKT'
+import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, Apply4, getApplySemigroup } from './Apply'
+import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import { Monoid } from './Monoid'
 import { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
 
 /**
@@ -62,3 +63,35 @@ export interface Applicative3C<F extends URIS3, E> extends Apply3C<F, E>, Pointe
  * @since 3.0.0
  */
 export interface Applicative4<F extends URIS4> extends Apply4<F>, Pointed4<F> {}
+
+/**
+ * Lift a monoid into 'F', the inner values are concatenated using the provided `Monoid`.
+ *
+ * @since 3.0.0
+ */
+export function getApplicativeMonoid<F extends URIS4>(
+  F: Applicative4<F>
+): <A, S, R, E>(M: Monoid<A>) => Monoid<Kind4<F, S, R, E, A>>
+export function getApplicativeMonoid<F extends URIS3>(
+  F: Applicative3<F>
+): <A, R, E>(M: Monoid<A>) => Monoid<Kind3<F, R, E, A>>
+export function getApplicativeMonoid<F extends URIS3, E>(
+  F: Applicative3C<F, E>
+): <A, R>(S: Monoid<A>) => Monoid<Kind3<F, R, E, A>>
+export function getApplicativeMonoid<F extends URIS2>(
+  F: Applicative2<F>
+): <A, E>(M: Monoid<A>) => Monoid<Kind2<F, E, A>>
+export function getApplicativeMonoid<F extends URIS2, E>(
+  F: Applicative2C<F, E>
+): <A>(M: Monoid<A>) => Monoid<Kind2<F, E, A>>
+export function getApplicativeMonoid<F extends URIS>(F: Applicative1<F>): <A>(M: Monoid<A>) => Monoid<Kind<F, A>>
+export function getApplicativeMonoid<F>(F: Applicative<F>): <A>(M: Monoid<A>) => Monoid<HKT<F, A>>
+export function getApplicativeMonoid<F>(F: Applicative<F>): <A>(M: Monoid<A>) => Monoid<HKT<F, A>> {
+  const f = getApplySemigroup(F)
+  return <A>(M: Monoid<A>) => {
+    return {
+      concat: f(M).concat,
+      empty: F.of(M.empty)
+    }
+  }
+}

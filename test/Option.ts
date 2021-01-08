@@ -1,12 +1,12 @@
 import * as assert from 'assert'
-import * as A from '../src/ReadonlyArray'
 import { left, right } from '../src/Either'
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
-import { monoidString, monoidSum } from '../src/Monoid'
+import { monoidString } from '../src/Monoid'
 import * as _ from '../src/Option'
 import { ordString } from '../src/Ord'
-import { semigroupString, semigroupSum } from '../src/Semigroup'
+import * as A from '../src/ReadonlyArray'
+import { semigroupString } from '../src/Semigroup'
 import { showString } from '../src/Show'
 import * as T from '../src/Task'
 
@@ -339,22 +339,6 @@ describe('Option', () => {
     const parseDirection = _.fromPredicate((s: string): s is Direction => s === 'asc' || s === 'desc')
     assert.deepStrictEqual(parseDirection('asc'), _.some('asc'))
     assert.deepStrictEqual(parseDirection('foo'), _.none)
-  })
-
-  it('getApplySemigroup', () => {
-    const S = _.getApplySemigroup(semigroupSum)
-    assert.deepStrictEqual(pipe(_.none, S.concat(_.none)), _.none)
-    assert.deepStrictEqual(pipe(_.some(1), S.concat(_.none)), _.none)
-    assert.deepStrictEqual(pipe(_.none, S.concat(_.some(1))), _.none)
-    assert.deepStrictEqual(pipe(_.some(1), S.concat(_.some(2))), _.some(3))
-  })
-
-  it('getApplyMonoid', () => {
-    const M = _.getApplyMonoid(monoidSum)
-    assert.deepStrictEqual(pipe(M.empty, M.concat(_.none)), _.none)
-    assert.deepStrictEqual(pipe(_.none, M.concat(M.empty)), _.none)
-    assert.deepStrictEqual(pipe(M.empty, M.concat(_.some(1))), _.some(1))
-    assert.deepStrictEqual(pipe(_.some(1), M.concat(M.empty)), _.some(1))
   })
 
   it('getFirstMonoid', () => {

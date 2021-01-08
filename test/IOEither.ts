@@ -250,18 +250,10 @@ describe('IOEither', () => {
 
   it('getSemigroup', () => {
     const S = _.getSemigroup<number, string>(semigroupSum)
-    assert.deepStrictEqual(pipe(_.leftIO(I.of('a')), S.concat(_.leftIO(I.of('b'))))(), E.left('a'))
-    assert.deepStrictEqual(pipe(_.leftIO(I.of('a')), S.concat(_.rightIO(I.of(2))))(), E.right(2))
-    assert.deepStrictEqual(pipe(_.rightIO(I.of(1)), S.concat(_.leftIO(I.of('b'))))(), E.right(1))
-    assert.deepStrictEqual(pipe(_.rightIO(I.of(1)), S.concat(_.rightIO(I.of(2))))(), E.right(3))
-  })
-
-  it('getApplyMonoid', () => {
-    const M = _.getApplyMonoid(monoidString)
-    assert.deepStrictEqual(pipe(_.rightIO(I.of('a')), M.concat(_.rightIO(I.of('b'))))(), E.right('ab'))
-    assert.deepStrictEqual(pipe(_.rightIO(I.of('a')), M.concat(_.leftIO(I.of('b'))))(), E.left('b'))
-    assert.deepStrictEqual(pipe(_.rightIO(I.of('a')), M.concat(M.empty))(), E.right('a'))
-    assert.deepStrictEqual(pipe(M.empty, M.concat(_.rightIO(I.of('a'))))(), E.right('a'))
+    assert.deepStrictEqual(pipe(_.left('a'), S.concat(_.left('b')))(), E.left('a'))
+    assert.deepStrictEqual(pipe(_.left('a'), S.concat(_.right(2)))(), E.right(2))
+    assert.deepStrictEqual(pipe(_.right(1), S.concat(_.left('b')))(), E.right(1))
+    assert.deepStrictEqual(pipe(_.right(1), S.concat(_.right(2)))(), E.right(3))
   })
 
   it('getApplicativeIOValidation', () => {
