@@ -340,15 +340,10 @@ export const getApplicativeIOValidation = <E>(S: Semigroup<E>): Applicative2C<UR
  * @since 3.0.0
  */
 export const getAltIOValidation = <E>(S: Semigroup<E>): Alt2C<URI, E> => {
-  const A = E.getAltValidation(S)
   return {
     URI,
     map,
-    alt: (second) => (first) => () =>
-      pipe(
-        first(),
-        A.alt(() => second()())
-      )
+    alt: ET.altValidation_(I.Monad, S)
   }
 }
 

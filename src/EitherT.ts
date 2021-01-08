@@ -3,11 +3,12 @@
  */
 import { Apply, Apply1, Apply2, ap_ as ap__ } from './Apply'
 import * as E from './Either'
-import { flow, Lazy } from './function'
+import { flow, Lazy, pipe } from './function'
 import { Functor, Functor1, Functor2, map_ as map__ } from './Functor'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
 import { Pointed, Pointed1, Pointed2 } from './Pointed'
+import { Semigroup } from './Semigroup'
 
 import Either = E.Either
 
@@ -236,4 +237,27 @@ export function swap_<F extends URIS>(F: Functor1<F>): <E, A>(ma: Kind<F, Either
 export function swap_<F>(F: Functor<F>): <E, A>(ma: HKT<F, Either<E, A>>) => HKT<F, Either<A, E>>
 export function swap_<F>(F: Functor<F>): <E, A>(ma: HKT<F, Either<E, A>>) => HKT<F, Either<A, E>> {
   return F.map(E.swap)
+}
+
+/**
+ * @since 3.0.0
+ */
+export function altValidation_<M extends URIS2, E>(
+  M: Monad2<M>,
+  S: Semigroup<E>
+): <R, A>(second: Lazy<Kind2<M, R, Either<E, A>>>) => (first: Kind2<M, R, Either<E, A>>) => Kind2<M, R, Either<E, A>>
+export function altValidation_<M extends URIS, E>(
+  M: Monad1<M>,
+  S: Semigroup<E>
+): <A>(second: Lazy<Kind<M, Either<E, A>>>) => (first: Kind<M, Either<E, A>>) => Kind<M, Either<E, A>>
+export function altValidation_<M, E>(
+  M: Monad<M>,
+  S: Semigroup<E>
+): <A>(second: Lazy<HKT<M, Either<E, A>>>) => (first: HKT<M, Either<E, A>>) => HKT<M, Either<E, A>>
+export function altValidation_<M, E>(
+  M: Monad<M>,
+  S: Semigroup<E>
+): <A>(second: Lazy<HKT<M, Either<E, A>>>) => (first: HKT<M, Either<E, A>>) => HKT<M, Either<E, A>> {
+  return (second) => (first) =>
+    pipe(first, M.chain(E.fold((e1) => pipe(second(), M.map(E.mapLeft((e2) => S.concat(e2)(e1)))), right_(M))))
 }

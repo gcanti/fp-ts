@@ -477,22 +477,13 @@ export const getApplicativeTaskValidation = <E>(A: Apply1<T.URI>, S: Semigroup<E
  * @category instances
  * @since 3.0.0
  */
-export const getAltTaskValidation = <E>(S: Semigroup<E>): Alt2C<URI, E> => ({
-  URI,
-  map,
-  alt: (second) => (first) =>
-    pipe(
-      first,
-      T.chain((e1) =>
-        E.isRight(e1)
-          ? T.of(e1)
-          : pipe(
-              second(),
-              T.map((e2) => (E.isLeft(e2) ? E.left(S.concat(e2.left)(e1.left)) : e2))
-            )
-      )
-    )
-})
+export const getAltTaskValidation = <E>(S: Semigroup<E>): Alt2C<URI, E> => {
+  return {
+    URI,
+    map,
+    alt: ET.altValidation_(T.Monad, S)
+  }
+}
 
 /**
  * @category instances

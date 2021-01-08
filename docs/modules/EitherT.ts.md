@@ -13,6 +13,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [utils](#utils)
+  - [altValidation\_](#altvalidation_)
   - [alt\_](#alt_)
   - [ap\_](#ap_)
   - [bimap\_](#bimap_)
@@ -31,6 +32,27 @@ Added in v3.0.0
 ---
 
 # utils
+
+## altValidation\_
+
+**Signature**
+
+```ts
+export declare function altValidation_<M extends URIS2, E>(
+  M: Monad2<M>,
+  S: Semigroup<E>
+): <R, A>(second: Lazy<Kind2<M, R, Either<E, A>>>) => (first: Kind2<M, R, Either<E, A>>) => Kind2<M, R, Either<E, A>>
+export declare function altValidation_<M extends URIS, E>(
+  M: Monad1<M>,
+  S: Semigroup<E>
+): <A>(second: Lazy<Kind<M, Either<E, A>>>) => (first: Kind<M, Either<E, A>>) => Kind<M, Either<E, A>>
+export declare function altValidation_<M, E>(
+  M: Monad<M>,
+  S: Semigroup<E>
+): <A>(second: Lazy<HKT<M, Either<E, A>>>) => (first: HKT<M, Either<E, A>>) => HKT<M, Either<E, A>>
+```
+
+Added in v3.0.0
 
 ## alt\_
 

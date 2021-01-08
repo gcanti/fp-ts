@@ -480,15 +480,10 @@ export const getApplicativeReaderTaskValidation = <E>(A: Apply1<T.URI>, S: Semig
  * @since 3.0.0
  */
 export const getAltReaderTaskValidation = <E>(S: Semigroup<E>): Alt3C<URI, E> => {
-  const A = TE.getAltTaskValidation(S)
   return {
     URI,
     map,
-    alt: (second) => (first) => (r) =>
-      pipe(
-        first(r),
-        A.alt(() => second()(r))
-      )
+    alt: ET.altValidation_(RT.Monad, S)
   }
 }
 

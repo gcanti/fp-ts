@@ -8,7 +8,7 @@ import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import * as ET from './EitherT'
 import { FromEither3, fromOption_, fromPredicate_ } from './FromEither'
-import { flow, identity, pipe, Predicate, Refinement } from './function'
+import { flow, identity, Predicate, Refinement } from './function'
 import { bindTo_, Functor3, tupled_ } from './Functor'
 import { bind_, chainFirst_, Monad3 } from './Monad'
 import { Pointed3 } from './Pointed'
@@ -336,15 +336,10 @@ export const getApplicativeReaderValidation = <E>(S: Semigroup<E>): Applicative3
  * @since 3.0.0
  */
 export const getAltReaderValidation = <E>(S: Semigroup<E>): Alt3C<URI, E> => {
-  const A = E.getAltValidation(S)
   return {
     URI,
     map,
-    alt: (second) => (first) => (r) =>
-      pipe(
-        first(r),
-        A.alt(() => second()(r))
-      )
+    alt: ET.altValidation_(R.Monad, S)
   }
 }
 
