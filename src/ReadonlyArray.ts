@@ -1146,11 +1146,7 @@ export function comprehension<R>(
  */
 export const union = <A>(E: Eq<A>): ((ys: ReadonlyArray<A>) => (xs: ReadonlyArray<A>) => ReadonlyArray<A>) => {
   const elemE = elem(E)
-  return (ys) => (xs) =>
-    concat(
-      xs,
-      ys.filter((a) => !elemE(a)(xs))
-    )
+  return (ys) => (xs) => xs.concat(ys.filter((a) => !elemE(a)(xs)))
 }
 
 /**
@@ -1210,7 +1206,7 @@ export const zero: Alternative1<URI>['zero'] = () => empty
  * @since 3.0.0
  */
 export const altW = <B>(second: Lazy<ReadonlyArray<B>>) => <A>(first: ReadonlyArray<A>): ReadonlyArray<A | B> =>
-  concat(first, second())
+  (first as ReadonlyArray<A | B>).concat(second())
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -1621,25 +1617,6 @@ export const getShow = <A>(S: Show<A>): Show<ReadonlyArray<A>> => ({
   show: (as) => `[${as.map(S.show).join(', ')}]`
 })
 
-const concat = <A, B>(first: ReadonlyArray<A>, second: ReadonlyArray<B>): ReadonlyArray<A | B> => {
-  const lenx = first.length
-  if (lenx === 0) {
-    return second
-  }
-  const leny = second.length
-  if (leny === 0) {
-    return first
-  }
-  const r = Array(lenx + leny)
-  for (let i = 0; i < lenx; i++) {
-    r[i] = first[i]
-  }
-  for (let i = 0; i < leny; i++) {
-    r[i + lenx] = second[i]
-  }
-  return r
-}
-
 /**
  * Returns a `Monoid` for `ReadonlyArray<A>`
  *
@@ -1654,7 +1631,7 @@ const concat = <A, B>(first: ReadonlyArray<A>, second: ReadonlyArray<B>): Readon
  * @since 3.0.0
  */
 export const getMonoid = <A = never>(): Monoid<ReadonlyArray<A>> => ({
-  concat: (second) => (first) => concat(first, second),
+  concat: (second) => (first) => first.concat(second),
   empty
 })
 
