@@ -78,7 +78,6 @@ Added in v3.0.0
   - [getApplicativeIOValidation](#getapplicativeiovalidation)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
-  - [getSemigroup](#getsemigroup)
 - [model](#model)
   - [IOEither (interface)](#ioeither-interface)
 - [utils](#utils)
@@ -709,19 +708,6 @@ Added in v3.0.0
 
 ```ts
 export declare const getFilterable: <E>(M: Monoid<E>) => Filterable2C<'IOEither', E>
-```
-
-Added in v3.0.0
-
-## getSemigroup
-
-Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
-concatenated using the provided `Semigroup`
-
-**Signature**
-
-```ts
-export declare const getSemigroup: <A, E>(S: Semigroup<A>) => Semigroup<IOEither<E, A>>
 ```
 
 Added in v3.0.0

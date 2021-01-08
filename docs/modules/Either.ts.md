@@ -100,8 +100,6 @@ Added in v3.0.0
   - [getFilterable](#getfilterable)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
-  - [getValidationMonoid](#getvalidationmonoid)
-  - [getValidationSemigroup](#getvalidationsemigroup)
   - [getWitherable](#getwitherable)
 - [model](#model)
   - [Either (type alias)](#either-type-alias)
@@ -1113,7 +1111,7 @@ Added in v3.0.0
 ## getSemigroup
 
 Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
-concatenated using the provided `Semigroup`
+concatenated using the provided `Semigroup`.
 
 **Signature**
 
@@ -1143,26 +1141,6 @@ Added in v3.0.0
 
 ```ts
 export declare const getShow: <E, A>(SE: Show<E>, SA: Show<A>) => Show<Either<E, A>>
-```
-
-Added in v3.0.0
-
-## getValidationMonoid
-
-**Signature**
-
-```ts
-export declare const getValidationMonoid: <E, A>(SE: Semigroup<E>, MA: Monoid<A>) => Monoid<Either<E, A>>
-```
-
-Added in v3.0.0
-
-## getValidationSemigroup
-
-**Signature**
-
-```ts
-export declare const getValidationSemigroup: <E, A>(SE: Semigroup<E>, SA: Semigroup<A>) => Semigroup<Either<E, A>>
 ```
 
 Added in v3.0.0

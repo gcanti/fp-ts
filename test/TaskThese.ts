@@ -1,13 +1,13 @@
 import * as assert from 'assert'
-import * as IO from '../src/IO'
-import { monoidString, monoidSum } from '../src/Monoid'
+import * as E from '../src/Either'
 import { pipe } from '../src/function'
+import * as IO from '../src/IO'
+import { monoidString } from '../src/Monoid'
+import { semigroupString } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskThese'
 import * as TH from '../src/These'
-import { assertSeq, assertPar } from './util'
-import { semigroupString } from '../src/Semigroup'
-import * as E from '../src/Either'
+import { assertPar, assertSeq } from './util'
 
 describe('TaskThese', () => {
   // -------------------------------------------------------------------------------------
@@ -46,16 +46,6 @@ describe('TaskThese', () => {
   it('ApplicativePar', async () => {
     await assertPar(_.getApply(T.ApplyPar, semigroupString), _.FromTask, (fa) => fa())
     await assertPar<_.URI, string>(_.getApplicative(T.ApplyPar, semigroupString), _.FromTask, (fa) => fa())
-  })
-
-  it('getSemigroup', async () => {
-    const S = _.getSemigroup(monoidString, monoidSum)
-    assert.deepStrictEqual(await pipe(_.right(1), S.concat(_.right(2)))(), TH.right(3))
-    assert.deepStrictEqual(await pipe(_.right(1), S.concat(_.left('a')))(), TH.both('a', 1))
-    assert.deepStrictEqual(await pipe(_.left('a'), S.concat(_.left('b')))(), TH.left('ab'))
-    assert.deepStrictEqual(await pipe(_.right(1), S.concat(_.both('a', 2)))(), TH.both('a', 3))
-    assert.deepStrictEqual(await pipe(_.left('a'), S.concat(_.both('b', 2)))(), TH.both('ab', 2))
-    assert.deepStrictEqual(await pipe(_.both('a', 1), S.concat(_.both('b', 2)))(), TH.both('ab', 3))
   })
 
   it('getApplicative', async () => {

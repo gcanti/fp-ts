@@ -325,15 +325,6 @@ declare module './HKT' {
 }
 
 /**
- * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
- * concatenated using the provided `Semigroup`
- *
- * @category instances
- * @since 3.0.0
- */
-export const getSemigroup = <A, E>(S: Semigroup<A>): Semigroup<IOEither<E, A>> => I.getSemigroup(E.getSemigroup(S))
-
-/**
  * @category instances
  * @since 3.0.0
  */

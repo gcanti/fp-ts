@@ -221,13 +221,6 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
-export const getSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<TaskThese<E, A>> =>
-  T.getSemigroup(TH.getSemigroup(SE, SA))
-
-/**
- * @category instances
- * @since 3.0.0
- */
 export const getApply = <E>(A: Apply1<T.URI>, S: Semigroup<E>): Apply2C<URI, E> => ({
   URI,
   map,

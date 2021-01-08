@@ -50,8 +50,6 @@ Added in v3.0.0
   - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [getMonoid](#getmonoid)
-  - [getSemigroup](#getsemigroup)
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
 - [utils](#utils)
@@ -411,26 +409,6 @@ Added in v3.0.0
 
 ```ts
 export type URI = typeof URI
-```
-
-Added in v3.0.0
-
-## getMonoid
-
-**Signature**
-
-```ts
-export declare const getMonoid: <A, R>(M: Monoid<A>) => Monoid<ReaderTask<R, A>>
-```
-
-Added in v3.0.0
-
-## getSemigroup
-
-**Signature**
-
-```ts
-export declare const getSemigroup: <A, R>(S: Semigroup<A>) => Semigroup<ReaderTask<R, A>>
 ```
 
 Added in v3.0.0

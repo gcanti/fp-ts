@@ -6,7 +6,6 @@ import { none, some } from '../src/Option'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderEither'
 import * as A from '../src/ReadonlyArray'
-import { semigroupSum } from '../src/Semigroup'
 
 describe('ReaderEither', () => {
   describe('pipeables', () => {
@@ -133,16 +132,6 @@ describe('ReaderEither', () => {
   it('orElse', () => {
     const orElse = _.orElse((s: string) => (s.length > 2 ? _.right(1) : _.left(2)))
     assert.deepStrictEqual(orElse(_.right(1))({}), E.right(1))
-  })
-
-  describe('getSemigroup', () => {
-    it('concat', () => {
-      const S = _.getSemigroup(semigroupSum)
-      assert.deepStrictEqual(pipe(_.left('a'), S.concat(_.left('b')))({}), E.left('a'))
-      assert.deepStrictEqual(pipe(_.left('a'), S.concat(_.right(2)))({}), E.right(2))
-      assert.deepStrictEqual(pipe(_.right(1), S.concat(_.left('b')))({}), E.right(1))
-      assert.deepStrictEqual(pipe(_.right(1), S.concat(_.right(2)))({}), E.right(3))
-    })
   })
 
   it('ask', () => {

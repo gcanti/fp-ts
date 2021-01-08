@@ -9,11 +9,9 @@ import { flow, identity, pipe } from './function'
 import { bindTo_, Functor2, tupled_ } from './Functor'
 import { IO } from './IO'
 import { bind_, chainFirst_, Monad2 } from './Monad'
-import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import * as R from './Reader'
 import * as RT from './ReaderT'
-import { Semigroup } from './Semigroup'
 import * as T from './Task'
 
 // -------------------------------------------------------------------------------------
@@ -196,21 +194,6 @@ declare module './HKT' {
     readonly [URI]: ReaderTask<E, A>
   }
 }
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getSemigroup = <A, R>(S: Semigroup<A>): Semigroup<ReaderTask<R, A>> => R.getSemigroup(T.getSemigroup(S))
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getMonoid = <A, R>(M: Monoid<A>): Monoid<ReaderTask<R, A>> => ({
-  concat: getSemigroup<A, R>(M).concat,
-  empty: of(M.empty)
-})
 
 /**
  * @category instances

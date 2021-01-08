@@ -7,10 +7,8 @@ import { Category2 } from './Category'
 import { constant, flow, identity } from './function'
 import { bindTo_, Functor2, tupled_ } from './Functor'
 import { bind_, chainFirst_, Monad2 } from './Monad'
-import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import { Profunctor2 } from './Profunctor'
-import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
 
 // -------------------------------------------------------------------------------------
@@ -158,23 +156,6 @@ declare module './HKT' {
     readonly [URI]: Reader<E, A>
   }
 }
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getSemigroup = <A, R>(S: Semigroup<A>): Semigroup<Reader<R, A>> => ({
-  concat: (second) => (first) => (e) => S.concat(second(e))(first(e))
-})
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getMonoid = <A, R>(M: Monoid<A>): Monoid<Reader<R, A>> => ({
-  concat: getSemigroup<A, R>(M).concat,
-  empty: () => M.empty
-})
 
 /**
  * @category instances

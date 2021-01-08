@@ -1,8 +1,6 @@
 import * as assert from 'assert'
-import * as _ from '../src/Reader'
-import { semigroupSum } from '../src/Semigroup'
-import { monoidSum } from '../src/Monoid'
 import { pipe } from '../src/function'
+import * as _ from '../src/Reader'
 import * as RA from '../src/ReadonlyArray'
 
 interface Env {
@@ -81,17 +79,6 @@ describe('Reader', () => {
   it('id', () => {
     const x = _.id<number>()
     assert.deepStrictEqual(x(1), 1)
-  })
-
-  it('getSemigroup', () => {
-    const S = _.getSemigroup(semigroupSum)
-    assert.deepStrictEqual(pipe(_.of(1), S.concat(_.of(2)))({}), 3)
-  })
-
-  it('getMonoid', () => {
-    const M = _.getMonoid(monoidSum)
-    assert.deepStrictEqual(pipe(_.of(1), M.concat(M.empty))({}), 1)
-    assert.deepStrictEqual(pipe(M.empty, M.concat(_.of(1)))({}), 1)
   })
 
   it('ask', () => {

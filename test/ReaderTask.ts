@@ -1,11 +1,9 @@
 import * as assert from 'assert'
 import { pipe } from '../src/function'
 import * as I from '../src/IO'
-import { monoidString } from '../src/Monoid'
 import * as R from '../src/Reader'
-import * as A from '../src/ReadonlyArray'
 import * as _ from '../src/ReaderTask'
-import { semigroupString } from '../src/Semigroup'
+import * as A from '../src/ReadonlyArray'
 import * as T from '../src/Task'
 import { assertPar, assertSeq } from './util'
 
@@ -101,18 +99,6 @@ describe('ReaderTask', () => {
   // -------------------------------------------------------------------------------------
   // instances
   // -------------------------------------------------------------------------------------
-
-  it('getSemigroup', async () => {
-    const M = _.getSemigroup(semigroupString)
-    assert.deepStrictEqual(await pipe(_.of('a'), M.concat(_.of('b')))({})(), 'ab')
-  })
-
-  it('getMonoid', async () => {
-    const M = _.getMonoid(monoidString)
-    assert.deepStrictEqual(await pipe(_.of('a'), M.concat(M.empty))({})(), 'a')
-    assert.deepStrictEqual(await pipe(M.empty, M.concat(_.of('b')))({})(), 'b')
-    assert.deepStrictEqual(await pipe(_.of('a'), M.concat(_.of('b')))({})(), 'ab')
-  })
 
   it('ApplicativeSeq', async () => {
     await assertSeq(_.ApplySeq, _.FromTask, (fa) => fa(null)())

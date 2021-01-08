@@ -1,10 +1,9 @@
 import * as assert from 'assert'
-import * as I from '../src/IO'
-import { monoidString } from '../src/Monoid'
 import { pipe } from '../src/function'
-import * as _ from '../src/Task'
+import * as I from '../src/IO'
 import * as RA from '../src/ReadonlyArray'
-import { assertSeq, assertPar } from './util'
+import * as _ from '../src/Task'
+import { assertPar, assertSeq } from './util'
 
 const delayReject = <A>(n: number, a: A): _.Task<A> => () =>
   new Promise<A>((_, reject) => {
@@ -97,22 +96,6 @@ describe('Task', () => {
       } catch (actual) {
         return assert.deepStrictEqual(actual, 1)
       }
-    })
-  })
-
-  describe('getMonoid', () => {
-    const M = _.getMonoid(monoidString)
-
-    it('concat', async () => {
-      assert.deepStrictEqual(await pipe(delay(10, 'a'), M.concat(delay(10, 'b')))(), 'ab')
-    })
-
-    it('empty (right)', async () => {
-      assert.deepStrictEqual(await pipe(delay(10, 'a'), M.concat(M.empty))(), 'a')
-    })
-
-    it('empty (left)', async () => {
-      assert.deepStrictEqual(await pipe(M.empty, M.concat(delay(10, 'a')))(), 'a')
     })
   })
 

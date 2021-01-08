@@ -92,7 +92,6 @@ Added in v3.0.0
   - [getApplicativeTaskValidation](#getapplicativetaskvalidation)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
-  - [getSemigroup](#getsemigroup)
 - [model](#model)
   - [TaskEither (interface)](#taskeither-interface)
 - [utils](#utils)
@@ -907,19 +906,6 @@ Added in v3.0.0
 
 ```ts
 export declare const getFilterable: <E>(M: Monoid<E>) => Filterable2C<'TaskEither', E>
-```
-
-Added in v3.0.0
-
-## getSemigroup
-
-Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
-concatenated using the provided `Semigroup`
-
-**Signature**
-
-```ts
-export declare const getSemigroup: <A, E>(S: Semigroup<A>) => Semigroup<TaskEither<E, A>>
 ```
 
 Added in v3.0.0

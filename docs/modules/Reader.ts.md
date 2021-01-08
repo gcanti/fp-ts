@@ -48,8 +48,6 @@ Added in v3.0.0
   - [Profunctor](#profunctor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [getMonoid](#getmonoid)
-  - [getSemigroup](#getsemigroup)
 - [model](#model)
   - [Reader (interface)](#reader-interface)
 - [utils](#utils)
@@ -370,26 +368,6 @@ Added in v3.0.0
 
 ```ts
 export type URI = typeof URI
-```
-
-Added in v3.0.0
-
-## getMonoid
-
-**Signature**
-
-```ts
-export declare const getMonoid: <A, R>(M: Monoid<A>) => Monoid<Reader<R, A>>
-```
-
-Added in v3.0.0
-
-## getSemigroup
-
-**Signature**
-
-```ts
-export declare const getSemigroup: <A, R>(S: Semigroup<A>) => Semigroup<Reader<R, A>>
 ```
 
 Added in v3.0.0

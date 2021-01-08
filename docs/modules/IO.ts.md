@@ -46,8 +46,6 @@ Added in v3.0.0
   - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [getMonoid](#getmonoid)
-  - [getSemigroup](#getsemigroup)
 - [model](#model)
   - [IO (interface)](#io-interface)
 - [utils](#utils)
@@ -266,26 +264,6 @@ Added in v3.0.0
 
 ```ts
 export type URI = typeof URI
-```
-
-Added in v3.0.0
-
-## getMonoid
-
-**Signature**
-
-```ts
-export declare const getMonoid: <A>(M: Monoid<A>) => Monoid<IO<A>>
-```
-
-Added in v3.0.0
-
-## getSemigroup
-
-**Signature**
-
-```ts
-export declare const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<IO<A>>
 ```
 
 Added in v3.0.0

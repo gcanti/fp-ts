@@ -6,7 +6,6 @@ import * as _ from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
 import * as A from '../src/ReadonlyArray'
-import { semigroupSum } from '../src/Semigroup'
 
 describe('IOEither', () => {
   // -------------------------------------------------------------------------------------
@@ -246,14 +245,6 @@ describe('IOEither', () => {
     const A = _.ApplicativeSeq
     assert.deepStrictEqual(pipe(a, A.map(tuple), A.ap(b), A.ap(c))(), E.left('error'))
     assert.deepStrictEqual(log, ['a', 'b'])
-  })
-
-  it('getSemigroup', () => {
-    const S = _.getSemigroup<number, string>(semigroupSum)
-    assert.deepStrictEqual(pipe(_.left('a'), S.concat(_.left('b')))(), E.left('a'))
-    assert.deepStrictEqual(pipe(_.left('a'), S.concat(_.right(2)))(), E.right(2))
-    assert.deepStrictEqual(pipe(_.right(1), S.concat(_.left('b')))(), E.right(1))
-    assert.deepStrictEqual(pipe(_.right(1), S.concat(_.right(2)))(), E.right(3))
   })
 
   it('getApplicativeIOValidation', () => {

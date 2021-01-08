@@ -844,8 +844,6 @@ Added in v3.0.0
 
 ## getSemigroup
 
-Builds a `Semigroup` instance for `ReadonlyNonEmptyArray`
-
 **Signature**
 
 ```ts

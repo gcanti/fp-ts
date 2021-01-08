@@ -92,7 +92,6 @@ Added in v3.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getAltReaderTaskValidation](#getaltreadertaskvalidation)
   - [getApplicativeReaderTaskValidation](#getapplicativereadertaskvalidation)
-  - [getSemigroup](#getsemigroup)
 - [model](#model)
   - [ReaderTaskEither (interface)](#readertaskeither-interface)
 - [utils](#utils)
@@ -931,19 +930,6 @@ export declare const getApplicativeReaderTaskValidation: <E>(
   A: Apply1<'Task'>,
   S: Semigroup<E>
 ) => Applicative3C<'ReaderTaskEither', E>
-```
-
-Added in v3.0.0
-
-## getSemigroup
-
-Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
-concatenated using the provided `Semigroup`
-
-**Signature**
-
-```ts
-export declare const getSemigroup: <A, R, E>(S: Semigroup<A>) => Semigroup<ReaderTaskEither<R, E, A>>
 ```
 
 Added in v3.0.0

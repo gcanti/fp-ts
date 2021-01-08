@@ -9,7 +9,7 @@ import * as RE from '../src/ReaderEither'
 import * as RT from '../src/ReaderTask'
 import * as _ from '../src/ReaderTaskEither'
 import * as A from '../src/ReadonlyArray'
-import { semigroupString, semigroupSum } from '../src/Semigroup'
+import { semigroupString } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 import { assertPar, assertSeq } from './util'
@@ -247,14 +247,6 @@ describe('ReaderTaskEither', () => {
   it('swap', async () => {
     assert.deepStrictEqual(await _.swap(_.right(1))({})(), E.left(1))
     assert.deepStrictEqual(await _.swap(_.left('a'))({})(), E.right('a'))
-  })
-
-  it('getSemigroup', async () => {
-    const S = _.getSemigroup(semigroupSum)
-    assert.deepStrictEqual(await pipe(_.left('a'), S.concat(_.left('b')))({})(), E.left('a'))
-    assert.deepStrictEqual(await pipe(_.left('a'), S.concat(_.right(2)))({})(), E.right(2))
-    assert.deepStrictEqual(await pipe(_.right(1), S.concat(_.left('b')))({})(), E.right(1))
-    assert.deepStrictEqual(await pipe(_.right(1), S.concat(_.right(2)))({})(), E.right(3))
   })
 
   it('fromReaderEither', async () => {

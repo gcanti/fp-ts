@@ -6,7 +6,7 @@ import * as IE from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
 import * as A from '../src/ReadonlyArray'
-import { semigroupString, semigroupSum } from '../src/Semigroup'
+import { semigroupString } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskEither'
 import { assertPar, assertSeq } from './util'
@@ -173,14 +173,6 @@ describe('TaskEither', () => {
       assert.deepStrictEqual(await left(), E.right(false))
       assert.deepStrictEqual(await right(), E.left([]))
     })
-  })
-
-  it('getSemigroup', async () => {
-    const S = _.getSemigroup<number, string>(semigroupSum)
-    assert.deepStrictEqual(await pipe(_.left('a'), S.concat(_.left('b')))(), E.left('a'))
-    assert.deepStrictEqual(await pipe(_.left('a'), S.concat(_.right(2)))(), E.right(2))
-    assert.deepStrictEqual(await pipe(_.right(1), S.concat(_.left('b')))(), E.right(1))
-    assert.deepStrictEqual(await pipe(_.right(1), S.concat(_.right(2)))(), E.right(3))
   })
 
   it('ApplicativeSeq', async () => {

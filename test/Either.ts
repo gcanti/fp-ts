@@ -2,12 +2,12 @@ import * as assert from 'assert'
 import * as _ from '../src/Either'
 import { eqNumber, eqString } from '../src/Eq'
 import { identity, pipe } from '../src/function'
-import { monoidString, monoidSum } from '../src/Monoid'
+import { monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
+import * as A from '../src/ReadonlyArray'
 import { semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
 import * as T from '../src/Task'
-import * as A from '../src/ReadonlyArray'
 
 describe('Either', () => {
   describe('pipeables', () => {
@@ -510,16 +510,6 @@ describe('Either', () => {
       ),
       _.right(2)
     )
-  })
-
-  it('getValidationMonoid', () => {
-    const M = _.getValidationMonoid(monoidString, monoidSum)
-    assert.deepStrictEqual(pipe(_.right(1), M.concat(_.right(2))), _.right(3))
-    assert.deepStrictEqual(pipe(_.right(1), M.concat(_.left('foo'))), _.left('foo'))
-    assert.deepStrictEqual(pipe(_.left('foo'), M.concat(_.right(1))), _.left('foo'))
-    assert.deepStrictEqual(pipe(_.left('foo'), M.concat(_.left('bar'))), _.left('foobar'))
-    assert.deepStrictEqual(pipe(_.right(1), M.concat(M.empty)), _.right(1))
-    assert.deepStrictEqual(pipe(M.empty, M.concat(_.right(1))), _.right(1))
   })
 
   it('fromOption', () => {

@@ -572,8 +572,6 @@ declare module './HKT' {
 export const getShow: <A>(S: Show<A>) => Show<ReadonlyNonEmptyArray<A>> = RA.getShow
 
 /**
- * Builds a `Semigroup` instance for `ReadonlyNonEmptyArray`
- *
  * @category instances
  * @since 3.0.0
  */

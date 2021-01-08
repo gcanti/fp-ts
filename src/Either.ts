@@ -734,7 +734,7 @@ export const getEq = <E, A>(EE: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> =>
 
 /**
  * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
- * concatenated using the provided `Semigroup`
+ * concatenated using the provided `Semigroup`.
  *
  * @example
  * import * as E from 'fp-ts/Either'
@@ -886,30 +886,6 @@ export const getAltValidation = <E>(S: Semigroup<E>): Alt2C<URI, E> => ({
     const ea = second()
     return isLeft(ea) ? left(S.concat(ea.left)(first.left)) : ea
   }
-})
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getValidationSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<Either<E, A>> => ({
-  concat: (second) => (first) =>
-    isLeft(first)
-      ? isLeft(second)
-        ? left(SE.concat(second.left)(first.left))
-        : first
-      : isLeft(second)
-      ? second
-      : right(SA.concat(second.right)(first.right))
-})
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getValidationMonoid = <E, A>(SE: Semigroup<E>, MA: Monoid<A>): Monoid<Either<E, A>> => ({
-  concat: getValidationSemigroup(SE, MA).concat,
-  empty: right(MA.empty)
 })
 
 /**

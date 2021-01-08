@@ -21,7 +21,6 @@ import { IO } from './IO'
 import { bind_, chainFirst_, Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed1 } from './Pointed'
-import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -164,41 +163,6 @@ declare module './HKT' {
     readonly [URI]: Task<A>
   }
 }
-
-/**
- * Lift a semigroup into 'Task', the inner values are concatenated using the provided `Semigroup`.
- *
- * @example
- * import * as T from 'fp-ts/Task'
- * import { semigroupString } from 'fp-ts/Semigroup'
- * import { pipe } from 'fp-ts/function'
- *
- * async function test() {
- *   const S = T.getSemigroup(semigroupString)
- *   const fa = T.of('a')
- *   const fb = T.of('b')
- *   assert.deepStrictEqual(await pipe(fa, S.concat(fb))(), 'ab')
- * }
- *
- * test()
- *
- * @category instances
- * @since 3.0.0
- */
-export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Task<A>> => ({
-  concat: (second) => (first) => () => first().then((rx) => second().then((ry) => S.concat(ry)(rx)))
-})
-
-/**
- * Lift a monoid into 'Task', the inner values are concatenated using the provided `Monoid`.
- *
- * @category instances
- * @since 3.0.0
- */
-export const getMonoid = <A>(M: Monoid<A>): Monoid<Task<A>> => ({
-  concat: getSemigroup(M).concat,
-  empty: of(M.empty)
-})
 
 /**
  * Monoid returning the first completed task.

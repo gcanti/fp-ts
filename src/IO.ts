@@ -17,9 +17,7 @@ import { FromIO1 } from './FromIO'
 import { constant, identity } from './function'
 import { bindTo_, Functor1, tupled_ } from './Functor'
 import { bind_, chainFirst_, Monad1 } from './Monad'
-import { Monoid } from './Monoid'
 import { Pointed1 } from './Pointed'
-import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -105,27 +103,6 @@ declare module './HKT' {
     readonly [URI]: IO<A>
   }
 }
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => ({
-  concat: (second) => (first) => () => {
-    const a1 = first()
-    const a2 = second()
-    return S.concat(a2)(a1)
-  }
-})
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => ({
-  concat: getSemigroup(M).concat,
-  empty: of(M.empty)
-})
 
 /**
  * @category instances

@@ -1,9 +1,7 @@
 import * as assert from 'assert'
 import { pipe } from '../src/function'
 import * as _ from '../src/IO'
-import { monoidSum } from '../src/Monoid'
 import * as RA from '../src/ReadonlyArray'
-import { semigroupSum } from '../src/Semigroup'
 
 describe('IO', () => {
   describe('pipeables', () => {
@@ -34,25 +32,6 @@ describe('IO', () => {
       const f = (n: number) => _.of(n * 2)
       assert.deepStrictEqual(pipe(_.of(1), _.chainFirst(f))(), 1)
     })
-  })
-
-  it('getSemigroup', () => {
-    const S = _.getSemigroup(semigroupSum)
-    // tslint:disable-next-line: readonly-array
-    const log: Array<string> = []
-    const append = (message: string): _.IO<number> => () => log.push(message)
-    assert.deepStrictEqual(pipe(append('a'), S.concat(append('b')))(), 3)
-    assert.deepStrictEqual(log, ['a', 'b'])
-  })
-
-  it('getMonoid', () => {
-    const M = _.getMonoid(monoidSum)
-    // tslint:disable-next-line: readonly-array
-    const log: Array<string> = []
-    const append = (message: string): _.IO<number> => () => log.push(message)
-    assert.deepStrictEqual(pipe(append('a'), M.concat(M.empty))(), 1)
-    assert.deepStrictEqual(pipe(M.empty, M.concat(append('b')))(), 2)
-    assert.deepStrictEqual(log, ['a', 'b'])
   })
 
   it('do notation', () => {

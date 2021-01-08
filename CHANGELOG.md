@@ -89,6 +89,8 @@ high state of flux, you're at risk of it changing without notice.
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
     - remove `getApplySemigroup` (@gcanti)
     - remove `getApplyMonoid` (@gcanti)
+    - remove `getValidationSemigroup` (@gcanti)
+    - remove `getValidationMonoid` (@gcanti)
   - `Eq`
     - remove `eq` (@gcanti)
     - make type class members pipeables (@gcanti)
@@ -129,6 +131,8 @@ high state of flux, you're at risk of it changing without notice.
     - make type class members pipeables (@gcanti)
   - `IO`
     - remove `io` (@gcanti)
+    - remove `getSemigroup` (@gcanti)
+    - remove `getMonoid` (@gcanti)
   - `IOEither`
     - remove `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead (@gcanti)
     - remove `ioEither` (@gcanti)
@@ -136,6 +140,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
     - remove `getApplySemigroup` (@gcanti)
     - remove `getApplyMonoid` (@gcanti)
+    - remove `getSemigroup` (@gcanti)
   - `JoinSemilattice`
     - make type class members pipeables (@gcanti)
   - `Magma`
@@ -165,6 +170,8 @@ high state of flux, you're at risk of it changing without notice.
     - make type class members pipeables (@gcanti)
   - `Reader`
     - remove `reader` (@gcanti)
+    - remove `getSemigroup` (@gcanti)
+    - remove `getMonoid` (@gcanti)
   - `ReaderEither`
     - remove `local`, use `Reader`'s `local` instead (@gcanti)
     - remove `getReaderValidation`, use `getApplicativeReaderValidation` and `getAltReaderValidation` instead (@gcanti)
@@ -172,18 +179,23 @@ high state of flux, you're at risk of it changing without notice.
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
     - remove `getApplySemigroup` (@gcanti)
     - remove `getApplyMonoid` (@gcanti)
+    - remove `getSemigroup` (@gcanti)
   - `ReaderTask`
     - remove `local`, use `Reader`'s `local` instead (@gcanti)
     - remove `run` (@gcanti)
+    - remove `getSemigroup` (@gcanti)
+    - remove `getMonoid` (@gcanti)
   - `ReaderTaskEither`
     - remove `local`, use `Reader`'s `local` instead (@gcanti)
-    - remove `getReaderTaskValidation`, use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead (@gcanti)
+    - remove `getReaderTaskValidation`, use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead
+      (@gcanti)
     - remove `run` (@gcanti)
     - remove `readerTaskEither` (@gcanti)
     - remove `readerTaskEitherSeq` (@gcanti)
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
     - remove `getApplySemigroup` (@gcanti)
     - remove `getApplyMonoid` (@gcanti)
+    - remove `getSemigroup` (@gcanti)
   - `ReadonlyArray`
     - make `lookup` pipeable (@gcanti)
     - make `cons` pipeable (@gcanti)
@@ -261,6 +273,8 @@ high state of flux, you're at risk of it changing without notice.
   - `Task`
     - remove `task` (@gcanti)
     - remove `taskSeq` (@gcanti)
+    - remove `getSemigroup` (@gcanti)
+    - remove `getMonoid` (@gcanti)
   - `TaskEither`
     - remove `getTaskValidation`, use `getApplicativeTaskValidation` and `getAltTaskValidation` instead (@gcanti)
     - remove `taskEither` (@gcanti)
@@ -269,10 +283,12 @@ high state of flux, you're at risk of it changing without notice.
     - remove `onRejected` parameter in `tryCatch` (@gcanti)
     - remove `getApplySemigroup` (@gcanti)
     - remove `getApplyMonoid` (@gcanti)
+    - remove `getSemigroup` (@gcanti)
   - `TaskThese`
     - make `toTuple` lazy (@gcanti)
     - remove `taskThese` (@gcanti)
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
+    - remove `getSemigroup` (@gcanti)
   - `These`
     - make `toTuple` lazy (@gcanti)
     - make `leftOrBoth` and `rightOrBoth` lazy (@gcanti)

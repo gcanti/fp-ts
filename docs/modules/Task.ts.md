@@ -55,9 +55,7 @@ Added in v3.0.0
   - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [getMonoid](#getmonoid)
   - [getRaceMonoid](#getracemonoid)
-  - [getSemigroup](#getsemigroup)
 - [model](#model)
   - [Task (interface)](#task-interface)
 - [utils](#utils)
@@ -383,18 +381,6 @@ export type URI = typeof URI
 
 Added in v3.0.0
 
-## getMonoid
-
-Lift a monoid into 'Task', the inner values are concatenated using the provided `Monoid`.
-
-**Signature**
-
-```ts
-export declare const getMonoid: <A>(M: Monoid<A>) => Monoid<Task<A>>
-```
-
-Added in v3.0.0
-
 ## getRaceMonoid
 
 Monoid returning the first completed task.
@@ -418,35 +404,6 @@ async function test() {
   const fa = T.delay(20)(T.of('a'))
   const fb = T.delay(10)(T.of('b'))
   assert.deepStrictEqual(await pipe(fa, S.concat(fb))(), 'b')
-}
-
-test()
-```
-
-Added in v3.0.0
-
-## getSemigroup
-
-Lift a semigroup into 'Task', the inner values are concatenated using the provided `Semigroup`.
-
-**Signature**
-
-```ts
-export declare const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<Task<A>>
-```
-
-**Example**
-
-```ts
-import * as T from 'fp-ts/Task'
-import { semigroupString } from 'fp-ts/Semigroup'
-import { pipe } from 'fp-ts/function'
-
-async function test() {
-  const S = T.getSemigroup(semigroupString)
-  const fa = T.of('a')
-  const fb = T.of('b')
-  assert.deepStrictEqual(await pipe(fa, S.concat(fb))(), 'ab')
 }
 
 test()

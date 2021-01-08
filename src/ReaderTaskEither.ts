@@ -465,16 +465,6 @@ declare module './HKT' {
 }
 
 /**
- * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
- * concatenated using the provided `Semigroup`
- *
- * @category instances
- * @since 3.0.0
- */
-export const getSemigroup = <A, R, E>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>> =>
-  R.getSemigroup(TE.getSemigroup(S))
-
-/**
  * @category instances
  * @since 3.0.0
  */
