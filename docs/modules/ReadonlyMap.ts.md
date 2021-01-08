@@ -370,7 +370,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getEq: <K, A>(SK: Eq<K>, SA: Eq<A>) => Eq<ReadonlyMap<K, A>>
+export declare const getEq: <K, A>(EK: Eq<K>, SA: Eq<A>) => Eq<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0
@@ -422,7 +422,7 @@ Get a `Monoid` instance for `ReadonlyMap` given a `Semigroup` instance for its v
 **Signature**
 
 ```ts
-export declare const getMonoid: <K, A>(SK: Eq<K>, SA: Semigroup<A>) => Monoid<ReadonlyMap<K, A>>
+export declare const getMonoid: <K, A>(EK: Eq<K>, SA: Semigroup<A>) => Monoid<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0
@@ -523,7 +523,7 @@ Test whether or not one `ReadonlyMap` contains all of the keys and values contai
 
 ```ts
 export declare const isSubmap: <K, A>(
-  SK: Eq<K>,
+  EK: Eq<K>,
   SA: Eq<A>
 ) => (second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => boolean
 ```

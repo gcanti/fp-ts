@@ -450,8 +450,8 @@ export const getShow = <K, A>(SK: Show<K>, SA: Show<A>): Show<ReadonlyMap<K, A>>
  * @category instances
  * @since 3.0.0
  */
-export const getEq = <K, A>(SK: Eq<K>, SA: Eq<A>): Eq<ReadonlyMap<K, A>> => {
-  const isSubmapSKSA = isSubmap(SK, SA)
+export const getEq = <K, A>(EK: Eq<K>, SA: Eq<A>): Eq<ReadonlyMap<K, A>> => {
+  const isSubmapSKSA = isSubmap(EK, SA)
   return fromEquals((second) => (first) => isSubmapSKSA(first)(second) && isSubmapSKSA(second)(first))
 }
 
@@ -461,8 +461,8 @@ export const getEq = <K, A>(SK: Eq<K>, SA: Eq<A>): Eq<ReadonlyMap<K, A>> => {
  * @category instances
  * @since 3.0.0
  */
-export const getMonoid = <K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap<K, A>> => {
-  const lookupWithKeyS = lookupWithKey(SK)
+export const getMonoid = <K, A>(EK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap<K, A>> => {
+  const lookupWithKeyS = lookupWithKey(EK)
   return {
     concat: (second) => (first) => {
       if (first === empty) {
@@ -826,10 +826,10 @@ export const lookup = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => Opt
  * @since 3.0.0
  */
 export const isSubmap = <K, A>(
-  SK: Eq<K>,
+  EK: Eq<K>,
   SA: Eq<A>
 ): ((second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => boolean) => {
-  const lookupWithKeyS = lookupWithKey(SK)
+  const lookupWithKeyS = lookupWithKey(EK)
   return (second) => (first) => {
     const entries = first.entries()
     let e: Next<readonly [K, A]>
@@ -837,7 +837,7 @@ export const isSubmap = <K, A>(
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
       const oka = lookupWithKeyS(k)(second)
-      if (O.isNone(oka) || !SK.equals(oka.value[0])(k) || !SA.equals(oka.value[1])(a)) {
+      if (O.isNone(oka) || !EK.equals(oka.value[0])(k) || !SA.equals(oka.value[1])(a)) {
         return false
       }
     }
