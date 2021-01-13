@@ -91,6 +91,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `getApplyMonoid` (@gcanti)
     - remove `getValidationSemigroup` (@gcanti)
     - remove `getValidationMonoid` (@gcanti)
+    - refactor `Json` type (@gcanti)
   - `Eq`
     - remove `eq` (@gcanti)
     - make type class members pipeables (@gcanti)

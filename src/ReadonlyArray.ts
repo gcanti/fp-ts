@@ -250,7 +250,7 @@ export const snoc = <A>(end: A) => (init: ReadonlyArray<A>): ReadonlyNonEmptyArr
 }
 
 /**
- * Get the first element in a `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
+ * Get the first element of a `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
  *
  * @example
  * import { head } from 'fp-ts/ReadonlyArray'

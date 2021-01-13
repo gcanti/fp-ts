@@ -109,8 +109,6 @@ Added in v3.0.0
   - [ApT](#apt)
   - [Do](#do)
   - [Json (type alias)](#json-type-alias)
-  - [JsonArray (interface)](#jsonarray-interface)
-  - [JsonRecord (interface)](#jsonrecord-interface)
   - [apS](#aps)
   - [apSW](#apsw)
   - [apT](#apt)
@@ -1219,34 +1217,10 @@ Added in v3.0.0
 
 ## Json (type alias)
 
-Copied from https://github.com/Microsoft/TypeScript/issues/1897#issuecomment-338650717
-
 **Signature**
 
 ```ts
-export type Json = boolean | number | string | null | JsonArray | JsonRecord
-```
-
-Added in v3.0.0
-
-## JsonArray (interface)
-
-**Signature**
-
-```ts
-export interface JsonArray extends ReadonlyArray<Json> {}
-```
-
-Added in v3.0.0
-
-## JsonRecord (interface)
-
-**Signature**
-
-```ts
-export interface JsonRecord {
-  readonly [key: string]: Json
-}
+export type Json = boolean | number | string | null | ReadonlyArray<Json> | Record<string, JSON>
 ```
 
 Added in v3.0.0

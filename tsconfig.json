@@ -14,7 +14,8 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
-    "stripInternal": true
+    "stripInternal": true,
+    "noUncheckedIndexedAccess": false
   },
   "include": ["./src", "./test", "./scripts"]
 }

@@ -1986,7 +1986,7 @@ Added in v3.0.0
 
 ## head
 
-Get the first element in a `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
+Get the first element of a `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
 
 **Signature**
 
