@@ -148,7 +148,10 @@ export const fromPredicate: {
  * @since 2.0.0
  */
 export function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> {
-  return () => f().then(E.right, (reason) => E.left(onRejected(reason)))
+  return () =>
+    f()
+      .then(E.right)
+      .catch((reason) => E.left(onRejected(reason)))
 }
 
 // -------------------------------------------------------------------------------------
