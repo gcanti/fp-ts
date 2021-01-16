@@ -134,6 +134,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `io` (@gcanti)
     - remove `getSemigroup` (@gcanti)
     - remove `getMonoid` (@gcanti)
+    - remove `fromIO` (@gcanti)
   - `IOEither`
     - remove `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead (@gcanti)
     - remove `ioEither` (@gcanti)
@@ -276,6 +277,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `taskSeq` (@gcanti)
     - remove `getSemigroup` (@gcanti)
     - remove `getMonoid` (@gcanti)
+    - remove `fromTask` (@gcanti)
   - `TaskEither`
     - remove `getTaskValidation`, use `getApplicativeTaskValidation` and `getAltTaskValidation` instead (@gcanti)
     - remove `taskEither` (@gcanti)

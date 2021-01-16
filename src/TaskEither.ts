@@ -129,6 +129,18 @@ export const fromEither: FromEither2<URI>['fromEither'] =
  */
 export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskEither<unknown, A> => () => f().then(E.right, E.left)
 
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromIO: FromIO2<URI>['fromIO'] = rightIO
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromTask: FromTask2<URI>['fromTask'] = rightTask
+
 // -------------------------------------------------------------------------------------
 // destructors
 // -------------------------------------------------------------------------------------
@@ -427,18 +439,6 @@ export const altW: <E2, B>(
  * @since 3.0.0
  */
 export const of: Pointed2<URI>['of'] = right
-
-/**
- * @category FromIO
- * @since 3.0.0
- */
-export const fromIO: FromIO2<URI>['fromIO'] = rightIO
-
-/**
- * @category FromTask
- * @since 3.0.0
- */
-export const fromTask: FromTask2<URI>['fromTask'] = rightTask
 
 // -------------------------------------------------------------------------------------
 // instances

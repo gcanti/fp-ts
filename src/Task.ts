@@ -35,6 +35,16 @@ export interface Task<A> {
 }
 
 // -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromIO: FromIO1<URI>['fromIO'] = (ma) => () => Promise.resolve(ma())
+
+// -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
 
@@ -129,18 +139,6 @@ export const chain: Monad1<URI>['chain'] = (f) => (ma) => () => ma().then((a) =>
 export const flatten: <A>(mma: Task<Task<A>>) => Task<A> =
   /*#__PURE__*/
   chain(identity)
-
-/**
- * @category FromIO
- * @since 3.0.0
- */
-export const fromIO: FromIO1<URI>['fromIO'] = (ma) => () => Promise.resolve(ma())
-
-/**
- * @category FromTask
- * @since 3.0.0
- */
-export const fromTask: FromTask1<URI>['fromTask'] = identity
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -317,7 +315,7 @@ export const FromIO: FromIO1<URI> = {
 export const FromTask: FromTask1<URI> = {
   URI,
   fromIO,
-  fromTask
+  fromTask: identity
 }
 
 // -------------------------------------------------------------------------------------

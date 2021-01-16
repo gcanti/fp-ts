@@ -47,7 +47,7 @@ export const fromReader =
   RT.fromReader_(T.Pointed)
 
 /**
- * @category FromIO
+ * @category constructors
  * @since 3.0.0
  */
 export const fromIO: FromIO2<URI>['fromIO'] =

@@ -28,10 +28,6 @@ Added in v3.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
-- [FromIO](#fromio)
-  - [fromIO](#fromio)
-- [FromTask](#fromtask)
-  - [fromTask](#fromtask)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -54,9 +50,11 @@ Added in v3.0.0
   - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
+  - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
+  - [fromTask](#fromtask)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftTask](#lefttask)
@@ -81,8 +79,8 @@ Added in v3.0.0
   - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
-  - [FromIO](#fromio-1)
-  - [FromTask](#fromtask-1)
+  - [FromIO](#fromio)
+  - [FromTask](#fromtask)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
@@ -233,30 +231,6 @@ Map a function over the first type argument of a bifunctor.
 
 ```ts
 export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: TaskEither<E, A>) => TaskEither<G, A>
-```
-
-Added in v3.0.0
-
-# FromIO
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A, E>(fa: IO<A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
-# FromTask
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <A, E>(fa: T.Task<A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -504,6 +478,16 @@ export declare const fromEither: <E, A>(e: E.Either<E, A>) => TaskEither<E, A>
 
 Added in v3.0.0
 
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A, E>(fa: IO<A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
 ## fromIOEither
 
 **Signature**
@@ -537,6 +521,16 @@ export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): (a: A) => TaskEither<A, B>
   <A>(predicate: Predicate<A>): (a: A) => TaskEither<A, A>
 }
+```
+
+Added in v3.0.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <A, E>(fa: T.Task<A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0

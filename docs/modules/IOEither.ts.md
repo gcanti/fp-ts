@@ -24,8 +24,6 @@ Added in v3.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
-- [FromIO](#fromio)
-  - [fromIO](#fromio)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -44,6 +42,7 @@ Added in v3.0.0
   - [swap](#swap)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
+  - [fromIO](#fromio)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [left](#left)
@@ -68,7 +67,7 @@ Added in v3.0.0
   - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
-  - [FromIO](#fromio-1)
+  - [FromIO](#fromio)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
@@ -180,18 +179,6 @@ Map a function over the first type argument of a bifunctor.
 
 ```ts
 export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: IOEither<E, A>) => IOEither<G, A>
-```
-
-Added in v3.0.0
-
-# FromIO
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A, E>(fa: I.IO<A>) => IOEither<E, A>
 ```
 
 Added in v3.0.0
@@ -363,6 +350,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromEither: <E, A>(e: E.Either<E, A>) => IOEither<E, A>
+```
+
+Added in v3.0.0
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A, E>(fa: I.IO<A>) => IOEither<E, A>
 ```
 
 Added in v3.0.0

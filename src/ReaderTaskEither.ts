@@ -164,6 +164,18 @@ export const fromEither: FromEither3<URI>['fromEither'] =
   /*#__PURE__*/
   E.fold(left, (a) => right(a))
 
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromIO: FromIO3<URI>['fromIO'] = rightIO
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromTask: FromTask3<URI>['fromTask'] = rightTask
+
 // -------------------------------------------------------------------------------------
 // destructors
 // -------------------------------------------------------------------------------------
@@ -429,18 +441,6 @@ export const alt: Alt3<URI>['alt'] =
 export const altW: <R2, E2, B>(
   second: () => ReaderTaskEither<R2, E2, B>
 ) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A | B> = alt as any
-
-/**
- * @category FromIO
- * @since 3.0.0
- */
-export const fromIO: FromIO3<URI>['fromIO'] = rightIO
-
-/**
- * @category FromTask
- * @since 3.0.0
- */
-export const fromTask: FromTask3<URI>['fromTask'] = rightTask
 
 // -------------------------------------------------------------------------------------
 // instances

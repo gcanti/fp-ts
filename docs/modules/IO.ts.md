@@ -24,8 +24,6 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-- [FromIO](#fromio)
-  - [fromIO](#fromio)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -40,7 +38,7 @@ Added in v3.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
-  - [FromIO](#fromio-1)
+  - [FromIO](#fromio)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
@@ -72,18 +70,6 @@ Apply a function to an argument under a type constructor.
 
 ```ts
 export declare const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B>
-```
-
-Added in v3.0.0
-
-# FromIO
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(fa: IO<A>) => IO<A>
 ```
 
 Added in v3.0.0

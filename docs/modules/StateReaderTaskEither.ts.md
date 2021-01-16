@@ -21,10 +21,6 @@ Added in v3.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
-- [FromIO](#fromio)
-  - [fromIO](#fromio)
-- [FromTask](#fromtask)
-  - [fromTask](#fromtask)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -50,12 +46,14 @@ Added in v3.0.0
   - [fromTaskEitherK](#fromtaskeitherk)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
+  - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [fromReaderEither](#fromreadereither)
   - [fromReaderTaskEither](#fromreadertaskeither)
   - [fromState](#fromstate)
+  - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
   - [get](#get)
   - [gets](#gets)
@@ -82,8 +80,8 @@ Added in v3.0.0
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
-  - [FromIO](#fromio-1)
-  - [FromTask](#fromtask-1)
+  - [FromIO](#fromio)
+  - [FromTask](#fromtask)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
@@ -196,30 +194,6 @@ Map a function over the third type argument of a bifunctor.
 export declare const mapLeft: <E, G>(
   f: (e: E) => G
 ) => <S, R, A>(fea: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, A>
-```
-
-Added in v3.0.0
-
-# FromIO
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A, S, R, E>(fa: IO<A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v3.0.0
-
-# FromTask
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <A, S, R, E>(fa: Task<A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -499,6 +473,16 @@ export declare const fromEither: <E, A, S, R>(e: E.Either<E, A>) => StateReaderT
 
 Added in v3.0.0
 
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A, S, R, E>(fa: IO<A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v3.0.0
+
 ## fromIOEither
 
 **Signature**
@@ -564,6 +548,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromState: <S, A, R, E>(sa: State<S, A>) => ST.StateT3<'ReaderTaskEither', S, R, E, A>
+```
+
+Added in v3.0.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <A, S, R, E>(fa: Task<A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0

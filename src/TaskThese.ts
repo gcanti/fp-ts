@@ -118,6 +118,18 @@ export const fromEither: FromEither2<URI>['fromEither'] =
   /*#__PURE__*/
   E.fold(left, (a) => right(a))
 
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromIO: FromIO2<URI>['fromIO'] = rightIO
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromTask: FromTask2<URI>['fromTask'] = rightTask
+
 // -------------------------------------------------------------------------------------
 // destructors
 // -------------------------------------------------------------------------------------
@@ -182,18 +194,6 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] =
  * @since 3.0.0
  */
 export const of: Pointed2<URI>['of'] = right
-
-/**
- * @category FromIO
- * @since 3.0.0
- */
-export const fromIO: FromIO2<URI>['fromIO'] = rightIO
-
-/**
- * @category FromTask
- * @since 3.0.0
- */
-export const fromTask: FromTask2<URI>['fromTask'] = rightTask
 
 // -------------------------------------------------------------------------------------
 // instances

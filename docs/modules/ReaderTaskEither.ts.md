@@ -21,10 +21,6 @@ Added in v3.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
-- [FromIO](#fromio)
-  - [fromIO](#fromio)
-- [FromTask](#fromtask)
-  - [fromTask](#fromtask)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -51,10 +47,12 @@ Added in v3.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [fromEither](#fromeither)
+  - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [fromReaderEither](#fromreadereither)
+  - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
   - [left](#left)
   - [leftIO](#leftio)
@@ -83,8 +81,8 @@ Added in v3.0.0
   - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
-  - [FromIO](#fromio-1)
-  - [FromTask](#fromtask-1)
+  - [FromIO](#fromio)
+  - [FromTask](#fromtask)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
@@ -203,30 +201,6 @@ Map a function over the second type argument of a bifunctor.
 export declare const mapLeft: <E, G>(
   f: (e: E) => G
 ) => <R, A>(fea: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A>
-```
-
-Added in v3.0.0
-
-# FromIO
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A, R, E>(fa: IO<A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v3.0.0
-
-# FromTask
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <A, R, E>(fa: T.Task<A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -506,6 +480,16 @@ export declare const fromEither: <E, A, R>(e: E.Either<E, A>) => ReaderTaskEithe
 
 Added in v3.0.0
 
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A, R, E>(fa: IO<A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v3.0.0
+
 ## fromIOEither
 
 **Signature**
@@ -549,6 +533,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReaderEither: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v3.0.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <A, R, E>(fa: T.Task<A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0

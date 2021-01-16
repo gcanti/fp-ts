@@ -90,6 +90,20 @@ export const tryCatch: <A>(f: Lazy<Promise<A>>) => TaskOption<A> = (f) => () =>
     () => O.none
   )
 
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromIO: FromIO1<URI>['fromIO'] = (ma) => fromTask(T.fromIO(ma))
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromTask =
+  /*#__PURE__*/
+  OT.fromF_(T.Functor)
+
 // -------------------------------------------------------------------------------------
 // destructors
 // -------------------------------------------------------------------------------------
@@ -248,20 +262,6 @@ export const partition: Filterable1<URI>['partition'] =
 export const partitionMap: Filterable1<URI>['partitionMap'] =
   /*#__PURE__*/
   partitionMap_(T.Functor, O.Filterable)
-
-/**
- * @category FromIO
- * @since 3.0.0
- */
-export const fromIO: FromIO1<URI>['fromIO'] = (ma) => fromTask(T.fromIO(ma))
-
-/**
- * @category FromTask
- * @since 3.0.0
- */
-export const fromTask =
-  /*#__PURE__*/
-  OT.fromF_(T.Functor)
 
 // -------------------------------------------------------------------------------------
 // instances

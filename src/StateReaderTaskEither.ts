@@ -197,6 +197,18 @@ export const fromEither: FromEither4<URI>['fromEither'] =
   /*#__PURE__*/
   E.fold((e) => left(e), right)
 
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromIO: FromIO4<URI>['fromIO'] = rightIO
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromTask: FromTask4<URI>['fromTask'] = rightTask
+
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
@@ -454,18 +466,6 @@ export const altW = <S, R2, E2, B>(second: () => StateReaderTaskEither<S, R2, E2
  * @since 3.0.0
  */
 export const alt: Alt4<URI>['alt'] = altW
-
-/**
- * @category FromIO
- * @since 3.0.0
- */
-export const fromIO: FromIO4<URI>['fromIO'] = rightIO
-
-/**
- * @category FromTask
- * @since 3.0.0
- */
-export const fromTask: FromTask4<URI>['fromTask'] = rightTask
 
 // -------------------------------------------------------------------------------------
 // instances

@@ -76,12 +76,6 @@ export const flatten: <A>(mma: IO<IO<A>>) => IO<A> =
   /*#__PURE__*/
   chain(identity)
 
-/**
- * @category FromIO
- * @since 3.0.0
- */
-export const fromIO: FromIO1<URI>['fromIO'] = identity
-
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -198,7 +192,7 @@ export const chainFirst =
  */
 export const FromIO: FromIO1<URI> = {
   URI,
-  fromIO
+  fromIO: identity
 }
 
 // -------------------------------------------------------------------------------------

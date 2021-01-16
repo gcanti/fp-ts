@@ -87,6 +87,12 @@ export const fromEither: FromEither2<URI>['fromEither'] =
  */
 export const tryCatch = <A>(f: Lazy<A>): IOEither<unknown, A> => () => E.tryCatch(f)
 
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromIO: FromIO2<URI>['fromIO'] = rightIO
+
 // -------------------------------------------------------------------------------------
 // destructors
 // -------------------------------------------------------------------------------------
@@ -295,12 +301,6 @@ export const alt: Alt2<URI>['alt'] =
 export const altW: <E2, B>(
   second: Lazy<IOEither<E2, B>>
 ) => <E1, A>(first: IOEither<E1, A>) => IOEither<E1 | E2, A | B> = alt as any
-
-/**
- * @category FromIO
- * @since 3.0.0
- */
-export const fromIO: FromIO2<URI>['fromIO'] = rightIO
 
 // -------------------------------------------------------------------------------------
 // instances

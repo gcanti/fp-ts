@@ -55,12 +55,6 @@ describe('Task', () => {
     assert.deepStrictEqual(await t(), 1)
   })
 
-  it('fromTask', async () => {
-    const io = () => 1
-    const t = _.fromIO(io)
-    assert.deepStrictEqual(_.fromTask(t), t)
-  })
-
   // -------------------------------------------------------------------------------------
   // instances
   // -------------------------------------------------------------------------------------

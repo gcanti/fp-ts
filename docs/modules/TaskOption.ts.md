@@ -27,10 +27,6 @@ Added in v3.0.0
   - [filterMap](#filtermap)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
-- [FromIO](#fromio)
-  - [fromIO](#fromio)
-- [FromTask](#fromtask)
-  - [fromTask](#fromtask)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -41,9 +37,11 @@ Added in v3.0.0
   - [fromOptionK](#fromoptionk)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
+  - [fromIO](#fromio)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
+  - [fromTask](#fromtask)
   - [none](#none)
   - [some](#some)
   - [tryCatch](#trycatch)
@@ -65,8 +63,8 @@ Added in v3.0.0
   - [ApplySeq](#applyseq)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
-  - [FromIO](#fromio-1)
-  - [FromTask](#fromtask-1)
+  - [FromIO](#fromio)
+  - [FromTask](#fromtask)
   - [Funtor](#funtor)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
@@ -197,30 +195,6 @@ export declare const partitionMap: <A, B, C>(
 
 Added in v3.0.0
 
-# FromIO
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(fa: IO<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-# FromTask
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <A>(ma: T.Task<A>) => T.Task<O.Option<A>>
-```
-
-Added in v3.0.0
-
 # Functor
 
 ## map
@@ -286,6 +260,16 @@ export declare const fromEither: <E, A>(e: Either<E, A>) => T.Task<O.Option<A>>
 
 Added in v3.0.0
 
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A>(fa: IO<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
 ## fromNullable
 
 **Signature**
@@ -315,6 +299,16 @@ export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): (a: A) => T.Task<O.Option<B>>
   <A>(predicate: Predicate<A>): (a: A) => T.Task<O.Option<A>>
 }
+```
+
+Added in v3.0.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <A>(ma: T.Task<A>) => T.Task<O.Option<A>>
 ```
 
 Added in v3.0.0
