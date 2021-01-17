@@ -127,7 +127,7 @@ export const fromEither: FromEither2<URI>['fromEither'] =
  * @category constructors
  * @since 3.0.0
  */
-export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskEither<unknown, A> => () => f().then(E.right, E.left)
+export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskEither<unknown, A> => () => f().then(E.right).catch(E.left)
 
 /**
  * @category constructors
