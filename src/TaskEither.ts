@@ -134,6 +134,7 @@ export const fromPredicate: {
  * Note: `f` should never `throw` errors, they are not caught.
  *
  * @example
+ * import { pipe } from 'fp-ts/function'
  * import { left, right } from 'fp-ts/Either'
  * import { tryCatch, mapLeft } from 'fp-ts/TaskEither'
  *
@@ -154,8 +155,7 @@ export const fromPredicate: {
  * @since 2.0.0
  */
 export function tryCatch<A>(f: Lazy<Promise<A>>): TaskEither<unknown, A> {
-  return () =>
-    f().then(E.right).catch(E.left)
+  return () => f().then(E.right).catch(E.left)
 }
 
 // -------------------------------------------------------------------------------------
@@ -256,7 +256,7 @@ export const filterOrElse: {
  * @since 2.5.0
  */
 export function tryCatchK<A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Promise<B>,
+  f: (...a: A) => Promise<B>
 ): (...a: A) => TaskEither<unknown, B> {
   return (...a) => tryCatch(() => f(...a))
 }

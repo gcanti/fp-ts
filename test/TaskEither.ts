@@ -345,22 +345,13 @@ describe('TaskEither', () => {
 
     it('resolving', async () => {
       const fOk = (n: number, s: string) => Promise.resolve(n + s.length)
-      return assert.deepStrictEqual(
-        await pipe(
-          _.tryCatchK(fOk)(2, '1'),
-          _.mapLeft(handleRejection)
-        )(),
-        E.right(3)
-      )
+      return assert.deepStrictEqual(await pipe(_.tryCatchK(fOk)(2, '1'), _.mapLeft(handleRejection))(), E.right(3))
     })
 
     it('rejecting', async () => {
       const fReject = () => Promise.reject()
       return assert.deepStrictEqual(
-        await pipe(
-          _.tryCatchK(fReject)(),
-          _.mapLeft(handleRejection)
-        )(),
+        await pipe(_.tryCatchK(fReject)(), _.mapLeft(handleRejection))(),
         E.left('rejected')
       )
     })
@@ -381,17 +372,10 @@ describe('TaskEither', () => {
   })
 
   it('tryCatch', async () => {
-    assert.deepStrictEqual(
-      await _.tryCatch(
-        () => Promise.resolve(1),
-      )(),
-      E.right(1)
-    )
+    assert.deepStrictEqual(await _.tryCatch(() => Promise.resolve(1))(), E.right(1))
     assert.deepStrictEqual(
       await pipe(
-        _.tryCatch(
-          () => Promise.reject(undefined),
-        ),
+        _.tryCatch(() => Promise.reject(undefined)),
         _.mapLeft(() => 'error')
       )(),
       E.left('error')

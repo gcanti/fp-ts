@@ -533,10 +533,9 @@ Converts a function returning a `Promise` to one returning a `TaskEither`.
 **Signature**
 
 ```ts
-export declare function tryCatchK<E, A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Promise<B>,
-  onRejected: (reason: unknown) => E
-): (...a: A) => TaskEither<E, B>
+export declare function tryCatchK<A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Promise<B>
+): (...a: A) => TaskEither<unknown, B>
 ```
 
 Added in v2.5.0
@@ -661,19 +660,26 @@ Note: `f` should never `throw` errors, they are not caught.
 **Signature**
 
 ```ts
-export declare function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A>
+export declare function tryCatch<A>(f: Lazy<Promise<A>>): TaskEither<unknown, A>
 ```
 
 **Example**
 
 ```ts
+import { pipe } from 'fp-ts/function'
 import { left, right } from 'fp-ts/Either'
-import { tryCatch } from 'fp-ts/TaskEither'
+import { tryCatch, mapLeft } from 'fp-ts/TaskEither'
 
-tryCatch(() => Promise.resolve(1), String)().then((result) => {
+pipe(
+  tryCatch(() => Promise.resolve(1)),
+  mapLeft(String)
+)().then((result) => {
   assert.deepStrictEqual(result, right(1))
 })
-tryCatch(() => Promise.reject('error'), String)().then((result) => {
+pipe(
+  tryCatch(() => Promise.reject('error')),
+  mapLeft(String)
+)().then((result) => {
   assert.deepStrictEqual(result, left('error'))
 })
 ```
