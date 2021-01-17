@@ -147,11 +147,9 @@ export const fromPredicate: {
  * @category constructors
  * @since 2.0.0
  */
-export function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> {
+export function tryCatch<A>(f: Lazy<Promise<A>>): TaskEither<unknown, A> {
   return () =>
-    f()
-      .then(E.right)
-      .catch((reason) => E.left(onRejected(reason)))
+    f().then(E.right).catch(E.left)
 }
 
 // -------------------------------------------------------------------------------------
@@ -251,11 +249,10 @@ export const filterOrElse: {
  * @category combinators
  * @since 2.5.0
  */
-export function tryCatchK<E, A extends ReadonlyArray<unknown>, B>(
+export function tryCatchK<A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Promise<B>,
-  onRejected: (reason: unknown) => E
-): (...a: A) => TaskEither<E, B> {
-  return (...a) => tryCatch(() => f(...a), onRejected)
+): (...a: A) => TaskEither<unknown, B> {
+  return (...a) => tryCatch(() => f(...a))
 }
 
 /**
