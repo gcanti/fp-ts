@@ -135,12 +135,18 @@ export const fromPredicate: {
  *
  * @example
  * import { left, right } from 'fp-ts/Either'
- * import { tryCatch } from 'fp-ts/TaskEither'
+ * import { tryCatch, mapLeft } from 'fp-ts/TaskEither'
  *
- * tryCatch(() => Promise.resolve(1), String)().then(result => {
+ * pipe(
+ *   tryCatch(() => Promise.resolve(1)),
+ *   mapLeft(String)
+ * )().then(result => {
  *   assert.deepStrictEqual(result, right(1))
  * })
- * tryCatch(() => Promise.reject('error'), String)().then(result => {
+ * pipe(
+ *   tryCatch(() => Promise.reject('error')),
+ *   mapLeft(String)
+ * )().then(result => {
  *   assert.deepStrictEqual(result, left('error'))
  * })
  *
