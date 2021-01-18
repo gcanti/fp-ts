@@ -14,8 +14,8 @@ import { Apply1 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { Filterable2C, getFilterableComposition } from './Filterable'
-import { bindTo_, bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
-import { Functor2 } from './Functor'
+import { bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { bindTo_, Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2, Monad2C } from './Monad'
@@ -890,8 +890,9 @@ export const Do: TaskEither<never, {}> =
 /**
  * @since 2.8.0
  */
-export const bindTo = <N extends string>(name: N): (<E, A>(fa: TaskEither<E, A>) => TaskEither<E, { [K in N]: A }>) =>
-  map(bindTo_(name))
+export const bindTo =
+  /*#__PURE__*/
+  bindTo_(Functor)
 
 /**
  * @since 2.8.0

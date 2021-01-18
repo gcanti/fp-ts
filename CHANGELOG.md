@@ -18,6 +18,8 @@ high state of flux, you're at risk of it changing without notice.
 # 2.10.0
 
 - **New Feature**
+  - `Functor`
+    - add `bindTo_` helper (@gcanti)
   - `Eq`
     - add `eqBigint`, #1375 (@EricCrosson)
   - `Ord`

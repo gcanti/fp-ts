@@ -8,8 +8,8 @@ import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
-import { identity as id, pipe, bind_, bindTo_, flow } from './function'
-import { Functor1 } from './Functor'
+import { bind_, flow, identity as id, pipe } from './function'
+import { bindTo_, Functor1 } from './Functor'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
@@ -377,8 +377,9 @@ export const Do: Identity<{}> =
 /**
  * @since 2.8.0
  */
-export const bindTo = <N extends string>(name: N): (<A>(fa: Identity<A>) => Identity<{ [K in N]: A }>) =>
-  map(bindTo_(name))
+export const bindTo =
+  /*#__PURE__*/
+  bindTo_(Functor)
 
 /**
  * @since 2.8.0

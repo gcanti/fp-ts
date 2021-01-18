@@ -1,10 +1,10 @@
 /**
  * @since 2.0.0
  */
-import { identity, pipe, bind_, bindTo_, flow } from './function'
-import { Functor2 } from './Functor'
-import { Monad2 } from './Monad'
 import { Applicative2 } from './Applicative'
+import { bind_, flow, identity, pipe } from './function'
+import { bindTo_, Functor2 } from './Functor'
+import { Monad2 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -271,8 +271,9 @@ export const execute = <S>(s: S) => <A>(ma: State<S, A>): S => ma(s)[1]
 /**
  * @since 2.8.0
  */
-export const bindTo = <N extends string>(name: N): (<S, A>(fa: State<S, A>) => State<S, { [K in N]: A }>) =>
-  map(bindTo_(name))
+export const bindTo =
+  /*#__PURE__*/
+  bindTo_(Functor)
 
 /**
  * @since 2.8.0

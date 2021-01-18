@@ -569,7 +569,7 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(name: N) => <A>(fa: Tree<A>) => Tree<{ [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <A>(fa: Tree<A>) => Tree<{ [K in N]: A }>
 ```
 
 Added in v2.8.0
