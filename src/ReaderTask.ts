@@ -9,6 +9,7 @@ import { IO } from './IO'
 import { bind_, chainFirst_, Monad2 } from './Monad'
 import { MonadTask2 } from './MonadTask'
 import { Monoid } from './Monoid'
+import { Pointed2 } from './Pointed'
 import * as R from './Reader'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
@@ -160,7 +161,7 @@ export const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) =
  * @category Applicative
  * @since 2.3.0
  */
-export const of: Applicative2<URI>['of'] = (a) => () => T.of(a)
+export const of: Pointed2<URI>['of'] = (a) => () => T.of(a)
 
 /**
  * Less strict version of  [`chain`](#chain).
@@ -242,6 +243,16 @@ export function getMonoid<R, A>(M: Monoid<A>): Monoid<ReaderTask<R, A>> {
 export const Functor: Functor2<URI> = {
   URI,
   map: _map
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Pointed: Pointed2<URI> = {
+  URI,
+  map: _map,
+  of
 }
 
 /**

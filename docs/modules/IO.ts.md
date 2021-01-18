@@ -44,6 +44,7 @@ Added in v2.0.0
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadIO](#monadio-1)
+  - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
@@ -249,6 +250,16 @@ export declare const MonadIO: MonadIO1<'IO'>
 ```
 
 Added in v2.7.0
+
+## Pointed
+
+**Signature**
+
+```ts
+export declare const Pointed: Pointed1<'IO'>
+```
+
+Added in v2.10.0
 
 ## URI
 

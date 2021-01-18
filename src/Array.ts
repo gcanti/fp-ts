@@ -21,6 +21,7 @@ import { Monoid } from './Monoid'
 import { NonEmptyArray } from './NonEmptyArray'
 import { Option } from './Option'
 import { Ord } from './Ord'
+import { Pointed1 } from './Pointed'
 import * as RA from './ReadonlyArray'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
@@ -1003,7 +1004,7 @@ export const difference: <A>(
  * @category Applicative
  * @since 2.0.0
  */
-export const of: Applicative1<URI>['of'] = RA.of as any
+export const of: Pointed1<URI>['of'] = RA.of as any
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -1336,6 +1337,16 @@ declare module './HKT' {
 export const Functor: Functor1<URI> = {
   URI,
   map: _map
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Pointed: Pointed1<URI> = {
+  URI,
+  map: _map,
+  of
 }
 
 /**

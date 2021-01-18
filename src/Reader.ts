@@ -10,6 +10,7 @@ import { constant, flow, identity, pipe } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { bind_, chainFirst_, Monad2 } from './Monad'
 import { Monoid } from './Monoid'
+import { Pointed2 } from './Pointed'
 import { Profunctor2 } from './Profunctor'
 import { Semigroup } from './Semigroup'
 import { Strong2 } from './Strong'
@@ -115,7 +116,7 @@ export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) =>
  * @category Applicative
  * @since 2.0.0
  */
-export const of: Applicative2<URI>['of'] = constant
+export const of: Pointed2<URI>['of'] = constant
 
 /**
  * Less strict version of [`chain`](#chain).
@@ -215,6 +216,16 @@ export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> {
 export const Functor: Functor2<URI> = {
   URI,
   map: _map
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Pointed: Pointed2<URI> = {
+  URI,
+  map: _map,
+  of
 }
 
 /**

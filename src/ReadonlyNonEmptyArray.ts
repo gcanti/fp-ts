@@ -18,6 +18,7 @@ import { bind_, Monad1 } from './Monad'
 import { NonEmptyArray } from './NonEmptyArray'
 import { none, Option, some } from './Option'
 import { Ord } from './Ord'
+import { Pointed1 } from './Pointed'
 import * as RA from './ReadonlyArray'
 import { ReadonlyRecord } from './ReadonlyRecord'
 import { getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
@@ -366,7 +367,7 @@ export function filterWithIndex<A>(
  * @category Applicative
  * @since 2.5.0
  */
-export const of: Applicative1<URI>['of'] = RA.of as any
+export const of: Pointed1<URI>['of'] = RA.of as any
 
 /**
  * @category constructors
@@ -680,6 +681,16 @@ declare module './HKT' {
 export const Functor: Functor1<URI> = {
   URI,
   map: _map
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Pointed: Pointed1<URI> = {
+  URI,
+  map: _map,
+  of
 }
 
 /**

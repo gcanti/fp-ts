@@ -6,6 +6,7 @@ import { apFirst_, Apply2, apSecond_, apS_ } from './Apply'
 import { identity, pipe } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { bind_, chainFirst_, Monad2 } from './Monad'
+import { Pointed2 } from './Pointed'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -102,7 +103,7 @@ export const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => S
  * @category Applicative
  * @since 2.0.0
  */
-export const of: Applicative2<URI>['of'] = (a) => (s) => [a, s]
+export const of: Pointed2<URI>['of'] = (a) => (s) => [a, s]
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -154,6 +155,16 @@ declare module './HKT' {
 export const Functor: Functor2<URI> = {
   URI,
   map: _map
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Pointed: Pointed2<URI> = {
+  URI,
+  map: _map,
+  of
 }
 
 /**

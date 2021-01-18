@@ -30,6 +30,7 @@ import { bind_, chainFirst_, Monad2, Monad2C } from './Monad'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
+import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { PipeableTraverse2, Traversable2 } from './Traversable'
@@ -567,7 +568,7 @@ export const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) =>
  * @category Applicative
  * @since 2.7.0
  */
-export const of: Applicative2<URI>['of'] = right
+export const of: Pointed2<URI>['of'] = right
 
 /**
  * Less strict version of [`chain`](#chain).
@@ -1084,6 +1085,16 @@ export function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>)
 export const Functor: Functor2<URI> = {
   URI,
   map: _map
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Pointed: Pointed2<URI> = {
+  URI,
+  map: _map,
+  of
 }
 
 /**

@@ -26,6 +26,7 @@ import { bind_, chainFirst_, Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import * as O from './Option'
 import { fromCompare, getMonoid as getOrdMonoid, Ord, ordNumber } from './Ord'
+import { Pointed1 } from './Pointed'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
@@ -1466,7 +1467,7 @@ export function difference<A>(
  * @category Applicative
  * @since 2.5.0
  */
-export const of: Applicative1<URI>['of'] = (a) => [a]
+export const of: Pointed1<URI>['of'] = (a) => [a]
 
 /**
  * @category Alternative
@@ -1983,6 +1984,16 @@ declare module './HKT' {
 export const Functor: Functor1<URI> = {
   URI,
   map: _map
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Pointed: Pointed1<URI> = {
+  URI,
+  map: _map,
+  of
 }
 
 /**

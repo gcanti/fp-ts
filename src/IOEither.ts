@@ -18,6 +18,7 @@ import { MonadIO2, MonadIO2C } from './MonadIO'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
+import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
@@ -288,7 +289,7 @@ export const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>
  * @category Applicative
  * @since 2.8.5
  */
-export const of: Applicative2<URI>['of'] = right
+export const of: Pointed2<URI>['of'] = right
 
 /**
  * Less strict version of [`chain`](#chain).
@@ -490,6 +491,16 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
 export const Functor: Functor2<URI> = {
   URI,
   map: _map
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Pointed: Pointed2<URI> = {
+  URI,
+  map: _map,
+  of
 }
 
 /**

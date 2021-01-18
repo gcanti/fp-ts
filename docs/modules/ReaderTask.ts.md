@@ -1,6 +1,6 @@
 ---
 title: ReaderTask.ts
-nav_order: 67
+nav_order: 68
 parent: Modules
 ---
 
@@ -44,6 +44,7 @@ Added in v2.3.0
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
   - [Functor](#functor-1)
+  - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
@@ -367,6 +368,16 @@ export declare const Functor: Functor2<'ReaderTask'>
 ```
 
 Added in v2.7.0
+
+## Pointed
+
+**Signature**
+
+```ts
+export declare const Pointed: Pointed2<'ReaderTask'>
+```
+
+Added in v2.10.0
 
 ## URI
 

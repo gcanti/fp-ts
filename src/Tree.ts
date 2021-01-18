@@ -19,6 +19,7 @@ import { bindTo_, Functor1 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { bind_, chainFirst_, Monad as MonadHKT, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid } from './Monoid'
+import { Pointed1 } from './Pointed'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
 
@@ -424,7 +425,7 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(
  * @category Applicative
  * @since 2.7.0
  */
-export const of: Applicative1<URI>['of'] = (a) => ({
+export const of: Pointed1<URI>['of'] = (a) => ({
   value: a,
   forest: A.empty
 })
@@ -458,6 +459,16 @@ declare module './HKT' {
 export const Functor: Functor1<URI> = {
   URI,
   map: _map
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Pointed: Pointed1<URI> = {
+  URI,
+  map: _map,
+  of
 }
 
 /**

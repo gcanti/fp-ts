@@ -1,6 +1,6 @@
 ---
 title: Task.ts
-nav_order: 87
+nav_order: 88
 parent: Modules
 ---
 
@@ -47,6 +47,7 @@ Added in v2.0.0
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
   - [Functor](#functor-1)
+  - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
@@ -315,6 +316,16 @@ export declare const Functor: Functor1<'Task'>
 ```
 
 Added in v2.7.0
+
+## Pointed
+
+**Signature**
+
+```ts
+export declare const Pointed: Pointed1<'Task'>
+```
+
+Added in v2.10.0
 
 ## URI
 

@@ -59,9 +59,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Applicative<F> extends Apply<F> {
-  readonly of: <A>(a: A) => HKT<F, A>
-}
+export interface Applicative<F> extends Apply<F>, Pointed<F> {}
 ```
 
 Added in v2.0.0
@@ -71,9 +69,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Applicative1<F extends URIS> extends Apply1<F> {
-  readonly of: <A>(a: A) => Kind<F, A>
-}
+export interface Applicative1<F extends URIS> extends Apply1<F>, Pointed1<F> {}
 ```
 
 Added in v2.0.0
@@ -83,9 +79,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Applicative2<F extends URIS2> extends Apply2<F> {
-  readonly of: <E, A>(a: A) => Kind2<F, E, A>
-}
+export interface Applicative2<F extends URIS2> extends Apply2<F>, Pointed2<F> {}
 ```
 
 Added in v2.0.0
@@ -95,9 +89,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Applicative2C<F extends URIS2, E> extends Apply2C<F, E> {
-  readonly of: <A>(a: A) => Kind2<F, E, A>
-}
+export interface Applicative2C<F extends URIS2, E> extends Apply2C<F, E>, Pointed2C<F, E> {}
 ```
 
 Added in v2.0.0
@@ -107,9 +99,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Applicative3<F extends URIS3> extends Apply3<F> {
-  readonly of: <R, E, A>(a: A) => Kind3<F, R, E, A>
-}
+export interface Applicative3<F extends URIS3> extends Apply3<F>, Pointed3<F> {}
 ```
 
 Added in v2.0.0
@@ -119,9 +109,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Applicative3C<F extends URIS3, E> extends Apply3C<F, E> {
-  readonly of: <R, A>(a: A) => Kind3<F, R, E, A>
-}
+export interface Applicative3C<F extends URIS3, E> extends Apply3C<F, E>, Pointed3C<F, E> {}
 ```
 
 Added in v2.2.0
@@ -131,9 +119,7 @@ Added in v2.2.0
 **Signature**
 
 ```ts
-export interface Applicative4<F extends URIS4> extends Apply4<F> {
-  readonly of: <S, R, E, A>(a: A) => Kind4<F, S, R, E, A>
-}
+export interface Applicative4<F extends URIS4> extends Apply4<F>, Pointed4<F> {}
 ```
 
 Added in v2.0.0
