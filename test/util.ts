@@ -1,47 +1,46 @@
 import * as assert from 'assert'
-import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative4 } from '../src/Applicative'
-import { sequenceT } from '../src/Apply'
+import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply4, sequenceT } from '../src/Apply'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from '../src/HKT'
 import * as T from '../src/Task'
 
 export interface AssertParSeq {
   <F extends URIS4>(
-    F: Applicative4<F>,
+    F: Apply4<F>,
     MT: {
       readonly fromTask: <S, R, E, A>(fa: T.Task<A>) => Kind4<F, S, R, E, A>
     },
     run: (fa: Kind4<F, unknown, unknown, unknown, unknown>) => Promise<unknown>
   ): Promise<void>
   <F extends URIS3>(
-    F: Applicative3<F>,
+    F: Apply3<F>,
     MT: {
       readonly fromTask: <R, E, A>(fa: T.Task<A>) => Kind3<F, R, E, A>
     },
     run: (fa: Kind3<F, unknown, unknown, unknown>) => Promise<unknown>
   ): Promise<void>
   <F extends URIS2>(
-    F: Applicative2<F>,
+    F: Apply2<F>,
     MT: {
       readonly fromTask: <E, A>(fa: T.Task<A>) => Kind2<F, E, A>
     },
     run: (fa: Kind2<F, unknown, unknown>) => Promise<unknown>
   ): Promise<void>
   <F extends URIS2, E>(
-    F: Applicative2C<F, E>,
+    F: Apply2C<F, E>,
     MT: {
       readonly fromTask: <A>(fa: T.Task<A>) => Kind2<F, E, A>
     },
     run: (fa: Kind2<F, E, unknown>) => Promise<unknown>
   ): Promise<void>
   <F extends URIS>(
-    F: Applicative1<F>,
+    F: Apply1<F>,
     MT: {
       readonly fromTask: <A>(fa: T.Task<A>) => Kind<F, A>
     },
     run: (fa: Kind<F, unknown>) => Promise<unknown>
   ): Promise<void>
   <F>(
-    F: Applicative<F>,
+    F: Apply<F>,
     MT: {
       readonly fromTask: <A>(fa: T.Task<A>) => HKT<F, A>
     },
@@ -50,7 +49,7 @@ export interface AssertParSeq {
 }
 
 export const assertParSeq = (expected: ReadonlyArray<string>): AssertParSeq => async <F>(
-  F: Applicative<F>,
+  F: Apply<F>,
   MT: {
     readonly fromTask: <A>(fa: T.Task<A>) => HKT<F, A>
   },

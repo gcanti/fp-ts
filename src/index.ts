@@ -90,6 +90,7 @@ import * as store from './Store'
 import * as strong from './Strong'
 import * as task from './Task'
 import * as taskEither from './TaskEither'
+import * as taskOption from './TaskOption'
 import * as taskThese from './TaskThese'
 import * as these from './These'
 import * as theseT from './TheseT'
@@ -456,6 +457,10 @@ export {
    * @since 2.0.0
    */
   taskEither,
+  /**
+   * @since 2.10.0
+   */
+  taskOption,
   /**
    * @since 2.4.0
    */

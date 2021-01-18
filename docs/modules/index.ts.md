@@ -101,6 +101,7 @@ Added in v2.0.0
   - [strong](#strong)
   - [task](#task)
   - [taskEither](#taskeither)
+  - [taskOption](#taskoption)
   - [taskThese](#taskthese)
   - [these](#these)
   - [theseT](#theset)
@@ -998,6 +999,16 @@ export declare const taskEither: typeof taskEither
 ```
 
 Added in v2.0.0
+
+## taskOption
+
+**Signature**
+
+```ts
+export declare const taskOption: typeof taskOption
+```
+
+Added in v2.10.0
 
 ## taskThese
 
