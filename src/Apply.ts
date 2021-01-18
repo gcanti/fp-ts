@@ -302,7 +302,7 @@ export function sequenceS<F>(F: Apply<F>): (r: Record<string, HKT<F, any>>) => H
 /* tslint:enable:readonly-array */
 
 /**
- * @since 3.0.0
+ * @since 2.10.0
  */
 export function apFirst_<F extends URIS4>(
   A: Apply4<F>
@@ -330,7 +330,7 @@ export function apFirst_<F>(A: Apply<F>): <B>(second: HKT<F, B>) => <A>(first: H
 }
 
 /**
- * @since 3.0.0
+ * @since 2.10.0
  */
 export function apSecond_<F extends URIS4>(
   A: Apply4<F>

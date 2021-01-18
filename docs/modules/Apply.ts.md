@@ -180,7 +180,7 @@ export declare function apFirst_<F extends URIS>(
 export declare function apFirst_<F>(A: Apply<F>): <B>(second: HKT<F, B>) => <A>(first: HKT<F, A>) => HKT<F, A>
 ```
 
-Added in v3.0.0
+Added in v2.10.0
 
 ## apS\_
 
@@ -259,7 +259,7 @@ export declare function apSecond_<F extends URIS>(
 export declare function apSecond_<F>(A: Apply<F>): <B>(second: HKT<F, B>) => <A>(first: HKT<F, A>) => HKT<F, B>
 ```
 
-Added in v3.0.0
+Added in v2.10.0
 
 ## sequenceS
 

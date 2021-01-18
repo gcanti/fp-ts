@@ -6,7 +6,7 @@ import { apFirst_, Apply2, apSecond_, apS_ } from './Apply'
 import { flow, identity, pipe } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { IO } from './IO'
-import { bind_, Monad2 } from './Monad'
+import { bind_, chainFirst_, Monad2 } from './Monad'
 import { MonadTask2 } from './MonadTask'
 import { Monoid } from './Monoid'
 import * as R from './Reader'
@@ -185,23 +185,6 @@ export const chainW: <R, A, B>(f: (a: A) => ReaderTask<R, B>) => <Q>(ma: ReaderT
 export const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> = chainW
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Monad`.
- *
- * @category combinators
- * @since 2.3.0
- */
-export const chainFirst: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, A> = (f) =>
-  chain((a) =>
-    pipe(
-      f(a),
-      map(() => a)
-    )
-  )
-
-/**
  * Derivable from `Monad`.
  *
  * @category combinators
@@ -337,6 +320,19 @@ export const Monad: Monad2<URI> = {
   ap: _apPar,
   chain: _chain
 }
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * Derivable from `Monad`.
+ *
+ * @category combinators
+ * @since 2.3.0
+ */
+export const chainFirst =
+  /*#__PURE__*/
+  chainFirst_(Monad)
 
 // TODO: remove in v3
 /**

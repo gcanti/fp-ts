@@ -391,7 +391,9 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, A>
+export declare const chainFirst: <A, E, B>(
+  f: (a: A) => TaskEither<E, B>
+) => (first: TaskEither<E, A>) => TaskEither<E, A>
 ```
 
 Added in v2.0.0

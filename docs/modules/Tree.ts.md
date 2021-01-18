@@ -230,7 +230,7 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<A>
+export declare const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (first: Tree<A>) => Tree<A>
 ```
 
 Added in v2.0.0

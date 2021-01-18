@@ -151,7 +151,7 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, A>
+export declare const chainFirst: <A, E, B>(f: (a: A) => State<E, B>) => (first: State<E, A>) => State<E, A>
 ```
 
 Added in v2.0.0

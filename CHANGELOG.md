@@ -36,6 +36,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `Apply` instance (@gcanti)
   - `Monad`
     - add `bind_` helper (@gcanti)
+    - add `chainFirst_` helper (@gcanti)
   - `NonEmptyArray`
     - add `Apply` instance (@gcanti)
   - `Option`

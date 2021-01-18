@@ -323,9 +323,9 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <R, E, A, B>(
+export declare const chainFirst: <A, R, E, B>(
   f: (a: A) => ReaderEither<R, E, B>
-) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+) => (first: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0

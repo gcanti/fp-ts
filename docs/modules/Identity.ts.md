@@ -244,7 +244,7 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, B>(f: (a: A) => B) => (ma: A) => A
+export declare const chainFirst: <A, B>(f: (a: A) => B) => (first: A) => A
 ```
 
 Added in v2.0.0
