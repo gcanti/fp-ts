@@ -672,7 +672,9 @@ export const Monad: Monad4<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst =
+export const chainFirst: <S, R, E, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, R, E, B>
+) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> =
   /*#__PURE__*/
   chainFirst_(Monad)
 

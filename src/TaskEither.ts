@@ -10,9 +10,10 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
-import { apFirst_, Apply1, Apply2, apSecond_, apS_ } from './Apply'
+import { apFirst_, Apply1, Apply2, apSecond_, apS_, ap_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
+import * as ET from './EitherT'
 import { Filterable2C, getFilterableComposition } from './Filterable'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor2 } from './Functor'
@@ -51,7 +52,7 @@ export interface TaskEither<E, A> extends Task<Either<E, A>> {}
  */
 export const left: <E = never, A = never>(e: E) => TaskEither<E, A> =
   /*#__PURE__*/
-  flow(E.left, T.of)
+  ET.left_(T.Pointed)
 
 /**
  * @category constructors
@@ -59,7 +60,7 @@ export const left: <E = never, A = never>(e: E) => TaskEither<E, A> =
  */
 export const right: <E = never, A = never>(a: A) => TaskEither<E, A> =
   /*#__PURE__*/
-  flow(E.right, T.of)
+  ET.right_(T.Pointed)
 
 /**
  * @category constructors
@@ -67,7 +68,7 @@ export const right: <E = never, A = never>(a: A) => TaskEither<E, A> =
  */
 export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskEither<E, A> =
   /*#__PURE__*/
-  T.map(E.right)
+  ET.rightF_(T.Functor)
 
 /**
  * @category constructors
@@ -75,7 +76,7 @@ export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskEither<E, A> 
  */
 export const leftTask: <E = never, A = never>(me: Task<E>) => TaskEither<E, A> =
   /*#__PURE__*/
-  T.map(E.left)
+  ET.leftF_(T.Functor)
 
 /**
  * @category constructors
@@ -165,7 +166,15 @@ export const fold: <E, A, B>(
   onRight: (a: A) => Task<B>
 ) => (ma: TaskEither<E, A>) => Task<B> =
   /*#__PURE__*/
-  flow(E.fold, T.chain)
+  ET.fold_(T.Monad)
+
+/**
+ * @category destructors
+ * @since 2.0.0
+ */
+export const getOrElse: <E, A>(onLeft: (e: E) => Task<A>) => (ma: TaskEither<E, A>) => Task<A> =
+  /*#__PURE__*/
+  ET.getOrElse_(T.Monad)
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).
@@ -173,14 +182,9 @@ export const fold: <E, A, B>(
  * @category destructors
  * @since 2.6.0
  */
-export const getOrElseW = <E, B>(onLeft: (e: E) => Task<B>) => <A>(ma: TaskEither<E, A>): Task<A | B> =>
-  pipe(ma, T.chain(E.fold<E, A, T.Task<A | B>>(onLeft, T.of)))
-
-/**
- * @category destructors
- * @since 2.0.0
- */
-export const getOrElse: <E, A>(onLeft: (e: E) => Task<A>) => (ma: TaskEither<E, A>) => Task<A> = getOrElseW
+export const getOrElseW: <E, B>(
+  onLeft: (e: E) => Task<B>
+) => <A>(ma: TaskEither<E, A>) => Task<A | B> = getOrElse as any
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -207,9 +211,9 @@ export const getOrElse: <E, A>(onLeft: (e: E) => Task<A>) => (ma: TaskEither<E, 
  * @category combinators
  * @since 2.0.0
  */
-export const orElse: <E, A, M>(onLeft: (e: E) => TaskEither<M, A>) => (ma: TaskEither<E, A>) => TaskEither<M, A> = (
-  f
-) => T.chain(E.fold(f, right))
+export const orElse: <E, A, M>(onLeft: (e: E) => TaskEither<M, A>) => (ma: TaskEither<E, A>) => TaskEither<M, A> =
+  /*#__PURE__*/
+  ET.orElse_(T.Monad)
 
 /**
  * @category combinators
@@ -217,7 +221,7 @@ export const orElse: <E, A, M>(onLeft: (e: E) => TaskEither<M, A>) => (ma: TaskE
  */
 export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> =
   /*#__PURE__*/
-  T.map(E.swap)
+  ET.swap_(T.Functor)
 
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
@@ -343,7 +347,9 @@ const _alt: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
  * @category Functor
  * @since 2.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEither<E, B> = (f) => T.map(E.map(f))
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEither<E, B> =
+  /*#__PURE__*/
+  ET.map_(T.Functor)
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -353,7 +359,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEit
  */
 export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskEither<E, A>) => TaskEither<G, B> =
   /*#__PURE__*/
-  flow(E.bimap, T.map)
+  ET.bimap_(T.Functor)
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -361,20 +367,9 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskEit
  * @category Bifunctor
  * @since 2.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskEither<E, A>) => TaskEither<G, A> = (f) =>
-  T.map(E.mapLeft(f))
-
-/**
- * Less strict version of [`ap`](#ap).
- *
- * @category Apply
- * @since 2.8.0
- */
-export const apW = <D, A>(fa: TaskEither<D, A>): (<E, B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<D | E, B>) =>
-  flow(
-    T.map((gab) => (ga: E.Either<D, A>) => E.apW(ga)(gab)),
-    T.ap(fa)
-  )
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskEither<E, A>) => TaskEither<G, A> =
+  /*#__PURE__*/
+  ET.mapLeft_(T.Functor)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -382,16 +377,19 @@ export const apW = <D, A>(fa: TaskEither<D, A>): (<E, B>(fab: TaskEither<E, (a: 
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B> = apW
+export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B> =
+  /*#__PURE__*/
+  ET.ap_(T.ApplyPar)
 
 /**
- * Less strict version of [`chain`](#chain).
+ * Less strict version of [`ap`](#ap).
  *
- * @category Monad
- * @since 2.6.0
+ * @category Apply
+ * @since 2.8.0
  */
-export const chainW = <E, A, B>(f: (a: A) => TaskEither<E, B>) => <D>(ma: TaskEither<D, A>): TaskEither<D | E, B> =>
-  pipe(ma, T.chain(E.fold<D, A, TaskEither<D | E, B>>(left, f)))
+export const apW: <D, A>(
+  fa: TaskEither<D, A>
+) => <E, B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<D | E, B> = ap as any
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -399,7 +397,19 @@ export const chainW = <E, A, B>(f: (a: A) => TaskEither<E, B>) => <D>(ma: TaskEi
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> = chainW
+export const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> =
+  /*#__PURE__*/
+  ET.chain_(T.Monad)
+
+/**
+ * Less strict version of [`chain`](#chain).
+ *
+ * @category Monad
+ * @since 2.6.0
+ */
+export const chainW: <E, A, B>(
+  f: (a: A) => TaskEither<E, B>
+) => <D>(ma: TaskEither<D, A>) => TaskEither<D | E, B> = chain as any
 
 /**
  * Derivable from `Monad`.
@@ -410,16 +420,6 @@ export const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<
 export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither<E, A> =
   /*#__PURE__*/
   chain(identity)
-
-/**
- * Less strict version of [`alt`](#alt).
- *
- * @category Alt
- * @since 2.9.0
- */
-export const altW = <E2, B>(that: Lazy<TaskEither<E2, B>>) => <E1, A>(
-  fa: TaskEither<E1, A>
-): TaskEither<E1 | E2, A | B> => pipe(fa, T.chain(E.fold<E1, A, TaskEither<E1 | E2, A | B>>(that, right)))
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -463,7 +463,19 @@ export const altW = <E2, B>(that: Lazy<TaskEither<E2, B>>) => <E1, A>(
  * @category Alt
  * @since 2.0.0
  */
-export const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>) => TaskEither<E, A> = altW
+export const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>) => TaskEither<E, A> =
+  /*#__PURE__*/
+  ET.alt_(T.Monad)
+
+/**
+ * Less strict version of [`alt`](#alt).
+ *
+ * @category Alt
+ * @since 2.9.0
+ */
+export const altW: <E2, B>(
+  that: Lazy<TaskEither<E2, B>>
+) => <E1, A>(fa: TaskEither<E1, A>) => TaskEither<E1 | E2, A | B> = alt as any
 
 /**
  * Wrap a value into the type constructor.
@@ -552,13 +564,8 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>> {
  * @category instances
  * @since 2.7.0
  */
-export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E> {
-  const AV = E.getApplicativeValidation(SE)
-  const ap = <A>(fga: T.Task<E.Either<E, A>>) => <B>(fgab: T.Task<E.Either<E, (a: A) => B>>): T.Task<E.Either<E, B>> =>
-    A.ap(
-      A.map(fgab, (h) => (ga: E.Either<E, A>) => AV.ap(h, ga)),
-      fga
-    )
+export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E> {
+  const ap = ap_(A, E.getApplicativeValidation(S))
   return {
     URI,
     _E: undefined as any,
@@ -572,23 +579,13 @@ export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<
  * @category instances
  * @since 2.7.0
  */
-export function getAltTaskValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
+export function getAltTaskValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
+  const alt = ET.altValidation_(T.Monad, S)
   return {
     URI,
     _E: undefined as any,
     map: _map,
-    alt: (me, that) =>
-      pipe(
-        me,
-        T.chain((e1) =>
-          E.isRight(e1)
-            ? T.of(e1)
-            : pipe(
-                that(),
-                T.map((e2) => (E.isLeft(e2) ? E.left(SE.concat(e1.left, e2.left)) : e2))
-              )
-        )
-      )
+    alt: (fa, that) => pipe(fa, alt(that))
   }
 }
 
@@ -745,7 +742,7 @@ export const Monad: Monad2<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst =
+export const chainFirst: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, A> =
   /*#__PURE__*/
   chainFirst_(Monad)
 

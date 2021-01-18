@@ -61,6 +61,7 @@ Added in v2.0.0
   - [apFirst\_](#apfirst_)
   - [apS\_](#aps_)
   - [apSecond\_](#apsecond_)
+  - [ap\_](#ap_)
   - [sequenceS](#sequences)
   - [sequenceT](#sequencet)
 
@@ -257,6 +258,37 @@ export declare function apSecond_<F extends URIS>(
   A: Apply1<F>
 ): <B>(second: Kind<F, B>) => <A>(first: Kind<F, A>) => Kind<F, B>
 export declare function apSecond_<F>(A: Apply<F>): <B>(second: HKT<F, B>) => <A>(first: HKT<F, A>) => HKT<F, B>
+```
+
+Added in v2.10.0
+
+## ap\_
+
+**Signature**
+
+```ts
+export declare function ap_<F extends URIS2, G extends URIS2, E>(
+  F: Apply2<F>,
+  G: Apply2C<G, E>
+): <FE, A>(
+  fa: Kind2<F, FE, Kind2<G, E, A>>
+) => <B>(fab: Kind2<F, FE, Kind2<G, E, (a: A) => B>>) => Kind2<F, FE, Kind2<G, E, B>>
+export declare function ap_<F extends URIS, G extends URIS2, E>(
+  F: Apply1<F>,
+  G: Apply2C<G, E>
+): <A>(fa: Kind<F, Kind2<G, E, A>>) => <B>(fab: Kind<F, Kind2<G, E, (a: A) => B>>) => Kind<F, Kind2<G, E, B>>
+export declare function ap_<F, G extends URIS2>(
+  F: Apply<F>,
+  G: Apply2<G>
+): <E, A>(fa: HKT<F, Kind2<G, E, A>>) => <B>(fab: HKT<F, Kind2<G, E, (a: A) => B>>) => HKT<F, Kind2<G, E, B>>
+export declare function ap_<F, G extends URIS>(
+  F: Apply<F>,
+  G: Apply1<G>
+): <A>(fa: HKT<F, Kind<G, A>>) => <B>(fab: HKT<F, Kind<G, (a: A) => B>>) => HKT<F, Kind<G, B>>
+export declare function ap_<F, G>(
+  F: Apply<F>,
+  G: Apply<G>
+): <A>(fa: HKT<F, HKT<G, A>>) => <B>(fab: HKT<F, HKT<G, (a: A) => B>>) => HKT<F, HKT<G, B>>
 ```
 
 Added in v2.10.0

@@ -24,6 +24,7 @@ high state of flux, you're at risk of it changing without notice.
 - **New Feature**
   - add `Pointed` type class (@gcanti)
   - `Apply`
+    - add `ap_` helper (@gcanti)
     - add `apS_` helper (@gcanti)
     - add `apFirst_` helper (@gcanti)
     - add `apSecond_` helper (@gcanti)
@@ -31,10 +32,13 @@ high state of flux, you're at risk of it changing without notice.
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
   - `Functor`
+    - add `map_` helper (@gcanti)
     - add `bindTo_` helper (@gcanti)
   - `Either`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
+  - `EitherT`
+    - split `getEitherM` into separated functions (@gcanti)
   - `Eq`
     - add `eqBigint`, #1375 (@EricCrosson)
   - `Identity`

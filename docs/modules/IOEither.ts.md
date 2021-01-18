@@ -328,7 +328,7 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, E, B>(f: (a: A) => IOEither<E, B>) => (first: IOEither<E, A>) => IOEither<E, A>
+export declare const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -665,7 +665,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getAltIOValidation<E>(SE: Semigroup<E>): Alt2C<URI, E>
+export declare function getAltIOValidation<E>(S: Semigroup<E>): Alt2C<URI, E>
 ```
 
 Added in v2.7.0
@@ -675,7 +675,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare function getApplicativeIOValidation<E>(SE: Semigroup<E>): Applicative2C<URI, E>
+export declare function getApplicativeIOValidation<E>(S: Semigroup<E>): Applicative2C<URI, E>
 ```
 
 Added in v2.7.0

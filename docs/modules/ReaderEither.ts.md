@@ -324,9 +324,9 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, R, E, B>(
+export declare const chainFirst: <R, E, A, B>(
   f: (a: A) => ReaderEither<R, E, B>
-) => (first: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -669,7 +669,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getAltReaderValidation<E>(SE: Semigroup<E>): Alt3C<URI, E>
+export declare function getAltReaderValidation<E>(S: Semigroup<E>): Alt3C<URI, E>
 ```
 
 Added in v2.7.0
@@ -679,7 +679,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare function getApplicativeReaderValidation<E>(SE: Semigroup<E>): Applicative3C<URI, E>
+export declare function getApplicativeReaderValidation<E>(S: Semigroup<E>): Applicative3C<URI, E>
 ```
 
 Added in v2.7.0
