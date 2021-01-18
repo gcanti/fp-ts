@@ -135,6 +135,26 @@ describe('TaskEither', () => {
     })
   })
 
+  describe('getCompactable', () => {
+    const C = _.getCompactable(monoidString)
+
+    it('compact', async () => {
+      assert.deepStrictEqual(await C.compact(_.right(some(1)))(), E.right(1))
+    })
+
+    it('separate', async () => {
+      const s1 = C.separate(_.left('a'))
+      assert.deepStrictEqual(await s1.left(), E.left('a'))
+      assert.deepStrictEqual(await s1.right(), E.left('a'))
+      const s2 = C.separate(_.right(E.left('a')))
+      assert.deepStrictEqual(await s2.left(), E.right('a'))
+      assert.deepStrictEqual(await s2.right(), E.left(''))
+      const s3 = C.separate(_.right(E.right(1)))
+      assert.deepStrictEqual(await s3.left(), E.left(''))
+      assert.deepStrictEqual(await s3.right(), E.right(1))
+    })
+  })
+
   describe('getFilterable', () => {
     const F_ = _.getFilterable(A.getMonoid<string>())
     const { filter } = pipeable(F_)

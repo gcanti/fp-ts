@@ -40,7 +40,9 @@ Added in v2.0.0
   - [CompactableComposition23C (interface)](#compactablecomposition23c-interface)
   - [CompactableComposition2C1 (interface)](#compactablecomposition2c1-interface)
   - [Separated (interface)](#separated-interface)
+  - [compact\_](#compact_)
   - [getCompactableComposition](#getcompactablecomposition)
+  - [separate\_](#separate_)
 
 ---
 
@@ -316,6 +318,27 @@ export interface Separated<A, B> {
 
 Added in v2.0.0
 
+## compact\_
+
+**Signature**
+
+```ts
+export declare function compact_<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Compactable2C<G, E>
+): <A>(fa: Kind<F, Kind2<G, E, Option<A>>>) => Kind<F, Kind2<G, E, A>>
+export declare function compact_<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Compactable1<G>
+): <A>(fa: Kind<F, Kind<G, Option<A>>>) => Kind<F, Kind<G, A>>
+export declare function compact_<F, G>(
+  F: Functor<F>,
+  G: Compactable<G>
+): <A>(fa: HKT<F, HKT<G, Option<A>>>) => HKT<F, HKT<G, A>>
+```
+
+Added in v2.10.0
+
 ## getCompactableComposition
 
 **Signature**
@@ -360,3 +383,24 @@ export declare function getCompactableComposition<F, G>(
 ```
 
 Added in v2.0.0
+
+## separate\_
+
+**Signature**
+
+```ts
+export declare function separate_<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Compactable2C<G, E> & Functor2<G>
+): <A, B>(fge: Kind<F, Kind2<G, E, Either<A, B>>>) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, B>>>
+export declare function separate_<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Compactable1<G> & Functor1<G>
+): <A, B>(fge: Kind<F, Kind<G, Either<A, B>>>) => Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, B>>>
+export declare function separate_<F, G>(
+  F: Functor<F>,
+  G: Compactable<G> & Functor<G>
+): <A, B>(fge: HKT<F, HKT<G, Either<A, B>>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>>
+```
+
+Added in v2.10.0

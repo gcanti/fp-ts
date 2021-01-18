@@ -31,12 +31,16 @@ high state of flux, you're at risk of it changing without notice.
   - `Array`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
+  - `Compactable`
+    - add `compact_` helper (@gcanti)
+    - add `separate_` helper (@gcanti)
   - `Functor`
     - add `map_` helper (@gcanti)
     - add `bindTo_` helper (@gcanti)
   - `Either`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
+    - add `getCompactable` (@gcanti)
   - `EitherT`
     - split `getEitherM` into separated functions (@gcanti)
   - `Eq`
@@ -49,6 +53,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `Apply` instance (@gcanti)
   - `IOEither`
     - add `Pointed` instance (@gcanti)
+    - add `getCompactable` (@gcanti)
   - `Monad`
     - add `bind_` helper (@gcanti)
     - add `chainFirst_` helper (@gcanti)
@@ -99,6 +104,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `ApplyPar` instance (@gcanti)
     - add `ApplySeq` instance (@gcanti)
     - add `Monad` instance (@gcanti)
+    - add `getCompactable` (@gcanti)
   - `TaskThese`
     - add `Functor` instance (@gcanti)
     - add `Pointed` instance (@gcanti)
