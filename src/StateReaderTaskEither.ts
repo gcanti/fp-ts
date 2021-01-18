@@ -727,26 +727,6 @@ export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & 
   throwError
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- * @deprecated
- */
-export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
-  URI,
-  map: _map,
-  of,
-  ap: _ap,
-  chain: _chain,
-  bimap: _bimap,
-  mapLeft: _mapLeft,
-  alt: _alt,
-  fromIO,
-  fromTask,
-  throwError
-}
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -761,38 +741,6 @@ export function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: 
   return ma(s)(r)()
 }
 /* tslint:enable:readonly-array */
-
-/**
- * Use `evaluate` instead
- *
- * @since 2.0.0
- * @deprecated
- */
-/* istanbul ignore next */
-export const evalState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S) => ReaderTaskEither<R, E, A> = (
-  fsa,
-  s
-) =>
-  pipe(
-    fsa(s),
-    RTE.map(([a]) => a)
-  )
-
-/**
- * Use `execute` instead
- *
- * @since 2.0.0
- * @deprecated
- */
-/* istanbul ignore next */
-export const execState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S) => ReaderTaskEither<R, E, S> = (
-  fsa,
-  s
-) =>
-  pipe(
-    fsa(s),
-    RTE.map(([_, s]) => s)
-  )
 
 /**
  * Run a computation in the `StateReaderTaskEither` monad, discarding the final state
@@ -910,3 +858,58 @@ export const sequenceArray: <S, R, E, A>(
 ) => StateReaderTaskEither<S, R, E, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
+  URI,
+  map: _map,
+  of,
+  ap: _ap,
+  chain: _chain,
+  bimap: _bimap,
+  mapLeft: _mapLeft,
+  alt: _alt,
+  fromIO,
+  fromTask,
+  throwError
+}
+
+/**
+ * Use `evaluate` instead
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+/* istanbul ignore next */
+export const evalState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S) => ReaderTaskEither<R, E, A> = (
+  fsa,
+  s
+) =>
+  pipe(
+    fsa(s),
+    RTE.map(([a]) => a)
+  )
+
+/**
+ * Use `execute` instead
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+/* istanbul ignore next */
+export const execState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S) => ReaderTaskEither<R, E, S> = (
+  fsa,
+  s
+) =>
+  pipe(
+    fsa(s),
+    RTE.map(([_, s]) => s)
+  )

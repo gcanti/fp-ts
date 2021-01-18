@@ -215,48 +215,6 @@ export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): Fo
 }
 
 /**
- * Use `reduceM` instead
- *
- * @since 2.0.0
- * @deprecated
- */
-export function foldM<M extends URIS3, F extends URIS>(
-  M: Monad3<M>,
-  F: Foldable1<F>
-): <R, E, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, B>
-/** @deprecated */
-export function foldM<M extends URIS3, F extends URIS, E>(
-  M: Monad3C<M, E>,
-  F: Foldable1<F>
-): <R, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, B>
-/** @deprecated */
-export function foldM<M extends URIS2, F extends URIS>(
-  M: Monad2<M>,
-  F: Foldable1<F>
-): <E, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind2<M, E, B>) => Kind2<M, E, B>
-/** @deprecated */
-export function foldM<M extends URIS2, F extends URIS, E>(
-  M: Monad2C<M, E>,
-  F: Foldable1<F>
-): <A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind2<M, E, B>) => Kind2<M, E, B>
-/** @deprecated */
-export function foldM<M extends URIS, F extends URIS>(
-  M: Monad1<M>,
-  F: Foldable1<F>
-): <A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind<M, B>) => Kind<M, B>
-/** @deprecated */
-export function foldM<M, F>(
-  M: Monad<M>,
-  F: Foldable<F>
-): <A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => HKT<M, B>) => HKT<M, B>
-export function foldM<M, F>(
-  M: Monad<M>,
-  F: Foldable<F>
-): <A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => HKT<M, B>) => HKT<M, B> {
-  return (fa, b, f) => F.reduce(fa, M.of(b), (mb, a) => M.chain(mb, (b) => f(b, a)))
-}
-
-/**
  * Similar to 'reduce', but the result is encapsulated in a monad.
  *
  * Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
@@ -408,4 +366,50 @@ export function traverse_<M, F>(
   const applyFirst = <B>(mu: HKT<M, void>, mb: HKT<M, B>): HKT<M, void> => M.ap(M.map(mu, constant), mb)
   const mu: HKT<M, void> = M.of(undefined)
   return (fa, f) => F.reduce(fa, mu, (mu, a) => applyFirst(mu, f(a)))
+}
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use `reduceM` instead
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export function foldM<M extends URIS3, F extends URIS>(
+  M: Monad3<M>,
+  F: Foldable1<F>
+): <R, E, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, B>
+/** @deprecated */
+export function foldM<M extends URIS3, F extends URIS, E>(
+  M: Monad3C<M, E>,
+  F: Foldable1<F>
+): <R, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => Kind3<M, R, E, B>
+/** @deprecated */
+export function foldM<M extends URIS2, F extends URIS>(
+  M: Monad2<M>,
+  F: Foldable1<F>
+): <E, A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind2<M, E, B>) => Kind2<M, E, B>
+/** @deprecated */
+export function foldM<M extends URIS2, F extends URIS, E>(
+  M: Monad2C<M, E>,
+  F: Foldable1<F>
+): <A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind2<M, E, B>) => Kind2<M, E, B>
+/** @deprecated */
+export function foldM<M extends URIS, F extends URIS>(
+  M: Monad1<M>,
+  F: Foldable1<F>
+): <A, B>(fa: Kind<F, A>, b: B, f: (b: B, a: A) => Kind<M, B>) => Kind<M, B>
+/** @deprecated */
+export function foldM<M, F>(
+  M: Monad<M>,
+  F: Foldable<F>
+): <A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => HKT<M, B>) => HKT<M, B>
+export function foldM<M, F>(
+  M: Monad<M>,
+  F: Foldable<F>
+): <A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => HKT<M, B>) => HKT<M, B> {
+  return (fa, b, f) => F.reduce(fa, M.of(b), (mb, a) => M.chain(mb, (b) => f(b, a)))
 }

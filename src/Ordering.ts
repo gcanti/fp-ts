@@ -27,23 +27,11 @@ export const eqOrdering: Eq<Ordering> = {
 }
 
 /**
- * Use `monoidOrdering` instead
- *
- * @category instances
- * @since 2.0.0
- * @deprecated
- */
-export const semigroupOrdering: Semigroup<Ordering> = {
-  concat: (x, y) => (x !== 0 ? x : y)
-}
-
-/**
  * @category instances
  * @since 2.4.0
  */
 export const monoidOrdering: Monoid<Ordering> = {
-  // tslint:disable-next-line: deprecation
-  concat: semigroupOrdering.concat,
+  concat: (x, y) => (x !== 0 ? x : y),
   empty: 0
 }
 
@@ -59,4 +47,19 @@ export function invert(O: Ordering): Ordering {
     default:
       return 0
   }
+}
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use `monoidOrdering` instead
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const semigroupOrdering: Semigroup<Ordering> = {
+  concat: monoidOrdering.concat
 }

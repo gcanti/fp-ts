@@ -570,15 +570,6 @@ export const ApplicativeSeq: Applicative2<URI> = {
 }
 
 /**
- * Use `ApplicativePar` instead
- *
- * @since 2.7.0
- * @category instances
- * @deprecated
- */
-export const Applicative: Applicative2<URI> = ApplicativePar
-
-/**
  * @category instances
  * @since 2.7.0
  */
@@ -813,3 +804,16 @@ export const traverseSeqArray: <A, E, B>(
 export const sequenceSeqArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEither<E, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseSeqArray(identity)
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use `ApplicativePar` instead
+ *
+ * @since 2.7.0
+ * @category instances
+ * @deprecated
+ */
+export const Applicative: Applicative2<URI> = ApplicativePar
