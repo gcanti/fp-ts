@@ -90,16 +90,6 @@ export const eqStrict: Eq<unknown> = {
 }
 
 /**
- * Use `eqStrict` instead
- *
- * @since 2.0.0
- * @deprecated
- */
-export function strictEqual<A>(a: A, b: A): boolean {
-  return a === b
-}
-
-/**
  * @category instances
  * @since 2.0.0
  */
@@ -197,3 +187,17 @@ export const Contravariant: Contravariant1<URI> = {
  * @since 2.0.0
  */
 export const eq: Contravariant1<URI> = Contravariant
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use `eqStrict` instead
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export function strictEqual<A>(a: A, b: A): boolean {
+  return a === b
+}

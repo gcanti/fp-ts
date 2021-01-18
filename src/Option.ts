@@ -382,13 +382,6 @@ export function fromNullableK<A extends ReadonlyArray<unknown>, B>(
 }
 
 /**
- * @category combinators
- * @since 2.0.0
- * @deprecated
- */
-export const mapNullable = chainNullableK
-
-/**
  * This is `chain` + `fromNullable`, useful when working with optional values.
  *
  * @example
@@ -1356,3 +1349,14 @@ export const traverseArray: <A, B>(f: (a: A) => Option<B>) => (arr: ReadonlyArra
 export const sequenceArray: <A>(arr: ReadonlyArray<Option<A>>) => Option<ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export const mapNullable = chainNullableK

@@ -172,6 +172,20 @@ export const writer: Functor2<URI> = Functor
 // -------------------------------------------------------------------------------------
 
 /**
+ * @since 2.8.0
+ */
+export const evaluate: <W, A>(fa: Writer<W, A>) => A = (fa) => fa()[0]
+
+/**
+ * @since 2.8.0
+ */
+export const execute: <W, A>(fa: Writer<W, A>) => W = (fa) => fa()[1]
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
  * Use `evaluate` instead
  *
  * @since 2.0.0
@@ -186,13 +200,3 @@ export const evalWriter: <W, A>(fa: Writer<W, A>) => A = (fa) => fa()[0]
  * @deprecated
  */
 export const execWriter: <W, A>(fa: Writer<W, A>) => W = (fa) => fa()[1]
-
-/**
- * @since 2.8.0
- */
-export const evaluate: <W, A>(fa: Writer<W, A>) => A = (fa) => fa()[0]
-
-/**
- * @since 2.8.0
- */
-export const execute: <W, A>(fa: Writer<W, A>) => W = (fa) => fa()[1]
