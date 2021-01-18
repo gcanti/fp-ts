@@ -121,7 +121,7 @@ export const eqBoolean: Eq<boolean> = eqStrict
  * @category instances
  * @since 2.10.0
  */
-export const eqBigInt: Eq<bigint> = eqStrict
+export const eqBigint: Eq<bigint> = eqStrict
 
 /**
  * @category instances
