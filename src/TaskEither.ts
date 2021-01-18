@@ -15,7 +15,7 @@ import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C, compact_, separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
-import { Filterable2C, getFilterableComposition } from './Filterable'
+import { Filterable2C, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { IO } from './IO'
@@ -635,20 +635,23 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
  * @since 2.1.0
  */
 export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
+  const F = E.getFilterable(M)
   const C = getCompactable(M)
-  const W = E.getWitherable(M)
-  const F = getFilterableComposition(T.Monad, W)
 
+  const filter = filter_(T.Functor, F)
+  const filterMap = filterMap_(T.Functor, F)
+  const partition = partition_(T.Functor, F)
+  const partitionMap = partitionMap_(T.Functor, F)
   return {
     URI,
     _E: undefined as any,
     map: _map,
     compact: C.compact,
     separate: C.separate,
-    filter: F.filter,
-    filterMap: F.filterMap,
-    partition: F.partition,
-    partitionMap: F.partitionMap
+    filter: <A>(fa: TaskEither<E, A>, predicate: Predicate<A>) => pipe(fa, filter(predicate)),
+    filterMap: (fa, f) => pipe(fa, filterMap(f)),
+    partition: <A>(fa: TaskEither<E, A>, predicate: Predicate<A>) => pipe(fa, partition(predicate)),
+    partitionMap: (fa, f) => pipe(fa, partitionMap(f))
   }
 }
 

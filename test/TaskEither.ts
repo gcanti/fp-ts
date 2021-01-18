@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import { sequenceT } from '../src/Apply'
-import * as A from '../src/Array'
+import * as A from '../src/ReadonlyArray'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
 import * as I from '../src/IO'
@@ -157,7 +157,7 @@ describe('TaskEither', () => {
 
   describe('getFilterable', () => {
     const F_ = _.getFilterable(A.getMonoid<string>())
-    const { filter } = pipeable(F_)
+    const { filter, filterMap, partition, partitionMap } = pipeable(F_)
 
     it('filter', async () => {
       assert.deepStrictEqual(
@@ -181,6 +181,48 @@ describe('TaskEither', () => {
         )(),
         await _.left(['a'])()
       )
+    })
+
+    it('filterMap', async () => {
+      assert.deepStrictEqual(
+        await pipe(
+          _.right('aaa'),
+          filterMap((s) => (s.length > 1 ? some(s.length) : none))
+        )(),
+        E.right(3)
+      )
+      assert.deepStrictEqual(
+        await pipe(
+          _.right('a'),
+          filterMap((s) => (s.length > 1 ? some(s.length) : none))
+        )(),
+        E.left([])
+      )
+      assert.deepStrictEqual(
+        await pipe(
+          _.left<ReadonlyArray<string>, string>(['e']),
+          filterMap((s) => (s.length > 1 ? some(s.length) : none))
+        )(),
+        E.left(['e'])
+      )
+    })
+
+    it('partition', async () => {
+      const { left, right } = pipe(
+        _.right('a'),
+        partition((s) => s.length > 2)
+      )
+      assert.deepStrictEqual(await left(), E.right('a'))
+      assert.deepStrictEqual(await right(), E.left([]))
+    })
+
+    it('partitionMap', async () => {
+      const { left, right } = pipe(
+        _.right('a'),
+        partitionMap((s) => (s.length > 2 ? E.right(s.length) : E.left(false)))
+      )
+      assert.deepStrictEqual(await left(), E.right(false))
+      assert.deepStrictEqual(await right(), E.left([]))
     })
   })
 
