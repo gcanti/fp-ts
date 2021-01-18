@@ -307,8 +307,8 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apFirst: <S, R, E, B>(
-  fb: StateReaderTaskEither<S, R, E, B>
-) => <A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+  second: StateReaderTaskEither<S, R, E, B>
+) => <A>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.0.0
@@ -323,8 +323,8 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apSecond: <S, R, E, B>(
-  fb: StateReaderTaskEither<S, R, E, B>
-) => <A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+  second: StateReaderTaskEither<S, R, E, B>
+) => <A>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.0.0

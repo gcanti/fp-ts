@@ -562,7 +562,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <B>(fb: readonly B[]) => <A>(fa: readonly A[]) => readonly A[]
+export declare const apFirst: <B>(second: readonly B[]) => <A>(first: readonly A[]) => readonly A[]
 ```
 
 Added in v2.5.0
@@ -576,7 +576,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <B>(fb: readonly B[]) => <A>(fa: readonly A[]) => readonly B[]
+export declare const apSecond: <B>(second: readonly B[]) => <A>(first: readonly A[]) => readonly B[]
 ```
 
 Added in v2.5.0
