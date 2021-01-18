@@ -5,7 +5,7 @@ import { Applicative2 } from './Applicative'
 import { apFirst_, Apply2, apSecond_, apS_ } from './Apply'
 import { identity, pipe } from './function'
 import { bindTo_, Functor2 } from './Functor'
-import { bind_, Monad2 } from './Monad'
+import { bind_, chainFirst_, Monad2 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -116,23 +116,6 @@ export const chain: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => 
 }
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Monad`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const chainFirst: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, A> = (f) =>
-  chain((a) =>
-    pipe(
-      f(a),
-      map(() => a)
-    )
-  )
-
-/**
  * Derivable from `Monad`.
  *
  * @category combinators
@@ -229,6 +212,19 @@ export const Monad: Monad2<URI> = {
   of,
   chain: _chain
 }
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * Derivable from `Monad`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const chainFirst =
+  /*#__PURE__*/
+  chainFirst_(Monad)
 
 // TODO: remove in v3
 /**

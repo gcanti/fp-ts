@@ -469,7 +469,7 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A>
+export declare const chainFirst: <A, E, B>(f: (a: A) => Either<E, B>) => (first: Either<E, A>) => Either<E, A>
 ```
 
 Added in v2.0.0

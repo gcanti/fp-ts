@@ -26,7 +26,7 @@ import { Foldable2 } from './Foldable'
 import { identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { HKT } from './HKT'
-import { bind_, Monad2, Monad2C } from './Monad'
+import { bind_, chainFirst_, Monad2, Monad2C } from './Monad'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
@@ -587,38 +587,6 @@ export const chainW = <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, 
 export const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B> = chainW
 
 /**
- * Less strict version of [`chainFirst`](#chainFirst)
- *
- * Derivable from `Monad`.
- *
- * @category combinators
- * @since 2.8.0
- */
-export const chainFirstW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>) => Either<D | E, A> = (f) => (
-  ma
-) =>
-  pipe(
-    ma,
-    chainW((a) =>
-      pipe(
-        f(a),
-        map(() => a)
-      )
-    )
-  )
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Monad`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A> = chainFirstW
-
-/**
  * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
  *
  * Derivable from `Monad`.
@@ -1174,6 +1142,31 @@ export const Monad: Monad2<URI> = {
   of,
   chain: _chain
 }
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * Derivable from `Monad`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const chainFirst =
+  /*#__PURE__*/
+  chainFirst_(Monad)
+
+/**
+ * Less strict version of [`chainFirst`](#chainFirst)
+ *
+ * Derivable from `Monad`.
+ *
+ * @category combinators
+ * @since 2.8.0
+ */
+export const chainFirstW: <D, A, B>(
+  f: (a: A) => Either<D, B>
+) => <E>(ma: Either<E, A>) => Either<D | E, A> = chainFirst as any
 
 /**
  * @category instances

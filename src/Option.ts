@@ -25,7 +25,7 @@ import { Foldable1 } from './Foldable'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { HKT } from './HKT'
-import { bind_, Monad1 } from './Monad'
+import { bind_, chainFirst_, Monad1 } from './Monad'
 import { MonadThrow1 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Ord } from './Ord'
@@ -525,23 +525,6 @@ export const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<
   isNone(ma) ? none : f(ma.value)
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Monad`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<A> = (f) =>
-  chain((a) =>
-    pipe(
-      f(a),
-      map(() => a)
-    )
-  )
-
-/**
  * Derivable from `Monad`.
  *
  * @category combinators
@@ -1018,6 +1001,19 @@ export const Monad: Monad1<URI> = {
   of,
   chain: _chain
 }
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * Derivable from `Monad`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const chainFirst =
+  /*#__PURE__*/
+  chainFirst_(Monad)
 
 /**
  * @category instances
