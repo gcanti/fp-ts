@@ -13,6 +13,7 @@ import { Pointed2 } from './Pointed'
 import * as R from './Reader'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
+import * as RT from './ReaderT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -45,7 +46,9 @@ export const fromTask: <R, A>(ma: Task<A>) => ReaderTask<R, A> =
  * @category constructors
  * @since 2.3.0
  */
-export const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A> = (ma) => flow(ma, T.of)
+export const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/
+  RT.fromReader_(T.Pointed)
 
 /**
  * @category constructors
@@ -59,13 +62,17 @@ export const fromIO: <R, A>(ma: IO<A>) => ReaderTask<R, A> =
  * @category constructors
  * @since 2.3.0
  */
-export const ask: <R>() => ReaderTask<R, R> = () => T.of
+export const ask: <R>() => ReaderTask<R, R> =
+  /*#__PURE__*/
+  RT.ask_(T.Pointed)
 
 /**
  * @category constructors
  * @since 2.3.0
  */
-export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> = (f) => flow(T.of, T.map(f))
+export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> =
+  /*#__PURE__*/
+  RT.asks_(T.Pointed)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -134,18 +141,9 @@ const _chain: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
  * @category Functor
  * @since 2.3.0
  */
-export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B> = (f) => (fa) =>
-  flow(fa, T.map(f))
-
-/**
- * Less strict version of [`ap`](#ap).
- *
- * @category Apply
- * @since 2.8.0
- */
-export const apW: <Q, A>(fa: ReaderTask<Q, A>) => <R, B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<Q & R, B> = (
-  fa
-) => (fab) => (r) => pipe(fab(r), T.ap(fa(r)))
+export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B> =
+  /*#__PURE__*/
+  RT.map_(T.Functor)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -153,7 +151,19 @@ export const apW: <Q, A>(fa: ReaderTask<Q, A>) => <R, B>(fab: ReaderTask<R, (a: 
  * @category Apply
  * @since 2.3.0
  */
-export const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B> = apW
+export const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B> =
+  /*#__PURE__*/
+  RT.ap_(T.ApplyPar)
+
+/**
+ * Less strict version of [`ap`](#ap).
+ *
+ * @category Apply
+ * @since 2.8.0
+ */
+export const apW: <Q, A>(
+  fa: ReaderTask<Q, A>
+) => <R, B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<Q & R, B> = ap as any
 
 /**
  * Wrap a value into the type constructor.
@@ -161,21 +171,9 @@ export const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) =
  * @category Applicative
  * @since 2.3.0
  */
-export const of: Pointed2<URI>['of'] = (a) => () => T.of(a)
-
-/**
- * Less strict version of  [`chain`](#chain).
- *
- * @category Monad
- * @since 2.6.7
- */
-export const chainW: <R, A, B>(f: (a: A) => ReaderTask<R, B>) => <Q>(ma: ReaderTask<Q, A>) => ReaderTask<Q & R, B> = (
-  f
-) => (fa) => (r) =>
-  pipe(
-    fa(r),
-    T.chain((a) => f(a)(r))
-  )
+export const of: Pointed2<URI>['of'] =
+  /*#__PURE__*/
+  RT.of_(T.Pointed)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -183,7 +181,19 @@ export const chainW: <R, A, B>(f: (a: A) => ReaderTask<R, B>) => <Q>(ma: ReaderT
  * @category Monad
  * @since 2.3.0
  */
-export const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> = chainW
+export const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> =
+  /*#__PURE__*/
+  RT.chain_(T.Monad)
+
+/**
+ * Less strict version of  [`chain`](#chain).
+ *
+ * @category Monad
+ * @since 2.6.7
+ */
+export const chainW: <R, A, B>(
+  f: (a: A) => ReaderTask<R, B>
+) => <Q>(ma: ReaderTask<Q, A>) => ReaderTask<Q & R, B> = chain as any
 
 /**
  * Derivable from `Monad`.

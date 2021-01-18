@@ -63,6 +63,8 @@ high state of flux, you're at risk of it changing without notice.
   - `Reader`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
+  - `ReaderT`
+    - split `getReaderM` into separated functions (@gcanti)
   - `ReaderEither`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
