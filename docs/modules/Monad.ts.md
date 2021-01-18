@@ -32,6 +32,8 @@ Added in v2.0.0
   - [Monad3 (interface)](#monad3-interface)
   - [Monad3C (interface)](#monad3c-interface)
   - [Monad4 (interface)](#monad4-interface)
+- [utils](#utils)
+  - [bind\_](#bind_)
 
 ---
 
@@ -106,3 +108,56 @@ export interface Monad4<M extends URIS4> extends Applicative4<M>, Chain4<M> {}
 ```
 
 Added in v2.0.0
+
+# utils
+
+## bind\_
+
+**Signature**
+
+```ts
+export declare function bind_<M extends URIS4>(
+  M: Monad4<M>
+): <N extends string, A, S, R, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Kind4<M, S, R, E, B>
+) => (ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export declare function bind_<M extends URIS3>(
+  M: Monad3<M>
+): <N extends string, A, R, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Kind3<M, R, E, B>
+) => (ma: Kind3<M, R, E, A>) => Kind3<M, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export declare function bind_<M extends URIS3, E>(
+  M: Monad3C<M, E>
+): <N extends string, A, R, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Kind3<M, R, E, B>
+) => (ma: Kind3<M, R, E, A>) => Kind3<M, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export declare function bind_<M extends URIS2>(
+  M: Monad2<M>
+): <N extends string, A, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Kind2<M, E, B>
+) => (ma: Kind2<M, E, A>) => Kind2<M, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export declare function bind_<M extends URIS2, E>(
+  M: Monad2C<M, E>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Kind2<M, E, B>
+) => (ma: Kind2<M, E, A>) => Kind2<M, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export declare function bind_<M extends URIS>(
+  M: Monad1<M>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => Kind<M, B>
+) => (ma: Kind<M, A>) => Kind<M, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export declare function bind_<M>(
+  M: Monad<M>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => HKT<M, B>
+) => (ma: HKT<M, A>) => HKT<M, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.10.0

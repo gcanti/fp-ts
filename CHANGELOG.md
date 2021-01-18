@@ -32,6 +32,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `Apply` instance (@gcanti)
   - `IO`
     - add `Apply` instance (@gcanti)
+  - `Monad`
+    - add `bind_` helper (@gcanti)
   - `NonEmptyArray`
     - add `Apply` instance (@gcanti)
   - `Option`
@@ -48,6 +50,7 @@ high state of flux, you're at risk of it changing without notice.
   - `ReaderTaskEither`
     - add `ApplyPar` instance (@gcanti)
     - add `ApplySeq` instance (@gcanti)
+    - add `Monad` instance (@gcanti)
   - `ReadonlyArray`
     - add `Apply` instance (@gcanti)
   - `ReadonlyNonEmptyArray`
@@ -56,12 +59,14 @@ high state of flux, you're at risk of it changing without notice.
     - add `Apply` instance (@gcanti)
   - `StateReaderTaskEither`
     - add `Apply` instance (@gcanti)
+    - add `Monad` instance (@gcanti)
   - `Task`
     - add `ApplyPar` instance (@gcanti)
     - add `ApplySeq` instance (@gcanti)
   - `TaskEither`
     - add `ApplyPar` instance (@gcanti)
     - add `ApplySeq` instance (@gcanti)
+    - add `Monad` instance (@gcanti)
   - `Tree`
     - add `Apply` instance (@gcanti)
 

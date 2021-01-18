@@ -3,9 +3,9 @@
  */
 import { Applicative2 } from './Applicative'
 import { Apply2, apS_ } from './Apply'
-import { bind_, flow, identity, pipe } from './function'
+import { flow, identity, pipe } from './function'
 import { bindTo_, Functor2 } from './Functor'
-import { Monad2 } from './Monad'
+import { bind_, Monad2 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -289,16 +289,9 @@ export const bindTo =
 /**
  * @since 2.8.0
  */
-export const bind = <N extends string, A, S, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => State<S, B>
-): ((fa: State<S, A>) => State<S, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  chain((a) =>
-    pipe(
-      f(a),
-      map((b) => bind_(a, name, b))
-    )
-  )
+export const bind =
+  /*#__PURE__*/
+  bind_(Monad)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
