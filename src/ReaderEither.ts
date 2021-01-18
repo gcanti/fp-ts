@@ -8,7 +8,7 @@ import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import { flow, identity, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor3 } from './Functor'
-import { bind_, Monad3, Monad3C } from './Monad'
+import { bind_, chainFirst_, Monad3, Monad3C } from './Monad'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
@@ -335,37 +335,6 @@ export const chain: <R, E, A, B>(
 ) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = chainW
 
 /**
- * Less strict version of [`chainFirst`](#chainFirst)
- *
- * Derivable from `Monad`.
- *
- * @category combinators
- * @since 2.8.0
- */
-export const chainFirstW: <R, D, A, B>(
-  f: (a: A) => ReaderEither<R, D, B>
-) => <Q, E>(ma: ReaderEither<Q, E, A>) => ReaderEither<Q & R, D | E, A> = (f) =>
-  chainW((a) =>
-    pipe(
-      f(a),
-      map(() => a)
-    )
-  )
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Monad`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const chainFirst: <R, E, A, B>(
-  f: (a: A) => ReaderEither<R, E, B>
-) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = chainFirstW
-
-/**
  * Derivable from `Monad`.
  *
  * @category combinators
@@ -583,6 +552,31 @@ export const Monad: Monad3<URI> = {
   of,
   chain: _chain
 }
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * Derivable from `Monad`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const chainFirst =
+  /*#__PURE__*/
+  chainFirst_(Monad)
+
+/**
+ * Less strict version of [`chainFirst`](#chainFirst)
+ *
+ * Derivable from `Monad`.
+ *
+ * @category combinators
+ * @since 2.8.0
+ */
+export const chainFirstW: <R, D, A, B>(
+  f: (a: A) => ReaderEither<R, D, B>
+) => <Q, E>(ma: ReaderEither<Q, E, A>) => ReaderEither<Q & R, D | E, A> = chainFirst as any
 
 /**
  * @category instances
