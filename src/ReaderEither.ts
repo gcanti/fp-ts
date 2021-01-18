@@ -6,9 +6,9 @@ import { Applicative3, Applicative3C } from './Applicative'
 import { Apply3, apS_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
-import { bind_, flow, identity, pipe, Predicate, Refinement } from './function'
+import { flow, identity, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor3 } from './Functor'
-import { Monad3, Monad3C } from './Monad'
+import { bind_, Monad3, Monad3C } from './Monad'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
@@ -663,26 +663,19 @@ export const bindTo =
 /**
  * @since 2.8.0
  */
-export const bindW = <N extends string, A, Q, D, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderEither<Q, D, B>
-): (<R, E>(
-  fa: ReaderEither<R, E, A>
-) => ReaderEither<Q & R, E | D, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  chainW((a) =>
-    pipe(
-      f(a),
-      map((b) => bind_(a, name, b))
-    )
-  )
+export const bind =
+  /*#__PURE__*/
+  bind_(Monad)
 
 /**
  * @since 2.8.0
  */
-export const bind: <N extends string, A, R, E, B>(
+export const bindW: <N extends string, A, Q, D, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderEither<R, E, B>
-) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW
+  f: (a: A) => ReaderEither<Q, D, B>
+) => <R, E>(
+  fa: ReaderEither<R, E, A>
+) => ReaderEither<Q & R, E | D, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S

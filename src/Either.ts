@@ -23,10 +23,10 @@ import { Eq } from './Eq'
 import { Extend2 } from './Extend'
 import { Filterable2C } from './Filterable'
 import { Foldable2 } from './Foldable'
-import { bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { HKT } from './HKT'
-import { Monad2, Monad2C } from './Monad'
+import { bind_, Monad2, Monad2C } from './Monad'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
@@ -1359,24 +1359,17 @@ export const bindTo =
 /**
  * @since 2.8.0
  */
-export const bindW = <N extends string, A, D, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => Either<D, B>
-): (<E>(fa: Either<E, A>) => Either<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  chainW((a) =>
-    pipe(
-      f(a),
-      map((b) => bind_(a, name, b))
-    )
-  )
+export const bind =
+  /*#__PURE__*/
+  bind_(Monad)
 
 /**
  * @since 2.8.0
  */
-export const bind: <N extends string, A, E, B>(
+export const bindW: <N extends string, A, D, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => Either<E, B>
-) => (fa: Either<E, A>) => Either<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW
+  f: (a: A) => Either<D, B>
+) => <E>(fa: Either<E, A>) => Either<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S

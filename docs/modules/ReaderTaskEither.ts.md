@@ -84,6 +84,7 @@ Added in v2.0.0
   - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
   - [Functor](#functor-1)
+  - [Monad](#monad-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getAltReaderTaskValidation](#getaltreadertaskvalidation)
@@ -852,6 +853,16 @@ export declare const Functor: Functor3<'ReaderTaskEither'>
 
 Added in v2.7.0
 
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad3<'ReaderTaskEither'>
+```
+
+Added in v2.10.0
+
 ## URI
 
 **Signature**
@@ -1029,10 +1040,10 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, R, E, B>(
+export declare const bind: <N, A, R, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderTaskEither<R, E, B>
-) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0

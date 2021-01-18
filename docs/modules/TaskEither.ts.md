@@ -80,6 +80,7 @@ Added in v2.0.0
   - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
   - [Functor](#functor-1)
+  - [Monad](#monad-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getAltTaskValidation](#getalttaskvalidation)
@@ -791,6 +792,16 @@ export declare const Functor: Functor2<'TaskEither'>
 
 Added in v2.7.0
 
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad2<'TaskEither'>
+```
+
+Added in v2.10.0
+
 ## URI
 
 **Signature**
@@ -974,10 +985,10 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, E, B>(
+export declare const bind: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => TaskEither<E, B>
-) => (fa: TaskEither<E, A>) => TaskEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: TaskEither<E, A>) => TaskEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0

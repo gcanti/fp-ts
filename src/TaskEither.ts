@@ -14,11 +14,11 @@ import { Apply1, Apply2, apS_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { Filterable2C, getFilterableComposition } from './Filterable'
-import { bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { Monad2, Monad2C } from './Monad'
+import { bind_, Monad2, Monad2C } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { MonadTask2, MonadTask2C } from './MonadTask'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
@@ -750,6 +750,18 @@ export const ApplicativeSeq: Applicative2<URI> = {
 
 /**
  * @category instances
+ * @since 2.10.0
+ */
+export const Monad: Monad2<URI> = {
+  URI,
+  map: _map,
+  ap: _apPar,
+  of,
+  chain: _chain
+}
+
+/**
+ * @category instances
  * @since 2.7.0
  */
 export const Bifunctor: Bifunctor2<URI> = {
@@ -917,24 +929,17 @@ export const bindTo =
 /**
  * @since 2.8.0
  */
-export const bindW = <N extends string, A, D, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => TaskEither<D, B>
-): (<E>(fa: TaskEither<E, A>) => TaskEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  chainW((a) =>
-    pipe(
-      f(a),
-      map((b) => bind_(a, name, b))
-    )
-  )
+export const bind =
+  /*#__PURE__*/
+  bind_(Monad)
 
 /**
  * @since 2.8.0
  */
-export const bind: <N extends string, A, E, B>(
+export const bindW: <N extends string, A, D, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => TaskEither<E, B>
-) => (fa: TaskEither<E, A>) => TaskEither<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW
+  f: (a: A) => TaskEither<D, B>
+) => <E>(fa: TaskEither<E, A>) => TaskEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S

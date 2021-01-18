@@ -1358,10 +1358,10 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, B>(
+export declare const bind: <N, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Option<B>
-) => (fa: Option<A>) => Option<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: Option<A>) => Option<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0
