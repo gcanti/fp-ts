@@ -39,6 +39,7 @@ Added in v2.0.0
   - [asks](#asks)
 - [instances](#instances)
   - [Applicative](#applicative-1)
+  - [Apply](#apply-1)
   - [Category](#category-1)
   - [Choice](#choice)
   - [Functor](#functor-1)
@@ -290,6 +291,16 @@ export declare const Applicative: Applicative2<'Reader'>
 
 Added in v2.7.0
 
+## Apply
+
+**Signature**
+
+```ts
+export declare const Apply: Apply2<'Reader'>
+```
+
+Added in v2.10.0
+
 ## Category
 
 **Signature**
@@ -435,10 +446,10 @@ Added in v2.9.0
 **Signature**
 
 ```ts
-export declare const apS: <A, N extends string, R, B>(
+export declare const apS: <N, A, E, B>(
   name: Exclude<N, keyof A>,
-  fb: Reader<R, B>
-) => (fa: Reader<R, A>) => Reader<R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: Reader<E, B>
+) => (fa: Reader<E, A>) => Reader<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0

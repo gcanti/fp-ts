@@ -105,6 +105,7 @@ Added in v2.5.0
   - [Alt](#alt-1)
   - [Alternative](#alternative-1)
   - [Applicative](#applicative-1)
+  - [Apply](#apply-1)
   - [Compactable](#compactable-1)
   - [Extend](#extend-1)
   - [Filterable](#filterable-1)
@@ -1406,6 +1407,16 @@ export declare const Applicative: Applicative1<'ReadonlyArray'>
 
 Added in v2.7.0
 
+## Apply
+
+**Signature**
+
+```ts
+export declare const Apply: Apply1<'ReadonlyArray'>
+```
+
+Added in v2.10.0
+
 ## Compactable
 
 **Signature**
@@ -1719,7 +1730,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const apS: <A, N extends string, B>(
+export declare const apS: <N, A, B>(
   name: Exclude<N, keyof A>,
   fb: readonly B[]
 ) => (fa: readonly A[]) => readonly { [K in N | keyof A]: K extends keyof A ? A[K] : B }[]

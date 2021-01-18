@@ -3,6 +3,7 @@
  */
 import { Alt4 } from './Alt'
 import { Applicative4 } from './Applicative'
+import { Apply4, apS_ } from './Apply'
 import { Bifunctor4 } from './Bifunctor'
 import * as E from './Either'
 import { bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
@@ -659,6 +660,16 @@ export const Functor: Functor4<URI> = {
 
 /**
  * @category instances
+ * @since 2.10.0
+ */
+export const Apply: Apply4<URI> = {
+  URI,
+  map: _map,
+  ap: _ap
+}
+
+/**
+ * @category instances
  * @since 2.7.0
  */
 export const Applicative: Applicative4<URI> = {
@@ -840,26 +851,19 @@ export const bind: <N extends string, A, S, R, E, B>(
 /**
  * @since 2.8.0
  */
-export const apSW = <A, N extends string, S, Q, D, B>(
-  name: Exclude<N, keyof A>,
-  fb: StateReaderTaskEither<S, Q, D, B>
-): (<R, E>(
-  fa: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, Q & R, D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  flow(
-    map((a) => (b: B) => bind_(a, name, b)),
-    apW(fb)
-  )
+export const apS =
+  /*#__PURE__*/
+  apS_(Apply)
 
 /**
  * @since 2.8.0
  */
-export const apS: <A, N extends string, S, R, E, B>(
+export const apSW: <A, N extends string, S, Q, D, B>(
   name: Exclude<N, keyof A>,
-  fb: StateReaderTaskEither<S, R, E, B>
-) => (
+  fb: StateReaderTaskEither<S, Q, D, B>
+) => <R, E>(
   fa: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+) => StateReaderTaskEither<S, Q & R, D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // array utils
