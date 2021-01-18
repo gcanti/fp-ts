@@ -112,14 +112,14 @@ export const chainTaskK: <A, B>(f: (a: A) => Task<B>) => <R>(ma: ReaderTask<R, A
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const apPar_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const apSeq_: Monad2<URI>['ap'] = (fab, fa) =>
+const _map: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _apPar: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const _apSeq: Monad2<URI>['ap'] = (fab, fa) =>
   pipe(
     fab,
     chain((f) => pipe(fa, map(f)))
   )
-const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+const _chain: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -285,7 +285,7 @@ export function getMonoid<R, A>(M: Monoid<A>): Monoid<ReaderTask<R, A>> {
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 /**
@@ -294,8 +294,8 @@ export const Functor: Functor2<URI> = {
  */
 export const ApplicativePar: Applicative2<URI> = {
   URI,
-  map: map_,
-  ap: apPar_,
+  map: _map,
+  ap: _apPar,
   of
 }
 
@@ -305,8 +305,8 @@ export const ApplicativePar: Applicative2<URI> = {
  */
 export const ApplicativeSeq: Applicative2<URI> = {
   URI,
-  map: map_,
-  ap: apSeq_,
+  map: _map,
+  ap: _apSeq,
   of
 }
 
@@ -315,10 +315,10 @@ export const ApplicativeSeq: Applicative2<URI> = {
  */
 export const Monad: Monad2<URI> = {
   URI,
-  map: map_,
+  map: _map,
   of,
-  ap: apPar_,
-  chain: chain_
+  ap: _apPar,
+  chain: _chain
 }
 
 // TODO: remove in v3
@@ -328,10 +328,10 @@ export const Monad: Monad2<URI> = {
  */
 export const readerTask: MonadTask2<URI> = {
   URI,
-  map: map_,
+  map: _map,
   of,
-  ap: apPar_,
-  chain: chain_,
+  ap: _apPar,
+  chain: _chain,
   fromIO,
   fromTask
 }
@@ -345,10 +345,10 @@ export const readerTask: MonadTask2<URI> = {
  */
 export const readerTaskSeq: typeof readerTask = {
   URI,
-  map: map_,
+  map: _map,
   of,
-  ap: apSeq_,
-  chain: chain_,
+  ap: _apSeq,
+  chain: _chain,
   fromIO,
   fromTask
 }

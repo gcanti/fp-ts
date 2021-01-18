@@ -374,23 +374,23 @@ export const intersperse: <A>(e: A) => (as: NonEmptyArray<A>) => NonEmptyArray<A
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad1<URI>['map'] = RNEA.Functor.map as any
-const mapWithIndex_: FunctorWithIndex1<URI, number>['mapWithIndex'] = RNEA.FunctorWithIndex.mapWithIndex as any
-const ap_: Monad1<URI>['ap'] = RNEA.Applicative.ap as any
-const chain_: Monad1<URI>['chain'] = RNEA.Monad.chain as any
-const extend_: Extend1<URI>['extend'] = RNEA.Comonad.extend as any
-const reduce_: Foldable1<URI>['reduce'] = RNEA.Foldable.reduce as any
-const foldMap_: Foldable1<URI>['foldMap'] = RNEA.Foldable.foldMap as any
-const reduceRight_: Foldable1<URI>['reduceRight'] = RNEA.Foldable.reduceRight as any
-const traverse_: Traversable1<URI>['traverse'] = RNEA.Traversable.traverse as any
-const alt_: Alt1<URI>['alt'] = RNEA.Alt.alt as any
-const reduceWithIndex_: FoldableWithIndex1<URI, number>['reduceWithIndex'] = RNEA.FoldableWithIndex
+const _map: Monad1<URI>['map'] = RNEA.Functor.map as any
+const _mapWithIndex: FunctorWithIndex1<URI, number>['mapWithIndex'] = RNEA.FunctorWithIndex.mapWithIndex as any
+const _ap: Monad1<URI>['ap'] = RNEA.Applicative.ap as any
+const _chain: Monad1<URI>['chain'] = RNEA.Monad.chain as any
+const _extend: Extend1<URI>['extend'] = RNEA.Comonad.extend as any
+const _reduce: Foldable1<URI>['reduce'] = RNEA.Foldable.reduce as any
+const _foldMap: Foldable1<URI>['foldMap'] = RNEA.Foldable.foldMap as any
+const _reduceRight: Foldable1<URI>['reduceRight'] = RNEA.Foldable.reduceRight as any
+const _traverse: Traversable1<URI>['traverse'] = RNEA.Traversable.traverse as any
+const _alt: Alt1<URI>['alt'] = RNEA.Alt.alt as any
+const _reduceWithIndex: FoldableWithIndex1<URI, number>['reduceWithIndex'] = RNEA.FoldableWithIndex
   .reduceWithIndex as any
-const foldMapWithIndex_: FoldableWithIndex1<URI, number>['foldMapWithIndex'] = RNEA.FoldableWithIndex
+const _foldMapWithIndex: FoldableWithIndex1<URI, number>['foldMapWithIndex'] = RNEA.FoldableWithIndex
   .foldMapWithIndex as any
-const reduceRightWithIndex_: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] = RNEA.FoldableWithIndex
+const _reduceRightWithIndex: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] = RNEA.FoldableWithIndex
   .reduceRightWithIndex as any
-const traverseWithIndex_: TraversableWithIndex1<URI, number>['traverseWithIndex'] = RNEA.TraversableWithIndex
+const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'] = RNEA.TraversableWithIndex
   .traverseWithIndex as any
 
 // -------------------------------------------------------------------------------------
@@ -595,7 +595,7 @@ declare module './HKT' {
  */
 export const Functor: Functor1<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 /**
@@ -604,8 +604,8 @@ export const Functor: Functor1<URI> = {
  */
 export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
   URI,
-  map: map_,
-  mapWithIndex: mapWithIndex_
+  map: _map,
+  mapWithIndex: _mapWithIndex
 }
 
 /**
@@ -614,8 +614,8 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
  */
 export const Applicative: Applicative1<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of
 }
 
@@ -625,10 +625,10 @@ export const Applicative: Applicative1<URI> = {
  */
 export const Monad: Monad1<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of,
-  chain: chain_
+  chain: _chain
 }
 
 /**
@@ -637,9 +637,9 @@ export const Monad: Monad1<URI> = {
  */
 export const Foldable: Foldable1<URI> = {
   URI,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight
 }
 
 /**
@@ -648,12 +648,12 @@ export const Foldable: Foldable1<URI> = {
  */
 export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
   URI,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  reduceWithIndex: reduceWithIndex_,
-  foldMapWithIndex: foldMapWithIndex_,
-  reduceRightWithIndex: reduceRightWithIndex_
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  reduceWithIndex: _reduceWithIndex,
+  foldMapWithIndex: _foldMapWithIndex,
+  reduceRightWithIndex: _reduceRightWithIndex
 }
 
 /**
@@ -662,11 +662,11 @@ export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
  */
 export const Traversable: Traversable1<URI> = {
   URI,
-  map: map_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
+  map: _map,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
   sequence
 }
 
@@ -676,17 +676,17 @@ export const Traversable: Traversable1<URI> = {
  */
 export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
   URI,
-  map: map_,
-  mapWithIndex: mapWithIndex_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
+  map: _map,
+  mapWithIndex: _mapWithIndex,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
   sequence,
-  reduceWithIndex: reduceWithIndex_,
-  foldMapWithIndex: foldMapWithIndex_,
-  reduceRightWithIndex: reduceRightWithIndex_,
-  traverseWithIndex: traverseWithIndex_
+  reduceWithIndex: _reduceWithIndex,
+  foldMapWithIndex: _foldMapWithIndex,
+  reduceRightWithIndex: _reduceRightWithIndex,
+  traverseWithIndex: _traverseWithIndex
 }
 
 /**
@@ -695,8 +695,8 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
  */
 export const Alt: Alt1<URI> = {
   URI,
-  map: map_,
-  alt: alt_
+  map: _map,
+  alt: _alt
 }
 
 /**
@@ -705,8 +705,8 @@ export const Alt: Alt1<URI> = {
  */
 export const Comonad: Comonad1<URI> = {
   URI,
-  map: map_,
-  extend: extend_,
+  map: _map,
+  extend: _extend,
   extract
 }
 
@@ -723,22 +723,22 @@ export const nonEmptyArray: Monad1<URI> &
   Alt1<URI> = {
   URI,
   of,
-  map: map_,
-  mapWithIndex: mapWithIndex_,
-  ap: ap_,
-  chain: chain_,
-  extend: extend_,
+  map: _map,
+  mapWithIndex: _mapWithIndex,
+  ap: _ap,
+  chain: _chain,
+  extend: _extend,
   extract: extract,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
   sequence,
-  reduceWithIndex: reduceWithIndex_,
-  foldMapWithIndex: foldMapWithIndex_,
-  reduceRightWithIndex: reduceRightWithIndex_,
-  traverseWithIndex: traverseWithIndex_,
-  alt: alt_
+  reduceWithIndex: _reduceWithIndex,
+  foldMapWithIndex: _foldMapWithIndex,
+  reduceRightWithIndex: _reduceRightWithIndex,
+  traverseWithIndex: _traverseWithIndex,
+  alt: _alt
 }
 
 // -------------------------------------------------------------------------------------

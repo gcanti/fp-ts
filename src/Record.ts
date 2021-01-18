@@ -505,31 +505,31 @@ export const elem: <A>(
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Functor1<URI>['map'] = RR.Functor.map
-const mapWithIndex_: FunctorWithIndex1<URI, string>['mapWithIndex'] = RR.FunctorWithIndex.mapWithIndex
-const reduce_: Foldable1<URI>['reduce'] = RR.Foldable.reduce
-const foldMap_: Foldable1<URI>['foldMap'] = RR.Foldable.foldMap
-const reduceRight_: Foldable1<URI>['reduceRight'] = RR.Foldable.reduceRight
-const reduceWithIndex_: FoldableWithIndex1<URI, string>['reduceWithIndex'] = RR.FoldableWithIndex.reduceWithIndex
-const foldMapWithIndex_: FoldableWithIndex1<URI, string>['foldMapWithIndex'] = RR.FoldableWithIndex.foldMapWithIndex
-const reduceRightWithIndex_: FoldableWithIndex1<URI, string>['reduceRightWithIndex'] =
+const _map: Functor1<URI>['map'] = RR.Functor.map
+const _mapWithIndex: FunctorWithIndex1<URI, string>['mapWithIndex'] = RR.FunctorWithIndex.mapWithIndex
+const _reduce: Foldable1<URI>['reduce'] = RR.Foldable.reduce
+const _foldMap: Foldable1<URI>['foldMap'] = RR.Foldable.foldMap
+const _reduceRight: Foldable1<URI>['reduceRight'] = RR.Foldable.reduceRight
+const _reduceWithIndex: FoldableWithIndex1<URI, string>['reduceWithIndex'] = RR.FoldableWithIndex.reduceWithIndex
+const _foldMapWithIndex: FoldableWithIndex1<URI, string>['foldMapWithIndex'] = RR.FoldableWithIndex.foldMapWithIndex
+const _reduceRightWithIndex: FoldableWithIndex1<URI, string>['reduceRightWithIndex'] =
   RR.FoldableWithIndex.reduceRightWithIndex
-const filter_: Filterable1<URI>['filter'] = RR.Filterable.filter as any
-const filterMap_: Filterable1<URI>['filterMap'] = RR.Filterable.filterMap
-const partition_: Filterable1<URI>['partition'] = RR.Filterable.partition as any
-const partitionMap_: Filterable1<URI>['partitionMap'] = RR.Filterable.partitionMap
-const filterWithIndex_: FilterableWithIndex1<URI, string>['filterWithIndex'] = RR.FilterableWithIndex
+const _filter: Filterable1<URI>['filter'] = RR.Filterable.filter as any
+const _filterMap: Filterable1<URI>['filterMap'] = RR.Filterable.filterMap
+const _partition: Filterable1<URI>['partition'] = RR.Filterable.partition as any
+const _partitionMap: Filterable1<URI>['partitionMap'] = RR.Filterable.partitionMap
+const _filterWithIndex: FilterableWithIndex1<URI, string>['filterWithIndex'] = RR.FilterableWithIndex
   .filterWithIndex as any
-const filterMapWithIndex_: FilterableWithIndex1<URI, string>['filterMapWithIndex'] =
+const _filterMapWithIndex: FilterableWithIndex1<URI, string>['filterMapWithIndex'] =
   RR.FilterableWithIndex.filterMapWithIndex
-const partitionWithIndex_: FilterableWithIndex1<URI, string>['partitionWithIndex'] = RR.FilterableWithIndex
+const _partitionWithIndex: FilterableWithIndex1<URI, string>['partitionWithIndex'] = RR.FilterableWithIndex
   .partitionWithIndex as any
-const partitionMapWithIndex_: FilterableWithIndex1<URI, string>['partitionMapWithIndex'] =
+const _partitionMapWithIndex: FilterableWithIndex1<URI, string>['partitionMapWithIndex'] =
   RR.FilterableWithIndex.partitionMapWithIndex
-const traverseWithIndex_: TraversableWithIndex1<URI, string>['traverseWithIndex'] = RR.TraversableWithIndex
+const _traverseWithIndex: TraversableWithIndex1<URI, string>['traverseWithIndex'] = RR.TraversableWithIndex
   .traverseWithIndex as any
-const wither_: Witherable1<URI>['wither'] = RR.Witherable.wither as any
-const wilt_: Witherable1<URI>['wilt'] = RR.Witherable.wilt as any
+const _wither: Witherable1<URI>['wither'] = RR.Witherable.wither as any
+const _wilt: Witherable1<URI>['wilt'] = RR.Witherable.wilt as any
 const traverse_: Traversable1<URI>['traverse'] = <F>(
   F: Applicative<F>
 ): (<A, B>(ta: Record<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, Record<string, B>>) => {
@@ -633,7 +633,7 @@ declare module './HKT' {
  */
 export const Functor: Functor1<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 /**
@@ -642,8 +642,8 @@ export const Functor: Functor1<URI> = {
  */
 export const FunctorWithIndex: FunctorWithIndex1<URI, string> = {
   URI,
-  map: map_,
-  mapWithIndex: mapWithIndex_
+  map: _map,
+  mapWithIndex: _mapWithIndex
 }
 
 /**
@@ -652,9 +652,9 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, string> = {
  */
 export const Foldable: Foldable1<URI> = {
   URI,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight
 }
 
 /**
@@ -663,12 +663,12 @@ export const Foldable: Foldable1<URI> = {
  */
 export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
   URI,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  reduceWithIndex: reduceWithIndex_,
-  foldMapWithIndex: foldMapWithIndex_,
-  reduceRightWithIndex: reduceRightWithIndex_
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  reduceWithIndex: _reduceWithIndex,
+  foldMapWithIndex: _foldMapWithIndex,
+  reduceRightWithIndex: _reduceRightWithIndex
 }
 
 /**
@@ -687,13 +687,13 @@ export const Compactable: Compactable1<URI> = {
  */
 export const Filterable: Filterable1<URI> = {
   URI,
-  map: map_,
+  map: _map,
   compact,
   separate,
-  filter: filter_,
-  filterMap: filterMap_,
-  partition: partition_,
-  partitionMap: partitionMap_
+  filter: _filter,
+  filterMap: _filterMap,
+  partition: _partition,
+  partitionMap: _partitionMap
 }
 
 /**
@@ -702,18 +702,18 @@ export const Filterable: Filterable1<URI> = {
  */
 export const FilterableWithIndex: FilterableWithIndex1<URI, string> = {
   URI,
-  map: map_,
-  mapWithIndex: mapWithIndex_,
+  map: _map,
+  mapWithIndex: _mapWithIndex,
   compact,
   separate,
-  filter: filter_,
-  filterMap: filterMap_,
-  partition: partition_,
-  partitionMap: partitionMap_,
-  filterMapWithIndex: filterMapWithIndex_,
-  filterWithIndex: filterWithIndex_,
-  partitionMapWithIndex: partitionMapWithIndex_,
-  partitionWithIndex: partitionWithIndex_
+  filter: _filter,
+  filterMap: _filterMap,
+  partition: _partition,
+  partitionMap: _partitionMap,
+  filterMapWithIndex: _filterMapWithIndex,
+  filterWithIndex: _filterWithIndex,
+  partitionMapWithIndex: _partitionMapWithIndex,
+  partitionWithIndex: _partitionWithIndex
 }
 
 /**
@@ -722,10 +722,10 @@ export const FilterableWithIndex: FilterableWithIndex1<URI, string> = {
  */
 export const Traversable: Traversable1<URI> = {
   URI,
-  map: map_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
+  map: _map,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
   traverse: traverse_,
   sequence
 }
@@ -736,17 +736,17 @@ export const Traversable: Traversable1<URI> = {
  */
 export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
   URI,
-  map: map_,
-  mapWithIndex: mapWithIndex_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  reduceWithIndex: reduceWithIndex_,
-  foldMapWithIndex: foldMapWithIndex_,
-  reduceRightWithIndex: reduceRightWithIndex_,
+  map: _map,
+  mapWithIndex: _mapWithIndex,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  reduceWithIndex: _reduceWithIndex,
+  foldMapWithIndex: _foldMapWithIndex,
+  reduceRightWithIndex: _reduceRightWithIndex,
   traverse: traverse_,
   sequence,
-  traverseWithIndex: traverseWithIndex_
+  traverseWithIndex: _traverseWithIndex
 }
 
 /**
@@ -755,20 +755,20 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
  */
 export const Witherable: Witherable1<URI> = {
   URI,
-  map: map_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
+  map: _map,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
   traverse: traverse_,
   sequence,
   compact,
   separate,
-  filter: filter_,
-  filterMap: filterMap_,
-  partition: partition_,
-  partitionMap: partitionMap_,
-  wither: wither_,
-  wilt: wilt_
+  filter: _filter,
+  filterMap: _filterMap,
+  partition: _partition,
+  partitionMap: _partitionMap,
+  wither: _wither,
+  wilt: _wilt
 }
 
 // TODO: remove in v3
@@ -782,27 +782,27 @@ export const record: FunctorWithIndex1<URI, string> &
   TraversableWithIndex1<URI, string> &
   Witherable1<URI> = {
   URI,
-  map: map_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
+  map: _map,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
   traverse: traverse_,
   sequence,
   compact,
   separate,
-  filter: filter_,
-  filterMap: filterMap_,
-  partition: partition_,
-  partitionMap: partitionMap_,
-  mapWithIndex: mapWithIndex_,
-  reduceWithIndex: reduceWithIndex_,
-  foldMapWithIndex: foldMapWithIndex_,
-  reduceRightWithIndex: reduceRightWithIndex_,
-  filterMapWithIndex: filterMapWithIndex_,
-  filterWithIndex: filterWithIndex_,
-  partitionMapWithIndex: partitionMapWithIndex_,
-  partitionWithIndex: partitionWithIndex_,
-  traverseWithIndex: traverseWithIndex_,
-  wither: wither_,
-  wilt: wilt_
+  filter: _filter,
+  filterMap: _filterMap,
+  partition: _partition,
+  partitionMap: _partitionMap,
+  mapWithIndex: _mapWithIndex,
+  reduceWithIndex: _reduceWithIndex,
+  foldMapWithIndex: _foldMapWithIndex,
+  reduceRightWithIndex: _reduceRightWithIndex,
+  filterMapWithIndex: _filterMapWithIndex,
+  filterWithIndex: _filterWithIndex,
+  partitionMapWithIndex: _partitionMapWithIndex,
+  partitionWithIndex: _partitionWithIndex,
+  traverseWithIndex: _traverseWithIndex,
+  wither: _wither,
+  wilt: _wilt
 }

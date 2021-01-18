@@ -61,11 +61,11 @@ export const gets: <S, A>(f: (s: S) => A) => State<S, A> = (f) => (s) => [f(s), 
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _map: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
-const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const _ap: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
-const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+const _chain: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -197,7 +197,7 @@ declare module './HKT' {
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 /**
@@ -206,8 +206,8 @@ export const Functor: Functor2<URI> = {
  */
 export const Applicative: Applicative2<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of
 }
 
@@ -217,10 +217,10 @@ export const Applicative: Applicative2<URI> = {
  */
 export const Monad: Monad2<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of,
-  chain: chain_
+  chain: _chain
 }
 
 // TODO: remove in v3

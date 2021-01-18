@@ -63,18 +63,18 @@ export const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q,
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _map: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
-const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const _ap: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
-const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-const compose_: Category2<URI>['compose'] = (bc, ab) => pipe(bc, compose(ab))
-const promap_: Profunctor2<URI>['promap'] = (fea, f, g) => pipe(fea, promap(f, g))
-const first_: Strong2<URI>['first'] = (pab) => ([a, c]) => [pab(a), c]
-const second_: Strong2<URI>['second'] = (pbc) => ([a, b]) => [a, pbc(b)]
-const left_: Choice2<URI>['left'] = <A, B, C>(pab: Reader<A, B>): Reader<E.Either<A, C>, E.Either<B, C>> =>
+const _chain: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+const _compose: Category2<URI>['compose'] = (bc, ab) => pipe(bc, compose(ab))
+const _promap: Profunctor2<URI>['promap'] = (fea, f, g) => pipe(fea, promap(f, g))
+const _first: Strong2<URI>['first'] = (pab) => ([a, c]) => [pab(a), c]
+const _second: Strong2<URI>['second'] = (pbc) => ([a, b]) => [a, pbc(b)]
+const _left: Choice2<URI>['left'] = <A, B, C>(pab: Reader<A, B>): Reader<E.Either<A, C>, E.Either<B, C>> =>
   E.fold<A, C, E.Either<B, C>>((a) => E.left(pab(a)), E.right)
-const right_: Choice2<URI>['right'] = <A, B, C>(pbc: Reader<B, C>): Reader<E.Either<A, B>, E.Either<A, C>> =>
+const _right: Choice2<URI>['right'] = <A, B, C>(pbc: Reader<B, C>): Reader<E.Either<A, B>, E.Either<A, C>> =>
   E.fold<A, B, E.Either<A, C>>(E.left, (b) => E.right(pbc(b)))
 
 // -------------------------------------------------------------------------------------
@@ -258,7 +258,7 @@ export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> {
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 /**
@@ -267,8 +267,8 @@ export const Functor: Functor2<URI> = {
  */
 export const Applicative: Applicative2<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of
 }
 
@@ -278,10 +278,10 @@ export const Applicative: Applicative2<URI> = {
  */
 export const Monad: Monad2<URI> = {
   URI,
-  map: map_,
+  map: _map,
   of,
-  ap: ap_,
-  chain: chain_
+  ap: _ap,
+  chain: _chain
 }
 
 /**
@@ -290,8 +290,8 @@ export const Monad: Monad2<URI> = {
  */
 export const Profunctor: Profunctor2<URI> = {
   URI,
-  map: map_,
-  promap: promap_
+  map: _map,
+  promap: _promap
 }
 
 /**
@@ -300,7 +300,7 @@ export const Profunctor: Profunctor2<URI> = {
  */
 export const Category: Category2<URI> = {
   URI,
-  compose: compose_,
+  compose: _compose,
   id
 }
 
@@ -310,10 +310,10 @@ export const Category: Category2<URI> = {
  */
 export const Strong: Strong2<URI> = {
   URI,
-  map: map_,
-  promap: promap_,
-  first: first_,
-  second: second_
+  map: _map,
+  promap: _promap,
+  first: _first,
+  second: _second
 }
 
 /**
@@ -322,10 +322,10 @@ export const Strong: Strong2<URI> = {
  */
 export const Choice: Choice2<URI> = {
   URI,
-  map: map_,
-  promap: promap_,
-  left: left_,
-  right: right_
+  map: _map,
+  promap: _promap,
+  left: _left,
+  right: _right
 }
 
 // TODO: remove in v3
@@ -335,17 +335,17 @@ export const Choice: Choice2<URI> = {
  */
 export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = {
   URI,
-  map: map_,
+  map: _map,
   of,
-  ap: ap_,
-  chain: chain_,
-  promap: promap_,
-  compose: compose_,
+  ap: _ap,
+  chain: _chain,
+  promap: _promap,
+  compose: _compose,
   id,
-  first: first_,
-  second: second_,
-  left: left_,
-  right: right_
+  first: _first,
+  second: _second,
+  left: _left,
+  right: _right
 }
 
 // -------------------------------------------------------------------------------------

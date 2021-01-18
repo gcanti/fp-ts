@@ -112,7 +112,7 @@ export function getApply<E>(S: Semigroup<E>): Apply2C<URI, E> {
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     ap: (fab, fa) => make(S.concat(fab, fa))
   }
 }
@@ -136,13 +136,13 @@ export function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E> {
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const contramap_: Contravariant2<URI>['contramap'] = (fa, f) => pipe(fa, contramap(f))
+const _contramap: Contravariant2<URI>['contramap'] = (fa, f) => pipe(fa, contramap(f))
 /* istanbul ignore next */
-const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
-const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
+const _bimap: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
-const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
+const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -208,7 +208,7 @@ declare module './HKT' {
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 /**
@@ -217,7 +217,7 @@ export const Functor: Functor2<URI> = {
  */
 export const Contravariant: Contravariant2<URI> = {
   URI,
-  contramap: contramap_
+  contramap: _contramap
 }
 
 /**
@@ -226,8 +226,8 @@ export const Contravariant: Contravariant2<URI> = {
  */
 export const Bifunctor: Bifunctor2<URI> = {
   URI,
-  bimap: bimap_,
-  mapLeft: mapLeft_
+  bimap: _bimap,
+  mapLeft: _mapLeft
 }
 
 // TODO: remove in v3
@@ -237,8 +237,8 @@ export const Bifunctor: Bifunctor2<URI> = {
  */
 export const const_: Functor2<URI> & Contravariant2<URI> & Bifunctor2<URI> = {
   URI,
-  map: map_,
-  contramap: contramap_,
-  bimap: bimap_,
-  mapLeft: mapLeft_
+  map: _map,
+  contramap: _contramap,
+  bimap: _bimap,
+  mapLeft: _mapLeft
 }

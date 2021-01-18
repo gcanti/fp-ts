@@ -101,14 +101,14 @@ export function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> {
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const apPar_: Monad1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const apSeq_: Monad1<URI>['ap'] = (fab, fa) =>
+const _map: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _apPar: Monad1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const _apSeq: Monad1<URI>['ap'] = (fab, fa) =>
   pipe(
     fab,
     chain((f) => pipe(fa, map(f)))
   )
-const chain_: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+const _chain: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -303,7 +303,7 @@ export function getRaceMonoid<A = never>(): Monoid<Task<A>> {
  */
 export const Functor: Functor1<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 /**
@@ -312,8 +312,8 @@ export const Functor: Functor1<URI> = {
  */
 export const ApplicativePar: Applicative1<URI> = {
   URI,
-  map: map_,
-  ap: apPar_,
+  map: _map,
+  ap: _apPar,
   of
 }
 
@@ -323,8 +323,8 @@ export const ApplicativePar: Applicative1<URI> = {
  */
 export const ApplicativeSeq: Applicative1<URI> = {
   URI,
-  map: map_,
-  ap: apSeq_,
+  map: _map,
+  ap: _apSeq,
   of
 }
 
@@ -335,10 +335,10 @@ export const ApplicativeSeq: Applicative1<URI> = {
  */
 export const Monad: Monad1<URI> = {
   URI,
-  map: map_,
+  map: _map,
   of,
-  ap: apPar_,
-  chain: chain_
+  ap: _apPar,
+  chain: _chain
 }
 
 // TODO: remove in v3
@@ -348,10 +348,10 @@ export const Monad: Monad1<URI> = {
  */
 export const task: Monad1<URI> & MonadTask1<URI> = {
   URI,
-  map: map_,
+  map: _map,
   of,
-  ap: apPar_,
-  chain: chain_,
+  ap: _apPar,
+  chain: _chain,
   fromIO,
   fromTask
 }
@@ -365,10 +365,10 @@ export const task: Monad1<URI> & MonadTask1<URI> = {
  */
 export const taskSeq: typeof task = {
   URI,
-  map: map_,
+  map: _map,
   of,
-  ap: apSeq_,
-  chain: chain_,
+  ap: _apSeq,
+  chain: _chain,
   fromIO,
   fromTask
 }
