@@ -119,6 +119,12 @@ export const eqBoolean: Eq<boolean> = eqStrict
 
 /**
  * @category instances
+ * @since 2.10.0
+ */
+export const eqBigInt: Eq<bigint> = eqStrict
+
+/**
+ * @category instances
  * @since 2.0.0
  */
 export function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> {

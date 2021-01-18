@@ -53,6 +53,12 @@ describe('Eq', () => {
     assert.deepStrictEqual(_.eqDate.equals(new Date(1), new Date(0)), false)
   })
 
+  it('eqBigInt', () => {
+    assert.deepStrictEqual(_.eqBigInt.equals(BigInt(0), BigInt(0)), true)
+    assert.deepStrictEqual(_.eqBigInt.equals(BigInt(0), BigInt(1)), false)
+    assert.deepStrictEqual(_.eqBigInt.equals(BigInt(1), BigInt(0)), false)
+  })
+
   it('getStructEq', () => {
     const S = _.getStructEq<Person>({
       name: _.eqString,
