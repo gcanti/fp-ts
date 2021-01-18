@@ -68,7 +68,7 @@ export const ordBoolean: Ord<boolean> = {
  * @category instances
  * @since 2.10.0
  */
-export const ordBigInt: Ord<bigint> = {
+export const ordBigint: Ord<bigint> = {
   equals: strictEqual,
   compare
 }

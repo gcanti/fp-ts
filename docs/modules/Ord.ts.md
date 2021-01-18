@@ -33,7 +33,7 @@ Added in v2.0.0
   - [getMonoid](#getmonoid)
   - [getTupleOrd](#gettupleord)
   - [ord](#ord)
-  - [ordBigInt](#ordbigint)
+  - [ordBigint](#ordbigint)
   - [ordBoolean](#ordboolean)
   - [ordDate](#orddate)
   - [ordNumber](#ordnumber)
@@ -229,12 +229,12 @@ export declare const ord: Contravariant1<'Ord'>
 
 Added in v2.0.0
 
-## ordBigInt
+## ordBigint
 
 **Signature**
 
 ```ts
-export declare const ordBigInt: Ord<bigint>
+export declare const ordBigint: Ord<bigint>
 ```
 
 Added in v2.10.0

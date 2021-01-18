@@ -15,6 +15,14 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.10.0
+
+- **New Feature**
+  - `Eq`
+    - add `eqBigint`, #1375 (@EricCrosson)
+  - `Ord`
+    - add `ordBigint`, #1375 (@EricCrosson)
+
 # 2.9.5
 
 - **Polish**
