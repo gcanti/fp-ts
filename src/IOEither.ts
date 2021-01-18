@@ -6,7 +6,7 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
-import { Apply2, apS_ } from './Apply'
+import { apFirst_, Apply2, apSecond_, apS_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { Filterable2C, getFilterableComposition } from './Filterable'
@@ -281,34 +281,6 @@ export const apW = <D, A>(fa: IOEither<D, A>): (<E, B>(fab: IOEither<E, (a: A) =
 export const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B> = apW
 
 /**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apFirst: <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>) => IOEither<E, A> = (fb) =>
-  flow(
-    map((a) => () => a),
-    ap(fb)
-  )
-
-/**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apSecond = <E, B>(fb: IOEither<E, B>): (<A>(fa: IOEither<E, A>) => IOEither<E, B>) =>
-  flow(
-    map(() => (b: B) => b),
-    ap(fb)
-  )
-
-/**
  * Wrap a value into the type constructor.
  *
  * Equivalent to [`right`](#right).
@@ -568,6 +540,30 @@ export const ApplyPar: Apply2<URI> = {
   map: _map,
   ap: _ap
 }
+
+/**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const apFirst =
+  /*#__PURE__*/
+  apFirst_(ApplyPar)
+
+/**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const apSecond =
+  /*#__PURE__*/
+  apSecond_(ApplyPar)
 
 /**
  * @category instances

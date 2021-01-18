@@ -2,8 +2,8 @@
  * @since 2.0.0
  */
 import { Applicative2 } from './Applicative'
-import { Apply2, apS_ } from './Apply'
-import { flow, identity, pipe } from './function'
+import { apFirst_, Apply2, apSecond_, apS_ } from './Apply'
+import { identity, pipe } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { bind_, Monad2 } from './Monad'
 
@@ -97,34 +97,6 @@ export const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => S
 }
 
 /**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apFirst: <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, A> = (fb) =>
-  flow(
-    map((a) => () => a),
-    ap(fb)
-  )
-
-/**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apSecond = <E, B>(fb: State<E, B>): (<A>(fa: State<E, A>) => State<E, B>) =>
-  flow(
-    map(() => (b: B) => b),
-    ap(fb)
-  )
-
-/**
  * Wrap a value into the type constructor.
  *
  * @category Applicative
@@ -210,6 +182,30 @@ export const Apply: Apply2<URI> = {
   map: _map,
   ap: _ap
 }
+
+/**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const apFirst =
+  /*#__PURE__*/
+  apFirst_(Apply)
+
+/**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const apSecond =
+  /*#__PURE__*/
+  apSecond_(Apply)
 
 /**
  * @category instances

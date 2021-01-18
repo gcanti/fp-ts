@@ -2,7 +2,7 @@
  * @since 2.0.0
  */
 import { Applicative2 } from './Applicative'
-import { Apply2, apS_ } from './Apply'
+import { apFirst_, Apply2, apSecond_, apS_ } from './Apply'
 import { Category2 } from './Category'
 import { Choice2 } from './Choice'
 import * as E from './Either'
@@ -108,34 +108,6 @@ export const apW: <Q, A>(fa: Reader<Q, A>) => <R, B>(fab: Reader<R, (a: A) => B>
  * @since 2.0.0
  */
 export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> = apW
-
-/**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apFirst: <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>) => Reader<R, A> = (fb) =>
-  flow(
-    map((a) => () => a),
-    ap(fb)
-  )
-
-/**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apSecond = <R, B>(fb: Reader<R, B>): (<A>(fa: Reader<R, A>) => Reader<R, B>) =>
-  flow(
-    map(() => (b: B) => b),
-    ap(fb)
-  )
 
 /**
  * Wrap a value into the type constructor.
@@ -271,6 +243,30 @@ export const Apply: Apply2<URI> = {
   map: _map,
   ap: _ap
 }
+
+/**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const apFirst =
+  /*#__PURE__*/
+  apFirst_(Apply)
+
+/**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const apSecond =
+  /*#__PURE__*/
+  apSecond_(Apply)
 
 /**
  * @category instances

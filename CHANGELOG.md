@@ -20,6 +20,8 @@ high state of flux, you're at risk of it changing without notice.
 - **New Feature**
   - `Apply`
     - add `apS_` helper (@gcanti)
+    - add `apFirst_` helper (@gcanti)
+    - add `apSecond_` helper (@gcanti)
   - `Array`
     - add `Apply` instance (@gcanti)
   - `Functor`

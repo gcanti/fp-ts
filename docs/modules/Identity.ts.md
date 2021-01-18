@@ -215,7 +215,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <B>(fb: B) => <A>(fa: A) => A
+export declare const apFirst: <B>(second: B) => <A>(first: A) => A
 ```
 
 Added in v2.0.0
@@ -229,7 +229,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <B>(fb: B) => <A>(fa: A) => B
+export declare const apSecond: <B>(second: B) => <A>(first: A) => B
 ```
 
 Added in v2.0.0
