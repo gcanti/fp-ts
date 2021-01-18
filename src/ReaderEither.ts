@@ -3,6 +3,7 @@
  */
 import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C } from './Applicative'
+import { Apply3, apS_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import { bind_, flow, identity, pipe, Predicate, Refinement } from './function'
@@ -560,6 +561,16 @@ export const Functor: Functor3<URI> = {
 
 /**
  * @category instances
+ * @since 2.10.0
+ */
+export const Apply: Apply3<URI> = {
+  URI,
+  map: _map,
+  ap: _ap
+}
+
+/**
+ * @category instances
  * @since 2.7.0
  */
 export const Applicative: Applicative3<URI> = {
@@ -680,24 +691,19 @@ export const bind: <N extends string, A, R, E, B>(
 /**
  * @since 2.8.0
  */
-export const apSW = <A, N extends string, Q, D, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReaderEither<Q, D, B>
-): (<R, E>(
-  fa: ReaderEither<R, E, A>
-) => ReaderEither<Q & R, D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  flow(
-    map((a) => (b: B) => bind_(a, name, b)),
-    apW(fb)
-  )
+export const apS =
+  /*#__PURE__*/
+  apS_(Apply)
 
 /**
  * @since 2.8.0
  */
-export const apS: <A, N extends string, R, E, B>(
+export const apSW: <A, N extends string, Q, D, B>(
   name: Exclude<N, keyof A>,
-  fb: ReaderEither<R, E, B>
-) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+  fb: ReaderEither<Q, D, B>
+) => <R, E>(
+  fa: ReaderEither<R, E, A>
+) => ReaderEither<Q & R, D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // array utils

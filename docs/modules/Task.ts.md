@@ -44,6 +44,8 @@ Added in v2.0.0
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
+  - [ApplyPar](#applypar)
+  - [ApplySeq](#applyseq)
   - [Functor](#functor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -284,6 +286,26 @@ export declare const ApplicativeSeq: Applicative1<'Task'>
 
 Added in v2.7.0
 
+## ApplyPar
+
+**Signature**
+
+```ts
+export declare const ApplyPar: Apply1<'Task'>
+```
+
+Added in v2.10.0
+
+## ApplySeq
+
+**Signature**
+
+```ts
+export declare const ApplySeq: Apply1<'Task'>
+```
+
+Added in v2.10.0
+
 ## Functor
 
 **Signature**
@@ -436,7 +458,7 @@ Added in v2.9.0
 **Signature**
 
 ```ts
-export declare const apS: <A, N extends string, B>(
+export declare const apS: <N, A, B>(
   name: Exclude<N, keyof A>,
   fb: Task<B>
 ) => (fa: Task<A>) => Task<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>

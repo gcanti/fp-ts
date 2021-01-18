@@ -32,6 +32,7 @@ Added in v2.0.0
   - [put](#put)
 - [instances](#instances)
   - [Applicative](#applicative-1)
+  - [Apply](#apply-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [URI](#uri)
@@ -229,6 +230,16 @@ export declare const Applicative: Applicative2<'State'>
 
 Added in v2.7.0
 
+## Apply
+
+**Signature**
+
+```ts
+export declare const Apply: Apply2<'State'>
+```
+
+Added in v2.10.0
+
 ## Functor
 
 **Signature**
@@ -300,10 +311,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const apS: <A, N extends string, S, B>(
+export declare const apS: <N, A, E, B>(
   name: Exclude<N, keyof A>,
-  fb: State<S, B>
-) => (fa: State<S, A>) => State<S, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: State<E, B>
+) => (fa: State<E, A>) => State<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0

@@ -115,6 +115,7 @@ Added in v2.0.0
   - [Alt](#alt-1)
   - [Alternative](#alternative-1)
   - [Applicative](#applicative-1)
+  - [Apply](#apply-1)
   - [Compactable](#compactable-1)
   - [Extend](#extend-1)
   - [Filterable](#filterable-1)
@@ -1618,6 +1619,16 @@ export declare const Applicative: Applicative1<'Array'>
 ```
 
 Added in v2.7.0
+
+## Apply
+
+**Signature**
+
+```ts
+export declare const Apply: Apply1<'Array'>
+```
+
+Added in v2.10.0
 
 ## Compactable
 

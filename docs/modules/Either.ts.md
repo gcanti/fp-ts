@@ -82,6 +82,7 @@ Added in v2.0.0
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative-1)
+  - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
   - [ChainRec](#chainrec)
   - [Extend](#extend-1)
@@ -968,6 +969,16 @@ export declare const Applicative: Applicative2<'Either'>
 
 Added in v2.7.0
 
+## Apply
+
+**Signature**
+
+```ts
+export declare const Apply: Apply2<'Either'>
+```
+
+Added in v2.10.0
+
 ## Bifunctor
 
 **Signature**
@@ -1339,7 +1350,7 @@ Added in v2.6.7
 **Signature**
 
 ```ts
-export declare const apS: <A, N extends string, E, B>(
+export declare const apS: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   fb: Either<E, B>
 ) => (fa: Either<E, A>) => Either<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>

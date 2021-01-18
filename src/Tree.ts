@@ -8,6 +8,7 @@
  * @since 2.0.0
  */
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
+import { Apply1, apS_ } from './Apply'
 import * as A from './Array'
 import { Comonad1 } from './Comonad'
 import { Eq, fromEquals } from './Eq'
@@ -506,6 +507,16 @@ export const Functor: Functor1<URI> = {
 
 /**
  * @category instances
+ * @since 2.10.0
+ */
+export const Apply: Apply1<URI> = {
+  URI,
+  map: _map,
+  ap: _ap
+}
+
+/**
+ * @category instances
  * @since 2.7.0
  */
 export const Applicative: Applicative1<URI> = {
@@ -622,11 +633,6 @@ export const bind = <N extends string, A, B>(
 /**
  * @since 2.8.0
  */
-export const apS = <A, N extends string, B>(
-  name: Exclude<N, keyof A>,
-  fb: Tree<B>
-): ((fa: Tree<A>) => Tree<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  flow(
-    map((a) => (b: B) => bind_(a, name, b)),
-    ap(fb)
-  )
+export const apS =
+  /*#__PURE__*/
+  apS_(Apply)
