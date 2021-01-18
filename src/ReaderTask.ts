@@ -2,8 +2,8 @@
  * @since 2.3.0
  */
 import { Applicative2 } from './Applicative'
-import { bindTo_, bind_, flow, identity, pipe } from './function'
-import { Functor2 } from './Functor'
+import { bind_, flow, identity, pipe } from './function'
+import { bindTo_, Functor2 } from './Functor'
 import { IO } from './IO'
 import { Monad2 } from './Monad'
 import { MonadTask2 } from './MonadTask'
@@ -380,8 +380,9 @@ export const Do: ReaderTask<unknown, {}> =
 /**
  * @since 2.8.0
  */
-export const bindTo = <N extends string>(name: N): (<R, A>(fa: ReaderTask<R, A>) => ReaderTask<R, { [K in N]: A }>) =>
-  map(bindTo_(name))
+export const bindTo =
+  /*#__PURE__*/
+  bindTo_(Functor)
 
 /**
  * @since 2.8.0

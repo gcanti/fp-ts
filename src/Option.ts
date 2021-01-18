@@ -21,8 +21,8 @@ import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
-import { identity, Lazy, Predicate, Refinement, pipe, bind_, bindTo_, flow } from './function'
-import { Functor1 } from './Functor'
+import { bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { bindTo_, Functor1 } from './Functor'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { MonadThrow1 } from './MonadThrow'
@@ -1256,7 +1256,9 @@ export const Do: Option<{}> =
 /**
  * @since 2.8.0
  */
-export const bindTo = <N extends string>(name: N): (<A>(fa: Option<A>) => Option<{ [K in N]: A }>) => map(bindTo_(name))
+export const bindTo =
+  /*#__PURE__*/
+  bindTo_(Functor)
 
 /**
  * @since 2.8.0

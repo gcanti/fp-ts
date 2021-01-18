@@ -13,8 +13,8 @@
  */
 import { Applicative1 } from './Applicative'
 import { ChainRec1 } from './ChainRec'
-import { identity, pipe, bind_, bindTo_, flow, constant } from './function'
-import { Functor1 } from './Functor'
+import { bind_, constant, flow, identity, pipe } from './function'
+import { bindTo_, Functor1 } from './Functor'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
@@ -274,7 +274,9 @@ export const Do: IO<{}> =
 /**
  * @since 2.8.0
  */
-export const bindTo = <N extends string>(name: N): (<A>(fa: IO<A>) => IO<{ [K in N]: A }>) => map(bindTo_(name))
+export const bindTo =
+  /*#__PURE__*/
+  bindTo_(Functor)
 
 /**
  * @since 2.8.0

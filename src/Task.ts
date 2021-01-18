@@ -11,13 +11,13 @@
  * @since 2.0.0
  */
 import { Applicative1 } from './Applicative'
-import { identity, pipe, bind_, bindTo_, flow } from './function'
+import { bind_, flow, identity, pipe } from './function'
+import { bindTo_, Functor1 } from './Functor'
 import { IO } from './IO'
 import { Monad1 } from './Monad'
 import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { Functor1 } from './Functor'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -398,7 +398,9 @@ export const Do: Task<{}> =
 /**
  * @since 2.8.0
  */
-export const bindTo = <N extends string>(name: N): (<A>(fa: Task<A>) => Task<{ [K in N]: A }>) => map(bindTo_(name))
+export const bindTo =
+  /*#__PURE__*/
+  bindTo_(Functor)
 
 /**
  * @since 2.8.0
