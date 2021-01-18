@@ -75,7 +75,7 @@ export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     extend,
     extract
   }
@@ -86,7 +86,7 @@ export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -129,7 +129,7 @@ declare module './HKT' {
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 // TODO: remove in v3

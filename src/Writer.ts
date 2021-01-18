@@ -88,7 +88,7 @@ export const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -136,7 +136,7 @@ export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     ap: (fab, fa) => () => {
       const [f, w1] = fab()
       const [a, w2] = fa()
@@ -157,7 +157,7 @@ export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 // TODO: remove in v3

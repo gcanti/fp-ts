@@ -76,15 +76,15 @@ export const getChainRec: <M>(M: Monoid<M>) => ChainRec2C<URI, M> = RT.getChainR
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Functor2<URI>['map'] = RT.Functor.map as any
-const bimap_: Bifunctor2<URI>['bimap'] = RT.Bifunctor.bimap as any
-const mapLeft_: Bifunctor2<URI>['mapLeft'] = RT.Bifunctor.mapLeft as any
-const compose_: Semigroupoid2<URI>['compose'] = RT.Semigroupoid.compose as any
-const extend_: Extend2<URI>['extend'] = RT.Comonad.extend as any
-const reduce_: Foldable2<URI>['reduce'] = RT.Foldable.reduce
-const foldMap_: Foldable2<URI>['foldMap'] = RT.Foldable.foldMap
-const reduceRight_: Foldable2<URI>['reduceRight'] = RT.Foldable.reduceRight
-const traverse_: Traversable2<URI>['traverse'] = RT.Traversable.traverse as any
+const _map: Functor2<URI>['map'] = RT.Functor.map as any
+const _bimap: Bifunctor2<URI>['bimap'] = RT.Bifunctor.bimap as any
+const _mapLeft: Bifunctor2<URI>['mapLeft'] = RT.Bifunctor.mapLeft as any
+const _compose: Semigroupoid2<URI>['compose'] = RT.Semigroupoid.compose as any
+const _extend: Extend2<URI>['extend'] = RT.Comonad.extend as any
+const _reduce: Foldable2<URI>['reduce'] = RT.Foldable.reduce
+const _foldMap: Foldable2<URI>['foldMap'] = RT.Foldable.foldMap
+const _reduceRight: Foldable2<URI>['reduceRight'] = RT.Foldable.reduceRight
+const _traverse: Traversable2<URI>['traverse'] = RT.Traversable.traverse as any
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -197,7 +197,7 @@ declare module './HKT' {
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 /**
@@ -206,8 +206,8 @@ export const Functor: Functor2<URI> = {
  */
 export const Bifunctor: Bifunctor2<URI> = {
   URI,
-  bimap: bimap_,
-  mapLeft: mapLeft_
+  bimap: _bimap,
+  mapLeft: _mapLeft
 }
 
 /**
@@ -216,7 +216,7 @@ export const Bifunctor: Bifunctor2<URI> = {
  */
 export const Semigroupoid: Semigroupoid2<URI> = {
   URI,
-  compose: compose_
+  compose: _compose
 }
 
 /**
@@ -225,8 +225,8 @@ export const Semigroupoid: Semigroupoid2<URI> = {
  */
 export const Comonad: Comonad2<URI> = {
   URI,
-  map: map_,
-  extend: extend_,
+  map: _map,
+  extend: _extend,
   extract
 }
 
@@ -236,9 +236,9 @@ export const Comonad: Comonad2<URI> = {
  */
 export const Foldable: Foldable2<URI> = {
   URI,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight
 }
 
 /**
@@ -247,11 +247,11 @@ export const Foldable: Foldable2<URI> = {
  */
 export const Traversable: Traversable2<URI> = {
   URI,
-  map: map_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
+  map: _map,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
   sequence
 }
 
@@ -262,15 +262,15 @@ export const Traversable: Traversable2<URI> = {
  */
 export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,
-  compose: compose_,
-  map: map_,
-  bimap: bimap_,
-  mapLeft: mapLeft_,
+  compose: _compose,
+  map: _map,
+  bimap: _bimap,
+  mapLeft: _mapLeft,
   extract,
-  extend: extend_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
+  extend: _extend,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
   sequence
 }
