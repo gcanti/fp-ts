@@ -233,7 +233,7 @@ export const Monad: Monad2<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst =
+export const chainFirst: <S, A, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, A> =
   /*#__PURE__*/
   chainFirst_(Monad)
 

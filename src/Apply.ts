@@ -304,6 +304,42 @@ export function sequenceS<F>(F: Apply<F>): (r: Record<string, HKT<F, any>>) => H
 /**
  * @since 2.10.0
  */
+export function ap_<F extends URIS2, G extends URIS2, E>(
+  F: Apply2<F>,
+  G: Apply2C<G, E>
+): <FE, A>(
+  fa: Kind2<F, FE, Kind2<G, E, A>>
+) => <B>(fab: Kind2<F, FE, Kind2<G, E, (a: A) => B>>) => Kind2<F, FE, Kind2<G, E, B>>
+export function ap_<F extends URIS, G extends URIS2, E>(
+  F: Apply1<F>,
+  G: Apply2C<G, E>
+): <A>(fa: Kind<F, Kind2<G, E, A>>) => <B>(fab: Kind<F, Kind2<G, E, (a: A) => B>>) => Kind<F, Kind2<G, E, B>>
+export function ap_<F, G extends URIS2>(
+  F: Apply<F>,
+  G: Apply2<G>
+): <E, A>(fa: HKT<F, Kind2<G, E, A>>) => <B>(fab: HKT<F, Kind2<G, E, (a: A) => B>>) => HKT<F, Kind2<G, E, B>>
+export function ap_<F, G extends URIS>(
+  F: Apply<F>,
+  G: Apply1<G>
+): <A>(fa: HKT<F, Kind<G, A>>) => <B>(fab: HKT<F, Kind<G, (a: A) => B>>) => HKT<F, Kind<G, B>>
+export function ap_<F, G>(
+  F: Apply<F>,
+  G: Apply<G>
+): <A>(fa: HKT<F, HKT<G, A>>) => <B>(fab: HKT<F, HKT<G, (a: A) => B>>) => HKT<F, HKT<G, B>>
+export function ap_<F, G>(
+  F: Apply<F>,
+  G: Apply<G>
+): <A>(fa: HKT<F, HKT<G, A>>) => <B>(fab: HKT<F, HKT<G, (a: A) => B>>) => HKT<F, HKT<G, B>> {
+  return <A>(fa: HKT<F, HKT<G, A>>) => <B>(fab: HKT<F, HKT<G, (a: A) => B>>): HKT<F, HKT<G, B>> =>
+    F.ap(
+      F.map(fab, (gab) => (ga: HKT<G, A>) => G.ap(gab, ga)),
+      fa
+    )
+}
+
+/**
+ * @since 2.10.0
+ */
 export function apFirst_<F extends URIS4>(
   A: Apply4<F>
 ): <S, R, E, B>(second: Kind4<F, S, R, E, B>) => <A>(first: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
