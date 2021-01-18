@@ -473,32 +473,32 @@ export const filterOrElse: {
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const ap_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const _map: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _ap: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
-const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+const _chain: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
-const reduce_: Foldable2<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
+const _reduce: Foldable2<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
 /* istanbul ignore next */
-const foldMap_: Foldable2<URI>['foldMap'] = (M) => (fa, f) => {
+const _foldMap: Foldable2<URI>['foldMap'] = (M) => (fa, f) => {
   const foldMapM = foldMap(M)
   return pipe(fa, foldMapM(f))
 }
 /* istanbul ignore next */
-const reduceRight_: Foldable2<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
-const traverse_ = <F>(
+const _reduceRight: Foldable2<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
+const _traverse = <F>(
   F: ApplicativeHKT<F>
 ): (<E, A, B>(ta: Either<E, A>, f: (a: A) => HKT<F, B>) => HKT<F, Either<E, B>>) => {
   const traverseF = traverse(F)
   return (ta, f) => pipe(ta, traverseF(f))
 }
-const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
-const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
+const _bimap: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
+const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
 /* istanbul ignore next */
-const alt_: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
+const _alt: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 /* istanbul ignore next */
-const extend_: Extend2<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
-const chainRec_: ChainRec2<URI>['chainRec'] = (a, f) =>
+const _extend: Extend2<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
+const _chainRec: ChainRec2<URI>['chainRec'] = (a, f) =>
   tailRec(f(a), (e) =>
     isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
   )
@@ -991,7 +991,7 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     compact,
     separate,
     filter,
@@ -1013,7 +1013,7 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
   const wither = <F>(
     F: ApplicativeHKT<F>
   ): (<A, B>(ma: Either<E, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Either<E, B>>) => {
-    const traverseF = traverse_(F)
+    const traverseF = _traverse(F)
     return (ma, f) => F.map(traverseF(ma, f), F_.compact)
   }
 
@@ -1023,25 +1023,25 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
     ma: Either<E, A>,
     f: (a: A) => HKT<F, Either<B, C>>
   ) => HKT<F, Separated<Either<E, B>, Either<E, C>>>) => {
-    const traverseF = traverse_(F)
+    const traverseF = _traverse(F)
     return (ma, f) => F.map(traverseF(ma, f), F_.separate)
   }
 
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     compact: F_.compact,
     separate: F_.separate,
     filter: F_.filter,
     filterMap: F_.filterMap,
     partition: F_.partition,
     partitionMap: F_.partitionMap,
-    traverse: traverse_,
+    traverse: _traverse,
     sequence,
-    reduce: reduce_,
-    foldMap: foldMap_,
-    reduceRight: reduceRight_,
+    reduce: _reduce,
+    foldMap: _foldMap,
+    reduceRight: _reduceRight,
     wither,
     wilt
   }
@@ -1055,7 +1055,7 @@ export function getApplicativeValidation<E>(SE: Semigroup<E>): Applicative2C<URI
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     ap: (fab, fa) =>
       isLeft(fab)
         ? isLeft(fa)
@@ -1076,7 +1076,7 @@ export function getAltValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     alt: (me, that) => {
       if (isRight(me)) {
         return me
@@ -1107,18 +1107,18 @@ export function getValidation<E>(
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     of,
-    chain: chain_,
-    bimap: bimap_,
-    mapLeft: mapLeft_,
-    reduce: reduce_,
-    foldMap: foldMap_,
-    reduceRight: reduceRight_,
-    extend: extend_,
-    traverse: traverse_,
+    chain: _chain,
+    bimap: _bimap,
+    mapLeft: _mapLeft,
+    reduce: _reduce,
+    foldMap: _foldMap,
+    reduceRight: _reduceRight,
+    extend: _extend,
+    traverse: _traverse,
     sequence,
-    chainRec: chainRec_,
+    chainRec: _chainRec,
     throwError,
     ap: applicativeValidation.ap,
     alt: altValidation.alt
@@ -1142,7 +1142,7 @@ export function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>)
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 /**
@@ -1151,8 +1151,8 @@ export const Functor: Functor2<URI> = {
  */
 export const Applicative: Applicative2<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of
 }
 
@@ -1162,10 +1162,10 @@ export const Applicative: Applicative2<URI> = {
  */
 export const Monad: Monad2<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of,
-  chain: chain_
+  chain: _chain
 }
 
 /**
@@ -1174,9 +1174,9 @@ export const Monad: Monad2<URI> = {
  */
 export const Foldable: Foldable2<URI> = {
   URI,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight
 }
 
 /**
@@ -1185,11 +1185,11 @@ export const Foldable: Foldable2<URI> = {
  */
 export const Traversable: Traversable2<URI> = {
   URI,
-  map: map_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
+  map: _map,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
   sequence
 }
 
@@ -1199,8 +1199,8 @@ export const Traversable: Traversable2<URI> = {
  */
 export const Bifunctor: Bifunctor2<URI> = {
   URI,
-  bimap: bimap_,
-  mapLeft: mapLeft_
+  bimap: _bimap,
+  mapLeft: _mapLeft
 }
 
 /**
@@ -1209,8 +1209,8 @@ export const Bifunctor: Bifunctor2<URI> = {
  */
 export const Alt: Alt2<URI> = {
   URI,
-  map: map_,
-  alt: alt_
+  map: _map,
+  alt: _alt
 }
 
 /**
@@ -1219,8 +1219,8 @@ export const Alt: Alt2<URI> = {
  */
 export const Extend: Extend2<URI> = {
   URI,
-  map: map_,
-  extend: extend_
+  map: _map,
+  extend: _extend
 }
 
 /**
@@ -1229,10 +1229,10 @@ export const Extend: Extend2<URI> = {
  */
 export const ChainRec: ChainRec2<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
-  chain: chain_,
-  chainRec: chainRec_
+  map: _map,
+  ap: _ap,
+  chain: _chain,
+  chainRec: _chainRec
 }
 
 /**
@@ -1241,10 +1241,10 @@ export const ChainRec: ChainRec2<URI> = {
  */
 export const MonadThrow: MonadThrow2<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of,
-  chain: chain_,
+  chain: _chain,
   throwError: throwError
 }
 
@@ -1272,20 +1272,20 @@ export const either: Monad2<URI> &
   ChainRec2<URI> &
   MonadThrow2<URI> = {
   URI,
-  map: map_,
+  map: _map,
   of,
-  ap: ap_,
-  chain: chain_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
+  ap: _ap,
+  chain: _chain,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
   sequence,
-  bimap: bimap_,
-  mapLeft: mapLeft_,
-  alt: alt_,
-  extend: extend_,
-  chainRec: chainRec_,
+  bimap: _bimap,
+  mapLeft: _mapLeft,
+  alt: _alt,
+  extend: _extend,
+  chainRec: _chainRec,
   throwError: throwError
 }
 

@@ -30,28 +30,27 @@ export type Identity<A> = A
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const ap_: Monad1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const chain_: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+const _map: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _ap: Monad1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const _chain: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
-const reduce_: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
+const _reduce: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
 /* istanbul ignore next */
-const foldMap_: Foldable1<URI>['foldMap'] = (M) => (fa, f) => pipe(fa, foldMap(M)(f))
+const _foldMap: Foldable1<URI>['foldMap'] = (M) => (fa, f) => pipe(fa, foldMap(M)(f))
 /* istanbul ignore next */
-const reduceRight_: Foldable1<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
+const _reduceRight: Foldable1<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
 /* istanbul ignore next */
-const alt_: Alt1<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
+const _alt: Alt1<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 /* istanbul ignore next */
-const extend_: Extend1<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
+const _extend: Extend1<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
 /* istanbul ignore next */
-const traverse_ = <F>(
+const _traverse = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>>) => {
   const traverseF = traverse(F)
   return (ta, f) => pipe(ta, traverseF(f))
 }
-
-const chainRec_: ChainRec1<URI>['chainRec'] = tailRec
+const _chainRec: ChainRec1<URI>['chainRec'] = tailRec
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -258,7 +257,7 @@ export const getEq: <A>(E: Eq<A>) => Eq<Identity<A>> = id
  */
 export const Functor: Functor1<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 /**
@@ -267,8 +266,8 @@ export const Functor: Functor1<URI> = {
  */
 export const Applicative: Applicative1<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of
 }
 
@@ -278,10 +277,10 @@ export const Applicative: Applicative1<URI> = {
  */
 export const Monad: Monad1<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of,
-  chain: chain_
+  chain: _chain
 }
 
 /**
@@ -290,9 +289,9 @@ export const Monad: Monad1<URI> = {
  */
 export const Foldable: Foldable1<URI> = {
   URI,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight
 }
 
 /**
@@ -301,11 +300,11 @@ export const Foldable: Foldable1<URI> = {
  */
 export const Traversable: Traversable1<URI> = {
   URI,
-  map: map_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
+  map: _map,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
   sequence
 }
 
@@ -315,8 +314,8 @@ export const Traversable: Traversable1<URI> = {
  */
 export const Alt: Alt1<URI> = {
   URI,
-  map: map_,
-  alt: alt_
+  map: _map,
+  alt: _alt
 }
 
 /**
@@ -325,8 +324,8 @@ export const Alt: Alt1<URI> = {
  */
 export const Comonad: Comonad1<URI> = {
   URI,
-  map: map_,
-  extend: extend_,
+  map: _map,
+  extend: _extend,
   extract
 }
 
@@ -336,10 +335,10 @@ export const Comonad: Comonad1<URI> = {
  */
 export const ChainRec: ChainRec1<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
-  chain: chain_,
-  chainRec: chainRec_
+  map: _map,
+  ap: _ap,
+  chain: _chain,
+  chainRec: _chainRec
 }
 
 // TODO: remove in v3
@@ -349,19 +348,19 @@ export const ChainRec: ChainRec1<URI> = {
  */
 export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of,
-  chain: chain_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
+  chain: _chain,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
   sequence,
-  alt: alt_,
+  alt: _alt,
   extract,
-  extend: extend_,
-  chainRec: chainRec_
+  extend: _extend,
+  chainRec: _chainRec
 }
 
 // -------------------------------------------------------------------------------------

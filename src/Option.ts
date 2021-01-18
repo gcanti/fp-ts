@@ -438,45 +438,45 @@ export function chainNullableK<A, B>(f: (a: A) => B | null | undefined): (ma: Op
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const ap_: Monad1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const chain_: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-const reduce_: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
-const foldMap_: Foldable1<URI>['foldMap'] = (M) => {
+const _map: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _ap: Monad1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const _chain: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+const _reduce: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
+const _foldMap: Foldable1<URI>['foldMap'] = (M) => {
   const foldMapM = foldMap(M)
   return (fa, f) => pipe(fa, foldMapM(f))
 }
-const reduceRight_: Foldable1<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
-const traverse_: Traversable1<URI>['traverse'] = <F>(
+const _reduceRight: Foldable1<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
+const _traverse: Traversable1<URI>['traverse'] = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>) => HKT<F, Option<B>>) => {
   const traverseF = traverse(F)
   return (ta, f) => pipe(ta, traverseF(f))
 }
 /* istanbul ignore next */
-const alt_: Alt1<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
-const filter_: Filterable1<URI>['filter'] = <A>(fa: Option<A>, predicate: Predicate<A>): Option<A> =>
+const _alt: Alt1<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
+const _filter: Filterable1<URI>['filter'] = <A>(fa: Option<A>, predicate: Predicate<A>): Option<A> =>
   pipe(fa, filter(predicate))
 /* istanbul ignore next */
-const filterMap_: Filterable1<URI>['filterMap'] = (fa, f) => pipe(fa, filterMap(f))
+const _filterMap: Filterable1<URI>['filterMap'] = (fa, f) => pipe(fa, filterMap(f))
 /* istanbul ignore next */
-const extend_: Extend1<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
+const _extend: Extend1<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
 /* istanbul ignore next */
-const partition_: Filterable1<URI>['partition'] = <A>(
+const _partition: Filterable1<URI>['partition'] = <A>(
   fa: Option<A>,
   predicate: Predicate<A>
 ): Separated<Option<A>, Option<A>> => pipe(fa, partition(predicate))
 /* istanbul ignore next */
-const partitionMap_: Filterable1<URI>['partitionMap'] = (fa, f) => pipe(fa, partitionMap(f))
+const _partitionMap: Filterable1<URI>['partitionMap'] = (fa, f) => pipe(fa, partitionMap(f))
 /* istanbul ignore next */
-const wither_: Witherable1<URI>['wither'] = <F>(
+const _wither: Witherable1<URI>['wither'] = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(fa: Option<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Option<B>>) => {
   const witherF = wither(F)
   return (fa, f) => pipe(fa, witherF(f))
 }
 /* istanbul ignore next */
-const wilt_: Witherable1<URI>['wilt'] = <F>(
+const _wilt: Witherable1<URI>['wilt'] = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B, C>(fa: Option<A>, f: (a: A) => HKT<F, Either<B, C>>) => HKT<F, Separated<Option<B>, Option<C>>>) => {
   const wiltF = wilt(F)
@@ -715,8 +715,8 @@ export const partition: {
   <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>
 } = <A>(predicate: Predicate<A>) => (fa: Option<A>) => {
   return {
-    left: filter_(fa, (a) => !predicate(a)),
-    right: filter_(fa, predicate)
+    left: _filter(fa, (a) => !predicate(a)),
+    right: _filter(fa, predicate)
   }
 }
 
@@ -986,7 +986,7 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>> {
  */
 export const Functor: Functor1<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 /**
@@ -995,8 +995,8 @@ export const Functor: Functor1<URI> = {
  */
 export const Applicative: Applicative1<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of
 }
 
@@ -1006,10 +1006,10 @@ export const Applicative: Applicative1<URI> = {
  */
 export const Monad: Monad1<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of,
-  chain: chain_
+  chain: _chain
 }
 
 /**
@@ -1018,9 +1018,9 @@ export const Monad: Monad1<URI> = {
  */
 export const Foldable: Foldable1<URI> = {
   URI,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight
 }
 
 /**
@@ -1029,8 +1029,8 @@ export const Foldable: Foldable1<URI> = {
  */
 export const Alt: Alt1<URI> = {
   URI,
-  map: map_,
-  alt: alt_
+  map: _map,
+  alt: _alt
 }
 
 /**
@@ -1039,10 +1039,10 @@ export const Alt: Alt1<URI> = {
  */
 export const Alternative: Alternative1<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of,
-  alt: alt_,
+  alt: _alt,
   zero
 }
 
@@ -1052,8 +1052,8 @@ export const Alternative: Alternative1<URI> = {
  */
 export const Extend: Extend1<URI> = {
   URI,
-  map: map_,
-  extend: extend_
+  map: _map,
+  extend: _extend
 }
 
 /**
@@ -1072,13 +1072,13 @@ export const Compactable: Compactable1<URI> = {
  */
 export const Filterable: Filterable1<URI> = {
   URI,
-  map: map_,
+  map: _map,
   compact,
   separate,
-  filter: filter_,
-  filterMap: filterMap_,
-  partition: partition_,
-  partitionMap: partitionMap_
+  filter: _filter,
+  filterMap: _filterMap,
+  partition: _partition,
+  partitionMap: _partitionMap
 }
 
 /**
@@ -1087,11 +1087,11 @@ export const Filterable: Filterable1<URI> = {
  */
 export const Traversable: Traversable1<URI> = {
   URI,
-  map: map_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
+  map: _map,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
   sequence
 }
 
@@ -1101,20 +1101,20 @@ export const Traversable: Traversable1<URI> = {
  */
 export const Witherable: Witherable1<URI> = {
   URI,
-  map: map_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
+  map: _map,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
   sequence,
   compact,
   separate,
-  filter: filter_,
-  filterMap: filterMap_,
-  partition: partition_,
-  partitionMap: partitionMap_,
-  wither: wither_,
-  wilt: wilt_
+  filter: _filter,
+  filterMap: _filterMap,
+  partition: _partition,
+  partitionMap: _partitionMap,
+  wither: _wither,
+  wilt: _wilt
 }
 
 /**
@@ -1123,10 +1123,10 @@ export const Witherable: Witherable1<URI> = {
  */
 export const MonadThrow: MonadThrow1<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of,
-  chain: chain_,
+  chain: _chain,
   throwError
 }
 
@@ -1142,26 +1142,26 @@ export const option: Monad1<URI> &
   Witherable1<URI> &
   MonadThrow1<URI> = {
   URI,
-  map: map_,
+  map: _map,
   of,
-  ap: ap_,
-  chain: chain_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
+  ap: _ap,
+  chain: _chain,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
   sequence,
   zero,
-  alt: alt_,
-  extend: extend_,
+  alt: _alt,
+  extend: _extend,
   compact,
   separate,
-  filter: filter_,
-  filterMap: filterMap_,
-  partition: partition_,
-  partitionMap: partitionMap_,
-  wither: wither_,
-  wilt: wilt_,
+  filter: _filter,
+  filterMap: _filterMap,
+  partition: _partition,
+  partitionMap: _partitionMap,
+  wither: _wither,
+  wilt: _wilt,
   throwError
 }
 

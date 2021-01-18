@@ -77,9 +77,9 @@ export function experiment<F>(F: FunctorHKT<F>): <S>(f: (s: S) => HKT<F, S>) => 
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
-const extend_: Extend2<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
+const _extend: Extend2<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -150,7 +150,7 @@ declare module './HKT' {
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 /**
@@ -159,8 +159,8 @@ export const Functor: Functor2<URI> = {
  */
 export const Comonad: Comonad2<URI> = {
   URI,
-  map: map_,
-  extend: extend_,
+  map: _map,
+  extend: _extend,
   extract
 }
 

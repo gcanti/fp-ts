@@ -135,11 +135,11 @@ export const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E> =
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
-const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
+const _bimap: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
-const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
+const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -238,7 +238,7 @@ export function getApplicative<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicati
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     ap: (fab, fa) => pipe(fab, ap(fa)),
     of
   }
@@ -254,7 +254,7 @@ export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     ap: A.ap,
     of,
     chain: (ma, f) =>
@@ -286,7 +286,7 @@ export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI
  */
 export const functorTaskThese: Functor2<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 /**
@@ -295,8 +295,8 @@ export const functorTaskThese: Functor2<URI> = {
  */
 export const bifunctorTaskThese: Bifunctor2<URI> = {
   URI,
-  bimap: bimap_,
-  mapLeft: mapLeft_
+  bimap: _bimap,
+  mapLeft: _mapLeft
 }
 
 // TODO: remove in v3
@@ -306,7 +306,7 @@ export const bifunctorTaskThese: Bifunctor2<URI> = {
  */
 export const taskThese: Functor2<URI> & Bifunctor2<URI> = {
   URI,
-  map: map_,
-  bimap: bimap_,
-  mapLeft: mapLeft_
+  map: _map,
+  bimap: _bimap,
+  mapLeft: _mapLeft
 }

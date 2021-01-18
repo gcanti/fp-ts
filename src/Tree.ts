@@ -260,27 +260,27 @@ export function fold<A, B>(f: (a: A, bs: Array<B>) => B): (tree: Tree<A>) => B {
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const map_: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const ap_: Monad1<URI>['ap'] = (fab, fa) =>
+const _map: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _ap: Monad1<URI>['ap'] = (fab, fa) =>
   pipe(
     fab,
     chain((f) => pipe(fa, map(f)))
   )
 /* istanbul ignore next */
-const chain_ = <A, B>(ma: Tree<A>, f: (a: A) => Tree<B>): Tree<B> => pipe(ma, chain(f))
+const _chain = <A, B>(ma: Tree<A>, f: (a: A) => Tree<B>): Tree<B> => pipe(ma, chain(f))
 /* istanbul ignore next */
-const reduce_ = <A, B>(fa: Tree<A>, b: B, f: (b: B, a: A) => B): B => pipe(fa, reduce(b, f))
+const _reduce = <A, B>(fa: Tree<A>, b: B, f: (b: B, a: A) => B): B => pipe(fa, reduce(b, f))
 /* istanbul ignore next */
-const foldMap_: Foldable1<URI>['foldMap'] = (M) => {
+const _foldMap: Foldable1<URI>['foldMap'] = (M) => {
   const foldMapM = foldMap(M)
   return (fa, f) => pipe(fa, foldMapM(f))
 }
 /* istanbul ignore next */
-const reduceRight_ = <A, B>(fa: Tree<A>, b: B, f: (a: A, b: B) => B): B => pipe(fa, reduceRight(b, f))
+const _reduceRight = <A, B>(fa: Tree<A>, b: B, f: (a: A, b: B) => B): B => pipe(fa, reduceRight(b, f))
 /* istanbul ignore next */
-const extend_: Extend1<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
+const _extend: Extend1<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
 /* istanbul ignore next */
-const traverse_ = <F>(F: ApplicativeHKT<F>): (<A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>) => HKT<F, Tree<B>>) => {
+const _traverse = <F>(F: ApplicativeHKT<F>): (<A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>) => HKT<F, Tree<B>>) => {
   const traverseF = traverse(F)
   return (ta, f) => pipe(ta, traverseF(f))
 }
@@ -295,7 +295,7 @@ const traverse_ = <F>(F: ApplicativeHKT<F>): (<A, B>(ta: Tree<A>, f: (a: A) => H
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = (fa) => (fab) => ap_(fab, fa)
+export const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = (fa) => (fab) => _ap(fab, fa)
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -501,7 +501,7 @@ declare module './HKT' {
  */
 export const Functor: Functor1<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 /**
@@ -510,8 +510,8 @@ export const Functor: Functor1<URI> = {
  */
 export const Applicative: Applicative1<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of
 }
 
@@ -521,10 +521,10 @@ export const Applicative: Applicative1<URI> = {
  */
 export const Monad: Monad1<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of,
-  chain: chain_
+  chain: _chain
 }
 
 /**
@@ -533,9 +533,9 @@ export const Monad: Monad1<URI> = {
  */
 export const Foldable: Foldable1<URI> = {
   URI,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight
 }
 
 /**
@@ -544,11 +544,11 @@ export const Foldable: Foldable1<URI> = {
  */
 export const Traversable: Traversable1<URI> = {
   URI,
-  map: map_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
+  map: _map,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
   sequence
 }
 
@@ -558,8 +558,8 @@ export const Traversable: Traversable1<URI> = {
  */
 export const Comonad: Comonad1<URI> = {
   URI,
-  map: map_,
-  extend: extend_,
+  map: _map,
+  extend: _extend,
   extract
 }
 
@@ -570,17 +570,17 @@ export const Comonad: Comonad1<URI> = {
  */
 export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
   URI,
-  map: map_,
+  map: _map,
   of,
-  ap: ap_,
-  chain: chain_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
+  ap: _ap,
+  chain: _chain,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
   sequence,
   extract,
-  extend: extend_
+  extend: _extend
 }
 
 // -------------------------------------------------------------------------------------
