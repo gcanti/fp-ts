@@ -3,7 +3,7 @@
  */
 import { Alt4 } from './Alt'
 import { Applicative4 } from './Applicative'
-import { Apply4, apS_ } from './Apply'
+import { apFirst_, Apply4, apSecond_, apS_ } from './Apply'
 import { Bifunctor4 } from './Bifunctor'
 import * as E from './Either'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
@@ -478,38 +478,6 @@ export const ap: <S, R, E, A>(
 ) => <B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B> = apW
 
 /**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apFirst: <S, R, E, B>(
-  fb: StateReaderTaskEither<S, R, E, B>
-) => <A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = (fb) =>
-  flow(
-    map((a) => () => a),
-    ap(fb)
-  )
-
-/**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apSecond = <S, R, E, B>(
-  fb: StateReaderTaskEither<S, R, E, B>
-): (<A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>) =>
-  flow(
-    map(() => (b: B) => b),
-    ap(fb)
-  )
-
-/**
  * Wrap a value into the type constructor.
  *
  * @category Applicative
@@ -667,6 +635,30 @@ export const Apply: Apply4<URI> = {
   map: _map,
   ap: _ap
 }
+
+/**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const apFirst =
+  /*#__PURE__*/
+  apFirst_(Apply)
+
+/**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const apSecond =
+  /*#__PURE__*/
+  apSecond_(Apply)
 
 /**
  * @category instances

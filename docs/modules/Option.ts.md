@@ -431,7 +431,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<A>
+export declare const apFirst: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<A>
 ```
 
 Added in v2.0.0
@@ -445,7 +445,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<B>
+export declare const apSecond: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<B>
 ```
 
 Added in v2.0.0

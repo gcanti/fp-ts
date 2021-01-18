@@ -274,7 +274,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>) => IOEither<E, A>
+export declare const apFirst: <E, B>(second: IOEither<E, B>) => <A>(first: IOEither<E, A>) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -288,7 +288,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>) => IOEither<E, B>
+export declare const apSecond: <E, B>(second: IOEither<E, B>) => <A>(first: IOEither<E, A>) => IOEither<E, B>
 ```
 
 Added in v2.0.0
