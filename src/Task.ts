@@ -18,6 +18,7 @@ import { IO } from './IO'
 import { bind_, chainFirst_, Monad1 } from './Monad'
 import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
+import { Pointed1 } from './Pointed'
 import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
@@ -139,7 +140,7 @@ export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (f
  * @category Applicative
  * @since 2.0.0
  */
-export const of: Applicative1<URI>['of'] = (a) => () => Promise.resolve(a)
+export const of: Pointed1<URI>['of'] = (a) => () => Promise.resolve(a)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -260,6 +261,16 @@ export function getRaceMonoid<A = never>(): Monoid<Task<A>> {
 export const Functor: Functor1<URI> = {
   URI,
   map: _map
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Pointed: Pointed1<URI> = {
+  URI,
+  map: _map,
+  of
 }
 
 /**

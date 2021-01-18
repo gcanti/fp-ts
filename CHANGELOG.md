@@ -17,60 +17,91 @@ high state of flux, you're at risk of it changing without notice.
 
 # 2.10.0
 
+- **Deprecations**
+  - `TaskThese`
+    - deprecate `functorTaskThese` instance in favour of `Functor` (@gcanti)
+    - deprecate `bifunctorTaskThese` instance in favour of `Bifunctor` (@gcanti)
 - **New Feature**
+  - add `Pointed` type class (@gcanti)
   - `Apply`
     - add `apS_` helper (@gcanti)
     - add `apFirst_` helper (@gcanti)
     - add `apSecond_` helper (@gcanti)
   - `Array`
+    - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
   - `Functor`
     - add `bindTo_` helper (@gcanti)
   - `Either`
+    - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
   - `Eq`
     - add `eqBigint`, #1375 (@EricCrosson)
   - `Identity`
+    - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
   - `IO`
+    - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
+  - `IOEither`
+    - add `Pointed` instance (@gcanti)
   - `Monad`
     - add `bind_` helper (@gcanti)
     - add `chainFirst_` helper (@gcanti)
   - `NonEmptyArray`
+    - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
   - `Option`
+    - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
   - `Ord`
     - add `ordBigint`, #1375 (@EricCrosson)
   - `Reader`
+    - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
   - `ReaderEither`
+    - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
   - `ReaderTask`
+    - add `Pointed` instance (@gcanti)
     - add `ApplyPar` instance (@gcanti)
     - add `ApplySeq` instance (@gcanti)
   - `ReaderTaskEither`
+    - add `Pointed` instance (@gcanti)
     - add `ApplyPar` instance (@gcanti)
     - add `ApplySeq` instance (@gcanti)
     - add `Monad` instance (@gcanti)
   - `ReadonlyArray`
+    - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
   - `ReadonlyNonEmptyArray`
+    - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
   - `State`
+    - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
   - `StateReaderTaskEither`
+    - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
     - add `Monad` instance (@gcanti)
   - `Task`
+    - add `Pointed` instance (@gcanti)
     - add `ApplyPar` instance (@gcanti)
     - add `ApplySeq` instance (@gcanti)
   - `TaskEither`
+    - add `Pointed` instance (@gcanti)
     - add `ApplyPar` instance (@gcanti)
     - add `ApplySeq` instance (@gcanti)
     - add `Monad` instance (@gcanti)
+  - `TaskThese`
+    - add `Functor` instance (@gcanti)
+    - add `Pointed` instance (@gcanti)
+    - add `Bifunctor` instance (@gcanti)
+  - `These`
+    - add `Pointed` instance (@gcanti)
+    - add `of` function (@gcanti)
   - `Tree`
+    - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
 
 # 2.9.5

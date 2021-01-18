@@ -1,6 +1,6 @@
 ---
 title: StateReaderTaskEither.ts
-nav_order: 83
+nav_order: 84
 parent: Modules
 ---
 
@@ -82,6 +82,7 @@ Added in v2.0.0
   - [Bifunctor](#bifunctor-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
+  - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [stateReaderTaskEither](#statereadertaskeither)
@@ -838,6 +839,16 @@ Added in v2.7.0
 
 ```ts
 export declare const Monad: Monad4<'StateReaderTaskEither'>
+```
+
+Added in v2.10.0
+
+## Pointed
+
+**Signature**
+
+```ts
+export declare const Pointed: Pointed4<'StateReaderTaskEither'>
 ```
 
 Added in v2.10.0

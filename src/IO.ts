@@ -19,6 +19,7 @@ import { bindTo_, Functor1 } from './Functor'
 import { bind_, chainFirst_, Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
+import { Pointed1 } from './Pointed'
 import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
@@ -75,7 +76,7 @@ export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = (fa) => 
  * @category Applicative
  * @since 2.0.0
  */
-export const of: Applicative1<URI>['of'] = constant
+export const of: Pointed1<URI>['of'] = constant
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -151,6 +152,16 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> {
 export const Functor: Functor1<URI> = {
   URI,
   map: _map
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Pointed: Pointed1<URI> = {
+  URI,
+  map: _map,
+  of
 }
 
 /**

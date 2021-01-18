@@ -29,6 +29,7 @@ import { bind_, chainFirst_, Monad1 } from './Monad'
 import { MonadThrow1 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Ord } from './Ord'
+import { Pointed1 } from './Pointed'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
@@ -513,7 +514,7 @@ export const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B
  * @category Applicative
  * @since 2.7.0
  */
-export const of: Applicative1<URI>['of'] = some
+export const of: Pointed1<URI>['of'] = some
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -943,6 +944,16 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>> {
 export const Functor: Functor1<URI> = {
   URI,
   map: _map
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Pointed: Pointed1<URI> = {
+  URI,
+  map: _map,
+  of
 }
 
 /**

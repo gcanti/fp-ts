@@ -1,7 +1,7 @@
 /**
  * @since 2.4.0
  */
-import { Applicative2, Applicative2C } from './Applicative'
+import { Applicative2C } from './Applicative'
 import { Apply1 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { flow, pipe } from './function'
@@ -11,6 +11,7 @@ import { IOEither } from './IOEither'
 import { Monad2C } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { MonadTask2, MonadTask2C } from './MonadTask'
+import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
 import * as TH from './These'
@@ -180,7 +181,7 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => Task
  * @category Applicative
  * @since 2.7.0
  */
-export const of: Applicative2<URI>['of'] = right
+export const of: Pointed2<URI>['of'] = right
 
 /**
  * @category MonadIO
@@ -282,18 +283,28 @@ export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 2.10.0
  */
-export const functorTaskThese: Functor2<URI> = {
+export const Functor: Functor2<URI> = {
   URI,
   map: _map
 }
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 2.10.0
  */
-export const bifunctorTaskThese: Bifunctor2<URI> = {
+export const Pointed: Pointed2<URI> = {
+  URI,
+  map: _map,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Bifunctor: Bifunctor2<URI> = {
   URI,
   bimap: _bimap,
   mapLeft: _mapLeft
@@ -307,6 +318,35 @@ export const bifunctorTaskThese: Bifunctor2<URI> = {
 export const taskThese: Functor2<URI> & Bifunctor2<URI> = {
   URI,
   map: _map,
+  bimap: _bimap,
+  mapLeft: _mapLeft
+}
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use `Functor` instead.
+ *
+ * @category instances
+ * @since 2.7.0
+ * @deprecated
+ */
+export const functorTaskThese: Functor2<URI> = {
+  URI,
+  map: _map
+}
+
+/**
+ * Use `Bifunctor` instead.
+ *
+ * @category instances
+ * @since 2.7.0
+ * @deprecated
+ */
+export const bifunctorTaskThese: Bifunctor2<URI> = {
+  URI,
   bimap: _bimap,
   mapLeft: _mapLeft
 }
