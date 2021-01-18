@@ -168,19 +168,6 @@ export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> {
 }
 
 /**
- * Use `getMonoid` instead
- *
- * @category instances
- * @since 2.0.0
- * @deprecated
- */
-export function getSemigroup<A = never>(): Semigroup<Ord<A>> {
-  return {
-    concat: (x, y) => fromCompare((a, b) => monoidOrdering.concat(x.compare(a, b), y.compare(a, b)))
-  }
-}
-
-/**
  * Returns a `Monoid` such that:
  *
  * - its `concat(ord1, ord2)` operation will order first by `ord1`, and then by `ord2`
@@ -357,3 +344,20 @@ export const Contravariant: Contravariant1<URI> = {
  * @since 2.0.0
  */
 export const ord: Contravariant1<URI> = Contravariant
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use `getMonoid` instead
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export function getSemigroup<A = never>(): Semigroup<Ord<A>> {
+  return {
+    concat: (x, y) => fromCompare((a, b) => monoidOrdering.concat(x.compare(a, b), y.compare(a, b)))
+  }
+}
