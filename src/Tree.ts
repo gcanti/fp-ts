@@ -17,7 +17,7 @@ import { Foldable1 } from './Foldable'
 import { identity, pipe } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
-import { bind_, Monad as MonadHKT, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
+import { bind_, chainFirst_, Monad as MonadHKT, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid } from './Monoid'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
@@ -314,23 +314,6 @@ export const chain = <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>): Tree<B> => {
 }
 
 /**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Monad`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<A> = (f) =>
-  chain((a) =>
-    pipe(
-      f(a),
-      map(() => a)
-    )
-  )
-
-/**
  * @category Extend
  * @since 2.0.0
  */
@@ -533,6 +516,19 @@ export const Monad: Monad1<URI> = {
   of,
   chain: _chain
 }
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * Derivable from `Monad`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const chainFirst =
+  /*#__PURE__*/
+  chainFirst_(Monad)
 
 /**
  * @category instances

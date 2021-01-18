@@ -191,7 +191,9 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, A>
+export declare const chainFirst: <A, E, B>(
+  f: (a: A) => ReaderTask<E, B>
+) => (first: ReaderTask<E, A>) => ReaderTask<E, A>
 ```
 
 Added in v2.3.0
