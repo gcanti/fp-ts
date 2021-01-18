@@ -376,21 +376,21 @@ export const chainTaskEitherK: <E, A, B>(
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad3<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const apPar_: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const apSeq_: Monad3<URI>['ap'] = (fab, fa) =>
+const _map: Monad3<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _apPar: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const _apSeq: Monad3<URI>['ap'] = (fab, fa) =>
   pipe(
     fab,
     chain((f) => pipe(fa, map(f)))
   )
 /* istanbul ignore next */
-const chain_: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+const _chain: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
-const alt_: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
+const _alt: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 /* istanbul ignore next */
-const bimap_: Bifunctor3<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
+const _bimap: Bifunctor3<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
-const mapLeft_: Bifunctor3<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
+const _mapLeft: Bifunctor3<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -670,7 +670,7 @@ export function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, SE: Semi
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     ap: (fab, fa) => pipe(fab, ap(fa)),
     of
   }
@@ -685,7 +685,7 @@ export function getAltReaderTaskValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     alt: (me, that) => (r) => A.alt(me(r), () => that()(r))
   }
 }
@@ -703,11 +703,11 @@ export function getReaderTaskValidation<E>(
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     of,
-    chain: chain_,
-    bimap: bimap_,
-    mapLeft: mapLeft_,
+    chain: _chain,
+    bimap: _bimap,
+    mapLeft: _mapLeft,
     ap: applicativeReaderTaskValidation.ap,
     alt: altReaderTaskValidation.alt,
     fromIO,
@@ -722,7 +722,7 @@ export function getReaderTaskValidation<E>(
  */
 export const Functor: Functor3<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 /**
@@ -731,8 +731,8 @@ export const Functor: Functor3<URI> = {
  */
 export const ApplicativePar: Applicative3<URI> = {
   URI,
-  map: map_,
-  ap: apPar_,
+  map: _map,
+  ap: _apPar,
   of
 }
 
@@ -742,8 +742,8 @@ export const ApplicativePar: Applicative3<URI> = {
  */
 export const ApplicativeSeq: Applicative3<URI> = {
   URI,
-  map: map_,
-  ap: apSeq_,
+  map: _map,
+  ap: _apSeq,
   of
 }
 
@@ -753,8 +753,8 @@ export const ApplicativeSeq: Applicative3<URI> = {
  */
 export const Bifunctor: Bifunctor3<URI> = {
   URI,
-  bimap: bimap_,
-  mapLeft: mapLeft_
+  bimap: _bimap,
+  mapLeft: _mapLeft
 }
 
 /**
@@ -763,8 +763,8 @@ export const Bifunctor: Bifunctor3<URI> = {
  */
 export const Alt: Alt3<URI> = {
   URI,
-  map: map_,
-  alt: alt_
+  map: _map,
+  alt: _alt
 }
 
 // TODO: remove in v3
@@ -774,13 +774,13 @@ export const Alt: Alt3<URI> = {
  */
 export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadTask3<URI> & MonadThrow3<URI> = {
   URI,
-  map: map_,
+  map: _map,
   of,
-  ap: apPar_,
-  chain: chain_,
-  alt: alt_,
-  bimap: bimap_,
-  mapLeft: mapLeft_,
+  ap: _apPar,
+  chain: _chain,
+  alt: _alt,
+  bimap: _bimap,
+  mapLeft: _mapLeft,
   fromIO,
   fromTask,
   throwError
@@ -795,13 +795,13 @@ export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & Monad
  */
 export const readerTaskEitherSeq: typeof readerTaskEither = {
   URI,
-  map: map_,
+  map: _map,
   of,
-  ap: apSeq_,
-  chain: chain_,
-  alt: alt_,
-  bimap: bimap_,
-  mapLeft: mapLeft_,
+  ap: _apSeq,
+  chain: _chain,
+  alt: _alt,
+  bimap: _bimap,
+  mapLeft: _mapLeft,
   fromIO,
   fromTask,
   throwError

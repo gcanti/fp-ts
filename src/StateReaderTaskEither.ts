@@ -377,13 +377,13 @@ export const filterOrElse: {
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const map_: Monad4<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _map: Monad4<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
-const ap_: Monad4<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const _ap: Monad4<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
-const chain_: Monad4<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+const _chain: Monad4<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
-const alt_: <S, R, E, A>(
+const _alt: <S, R, E, A>(
   fa: StateReaderTaskEither<S, R, E, A>,
   that: Lazy<StateReaderTaskEither<S, R, E, A>>
 ) => StateReaderTaskEither<S, R, E, A> = (fa, that) => (s) =>
@@ -391,8 +391,7 @@ const alt_: <S, R, E, A>(
     fa(s),
     RTE.alt(() => that()(s))
   )
-
-const bimap_: <S, R, E, A, G, B>(
+const _bimap: <S, R, E, A, G, B>(
   fea: StateReaderTaskEither<S, R, E, A>,
   f: (e: E) => G,
   g: (a: A) => B
@@ -401,8 +400,7 @@ const bimap_: <S, R, E, A, G, B>(
     fea(s),
     RTE.bimap(f, ([a, s]) => [g(a), s])
   )
-
-const mapLeft_: <S, R, E, A, G>(
+const _mapLeft: <S, R, E, A, G>(
   fea: StateReaderTaskEither<S, R, E, A>,
   f: (e: E) => G
 ) => StateReaderTaskEither<S, R, G, A> = (fea, f) => (s) => pipe(fea(s), RTE.mapLeft(f))
@@ -436,7 +434,7 @@ export const bimap: <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
 ) => <S, R>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, B> = (f, g) => (fa) =>
-  bimap_(fa, f, g)
+  _bimap(fa, f, g)
 
 /**
  * Map a function over the third type argument of a bifunctor.
@@ -447,7 +445,7 @@ export const bimap: <E, G, A, B>(
 export const mapLeft: <E, G>(
   f: (e: E) => G
 ) => <S, R, A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, G, A> = (f) => (fa) =>
-  mapLeft_(fa, f)
+  _mapLeft(fa, f)
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -656,7 +654,7 @@ declare module './HKT' {
  */
 export const Functor: Functor4<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 /**
@@ -665,8 +663,8 @@ export const Functor: Functor4<URI> = {
  */
 export const Applicative: Applicative4<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of
 }
 
@@ -676,8 +674,8 @@ export const Applicative: Applicative4<URI> = {
  */
 export const Bifunctor: Bifunctor4<URI> = {
   URI,
-  bimap: bimap_,
-  mapLeft: mapLeft_
+  bimap: _bimap,
+  mapLeft: _mapLeft
 }
 
 /**
@@ -686,8 +684,8 @@ export const Bifunctor: Bifunctor4<URI> = {
  */
 export const Alt: Alt4<URI> = {
   URI,
-  map: map_,
-  alt: alt_
+  map: _map,
+  alt: _alt
 }
 
 // TODO: remove in v3
@@ -697,13 +695,13 @@ export const Alt: Alt4<URI> = {
  */
 export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & MonadTask4<URI> & MonadThrow4<URI> = {
   URI,
-  map: map_,
+  map: _map,
   of,
-  ap: ap_,
-  chain: chain_,
-  bimap: bimap_,
-  mapLeft: mapLeft_,
-  alt: alt_,
+  ap: _ap,
+  chain: _chain,
+  bimap: _bimap,
+  mapLeft: _mapLeft,
+  alt: _alt,
   fromIO,
   fromTask,
   throwError
@@ -717,13 +715,13 @@ export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & 
  */
 export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
   URI,
-  map: map_,
+  map: _map,
   of,
-  ap: ap_,
-  chain: chain_,
-  bimap: bimap_,
-  mapLeft: mapLeft_,
-  alt: alt_,
+  ap: _ap,
+  chain: _chain,
+  bimap: _bimap,
+  mapLeft: _mapLeft,
+  alt: _alt,
   fromIO,
   fromTask,
   throwError

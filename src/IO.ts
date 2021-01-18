@@ -36,10 +36,10 @@ export interface IO<A> {
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad1<URI>['map'] = (ma, f) => () => f(ma())
-const ap_: Monad1<URI>['ap'] = (mab, ma) => () => mab()(ma())
-const chain_: Monad1<URI>['chain'] = (ma, f) => () => f(ma())()
-const chainRec_: ChainRec1<URI>['chainRec'] = (a, f) => () => {
+const _map: Monad1<URI>['map'] = (ma, f) => () => f(ma())
+const _ap: Monad1<URI>['ap'] = (mab, ma) => () => mab()(ma())
+const _chain: Monad1<URI>['chain'] = (ma, f) => () => f(ma())()
+const _chainRec: ChainRec1<URI>['chainRec'] = (a, f) => () => {
   let e = f(a)()
   while (e._tag === 'Left') {
     e = f(e.left)()
@@ -58,7 +58,7 @@ const chainRec_: ChainRec1<URI>['chainRec'] = (a, f) => () => {
  * @category Functor
  * @since 2.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) => map_(fa, f)
+export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) => _map(fa, f)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -66,7 +66,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B> = (f) => (fa) =
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = (fa) => (fab) => ap_(fab, fa)
+export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = (fa) => (fab) => _ap(fab, fa)
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -110,7 +110,7 @@ export const of: Applicative1<URI>['of'] = constant
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B> = (f) => (ma) => chain_(ma, f)
+export const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B> = (f) => (ma) => _chain(ma, f)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -194,7 +194,7 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> {
  */
 export const Functor: Functor1<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 /**
@@ -203,8 +203,8 @@ export const Functor: Functor1<URI> = {
  */
 export const Applicative: Applicative1<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of
 }
 
@@ -214,10 +214,10 @@ export const Applicative: Applicative1<URI> = {
  */
 export const Monad: Monad1<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of,
-  chain: chain_
+  chain: _chain
 }
 
 /**
@@ -226,10 +226,10 @@ export const Monad: Monad1<URI> = {
  */
 export const MonadIO: MonadIO1<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of,
-  chain: chain_,
+  chain: _chain,
   fromIO
 }
 
@@ -239,10 +239,10 @@ export const MonadIO: MonadIO1<URI> = {
  */
 export const ChainRec: ChainRec1<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
-  chain: chain_,
-  chainRec: chainRec_
+  map: _map,
+  ap: _ap,
+  chain: _chain,
+  chainRec: _chainRec
 }
 
 // TODO: remove in v3
@@ -252,12 +252,12 @@ export const ChainRec: ChainRec1<URI> = {
  */
 export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
   URI,
-  map: map_,
+  map: _map,
   of,
-  ap: ap_,
-  chain: chain_,
+  ap: _ap,
+  chain: _chain,
   fromIO,
-  chainRec: chainRec_
+  chainRec: _chainRec
 }
 
 // -------------------------------------------------------------------------------------

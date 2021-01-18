@@ -169,7 +169,7 @@ export function getApplicative<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     of: right,
     ap: (fab, fa) =>
       isLeft(fab)
@@ -216,7 +216,7 @@ export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<UR
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     of: right,
     ap: applicative.ap,
     chain,
@@ -405,22 +405,22 @@ export function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
-const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
+const _bimap: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
-const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
+const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
 /* istanbul ignore next */
-const reduce_: Foldable2<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
+const _reduce: Foldable2<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
 /* istanbul ignore next */
-const foldMap_: Foldable2<URI>['foldMap'] = (M) => {
+const _foldMap: Foldable2<URI>['foldMap'] = (M) => {
   const foldMapM = foldMap(M)
   return (fa, f) => pipe(fa, foldMapM(f))
 }
 /* istanbul ignore next */
-const reduceRight_: Foldable2<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
+const _reduceRight: Foldable2<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
 /* istanbul ignore next */
-const traverse_ = <F>(
+const _traverse = <F>(
   F: Applicative<F>
 ): (<E, A, B>(ta: These<E, A>, f: (a: A) => HKT<F, B>) => HKT<F, These<E, B>>) => {
   const traverseF = traverse(F)
@@ -525,7 +525,7 @@ declare module './HKT' {
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 /**
@@ -534,8 +534,8 @@ export const Functor: Functor2<URI> = {
  */
 export const Bifunctor: Bifunctor2<URI> = {
   URI,
-  bimap: bimap_,
-  mapLeft: mapLeft_
+  bimap: _bimap,
+  mapLeft: _mapLeft
 }
 
 /**
@@ -544,9 +544,9 @@ export const Bifunctor: Bifunctor2<URI> = {
  */
 export const Foldable: Foldable2<URI> = {
   URI,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight
 }
 
 /**
@@ -555,11 +555,11 @@ export const Foldable: Foldable2<URI> = {
  */
 export const Traversable: Traversable2<URI> = {
   URI,
-  map: map_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
+  map: _map,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
   sequence
 }
 
@@ -570,12 +570,12 @@ export const Traversable: Traversable2<URI> = {
  */
 export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,
-  map: map_,
-  bimap: bimap_,
-  mapLeft: mapLeft_,
-  reduce: reduce_,
-  foldMap: foldMap_,
-  reduceRight: reduceRight_,
-  traverse: traverse_,
+  map: _map,
+  bimap: _bimap,
+  mapLeft: _mapLeft,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
   sequence
 }

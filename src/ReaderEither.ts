@@ -231,17 +231,17 @@ export const filterOrElse: {
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const map_: Monad3<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _map: Monad3<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
-const bimap_: Bifunctor3<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
+const _bimap: Bifunctor3<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
-const mapLeft_: Bifunctor3<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
+const _mapLeft: Bifunctor3<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
 /* istanbul ignore next */
-const ap_: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const _ap: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 /* istanbul ignore next */
-const chain_: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+const _chain: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
-const alt_: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
+const _alt: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -505,7 +505,7 @@ export function getApplicativeReaderValidation<E>(SE: Semigroup<E>): Applicative
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     ap: (fab, fa) => pipe(fab, ap(fa)),
     of
   }
@@ -520,7 +520,7 @@ export function getAltReaderValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     alt: (me, that) => (r) => A.alt(me(r), () => that()(r))
   }
 }
@@ -538,12 +538,12 @@ export function getReaderValidation<E>(
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     ap: applicativeReaderValidation.ap,
     of,
-    chain: chain_,
-    bimap: bimap_,
-    mapLeft: mapLeft_,
+    chain: _chain,
+    bimap: _bimap,
+    mapLeft: _mapLeft,
     alt: altReaderValidation.alt,
     throwError
   }
@@ -555,7 +555,7 @@ export function getReaderValidation<E>(
  */
 export const Functor: Functor3<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 /**
@@ -564,8 +564,8 @@ export const Functor: Functor3<URI> = {
  */
 export const Applicative: Applicative3<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of
 }
 
@@ -575,10 +575,10 @@ export const Applicative: Applicative3<URI> = {
  */
 export const Monad: Monad3<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of,
-  chain: chain_
+  chain: _chain
 }
 
 /**
@@ -587,8 +587,8 @@ export const Monad: Monad3<URI> = {
  */
 export const Bifunctor: Bifunctor3<URI> = {
   URI,
-  bimap: bimap_,
-  mapLeft: mapLeft_
+  bimap: _bimap,
+  mapLeft: _mapLeft
 }
 
 /**
@@ -597,8 +597,8 @@ export const Bifunctor: Bifunctor3<URI> = {
  */
 export const Alt: Alt3<URI> = {
   URI,
-  map: map_,
-  alt: alt_
+  map: _map,
+  alt: _alt
 }
 
 /**
@@ -607,10 +607,10 @@ export const Alt: Alt3<URI> = {
  */
 export const MonadThrow: MonadThrow3<URI> = {
   URI,
-  map: map_,
-  ap: ap_,
+  map: _map,
+  ap: _ap,
   of,
-  chain: chain_,
+  chain: _chain,
   throwError
 }
 
@@ -621,13 +621,13 @@ export const MonadThrow: MonadThrow3<URI> = {
  */
 export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThrow3<URI> = {
   URI,
-  bimap: bimap_,
-  mapLeft: mapLeft_,
-  map: map_,
+  bimap: _bimap,
+  mapLeft: _mapLeft,
+  map: _map,
   of,
-  ap: ap_,
-  chain: chain_,
-  alt: alt_,
+  ap: _ap,
+  chain: _chain,
+  alt: _alt,
   throwError: left
 }
 

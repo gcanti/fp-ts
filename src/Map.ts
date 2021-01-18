@@ -239,11 +239,11 @@ export function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable<F>): (f
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map__: Functor2<URI>['map'] = RM.Functor.map as any
-const filter_: Filterable2<URI>['filter'] = RM.Filterable.filter as any
-const filterMap_: Filterable2<URI>['filterMap'] = RM.Filterable.filterMap as any
-const partition_: Filterable2<URI>['partition'] = RM.Filterable.partition as any
-const partitionMap_: Filterable2<URI>['partitionMap'] = RM.Filterable.partitionMap as any
+const _map: Functor2<URI>['map'] = RM.Functor.map as any
+const _filter: Filterable2<URI>['filter'] = RM.Filterable.filter as any
+const _filterMap: Filterable2<URI>['filterMap'] = RM.Filterable.filterMap as any
+const _partition: Filterable2<URI>['partition'] = RM.Filterable.partition as any
+const _partitionMap: Filterable2<URI>['partitionMap'] = RM.Filterable.partitionMap as any
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -354,7 +354,7 @@ export const getWitherable: <K>(
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map__
+  map: _map
 }
 
 /**
@@ -373,13 +373,13 @@ export const Compactable: Compactable2<URI> = {
  */
 export const Filterable: Filterable2<URI> = {
   URI,
-  map: map__,
+  map: _map,
   compact,
   separate,
-  filter: filter_,
-  filterMap: filterMap_,
-  partition: partition_,
-  partitionMap: partitionMap_
+  filter: _filter,
+  filterMap: _filterMap,
+  partition: _partition,
+  partitionMap: _partitionMap
 }
 
 // TODO: remove in v3

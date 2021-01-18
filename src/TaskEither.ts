@@ -315,21 +315,21 @@ export const chainIOEitherK: <E, A, B>(
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _map: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
-const bimap_: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
+const _bimap: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
-const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-const apPar_: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const apSeq_: Applicative2<URI>['ap'] = (fab, fa) =>
+const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
+const _apPar: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const _apSeq: Applicative2<URI>['ap'] = (fab, fa) =>
   pipe(
     fab,
     chain((f) => pipe(fa, map(f)))
   )
 /* istanbul ignore next */
-const chain_: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+const _chain: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
-const alt_: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
+const _alt: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -620,7 +620,7 @@ export function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     ap: (fab, fa) => pipe(fab, ap(fa)),
     of
   }
@@ -634,7 +634,7 @@ export function getAltTaskValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     alt: (me, that) =>
       pipe(
         me,
@@ -663,12 +663,12 @@ export function getTaskValidation<E>(
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     ap: applicativeTaskValidation.ap,
     of,
-    chain: chain_,
-    bimap: bimap_,
-    mapLeft: mapLeft_,
+    chain: _chain,
+    bimap: _bimap,
+    mapLeft: _mapLeft,
     alt: altTaskValidation.alt,
     fromIO,
     fromTask,
@@ -687,7 +687,7 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
   return {
     URI,
     _E: undefined as any,
-    map: map_,
+    map: _map,
     compact: F.compact,
     separate: F.separate,
     filter: F.filter,
@@ -703,7 +703,7 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 /**
@@ -712,8 +712,8 @@ export const Functor: Functor2<URI> = {
  */
 export const ApplicativePar: Applicative2<URI> = {
   URI,
-  map: map_,
-  ap: apPar_,
+  map: _map,
+  ap: _apPar,
   of
 }
 
@@ -723,8 +723,8 @@ export const ApplicativePar: Applicative2<URI> = {
  */
 export const ApplicativeSeq: Applicative2<URI> = {
   URI,
-  map: map_,
-  ap: apSeq_,
+  map: _map,
+  ap: _apSeq,
   of
 }
 
@@ -734,8 +734,8 @@ export const ApplicativeSeq: Applicative2<URI> = {
  */
 export const Bifunctor: Bifunctor2<URI> = {
   URI,
-  bimap: bimap_,
-  mapLeft: mapLeft_
+  bimap: _bimap,
+  mapLeft: _mapLeft
 }
 
 /**
@@ -744,8 +744,8 @@ export const Bifunctor: Bifunctor2<URI> = {
  */
 export const Alt: Alt2<URI> = {
   URI,
-  map: map_,
-  alt: alt_
+  map: _map,
+  alt: _alt
 }
 
 // TODO: remove in v3
@@ -755,13 +755,13 @@ export const Alt: Alt2<URI> = {
  */
 export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<URI> & MonadThrow2<URI> = {
   URI,
-  bimap: bimap_,
-  mapLeft: mapLeft_,
-  map: map_,
+  bimap: _bimap,
+  mapLeft: _mapLeft,
+  map: _map,
   of,
-  ap: apPar_,
-  chain: chain_,
-  alt: alt_,
+  ap: _apPar,
+  chain: _chain,
+  alt: _alt,
   fromIO,
   fromTask,
   throwError
@@ -776,13 +776,13 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<
  */
 export const taskEitherSeq: typeof taskEither = {
   URI,
-  bimap: bimap_,
-  mapLeft: mapLeft_,
-  map: map_,
+  bimap: _bimap,
+  mapLeft: _mapLeft,
+  map: _map,
   of,
-  ap: apSeq_,
-  chain: chain_,
-  alt: alt_,
+  ap: _apSeq,
+  chain: _chain,
+  alt: _alt,
   fromIO,
   fromTask,
   throwError
