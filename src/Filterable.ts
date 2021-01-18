@@ -24,7 +24,7 @@ import {
   CompactableComposition23
 } from './Compactable'
 import { Either } from './Either'
-import { Predicate, Refinement } from './function'
+import { pipe, Predicate, Refinement } from './function'
 import {
   Functor,
   Functor1,
@@ -500,4 +500,117 @@ export function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>):
     filter: (fga, f) => F.map(fga, (ga) => G.filter(ga, f))
   }
   return FC
+}
+
+/**
+ * @since 2.10.0
+ */
+export function filter_<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Filterable2C<G, E>
+): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, A>>
+export function filter_<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Filterable1<G>
+): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, A>>
+export function filter_<F, G>(
+  F: Functor<F>,
+  G: Filterable<G>
+): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, A>>
+export function filter_<F, G>(
+  F: Functor<F>,
+  G: Filterable<G>
+): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, A>> {
+  return (predicate) => (fga) => F.map(fga, (ga) => G.filter(ga, predicate))
+}
+
+/**
+ * @since 2.10.0
+ */
+export function filterMap_<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Filterable2C<G, E>
+): <A, B>(f: (a: A) => Option<B>) => (fga: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, B>>
+export function filterMap_<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Filterable1<G>
+): <A, B>(f: (a: A) => Option<B>) => (fga: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, B>>
+export function filterMap_<F, G>(
+  F: Functor<F>,
+  G: Filterable<G>
+): <A, B>(f: (a: A) => Option<B>) => (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
+export function filterMap_<F, G>(
+  F: Functor<F>,
+  G: Filterable<G>
+): <A, B>(f: (a: A) => Option<B>) => (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>> {
+  return (f) => (fga) => F.map(fga, (ga) => G.filterMap(ga, f))
+}
+
+/**
+ * @since 2.10.0
+ */
+export function partition_<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Filterable2C<G, E>
+): <A>(
+  predicate: Predicate<A>
+) => (fga: Kind<F, Kind2<G, E, A>>) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, A>>>
+export function partition_<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Filterable1<G>
+): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind<G, A>>) => Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, A>>>
+export function partition_<F, G>(
+  F: Functor<F>,
+  G: Filterable<G>
+): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, A>>>
+export function partition_<F, G>(
+  F: Functor<F>,
+  G: Filterable<G>
+): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, A>>> {
+  const filter = filter_(F, G)
+  return (predicate) => (fga) => {
+    const left = pipe(
+      fga,
+      filter((a) => !predicate(a))
+    )
+    const right = pipe(fga, filter(predicate))
+    return { left, right }
+  }
+}
+
+/**
+ * @since 2.10.0
+ */
+export function partitionMap_<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Filterable2C<G, E>
+): <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: Kind<F, Kind2<G, E, A>>) => Separated<Kind<F, Kind2<G, E, B>>, Kind<F, Kind2<G, E, C>>>
+export function partitionMap_<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Filterable1<G>
+): <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: Kind<F, Kind<G, A>>) => Separated<Kind<F, Kind<G, B>>, Kind<F, Kind<G, C>>>
+export function partitionMap_<F, G>(
+  F: Functor<F>,
+  G: Filterable<G>
+): <A, B, C>(f: (a: A) => Either<B, C>) => (fa: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, B>>, HKT<F, HKT<G, C>>>
+export function partitionMap_<F, G>(
+  F: Functor<F>,
+  G: Filterable<G>
+): <A, B, C>(f: (a: A) => Either<B, C>) => (fa: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, B>>, HKT<F, HKT<G, C>>> {
+  const filterMap = filterMap_(F, G)
+  return (f) => (fga) => {
+    const left = pipe(
+      fga,
+      filterMap((a) => getLeft(f(a)))
+    )
+    const right = pipe(
+      fga,
+      filterMap((a) => getRight(f(a)))
+    )
+    return { left, right }
+  }
 }
