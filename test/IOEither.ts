@@ -4,7 +4,7 @@ import * as E from '../src/Either'
 import { pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as _ from '../src/IOEither'
-import * as A from '../src/Array'
+import * as A from '../src/ReadonlyArray'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
 import { pipeable } from '../src/pipeable'
@@ -354,7 +354,7 @@ describe('IOEither', () => {
 
   describe('getFilterable', () => {
     const F_ = _.getFilterable(A.getMonoid<string>())
-    const { filter } = pipeable(F_)
+    const { filter, filterMap, partition, partitionMap } = pipeable(F_)
 
     it('filter', async () => {
       const r1 = pipe(
@@ -372,6 +372,48 @@ describe('IOEither', () => {
         filter((n) => n > 0)
       )
       assert.deepStrictEqual(r3(), _.left(['a'])())
+    })
+
+    it('filterMap', () => {
+      assert.deepStrictEqual(
+        pipe(
+          _.right('aaa'),
+          filterMap((s) => (s.length > 1 ? some(s.length) : none))
+        )(),
+        E.right(3)
+      )
+      assert.deepStrictEqual(
+        pipe(
+          _.right('a'),
+          filterMap((s) => (s.length > 1 ? some(s.length) : none))
+        )(),
+        E.left([])
+      )
+      assert.deepStrictEqual(
+        pipe(
+          _.left<ReadonlyArray<string>, string>(['e']),
+          filterMap((s) => (s.length > 1 ? some(s.length) : none))
+        )(),
+        E.left(['e'])
+      )
+    })
+
+    it('partition', () => {
+      const { left, right } = pipe(
+        _.right('a'),
+        partition((s) => s.length > 2)
+      )
+      assert.deepStrictEqual(left(), E.right('a'))
+      assert.deepStrictEqual(right(), E.left([]))
+    })
+
+    it('partitionMap', () => {
+      const { left, right } = pipe(
+        _.right('a'),
+        partitionMap((s) => (s.length > 2 ? E.right(s.length) : E.left(false)))
+      )
+      assert.deepStrictEqual(left(), E.right(false))
+      assert.deepStrictEqual(right(), E.left([]))
     })
   })
 
