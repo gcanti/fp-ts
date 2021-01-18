@@ -3,9 +3,10 @@
  */
 import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C } from './Applicative'
-import { apFirst_, Apply3, apSecond_, apS_ } from './Apply'
+import { apFirst_, Apply3, apSecond_, apS_, ap_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
+import * as ET from './EitherT'
 import { flow, identity, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor3 } from './Functor'
 import { bind_, chainFirst_, Monad3, Monad3C } from './Monad'
@@ -16,12 +17,12 @@ import { Pointed3 } from './Pointed'
 import * as R from './Reader'
 import { Semigroup } from './Semigroup'
 
+import Either = E.Either
+import Reader = R.Reader
+
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------
-
-import Either = E.Either
-import Reader = R.Reader
 
 /**
  * @category model
@@ -39,7 +40,7 @@ export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
  */
 export const left: <R, E = never, A = never>(e: E) => ReaderEither<R, E, A> =
   /*#__PURE__*/
-  flow(E.left, R.of)
+  ET.left_(R.Pointed)
 
 /**
  * @category constructors
@@ -47,7 +48,7 @@ export const left: <R, E = never, A = never>(e: E) => ReaderEither<R, E, A> =
  */
 export const right: <R, E = never, A = never>(a: A) => ReaderEither<R, E, A> =
   /*#__PURE__*/
-  flow(E.right, R.of)
+  ET.right_(R.Pointed)
 
 /**
  * @category constructors
@@ -55,7 +56,7 @@ export const right: <R, E = never, A = never>(a: A) => ReaderEither<R, E, A> =
  */
 export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderEither<R, E, A> =
   /*#__PURE__*/
-  R.map(E.right)
+  ET.rightF_(R.Functor)
 
 /**
  * @category constructors
@@ -63,7 +64,7 @@ export const rightReader: <R, E = never, A = never>(ma: Reader<R, A>) => ReaderE
  */
 export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderEither<R, E, A> =
   /*#__PURE__*/
-  R.map(E.left)
+  ET.leftF_(R.Functor)
 
 /**
  * @category constructors
@@ -120,7 +121,15 @@ export const fold: <R, E, A, B>(
   onRight: (a: A) => Reader<R, B>
 ) => (ma: ReaderEither<R, E, A>) => Reader<R, B> =
   /*#__PURE__*/
-  flow(E.fold, R.chain)
+  ET.fold_(R.Monad)
+
+/**
+ * @category destructors
+ * @since 2.0.0
+ */
+export const getOrElse: <E, R, A>(onLeft: (e: E) => Reader<R, A>) => (ma: ReaderEither<R, E, A>) => Reader<R, A> =
+  /*#__PURE__*/
+  ET.getOrElse_(R.Monad)
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).
@@ -128,17 +137,9 @@ export const fold: <R, E, A, B>(
  * @category destructors
  * @since 2.6.0
  */
-export const getOrElseW = <R, E, B>(onLeft: (e: E) => Reader<R, B>) => <Q, A>(
-  ma: ReaderEither<Q, E, A>
-): Reader<Q & R, A | B> => pipe(ma, R.chain(E.fold<E, A, R.Reader<Q & R, A | B>>(onLeft, R.of)))
-
-/**
- * @category destructors
- * @since 2.0.0
- */
-export const getOrElse: <E, R, A>(
-  onLeft: (e: E) => Reader<R, A>
-) => (ma: ReaderEither<R, E, A>) => Reader<R, A> = getOrElseW
+export const getOrElseW: <R, E, B>(
+  onLeft: (e: E) => Reader<R, B>
+) => <Q, A>(ma: ReaderEither<Q, E, A>) => Reader<Q & R, A | B> = getOrElse as any
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -150,7 +151,9 @@ export const getOrElse: <E, R, A>(
  */
 export const orElse: <E, R, M, A>(
   onLeft: (e: E) => ReaderEither<R, M, A>
-) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, M, A> = (f) => R.chain(E.fold(f, right))
+) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, M, A> =
+  /*#__PURE__*/
+  ET.orElse_(R.Monad)
 
 /**
  * @category combinators
@@ -158,7 +161,7 @@ export const orElse: <E, R, M, A>(
  */
 export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E> =
   /*#__PURE__*/
-  R.map(E.swap)
+  ET.swap_(R.Functor)
 
 // TODO: remove in v3
 /**
@@ -256,8 +259,9 @@ const _alt: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
  * @category Functor
  * @since 2.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = (f) =>
-  R.map(E.map(f))
+export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B> =
+  /*#__PURE__*/
+  ET.map_(R.Functor)
 
 /**
  * Map a pair of functions over the two last type arguments of the bifunctor.
@@ -270,7 +274,7 @@ export const bimap: <E, G, A, B>(
   g: (a: A) => B
 ) => <R>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, B> =
   /*#__PURE__*/
-  flow(E.bimap, R.map)
+  ET.bimap_(R.Functor)
 
 /**
  * Map a function over the second type argument of a bifunctor.
@@ -278,22 +282,9 @@ export const bimap: <E, G, A, B>(
  * @category Bifunctor
  * @since 2.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, A> = (f) =>
-  R.map(E.mapLeft(f))
-
-/**
- * Less strict version of [`ap`](#ap).
- *
- * @category Apply
- * @since 2.8.0
- */
-export const apW = <Q, D, A>(
-  fa: ReaderEither<Q, D, A>
-): (<R, E, B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<Q & R, D | E, B>) =>
-  flow(
-    R.map((gab) => (ga: E.Either<D, A>) => E.apW(ga)(gab)),
-    R.apW(fa)
-  )
+export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, A> =
+  /*#__PURE__*/
+  ET.mapLeft_(R.Functor)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -303,7 +294,19 @@ export const apW = <Q, D, A>(
  */
 export const ap: <R, E, A>(
   fa: ReaderEither<R, E, A>
-) => <B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B> = apW
+) => <B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B> =
+  /*#__PURE__*/
+  ET.ap_(R.Apply)
+
+/**
+ * Less strict version of [`ap`](#ap).
+ *
+ * @category Apply
+ * @since 2.8.0
+ */
+export const apW: <Q, D, A>(
+  fa: ReaderEither<Q, D, A>
+) => <R, E, B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<Q & R, D | E, B> = ap as any
 
 /**
  * Wrap a value into the type constructor.
@@ -316,16 +319,6 @@ export const ap: <R, E, A>(
 export const of: Pointed3<URI>['of'] = right
 
 /**
- * Less strict version of [`chain`](#chain).
- *
- * @category Monad
- * @since 2.6.0
- */
-export const chainW = <R, E, A, B>(f: (a: A) => ReaderEither<R, E, B>) => <Q, D>(
-  ma: ReaderEither<Q, D, A>
-): ReaderEither<Q & R, D | E, B> => pipe(ma, R.chain(E.fold<D, A, ReaderEither<Q & R, D | E, B>>(left, f)))
-
-/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad
@@ -333,7 +326,19 @@ export const chainW = <R, E, A, B>(f: (a: A) => ReaderEither<R, E, B>) => <Q, D>
  */
 export const chain: <R, E, A, B>(
   f: (a: A) => ReaderEither<R, E, B>
-) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = chainW
+) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> =
+  /*#__PURE__*/
+  ET.chain_(R.Monad)
+
+/**
+ * Less strict version of [`chain`](#chain).
+ *
+ * @category Monad
+ * @since 2.6.0
+ */
+export const chainW: <R, E, A, B>(
+  f: (a: A) => ReaderEither<R, E, B>
+) => <Q, D>(ma: ReaderEither<Q, D, A>) => ReaderEither<Q & R, D | E, B> = chain as any
 
 /**
  * Derivable from `Monad`.
@@ -346,26 +351,25 @@ export const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) 
   chain(identity)
 
 /**
- * Less strict version of [`alt`](#alt).
- *
- * @category Alt
- * @since 2.9.0
- */
-export const altW = <R2, E2, B>(that: () => ReaderEither<R2, E2, B>) => <R1, E1, A>(
-  fa: ReaderEither<R1, E1, A>
-): ReaderEither<R1 & R2, E1 | E2, A | B> =>
-  pipe(fa, R.chain(E.fold<E1, A, ReaderEither<R1 & R2, E1 | E2, A | B>>(that, right)))
-
-/**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
  * @category Alt
  * @since 2.0.0
  */
-export const alt: <R, E, A>(
-  that: () => ReaderEither<R, E, A>
-) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = altW
+export const alt: <R, E, A>(that: () => ReaderEither<R, E, A>) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A> =
+  /*#__PURE__*/
+  ET.alt_(R.Monad)
+
+/**
+ * Less strict version of [`alt`](#alt).
+ *
+ * @category Alt
+ * @since 2.9.0
+ */
+export const altW: <R2, E2, B>(
+  that: () => ReaderEither<R2, E2, B>
+) => <R1, E1, A>(fa: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A | B> = alt as any
 
 /**
  * @category MonadThrow
@@ -432,15 +436,8 @@ export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderEither<R, E,
  * @category instances
  * @since 2.7.0
  */
-export function getApplicativeReaderValidation<E>(SE: Semigroup<E>): Applicative3C<URI, E> {
-  const AV = E.getApplicativeValidation(SE)
-  const ap = <EF, A>(
-    fga: R.Reader<EF, E.Either<E, A>>
-  ): (<B>(fgab: R.Reader<EF, E.Either<E, (a: A) => B>>) => R.Reader<EF, E.Either<E, B>>) =>
-    flow(
-      R.map((gab) => (ga: E.Either<E, A>) => AV.ap(gab, ga)),
-      R.ap(fga)
-    )
+export function getApplicativeReaderValidation<E>(S: Semigroup<E>): Applicative3C<URI, E> {
+  const ap = ap_(R.Apply, E.getApplicativeValidation(S))
   return {
     URI,
     _E: undefined as any,
@@ -454,13 +451,13 @@ export function getApplicativeReaderValidation<E>(SE: Semigroup<E>): Applicative
  * @category instances
  * @since 2.7.0
  */
-export function getAltReaderValidation<E>(SE: Semigroup<E>): Alt3C<URI, E> {
-  const A = E.getAltValidation(SE)
+export function getAltReaderValidation<E>(S: Semigroup<E>): Alt3C<URI, E> {
+  const alt = ET.altValidation_(R.Monad, S)
   return {
     URI,
     _E: undefined as any,
     map: _map,
-    alt: (me, that) => (r) => A.alt(me(r), () => that()(r))
+    alt: (fa, that) => pipe(fa, alt(that))
   }
 }
 
@@ -573,7 +570,9 @@ export const Monad: Monad3<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst =
+export const chainFirst: <R, E, A, B>(
+  f: (a: A) => ReaderEither<R, E, B>
+) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> =
   /*#__PURE__*/
   chainFirst_(Monad)
 

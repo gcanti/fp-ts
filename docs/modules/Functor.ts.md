@@ -46,6 +46,7 @@ Added in v2.0.0
   - [FunctorCompositionHKT2C (interface)](#functorcompositionhkt2c-interface)
   - [bindTo\_](#bindto_)
   - [getFunctorComposition](#getfunctorcomposition)
+  - [map\_](#map_)
 
 ---
 
@@ -373,3 +374,24 @@ export declare function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>
 ```
 
 Added in v2.0.0
+
+## map\_
+
+**Signature**
+
+```ts
+export declare function map_<F, G extends URIS2>(
+  F: Functor<F>,
+  G: Functor2<G>
+): <A, B>(f: (a: A) => B) => <E>(fa: HKT<F, Kind2<G, E, A>>) => HKT<F, Kind2<G, E, B>>
+export declare function map_<F, G extends URIS>(
+  F: Functor<F>,
+  G: Functor1<G>
+): <A, B>(f: (a: A) => B) => (fa: HKT<F, Kind<G, A>>) => HKT<F, Kind<G, B>>
+export declare function map_<F, G>(
+  F: Functor<F>,
+  G: Functor<G>
+): <A, B>(f: (a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
+```
+
+Added in v2.10.0

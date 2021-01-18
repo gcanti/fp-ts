@@ -376,9 +376,9 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, R, E, B>(
+export declare const chainFirst: <R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
-) => (first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -533,9 +533,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function orElse<R, E, A, M>(
+export declare const orElse: <R, E, A, M>(
   onLeft: (e: E) => ReaderTaskEither<R, M, A>
-): (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, M, A>
+) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, M, A>
 ```
 
 Added in v2.0.0
@@ -748,10 +748,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function fold<R, E, A, B>(
-  onLeft: (e: E) => ReaderTask<R, B>,
-  onRight: (a: A) => ReaderTask<R, B>
-): (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B>
+export declare const fold: <R, E, A, B>(
+  onLeft: (e: E) => RT.ReaderTask<R, B>,
+  onRight: (a: A) => RT.ReaderTask<R, B>
+) => (ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, B>
 ```
 
 Added in v2.0.0
@@ -899,7 +899,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getAltReaderTaskValidation<E>(SE: Semigroup<E>): Alt3C<URI, E>
+export declare function getAltReaderTaskValidation<E>(S: Semigroup<E>): Alt3C<URI, E>
 ```
 
 Added in v2.7.0
@@ -909,7 +909,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative3C<URI, E>
+export declare function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative3C<URI, E>
 ```
 
 Added in v2.7.0
