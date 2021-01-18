@@ -300,3 +300,61 @@ export function sequenceS<F>(F: Apply<F>): (r: Record<string, HKT<F, any>>) => H
   }
 }
 /* tslint:enable:readonly-array */
+
+/**
+ * @since 2.10.0
+ */
+export function apS_<F extends URIS4>(
+  F: Apply4<F>
+): <N extends string, A, S, R, E, B>(
+  name: Exclude<N, keyof A>,
+  fb: Kind4<F, S, R, E, B>
+) => (fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export function apS_<F extends URIS3>(
+  F: Apply3<F>
+): <N extends string, A, R, E, B>(
+  name: Exclude<N, keyof A>,
+  fb: Kind3<F, R, E, B>
+) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export function apS_<F extends URIS3, E>(
+  F: Apply3C<F, E>
+): <N extends string, A, R, B>(
+  name: Exclude<N, keyof A>,
+  fb: Kind3<F, R, E, B>
+) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export function apS_<F extends URIS2>(
+  F: Apply2<F>
+): <N extends string, A, E, B>(
+  name: Exclude<N, keyof A>,
+  fb: Kind2<F, E, B>
+) => (fa: Kind2<F, E, A>) => Kind2<F, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export function apS_<F extends URIS2, E>(
+  F: Apply2C<F, E>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: Kind2<F, E, B>
+) => (fa: Kind2<F, E, A>) => Kind2<F, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export function apS_<F extends URIS>(
+  F: Apply1<F>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: Kind<F, B>
+) => (fa: Kind<F, A>) => Kind<F, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export function apS_<F>(
+  F: Apply<F>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: HKT<F, B>
+) => (fa: HKT<F, A>) => HKT<F, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export function apS_<F>(
+  F: Apply<F>
+): <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: HKT<F, B>
+) => (fa: HKT<F, A>) => HKT<F, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> {
+  return <B>(name: string, fb: HKT<F, B>) => (fa) =>
+    F.ap(
+      F.map(fa, (a) => (b: B) => Object.assign({}, a, { [name]: b }) as any),
+      fb
+    )
+}

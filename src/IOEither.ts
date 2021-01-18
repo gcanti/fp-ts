@@ -6,6 +6,7 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
+import { Apply2, apS_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { Filterable2C, getFilterableComposition } from './Filterable'
@@ -560,6 +561,16 @@ export const Bifunctor: Bifunctor2<URI> = {
 
 /**
  * @category instances
+ * @since 2.10.0
+ */
+export const ApplyPar: Apply2<URI> = {
+  URI,
+  map: _map,
+  ap: _ap
+}
+
+/**
+ * @category instances
  * @since 2.8.4
  */
 export const ApplicativePar: Applicative2<URI> = {
@@ -736,22 +747,17 @@ export const bind: <N extends string, A, E, B>(
 /**
  * @since 2.8.0
  */
-export const apSW = <A, N extends string, D, B>(
-  name: Exclude<N, keyof A>,
-  fb: IOEither<D, B>
-): (<E>(fa: IOEither<E, A>) => IOEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  flow(
-    map((a) => (b: B) => bind_(a, name, b)),
-    apW(fb)
-  )
+export const apS =
+  /*#__PURE__*/
+  apS_(ApplyPar)
 
 /**
  * @since 2.8.0
  */
-export const apS: <A, N extends string, E, B>(
+export const apSW: <A, N extends string, D, B>(
   name: Exclude<N, keyof A>,
-  fb: IOEither<E, B>
-) => (fa: IOEither<E, A>) => IOEither<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+  fb: IOEither<D, B>
+) => <E>(fa: IOEither<E, A>) => IOEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // array utils

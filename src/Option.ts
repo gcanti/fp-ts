@@ -15,6 +15,7 @@
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
+import { Apply1, apS_ } from './Apply'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
@@ -991,6 +992,16 @@ export const Functor: Functor1<URI> = {
 
 /**
  * @category instances
+ * @since 2.10.0
+ */
+export const Apply: Apply1<URI> = {
+  URI,
+  map: _map,
+  ap: _ap
+}
+
+/**
+ * @category instances
  * @since 2.7.0
  */
 export const Applicative: Applicative1<URI> = {
@@ -1281,14 +1292,9 @@ export const bind = <N extends string, A, B>(
 /**
  * @since 2.8.0
  */
-export const apS = <A, N extends string, B>(
-  name: Exclude<N, keyof A>,
-  fb: Option<B>
-): ((fa: Option<A>) => Option<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  flow(
-    map((a) => (b: B) => bind_(a, name, b)),
-    ap(fb)
-  )
+export const apS =
+  /*#__PURE__*/
+  apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils
