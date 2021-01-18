@@ -11,15 +11,15 @@ import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
 import * as A from './Array'
 import { Comonad1 } from './Comonad'
 import { Eq, fromEquals } from './Eq'
+import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
-import { identity, pipe, bind_, bindTo_, flow } from './function'
-import { Functor1 } from './Functor'
+import { bind_, flow, identity, pipe } from './function'
+import { bindTo_, Functor1 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad as MonadHKT, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid } from './Monoid'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
-import { Extend1 } from './Extend'
 
 // tslint:disable:readonly-array
 
@@ -597,7 +597,9 @@ export const Do: Tree<{}> =
 /**
  * @since 2.8.0
  */
-export const bindTo = <N extends string>(name: N): (<A>(fa: Tree<A>) => Tree<{ [K in N]: A }>) => map(bindTo_(name))
+export const bindTo =
+  /*#__PURE__*/
+  bindTo_(Functor)
 
 /**
  * @since 2.8.0

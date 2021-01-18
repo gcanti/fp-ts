@@ -1020,7 +1020,7 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(
+export declare const bindTo: <N>(
   name: N
 ) => <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, { [K in N]: A }>
 ```

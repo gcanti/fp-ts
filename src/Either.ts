@@ -20,9 +20,10 @@ import { ChainRec2, ChainRec2C, tailRec } from './ChainRec'
 import { Separated } from './Compactable'
 import { Eq } from './Eq'
 import { Extend2 } from './Extend'
+import { Filterable2C } from './Filterable'
 import { Foldable2 } from './Foldable'
-import { identity, Lazy, Predicate, Refinement, pipe, bind_, bindTo_, flow } from './function'
-import { Functor2 } from './Functor'
+import { bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { bindTo_, Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2, Monad2C } from './Monad'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
@@ -32,7 +33,6 @@ import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { PipeableTraverse2, Traversable2 } from './Traversable'
 import { Witherable2C } from './Witherable'
-import { Filterable2C } from './Filterable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -1341,8 +1341,9 @@ export const Do: Either<never, {}> =
 /**
  * @since 2.8.0
  */
-export const bindTo = <N extends string>(name: N): (<E, A>(fa: Either<E, A>) => Either<E, { [K in N]: A }>) =>
-  map(bindTo_(name))
+export const bindTo =
+  /*#__PURE__*/
+  bindTo_(Functor)
 
 /**
  * @since 2.8.0

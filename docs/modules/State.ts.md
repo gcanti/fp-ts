@@ -326,7 +326,7 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(name: N) => <S, A>(fa: State<S, A>) => State<S, { [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <E, A>(fa: State<E, A>) => State<E, { [K in N]: A }>
 ```
 
 Added in v2.8.0
