@@ -450,17 +450,14 @@ const _traverse: Traversable1<URI>['traverse'] = <F>(
 }
 /* istanbul ignore next */
 const _alt: Alt1<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
-const _filter: Filterable1<URI>['filter'] = <A>(fa: Option<A>, predicate: Predicate<A>): Option<A> =>
-  pipe(fa, filter(predicate))
+const _filter: Filterable1<URI>['filter'] = <A>(fa: Option<A>, predicate: Predicate<A>) => pipe(fa, filter(predicate))
 /* istanbul ignore next */
 const _filterMap: Filterable1<URI>['filterMap'] = (fa, f) => pipe(fa, filterMap(f))
 /* istanbul ignore next */
 const _extend: Extend1<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
 /* istanbul ignore next */
-const _partition: Filterable1<URI>['partition'] = <A>(
-  fa: Option<A>,
-  predicate: Predicate<A>
-): Separated<Option<A>, Option<A>> => pipe(fa, partition(predicate))
+const _partition: Filterable1<URI>['partition'] = <A>(fa: Option<A>, predicate: Predicate<A>) =>
+  pipe(fa, partition(predicate))
 /* istanbul ignore next */
 const _partitionMap: Filterable1<URI>['partitionMap'] = (fa, f) => pipe(fa, partitionMap(f))
 /* istanbul ignore next */

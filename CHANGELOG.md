@@ -23,6 +23,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `bifunctorTaskThese` instance in favour of `Bifunctor` (@gcanti)
 - **New Feature**
   - add `Pointed` type class (@gcanti)
+  - add `TaskOption` module (@gcanti)
   - `Apply`
     - add `ap_` helper (@gcanti)
     - add `apS_` helper (@gcanti)
@@ -68,6 +69,8 @@ high state of flux, you're at risk of it changing without notice.
   - `Option`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
+  - `OptionT`
+    - split `getOptionM` into separated functions (@gcanti)
   - `Ord`
     - add `ordBigint`, #1375 (@EricCrosson)
   - `Reader`
