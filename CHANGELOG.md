@@ -18,12 +18,52 @@ high state of flux, you're at risk of it changing without notice.
 # 2.10.0
 
 - **New Feature**
+  - `Apply`
+    - add `apS_` helper (@gcanti)
+  - `Array`
+    - add `Apply` instance (@gcanti)
   - `Functor`
     - add `bindTo_` helper (@gcanti)
+  - `Either`
+    - add `Apply` instance (@gcanti)
   - `Eq`
     - add `eqBigint`, #1375 (@EricCrosson)
+  - `Identity`
+    - add `Apply` instance (@gcanti)
+  - `IO`
+    - add `Apply` instance (@gcanti)
+  - `NonEmptyArray`
+    - add `Apply` instance (@gcanti)
+  - `Option`
+    - add `Apply` instance (@gcanti)
   - `Ord`
     - add `ordBigint`, #1375 (@EricCrosson)
+  - `Reader`
+    - add `Apply` instance (@gcanti)
+  - `ReaderEither`
+    - add `Apply` instance (@gcanti)
+  - `ReaderTask`
+    - add `ApplyPar` instance (@gcanti)
+    - add `ApplySeq` instance (@gcanti)
+  - `ReaderTaskEither`
+    - add `ApplyPar` instance (@gcanti)
+    - add `ApplySeq` instance (@gcanti)
+  - `ReadonlyArray`
+    - add `Apply` instance (@gcanti)
+  - `ReadonlyNonEmptyArray`
+    - add `Apply` instance (@gcanti)
+  - `State`
+    - add `Apply` instance (@gcanti)
+  - `StateReaderTaskEither`
+    - add `Apply` instance (@gcanti)
+  - `Task`
+    - add `ApplyPar` instance (@gcanti)
+    - add `ApplySeq` instance (@gcanti)
+  - `TaskEither`
+    - add `ApplyPar` instance (@gcanti)
+    - add `ApplySeq` instance (@gcanti)
+  - `Tree`
+    - add `Apply` instance (@gcanti)
 
 # 2.9.5
 

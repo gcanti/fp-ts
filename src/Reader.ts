@@ -2,6 +2,7 @@
  * @since 2.0.0
  */
 import { Applicative2 } from './Applicative'
+import { Apply2, apS_ } from './Apply'
 import { Category2 } from './Category'
 import { Choice2 } from './Choice'
 import * as E from './Either'
@@ -263,6 +264,16 @@ export const Functor: Functor2<URI> = {
 
 /**
  * @category instances
+ * @since 2.10.0
+ */
+export const Apply: Apply2<URI> = {
+  URI,
+  map: _map,
+  ap: _ap
+}
+
+/**
+ * @category instances
  * @since 2.7.0
  */
 export const Applicative: Applicative2<URI> = {
@@ -395,22 +406,17 @@ export const Do: Reader<unknown, {}> =
 /**
  * @since 2.8.0
  */
-export const apSW = <A, N extends string, Q, B>(
-  name: Exclude<N, keyof A>,
-  fb: Reader<Q, B>
-): (<R>(fa: Reader<R, A>) => Reader<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  flow(
-    map((a) => (b: B) => bind_(a, name, b)),
-    apW(fb)
-  )
+export const apS =
+  /*#__PURE__*/
+  apS_(Apply)
 
 /**
  * @since 2.8.0
  */
-export const apS: <A, N extends string, R, B>(
+export const apSW: <A, N extends string, Q, B>(
   name: Exclude<N, keyof A>,
-  fb: Reader<R, B>
-) => (fa: Reader<R, A>) => Reader<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+  fb: Reader<Q, B>
+) => <R>(fa: Reader<R, A>) => Reader<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // array utils

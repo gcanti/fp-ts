@@ -40,6 +40,7 @@ Added in v2.0.0
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative-1)
+  - [Apply](#apply-1)
   - [ChainRec](#chainrec)
   - [Comonad](#comonad)
   - [Foldable](#foldable-1)
@@ -294,6 +295,16 @@ export declare const Applicative: Applicative1<'Identity'>
 
 Added in v2.7.0
 
+## Apply
+
+**Signature**
+
+```ts
+export declare const Apply: Apply1<'Identity'>
+```
+
+Added in v2.10.0
+
 ## ChainRec
 
 **Signature**
@@ -438,7 +449,7 @@ Added in v2.9.0
 **Signature**
 
 ```ts
-export declare const apS: <A, N extends string, B>(
+export declare const apS: <N, A, B>(
   name: Exclude<N, keyof A>,
   fb: B
 ) => (fa: A) => { [K in N | keyof A]: K extends keyof A ? A[K] : B }

@@ -65,6 +65,7 @@ Added in v2.0.0
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative-1)
+  - [Apply](#apply-1)
   - [Comonad](#comonad)
   - [Foldable](#foldable-1)
   - [FoldableWithIndex](#foldablewithindex-1)
@@ -662,6 +663,16 @@ export declare const Applicative: Applicative1<'NonEmptyArray'>
 ```
 
 Added in v2.7.0
+
+## Apply
+
+**Signature**
+
+```ts
+export declare const Apply: Apply1<'NonEmptyArray'>
+```
+
+Added in v2.10.0
 
 ## Comonad
 

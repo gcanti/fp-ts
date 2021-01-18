@@ -2,6 +2,7 @@
  * @since 2.3.0
  */
 import { Applicative2 } from './Applicative'
+import { Apply2, apS_ } from './Apply'
 import { bind_, flow, identity, pipe } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { IO } from './IO'
@@ -290,6 +291,16 @@ export const Functor: Functor2<URI> = {
 
 /**
  * @category instances
+ * @since 2.10.0
+ */
+export const ApplyPar: Apply2<URI> = {
+  URI,
+  map: _map,
+  ap: _apPar
+}
+
+/**
+ * @category instances
  * @since 2.7.0
  */
 export const ApplicativePar: Applicative2<URI> = {
@@ -297,6 +308,16 @@ export const ApplicativePar: Applicative2<URI> = {
   map: _map,
   ap: _apPar,
   of
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const ApplySeq: Apply2<URI> = {
+  URI,
+  map: _map,
+  ap: _apSeq
 }
 
 /**
@@ -413,22 +434,17 @@ export const bind: <N extends string, A, R, B>(
 /**
  * @since 2.8.0
  */
-export const apSW = <A, N extends string, Q, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReaderTask<Q, B>
-): (<R>(fa: ReaderTask<R, A>) => ReaderTask<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  flow(
-    map((a) => (b: B) => bind_(a, name, b)),
-    apW(fb)
-  )
+export const apS =
+  /*#__PURE__*/
+  apS_(ApplyPar)
 
 /**
  * @since 2.8.0
  */
-export const apS: <A, N extends string, R, B>(
+export const apSW: <A, N extends string, Q, B>(
   name: Exclude<N, keyof A>,
-  fb: ReaderTask<R, B>
-) => (fa: ReaderTask<R, A>) => ReaderTask<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apSW
+  fb: ReaderTask<Q, B>
+) => <R>(fa: ReaderTask<R, A>) => ReaderTask<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // array utils

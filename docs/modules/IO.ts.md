@@ -39,6 +39,7 @@ Added in v2.0.0
   - [flatten](#flatten)
 - [instances](#instances)
   - [Applicative](#applicative-1)
+  - [Apply](#apply-1)
   - [ChainRec](#chainrec)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
@@ -199,6 +200,16 @@ export declare const Applicative: Applicative1<'IO'>
 
 Added in v2.7.0
 
+## Apply
+
+**Signature**
+
+```ts
+export declare const Apply: Apply1<'IO'>
+```
+
+Added in v2.10.0
+
 ## ChainRec
 
 **Signature**
@@ -320,7 +331,7 @@ Added in v2.9.0
 **Signature**
 
 ```ts
-export declare const apS: <A, N extends string, B>(
+export declare const apS: <N, A, B>(
   name: Exclude<N, keyof A>,
   fb: IO<B>
 ) => (fa: IO<A>) => IO<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>

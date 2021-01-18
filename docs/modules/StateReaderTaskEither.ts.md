@@ -78,6 +78,7 @@ Added in v2.0.0
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative-1)
+  - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
   - [Functor](#functor-1)
   - [URI](#uri)
@@ -800,6 +801,16 @@ export declare const Applicative: Applicative4<'StateReaderTaskEither'>
 
 Added in v2.7.0
 
+## Apply
+
+**Signature**
+
+```ts
+export declare const Apply: Apply4<'StateReaderTaskEither'>
+```
+
+Added in v2.10.0
+
 ## Bifunctor
 
 **Signature**
@@ -889,7 +900,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const apS: <A, N extends string, S, R, E, B>(
+export declare const apS: <N, A, S, R, E, B>(
   name: Exclude<N, keyof A>,
   fb: StateReaderTaskEither<S, R, E, B>
 ) => (

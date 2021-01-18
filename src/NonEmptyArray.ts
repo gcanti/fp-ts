@@ -5,6 +5,7 @@
  */
 import { Alt1 } from './Alt'
 import { Applicative1 } from './Applicative'
+import { Apply1 } from './Apply'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
@@ -606,6 +607,16 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
   URI,
   map: _map,
   mapWithIndex: _mapWithIndex
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Apply: Apply1<URI> = {
+  URI,
+  map: _map,
+  ap: _ap
 }
 
 /**

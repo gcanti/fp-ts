@@ -80,6 +80,8 @@ Added in v2.0.0
   - [Alt](#alt-1)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
+  - [ApplyPar](#applypar)
+  - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
   - [Functor](#functor-1)
   - [URI](#uri)
@@ -810,6 +812,26 @@ export declare const ApplicativeSeq: Applicative3<'ReaderTaskEither'>
 
 Added in v2.7.0
 
+## ApplyPar
+
+**Signature**
+
+```ts
+export declare const ApplyPar: Apply3<'ReaderTaskEither'>
+```
+
+Added in v2.10.0
+
+## ApplySeq
+
+**Signature**
+
+```ts
+export declare const ApplySeq: Apply3<'ReaderTaskEither'>
+```
+
+Added in v2.10.0
+
 ## Bifunctor
 
 **Signature**
@@ -979,7 +1001,7 @@ Added in v2.9.0
 **Signature**
 
 ```ts
-export declare const apS: <A, N extends string, R, E, B>(
+export declare const apS: <N, A, R, E, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTaskEither<R, E, B>
 ) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>

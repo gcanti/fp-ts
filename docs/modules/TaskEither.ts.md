@@ -76,6 +76,8 @@ Added in v2.0.0
   - [Alt](#alt-1)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
+  - [ApplyPar](#applypar)
+  - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
   - [Functor](#functor-1)
   - [URI](#uri)
@@ -749,6 +751,26 @@ export declare const ApplicativeSeq: Applicative2<'TaskEither'>
 
 Added in v2.7.0
 
+## ApplyPar
+
+**Signature**
+
+```ts
+export declare const ApplyPar: Apply2<'TaskEither'>
+```
+
+Added in v2.10.0
+
+## ApplySeq
+
+**Signature**
+
+```ts
+export declare const ApplySeq: Apply2<'TaskEither'>
+```
+
+Added in v2.10.0
+
 ## Bifunctor
 
 **Signature**
@@ -926,7 +948,7 @@ Added in v2.9.0
 **Signature**
 
 ```ts
-export declare const apS: <A, N extends string, E, B>(
+export declare const apS: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   fb: TaskEither<E, B>
 ) => (fa: TaskEither<E, A>) => TaskEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
