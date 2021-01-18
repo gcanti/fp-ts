@@ -18,7 +18,7 @@ import { Applicative as ApplicativeHKT, Applicative2, Applicative2C } from './Ap
 import { apFirst_, Apply2, apSecond_, apS_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, ChainRec2C, tailRec } from './ChainRec'
-import { Separated } from './Compactable'
+import { Compactable2C, Separated } from './Compactable'
 import { Eq } from './Eq'
 import { Extend2 } from './Extend'
 import { Filterable2C } from './Filterable'
@@ -880,6 +880,33 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<Either<E, A>> {
 }
 
 /**
+ * Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
+ *
+ * @category instances
+ * @since 2.10.0
+ */
+export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
+  const empty = left(M.empty)
+
+  const compact: Compactable2C<URI, E>['compact'] = (ma) =>
+    isLeft(ma) ? ma : ma.right._tag === 'None' ? empty : right(ma.right.value)
+
+  const separate: Compactable2C<URI, E>['separate'] = (ma) =>
+    isLeft(ma)
+      ? { left: ma, right: ma }
+      : isLeft(ma.right)
+      ? { left: right(ma.right.left), right: empty }
+      : { left: empty, right: right(ma.right.right) }
+
+  return {
+    URI,
+    _E: undefined as any,
+    compact,
+    separate
+  }
+}
+
+/**
  * Builds a `Filterable` instance for `Either` given `Monoid` for the left side
  *
  * @category instances
@@ -888,17 +915,7 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<Either<E, A>> {
 export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
   const empty = left(M.empty)
 
-  const compact = <A>(ma: Either<E, Option<A>>): Either<E, A> => {
-    return isLeft(ma) ? ma : ma.right._tag === 'None' ? empty : right(ma.right.value)
-  }
-
-  const separate = <A, B>(ma: Either<E, Either<A, B>>): Separated<Either<E, A>, Either<E, B>> => {
-    return isLeft(ma)
-      ? { left: ma, right: ma }
-      : isLeft(ma.right)
-      ? { left: right(ma.right.left), right: empty }
-      : { left: empty, right: right(ma.right.right) }
-  }
+  const { compact, separate } = getCompactable(M)
 
   const partitionMap = <A, B, C>(
     ma: Either<E, A>,
