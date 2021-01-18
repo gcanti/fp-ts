@@ -24,16 +24,17 @@ import { Bifunctor2 } from './Bifunctor'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Foldable2 } from './Foldable'
+import { pipe } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { isNone, none, Option, some } from './Option'
+import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { PipeableTraverse2, Traversable2 } from './Traversable'
-import { pipe } from './function'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -497,6 +498,16 @@ export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) =>
   return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(ta.right, right) : F.map(ta.right, (b) => both(ta.left, b))
 }
 
+/**
+ * Wrap a value into the type constructor.
+ *
+ * Equivalent to [`right`](#right).
+ *
+ * @category Applicative
+ * @since 2.0.0
+ */
+export const of: Pointed2<URI>['of'] = right
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -526,6 +537,16 @@ declare module './HKT' {
 export const Functor: Functor2<URI> = {
   URI,
   map: _map
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Pointed: Pointed2<URI> = {
+  URI,
+  map: _map,
+  of
 }
 
 /**

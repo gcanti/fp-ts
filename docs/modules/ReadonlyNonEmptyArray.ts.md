@@ -1,6 +1,6 @@
 ---
 title: ReadonlyNonEmptyArray.ts
-nav_order: 71
+nav_order: 72
 parent: Modules
 ---
 
@@ -71,6 +71,7 @@ Added in v2.5.0
   - [Functor](#functor-1)
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad-1)
+  - [Pointed](#pointed)
   - [Traversable](#traversable)
   - [TraversableWithIndex](#traversablewithindex)
   - [URI](#uri)
@@ -744,6 +745,16 @@ export declare const Monad: Monad1<'ReadonlyNonEmptyArray'>
 ```
 
 Added in v2.7.0
+
+## Pointed
+
+**Signature**
+
+```ts
+export declare const Pointed: Pointed1<'ReadonlyNonEmptyArray'>
+```
+
+Added in v2.10.0
 
 ## Traversable
 

@@ -12,6 +12,7 @@ import { bind_, chainFirst_, Monad3, Monad3C } from './Monad'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
+import { Pointed3 } from './Pointed'
 import * as R from './Reader'
 import { Semigroup } from './Semigroup'
 
@@ -312,7 +313,7 @@ export const ap: <R, E, A>(
  * @category Applicative
  * @since 2.8.5
  */
-export const of: Applicative3<URI>['of'] = right
+export const of: Pointed3<URI>['of'] = right
 
 /**
  * Less strict version of [`chain`](#chain).
@@ -494,6 +495,16 @@ export function getReaderValidation<E>(
 export const Functor: Functor3<URI> = {
   URI,
   map: _map
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Pointed: Pointed3<URI> = {
+  URI,
+  map: _map,
+  of
 }
 
 /**

@@ -125,6 +125,7 @@ Added in v2.0.0
   - [Functor](#functor-1)
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad-1)
+  - [Pointed](#pointed)
   - [Traversable](#traversable-1)
   - [TraversableWithIndex](#traversablewithindex-1)
   - [URI](#uri)
@@ -1719,6 +1720,16 @@ export declare const Monad: Monad1<'Array'>
 ```
 
 Added in v2.7.0
+
+## Pointed
+
+**Signature**
+
+```ts
+export declare const Pointed: Pointed1<'Array'>
+```
+
+Added in v2.10.0
 
 ## Traversable
 

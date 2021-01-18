@@ -24,6 +24,7 @@ import { MonadTask2, MonadTask2C } from './MonadTask'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
+import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
 
@@ -472,7 +473,7 @@ export const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>)
  * @category Applicative
  * @since 2.0.0
  */
-export const of: Applicative2<URI>['of'] = right
+export const of: Pointed2<URI>['of'] = right
 
 /**
  * @category MonadIO
@@ -645,6 +646,16 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
 export const Functor: Functor2<URI> = {
   URI,
   map: _map
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Pointed: Pointed2<URI> = {
+  URI,
+  map: _map,
+  of
 }
 
 /**

@@ -16,6 +16,7 @@ import { MonadTask3, MonadTask3C } from './MonadTask'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
+import { Pointed3 } from './Pointed'
 import * as R from './Reader'
 import { ReaderEither } from './ReaderEither'
 import * as RT from './ReaderTask'
@@ -457,7 +458,7 @@ export const ap: <R, E, A>(
  * @category Applicative
  * @since 2.7.0
  */
-export const of: Applicative3<URI>['of'] = right
+export const of: Pointed3<URI>['of'] = right
 
 /**
  * Less strict version of [`chain`](#chain).
@@ -660,6 +661,16 @@ export function getReaderTaskValidation<E>(
 export const Functor: Functor3<URI> = {
   URI,
   map: _map
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Pointed: Pointed3<URI> = {
+  URI,
+  map: _map,
+  of
 }
 
 /**

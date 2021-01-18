@@ -73,6 +73,7 @@ Added in v2.0.0
   - [ord](#ord)
   - [ordering](#ordering)
   - [pipeable](#pipeable)
+  - [pointed](#pointed)
   - [profunctor](#profunctor)
   - [random](#random)
   - [reader](#reader)
@@ -717,6 +718,16 @@ export declare const pipeable: typeof pipeable
 ```
 
 Added in v2.0.0
+
+## pointed
+
+**Signature**
+
+```ts
+export declare const pointed: typeof pointed
+```
+
+Added in v2.10.0
 
 ## profunctor
 
