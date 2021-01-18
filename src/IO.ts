@@ -320,7 +320,7 @@ export const traverseArrayWithIndex: <A, B>(
 /**
  * runs an action for every element in array, and accumulates the results IO in the array.
  *
- * this function have the same behavior of `A.traverse(IO.io)` but it's stack safe
+ * this function has the same behavior of `A.traverse(IO.io)` but it's stack safe
  *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'
@@ -341,7 +341,7 @@ export const traverseArray: <A, B>(f: (a: A) => IO<B>) => (arr: ReadonlyArray<A>
 /**
  * transform Array of IO to IO of Array
  *
- * this function have the same behavior of `A.sequence(IO.io)` but it's stack safe
+ * this function has the same behavior of `A.sequence(IO.io)` but it's stack safe
  *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'

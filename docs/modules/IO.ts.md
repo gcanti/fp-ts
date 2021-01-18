@@ -355,7 +355,7 @@ Added in v2.8.0
 
 transform Array of IO to IO of Array
 
-this function have the same behavior of `A.sequence(IO.io)` but it's stack safe
+this function has the same behavior of `A.sequence(IO.io)` but it's stack safe
 
 **Signature**
 
@@ -385,7 +385,7 @@ Added in v2.9.0
 
 runs an action for every element in array, and accumulates the results IO in the array.
 
-this function have the same behavior of `A.traverse(IO.io)` but it's stack safe
+this function has the same behavior of `A.traverse(IO.io)` but it's stack safe
 
 **Signature**
 

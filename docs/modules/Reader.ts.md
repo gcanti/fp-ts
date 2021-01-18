@@ -494,7 +494,7 @@ Added in v2.8.0
 
 ## sequenceArray
 
-this function have the same behavior of `A.sequence(R.reader)` but it's stack safe and optimized
+this function has the same behavior of `A.sequence(R.reader)` but it's stack safe and optimized
 
 **Signature**
 
@@ -525,7 +525,7 @@ Added in v2.9.0
 
 ## traverseArray
 
-this function have the same behavior of `A.traverse(R.reader)` but it's stack safe and optimized
+this function has the same behavior of `A.traverse(R.reader)` but it's stack safe and optimized
 
 **Signature**
 

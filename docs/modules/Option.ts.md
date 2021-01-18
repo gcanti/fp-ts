@@ -1457,7 +1457,7 @@ Added in v2.0.0
 
 get an array of option and convert it to option of array
 
-this function have the same behavior of `A.sequence(O.option)` but it's optimized and perform better
+this function has the same behavior of `A.sequence(O.option)` but it's optimized and performs better
 
 **Signature**
 
@@ -1483,7 +1483,7 @@ Added in v2.9.0
 
 Runs an action for every element in array and accumulates the results in option
 
-this function have the same behavior of `A.sequence(O.option)` but it's optimized and perform better
+this function has the same behavior of `A.sequence(O.option)` but it's optimized and performs better
 
 **Signature**
 

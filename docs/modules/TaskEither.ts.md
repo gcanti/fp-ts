@@ -1025,7 +1025,7 @@ Added in v2.9.0
 
 ## sequenceArray
 
-this function have the same behavior of `A.sequence(TE.taskEither)` but it's stack safe and perform better
+this function has the same behavior of `A.sequence(TE.taskEither)` but it's stack safe and performs better
 
 _this function run all tasks in parallel and does not bail out, for sequential version use `sequenceSeqArray`_
 
@@ -1070,7 +1070,7 @@ Added in v2.9.0
 
 ## sequenceSeqArray
 
-this function have the same behavior of `A.sequence(TE.taskEitherSeq)` but it's stack safe and perform better
+this function has the same behavior of `A.sequence(TE.taskEitherSeq)` but it's stack safe and performs better
 
 _this function run all tasks in sequential order and bails out on left side of either, for parallel version use `sequenceArray`_
 
@@ -1136,7 +1136,7 @@ Added in v2.0.0
 
 ## traverseArray
 
-this function have the same behavior of `A.traverse(TE.taskEither)` but it's stack safe and perform better
+this function has the same behavior of `A.traverse(TE.taskEither)` but it's stack safe and performs better
 
 _this function run all tasks in parallel and does not bail out, for sequential version use `traverseSeqArray`_
 
@@ -1195,7 +1195,7 @@ Added in v2.9.0
 
 ## traverseSeqArray
 
-this function have the same behavior of `A.traverse(TE.taskEitherSeq)` but it's stack safe and perform better
+this function has the same behavior of `A.traverse(TE.taskEitherSeq)` but it's stack safe and performs better
 
 _this function run all tasks in sequential order and bails out on left side of either, for parallel version use `traverseArray`_
 

@@ -1415,7 +1415,7 @@ export const traverseArrayWithIndex = <E, A, B>(f: (index: number, a: A) => Eith
 
 /**
  * map an array using provided function to Either then transform to Either of the array
- * this function have the same behavior of `A.traverse(E.either)` but it's optimized and perform better
+ * this function has the same behavior of `A.traverse(E.either)` but it's optimized and performs better
  *
  * @example
  *
@@ -1452,7 +1452,7 @@ export const traverseArray: <E, A, B>(
 
 /**
  * convert an array of either to an either of array
- * this function have the same behavior of `A.sequence(E.either)` but it's optimized and perform better
+ * this function has the same behavior of `A.sequence(E.either)` but it's optimized and performs better
  *
  * @example
  *

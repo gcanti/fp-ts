@@ -1450,7 +1450,7 @@ Added in v2.9.0
 ## sequenceArray
 
 convert an array of either to an either of array
-this function have the same behavior of `A.sequence(E.either)` but it's optimized and perform better
+this function has the same behavior of `A.sequence(E.either)` but it's optimized and performs better
 
 **Signature**
 
@@ -1487,7 +1487,7 @@ Added in v2.0.0
 ## traverseArray
 
 map an array using provided function to Either then transform to Either of the array
-this function have the same behavior of `A.traverse(E.either)` but it's optimized and perform better
+this function has the same behavior of `A.traverse(E.either)` but it's optimized and performs better
 
 **Signature**
 

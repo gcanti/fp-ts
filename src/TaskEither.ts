@@ -952,7 +952,7 @@ export const traverseArrayWithIndex: <A, B, E>(
   pipe(arr, T.traverseArrayWithIndex(f), T.map(E.sequenceArray))
 
 /**
- * this function have the same behavior of `A.traverse(TE.taskEither)` but it's stack safe and perform better
+ * this function has the same behavior of `A.traverse(TE.taskEither)` but it's stack safe and performs better
  *
  * *this function run all tasks in parallel and does not bail out, for sequential version use `traverseSeqArray`*
  *
@@ -992,7 +992,7 @@ export const traverseArray: <A, B, E>(
 ) => (arr: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
- * this function have the same behavior of `A.sequence(TE.taskEither)` but it's stack safe and perform better
+ * this function has the same behavior of `A.sequence(TE.taskEither)` but it's stack safe and performs better
  *
  * *this function run all tasks in parallel and does not bail out, for sequential version use `sequenceSeqArray`*
  *
@@ -1051,7 +1051,7 @@ export const traverseSeqArrayWithIndex: <A, B, E>(
 }
 
 /**
- * this function have the same behavior of `A.traverse(TE.taskEitherSeq)` but it's stack safe and perform better
+ * this function has the same behavior of `A.traverse(TE.taskEitherSeq)` but it's stack safe and performs better
  *
  * *this function run all tasks in sequential order and bails out on left side of either, for parallel version use `traverseArray`*
  *
@@ -1062,7 +1062,7 @@ export const traverseSeqArray: <A, B, E>(
 ) => (arr: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => traverseSeqArrayWithIndex((_, a) => f(a))
 
 /**
- * this function have the same behavior of `A.sequence(TE.taskEitherSeq)` but it's stack safe and perform better
+ * this function has the same behavior of `A.sequence(TE.taskEitherSeq)` but it's stack safe and performs better
  *
  * *this function run all tasks in sequential order and bails out on left side of either, for parallel version use `sequenceArray`*
  *

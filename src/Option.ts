@@ -1314,7 +1314,7 @@ export const traverseArrayWithIndex = <A, B>(f: (index: number, a: A) => Option<
 /**
  * Runs an action for every element in array and accumulates the results in option
  *
- * this function have the same behavior of `A.sequence(O.option)` but it's optimized and perform better
+ * this function has the same behavior of `A.sequence(O.option)` but it's optimized and performs better
  *
  * @example
  *
@@ -1335,7 +1335,7 @@ export const traverseArray: <A, B>(f: (a: A) => Option<B>) => (arr: ReadonlyArra
 /**
  * get an array of option and convert it to option of array
  *
- * this function have the same behavior of `A.sequence(O.option)` but it's optimized and perform better
+ * this function has the same behavior of `A.sequence(O.option)` but it's optimized and performs better
  *
  * @example
  *
