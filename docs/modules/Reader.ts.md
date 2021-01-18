@@ -472,10 +472,10 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, R, B>(
+export declare const bind: <N, A, E, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => Reader<R, B>
-) => (fa: Reader<R, A>) => Reader<R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: (a: A) => Reader<E, B>
+) => (ma: Reader<E, A>) => Reader<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0

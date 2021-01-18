@@ -12,10 +12,10 @@
  */
 import { Applicative1 } from './Applicative'
 import { Apply1, apS_ } from './Apply'
-import { bind_, flow, identity, pipe } from './function'
+import { flow, identity, pipe } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { IO } from './IO'
-import { Monad1 } from './Monad'
+import { bind_, Monad1 } from './Monad'
 import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
@@ -426,16 +426,9 @@ export const bindTo =
 /**
  * @since 2.8.0
  */
-export const bind = <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => Task<B>
-): ((fa: Task<A>) => Task<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  chain((a) =>
-    pipe(
-      f(a),
-      map((b) => bind_(a, name, b))
-    )
-  )
+export const bind =
+  /*#__PURE__*/
+  bind_(Monad)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S

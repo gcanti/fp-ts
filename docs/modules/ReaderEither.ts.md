@@ -791,10 +791,10 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, R, E, B>(
+export declare const bind: <N, A, R, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderEither<R, E, B>
-) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0

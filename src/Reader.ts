@@ -6,9 +6,9 @@ import { Apply2, apS_ } from './Apply'
 import { Category2 } from './Category'
 import { Choice2 } from './Choice'
 import * as E from './Either'
-import { bind_, constant, flow, identity, pipe } from './function'
+import { constant, flow, identity, pipe } from './function'
 import { bindTo_, Functor2 } from './Functor'
-import { Monad2 } from './Monad'
+import { bind_, Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Profunctor2 } from './Profunctor'
 import { Semigroup } from './Semigroup'
@@ -373,24 +373,17 @@ export const bindTo =
 /**
  * @since 2.8.0
  */
-export const bindW = <N extends string, A, Q, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => Reader<Q, B>
-): (<R>(fa: Reader<R, A>) => Reader<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  chainW((a) =>
-    pipe(
-      f(a),
-      map((b) => bind_(a, name, b))
-    )
-  )
+export const bind =
+  /*#__PURE__*/
+  bind_(Monad)
 
 /**
  * @since 2.8.0
  */
-export const bind: <N extends string, A, R, B>(
+export const bindW: <N extends string, A, Q, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => Reader<R, B>
-) => (fa: Reader<R, A>) => Reader<R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW
+  f: (a: A) => Reader<Q, B>
+) => <R>(fa: Reader<R, A>) => Reader<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
