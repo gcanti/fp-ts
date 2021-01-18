@@ -10,10 +10,10 @@ import { Apply2, apS_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { Filterable2C, getFilterableComposition } from './Filterable'
-import { bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import * as I from './IO'
-import { Monad2, Monad2C } from './Monad'
+import { bind_, Monad2, Monad2C } from './Monad'
 import { MonadIO2, MonadIO2C } from './MonadIO'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
@@ -721,24 +721,17 @@ export const bindTo =
 /**
  * @since 2.8.0
  */
-export const bindW = <N extends string, A, D, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => IOEither<D, B>
-): (<E>(fa: IOEither<E, A>) => IOEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  chainW((a) =>
-    pipe(
-      f(a),
-      map((b) => bind_(a, name, b))
-    )
-  )
+export const bind =
+  /*#__PURE__*/
+  bind_(Monad)
 
 /**
  * @since 2.8.0
  */
-export const bind: <N extends string, A, E, B>(
+export const bindW: <N extends string, A, D, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => IOEither<E, B>
-) => (fa: IOEither<E, A>) => IOEither<E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW
+  f: (a: A) => IOEither<D, B>
+) => <E>(fa: IOEither<E, A>) => IOEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S

@@ -6,11 +6,11 @@ import { Applicative4 } from './Applicative'
 import { Apply4, apS_ } from './Apply'
 import { Bifunctor4 } from './Bifunctor'
 import * as E from './Either'
-import { bind_, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor4 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { Monad4 } from './Monad'
+import { bind_, Monad4 } from './Monad'
 import { MonadIO4 } from './MonadIO'
 import { MonadTask4 } from './MonadTask'
 import { MonadThrow4 } from './MonadThrow'
@@ -681,6 +681,18 @@ export const Applicative: Applicative4<URI> = {
 
 /**
  * @category instances
+ * @since 2.10.0
+ */
+export const Monad: Monad4<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  of,
+  chain: _chain
+}
+
+/**
+ * @category instances
  * @since 2.7.0
  */
 export const Bifunctor: Bifunctor4<URI> = {
@@ -821,28 +833,19 @@ export const bindTo =
 /**
  * @since 2.8.0
  */
-export const bindW = <N extends string, A, S, Q, D, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => StateReaderTaskEither<S, Q, D, B>
-): (<R, E>(
-  fa: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, Q & R, E | D, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  chainW((a) =>
-    pipe(
-      f(a),
-      map((b) => bind_(a, name, b))
-    )
-  )
+export const bind =
+  /*#__PURE__*/
+  bind_(Monad)
 
 /**
  * @since 2.8.0
  */
-export const bind: <N extends string, A, S, R, E, B>(
+export const bindW: <N extends string, A, S, Q, D, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (
+  f: (a: A) => StateReaderTaskEither<S, Q, D, B>
+) => <R, E>(
   fa: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bindW
+) => StateReaderTaskEither<S, Q & R, E | D, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S

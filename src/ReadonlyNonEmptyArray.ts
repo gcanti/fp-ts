@@ -11,10 +11,10 @@ import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { bind_, Lazy, pipe, Predicate, Refinement } from './function'
+import { Lazy, Predicate, Refinement } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
-import { Monad1 } from './Monad'
+import { bind_, Monad1 } from './Monad'
 import { NonEmptyArray } from './NonEmptyArray'
 import { none, Option, some } from './Option'
 import { Ord } from './Ord'
@@ -856,16 +856,9 @@ export const bindTo =
 /**
  * @since 2.8.0
  */
-export const bind = <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => ReadonlyNonEmptyArray<B>
-): ((fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
-  chain((a) =>
-    pipe(
-      f(a),
-      map((b) => bind_(a, name, b))
-    )
-  )
+export const bind =
+  /*#__PURE__*/
+  bind_(Monad)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S

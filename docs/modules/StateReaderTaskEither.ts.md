@@ -81,6 +81,7 @@ Added in v2.0.0
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
   - [Functor](#functor-1)
+  - [Monad](#monad-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [stateReaderTaskEither](#statereadertaskeither)
@@ -831,6 +832,16 @@ export declare const Functor: Functor4<'StateReaderTaskEither'>
 
 Added in v2.7.0
 
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad4<'StateReaderTaskEither'>
+```
+
+Added in v2.10.0
+
 ## URI
 
 **Signature**
@@ -930,11 +941,11 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, S, R, E, B>(
+export declare const bind: <N, A, S, R, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
 ) => (
-  fa: StateReaderTaskEither<S, R, E, A>
+  ma: StateReaderTaskEither<S, R, E, A>
 ) => StateReaderTaskEither<S, R, E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
