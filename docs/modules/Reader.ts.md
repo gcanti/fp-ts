@@ -194,7 +194,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>) => Reader<R, A>
+export declare const apFirst: <E, B>(second: Reader<E, B>) => <A>(first: Reader<E, A>) => Reader<E, A>
 ```
 
 Added in v2.0.0
@@ -208,7 +208,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <R, B>(fb: Reader<R, B>) => <A>(fa: Reader<R, A>) => Reader<R, B>
+export declare const apSecond: <E, B>(second: Reader<E, B>) => <A>(first: Reader<E, A>) => Reader<E, B>
 ```
 
 Added in v2.0.0

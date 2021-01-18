@@ -15,7 +15,7 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative2, Applicative2C } from './Applicative'
-import { Apply2, apS_ } from './Apply'
+import { apFirst_, Apply2, apSecond_, apS_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, ChainRec2C, tailRec } from './ChainRec'
 import { Separated } from './Compactable'
@@ -23,7 +23,7 @@ import { Eq } from './Eq'
 import { Extend2 } from './Extend'
 import { Filterable2C } from './Filterable'
 import { Foldable2 } from './Foldable'
-import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { bind_, Monad2, Monad2C } from './Monad'
@@ -553,34 +553,6 @@ export const apW: <D, A>(fa: Either<D, A>) => <E, B>(fab: Either<E, (a: A) => B>
  * @since 2.0.0
  */
 export const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B> = apW
-
-/**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apFirst: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, A> = (fb) =>
-  flow(
-    map((a) => () => a),
-    ap(fb)
-  )
-
-/**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apSecond = <E, B>(fb: Either<E, B>): (<A>(fa: Either<E, A>) => Either<E, B>) =>
-  flow(
-    map(() => (b: B) => b),
-    ap(fb)
-  )
 
 /**
  * Wrap a value into the type constructor.
@@ -1155,6 +1127,30 @@ export const Apply: Apply2<URI> = {
   map: _map,
   ap: _ap
 }
+
+/**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const apFirst =
+  /*#__PURE__*/
+  apFirst_(Apply)
+
+/**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const apSecond =
+  /*#__PURE__*/
+  apSecond_(Apply)
 
 /**
  * @category instances
