@@ -29,6 +29,7 @@ Added in v2.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [eq](#eq)
+  - [eqBigInt](#eqbigint)
   - [eqBoolean](#eqboolean)
   - [eqDate](#eqdate)
   - [eqNumber](#eqnumber)
@@ -109,6 +110,16 @@ export declare const eq: Contravariant1<'Eq'>
 ```
 
 Added in v2.0.0
+
+## eqBigInt
+
+**Signature**
+
+```ts
+export declare const eqBigInt: Eq<bigint>
+```
+
+Added in v2.10.0
 
 ## eqBoolean
 

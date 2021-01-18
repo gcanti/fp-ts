@@ -64,6 +64,15 @@ export const ordBoolean: Ord<boolean> = {
   compare
 }
 
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const ordBigInt: Ord<bigint> = {
+  equals: strictEqual,
+  compare
+}
+
 // TODO: curry in v3
 /**
  * Test whether one value is _strictly less than_ another
