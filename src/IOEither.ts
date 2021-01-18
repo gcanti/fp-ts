@@ -6,9 +6,10 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
-import { apFirst_, Apply2, apSecond_, apS_ } from './Apply'
+import { apFirst_, Apply2, apSecond_, apS_, ap_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
+import * as ET from './EitherT'
 import { Filterable2C, getFilterableComposition } from './Filterable'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor2 } from './Functor'
@@ -44,7 +45,7 @@ export interface IOEither<E, A> extends IO<Either<E, A>> {}
  */
 export const left: <E = never, A = never>(l: E) => IOEither<E, A> =
   /*#__PURE__*/
-  flow(E.left, I.of)
+  ET.left_(I.Pointed)
 
 /**
  * @category constructors
@@ -52,7 +53,7 @@ export const left: <E = never, A = never>(l: E) => IOEither<E, A> =
  */
 export const right: <E = never, A = never>(a: A) => IOEither<E, A> =
   /*#__PURE__*/
-  flow(E.right, I.of)
+  ET.right_(I.Pointed)
 
 /**
  * @category constructors
@@ -60,7 +61,7 @@ export const right: <E = never, A = never>(a: A) => IOEither<E, A> =
  */
 export const rightIO: <E = never, A = never>(ma: IO<A>) => IOEither<E, A> =
   /*#__PURE__*/
-  I.map(E.right)
+  ET.rightF_(I.Functor)
 
 /**
  * @category constructors
@@ -68,7 +69,7 @@ export const rightIO: <E = never, A = never>(ma: IO<A>) => IOEither<E, A> =
  */
 export const leftIO: <E = never, A = never>(me: IO<E>) => IOEither<E, A> =
   /*#__PURE__*/
-  I.map(E.left)
+  ET.leftF_(I.Functor)
 
 /**
  * Derivable from `MonadThrow`.
@@ -120,7 +121,15 @@ export function tryCatch<E, A>(f: Lazy<A>, onError: (reason: unknown) => E): IOE
  */
 export const fold: <E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>) => (ma: IOEither<E, A>) => IO<B> =
   /*#__PURE__*/
-  flow(E.fold, I.chain)
+  ET.fold_(I.Monad)
+
+/**
+ * @category destructors
+ * @since 2.0.0
+ */
+export const getOrElse: <E, A>(onLeft: (e: E) => IO<A>) => (ma: IOEither<E, A>) => IO<A> =
+  /*#__PURE__*/
+  ET.getOrElse_(I.Monad)
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).
@@ -128,14 +137,7 @@ export const fold: <E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>) 
  * @category destructors
  * @since 2.6.0
  */
-export const getOrElseW = <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>): IO<A | B> =>
-  pipe(ma, I.chain(E.fold<E, A, I.IO<A | B>>(onLeft, I.of)))
-
-/**
- * @category destructors
- * @since 2.0.0
- */
-export const getOrElse: <E, A>(onLeft: (e: E) => IO<A>) => (ma: IOEither<E, A>) => IO<A> = getOrElseW
+export const getOrElseW: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IO<A | B> = getOrElse as any
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -145,8 +147,9 @@ export const getOrElse: <E, A>(onLeft: (e: E) => IO<A>) => (ma: IOEither<E, A>) 
  * @category combinators
  * @since 2.0.0
  */
-export const orElse: <E, A, M>(onLeft: (e: E) => IOEither<M, A>) => (ma: IOEither<E, A>) => IOEither<M, A> = (f) =>
-  I.chain(E.fold(f, right))
+export const orElse: <E, A, M>(onLeft: (e: E) => IOEither<M, A>) => (ma: IOEither<E, A>) => IOEither<M, A> =
+  /*#__PURE__*/
+  ET.orElse_(I.Monad)
 
 /**
  * @category combinators
@@ -154,7 +157,7 @@ export const orElse: <E, A, M>(onLeft: (e: E) => IOEither<M, A>) => (ma: IOEithe
  */
 export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> =
   /*#__PURE__*/
-  I.map(E.swap)
+  ET.swap_(I.Functor)
 
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
@@ -241,7 +244,9 @@ const _alt: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
  * @category Functor
  * @since 2.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<E, B> = (f) => I.map(E.map(f))
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<E, B> =
+  /*#__PURE__*/
+  ET.map_(I.Functor)
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -251,7 +256,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<
  */
 export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: IOEither<E, A>) => IOEither<G, B> =
   /*#__PURE__*/
-  flow(E.bimap, I.map)
+  ET.bimap_(I.Functor)
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -259,19 +264,9 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: IOEithe
  * @category Bifunctor
  * @since 2.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) => IOEither<G, A> = (f) => I.map(E.mapLeft(f))
-
-/**
- * Less strict version of [`ap`](#ap).
- *
- * @category Apply
- * @since 2.8.0
- */
-export const apW = <D, A>(fa: IOEither<D, A>): (<E, B>(fab: IOEither<E, (a: A) => B>) => IOEither<D | E, B>) =>
-  flow(
-    I.map((gab) => (ga: E.Either<D, A>) => E.apW(ga)(gab)),
-    I.ap(fa)
-  )
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) => IOEither<G, A> =
+  /*#__PURE__*/
+  ET.mapLeft_(I.Functor)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -279,7 +274,17 @@ export const apW = <D, A>(fa: IOEither<D, A>): (<E, B>(fab: IOEither<E, (a: A) =
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B> = apW
+export const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B> =
+  /*#__PURE__*/
+  ET.ap_(I.Apply)
+
+/**
+ * Less strict version of [`ap`](#ap).
+ *
+ * @category Apply
+ * @since 2.8.0
+ */
+export const apW: <D, A>(fa: IOEither<D, A>) => <E, B>(fab: IOEither<E, (a: A) => B>) => IOEither<D | E, B> = ap as any
 
 /**
  * Wrap a value into the type constructor.
@@ -292,21 +297,24 @@ export const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>
 export const of: Pointed2<URI>['of'] = right
 
 /**
- * Less strict version of [`chain`](#chain).
- *
- * @category Monad
- * @since 2.6.0
- */
-export const chainW = <D, A, B>(f: (a: A) => IOEither<D, B>) => <E>(ma: IOEither<E, A>): IOEither<D | E, B> =>
-  pipe(ma, I.chain(E.fold<E, A, IOEither<D | E, B>>(left, f)))
-
-/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B> = chainW
+export const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B> =
+  /*#__PURE__*/
+  ET.chain_(I.Monad)
+
+/**
+ * Less strict version of [`chain`](#chain).
+ *
+ * @category Monad
+ * @since 2.6.0
+ */
+export const chainW: <D, A, B>(
+  f: (a: A) => IOEither<D, B>
+) => <E>(ma: IOEither<E, A>) => IOEither<D | E, B> = chain as any
 
 /**
  * Derivable from `Monad`.
@@ -319,22 +327,25 @@ export const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A>
   chain(identity)
 
 /**
- * Less strict version of [`alt`](#alt).
- *
- * @category Alt
- * @since 2.9.0
- */
-export const altW = <E2, B>(that: Lazy<IOEither<E2, B>>) => <E1, A>(fa: IOEither<E1, A>): IOEither<E1 | E2, A | B> =>
-  pipe(fa, I.chain(E.fold<E1, A, IOEither<E1 | E2, A | B>>(that, right)))
-
-/**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
  * @category Alt
  * @since 2.0.0
  */
-export const alt: <E, A>(that: Lazy<IOEither<E, A>>) => (fa: IOEither<E, A>) => IOEither<E, A> = altW
+export const alt: <E, A>(that: Lazy<IOEither<E, A>>) => (fa: IOEither<E, A>) => IOEither<E, A> =
+  /*#__PURE__*/
+  ET.alt_(I.Monad)
+
+/**
+ * Less strict version of [`alt`](#alt).
+ *
+ * @category Alt
+ * @since 2.9.0
+ */
+export const altW: <E2, B>(
+  that: Lazy<IOEither<E2, B>>
+) => <E1, A>(fa: IOEither<E1, A>) => IOEither<E1 | E2, A | B> = alt as any
 
 /**
  * @category MonadIO
@@ -407,14 +418,8 @@ export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<IOEither<E, A>> {
  * @category instances
  * @since 2.7.0
  */
-export function getApplicativeIOValidation<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
-  const AV = E.getApplicativeValidation(SE)
-  const ap = <A>(fga: I.IO<E.Either<E, A>>): (<B>(fgab: I.IO<E.Either<E, (a: A) => B>>) => I.IO<E.Either<E, B>>) =>
-    flow(
-      I.map((gab) => (ga: E.Either<E, A>) => AV.ap(gab, ga)),
-      I.ap(fga)
-    )
-
+export function getApplicativeIOValidation<E>(S: Semigroup<E>): Applicative2C<URI, E> {
+  const ap = ap_(I.Apply, E.getApplicativeValidation(S))
   return {
     URI,
     _E: undefined as any,
@@ -428,13 +433,13 @@ export function getApplicativeIOValidation<E>(SE: Semigroup<E>): Applicative2C<U
  * @category instances
  * @since 2.7.0
  */
-export function getAltIOValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
-  const A = E.getAltValidation(SE)
+export function getAltIOValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
+  const alt = ET.altValidation_(I.Monad, S)
   return {
     URI,
     _E: undefined as any,
     map: _map,
-    alt: (me, that) => () => A.alt(me(), () => that()())
+    alt: (fa, that) => pipe(fa, alt(that))
   }
 }
 
@@ -590,7 +595,7 @@ export const Monad: Monad2<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst =
+export const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, A> =
   /*#__PURE__*/
   chainFirst_(Monad)
 

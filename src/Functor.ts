@@ -214,6 +214,28 @@ export function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): Funct
 /**
  * @since 2.10.0
  */
+export function map_<F, G extends URIS2>(
+  F: Functor<F>,
+  G: Functor2<G>
+): <A, B>(f: (a: A) => B) => <E>(fa: HKT<F, Kind2<G, E, A>>) => HKT<F, Kind2<G, E, B>>
+export function map_<F, G extends URIS>(
+  F: Functor<F>,
+  G: Functor1<G>
+): <A, B>(f: (a: A) => B) => (fa: HKT<F, Kind<G, A>>) => HKT<F, Kind<G, B>>
+export function map_<F, G>(
+  F: Functor<F>,
+  G: Functor<G>
+): <A, B>(f: (a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
+export function map_<F, G>(
+  F: Functor<F>,
+  G: Functor<G>
+): <A, B>(f: (a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>> {
+  return (f) => (fa) => F.map(fa, (ga) => G.map(ga, f))
+}
+
+/**
+ * @since 2.10.0
+ */
 export function bindTo_<F extends URIS4>(
   F: Functor4<F>
 ): <N extends string>(name: N) => <S, R, E, A>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, { [K in N]: A }>

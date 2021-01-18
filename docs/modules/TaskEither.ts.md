@@ -392,9 +392,7 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, E, B>(
-  f: (a: A) => TaskEither<E, B>
-) => (first: TaskEither<E, A>) => TaskEither<E, A>
+export declare const chainFirst: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, A>
 ```
 
 Added in v2.0.0
@@ -840,7 +838,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getAltTaskValidation<E>(SE: Semigroup<E>): Alt2C<URI, E>
+export declare function getAltTaskValidation<E>(S: Semigroup<E>): Alt2C<URI, E>
 ```
 
 Added in v2.7.0
@@ -850,7 +848,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E>
+export declare function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E>
 ```
 
 Added in v2.7.0
