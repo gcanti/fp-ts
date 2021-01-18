@@ -15,6 +15,7 @@ import { MonadIO4 } from './MonadIO'
 import { MonadTask4 } from './MonadTask'
 import { MonadThrow4 } from './MonadThrow'
 import { Option } from './Option'
+import { Pointed4 } from './Pointed'
 import { Reader } from './Reader'
 import { ReaderEither } from './ReaderEither'
 import * as RTE from './ReaderTaskEither'
@@ -483,7 +484,7 @@ export const ap: <S, R, E, A>(
  * @category Applicative
  * @since 2.7.0
  */
-export const of: Applicative4<URI>['of'] = right
+export const of: Pointed4<URI>['of'] = right
 
 /**
  * Less strict version of [`chain`](#chain).
@@ -593,6 +594,16 @@ declare module './HKT' {
 export const Functor: Functor4<URI> = {
   URI,
   map: _map
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Pointed: Pointed4<URI> = {
+  URI,
+  map: _map,
+  of
 }
 
 /**

@@ -14,6 +14,7 @@ import { bindTo_, Functor1 } from './Functor'
 import { HKT } from './HKT'
 import { bind_, chainFirst_, Monad1 } from './Monad'
 import { Monoid } from './Monoid'
+import { Pointed1 } from './Pointed'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
 
@@ -80,7 +81,7 @@ export const ap: <A>(fa: Identity<A>) => <B>(fab: Identity<(a: A) => B>) => Iden
  * @category Applicative
  * @since 2.0.0
  */
-export const of: Applicative1<URI>['of'] = id
+export const of: Pointed1<URI>['of'] = id
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -214,6 +215,16 @@ export const getEq: <A>(E: Eq<A>) => Eq<Identity<A>> = id
 export const Functor: Functor1<URI> = {
   URI,
   map: _map
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Pointed: Pointed1<URI> = {
+  URI,
+  map: _map,
+  of
 }
 
 /**

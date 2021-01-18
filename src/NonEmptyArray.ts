@@ -17,6 +17,7 @@ import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { Monad1 } from './Monad'
 import { Option } from './Option'
 import { Ord } from './Ord'
+import { Pointed1 } from './Pointed'
 import * as RNEA from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
@@ -303,7 +304,7 @@ export const filterWithIndex: <A>(
  * @category Applicative
  * @since 2.0.0
  */
-export const of: Applicative1<URI>['of'] = RNEA.of as any
+export const of: Pointed1<URI>['of'] = RNEA.of as any
 
 // TODO: curry in v3
 /**
@@ -597,6 +598,16 @@ declare module './HKT' {
 export const Functor: Functor1<URI> = {
   URI,
   map: _map
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Pointed: Pointed1<URI> = {
+  URI,
+  map: _map,
+  of
 }
 
 /**

@@ -1,6 +1,6 @@
 ---
 title: Reader.ts
-nav_order: 64
+nav_order: 65
 parent: Modules
 ---
 
@@ -44,6 +44,7 @@ Added in v2.0.0
   - [Choice](#choice)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
+  - [Pointed](#pointed)
   - [Profunctor](#profunctor-1)
   - [Strong](#strong)
   - [URI](#uri)
@@ -340,6 +341,16 @@ export declare const Monad: Monad2<'Reader'>
 ```
 
 Added in v2.7.0
+
+## Pointed
+
+**Signature**
+
+```ts
+export declare const Pointed: Pointed2<'Reader'>
+```
+
+Added in v2.10.0
 
 ## Profunctor
 

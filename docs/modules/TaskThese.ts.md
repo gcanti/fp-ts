@@ -1,6 +1,6 @@
 ---
 title: TaskThese.ts
-nav_order: 89
+nav_order: 90
 parent: Modules
 ---
 
@@ -37,14 +37,17 @@ Added in v2.4.0
   - [fold](#fold)
   - [toTuple](#totuple)
 - [instances](#instances)
+  - [Bifunctor](#bifunctor-1)
+  - [Functor](#functor-1)
+  - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [bifunctorTaskThese](#bifunctortaskthese)
-  - [functorTaskThese](#functortaskthese)
   - [getApplicative](#getapplicative)
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
   - [taskThese](#taskthese)
+  - [~~bifunctorTaskThese~~](#bifunctortaskthese)
+  - [~~functorTaskThese~~](#functortaskthese)
 - [model](#model)
   - [TaskThese (interface)](#taskthese-interface)
 
@@ -251,6 +254,36 @@ Added in v2.4.0
 
 # instances
 
+## Bifunctor
+
+**Signature**
+
+```ts
+export declare const Bifunctor: Bifunctor2<'TaskThese'>
+```
+
+Added in v2.10.0
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor2<'TaskThese'>
+```
+
+Added in v2.10.0
+
+## Pointed
+
+**Signature**
+
+```ts
+export declare const Pointed: Pointed2<'TaskThese'>
+```
+
+Added in v2.10.0
+
 ## URI
 
 **Signature**
@@ -270,26 +303,6 @@ export type URI = typeof URI
 ```
 
 Added in v2.4.0
-
-## bifunctorTaskThese
-
-**Signature**
-
-```ts
-export declare const bifunctorTaskThese: Bifunctor2<'TaskThese'>
-```
-
-Added in v2.7.0
-
-## functorTaskThese
-
-**Signature**
-
-```ts
-export declare const functorTaskThese: Functor2<'TaskThese'>
-```
-
-Added in v2.7.0
 
 ## getApplicative
 
@@ -330,6 +343,30 @@ export declare const taskThese: Functor2<'TaskThese'> & Bifunctor2<'TaskThese'>
 ```
 
 Added in v2.4.0
+
+## ~~bifunctorTaskThese~~
+
+Use `Bifunctor` instead.
+
+**Signature**
+
+```ts
+export declare const bifunctorTaskThese: Bifunctor2<'TaskThese'>
+```
+
+Added in v2.7.0
+
+## ~~functorTaskThese~~
+
+Use `Functor` instead.
+
+**Signature**
+
+```ts
+export declare const functorTaskThese: Functor2<'TaskThese'>
+```
+
+Added in v2.7.0
 
 # model
 

@@ -1,6 +1,6 @@
 ---
 title: ReaderEither.ts
-nav_order: 65
+nav_order: 66
 parent: Modules
 ---
 
@@ -65,6 +65,7 @@ Added in v2.0.0
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadThrow](#monadthrow-1)
+  - [Pointed](#pointed)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getAltReaderValidation](#getaltreadervalidation)
@@ -632,6 +633,16 @@ export declare const MonadThrow: MonadThrow3<'ReaderEither'>
 ```
 
 Added in v2.7.0
+
+## Pointed
+
+**Signature**
+
+```ts
+export declare const Pointed: Pointed3<'ReaderEither'>
+```
+
+Added in v2.10.0
 
 ## URI
 
