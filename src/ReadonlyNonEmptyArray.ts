@@ -11,8 +11,8 @@ import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { Lazy, Predicate, Refinement, pipe, bind_, bindTo_, flow } from './function'
-import { Functor1 } from './Functor'
+import { bind_, flow, Lazy, pipe, Predicate, Refinement } from './function'
+import { bindTo_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { Monad1 } from './Monad'
 import { NonEmptyArray } from './NonEmptyArray'
@@ -839,9 +839,9 @@ export const Do: ReadonlyNonEmptyArray<{}> =
 /**
  * @since 2.8.0
  */
-export const bindTo = <N extends string>(
-  name: N
-): (<A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ [K in N]: A }>) => map(bindTo_(name))
+export const bindTo =
+  /*#__PURE__*/
+  bindTo_(Functor)
 
 /**
  * @since 2.8.0

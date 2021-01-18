@@ -793,9 +793,7 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(
-  name: N
-) => <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { [K in N]: A }>
 ```
 
 Added in v2.8.0

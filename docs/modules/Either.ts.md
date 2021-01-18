@@ -1378,7 +1378,7 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(name: N) => <E, A>(fa: Either<E, A>) => Either<E, { [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <E, A>(fa: Either<E, A>) => Either<E, { [K in N]: A }>
 ```
 
 Added in v2.8.0

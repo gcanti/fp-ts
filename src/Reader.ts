@@ -5,8 +5,8 @@ import { Applicative2 } from './Applicative'
 import { Category2 } from './Category'
 import { Choice2 } from './Choice'
 import * as E from './Either'
-import { bindTo_, bind_, flow, identity, pipe, constant } from './function'
-import { Functor2 } from './Functor'
+import { bind_, constant, flow, identity, pipe } from './function'
+import { bindTo_, Functor2 } from './Functor'
 import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Profunctor2 } from './Profunctor'
@@ -355,8 +355,9 @@ export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<U
 /**
  * @since 2.8.0
  */
-export const bindTo = <N extends string>(name: N): (<R, A>(fa: Reader<R, A>) => Reader<R, { [K in N]: A }>) =>
-  map(bindTo_(name))
+export const bindTo =
+  /*#__PURE__*/
+  bindTo_(Functor)
 
 /**
  * @since 2.8.0
