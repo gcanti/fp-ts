@@ -10,6 +10,7 @@
  * @since 2.0.0
  */
 import { Either } from './Either'
+import { pipe } from './function'
 import {
   Functor,
   Functor1,
@@ -26,7 +27,8 @@ import {
   getFunctorComposition,
   Functor3C,
   FunctorComposition23C,
-  FunctorComposition23
+  FunctorComposition23,
+  map_
 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'
 import { getLeft, getRight, Option } from './Option'
@@ -270,4 +272,54 @@ export function getCompactableComposition<F, G>(
     }
   }
   return CC
+}
+
+/**
+ * @since 2.10.0
+ */
+export function compact_<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Compactable2C<G, E>
+): <A>(fa: Kind<F, Kind2<G, E, Option<A>>>) => Kind<F, Kind2<G, E, A>>
+export function compact_<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Compactable1<G>
+): <A>(fa: Kind<F, Kind<G, Option<A>>>) => Kind<F, Kind<G, A>>
+export function compact_<F, G>(
+  F: Functor<F>,
+  G: Compactable<G>
+): <A>(fa: HKT<F, HKT<G, Option<A>>>) => HKT<F, HKT<G, A>>
+export function compact_<F, G>(
+  F: Functor<F>,
+  G: Compactable<G>
+): <A>(fa: HKT<F, HKT<G, Option<A>>>) => HKT<F, HKT<G, A>> {
+  return (fga) => F.map(fga, G.compact)
+}
+
+/**
+ * @since 2.10.0
+ */
+export function separate_<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Compactable2C<G, E> & Functor2<G>
+): <A, B>(fge: Kind<F, Kind2<G, E, Either<A, B>>>) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, B>>>
+export function separate_<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Compactable1<G> & Functor1<G>
+): <A, B>(fge: Kind<F, Kind<G, Either<A, B>>>) => Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, B>>>
+export function separate_<F, G>(
+  F: Functor<F>,
+  G: Compactable<G> & Functor<G>
+): <A, B>(fge: HKT<F, HKT<G, Either<A, B>>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>>
+export function separate_<F, G>(
+  F: Functor<F>,
+  G: Compactable<G> & Functor<G>
+): <A, B>(fge: HKT<F, HKT<G, Either<A, B>>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>> {
+  const compact = compact_(F, G)
+  const map = map_(F, G)
+  return (fge) => {
+    const left = compact(pipe(fge, map(getLeft)))
+    const right = compact(pipe(fge, map(getRight)))
+    return { left, right }
+  }
 }

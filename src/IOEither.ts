@@ -8,6 +8,7 @@ import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
 import { apFirst_, Apply2, apSecond_, apS_, ap_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
+import { Compactable2C, compact_, separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
 import { Filterable2C, getFilterableComposition } from './Filterable'
@@ -470,9 +471,24 @@ export function getIOValidation<E>(
 
 /**
  * @category instances
+ * @since 2.10.0
+ */
+export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
+  const C: Compactable2C<E.URI, E> & Functor2<E.URI> = { ...E.getCompactable(M), ...E.Functor }
+  return {
+    URI,
+    _E: undefined as any,
+    compact: compact_(I.Functor, C),
+    separate: separate_(I.Functor, C)
+  }
+}
+
+/**
+ * @category instances
  * @since 2.1.0
  */
 export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
+  const C = getCompactable(M)
   const W = E.getWitherable(M)
   const F = getFilterableComposition(I.Monad, W)
 
@@ -480,8 +496,8 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
     URI,
     _E: undefined as any,
     map: _map,
-    compact: F.compact,
-    separate: F.separate,
+    compact: C.compact,
+    separate: C.separate,
     filter: F.filter,
     filterMap: F.filterMap,
     partition: F.partition,

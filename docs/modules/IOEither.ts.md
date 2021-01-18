@@ -77,6 +77,7 @@ Added in v2.0.0
   - [getApplicativeIOValidation](#getapplicativeiovalidation)
   - [getApplyMonoid](#getapplymonoid)
   - [getApplySemigroup](#getapplysemigroup)
+  - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
   - [getIOValidation](#getiovalidation)
   - [getSemigroup](#getsemigroup)
@@ -702,6 +703,16 @@ export declare function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEi
 ```
 
 Added in v2.0.0
+
+## getCompactable
+
+**Signature**
+
+```ts
+export declare const getCompactable: <E>(M: Monoid<E>) => Compactable2C<'IOEither', E>
+```
+
+Added in v2.10.0
 
 ## getFilterable
 
