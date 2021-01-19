@@ -30,8 +30,6 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Applicative](#applicative)
-  - [of](#of)
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
@@ -41,6 +39,8 @@ Added in v2.0.0
   - [reduceRight](#reduceright)
 - [Functor](#functor)
   - [map](#map)
+- [Pointed](#pointed)
+  - [of](#of)
 - [combinators](#combinators)
   - [swap](#swap)
 - [constructors](#constructors)
@@ -64,7 +64,7 @@ Added in v2.0.0
   - [Bifunctor](#bifunctor-1)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [Traversable](#traversable)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -85,22 +85,6 @@ Added in v2.0.0
   - [~~toTuple~~](#totuple)
 
 ---
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-Equivalent to [`right`](#right).
-
-**Signature**
-
-```ts
-export declare const of: <E, A>(a: A) => These<E, A>
-```
-
-Added in v2.0.0
 
 # Bifunctor
 
@@ -171,6 +155,18 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B>
+```
+
+Added in v2.0.0
+
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <E, A>(a: A) => These<E, A>
 ```
 
 Added in v2.0.0

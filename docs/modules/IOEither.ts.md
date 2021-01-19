@@ -18,8 +18,6 @@ Added in v2.0.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apW](#apw)
@@ -35,6 +33,8 @@ Added in v2.0.0
   - [fromIO](#fromio)
 - [MonadThrow](#monadthrow)
   - [throwError](#throwerror)
+- [Pointed](#pointed)
+  - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -70,7 +70,7 @@ Added in v2.0.0
   - [Monad](#monad-1)
   - [MonadIO](#monadio-1)
   - [MonadThrow](#monadthrow-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getAltIOValidation](#getaltiovalidation)
@@ -131,22 +131,6 @@ export declare const altW: <E2, B>(
 ```
 
 Added in v2.9.0
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-Equivalent to [`right`](#right).
-
-**Signature**
-
-```ts
-export declare const of: <E, A>(a: A) => IOEither<E, A>
-```
-
-Added in v2.8.5
 
 # Apply
 
@@ -264,6 +248,18 @@ export declare const throwError: <E, A>(e: E) => IOEither<E, A>
 ```
 
 Added in v2.7.0
+
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <E, A>(a: A) => IOEither<E, A>
+```
+
+Added in v2.8.5
 
 # combinators
 

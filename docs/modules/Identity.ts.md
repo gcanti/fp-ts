@@ -15,8 +15,6 @@ Added in v2.0.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
 - [Extend](#extend)
@@ -31,6 +29,8 @@ Added in v2.0.0
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
+- [Pointed](#pointed)
+  - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -39,14 +39,14 @@ Added in v2.0.0
   - [flatten](#flatten)
 - [instances](#instances)
   - [Alt](#alt-1)
-  - [Applicative](#applicative-1)
+  - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [ChainRec](#chainrec)
   - [Comonad](#comonad)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [Traversable](#traversable)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -91,20 +91,6 @@ export declare const altW: <B>(that: () => B) => <A>(fa: A) => B | A
 ```
 
 Added in v2.9.0
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => A
-```
-
-Added in v2.0.0
 
 # Apply
 
@@ -201,6 +187,18 @@ Composes computations in sequence, using the return value of one computation to 
 
 ```ts
 export declare const chain: <A, B>(f: (a: A) => B) => (ma: A) => B
+```
+
+Added in v2.0.0
+
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => A
 ```
 
 Added in v2.0.0

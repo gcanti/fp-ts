@@ -499,9 +499,7 @@ export const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B
   isNone(fab) ? none : isNone(fa) ? none : some(fab.value(fa.value))
 
 /**
- * Wrap a value into the type constructor.
- *
- * @category Applicative
+ * @category Pointed
  * @since 2.7.0
  */
 export const of: Pointed1<URI>['of'] = some

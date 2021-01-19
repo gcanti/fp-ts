@@ -22,8 +22,6 @@ Added in v2.0.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apW](#apw)
@@ -40,6 +38,8 @@ Added in v2.0.0
 - [MonadTask](#monadtask)
   - [fromTask](#fromtask)
   - [throwError](#throwerror)
+- [Pointed](#pointed)
+  - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -81,7 +81,7 @@ Added in v2.0.0
   - [Bifunctor](#bifunctor-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getAltTaskValidation](#getalttaskvalidation)
@@ -181,22 +181,6 @@ export declare const altW: <E2, B>(
 ```
 
 Added in v2.9.0
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-Equivalent to [`right`](#right).
-
-**Signature**
-
-```ts
-export declare const of: <E, A>(a: A) => TaskEither<E, A>
-```
-
-Added in v2.0.0
 
 # Apply
 
@@ -328,6 +312,18 @@ export declare const throwError: <E, A>(e: E) => TaskEither<E, A>
 ```
 
 Added in v2.7.0
+
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <E, A>(a: A) => TaskEither<E, A>
+```
+
+Added in v2.0.0
 
 # combinators
 

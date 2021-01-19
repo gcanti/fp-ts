@@ -299,9 +299,7 @@ export const filterWithIndex: <A>(
 ) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> = RNEA.filterWithIndex as any
 
 /**
- * Wrap a value into the type constructor.
- *
- * @category Applicative
+ * @category Pointed
  * @since 2.0.0
  */
 export const of: Pointed1<URI>['of'] = RNEA.of as any

@@ -479,9 +479,7 @@ export const ap: <S, R, E, A>(
 ) => <B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B> = apW
 
 /**
- * Wrap a value into the type constructor.
- *
- * @category Applicative
+ * @category Pointed
  * @since 2.7.0
  */
 export const of: Pointed4<URI>['of'] = right

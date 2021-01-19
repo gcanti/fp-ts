@@ -166,9 +166,7 @@ export const apW: <Q, A>(
 ) => <R, B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<Q & R, B> = ap as any
 
 /**
- * Wrap a value into the type constructor.
- *
- * @category Applicative
+ * @category Pointed
  * @since 2.3.0
  */
 export const of: Pointed2<URI>['of'] =

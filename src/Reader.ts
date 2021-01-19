@@ -111,9 +111,7 @@ export const apW: <Q, A>(fa: Reader<Q, A>) => <R, B>(fab: Reader<R, (a: A) => B>
 export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> = apW
 
 /**
- * Wrap a value into the type constructor.
- *
- * @category Applicative
+ * @category Pointed
  * @since 2.0.0
  */
 export const of: Pointed2<URI>['of'] = constant

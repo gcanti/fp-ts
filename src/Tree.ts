@@ -420,9 +420,7 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(
 ): (<A>(ta: Tree<HKT<F, A>>) => HKT<F, Tree<A>>) => traverse(F)(identity)
 
 /**
- * Wrap a value into the type constructor.
- *
- * @category Applicative
+ * @category Pointed
  * @since 2.7.0
  */
 export const of: Pointed1<URI>['of'] = (a) => ({
