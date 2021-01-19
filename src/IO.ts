@@ -11,8 +11,8 @@
  *
  * @since 2.0.0
  */
-import { Applicative1 } from './Applicative'
-import { apFirst_, Apply1, apSecond_, apS_ } from './Apply'
+import { Applicative1, getApplicativeMonoid } from './Applicative'
+import { apFirst_, Apply1, apSecond_, apS_, getApplySemigroup } from './Apply'
 import { ChainRec1 } from './ChainRec'
 import { constant, identity } from './function'
 import { bindTo_, Functor1 } from './Functor'
@@ -119,27 +119,6 @@ export type URI = typeof URI
 declare module './HKT' {
   interface URItoKind<A> {
     readonly [URI]: IO<A>
-  }
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getSemigroup<A>(S: Semigroup<A>): Semigroup<IO<A>> {
-  return {
-    concat: (x, y) => () => S.concat(x(), y())
-  }
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> {
-  return {
-    concat: getSemigroup(M).concat,
-    empty: of(M.empty)
   }
 }
 
@@ -367,3 +346,25 @@ export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
   fromIO,
   chainRec: _chainRec
 }
+
+/**
+ * Use `Apply.getApplySemigroup` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<IO<A>> =
+  /*#__PURE__*/
+  getApplySemigroup(Apply)
+
+/**
+ * Use `Applicative.getApplicativeMonoid` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getMonoid: <A>(M: Monoid<A>) => Monoid<IO<A>> =
+  /*#__PURE__*/
+  getApplicativeMonoid(Applicative)

@@ -47,8 +47,8 @@ Added in v2.0.0
   - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [getMonoid](#getmonoid)
-  - [getSemigroup](#getsemigroup)
+  - [~~getMonoid~~](#getmonoid)
+  - [~~getSemigroup~~](#getsemigroup)
   - [~~io~~](#io)
 - [model](#model)
   - [IO (interface)](#io-interface)
@@ -279,22 +279,26 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-## getMonoid
+## ~~getMonoid~~
+
+Use `Applicative.getApplicativeMonoid` instead.
 
 **Signature**
 
 ```ts
-export declare function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>>
+export declare const getMonoid: <A>(M: Monoid<A>) => Monoid<IO<A>>
 ```
 
 Added in v2.0.0
 
-## getSemigroup
+## ~~getSemigroup~~
+
+Use `Apply.getApplySemigroup` instead.
 
 **Signature**
 
 ```ts
-export declare function getSemigroup<A>(S: Semigroup<A>): Semigroup<IO<A>>
+export declare const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<IO<A>>
 ```
 
 Added in v2.0.0

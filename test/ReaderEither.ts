@@ -141,6 +141,7 @@ describe('ReaderEither', () => {
 
   describe('getSemigroup', () => {
     it('concat', () => {
+      // tslint:disable-next-line: deprecation
       const S = _.getSemigroup(semigroupSum)
       const e1 = S.concat(_.left('a'), _.left('b'))({})
       assert.deepStrictEqual(e1, E.left('a'))
@@ -157,6 +158,7 @@ describe('ReaderEither', () => {
   })
 
   describe('getApplyMonoid', () => {
+    // tslint:disable-next-line: deprecation
     const M = _.getApplyMonoid(monoidString)
 
     it('concat (right)', () => {

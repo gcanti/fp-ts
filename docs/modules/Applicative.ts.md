@@ -49,6 +49,7 @@ Added in v2.0.0
   - [ApplicativeCompositionHKT2 (interface)](#applicativecompositionhkt2-interface)
   - [ApplicativeCompositionHKT2C (interface)](#applicativecompositionhkt2c-interface)
   - [getApplicativeComposition](#getapplicativecomposition)
+  - [getApplicativeMonoid](#getapplicativemonoid)
 
 ---
 
@@ -353,3 +354,33 @@ A.ap(A.map(x, sum), y)().then((result) => assert.deepStrictEqual(result, some(3)
 ```
 
 Added in v2.0.0
+
+## getApplicativeMonoid
+
+Lift a monoid into 'F', the inner values are concatenated using the provided `Monoid`.
+
+**Signature**
+
+```ts
+export declare function getApplicativeMonoid<F extends URIS4>(
+  F: Applicative4<F>
+): <A, S, R, E>(M: Monoid<A>) => Monoid<Kind4<F, S, R, E, A>>
+export declare function getApplicativeMonoid<F extends URIS3>(
+  F: Applicative3<F>
+): <A, R, E>(M: Monoid<A>) => Monoid<Kind3<F, R, E, A>>
+export declare function getApplicativeMonoid<F extends URIS3, E>(
+  F: Applicative3C<F, E>
+): <A, R>(S: Monoid<A>) => Monoid<Kind3<F, R, E, A>>
+export declare function getApplicativeMonoid<F extends URIS2>(
+  F: Applicative2<F>
+): <A, E>(M: Monoid<A>) => Monoid<Kind2<F, E, A>>
+export declare function getApplicativeMonoid<F extends URIS2, E>(
+  F: Applicative2C<F, E>
+): <A>(M: Monoid<A>) => Monoid<Kind2<F, E, A>>
+export declare function getApplicativeMonoid<F extends URIS>(
+  F: Applicative1<F>
+): <A>(M: Monoid<A>) => Monoid<Kind<F, A>>
+export declare function getApplicativeMonoid<F>(F: Applicative<F>): <A>(M: Monoid<A>) => Monoid<HKT<F, A>>
+```
+
+Added in v2.10.0

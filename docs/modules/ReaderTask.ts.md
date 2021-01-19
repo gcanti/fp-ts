@@ -47,8 +47,8 @@ Added in v2.3.0
   - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [getMonoid](#getmonoid)
-  - [getSemigroup](#getsemigroup)
+  - [~~getMonoid~~](#getmonoid)
+  - [~~getSemigroup~~](#getsemigroup)
   - [~~readerTaskSeq~~](#readertaskseq)
   - [~~readerTask~~](#readertask)
 - [model](#model)
@@ -397,22 +397,26 @@ export type URI = typeof URI
 
 Added in v2.3.0
 
-## getMonoid
+## ~~getMonoid~~
+
+Use `Applicative.getApplicativeMonoid` instead.
 
 **Signature**
 
 ```ts
-export declare function getMonoid<R, A>(M: Monoid<A>): Monoid<ReaderTask<R, A>>
+export declare const getMonoid: <R, A>(M: Monoid<A>) => Monoid<ReaderTask<R, A>>
 ```
 
 Added in v2.3.0
 
-## getSemigroup
+## ~~getSemigroup~~
+
+Use `Apply.getApplySemigroup` instead.
 
 **Signature**
 
 ```ts
-export declare function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<ReaderTask<R, A>>
+export declare const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<ReaderTask<R, A>>
 ```
 
 Added in v2.3.0

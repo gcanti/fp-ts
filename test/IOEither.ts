@@ -245,6 +245,7 @@ describe('IOEither', () => {
 
   describe('getSemigroup', () => {
     it('concat', () => {
+      // tslint:disable-next-line: deprecation
       const S = _.getSemigroup<string, number>(semigroupSum)
       assert.deepStrictEqual(S.concat(_.leftIO(I.of('a')), _.leftIO(I.of('b')))(), E.left('a'))
       assert.deepStrictEqual(S.concat(_.leftIO(I.of('a')), _.rightIO(I.of(2)))(), E.right(2))
@@ -255,6 +256,7 @@ describe('IOEither', () => {
 
   describe('getApplyMonoid', () => {
     it('concat', () => {
+      // tslint:disable-next-line: deprecation
       const M = _.getApplyMonoid(monoidString)
       assert.deepStrictEqual(M.concat(_.rightIO(I.of('a')), _.rightIO(I.of('b')))(), E.right('ab'))
       assert.deepStrictEqual(M.concat(_.rightIO(I.of('a')), _.leftIO(I.of('b')))(), E.left('b'))

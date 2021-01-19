@@ -90,10 +90,10 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getAltReaderTaskValidation](#getaltreadertaskvalidation)
   - [getApplicativeReaderTaskValidation](#getapplicativereadertaskvalidation)
-  - [getApplyMonoid](#getapplymonoid)
-  - [getApplySemigroup](#getapplysemigroup)
   - [getReaderTaskValidation](#getreadertaskvalidation)
-  - [getSemigroup](#getsemigroup)
+  - [~~getApplyMonoid~~](#getapplymonoid)
+  - [~~getApplySemigroup~~](#getapplysemigroup)
+  - [~~getSemigroup~~](#getsemigroup)
   - [~~readerTaskEitherSeq~~](#readertaskeitherseq)
   - [~~readerTaskEither~~](#readertaskeither)
 - [model](#model)
@@ -910,29 +910,6 @@ export declare function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, 
 
 Added in v2.7.0
 
-## getApplyMonoid
-
-**Signature**
-
-```ts
-export declare function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderTaskEither<R, E, A>>
-```
-
-Added in v2.0.0
-
-## getApplySemigroup
-
-Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
-are concatenated using the provided `Semigroup`
-
-**Signature**
-
-```ts
-export declare function getApplySemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>>
-```
-
-Added in v2.0.0
-
 ## getReaderTaskValidation
 
 **Signature**
@@ -945,7 +922,36 @@ export declare function getReaderTaskValidation<E>(
 
 Added in v2.3.0
 
-## getSemigroup
+## ~~getApplyMonoid~~
+
+Use `Applicative.getApplicativeMonoid` instead.
+
+**Signature**
+
+```ts
+export declare const getApplyMonoid: <R, E, A>(M: Monoid<A>) => Monoid<ReaderTaskEither<R, E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getApplySemigroup~~
+
+Use `Apply.getApplySemigroup` instead.
+
+Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
+are concatenated using the provided `Semigroup`
+
+**Signature**
+
+```ts
+export declare const getApplySemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<ReaderTaskEither<R, E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getSemigroup~~
+
+Use `Apply.getApplySemigroup` instead.
 
 Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
 concatenated using the provided `Semigroup`
@@ -953,7 +959,7 @@ concatenated using the provided `Semigroup`
 **Signature**
 
 ```ts
-export declare function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>>
+export declare const getSemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<ReaderTaskEither<R, E, A>>
 ```
 
 Added in v2.0.0

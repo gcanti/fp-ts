@@ -2,7 +2,7 @@
  * @since 2.4.0
  */
 import { Applicative2C } from './Applicative'
-import { Apply1, Apply2C } from './Apply'
+import { Apply1, Apply2C, getApplySemigroup } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { flow, Lazy, pipe } from './function'
 import { Functor2 } from './Functor'
@@ -209,14 +209,6 @@ declare module './HKT' {
 
 /**
  * @category instances
- * @since 2.4.0
- */
-export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<TaskThese<E, A>> {
-  return T.getSemigroup(TH.getSemigroup(SE, SA))
-}
-
-/**
- * @category instances
  * @since 2.10.0
  */
 export const getApply = <E>(A: Apply1<T.URI>, S: Semigroup<E>): Apply2C<URI, E> => {
@@ -359,3 +351,13 @@ export const taskThese: Functor2<URI> & Bifunctor2<URI> = {
   bimap: _bimap,
   mapLeft: _mapLeft
 }
+
+/**
+ * Use `Apply.getApplySemigroup` instead.
+ *
+ * @category instances
+ * @since 2.4.0
+ * @deprecated
+ */
+export const getSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<TaskThese<E, A>> =>
+  getApplySemigroup(T.ApplySeq)(TH.getSemigroup(SE, SA))

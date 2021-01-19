@@ -102,14 +102,14 @@ Added in v2.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [Witherable](#witherable-1)
-  - [getApplyMonoid](#getapplymonoid)
-  - [getApplySemigroup](#getapplysemigroup)
   - [getEq](#geteq)
   - [getFirstMonoid](#getfirstmonoid)
   - [getLastMonoid](#getlastmonoid)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getShow](#getshow)
+  - [~~getApplyMonoid~~](#getapplymonoid)
+  - [~~getApplySemigroup~~](#getapplysemigroup)
   - [~~option~~](#option)
 - [model](#model)
   - [None (interface)](#none-interface)
@@ -1084,48 +1084,6 @@ export declare const Witherable: Witherable1<'Option'>
 
 Added in v2.7.0
 
-## getApplyMonoid
-
-**Signature**
-
-```ts
-export declare function getApplyMonoid<A>(M: Monoid<A>): Monoid<Option<A>>
-```
-
-Added in v2.0.0
-
-## getApplySemigroup
-
-`Apply` semigroup
-
-| x       | y       | concat(x, y)       |
-| ------- | ------- | ------------------ |
-| none    | none    | none               |
-| some(a) | none    | none               |
-| none    | some(a) | none               |
-| some(a) | some(b) | some(concat(a, b)) |
-
-**Signature**
-
-```ts
-export declare function getApplySemigroup<A>(S: Semigroup<A>): Semigroup<Option<A>>
-```
-
-**Example**
-
-```ts
-import { getApplySemigroup, some, none } from 'fp-ts/Option'
-import { semigroupSum } from 'fp-ts/Semigroup'
-
-const S = getApplySemigroup(semigroupSum)
-assert.deepStrictEqual(S.concat(none, none), none)
-assert.deepStrictEqual(S.concat(some(1), none), none)
-assert.deepStrictEqual(S.concat(none, some(1)), none)
-assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
-```
-
-Added in v2.0.0
-
 ## getEq
 
 **Signature**
@@ -1281,6 +1239,52 @@ Added in v2.0.0
 
 ```ts
 export declare function getShow<A>(S: Show<A>): Show<Option<A>>
+```
+
+Added in v2.0.0
+
+## ~~getApplyMonoid~~
+
+Use `Applicative.getApplicativeMonoid` instead.
+
+**Signature**
+
+```ts
+export declare const getApplyMonoid: <A>(M: Monoid<A>) => Monoid<Option<A>>
+```
+
+Added in v2.0.0
+
+## ~~getApplySemigroup~~
+
+Use `Apply.getApplySemigroup` instead.
+
+`Apply` semigroup
+
+| x       | y       | concat(x, y)       |
+| ------- | ------- | ------------------ |
+| none    | none    | none               |
+| some(a) | none    | none               |
+| none    | some(a) | none               |
+| some(a) | some(b) | some(concat(a, b)) |
+
+**Signature**
+
+```ts
+export declare const getApplySemigroup: <A>(S: Semigroup<A>) => Semigroup<Option<A>>
+```
+
+**Example**
+
+```ts
+import { getApplySemigroup, some, none } from 'fp-ts/Option'
+import { semigroupSum } from 'fp-ts/Semigroup'
+
+const S = getApplySemigroup(semigroupSum)
+assert.deepStrictEqual(S.concat(none, none), none)
+assert.deepStrictEqual(S.concat(some(1), none), none)
+assert.deepStrictEqual(S.concat(none, some(1)), none)
+assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
 ```
 
 Added in v2.0.0

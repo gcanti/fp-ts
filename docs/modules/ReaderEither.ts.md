@@ -70,10 +70,10 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getAltReaderValidation](#getaltreadervalidation)
   - [getApplicativeReaderValidation](#getapplicativereadervalidation)
-  - [getApplyMonoid](#getapplymonoid)
-  - [getApplySemigroup](#getapplysemigroup)
   - [getReaderValidation](#getreadervalidation)
-  - [getSemigroup](#getsemigroup)
+  - [~~getApplyMonoid~~](#getapplymonoid)
+  - [~~getApplySemigroup~~](#getapplysemigroup)
+  - [~~getSemigroup~~](#getsemigroup)
   - [~~readerEither~~](#readereither)
 - [model](#model)
   - [ReaderEither (interface)](#readereither-interface)
@@ -680,29 +680,6 @@ export declare function getApplicativeReaderValidation<E>(S: Semigroup<E>): Appl
 
 Added in v2.7.0
 
-## getApplyMonoid
-
-**Signature**
-
-```ts
-export declare function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderEither<R, E, A>>
-```
-
-Added in v2.0.0
-
-## getApplySemigroup
-
-Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
-are concatenated using the provided `Semigroup`
-
-**Signature**
-
-```ts
-export declare function getApplySemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>>
-```
-
-Added in v2.0.0
-
 ## getReaderValidation
 
 **Signature**
@@ -715,7 +692,36 @@ export declare function getReaderValidation<E>(
 
 Added in v2.3.0
 
-## getSemigroup
+## ~~getApplyMonoid~~
+
+Use `Applicative.getApplicativeMonoid` instead.
+
+**Signature**
+
+```ts
+export declare const getApplyMonoid: <R, E, A>(M: Monoid<A>) => Monoid<ReaderEither<R, E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getApplySemigroup~~
+
+Use `Apply.getApplySemigroup` instead.
+
+Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
+are concatenated using the provided `Semigroup`
+
+**Signature**
+
+```ts
+export declare const getApplySemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<ReaderEither<R, E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getSemigroup~~
+
+Use `Apply.getApplySemigroup` instead.
 
 Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
 concatenated using the provided `Semigroup`
@@ -723,7 +729,7 @@ concatenated using the provided `Semigroup`
 **Signature**
 
 ```ts
-export declare function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>>
+export declare const getSemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<ReaderEither<R, E, A>>
 ```
 
 Added in v2.0.0

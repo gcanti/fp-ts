@@ -9,8 +9,8 @@
  * @since 2.0.0
  */
 import { Alt2, Alt2C } from './Alt'
-import { Applicative2, Applicative2C } from './Applicative'
-import { apFirst_, Apply1, Apply2, apSecond_, apS_, ap_ } from './Apply'
+import { Applicative2, Applicative2C, getApplicativeMonoid } from './Applicative'
+import { apFirst_, Apply1, Apply2, apSecond_, apS_, ap_, getApplySemigroup as getApplySemigroup_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C, compact_, separate_ } from './Compactable'
 import * as E from './Either'
@@ -521,39 +521,6 @@ export type URI = typeof URI
 declare module './HKT' {
   interface URItoKind2<E, A> {
     readonly [URI]: TaskEither<E, A>
-  }
-}
-
-/**
- * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
- * concatenated using the provided `Semigroup`
- *
- * @category instances
- * @since 2.0.0
- */
-export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>> {
-  return T.getSemigroup(E.getSemigroup(S))
-}
-
-/**
- * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
- * are concatenated using the provided `Semigroup`
- *
- * @category instances
- * @since 2.0.0
- */
-export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>> {
-  return T.getSemigroup(E.getApplySemigroup(S))
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>> {
-  return {
-    concat: getApplySemigroup<E, A>(M).concat,
-    empty: right(M.empty)
   }
 }
 
@@ -1112,3 +1079,41 @@ export const taskEitherSeq: typeof taskEither = {
   fromTask,
   throwError
 }
+
+/**
+ * Use `Apply.getApplySemigroup` instead.
+ *
+ * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
+ * are concatenated using the provided `Semigroup`
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<TaskEither<E, A>> =
+  /*#__PURE__*/
+  getApplySemigroup_(ApplySeq)
+
+/**
+ * Use `Applicative.getApplicativeMonoid` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<TaskEither<E, A>> =
+  /*#__PURE__*/
+  getApplicativeMonoid(ApplicativeSeq)
+
+/**
+ * Use `Apply.getApplySemigroup` instead.
+ *
+ * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
+ * concatenated using the provided `Semigroup`
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>> =>
+  getApplySemigroup_(T.ApplySeq)(E.getSemigroup(S))

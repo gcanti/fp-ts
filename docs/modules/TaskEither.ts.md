@@ -86,12 +86,12 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getAltTaskValidation](#getalttaskvalidation)
   - [getApplicativeTaskValidation](#getapplicativetaskvalidation)
-  - [getApplyMonoid](#getapplymonoid)
-  - [getApplySemigroup](#getapplysemigroup)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
-  - [getSemigroup](#getsemigroup)
   - [getTaskValidation](#gettaskvalidation)
+  - [~~getApplyMonoid~~](#getapplymonoid)
+  - [~~getApplySemigroup~~](#getapplysemigroup)
+  - [~~getSemigroup~~](#getsemigroup)
   - [~~taskEitherSeq~~](#taskeitherseq)
   - [~~taskEither~~](#taskeither)
 - [model](#model)
@@ -850,29 +850,6 @@ export declare function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, S: Sem
 
 Added in v2.7.0
 
-## getApplyMonoid
-
-**Signature**
-
-```ts
-export declare function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>>
-```
-
-Added in v2.0.0
-
-## getApplySemigroup
-
-Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
-are concatenated using the provided `Semigroup`
-
-**Signature**
-
-```ts
-export declare function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>>
-```
-
-Added in v2.0.0
-
 ## getCompactable
 
 **Signature**
@@ -893,19 +870,6 @@ export declare function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E>
 
 Added in v2.1.0
 
-## getSemigroup
-
-Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
-concatenated using the provided `Semigroup`
-
-**Signature**
-
-```ts
-export declare function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>>
-```
-
-Added in v2.0.0
-
 ## getTaskValidation
 
 **Signature**
@@ -914,6 +878,48 @@ Added in v2.0.0
 export declare function getTaskValidation<E>(
   SE: Semigroup<E>
 ): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadTask2C<URI, E> & MonadThrow2C<URI, E>
+```
+
+Added in v2.0.0
+
+## ~~getApplyMonoid~~
+
+Use `Applicative.getApplicativeMonoid` instead.
+
+**Signature**
+
+```ts
+export declare const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<TaskEither<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getApplySemigroup~~
+
+Use `Apply.getApplySemigroup` instead.
+
+Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
+are concatenated using the provided `Semigroup`
+
+**Signature**
+
+```ts
+export declare const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<TaskEither<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getSemigroup~~
+
+Use `Apply.getApplySemigroup` instead.
+
+Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
+concatenated using the provided `Semigroup`
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <E, A>(S: Semigroup<A>) => Semigroup<TaskEither<E, A>>
 ```
 
 Added in v2.0.0
