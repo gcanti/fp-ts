@@ -107,6 +107,7 @@ describe('TaskEither', () => {
   it('getApplicativeTaskValidation', async () => {
     const A = _.getApplicativeTaskValidation(T.ApplicativePar, semigroupString)
     assert.deepStrictEqual(await sequenceT(A)(_.left('a'), _.left('b'))(), E.left('ab'))
+    // tslint:disable-next-line: deprecation
     const AV = _.getTaskValidation(semigroupString)
     assert.deepStrictEqual(await sequenceT(AV)(_.left('a'), _.left('b'))(), E.left('ab'))
   })
@@ -114,11 +115,13 @@ describe('TaskEither', () => {
   it('getAltTaskValidation', async () => {
     const A = _.getAltTaskValidation(semigroupString)
     assert.deepStrictEqual(await A.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
+    // tslint:disable-next-line: deprecation
     const AV = _.getTaskValidation(semigroupString)
     assert.deepStrictEqual(await AV.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
   })
 
   describe('getTaskValidation', () => {
+    // tslint:disable-next-line: deprecation
     const TV = _.getTaskValidation(semigroupString)
 
     it('ap', async () => {

@@ -553,32 +553,6 @@ export function getAltTaskValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
   }
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getTaskValidation<E>(
-  SE: Semigroup<E>
-): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadTask2C<URI, E> & MonadThrow2C<URI, E> {
-  const applicativeTaskValidation = getApplicativeTaskValidation(T.ApplicativePar, SE)
-  const altTaskValidation = getAltTaskValidation(SE)
-  return {
-    URI,
-    _E: undefined as any,
-    map: _map,
-    ap: applicativeTaskValidation.ap,
-    of,
-    chain: _chain,
-    bimap: _bimap,
-    mapLeft: _mapLeft,
-    alt: altTaskValidation.alt,
-    fromIO,
-    fromTask,
-    throwError
-  }
-}
-
 /**
  * @category instances
  * @since 2.10.0
@@ -1117,3 +1091,31 @@ export const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<TaskEither<E, A>> =
  */
 export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>> =>
   getApplySemigroup_(T.ApplySeq)(E.getSemigroup(S))
+
+/**
+ * Use `getApplicativeTaskValidation` and `getAltTaskValidation` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export function getTaskValidation<E>(
+  SE: Semigroup<E>
+): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadTask2C<URI, E> & MonadThrow2C<URI, E> {
+  const applicativeTaskValidation = getApplicativeTaskValidation(T.ApplicativePar, SE)
+  const altTaskValidation = getAltTaskValidation(SE)
+  return {
+    URI,
+    _E: undefined as any,
+    map: _map,
+    ap: applicativeTaskValidation.ap,
+    of,
+    chain: _chain,
+    bimap: _bimap,
+    mapLeft: _mapLeft,
+    alt: altTaskValidation.alt,
+    fromIO,
+    fromTask,
+    throwError
+  }
+}
