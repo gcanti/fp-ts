@@ -89,14 +89,9 @@ import {
   Semigroupoid4
 } from './Semigroupoid'
 
-// TODO: remove module in v3
-
-/**
- * Use [`pipe`](https://gcanti.github.io/fp-ts/modules/function.ts.html#flow) from `function` module instead.
- *
- * @since 2.0.0
- */
-export const pipe = pipeFromFunctionModule
+// -------------------------------------------------------------------------------------
+// unused
+// -------------------------------------------------------------------------------------
 
 /**
  * @since 2.0.0
@@ -1559,3 +1554,15 @@ export function pipeable<F, I>(I: { readonly URI: F } & I): Record<string, unkno
   }
   return r
 }
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use [`pipe`](https://gcanti.github.io/fp-ts/modules/function.ts.html#flow) from `function` module instead.
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export const pipe = pipeFromFunctionModule
