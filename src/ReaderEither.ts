@@ -309,11 +309,7 @@ export const apW: <Q, D, A>(
 ) => <R, E, B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<Q & R, D | E, B> = ap as any
 
 /**
- * Wrap a value into the type constructor.
- *
- * Equivalent to [`right`](#right).
- *
- * @category Applicative
+ * @category Pointed
  * @since 2.8.5
  */
 export const of: Pointed3<URI>['of'] = right

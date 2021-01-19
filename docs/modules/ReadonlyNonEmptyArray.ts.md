@@ -17,8 +17,6 @@ Added in v2.5.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
 - [Extend](#extend)
@@ -37,6 +35,8 @@ Added in v2.5.0
   - [mapWithIndex](#mapwithindex)
 - [Monad](#monad)
   - [chain](#chain)
+- [Pointed](#pointed)
+  - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -63,7 +63,7 @@ Added in v2.5.0
   - [unsnoc](#unsnoc)
 - [instances](#instances)
   - [Alt](#alt-1)
-  - [Applicative](#applicative-1)
+  - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Comonad](#comonad)
   - [Foldable](#foldable-1)
@@ -71,7 +71,7 @@ Added in v2.5.0
   - [Functor](#functor-1)
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [Traversable](#traversable)
   - [TraversableWithIndex](#traversablewithindex)
   - [URI](#uri)
@@ -137,20 +137,6 @@ export declare const altW: <B>(
 ```
 
 Added in v2.9.0
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => ReadonlyNonEmptyArray<A>
-```
-
-Added in v2.5.0
 
 # Apply
 
@@ -293,6 +279,18 @@ Composes computations in sequence, using the return value of one computation to 
 export declare const chain: <A, B>(
   f: (a: A) => ReadonlyNonEmptyArray<B>
 ) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+```
+
+Added in v2.5.0
+
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.5.0

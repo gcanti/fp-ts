@@ -135,9 +135,7 @@ export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (f
   Promise.all([fab(), fa()]).then(([f, a]) => f(a))
 
 /**
- * Wrap a value into the type constructor.
- *
- * @category Applicative
+ * @category Pointed
  * @since 2.0.0
  */
 export const of: Pointed1<URI>['of'] = (a) => () => Promise.resolve(a)

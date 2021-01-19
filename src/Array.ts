@@ -999,9 +999,7 @@ export const difference: <A>(
 } = RA.difference as any
 
 /**
- * Wrap a value into the type constructor.
- *
- * @category Applicative
+ * @category Pointed
  * @since 2.0.0
  */
 export const of: Pointed1<URI>['of'] = RA.of as any

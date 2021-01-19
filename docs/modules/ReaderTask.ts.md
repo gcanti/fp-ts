@@ -12,8 +12,6 @@ Added in v2.3.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apW](#apw)
@@ -22,6 +20,8 @@ Added in v2.3.0
 - [Monad](#monad)
   - [chain](#chain)
   - [chainW](#chainw)
+- [Pointed](#pointed)
+  - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -44,7 +44,7 @@ Added in v2.3.0
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
   - [Functor](#functor-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
@@ -66,20 +66,6 @@ Added in v2.3.0
   - [traverseArrayWithIndex](#traversearraywithindex)
 
 ---
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-**Signature**
-
-```ts
-export declare const of: <E, A>(a: A) => ReaderTask<E, A>
-```
-
-Added in v2.3.0
 
 # Apply
 
@@ -151,6 +137,18 @@ export declare const chainW: <R, A, B>(
 ```
 
 Added in v2.6.7
+
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <E, A>(a: A) => ReaderTask<E, A>
+```
+
+Added in v2.3.0
 
 # combinators
 
