@@ -281,6 +281,10 @@ export declare function ap_<F, G extends URIS2>(
   F: Apply<F>,
   G: Apply2<G>
 ): <E, A>(fa: HKT<F, Kind2<G, E, A>>) => <B>(fab: HKT<F, Kind2<G, E, (a: A) => B>>) => HKT<F, Kind2<G, E, B>>
+export declare function ap_<F, G extends URIS2, E>(
+  F: Apply<F>,
+  G: Apply2C<G, E>
+): <A>(fa: HKT<F, Kind2<G, E, A>>) => <B>(fab: HKT<F, Kind2<G, E, (a: A) => B>>) => HKT<F, Kind2<G, E, B>>
 export declare function ap_<F, G extends URIS>(
   F: Apply<F>,
   G: Apply1<G>

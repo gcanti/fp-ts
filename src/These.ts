@@ -20,11 +20,12 @@
  * @since 2.0.0
  */
 import { Applicative, Applicative2C } from './Applicative'
+import { Apply2C } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Foldable2 } from './Foldable'
-import { pipe } from './function'
+import { Lazy, pipe } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
@@ -164,32 +165,44 @@ export function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
 
 /**
  * @category instances
+ * @since 2.10.0
+ */
+export const getApply = <E>(S: Semigroup<E>): Apply2C<URI, E> => ({
+  URI,
+  _E: undefined as any,
+  map: _map,
+  ap: (fab, fa) =>
+    isLeft(fab)
+      ? isLeft(fa)
+        ? left(S.concat(fab.left, fa.left))
+        : isRight(fa)
+        ? left(fab.left)
+        : left(S.concat(fab.left, fa.left))
+      : isRight(fab)
+      ? isLeft(fa)
+        ? left(fa.left)
+        : isRight(fa)
+        ? right(fab.right(fa.right))
+        : both(fa.left, fab.right(fa.right))
+      : isLeft(fa)
+      ? left(S.concat(fab.left, fa.left))
+      : isRight(fa)
+      ? both(fab.left, fab.right(fa.right))
+      : both(S.concat(fab.left, fa.left), fab.right(fa.right))
+})
+
+/**
+ * @category instances
  * @since 2.7.0
  */
-export function getApplicative<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
+export function getApplicative<E>(S: Semigroup<E>): Applicative2C<URI, E> {
+  const A = getApply(S)
   return {
     URI,
     _E: undefined as any,
     map: _map,
-    of: right,
-    ap: (fab, fa) =>
-      isLeft(fab)
-        ? isLeft(fa)
-          ? left(SE.concat(fab.left, fa.left))
-          : isRight(fa)
-          ? left(fab.left)
-          : left(SE.concat(fab.left, fa.left))
-        : isRight(fab)
-        ? isLeft(fa)
-          ? left(fa.left)
-          : isRight(fa)
-          ? right(fab.right(fa.right))
-          : both(fa.left, fab.right(fa.right))
-        : isLeft(fa)
-        ? left(SE.concat(fab.left, fa.left))
-        : isRight(fa)
-        ? both(fab.left, fab.right(fa.right))
-        : both(SE.concat(fab.left, fa.left), fab.right(fa.right))
+    ap: A.ap,
+    of
   }
 }
 
@@ -224,24 +237,6 @@ export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<UR
     throwError: left
   }
 }
-
-// TODO: make lazy in v3
-/* tslint:disable:readonly-array */
-/**
- * @example
- * import { toTuple, left, right, both } from 'fp-ts/These'
- *
- * assert.deepStrictEqual(toTuple('a', 1)(left('b')), ['b', 1])
- * assert.deepStrictEqual(toTuple('a', 1)(right(2)), ['a', 2])
- * assert.deepStrictEqual(toTuple('a', 1)(both('b', 2)), ['b', 2])
- *
- * @category destructors
- * @since 2.0.0
- */
-export function toTuple<E, A>(e: E, a: A): (fa: These<E, A>) => [E, A] {
-  return (fa) => (isLeft(fa) ? [fa.left, a] : isRight(fa) ? [e, fa.right] : [fa.left, fa.right])
-}
-/* tslint:enable:readonly-array */
 
 /**
  * Returns an `E` value if possible
@@ -600,3 +595,45 @@ export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversab
   traverse: _traverse,
   sequence
 }
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @example
+ * import { toReadonlyTuple2, left, right, both } from 'fp-ts/These'
+ *
+ * assert.deepStrictEqual(toReadonlyTuple2(() => 'a', () => 1)(left('b')), ['b', 1])
+ * assert.deepStrictEqual(toReadonlyTuple2(() => 'a', () => 1)(right(2)), ['a', 2])
+ * assert.deepStrictEqual(toReadonlyTuple2(() => 'a', () => 1)(both('b', 2)), ['b', 2])
+ *
+ * @since 2.10.0
+ */
+export const toReadonlyTuple2 = <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>): readonly [E, A] =>
+  isLeft(fa) ? [fa.left, a()] : isRight(fa) ? [e(), fa.right] : [fa.left, fa.right]
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/* tslint:disable:readonly-array */
+/**
+ * Use `toReadonlyTuple2` instead.
+ *
+ * @example
+ * import { toTuple, left, right, both } from 'fp-ts/These'
+ *
+ * assert.deepStrictEqual(toTuple('a', 1)(left('b')), ['b', 1])
+ * assert.deepStrictEqual(toTuple('a', 1)(right(2)), ['a', 2])
+ * assert.deepStrictEqual(toTuple('a', 1)(both('b', 2)), ['b', 2])
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export const toTuple = <E, A>(e: E, a: A): ((fa: These<E, A>) => [E, A]) =>
+  toReadonlyTuple2(
+    () => e,
+    () => a
+  ) as any
+/* tslint:enable:readonly-array */
