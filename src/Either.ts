@@ -1043,17 +1043,6 @@ export function getValidation<E>(
 
 /**
  * @category instances
- * @since 2.0.0
- */
-export function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<Either<E, A>> {
-  return {
-    concat: (x, y) =>
-      isLeft(x) ? (isLeft(y) ? left(SE.concat(x.left, y.left)) : x) : isLeft(y) ? y : right(SA.concat(x.right, y.right))
-  }
-}
-
-/**
- * @category instances
  * @since 2.7.0
  */
 export const Functor: Functor2<URI> = {
@@ -1231,17 +1220,6 @@ export const MonadThrow: MonadThrow2<URI> = {
   of,
   chain: _chain,
   throwError: throwError
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getValidationMonoid<E, A>(SE: Semigroup<E>, SA: Monoid<A>): Monoid<Either<E, A>> {
-  return {
-    concat: getValidationSemigroup(SE, SA).concat,
-    empty: right(SA.empty)
-  }
 }
 
 // -------------------------------------------------------------------------------------
@@ -1485,3 +1463,23 @@ export const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<Either<E, A
 export const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<Either<E, A>> =
   /*#__PURE__*/
   getApplicativeMonoid(Applicative)
+
+/**
+ * Use `Apply.getApplySemigroup` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getValidationSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<Either<E, A>> =>
+  getApplySemigroup_(getApplicativeValidation(SE))(SA)
+
+/**
+ * Use `Applicative.getApplicativeMonoid` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getValidationMonoid = <E, A>(SE: Semigroup<E>, MA: Monoid<A>): Monoid<Either<E, A>> =>
+  getApplicativeMonoid(getApplicativeValidation(SE))(MA)

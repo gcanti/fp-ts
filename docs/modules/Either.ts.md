@@ -102,12 +102,12 @@ Added in v2.0.0
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [getValidation](#getvalidation)
-  - [getValidationMonoid](#getvalidationmonoid)
-  - [getValidationSemigroup](#getvalidationsemigroup)
   - [getWitherable](#getwitherable)
   - [~~either~~](#either)
   - [~~getApplyMonoid~~](#getapplymonoid)
   - [~~getApplySemigroup~~](#getapplysemigroup)
+  - [~~getValidationMonoid~~](#getvalidationmonoid)
+  - [~~getValidationSemigroup~~](#getvalidationsemigroup)
 - [model](#model)
   - [Either (type alias)](#either-type-alias)
   - [Left (interface)](#left-interface)
@@ -1188,26 +1188,6 @@ export declare function getValidation<E>(
 
 Added in v2.0.0
 
-## getValidationMonoid
-
-**Signature**
-
-```ts
-export declare function getValidationMonoid<E, A>(SE: Semigroup<E>, SA: Monoid<A>): Monoid<Either<E, A>>
-```
-
-Added in v2.0.0
-
-## getValidationSemigroup
-
-**Signature**
-
-```ts
-export declare function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<Either<E, A>>
-```
-
-Added in v2.0.0
-
 ## getWitherable
 
 Builds `Witherable` instance for `Either` given `Monoid` for the left side
@@ -1275,6 +1255,30 @@ assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
 assert.deepStrictEqual(S.concat(left('a'), right(2)), left('a'))
 assert.deepStrictEqual(S.concat(right(1), left('b')), left('b'))
 assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
+```
+
+Added in v2.0.0
+
+## ~~getValidationMonoid~~
+
+Use `Applicative.getApplicativeMonoid` instead.
+
+**Signature**
+
+```ts
+export declare const getValidationMonoid: <E, A>(SE: Semigroup<E>, MA: Monoid<A>) => Monoid<Either<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getValidationSemigroup~~
+
+Use `Apply.getApplySemigroup` instead.
+
+**Signature**
+
+```ts
+export declare const getValidationSemigroup: <E, A>(SE: Semigroup<E>, SA: Semigroup<A>) => Semigroup<Either<E, A>>
 ```
 
 Added in v2.0.0

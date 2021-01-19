@@ -554,12 +554,18 @@ describe('Either', () => {
     )
   })
 
+  it('getValidationSemigroup', () => {
+    // tslint:disable-next-line: deprecation
+    const S = _.getValidationSemigroup(monoidString, monoidSum)
+    assert.deepStrictEqual(S.concat(_.right(1), _.right(2)), _.right(3))
+    assert.deepStrictEqual(S.concat(_.right(1), _.left('foo')), _.left('foo'))
+    assert.deepStrictEqual(S.concat(_.left('foo'), _.right(1)), _.left('foo'))
+    assert.deepStrictEqual(S.concat(_.left('foo'), _.left('bar')), _.left('foobar'))
+  })
+
   it('getValidationMonoid', () => {
+    // tslint:disable-next-line: deprecation
     const M = _.getValidationMonoid(monoidString, monoidSum)
-    assert.deepStrictEqual(M.concat(_.right(1), _.right(2)), _.right(3))
-    assert.deepStrictEqual(M.concat(_.right(1), _.left('foo')), _.left('foo'))
-    assert.deepStrictEqual(M.concat(_.left('foo'), _.right(1)), _.left('foo'))
-    assert.deepStrictEqual(M.concat(_.left('foo'), _.left('bar')), _.left('foobar'))
     assert.deepStrictEqual(M.concat(_.right(1), M.empty), _.right(1))
     assert.deepStrictEqual(M.concat(M.empty, _.right(1)), _.right(1))
   })
