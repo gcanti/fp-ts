@@ -18,6 +18,7 @@ high state of flux, you're at risk of it changing without notice.
 # 2.10.0
 
 - **Deprecations**
+  - deprecate `ValidationT` module, use `EitherT` instead (@gcanti)
   - `TaskThese`
     - deprecate `functorTaskThese` instance in favour of `Functor` (@gcanti)
     - deprecate `bifunctorTaskThese` instance in favour of `Bifunctor` (@gcanti)

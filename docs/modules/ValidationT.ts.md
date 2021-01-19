@@ -13,71 +13,69 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [utils](#utils)
-  - [ValidationM (interface)](#validationm-interface)
-  - [ValidationM1 (interface)](#validationm1-interface)
-  - [ValidationM2 (interface)](#validationm2-interface)
-  - [ValidationT (interface)](#validationt-interface)
-  - [ValidationT1 (type alias)](#validationt1-type-alias)
-  - [ValidationT2 (type alias)](#validationt2-type-alias)
-  - [getValidationM](#getvalidationm)
+  - [~~ValidationM1~~ (interface)](#validationm1-interface)
+  - [~~ValidationM2~~ (interface)](#validationm2-interface)
+  - [~~ValidationM~~ (interface)](#validationm-interface)
+  - [~~ValidationT1~~ (type alias)](#validationt1-type-alias)
+  - [~~ValidationT2~~ (type alias)](#validationt2-type-alias)
+  - [~~ValidationT~~ (interface)](#validationt-interface)
+  - [~~getValidationM~~](#getvalidationm)
 
 ---
 
 # utils
 
-## ValidationM (interface)
-
-**Signature**
-
-```ts
-export interface ValidationM<M, E> extends ApplicativeCompositionHKT2C<M, URI, E> {
-  readonly chain: <A, B>(ma: ValidationT<M, E, A>, f: (a: A) => ValidationT<M, E, B>) => ValidationT<M, E, B>
-  readonly alt: <A>(fa: ValidationT<M, E, A>, that: Lazy<ValidationT<M, E, A>>) => ValidationT<M, E, A>
-}
-```
-
-Added in v2.0.0
-
-## ValidationM1 (interface)
+## ~~ValidationM1~~ (interface)
 
 **Signature**
 
 ```ts
 export interface ValidationM1<M extends URIS, E> extends ApplicativeComposition12C<M, URI, E> {
+  // tslint:disable-next-line: deprecation
   readonly chain: <A, B>(ma: ValidationT1<M, E, A>, f: (a: A) => ValidationT1<M, E, B>) => ValidationT1<M, E, B>
+  // tslint:disable-next-line: deprecation
   readonly alt: <A>(fa: ValidationT1<M, E, A>, that: Lazy<ValidationT1<M, E, A>>) => ValidationT1<M, E, A>
 }
 ```
 
 Added in v2.0.0
 
-## ValidationM2 (interface)
+## ~~ValidationM2~~ (interface)
 
 **Signature**
 
 ```ts
 export interface ValidationM2<M extends URIS2, E> extends ApplicativeComposition22C<M, URI, E> {
   readonly chain: <R, A, B>(
+    // tslint:disable-next-line: deprecation
     ma: ValidationT2<M, R, E, A>,
+    // tslint:disable-next-line: deprecation
     f: (a: A) => ValidationT2<M, R, E, B>
+    // tslint:disable-next-line: deprecation
   ) => ValidationT2<M, R, E, B>
+  // tslint:disable-next-line: deprecation
   readonly alt: <R, A>(fa: ValidationT2<M, R, E, A>, that: Lazy<ValidationT2<M, R, E, A>>) => ValidationT2<M, R, E, A>
 }
 ```
 
 Added in v2.0.0
 
-## ValidationT (interface)
+## ~~ValidationM~~ (interface)
 
 **Signature**
 
 ```ts
-export interface ValidationT<M, E, A> extends HKT<M, Either<E, A>> {}
+export interface ValidationM<M, E> extends ApplicativeCompositionHKT2C<M, URI, E> {
+  // tslint:disable-next-line: deprecation
+  readonly chain: <A, B>(ma: ValidationT<M, E, A>, f: (a: A) => ValidationT<M, E, B>) => ValidationT<M, E, B>
+  // tslint:disable-next-line: deprecation
+  readonly alt: <A>(fa: ValidationT<M, E, A>, that: Lazy<ValidationT<M, E, A>>) => ValidationT<M, E, A>
+}
 ```
 
 Added in v2.0.0
 
-## ValidationT1 (type alias)
+## ~~ValidationT1~~ (type alias)
 
 **Signature**
 
@@ -87,7 +85,7 @@ export type ValidationT1<M extends URIS, E, A> = Kind<M, Either<E, A>>
 
 Added in v2.0.0
 
-## ValidationT2 (type alias)
+## ~~ValidationT2~~ (type alias)
 
 **Signature**
 
@@ -97,7 +95,19 @@ export type ValidationT2<M extends URIS2, R, E, A> = Kind2<M, R, Either<E, A>>
 
 Added in v2.0.0
 
-## getValidationM
+## ~~ValidationT~~ (interface)
+
+**Signature**
+
+```ts
+export interface ValidationT<M, E, A> extends HKT<M, Either<E, A>> {}
+```
+
+Added in v2.0.0
+
+## ~~getValidationM~~
+
+Use `EitherT` instead.
 
 **Signature**
 
