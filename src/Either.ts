@@ -1003,44 +1003,6 @@ export function getAltValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
   }
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getValidation<E>(
-  SE: Semigroup<E>
-): Monad2C<URI, E> &
-  Foldable2<URI> &
-  Traversable2<URI> &
-  Bifunctor2<URI> &
-  Alt2C<URI, E> &
-  Extend2<URI> &
-  ChainRec2C<URI, E> &
-  MonadThrow2C<URI, E> {
-  const applicativeValidation = getApplicativeValidation(SE)
-  const altValidation = getAltValidation(SE)
-  return {
-    URI,
-    _E: undefined as any,
-    map: _map,
-    of,
-    chain: _chain,
-    bimap: _bimap,
-    mapLeft: _mapLeft,
-    reduce: _reduce,
-    foldMap: _foldMap,
-    reduceRight: _reduceRight,
-    extend: _extend,
-    traverse: _traverse,
-    sequence,
-    chainRec: _chainRec,
-    throwError,
-    ap: applicativeValidation.ap,
-    alt: altValidation.alt
-  }
-}
-
 /**
  * @category instances
  * @since 2.7.0
@@ -1483,3 +1445,43 @@ export const getValidationSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>)
  */
 export const getValidationMonoid = <E, A>(SE: Semigroup<E>, MA: Monoid<A>): Monoid<Either<E, A>> =>
   getApplicativeMonoid(getApplicativeValidation(SE))(MA)
+
+/**
+ * Use `getApplicativeValidation` and `getAltValidation` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export function getValidation<E>(
+  SE: Semigroup<E>
+): Monad2C<URI, E> &
+  Foldable2<URI> &
+  Traversable2<URI> &
+  Bifunctor2<URI> &
+  Alt2C<URI, E> &
+  Extend2<URI> &
+  ChainRec2C<URI, E> &
+  MonadThrow2C<URI, E> {
+  const applicativeValidation = getApplicativeValidation(SE)
+  const altValidation = getAltValidation(SE)
+  return {
+    URI,
+    _E: undefined as any,
+    map: _map,
+    of,
+    chain: _chain,
+    bimap: _bimap,
+    mapLeft: _mapLeft,
+    reduce: _reduce,
+    foldMap: _foldMap,
+    reduceRight: _reduceRight,
+    extend: _extend,
+    traverse: _traverse,
+    sequence,
+    chainRec: _chainRec,
+    throwError,
+    ap: applicativeValidation.ap,
+    alt: altValidation.alt
+  }
+}

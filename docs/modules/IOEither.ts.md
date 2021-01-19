@@ -77,10 +77,10 @@ Added in v2.0.0
   - [getApplicativeIOValidation](#getapplicativeiovalidation)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
-  - [getIOValidation](#getiovalidation)
   - [~~Applicative~~](#applicative)
   - [~~getApplyMonoid~~](#getapplymonoid)
   - [~~getApplySemigroup~~](#getapplysemigroup)
+  - [~~getIOValidation~~](#getiovalidation)
   - [~~getSemigroup~~](#getsemigroup)
   - [~~ioEither~~](#ioeither)
 - [model](#model)
@@ -697,18 +697,6 @@ export declare function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E>
 
 Added in v2.1.0
 
-## getIOValidation
-
-**Signature**
-
-```ts
-export declare function getIOValidation<E>(
-  SE: Semigroup<E>
-): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadIO2C<URI, E> & MonadThrow2C<URI, E>
-```
-
-Added in v2.0.0
-
 ## ~~Applicative~~
 
 Use `ApplicativePar` instead
@@ -744,6 +732,20 @@ are concatenated using the provided `Semigroup`
 
 ```ts
 export declare const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<IOEither<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getIOValidation~~
+
+Use `getApplicativeIOValidation` and `getAltIOValidation`.
+
+**Signature**
+
+```ts
+export declare function getIOValidation<E>(
+  SE: Semigroup<E>
+): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadIO2C<URI, E> & MonadThrow2C<URI, E>
 ```
 
 Added in v2.0.0

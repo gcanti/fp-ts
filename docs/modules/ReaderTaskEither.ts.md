@@ -90,9 +90,9 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getAltReaderTaskValidation](#getaltreadertaskvalidation)
   - [getApplicativeReaderTaskValidation](#getapplicativereadertaskvalidation)
-  - [getReaderTaskValidation](#getreadertaskvalidation)
   - [~~getApplyMonoid~~](#getapplymonoid)
   - [~~getApplySemigroup~~](#getapplysemigroup)
+  - [~~getReaderTaskValidation~~](#getreadertaskvalidation)
   - [~~getSemigroup~~](#getsemigroup)
   - [~~readerTaskEitherSeq~~](#readertaskeitherseq)
   - [~~readerTaskEither~~](#readertaskeither)
@@ -910,18 +910,6 @@ export declare function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, 
 
 Added in v2.7.0
 
-## getReaderTaskValidation
-
-**Signature**
-
-```ts
-export declare function getReaderTaskValidation<E>(
-  SE: Semigroup<E>
-): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadTask3C<URI, E> & MonadThrow3C<URI, E>
-```
-
-Added in v2.3.0
-
 ## ~~getApplyMonoid~~
 
 Use `Applicative.getApplicativeMonoid` instead.
@@ -948,6 +936,20 @@ export declare const getApplySemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<
 ```
 
 Added in v2.0.0
+
+## ~~getReaderTaskValidation~~
+
+Use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead.
+
+**Signature**
+
+```ts
+export declare function getReaderTaskValidation<E>(
+  SE: Semigroup<E>
+): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadTask3C<URI, E> & MonadThrow3C<URI, E>
+```
+
+Added in v2.3.0
 
 ## ~~getSemigroup~~
 
