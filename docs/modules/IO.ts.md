@@ -22,8 +22,6 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
 - [Functor](#functor)
@@ -32,19 +30,21 @@ Added in v2.0.0
   - [chain](#chain)
 - [MonadIO](#monadio)
   - [fromIO](#fromio)
+- [Pointed](#pointed)
+  - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
 - [instances](#instances)
-  - [Applicative](#applicative-1)
+  - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [ChainRec](#chainrec)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadIO](#monadio-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
@@ -62,20 +62,6 @@ Added in v2.0.0
   - [traverseArrayWithIndex](#traversearraywithindex)
 
 ---
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => IO<A>
-```
-
-Added in v2.0.0
 
 # Apply
 
@@ -131,6 +117,18 @@ export declare const fromIO: <A>(fa: IO<A>) => IO<A>
 ```
 
 Added in v2.7.0
+
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => IO<A>
+```
+
+Added in v2.0.0
 
 # combinators
 

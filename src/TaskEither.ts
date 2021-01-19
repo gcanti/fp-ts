@@ -479,11 +479,7 @@ export const altW: <E2, B>(
 ) => <E1, A>(fa: TaskEither<E1, A>) => TaskEither<E1 | E2, A | B> = alt as any
 
 /**
- * Wrap a value into the type constructor.
- *
- * Equivalent to [`right`](#right).
- *
- * @category Applicative
+ * @category Pointed
  * @since 2.0.0
  */
 export const of: Pointed2<URI>['of'] = right

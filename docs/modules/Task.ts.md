@@ -21,8 +21,6 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
 - [Functor](#functor)
@@ -31,6 +29,8 @@ Added in v2.0.0
   - [chain](#chain)
 - [MonadTask](#monadtask)
   - [fromTask](#fromtask)
+- [Pointed](#pointed)
+  - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -47,7 +47,7 @@ Added in v2.0.0
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
   - [Functor](#functor-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
@@ -71,20 +71,6 @@ Added in v2.0.0
   - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
 
 ---
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => Task<A>
-```
-
-Added in v2.0.0
 
 # Apply
 
@@ -140,6 +126,18 @@ export declare const fromTask: <A>(fa: Task<A>) => Task<A>
 ```
 
 Added in v2.7.0
+
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => Task<A>
+```
+
+Added in v2.0.0
 
 # combinators
 

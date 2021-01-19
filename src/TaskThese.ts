@@ -168,11 +168,7 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => Task
   TT.mapLeft_(T.Functor)
 
 /**
- * Wrap a value into the type constructor.
- *
- * Equivalent to [`right`](#right).
- *
- * @category Applicative
+ * @category Pointed
  * @since 2.7.0
  */
 export const of: Pointed2<URI>['of'] = right

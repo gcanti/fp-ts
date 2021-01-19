@@ -27,8 +27,6 @@ Added in v2.0.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apW](#apw)
@@ -48,6 +46,8 @@ Added in v2.0.0
   - [chainW](#chainw)
 - [MonadThrow](#monadthrow)
   - [throwError](#throwerror)
+- [Pointed](#pointed)
+  - [of](#of)
 - [Traversable](#traversable)
   - [sequence](#sequence)
   - [traverse](#traverse)
@@ -81,7 +81,7 @@ Added in v2.0.0
   - [isRight](#isright)
 - [instances](#instances)
   - [Alt](#alt-1)
-  - [Applicative](#applicative-1)
+  - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
   - [ChainRec](#chainrec)
@@ -90,7 +90,7 @@ Added in v2.0.0
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadThrow](#monadthrow-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [Traversable](#traversable-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -158,30 +158,6 @@ export declare const altW: <E2, B>(that: Lazy<Either<E2, B>>) => <E1, A>(fa: Eit
 ```
 
 Added in v2.9.0
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-Equivalent to [`right`](#right).
-
-**Signature**
-
-```ts
-export declare const of: <E, A>(a: A) => Either<E, A>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-
-assert.deepStrictEqual(E.of('a'), E.right('a'))
-```
-
-Added in v2.7.0
 
 # Apply
 
@@ -379,6 +355,18 @@ export declare const throwError: <E, A>(e: E) => Either<E, A>
 ```
 
 Added in v2.6.3
+
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <E, A>(a: A) => Either<E, A>
+```
+
+Added in v2.7.0
 
 # Traversable
 
