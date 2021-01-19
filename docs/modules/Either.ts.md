@@ -96,8 +96,6 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getAltValidation](#getaltvalidation)
   - [getApplicativeValidation](#getapplicativevalidation)
-  - [getApplyMonoid](#getapplymonoid)
-  - [getApplySemigroup](#getapplysemigroup)
   - [getCompactable](#getcompactable)
   - [getEq](#geteq)
   - [getFilterable](#getfilterable)
@@ -108,6 +106,8 @@ Added in v2.0.0
   - [getValidationSemigroup](#getvalidationsemigroup)
   - [getWitherable](#getwitherable)
   - [~~either~~](#either)
+  - [~~getApplyMonoid~~](#getapplymonoid)
+  - [~~getApplySemigroup~~](#getapplysemigroup)
 - [model](#model)
   - [Either (type alias)](#either-type-alias)
   - [Left (interface)](#left-interface)
@@ -1099,42 +1099,6 @@ export declare function getApplicativeValidation<E>(SE: Semigroup<E>): Applicati
 
 Added in v2.7.0
 
-## getApplyMonoid
-
-**Signature**
-
-```ts
-export declare function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<Either<E, A>>
-```
-
-Added in v2.0.0
-
-## getApplySemigroup
-
-Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
-are concatenated using the provided `Semigroup`
-
-**Signature**
-
-```ts
-export declare function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>>
-```
-
-**Example**
-
-```ts
-import { getApplySemigroup, left, right } from 'fp-ts/Either'
-import { semigroupSum } from 'fp-ts/Semigroup'
-
-const S = getApplySemigroup<string, number>(semigroupSum)
-assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
-assert.deepStrictEqual(S.concat(left('a'), right(2)), left('a'))
-assert.deepStrictEqual(S.concat(right(1), left('b')), left('b'))
-assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
-```
-
-Added in v2.0.0
-
 ## getCompactable
 
 Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
@@ -1271,6 +1235,46 @@ export declare const either: Monad2<'Either'> &
   Extend2<'Either'> &
   ChainRec2<'Either'> &
   MonadThrow2<'Either'>
+```
+
+Added in v2.0.0
+
+## ~~getApplyMonoid~~
+
+Use `Applicative.getApplicativeMonoid` instead.
+
+**Signature**
+
+```ts
+export declare const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<Either<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getApplySemigroup~~
+
+Use `Apply.getApplySemigroup` instead.
+
+Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
+are concatenated using the provided `Semigroup`
+
+**Signature**
+
+```ts
+export declare const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<Either<E, A>>
+```
+
+**Example**
+
+```ts
+import { getApplySemigroup, left, right } from 'fp-ts/Either'
+import { semigroupSum } from 'fp-ts/Semigroup'
+
+const S = getApplySemigroup<string, number>(semigroupSum)
+assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
+assert.deepStrictEqual(S.concat(left('a'), right(2)), left('a'))
+assert.deepStrictEqual(S.concat(right(1), left('b')), left('b'))
+assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
 ```
 
 Added in v2.0.0

@@ -2,8 +2,8 @@
  * @since 2.0.0
  */
 import { Alt3, Alt3C } from './Alt'
-import { Applicative3, Applicative3C } from './Applicative'
-import { apFirst_, Apply3, apSecond_, apS_, ap_ } from './Apply'
+import { Applicative3, Applicative3C, getApplicativeMonoid } from './Applicative'
+import { apFirst_, Apply3, apSecond_, apS_, ap_, getApplySemigroup as getApplySemigroup_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import * as ET from './EitherT'
@@ -396,39 +396,6 @@ declare module './HKT' {
 }
 
 /**
- * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
- * concatenated using the provided `Semigroup`
- *
- * @category instances
- * @since 2.0.0
- */
-export function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>> {
-  return R.getSemigroup(E.getSemigroup(S))
-}
-
-/**
- * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
- * are concatenated using the provided `Semigroup`
- *
- * @category instances
- * @since 2.0.0
- */
-export function getApplySemigroup<R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>> {
-  return R.getSemigroup(E.getApplySemigroup(S))
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getApplyMonoid<R, E, A>(M: Monoid<A>): Monoid<ReaderEither<R, E, A>> {
-  return {
-    concat: getApplySemigroup<R, E, A>(M).concat,
-    empty: right(M.empty)
-  }
-}
-
-/**
  * @category instances
  * @since 2.7.0
  */
@@ -723,3 +690,41 @@ export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThro
   alt: _alt,
   throwError: left
 }
+
+/**
+ * Use `Apply.getApplySemigroup` instead.
+ *
+ * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
+ * are concatenated using the provided `Semigroup`
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getApplySemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<ReaderEither<R, E, A>> =
+  /*#__PURE__*/
+  getApplySemigroup_(Apply)
+
+/**
+ * Use `Applicative.getApplicativeMonoid` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getApplyMonoid: <R, E, A>(M: Monoid<A>) => Monoid<ReaderEither<R, E, A>> =
+  /*#__PURE__*/
+  getApplicativeMonoid(Applicative)
+
+/**
+ * Use `Apply.getApplySemigroup` instead.
+ *
+ * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
+ * concatenated using the provided `Semigroup`
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getSemigroup = <R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R, E, A>> =>
+  getApplySemigroup_(R.Apply)(E.getSemigroup(S))

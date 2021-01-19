@@ -50,9 +50,9 @@ Added in v2.0.0
   - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [getMonoid](#getmonoid)
   - [getRaceMonoid](#getracemonoid)
-  - [getSemigroup](#getsemigroup)
+  - [~~getMonoid~~](#getmonoid)
+  - [~~getSemigroup~~](#getsemigroup)
   - [~~taskSeq~~](#taskseq)
   - [~~task~~](#task)
 - [model](#model)
@@ -345,18 +345,6 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-## getMonoid
-
-Lift a monoid into 'Task', the inner values are concatenated using the provided `Monoid`.
-
-**Signature**
-
-```ts
-export declare function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>>
-```
-
-Added in v2.0.0
-
 ## getRaceMonoid
 
 Monoid returning the first completed task.
@@ -386,14 +374,30 @@ test()
 
 Added in v2.0.0
 
-## getSemigroup
+## ~~getMonoid~~
+
+Use `Applicative.getApplicativeMonoid` instead.
+
+Lift a monoid into 'Task', the inner values are concatenated using the provided `Monoid`.
+
+**Signature**
+
+```ts
+export declare const getMonoid: <A>(M: Monoid<A>) => Monoid<Task<A>>
+```
+
+Added in v2.0.0
+
+## ~~getSemigroup~~
+
+Use `Apply.getApplySemigroup` instead.
 
 Lift a semigroup into 'Task', the inner values are concatenated using the provided `Semigroup`.
 
 **Signature**
 
 ```ts
-export declare function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>>
+export declare const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<Task<A>>
 ```
 
 **Example**

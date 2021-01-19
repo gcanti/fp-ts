@@ -498,6 +498,7 @@ describe('Either', () => {
 
   describe('getApplySemigroup', () => {
     it('concat', () => {
+      // tslint:disable-next-line: deprecation
       const S = _.getApplySemigroup(semigroupSum)
       assert.deepStrictEqual(S.concat(_.left('a'), _.left('b')), _.left('a'))
       assert.deepStrictEqual(S.concat(_.left('a'), _.right(2)), _.left('a'))
@@ -508,6 +509,7 @@ describe('Either', () => {
 
   describe('getApplyMonoid', () => {
     it('concat', () => {
+      // tslint:disable-next-line: deprecation
       const M = _.getApplyMonoid(monoidSum)
       assert.deepStrictEqual(M.concat(_.left('a'), M.empty), _.left('a'))
       assert.deepStrictEqual(M.concat(M.empty, _.left('b')), _.left('b'))
