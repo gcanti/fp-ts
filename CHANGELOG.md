@@ -137,6 +137,10 @@ high state of flux, you're at risk of it changing without notice.
   - `Tree`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
+  - `Writer`
+    - add `getPointed` (@gcanti)
+    - add `getApply` (@gcanti)
+    - add `getApplicative` (@gcanti)
 
 # 2.9.5
 

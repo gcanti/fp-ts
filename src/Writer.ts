@@ -1,10 +1,14 @@
 /**
  * @since 2.0.0
  */
+import { Applicative2C } from './Applicative'
+import { Apply2C } from './Apply'
+import { pipe } from './function'
 import { Functor2 } from './Functor'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
-import { pipe } from './function'
+import { Pointed2C } from './Pointed'
+import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -130,19 +134,58 @@ declare module './HKT' {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 2.10.0
  */
-export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
+export const getPointed = <W>(M: Monoid<W>): Pointed2C<URI, W> => ({
+  URI,
+  _E: undefined as any,
+  map: _map,
+  of: (a) => () => [a, M.empty]
+})
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const getApply = <W>(S: Semigroup<W>): Apply2C<URI, W> => ({
+  URI,
+  _E: undefined as any,
+  map: _map,
+  ap: (fab, fa) => () => {
+    const [f, w1] = fab()
+    const [a, w2] = fa()
+    return [f(a), S.concat(w1, w2)]
+  }
+})
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const getApplicative = <W>(M: Monoid<W>): Applicative2C<URI, W> => {
+  const A = getApply(M)
+  const P = getPointed(M)
   return {
     URI,
     _E: undefined as any,
     map: _map,
-    ap: (fab, fa) => () => {
-      const [f, w1] = fab()
-      const [a, w2] = fa()
-      return [f(a), M.concat(w1, w2)]
-    },
-    of: (a) => () => [a, M.empty],
+    ap: A.ap,
+    of: P.of
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
+  const A = getApplicative(M)
+  return {
+    URI,
+    _E: undefined as any,
+    map: _map,
+    ap: A.ap,
+    of: A.of,
     chain: (fa, f) => () => {
       const [a, w1] = fa()
       const [b, w2] = f(a)()
