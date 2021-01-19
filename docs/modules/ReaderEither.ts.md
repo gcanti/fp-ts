@@ -70,9 +70,9 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getAltReaderValidation](#getaltreadervalidation)
   - [getApplicativeReaderValidation](#getapplicativereadervalidation)
-  - [getReaderValidation](#getreadervalidation)
   - [~~getApplyMonoid~~](#getapplymonoid)
   - [~~getApplySemigroup~~](#getapplysemigroup)
+  - [~~getReaderValidation~~](#getreadervalidation)
   - [~~getSemigroup~~](#getsemigroup)
   - [~~readerEither~~](#readereither)
 - [model](#model)
@@ -680,18 +680,6 @@ export declare function getApplicativeReaderValidation<E>(S: Semigroup<E>): Appl
 
 Added in v2.7.0
 
-## getReaderValidation
-
-**Signature**
-
-```ts
-export declare function getReaderValidation<E>(
-  SE: Semigroup<E>
-): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadThrow3C<URI, E>
-```
-
-Added in v2.3.0
-
 ## ~~getApplyMonoid~~
 
 Use `Applicative.getApplicativeMonoid` instead.
@@ -718,6 +706,20 @@ export declare const getApplySemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<
 ```
 
 Added in v2.0.0
+
+## ~~getReaderValidation~~
+
+Use `getApplicativeReaderValidation` and `getAltReaderValidation` instead.
+
+**Signature**
+
+```ts
+export declare function getReaderValidation<E>(
+  SE: Semigroup<E>
+): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadThrow3C<URI, E>
+```
+
+Added in v2.3.0
 
 ## ~~getSemigroup~~
 

@@ -294,6 +294,7 @@ describe('ReaderTaskEither', () => {
   it('getApplicativeReaderTaskValidation', async () => {
     const A = _.getApplicativeReaderTaskValidation(T.ApplicativePar, semigroupString)
     assert.deepStrictEqual(await sequenceT(A)(_.left('a'), _.left('b'))(null)(), E.left('ab'))
+    // tslint:disable-next-line: deprecation
     const AV = _.getReaderTaskValidation(semigroupString)
     assert.deepStrictEqual(await sequenceT(AV)(_.left('a'), _.left('b'))(null)(), E.left('ab'))
   })
@@ -301,6 +302,7 @@ describe('ReaderTaskEither', () => {
   it('getAltReaderTaskValidation', async () => {
     const A = _.getAltReaderTaskValidation(semigroupString)
     assert.deepStrictEqual(await A.alt(_.left('a'), () => _.left('b'))(null)(), E.left('ab'))
+    // tslint:disable-next-line: deprecation
     const AV = _.getReaderTaskValidation(semigroupString)
     assert.deepStrictEqual(await AV.alt(_.left('a'), () => _.left('b'))(null)(), E.left('ab'))
   })

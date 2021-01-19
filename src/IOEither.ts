@@ -407,31 +407,6 @@ export function getAltIOValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
   }
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getIOValidation<E>(
-  SE: Semigroup<E>
-): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadIO2C<URI, E> & MonadThrow2C<URI, E> {
-  const applicativeIOValidation = getApplicativeIOValidation(SE)
-  const altIOValidation = getAltIOValidation(SE)
-  return {
-    URI,
-    _E: undefined as any,
-    map: _map,
-    ap: applicativeIOValidation.ap,
-    of,
-    chain: _chain,
-    bimap: _bimap,
-    mapLeft: _mapLeft,
-    alt: altIOValidation.alt,
-    fromIO,
-    throwError
-  }
-}
-
 /**
  * @category instances
  * @since 2.10.0
@@ -848,3 +823,30 @@ export const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<IOEither<E, A>> =
  */
 export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> =>
   getApplySemigroup_(I.Apply)(E.getSemigroup(S))
+
+/**
+ * Use `getApplicativeIOValidation` and `getAltIOValidation`.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export function getIOValidation<E>(
+  SE: Semigroup<E>
+): Monad2C<URI, E> & Bifunctor2<URI> & Alt2C<URI, E> & MonadIO2C<URI, E> & MonadThrow2C<URI, E> {
+  const applicativeIOValidation = getApplicativeIOValidation(SE)
+  const altIOValidation = getAltIOValidation(SE)
+  return {
+    URI,
+    _E: undefined as any,
+    map: _map,
+    ap: applicativeIOValidation.ap,
+    of,
+    chain: _chain,
+    bimap: _bimap,
+    mapLeft: _mapLeft,
+    alt: altIOValidation.alt,
+    fromIO,
+    throwError
+  }
+}
