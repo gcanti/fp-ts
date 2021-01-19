@@ -145,6 +145,7 @@ describe('TaskThese', () => {
   })
 
   it('toTuple', async () => {
+    // tslint:disable-next-line: deprecation
     const f = _.toTuple('b', 2)
     assert.deepStrictEqual(await f(_.right(1))(), ['b', 1])
     assert.deepStrictEqual(await f(_.left('a'))(), ['a', 2])

@@ -160,7 +160,7 @@ export declare function alt_<M>(
 ): <A>(second: Lazy<HKT<M, Option<A>>>) => (first: HKT<M, Option<A>>) => HKT<M, Option<A>>
 ```
 
-Added in v3.0.0
+Added in v2.10.0
 
 ## ap\_
 
@@ -175,7 +175,7 @@ export declare function ap_<F>(
 ): <A>(fa: HKT<F, Option<A>>) => <B>(fab: HKT<F, Option<(a: A) => B>>) => HKT<F, Option<B>>
 ```
 
-Added in v3.0.0
+Added in v2.10.0
 
 ## chain\_
 
@@ -190,7 +190,7 @@ export declare function chain_<M>(
 ): <A, B>(f: (a: A) => HKT<M, Option<B>>) => (ma: HKT<M, Option<A>>) => HKT<M, Option<B>>
 ```
 
-Added in v3.0.0
+Added in v2.10.0
 
 ## fold\_
 
@@ -205,7 +205,7 @@ export declare function fold_<M>(
 ): <B, A>(onNone: () => HKT<M, B>, onSome: (a: A) => HKT<M, B>) => (ma: HKT<M, Option<A>>) => HKT<M, B>
 ```
 
-Added in v3.0.0
+Added in v2.10.0
 
 ## fromEither\_
 
@@ -216,7 +216,7 @@ export declare function fromEither_<F extends URIS>(F: Pointed1<F>): <E, A>(e: E
 export declare function fromEither_<F>(F: Pointed<F>): <E, A>(e: Either<E, A>) => HKT<F, Option<A>>
 ```
 
-Added in v3.0.0
+Added in v2.10.0
 
 ## fromF\_
 
@@ -227,7 +227,7 @@ export declare function fromF_<F extends URIS>(F: Functor1<F>): <A>(ma: Kind<F, 
 export declare function fromF_<F>(F: Functor<F>): <A>(ma: HKT<F, A>) => HKT<F, Option<A>>
 ```
 
-Added in v3.0.0
+Added in v2.10.0
 
 ## fromNullable\_
 
@@ -240,7 +240,7 @@ export declare function fromNullable_<F extends URIS>(
 export declare function fromNullable_<F>(F: Pointed<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<NonNullable<A>>>
 ```
 
-Added in v3.0.0
+Added in v2.10.0
 
 ## fromPredicate\_
 
@@ -261,7 +261,7 @@ export declare function fromPredicate_<F>(
 }
 ```
 
-Added in v3.0.0
+Added in v2.10.0
 
 ## getOptionM
 
@@ -287,7 +287,7 @@ export declare function getOrElse_<M extends URIS>(
 export declare function getOrElse_<M>(M: Monad<M>): <A>(onNone: Lazy<HKT<M, A>>) => (fa: HKT<M, Option<A>>) => HKT<M, A>
 ```
 
-Added in v3.0.0
+Added in v2.10.0
 
 ## map\_
 
@@ -300,7 +300,7 @@ export declare function map_<F extends URIS>(
 export declare function map_<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, Option<A>>) => HKT<F, Option<B>>
 ```
 
-Added in v3.0.0
+Added in v2.10.0
 
 ## none\_
 
@@ -311,7 +311,7 @@ export declare function none_<F extends URIS>(F: Pointed1<F>): Kind<F, Option<ne
 export declare function none_<F>(F: Pointed<F>): HKT<F, Option<never>>
 ```
 
-Added in v3.0.0
+Added in v2.10.0
 
 ## some\_
 
@@ -322,4 +322,4 @@ export declare function some_<F extends URIS>(F: Pointed1<F>): <A>(a: A) => Kind
 export declare function some_<F>(F: Pointed<F>): <A>(a: A) => HKT<F, Option<A>>
 ```
 
-Added in v3.0.0
+Added in v2.10.0

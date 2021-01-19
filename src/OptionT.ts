@@ -24,7 +24,7 @@ import Option = O.Option
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 3.0.0
+ * @since 2.10.0
  */
 export function some_<F extends URIS>(F: Pointed1<F>): <A>(a: A) => Kind<F, Option<A>>
 export function some_<F>(F: Pointed<F>): <A>(a: A) => HKT<F, Option<A>>
@@ -33,7 +33,7 @@ export function some_<F>(F: Pointed<F>): <A>(a: A) => HKT<F, Option<A>> {
 }
 
 /**
- * @since 3.0.0
+ * @since 2.10.0
  */
 export function none_<F extends URIS>(F: Pointed1<F>): Kind<F, Option<never>>
 export function none_<F>(F: Pointed<F>): HKT<F, Option<never>>
@@ -42,7 +42,7 @@ export function none_<F>(F: Pointed<F>): HKT<F, Option<never>> {
 }
 
 /**
- * @since 3.0.0
+ * @since 2.10.0
  */
 export function fromF_<F extends URIS>(F: Functor1<F>): <A>(ma: Kind<F, A>) => Kind<F, Option<A>>
 export function fromF_<F>(F: Functor<F>): <A>(ma: HKT<F, A>) => HKT<F, Option<A>>
@@ -51,7 +51,7 @@ export function fromF_<F>(F: Functor<F>): <A>(ma: HKT<F, A>) => HKT<F, Option<A>
 }
 
 /**
- * @since 3.0.0
+ * @since 2.10.0
  */
 export function fromNullable_<F extends URIS>(F: Pointed1<F>): <A>(fa: Kind<F, A>) => Kind<F, Option<NonNullable<A>>>
 export function fromNullable_<F>(F: Pointed<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<NonNullable<A>>>
@@ -60,7 +60,7 @@ export function fromNullable_<F>(F: Pointed<F>): <A>(fa: HKT<F, A>) => HKT<F, Op
 }
 
 /**
- * @since 3.0.0
+ * @since 2.10.0
  */
 export function fromPredicate_<F extends URIS>(
   F: Pointed1<F>
@@ -84,7 +84,7 @@ export function fromPredicate_<F>(
 }
 
 /**
- * @since 3.0.0
+ * @since 2.10.0
  */
 export function fromEither_<F extends URIS>(F: Pointed1<F>): <E, A>(e: Either<E, A>) => Kind<F, Option<A>>
 export function fromEither_<F>(F: Pointed<F>): <E, A>(e: Either<E, A>) => HKT<F, Option<A>>
@@ -97,7 +97,7 @@ export function fromEither_<F>(F: Pointed<F>): <E, A>(e: Either<E, A>) => HKT<F,
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 3.0.0
+ * @since 2.10.0
  */
 export function fold_<M extends URIS>(
   M: Monad1<M>
@@ -112,7 +112,7 @@ export function fold_<M>(
 }
 
 /**
- * @since 3.0.0
+ * @since 2.10.0
  */
 export function getOrElse_<M extends URIS>(
   M: Monad1<M>
@@ -127,7 +127,7 @@ export function getOrElse_<M>(M: Monad<M>): <A>(onNone: Lazy<HKT<M, A>>) => (fa:
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 3.0.0
+ * @since 2.10.0
  */
 export function map_<F extends URIS>(
   F: Functor1<F>
@@ -138,7 +138,7 @@ export function map_<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, Op
 }
 
 /**
- * @since 3.0.0
+ * @since 2.10.0
  */
 export function ap_<F extends URIS>(
   F: Apply1<F>
@@ -153,7 +153,7 @@ export function ap_<F>(
 }
 
 /**
- * @since 3.0.0
+ * @since 2.10.0
  */
 export function chain_<M extends URIS>(
   M: Monad1<M>
@@ -173,7 +173,7 @@ export function chain_<M>(
 }
 
 /**
- * @since 3.0.0
+ * @since 2.10.0
  */
 export function alt_<M extends URIS>(
   M: Monad1<M>

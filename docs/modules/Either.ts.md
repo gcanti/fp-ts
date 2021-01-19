@@ -1196,7 +1196,7 @@ Builds a `Filterable` instance for `Either` given `Monoid` for the left side
 export declare function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E>
 ```
 
-Added in v3.0.0
+Added in v2.10.0
 
 ## getSemigroup
 

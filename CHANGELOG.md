@@ -21,6 +21,10 @@ high state of flux, you're at risk of it changing without notice.
   - `TaskThese`
     - deprecate `functorTaskThese` instance in favour of `Functor` (@gcanti)
     - deprecate `bifunctorTaskThese` instance in favour of `Bifunctor` (@gcanti)
+  - `These`
+    - deprecate `toTuple` in favour of `toReadonlyTuple2` (@gcanti)
+  - `TaskThese`
+    - deprecate `toTuple` in favour of `toReadonlyTuple2` (@gcanti)
   - `pipeable`
     - deprecate `pipe` in favour of `function`'s `pipe` (@gcanti)
 - **New Feature**
@@ -49,6 +53,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
     - add `getCompactable` (@gcanti)
+    - add `getFilterable` (@gcanti)
   - `EitherT`
     - split `getEitherM` into separated functions (@gcanti)
   - `Eq`
@@ -119,9 +124,15 @@ high state of flux, you're at risk of it changing without notice.
     - add `Functor` instance (@gcanti)
     - add `Pointed` instance (@gcanti)
     - add `Bifunctor` instance (@gcanti)
+    - add `toReadonlyTuple2` (@gcanti)
+    - add `getApply` (@gcanti)
   - `These`
     - add `Pointed` instance (@gcanti)
     - add `of` function (@gcanti)
+    - add `getApply` (@gcanti)
+    - add `toReadonlyTuple2` (@gcanti)
+  - `TheseT`
+    - split `getTheseM` into separated functions (@gcanti)
   - `Tree`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)

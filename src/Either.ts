@@ -910,7 +910,7 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
  * Builds a `Filterable` instance for `Either` given `Monoid` for the left side
  *
  * @category instances
- * @since 3.0.0
+ * @since 2.10.0
  */
 export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
   const empty = left(M.empty)
