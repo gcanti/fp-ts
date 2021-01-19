@@ -48,6 +48,7 @@ describe('TaskThese', () => {
   })
 
   it('getSemigroup', async () => {
+    // tslint:disable-next-line: deprecation
     const S = _.getSemigroup(monoidString, monoidSum)
     assert.deepStrictEqual(await S.concat(_.right(1), _.right(2))(), TH.right(3))
     assert.deepStrictEqual(await S.concat(_.right(1), _.left('a'))(), TH.both('a', 1))

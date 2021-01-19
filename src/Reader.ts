@@ -1,8 +1,8 @@
 /**
  * @since 2.0.0
  */
-import { Applicative2 } from './Applicative'
-import { apFirst_, Apply2, apSecond_, apS_ } from './Apply'
+import { Applicative2, getApplicativeMonoid } from './Applicative'
+import { apFirst_, Apply2, apSecond_, apS_, getApplySemigroup } from './Apply'
 import { Category2 } from './Category'
 import { Choice2 } from './Choice'
 import * as E from './Either'
@@ -183,27 +183,6 @@ export type URI = typeof URI
 declare module './HKT' {
   interface URItoKind2<E, A> {
     readonly [URI]: Reader<E, A>
-  }
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R, A>> {
-  return {
-    concat: (x, y) => (e) => S.concat(x(e), y(e))
-  }
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> {
-  return {
-    concat: getSemigroup<R, A>(M).concat,
-    empty: () => M.empty
   }
 }
 
@@ -467,3 +446,25 @@ export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<U
   left: _left,
   right: _right
 }
+
+/**
+ * Use `Apply.getApplySemigroup` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<Reader<R, A>> =
+  /*#__PURE__*/
+  getApplySemigroup(Apply)
+
+/**
+ * Use `Applicative.getApplicativeMonoid` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getMonoid: <R, A>(M: Monoid<A>) => Monoid<Reader<R, A>> =
+  /*#__PURE__*/
+  getApplicativeMonoid(Applicative)

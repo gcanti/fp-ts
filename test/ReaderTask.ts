@@ -115,11 +115,13 @@ describe('ReaderTask', () => {
   // -------------------------------------------------------------------------------------
 
   it('getSemigroup', async () => {
+    // tslint:disable-next-line: deprecation
     const M = _.getSemigroup(semigroupString)
     assert.deepStrictEqual(await M.concat(_.of('a'), _.of('b'))({})(), 'ab')
   })
 
   it('getMonoid', async () => {
+    // tslint:disable-next-line: deprecation
     const M = _.getMonoid(monoidString)
     assert.deepStrictEqual(await M.concat(_.of('a'), M.empty)({})(), 'a')
     assert.deepStrictEqual(await M.concat(M.empty, _.of('b'))({})(), 'b')

@@ -99,6 +99,7 @@ describe('Task', () => {
   })
 
   describe('getMonoid', () => {
+    // tslint:disable-next-line: deprecation
     const M = _.getMonoid(monoidString)
 
     it('concat', async () => {
