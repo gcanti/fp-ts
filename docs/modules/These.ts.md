@@ -74,7 +74,7 @@ Added in v2.0.0
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
-  - [these](#these)
+  - [~~these~~](#these)
 - [model](#model)
   - [Both (interface)](#both-interface)
   - [These (type alias)](#these-type-alias)
@@ -557,7 +557,9 @@ export declare function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A
 
 Added in v2.0.0
 
-## these
+## ~~these~~
+
+Use small, specific instances instead.
 
 **Signature**
 

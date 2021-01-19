@@ -730,37 +730,6 @@ export const Comonad: Comonad1<URI> = {
   extract
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const nonEmptyArray: Monad1<URI> &
-  Comonad1<URI> &
-  TraversableWithIndex1<URI, number> &
-  FunctorWithIndex1<URI, number> &
-  FoldableWithIndex1<URI, number> &
-  Alt1<URI> = {
-  URI,
-  of,
-  map: _map,
-  mapWithIndex: _mapWithIndex,
-  ap: _ap,
-  chain: _chain,
-  extend: _extend,
-  extract: extract,
-  reduce: _reduce,
-  foldMap: _foldMap,
-  reduceRight: _reduceRight,
-  traverse: _traverse,
-  sequence,
-  reduceWithIndex: _reduceWithIndex,
-  foldMapWithIndex: _foldMapWithIndex,
-  reduceRightWithIndex: _reduceRightWithIndex,
-  traverseWithIndex: _traverseWithIndex,
-  alt: _alt
-}
-
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------
@@ -798,3 +767,40 @@ export const apS: <A, N extends string, B>(
   name: Exclude<N, keyof A>,
   fb: NonEmptyArray<B>
 ) => (fa: NonEmptyArray<A>) => NonEmptyArray<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }> = RNEA.apS as any
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use small, specific instances instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const nonEmptyArray: Monad1<URI> &
+  Comonad1<URI> &
+  TraversableWithIndex1<URI, number> &
+  FunctorWithIndex1<URI, number> &
+  FoldableWithIndex1<URI, number> &
+  Alt1<URI> = {
+  URI,
+  of,
+  map: _map,
+  mapWithIndex: _mapWithIndex,
+  ap: _ap,
+  chain: _chain,
+  extend: _extend,
+  extract: extract,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
+  sequence,
+  reduceWithIndex: _reduceWithIndex,
+  foldMapWithIndex: _foldMapWithIndex,
+  reduceRightWithIndex: _reduceRightWithIndex,
+  traverseWithIndex: _traverseWithIndex,
+  alt: _alt
+}

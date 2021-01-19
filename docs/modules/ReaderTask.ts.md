@@ -49,8 +49,8 @@ Added in v2.3.0
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
-  - [readerTask](#readertask)
-  - [readerTaskSeq](#readertaskseq)
+  - [~~readerTaskSeq~~](#readertaskseq)
+  - [~~readerTask~~](#readertask)
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
 - [utils](#utils)
@@ -417,24 +417,26 @@ export declare function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<ReaderTas
 
 Added in v2.3.0
 
-## readerTask
+## ~~readerTaskSeq~~
 
-**Signature**
-
-```ts
-export declare const readerTask: MonadTask2<'ReaderTask'>
-```
-
-Added in v2.3.0
-
-## readerTaskSeq
-
-Like `readerTask` but `ap` is sequential
+Use small, specific instances instead.
 
 **Signature**
 
 ```ts
 export declare const readerTaskSeq: MonadTask2<'ReaderTask'>
+```
+
+Added in v2.3.0
+
+## ~~readerTask~~
+
+Use small, specific instances instead.
+
+**Signature**
+
+```ts
+export declare const readerTask: MonadTask2<'ReaderTask'>
 ```
 
 Added in v2.3.0

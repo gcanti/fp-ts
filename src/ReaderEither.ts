@@ -617,23 +617,6 @@ export const MonadThrow: MonadThrow3<URI> = {
   throwError
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThrow3<URI> = {
-  URI,
-  bimap: _bimap,
-  mapLeft: _mapLeft,
-  map: _map,
-  of,
-  ap: _ap,
-  chain: _chain,
-  alt: _alt,
-  throwError: left
-}
-
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------
@@ -717,3 +700,26 @@ export const sequenceArray: <R, E, A>(
 ) => ReaderEither<R, E, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use small, specific instances instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThrow3<URI> = {
+  URI,
+  bimap: _bimap,
+  mapLeft: _mapLeft,
+  map: _map,
+  of,
+  ap: _ap,
+  chain: _chain,
+  alt: _alt,
+  throwError: left
+}

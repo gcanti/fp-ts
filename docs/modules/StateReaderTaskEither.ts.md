@@ -85,8 +85,8 @@ Added in v2.0.0
   - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [stateReaderTaskEither](#statereadertaskeither)
   - [~~stateReaderTaskEitherSeq~~](#statereadertaskeitherseq)
+  - [~~stateReaderTaskEither~~](#statereadertaskeither)
 - [model](#model)
   - [StateReaderTaskEither (interface)](#statereadertaskeither-interface)
 - [utils](#utils)
@@ -871,12 +871,14 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-## stateReaderTaskEither
+## ~~stateReaderTaskEitherSeq~~
+
+Use small, specific instances instead.
 
 **Signature**
 
 ```ts
-export declare const stateReaderTaskEither: Monad4<'StateReaderTaskEither'> &
+export declare const stateReaderTaskEitherSeq: Monad4<'StateReaderTaskEither'> &
   Bifunctor4<'StateReaderTaskEither'> &
   Alt4<'StateReaderTaskEither'> &
   MonadTask4<'StateReaderTaskEither'> &
@@ -885,12 +887,14 @@ export declare const stateReaderTaskEither: Monad4<'StateReaderTaskEither'> &
 
 Added in v2.0.0
 
-## ~~stateReaderTaskEitherSeq~~
+## ~~stateReaderTaskEither~~
+
+Use small, specific instances instead.
 
 **Signature**
 
 ```ts
-export declare const stateReaderTaskEitherSeq: Monad4<'StateReaderTaskEither'> &
+export declare const stateReaderTaskEither: Monad4<'StateReaderTaskEither'> &
   Bifunctor4<'StateReaderTaskEither'> &
   Alt4<'StateReaderTaskEither'> &
   MonadTask4<'StateReaderTaskEither'> &

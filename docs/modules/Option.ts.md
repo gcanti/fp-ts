@@ -110,7 +110,7 @@ Added in v2.0.0
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getShow](#getshow)
-  - [option](#option)
+  - [~~option~~](#option)
 - [model](#model)
   - [None (interface)](#none-interface)
   - [Option (type alias)](#option-type-alias)
@@ -1285,7 +1285,9 @@ export declare function getShow<A>(S: Show<A>): Show<Option<A>>
 
 Added in v2.0.0
 
-## option
+## ~~option~~
+
+Use small, specific instances instead.
 
 **Signature**
 

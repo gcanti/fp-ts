@@ -181,13 +181,6 @@ export const Contravariant: Contravariant1<URI> = {
   contramap: contramap_
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const eq: Contravariant1<URI> = Contravariant
-
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
@@ -201,3 +194,12 @@ export const eq: Contravariant1<URI> = Contravariant
 export function strictEqual<A>(a: A, b: A): boolean {
   return a === b
 }
+
+/**
+ * Use small, specific instances instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const eq: Contravariant1<URI> = Contravariant

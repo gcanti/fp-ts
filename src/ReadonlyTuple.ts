@@ -370,10 +370,16 @@ export const Traversable: Traversable2<URI> = {
   sequence
 }
 
-// TODO: remove in v3
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
 /**
+ * Use small, specific instances instead.
+ *
  * @category instances
  * @since 2.5.0
+ * @deprecated
  */
 export const readonlyTuple: Semigroupoid2<URI> &
   Bifunctor2<URI> &

@@ -81,8 +81,8 @@ Added in v2.0.0
   - [getFilterable](#getfilterable)
   - [getIOValidation](#getiovalidation)
   - [getSemigroup](#getsemigroup)
-  - [ioEither](#ioeither)
   - [~~Applicative~~](#applicative)
+  - [~~ioEither~~](#ioeither)
 - [model](#model)
   - [IOEither (interface)](#ioeither-interface)
 - [utils](#utils)
@@ -745,7 +745,21 @@ export declare function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<
 
 Added in v2.0.0
 
-## ioEither
+## ~~Applicative~~
+
+Use `ApplicativePar` instead
+
+**Signature**
+
+```ts
+export declare const Applicative: Applicative2<'IOEither'>
+```
+
+Added in v2.7.0
+
+## ~~ioEither~~
+
+Use small, specific instances instead.
 
 **Signature**
 
@@ -758,18 +772,6 @@ export declare const ioEither: Monad2<'IOEither'> &
 ```
 
 Added in v2.0.0
-
-## ~~Applicative~~
-
-Use `ApplicativePar` instead
-
-**Signature**
-
-```ts
-export declare const Applicative: Applicative2<'IOEither'>
-```
-
-Added in v2.7.0
 
 # model
 

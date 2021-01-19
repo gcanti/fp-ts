@@ -28,7 +28,6 @@ Added in v2.0.0
   - [Contravariant](#contravariant-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [eq](#eq)
   - [eqBigint](#eqbigint)
   - [eqBoolean](#eqboolean)
   - [eqDate](#eqdate)
@@ -38,6 +37,7 @@ Added in v2.0.0
   - [getMonoid](#getmonoid)
   - [getStructEq](#getstructeq)
   - [getTupleEq](#gettupleeq)
+  - [~~eq~~](#eq)
 - [type classes](#type-classes)
   - [Eq (interface)](#eq-interface)
 - [utils](#utils)
@@ -97,16 +97,6 @@ Added in v2.0.0
 
 ```ts
 export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-## eq
-
-**Signature**
-
-```ts
-export declare const eq: Contravariant1<'Eq'>
 ```
 
 Added in v2.0.0
@@ -213,6 +203,18 @@ assert.strictEqual(E.equals(['a', 1, true], ['a', 1, true]), true)
 assert.strictEqual(E.equals(['a', 1, true], ['b', 1, true]), false)
 assert.strictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
 assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
+```
+
+Added in v2.0.0
+
+## ~~eq~~
+
+Use small, specific instances instead.
+
+**Signature**
+
+```ts
+export declare const eq: Contravariant1<'Eq'>
 ```
 
 Added in v2.0.0

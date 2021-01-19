@@ -708,25 +708,6 @@ export const Alt: Alt4<URI> = {
   alt: _alt
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & MonadTask4<URI> & MonadThrow4<URI> = {
-  URI,
-  map: _map,
-  of,
-  ap: _ap,
-  chain: _chain,
-  bimap: _bimap,
-  mapLeft: _mapLeft,
-  alt: _alt,
-  fromIO,
-  fromTask,
-  throwError
-}
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -864,10 +845,34 @@ export const sequenceArray: <S, R, E, A>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * Use small, specific instances instead.
+ *
  * @category instances
  * @since 2.0.0
  * @deprecated
  */
+export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & MonadTask4<URI> & MonadThrow4<URI> = {
+  URI,
+  map: _map,
+  of,
+  ap: _ap,
+  chain: _chain,
+  bimap: _bimap,
+  mapLeft: _mapLeft,
+  alt: _alt,
+  fromIO,
+  fromTask,
+  throwError
+}
+
+/**
+ * Use small, specific instances instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+// tslint:disable-next-line: deprecation
 export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
   URI,
   map: _map,

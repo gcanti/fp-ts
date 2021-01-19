@@ -382,9 +382,15 @@ export const Filterable: Filterable2<URI> = {
   partitionMap: _partitionMap
 }
 
-// TODO: remove in v3
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
 /**
+ * Use `Filterable` instead.
+ *
  * @category instances
  * @since 2.0.0
+ * @deprecated
  */
 export const map_: Filterable2<URI> = Filterable

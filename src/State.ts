@@ -235,13 +235,6 @@ export const chainFirst: <S, A, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>
   /*#__PURE__*/
   chainFirst_(Monad)
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const state: Monad2<URI> = Monad
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -369,3 +362,12 @@ export const evalState: <S, A>(ma: State<S, A>, s: S) => A = (ma, s) => ma(s)[0]
  * @deprecated
  */
 export const execState: <S, A>(ma: State<S, A>, s: S) => S = (ma, s) => ma(s)[1]
+
+/**
+ * Use small, specific instances instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const state: Monad2<URI> = Monad

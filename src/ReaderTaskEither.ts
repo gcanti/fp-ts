@@ -785,46 +785,6 @@ export const Alt: Alt3<URI> = {
   alt: _alt
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadTask3<URI> & MonadThrow3<URI> = {
-  URI,
-  map: _map,
-  of,
-  ap: _apPar,
-  chain: _chain,
-  alt: _alt,
-  bimap: _bimap,
-  mapLeft: _mapLeft,
-  fromIO,
-  fromTask,
-  throwError
-}
-
-// TODO: remove in v3
-/**
- * Like `readerTaskEither` but `ap` is sequential
- *
- * @category instances
- * @since 2.0.0
- */
-export const readerTaskEitherSeq: typeof readerTaskEither = {
-  URI,
-  map: _map,
-  of,
-  ap: _apSeq,
-  chain: _chain,
-  alt: _alt,
-  bimap: _bimap,
-  mapLeft: _mapLeft,
-  fromIO,
-  fromTask,
-  throwError
-}
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -981,3 +941,50 @@ export const sequenceSeqArray: <R, E, A>(
 ) => ReaderTaskEither<R, E, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseSeqArray(identity)
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use small, specific instances instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadTask3<URI> & MonadThrow3<URI> = {
+  URI,
+  map: _map,
+  of,
+  ap: _apPar,
+  chain: _chain,
+  alt: _alt,
+  bimap: _bimap,
+  mapLeft: _mapLeft,
+  fromIO,
+  fromTask,
+  throwError
+}
+
+/**
+ * Use small, specific instances instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+// tslint:disable-next-line: deprecation
+export const readerTaskEitherSeq: typeof readerTaskEither = {
+  URI,
+  map: _map,
+  of,
+  ap: _apSeq,
+  chain: _chain,
+  alt: _alt,
+  bimap: _bimap,
+  mapLeft: _mapLeft,
+  fromIO,
+  fromTask,
+  throwError
+}

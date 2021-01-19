@@ -353,38 +353,6 @@ export const chainFirst =
   /*#__PURE__*/
   chainFirst_(Monad)
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.3.0
- */
-export const readerTask: MonadTask2<URI> = {
-  URI,
-  map: _map,
-  of,
-  ap: _apPar,
-  chain: _chain,
-  fromIO,
-  fromTask
-}
-
-// TODO: remove in v3
-/**
- * Like `readerTask` but `ap` is sequential
- *
- * @category instances
- * @since 2.3.0
- */
-export const readerTaskSeq: typeof readerTask = {
-  URI,
-  map: _map,
-  of,
-  ap: _apSeq,
-  chain: _chain,
-  fromIO,
-  fromTask
-}
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -475,3 +443,42 @@ export const traverseArray: <R, A, B>(
 export const sequenceArray: <R, A>(arr: ReadonlyArray<ReaderTask<R, A>>) => ReaderTask<R, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use small, specific instances instead.
+ *
+ * @category instances
+ * @since 2.3.0
+ * @deprecated
+ */
+export const readerTask: MonadTask2<URI> = {
+  URI,
+  map: _map,
+  of,
+  ap: _apPar,
+  chain: _chain,
+  fromIO,
+  fromTask
+}
+
+/**
+ * Use small, specific instances instead.
+ *
+ * @category instances
+ * @since 2.3.0
+ * @deprecated
+ */
+// tslint:disable-next-line: deprecation
+export const readerTaskSeq: typeof readerTask = {
+  URI,
+  map: _map,
+  of,
+  ap: _apSeq,
+  chain: _chain,
+  fromIO,
+  fromTask
+}

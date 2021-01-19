@@ -771,10 +771,16 @@ export const Witherable: Witherable1<URI> = {
   wilt: _wilt
 }
 
-// TODO: remove in v3
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
 /**
+ * Use small, specific instances instead.
+ *
  * @category instances
  * @since 2.0.0
+ * @deprecated
  */
 export const record: FunctorWithIndex1<URI, string> &
   FoldableWithIndex1<URI, string> &

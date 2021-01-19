@@ -662,24 +662,6 @@ export const MonadThrow: MonadThrow2<URI> = {
   throwError
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadThrow2<URI> = {
-  URI,
-  bimap: _bimap,
-  mapLeft: _mapLeft,
-  map: _map,
-  of,
-  ap: _ap,
-  chain: _chain,
-  alt: _alt,
-  fromIO,
-  throwError
-}
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -837,3 +819,27 @@ export const sequenceSeqArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOE
  * @deprecated
  */
 export const Applicative: Applicative2<URI> = ApplicativePar
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use small, specific instances instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadThrow2<URI> = {
+  URI,
+  bimap: _bimap,
+  mapLeft: _mapLeft,
+  map: _map,
+  of,
+  ap: _ap,
+  chain: _chain,
+  alt: _alt,
+  fromIO,
+  throwError
+}

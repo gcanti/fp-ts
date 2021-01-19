@@ -230,10 +230,16 @@ export const Bifunctor: Bifunctor2<URI> = {
   mapLeft: _mapLeft
 }
 
-// TODO: remove in v3
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
 /**
+ * Use small, specific instances instead.
+ *
  * @category instances
  * @since 2.0.0
+ * @deprecated
  */
 export const const_: Functor2<URI> & Contravariant2<URI> & Bifunctor2<URI> = {
   URI,

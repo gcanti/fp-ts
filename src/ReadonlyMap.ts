@@ -1006,10 +1006,16 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
   }
 }
 
-// TODO: remove in v3
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
 /**
+ * Use small, specific instances instead.
+ *
  * @category instances
  * @since 2.5.0
+ * @deprecated
  */
 export const readonlyMap: Filterable2<URI> = {
   URI,

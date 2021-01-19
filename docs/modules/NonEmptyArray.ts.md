@@ -80,7 +80,7 @@ Added in v2.0.0
   - [getEq](#geteq)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
-  - [nonEmptyArray](#nonemptyarray)
+  - [~~nonEmptyArray~~](#nonemptyarray)
 - [model](#model)
   - [NonEmptyArray (interface)](#nonemptyarray-interface)
 - [utils](#utils)
@@ -826,7 +826,9 @@ export declare const getShow: <A>(S: Show<A>) => Show<NonEmptyArray<A>>
 
 Added in v2.0.0
 
-## nonEmptyArray
+## ~~nonEmptyArray~~
+
+Use small, specific instances instead.
 
 **Signature**
 
