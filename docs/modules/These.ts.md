@@ -56,7 +56,6 @@ Added in v2.0.0
   - [getLeftOnly](#getleftonly)
   - [getRight](#getright)
   - [getRightOnly](#getrightonly)
-  - [toTuple](#totuple)
 - [guards](#guards)
   - [isBoth](#isboth)
   - [isLeft](#isleft)
@@ -70,6 +69,7 @@ Added in v2.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
+  - [getApply](#getapply)
   - [getEq](#geteq)
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
@@ -80,7 +80,9 @@ Added in v2.0.0
   - [These (type alias)](#these-type-alias)
 - [utils](#utils)
   - [sequence](#sequence)
+  - [toReadonlyTuple2](#toreadonlytuple2)
   - [traverse](#traverse)
+  - [~~toTuple~~](#totuple)
 
 ---
 
@@ -389,26 +391,6 @@ assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
 
 Added in v2.0.0
 
-## toTuple
-
-**Signature**
-
-```ts
-export declare function toTuple<E, A>(e: E, a: A): (fa: These<E, A>) => [E, A]
-```
-
-**Example**
-
-```ts
-import { toTuple, left, right, both } from 'fp-ts/These'
-
-assert.deepStrictEqual(toTuple('a', 1)(left('b')), ['b', 1])
-assert.deepStrictEqual(toTuple('a', 1)(right(2)), ['a', 2])
-assert.deepStrictEqual(toTuple('a', 1)(both('b', 2)), ['b', 2])
-```
-
-Added in v2.0.0
-
 # guards
 
 ## isBoth
@@ -524,10 +506,20 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getApplicative<E>(SE: Semigroup<E>): Applicative2C<URI, E>
+export declare function getApplicative<E>(S: Semigroup<E>): Applicative2C<URI, E>
 ```
 
 Added in v2.7.0
+
+## getApply
+
+**Signature**
+
+```ts
+export declare const getApply: <E>(S: Semigroup<E>) => Apply2C<'These', E>
+```
+
+Added in v2.10.0
 
 ## getEq
 
@@ -617,6 +609,44 @@ export declare const sequence: Sequence2<'These'>
 
 Added in v2.6.3
 
+## toReadonlyTuple2
+
+**Signature**
+
+```ts
+export declare const toReadonlyTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>) => readonly [E, A]
+```
+
+**Example**
+
+```ts
+import { toReadonlyTuple2, left, right, both } from 'fp-ts/These'
+
+assert.deepStrictEqual(
+  toReadonlyTuple2(
+    () => 'a',
+    () => 1
+  )(left('b')),
+  ['b', 1]
+)
+assert.deepStrictEqual(
+  toReadonlyTuple2(
+    () => 'a',
+    () => 1
+  )(right(2)),
+  ['a', 2]
+)
+assert.deepStrictEqual(
+  toReadonlyTuple2(
+    () => 'a',
+    () => 1
+  )(both('b', 2)),
+  ['b', 2]
+)
+```
+
+Added in v2.10.0
+
 ## traverse
 
 **Signature**
@@ -626,3 +656,25 @@ export declare const traverse: PipeableTraverse2<'These'>
 ```
 
 Added in v2.6.3
+
+## ~~toTuple~~
+
+Use `toReadonlyTuple2` instead.
+
+**Signature**
+
+```ts
+export declare const toTuple: <E, A>(e: E, a: A) => (fa: These<E, A>) => [E, A]
+```
+
+**Example**
+
+```ts
+import { toTuple, left, right, both } from 'fp-ts/These'
+
+assert.deepStrictEqual(toTuple('a', 1)(left('b')), ['b', 1])
+assert.deepStrictEqual(toTuple('a', 1)(right(2)), ['a', 2])
+assert.deepStrictEqual(toTuple('a', 1)(both('b', 2)), ['b', 2])
+```
+
+Added in v2.0.0

@@ -365,6 +365,7 @@ export interface EitherM2<M extends URIS2> extends ApplicativeComposition22<M, U
 export function getEitherM<M extends URIS2>(M: Monad2<M>): EitherM2<M>
 export function getEitherM<M extends URIS>(M: Monad1<M>): EitherM1<M>
 export function getEitherM<M>(M: Monad<M>): EitherM<M>
+/* istanbul ignore next */
 export function getEitherM<M>(M: Monad<M>): EitherM<M> {
   const ap = <E, A>(fga: HKT<M, E.Either<E, A>>) => <B>(
     fgab: HKT<M, E.Either<E, (a: A) => B>>

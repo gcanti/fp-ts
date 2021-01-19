@@ -35,7 +35,6 @@ Added in v2.4.0
   - [rightTask](#righttask)
 - [destructors](#destructors)
   - [fold](#fold)
-  - [toTuple](#totuple)
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [Functor](#functor-1)
@@ -43,6 +42,7 @@ Added in v2.4.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
+  - [getApply](#getapply)
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
   - [taskThese](#taskthese)
@@ -50,6 +50,9 @@ Added in v2.4.0
   - [~~functorTaskThese~~](#functortaskthese)
 - [model](#model)
   - [TaskThese (interface)](#taskthese-interface)
+- [utils](#utils)
+  - [toReadonlyTuple2](#toreadonlytuple2)
+  - [~~toTuple~~](#totuple)
 
 ---
 
@@ -242,16 +245,6 @@ export declare const fold: <E, B, A>(
 
 Added in v2.4.0
 
-## toTuple
-
-**Signature**
-
-```ts
-export declare const toTuple: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => T.Task<[E, A]>
-```
-
-Added in v2.4.0
-
 # instances
 
 ## Bifunctor
@@ -309,17 +302,27 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare function getApplicative<E>(A: Apply1<T.URI>, SE: Semigroup<E>): Applicative2C<URI, E>
+export declare function getApplicative<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E>
 ```
 
 Added in v2.7.0
+
+## getApply
+
+**Signature**
+
+```ts
+export declare const getApply: <E>(A: Apply1<'Task'>, S: Semigroup<E>) => Apply2C<'TaskThese', E>
+```
+
+Added in v2.10.0
 
 ## getMonad
 
 **Signature**
 
 ```ts
-export declare function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI, E>
+export declare function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI, E>
 ```
 
 Added in v2.4.0
@@ -376,6 +379,33 @@ Added in v2.7.0
 
 ```ts
 export interface TaskThese<E, A> extends Task<These<E, A>> {}
+```
+
+Added in v2.4.0
+
+# utils
+
+## toReadonlyTuple2
+
+**Signature**
+
+```ts
+export declare const toReadonlyTuple2: <E, A>(
+  e: Lazy<E>,
+  a: Lazy<A>
+) => (fa: TaskThese<E, A>) => T.Task<readonly [E, A]>
+```
+
+Added in v2.10.0
+
+## ~~toTuple~~
+
+Use `toReadonlyTuple2` instead.
+
+**Signature**
+
+```ts
+export declare const toTuple: <E, A>(e: E, a: A) => (fa: TaskThese<E, A>) => T.Task<[E, A]>
 ```
 
 Added in v2.4.0
