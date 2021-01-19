@@ -21,6 +21,8 @@ high state of flux, you're at risk of it changing without notice.
   - `TaskThese`
     - deprecate `functorTaskThese` instance in favour of `Functor` (@gcanti)
     - deprecate `bifunctorTaskThese` instance in favour of `Bifunctor` (@gcanti)
+  - `pipeable`
+    - deprecate `pipe` in favour of `function`'s `pipe` (@gcanti)
 - **New Feature**
   - add `Pointed` type class (@gcanti)
   - add `TaskOption` module (@gcanti)

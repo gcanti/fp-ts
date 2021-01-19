@@ -121,8 +121,8 @@ Added in v2.0.0
   - [PipeableSemigroupoid3 (interface)](#pipeablesemigroupoid3-interface)
   - [PipeableSemigroupoid3C (interface)](#pipeablesemigroupoid3c-interface)
   - [PipeableSemigroupoid4 (interface)](#pipeablesemigroupoid4-interface)
-  - [pipe](#pipe)
   - [pipeable](#pipeable)
+  - [~~pipe~~](#pipe)
 
 ---
 
@@ -1772,18 +1772,6 @@ export interface PipeableSemigroupoid4<F extends URIS4> {
 
 Added in v2.0.0
 
-## pipe
-
-Use [`pipe`](https://gcanti.github.io/fp-ts/modules/function.ts.html#flow) from `function` module instead.
-
-**Signature**
-
-```ts
-export declare const pipe: typeof pipeFromFunctionModule
-```
-
-Added in v2.0.0
-
 ## pipeable
 
 **Signature**
@@ -1988,6 +1976,18 @@ export declare function pipeable<F, I>(
   (I extends Profunctor<F> ? PipeableProfunctor<F> : {}) &
   (I extends Semigroupoid<F> ? PipeableSemigroupoid<F> : {}) &
   (I extends MonadThrow<F> ? PipeableMonadThrow<F> : {})
+```
+
+Added in v2.0.0
+
+## ~~pipe~~
+
+Use [`pipe`](https://gcanti.github.io/fp-ts/modules/function.ts.html#flow) from `function` module instead.
+
+**Signature**
+
+```ts
+export declare const pipe: typeof pipeFromFunctionModule
 ```
 
 Added in v2.0.0
