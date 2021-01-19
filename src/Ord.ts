@@ -338,13 +338,6 @@ export const Contravariant: Contravariant1<URI> = {
   contramap: contramap_
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const ord: Contravariant1<URI> = Contravariant
-
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
@@ -361,3 +354,12 @@ export function getSemigroup<A = never>(): Semigroup<Ord<A>> {
     concat: (x, y) => fromCompare((a, b) => monoidOrdering.concat(x.compare(a, b), y.compare(a, b)))
   }
 }
+
+/**
+ * Use `Contravariant` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const ord: Contravariant1<URI> = Contravariant

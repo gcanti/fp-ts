@@ -1132,41 +1132,6 @@ export const MonadThrow: MonadThrow1<URI> = {
   throwError
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const option: Monad1<URI> &
-  Foldable1<URI> &
-  Alternative1<URI> &
-  Extend1<URI> &
-  Witherable1<URI> &
-  MonadThrow1<URI> = {
-  URI,
-  map: _map,
-  of,
-  ap: _ap,
-  chain: _chain,
-  reduce: _reduce,
-  foldMap: _foldMap,
-  reduceRight: _reduceRight,
-  traverse: _traverse,
-  sequence,
-  zero,
-  alt: _alt,
-  extend: _extend,
-  compact,
-  separate,
-  filter: _filter,
-  filterMap: _filterMap,
-  partition: _partition,
-  partitionMap: _partitionMap,
-  wither: _wither,
-  wilt: _wilt,
-  throwError
-}
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -1355,3 +1320,40 @@ export const sequenceArray: <A>(arr: ReadonlyArray<Option<A>>) => Option<Readonl
  * @deprecated
  */
 export const mapNullable = chainNullableK
+
+/**
+ * Use small, specific instances instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const option: Monad1<URI> &
+  Foldable1<URI> &
+  Alternative1<URI> &
+  Extend1<URI> &
+  Witherable1<URI> &
+  MonadThrow1<URI> = {
+  URI,
+  map: _map,
+  of,
+  ap: _ap,
+  chain: _chain,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
+  sequence,
+  zero,
+  alt: _alt,
+  extend: _extend,
+  compact,
+  separate,
+  filter: _filter,
+  filterMap: _filterMap,
+  partition: _partition,
+  partitionMap: _partitionMap,
+  wither: _wither,
+  wilt: _wilt,
+  throwError
+}

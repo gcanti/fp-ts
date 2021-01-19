@@ -47,7 +47,7 @@ Added in v2.0.0
   - [getChain](#getchain)
   - [getChainRec](#getchainrec)
   - [getMonad](#getmonad)
-  - [tuple](#tuple)
+  - [~~tuple~~](#tuple)
 - [utils](#utils)
   - [sequence](#sequence)
   - [traverse](#traverse)
@@ -341,7 +341,9 @@ export declare const getMonad: <M>(M: Monoid<M>) => Monad2C<'Tuple', M>
 
 Added in v2.0.0
 
-## tuple
+## ~~tuple~~
+
+Use small, specific instances instead.
 
 **Signature**
 

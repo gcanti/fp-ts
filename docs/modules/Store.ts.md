@@ -25,7 +25,7 @@ Added in v2.0.0
   - [Functor](#functor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [store](#store)
+  - [~~store~~](#store)
 - [model](#model)
   - [Store (interface)](#store-interface)
 - [utils](#utils)
@@ -131,7 +131,9 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-## store
+## ~~store~~
+
+Use small, specific instances instead.
 
 **Signature**
 

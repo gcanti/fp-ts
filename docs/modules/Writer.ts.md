@@ -28,7 +28,7 @@ Added in v2.0.0
   - [getApply](#getapply)
   - [getMonad](#getmonad)
   - [getPointed](#getpointed)
-  - [writer](#writer)
+  - [~~writer~~](#writer)
 - [model](#model)
   - [Writer (interface)](#writer-interface)
 - [utils](#utils)
@@ -188,7 +188,9 @@ export declare const getPointed: <W>(M: Monoid<W>) => Pointed2C<'Writer', W>
 
 Added in v2.10.0
 
-## writer
+## ~~writer~~
+
+Use `Functor` instead.
 
 **Signature**
 

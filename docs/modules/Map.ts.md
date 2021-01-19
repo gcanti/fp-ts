@@ -40,7 +40,7 @@ Added in v2.0.0
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
   - [getWitherable](#getwitherable)
-  - [map\_](#map_)
+  - [~~map\_~~](#map_)
 - [utils](#utils)
   - [collect](#collect)
   - [elem](#elem)
@@ -321,7 +321,9 @@ export declare const getWitherable: <K>(O: Ord<K>) => Witherable2C<'Map', K> & T
 
 Added in v2.0.0
 
-## map\_
+## ~~map\_~~
+
+Use `Filterable` instead.
 
 **Signature**
 

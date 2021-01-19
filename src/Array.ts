@@ -1557,53 +1557,6 @@ export const Witherable: Witherable1<URI> = {
   wilt: _wilt
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const array: FunctorWithIndex1<URI, number> &
-  Monad1<URI> &
-  Unfoldable1<URI> &
-  Alternative1<URI> &
-  Extend1<URI> &
-  FilterableWithIndex1<URI, number> &
-  FoldableWithIndex1<URI, number> &
-  TraversableWithIndex1<URI, number> &
-  Witherable1<URI> = {
-  URI,
-  compact,
-  separate,
-  map: _map,
-  ap: _ap,
-  of,
-  chain: _chain,
-  filter: _filter,
-  filterMap: _filterMap,
-  partition: _partition,
-  partitionMap: _partitionMap,
-  mapWithIndex: _mapWithIndex,
-  partitionMapWithIndex: _partitionMapWithIndex,
-  partitionWithIndex: _partitionWithIndex,
-  filterMapWithIndex: _filterMapWithIndex,
-  filterWithIndex: _filterWithIndex,
-  alt: _alt,
-  zero,
-  unfold,
-  reduce: _reduce,
-  foldMap: _foldMap,
-  reduceRight: _reduceRight,
-  traverse: _traverse,
-  sequence,
-  reduceWithIndex: _reduceWithIndex,
-  foldMapWithIndex: _foldMapWithIndex,
-  reduceRightWithIndex: _reduceRightWithIndex,
-  traverseWithIndex: _traverseWithIndex,
-  extend: _extend,
-  wither: _wither,
-  wilt: _wilt
-}
-
 // -------------------------------------------------------------------------------------
 // unsafe
 // -------------------------------------------------------------------------------------
@@ -1682,3 +1635,56 @@ export const apS: <A, N extends string, B>(
   name: Exclude<N, keyof A>,
   fb: Array<B>
 ) => (fa: Array<A>) => Array<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }> = RA.apS as any
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use small, specific instances instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const array: FunctorWithIndex1<URI, number> &
+  Monad1<URI> &
+  Unfoldable1<URI> &
+  Alternative1<URI> &
+  Extend1<URI> &
+  FilterableWithIndex1<URI, number> &
+  FoldableWithIndex1<URI, number> &
+  TraversableWithIndex1<URI, number> &
+  Witherable1<URI> = {
+  URI,
+  compact,
+  separate,
+  map: _map,
+  ap: _ap,
+  of,
+  chain: _chain,
+  filter: _filter,
+  filterMap: _filterMap,
+  partition: _partition,
+  partitionMap: _partitionMap,
+  mapWithIndex: _mapWithIndex,
+  partitionMapWithIndex: _partitionMapWithIndex,
+  partitionWithIndex: _partitionWithIndex,
+  filterMapWithIndex: _filterMapWithIndex,
+  filterWithIndex: _filterWithIndex,
+  alt: _alt,
+  zero,
+  unfold,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
+  sequence,
+  reduceWithIndex: _reduceWithIndex,
+  foldMapWithIndex: _foldMapWithIndex,
+  reduceRightWithIndex: _reduceRightWithIndex,
+  traverseWithIndex: _traverseWithIndex,
+  extend: _extend,
+  wither: _wither,
+  wilt: _wilt
+}

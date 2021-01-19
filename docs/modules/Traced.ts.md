@@ -19,7 +19,7 @@ Added in v2.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getComonad](#getcomonad)
-  - [traced](#traced)
+  - [~~traced~~](#traced)
 - [model](#model)
   - [Traced (interface)](#traced-interface)
 - [utils](#utils)
@@ -87,7 +87,9 @@ export declare function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P>
 
 Added in v2.0.0
 
-## traced
+## ~~traced~~
+
+Use `Functor` instead.
 
 **Signature**
 

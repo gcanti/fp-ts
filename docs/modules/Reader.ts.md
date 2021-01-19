@@ -51,7 +51,7 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
-  - [reader](#reader)
+  - [~~reader~~](#reader)
 - [model](#model)
   - [Reader (interface)](#reader-interface)
 - [utils](#utils)
@@ -410,7 +410,9 @@ export declare function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R,
 
 Added in v2.0.0
 
-## reader
+## ~~reader~~
+
+Use small, specific instances instead.
 
 **Signature**
 

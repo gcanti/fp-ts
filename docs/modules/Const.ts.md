@@ -33,7 +33,6 @@ Added in v2.0.0
   - [Functor](#functor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [const\_](#const_)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getBooleanAlgebra](#getbooleanalgebra)
@@ -46,6 +45,7 @@ Added in v2.0.0
   - [getSemigroup](#getsemigroup)
   - [getSemiring](#getsemiring)
   - [getShow](#getshow)
+  - [~~const\_~~](#const_)
 - [model](#model)
   - [Const (type alias)](#const-type-alias)
 
@@ -168,16 +168,6 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-## const\_
-
-**Signature**
-
-```ts
-export declare const const_: Functor2<'Const'> & Contravariant2<'Const'> & Bifunctor2<'Const'>
-```
-
-Added in v2.0.0
-
 ## getApplicative
 
 **Signature**
@@ -294,6 +284,18 @@ Added in v2.6.0
 
 ```ts
 export declare function getShow<E, A>(S: Show<E>): Show<Const<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~const\_~~
+
+Use small, specific instances instead.
+
+**Signature**
+
+```ts
+export declare const const_: Functor2<'Const'> & Contravariant2<'Const'> & Bifunctor2<'Const'>
 ```
 
 Added in v2.0.0

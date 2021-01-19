@@ -257,21 +257,6 @@ export const ChainRec: ChainRec1<URI> = {
   chainRec: _chainRec
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
-  URI,
-  map: _map,
-  of,
-  ap: _ap,
-  chain: _chain,
-  fromIO,
-  chainRec: _chainRec
-}
-
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------
@@ -361,3 +346,24 @@ export const traverseArray: <A, B>(f: (a: A) => IO<B>) => (arr: ReadonlyArray<A>
 export const sequenceArray: <A>(arr: ReadonlyArray<IO<A>>) => IO<ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use small, specific instances instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
+  URI,
+  map: _map,
+  of,
+  ap: _ap,
+  chain: _chain,
+  fromIO,
+  chainRec: _chainRec
+}

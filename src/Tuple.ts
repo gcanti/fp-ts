@@ -255,10 +255,16 @@ export const Traversable: Traversable2<URI> = {
   sequence
 }
 
-// TODO: remove in v3
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
 /**
+ * Use small, specific instances instead.
+ *
  * @category instances
  * @since 2.0.0
+ * @deprecated
  */
 export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,

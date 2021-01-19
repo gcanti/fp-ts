@@ -132,9 +132,15 @@ export const Functor: Functor2<URI> = {
   map: _map
 }
 
-// TODO: remove in v3
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
 /**
+ * Use `Functor` instead.
+ *
  * @category instances
  * @since 2.0.0
+ * @deprecated
  */
 export const traced: Functor2<URI> = Functor
