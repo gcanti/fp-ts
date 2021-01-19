@@ -26,7 +26,11 @@ Added in v2.5.0
   - [mapWithIndex](#mapwithindex)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
+  - [filterMapWithIndex](#filtermapwithindex)
+  - [filterWithIndex](#filterwithindex)
   - [insertAt](#insertat)
+  - [partitionMapWithIndex](#partitionmapwithindex)
+  - [partitionWithIndex](#partitionwithindex)
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
   - [fromMap](#frommap)
@@ -43,8 +47,13 @@ Added in v2.5.0
   - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
   - [getFilterableWithIndex](#getfilterablewithindex)
+  - [getFoldable](#getfoldable)
+  - [getFoldableWithIndex](#getfoldablewithindex)
+  - [getFunctorWithIndex](#getfunctorwithindex)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
+  - [getTraversable](#gettraversable)
+  - [getTraversableWithIndex](#gettraversablewithindex)
   - [getWitherable](#getwitherable)
   - [readonlyMap](#readonlymap)
 - [utils](#utils)
@@ -182,6 +191,28 @@ export declare function deleteAt<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A
 
 Added in v2.5.0
 
+## filterMapWithIndex
+
+**Signature**
+
+```ts
+export declare const filterMapWithIndex: <K, A, B>(
+  f: (k: K, a: A) => O.Option<B>
+) => (fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
+```
+
+Added in v2.10.0
+
+## filterWithIndex
+
+**Signature**
+
+```ts
+export declare const filterWithIndex: <K, A>(p: (k: K, a: A) => boolean) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+```
+
+Added in v2.10.0
+
 ## insertAt
 
 Insert or replace a key/value pair in a map
@@ -193,6 +224,30 @@ export declare function insertAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: ReadonlyMa
 ```
 
 Added in v2.5.0
+
+## partitionMapWithIndex
+
+**Signature**
+
+```ts
+export declare const partitionMapWithIndex: <K, A, B, C>(
+  f: (k: K, a: A) => Either<B, C>
+) => (fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>
+```
+
+Added in v2.10.0
+
+## partitionWithIndex
+
+**Signature**
+
+```ts
+export declare const partitionWithIndex: <K, A>(
+  p: (k: K, a: A) => boolean
+) => (fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
+```
+
+Added in v2.10.0
 
 # constructors
 
@@ -365,6 +420,36 @@ export declare function getFilterableWithIndex<K = never>(): FilterableWithIndex
 
 Added in v2.5.0
 
+## getFoldable
+
+**Signature**
+
+```ts
+export declare const getFoldable: <K>(O: Ord<K>) => Foldable2C<'ReadonlyMap', K>
+```
+
+Added in v2.10.0
+
+## getFoldableWithIndex
+
+**Signature**
+
+```ts
+export declare const getFoldableWithIndex: <K>(O: Ord<K>) => FoldableWithIndex2C<'ReadonlyMap', K, K>
+```
+
+Added in v2.10.0
+
+## getFunctorWithIndex
+
+**Signature**
+
+```ts
+export declare const getFunctorWithIndex: <K = never>() => FunctorWithIndex2C<'ReadonlyMap', K, K>
+```
+
+Added in v2.10.0
+
 ## getMonoid
 
 Gets `Monoid` instance for Maps given `Semigroup` instance for their values
@@ -386,6 +471,26 @@ export declare function getShow<K, A>(SK: Show<K>, SA: Show<A>): Show<ReadonlyMa
 ```
 
 Added in v2.5.0
+
+## getTraversable
+
+**Signature**
+
+```ts
+export declare const getTraversable: <K>(O: Ord<K>) => Traversable2C<'ReadonlyMap', K>
+```
+
+Added in v2.10.0
+
+## getTraversableWithIndex
+
+**Signature**
+
+```ts
+export declare const getTraversableWithIndex: <K>(O: Ord<K>) => TraversableWithIndex2C<'ReadonlyMap', K, K>
+```
+
+Added in v2.10.0
 
 ## getWitherable
 

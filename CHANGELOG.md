@@ -101,6 +101,16 @@ high state of flux, you're at risk of it changing without notice.
   - `ReadonlyArray`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
+  - `ReadonlyMap`
+    - add `filterWithIndex` combinator (@gcanti)
+    - add `filterMapWithIndex` combinator (@gcanti)
+    - add `partitionWithIndex` combinator (@gcanti)
+    - add `partitionMapWithIndex` combinator (@gcanti)
+    - add `getFunctorWithIndex` (@gcanti)
+    - add `getFoldable` (@gcanti)
+    - add `getFoldableWithIndex` (@gcanti)
+    - add `getTraversable` (@gcanti)
+    - add `getTraversableWithIndex` (@gcanti)
   - `ReadonlyNonEmptyArray`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
