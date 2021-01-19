@@ -12,14 +12,14 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
+- [Pointed](#pointed)
+  - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -31,11 +31,11 @@ Added in v2.0.0
   - [modify](#modify)
   - [put](#put)
 - [instances](#instances)
-  - [Applicative](#applicative-1)
+  - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [state](#state)
@@ -54,20 +54,6 @@ Added in v2.0.0
   - [~~execState~~](#execstate)
 
 ---
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-**Signature**
-
-```ts
-export declare const of: <E, A>(a: A) => State<E, A>
-```
-
-Added in v2.0.0
 
 # Apply
 
@@ -108,6 +94,18 @@ Composes computations in sequence, using the return value of one computation to 
 
 ```ts
 export declare const chain: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, B>
+```
+
+Added in v2.0.0
+
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <E, A>(a: A) => State<E, A>
 ```
 
 Added in v2.0.0

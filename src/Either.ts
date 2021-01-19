@@ -556,16 +556,7 @@ export const apW: <D, A>(fa: Either<D, A>) => <E, B>(fab: Either<E, (a: A) => B>
 export const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B> = apW
 
 /**
- * Wrap a value into the type constructor.
- *
- * Equivalent to [`right`](#right).
- *
- * @example
- * import * as E from 'fp-ts/Either'
- *
- * assert.deepStrictEqual(E.of('a'), E.right('a'))
- *
- * @category Applicative
+ * @category Pointed
  * @since 2.7.0
  */
 export const of: Pointed2<URI>['of'] = right

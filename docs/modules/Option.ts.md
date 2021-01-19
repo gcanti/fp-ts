@@ -28,8 +28,6 @@ Added in v2.0.0
   - [altW](#altw)
 - [Alternative](#alternative)
   - [zero](#zero)
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
 - [Compactable](#compactable)
@@ -52,6 +50,8 @@ Added in v2.0.0
   - [chain](#chain)
 - [MonadThrow](#monadthrow)
   - [throwError](#throwerror)
+- [Pointed](#pointed)
+  - [of](#of)
 - [Traversable](#traversable)
   - [sequence](#sequence)
   - [traverse](#traverse)
@@ -88,7 +88,7 @@ Added in v2.0.0
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Alternative](#alternative-1)
-  - [Applicative](#applicative-1)
+  - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Compactable](#compactable-1)
   - [Extend](#extend-1)
@@ -97,7 +97,7 @@ Added in v2.0.0
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadThrow](#monadthrow-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [Traversable](#traversable-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -188,20 +188,6 @@ Added in v2.9.0
 
 ```ts
 export declare const zero: <A>() => Option<A>
-```
-
-Added in v2.7.0
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => Option<A>
 ```
 
 Added in v2.7.0
@@ -373,6 +359,18 @@ Added in v2.0.0
 
 ```ts
 export declare const throwError: <E, A>(e: E) => Option<A>
+```
+
+Added in v2.7.0
+
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => Option<A>
 ```
 
 Added in v2.7.0

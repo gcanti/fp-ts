@@ -362,9 +362,7 @@ export function filterWithIndex<A>(
 }
 
 /**
- * Wrap a value into the type constructor.
- *
- * @category Applicative
+ * @category Pointed
  * @since 2.5.0
  */
 export const of: Pointed1<URI>['of'] = RA.of as any

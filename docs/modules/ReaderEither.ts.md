@@ -15,8 +15,6 @@ Added in v2.0.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apW](#apw)
@@ -30,6 +28,8 @@ Added in v2.0.0
   - [chainW](#chainw)
 - [MonadThrow](#monadthrow)
   - [throwError](#throwerror)
+- [Pointed](#pointed)
+  - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -59,13 +59,13 @@ Added in v2.0.0
   - [getOrElseW](#getorelsew)
 - [instances](#instances)
   - [Alt](#alt-1)
-  - [Applicative](#applicative-1)
+  - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadThrow](#monadthrow-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getAltReaderValidation](#getaltreadervalidation)
@@ -121,22 +121,6 @@ export declare const altW: <R2, E2, B>(
 ```
 
 Added in v2.9.0
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-Equivalent to [`right`](#right).
-
-**Signature**
-
-```ts
-export declare const of: <R, E, A>(a: A) => ReaderEither<R, E, A>
-```
-
-Added in v2.8.5
 
 # Apply
 
@@ -253,6 +237,18 @@ export declare const throwError: <R, E, A>(e: E) => ReaderEither<R, E, A>
 ```
 
 Added in v2.7.0
+
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <R, E, A>(a: A) => ReaderEither<R, E, A>
+```
+
+Added in v2.8.5
 
 # combinators
 

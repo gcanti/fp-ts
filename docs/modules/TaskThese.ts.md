@@ -12,8 +12,6 @@ Added in v2.4.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Applicative](#applicative)
-  - [of](#of)
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
@@ -22,6 +20,8 @@ Added in v2.4.0
 - [MonadIO](#monadio)
   - [fromIO](#fromio)
   - [fromTask](#fromtask)
+- [Pointed](#pointed)
+  - [of](#of)
 - [combinators](#combinators)
   - [swap](#swap)
 - [constructors](#constructors)
@@ -38,7 +38,7 @@ Added in v2.4.0
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [Functor](#functor-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
@@ -55,22 +55,6 @@ Added in v2.4.0
   - [~~toTuple~~](#totuple)
 
 ---
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-Equivalent to [`right`](#right).
-
-**Signature**
-
-```ts
-export declare const of: <E, A>(a: A) => TaskThese<E, A>
-```
-
-Added in v2.7.0
 
 # Bifunctor
 
@@ -131,6 +115,18 @@ Added in v2.7.0
 
 ```ts
 export declare const fromTask: <E, A>(fa: T.Task<A>) => TaskThese<E, A>
+```
+
+Added in v2.7.0
+
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <E, A>(a: A) => TaskThese<E, A>
 ```
 
 Added in v2.7.0

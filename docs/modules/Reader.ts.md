@@ -12,8 +12,6 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
   - [apW](#apw)
@@ -24,6 +22,8 @@ Added in v2.0.0
 - [Monad](#monad)
   - [chain](#chain)
   - [chainW](#chainw)
+- [Pointed](#pointed)
+  - [of](#of)
 - [Profunctor](#profunctor)
   - [promap](#promap)
 - [Semigroupoid](#semigroupoid)
@@ -38,13 +38,13 @@ Added in v2.0.0
   - [ask](#ask)
   - [asks](#asks)
 - [instances](#instances)
-  - [Applicative](#applicative-1)
+  - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Category](#category-1)
   - [Choice](#choice)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [Profunctor](#profunctor-1)
   - [Strong](#strong)
   - [URI](#uri)
@@ -66,20 +66,6 @@ Added in v2.0.0
   - [traverseArrayWithIndex](#traversearraywithindex)
 
 ---
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-**Signature**
-
-```ts
-export declare const of: <E, A>(a: A) => Reader<E, A>
-```
-
-Added in v2.0.0
 
 # Apply
 
@@ -159,6 +145,18 @@ export declare const chainW: <R, A, B>(f: (a: A) => Reader<R, B>) => <Q>(ma: Rea
 ```
 
 Added in v2.6.0
+
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <E, A>(a: A) => Reader<E, A>
+```
+
+Added in v2.0.0
 
 # Profunctor
 

@@ -17,8 +17,6 @@ Added in v2.0.0
   - [altW](#altw)
 - [Alternative](#alternative)
   - [zero](#zero)
-- [Applicative](#applicative)
-  - [of](#of)
 - [Apply](#apply)
   - [ap](#ap)
 - [Compactable](#compactable)
@@ -50,6 +48,8 @@ Added in v2.0.0
   - [mapWithIndex](#mapwithindex)
 - [Monad](#monad)
   - [chain](#chain)
+- [Pointed](#pointed)
+  - [of](#of)
 - [Traversable](#traversable)
   - [sequence](#sequence)
   - [traverse](#traverse)
@@ -114,7 +114,7 @@ Added in v2.0.0
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Alternative](#alternative-1)
-  - [Applicative](#applicative-1)
+  - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Compactable](#compactable-1)
   - [Extend](#extend-1)
@@ -125,7 +125,7 @@ Added in v2.0.0
   - [Functor](#functor-1)
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad-1)
-  - [Pointed](#pointed)
+  - [Pointed](#pointed-1)
   - [Traversable](#traversable-1)
   - [TraversableWithIndex](#traversablewithindex-1)
   - [URI](#uri)
@@ -204,20 +204,6 @@ export declare const zero: <A>() => A[]
 ```
 
 Added in v2.7.0
-
-# Applicative
-
-## of
-
-Wrap a value into the type constructor.
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => A[]
-```
-
-Added in v2.0.0
 
 # Apply
 
@@ -466,6 +452,18 @@ Composes computations in sequence, using the return value of one computation to 
 
 ```ts
 export declare const chain: <A, B>(f: (a: A) => B[]) => (ma: A[]) => B[]
+```
+
+Added in v2.0.0
+
+# Pointed
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => A[]
 ```
 
 Added in v2.0.0
