@@ -49,7 +49,7 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
-  - [io](#io)
+  - [~~io~~](#io)
 - [model](#model)
   - [IO (interface)](#io-interface)
 - [utils](#utils)
@@ -299,7 +299,9 @@ export declare function getSemigroup<A>(S: Semigroup<A>): Semigroup<IO<A>>
 
 Added in v2.0.0
 
-## io
+## ~~io~~
+
+Use small, specific instances instead.
 
 **Signature**
 

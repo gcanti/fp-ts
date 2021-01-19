@@ -38,7 +38,7 @@ Added in v2.0.0
   - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [state](#state)
+  - [~~state~~](#state)
 - [model](#model)
   - [State (interface)](#state-interface)
 - [utils](#utils)
@@ -289,7 +289,9 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-## state
+## ~~state~~
+
+Use small, specific instances instead.
 
 **Signature**
 

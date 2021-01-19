@@ -74,7 +74,7 @@ Added in v2.0.0
   - [getApplySemigroup](#getapplysemigroup)
   - [getReaderValidation](#getreadervalidation)
   - [getSemigroup](#getsemigroup)
-  - [readerEither](#readereither)
+  - [~~readerEither~~](#readereither)
 - [model](#model)
   - [ReaderEither (interface)](#readereither-interface)
 - [utils](#utils)
@@ -728,7 +728,9 @@ export declare function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<Reader
 
 Added in v2.0.0
 
-## readerEither
+## ~~readerEither~~
+
+Use small, specific instances instead.
 
 **Signature**
 

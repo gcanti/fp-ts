@@ -94,7 +94,6 @@ Added in v2.0.0
   - [Traversable](#traversable-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [either](#either)
   - [getAltValidation](#getaltvalidation)
   - [getApplicativeValidation](#getapplicativevalidation)
   - [getApplyMonoid](#getapplymonoid)
@@ -108,6 +107,7 @@ Added in v2.0.0
   - [getValidationMonoid](#getvalidationmonoid)
   - [getValidationSemigroup](#getvalidationsemigroup)
   - [getWitherable](#getwitherable)
+  - [~~either~~](#either)
 - [model](#model)
   - [Either (type alias)](#either-type-alias)
   - [Left (interface)](#left-interface)
@@ -1079,23 +1079,6 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-## either
-
-**Signature**
-
-```ts
-export declare const either: Monad2<'Either'> &
-  Foldable2<'Either'> &
-  Traversable2<'Either'> &
-  Bifunctor2<'Either'> &
-  Alt2<'Either'> &
-  Extend2<'Either'> &
-  ChainRec2<'Either'> &
-  MonadThrow2<'Either'>
-```
-
-Added in v2.0.0
-
 ## getAltValidation
 
 **Signature**
@@ -1269,6 +1252,25 @@ Builds `Witherable` instance for `Either` given `Monoid` for the left side
 
 ```ts
 export declare function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E>
+```
+
+Added in v2.0.0
+
+## ~~either~~
+
+Use small, specific instances instead.
+
+**Signature**
+
+```ts
+export declare const either: Monad2<'Either'> &
+  Foldable2<'Either'> &
+  Traversable2<'Either'> &
+  Bifunctor2<'Either'> &
+  Alt2<'Either'> &
+  Extend2<'Either'> &
+  ChainRec2<'Either'> &
+  MonadThrow2<'Either'>
 ```
 
 Added in v2.0.0

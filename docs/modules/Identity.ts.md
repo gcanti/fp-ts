@@ -52,7 +52,7 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
   - [getShow](#getshow)
-  - [identity](#identity)
+  - [~~identity~~](#identity)
 - [model](#model)
   - [Identity (type alias)](#identity-type-alias)
 - [utils](#utils)
@@ -414,7 +414,9 @@ export declare const getShow: <A>(S: Show<A>) => Show<A>
 
 Added in v2.0.0
 
-## identity
+## ~~identity~~
+
+Use small, specific instances instead.
 
 **Signature**
 

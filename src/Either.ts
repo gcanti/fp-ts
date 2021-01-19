@@ -1278,36 +1278,6 @@ export function getValidationMonoid<E, A>(SE: Semigroup<E>, SA: Monoid<A>): Mono
   }
 }
 
-/**
- * @category instances
- * @since 2.0.0
- */
-export const either: Monad2<URI> &
-  Foldable2<URI> &
-  Traversable2<URI> &
-  Bifunctor2<URI> &
-  Alt2<URI> &
-  Extend2<URI> &
-  ChainRec2<URI> &
-  MonadThrow2<URI> = {
-  URI,
-  map: _map,
-  of,
-  ap: _ap,
-  chain: _chain,
-  reduce: _reduce,
-  foldMap: _foldMap,
-  reduceRight: _reduceRight,
-  traverse: _traverse,
-  sequence,
-  bimap: _bimap,
-  mapLeft: _mapLeft,
-  alt: _alt,
-  extend: _extend,
-  chainRec: _chainRec,
-  throwError: throwError
-}
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -1477,3 +1447,40 @@ export const traverseArray: <E, A, B>(
 export const sequenceArray: <E, A>(arr: ReadonlyArray<Either<E, A>>) => Either<E, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use small, specific instances instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const either: Monad2<URI> &
+  Foldable2<URI> &
+  Traversable2<URI> &
+  Bifunctor2<URI> &
+  Alt2<URI> &
+  Extend2<URI> &
+  ChainRec2<URI> &
+  MonadThrow2<URI> = {
+  URI,
+  map: _map,
+  of,
+  ap: _ap,
+  chain: _chain,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
+  sequence,
+  bimap: _bimap,
+  mapLeft: _mapLeft,
+  alt: _alt,
+  extend: _extend,
+  chainRec: _chainRec,
+  throwError: throwError
+}

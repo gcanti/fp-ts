@@ -94,8 +94,8 @@ Added in v2.0.0
   - [getApplySemigroup](#getapplysemigroup)
   - [getReaderTaskValidation](#getreadertaskvalidation)
   - [getSemigroup](#getsemigroup)
-  - [readerTaskEither](#readertaskeither)
-  - [readerTaskEitherSeq](#readertaskeitherseq)
+  - [~~readerTaskEitherSeq~~](#readertaskeitherseq)
+  - [~~readerTaskEither~~](#readertaskeither)
 - [model](#model)
   - [ReaderTaskEither (interface)](#readertaskeither-interface)
 - [utils](#utils)
@@ -958,12 +958,14 @@ export declare function getSemigroup<R, E, A>(S: Semigroup<A>): Semigroup<Reader
 
 Added in v2.0.0
 
-## readerTaskEither
+## ~~readerTaskEitherSeq~~
+
+Use small, specific instances instead.
 
 **Signature**
 
 ```ts
-export declare const readerTaskEither: Monad3<'ReaderTaskEither'> &
+export declare const readerTaskEitherSeq: Monad3<'ReaderTaskEither'> &
   Bifunctor3<'ReaderTaskEither'> &
   Alt3<'ReaderTaskEither'> &
   MonadTask3<'ReaderTaskEither'> &
@@ -972,14 +974,14 @@ export declare const readerTaskEither: Monad3<'ReaderTaskEither'> &
 
 Added in v2.0.0
 
-## readerTaskEitherSeq
+## ~~readerTaskEither~~
 
-Like `readerTaskEither` but `ap` is sequential
+Use small, specific instances instead.
 
 **Signature**
 
 ```ts
-export declare const readerTaskEitherSeq: Monad3<'ReaderTaskEither'> &
+export declare const readerTaskEither: Monad3<'ReaderTaskEither'> &
   Bifunctor3<'ReaderTaskEither'> &
   Alt3<'ReaderTaskEither'> &
   MonadTask3<'ReaderTaskEither'> &

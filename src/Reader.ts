@@ -340,26 +340,6 @@ export const Choice: Choice2<URI> = {
   right: _right
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = {
-  URI,
-  map: _map,
-  of,
-  ap: _ap,
-  chain: _chain,
-  promap: _promap,
-  compose: _compose,
-  id,
-  first: _first,
-  second: _second,
-  left: _left,
-  right: _right
-}
-
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------
@@ -461,3 +441,29 @@ export const traverseArray: <R, A, B>(
 export const sequenceArray: <R, A>(arr: ReadonlyArray<Reader<R, A>>) => Reader<R, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use small, specific instances instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = {
+  URI,
+  map: _map,
+  of,
+  ap: _ap,
+  chain: _chain,
+  promap: _promap,
+  compose: _compose,
+  id,
+  first: _first,
+  second: _second,
+  left: _left,
+  right: _right
+}

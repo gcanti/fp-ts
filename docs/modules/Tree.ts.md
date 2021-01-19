@@ -61,7 +61,7 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
   - [getShow](#getshow)
-  - [tree](#tree)
+  - [~~tree~~](#tree)
 - [model](#model)
   - [Forest (type alias)](#forest-type-alias)
   - [Tree (interface)](#tree-interface)
@@ -511,7 +511,9 @@ export declare function getShow<A>(S: Show<A>): Show<Tree<A>>
 
 Added in v2.0.0
 
-## tree
+## ~~tree~~
+
+Use small, specific instances instead.
 
 **Signature**
 

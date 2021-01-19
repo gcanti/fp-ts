@@ -56,7 +56,7 @@ Added in v2.5.0
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
-  - [readonlyRecord](#readonlyrecord)
+  - [~~readonlyRecord~~](#readonlyrecord)
 - [model](#model)
   - [ReadonlyRecord (type alias)](#readonlyrecord-type-alias)
 - [utils](#utils)
@@ -518,7 +518,9 @@ export declare function getShow<A>(S: Show<A>): Show<ReadonlyRecord<string, A>>
 
 Added in v2.5.0
 
-## readonlyRecord
+## ~~readonlyRecord~~
+
+Use small, specific instances instead.
 
 **Signature**
 

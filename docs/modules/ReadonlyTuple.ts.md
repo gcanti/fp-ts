@@ -47,7 +47,7 @@ Added in v2.5.0
   - [getChain](#getchain)
   - [getChainRec](#getchainrec)
   - [getMonad](#getmonad)
-  - [readonlyTuple](#readonlytuple)
+  - [~~readonlyTuple~~](#readonlytuple)
 - [utils](#utils)
   - [sequence](#sequence)
   - [traverse](#traverse)
@@ -341,7 +341,9 @@ export declare function getMonad<M>(M: Monoid<M>): Monad2C<URI, M>
 
 Added in v2.5.0
 
-## readonlyTuple
+## ~~readonlyTuple~~
+
+Use small, specific instances instead.
 
 **Signature**
 

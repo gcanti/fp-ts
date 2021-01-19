@@ -793,46 +793,6 @@ export const Alt: Alt2<URI> = {
   alt: _alt
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<URI> & MonadThrow2<URI> = {
-  URI,
-  bimap: _bimap,
-  mapLeft: _mapLeft,
-  map: _map,
-  of,
-  ap: _apPar,
-  chain: _chain,
-  alt: _alt,
-  fromIO,
-  fromTask,
-  throwError
-}
-
-// TODO: remove in v3
-/**
- * Like `TaskEither` but `ap` is sequential
- *
- * @category instances
- * @since 2.0.0
- */
-export const taskEitherSeq: typeof taskEither = {
-  URI,
-  bimap: _bimap,
-  mapLeft: _mapLeft,
-  map: _map,
-  of,
-  ap: _apSeq,
-  chain: _chain,
-  alt: _alt,
-  fromIO,
-  fromTask,
-  throwError
-}
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -1105,3 +1065,50 @@ export const traverseSeqArray: <A, B, E>(
 export const sequenceSeqArray: <A, E>(arr: ReadonlyArray<TaskEither<E, A>>) => TaskEither<E, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseSeqArray(identity)
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use small, specific instances instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<URI> & MonadThrow2<URI> = {
+  URI,
+  bimap: _bimap,
+  mapLeft: _mapLeft,
+  map: _map,
+  of,
+  ap: _apPar,
+  chain: _chain,
+  alt: _alt,
+  fromIO,
+  fromTask,
+  throwError
+}
+
+/**
+ * Use small, specific instances instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+// tslint:disable-next-line: deprecation
+export const taskEitherSeq: typeof taskEither = {
+  URI,
+  bimap: _bimap,
+  mapLeft: _mapLeft,
+  map: _map,
+  of,
+  ap: _apSeq,
+  chain: _chain,
+  alt: _alt,
+  fromIO,
+  fromTask,
+  throwError
+}

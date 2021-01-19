@@ -40,7 +40,7 @@ Added in v2.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [Witherable](#witherable-1)
-  - [record](#record)
+  - [~~record~~](#record)
 - [utils](#utils)
   - [collect](#collect)
   - [deleteAt](#deleteat)
@@ -333,7 +333,9 @@ export declare const Witherable: Witherable1<'Record'>
 
 Added in v2.7.0
 
-## record
+## ~~record~~
+
+Use small, specific instances instead.
 
 **Signature**
 

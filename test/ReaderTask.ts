@@ -35,7 +35,7 @@ describe('ReaderTask', () => {
   it('chain', async () => {
     const f = (a: string) => _.of(a.length)
     assert.deepStrictEqual(await pipe(_.of('foo'), _.chain(f))({})(), 3)
-    assert.deepStrictEqual(await _.readerTask.chain(_.of('foo'), f)({})(), 3)
+    assert.deepStrictEqual(await _.Monad.chain(_.of('foo'), f)({})(), 3)
   })
 
   it('chainFirst', async () => {
