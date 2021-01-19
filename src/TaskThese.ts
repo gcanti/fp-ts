@@ -292,18 +292,6 @@ export const Bifunctor: Bifunctor2<URI> = {
   mapLeft: _mapLeft
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.4.0
- */
-export const taskThese: Functor2<URI> & Bifunctor2<URI> = {
-  URI,
-  map: _map,
-  bimap: _bimap,
-  mapLeft: _mapLeft
-}
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -357,3 +345,17 @@ export const toTuple = <E, A>(e: E, a: A): ((fa: TaskThese<E, A>) => Task<[E, A]
     () => a
   ) as any
 /* tslint:enable:readonly-array */
+
+/**
+ * Use small, specific instances instead.
+ *
+ * @category instances
+ * @since 2.4.0
+ * @deprecated
+ */
+export const taskThese: Functor2<URI> & Bifunctor2<URI> = {
+  URI,
+  map: _map,
+  bimap: _bimap,
+  mapLeft: _mapLeft
+}

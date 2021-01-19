@@ -203,13 +203,6 @@ export const Functor: Functor2<URI> = {
   map: _map
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const writer: Functor2<URI> = Functor
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -243,3 +236,12 @@ export const evalWriter: <W, A>(fa: Writer<W, A>) => A = (fa) => fa()[0]
  * @deprecated
  */
 export const execWriter: <W, A>(fa: Writer<W, A>) => W = (fa) => fa()[1]
+
+/**
+ * Use `Functor` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const writer: Functor2<URI> = Functor

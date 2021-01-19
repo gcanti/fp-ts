@@ -53,8 +53,8 @@ Added in v2.0.0
   - [getMonoid](#getmonoid)
   - [getRaceMonoid](#getracemonoid)
   - [getSemigroup](#getsemigroup)
-  - [task](#task)
-  - [taskSeq](#taskseq)
+  - [~~taskSeq~~](#taskseq)
+  - [~~task~~](#task)
 - [model](#model)
   - [Task (interface)](#task-interface)
 - [utils](#utils)
@@ -414,24 +414,26 @@ test()
 
 Added in v2.0.0
 
-## task
+## ~~taskSeq~~
 
-**Signature**
-
-```ts
-export declare const task: Monad1<'Task'> & MonadTask1<'Task'>
-```
-
-Added in v2.0.0
-
-## taskSeq
-
-Like `task` but `ap` is sequential
+Use small, specific instances instead.
 
 **Signature**
 
 ```ts
 export declare const taskSeq: Monad1<'Task'> & MonadTask1<'Task'>
+```
+
+Added in v2.0.0
+
+## ~~task~~
+
+Use small, specific instances instead.
+
+**Signature**
+
+```ts
+export declare const task: Monad1<'Task'> & MonadTask1<'Task'>
 ```
 
 Added in v2.0.0

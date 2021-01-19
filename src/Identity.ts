@@ -353,28 +353,6 @@ export const ChainRec: ChainRec1<URI> = {
   chainRec: _chainRec
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI> = {
-  URI,
-  map: _map,
-  ap: _ap,
-  of,
-  chain: _chain,
-  reduce: _reduce,
-  foldMap: _foldMap,
-  reduceRight: _reduceRight,
-  traverse: _traverse,
-  sequence,
-  alt: _alt,
-  extract,
-  extend: _extend,
-  chainRec: _chainRec
-}
-
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------
@@ -410,3 +388,31 @@ export const bind =
 export const apS =
   /*#__PURE__*/
   apS_(Apply)
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use small, specific instances instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  of,
+  chain: _chain,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
+  sequence,
+  alt: _alt,
+  extract,
+  extend: _extend,
+  chainRec: _chainRec
+}

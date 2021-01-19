@@ -92,8 +92,8 @@ Added in v2.0.0
   - [getFilterable](#getfilterable)
   - [getSemigroup](#getsemigroup)
   - [getTaskValidation](#gettaskvalidation)
-  - [taskEither](#taskeither)
-  - [taskEitherSeq](#taskeitherseq)
+  - [~~taskEitherSeq~~](#taskeitherseq)
+  - [~~taskEither~~](#taskeither)
 - [model](#model)
   - [TaskEither (interface)](#taskeither-interface)
 - [utils](#utils)
@@ -918,12 +918,14 @@ export declare function getTaskValidation<E>(
 
 Added in v2.0.0
 
-## taskEither
+## ~~taskEitherSeq~~
+
+Use small, specific instances instead.
 
 **Signature**
 
 ```ts
-export declare const taskEither: Monad2<'TaskEither'> &
+export declare const taskEitherSeq: Monad2<'TaskEither'> &
   Bifunctor2<'TaskEither'> &
   Alt2<'TaskEither'> &
   MonadTask2<'TaskEither'> &
@@ -932,14 +934,14 @@ export declare const taskEither: Monad2<'TaskEither'> &
 
 Added in v2.0.0
 
-## taskEitherSeq
+## ~~taskEither~~
 
-Like `TaskEither` but `ap` is sequential
+Use small, specific instances instead.
 
 **Signature**
 
 ```ts
-export declare const taskEitherSeq: Monad2<'TaskEither'> &
+export declare const taskEither: Monad2<'TaskEither'> &
   Bifunctor2<'TaskEither'> &
   Alt2<'TaskEither'> &
   MonadTask2<'TaskEither'> &

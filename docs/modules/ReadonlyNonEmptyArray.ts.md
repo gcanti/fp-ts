@@ -79,7 +79,7 @@ Added in v2.5.0
   - [getEq](#geteq)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
-  - [readonlyNonEmptyArray](#readonlynonemptyarray)
+  - [~~readonlyNonEmptyArray~~](#readonlynonemptyarray)
 - [model](#model)
   - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
 - [utils](#utils)
@@ -837,7 +837,9 @@ export declare const getShow: <A>(S: Show<A>) => Show<ReadonlyNonEmptyArray<A>>
 
 Added in v2.5.0
 
-## readonlyNonEmptyArray
+## ~~readonlyNonEmptyArray~~
+
+Use small, specific instances instead.
 
 **Signature**
 

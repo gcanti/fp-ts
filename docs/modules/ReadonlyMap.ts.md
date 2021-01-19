@@ -55,7 +55,7 @@ Added in v2.5.0
   - [getTraversable](#gettraversable)
   - [getTraversableWithIndex](#gettraversablewithindex)
   - [getWitherable](#getwitherable)
-  - [readonlyMap](#readonlymap)
+  - [~~readonlyMap~~](#readonlymap)
 - [utils](#utils)
   - [collect](#collect)
   - [elem](#elem)
@@ -502,7 +502,9 @@ export declare function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & Trav
 
 Added in v2.5.0
 
-## readonlyMap
+## ~~readonlyMap~~
+
+Use small, specific instances instead.
 
 **Signature**
 

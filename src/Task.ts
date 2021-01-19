@@ -363,38 +363,6 @@ export const chainFirst =
   /*#__PURE__*/
   chainFirst_(Monad)
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.0.0
- */
-export const task: Monad1<URI> & MonadTask1<URI> = {
-  URI,
-  map: _map,
-  of,
-  ap: _apPar,
-  chain: _chain,
-  fromIO,
-  fromTask
-}
-
-// TODO: remove in v3
-/**
- * Like `task` but `ap` is sequential
- *
- * @category instances
- * @since 2.0.0
- */
-export const taskSeq: typeof task = {
-  URI,
-  map: _map,
-  of,
-  ap: _apSeq,
-  chain: _chain,
-  fromIO,
-  fromTask
-}
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -541,3 +509,42 @@ export const traverseSeqArray: <A, B>(f: (a: A) => Task<B>) => (arr: ReadonlyArr
 export const sequenceSeqArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseSeqArray(identity)
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use small, specific instances instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const task: Monad1<URI> & MonadTask1<URI> = {
+  URI,
+  map: _map,
+  of,
+  ap: _apPar,
+  chain: _chain,
+  fromIO,
+  fromTask
+}
+
+/**
+ * Use small, specific instances instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+// tslint:disable-next-line: deprecation
+export const taskSeq: typeof task = {
+  URI,
+  map: _map,
+  of,
+  ap: _apSeq,
+  chain: _chain,
+  fromIO,
+  fromTask
+}

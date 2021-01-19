@@ -33,10 +33,10 @@ export const FILES: ReadonlyArray<string> = ['CHANGELOG.md', 'LICENSE', 'README.
 export const copyFiles: Build<ReadonlyArray<void>> = (C) =>
   pipe(
     FILES,
-    A.traverse(TE.taskEither)((from) => C.copyFile(from, path.resolve(OUTPUT_FOLDER, from)))
+    A.traverse(TE.ApplicativePar)((from) => C.copyFile(from, path.resolve(OUTPUT_FOLDER, from)))
   )
 
-const traverse = A.traverse(TE.taskEither)
+const traverse = A.traverse(TE.ApplicativePar)
 
 export const makeModules: Build<void> = (C) =>
   pipe(

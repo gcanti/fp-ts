@@ -126,7 +126,7 @@ Added in v2.5.0
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getShow](#getshow)
-  - [readonlyArray](#readonlyarray)
+  - [~~readonlyArray~~](#readonlyarray)
 - [unsafe](#unsafe)
   - [unsafeDeleteAt](#unsafedeleteat)
   - [unsafeInsertAt](#unsafeinsertat)
@@ -1659,7 +1659,9 @@ export declare function getShow<A>(S: Show<A>): Show<ReadonlyArray<A>>
 
 Added in v2.5.0
 
-## readonlyArray
+## ~~readonlyArray~~
+
+Use small, specific instances instead.
 
 **Signature**
 

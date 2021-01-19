@@ -132,11 +132,11 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [Unfoldable](#unfoldable-1)
   - [Witherable](#witherable-1)
-  - [array](#array)
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getShow](#getshow)
+  - [~~array~~](#array)
 - [unsafe](#unsafe)
   - [unsafeDeleteAt](#unsafedeleteat)
   - [unsafeInsertAt](#unsafeinsertat)
@@ -1789,24 +1789,6 @@ export declare const Witherable: Witherable1<'Array'>
 
 Added in v2.7.0
 
-## array
-
-**Signature**
-
-```ts
-export declare const array: FunctorWithIndex1<'Array', number> &
-  Monad1<'Array'> &
-  Unfoldable1<'Array'> &
-  Alternative1<'Array'> &
-  Extend1<'Array'> &
-  FilterableWithIndex1<'Array', number> &
-  FoldableWithIndex1<'Array', number> &
-  TraversableWithIndex1<'Array', number> &
-  Witherable1<'Array'>
-```
-
-Added in v2.0.0
-
 ## getEq
 
 Derives an `Eq` over the `Array` of a given element type from the `Eq` of that type. The derived `Eq` defines two
@@ -1886,6 +1868,26 @@ Added in v2.0.0
 
 ```ts
 export declare const getShow: <A>(S: Show<A>) => Show<A[]>
+```
+
+Added in v2.0.0
+
+## ~~array~~
+
+Use small, specific instances instead.
+
+**Signature**
+
+```ts
+export declare const array: FunctorWithIndex1<'Array', number> &
+  Monad1<'Array'> &
+  Unfoldable1<'Array'> &
+  Alternative1<'Array'> &
+  Extend1<'Array'> &
+  FilterableWithIndex1<'Array', number> &
+  FoldableWithIndex1<'Array', number> &
+  TraversableWithIndex1<'Array', number> &
+  Witherable1<'Array'>
 ```
 
 Added in v2.0.0

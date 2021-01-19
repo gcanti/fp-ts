@@ -45,9 +45,9 @@ Added in v2.4.0
   - [getApply](#getapply)
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
-  - [taskThese](#taskthese)
   - [~~bifunctorTaskThese~~](#bifunctortaskthese)
   - [~~functorTaskThese~~](#functortaskthese)
+  - [~~taskThese~~](#taskthese)
 - [model](#model)
   - [TaskThese (interface)](#taskthese-interface)
 - [utils](#utils)
@@ -333,16 +333,6 @@ export declare function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): 
 
 Added in v2.4.0
 
-## taskThese
-
-**Signature**
-
-```ts
-export declare const taskThese: Functor2<'TaskThese'> & Bifunctor2<'TaskThese'>
-```
-
-Added in v2.4.0
-
 ## ~~bifunctorTaskThese~~
 
 Use `Bifunctor` instead.
@@ -366,6 +356,18 @@ export declare const functorTaskThese: Functor2<'TaskThese'>
 ```
 
 Added in v2.7.0
+
+## ~~taskThese~~
+
+Use small, specific instances instead.
+
+**Signature**
+
+```ts
+export declare const taskThese: Functor2<'TaskThese'> & Bifunctor2<'TaskThese'>
+```
+
+Added in v2.4.0
 
 # model
 
