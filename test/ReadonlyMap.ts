@@ -770,6 +770,53 @@ describe('ReadonlyMap', () => {
     })
   })
 
+  describe('getTraversable', () => {
+    const T = _.getTraversable(ordUser)
+
+    it('traverse', () => {
+      const traverse = T.traverse(O.Applicative)
+      const x = new Map([
+        [{ id: 'k1' }, 1],
+        [{ id: 'k2' }, 2]
+      ])
+      assert.deepStrictEqual(
+        traverse(x, (n) => (n <= 2 ? O.some(n) : O.none)),
+        O.some(x)
+      )
+      assert.deepStrictEqual(
+        traverse(x, (n) => (n >= 2 ? O.some(n) : O.none)),
+        O.none
+      )
+    })
+
+    it('sequence', () => {
+      const sequence = T.sequence(O.Applicative)
+      assert.deepStrictEqual(
+        sequence(
+          new Map([
+            [{ id: 'k1' }, O.some(1)],
+            [{ id: 'k2' }, O.some(2)]
+          ])
+        ),
+        O.some(
+          new Map<User, number>([
+            [{ id: 'k1' }, 1],
+            [{ id: 'k2' }, 2]
+          ])
+        )
+      )
+      assert.deepStrictEqual(
+        sequence(
+          new Map([
+            [{ id: 'k1' }, O.none],
+            [{ id: 'k2' }, O.some(2)]
+          ])
+        ),
+        O.none
+      )
+    })
+  })
+
   describe('getWitherable', () => {
     const W = _.getWitherable(ordUser)
 
@@ -872,49 +919,6 @@ describe('ReadonlyMap', () => {
       assert.deepStrictEqual(
         reduceRightWithIndexO(m, '', (k, a, b) => b + k.id + a),
         'k2bk1a'
-      )
-    })
-
-    it('traverse', () => {
-      const traverse = W.traverse(O.Applicative)
-      const x = new Map([
-        [{ id: 'k1' }, 1],
-        [{ id: 'k2' }, 2]
-      ])
-      assert.deepStrictEqual(
-        traverse(x, (n) => (n <= 2 ? O.some(n) : O.none)),
-        O.some(x)
-      )
-      assert.deepStrictEqual(
-        traverse(x, (n) => (n >= 2 ? O.some(n) : O.none)),
-        O.none
-      )
-    })
-
-    it('sequence', () => {
-      const sequence = W.sequence(O.Applicative)
-      assert.deepStrictEqual(
-        sequence(
-          new Map([
-            [{ id: 'k1' }, O.some(1)],
-            [{ id: 'k2' }, O.some(2)]
-          ])
-        ),
-        O.some(
-          new Map<User, number>([
-            [{ id: 'k1' }, 1],
-            [{ id: 'k2' }, 2]
-          ])
-        )
-      )
-      assert.deepStrictEqual(
-        sequence(
-          new Map([
-            [{ id: 'k1' }, O.none],
-            [{ id: 'k2' }, O.some(2)]
-          ])
-        ),
-        O.none
       )
     })
 
@@ -1133,6 +1137,16 @@ describe('ReadonlyMap', () => {
         aa1,
         _.mapWithIndex((k, a) => a + k.id.length)
       ),
+      aa3
+    )
+  })
+
+  it('getFunctorWithIndex', () => {
+    const FWI = _.getFunctorWithIndex<User>()
+    const aa1 = new Map<User, number>([[{ id: 'aa' }, 1]])
+    const aa3 = new Map<User, number>([[{ id: 'aa' }, 3]])
+    assert.deepStrictEqual(
+      FWI.mapWithIndex(aa1, (k, a) => a + k.id.length),
       aa3
     )
   })
