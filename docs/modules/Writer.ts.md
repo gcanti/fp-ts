@@ -24,7 +24,10 @@ Added in v2.0.0
   - [Functor](#functor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [getApplicative](#getapplicative)
+  - [getApply](#getapply)
   - [getMonad](#getmonad)
+  - [getPointed](#getpointed)
   - [writer](#writer)
 - [model](#model)
   - [Writer (interface)](#writer-interface)
@@ -145,6 +148,26 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
+## getApplicative
+
+**Signature**
+
+```ts
+export declare const getApplicative: <W>(M: Monoid<W>) => Applicative2C<'Writer', W>
+```
+
+Added in v2.10.0
+
+## getApply
+
+**Signature**
+
+```ts
+export declare const getApply: <W>(S: Semigroup<W>) => Apply2C<'Writer', W>
+```
+
+Added in v2.10.0
+
 ## getMonad
 
 **Signature**
@@ -154,6 +177,16 @@ export declare function getMonad<W>(M: Monoid<W>): Monad2C<URI, W>
 ```
 
 Added in v2.0.0
+
+## getPointed
+
+**Signature**
+
+```ts
+export declare const getPointed: <W>(M: Monoid<W>) => Pointed2C<'Writer', W>
+```
+
+Added in v2.10.0
 
 ## writer
 
