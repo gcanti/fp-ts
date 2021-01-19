@@ -75,13 +75,13 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getAltIOValidation](#getaltiovalidation)
   - [getApplicativeIOValidation](#getapplicativeiovalidation)
-  - [getApplyMonoid](#getapplymonoid)
-  - [getApplySemigroup](#getapplysemigroup)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
   - [getIOValidation](#getiovalidation)
-  - [getSemigroup](#getsemigroup)
   - [~~Applicative~~](#applicative)
+  - [~~getApplyMonoid~~](#getapplymonoid)
+  - [~~getApplySemigroup~~](#getapplysemigroup)
+  - [~~getSemigroup~~](#getsemigroup)
   - [~~ioEither~~](#ioeither)
 - [model](#model)
   - [IOEither (interface)](#ioeither-interface)
@@ -677,29 +677,6 @@ export declare function getApplicativeIOValidation<E>(S: Semigroup<E>): Applicat
 
 Added in v2.7.0
 
-## getApplyMonoid
-
-**Signature**
-
-```ts
-export declare function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<IOEither<E, A>>
-```
-
-Added in v2.0.0
-
-## getApplySemigroup
-
-Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
-are concatenated using the provided `Semigroup`
-
-**Signature**
-
-```ts
-export declare function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>>
-```
-
-Added in v2.0.0
-
 ## getCompactable
 
 **Signature**
@@ -732,19 +709,6 @@ export declare function getIOValidation<E>(
 
 Added in v2.0.0
 
-## getSemigroup
-
-Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
-concatenated using the provided `Semigroup`
-
-**Signature**
-
-```ts
-export declare function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>>
-```
-
-Added in v2.0.0
-
 ## ~~Applicative~~
 
 Use `ApplicativePar` instead
@@ -756,6 +720,48 @@ export declare const Applicative: Applicative2<'IOEither'>
 ```
 
 Added in v2.7.0
+
+## ~~getApplyMonoid~~
+
+Use `Applicative.getApplicativeMonoid` instead.
+
+**Signature**
+
+```ts
+export declare const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<IOEither<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getApplySemigroup~~
+
+Use `Apply.getApplySemigroup` instead.
+
+Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
+are concatenated using the provided `Semigroup`
+
+**Signature**
+
+```ts
+export declare const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<IOEither<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getSemigroup~~
+
+Use `Apply.getApplySemigroup` instead.
+
+Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
+concatenated using the provided `Semigroup`
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <E, A>(S: Semigroup<A>) => Semigroup<IOEither<E, A>>
+```
+
+Added in v2.0.0
 
 ## ~~ioEither~~
 

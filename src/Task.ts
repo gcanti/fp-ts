@@ -10,8 +10,8 @@
  *
  * @since 2.0.0
  */
-import { Applicative1 } from './Applicative'
-import { apFirst_, Apply1, apSecond_, apS_ } from './Apply'
+import { Applicative1, getApplicativeMonoid } from './Applicative'
+import { apFirst_, Apply1, apSecond_, apS_, getApplySemigroup as getApplySemigroup_ } from './Apply'
 import { identity, pipe } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { IO } from './IO'
@@ -184,44 +184,6 @@ export type URI = typeof URI
 declare module './HKT' {
   interface URItoKind<A> {
     readonly [URI]: Task<A>
-  }
-}
-
-/**
- * Lift a semigroup into 'Task', the inner values are concatenated using the provided `Semigroup`.
- *
- * @example
- * import * as T from 'fp-ts/Task'
- * import { semigroupString } from 'fp-ts/Semigroup'
- *
- * async function test() {
- *   const S = T.getSemigroup(semigroupString)
- *   const fa = T.of('a')
- *   const fb = T.of('b')
- *   assert.deepStrictEqual(await S.concat(fa, fb)(), 'ab')
- * }
- *
- * test()
- *
- * @category instances
- * @since 2.0.0
- */
-export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>> {
-  return {
-    concat: (x, y) => () => x().then((rx) => y().then((ry) => S.concat(rx, ry)))
-  }
-}
-
-/**
- * Lift a monoid into 'Task', the inner values are concatenated using the provided `Monoid`.
- *
- * @category instances
- * @since 2.0.0
- */
-export function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>> {
-  return {
-    concat: getSemigroup(M).concat,
-    empty: of(M.empty)
   }
 }
 
@@ -548,3 +510,42 @@ export const taskSeq: typeof task = {
   fromIO,
   fromTask
 }
+
+/**
+ * Use `Apply.getApplySemigroup` instead.
+ *
+ * Lift a semigroup into 'Task', the inner values are concatenated using the provided `Semigroup`.
+ *
+ * @example
+ * import * as T from 'fp-ts/Task'
+ * import { semigroupString } from 'fp-ts/Semigroup'
+ *
+ * async function test() {
+ *   const S = T.getSemigroup(semigroupString)
+ *   const fa = T.of('a')
+ *   const fb = T.of('b')
+ *   assert.deepStrictEqual(await S.concat(fa, fb)(), 'ab')
+ * }
+ *
+ * test()
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<Task<A>> =
+  /*#__PURE__*/
+  getApplySemigroup_(ApplySeq)
+
+/**
+ * Use `Applicative.getApplicativeMonoid` instead.
+ *
+ * Lift a monoid into 'Task', the inner values are concatenated using the provided `Monoid`.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getMonoid: <A>(M: Monoid<A>) => Monoid<Task<A>> =
+  /*#__PURE__*/
+  getApplicativeMonoid(ApplicativeSeq)

@@ -38,6 +38,7 @@
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor4, Functor3C } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { tuple } from './function'
+import { Semigroup } from './Semigroup'
 
 /**
  * @category type classes
@@ -453,4 +454,34 @@ export function apS_<F>(
       F.map(fa, (a) => (b: B) => Object.assign({}, a, { [name]: b }) as any),
       fb
     )
+}
+
+/**
+ * Lift a semigroup into 'F', the inner values are concatenated using the provided `Semigroup`.
+ *
+ * @since 2.10.0
+ */
+export function getApplySemigroup<F extends URIS4>(
+  F: Apply4<F>
+): <A, S, R, E>(S: Semigroup<A>) => Semigroup<Kind4<F, S, R, E, A>>
+export function getApplySemigroup<F extends URIS3>(
+  F: Apply3<F>
+): <A, R, E>(S: Semigroup<A>) => Semigroup<Kind3<F, R, E, A>>
+export function getApplySemigroup<F extends URIS3, E>(
+  F: Apply3C<F, E>
+): <A, R>(S: Semigroup<A>) => Semigroup<Kind3<F, R, E, A>>
+export function getApplySemigroup<F extends URIS2>(F: Apply2<F>): <A, E>(S: Semigroup<A>) => Semigroup<Kind2<F, E, A>>
+export function getApplySemigroup<F extends URIS2, E>(
+  F: Apply2C<F, E>
+): <A>(S: Semigroup<A>) => Semigroup<Kind2<F, E, A>>
+export function getApplySemigroup<F extends URIS>(F: Apply1<F>): <A>(S: Semigroup<A>) => Semigroup<Kind<F, A>>
+export function getApplySemigroup<F>(F: Apply<F>): <A>(S: Semigroup<A>) => Semigroup<HKT<F, A>>
+export function getApplySemigroup<F>(F: Apply<F>): <A>(S: Semigroup<A>) => Semigroup<HKT<F, A>> {
+  return <A>(S: Semigroup<A>) => ({
+    concat: (first: HKT<F, A>, second: HKT<F, A>) =>
+      F.ap(
+        F.map(first, (x: A) => (y: A) => S.concat(x, y)),
+        second
+      )
+  })
 }

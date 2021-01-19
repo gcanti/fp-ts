@@ -92,11 +92,13 @@ describe('Reader', () => {
   })
 
   it('getSemigroup', () => {
+    // tslint:disable-next-line: deprecation
     const S = _.getSemigroup(semigroupSum)
     assert.deepStrictEqual(S.concat(_.of(1), _.of(2))({}), 3)
   })
 
   it('getMonoid', () => {
+    // tslint:disable-next-line: deprecation
     const M = _.getMonoid(monoidSum)
     assert.deepStrictEqual(M.concat(_.of(1), M.empty)({}), 1)
     assert.deepStrictEqual(M.concat(M.empty, _.of(1))({}), 1)

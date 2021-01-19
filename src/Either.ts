@@ -14,8 +14,8 @@
  * @since 2.0.0
  */
 import { Alt2, Alt2C } from './Alt'
-import { Applicative as ApplicativeHKT, Applicative2, Applicative2C } from './Applicative'
-import { apFirst_, Apply2, apSecond_, apS_ } from './Apply'
+import { Applicative as ApplicativeHKT, Applicative2, Applicative2C, getApplicativeMonoid } from './Applicative'
+import { apFirst_, Apply2, apSecond_, apS_, getApplySemigroup as getApplySemigroup_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, ChainRec2C, tailRec } from './ChainRec'
 import { Compactable2C, Separated } from './Compactable'
@@ -837,40 +837,6 @@ export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> {
 }
 
 /**
- * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
- * are concatenated using the provided `Semigroup`
- *
- * @example
- * import { getApplySemigroup, left, right } from 'fp-ts/Either'
- * import { semigroupSum } from 'fp-ts/Semigroup'
- *
- * const S = getApplySemigroup<string, number>(semigroupSum)
- * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
- * assert.deepStrictEqual(S.concat(left('a'), right(2)), left('a'))
- * assert.deepStrictEqual(S.concat(right(1), left('b')), left('b'))
- * assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
- *
- * @category instances
- * @since 2.0.0
- */
-export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> {
-  return {
-    concat: (x, y) => (isLeft(x) ? x : isLeft(y) ? y : right(S.concat(x.right, y.right)))
-  }
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<Either<E, A>> {
-  return {
-    concat: getApplySemigroup<E, A>(M).concat,
-    empty: right(M.empty)
-  }
-}
-
-/**
  * Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
  *
  * @category instances
@@ -1484,3 +1450,38 @@ export const either: Monad2<URI> &
   chainRec: _chainRec,
   throwError: throwError
 }
+
+/**
+ * Use `Apply.getApplySemigroup` instead.
+ *
+ * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
+ * are concatenated using the provided `Semigroup`
+ *
+ * @example
+ * import { getApplySemigroup, left, right } from 'fp-ts/Either'
+ * import { semigroupSum } from 'fp-ts/Semigroup'
+ *
+ * const S = getApplySemigroup<string, number>(semigroupSum)
+ * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
+ * assert.deepStrictEqual(S.concat(left('a'), right(2)), left('a'))
+ * assert.deepStrictEqual(S.concat(right(1), left('b')), left('b'))
+ * assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<Either<E, A>> =
+  /*#__PURE__*/
+  getApplySemigroup_(Apply)
+
+/**
+ * Use `Applicative.getApplicativeMonoid` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<Either<E, A>> =
+  /*#__PURE__*/
+  getApplicativeMonoid(Applicative)

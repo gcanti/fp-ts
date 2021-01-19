@@ -228,6 +228,7 @@ describe('TaskEither', () => {
 
   describe('getSemigroup', () => {
     it('concat', async () => {
+      // tslint:disable-next-line: deprecation
       const S = _.getSemigroup<string, number>(semigroupSum)
       assert.deepStrictEqual(await S.concat(_.left('a'), _.left('b'))(), E.left('a'))
       assert.deepStrictEqual(await S.concat(_.left('a'), _.right(2))(), E.right(2))
@@ -237,6 +238,7 @@ describe('TaskEither', () => {
   })
 
   describe('getApplyMonoid', () => {
+    // tslint:disable-next-line: deprecation
     const M = _.getApplyMonoid(monoidString)
 
     it('concat (right)', async () => {

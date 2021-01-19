@@ -14,8 +14,8 @@
  */
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
-import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { apFirst_, Apply1, apSecond_, apS_ } from './Apply'
+import { Applicative as ApplicativeHKT, Applicative1, getApplicativeMonoid } from './Applicative'
+import { apFirst_, Apply1, apSecond_, apS_, getApplySemigroup as getApplySemigroup_ } from './Apply'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
@@ -797,46 +797,6 @@ export function getOrd<A>(O: Ord<A>): Ord<Option<A>> {
 }
 
 /**
- * `Apply` semigroup
- *
- * | x       | y       | concat(x, y)       |
- * | ------- | ------- | ------------------ |
- * | none    | none    | none               |
- * | some(a) | none    | none               |
- * | none    | some(a) | none               |
- * | some(a) | some(b) | some(concat(a, b)) |
- *
- * @example
- * import { getApplySemigroup, some, none } from 'fp-ts/Option'
- * import { semigroupSum } from 'fp-ts/Semigroup'
- *
- * const S = getApplySemigroup(semigroupSum)
- * assert.deepStrictEqual(S.concat(none, none), none)
- * assert.deepStrictEqual(S.concat(some(1), none), none)
- * assert.deepStrictEqual(S.concat(none, some(1)), none)
- * assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
- *
- * @category instances
- * @since 2.0.0
- */
-export function getApplySemigroup<A>(S: Semigroup<A>): Semigroup<Option<A>> {
-  return {
-    concat: (x, y) => (isSome(x) && isSome(y) ? some(S.concat(x.value, y.value)) : none)
-  }
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getApplyMonoid<A>(M: Monoid<A>): Monoid<Option<A>> {
-  return {
-    concat: getApplySemigroup(M).concat,
-    empty: some(M.empty)
-  }
-}
-
-/**
  * Monoid returning the left-most non-`None` value
  *
  * | x       | y       | concat(x, y) |
@@ -1357,3 +1317,44 @@ export const option: Monad1<URI> &
   wilt: _wilt,
   throwError
 }
+
+/**
+ * Use `Apply.getApplySemigroup` instead.
+ *
+ * `Apply` semigroup
+ *
+ * | x       | y       | concat(x, y)       |
+ * | ------- | ------- | ------------------ |
+ * | none    | none    | none               |
+ * | some(a) | none    | none               |
+ * | none    | some(a) | none               |
+ * | some(a) | some(b) | some(concat(a, b)) |
+ *
+ * @example
+ * import { getApplySemigroup, some, none } from 'fp-ts/Option'
+ * import { semigroupSum } from 'fp-ts/Semigroup'
+ *
+ * const S = getApplySemigroup(semigroupSum)
+ * assert.deepStrictEqual(S.concat(none, none), none)
+ * assert.deepStrictEqual(S.concat(some(1), none), none)
+ * assert.deepStrictEqual(S.concat(none, some(1)), none)
+ * assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getApplySemigroup: <A>(S: Semigroup<A>) => Semigroup<Option<A>> =
+  /*#__PURE__*/
+  getApplySemigroup_(Apply)
+
+/**
+ * Use `Applicative.getApplicativeMonoid` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getApplyMonoid: <A>(M: Monoid<A>) => Monoid<Option<A>> =
+  /*#__PURE__*/
+  getApplicativeMonoid(Applicative)

@@ -42,6 +42,7 @@ describe('IO', () => {
   })
 
   it('getSemigroup', () => {
+    // tslint:disable-next-line: deprecation
     const S = _.getSemigroup(semigroupSum)
     // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
@@ -51,6 +52,7 @@ describe('IO', () => {
   })
 
   it('getMonoid', () => {
+    // tslint:disable-next-line: deprecation
     const M = _.getMonoid(monoidSum)
     // tslint:disable-next-line: readonly-array
     const log: Array<string> = []

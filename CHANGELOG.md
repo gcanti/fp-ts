@@ -20,9 +20,44 @@ high state of flux, you're at risk of it changing without notice.
 - **Deprecations**
   - deprecate `ValidationT` module, use `EitherT` instead (@gcanti)
   - deprecate "mega instances", use small, specific instances instead (@gcanti)
+  - `Either`
+    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
+    - deprecate `getApplyMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+  - `IO`
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
+    - deprecate `getMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+  - `IOEither`
+    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
+    - deprecate `getApplyMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
+  - `Option`
+    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
+    - deprecate `getApplyMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+  - `Reader`
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
+    - deprecate `getMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+  - `ReaderEither`
+    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
+    - deprecate `getApplyMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
+  - `ReaderTask`
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
+    - deprecate `getMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+  - `ReaderTaskEither`
+    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
+    - deprecate `getApplyMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
+  - `Task`
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
+    - deprecate `getMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+  - `TaskEither`
+    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
+    - deprecate `getApplyMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
   - `TaskThese`
     - deprecate `functorTaskThese` instance in favour of `Functor` (@gcanti)
     - deprecate `bifunctorTaskThese` instance in favour of `Bifunctor` (@gcanti)
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
   - `These`
     - deprecate `toTuple` in favour of `toReadonlyTuple2` (@gcanti)
   - `TaskThese`
@@ -37,6 +72,9 @@ high state of flux, you're at risk of it changing without notice.
     - add `apS_` helper (@gcanti)
     - add `apFirst_` helper (@gcanti)
     - add `apSecond_` helper (@gcanti)
+    - add `getApplySemigroup` (@gcanti)
+  - `Applicative`
+    - add `getApplicativeMonoid` (@gcanti)
   - `Array`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)

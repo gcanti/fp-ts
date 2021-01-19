@@ -1,8 +1,8 @@
 /**
  * @since 2.3.0
  */
-import { Applicative2 } from './Applicative'
-import { apFirst_, Apply2, apSecond_, apS_ } from './Apply'
+import { Applicative2, getApplicativeMonoid } from './Applicative'
+import { apFirst_, Apply2, apSecond_, apS_, getApplySemigroup as getApplySemigroup_ } from './Apply'
 import { flow, identity, pipe } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { IO } from './IO'
@@ -222,25 +222,6 @@ export type URI = typeof URI
 declare module './HKT' {
   interface URItoKind2<E, A> {
     readonly [URI]: ReaderTask<E, A>
-  }
-}
-
-/**
- * @category instances
- * @since 2.3.0
- */
-export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<ReaderTask<R, A>> {
-  return R.getSemigroup(T.getSemigroup(S))
-}
-
-/**
- * @category instances
- * @since 2.3.0
- */
-export function getMonoid<R, A>(M: Monoid<A>): Monoid<ReaderTask<R, A>> {
-  return {
-    concat: getSemigroup<R, A>(M).concat,
-    empty: of(M.empty)
   }
 }
 
@@ -482,3 +463,25 @@ export const readerTaskSeq: typeof readerTask = {
   fromIO,
   fromTask
 }
+
+/**
+ * Use `Apply.getApplySemigroup` instead.
+ *
+ * @category instances
+ * @since 2.3.0
+ * @deprecated
+ */
+export const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<ReaderTask<R, A>> =
+  /*#__PURE__*/
+  getApplySemigroup_(ApplySeq)
+
+/**
+ * Use `Applicative.getApplicativeMonoid` instead.
+ *
+ * @category instances
+ * @since 2.3.0
+ * @deprecated
+ */
+export const getMonoid: <R, A>(M: Monoid<A>) => Monoid<ReaderTask<R, A>> =
+  /*#__PURE__*/
+  getApplicativeMonoid(ApplicativeSeq)

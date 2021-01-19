@@ -44,9 +44,9 @@ Added in v2.4.0
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getMonad](#getmonad)
-  - [getSemigroup](#getsemigroup)
   - [~~bifunctorTaskThese~~](#bifunctortaskthese)
   - [~~functorTaskThese~~](#functortaskthese)
+  - [~~getSemigroup~~](#getsemigroup)
   - [~~taskThese~~](#taskthese)
 - [model](#model)
   - [TaskThese (interface)](#taskthese-interface)
@@ -323,16 +323,6 @@ export declare function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadTas
 
 Added in v2.4.0
 
-## getSemigroup
-
-**Signature**
-
-```ts
-export declare function getSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<TaskThese<E, A>>
-```
-
-Added in v2.4.0
-
 ## ~~bifunctorTaskThese~~
 
 Use `Bifunctor` instead.
@@ -356,6 +346,18 @@ export declare const functorTaskThese: Functor2<'TaskThese'>
 ```
 
 Added in v2.7.0
+
+## ~~getSemigroup~~
+
+Use `Apply.getApplySemigroup` instead.
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <E, A>(SE: Semigroup<E>, SA: Semigroup<A>) => Semigroup<TaskThese<E, A>>
+```
+
+Added in v2.4.0
 
 ## ~~taskThese~~
 
