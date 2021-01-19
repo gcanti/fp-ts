@@ -4,8 +4,9 @@ import * as C from '../src/Const'
 import * as E from '../src/Either'
 import { fold, monoidSum } from '../src/Monoid'
 import * as O from '../src/Option'
-import { pipeable, pipe } from '../src/pipeable'
+import { pipeable } from '../src/pipeable'
 import * as R from '../src/Reader'
+import { pipe } from '../src/function'
 
 describe('pipeable', () => {
   it('{}', () => {
