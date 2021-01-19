@@ -582,32 +582,6 @@ export function getAltReaderTaskValidation<E>(S: Semigroup<E>): Alt3C<URI, E> {
   }
 }
 
-// TODO: remove in v3
-/**
- * @category instances
- * @since 2.3.0
- */
-export function getReaderTaskValidation<E>(
-  SE: Semigroup<E>
-): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadTask3C<URI, E> & MonadThrow3C<URI, E> {
-  const applicativeReaderTaskValidation = getApplicativeReaderTaskValidation(T.ApplicativePar, SE)
-  const altReaderTaskValidation = getAltReaderTaskValidation(SE)
-  return {
-    URI,
-    _E: undefined as any,
-    map: _map,
-    of,
-    chain: _chain,
-    bimap: _bimap,
-    mapLeft: _mapLeft,
-    ap: applicativeReaderTaskValidation.ap,
-    alt: altReaderTaskValidation.alt,
-    fromIO,
-    fromTask,
-    throwError
-  }
-}
-
 /**
  * @category instances
  * @since 2.7.0
@@ -993,3 +967,31 @@ export const getApplyMonoid: <R, E, A>(M: Monoid<A>) => Monoid<ReaderTaskEither<
  */
 export const getSemigroup = <R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEither<R, E, A>> =>
   getApplySemigroup_(RT.ApplySeq)(E.getSemigroup(S))
+
+/**
+ * Use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead.
+ *
+ * @category instances
+ * @since 2.3.0
+ * @deprecated
+ */
+export function getReaderTaskValidation<E>(
+  SE: Semigroup<E>
+): Monad3C<URI, E> & Bifunctor3<URI> & Alt3C<URI, E> & MonadTask3C<URI, E> & MonadThrow3C<URI, E> {
+  const applicativeReaderTaskValidation = getApplicativeReaderTaskValidation(T.ApplicativePar, SE)
+  const altReaderTaskValidation = getAltReaderTaskValidation(SE)
+  return {
+    URI,
+    _E: undefined as any,
+    map: _map,
+    of,
+    chain: _chain,
+    bimap: _bimap,
+    mapLeft: _mapLeft,
+    ap: applicativeReaderTaskValidation.ap,
+    alt: altReaderTaskValidation.alt,
+    fromIO,
+    fromTask,
+    throwError
+  }
+}

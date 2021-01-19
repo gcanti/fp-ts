@@ -101,13 +101,13 @@ Added in v2.0.0
   - [getFilterable](#getfilterable)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
-  - [getValidation](#getvalidation)
   - [getWitherable](#getwitherable)
   - [~~either~~](#either)
   - [~~getApplyMonoid~~](#getapplymonoid)
   - [~~getApplySemigroup~~](#getapplysemigroup)
   - [~~getValidationMonoid~~](#getvalidationmonoid)
   - [~~getValidationSemigroup~~](#getvalidationsemigroup)
+  - [~~getValidation~~](#getvalidation)
 - [model](#model)
   - [Either (type alias)](#either-type-alias)
   - [Left (interface)](#left-interface)
@@ -1169,25 +1169,6 @@ export declare function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, 
 
 Added in v2.0.0
 
-## getValidation
-
-**Signature**
-
-```ts
-export declare function getValidation<E>(
-  SE: Semigroup<E>
-): Monad2C<URI, E> &
-  Foldable2<URI> &
-  Traversable2<URI> &
-  Bifunctor2<URI> &
-  Alt2C<URI, E> &
-  Extend2<URI> &
-  ChainRec2C<URI, E> &
-  MonadThrow2C<URI, E>
-```
-
-Added in v2.0.0
-
 ## getWitherable
 
 Builds `Witherable` instance for `Either` given `Monoid` for the left side
@@ -1279,6 +1260,27 @@ Use `Apply.getApplySemigroup` instead.
 
 ```ts
 export declare const getValidationSemigroup: <E, A>(SE: Semigroup<E>, SA: Semigroup<A>) => Semigroup<Either<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~getValidation~~
+
+Use `getApplicativeValidation` and `getAltValidation` instead.
+
+**Signature**
+
+```ts
+export declare function getValidation<E>(
+  SE: Semigroup<E>
+): Monad2C<URI, E> &
+  Foldable2<URI> &
+  Traversable2<URI> &
+  Bifunctor2<URI> &
+  Alt2C<URI, E> &
+  Extend2<URI> &
+  ChainRec2C<URI, E> &
+  MonadThrow2C<URI, E>
 ```
 
 Added in v2.0.0
