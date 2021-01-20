@@ -98,12 +98,12 @@ Added in v2.0.0
   - [evaluate](#evaluate)
   - [execute](#execute)
   - [filterOrElseW](#filterorelsew)
-  - [run](#run)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [~~evalState~~](#evalstate)
   - [~~execState~~](#execstate)
+  - [~~run~~](#run)
 
 ---
 
@@ -1038,16 +1038,6 @@ export declare const filterOrElseW: {
 
 Added in v2.9.0
 
-## run
-
-**Signature**
-
-```ts
-export declare function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: R): Promise<Either<E, [A, S]>>
-```
-
-Added in v2.0.0
-
 ## sequenceArray
 
 **Signature**
@@ -1110,6 +1100,16 @@ export declare const execState: <S, R, E, A>(
   ma: StateReaderTaskEither<S, R, E, A>,
   s: S
 ) => RTE.ReaderTaskEither<R, E, S>
+```
+
+Added in v2.0.0
+
+## ~~run~~
+
+**Signature**
+
+```ts
+export declare function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: R): Promise<Either<E, [A, S]>>
 ```
 
 Added in v2.0.0
