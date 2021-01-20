@@ -14,6 +14,7 @@
 import { Applicative1, getApplicativeMonoid } from './Applicative'
 import { apFirst_, Apply1, apSecond_, apS_, getApplySemigroup } from './Apply'
 import { ChainRec1 } from './ChainRec'
+import { FromIO1 } from './FromIO'
 import { constant, identity } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { bind_, chainFirst_, Monad1 } from './Monad'
@@ -95,10 +96,10 @@ export const flatten: <A>(mma: IO<IO<A>>) => IO<A> =
   chain(identity)
 
 /**
- * @category MonadIO
+ * @category FromIO
  * @since 2.7.0
  */
-export const fromIO: MonadIO1<URI>['fromIO'] = identity
+export const fromIO: FromIO1<URI>['fromIO'] = identity
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -234,6 +235,15 @@ export const ChainRec: ChainRec1<URI> = {
   ap: _ap,
   chain: _chain,
   chainRec: _chainRec
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromIO: FromIO1<URI> = {
+  URI,
+  fromIO: identity
 }
 
 // -------------------------------------------------------------------------------------

@@ -12,6 +12,7 @@
  */
 import { Applicative1, getApplicativeMonoid } from './Applicative'
 import { apFirst_, Apply1, apSecond_, apS_, getApplySemigroup as getApplySemigroup_ } from './Apply'
+import { FromIO1 } from './FromIO'
 import { identity, pipe } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { IO } from './IO'
@@ -38,10 +39,10 @@ export interface Task<A> {
 // -------------------------------------------------------------------------------------
 
 /**
- * @category constructors
+ * @category FromIO
  * @since 2.0.0
  */
-export const fromIO: <A>(ma: IO<A>) => Task<A> = (ma) => () => Promise.resolve(ma())
+export const fromIO: FromIO1<URI>['fromIO'] = (ma) => () => Promise.resolve(ma())
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -322,6 +323,15 @@ export const Monad: Monad1<URI> = {
 export const chainFirst =
   /*#__PURE__*/
   chainFirst_(Monad)
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromIO: FromIO1<URI> = {
+  URI,
+  fromIO
+}
 
 // -------------------------------------------------------------------------------------
 // utils

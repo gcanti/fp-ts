@@ -7,11 +7,12 @@ import { Applicative1 } from './Applicative'
 import { apFirst_, Apply1, apSecond_ } from './Apply'
 import { Compactable1, compact_, separate_ } from './Compactable'
 import { Filterable1, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
-import { MonadIO1 } from './MonadIO'
-import { MonadTask1 } from './MonadTask'
+import { FromIO1 } from './FromIO'
 import { flow, identity, Lazy, pipe, Predicate } from './function'
 import { Functor1 } from './Functor'
 import { chainFirst_, Monad1 } from './Monad'
+import { MonadIO1 } from './MonadIO'
+import { MonadTask1 } from './MonadTask'
 import * as O from './Option'
 import * as OT from './OptionT'
 import { Pointed1 } from './Pointed'
@@ -91,10 +92,10 @@ export const tryCatch: <A>(f: Lazy<Promise<A>>) => TaskOption<A> = (f) => () =>
   )
 
 /**
- * @category constructors
+ * @category FromIO
  * @since 2.10.0
  */
-export const fromIO: MonadIO1<URI>['fromIO'] = (ma) => fromTask(T.fromIO(ma))
+export const fromIO: FromIO1<URI>['fromIO'] = (ma) => fromTask(T.fromIO(ma))
 
 /**
  * @category constructors
@@ -491,6 +492,15 @@ export const Filterable: Filterable1<URI> = {
   filterMap: _filterMap,
   partition: _partition,
   partitionMap: _partitionMap
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromIO: FromIO1<URI> = {
+  URI,
+  fromIO
 }
 
 // -------------------------------------------------------------------------------------

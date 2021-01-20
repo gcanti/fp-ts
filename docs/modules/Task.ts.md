@@ -1,6 +1,6 @@
 ---
 title: Task.ts
-nav_order: 88
+nav_order: 89
 parent: Modules
 ---
 
@@ -23,6 +23,8 @@ Added in v2.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
+- [FromIO](#fromio)
+  - [fromIO](#fromio)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -39,13 +41,12 @@ Added in v2.0.0
   - [delay](#delay)
   - [flatten](#flatten)
   - [fromIOK](#fromiok)
-- [constructors](#constructors)
-  - [fromIO](#fromio)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
+  - [FromIO](#fromio-1)
   - [Functor](#functor-1)
   - [Pointed](#pointed-1)
   - [URI](#uri)
@@ -82,6 +83,18 @@ Apply a function to an argument under a type constructor.
 
 ```ts
 export declare const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B>
+```
+
+Added in v2.0.0
+
+# FromIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A>(fa: IO<A>) => Task<A>
 ```
 
 Added in v2.0.0
@@ -251,18 +264,6 @@ export declare function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A
 
 Added in v2.4.0
 
-# constructors
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(ma: IO<A>) => Task<A>
-```
-
-Added in v2.0.0
-
 # instances
 
 ## ApplicativePar
@@ -301,6 +302,16 @@ Added in v2.10.0
 
 ```ts
 export declare const ApplySeq: Apply1<'Task'>
+```
+
+Added in v2.10.0
+
+## FromIO
+
+**Signature**
+
+```ts
+export declare const FromIO: FromIO1<'Task'>
 ```
 
 Added in v2.10.0

@@ -1,6 +1,6 @@
 ---
 title: MonadIO.ts
-nav_order: 52
+nav_order: 53
 parent: Modules
 ---
 
@@ -32,9 +32,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface MonadIO<M> extends Monad<M> {
-  readonly fromIO: <A>(fa: IO<A>) => HKT<M, A>
-}
+export interface MonadIO<M> extends Monad<M>, FromIO<M> {}
 ```
 
 Added in v2.0.0
@@ -44,9 +42,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface MonadIO1<M extends URIS> extends Monad1<M> {
-  readonly fromIO: <A>(fa: IO<A>) => Kind<M, A>
-}
+export interface MonadIO1<M extends URIS> extends Monad1<M>, FromIO1<M> {}
 ```
 
 Added in v2.0.0
@@ -56,9 +52,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface MonadIO2<M extends URIS2> extends Monad2<M> {
-  readonly fromIO: <E, A>(fa: IO<A>) => Kind2<M, E, A>
-}
+export interface MonadIO2<M extends URIS2> extends Monad2<M>, FromIO2<M> {}
 ```
 
 Added in v2.0.0
@@ -68,9 +62,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface MonadIO2C<M extends URIS2, E> extends Monad2C<M, E> {
-  readonly fromIO: <A>(fa: IO<A>) => Kind2<M, E, A>
-}
+export interface MonadIO2C<M extends URIS2, E> extends Monad2C<M, E>, FromIO2C<M, E> {}
 ```
 
 Added in v2.0.0
@@ -80,9 +72,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface MonadIO3<M extends URIS3> extends Monad3<M> {
-  readonly fromIO: <R, E, A>(fa: IO<A>) => Kind3<M, R, E, A>
-}
+export interface MonadIO3<M extends URIS3> extends Monad3<M>, FromIO3<M> {}
 ```
 
 Added in v2.0.0
@@ -92,9 +82,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface MonadIO3C<M extends URIS3, E> extends Monad3C<M, E> {
-  readonly fromIO: <R, A>(fa: IO<A>) => Kind3<M, R, E, A>
-}
+export interface MonadIO3C<M extends URIS3, E> extends Monad3C<M, E>, FromIO3C<M, E> {}
 ```
 
 Added in v2.2.0
@@ -104,9 +92,7 @@ Added in v2.2.0
 **Signature**
 
 ```ts
-export interface MonadIO4<M extends URIS4> extends Monad4<M> {
-  readonly fromIO: <S, R, E, A>(fa: IO<A>) => Kind4<M, S, R, E, A>
-}
+export interface MonadIO4<M extends URIS4> extends Monad4<M>, FromIO4<M> {}
 ```
 
 Added in v2.4.4
