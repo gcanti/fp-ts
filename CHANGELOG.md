@@ -153,6 +153,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
     - add `FromEither` instance (@gcanti)
+    - add `getCompactable` (@gcanti)
+    - add `getFilterable` (@gcanti)
   - `ReaderTask`
     - add `Pointed` instance (@gcanti)
     - add `ApplyPar` instance (@gcanti)
@@ -166,6 +168,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `FromIO` instance (@gcanti)
     - add `FromTask` instance (@gcanti)
     - add `FromEither` instance (@gcanti)
+    - add `getCompactable` (@gcanti)
+    - add `getFilterable` (@gcanti)
   - `ReadonlyArray`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)

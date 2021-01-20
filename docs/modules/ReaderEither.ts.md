@@ -72,6 +72,8 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getAltReaderValidation](#getaltreadervalidation)
   - [getApplicativeReaderValidation](#getapplicativereadervalidation)
+  - [getCompactable](#getcompactable)
+  - [getFilterable](#getfilterable)
   - [~~getApplyMonoid~~](#getapplymonoid)
   - [~~getApplySemigroup~~](#getapplysemigroup)
   - [~~getReaderValidation~~](#getreadervalidation)
@@ -699,6 +701,26 @@ export declare function getApplicativeReaderValidation<E>(S: Semigroup<E>): Appl
 ```
 
 Added in v2.7.0
+
+## getCompactable
+
+**Signature**
+
+```ts
+export declare const getCompactable: <E>(M: Monoid<E>) => Compactable3C<'ReaderEither', E>
+```
+
+Added in v2.10.0
+
+## getFilterable
+
+**Signature**
+
+```ts
+export declare function getFilterable<E>(M: Monoid<E>): Filterable3C<URI, E>
+```
+
+Added in v2.10.0
 
 ## ~~getApplyMonoid~~
 
