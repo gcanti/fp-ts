@@ -25,7 +25,7 @@ Added in v3.0.0
   - [rightF\_](#rightf_)
   - [right\_](#right_)
   - [swap\_](#swap_)
-  - [toTuple\_](#totuple_)
+  - [toReadonlyTuple2\_](#toreadonlytuple2_)
 
 ---
 
@@ -235,18 +235,18 @@ export declare function swap_<F>(F: Functor<F>): <E, A>(ma: HKT<F, These<E, A>>)
 
 Added in v3.0.0
 
-## toTuple\_
+## toReadonlyTuple2\_
 
 **Signature**
 
 ```ts
-export declare function toTuple_<F extends URIS2>(
+export declare function toReadonlyTuple2_<F extends URIS2>(
   F: Functor2<F>
 ): <E, A>(e: Lazy<E>, a: Lazy<A>) => <FE>(fa: Kind2<F, FE, These<E, A>>) => Kind2<F, FE, readonly [E, A]>
-export declare function toTuple_<F extends URIS>(
+export declare function toReadonlyTuple2_<F extends URIS>(
   F: Functor1<F>
 ): <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: Kind<F, These<E, A>>) => Kind<F, readonly [E, A]>
-export declare function toTuple_<F>(
+export declare function toReadonlyTuple2_<F>(
   F: Functor<F>
 ): <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: HKT<F, These<E, A>>) => HKT<F, readonly [E, A]>
 ```

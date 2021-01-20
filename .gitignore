@@ -4,4 +4,4 @@ node_modules
 dev
 .idea
 coverage
-docs-examples
+docs/examples

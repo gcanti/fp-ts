@@ -233,17 +233,17 @@ export function swap_<F>(F: Functor<F>): <E, A>(ma: HKT<F, These<E, A>>) => HKT<
 /**
  * @since 3.0.0
  */
-export function toTuple_<F extends URIS2>(
+export function toReadonlyTuple2_<F extends URIS2>(
   F: Functor2<F>
 ): <E, A>(e: Lazy<E>, a: Lazy<A>) => <FE>(fa: Kind2<F, FE, These<E, A>>) => Kind2<F, FE, readonly [E, A]>
-export function toTuple_<F extends URIS>(
+export function toReadonlyTuple2_<F extends URIS>(
   F: Functor1<F>
 ): <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: Kind<F, These<E, A>>) => Kind<F, readonly [E, A]>
-export function toTuple_<F>(
+export function toReadonlyTuple2_<F>(
   F: Functor<F>
 ): <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: HKT<F, These<E, A>>) => HKT<F, readonly [E, A]>
-export function toTuple_<F>(
+export function toReadonlyTuple2_<F>(
   F: Functor<F>
 ): <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: HKT<F, These<E, A>>) => HKT<F, readonly [E, A]> {
-  return flow(T.toTuple, F.map)
+  return flow(T.toReadonlyTuple2, F.map)
 }

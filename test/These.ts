@@ -205,8 +205,8 @@ describe('These', () => {
   // utils
   // -------------------------------------------------------------------------------------
 
-  it('toTuple', () => {
-    const f = _.toTuple(
+  it('toReadonlyTuple2', () => {
+    const f = _.toReadonlyTuple2(
       () => 'a',
       () => 1
     )

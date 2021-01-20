@@ -88,10 +88,8 @@ export function getApplicativeMonoid<F extends URIS>(F: Applicative1<F>): <A>(M:
 export function getApplicativeMonoid<F>(F: Applicative<F>): <A>(M: Monoid<A>) => Monoid<HKT<F, A>>
 export function getApplicativeMonoid<F>(F: Applicative<F>): <A>(M: Monoid<A>) => Monoid<HKT<F, A>> {
   const f = getApplySemigroup(F)
-  return <A>(M: Monoid<A>) => {
-    return {
-      concat: f(M).concat,
-      empty: F.of(M.empty)
-    }
-  }
+  return <A>(M: Monoid<A>) => ({
+    concat: f(M).concat,
+    empty: F.of(M.empty)
+  })
 }

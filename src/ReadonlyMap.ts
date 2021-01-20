@@ -640,24 +640,22 @@ export const getTraversable = <K>(O: Ord<K>): Traversable2C<URI, K> => {
  */
 export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<URI, K, K> => {
   const keysO = keys(O)
-  const traverseWithIndex = <F>(
-    F: Applicative<F>
-  ): (<A, B>(f: (k: K, a: A) => HKT<F, B>) => (ta: ReadonlyMap<K, A>) => HKT<F, ReadonlyMap<K, B>>) => {
-    return <A, B>(f: (k: K, a: A) => HKT<F, B>) => (ta: ReadonlyMap<K, A>) => {
-      let fm: HKT<F, ReadonlyMap<K, B>> = F.of(empty)
-      const ks = keysO(ta)
-      const len = ks.length
-      for (let i = 0; i < len; i++) {
-        const key = ks[i]
-        const a = ta.get(key)!
-        fm = pipe(
-          fm,
-          F.map((m) => (b: B) => new Map(m).set(key, b)),
-          F.ap(f(key, a))
-        )
-      }
-      return fm
+  const traverseWithIndex = <F>(F: Applicative<F>) => <A, B>(f: (k: K, a: A) => HKT<F, B>) => (
+    ta: ReadonlyMap<K, A>
+  ): HKT<F, ReadonlyMap<K, B>> => {
+    let fm: HKT<F, ReadonlyMap<K, B>> = F.of(empty)
+    const ks = keysO(ta)
+    const len = ks.length
+    for (let i = 0; i < len; i++) {
+      const key = ks[i]
+      const a = ta.get(key)!
+      fm = pipe(
+        fm,
+        F.map((m) => (b: B) => new Map(m).set(key, b)),
+        F.ap(f(key, a))
+      )
     }
+    return fm
   }
   return {
     URI,

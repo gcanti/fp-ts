@@ -52,7 +52,7 @@ Added in v3.0.0
 - [model](#model)
   - [TaskThese (interface)](#taskthese-interface)
 - [utils](#utils)
-  - [toTuple](#totuple)
+  - [toReadonlyTuple2](#toreadonlytuple2)
 
 ---
 
@@ -402,12 +402,15 @@ Added in v3.0.0
 
 # utils
 
-## toTuple
+## toReadonlyTuple2
 
 **Signature**
 
 ```ts
-export declare const toTuple: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: T.Task<TH.These<E, A>>) => T.Task<readonly [E, A]>
+export declare const toReadonlyTuple2: <E, A>(
+  e: Lazy<E>,
+  a: Lazy<A>
+) => (fa: T.Task<TH.These<E, A>>) => T.Task<readonly [E, A]>
 ```
 
 Added in v3.0.0

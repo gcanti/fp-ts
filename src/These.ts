@@ -506,16 +506,16 @@ export const Traversable: Traversable2<URI> = {
 
 /**
  * @example
- * import { toTuple, left, right, both } from 'fp-ts/These'
+ * import { toReadonlyTuple2, left, right, both } from 'fp-ts/These'
  *
- * const f = toTuple(() => 'a', () => 1)
+ * const f = toReadonlyTuple2(() => 'a', () => 1)
  * assert.deepStrictEqual(f(left('b')), ['b', 1])
  * assert.deepStrictEqual(f(right(2)), ['a', 2])
  * assert.deepStrictEqual(f(both('b', 2)), ['b', 2])
  *
  * @since 3.0.0
  */
-export const toTuple = <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>): readonly [E, A] =>
+export const toReadonlyTuple2 = <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>): readonly [E, A] =>
   isLeft(fa) ? [fa.left, a()] : isRight(fa) ? [e(), fa.right] : [fa.left, fa.right]
 
 /**

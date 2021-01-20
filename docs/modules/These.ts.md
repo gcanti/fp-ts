@@ -82,7 +82,7 @@ Added in v3.0.0
   - [getRight](#getright)
   - [getRightOnly](#getrightonly)
   - [sequence](#sequence)
-  - [toTuple](#totuple)
+  - [toReadonlyTuple2](#toreadonlytuple2)
   - [traverse](#traverse)
 
 ---
@@ -633,20 +633,20 @@ export declare const sequence: Sequence2<'These'>
 
 Added in v3.0.0
 
-## toTuple
+## toReadonlyTuple2
 
 **Signature**
 
 ```ts
-export declare const toTuple: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>) => readonly [E, A]
+export declare const toReadonlyTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>) => readonly [E, A]
 ```
 
 **Example**
 
 ```ts
-import { toTuple, left, right, both } from 'fp-ts/These'
+import { toReadonlyTuple2, left, right, both } from 'fp-ts/These'
 
-const f = toTuple(
+const f = toReadonlyTuple2(
   () => 'a',
   () => 1
 )
