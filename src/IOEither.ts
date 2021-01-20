@@ -144,6 +144,17 @@ export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> =
   ET.swap_(I.Functor)
 
 /**
+ * Converts a function that may throw to one returning a `IOEither`.
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
+  f: (...a: A) => B,
+  onError: (reason: unknown) => E
+): ((...a: A) => IOEither<unknown, B>) => (...a) => tryCatch(() => f(...a), onError)
+
+/**
  * @category combinators
  * @since 2.4.0
  */
