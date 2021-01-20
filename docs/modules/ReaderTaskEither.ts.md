@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskEither.ts
-nav_order: 71
+nav_order: 72
 parent: Modules
 ---
 
@@ -21,10 +21,6 @@ Added in v2.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
-- [FromIO](#fromio)
-  - [fromIO](#fromio)
-- [FromTask](#fromtask)
-  - [fromTask](#fromtask)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -57,10 +53,12 @@ Added in v2.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [fromEither](#fromeither)
+  - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [fromReaderEither](#fromreadereither)
+  - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
   - [left](#left)
   - [leftIO](#leftio)
@@ -83,8 +81,9 @@ Added in v2.0.0
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
-  - [FromIO](#fromio-1)
-  - [FromTask](#fromtask-1)
+  - [FromEither](#fromeither)
+  - [FromIO](#fromio)
+  - [FromTask](#fromtask)
   - [Functor](#functor-1)
   - [Pointed](#pointed-1)
   - [URI](#uri)
@@ -206,30 +205,6 @@ Map a function over the second type argument of a bifunctor.
 export declare const mapLeft: <E, G>(
   f: (e: E) => G
 ) => <R, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A>
-```
-
-Added in v2.0.0
-
-# FromIO
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <R, E, A>(fa: IO<A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v2.0.0
-
-# FromTask
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <R, E, A>(fa: T.Task<A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -571,12 +546,20 @@ Added in v2.0.0
 
 ## fromEither
 
-Derivable from `MonadThrow`.
+**Signature**
+
+```ts
+export declare const fromEither: <R, E, A>(e: E.Either<E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.0.0
+
+## fromIO
 
 **Signature**
 
 ```ts
-export declare const fromEither: <R, E, A>(ma: E.Either<E, A>) => ReaderTaskEither<R, E, A>
+export declare const fromIO: <R, E, A>(fa: IO<A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -593,8 +576,6 @@ Added in v2.0.0
 
 ## fromOption
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
@@ -605,13 +586,11 @@ Added in v2.0.0
 
 ## fromPredicate
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
 export declare const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => ReaderTaskEither<U, E, B>
+  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => ReaderTaskEither<R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderTaskEither<R, E, A>
 }
 ```
@@ -624,6 +603,16 @@ Added in v2.0.0
 
 ```ts
 export declare const fromReaderEither: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.0.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <R, E, A>(fa: T.Task<A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -840,6 +829,16 @@ export declare const Bifunctor: Bifunctor3<'ReaderTaskEither'>
 ```
 
 Added in v2.7.0
+
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither3<'ReaderTaskEither'>
+```
+
+Added in v2.10.0
 
 ## FromIO
 

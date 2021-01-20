@@ -60,6 +60,22 @@ export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> =
   /*#__PURE__*/
   RT.asks_(T.Pointed)
 
+/**
+ * @category constructors
+ * @since 2.3.0
+ */
+export const fromTask: FromTask2<URI>['fromTask'] =
+  /*#__PURE__*/
+  R.of
+
+/**
+ * @category constructors
+ * @since 2.3.0
+ */
+export const fromIO: FromIO2<URI>['fromIO'] =
+  /*#__PURE__*/
+  flow(T.fromIO, fromTask)
+
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
@@ -188,22 +204,6 @@ export const chainW: <R, A, B>(
 export const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => ReaderTask<R, A> =
   /*#__PURE__*/
   chain(identity)
-
-/**
- * @category FromTask
- * @since 2.3.0
- */
-export const fromTask: FromTask2<URI>['fromTask'] =
-  /*#__PURE__*/
-  R.of
-
-/**
- * @category FromIO
- * @since 2.3.0
- */
-export const fromIO: FromIO2<URI>['fromIO'] =
-  /*#__PURE__*/
-  flow(T.fromIO, fromTask)
 
 // -------------------------------------------------------------------------------------
 // instances

@@ -12,6 +12,7 @@ import { Compactable2C, compact_, separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
 import { Filterable2C, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
+import { FromEither2, fromOption_, fromPredicate_ } from './FromEither'
 import { FromIO2 } from './FromIO'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor2 } from './Functor'
@@ -20,7 +21,6 @@ import { bind_, chainFirst_, Monad2, Monad2C } from './Monad'
 import { MonadIO2, MonadIO2C } from './MonadIO'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
-import { Option } from './Option'
 import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 
@@ -74,34 +74,10 @@ export const leftIO: <E = never, A = never>(me: IO<E>) => IOEither<E, A> =
   ET.leftF_(I.Functor)
 
 /**
- * Derivable from `MonadThrow`.
- *
  * @category constructors
  * @since 2.0.0
  */
-export const fromEither: <E, A>(ma: E.Either<E, A>) => IOEither<E, A> =
-  /*#__PURE__*/
-  E.fold(left, (a) => right(a))
-
-/**
- * Derivable from `MonadThrow`.
- *
- * @category constructors
- * @since 2.0.0
- */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => IOEither<E, A> = (onNone) => (ma) =>
-  ma._tag === 'None' ? left(onNone()) : right(ma.value)
-
-/**
- * Derivable from `MonadThrow`.
- *
- * @category constructors
- * @since 2.0.0
- */
-export const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => IOEither<E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (a: A) => (predicate(a) ? right(a) : left(onFalse(a)))
+export const fromEither: FromEither2<URI>['fromEither'] = I.of
 
 /**
  * Constructs a new `IOEither` from a function that performs a side effect and might throw
@@ -112,6 +88,12 @@ export const fromPredicate: {
 export function tryCatch<E, A>(f: Lazy<A>, onError: (reason: unknown) => E): IOEither<E, A> {
   return () => E.tryCatch(f, onError)
 }
+
+/**
+ * @category constructors
+ * @since 2.7.0
+ */
+export const fromIO: FromIO2<URI>['fromIO'] = rightIO
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -344,12 +326,6 @@ export const alt: <E, A>(that: Lazy<IOEither<E, A>>) => (fa: IOEither<E, A>) => 
 export const altW: <E2, B>(
   that: Lazy<IOEither<E2, B>>
 ) => <E1, A>(fa: IOEither<E1, A>) => IOEither<E1 | E2, A | B> = alt as any
-
-/**
- * @category FromIO
- * @since 2.7.0
- */
-export const fromIO: FromIO2<URI>['fromIO'] = rightIO
 
 /**
  * @category MonadThrow
@@ -613,6 +589,31 @@ export const FromIO: FromIO2<URI> = {
   URI,
   fromIO
 }
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromEither: FromEither2<URI> = {
+  URI,
+  fromEither
+}
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
+export const fromOption =
+  /*#__PURE__*/
+  fromOption_(FromEither)
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
+export const fromPredicate =
+  /*#__PURE__*/
+  fromPredicate_(FromEither)
 
 // -------------------------------------------------------------------------------------
 // utils

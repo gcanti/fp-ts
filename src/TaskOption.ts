@@ -7,6 +7,7 @@ import { Applicative1 } from './Applicative'
 import { apFirst_, Apply1, apSecond_ } from './Apply'
 import { Compactable1, compact_, separate_ } from './Compactable'
 import { Filterable1, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
+import { FromEither1 } from './FromEither'
 import { FromIO1 } from './FromIO'
 import { FromTask1 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate } from './function'
@@ -93,13 +94,13 @@ export const tryCatch: <A>(f: Lazy<Promise<A>>) => TaskOption<A> = (f) => () =>
   )
 
 /**
- * @category FromIO
+ * @category constructors
  * @since 2.10.0
  */
 export const fromIO: FromIO1<URI>['fromIO'] = (ma) => fromTask(T.fromIO(ma))
 
 /**
- * @category FromTask
+ * @category constructors
  * @since 2.10.0
  */
 export const fromTask: FromTask1<URI>['fromTask'] =
@@ -493,6 +494,15 @@ export const Filterable: Filterable1<URI> = {
   filterMap: _filterMap,
   partition: _partition,
   partitionMap: _partitionMap
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromEither: FromEither1<URI> = {
+  URI,
+  fromEither
 }
 
 /**
