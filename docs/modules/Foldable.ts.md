@@ -32,9 +32,10 @@ Added in v2.0.0
   - [getFoldableComposition](#getfoldablecomposition)
   - [intercalate](#intercalate)
   - [reduceM](#reducem)
-  - [toArray](#toarray)
+  - [toReadonlyArray](#toreadonlyarray)
   - [traverse\_](#traverse_)
   - [~~foldM~~](#foldm)
+  - [~~toArray~~](#toarray)
 
 ---
 
@@ -405,37 +406,43 @@ assert.deepStrictEqual(
 
 Added in v2.8.0
 
-## toArray
+## toReadonlyArray
 
-Transforms a `Foldable` into a read-only array.
+Transforms a `Foldable` into a `toReadonlyArray`.
 
 **Signature**
 
 ```ts
-export declare function toArray<F extends URIS4>(
+export declare function toReadonlyArray<F extends URIS4>(
   F: Foldable4<F>
 ): <S, R, E, A>(fa: Kind4<F, S, R, E, A>) => ReadonlyArray<A>
-export declare function toArray<F extends URIS3>(F: Foldable3<F>): <R, E, A>(fa: Kind3<F, R, E, A>) => ReadonlyArray<A>
-export declare function toArray<F extends URIS3, E>(
+export declare function toReadonlyArray<F extends URIS3>(
+  F: Foldable3<F>
+): <R, E, A>(fa: Kind3<F, R, E, A>) => ReadonlyArray<A>
+export declare function toReadonlyArray<F extends URIS3, E>(
   F: Foldable3C<F, E>
 ): <R, A>(fa: Kind3<F, R, E, A>) => ReadonlyArray<A>
-export declare function toArray<F extends URIS2>(F: Foldable2<F>): <E, A>(fa: Kind2<F, E, A>) => ReadonlyArray<A>
-export declare function toArray<F extends URIS2, E>(F: Foldable2C<F, E>): <A>(fa: Kind2<F, E, A>) => ReadonlyArray<A>
-export declare function toArray<F extends URIS>(F: Foldable1<F>): <A>(fa: Kind<F, A>) => ReadonlyArray<A>
-export declare function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => ReadonlyArray<A>
+export declare function toReadonlyArray<F extends URIS2>(
+  F: Foldable2<F>
+): <E, A>(fa: Kind2<F, E, A>) => ReadonlyArray<A>
+export declare function toReadonlyArray<F extends URIS2, E>(
+  F: Foldable2C<F, E>
+): <A>(fa: Kind2<F, E, A>) => ReadonlyArray<A>
+export declare function toReadonlyArray<F extends URIS>(F: Foldable1<F>): <A>(fa: Kind<F, A>) => ReadonlyArray<A>
+export declare function toReadonlyArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => ReadonlyArray<A>
 ```
 
 **Example**
 
 ```ts
-import { toArray } from 'fp-ts/Foldable'
+import { toReadonlyArray } from 'fp-ts/Foldable'
 import { tree, make } from 'fp-ts/Tree'
 
 const t = make(1, [make(2, []), make(3, []), make(4, [])])
-assert.deepStrictEqual(toArray(tree)(t), [1, 2, 3, 4])
+assert.deepStrictEqual(toReadonlyArray(tree)(t), [1, 2, 3, 4])
 ```
 
-Added in v2.8.0
+Added in v2.10.0
 
 ## traverse\_
 
@@ -516,3 +523,15 @@ export declare function foldM<M, F>(
 ```
 
 Added in v2.0.0
+
+## ~~toArray~~
+
+Use `toReadonlyArray` instead
+
+**Signature**
+
+```ts
+export declare const toArray: typeof toReadonlyArray
+```
+
+Added in v2.8.0
