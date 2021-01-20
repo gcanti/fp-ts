@@ -617,7 +617,7 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) 
  */
 export const compact: <A>(fa: Option<Option<A>>) => Option<A> = flatten
 
-const defaultSeparate = { left: none, right: none }
+const defaultSeparated = { left: none, right: none }
 
 /**
  * @category Compactable
@@ -631,7 +631,7 @@ export const separate: <A, B>(ma: Option<Either<A, B>>) => Separated<Option<A>, 
       right: getRight(e)
     }))
   )
-  return isNone(o) ? defaultSeparate : o.value
+  return isNone(o) ? defaultSeparated : o.value
 }
 
 /**

@@ -99,6 +99,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Compactable`
     - add `compact_` helper (@gcanti)
     - add `separate_` helper (@gcanti)
+    - add `separated` constructor (@gcanti)
   - `Filterable`
     - add `filter_` helper (@gcanti)
     - add `filterMap_` helper (@gcanti)
