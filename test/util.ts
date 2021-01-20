@@ -1,58 +1,35 @@
 import * as assert from 'assert'
 import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply4, sequenceT } from '../src/Apply'
+import { FromTask, FromTask1, FromTask2, FromTask3, FromTask4 } from '../src/FromTask'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from '../src/HKT'
 import * as T from '../src/Task'
 
 export interface AssertParSeq {
   <F extends URIS4>(
     F: Apply4<F>,
-    MT: {
-      readonly fromTask: <S, R, E, A>(fa: T.Task<A>) => Kind4<F, S, R, E, A>
-    },
+    MT: FromTask4<F>,
     run: (fa: Kind4<F, unknown, unknown, unknown, unknown>) => Promise<unknown>
   ): Promise<void>
   <F extends URIS3>(
     F: Apply3<F>,
-    MT: {
-      readonly fromTask: <R, E, A>(fa: T.Task<A>) => Kind3<F, R, E, A>
-    },
+    MT: FromTask3<F>,
     run: (fa: Kind3<F, unknown, unknown, unknown>) => Promise<unknown>
   ): Promise<void>
-  <F extends URIS2>(
-    F: Apply2<F>,
-    MT: {
-      readonly fromTask: <E, A>(fa: T.Task<A>) => Kind2<F, E, A>
-    },
-    run: (fa: Kind2<F, unknown, unknown>) => Promise<unknown>
-  ): Promise<void>
+  <F extends URIS2>(F: Apply2<F>, MT: FromTask2<F>, run: (fa: Kind2<F, unknown, unknown>) => Promise<unknown>): Promise<
+    void
+  >
   <F extends URIS2, E>(
     F: Apply2C<F, E>,
-    MT: {
-      readonly fromTask: <A>(fa: T.Task<A>) => Kind2<F, E, A>
-    },
+    MT: FromTask2<F>,
     run: (fa: Kind2<F, E, unknown>) => Promise<unknown>
   ): Promise<void>
-  <F extends URIS>(
-    F: Apply1<F>,
-    MT: {
-      readonly fromTask: <A>(fa: T.Task<A>) => Kind<F, A>
-    },
-    run: (fa: Kind<F, unknown>) => Promise<unknown>
-  ): Promise<void>
-  <F>(
-    F: Apply<F>,
-    MT: {
-      readonly fromTask: <A>(fa: T.Task<A>) => HKT<F, A>
-    },
-    run: (fa: HKT<F, unknown>) => Promise<unknown>
-  ): Promise<void>
+  <F extends URIS>(F: Apply1<F>, MT: FromTask1<F>, run: (fa: Kind<F, unknown>) => Promise<unknown>): Promise<void>
+  <F>(F: Apply<F>, MT: FromTask<F>, run: (fa: HKT<F, unknown>) => Promise<unknown>): Promise<void>
 }
 
 export const assertParSeq = (expected: ReadonlyArray<string>): AssertParSeq => async <F>(
   F: Apply<F>,
-  MT: {
-    readonly fromTask: <A>(fa: T.Task<A>) => HKT<F, A>
-  },
+  MT: FromTask<F>,
   run: (fa: HKT<F, unknown>) => Promise<unknown>
 ) => {
   // tslint:disable-next-line: readonly-array

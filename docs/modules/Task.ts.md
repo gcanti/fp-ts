@@ -26,7 +26,7 @@ Added in v2.0.0
 - [FromIO](#fromio)
   - [fromIO](#fromio)
 - [FromTask](#fromtask)
-  - [fromTask](#fromtask)
+  - [~~fromTask~~](#fromtask)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -102,7 +102,7 @@ Added in v2.0.0
 
 # FromTask
 
-## fromTask
+## ~~fromTask~~
 
 **Signature**
 
