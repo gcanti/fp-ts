@@ -7,6 +7,7 @@
 import * as E from './Either'
 import { flow, Lazy, Predicate, Refinement } from './function'
 import { HKT2, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import { Monad, Monad2, Monad3, Monad4 } from './Monad'
 import { Option } from './Option'
 
 import Either = E.Either
@@ -134,4 +135,51 @@ export function fromPredicate_<F>(
 } {
   return <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) =>
     flow(E.fromPredicate(predicate, onFalse), F.fromEither)
+}
+
+/**
+ * @since 2.10.0
+ */
+export function filterOrElse_<M extends URIS4>(
+  M: FromEither4<M> & Monad4<M>
+): {
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
+    ma: Kind4<M, S, R, E, A>
+  ) => Kind4<M, S, R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, A>
+}
+export function filterOrElse_<M extends URIS3>(
+  M: FromEither3<M> & Monad3<M>
+): {
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
+    ma: Kind3<M, R, E, A>
+  ) => Kind3<M, R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+}
+export function filterOrElse_<M extends URIS2>(
+  M: FromEither2<M> & Monad2<M>
+): {
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, A>
+}
+export function filterOrElse_<M>(
+  M: FromEither<M> & Monad<M>
+): {
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: HKT2<M, E, A>) => HKT2<M, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: HKT2<M, E, A>) => HKT2<M, E, A>
+}
+export function filterOrElse_<M>(
+  M: FromEither<M> & Monad<M>
+): {
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: HKT2<M, E, A>) => HKT2<M, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: HKT2<M, E, A>) => HKT2<M, E, A>
+} {
+  const fromPredicate_M = fromPredicate_(M)
+  return <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): ((ma: HKT2<M, E, A>) => HKT2<M, E, A>) => {
+    const f = fromPredicate_M(predicate, onFalse)
+    return (ma) => {
+      const out = M.chain(ma, f)
+      return out as HKT2<M, E, A>
+    }
+  }
 }

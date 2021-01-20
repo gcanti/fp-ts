@@ -41,6 +41,7 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainFirstW](#chainfirstw)
   - [filterOrElse](#filterorelse)
+  - [filterOrElseW](#filterorelsew)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [orElse](#orelse)
@@ -94,7 +95,6 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
-  - [filterOrElseW](#filterorelsew)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
   - [traverseArray](#traversearray)
@@ -337,18 +337,33 @@ Added in v2.8.0
 
 ## filterOrElse
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
 export declare const filterOrElse: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, B>
+  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, A>
 }
 ```
 
 Added in v2.0.0
+
+## filterOrElseW
+
+Less strict version of [`filterOrElse`](#filterOrElse).
+
+**Signature**
+
+```ts
+export declare const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
+    ma: IOEither<E1, A>
+  ) => IOEither<E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, A>
+}
+```
+
+Added in v2.9.0
 
 ## flatten
 
@@ -887,8 +902,6 @@ whether the body action throws (\*) or returns.
 
 (\*) i.e. returns a `Left`
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
@@ -900,23 +913,6 @@ export declare const bracket: <E, A, B>(
 ```
 
 Added in v2.0.0
-
-## filterOrElseW
-
-Less strict version of [`filterOrElse`](#filterOrElse).
-
-**Signature**
-
-```ts
-export declare const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
-    ma: IOEither<E1, A>
-  ) => IOEither<E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, A>
-}
-```
-
-Added in v2.9.0
 
 ## sequenceArray
 
