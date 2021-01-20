@@ -16,7 +16,7 @@ import { Compactable2C, compact_, separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
 import { Filterable2C, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
-import { FromEither2, fromOption_, fromPredicate_ } from './FromEither'
+import { filterOrElse_, FromEither2, fromOption_, fromPredicate_ } from './FromEither'
 import { FromIO2 } from './FromIO'
 import { FromTask2 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
@@ -212,30 +212,6 @@ export const orElse: <E, A, M>(onLeft: (e: E) => TaskEither<M, A>) => (ma: TaskE
 export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> =
   /*#__PURE__*/
   ET.swap_(T.Functor)
-
-/**
- * Less strict version of [`filterOrElse`](#filterOrElse).
- *
- * @since 2.9.0
- */
-export const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
-    ma: TaskEither<E1, A>
-  ) => TaskEither<E1 | E2, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A>
-} = <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): (<E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A>) =>
-  chainW((a) => (predicate(a) ? right(a) : left(onFalse(a))))
-
-/**
- * Derivable from `MonadThrow`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const filterOrElse: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, A>
-} = filterOrElseW
 
 /**
  * Converts a function returning a `Promise` to one returning a `TaskEither`.
@@ -733,6 +709,34 @@ export const fromPredicate =
   fromPredicate_(FromEither)
 
 /**
+ * @category combinators
+ * @since 2.0.0
+ */
+export const filterOrElse =
+  /*#__PURE__*/
+  filterOrElse_({
+    URI,
+    map: _map,
+    ap: _apPar,
+    of,
+    chain: _chain,
+    fromEither
+  })
+
+/**
+ * Less strict version of [`filterOrElse`](#filterOrElse).
+ *
+ * @category combinators
+ * @since 2.9.0
+ */
+export const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
+    ma: TaskEither<E1, A>
+  ) => TaskEither<E1 | E2, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A>
+} = filterOrElse
+
+/**
  * @category instances
  * @since 2.10.0
  */
@@ -814,8 +818,6 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
  * whether the body action throws (\*) or returns.
  *
  * (\*) i.e. returns a `Left`
- *
- * Derivable from `MonadThrow`.
  *
  * @since 2.0.0
  */

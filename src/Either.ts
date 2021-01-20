@@ -250,8 +250,6 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Either<E,
   ma._tag === 'None' ? left(onNone()) : right(ma.value)
 
 /**
- * Derivable from `MonadThrow`.
- *
  * @example
  * import { fromPredicate, left, right } from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
@@ -414,6 +412,7 @@ export function orElse<E, A, M>(onLeft: (e: E) => Either<M, A>): (ma: Either<E, 
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
  *
+ * @category combinators
  * @since 2.9.0
  */
 export const filterOrElseW: {
@@ -425,8 +424,6 @@ export const filterOrElseW: {
   chainW((a) => (predicate(a) ? right(a) : left(onFalse(a))))
 
 /**
- * Derivable from `MonadThrow`.
- *
  * @example
  * import { filterOrElse, left, right } from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
