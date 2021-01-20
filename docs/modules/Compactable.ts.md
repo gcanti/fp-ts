@@ -20,6 +20,8 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [constructors](#constructors)
+  - [separated](#separated)
 - [type classes](#type-classes)
   - [Compactable (interface)](#compactable-interface)
   - [Compactable1 (interface)](#compactable1-interface)
@@ -45,6 +47,18 @@ Added in v2.0.0
   - [separate\_](#separate_)
 
 ---
+
+# constructors
+
+## separated
+
+**Signature**
+
+```ts
+export declare const separated: <A, B>(left: A, right: B) => Separated<A, B>
+```
+
+Added in v2.10.0
 
 # type classes
 
