@@ -454,14 +454,15 @@ Added in v3.0.0
 
 ## tryCatchK
 
-Converts a function returning a `Promise` to one returning a `TaskEither`.
+Converts a function returning a `Promise` that may reject to one returning a `TaskEither`.
 
 **Signature**
 
 ```ts
-export declare const tryCatchK: <A extends readonly unknown[], B>(
-  f: (...a: A) => Promise<B>
-) => (...a: A) => TaskEither<unknown, B>
+export declare const tryCatchK: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => Promise<B>,
+  onRejected: (reason: unknown) => E
+) => (...a: A) => TaskEither<E, B>
 ```
 
 Added in v3.0.0

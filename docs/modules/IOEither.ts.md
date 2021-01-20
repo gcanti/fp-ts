@@ -40,6 +40,7 @@ Added in v3.0.0
   - [fromEitherK](#fromeitherk)
   - [orElse](#orelse)
   - [swap](#swap)
+  - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
@@ -338,6 +339,21 @@ Added in v3.0.0
 
 ```ts
 export declare const swap: <E, A>(ma: I.IO<E.Either<E, A>>) => I.IO<E.Either<A, E>>
+```
+
+Added in v3.0.0
+
+## tryCatchK
+
+Converts a function that may throw to one returning a `IOEither`.
+
+**Signature**
+
+```ts
+export declare const tryCatchK: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => B,
+  onError: (reason: unknown) => E
+) => (...a: A) => IOEither<unknown, B>
 ```
 
 Added in v3.0.0

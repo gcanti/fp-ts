@@ -207,14 +207,19 @@ export const swap =
   ET.swap_(T.Functor)
 
 /**
- * Converts a function returning a `Promise` to one returning a `TaskEither`.
+ * Converts a function returning a `Promise` that may reject to one returning a `TaskEither`.
  *
  * @category combinators
  * @since 3.0.0
  */
-export const tryCatchK = <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Promise<B>
-): ((...a: A) => TaskEither<unknown, B>) => (...a) => tryCatch(() => f(...a))
+export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
+  f: (...a: A) => Promise<B>,
+  onRejected: (reason: unknown) => E
+): ((...a: A) => TaskEither<E, B>) => (...a) =>
+  pipe(
+    tryCatch(() => f(...a)),
+    mapLeft(onRejected)
+  )
 
 /**
  * @category combinators
