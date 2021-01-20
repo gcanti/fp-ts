@@ -31,6 +31,7 @@ high state of flux, you're at risk of it changing without notice.
   - `IO`
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+    - deprecate `fromIO` (@gcanti)
   - `IOEither`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getApplyMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
@@ -62,6 +63,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Task`
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+    - deprecate `fromTask` (@gcanti)
   - `TaskEither`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getApplyMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)

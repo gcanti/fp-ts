@@ -164,6 +164,7 @@ export const flatten: <A>(mma: Task<Task<A>>) => Task<A> =
 /**
  * @category FromTask
  * @since 2.7.0
+ * @deprecated
  */
 export const fromTask: FromTask1<URI>['fromTask'] = identity
 

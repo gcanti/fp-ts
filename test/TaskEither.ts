@@ -262,11 +262,11 @@ describe('TaskEither', () => {
   })
 
   it('applicativeTaskEitherSeq', async () => {
-    await assertSeq(_.ApplicativeSeq, { fromTask: _.fromTask }, (fa) => fa())
+    await assertSeq(_.ApplicativeSeq, _.FromTask, (fa) => fa())
   })
 
   it('applicativeTaskEitherPar', async () => {
-    await assertPar(_.ApplicativePar, { fromTask: _.fromTask }, (fa) => fa())
+    await assertPar(_.ApplicativePar, _.FromTask, (fa) => fa())
   })
 
   // -------------------------------------------------------------------------------------
