@@ -26,6 +26,8 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `getValidationSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getValidationMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
     - deprecate `getValidation`, use `getApplicativeValidation` and `getAltValidation` instead (@gcanti)
+  - `Foldable`
+    - deprecate `toArray` in favour of `toReadonlyArray` (@gcanti)
   - `IO`
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)

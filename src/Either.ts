@@ -844,22 +844,16 @@ export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> {
  */
 export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
   const empty = left(M.empty)
-
-  const compact: Compactable2C<URI, E>['compact'] = (ma) =>
-    isLeft(ma) ? ma : ma.right._tag === 'None' ? empty : right(ma.right.value)
-
-  const separate: Compactable2C<URI, E>['separate'] = (ma) =>
-    isLeft(ma)
-      ? { left: ma, right: ma }
-      : isLeft(ma.right)
-      ? { left: right(ma.right.left), right: empty }
-      : { left: empty, right: right(ma.right.right) }
-
   return {
     URI,
     _E: undefined as any,
-    compact,
-    separate
+    compact: (ma) => (isLeft(ma) ? ma : ma.right._tag === 'None' ? empty : right(ma.right.value)),
+    separate: (ma) =>
+      isLeft(ma)
+        ? { left: ma, right: ma }
+        : isLeft(ma.right)
+        ? { left: right(ma.right.left), right: empty }
+        : { left: empty, right: right(ma.right.right) }
   }
 }
 
@@ -874,16 +868,8 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
 
   const { compact, separate } = getCompactable(M)
 
-  const partitionMap = <A, B, C>(
-    ma: Either<E, A>,
-    f: (a: A) => Either<B, C>
-  ): Separated<Either<E, B>, Either<E, C>> => {
-    if (isLeft(ma)) {
-      return { left: ma, right: ma }
-    }
-    const e = f(ma.right)
-    return isLeft(e) ? { left: right(e.left), right: empty } : { left: empty, right: right(e.right) }
-  }
+  const filter = <A>(ma: Either<E, A>, predicate: Predicate<A>): Either<E, A> =>
+    isLeft(ma) ? ma : predicate(ma.right) ? ma : empty
 
   const partition = <A>(ma: Either<E, A>, p: Predicate<A>): Separated<Either<E, A>, Either<E, A>> => {
     return isLeft(ma)
@@ -893,17 +879,6 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
       : { left: right(ma.right), right: empty }
   }
 
-  const filterMap = <A, B>(ma: Either<E, A>, f: (a: A) => Option<B>): Either<E, B> => {
-    if (isLeft(ma)) {
-      return ma
-    }
-    const ob = f(ma.right)
-    return ob._tag === 'None' ? empty : right(ob.value)
-  }
-
-  const filter = <A>(ma: Either<E, A>, predicate: Predicate<A>): Either<E, A> =>
-    isLeft(ma) ? ma : predicate(ma.right) ? ma : empty
-
   return {
     URI,
     _E: undefined as any,
@@ -911,9 +886,21 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
     compact,
     separate,
     filter,
-    filterMap,
+    filterMap: (ma, f) => {
+      if (isLeft(ma)) {
+        return ma
+      }
+      const ob = f(ma.right)
+      return ob._tag === 'None' ? empty : right(ob.value)
+    },
     partition,
-    partitionMap
+    partitionMap: (ma, f) => {
+      if (isLeft(ma)) {
+        return { left: ma, right: ma }
+      }
+      const e = f(ma.right)
+      return isLeft(e) ? { left: right(e.left), right: empty } : { left: empty, right: right(e.right) }
+    }
   }
 }
 
