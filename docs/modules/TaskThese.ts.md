@@ -1,6 +1,6 @@
 ---
 title: TaskThese.ts
-nav_order: 92
+nav_order: 93
 parent: Modules
 ---
 
@@ -17,10 +17,10 @@ Added in v2.4.0
   - [mapLeft](#mapleft)
 - [FromIO](#fromio)
   - [fromIO](#fromio)
+- [FromTask](#fromtask)
+  - [fromTask](#fromtask)
 - [Functor](#functor)
   - [map](#map)
-- [MonadIO](#monadio)
-  - [fromTask](#fromtask)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -39,6 +39,7 @@ Added in v2.4.0
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [FromIO](#fromio-1)
+  - [FromTask](#fromtask-1)
   - [Functor](#functor-1)
   - [Pointed](#pointed-1)
   - [URI](#uri)
@@ -96,6 +97,18 @@ export declare const fromIO: <E, A>(fa: IO<A>) => TaskThese<E, A>
 
 Added in v2.7.0
 
+# FromTask
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <E, A>(fa: T.Task<A>) => TaskThese<E, A>
+```
+
+Added in v2.7.0
+
 # Functor
 
 ## map
@@ -110,18 +123,6 @@ export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => 
 ```
 
 Added in v2.4.0
-
-# MonadIO
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <E, A>(fa: T.Task<A>) => TaskThese<E, A>
-```
-
-Added in v2.7.0
 
 # Pointed
 
@@ -263,6 +264,16 @@ Added in v2.10.0
 
 ```ts
 export declare const FromIO: FromIO2<'TaskThese'>
+```
+
+Added in v2.10.0
+
+## FromTask
+
+**Signature**
+
+```ts
+export declare const FromTask: FromTask2<'TaskThese'>
 ```
 
 Added in v2.10.0

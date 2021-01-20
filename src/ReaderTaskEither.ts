@@ -8,6 +8,7 @@ import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import * as ET from './EitherT'
 import { FromIO3 } from './FromIO'
+import { FromTask3 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor3 } from './Functor'
 import { IO } from './IO'
@@ -520,10 +521,10 @@ export const altW: <R2, E2, B>(
 export const fromIO: FromIO3<URI>['fromIO'] = rightIO
 
 /**
- * @category MonadTask
+ * @category FromTask
  * @since 2.0.0
  */
-export const fromTask: MonadTask3<URI>['fromTask'] = rightTask
+export const fromTask: FromTask3<URI>['fromTask'] = rightTask
 
 /**
  * @category MonadThrow
@@ -729,6 +730,16 @@ export const Alt: Alt3<URI> = {
 export const FromIO: FromIO3<URI> = {
   URI,
   fromIO
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromTask: FromTask3<URI> = {
+  URI,
+  fromIO,
+  fromTask
 }
 
 // -------------------------------------------------------------------------------------
