@@ -4,12 +4,12 @@
 import { Applicative2C } from './Applicative'
 import { Apply1, Apply2C, getApplySemigroup } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
+import { FromIO2 } from './FromIO'
 import { flow, Lazy, pipe } from './function'
 import { Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2C } from './Monad'
-import { MonadIO2 } from './MonadIO'
 import { MonadTask2, MonadTask2C } from './MonadTask'
 import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
@@ -174,10 +174,10 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => Task
 export const of: Pointed2<URI>['of'] = right
 
 /**
- * @category MonadIO
+ * @category FromIO
  * @since 2.7.0
  */
-export const fromIO: MonadIO2<URI>['fromIO'] = rightIO
+export const fromIO: FromIO2<URI>['fromIO'] = rightIO
 
 /**
  * @category MonadIO
@@ -282,6 +282,15 @@ export const Bifunctor: Bifunctor2<URI> = {
   URI,
   bimap: _bimap,
   mapLeft: _mapLeft
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromIO: FromIO2<URI> = {
+  URI,
+  fromIO
 }
 
 // -------------------------------------------------------------------------------------

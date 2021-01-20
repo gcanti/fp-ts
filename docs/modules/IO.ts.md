@@ -1,6 +1,6 @@
 ---
 title: IO.ts
-nav_order: 43
+nav_order: 44
 parent: Modules
 ---
 
@@ -24,12 +24,12 @@ Added in v2.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
+- [FromIO](#fromio)
+  - [fromIO](#fromio)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
-- [MonadIO](#monadio)
-  - [fromIO](#fromio)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -41,9 +41,10 @@ Added in v2.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [ChainRec](#chainrec)
+  - [FromIO](#fromio-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [MonadIO](#monadio-1)
+  - [MonadIO](#monadio)
   - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -77,6 +78,18 @@ export declare const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B>
 
 Added in v2.0.0
 
+# FromIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A>(fa: IO<A>) => IO<A>
+```
+
+Added in v2.7.0
+
 # Functor
 
 ## map
@@ -105,18 +118,6 @@ export declare const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B>
 ```
 
 Added in v2.0.0
-
-# MonadIO
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(fa: IO<A>) => IO<A>
-```
-
-Added in v2.7.0
 
 # Pointed
 
@@ -218,6 +219,16 @@ export declare const ChainRec: ChainRec1<'IO'>
 ```
 
 Added in v2.7.0
+
+## FromIO
+
+**Signature**
+
+```ts
+export declare const FromIO: FromIO1<'IO'>
+```
+
+Added in v2.10.0
 
 ## Functor
 

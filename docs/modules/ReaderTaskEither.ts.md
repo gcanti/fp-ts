@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskEither.ts
-nav_order: 69
+nav_order: 70
 parent: Modules
 ---
 
@@ -21,13 +21,13 @@ Added in v2.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
+- [FromIO](#fromio)
+  - [fromIO](#fromio)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainW](#chainw)
-- [MonadIO](#monadio)
-  - [fromIO](#fromio)
 - [MonadTask](#monadtask)
   - [fromTask](#fromtask)
 - [MonadThrow](#monadthrow)
@@ -83,6 +83,7 @@ Added in v2.0.0
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
+  - [FromIO](#fromio-1)
   - [Functor](#functor-1)
   - [Pointed](#pointed-1)
   - [URI](#uri)
@@ -208,6 +209,18 @@ export declare const mapLeft: <E, G>(
 
 Added in v2.0.0
 
+# FromIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <R, E, A>(fa: IO<A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.0.0
+
 # Functor
 
 ## map
@@ -252,18 +265,6 @@ export declare const chainW: <R, E, A, B>(
 ```
 
 Added in v2.6.0
-
-# MonadIO
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <R, E, A>(fa: IO<A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v2.0.0
 
 # MonadTask
 
@@ -838,6 +839,16 @@ export declare const Bifunctor: Bifunctor3<'ReaderTaskEither'>
 ```
 
 Added in v2.7.0
+
+## FromIO
+
+**Signature**
+
+```ts
+export declare const FromIO: FromIO3<'ReaderTaskEither'>
+```
+
+Added in v2.10.0
 
 ## Functor
 
