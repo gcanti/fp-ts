@@ -5,11 +5,13 @@ import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C, getApplicativeMonoid } from './Applicative'
 import { apFirst_, Apply3, apSecond_, apS_, ap_, getApplySemigroup as getApplySemigroup_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
+import { Compactable2C, Compactable3C, compact_, separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
+import { Filterable3C, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
 import { filterOrElse_, FromEither3, fromOption_, fromPredicate_ } from './FromEither'
 import { flow, identity, pipe, Predicate, Refinement } from './function'
-import { bindTo_, Functor3 } from './Functor'
+import { bindTo_, Functor2, Functor3 } from './Functor'
 import { bind_, chainFirst_, Monad3, Monad3C } from './Monad'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
@@ -337,6 +339,45 @@ export type URI = typeof URI
 declare module './HKT' {
   interface URItoKind3<R, E, A> {
     readonly [URI]: ReaderEither<R, E, A>
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const getCompactable = <E>(M: Monoid<E>): Compactable3C<URI, E> => {
+  const C: Compactable2C<E.URI, E> & Functor2<E.URI> = { ...E.getCompactable(M), ...E.Functor }
+  return {
+    URI,
+    _E: undefined as any,
+    compact: compact_(R.Functor, C),
+    separate: separate_(R.Functor, C)
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export function getFilterable<E>(M: Monoid<E>): Filterable3C<URI, E> {
+  const F = E.getFilterable(M)
+  const C = getCompactable(M)
+
+  const filter = filter_(R.Functor, F)
+  const filterMap = filterMap_(R.Functor, F)
+  const partition = partition_(R.Functor, F)
+  const partitionMap = partitionMap_(R.Functor, F)
+  return {
+    URI,
+    _E: undefined as any,
+    map: _map,
+    compact: C.compact,
+    separate: C.separate,
+    filter: <R, A>(fa: ReaderEither<R, E, A>, predicate: Predicate<A>) => pipe(fa, filter(predicate)),
+    filterMap: (fa, f) => pipe(fa, filterMap(f)),
+    partition: <R, A>(fa: ReaderEither<R, E, A>, predicate: Predicate<A>) => pipe(fa, partition(predicate)),
+    partitionMap: (fa, f) => pipe(fa, partitionMap(f))
   }
 }
 
