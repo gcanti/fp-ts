@@ -1,6 +1,6 @@
 ---
 title: TaskEither.ts
-nav_order: 90
+nav_order: 91
 parent: Modules
 ---
 
@@ -30,13 +30,14 @@ Added in v2.0.0
   - [mapLeft](#mapleft)
 - [FromIO](#fromio)
   - [fromIO](#fromio)
+- [FromTask](#fromtask)
+  - [fromTask](#fromtask)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainW](#chainw)
 - [MonadTask](#monadtask)
-  - [fromTask](#fromtask)
   - [throwError](#throwerror)
 - [Pointed](#pointed)
   - [of](#of)
@@ -80,6 +81,7 @@ Added in v2.0.0
   - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
   - [FromIO](#fromio-1)
+  - [FromTask](#fromtask-1)
   - [Functor](#functor-1)
   - [Pointed](#pointed-1)
   - [URI](#uri)
@@ -248,6 +250,18 @@ export declare const fromIO: <E, A>(fa: IO<A>) => TaskEither<E, A>
 
 Added in v2.7.0
 
+# FromTask
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <E, A>(fa: T.Task<A>) => TaskEither<E, A>
+```
+
+Added in v2.7.0
+
 # Functor
 
 ## map
@@ -292,16 +306,6 @@ export declare const chainW: <E, A, B>(
 Added in v2.6.0
 
 # MonadTask
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <E, A>(fa: T.Task<A>) => TaskEither<E, A>
-```
-
-Added in v2.7.0
 
 ## throwError
 
@@ -786,6 +790,16 @@ Added in v2.7.0
 
 ```ts
 export declare const FromIO: FromIO2<'TaskEither'>
+```
+
+Added in v2.10.0
+
+## FromTask
+
+**Signature**
+
+```ts
+export declare const FromTask: FromTask2<'TaskEither'>
 ```
 
 Added in v2.10.0

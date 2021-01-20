@@ -36,6 +36,7 @@ import * as filterableWithIndex from './FilterableWithIndex'
 import * as foldable from './Foldable'
 import * as foldableWithIndex from './FoldableWithIndex'
 import * as fromIO from './FromIO'
+import * as fromTask from './FromTask'
 import * as function_ from './function'
 import * as functor from './Functor'
 import * as functorWithIndex from './FunctorWithIndex'
@@ -238,6 +239,10 @@ export {
    * @since 2.10.0
    */
   fromIO,
+  /**
+   * @since 2.10.0
+   */
+  fromTask,
   /**
    * @since 2.0.0
    */

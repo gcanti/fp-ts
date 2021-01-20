@@ -17,6 +17,7 @@ import * as E from './Either'
 import * as ET from './EitherT'
 import { Filterable2C, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
 import { FromIO2 } from './FromIO'
+import { FromTask2 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { IO } from './IO'
@@ -491,10 +492,10 @@ export const of: Pointed2<URI>['of'] = right
 export const fromIO: FromIO2<URI>['fromIO'] = rightIO
 
 /**
- * @category MonadTask
+ * @category FromTask
  * @since 2.7.0
  */
-export const fromTask: MonadTask2<URI>['fromTask'] = rightTask
+export const fromTask: FromTask2<URI>['fromTask'] = rightTask
 
 /**
  * @category MonadTask
@@ -737,6 +738,16 @@ export const Alt: Alt2<URI> = {
 export const FromIO: FromIO2<URI> = {
   URI,
   fromIO
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromTask: FromTask2<URI> = {
+  URI,
+  fromIO,
+  fromTask
 }
 
 // -------------------------------------------------------------------------------------

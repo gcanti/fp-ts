@@ -22,6 +22,7 @@ import * as RT from './ReaderT'
 import Task = T.Task
 import Reader = R.Reader
 import { FromIO2 } from './FromIO'
+import { FromTask2 } from './FromTask'
 
 /**
  * @category model
@@ -39,25 +40,9 @@ export interface ReaderTask<R, A> {
  * @category constructors
  * @since 2.3.0
  */
-export const fromTask: <R, A>(ma: Task<A>) => ReaderTask<R, A> =
-  /*#__PURE__*/
-  R.of
-
-/**
- * @category constructors
- * @since 2.3.0
- */
 export const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A> =
   /*#__PURE__*/
   RT.fromReader_(T.Pointed)
-
-/**
- * @category FromIO
- * @since 2.3.0
- */
-export const fromIO: FromIO2<URI>['fromIO'] =
-  /*#__PURE__*/
-  flow(T.fromIO, fromTask)
 
 /**
  * @category constructors
@@ -204,6 +189,22 @@ export const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => ReaderTask
   /*#__PURE__*/
   chain(identity)
 
+/**
+ * @category FromTask
+ * @since 2.3.0
+ */
+export const fromTask: FromTask2<URI>['fromTask'] =
+  /*#__PURE__*/
+  R.of
+
+/**
+ * @category FromIO
+ * @since 2.3.0
+ */
+export const fromIO: FromIO2<URI>['fromIO'] =
+  /*#__PURE__*/
+  flow(T.fromIO, fromTask)
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -342,6 +343,16 @@ export const chainFirst =
 export const FromIO: FromIO2<URI> = {
   URI,
   fromIO
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromTask: FromTask2<URI> = {
+  URI,
+  fromIO,
+  fromTask
 }
 
 // -------------------------------------------------------------------------------------

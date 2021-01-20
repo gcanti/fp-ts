@@ -1,6 +1,6 @@
 ---
 title: TaskOption.ts
-nav_order: 91
+nav_order: 92
 parent: Modules
 ---
 
@@ -29,6 +29,8 @@ Added in v2.10.0
   - [partitionMap](#partitionmap)
 - [FromIO](#fromio)
   - [fromIO](#fromio)
+- [FromTask](#fromtask)
+  - [fromTask](#fromtask)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -42,7 +44,6 @@ Added in v2.10.0
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
-  - [fromTask](#fromtask)
   - [none](#none)
   - [some](#some)
   - [tryCatch](#trycatch)
@@ -65,6 +66,7 @@ Added in v2.10.0
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
   - [FromIO](#fromio-1)
+  - [FromTask](#fromtask-1)
   - [Funtor](#funtor)
   - [Monad](#monad-1)
   - [MonadIO](#monadio)
@@ -211,6 +213,18 @@ export declare const fromIO: <A>(fa: IO<A>) => TaskOption<A>
 
 Added in v2.10.0
 
+# FromTask
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <A>(fa: T.Task<A>) => TaskOption<A>
+```
+
+Added in v2.10.0
+
 # Functor
 
 ## map
@@ -305,16 +319,6 @@ export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): (a: A) => T.Task<O.Option<B>>
   <A>(predicate: Predicate<A>): (a: A) => T.Task<O.Option<A>>
 }
-```
-
-Added in v2.10.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <A>(ma: T.Task<A>) => T.Task<O.Option<A>>
 ```
 
 Added in v2.10.0
@@ -531,6 +535,16 @@ Added in v2.10.0
 
 ```ts
 export declare const FromIO: FromIO1<'TaskOption'>
+```
+
+Added in v2.10.0
+
+## FromTask
+
+**Signature**
+
+```ts
+export declare const FromTask: FromTask1<'TaskOption'>
 ```
 
 Added in v2.10.0
