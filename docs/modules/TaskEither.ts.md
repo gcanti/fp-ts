@@ -47,6 +47,7 @@ Added in v2.0.0
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
   - [filterOrElse](#filterorelse)
+  - [filterOrElseW](#filterorelsew)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
@@ -105,7 +106,6 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
-  - [filterOrElseW](#filterorelsew)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
   - [taskify](#taskify)
@@ -417,18 +417,33 @@ Added in v2.6.1
 
 ## filterOrElse
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
 export declare const filterOrElse: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>
+  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, A>
 }
 ```
 
 Added in v2.0.0
+
+## filterOrElseW
+
+Less strict version of [`filterOrElse`](#filterOrElse).
+
+**Signature**
+
+```ts
+export declare const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
+    ma: TaskEither<E1, A>
+  ) => TaskEither<E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+}
+```
+
+Added in v2.9.0
 
 ## flatten
 
@@ -1064,8 +1079,6 @@ whether the body action throws (\*) or returns.
 
 (\*) i.e. returns a `Left`
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
@@ -1077,23 +1090,6 @@ export declare const bracket: <E, A, B>(
 ```
 
 Added in v2.0.0
-
-## filterOrElseW
-
-Less strict version of [`filterOrElse`](#filterOrElse).
-
-**Signature**
-
-```ts
-export declare const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
-    ma: TaskEither<E1, A>
-  ) => TaskEither<E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
-}
-```
-
-Added in v2.9.0
 
 ## sequenceArray
 

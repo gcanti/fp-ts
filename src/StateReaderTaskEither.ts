@@ -6,7 +6,7 @@ import { Applicative4 } from './Applicative'
 import { apFirst_, Apply4, apSecond_, apS_ } from './Apply'
 import { Bifunctor4 } from './Bifunctor'
 import * as E from './Either'
-import { FromEither4, fromOption_, fromPredicate_ } from './FromEither'
+import { filterOrElse_, FromEither4, fromOption_, fromPredicate_ } from './FromEither'
 import { FromIO4 } from './FromIO'
 import { FromTask4 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
@@ -327,39 +327,6 @@ export const chainReaderTaskEitherKW = <R, E, A, B>(f: (a: A) => ReaderTaskEithe
 export const chainReaderTaskEitherK: <R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
 ) => <S>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = chainReaderTaskEitherKW
-
-/**
- * Less strict version of [`filterOrElse`](#filterOrElse).
- *
- * @since 2.9.0
- */
-export const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <S, R, E1>(
-    ma: StateReaderTaskEither<S, R, E1, A>
-  ) => StateReaderTaskEither<S, R, E1 | E2, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <S, R, E1>(
-    ma: StateReaderTaskEither<S, R, E1, A>
-  ) => StateReaderTaskEither<S, R, E1 | E2, A>
-} = <A, E2>(
-  predicate: Predicate<A>,
-  onFalse: (a: A) => E2
-): (<S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E1 | E2, A>) =>
-  chainW((a) => (predicate(a) ? right(a) : left(onFalse(a))))
-
-/**
- * Derivable from `MonadThrow`.
- *
- * @category combinators
- * @since 2.4.4
- */
-export const filterOrElse: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
-    ma: StateReaderTaskEither<S, R, E, A>
-  ) => StateReaderTaskEither<S, R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(
-    ma: StateReaderTaskEither<S, R, E, A>
-  ) => StateReaderTaskEither<S, R, E, A>
-} = filterOrElseW
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -707,6 +674,36 @@ export const fromOption =
 export const fromPredicate =
   /*#__PURE__*/
   fromPredicate_(FromEither)
+
+/**
+ * @category combinators
+ * @since 2.4.4
+ */
+export const filterOrElse =
+  /*#__PURE__*/
+  filterOrElse_({
+    URI,
+    map: _map,
+    ap: _ap,
+    of,
+    chain: _chain,
+    fromEither
+  })
+
+/**
+ * Less strict version of [`filterOrElse`](#filterOrElse).
+ *
+ * @category combinators
+ * @since 2.9.0
+ */
+export const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <S, R, E1>(
+    ma: StateReaderTaskEither<S, R, E1, A>
+  ) => StateReaderTaskEither<S, R, E1 | E2, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <S, R, E1>(
+    ma: StateReaderTaskEither<S, R, E1, A>
+  ) => StateReaderTaskEither<S, R, E1 | E2, A>
+} = filterOrElse
 
 /**
  * @category instances

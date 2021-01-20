@@ -44,6 +44,7 @@ Added in v2.0.0
   - [chainTaskEitherK](#chaintaskeitherk)
   - [chainTaskEitherKW](#chaintaskeitherkw)
   - [filterOrElse](#filterorelse)
+  - [filterOrElseW](#filterorelsew)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
@@ -98,7 +99,6 @@ Added in v2.0.0
   - [bindW](#bindw)
   - [evaluate](#evaluate)
   - [execute](#execute)
-  - [filterOrElseW](#filterorelsew)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -444,13 +444,11 @@ Added in v2.6.1
 
 ## filterOrElse
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
 export declare const filterOrElse: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
+  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
     ma: StateReaderTaskEither<S, R, E, A>
   ) => StateReaderTaskEither<S, R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(
@@ -460,6 +458,25 @@ export declare const filterOrElse: {
 ```
 
 Added in v2.4.4
+
+## filterOrElseW
+
+Less strict version of [`filterOrElse`](#filterOrElse).
+
+**Signature**
+
+```ts
+export declare const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <S, R, E1>(
+    ma: StateReaderTaskEither<S, R, E1, A>
+  ) => StateReaderTaskEither<S, R, E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <S, R, E1>(
+    ma: StateReaderTaskEither<S, R, E1, A>
+  ) => StateReaderTaskEither<S, R, E2 | E1, A>
+}
+```
+
+Added in v2.9.0
 
 ## flatten
 
@@ -1037,25 +1054,6 @@ export declare const execute: <S>(
 ```
 
 Added in v2.8.0
-
-## filterOrElseW
-
-Less strict version of [`filterOrElse`](#filterOrElse).
-
-**Signature**
-
-```ts
-export declare const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <S, R, E1>(
-    ma: StateReaderTaskEither<S, R, E1, A>
-  ) => StateReaderTaskEither<S, R, E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <S, R, E1>(
-    ma: StateReaderTaskEither<S, R, E1, A>
-  ) => StateReaderTaskEither<S, R, E2 | E1, A>
-}
-```
-
-Added in v2.9.0
 
 ## sequenceArray
 

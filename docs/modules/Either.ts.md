@@ -59,6 +59,7 @@ Added in v2.0.0
   - [chainNullableK](#chainnullablek)
   - [duplicate](#duplicate)
   - [filterOrElse](#filterorelse)
+  - [filterOrElseW](#filterorelsew)
   - [flatten](#flatten)
   - [fromNullableK](#fromnullablek)
   - [orElse](#orelse)
@@ -125,7 +126,6 @@ Added in v2.0.0
   - [bindW](#bindw)
   - [elem](#elem)
   - [exists](#exists)
-  - [filterOrElseW](#filterorelsew)
   - [sequenceArray](#sequencearray)
   - [toError](#toerror)
   - [traverseArray](#traversearray)
@@ -505,8 +505,6 @@ Added in v2.0.0
 
 ## filterOrElse
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
@@ -555,6 +553,23 @@ assert.deepStrictEqual(
 ```
 
 Added in v2.0.0
+
+## filterOrElseW
+
+Less strict version of [`filterOrElse`](#filterOrElse).
+
+**Signature**
+
+```ts
+export declare const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
+    ma: Either<E1, A>
+  ) => Either<E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: Either<E1, A>) => Either<E2 | E1, A>
+}
+```
+
+Added in v2.9.0
 
 ## flatten
 
@@ -676,8 +691,6 @@ assert.deepStrictEqual(
 Added in v2.0.0
 
 ## fromPredicate
-
-Derivable from `MonadThrow`.
 
 **Signature**
 
@@ -1473,23 +1486,6 @@ assert.strictEqual(gt2(right(3)), true)
 ```
 
 Added in v2.0.0
-
-## filterOrElseW
-
-Less strict version of [`filterOrElse`](#filterOrElse).
-
-**Signature**
-
-```ts
-export declare const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
-    ma: Either<E1, A>
-  ) => Either<E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: Either<E1, A>) => Either<E2 | E1, A>
-}
-```
-
-Added in v2.9.0
 
 ## sequenceArray
 
