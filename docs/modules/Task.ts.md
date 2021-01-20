@@ -1,6 +1,6 @@
 ---
 title: Task.ts
-nav_order: 89
+nav_order: 90
 parent: Modules
 ---
 
@@ -25,12 +25,12 @@ Added in v2.0.0
   - [ap](#ap)
 - [FromIO](#fromio)
   - [fromIO](#fromio)
+- [FromTask](#fromtask)
+  - [fromTask](#fromtask)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
-- [MonadTask](#monadtask)
-  - [fromTask](#fromtask)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -47,6 +47,7 @@ Added in v2.0.0
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
   - [FromIO](#fromio-1)
+  - [FromTask](#fromtask-1)
   - [Functor](#functor-1)
   - [Pointed](#pointed-1)
   - [URI](#uri)
@@ -99,6 +100,18 @@ export declare const fromIO: <A>(fa: IO<A>) => Task<A>
 
 Added in v2.0.0
 
+# FromTask
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <A>(fa: Task<A>) => Task<A>
+```
+
+Added in v2.7.0
+
 # Functor
 
 ## map
@@ -127,18 +140,6 @@ export declare const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Tas
 ```
 
 Added in v2.0.0
-
-# MonadTask
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <A>(fa: Task<A>) => Task<A>
-```
-
-Added in v2.7.0
 
 # Pointed
 
@@ -312,6 +313,16 @@ Added in v2.10.0
 
 ```ts
 export declare const FromIO: FromIO1<'Task'>
+```
+
+Added in v2.10.0
+
+## FromTask
+
+**Signature**
+
+```ts
+export declare const FromTask: FromTask1<'Task'>
 ```
 
 Added in v2.10.0

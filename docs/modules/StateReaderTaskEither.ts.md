@@ -1,6 +1,6 @@
 ---
 title: StateReaderTaskEither.ts
-nav_order: 85
+nav_order: 86
 parent: Modules
 ---
 
@@ -23,13 +23,13 @@ Added in v2.0.0
   - [mapLeft](#mapleft)
 - [FromIO](#fromio)
   - [fromIO](#fromio)
+- [FromTask](#fromtask)
+  - [fromTask](#fromtask)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainW](#chainw)
-- [MonadTask](#monadtask)
-  - [fromTask](#fromtask)
 - [MonadThrow](#monadthrow)
   - [throwError](#throwerror)
 - [Pointed](#pointed)
@@ -81,6 +81,7 @@ Added in v2.0.0
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
   - [FromIO](#fromio-1)
+  - [FromTask](#fromtask-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
@@ -212,6 +213,18 @@ export declare const fromIO: <S, R, E, A>(fa: IO<A>) => StateReaderTaskEither<S,
 
 Added in v2.7.0
 
+# FromTask
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <S, R, E, A>(fa: Task<A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.7.0
+
 # Functor
 
 ## map
@@ -258,18 +271,6 @@ export declare const chainW: <S, R, E, A, B>(
 ```
 
 Added in v2.6.0
-
-# MonadTask
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <S, R, E, A>(fa: Task<A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v2.7.0
 
 # MonadThrow
 
@@ -828,6 +829,16 @@ Added in v2.7.0
 
 ```ts
 export declare const FromIO: FromIO4<'StateReaderTaskEither'>
+```
+
+Added in v2.10.0
+
+## FromTask
+
+**Signature**
+
+```ts
+export declare const FromTask: FromTask4<'StateReaderTaskEither'>
 ```
 
 Added in v2.10.0

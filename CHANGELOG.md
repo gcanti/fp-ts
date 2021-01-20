@@ -80,6 +80,7 @@ high state of flux, you're at risk of it changing without notice.
 - **New Feature**
   - add `Pointed` type class (@gcanti)
   - add `FromIO` type class (@gcanti)
+  - add `FromTask` type class (@gcanti)
   - add `TaskOption` module (@gcanti)
   - `Apply`
     - add `ap_` helper (@gcanti)
@@ -149,11 +150,13 @@ high state of flux, you're at risk of it changing without notice.
     - add `ApplyPar` instance (@gcanti)
     - add `ApplySeq` instance (@gcanti)
     - add `FromIO` instance (@gcanti)
+    - add `FromTask` instance (@gcanti)
   - `ReaderTaskEither`
     - add `Pointed` instance (@gcanti)
     - add `ApplyPar` instance (@gcanti)
     - add `ApplySeq` instance (@gcanti)
     - add `FromIO` instance (@gcanti)
+    - add `FromTask` instance (@gcanti)
   - `ReadonlyArray`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
@@ -178,19 +181,23 @@ high state of flux, you're at risk of it changing without notice.
     - add `Apply` instance (@gcanti)
     - add `Monad` instance (@gcanti)
     - add `FromIO` instance (@gcanti)
+    - add `FromTask` instance (@gcanti)
   - `Task`
     - add `Pointed` instance (@gcanti)
     - add `ApplyPar` instance (@gcanti)
     - add `ApplySeq` instance (@gcanti)
     - add `FromIO` instance (@gcanti)
+    - add `FromTask` instance (@gcanti)
   - `TaskEither`
     - add `Pointed` instance (@gcanti)
     - add `ApplyPar` instance (@gcanti)
     - add `ApplySeq` instance (@gcanti)
     - add `getCompactable` (@gcanti)
     - add `FromIO` instance (@gcanti)
+    - add `FromTask` instance (@gcanti)
   - `TaskOption`
     - add `FromIO` instance (@gcanti)
+    - add `FromTask` instance (@gcanti)
   - `TaskThese`
     - add `Functor` instance (@gcanti)
     - add `Pointed` instance (@gcanti)
@@ -198,6 +205,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `toReadonlyTuple2` (@gcanti)
     - add `getApply` (@gcanti)
     - add `FromIO` instance (@gcanti)
+    - add `FromTask` instance (@gcanti)
   - `These`
     - add `Pointed` instance (@gcanti)
     - add `of` function (@gcanti)

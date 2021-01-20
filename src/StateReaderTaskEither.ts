@@ -7,6 +7,7 @@ import { apFirst_, Apply4, apSecond_, apS_ } from './Apply'
 import { Bifunctor4 } from './Bifunctor'
 import * as E from './Either'
 import { FromIO4 } from './FromIO'
+import { FromTask4 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor4 } from './Functor'
 import { IO } from './IO'
@@ -552,10 +553,10 @@ export const alt: <S, R, E, A>(
 export const fromIO: FromIO4<URI>['fromIO'] = rightIO
 
 /**
- * @category MonadTask
+ * @category FromTask
  * @since 2.7.0
  */
-export const fromTask: MonadTask4<URI>['fromTask'] = rightTask
+export const fromTask: FromTask4<URI>['fromTask'] = rightTask
 
 /**
  * @category MonadThrow
@@ -715,6 +716,16 @@ export const Alt: Alt4<URI> = {
 export const FromIO: FromIO4<URI> = {
   URI,
   fromIO
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromTask: FromTask4<URI> = {
+  URI,
+  fromIO,
+  fromTask
 }
 
 // -------------------------------------------------------------------------------------

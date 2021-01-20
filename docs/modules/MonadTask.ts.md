@@ -1,6 +1,6 @@
 ---
 title: MonadTask.ts
-nav_order: 54
+nav_order: 55
 parent: Modules
 ---
 
@@ -32,9 +32,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface MonadTask<M> extends MonadIO<M> {
-  readonly fromTask: <A>(fa: Task<A>) => HKT<M, A>
-}
+export interface MonadTask<M> extends MonadIO<M>, FromTask<M> {}
 ```
 
 Added in v2.0.0
@@ -44,9 +42,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface MonadTask1<M extends URIS> extends MonadIO1<M> {
-  readonly fromTask: <A>(fa: Task<A>) => Kind<M, A>
-}
+export interface MonadTask1<M extends URIS> extends MonadIO1<M>, FromTask1<M> {}
 ```
 
 Added in v2.0.0
@@ -56,9 +52,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface MonadTask2<M extends URIS2> extends MonadIO2<M> {
-  readonly fromTask: <E, A>(fa: Task<A>) => Kind2<M, E, A>
-}
+export interface MonadTask2<M extends URIS2> extends MonadIO2<M>, FromTask2<M> {}
 ```
 
 Added in v2.0.0
@@ -68,9 +62,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface MonadTask2C<M extends URIS2, E> extends MonadIO2C<M, E> {
-  readonly fromTask: <A>(fa: Task<A>) => Kind2<M, E, A>
-}
+export interface MonadTask2C<M extends URIS2, E> extends MonadIO2C<M, E>, FromTask2C<M, E> {}
 ```
 
 Added in v2.0.0
@@ -80,9 +72,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface MonadTask3<M extends URIS3> extends MonadIO3<M> {
-  readonly fromTask: <R, E, A>(fa: Task<A>) => Kind3<M, R, E, A>
-}
+export interface MonadTask3<M extends URIS3> extends MonadIO3<M>, FromTask3<M> {}
 ```
 
 Added in v2.0.0
@@ -92,9 +82,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface MonadTask3C<M extends URIS3, E> extends MonadIO3C<M, E> {
-  readonly fromTask: <R, A>(fa: Task<A>) => Kind3<M, R, E, A>
-}
+export interface MonadTask3C<M extends URIS3, E> extends MonadIO3C<M, E>, FromTask3C<M, E> {}
 ```
 
 Added in v2.2.0
@@ -104,9 +92,7 @@ Added in v2.2.0
 **Signature**
 
 ```ts
-export interface MonadTask4<M extends URIS4> extends MonadIO4<M> {
-  readonly fromTask: <S, R, E, A>(fa: Task<A>) => Kind4<M, S, R, E, A>
-}
+export interface MonadTask4<M extends URIS4> extends MonadIO4<M>, FromTask4<M> {}
 ```
 
 Added in v2.4.4
