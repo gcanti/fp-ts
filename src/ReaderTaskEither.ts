@@ -5,13 +5,15 @@ import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C, getApplicativeMonoid } from './Applicative'
 import { apFirst_, Apply1, Apply3, apSecond_, apS_, ap_, getApplySemigroup as getApplySemigroup_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
+import { Compactable3C, Compactable2C, compact_, separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
+import { Filterable3C, filter_, filterMap_, partition_, partitionMap_ } from './Filterable'
 import { filterOrElse_, FromEither3, fromOption_, fromPredicate_ } from './FromEither'
 import { FromIO3 } from './FromIO'
 import { FromTask3 } from './FromTask'
 import { flow, identity, pipe, Predicate, Refinement } from './function'
-import { bindTo_, Functor3 } from './Functor'
+import { bindTo_, Functor2, Functor3 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { bind_, chainFirst_, Monad3, Monad3C } from './Monad'
@@ -495,6 +497,45 @@ export type URI = typeof URI
 declare module './HKT' {
   interface URItoKind3<R, E, A> {
     readonly [URI]: ReaderTaskEither<R, E, A>
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const getCompactable = <E>(M: Monoid<E>): Compactable3C<URI, E> => {
+  const C: Compactable2C<E.URI, E> & Functor2<E.URI> = { ...E.getCompactable(M), ...E.Functor }
+  return {
+    URI,
+    _E: undefined as any,
+    compact: compact_(RT.Functor, C),
+    separate: separate_(RT.Functor, C)
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export function getFilterable<E>(M: Monoid<E>): Filterable3C<URI, E> {
+  const F = E.getFilterable(M)
+  const C = getCompactable(M)
+
+  const filter = filter_(RT.Functor, F)
+  const filterMap = filterMap_(RT.Functor, F)
+  const partition = partition_(RT.Functor, F)
+  const partitionMap = partitionMap_(RT.Functor, F)
+  return {
+    URI,
+    _E: undefined as any,
+    map: _map,
+    compact: C.compact,
+    separate: C.separate,
+    filter: <R, A>(fa: ReaderTaskEither<R, E, A>, predicate: Predicate<A>) => pipe(fa, filter(predicate)),
+    filterMap: (fa, f) => pipe(fa, filterMap(f)),
+    partition: <R, A>(fa: ReaderTaskEither<R, E, A>, predicate: Predicate<A>) => pipe(fa, partition(predicate)),
+    partitionMap: (fa, f) => pipe(fa, partitionMap(f))
   }
 }
 

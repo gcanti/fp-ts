@@ -132,6 +132,7 @@ Added in v2.0.0
 ```ts
 export interface Compactable3C<F extends URIS3, E> {
   readonly URI: F
+  readonly _E: E
   readonly compact: <R, A>(fa: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, A>
   readonly separate: <R, A, B>(fa: Kind3<F, R, E, Either<A, B>>) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
 }
@@ -323,6 +324,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
+export declare function compact_<F extends URIS2, G extends URIS2, E>(
+  F: Functor2<F>,
+  G: Compactable2C<G, E>
+): <FE, A>(fa: Kind2<F, FE, Kind2<G, E, Option<A>>>) => Kind2<F, FE, Kind2<G, E, A>>
 export declare function compact_<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Compactable2C<G, E>
@@ -389,6 +394,12 @@ Added in v2.0.0
 **Signature**
 
 ```ts
+export declare function separate_<F extends URIS2, G extends URIS2, E>(
+  F: Functor2<F>,
+  G: Compactable2C<G, E> & Functor2<G>
+): <FE, A, B>(
+  fge: Kind2<F, FE, Kind2<G, E, Either<A, B>>>
+) => Separated<Kind2<F, FE, Kind2<G, E, A>>, Kind2<F, FE, Kind2<G, E, B>>>
 export declare function separate_<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Compactable2C<G, E> & Functor2<G>
