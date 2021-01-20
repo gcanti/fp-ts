@@ -7,9 +7,10 @@ import { apFirst_, Apply1, Apply3, apSecond_, apS_, ap_, getApplySemigroup as ge
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import * as ET from './EitherT'
+import { FromEither3, fromOption_, fromPredicate_ } from './FromEither'
 import { FromIO3 } from './FromIO'
 import { FromTask3 } from './FromTask'
-import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { flow, identity, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor3 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
@@ -17,7 +18,6 @@ import { bind_, chainFirst_, Monad3, Monad3C } from './Monad'
 import { MonadTask3, MonadTask3C } from './MonadTask'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
-import { Option } from './Option'
 import { Pointed3 } from './Pointed'
 import * as R from './Reader'
 import { ReaderEither } from './ReaderEither'
@@ -145,6 +145,18 @@ export const rightIO: <R, E = never, A = never>(ma: IO<A>) => ReaderTaskEither<R
  * @category constructors
  * @since 2.0.0
  */
+export const fromIO: FromIO3<URI>['fromIO'] = rightIO
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
+export const fromTask: FromTask3<URI>['fromTask'] = rightTask
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
 export const leftIO: <R, E = never, A = never>(me: IO<E>) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
   flow(TE.leftIO, fromTaskEither)
@@ -163,35 +175,10 @@ export const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderTaskEither
   flow(TE.right, TE.map(f))
 
 /**
- * Derivable from `MonadThrow`.
- *
  * @category constructors
  * @since 2.0.0
  */
-export const fromEither: <R, E, A>(ma: Either<E, A>) => ReaderTaskEither<R, E, A> =
-  /*#__PURE__*/
-  E.fold(left, (a) => right(a))
-
-/**
- * Derivable from `MonadThrow`.
- *
- * @category constructors
- * @since 2.0.0
- */
-export const fromOption: <E>(onNone: Lazy<E>) => <R, A>(ma: Option<A>) => ReaderTaskEither<R, E, A> = (onNone) => (
-  ma
-) => (ma._tag === 'None' ? left(onNone()) : right(ma.value))
-
-/**
- * Derivable from `MonadThrow`.
- *
- * @category constructors
- * @since 2.0.0
- */
-export const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => ReaderTaskEither<U, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderTaskEither<R, E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (a: A) => (predicate(a) ? right(a) : left(onFalse(a)))
+export const fromEither: FromEither3<URI>['fromEither'] = RT.of
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -515,18 +502,6 @@ export const altW: <R2, E2, B>(
 ) => <R1, E1, A>(fa: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A | B> = alt as any
 
 /**
- * @category FromIO
- * @since 2.0.0
- */
-export const fromIO: FromIO3<URI>['fromIO'] = rightIO
-
-/**
- * @category FromTask
- * @since 2.0.0
- */
-export const fromTask: FromTask3<URI>['fromTask'] = rightTask
-
-/**
  * @category MonadThrow
  * @since 2.0.0
  */
@@ -722,6 +697,31 @@ export const Alt: Alt3<URI> = {
   map: _map,
   alt: _alt
 }
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromEither: FromEither3<URI> = {
+  URI,
+  fromEither
+}
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
+export const fromOption =
+  /*#__PURE__*/
+  fromOption_(FromEither)
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
+export const fromPredicate =
+  /*#__PURE__*/
+  fromPredicate_(FromEither)
 
 /**
  * @category instances

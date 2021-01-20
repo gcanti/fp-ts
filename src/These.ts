@@ -25,7 +25,8 @@ import { Bifunctor2 } from './Bifunctor'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Foldable2 } from './Foldable'
-import { Lazy, pipe } from './function'
+import { FromEither2, fromOption_ } from './FromEither'
+import { identity, Lazy, pipe } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
@@ -574,6 +575,23 @@ export const Traversable: Traversable2<URI> = {
   traverse: _traverse,
   sequence
 }
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromEither: FromEither2<URI> = {
+  URI,
+  fromEither: identity
+}
+
+/**
+ * @category constructors
+ * @since 2.10.0
+ */
+export const fromOption =
+  /*#__PURE__*/
+  fromOption_(FromEither)
 
 // -------------------------------------------------------------------------------------
 // utils

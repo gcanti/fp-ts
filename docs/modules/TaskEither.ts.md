@@ -1,6 +1,6 @@
 ---
 title: TaskEither.ts
-nav_order: 91
+nav_order: 92
 parent: Modules
 ---
 
@@ -28,10 +28,6 @@ Added in v2.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
-- [FromIO](#fromio)
-  - [fromIO](#fromio)
-- [FromTask](#fromtask)
-  - [fromTask](#fromtask)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -59,9 +55,11 @@ Added in v2.0.0
   - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
+  - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
+  - [fromTask](#fromtask)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftTask](#lefttask)
@@ -80,8 +78,9 @@ Added in v2.0.0
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
-  - [FromIO](#fromio-1)
-  - [FromTask](#fromtask-1)
+  - [FromEither](#fromeither)
+  - [FromIO](#fromio)
+  - [FromTask](#fromtask)
   - [Functor](#functor-1)
   - [Pointed](#pointed-1)
   - [URI](#uri)
@@ -237,30 +236,6 @@ export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskEither<E, A>
 ```
 
 Added in v2.0.0
-
-# FromIO
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <E, A>(fa: IO<A>) => TaskEither<E, A>
-```
-
-Added in v2.7.0
-
-# FromTask
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <E, A>(fa: T.Task<A>) => TaskEither<E, A>
-```
-
-Added in v2.7.0
 
 # Functor
 
@@ -550,15 +525,23 @@ Added in v2.5.0
 
 ## fromEither
 
-Derivable from `MonadThrow`.
+**Signature**
+
+```ts
+export declare const fromEither: <E, A>(e: E.Either<E, A>) => TaskEither<E, A>
+```
+
+Added in v2.0.0
+
+## fromIO
 
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A>(ma: E.Either<E, A>) => TaskEither<E, A>
+export declare const fromIO: <E, A>(fa: IO<A>) => TaskEither<E, A>
 ```
 
-Added in v2.0.0
+Added in v2.7.0
 
 ## fromIOEither
 
@@ -572,8 +555,6 @@ Added in v2.0.0
 
 ## fromOption
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
@@ -584,18 +565,26 @@ Added in v2.0.0
 
 ## fromPredicate
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
 export declare const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskEither<E, B>
+  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskEither<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskEither<E, A>
 }
 ```
 
 Added in v2.0.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <E, A>(fa: T.Task<A>) => TaskEither<E, A>
+```
+
+Added in v2.7.0
 
 ## left
 
@@ -783,6 +772,16 @@ export declare const Bifunctor: Bifunctor2<'TaskEither'>
 ```
 
 Added in v2.7.0
+
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither2<'TaskEither'>
+```
+
+Added in v2.10.0
 
 ## FromIO
 

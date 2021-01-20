@@ -96,7 +96,7 @@ export const flatten: <A>(mma: IO<IO<A>>) => IO<A> =
   chain(identity)
 
 /**
- * @category FromIO
+ * @category constructors
  * @since 2.7.0
  * @deprecated
  */

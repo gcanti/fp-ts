@@ -7,12 +7,12 @@ import { apFirst_, Apply3, apSecond_, apS_, ap_, getApplySemigroup as getApplySe
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import * as ET from './EitherT'
+import { FromEither3, fromOption_, fromPredicate_ } from './FromEither'
 import { flow, identity, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor3 } from './Functor'
 import { bind_, chainFirst_, Monad3, Monad3C } from './Monad'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
-import { Option } from './Option'
 import { Pointed3 } from './Pointed'
 import * as R from './Reader'
 import { Semigroup } from './Semigroup'
@@ -79,34 +79,10 @@ export const ask: <R, E = never>() => ReaderEither<R, E, R> = () => E.right
 export const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderEither<R, E, A> = (f) => flow(f, E.right)
 
 /**
- * Derivable from `MonadThrow`.
- *
  * @category constructors
  * @since 2.0.0
  */
-export const fromEither: <R, E, A>(ma: E.Either<E, A>) => ReaderEither<R, E, A> =
-  /*#__PURE__*/
-  E.fold(left, (a) => right(a))
-
-/**
- * Derivable from `MonadThrow`.
- *
- * @category constructors
- * @since 2.0.0
- */
-export const fromOption: <E>(onNone: () => E) => <R, A>(ma: Option<A>) => ReaderEither<R, E, A> = (onNone) => (ma) =>
-  ma._tag === 'None' ? left(onNone()) : right(ma.value)
-
-/**
- * Derivable from `MonadThrow`.
- *
- * @category constructors
- * @since 2.0.0
- */
-export const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => ReaderEither<U, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (a: A) => (predicate(a) ? right(a) : left(onFalse(a)))
+export const fromEither: FromEither3<URI>['fromEither'] = R.of
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -559,6 +535,31 @@ export const MonadThrow: MonadThrow3<URI> = {
   chain: _chain,
   throwError
 }
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromEither: FromEither3<URI> = {
+  URI,
+  fromEither
+}
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
+export const fromOption =
+  /*#__PURE__*/
+  fromOption_(FromEither)
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
+export const fromPredicate =
+  /*#__PURE__*/
+  fromPredicate_(FromEither)
 
 // -------------------------------------------------------------------------------------
 // do notation

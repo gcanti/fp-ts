@@ -1,6 +1,6 @@
 ---
 title: StateReaderTaskEither.ts
-nav_order: 86
+nav_order: 87
 parent: Modules
 ---
 
@@ -21,10 +21,6 @@ Added in v2.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
-- [FromIO](#fromio)
-  - [fromIO](#fromio)
-- [FromTask](#fromtask)
-  - [fromTask](#fromtask)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -55,11 +51,13 @@ Added in v2.0.0
   - [fromTaskEitherK](#fromtaskeitherk)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
+  - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [fromReaderEither](#fromreadereither)
   - [fromReaderTaskEither](#fromreadertaskeither)
+  - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
   - [get](#get)
   - [gets](#gets)
@@ -80,8 +78,9 @@ Added in v2.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
-  - [FromIO](#fromio-1)
-  - [FromTask](#fromtask-1)
+  - [FromEither](#fromeither)
+  - [FromIO](#fromio)
+  - [FromTask](#fromtask)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
@@ -200,30 +199,6 @@ export declare const mapLeft: <E, G>(
 ```
 
 Added in v2.6.2
-
-# FromIO
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <S, R, E, A>(fa: IO<A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v2.7.0
-
-# FromTask
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <S, R, E, A>(fa: Task<A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v2.7.0
 
 # Functor
 
@@ -552,15 +527,23 @@ Added in v2.4.0
 
 ## fromEither
 
-Derivable from `MonadThrow`.
+**Signature**
+
+```ts
+export declare const fromEither: <S, R, E, A>(e: E.Either<E, A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.0.0
+
+## fromIO
 
 **Signature**
 
 ```ts
-export declare const fromEither: <S, R, E, A>(ma: E.Either<E, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const fromIO: <S, R, E, A>(fa: IO<A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
-Added in v2.0.0
+Added in v2.7.0
 
 ## fromIOEither
 
@@ -574,8 +557,6 @@ Added in v2.0.0
 
 ## fromOption
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
@@ -586,15 +567,11 @@ Added in v2.0.0
 
 ## fromPredicate
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
 export declare const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
-    a: A
-  ) => StateReaderTaskEither<S, R, E, B>
+  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(a: A) => StateReaderTaskEither<S, R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(a: A) => StateReaderTaskEither<S, R, E, A>
 }
 ```
@@ -622,6 +599,16 @@ export declare const fromReaderTaskEither: <S, R, E, A>(
 ```
 
 Added in v2.0.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <S, R, E, A>(fa: Task<A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.7.0
 
 ## fromTaskEither
 
@@ -822,6 +809,16 @@ export declare const Bifunctor: Bifunctor4<'StateReaderTaskEither'>
 ```
 
 Added in v2.7.0
+
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither4<'StateReaderTaskEither'>
+```
+
+Added in v2.10.0
 
 ## FromIO
 

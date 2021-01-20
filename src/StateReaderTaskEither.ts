@@ -6,6 +6,7 @@ import { Applicative4 } from './Applicative'
 import { apFirst_, Apply4, apSecond_, apS_ } from './Apply'
 import { Bifunctor4 } from './Bifunctor'
 import * as E from './Either'
+import { FromEither4, fromOption_, fromPredicate_ } from './FromEither'
 import { FromIO4 } from './FromIO'
 import { FromTask4 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
@@ -15,7 +16,6 @@ import { IOEither } from './IOEither'
 import { bind_, chainFirst_, Monad4 } from './Monad'
 import { MonadTask4 } from './MonadTask'
 import { MonadThrow4 } from './MonadThrow'
-import { Option } from './Option'
 import { Pointed4 } from './Pointed'
 import { Reader } from './Reader'
 import { ReaderEither } from './ReaderEither'
@@ -193,38 +193,24 @@ export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTa
   RTE.right([f(s), s])
 
 /**
- * Derivable from `MonadThrow`.
- *
  * @category constructors
  * @since 2.0.0
  */
-export const fromEither: <S, R, E, A>(ma: Either<E, A>) => StateReaderTaskEither<S, R, E, A> =
+export const fromEither: FromEither4<URI>['fromEither'] =
   /*#__PURE__*/
   E.fold((e) => left(e), right)
 
 /**
- * Derivable from `MonadThrow`.
- *
  * @category constructors
- * @since 2.0.0
+ * @since 2.7.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <S, R, A>(ma: Option<A>) => StateReaderTaskEither<S, R, E, A> = (
-  onNone
-) => (ma) => (ma._tag === 'None' ? left(onNone()) : right(ma.value))
+export const fromIO: FromIO4<URI>['fromIO'] = rightIO
 
 /**
- * Derivable from `MonadThrow`.
- *
  * @category constructors
- * @since 2.4.4
+ * @since 2.7.0
  */
-export const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
-    a: A
-  ) => StateReaderTaskEither<S, R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(a: A) => StateReaderTaskEither<S, R, E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => <S, R>(a: A): StateReaderTaskEither<S, R, E, A> =>
-  predicate(a) ? right(a) : left(onFalse(a))
+export const fromTask: FromTask4<URI>['fromTask'] = rightTask
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -547,18 +533,6 @@ export const alt: <S, R, E, A>(
 ) => (fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = altW
 
 /**
- * @category FromIO
- * @since 2.7.0
- */
-export const fromIO: FromIO4<URI>['fromIO'] = rightIO
-
-/**
- * @category FromTask
- * @since 2.7.0
- */
-export const fromTask: FromTask4<URI>['fromTask'] = rightTask
-
-/**
  * @category MonadThrow
  * @since 2.7.0
  */
@@ -708,6 +682,31 @@ export const Alt: Alt4<URI> = {
   map: _map,
   alt: _alt
 }
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromEither: FromEither4<URI> = {
+  URI,
+  fromEither
+}
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
+export const fromOption =
+  /*#__PURE__*/
+  fromOption_(FromEither)
+
+/**
+ * @category constructors
+ * @since 2.4.4
+ */
+export const fromPredicate =
+  /*#__PURE__*/
+  fromPredicate_(FromEither)
 
 /**
  * @category instances

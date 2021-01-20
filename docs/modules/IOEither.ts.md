@@ -1,6 +1,6 @@
 ---
 title: IOEither.ts
-nav_order: 46
+nav_order: 47
 parent: Modules
 ---
 
@@ -24,8 +24,6 @@ Added in v2.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
-- [FromIO](#fromio)
-  - [fromIO](#fromio)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -49,6 +47,7 @@ Added in v2.0.0
   - [swap](#swap)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
+  - [fromIO](#fromio)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [left](#left)
@@ -66,7 +65,8 @@ Added in v2.0.0
   - [ApplicativeSeq](#applicativeseq)
   - [ApplyPar](#applypar)
   - [Bifunctor](#bifunctor-1)
-  - [FromIO](#fromio-1)
+  - [FromEither](#fromeither)
+  - [FromIO](#fromio)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadIO](#monadio)
@@ -184,18 +184,6 @@ export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) 
 ```
 
 Added in v2.0.0
-
-# FromIO
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <E, A>(fa: I.IO<A>) => IOEither<E, A>
-```
-
-Added in v2.7.0
 
 # Functor
 
@@ -410,19 +398,25 @@ Added in v2.0.0
 
 ## fromEither
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A>(ma: E.Either<E, A>) => IOEither<E, A>
+export declare const fromEither: <E, A>(e: E.Either<E, A>) => IOEither<E, A>
 ```
 
 Added in v2.0.0
 
-## fromOption
+## fromIO
 
-Derivable from `MonadThrow`.
+**Signature**
+
+```ts
+export declare const fromIO: <E, A>(fa: I.IO<A>) => IOEither<E, A>
+```
+
+Added in v2.7.0
+
+## fromOption
 
 **Signature**
 
@@ -434,13 +428,11 @@ Added in v2.0.0
 
 ## fromPredicate
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
 export declare const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => IOEither<E, B>
+  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => IOEither<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A>
 }
 ```
@@ -587,6 +579,16 @@ export declare const Bifunctor: Bifunctor2<'IOEither'>
 ```
 
 Added in v2.7.0
+
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither2<'IOEither'>
+```
+
+Added in v2.10.0
 
 ## FromIO
 

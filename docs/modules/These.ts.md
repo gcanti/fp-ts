@@ -1,6 +1,6 @@
 ---
 title: These.ts
-nav_order: 94
+nav_order: 95
 parent: Modules
 ---
 
@@ -45,6 +45,7 @@ Added in v2.0.0
   - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
+  - [fromOption](#fromoption)
   - [fromOptions](#fromoptions)
   - [left](#left)
   - [leftOrBoth](#leftorboth)
@@ -63,6 +64,7 @@ Added in v2.0.0
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [Foldable](#foldable-1)
+  - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [Pointed](#pointed-1)
   - [Traversable](#traversable)
@@ -194,6 +196,16 @@ export declare function both<E, A>(left: E, right: A): These<E, A>
 ```
 
 Added in v2.0.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => These<E, A>
+```
+
+Added in v2.10.0
 
 ## fromOptions
 
@@ -446,6 +458,16 @@ export declare const Foldable: Foldable2<'These'>
 ```
 
 Added in v2.7.0
+
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither2<'These'>
+```
+
+Added in v2.10.0
 
 ## Functor
 

@@ -40,7 +40,7 @@ export interface Task<A> {
 // -------------------------------------------------------------------------------------
 
 /**
- * @category FromIO
+ * @category constructors
  * @since 2.0.0
  */
 export const fromIO: FromIO1<URI>['fromIO'] = (ma) => () => Promise.resolve(ma())
