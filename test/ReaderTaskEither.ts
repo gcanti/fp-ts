@@ -144,11 +144,11 @@ describe('ReaderTaskEither', () => {
   // -------------------------------------------------------------------------------------
 
   it('applicativeReaderTaskEitherSeq', async () => {
-    await assertSeq(_.ApplicativeSeq, { fromTask: _.fromTask }, (fa) => fa(null)())
+    await assertSeq(_.ApplicativeSeq, _.FromTask, (fa) => fa(null)())
   })
 
   it('applicativeReaderTaskEitherPar', async () => {
-    await assertPar(_.ApplicativePar, { fromTask: _.fromTask }, (fa) => fa(null)())
+    await assertPar(_.ApplicativePar, _.FromTask, (fa) => fa(null)())
   })
 
   // -------------------------------------------------------------------------------------

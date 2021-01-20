@@ -98,6 +98,7 @@ export const flatten: <A>(mma: IO<IO<A>>) => IO<A> =
 /**
  * @category FromIO
  * @since 2.7.0
+ * @deprecated
  */
 export const fromIO: FromIO1<URI>['fromIO'] = identity
 

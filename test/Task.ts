@@ -1,10 +1,10 @@
 import * as assert from 'assert'
+import { pipe } from '../src/function'
 import * as I from '../src/IO'
 import { monoidString } from '../src/Monoid'
-import { pipe } from '../src/function'
-import * as _ from '../src/Task'
 import * as RA from '../src/ReadonlyArray'
-import { assertSeq, assertPar } from './util'
+import * as _ from '../src/Task'
+import { assertPar, assertSeq } from './util'
 
 const delayReject = <A>(n: number, a: A): _.Task<A> => () =>
   new Promise<A>((_, reject) => {
@@ -56,22 +56,16 @@ describe('Task', () => {
     assert.deepStrictEqual(await t(), 1)
   })
 
-  it('fromTask', async () => {
-    const io = () => 1
-    const t = _.fromIO(io)
-    assert.deepStrictEqual(_.fromTask(t), t)
-  })
-
   // -------------------------------------------------------------------------------------
   // instances
   // -------------------------------------------------------------------------------------
 
   it('applicativeTaskSeq', async () => {
-    await assertSeq(_.ApplicativeSeq, { fromTask: _.fromTask }, (fa) => fa())
+    await assertSeq(_.ApplicativeSeq, _.FromTask, (fa) => fa())
   })
 
   it('applicativeTaskPar', async () => {
-    await assertPar(_.ApplicativePar, { fromTask: _.fromTask }, (fa) => fa())
+    await assertPar(_.ApplicativePar, _.FromTask, (fa) => fa())
   })
 
   describe('getRaceMonoid', () => {
