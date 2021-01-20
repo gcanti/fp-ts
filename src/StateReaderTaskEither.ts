@@ -649,7 +649,11 @@ export const Applicative: Applicative4<URI> = {
   of
 }
 
-const Monad: Monad4<URI> = {
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Monad: Monad4<URI> = {
   URI,
   map: _map,
   ap: _ap,
