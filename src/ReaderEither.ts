@@ -7,7 +7,7 @@ import { apFirst_, Apply3, apSecond_, apS_, apT_, ap_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import * as ET from './EitherT'
-import { FromEither3, fromOption_, fromPredicate_ } from './FromEither'
+import { filterOrElse_, FromEither3, fromOption_, fromPredicate_ } from './FromEither'
 import { flow, identity, Predicate, Refinement } from './function'
 import { bindTo_, Functor3, tupled_ } from './Functor'
 import { bind_, chainFirst_, Monad3 } from './Monad'
@@ -157,36 +157,6 @@ export const chainEitherKW: <A, E2, B>(
 export const chainEitherK: <E, A, B>(
   f: (a: A) => Either<E, B>
 ) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = chainEitherKW
-
-/**
- * Less strict version of [`filterOrElse`](#filterOrElse).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
-    ma: ReaderEither<R, E1, A>
-  ) => ReaderEither<R, E1 | E2, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1>(
-    ma: ReaderEither<R, E1, A>
-  ) => ReaderEither<R, E1 | E2, A>
-} = <A, E2>(
-  predicate: Predicate<A>,
-  onFalse: (a: A) => E2
-): (<R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, A>) =>
-  chainW((a) => (predicate(a) ? right(a) : left(onFalse(a))))
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const filterOrElse: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
-    ma: ReaderEither<R, E, A>
-  ) => ReaderEither<R, E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
-} = filterOrElseW
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -487,6 +457,35 @@ export const fromOption =
 export const fromPredicate =
   /*#__PURE__*/
   fromPredicate_(FromEither)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const filterOrElse =
+  /*#__PURE__*/
+  filterOrElse_({
+    URI,
+    map,
+    of,
+    chain,
+    fromEither
+  })
+
+/**
+ * Less strict version of [`filterOrElse`](#filterOrElse).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
+    ma: ReaderEither<R, E1, A>
+  ) => ReaderEither<R, E1 | E2, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1>(
+    ma: ReaderEither<R, E1, A>
+  ) => ReaderEither<R, E1 | E2, A>
+} = filterOrElse
 
 // -------------------------------------------------------------------------------------
 // do notation

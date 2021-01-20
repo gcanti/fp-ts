@@ -12,7 +12,7 @@ import { Compactable2C, compact_, separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
 import { Filterable2C, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
-import { FromEither2, fromOption_, fromPredicate_ } from './FromEither'
+import { filterOrElse_, FromEither2, fromOption_, fromPredicate_ } from './FromEither'
 import { FromIO2 } from './FromIO'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor2, tupled_ } from './Functor'
@@ -138,29 +138,6 @@ export const orElse =
 export const swap =
   /*#__PURE__*/
   ET.swap_(I.Functor)
-
-/**
- * Less strict version of [`filterOrElse`](#filterOrElse).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
-    ma: IOEither<E1, A>
-  ) => IOEither<E1 | E2, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A>
-} = <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): (<E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A>) =>
-  chainW((a) => (predicate(a) ? right(a) : left(onFalse(a))))
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const filterOrElse: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, A>
-} = filterOrElseW
 
 /**
  * @category combinators
@@ -551,6 +528,33 @@ export const fromOption =
 export const fromPredicate =
   /*#__PURE__*/
   fromPredicate_(FromEither)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const filterOrElse =
+  /*#__PURE__*/
+  filterOrElse_({
+    URI,
+    map,
+    of,
+    chain,
+    fromEither
+  })
+
+/**
+ * Less strict version of [`filterOrElse`](#filterOrElse).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
+    ma: IOEither<E1, A>
+  ) => IOEither<E1 | E2, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A>
+} = filterOrElse
 
 // -------------------------------------------------------------------------------------
 // utils

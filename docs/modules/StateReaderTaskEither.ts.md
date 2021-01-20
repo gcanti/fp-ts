@@ -383,7 +383,7 @@ Added in v3.0.0
 
 ```ts
 export declare const filterOrElse: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
+  <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
     ma: StateReaderTaskEither<S, R, E, A>
   ) => StateReaderTaskEither<S, R, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(
