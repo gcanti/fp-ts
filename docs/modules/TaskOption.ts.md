@@ -1,6 +1,6 @@
 ---
 title: TaskOption.ts
-nav_order: 90
+nav_order: 91
 parent: Modules
 ---
 
@@ -27,6 +27,8 @@ Added in v2.10.0
   - [filterMap](#filtermap)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
+- [FromIO](#fromio)
+  - [fromIO](#fromio)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -37,7 +39,6 @@ Added in v2.10.0
   - [fromOptionK](#fromoptionk)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
-  - [fromIO](#fromio)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
@@ -63,6 +64,7 @@ Added in v2.10.0
   - [ApplySeq](#applyseq)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
+  - [FromIO](#fromio-1)
   - [Funtor](#funtor)
   - [Monad](#monad-1)
   - [MonadIO](#monadio)
@@ -197,6 +199,18 @@ export declare const partitionMap: <A, B, C>(
 
 Added in v2.10.0
 
+# FromIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A>(fa: IO<A>) => TaskOption<A>
+```
+
+Added in v2.10.0
+
 # Functor
 
 ## map
@@ -258,16 +272,6 @@ Added in v0.1.10
 
 ```ts
 export declare const fromEither: <E, A>(e: Either<E, A>) => T.Task<O.Option<A>>
-```
-
-Added in v2.10.0
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(fa: IO<A>) => TaskOption<A>
 ```
 
 Added in v2.10.0
@@ -517,6 +521,16 @@ Added in v2.10.0
 
 ```ts
 export declare const Filterable: Filterable1<'TaskOption'>
+```
+
+Added in v2.10.0
+
+## FromIO
+
+**Signature**
+
+```ts
+export declare const FromIO: FromIO1<'TaskOption'>
 ```
 
 Added in v2.10.0

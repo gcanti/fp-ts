@@ -1,6 +1,6 @@
 ---
 title: ReaderTask.ts
-nav_order: 68
+nav_order: 69
 parent: Modules
 ---
 
@@ -15,6 +15,8 @@ Added in v2.3.0
 - [Apply](#apply)
   - [ap](#ap)
   - [apW](#apw)
+- [FromIO](#fromio)
+  - [fromIO](#fromio)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -35,7 +37,6 @@ Added in v2.3.0
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
-  - [fromIO](#fromio)
   - [fromReader](#fromreader)
   - [fromTask](#fromtask)
 - [instances](#instances)
@@ -43,6 +44,7 @@ Added in v2.3.0
   - [ApplicativeSeq](#applicativeseq)
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
+  - [FromIO](#fromio-1)
   - [Functor](#functor-1)
   - [Pointed](#pointed-1)
   - [URI](#uri)
@@ -94,6 +96,18 @@ export declare const apW: <Q, A>(
 ```
 
 Added in v2.8.0
+
+# FromIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <E, A>(fa: IO<A>) => ReaderTask<E, A>
+```
+
+Added in v2.3.0
 
 # Functor
 
@@ -285,16 +299,6 @@ export declare const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A>
 
 Added in v2.3.0
 
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <R, A>(ma: IO<A>) => ReaderTask<R, A>
-```
-
-Added in v2.3.0
-
 ## fromReader
 
 **Signature**
@@ -353,6 +357,16 @@ Added in v2.10.0
 
 ```ts
 export declare const ApplySeq: Apply2<'ReaderTask'>
+```
+
+Added in v2.10.0
+
+## FromIO
+
+**Signature**
+
+```ts
+export declare const FromIO: FromIO2<'ReaderTask'>
 ```
 
 Added in v2.10.0

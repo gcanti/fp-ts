@@ -1,6 +1,6 @@
 ---
 title: IOEither.ts
-nav_order: 44
+nav_order: 45
 parent: Modules
 ---
 
@@ -24,13 +24,13 @@ Added in v2.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
+- [FromIO](#fromio)
+  - [fromIO](#fromio)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainW](#chainw)
-- [MonadIO](#monadio)
-  - [fromIO](#fromio)
 - [MonadThrow](#monadthrow)
   - [throwError](#throwerror)
 - [Pointed](#pointed)
@@ -66,9 +66,10 @@ Added in v2.0.0
   - [ApplicativeSeq](#applicativeseq)
   - [ApplyPar](#applypar)
   - [Bifunctor](#bifunctor-1)
+  - [FromIO](#fromio-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
-  - [MonadIO](#monadio-1)
+  - [MonadIO](#monadio)
   - [MonadThrow](#monadthrow-1)
   - [Pointed](#pointed-1)
   - [URI](#uri)
@@ -184,6 +185,18 @@ export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) 
 
 Added in v2.0.0
 
+# FromIO
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <E, A>(fa: I.IO<A>) => IOEither<E, A>
+```
+
+Added in v2.7.0
+
 # Functor
 
 ## map
@@ -224,18 +237,6 @@ export declare const chainW: <D, A, B>(f: (a: A) => IOEither<D, B>) => <E>(ma: I
 ```
 
 Added in v2.6.0
-
-# MonadIO
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <E, A>(fa: I.IO<A>) => IOEither<E, A>
-```
-
-Added in v2.7.0
 
 # MonadThrow
 
@@ -586,6 +587,16 @@ export declare const Bifunctor: Bifunctor2<'IOEither'>
 ```
 
 Added in v2.7.0
+
+## FromIO
+
+**Signature**
+
+```ts
+export declare const FromIO: FromIO2<'IOEither'>
+```
+
+Added in v2.10.0
 
 ## Functor
 

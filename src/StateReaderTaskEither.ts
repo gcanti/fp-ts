@@ -6,12 +6,12 @@ import { Applicative4 } from './Applicative'
 import { apFirst_, Apply4, apSecond_, apS_ } from './Apply'
 import { Bifunctor4 } from './Bifunctor'
 import * as E from './Either'
+import { FromIO4 } from './FromIO'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor4 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { bind_, chainFirst_, Monad4 } from './Monad'
-import { MonadIO4 } from './MonadIO'
 import { MonadTask4 } from './MonadTask'
 import { MonadThrow4 } from './MonadThrow'
 import { Option } from './Option'
@@ -546,10 +546,10 @@ export const alt: <S, R, E, A>(
 ) => (fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = altW
 
 /**
- * @category MonadIO
+ * @category FromIO
  * @since 2.7.0
  */
-export const fromIO: MonadIO4<URI>['fromIO'] = rightIO
+export const fromIO: FromIO4<URI>['fromIO'] = rightIO
 
 /**
  * @category MonadTask
@@ -706,6 +706,15 @@ export const Alt: Alt4<URI> = {
   URI,
   map: _map,
   alt: _alt
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromIO: FromIO4<URI> = {
+  URI,
+  fromIO
 }
 
 // -------------------------------------------------------------------------------------

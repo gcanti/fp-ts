@@ -7,12 +7,12 @@ import { apFirst_, Apply1, Apply3, apSecond_, apS_, ap_, getApplySemigroup as ge
 import { Bifunctor3 } from './Bifunctor'
 import * as E from './Either'
 import * as ET from './EitherT'
+import { FromIO3 } from './FromIO'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor3 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { bind_, chainFirst_, Monad3, Monad3C } from './Monad'
-import { MonadIO3 } from './MonadIO'
 import { MonadTask3, MonadTask3C } from './MonadTask'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
@@ -514,10 +514,10 @@ export const altW: <R2, E2, B>(
 ) => <R1, E1, A>(fa: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A | B> = alt as any
 
 /**
- * @category MonadIO
+ * @category FromIO
  * @since 2.0.0
  */
-export const fromIO: MonadIO3<URI>['fromIO'] = rightIO
+export const fromIO: FromIO3<URI>['fromIO'] = rightIO
 
 /**
  * @category MonadTask
@@ -720,6 +720,15 @@ export const Alt: Alt3<URI> = {
   URI,
   map: _map,
   alt: _alt
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromIO: FromIO3<URI> = {
+  URI,
+  fromIO
 }
 
 // -------------------------------------------------------------------------------------

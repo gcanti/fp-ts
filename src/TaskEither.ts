@@ -16,12 +16,12 @@ import { Compactable2C, compact_, separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
 import { Filterable2C, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
+import { FromIO2 } from './FromIO'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { bind_, chainFirst_, Monad2, Monad2C } from './Monad'
-import { MonadIO2 } from './MonadIO'
 import { MonadTask2, MonadTask2C } from './MonadTask'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
@@ -485,10 +485,10 @@ export const altW: <E2, B>(
 export const of: Pointed2<URI>['of'] = right
 
 /**
- * @category MonadIO
+ * @category FromIO
  * @since 2.7.0
  */
-export const fromIO: MonadIO2<URI>['fromIO'] = rightIO
+export const fromIO: FromIO2<URI>['fromIO'] = rightIO
 
 /**
  * @category MonadTask
@@ -728,6 +728,15 @@ export const Alt: Alt2<URI> = {
   URI,
   map: _map,
   alt: _alt
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromIO: FromIO2<URI> = {
+  URI,
+  fromIO
 }
 
 // -------------------------------------------------------------------------------------
