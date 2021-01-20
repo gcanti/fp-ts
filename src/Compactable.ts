@@ -44,6 +44,12 @@ export interface Separated<A, B> {
 }
 
 /**
+ * @category constructors
+ * @since 2.10.0
+ */
+export const separated = <A, B>(left: A, right: B): Separated<A, B> => ({ left, right })
+
+/**
  * @category type classes
  * @since 2.0.0
  */
