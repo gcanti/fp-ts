@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import { sequenceT } from '../src/Apply'
 import * as E from '../src/Either'
-import { pipe } from '../src/function'
+import { identity, pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as _ from '../src/IOEither'
 import * as A from '../src/ReadonlyArray'
@@ -502,5 +502,17 @@ describe('IOEither', () => {
         E.right([0, 1, 2])
       )
     })
+  })
+
+  it('tryCatchK', () => {
+    const f = (n: number) => {
+      if (n > 0) {
+        return n * 2
+      }
+      throw new Error('negative')
+    }
+    const g = _.tryCatchK(f, identity)
+    assert.deepStrictEqual(g(1)(), E.right(2))
+    assert.deepStrictEqual(g(-1)(), E.left(new Error('negative')))
   })
 })

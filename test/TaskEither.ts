@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import { sequenceT } from '../src/Apply'
 import * as A from '../src/ReadonlyArray'
 import * as E from '../src/Either'
-import { pipe } from '../src/function'
+import { identity, pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
@@ -407,18 +407,16 @@ describe('TaskEither', () => {
     assert.deepStrictEqual(await pipe(_.right('a'), _.chainIOEitherK(f))(), E.right(1))
   })
 
-  describe('tryCatchK', () => {
-    const handleRejection = () => 'rejected'
-
-    it('resolving', async () => {
-      const fOk = (n: number, s: string) => Promise.resolve(n + s.length)
-      return assert.deepStrictEqual(await _.tryCatchK(fOk, handleRejection)(2, '1')(), E.right(3))
-    })
-
-    it('rejecting', async () => {
-      const fReject = () => Promise.reject()
-      return assert.deepStrictEqual(await _.tryCatchK(fReject, handleRejection)()(), E.left('rejected'))
-    })
+  it('tryCatchK', async () => {
+    const f = (n: number) => {
+      if (n > 0) {
+        return Promise.resolve(n * 2)
+      }
+      return Promise.reject('negative')
+    }
+    const g = _.tryCatchK(f, identity)
+    assert.deepStrictEqual(await g(1)(), E.right(2))
+    assert.deepStrictEqual(await g(-1)(), E.left('negative'))
   })
 
   // -------------------------------------------------------------------------------------
