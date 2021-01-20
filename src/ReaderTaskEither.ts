@@ -667,11 +667,7 @@ export const ApplicativeSeq: Applicative3<URI> = {
   of
 }
 
-/**
- * @category instances
- * @since 2.10.0
- */
-export const Monad: Monad3<URI> = {
+const Monad: Monad3<URI> = {
   URI,
   map: _map,
   ap: _apPar,
