@@ -95,7 +95,7 @@ export function asks_<M extends URIS2>(M: Pointed2<M>): <R, A, E>(f: (r: R) => A
 export function asks_<M extends URIS>(M: Pointed1<M>): <R, A>(f: (r: R) => A) => Reader<R, Kind<M, A>>
 export function asks_<M>(M: Pointed<M>): <R, A>(f: (r: R) => A) => Reader<R, HKT<M, A>>
 export function asks_<M>(M: Pointed<M>): <R, A>(f: (r: R) => A) => Reader<R, HKT<M, A>> {
-  return (f) => flow(M.of, M.map(f))
+  return (f) => flow(f, M.of)
 }
 
 /**
