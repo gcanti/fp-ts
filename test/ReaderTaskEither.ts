@@ -2,11 +2,11 @@ import * as assert from 'assert'
 import { sequenceT } from '../src/Apply'
 import * as A from '../src/Array'
 import * as E from '../src/Either'
+import * as O from '../src/Option'
 import { pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
-import { monoidSum } from '../src/Monoid'
-import { none, some } from '../src/Option'
+import { monoidString, monoidSum } from '../src/Monoid'
 import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
 import * as RT from '../src/ReaderTask'
@@ -111,8 +111,8 @@ describe('ReaderTaskEither', () => {
     })
 
     it('fromOption', async () => {
-      assert.deepStrictEqual(await _.fromOption(() => 'none')(none)({})(), E.left('none'))
-      assert.deepStrictEqual(await _.fromOption(() => 'none')(some(1))({})(), E.right(1))
+      assert.deepStrictEqual(await _.fromOption(() => 'none')(O.none)({})(), E.left('none'))
+      assert.deepStrictEqual(await _.fromOption(() => 'none')(O.some(1))({})(), E.right(1))
     })
 
     it('filterOrElse', async () => {
@@ -528,5 +528,27 @@ describe('ReaderTaskEither', () => {
         E.left('Error')
       )
     })
+  })
+
+  it('getCompactable', async () => {
+    const C = _.getCompactable(monoidString)
+    assert.deepStrictEqual(await C.compact(_.of(O.some('a')))({})(), E.right('a'))
+  })
+
+  it('getFilterable', async () => {
+    const F = _.getFilterable(monoidString)
+    assert.deepStrictEqual(await F.filter(_.of('a'), (s) => s.length > 0)({})(), E.right('a'))
+    assert.deepStrictEqual(
+      await F.filterMap(_.of('a'), (s) => (s.length > 0 ? O.some(s.length) : O.none))({})(),
+      E.right(1)
+    )
+    const { left: left1, right: right1 } = F.partition(_.of('a'), (s) => s.length > 0)
+    assert.deepStrictEqual(await left1({})(), E.left(''))
+    assert.deepStrictEqual(await right1({})(), E.right('a'))
+    const { left: left2, right: right2 } = F.partitionMap(_.of('a'), (s) =>
+      s.length > 0 ? E.right(s.length) : E.left(s)
+    )
+    assert.deepStrictEqual(await left2({})(), E.left(''))
+    assert.deepStrictEqual(await right2({})(), E.right(1))
   })
 })
