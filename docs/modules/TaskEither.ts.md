@@ -80,7 +80,6 @@ Added in v2.0.0
   - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
   - [Functor](#functor-1)
-  - [Monad](#monad-1)
   - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -789,16 +788,6 @@ export declare const Functor: Functor2<'TaskEither'>
 ```
 
 Added in v2.7.0
-
-## Monad
-
-**Signature**
-
-```ts
-export declare const Monad: Monad2<'TaskEither'>
-```
-
-Added in v2.10.0
 
 ## Pointed
 
