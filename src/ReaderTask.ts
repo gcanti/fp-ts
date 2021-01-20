@@ -21,6 +21,7 @@ import * as RT from './ReaderT'
 
 import Task = T.Task
 import Reader = R.Reader
+import { FromIO2 } from './FromIO'
 
 /**
  * @category model
@@ -51,10 +52,10 @@ export const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A> =
   RT.fromReader_(T.Pointed)
 
 /**
- * @category constructors
+ * @category FromIO
  * @since 2.3.0
  */
-export const fromIO: <R, A>(ma: IO<A>) => ReaderTask<R, A> =
+export const fromIO: FromIO2<URI>['fromIO'] =
   /*#__PURE__*/
   flow(T.fromIO, fromTask)
 
@@ -334,9 +335,14 @@ export const chainFirst =
   /*#__PURE__*/
   chainFirst_(Monad)
 
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromIO: FromIO2<URI> = {
+  URI,
+  fromIO
+}
 
 // -------------------------------------------------------------------------------------
 // do notation
