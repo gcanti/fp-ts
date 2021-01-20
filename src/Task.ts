@@ -300,8 +300,6 @@ export const ApplicativeSeq: Applicative1<URI> = {
 }
 
 /**
- * Used in TaskEither.getTaskValidation
- *
  * @internal
  */
 export const Monad: Monad1<URI> = {

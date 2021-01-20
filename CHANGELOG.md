@@ -167,6 +167,7 @@ high state of flux, you're at risk of it changing without notice.
   - `StateReaderTaskEither`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
+    - add `Monad` instance (@gcanti)
   - `Task`
     - add `Pointed` instance (@gcanti)
     - add `ApplyPar` instance (@gcanti)
