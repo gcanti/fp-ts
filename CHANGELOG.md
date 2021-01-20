@@ -50,11 +50,15 @@ high state of flux, you're at risk of it changing without notice.
   - `ReaderTask`
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+    - deprecate `run` (@gcanti)
   - `ReaderTaskEither`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getApplyMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getReaderTaskValidation`, use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead (@gcanti)
+    - deprecate `run` (@gcanti)
+  - `ReaderTaskEither`
+    - deprecate `run` (@gcanti)
   - `Task`
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
