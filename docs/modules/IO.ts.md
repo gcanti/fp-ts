@@ -379,7 +379,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <A>(a: IO<A>) => IO<readonly [A]>
+export declare const tupled: <A>(fa: IO<A>) => IO<readonly [A]>
 ```
 
 Added in v3.0.0

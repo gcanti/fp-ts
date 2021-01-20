@@ -134,17 +134,17 @@ export function bindTo_<F>(
  */
 export function tupled_<F extends URIS4>(
   F: Functor4<F>
-): <S, R, E, A>(a: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, readonly [A]>
+): <S, R, E, A>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, readonly [A]>
 export function tupled_<F extends URIS3>(
   F: Functor3<F>
-): <R, E, A>(a: Kind3<F, R, E, A>) => Kind3<F, R, E, readonly [A]>
+): <R, E, A>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, readonly [A]>
 export function tupled_<F extends URIS3, E>(
   F: Functor3C<F, E>
-): <R, A>(a: Kind3<F, R, E, A>) => Kind3<F, R, E, readonly [A]>
-export function tupled_<F extends URIS2>(F: Functor2<F>): <E, A>(a: Kind2<F, E, A>) => Kind2<F, E, readonly [A]>
-export function tupled_<F extends URIS2, E>(F: Functor2C<F, E>): <A>(a: Kind2<F, E, A>) => Kind2<F, E, readonly [A]>
-export function tupled_<F extends URIS>(F: Functor1<F>): <A>(a: Kind<F, A>) => Kind<F, readonly [A]>
-export function tupled_<F>(F: Functor<F>): <A>(a: HKT<F, A>) => HKT<F, readonly [A]>
-export function tupled_<F>(F: Functor<F>): <A>(a: HKT<F, A>) => HKT<F, readonly [A]> {
+): <R, A>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, readonly [A]>
+export function tupled_<F extends URIS2>(F: Functor2<F>): <E, A>(fa: Kind2<F, E, A>) => Kind2<F, E, readonly [A]>
+export function tupled_<F extends URIS2, E>(F: Functor2C<F, E>): <A>(fa: Kind2<F, E, A>) => Kind2<F, E, readonly [A]>
+export function tupled_<F extends URIS>(F: Functor1<F>): <A>(fa: Kind<F, A>) => Kind<F, readonly [A]>
+export function tupled_<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, readonly [A]>
+export function tupled_<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, readonly [A]> {
   return F.map(tuple)
 }

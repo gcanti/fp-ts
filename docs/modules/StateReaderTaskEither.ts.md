@@ -1103,7 +1103,7 @@ Added in v3.0.0
 
 ```ts
 export declare const tupled: <S, R, E, A>(
-  a: StateReaderTaskEither<S, R, E, A>
+  fa: StateReaderTaskEither<S, R, E, A>
 ) => StateReaderTaskEither<S, R, E, readonly [A]>
 ```
 

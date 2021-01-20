@@ -849,7 +849,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <R, E, A>(a: ReaderEither<R, E, A>) => ReaderEither<R, E, readonly [A]>
+export declare const tupled: <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, readonly [A]>
 ```
 
 Added in v3.0.0

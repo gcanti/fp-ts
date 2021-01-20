@@ -90,6 +90,12 @@ describe('Ord', () => {
     assert.deepStrictEqual(pipe(new Date(1), _.ordDate.compare(new Date(0))), 1)
   })
 
+  it('ordBigint', () => {
+    assert.deepStrictEqual(pipe(BigInt(0), _.ordBigint.compare(BigInt(0))), 0)
+    assert.deepStrictEqual(pipe(BigInt(0), _.ordBigint.compare(BigInt(1))), -1)
+    assert.deepStrictEqual(pipe(BigInt(1), _.ordBigint.compare(BigInt(0))), 1)
+  })
+
   it('leq', () => {
     const f = _.leq(_.ordNumber)
     assert.deepStrictEqual(pipe(0, f(1)), true)

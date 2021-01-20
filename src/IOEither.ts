@@ -628,7 +628,7 @@ export const bindW: <N extends string, A, E2, B>(
  */
 export const apS =
   /*#__PURE__*/
-  apS_(ApplicativePar)
+  apS_(ApplyPar)
 
 /**
  * Less strict version of [`apS`](#apS).

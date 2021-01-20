@@ -2290,7 +2290,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <A>(a: readonly A[]) => readonly (readonly [A])[]
+export declare const tupled: <A>(fa: readonly A[]) => readonly (readonly [A])[]
 ```
 
 Added in v3.0.0

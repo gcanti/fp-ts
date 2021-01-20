@@ -1454,7 +1454,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <A>(a: Option<A>) => Option<readonly [A]>
+export declare const tupled: <A>(fa: Option<A>) => Option<readonly [A]>
 ```
 
 Added in v3.0.0

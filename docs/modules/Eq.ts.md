@@ -31,6 +31,7 @@ Added in v3.0.0
   - [Contravariant](#contravariant-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [eqBigint](#eqbigint)
   - [eqBoolean](#eqboolean)
   - [eqDate](#eqdate)
   - [eqNumber](#eqnumber)
@@ -130,6 +131,16 @@ Added in v3.0.0
 
 ```ts
 export type URI = typeof URI
+```
+
+Added in v3.0.0
+
+## eqBigint
+
+**Signature**
+
+```ts
+export declare const eqBigint: Eq<bigint>
 ```
 
 Added in v3.0.0

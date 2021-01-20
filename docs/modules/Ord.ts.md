@@ -32,6 +32,7 @@ Added in v3.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
+  - [ordBigint](#ordbigint)
   - [ordBoolean](#ordboolean)
   - [ordDate](#orddate)
   - [ordNumber](#ordnumber)
@@ -249,6 +250,16 @@ assert.deepStrictEqual(sort(O2)(users), [
   { id: 3, name: 'Giulio', age: 44, rememberMe: false },
   { id: 1, name: 'Guido', age: 47, rememberMe: false },
 ])
+```
+
+Added in v3.0.0
+
+## ordBigint
+
+**Signature**
+
+```ts
+export declare const ordBigint: Ord<bigint>
 ```
 
 Added in v3.0.0

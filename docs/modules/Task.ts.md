@@ -572,7 +572,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <A>(a: Task<A>) => Task<readonly [A]>
+export declare const tupled: <A>(fa: Task<A>) => Task<readonly [A]>
 ```
 
 Added in v3.0.0

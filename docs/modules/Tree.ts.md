@@ -644,7 +644,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <A>(a: Tree<A>) => Tree<readonly [A]>
+export declare const tupled: <A>(fa: Tree<A>) => Tree<readonly [A]>
 ```
 
 Added in v3.0.0

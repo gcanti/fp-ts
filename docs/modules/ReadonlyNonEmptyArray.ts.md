@@ -1090,7 +1090,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <A>(a: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [A]>
+export declare const tupled: <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [A]>
 ```
 
 Added in v3.0.0

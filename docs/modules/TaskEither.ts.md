@@ -1184,7 +1184,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <E, A>(a: TaskEither<E, A>) => TaskEither<E, readonly [A]>
+export declare const tupled: <E, A>(fa: TaskEither<E, A>) => TaskEither<E, readonly [A]>
 ```
 
 Added in v3.0.0

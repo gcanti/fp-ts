@@ -543,7 +543,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <E, A>(a: Reader<E, A>) => Reader<E, readonly [A]>
+export declare const tupled: <E, A>(fa: Reader<E, A>) => Reader<E, readonly [A]>
 ```
 
 Added in v3.0.0
